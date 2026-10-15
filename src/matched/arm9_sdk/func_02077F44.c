@@ -1,5 +1,5 @@
 /*
- * function: func_02077F44
+ * function: FS_SetCurrentDirectory
  * address:  0x02077F44
  * packet:   pkt_02077F44
  * region:   arm9
@@ -93,7 +93,7 @@ extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern void FS_InitFile(FSFile *file);
 
-BOOL func_02077F44(const char *path)
+BOOL FS_SetCurrentDirectory(const char *path)
 {
     BOOL retval = 0;
     u32 baseid = 0;

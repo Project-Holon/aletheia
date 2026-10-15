@@ -17,7 +17,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -41,7 +41,7 @@
  *   gSweetScentFadeBgPos     0x021DAAB4  data  a2
  *   func_02040588  0x02040588  arm
  *   func_02040E78  0x02040E78  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040DA8  0x02040DA8  arm
@@ -50,7 +50,7 @@
  *   func_020307B0  0x020307B0  arm
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
@@ -125,7 +125,7 @@ extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *task);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
-extern void *func_020120F4(void *gameSys);
+extern void *ICA_ANIME_GetField1C(void *gameSys);
 extern void FIELD_PLAYER_StartFormChange(void *player, u32 a1);
 extern int FIELD_PLAYER_StepFormChange(void *player);
 extern void *FIELD_PLAYER_GetMmdl(void *player);
@@ -148,7 +148,7 @@ extern void FLD_VREQ_SetMainBlendAlpha(void *p, u32 a, u32 b, u32 c, u32 d);
 extern void FLD_VREQ_SetBgVisible(void *p, int i, u8 v);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
@@ -259,7 +259,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill(void *p, int v, int n);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern void func_0207ADC4(MtxFx33 *m);
+extern void MTX_Identity33_(MtxFx33 *m);
 /* Palette block of a texture resource (NNSG3dResTex, only what is read here). */
 typedef struct ResTexPltt {
     u8 pad00[0x30];
@@ -338,7 +338,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     w->gameSys = gameSys;
     w->fieldMap = fieldMap;
     w->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
-    w->gameData = func_020120F4(gameSys);
+    w->gameData = ICA_ANIME_GetField1C(gameSys);
     return task;
 }
 
@@ -483,7 +483,7 @@ void SWEET_SCENT_FadeSetup(SweetScentFade *fade)
     pos = gSweetScentFadeBgPos;
     func_02040588(fade->bgLayer, 0);
     func_02040E78(fade->bgLayer, &pos, 8, 0x20);
-    func_02040C14(fade->bgLayer, 1, 1, 0x100);
+    BG_SYS_Init(fade->bgLayer, 1, 1, 0x100);
     func_02041300(fade->bgLayer, 0x100, 0, 0, 0x20, 0x20, 1);
     func_020409B4(fade->bgLayer);
     FLD_VREQ_SetMainBlendAlpha(fade->vreq, 8, 0x37, fade->level, 0x10 - fade->level);
@@ -640,7 +640,7 @@ u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecF
                 obj->scale.z = 0x1000;
                 if (pos != 0)
                     obj->trans = *pos;
-                func_0207ADC4(&obj->rotate);
+                MTX_Identity33_(&obj->rotate);
             } else {
                 FIELD_G3DOBJ_CreateObject(obj, res, resIdx, modelIdx, ctrl->heapId, pos, 1);
             }
@@ -887,7 +887,7 @@ void FIELD_G3DOBJ_CreateObject(FieldG3dObj *obj, FieldG3dObjRes *res, u16 resIdx
         obj->scale.x = 0x1000;
         obj->scale.y = 0x1000;
         obj->scale.z = 0x1000;
-        func_0207ADC4(&obj->rotate);
+        MTX_Identity33_(&obj->rotate);
     }
     obj->kind = FIELD_G3DOBJ_ACTIVE;
 }

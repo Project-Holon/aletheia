@@ -12,7 +12,7 @@
  * sdk:      DWCi_Char (libdwcutil.TWL.HYB.a(common.o))
  *
  * symbols:
- *   func_02094860  0x02094860  arm
+ *   strncpy  0x02094860  arm
  *   func_021C0EC8  0x021c0ec8  arm  ov016
  *   gCommonWork  0x021de510  data
  *   sCommonLanguageCodes  0x021da044  data

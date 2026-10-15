@@ -1,5 +1,5 @@
 /*
- * function: func_0219ED80
+ * function: ServerBrowserBeginUpdate2
  * address:  0x0219ED80
  * packet:   pkt_ov009_0219ED80
  * region:   ov009
@@ -18,7 +18,7 @@
  *   SBQueryEngineAddQueryKey  0x0219DEE8  arm  ov009
  *   SBServerListConnectAndQuery  0x0219FFD4  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
- *   func_0219EFD0  0x0219EFD0  arm  ov009
+ *   ServerBrowserThink  0x0219EFD0  arm  ov009
  *   g_021A81DC  0x021A81DC  data
  *   g_021A7C90  0x021A7C90  data
  *   g_021A8218  0x021A8218  data
@@ -42,12 +42,12 @@ struct SBServerList;
 extern void SBQueryEngineAddQueryKey(char *p, int v);
 extern int SBServerListConnectAndQuery(struct SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void msleep(unsigned int msec);
-extern int func_0219EFD0(char *p);
+extern int ServerBrowserThink(char *p);
 extern char g_021A81DC[];
 extern char *g_021A7C90[];
 extern char g_021A8218[];
 
-int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields,
+int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields,
                   int numBasicFields, char *serverFilter, int updateOptions, int maxServers)
 {
     char keyList[256] = {0};
@@ -76,7 +76,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
         return err;
     while (sb->liststate == 3 || (sb->numpending > 0 && err == 0)) {
         msleep(10);
-        err = func_0219EFD0((char *)sb);
+        err = ServerBrowserThink((char *)sb);
     }
     return err;
 }

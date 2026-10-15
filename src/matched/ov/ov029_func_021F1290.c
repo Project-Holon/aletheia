@@ -15,7 +15,7 @@
  * symbols:
  *   C_GEAR_TileToScreen  0x021F0D14  thumb  ov029
  *   C_GEAR_GetTilePalette  0x021F0C70  thumb  ov029
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   d_021F3354     0x021F3354  data  a4
  *   d_021F31D4     0x021F31D4  data  a2
  *   d_021F323C     0x021F323C  data  a1
@@ -32,7 +32,7 @@ extern const u8 d_021F323C[];
 extern void C_GEAR_TileToScreen(int a, int b, int *x, int *y);
 extern int C_GEAR_GetTilePalette(void *p, int i, int j, int k);
 typedef unsigned int   u32;
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 
 void C_GEAR_DrawTile(void *q, int a, int b, int c)
 {
@@ -40,7 +40,7 @@ void C_GEAR_DrawTile(void *q, int a, int b, int c)
     int y, x, xx, v, pal, i, yy, j;
     u16 *buf;
 
-    buf = (u16 *)func_0204162C(4);
+    buf = (u16 *)BG_SYS_GetBuf(4);
     C_GEAR_TileToScreen(a, b, &y, &x);
     v = d_021F31D4[c];
     pal = C_GEAR_GetTilePalette(q, v, a, b);

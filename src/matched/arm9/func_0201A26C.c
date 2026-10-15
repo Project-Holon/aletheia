@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200AE54   0x0200AE54  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
  *
  * Picks the smaller (or larger, per selector 5) of a value read from the
  * object and the caller's second argument, with the selector 3 / 4 / 5 arms
@@ -25,12 +25,12 @@
 typedef unsigned int u32;
 
 struct Reg;
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 
 u32 POKE_REGULATION_AdjustLevel(void *a0, u32 a1)
 {
-    u32 v = func_0200AE54(a0, 4);
-    u32 w = func_0200AE54(a0, 5);
+    u32 v = REGULATION_GetRuleValue(a0, 4);
+    u32 w = REGULATION_GetRuleValue(a0, 5);
 
     switch (w) {
     case 3:

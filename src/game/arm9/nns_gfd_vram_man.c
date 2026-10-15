@@ -1,7 +1,7 @@
 /*
  * file:     nns_gfd_vram_man.c
  * unit:     yes
- * function: func_020616CC, func_02061808, func_02061824, NNSi_GfdRingNextIndex, NNSi_GfdRingIsFull, NNSi_GfdRingIsEmpty, func_0206188C, func_020618B8, func_020618E4, func_02061908, func_0206192C, func_02061938, func_02061944, func_02061950, func_0206195C, func_02061968, func_02061974, func_02061980, func_0206198C, func_02061998, func_020619A4, func_020619B0
+ * function: NNS_GfdAllocVram, NNSi_GfdGetVramManagerWork, NNSi_GfdSetVramManagerWork, NNSi_GfdRingNextIndex, NNSi_GfdRingIsFull, NNSi_GfdRingIsEmpty, NNS_GfdFuncLoadTex, NNS_GfdFuncLoadTexPltt, NNS_GfdFuncLoadClearImageColor, NNS_GfdFuncLoadClearImageDepth, NNS_GfdFuncLoadBG0Char, NNS_GfdFuncLoadBG1Char, NNS_GfdFuncLoadBG2Char, NNS_GfdFuncLoadBG3Char, NNS_GfdFuncLoadBG0Scr, NNS_GfdFuncLoadBG1Scr, NNS_GfdFuncLoadBG2Scr, NNS_GfdFuncLoadBG3Scr, NNS_GfdFuncLoadBG2ScrDup, NNS_GfdFuncLoadBG3ScrDup, NNS_GfdFuncLoadOBJPltt, NNS_GfdFuncLoadBGPltt
  * address:  0x020616CC
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -21,12 +21,7 @@
  *   GX_LoadBG0Char  0x0207EE68  arm
  *   GX_LoadBG2Char  0x0207F0B8  arm
  */
-#include "../../matched/include/Obj11496.h"
-#include "../../matched/include/Obj16393.h"
-#include "../../matched/include/Obj04778.h"
-#include "../../matched/include/Obj16394.h"
 
-struct Obj02061BD0;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -36,6 +31,14 @@ typedef unsigned int   u32;
 struct Arena02146B74 {
     u32 cur;    /* 0x00  low  cursor, grows upward   */
     u32 end;    /* 0x04  high cursor, grows downward */
+};
+
+/* NNS GFD VRAM transfer ring header (Obj16393/Obj04778/Obj16394 views). */
+struct NNSGfdVramRing {
+    u8  pad_00[4];
+    u32 numEntries;   /* 0x04 */
+    u8  pad_08[4];
+    u16 count;        /* 0x0c */
 };
 
 extern void func_0207F7A0(void);
@@ -48,16 +51,16 @@ extern void func_0207FB2C(void);
 extern void func_0207FBBC(u32 a, u32 c);
 extern void func_0207FCE4(void);
 extern void func_0207FC48(u32 a, u32 c);
-u32 func_020616CC(u32 size, u32 flag, u32 dir);
-void func_02061808(struct Arena02146B74 *dst);
-void func_02061824(void *p0);
+u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
+void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst);
+void NNSi_GfdSetVramManagerWork(void *p0);
 u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
 int NNSi_GfdRingIsFull(u8 *p);
-int NNSi_GfdRingIsEmpty(struct Obj02061BD0 *p);
-void func_0206188C(u32 a, u32 b, u32 c);
-void func_020618B8(u32 a, u32 b, u32 c);
-void func_020618E4(u32 a, u32 b, u32 c);
-void func_02061908(u32 a, u32 b, u32 c);
+int NNSi_GfdRingIsEmpty(void *p);
+void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
 extern void GX_LoadBG0Char(u32 a, u32 b, u32 c);
 extern void func_0207EF90(u32 a, u32 b, u32 c);
@@ -69,23 +72,23 @@ extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
 extern void func_0207ECF0(u32 a, u32 b, u32 c);
 extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void GX_LoadBGPltt(u32 a, u32 b, u32 c);
-void func_0206192C(u32 a, u32 b, u32 c);
-void func_02061938(u32 a, u32 b, u32 c);
-void func_02061944(u32 a, u32 b, u32 c);
-void func_02061950(u32 a, u32 b, u32 c);
-void func_0206195C(u32 a, u32 b, u32 c);
-void func_02061968(u32 a, u32 b, u32 c);
-void func_02061974(u32 a, u32 b, u32 c);
-void func_02061980(u32 a, u32 b, u32 c);
-void func_0206198C(u32 a, u32 b, u32 c);
-void func_02061998(u32 a, u32 b, u32 c);
-void func_020619A4(u32 a, u32 b, u32 c);
-void func_020619B0(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c);
 
 
 /*
  * VRAM (or comparable fixed-arena) BUMP ALLOCATOR STEP, against the {cur, end}
- * pair at 0x02146B74 that src/matched/func_02061808.c also exposes.  `size` is
+ * pair at 0x02146B74 that src/matched/NNSi_GfdGetVramManagerWork.c also exposes.  `size` is
  * rounded up to eight bytes (zero meaning eight) and refused above 0x7FFF8;
  * `dir == 1` allocates off the low cursor, anything else off the high one;
  * `flag` picks whether the alignment pad is derived from 8 or from 16, and in
@@ -151,11 +154,11 @@ void func_020619B0(u32 a, u32 b, u32 c);
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020616CC.c \
- *       --func func_020616CC --addr 0x020616CC --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_GfdAllocVram.c \
+ *       --func NNS_GfdAllocVram --addr 0x020616CC --arm --cc ../2.0/sp2
  *   EXACT, 316 bytes, 1 relocation site, resolved.
  */
-u32 func_020616CC(u32 size, u32 flag, u32 dir)
+u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir)
 {
     u32 n;
     u32 off;
@@ -238,7 +241,7 @@ done:
 
 
 
-void func_02061808(struct Arena02146B74 *dst)
+void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst)
 {
     dst->cur = g_02146B74.cur;
     dst->end = g_02146B74.end;
@@ -247,10 +250,10 @@ void func_02061808(struct Arena02146B74 *dst)
 
 
 
-void func_02061824(void *p0)
+void NNSi_GfdSetVramManagerWork(void *p0)
 {
-    g_02146B74.cur = ((struct Obj11496 *)p0)->f0;
-    g_02146B74.end = ((struct Obj11496 *)p0)->f4;
+    g_02146B74.cur = ((struct Arena02146B74 *)p0)->cur;
+    g_02146B74.end = ((struct Arena02146B74 *)p0)->end;
 }
 
 
@@ -265,7 +268,7 @@ void func_02061824(void *p0)
  */
 u32 NNSi_GfdRingNextIndex(u8 *p, u32 v)
 {
-    return (u16)((v + 1) % ((struct Obj16393 *)p)->f4);
+    return (u16)((v + 1) % ((struct NNSGfdVramRing *)p)->numEntries);
 }
 
 
@@ -280,8 +283,8 @@ u32 NNSi_GfdRingNextIndex(u8 *p, u32 v)
  */
 int NNSi_GfdRingIsFull(u8 *p)
 {
-    u16 a = ((struct Obj04778 *)p)->fC;
-    u32 b = ((struct Obj04778 *)p)->f4;
+    u16 a = ((struct NNSGfdVramRing *)p)->count;
+    u32 b = ((struct NNSGfdVramRing *)p)->numEntries;
 
     return a == b ? 1 : 0;
 }
@@ -296,19 +299,19 @@ int NNSi_GfdRingIsFull(u8 *p)
  *   python tools/match.py one --src src/matched/NNSi_GfdRingIsEmpty.c \
  *       --func NNSi_GfdRingIsEmpty --addr 0x02061878 --arm --cc 1.1p1
  */
-int NNSi_GfdRingIsEmpty(struct Obj02061BD0 *p)
+int NNSi_GfdRingIsEmpty(void *p)
 {
-    return ((struct Obj16394 *)p)->fC == 0 ? 1 : 0;
+    return ((struct NNSGfdVramRing *)p)->count == 0 ? 1 : 0;
 }
 
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206188C.c \
- *       --func func_0206188C --addr 0x0206188C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_GfdFuncLoadTex.c \
+ *       --func NNS_GfdFuncLoadTex --addr 0x0206188C --arm --cc 1.1p1
  */
-void func_0206188C(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
 {
     func_0207F7A0();
     func_0207F7FC(a, b, c);
@@ -319,10 +322,10 @@ void func_0206188C(u32 a, u32 b, u32 c)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020618B8.c \
- *       --func func_020618B8 --addr 0x020618B8 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_GfdFuncLoadTexPltt.c \
+ *       --func NNS_GfdFuncLoadTexPltt --addr 0x020618B8 --arm --cc 1.1p1
  */
-void func_020618B8(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
 {
     func_0207FA0C();
     func_0207FA40(a, b, c);
@@ -343,10 +346,10 @@ void func_020618B8(u32 a, u32 b, u32 c)
  * EXACT entry or a second caller.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020618E4.c \
- *       --func func_020618E4 --addr 0x020618E4 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNS_GfdFuncLoadClearImageColor.c \
+ *       --func NNS_GfdFuncLoadClearImageColor --addr 0x020618E4 --arm --cc 1.1p1
  */
-void func_020618E4(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
 {
     func_0207FB2C();
     func_0207FBBC(a, c);
@@ -361,14 +364,14 @@ void func_020618E4(u32 a, u32 b, u32 c)
  * PARKED AT MATCH: every concrete byte is right; the PC24 at +0x0018 is
  * wildcarded because 0x0207FC48 (GX_LoadClearImageDepth) has exactly one
  * branch reference image wide and it is that call.  Same class and same
- * unblock as src/pending/func_020618E4.c: label/matched, no outside witness.
+ * unblock as src/pending/NNS_GfdFuncLoadClearImageColor.c: label/matched, no outside witness.
  * The `*` is disasm.py's extent for the original running past the leaf.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02061908.c \
- *       --func func_02061908 --addr 0x02061908 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNS_GfdFuncLoadClearImageDepth.c \
+ *       --func NNS_GfdFuncLoadClearImageDepth --addr 0x02061908 --arm --cc 1.1p1
  */
-void func_02061908(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c)
 {
     func_0207FB2C();
     func_0207FC48(a, c);
@@ -376,73 +379,73 @@ void func_02061908(u32 a, u32 b, u32 c)
 }
 
 
-void func_0206192C(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c)
 {
     GX_LoadBG0Char(a, b, c);
 }
 
 
-void func_02061938(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c)
 {
     func_0207EF90(a, b, c);
 }
 
 
-void func_02061944(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c)
 {
     GX_LoadBG2Char(a, b, c);
 }
 
 
-void func_02061950(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c)
 {
     func_0207F1E0(a, b, c);
 }
 
 
-void func_0206195C(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c)
 {
     func_0207E888(a, b, c);
 }
 
 
-void func_02061968(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c)
 {
     func_0207EA00(a, b, c);
 }
 
 
-void func_02061974(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c)
 {
     GX_LoadBG2Scr(a, b, c);
 }
 
 
-void func_02061980(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c)
 {
     func_0207ECF0(a, b, c);
 }
 
 
-void func_0206198C(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c)
 {
     GX_LoadBG2Scr(a, b, c);
 }
 
 
-void func_02061998(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c)
 {
     func_0207ECF0(a, b, c);
 }
 
 
-void func_020619A4(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c)
 {
     GX_LoadOBJPltt(a, b, c);
 }
 
 
-void func_020619B0(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c)
 {
     GX_LoadBGPltt(a, b, c);
 }

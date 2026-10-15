@@ -14,7 +14,7 @@
  *   func_02030734  0x02030734  arm
  *   UNION_COMM_InitSituation  0x021734E0  thumb  ov012
  *   UNION_COMM_InitChatLog  0x0217365C  thumb  ov012
- *   func_0200ADF0  0x0200ADF0  thumb
+ *   REGULATION_Create  0x0200ADF0  thumb
  *   str_02175600   0x02175600  data  ov012  a1
  */
 
@@ -41,7 +41,7 @@ struct Work;
 extern void UNION_COMM_InitSituation(struct Work *w);
 extern void UNION_COMM_InitChatLog(u8 *p);
 struct Reg;
-extern struct Reg *func_0200ADF0(u32 heap);
+extern struct Reg *REGULATION_Create(u32 heap);
 
 Work *UNION_COMM_Create(u32 a)
 {
@@ -53,7 +53,7 @@ Work *UNION_COMM_Create(u32 a)
     UNION_COMM_InitSituation((struct Work *)w);
     w->f283e = 1;
     UNION_COMM_InitChatLog(w->f30e0);
-    w->f352c = (u32)func_0200ADF0(0x41);
+    w->f352c = (u32)REGULATION_Create(0x41);
     w->f282a = 1;
     return w;
 }

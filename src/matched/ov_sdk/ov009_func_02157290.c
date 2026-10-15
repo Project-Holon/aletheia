@@ -24,7 +24,7 @@
  *   CPSi_SslCleanup          0x02162FA4  arm  ov009
  *   wfailed                  0x021A826C  data
  *   g_021A8384               0x021A8384  data
- *   g_02150FEC               0x02150FEC  data
+ *   gMslRefToken               0x02150FEC  data
  *   g_021A8A64               0x021A8A64  data
  */
 
@@ -68,7 +68,7 @@ static void *(*CPSiAlloc)(unsigned long) = 0;
 static unsigned char CPSMyMac[6] = {0};
 static unsigned long CPSDnsIp[2] = {0};
 extern struct ArpEntry g_021A8384;
-extern int g_02150FEC;
+extern int gMslRefToken;
 extern struct CPSFragTable g_021A8A64[8];
 
 void func_02157290(int reason)
@@ -89,7 +89,7 @@ void func_02157290(int reason)
 	if (!had_ip)
 		return;
 	MI_CpuFill8(((unsigned char *)&g_021A8384), 0, 0x60);
-	for (t = *(struct _OSThread **)((char *)&g_02150FEC + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
+	for (t = *(struct _OSThread **)((char *)&gMslRefToken + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
 		soc = *(unsigned char **)((char *)t + 0xa4);
 		if (soc != 0 && *(struct _OSThread **)soc != 0) {
 			if (soc[8] != 0xa && soc[8] != 0xb)

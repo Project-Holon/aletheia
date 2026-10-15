@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 2026-10-02: byte-correct. Blocker: func_021B80CC (a 64-byte thumb getter-style
+ * 2026-10-02: byte-correct. Blocker: CTVT_COMM_IsSessionEnded (a 64-byte thumb getter-style
  * function, show prints it as ARM) has no label/start in ov172's layout (only ov105
  * has the label), so its 2 bl sites stay unresolved. Layout gap = figure move,
  * not edited; referencing sites +0056 and +0078 here.
  *
  * symbols:
- *   func_021B7E34  0x021B7E34  thumb  ov172
+ *   CTVT_COMM_Main  0x021B7E34  thumb  ov172
  *   CTVT_TALK_Main  0x021B9044  thumb  ov172
  *   func_021BBF2C  0x021BBF2C  thumb  ov172
  *   CTVT_DRAW_Main  0x021BA9EC  thumb  ov172
- *   func_021B80CC  0x021B80CC  thumb
+ *   CTVT_COMM_IsSessionEnded  0x021B80CC  thumb
  *   _fflt          0x0209BDBC  arm
  *   _fdiv          0x0209CE10  arm
  *   _ffixu         0x0209C4C8  arm
@@ -45,12 +45,12 @@ typedef signed int     s32;
 
 struct PrintSys;
 struct Tcbl;
-extern void func_021B7E34(void *p, char *q);
+extern void CTVT_COMM_Main(void *p, char *q);
 struct S;
 extern u32 CTVT_TALK_Main(void *p, struct S *s);
 extern int func_021BBF2C(void *a0, char *p);
 extern int CTVT_DRAW_Main(void *a0, char *p);
-extern u32 func_021B80CC(int unused, char *p);
+extern u32 CTVT_COMM_IsSessionEnded(int unused, char *p);
 extern void func_021BDD6C(u8 *p);
 extern void DRAW_SYSTEM_Nop(u32 a);
 extern void CTVT_CAMVIEW_Update(int unused, char *q);
@@ -74,7 +74,7 @@ int func_021BD43C(char *ctx)
     s32 v;
     u8 pal;
 
-    func_021B7E34(ctx, (char *)F(0x1e4));
+    CTVT_COMM_Main(ctx, (char *)F(0x1e4));
     switch (F(8)) {
     case 1:
         F(0xc) = CTVT_TALK_Main(ctx, (struct S *)F(0x1e8));
@@ -86,12 +86,12 @@ int func_021BD43C(char *ctx)
         F(0xc) = CTVT_DRAW_Main(ctx, (char *)F(0x1ec));
         break;
     case 4:
-        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1) {
+        if (CTVT_COMM_IsSessionEnded((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1) {
             return 1;
         }
         return 0;
     case 5:
-        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1
+        if (CTVT_COMM_IsSessionEnded((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1
             && WIPE_SYS_EndCheck() == 1) {
             return 1;
         }

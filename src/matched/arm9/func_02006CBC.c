@@ -19,8 +19,8 @@
  *   _SndMic   0x02146164  data
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0208BEF0  0x0208BEF0  arm
- *   func_0208BF38  0x0208BF38  arm
+ *   PM_SetAmp  0x0208BEF0  arm
+ *   PM_SetAmpGain  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02006D3C  0x02006D3C  arm
@@ -63,8 +63,8 @@ extern struct Sub02006D44Obj *_SndMic;
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
-extern unsigned int func_0208BEF0(unsigned int status);
-extern unsigned int func_0208BF38(unsigned int gain);
+extern unsigned int PM_SetAmp(unsigned int status);
+extern unsigned int PM_SetAmpGain(unsigned int gain);
 extern void  func_0208B24C(void);
 extern int   OS_IsRunOnTwl(void);
 extern void  func_02006D3C(u32 a, char *b);
@@ -79,8 +79,8 @@ void SND_MIC_Init(u16 heap)
     pool = func_02030734(heap, 0x2014, 0, _SndMicFile, 0x5f);
     MI_CpuFill8(pool, 0, 0x2014);
     p->unk24 = (u32)pool;
-    func_0208BEF0(1);
-    func_0208BF38(2);
+    PM_SetAmp(1);
+    PM_SetAmpGain(2);
     p->unk20 = (p->unk20 & ~1u) | 1u;
     func_0208B24C();
     if (OS_IsRunOnTwl() == 1) {

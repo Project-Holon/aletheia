@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformutil.c
  * unit:     yes
- * function: func_0217F130, func_0217F150, func_0217F1C0, func_0217F1CC, func_0217F1E0, func_0217F21C, SocketStartUp, SocketShutDown, func_0217F264, func_0217F28C, msleep, func_0217F2C8, func_0217F478, func_0217F730, func_0217F774, func_0217F790, func_0217F7AC, func_0217F7D0, func_0217F824, func_0217F8B4, func_0217FA90, func_0217FBC8, B64InitEncodeStream, func_0217FC70
+ * function: gsiInt64ToString, gsiStartResolvingHostname, gsiCancelResolvingHostname, gsiGetResolvedIP, goastrdup, _strlwr, SocketStartUp, SocketShutDown, current_time, current_time_hires, msleep, gsiSecondsToDate, gsiDateToSeconds, nextlongrand, longrand, Util_RandSeed, Util_RandInt, QuartToTrip, TripToQuart, B64Decode, B64Encode, B64DecodeLen, B64InitEncodeStream, B64EncodeStream
  * address:  0x0217F130
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -21,29 +21,28 @@
  *
  * symbols:
  *   OS_SPrintf                  0x02084F40  arm
- *   g_021A3834                     0x021A3834  data
+ *   gGsInt64Format                     0x021A3834  data
  *   func_0217D254                  0x0217D254  arm ov009
  *   SOC_GetHostByName                  0x0215F650  arm ov009
- *   func_0217EAB0                  0x0217EAB0  arm ov009
- *   g_021A383C                     0x021A383C  data
+ *   gGsResolveDebugFmt                     0x021A383C  data
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   strlen     0x0209477C  arm
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   memcpy     0x02092344  arm
- *   g_020A60DC     0x020A60DC  data
+ *   __tolower_map     0x020A60DC  data
  *   OS_GetTick     0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  *   OS_Sleep 0x02085A38 arm
- *   g_021AD164                     0x021AD164  data
- *   g_021A37CC                     0x021A37CC  data
- *   g_021A3800                     0x021A3800  data
+ *   gGsTimeBuffer                     0x021AD164  data
+ *   gGsMonthDaysLeap                     0x021A37CC  data
+ *   gGsMonthDays                     0x021A3800  data
  *   _s32_div_f                     0x0209C0A4  arm
- *   g_021A37C8  0x021A37C8  data
+ *   gGsRandState  0x021A37C8  data
  *   _u32_div_f     0x0209C2B0  arm
- *   func_020923B0  0x020923B0  arm
- *   g_021A19FC     0x021A19FC  data
- *   g_021A19FF     0x021A19FF  data
- *   g_021A1A02     0x021A1A02  data
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
+ *   gGsB64CharsDefault     0x021A19FC  data
+ *   gGsB64CharsUrl     0x021A19FF  data
+ *   gGsB64CharsAlt     0x021A1A02  data
  */
 #define ChkAdd(dest, src1, src2) (((src1 >= 0L) && (src2 >= 0L) && (dest < 0L)) || ((src1 < 0L) && (src2 < 0L) && (dest >= 0L)))
 #define ChkMul(dest, src1, src2) (src1 ? (dest / src1 != src2) : 0)
@@ -59,7 +58,7 @@ struct SOCHostEnt {
 };
 
 struct GSIResolveHostnameInfo {
-    void *pad0;
+    void *reserved0;
     unsigned long ip;
 };
 
@@ -88,7 +87,6 @@ typedef struct {
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
-extern void *func_0217EAB0(unsigned long size);
 extern void func_0217EAE0(void *p);
 extern int strlen(char *s);
 extern void *gsimalloc(unsigned long size);
@@ -96,41 +94,41 @@ extern void *memcpy(void *dst, void *src, unsigned long n);
 extern unsigned long long OS_GetTick(void);
 extern unsigned long long _ll_udiv(unsigned long long a, unsigned long long b);
 extern void OS_Sleep(unsigned int msec);
-extern void *func_020923B0(void *p, int c, u32 n);
-void func_0217F130(char *theNumberStr, long long theNumber);
-int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle);
-void func_0217F1C0(void *p);
-int func_0217F1CC(int *p);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
+void gsiInt64ToString(char *theNumberStr, long long theNumber);
+int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
+void gsiCancelResolvingHostname(void *p);
+int gsiGetResolvedIP(int *p);
 char *goastrdup(char *src);
-char *func_0217F21C(char *s);
+char *_strlwr(char *s);
 void SocketStartUp(void);
 void SocketShutDown(void);
-unsigned int func_0217F264(void);
+unsigned int current_time(void);
 unsigned int current_time_hires(void);
 void msleep(unsigned int msec);
-struct tm *func_0217F2C8(long *timp);
-long func_0217F478(struct tm *tb);
-int func_0217F730(long seed);
-int func_0217F774(void);
-void func_0217F790(unsigned int v);
-unsigned int func_0217F7AC(unsigned int min, unsigned int max);
-void func_0217F7D0(char *quart, char *trip, int inlen);
-void func_0217F824(const char *src, u8 *dst, int n);
-void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
-void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
-int func_0217FBC8(char *input, int encodingType);
+struct tm *gsiSecondsToDate(long *timp);
+long gsiDateToSeconds(struct tm *tb);
+int nextlongrand(long seed);
+int longrand(void);
+void Util_RandSeed(unsigned int v);
+unsigned int Util_RandInt(unsigned int min, unsigned int max);
+void QuartToTrip(char *quart, char *trip, int inlen);
+void TripToQuart(const char *src, u8 *dst, int n);
+void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
+void B64Encode(const char *input, char *output, int inlen, int encodingType);
+int B64DecodeLen(char *input, int encodingType);
 void B64InitEncodeStream(int *stream, int input, int inputLength, int position);
-int func_0217FC70(B64StreamData *data, char *output);
-extern char g_021A3834[];
-extern char g_021A383C[];
-extern unsigned char g_020A60DC[];
-extern struct tm g_021AD164;
-extern int g_021A37CC[];
-extern int g_021A3800[];
-extern char g_021A37C8[];
-extern char g_021A19FC[];
-extern char g_021A19FF[];
-extern char g_021A1A02[];
+int B64EncodeStream(B64StreamData *data, char *output);
+extern char gGsInt64Format[];
+extern char gGsResolveDebugFmt[];
+extern unsigned char __tolower_map[];
+extern struct tm gGsTimeBuffer;
+extern int gGsMonthDaysLeap[];
+extern int gGsMonthDays[];
+extern char gGsRandState[];
+extern char gGsB64CharsDefault[];
+extern char gGsB64CharsUrl[];
+extern char gGsB64CharsAlt[];
 
 
 
@@ -138,9 +136,9 @@ extern char g_021A1A02[];
 /*
  * sdk:      gsiInt64ToString (gsplatformutil.o)
  */
-void func_0217F130(char *theNumberStr, long long theNumber)
+void gsiInt64ToString(char *theNumberStr, long long theNumber)
 {
-    OS_SPrintf(theNumberStr, g_021A3834, theNumber);
+    OS_SPrintf(theNumberStr, gGsInt64Format, theNumber);
 }
 
 
@@ -149,16 +147,16 @@ void func_0217F130(char *theNumberStr, long long theNumber)
 /*
  * sdk:      gsiStartResolvingHostname (gsplatformutil.o)
  */
-int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle)
+int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle)
 {
     struct GSIResolveHostnameInfo *info;
     struct SOCHostEnt *SOCHostEnt;
 
-    func_0217D254(8, (char *)3, 16, g_021A383C);
+    func_0217D254(8, (char *)3, 16, gGsResolveDebugFmt);
     SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;
-    info = (struct GSIResolveHostnameInfo *)func_0217EAB0(8);
+    info = (struct GSIResolveHostnameInfo *)gsimalloc(8);
     if (info == 0)
         return -1;
     info->ip = *(unsigned long *)SOCHostEnt->addrList[0];
@@ -168,7 +166,7 @@ int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle)
 
 
 
-void func_0217F1C0(void *p)
+void gsiCancelResolvingHostname(void *p)
 {
     func_0217EAE0(p);
 }
@@ -179,7 +177,7 @@ void func_0217F1C0(void *p)
 /*
  * Saves the word at +4, calls the helper and returns it.
  */
-int func_0217F1CC(int *p)
+int gsiGetResolvedIP(int *p)
 {
     int v = p[1];
 
@@ -215,7 +213,7 @@ char *goastrdup(char *src)
  * the same index in the 128-entry table at 0x020A60DC; leave negative and
  * high bytes alone.  Returns s.
  */
-char *func_0217F21C(char *s)
+char *_strlwr(char *s)
 {
     char *ret = s;
     int c = *s;
@@ -223,7 +221,7 @@ char *func_0217F21C(char *s)
     if (c != 0) {
         do {
             if (c >= 0 && c < 0x80) {
-                c = g_020A60DC[c];
+                c = __tolower_map[c];
             }
             *s = c;
             c = *++s;
@@ -253,7 +251,7 @@ void SocketShutDown(void)
  * low word is the result.  The scale/divide is the inlined u64 arithmetic
  * that mwcc turns into the _ll_udiv runtime call.
  */
-unsigned int func_0217F264(void)
+unsigned int current_time(void)
 {
     unsigned long long t = OS_GetTick();
 
@@ -284,14 +282,14 @@ void msleep(unsigned int msec)
 /*
  * sdk:      gsiSecondsToDate (gsplatformutil.o)
  */
-struct tm *func_0217F2C8(long *timp)
+struct tm *gsiSecondsToDate(long *timp)
 {
     long caltim = *timp;
     long alldays;
     int islpyr = 0;
     int tmptim;
     int *mdays;
-    struct tm *ptb = &g_021AD164;
+    struct tm *ptb = &gGsTimeBuffer;
 
     if (caltim < 0)
         return 0;
@@ -320,9 +318,9 @@ struct tm *func_0217F2C8(long *timp)
     caltim -= (long)ptb->tm_yday * 86400L;
 
     if (islpyr)
-        mdays = g_021A37CC;
+        mdays = gGsMonthDaysLeap;
     else
-        mdays = g_021A3800;
+        mdays = gGsMonthDays;
 
     for (tmptim = 1; mdays[tmptim] < ptb->tm_yday; tmptim++)
         ;
@@ -345,7 +343,7 @@ struct tm *func_0217F2C8(long *timp)
 /*
  * sdk:      gsiDateToSeconds (gsplatformutil.o)
  */
-long func_0217F478(struct tm *tb)
+long gsiDateToSeconds(struct tm *tb)
 {
     long tmptm1;
     long tmptm2;
@@ -364,7 +362,7 @@ long func_0217F478(struct tm *tb)
             return -1;
     }
 
-    tmptm2 = g_021A3800[tb->tm_mon];
+    tmptm2 = gGsMonthDays[tb->tm_mon];
     if (!(tmptm1 & 3) && (tb->tm_mon > 1))
         tmptm2++;
 
@@ -397,7 +395,7 @@ long func_0217F478(struct tm *tb)
 
     {
         struct tm *tbtemp;
-        if ((tbtemp = func_0217F2C8(&tmptm1)) == 0)
+        if ((tbtemp = gsiSecondsToDate(&tmptm1)) == 0)
             return -1;
         *tb = *tbtemp;
     }
@@ -416,7 +414,7 @@ long func_0217F478(struct tm *tb)
  * Reached from longrand (0x0217F774) <- Util_RandInt (0x0217F7AC) <-
  * gpiEncodeString.
  */
-int func_0217F730(long seed)
+int nextlongrand(long seed)
 {
     unsigned long lo, hi;
 
@@ -444,10 +442,10 @@ int func_0217F730(long seed)
 /*
  * Refreshes the word the state object holds.
  */
-int func_0217F774(void)
+int longrand(void)
 {
-    int next = func_0217F730(*(int *)g_021A37C8);
-    *(int *)g_021A37C8 = next;
+    int next = nextlongrand(*(int *)gGsRandState);
+    *(int *)gGsRandState = next;
     return next;
 }
 
@@ -457,9 +455,9 @@ int func_0217F774(void)
 /*
  * probe
  */
-void func_0217F790(unsigned int v)
+void Util_RandSeed(unsigned int v)
 {
-    *(int *)g_021A37C8 = v ? (int)(v & 0x7fffffff) : 1;
+    *(int *)gGsRandState = v ? (int)(v & 0x7fffffff) : 1;
 }
 
 
@@ -475,14 +473,14 @@ void func_0217F790(unsigned int v)
  * the four-byte conditional-pop epilogue).  The modulo is unsigned (u32),
  * so it calls the runtime division entry at 0x0209C2B0.
  */
-unsigned int func_0217F7AC(unsigned int min, unsigned int max)
+unsigned int Util_RandInt(unsigned int min, unsigned int max)
 {
     unsigned int range = max - min;
     unsigned int r;
 
     if (range == 0)
         return min;
-    r = func_0217F774() % range;
+    r = longrand() % range;
     return r + min;
 }
 
@@ -493,7 +491,7 @@ unsigned int func_0217F7AC(unsigned int min, unsigned int max)
  * bit groups folded into 6-6-2+6 layout).  `char` is signed under the pinned
  * flags, so the loads are ldrsb and the shifts arithmetic.
  */
-void func_0217F7D0(char *quart, char *trip, int inlen)
+void QuartToTrip(char *quart, char *trip, int inlen)
 {
     if (inlen >= 2)
         trip[0] = (char)(quart[0] << 2 | quart[1] >> 4);
@@ -511,7 +509,7 @@ void func_0217F7D0(char *quart, char *trip, int inlen)
  * order).  The source bytes go through a local three-byte buffer, padded
  * with zeros before the shift network runs.
  */
-void func_0217F824(const char *src, u8 *dst, int n)
+void TripToQuart(const char *src, u8 *dst, int n)
 {
     unsigned char buf[4];
     int i;
@@ -535,7 +533,7 @@ void func_0217F824(const char *src, u8 *dst, int n)
  * the output length.  encodingType 1 selects the alternate table, 2 the
  * URL-safe table, otherwise the default.
  */
-void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType)
+void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType)
 {
     const char *encoding;
     int readpos = 0;
@@ -544,13 +542,13 @@ void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int 
 
     switch (encodingType) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
     }
 
     if (inlen <= 0) {
@@ -583,15 +581,15 @@ void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int 
         }
 
         if (readpos % 4 == 3) {
-            func_0217F7D0(block, &output[writepos], 4);
+            QuartToTrip(block, &output[writepos], 4);
             writepos += 3;
         }
         readpos++;
     }
 
     if (readpos != 0 && readpos % 4 != 0) {
-        func_020923B0(&block[readpos % 4], encoding[2], 4 - readpos % 4);
-        func_0217F7D0(block, &output[writepos], readpos % 4);
+        MSL_C_LIB_MemsetPtr(&block[readpos % 4], encoding[2], 4 - readpos % 4);
+        QuartToTrip(block, &output[writepos], readpos % 4);
         if (readpos % 4 == 3)
             writepos += 2;
         else
@@ -611,7 +609,7 @@ void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int 
  * padding the tail with encoding[2].  encodingType 1 selects the alternate
  * table, 2 the URL-safe table, otherwise the default.
  */
-void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
+void B64Encode(const char *input, char *output, int inlen, int encodingType)
 {
     const char *encoding;
     char *holdout = output;
@@ -620,17 +618,17 @@ void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
 
     switch (encodingType) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
     }
 
     while (todo > 0) {
-        func_0217F824(input, (u8 *)output, GSI_MIN(todo, 3));
+        TripToQuart(input, (u8 *)output, GSI_MIN(todo, 3));
         output += 4;
         input += 3;
         todo -= 3;
@@ -664,7 +662,7 @@ void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
 /*
  * sdk:      B64DecodeLen (gsplatformutil.o)
  */
-int func_0217FBC8(char *input, int encodingType)
+int B64DecodeLen(char *input, int encodingType)
 {
     char *encoding;
     char *holdin = input;
@@ -672,13 +670,13 @@ int func_0217FBC8(char *input, int encodingType)
 
     switch (encodingType) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
         break;
     }
     while (*input != 0) {
@@ -700,7 +698,7 @@ void B64InitEncodeStream(int *stream, int input, int inputLength, int position)
 }
 
 
-int func_0217FC70(B64StreamData *data, char *output)
+int B64EncodeStream(B64StreamData *data, char *output)
 {
     int i;
     char *encoding;
@@ -711,17 +709,17 @@ int func_0217FC70(B64StreamData *data, char *output)
 
     switch (data->mode) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
         break;
     }
 
-    func_0217F824(data->data, (u8 *)output, data->len >= 3 ? 3 : data->len);
+    TripToQuart(data->data, (u8 *)output, data->len >= 3 ? 3 : data->len);
     data->data += 3;
     data->len -= 3;
 

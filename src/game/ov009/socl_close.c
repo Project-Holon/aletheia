@@ -19,9 +19,9 @@
  *   SOCL_SocketIsInvalid   0x0215f3d0 arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_0215CEB0  0x0215CEB0  arm  ov009
+ *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
- *   func_0215CEFC  0x0215CEFC  arm  ov009
+ *   SOCLi_SendCommandPacketToCtrlPipe  0x0215CEFC  arm  ov009
  *   g_021AA4AC     0x021AA4AC  data
  *   OS_JoinThread  0x02085710  arm
  *   CPS_TcpShutdown  0x0215AD00  arm  ov009
@@ -33,11 +33,11 @@
  *   func_0215EB14  0x0215EB14  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
  *   func_0215F3B8  0x0215F3B8  arm  ov009
- *   g_021A1CD8     0x021A1CD8  data
+ *   gSoclConfig     0x021A1CD8  data
  *   OS_DisableScheduler  0x02085B30  arm
  *   func_02085E50  0x02085E50  arm
  *   func_02085DBC  0x02085DBC  arm
- *   func_0215CE7C  0x0215CE7C  arm  ov009
+ *   SOCLi_FreeCommandPacket  0x0215CE7C  arm  ov009
  *   OS_EnableScheduler  0x02085B60  arm
  *   OS_RescheduleThread  0x020858BC  arm
  *   func_0215EA1C  0x0215EA1C  arm  ov009
@@ -91,9 +91,9 @@ extern unsigned long OS_DisableInterrupts(void);
 extern int SOCL_SocketIsInTrash(Socket * socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_SocketIsInvalid(Socket * socket);
-extern int func_0215CEB0(int a0, char *a1);
+extern int SOCLi_SendCommandPacket(int a0, char *a1);
 extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), Socket *socket, long flag);
-extern void func_0215CEFC(int a, int b);
+extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
 extern void OS_JoinThread(void *thread);
 extern void CPS_TcpShutdown(void);
 extern void CPS_TcpClose(void);
@@ -106,7 +106,7 @@ int SOCL_IsReleased(int s);
 /* * sdk: SOCL_Close (libsoc.TWL.HYB.a(socl_close.o)) */ int func_0215E84C(int s);
 int func_0215E980(void *arg);
 extern struct SOCLResource g_021AA4AC;
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern Socket *g_021AA4B8;
 typedef struct {
 	unsigned long pad0[2];
@@ -118,7 +118,7 @@ extern void func_0215F3B8(int a);
 extern unsigned long OS_DisableScheduler(void);
 extern int func_02085E50(void *mq, void **msg, long flags);
 extern int func_02085DBC(void *mq, void *msg, long flags);
-extern void func_0215CE7C(void *ptr);
+extern void SOCLi_FreeCommandPacket(void *ptr);
 extern unsigned long OS_EnableScheduler(void);
 extern void OS_RescheduleThread(void);
 void func_0215EA1C(Socket *socket);
@@ -215,13 +215,13 @@ int func_0215E84C(int s)
 		if (mode == 0) {
 			g_021AA4AC.b--;
 		} else {
-			func_0215CEB0((int)socket->send_pipe, 0);
+			SOCLi_SendCommandPacket((int)socket->send_pipe, 0);
 			g_021AA4AC.a--;
 		}
 	}
 	command = func_0215CE3C(func_0215E980, socket, 1);
 	command->field8 = result;
-	func_0215CEFC((int)socket, (int)command);
+	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;
 }
 
@@ -253,7 +253,7 @@ int func_0215E980(void *arg)
 	}
 	CPS_SocUnRegister();
 	socket->state &= ~6;
-	func_0215CEB0((int)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
+	SOCLi_SendCommandPacket((int)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
 	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F304((int)socket);
@@ -283,7 +283,7 @@ void func_0215EA1C(Socket *socket)
 		udpdata = socket->recv_pipe->udpdata.head;
 		while (udpdata) {
 			udpdata_next = udpdata->next;
-			g_021A1CD8->free(udpdata);
+			gSoclConfig->free(udpdata);
 			udpdata = udpdata_next;
 		}
 		socket->recv_pipe->udpdata.size = 0;
@@ -297,7 +297,7 @@ void func_0215EA1C(Socket *socket)
 	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F3B8((int)socket);
-	g_021A1CD8->free(socket);
+	gSoclConfig->free(socket);
 	OS_RestoreInterrupts(enable);
 }
 
@@ -321,7 +321,7 @@ void func_0215EB14(unsigned char *pipe)
 			if (command->reply != 0) {
 				func_02085DBC(command->reply, (void *)-11, 0);
 			}
-			func_0215CE7C(command);
+			SOCLi_FreeCommandPacket(command);
 		}
 	}
 	OS_EnableScheduler();

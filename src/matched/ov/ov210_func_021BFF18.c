@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025D14 0x02025D14 thumb
+ *   CURSOR_MOVE_Delete 0x02025D14 thumb
  * Addresses are Black-image addresses.
  */
 
-extern void func_02025D14(void);
+extern void CURSOR_MOVE_Delete(void);
 
 void func_021BFF18(int p)
 {
     int *q = (int *)p;
 
     if (q[0xac] != 0) {
-        func_02025D14();
+        CURSOR_MOVE_Delete();
         q[0xac] = 0;
     }
 }

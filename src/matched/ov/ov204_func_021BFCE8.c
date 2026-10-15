@@ -1,5 +1,5 @@
 /*
- * function: func_021BFCE8
+ * function: INTRO_PARTICLE_StartEffect
  * address:  0x021BFCE8
  * packet:   pkt_021BFCE8
  * region:   ov204
@@ -24,8 +24,8 @@
  * call relocations resolve through the `matched` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BFCE8.c \
- *       --func func_021BFCE8 --addr 0x021BFCE8 --region ov204 \
+ *   python tools/match.py one --src src/matched/INTRO_PARTICLE_StartEffect.c \
+ *       --func INTRO_PARTICLE_StartEffect --addr 0x021BFCE8 --region ov204 \
  *       --cc 1.1p1 --thumb --flags=-O4,p
  */
 
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 
-void func_021BFCE8(u32 *a0, u32 a1, u32 a2, u32 a3)
+void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3)
 {
     u32 *p = a0;
     u32 buf[3] = { 0 };

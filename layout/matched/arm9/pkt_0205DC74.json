@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0205DC74",
+   "name": "DWC_AC_CleanupGetWDSInfo",
    "address": "0x0205DC74",
    "kind": "sdk",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205DF6C",
+   "name": "DWCi_AC_SetStealthChannel",
    "address": "0x0205DF6C",
    "kind": "sdk",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205EA08",
+   "name": "DWCi_AC_CheckNintendoShopAP",
    "address": "0x0205EA08",
    "kind": "sdk",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205EA44",
+   "name": "DWCi_AC_GetNintendoShopWepKey",
    "address": "0x0205EA44",
    "kind": "sdk",
    "region": "arm9",
@@ -72,7 +72,7 @@
    }
   },
   {
-   "name": "func_0205EAFC",
+   "name": "DWCi_AC_CheckNintendoUsbAP",
    "address": "0x0205EAFC",
    "kind": "sdk",
    "region": "arm9",
@@ -155,7 +155,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205F700",
+   "name": "NCFG_GetFormatVersion",
    "address": "0x0205F700",
    "kind": "sdk",
    "region": "arm9",

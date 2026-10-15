@@ -15,8 +15,8 @@
  *   MIi_CpuClearFast 0x02082AC0  arm
  *   MIi_CpuCopy16    0x02082A60  arm
  *   FS_InitFile  0x020788AC  arm
- *   func_020789FC  0x020789FC  arm
- *   func_02078A94  0x02078A94  arm
+ *   FS_OpenFileEx  0x020789FC  arm
+ *   FS_GetFileLength  0x02078A94  arm
  *   FS_CloseFile  0x02078A80  arm
  *   FS_ReadFile  0x02078B70  arm
  *   func_021F628C  0x021F628C  arm  ov107
@@ -111,8 +111,8 @@ extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 extern void FS_InitFile(FSFile *file);
-extern int func_020789FC(FSFile *file, const char *path, u32 mode);
-extern u32 func_02078A94(FSFile *file);
+extern int FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
+extern u32 FS_GetFileLength(FSFile *file);
 extern int FS_CloseFile(FSFile *file);
 extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern u32 func_021F628C(void);
@@ -209,9 +209,9 @@ int MBi_ReadIconInfo(char *filePathp, unsigned char *iconp, int char_flag)
     if (filePathp == 0)
         return 0;
     FS_InitFile(&file);
-    if (!func_020789FC(&file, filePathp, 1))
+    if (!FS_OpenFileEx(&file, filePathp, 1))
         return 0;
-    if (size != func_02078A94(&file)) {
+    if (size != FS_GetFileLength(&file)) {
         FS_CloseFile(&file);
         return 0;
     }

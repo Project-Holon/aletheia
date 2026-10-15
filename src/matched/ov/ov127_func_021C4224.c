@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf of ov099 func_021B989C's callee func_021C5858 (a forwarder to here).
+ * Leaf of ov099 func_021B989C's callee WF2DMAP_OBJDRAW_GetActorValue2 (a forwarder to here).
  *
  * symbols:
  *   CLACT_GetActorDrawPriority  0x0204B838  arm

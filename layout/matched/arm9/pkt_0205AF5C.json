@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0205AF5C",
+   "name": "SortList",
    "address": "0x0205AF5C",
    "kind": "sdk",
    "region": "arm9",

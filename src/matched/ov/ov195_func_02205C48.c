@@ -1,5 +1,5 @@
 /*
- * function: func_02205C48
+ * function: SHINKA_DEMO_GRAPHIC_Exit3d
  * address:  0x02205C48
  * packet:   pkt_02205C48
  * region:   ov195
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 
-void func_02205C48(int *p)
+void SHINKA_DEMO_GRAPHIC_Exit3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

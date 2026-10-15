@@ -11,16 +11,16 @@
  * ABI: 0200AE14 leaves supplied pointer in r0 despite its void own declaration.
  * symbols:
  *   func_0217D160 0x0217D160 thumb ov176
- *   func_0200B078 0x0200B078 thumb
- *   func_0200AE14 0x0200AE14 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
  *   func_0200E918 0x0200E918 thumb
- *   func_0200AE54 0x0200AE54 thumb
+ *   REGULATION_GetRuleValue 0x0200AE54 thumb
  *   func_0217CFE8 0x0217CFE8 thumb ov176
  *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_0200B110 0x0200B110 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200BBD8 0x0200BBD8 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_0217D1A0 0x0217D1A0 thumb ov176
@@ -48,16 +48,16 @@ struct Big;
 struct Obj;
 struct Reg;
 struct Reg2;
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
-extern void *func_0200AE14(void *);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
+extern void *REGULATION_NoOp(void *);
 extern u8 func_0200E918(const u8 *, u32);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern void func_0217CFE8(void *, int, int);
 extern void func_021E8AB4(u32, u32);
-extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
+extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *);
-extern void func_0200BBD8(struct Obj *p, int v);
+extern void *BATTLE_BOX_GetFromSave(void *);
+extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern int GAME_DATA_SaveStart(int a0);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void func_0217D1A0(u8 *, int);
@@ -80,19 +80,19 @@ void func_0217CC78(int *a, int *state, u8 *p)
     switch (*state) {
     case 0:
         func_0217D160((int *)p);
-        if (func_0200B078(((struct Obj00053 *)p)->f38, 10) == 3) *state = 6;
+        if (REGULATION_Card_GetValue(((struct Obj00053 *)p)->f38, 10) == 3) *state = 6;
         else *state = 1;
         break;
     case 1:
-        record = func_0200AE14(((struct Obj00053 *)p)->f38);
+        record = REGULATION_NoOp(((struct Obj00053 *)p)->f38);
         value = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);
-        if (value >= func_0200AE54(record, 0x16)) *state = 2;
+        if (value >= REGULATION_GetRuleValue(record, 0x16)) *state = 2;
         else *state = 16;
         break;
     case 2: func_0217CFE8(p, 10, 2); *state = 17; func_021E8AB4((u32)a, 3); break;
     case 3:
-        func_0200B110(((struct Obj00053 *)p)->f38, 10, 3);
-        func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)), 2);
+        REGULATION_Card_SetValue(((struct Obj00053 *)p)->f38, 10, 3);
+        BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)), 2);
         GAME_DATA_SaveStart((int)(((struct Obj00053 *)p)->f1B8)); *state = 4; break;
     case 4:
         switch (GAME_DATA_SaveMain(((struct Obj00053 *)p)->f1B8)) {

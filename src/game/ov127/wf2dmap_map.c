@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_map.c
  * unit:     yes
- * function: func_021C4790, func_021C47A0, func_021C47E4, func_021C47F8, func_021C47FC, func_021C4800, func_021C4818, func_021C4844, func_021C4864, func_021C4880, func_021C48C0, func_021C48D4, func_021C48E8, func_021C4914, func_021C4918, func_021C4954, func_021C4980, func_021C4994, func_021C499C, func_021C49A4, func_021C4A00, func_021C4A54, func_021C4A8C, func_021C4A98, func_021C4AC4, func_021C4AD0, func_021C4ADC, func_021C4B7C, func_021C4B90, func_021C4BA4, func_021C4C88
+ * function: WF2DMAP_MAP_IsEmpty, WF2DMAP_MAP_CreateGrid, WF2DMAP_MAP_DeleteGrid, WF2DMAP_MAP_GetWidth, WF2DMAP_MAP_GetHeight, WF2DMAP_MAP_CopyEntries, WF2DMAP_MAP_GetCell, WF2DMAP_MAP_IsCellBlocked, WF2DMAP_MAP_GetCellValue, WF2DMAP_OBJ_CreateList, WF2DMAP_OBJ_DeleteList, WF2DMAP_OBJ_DispatchById, WF2DMAP_OBJ_UpdateList, WF2DMAP_OBJ_GetCount, WF2DMAP_OBJ_Create, WF2DMAP_OBJ_Clear, WF2DMAP_OBJ_FindById, WF2DMAP_OBJ_GetByIndex, WF2DMAP_OBJ_FindById2, WF2DMAP_OBJ_GetByIndex2, WF2DMAP_OBJ_GetSlot, WF2DMAP_OBJ_SetSlot, WF2DMAP_OBJ_OffsetPos, WF2DMAP_OBJ_GetTableByte, WF2DMAP_OBJ_AllocSlot, WF2DMAP_OBJ_GetPos, WF2DMAP_OBJ_GetDestPos, WF2DMAP_OBJ_GetCurrentPos, WF2DMAP_OBJ_SetPos, WF2DMAP_OBJ_SetDestPos, WF2DMAP_OBJ_FindAtPos, WF2DMAP_OBJ_ApplyCommand
  * address:  0x021C4790
  * region:   ov127
  * compiler: dsi/1.1p1
@@ -11,32 +11,23 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Holds two originals: wf2dmap_map.c (the grid, up to 0x021C4864) and
+ * wf2dmap_obj.c (from 0x021C4880); see cuts.tsv. Do not split here.
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021C6110 0x021C6110 data a1
+ *   sWf2dmapMapFileName 0x021C6110 data a1
  *   func_020307B0 0x020307B0 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   d_021C600C 0x021C600C data a4
- *   d_021C6120 0x021C6120 data a1
- *   func_021C4CB4 0x021C4CB4 thumb ov127
+ *   sWf2dmapEmptyCell 0x021C600C data a4
+ *   sWf2dmapObjFileName 0x021C6120 data a1
+ *   WF2DMAP_OBJCMD_Update 0x021C4CB4 thumb ov127
  *   MI_CpuFill8 0x02082BCC arm
- *   d_021C6014 0x021C6014 data a4
- *   d_021C6010  0x021C6010  data  a1
- *   d_021C601C 0x021C601C data a4
+ *   sWf2dmapStepDelta 0x021C6014 data a4
+ *   sWf2dmapDirectionTable  0x021C6010  data  a1
+ *   sWf2dmapCommandTable 0x021C601C data a4
  */
-#include "../../matched/include/Obj23032.h"
-#include "../../matched/include/Obj23033.h"
-#include "../../matched/include/Obj10469.h"
-#include "../../matched/include/Obj08123.h"
-#include "../../matched/include/Obj23036.h"
-#include "../../matched/include/Obj23038.h"
-#include "../../matched/include/Obj03278.h"
-#include "../../matched/include/Obj14029.h"
-#include "../../matched/include/Obj23040.h"
-#include "../../matched/include/Obj00535.h"
-#include "../../matched/include/Obj23041.h"
-#include "../../matched/include/Obj23042.h"
+#include "wf2dmap_obj_types.h"
 
 typedef unsigned char u8;
 
@@ -50,90 +41,92 @@ typedef unsigned int u32;
 
 typedef signed int s32;
 
-typedef struct {u16 width,height;void *entries;} Grid;
+/* Tile grid of the 2D map (wf2dmap_map.c). */
+typedef struct Wf2dmapMapGrid {
+    u16 width;
+    u16 height;
+    void *entries;
+} Wf2dmapMapGrid;
 
-typedef union { u32 raw; struct { u32 flag:1; u32 value:31; } bits; } Cell;
+/* One grid cell: bit 0 is the blocked flag, the rest a value. */
+typedef union Wf2dmapCell {
+    u32 raw;
+    struct { u32 flag:1; u32 value:31; } bits;
+} Wf2dmapCell;
 
-typedef struct { void *entries; u32 count; } Container;
+/* Object list of the 2D map (wf2dmap_obj.c). */
+typedef struct Wf2dmapObjList {
+    void *entries;
+    u32 count;
+} Wf2dmapObjList;
 
-typedef struct { short a, b; } Pos;
+/* Per-direction step delta table row. */
+typedef struct Wf2dmapDelta {
+    s8 dx, dy;
+} Wf2dmapDelta;
 
-struct delta { signed char a,b; };
-
-struct pair_021C4B7C {
-    u16 a;
-    u16 b;
-};
-
-struct pair_021C4B90 {
-    u16 a;
-    u16 b;
-};
-
-struct pair_021C4C88 {u16 a,b;};
+/* 8-byte command descriptor applied by ApplyCommand. */
+typedef struct Wf2dmapCmdDesc {
+    Wf2dmapPairU16 pos;     /* 0x00 */
+    u16 index;              /* 0x04 */
+    u8 value;               /* 0x06 */
+} Wf2dmapCmdDesc;
 
 extern void *func_02030734(u16,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuCopy8(void *,const void *,u32);
-extern void func_021C4CB4(u8 *p);
+extern void WF2DMAP_OBJCMD_Update(u8 *p);
 extern void MI_CpuFill8(void *,int,int);
-int func_021C4790(char *p);
-Grid *func_021C47A0(u32 w,u32 h,u32 heap);
-void func_021C47E4(u8 *p);
-u16 func_021C47F8(u16 *p);
-u16 func_021C47FC(u16 *p);
-void func_021C4800(u8 *p,void *out);
-Cell func_021C4818(u8 *p, u32 x, u32 y);
-int func_021C4844(u8 *p, u16 x, u16 y);
-u32 func_021C4864(u8 *p, u16 x, u16 y);
-Container *func_021C4880(u32 count, u32 heap);
-void func_021C48C0(u8 *p);
-void func_021C48D4(void *a, u8 *q);
-void func_021C48E8(u8 *p);
-u32 func_021C4914(u8 *p);
-void func_021C4918(void *a,u16 *s);
-void func_021C4948(void *p);
-char *func_021C4954(unsigned *p, unsigned id);
-char *func_021C4980(char **p, int i);
-char *func_021C4994(unsigned *p,unsigned id);
-char *func_021C499C(char **p,int i);
-int func_021C49A4(u8 *p, unsigned int i);
-void func_021C4A00(void *p, int i, int v);
-Pos func_021C4A54(Pos p,int i);
-unsigned char func_021C4A8C(int i);
-char *func_021C4A98(unsigned *p);
-Pos func_021C4AC4(char *p);
-Pos func_021C4AD0(char *p);
-Pos func_021C4ADC(char *p);
-void func_021C4B7C(char *p, struct pair_021C4B7C v);
-void func_021C4B90(char *p, struct pair_021C4B90 v);
-u8 *func_021C4BA4(u8 *p, void *list, int n);
-void func_021C4C88(char *p,char *q);
-extern const char d_021C6110[];
-extern Cell d_021C600C;
-extern const char d_021C6120[];
-extern struct delta d_021C6014;
-extern unsigned char d_021C6010[];
+int WF2DMAP_MAP_IsEmpty(char *p);
+Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap);
+void WF2DMAP_MAP_DeleteGrid(u8 *p);
+u16 WF2DMAP_MAP_GetWidth(u16 *p);
+u16 WF2DMAP_MAP_GetHeight(u16 *p);
+void WF2DMAP_MAP_CopyEntries(u8 *p,void *out);
+Wf2dmapCell WF2DMAP_MAP_GetCell(u8 *p, u32 x, u32 y);
+int WF2DMAP_MAP_IsCellBlocked(u8 *p, u16 x, u16 y);
+u32 WF2DMAP_MAP_GetCellValue(u8 *p, u16 x, u16 y);
+Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heap);
+void WF2DMAP_OBJ_DeleteList(u8 *p);
+void WF2DMAP_OBJ_DispatchById(void *a, u8 *q);
+void WF2DMAP_OBJ_UpdateList(u8 *p);
+u32 WF2DMAP_OBJ_GetCount(u8 *p);
+void WF2DMAP_OBJ_Create(void *a,u16 *s);
+void WF2DMAP_OBJ_Clear(void *p);
+char *WF2DMAP_OBJ_FindById(unsigned *p, unsigned id);
+char *WF2DMAP_OBJ_GetByIndex(char **p, int i);
+char *WF2DMAP_OBJ_FindById2(unsigned *p,unsigned id);
+char *WF2DMAP_OBJ_GetByIndex2(char **p,int i);
+int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
+void WF2DMAP_OBJ_SetSlot(void *p, int i, int v);
+Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i);
+unsigned char WF2DMAP_OBJ_GetTableByte(int i);
+char *WF2DMAP_OBJ_AllocSlot(unsigned *p);
+Wf2dmapPos WF2DMAP_OBJ_GetPos(char *p);
+Wf2dmapPos WF2DMAP_OBJ_GetDestPos(char *p);
+Wf2dmapPos WF2DMAP_OBJ_GetCurrentPos(char *p);
+void WF2DMAP_OBJ_SetPos(char *p, Wf2dmapPairU16 v);
+void WF2DMAP_OBJ_SetDestPos(char *p, Wf2dmapPairU16 v);
+u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n);
+void WF2DMAP_OBJ_ApplyCommand(char *p,char *q);
+extern const char sWf2dmapMapFileName[];
+extern Wf2dmapCell sWf2dmapEmptyCell;
+extern const char sWf2dmapObjFileName[];
+extern Wf2dmapDelta sWf2dmapStepDelta;
+extern unsigned char sWf2dmapDirectionTable[];
 
 
 
 
-
-
-
-int func_021C4790(char *p)
+int WF2DMAP_MAP_IsEmpty(char *p)
 {
-    return ((struct Obj23032 *)p)->f4 == 0;
+    return ((Wf2dmapMapGrid *)p)->entries == 0;
 }
 
 
 
 
-
-
-Grid *func_021C47A0(u32 w,u32 h,u32 heap) { Grid *p;p=func_02030734(heap,8,1,d_021C6110,76);p->width=w;p->height=h;p->entries=func_02030734(heap,p->width*p->height*4,1,d_021C6110,83);return p; }
-
-
+Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p;p=func_02030734(heap,8,1,sWf2dmapMapFileName,76);p->width=w;p->height=h;p->entries=func_02030734(heap,p->width*p->height*4,1,sWf2dmapMapFileName,83);return p; }
 
 
 
@@ -142,10 +135,7 @@ Grid *func_021C47A0(u32 w,u32 h,u32 heap) { Grid *p;p=func_02030734(heap,8,1,d_0
  * Extent remainder: 2-byte zero padding, filed getters 021C47F8/47FC,
  * and separately filed follower ov127_func_021C4800.c.
  */
-void func_021C47E4(u8 *p) { func_020307B0(((struct Obj23033 *)p)->f4);func_020307B0(p); }
-
-
-
+void WF2DMAP_MAP_DeleteGrid(u8 *p) { func_020307B0(((Wf2dmapMapGrid *)p)->entries);func_020307B0(p); }
 
 
 
@@ -153,7 +143,7 @@ void func_021C47E4(u8 *p) { func_020307B0(((struct Obj23033 *)p)->f4);func_02030
 /*
  * Leaf: ldrh r0,[r0]; bx lr.  Blocker of ov099 func_021BA0F8.
  */
-u16 func_021C47F8(u16 *p)
+u16 WF2DMAP_MAP_GetWidth(u16 *p)
 {
     return p[0];
 }
@@ -161,10 +151,7 @@ u16 func_021C47F8(u16 *p)
 
 
 
-
-
-
-u16 func_021C47FC(u16 *p)
+u16 WF2DMAP_MAP_GetHeight(u16 *p)
 {
     return p[1];
 }
@@ -172,26 +159,20 @@ u16 func_021C47FC(u16 *p)
 
 
 
-
-
 /*
  * Follower of 021C47E4, separate because 021C47F8/47FC already have shards.
  */
-void func_021C4800(u8 *p,void *out) { MI_CpuCopy8(out,((struct Obj10469 *)p)->f4,((struct Obj10469 *)p)->f0 * ((struct Obj10469 *)p)->f2 * 4); }
+void WF2DMAP_MAP_CopyEntries(u8 *p,void *out) { MI_CpuCopy8(out,((Wf2dmapMapGrid *)p)->entries,((Wf2dmapMapGrid *)p)->width * ((Wf2dmapMapGrid *)p)->height * 4); }
 
 
 
 
-
-
-Cell func_021C4818(u8 *p, u32 x, u32 y)
+Wf2dmapCell WF2DMAP_MAP_GetCell(u8 *p, u32 x, u32 y)
 {
- Cell r = d_021C600C;
- if (((struct Obj08123 *)p)->f0 > x && ((struct Obj08123 *)p)->f2 > y) r=*(Cell *)(((struct Obj08123 *)p)->f4 + (x + ((struct Obj08123 *)p)->f0*y)*4);
+ Wf2dmapCell r = sWf2dmapEmptyCell;
+ if (((Wf2dmapMapGrid *)p)->width > x && ((Wf2dmapMapGrid *)p)->height > y) r=*(Wf2dmapCell *)((u8 *)((Wf2dmapMapGrid *)p)->entries + (x + ((Wf2dmapMapGrid *)p)->width*y)*4);
  return r;
 }
-
-
 
 
 
@@ -199,31 +180,24 @@ Cell func_021C4818(u8 *p, u32 x, u32 y)
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
-int func_021C4844(u8 *p, u16 x, u16 y) { Cell r=func_021C4818(p,x,y); if(r.raw==(u32)-1) return 1; return r.bits.flag; }
+int WF2DMAP_MAP_IsCellBlocked(u8 *p, u16 x, u16 y) { Wf2dmapCell r=WF2DMAP_MAP_GetCell(p,x,y); if(r.raw==(u32)-1) return 1; return r.bits.flag; }
 
 
 
 
-
-
-u32 func_021C4864(u8 *p, u16 x, u16 y) { Cell r=func_021C4818(p,x,y); if(r.raw==(u32)-1) return 0; return r.bits.value; }
-
+u32 WF2DMAP_MAP_GetCellValue(u8 *p, u16 x, u16 y) { Wf2dmapCell r=WF2DMAP_MAP_GetCell(p,x,y); if(r.raw==(u32)-1) return 0; return r.bits.value; }
 
 
 
 
-
-Container *func_021C4880(u32 count, u32 heap)
+Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heap)
 {
-    Container *p;
-    p = func_02030734(heap, 8, 1, d_021C6120, 128);
+    Wf2dmapObjList *p;
+    p = func_02030734(heap, 8, 1, sWf2dmapObjFileName, 128);
     p->count = count;
-    p->entries = func_02030734(heap, 24 * p->count, 1, d_021C6120, 133);
+    p->entries = func_02030734(heap, 24 * p->count, 1, sWf2dmapObjFileName, 133);
     return p;
 }
-
-
-
 
 
 
@@ -231,76 +205,60 @@ Container *func_021C4880(u32 count, u32 heap)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021C48C0(u8 *p)
+void WF2DMAP_OBJ_DeleteList(u8 *p)
 {
-    func_020307B0(((struct Obj23036 *)p)->f0);
+    func_020307B0(((Wf2dmapObjList *)p)->entries);
     func_020307B0(p);
 }
 
 
 
 
-
-
-
-void func_021C48D4(void *a, u8 *q)
+void WF2DMAP_OBJ_DispatchById(void *a, u8 *q)
 {
-    func_021C4C88(func_021C4954(a, q[7]), (char *)q);
+    WF2DMAP_OBJ_ApplyCommand(WF2DMAP_OBJ_FindById(a, q[7]), (char *)q);
 }
 
 
 
 
-
-
-void func_021C48E8(u8 *p) { u32 i,n; char *q; n=func_021C4914(p);for(i=0;i<n;i++){q=func_021C4980((char **)p,(u16)i);if(q)func_021C4CB4((u8 *)q);} }
-
+void WF2DMAP_OBJ_UpdateList(u8 *p) { u32 i,n; char *q; n=WF2DMAP_OBJ_GetCount(p);for(i=0;i<n;i++){q=WF2DMAP_OBJ_GetByIndex((char **)p,(u16)i);if(q)WF2DMAP_OBJCMD_Update((u8 *)q);} }
 
 
 
 
-
-u32 func_021C4914(u8 *p) { return ((struct Obj23038 *)p)->f4; }
-
+u32 WF2DMAP_OBJ_GetCount(u8 *p) { return ((Wf2dmapObjList *)p)->count; }
 
 
 
 
-
-void func_021C4918(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)func_021C4A98((unsigned *)a);x=(s16)s[0];y=(s16)s[1];((struct Obj03278 *)p)->f4=x;((struct Obj03278 *)p)->f6=y;((struct Obj03278 *)p)->f8=x;((struct Obj03278 *)p)->fA=y;((struct Obj03278 *)p)->fC=s[2];p[21]=s[3];p[20]=s[4];((struct Obj03278 *)p)->fE=s[5];((struct Obj03278 *)p)->f0=1; }
-
+void WF2DMAP_OBJ_Create(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)WF2DMAP_OBJ_AllocSlot((unsigned *)a);x=(s16)s[0];y=(s16)s[1];((Wf2dmapObj *)p)->posX=x;((Wf2dmapObj *)p)->posY=y;((Wf2dmapObj *)p)->destX=x;((Wf2dmapObj *)p)->destY=y;((Wf2dmapObj *)p)->id=s[2];p[21]=s[3];p[20]=s[4];((Wf2dmapObj *)p)->kind=s[5];((Wf2dmapObj *)p)->active=1; }
 
 
 
 
-
-void func_021C4948(void *p) { MI_CpuFill8(p,0,24); }
-
+void WF2DMAP_OBJ_Clear(void *p) { MI_CpuFill8(p,0,24); }
 
 
 
 
-
-char *func_021C4954(unsigned *p, unsigned id)
+char *WF2DMAP_OBJ_FindById(unsigned *p, unsigned id)
 {
  unsigned i=0;
  if (i<p[1]) { char *base=(char *)p[0]; char *e;
- do { e=base+i*24; if (((struct Obj14029 *)e)->f0==1 && id==((struct Obj14029 *)e)->fC) return e; i++; } while(i<p[1]); }
+ do { e=base+i*24; if (((Wf2dmapObj *)e)->active==1 && id==((Wf2dmapObj *)e)->id) return e; i++; } while(i<p[1]); }
  return 0;
 }
 
 
 
 
-
-
-
-char *func_021C4980(char **p, int i)
+char *WF2DMAP_OBJ_GetByIndex(char **p, int i)
 {
     char *base = *p;
     char *e = base + i * 0x18;
 
-    if (((struct Obj23040 *)e)->f0 != 1)
+    if (((Wf2dmapObj *)e)->active != 1)
         return 0;
     return e;
 }
@@ -308,18 +266,12 @@ char *func_021C4980(char **p, int i)
 
 
 
-
-
-char *func_021C4994(unsigned *p,unsigned id) { return func_021C4954(p,id); }
-
+char *WF2DMAP_OBJ_FindById2(unsigned *p,unsigned id) { return WF2DMAP_OBJ_FindById(p,id); }
 
 
 
 
-
-char *func_021C499C(char **p,int i) { return func_021C4980(p,i); }
-
-
+char *WF2DMAP_OBJ_GetByIndex2(char **p,int i) { return WF2DMAP_OBJ_GetByIndex(p,i); }
 
 
 
@@ -327,20 +279,20 @@ char *func_021C499C(char **p,int i) { return func_021C4980(p,i); }
 /*
  * extent: two zero alignment bytes at 0x021C49FE follow the return.
  */
-int func_021C49A4(u8 *p, unsigned int i)
+int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i)
 {
     switch (i) {
-    case 0: return *(s16 *)&((struct Obj00535 *)p)->f4;
-    case 1: return *(s16 *)&((struct Obj00535 *)p)->f6;
-    case 2: return *(s16 *)&((struct Obj00535 *)p)->f8;
-    case 3: return *(s16 *)&((struct Obj00535 *)p)->fA;
-    case 4: return ((struct Obj00535 *)p)->fC;
+    case 0: return *(s16 *)&((Wf2dmapObj *)p)->posX;
+    case 1: return *(s16 *)&((Wf2dmapObj *)p)->posY;
+    case 2: return *(s16 *)&((Wf2dmapObj *)p)->destX;
+    case 3: return *(s16 *)&((Wf2dmapObj *)p)->destY;
+    case 4: return ((Wf2dmapObj *)p)->id;
     case 5: return p[21];
     case 6: return p[20];
-    case 7: return ((struct Obj00535 *)p)->fE;
-    case 8: return ((struct Obj00535 *)p)->f10;
-    case 9: return ((struct Obj00535 *)p)->f12;
-    case 10: return ((struct Obj00535 *)p)->f16;
+    case 7: return ((Wf2dmapObj *)p)->kind;
+    case 8: return ((Wf2dmapObj *)p)->step;
+    case 9: return ((Wf2dmapObj *)p)->stepCount;
+    case 10: return ((Wf2dmapObj *)p)->updateCounter;
     default: return (int)p;
     }
 }
@@ -348,45 +300,42 @@ int func_021C49A4(u8 *p, unsigned int i)
 
 
 
-
-
-
-void func_021C4A00(void *p, int i, int v)
+void WF2DMAP_OBJ_SetSlot(void *p, int i, int v)
 {
     switch (i)
     {
     case 0:
-        ((struct Obj00535 *)p)->f4 = (u16)v;
+        ((Wf2dmapObj *)p)->posX = (u16)v;
         break;
     case 1:
-        ((struct Obj00535 *)p)->f6 = (u16)v;
+        ((Wf2dmapObj *)p)->posY = (u16)v;
         break;
     case 2:
-        ((struct Obj00535 *)p)->f8 = (u16)v;
+        ((Wf2dmapObj *)p)->destX = (u16)v;
         break;
     case 3:
-        ((struct Obj00535 *)p)->fA = (u16)v;
+        ((Wf2dmapObj *)p)->destY = (u16)v;
         break;
     case 4:
-        ((struct Obj00535 *)p)->fC = (u16)v;
+        ((Wf2dmapObj *)p)->id = (u16)v;
         break;
     case 5:
-        ((struct Obj00535 *)p)->f15 = (u8)v;
+        ((Wf2dmapObj *)p)->command = (u8)v;
         break;
     case 6:
-        ((struct Obj00535 *)p)->f14 = (u8)v;
+        ((Wf2dmapObj *)p)->variant = (u8)v;
         break;
     case 7:
-        ((struct Obj00535 *)p)->fE = (u16)v;
+        ((Wf2dmapObj *)p)->kind = (u16)v;
         break;
     case 8:
-        ((struct Obj00535 *)p)->f10 = (u16)v;
+        ((Wf2dmapObj *)p)->step = (u16)v;
         break;
     case 9:
-        ((struct Obj00535 *)p)->f12 = (u16)v;
+        ((Wf2dmapObj *)p)->stepCount = (u16)v;
         break;
     case 10:
-        ((struct Obj00535 *)p)->f16 = (u16)v;
+        ((Wf2dmapObj *)p)->updateCounter = (u16)v;
         break;
     default:
         break;
@@ -396,18 +345,13 @@ void func_021C4A00(void *p, int i, int v)
 
 
 
-
-
-Pos func_021C4A54(Pos p,int i)
+Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i)
 {
- Pos *v=&p;
- v->a += *(signed char *)((unsigned)&d_021C6014.a+i*2);
- v->b += *(signed char *)((unsigned)&d_021C6014.b+i*2);
+ Wf2dmapPos *v=&p;
+ v->x += *(signed char *)((unsigned)&sWf2dmapStepDelta.dx+i*2);
+ v->y += *(signed char *)((unsigned)&sWf2dmapStepDelta.dy+i*2);
  return p;
 }
-
-
-
 
 
 
@@ -415,18 +359,17 @@ Pos func_021C4A54(Pos p,int i)
 /*
  * Unlabelled Thumb leaf in a .word run:
  *   ldr r1,[pc,#4]; ldrb r0,[r1,r0]; bx lr; nop; .word 0x021C6010
- * Byte i of the table d_021C6010.
+ * Byte i of the table sWf2dmapDirectionTable.
  */
-unsigned char func_021C4A8C(int i)
+unsigned char WF2DMAP_OBJ_GetTableByte(int i)
 {
-    return d_021C6010[i];
+    return sWf2dmapDirectionTable[i];
 }
 
 
 
 
-
-char *func_021C4A98(unsigned *p)
+char *WF2DMAP_OBJ_AllocSlot(unsigned *p)
 {
  unsigned i=0;
  if (i<p[1]) { char *base=(char *)p[0];
@@ -437,87 +380,97 @@ char *func_021C4A98(unsigned *p)
 
 
 
-
-Pos func_021C4AC4(char *p) { return *(Pos *)(p+4); }
-
+Wf2dmapPos WF2DMAP_OBJ_GetPos(char *p) { return *(Wf2dmapPos *)(p+4); }
 
 
-Pos func_021C4AD0(char *p) { return *(Pos *)(p+8); }
 
 
-Pos func_021C4ADC(char *p)
+Wf2dmapPos WF2DMAP_OBJ_GetDestPos(char *p) { return *(Wf2dmapPos *)(p+8); }
+
+
+
+
+Wf2dmapPos WF2DMAP_OBJ_GetCurrentPos(char *p)
 {
-    int n = func_021C49A4((u8 *)p, 8);
-    int d = func_021C49A4((u8 *)p, 9);
-    Pos a = func_021C4AC4(p);
-    Pos b = func_021C4AD0(p);
-    a.a -= b.a;
-    a.b -= b.b;
+    int n = WF2DMAP_OBJ_GetSlot((u8 *)p, 8);
+    int d = WF2DMAP_OBJ_GetSlot((u8 *)p, 9);
+    Wf2dmapPos a = WF2DMAP_OBJ_GetPos(p);
+    Wf2dmapPos b = WF2DMAP_OBJ_GetDestPos(p);
+    a.x -= b.x;
+    a.y -= b.y;
     if (n > 0) {
-        a.a = n * a.a / d;
-        a.b = n * a.b / d;
+        a.x = n * a.x / d;
+        a.y = n * a.y / d;
     } else {
-        a.a = 0;
-        a.b = 0;
+        a.x = 0;
+        a.y = 0;
     }
-    a.a += b.a;
-    a.b += b.b;
+    a.x += b.x;
+    a.y += b.y;
     return a;
 }
 
 
 
-void func_021C4B7C(char *p, struct pair_021C4B7C v)
+
+void WF2DMAP_OBJ_SetPos(char *p, Wf2dmapPairU16 v)
 {
-    ((struct Obj00535 *)p)->f4 = v.a;
-    ((struct Obj00535 *)p)->f6 = v.b;
+    ((Wf2dmapObj *)p)->posX = v.x;
+    ((Wf2dmapObj *)p)->posY = v.y;
 }
 
 
 
-void func_021C4B90(char *p, struct pair_021C4B90 v)
+
+void WF2DMAP_OBJ_SetDestPos(char *p, Wf2dmapPairU16 v)
 {
-    ((struct Obj00535 *)p)->f8 = v.a;
-    ((struct Obj00535 *)p)->fA = v.b;
+    ((Wf2dmapObj *)p)->destX = v.x;
+    ((Wf2dmapObj *)p)->destY = v.y;
 }
+
+
 
 
 /*
  * extent: two zero alignment bytes at 0x021C4C86 follow the function.
  * lever: Pos declaration order src,a,dst,b fixes stack slots; named qid fixes cmp order.
  */
-u8 *func_021C4BA4(u8 *p, void *list, int n)
+u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n)
 {
-    Pos src, a, dst, b;
+    Wf2dmapPos src, a, dst, b;
     u32 count;
     int id;
     u32 i;
     u8 *q;
     int qid;
-    src = func_021C4AC4((char *)p);
-    dst = func_021C4A54(src, n);
-    id = func_021C49A4(p, 4);
-    count = func_021C4914(list);
+    src = WF2DMAP_OBJ_GetPos((char *)p);
+    dst = WF2DMAP_OBJ_OffsetPos(src, n);
+    id = WF2DMAP_OBJ_GetSlot(p, 4);
+    count = WF2DMAP_OBJ_GetCount(list);
     for (i = 0; i < count; i++) {
-        q = (u8 *)func_021C499C((char **)list, (u16)i);
+        q = (u8 *)WF2DMAP_OBJ_GetByIndex2((char **)list, (u16)i);
         if (q != 0) {
-            qid = func_021C49A4(q, 4);
+            qid = WF2DMAP_OBJ_GetSlot(q, 4);
             if (qid == id) continue;
-            a = func_021C4AC4((char *)q);
-            if (a.a == dst.a && a.b == dst.b) return q;
-            b = func_021C4AD0((char *)q);
-            if (b.a == dst.a && b.b == dst.b) return q;
+            a = WF2DMAP_OBJ_GetPos((char *)q);
+            if (a.x == dst.x && a.y == dst.y) return q;
+            b = WF2DMAP_OBJ_GetDestPos((char *)q);
+            if (b.x == dst.x && b.y == dst.y) return q;
         }
     }
     return 0;
 }
 
 
-extern void (*d_021C601C)(char *,struct pair_021C4C88,unsigned);
 
 
-void func_021C4C88(char *p,char *q)
+extern void (*sWf2dmapCommandTable)(char *,Wf2dmapPairU16,unsigned);
+
+
+
+
+void WF2DMAP_OBJ_ApplyCommand(char *p,char *q)
 {
- (*(void (**)(char *,struct pair_021C4C88,unsigned))((unsigned)&d_021C601C+*(u16 *)(q+4)*4))(p,*(struct pair_021C4C88 *)q,((struct Obj23042 *)q)->f6);
- ((struct Obj23041 *)p)->f16=0;
+ (*(void (**)(char *,Wf2dmapPairU16,unsigned))((unsigned)&sWf2dmapCommandTable+*(u16 *)(q+4)*4))(p,*(Wf2dmapPairU16 *)q,((Wf2dmapCmdDesc *)q)->value);
+ ((Wf2dmapObj *)p)->updateCounter=0;
 }

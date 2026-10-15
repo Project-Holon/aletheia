@@ -1,5 +1,5 @@
 /*
- * function: func_021815C8
+ * function: gsUdpEngineAddMsgHandler
  * address:  0x021815C8
  * packet:   pkt_ov009_021815C8
  * region:   ov009
@@ -67,7 +67,7 @@ extern char g_021A3CA0[];
 extern char g_021A3CC4[];
 extern char g_021A3B7C[];
 
-int func_021815C8(char *theInitMsg, char *theHeader,
+int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
                   void (*theMsgHandlerError)(int, void *),
                   void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *),
                   void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *),

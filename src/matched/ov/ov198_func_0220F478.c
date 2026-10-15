@@ -12,7 +12,7 @@
  *   func_02210420 0x02210420 thumb ov198
  *   TCBL_Main 0x020310C4 arm
  *   func_0220F1A4 0x0220F1A4 thumb ov198
- *   func_0220B7AC 0x0220B7AC thumb ov198
+ *   B_PLIST_ANM_StepPaletteAnim 0x0220B7AC thumb ov198
  *   func_0220E22C 0x0220E22C thumb ov198
  *   d_0221221C 0x0221221C data a4
  */
@@ -26,7 +26,7 @@ extern int func_02210420(struct Node *task, char *p);
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern void func_0220F1A4(u8 *);
-extern void func_0220B7AC(u8 *);
+extern void B_PLIST_ANM_StepPaletteAnim(u8 *);
 extern void func_0220E22C(u8 *);
 void func_0220F478(void *task,u8 *p)
 {
@@ -39,6 +39,6 @@ void func_0220F478(void *task,u8 *p)
     if (((struct Obj01006 *)p)->f2178==33 && func_02210420(task,(char *)p)==1) return;
     TCBL_Main(((struct Obj01006 *)p)->f1D4);
     func_0220F1A4(p);
-    func_0220B7AC(p);
+    B_PLIST_ANM_StepPaletteAnim(p);
     func_0220E22C(p);
 }

@@ -23,7 +23,7 @@
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
- *   func_0219AB8C  0x0219AB8C  arm  ov009
+ *   NNProcessData  0x0219AB8C  arm  ov009
  *   qr_add_packet_header  0x0219BA84  arm  ov009
  *   qr2_process_ip_verify  0x0219C5B8  arm  ov009
  *   func_0219C724  0x0219C724  arm  ov009
@@ -34,10 +34,10 @@
  *   func_02092344  0x02092344  arm
  *   func_0219C554  0x0219C554  arm  ov009
  *   qr_process_client_message  0x0219C3A4  arm  ov009
- *   func_0217ECA4  0x0217ECA4  arm  ov009
+ *   sendto  0x0217ECA4  arm  ov009
  *   func_0217D32C  0x0217D32C  arm  ov009
  *   current_rec    0x021A6600  data
- *   g_021A5A7C     0x021A5A7C  data
+ *   gNatNegMagic     0x021A5A7C  data
  *   g_021A7874     0x021A7874  data
  *   g_021A788C     0x021A788C  data
  *   g_021A78B4     0x021A78B4  data
@@ -88,7 +88,7 @@ typedef struct qr2_implementation_s qr2_implementation_s;
                    (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 
 extern struct qr2_implementation_s *current_rec;
-extern struct Magic6 g_021A5A7C;
+extern struct Magic6 gNatNegMagic;
 extern char g_021A7874[];
 extern char g_021A788C[];
 extern char g_021A78B4[];
@@ -109,7 +109,7 @@ extern char g_021A7A74[];
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
                           const char *theTokenStr, ...);
 extern int func_020923F0(const void *s1, const void *s2, int n);
-extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
+extern void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
 extern void qr_add_packet_header(qr2_buffer_s *buf, char ptype, char *reqkey);
 extern int qr2_process_ip_verify(qr2_implementation_s *qrec, qr2_buffer_s *buf,
                          SOCSockAddrIn *sender);
@@ -124,7 +124,7 @@ extern void compute_challenge_response(qr2_implementation_s *qrec, qr2_buffer_s 
 extern void func_02092344(void *dst, void *src, unsigned long size);
 extern int func_0219C554(qr2_implementation_s *qrec, int msgkey);
 extern void qr_process_client_message(qr2_implementation_s *qrec, char *buf, int len);
-extern int func_0217ECA4(int sock, char *buf, int len, int flags,
+extern int sendto(int sock, char *buf, int len, int flags,
                          SOCSockAddr *addr, int tolen);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel,
                           char *theBuffer, int theLength);
@@ -153,9 +153,9 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         }
         return;
     }
-    if (len >= 6 && func_020923F0(query, ((unsigned char *)&g_021A5A7C), 6) == 0) {
+    if (len >= 6 && func_020923F0(query, ((unsigned char *)&gNatNegMagic), 6) == 0) {
         func_0217D254(3, 0, 8, g_021A78F0);
-        func_0219AB8C(query, len, (SOCSockAddrIn *)sender);
+        NNProcessData(query, len, (SOCSockAddrIn *)sender);
         return;
     }
     if (len < 7 || (unsigned char)i != 0xfe || (unsigned char)query[1] != 0xfd)
@@ -250,7 +250,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         return;
     }
 
-    func_0217ECA4(qrec->hbsock, buf.buffer, buf.len, 0, sender, 8);
+    sendto(qrec->hbsock, buf.buffer, buf.len, 0, sender, 8);
     func_0217D254(3, 0, 0x10, g_021A7A74, buf.len);
     func_0217D32C(3, 0, 0x20, buf.buffer, buf.len);
 }

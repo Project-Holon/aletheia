@@ -10,26 +10,31 @@
  * blocker: ARM9 sole callers 0x0200A930 and 0x0200A908 lack a matched or label witness.
  *   Verified separately with fixed one flags (EXACT, 16 and 38 bytes):
  *   typedef struct { u8 pad[0x348]; u32 f:8,rest:24; } Rec;
- *   u8 func_0200A930(const Rec *p) { return p->f; }
+ *   u8 IRC_RANKING_GetLastSlot(const Rec *p) { return p->f; }
  *   typedef struct {u8 pad[24];u16 n;u8 a;u8 b:6,c:1,d:1;} Entry;
- *   void func_0200A908(const Entry *p,u32 i,u16 *n,u8 *a,u8 *b,u8 *c) {
+ *   void IRC_RANKING_GetEntryProfile(const Entry *p,u32 i,u16 *n,u8 *a,u8 *b,u8 *c) {
  *     *n=p[i].n; *a=p[i].a; *b=p[i].b; *c=p[i].c;
  *   }
- * 2026-10-05: byte-identical; the wildcard is arm9 func_0200A930 (new matched/arm9 file, EXACT, this lane, bitfield read); needs its shard.
+ * 2026-10-05: byte-identical; the wildcard is arm9 IRC_RANKING_GetLastSlot (new matched/arm9 file, EXACT, this lane, bitfield read); needs its shard.
  *
- * 2026-10-05 (D9 lane 02): the last wildcard (arm9 func_0200A908) now has its witness: src/matched/arm9/func_0200A908.c (EXACT, 38 bytes, the Entry reader above).
+ * 2026-10-05 (D9 lane 02): the last wildcard (arm9 IRC_RANKING_GetEntryProfile) now has its witness: src/matched/arm9/IRC_RANKING_GetEntryProfile.c (EXACT, 38 bytes, the Entry reader above).
  *   Only its shard is missing, so this stays MATCH until the integrator builds it.
  *
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200A930 0x0200A930 thumb
- *   func_0200A8E4 0x0200A8E4 thumb
- *   func_0200A908 0x0200A908 thumb
+ *   IRC_RANKING_GetLastSlot 0x0200A930 thumb
+ *   IRC_RANKING_GetEntryMeetCount 0x0200A8E4 thumb
+ *   IRC_RANKING_GetEntryProfile 0x0200A908 thumb
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetString 0x02045924 arm
  *   gIrcRankingFileName 0x021B9680 data a1
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
+ *   IRC_RANKING_GetEntryCount  0x0200A8AC  thumb  arm9
+ *   IRC_RANKING_GetEntry  0x0200A8C8  thumb  arm9
+ *   IRC_RANKING_GetEntryScore  0x0200A8D0  thumb  arm9
+ *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -48,38 +53,38 @@ struct Rec;
 struct Strbuf;
 struct U16Vec;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A8A0(void *);
-extern s32 func_0200A8AC(struct Rec *r);
+extern void *IRC_RANKING_GetFromSave(void *);
+extern s32 IRC_RANKING_GetEntryCount(struct Rec *r);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
-extern u8 func_0200A930(char *p);
+extern u8 IRC_RANKING_GetLastSlot(char *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
+extern struct Entry *IRC_RANKING_GetEntry(struct Rec *r, u32 index);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern u8 func_0200A8D0(struct Rec *r, u32 index);
-extern u16 func_0200A8E4(struct Rec *r, u32 index);
-extern u32 func_0200A8F8(struct Rec *r, u32 index);
-extern void func_0200A908(void *,u32,u16 *,u8 *,u8 *,u8 *);
+extern u8 IRC_RANKING_GetEntryScore(struct Rec *r, u32 index);
+extern u16 IRC_RANKING_GetEntryMeetCount(struct Rec *r, u32 index);
+extern u32 IRC_RANKING_GetEntryGender(struct Rec *r, u32 index);
+extern void IRC_RANKING_GetEntryProfile(void *,u32,u16 *,u8 *,u8 *,u8 *);
 void *IRC_RANKING_DataCreate(void *sys,u16 heap) {
  void *src; u16 count; u8 *out; Item *item; u32 i; u8 prev,seq,active;
- src=func_0200A8A0(GAME_DATA_GetSaveControl(sys));
- count=func_0200A8AC(src);
+ src=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(sys));
+ count=IRC_RANKING_GetEntryCount(src);
  out=func_02030734(heap,count*16+4,0,gIrcRankingFileName,2724);
  MI_CpuFill8(out,0,count*16+4);
  *(u32 *)out=count;
  if(count) {
-  prev=128; seq=0; active=func_0200A930(src);
+  prev=128; seq=0; active=IRC_RANKING_GetLastSlot(src);
   for(i=0;i<*(u32 *)out;i++) {
    item=(Item *)(out+4+i*16);
    item->text=STRBUF_Create(8,heap);
-   STRBUF_SetString(item->text,(const u16 *)func_0200A8C8(src,i));
-   item->id=func_0200A8D0(src,i);
-   item->value=func_0200A8E4(src,i);
+   STRBUF_SetString(item->text,(const u16 *)IRC_RANKING_GetEntry(src,i));
+   item->id=IRC_RANKING_GetEntryScore(src,i);
+   item->value=IRC_RANKING_GetEntryMeetCount(src,i);
    if(item->id<prev) item->seq=i+1;
    else if(item->id==prev) item->seq=seq;
    {
     u8 flag; int v;
-    flag=func_0200A8F8(src,i);
+    flag=IRC_RANKING_GetEntryGender(src,i);
     if(active==i) {
      v=flag==0;
      item->tag=5*(v+1);
@@ -94,7 +99,7 @@ void *IRC_RANKING_DataCreate(void *sys,u16 heap) {
      v=0; if(flag==0) v=5; item->tag=v+1;
     }
    }
-   func_0200A908(src,i,&item->number,&item->a,&item->b,&item->c);
+   IRC_RANKING_GetEntryProfile(src,i,&item->number,&item->a,&item->b,&item->c);
    prev=item->id; seq=item->seq;
   }
  }

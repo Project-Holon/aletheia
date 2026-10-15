@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02020FE4",
+   "name": "FILE_UTIL_Get_0FE4",
    "address": "0x02020FE4",
    "kind": "game",
    "region": "arm9",
@@ -95,12 +95,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02021014",
+    "FILE_UTIL_Get_1014",
     "func_020210C8"
+   ],
+   "addresses": [
+    "0x02021014",
+    "0x020210C8"
    ]
   },
   {
-   "name": "func_02021288",
+   "name": "FILE_UTIL_Check1288",
    "address": "0x02021288",
    "kind": "game",
    "region": "arm9",
@@ -112,7 +116,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020212B0",
+   "name": "FILE_UTIL_Get_12B0",
    "address": "0x020212B0",
    "kind": "game",
    "region": "arm9",
@@ -124,7 +128,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020212E4",
+   "name": "FILE_UTIL_Check12E4",
    "address": "0x020212E4",
    "kind": "game",
    "region": "arm9",
@@ -136,7 +140,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202130C",
+   "name": "FILE_UTIL_GetId",
    "address": "0x0202130C",
    "kind": "game",
    "region": "arm9",
@@ -160,7 +164,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202136C",
+   "name": "FILE_UTIL_Check136C",
    "address": "0x0202136C",
    "kind": "game",
    "region": "arm9",

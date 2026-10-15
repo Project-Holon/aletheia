@@ -1,5 +1,5 @@
 /*
- * function: func_02076CD0
+ * function: CARDi_ReadRomIDCore
  * address:  0x02076CD0
  * packet:   pkt_02076CD0
  * region:   arm9
@@ -28,7 +28,7 @@ typedef int BOOL;
 extern BOOL CARDi_IsNormalMode(void);
 extern void CARDi_SetRomOp(u32 command, u32 offset);
 
-u32 func_02076CD0(void)
+u32 CARDi_ReadRomIDCore(void)
 {
     u8 op = 0xB8;
 

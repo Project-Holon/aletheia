@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9840",
+   "name": "THE_END_GRAPHIC_Setup3d",
    "address": "0x021B9840",
    "kind": "game",
    "region": "ov182",

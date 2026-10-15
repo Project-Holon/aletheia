@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02060224",
+   "name": "NCFGi_CheckApInfoEx",
    "address": "0x02060224",
    "kind": "sdk",
    "region": "arm9",

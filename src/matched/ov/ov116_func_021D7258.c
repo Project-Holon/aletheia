@@ -1,5 +1,5 @@
 /*
- * function: func_021D7258
+ * function: WIFI_BSUBWAY_ResetUpload
  * address:  0x021D7258
  * packet:   pkt_ov116_021D7258
  * region:   ov116
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D7258(u8 *p) { ((struct Obj13865 *)p)->f8 = 0; ((struct Obj13865 *)p)->fA = 0; }
+void WIFI_BSUBWAY_ResetUpload(u8 *p) { ((struct Obj13865 *)p)->f8 = 0; ((struct Obj13865 *)p)->fA = 0; }

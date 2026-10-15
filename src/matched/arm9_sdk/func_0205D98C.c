@@ -1,5 +1,5 @@
 /*
- * function: func_0205D98C
+ * function: DWC_AC_ProcessGetWDSInfo
  * address:  0x0205D98C
  * packet:   pkt_0205D98C
  * region:   arm9
@@ -88,7 +88,7 @@ extern void WDS_EndScan_CB(void);
 extern void WDS_End_CB(void);
 extern void WDS_Error_End_CB(void);
 
-int func_0205D98C(void)
+int DWC_AC_ProcessGetWDSInfo(void)
 {
     int i;
     u16 maxRssi;

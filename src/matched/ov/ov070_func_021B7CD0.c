@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
  *   ITEMMENU_LeaveQuantityMode  0x021BB0BC  thumb  ov070
@@ -31,7 +31,7 @@ typedef struct Obj {
 } Obj;
 
 typedef unsigned int   u32;
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void ITEMMENU_RedrawList(char *p);
 extern void ITEMMENU_MoveCursorToRow(char *p);
 extern void ITEMMENU_LeaveQuantityMode(char *p);
@@ -41,7 +41,7 @@ extern void ITEMMENU_ReturnToBagMain(void *p);
 
 void ITEMMENU_TaskReturnToListFromQuantity(Obj *o)
 {
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     o->f818 = 0xFFFF;
     ITEMMENU_RedrawList((char *)o);
     o->f83E = 1;

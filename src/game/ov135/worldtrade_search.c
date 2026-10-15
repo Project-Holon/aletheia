@@ -26,17 +26,17 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -86,7 +86,7 @@
  *   DPW_TR_IsAsyncEnd  0x021C866C  arm
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *   func_021C8658 0x021C8658 arm ov114
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_02040DA8  0x02040DA8  arm
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   func_020355D8  0x020355D8  arm
@@ -171,13 +171,13 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -317,7 +317,7 @@ extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int,int,int);
 
 extern void func_0203FC28(struct DispConfig *cfg);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -341,7 +341,7 @@ extern void func_0201F7A8(void *p, unsigned kind);
 
 extern void WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
-extern int func_0207D55C(vu16 *reg);
+extern int GXx_GetMasterBrightness_(vu16 *reg);
 
 extern void WORLDTRADE_SetActorSurfacePos(void *, int, int);
 
@@ -364,7 +364,7 @@ extern void WORLDTRADE_DEPOSIT_PrintLevelRange(void *win, void *bank, int idx, u
 
 extern void WORLDTRADE_DEPOSIT_PrintMessageLine(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, u16 color, void *g);
 
-extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
+extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 
@@ -657,31 +657,31 @@ void WORLDTRADE_SEARCH_SetupBgPlanes(void)
     BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate t = g_02203844;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
         struct BgTemplate t = g_02203864;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     func_02040588(1, 1);
     {
         struct BgTemplate t = g_02203804;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_020414EC(2);
+    BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
     {
         struct BgTemplate t = g_02203824;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
     }
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_02040588(3, 1);
-    func_02040B94(2, 0x20, 0, 0x48);
-    func_02040B94(0, 0x20, 0, 0x48);
-    func_02040B94(3, 0x20, 0, 0x48);
+    BG_SYS_InitRun(2, 0x20, 0, 0x48);
+    BG_SYS_InitRun(0, 0x20, 0, 0x48);
+    BG_SYS_InitRun(3, 0x20, 0, 0x48);
 }
 
 /*
@@ -689,10 +689,10 @@ void WORLDTRADE_SEARCH_SetupBgPlanes(void)
  */
 void WORLDTRADE_SEARCH_ExitBgPlanes(void)
 {
-    sub_020403F4(2);
-    sub_020403F4(1);
-    sub_020403F4(0);
-    sub_020403F4(3);
+    BG_SYS_Delete_03F4(2);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(0);
+    BG_SYS_Delete_03F4(3);
 }
 
 /*
@@ -761,7 +761,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Work *p)
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
     func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
-    func_02040C14(3, 0, 1, 0);
+    BG_SYS_Init(3, 0, 1, 0);
     for (i = 0; i < 6; i++) {
         p->item_u6[i] = BMP_WIN_Create(3, (u8)tbl_022037BC[i].x, (u8)tbl_022037BC[i].y, (u8)0xb, 2, 0xd, (u16)0);
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->item_u6[i])), 0);
@@ -824,7 +824,7 @@ int WORLDTRADE_SEARCH_UpdateCursorVisibility(Work *p)
             WORLDTRADE_SEARCH_PrintMessage((u8 *)p, 38, 0, 0, 0xf0f);
         else
             WORLDTRADE_SEARCH_PrintMessage((u8 *)p, 8, 1, 0, 0xf0f);
-        if (func_0207D55C((u16 *)0x0400006c) == -16) {
+        if (GXx_GetMasterBrightness_((u16 *)0x0400006c) == -16) {
             WIPE_SYS_Start(0, 1, 1, 0, 16, 1, 0x48);
             *(int *)&p->state = 33;
         } else {

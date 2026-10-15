@@ -1,5 +1,5 @@
 /*
- * function: func_0208040C
+ * function: GX_SetBankForTexPltt
  * address:  0x0208040C
  * packet:   pkt_0208040C
  * region:   arm9
@@ -84,7 +84,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
-void func_0208040C(int texPltt)
+void GX_SetBankForTexPltt(int texPltt)
 {
     gGXState.vramCnt_lcdc = (u16)(~texPltt & (gGXState.vramCnt_lcdc | gGXState.vramCnt_texPltt));
     gGXState.vramCnt_texPltt = (u16)texPltt;

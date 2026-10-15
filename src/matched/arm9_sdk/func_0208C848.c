@@ -1,5 +1,5 @@
 /*
- * function: func_0208C848
+ * function: PMi_InsertPreSleepCallbackEx
  * address:  0x0208C848
  * packet:   pkt_0208C848
  * region:   arm9
@@ -22,7 +22,7 @@ extern struct PMiGenCallbackInfo *PMi_PostSleepCallbackList;
 
 void PMi_InsertList(struct PMiGenCallbackInfo **listp, struct PMiGenCallbackInfo *info, int priority, int method);
 
-void func_0208C848(struct PMiGenCallbackInfo *info, int priority)
+void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, int priority)
 {
     PMi_InsertList(&PMi_PostSleepCallbackList, info, priority, 0);
 }

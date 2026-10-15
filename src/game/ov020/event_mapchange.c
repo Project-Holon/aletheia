@@ -67,8 +67,8 @@
  *   func_02008B14  0x02008B14  thumb
  *   func_02008C00  0x02008C00  thumb
  *   FORMCHANGE_RevertShayminAndRegister  0x0216A390  thumb  ov010
- *   func_0203F524  0x0203F524  arm
- *   func_0200C384  0x0200C384  thumb
+ *   GF_STANDARD_SetupRtc  0x0203F524  arm
+ *   BEACON_SetLastTime  0x0200C384  thumb
  *   FORMCHANGE_UpdateSeasonForms  0x0216AAE4  thumb  ov010
  *   func_0202E848  0x0202E848  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -151,9 +151,9 @@
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   GAME_DATA_SetSpecialLocation  0x0201289C  thumb
  *   GAME_DATA_SetWarpLocation  0x020128E4  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200BFA4  0x0200BFA4  thumb
+ *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
  *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb  ov011
@@ -230,8 +230,8 @@
  *   MAP_MATRIX_ApplyReplace  0x02159CC4  thumb  ov010
  *   FLDMMDL_SetStatusBitVanish 0x0216DAC8 thumb ov010
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   func_0200B37C  0x0200B37C  thumb
- *   func_0200B394  0x0200B394  thumb
+ *   GIMMICK_WORK_Reset  0x0200B37C  thumb
+ *   GIMMICK_WORK_InitWithId  0x0200B394  thumb
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
@@ -418,8 +418,8 @@ extern int func_02008B78(struct ConsoleInfo *consoleInfo);
 extern struct ConsoleInfoSession *func_02008B14(struct SaveControl *saveControl);
 extern void func_02008C00(struct ConsoleInfoSession *session);
 extern void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, void *party);
-extern u64 func_0203F524();
-extern void func_0200C384(struct MiscSave *miscSave, u32 lo, u32 hi);
+extern u64 GF_STANDARD_SetupRtc();
+extern void BEACON_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
 extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, void *party, int season);
 extern int func_0202E848(struct GameData *gameData, u16 *outA, u16 *outB);
 extern u32 ZONEDATA_GetAreaId(u32 zoneId);
@@ -508,9 +508,9 @@ u16 GAME_DATA_GetPlayerZoneId(const PlayerWork *playerWork);
 u32 GAME_DATA_GetPlayerDirectionType(const PlayerWork *playerWork);
 void GAME_DATA_SetSpecialLocation(GameData *gameData, const Location *location);
 void GAME_DATA_SetWarpLocation(GameData *gameData, const Location *location);
-u16 *func_0200BE48(void *saveControl);
+u16 *INTRUDE_GetFromSave(void *saveControl);
 void *GAME_DATA_GetPlayTime(GameData *gameData);
-u64 func_0200BFA4(u16 *record, void *playTime, u32 mode);
+u64 INTRUDE_UpdatePlaySeconds(u16 *record, void *playTime, u32 mode);
 u8 GAME_DATA_GetExitMode(const GameData *gameData);
 int INTRUDE_COMM_HasUnlockFlags(GameData *gameData);
 u8 INTRUDE_COMM_GetRequesterNetId(IntrudeComm *comm, u8 *requestInfo);
@@ -588,8 +588,8 @@ int MAP_MATRIX_Load(int fieldWork, int matrixId, int zoneId, int heapId);
 void MAP_MATRIX_ApplyReplace(u32 *fieldWork, int gameSystem, int heapId);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *mmdl, unsigned int vanish);
 u8 *GAME_DATA_GetFieldSave(GameData *gameData);
-void func_0200B37C(void *fieldSave);
-s32 *func_0200B394(void *fieldSave, s32 value);
+void GIMMICK_WORK_Reset(void *fieldSave);
+s32 *GIMMICK_WORK_InitWithId(void *fieldSave, s32 value);
 void *func_020490F4(unsigned int arcId, unsigned int heapId);
 void *ARC_TOOL_LoadHandleMember(void *arcHandle, u32 member, u32 heapId);
 u32 ARC_TOOL_GetHandleMemberSize(void *arcHandle, u32 member);
@@ -928,8 +928,8 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     if (!func_02008B4C(consoleInfo) || !func_02008B78(consoleInfo)) {
         func_02008C00(func_02008B14(saveControl));
         FORMCHANGE_RevertShayminAndRegister(work->gameData, partySave);
-        nowSeconds = func_0203F524();
-        func_0200C384(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
+        nowSeconds = GF_STANDARD_SetupRtc();
+        BEACON_SetLastTime(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
     }
     func_02008B20(consoleInfo);
     FORMCHANGE_UpdateSeasonForms(work->gameData, partySave, GAME_DATA_GetSeason(work->gameData));
@@ -1902,8 +1902,8 @@ GameEvent *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(GameSystem *gameSystem, int zo
     xFlag = 0;
     EVENT_MAPCHANGE_GetCurrentLocation(&currentLocation, fieldMap);
     GAME_DATA_SetWarpLocation(gameData, &currentLocation);
-    saveRecord = func_0200BE48(GAME_DATA_GetSaveControl(gameData));
-    func_0200BFA4(saveRecord, GAME_DATA_GetPlayTime(gameData), 0);
+    saveRecord = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    INTRUDE_UpdatePlaySeconds(saveRecord, GAME_DATA_GetPlayTime(gameData), 0);
     comm = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (comm == 0 || INTRUDE_COMM_HasUnlockFlags(gameData) == 0) {
         intrudeId = 0;
@@ -1930,8 +1930,8 @@ static inline GameEvent *EVENT_MAPCHANGE_FinishIntrudeWarp(GameSystem *gameSyste
     u16 *saveRecord;
     GameComm *gameComm;
 
-    saveRecord = func_0200BE48(GAME_DATA_GetSaveControl(gameData));
-    func_0200BFA4(saveRecord, GAME_DATA_GetPlayTime(gameData), 1);
+    saveRecord = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    INTRUDE_UpdatePlaySeconds(saveRecord, GAME_DATA_GetPlayTime(gameData), 1);
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     GAME_COMM_GetCounter(gameComm);
     if (GAME_COMM_GetKind(gameComm) == 0)
@@ -2409,13 +2409,13 @@ void EVENT_MAPCHANGE_ApplyZoneTableEntry(GameData *gameData, int zoneId)
     int heapId = 0x8001;
     ZoneTableEntry *entries;
 
-    func_0200B37C(fieldSave);
+    GIMMICK_WORK_Reset(fieldSave);
     arcHandle = func_020490F4(0x65, heapId);
     entries = ARC_TOOL_LoadHandleMember(arcHandle, 0, heapId);
     count = ARC_TOOL_GetHandleMemberSize(arcHandle, 0) >> 3;
     for (i = 0; i < count; i++) {
         if (zoneId == entries[i].zoneId) {
-            func_0200B394(fieldSave, entries[i].value);
+            GIMMICK_WORK_InitWithId(fieldSave, entries[i].value);
             break;
         }
     }

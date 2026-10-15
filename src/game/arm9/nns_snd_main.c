@@ -40,10 +40,10 @@
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   SND_StartTimer  0x020894B4  arm
  *   gNNSSndCurrentArc   0x0214EA50  data
- *   func_020788D8  0x020788D8  arm
+ *   FS_ConvertPathToFileID  0x020788D8  arm
  *   FS_InitFile  0x020788AC  arm
- *   func_020789A4  0x020789A4  arm
- *   func_02078B44  0x02078B44  arm
+ *   FS_OpenFileFast  0x020789A4  arm
+ *   FS_SeekFile  0x02078B44  arm
  *   FS_ReadFile  0x02078B70  arm
  *   NNS_SndHeapAlloc  0x0207482C  arm
  *   NNSi_SndArcDisposeInfo  0x020746C4  arm
@@ -78,10 +78,10 @@ extern void NNS_SndWaveOutFreeChannel(u32 alarmNo);
 extern void SND_SetOutputSelector(s32 left, s32 right, s32 mix, s32 flags);
 extern void func_02082A7C(u32 value, u32 dst, u32 size);
 extern void DWCi_ScreenDC_FlushRange(u32 start, u32 size);
-extern u32  func_020788D8(FSFileID *id, const char *path);
+extern u32  FS_ConvertPathToFileID(FSFileID *id, const char *path);
 extern void FS_InitFile(FSFile *file);
-extern u32  func_020789A4(FSFile *file, FSFileID id);
-extern int   func_02078B44(FSFile *file, u32 position, int origin);
+extern u32  FS_OpenFileFast(FSFile *file, FSFileID id);
+extern int   FS_SeekFile(FSFile *file, u32 position, int origin);
 extern int   FS_ReadFile(FSFile *file, void *dst, int length);
 extern void *NNS_SndHeapAlloc(u32 *heap, u32 size, void (*freeCallback)(void *, u32, NNSSndArc *),
                            NNSSndArc *arc, u32 allocId);
@@ -253,9 +253,9 @@ u32 NNS_SndArcInit(NNSSndArc *arc, const char *path, u32 *heap, u32 loadSymbols)
     arc->fatBlock = 0;
     arc->symbolBlock = 0;
     arc->readChunkSize = 0;
-    if (func_020788D8(&arc->fileId, path) == 0) return 0;
+    if (FS_ConvertPathToFileID(&arc->fileId, path) == 0) return 0;
     FS_InitFile(&arc->file);
-    if (func_020789A4(&arc->file, arc->fileId) == 0) return 0;
+    if (FS_OpenFileFast(&arc->file, arc->fileId) == 0) return 0;
     arc->fileOpen = 1;
     if (NNSi_SndArcLoadTables(arc, heap, loadSymbols) == 0) return 0;
     gNNSSndCurrentArc = arc;
@@ -277,25 +277,25 @@ u32 NNSi_SndArcLoadTables(NNSSndArc *arc, u32 *heap, u32 loadSymbols)
 {
     int bytesRead;
 
-    if (func_02078B44(&arc->file, 0, 0) == 0) return 0;
+    if (FS_SeekFile(&arc->file, 0, 0) == 0) return 0;
     if (FS_ReadFile(&arc->file, arc, 0x30) != 0x30) return 0;
     if (heap != 0) {
         arc->infoBlock = NNS_SndHeapAlloc(heap, arc->infoSize, NNSi_SndArcDisposeInfo, arc, 0);
         if (arc->infoBlock == 0) return 0;
-        if (func_02078B44(&arc->file, arc->infoOffset, 0) == 0) return 0;
+        if (FS_SeekFile(&arc->file, arc->infoOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->infoBlock, arc->infoSize);
         if (bytesRead != arc->infoSize) return 0;
 
         arc->fatBlock = NNS_SndHeapAlloc(heap, arc->fatSize, NNSi_SndArcDisposeFat, arc, 0);
         if (arc->fatBlock == 0) return 0;
-        if (func_02078B44(&arc->file, arc->fatOffset, 0) == 0) return 0;
+        if (FS_SeekFile(&arc->file, arc->fatOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->fatBlock, arc->fatSize);
         if (bytesRead != arc->fatSize) return 0;
 
         if (loadSymbols != 0 && arc->symbolSize != 0) {
             arc->symbolBlock = NNS_SndHeapAlloc(heap, arc->symbolSize, NNSi_SndArcDisposeSymbol, arc, 0);
             if (arc->symbolBlock == 0) return 0;
-            if (func_02078B44(&arc->file, arc->symbolOffset, 0) == 0) return 0;
+            if (FS_SeekFile(&arc->file, arc->symbolOffset, 0) == 0) return 0;
             bytesRead = FS_ReadFile(&arc->file, arc->symbolBlock, arc->symbolSize);
             if (bytesRead != arc->symbolSize) return 0;
         }

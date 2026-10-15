@@ -1,5 +1,5 @@
 /*
- * function: func_0205D074
+ * function: DWC_UpdateConnection
  * address:  0x0205D074
  * packet:   pkt_0205D074
  * region:   arm9
@@ -13,24 +13,24 @@
  *
  * symbols:
  *   DWC_ProcessInet 0x0205C8E0 arm
- *   func_0205CCAC 0x0205CCAC arm
+ *   DWCi_CheckDisconnected 0x0205CCAC arm
  *   DWC_AC_GetApType 0x0205BDD0 arm
  *   WCM_GetPhase 0x021656A0 arm
  *   DWCi_SetError 0x02059F54 arm
  */
 
 extern void DWC_ProcessInet(void);
-extern int func_0205CCAC(void);
+extern int DWCi_CheckDisconnected(void);
 extern unsigned char DWC_AC_GetApType(void);
 extern long WCM_GetPhase(void);
 extern void DWCi_SetError(int error, int errorCode);
 
-int func_0205D074(void)
+int DWC_UpdateConnection(void)
 {
     unsigned char aptype;
 
     DWC_ProcessInet();
-    if (func_0205CCAC()) {
+    if (DWCi_CheckDisconnected()) {
         aptype = DWC_AC_GetApType();
         if (aptype == 0xff || aptype > 99) {
             aptype = 99;

@@ -13,6 +13,7 @@
  *   func_0200853C 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   DPW_TR_Init 0x021C7BA0 arm ov114
+ *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  */
 #include "../include/Obj23396.h"
 #include "../include/Obj23397.h"
@@ -23,7 +24,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern int func_02009CC0(void *a0);
+extern int WIFILIST_GetGsProfileId(void *a0);
 struct DWCstAccUserData;
 struct Sub0200852CObj;
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
@@ -36,7 +37,7 @@ int WORLDTRADE_ENTER_InitDwcTrade(u8 **p)
     u32 id;
     u64 key;
     handle = func_02009860(((struct Obj23396 *)(*p))->f14);
-    func_02008540(((struct Obj23397 *)(*p))->f1C, func_02009CC0(((struct Obj23398 *)(*p))->f14));
+    func_02008540(((struct Obj23397 *)(*p))->f1C, WIFILIST_GetGsProfileId(((struct Obj23398 *)(*p))->f14));
     id = func_0200853C(((struct Obj23399 *)(*p))->f1C);
     key = DWC_CreateFriendKey(handle);
     DPW_TR_Init(id, (u32)key, (u32)(key >> 32), 0);

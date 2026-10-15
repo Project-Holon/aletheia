@@ -1,5 +1,5 @@
 /*
- * function: func_021B99FC
+ * function: THE_END_GRAPHIC_VBlankTask
  * address:  0x021B99FC
  * packet:   pkt_021B99FC
  * region:   ov182
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9AAC  0x021B9AAC  thumb  ov182
- *   func_021B9B18  0x021B9B18  thumb  ov182
+ *   THE_END_GRAPHIC_RefreshDisplay  0x021B9AAC  thumb  ov182
+ *   THE_END_GRAPHIC_VBlankActors  0x021B9B18  thumb  ov182
  */
 
-extern void func_021B9AAC(void *);
-extern void func_021B9B18(void *);
+extern void THE_END_GRAPHIC_RefreshDisplay(void *);
+extern void THE_END_GRAPHIC_VBlankActors(void *);
 
-void func_021B99FC(int a0, char *p)
+void THE_END_GRAPHIC_VBlankTask(int a0, char *p)
 {
-    func_021B9AAC(p);
-    func_021B9B18(p + 4);
+    THE_END_GRAPHIC_RefreshDisplay(p);
+    THE_END_GRAPHIC_VBlankActors(p + 4);
 }

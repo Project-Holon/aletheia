@@ -19,7 +19,7 @@
  *   PXI_Init  0x02088498  arm twl
  *   func_020885A0  0x020885A0  arm twl
  *   PXI_IsCallbackReady  0x020885EC  arm twl
- *   func_0208C848  0x0208C848  arm twl
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm twl
  *   CommonCallback  0x027049B0  arm twl
  *   SetSndexWork  0x02704D48  arm twl
  *   SndexSleepAndExitCallback  0x02704D64  arm twl
@@ -66,7 +66,7 @@ extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
 extern void func_020885A0(u32, void (*)(u32, u32, u32));
 extern u32 PXI_IsCallbackReady(u32, u32);
-extern void func_0208C848(u32 *, u32);
+extern void PMi_InsertPreSleepCallbackEx(u32 *, u32);
 void CommonCallback(u32 a0, u32 a1, u32 a2);
 void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
 extern void SndexSleepAndExitCallback(void);
@@ -91,6 +91,6 @@ void SNDEXi_Init(void) {
     PMi_InsertPostExitCallbackEx(DAT_0273446c, 0xfffd);
     DAT_02734450.f3c = SndexSleepAndExitCallback;
     DAT_02734450.f40 = 0;
-    func_0208C848(DAT_0273448c, 0xfffd);
+    PMi_InsertPreSleepCallbackEx(DAT_0273448c, 0xfffd);
     DAT_02734450.state = 2;
 }

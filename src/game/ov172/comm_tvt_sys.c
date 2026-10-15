@@ -24,14 +24,14 @@
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
  *   COMM_TVT_SYS_ClearAndTransferNameWindows 0x021BE1E4 thumb ov172
- *   func_021B8B8C 0x021B8B8C thumb ov172
+ *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
  *   COMM_TVT_SYS_GetMessageActive 0x021BE0AC thumb ov172
  *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
  *   COMM_TVT_SYS_GetCameraBusy 0x021BE0F8 thumb ov172
  *   COMM_TVT_SYS_SetCameraBusy 0x021BE0FC thumb ov172
- *   func_021B8BA4 0x021B8BA4 thumb ov172
+ *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
  *   COMM_TVT_SYS_IsLaunchModeCall 0x021BE0D8 thumb ov172
  *   COMM_TVT_SYS_GetLaunchParams 0x021BE004 thumb ov172
  *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
@@ -73,11 +73,11 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   func_02008530  0x02008530  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_021B8B94 0x021B8B94 thumb ov172
+ *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   func_02008510 0x02008510 thumb
  *   func_0201D304 0x0201D304 thumb
  *   CTVT_TALK_GetMic  0x021B9F98  thumb
- *   func_021B8720 0x021B8720 thumb ov172
+ *   CTVT_COMM_SendSlotHit 0x021B8720 thumb ov172
  *   sub_0202EB0C  0x0202EB0C  thumb
  *   unit_0202EB14  0x0202EB14  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
@@ -131,11 +131,11 @@ typedef struct CtvtMarkerPlace {
     CtvtByte4 xTable;
 } CtvtMarkerPlace;
 
-extern u32 func_021B8B8C(CtvtWork *work, struct CtvtComm *comm, int slot);
-extern u32 func_021B8BA4(CtvtWork *work, struct CtvtComm *comm, int slot);
-extern struct StrBuf *func_021B8B94(CtvtWork *work, struct CtvtComm *comm, int slot);
+extern u32 CTVT_COMM_GetSlotConnected(CtvtWork *work, struct CtvtComm *comm, int slot);
+extern u32 CTVT_COMM_IsSlotActive(CtvtWork *work, struct CtvtComm *comm, int slot);
+extern struct StrBuf *CTVT_COMM_GetSlotParam(CtvtWork *work, struct CtvtComm *comm, int slot);
 extern int CTVT_TALK_GetMic(CtvtWork *work, struct CtvtTalk *talk);
-extern void func_021B8720(CtvtWork *work, struct CtvtComm *comm, s32 halfRes);
+extern void CTVT_COMM_SendSlotHit(CtvtWork *work, struct CtvtComm *comm, s32 halfRes);
 extern void BMP_Clear(void *bmp, u8 value);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
@@ -283,7 +283,7 @@ s32 COMM_TVT_SYS_GetHalfRes(CtvtWork *work)
 /* Sends the new resolution mode to the comm record. */
 void COMM_TVT_SYS_ApplyHalfRes(CtvtWork *work, s32 halfRes)
 {
-    func_021B8720(work, work->comm, halfRes);
+    CTVT_COMM_SendSlotHit(work, work->comm, halfRes);
 }
 
 /* Toggles the resolution mode. */
@@ -451,8 +451,8 @@ void COMM_TVT_SYS_ClearAndTransferNameWindows(CtvtWork *work)
 }
 
 /* Places the slot marker next to the name of member idx: the marker index is idx, or 2 and
- * 3 for slots 0 and 1 in layout mode 1; the checks run through func_021B8BA4 and
- * func_021B8B8C, then the position comes from the x and y byte tables.
+ * 3 for slots 0 and 1 in layout mode 1; the checks run through CTVT_COMM_IsSlotActive and
+ * CTVT_COMM_GetSlotConnected, then the position comes from the x and y byte tables.
  * idx is a u8 slot index (the sibling func_021BDD6C walks the same slots with a u8 i). The u8
  * parameter is what keeps the third-call idx reload after the byte copies. */
 void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
@@ -466,11 +466,11 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     markerIndex = idx;
     if (work->screen == 3) return;
     if (mode == 1) markerIndex = (markerIndex == 0) ? 2 : 3;
-    if (func_021B8BA4(work, work->comm, idx) != 1) return;
-    if (func_021B8B8C(work, work->comm, idx) != 1) return;
+    if (CTVT_COMM_IsSlotActive(work, work->comm, idx) != 1) return;
+    if (CTVT_COMM_GetSlotConnected(work, work->comm, idx) != 1) return;
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
-    name = func_02008510(func_021B8B94(work, work->comm, idx), work->heapId);
+    name = func_02008510(CTVT_COMM_GetSlotParam(work, work->comm, idx), work->heapId);
     nameWidth = (u8)func_0201D304(name, work->font, 0);
     STRBUF_Delete(name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }

@@ -13,7 +13,7 @@
  * variants used. Previous permuter remains consumed.
  * symbols:
  *   func_020056EC 0x020056EC thumb
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   IRC_RHYTHM_IsParticleActive 0x021B8E8C thumb ov104
  *   IRC_RHYTHM_StartParticle 0x021B8DA4 thumb ov104
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef struct { int x,y,z; } Vec;
 typedef struct { int x,y; } Point;
 extern u32 func_020056EC(u32);
-extern void func_0207CA00(const Vec *,const Vec *,Vec *);
+extern void VEC_Subtract(const Vec *,const Vec *,Vec *);
 extern void VEC_Normalize(const Vec *,Vec *);
 extern u32 IRC_RHYTHM_IsParticleActive(u8 *);
 extern void IRC_RHYTHM_StartParticle(u8 *,const Point *,const Point *,int,u32);
@@ -51,7 +51,7 @@ void IRC_RHYTHM_SpawnBurst(u8 *p, const void *a, int color)
                 random.x=SHIFT(end.x,12);
                 random.y=SHIFT(end.y,12);
                 random.z=0;
-                func_0207CA00(&random,&origin,&delta);
+                VEC_Subtract(&random,&origin,&delta);
                 VEC_Normalize(&delta,&delta);
                 rawY=delta.y;
                 end.x=SHIFT(delta.x,8)>>12;

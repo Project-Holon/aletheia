@@ -1,5 +1,5 @@
 /*
- * function: func_0204EA4C
+ * function: DOUBLE3DDISP_SetField08
  * address:  0x0204EA4C
  * packet:   pkt_0204EA4C
  * region:   arm9
@@ -20,7 +20,7 @@
 
 extern struct Double3Ddisp *g_02146A80;
 
-void func_0204EA4C(void)
+void DOUBLE3DDISP_SetField08(void)
 {
     *(int *)(((char *)g_02146A80) + 8) = 1;
 }

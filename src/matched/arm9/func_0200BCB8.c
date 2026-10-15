@@ -1,5 +1,5 @@
 /*
- * function: func_0200BCB8
+ * function: DAYCARE_GetInUseCount
  * address:  0x0200BCB8
  * packet:   pkt_0200BCB8
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     u32 count;
 } E;
 
-int func_0200BCB8(E *e)
+int DAYCARE_GetInUseCount(E *e)
 {
     int i;
     int n = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02075EAC
+ * function: CARD_UnlockBackup
  * address:  0x02075EAC
  * packet:   pkt_02075EAC
  * region:   arm9
@@ -25,7 +25,7 @@ extern BOOL CARD_TryWaitBackupAsync(void);
 extern BOOL CARD_WaitBackupAsync(void);
 extern void CARDi_UnlockResource(s32 owner, int target);
 
-void func_02075EAC(u16 lock_id)
+void CARD_UnlockBackup(u16 lock_id)
 {
     if (!CARD_TryWaitBackupAsync())
     {

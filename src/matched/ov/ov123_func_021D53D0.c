@@ -23,7 +23,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
@@ -70,7 +70,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 int GSYNC_MENU_ProcExit(void *a,int b,u8 *out,char *p)
@@ -93,6 +93,6 @@ int GSYNC_MENU_ProcExit(void *a,int b,u8 *out,char *p)
     PRINTSYS_QUE_Clear(((struct Obj00772 *)p)->f234); PRINTSYS_QUE_Delete(((struct Obj00772 *)p)->f234);
     if(((struct Obj00772 *)p)->f224) BMP_WIN_Delete(((struct Obj00772 *)p)->f224);
     TCBL_Destroy(((struct Obj00772 *)p)->f230); APP_TASKMENU_RES_Delete(((struct Obj00772 *)p)->f254);
-    BMP_WIN_Exit(); func_0203F9B4(); func_020315D4(a); func_020306F0(31);
+    BMP_WIN_Exit(); BG_SYS_Delete(); func_020315D4(a); func_020306F0(31);
     return 1;
 }

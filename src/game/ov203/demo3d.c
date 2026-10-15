@@ -47,7 +47,7 @@
  *   d_021C3CC0 0x021C3CC0 data a1
  *   d_021C3BC4 0x021C3BC4 data a4
  *   func_020307B0 0x020307B0 arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -124,7 +124,7 @@ extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsig
 extern unsigned KEY_GetTrg(void);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern u32 func_020307B0(void *p);
-extern void func_0204044C(unsigned);
+extern void BG_SYS_SetLowBit(unsigned);
 extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -322,7 +322,7 @@ static inline void G3X_EdgeMarking(int enable) { if (enable) DISP3DCNT = (unsign
 void func_021BDD40(void)
 {
     unsigned i = 0;
-    func_0204044C(0);
+    BG_SYS_SetLowBit(0);
     G3X_SetShading(ShadingHighlight);
     G3X_AntiAlias(0);
     G3X_AlphaTest(0, 0);

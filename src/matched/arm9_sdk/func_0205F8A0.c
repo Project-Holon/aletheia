@@ -1,5 +1,5 @@
 /*
- * function: func_0205F8A0
+ * function: getSlotInfo
  * address:  0x0205F8A0
  * packet:   pkt_0205F8A0
  * region:   arm9
@@ -23,7 +23,7 @@ typedef signed long   s32;
 extern u8  NCFG_GetFormatVersion(void);
 extern u32 BaseAddress;
 
-int func_0205F8A0(s32 index, u32 *address, u32 *size)
+int getSlotInfo(s32 index, u32 *address, u32 *size)
 {
     switch (index) {
     case 0:

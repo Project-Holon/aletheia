@@ -1,7 +1,7 @@
 /*
  * file:     card_pullout.c
  * unit:     yes
- * function: func_020773DC, func_02077410, func_020774A0, func_020774B0, func_020774C0, func_02077518, func_02077568
+ * function: CARD_InitPulledOutCallback, CARDi_PulledOutCallback, CARD_SetPulledOutCallback, CARD_IsPulledOut, CARD_TerminateForPulledOut, CARDi_CheckPulledOutCore, CARDi_SendtoPxi
  * address:  0x020773DC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -20,7 +20,6 @@
  *   CARDi_NotifyEvent  0x02076100  arm
  *   CARD_TerminateForPulledOut  0x020774C0  arm
  *   OS_Terminate  0x02088234  arm
- *   s_data_02150B00  0x02150B00  data
  *   PM_ForceToPowerOff  0x0208BEA4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   PMi_ExecutePostExitCallbackList  0x027315A8  arm
@@ -32,76 +31,47 @@
  *   PXI_SendWordByFifo 0x02088610  arm
  *   SVC_WaitByLoop 0x02004490  thumb
  */
-typedef unsigned long u32_020773DC;
+typedef unsigned long u32;
 
 typedef int BOOL;
 
-struct CARDPulledOutState_020773DC {
-    u32_020773DC slot_reset_count;
-    BOOL is_pulled_out;
-    BOOL (*callback)(void);
-};
-
-typedef unsigned long u32_02077410;
-
-struct CARDPulledOutState_02077410 {
-    u32_02077410 slot_reset_count;
-    BOOL is_pulled_out;
-    BOOL (*callback)(void);
-};
-
-struct CARDPulledOutState_020774A0 {
-    unsigned long slot_reset_count;
-    int is_pulled_out;
-    int (*callback)(void);
-};
-
-struct Data02150B00 {
-    void *unk00;
-    void *unk04;
-};
-
 typedef unsigned short u16;
 
-typedef unsigned long u32_020774C0;
+typedef volatile u32 vu32;
 
-typedef unsigned long u32_02077518;
-
-typedef volatile u32_02077518 vu32;
-
-typedef unsigned int u32_02077568;
+typedef struct CARDPulledOutState {
+    u32 slot_reset_count;
+    BOOL is_pulled_out;
+    BOOL (*callback)(void);
+} CARDPulledOutState;
 
 extern void PXI_Init(void);
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32_020773DC, BOOL));
-extern void CARDi_PulledOutCallback(int tag, u32_020773DC data, BOOL err);
-extern void CARDi_NotifyEvent(u32_02077410 event, void *arg);
+extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
+extern void CARDi_PulledOutCallback(int tag, u32 data, BOOL err);
+extern void CARDi_NotifyEvent(u32 event, void *arg);
 extern void CARD_TerminateForPulledOut(void);
 extern void OS_Terminate(void);
-extern u32_020774C0 PM_ForceToPowerOff(void);
+extern u32 PM_ForceToPowerOff(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern void PMi_ExecutePostExitCallbackList(void);
-extern void CARDi_SendtoPxi(u32_020774C0 data, u32_020774C0 wait);
+extern void CARDi_SendtoPxi(u32 data, u32 wait);
 extern void MI_StopAllDma(void);
 extern void MI_StopAllNDma(void);
-extern u32_02077518 OS_DisableInterrupts(void);
-extern u32_02077518 OS_RestoreInterrupts(u32_02077518 state);
-extern u32_02077568  PXI_SendWordByFifo(u32_02077568, u32_02077568, u32_02077568);
-extern void SVC_WaitByLoop(u32_02077568);
-void func_020773DC(void);
-void func_02077410(int tag, u32_02077410 data, BOOL err);
-void func_020774A0(int (*callback)(void));
-void *func_020774B0(void);
-void func_020774C0(void);
-void func_02077518(u32_02077518 id);
-void func_02077568(u32_02077568 a, u32_02077568 b);
-extern struct CARDPulledOutState_020773DC CARDiSlotResetCount;
-extern struct Data02150B00 s_data_02150B00;
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern u32  PXI_SendWordByFifo(u32, u32, u32);
+extern void SVC_WaitByLoop(u32);
+void CARD_InitPulledOutCallback(void);
+void CARD_SetPulledOutCallback(int (*callback)(void));
+void *CARD_IsPulledOut(void);
+void CARDi_CheckPulledOutCore(u32 id);
+extern CARDPulledOutState CARDiSlotResetCount;
 
 
 /*
  * sdk:      CARD_InitPulledOutCallback (libcard.TWL.HYB.a card_pullout.o)
  */
-void func_020773DC(void)
+void CARD_InitPulledOutCallback(void)
 {
     PXI_Init();
     CARDiSlotResetCount.slot_reset_count = 0;
@@ -114,10 +84,10 @@ void func_020773DC(void)
 /*
  * sdk:      CARDi_PulledOutCallback (libcard.TWL.HYB.a card_pullout.o)
  */
-void func_02077410(int tag, u32_02077410 data, BOOL err)
+void CARDi_PulledOutCallback(int tag, u32 data, BOOL err)
 {
 #pragma unused(tag, err)
-    u32_02077410 command = data & 0x3F;
+    u32 command = data & 0x3F;
 
     if (command == 0x11)
     {
@@ -153,22 +123,22 @@ void func_02077410(int tag, u32_02077410 data, BOOL err)
 /*
  * sdk:      CARD_SetPulledOutCallback (libcard.TWL.HYB.a card_pullout.o)
  */
-void func_020774A0(int (*callback)(void))
+void CARD_SetPulledOutCallback(int (*callback)(void))
 {
     CARDiSlotResetCount.callback = callback;
 }
 
 
-void *func_020774B0(void)
+void *CARD_IsPulledOut(void)
 {
-    return s_data_02150B00.unk04;
+    return (void *)CARDiSlotResetCount.is_pulled_out;
 }
 
 
 /*
  * sdk:      CARD_TerminateForPulledOut (libcard.TWL.HYB.a card_pullout.o)
  */
-void func_020774C0(void)
+void CARD_TerminateForPulledOut(void)
 {
     if ((*(u16 *)0x02FFFFA8 & 0x8000) >> 15)
     {
@@ -191,13 +161,13 @@ void func_020774C0(void)
 /*
  * sdk:      CARDi_CheckPulledOutCore (libcard.TWL.HYB.a card_pullout.o)
  */
-void func_02077518(u32_02077518 id)
+void CARDi_CheckPulledOutCore(u32 id)
 {
-    vu32 iplCardID = *(u32_02077518 *)0x02FFFC00;
+    vu32 iplCardID = *(u32 *)0x02FFFC00;
 
     if (id != iplCardID)
     {
-        u32_02077518 bak_cpsr = OS_DisableInterrupts();
+        u32 bak_cpsr = OS_DisableInterrupts();
 
         CARDi_PulledOutCallback(14, 0x11, 0);
         (void)OS_RestoreInterrupts(bak_cpsr);
@@ -216,13 +186,13 @@ void func_02077518(u32_02077518 id)
  * materialises both as immediates.  The loop tests at the bottom, so it is a
  * do/while and not the obvious while.
  */
-void func_02077568(u32_02077568 a, u32_02077568 b)
+void CARDi_SendtoPxi(u32 data, u32 wait)
 {
-    u32_02077568 n = 0xe;
-    u32_02077568 z = 0;
+    u32 n = 0xe;
+    u32 z = 0;
 
-    if (PXI_SendWordByFifo(n, a, z) == 0) return;
+    if (PXI_SendWordByFifo(n, data, z) == 0) return;
     do {
-        SVC_WaitByLoop(b);
-    } while (PXI_SendWordByFifo(n, a, z) != 0);
+        SVC_WaitByLoop(wait);
+    } while (PXI_SendWordByFifo(n, data, z) != 0);
 }

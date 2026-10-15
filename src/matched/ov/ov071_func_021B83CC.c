@@ -13,7 +13,7 @@
  *   func_02034714  0x02034714  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_02040588  0x02040588  arm
  *   d_021BABF8     0x021BABF8  data  a1
@@ -44,7 +44,7 @@ void func_021B83CC(W *w, X *x, unsigned y)
     extern void func_02034714(const char *expr, u32 line, const char *file);
     extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
     extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-    extern signed char func_02012FFC(void);
+    extern signed char MSG_SPEED_GetWait(void);
     extern void *PRINTSYS_PrintStream(void *, unsigned, unsigned, void *, unsigned,
                                unsigned, unsigned, unsigned, unsigned, unsigned);
     extern void func_02040588(unsigned char which, unsigned char enable);
@@ -54,7 +54,7 @@ void func_021B83CC(W *w, X *x, unsigned y)
     }
     GF_FONT_SetTextColor(1, 2, 0xf);
     w->f44 = func_02045EC0(x->f28, y);
-    w->f40 = PRINTSYS_PrintStream(w->f3c, 0, 0, w->f44, x->fc, func_02012FFC(),
+    w->f40 = PRINTSYS_PrintStream(w->f3c, 0, 0, w->f44, x->fc, MSG_SPEED_GetWait(),
                            x->f18, 10, 0x61, 0xf);
     func_02040588(5, 1);
 }

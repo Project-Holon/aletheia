@@ -1,5 +1,5 @@
 /*
- * function: func_021C4BA4
+ * function: WF2DMAP_OBJ_FindAtPos
  * address: 0x021C4BA4
  * packet: pkt_ov127_021C4BA4
  * region: ov127
@@ -10,24 +10,24 @@
  * extent: two zero alignment bytes at 0x021C4C86 follow the function.
  * lever: Pos declaration order src,a,dst,b fixes stack slots; named qid fixes cmp order.
  * symbols:
- *   func_021C4AC4 0x021C4AC4 thumb ov127
- *   func_021C4AD0 0x021C4AD0 thumb ov127
- *   func_021C4A54 0x021C4A54 thumb ov127
- *   func_021C49A4 0x021C49A4 thumb ov127
- *   func_021C4914 0x021C4914 thumb ov127
- *   func_021C499C 0x021C499C thumb ov127
+ *   WF2DMAP_OBJ_GetPos 0x021C4AC4 thumb ov127
+ *   WF2DMAP_OBJ_GetDestPos 0x021C4AD0 thumb ov127
+ *   WF2DMAP_OBJ_OffsetPos 0x021C4A54 thumb ov127
+ *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
+ *   WF2DMAP_OBJ_GetCount 0x021C4914 thumb ov127
+ *   WF2DMAP_OBJ_GetByIndex2 0x021C499C thumb ov127
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short a, b; } Pos;
-extern Pos func_021C4AC4(void *);
-extern Pos func_021C4AD0(void *);
-extern Pos func_021C4A54(Pos, int);
-extern int func_021C49A4(u8 *, u32);
-extern u32 func_021C4914(u8 *p);
-extern u8 *func_021C499C(void *, u16);
-u8 *func_021C4BA4(u8 *p, void *list, int n)
+extern Pos WF2DMAP_OBJ_GetPos(void *);
+extern Pos WF2DMAP_OBJ_GetDestPos(void *);
+extern Pos WF2DMAP_OBJ_OffsetPos(Pos, int);
+extern int WF2DMAP_OBJ_GetSlot(u8 *, u32);
+extern u32 WF2DMAP_OBJ_GetCount(u8 *p);
+extern u8 *WF2DMAP_OBJ_GetByIndex2(void *, u16);
+u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n)
 {
     Pos src, a, dst, b;
     u32 count;
@@ -35,18 +35,18 @@ u8 *func_021C4BA4(u8 *p, void *list, int n)
     u32 i;
     u8 *q;
     int qid;
-    src = func_021C4AC4(p);
-    dst = func_021C4A54(src, n);
-    id = func_021C49A4(p, 4);
-    count = func_021C4914(list);
+    src = WF2DMAP_OBJ_GetPos(p);
+    dst = WF2DMAP_OBJ_OffsetPos(src, n);
+    id = WF2DMAP_OBJ_GetSlot(p, 4);
+    count = WF2DMAP_OBJ_GetCount(list);
     for (i = 0; i < count; i++) {
-        q = func_021C499C(list, i);
+        q = WF2DMAP_OBJ_GetByIndex2(list, i);
         if (q != 0) {
-            qid = func_021C49A4(q, 4);
+            qid = WF2DMAP_OBJ_GetSlot(q, 4);
             if (qid == id) continue;
-            a = func_021C4AC4(q);
+            a = WF2DMAP_OBJ_GetPos(q);
             if (a.a == dst.a && a.b == dst.b) return q;
-            b = func_021C4AD0(q);
+            b = WF2DMAP_OBJ_GetDestPos(q);
             if (b.a == dst.a && b.b == dst.b) return q;
         }
     }

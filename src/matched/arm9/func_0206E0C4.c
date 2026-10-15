@@ -1,5 +1,5 @@
 /*
- * function: func_0206E0C4
+ * function: NNS_G3dScrPosToWorldLine
  * address:  0x0206E0C4
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -12,7 +12,7 @@
  * NitroSystem G3D NNS_G3dScrPosToWorldLine (util.c): screen pixel to the
  * world-space near point (and, when pFar is non-null, far point) through the
  * inverse view-projection matrix NNS_G3dGlbGetInvVPMtx returns. FX_Div is
- * func_0207C768, FX_InvAsync func_0207C8A0, FX_GetInvResultFx64c
+ * func_0207C768, FX_InvAsync FX_InvAsync, FX_GetInvResultFx64c
  * func_0207C848, the viewport unpack NNS_G3dGlbGetViewPort. Returns -1 when the
  * pixel is outside the viewport, else 0.
  *
@@ -26,7 +26,7 @@
  *   NNS_G3dGlbGetViewPort  0x0206AE94  arm
  *   func_0207C768  0x0207C768  arm
  *   NNS_G3dGlbGetInvVPMtx  0x0206AE2C  arm
- *   func_0207C8A0  0x0207C8A0  arm
+ *   FX_InvAsync  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
  */
 
@@ -46,7 +46,7 @@ extern void NNS_G3dGlbGetViewPort(unsigned int *a0, unsigned int *a1, unsigned i
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *NNS_G3dGlbGetInvVPMtx(void);
-extern void func_0207C8A0(fx32 d);
+extern void FX_InvAsync(fx32 d);
 extern fx64c func_0207C848(void);
 
 static inline fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
@@ -55,7 +55,7 @@ static inline fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
     return (fx32)(tmp >> 32);
 }
 
-int func_0206E0C4(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
+int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
 {
     int x1, y1, x2, y2;
     fx32 x, y;
@@ -80,7 +80,7 @@ int func_0206E0C4(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
 
     m = NNS_G3dGlbGetInvVPMtx();
     w = (fx32)(((fx64)x * m->_03 + (fx64)y * m->_13) >> 12) + m->_33;
-    func_0207C8A0(w - m->_23);
+    FX_InvAsync(w - m->_23);
     nx = (fx32)(((fx64)x * m->_00 + (fx64)y * m->_10) >> 12) + m->_30;
     ny = (fx32)(((fx64)x * m->_01 + (fx64)y * m->_11) >> 12) + m->_31;
     nz = (fx32)(((fx64)x * m->_02 + (fx64)y * m->_12) >> 12) + m->_32;
@@ -95,7 +95,7 @@ int func_0206E0C4(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
     nz -= m->_22;
     invW = func_0207C848();
     if (pFar)
-        func_0207C8A0(fw);
+        FX_InvAsync(fw);
     pNear->x = FX_Mul32x64c(nx, invW);
     pNear->y = FX_Mul32x64c(ny, invW);
     pNear->z = FX_Mul32x64c(nz, invW);

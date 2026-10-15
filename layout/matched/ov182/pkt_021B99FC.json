@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B99FC",
+   "name": "THE_END_GRAPHIC_VBlankTask",
    "address": "0x021B99FC",
    "kind": "game",
    "region": "ov182",

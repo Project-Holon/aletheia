@@ -1,5 +1,5 @@
 /*
- * function: func_020774C0
+ * function: CARD_TerminateForPulledOut
  * address:  0x020774C0
  * packet:   pkt_020774C0
  * region:   arm9
@@ -33,7 +33,7 @@ extern void MI_StopAllDma(void);
 extern void MI_StopAllNDma(void);
 extern void OS_Terminate(void);
 
-void func_020774C0(void)
+void CARD_TerminateForPulledOut(void)
 {
     if ((*(u16 *)0x02FFFFA8 & 0x8000) >> 15)
     {

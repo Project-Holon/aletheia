@@ -26,7 +26,7 @@
  *   NNS_G3dTexGetRequiredSize  0x02069FD0  arm
  *   NNS_G3dTexSetTexKey  0x02069FF8  arm
  *   NNS_G3dGetTex  0x0206E964  arm
- *   func_02080C44  0x02080C44  arm
+ *   GX_GetBankForTex  0x02080C44  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   SCREENTEX_CaptureBanks      0x020A02D0  data
  *   GX_GetBankForTex   0x02080C44  arm
@@ -104,9 +104,8 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void func_02046C9C(void *control, u32 kind, u32 value);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int NNS_G3dTexGetRequiredSize(int p);
-extern u16 func_02080C44(void);
+extern u16 GX_GetBankForTex(void);
 extern void NNS_G3dTexSetTexKey(char *p, int a, int b);
-extern u32  GX_GetBankForTex(void);
 extern void GX_SetBankForLCDC(u32 a);
 extern void GX_SetBankForTex(u32 a);
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
@@ -219,7 +218,7 @@ void CODEIN_PARAM_Delete(struct CodeinParam *param)
  * screentex.c, 0x020A77E0). Allocates a small control block and a 0x8C-byte
  * work buffer off the heap in a0, seeds the buffer from a template with
  * MI_CpuCopy8 (MI_CpuCopy8), binds it to the control block, then builds a
- * packed VRAM descriptor: bits of the bank word returned by func_02080C44
+ * packed VRAM descriptor: bits of the bank word returned by GX_GetBankForTex
  * are folded into an accumulator under a fall-through switch on a1, and the
  * result is combined with the texture size from NNS_G3dGetTex /
  * NNS_G3dTexGetRequiredSize before the final publish through NNS_G3dTexSetTexKey.
@@ -254,7 +253,7 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
     func_02046C9C(control, 2, (u32)work);
     texHeader = NNS_G3dGetTex(work);
     texSize = NNS_G3dTexGetRequiredSize((int)texHeader);
-    vramBanks = func_02080C44();
+    vramBanks = GX_GetBankForTex();
     slotBits = 0;
     switch (slotCount) {
     case 3:

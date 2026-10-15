@@ -12,7 +12,7 @@
  *   func_021BCCA8 0x021BCCA8 thumb ov210
  *   func_021BE7E4 0x021BE7E4 thumb ov210
  *   func_020355C4 0x020355C4 arm
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   func_021BCF0C 0x021BCF0C thumb ov210
  */
 #include "../include/Obj03936.h"
@@ -25,7 +25,7 @@ extern void func_021BE7E4(u8 *);
 extern u8 func_020355C4(void);
 typedef unsigned int   u32;
 struct Struct_02025CD0;
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021BCF0C(u8 *);
 int func_021BD4AC(u8 *p)
 {
@@ -38,9 +38,9 @@ int func_021BD4AC(u8 *p)
         func_021BCCA8((char *)p);
         func_021BE7E4(p);
         if (func_020355C4() == 1)
-            func_020260F4(((struct Obj03936 *)p)->f2B0, 0);
+            CURSOR_MOVE_SetState(((struct Obj03936 *)p)->f2B0, 0);
         else
-            func_020260F4(((struct Obj03936 *)p)->f2B0, 1);
+            CURSOR_MOVE_SetState(((struct Obj03936 *)p)->f2B0, 1);
         func_021BCF0C(p);
         return 4;
     }

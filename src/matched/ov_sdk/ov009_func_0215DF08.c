@@ -16,7 +16,7 @@
  *   func_02082EA4  0x02082EA4  arm
  *   OS_WakeupThread  0x02085800  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A1CD8     0x021A1CD8  data
+ *   gSoclConfig     0x021A1CD8  data
  *   g_021AA4A4     0x021AA4A4  data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
@@ -55,7 +55,7 @@ struct CPSSoc {
 	unsigned short socket_port;
 };
 
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern unsigned long g_021AA4A4[2];
 
 extern unsigned long OS_DisableInterrupts(void);
@@ -71,7 +71,7 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 
 	enable = OS_DisableInterrupts();
 	if (pipe->limit >= pipe->used + len) {
-		udpheader = g_021A1CD8->alloc(len + 12);
+		udpheader = gSoclConfig->alloc(len + 12);
 		if (udpheader != 0) {
 			pipe->used += len;
 			udpheader->next = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD4C
+ * function: COMM_BTL_DEMO_GRAPHIC_Noop
  * address: 0x021BAD4C
  * packet: pkt_ov213_021BAD4C
  * region: ov213
@@ -9,4 +9,4 @@
  * status: EXACT*
  * Tail: two zero alignment bytes at 021BAD4E.
  */
-void func_021BAD4C(void *a0){}
+void COMM_BTL_DEMO_GRAPHIC_Noop(void *a0){}

@@ -13,7 +13,7 @@
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sD06DenkiSparkDrawStatus     0x021DABCC  data  a4
@@ -34,7 +34,7 @@ extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame)
 struct Arg;
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
-extern void func_0207ADC4(int *m);
+extern void MTX_Identity33_(int *m);
 extern void FIELD_EFFECT_GetObjectPos(u32 a, T *t);
 extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
 
@@ -53,7 +53,7 @@ void FLDEFF_D06DENKI_SparkDraw(u32 a, u32 *b)
         if (G3D_SYSTEM_GetObjectAnimeFrame((struct AnmCtl *)h, 0, (s32 *)(b + 1)) == 0) {
             b[2] = 1;
         }
-        func_0207ADC4(&t.w[6]);
+        MTX_Identity33_(&t.w[6]);
         FIELD_EFFECT_GetObjectPos(a, &t);
         G3D_SYSTEM_DrawObjectCulling((void *)h, (struct Arg *)(&t));
     }

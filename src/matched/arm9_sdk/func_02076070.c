@@ -1,5 +1,5 @@
 /*
- * function: func_02076070
+ * function: CARDi_TryWaitAsync
  * address:  0x02076070
  * packet:   pkt_02075FCC
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern u32 g_02150200;
 
-int func_02076070(void)
+int CARDi_TryWaitAsync(void)
 {
     return (*(u32 *)((char *)&g_02150200 + 4) & 4) ? 0 : 1;
 }

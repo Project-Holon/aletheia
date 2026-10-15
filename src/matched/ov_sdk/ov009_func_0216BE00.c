@@ -12,7 +12,7 @@
  * sdk:      DWCi_HandleGT2Error (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_0216A3B8  0x0216A3B8  arm  ov009
+ *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -40,7 +40,7 @@ typedef struct DwcGlobal DwcGlobal;
 
 extern struct DwcGlobal g_021AA878;
 
-extern void func_0216A3B8(int error, int errorCode);
+extern void DWCi_StopLogin(int error, int errorCode);
 
 static int DWCi_HandleGT2Error(int result)
 {
@@ -78,6 +78,6 @@ static int DWCi_HandleGT2Error(int result)
 		break;
 	}
 	if (dwcError != 0)
-		func_0216A3B8(dwcError, errorCode - 67000);
+		DWCi_StopLogin(dwcError, errorCode - 67000);
 	return result;
 }

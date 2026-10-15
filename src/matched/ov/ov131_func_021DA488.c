@@ -31,6 +31,8 @@
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj01408.h"
 #include "../include/Obj04513.h"
@@ -61,9 +63,9 @@ extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_02027604(u8);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 WAZA_TOOL_GetPower(u16);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -96,19 +98,19 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     count=WAZA_TOOL_GetPower(id);
     if(count<=1) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),154,87,one,1088);
     else {
-        object1=func_0201EC64(((struct Obj04513 *)a)->f0);
+        object1=GF_FONT_Create_EC64(((struct Obj04513 *)a)->f0);
         func_0201EFA4(object1,0,count,3,one,one);
         P_STATUS_PrintWordSetMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),object1,150,81,one,1088);
-        func_0201ED04(object1);
+        WORDSET_DeleteStrbufED04(object1);
     }
     P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),148,1,1,15424);
     value=WAZA_TOOL_GetParam(id,4);
     if(WAZA_TOOL_IsAlwaysHit(id)==1 || value==0) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),154,87,1,1088);
     else {
-        object2=func_0201EC64(((struct Obj04513 *)a)->f0);
+        object2=GF_FONT_Create_EC64(((struct Obj04513 *)a)->f0);
         func_0201EFA4(object2,0,value,3,1,1);
         P_STATUS_PrintWordSetMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),object2,151,81,1,1088);
-        func_0201ED04(object2);
+        WORDSET_DeleteStrbufED04(object2);
     }
     table=func_02045B38(0,2,202,((struct Obj04513 *)a)->f0);
     str=func_02045EC0(table,id);

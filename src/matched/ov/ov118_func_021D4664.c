@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4240  0x021D4240  thumb  ov118
+ *   POKETRADE_DEMO_COMMON_StepFade  0x021D4240  thumb  ov118
  *   POKETRADE_MCSS_SlideUpdate  0x021DFC68  thumb  ov119
- *   func_021D4480  0x021D4480  thumb  ov118
+ *   POKETRADE_DEMO_COMMON_PassThrough  0x021D4480  thumb  ov118
  *   POKETRADE_2D_ScheduleMainPlaneVisible  0x021E71F0  thumb  ov119
  *   POKETRADE_2D_ScheduleSubPlaneVisible  0x021E7208  thumb  ov119
  *   POKETRADE_2D_DeleteAllOfferIconActors  0x021E64B8  thumb  ov119
  *   POKETRADE_2D_DeleteAllBoxIcons  0x021E4888  thumb  ov119
  *   POKETRADE_SAVE_DeleteOfferListWindows  0x021E2680  thumb  ov119
- *   func_021D4484  0x021D4484  thumb  ov118
+ *   POKETRADE_DEMO_COMMON_SetFrame  0x021D4484  thumb  ov118
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -51,15 +51,15 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_021D4240(s8 *fade);
+extern void POKETRADE_DEMO_COMMON_StepFade(s8 *fade);
 extern void POKETRADE_MCSS_SlideUpdate(void *p, int a1);
-extern int func_021D4480(int);
+extern int POKETRADE_DEMO_COMMON_PassThrough(int);
 extern void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a);
 extern void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
 extern void POKETRADE_2D_DeleteAllOfferIconActors(void *p);
 extern void POKETRADE_2D_DeleteAllBoxIcons(char *p);
 extern void POKETRADE_SAVE_DeleteOfferListWindows(char *p);
-extern void func_021D4484(u8 *p, u32 v);
+extern void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v);
 extern int POKETRADE_PROC_IsHostSide(void *);
 extern void *POKETRADE_PROC_GetSideMon(void *, int);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
@@ -92,16 +92,16 @@ void func_021D4664(u8 *p)
     Vec v2;
     u32 buf;
 
-    func_021D4240(*(s8 * *)&((struct Obj05324 *)p)->f818);
+    POKETRADE_DEMO_COMMON_StepFade(*(s8 * *)&((struct Obj05324 *)p)->f818);
     POKETRADE_MCSS_SlideUpdate((void *)(((struct Obj05324 *)p)->f85C), (int)p);
     POKETRADE_MCSS_SlideUpdate((void *)(((struct Obj05324 *)p)->f860), (int)p);
-    if (FRAME > func_021D4480(0x2A)) {
+    if (FRAME > POKETRADE_DEMO_COMMON_PassThrough(0x2A)) {
         POKETRADE_2D_ScheduleMainPlaneVisible(p, 0x11);
         POKETRADE_2D_ScheduleSubPlaneVisible(p, 0);
         POKETRADE_2D_DeleteAllOfferIconActors(p);
         POKETRADE_2D_DeleteAllBoxIcons((char *)p);
         POKETRADE_SAVE_DeleteOfferListWindows((char *)p);
-        func_021D4484(p, 0);
+        POKETRADE_DEMO_COMMON_SetFrame(p, 0);
         mon = POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p));
         POKE_TOOL_GetPartyValue(mon, 7, 0);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {

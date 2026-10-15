@@ -16,7 +16,7 @@
  *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
  *   DWCi_EncodeBinaryMsgCommand  0x021700C8  arm  ov009
  *   DWC_GetMyAID  0x0216B838  arm  ov009
- *   func_02177848  0x02177848  arm  ov009
+ *   DWCi_SendUnreliable  0x02177848  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_021861A8  0x021861A8  arm  ov009
  *   DWC_Base64Encode  0x02059B40  arm
@@ -46,7 +46,7 @@ struct DWCstBinaryMessage;
 extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
 extern void DWCi_EncodeBinaryMsgCommand(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
 extern unsigned char DWC_GetMyAID(void);
-extern int func_02177848(unsigned char from, unsigned char to, const void *data, int size, int flag);
+extern int DWCi_SendUnreliable(unsigned char from, unsigned char to, const void *data, int size, int flag);
 extern char *func_02175F3C(void);
 extern int func_021861A8(void *conn, int pid);
 extern int DWC_Base64Encode(const void *src, int srclen, char *dst, int dstlen);
@@ -67,7 +67,7 @@ int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsig
     if (DWCi_CanSendMatchCommandDirect(command, pid) != 0) {
         node = (unsigned char *)DWCi_NodeInfoList_GetNodeInfoForProfileID(pid);
         DWCi_EncodeBinaryMsgCommand((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
-        func_02177848(DWC_GetMyAID(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
+        DWCi_SendUnreliable(DWC_GetMyAID(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
         result = 0;
     } else if (func_021861A8(*(void **)func_02175F3C(), pid) != 0) {
         n = 0;

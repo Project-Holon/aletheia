@@ -14,7 +14,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   func_0201D5C4 0x0201D5C4 thumb
- *   func_0201D5CC 0x0201D5CC thumb
+ *   GF_FONT_CheckD5CC 0x0201D5CC thumb
  *   func_0201D670 0x0201D670 thumb
  *   func_0201D5F4 0x0201D5F4 thumb
  *   func_0201D658 0x0201D658 thumb
@@ -22,7 +22,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201EF8C 0x0201EF8C thumb
  *   func_0201EF34 0x0201EF34 thumb
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
  *   BTL_MSG_SetPokeName 0x021EED00 thumb ov093
  *   BTL_MSG_SetPokeSpecies 0x021EED24 thumb ov093
@@ -43,7 +43,7 @@ struct U16Vec;
 struct WordSet;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 func_0201D5C4(void);
-extern u32 func_0201D5CC(const u16 *p);
+extern u32 GF_FONT_CheckD5CC(const u16 *p);
 extern u32 func_0201D670(const u16 *p, u32 i);
 extern u32 func_0201D5F4(const u16 *p);
 extern u32 func_0201D658(const u16 *p);
@@ -51,7 +51,7 @@ extern u16 *func_0201D688(u16 *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F020(struct WordSet *p, u32 i, u32 v);
 extern void BTL_MSG_SetPokeName(u8 a, u32 b);
 extern void BTL_MSG_SetPokeSpecies(u8 a, u32 b);
@@ -77,7 +77,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
-            if (func_0201D5CC(p)) {
+            if (GF_FONT_CheckD5CC(p)) {
                 slot = func_0201D670(p, 0);
                 if ((u8)func_0201D5F4(p) == 1 && func_0201D658(p) == 14) {
                     for (i = slot + 1; i < 8; i++)
@@ -91,7 +91,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
-            if (func_0201D5CC(p)) {
+            if (GF_FONT_CheckD5CC(p)) {
                 slot = func_0201D670(p, 0);
                 index = slot;
                 group = func_0201D5F4(p);
@@ -130,7 +130,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
                         func_0201EF34(w, slot, values[index]);
                         break;
                     case 9:
-                        func_0201EF40(w, slot, values[index]);
+                        WORDSET_Callback_EF40(w, slot, values[index]);
                         break;
                     case 15:
                         func_0201F020(w, slot, values[index]);

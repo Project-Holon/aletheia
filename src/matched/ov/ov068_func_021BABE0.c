@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02040804  0x02040804  arm
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   gOptionMenuChoices     0x021BB704  data  a4
  */
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 typedef struct { u16 x; u16 y; } Pt;
 
 extern u32 func_02040804(u32 layer);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -48,8 +48,8 @@ void OPTION_MENU_ScrollList(u8 *p, int a1, int a2, int a3)
     } else if (v < a2) {
         v = a2;
     }
-    func_02041EE4((u8)((struct Obj04326 *)p)->f0, 3, v + 0x14);
-    func_02041EE4((u8)((struct Obj04326 *)p)->f2, 3, v);
+    BG_SYS_ResetSlot((u8)((struct Obj04326 *)p)->f0, 3, v + 0x14);
+    BG_SYS_ResetSlot((u8)((struct Obj04326 *)p)->f2, 3, v);
     t = ((struct Obj04326 *)p)->f34 - a1;
     ((struct Obj04326 *)p)->f34 = t;
     ((struct Obj04326 *)p)->f34 = t > 0x10 - a2 ? 0x10 - a2 : (t < 0x10 - a3 ? 0x10 - a3 : t);

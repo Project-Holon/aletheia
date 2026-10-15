@@ -17,7 +17,7 @@
  *   func_0217D254  0x0217D254  arm   ov009
  *   func_0217D32C  0x0217D32C  arm   ov009
  *   qr2_parse_queryA  0x0219C7C0  arm   ov009
- *   func_0217ED54  0x0217ED54  arm   ov009
+ *   GOAGetLastError  0x0217ED54  arm   ov009
  *   g_021AE9F8     0x021AE9F8  data
  *   g_021A74AC     0x021A74AC  data
  *   g_021A74D0     0x021A74D0  data
@@ -83,7 +83,7 @@ extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 extern void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len, SOCSockAddrIn *sender);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern char g_021AE9F8[];
 extern char g_021A74AC[];
 extern char g_021A74D0[];
@@ -106,7 +106,7 @@ void qr2_check_queries(qr2_implementation_s *qrec)
         } else if (error == 0) {
             func_0217D254(3, 0, 16, g_021A74D0, error);
         } else {
-            int error2 = func_0217ED54(qrec->hbsock);
+            int error2 = GOAGetLastError(qrec->hbsock);
             func_0217D254(3, 0, 16, g_021A751C, error2);
         }
     }

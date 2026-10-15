@@ -21,7 +21,7 @@
  *   data_021EF918 0x021EF918 data a1
  *   BOX2_UI_PutListFrames 0x021EF4E4 thumb
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb
  *   BOX2_MAIN_SetBoxValueAt 0x021DD2B4 thumb
  *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb
@@ -45,7 +45,7 @@ extern void BOX2_SEQ_DrawFrameList(unsigned char *,const void *,unsigned);
 extern const unsigned char data_021EF918[];
 extern void BOX2_UI_PutListFrames(struct WinMgr *mgr);
 extern void BOX2_SEQ_PrintPrompt(unsigned char *,int,int,int);
-extern unsigned func_0202136C(unsigned short);
+extern unsigned FILE_UTIL_Check136C(unsigned short);
 extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
 extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);
@@ -74,7 +74,7 @@ int BOX2_SEQ_StatePmVoiceMenuD(unsigned char *p)
         BOX2_UI_PutListFrames(*(struct WinMgr **)(WORK+0x74)); BOX2_SEQ_PrintPrompt(p,p[0x16],1,0x18);
         return next;
     }
-    if(func_0202136C(ITEM)==0) {
+    if(FILE_UTIL_Check136C(ITEM)==0) {
         mon=(void *)BOX2_MAIN_GetMonAt((void ***)p,p[0x14],p[0x16]);
         BOX2_MAIN_SetBoxValueAt((int)p,p[0x16],p[0x14],6,ITEM);
         if(BOX2_MAIN_CanPlaceInBox((void **)p,mon)==1) {

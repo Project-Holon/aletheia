@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,12 +22,12 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void func_020403F4(u32 i);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 void func_021C6790(u8 *a0)
 {
     int i;
     for (i = 0; i < 5; i++)
         func_020403F4((u8)i);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }

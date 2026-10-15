@@ -1,5 +1,5 @@
 /*
- * function: func_021B6704
+ * function: LOCAL_TVT_SYS_PositionActor
  * address: 0x021B6704
  * packet: pkt_ov174_021B6704
  * region: ov174
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: assign the getter result to width before dividing it; the combined call/divide swaps table and stack-address registers. Named x/y alone stayed DIFF12; split-assign(width) reached EXACT.
  * symbols:
- *   func_021B7360 0x021B7360 thumb ov174
+ *   LOCAL_TVT_CHARA_GetState 0x021B7360 thumb ov174
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
@@ -20,19 +20,19 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
-extern unsigned func_021B7360(unsigned char *p);
+extern unsigned LOCAL_TVT_CHARA_GetState(unsigned char *p);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern const u8 d_021B7380[][2];
-void func_021B6704(u8 *p, int index)
+void LOCAL_TVT_SYS_PositionActor(u8 *p, int index)
 {
     u16 point[2];
     unsigned width;
     unsigned x;
     unsigned y;
-    width = func_021B7360(*((void **) ((p + 28) + (index * 4))));
+    width = LOCAL_TVT_CHARA_GetState(*((void **) ((p + 28) + (index * 4))));
     width = width / 2;
     x = ((d_021B7380[index][0] * 8) + 80) + width;
     point[0] = x;

@@ -16,9 +16,9 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   CALENDER_OverlaySequenceEvent 0x02164A2C thumb ov010
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   func_02030734  0x02030734  arm
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
@@ -38,9 +38,9 @@
  *   func_020353B0  0x020353B0  arm
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   MI_CpuCopy8    0x02082D44  arm
  *   GAME_COMM_RequestExit  0x0202640C  thumb
@@ -75,11 +75,11 @@
  *   GAME_BEACON_SetDetailsBattleBigFour   0x02027430  thumb
  *   GAME_BEACON_SEARCH_PresetEventTable      0x02171CA0  data  ov010  a1
  *   GAME_BEACON_CopyStrbufCodes  0x020270AC  thumb
- *   func_0200C0F0 0x0200C0F0 thumb
- *   func_0200C20C 0x0200C20C thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   BEACON_GetThanksMessage 0x0200C20C thumb
  *   func_0201F41C 0x0201F41C thumb
  *   STRBUF_ToChars  0x02045A38  arm
- *   func_0203F4CC 0x0203F4CC arm
+ *   GF_STANDARD_SetField00 0x0203F4CC arm
  *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
  *   GAME_BEACON_GetLog 0x02026C1C thumb
  *   GAME_BEACON_ClearNewFlag 0x02026CE0 thumb
@@ -214,9 +214,9 @@ typedef struct GameBeaconActionAttr {
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern int CALENDER_OverlaySequenceEvent(struct GameEvent *event, u32 *seq, void *work);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
 extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
@@ -234,9 +234,9 @@ extern int func_02035390(void);
 extern int func_020353B0(void);
 extern void GAME_BEACON_SendIfRequested(void);
 extern u32 GAME_COMM_GetNotifyFlag(struct GameComm *gameComm);
-extern int func_02012B70(const struct GameData *gameData);
-extern struct PlayerWork *func_020127A4(struct GameData *gameData);
-extern u16 func_02012AC8(const struct PlayerWork *playerWork);
+extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
+extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 extern int INTRUDE_COMM_IsListedId(u16 zoneId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void GAME_COMM_RequestExit(struct GameComm *gameComm, void (*callback)(void *work, int cancel), void *work);
@@ -269,11 +269,11 @@ extern void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u32 traine
 extern void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u32 trainerId);
 extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 trainerId);
 extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
-extern struct MyStatus *func_0200C0F0(struct SaveControl *saveControl);
-extern const u16 *func_0200C20C(const struct MyStatus *myStatus);
+extern struct MyStatus *BEACON_GetBlock(struct SaveControl *saveControl);
+extern const u16 *BEACON_GetThanksMessage(const struct MyStatus *myStatus);
 extern void func_0201F41C(const u16 *src, u16 *dest, u32 length);
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *dest, u32 length);
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern int GAME_BEACON_GetNextNewLogIndex(int *cursor);
 extern GameBeaconRecord *GAME_BEACON_GetLog(int index);
 extern void GAME_BEACON_ClearNewFlag(u32 index);
@@ -445,7 +445,7 @@ struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unuse
 {
     struct GameEvent *event = func_020122C0(gameSystem, 0, CALENDER_OverlaySequenceEvent, sizeof(CalenderEventWork));
     CalenderEventWork *work = func_020124E8(event);
-    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
 
     work->gameData = gameData;
     work->saveControl = GAME_DATA_GetSaveControl(gameData);
@@ -457,8 +457,8 @@ struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unuse
 /* Allocates and initialises the search work. */
 GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem)
 {
-    struct GameData *gameData = func_020120F4(gameSystem);
-    struct GameComm *gameComm = func_02012138(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
     GameBeaconSearchWork *work = func_02030734(5, sizeof(GameBeaconSearchWork), 1, GAME_BEACON_SEARCH_FileName, 0x9c);
 
     work->gameData = gameData;
@@ -534,8 +534,8 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
     GameBeaconConnectRequest *request;
     u16 zoneId;
 
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     index = 0;
     if (GAME_DATA_IsSaving(gameData) == 1)
         return;
@@ -553,8 +553,8 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
     target = GAME_BEACON_SEARCH_PollScanResult(work, &index);
     if (target != 0) {
         if (target->beaconType == 2) {
-            if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(gameComm) && !func_02012B70(gameData)) {
-                zoneId = func_02012AC8(func_020127A4(gameData));
+            if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(gameComm) && !GAME_DATA_GetIntrudeCount(gameData)) {
+                zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
                 if (zoneId != work->lastZoneId) {
                     work->lastZoneId = zoneId;
                     if (INTRUDE_COMM_IsListedId(zoneId) == 1) {
@@ -735,13 +735,13 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
     GameBeaconConnectEvent *event;
 
     MI_CpuCopy8(request->macAddress, macAddress, 6);
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     func_020307B0(request);
     if (cancel == 0 && GAMESYSTEM_CanStartAutoComm(gameSystem) == 1 && GAME_COMM_GetNotifyFlag(gameComm) == 0
         && GFL_NET_GetRunState() == 0 && GAME_COMM_GetKind(gameComm) == 0) {
         event = func_02030734(5, sizeof(GameBeaconConnectEvent), 1, GAME_BEACON_SEARCH_FileName, 0x287);
         event->gameSystem = gameSystem;
-        event->gameComm = func_02012138(gameSystem);
+        event->gameComm = ICA_ANIME_GetField24(gameSystem);
         MI_CpuCopy8(macAddress, event->macAddress, 6);
         GAME_COMM_Start(gameComm, 2, event);
     }
@@ -1274,7 +1274,7 @@ void GAME_BEACON_SEARCH_SetThanks(struct GameData *gameData, u16 trainerId)
 
 void GAME_BEACON_SEARCH_SetInfoThanks(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId)
 {
-    func_0201F41C(func_0200C20C(func_0200C0F0(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
+    func_0201F41C(BEACON_GetThanksMessage(BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
     info->action = 0x18;
     info->actionData.special.targetTrainerId = trainerId;
     GAME_BEACON_ResetDetails(info);
@@ -1311,7 +1311,7 @@ int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table)
 
     added = 0;
     cursor = 0;
-    func_0203F4CC(&time);
+    GF_STANDARD_SetField00(&time);
     receiveTime = (u16)((time.hour << 8) | time.minute);
     for (;;) {
         logIndex = GAME_BEACON_GetNextNewLogIndex(&cursor);

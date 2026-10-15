@@ -1,5 +1,5 @@
 /*
- * function: func_020763BC
+ * function: CARDi_OnFifoRecv
  * address:  0x020763BC
  * packet:   pkt_020763BC
  * region:   arm9
@@ -64,7 +64,7 @@ extern CARDiCommon cardi_common;
 
 extern void OS_WakeupThreadDirect(OSThread *thread);
 
-void func_020763BC(int tag, u32 data, BOOL err)
+void CARDi_OnFifoRecv(int tag, u32 data, BOOL err)
 {
 #pragma unused(data)
     if ((tag == 11) && err)

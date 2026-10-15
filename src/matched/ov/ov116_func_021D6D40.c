@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D40
+ * function: WIFI_BSUBWAY_BuildProfile
  * address: 0x021D6D40
  * packet: pkt_ov116_021D6D40
  * region: ov116
@@ -25,7 +25,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -38,7 +38,7 @@
  *   func_02008570 0x02008570 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
- *   func_02025C88 0x02025C88 thumb
+ *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
  *   func_0200DCF8 0x0200DCF8 thumb
  *   func_0200DC74 0x0200DC74 thumb
@@ -55,7 +55,7 @@ struct Sub0200852CObj;
 struct Sub02009470Obj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *func_0200E6F0(u32);
 extern void MI_CpuFill8(void *, u8, u32);
@@ -67,17 +67,17 @@ extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u32 func_02025C88(u32);
+extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u16 func_0200DCF8(struct Blk1AC *p);
 extern void func_0200DC74(struct Blk1AC *p, u32 which, void *dest);
-void func_021D6D40(u8 *p, void *save, void *idx)
+void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx)
 {
     void *profile, *n, *object;
     int i;
     profile = GAME_DATA_GetSaveControl(save);
     func_02009470(profile);
-    func_0201283C(save);
+    GAME_DATA_GetField1A0(save);
     n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
     MI_CpuFill8(p, 0, 240);
@@ -89,7 +89,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     p[0xc7] = func_02008570(idx);
     ((Bits *)(p + 0xd4))->b = (u8)(u32)func_02008550(idx);
     p[0xd5] = func_02008554(idx);
-    p[0xd5] = func_02025C88(p[0xd5]);
+    p[0xd5] = CURSOR_MOVE_GetTableGroup(p[0xd5]);
     for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(object, i + 1, (struct Rec0200E6FC *)(p + 0xd6 + i * 8));
     MISC_SAVEDATA_CopyQuadRecord(object, 4, (struct Rec0200E6FC *)(p + 0xcc));
     *(u16 *)(p + 0xee) = func_0200DCF8(n);

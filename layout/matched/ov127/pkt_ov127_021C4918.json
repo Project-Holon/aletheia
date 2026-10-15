@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C4918",
-    "func_021C4948"
+    "WF2DMAP_OBJ_Create",
+    "WF2DMAP_OBJ_Clear"
+   ],
+   "addresses": [
+    "0x021C4918",
+    "0x021C4948"
    ]
   }
  ]

@@ -38,6 +38,7 @@
  *   FADE_SetSpeed  0x0204E6F4  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
+ *   GF_STANDARD_Reset  0x0203F3B4  arm
  *
  * gfl_use.c, the file's __FILE__ anchor function: system boot set-up.  On a
  * non-TWL console, carve the main arena into the OS heap (Hi read before Lo,
@@ -112,7 +113,7 @@ extern void  GFL_USE_InitRandom(void);
 extern void  FADE_Create(u32 a);
 extern void BACKUP_SYSTEM_Init(u32 a0, u32 a1, u32 a2);
 extern void  TEXTPRINT_Init(u32 a);
-extern void  func_0203F3B4(void);
+extern void  GF_STANDARD_Reset(void);
 extern void  GFL_USE_ClearVBlankHook(void);
 extern void  GFL_USE_SetSleepVolumeHooks(void);
 extern void FADE_SetSpeed(s32 a);
@@ -167,7 +168,7 @@ void GFL_USE_InitSystem(void)
     FADE_Create(0);
     BACKUP_SYSTEM_Init(7, (u32)func_0202F768, (u32)func_0202F774);
     TEXTPRINT_Init(0);
-    func_0203F3B4();
+    GF_STANDARD_Reset();
     _GflUse.unk0C = 0;
     GFL_USE_ClearVBlankHook();
     GFL_USE_SetSleepVolumeHooks();

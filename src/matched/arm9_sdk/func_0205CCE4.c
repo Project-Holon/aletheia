@@ -1,5 +1,5 @@
 /*
- * function: func_0205CCE4
+ * function: DWCi_DivideFullApinfo
  * address:  0x0205CCE4
  * packet:   pkt_0205CCE4
  * region:   arm9
@@ -26,7 +26,7 @@ typedef struct {
 
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
 
-void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo)
+void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo)
 {
     int isdigit = 0;
 

@@ -12,23 +12,23 @@
  * Compacts the two day-care slots so occupied ones come first.
  *
  * symbols:
- *   func_0200BCA8  0x0200BCA8  thumb
- *   func_0200BCEC  0x0200BCEC  thumb
+ *   DAYCARE_IsSlotInUse  0x0200BCA8  thumb
+ *   DAYCARE_SwapSlots  0x0200BCEC  thumb
  */
 
-extern int func_0200BCA8(void *e, int i);
-extern void func_0200BCEC(void *e, int i, int j);
+extern int DAYCARE_IsSlotInUse(void *e, int i);
+extern void DAYCARE_SwapSlots(void *e, int i, int j);
 
 void SODATEYA_CompactSlots(void *e)
 {
     int i, j;
 
     for (i = 0; i < 2; i++) {
-        if (func_0200BCA8(e, i) == 1)
+        if (DAYCARE_IsSlotInUse(e, i) == 1)
             continue;
         for (j = i + 1; j < 2; j++) {
-            if (func_0200BCA8(e, j) == 1)
-                func_0200BCEC(e, j, j - 1);
+            if (DAYCARE_IsSlotInUse(e, j) == 1)
+                DAYCARE_SwapSlots(e, j, j - 1);
         }
     }
 }

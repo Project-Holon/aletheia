@@ -16,7 +16,7 @@
  *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
- *   func_0202A3CC  0x0202A3CC  thumb
+ *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
@@ -34,7 +34,7 @@ extern u16 BTL_MAIN_GetTrainerId(char *p, int i);
 extern u32 BTL_MAIN_GetTrainerNameAndType(u8 *p, int i, u32 *out);
 extern int BTL_MAIN_GetTrainerHandle(char *p, int i);
 extern int BTL_MAIN_UpdateCommPlayerSupport(void *battle);
-extern u8 func_0202A3CC(u32 cls);
+extern u8 TPOKE_DATA_GetGenderValue(u32 cls);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
@@ -53,7 +53,7 @@ void BTL_MSG_SetClientName(void *win, u8 slot, u8 k)
                     func_0201F134(win, slot, v);
             } else {
                 v = BTL_MAIN_GetTrainerNameAndType((*(void * *)&gBtlMsgState), k, &t);
-                func_0201EE0C(win, slot, (void *)v, func_0202A3CC(t), 1, 2);
+                func_0201EE0C(win, slot, (void *)v, TPOKE_DATA_GetGenderValue(t), 1, 2);
             }
         } else {
             func_0201F02C(win, slot, (void *)BTL_MAIN_GetTrainerHandle((*(void * *)&gBtlMsgState), k));

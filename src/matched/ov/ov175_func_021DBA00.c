@@ -13,7 +13,7 @@
  * retry: three runs; prior permuter300 not repeated.
  * symbols:
  *   func_021DD044 0x021DD044 thumb ov175
- *   func_0203F028 0x0203F028 arm
+ *   GF_STANDARD_CompareString 0x0203F028 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   d_021E2F7C 0x021E2F7C data a4
  *   d_021E2F8C 0x021E2F8C data a4
@@ -25,7 +25,7 @@ struct Blob { const void *data; u32 size; };
 union Payload { u32 value; struct Blob blob; };
 struct Field { const char *name;u32 type;union Payload payload; };
 extern int func_021DD044(int);
-extern int func_0203F028(const char *,const char *);
+extern int GF_STANDARD_CompareString(const char *,const char *);
 extern void MI_CpuCopy8(const void *,void *,unsigned long);
 extern const char d_021E2F7C[],d_021E2F8C[];
 void func_021DBA00(int count,struct Field **fields,u8 *p,int n)
@@ -35,13 +35,13 @@ void func_021DBA00(int count,struct Field **fields,u8 *p,int n)
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(func_0203F028(f->name,(const char *)func_021DD044(0x25))==0) ((struct Obj05461 *)p)->f8=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x26))==0) ((struct Obj05461 *)p)->fC=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x24))==0) ((struct Obj05461 *)p)->f10=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x28))==0) ((struct Obj05461 *)p)->f4=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x27))==0) ((struct Obj05461 *)p)->f0=f->payload.value;
-            else if(func_0203F028(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
-            else if(func_0203F028(f->name,d_021E2F8C)==0) {
+            if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x25))==0) ((struct Obj05461 *)p)->f8=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x26))==0) ((struct Obj05461 *)p)->fC=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x24))==0) ((struct Obj05461 *)p)->f10=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x28))==0) ((struct Obj05461 *)p)->f4=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x27))==0) ((struct Obj05461 *)p)->f0=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,d_021E2F8C)==0) {
                 const struct Blob *blob=&f->payload.blob;
                 MI_CpuCopy8(blob->data,p+24,blob->size);
             }

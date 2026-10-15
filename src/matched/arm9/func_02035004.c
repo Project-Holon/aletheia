@@ -1,5 +1,5 @@
 /*
- * function: func_02035004
+ * function: UI_SetSleepHook
  * address:  0x02035004
  * packet:   pkt_02035004
  * region:   arm9
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-void func_02035004(char *o, u32 a, u32 b)
+void UI_SetSleepHook(char *o, u32 a, u32 b)
 {
     *(u32 *)(o + 0x14) = a;
     *(u32 *)(o + 0x28) = b;

@@ -1,5 +1,5 @@
 /*
- * function: func_02096578
+ * function: wcslen
  * address:  0x02096578
  * packet:   pkt_02095AA4
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-int func_02096578(const u16 *s)
+int wcslen(const u16 *s)
 {
     int n = -1;
     u16 c;

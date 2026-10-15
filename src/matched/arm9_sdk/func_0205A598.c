@@ -1,5 +1,5 @@
 /*
- * function: func_0205A598
+ * function: WDS_StartScan
  * address:  0x0205A598
  * packet:   pkt_0205A598
  * region:   arm9
@@ -81,7 +81,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
 extern void WDSScanCallback(void *arg);
 
-int func_0205A598(void (*callback)(void *))
+int WDS_StartScan(void (*callback)(void *))
 {
     int errcode;
 

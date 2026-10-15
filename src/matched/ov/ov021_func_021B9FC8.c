@@ -33,13 +33,13 @@
  *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
  *   FIELD_RAIL_ProjectOnSegment  0x021BAE7C  thumb  ov021
  *   func_0207C768  0x0207C768  arm
- *   func_0207C9D0  0x0207C9D0  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CA68  0x0207CA68  arm
- *   func_0207CAE8  0x0207CAE8  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Add  0x0207C9D0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_DotProduct  0x0207CA68  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   _ll_mul        0x0209C054  arm
  * Addresses are Black-image addresses.
@@ -73,13 +73,13 @@ void FIELD_RAIL_WORK_SetLocation(void *o, Rec *r);
 void FIELD_RAIL_WORK_GetPos(void *o, V *v);
 int FIELD_RAIL_ProjectOnSegment(int *e0, int *e1, const V *pos, V *a, int *b, V *c);
 int func_0207C768(int a, int b);
-void func_0207C9D0(V *a, V *b, V *c);
-void func_0207CA00(const V *a, V *b, V *c);
-int func_0207CA68(V *a, V *b);
-void func_0207CAE8(V *a, V *b, V *c);
-int func_0207CBD0(V *a);
+void VEC_Add(V *a, V *b, V *c);
+void VEC_Subtract(const V *a, V *b, V *c);
+int VEC_DotProduct(V *a, V *b);
+void VEC_CrossProduct(V *a, V *b, V *c);
+int VEC_Mag(V *a);
 void VEC_Normalize(V *a, V *b);
-int func_0207CF3C(const V *a, const V *b);
+int VEC_Distance(const V *a, const V *b);
 typedef signed int     s32;
 s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
@@ -144,27 +144,27 @@ int FIELD_RAIL_LINEFUNC_Arc(int a, void *p, const V *pos, Rec *out, int arg)
         FIELD_RAIL_WORK_SetLocation(obj, out);
         FIELD_RAIL_WORK_GetPos(obj, &P);
         lim = FIELD_RAIL_WORK_GetWidthLimit(obj);
-        func_0207CA00(&Q, &P, &D);
-        func_0207CA00(pos, &P, &E);
+        VEC_Subtract(&Q, &P, &D);
+        VEC_Subtract(pos, &P, &E);
         VEC_Normalize(&D, &F);
-        len = func_0207CBD0(&D);
+        len = VEC_Mag(&D);
         VEC_Normalize(&D, &G);
         VEC_Normalize(&E, &H);
-        func_0207CAE8(&G, &H, &C);
+        VEC_CrossProduct(&G, &H, &C);
         D = F;
-        m = func_0207CBD0(&E);
+        m = VEC_Mag(&E);
         VEC_Normalize(&E, &E);
         t = func_0207C768(m, len);
         E.x = FX_Mul(E.x, t);
         E.y = FX_Mul(E.y, t);
         E.z = FX_Mul(E.z, t);
-        d = func_0207CA68(&D, &E);
+        d = VEC_DotProduct(&D, &E);
         if (d <= 0x1000 && d >= 0) {
             u = FX_Mul(d, len);
             A.x = FX_Mul(F.x, u);
             A.y = FX_Mul(F.y, u);
             A.z = FX_Mul(F.z, u);
-            func_0207C9D0(&P, &A, &A);
+            VEC_Add(&P, &A, &A);
             x = pos->x;
             z = pos->z;
             R.x = x;
@@ -173,7 +173,7 @@ int FIELD_RAIL_LINEFUNC_Arc(int a, void *p, const V *pos, Rec *out, int arg)
             S.x = A.x;
             S.y = 0;
             S.z = A.z;
-            dist = func_0207C768(func_0207CF3C(&R, &S), k) >> 12;
+            dist = func_0207C768(VEC_Distance(&R, &S), k) >> 12;
             lim += 0x10;
             if (lim >= dist) {
                 if (C.y >= 0) {

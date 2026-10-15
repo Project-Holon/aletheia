@@ -14,7 +14,7 @@
  *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
  *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -45,7 +45,7 @@ extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetMode(u8 *p);
 extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
 extern void FIELD_CAMERA_SetTarget(int, Vec *);
-extern void func_0207CEE4(int, Vec *, Vec *, Vec *);
+extern void VEC_MultAdd(int, Vec *, Vec *, Vec *);
 
 int FIELD_TASK_UpdateCameraLerp(Obj *p)
 {
@@ -69,7 +69,7 @@ int FIELD_TASK_UpdateCameraLerp(Obj *p)
         } else {
             n = (int)(4096.0f * t - 0.5f);
         }
-        func_0207CEE4(n, &p->f24, &p->fC, &v);
+        VEC_MultAdd(n, &p->f24, &p->fC, &v);
         FIELD_CAMERA_SetTarget(h, &v);
         if (p->fA <= p->f8) {
             FIELD_CAMERA_SetMode((u8 *)h, p->f30);

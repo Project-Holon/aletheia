@@ -1,5 +1,5 @@
 /*
- * function: func_021D4A48
+ * function: POKETRADE_IRCDEMO_CreateOfferSlide
  * address:  0x021D4A48
  * packet:   pkt_ov117_021D4A48
  * region:   ov117
@@ -46,7 +46,7 @@ extern const u8 d_021D52F8[];
 extern const u8 d_021D53D0[];
 extern u8 d_021D5600[];
 
-void func_021D4A48(u8 *p, int idx)
+void POKETRADE_IRCDEMO_CreateOfferSlide(u8 *p, int idx)
 {
     void *x;
     u32 buf[3];

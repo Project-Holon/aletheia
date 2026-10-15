@@ -14,11 +14,11 @@
  *   func_020637D4  0x020637D4  arm
  *   CLACT_IsVramTypeCompatible  0x0204D9B4  arm
  *   func_02063F4C  0x02063F4C  arm
- *   func_02080C34  0x02080C34  arm
- *   func_02080C74  0x02080C74  arm
+ *   GX_GetBankForOBJExtPltt  0x02080C34  arm
+ *   GX_GetBankForSubOBJExtPltt  0x02080C74  arm
  *   func_0208068C  0x0208068C  arm
- *   func_020801F8  0x020801F8  arm
- *   func_0208083C  0x0208083C  arm
+ *   GX_SetBankForOBJExtPltt  0x020801F8  arm
+ *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *
  * The one-surface sibling of CLACT_TransferPaletteData (same entry table, same 0x200
  * large-layer split, same bracketed double upload through CLACT_IsVramTypeCompatible's
@@ -51,11 +51,11 @@ struct Self02063F4C;
 extern void func_020637D4(u32 *p);
 extern u32 CLACT_IsVramTypeCompatible(u32 a, u32 b);
 extern void func_02063F4C(struct Self02063F4C *self, struct List02063F4C *list, u32 base, int sel, struct Out02063F4C *out);
-extern u16 func_02080C34(void);
-extern u16 func_02080C74(void);
+extern u16 GX_GetBankForOBJExtPltt(void);
+extern u16 GX_GetBankForSubOBJExtPltt(void);
 extern void func_0208068C(void);
-extern void func_020801F8(int objExtPltt);
-extern void func_0208083C(int sub_objExtPltt);
+extern void GX_SetBankForOBJExtPltt(int objExtPltt);
+extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 
 void CLACT_TransferPaletteDataEx(struct Holder *h, int idx, void *src, void *sel, u32 size)
 {
@@ -82,16 +82,16 @@ void CLACT_TransferPaletteDataEx(struct Holder *h, int idx, void *src, void *sel
     func_020637D4((u32 *)ent);
 
     if (CLACT_IsVramTypeCompatible((u32)sel, 0)) {
-        saved = func_02080C34();
+        saved = GX_GetBankForOBJExtPltt();
         if (flag) func_0208068C();
         func_02063F4C(b, a, size, 1, (struct Out02063F4C *)ent);
-        if (flag) func_020801F8(saved);
+        if (flag) GX_SetBankForOBJExtPltt(saved);
     }
     if (CLACT_IsVramTypeCompatible((u32)sel, 1)) {
-        saved = func_02080C74();
+        saved = GX_GetBankForSubOBJExtPltt();
         if (flag) func_0208068C();
         func_02063F4C(b, a, size, 2, (struct Out02063F4C *)ent);
-        if (flag) func_0208083C(saved);
+        if (flag) GX_SetBankForSubOBJExtPltt(saved);
     }
 
     ((struct Ent *)((u8 *)h->ents + off))->unk_14 &= ~0x80000000;

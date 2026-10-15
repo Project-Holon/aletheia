@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov009/unit_0217D3AC.c and filed here.
  *
  * symbols:
- *   func_020913FC 0x020913FC arm
+ *   MSL_C_LIB_ReallocResource 0x020913FC arm
  */
 
-extern void *func_020913FC(unsigned long a0, unsigned long a1);
+extern void *MSL_C_LIB_ReallocResource(unsigned long a0, unsigned long a1);
 void *gsiMemoryRealloc(unsigned long a0, unsigned long a1);
 
 void *gsiMemoryRealloc(unsigned long a0, unsigned long a1)
 {
-    return func_020913FC(a0, a1);
+    return MSL_C_LIB_ReallocResource(a0, a1);
 }

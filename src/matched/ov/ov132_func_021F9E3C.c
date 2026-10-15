@@ -1,5 +1,5 @@
 /*
- * function: func_021F9E3C
+ * function: STA_ACTING_SetField10
  * address: 0x021F9E3C
  * packet: pkt_ov132_021F9E20
  * region: ov132
@@ -9,4 +9,4 @@
  * status: EXACT
  * note: leaf called from script_command.c (ov132).
  */
-void func_021F9E3C(char *p, unsigned int v) { *(unsigned int *)(p + 0x10) = v; }
+void STA_ACTING_SetField10(char *p, unsigned int v) { *(unsigned int *)(p + 0x10) = v; }

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C48D4  0x021C48D4  thumb  ov127
- *   func_021C5370  0x021C5370  thumb  ov127
+ *   WF2DMAP_OBJ_DispatchById  0x021C48D4  thumb  ov127
+ *   WF2DMAP_OBJCMD_Dispatch  0x021C5370  thumb  ov127
  *   WF2DMAP_CMDQ_Pop  0x021C5F80  thumb  ov127
  */
 typedef struct {
@@ -24,8 +24,8 @@ typedef struct {
 
 extern int WF2DMAP_CMDQ_Pop(void *q, int *out);
 typedef unsigned char  u8;
-extern int func_021C5370(void *a, void *b, const u8 *desc, int *out);
-extern void func_021C48D4(void *a, u8 *q);
+extern int WF2DMAP_OBJCMD_Dispatch(void *a, void *b, const u8 *desc, int *out);
+extern void WF2DMAP_OBJ_DispatchById(void *a, u8 *q);
 
 void WIFICLUBACTOR_ProcessSpawnCommands(Work *w)
 {
@@ -33,7 +33,7 @@ void WIFICLUBACTOR_ProcessSpawnCommands(Work *w)
     int b[2];
 
     while (WF2DMAP_CMDQ_Pop(w->f59c, &a) == 1) {
-        if (func_021C5370(w->f588, w->f58c, (const u8 *)(&a), b) == 1)
-            func_021C48D4(w->f58c, (u8 *)b);
+        if (WF2DMAP_OBJCMD_Dispatch(w->f588, w->f58c, (const u8 *)(&a), b) == 1)
+            WF2DMAP_OBJ_DispatchById(w->f58c, (u8 *)b);
     }
 }

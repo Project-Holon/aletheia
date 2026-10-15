@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  *   (none)
  *
  * Tail call to the arm9 Thumb routine 0x02009CC0 with the object's
@@ -19,10 +20,10 @@
 
 typedef unsigned long u32;
 
-extern int func_02009CC0(void *a0);
+extern int WIFILIST_GetGsProfileId(void *a0);
 
 u32 func_021DD020(char *obj)
 {
-    return func_02009CC0((void *)(((struct Obj24397 *)obj)->f4));
+    return WIFILIST_GetGsProfileId((void *)(((struct Obj24397 *)obj)->f4));
 }
 

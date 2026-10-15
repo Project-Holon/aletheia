@@ -1,7 +1,7 @@
 /*
  * file:     zenkoku_zukan_award.c
  * unit:     yes
- * function: func_021B95A0, func_021B9748, func_021B97C4, func_021B9900, func_021B9960, func_021B9964, func_021B9B84, func_021B9BB0, func_021B9C1C, func_021B9CE4, func_021B9D64, func_021B9D84, func_021B9DD0, func_021B9E44, func_021B9E6C
+ * function: ZENKOKU_ZUKAN_AWARD_Init, ZENKOKU_ZUKAN_AWARD_Exit, ZENKOKU_ZUKAN_AWARD_Main, func_021B9900, func_021B9960, func_021B9964, func_021B9B84, func_021B9BB0, func_021B9C1C, func_021B9CE4, func_021B9D64, func_021B9D84, func_021B9DD0, func_021B9E44, ZENKOKU_ZUKAN_AWARD_Callback
  * address:  0x021B95A0
  * region:   ov222
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021B9F10 0x021B9F10 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create 0x021B9F10 thumb ov222
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
@@ -25,7 +25,7 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -43,12 +43,12 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021B9FB8 0x021B9FB8 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete 0x021B9FB8 thumb ov222
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   d_021BA1F4 0x021BA1F4 data a4
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021BA014 0x021BA014 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update 0x021BA014 thumb ov222
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
@@ -65,7 +65,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F02C 0x0201F02C thumb
@@ -74,7 +74,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
@@ -95,7 +95,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_021BA028 0x021BA028 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor 0x021BA028 thumb ov222
  *   d_021BA1D8 0x021BA1D8 data a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -104,7 +104,7 @@
  *   func_02040618 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02040804 0x02040804 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -192,14 +192,14 @@ typedef signed short s16_021B9DD0;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,int,u32);
-extern void *func_021B9F10(u32,u32);
+extern void *ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern char *func_02012944(void*);
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
@@ -214,10 +214,10 @@ extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_021B9FB8(char*);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char*);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
-extern void func_021BA014(char *p);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void*);
 extern int GFL_USE_PushBgm(void);
@@ -243,7 +243,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -252,7 +252,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -267,7 +267,7 @@ extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_021BA028(char *p);
+extern u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
 extern struct Obj *CLACT_CreateActor(void*,u32,u32,u32,const void*,u16,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -278,16 +278,16 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void func_02040618(unsigned,unsigned,unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned func_02040804(unsigned);
-extern void func_02041EE4(unsigned,unsigned,unsigned);
+extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
-int func_021B95A0(void *owner,void *unused,void *input);
-int func_021B9748(void*scene,int unused1,int unused2,char*p);
-int func_021B97C4(int unused, int *state, int unused2, unsigned char *p);
+int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
+int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p);
+int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
 void func_021B98FC(void);
 void func_021B9900(char*p);
 void func_021B9960(char *p);
@@ -301,7 +301,7 @@ void func_021B9D64(char *p);
 void func_021B9D84(char*p);
 void func_021B9DD0(char*p);
 int func_021B9E44(char *p);
-void func_021B9E6C(void);
+void ZENKOKU_ZUKAN_AWARD_Callback(void);
 extern const Row_021B95A0 tbl_021BA1F4[];
 extern Assets tbl_021BA360[];
 extern const Row_021B9748 d_021BA1F4[];
@@ -311,7 +311,7 @@ extern char d_021BA378[];
 extern const u32 d_021BA1D8[];
 extern const u16 d_021BA2AC[][4];
 
-int func_021B95A0(void *owner,void *unused,void *input)
+int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
 {
  char *p,*settings;
  BGMode i;
@@ -326,7 +326,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  MI_CpuFill8(p,i,88);
  *(u16*)p=131;
  *(void**)(p+4)=input;
- *(void**)(p+8)=func_021B9F10(1,*(u16*)p);
+ *(void**)(p+8)=ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=PRINTSYS_QUE_Create((void*)*(u16*)p);
  func_0204047C(1,1);func_0204047C(2,0);
@@ -339,7 +339,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  BG_SYS_ClearSubPlanes();func_0207D518(i);BG_SYS_ClearSubBgPlanes();
  do {
   row=&tbl_021BA1F4[i];id=row->id;
-  func_0203FCA0((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
+  BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
   i++;
  } while((u32)i<1u);
  BG_SYS_SetSubPlaneVisible(16,1);
@@ -356,7 +356,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  return 1;
 }
 
-int func_021B9748(void*scene,int unused1,int unused2,char*p)
+int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p)
 {
  LayerCount i;
  i=0;
@@ -373,13 +373,13 @@ int func_021B9748(void*scene,int unused1,int unused2,char*p)
  PRINTSYS_QUE_Clear(*(void* *)&((struct Obj02559 *)p)->f10);
  PRINTSYS_QUE_Delete(*(void* *)&((struct Obj02559 *)p)->f10);
  GF_FONT_Delete(*(void* *)&((struct Obj02559 *)p)->fC);
- func_021B9FB8(*(char* *)&((struct Obj02559 *)p)->f8);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(*(char* *)&((struct Obj02559 *)p)->f8);
  func_020315D4(scene);
  func_020306F0(0x83);
  return 1;
 }
 
-int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
+int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p)
 {
  int ready;
  u32 x,y;
@@ -412,7 +412,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  PRINTSYS_QUE_Main(*(void* *)&((struct Obj02560 *)p)->f10);
  func_021B9BB0((char *)p);
  if(*state>=1 && *state<=5) func_021B9DD0((char *)p);
- func_021BA014(*(void* *)&((struct Obj02560 *)p)->f8);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(*(void* *)&((struct Obj02560 *)p)->f8);
  return 0;
 }
 
@@ -461,7 +461,7 @@ void func_021B9964(struct Obj *p)
             BMP_WIN_SetPosY(p->ptr[j], d_021BA1E0[j].b);
         }
     }
-    ws = (u32)func_0201EC64(p->heap);
+    ws = (u32)GF_FONT_Create_EC64(p->heap);
     t = (u32)func_02045EC0(p->bank, 4);
     x = (u32)STRBUF_Create(0x20, p->heap);
     off = 0;
@@ -472,7 +472,7 @@ void func_021B9964(struct Obj *p)
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), 0, 0, x, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);
-    func_0201ED04((struct WordSet *)ws);
+    WORDSET_DeleteStrbufED04((struct WordSet *)ws);
     t = (u32)func_02045EC0(p->bank, 6);
     x = (u16)func_0201D304((struct StrObj *)t, (u32)p->str, 0);
     h = BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[3]));
@@ -557,7 +557,7 @@ void func_021B9CE4(char*p)
  *(int *)&((struct Obj01593 *)p)->f48=CLACT_RegisterCharacter(h,3,0,0,((struct Obj01593 *)p)->f0);
  *(int *)&((struct Obj01593 *)p)->f50=CLACT_RegisterCellAnim(h,8,9,((struct Obj01593 *)p)->f0);
  ARC_TOOL_DeleteHandle((void*)h);
- t=func_021BA028(*(void* *)&((struct Obj01593 *)p)->f8);
+ t=ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(*(void* *)&((struct Obj01593 *)p)->f8);
  *(void* *)&((struct Obj01593 *)p)->f54=CLACT_CreateActor((void*)t,((struct Obj01593 *)p)->f48,((struct Obj01593 *)p)->f4C,((struct Obj01593 *)p)->f50,d_021BA1D8,0,((struct Obj01593 *)p)->f0);
  CLACT_SetActorDrawEnable(*(void* *)&((struct Obj01593 *)p)->f54,1);
  CLACT_SetActorAutoAnim(*(void* *)&((struct Obj01593 *)p)->f54,1);
@@ -602,7 +602,7 @@ void func_021B9DD0(char*p)
         if(v!=0){
             if(((struct Obj02560 *)p)->f44==0){
                 if(v>=2)v=2;
-                func_02041EE4(1,5,v);func_02041EE4(2,5,v);
+                BG_SYS_ResetSlot(1,5,v);BG_SYS_ResetSlot(2,5,v);
                 CLACT_GetActorSurfacePos(*(void* *)&((struct Obj02560 *)p)->f54,(struct PtS *)(&pos),0);
                 pos.y=pos.y+(s16_021B9DD0)v;
                 CLACT_AddActorSurfacePos(*(void* *)&((struct Obj02560 *)p)->f54,(const struct Vec2 *)(&pos),0);
@@ -618,7 +618,7 @@ int func_021B9E44(char *p) { int flag;int result;if(((struct Obj26082 *)(*(char 
  * lever: SDK BG0 priority uses explicit (u16) assignment; compound &= pools 0xfffc.
  * volatile: 021B9E7A..021B9EB8 BG0CNT/DISP3DCNT re-reads; 021B9ED6 VIEWPORT
  */
-void func_021B9E6C(void)
+void ZENKOKU_ZUKAN_AWARD_Callback(void)
 {
  u32 i;
  BG_SYS_SetMainPlaneVisible(1,1);

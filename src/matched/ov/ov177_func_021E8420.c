@@ -11,6 +11,7 @@
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  */
 typedef struct { short x, y; } Pos;
 typedef struct {
@@ -30,7 +31,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int func_0209C2B0(int, int);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 int func_021E8420(Work *p)
 {
     int done;
@@ -59,7 +60,7 @@ int func_021E8420(Work *p)
         p->count = 0;
         done = 1;
     }
-    func_02041EE4(2, 0, shift);
-    func_02041EE4(1, 0, shift);
+    BG_SYS_ResetSlot(2, 0, shift);
+    BG_SYS_ResetSlot(1, 0, shift);
     return done;
 }

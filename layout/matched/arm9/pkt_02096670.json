@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02096670",
+   "name": "MSL_C_LIB_SetPrecision",
    "address": "0x02096670",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020968F4",
+   "name": "__str2dec",
    "address": "0x020968F4",
    "kind": "game",
    "region": "arm9",

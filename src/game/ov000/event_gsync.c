@@ -15,7 +15,7 @@
  * Straight-line constructor wrapper over the ARM9 object/service helpers.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -32,13 +32,13 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
  *   func_02009304  0x02009304  thumb
- *   func_0201293C  0x0201293C  thumb
- *   func_02012934  0x02012934  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02012944  0x02012944  thumb
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -153,7 +153,7 @@ typedef struct GsyncEventWorkInit {
     u32 loginMessageId;
 } GsyncEventWorkInit;
 
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
@@ -170,13 +170,13 @@ extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *param);
 extern int GFL_USE_PushBgm(void);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct WifiList *func_02009448(void *saveControl);
 extern u8 func_02009304(const struct WifiList *wifiList);
-extern struct BoxManager *func_0201293C(const struct GameData *gameData);
-extern struct Party *func_02012934(const struct GameData *gameData);
-extern struct MyItem *func_0201292C(const struct GameData *gameData);
+extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
+extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
+extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
 extern u8 *func_02012944(void *gameData);
 extern int func_020079A0(void *boxManager);
 extern struct Config *func_0200873C(void *saveControl);
@@ -207,7 +207,7 @@ extern char d_021EF78C[];
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
-    u32 fieldMap = (u32)func_0201210C(gameSystem);
+    u32 fieldMap = (u32)ICA_ANIME_GetField20(gameSystem);
     int wifiFlag;
 
     switch (*seq) {
@@ -285,8 +285,8 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 13:
         return 1;
     case 16:
-        wifiFlag = func_02009304(func_02009448(GAME_DATA_GetSaveControl(func_020120F4(gameSystem))));
-        if (func_020079A0(func_0201293C(func_020120F4(gameSystem))) == 0 && wifiFlag == 0) {
+        wifiFlag = func_02009304(func_02009448(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
+        if (func_020079A0(GAME_DATA_GetBoxManager(ICA_ANIME_GetField1C(gameSystem))) == 0 && wifiFlag == 0) {
             work->menuResult = 4;
             *seq = 19;
         } else {
@@ -339,10 +339,10 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 21:
-        work->box.gameData = func_020120F4(gameSystem);
-        work->box.boxManager = func_0201293C(work->box.gameData);
-        work->box.party = func_02012934(work->box.gameData);
-        work->box.myItem = func_0201292C(work->box.gameData);
+        work->box.gameData = ICA_ANIME_GetField1C(gameSystem);
+        work->box.boxManager = GAME_DATA_GetBoxManager(work->box.gameData);
+        work->box.party = GAME_DATA_GetMyParty(work->box.gameData);
+        work->box.myItem = GAME_DATA_GetMyItem(work->box.gameData);
         work->box.myStatus = func_02012944(work->box.gameData);
         work->box.config = func_0200873C(GAME_DATA_GetSaveControl(work->box.gameData));
         work->box.pickerBuffer = work->pickerBuffer;
@@ -375,7 +375,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 23:
-        work->confirm.gameData = func_020120F4(gameSystem);
+        work->confirm.gameData = ICA_ANIME_GetField1C(gameSystem);
         work->confirm.loginType = 1;
         work->confirm.loginOption = 0;
         GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveRetryProc, &work->confirm);

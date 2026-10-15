@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5DAC",
+   "name": "EGG_DEMO_MAIN_InitActors",
    "address": "0x021F5DAC",
    "kind": "game",
    "region": "ov215",

@@ -12,7 +12,7 @@
  * symbols:
  *   WORLDTRADE_LIST_CreateStrings  0x021FD270  thumb
  *   WORLDTRADE_LIST_SetupBgPlanes  0x021FCF28  thumb
- *   func_0207D55C  0x0207D55C  arm
+ *   GXx_GetMasterBrightness_  0x0207D55C  arm
  *   WORLDTRADE_TITLE_ScrollBg  0x021FFFE8  thumb
  *   WORLDTRADE_LIST_LoadBgGraphics  0x021FCFD8  thumb
  *   WORLDTRADE_LIST_CreateWindows  0x021FD104  thumb
@@ -80,7 +80,7 @@ typedef struct {
 
 extern void WORLDTRADE_LIST_CreateStrings(Work *p);
 extern void WORLDTRADE_LIST_SetupBgPlanes(int y);
-extern int func_0207D55C(vu16 *reg);
+extern int GXx_GetMasterBrightness_(vu16 *reg);
 extern void WORLDTRADE_TITLE_ScrollBg(u8 *p, u32 a, u32 b);
 extern void WORLDTRADE_LIST_LoadBgGraphics(u8 *p);
 extern void WORLDTRADE_LIST_CreateWindows(Work *p);
@@ -101,7 +101,7 @@ int WORLDTRADE_LIST_Init(Work *p)
 {
     WORLDTRADE_LIST_CreateStrings(p);
     WORLDTRADE_LIST_SetupBgPlanes(-32 - p->scroll);
-    if (func_0207D55C((vu16 *)0x0400106C) == 0) {
+    if (GXx_GetMasterBrightness_((vu16 *)0x0400106C) == 0) {
         WORLDTRADE_TITLE_ScrollBg((u8 *)p, -32 - p->scroll, 1);
     } else {
         WORLDTRADE_TITLE_ScrollBg((u8 *)p, -32 - p->scroll, 0);
@@ -124,9 +124,9 @@ int WORLDTRADE_LIST_Init(Work *p)
     *(vu16 *)0x04000304 |= 0x8000;
     GFL_NET_RestartWithDefaultTimeout(1, 0x48);
     if (p->kind == 0x11) {
-        if (func_0207D55C((vu16 *)0x0400006C) == -16 && func_0207D55C((vu16 *)0x0400106C) != -16) {
+        if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) == -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) != -16) {
             WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
-        } else if (func_0207D55C((vu16 *)0x0400006C) != -16 && func_0207D55C((vu16 *)0x0400106C) == -16) {
+        } else if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) != -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) == -16) {
             WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, 0x48);
         } else {
             WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);

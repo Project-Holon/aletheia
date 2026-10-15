@@ -1,5 +1,5 @@
 /*
- * function: func_02183B60
+ * function: BEACON_DETAIL_Init
  * address: 0x02183B60
  * packet: pkt_ov219_02183B60
  * region: ov219
@@ -27,7 +27,7 @@
  *   func_02009524 0x02009524 thumb
  *   func_021844E4 0x021844E4 thumb ov219
  *   func_02184558 0x02184558 thumb ov219
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   func_0204363C 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
  *   func_02028590 0x02028590 thumb
@@ -57,7 +57,7 @@ extern u8 func_02009524(const struct Sub02009470Obj *obj);
 extern void func_021844E4(void);
 extern void func_02184558(unsigned heap);
 struct WordSet;
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void func_0204363C(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32,u32,u32,u16);
@@ -65,7 +65,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_021845B4(char *);
-int func_02183B60(void *obj,void *unused,void *ctx)
+int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
 {
     char *p;
     GFL_HEAP_CreateChildHeap((u32)((void *)1),0x7c,0x80000);
@@ -85,7 +85,7 @@ int func_02183B60(void *obj,void *unused,void *ctx)
     *(u32 *)(p+0xc060)=0;
     func_021844E4();
     func_02184558((u16)(*(u32 *)p));
-    *(void **)(p+0xc0a8)=func_0201EC74(8,0x40,*(u32 *)p);
+    *(void **)(p+0xc0a8)=WORDSET_Create(8,0x40,*(u32 *)p);
     *(u32 *)(p+0xc310)=0;
     func_0204363C(0);
     *(void **)(p+0xc0a4)=TCBL_Create((u16)(*(u32 *)p),*(u32 *)p,0x20,0x20);

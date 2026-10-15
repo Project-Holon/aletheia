@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   func_0207C768  0x0207C768  arm
  * Addresses are Black-image addresses.
  */
@@ -24,8 +24,8 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } V;
 
-extern void func_0207CA00(const V *a, const V *b, V *c);
-extern int func_0207CBD0(V *a);
+extern void VEC_Subtract(const V *a, const V *b, V *c);
+extern int VEC_Mag(V *a);
 extern u32 func_0207C768(u32 a, u32 b);
 
 static inline void setv(V *o, int x, int y, int z)
@@ -57,18 +57,18 @@ void TALKMSGWIN_BuildShape(u8 *p, u8 *e, const V *a, V *b, V *c, V *d, V *f, V *
     int m4;
     int m5;
 
-    func_0207CA00(b, a, &l0);
-    func_0207CA00(c, a, &l1);
-    func_0207CA00(d, a, &l2);
-    func_0207CA00(f, a, &l3);
-    func_0207CA00(g, a, &l4);
-    func_0207CA00(h, a, &l5);
-    m = func_0207CBD0(&l0);
-    m1 = func_0207CBD0(&l1);
-    m2 = func_0207CBD0(&l2);
-    m3 = func_0207CBD0(&l3);
-    m4 = func_0207CBD0(&l4);
-    m5 = func_0207CBD0(&l5);
+    VEC_Subtract(b, a, &l0);
+    VEC_Subtract(c, a, &l1);
+    VEC_Subtract(d, a, &l2);
+    VEC_Subtract(f, a, &l3);
+    VEC_Subtract(g, a, &l4);
+    VEC_Subtract(h, a, &l5);
+    m = VEC_Mag(&l0);
+    m1 = VEC_Mag(&l1);
+    m2 = VEC_Mag(&l2);
+    m3 = VEC_Mag(&l3);
+    m4 = VEC_Mag(&l4);
+    m5 = VEC_Mag(&l5);
     if (m < m1) {
         m = m1;
     }

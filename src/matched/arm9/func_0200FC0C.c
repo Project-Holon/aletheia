@@ -16,8 +16,8 @@
  *   GFL_NET_ERR_WaitLinkClosed   0x0200FBB0  thumb
  *   GX_HBlankIntr  0x0207D3AC  arm
  *   GX_VBlankIntr  0x0207D3E4  arm
- *   func_020101D4  0x020101D4  thumb
- *   func_0201034C  0x0201034C  thumb
+ *   GFL_NET_ERR_DrawWindow  0x020101D4  thumb
+ *   WIH_DWC_PollSystem  0x0201034C  thumb
  *   GFL_NET_ERR_RestoreDisplay   0x0200FEBC  thumb
  *   GFL_NET_ERR_ResetState   0x0200FBA0  thumb
  *   gNetErrWork     0x0214617C  data
@@ -26,7 +26,7 @@
  * live (func_02010054), abort on a1 == 1, and only when the module object's
  * +0x2c state is 2 run the screen -- re-init graphics (GFL_NET_ERR_SaveDisplayAndDraw) for a
  * link-mode error (+0x59 in 1, 2, 6), poll the link (GFL_NET_ERR_WaitLinkClosed), draw
- * (func_020101D4 or GFL_NET_ERR_SaveDisplayAndDraw), then wait for A/B to be released and
+ * (GFL_NET_ERR_DrawWindow or GFL_NET_ERR_SaveDisplayAndDraw), then wait for A/B to be released and
  * pressed again (the two PAD loops are NitroSDK's PAD_DetachedCover and
  * PAD_Read inlines plus a filter that drops the opposing D-pad bit), then
  * tear down.  Two lessons: the 0x2c test is a WRAPPING if, not an early
@@ -48,8 +48,8 @@ extern void GFL_NET_ERR_SaveDisplayAndDraw(u32 a, u32 b);
 extern u32  GFL_NET_ERR_WaitLinkClosed(void);
 extern u32  GX_HBlankIntr(BOOL on);
 extern u32  GX_VBlankIntr(BOOL on);
-extern void func_020101D4(u32 a, u32 b);
-extern int func_0201034C(void);
+extern void GFL_NET_ERR_DrawWindow(u32 a, u32 b);
+extern int WIH_DWC_PollSystem(void);
 extern void GFL_NET_ERR_RestoreDisplay(int keepDark);
 extern void GFL_NET_ERR_ResetState(void);
 extern u8   gNetErrWork[];
@@ -100,15 +100,15 @@ u32 GFL_NET_ERR_ProcScreen(u32 a0)
         if (mode == 1) {
             ((struct Obj05696 *)g)->f1C = GX_HBlankIntr(0);
             ((struct Obj05696 *)g)->f20 = GX_VBlankIntr(0);
-            func_020101D4(a0, 0);
+            GFL_NET_ERR_DrawWindow(a0, 0);
         } else {
             GFL_NET_ERR_SaveDisplayAndDraw(a0, 0);
         }
         while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) != 0) {
-            func_0201034C();
+            WIH_DWC_PollSystem();
         }
         while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) == 0) {
-            func_0201034C();
+            WIH_DWC_PollSystem();
         }
         GFL_NET_ERR_RestoreDisplay(0);
         GFL_NET_ERR_ResetState();

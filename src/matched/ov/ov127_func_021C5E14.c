@@ -1,5 +1,5 @@
 /*
- * function: func_021C5E14
+ * function: WF2DMAP_SCRDRAW_GetMode
  * address:  0x021C5E14
  * packet:   pkt_021C5E14
  * region:   ov127
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C5E14(unsigned int a, unsigned int b)
+int WF2DMAP_SCRDRAW_GetMode(unsigned int a, unsigned int b)
 {
     int r;
 

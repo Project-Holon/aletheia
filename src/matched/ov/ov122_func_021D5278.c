@@ -1,5 +1,5 @@
 /*
- * function: func_021D5278
+ * function: INTRUDE_COMM_VIEW_StorePeerRecord
  * address: 0x021D5278
  * packet: pkt_ov122_021D5278
  * region: ov122
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void MI_CpuCopy8(const void *, void *, int);
-void func_021D5278(Object *p, const char *data, int value, int tag)
+void INTRUDE_COMM_VIEW_StorePeerRecord(Object *p, const char *data, int value, int tag)
 {
     int i;
     if (value >= 20 && value <= 27) {

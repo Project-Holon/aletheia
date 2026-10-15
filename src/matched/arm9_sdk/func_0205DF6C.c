@@ -1,5 +1,5 @@
 /*
- * function: func_0205DF6C
+ * function: DWCi_AC_SetStealthChannel
  * address:  0x0205DF6C
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -23,11 +23,11 @@ typedef struct tagACWORK {
     unsigned short maxChannel;
 } tagACWORK;
 
-extern void *func_0205C214(unsigned long name);
+extern void *DWCi_AC_GetMemPtr(unsigned long name);
 
-void func_0205DF6C(unsigned short channel)
+void DWCi_AC_SetStealthChannel(unsigned short channel)
 {
-    tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
+    tagACWORK *wk = (tagACWORK *)DWCi_AC_GetMemPtr(0x10);
 
     if (channel > wk->maxChannel) {
         channel = wk->maxChannel;

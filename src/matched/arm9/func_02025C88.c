@@ -1,5 +1,5 @@
 /*
- * function: func_02025C88
+ * function: CURSOR_MOVE_GetTableGroup
  * address:  0x02025C88
  * packet:   pkt_02025C88
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern u8 d_0209FB1B;
 
-u32 func_02025C88(u32 x)
+u32 CURSOR_MOVE_GetTableGroup(u32 x)
 {
     if (x >= 0x10u)
         return 2;

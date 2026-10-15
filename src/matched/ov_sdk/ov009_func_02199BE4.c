@@ -1,5 +1,5 @@
 /*
- * function: func_02199BE4
+ * function: CheckNatifyStatus
  * address:  0x02199BE4
  * packet:   pkt_ov009_02199BE4
  * region:   ov009
@@ -16,9 +16,9 @@
  *   NatifyThink        0x02198E74  arm  ov009
  *   DetermineNatType   0x02198E80  arm  ov009
  *   closesocket        0x0217EB2C  arm  ov009
- *   g_021AE698         0x021AE698  data
- *   g_021AE6C8         0x021AE6C8  data
- *   g_021A5A70         0x021A5A70  data
+ *   gNatnegGlobals         0x021AE698  data
+ *   gNatNegNat         0x021AE6C8  data
+ *   gNatSocks         0x021A5A70  data
  */
 
 #include "../include/G_NatSocks.h"
@@ -48,36 +48,36 @@ extern u32 current_time(void);
 extern int NatifyThink();
 extern int DetermineNatType();
 extern int closesocket();
-extern NatifyState g_021AE698;
-extern NAT g_021AE6C8;
-extern struct NatSocks g_021A5A70;
+extern NatifyState gNatnegGlobals;
+extern NAT gNatNegNat;
+extern struct NatSocks gNatSocks;
 
-int func_02199BE4(int sock)
+int CheckNatifyStatus(int sock)
 {
     int active = 1;
     int success;
 
     if (sock != -1)
     {
-        if (current_time() - g_021AE698.natifyStartTime < 10000)
-            active = NatifyThink(sock, &g_021AE6C8);
+        if (current_time() - gNatnegGlobals.natifyStartTime < 10000)
+            active = NatifyThink(sock, &gNatNegNat);
         else
             active = 0;
         if (active)
             goto done;
-        success = DetermineNatType(&g_021AE6C8);
-        g_021AE698.natifyCallback(success, g_021AE6C8);
-        g_021A5A70.natType = g_021AE6C8.natType;
-        g_021AE698.natMappingScheme = g_021AE6C8.mappingScheme;
-        if (g_021A5A70.mappingSock != -1)
+        success = DetermineNatType(&gNatNegNat);
+        gNatnegGlobals.natifyCallback(success, gNatNegNat);
+        gNatSocks.natType = gNatNegNat.natType;
+        gNatnegGlobals.natMappingScheme = gNatNegNat.mappingScheme;
+        if (gNatSocks.mappingSock != -1)
         {
             closesocket();
-            g_021A5A70.mappingSock = -1;
+            gNatSocks.mappingSock = -1;
         }
-        if (g_021A5A70.ertSock != -1)
+        if (gNatSocks.ertSock != -1)
         {
             closesocket();
-            g_021A5A70.ertSock = -1;
+            gNatSocks.ertSock = -1;
         }
     }
 done:

@@ -17,9 +17,10 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Append  0x02045AA8  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
+ *   WORDSET_CheckF47C  0x0201F47C  thumb
  *
  * The nine-bit unpacker.  A string whose first character is 0xF100
- * (func_0201F47C, src/matched/unit_0201F47C.c) carries its text as a run of
+ * (WORDSET_CheckF47C, src/matched/unit_0201F47C.c) carries its text as a run of
  * nine-bit codes packed into the halfwords after the marker; this walks them
  * and appends one character at a time to the destination.  0x1FF is the
  * terminator as well as the field mask, codes 0x100..0x131 are translated
@@ -59,7 +60,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern const u16 func_0201F4A0_Table[];
-extern u32  func_0201F47C(void *s);
+extern u32  WORDSET_CheckF47C(void *s);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
@@ -79,7 +80,7 @@ void func_0201F4A0(void *dest, void *src)
     s32 bit;
     u16 v;
 
-    if (func_0201F47C(src) != 0) {
+    if (WORDSET_CheckF47C(src) != 0) {
         p = STRBUF_GetChars(src) + 1;
         lim.hi = mask;
         lim.hi -= 0xCD;

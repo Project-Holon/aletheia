@@ -14,7 +14,7 @@
  *   data_02732FF8  0x02732FF8  data twl a2
  *   data_02733008  0x02733008  data twl a2
  *   data_0273302C  0x0273302C  data twl a2
- *   func_0208C86C  0x0208C86C  arm twl a2
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm twl a2
  *   PM_DeletePostExitCallback  0x02731590  arm twl a2
  *   CAMERA_I2CActivateCore  0x02700DB8  arm twl a2
  *   CAMERA_ResetCore  0x02702080  arm twl a2
@@ -36,7 +36,7 @@ extern u32 data_02732FF8[];
 extern u32 data_02733008[];
 extern u32 data_0273302C[];
 
-extern void func_0208C86C(u32*);
+extern void PM_DeletePreSleepCallback(u32*);
 extern void PM_DeletePostExitCallback(u32*);
 extern u32 CAMERA_I2CActivateCore(u32 a0);
 extern void CAMERA_ResetCore(void);
@@ -53,7 +53,7 @@ extern void OS_KillThread(u32*, u32);
 void CAMERA_EndCore(void) {
     if (data_02732FC0[0] == 0) return;
     data_02732FC0[0] = 0;
-    func_0208C86C(data_02732FF8);
+    PM_DeletePreSleepCallback(data_02732FF8);
     PM_DeletePostExitCallback(data_02733008);
     CAMERA_I2CActivateCore(0);
     CAMERA_ResetCore();

@@ -1,5 +1,5 @@
 /*
- * function: func_0205EA08
+ * function: DWCi_AC_CheckNintendoShopAP
  * address:  0x0205EA08
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -17,14 +17,14 @@
  *   @16365                           0x020a8118 data
  */
 
-extern void func_0205EB30(char *ssid, unsigned char *buf);
+extern void decodeSSID(char *ssid, unsigned char *buf);
 extern int memcmp(const void *s1, const void *s2, unsigned long n);
 
-int func_0205EA08(char *ssid)
+int DWCi_AC_CheckNintendoShopAP(char *ssid)
 {
     unsigned char buf[24];
 
-    func_0205EB30(ssid, buf);
+    decodeSSID(ssid, buf);
     if (memcmp(buf, "NDWCSHAP", 8) == 0) {
         return 1;
     }

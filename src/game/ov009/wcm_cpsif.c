@@ -28,7 +28,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
- *   func_02166D2C  0x02166D2C  arm  ov009
+ *   WCMi_WmifSetDCFData  0x02166D2C  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifSetDCFData  0x02731E50  arm  twl
  *   g_021AA7E8     0x021AA7E8  data ov009
@@ -77,7 +77,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
-extern long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
+extern long WCMi_WmifSetDCFData(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
 extern int OS_IsRunOnTwl(void);
 extern void WCMi_NwmifSetDCFData();
 extern void OS_WakeupThread(void *queue);
@@ -251,7 +251,7 @@ long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen
     totalLen = func_02166600(w->deviceId, w->sendBuf, header, headerLen, body, bodyLen);
     switch (w->deviceId) {
     case 1:
-        func_02166D2C(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
+        WCMi_WmifSetDCFData(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
         break;
     case 2:
         if (OS_IsRunOnTwl()) {

@@ -1,5 +1,5 @@
 /*
- * function: func_020761E4
+ * function: CARDi_OldTypeTaskThread
  * address:  0x020761E4
  * packet:   pkt_020761E4
  * region:   arm9
@@ -70,7 +70,7 @@ extern void OS_SleepThread(OSThreadQueue *queue);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 
-void func_020761E4(void)
+void CARDi_OldTypeTaskThread(void)
 {
     CARDiCommon *p = &cardi_common;
 

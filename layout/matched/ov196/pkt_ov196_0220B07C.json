@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220B07C",
+   "name": "B_APP_TOOL_ShowWindow",
    "address": "0x0220B07C",
    "kind": "game",
    "region": "ov196",

@@ -28,7 +28,7 @@
  *   - the allocator's signature, sub_02030734(heapId, size, clear, site,
  *     tag), with the u16 heap id first and the __FILE__ anchor fourth;
  *   - the scratch heap id spelling (g_02146A44->heapId & 0x7fff) | 0x8000,
- *     the same masked form func_02040B94 and func_02040C14 use;
+ *     the same masked form BG_SYS_InitRun and BG_SYS_Init use;
  *   - the source's first word being a header whose top 24 bits are the
  *     decompressed byte count, hence "lsr r4, r2, #8" on *src.
  * The allocator tag is 2963 and the site string is the bg_sys.c anchor at

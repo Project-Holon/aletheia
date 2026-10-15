@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKETRADE_3D_AddUnit  0x021E324C  thumb  ov119
- *   tbl_021E7AC4   0x021E7AC4  data   ov119  a4
+ *   gPokeTrade3dStateTable   0x021E7AC4  data   ov119  a4
  *
  * Addresses are Black-image addresses.
  */
@@ -21,12 +21,12 @@ typedef unsigned int u32;
 typedef void (*Fn)(void *);
 
 extern void POKETRADE_3D_AddUnit(char *p, int n);
-extern Fn tbl_021E7AC4[];
+extern Fn gPokeTrade3dStateTable[];
 
 void POKETRADE_3D_AddUnitAndInit(void *p, int a)
 {
     POKETRADE_3D_AddUnit(p, a);
     if (((struct Obj03779 *)p)->f109C != 0xFFFFFFFF) {
-        tbl_021E7AC4[*(u32 *)((char *)p + 0x109C) * 2](p);
+        gPokeTrade3dStateTable[*(u32 *)((char *)p + 0x109C) * 2](p);
     }
 }

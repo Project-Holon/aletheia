@@ -15,12 +15,12 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_021D7710 0x021D7710 thumb ov120
  *   func_021D846C 0x021D846C thumb ov120
  *   MSGDATA_Delete 0x02045C04 arm
@@ -42,7 +42,7 @@ struct S02031140;
 struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_021D7710(u8 *p);
 extern void func_0201DD68(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -50,7 +50,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021D846C(u8 *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -69,9 +69,9 @@ void func_021D7898(char *p)
     int i;
     u32 t;
     t=((struct Obj00286 *)p)->f4;
-    func_0203FB44(1,(u16)t,decode(t));
+    BG_SYS_DeleteHalf(1,(u16)t,decode(t));
     t=((struct Obj00286 *)p)->f0;
-    func_0203FB44(6,(u16)t,decode(t));
+    BG_SYS_DeleteHalf(6,(u16)t,decode(t));
     func_021D7710((u8 *)p);
     func_0201DD68();
     MSGDATA_Delete(((struct Obj00286 *)p)->fC);
@@ -81,7 +81,7 @@ void func_021D7898(char *p)
     STRBUF_Delete(((struct Obj00286 *)p)->f20);
     func_021D846C((u8 *)p);
     if(((struct Obj00286 *)p)->f9C) {PRINTSYS_PrintStreamDelete(((struct Obj00286 *)p)->f9C);((struct Obj00286 *)p)->f9C=0;}
-    func_0201ED04(((struct Obj00286 *)p)->f10);
+    WORDSET_DeleteStrbufED04(((struct Obj00286 *)p)->f10);
     if(((struct Obj00286 *)p)->fC4) {APP_TASKMENU_WIN_Delete(((struct Obj00286 *)p)->fC4);((struct Obj00286 *)p)->fC4=0;}
     APP_TASKMENU_RES_Delete(((struct Obj00286 *)p)->fC0);
     TCBL_Destroy(((struct Obj00286 *)p)->fA0);

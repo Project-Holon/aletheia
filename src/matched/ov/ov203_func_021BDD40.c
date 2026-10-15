@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: DISP3DCNT 04000060 reread at DD4E/DD5A/DD64/DD6E/DD7A; 04000580 store DD9E.
  * symbols:
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -24,7 +24,7 @@ static inline void G3X_AlphaTest(int enable, int ref) { if (enable) { DISP3DCNT 
 static inline void G3X_AlphaBlend(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 8); else DISP3DCNT &= (unsigned short)~0x3008; }
 static inline void G3X_EdgeMarking(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 32); else DISP3DCNT &= (unsigned short)~0x3020; }
 extern const unsigned short d_021BFB7C[][4];
-extern void func_0204044C(unsigned);
+extern void BG_SYS_SetLowBit(unsigned);
 extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, int);
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 void func_021BDD40(void)
 {
     unsigned i = 0;
-    func_0204044C(0);
+    BG_SYS_SetLowBit(0);
     G3X_SetShading(ShadingHighlight);
     G3X_AntiAlias(0);
     G3X_AlphaTest(0, 0);

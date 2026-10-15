@@ -9,7 +9,7 @@
  * status: EXACT
  * prototype: 02028590 tail forwarder has a void legacy declaration; caller stores its live r0 at 021E117E.
  * symbols:
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -28,7 +28,7 @@ struct R;
 struct Tcbl;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -39,7 +39,7 @@ extern void *func_02028590(u32,u32,u32,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 void POKETRADE_SAVE_CreateMessageResources(char *p)
 {
-    ((struct Obj00001 *)p)->f724=func_0201EC64(((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f724=GF_FONT_Create_EC64(((struct Obj00001 *)p)->f5F4);
     ((struct Obj00001 *)p)->f720=func_02045B38(0,2,159,((struct Obj00001 *)p)->f5F4);
     ((struct Obj00001 *)p)->f728=GF_FONT_Create(23,0,0,0,((struct Obj00001 *)p)->f5F4);
     ((struct Obj00001 *)p)->f730=STRBUF_Create(128,((struct Obj00001 *)p)->f5F4);

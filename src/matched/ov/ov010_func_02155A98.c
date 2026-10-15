@@ -21,7 +21,7 @@
  *   MUSICAL_PROGRAM_Create  0x02157028  thumb  ov010
  *   func_021F685C  0x021F685C  thumb  ov112
  *   func_021F68BC  0x021F68BC  thumb  ov112
- *   func_021FD904  0x021FD904  thumb  ov132
+ *   STA_NET_GetField48  0x021FD904  thumb  ov132
  *   func_021FC848  0x021FC848  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_020122C0  0x020122C0  thumb
@@ -34,10 +34,10 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
- *   func_0200A7C8  0x0200A7C8  thumb
+ *   MUSICAL_SAVE_GetScriptSetting  0x0200A7C8  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
- *   func_0200A81C  0x0200A81C  thumb
+ *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
  *   func_02005728  0x02005728  thumb
  */
 
@@ -101,13 +101,13 @@ extern void GAME_BEACON_SEARCH_SetNamedEvent(void *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *GAME_DATA_GetSaveBlock2A(void *h);
 extern void *func_021F685C(u32 heap);
-extern int func_021FD904(int *p);
-extern u8 func_0200A7C8(struct Big *p);
+extern int STA_NET_GetField48(int *p);
+extern u8 MUSICAL_SAVE_GetScriptSetting(struct Big *p);
 extern void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *POKE_TOOL_Dummy(void *p);
 extern void func_021FC848(u8 *p, void *a, void *b, int unused, void *d, u16 heap);
-extern u16 func_0200A81C(struct Big *p);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern u32 func_02005728(u32 n);
 extern struct Deal *MUSICAL_PROGRAM_Create(u32 heap, struct Src *src, u16 lim);
 extern int MUSICAL_EVENT_Main(void *evt, void *unused, struct Seq *s);
@@ -141,14 +141,14 @@ void *MUSICAL_EVENT_Create(void *a, void *b, u8 c, u32 d, struct Link *link)
     s->f34 = 0;
     s->f40 = GAME_DATA_GetSaveBlock2A(b);
     s->f24 = func_021F685C(4);
-    if (s->f14 == 0 || func_021FD904(s->link->sess) == 1)
-        func_021F68BC(s->f24, (u32)s->f1c, s->f04, func_0200A7C8(s->f40), 0x2C);
+    if (s->f14 == 0 || STA_NET_GetField48(s->link->sess) == 1)
+        func_021F68BC(s->f24, (u32)s->f1c, s->f04, MUSICAL_SAVE_GetScriptSetting(s->f40), 0x2C);
     if (s->f14 == 1) {
         s->state = 11;
         s->f10 = 0;
         func_021FC848(s->f28, GAME_DATA_GetMyStatus(s->f04), POKE_TOOL_Dummy(s->f18), (int)s->f20, s->f24, 4);
     } else {
-        u16 lim = func_0200A81C(s->f40);
+        u16 lim = MUSICAL_SAVE_GetFanPoints(s->f40);
         u8 i;
         u8 j;
         u8 k;

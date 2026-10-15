@@ -15,7 +15,7 @@
  *   data_02732DC4  0x02732DC4  data twl
  *   CARD_ReadRomHashImage  0x0272F740  arm twl
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_02077008  0x02077008  arm
+ *   CARDi_ReadRomWithDMA  0x02077008  arm
  *   CARD_NotifyRomHashReadAsync  0x0272EE2C  arm twl
  *   data_02150200  0x02150200  data
  *   data_02732DA8  0x02732DA8  data twl
@@ -30,7 +30,7 @@
  *   CARD_LockRom  0x02075E10  arm
  *   CARD_UnlockRom  0x02075E80  arm
  *   OS_ReleaseLockID  0x02084F10  arm
- *   func_02076E4C  0x02076E4C  arm
+ *   CARDi_ReadRomWithCPU  0x02076E4C  arm
  *   CARD_InitRomHashContext  0x0272F0BC  arm twl
  *   data_02732DA0  0x02732DA0  data twl
  *   data_02732DA4  0x02732DA4  data twl
@@ -62,7 +62,7 @@ struct Request {
 extern struct SysState data_02150200;
 extern struct Request data_02732DA8;
 extern void DWCi_ScreenDC_FlushRange(u32, u32);
-extern void func_02077008(struct Request *);
+extern void CARDi_ReadRomWithDMA(struct Request *);
 extern void CARD_NotifyRomHashReadAsync(void *);
 extern struct Hook data_02150840;
 extern u32 data_02732DA0, data_02732DA4;
@@ -78,7 +78,7 @@ extern int OS_GetLockID(void);
 extern void CARD_LockRom(u16 id);
 extern void CARD_UnlockRom(u16 id);
 extern void OS_ReleaseLockID(u16 id);
-extern int func_02076E4C(void *, void *, u32, u32);
+extern int CARDi_ReadRomWithCPU(void *, void *, u32, u32);
 extern void CARD_InitRomHashContext(void *, void *, u32, u32, void *, void *, void *);
 
 void CARD_ReadRomHashImage(void *obj, u8 *buf, u32 off, u32 len);
@@ -101,7 +101,7 @@ u32 CARDi_ReadCardWithHashInternalAsync(u32 a, u32 b, u32 c, u32 d)
         data_02732DA8.d = d;
         data_02732DA8.f0 = 0;
         data_02732DA8.f18 = 0;
-        func_02077008(&data_02732DA8);
+        CARDi_ReadRomWithDMA(&data_02732DA8);
     }
     return d;
 }
@@ -131,7 +131,7 @@ void CARDi_InitRomHash(void)
     data_02150840.callback = CARDi_ReadCardWithHash;
     lock = OS_GetLockID();
     CARD_LockRom(lock);
-    CARD_InitRomHashContext(data_02732DC4, func_02075E04(), data_02732DA0, data_02732DA4, func_02076E4C, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
+    CARD_InitRomHashContext(data_02732DC4, func_02075E04(), data_02732DA0, data_02732DA4, CARDi_ReadRomWithCPU, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
     data_02732DA0 = 0;
     data_02732DA4 = 0;
     CARD_UnlockRom(lock);

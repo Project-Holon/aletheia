@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F10
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create
  * address: 0x021B9F10
  * packet: pkt_ov222_021B9F10
  * region: ov222
@@ -21,9 +21,9 @@
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021BA048 0x021BA048 thumb ov222
- *   func_021BA0EC 0x021BA0EC thumb ov222
- *   func_021BA15C 0x021BA15C thumb ov222
- *   func_021BA034 0x021BA034 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact 0x021BA0EC thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera 0x021BA15C thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task 0x021BA034 thumb ov222
  *   d_021BA390 0x021BA390 data a1
  *   d_021BA2CC 0x021BA2CC data a4
  */
@@ -45,10 +45,10 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void* func_020056A0(u32,u32,u32);
 extern void func_021BA048(void*,u32);
-extern void func_021BA0EC(unsigned char*,int,int);
-extern void func_021BA15C(u32**,u32);
-extern void func_021BA034(void*,char*);
-void* func_021B9F10(u32 swap,u32 heap)
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char*,int,int);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32**,u32);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(void*,char*);
+void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
 {
  char*p;
  u32*g;
@@ -67,8 +67,8 @@ void* func_021B9F10(u32 swap,u32 heap)
  BG_SYS_ClearSubPlanes();
  func_0201DD60();
  func_021BA048(p,heap);
- func_021BA0EC((unsigned char*)p+4,(int)g,heap);
- func_021BA15C((u32**)(p+8),heap);
- *(void* *)&((struct Obj26083 *)p)->fC=func_020056A0((u32)func_021BA034,(u32)p,0);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
+ *(void* *)&((struct Obj26083 *)p)->fC=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task,(u32)p,0);
  return p;
 }

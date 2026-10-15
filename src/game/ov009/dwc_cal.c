@@ -21,24 +21,24 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_020889C0  0x020889C0  arm
+ *   RTC_GetDateTime  0x020889C0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_02166384  0x02166384  arm  ov009
  *   func_020862B8  0x020862B8  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_0205BDD0  0x0205BDD0  arm
+ *   DWC_AC_GetApType  0x0205BDD0  arm
  *   func_021663C8  0x021663C8  arm  ov009
- *   func_0205BE00  0x0205BE00  arm
+ *   DWC_AC_GetApSpotInfo  0x0205BE00  arm
  *   g_021A2490     0x021A2490  data ov009
  *   g_021A2498     0x021A2498  data ov009
  *   g_021A24A0     0x021A24A0  data ov009
  *   g_021A24A8     0x021A24A8  data ov009
  *   g_021A24B4     0x021A24B4  data ov009
  *   g_021A24D0     0x021A24D0  data ov009
- *   func_0209477C  0x0209477C  arm
- *   func_02179F3C  0x02179F3C  arm  ov009
- *   func_02096578  0x02096578  arm
- *   func_02179E60  0x02179E60  arm  ov009
+ *   strlen  0x0209477C  arm
+ *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
+ *   wcslen  0x02096578  arm
+ *   DWC_Http_Add_HeaderItem  0x02179E60  arm  ov009
  *   g_021A24E0     0x021A24E0  data ov009
  *   g_021A24EC     0x021A24EC  data ov009
  *   g_021A24F4     0x021A24F4  data ov009
@@ -129,18 +129,18 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void OS_GetOwnerInfo(OSOwnerInfo *info);
-extern int func_020889C0(RTCDate *date, RTCTime *time);
+extern int RTC_GetDateTime(RTCDate *date, RTCTime *time);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned char *func_02166384(void);
 extern void func_020862B8(void *startAddr, unsigned long nBytes);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned char func_0205BDD0(void);
+extern unsigned char DWC_AC_GetApType(void);
 extern unsigned char *func_021663C8(unsigned short *length);
-extern int func_0205BE00(unsigned char *apSpotInfo);
-extern int func_0209477C(const u8 *s);
-extern int func_02179F3C(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_02096578(const u16 *s);
-extern int func_02179E60(char *http, char *label, char *data);
+extern int DWC_AC_GetApSpotInfo(unsigned char *apSpotInfo);
+extern int strlen(const u8 *s);
+extern int DWC_Http_Add_PostBase64Item(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
+extern int wcslen(const u16 *s);
+extern int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
 int func_02178F4C(void *cal);
 int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo);
 int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
@@ -226,7 +226,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     OS_SNPrintf(cal->birth, sizeof(cal->birth), g_021A24A8,
                   ownerinfo.birthday.month, ownerinfo.birthday.day);
 
-    if (func_020889C0(&rtcdate, &rtctime) != 0)
+    if (RTC_GetDateTime(&rtcdate, &rtctime) != 0)
         return 0;
     OS_SNPrintf(cal->devtime, sizeof(cal->devtime), g_021A24B4,
                   rtcdate.year, rtcdate.month, rtcdate.day,
@@ -243,7 +243,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     for (i = 0; i < 6; i++)
         OS_SPrintf(&cal->bssid[i * 2], g_021A24A0, wcmbssid[i]);
 
-    aptype = func_0205BDD0();
+    aptype = DWC_AC_GetApType();
     if (aptype == 0xff || aptype > 99)
         aptype = 99;
     OS_SNPrintf(cal->apinfo, sizeof(cal->apinfo), g_021A24D0, aptype);
@@ -255,7 +255,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
         return 0;
     }
     MI_CpuCopy8(wcmessid, cal->ssid, 32);
-    func_0205BE00((unsigned char *)&cal->apinfo[3]);
+    DWC_AC_GetApSpotInfo((unsigned char *)&cal->apinfo[3]);
 
     OS_RestoreInterrupts(preirq);
     return 1;
@@ -270,41 +270,41 @@ int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
     char buf[33];
 
     OS_SNPrintf(buf, sizeof(buf), g_021A24E0, 5, 3);
-    if (func_02179F3C(http, (char *)g_021A24EC, buf, func_0209477C((const u8 *)buf)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24EC, buf, strlen((const u8 *)buf)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A24F4, calinfo->userid, func_0209477C((const u8 *)calinfo->userid)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24F4, calinfo->userid, strlen((const u8 *)calinfo->userid)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A24FC, calinfo->passwd, func_0209477C((const u8 *)calinfo->passwd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24FC, calinfo->passwd, strlen((const u8 *)calinfo->passwd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2504, calinfo->bssid, func_0209477C((const u8 *)calinfo->bssid)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2504, calinfo->bssid, strlen((const u8 *)calinfo->bssid)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A250C, calinfo->apinfo, func_0209477C((const u8 *)calinfo->apinfo)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A250C, calinfo->apinfo, strlen((const u8 *)calinfo->apinfo)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2514, calinfo->gamecd, func_0209477C((const u8 *)calinfo->gamecd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2514, calinfo->gamecd, strlen((const u8 *)calinfo->gamecd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A251C, calinfo->makercd, func_0209477C((const u8 *)calinfo->makercd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A251C, calinfo->makercd, strlen((const u8 *)calinfo->makercd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2524, calinfo->unitcd, func_0209477C((const u8 *)calinfo->unitcd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2524, calinfo->unitcd, strlen((const u8 *)calinfo->unitcd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A252C, calinfo->macadr, func_0209477C((const u8 *)calinfo->macadr)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A252C, calinfo->macadr, strlen((const u8 *)calinfo->macadr)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2534, calinfo->lang, func_0209477C((const u8 *)calinfo->lang)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2534, calinfo->lang, strlen((const u8 *)calinfo->lang)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A253C, calinfo->birth, func_0209477C((const u8 *)calinfo->birth)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A253C, calinfo->birth, strlen((const u8 *)calinfo->birth)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2544, calinfo->devtime, func_0209477C((const u8 *)calinfo->devtime)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2544, calinfo->devtime, strlen((const u8 *)calinfo->devtime)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A254C, (char *)calinfo->devname, func_02096578(calinfo->devname) * 2) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A254C, (char *)calinfo->devname, wcslen(calinfo->devname) * 2) != 0)
         return 0;
     if (allowessid == 1) {
-        if (func_02179F3C(http, (char *)g_021A2554, calinfo->ssid, func_0209477C((const u8 *)calinfo->ssid)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2554, calinfo->ssid, strlen((const u8 *)calinfo->ssid)) != 0)
             return 0;
     }
 
     OS_SNPrintf(buf, sizeof(buf), g_021A255C, 5, 3);
-    if (func_02179E60((char *)http, (char *)g_021A2574, buf) != 0)
+    if (DWC_Http_Add_HeaderItem((char *)http, (char *)g_021A2574, buf) != 0)
         return 0;
-    if (func_02179E60((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)
+    if (DWC_Http_Add_HeaderItem((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)
         return 0;
     return 1;
 }

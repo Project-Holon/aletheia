@@ -18,6 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 #include "../include/Obj02477.h"
 typedef unsigned char u8;
@@ -33,7 +34,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(unsigned int,unsigned int,unsigned int);
 extern void *PRINTSYS_PrintStream(void *,int,int,void *,void *,int,void *,int,u16,u16);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -46,7 +47,7 @@ void PDWACC_MESSAGE_PrintStream(char *p, int n)
     q=((struct Obj02477 *)p)->f48;
     BMP_Clear(BMP_WIN_GetBmp(q),15);
     GF_FONT_SetTextColor(1,2,15);
-    ((struct Obj02477 *)p)->f80=PRINTSYS_PrintStream(q,0,0,((struct Obj02477 *)p)->f2C,((struct Obj02477 *)p)->f28,func_02012FFC(),((struct Obj02477 *)p)->f88,2,((struct Obj02477 *)p)->fB0,15);
+    ((struct Obj02477 *)p)->f80=PRINTSYS_PrintStream(q,0,0,((struct Obj02477 *)p)->f2C,((struct Obj02477 *)p)->f28,MSG_SPEED_GetWait(),((struct Obj02477 *)p)->f88,2,((struct Obj02477 *)p)->fB0,15);
     func_0201F73C(q,1,(u16)(((struct Obj02477 *)p)->f8),12);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);

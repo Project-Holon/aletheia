@@ -35,8 +35,8 @@
  *   python tools/match.py one --src src/matched/NNS_G2dFindBinaryBlock.c  *       --func NNS_G2dFindBinaryBlock --addr 0x02062B64 --cc 1.1p1
  *
  * symbols:
- *   func_02062F90  0x02062F90  arm
- *   func_02091588  0x02091588  arm
+ *   NNS_G2dResetCellAnimation  0x02062F90  arm
+ *   abs  0x02091588  arm
  */
 #include "../../matched/include/Obj07015.h"
 #include "../../matched/include/Obj11525.h"
@@ -174,8 +174,8 @@ struct Node {
     struct Owner *owner;
 };
 
-extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
-extern s32 func_02091588(s32 x);
+extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
+extern s32 abs(s32 x);
 BOOL func_02062B30(void *file, void **out);
 void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
 void func_02062BAC(struct Tbl *t);
@@ -321,7 +321,7 @@ static inline u32 getMode(struct Slider *s) {
 
 /*
  * One step of the NNS G2D cell/animation player: advance the playback cursor,
- * fire the user callback if one is armed, hand off to func_02062F90 when the
+ * fire the user callback if one is armed, hand off to NNS_G2dResetCellAnimation when the
  * playback mode says to, and finally clamp the cursor into the frame table's
  * bounds.
  *
@@ -409,7 +409,7 @@ void func_02062BF4(struct Slider *s)
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
-                func_02062F90((struct NNSG2dAnimController *)s);
+                NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
             } else {
                 s->field_0C = 0;
             }
@@ -420,7 +420,7 @@ void func_02062BF4(struct Slider *s)
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
-            func_02062F90((struct NNSG2dAnimController *)s);
+            NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
         } else {
             s->field_0C = 0;
         }
@@ -597,7 +597,7 @@ BOOL func_02062D4C(Ctrl *p, s32 frames)
 
     if (p->bActive != 1)
         return 0;
-    p->currentTime += func_02091588(FX_Mul(p->speed, frames));
+    p->currentTime += abs(FX_Mul(p->speed, frames));
     while (ShouldAdvance_(p)) {
         bChanged = 1;
         p->currentTime -= p->pCurrent->frames << 12;

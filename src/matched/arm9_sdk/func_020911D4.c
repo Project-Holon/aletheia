@@ -1,5 +1,5 @@
 /*
- * function: func_020911D4
+ * function: MSL_C_LIB_EmptyStub
  * address:  0x020911D4
  * packet:   pkt_020911D4
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      CTRDGi_DummyCallback (libctrdg.TWL.HYB.a ctrdg_proc.o, static; no catalog row, named by the ABS32 relocation of its caller)
  */
 
-void func_020911D4(void)
+void MSL_C_LIB_EmptyStub(void)
 {
 
 }

@@ -16,7 +16,7 @@
  *
  * PRINTSYS_PrintStreamShortWait lowers a level-like byte at +0x1E and, when the new value is
  * zero, replaces the pair at +0x1C/+0x1D through PRINTSYS_PrintStreamSetSpeed with whatever
- * func_02013080(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
+ * MSG_SPEED_GetWaitForSpeed(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
  * restores the pair from the backup at +0x18/+0x19.
  *
  * PRINTSYS_PrintStreamIsOverrideSpeed is an unlabelled follower, eight bytes with no prologue.  It
@@ -38,6 +38,7 @@
  *
  * symbols:
  *   PRINTSYS_SplitWait  0x0201CDF4  thumb
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
  */
 
 typedef unsigned char u8;
@@ -56,7 +57,7 @@ struct Rec {
     u8 unk22;
 };
 
-extern signed char func_02013080(u32 idx);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern void PRINTSYS_SplitWait(s32 v, u8 *out);
 
 void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32 v);
@@ -66,7 +67,7 @@ void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v)
     if (v < p->unk1E) {
         p->unk1E = (u8)v;
         if (v == 0) {
-            PRINTSYS_PrintStreamSetSpeed(p, func_02013080(2));
+            PRINTSYS_PrintStreamSetSpeed(p, MSG_SPEED_GetWaitForSpeed(2));
             ((u8 *)p)[0x22] = 0x10u | ((u8 *)p)[0x22];
         }
     }

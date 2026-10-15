@@ -1,5 +1,5 @@
 /*
- * function: func_021F8480
+ * function: BR_DOWNLOAD_Create
  * address: 0x021F8480
  * packet: pkt_ov184_021F8480
  * region: ov184
@@ -18,12 +18,12 @@
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200A5F8 0x0200A5F8 thumb
- *   func_0200A640 0x0200A640 thumb
- *   func_021F88A4 0x021F88A4 thumb ov184
- *   func_021F891C 0x021F891C thumb ov184
+ *   MUSICAL_SAVE_GetFromSave 0x0200A5F8 thumb
+ *   MUSICAL_SAVE_NoOp 0x0200A640 thumb
+ *   BR_DOWNLOAD_Begin3d 0x021F88A4 thumb ov184
+ *   BR_DOWNLOAD_CreateButtons 0x021F891C thumb ov184
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
- *   func_021F85DC 0x021F85DC thumb ov184
+ *   BR_DOWNLOAD_StepFadeIn 0x021F85DC thumb ov184
  */
 #include "../include/Obj02898.h"
 #include "../include/Obj06617.h"
@@ -44,13 +44,13 @@ extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A5F8(void *sys);
-extern int func_0200A640(int);
-extern void func_021F88A4(char *,char *);
-extern void func_021F891C(char *p, const char *q);
+extern void *MUSICAL_SAVE_GetFromSave(void *sys);
+extern int MUSICAL_SAVE_NoOp(int);
+extern void BR_DOWNLOAD_Begin3d(char *,char *);
+extern void BR_DOWNLOAD_CreateButtons(char *p, const char *q);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void func_021F85DC(int,int *,char *);
-int func_021F8480(void *obj,int b,char *q)
+extern void BR_DOWNLOAD_StepFadeIn(int,int *,char *);
+int BR_DOWNLOAD_Create(void *obj,int b,char *q)
 {
     char *p;
     void *v;
@@ -64,9 +64,9 @@ int func_021F8480(void *obj,int b,char *q)
     v=(void *)BR_GRAPHIC_GetActorUnit(((struct Obj06617 *)q)->f8);
     ((struct Obj02898 *)p)->f1C=BMP_OAM_CreateSys(((struct Obj02898 *)p)->f24,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=BR_UTIL_CreateHandles((unsigned int)v,(char *)(((struct Obj06617 *)q)->fC),i,((struct Obj02898 *)p)->f24);
-    ((struct Obj02898 *)p)->f28=func_0200A640((int)func_0200A5F8((void *)GAME_DATA_GetSaveControl((struct Big *)(((struct Obj06617 *)q)->f18))));
-    func_021F88A4(p,q);
-    func_021F891C(p,q);
-    ((struct Obj02898 *)p)->fC=BR_UTIL_CreateTask((int)p,(int)func_021F85DC,((struct Obj02898 *)p)->f24);
+    ((struct Obj02898 *)p)->f28=MUSICAL_SAVE_NoOp((int)MUSICAL_SAVE_GetFromSave((void *)GAME_DATA_GetSaveControl((struct Big *)(((struct Obj06617 *)q)->f18))));
+    BR_DOWNLOAD_Begin3d(p,q);
+    BR_DOWNLOAD_CreateButtons(p,q);
+    ((struct Obj02898 *)p)->fC=BR_UTIL_CreateTask((int)p,(int)BR_DOWNLOAD_StepFadeIn,((struct Obj02898 *)p)->f24);
     return 1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179CF4",
+   "name": "DWC_Http_Destroy",
    "address": "0x02179CF4",
    "kind": "sdk",
    "region": "ov009",

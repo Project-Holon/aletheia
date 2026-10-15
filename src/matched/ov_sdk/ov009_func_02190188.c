@@ -16,8 +16,8 @@
  *   func_02193378  0x02193378  arm  ov009
  *   func_02193710  0x02193710  arm  ov009
  *   func_02189D78  0x02189D78  arm  ov009
- *   func_020964E0  0x020964E0  arm
- *   func_02094B20  0x02094B20  arm
+ *   atoi  0x020964E0  arm
+ *   strstr  0x02094B20  arm
  *   func_0218FCD8  0x0218FCD8  arm  ov009
  *   func_02193734  0x02193734  arm  ov009
  *   func_02189300  0x02189300  arm  ov009
@@ -58,8 +58,8 @@ extern int func_0219329C(int *connection, const char *input, int fatal);
 extern int func_02193378(char *command, char *key, int *index, char *value, int len);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
-extern int func_020964E0(const char *s);
-extern char *func_02094B20(const char *s1, const char *s2);
+extern int atoi(const char *s);
+extern char *strstr(const char *s1, const char *s2);
 extern GPIProfile *func_0218FCD8(void **connection, int id);
 extern void func_02193734(int *p, int b);
 extern int func_02189300(void **connection, int id, int isDeleted);
@@ -88,9 +88,9 @@ int func_02190188(void **connection, char *input)
         func_02189D78((int *)connection, 3, 1);
         return 3;
     }
-    num = func_020964E0(buffer);
+    num = atoi(buffer);
 
-    str = func_02094B20(input, g_021A5234);
+    str = strstr(input, g_021A5234);
     if (!str) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
         func_02189D78((int *)connection, 3, 1);
@@ -112,7 +112,7 @@ int func_02190188(void **connection, char *input)
             }
         }
 
-        profileid = func_020964E0(buffer);
+        profileid = atoi(buffer);
         profile = func_0218FCD8(connection, profileid);
         if (!profile) {
             func_02193734((int *)connection, (int)g_021A5214);

@@ -35,8 +35,8 @@
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_021685CC  0x021685CC  arm  ov009
  *   DWCi_GetDefaultMatchFilter  0x0216FAD4  arm  ov009
- *   func_0219F00C  0x0219F00C  arm  ov009
- *   func_0219EED4  0x0219EED4  arm  ov009
+ *   ServerBrowserClear  0x0219F00C  arm  ov009
+ *   ServerBrowserLimitUpdateA  0x0219EED4  arm  ov009
  *   OS_SNPrintf    0x02084F80  arm
  *   OS_GetTick     0x020870D0  arm
  *   stGameMatchKeys          0x021AAA40  data
@@ -93,8 +93,8 @@ extern DWCstMatchControl *func_02175F3C(void);
 extern u32 func_021685CC(u32 max);
 extern int DWCi_GetDefaultMatchFilter(char *filter, int profileID, u8 numEntry, u8 matchType, u8 hostState);
 struct ServerBrowser;
-extern void func_0219F00C(char *p);
-extern int func_0219EED4(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
+extern void ServerBrowserClear(char *p);
+extern int ServerBrowserLimitUpdateA(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
 extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern u64 OS_GetTick(void);
 extern DWCstGameMatchKeyData stGameMatchKeys[154];
@@ -174,10 +174,10 @@ static SBError func_0216F770(int profileID)
         break;
     }
 
-    func_0219F00C(func_02175F3C()->sbObj);
+    ServerBrowserClear(func_02175F3C()->sbObj);
     n = E0;
     do {
-        sbError = func_0219EED4(func_02175F3C()->sbObj, sbBlock, SBFalse, basicFields, numBasicFields, filter, func_02175F3C()->state == 0x16 ? 1 : 6);
+        sbError = ServerBrowserLimitUpdateA(func_02175F3C()->sbObj, sbBlock, SBFalse, basicFields, numBasicFields, filter, func_02175F3C()->state == 0x16 ? 1 : 6);
         if (sbError == 0 || sbError != 2)
             break;
         n++;

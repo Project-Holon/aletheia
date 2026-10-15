@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DCC
+ * function: CTVT_COMM_Delete
  * address: 0x021B7DCC
  * packet: pkt_ov172_021B7DCC
  * region: ov172
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void GFL_NET_FreeAligned(void *);
 extern int COMM_TVT_SYS_IsLaunchModeCall(void *);
-void func_021B7DCC(void *p, char *q)
+void CTVT_COMM_Delete(void *p, char *q)
 {
     u8 i;
     GFL_NET_LOWER_DATA_Exit();

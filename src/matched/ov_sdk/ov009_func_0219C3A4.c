@@ -33,7 +33,7 @@
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
- *   func_02199DFC  0x02199DFC  arm  ov009
+ *   NNBeginNegotiationWithSocket  0x02199DFC  arm  ov009
  *   NatNegCompletedCallback  0x0219BA58  arm  ov009
  *   NatNegProgressCallback  0x0219BA54  arm  ov009
  *   @13818         0x021A1B64  data
@@ -119,7 +119,7 @@ typedef struct qr2_implementation_s {
 
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern unsigned long func_021803BC(char *dst, const char *src, unsigned long size);
-extern int func_02199DFC(int gamesocket, int cookie, int clientindex,
+extern int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
                          void (*progresscallback)(int, void *),
                          void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata);
 extern void NatNegCompletedCallback(int result, int gamesocket, SOCSockAddrIn *remoteaddr, void *userdata);
@@ -157,7 +157,7 @@ void qr_process_client_message(qr2_t qrec, char *buf, int len)
                 gGsAvailabilityState = 1;
                 func_021803BC(gGsAvailabilityGameName, qrec->gamename, 64);
             }
-            func_02199DFC(qrec->hbsock, cookie, 1, NatNegProgressCallback, NatNegCompletedCallback, qrec);
+            NNBeginNegotiationWithSocket(qrec->hbsock, cookie, 1, NatNegProgressCallback, NatNegCompletedCallback, qrec);
         } else if (qrec->nn_callback)
             qrec->nn_callback(cookie, qrec->udata);
     } else if (qrec->cm_callback)

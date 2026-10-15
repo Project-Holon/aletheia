@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203508C",
+   "name": "UI_SetResumeAndSuspendHooks",
    "address": "0x0203508C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035100",
+   "name": "UI_GetSuspendHook",
    "address": "0x02035100",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035108",
+   "name": "UI_GetSuspendHookGlobal",
    "address": "0x02035108",
    "kind": "game",
    "region": "arm9",

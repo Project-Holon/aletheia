@@ -13,7 +13,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
@@ -43,7 +43,7 @@ struct BeaconGfx {
     u16 pal[0x60];
 };
 
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 id, u32 comp, void **out, u32 heap);
 extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
 extern u32 func_020307B0(void *p);
@@ -55,7 +55,7 @@ void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
     void *h;
     int i;
 
-    g = (struct BeaconGfx *)func_0204162C(id);
+    g = (struct BeaconGfx *)BG_SYS_GetBuf(id);
     h = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x1d, 0, &data, heap);
     MI_CpuCopy8(((struct BeaconGfx *)((u8 *)data + 0xc))->pal, g->pal, 0xc0);
     func_020307B0(h);

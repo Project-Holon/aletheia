@@ -1,5 +1,5 @@
 /*
- * function: func_0207AD58
+ * function: MTX_Scale22_
  * address:  0x0207AD58
  * packet:   pkt_0207AD58
  * region:   arm9
@@ -18,7 +18,7 @@
  *   (none)
  */
 
-asm void func_0207AD58(void)
+asm void MTX_Scale22_(void)
 {
     stmia r0!, {r1}
     mov r1, #0

@@ -18,14 +18,17 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02098B44"
+    "__ieee754_rem_pio2"
    ],
    "evidence": {
     "sole-ref": [
      "self:0x020A6320",
      "self:0x020A63A0"
     ]
-   }
+   },
+   "addresses": [
+    "0x02098B44"
+   ]
   },
   {
    "name": "__kernel_rem_pio2",

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gNNSSndCurrentArc   0x0214EA50  data
- *   func_02078B44  0x02078B44  arm
+ *   FS_SeekFile  0x02078B44  arm
  *   FS_ReadFile  0x02078B70  arm
  */
 
@@ -42,7 +42,7 @@ struct Context {
 extern struct Context *gNNSSndCurrentArc;
 typedef signed int     s32;
 struct FSFile;
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset)
@@ -77,7 +77,7 @@ int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset)
             if (rem == 0) {
                 break;
             }
-            if (!func_02078B44((struct FSFile *)ctx->file, entry->offset + offset, 0)) {
+            if (!FS_SeekFile((struct FSFile *)ctx->file, entry->offset + offset, 0)) {
                 return -1;
             }
             res = FS_ReadFile((struct FSFile *)ctx->file, dst_buf, rem);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B85D0
+ * function: CTVT_COMM_FindPeerName
  * address:  0x021B85D0
  * packet:   pkt_021B6868
  * region:   ov172
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021B85D0(unsigned char *p, unsigned char *q);
+extern int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q);
 
-int func_021B85D0(unsigned char *p, unsigned char *q)
+int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q)
 {
     unsigned char i;
 

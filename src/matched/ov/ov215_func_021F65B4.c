@@ -1,5 +1,5 @@
 /*
- * function: func_021F65B4
+ * function: EGG_DEMO_GRAPHIC_Noop
  * address: 0x021F65B4
  * packet: pkt_ov215_021F65B4
  * region: ov215
@@ -11,4 +11,4 @@
  * extent: two-byte alignment padding follows the body.
  */
 
-void func_021F65B4(void *a0){}
+void EGG_DEMO_GRAPHIC_Noop(void *a0){}

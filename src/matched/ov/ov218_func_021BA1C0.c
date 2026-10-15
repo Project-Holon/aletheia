@@ -10,7 +10,7 @@
  * symbols:
  *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
  *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
- *   func_021B9924 0x021B9924 thumb ov218
+ *   UN_SELECT_InitRecord 0x021B9924 thumb ov218
  *   func_021B9B78 0x021B9B78 thumb ov218
  *   FADE_IsActive 0x0204E804 arm
  *   BRIGHTNESS_IsFinished 0x02024004 thumb
@@ -18,7 +18,7 @@
 #include "../include/Obj26046.h"
 extern unsigned UI_SCENE_GetPhaseFrame(const unsigned char *);
 extern void UI_SCENE_AdvancePhaseFrame(unsigned char *);
-extern int func_021B9924(void);
+extern int UN_SELECT_InitRecord(void);
 typedef unsigned int   u32;
 extern void func_021B9B78(char *p, u32 id);
 extern int FADE_IsActive(void);
@@ -27,7 +27,7 @@ int func_021BA1C0(unsigned char *task, char *ctx)
 {
     switch (UI_SCENE_GetPhaseFrame(task)) {
     case 0:
-        func_021B9924();
+        UN_SELECT_InitRecord();
 advance:
         UI_SCENE_AdvancePhaseFrame(task);
         break;

@@ -13,9 +13,9 @@
  * state when the index is out of range.
  *
  * symbols:
- *   func_0202A230  0x0202A230  thumb
- *   func_0202A3FC  0x0202A3FC  thumb
- *   func_0202A3D8  0x0202A3D8  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   TPOKE_DATA_GetTrainerKind  0x0202A3FC  thumb
+ *   TPOKE_DATA_FindTrainerType  0x0202A3D8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
@@ -36,9 +36,9 @@ extern const u16 d_021DB7E0[];
 extern const u8  d_021DB7F6[];
 
 struct Sub020140BCObj;
-extern u32 func_0202A230(void *a, u32 idx);
-extern u8 func_0202A3FC(u32 key);
-extern u8 func_0202A3D8(u32 key);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 key);
+extern u8 TPOKE_DATA_FindTrainerType(u32 key);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
@@ -51,9 +51,9 @@ extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2)
 {
     int flag = 1;
-    u32 t = func_0202A230((void *)a, 1);
-    u32 k = func_0202A3FC(t);
-    u32 m = func_0202A3D8(t);
+    u32 t = TPOKE_DATA_GetRecordField((void *)a, 1);
+    u32 k = TPOKE_DATA_GetTrainerKind(t);
+    u32 m = TPOKE_DATA_FindTrainerType(t);
     int code;
 
     if (k < 0xb) {

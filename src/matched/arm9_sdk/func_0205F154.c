@@ -1,5 +1,5 @@
 /*
- * function: func_0205F154
+ * function: ConnectTestStart
  * address:  0x0205F154
  * packet:   pkt_0205F154
  * region:   arm9
@@ -80,7 +80,7 @@ extern void MakeSOCConfig(tagACHOLD *hd, tagACWORK *wk, struct SOCConfig *sc);
 extern int SOC_Startup(struct SOCConfig *config);
 extern void DWCi_AC_SetError(int error);
 
-unsigned char func_0205F154(tagACWORK *wk)
+unsigned char ConnectTestStart(tagACWORK *wk)
 {
     tagACHOLD *hd;
     struct SOCConfig *sc;

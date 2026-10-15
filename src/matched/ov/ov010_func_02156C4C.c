@@ -18,17 +18,17 @@
  *   func_021B6100  0x021B6100  thumb ov133
  *   func_021B63BC  0x021B63BC  thumb  ov133
  *   func_021B6294  0x021B6294  thumb ov133
- *   func_021FD904  0x021FD904  thumb ov132
- *   func_021FD52C  0x021FD52C  thumb ov132
+ *   STA_NET_GetField48  0x021FD904  thumb ov132
+ *   STA_NET_BeginTransfer  0x021FD52C  thumb ov132
  */
 
 typedef unsigned char  u8;
 extern u8 *func_021B6100(u8 *parent, int heap);
 extern int func_021B63BC(int);
 extern void func_021B6294(char *p);
-extern int func_021FD904(int *);
+extern int STA_NET_GetField48(int *);
 typedef struct S S;
-extern void func_021FD52C(struct S *s);
+extern void STA_NET_BeginTransfer(struct S *s);
 
 int MUSICAL_DRESSUP_SYS_Main(int a, int *state, int c, int *d)
 {
@@ -37,8 +37,8 @@ int MUSICAL_DRESSUP_SYS_Main(int a, int *state, int c, int *d)
         d[1] = (int)func_021B6100((u8 *)d[0], 0x2d);
         *state = 1;
         if (*(int *)d[3] != 0) {
-            if (func_021FD904((int *)*(int *)d[3]) == 1)
-                func_021FD52C((S *)*(int *)d[3]);
+            if (STA_NET_GetField48((int *)*(int *)d[3]) == 1)
+                STA_NET_BeginTransfer((S *)*(int *)d[3]);
         }
         break;
     case 1: {

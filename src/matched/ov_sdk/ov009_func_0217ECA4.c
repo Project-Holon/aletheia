@@ -1,5 +1,5 @@
 /*
- * function: func_0217ECA4
+ * function: sendto
  * address:  0x0217ECA4
  * packet:   pkt_ov009_0217ECA4
  * region:   ov009
@@ -17,16 +17,16 @@
  *
  * symbols:
  *   func_0215F5B4                  0x0215F5B4  arm ov009
- *   func_0217EB00                  0x0217EB00  arm ov009
+ *   CheckRcode                  0x0217EB00  arm ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
 
 struct SOCSockAddr { unsigned char len; unsigned char family; unsigned char data[6]; };
 extern int func_0215F5B4(int s, void *buf, int len, int flags, void *sockTo);
-extern int func_0217EB00(int rcode, int errCode);
+extern int CheckRcode(int rcode, int errCode);
 
-int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen)
+int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen)
 {
     struct SOCSockAddr remoteAddr;
     int rcode;
@@ -34,5 +34,5 @@ int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *a
     memcpy(&remoteAddr, addr, sizeof(remoteAddr));
     remoteAddr.len = tolen;
     rcode = func_0215F5B4(sock, buf, len, flags, &remoteAddr);
-    return func_0217EB00(rcode, -1);
+    return CheckRcode(rcode, -1);
 }

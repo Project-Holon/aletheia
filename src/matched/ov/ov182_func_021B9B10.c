@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B10
+ * function: THE_END_GRAPHIC_DrawActors
  * address: 0x021B9B10
  * packet: pkt_ov182_021B9B10
  * region: ov182
@@ -15,4 +15,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void CLACT_DrawSystem(void);
-void func_021B9B10(void *a0) { CLACT_DrawSystem(); }
+void THE_END_GRAPHIC_DrawActors(void *a0) { CLACT_DrawSystem(); }

@@ -25,7 +25,7 @@
  *   _ffix          0x0209C494  arm
  *   func_0207D658  0x0207D658  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  */
 #include "../include/Obj01651.h"
 
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 void func_0207D658(u32 addr, int plane, int brightness);
 void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
 typedef unsigned short u16;
-void func_0207D534(volatile u16 *reg, int brightness);
+void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 void EL_SCOREBOARD_UpdateFadeShared(const char *o, int st)
 {
@@ -48,7 +48,7 @@ void EL_SCOREBOARD_UpdateFadeShared(const char *o, int st)
         if (*(const u8 *)&((struct Obj01651 *)o)->f15 == *(const u8 *)&((struct Obj01651 *)o)->f14) {
             v = (int)(16.0f * ((float)*(const u32 *)&((struct Obj01651 *)o)->f18 / (float)*(const u32 *)&((struct Obj01651 *)o)->f1C));
             func_0207D63C(0x04000050, 8, 0x11, 16 - v, v);
-            func_0207D534((volatile u16 *)0x0400106C,
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C,
                 (int)(16.0f * ((float)*(const u32 *)&((struct Obj01651 *)o)->f18 / (float)*(const u32 *)&((struct Obj01651 *)o)->f1C) + -16.0f));
         } else {
             func_0207D658(0x04000050, 8,

@@ -20,7 +20,12 @@
    "functions": [
     "func_0204152C",
     "func_02041570",
-    "func_020415B4"
+    "BG_SYS_GetGraphics"
+   ],
+   "addresses": [
+    "0x0204152C",
+    "0x02041570",
+    "0x020415B4"
    ]
   },
   {
@@ -35,12 +40,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204162C",
-    "func_02041648",
-    "func_02041664",
-    "func_02041680",
-    "func_0204169C",
-    "func_020416B8"
+    "BG_SYS_GetBuf",
+    "BG_SYS_GetScrollX_1648",
+    "BG_SYS_GetScrollY_1664",
+    "BG_SYS_GetType",
+    "BG_SYS_GetField16",
+    "BG_SYS_GetField17"
+   ],
+   "addresses": [
+    "0x0204162C",
+    "0x02041648",
+    "0x02041664",
+    "0x02041680",
+    "0x0204169C",
+    "0x020416B8"
    ]
   }
  ]

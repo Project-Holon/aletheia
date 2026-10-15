@@ -1,5 +1,5 @@
 /*
- * function: func_021F5EC8
+ * function: EGG_DEMO_MAIN_NoopB
  * address: 0x021F5EC8
  * packet: pkt_ov215_021F5EC8
  * region: ov215
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021F5EC8(void)
+void EGG_DEMO_MAIN_NoopB(void)
 {
 
 }

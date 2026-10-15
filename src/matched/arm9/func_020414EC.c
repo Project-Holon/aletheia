@@ -1,5 +1,5 @@
 /*
- * function: func_020414EC
+ * function: BG_SYS_ClearSlot
  * address:  0x020414EC
  * packet:   pkt_020414C4
  * region:   arm9
@@ -18,12 +18,12 @@
  * Clear slot `i` of the 0x2c-byte slot table behind 0x02146A44: if the
  * buffer pointer at +8 is unset there is nothing to do, otherwise zero the
  * buffer over its +0xc length and notify func_020409B4.  Same table and
- * same guard shape as src/matched/sub_020403F4.c, which frees the buffer
+ * same guard shape as src/matched/BG_SYS_Delete_03F4.c, which frees the buffer
  * instead of clearing it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020414EC.c \
- *       --func func_020414EC --addr 0x020414EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ClearSlot.c \
+ *       --func BG_SYS_ClearSlot --addr 0x020414EC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -41,7 +41,7 @@ extern struct Entry *g_02146A44;
 extern void MIi_CpuClear16(u32 data, void *dest, u32 size);
 extern void func_020409B4(u32 index);
 
-void func_020414EC(u32 i)
+void BG_SYS_ClearSlot(u32 i)
 {
     if (g_02146A44[i].unk_08 == 0) {
         return;

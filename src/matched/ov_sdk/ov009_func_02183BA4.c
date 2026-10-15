@@ -16,7 +16,7 @@
  *   ArrayNth              0x02184208 arm ov009
  *   gsiXmlUtilTagMatches  0x02183D98 arm ov009
  *   func_0208CF34         0x0208CF34 arm
- *   func_0217F478         0x0217F478 arm ov009
+ *   gsiDateToSeconds         0x0217F478 arm ov009
  *   gGsXmlDateTimeFormatNoZ            0x021A3FA0 data
  */
 
@@ -55,7 +55,7 @@ struct tm {
 };
 
 extern int func_0208CF34(char *src, char *fmt, ...);
-extern long func_0217F478(struct tm *tb);
+extern long gsiDateToSeconds(struct tm *tb);
 extern char gGsXmlDateTimeFormatNoZ[];
 
 int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut)
@@ -81,7 +81,7 @@ int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut
             timePtr.tm_year -= 1900;
             timePtr.tm_mon -= 1;
             timePtr.tm_isdst = -1;
-            *valueOut = func_0217F478(&timePtr);
+            *valueOut = gsiDateToSeconds(&timePtr);
             return 1;
         }
         if (searchValueElem->parent < reader->index)

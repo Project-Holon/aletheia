@@ -1,5 +1,5 @@
 /*
- * function: func_0215CE7C
+ * function: SOCLi_FreeCommandPacket
  * address:  0x0215CE7C
  * packet:   pkt_0215CE7C
  * region:   ov009
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void func_02085DBC(void *heap, void *ptr, u32 flags);
 extern void *g_021AA484;
 
-void func_0215CE7C(void *ptr)
+void SOCLi_FreeCommandPacket(void *ptr)
 {
     if (ptr != 0) {
         func_02085DBC(&g_021AA484, ptr, 0);

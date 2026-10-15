@@ -1,5 +1,5 @@
 /*
- * function: func_0218E91C
+ * function: gpiPeerSendMessages
  * address:  0x0218E91C
  * packet:   pkt_ov009_0218E91C
  * region:   ov009
@@ -41,7 +41,7 @@ extern void *func_02184208(void *array, int n);
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, struct GPIMessage *outputBuffer, int *closed, int clipSentData);
 extern void func_0218437C(int a, int b);
 
-int func_0218E91C(void **connection, struct GPIPeer *peer)
+int gpiPeerSendMessages(void **connection, struct GPIPeer *peer)
 {
     struct GPIMessage *message;
     int result;

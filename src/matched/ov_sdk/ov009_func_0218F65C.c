@@ -1,5 +1,5 @@
 /*
- * function: func_0218F65C
+ * function: gpiPeerMessageCallback
  * address:  0x0218F65C
  * packet:   pkt_ov009_0218F65C
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0218F0E8  0x0218f0e8  arm   ov009
- *   func_0218F150  0x0218f150  arm   ov009
+ *   gpiAddPeer  0x0218f150  arm   ov009
  *   func_0215FA9C  0x0215fa9c  arm   ov009
  *   func_0217D254  0x0217d254  arm   ov009
  *   func_0217EAC8  0x0217eac8  arm   ov009
@@ -42,7 +42,7 @@ typedef struct {
 
 extern GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
 struct GPIPeer;
-extern struct GPIPeer *func_0218F150(void **connection, int profileid, int initiate);
+extern struct GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
 extern char *func_0215FA9C(struct SOCInAddr in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_0217EAC8(void *ptr, unsigned int size);
@@ -54,7 +54,7 @@ extern char g_021A5028[];
 extern char g_021A5070[];
 extern char g_021A4F1C[];
 
-void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message,
+void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message,
                    int messageLength, int unused, void *userData)
 {
     void **connection;
@@ -69,7 +69,7 @@ void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message,
     anAddr.addr = ip;
     aPeer = func_0218F0E8(connection, ip, port);
     if (aPeer == 0) {
-        aPeer = (GPIPeer *)func_0218F150(connection, -1, 0);
+        aPeer = (GPIPeer *)gpiAddPeer(connection, -1, 0);
         if (aPeer != 0) {
             aPeer->state = 0x68;
             aPeer->ip = ip;

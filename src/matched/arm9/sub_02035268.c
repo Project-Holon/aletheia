@@ -1,5 +1,5 @@
 /*
- * function: sub_02035268
+ * function: UI_RunWakeHook
  * address:  0x02035268
  * packet:   pkt_02035224
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      arm
  * status:   EXACT
  *
- * The +0x10 callback slot, same shape as sub_0203524C and sharing its
+ * The +0x10 callback slot, same shape as UI_RunSleepHook and sharing its
  * argument word at +0x28.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035268.c \n *       --func sub_02035268 --addr 0x02035268 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunWakeHook.c \n *       --func UI_RunWakeHook --addr 0x02035268 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ struct UiCtx {
     u8      armed;
 };
 
-void sub_02035268(struct UiCtx *p)
+void UI_RunWakeHook(struct UiCtx *p)
 {
     if (p->on_10 != 0) {
         p->on_10(p->arg_28);

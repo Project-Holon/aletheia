@@ -12,14 +12,14 @@
  * sdk:      gpiSendBuddyMessage (libdwcgsgp.TWL.HYB.a gpibuddy.o)
  *
  * symbols:
- *   func_0218F0B8  0x0218F0B8  arm   ov009
+ *   gpiGetPeerByProfile  0x0218F0B8  arm   ov009
  *   func_0218FD9C  0x0218FD9C  arm   ov009
  *   func_021888C0  0x021888C0  arm   ov009
- *   func_0218F150  0x0218F150  arm   ov009
+ *   gpiAddPeer  0x0218F150  arm   ov009
  *   func_0218F1E0  0x0218F1E0  arm   ov009
- *   func_0218F248  0x0218F248  arm   ov009
+ *   gpiPeerStartConnect  0x0218F248  arm   ov009
  *   func_0218F884  0x0218F884  arm   ov009
- *   func_0218F350  0x0218F350  arm   ov009
+ *   gpiPeerAddMessage  0x0218F350  arm   ov009
  */
 
 typedef enum { GP_NO_ERROR, GP_MEMORY_ERROR, GP_PARAMETER_ERROR, GP_NETWORK_ERROR } GPResult;
@@ -42,14 +42,14 @@ typedef struct GPIProfile {
     int f1C;
 } GPIProfile;
 
-extern char *func_0218F0B8(void **p, int v);
+extern char *gpiGetPeerByProfile(void **p, int v);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern GPResult func_021888C0(void **connection, int profileid, int type, char *message);
-extern GPIPeer *func_0218F150(void **connection, int profileid, int initiate);
+extern GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
 extern GPResult func_0218F1E0(void **connection, GPIPeer *peer);
-extern GPResult func_0218F248(void **connection, GPIPeer *peer);
+extern GPResult gpiPeerStartConnect(void **connection, GPIPeer *peer);
 extern void func_0218F884(GPIPeer *peer, GPIPeerOp *operation);
-extern GPResult func_0218F350(void **connection, GPIPeer *peer, int type, char *message);
+extern GPResult gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message);
 
 GPResult func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, GPIPeerOp *peerOp)
 {
@@ -57,14 +57,14 @@ GPResult func_021889A0(void **connection, int profileid, int type, char *message
     GPIProfile *profile;
     GPIPeer *peer;
 
-    peer = (GPIPeer *)func_0218F0B8(connection, profileid);
+    peer = (GPIPeer *)gpiGetPeerByProfile(connection, profileid);
     if (peer == 0) {
         if (!func_0218FD9C(connection, profileid, &profile) || profile->buddyStatus == 0 || profile->buddyStatus->f20 == 0) {
             if (sendOption == 0xb00)
                 return GP_NETWORK_ERROR;
             return func_021888C0(connection, profileid, type, message);
         }
-        peer = func_0218F150(connection, profileid, 1);
+        peer = gpiAddPeer(connection, profileid, 1);
         if (peer == 0)
             return GP_MEMORY_ERROR;
         if (profile->f1C == 0) {
@@ -72,7 +72,7 @@ GPResult func_021889A0(void **connection, int profileid, int type, char *message
             if (result != GP_NO_ERROR)
                 return result;
         } else {
-            result = func_0218F248(connection, peer);
+            result = gpiPeerStartConnect(connection, peer);
             if (result != GP_NO_ERROR)
                 return result;
         }
@@ -88,7 +88,7 @@ GPResult func_021889A0(void **connection, int profileid, int type, char *message
     }
     if (peerOp != 0)
         func_0218F884(peer, peerOp);
-    result = func_0218F350(connection, peer, type, message);
+    result = gpiPeerAddMessage(connection, peer, type, message);
     if (result != GP_NO_ERROR)
         return result;
     return GP_NO_ERROR;

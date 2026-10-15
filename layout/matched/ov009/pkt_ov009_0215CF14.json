@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215CF14",
+   "name": "SOCLi_ExecCommandPacket",
    "address": "0x0215CF14",
    "kind": "sdk",
    "region": "ov009",

@@ -21,7 +21,7 @@
  *
  * symbols:
  *   func_021894D8  0x021894D8  arm  ov009
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  */
 
 typedef struct {
@@ -33,7 +33,7 @@ typedef struct {
 
 extern int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
                          int *closed, int *sent, char *id);
-extern void *func_02092364(void *dest, const void *src, unsigned int n);
+extern void *memmove(void *dest, const void *src, unsigned int n);
 
 int func_0218998C(int *connection, int sock, GPIBuffer *outputBuffer,
                   int *connClosed, int clipSentData, char *id)
@@ -68,7 +68,7 @@ int func_0218998C(int *connection, int sock, GPIBuffer *outputBuffer,
 
     if (clipSentData) {
         if (total > 0) {
-            func_02092364(buffer, &buffer[total], remaining + 1);
+            memmove(buffer, &buffer[total], remaining + 1);
             len -= total;
         }
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_0208BF38
+ * function: PM_SetAmpGain
  * address:  0x0208BF38
  * packet:   pkt_0208BF38
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 unsigned int PM_SendUtilityCommand(unsigned int cmd, u16 param, void *result);
 
-unsigned int func_0208BF38(unsigned int gain)
+unsigned int PM_SetAmpGain(unsigned int gain)
 {
     return PM_SendUtilityCommand(0x11, (u16)gain, 0);
 }

@@ -22,7 +22,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  */
 
 typedef unsigned char u8;
@@ -59,7 +59,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 
 int EVENT_FIELD_PROCLINK_ReturnBag(MenuWork *w, MenuSel *sel)
 {
@@ -117,7 +117,7 @@ int EVENT_FIELD_PROCLINK_ReturnBag(MenuWork *w, MenuSel *sel)
         w->ctx->mode = 5;
         return 3;
     case 2:
-        if (func_0202136C(sel->arg) == 1)
+        if (FILE_UTIL_Check136C(sel->arg) == 1)
             w->f68 = 0;
         w->next = 0;
         return 4;

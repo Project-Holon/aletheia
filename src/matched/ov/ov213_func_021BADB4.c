@@ -1,5 +1,5 @@
 /*
- * function: func_021BADB4
+ * function: COMM_BTL_DEMO_GRAPHIC_DrawClact
  * address: 0x021BADB4
  * packet: pkt_ov213_021BADB4
  * region: ov213
@@ -11,4 +11,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021BADB4(void *a0){CLACT_DrawSystem();}
+void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}

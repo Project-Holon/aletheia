@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0D8
+ * function: TH_AWARD_GRAPHIC_Create
  * address: 0x021BA0D8
  * packet: pkt_ov220_021BA0D8
  * region: ov220
@@ -18,10 +18,10 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021BA200 0x021BA200 thumb ov220
- *   func_021BA2A4 0x021BA2A4 thumb ov220
+ *   TH_AWARD_GRAPHIC_SetupBg 0x021BA200 thumb ov220
+ *   TH_AWARD_GRAPHIC_SetupClact 0x021BA2A4 thumb ov220
  *   func_020056A0 0x020056A0 thumb
- *   func_021BA1EC 0x021BA1EC thumb ov220
+ *   TH_AWARD_GRAPHIC_Task 0x021BA1EC thumb ov220
  *   d_021BA4F8 0x021BA4F8 data a4
  *   d_021BA428 0x021BA428 data a4
  */
@@ -40,11 +40,11 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021BA200(void *,unsigned);
-extern void func_021BA2A4(unsigned char *,int,int);
-extern void func_021BA1EC(void *,char *);
+extern void TH_AWARD_GRAPHIC_SetupBg(void *,unsigned);
+extern void TH_AWARD_GRAPHIC_SetupClact(unsigned char *,int,int);
+extern void TH_AWARD_GRAPHIC_Task(void *,char *);
 extern void *func_020056A0(void *,void *,int);
-void *func_021BA0D8(unsigned mode,unsigned heap)
+void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
     p=func_02030734(heap,16,0,d_021BA4F8,0x1CA);
@@ -60,8 +60,8 @@ void *func_021BA0D8(unsigned mode,unsigned heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021BA200(p,heap);
-    func_021BA2A4(p+4,(int)&d_021BA428,heap);
-    ((struct Obj26061 *)p)->fC=func_020056A0((void *)func_021BA1EC,p,0);
+    TH_AWARD_GRAPHIC_SetupBg(p,heap);
+    TH_AWARD_GRAPHIC_SetupClact(p+4,(int)&d_021BA428,heap);
+    ((struct Obj26061 *)p)->fC=func_020056A0((void *)TH_AWARD_GRAPHIC_Task,p,0);
     return p;
 }

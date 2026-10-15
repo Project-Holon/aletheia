@@ -11,8 +11,8 @@
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   func_02030734 0x02030734 arm
  *   func_021FADA0 0x021FADA0 thumb ov132
  *   func_021FBA14 0x021FBA14 thumb ov132
@@ -27,8 +27,8 @@ typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FB1F4(char *,int);
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_021FADA0(char *,u32,u32,u32);
 extern void func_021FBA14(int,int *);
@@ -45,12 +45,12 @@ int func_021FB948(int unused,char *p)
     start=VM_GetU32(((struct Obj04518 *)p)->f4);
     delta=VM_GetU32(((struct Obj04518 *)p)->f4);
     wait=VM_GetU32(((struct Obj04518 *)p)->f4);
-    func_021F9DA0(((struct Obj08166 *)owner)->f34);
+    STA_ACTING_GetActorSystem(((struct Obj08166 *)owner)->f34);
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
             q=func_02030734(((struct Obj08166 *)owner)->f0,36,0,d_021FDD00,0x493);
             *(char * *)&((struct Obj03824 *)q)->f1C=owner;
-            ((struct Obj03824 *)q)->f18=func_021F9DA4(((struct Obj08166 *)owner)->f34,i);
+            ((struct Obj03824 *)q)->f18=STA_ACTING_GetActor(((struct Obj08166 *)owner)->f34,i);
             ((struct Obj03824 *)q)->f0=((struct Obj08166 *)owner)->f34;
             ((struct Obj03824 *)q)->f4=start;
             ((struct Obj03824 *)q)->f8=start+delta;

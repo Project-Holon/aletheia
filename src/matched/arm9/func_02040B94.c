@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040B94
+ * function: BG_SYS_InitRun
  * address:  0x02040B94
  * packet:   pkt_02040B94
  * region:   arm9
@@ -26,8 +26,8 @@
  * tilemap writer and release it again.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040B94.c \
- *       --func func_02040B94 --addr 0x02040B94 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_InitRun.c \
+ *       --func BG_SYS_InitRun --addr 0x02040B94 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ extern u32 func_020307B0(void *p);
 extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 
-void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId)
+void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId)
 {
     void *buf = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 0,
                              g_020A7E5C, 1362);

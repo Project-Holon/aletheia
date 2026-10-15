@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   sub_0202EB60   0x0202EB60  thumb
  */
 
@@ -26,7 +26,7 @@ struct RtcDate {
 };
 
 extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern void sub_0202EB60(u8 *out1, u8 *out2);
 
 u32 func_0202C970(void *a, void *b, u32 c)
@@ -37,7 +37,7 @@ u32 func_0202C970(void *a, void *b, u32 c)
     if (!ZONEDATA_IsRawZone176Or17A((u16)c)) {
         goto fail;
     }
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     sub_0202EB60(&buf[1], &buf[0]);
     if (date.month != buf[1]) {
         goto fail;

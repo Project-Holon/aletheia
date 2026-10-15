@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BB2A8 0x021BB2A8 thumb ov214
+ *   BTL_REC_SEL_GRAPHIC_GetCamera 0x021BB2A8 thumb ov214
  *   func_021BAB0C 0x021BAB0C thumb ov214
  * layout: two rows of six 0x28-byte cells, observed nested-loop bounds.
  * prototypes: BAB0C owning matched source; B2A8 own same-region getter.
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cell { u32 a,b,c,d,out0,out1,out2,out3,actor; u8 x,y,flag,order; };
 struct S { u16 heap,pad2; u8 *owner; u8 pad8[0xBC]; struct Cell cells[2][6]; u32 spare,mode; };
-extern u32 func_021BB2A8(u8 *);
+extern u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *);
 extern int func_021BAB0C(int,u16,int,u8,u32,u32,u32,u32,void *,u8,u8,u8,u8,u8);
 void func_021BA8DC(void *unused,struct S *p)
 {
-    int handle=func_021BB2A8(p->owner);
+    int handle=BTL_REC_SEL_GRAPHIC_GetCamera(p->owner);
     u8 i,j;
     for(i=0;i<2;i++) for(j=0;j<6;j++) {
         p->cells[i][j].d=0;

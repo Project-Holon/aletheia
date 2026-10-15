@@ -1,5 +1,5 @@
 /*
- * function: func_0200BC20
+ * function: DAYCARE_ClearEggReady
  * address:  0x0200BC20
  * packet:   pkt_0200BC20
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-void func_0200BC20(struct Obj11232 *p)
+void DAYCARE_ClearEggReady(struct Obj11232 *p)
 {
     *(int *)&p->f1C8 = 0;
 }

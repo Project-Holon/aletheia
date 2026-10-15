@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_0215CD3C",
+   "name": "SOCLi_StartupCommandPacketQueue",
    "address": "0x0215CD3C",
    "kind": "sdk",
    "region": "ov009",
@@ -121,7 +121,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02168DA4",
+   "name": "DWCi_UpdateServersAsync",
    "address": "0x02168DA4",
    "kind": "sdk",
    "region": "ov009",
@@ -138,7 +138,7 @@
    }
   },
   {
-   "name": "func_021776A0",
+   "name": "DWCi_ClearTransConnection",
    "address": "0x021776A0",
    "kind": "sdk",
    "region": "ov009",
@@ -184,7 +184,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F824",
+   "name": "TripToQuart",
    "address": "0x0217F824",
    "kind": "sdk",
    "region": "ov009",

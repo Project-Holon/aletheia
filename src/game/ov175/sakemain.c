@@ -33,6 +33,7 @@
  *   sFileUploadUrlFormatDefault  0x021E36C4  data
  *   sFileDownloadUrlOverride  0x021E4B88  data
  *   sFileUploadUrlOverride  0x021E4C08  data
+ *   strcpy  0x02094798  arm  arm9
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sake_types.h"
@@ -57,7 +58,7 @@ extern int g_021ACEF8;
 extern int gsCoreIsShutdown(void);
 extern void *gsimalloc(unsigned long size);
 extern void gsifree(void *ptr);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void gsiCoreCancelTask(struct GSTask *theTask);
 extern SAKERequestInternal *sakeiInitRequest(SAKEInternal *sake, int type, void *input, SAKERequestCallback callback, void *userData);
@@ -112,8 +113,8 @@ void sakeShutdown(SAKEInternal *sake)
 
 void sakeSetGame(SAKEInternal *sake, const char *gameName, int gameId, const char *secretKey)
 {
-    func_02094798(sake->mGameName, gameName);
-    func_02094798(sake->mSecretKey, secretKey);
+    strcpy(sake->mGameName, gameName);
+    strcpy(sake->mSecretKey, secretKey);
     sake->mGameId = gameId;
     sake->mStartedUp = 1;
 }
@@ -199,7 +200,7 @@ int sakeSetFileDownloadURL(SAKEInternal *sake, const char *url)
 {
     if (sake == 0 || url == 0)
         return 0;
-    func_02094798(sFileDownloadUrlOverride, url);
+    strcpy(sFileDownloadUrlOverride, url);
     return 1;
 }
 
@@ -223,7 +224,7 @@ int sakeSetFileUploadURL(SAKEInternal *sake, const char *url)
 {
     if (sake == 0 || url == 0)
         return 0;
-    func_02094798(sFileUploadUrlOverride, url);
+    strcpy(sFileUploadUrlOverride, url);
     return 1;
 }
 

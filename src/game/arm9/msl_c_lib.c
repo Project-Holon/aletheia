@@ -1,7 +1,7 @@
 /*
  * file:     msl_c_lib.c
  * unit:     yes
- * function: func_020911D4, func_020911D8, func_02091200, func_02091230, func_0209125C, func_0209128C, func_020912A8, func_02091374, func_0209138C, func_020913A4, func_020913BC, func_020913D0, func_020913E8, func_020913FC, func_0209146C, func_0209149C, func_02091524, func_02091588, func_02091594, func_02091598, func_0209159C, func_020915C4, func_02091650, func_020916D4, func_020917D4, func_02091AE8, func_02091B5C, func_02091C40, func_02091CBC, func_02091D38, func_02091E44, func_02092004, func_02092120, func_02092144, func_020921D8, func_020921F4, func_02092264, func_0209229C, func_020922B0, func_020922CC, func_02092344, func_02092364, func_020923B0, func_020923C4, func_020923F0, func_02092430, func_020924DC, func_020929E8, func_02092C38, func_02092F0C, func_020933B8, func_020934CC, func_02093BDC, func_02094488, func_020944CC, func_02094530, func_0209455C, func_02094694, func_020946C8, func_020946D8, func_02094750, func_02094778, func_0209477C, func_02094798, func_02094860, func_020948B0, func_020948E0, func_020949F4, func_02094A28, func_02094A60, func_02094B20, func_02094B8C, func_02095AA4, func_02095B2C, func_02095B3C, func_02095EAC, func_02095F40, func_02096004, func_020963F8, func_020964E0, func_020964F4, func_02096508, func_02096578, func_02096594, func_020965B4, func_02096620, func_02096670, func_020966B0, func_02096774, func_020968F4, func_02096990, func_02096D10, func_02096DF0, func_02096ED0, func_02097170, func_020972F0, func_0209739C, func_02097990, func_020979BC, func_02098B44, func_02099224
+ * function: MSL_C_LIB_EmptyStub, MSL_C_LIB_TwlCall1, MSL_C_LIB_TwlCall3, MSL_C_LIB_TwlCall2, MSL_C_LIB_TwlCall5, MSL_C_LIB_SetTwlFlag, MSL_C_LIB_LockRegisterDestructor, nan, MSL_C_LIB_AllocAllFromHeap, MSL_C_LIB_FreeToHeap, MSL_C_LIB_PrependResourceSet, MSL_C_LIB_AllocFromHeap, func_020913E8, MSL_C_LIB_ReallocResource, MSL_C_LIB_Calloc, MSL_C_LIB_FlushAllGated, MSL_C_LIB_FlushAll, abs, MSL_C_LIB_NopBufferHookA, MSL_C_LIB_NopBufferHookB, __prep_buffer, __load_buffer, __flush_buffer, fread, __fread, fclose, MSL_C_LIB_FlushStream, func_02091C40, __ftell, ftell, __fseek, fseek, rewind, MSL_C_LIB_PopCount64, __signbitd, __fpclassifyd, MSL_C_LIB_MbrToWc, MSL_C_LIB_WcToMb, MSL_C_LIB_CallFormatHook, MSL_C_LIB_WideToNarrow, func_02092344, memmove, MSL_C_LIB_MemsetPtr, memchr, func_020923F0, func_02092430, parse_format, long2str, longlong2str, double2hex, round_decimal, float2str, __pformatter, MSL_C_LIB_SprintfWriteProc, vsnprintf, sprintf, qsort, func_02094694, srand, MSL_C_LIB_StrReadProc, MSL_C_LIB_CallExitHook, MSL_C_LIB_DefaultExitHook, strlen, strcpy, strncpy, strcat, strcmp, strncmp, strchr, strcspn, strstr, __strtold, strtod, atof, __strtoul, strtoul, strtol, __strtoull, strtoll, atoi, atoll, fwide, wcslen, wcscpy, func_020965B4, MSL_C_LIB_IncrementDigits, MSL_C_LIB_SetPrecision, __ull2dec, __timesdec, __str2dec, __two_exp, __equals_dec, __less_dec, __minus_dec, __num2dec, __dtoa, __dec2num, scalbn, __ieee754_pow, __ieee754_rem_pio2, __kernel_cos
  * address:  0x020911D4
  * region:   arm9
  * compiler: dsi/1.2
@@ -14,43 +14,43 @@
  *
  * symbols:
  *   SNDEXi_Init  0x02704364  arm
- *   func_02731754  0x02731754  thumb
- *   func_02731760  0x02731760  thumb
- *   func_02731764  0x02731764  thumb
- *   func_02731920  0x02731920  arm
+ *   SHA1_HMAC_Init  0x02731754  thumb
+ *   SHA1_HMAC_Update  0x02731760  thumb
+ *   SHA1_HMAC_GetHash  0x02731764  thumb
+ *   SHA1_HMAC_Calc  0x02731920  arm
  *   OSi_IsRunOnTwl    0x02085D88  arm
  *   OS_Terminate    0x02088234  arm
- *   g_02153B88  0x02153B88  data
+ *   gMslTwlFlag  0x02153B88  data
  *   OS_LockMutex  0x02086028  arm
  *   OS_TryLockMutex  0x020860D0  arm
  *   func_02086078  0x02086078  arm
  *   MSL_CONSOLE_IO_RegisterDestructor  0x0209D728  arm
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   g_02153B8C  0x02153B8C  data
  *   g_02153BB0  0x02153BB0  data
- *   g_02153BD4  0x02153BD4  data
+ *   gMslMutexTable  0x02153BD4  data
  *   g_020A8818  0x020A8818  data
  *   func_0209BD38  0x0209BD38  arm
  *   OS_AllocFromHeap  0x020868E0  arm
  *   OS_FreeToHeap  0x020869E8  arm
  *   ENV_InsertResourceSet  0x02086C54  arm
- *   g_020A8730  0x020A8730  data
- *   arr_02153B8C  0x02153B8C  data
- *   arr_02153BB0  0x02153BB0  data
+ *   gMslStream0  0x020A8730  data
+ *   gMslRefGen  0x02153B8C  data
+ *   gMslRefCount  0x02153BB0  data
  *   func_0209C2B0  0x0209C2B0  arm
- *   g_020A60DC  0x020A60DC  data
- *   g_02153FAC  0x02153FAC  data
- *   g_020A877C  0x020A877C  data
- *   g_020A87C8  0x020A87C8  data
- *   g_020A8878  0x020A8878  data
+ *   __tolower_map  0x020A60DC  data
+ *   errno  0x02153FAC  data
+ *   gMslStream1  0x020A877C  data
+ *   gMslStream2  0x020A87C8  data
+ *   gMslFormatHook  0x020A8878  data
  *   _u32_div_f  0x0209C2B0  arm
  *   _ll_udiv  0x0209C00C  arm
  *   _ull_mod  0x0209C018  arm
  *   fabs  0x0209A504  arm
  *   _dneq  0x0209BAC8  arm
  *   _dls  0x0209B9A0  arm
- *   g_020A8A78  0x020A8A78  data
- *   g_02153FB0  0x02153FB0  data
+ *   MslRandSeed  0x020A8A78  data
+ *   gMslExitHook  0x02153FB0  data
  *   __float_huge  0x020A8814  data
  *   _fsub  0x0209CB8C  arm
  *   _f2d  0x0209BD38  arm
@@ -71,16 +71,16 @@
  *   _ddiv  0x0209D1E0  arm
  *   pow_10  0x020A8A7C  data
  *   __ctype_map  0x020A61DC  data  a2
- *   s_020A8A40     0x020A8A40  data  a1
- *   s_020A8A48     0x020A8A48  data  a1
- *   s_020A8A50     0x020A8A50  data  a1
- *   s_020A8A54     0x020A8A54  data  a1
- *   s_020A8A58     0x020A8A58  data  a1
- *   s_020A8A60     0x020A8A60  data  a1
- *   s_020A8A68     0x020A8A68  data  a1
- *   s_020A8A6C     0x020A8A6C  data  a1
- *   s_020A8A70     0x020A8A70  data  a2
- *   s_020A8A74     0x020A8A74  data  a1
+ *   sMslNegInf     0x020A8A40  data  a1
+ *   sMslNegInfLower     0x020A8A48  data  a1
+ *   sMslPosInf     0x020A8A50  data  a1
+ *   sMslPosInfLower     0x020A8A54  data  a1
+ *   sMslNegNan     0x020A8A58  data  a1
+ *   sMslNegNanLower     0x020A8A60  data  a1
+ *   sMslPosNan     0x020A8A68  data  a1
+ *   sMslPosNanLower     0x020A8A6C  data  a1
+ *   sMslWideEmpty     0x020A8A70  data  a2
+ *   sMslNarrowEmpty     0x020A8A74  data  a1
  *   s_infinity     0x020A62E4  data  a1
  *   s_nan          0x020A62DC  data  a1
  *   __upper_map    0x020A615C  data  a1
@@ -120,16 +120,6 @@
  *   npio2_hw  0x020A6320  data
  *   two_over_pi  0x020A63A0  data
  */
-#include "../../matched/include/Obj00481.h"
-#include "../../matched/include/Obj16696.h"
-#include "../../matched/include/Obj11692.h"
-#include "../../matched/include/Obj03036.h"
-#include "../../matched/include/Obj07071.h"
-#include "../../matched/include/Obj00079.h"
-#include "../../matched/include/Obj02480.h"
-#include "../../matched/include/Obj00749.h"
-#include "../../matched/include/Obj11699.h"
-#include "../../matched/include/Obj16714.h"
 
 #define __va_size(t) ((sizeof(t) + 3) & ~3)
 #define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
@@ -160,91 +150,32 @@
 #define fetch()    (count++, (*ReadProc)(ReadProcArg, 0, 0))
 #define unfetch(c) (*ReadProc)(ReadProcArg, c, 1)
 #define FP_INFINITE 2
-#define isinf(x) (func_020921F4(x) == FP_INFINITE)
+#define isinf(x) (__fpclassifyd(x) == FP_INFINITE)
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
-struct P02091B5C;
-struct S0209159C;
-struct FILE;
-struct S020915C4;
-struct S02091650;
-struct P02091CBC;
-struct decimal2;
-struct P020968F4;
 typedef unsigned int u32;
 
 typedef unsigned char u8;
-
-struct H { u32 unk00; u32 *unk04; };
-
-struct Cfg4 {
-    u32 pad : 7;
-    u32 f3  : 3;
-    u32 rest : 22;
-};
-
-struct Cfg0209149C {
-    u32 mode : 3;
-    u32 rest : 29;
-};
-
-struct S0209159C {
-    u32 pad00[6];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 pad30;
-    u32 f34;
-};
-
-struct S020915C4 {
-    u32 f00;
-    u32 f04;
-    u32 pad08[4];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 pad30[3];
-    u32 f3c;
-    u32 f40;
-    u32 pad44;
-    u32 f48;
-};
-
-typedef u32 (*Fn020915C4)(u32, u32, u32 *, u32);
-
-struct S02091650 {
-    u32 f00;
-    u32 f04;
-    u32 pad08[4];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 pad30[3];
-    u32 f3c;
-    u32 f40;
-    u32 pad44;
-    u32 f48;
-};
-
-typedef u32 (*Fn02091650)(u32, u32, u32 *, u32);
-
-typedef int            s32_020911D4;
 
 typedef unsigned short u16;
 
 typedef unsigned int   size_t;
 
 typedef unsigned short wchar_t;
+
+typedef unsigned long long u64;
+
+typedef unsigned char uchar;
+
+typedef signed short   s16;
+
+typedef long long s64;
+
+typedef long ptrdiff_t;
+
+typedef long long intmax_t;
+
+struct FILE;
 
 typedef struct {
     u32 open_mode        : 2;
@@ -280,89 +211,87 @@ typedef struct FILE {
     u32        saved_buffer_len;    /* 0x30 */
 } FILE;
 
-struct P02091B5C {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  f0c;
-    u8  f0d;
-    u8  pad0e[0xa];
-    u32 f18;
-    u32 pad1c[3];
-    u32 f28;
+struct MslRefBlock {
+    u32 reserved00;
+    u32 *refs;
 };
 
-struct F04hi { u32 lo : 7; u32 mode : 3; u32 hi : 22; };
+typedef struct MslStream {
+    u32 handle;             /* 0x00 */
+    u32 mode;               /* 0x04 */
+    u32 state;              /* 0x08 */
+    u8  eof;                /* 0x0c */
+    u8  error;              /* 0x0d */
+    u8  pad0e[0x0a];
+    u32 position;           /* 0x18 */
+    u32 buffer;             /* 0x1c */
+    u32 buffer_size;        /* 0x20 */
+    u32 buffer_ptr;         /* 0x24 */
+    u32 buffer_len;         /* 0x28 */
+    u32 buffer_alignment;   /* 0x2c */
+    u32 pad30;              /* 0x30 */
+    u32 saved_buffer_len;   /* 0x34 */
+    u32 (*seek_proc)(u32, u32 *, u32, u32);  /* 0x38 */
+    u32 read_proc;          /* 0x3c */
+    u32 write_proc;         /* 0x40 */
+    u32 close_proc;         /* 0x44 */
+    u32 ref_con;            /* 0x48 */
+} MslStream;
 
-struct F04lo { u32 lo : 2; u32 sub : 3; u32 hi : 27; };
-
-struct F08   { u32 mode : 3; u32 hi : 29; };
-
-struct P02091CBC {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  f0c;
-    u8  f0d;
-    u8  pad0e[0xa];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 f30;
-    u32 f34;
+struct MslFileKind {
+    u32 pad  : 7;
+    u32 kind : 3;
+    u32 rest : 22;
 };
 
-struct F04hiP { u32 lo : 7; u32 mode : 3; u32 hi : 22; };
-
-struct F08P   { u32 mode : 3; u32 hi : 29; };
-
-typedef int            s32_02091D38;
-
-typedef signed int s32_02091E44;
-
-struct F04 { u32 lo : 2; u32 mode : 3; u32 m2 : 2; u32 omode : 3; u32 hi : 22; };
-
-struct File {
-    u32 f00;
-    struct F04 f04;
-    struct F08 f08;
-    u8  f0c;
-    u8  f0d;
-    u8  f0e[2];
-    u8  pad10[0x08];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 f30;
-    u32 f34;
-    u32 (*f38)(u32 a, u32 *pos, u32 whence, u32 d);
-    u32 f3c;
-    u32 f40;
-    u32 pad44;
-    u32 f48;
+struct MslFileIoBits {
+    u32 pad     : 2;
+    u32 io_mode : 3;
+    u32 rest    : 27;
 };
 
-typedef unsigned long long u64;
+struct MslFileModeBits {
+    u32 pad         : 2;
+    u32 io_mode     : 3;
+    u32 buffer_mode : 2;
+    u32 kind        : 3;
+    u32 rest        : 22;
+};
+
+struct MslStateBits {
+    u32 mode : 3;
+    u32 rest : 29;
+};
+
+typedef struct {
+    u32 w0;
+    u32 w1;
+    u32 w2;
+    u32 w3;
+    u32 w4;
+    u32 w5;
+    u32 w6;
+    u32 w7;
+} MslMemsetBlock;
+
+typedef struct {
+    u8 *buf;
+    u32 capacity;
+    u32 length;
+} MslStringBuf;
+
+typedef u32 (*MslReadFn)(u32, u32, u32 *, u32);
+typedef u32 (*MslWriteFn)(u32, u32, u32 *, u32);
 
 typedef struct {
     unsigned char pad[4];
-    u32 (*fn)(u32 *dst, u32 c);
-} FuncTable;
+    u32 (*proc)(u32 *dst, u32 c);
+} MslFormatHook;
 
 typedef struct {
     unsigned char pad[8];
-    FuncTable *table;
-} Holder;
-
-typedef signed int     s32_020922B0;
-
-typedef unsigned char uchar;
+    MslFormatHook *hook;
+} MslFormatHookHolder;
 
 typedef uchar *va_list;
 
@@ -386,26 +315,20 @@ typedef struct {
     struct { unsigned char length; unsigned char text[34]; unsigned char unused; } sig;
 } decimal;
 
-typedef signed short   s16;
-
 typedef struct {
-    u16 unk0;
-    s16 num;
-    u8  len;
-    u8  str[1];
+    u16 reserved0;
+    s16 exp;
+    u8  length;
+    u8  digits[1];
 } Ctr;
 
 typedef struct { char c[5]; } Str5;
 
 typedef struct { char c[4]; } Str4;
 
-typedef long ptrdiff_t;
-
-typedef long long intmax_t;
-
 typedef int (*_compare_function)(const void *, const void *);
 
-typedef void (*Hook02153FB0)(u32, u32, u32);
+typedef void (*MslExitHook)(u32, u32, u32);
 
 typedef struct decimal2 {
     unsigned char sign;
@@ -454,51 +377,43 @@ enum hex_scan_states {
     hex_exp_digit_loop     = 0x0100
 };
 
-typedef long long s64;
-
-typedef struct {
-    u8 unk00[4];
-    u8 unk04;
-} Obj02096670;
-
-struct P020968F4 {
-    u8  f00;
+struct MslDecString {
+    u8  sign;
     u8  pad01;
-    u16 f02;
-    u8  f04;
-    u8  f05[32];
+    u16 exp;
+    u8  length;
+    u8  digits[32];
 };
 
 typedef struct {
-    u8  pad00[2];
-    s16 f02;
-    volatile u8 f04;
-    u8  f05[];
-} Str;
+    u8  reserved00[2];
+    s16 key;
+    volatile u8 length;
+    u8  data[];
+} MslStrRec;
 
 typedef void (*DecFromStr)(decimal2 *d, const char *s, s16 exp);
 
-typedef struct {
-    u8  f0;
-    u8  f1;
-    s16 f2;
-    u8  f4;
-    u8  buf[33];
+typedef struct DB {
+    u8  sign;
+    u8  pad;
+    s16 exp;
+    u8  length;
+    u8  digits[33];
 } DB;
 
 /* Matched units compiled in this file, entered 4 bytes before their function:
- * unit_020979BC (0x020979BC) holds func_020979BC
- * unit_02098B44 (0x02098B44) holds func_02098B44
- * unit_02099224 (0x02099224) holds func_02099224
+ * unit_020979BC (0x020979BC) holds __ieee754_pow
+ * unit_02098B44 (0x02098B44) holds __ieee754_rem_pio2
+ * unit_02099224 (0x02099224) holds __kernel_cos
  */
-
 typedef int i32;
 
 extern int OSi_IsRunOnTwl(void);
 extern void OS_Terminate(void);
-extern void OS_LockMutex(void *a0);
-extern int OS_TryLockMutex(void *a0);
-extern void func_02086078(void *a0);
+extern void OS_LockMutex(void *mutex);
+extern int OS_TryLockMutex(void *mutex);
+extern void func_02086078(void *mutex);
 extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 extern double func_0209BD38(int x);
 extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
@@ -515,141 +430,139 @@ extern double ldexp(double x, int n);
 extern u64 func_0209C554(double x);
 extern double copysign(double x, double y);                        /* copysign */
 extern double pow(double x, double y);                        /* pow */
-void func_02731754(u32 a);
-void func_02731760(u32 a, u32 b, u32 c);
-void func_02731764(u32 a, u32 b);
-void func_02731920(u32 a, u32 b, u32 c, u32 d, u32 e);
+void SHA1_HMAC_Init(u32 a);
+void SHA1_HMAC_Update(u32 a, u32 b, u32 c);
+void SHA1_HMAC_GetHash(u32 a, u32 b);
+void SHA1_HMAC_Calc(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern double func_0209C5E0(double x);
 extern double scalbn(double x, int n);
 extern int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
-void func_020911D4(void);
-void func_020911D8(u32 a);
-void func_02091200(u32 a, u32 b, u32 c);
-void func_02091230(u32 a, u32 b);
-void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e);
-void func_0209128C(int x);
-u32 func_020912A8(u32 a0);
-double func_02091374(const char *tagp);
-void *func_0209138C(u32 heap);
-void func_020913A4(u32 heap);
-u32 func_020913BC(void *resSet);
-void *func_020913D0(u32 heap);
+void MSL_C_LIB_EmptyStub(void);
+void MSL_C_LIB_TwlCall1(u32 arg0);
+void MSL_C_LIB_TwlCall3(u32 arg0, u32 arg1, u32 arg2);
+void MSL_C_LIB_TwlCall2(u32 arg0, u32 arg1);
+void MSL_C_LIB_TwlCall5(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
+void MSL_C_LIB_SetTwlFlag(int x);
+u32 MSL_C_LIB_LockRegisterDestructor(u32 arg);
+double nan(const char *tagp);
+void *MSL_C_LIB_AllocAllFromHeap(u32 heap);
+void MSL_C_LIB_FreeToHeap(u32 heap);
+u32 MSL_C_LIB_PrependResourceSet(void *resSet);
+void *MSL_C_LIB_AllocFromHeap(u32 heap);
 void CRT_Free(u32 heap);
-void *func_020913FC(u32 a0, u32 a1);
-void *func_0209146C(u32 a0, u32 a1);
-int func_0209149C(void);
-int func_02091524(void);
-int func_02091588(int x);
-void func_02091594(int a, void *b);
-void func_02091598(int a, void *b);
-void func_0209159C(struct S0209159C *p);
-int func_020915C4(struct S020915C4 *p, u32 *a1, int a2);
-int func_02091650(struct S02091650 *p, u32 *a1);
-s32_020911D4 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
-size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file);
-int func_02091AE8(u8 *p);
-int func_02091B5C(struct P02091B5C *p);
+void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap);
+void *MSL_C_LIB_Calloc(u32 count, u32 elem_size);
+int MSL_C_LIB_FlushAllGated(void);
+int MSL_C_LIB_FlushAll(void);
+int abs(int value);
+void MSL_C_LIB_NopBufferHookA(int a, void *b);
+void MSL_C_LIB_NopBufferHookB(int a, void *b);
+void __prep_buffer(struct MslStream *stream);
+int __load_buffer(struct MslStream *stream, u32 *bytes_loaded, int mode);
+int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed);
+int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream);
+size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file);
+int fclose(u8 *stream);
+int MSL_C_LIB_FlushStream(struct MslStream *stream);
 int func_02091C40(const u8 *s1, const u8 *s2, int n);
-int func_02091CBC(struct P02091CBC *p);
-s32_02091D38 func_02091D38(u32 a0);
-s32_02091E44 func_02091E44(struct File *p, u32 pos, u32 whence);
-s32_020911D4 func_02092004(u32 a0, u32 a1, u32 a2);
-int func_02092120(void *a0);
-u32 func_02092144(u64 x);
-int func_020921D8(double v);
-int func_020921F4(double v);
-int func_02092264(unsigned short *pwc, const unsigned char *s, unsigned int n);
-int func_0209229C(char *s, unsigned short wc);
-u32 func_020922B0(u32 *dst, u32 c);
-u32 func_020922CC(u8 *dst, const u16 *src, u32 max);
+int __ftell(struct MslStream *stream);
+int ftell(u32 stream);
+int __fseek(MslStream *stream, u32 pos, u32 whence);
+int fseek(u32 stream, u32 pos, u32 whence);
+int rewind(void *stream);
+u32 MSL_C_LIB_PopCount64(u64 x);
+int __signbitd(double x);
+int __fpclassifyd(double x);
+int MSL_C_LIB_MbrToWc(unsigned short *pwc, const unsigned char *s, unsigned int n);
+int MSL_C_LIB_WcToMb(char *s, unsigned short wc);
+u32 MSL_C_LIB_CallFormatHook(u32 *dst, u32 c);
+u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);
 void *func_02092344(void *dest, const void *src, size_t n);
-void *func_02092364(void *dest, const void *src, size_t n);
-void *func_020923B0(void *p, int c, u32 n);
-u8 *func_020923C4(u8 *s, u32 c, u32 n);
+void *memmove(void *dest, const void *src, size_t n);
+void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
+u8 *memchr(u8 *s, u32 c, u32 n);
 int func_020923F0(const u8 *s1, const u8 *s2, u32 n);
 void func_02092430(u8 *dest, u32 val, u32 count);
-const uchar *func_020924DC(const uchar *format_string, va_list *arg, print_format *format);
-unsigned char *func_020929E8(long num, unsigned char *buff, print_format format);
-unsigned char *func_02092C38(long long num, unsigned char *buff, print_format format);
-unsigned char *func_02092F0C(double num, unsigned char *buff, print_format format);
-void func_020933B8(Ctr *b, s32_020922B0 idx);
-unsigned char *func_020934CC(double num, unsigned char *buff, print_format format);
-int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg, const uchar *format_str, va_list arg, int is_secure);
-u32 func_02094488(u8 *p, const void *src, u32 n);
-u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap);
-u32 func_02094530(char *dst, u32 n, ...);
-void func_0209455C(void *table_base, size_t num_members, size_t member_size, _compare_function compare_members);
+const uchar *parse_format(const uchar *format_string, va_list *arg, print_format *format);
+unsigned char *long2str(long num, unsigned char *buff, print_format format);
+unsigned char *longlong2str(long long num, unsigned char *buff, print_format format);
+unsigned char *double2hex(double num, unsigned char *buff, print_format format);
+void round_decimal(Ctr *b, int idx);
+unsigned char *float2str(double num, unsigned char *buff, print_format format);
+int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg, const uchar *format_str, va_list arg, int is_secure);
+u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n);
+u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap);
+u32 sprintf(char *dst, u32 fmt, ...);
+void qsort(void *table_base, size_t num_members, size_t member_size, _compare_function compare_members);
 u32 func_02094694(void);
-void func_020946C8(u32 v);
-int func_020946D8(u32 *p, u32 a1, u32 a2);
-void func_02094750(u32 a, u32 b, u32 c);
-void func_02094778(void);
-int func_0209477C(const u8 *s);
-char *func_02094798(char *dst, const char *src);
-u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
-u8 *func_020948B0(u8 *dest, const u8 *src);
-int func_020948E0(const char *s1, const char *s2);
-int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
-u8 *func_02094A28(const u8 *s, int c);
-int func_02094A60(const u8 *s, const u8 *reject);
-u8 *func_02094B20(const u8 *s1, const u8 *s2);
-double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *overflow);
-u64 func_02095AA4(u32 a0, u32 *a1);
-int func_02095B2C(char *path);
-u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-u32 func_02095EAC(u32 a0, u32 *a1, u32 mode);
-s32_020922B0 func_02095F40(u32 a0, u32 *a1, u32 a2);
-u64 func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-s64 func_020963F8(u32 a0, u32 *a1, u32 a2);
-int func_020964E0(u32 a0);
-long long func_020964F4(u32 a0);
-int func_02096508(u8 *p, int v);
-int func_02096578(const u16 *s);
-u16 *func_02096594(u16 *d, const u16 *s);
-int sub_020965B4(u8 *p, int i);
-void func_02096620(u8 *p, int idx);
-void func_02096670(Obj02096670 *p, int v);
-void func_020966B0(decimal2 *result, u64 val);
-void func_02096774(decimal2 *result, const decimal2 *x, const decimal2 *y);
-void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v);
-void func_02096990(decimal2 *result, long exp);
-int func_02096D10(Str *a, Str *b);
-int func_02096DF0(Str *a, Str *b);
-void func_02096ED0(decimal2 *z, const decimal2 *x, const decimal2 *y);
-void func_02097170(DB *r, double x);
-void func_020972F0(const decform *f, double x, decimal *p);
-double func_0209739C(const decimal2 *d);
-double func_02097990(double x, int n);
-double func_020979BC(double x, double y);
-int func_02098B44(double x, double *y);
-double func_02099224(double x, double y);
-extern u8 g_02153B88;
-extern struct H g_02150FEC;
+void srand(u32 v);
+int MSL_C_LIB_StrReadProc(u32 *state, u32 ch, u32 mode);
+void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c);
+void MSL_C_LIB_DefaultExitHook(void);
+int strlen(const u8 *s);
+char *strcpy(char *dst, const char *src);
+u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+u8 *strcat(u8 *dest, const u8 *src);
+int strcmp(const char *s1, const char *s2);
+int strncmp(const u8 *s1, const u8 *s2, u32 n);
+u8 *strchr(const u8 *s, int c);
+int strcspn(const u8 *s, const u8 *reject);
+u8 *strstr(const u8 *s1, const u8 *s2);
+double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *overflow);
+u64 strtod(u32 s, u32 *endptr);
+int atof(char *s);
+u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+u32 strtoul(u32 s, u32 *endptr, u32 base);
+int strtol(u32 s, u32 *endptr, u32 base);
+u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+s64 strtoll(u32 s, u32 *endptr, u32 base);
+int atoi(u32 s);
+long long atoll(u32 s);
+int fwide(u8 *stream, int orientation);
+int wcslen(const u16 *s);
+u16 *wcscpy(u16 *d, const u16 *s);
+int MSL_C_LIB_ShouldRoundUp(u8 *dec, int idx);
+void MSL_C_LIB_IncrementDigits(u8 *dec, int idx);
+void MSL_C_LIB_SetPrecision(DB *dec, int precision);
+void __ull2dec(decimal2 *result, u64 val);
+void __timesdec(decimal2 *result, const decimal2 *x, const decimal2 *y);
+void __str2dec(struct MslDecString *dec, const u8 *s, u16 exponent);
+void __two_exp(decimal2 *result, long exp);
+int __equals_dec(MslStrRec *a, MslStrRec *b);
+int __less_dec(MslStrRec *a, MslStrRec *b);
+void __minus_dec(decimal2 *z, const decimal2 *x, const decimal2 *y);
+void __num2dec(DB *r, double x);
+void __dtoa(const decform *f, double x, decimal *p);
+double __dec2num(const decimal2 *d);
+double __ieee754_pow(double x, double y);
+int __ieee754_rem_pio2(double x, double *y);
+double __kernel_cos(double x, double y);
+extern u8 gMslTwlFlag;
+extern struct MslRefBlock gMslRefToken;
 extern u32 g_02153B8C;
 extern u32 g_02153BB0;
-extern u8 g_02153BD4[];
+extern u8 gMslMutexTable[];
 extern int g_020A8818;
-extern u8 g_020A8730[];
-extern u32 arr_02153B8C[];
-extern u32 arr_02153BB0[];
-extern const u8 g_020A60DC[];
-extern u32 g_02153FAC;
-extern u8  g_020A877C[];
-extern u8  g_020A87C8[];
-extern unsigned char g_020A8878[];
+extern u8 gMslStream0[];
+extern u32 gMslRefGen[];
+extern u32 gMslRefCount[];
+extern const u8 __tolower_map[];
+extern u8  gMslStream1[];
+extern u8  gMslStream2[];
+extern unsigned char gMslFormatHook[];
 extern const unsigned short __ctype_map[];
-extern char s_020A8A40[5]; /* "-INF" */
-extern char s_020A8A48[5]; /* "-inf" */
-extern char s_020A8A50[4]; /* "INF"  */
-extern char s_020A8A54[4]; /* "inf"  */
-extern char s_020A8A58[5]; /* "-NAN" */
-extern char s_020A8A60[5]; /* "-nan" */
-extern char s_020A8A68[4]; /* "NAN"  */
-extern char s_020A8A6C[4]; /* "nan"  */
-extern wchar_t s_020A8A70[];  /* L"" */
-extern uchar s_020A8A74[];     /* ""  */
-extern u32 g_020A8A78;
-extern Hook02153FB0 g_02153FB0;
+extern char sMslNegInf[5]; /* "-INF" */
+extern char sMslNegInfLower[5]; /* "-inf" */
+extern char sMslPosInf[4]; /* "INF"  */
+extern char sMslPosInfLower[4]; /* "inf"  */
+extern char sMslNegNan[5]; /* "-NAN" */
+extern char sMslNegNanLower[5]; /* "-nan" */
+extern char sMslPosNan[4]; /* "NAN"  */
+extern char sMslPosNanLower[4]; /* "nan"  */
+extern wchar_t sMslWideEmpty[];  /* L"" */
+extern uchar sMslNarrowEmpty[];     /* ""  */
+extern u32 MslRandSeed;
+extern MslExitHook gMslExitHook;
 extern const u8 __upper_map[];
 extern float __float_huge;
 extern double __double_huge;
@@ -688,7 +601,7 @@ extern const i32 two_over_pi[];
 
 
 
-void func_020911D4(void)
+void MSL_C_LIB_EmptyStub(void)
 {
 
 }
@@ -704,49 +617,49 @@ void func_020911D4(void)
  * hands the argument across the Thumb/ARM stub at 0x020911F0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020911D8.c \
- *       --func func_020911D8 --addr 0x020911D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall1.c \
+ *       --func MSL_C_LIB_TwlCall1 --addr 0x020911D8 --cc 1.1p1 --thumb
  */
-void func_020911D8(u32 a)
+void MSL_C_LIB_TwlCall1(u32 arg0)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    func_02731754(a);
+    SHA1_HMAC_Init(arg0);
 }
 
 
 
 /*
- * Three-argument flavour of func_020911D8.
+ * Three-argument flavour of MSL_C_LIB_TwlCall1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091200.c \
- *       --func func_02091200 --addr 0x02091200 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall3.c \
+ *       --func MSL_C_LIB_TwlCall3 --addr 0x02091200 --cc 1.1p1 --thumb
  */
-void func_02091200(u32 a, u32 b, u32 c)
+void MSL_C_LIB_TwlCall3(u32 arg0, u32 arg1, u32 arg2)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    func_02731760(a, b, c);
+    SHA1_HMAC_Update(arg0, arg1, arg2);
 }
 
 
 
 /*
- * Two-argument flavour of func_020911D8.
+ * Two-argument flavour of MSL_C_LIB_TwlCall1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091230.c \
- *       --func func_02091230 --addr 0x02091230 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall2.c \
+ *       --func MSL_C_LIB_TwlCall2 --addr 0x02091230 --cc 1.1p1 --thumb
  */
-void func_02091230(u32 a, u32 b)
+void MSL_C_LIB_TwlCall2(u32 arg0, u32 arg1)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    func_02731764(a, b);
+    SHA1_HMAC_GetHash(arg0, arg1);
 }
 
 
@@ -756,15 +669,15 @@ void func_02091230(u32 a, u32 b)
  * ARM-side callee, which is why the frame carries one extra word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209125C.c \
- *       --func func_0209125C --addr 0x0209125C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall5.c \
+ *       --func MSL_C_LIB_TwlCall5 --addr 0x0209125C --cc 1.1p1 --thumb
  */
-void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
+void MSL_C_LIB_TwlCall5(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    func_02731920(a, b, c, d, e);
+    SHA1_HMAC_Calc(arg0, arg1, arg2, arg3, arg4);
 }
 
 
@@ -776,13 +689,13 @@ void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
 /*
  * The image keeps BOTH arms predicated (`movne r1, #1` ... `moveq r1, #0`).
  * A single `x != 0` test lets 1.1p1 drop the first predicate (plain
- * `mov r1, #1`, one byte out, ~80 spellings in docs/notes/func_0209128C.c.txt).
+ * `mov r1, #1`, one byte out, ~80 spellings in docs/notes/MSL_C_LIB_SetTwlFlag.c.txt).
  * A two-term `&&` condition goes through the short-circuit if-conversion
  * path, which predicates both arms; the redundant second test is folded away
  * afterwards, leaving the single `cmp r0, #0`.  Same shape in 1.1p1 matched
  * code: src/matched/GFL_NET_SYSTEM_InitDevice.c (`if (a && b) flag = 1;`).
  */
-void func_0209128C(int x)
+void MSL_C_LIB_SetTwlFlag(int x)
 {
     u8 v;
 
@@ -791,7 +704,7 @@ void func_0209128C(int x)
     } else {
         v = 0;
     }
-    g_02153B88 = v;
+    gMslTwlFlag = v;
 }
 
 
@@ -809,48 +722,48 @@ void func_0209128C(int x)
  *     +0010 OS_TryLockMutex [label x20]   +0070 OS_LockMutex [label x25]
  *     +0090 MSL_CONSOLE_IO_RegisterDestructor [UNRESOLVED - no witness outside this range]
  *     +00B0 func_02086078 [label x25]
- *     +00BC g_02153BD4 [literal x15]    +00C0 g_02150FEC [literal x60]
+ *     +00BC gMslMutexTable [literal x15]    +00C0 gMslRefToken [literal x60]
  *     +00C4 g_02153B8C [literal x15]    +00C8 g_02153BB0 [literal x15]
  *   every concrete byte right, no wildcard byte is inside a branch opcode.
  */
-u32 func_020912A8(u32 a0)
+u32 MSL_C_LIB_LockRegisterDestructor(u32 arg)
 {
     u32 r;
 
-    if (OS_TryLockMutex(g_02153BD4) == 0) {
-        g_02153B8C = g_02150FEC.unk04[0x1b];
+    if (OS_TryLockMutex(gMslMutexTable) == 0) {
+        g_02153B8C = gMslRefToken.refs[0x1b];
         g_02153BB0 = 1;
-    } else if (g_02153B8C == g_02150FEC.unk04[0x1b]) {
+    } else if (g_02153B8C == gMslRefToken.refs[0x1b]) {
         g_02153BB0 = g_02153BB0 + 1;
     } else {
-        OS_LockMutex(g_02153BD4);
-        g_02153B8C = g_02150FEC.unk04[0x1b];
+        OS_LockMutex(gMslMutexTable);
+        g_02153B8C = gMslRefToken.refs[0x1b];
         g_02153BB0 = 1;
     }
-    r = MSL_CONSOLE_IO_RegisterDestructor(a0);
+    r = MSL_CONSOLE_IO_RegisterDestructor(arg);
     if (--g_02153BB0 == 0) {
-        func_02086078(g_02153BD4);
+        func_02086078(gMslMutexTable);
     }
     return r;
 }
 
 
 
-double func_02091374(const char *tagp)
+double nan(const char *tagp)
 {
     return func_0209BD38(g_020A8818);
 }
 
 
 
-void *func_0209138C(u32 heap)
+void *MSL_C_LIB_AllocAllFromHeap(u32 heap)
 {
     return OS_AllocFromHeap(0, (u32)-1, heap);
 }
 
 
 
-void func_020913A4(u32 heap)
+void MSL_C_LIB_FreeToHeap(u32 heap)
 {
     OS_FreeToHeap(0, (u32)-1, heap);
 }
@@ -860,18 +773,18 @@ void func_020913A4(u32 heap)
 /*
  * note:     env_system.o ENV_PrependResourceSet; target named OS_ReferentSize by libmatch.
  */
-u32 func_020913BC(void *resSet)
+u32 MSL_C_LIB_PrependResourceSet(void *resSet)
 {
     return ENV_InsertResourceSet(0, resSet);
 }
 
 
 
-void *func_020913D0(u32 heap)
+void *MSL_C_LIB_AllocFromHeap(u32 heap)
 {
     if (heap == 0)
         return 0;
-    return func_0209138C(heap);
+    return MSL_C_LIB_AllocAllFromHeap(heap);
 }
 
 
@@ -879,61 +792,61 @@ void *func_020913D0(u32 heap)
 void CRT_Free(u32 heap)
 {
     if (heap) {
-        func_020913A4(heap);
+        MSL_C_LIB_FreeToHeap(heap);
     }
 }
 
 
 
 /*
- *           callees func_020913E8 and func_020913BC have no witness
+ *           callees func_020913E8 and MSL_C_LIB_PrependResourceSet have no witness
  *           outside 020913FC..0209146C (the only branches to them are
  *           the three sites inside this file), so those call sites stay
  *           wildcarded.  No C change is possible; the file becomes
  *           EXACT once either callee has its own shard entry.
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  */
-void *func_020913FC(u32 a0, u32 a1)
+void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
 {
     void *p;
     u32 n;
 
-    if (a0 == 0)
-        return func_020913D0(a1);
-    if (a1 == 0) {
-        func_020913E8((void *)a0);
+    if (resSet == 0)
+        return MSL_C_LIB_AllocFromHeap(heap);
+    if (heap == 0) {
+        func_020913E8((void *)resSet);
         return 0;
     }
-    n = func_020913BC((void *)a0);
-    p = func_020913D0(a1);
+    n = MSL_C_LIB_PrependResourceSet((void *)resSet);
+    p = MSL_C_LIB_AllocFromHeap(heap);
     if (p != 0) {
-        if (n >= a1)
-            n = a1;
-        func_02092344(p, (const void *)a0, n);
-        func_020913E8((void *)a0);
+        if (n >= heap)
+            n = heap;
+        func_02092344(p, (const void *)resSet, n);
+        func_020913E8((void *)resSet);
     }
     return p;
 }
 
 
 
-void *func_0209146C(u32 a0, u32 a1)
+void *MSL_C_LIB_Calloc(u32 count, u32 elem_size)
 {
-    u32 size = a1;
+    u32 size = elem_size;
     void *p;
 
-    size = size * a0;
-    p = func_020913D0(size);
+    size = size * count;
+    p = MSL_C_LIB_AllocFromHeap(size);
     if (p != 0)
-        func_020923B0(p, 0, size);
+        MSL_C_LIB_MemsetPtr(p, 0, size);
     return p;
 }
 
 
 
 /*
- * The gated sweep of g_020A8730: same three 0x4C-byte records as
- * func_02091524, but each record is only offered to func_02091B5C when three
+ * The gated sweep of gMslStream0: same three 0x4C-byte records as
+ * MSL_C_LIB_FlushAll, but each record is only offered to MSL_C_LIB_FlushStream when three
  * bits of its own header agree, and the record is rejected as soon as any of
  * them fails.
  *
@@ -953,24 +866,24 @@ void *func_0209146C(u32 a0, u32 a1)
  *    produces.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209149C.c \
- *       --func func_0209149C --addr 0x0209149C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_FlushAllGated.c \
+ *       --func MSL_C_LIB_FlushAllGated --addr 0x0209149C --cc 1.1p1 --arm
  *   EXACT, 136 bytes, 2 relocation sites, both resolved.
  */
-int func_0209149C(void)
+int MSL_C_LIB_FlushAllGated(void)
 {
-    u8 *p = g_020A8730;
+    u8 *p = gMslStream0;
     int i = 1;
     int r = 0;
 
     do {
-        if (((struct Cfg4 *)(p + 4))->f3 != 0 &&
-            (((((struct Obj00481 *)p)->f4 << 25) >> 30) & 1) != 0 &&
-            ((struct Cfg0209149C *)(p + 8))->mode == 1) {
-            if (func_02091B5C((struct P02091B5C *)p) != 0)
+        if (((struct MslFileKind *)(p + 4))->kind != 0 &&
+            (((((struct MslStream *)p)->mode << 25) >> 30) & 1) != 0 &&
+            ((struct MslStateBits *)(p + 8))->mode == 1) {
+            if (MSL_C_LIB_FlushStream((struct MslStream *)p) != 0)
                 r = -1;
         }
-        p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0;
+        p = (i < 3) ? gMslStream0 + i++ * 0x4c : 0;
     } while (p != 0);
     return r;
 }
@@ -978,15 +891,15 @@ int func_0209149C(void)
 
 
 /*
- * Walks the three 0x4C-byte records of g_020A8730 and asks func_02091B5C
+ * Walks the three 0x4C-byte records of gMslStream0 and asks MSL_C_LIB_FlushStream
  * about every record whose +4 bitfield 3..5 is set, returning -1 as soon as
  * one of them fails and 0 otherwise.
  *
- * The two `!= 0` conditions are what put the g_020A8730 address in a
+ * The two `!= 0` conditions are what put the gMslStream0 address in a
  * callee-saved register: the source names the global in the loop's own
- * advance expression (`p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0`) rather
+ * advance expression (`p = (i < 3) ? gMslStream0 + i++ * 0x4c : 0`) rather
  * than binding it to a pointer local, so the loaded address is CSE'd into one
- * value that stays live across the func_02091B5C call and lands in r8, while
+ * value that stays live across the MSL_C_LIB_FlushStream call and lands in r8, while
  * the cursor itself dies as that call's argument and lives in r0.  A `u8
  * *base` local instead sends the address to r5 and the induction variable to
  * r6, and the loop tail then renumbers (16 bytes of diff, and 0209149C's
@@ -998,43 +911,43 @@ int func_0209149C(void)
  * register (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091524.c \
- *       --func func_02091524 --addr 0x02091524 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_FlushAll.c \
+ *       --func MSL_C_LIB_FlushAll --addr 0x02091524 --cc 1.1p1 --arm
  *   EXACT, 100 bytes, 2 relocation sites, both resolved.
  */
-int func_02091524(void)
+int MSL_C_LIB_FlushAll(void)
 {
-    u8 *p = g_020A8730;
+    u8 *p = gMslStream0;
     int i = 1;
     int r = 0;
 
     do {
-        if (((((struct Obj00481 *)p)->f4 << 22) >> 29) != 0) {
-            if (func_02091B5C((struct P02091B5C *)p) != 0)
+        if (((((struct MslStream *)p)->mode << 22) >> 29) != 0) {
+            if (MSL_C_LIB_FlushStream((struct MslStream *)p) != 0)
                 r = -1;
         }
-        p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0;
+        p = (i < 3) ? gMslStream0 + i++ * 0x4c : 0;
     } while (p != 0);
     return r;
 }
 
 
 
-int func_02091588(int x){ return x < 0 ? -x : x; }
+int abs(int value){ return value < 0 ? -value : value; }
 
 
 
-void func_02091594(int a, void *b){ }
+void MSL_C_LIB_NopBufferHookA(int a, void *b){ }
 
 
 
-void func_02091598(int a, void *b){ }
+void MSL_C_LIB_NopBufferHookB(int a, void *b){ }
 
 
 
 /*
  * Three field moves on the object, in source order and nothing else:
- * `p->f24 = p->f1c; p->f28 = p->f20 - (p->f18 & p->f2c); p->f34 = p->f18;`.
+ * `p->buffer_ptr = p->buffer; p->buffer_len = p->buffer_size - (p->position & p->buffer_alignment); p->saved_buffer_len = p->position;`.
  *
  * The load order (0x18, 0x2c, 0x1c, 0x20) is the scheduler hoisting the
  * second statement's two loads above the first statement's store, and the
@@ -1045,100 +958,100 @@ void func_02091598(int a, void *b){ }
  * byte for byte with nothing wildcarded.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209159C.c \
- *       --func func_0209159C --addr 0x0209159C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__prep_buffer.c \
+ *       --func __prep_buffer --addr 0x0209159C --cc 1.1p1 --arm
  *   EXACT, 40 bytes, no relocation sites.
  */
-void func_0209159C(struct S0209159C *p)
+void __prep_buffer(struct MslStream *stream)
 {
-    p->f24 = p->f1c;
-    p->f28 = p->f20 - (p->f18 & p->f2c);
-    p->f34 = p->f18;
+    stream->buffer_ptr = stream->buffer;
+    stream->buffer_len = stream->buffer_size - (stream->position & stream->buffer_alignment);
+    stream->saved_buffer_len = stream->position;
 }
 
 
 
 /*
  * One deferred transaction against the object: re-derive the working fields
- * (func_0209159C), optionally preload the amount from the object's f20 when
+ * (__prep_buffer), optionally preload the amount from the object's f20 when
  * the mode argument is 1, run the object's own f3c handler with four
  * arguments (f00, f1c, &f28 and f48 - the fourth is only visible as the dead
  * `ldr r3, [r4, #0x48]` the call does not otherwise need), publish f28 to the
  * caller's out parameter, and on success fold f28 into the running f18.
  *
  * The handler is called through a plain cast of the field
- * (`((Fn)p->f3c)(...)`, i.e. the field itself declared as a function
- * pointer).  Spelling it as a guarded indirect call (`p->f3c ? ... : 0`)
+ * (`((Fn)p->read_proc)(...)`, i.e. the field itself declared as a function
+ * pointer).  Spelling it as a guarded indirect call (`p->read_proc ? ... : 0`)
  * compiles to a branchy 102-byte-different body: the original is a bare
  * `blx ip`.
  *
- * The flag test is `((p->f04 << 19) >> 31) == 0`, one bit selected out of the
+ * The flag test is `((p->mode << 19) >> 31) == 0`, one bit selected out of the
  * word at +4; the unequal shift pair keeps both shifts (a mask would fold to
  * `tst #0x1000`).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020915C4.c \
- *       --func func_020915C4 --addr 0x020915C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__load_buffer.c \
+ *       --func __load_buffer --addr 0x020915C4 --cc 1.1p1 --arm
  *   EXACT, 140 bytes, 2 relocation sites, both resolved.
  */
-int func_020915C4(struct S020915C4 *p, u32 *a1, int a2)
+int __load_buffer(struct MslStream *stream, u32 *bytes_loaded, int mode)
 {
     u32 r;
 
-    func_0209159C((struct S0209159C *)p);
-    if (a2 == 1)
-        p->f28 = p->f20;
-    r = ((Fn020915C4)p->f3c)(p->f00, p->f1c, &p->f28, p->f48);
+    __prep_buffer((struct MslStream *)stream);
+    if (mode == 1)
+        stream->buffer_len = stream->buffer_size;
+    r = ((MslReadFn)stream->read_proc)(stream->handle, stream->buffer, &stream->buffer_len, stream->ref_con);
     if (r == 2)
-        p->f28 = 0;
-    if (a1 != 0)
-        *a1 = p->f28;
+        stream->buffer_len = 0;
+    if (bytes_loaded != 0)
+        *bytes_loaded = stream->buffer_len;
     if (r != 0)
         return r;
-    p->f18 += p->f28;
-    if (((p->f04 << 19) >> 31) == 0)
-        func_02091598(p->f1c, &p->f28);
+    stream->position += stream->buffer_len;
+    if (((stream->mode << 19) >> 31) == 0)
+        MSL_C_LIB_NopBufferHookB(stream->buffer, &stream->buffer_len);
     return 0;
 }
 
 
 
 /*
- * The commit half of the pair whose prepare half is func_020915C4: work out
+ * The commit half of the pair whose prepare half is __load_buffer: work out
  * the amount still to apply (f24 - f1c), and if there is one, publish it to
- * f28, pre-process it through func_02091594, run the object's f40 handler with
- * the same four arguments func_020915C4 uses, hand f28 back through the out
+ * f28, pre-process it through MSL_C_LIB_NopBufferHookA, run the object's f40 handler with
+ * the same four arguments __load_buffer uses, hand f28 back through the out
  * parameter, and fold the applied amount into f18 on success.  The trailing
- * func_0209159C and `return 0` are shared by both paths, which is why the
+ * __prep_buffer and `return 0` are shared by both paths, which is why the
  * body's early exit is the loop-free `if (d != 0) { ... }` shape rather than a
  * `goto`.
  *
  * The handler is again a bare `blx ip` off a cast field; the f04 flag bit is
- * the same unequal-shift-pair test as in func_020915C4.
+ * the same unequal-shift-pair test as in __load_buffer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091650.c \
- *       --func func_02091650 --addr 0x02091650 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__flush_buffer.c \
+ *       --func __flush_buffer --addr 0x02091650 --cc 1.1p1 --arm
  *   EXACT, 132 bytes, 2 relocation sites, both resolved.
  */
-int func_02091650(struct S02091650 *p, u32 *a1)
+int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed)
 {
     u32 d;
     u32 r;
 
-    d = p->f24 - p->f1c;
+    d = stream->buffer_ptr - stream->buffer;
     if (d != 0) {
-        p->f28 = d;
-        if (((p->f04 << 19) >> 31) == 0)
-            func_02091594(p->f1c, &p->f28);
-        r = ((Fn02091650)p->f40)(p->f00, p->f1c, &p->f28, p->f48);
-        if (a1 != 0)
-            *a1 = p->f28;
+        stream->buffer_len = d;
+        if (((stream->mode << 19) >> 31) == 0)
+            MSL_C_LIB_NopBufferHookA(stream->buffer, &stream->buffer_len);
+        r = ((MslWriteFn)stream->write_proc)(stream->handle, stream->buffer, &stream->buffer_len, stream->ref_con);
+        if (bytes_flushed != 0)
+            *bytes_flushed = stream->buffer_len;
         if (r != 0)
             return r;
-        p->f18 += p->f28;
+        stream->position += stream->buffer_len;
     }
-    func_0209159C((struct S0209159C *)p);
+    __prep_buffer((struct MslStream *)stream);
     return 0;
 }
 
@@ -1146,9 +1059,9 @@ int func_02091650(struct S02091650 *p, u32 *a1)
 
 /*
  * A refcounted-resource wrapper: the 4-argument twin of
- * src/matched/func_02092004.c (which is the 3-argument one with a three-way
+ * src/matched/fseek.c (which is the 3-argument one with a three-way
  * id dispatch).  The id here is the FOURTH argument and the dispatch is
- * two-way, `a3 == g_020A8730 ? 2 : 5`, which is what the image's
+ * two-way, `a3 == gMslStream0 ? 2 : 5`, which is what the image's
  * `mov r6,#2 / cmp r7,r4 / movne r6,#5` is.
  *
  * docs/notes/pkt_020916D4.c.txt records an earlier pass that got to 248
@@ -1158,39 +1071,39 @@ int func_02091650(struct S02091650 *p, u32 *a1)
  * an allocator tie.  The sibling's exact shape -- the `cur`/`ref` pair named
  * as two locals in the else arm, the two table stores written out in full in
  * BOTH the then arm and the inner else arm rather than factored, and
- * `g_02150FEC.unk04[0x1b]` re-read at each of its three use sites -- closes
+ * `gMslRefToken.refs[0x1b]` re-read at each of its three use sites -- closes
  * it with no permuter run at all.  The `str r3,[r2,r6,lsl #2]` addressing-
  * mode store and the per-site pool reloads the note despaired of follow from
  * writing the arms out rather than from any register hint.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020916D4.c \
- *       --func func_020916D4 --addr 0x020916D4 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/fread.c \
+ *       --func fread --addr 0x020916D4 --arm --cc 1.1p1
  */
-s32_020911D4 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3)
+int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
 {
-    u32 idx = (a3 == (u32)g_020A8730) ? 2 : 5;
-    u8 *blk = g_02153BD4 + idx * 0x18;
-    s32_020911D4 r;
+    u32 idx = (stream == (u32)gMslStream0) ? 2 : 5;
+    u8 *blk = gMslMutexTable + idx * 0x18;
+    int r;
 
     if (OS_TryLockMutex(blk) == 0) {
-        arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-        arr_02153BB0[idx] = 1;
+        gMslRefGen[idx] = gMslRefToken.refs[0x1b];
+        gMslRefCount[idx] = 1;
     } else {
-        u32 cur = arr_02153B8C[idx];
-        u32 ref = g_02150FEC.unk04[0x1b];
+        u32 cur = gMslRefGen[idx];
+        u32 ref = gMslRefToken.refs[0x1b];
 
         if (cur == ref) {
-            arr_02153BB0[idx]++;
+            gMslRefCount[idx]++;
         } else {
             OS_LockMutex(blk);
-            arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-            arr_02153BB0[idx] = 1;
+            gMslRefGen[idx] = gMslRefToken.refs[0x1b];
+            gMslRefCount[idx] = 1;
         }
     }
-    r = func_020917D4((void *)a0, a1, a2, (struct FILE *)a3);
-    arr_02153BB0[idx]--;
-    if (arr_02153BB0[idx] == 0) func_02086078(blk);
+    r = __fread((void *)ptr, memb_size, num_memb, (struct FILE *)stream);
+    gMslRefCount[idx]--;
+    if (gMslRefCount[idx] == 0) func_02086078(blk);
     return r;
 }
 
@@ -1207,7 +1120,7 @@ enum { __no_io_error, __io_error, __io_EOF };
 /*
  * MSL C `__fread` (buffered stdio read), transcribed from the Metrowerks MSL
  * shape: fwide orientation probe, pushback drain through ungetc_buffer /
- * ungetwc_buffer, buffered copy loop through __load_buffer (func_020915C4)
+ * ungetwc_buffer, buffered copy loop through __load_buffer (__load_buffer)
  * and memcpy (func_02092344), then the unbuffered direct read that borrows
  * buffer/buffer_size.  Returns bytes_read / memb_size (func_0209C2B0).
  * The two levers over the earlier 788/456 note body were (1) writing it as
@@ -1217,14 +1130,14 @@ enum { __no_io_error, __io_error, __io_EOF };
  * 8-byte state struct, which puts ungetc_buffer at +0x12 and ungetwc_buffer
  * at +0x14.  Project default compiler; EXACT on the first full transcription.
  */
-size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
+size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
 {
     u8 *read_ptr;
     size_t num_bytes, bytes_requested, bytes_read;
     int ioresult, always_buffer;
 
-    if (func_02096508((u8 *)file, 0) == 0)
-        func_02096508((u8 *)file, -1);
+    if (fwide((u8 *)file, 0) == 0)
+        fwide((u8 *)file, -1);
 
     bytes_requested = memb_size * num_memb;
 
@@ -1247,7 +1160,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
     }
 
     if (file->mode.buffer_mode & 1) {
-        if (func_0209149C()) {
+        if (MSL_C_LIB_FlushAllGated()) {
             file->error = 1;
             file->buffer_len = 0;
             return 0;
@@ -1259,8 +1172,8 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
 
     if (bytes_requested && file->state.io_state >= __rereading) {
         do {
-            if (func_02096508((u8 *)file, 0) == 1) {
-                ((struct Obj16696 *)read_ptr)->f0 = file->ungetwc_buffer[file->state.io_state - __rereading];
+            if (fwide((u8 *)file, 0) == 1) {
+                *(u16 *)read_ptr = file->ungetwc_buffer[file->state.io_state - __rereading];
                 read_ptr += sizeof(wchar_t);
                 bytes_read += sizeof(wchar_t);
                 bytes_requested -= sizeof(wchar_t);
@@ -1279,7 +1192,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
     if (bytes_requested && (file->buffer_len || always_buffer)) {
         do {
             if (!file->buffer_len) {
-                ioresult = func_020915C4((struct S020915C4 *)file, 0, 0);
+                ioresult = __load_buffer((struct MslStream *)file, 0, 0);
                 if (ioresult) {
                     if (ioresult == __io_error) {
                         file->error = 1;
@@ -1316,7 +1229,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
         file->buffer = read_ptr;
         file->buffer_size = bytes_requested;
 
-        ioresult = func_020915C4((struct S020915C4 *)file, &num_bytes, 1);
+        ioresult = __load_buffer((struct MslStream *)file, &num_bytes, 1);
         if (ioresult) {
             if (ioresult == __io_error) {
                 file->error = 1;
@@ -1333,7 +1246,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
         file->buffer = save_buffer;
         file->buffer_size = save_size;
 
-        func_0209159C((struct S0209159C *)file);
+        __prep_buffer((struct MslStream *)file);
 
         file->buffer_len = 0;
     }
@@ -1343,22 +1256,22 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
 
 
 
-int func_02091AE8(u8 *p)
+int fclose(u8 *stream)
 {
     u32 mode;
     int r;
     int x;
 
-    if (p == 0)
+    if (stream == 0)
         return -1;
-    mode = (((struct Obj00481 *)p)->f4 << 22) >> 29;
+    mode = (((struct MslStream *)stream)->mode << 22) >> 29;
     if (mode == 0)
         return 0;
-    r = (int)func_02091B5C((struct P02091B5C *)p);
-    x = ((int (*)(u32))*(u32 *)(p + 0x44))(((struct Obj00481 *)p)->f0);
-    ((struct Obj00481 *)p)->f4 &= ~0x380u;
-    ((struct Obj00481 *)p)->f0 = 0;
-    if ((((struct Obj00481 *)p)->f8 << 28) >> 31)
+    r = (int)MSL_C_LIB_FlushStream((struct MslStream *)stream);
+    x = ((int (*)(u32))*(u32 *)(stream + 0x44))(((struct MslStream *)stream)->handle);
+    ((struct MslStream *)stream)->mode &= ~0x380u;
+    ((struct MslStream *)stream)->handle = 0;
+    if ((((struct MslStream *)stream)->state << 28) >> 31)
         return -1;
     return (r != 0 || x != 0) ? -1 : 0;
 }
@@ -1366,21 +1279,21 @@ int func_02091AE8(u8 *p)
 
 
 /*
- * The state machine the g_020A8730 sweep calls per record (and the entry the
- * null argument routes to func_02091524).  A record is rejected when its +0xd
+ * The state machine the gMslStream0 sweep calls per record (and the entry the
+ * null argument routes to MSL_C_LIB_FlushAll).  A record is rejected when its +0xd
  * byte is set or when its +4 field at bits 7..9 is zero, is a no-op when the
  * +4 field at bits 2..4 is 1, otherwise its +8 three-bit mode is forced to 2
  * when it is 3 or more (clearing the low three bits first), the record is
  * cleared when that mode is 2, and anything but mode 1 clears the mode and
- * returns.  Mode 1 runs the transaction func_02091650, and either sets the
+ * returns.  Mode 1 runs the transaction __flush_buffer, and either sets the
  * +0xd byte and returns -1 or clears mode, +0x18 and +0x28 and returns 0.
  *
  * Every one of the five field accesses is a bitfield read/write against a
  * view struct cast onto the word, and that is load-bearing: written as
- * `(p->f08 << 29) >> 29` the three-mode tests are re-derived as `and #7` and
+ * `(p->state << 29) >> 29` the three-mode tests are re-derived as `and #7` and
  * the whole tail renumbers, while a bitfield extraction is emitted as the
  * shift pair directly and is never folded (this is the same finding as
- * src/matched/func_0209149C.c and func_02091524.c's neighbour).  The mode
+ * src/matched/MSL_C_LIB_FlushAllGated.c and MSL_C_LIB_FlushAll.c's neighbour).  The mode
  * writes come out as exactly `bic`/`orr` on the low three bits, which is what
  * a bitfield assignment emits, and the constant -1 the failure path returns is
  * derived by the compiler from the 1 it has just stored (`subne r0, r0, #2`).
@@ -1389,37 +1302,37 @@ int func_02091AE8(u8 *p)
  * epilogue; two separate `if`s cost 20 bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091B5C.c \
- *       --func func_02091B5C --addr 0x02091B5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_FlushStream.c \
+ *       --func MSL_C_LIB_FlushStream --addr 0x02091B5C --cc 1.1p1 --arm
  *   EXACT, 228 bytes, 2 relocation sites, both resolved.
  */
-int func_02091B5C(struct P02091B5C *p)
+int MSL_C_LIB_FlushStream(struct MslStream *stream)
 {
     int r;
 
-    if (p == 0)
-        return func_02091524();
-    if (p->f0d != 0 || ((struct F04hi *)&p->f04)->mode == 0)
+    if (stream == 0)
+        return MSL_C_LIB_FlushAll();
+    if (stream->error != 0 || ((struct MslFileKind *)&stream->mode)->kind == 0)
         return -1;
-    if (((struct F04lo *)&p->f04)->sub == 1)
+    if (((struct MslFileIoBits *)&stream->mode)->io_mode == 1)
         return 0;
-    if (((struct F08 *)&p->f08)->mode >= 3)
-        ((struct F08 *)&p->f08)->mode = 2;
-    if (((struct F08 *)&p->f08)->mode == 2)
-        p->f28 = 0;
-    if (((struct F08 *)&p->f08)->mode != 1) {
-        ((struct F08 *)&p->f08)->mode = 0;
+    if (((struct MslStateBits *)&stream->state)->mode >= 3)
+        ((struct MslStateBits *)&stream->state)->mode = 2;
+    if (((struct MslStateBits *)&stream->state)->mode == 2)
+        stream->buffer_len = 0;
+    if (((struct MslStateBits *)&stream->state)->mode != 1) {
+        ((struct MslStateBits *)&stream->state)->mode = 0;
         return 0;
     }
-    r = func_02091650((struct S02091650 *)p, 0);
+    r = __flush_buffer((struct MslStream *)stream, 0);
     if (r != 0) {
-        p->f0d = 1;
-        p->f28 = 0;
+        stream->error = 1;
+        stream->buffer_len = 0;
         return -1;
     }
-    ((struct F08 *)&p->f08)->mode = 0;
-    p->f18 = 0;
-    p->f28 = 0;
+    ((struct MslStateBits *)&stream->state)->mode = 0;
+    stream->position = 0;
+    stream->buffer_len = 0;
     return 0;
 }
 
@@ -1445,7 +1358,7 @@ int func_02091B5C(struct P02091B5C *p)
  *    pass's spelling) leaves the same 26-byte register swap that note
  *    describes: lr/ip carry the loop counter and the table there, r4/ip here.
  *  - THE TABLE BASE IS ASSIGNED INSIDE THE GUARD.  `const u8 *tab =
- *    g_020A60DC;` at the top of the function hoists its pool load above the
+ *    __tolower_map;` at the top of the function hoists its pool load above the
  *    `ble`, which is the last 12-byte residue: the image emits
  *    `mov lr,#0 / ble / ldr ip,[pc,#0x60]`, i.e. the table is not loaded at
  *    all on the n <= 0 path.  Declaring it at the top and assigning it in
@@ -1471,7 +1384,7 @@ int func_02091C40(const u8 *s1, const u8 *s2, int n)
 
     if (n > 0)
     {
-        tab = g_020A60DC;
+        tab = __tolower_map;
         do
         {
             c1 = *s1++;
@@ -1517,28 +1430,28 @@ int func_02091C40(const u8 *s1, const u8 *s2, int n)
  *    the second `lsr` and the register the original keeps.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091CBC.c \
- *       --func func_02091CBC --addr 0x02091CBC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__ftell.c \
+ *       --func __ftell --addr 0x02091CBC --cc 1.1p1 --arm
  *   EXACT, 124 bytes, 1 relocation site, resolved.
  */
-int func_02091CBC(struct P02091CBC *p)
+int __ftell(struct MslStream *stream)
 {
-    struct F08P *m08 = (struct F08P *)&p->f08;
+    struct MslStateBits *m08 = (struct MslStateBits *)&stream->state;
     u8 mode;
     u8 sel;
     u32 m;
     u32 v;
 
-    mode = ((struct F04hiP *)&p->f04)->mode;
+    mode = ((struct MslFileKind *)&stream->mode)->kind;
     sel = mode + 0xff;
-    if (sel > 1 || p->f0d != 0) {
-        g_02153FAC = 0x28;
+    if (sel > 1 || stream->error != 0) {
+        errno = 0x28;
         return -1;
     }
     m = m08->mode;
     if (m == 0)
-        return p->f18;
-    v = p->f34 + (p->f24 - p->f1c);
+        return stream->position;
+    v = stream->saved_buffer_len + (stream->buffer_ptr - stream->buffer);
     if (m >= 3)
         v -= m - 2;
     return v;
@@ -1548,19 +1461,19 @@ int func_02091CBC(struct P02091CBC *p)
 
 /*
  * The one-argument member of the refcounted-resource wrapper family
- * (src/matched/func_02092004.c is the three-argument one, and
- * src/matched/func_020916D4.c the four-argument one with a two-way dispatch).
+ * (src/matched/fseek.c is the three-argument one, and
+ * src/matched/fread.c the four-argument one with a two-way dispatch).
  * Three-way id dispatch on a0, block base 0x02153BD4 with a 0x18 stride, the
- * two parallel arrays arr_02153B8C / arr_02153BB0, and the reference token
- * g_02150FEC.unk04[0x1b].
+ * two parallel arrays gMslRefGen / gMslRefCount, and the reference token
+ * gMslRefToken.refs[0x1b].
  *
  * docs/notes/pkt_02091D38.c.txt left this at 265 of 268 bytes with a
  * three-instruction residue on the equality compare, and named the fix it had
  * not tried: bind BOTH sides to named locals in a nested if/else inside the
  * outer else, ARRAY ELEMENT FIRST --
  *
- *     u32 cur = arr_02153B8C[idx];
- *     u32 ref = g_02150FEC.unk04[0x1b];
+ *     u32 cur = gMslRefGen[idx];
+ *     u32 ref = gMslRefToken.refs[0x1b];
  *     if (cur == ref) ... else ...
  *
  * not an `else if` on the bare expression.  Two live named temporaries on the
@@ -1568,42 +1481,42 @@ int func_02091CBC(struct P02091CBC *p)
  * canonicalises either operand order to the swapped pair.  That spelling
  * closes it, exactly as the note predicted from 0x02092004.
  *
- * g_02150FEC is a two-word object whose SECOND word is the pointer: the pool
+ * gMslRefToken is a two-word object whose SECOND word is the pointer: the pool
  * word is 0x02150FEC itself, so the field must be reached through
- * `g_02150FEC.unk04`, never through a symbol named for 0x02150FF0.  The three
+ * `gMslRefToken.refs`, never through a symbol named for 0x02150FF0.  The three
  * id constants are ADDRESSES compared against a0, so they are declared as
  * objects and their address taken; declaring them `u32` makes the compiler
  * dereference them.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02091D38.c \
- *       --func func_02091D38 --addr 0x02091D38 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/ftell.c \
+ *       --func ftell --addr 0x02091D38 --arm --cc 1.1p1
  */
-s32_02091D38 func_02091D38(u32 a0)
+int ftell(u32 stream)
 {
-    u32 idx = (a0 == (u32)g_020A8730) ? 2 : (a0 == (u32)g_020A877C) ? 3
-            : (a0 == (u32)g_020A87C8) ? 4 : 5;
-    u8 *blk = g_02153BD4 + idx * 0x18;
-    s32_02091D38 r;
+    u32 idx = (stream == (u32)gMslStream0) ? 2 : (stream == (u32)gMslStream1) ? 3
+            : (stream == (u32)gMslStream2) ? 4 : 5;
+    u8 *blk = gMslMutexTable + idx * 0x18;
+    int r;
 
     if (OS_TryLockMutex(blk) == 0) {
-        arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-        arr_02153BB0[idx] = 1;
+        gMslRefGen[idx] = gMslRefToken.refs[0x1b];
+        gMslRefCount[idx] = 1;
     } else {
-        u32 cur = arr_02153B8C[idx];
-        u32 ref = g_02150FEC.unk04[0x1b];
+        u32 cur = gMslRefGen[idx];
+        u32 ref = gMslRefToken.refs[0x1b];
 
         if (cur == ref) {
-            arr_02153BB0[idx]++;
+            gMslRefCount[idx]++;
         } else {
             OS_LockMutex(blk);
-            arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-            arr_02153BB0[idx] = 1;
+            gMslRefGen[idx] = gMslRefToken.refs[0x1b];
+            gMslRefCount[idx] = 1;
         }
     }
-    r = func_02091CBC((struct P02091CBC *)a0);
-    arr_02153BB0[idx]--;
-    if (arr_02153BB0[idx] == 0) func_02086078(blk);
+    r = __ftell((struct MslStream *)stream);
+    gMslRefCount[idx]--;
+    if (gMslRefCount[idx] == 0) func_02086078(blk);
     return r;
 }
 
@@ -1619,7 +1532,7 @@ s32_02091D38 func_02091D38(u32 a0)
  * Closed wave 12 after four lanes stalled at 448/28.  The two coupled residues
  * were both in the declarations, not the allocator:
  *   - the f08 state is a BITFIELD MEMBER OF THE STRUCT and is ASSIGNED as one
- *     (`p->f08.mode = 2;` / `= 0;`).  That is the `bic ip, #7 / orr #2` read-
+ *     (`((struct MslStateBits *)&p->state)->mode = 2;` / `= 0;`).  That is the `bic ip, #7 / orr #2` read-
  *     modify-write off the word the mode test already loaded, and the plain
  *     re-read after the store; no volatile view is involved.
  *   - the in-window test is `if (pos >= f18 || pos < f34) mode = 0; else
@@ -1627,51 +1540,51 @@ s32_02091D38 func_02091D38(u32 a0)
  *     the two compares.  The positive `&&` form cross-jumps it away.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02091E44.c \
- *       --func func_02091E44 --addr 0x02091E44 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/__fseek.c \
+ *       --func __fseek --addr 0x02091E44 --arm --cc 1.1p1
  *   EXACT*, 448 bytes, 3 of 3 relocation sites resolved.
  *   ../2.0/sp2 and ../2.0/sp2p2: 488 bytes, DIFF.
  */
-s32_02091E44 func_02091E44(struct File *p, u32 pos, u32 whence)
+int __fseek(MslStream *stream, u32 pos, u32 whence)
 {
     u8 mode;
 
-    mode = p->f04.omode;
-    if (mode != 1 || p->f0d != 0) {
-        g_02153FAC = 0x28;
+    mode = ((struct MslFileModeBits *)&stream->mode)->kind;
+    if (mode != 1 || stream->error != 0) {
+        errno = 0x28;
         return -1;
     }
-    if (p->f08.mode == 1 && func_02091650((struct S02091650 *)p, 0) != 0) {
-        p->f0d = 1;
-        p->f28 = 0;
-        g_02153FAC = 0x28;
+    if (((struct MslStateBits *)&stream->state)->mode == 1 && __flush_buffer((struct MslStream *)stream, 0) != 0) {
+        stream->error = 1;
+        stream->buffer_len = 0;
+        errno = 0x28;
         return -1;
     }
     if (whence == 1) {
         whence = 0;
-        pos += func_02091CBC((struct P02091CBC *)p);
+        pos += __ftell((struct MslStream *)stream);
     }
-    if (whence != 2 && p->f04.mode != 3 && p->f08.mode - 2 <= 1) {
-        if (pos >= p->f18 || pos < p->f34) {
-            p->f08.mode = 0;
+    if (whence != 2 && ((struct MslFileModeBits *)&stream->mode)->io_mode != 3 && ((struct MslStateBits *)&stream->state)->mode - 2 <= 1) {
+        if (pos >= stream->position || pos < stream->saved_buffer_len) {
+            ((struct MslStateBits *)&stream->state)->mode = 0;
         } else {
-            p->f24 = p->f1c + (pos - p->f34);
-            p->f28 = p->f18 - pos;
-            p->f08.mode = 2;
+            stream->buffer_ptr = stream->buffer + (pos - stream->saved_buffer_len);
+            stream->buffer_len = stream->position - pos;
+            ((struct MslStateBits *)&stream->state)->mode = 2;
         }
     } else {
-        p->f08.mode = 0;
+        ((struct MslStateBits *)&stream->state)->mode = 0;
     }
-    if (p->f08.mode == 0) {
-        if (p->f38 != 0 && p->f38(p->f00, &pos, whence, p->f48) != 0) {
-            p->f0d = 1;
-            p->f28 = 0;
-            g_02153FAC = 0x28;
+    if (((struct MslStateBits *)&stream->state)->mode == 0) {
+        if (stream->seek_proc != 0 && stream->seek_proc(stream->handle, &pos, whence, stream->ref_con) != 0) {
+            stream->error = 1;
+            stream->buffer_len = 0;
+            errno = 0x28;
             return -1;
         }
-        p->f0c = 0;
-        p->f18 = pos;
-        p->f28 = 0;
+        stream->eof = 0;
+        stream->position = pos;
+        stream->buffer_len = 0;
     }
     return 0;
 }
@@ -1681,44 +1594,44 @@ s32_02091E44 func_02091E44(struct File *p, u32 pos, u32 whence)
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  * blocking: label, no outside witness -- the one wildcard site is +0x00D4
- *           PC24 func_02091E44, whose only branch in the image is this call
+ *           PC24 __fseek, whose only branch in the image is this call
  *           (match.py: "has no witness outside 02092004..02092120").  Cut
  *           does not help: the site is inside the single function, so
  *           --suggest-split has nothing to offer.  Byte-correct as it
  *           stands: converts with no edit the moment 0x02091E44 has a
  *           manifest entry of its own.
  */
-s32_020911D4 func_02092004(u32 a0, u32 a1, u32 a2)
+int fseek(u32 stream, u32 pos, u32 whence)
 {
-    u32 idx = (a0 == (u32)g_020A8730) ? 2 : (a0 == (u32)g_020A877C) ? 3
-            : (a0 == (u32)g_020A87C8) ? 4 : 5;
-    u8 *blk = g_02153BD4 + idx * 0x18;
-    s32_020911D4 r;
+    u32 idx = (stream == (u32)gMslStream0) ? 2 : (stream == (u32)gMslStream1) ? 3
+            : (stream == (u32)gMslStream2) ? 4 : 5;
+    u8 *blk = gMslMutexTable + idx * 0x18;
+    int r;
 
     if (OS_TryLockMutex(blk) == 0) {
-        arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-        arr_02153BB0[idx] = 1;
+        gMslRefGen[idx] = gMslRefToken.refs[0x1b];
+        gMslRefCount[idx] = 1;
     } else {
-        u32 cur = arr_02153B8C[idx];
-        u32 ref = g_02150FEC.unk04[0x1b];
+        u32 cur = gMslRefGen[idx];
+        u32 ref = gMslRefToken.refs[0x1b];
 
         if (cur == ref) {
-            arr_02153BB0[idx]++;
+            gMslRefCount[idx]++;
         } else {
             OS_LockMutex(blk);
-            arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-            arr_02153BB0[idx] = 1;
+            gMslRefGen[idx] = gMslRefToken.refs[0x1b];
+            gMslRefCount[idx] = 1;
         }
     }
-    r = func_02091E44((struct File *)a0, a1, a2);
-    arr_02153BB0[idx]--;
-    if (arr_02153BB0[idx] == 0) func_02086078(blk);
+    r = __fseek((MslStream *)stream, pos, whence);
+    gMslRefCount[idx]--;
+    if (gMslRefCount[idx] == 0) func_02086078(blk);
     return r;
 }
 
 
 
-int func_02092120(void *a0){ int t0; ((struct Obj11692 *)((char *)(a0)))->fD = (unsigned char)0; t0 = func_02092004((int)a0, (int)0, (int)0); ((struct Obj11692 *)((char *)(a0)))->fD = (unsigned char)0; return t0; }
+int rewind(void *stream){ int result; ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; result = fseek((int)stream, (int)0, (int)0); ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; return result; }
 
 
 
@@ -1743,11 +1656,11 @@ int func_02092120(void *a0){ int t0; ((struct Obj11692 *)((char *)(a0)))->fD = (
  * compared byte for byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02092144.c \
- *       --func func_02092144 --addr 0x02092144 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_PopCount64.c \
+ *       --func MSL_C_LIB_PopCount64 --addr 0x02092144 --cc 1.1p1 --arm
  *   EXACT, 148 bytes, no relocation sites.
  */
-u32 func_02092144(u64 x)
+u32 MSL_C_LIB_PopCount64(u64 x)
 {
     x = x - ((x >> 1) & 0x5555555555555555ULL);
     x = (x & 0x3333333333333333ULL) + ((x >> 2) & 0x3333333333333333ULL);
@@ -1760,9 +1673,9 @@ u32 func_02092144(u64 x)
 
 
 
-int func_020921D8(double v)
+int __signbitd(double x)
 {
-    u32 *w = (u32 *)&v;
+    u32 *w = (u32 *)&x;
 
     return (w[1] & 0x80000000u) ? 1 : 0;
 }
@@ -1775,22 +1688,22 @@ int func_020921D8(double v)
  *           the listing extent runs to the next func_ label at 0x020922B0.
  *           Wants a seed at 0x02092264 in layout/function_starts.txt.
  */
-int func_020921F4(double v)
+int __fpclassifyd(double x)
 {
-    if ((*(u32 *)((char *)&v + 4) & 0x7FF00000u) != 0) {
-        if ((*(u32 *)((char *)&v + 4) & 0x7FF00000u) == 0x7FF00000u)
-            return ((*(u32 *)((char *)&v + 4) & 0xFFFFFu) != 0 ||
-                    *(u32 *)&v != 0) ? 1 : 2;
+    if ((*(u32 *)((char *)&x + 4) & 0x7FF00000u) != 0) {
+        if ((*(u32 *)((char *)&x + 4) & 0x7FF00000u) == 0x7FF00000u)
+            return ((*(u32 *)((char *)&x + 4) & 0xFFFFFu) != 0 ||
+                    *(u32 *)&x != 0) ? 1 : 2;
     } else {
-        return ((*(u32 *)((char *)&v + 4) & 0xFFFFFu) != 0 ||
-                *(u32 *)&v != 0) ? 5 : 3;
+        return ((*(u32 *)((char *)&x + 4) & 0xFFFFFu) != 0 ||
+                *(u32 *)&x != 0) ? 5 : 3;
     }
     return 4;
 }
 
 
 
-int func_02092264(unsigned short *pwc, const unsigned char *s, unsigned int n)
+int MSL_C_LIB_MbrToWc(unsigned short *pwc, const unsigned char *s, unsigned int n)
 {
     if (s == 0) {
         return 0;
@@ -1809,7 +1722,7 @@ int func_02092264(unsigned short *pwc, const unsigned char *s, unsigned int n)
 
 
 
-int func_0209229C(char *s, unsigned short wc)
+int MSL_C_LIB_WcToMb(char *s, unsigned short wc)
 {
     if (s == 0) {
         return 0;
@@ -1820,14 +1733,14 @@ int func_0209229C(char *s, unsigned short wc)
 
 
 
-u32 func_020922B0(u32 *dst, u32 c)
+u32 MSL_C_LIB_CallFormatHook(u32 *dst, u32 c)
 {
-    return ((Holder *)g_020A8878)->table->fn(dst, c);
+    return ((MslFormatHookHolder *)gMslFormatHook)->hook->proc(dst, c);
 }
 
 
 
-u32 func_020922CC(u8 *dst, const u16 *src, u32 max)
+u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max)
 {
     u32 n = 0;
     u32 tmp;
@@ -1842,10 +1755,10 @@ u32 func_020922CC(u8 *dst, const u16 *src, u32 max)
             dst[n] = 0;
             break;
         }
-        k = func_020922B0(&tmp, *src++);
+        k = MSL_C_LIB_CallFormatHook(&tmp, *src++);
         if (n + k > max)
             break;
-        func_02094860(dst + n, (const u8 *)&tmp, k);
+        strncpy(dst + n, (const u8 *)&tmp, k);
         n += k;
     } while (n <= max);
 
@@ -1857,7 +1770,7 @@ u32 func_020922CC(u8 *dst, const u16 *src, u32 max)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Byte-wise memcpy (func_02092344) and memmove (func_02092364).
+ * Byte-wise memcpy (func_02092344) and memmove (memmove).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02092344.c \
@@ -1881,7 +1794,7 @@ void *func_02092344(void *dest, const void *src, size_t n)
 
 
 
-void *func_02092364(void *dest, const void *src, size_t n)
+void *memmove(void *dest, const void *src, size_t n)
 {
     if ((const unsigned char *)src >= (unsigned char *)dest) {
         unsigned char *d = (unsigned char *)dest;
@@ -1916,23 +1829,23 @@ void *func_02092364(void *dest, const void *src, size_t n)
 
 /*
  * String / memory utilities:
- *   func_020923B0 (20 B)  wraps func_02092430 (memset) and returns ptr
- *   func_020923C4 (44 B)  memchr (byte search)
+ *   MSL_C_LIB_MemsetPtr (20 B)  wraps func_02092430 (memset) and returns ptr
+ *   memchr (44 B)  memchr (byte search)
  *   func_020923F0 (64 B)  memcmp (memory comparison)
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020923B0.c \
  *       --addr 0x020923B0
  */
-void *func_020923B0(void *p, int c, u32 n)
+void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n)
 {
-    func_02092430(p, c, n);
-    return p;
+    func_02092430(dest, c, n);
+    return dest;
 }
 
 
 
-u8 *func_020923C4(u8 *s, u32 c, u32 n)
+u8 *memchr(u8 *s, u32 c, u32 n)
 {
     u8 val = (u8)c;
 
@@ -1979,7 +1892,7 @@ void func_02092430(u8 *dest, u32 val, u32 count)
 
     byte_val = val & 0xff;
     if (count >= 0x20) {
-        align = (u32)(-(s32_020922B0)(u32)dest) & 3;
+        align = (u32)(-(int)(u32)dest) & 3;
         if (align != 0) {
             count -= align;
             do {
@@ -1996,14 +1909,14 @@ void func_02092430(u8 *dest, u32 val, u32 count)
         blocks = count >> 5;
         if (blocks != 0) {
             do {
-                ((struct Obj03036 *)dest)->f0 = byte_val;
-                ((struct Obj03036 *)dest)->f4 = byte_val;
-                ((struct Obj03036 *)dest)->f8 = byte_val;
-                ((struct Obj03036 *)dest)->fC = byte_val;
-                ((struct Obj03036 *)dest)->f10 = byte_val;
-                ((struct Obj03036 *)dest)->f14 = byte_val;
-                ((struct Obj03036 *)dest)->f18 = byte_val;
-                ((struct Obj03036 *)dest)->f1C = byte_val;
+                ((MslMemsetBlock *)dest)->w0 = byte_val;
+                ((MslMemsetBlock *)dest)->w1 = byte_val;
+                ((MslMemsetBlock *)dest)->w2 = byte_val;
+                ((MslMemsetBlock *)dest)->w3 = byte_val;
+                ((MslMemsetBlock *)dest)->w4 = byte_val;
+                ((MslMemsetBlock *)dest)->w5 = byte_val;
+                ((MslMemsetBlock *)dest)->w6 = byte_val;
+                ((MslMemsetBlock *)dest)->w7 = byte_val;
                 dest += 0x20;
             } while (--blocks != 0);
         }
@@ -2011,7 +1924,7 @@ void func_02092430(u8 *dest, u32 val, u32 count)
         words = (count & 0x1f) >> 2;
         if (words != 0) {
             do {
-                ((struct Obj03036 *)dest)->f0 = byte_val;
+                ((MslMemsetBlock *)dest)->w0 = byte_val;
                 dest += 4;
             } while (--words != 0);
         }
@@ -2034,7 +1947,7 @@ void func_02092430(u8 *dest, u32 val, u32 count)
 
 /*
  * note:     MSL printf.c `parse_format`, the conversion-spec scanner that
- *           __pformatter (func_02093BDC) calls once per '%'.  Written from
+ *           __pformatter (__pformatter) calls once per '%'.  Written from
  *           the Metrowerks source shape: `int c` and `int flag_found`, the
  *           flag loop as for(;;){flag_found = 1; switch; if (flag_found)
  *           c = *++s; else break;}, the length modifiers as a second switch
@@ -2046,7 +1959,7 @@ void func_02092430(u8 *dest, u32 val, u32 count)
  *           store 6, 8, 7 in that order).  All chars unsigned (ldrb).
  *           Under ../2.0/sp2 the same source is 1392 bytes; no pin.
  */
-const uchar *func_020924DC(const uchar *format_string, va_list *arg, print_format *format)
+const uchar *parse_format(const uchar *format_string, va_list *arg, print_format *format)
 {
     print_format f;
     const uchar *s = format_string;
@@ -2271,7 +2184,7 @@ const uchar *func_020924DC(const uchar *format_string, va_list *arg, print_forma
  *           constant 0x8000000000000000 (LLONG_MIN), promoted.  The digit
  *           pointer is `unsigned char *` (the `*p != '0'` test is ldrb).
  */
-unsigned char *func_020929E8(long num, unsigned char *buff, print_format format)
+unsigned char *long2str(long num, unsigned char *buff, print_format format)
 {
     unsigned long unsigned_num, base;
     unsigned char *p;
@@ -2367,7 +2280,7 @@ unsigned char *func_020929E8(long num, unsigned char *buff, print_format format)
 
 
 /*
- * note:     MSL printf.c `longlong2str`, the 64-bit twin of func_020929E8
+ * note:     MSL printf.c `longlong2str`, the 64-bit twin of long2str
  *           (same source template over long long).  This is the REAL entry:
  *           the listing labels 0x02092C38 as a 4-byte row and 0x02092C3C as
  *           the function, but 0x02092C38 is the home-area push
@@ -2379,7 +2292,7 @@ unsigned char *func_020929E8(long num, unsigned char *buff, print_format format)
  *           unsigned long long emit _ull_mod / _ll_udiv, the standard mwcc
  *           names of the two runtime divmod entry points.
  */
-unsigned char *func_02092C38(long long num, unsigned char *buff, print_format format)
+unsigned char *longlong2str(long long num, unsigned char *buff, print_format format)
 {
     unsigned long long unsigned_num, base;
     unsigned char *p;
@@ -2480,7 +2393,7 @@ unsigned char *func_02092C38(long long num, unsigned char *buff, print_format fo
  *           listing label sits four bytes late at 0x02092F10 (the trailing
  *           star is that 4-byte listing extent, the body is 1196 bytes with
  *           its pool).  Wants a seed at 0x02092F0C and the 0x02092F10 label
- *           removed.  Callees: func_020972F0 = __num2dec, func_020929E8 =
+ *           removed.  Callees: __dtoa = __num2dec, long2str =
  *           long2str (for the binary exponent), fabs = fabs,
  *           0x0209BAC8 = the runtime double `!=` (__dcmp_6 in
  *           layout/runtime_arm9.txt).
@@ -2493,7 +2406,7 @@ unsigned char *func_02092C38(long long num, unsigned char *buff, print_format fo
  *           named pointer `b` to num (the permuter's lever: without it the
  *           index and base registers trade places).
  */
-unsigned char *func_02092F0C(double num, unsigned char *buff, print_format format)
+unsigned char *double2hex(double num, unsigned char *buff, print_format format)
 {
     unsigned char *p;
     unsigned char *q;
@@ -2517,7 +2430,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
 
     form.style = 0;
     form.digits = 0x20;
-    func_020972F0(&form, num, &dec);
+    __dtoa(&form, num, &dec);
 
     switch (dec.sig.text[0]) {
     case '0':
@@ -2527,30 +2440,30 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
         if (dec.sgn) {
             p = buff - 5;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A40, 5);
+                __memcpy(p, sMslNegInf, 5);
             else
-                __memcpy(p, s_020A8A48, 5);
+                __memcpy(p, sMslNegInfLower, 5);
         } else {
             p = buff - 4;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A50, 4);
+                __memcpy(p, sMslPosInf, 4);
             else
-                __memcpy(p, s_020A8A54, 4);
+                __memcpy(p, sMslPosInfLower, 4);
         }
         return p;
     case 'N':
         if (dec.sgn) {
             p = buff - 5;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A58, 5);
+                __memcpy(p, sMslNegNan, 5);
             else
-                __memcpy(p, s_020A8A60, 5);
+                __memcpy(p, sMslNegNanLower, 5);
         } else {
             p = buff - 4;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A68, 4);
+                __memcpy(p, sMslPosNan, 4);
             else
-                __memcpy(p, s_020A8A6C, 4);
+                __memcpy(p, sMslPosNanLower, 4);
         }
         return p;
     }
@@ -2579,7 +2492,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
     else
         exp = 0;
 
-    p = func_020929E8(exp, buff, exp_format);
+    p = long2str(exp, buff, exp_format);
     if (format.conversion_char == 'a')
         *--p = 'p';
     else
@@ -2671,11 +2584,11 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
  * layout/function_starts.txt.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020933B8.c \
- *       --func func_020933B8 --addr 0x020933B8 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/round_decimal.c \
+ *       --func round_decimal --addr 0x020933B8 --arm --cc 1.1p1
  *   EXACT*, 276 bytes, no relocation sites.
  */
-void func_020933B8(Ctr *b, s32_020922B0 idx)
+void round_decimal(Ctr *b, int idx)
 {
     u8 *p;
     u8 *q;
@@ -2684,18 +2597,18 @@ void func_020933B8(Ctr *b, s32_020922B0 idx)
 
     if (idx < 0) {
     reset:
-        b->len = 1;
-        b->num = 0;
-        b->str[0] = '0';
+        b->length = 1;
+        b->exp = 0;
+        b->digits[0] = '0';
         return;
     }
-    if (idx >= b->len)
+    if (idx >= b->length)
         return;
-    p = b->str;
+    p = b->digits;
     q = p + idx + 1;
     v = (u8)(*--q - '0');
     if (v == 5) {
-        u8 *s = p + b->len;
+        u8 *s = p + b->length;
         do {
             s--;
         } while (s > q && *s == '0');
@@ -2717,14 +2630,14 @@ void func_020933B8(Ctr *b, s32_020922B0 idx)
         break;
     }
     if (carry != 0) {
-        b->num = b->num + 1;
-        b->len = 1;
-        b->str[0] = '1';
+        b->exp = b->exp + 1;
+        b->length = 1;
+        b->digits[0] = '1';
         return;
     }
     if (idx == 0)
         goto reset;
-    b->len = (u8)idx;
+    b->length = (u8)idx;
 }
 
 
@@ -2738,15 +2651,15 @@ static inline int isupper(int c) { return ((c < 0 || c >= 0x80) ? 0 : (__ctype_m
  *           0x020934CC is the home-area push {r0,r1,r2,r3}; the listing
  *           label sits four bytes late at 0x020934D0.  Wants a seed at
  *           0x020934CC and the 0x020934D0 label removed.  Callees:
- *           func_020972F0 = __num2dec, func_020933B8 = round_decimal,
+ *           __dtoa = __num2dec, round_decimal = round_decimal,
  *           0x0209B9A0 = the runtime double `<` (__dcmp_4).  isupper() is
  *           an INLINE FUNCTION over __ctype_map, not a macro: as a macro
  *           its 0 arm is CSE'd with the 0.0 argument of `num < 0` and kept
  *           in r4 across the call (8 bytes short).  The inf/nan strcpy's
  *           are mwcc's __memcpy intrinsic from non-const char[N] externs
- *           (see func_02092F0C.c).  radix_marker is the constant '.'.
+ *           (see double2hex.c).  radix_marker is the constant '.'.
  */
-unsigned char *func_020934CC(double num, unsigned char *buff, print_format format)
+unsigned char *float2str(double num, unsigned char *buff, print_format format)
 {
     decimal dec;
     decform form;
@@ -2760,7 +2673,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
 
     form.style = 0;
     form.digits = 0x20;
-    func_020972F0(&form, num, &dec);
+    __dtoa(&form, num, &dec);
 
     p = dec.sig.text + dec.sig.length;
     while (dec.sig.length > 1 && *--p == '0') {
@@ -2776,30 +2689,30 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
         if (num < 0) {
             p = buff - 5;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A40, 5);
+                __memcpy(p, sMslNegInf, 5);
             else
-                __memcpy(p, s_020A8A48, 5);
+                __memcpy(p, sMslNegInfLower, 5);
         } else {
             p = buff - 4;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A50, 4);
+                __memcpy(p, sMslPosInf, 4);
             else
-                __memcpy(p, s_020A8A54, 4);
+                __memcpy(p, sMslPosInfLower, 4);
         }
         return p;
     case 'N':
         if (dec.sgn) {
             p = buff - 5;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A58, 5);
+                __memcpy(p, sMslNegNan, 5);
             else
-                __memcpy(p, s_020A8A60, 5);
+                __memcpy(p, sMslNegNanLower, 5);
         } else {
             p = buff - 4;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A68, 4);
+                __memcpy(p, sMslPosNan, 4);
             else
-                __memcpy(p, s_020A8A6C, 4);
+                __memcpy(p, sMslPosNanLower, 4);
         }
         return p;
     }
@@ -2813,7 +2726,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
     case 'g':
     case 'G':
         if (dec.sig.length > format.precision)
-            func_020933B8((Ctr *)&dec, format.precision);
+            round_decimal((Ctr *)&dec, format.precision);
 
         if (dec.exp < -4 || dec.exp >= format.precision) {
             if (format.alternate_form)
@@ -2840,7 +2753,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
     case 'E':
     e_format:
         if (dec.sig.length > format.precision + 1)
-            func_020933B8((Ctr *)&dec, format.precision + 1);
+            round_decimal((Ctr *)&dec, format.precision + 1);
 
         n = dec.exp;
         sign = '+';
@@ -2887,7 +2800,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
             frac_digits = 0;
 
         if (frac_digits > format.precision) {
-            func_020933B8((Ctr *)&dec, dec.sig.length - (frac_digits - format.precision));
+            round_decimal((Ctr *)&dec, dec.sig.length - (frac_digits - format.precision));
             if ((frac_digits = -dec.exp + dec.sig.length - 1) < 0)
                 frac_digits = 0;
         }
@@ -2949,7 +2862,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
  *           first, so the pool order is 0x020A8A70 (L"") then 0x020A8A74
  *           ("") -- the NARROW empty string is at 0x020A8A74, not 0x70.
  */
-int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg,
+int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg,
                   const uchar *format_str, va_list arg, int is_secure)
 {
     int num_chars, chars_written, field_width;
@@ -2968,8 +2881,8 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
     chars_written = 0;
 
     while (*format_ptr) {
-        if (!(curr_format = func_02094A28(format_ptr, '%'))) {
-            num_chars = func_0209477C(format_ptr);
+        if (!(curr_format = strchr(format_ptr, '%'))) {
+            num_chars = strlen(format_ptr);
             chars_written += num_chars;
             if (num_chars && !(*WriteProc)(WriteProcArg, format_ptr, num_chars))
                 return -1;
@@ -2982,7 +2895,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
             return -1;
 
         format_ptr = curr_format;
-        format_ptr = func_020924DC(format_ptr, &arg, &format);
+        format_ptr = parse_format(format_ptr, &arg, &format);
 
         switch (format.conversion_char) {
         case 'd':
@@ -3006,10 +2919,10 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_num = (signed char)long_num;
 
             if (format.argument_options == 4 || format.argument_options == 6) {
-                if (!(buff_ptr = func_02092C38(long_long_num, buff + 512, format)))
+                if (!(buff_ptr = longlong2str(long_long_num, buff + 512, format)))
                     goto conversion_error;
             } else {
-                if (!(buff_ptr = func_020929E8(long_num, buff + 512, format)))
+                if (!(buff_ptr = long2str(long_num, buff + 512, format)))
                     goto conversion_error;
             }
             num_chars = buff + 512 - 1 - buff_ptr;
@@ -3038,10 +2951,10 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_num = (unsigned char)long_num;
 
             if (format.argument_options == 4 || format.argument_options == 6) {
-                if (!(buff_ptr = func_02092C38(long_long_num, buff + 512, format)))
+                if (!(buff_ptr = longlong2str(long_long_num, buff + 512, format)))
                     goto conversion_error;
             } else {
-                if (!(buff_ptr = func_020929E8(long_num, buff + 512, format)))
+                if (!(buff_ptr = long2str(long_num, buff + 512, format)))
                     goto conversion_error;
             }
             num_chars = buff + 512 - 1 - buff_ptr;
@@ -3057,7 +2970,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_double_num = va_arg(arg, long double);
             else
                 long_double_num = va_arg(arg, double);
-            if (!(buff_ptr = func_020934CC(long_double_num, buff + 512, format)))
+            if (!(buff_ptr = float2str(long_double_num, buff + 512, format)))
                 goto conversion_error;
             num_chars = buff + 512 - 1 - buff_ptr;
             break;
@@ -3068,7 +2981,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_double_num = va_arg(arg, long double);
             else
                 long_double_num = va_arg(arg, double);
-            if (!(buff_ptr = func_02092F0C(long_double_num, buff + 512, format)))
+            if (!(buff_ptr = double2hex(long_double_num, buff + 512, format)))
                 goto conversion_error;
             num_chars = buff + 512 - 1 - buff_ptr;
             break;
@@ -3077,23 +2990,23 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
             if (format.argument_options == 5) {
                 wchar_t *wcs_ptr = va_arg(arg, wchar_t *);
                 if (is_secure && wcs_ptr == 0) {
-                    func_02094750(0, 0, -1);
+                    MSL_C_LIB_CallExitHook(0, 0, -1);
                     return -1;
                 }
                 if (wcs_ptr == 0)
-                    wcs_ptr = s_020A8A70;
-                if ((num_chars = func_020922CC(buff, wcs_ptr, sizeof(buff))) < 0)
+                    wcs_ptr = sMslWideEmpty;
+                if ((num_chars = MSL_C_LIB_WideToNarrow(buff, wcs_ptr, sizeof(buff))) < 0)
                     goto conversion_error;
                 buff_ptr = &buff[0];
             } else
                 buff_ptr = va_arg(arg, uchar *);
 
             if (is_secure && buff_ptr == 0) {
-                func_02094750(0, 0, -1);
+                MSL_C_LIB_CallExitHook(0, 0, -1);
                 return -1;
             }
             if (buff_ptr == 0)
-                buff_ptr = s_020A8A74;
+                buff_ptr = sMslNarrowEmpty;
 
             if (format.alternate_form) {
                 num_chars = (unsigned char)*buff_ptr++;
@@ -3101,16 +3014,16 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                     num_chars = format.precision;
             } else if (format.precision_specified) {
                 num_chars = format.precision;
-                if ((string_end = (uchar *)func_020923C4(buff_ptr, 0, num_chars)) != 0)
+                if ((string_end = (uchar *)memchr(buff_ptr, 0, num_chars)) != 0)
                     num_chars = string_end - buff_ptr;
             } else
-                num_chars = func_0209477C(buff_ptr);
+                num_chars = strlen(buff_ptr);
             break;
 
         case 'n':
             buff_ptr = va_arg(arg, uchar *);
             if (is_secure) {
-                func_02094750(0, 0, -1);
+                MSL_C_LIB_CallExitHook(0, 0, -1);
                 return -1;
             }
             switch (format.argument_options) {
@@ -3139,7 +3052,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
         case 0xFF:
         default:
         conversion_error:
-            num_chars = func_0209477C(curr_format);
+            num_chars = strlen(curr_format);
             chars_written += num_chars;
             if (num_chars && !(*WriteProc)(WriteProcArg, curr_format, num_chars))
                 return -1;
@@ -3190,15 +3103,15 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
 
 
 
-u32 func_02094488(u8 *p, const void *src, u32 n)
+u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n)
 {
-    u32 pos = ((struct Obj07071 *)p)->f8;
-    u32 cap = ((struct Obj07071 *)p)->f4;
+    u32 pos = ((MslStringBuf *)sb)->length;
+    u32 cap = ((MslStringBuf *)sb)->capacity;
 
     if (pos + n > cap)
         n = cap - pos;
-    func_02092344(*(u8 * *)&((struct Obj07071 *)p)->f0 + pos, src, n);
-    ((struct Obj07071 *)p)->f8 += n;
+    func_02092344(*(u8 * *)&((MslStringBuf *)sb)->buf + pos, src, n);
+    ((MslStringBuf *)sb)->length += n;
     return 1;
 }
 
@@ -3209,10 +3122,10 @@ u32 func_02094488(u8 *p, const void *src, u32 n)
  *           the function disasm.py labels at 0x02093BE0 (worklist pkt_020933B8,
  *           size 4); four bytes of caller-save home area cannot be produced
  *           from C, so no source file can ever earn the shard entry that
- *           would attest it.  The other site (func_02094488) resolved as
+ *           would attest it.  The other site (MSL_C_LIB_SprintfWriteProc) resolved as
  *           `matched` once this packet's own shard was written.
  */
-u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
+u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap)
 {
     u32 state[3];
     u32 len;
@@ -3220,7 +3133,7 @@ u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
     state[0] = (u32)dst;
     state[1] = n;
     state[2] = 0;
-    len = func_02093BDC((void *(*)(void *, const uchar *, size_t))func_02094488, state, format, ap, 0);
+    len = __pformatter((void *(*)(void *, const uchar *, size_t))MSL_C_LIB_SprintfWriteProc, state, format, ap, 0);
     if (dst == 0)
         return len;
     if (len < n) {
@@ -3246,11 +3159,11 @@ u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
  *           attested), so the single call site here stays wildcarded.  The C
  *           itself is byte-correct: 36 bytes, home push included.
  */
-u32 func_02094530(char *dst, u32 n, ...)
+u32 sprintf(char *dst, u32 fmt, ...)
 {
-    u32 *p = (u32 *)((u32)&n & ~3u);
+    u32 *p = (u32 *)((u32)&fmt & ~3u);
 
-    return func_020944CC((u8 *)dst, 0xFFFFFFFFu, (const u8 *)n, (u8 *)(p + 1));
+    return vsnprintf((u8 *)dst, 0xFFFFFFFFu, (const u8 *)fmt, (u8 *)(p + 1));
 }
 
 
@@ -3258,7 +3171,7 @@ u32 func_02094530(char *dst, u32 n, ...)
 /*
  * note:     MSL stdlib qsort.c `qsort` (heapsort), 312 bytes, the real open
  *           code of worklist row pkt_02094534 (0x02094534..0x0209455C is the
- *           tail of sprintf, already EXACT as src/matched/func_02094530.c).
+ *           tail of sprintf, already EXACT as src/matched/sprintf.c).
  *           disasm.py has NO label at 0x0209455C (the listing folds
  *           0x02094534..0x02094750 into one block), so the worklist counts
  *           these 312 bytes as data-adjacent extent, not code: integrator,
@@ -3266,10 +3179,10 @@ u32 func_02094530(char *dst, u32 n, ...)
  *           swap macro's count is assigned before its two pointers (sets
  *           the mov r2 / ldr r4 / ldr r3 order) and the bytes are unsigned
  *           char (ldrb, MSL is char-unsigned).  Verified with
- *             python3 tools/match.py one --src src/matched/func_0209455C.c \
- *                 --func func_0209455C --addr 0x0209455C --arm
+ *             python3 tools/match.py one --src src/matched/qsort.c \
+ *                 --func qsort --addr 0x0209455C --arm
  */
-void func_0209455C(void *table_base, size_t num_members, size_t member_size,
+void qsort(void *table_base, size_t num_members, size_t member_size,
                    _compare_function compare_members)
 {
     size_t l, r, j;
@@ -3332,41 +3245,41 @@ void func_0209455C(void *table_base, size_t num_members, size_t member_size,
 
 u32 func_02094694(void)
 {
-    g_020A8A78 = g_020A8A78 * 0x41C64E6Du + 0x3039u;
-    return (g_020A8A78 >> 16) & 0x7FFFu;
+    MslRandSeed = MslRandSeed * 0x41C64E6Du + 0x3039u;
+    return (MslRandSeed >> 16) & 0x7FFFu;
 }
 
 
 
-void func_020946C8(u32 v)
+void srand(u32 v)
 {
-    g_020A8A78 = v;
+    MslRandSeed = v;
 }
 
 
 
-int func_020946D8(u32 *p, u32 a1, u32 a2)
+int MSL_C_LIB_StrReadProc(u32 *state, u32 ch, u32 mode)
 {
-    switch (a2) {
+    switch (mode) {
     case 0: {
-        u8 *q = (u8 *)*p;
+        u8 *q = (u8 *)*state;
         u8 c = *q;
 
         if (c == 0) {
-            p[1] = 1;
+            state[1] = 1;
             return -1;
         }
-        *p = (u32)(q + 1);
+        *state = (u32)(q + 1);
         return c;
     }
     case 1:
-        if (p[1] == 0)
-            p[0] = p[0] - 1;
+        if (state[1] == 0)
+            state[0] = state[0] - 1;
         else
-            p[1] = 0;
-        return (int)a1;
+            state[1] = 0;
+        return (int)ch;
     case 2:
-        return (int)p[1];
+        return (int)state[1];
     default:
         return 0;
     }
@@ -3385,21 +3298,21 @@ int func_020946D8(u32 *p, u32 a1, u32 a2)
  * in the bytes fixes their values.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02094750.c \
- *       --func func_02094750 --addr 0x02094750 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_CallExitHook.c \
+ *       --func MSL_C_LIB_CallExitHook --addr 0x02094750 --cc 1.1p1 --arm
  */
-void func_02094750(u32 a, u32 b, u32 c)
+void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c)
 {
-    if (g_02153FB0 != 0) {
-        g_02153FB0(a, b, c);
+    if (gMslExitHook != 0) {
+        gMslExitHook(a, b, c);
     } else {
-        func_02094778();
+        MSL_C_LIB_DefaultExitHook();
     }
 }
 
 
 
-void func_02094778(void){ }
+void MSL_C_LIB_DefaultExitHook(void){ }
 
 
 
@@ -3409,10 +3322,10 @@ void func_02094778(void){ }
  * count minus one.  Self-contained, no external symbol.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209477C.c \
- *       --func func_0209477C --addr 0x0209477C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strlen.c \
+ *       --func strlen --addr 0x0209477C --cc 1.1p1 --arm
  */
-int func_0209477C(const u8 *s)
+int strlen(const u8 *s)
 {
     int n = -1;
 
@@ -3441,7 +3354,7 @@ int func_0209477C(const u8 *s)
  * pre-loop and the loop test, and leaves the loop with `if (t) goto adjust`
  * inside `do { } while (1)`.  That source is EXACT under 1.1p1 and 1.2.
  */
-char *func_02094798(char *dst, const char *src)
+char *strcpy(char *dst, const char *src)
 {
     u8 *destb;
     u8 *fromb;
@@ -3513,7 +3426,7 @@ bytecopy:
  *   python tools/match.py tu --src src/matched/unit_02094860.c \
  *       --addr 0x02094860 --arm --cc 1.1p1
  */
-u8 *func_02094860(u8 *dest, const u8 *src, u32 n)
+u8 *strncpy(u8 *dest, const u8 *src, u32 n)
 {
     u8 *d = dest;
 
@@ -3542,7 +3455,7 @@ u8 *func_02094860(u8 *dest, const u8 *src, u32 n)
 
 
 
-u8 *func_020948B0(u8 *dest, const u8 *src)
+u8 *strcat(u8 *dest, const u8 *src)
 {
     u8 *d = dest;
 
@@ -3566,7 +3479,7 @@ u8 *func_020948B0(u8 *dest, const u8 *src)
  * byte-by-byte epilogue at the word that carries the terminator.  A misaligned
  * pair, and a word mismatch, both enter that epilogue directly.
  *
- * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/func_020948E0.c.txt records
+ * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/strcmp.c.txt records
  * this as a 28-of-276-byte near miss "solely in register allocation between
  * r2, r4 and lr" (and that note's own source did not compile: it says
  * `(const u32 *)p2` for `s2`).  Two separate things were wrong, and both are
@@ -3595,18 +3508,18 @@ u8 *func_020948B0(u8 *dest, const u8 *src)
  * compiles the loop body two instructions long.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020948E0.c \
- *       --func func_020948E0 --addr 0x020948E0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/strcmp.c \
+ *       --func strcmp --addr 0x020948E0 --cc 1.1p1 --arm
  */
-int func_020948E0(const char *s1, const char *s2)
+int strcmp(const char *s1, const char *s2)
 {
     int diff;
     u32 align;
     u32 w1;
     u32 w2;
 
-    w1 = *(const u8 *)&((struct Obj00079 *)s1)->f0;
-    diff = w1 - *(const u8 *)&((struct Obj02480 *)s2)->f0;
+    w1 = *(const u8 *)s1;
+    diff = w1 - *(const u8 *)s2;
     if (diff != 0) {
         return diff;
     }
@@ -3660,8 +3573,8 @@ mismatch_word:
     goto byte_loop;
 
 find_in_word:
-    w1 = *(const u8 *)&((struct Obj00079 *)s1)->f0;
-    diff = w1 - *(const u8 *)&((struct Obj02480 *)s2)->f0;
+    w1 = *(const u8 *)s1;
+    diff = w1 - *(const u8 *)s2;
     if (diff != 0) {
         return diff;
     }
@@ -3690,7 +3603,7 @@ byte_loop:
  *   python tools/match.py tu --src src/matched/unit_020949F4.c \
  *       --addr 0x020949F4 --arm --cc 1.1p1
  */
-int func_020949F4(const u8 *s1, const u8 *s2, u32 n)
+int strncmp(const u8 *s1, const u8 *s2, u32 n)
 {
     if (n != 0) {
         do {
@@ -3710,7 +3623,7 @@ int func_020949F4(const u8 *s1, const u8 *s2, u32 n)
 
 
 
-u8 *func_02094A28(const u8 *s, int c)
+u8 *strchr(const u8 *s, int c)
 {
     u8 m = (u8)c;
     u8 ch;
@@ -3728,12 +3641,12 @@ u8 *func_02094A28(const u8 *s, int c)
 
 /*
  * strcspn, in the MSL string module this pseudo-family is made of
- * (func_020949F4 strncmp, func_02094A28 strchr, func_02094B20 strstr).
+ * (strncmp strncmp, strchr strchr, strstr strstr).
  * Builds a 32-byte bitmap of the reject set on the stack, then scans the
  * subject until a member is hit, returning the index of that byte.
  *
  * TWO SPELLINGS ARE LOAD-BEARING, and both were missed by the two earlier
- * lanes recorded in docs/notes/func_02094A60.c.txt and
+ * lanes recorded in docs/notes/strcspn.c.txt and
  * docs/notes/pkt_02094A60.c.txt, which between them left this at
  * DIFF / 188 bytes against 192 / 124 concrete bytes out:
  *
@@ -3757,11 +3670,11 @@ u8 *func_02094A28(const u8 *s, int c)
  *    counter costs a separate `cmp`/`bgt` in place of `subs`/`bne`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02094A60.c \
- *       --func func_02094A60 --addr 0x02094A60 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strcspn.c \
+ *       --func strcspn --addr 0x02094A60 --cc 1.1p1 --arm
  *   EXACT, 192 bytes, no relocation sites.
  */
-int func_02094A60(const u8 *s, const u8 *reject)
+int strcspn(const u8 *s, const u8 *reject)
 {
     u8 map[32];
     u32 i = 8;
@@ -3809,10 +3722,10 @@ int func_02094A60(const u8 *s, const u8 *reject)
  * strstr implementation in standard string utility module.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02094B20.c \
- *       --func func_02094B20 --addr 0x02094B20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strstr.c \
+ *       --func strstr --addr 0x02094B20 --cc 1.1p1 --arm
  */
-u8 *func_02094B20(const u8 *s1, const u8 *s2)
+u8 *strstr(const u8 *s1, const u8 *s2)
 {
     u8 c2;
     u8 c1;
@@ -3894,7 +3807,7 @@ u8 *func_02094B20(const u8 *s1, const u8 *s2)
  * docs/idioms/declaration-position-orders-block-scope-colouring.md and
  * docs/notes/pkt_02094B8C.c.txt.
  */
-double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg,
+double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg,
                      int *chars_scanned, int *overflow)
 {
     int scan_state = start;
@@ -4011,9 +3924,9 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
                 }
                 nan_arg[j] = '\0';
                 if (sig_negative)
-                    result = -func_02091374(nan_arg);
+                    result = -nan(nan_arg);
                 else
-                    result = func_02091374(nan_arg);
+                    result = nan(nan_arg);
                 *chars_scanned = spaces + i + j + sign_detected;
                 return result;
             }
@@ -4344,7 +4257,7 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
                 return sig_negative ? -HUGE_VAL : HUGE_VAL;
         }
         d.exp = (short)exp_value;
-        result = func_0209739C(&d);
+        result = __dec2num(&d);
         if (result != 0.0 && result < 2.2250738585072014e-308)
         {
             *overflow = 1;
@@ -4429,10 +4342,10 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
  * layout/runtime_arm9.txt entry (_msl_scanf_strtod_core), so that site
  * attests as `runtime` and every relocation resolves:
  *
- *   +0034 PC24 func_02094B8C   -> 02094B8C  [runtime x1, e.g. 02094B8C]
+ *   +0034 PC24 __strtold   -> 02094B8C  [runtime x1, e.g. 02094B8C]
  *   +0058 PC24 fabs   -> 0209A504  [label x15, e.g. 02093310]
- *   +0080 ABS32 func_020946D8  -> 020946D8  [literal x15, e.g. 02095F38]
- *   +0084 ABS32 g_02153FAC     -> 02153FAC  [literal x35, e.g. 02091D34]
+ *   +0080 ABS32 MSL_C_LIB_StrReadProc  -> 020946D8  [literal x15, e.g. 02095F38]
+ *   +0084 ABS32 errno     -> 02153FAC  [literal x35, e.g. 02091D34]
  *
  * EXACT* and not EXACT: the compiled body is 136 bytes and the listing extent
  * is 152, because the follower at 0x02095B2C is the linker stub
@@ -4440,19 +4353,19 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
  * func_ label and is not producible from C, so the inferred extent runs long
  * over it.  No byte inside the compared range differs.
  */
-u64 func_02095AA4(u32 a0, u32 *a1)
+u64 strtod(u32 s, u32 *endptr)
 {
     u32 buf[4];
     u64 r;
 
     buf[1] = 0;
-    buf[0] = a0;
-    r = ((u64 (*)(u32, u32, u32 *, u32 *, u32 *))func_02094B8C)(0x7FFFFFFFu, (u32)func_020946D8, buf, &buf[3], &buf[2]);
-    if (a1 != 0)
-        *a1 = a0 + buf[3];
+    buf[0] = s;
+    r = ((u64 (*)(u32, u32, u32 *, u32 *, u32 *))__strtold)(0x7FFFFFFFu, (u32)MSL_C_LIB_StrReadProc, buf, &buf[3], &buf[2]);
+    if (endptr != 0)
+        *endptr = s + buf[3];
     ((void (*)(u32, u32))fabs)((u32)r, (u32)(r >> 32));
     if (buf[2] != 0)
-        g_02153FAC = 0x22;
+        errno = 0x22;
     return r;
 }
 
@@ -4461,9 +4374,9 @@ u64 func_02095AA4(u32 a0, u32 *a1)
 /*
  * sdk:      FATFS_FormatDrive (libfatfs.TWL.HYB.a fatfs_api.o)
  */
-int func_02095B2C(char *path)
+int atof(char *s)
 {
-    return func_02095AA4((u32)path, 0);
+    return strtod((u32)s, 0);
 }
 
 
@@ -4502,7 +4415,7 @@ enum { dec_start = 1, check_for_zero = 2, leading_zero = 4, need_digit = 8,
 
 /*
  * MSL __strtoul: the scan-state machine every strtol/strtoul/atoi entry
- * drives (func_02095EAC and func_02095F40 are two of its wrappers).  The
+ * drives (strtoul and strtol are two of its wrappers).  The
  * source is the Metrowerks one nearly verbatim: the power-of-two scan
  * states (start 1 .. failure 0x40, `tst #0x60` = final_state, `tst #0x34`
  * = success), fetch() as `(count++, ReadProc(arg, 0, 0))` and unfetch as
@@ -4514,11 +4427,11 @@ enum { dec_start = 1, check_for_zero = 2, leading_zero = 4, need_digit = 8,
  * __ctype_map.  EOF and ULONG_MAX share the one `mvn fp, #0` register.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02095B3C.c \
- *       --func func_02095B3C --addr 0x02095B3C --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__strtoul.c \
+ *       --func __strtoul --addr 0x02095B3C --cc 1.1p1 --arm
  *   EXACT, 880 bytes, 4 relocation sites, all resolved.
  */
-u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int),
+u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int),
                   void *ReadProcArg, int *chars_scanned, int *negative,
                   int *overflow)
 {
@@ -4644,11 +4557,11 @@ u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int),
  * type is u32 (unsigned long) and the core's return is u32 as well.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02095EAC.c \
- *       --func func_02095EAC --addr 0x02095EAC --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/strtoul.c \
+ *       --func strtoul --addr 0x02095EAC --cc 1.1p1 --arm
  *   EXACT, 148 bytes, 3 relocation sites, all resolved.
  */
-u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
+u32 strtoul(u32 s, u32 *endptr, u32 base)
 {
     u32 len;
     u32 sign;
@@ -4656,14 +4569,14 @@ u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
     u32 buf[2];
     u32 r;
 
-    buf[0] = a0;
+    buf[0] = s;
     buf[1] = 0;
-    r = func_02095B3C(mode, 0x7FFFFFFFu, (int (*)(void *, int,  int))((u32)func_020946D8), buf, (int *)(&len), (int *)(&sign), (int *)(&err));
-    if (a1 != 0)
-        *a1 = a0 + len;
+    r = __strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int,  int))((u32)MSL_C_LIB_StrReadProc), buf, (int *)(&len), (int *)(&sign), (int *)(&err));
+    if (endptr != 0)
+        *endptr = s + len;
     if (err != 0) {
         r = 0xFFFFFFFFu;
-        g_02153FAC = 0x22;
+        errno = 0x22;
     } else if (sign != 0)
         r = -r;
     return r;
@@ -4672,12 +4585,12 @@ u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
 
 
 /*
- * The 32-bit member of the decimal-to-integer family (func_02095EAC,
- * func_020963F8 are its siblings and differ only in their callee and in the
+ * The 32-bit member of the decimal-to-integer family (strtoul,
+ * strtoll are its siblings and differ only in their callee and in the
  * width of the clamped result).  It runs the parser at 0x02095B3C over a
  * five-word working buffer with the sign flag 0x7FFFFFFF and the default
  * radix, stores the end-of-digits pointer through the optional out parameter,
- * and clamps the parsed magnitude to the s32_020922B0 range: with a cleared sign a
+ * and clamps the parsed magnitude to the int range: with a cleared sign a
  * magnitude above 0x7FFFFFFF does not fit and with a set sign the magnitude
  * may reach 0x80000000, after which the result is negated.
  *
@@ -4696,27 +4609,27 @@ u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
  *    twelve bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02095F40.c \
- *       --func func_02095F40 --addr 0x02095F40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strtol.c \
+ *       --func strtol --addr 0x02095F40 --cc 1.1p1 --arm
  *   EXACT, 196 bytes, 3 relocation sites, all resolved.
  */
-s32_020922B0 func_02095F40(u32 a0, u32 *a1, u32 a2)
+int strtol(u32 s, u32 *endptr, u32 base)
 {
     u32 buf[5];
-    s32_020922B0 r;
-    s32_020922B0 v;
+    int r;
+    int v;
 
-    buf[0] = a0;
+    buf[0] = s;
     buf[1] = 0;
-    r = (s32_020922B0)func_02095B3C(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))func_020946D8, buf,
+    r = (int)__strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int,  int))MSL_C_LIB_StrReadProc, buf,
                            (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
-    if (a1 != 0)
-        *a1 = a0 + buf[4];
+    if (endptr != 0)
+        *endptr = s + buf[4];
     if (buf[2] != 0 ||
         (buf[3] == 0 && (u32)r > 0x7FFFFFFFu) ||
         (buf[3] != 0 && (u32)r > 0x80000000u)) {
-        v = (buf[3] != 0) ? (s32_020922B0)0x80000000 : (s32_020922B0)0x7FFFFFFF;
-        g_02153FAC = 0x22;
+        v = (buf[3] != 0) ? (int)0x80000000 : (int)0x7FFFFFFF;
+        errno = 0x22;
         return v;
     }
     if (buf[3] != 0)
@@ -4734,19 +4647,19 @@ s32_020922B0 func_02095F40(u32 a0, u32 *a1, u32 a2)
 
 
 /*
- * MSL __strtoull: the 64-bit twin of src/matched/func_02095B3C.c (__strtoul),
- * driven by the strtoll wrapper func_020963F8.  Identical source with
+ * MSL __strtoull: the 64-bit twin of src/matched/__strtoul.c (__strtoul),
+ * driven by the strtoll wrapper strtoll.  Identical source with
  * `value`/`value_max` widened to unsigned long long and ULLONG_MAX in both
  * places; ULLONG_MAX / base goes through _ll_udiv with the int base
  * sign-extended (`asr r3, sb, #0x1f`), and the constant -1 lives in one stack
  * slot (sp+0x18) that serves both EOF and ULLONG_MAX.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096004.c \
- *       --func func_02096004 --addr 0x02096004 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__strtoull.c \
+ *       --func __strtoull --addr 0x02096004 --cc 1.1p1 --arm
  *   EXACT, 1012 bytes, 4 relocation sites, all resolved.
  */
-u64 func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int),
+u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int),
                   void *ReadProcArg, int *chars_scanned, int *negative,
                   int *overflow)
 {
@@ -4861,15 +4774,15 @@ u64 func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int),
  *           relocation stays wildcarded and the file cannot be EXACT.  The
  *           file becomes EXACT* the day 0x02096004 gets a shard entry.
  *
- * bcd_to_s64: the 64-bit sibling of func_02095EAC/func_02095F40.  It hands
- * the decimal parser func_02096004 a working buffer, a pointer to the first
+ * bcd_to_s64: the 64-bit sibling of strtoul/strtol.  It hands
+ * the decimal parser __strtoull a working buffer, a pointer to the first
  * byte after the parsed digits and a sign flag, then clamps the parsed
  * magnitude to the s64 range: with a zero sign a magnitude above
  * 0x7FFFFFFFFFFFFFFF does not fit, with a set sign the magnitude may reach
  * 0x8000000000000000, and the result is negated for the sign.
  *
  * The error path returns the saturating extremes of the original's own sign
- * flag, which is why the reserved word g_02153FAC is set to 0x22 there.
+ * flag, which is why the reserved word errno is set to 0x22 there.
  *
  * The bounded-magnitude test has to be one disjunction: written as an
  * if/else the shared error block is laid out after the final return and the
@@ -4886,29 +4799,29 @@ u64 func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int),
  * layout/function_starts.txt; neither is producible from C.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020963F8.c \
- *       --func func_020963F8 --addr 0x020963F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strtoll.c \
+ *       --func strtoll --addr 0x020963F8 --cc 1.1p1 --arm
  *   MATCH* with no concrete byte differing; EXACT* once the symbols above
  *   are declared and the two thunk addresses are labelled.
  */
-s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
+s64 strtoll(u32 s, u32 *endptr, u32 base)
 {
     u32 buf[5];
     s64 r;
     s64 v;
 
-    buf[0] = a0;
+    buf[0] = s;
     buf[1] = 0;
-    r = (s64)func_02096004(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))func_020946D8, buf,
+    r = (s64)__strtoull(base, 0x7FFFFFFFu, (int (*)(void *, int,  int))MSL_C_LIB_StrReadProc, buf,
                            (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
-    if (a1 != 0)
-        *a1 = a0 + buf[4];
+    if (endptr != 0)
+        *endptr = s + buf[4];
     if (buf[2] != 0 ||
         (buf[3] == 0 && (u64)r > 0x7FFFFFFFFFFFFFFFULL) ||
         (buf[3] != 0 && (u64)r > 0x8000000000000000ULL)) {
         v = (buf[3] != 0) ? (s64)0x8000000000000000ULL
                           : (s64)0x7FFFFFFFFFFFFFFFULL;
-        g_02153FAC = 0x22;
+        errno = 0x22;
         return v;
     }
     if (buf[3] != 0)
@@ -4919,65 +4832,65 @@ s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
 
 
 /*
- * Argument-defaulting thunk: call the s32_020922B0 decimal parser func_02095F40 with
+ * Argument-defaulting thunk: call the int decimal parser strtol with
  * a null out-pointer and radix 10.  It is the `atoi` entry point the overlay
  * error parser uses.  Reproducible from C as an ordinary tail call; the
  * previous note that claimed otherwise was wrong.
  */
-int func_020964E0(u32 a0)
+int atoi(u32 s)
 {
-    return func_02095F40(a0, 0, 10);
+    return strtol(s, 0, 10);
 }
 
 
 
 /*
- * Argument-defaulting thunk: call the s64 decimal parser func_020963F8 with
+ * Argument-defaulting thunk: call the s64 decimal parser strtoll with
  * a null out-pointer and radix 10.  Reproducible from C as an ordinary tail
  * call; the previous note that claimed otherwise was wrong.
  */
-long long func_020964F4(u32 a0)
+long long atoll(u32 s)
 {
-    return func_020963F8(a0, 0, 10);
+    return strtoll(s, 0, 10);
 }
 
 
 
 /*
  * note:     the trailing star is the two unlabelled leaves that follow in the
- *           word run -- func_02096578 (0x02096578) and func_02096594
+ *           word run -- wcslen (0x02096578) and wcscpy
  *           (0x02096594), both matched in this window -- so the listing extent
  *           runs to 0x020965B4.  Wants seeds for both addresses in
  *           layout/function_starts.txt.
  */
-int func_02096508(u8 *p, int v)
+int fwide(u8 *stream, int orientation)
 {
     u32 f;
 
-    if (p == 0 || ((((struct Obj00749 *)p)->f4 << 22) >> 29) == 0)
+    if (stream == 0 || ((((struct MslStream *)stream)->mode << 22) >> 29) == 0)
         return 0;
 
-    f = ((struct Obj00749 *)p)->f4;
+    f = ((struct MslStream *)stream)->mode;
     switch ((f << 20) >> 30) {
     case 0:
-        if (v > 0)
-            ((struct Obj00749 *)p)->f4 = (f & ~0xc00u) | 0x800u;
-        else if (v < 0)
-            ((struct Obj00749 *)p)->f4 = (f & ~0xc00u) | 0x400u;
+        if (orientation > 0)
+            ((struct MslStream *)stream)->mode = (f & ~0xc00u) | 0x800u;
+        else if (orientation < 0)
+            ((struct MslStream *)stream)->mode = (f & ~0xc00u) | 0x400u;
         break;
     case 1:
-        v = -1;
+        orientation = -1;
         break;
     case 2:
-        v = 1;
+        orientation = 1;
         break;
     }
-    return v;
+    return orientation;
 }
 
 
 
-int func_02096578(const u16 *s)
+int wcslen(const u16 *s)
 {
     int n = -1;
     u16 c;
@@ -4992,15 +4905,15 @@ int func_02096578(const u16 *s)
 
 
 /*
- * note:     the second of the two unlabelled leaves trailing func_02096508's
- *           word run (the first is func_02096578, its own file).  It is
- *           func_02096578's wide-string copy counterpart: a `do { t = p;
+ * note:     the second of the two unlabelled leaves trailing fwide's
+ *           word run (the first is wcslen, its own file).  It is
+ *           wcslen's wide-string copy counterpart: a `do { t = p;
  *           *p = *s++; p++; } while (*t);` loop, which is what keeps the
  *           `mov ip, r3` / `ldrh r2, [ip]` re-read of the character just
  *           stored -- the store and the loop test go through two different
  *           pointer variables, so the value is not forwarded into the compare.
  */
-u16 *func_02096594(u16 *d, const u16 *s)
+u16 *wcscpy(u16 *d, const u16 *s)
 {
     u16 *r = d;
     u16 *p = d;
@@ -5016,23 +4929,23 @@ u16 *func_02096594(u16 *d, const u16 *s)
 
 
 
-int sub_020965B4(u8 *p, int i)
+int MSL_C_LIB_ShouldRoundUp(u8 *dec, int idx)
 {
-    u8 *q = p + 5 + i;
+    u8 *q = dec + 5 + idx;
 
     if (q[0] > 5) return 1;
     if (q[0] < 5) return -1;
-    for (q++; q < p + 5 + p[4]; q++) {
+    for (q++; q < dec + 5 + dec[4]; q++) {
         if (*q) return 1;
     }
-    return ((p + 5)[i - 1] & 1) ? 1 : -1;
+    return ((dec + 5)[idx - 1] & 1) ? 1 : -1;
 }
 
 
 
-void func_02096620(u8 *p, int idx)
+void MSL_C_LIB_IncrementDigits(u8 *dec, int idx)
 {
-    u8 *base = p + 5;
+    u8 *base = dec + 5;
     u8 *cur = base + idx - 1;
 
     for (;;) {
@@ -5042,7 +4955,7 @@ void func_02096620(u8 *p, int idx)
         }
         if (cur == base) {
             *cur = 1;
-            ((struct Obj11699 *)p)->f2 = ((struct Obj11699 *)p)->f2 + 1;
+            ((struct DB *)dec)->exp = ((struct DB *)dec)->exp + 1;
             return;
         }
         *cur = 0;
@@ -5059,25 +4972,25 @@ void func_02096620(u8 *p, int idx)
  * worker returns non-negative, propagates it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02096670.c \
- *       --func func_02096670 --addr 0x02096670 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_SetPrecision.c \
+ *       --func MSL_C_LIB_SetPrecision --addr 0x02096670 --cc 1.1p1 --arm
  */
-void func_02096670(Obj02096670 *p, int v)
+void MSL_C_LIB_SetPrecision(DB *dec, int precision)
 {
     int r;
 
-    if (v <= 0) {
+    if (precision <= 0) {
         return;
     }
-    if (v >= p->unk04) {
+    if (precision >= dec->length) {
         return;
     }
-    r = func_020965B4((u8 *)p, v);
-    p->unk04 = v;
+    r = func_020965B4((u8 *)dec, precision);
+    dec->length = precision;
     if (r < 0) {
         return;
     }
-    func_02096620((u8 *)p, v);
+    MSL_C_LIB_IncrementDigits((u8 *)dec, precision);
 }
 
 
@@ -5103,11 +5016,11 @@ void func_02096670(Obj02096670 *p, int v)
  * does.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020966B0.c \
- *       --func func_020966B0 --addr 0x020966B0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__ull2dec.c \
+ *       --func __ull2dec --addr 0x020966B0 --cc 1.1p1 --arm
  *   EXACT, 196 bytes, 2 relocation sites, all resolved.
  */
-void func_020966B0(decimal2 *result, u64 val)
+void __ull2dec(decimal2 *result, u64 val)
 {
     result->sign = 0;
     result->sig.length = 0;
@@ -5140,17 +5053,17 @@ void func_020966B0(decimal2 *result, u64 val)
  * output digit with the (j, k, l, t) window clamp, `% 10` / `/ 10` on an
  * unsigned long accumulator, exponents added as shorts, the leading carry
  * digit, a copy-out bounded at 32, and the round-half-even tail with its
- * `goto round` into __round_up (func_02096620).  Earlier lanes' hand bodies
+ * `goto round` into __round_up (MSL_C_LIB_IncrementDigits).  Earlier lanes' hand bodies
  * sat at a one-register rotation of the callee-saved set; the original
  * declarations (in particular `ep = ip` as its own local and the per-column
  * block-scoped j/k/l/t) are what fix the allocation.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096774.c \
- *       --func func_02096774 --addr 0x02096774 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__timesdec.c \
+ *       --func __timesdec --addr 0x02096774 --cc 1.1p1 --arm
  *   EXACT, 384 bytes, 1 relocation site, resolved.
  */
-void func_02096774(decimal2 *result, const decimal2 *x, const decimal2 *y)
+void __timesdec(decimal2 *result, const decimal2 *x, const decimal2 *y)
 {
     unsigned long accumulator = 0;
     u8 mantissa[64];
@@ -5211,7 +5124,7 @@ void func_02096774(decimal2 *result, const decimal2 *x, const decimal2 *y)
                 return;
         }
     round:
-        func_02096620((u8 *)result, result->sig.length);
+        MSL_C_LIB_IncrementDigits((u8 *)result, result->sig.length);
     }
 }
 
@@ -5222,7 +5135,7 @@ void func_02096774(decimal2 *result, const decimal2 *x, const decimal2 *y)
  * flag byte, store the caller's halfword parameter at +2, convert up to 32
  * digits into the byte array at +5, then decide whether the value is in range.
  * A string whose first unconsumed character is below '5' is accepted as is,
- * above '5' is rejected through func_02096620, and exactly '5' is accepted
+ * above '5' is rejected through MSL_C_LIB_IncrementDigits, and exactly '5' is accepted
  * only when some later digit is non-zero or the last converted digit is odd.
  *
  * The pointer is unsigned throughout: `const char *` gives `ldrsb` and signed
@@ -5242,23 +5155,23 @@ void func_02096774(decimal2 *result, const decimal2 *x, const decimal2 *y)
  *    order - and every later branch then targets an address four bytes off.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020968F4.c \
- *       --func func_020968F4 --addr 0x020968F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__str2dec.c \
+ *       --func __str2dec --addr 0x020968F4 --cc 1.1p1 --arm
  *   EXACT, 156 bytes, 1 relocation site, resolved.
  */
-void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v)
+void __str2dec(struct MslDecString *dec, const u8 *s, u16 exponent)
 {
     int i;
     u8 c;
 
-    p->f02 = v;
-    p->f00 = 0;
+    dec->exp = exponent;
+    dec->sign = 0;
     i = 0;
     while (i < 32 && *s != 0) {
-        p->f05[i] = (u8)(*s++ - '0');
+        dec->digits[i] = (u8)(*s++ - '0');
         i++;
     }
-    p->f04 = (u8)i;
+    dec->length = (u8)i;
     if (*s == 0)
         return;
     if (*s < 5)
@@ -5273,10 +5186,10 @@ void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v)
         c = *++s;
     }
 last:
-    if ((p->f05[i - 1] & 1) == 0)
+    if ((dec->digits[i - 1] & 1) == 0)
         return;
 tail:
-    func_02096620((u8 *)p, p->f04);
+    MSL_C_LIB_IncrementDigits((u8 *)dec, dec->length);
 }
 
 
@@ -5284,10 +5197,10 @@ tail:
 /*
  * MSL __two_exp (ansi_fp.c): 2^exp as a decimal record.  A switch over the
  * tabulated exponents -64, -53, -32, -16 and -8..8, each arm handing a digit
- * string and a decimal exponent to __str2dec (func_020968F4); every other
+ * string and a decimal exponent to __str2dec (__str2dec); every other
  * exponent recurses on exp/2 (spelled the MSL way,
  * `((long)((0x80000000UL & exp) >> 31) + exp) >> 1`), squares the half with
- * __timesdec (func_02096774), and on an odd exponent copies the result to a
+ * __timesdec (__timesdec), and on an odd exponent copies the result to a
  * stack temporary and multiplies by "2" (exp > 0) or "5"e-1.  `decimal x2,
  * temp;` in that order puts temp at sp+0 and x2 at sp+0x26.
  *
@@ -5298,90 +5211,90 @@ tail:
  * rodata area and mwcc would otherwise emit its own copies.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096990.c \
- *       --func func_02096990 --addr 0x02096990 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__two_exp.c \
+ *       --func __two_exp --addr 0x02096990 --cc 1.1p1 --arm
  *   EXACT, 896 bytes, 46 relocation sites, all resolved.
  */
-void func_02096990(decimal2 *result, long exp)
+void __two_exp(decimal2 *result, long exp)
 {
     switch (exp) {
     case -64:
-        ((DecFromStr)func_020968F4)(result, s_020A8ABC, -20);
+        ((DecFromStr)__str2dec)(result, s_020A8ABC, -20);
         return;
     case -53:
-        ((DecFromStr)func_020968F4)(result, s_020A8AEC, -16);
+        ((DecFromStr)__str2dec)(result, s_020A8AEC, -16);
         return;
     case -32:
-        ((DecFromStr)func_020968F4)(result, s_020A8B14, -10);
+        ((DecFromStr)__str2dec)(result, s_020A8B14, -10);
         return;
     case -16:
-        ((DecFromStr)func_020968F4)(result, s_020A8B2C, -5);
+        ((DecFromStr)__str2dec)(result, s_020A8B2C, -5);
         return;
     case -8:
-        ((DecFromStr)func_020968F4)(result, s_020A8B3C, -3);
+        ((DecFromStr)__str2dec)(result, s_020A8B3C, -3);
         return;
     case -7:
-        ((DecFromStr)func_020968F4)(result, s_020A8B44, -3);
+        ((DecFromStr)__str2dec)(result, s_020A8B44, -3);
         return;
     case -6:
-        ((DecFromStr)func_020968F4)(result, s_020A8B4C, -2);
+        ((DecFromStr)__str2dec)(result, s_020A8B4C, -2);
         return;
     case -5:
-        ((DecFromStr)func_020968F4)(result, s_020A8B54, -2);
+        ((DecFromStr)__str2dec)(result, s_020A8B54, -2);
         return;
     case -4:
-        ((DecFromStr)func_020968F4)(result, s_020A8B5C, -2);
+        ((DecFromStr)__str2dec)(result, s_020A8B5C, -2);
         return;
     case -3:
-        ((DecFromStr)func_020968F4)(result, s_020A8B60, -1);
+        ((DecFromStr)__str2dec)(result, s_020A8B60, -1);
         return;
     case -2:
-        ((DecFromStr)func_020968F4)(result, s_020A8B64, -1);
+        ((DecFromStr)__str2dec)(result, s_020A8B64, -1);
         return;
     case -1:
-        ((DecFromStr)func_020968F4)(result, s_020A8B68, -1);
+        ((DecFromStr)__str2dec)(result, s_020A8B68, -1);
         return;
     case 0:
-        ((DecFromStr)func_020968F4)(result, s_020A8B6C, 0);
+        ((DecFromStr)__str2dec)(result, s_020A8B6C, 0);
         return;
     case 1:
-        ((DecFromStr)func_020968F4)(result, s_020A8B70, 0);
+        ((DecFromStr)__str2dec)(result, s_020A8B70, 0);
         return;
     case 2:
-        ((DecFromStr)func_020968F4)(result, s_020A8B74, 0);
+        ((DecFromStr)__str2dec)(result, s_020A8B74, 0);
         return;
     case 3:
-        ((DecFromStr)func_020968F4)(result, s_020A8B78, 0);
+        ((DecFromStr)__str2dec)(result, s_020A8B78, 0);
         return;
     case 4:
-        ((DecFromStr)func_020968F4)(result, s_020A8B7C, 1);
+        ((DecFromStr)__str2dec)(result, s_020A8B7C, 1);
         return;
     case 5:
-        ((DecFromStr)func_020968F4)(result, s_020A8B80, 1);
+        ((DecFromStr)__str2dec)(result, s_020A8B80, 1);
         return;
     case 6:
-        ((DecFromStr)func_020968F4)(result, s_020A8B84, 1);
+        ((DecFromStr)__str2dec)(result, s_020A8B84, 1);
         return;
     case 7:
-        ((DecFromStr)func_020968F4)(result, s_020A8B88, 2);
+        ((DecFromStr)__str2dec)(result, s_020A8B88, 2);
         return;
     case 8:
-        ((DecFromStr)func_020968F4)(result, s_020A8B8C, 2);
+        ((DecFromStr)__str2dec)(result, s_020A8B8C, 2);
         return;
     }
 
     {
         decimal2 x2, temp;
 
-        func_02096990(&x2, ((long)((0x80000000UL & exp) >> 31) + exp) >> 1);
-        func_02096774(result, &x2, &x2);
+        __two_exp(&x2, ((long)((0x80000000UL & exp) >> 31) + exp) >> 1);
+        __timesdec(result, &x2, &x2);
         if (exp & 1) {
             temp = *result;
             if (exp > 0)
-                ((DecFromStr)func_020968F4)(&x2, s_020A8B70, 0);
+                ((DecFromStr)__str2dec)(&x2, s_020A8B70, 0);
             else
-                ((DecFromStr)func_020968F4)(&x2, s_020A8B68, -1);
-            func_02096774(result, &temp, &x2);
+                ((DecFromStr)__str2dec)(&x2, s_020A8B68, -1);
+            __timesdec(result, &temp, &x2);
         }
     }
 }
@@ -5409,33 +5322,33 @@ void func_02096990(decimal2 *result, long exp)
  *     b's register (r1); the two-statement form lets it coalesce p with `a`
  *     and the whole tail allocates as the original does.
  */
-int func_02096D10(Str *a, Str *b)
+int __equals_dec(MslStrRec *a, MslStrRec *b)
 {
-    Str *p;
+    MslStrRec *p;
     int i, n;
     int la, lb;
 
-    if (a->f05[0] == 0)
-        return b->f05[0] == 0;
-    if (b->f05[0] == 0)
-        return a->f05[0] == 0;
-    if (a->f02 != b->f02)
+    if (a->data[0] == 0)
+        return b->data[0] == 0;
+    if (b->data[0] == 0)
+        return a->data[0] == 0;
+    if (a->key != b->key)
         goto fail;
     i = 0;
-    la = a->f04;
-    lb = b->f04;
+    la = a->length;
+    lb = b->length;
     n = la;
     if (la > lb)
         n = lb;
     for (; i < n; i++) {
-        if (a->f05[i] != b->f05[i])
+        if (a->data[i] != b->data[i])
             return 0;
     }
     p = a;
     if (n == la)
         p = b;
-    for (; i < p->f04; i++) {
-        if (p->f05[i] != 0)
+    for (; i < p->length; i++) {
+        if (p->data[i] != 0)
             return 0;
     }
     return 1;
@@ -5446,7 +5359,7 @@ fail:
 
 
 /*
- * The ordering sibling of func_02096D10: same length-prefixed string object
+ * The ordering sibling of __equals_dec: same length-prefixed string object
  * (byte +5 terminator flag, s16 key at +2, byte length at +4, payload from +5)
  * but it returns 1 when a sorts before b and 0 otherwise, so the payload loop
  * is a two-sided compare instead of a single inequality.  When the common
@@ -5459,50 +5372,50 @@ fail:
  *     iteration (`ldrb r0, [r1, #4]` under the payload test) rather than
  *     hoisting it, so a plain field comes out four bytes short.
  *   - the tail is a do/while guarded by the second `&&`: `if (n == la && i <
- *     lb) { do {...} while (i < b->f04); }`.  The entry test compares against
- *     the cached lb (r4) while the back edge re-reads b->f04, which is what
+ *     lb) { do {...} while (i < b->length); }`.  The entry test compares against
+ *     the cached lb (r4) while the back edge re-reads b->length, which is what
  *     distinguishes this shape from `for (; i < lb; i++)` (whose back edge
  *     would use the cached value and lose the volatile read).
- *   - `if (a->f02 != b->f02) goto keycmp; ... keycmp: return a->f02 < b->f02;`
+ *   - `if (a->key != b->key) goto keycmp; ... keycmp: return a->key < b->key;`
  *     -- the s16 tie-break sits out of line after the final `return 0`, as a
  *     single `if (...) return ...;` the front end if-converts it inline and
  *     the whole tail shifts.
  *   - `int lb, la;`: declaration order decides which of the two lengths gets
  *     r4 and which r5; the `la, lb` order swaps them and costs seven bytes.
  */
-int func_02096DF0(Str *a, Str *b)
+int __less_dec(MslStrRec *a, MslStrRec *b)
 {
     int i, n;
     int lb, la;
 
-    if (a->f05[0] == 0)
-        return b->f05[0] != 0;
-    if (b->f05[0] == 0)
+    if (a->data[0] == 0)
+        return b->data[0] != 0;
+    if (b->data[0] == 0)
         return 0;
-    if (a->f02 != b->f02)
+    if (a->key != b->key)
         goto keycmp;
     i = 0;
-    la = a->f04;
-    lb = b->f04;
+    la = a->length;
+    lb = b->length;
     n = la;
     if (la > lb)
         n = lb;
     for (; i < n; i++) {
-        if (a->f05[i] < b->f05[i])
+        if (a->data[i] < b->data[i])
             return 1;
-        if (b->f05[i] < a->f05[i])
+        if (b->data[i] < a->data[i])
             return 0;
     }
     if (n == la && i < lb) {
         do {
-            if (b->f05[i] != 0)
+            if (b->data[i] != 0)
                 return 1;
             i++;
-        } while (i < b->f04);
+        } while (i < b->length);
     }
     return 0;
 keycmp:
-    return a->f02 < b->f02;
+    return a->key < b->key;
 }
 
 
@@ -5521,11 +5434,11 @@ keycmp:
  * copy is `*z = *x`.  No relocations.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096ED0.c \
- *       --func func_02096ED0 --addr 0x02096ED0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__minus_dec.c \
+ *       --func __minus_dec --addr 0x02096ED0 --cc 1.1p1 --arm
  *   EXACT, 672 bytes, 0 relocation sites.
  */
-void func_02096ED0(decimal2 *z, const decimal2 *x, const decimal2 *y)
+void __minus_dec(decimal2 *z, const decimal2 *x, const decimal2 *y)
 {
     int zlen, dexp;
     u8 *ib, *i, *ie;
@@ -5638,7 +5551,7 @@ done:
  *
  * Three paths:
  *   1. x == 0.0                 -> sign, exp 0, one digit, digit = 0.
- *   2. NaN or infinity          -> func_020921F4 (the MSL fpclassify: 1 = NaN,
+ *   2. NaN or infinity          -> __fpclassifyd (the MSL fpclassify: 1 = NaN,
  *      2 = Inf, 3 = zero, 4 = normal, 5 = subnormal) returns <= 2; the record
  *      gets one digit, 'N' (0x4E) for NaN and 'I' (0x49) for infinity.  The
  *      classify call is written TWICE, once for the guard and once for the
@@ -5650,10 +5563,10 @@ done:
  *        v  = the mantissa bits of f with the hidden bit forced on
  *        k  = 53 - popcount64((v & -v) - 1)      -- 53 minus the trailing
  *             zero count, i.e. the number of significant mantissa bits
- *      `func_02096990(&b, e - k)` builds the decimal record of 2^(e-k) (the
+ *      `__two_exp(&b, e - k)` builds the decimal record of 2^(e-k) (the
  *      recursive power-of-two formatter, dense switch over -32..+8), and
- *      `func_020966B0(&a, (u64)ldexp(f, k))` builds the decimal record of the
- *      exact integer mantissa.  `func_02096774(r, &a, &b)` multiplies the two
+ *      `__ull2dec(&a, (u64)ldexp(f, k))` builds the decimal record of the
+ *      exact integer mantissa.  `__timesdec(r, &a, &b)` multiplies the two
  *      records, and the sign is stamped last.
  *
  * THE ONE LEVER, and it is worth four instructions (376 bytes against 384).
@@ -5677,11 +5590,11 @@ done:
  * the symbols: block has to pin.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02097170.c \
- *       --func func_02097170 --addr 0x02097170 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__num2dec.c \
+ *       --func __num2dec --addr 0x02097170 --cc 1.1p1 --arm
  *   EXACT, 384 bytes, 12 of 12 relocation sites resolved.
  */
-void func_02097170(DB *r, double x)
+void __num2dec(DB *r, double x)
 {
     DB a;
     DB b;
@@ -5692,19 +5605,19 @@ void func_02097170(DB *r, double x)
     double g;
     u8 neg;
 
-    neg = func_020921D8(x) != 0;
+    neg = __signbitd(x) != 0;
     if (x == 0.0) {
-        r->f0 = neg;
-        r->f2 = 0;
-        r->f4 = 1;
-        r->buf[0] = 0;
+        r->sign = neg;
+        r->exp = 0;
+        r->length = 1;
+        r->digits[0] = 0;
         return;
     }
-    if (func_020921F4(x) <= 2) {
-        r->f0 = neg;
-        r->f2 = 0;
-        r->f4 = 1;
-        r->buf[0] = (func_020921F4(x) == 1) ? 0x4E : 0x49;
+    if (__fpclassifyd(x) <= 2) {
+        r->sign = neg;
+        r->exp = 0;
+        r->length = 1;
+        r->digits[0] = (__fpclassifyd(x) == 1) ? 0x4E : 0x49;
         return;
     }
     if (neg)
@@ -5712,26 +5625,26 @@ void func_02097170(DB *r, double x)
     f = frexp(x, &e);
     g = f;
     v = *(u64 *)&g | 0x0010000000000000ULL;
-    k = 0x35 - func_02092144((v & -v) - 1);
-    func_02096990((struct decimal2 *)(&b), e - k);
-    func_020966B0((struct decimal2 *)(&a), func_0209C554(ldexp(f, k)));
-    func_02096774((struct decimal2 *)r, (const struct decimal2 *)(&a), (const struct decimal2 *)(&b));
-    r->f0 = neg;
+    k = 0x35 - MSL_C_LIB_PopCount64((v & -v) - 1);
+    __two_exp((struct decimal2 *)(&b), e - k);
+    __ull2dec((struct decimal2 *)(&a), func_0209C554(ldexp(f, k)));
+    __timesdec((struct decimal2 *)r, (const struct decimal2 *)(&a), (const struct decimal2 *)(&b));
+    r->sign = neg;
 }
 
 
 
-void func_020972F0(const decform *f, double x, decimal *p)
+void __dtoa(const decform *f, double x, decimal *p)
 {
     int n = f->digits;
     int i;
 
-    func_02097170((DB *)p, x);
+    __num2dec((DB *)p, x);
     if (p->sig.text[0] > 9)
         return;
     if (n > 0x20)
         n = 0x20;
-    func_02096670((Obj02096670 *)p, n);
+    MSL_C_LIB_SetPrecision((DB *)p, n);
     while (p->sig.length < n)
         p->sig.text[p->sig.length++] = 0;
     p->exp -= (s16)(p->sig.length - 1);
@@ -5758,7 +5671,7 @@ void func_020972F0(const decform *f, double x, decimal *p)
  * its declaration and set by `if (__less_dec(...)) is_low = 1`; ll points at
  * guess from its declaration.
  */
-double func_0209739C(const decimal2 *d)
+double __dec2num(const decimal2 *d)
 {
     if (d->sig.length <= 0)
         return copysign(0.0, d->sign == 0 ? 1.0 : -1.0);
@@ -5796,8 +5709,8 @@ double func_0209739C(const decimal2 *d)
         {
             decimal2 max;
 
-            func_020968F4((struct P020968F4 *)(&max), (const u8 *)s_020A8B90, 308);
-            if (func_02096DF0((Str *)&max, (Str *)&dec))
+            __str2dec((struct MslDecString *)(&max), (const u8 *)s_020A8B90, 308);
+            if (__less_dec((MslStrRec *)&max, (MslStrRec *)&dec))
                 return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
         }
 
@@ -5838,10 +5751,10 @@ double func_0209739C(const decimal2 *d)
             unsigned long long *ll = (unsigned long long *)&guess;
             int is_low = 0;
 
-            func_02097170((DB *)&feval, first_guess);
-            if (func_02096D10((Str *)&feval, (Str *)&dec))
+            __num2dec((DB *)&feval, first_guess);
+            if (__equals_dec((MslStrRec *)&feval, (MslStrRec *)&dec))
                 goto done;
-            if (func_02096DF0((Str *)&feval, (Str *)&dec))
+            if (__less_dec((MslStrRec *)&feval, (MslStrRec *)&dec))
                 is_low = 1;
             guess = first_guess;
             for (;;) {
@@ -5851,10 +5764,10 @@ double func_0209739C(const decimal2 *d)
                         goto done;
                 } else
                     --*ll;
-                func_02097170((DB *)&feval2, guess);
-                if (is_low && !func_02096DF0((Str *)&feval2, (Str *)&dec))
+                __num2dec((DB *)&feval2, guess);
+                if (is_low && !__less_dec((MslStrRec *)&feval2, (MslStrRec *)&dec))
                     break;
-                if (!is_low && !func_02096DF0((Str *)&dec, (Str *)&feval2)) {
+                if (!is_low && !__less_dec((MslStrRec *)&dec, (MslStrRec *)&feval2)) {
                     double tg;
 
                     difflow = feval;
@@ -5868,12 +5781,12 @@ double func_0209739C(const decimal2 *d)
                 feval = feval2;
                 first_guess = guess;
             }
-            func_02096ED0(&difflow, &dec, &feval);
-            func_02096ED0(&diffhigh, &feval2, &dec);
-            if (func_02096D10((Str *)&difflow, (Str *)&diffhigh)) {
+            __minus_dec(&difflow, &dec, &feval);
+            __minus_dec(&diffhigh, &feval2, &dec);
+            if (__equals_dec((MslStrRec *)&difflow, (MslStrRec *)&diffhigh)) {
                 if (*(unsigned long long *)&first_guess & 1)
                     first_guess = guess;
-            } else if (!func_02096DF0((Str *)&difflow, (Str *)&diffhigh))
+            } else if (!__less_dec((MslStrRec *)&difflow, (MslStrRec *)&diffhigh))
                 first_guess = guess;
         }
 done:
@@ -5885,7 +5798,7 @@ done:
 
 
 
-double func_02097990(double x, int n)
+double scalbn(double x, int n)
 {
     int t;
     double v = frexp(x, &t);
@@ -5930,7 +5843,7 @@ ivln2_l  =  1.92596299112661746887e-08;
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
  * docs/notes/pkt_020979C0.c.txt.  fabs = fabs, sqrt = func_0209C5E0.
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
- * doubles), four bytes before the disasm body label func_020979BC.
+ * doubles), four bytes before the disasm body label __ieee754_pow.
  *
  * Front end dsi/1.2 (1.2p2 identical): kept &bp base across its three uses
  * and the push {r3-fp,lr} / sub sp,#0x78 frame; 1.1p1 splits the loads and
@@ -5941,7 +5854,7 @@ ivln2_l  =  1.92596299112661746887e-08;
  * 0x0BC8..0x1170 (without it the three rotate, 25 bytes out).  Found by the
  * permuter (wave 18, seed 1902) and reduced by hand to this one line.
  */
-double func_020979BC(double x, double y)
+double __ieee754_pow(double x, double y)
 {
 	double z,ax,z_h,z_l,p_h,p_l;
 	double y1,t1,t2,r,s,t,u,v,w;
@@ -6142,7 +6055,7 @@ pio2_3t =  8.47842766036889956997e-32;
 /*
  * fdlibm __ieee754_rem_pio2(x, y), e_rem_pio2.c transcribed unchanged.  The
  * machine entry is 0x02098B44, four bytes before the disasm body label
- * func_02098B44: the compiler's push {r0-r3} spilling the register-passed
+ * __ieee754_rem_pio2: the compiler's push {r0-r3} spilling the register-passed
  * double, because HI(x) takes the address of x.  The body is MSL runtime
  * (layout/runtime_arm9.txt, _msl_double_fn_1); the unit exists so the 4-byte
  * worklist row at the stub is reproduced as part of its function.
@@ -6152,7 +6065,7 @@ pio2_3t =  8.47842766036889956997e-32;
  * 0x020979BC.  Fabs = fabs, __kernel_rem_pio2 = __kernel_rem_pio2;
  * npio2_hw and two_over_pi resolve through the sole-ref/data class.
  */
-int func_02098B44(double x, double *y)
+int __ieee754_rem_pio2(double x, double *y)
 {
     double z, w, t, r, fn;
     double tx[3];
@@ -6274,7 +6187,7 @@ int func_02098B44(double x, double *y)
 
 
 
-double func_02099224(double x, double y)
+double __kernel_cos(double x, double y)
 {
     static const double one = 1.00000000000000000000e+00;
     static const double C1 = 4.16666666666666019037e-02;

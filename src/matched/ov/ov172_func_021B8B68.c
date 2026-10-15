@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B68
+ * function: CTVT_COMM_GetMarkerSlot
  * address:  0x021B8B68
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u8 func_021B8B68(int unused, char *p)
+u8 CTVT_COMM_GetMarkerSlot(int unused, char *p)
 {
     return ((struct Obj24088 *)p)->f3AE;
 }

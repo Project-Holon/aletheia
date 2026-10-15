@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
@@ -36,7 +36,7 @@
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   BOX2_UI_HideWindowA 0x021EF680 thumb
  *   BOX2_UI_HideWindowB 0x021EF69C thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb
  *   BOX2_SEQ_SwapSlotActors 0x021ECB84 thumb
  *   BOX2_SEQ_HideSlotWindow 0x021EA0BC thumb
@@ -52,7 +52,7 @@ struct WinMgr;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
@@ -78,7 +78,7 @@ extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void BOX2_UI_HideWindowA(char *w);
 extern void BOX2_UI_HideWindowB(char *w);
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
 extern void BOX2_SEQ_SwapSlotActors(char *w, unsigned i);
 extern int BOX2_SEQ_HideSlotWindow(unsigned char *p, unsigned char i);
@@ -103,7 +103,7 @@ int BOX2_SEQ_StateSummaryB(unsigned char *p)
     case 0:
         if (NIB(p)->lo == 1) {
             p[0x17] = 0xFF;
-            p[0x16] = func_020260E0(OBJ(p));
+            p[0x16] = CURSOR_MOVE_GetCurrent(OBJ(p));
             if (BOX2_UI_IsTopBarClosed(MGR(p)) == 1) {
                 if (p[0x16] >= 6)
                     p[0x16] = 0x1E;
@@ -160,7 +160,7 @@ int BOX2_SEQ_StateSummaryB(unsigned char *p)
             if (*(int *)(TOP(p) + 0x24) == 4) {
                 BOX2_UI_HideWindowA(WORK(p));
                 BOX2_UI_HideWindowB(WORK(p));
-                func_02026124(OBJ(p), 0x27);
+                CURSOR_MOVE_ClearSkipBit(OBJ(p), 0x27);
             }
             BOX2_SEQ_SetWindow9(p, 0xD, 1);
             return 0x20;

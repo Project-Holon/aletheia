@@ -1,5 +1,5 @@
 /*
- * function: func_0219EF60
+ * function: ServerBrowserSendNatNegotiateCookieToServerA
  * address:  0x0219EF60
  * packet:   pkt_ov009_0219EF60
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      ServerBrowserSendNatNegotiateCookieToServerA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  *
  * symbols:
- *   func_0217ED38  0x0217ED38  arm  ov009
+ *   inet_addr  0x0217ED38  arm  ov009
  *   SBSendNatNegotiateCookieToServer  0x021A174C  arm  ov009
  */
 
@@ -21,11 +21,11 @@ struct ServerBrowser {
     char list[1];
 };
 
-extern int func_0217ED38(int a);
+extern int inet_addr(int a);
 extern int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
 
-int func_0219EF60(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie)
+int ServerBrowserSendNatNegotiateCookieToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie)
 {
-    return SBSendNatNegotiateCookieToServer(&sb->list, func_0217ED38((int)ip),
+    return SBSendNatNegotiateCookieToServer(&sb->list, inet_addr((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), cookie);
 }

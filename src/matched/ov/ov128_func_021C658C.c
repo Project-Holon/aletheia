@@ -13,7 +13,7 @@
  * symbols:
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_020490F4 0x020490F4 arm
  *   func_021C6698 0x021C6698 thumb ov128
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021C6698(void *);
@@ -53,7 +53,7 @@ void func_021C658C(char *p,void *q,int heap)
 {
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0; *(volatile u16 *)0x04001050=0;
-    func_0207D534((void *)0x0400006c,-16); func_0207D534((void *)0x0400106c,-16);
+    GXx_SetMasterBrightness_((void *)0x0400006c,-16); GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     BG_SYS_SetLcdSwap(0);
     ((struct Obj03812 *)p)->f8=func_020490F4(63,heap); ((struct Obj03812 *)p)->f180=heap;
     func_021C6698((void *)0x180);

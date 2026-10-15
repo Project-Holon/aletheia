@@ -1,5 +1,5 @@
 /*
- * function: func_0219EFF0
+ * function: ServerBrowserHalt
  * address:  0x0219EFF0
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@ struct SBL;
 extern void SBServerListDisconnect(struct SBL *slist);
 extern void SBEngineHaltUpdates(char *p);
 
-void func_0219EFF0(char *p)
+void ServerBrowserHalt(char *p)
 {
     SBServerListDisconnect((struct SBL *)(p + 0x60));
     SBEngineHaltUpdates(p);

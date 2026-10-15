@@ -1,5 +1,5 @@
 /*
- * function: func_020913BC
+ * function: MSL_C_LIB_PrependResourceSet
  * address:  0x020913BC
  * packet:   pkt_020913BC
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 u32 ENV_InsertResourceSet(void *prev, void *resSet);
 
-u32 func_020913BC(void *resSet)
+u32 MSL_C_LIB_PrependResourceSet(void *resSet)
 {
     return ENV_InsertResourceSet(0, resSet);
 }

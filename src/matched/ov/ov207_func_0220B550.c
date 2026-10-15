@@ -1,5 +1,5 @@
 /*
- * function: func_0220B550, func_0220B558
+ * function: ZUKAN_TOROKU_GRAPHIC_VBlankActors, ZUKAN_TOROKU_GRAPHIC_GetWord
  * address: 0x0220B550
  * packet: pkt_ov207_0220B550
  * region: ov207
@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_0220B550(void*p){CLACT_VBlankSystem();}
-u32 func_0220B558(u32*p){return *p;}
+void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p){CLACT_VBlankSystem();}
+u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p){return *p;}

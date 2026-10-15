@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0207AD58  0x0207AD58  thumb
+ *   MTX_Scale22_  0x0207AD58  thumb
  *   func_02040820  0x02040820  arm
  *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
@@ -24,7 +24,7 @@ typedef struct Ctx {
     int ang;
 } Ctx;
 
-extern void func_0207AD58(void *dst, int a, int b);
+extern void MTX_Scale22_(void *dst, int a, int b);
 extern void func_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
@@ -37,7 +37,7 @@ void BTLV_INPUT_BgScrollTaskMain(int a0, Ctx *c)
         c->ang = c->ang - 2;
     else if (c->step < 0)
         c->ang = c->ang + 2;
-    func_0207AD58(m, c->cur, c->cur);
+    MTX_Scale22_(m, c->cur, c->cur);
     func_02040820(7, 0, 0x80, (u32)m, 0x100, 0x100);
     func_02040820(7, 3, c->ang, (u32)m, 0x100, 0x100);
     if (c->cur == c->target)

@@ -1,5 +1,5 @@
 /*
- * function: func_021E31AC
+ * function: BR_CODEIN_DeleteMenuButtons
  * address: 0x021E31AC
  * packet: pkt_ov183_021E31AC
  * region: ov183
@@ -23,4 +23,4 @@ struct Pair;struct PrintSys;
 extern void BR_UTIL_DeleteTextWin(void *,int);
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *,unsigned);
-void func_021E31AC(char *p,char *q) { int i;char *s;if(((struct Obj10763 *)p)->f8){BR_UTIL_DeleteTextWin(((struct Obj10763 *)p)->f8,*(int *)&((struct Obj14446 *)q)->f8);*(int *)&((struct Obj10763 *)p)->f8=0;}for(i=0;i<4;i++){s=p+i*4;if(((struct Obj10764 *)s)->f14){BR_BTN_DeleteObject(((struct Obj10764 *)s)->f14);((struct Obj10764 *)s)->f14=0;}}BR_RES_ReleaseSprite(*(char * *)&((struct Obj14446 *)q)->f8,1); }
+void BR_CODEIN_DeleteMenuButtons(char *p,char *q) { int i;char *s;if(((struct Obj10763 *)p)->f8){BR_UTIL_DeleteTextWin(((struct Obj10763 *)p)->f8,*(int *)&((struct Obj14446 *)q)->f8);*(int *)&((struct Obj10763 *)p)->f8=0;}for(i=0;i<4;i++){s=p+i*4;if(((struct Obj10764 *)s)->f14){BR_BTN_DeleteObject(((struct Obj10764 *)s)->f14);((struct Obj10764 *)s)->f14=0;}}BR_RES_ReleaseSprite(*(char * *)&((struct Obj14446 *)q)->f8,1); }

@@ -35,6 +35,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   WORDSET_Create  0x0201EC74  arm  arm9
  */
 
 typedef signed char s8;
@@ -80,7 +81,7 @@ extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void WORLDTRADE_CallStateHandler(Work *p, Args *args);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
@@ -106,7 +107,7 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
     p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
     p->rec = func_02030CBC(8, p->recMem);
     WORLDTRADE_ADAPTER_InitPrinter(p->ctx, args->x20);
-    p->words = func_0201EC74(0xB, 0x40, 0x48);
+    p->words = WORDSET_Create(0xB, 0x40, 0x48);
     p->msg[0] = func_02045B38(0, 2, 0xD0, 0x48);
     p->msg[2] = func_02045B38(0, 2, 0xD1, 0x48);
     p->msg[3] = func_02045B38(0, 2, 0xE8, 0x48);

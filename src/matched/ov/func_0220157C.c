@@ -12,8 +12,8 @@
  * symbols:
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   WORLDTRADE_ADAPTER_RegisterReceivedMon  0x022022B8  thumb  ov135
- *   func_0200ADB4  0x0200ADB4  thumb
- *   func_0200ADE0  0x0200ADE0  thumb
+ *   WORLDTRADE_NoOp  0x0200ADB4  thumb
+ *   WORLDTRADE_GetReturnBox  0x0200ADE0  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
@@ -42,9 +42,9 @@ extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
 extern void WORLDTRADE_CancelSave(u8 *p);
 extern void WORLDTRADE_ADAPTER_RegisterReceivedMon(u8 *p, u32 a, u32 b, s32 c);
-extern u32 func_0200ADB4(u32 a);
+extern u32 WORLDTRADE_NoOp(u32 a);
 struct RegB;
-extern u16 func_0200ADE0(struct RegB *p);
+extern u16 WORLDTRADE_GetReturnBox(struct RegB *p);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
@@ -64,8 +64,8 @@ int WORLDTRADE_SERVER_WaitDownload(u8 *p)
             if (v != 0) {
                 ((struct Obj01829 *)p)->f28 = 0x1c;
             } else {
-                WORLDTRADE_ADAPTER_RegisterReceivedMon(p, func_0200ADB4(*(u32 *)(((struct Obj01829 *)p)->f0)),
-                              func_0200ADE0((struct RegB *)(*(u32 *)(((struct Obj01829 *)p)->f0))), v);
+                WORLDTRADE_ADAPTER_RegisterReceivedMon(p, WORLDTRADE_NoOp(*(u32 *)(((struct Obj01829 *)p)->f0)),
+                              WORLDTRADE_GetReturnBox((struct RegB *)(*(u32 *)(((struct Obj01829 *)p)->f0))), v);
                 ((struct Obj01829 *)p)->f28 = 0x22;
             }
             break;

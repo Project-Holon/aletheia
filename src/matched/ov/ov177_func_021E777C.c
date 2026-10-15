@@ -12,6 +12,7 @@
  *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  */
 typedef struct { short x, y; } Pos;
 typedef struct {
@@ -32,7 +33,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 extern int func_0209C2B0(int, int);
 typedef unsigned int   u32;
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 int func_021E777C(Work *p)
 {
@@ -72,7 +73,7 @@ int func_021E777C(Work *p)
         p->count = 0;
         done = 1;
     }
-    func_02041EE4(2, 0, shift);
-    func_02041EE4(1, 0, shift);
+    BG_SYS_ResetSlot(2, 0, shift);
+    BG_SYS_ResetSlot(1, 0, shift);
     return done;
 }

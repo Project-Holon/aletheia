@@ -17,7 +17,7 @@
  *   OS_SPrintf                  0x02084F40  arm
  *   func_0217C690                  0x0217C690  arm ov009
  *   func_0217EB18                  0x0217EB18  arm ov009
- *   func_0209477C                  0x0209477C  arm
+ *   strlen                  0x0209477C  arm
  *   func_02092344                  0x02092344  arm
  *   func_0217C704                  0x0217C704  arm ov009
  *   gGsAvailabilityGameName                     0x021ACEFC  data
@@ -45,7 +45,7 @@ extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
 extern int func_0217EB18(int pf, int type, int protocol);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 extern void func_0217C704(void);
 extern char gGsAvailabilityGameName[];
@@ -77,7 +77,7 @@ void func_0217C750(char *gamename)
     if (g_021ACF7C.sock == -1)
         return;
     g_021ACF7C.b0c = 9;
-    len = func_0209477C((const u8 *)gamename);
+    len = strlen((const u8 *)gamename);
     func_02092344(g_021ACF8D, gamename, len + 1);
     g_021ACF7C.len = len + 6;
     func_0217C704();

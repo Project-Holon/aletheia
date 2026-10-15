@@ -1,5 +1,5 @@
 /*
- * function: func_021F9768
+ * function: STA_ACTING_GetCurrentAction
  * address: 0x021F9768
  * packet: pkt_ov132_021F9768
  * region: ov132
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F9774 0x021F9774 thumb ov132
+ *   STA_ACTING_GetActionByIndex 0x021F9774 thumb ov132
  */
 #include "../include/Obj08155.h"
 typedef unsigned char u8;
-extern int func_021F9774(char *,unsigned int);
-int func_021F9768(char *p){return func_021F9774(p,((struct Obj08155 *)p)->fA);}
+extern int STA_ACTING_GetActionByIndex(char *,unsigned int);
+int STA_ACTING_GetCurrentAction(char *p){return STA_ACTING_GetActionByIndex(p,((struct Obj08155 *)p)->fA);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5FEC
+ * function: EGG_DEMO_MAIN_PopBgm
  * address:  0x021F5FEC
  * packet:   pkt_021F5FEC
  * region:   ov215
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_021F5FEC(void *a0, void *a1)
+void EGG_DEMO_MAIN_PopBgm(void *a0, void *a1)
 {
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);

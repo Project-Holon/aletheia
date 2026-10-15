@@ -14,7 +14,7 @@
  * symbols:
  *   DWC_Free                0x0205A1B0  arm
  *   DWCi_GetDefaultMatchFilter           0x0216FAD4  arm  ov009
- *   func_0209477C           0x0209477C  arm
+ *   strlen           0x0209477C  arm
  *   DWC_Alloc               0x0205A16C  arm
  *   DWCi_StopMatch           0x0216EB68  arm  ov009
  *   MI_CpuCopy8             0x02082D44  arm
@@ -22,7 +22,7 @@
  *   func_02175F3C           0x02175F3C  arm  ov009
  *   DWCi_SetConnectionAttemptParam           0x02175560  arm  ov009
  *   DWCi_SetMatchStatus           0x02175F4C  arm  ov009
- *   func_0219EC74           0x0219EC74  arm  ov009
+ *   ServerBrowserNewA           0x0219EC74  arm  ov009
  *   DWCi_HandleSBError           0x02173D9C  arm  ov009
  *   DWCi_GPSetServerStatus           0x0216F20C  arm  ov009
  *   DWCi_QR2Startup           0x0216CD8C  arm  ov009
@@ -38,7 +38,7 @@
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *DWC_Alloc(int name, unsigned long size);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
@@ -46,7 +46,7 @@ extern void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numE
 extern int func_02175F3C(void);
 extern void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern void DWCi_SetMatchStatus(int state);
-extern void *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
+extern void *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
 extern int DWCi_HandleSBError(int error);
 extern int DWCi_GPSetServerStatus(int status);
 extern int DWCi_QR2Startup(int profileID);
@@ -68,7 +68,7 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
         g_021AAA20.addFilter = 0;
     }
     if (addFilter != 0) {
-        addFilterLenMax = 0x1ff - DWCi_GetDefaultMatchFilter(filter, -1, 32, 3, 3) - func_0209477C((const u8 *)g_021A2044);
+        addFilterLenMax = 0x1ff - DWCi_GetDefaultMatchFilter(filter, -1, 32, 3, 3) - strlen((const u8 *)g_021A2044);
         g_021AAA20.addFilter = DWC_Alloc(4, addFilterLenMax);
         if (g_021AAA20.addFilter == 0) {
             DWCi_StopMatch(9, -80001);
@@ -86,7 +86,7 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
     DWCi_SetConnectionAttemptParam(attemptCallback, connectionUserData, attemptParam);
     DWCi_SetMatchStatus(0x16);
     if (*(void **)(func_02175F3C() + 0x5e0) == 0) {
-        *(void **)(func_02175F3C() + 0x5e0) = func_0219EC74(*(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x688), 0, 20, 1, 0, DWCi_SBCallback, 0);
+        *(void **)(func_02175F3C() + 0x5e0) = ServerBrowserNewA(*(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x688), 0, 20, 1, 0, DWCi_SBCallback, 0);
     }
     if (*(void **)(func_02175F3C() + 0x5e0) == 0) {
         if (DWCi_HandleSBError(5))

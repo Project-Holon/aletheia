@@ -6,7 +6,7 @@
  * isa:      arm
  * compiler: ../2.0/sp2
  * symbols:
- *   func_02078B44  0x02078B44  arm
+ *   FS_SeekFile  0x02078B44  arm
  *   FS_ReadFile  0x02078B70  arm
  *   NNS_SndHeapAlloc  0x0207482C  arm
  *   NNSi_SndArcDisposeInfo  0x020746C4  arm
@@ -46,7 +46,7 @@ struct Arc {
     void *f90;
 };
 
-extern int   func_02078B44(void *file, u32 pos, int origin);
+extern int   FS_SeekFile(void *file, u32 pos, int origin);
 extern int   FS_ReadFile(void *file, void *dst, int len);
 extern void *NNS_SndHeapAlloc(u32 *heap, u32 size, void (*cb)(void *, u32, struct Arc *),
                            struct Arc *c, u32 e);
@@ -58,25 +58,25 @@ u32 NNSi_SndArcLoadTables(struct Arc *c, u32 *heap, u32 all)
 {
     int n;
 
-    if (func_02078B44(c->f34_file, 0, 0) == 0) return 0;
+    if (FS_SeekFile(c->f34_file, 0, 0) == 0) return 0;
     if (FS_ReadFile(c->f34_file, c, 0x30) != 0x30) return 0;
     if (heap != 0) {
         c->f90 = NNS_SndHeapAlloc(heap, c->f1c_size, NNSi_SndArcDisposeInfo, c, 0);
         if (c->f90 == 0) return 0;
-        if (func_02078B44(c->f34_file, c->f18_off, 0) == 0) return 0;
+        if (FS_SeekFile(c->f34_file, c->f18_off, 0) == 0) return 0;
         n = FS_ReadFile(c->f34_file, c->f90, c->f1c_size);
         if (n != c->f1c_size) return 0;
 
         c->f88 = NNS_SndHeapAlloc(heap, c->f24_size, NNSi_SndArcDisposeFat, c, 0);
         if (c->f88 == 0) return 0;
-        if (func_02078B44(c->f34_file, c->f20_off, 0) == 0) return 0;
+        if (FS_SeekFile(c->f34_file, c->f20_off, 0) == 0) return 0;
         n = FS_ReadFile(c->f34_file, c->f88, c->f24_size);
         if (n != c->f24_size) return 0;
 
         if (all != 0 && c->f14_size != 0) {
             c->f8c = NNS_SndHeapAlloc(heap, c->f14_size, NNSi_SndArcDisposeSymbol, c, 0);
             if (c->f8c == 0) return 0;
-            if (func_02078B44(c->f34_file, c->f10_off, 0) == 0) return 0;
+            if (FS_SeekFile(c->f34_file, c->f10_off, 0) == 0) return 0;
             n = FS_ReadFile(c->f34_file, c->f8c, c->f14_size);
             if (n != c->f14_size) return 0;
         }

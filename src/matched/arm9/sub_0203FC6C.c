@@ -12,11 +12,11 @@
  * symbols:
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   func_0207D518  0x0207D518  arm
  *
  * bg_sys.c, the two-way forwarder that sits immediately above
- * func_0203FCA0.  Both arms are a single nested call whose result is
+ * BG_SYS_InitBgLayer.  Both arms are a single nested call whose result is
  * handed straight on and then dropped, so the function is void and
  * needs no callee-saved register: `push {r3, lr}` is the eight-byte
  * stack alignment pad, not a saved argument.
@@ -36,7 +36,7 @@ struct BgVramReq {
     u32 unk_0c;
 };
 
-extern u32 func_0207D4B0(u32 a, u32 b, u32 c);
+extern u32 GX_SetGraphicsMode(u32 a, u32 b, u32 c);
 extern u32 func_0207D518(u32 a);
 extern void BG_SYS_ClearMainPlanes(u32 handle);
 extern void BG_SYS_ClearSubPlanes(u32 handle);
@@ -44,7 +44,7 @@ extern void BG_SYS_ClearSubPlanes(u32 handle);
 void func_0203FC6C(const struct BgVramReq *req, u32 which)
 {
     if (which == 0) {
-        BG_SYS_ClearMainPlanes(func_0207D4B0(req->unk_00, req->unk_04, req->unk_0c));
+        BG_SYS_ClearMainPlanes(GX_SetGraphicsMode(req->unk_00, req->unk_04, req->unk_0c));
     } else {
         BG_SYS_ClearSubPlanes(func_0207D518(req->unk_08));
     }

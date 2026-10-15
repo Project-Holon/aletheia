@@ -1,5 +1,5 @@
 /*
- * function: func_02205C74
+ * function: SHINKA_DEMO_VIEW_Create
  * address:  0x02205C74
  * packet:   pkt_02205C74
  * region:   ov195
@@ -58,7 +58,7 @@ extern void func_0220609C(char *a);
 extern void func_02206108(Owner *o);
 extern void func_022063E0(Owner *o);
 
-Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c)
+Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
 {
     Owner *o = func_02030734(heap, 0x60, 1, d_02208F68, 0x201);
 

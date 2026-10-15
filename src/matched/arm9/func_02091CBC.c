@@ -1,5 +1,5 @@
 /*
- * function: func_02091CBC
+ * function: __ftell
  * address:  0x02091CBC
  * packet:   pkt_02091B5C
  * region:   arm9
@@ -27,12 +27,12 @@
  *    the second `lsr` and the register the original keeps.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02091CBC.c \
- *       --func func_02091CBC --addr 0x02091CBC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__ftell.c \
+ *       --func __ftell --addr 0x02091CBC --cc 1.1p1 --arm
  *   EXACT, 124 bytes, 1 relocation site, resolved.
  *
  * symbols:
- *   g_02153FAC     0x02153FAC  data
+ *   errno     0x02153FAC  data
  */
 
 typedef unsigned char u8;
@@ -58,9 +58,9 @@ struct P02091CBC {
 struct F04hiP { u32 lo : 7; u32 mode : 3; u32 hi : 22; };
 struct F08P   { u32 mode : 3; u32 hi : 29; };
 
-extern u32 g_02153FAC;
+extern u32 errno;
 
-int func_02091CBC(struct P02091CBC *p)
+int __ftell(struct P02091CBC *p)
 {
     struct F08P *m08 = (struct F08P *)&p->f08;
     u8 mode;
@@ -71,7 +71,7 @@ int func_02091CBC(struct P02091CBC *p)
     mode = ((struct F04hiP *)&p->f04)->mode;
     sel = mode + 0xff;
     if (sel > 1 || p->f0d != 0) {
-        g_02153FAC = 0x28;
+        errno = 0x28;
         return -1;
     }
     m = m08->mode;

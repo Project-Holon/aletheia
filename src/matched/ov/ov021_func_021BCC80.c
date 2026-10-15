@@ -13,7 +13,7 @@
  *   FIELD_PLACE_NAME_LoadMessage  0x021BCAB0  thumb  ov021
  *   FIELD_PLACE_NAME_IncrementStep  0x021BD0D0  thumb  ov021
  *   func_020414C4  0x020414C4  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FIELD_PLACE_NAME_TransferPalette  0x021BC6D0  thumb  ov021
  *   FIELD_PLACE_NAME_ClearWindow  0x021BC720  thumb  ov021
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -37,7 +37,7 @@ extern u8 FIELD_PLACE_NAME_GetStep(u8 *p);
 extern void FIELD_PLACE_NAME_LoadMessage(int *p);
 extern void FIELD_PLACE_NAME_IncrementStep(char *p);
 extern void func_020414C4(u32 idx);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void FIELD_PLACE_NAME_TransferPalette(char *p);
 extern void FIELD_PLACE_NAME_ClearWindow(char *p);
 struct Descriptor;
@@ -65,7 +65,7 @@ void FIELD_PLACE_NAME_StatePrepare(char *p)
         break;
     case 1:
         func_020414C4(3);
-        func_020414EC(3);
+        BG_SYS_ClearSlot(3);
         FIELD_PLACE_NAME_TransferPalette(p);
         FIELD_PLACE_NAME_IncrementStep(p);
         break;

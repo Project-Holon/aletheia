@@ -1,5 +1,5 @@
 /*
- * function: func_0200AD94
+ * function: WORLDTRADE_SetIsDeposited
  * address:  0x0200AD94
  * packet:   pkt_0200AD94
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct Rec0200AD94 {
     u16 fEC;
 } Rec0200AD94;
 
-void func_0200AD94(Rec0200AD94 *p, u16 v)
+void WORLDTRADE_SetIsDeposited(Rec0200AD94 *p, u16 v)
 {
     p->fEC = v;
 }

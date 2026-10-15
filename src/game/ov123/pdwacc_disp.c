@@ -13,10 +13,10 @@
  * Cut from gsync_state.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02041300 0x02041300 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_020490F4 0x020490F4 arm
@@ -37,7 +37,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -55,7 +55,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020315D4 0x020315D4 arm
  *   ov067_id 0x00000043 data
  *   func_02034AC4 0x02034AC4 arm
@@ -115,13 +115,13 @@
 #include "pdwacc_disp_types.h"
 
 
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void func_020409B4(u32);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 
@@ -173,7 +173,7 @@ extern void func_0204363C(u32 swap);
 
 extern void GX_DispOn(void);
 
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 
 extern void BG_SYS_SetVramBanks(const void *c);
 
@@ -215,7 +215,7 @@ extern u32 CLACT_DeleteUnit(void *bank);
 
 extern void CLACT_ExitSystem(void);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void func_020315D4(void *p);
 
@@ -355,7 +355,7 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
-    func_0203F8F4(p->heap);
+    BG_SYS_Create(p->heap);
     CLACT_InitSystem(gGsyncClactConfig,(u32)d_021DABCC,p->heap);
     p->clactUnit=CLACT_CreateUnit(40,0,p->heap);
     BG_SYS_SetVramBanks(d_021DABCC);
@@ -392,7 +392,7 @@ void PDWACC_DISP_Exit(PdwaccDispWork *p)
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5,0);
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020307B0(p);
     func_02034A5C((int)ov_id);
 }
@@ -407,53 +407,53 @@ void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp)
     struct BgTemplate b[8];
 
     b[7] = d_021DA8A8[1];
-    func_0203FCA0(0, (const struct BgTemplate *)(&b[7]), 0);
+    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b[7]), 0);
     func_02040588(0, 1);
     func_020409B4(0);
 
     b[6] = d_021DA8A8[4];
-    func_0203FCA0(1, (const struct BgTemplate *)(&b[6]), 0);
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b[6]), 0);
     func_02040588(1, 1);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(1);
 
     b[5] = d_021DA8A8[3];
-    func_0203FCA0(2, (const struct BgTemplate *)(&b[5]), 0);
+    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&b[5]), 0);
     func_02040588(2, 1);
     func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(2);
 
     b[4] = d_021DA8A8[7];
-    func_0203FCA0(3, (const struct BgTemplate *)(&b[4]), 0);
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&b[4]), 0);
     func_02040588(3, 1);
-    func_02040C14(3, 0, 1, 0);
+    BG_SYS_Init(3, 0, 1, 0);
     func_02041300(3, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(3);
 
     b[3] = d_021DA8A8[5];
-    func_0203FCA0(4, (const struct BgTemplate *)(&b[3]), 0);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&b[3]), 0);
     func_02040588(4, 1);
     func_020409B4(4);
 
     b[2] = d_021DA8A8[0];
-    func_0203FCA0(5, (const struct BgTemplate *)(&b[2]), 0);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&b[2]), 0);
     func_02040588(5, 1);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(5);
 
     b[1] = d_021DA8A8[6];
-    func_0203FCA0(6, (const struct BgTemplate *)(&b[1]), 0);
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)(&b[1]), 0);
     func_02040588(6, 1);
-    func_02040C14(6, 0, 1, 0);
+    BG_SYS_Init(6, 0, 1, 0);
     func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(6);
 
     b[0] = d_021DA8A8[2];
-    func_0203FCA0(7, (const struct BgTemplate *)(&b[0]), 0);
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&b[0]), 0);
     func_02040588(7, 1);
-    func_02040C14(7, 0, 1, 0);
+    BG_SYS_Init(7, 0, 1, 0);
     func_02041300(7, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(7);
 }

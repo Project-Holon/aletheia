@@ -1,5 +1,5 @@
 /*
- * function: func_0208F1B4
+ * function: WM_GetNextTgid
  * address:  0x0208F1B4
  * packet:   pkt_0208F1B4
  * region:   arm9
@@ -69,7 +69,7 @@ extern int RTC_GetTime(RTCTime *time);
 extern u32 g_020A872C;
 #define tgid_bak g_020A872C
 
-u16 func_0208F1B4(void)
+u16 WM_GetNextTgid(void)
 {
     if (tgid_bak == 0x10000) {
         RTCTime rt[1];

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02098B44
+ * function: __ieee754_rem_pio2
  * address:  0x02098B44
  * packet:   pkt_02098B44
  * region:   arm9
@@ -23,7 +23,7 @@
  *
  * fdlibm __ieee754_rem_pio2(x, y), e_rem_pio2.c transcribed unchanged.  The
  * machine entry is 0x02098B44, four bytes before the disasm body label
- * func_02098B44: the compiler's push {r0-r3} spilling the register-passed
+ * __ieee754_rem_pio2: the compiler's push {r0-r3} spilling the register-passed
  * double, because HI(x) takes the address of x.  The body is MSL runtime
  * (layout/runtime_arm9.txt, _msl_double_fn_1); the unit exists so the 4-byte
  * worklist row at the stub is reproduced as part of its function.
@@ -56,7 +56,7 @@ pio2_2t =  2.02226624879595063154e-21,
 pio2_3  =  2.02226624871116645580e-21,
 pio2_3t =  8.47842766036889956997e-32;
 
-int func_02098B44(double x, double *y)
+int __ieee754_rem_pio2(double x, double *y)
 {
     double z, w, t, r, fn;
     double tx[3];

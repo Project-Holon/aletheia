@@ -1,5 +1,5 @@
 /*
- * function: func_02180BFC
+ * function: gsUdpUnrecognizedMsgCB
  * address:  0x02180BFC
  * packet:   pkt_ov009_02180BFC
  * region:   ov009
@@ -47,7 +47,7 @@ extern void *func_02184208(void *array, int n);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern char g_021A3A54[];
 
-int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
+int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
 {
     int aRet;
     char anAddr[22];

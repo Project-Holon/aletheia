@@ -37,16 +37,16 @@
  * lo2/hi2 first (169, worse). Not tried: wrap test through different locals.
  *
  * symbols:
- *   func_02185D08  0x02185D08  thumb  ov219
- *   func_02185D64  0x02185D64  thumb  ov219
+ *   BEACON_DETAIL_WrapAngle  0x02185D08  thumb  ov219
+ *   BEACON_DETAIL_CalcDistance  0x02185D64  thumb  ov219
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern void func_02185D08(int *p);
-extern int func_02185D64(int *p, int *q);
+extern void BEACON_DETAIL_WrapAngle(int *p);
+extern int BEACON_DETAIL_CalcDistance(int *p, int *q);
 
 int func_0218532C(char *p, u32 *out)
 {
@@ -65,7 +65,7 @@ int func_0218532C(char *p, u32 *out)
     bestd = 0x100;
     cur[0] = *(int *)(p + 0xC2F4);
     cur[1] = *(int *)(p + 0xC2F8);
-    func_02185D08(cur);
+    BEACON_DETAIL_WrapAngle(cur);
     {
         int d = yhi - ylo;
         if (d < 0) d = -d;
@@ -95,8 +95,8 @@ int func_0218532C(char *p, u32 *out)
                     u32 dd;
                     pt[0] = ex;
                     pt[1] = *(s16 *)(p + i * 0x30 + 0x1a);
-                    func_02185D08(pt);
-                    dd = func_02185D64(cur, pt);
+                    BEACON_DETAIL_WrapAngle(pt);
+                    dd = BEACON_DETAIL_CalcDistance(cur, pt);
                     if (dd < bestd) {
                         bestd = dd;
                         best = i;

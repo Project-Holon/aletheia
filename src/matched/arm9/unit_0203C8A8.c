@@ -17,6 +17,7 @@
  *   GFL_NET_STATE_WifiMatchStart  0x0203C864  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   UI_SetFlags39Global  0x0203516C  arm
  *
  * 140 bytes, three functions.  The middle one, 0x0203C8E8, is a 16-byte leaf
  * that saves nothing and so carries no label in the generated listing; the
@@ -40,7 +41,7 @@ extern void *GFL_NET_GetSession(void);
 extern void GFL_NET_STATE_WifiMatchStart(void);
 extern int  GFL_NET_SYSTEM_IsDeviceReady(void);
 extern void *GFL_NET_GetInitParam(void);
-extern void func_0203516C(u32 a);
+extern void UI_SetFlags39Global(u32 a);
 typedef unsigned short u16;
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
@@ -51,7 +52,7 @@ void GFL_NET_STATE_WifiStartMatch(void)
         return;
 
     GFL_NET_GetInitParam();
-    func_0203516C(1);
+    UI_SetFlags39Global(1);
     GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203C864, 0, 0x760);
 }
 

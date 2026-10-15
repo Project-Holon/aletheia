@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_0205D074 0x0205D074 arm
+ *   DWC_UpdateConnection 0x0205D074 arm
  *   WORLDTRADE_GetWifiLinkLevel 0x021F4EB4 thumb ov135
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   DPW_TR_Main 0x021C7C1C arm ov114
@@ -32,7 +32,7 @@ typedef struct { int (*init)(u8 *, int); int (*update)(u8 *, int); int (*finish)
 extern const Handler d_02203A80[];
 extern int GFL_NET_GetRunState(void);
 struct Ctx;
-extern int func_0205D074(void);
+extern int DWC_UpdateConnection(void);
 extern int WORLDTRADE_GetWifiLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void DPW_TR_Main(void);
@@ -48,7 +48,7 @@ extern void CLACT_DrawSystem(void *);
 int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, u8 *p)
 {
     if (GFL_NET_GetRunState() != 0) {
-        func_0205D074();
+        DWC_UpdateConnection();
         GFL_NET_WM_ICON_EasySetLevel(WORLDTRADE_GetWifiLinkLevel());
     }
     DPW_TR_Main();

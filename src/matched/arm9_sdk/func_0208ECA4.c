@@ -1,5 +1,5 @@
 /*
- * function: func_0208ECA4
+ * function: WM_GetMPReceiveBufferSize
  * address:  0x0208ECA4
  * packet:   pkt_0208ECA4
  * region:   arm9
@@ -73,7 +73,7 @@ extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 
-int func_0208ECA4(void)
+int WM_GetMPReceiveBufferSize(void)
 {
     WMErrCode result;
     BOOL isParent;

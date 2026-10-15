@@ -1,5 +1,5 @@
 /*
- * function: func_0220546C
+ * function: SHINKA_DEMO_IsConfirmPressed
  * address:  0x0220546C
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf of the func_022040E0 dependency tree: a confirm gate.  True once the
+ * Leaf of the SHINKA_DEMO_Main dependency tree: a confirm gate.  True once the
  * action key is held (KEY_GetTrg & 3) or the touch probe fires; it hands
  * the pressed/released flag to func_020355D8.  The two arms must be separate
  * call statements, not a selected value: only then does mwccarm tail-merge
@@ -27,7 +27,7 @@ extern int TOUCHPANEL_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 
-int func_0220546C(void)
+int SHINKA_DEMO_IsConfirmPressed(void)
 {
     if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
         if ((KEY_GetTrg() & 3) != 0)

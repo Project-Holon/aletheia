@@ -27,7 +27,7 @@
  * symbols:
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   func_0203F328  0x0203F328  arm
  *   IRCNET_IsLinkAlive 0x02179D3C thumb ov015
  *   GFL_NET_Exit 0x0203CEAC arm
@@ -219,7 +219,7 @@ typedef struct GiftMon {
 
 extern int GFL_NET_GetRunState(void);
 extern void MI_CpuCopy8(void *, void *, u32);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern int IRCNET_IsLinkAlive(void);
 extern int GFL_NET_Exit(int);
@@ -407,7 +407,7 @@ void DELIVERY_IRC_StepFinish(DeliveryIrcWork *work)
         } else {
             work->result = 1;
             MI_CpuCopy8(work->recvBuffer, work->param.entries[0].data, work->param.entries[0].size);
-            if (work->crc != func_0203F1FC(work->param.entries[0].data, work->param.entries[0].size))
+            if (work->crc != GF_STANDARD_SetupCalc(work->param.entries[0].data, work->param.entries[0].size))
                 work->result = 2;
             func_0203F328(work->param.entries[0].data, work->param.entries[0].size, work->cryptKey);
         }
@@ -488,7 +488,7 @@ void DELIVERY_IRC_StepSendCrc(DeliveryIrcWork *work)
     if (work->found == 1) {
         DeliveryIrcKeyMsg msg;
         DeliveryIrcEntry *entry = work->sendEntry;
-        msg.crc = func_0203F1FC(entry->data, entry->size);
+        msg.crc = GF_STANDARD_SetupCalc(entry->data, entry->size);
         msg.cryptKey = work->cryptKey;
         if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 1), (u16)8, (u32)&msg) == 0)
             return;

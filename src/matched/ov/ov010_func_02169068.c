@@ -15,8 +15,8 @@
  *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   FORMCHANGE_RevertShayminIfTimeOfDayChanged 0x0216A2EC thumb ov010
- *   func_0200C0F0 0x0200C0F0 thumb
- *   func_0200C3C0 0x0200C3C0 thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   BEACON_SubGatePoints 0x0200C3C0 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *POKEPARTY_GetSaveData(void *sys);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int FORMCHANGE_RevertShayminIfTimeOfDayChanged(int,int,int,int *,int);
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 struct Blk34;
-extern void func_0200C3C0(struct Blk34 *p, u16 v);
-void FIELD_CLOCK_UpdateMinutes(int a,int b,int *c) { int t=(int)POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl((struct Big *)a)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(a,t,b,c,GAME_DATA_GetSeason((const struct BigObj *)a)); func_0200C3C0((struct Blk34 *)((int)func_0200C0F0(GAME_DATA_GetSaveControl((struct Big *)a))),b); }
+extern void BEACON_SubGatePoints(struct Blk34 *p, u16 v);
+void FIELD_CLOCK_UpdateMinutes(int a,int b,int *c) { int t=(int)POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl((struct Big *)a)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(a,t,b,c,GAME_DATA_GetSeason((const struct BigObj *)a)); BEACON_SubGatePoints((struct Blk34 *)((int)BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)a))),b); }

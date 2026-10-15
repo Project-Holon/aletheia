@@ -1,5 +1,5 @@
 /*
- * function: func_02075F4C
+ * function: CARDi_UnlockResource
  * address:  0x02075F4C
  * packet:   pkt_02075F4C
  * region:   arm9
@@ -80,7 +80,7 @@ extern void OS_Terminate(void);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 extern u32 OS_RestoreInterrupts(u32 state);
 
-void func_02075F4C(s32 owner, CARDTarget target)
+void CARDi_UnlockResource(s32 owner, CARDTarget target)
 {
     CARDiCommon *const p = &cardi_common;
     u32 bak_psr = OS_DisableInterrupts();

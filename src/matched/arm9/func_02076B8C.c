@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02076070  0x02076070  arm
+ *   CARDi_TryWaitAsync  0x02076070  arm
  *
  * Eight bytes of code and its own pool word: a bare tail call, the shortest
  * shape this front end emits for `void f(void) { g(); }`.  Its one
- * relocation is the pool word naming func_02076070, which has no outside
- * label, so the file only reaches EXACT once func_02076070 itself is in a
- * shard (bottom-up: it was filed as src/matched/func_02076070.c first, and
+ * relocation is the pool word naming CARDi_TryWaitAsync, which has no outside
+ * label, so the file only reaches EXACT once CARDi_TryWaitAsync itself is in a
+ * shard (bottom-up: it was filed as src/matched/CARDi_TryWaitAsync.c first, and
  * the site then resolves through the `matched` class).
  */
 
 typedef unsigned int u32;
 
-extern int func_02076070(void);
+extern int CARDi_TryWaitAsync(void);
 
 u32 CARD_TryWaitBackupAsync(void)
 {
-    return func_02076070();
+    return CARDi_TryWaitAsync();
 }

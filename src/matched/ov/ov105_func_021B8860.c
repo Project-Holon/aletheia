@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200A8A0 0x0200A8A0 thumb
+ *   IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200A9A4 0x0200A9A4 thumb
  *   GAME_DATA_GetMyItem 0x0201292C thumb
@@ -40,7 +40,7 @@ struct Sub02008C20Obj;
 struct T0200A9A4;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A8A0(void *);
+extern void *IRC_RANKING_GetFromSave(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9A4(struct T0200A9A4 *o, u32 v);
@@ -63,7 +63,7 @@ int IRC_RESULT_GiveReward(u8 *p)
     void *src;
     int flag;
     int result=1;
-    record=func_0200A8A0(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)ARG)));
+    record=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)ARG)));
     detail=*(u8 **)(ARG+8);
     key=detail+12;
     if(!func_0200A9A4(record,func_02008530((const struct Sub0200852CObj *)key)) && *(void **)ARG) {

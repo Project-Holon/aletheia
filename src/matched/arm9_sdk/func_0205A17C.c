@@ -1,5 +1,5 @@
 /*
- * function: func_0205A17C
+ * function: DWC_AllocEx
  * address:  0x0205A17C
  * packet:   pkt_0205A17C
  * region:   arm9
@@ -23,7 +23,7 @@ typedef struct { DWCiMemFree free; DWCiMemAlloc alloc; } DWCiMemFunc;
 extern DWCiMemFunc s_mem;
 extern void *DWCi_SetAllocateHeader(void *ptr, unsigned long size);
 
-void *func_0205A17C(int name, unsigned long size, int align)
+void *DWC_AllocEx(int name, unsigned long size, int align)
 {
     void *ptr = s_mem.alloc(name, size + 0x20, align);
     if (ptr == 0)

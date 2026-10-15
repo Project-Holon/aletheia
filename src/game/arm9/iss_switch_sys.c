@@ -22,23 +22,23 @@
  *   IssSwitchFileName      0x020A7780  data
  *   _s32_div_f    0x0209C0A4  arm
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMusicalWork  0x0201297C  thumb
  *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb
  *   CALENDER_GetWeatherThunk  0x021647E8  thumb  ov010
  *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  *   MOVE_POKEMON_IsAnyEntryActive  0x0215E6F8  thumb ov010
- *   func_02012994  0x02012994  thumb
+ *   GAME_DATA_GetSubscreenMode  0x02012994  thumb
  *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb
  *   gTbl_0209FFF4  0x0209FFF4  data
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   func_0202EB60   0x0202EB60  thumb
  *   BgWinFrmFileName  0x020A7790  data
  *   MIi_CpuCopy16  0x02082A60  arm
@@ -97,23 +97,23 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   func_02035630  0x02035630  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   func_020416D4  0x020416D4  arm
+ *   BG_SYS_Get  0x020416D4  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
- *   func_02041648  0x02041648  arm
- *   func_02041664  0x02041664  arm
+ *   BG_SYS_GetScrollX_1648  0x02041648  arm
+ *   BG_SYS_GetScrollY_1664  0x02041664  arm
  *   CLACT_GetActorPos  0x0204B53C  arm
  *   CLACT_SetActorPos  0x0204B528  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   PMSI_PARAM_Validate  0x0202465C  thumb
  *   PMSI_PARAM_GetSourceString  0x0202441C  thumb
- *   func_0201D478  0x0201D478  thumb
+ *   GF_FONT_CountControlTag  0x0201D478  thumb
  *   PMSI_PARAM_IsDecoWordAt  0x020244F8  thumb
  *   PMSI_PARAM_GetWordId  0x020244D4  thumb
  *   PMSI_PARAM_ToStringWords  0x02024368  thumb
  *   func_0201D528  0x0201D528  thumb
- *   func_0201D4BC  0x0201D4BC  thumb
+ *   GF_FONT_SearchIndex  0x0201D4BC  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   BMP_FillRect  0x02043AF4  arm
@@ -125,6 +125,10 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   MI_CpuCopy8  0x02082D44  arm
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  */
 
 struct IssSwitchSys;
@@ -346,22 +350,22 @@ extern u16 GFL_USE_GetBgmNo(void);
 extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
                                            u32 srcOffset, u32 dstSize);
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u32 GAME_DATA_GetMusicalWork(const struct BigObj *p);
 extern u32 MOVE_POKEMON_FindEntryByZone(void *a, u16 b);
 extern u32 CALENDER_GetWeatherThunk(void *arg, unsigned int b);
 extern u32 ZONEDATA_GetWeatherId(u32 id);
 extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
 extern int MOVE_POKEMON_IsAnyEntryActive(int a0);
-extern u8 func_02012994(const struct BigObj *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_02012138(const struct Ctx *p);
+extern u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern s32 INTRUDE_COMM_GetAreaOwnerVersion(u32 a);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern void func_0202EB60(u8 *out1, u8 *out2);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -419,23 +423,23 @@ extern struct Actor *CLACT_CreateActor(void *a, u32 b, u32 c, u32 d,
 extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 extern u8 func_02035630(void);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-extern u8 func_020416D4(u32 layer);
+extern u8 BG_SYS_Get(u32 layer);
 extern void  CLACT_SetActorBgPriority(void *h, u32 a);
 extern void CLACT_DeleteActor(struct Actor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern u32 func_02041648(u8 channel);
-extern u32 func_02041664(u8 channel);
+extern u32 BG_SYS_GetScrollX_1648(u8 channel);
+extern u32 BG_SYS_GetScrollY_1664(u8 channel);
 extern void CLACT_GetActorPos(const struct Actor *actor, struct PmsPoint *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct PmsPoint *src);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 PMSI_PARAM_Validate(struct T *p, u32 a1, u32 a2);
 extern void *PMSI_PARAM_GetSourceString(const struct Struct_0202441C *obj, u32 heapId);
-extern u32   func_0201D478(void *str);
+extern u32   GF_FONT_CountControlTag(void *str);
 extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
 extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
 extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
 extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
-extern u32   func_0201D4BC(void *s, u8 idx);
+extern u32   GF_FONT_SearchIndex(void *s, u8 idx);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void  BMP_FillRect(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
@@ -446,10 +450,10 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
 extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void  MI_CpuCopy8(void *src, void *dst, int n);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012B28(const struct Rec44 *p);
+extern void *GAME_DATA_GetField114(struct SaveBlock *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
 u8 *ISS_SWITCH_SYS_Create(u16 heapId);
 void ISS_SWITCH_SYS_Delete(u8 *sys);
 void ISS_SWITCH_SYS_Main(u8 *sys);
@@ -1571,7 +1575,7 @@ u32 ISS_SWITCH_IsOffState(void *sw)
  */
 u32 func_0202C794(void *a0, u32 a1)
 {
-    u32 ctx = (u32)func_020120F4(a0);
+    u32 ctx = (u32)ICA_ANIME_GetField1C(a0);
     u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
     u32 r;
 
@@ -1597,11 +1601,11 @@ u32 func_0202C794(void *a0, u32 a1)
     return (u8)ZONEDATA_GetWeatherId((u16)a1);
 }
 
-int func_0202C824(int a0){ int t0, t1; t0 = func_02012984(a0); t1 = func_0202E888((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
+int func_0202C824(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = func_0202E888((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
 
 void func_0202C83C(struct Ctx *p, u32 a1)
 {
-    struct BigObj *obj = func_020120F4(p);
+    struct BigObj *obj = ICA_ANIME_GetField1C(p);
     u32 r = func_0202C794(p, a1);
 
     GAME_DATA_SetSubscreenMode(obj, (u8)r);
@@ -1637,7 +1641,7 @@ void func_0202C860(u8 *a0, int a1)
     u16 r;
 
     v = MOVE_POKEMON_FindEntryByZone(a0, (u16)a1);
-    r = (u16)(u32)func_02012994((const struct BigObj *)a0);
+    r = (u16)(u32)GAME_DATA_GetSubscreenMode((const struct BigObj *)a0);
     if (v != 0xffff) {
         GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)v);
         return;
@@ -1664,8 +1668,8 @@ s32 func_0202C8B8(void *a0, u32 a1, u32 a2)
     u32 r4;
     u32 i;
 
-    r6 = func_0201296C((const struct BigObj *)a1);
-    r4 = func_02012138(a0);
+    r6 = GAME_DATA_GetEventWork((const struct BigObj *)a1);
+    r4 = ICA_ANIME_GetField24(a0);
     if (ZONEDATA_IsZoneGroup118To13C((u16)a2) == 0 || r4 == 0) {
         goto done;
     }
@@ -1685,7 +1689,7 @@ done:
 
 s32 func_0202C934(void *a0, u32 a1, u32 a2)
 {
-    u32 r = func_0201296C((const struct BigObj *)a1);
+    u32 r = GAME_DATA_GetEventWork((const struct BigObj *)a1);
 
     if (a2 == 0x151) {
         if (ZONEDATA_CheckEventFlag((void *)r, 0x96f) != 0) {
@@ -1704,7 +1708,7 @@ u32 func_0202C970(void *a, void *b, u32 c)
     if (!ZONEDATA_IsRawZone176Or17A((u16)c)) {
         goto fail;
     }
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     func_0202EB60(&buf[1], &buf[0]);
     if (date.month != buf[1]) {
         goto fail;
@@ -3285,7 +3289,7 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     pt.y = (u16)pos.y;
     frame = BMP_WIN_GetBgLayer(bmpWin);
     CLACT_AddActorSurfacePos(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
-    CLACT_SetActorBgPriority(actor, func_020416D4(frame));
+    CLACT_SetActorBgPriority(actor, BG_SYS_Get(frame));
     CLACT_SetActorAnimSeq(actor, (u16)(wordId - 1));
 }
 
@@ -3343,8 +3347,8 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
         struct PmsPoint pos;
         s32 scrollX;
         s32 scrollY;
-        scrollX = func_02041648((u8)frame);
-        scrollY = func_02041664((u8)frame);
+        scrollX = BG_SYS_GetScrollX_1648((u8)frame);
+        scrollY = BG_SYS_GetScrollY_1664((u8)frame);
 
         if (scrollX != elem->scrollX) {
             diff.x = elem->scrollX - scrollX;
@@ -3414,7 +3418,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     elem->printing = 0;
     heapID = *(u16 *)&heapId;
     str = PMSI_PARAM_GetSourceString((const struct Struct_0202441C *)param, heapID);
-    wordCount = (u8)func_0201D478(str);
+    wordCount = (u8)GF_FONT_CountControlTag(str);
     for (i = 0; i < wordCount; i++) {
         if (PMSI_PARAM_IsDecoWordAt((struct Container *)param, i)) {
             elem->isDeco[i] = 1;
@@ -3429,11 +3433,11 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
             u32 x = func_0201D528(word, i, (void *)font, 0);
-            u32 y = func_0201D4BC(word, i);
+            u32 y = GF_FONT_SearchIndex(word, i);
             PMS_DRAW_PlaceDecoActor(elem->decoActor[i], bmpWin, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct PmsPos *)offset);
         } else if (isBlank[i] == 1) {
             u32 x = func_0201D528(word, i, (void *)font, 0);
-            u32 y = func_0201D4BC(word, i);
+            u32 y = GF_FONT_SearchIndex(word, i);
             BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
         }
     }
@@ -3545,11 +3549,11 @@ void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, i
     param->myStatus = func_0200873C((void *)saveControl);
     param->myItem = func_02012944((void *)gameData);
     param->saveWork = GAME_DATA_GetMapMatrix(gameData);
-    param->config = func_0201292C((const struct BigObj *)gameData);
+    param->config = GAME_DATA_GetMyItem((const struct BigObj *)gameData);
     if (itemCheck != 0) {
         MI_CpuCopy8((void *)itemCheck, param->itemCheck, 0x18);
     }
     param->mode = mode;
-    param->cycleFlag = func_02012B28(func_020127A4((struct SaveBlock *)gameData)) == 1;
+    param->cycleFlag = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetField114((struct SaveBlock *)gameData)) == 1;
     return param;
 }

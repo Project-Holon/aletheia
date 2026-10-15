@@ -1,5 +1,5 @@
 /*
- * function: func_02060394
+ * function: NCFGi_CheckSsid
  * address:  0x02060394
  * packet:   pkt_0205F7C8
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_02060394(unsigned char *ssid)
+int NCFGi_CheckSsid(unsigned char *ssid)
 {
     int i;
 

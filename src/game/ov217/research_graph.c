@@ -15,7 +15,7 @@
  * symbols:
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_020307B0 0x020307B0 arm
@@ -199,7 +199,7 @@
  *   RESEARCH_GRAPH_ClearPalAnm 0x021C07B0 thumb ov217
  *   RESEARCH_GRAPH_ClearPaletteAnime 0x021C0820 thumb ov217
  *   d_021C3650 0x021C3650 data a4
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   CircleGraph_Create 0x021C10C8 thumb ov217
  *   CircleGraph_Destroy 0x021C10D8 thumb ov217
  *   MI_CpuFill8  0x02082BCC  arm
@@ -216,8 +216,8 @@
  *   ARROW_Destroy  0x021C209C  thumb  ov217
  *   PERCENTAGE_Create 0x021C26E8 thumb ov217
  *   PERCENTAGE_Destroy  0x021C270C  thumb  ov217
- *   func_0207D988 0x0207D988 arm
- *   func_0207DB1C 0x0207DB1C arm
+ *   G3X_Init 0x0207D988 arm
+ *   G3X_InitMtxStack 0x0207DB1C arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   d_021C365C 0x021C365C data a4
  *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
@@ -232,7 +232,7 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   sub_02040588 0x02040588 arm
  *   d_021C366C 0x021C366C data a4
  *   d_021C36D8 0x021C36D8 data ov217
@@ -252,12 +252,15 @@
  *   d_021C3A28  0x021C3A28  data  a4
  *   RESEARCH_GRAPH_TransferPalettes  0x021BF6BC  thumb  ov217
  *   func_02030EAC  0x02030EAC  arm
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   RESEARCH_GRAPH_GetContext  0x021BF734  thumb  ov217
  *   func_02030734  0x02030734  arm
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   BG_SYS_Init  0x02040C14  arm  arm9
+ *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  */
 #include "../../matched/include/G_E.h"
 #include "../../matched/include/Obj25933.h"
@@ -460,9 +463,9 @@ extern void BMP_WIN_Init(u16);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern u32 func_020414EC();
+extern u32 BG_SYS_ClearSlot();
 
 extern void func_02040DA8(u32, u32, u32);
 
@@ -740,9 +743,9 @@ void RESEARCH_GRAPH_ClearPalAnm(void *p);
 
 void RESEARCH_GRAPH_ClearPaletteAnime(void *p);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32 CircleGraph_Create(u32 a0);
 
@@ -764,9 +767,9 @@ extern u32 PERCENTAGE_Create(u32, u32, u32);
 
 extern u32 PERCENTAGE_Destroy(void *a0);
 
-extern void func_0207D988(void);
+extern void G3X_Init(void);
 
-extern void func_0207DB1C(void);
+extern void G3X_InitMtxStack(void);
 
 extern void func_0207DCF8(const void *);
 
@@ -3185,12 +3188,12 @@ void RESEARCH_GRAPH_ClearWordSet(void *p)
 
 void RESEARCH_GRAPH_CreateWordSet(u32 a0)
 {
-    ((struct ResearchObjB *)a0)->f18 = (void *)func_0201EC64(((struct ResearchObjB *)a0)->f4);
+    ((struct ResearchObjB *)a0)->f18 = (void *)GF_FONT_Create_EC64(((struct ResearchObjB *)a0)->f4);
 }
 
 void RESEARCH_GRAPH_DeleteWordSet(u8 *a0)
 {
-    func_0201ED04((struct WordSet *)((u32)(((struct ResearchObjB *)a0)->f18)));
+    WORDSET_DeleteStrbufED04((struct WordSet *)((u32)(((struct ResearchObjB *)a0)->f18)));
 }
 
 /*
@@ -3412,8 +3415,8 @@ void RESEARCH_GRAPH_DestroyPercentages(int *p)
  */
 void RESEARCH_GRAPH_InitScreen(void)
 {
-    func_0207D988();
-    func_0207DB1C();
+    G3X_Init();
+    G3X_InitMtxStack();
     *(volatile u32 *)0x04000440 = 0;
     *(volatile u32 *)0x04000454 = 0;
     *(volatile u32 *)0x04000440 = 2;
@@ -3437,9 +3440,9 @@ struct EntryUnit { int x,y,z,bank,index,px,py; u8 r,g,b,pad2; u32 arc,member,ena
 
 extern void func_0203FC28(struct DispConfig *);
 
-extern void func_0204044C(u32);
+extern void BG_SYS_SetLowBit(u32);
 
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void sub_02040588(unsigned char which, unsigned char enable);
 
@@ -3473,11 +3476,11 @@ extern const struct EntryUnit d_021C37A4[];
 void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p)
 {
     func_0203FC28(&d_021C366C);
-    func_0204044C(2);
-    func_0203FCA0(6, &d_021C36D8, 0);
-    func_0203FCA0(7, &d_021C3738, 0);
-    func_0203FCA0(2, &d_021C36F8, 0);
-    func_0203FCA0(3, &d_021C3718, 0);
+    BG_SYS_SetLowBit(2);
+    BG_SYS_InitBgLayer(6, &d_021C36D8, 0);
+    BG_SYS_InitBgLayer(7, &d_021C3738, 0);
+    BG_SYS_InitBgLayer(2, &d_021C36F8, 0);
+    BG_SYS_InitBgLayer(3, &d_021C3718, 0);
     sub_02040588(4, 1);
     sub_02040588(5, 1);
     sub_02040588(6, 1);
@@ -3531,8 +3534,8 @@ void RESEARCH_GRAPH_DummyBg7()
 
 u32 RESEARCH_GRAPH_UpdateBackground7()
 {
-    func_02040C14(7, 0, 1, 0);
-    return func_020414EC(7);
+    BG_SYS_Init(7, 0, 1, 0);
+    return BG_SYS_ClearSlot(7);
 }
 
 /*
@@ -3568,8 +3571,8 @@ void RESEARCH_GRAPH_DummyBg3()
 
 u32 RESEARCH_GRAPH_UpdateBackground3()
 {
-    func_02040C14(3, 0, 1, 0);
-    return func_020414EC(3);
+    BG_SYS_Init(3, 0, 1, 0);
+    return BG_SYS_ClearSlot(3);
 }
 
 /*
@@ -3818,7 +3821,7 @@ extern int BMP_OAM_CreateSys(u16 heap, int a);
 
 extern struct Grid *BMP_OAM_Create(struct Sys *,const struct ParamQueue *);
 
-extern u32 func_02012138(const struct Ctx *);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *);
 
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 
@@ -4023,7 +4026,7 @@ u32 RESEARCH_GRAPH_ClampByte(s32 v)
 }
 
 /*
- * Opens the +0x10 record (func_02012138 on the result of RESEARCH_GRAPH_GetContext),
+ * Opens the +0x10 record (ICA_ANIME_GetField24 on the result of RESEARCH_GRAPH_GetContext),
  * tags it with 1, and releases it when GAME_COMM_GetKind reports state 2.
  * Closed by the generator's duplicate guard statement (O89).
  *
@@ -4031,7 +4034,7 @@ u32 RESEARCH_GRAPH_ClampByte(s32 v)
  */
 void RESEARCH_GRAPH_OpenComm(u8 *a0)
 {
-    u32 v1 = func_02012138((const struct Ctx *)RESEARCH_GRAPH_GetContext(a0));
+    u32 v1 = ICA_ANIME_GetField24((const struct Ctx *)RESEARCH_GRAPH_GetContext(a0));
     GAME_COMM_SetNotifyFlag((void *)v1, 1);
     if (GAME_COMM_GetKind((void *)v1) == 2) {
     GAME_COMM_RequestExitNoCallback((struct Comm *)v1);
@@ -4042,7 +4045,7 @@ int RESEARCH_GRAPH_GetCommKindOrStart(u8 *a0)
 {
     u32 r;
     r = RESEARCH_GRAPH_GetContext(a0);
-    switch (GAME_COMM_GetKind((void *)func_02012138((const struct Ctx *)r))) {
+    switch (GAME_COMM_GetKind((void *)ICA_ANIME_GetField24((const struct Ctx *)r))) {
     case 0:
         GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)r);
         return 1;
@@ -4055,5 +4058,5 @@ int RESEARCH_GRAPH_GetCommKindOrStart(u8 *a0)
 
 void RESEARCH_GRAPH_ClearNotifyFlag(unsigned char *a0)
 {
-    GAME_COMM_SetNotifyFlag((void *)func_02012138((const struct Ctx *)RESEARCH_GRAPH_GetContext(a0)), 0);
+    GAME_COMM_SetNotifyFlag((void *)ICA_ANIME_GetField24((const struct Ctx *)RESEARCH_GRAPH_GetContext(a0)), 0);
 }

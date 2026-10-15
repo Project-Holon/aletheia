@@ -1,5 +1,5 @@
 /*
- * function: func_021F8DC4
+ * function: STA_ACTING_CreateActors
  * address: 0x021F8DC4
  * packet: pkt_ov132_021F8DC4
  * region: ov132
@@ -30,7 +30,7 @@ extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
 extern u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *func_021F760C(void *,void *);
 extern void func_021F8054(void *unused, u32 *p, const u32 *q);
-void func_021F8DC4(u8 *p)
+void STA_ACTING_CreateActors(u8 *p)
 {
     struct Vec pos;
     u8 i;

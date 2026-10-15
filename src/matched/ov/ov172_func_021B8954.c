@@ -1,5 +1,5 @@
 /*
- * function: func_021B8954
+ * function: CTVT_COMM_ResetVoiceRecord
  * address:  0x021B8954
  * packet:   pkt_021B6868
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void func_02082A7C(int a, int b, int c);
 
-int func_021B8954(void *p, char *q)
+int CTVT_COMM_ResetVoiceRecord(void *p, char *q)
 {
     ((struct Obj10663 *)q)->f194 = 1;
     func_02082A7C(0, ((struct Obj10663 *)q)->f1A4, 0x208);

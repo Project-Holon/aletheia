@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7A0
+ * function: ZUKAN_SEARCH_SCREEN_Update
  * address: 0x021BC7A0
  * packet: pkt_ov211_021BC7A0
  * region: ov211
@@ -26,7 +26,7 @@ extern void adjust(u32,u32,u32);
 extern void tick(void);
 extern void transition(void *,u32,u32,u32,u32,u32,u32);
 extern u32 idle(void);
-int func_021BC7A0(struct Object *p)
+int ZUKAN_SEARCH_SCREEN_Update(struct Object *p)
 {
     switch(p->state) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_0205AE6C
+ * function: SetDataListTail
  * address:  0x0205AE6C
  * packet:   pkt_0205AE6C
  * region:   arm9
@@ -130,7 +130,7 @@ typedef struct {
 
 extern void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
 
-void func_0205AE6C(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
+void SetDataListTail(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
 {
     WMBssDesc *bssdesc_end = &wk->bssDesc[10];
     ACFL *list_end = &wk->findList[10];

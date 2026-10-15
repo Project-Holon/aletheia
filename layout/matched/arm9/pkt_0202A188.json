@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202A188",
+   "name": "TPOKE_DATA_GetRecordIndex",
    "address": "0x0202A188",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202A20C",
+   "name": "TPOKE_DATA_GetEntryIndex",
    "address": "0x0202A20C",
    "kind": "game",
    "region": "arm9",

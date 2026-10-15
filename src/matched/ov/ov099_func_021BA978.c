@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   WIFICLUB_DeleteTimeIcon  0x021BA8D4  thumb  ov099
  *   WIFICLUB_DeleteWindow  0x021BA8BC  thumb  ov099
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
@@ -40,7 +40,7 @@ struct MsgBank;
 struct PrintSys;
 struct Rec3;
 struct WordSet;
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void WIFICLUB_DeleteTimeIcon(char *p);
 extern int WIFICLUB_DeleteWindow(void *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
@@ -62,7 +62,7 @@ extern void func_02041B6C(u32 a);
 void WIFICLUB_PrintTalkMessage(char *p, int a1, int a2, int a3)
 {
     int k, e;
-    func_02012FFC();
+    MSG_SPEED_GetWait();
     WIFICLUB_DeleteTimeIcon(p);
     *(u32 *)(p + 0x190) = (u32)WIFICLUB_DeleteWindow((void *)(*(u32 *)(p + 0x190)));
     if ((int)PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(u32 *)(p + 0x1B8))) == 0)
@@ -84,7 +84,7 @@ void WIFICLUB_PrintTalkMessage(char *p, int a1, int a2, int a3)
     if (a3 == 0) {
         PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)0, (u32)0, (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xE8)));
     } else {
-        u32 t = func_02012FFC();
+        u32 t = MSG_SPEED_GetWait();
         *(u32 *)(p + (k + 0xBD)) = PRINTSYS_PrintStream(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
         func_02028470((u8 *)(p + 0x26C), 2);
     }

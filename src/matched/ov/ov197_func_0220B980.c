@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220B0B0 0x0220B0B0 thumb
+ *   B_APP_TOOL_Update 0x0220B0B0 thumb
  */
 #include "../include/Obj25009.h"
 
-extern int func_0220B0B0(void *, int, int);
+extern int B_APP_TOOL_Update(void *, int, int);
 
 int func_0220B980(char *a)
 {
-    return func_0220B0B0(a + 0x28, ((struct Obj25009 *)a)->f18, 0x23);
+    return B_APP_TOOL_Update(a + 0x28, ((struct Obj25009 *)a)->f18, 0x23);
 }

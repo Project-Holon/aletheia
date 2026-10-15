@@ -19,6 +19,7 @@
  *   UI_SetBottomBackLight  0x02035428  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IsIdle  0x0203D210  arm
+ *   UI_GetContext  0x02035224  arm
  *
  * The soft-reset trap: fade both screens to white, tear the UI down, then spin
  * forever pumping the main loop's per-frame work.  The loop never exits (the
@@ -42,7 +43,7 @@ typedef unsigned char u8;
 
 struct UiCtx;
 
-extern struct UiCtx *sub_02035224(void);
+extern struct UiCtx *UI_GetContext(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
 extern int GFL_NET_Exit(int a0);
 extern u32 GFL_NET_IsIdle(void);
@@ -57,7 +58,7 @@ void UI_SoftReset(u32 param)
 {
     struct UiCtx *ctx;
 
-    ctx = sub_02035224();
+    ctx = UI_GetContext();
     GXx_SetMasterBrightness_(0x0400006C, 0x10);
     GXx_SetMasterBrightness_(0x0400006C + 0x1000, 0x10);
     GFL_NET_Exit(0);

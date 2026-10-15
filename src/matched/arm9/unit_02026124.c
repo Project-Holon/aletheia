@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02026124
+ * function: CURSOR_MOVE_ClearSkipBit
  * address:  0x02026124
  * packet:   pkt_02026124
  * region:   arm9
@@ -42,7 +42,7 @@ struct Sound {
     void *ctx;
 };
 
-void func_02026124(struct Sound *obj, u32 idx)
+void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx)
 {
     u32 w = idx / 32;
     u32 b = idx % 32;
@@ -51,7 +51,7 @@ void func_02026124(struct Sound *obj, u32 idx)
     }
 }
 
-void func_0202614C(struct Sound *obj, u32 idx)
+void CURSOR_MOVE_SetSkipBit(struct Sound *obj, u32 idx)
 {
     u32 w = idx / 32;
     u32 b = idx % 32;
@@ -60,7 +60,7 @@ void func_0202614C(struct Sound *obj, u32 idx)
     }
 }
 
-struct Entry *func_0202616C(struct Sound *obj, u32 idx)
+struct Entry *CURSOR_MOVE_GetEntry(struct Sound *obj, u32 idx)
 {
     return &obj->entries[idx];
 }

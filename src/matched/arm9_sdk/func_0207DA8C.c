@@ -1,5 +1,5 @@
 /*
- * function: func_0207DA8C
+ * function: G3X_Reset
  * address:  0x0207DA8C
  * packet:   pkt_0207DA8C
  * region:   arm9
@@ -62,7 +62,7 @@ typedef union {
 
 extern void G3X_ResetMtxStack(void);
 
-void func_0207DA8C(void)
+void G3X_Reset(void)
 {
     while (reg_G3X_GXSTAT & 0x08000000) {
     }

@@ -20,7 +20,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -107,7 +107,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void func_02049B68(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
 extern u32 func_02049740(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void func_020409B4(u8 layer);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
@@ -265,7 +265,7 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
     BMP_WIN_Delete(menu->windowUpper);
     BMP_WIN_Delete(menu->windowLower);
     tileAlloc = menu->buttonTileAlloc;
-    func_0203FB44(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
+    BG_SYS_DeleteHalf(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
     func_020307B0(menu);
 }
 

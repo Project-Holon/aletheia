@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -38,59 +38,59 @@ extern const struct BgTemplate g_0834;
 extern const struct BgTemplate g_07D4;
 extern const struct BgTemplate g_07B4;
 extern const struct BgTemplate g_0794;
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32);
 extern void func_02041B6C(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
 void func_021BC3F0(void)
 {
-    func_0203F8F4(0x7B);
+    BG_SYS_Create(0x7B);
     {
         struct DispConfig d = g_0784;
         func_0203FC28(&d);
     }
     {
         struct BgTemplate t = g_0814;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
     {
         struct BgTemplate t = g_07F4;
-        func_0203FCA0(1, &t, 0);
-        func_020414EC(1);
+        BG_SYS_InitBgLayer(1, &t, 0);
+        BG_SYS_ClearSlot(1);
         func_02041B6C(1);
     }
     {
         struct BgTemplate t = g_0854;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
     {
         struct BgTemplate t = g_0874;
-        func_0203FCA0(3, &t, 0);
-        func_020414EC(3);
+        BG_SYS_InitBgLayer(3, &t, 0);
+        BG_SYS_ClearSlot(3);
         func_02041B6C(3);
     }
     {
         struct BgTemplate t = g_0834;
-        func_0203FCA0(4, &t, 0);
+        BG_SYS_InitBgLayer(4, &t, 0);
     }
     {
         struct BgTemplate t = g_07D4;
-        func_0203FCA0(5, &t, 0);
-        func_020414EC(5);
+        BG_SYS_InitBgLayer(5, &t, 0);
+        BG_SYS_ClearSlot(5);
         func_02041B6C(5);
     }
     {
         struct BgTemplate t = g_07B4;
-        func_0203FCA0(6, &t, 0);
+        BG_SYS_InitBgLayer(6, &t, 0);
     }
     {
         struct BgTemplate t = g_0794;
-        func_0203FCA0(7, &t, 0);
-        func_020414EC(7);
+        BG_SYS_InitBgLayer(7, &t, 0);
+        BG_SYS_ClearSlot(7);
         func_02041B6C(7);
     }
     BG_SYS_SetMainPlaneVisible(0xF, 1);

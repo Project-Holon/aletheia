@@ -1,5 +1,5 @@
 /*
- * function: func_021D6BA4
+ * function: POKETRADE_DEMO_MIDDLE_StepMessage
  * address:  0x021D6BA4
  * packet:   pkt_ov118_021D6BA4
  * region:   ov118
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D6AD4  0x021D6AD4  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_PrintMessage  0x021D6AD4  thumb  ov118
  *   MCSS_GetPosition  0x02015C30  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
  *   MCSS_ResetVanishFlag  0x02015EB0  thumb
@@ -22,7 +22,7 @@
  *   func_020307B0  0x020307B0  arm
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_MCSS_SlideUpdate  0x021DFC68  thumb  ov119
- *   func_021D6F90  0x021D6F90  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_StepSetup  0x021D6F90  thumb  ov118
  *
  * Addresses are Black-image addresses.
  */
@@ -36,7 +36,7 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_021D6AD4(u8 *p);
+extern void POKETRADE_DEMO_MIDDLE_PrintMessage(u8 *p);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void MCSS_ResetVanishFlag(void *p);
@@ -48,18 +48,18 @@ extern void POKETRADE_3D_DeleteMcssSlot(void *p, int a);
 extern u32 func_020307B0(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_MCSS_SlideUpdate(void *p, int a1);
-extern void func_021D6F90(u8 *p);
+extern void POKETRADE_DEMO_MIDDLE_StepSetup(u8 *p);
 
 #define FRAME (*(s32 *)(p + 0xF2C))
 #define OBJ(i) (((u32 *)(p + 0x844))[i])
 #define SLOT0 (*(u32 *)(p + 0x85C))
 
-void func_021D6BA4(u8 *p)
+void POKETRADE_DEMO_MIDDLE_StepMessage(u8 *p)
 {
     Vec v;
 
     if (FRAME == 10) {
-        func_021D6AD4(p);
+        POKETRADE_DEMO_MIDDLE_PrintMessage(p);
     }
     if (((struct Obj00984 *)p)->f11ED == 0 && FRAME == 6) {
         MCSS_GetPosition((void *)OBJ(0), (u32 *)(&v));
@@ -80,7 +80,7 @@ void func_021D6BA4(u8 *p)
             func_020307B0((void *)SLOT0);
             SLOT0 = 0;
         }
-        POKETRADE_PROC_SetStep(p, (int)func_021D6F90);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepSetup);
     }
     POKETRADE_MCSS_SlideUpdate((void *)SLOT0, (int)p);
 }

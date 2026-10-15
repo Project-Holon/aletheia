@@ -1,5 +1,5 @@
 /*
- * function: func_0217F21C
+ * function: _strlwr
  * address:  0x0217F21C
  * packet:   pkt_0219091C
  * region:   ov009
@@ -15,12 +15,12 @@
  * high bytes alone.  Returns s.
  *
  * symbols:
- *   g_020A60DC     0x020A60DC  data
+ *   __tolower_map     0x020A60DC  data
  */
 
-extern unsigned char g_020A60DC[];
+extern unsigned char __tolower_map[];
 
-char *func_0217F21C(char *s)
+char *_strlwr(char *s)
 {
     char *ret = s;
     int c = *s;
@@ -28,7 +28,7 @@ char *func_0217F21C(char *s)
     if (c != 0) {
         do {
             if (c >= 0 && c < 0x80) {
-                c = g_020A60DC[c];
+                c = __tolower_map[c];
             }
             *s = c;
             c = *++s;

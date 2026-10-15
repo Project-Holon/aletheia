@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_ToggleHandSlot 0x021EA908 thumb ov170
  *   BOX2_MAIN_SetBoxValueAt 0x021DD2B4 thumb ov170
@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Sound;
-extern int func_02025DE8(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void BOX2_SEQ_ToggleHandSlot(int p, int bit);
 extern void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
@@ -33,7 +33,7 @@ extern int BOX2_SEQ_SetSeqSecond(char *p, int a);
 int BOX2_SEQ_StateCloseMenu(u8 *p)
 {
     u8 mask;
-    switch ((unsigned)func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70)) {
+    switch ((unsigned)CURSOR_MOVE_PollRepeatInput(((struct Obj23925 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70)) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);
         BOX2_SEQ_ToggleHandSlot((int)p, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6A44
+ * function: WIFI_BSUBWAY_GetPlayerIndex
  * address: 0x021D6A44
  * packet: pkt_ov116_021D6A44
  * region: ov116
@@ -13,4 +13,4 @@
 #include "../include/Obj22617.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021D6A44(u8 *p) { return ((struct Obj22617 *)p)->fA; }
+u16 WIFI_BSUBWAY_GetPlayerIndex(u8 *p) { return ((struct Obj22617 *)p)->fA; }

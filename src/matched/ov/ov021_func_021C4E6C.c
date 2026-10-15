@@ -21,7 +21,7 @@
  *   _fmul          0x0209C77C  arm
  *   _fadd          0x0209C95C  arm
  *   ICA_ANIME_GetRotate  0x02011638  thumb
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  */
 #include "../include/Obj01666.h"
@@ -33,7 +33,7 @@ typedef int            s32;
 struct IcaAnime;
 struct Rec12;
 extern u32 ICA_ANIME_GetRotate(struct IcaAnime *ctx, struct Rec12 *hsv);
-extern void func_0207ADC4(void *p);
+extern void MTX_Identity33_(void *p);
 struct Mtx33;
 extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
 
@@ -71,6 +71,6 @@ void SOUND_OBJ_ApplyRotation(char *p)
     ch = (u16)(u32)(65535.0f * (h / 360.0f));
     cs = (u16)(u32)(65535.0f * (s / 360.0f));
     cv = (u16)(u32)(65535.0f * (v / 360.0f));
-    func_0207ADC4(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18);
+    MTX_Identity33_(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18);
     BUTTON_MAN_MakeRotMtxXYZ(ch, cs, cv, (struct Mtx33 *)(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18));
 }

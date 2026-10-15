@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_cell_animation.c
  * unit:     yes
- * function: func_02062F90, func_02062FF0, func_02063000, func_02063018, func_02063030
+ * function: NNS_G2dResetCellAnimation, NNS_G2dSetCellAnimationBank, NNS_G2dSetCellAnimationParam, NNS_G2dSetCellAnimationParamTagged, NNS_G2dIsCellAnimationBoundingBox
  * address:  0x02062F90
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -66,11 +66,11 @@ typedef unsigned char  u8;
 typedef signed int     s32;
 
 extern BOOL func_02062D4C(NNSG2dAnimController *pAnimCtrl, fx32 frames);
-void func_02062F90(NNSG2dAnimController *pAnimCtrl);
-void func_02062FF0(struct CellAnim *anim, void *bank);
-void func_02063000(struct CellAnim *anim, int p1, int p2, int p3);
-void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
-s32 func_02063030(struct CellAnim *anim);
+void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl);
+void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
+void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int p1, int p2, int p3);
+void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
+s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
 
 
 static inline BOOL IsForward_(const NNSG2dAnimController *pAnimCtrl)
@@ -91,7 +91,7 @@ static inline const NNSG2dAnimFrameData *GetFrameEnd_(const NNSG2dAnimSequence *
 }
 
 
-void func_02062F90(NNSG2dAnimController *pAnimCtrl)
+void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
 {
     if (IsForward_(pAnimCtrl)) {
         pAnimCtrl->pCurrent = GetFrameBegin_(pAnimCtrl->pAnimSequence);
@@ -111,17 +111,17 @@ void func_02062F90(NNSG2dAnimController *pAnimCtrl)
  * rather than a branch (one section per function, no displacement branch).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062FF0.c  *       --func func_02062FF0 --addr 0x02062FF0 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationBank.c  *       --func NNS_G2dSetCellAnimationBank --addr 0x02062FF0 --cc 1.1p1
  */
-void func_02062FF0(struct CellAnim *anim, void *bank)
+void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank)
 {
     anim->bank = bank;
-    func_02062F90((struct NNSG2dAnimController *)anim);
+    NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)anim);
 }
 
 
 
-void func_02063000(struct CellAnim *anim, int p1, int p2, int p3)
+void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int p1, int p2, int p3)
 {
     anim->unk28 = p3;
     anim->unk24 = p2;
@@ -133,13 +133,13 @@ void func_02063000(struct CellAnim *anim, int p1, int p2, int p3)
 
 /*
  * *
- * The variant of func_02063000 that pins the kind word at +0x20 to 2 and takes
+ * The variant of NNS_G2dSetCellAnimationParam that pins the kind word at +0x20 to 2 and takes
  * the u16 tag as an argument instead of clearing it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02063018.c  *       --func func_02063018 --addr 0x02063018 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationParamTagged.c  *       --func NNS_G2dSetCellAnimationParamTagged --addr 0x02063018 --cc 1.1p1
  */
-void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag)
+void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag)
 {
     anim->unk20 = 2;
     anim->unk28 = b;
@@ -157,9 +157,9 @@ void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag)
  * from the bound cell data bank's +0x08 field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02063030.c  *       --func func_02063030 --addr 0x02063030 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dIsCellAnimationBoundingBox.c  *       --func NNS_G2dIsCellAnimationBoundingBox --addr 0x02063030 --cc 1.1p1
  */
-s32 func_02063030(struct CellAnim *anim)
+s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim)
 {
     u32 attr = anim->attrOverride;
 

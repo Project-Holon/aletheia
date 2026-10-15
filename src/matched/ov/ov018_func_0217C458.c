@@ -11,7 +11,7 @@
  *
  * symbols:
  *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
@@ -44,7 +44,7 @@ typedef struct {
 
 struct Obj;
 extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *, int, int);
@@ -59,7 +59,7 @@ struct Desc *INTRUDE_FIELD_CreateOfferInfoEvent(void *a0, void *a1, u8 *a2, int 
     struct Desc *x;
 
     src = (B52 *)INTRUDE_COMM_GetActiveSessionRequest(a2 + 0x1AC);
-    func_020120F4(a0);
+    ICA_ANIME_GetField1C(a0);
     x = func_020122C0(a0, 0, INTRUDE_FIELD_EventOfferInfo, 0x88);
     o = func_020124E8((struct Obj *)x);
     MI_CpuFill8(o, 0, 0x88);

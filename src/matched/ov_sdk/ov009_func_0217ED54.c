@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED54
+ * function: GOAGetLastError
  * address:  0x0217ED54
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AD0F4[];
 
-int func_0217ED54(int sock)
+int GOAGetLastError(int sock)
 {
     return *(int *)(g_021AD0F4 + 4);
 }

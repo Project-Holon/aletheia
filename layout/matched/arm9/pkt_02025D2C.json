@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02025D2C",
+   "name": "CURSOR_MOVE_PollInput",
    "address": "0x02025D2C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025DE8",
+   "name": "CURSOR_MOVE_PollRepeatInput",
    "address": "0x02025DE8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025EA4",
+   "name": "CURSOR_MOVE_PollTouch",
    "address": "0x02025EA4",
    "kind": "game",
    "region": "arm9",

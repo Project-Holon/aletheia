@@ -1,5 +1,5 @@
 /*
- * function: func_0202627C
+ * function: GAME_COMM_Update
  * address:  0x0202627C
  * packet:   pkt_0202627C
  * region:   arm9
@@ -14,7 +14,7 @@
  *
  * game_comm.c: the per-frame request state machine.  The request kind
  * (+5) selects a 0x1C-byte record of callbacks in the table at 0x0209FB5C
- * (func_02026388 and GAME_COMM_CallKindNotify read its words at +0x14 and +0x18); the
+ * (GAME_COMM_CallHandler and GAME_COMM_CallKindNotify read its words at +0x14 and +0x18); the
  * state byte of the 8-byte sub-object at +0xC is the dense switch.
  *
  * Closed 2026-09-24 (wave 21, lane E) after the DIFF 10 recorded in
@@ -27,8 +27,8 @@
  * docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0202627C.c \
- *       --func func_0202627C --addr 0x0202627C --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/GAME_COMM_Update.c \
+ *       --func GAME_COMM_Update --addr 0x0202627C --cc 1.1p1 --thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -71,7 +71,7 @@ struct Rec
 typedef enum { Z0 } E;
 extern struct Rec GAME_COMM_KindTable[];
 extern void GAME_COMM_SetSeqState(void *obj, u32 value);
-void func_0202627C(struct Comm *p)
+void GAME_COMM_Update(struct Comm *p)
 {
   struct Sub *sub;
   struct Rec *rec;

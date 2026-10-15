@@ -23,18 +23,18 @@
  *   func_020409B4  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -128,15 +128,15 @@ extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void func_02041570(int channel, u16 val);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -203,7 +203,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -223,7 +223,7 @@ extern void func_0201F7A8(void *p, unsigned kind);
 
 
 
-extern int func_0207D55C(vu16 *reg);
+extern int GXx_GetMasterBrightness_(vu16 *reg);
 
 extern void func_02041B6C(u32 v);
 
@@ -398,7 +398,7 @@ int WORLDTRADE_TITLE_Init(Work *p)
         p->x30=1;
         WORLDTRADE_SUBLCD_StartAnimTaskA(p);
     } else {
-        if(p->eb4==1 && func_0207D55C((u16 *)0x0400106C)!=0) {
+        if(p->eb4==1 && GXx_GetMasterBrightness_((u16 *)0x0400106C)!=0) {
             WORLDTRADE_SUBLCD_SetSlotActorPositions(p);
             WIPE_SYS_Start(0,1,1,0,6,1,0x48);
         } else WIPE_SYS_Start((void *)3,1,1,0,6,1,0x48);
@@ -443,21 +443,21 @@ void WORLDTRADE_TITLE_SetupBgPlanes(void)
     BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate t = g_022039A4;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
         struct BgTemplate t = g_02203984;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
         struct BgTemplate t = g_022039C4;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
     func_02040588(2, 1);
-    func_02040B94(0, 0x20, 0, 0x48);
+    BG_SYS_InitRun(0, 0x20, 0, 0x48);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -479,19 +479,19 @@ void WORLDTRADE_TITLE_ScrollBg(Work *p, u32 a, u32 b)
 
         p->f12E0 = 1;
         t4 = g_02203944;
-        func_0203FCA0(4, &t4, 0);
+        BG_SYS_InitBgLayer(4, &t4, 0);
         func_02041570(4, 0);
         t6 = g_02203924;
-        func_0203FCA0(6, &t6, 0);
+        BG_SYS_InitBgLayer(6, &t6, 0);
         if (b == 0) {
             func_02041570(6, 0);
         }
         t5 = g_02203964;
         t5.unk_04 = a;
-        func_0203FCA0(5, &t5, 0);
-        func_02040B94(4, 0x20, 0, 0x48);
+        BG_SYS_InitBgLayer(5, &t5, 0);
+        BG_SYS_InitRun(4, 0x20, 0, 0x48);
         t7 = g_022039E4;
-        func_0203FCA0(7, &t7, 0);
+        BG_SYS_InitBgLayer(7, &t7, 0);
         func_02041570(7, 0);
     }
     func_02040588(4, 1);
@@ -507,9 +507,9 @@ void WORLDTRADE_TITLE_ExitBgPlanes(Work *p) {if(p->f12E0==1 && p->f12E4==0) {p->
  */
 void WORLDTRADE_TITLE_ExitBgPlanesSub(void)
 {
-    sub_020403F4(2);
-    sub_020403F4(1);
-    sub_020403F4(0);
+    BG_SYS_Delete_03F4(2);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(0);
 }
 
 void WORLDTRADE_TITLE_SetBgVisible(Work *p) {BG_SYS_SetMainPlaneVisible(1,0);BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetMainPlaneVisible(4,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&p->cursor_p,0);}

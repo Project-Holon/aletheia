@@ -1,5 +1,5 @@
 /*
- * function: func_0207DE30
+ * function: G3X_GetMtxStackLevelPV
  * address:  0x0207DE30
  * packet:   pkt_0207DE30
  * region:   arm9
@@ -54,7 +54,7 @@ typedef union {
 #define REG_CLIPMTX_RESULT_0_ADDR 0x04000640
 #define REG_VECMTX_RESULT_0_ADDR  0x04000680
 
-int func_0207DE30(s32 *level)
+int G3X_GetMtxStackLevelPV(s32 *level)
 {
     if (reg_G3X_GXSTAT & 0x4000) {
         return -1;

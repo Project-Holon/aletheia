@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0202A3FC 0x0202A3FC thumb
+ *   TPOKE_DATA_GetTrainerKind 0x0202A3FC thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_0202A3FC(u32);
-int BTL_CALC_IsEliteFourTrainer(u32 n) { if(func_0202A3FC(n)==3) return 1; return 0; }
+extern u8 TPOKE_DATA_GetTrainerKind(u32);
+int BTL_CALC_IsEliteFourTrainer(u32 n) { if(TPOKE_DATA_GetTrainerKind(n)==3) return 1; return 0; }

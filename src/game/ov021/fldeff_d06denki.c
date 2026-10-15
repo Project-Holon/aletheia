@@ -42,7 +42,7 @@
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sD06DenkiSparkDrawStatus     0x021DABCC  data  a4
@@ -186,7 +186,7 @@ extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, const fx32 *frame);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern void func_0207ADC4(MtxFx33 *mtx);
+extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
@@ -364,7 +364,7 @@ void FLDEFF_D06DENKI_SparkDraw(FieldEffectObj *effect, D06DenkiSparkWork *work)
         if (G3D_SYSTEM_GetObjectAnimeFrame(object, 0, &work->animeFrame) == 0) {
             work->state = D06DENKI_SPARK_FINISHED;
         }
-        func_0207ADC4(&status.rotate);
+        MTX_Identity33_(&status.rotate);
         FIELD_EFFECT_GetObjectPos(effect, &status.trans);
         G3D_SYSTEM_DrawObjectCulling(object, &status);
     }
@@ -503,7 +503,7 @@ void FLDEFF_D06DENKI_FollowDraw(FieldEffectObj *effect, D06DenkiFollowWork *work
 {
     G3dObjectStatus status = sD06DenkiFollowDrawStatus;
 
-    func_0207ADC4(&status.rotate);
+    MTX_Identity33_(&status.rotate);
     FIELD_EFFECT_GetObjectPos(effect, &status.trans);
     G3D_SYSTEM_DrawObjectCulling(work->object, &status);
     status.trans = work->subPos;
@@ -598,7 +598,7 @@ void FLDEFF_D06DENKI_PulseUpdate(void *task, D06DenkiPulseWork *work)
 void FLDEFF_D06DENKI_PulseDraw(FieldEffectObj *effect, D06DenkiPulseWork *work)
 {
     G3dObjectStatus status = sD06DenkiPulseDrawStatus;
-    func_0207ADC4(&status.rotate);
+    MTX_Identity33_(&status.rotate);
     FIELD_EFFECT_GetObjectPos(effect, &status.trans);
     G3D_SYSTEM_DrawObjectCulling(work->object, &status);
 }

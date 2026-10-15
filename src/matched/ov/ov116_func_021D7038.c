@@ -1,5 +1,5 @@
 /*
- * function: func_021D7038
+ * function: WIFI_BSUBWAY_AbortHttpRequest
  * address: 0x021D7038
  * packet: pkt_ov116_021D7038
  * region: ov116
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern void DWC_RAP_SetErrorCallback(int, int);
 extern void NHTTP_RAP_FreePostData(u8 *);
 extern void NHTTP_RAP_Destroy(u8 *);
-void func_021D7038(u8 *p)
+void WIFI_BSUBWAY_AbortHttpRequest(u8 *p)
 {
     if (*(u8 * *)&((struct Obj08046 *)p)->f168) {
         DWC_RAP_SetErrorCallback(0, 0);

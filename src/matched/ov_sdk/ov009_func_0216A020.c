@@ -1,5 +1,5 @@
 /*
- * function: func_0216A020
+ * function: DWCi_GetReverseBuddiesCallback
  * address:  0x0216A020
  * packet:   pkt_ov009_0216A020
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      DWCi_GetReverseBuddiesCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
  * symbols:
- *   func_02168D7C  0x02168D7C  arm  ov009
+ *   DWCi_IsServerUpdating  0x02168D7C  arm  ov009
  *   DWC_Free       0x0205A1B0  arm
- *   func_02169568  0x02169568  arm  ov009
+ *   DWCi_EndUpdateServers  0x02169568  arm  ov009
  *   DWCi_Acc_GetFlagDataTypeThunk  0x020591CC  arm
- *   func_0216A39C  0x0216A39C  arm  ov009
+ *   DWCi_GetUserData  0x0216A39C  arm  ov009
  *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_02059194  0x02059194  arm
  *   DWCi_SetReverseBuddyFlag  0x02059240  arm
@@ -57,11 +57,11 @@ typedef struct MatchCnt {
 
 extern struct FriendGlobal g_021AA860;
 
-extern int func_02168D7C(void);
+extern int DWCi_IsServerUpdating(void);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
-extern void func_02169568(void);
+extern void DWCi_EndUpdateServers(void);
 extern int DWCi_Acc_GetFlagDataTypeThunk();
-extern int func_0216A39C(void);
+extern int DWCi_GetUserData(void);
 struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02059194(FriendData *frienddata);
@@ -72,25 +72,25 @@ extern void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
 #define CNT (*(MatchCnt **)(((unsigned char *)&g_021AA860) + 0xC))
 #define PTR5C (*(void **)((u8 *)CNT + 0x5C))
 
-void func_0216A020(void *connection, GPGetReverseBuddiesListResponseArg *arg)
+void DWCi_GetReverseBuddiesCallback(void *connection, GPGetReverseBuddiesListResponseArg *arg)
 {
     int i;
     int j;
 
-    if (!func_02168D7C())
+    if (!DWCi_IsServerUpdating())
         return;
     if (PTR5C != 0) {
         DWC_Free(4, PTR5C, 0);
         PTR5C = 0;
     }
     if (arg->result != 0) {
-        func_02169568();
+        DWCi_EndUpdateServers();
         return;
     }
     for (i = 0; i < CNT->friendListLen; i++) {
         if (DWCi_Acc_GetFlagDataTypeThunk(&CNT->friendList[i]) == 3) {
             for (j = 0; j < arg->numOfUniqueMatchs; j++) {
-                if (arg->matches[j].profile == DWC_GetGsProfileId((struct DWCstAccUserData *)func_0216A39C(), &CNT->friendList[i])) {
+                if (arg->matches[j].profile == DWC_GetGsProfileId((struct DWCstAccUserData *)DWCi_GetUserData(), &CNT->friendList[i])) {
                     if (!func_02059194(&CNT->friendList[i])) {
                         CNT->reverseChanged = 1;
                         DWCi_SetReverseBuddyFlag(&CNT->friendList[i], 1);
@@ -108,5 +108,5 @@ void func_0216A020(void *connection, GPGetReverseBuddiesListResponseArg *arg)
                 DWCi_SetExpIsBuddyFriendFlag(&CNT->friendList[i], 1);
         }
     }
-    func_02169568();
+    DWCi_EndUpdateServers();
 }

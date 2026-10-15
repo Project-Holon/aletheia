@@ -11,7 +11,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GURU2_MAIN_CopyMemberPokemon 0x021E1784 thumb ov137
- *   func_0201088C 0x0201088C thumb
+ *   GFL_NET_SAVE_Create 0x0201088C thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
  */
 #include "../include/Obj05431.h"
@@ -22,13 +22,13 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 extern void GURU2_MAIN_CopyMemberPokemon(char *p, int i);
-extern void *func_0201088C(unsigned, unsigned);
+extern void *GFL_NET_SAVE_Create(unsigned, unsigned);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 int GURU2_MAIN_StateAfterSync4(u8 *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 205, 40)) {
         GURU2_MAIN_CopyMemberPokemon((char *)p, (*(int **)(p + 40))[3]);
-        ((struct Obj05431 *)p)->fDA0 = func_0201088C(114, (*(unsigned **)(*(u8 * *)&((struct Obj05431 *)p)->fD8 + 20))[1]);
+        ((struct Obj05431 *)p)->fDA0 = GFL_NET_SAVE_Create(114, (*(unsigned **)(*(u8 * *)&((struct Obj05431 *)p)->fD8 + 20))[1]);
         ((struct Obj05431 *)p)->fDA8 = TIME_ICON_Create(((struct Obj05431 *)p)->fD98, ((struct Obj05431 *)p)->fCF0, 15, 16, 114);
         ((struct Obj05431 *)p)->f0 = 44;
     }

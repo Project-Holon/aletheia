@@ -1,5 +1,5 @@
 /*
- * function: func_0204ED24
+ * function: BILLBOARD_Delete
  * address:  0x0204ED24
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -24,7 +24,7 @@ extern void BILLBOARD_DeleteAllImages(struct Actor *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0204ED24(void *p)
+void BILLBOARD_Delete(void *p)
 {
     BILLBOARD_DeleteAllImages(p);
     func_020307B0(((struct Obj11443 *)p)->f8);

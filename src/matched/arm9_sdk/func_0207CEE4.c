@@ -1,5 +1,5 @@
 /*
- * function: func_0207CEE4
+ * function: VEC_MultAdd
  * address:  0x0207CEE4
  * packet:   pkt_0207CEE4
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct {
     fx16 x, y, z;
 } VecFx16;
 
-void func_0207CEE4(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest)
+void VEC_MultAdd(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest)
 {
     pDest->x = (fx32)(((fx64)a * v1->x) >> 12) + v2->x;
     pDest->y = (fx32)(((fx64)a * v1->y) >> 12) + v2->y;

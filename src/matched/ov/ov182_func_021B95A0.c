@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: THE_END_GRAPHIC_Init
  * address: 0x021B95A0
  * packet: pkt_ov182_021B95A0
  * region: ov182
@@ -13,16 +13,16 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021B98E4 0x021B98E4 thumb ov182
+ *   THE_END_GRAPHIC_Create 0x021B98E4 thumb ov182
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021B9784 0x021B9784 thumb ov182
- *   func_021B9788 0x021B9788 thumb ov182
+ *   THE_END_GRAPHIC_DummyTask 0x021B9784 thumb ov182
+ *   THE_END_GRAPHIC_LoadGraphics 0x021B9788 thumb ov182
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
- *   func_021B9814 0x021B9814 thumb ov182
+ *   THE_END_GRAPHIC_StartFade 0x021B9814 thumb ov182
  */
 #include "../include/Obj03328.h"
 typedef unsigned short u16;
@@ -33,17 +33,17 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, u
 extern void MI_CpuFill8(void *, int, int);
 typedef unsigned int   u32;
 struct GfFont;
-extern char *func_021B98E4(int a, u16 heap);
+extern char *THE_END_GRAPHIC_Create(int a, u16 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020056A0(void (*)(void), void *, int);
-extern void func_021B9784(void);
-extern void func_021B9788(u16 *);
+extern void THE_END_GRAPHIC_DummyTask(void);
+extern void THE_END_GRAPHIC_LoadGraphics(u16 *);
 extern unsigned GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *, int, int);
-extern void func_021B9814(void *, void *, void *);
-int func_021B95A0(void *task, int b, int c)
+extern void THE_END_GRAPHIC_StartFade(void *, void *, void *);
+int THE_END_GRAPHIC_Init(void *task, int b, int c)
 {
     u16 value[1];
     char *p;
@@ -55,15 +55,15 @@ int func_021B95A0(void *task, int b, int c)
     MI_CpuFill8(p, 0, 0x1c);
     ((struct Obj03328 *)p)->f0 = 0x88;
     ((struct Obj03328 *)p)->f10 = c;
-    ((struct Obj03328 *)p)->f4 = func_021B98E4(1, ((struct Obj03328 *)p)->f0);
+    ((struct Obj03328 *)p)->f4 = THE_END_GRAPHIC_Create(1, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->f8 = GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->fC = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj03328 *)p)->f0));
     func_0204047C(1, 1);
     func_0204047C(2, 0);
-    ((struct Obj03328 *)p)->f14 = func_020056A0(func_021B9784, p, 1);
-    func_021B9788((u16 *)p);
+    ((struct Obj03328 *)p)->f14 = func_020056A0(THE_END_GRAPHIC_DummyTask, p, 1);
+    THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
         func_0207E468(vp, 0, 2);
-    func_021B9814((void *)0x10, 0, 0);
+    THE_END_GRAPHIC_StartFade((void *)0x10, 0, 0);
     return 1;
 }

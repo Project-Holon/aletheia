@@ -12,7 +12,7 @@
  * sdk:      CPS_SocGetEport (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   g_021A826C  0x021A826C  data
  */
 
@@ -39,7 +39,7 @@ struct NetVars {
 	unsigned short eport;
 };
 
-extern struct ThreadInfo g_02150FEC;
+extern struct ThreadInfo gMslRefToken;
 extern struct NetVars g_021A826C;
 
 unsigned short CPS_SocGetEport(void)
@@ -53,7 +53,7 @@ unsigned short CPS_SocGetEport(void)
 		g_021A826C.eport++;
 		if (g_021A826C.eport < 0x400 || g_021A826C.eport >= 5000)
 			g_021A826C.eport = 0x400;
-		for (t = g_02150FEC.list; t != 0; t = t->next) {
+		for (t = gMslRefToken.list; t != 0; t = t->next) {
 			soc = t->soc;
 			if (soc != 0 && soc->thread != 0 && soc->local_port == g_021A826C.eport) {
 				conflict = 1;

@@ -27,6 +27,7 @@
  *   func_02184324  0x02184324  arm  ov009
  *   ArrayLength   0x02184200  arm  ov009
  *   ArrayDeleteAt 0x0218437C  arm  ov009
+ *   qsort  0x0209455C  arm  arm9
  */
 struct DArrayImplementation {
     int count;
@@ -55,7 +56,7 @@ extern void gsifree(void *ptr);
 extern void *memmove(void *dst, const void *src, unsigned long n);
 extern void func_021840CC(int a, int b);
 extern void func_02184324(int a, int b);
-extern void func_0209455C(int a, int b, int c, int d);
+extern void qsort(int a, int b, int c, int d);
 extern int _s32_div_f(int a, int b);
 extern int ArrayLength(struct DArrayImplementation *array);
 extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
@@ -249,7 +250,7 @@ void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n)
  */
 void func_021843C8(int *p, int b)
 {
-    func_0209455C(p[5], p[0], p[2], b);
+    qsort(p[5], p[0], p[2], b);
 }
 
 

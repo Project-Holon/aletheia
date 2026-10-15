@@ -35,8 +35,8 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
- *   func_02012934 0x02012934 thumb
- *   func_0201292C 0x0201292C thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
+ *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   GURU2_COMM_Create 0x021DCB04 thumb ov137
  *   GURU2_COMM_Destroy 0x021DCB60 thumb ov137
  *   GURU2_COMM_Exit 0x021DCB90 thumb ov137
@@ -70,9 +70,9 @@ extern u32 func_020307B0(void *p);
 
 extern void PROCSYS_Push(void *,int,const void *,void *);
 
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 
 extern u32 POKEPARTY_GetCount(void *);
 
@@ -197,8 +197,8 @@ struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int a
     struct Guru2PartyListParam *v;
     int i;
     v=func_02030734(4,sizeof(struct Guru2PartyListParam),1,gGuru2AllocFileName,256);
-    v->party=func_02012934(p->gameData);
-    v->playerData=func_0201292C(p->gameData);
+    v->party=GAME_DATA_GetMyParty(p->gameData);
+    v->playerData=GAME_DATA_GetMyItem(p->gameData);
     v->initialMode=0;
     v->listType=a;
     v->cursor=b;
@@ -251,7 +251,7 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
         q=ZUKAN_SAVE_GetFromGameData(p->gameData);
         p->statusParam=func_02030734(4,40,0,gGuru2AllocFileName,328);
         MI_CpuFill8(p->statusParam,0,40);
-        r=func_02012934(p->gameData);
+        r=GAME_DATA_GetMyParty(p->gameData);
         p->statusParam->party=r;
         p->statusParam->gameData=p->gameData;
         p->statusParam->flag0C=1;

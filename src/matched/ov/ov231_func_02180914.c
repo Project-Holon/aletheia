@@ -1,5 +1,5 @@
 /*
- * function: func_02180914
+ * function: CARD_SPI_SetControl
  * address:  0x02180914
  * packet:   pkt_02180914
  * region:   ov231
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_02180914(u16 v)
+void CARD_SPI_SetControl(u16 v)
 {
     *(volatile u16 *)0x040001A0 = v | 0xA000;
 }

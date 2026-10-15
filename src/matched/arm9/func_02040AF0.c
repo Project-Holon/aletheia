@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040AF0
+ * function: BG_SYS_DecodeTileSource
  * address:  0x02040AF0
  * packet:   pkt_020409E0
  * region:   arm9
@@ -16,12 +16,12 @@
  *
  * Decode a tile source straight into slot `index`'s tile buffer at a tile
  * offset.  The offset scales by two, so the buffer is addressed in
- * halfwords here even though func_020409E0 treats the same field as an
+ * halfwords here even though BG_SYS_PushTileSource treats the same field as an
  * opaque destination.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040AF0.c \
- *       --func func_02040AF0 --addr 0x02040AF0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DecodeTileSource.c \
+ *       --func BG_SYS_DecodeTileSource --addr 0x02040AF0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ extern struct Slot *g_02146A44;
 
 extern void func_02040968(const void *src, void *dst, u32 mode);
 
-void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset)
+void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset)
 {
     func_02040968(src, g_02146A44[index].tiles + offset, mode);
 }

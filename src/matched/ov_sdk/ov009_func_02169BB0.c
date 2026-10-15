@@ -33,7 +33,7 @@
  *   DWCi_CallBuddyFriendCallback     0x02169174 arm ov009
  *   gpDenyBuddyRequest               0x02185EE4 arm ov009
  *   s_bNeedCloseStatsConnection      0x021AA860 data
- *   g_021A2010                       0x021A2010 data
+ *   gDwcFriendKeyFormat                       0x021A2010 data
  */
 
 typedef struct DWCstAccFriendData {
@@ -83,7 +83,7 @@ extern void DWCi_SetExpIsBuddyFriendFlag(DWCstAccFriendData *frienddata, int set
 extern void DWCi_CallBuddyFriendCallback(int index);
 extern int gpDenyBuddyRequest(void **connection, int profile);
 extern char s_bNeedCloseStatsConnection[];
-extern char g_021A2010[];
+extern char gDwcFriendKeyFormat[];
 
 #define STATE ((FriendState *)s_bNeedCloseStatsConnection)
 
@@ -112,7 +112,7 @@ static void DWCi_GPGetInfoCallback_RecvBuddyRequest(void **connection, GPGetInfo
             confirm = 1;
         } else if (DWC_GetFriendDataType(&STATE->fl->list[i]) == 3 || DWC_GetFriendDataType(&STATE->fl->list[i]) == 2) {
             gamecode = DWCi_GetUserData()->gamecode;
-            OS_SNPrintf(gamecode_str, 5, g_021A2010, (gamecode >> 24) & 0xff, (gamecode >> 16) & 0xff, (gamecode >> 8) & 0xff, gamecode & 0xff);
+            OS_SNPrintf(gamecode_str, 5, gDwcFriendKeyFormat, (gamecode >> 24) & 0xff, (gamecode >> 16) & 0xff, (gamecode >> 8) & 0xff, gamecode & 0xff);
             if (DWC_GetGsProfileId(DWCi_GetUserData(), &STATE->fl->list[i]) != arg->field4)
                 continue;
             if (memcmp(gamecode_str, arg->gamecode, 4) != 0)

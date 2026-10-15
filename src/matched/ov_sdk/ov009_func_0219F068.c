@@ -1,5 +1,5 @@
 /*
- * function: func_0219F068
+ * function: ServerBrowserCount
  * address:  0x0219F068
  * packet:   pkt_02155168
  * region:   ov009
@@ -22,7 +22,7 @@
 
 extern void SBServerListCount(char *p);
 
-void func_0219F068(char *p)
+void ServerBrowserCount(char *p)
 {
     SBServerListCount(p + 0x60);
 }

@@ -14,7 +14,7 @@
  *   DWC_RAP_FreeRecvBuffer  0x02156BD8  thumb  ov009
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_AllocAligned  0x0203D7C8  arm
- *   func_021770EC  0x021770EC  arm  ov009
+ *   DWC_SetRecvBuffer  0x021770EC  arm  ov009
  *   d_021A1C60  0x021A1C60  data  ov009  a4
  */
 #include "../include/Obj18654.h"
@@ -28,7 +28,7 @@ extern u8 d_021A1C60[];
 extern void DWC_RAP_FreeRecvBuffer(u32);
 extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
-extern void func_021770EC(u8, u32, u32);
+extern void DWC_SetRecvBuffer(u8, u32, u32);
 
 void DWC_RAP_AllocRecvBuffer(u32 a)
 {
@@ -38,6 +38,6 @@ void DWC_RAP_AllocRecvBuffer(u32 a)
         u32 n = 0x1000;
         *(u32 *)(g_021A8264 + a * 4 + 0x174) =
             (u32)GFL_NET_AllocAligned(((struct Obj18654 *)p)->f56, n, (const char *)d_021A1C60, 0xb74);
-        func_021770EC(a, *(u32 *)(g_021A8264 + a * 4 + 0x174), n);
+        DWC_SetRecvBuffer(a, *(u32 *)(g_021A8264 + a * 4 + 0x174), n);
     }
 }

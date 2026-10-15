@@ -21,7 +21,7 @@
  *   func_02184144                  0x02184144  arm ov009
  *   ghiRequestToConnection  0x021C0DA4  arm  ov114
  *   ghiPostCleanupState  0x021C2BB0  arm  ov114
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_02184234  0x02184234  arm  ov009
  *   sGhttpPostEmptyContentType  0x021CEDCC  data
  *   sGhttpApplicationDime  0x021CEDD0  data
@@ -30,15 +30,15 @@
  *   sGhttpApplicationXWwwFormUrlencoded  0x021CEE34  data
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   gsXmlWriterGetDataLength  0x02181E20  arm  ov009
  *   strlen         0x0209477C  arm
  *   sGhttpQrGSDD     0x021CEE58  data
  *   sGhttpCidId     0x021CEE80  data
  *   sGhttpHttpSchemasXmlsoapOrgSoap     0x021CEE88  data
- *   func_02092004  0x02092004  arm
- *   func_02091D38  0x02091D38  arm
- *   func_02092120  0x02092120  arm
+ *   fseek  0x02092004  arm
+ *   ftell  0x02091D38  arm
+ *   rewind  0x02092120  arm
  *   fclose                  0x02091AE8  arm
  *   ghiPostStateCleanup  0x021C2A3C  arm   ov114
  *   func_021841B0  0x021841B0  arm   ov009
@@ -47,7 +47,7 @@
  *   ArrayNth                0x02184208  arm
  *   ArrayFree               0x021841B0  arm
  *   ghiFreePost             0x021C2464  arm  ov114
- *   func_02094A28  0x02094A28  arm
+ *   strchr  0x02094A28  arm
  *   ghiAppendCharToBuffer  0x021C0004  arm   ov114
  *   ghiAppendDataToBuffer  0x021BFCEC  arm   ov114
  *   ghiTrySendThenBuffer  0x021C07B8  arm   ov114
@@ -58,7 +58,7 @@
  *   sGhttpUrlSafeChars     0x021CED88  data
  *   gsXmlWriterGetData  0x02181E18  arm   ov009
  *   ghiEncryptDataToBuffer  0x021BFDEC  arm   ov114
- *   func_020916D4  0x020916D4  arm
+ *   fread  0x020916D4  arm
  *   ghiDoSend                    0x021c0684 arm  ov114
  *   func_021803BC                    0x021803BC arm  ov009
  *   OS_SPrintf                       0x02084F40 arm
@@ -74,6 +74,7 @@
  */
 #include "ghttp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
+extern u8 *strchr(const u8 *s, int c);
 
 #define GHI_DIME_PAD(total, len)                \
     {                                           \
@@ -116,15 +117,14 @@ extern void *func_02184144(int, int, void (*)(void *));
 extern void func_021841B0(void *);
 extern GHIConnection *ghiRequestToConnection(int request);
 extern void ghiPostCleanupState(GHIConnection *connection);
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 extern void func_02184234(void *array, void *newElem);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *, int);
-extern int func_0209477C(const u8 *s);
 extern int gsXmlWriterGetDataLength(void *);
-extern int func_02092004(void *, int, int);
-extern s32 func_02091D38(u32 a0);
-extern int func_02092120(void *);
+extern int fseek(void *, int, int);
+extern s32 ftell(u32 a0);
+extern int rewind(void *);
 extern int fclose(void *stream);
 void ghiPostStateCleanup(GHIPostState *state);
 extern int ghiPostGetContentLength(GHIConnection *);
@@ -132,7 +132,6 @@ extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
 extern void ArrayFree(void *array);
 extern void ghiFreePost(GHIPost *post);
-extern u8 *func_02094A28(const u8 *s, int c);
 extern int ghiAppendCharToBuffer(GHIBuffer *buffer, int ch);
 extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
 extern GHITrySendResult ghiTrySendThenBuffer(GHIConnection *, char *, int);
@@ -140,7 +139,7 @@ extern int ghiSendBufferedData(GHIConnection *);
 extern void ghiResetBuffer(GHIBuffer *);
 extern char *gsXmlWriterGetData(void *);
 extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
-extern s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
+extern s32 fread(void *a0, u32 a1, u32 a2, u32 a3);
 extern int ghiDoSend(struct GHIConnection *connection, char *buffer, int len);
 extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
@@ -272,9 +271,9 @@ int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int buffe
     char *reportFilenameLocal;
     char *contentTypeLocal;
 
-    nameLocal = func_0217F1E0(name);
-    reportFilenameLocal = func_0217F1E0(reportFilename);
-    contentTypeLocal = func_0217F1E0(contentType);
+    nameLocal = goastrdup(name);
+    reportFilenameLocal = goastrdup(reportFilename);
+    contentTypeLocal = goastrdup(contentType);
     if (nameLocal == 0 || reportFilenameLocal == 0 || contentTypeLocal == 0) {
         func_0217EAE0(nameLocal);
         func_0217EAE0(reportFilenameLocal);
@@ -363,7 +362,7 @@ int ghiPostGetNoFilesContentLength(GHIConnection *connection)
     for (i = 0; i < num; i++) {
         data = func_02184208(post->data, i);
         if (data->type == 0) {
-            total += func_0209477C((const u8 *)data->name);
+            total += strlen((const char *)data->name);
             total += data->data.string.len;
             total += data->data.string.escapedCount * 2;
             total += 1;
@@ -499,12 +498,12 @@ int ghiPostStateInit(GHIPostState *state)
     } else if (type == 1) {
         if (state->state.fileDisk.file == 0)
             return 0;
-        if (func_02092004(state->state.fileDisk.file, 0, 2) != 0)
+        if (fseek(state->state.fileDisk.file, 0, 2) != 0)
             return 0;
-        state->state.fileDisk.len = func_02091D38((u32)state->state.fileDisk.file);
+        state->state.fileDisk.len = ftell((u32)state->state.fileDisk.file);
         if (state->state.fileDisk.len == -1)
             return 0;
-        func_02092120(state->state.fileDisk.file);
+        rewind(state->state.fileDisk.file);
     } else if (type != 2 && type != 3) {
         return 0;
     }
@@ -637,7 +636,7 @@ GHIPostingResult ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection 
         if (connection->encryptor.engine != 0)
             writeBuffer = &connection->encodeBuffer;
         for (c = string[0]; c != 0; c = string[++i]) {
-            if (func_02094A28((const u8 *)sGhttpUrlSafeChars, c) != 0) {
+            if (strchr((const u8 *)sGhttpUrlSafeChars, c) != 0) {
                 result = ghiAppendCharToBuffer(writeBuffer, c);
             } else if (c == ' ') {
                 result = ghiAppendCharToBuffer(writeBuffer, '+');
@@ -718,7 +717,7 @@ int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection
     int result;
 
     do {
-        len = func_020916D4(buffer, 1, 4096, (u32)state->state.fileDisk.file);
+        len = fread(buffer, 1, 4096, (u32)state->state.fileDisk.file);
         if (len <= 0) {
             connection->result = 14;
             connection->completed = 1;
@@ -1023,7 +1022,7 @@ int ghiPostDoPosting(GHIConnection *connection)
     {
         if (connection->post->hasFiles || connection->post->hasSoap)
         {
-            result = ghiTrySendThenBuffer(connection, sGhttpPostLineEnd, func_0209477C((const u8 *)sGhttpPostLineEnd));
+            result = ghiTrySendThenBuffer(connection, sGhttpPostLineEnd, strlen((const char *)sGhttpPostLineEnd));
             if (result == 0)
                 return 0;
             if (result == 2)
@@ -1056,7 +1055,7 @@ int ghiPostDoPosting(GHIConnection *connection)
 
     if (connection->post->hasFiles && !connection->post->useDIME)
     {
-        if (!ghiTrySendThenBuffer(connection, sGhttpQrGSDD4, func_0209477C((const u8 *)sGhttpQrGSDD4)))
+        if (!ghiTrySendThenBuffer(connection, sGhttpQrGSDD4, strlen((const char *)sGhttpQrGSDD4)))
             return 0;
     }
 

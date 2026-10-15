@@ -22,10 +22,10 @@
  *   DWC_StartUtility  0x021C0970  arm
  *   sDwcRaputilFileName  0x021DAAA0  data  a1
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   func_0200F17C 0x0200F17C thumb
+ *   NET_DEVICE_TABLE_Select 0x0200F17C thumb
  *   func_02034AC4 0x02034AC4 arm
  *   ov107_id 0x0000006B data a1
- *   func_0200F234 0x0200F234 thumb
+ *   NET_DEVICE_TABLE_Reset 0x0200F234 thumb
  *   func_02034A5C 0x02034A5C arm
  *   func_020306F0 0x020306F0 arm
  *   WIH_DWC_ResetFilterState 0x020107CC thumb
@@ -41,10 +41,10 @@ extern u32 func_020307B0(void *p);
 extern int OS_IsRunOnTwl(void);
 extern int DWC_StartUtility(void *work, int language, int param);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern int func_0200F17C(u32);
+extern int NET_DEVICE_TABLE_Select(u32);
 extern int func_02034AC4(int);
 extern void OS_ResetSystem(unsigned int);
-extern void func_0200F234(u32);
+extern void NET_DEVICE_TABLE_Reset(u32);
 extern void func_02034A5C(int);
 extern void func_020306F0(unsigned int);
 extern void WIH_DWC_ResetFilterState(void);
@@ -75,7 +75,7 @@ void DWC_RAPUTIL_RunUtility(int heapId)
     REG_IME = 1;
 }
 
-int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); func_0200F17C(1); func_02034AC4((int)ov107_id); return 1; }
+int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); NET_DEVICE_TABLE_Select(1); func_02034AC4((int)ov107_id); return 1; }
 
 
 int DWC_RAPUTIL_Main(void)
@@ -91,4 +91,4 @@ int DWC_RAPUTIL_ResetSystem(void)
     return 1;
 }
 
-int DWC_RAPUTIL_Exit(void) { func_0200F234(1); func_02034A5C((int)ov107_id); func_020306F0(15); WIH_DWC_ResetFilterState(); return 1; }
+int DWC_RAPUTIL_Exit(void) { NET_DEVICE_TABLE_Reset(1); func_02034A5C((int)ov107_id); func_020306F0(15); WIH_DWC_ResetFilterState(); return 1; }

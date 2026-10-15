@@ -1,5 +1,5 @@
 /*
- * function: func_02205138
+ * function: SHINKA_DEMO_ResetActorAnims
  * address:  0x02205138
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Leaf of the func_022040E0 dependency tree: when the scene object has the
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object has the
  * +0x60 pointer set, tear down the six +0x48 handles.
  *
  * symbols:
@@ -20,7 +20,7 @@ extern void CLACT_SetActorAnimIndex(int, int);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 
-void func_02205138(int a, int *p)
+void SHINKA_DEMO_ResetActorAnims(int a, int *p)
 {
     unsigned char i;
 

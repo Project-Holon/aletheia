@@ -12,21 +12,21 @@
  * Stops the running timer and closes the record.
  *
  * symbols:
- *   func_0200BCA0  0x0200BCA0  thumb
- *   func_0200BC20  0x0200BC20  thumb
+ *   DAYCARE_GetEggReady  0x0200BCA0  thumb
+ *   DAYCARE_ClearEggReady  0x0200BC20  thumb
  *   SODATEYA_ClearEggFlag  0x021C33E0  thumb  ov021
  */
 
 struct Obj11233;
-extern int func_0200BCA0(struct Obj11233 *p);
+extern int DAYCARE_GetEggReady(struct Obj11233 *p);
 struct Obj11232;
-extern void func_0200BC20(struct Obj11232 *p);
+extern void DAYCARE_ClearEggReady(struct Obj11232 *p);
 extern void SODATEYA_ClearEggFlag(void *a);
 
 void SODATEYA_DeclineEgg(void **p)
 {
-    if (func_0200BCA0(p[2]) == 1) {
-        func_0200BC20(p[2]);
+    if (DAYCARE_GetEggReady(p[2]) == 1) {
+        DAYCARE_ClearEggReady(p[2]);
         SODATEYA_ClearEggFlag(p[1]);
     }
 }

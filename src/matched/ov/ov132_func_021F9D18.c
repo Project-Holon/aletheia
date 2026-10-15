@@ -1,5 +1,5 @@
 /*
- * function: func_021F9D18
+ * function: STA_ACTING_PositionAnim
  * address: 0x021F9D18
  * packet: pkt_ov132_021F9D18
  * region: ov132
@@ -19,7 +19,7 @@ extern void func_021F8044(void *unused, unsigned int *p, unsigned int *q);
 extern void func_021F9F74(char *, unsigned, const int *);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021F9D18(char *p, unsigned i)
+void STA_ACTING_PositionAnim(char *p, unsigned i)
 {
     Vec v;
     u8 j;

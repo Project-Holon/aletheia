@@ -1,5 +1,5 @@
 /*
- * function: func_021BA048
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop
  * address: 0x021BA048
  * packet: pkt_ov221_021BA048
  * region: ov221
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BA048(void *p){}
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p){}

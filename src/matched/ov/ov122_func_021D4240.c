@@ -1,5 +1,5 @@
 /*
- * function: func_021D4240
+ * function: INTRUDE_COMM_VIEW_StoreCallback
  * address: 0x021D4240
  * packet: pkt_ov122_021D4240
  * region: ov122
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 typedef unsigned int u32;
-void func_021D4240(u32 *p,u32 a) {*p=a;}
+void INTRUDE_COMM_VIEW_StoreCallback(u32 *p,u32 a) {*p=a;}

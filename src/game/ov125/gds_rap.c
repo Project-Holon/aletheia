@@ -18,7 +18,7 @@
  *   GDS_SOCKET_GetMaxReplySize 0x021D8600 arm ov125
  *   func_02030734 0x02030734 arm
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   GDS_SOCKET_Begin 0x021D8598 arm ov125
  *   func_02034714 0x02034714 arm
@@ -72,7 +72,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   GDS_SOCKET_GetReplySize 0x021D85F4 arm ov125
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0203F1FC 0x0203F1FC arm
+ *   GF_STANDARD_SetupCalc 0x0203F1FC arm
  *   sGdsEmptyString2 0x021D8D2C data a4
  *   d_0214616C 0x0214616C data a4
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
@@ -108,6 +108,8 @@
  *   gGdsSocketMutex     0x021DA174  data  a4
  *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
  *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   strcpy  0x02094798  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -131,8 +133,8 @@ extern u32 func_020307B0(void *p);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern struct WordSet *func_0201EC64(u32 heapId);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
@@ -143,7 +145,7 @@ extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
 extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
 extern void func_020072A4(struct SaveControl *save, u32 id);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 extern void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
 extern struct BattleRecSave *BATTLE_REC_GetWork(void);
@@ -253,7 +255,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->replyBuffer = func_02030734(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
     MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
     work->msgData = func_02045B38(0, 2, 0xE8, params->heapId);
-    work->wordSet = func_0201EC64(params->heapId);
+    work->wordSet = GF_FONT_Create_EC64(params->heapId);
     work->strBuf = STRBUF_Create(0x100, params->heapId);
     work->client.profileId = params->profileId;
     work->client.packetType = 0x15;
@@ -275,7 +277,7 @@ void GDS_RAP_Exit(GdsRapWork *work)
     GDS_SOCKET_Shutdown();
     work->active = 0;
     STRBUF_Delete(work->strBuf);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     MSGDATA_Delete(work->msgData);
     func_020307B0(work->replyBuffer);
     func_02034A5C((int)ov114_id);
@@ -799,7 +801,7 @@ int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
         u64 id = entry->dataNumber.value;
         if (entry->listing.head.dataNumber.value != id) {
             entry->listing.head.dataNumber.value = id;
-            entry->listing.head.crc = func_0203F1FC((const u8 *)&entry->listing.head, 0x38);
+            entry->listing.head.crc = GF_STANDARD_SetupCalc((const u8 *)&entry->listing.head, 0x38);
         }
         *(GdsVideoListing *)(dst + i * sizeof(GdsVideoListing)) = entry->listing;
     }
@@ -822,7 +824,7 @@ int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video)
     id = reply->entry.dataNumber.value;
     if (entry->video.head.dataNumber.value != id) {
         entry->video.head.dataNumber.value = id;
-        (*video)->head.crc = func_0203F1FC((const u8 *)&(*video)->head, 0x38);
+        (*video)->head.crc = GF_STANDARD_SetupCalc((const u8 *)&(*video)->head, 0x38);
     }
     return reply->entry.dataNumber.half.lo;
 }
@@ -841,7 +843,7 @@ int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state
         if (mode == 1) {
             d_0214616C->head.secure = mode;
             d_0214616C->head.magic = 57985;
-            d_0214616C->head.crc = func_0203F1FC((const u8 *)&d_0214616C->head, 56);
+            d_0214616C->head.crc = GF_STANDARD_SetupCalc((const u8 *)&d_0214616C->head, 56);
         }
         value = d_0214616C->body.crc;
         BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
@@ -889,7 +891,7 @@ int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 
     case 0:
         d_0214616C->head.secure = 1;
         d_0214616C->head.magic = 57985;
-        d_0214616C->head.crc = func_0203F1FC((const u8 *)&d_0214616C->head, 56);
+        d_0214616C->head.crc = GF_STANDARD_SetupCalc((const u8 *)&d_0214616C->head, 56);
         value = d_0214616C->body.crc;
         BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
@@ -922,7 +924,7 @@ struct BattleRecSave *GDS_RAP_GetVideoWork(void) { return d_0214616C; }
 extern void GDS_SOCKET_NopBegin(void);
 extern int GDS_SOCKET_InitTick(void);
 extern int func_021D7CD4(void);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern void GDS_SOCKET_Close(void);
 extern void GDS_SOCKET_InitSsl(void);
 extern int GDS_SOCKET_WaitToken(void);
@@ -976,7 +978,7 @@ int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *clien
     GDS_SOCKET_NopBegin();
     if (!GDS_SOCKET_InitTick()) return 0;
     func_021D7CD4();
-    func_02094798(gGdsSocket.hostName, host);
+    strcpy(gGdsSocket.hostName, host);
     gGdsHostTail.port = port;
     gGdsSocket.sendBuffer = 0;
     gGdsSocket.socket = -1;

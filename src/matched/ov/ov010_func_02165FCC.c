@@ -17,15 +17,15 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   func_0201EF34  0x0201EF34  thumb
- *   func_0201EF40  0x0201EF40  thumb
- *   func_0201EF4C  0x0201EF4C  thumb
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F104  0x0201F104  thumb
  *   func_0201F134  0x0201F134  thumb
  *   func_0201F184  0x0201F184  thumb
- *   func_0201F1E0  0x0201F1E0  thumb
+ *   WORDSET_DrawF1E0  0x0201F1E0  thumb
  *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetFreeText  0x02165D8C  thumb  ov010
@@ -61,15 +61,15 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
-extern void func_0201F1E0(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_DrawF1E0(struct WordSet *p, u32 i, u32 v);
 extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *r, void *buf);
 extern u8 GAME_BEACON_ACCESSOR_GetSex(struct Rec *r);
 extern int GAME_BEACON_ACCESSOR_GetFreeText(int a0, int a1);
@@ -109,7 +109,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(Rec *r, void *win, u32 heap)
         break;
     case 2:
     case 4:
-        func_0201EE60(win, 1, GAME_BEACON_ACCESSOR_GetActionMonsNo(r));
+        WORDSET_Callback(win, 1, GAME_BEACON_ACCESSOR_GetActionMonsNo(r));
         if (kind == 2)
             break;
     case 3:
@@ -117,7 +117,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(Rec *r, void *win, u32 heap)
         func_0201EE0C(win, 2, str, 0, 1, 2);
         break;
     case 5:
-        func_0201EF4C(win, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(r));
+        WORDSET_Callback_EF4C(win, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(r));
         break;
     case 6:
         func_0201EFA4(win, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(r), 3, 0, 1);
@@ -126,10 +126,10 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(Rec *r, void *win, u32 heap)
         func_0201EFA4(win, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(r), 3, 0, 1);
         break;
     case 8:
-        func_0201EE60(win, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(r));
+        WORDSET_Callback(win, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(r));
         break;
     case 9:
-        func_0201EF40(win, 1, GAME_BEACON_ACCESSOR_GetDistributionItemNo(r));
+        WORDSET_Callback_EF40(win, 1, GAME_BEACON_ACCESSOR_GetDistributionItemNo(r));
         break;
     case 10:
         func_0201EF34(win, 1, GAME_BEACON_ACCESSOR_GetActionCountValue(r));
@@ -138,7 +138,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(Rec *r, void *win, u32 heap)
         func_0201EFA4(win, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(r), 1, 0, 1);
         break;
     case 12:
-        func_0201F1E0(win, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(r));
+        WORDSET_DrawF1E0(win, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(r));
         break;
     case 13:
         func_0201F184(win, 1, GAME_BEACON_ACCESSOR_GetActionHalfwordValue(r));

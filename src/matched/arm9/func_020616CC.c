@@ -1,5 +1,5 @@
 /*
- * function: func_020616CC
+ * function: NNS_GfdAllocVram
  * address:  0x020616CC
  * packet:   pkt_020611D4
  * region:   arm9
@@ -13,7 +13,7 @@
  *   g_02146B74     0x02146B74  data
  *
  * VRAM (or comparable fixed-arena) BUMP ALLOCATOR STEP, against the {cur, end}
- * pair at 0x02146B74 that src/matched/func_02061808.c also exposes.  `size` is
+ * pair at 0x02146B74 that src/matched/NNSi_GfdGetVramManagerWork.c also exposes.  `size` is
  * rounded up to eight bytes (zero meaning eight) and refused above 0x7FFF8;
  * `dir == 1` allocates off the low cursor, anything else off the high one;
  * `flag` picks whether the alignment pad is derived from 8 or from 16, and in
@@ -79,8 +79,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020616CC.c \
- *       --func func_020616CC --addr 0x020616CC --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_GfdAllocVram.c \
+ *       --func NNS_GfdAllocVram --addr 0x020616CC --arm --cc ../2.0/sp2
  *   EXACT, 316 bytes, 1 relocation site, resolved.
  */
 
@@ -92,7 +92,7 @@ typedef unsigned int   u32;
 
 extern struct Arena02146B74 g_02146B74;
 
-u32 func_020616CC(u32 size, u32 flag, u32 dir)
+u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir)
 {
     u32 n;
     u32 off;

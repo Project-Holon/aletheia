@@ -1,5 +1,5 @@
 /*
- * function: func_02199CE8
+ * function: NameToIp
  * address:  0x02199CE8
  * packet:   pkt_ov009_02199CE8
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      NameToIp (natify.o)
  *
  * symbols:
- *   func_0217ED38  0x0217ED38  arm
+ *   inet_addr  0x0217ED38  arm
  *   SOC_GetHostByName  0x0215F650  arm
  */
 
@@ -21,15 +21,15 @@ typedef struct SOCHostEnt {
     unsigned int **addrList;
 } SOCHostEnt;
 
-extern int func_0217ED38(int a);
+extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 
-unsigned int func_02199CE8(char *name)
+unsigned int NameToIp(char *name)
 {
     SOCHostEnt *hent;
     unsigned int ret;
 
-    ret = func_0217ED38((int)name);
+    ret = inet_addr((int)name);
     if (ret != (unsigned int)-1)
         return ret;
     hent = SOC_GetHostByName(name);

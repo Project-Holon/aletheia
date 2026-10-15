@@ -1,5 +1,5 @@
 /*
- * function: func_02076230
+ * function: CARDi_WaitForTask
  * address:  0x02076230
  * packet:   pkt_02076230
  * region:   arm9
@@ -76,7 +76,7 @@ extern u32 OS_DisableInterrupts(void);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern u32 OS_RestoreInterrupts(u32 state);
 
-BOOL func_02076230(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg)
+BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg)
 {
     u32 bak_psr = OS_DisableInterrupts();
 

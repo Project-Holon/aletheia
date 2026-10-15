@@ -1,5 +1,5 @@
 /*
- * function: func_0207DEA4
+ * function: G3X_GetBoxTestResult
  * address:  0x0207DEA4
  * packet:   pkt_0207DEA4
  * region:   arm9
@@ -54,7 +54,7 @@ typedef union {
 #define REG_CLIPMTX_RESULT_0_ADDR 0x04000640
 #define REG_VECMTX_RESULT_0_ADDR  0x04000680
 
-int func_0207DEA4(s32 *in)
+int G3X_GetBoxTestResult(s32 *in)
 {
     if (reg_G3X_GXSTAT & 1) {
         return -1;

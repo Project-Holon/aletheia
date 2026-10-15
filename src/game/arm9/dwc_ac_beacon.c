@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_beacon.c
  * unit:     yes
- * function: func_0205A938, func_0205AAB0, func_0205AB54, func_0205ABD4, func_0205AC50, func_0205ACE4, func_0205AE6C, func_0205AED4, func_0205AF5C
+ * function: DWCi_AC_GetBeacon, DWCi_AC_CheckNintendoSSID, func_0205AB54, CompareList, CompareListDiff, AddList, SetDataListTail, UpDateList, SortList
  * address:  0x0205A938
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -168,23 +168,22 @@ extern int strncmp(const char *s1, const char *s2, unsigned long n) __attribute_
 extern void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 extern int DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
-extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
-void func_0205A938(WMBssDesc *bssdesc);
-int func_0205AAB0(WMBssDesc *bssdesc);
 int func_0205AB54(WCMBssDesc *bssDesc);
-int func_0205ABD4(WMBssDesc *bssdesc, unsigned char num, ACSL *list);
-int func_0205AC50(WMBssDesc *bssdesc, ACWORK *wk);
-int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
-void func_0205AE6C(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
-void func_0205AED4(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
-void func_0205AF5C(int no, ACWORK *wk);
+extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
+void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
+int CompareList(WMBssDesc *bssdesc, unsigned char num, ACSL *list);
+int CompareListDiff(WMBssDesc *bssdesc, ACWORK *wk);
+int AddList(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
+void SetDataListTail(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
+void UpDateList(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
+void SortList(int no, ACWORK *wk);
 extern const WPATAG g_020A161C;
 
 
 /*
  * sdk:      DWCi_AC_GetBeacon (beacon.o)
  */
-void func_0205A938(WMBssDesc *bssdesc)
+void DWCi_AC_GetBeacon(WMBssDesc *bssdesc)
 {
     int ap_type = -1;
     unsigned char channel;
@@ -200,21 +199,21 @@ void func_0205A938(WMBssDesc *bssdesc)
             DWCi_AC_SetStealthChannel(bssdesc->channel);
         } else if (bssdesc->ssidLength == 1 && bssdesc->ssid[0] == 0x20) {
             DWCi_AC_SetStealthChannel(bssdesc->channel);
-            ap_type = func_0205ABD4(bssdesc, wk->searchListNum, wk->searchList);
+            ap_type = CompareList(bssdesc, wk->searchListNum, wk->searchList);
         } else {
-            ap_type = func_0205ABD4(bssdesc, wk->searchListNum, wk->searchList);
+            ap_type = CompareList(bssdesc, wk->searchListNum, wk->searchList);
         }
         break;
     case 4:
         channel = wk->bssDesc[wk->searchListNo].channel - 1;
-        ap_type = func_0205AC50(bssdesc, wk);
+        ap_type = CompareListDiff(bssdesc, wk);
         if (ap_type >= 0) {
             wk->findList[wk->searchListNo].find = 1;
         }
         break;
     case 5:
         channel = wk->searchChannel;
-        ap_type = func_0205ABD4(bssdesc, 1, &wk->searchList[wk->searchListNo]);
+        ap_type = CompareList(bssdesc, 1, &wk->searchList[wk->searchListNo]);
         if (ap_type >= 0) {
             wk->searchList[wk->searchListNo].find = 1;
         }
@@ -223,8 +222,8 @@ void func_0205A938(WMBssDesc *bssdesc)
         return;
     }
     if (ap_type >= 0) {
-        no = func_0205ACE4(ap_type, bssdesc, channel, wk);
-        func_0205AF5C(no, wk);
+        no = AddList(ap_type, bssdesc, channel, wk);
+        SortList(no, wk);
     }
 }
 
@@ -232,7 +231,7 @@ void func_0205A938(WMBssDesc *bssdesc)
 /*
  * sdk:      DWCi_AC_CheckNintendoSSID (beacon.o)
  */
-int func_0205AAB0(WMBssDesc *bssdesc)
+int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
@@ -281,7 +280,7 @@ int func_0205AB54(WCMBssDesc *bssDesc)
  * strncmp is declared pure: the object keeps loads of *bssdesc (and of wk)
  * live across the call, which only a side-effect-free callee allows.
  */
-int func_0205ABD4(WMBssDesc *bssdesc, unsigned char num, ACSL *list)
+int CompareList(WMBssDesc *bssdesc, unsigned char num, ACSL *list)
 {
     int i;
     int type;
@@ -305,7 +304,7 @@ int func_0205ABD4(WMBssDesc *bssdesc, unsigned char num, ACSL *list)
  * strncmp is declared pure: the object keeps loads of *bssdesc (and of wk)
  * live across the call, which only a side-effect-free callee allows.
  */
-int func_0205AC50(WMBssDesc *bssdesc, ACWORK *wk)
+int CompareListDiff(WMBssDesc *bssdesc, ACWORK *wk)
 {
     int i;
     int type;
@@ -335,7 +334,7 @@ static inline int IsBssidEqual(const void *a, const void *b)
  * strncmp is declared pure: the object keeps bssid[0] and findListNum live
  * across the call. The BSSID compare is an inline over const void pointers.
  */
-int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
+int AddList(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
 {
     int i;
     int find = -1;
@@ -348,13 +347,13 @@ int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *w
         }
     }
     if (find == -1) {
-        func_0205AE6C(type, bssdesc, channel, wk);
+        SetDataListTail(type, bssdesc, channel, wk);
         if (wk->findListNum < 10) {
             wk->findListNum++;
         }
         find = 10;
     } else {
-        func_0205AED4(find, bssdesc, channel, wk);
+        UpDateList(find, bssdesc, channel, wk);
     }
     return find;
 }
@@ -363,7 +362,7 @@ int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *w
 /*
  * sdk:      SetDataListTail (beacon.o)
  */
-void func_0205AE6C(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
+void SetDataListTail(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
 {
     WMBssDesc *bssdesc_end = &wk->bssDesc[10];
     ACFL *list_end = &wk->findList[10];
@@ -387,7 +386,7 @@ void func_0205AE6C(unsigned char type, WMBssDesc *bssdesc, unsigned char channel
 /*
  * sdk:      UpDateList (beacon.o)
  */
-void func_0205AED4(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
+void UpDateList(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
 {
     ACFL *list = &wk->findList[no];
     WMBssDesc *bssdesc_no = &wk->bssDesc[no];
@@ -412,7 +411,7 @@ void func_0205AED4(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk
 /*
  * sdk:      SortList (beacon.o)
  */
-void func_0205AF5C(int no, ACWORK *wk)
+void SortList(int no, ACWORK *wk)
 {
     int i;
     ACFL list_buf;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6BF8
+ * function: POKE_SUMMARY_MAIN_PrintAligned
  * address: 0x021B6BF8
  * packet: pkt_ov173_021B6BF8
  * region: ov173
@@ -33,7 +33,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, u8, u16);
-u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
+u32 POKE_SUMMARY_MAIN_PrintAligned(char *p, int index, u8 font, u16 w, int align, u8 y)
 {
     u8 x;
     u8 width;

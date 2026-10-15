@@ -1,5 +1,5 @@
 /*
- * function: func_0203F028
+ * function: GF_STANDARD_CompareString
  * address:  0x0203F028
  * packet:   pkt_0203F028
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern int STD_CompareString(const char *s1, const char *s2);
 
-int func_0203F028(const char *s1, const char *s2)
+int GF_STANDARD_CompareString(const char *s1, const char *s2)
 {
     return STD_CompareString(s1, s2);
 }

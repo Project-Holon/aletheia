@@ -26,14 +26,14 @@
  *   gNoGearPaletteFileIds     0x021F0134  data  ov030  a4
  *   gNoGearCharFileIds     0x021F0140  data  ov030  a4
  *   func_02040588  0x02040588  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   gNoGearBgTemplateMain     0x021F014C  data  ov030  a4
  *   gNoGearBgTemplateMid     0x021F016C  data  ov030  a4
  *   gNoGearBgTemplateBack     0x021F018C  data  ov030  a4
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_020403F4  0x020403F4  arm
  *   func_02030734  0x02030734  arm
  *   str_021F01C0   0x021F01C0  data   ov030  a1
@@ -90,11 +90,11 @@ extern void ARC_TOOL_DeleteHandle(struct ArchiveHandle *archive);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
 extern void func_02040588(unsigned char bgId, unsigned char visible);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void func_0204047C(int bgId, unsigned short priority);
 extern void func_02041300(u32 bgId, int a1, int a2, int a3, u8 width, u8 height, u8 mode);
 extern void func_020409B4(u32 bgId);
-extern void func_0203FB44(u32 bgId, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern void func_020403F4(u32 bgId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetWifiList(struct GameData *gameData);
@@ -165,7 +165,7 @@ void NO_GEAR_SetupBackgrounds(void)
     }
     {
         struct BgTemplate template = gNoGearBgTemplateMain;
-        func_0203FCA0(6, &template, 0);
+        BG_SYS_InitBgLayer(6, &template, 0);
         func_02040588((u8)6, 1);
         func_0204047C(6, 3);
         func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
@@ -173,7 +173,7 @@ void NO_GEAR_SetupBackgrounds(void)
     }
     {
         struct BgTemplate template = gNoGearBgTemplateMid;
-        func_0203FCA0(5, &template, 0);
+        BG_SYS_InitBgLayer(5, &template, 0);
         func_02040588((u8)5, 1);
         func_0204047C(5, 1);
         func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
@@ -181,7 +181,7 @@ void NO_GEAR_SetupBackgrounds(void)
     }
     {
         struct BgTemplate template = gNoGearBgTemplateBack;
-        func_0203FCA0(4, &template, 0);
+        BG_SYS_InitBgLayer(4, &template, 0);
         func_02040588((u8)4, 1);
         func_0204047C(4, 2);
         func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
@@ -206,7 +206,7 @@ void NO_GEAR_ReleaseGraphics(NoGearWork *work)
 {
     u32 charBlock = work->charBlock;
 
-    func_0203FB44(6, (u16)charBlock, (u16)(charBlock >> 16));
+    BG_SYS_DeleteHalf(6, (u16)charBlock, (u16)(charBlock >> 16));
     func_020403F4(4);
     func_020403F4(5);
     func_020403F4(6);

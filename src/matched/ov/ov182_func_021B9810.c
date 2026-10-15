@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021B9810
+ * function: THE_END_GRAPHIC_Dummy
  * address: 0x021B9810
  * packet: pkt_ov182_021B9810
  * region: ov182
@@ -12,4 +12,4 @@
  * symbols:
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-void func_021B9810(void *p){}
+void THE_END_GRAPHIC_Dummy(void *p){}

@@ -11,17 +11,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B348, func_0200B358, func_0200B364, func_0200B368
+ * function: BATTLE_COMPETITION_Init, BATTLE_COMPETITION_GetFromSave, GIMMICK_WORK_GetSize, GIMMICK_WORK_Init
  *
  * symbols:
  *   func_0200B3DC_File  0x020A71C4  data
  *   BATTLE_REC_Clear  0x0200B448  thumb
  *   MIi_CpuCopy32  0x02082A90  arm
+ *   GIMMICK_WORK_Reset  0x0200B37C  thumb
  *
  * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
  * label in the generated listing.
  *
- * func_0200B364 returns 0x94 and func_0200B368 clears 0x94 bytes and then
+ * GIMMICK_WORK_GetSize returns 0x94 and GIMMICK_WORK_Init clears 0x94 bytes and then
  * writes -1 into the first word, which is the "a block file opens with a
  * function returning its own size, and the constructor clears exactly that"
  * shape this range keeps producing.  The -1 is free: the compiler already
@@ -29,8 +30,8 @@
  *
  * This unit starts at 0x0200B348 rather than at the end of
  * src/matched/unit_0200ADB8.c because of a near miss between them:
- * func_0200B2A4, 162 bytes, which walks a list and pushes four fields of each
- * entry into the record through func_0200B254.  Every instruction is
+ * REGULATION_BuildParty, 162 bytes, which walks a list and pushes four fields of each
+ * entry into the record through REGULATION_Party_SetValue.  Every instruction is
  * reproduced and the size is right; what differs is that the original keeps
  * the constant 0 alive in r7 for the whole loop (it gets there as a copy of
  * the loop counter's initial value) and therefore rematerialises `(u8)i`
@@ -68,24 +69,24 @@ struct Rec94 {
     u8  unk84[0x10];
 };
 
-void func_0200B37C(struct Struct_0200B37C *p);
+void GIMMICK_WORK_Reset(struct Struct_0200B37C *p);
 
-void func_0200B348(struct Rec2FC *p)
+void BATTLE_COMPETITION_Init(struct Rec2FC *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec2FC));
 }
 
-void *func_0200B358(void *sys)
+void *BATTLE_COMPETITION_GetFromSave(void *sys)
 {
     return func_020071CC(sys, 0x2F);
 }
 
-u32 func_0200B364(void)
+u32 GIMMICK_WORK_GetSize(void)
 {
     return sizeof(struct Rec94);
 }
 
-void func_0200B368(struct Rec94 *p)
+void GIMMICK_WORK_Init(struct Rec94 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec94));
     p->unk00 = -1;

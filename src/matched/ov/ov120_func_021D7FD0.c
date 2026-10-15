@@ -18,6 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  arm  arm9
  */
 #include "../include/Obj00131.h"
 typedef unsigned char u8;
@@ -36,7 +37,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 func_02025C1C(u32,u32,u32);
 extern u32 func_02025C30(u32,u32,u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -58,10 +59,10 @@ void func_021D7FD0(char *p,void *r)
     if(a==c && b==d) {
         func_0201F048(((struct Obj00131 *)p)->f10,0,func_0200856C(r));
         a=func_0200856C(r);
-        func_0201F094(((struct Obj00131 *)p)->f10,1,a,func_02008570(r));
+        WORDSET_DeleteMsgdataF094(((struct Obj00131 *)p)->f10,1,a,func_02008570(r));
     } else {
         func_0201F048(((struct Obj00131 *)p)->f10,0,0);
-        func_0201F094(((struct Obj00131 *)p)->f10,1,0,0);
+        WORDSET_DeleteMsgdataF094(((struct Obj00131 *)p)->f10,1,0,0);
     }
     MSGDATA_ReadString(((struct Obj00131 *)p)->fC,34,((struct Obj00131 *)p)->f20);
     func_0201F250(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6228
+ * function: EGG_DEMO_MENU_WaitText
  * address: 0x021F6228
  * packet: pkt_ov215_021F6228
  * region: ov215
@@ -28,7 +28,7 @@ extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
-int func_021F6228(void *unused,char *p)
+int EGG_DEMO_MENU_WaitText(void *unused,char *p)
 {
     int result=0;
     switch(PRINTSYS_PrintStreamGetState(((struct Obj10940 *)p)->f50)) {

@@ -69,7 +69,7 @@
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   BMP_FillRect 0x02043AF4 arm
  *   gPmsivWordwinFileName 0x021C3C84 data a1
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   PMS_INPUT_VIEW_LoadBgPalette 0x021BAD2C thumb ov110
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_SetActorPos 0x0204B528 arm
@@ -149,7 +149,7 @@ extern void CLACT_DeleteActor(struct Obj *);
 
 extern void STRBUF_Delete(struct U16Vec *);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
 
@@ -273,7 +273,7 @@ void PMSIV_WORDWIN_Delete(struct PmsivWordwin *p) {
 
 /* Clears the list window and creates the actors. */
 void PMSIV_WORDWIN_Setup(struct PmsivWordwin *p) {
-    func_02040B94(2,32,0,42);
+    BG_SYS_InitRun(2,32,0,42);
     func_02041300(2,0,0,0,32,32,13);
     BMP_Clear(BMP_WIN_GetBmp(p->listWindow),0);
     BMP_WIN_MakeScreen(p->listWindow);

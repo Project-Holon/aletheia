@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB364",
+   "name": "BTL_REC_SEL_GRAPHIC_TickDisplay",
    "address": "0x021BB364",
    "kind": "game",
    "region": "ov214",

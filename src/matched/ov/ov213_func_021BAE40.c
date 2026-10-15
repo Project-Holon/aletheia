@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE40
+ * function: COMM_BTL_DEMO_GRAPHIC_DeleteG3d
  * address:  0x021BAE40
  * packet:   pkt_021BAE40
  * region:   ov213
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 
-void func_021BAE40(int *p)
+void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

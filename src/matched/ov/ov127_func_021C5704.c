@@ -1,5 +1,5 @@
 /*
- * function: func_021C5704
+ * function: WF2DMAP_OBJDRAW_RemoveActor
  * address:  0x021C5704
  * packet:   pkt_021C5704
  * region:   ov127
@@ -25,7 +25,7 @@ typedef signed int     s32;
 extern void func_021C41BC(u8 *p);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021C5704(u8 *p)
+void WF2DMAP_OBJDRAW_RemoveActor(u8 *p)
 {
     func_021C41BC(((struct Obj23045 *)p)->f4);
     MI_CpuFill8(p, 0, 0x14);

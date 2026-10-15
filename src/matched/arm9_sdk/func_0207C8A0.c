@@ -1,5 +1,5 @@
 /*
- * function: func_0207C8A0
+ * function: FX_InvAsync
  * address:  0x0207C8A0
  * packet:   pkt_0207C8A0
  * region:   arm9
@@ -78,7 +78,7 @@ static inline s64 CP_GetDivResult64(void)
 #define reg_CP_DIV_NUMER32  (*(volatile u32 *)0x04000290)
 #define reg_CP_DIV_REM32    (*(volatile u32 *)0x040002A8)
 
-void func_0207C8A0(fx32 denom)
+void FX_InvAsync(fx32 denom)
 {
     reg_CP_DIVCNT = 1;
     reg_CP_DIV_NUMER = (u64)0x1000 << 32;

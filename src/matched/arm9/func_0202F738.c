@@ -10,21 +10,21 @@
  * status:   EXACT*
  * symbols:
  *   func_02017E88  0x02017E88  thumb
- *   func_020212E4  0x020212E4  thumb
+ *   FILE_UTIL_Check12E4  0x020212E4  thumb
  */
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_020212E4(u16 v);
+extern u32 FILE_UTIL_Check12E4(u16 v);
 
 int func_0202F738(void *p, int a1)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (func_020212E4((u16)func_02017E88(p, i + 0x36, 0)) != 0) {
+        if (FILE_UTIL_Check12E4((u16)func_02017E88(p, i + 0x36, 0)) != 0) {
             return 0;
         }
     }

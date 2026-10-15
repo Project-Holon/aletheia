@@ -15,7 +15,7 @@
  * symbols:
  *   sFldVReqBlendFuncs     0x021DE6AC  data  ov021  a4
  *   func_02040588  0x02040588  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  * Addresses are Black-image addresses.
  */
 
@@ -36,7 +36,7 @@ typedef struct {
 
 extern void (*sFldVReqBlendFuncs[])(void *, int);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 void FLD_VREQ_VBlank(Rec *p)
 {
@@ -57,11 +57,11 @@ void FLD_VREQ_VBlank(Rec *p)
         }
     }
     if (p->b34 != 0) {
-        func_0207D534((volatile u16 *)0x0400006C, p->s36);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, p->s36);
         p->b34 = 0;
     }
     if (p->b35 != 0) {
-        func_0207D534((volatile u16 *)0x0400106C, p->s37);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, p->s37);
         p->b35 = 0;
     }
 }

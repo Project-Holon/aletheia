@@ -46,7 +46,7 @@
    }
   },
   {
-   "name": "func_0217ED64",
+   "name": "GSISocketSelect",
    "address": "0x0217ED64",
    "kind": "sdk",
    "region": "ov009",
@@ -58,7 +58,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217EE50",
+   "name": "SetSockBlocking",
    "address": "0x0217EE50",
    "kind": "sdk",
    "region": "ov009",
@@ -80,7 +80,7 @@
    }
   },
   {
-   "name": "func_0217F21C",
+   "name": "_strlwr",
    "address": "0x0217F21C",
    "kind": "sdk",
    "region": "ov009",
@@ -92,7 +92,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F264",
+   "name": "current_time",
    "address": "0x0217F264",
    "kind": "sdk",
    "region": "ov009",
@@ -104,7 +104,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F730",
+   "name": "nextlongrand",
    "address": "0x0217F730",
    "kind": "sdk",
    "region": "ov009",
@@ -116,7 +116,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F7AC",
+   "name": "Util_RandInt",
    "address": "0x0217F7AC",
    "kind": "sdk",
    "region": "ov009",
@@ -133,7 +133,7 @@
    }
   },
   {
-   "name": "func_0217F7D0",
+   "name": "QuartToTrip",
    "address": "0x0217F7D0",
    "kind": "sdk",
    "region": "ov009",
@@ -145,7 +145,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F8B4",
+   "name": "B64Decode",
    "address": "0x0217F8B4",
    "kind": "sdk",
    "region": "ov009",
@@ -167,7 +167,7 @@
    }
   },
   {
-   "name": "func_0217FA90",
+   "name": "B64Encode",
    "address": "0x0217FA90",
    "kind": "sdk",
    "region": "ov009",

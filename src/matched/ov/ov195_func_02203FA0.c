@@ -1,5 +1,5 @@
 /*
- * function: func_02203FA0
+ * function: SHINKA_DEMO_Create
  * address: 0x02203FA0
  * packet: pkt_ov195_02203FA0
  * region: ov195
@@ -19,11 +19,11 @@
  *   func_02017E1C 0x02017E1C thumb
  *   sub_02030734 0x02030734 arm
  *   FADE_Start 0x0204E720 arm
- *   func_02204DC4 0x02204DC4 thumb ov195
+ *   SHINKA_DEMO_StartBgm 0x02204DC4 thumb ov195
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   func_022051A8 0x022051A8 thumb ov195
+ *   SHINKA_DEMO_MainTask 0x022051A8 thumb ov195
  *   PROCSYS_Create 0x02031324 arm
- *   func_02204C24 0x02204C24 thumb ov195
+ *   SHINKA_DEMO_SetupScene 0x02204C24 thumb ov195
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_02208F40 0x02208F40 data a4
  */
@@ -44,14 +44,14 @@ extern struct U16Vec *STRBUF_Create(u32,u32);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void *sub_02030734(u32,u32,int,const char *,u16);
 extern void FADE_Start(u32,int,int,int);
-extern void func_02204DC4(u8 *,u8 *);
+extern void SHINKA_DEMO_StartBgm(u8 *,u8 *);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
-extern void func_022051A8(int task, char *p);
+extern void SHINKA_DEMO_MainTask(int task, char *p);
 extern void *PROCSYS_Create(int a0);
-extern void func_02204C24(struct App *,struct Scene *);
+extern void SHINKA_DEMO_SetupScene(struct App *,struct Scene *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern const char d_02208F40[];
-int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
+int SHINKA_DEMO_Create(struct Obj0203159C *owner,int unused,u8 *app)
 {
     char *p;
     sub_0203064C(1,0x94,0x10000);
@@ -71,14 +71,14 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->fAC=0;
     ((struct Obj00734 *)p)->f100=sub_02030734(((struct Obj00734 *)p)->f0,0x28,1,d_02208F40,0x242);
     FADE_Start(3,16,16,-16);
-    func_02204DC4(app,(u8 *)p);
-    ((struct Obj00734 *)p)->f38=GFL_USE_AddMainTask((u32)func_022051A8,(u32)p,1);
+    SHINKA_DEMO_StartBgm(app,(u8 *)p);
+    ((struct Obj00734 *)p)->f38=GFL_USE_AddMainTask((u32)SHINKA_DEMO_MainTask,(u32)p,1);
     ((struct Obj00734 *)p)->f10C=0;
     ((struct Obj00734 *)p)->f110=0;
     ((struct Obj00734 *)p)->f114=0;
     ((struct Obj00734 *)p)->f118=0;
     ((struct Obj00734 *)p)->f11C=(unsigned int)PROCSYS_Create(((struct Obj00734 *)p)->f0);
-    func_02204C24((struct App *)app,(struct Scene *)p);
+    SHINKA_DEMO_SetupScene((struct App *)app,(struct Scene *)p);
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00734 *)p)->f0);
     return 1;
 }

@@ -91,7 +91,7 @@
  *   PMSIV_FADE_StartBlend 0x021BC868 thumb ov110
  *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
  *   func_0207D63C 0x0207D63C arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   PMS_INPUT_SetSearchArg 0x021BF7D4 thumb ov110
  *   func_02040804 0x02040804 arm
  *   PMS_INPUT_VIEW_GetPrintQue 0x021BAC4C thumb ov110
@@ -189,7 +189,7 @@ extern int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
 extern void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
 extern int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void PMS_INPUT_SetSearchArg(struct PmsInputState *input, void *out);
 extern u8 PMS_INPUT_GetInitialCount(struct PmsInputState *input);
@@ -547,7 +547,7 @@ void PMSIV_CATEGORY_ApplyBgOffset(struct PmsivCategory *p)
     int offset;
     if (PMS_INPUT_GetBrowseMode(p->input) == 0) offset = -4;
     else offset = 0;
-    func_02041EE4(1, 0, offset);
+    BG_SYS_ResetSlot(1, 0, offset);
 }
 
 void PMSIV_CATEGORY_RefreshScreens(struct PmsivCategory *p)

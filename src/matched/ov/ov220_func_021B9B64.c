@@ -17,7 +17,7 @@
  * CLACT_RegisterCellAnim 0x0204AF28 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * MI_CpuFill8 0x02082BCC arm
- * func_021BA1E0 0x021BA1E0 thumb ov220
+ * TH_AWARD_GRAPHIC_GetActor 0x021BA1E0 thumb ov220
  * CLACT_CreateActor 0x0204B294 arm
  * CLACT_SetActorAnimSeq 0x0204B878 arm
  * CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -34,7 +34,7 @@ extern const u8 table[],coords[];
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteEx(void*,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void*,u32,u32,u32,u16),CLACT_RegisterCellAnim(void*,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void*),MI_CpuFill8(void*,u32,u32);
-extern u32 func_021BA1E0(u8 *p);
+extern u32 TH_AWARD_GRAPHIC_GetActor(u8 *p);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
@@ -58,7 +58,7 @@ void func_021B9B64(char *p)
             for(;i<((struct Obj01181 *)p)->f84;i++){
                 param.x=*(const s16*)((u32)coords+(u32)i*4);
                 param.y=*(const s16*)((u32)coords+(u32)i*4+2);
-                *(void**)((u32)p+(u32)i*4+0x94)=CLACT_CreateActor((void *)func_021BA1E0(*(void* *)&((struct Obj01181 *)p)->f8),((struct Obj01181 *)p)->f88,((struct Obj01181 *)p)->f8C,((struct Obj01181 *)p)->f90,&param,0,((struct Obj01181 *)p)->f0);
+                *(void**)((u32)p+(u32)i*4+0x94)=CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(*(void* *)&((struct Obj01181 *)p)->f8),((struct Obj01181 *)p)->f88,((struct Obj01181 *)p)->f8C,((struct Obj01181 *)p)->f90,&param,0,((struct Obj01181 *)p)->f0);
                 CLACT_SetActorAnimSeq(*(void**)((u32)p+(u32)i*4+0x94),0);
                 CLACT_SetActorAutoAnim(*(void**)((u32)p+(u32)i*4+0x94),1);
             }

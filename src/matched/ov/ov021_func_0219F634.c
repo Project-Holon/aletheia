@@ -30,7 +30,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   FLDMMDL_DRAW_RotateByCamera  0x0219F5D4  thumb  ov021
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   BILLBOARD_SetElemPos  0x0204F638  arm
  *   gMmdlDrawBillboardShift     0x021D854C  data  ov021  a4
@@ -73,7 +73,7 @@ extern u32 FLDMMDL_SysGetFieldMap(void *p);
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void FLDMMDL_DRAW_RotateByCamera(u32 a, s32 *b, s32 *c);
-extern void func_0207C9D0(Vec *, Vec *, Vec *);
+extern void VEC_Add(Vec *, Vec *, Vec *);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 
@@ -117,7 +117,7 @@ void FLDMMDL_DRAW_DrawBillboardOffset(u32 o)
     if (e->b2 == 0) {
         tmp = gMmdlDrawBillboardShift;
         FLDMMDL_DRAW_RotateByCamera(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)o)))), (s32 *)(&tmp), (s32 *)(&tmp));
-        func_0207C9D0(&pos, &tmp, &pos);
+        VEC_Add(&pos, &tmp, &pos);
     } else {
         pos.y -= 0xC000;
         pos.z += 0x8000;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4484
+ * function: POKETRADE_DEMO_COMMON_SetFrame
  * address:  0x021D4484
  * packet:   pkt_ov118_021D4484
  * region:   ov118
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D4484(u8 *p, u32 v) { ((struct Obj22656 *)p)->fF2C = v; }
+void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v) { ((struct Obj22656 *)p)->fF2C = v; }

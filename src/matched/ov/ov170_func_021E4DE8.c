@@ -40,6 +40,8 @@
  *   BOX2_UI_IsTopBarClosed  0x021EF480  thumb
  *   BOX2_UI_OpenListPack  0x021EF57C  thumb
  *   BOX2_UI_ShowWindowB  0x021EF68C  thumb
+ *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb  arm9
+ *   CURSOR_MOVE_SetState  0x020260F4  thumb  arm9
  */
 struct WinMgr;
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
@@ -47,8 +49,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
-extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);

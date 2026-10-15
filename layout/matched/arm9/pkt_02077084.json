@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02077084",
+   "name": "CARDi_DmaReadDone",
    "address": "0x02077084",
    "kind": "sdk",
    "region": "arm9",

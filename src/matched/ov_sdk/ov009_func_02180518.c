@@ -1,5 +1,5 @@
 /*
- * function: func_02180518
+ * function: gsUdpClosedRoutingCB
  * address:  0x02180518
  * packet:   pkt_ov009_02180518
  * region:   ov009
@@ -75,7 +75,7 @@ extern char g_021A38A8[];
 extern char g_021A38D0[];
 extern char g_021A390C[];
 
-void func_02180518(void *theConnection, int reason)
+void gsUdpClosedRoutingCB(void *theConnection, int reason)
 {
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aRemotePeer;

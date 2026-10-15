@@ -1,5 +1,5 @@
 /*
- * function: func_0205E1D0
+ * function: SearchAround
  * address:  0x0205E1D0
  * packet:   pkt_0205E1D0
  * region:   arm9
@@ -156,7 +156,7 @@ extern const u32 DWC_AC_SEARCH_CHANNEL[13];
 extern u8 WCM_Bssid_Any[];
 extern u8 WCM_Essid_Any[];
 
-u8 func_0205E1D0(ACWORK *wk)
+u8 SearchAround(ACWORK *wk)
 {
     u64 t = OS_GetTick() - wk->timeOut;
 

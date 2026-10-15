@@ -12,16 +12,16 @@
  * symbols:
  *   PARTICLE_KillAllEffects  0x02051620  arm
  *   NNS_GfdLoadVramManager  0x0206168C  arm
- *   func_020621FC  0x020621FC  arm
- *   func_02061824  0x02061824  arm
- *   func_02062594  0x02062594  arm
+ *   NNS_GfdFreeTexVram  0x020621FC  arm
+ *   NNSi_GfdSetVramManagerWork  0x02061824  arm
+ *   NNS_GfdFreePlttVram  0x02062594  arm
  *   func_020307B0  0x020307B0  arm
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   g_pParticleMan     0x02146A88  data
  *
  * Emitter teardown: release the two 0x40-entry resource tables (either as a
- * whole through NNS_GfdLoadVramManager / func_02061824, or entry by entry through
- * func_020621FC / func_02062594 depending on the flag byte at +0x258), drop
+ * whole through NNS_GfdLoadVramManager / NNSi_GfdSetVramManagerWork, or entry by entry through
+ * NNS_GfdFreeTexVram / NNS_GfdFreePlttVram depending on the flag byte at +0x258), drop
  * the block at +4 unless the +0x32 bit-0 bitfield says otherwise, unpublish
  * the emitter from the singleton's sixteen-slot table, release the 3D block
  * at +0x20 and free the record.
@@ -72,9 +72,9 @@ typedef unsigned int   u32;
 
 extern void PARTICLE_KillAllEffects(void);
 extern void NNS_GfdLoadVramManager(u32 *src);
-extern u32 func_020621FC(u32 h);
-extern void func_02061824(void *p);
-extern int func_02062594(u32 id);
+extern u32 NNS_GfdFreeTexVram(u32 h);
+extern void NNSi_GfdSetVramManagerWork(void *p);
+extern int NNS_GfdFreePlttVram(u32 id);
 extern u32 func_020307B0(void *p);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern struct G_02146A88 *g_pParticleMan;
@@ -91,18 +91,18 @@ void PARTICLE_DeleteSystem(u8 *p)
     } else if (p[0x258] & 2) {
         for (i = 0; i < 0x40; i++) {
             if (((u32 *)(p + 0x58))[i] != 0) {
-                func_020621FC(((u32 *)(p + 0x58))[i]);
+                NNS_GfdFreeTexVram(((u32 *)(p + 0x58))[i]);
                 *(u32 *)(p + i * 4 + 0x58) = z;
             }
         }
     }
 
     if (p[0x258] & 4) {
-        func_02061824(p + 0x158);
+        NNSi_GfdSetVramManagerWork(p + 0x158);
     } else if (p[0x258] & 8) {
         for (i = 0; i < 0x40; i++) {
             if (((u32 *)(p + 0x158))[i] != 0) {
-                func_02062594(((u32 *)(p + 0x158))[i]);
+                NNS_GfdFreePlttVram(((u32 *)(p + 0x158))[i]);
                 *(u32 *)(p + i * 4 + 0x158) = z;
             }
         }

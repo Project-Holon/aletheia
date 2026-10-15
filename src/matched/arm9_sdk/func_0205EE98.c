@@ -1,5 +1,5 @@
 /*
- * function: func_0205EE98
+ * function: db64
  * address:  0x0205EE98
  * packet:   pkt_0205EE98
  * region:   arm9
@@ -22,7 +22,7 @@ typedef union tagU4B {
 
 extern long codetovalue(unsigned char c);
 
-int func_0205EE98(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize)
+int db64(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize)
 {
     tagU4B u4b;
     unsigned long x;

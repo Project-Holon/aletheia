@@ -1,5 +1,5 @@
 /*
- * function: func_02076B2C
+ * function: CARD_IdentifyBackup
  * address:  0x02076B2C
  * packet:   pkt_02076B2C
  * region:   arm9
@@ -30,7 +30,7 @@ extern void CARDi_IdentifyBackupCore2(int type);
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 extern void CARDi_IdentifyBackupCore(CARDiCommon *p);
 
-BOOL func_02076B2C(int type)
+BOOL CARD_IdentifyBackup(int type)
 {
     if (type == 0)
     {

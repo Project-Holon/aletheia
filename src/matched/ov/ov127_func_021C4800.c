@@ -1,5 +1,5 @@
 /*
- * function: func_021C4800
+ * function: WF2DMAP_MAP_CopyEntries
  * address: 0x021C4800
  * packet: pkt_ov127_021C4800
  * region: ov127
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuCopy8(void *,const void *,u32);
-void func_021C4800(u8 *p,void *out) { MI_CpuCopy8(out,((struct Obj10469 *)p)->f4,((struct Obj10469 *)p)->f0 * ((struct Obj10469 *)p)->f2 * 4); }
+void WF2DMAP_MAP_CopyEntries(u8 *p,void *out) { MI_CpuCopy8(out,((struct Obj10469 *)p)->f4,((struct Obj10469 *)p)->f0 * ((struct Obj10469 *)p)->f2 * 4); }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02076AC0",
+   "name": "CARDi_RequestStreamCommand",
    "address": "0x02076AC0",
    "kind": "sdk",
    "region": "arm9",

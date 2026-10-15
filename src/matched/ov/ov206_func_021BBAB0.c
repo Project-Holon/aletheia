@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC0E4 0x021BC0E4 thumb ov206
+ *   ZUKAN_INFO_GetFormFlag 0x021BC0E4 thumb ov206
  *   func_021BC0B0 0x021BC0B0 thumb ov206
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -46,7 +46,7 @@ typedef struct S {
     u32 f1d8;
     u32 f1dc;
 } S;
-extern u32 func_021BC0E4(u32 a, u32 b);
+extern u32 ZUKAN_INFO_GetFormFlag(u32 a, u32 b);
 extern int func_021BC0B0(int v);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -69,7 +69,7 @@ void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
     if (p->f1c != 0)
         flag = 1;
     flag2 = p->f1c == 0 ? B_FALSE : B_TRUE;
-    v = func_021BC0E4(a, b);
+    v = ZUKAN_INFO_GetFormFlag(a, b);
     if (v == 0xFFFF) {
         w = p->f1d8;
         p->a174[idx] = CLACT_RegisterCharacter((void *)w, func_021BC0B0(a), 1, flag, p->id);

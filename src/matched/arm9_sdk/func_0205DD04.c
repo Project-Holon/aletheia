@@ -1,5 +1,5 @@
 /*
- * function: func_0205DD04
+ * function: WDS_End_CB
  * address:  0x0205DD04
  * packet:   pkt_0205DD04
  * region:   arm9
@@ -62,7 +62,7 @@ static struct {
     int gAppstate;
 } s_nspot;
 
-void func_0205DD04(void)
+void WDS_End_CB(void)
 {
     s_nspot.gAppstate = 9;
 }

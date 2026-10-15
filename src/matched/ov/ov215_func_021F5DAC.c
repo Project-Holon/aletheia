@@ -1,5 +1,5 @@
 /*
- * function: func_021F5DAC
+ * function: EGG_DEMO_MAIN_InitActors
  * address: 0x021F5DAC
  * packet: pkt_ov215_021F5DAC
  * region: ov215
@@ -20,7 +20,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_021F64FC 0x021F64FC thumb ov215
+ *   EGG_DEMO_GRAPHIC_GetClactBank2 0x021F64FC thumb ov215
  *   table 0x021F7124 data ov215
  */
 typedef unsigned short u16;
@@ -31,7 +31,7 @@ extern int CLACT_RegisterPaletteEx(void *, unsigned int, unsigned int, unsigned 
 extern int CLACT_RegisterCharacter(void *, unsigned int, unsigned int, unsigned int, unsigned short);
 extern int CLACT_RegisterCellAnim(void *, unsigned int, unsigned int, unsigned int);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern int func_021F64FC(char *p);
+extern int EGG_DEMO_GRAPHIC_GetClactBank2(char *p);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
@@ -45,7 +45,7 @@ struct Context {
     unsigned int objects[6];
     char tail[60];
 };
-void func_021F5DAC(int unused, struct Context *p)
+void EGG_DEMO_MAIN_InitActors(int unused, struct Context *p)
 {
     unsigned char i;
     void *h = func_020490F4(189, p->heap);
@@ -66,7 +66,7 @@ void func_021F5DAC(int unused, struct Context *p)
         tmp1 = tmp1 + (i * 4);
         out = (struct Context *)tmp1;
         tmp2 = (unsigned int)table[i];
-        o = (unsigned int)CLACT_CreateActor((void *)func_021F64FC((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
+        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
         out->objects[0] = o;
         CLACT_SetActorAutoAnim((struct Obj *)o, 0);
     }

@@ -54,11 +54,11 @@
  *   func_020276A0  0x020276A0  thumb
  *   func_02027698  0x02027698  thumb
  *   d_021DB40C  0x021DB40C  data
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   FIELD_MSGBG_CreateMenuItemsFromTable  0x02190A28  thumb  ov021
  *   FIELD_MSGBG_CreateMenuFuncCallback  0x02190938  thumb  ov021
@@ -88,6 +88,7 @@
  *   PARTY_SELECT_LIST_DeleteListWindow  0x021CD038  thumb  ov021
  */
 #include "field_msgbg_types.h"
+#include "poke_tool_param.h"
 
 struct Bank;
 struct GfFont;
@@ -180,10 +181,10 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern u32 func_0202769C(u32 a);
 extern u32 func_020276A0(u32 a);
 extern u32 func_02027698(void);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(void *owner);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(struct WordSet *p);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 extern void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -415,10 +416,10 @@ void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list)
         pos.x = i * 0x28 + 0x18;
         list->monIcon[0][i] = CLACT_CreateActor(list->actorBank, list->monIconRes[0][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
         mon = POKEPARTY_GetMember(list->party[0], i);
-        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-        form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
-        isEgg = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-        iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
+        species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
+        form = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0);
+        isEgg = (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES_OR_EGG, 0) == 0x28a) ? 1 : 0;
+        iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0), isEgg);
         CLACT_SetActorPaletteOffset(list->monIcon[0][i], (u8)iconKind, 1);
         CLACT_SetActorDrawEnable(list->monIcon[0][i], 0);
     }
@@ -428,10 +429,10 @@ void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list)
             pos.x = i * 0x28 + 0x18;
             list->monIcon[1][i] = CLACT_CreateActor(list->actorBank, list->monIconRes[1][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
             mon = POKEPARTY_GetMember(list->party[1], i);
-            species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-            form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
-            isEgg = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-            iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
+            species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
+            form = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0);
+            isEgg = (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES_OR_EGG, 0) == 0x28a) ? 1 : 0;
+            iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0), isEgg);
             CLACT_SetActorPaletteOffset(list->monIcon[1][i], (u8)iconKind, 1);
             CLACT_SetActorDrawEnable(list->monIcon[1][i], 0);
         }
@@ -525,7 +526,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
     for (i = 0; i < count0; i++) {
         species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(list->party[0], i), 6, 0);
         if (species != 0) {
-            if (func_0202136C(species) == 1) {
+            if (FILE_UTIL_Check136C(species) == 1) {
                 pos.alt = 1;
             } else {
                 pos.alt = 0;
@@ -540,7 +541,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
         for (i = 0; i < count1; i++) {
             species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(list->party[1], i), 6, 0);
             if (species != 0) {
-                if (func_0202136C(species) == 1) {
+                if (FILE_UTIL_Check136C(species) == 1) {
                     pos.alt = 1;
                 } else {
                     pos.alt = 0;
@@ -609,13 +610,13 @@ void PARTY_SELECT_LIST_InitMessageResources(PartySelectList *list)
     FieldMsgBg *msgBg = FIELDMAP_GetMsgBg(list->owner);
     list->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x54);
     list->msgBg = msgBg;
-    list->wordSet = func_0201EC64(list->heapId);
+    list->wordSet = GF_FONT_Create_EC64(list->heapId);
 }
 
 
 int PARTY_SELECT_LIST_FreeMessageResources(PartySelectList *list)
 {
-    func_0201ED04(list->wordSet);
+    WORDSET_DeleteStrbufED04(list->wordSet);
     return FIELD_MSGBG_DeleteMsgData(list->msgData);
 }
 
@@ -758,13 +759,13 @@ void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party)
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_IS_EGG, 0) != 0) {
             continue;
         }
-        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-        isNicknamed = POKE_TOOL_GetPartyValue(mon, 0xad, 0);
-        nickname = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
-        gender = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
+        species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
+        isNicknamed = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0);
+        nickname = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_LEVEL, 0);
+        gender = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0);
         MSGDATA_ReadString(list->msgData, 4, templateBuf);
         func_0201EFA4(list->wordSet, 0, nickname, 3, 0, 1);
         func_0201F250(list->wordSet, nameBuf, templateBuf);

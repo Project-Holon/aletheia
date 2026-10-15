@@ -1,7 +1,7 @@
 /*
  * file:     net_err_proc.c
  * unit:     yes
- * function: func_02010B98, func_02010BB8, func_02010C34
+ * function: GFL_NET_SAVE_DeleteScreenWork, GFL_NET_SAVE_CreateScreenWork, GFL_NET_SAVE_ScreenMain
  * address:  0x02010B98
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,7 +28,7 @@
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0205D074  0x0205D074  arm
+ *   DWC_UpdateConnection  0x0205D074  arm
  *   GAME_DATA_Delete  0x02012704  thumb
  *   OS_ResetSystem  0x02087BCC  arm
  */
@@ -55,10 +55,10 @@ extern void *PROCSYS_Create(int a0);
 extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern int func_0205D074(void);
-int func_02010B98(int a0, int a1, int a2, int a3);
-int func_02010BB8(void *ctx, int a1, int a2);
-int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx);
+extern int DWC_UpdateConnection(void);
+int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3);
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2);
+int GFL_NET_SAVE_ScreenMain(u32 a0, u32 *seq, u32 a2, u8 *ctx);
 extern u8 ov115_id[];
 extern u8 ov187_id[];
 extern u8 gNetSaveMainProc[];
@@ -66,7 +66,7 @@ extern u8 d_0220B294[];
 extern u8 gNetSaveRetryProc[];
 
 
-int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
+int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
 
 
 /*
@@ -86,10 +86,10 @@ int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete(
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010BB8.c \
- *       --func func_02010BB8 --addr 0x02010BB8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_CreateScreenWork.c \
+ *       --func GFL_NET_SAVE_CreateScreenWork --addr 0x02010BB8 --cc 1.1p1 --thumb
  */
-int func_02010BB8(void *ctx, int a1, int a2)
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2)
 {
     u8 *p;
 
@@ -115,12 +115,12 @@ int func_02010BB8(void *ctx, int a1, int a2)
  *           the overlay ids 0x73 / 0xBB (ov115_id, ov187_id) now resolve as
  *           `overlay_id` (id argument of PROCSYS_Push), and 0x0220B294
  *           resolves.  Two ABS32 sites are left, the overlay-resident procs
- *           0x021D6338 / 0x021D654C.  Both ALSO sit in func_02010AC4's pool
+ *           0x021D6338 / 0x021D654C.  Both ALSO sit in GFL_NET_SAVE_Main's pool
  *           (0x02010B84..0x02010B94), which would attest them as `literal`,
  *           but disasm.py prints both functions' pools as Thumb
  *           instructions, so the pool-word index never sees them.
  *           Integrator: seed these pools as .word and both sites here (and
- *           both in func_02010AC4) resolve.
+ *           both in GFL_NET_SAVE_Main) resolve.
  *           Seed round 10: both words are ov115 proc tables (three Thumb
  *           function pointers each, 0x021D6338 -> func_021D4BFC/4CE4/4D10,
  *           0x021D654C -> func_021D603C/6104/60D4), loaded with overlay id
@@ -134,7 +134,7 @@ int func_02010BB8(void *ctx, int a1, int a2)
  *           choice rests on the hint plus the overlay_id 0x73 site in this
  *           same function.  EXACT, seed round 10.
  *
- * net_save.c's save-SCREEN task step (record of func_02010BB8; *seq is the
+ * net_save.c's save-SCREEN task step (record of GFL_NET_SAVE_CreateScreenWork; *seq is the
  * step, ctx the record): polls the save proc's status (PROCSYS_Main),
  * drops to GFL_NET_ERR_ShowScreen(0) on states 0/2, then walks eight steps that start
  * overlay 0x73's save procs and overlay 0xBB's proc on the +0x180 request
@@ -142,7 +142,7 @@ int func_02010BB8(void *ctx, int a1, int a2)
  * spelling: the +0x194 flag is an if/else of two constant stores, which
  * lets the 1 already in r0 from the +0x188 store be reused.
  */
-int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
+int GFL_NET_SAVE_ScreenMain(u32 a0, u32 *seq, u32 a2, u8 *ctx)
 {
     int st;
     int flag;
@@ -222,7 +222,7 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
         return 1;
     }
     if (((struct Obj00645 *)ctx)->f4 == 1) {
-        func_0205D074();
+        DWC_UpdateConnection();
     }
     return 0;
 }

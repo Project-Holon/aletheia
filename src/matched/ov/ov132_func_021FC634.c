@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F96C4  0x021F96C4  thumb
+ *   STA_ACTING_StopBgm  0x021F96C4  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23270.h"
 
-extern void func_021F96C4(char *p);
+extern void STA_ACTING_StopBgm(char *p);
 
 int func_021FC634(int a, char **pp)
 {
-    func_021F96C4(((struct Obj23270 *)(*pp))->f34);
+    STA_ACTING_StopBgm(((struct Obj23270 *)(*pp))->f34);
     return 0;
 }

@@ -10,7 +10,7 @@
  * extent: two zero alignment bytes follow the compiled function.
  * symbols:
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_021CA4B4 0x021CA4B4 thumb ov128
  */
 #include "../include/Obj23081.h"
@@ -21,6 +21,6 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void func_021CA4B4(char *);
-int func_021C8354(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct Obj23082 *)q)->f34)==1) {func_02041EE4(2,0,0);func_02041EE4(3,0,0);func_021CA4B4(**(char ** *)&((struct Obj23081 *)p)->f14);return 1;}return 0;}
+int func_021C8354(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct Obj23082 *)q)->f34)==1) {BG_SYS_ResetSlot(2,0,0);BG_SYS_ResetSlot(3,0,0);func_021CA4B4(**(char ** *)&((struct Obj23081 *)p)->f14);return 1;}return 0;}

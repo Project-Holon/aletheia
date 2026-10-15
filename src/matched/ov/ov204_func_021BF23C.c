@@ -19,10 +19,11 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 #include "../include/Obj02540.h"
 
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Cfg;
@@ -44,7 +45,7 @@ extern void func_02041B6C(u32 bit);
 
 void func_021BF23C(char *p, void *a, int flag)
 {
-    unsigned int value = func_02012FFC();
+    unsigned int value = MSG_SPEED_GetWait();
     void *desc = ((struct Obj02540 *)p)->f1C;
     BMP_Clear(BMP_WIN_GetBmp(desc), 15);
     GF_FONT_SetTextColor(1, 2, 15);

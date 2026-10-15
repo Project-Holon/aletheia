@@ -1,5 +1,5 @@
 /*
- * function: func_02076A20
+ * function: CARDi_IdentifyBackupCore
  * address:  0x02076A20
  * packet:   pkt_02076A20
  * region:   arm9
@@ -72,7 +72,7 @@ typedef struct CARDiCommon
 extern u8 CARDi_backup_cache_page_buf[256];
 extern BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count);
 
-void func_02076A20(CARDiCommon *p)
+void CARDi_IdentifyBackupCore(CARDiCommon *p)
 {
     (void)CARDi_Request(p, 2, 1);
     p->cmd->src = 0;

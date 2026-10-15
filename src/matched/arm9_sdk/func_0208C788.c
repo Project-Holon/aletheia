@@ -1,5 +1,5 @@
 /*
- * function: func_0208C788
+ * function: PMi_DeleteList
  * address:  0x0208C788
  * packet:   pkt_0208C788
  * region:   arm9
@@ -26,7 +26,7 @@ typedef struct PMiGenCallbackInfo {
 unsigned long OS_DisableInterrupts(void);
 unsigned long OS_RestoreInterrupts(unsigned long state);
 
-void func_0208C788(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info)
+void PMi_DeleteList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info)
 {
     PMiGenCallbackInfo *pre;
     PMiGenCallbackInfo *p;

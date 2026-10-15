@@ -1,5 +1,5 @@
 /*
- * function: func_021C5814
+ * function: WF2DMAP_OBJDRAW_SetActorPos
  * address:  0x021C5814
  * packet:   pkt_ov127_021C5814
  * region:   ov127
@@ -27,7 +27,7 @@ typedef struct {
 typedef unsigned char  u8;
 extern void func_021C41DC(u8 *p, int x, int y);
 
-void func_021C5814(char *p, P2 v)
+void WF2DMAP_OBJDRAW_SetActorPos(char *p, P2 v)
 {
     func_021C41DC(((struct Obj23048 *)p)->f4, v.x, v.y);
 }

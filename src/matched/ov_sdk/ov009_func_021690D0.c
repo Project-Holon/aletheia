@@ -1,5 +1,5 @@
 /*
- * function: func_021690D0
+ * function: DWCi_SetGPStatus
  * address:  0x021690D0
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,19 +13,19 @@
  *
  * symbols:
  *   g_021AA860  0x021AA860  data
- *   func_0216AA70  0x0216AA70  arm  ov009
+ *   DWCi_CheckLogin  0x0216AA70  arm  ov009
  *   func_0218627C  0x0218627C  arm  ov009
  */
 
 #include "../include/G_FriendGlobal.h"
 
 extern struct FriendGlobal g_021AA860;
-extern int func_0216AA70(void);
+extern int DWCi_CheckLogin(void);
 extern int func_0218627C(void **connection, int status, const char *statusString, const char *locationString);
 
-int func_021690D0(int status, const char *statusString, const char *locString)
+int DWCi_SetGPStatus(int status, const char *statusString, const char *locString)
 {
-    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0 || func_0216AA70() == 0) {
+    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0 || DWCi_CheckLogin() == 0) {
         return 0;
     }
     if (status == -1) {

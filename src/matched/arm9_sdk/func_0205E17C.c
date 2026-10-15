@@ -33,14 +33,14 @@ typedef struct tagACWORK {
     unsigned char count;
 } tagACWORK;
 
-extern int func_0205D318(int type);
-extern signed char func_0205E818(int lap);
+extern int DWCi_AC_MakeSearchList(int type);
+extern signed char GetStartChannel(int lap);
 
 static unsigned char func_0205E17C(tagACWORK *wk)
 {
     wk->count = 0;
     wk->aroundCount++;
-    func_0205D318(0);
-    wk->searchChannel = func_0205E818(1);
+    DWCi_AC_MakeSearchList(0);
+    wk->searchChannel = GetStartChannel(1);
     return 3;
 }

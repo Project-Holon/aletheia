@@ -24,7 +24,7 @@
    ]
   },
   {
-   "name": "func_0201F094",
+   "name": "WORDSET_DeleteMsgdataF094",
    "address": "0x0201F094",
    "kind": "game",
    "region": "arm9",
@@ -47,9 +47,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F0F8",
+    "WORDSET_Set",
     "func_0201F104",
-    "func_0201F124",
+    "WORDSET_Callback_F124",
     "func_0201F134",
     "func_0201F140",
     "func_0201F14C",
@@ -59,8 +59,24 @@
     "func_0201F198",
     "func_0201F1B0",
     "func_0201F1C8",
-    "func_0201F1E0",
+    "WORDSET_DrawF1E0",
     "func_0201F230"
+   ],
+   "addresses": [
+    "0x0201F0F8",
+    "0x0201F104",
+    "0x0201F124",
+    "0x0201F134",
+    "0x0201F140",
+    "0x0201F14C",
+    "0x0201F158",
+    "0x0201F164",
+    "0x0201F184",
+    "0x0201F198",
+    "0x0201F1B0",
+    "0x0201F1C8",
+    "0x0201F1E0",
+    "0x0201F230"
    ]
   },
   {
@@ -92,7 +108,11 @@
    "status": "EXACT",
    "functions": [
     "func_0201F41C",
-    "func_0201F448"
+    "WORDSET_CheckF448"
+   ],
+   "addresses": [
+    "0x0201F41C",
+    "0x0201F448"
    ]
   },
   {
@@ -107,7 +127,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F47C"
+    "WORDSET_CheckF47C"
+   ],
+   "addresses": [
+    "0x0201F47C"
    ]
   },
   {

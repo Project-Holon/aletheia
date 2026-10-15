@@ -57,7 +57,7 @@
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   FIELD_BUILDMODEL_GetEntryWorldPos  0x0218C6D0  thumb  ov021
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FIELD_BUILDMODEL_CreateNodeFromBlock  0x0218C7F0  thumb  ov021
  *   sRecoveryBallOffsets  0x021DA098  data  ov021  a4
  *   FIELD_BUILDMODEL_PlayEntryAnim  0x0218C69C  thumb  ov021
@@ -250,7 +250,7 @@ extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem,
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 func_020307B0(void *block);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, Mtx33 *out);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 
 extern u8 ov021_id[];
 extern const SubProcData sCommErrorSubProcData;
@@ -523,7 +523,7 @@ void EVENT_RECOVERY_PlaceBall(RecoveryBallsWork *work)
         placement.scale.y = 0x1000;
         placement.scale.z = 0x1000;
         BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, &placement.rotation);
-        func_0207C9D0(&work->machinePos, &sRecoveryBallOffsets[i], &placement.pos);
+        VEC_Add(&work->machinePos, &sRecoveryBallOffsets[i], &placement.pos);
         work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
         work->ballsPlaced = work->ballsPlaced + 1;
         GFL_USE_PlaySeDefaultVolume(RECOVERY_SE_BALL_PLACED);
@@ -683,7 +683,7 @@ void EVENT_RECOVERY_PlacePartyBall(PartyRecoveryWork *work)
         placement.scale.y = 0x1000;
         placement.scale.z = 0x1000;
         BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, &placement.rotation);
-        func_0207C9D0(&work->machinePos, &sPartyRecoveryBallOffsets[i], &placement.pos);
+        VEC_Add(&work->machinePos, &sPartyRecoveryBallOffsets[i], &placement.pos);
         work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
         work->ballsPlaced++;
         GFL_USE_PlaySeDefaultVolume(RECOVERY_SE_BALL_PLACED);

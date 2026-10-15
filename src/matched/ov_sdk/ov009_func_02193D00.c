@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217EB9C 0x0217EB9C  arm
- *   func_0217EB2C 0x0217EB2C  arm
+ *   closesocket 0x0217EB2C  arm
  *   ClosePendingCallbacks 0x02194614  arm
  *   func_0217EAE0 0x0217EAE0  arm
  *   gGstatsSocket   0x021A57C8  data
@@ -24,7 +24,7 @@
 #include "../include/G_StatsConn.h"
 
 extern int func_0217EB9C(int sock, int how);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern void ClosePendingCallbacks(void);
 extern void func_0217EAE0(void *ptr);
 extern struct StatsSocket gGstatsSocket;
@@ -34,7 +34,7 @@ void CloseStatsConnection(void)
 {
     if (((int *)&gGstatsSocket)[1] != -1) {
         func_0217EB9C(((int *)&gGstatsSocket)[1], 2);
-        func_0217EB2C(((int *)&gGstatsSocket)[1]);
+        closesocket(((int *)&gGstatsSocket)[1]);
     }
     ((int *)&gGstatsSocket)[1] = -1;
     ClosePendingCallbacks();

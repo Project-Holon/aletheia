@@ -12,7 +12,7 @@
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   func_02062A98 0x02062A98 arm
  *   func_02062A4C 0x02062A4C arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -33,7 +33,7 @@ struct ArcFile;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 func_02020E60(u16, int);
+extern u32 FILE_UTIL_Get(u16, int);
 typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
@@ -58,11 +58,11 @@ void GSYNC_DISP_LoadIconResources(u8 *p)
     for (i = 0; i < 20; i++) {
         species = ((struct Obj *)p)->records[i].d;
         if (species) {
-            buf = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,2),((struct Obj03268 *)p)->f43C4);
+            buf = ARC_TOOL_LoadHandleMember(h,FILE_UTIL_Get(species,2),((struct Obj03268 *)p)->f43C4);
             func_02062A98(buf,(void **)(&out));
             MI_CpuCopy8(((struct Obj22951 *)out)->fC,p+0xbc+i*0x224,32);
             func_020307B0(buf);
-            buf2 = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,1),((struct Obj03268 *)p)->f43C4);
+            buf2 = ARC_TOOL_LoadHandleMember(h,FILE_UTIL_Get(species,1),((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
             MI_CpuCopy8(((struct Obj13981 *)out2)->f14,p+0xdc+i*0x224,512);
             func_020307B0(buf2);

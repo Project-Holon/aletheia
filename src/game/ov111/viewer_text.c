@@ -17,7 +17,7 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_0201F5BC  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -40,7 +40,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089F4  0x020089F4  thumb
- *   func_02025C9C  0x02025C9C  thumb
+ *   CURSOR_MOVE_GetTableKind  0x02025C9C  thumb
  *   d_021C876C     0x021C876C  data  a1
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   d_021C8768     0x021C8768  data  a2
@@ -107,26 +107,26 @@
  *   func_020419E4  0x020419E4  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_021C80B4  0x021C80B4  thumb
  *   func_021C8208  0x021C8208  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C88FC  0x021C88FC  data
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
  *   d_021C895C  0x021C895C  data
  *   d_021C89E0  0x021C89E0  data
  *   d_021C885C  0x021C885C  data
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02027624  0x02027624  thumb
  *   func_02027628  0x02027628  thumb
  *   func_0202762C  0x0202762C  thumb
@@ -1009,7 +1009,7 @@ extern void BMP_WIN_Init(u16 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02041B6C(u32 bit);
@@ -1031,7 +1031,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
-extern u32 func_02025C9C(u32 x);
+extern u32 CURSOR_MOVE_GetTableKind(u32 x);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_0201F35C(void *ctx, int n, u32 kind, u32 mode, u32 flag);
@@ -1094,22 +1094,22 @@ extern void CLACT_VBlankSystem(void);
 extern void func_020419E4(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work_021C70EC *), Work_021C70EC *p, int pri);
 extern void func_021C80B4(Work *p);
 extern void func_021C8208(Work *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_02030EAC(struct Node *n);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u8 frame, const BgTemplate *t, int mode);
-extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(u8 frame, const BgTemplate *t, int mode);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
 extern void func_020403F4(u32 i);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
@@ -1187,7 +1187,7 @@ void func_021C6000(Work_021C6000 *p)
         p->win[i] = (void *)BMP_WIN_Create(tbl[i][0], tbl[i][1], tbl[i][2], tbl[i][3], tbl[i][4], tbl[i][5], 1);
         BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 0);
     }
-    func_02040C14(7, 0, 1, 0);
+    BG_SYS_Init(7, 0, 1, 0);
     func_0201F5BC(4, 0x31, 0xD, p->f32D4, p->heap);
     func_02049B40(0x17, 5, 4, 0x1C0, 0x20, p->heap);
     func_02041B6C(7);
@@ -1261,7 +1261,7 @@ void func_021C61EC(Work_021C61EC *p, int k, int flush)
 
     bank = func_02045B38(0, 2, 0xBF, p->heap);
     if (func_020089F4(GAME_DATA_GetSaveBlock21(p->f24->f4))) {
-        str = func_02045EC0(bank, func_02025C9C(k));
+        str = func_02045EC0(bank, CURSOR_MOVE_GetTableKind(k));
     } else {
         str = func_02045EC0(bank, 0);
     }
@@ -1830,7 +1830,7 @@ void func_021C7130(Work *p, Parent_021C7130 *parent)
         STRBUF_GetChars(p->f2C[i]);
     }
     p->f28 = STRBUF_Create(0x68, 0x27);
-    p->f24 = func_0201EC74(8, 0x40, 0x27);
+    p->f24 = WORDSET_Create(8, 0x40, 0x27);
     p->fF4 = func_020056A0(func_021C70EC, (Work_021C70EC *)p, 0);
     p->f118 = 8;
     p->f144 = -1;
@@ -1851,7 +1851,7 @@ void func_021C71CC(Work *p)
         STRBUF_Delete(p->f2C[i]);
     }
     STRBUF_Delete(p->f28);
-    func_0201ED04(p->f24);
+    WORDSET_DeleteStrbufED04(p->f24);
     MSGDATA_Delete(p->f20);
     func_02030EAC(p->fF4);
     ARC_TOOL_DeleteHandle(p->f0);
@@ -1886,15 +1886,15 @@ void func_021C7228(Work_021C7228 *p)
     BgTemplates tmpl;
     u32 i;
 
-    func_0203F8F4(0x27);
+    BG_SYS_Create(0x27);
     bank = d_021C895C;
     func_0203FC28((struct DispConfig *)(&bank));
     tmpl = d_021C89E0;
     for (i = 0; i < 6; i++) {
         u32 v = d_021C885C[i];
-        func_0203FCA0(v, &tmpl.t[i], 0);
-        func_020414EC((u8)v);
-        func_02040B94(v, 0x20, 0, 0x27);
+        BG_SYS_InitBgLayer(v, &tmpl.t[i], 0);
+        BG_SYS_ClearSlot((u8)v);
+        BG_SYS_InitRun(v, 0x20, 0, 0x27);
         func_02040588(v, 1);
     }
     func_02040588(7, 0);
@@ -1913,7 +1913,7 @@ void func_021C72C8(Work_021C72C8 *p)
     for (i = 0; i < 6; i++) {
         func_020403F4((u8)d_021C885C[i]);
     }
-    func_0203F9B4();
+    BG_SYS_Delete();
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
 }

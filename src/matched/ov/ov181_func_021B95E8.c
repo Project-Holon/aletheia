@@ -1,5 +1,5 @@
 /*
- * function: func_021B95E8
+ * function: STAFF_ROLL_Exit
  * address:  0x021B95E8
  * packet:   pkt_ov181_021B95E8
  * region:   ov181
@@ -18,7 +18,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 
-int func_021B95E8(void *p)
+int STAFF_ROLL_Exit(void *p)
 {
     func_020315D4(p);
     func_020306F0(0x8e);

@@ -34,9 +34,9 @@
  *   SND_SetChannelVolume  0x02089638  arm
  *   SND_StopTimer  0x020894DC  arm
  *   SND_StartTimer  0x020894B4  arm
- *   func_0208C808  0x0208C808  arm
- *   func_0208C828  0x0208C828  arm
- *   func_0208C86C  0x0208C86C  arm
+ *   PM_PrependPreSleepCallback  0x0208C808  arm
+ *   PM_AppendPostSleepCallback  0x0208C828  arm
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm
  *   func_0208C884  0x0208C884  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
@@ -67,12 +67,12 @@ extern void NNS_FndAppendListObject(NNSFndList *list, void *node);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 tok);
 extern void SND_StartTimer(u32, u32, u32, u32);
-extern void func_0208C808(void *);
-extern void func_0208C828(void *);
+extern void PM_PrependPreSleepCallback(void *);
+extern void PM_AppendPostSleepCallback(void *);
 extern unsigned short SND_CalcChannelVolume(int dB);
 extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
 extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
-extern void func_0208C86C(void *p);
+extern void PM_DeletePreSleepCallback(void *p);
 extern void func_0208C884(void *p);
 extern u32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 a);
@@ -219,8 +219,8 @@ int NNS_SndStrmSetup(SndStrm *strm, int format, u32 bufferAddr, u32 length,
 void NNS_SndStrmStart(SndStrm *strm) {
     SND_StartTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
     if (strm->isStarted) return;
-    func_0208C808(&strm->alarm[0]);
-    func_0208C828(&strm->alarm[1]);
+    PM_PrependPreSleepCallback(&strm->alarm[0]);
+    PM_AppendPostSleepCallback(&strm->alarm[1]);
     strm->flags |= 2u;
 }
 
@@ -280,7 +280,7 @@ void NNS_SndStrmStop(SndStrm *strm)
     if (strm->isStarted) {
         u32 saved;
         SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
-        func_0208C86C(&strm->alarm[0]);
+        PM_DeletePreSleepCallback(&strm->alarm[0]);
         func_0208C884(&strm->alarm[1]);
         strm->isStarted = 0;
         saved = SND_GetCurrentCommandTag();

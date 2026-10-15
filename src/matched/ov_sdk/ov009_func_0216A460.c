@@ -1,5 +1,5 @@
 /*
- * function: func_0216A460
+ * function: DWCi_HandleGPError
  * address:  0x0216A460
  * packet:   pkt_ov009_0216A460
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      DWCi_HandleGPError (libdwcmatch.TWL.HYB.a(dwc_login.o))
  *
  * symbols:
- *   func_0216A3B8  0x0216A3B8  arm  ov009
+ *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  */
 
-extern void func_0216A3B8(int error, int errorCode);
+extern void DWCi_StopLogin(int error, int errorCode);
 
-int func_0216A460(int result)
+static int DWCi_HandleGPError(int result)
 {
 	int dwcError;
 	int errorCode;
@@ -42,6 +42,6 @@ int func_0216A460(int result)
 		errorCode = -20;
 		break;
 	}
-	func_0216A3B8(dwcError, errorCode - 61000);
+	DWCi_StopLogin(dwcError, errorCode - 61000);
 	return result;
 }

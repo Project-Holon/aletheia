@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02075DA0   0x02075DA0  arm
+ *   CARD_IsEnabled   0x02075DA0  arm
  *   OS_Terminate   0x02088234  arm
  *
  * Original (24 bytes):
@@ -22,12 +22,12 @@
  *   pop   {r3, pc}
  */
 
-extern void *func_02075DA0(void);
+extern void *CARD_IsEnabled(void);
 extern void OS_Terminate(void);
 
 void CARD_CheckEnabled(void)
 {
-    if (func_02075DA0() != 0)
+    if (CARD_IsEnabled() != 0)
         return;
     OS_Terminate();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC720
+ * function: ZUKAN_SEARCH_SCREEN_HandleInput
  * address:  0x021BC720
  * packet:   pkt_ov211_021BC720
  * region:   ov211
@@ -13,7 +13,7 @@
  *   TOUCHPANEL_GetCont   0x02035C38  arm
  *   func_020355D8   0x020355D8  arm
  *   KEY_GetTrg   0x020362DC  arm
- *   func_021C93C4   0x021C93C4  thumb ov212
+ *   ZUKAN_StartWipeOut   0x021C93C4  thumb ov212
  */
 #include "../include/Obj06700.h"
 
@@ -24,9 +24,9 @@ typedef unsigned int   u32;
 extern int  TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
 extern u32 KEY_GetTrg(void);
-extern void func_021C93C4(u32 heap);
+extern void ZUKAN_StartWipeOut(u32 heap);
 
-int func_021BC720(char *p)
+int ZUKAN_SEARCH_SCREEN_HandleInput(char *p)
 {
     u32 v = 1;
 
@@ -45,13 +45,13 @@ int func_021BC720(char *p)
         func_020355D8(0);
         v = 0;
         *(u32 *)(((struct Obj06700 *)p)->f0 + 8) = v;
-        func_021C93C4(0x7E);
+        ZUKAN_StartWipeOut(0x7E);
         return 3;
     }
     if (KEY_GetTrg() & 0x400) {
         func_020355D8(0);
         *(u32 *)(((struct Obj06700 *)p)->f0 + 8) = v;
-        func_021C93C4(0x7E);
+        ZUKAN_StartWipeOut(0x7E);
         return 3;
     }
     return 4;

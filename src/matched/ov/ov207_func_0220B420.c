@@ -1,5 +1,5 @@
 /*
- * function: func_0220B420
+ * function: ZUKAN_TOROKU_GRAPHIC_Update
  * address: 0x0220B420
  * packet: pkt_ov207_0220B420
  * region: ov207
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_0220B420(void *a0){}
+void ZUKAN_TOROKU_GRAPHIC_Update(void *a0){}

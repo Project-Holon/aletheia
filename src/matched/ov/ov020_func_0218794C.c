@@ -18,7 +18,7 @@
  *   func_02062A4C  0x02062A4C  arm
  *   func_02040B1C  0x02040B1C  arm
  *   func_02062B30  0x02062B30  arm
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 
@@ -34,7 +34,7 @@ u32 func_020307B0(void *p);
 s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 int func_02062B30(void *file, void **out);
-void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
+void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 void ARC_TOOL_DeleteHandle(void *x);
 
 void EL_SCOREBOARD_LoadSeasonGraphics(int sel, int b)
@@ -72,7 +72,7 @@ void EL_SCOREBOARD_LoadSeasonGraphics(int sel, int b)
     func_020307B0(v);
     v = ARC_TOOL_LoadHandleMember(x, i2, b);
     func_02062B30(v, (void **)(&l_4));
-    func_020409E0(3, l_4 + 3, l_4[2], 0);
+    BG_SYS_PushTileSource(3, l_4 + 3, l_4[2], 0);
     func_020307B0(v);
     ARC_TOOL_DeleteHandle(x);
 }

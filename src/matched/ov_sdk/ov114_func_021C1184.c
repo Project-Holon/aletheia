@@ -18,7 +18,7 @@
  *   d_021CE75C    0x021CE75C  data  a4
  *   d_021CE7B0    0x021CE7B0  data  a4
  *   sFuncNameGhiEncyptorSetRootCAList    0x021CE6AE  data  a1
- *   func_020948E0 0x020948E0  arm
+ *   strcmp 0x020948E0  arm
  *   ghiEncryptorSetTwlRootCA 0x021C137C  arm
  *   func_0217D254 0x0217D254  arm
  */
@@ -28,14 +28,14 @@ extern char d_021CE75C[];
 extern char d_021CE7B0[];
 extern char sFuncNameGhiEncyptorSetRootCAList[];
 
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern int ghiEncryptorSetTwlRootCA(char *url, void *theRootCAList);
 extern void func_0217D254(int, int, int, void *, ...);
 
 int ghiEncyptorSetRootCAList(int ctx, int arg)
 {
     if (arg != 0 && ctx != 0) {
-        if (func_020948E0((const char *)ctx, d_021CE758) != 0)
+        if (strcmp((const char *)ctx, d_021CE758) != 0)
             goto done;
     }
     func_0217D254(8, 4, 1, d_021CE75C, d_021CE7B0, sFuncNameGhiEncyptorSetRootCAList, 0x74, ctx, arg);

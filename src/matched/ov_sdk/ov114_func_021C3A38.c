@@ -12,11 +12,11 @@
  * sdk:      ghiParseURL (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_020949F4  0x020949F4  arm
- *   func_02094A60  0x02094A60  arm
- *   func_02094A28  0x02094A28  arm
- *   func_020964E0  0x020964E0  arm
- *   func_0217F1E0  0x0217F1E0  arm   ov009
+ *   strncmp  0x020949F4  arm
+ *   strcspn  0x02094A60  arm
+ *   strchr  0x02094A28  arm
+ *   atoi  0x020964E0  arm
+ *   goastrdup  0x0217F1E0  arm   ov009
  *   sGhttpHttp2     0x021CEFDC  data
  *   sGhttpHttps3     0x021CEFE4  data
  *   sGhttpUrlServerTerminators     0x021CEFF0  data
@@ -34,13 +34,13 @@ typedef struct GHIConnection {
     int ssl;
 } GHIConnection;
 
-extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
+extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 typedef unsigned char  u8;
-extern int func_02094A60(const u8 *s, const u8 *reject);
-extern char *func_02094A28(const char *, int);
+extern int strcspn(const u8 *s, const u8 *reject);
+extern char *strchr(const char *, int);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
-extern char *func_0217F1E0(char *);
+extern int atoi(u32 a0);
+extern char *goastrdup(char *);
 extern char sGhttpHttp2[];
 extern char sGhttpHttps3[];
 extern char sGhttpUrlServerTerminators[];
@@ -61,26 +61,26 @@ GHIBool ghiParseURL(GHIConnection *connection)
     URL = connection->url;
     if (URL == 0)
         return GHI_FALSE;
-    if (func_020949F4((const unsigned char *)URL, (const unsigned char *)sGhttpHttp2, 7) == 0) {
+    if (strncmp((const unsigned char *)URL, (const unsigned char *)sGhttpHttp2, 7) == 0) {
         connection->ssl = 0;
         URL += 7;
-    } else if (func_020949F4((const unsigned char *)URL, (const unsigned char *)sGhttpHttps3, 8) == 0) {
+    } else if (strncmp((const unsigned char *)URL, (const unsigned char *)sGhttpHttps3, 8) == 0) {
         connection->ssl = 1;
         URL += 8;
     } else {
         return GHI_FALSE;
     }
-    nIndex = func_02094A60((const u8 *)URL, (const u8 *)sGhttpUrlServerTerminators);
+    nIndex = strcspn((const u8 *)URL, (const u8 *)sGhttpUrlServerTerminators);
     tempChar = URL[nIndex];
     URL[nIndex] = 0;
-    connection->server = func_0217F1E0(URL);
+    connection->server = goastrdup(URL);
     if (connection->server == 0)
         return GHI_FALSE;
     URL[nIndex] = tempChar;
     URL += nIndex;
     if (*URL == ':') {
         URL++;
-        connection->port = (unsigned short)func_020964E0((u32)URL);
+        connection->port = (unsigned short)atoi((u32)URL);
         if (connection->port == 0)
             return GHI_FALSE;
         while (*++URL != 0 && *URL != '/')
@@ -92,9 +92,9 @@ GHIBool ghiParseURL(GHIConnection *connection)
     }
     if (*URL == 0)
         URL = sGhttpRootPath;
-    path = func_0217F1E0(URL);
+    path = goastrdup(URL);
     connection->path = path;
-    while ((p = func_02094A28(path, ' ')) != 0) {
+    while ((p = strchr(path, ' ')) != 0) {
         *p = '+';
         path = connection->path;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC890
+ * function: ZUKAN_SEARCH_SCREEN_Tick
  * address:  0x021BC890
  * packet:   pkt_021BC890
  * region:   ov211
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 
-void func_021BC890(void)
+void ZUKAN_SEARCH_SCREEN_Tick(void)
 {
     func_02041F6C(3, 4, 0x80);
     func_02041F6C(3, 7, 0x80);

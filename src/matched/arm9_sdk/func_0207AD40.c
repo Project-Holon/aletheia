@@ -1,5 +1,5 @@
 /*
- * function: func_0207AD40
+ * function: MTX_Identity22_
  * address:  0x0207AD40
  * packet:   pkt_0207AD40
  * region:   arm9
@@ -18,7 +18,7 @@
  *   (none)
  */
 
-asm void func_0207AD40(void)
+asm void MTX_Identity22_(void)
 {
     mov r1, #0
     mov r2, #0x1000

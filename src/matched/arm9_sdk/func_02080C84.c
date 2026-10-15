@@ -1,5 +1,5 @@
 /*
- * function: func_02080C84
+ * function: GX_SendFifo48B
  * address:  0x02080C84
  * packet:   pkt_02080C84
  * region:   arm9
@@ -19,7 +19,7 @@
  *   (none)
  */
 
-asm void func_02080C84(void)
+asm void GX_SendFifo48B(void)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1, {r2, r3, r12}

@@ -1,7 +1,7 @@
 /*
  * file:     subway_map_graphic.c
  * unit:     yes
- * function: func_021B95A0, func_021B9718, func_021B9788, func_021B9820, func_021B9824, func_021B9898, func_021B989C, func_021B9940, func_021B99E8, func_021B9A44, func_021B9A58, func_021B9A6C, func_021B9ACC, func_021B9B04, func_021B9B08, func_021B9B10, func_021B9B50, func_021B9B6C, func_021B9B74, func_021B9B7C
+ * function: func_021B95A0, func_021B9718, func_021B9788, func_021B9820, func_021B9824, func_021B9898, func_021B989C, func_021B9940, func_021B99E8, func_021B9A44, func_021B9A58, func_021B9A6C, func_021B9ACC, func_021B9B04, func_021B9B08, func_021B9B10, func_021B9B50, func_021B9B6C, func_021B9B74, func_021B9B7C, func_021B9BE8
  * address:  0x021B95A0
  * region:   ov224
  * compiler: dsi/1.1p1
@@ -12,6 +12,8 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * Addresses are Black-image addresses.
+ *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -20,7 +22,7 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -66,8 +68,7 @@
  *   vram 0x021B9CA0 data
  *   func_020307B0 0x020307B0 arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_021B9BE8 0x021B9BE8 thumb ov224
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   config 0x021B9C54 data
@@ -87,6 +88,9 @@
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
+ *   G3D_SYSTEM_Exit  0x02046788  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
 #include "../../matched/include/Obj06730.h"
 #include "../../matched/include/Obj14799.h"
@@ -142,7 +146,7 @@ extern void *func_020056A0(u32,u32,u32);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0207D518(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
@@ -180,12 +184,11 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void func_0201DD60(void);
 extern u32 func_020307B0(void *p);
 extern void func_0201DD68(void);
-extern void func_021B9BE8(u32 *p);
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
@@ -196,6 +199,8 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,unsigned short,u32,void(*)(void));
 extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,void *,void *,void *,u32);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(u32 x);
 int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args);
 int func_021B9718(void *a,int b,int c,char *p);
 int func_021B9788(void *a,unsigned *state,int b,char *p);
@@ -216,6 +221,7 @@ void func_021B9B50(char *p);
 void func_021B9B6C(void *a0);
 void func_021B9B74(void *a0);
 void func_021B9B7C(void **p,u32 heap);
+void func_021B9BE8(u32 *p);
 extern const struct Entry d_021B9C04[];
 extern struct Assets d_021B9D40[];
 extern u16 table_021B9C80[][4];
@@ -228,10 +234,12 @@ extern u32 vecA[],vecB[],vecC[];
 
 
 
+
 static inline void SetMode(Mode mode) {
  *(volatile u32 *)0x04001000 &= 0xffff1fff;
  *(volatile u32 *)0x04001000 |= mode<<15;
 }
+
 
 
 
@@ -261,7 +269,7 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  BG_SYS_ClearSubBgPlanes();
  do {
   row=&d_021B9C04[i]; id=row->id;
-  func_0203FCA0((u8)id,&row->bg,(u8)row->kind);
+  BG_SYS_InitBgLayer((u8)id,&row->bg,(u8)row->kind);
   func_020414AC(id);
   func_02040588(id,row->visible);
   i++;
@@ -284,6 +292,7 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
 
 
 
+
 /*
  * lever: enum do-loop with unsigned bound retains one table iteration; unsigned for-loop folds it, enum for-loop adds an entry guard.
  * volatile: sub-display blend/control reads and writes 021B973C-021B9746.
@@ -300,6 +309,7 @@ int func_021B9718(void *a,int b,int c,char *p)
     func_020315D4(a); func_020306F0(136);
     return 1;
 }
+
 
 
 
@@ -328,7 +338,9 @@ int func_021B9788(void *a,unsigned *state,int b,char *p)
 
 
 
+
 void func_021B9820(void) {}
+
 
 
 
@@ -348,7 +360,9 @@ void func_021B9824(u16 *work)
 
 
 
+
 void func_021B9898(char *unused) {}
+
 
 
 
@@ -358,9 +372,11 @@ static inline void G2_SetBG0Priority(int priority) {
 
 
 
+
 static inline void G3X_SetShading(GXShading shading) {
     DISP = (u16)((DISP & ~(2 | 0x1000 | 0x2000)) | (shading << 1));
 }
+
 
 
 
@@ -371,10 +387,12 @@ static inline void G3X_AntiAlias(int enable) {
 
 
 
+
 static inline void G3X_AlphaTest(int enable,int ref) {
     if(enable) { DISP = (u16)((DISP & ~(0x1000|0x2000)) | 4); *(volatile u16 *)0x04000340 = (u16)ref; }
     else DISP &= (u16)~(4|0x1000|0x2000);
 }
+
 
 
 
@@ -385,10 +403,12 @@ static inline void G3X_AlphaBlend(int enable) {
 
 
 
+
 static inline void G3X_EdgeMarking(int enable) {
     if(enable) DISP = (u16)((DISP & ~(0x1000|0x2000)) | 32);
     else DISP &= (u16)~(32|0x1000|0x2000);
 }
+
 
 
 
@@ -412,11 +432,14 @@ void func_021B989C(void)
 
 
 
+
 static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
 
 
 
+
 static inline void G2S_BlendNone(void) { *(volatile u16 *)0x04001050 = 0; }
+
 
 
 
@@ -426,9 +449,11 @@ static inline void GX_SetVisibleWnd(int window) {
 
 
 
+
 static inline void GXS_SetVisibleWnd(int window) {
     *(volatile u32 *)0x04001000 = (u32)((*(volatile u32 *)0x04001000 & ~0xE000) | (window << 13));
 }
+
 
 
 
@@ -456,6 +481,7 @@ void *func_021B9940(u32 swap, u32 heap)
 
 
 
+
 void func_021B99E8(char *p)
 {
     func_02030EAC(((struct Obj26110 *)p)->fC);
@@ -473,6 +499,7 @@ void func_021B99E8(char *p)
 
 
 
+
 void func_021B9A44(void *p)
 {
     void func_021B9B6C(void *);
@@ -480,6 +507,7 @@ void func_021B9A44(void *p)
     func_021B9B6C((char *)p + 4);
     func_021B9B04(p);
 }
+
 
 
 
@@ -493,36 +521,41 @@ void func_021B9A58(void *unused, char *p)
 }
 
 
+
 void func_021B9A6C(void *p, u32 heap)
 {
     u32 i = 0;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)config);
     for (; i < 2; i++) {
         struct Record *r = &table_021B9CD0[i];
         u32 id = r->id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
         func_020414AC(id);
         func_02040588(id, r->visible);
     }
 }
 
 
+
 void func_021B9ACC(void *p) {
     u32 i;
     for (i=0; i<2; i++) func_020403F4((u8)(*(const u32 *)(d_021B9CD0+i*44)));
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p,0,4);
 }
+
 
 
 void func_021B9B04(void *a0) {}
 
 
+
 void func_021B9B08(void *a0) { func_020419E4(); }
+
 
 
 
@@ -538,6 +571,7 @@ void func_021B9B10(unsigned char *p, int a, int b)
 
 
 
+
 void func_021B9B50(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26111 *)p)->f0));
@@ -546,10 +580,13 @@ void func_021B9B50(char *p)
 }
 
 
+
 void func_021B9B6C(void *a0) { CLACT_DrawSystem(); }
 
 
+
 void func_021B9B74(void *a0) { CLACT_VBlankSystem(); }
+
 
 
 void func_021B9B7C(void **p,u32 heap)
@@ -557,4 +594,10 @@ void func_021B9B7C(void **p,u32 heap)
     G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021B989C);
     *p = G3D_CAMERA_Create(0,cfg[6],cfg[7],0x1555,0,0x1000,0x400000,0,
         vecA,vecB,vecC,heap);
+}
+
+
+void func_021B9BE8(u32 *p)
+{
+    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

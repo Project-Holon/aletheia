@@ -1,5 +1,5 @@
 /*
- * function: func_0205A8C8
+ * function: IsValidApnum
  * address:  0x0205A8C8
  * packet:   pkt_0205A8C8
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_0205A8C8(unsigned char *apnum)
+int IsValidApnum(unsigned char *apnum)
 {
     int i;
 

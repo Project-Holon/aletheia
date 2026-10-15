@@ -32,7 +32,7 @@
  *   STRBUF_ToChars 0x02045A38 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02025BEC 0x02025BEC thumb
+ *   BMP_OAM_Check5BEC 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   func_021D67BC 0x021D67BC thumb ov175
@@ -64,7 +64,7 @@
  *   func_021DA5B0 0x021DA5B0 thumb ov175
  *   func_021DA6B8 0x021DA6B8 thumb ov175
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02009EC8 0x02009EC8 thumb
+ *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  */
 typedef unsigned long u32;
 typedef unsigned short u16;
@@ -99,7 +99,7 @@ extern void *func_02045EC0(struct MsgBank *, u32);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
+extern unsigned int BMP_OAM_Check5BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern int func_021D67BC(char *, u16);
@@ -126,7 +126,7 @@ extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot);
 extern int func_021DA6B8(char *p, u32 *out);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern void *func_02009EC8(void *sys);
+extern void *TRADE_HISTORY_GetFromSave(void *sys);
 #define P(k) (*(int *)(p + (k)))
 #define Q(k) (*(int *)(q + (k)))
 #define TIMER (*(u32 *)(p + 0xe0))
@@ -208,11 +208,11 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
                 if ((u8)data[0x1d] == 0) data[0x1c] = 0; else data[0x1c] = 8;
                 fixed++;
             }
-            if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
+            if (!BMP_OAM_Check5BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0; fixed++;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) { PMSI_PARAM_InitSentence(data + 0x38, 1); fixed++; }
-            if (fixed == 0) func_02009EC8(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
+            if (fixed == 0) TRADE_HISTORY_GetFromSave(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
             TIMEOUT = 0; *state = 5;
         }
         timed = 1; break;

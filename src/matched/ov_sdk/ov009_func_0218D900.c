@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02193734  0x02193734  arm  ov009
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_021843E8  0x021843E8  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
@@ -27,7 +27,7 @@ struct GPIKey {
 };
 
 extern void func_02193734(int *p, int b);
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *func_02184208(void *array, int n);
 extern void func_0217EAE0(void *ptr);
@@ -44,12 +44,12 @@ int func_0218D900(void **connection, void *keys, char *keyName, char *newKeyValu
         func_02193734((int *)connection, (int)g_021A4D90);
         return 2;
     }
-    aKey.name = func_0217F1E0(keyName);
+    aKey.name = goastrdup(keyName);
     anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
         func_0217EAE0(aKeyFound->value);
-        aKeyFound->value = func_0217F1E0(newKeyValue);
+        aKeyFound->value = goastrdup(newKeyValue);
     }
     func_0217EAE0(aKey.name);
     aKey.name = 0;

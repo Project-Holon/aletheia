@@ -14,10 +14,10 @@
  *   BGWINFRM_SetFrameData 0x0202CAC4 thumb
  *   BGWINFRM_ChangePalette 0x0202CE50 thumb
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
- *   func_0204162C 0x0204162C arm
+ *   BG_SYS_GetBuf 0x0204162C arm
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   gVsMultiListSrcName 0x021F78C0 data a4
  */
@@ -41,10 +41,10 @@ extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern u32 func_0204162C(int);
+extern u32 BG_SYS_GetBuf(int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 void VS_MULTI_LIST_CreateBgFrames(struct P *p)
 {
@@ -56,14 +56,14 @@ void VS_MULTI_LIST_CreateBgFrames(struct P *p)
         BGWINFRM_AddFrame(p->window, i + 6, 0, 16, 6);
         BGWINFRM_PutBmpWin(p->window, i + 6, p->images[i].data);
     }
-    palette = (u8 *)func_0204162C(1);
+    palette = (u8 *)BG_SYS_GetBuf(1);
     buf = func_02030734(0x8071, 0xc0, 0, gVsMultiListSrcName, 0x606);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + i * 64, buf + i * 32, 32);
     for (i = 0; i < 6; i++) if (p->mons[i]) BGWINFRM_SetFrameData(p->window, i, buf);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + (i + 18) * 64, buf + i * 32, 32);
     for (i = 0; i < 6; i++) if (!p->mons[i]) BGWINFRM_SetFrameData(p->window, i, buf);
     func_020307B0(buf);
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     if (((struct Obj21995 *)(p->parent))->f8 == 0) {
         for (i = 3; i < 6; i++) if (p->mons[i]) BGWINFRM_ChangePalette(p->window, i, 0, 0, 16, 6, 5);
     } else {

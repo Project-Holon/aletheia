@@ -13,7 +13,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C258  0x0200C258  thumb
+ *   BEACON_CountFlags  0x0200C258  thumb
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetMiscSave(int *p);
 struct Blk34;
-extern u32 func_0200C258(struct Blk34 *p);
+extern u32 BEACON_CountFlags(struct Blk34 *p);
 
 int SCRCMD_WORK_CmdGetMiscCount(int a0, int a1)
 {
@@ -41,7 +41,7 @@ a0 = t5 + 0;
 loc_0215ACB8:
     p = GAME_DATA_GetMiscSave((int *)v0);
 loc_0215ACBC:
-    a0 = func_0200C258(p);
+    a0 = BEACON_CountFlags(p);
 loc_0215ACC0:
 *t4 = a0;
 a0 = 0;

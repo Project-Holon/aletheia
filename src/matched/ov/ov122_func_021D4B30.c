@@ -1,5 +1,5 @@
 /*
- * function: func_021D4B30
+ * function: INTRUDE_COMM_VIEW_CheckExitRequest
  * address: 0x021D4B30
  * packet: pkt_ov122_021D4B30
  * region: ov122
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4244 0x021D4244 thumb ov122
+ *   INTRUDE_COMM_VIEW_SetCallback 0x021D4244 thumb ov122
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *   GAME_COMM_GetKind  0x02026454  thumb  arm9
@@ -19,15 +19,15 @@ struct Ctx;
 extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 extern u32 GAME_COMM_GetKind(void *obj);
-extern void func_021D4244(void *p, u32 a, int a2);
-void func_021D4B30(char *p)
+extern void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 a, int a2);
+void INTRUDE_COMM_VIEW_CheckExitRequest(char *p)
 {
     if (WIPE_SYS_EndCheck()) {
         if (((struct Obj13964 *)p)->f8 == 1) {
             if (!GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(((struct Obj13964 *)p)->f354)))
-                func_021D4244(p, 0, 0x341);
+                INTRUDE_COMM_VIEW_SetCallback(p, 0, 0x341);
         } else {
-            func_021D4244(p, 0, 0x345);
+            INTRUDE_COMM_VIEW_SetCallback(p, 0, 0x345);
         }
     }
 }

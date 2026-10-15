@@ -24,7 +24,7 @@
  *   func_0202762C 0x0202762C thumb
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204162C 0x0204162C arm
+ *   BG_SYS_GetBuf 0x0204162C arm
  *   func_02049B40 0x02049B40 arm
  */
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ extern u32 func_02027624(void);
 extern u32 func_0202762C(void);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 layer);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021BC5DC(void)
@@ -73,7 +73,7 @@ void func_021BC5DC(void)
     func_020413B0(0, 0, 0x15, 0x20, 3, 0xE);
     func_02041B6C(0);
     ARC_TOOL_DeleteHandle(h);
-    scr = (u8 *)func_0204162C(0);
+    scr = (u8 *)BG_SYS_GetBuf(0);
     for (i = 0; i < 0x60; i++) {
         ((u16 *)scr)[i + 0x2A0] += (u16)base;
     }

@@ -13,7 +13,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0201DD60  0x0201DD60  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -41,7 +41,7 @@
  *   IRCBATTLEMENU_SeqSetupTopMenu  0x021966F0  thumb  ov021
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
  *   func_02155A90  0x02155A90  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_0207D63C  0x0207D63C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  * Addresses are Black-image addresses.
@@ -58,7 +58,7 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, u32, u32);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0201DD60(void);
 struct DispConfig;
@@ -93,7 +93,7 @@ extern void IRCBATTLEMENU_SeqSetupTopMenu(u8 *p);
 extern void IRCBATTLEMENU_SetSeq(u8 *, void (*)(void), u32);
 struct Ctx;
 extern u32 func_02155A90(u8 *);
-extern void *func_020120F4(const struct Ctx *);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 
@@ -105,7 +105,7 @@ int IRCBATTLEMENU_Init(struct Obj0203159C *a, u32 b, u32 c)
     w = PROCSYS_AllocProcWork(a, 0x308, 0x1f);
     MI_CpuFill8(w, 0, 0x308);
     ((struct Obj00150 *)w)->f10 = 0x1f;
-    func_0203F8F4(((struct Obj00150 *)w)->f10);
+    BG_SYS_Create(((struct Obj00150 *)w)->f10);
     BMP_WIN_Init(((struct Obj00150 *)w)->f10);
     func_0201DD60();
     BG_SYS_SetVramBanks((const struct DispVram *)sVramBank);
@@ -132,7 +132,7 @@ int IRCBATTLEMENU_Init(struct Obj0203159C *a, u32 b, u32 c)
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct Obj00150 *)w)->f10);
     IRCBATTLEMENU_SetSeq(w, (void (*)(void))IRCBATTLEMENU_SeqSetupTopMenu, 0x83B);
     ((struct Obj00150 *)w)->f2E4 = c;
-    ((struct Obj00150 *)w)->f30 = (u32)func_020120F4((const struct Ctx *)func_02155A90((u8 *)((struct Obj00150 *)w)->f2E4));
+    ((struct Obj00150 *)w)->f30 = (u32)ICA_ANIME_GetField1C((const struct Ctx *)func_02155A90((u8 *)((struct Obj00150 *)w)->f2E4));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00150 *)w)->f10);
     BG_SYS_SetMainVisiblePlanes(0x13);

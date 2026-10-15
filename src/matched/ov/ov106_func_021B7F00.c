@@ -10,11 +10,11 @@
  * symbols:
  *   gIrcRankingBgEntries 0x021B9524 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   MI_CpuFill8 0x02082BCC arm
  */
 
@@ -26,20 +26,20 @@ typedef unsigned char u8;
 extern struct BgEntry gIrcRankingBgEntries[];
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *,int,int);
 void IRC_RANKING_GfxExit(u32 *p) {
     int i;
     BMP_WIN_Delete((struct Descriptor *)p[3]);
-    func_0203FB44((int)1,(u16)p[1],(u16)(p[1]>>16));
-    func_0203FB44((int)5,(u16)p[2],(u16)(p[2]>>16));
+    BG_SYS_DeleteHalf((int)1,(u16)p[1],(u16)(p[1]>>16));
+    BG_SYS_DeleteHalf((int)5,(u16)p[2],(u16)(p[2]>>16));
     func_02040DA8(5,1,0);
     func_02040DA8(1,1,0);
     for(i=0;i<8;i++)func_020403F4((u8)gIrcRankingBgEntries[i].bg);
-    BMP_WIN_Exit();func_0203F9B4();
+    BMP_WIN_Exit();BG_SYS_Delete();
     MI_CpuFill8(p,0,16);
 }

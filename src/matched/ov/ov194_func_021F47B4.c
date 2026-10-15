@@ -20,8 +20,8 @@
  *   func_021F235C 0x021F235C thumb ov194
  *   func_021F23F8 0x021F23F8 thumb ov194
  *   func_021F45A8 0x021F45A8 thumb ov194
- *   func_021F5370 0x021F5370 thumb ov194
- *   func_021F54CC 0x021F54CC thumb ov194
+ *   PROF_WORD_FindMatch 0x021F5370 thumb ov194
+ *   PROF_WORD_CheckDigitCount 0x021F54CC thumb ov194
  *   func_021F4524 0x021F4524 thumb ov194
  *   func_021F3EF0 0x021F3EF0 thumb ov194
  *   func_021F462C 0x021F462C thumb ov194
@@ -62,8 +62,8 @@ typedef unsigned char  u8;
 struct U16Vec;
 extern u32 func_021F23F8(const u8 *p);
 extern int func_021F45A8(int);
-extern int func_021F5370(const u32 *cache, const void *input, u16 heap);
-extern int func_021F54CC(void *,int,int);
+extern int PROF_WORD_FindMatch(const u32 *cache, const void *input, u16 heap);
+extern int PROF_WORD_CheckDigitCount(void *,int,int);
 extern int func_021F4480(u8 *p, int a, int b);
 extern void func_021F4524(char *),func_021F3EF0(char *,char *,int *,u32),func_021F462C(unsigned char *,u32);
 extern void func_021F46F4(unsigned char *a, int *state, char *p);
@@ -103,8 +103,8 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 7: if(func_021F23F8((const u8 *)((int)(p+0x68)))==0) {
         if(func_021F45A8((int)p)==0) {GFL_USE_PlaySeDefaultVolume(0x557);func_021F3D70(p+0x230,8);((struct Obj01287 *)p)->f2C8=1;}
         else {
-            if(func_021F5370(*(u32 * *)&((struct Obj01287 *)p)->f2CC,p+0x68,30)) GFL_USE_PlaySeDefaultVolume(0x557);
-            else if(func_021F54CC(p+0x68,((struct Obj01287 *)p)->f86,30)) {GFL_USE_PlaySeDefaultVolume(0x557);func_021F3D70(p+0x230,9);((struct Obj01287 *)p)->f2C8=1;}
+            if(PROF_WORD_FindMatch(*(u32 * *)&((struct Obj01287 *)p)->f2CC,p+0x68,30)) GFL_USE_PlaySeDefaultVolume(0x557);
+            else if(PROF_WORD_CheckDigitCount(p+0x68,((struct Obj01287 *)p)->f86,30)) {GFL_USE_PlaySeDefaultVolume(0x557);func_021F3D70(p+0x230,9);((struct Obj01287 *)p)->f2C8=1;}
             else {
                 int *q;
                 GFL_USE_PlaySeDefaultVolume(0x54d);func_021F4524(p);q=*(int * *)&((struct Obj01287 *)p)->f2C4;

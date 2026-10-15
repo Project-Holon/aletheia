@@ -1,5 +1,5 @@
 /*
- * function: func_0205E29C
+ * function: SearchDifferChannel
  * address:  0x0205E29C
  * packet:   pkt_0205E29C
  * region:   arm9
@@ -150,7 +150,7 @@ extern u8 NextSearchCheck(ACWORK *wk, u8 phase);
 extern u16 WCM_GetAllowedChannel(void);
 extern s32 WCM_SearchAsync(void *bssid, void *essid, u32 option);
 
-u8 func_0205E29C(ACWORK *wk)
+u8 SearchDifferChannel(ACWORK *wk)
 {
     u64 t = OS_GetTick() - wk->timeOut;
     u16 mask;

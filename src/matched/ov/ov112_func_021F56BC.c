@@ -52,7 +52,7 @@
  *   obj+0x100/0x104/0x108.  k loop: two rotations (part by pose.rot + sub.rot scaled by the
  *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
  *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
- *   constants at sp+0x114, func_0207B5C0(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
+ *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
  *   &m4), second func_021F660C uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
  *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
  *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
@@ -62,7 +62,7 @@
  *   register shape (original keeps src = obj+0x28 in r0), the eight spilled 0x800 rounding
  *   words at sp+0x80..0x94/0x9C/0xA0 and the 0x100/0x10C offsets at sp+0x98/0xA4..0xAC.
  * note (2026-10-05, wave D6 lane 01): three fixes from a fresh reading of the head and the pose loader.
- *   (1) func_0207D7C4 takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
+ *   (1) G3i_LookAt_ takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
  *   at entry is that stack argument, written once before the camera-pick branch. The prologue now
  *   matches to 021F56F8 apart from the frame size. (2) LoadPose is a switch on the u16 kind with a
  *   compare chain (beq 0, cmp 1, cmp 2, b out), and the id is a u16 read (ldrh) through a
@@ -371,18 +371,18 @@
  *   (3) C89-style function-scope declarations: the k-loop ints (ang, fx, ... rz) before `u8 flag`, then `int pr`.
  *   With int pr and the u8 flag named, declaration order places ang/fx/X, flag, pr in the original order.
  * symbols:
- *   func_0207D7C4 0x0207D7C4 arm
+ *   G3i_LookAt_ 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
  *   func_02082B60 0x02082B60 arm
- *   func_0207ADE8 0x0207ADE8 arm
- *   func_0207B5C0 0x0207B5C0 arm
+ *   MTX_Copy33To44_ 0x0207ADE8 arm
+ *   MTX_Copy43To44_ 0x0207B5C0 arm
  *   func_0207BE14 0x0207BE14 arm
  *   func_0207C768 0x0207C768 arm
  *   func_0207D8FC 0x0207D8FC arm
- *   func_0207D888 0x0207D888 arm
+ *   G3_RotZ 0x0207D888 arm
  *   func_0207AF38 0x0207AF38 thumb
- *   func_0207B51C 0x0207B51C arm
- *   func_0207CA00 0x0207CA00 arm
+ *   MTX_MultVec33 0x0207B51C arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -469,19 +469,19 @@ extern const Vec d_021F8310, d_021F831C, d_021F8304;
 extern const Mtx43 d_02148B98;
 extern const Mtx44 d_02148B54;
 
-extern void func_0207D7C4(const Vec *a, const Vec *b, const Vec *c, int d, void *e);
+extern void G3i_LookAt_(const Vec *a, const Vec *b, const Vec *c, int d, void *e);
 extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
 extern void func_02082B60(Mtx43 *a, Mtx33 *b);
-extern void func_0207ADE8(Mtx33 *a, Mtx44 *b);
-extern void func_0207B5C0(const Mtx43 *src, Mtx44 *dst);
+extern void MTX_Copy33To44_(Mtx33 *a, Mtx44 *b);
+extern void MTX_Copy43To44_(const Mtx43 *src, Mtx44 *dst);
 extern void func_0207BE14(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
 struct S;
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_0207D8FC(Mtx44 *m);
-extern void func_0207D888(int s, int c);
+extern void G3_RotZ(int s, int c);
 extern void func_0207AF38(Mtx33 *m, int s, int c);
-extern void func_0207B51C(void *v, Mtx33 *m, void *out);
-extern void func_0207CA00(void *a, void *b, void *c);
+extern void MTX_MultVec33(void *v, Mtx33 *m, void *out);
+extern void VEC_Subtract(void *a, void *b, void *c);
 extern void func_021F660C(const int *p, const int *m, u32 *out, u32 *w);
 extern void func_021F65EC(void);
 extern void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, struct S *s, u16 *pa, int a9, int flag, int *pz, u8 mode);
@@ -590,12 +590,12 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
     REG(0x04000454) = 0;
     REG(0x04000440) = 2;
     if ((((Bits *)&p[2])->b0) == 0)
-        func_0207D7C4(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
+        G3i_LookAt_(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
     else
-        func_0207D7C4(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
+        G3i_LookAt_(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
     func_0207B67C(&d_02148B98, &m1);
     func_02082B60(&m1, &m2);
-    func_0207ADE8(&m2, &m3);
+    MTX_Copy33To44_(&m2, &m3);
 
     for (i = 0; i < p[0]; i++) {
         if (((char **)p[1])[i] == 0 || ((Bits3 *)(((char **)p[1])[i] + 0xEC))->b2)
@@ -630,7 +630,7 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             proj.m[13] = 0;
             proj.m[14] = 0;
             proj.m[15] = (int)0xFFFFF000;
-            func_0207B5C0(&d_02148B98, &m4);
+            MTX_Copy43To44_(&d_02148B98, &m4);
             func_0207BE14(&m4, &d_02148B54, &m4);
             func_021F660C((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
             pos.x = func_0207C768(pos.x, cb.w);
@@ -649,7 +649,7 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
         G3_Translate(ox, oy, 0);
         {
             u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;
-            func_0207D888(-FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
+            G3_RotZ(-FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
         }
 
         {
@@ -660,8 +660,8 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
         {
             u16 a = *(u16 *)(obj + 0xFC);
             func_0207AF38(&m5, -FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
-            func_0207B51C(obj + 0x100, &m5, obj + 0x10C);
-            func_0207CA00(obj + 0x100, obj + 0x10C, obj + 0x10C);
+            MTX_MultVec33(obj + 0x100, &m5, obj + 0x10C);
+            VEC_Subtract(obj + 0x100, obj + 0x10C, obj + 0x10C);
             *(int *)(obj + 0x10C) = func_0207C768(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
             *(int *)(obj + 0x110) = func_0207C768(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
         }

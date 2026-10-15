@@ -19,17 +19,17 @@
 
 typedef struct DWCNetcheckParam DWCNetcheckParam;
 
-extern void *func_0205C214(unsigned long name);
+extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern int DWC_Netcheck_Create(DWCNetcheckParam *param);
-extern void func_0205C2E4(int error);
+extern void DWCi_AC_SetError(int error);
 
 static unsigned char func_0205F298(void)
 {
-    DWCNetcheckParam *nc = (DWCNetcheckParam *)func_0205C214(8);
+    DWCNetcheckParam *nc = (DWCNetcheckParam *)DWCi_AC_GetMemPtr(8);
 
     if (DWC_Netcheck_Create(nc) == 0) {
         return 0xE;
     }
-    func_0205C2E4(3);
+    DWCi_AC_SetError(3);
     return 0x11;
 }

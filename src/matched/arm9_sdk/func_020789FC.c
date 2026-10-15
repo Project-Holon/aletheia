@@ -1,5 +1,5 @@
 /*
- * function: func_020789FC
+ * function: FS_OpenFileEx
  * address:  0x020789FC
  * packet:   pkt_020789FC
  * region:   arm9
@@ -57,7 +57,7 @@ typedef struct FSArgumentForOpenFile
 extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
 extern void FS_InitFile(FSFile *file);
 
-BOOL func_020789FC(FSFile *file, const char *path, u32 mode)
+BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode)
 {
     BOOL retval = 0;
     u32 baseid = 0;

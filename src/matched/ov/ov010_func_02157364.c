@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recursive MATCH unblocker: callee of func_021F8D88 (ov132) +0008. Coherent
+ * Recursive MATCH unblocker: callee of STA_ACTING_SetBaseProgram (ov132) +0008. Coherent
  * Thumb leaf in ov010 (ARM code in ov009), so the ov010 shard makes that site
  * attest as `matched` -- the earlier `arm` declaration was wrong.
  */

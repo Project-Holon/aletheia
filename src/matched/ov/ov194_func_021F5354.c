@@ -1,5 +1,5 @@
 /*
- * function: func_021F5354
+ * function: PROF_WORD_Delete
  * address:  0x021F5354
  * packet:   pkt_021F5354
  * region:   ov194
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 
-void func_021F5354(u8 *p)
+void PROF_WORD_Delete(u8 *p)
 {
     int i;
 

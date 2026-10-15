@@ -13,7 +13,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186
  *   d_02200D3C 0x02200D3C data a1
  */
@@ -26,7 +26,7 @@ struct GfFont;
 struct MsgBank;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201EC74(unsigned,unsigned,unsigned);
+extern void *WORDSET_Create(unsigned,unsigned,unsigned);
 extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
 void *BR_RES_Create(unsigned mode,unsigned flag,unsigned heap)
 {
@@ -38,7 +38,7 @@ void *BR_RES_Create(unsigned mode,unsigned flag,unsigned heap)
     else p->mode=1;
     p->a=GF_FONT_Create(0x17,0,0,0,heap);
     p->b=func_02045B38(0,2,5,heap);
-    p->c=func_0201EC74(8,0x40,heap);
+    p->c=WORDSET_Create(8,0x40,heap);
     BR_RES_LoadUiPalette((char *)p,0,heap);
     BR_RES_LoadUiPalette((char *)p,1,heap);
     return p;

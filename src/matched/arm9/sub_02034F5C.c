@@ -1,5 +1,5 @@
 /*
- * function: sub_02034F5C
+ * function: UI_Update
  * address:  0x02034F5C
  * packet:   pkt_02034714
  * region:   arm9
@@ -26,15 +26,15 @@
  * That follower is outside this file's scope.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034F5C.c \
- *       --func sub_02034F5C --addr 0x02034F5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_Update.c \
+ *       --func UI_Update --addr 0x02034F5C --cc 1.1p1 --arm
  */
 
 extern void *g_02034F5C_Ptr;
 struct AreaCtx;
 extern void func_02034EF8(struct AreaCtx *p);
 
-void sub_02034F5C(void)
+void UI_Update(void)
 {
     func_02034EF8(g_02034F5C_Ptr);
 }

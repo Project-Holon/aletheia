@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * 2026-10-05 (wave D5 lane 02): arm9 func_02035010/func_02035040 and their setters func_02035004/func_02035034 are now filed in src/matched/arm9/; the wrappers show MATCH only until the labels exist. Re-run after the integrator labels them.
+ * 2026-10-05 (wave D5 lane 02): arm9 UI_SetSleepHookGlobal/UI_SetWakeHookGlobal and their setters UI_SetSleepHook/UI_SetWakeHook are now filed in src/matched/arm9/; the wrappers show MATCH only until the labels exist. Re-run after the integrator labels them.
  * 2026-10-04 (wD2 lane 09): bytes are identical; 3 of 41 relocations open.
  * Filed leaf C_GEAR_OnCommEvent as matched ov029_func_021F24FC.c (EXACT).
  * Open: ABS32 +01C0 to 021F24FC (witness index not yet regenerated),
@@ -17,16 +17,16 @@
  *
  * Byte-correct.  Blocked by two unlabelled ARM9 leaves (the integrator's), so the
  * overlay leaf 0x021F24FC is not filed either:
- *   +0128 func_02035010 (arm): verified MATCH with `one --arm`, capped
+ *   +0128 UI_SetSleepHookGlobal (arm): verified MATCH with `one --arm`, capped
  *     only by its own unlabelled tail-call target 0x02035004
  *     (str r1,[r0,#0x14]; str r2,[r0,#0x28]; bx lr):
  *       extern void *d_021469BC;
- *       void func_02035010(void *cb, void *arg)
- *       { func_02035004(d_021469BC, cb, arg); }
- *   +0130 func_02035040 (arm): the same wrapper over 0x02035034
+ *       void UI_SetSleepHookGlobal(void *cb, void *arg)
+ *       { UI_SetSleepHook(d_021469BC, cb, arg); }
+ *   +0130 UI_SetWakeHookGlobal (arm): the same wrapper over 0x02035034
  *     (str r1,[r0,#0x10]; str r2,[r0,#0x28]; bx lr), MATCH likewise:
- *       void func_02035040(void *cb, void *arg)
- *       { func_02035034(d_021469BC, cb, arg); }
+ *       void UI_SetWakeHookGlobal(void *cb, void *arg)
+ *       { UI_SetWakeHook(d_021469BC, cb, arg); }
  *   +01C0 ABS32 C_GEAR_OnCommEvent (ov029): unlabelled leaf
  *     `void C_GEAR_OnCommEvent(u8 *p) { p[0x451] = 2; }` (ldr r1,=0x451;
  *     movs r2,#2; strb r2,[r0,r1]; bx lr).
@@ -61,9 +61,9 @@
  *   PALANM_TransferPalettes  0x02021D50  thumb
  *   func_020056A0  0x020056A0  thumb
  *   C_GEAR_TransferPalettesTask  0x021F2508  thumb  ov029
- *   func_02035010  0x02035010  arm
+ *   UI_SetSleepHookGlobal  0x02035010  arm
  *   C_GEAR_OnCommDisconnect  0x021F24C0  thumb  ov029
- *   func_02035040  0x02035040  arm
+ *   UI_SetWakeHookGlobal  0x02035040  arm
  *   C_GEAR_OnCommEvent  0x021F24FC  thumb  ov029
  *   C_GEAR_CreateFadeFx  0x021F2E10  thumb  ov029
  *   C_GEAR_UpdateBeaconColors  0x021F1CD8  thumb  ov029
@@ -112,9 +112,9 @@ extern void C_GEAR_TintPalettes(char *p, int mode);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern int func_020056A0(void *callback, void *ctx, int a2);
 extern void C_GEAR_TransferPalettesTask(void *task, char *p);
-extern void func_02035010(u32 a, u32 b);
+extern void UI_SetSleepHookGlobal(u32 a, u32 b);
 extern void C_GEAR_OnCommDisconnect(char *p);
-extern void func_02035040(u32 a, u32 b);
+extern void UI_SetWakeHookGlobal(u32 a, u32 b);
 extern void C_GEAR_OnCommEvent(unsigned char *p);
 extern void C_GEAR_CreateFadeFx(char *p, int *q);
 extern void C_GEAR_UpdateBeaconColors(char *p);
@@ -167,8 +167,8 @@ void C_GEAR_Init(u8 *p, int a1, int a2, int a3, int e)
     C_GEAR_TintPalettes((char *)p, p[0x45A]);
     PALANM_TransferPalettes((struct S02021D50 *)(*(int *)(p + 0x210)));
     *(int *)(p + 0x208) = func_020056A0((void *)C_GEAR_TransferPalettesTask, p, 1);
-    func_02035010((u32)((void *)C_GEAR_OnCommDisconnect), (u32)p);
-    func_02035040((u32)((void *)C_GEAR_OnCommEvent), (u32)p);
+    UI_SetSleepHookGlobal((u32)((void *)C_GEAR_OnCommDisconnect), (u32)p);
+    UI_SetWakeHookGlobal((u32)((void *)C_GEAR_OnCommEvent), (u32)p);
     C_GEAR_CreateFadeFx((char *)p, (int *)(p + 0x21C));
     C_GEAR_UpdateBeaconColors((char *)p);
     C_GEAR_UpdateClock((char *)p);

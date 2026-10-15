@@ -1,5 +1,5 @@
 /*
- * function: func_02188A48
+ * function: LOADER_DECRYPT_DecodeBlocks
  * address:  0x02188A48
  * packet:   pkt_ov230_02188A48
  * region:   ov230
@@ -8,19 +8,19 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT*
- * extent:   0x02188A48..0x02188B48 (244 B code + 12 B pool: d_021899A0,
+ * extent:   0x02188A48..0x02188B48 (244 B code + 12 B pool: gLoaderDecryptBssStart,
  *           0xF0618C46, 0xFFFFFA7E). Start evidence: the only caller,
- *           func_021889B0, ends `bne 0x02188A48` (always taken, r0 = the
+ *           LOADER_ENTRY_Start, ends `bne 0x02188A48` (always taken, r0 = the
  *           descriptor table at 0x021889BC); the word before is the
- *           `bx lr` that ends func_02188A0C (0x02188A0C..0x02188A48); the
+ *           `bx lr` that ends LOADER_DECRYPT_ClassifyOpcode (0x02188A0C..0x02188A48); the
  *           first word is `push {r4-sl,lr}`.
  * note:     ov230 code decryptor. For each {start, end} pair in the table
  *           (zero-terminated) it walks the words in [start-0x1600,
- *           end-bss-0x1600): branch words (func_02188A0C kind 1 = BLX,
+ *           end-bss-0x1600): branch words (LOADER_DECRYPT_ClassifyOpcode kind 1 = BLX,
  *           3 = B) get their offset moved by -0x582 and bit 24 flipped;
  *           BL (kind 2) gets bit 24 flipped and then, like every other
  *           word, is XOR-decrypted with a 24-bit rolling key. Then it
- *           flushes the range (func_021889E4) and clears the pair. The
+ *           flushes the range (LOADER_DECRYPT_SyncCacheRange) and clears the pair. The
  *           first statement clears the 12-byte stub at t-3 (021889B0).
  * note 2026-10-05 (wave D9r lane 15): DIFF 8 B short under the pinned
  *           dsi/1.1p1, the same 248 B every spelling gives: 1.1p1 always
@@ -39,25 +39,25 @@
  *           (1.1p1 merges identical tails that 2.0/sp2 keeps). The lane
  *           brief pins the compiler, so it is parked here; promoting it
  *           means `compiler: ../2.0/sp2`, status EXACT, move to
- *           src/matched/ov/. func_02188A0C (matched, 1.1p1) is also EXACT*
+ *           src/matched/ov/. LOADER_DECRYPT_ClassifyOpcode (matched, 1.1p1) is also EXACT*
  *           under ../2.0/sp2, so ov230 may be a 2.0/sp2 library object.
  *           Source levers: `h[0] = h[1] = h[2] = 0` (puts `mov r0,#0`
  *           before `sub r1,sb,#0xc`); a `bss` local and `p` declared last
  *           give the image's r7/r8 colours; p assigned before size splits
  *           the ldm.
  * symbols:
- *   func_02188A0C  0x02188A0C  arm  ov230
- *   func_021889E4  0x021889E4  arm  ov230
- *   d_021899A0  0x021899A0  data  ov230
+ *   LOADER_DECRYPT_ClassifyOpcode  0x02188A0C  arm  ov230
+ *   LOADER_DECRYPT_SyncCacheRange  0x021889E4  arm  ov230
+ *   gLoaderDecryptBssStart  0x021899A0  data  ov230
  */
 
 typedef unsigned int u32;
 
-extern char d_021899A0[];
-extern int func_02188A0C(u32 word);
-extern void func_021889E4(void *addr, u32 size);
+extern char gLoaderDecryptBssStart[];
+extern int LOADER_DECRYPT_ClassifyOpcode(u32 word);
+extern void LOADER_DECRYPT_SyncCacheRange(void *addr, u32 size);
 
-void func_02188A48(u32 *t)
+void LOADER_DECRYPT_DecodeBlocks(u32 *t)
 {
     u32 *h;
     u32 size;
@@ -69,14 +69,14 @@ void func_02188A48(u32 *t)
 
     h = t - 3;
     h[0] = h[1] = h[2] = 0;
-    bss = (u32)d_021899A0;
+    bss = (u32)gLoaderDecryptBssStart;
     do {
         p = (u32 *)(t[0] - 0x1600);
         size = t[1] - bss - 0x1600;
         end = p + size / 4;
         key = 0xF0618C46;
         for (; p < end; p++) {
-            switch (func_02188A0C(*p)) {
+            switch (LOADER_DECRYPT_ClassifyOpcode(*p)) {
             case 1:
             case 3:
                 w = *p;
@@ -93,7 +93,7 @@ void func_02188A48(u32 *t)
                 break;
             }
         }
-        func_021889E4((void *)(t[0] - 0x1600), size);
+        LOADER_DECRYPT_SyncCacheRange((void *)(t[0] - 0x1600), size);
         t[1] = 0;
         t[0] = 0;
         t += 2;

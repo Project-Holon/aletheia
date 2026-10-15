@@ -15,16 +15,16 @@
  * the ARM9 helper.
  *
  * symbols:
- *   func_0200BCA0  0x0200BCA0  thumb
+ *   DAYCARE_GetEggReady  0x0200BCA0  thumb
  */
 #include "../include/Obj18300.h"
 
 typedef int s32;
 
 struct Obj11233;
-extern int func_0200BCA0(struct Obj11233 *p);
+extern int DAYCARE_GetEggReady(struct Obj11233 *p);
 
 int SODATEYA_HasEgg(void *a)
 {
-    return func_0200BCA0((struct Obj11233 *)(((struct Obj18300 *)a)->f8));
+    return DAYCARE_GetEggReady((struct Obj11233 *)(((struct Obj18300 *)a)->f8));
 }

@@ -334,31 +334,44 @@ struct BrBtnResultSet { struct BrBtnResult rec[6]; u32 count; };
 
 /* One battle-recorder button: resources, button data and label records, 0x60 bytes. */
 struct BrBtn {
-    u16 heap;
-    u16 pad0;
-    int f4;
-    int f8;
-    int *fC;
-    int f10;
-    int f14;
-    int pad18;
-    int f1C;
-    int pad20[6];
-    u8 f38;
-    u8 f39;
-    u8 f3a;
-    u8 f3b;
-    char *f3c;
-    char *f40;
-    void *f44;
-    void *f48;
-    u32 f4c;
-    int pad50[2];
-    int f58;
-    struct BrBtnResultSet *f5c;
+    u16 heap;                    /* 0x00 heap id */
+    u16 pad0;                    /* 0x02 alignment, never read */
+    int resBase;                 /* 0x04 resource base handed to BR_RES_* */
+    int oamData;                 /* 0x08 argument of BMP_OAM_CreateSys */
+    int *task;                   /* 0x0C BR_UTIL task driving the button */
+    int spriteIndex;             /* 0x10 first sprite of the button */
+    int pressed;                 /* 0x14 set when a button was pressed */
+    int placement;               /* 0x18 returned by BR_BTN_GetPlacement */
+    unsigned int resultKind;     /* 0x1C row field 0, drives the state switch */
+    int kind3;                   /* 0x20 row field 3 */
+    int section;                 /* 0x24 row field 1 / section index */
+    int offsetY;                 /* 0x28 row field 2 / placement y */
+    int selected;                /* 0x2C index of the selected button */
+    int touchX;                  /* 0x30 touch x of the last press */
+    int touchY;                  /* 0x34 touch y of the last press */
+    u8 rowCount;                 /* 0x38 rows of the main section */
+    u8 sectionCount;             /* 0x39 rows of the current section */
+    u8 maxRows;                  /* 0x3A capacity of the tail record array */
+    u8 recordCount;              /* 0x3B records in the tail array */
+    char *tailRecords;           /* 0x3C Button records of the tail list */
+    char *rowRecords;            /* 0x40 Button records of the main list */
+    void *dataTable;             /* 0x44 BR_BTN_DATA table */
+    void *oamSys;                /* 0x48 BMP OAM system */
+    u32 printQue;                /* 0x4C print queue */
+    void *textWin;               /* 0x50 text window of the current row */
+    int resultValue;             /* 0x54 returned by BR_BTN_GetField54 */
+    int effect;                  /* 0x58 effect handle */
+    struct BrBtnResultSet *resultSet; /* 0x5C pushed results */
 };
 
 /* A button on screen: its actor, OAM grid and bitmap plus label state. */
-struct BrButton { void *actor, *grid, *bmp; u32 fC, b, a; };
+struct BrButton {
+    void *actor;                 /* 0x00 CLACT actor */
+    void *grid;                  /* 0x04 OAM grid */
+    void *bmp;                   /* 0x08 bitmap */
+    u32 unusedC;                 /* 0x0C zeroed, never read */
+    u32 surface;                 /* 0x10 actor surface selector */
+    u32 paramA;                  /* 0x14 width source (a>>3) and actor arg */
+};
 
 #endif

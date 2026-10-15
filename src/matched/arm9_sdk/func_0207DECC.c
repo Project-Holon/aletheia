@@ -1,5 +1,5 @@
 /*
- * function: func_0207DECC
+ * function: GXi_NopClearFifo128_
  * address:  0x0207DECC
  * packet:   pkt_0207DECC
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_0207DECC(void)
+asm void GXi_NopClearFifo128_(void)
 {
     mov r1, #0
     mov r2, #0

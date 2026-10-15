@@ -13,7 +13,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C278 0x0200C278 thumb
+ *   BEACON_AddPoints 0x0200C278 thumb
  */
 typedef unsigned short u16;
 extern void *SCRCMD_WORK_GetGameData(void *a0);
@@ -23,13 +23,13 @@ struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 func_0200C278(struct Blk34 *p, u32 v);
+extern u32 BEACON_AddPoints(struct Blk34 *p, u32 v);
 int SCRCMD_PROC_SetMiscValue(int a,int b)
 {
     void *p = SCRCMD_WORK_GetGameData((void *)b);
     int k;
     GAME_DATA_GetMyPlayerWork(p);
     k = SCRIPT_WORK_ReadWorkValue((void *)a,(void *)b);
-    func_0200C278(GAME_DATA_GetMiscSave(p),k);
+    BEACON_AddPoints(GAME_DATA_GetMiscSave(p),k);
     return 0;
 }

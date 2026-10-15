@@ -12,8 +12,8 @@
  * symbols:
  *   func_020808F4  0x020808F4  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   func_0207D4B0  0x0207D4B0  arm
- *   func_0207D534  0x0207D534  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   TEXTPRINT_Init  0x0204E130  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_Clear   0x02043B5C  arm
@@ -97,8 +97,8 @@ extern int func_020808F4(void);
 extern void  func_0207FDCC(u32 a);
 struct Bmp;
 struct CharBuf;
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void  TEXTPRINT_Init(u32 a);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -116,10 +116,10 @@ void sub_02034768(void)
     func_0207FDCC(1);
 
     REG_POWCNT = REG_POWCNT & ~0x8000;
-    func_0207D4B0(1, 0, 0);
+    GX_SetGraphicsMode(1, 0, 0);
 
     REG_BLDCNT = 0;
-    func_0207D534((volatile u16 *)0x0400006c, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006c, 0);
 
     REG_DISPCNT = REG_DISPCNT & ~0xe000;
     REG_DISPCNT = (REG_DISPCNT & ~0x1f00) | 0x100;

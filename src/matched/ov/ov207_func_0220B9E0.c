@@ -1,5 +1,5 @@
 /*
- * function: func_0220B9E0
+ * function: ZUKAN_NICKNAME_UpdateInfoWindow
  * address:  0x0220B9E0
  * packet:   pkt_0220B9E0
  * region:   ov207
@@ -50,7 +50,7 @@ extern void BTLV_INPUT_UpdateInfoWindow(int *p);
 extern char d_0220BBEC[];
 extern char d_0220BBF8[];
 
-void func_0220B9E0(int *a)
+void ZUKAN_NICKNAME_UpdateInfoWindow(int *a)
 {
     S3 s;
 

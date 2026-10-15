@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   DWCi_Acc_GetFlag_DataType  0x021A23B0  thumb  ov021
+ *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  */
 
-extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
+extern int WEATHER_TASK_IsFogIdle(unsigned int a);
 
 int WEATHER_CLEAR_EndFade(void *frienddata)
 {
-    if (DWCi_Acc_GetFlag_DataType(frienddata))
+    if (WEATHER_TASK_IsFogIdle((unsigned int)frienddata))
         return 1;
     return 0;
 }

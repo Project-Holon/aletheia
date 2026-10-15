@@ -1,5 +1,5 @@
 /*
- * function: func_021B95D4
+ * function: STAFF_ROLL_Main
  * address:  0x021B95D4
  * packet:   pkt_ov181_021B95D4
  * region:   ov181
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B95F8  0x021B95F8  thumb  ov181
+ *   STAFF_ROLL_RunState  0x021B95F8  thumb  ov181
  */
 
-extern int func_021B95F8(char *p);
+extern int STAFF_ROLL_RunState(char *p);
 
-int func_021B95D4(int a0, int a1, int a2, int a3)
+int STAFF_ROLL_Main(int a0, int a1, int a2, int a3)
 {
-    return func_021B95F8((char *)a3) == 0;
+    return STAFF_ROLL_RunState((char *)a3) == 0;
 }

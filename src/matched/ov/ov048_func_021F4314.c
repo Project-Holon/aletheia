@@ -11,15 +11,15 @@
  *
  * symbols:
  *   GIMMICK_OBJ_ELBOARD_GetHeapId  0x021F47B4  thumb  ov048
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   FIELD_GIMMICK_GATE_IsExtraSaveListOn  0x021F3AB4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadExtraSaveValues  0x021F3AD4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadSaveBlockValues  0x021F3B64  thumb  ov048
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  */
 
@@ -31,15 +31,15 @@ typedef unsigned int   u32;
 
 extern int GIMMICK_OBJ_ELBOARD_GetHeapId(void *p);
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(void *p);
 extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const u16 *p, u32 *out, int *cnt);
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(u16 *p, u32 *out, int *cnt);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern struct T gElboardLayout;
 
 void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
@@ -51,7 +51,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
     int i;
     int f;
 
-    h = func_0201EC64(GIMMICK_OBJ_ELBOARD_GetHeapId((void *)p[5]));
+    h = GF_FONT_Create_EC64(GIMMICK_OBJ_ELBOARD_GetHeapId((void *)p[5]));
     if (FIELD_GIMMICK_GATE_IsExtraSaveListOn(p))
         FIELD_GIMMICK_GATE_ReadExtraSaveValues((const u16 *)p, buf, &cnt);
     else
@@ -66,7 +66,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
     case 6: f = 0xd2; break;
     }
     for (i = 0; i < cnt; i++)
-        func_0201EE60(h, i, buf[i]);
+        WORDSET_Callback(h, i, buf[i]);
     func_0201F02C(h, 6, GAME_DATA_GetMyStatus((void *)p[2]));
     s.a = *(u16 *)(((u8 *)&gElboardLayout) + 0xa);
     s.b = *(int *)(((u8 *)&gElboardLayout) + 0x38);
@@ -76,5 +76,5 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
     s.f = f;
     s.g = (int)h;
     GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)&s, 9, 0);
-    func_0201ED04(h);
+    WORDSET_DeleteStrbufED04(h);
 }

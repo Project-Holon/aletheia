@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAAB0",
+   "name": "STAFF_ROLL_CmdEnd",
    "address": "0x021BAAB0",
    "kind": "game",
    "region": "ov181",

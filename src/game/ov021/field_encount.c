@@ -20,14 +20,14 @@
  *   func_02008550  0x02008550  thumb
  *   func_020307B0  0x020307B0  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02018598  0x02018598  thumb
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
  *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
@@ -58,11 +58,11 @@
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012844  0x02012844  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField158  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetEncountData  0x0216255C  thumb  ov010
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   WEATHER_GetWeatherId  0x021A1BF4  thumb  ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -72,21 +72,21 @@
  *   EVENT_BATTLE_CreateScriptedBattle  0x0216E7C8  thumb  ov010
  *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
  *   FIELD_WFBC_IsBackPeople  0x02193920  thumb  ov021
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   ZONEDATA_GetFieldEffectSetId  0x02013ED8  thumb
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
  *   FIELD_WFBC_GetPeopleNum  0x021938F4  thumb  ov021
- *   func_0207C7B4  0x0207C7B4  arm
+ *   FX_Sqrt  0x0207C7B4  arm
  *   sFieldEncountFileName  0x021DDFA4  data
  *   BTL_SETUP_SetupWild  0x0201347C  thumb
  *   func_020173EC  0x020173EC  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   BTL_SETUP_Clear  0x020130C4  thumb
- *   func_0202A230  0x0202A230  thumb
- *   func_0202A420  0x0202A420  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   TPOKE_DATA_GetTrainerGroup  0x0202A420  thumb
  *   BTL_SETUP_SetupTrainerMulti  0x02013734  thumb
  *   BTL_SETUP_SetupTrainerDouble  0x02013644  thumb
  *   BTL_SETUP_SetupTrainerTag  0x020136E0  thumb
@@ -116,6 +116,7 @@ typedef signed short s16;
 typedef unsigned short u16;
 
 typedef unsigned int u32;
+#include "poke_tool_param.h"
 
 typedef signed int s32;
 
@@ -219,14 +220,14 @@ extern const u16 *func_020084F4(const struct MyStatus *myStatus);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern u32 func_020307B0(void *memory);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct Party *func_02012934(const struct GameData *gameData);
+extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct EncountSave *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *saveControl);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *myStatus);
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 func_02017E1C(struct PokemonParam *pp, u32 id, u32 arg);
 extern u8 func_02018598(struct PokemonParam *pp);
-extern struct EventWork *func_0201296C(const struct GameData *gameData);
+extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct EncountSave *encountSave);
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
@@ -255,12 +256,12 @@ extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 genderRatio);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct EventDataSystem *func_02012844(const struct GameData *gameData);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct EventDataSystem *GAME_DATA_GetField158(const struct GameData *gameData);
 extern EncountData *EVENTDATA_SYSTEM_GetEncountData(struct EventDataSystem *eventData);
 extern void *func_02030734(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern EncountStepWork *func_02012A38(const struct GameData *gameData);
+extern EncountStepWork *GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
 extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
 extern u16 WEATHER_GetWeatherId(struct WeatherSys *weatherSys);
 extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
@@ -272,18 +273,18 @@ extern void BTL_SETUP_SetStatusFlag(struct BattleSetupParam *btlSetup, int flag)
 extern u8 FIELD_WFBC_IsBackPeople(struct FieldWfbc *wfbc);
 extern u8 ZONEDATA_GetFieldEffectSetId(u32 zoneId);
 extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
-extern void func_0203F4CC(struct RtcTime *time);
-extern u8 func_02012984(const struct GameData *gameData);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
+extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern int FIELD_WFBC_GetPeopleNum(struct FieldWfbc *wfbc);
-extern fx32 func_0207C7B4(fx32 x);
+extern fx32 FX_Sqrt(fx32 x);
 extern struct Party *POKEPARTY_Create(u32 heapId);
 extern u32 func_020173EC(void);
 extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *pp);
 extern void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap);
 extern void BTL_SETUP_Clear(struct BattleSetupParam *param);
-extern u32 func_0202A230(u32 trainerId, u32 field);
-extern u32 func_0202A420(u32 trainerType);
+extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 field);
+extern u32 TPOKE_DATA_GetTrainerGroup(u32 trainerType);
 extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u32 heap);
 extern void BTL_SETUP_SetupTrainerTag(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2, u16 heap);
 extern void BTL_SETUP_SetupTrainerDouble(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
@@ -360,7 +361,7 @@ void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameDat
     struct PokemonParam *leadMon;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    party = func_02012934(gameData);
+    party = GAME_DATA_GetMyParty(gameData);
     MI_CpuFill8(param, 0, 0x2C);
     param->encountType = encountType;
     param->triggerMode = triggerMode;
@@ -380,7 +381,7 @@ void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameDat
         param->leadNature = func_02018598(leadMon);
         FIELD_ENCOUNT_ApplyLeadAbility(param, weather);
     }
-    param->swarmEnabled = ZONEDATA_CheckEventFlag(func_0201296C(gameData), 0x960);
+    param->swarmEnabled = ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(gameData), 0x960);
     if (MOVE_POKEMON_SAVE_IsCooldownDone(MOVE_POKEMON_SAVE_GetBlock(saveControl)) == 0)
         param->repelActive = 1;
     if (param->triggerMode == 2) {
@@ -531,19 +532,19 @@ void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountPa
     u32 personality = FIELD_ENCOUNT_CreatePersonality(param, personal, encMon);
 
     POKE_TOOL_SetupPartyParamEx(pp, encMon->species, encMon->level, param->ownerId, 0xFFFFFFFF, personality);
-    POKE_TOOL_SetPartyValue(pp, 0x6F, encMon->form);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_FORM, encMon->form);
     if (encMon->hiddenAbility)
         func_02018A00(pp, encMon->species, encMon->form);
     if (encMon->heldItem <= 0x272) {
         if (encMon->heldItem != 0)
-            POKE_TOOL_SetPartyValue(pp, 6, encMon->heldItem);
+            POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HELD_ITEM, encMon->heldItem);
         else
             FIELD_ENCOUNT_RollHeldItem(pp, personal, param->compoundEyes, param->encountType == 1);
     }
-    POKE_TOOL_SetPartyValue(pp, 0x9A, func_02008550(param->myStatus));
-    POKE_TOOL_SetPartyValue(pp, 0x8E, (u32)func_020084F4(param->myStatus));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_OT_GENDER, func_02008550(param->myStatus));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_OT_NAME, (u32)func_020084F4(param->myStatus));
     if (param->syncNature)
-        POKE_TOOL_SetPartyValue(pp, 0x70, param->leadNature);
+        POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_NATURE, param->leadNature);
     POKE_TOOL_RecalcParam(pp);
     POKE_PERSONAL_Delete(personal);
 }
@@ -559,9 +560,9 @@ void FIELD_ENCOUNT_InitRoamerPokemon(struct PokemonParam *pp, const FieldEncount
     u32 ivs = MOVE_POKEMON_SAVE_GetEntryField(roamer, 2);
 
     POKE_TOOL_SetupPartyParamEx(pp, species, level, param->ownerId, ivs, MOVE_POKEMON_SAVE_GetEntryField(roamer, 3));
-    POKE_TOOL_SetPartyValue(pp, 0x70, MOVE_POKEMON_SAVE_GetEntryField(roamer, 10));
-    POKE_TOOL_SetPartyValue(pp, 0x9D, MOVE_POKEMON_SAVE_GetEntryField(roamer, 7));
-    POKE_TOOL_SetPartyValue(pp, 0xA0, MOVE_POKEMON_SAVE_GetEntryField(roamer, 5));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_NATURE, MOVE_POKEMON_SAVE_GetEntryField(roamer, 10));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_STATUS_CONDITION, MOVE_POKEMON_SAVE_GetEntryField(roamer, 7));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HP, MOVE_POKEMON_SAVE_GetEntryField(roamer, 5));
     POKE_TOOL_RecalcParam(pp);
 }
 
@@ -650,7 +651,7 @@ const SwarmEntry *FIELD_ENCOUNT_GetSwarmEntry(struct GameData *gameData)
     struct SaveControl *saveControl = GAME_DATA_GetSaveControl(gameData);
     u32 index;
 
-    if (ZONEDATA_CheckEventFlag(func_0201296C(gameData), 0x960) == 0)
+    if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(gameData), 0x960) == 0)
         return 0;
     index = MOVE_POKEMON_SAVE_GetStartLocation(MOVE_POKEMON_SAVE_GetBlock(saveControl));
     if (index >= 0x11)
@@ -833,7 +834,7 @@ void FIELD_ENCOUNT_RollHeldItem(struct PokemonParam *pp, struct PersonalData *pe
     for (i = 0; i < 3; i++)
         itemIds[i] = POKE_PERSONAL_GetParam(personal, 0x11 + i);
     if (itemIds[0] == itemIds[1]) {
-        POKE_TOOL_SetPartyValue(pp, 6, itemIds[0]);
+        POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HELD_ITEM, itemIds[0]);
         return;
     }
     weights = &sHeldItemWeights[(compoundEyes + isDarkGrass * 2) * 3];
@@ -842,7 +843,7 @@ void FIELD_ENCOUNT_RollHeldItem(struct PokemonParam *pp, struct PersonalData *pe
     for (i = 0; i < 3; i++) {
         cumulative += weights[i];
         if (roll < cumulative) {
-            POKE_TOOL_SetPartyValue(pp, 6, itemIds[i]);
+            POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HELD_ITEM, itemIds[i]);
             return;
         }
     }
@@ -952,9 +953,9 @@ FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
     encount->fieldMap = fieldMap;
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     encount->gameSystem = gameSystem;
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     encount->gameData = gameData;
-    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(func_02012844(gameData));
+    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(GAME_DATA_GetField158(gameData));
     effectEncount = EFFECT_ENCOUNT_Create(heapId);
     encount->effectEncount = effectEncount;
     EFFECT_ENCOUNT_Init(encount, effectEncount);
@@ -985,7 +986,7 @@ int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
     skipRateCheck = 0;
     roamer = 0;
     player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
-    stepWork = func_02012A38(encount->gameData);
+    stepWork = GAME_DATA_GetFieldGimmick(encount->gameData);
     if (triggerMode == 1 || triggerMode == 2)
         skipRateCheck = 1;
     else
@@ -1120,7 +1121,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc
     struct BattleSetupParam *btlSetup;
 
     player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
-    stepWork = func_02012A38(encount->gameData);
+    stepWork = GAME_DATA_GetFieldGimmick(encount->gameData);
     FIELD_ENCOUNT_UpdateStepWork(stepWork, player);
     if (FIELD_WFBC_IsBackPeople(wfbc) == 1) {
         return 0;
@@ -1150,11 +1151,11 @@ void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct Ga
     situation->bgType = ZONEDATA_GetFieldEffectSetId(zoneId);
     situation->bgAttr = MAP_ATTR_GetBattleBackground(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(player)));
     situation->zoneId = zoneId;
-    func_0203F4CC(&time);
+    GF_STANDARD_SetField00(&time);
     situation->hour = time.hour;
     situation->minute = time.minute;
     situation->weather = FIELD_ENCOUNT_GetBattleWeather(fieldMap);
-    situation->season = func_02012984(gameData);
+    situation->season = GAME_DATA_GetSeason(gameData);
 }
 
 /* Encounter type of the player's cell, 0xFF when nothing can appear there. */
@@ -1230,7 +1231,7 @@ int FIELD_ENCOUNT_CheckWfbcRoll(EncountStepWork *stepWork, struct FieldWfbc *wfb
     int steps = FIELD_ENCOUNT_GetStepCount(stepWork);
     int peopleCount = FIELD_WFBC_GetPeopleNum(wfbc);
     int roll = func_020056EC(100);
-    fx32 peopleSqrt = func_0207C7B4(peopleCount << 12);
+    fx32 peopleSqrt = FX_Sqrt(peopleCount << 12);
     fx32 chance = FX_MUL((steps - 1) << 12, peopleSqrt);
     chance = FX_MUL(chance, 0x4000);
     return (int)GPOWER_ApplyEncountRate((int)(chance >> 12)) > roll;
@@ -1278,7 +1279,7 @@ void FIELD_ENCOUNT_SetupTrainerBattle(FieldEncount *encount, struct BattleSetupP
 
     BTL_SETUP_Clear(btlSetup);
     FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
-    trainerBgAttr = func_0202A420(func_0202A230(trainerId1, 1));
+    trainerBgAttr = TPOKE_DATA_GetTrainerGroup(TPOKE_DATA_GetRecordField(trainerId1, 1));
     if (trainerBgAttr != 0x11) {
         situation.bgAttr = trainerBgAttr;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DAC
+ * function: CHIHOU_ZUKAN_AWARD_IsActorIdle
  * address: 0x021B9DAC
  * packet: pkt_ov221_021B9DAC
  * region: ov221
@@ -16,4 +16,4 @@
 #include "../include/Obj26070.h"
 extern unsigned func_02040804(unsigned);
 typedef enum Bool { BOOL_FALSE=0,BOOL_TRUE=1 } Bool;
-Bool func_021B9DAC(char *p){int flag;Bool result;if(((struct Obj26070 *)(*(char * *)&((struct Obj26069 *)p)->f4))->f4)return BOOL_TRUE;flag=1;if(func_02040804(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
+Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(char *p){int flag;Bool result;if(((struct Obj26070 *)(*(char * *)&((struct Obj26069 *)p)->f4))->f4)return BOOL_TRUE;flag=1;if(func_02040804(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}

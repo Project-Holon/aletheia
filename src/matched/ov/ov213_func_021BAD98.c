@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD98
+ * function: COMM_BTL_DEMO_GRAPHIC_DeleteClact
  * address: 0x021BAD98
  * packet: pkt_ov213_021BAD98
  * region: ov213
@@ -19,4 +19,4 @@ typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
-void func_021BAD98(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}

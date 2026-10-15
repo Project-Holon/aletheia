@@ -14,10 +14,10 @@
  * symbols:
  *   func_02198808  0x02198808  arm  ov009
  *   func_0217EF84  0x0217EF84  arm  ov009
- *   func_0217ECA4  0x0217ECA4  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_021970BC  0x021970BC  arm  ov009
- *   func_021971BC  0x021971BC  arm  ov009
+ *   sendto  0x0217ECA4  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
+ *   gti2HandleConnectionReset  0x021970BC  arm  ov009
+ *   gti2HandleHostUnreachable  0x021971BC  arm  ov009
  *   func_021985E4  0x021985E4  arm  ov009
  *   func_02197D5C  0x02197D5C  arm  ov009
  *   func_02195408  0x02195408  arm  ov009
@@ -107,10 +107,10 @@ extern void func_02198808(unsigned char **message, int *len);
 extern int func_0217EF84(int sock);
 struct SOCSockAddr;
 struct Sock;
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern int func_0217ED54(int sock);
-extern int func_021970BC(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern int func_021971BC(struct Sock *sock, unsigned int ip, unsigned short port, int send);
+extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+extern int GOAGetLastError(int sock);
+extern int gti2HandleConnectionReset(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
+extern int gti2HandleHostUnreachable(struct Sock *sock, unsigned int ip, unsigned short port, int send);
 extern void func_021985E4(struct GTI2Socket *socket);
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int func_02195408(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
@@ -134,15 +134,15 @@ int func_02198328(struct GTI2Socket *socket, unsigned int ip, unsigned short por
         address.addr = ip;
         address.port = (unsigned short)(((port >> 8) & 0xFF) | ((port << 8) & 0xFF00));
 
-        rcode = func_0217ECA4(socket->socket, (char *)message, len, 0, (struct SOCSockAddr *)(&address), sizeof(address));
+        rcode = sendto(socket->socket, (char *)message, len, 0, (struct SOCSockAddr *)(&address), sizeof(address));
     }
     if (rcode == -1) {
-        rcode = func_0217ED54(socket->socket);
+        rcode = GOAGetLastError(socket->socket);
         if (rcode == -15) {
-            if (!func_021970BC(socket, ip, port))
+            if (!gti2HandleConnectionReset(socket, ip, port))
                 return 0;
         } else if (rcode == -23) {
-            if (!func_021971BC((struct Sock *)socket, ip, port, 1))
+            if (!gti2HandleHostUnreachable((struct Sock *)socket, ip, port, 1))
                 return 0;
         } else {
             if (rcode == -42 || rcode == -6)

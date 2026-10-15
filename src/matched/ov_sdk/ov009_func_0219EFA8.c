@@ -1,5 +1,5 @@
 /*
- * function: func_0219EFA8
+ * function: ServerBrowserRemoveServer
  * address:  0x0219EFA8
  * packet:   pkt_ov009_0219EFA8
  * region:   ov009
@@ -26,7 +26,7 @@ struct SBL;
 extern int SBServerListFindServer(struct SBL *slist, void *findserver);
 extern void SBServerListRemoveAt(struct SBL *slist, int index);
 
-void func_0219EFA8(struct ServerBrowser *sb, struct SBServer *server)
+void ServerBrowserRemoveServer(struct ServerBrowser *sb, struct SBServer *server)
 {
     int i;
 

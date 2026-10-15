@@ -1,5 +1,5 @@
 /*
- * function: func_022058F8
+ * function: SHINKA_DEMO_GRAPHIC_Create
  * address:  0x022058F8
  * packet:   pkt_022058F8
  * region:   ov195
@@ -21,10 +21,10 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_02205AC0 0x02205AC0 thumb ov195
- *   func_02205B6C 0x02205B6C thumb ov195
- *   func_02205BDC 0x02205BDC thumb ov195
- *   func_02205AAC 0x02205AAC thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_SetupMainBg 0x02205AC0 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_InitClact 0x02205B6C thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Init3d 0x02205BDC thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_VBlank 0x02205AAC thumb ov195
  *   func_020056A0 0x020056A0 thumb
  */
 #include "../include/Obj24951.h"
@@ -44,13 +44,13 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_02205AC0(void *a, void *b);
-extern void func_02205B6C(unsigned char *p, int a, u32 b);
-extern void func_02205BDC(u32 *a, void *b);
-extern void func_02205AAC(int a, char *b);
+extern void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b);
+extern void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
+extern void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b);
+extern void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b);
 extern u32 func_020056A0(void *, void *, int);
 
-char *func_022058F8(u32 a, u32 b)
+char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
 {
     char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
@@ -66,9 +66,9 @@ char *func_022058F8(u32 a, u32 b)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_02205AC0(p, (void *)b);
-    func_02205B6C((unsigned char *)(p + 4), (int)d_02208CEC, b);
-    func_02205BDC((u32 *)(p + 8), (void *)b);
-    ((struct Obj24951 *)p)->fC = func_020056A0(func_02205AAC, p, 0);
+    SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)b);
+    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, b);
+    SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)b);
+    ((struct Obj24951 *)p)->fC = func_020056A0(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
     return p;
 }

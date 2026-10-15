@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_0207E008 (ARM9).
+ * Tail call to G2_GetBG2ScrPtr (ARM9).
  *
  * symbols:
- *   func_0207E008  0x0207E008  arm
+ *   G2_GetBG2ScrPtr  0x0207E008  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *func_0207E008(void);
+extern void *G2_GetBG2ScrPtr(void);
 
 void *DRAW_SYSTEM_GetPlane(void)
 {
-    return func_0207E008();
+    return G2_GetBG2ScrPtr();
 }

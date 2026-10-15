@@ -14,11 +14,11 @@
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_0217EE50  0x0217EE50  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
+ *   SetSockBlocking  0x0217EE50  arm  ov009
  *   func_0217EF00  0x0217EF00  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
- *   func_0217ED64  0x0217ED64  arm  ov009
+ *   GSISocketSelect  0x0217ED64  arm  ov009
  *   ghiCallProgressCallback  0x021C02C8  arm  ov114
  *   sGhttpConnecting     0x021CF12C  data
  *   gGhttpThrottleBufferSize     0x021CE5B0  data
@@ -72,11 +72,11 @@ struct GHIConnection {
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern int func_0217ED54(int socket);
-extern int func_0217EE50(int sock, int isblocking);
+extern int GOAGetLastError(int socket);
+extern int SetSockBlocking(int sock, int isblocking);
 extern int func_0217EF00(int sock, int size);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
+extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern void ghiCallProgressCallback(struct GHIConnection *connection, char *buffer, int bufferLen);
 extern char sGhttpConnecting[];
 extern int gGhttpThrottleBufferSize;
@@ -100,14 +100,14 @@ void ghiDoConnecting(GHIConnection *connection)
         {
             connection->completed = 1;
             connection->result = 5;
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
             return;
         }
-        if (!func_0217EE50(connection->socket, 0))
+        if (!SetSockBlocking(connection->socket, 0))
         {
             connection->completed = 1;
             connection->result = 5;
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
             return;
         }
         if (connection->throttle)
@@ -141,7 +141,7 @@ void ghiDoConnecting(GHIConnection *connection)
         rcode = func_0217EC08(connection->socket, &address, sizeof(address));
         if (rcode == -1)
         {
-            socketError = func_0217ED54(connection->socket);
+            socketError = GOAGetLastError(connection->socket);
             if (socketError != -6 && socketError != -26 && socketError != -76)
             {
                 connection->completed = 1;
@@ -152,13 +152,13 @@ void ghiDoConnecting(GHIConnection *connection)
         }
     }
 
-    rcode = func_0217ED64(connection->socket, 0, &writeFlag, &exceptFlag);
+    rcode = GSISocketSelect(connection->socket, 0, &writeFlag, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag))
     {
         connection->completed = 1;
         connection->result = 6;
         if (rcode == -1)
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
         else
             connection->socketError = 0;
         return;

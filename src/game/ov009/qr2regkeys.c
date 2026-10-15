@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   g_021A7C90  0x021A7C90  data
  *   func_0217D254  0x0217D254  arm  ov009
  *   g_021A8088  0x021A8088  data
  *   g_021A80A0  0x021A80A0  data
  *   g_021A80CC  0x021A80CC  data
  */
-extern int func_020948E0(const char *a, const char *b);
+extern int strcmp(const char *a, const char *b);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 int func_0219D114(char *keyname);
 void func_0219D158(int keyid, char *key);
@@ -35,7 +35,7 @@ extern char g_021A80CC[];
  */
 int func_0219D114(char *keyname)
 {
-    if (func_020948E0(keyname, g_021A7C90[31]) == 0 || func_020948E0(keyname, g_021A7C90[32]) == 0)
+    if (strcmp(keyname, g_021A7C90[31]) == 0 || strcmp(keyname, g_021A7C90[32]) == 0)
         return 1;
     return 0;
 }

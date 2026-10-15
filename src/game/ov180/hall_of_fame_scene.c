@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_02041FB0 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -31,10 +31,10 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   gHallOfFameWaveArcIds 0x021B8018 data a4
@@ -62,9 +62,9 @@
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_0204EA38 0x0204EA38 arm
+ *   DOUBLE3DDISP_GetField04 0x0204EA38 arm
  *   PARTICLE_Main 0x02050BE8 arm
- *   func_0204EA4C 0x0204EA4C arm
+ *   DOUBLE3DDISP_SetField08 0x0204EA4C arm
  *   func_0204E8C0 0x0204E8C0 arm
  *   func_0204EA0C 0x0204EA0C arm
  *   PARTICLE_InitManager 0x02050B80 arm
@@ -106,7 +106,7 @@
  *   HALL_OF_FAME_DrawTrainerScene 0x021B7F30 thumb ov180
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   HALL_OF_FAME_InitGraphicsSystem 0x021B6210 thumb ov180
  *   HALL_OF_FAME_ExitGraphicsSystem 0x021B621C thumb ov180
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -234,10 +234,10 @@ typedef struct HofClactConfig {
     unsigned words[7];
 } HofClactConfig;
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,HofMtx *,u32,u32,u32,u32);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
@@ -251,10 +251,10 @@ extern void ARC_TOOL_DeleteHandle(u8 *p);
 extern void func_0207D63C(void *,u32,u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
@@ -280,9 +280,9 @@ extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern unsigned func_0204EA38(void);
+extern unsigned DOUBLE3DDISP_GetField04(void);
 extern void PARTICLE_Main(void);
-extern void func_0204EA4C(void);
+extern void DOUBLE3DDISP_SetField08(void);
 extern void func_0204E8C0(u32 heap);
 extern int func_0204EA0C(void);
 extern void PARTICLE_InitManager(u32);
@@ -311,7 +311,7 @@ extern void MCSS_SetPosition(void *p, u32 *src);
 extern void MCSS_SetAnimCallback(int, void *, void *, int);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int GFL_USE_IsSeqPlaying(u32);
@@ -370,15 +370,15 @@ void HALL_OF_FAME_InitBackgrounds(void)
 {
     HofBgSetup bg = gHallOfFameBgSetup;
     HofMtx mtx;
-    func_0203FCA0(3, (const struct BgTemplate *)&bg, 2);
-    func_0203FCA0(7, (const struct BgTemplate *)&bg, 2);
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)&bg, 2);
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)&bg, 2);
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)&mtx, 0, (void *)4096, (void *)4096, 0);
     func_0207D59C((void *)0x04000030, &mtx, 0, 0, 0, 0);
     func_0207D59C((void *)0x04001030, &mtx, 0, 0, 0, 0);
-    func_02041EE4(3, 0, 160);
-    func_02041EE4(3, 3, 112);
-    func_02041EE4(7, 0, 160);
-    func_02041EE4(7, 3, -152);
+    BG_SYS_ResetSlot(3, 0, 160);
+    BG_SYS_ResetSlot(3, 3, 112);
+    BG_SYS_ResetSlot(7, 0, 160);
+    BG_SYS_ResetSlot(7, 3, -152);
     func_02041FB0(3, 9, 160);
     func_02041FB0(3, 12, 160);
     func_02041FB0(7, 9, 160);
@@ -420,14 +420,14 @@ void HALL_OF_FAME_InitText(HallOfFameWork *work)
     work->msgData = func_02045B38(0, 2, 32, HOF_HEAP_ID);
     work->fontMain = GF_FONT_Create(23, 0, 0, 0, HOF_HEAP_ID);
     work->fontSub = GF_FONT_Create(23, 3, 0, 0, HOF_HEAP_ID);
-    work->wordSet = func_0201EC64(HOF_HEAP_ID);
+    work->wordSet = GF_FONT_Create_EC64(HOF_HEAP_ID);
     work->strBuf = STRBUF_Create(1024, HOF_HEAP_ID);
 }
 
 void HALL_OF_FAME_ExitText(HallOfFameWork *work)
 {
     STRBUF_Delete(work->strBuf);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     GF_FONT_Delete(work->fontSub);
     GF_FONT_Delete(work->fontMain);
     MSGDATA_Delete(work->msgData);
@@ -530,7 +530,7 @@ void HALL_OF_FAME_DrawParticles(HallOfFameWork *work)
 {
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
-    if (func_0204EA38() == 1) {
+    if (DOUBLE3DDISP_GetField04() == 1) {
         HALL_OF_FAME_SetParticleCamera(work, work->monParticle, 1);
         HALL_OF_FAME_SetParticleCamera(work, work->backdropParticle, 1);
     } else {
@@ -539,7 +539,7 @@ void HALL_OF_FAME_DrawParticles(HallOfFameWork *work)
     }
     PARTICLE_Main();
     G3D_SYSTEM_DrawEnd();
-    func_0204EA4C();
+    DOUBLE3DDISP_SetField08();
 }
 
 void HALL_OF_FAME_InitParticleHeap(void)
@@ -713,8 +713,8 @@ int HALL_OF_FAME_StateInit(HallOfFameWork *work)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
-    func_0207D534((void *)0x0400006c, -16);
-    func_0207D534((void *)0x0400106c, -16);
+    GXx_SetMasterBrightness_((void *)0x0400006c, -16);
+    GXx_SetMasterBrightness_((void *)0x0400106c, -16);
     HALL_OF_FAME_InitGraphicsSystem();
     HALL_OF_FAME_InitText(work);
     HALL_OF_FAME_StartBgm(work);
@@ -727,8 +727,8 @@ int HALL_OF_FAME_StateExit(HallOfFameWork *work)
     HALL_OF_FAME_ReleaseWaveArc(work);
     HALL_OF_FAME_ExitText(work);
     HALL_OF_FAME_ExitGraphicsSystem();
-    func_0207D534((void *)0x0400006c, -16);
-    func_0207D534((void *)0x0400106c, -16);
+    GXx_SetMasterBrightness_((void *)0x0400006c, -16);
+    GXx_SetMasterBrightness_((void *)0x0400106c, -16);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     BG_SYS_SetMainVisiblePlanes(0);

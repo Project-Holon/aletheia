@@ -12,7 +12,7 @@
  * sdk:      gti2BufferShorten (gt2buffer.o)
  *
  * symbols:
- *   func_02092364 0x02092364  arm
+ *   memmove 0x02092364  arm
  */
 
 typedef struct {
@@ -21,13 +21,13 @@ typedef struct {
     int length;
 } GTI2Buffer;
 
-extern void *func_02092364(void *dest, const void *src, unsigned int n);
+extern void *memmove(void *dest, const void *src, unsigned int n);
 
 void func_02194E80(GTI2Buffer *buffer, int start, int shortenBy)
 {
     if (start == -1)
         start = buffer->length - shortenBy;
-    func_02092364(buffer->buffer + start, buffer->buffer + start + shortenBy,
+    memmove(buffer->buffer + start, buffer->buffer + start + shortenBy,
                   buffer->length - start - shortenBy);
     buffer->length -= shortenBy;
 }

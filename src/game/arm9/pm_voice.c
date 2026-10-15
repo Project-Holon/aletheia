@@ -78,8 +78,8 @@
  *   func_020070A4  0x020070A4  thumb
  *   func_02007B44  0x02007B44  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0208BEF0  0x0208BEF0  arm
- *   func_0208BF38  0x0208BF38  arm
+ *   PM_SetAmp  0x0208BEF0  arm
+ *   PM_SetAmpGain  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
@@ -353,12 +353,11 @@ extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
 extern struct SaveData  *func_020070A4(void);
 extern struct SaveBlock *func_02007B44(struct SaveData *saveData);
 extern void  MI_CpuFill8(void *p, u32 value, u32 size);
-extern unsigned int func_0208BEF0(unsigned int on);
-extern unsigned int func_0208BF38(unsigned int gain);
+extern unsigned int PM_SetAmp(unsigned int on);
+extern unsigned int PM_SetAmpGain(unsigned int gain);
 extern void  func_0208B24C(void);
 extern int   OS_IsRunOnTwl(void);
 extern void  SNDEXi_SetIirFilter(u32 index, u8 *coefficients);
-extern void  PM_SetAmp(u32 on);
 extern u32   MIC_AdjustLimitedSampling(const struct MICAutoParam *param);
 extern void  func_02007BD0(struct PerapVoice *perapVoice, const void *src);
 
@@ -1927,8 +1926,8 @@ void SND_MIC_Init(u16 heapId)
     sampleBuffer = func_02030734(heapId, 0x2014, 0, _SndMicFile, 0x5f);
     MI_CpuFill8(sampleBuffer, 0, 0x2014);
     mic->sampleBuffer = sampleBuffer;
-    func_0208BEF0(1);
-    func_0208BF38(2);
+    PM_SetAmp(1);
+    PM_SetAmpGain(2);
     mic->status.word = (mic->status.word & ~1u) | 1u;
     func_0208B24C();
     if (OS_IsRunOnTwl() == 1) {

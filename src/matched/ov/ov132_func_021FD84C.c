@@ -1,5 +1,5 @@
 /*
- * function: func_021FD84C
+ * function: STA_NET_SendRandomOrder
  * address: 0x021FD84C
  * packet: pkt_ov132_021FD84C
  * region: ov132
@@ -24,7 +24,7 @@ static inline u8 random4(void)
     draw = func_0203F0A8();
     return ((u64)draw * 4) >> 32;
 }
-int func_021FD84C(u8 *p)
+int STA_NET_SendRandomOrder(u8 *p)
 {
     u8 slots[4];
     u8 i, j, n;

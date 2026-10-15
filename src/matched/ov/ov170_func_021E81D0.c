@@ -18,7 +18,7 @@
  *   BOX2_UI_DrawSlot 0x021EDAB0 thumb
  *   BOX2_UI_DrawSlotByName 0x021EDB34 thumb
  *   BOX2_UI_ShowWindowA 0x021EF670 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
@@ -46,7 +46,7 @@ extern void BOX2_MAIN_ResetBoxView(char *p);
 extern void BOX2_UI_DrawSlot(char *p, int i);
 extern void BOX2_UI_DrawSlotByName(char *p, int a);
 extern void BOX2_UI_ShowWindowA(char *w);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern void BOX2_UI_ToggleSlotPair(char *w, int a);
@@ -92,7 +92,7 @@ int BOX2_SEQ_StateMoveItemF(unsigned char *p)
                 STATE(p) = 0x11;
                 BOX2_UI_ShowWindowA(WORK(p));
             }
-            func_020260E4(OBJ(p), p[0x16]);
+            CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16]);
             BOX2_UI_SetCursorPos((char **)p, p[0x16]);
             BOX2_SEQ_SetCursorDraw((char **)p, 1);
             BOX2_UI_ToggleSlotPair(WORK(p), 1);
@@ -111,7 +111,7 @@ int BOX2_SEQ_StateMoveItemF(unsigned char *p)
         STEP(p) = 0;
         BOX2_SEQ_Delete((char *)p);
         BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
-        func_020260E4(OBJ(p), p[0x16] - 0x1E);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16] - 0x1E);
         BOX2_UI_SetCursorPos((char **)p, p[0x16] - 0x1E);
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         p[0x16] = 0xFF;

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_0217ED64  0x0217ED64  arm   ov009
+ *   GSISocketSelect  0x0217ED64  arm   ov009
  *   ghiPostDoPosting  0x021C3834  arm   ov114
  *   ghiPostCleanupState  0x021C2BB0  arm   ov114
  *   ghiCallProgressCallback  0x021C02C8  arm   ov114
@@ -34,7 +34,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0217ED64(int, int *, int *, int *);
+extern int GSISocketSelect(int, int *, int *, int *);
 extern int ghiPostDoPosting(GHIConnection *);
 extern void ghiPostCleanupState(GHIConnection *);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
@@ -54,7 +54,7 @@ void ghiDoPosting(GHIConnection *connection)
     if (result == 0) {
         readFlag = 0;
         ghiPostCleanupState(connection);
-        rcode = func_0217ED64(connection->f50, &readFlag, 0, 0);
+        rcode = GSISocketSelect(connection->f50, &readFlag, 0, 0);
         if (rcode != 1)
             return;
         if (readFlag == 0)

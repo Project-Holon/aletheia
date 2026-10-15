@@ -32,7 +32,7 @@
  *   FLDMMDL_CheckStatusBitVanish  0x0216DAB4  thumb  ov010
  *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
  *   FLDMMDL_GetModelOffset  0x0216D92C  thumb  ov010
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FLDMMDL_GetDrawOffset  0x0216D8B0  thumb  ov010
  *   BILLBOARD_SetElemVisible  0x0204F720  arm
  *   BILLBOARD_SetElemPos  0x0204F638  arm
@@ -114,7 +114,7 @@ extern int FLDMMDL_SysIsDrawEnable(void *mmdlSys);
 extern int FLDMMDL_CheckStatusBitVanish(const Mmdl *mmdl);
 extern u32 FLDMMDL_CheckMoveBit(const Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_GetModelOffset(const Mmdl *mmdl, VecFx32 *out);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void FLDMMDL_GetDrawOffset(const Mmdl *mmdl, VecFx32 *out);
 extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, u32 *visible);
 extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elemId, const VecFx32 *pos);
@@ -320,12 +320,12 @@ void FLDEFF_SHADOW_Draw(FieldEffectObj *obj, FldeffShadowWork *work)
         show = 1;
         FLDMMDL_GetPos(work->mmdl, &pos);
         FLDMMDL_GetModelOffset(work->mmdl, &offset);
-        func_0207C9D0(&pos, &offset, &pos);
+        VEC_Add(&pos, &offset, &pos);
         if ((u8)(codeParam->drawProcNo + 246) <= 1) {
             FLDMMDL_GetDrawOffset(work->mmdl, &offset);
             if (codeParam->mdlSize == 0)
                 offset.y = -0x800;
-            func_0207C9D0(&pos, &offset, &pos);
+            VEC_Add(&pos, &offset, &pos);
         }
         BILLBOARD_SetElemVisible(work->shadow->board, entryId, &show);
         pos.y += FLDEFF_SHADOW_RAISE;

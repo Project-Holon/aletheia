@@ -16,14 +16,14 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041F6C 0x02041F6C arm
  *   func_02041FB0 0x02041FB0 arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_020070A4 0x020070A4 thumb
- *   func_0200A8A0 0x0200A8A0 thumb
+ *   IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
@@ -43,7 +43,7 @@
  *   IRC_COMPATIBLE_MENU_VramBankConfig 0x021B8B2C data a4
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -101,7 +101,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   func_020413B0 0x020413B0 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   IRC_COMPATIBLE_MENU_StepLinear 0x021B8A90 thumb ov102
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
@@ -109,17 +109,17 @@
  *   func_02005728  0x02005728  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   _u32_div_f 0x0209C2B0 arm
- *   func_0200A8AC  0x0200A8AC  thumb
- *   func_0200A8F8  0x0200A8F8  thumb
+ *   IRC_RANKING_GetEntryCount  0x0200A8AC  thumb
+ *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   IRC_COMPATIBLE_MENU_BgLayerIds 0x021B8AEC data a4
  *   CLACT_InitSystem 0x0204A48C arm
@@ -150,6 +150,10 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   BG_SYS_Create  0x0203F8F4  arm  arm9
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
+ *   BG_SYS_Init  0x02040C14  arm  arm9
  */
 #include "irc_screen_types.h"
 #include "../ov101/irc_appbar.h"
@@ -276,14 +280,14 @@ typedef struct IrcMenuWork {
 extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
-extern u32 func_02012138(void *gameSystem);
+extern u32 ICA_ANIME_GetField24(void *gameSystem);
 extern void func_0201F73C(void *bmpWin, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32 which, u32 op, u16 value);
-extern void *func_020120F4(void *gameSystem);
+extern void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *func_020070A4(void);
-extern void *func_0200A8A0(void *saveControl);
+extern void *IRC_RANKING_GetFromSave(void *saveControl);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
 extern void func_020315D4(void *proc);
@@ -298,24 +302,24 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_SetVramBanks(const void *config);
 extern unsigned func_020056A0(void (*task)(unsigned, void *), void *work, unsigned priority);
 extern void func_02030EAC(unsigned task);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(const void *config);
-extern void func_0203FCA0(u32 bgId, const void *template, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(unsigned, unsigned, unsigned);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const void *config, u32 arg, u32 heapId);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -340,9 +344,9 @@ extern void func_0201DD60(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201EC64(u32 heap);
+extern void *GF_FONT_Create_EC64(u32 heap);
 extern void func_02049B40(unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern void func_0201ED04(void *wordSet);
+extern void WORDSET_DeleteStrbufED04(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
 extern void PRINTSYS_QUE_Delete(void *printQueue);
 extern void GF_FONT_Delete(void *font);
@@ -396,13 +400,13 @@ extern void func_0201DD68(void);
 extern void BUTTON_MAN_Delete(void *buttonMan);
 extern int BUTTON_MAN_UpdateSlots(void *buttonMan);
 extern void func_020413B0(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
-extern void func_02041EE4(u32 which, u32 op, u32 value);
+extern void BG_SYS_ResetSlot(u32 which, u32 op, u32 value);
 extern void CLACT_SetActorAnimSeq(void *actor, int seq);
 extern void CLACT_AddActorSurfacePos(void *actor, const void *delta, u32 which);
 extern u32 func_02005728(u32 range);
 extern void CLACT_SetActorAnimFrame(void *actor, u32 frame);
-extern s32 func_0200A8AC(void *records);
-extern u32 func_0200A8F8(void *records, u32 index);
+extern s32 IRC_RANKING_GetEntryCount(void *records);
+extern u32 IRC_RANKING_GetEntryGender(void *records, u32 index);
 
 extern u32 IRC_COMPATIBLE_MENU_ButtonRows[];
 extern unsigned IRC_COMPATIBLE_MENU_VramBankConfig[];
@@ -485,7 +489,7 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     IRC_COMPATIBLE_MENU_InitText(&work->text, 59);
     IRC_COMPATIBLE_MENU_InitDisplay(work, 59);
     IRC_COMPATIBLE_MENU_InitBackgrounds(&work->bg, 59);
-    if (work->args->gameSystem) func_02012138(work->args->gameSystem);
+    if (work->args->gameSystem) ICA_ANIME_GetField24(work->args->gameSystem);
     IRC_COMPATIBLE_MENU_InitButtons(&work->buttons, 2, (const IrcButtonRow *)IRC_COMPATIBLE_MENU_ButtonRows, 2, &work->text, 59);
     IRC_COMPATIBLE_MENU_InitTitleWindow(&work->title, 5, 1, 18, 30, 5, 8, 59);
     func_0201F73C(work->title.bmpWin, 0, (u16)work->bg.charRange, 6);
@@ -498,9 +502,9 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     func_02041FB0(7, 12, 40);
     IRC_COMPATIBLE_MENU_InitScrollEffect(&work->scroll, 59);
     saveData = work->args->gameSystem;
-    if (saveData) saveData = GAME_DATA_GetSaveControl(func_020120F4(saveData));
+    if (saveData) saveData = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(saveData));
     else saveData = func_020070A4();
-    IRC_COMPATIBLE_MENU_InitFloaters(&work->floaters, work, func_0200A8A0(saveData), 59);
+    IRC_COMPATIBLE_MENU_InitFloaters(&work->floaters, work, IRC_RANKING_GetFromSave(saveData), 59);
     unit = IRC_COMPATIBLE_MENU_GetSpriteUnit(work);
     font = IRC_COMPATIBLE_MENU_TextGetFont(&work->text);
     printQueue = IRC_COMPATIBLE_MENU_TextGetPrintQueue(&work->text);
@@ -614,12 +618,12 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
     int i;
     u32 layer;
     void *arc;
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(IRC_COMPATIBLE_MENU_BgDisplayConfig);
     for (i = 0; i < 8; i++) {
         layer = IRC_COMPATIBLE_MENU_BgLayerIds[i];
-        func_0203FCA0((u8)layer, IRC_COMPATIBLE_MENU_BgTemplates[i], (u8)IRC_COMPATIBLE_MENU_BgLayerTypes[i]);
+        BG_SYS_InitBgLayer((u8)layer, IRC_COMPATIBLE_MENU_BgTemplates[i], (u8)IRC_COMPATIBLE_MENU_BgLayerTypes[i]);
         func_020414AC(layer);
         func_02040588(layer, 1);
     }
@@ -634,7 +638,7 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
     func_020498F4(arc, 4, 6, 0, 0, 0, heapId);
     func_020498F4(arc, 44, 4, 0, 0, 0, heapId);
     func_020498F4(arc, 43, 2, 0, 0, 0, heapId);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     bg->charRange = func_02049740(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
     bg->vblankTask = func_020056A0(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
@@ -649,11 +653,11 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg)
     unsigned range;
     func_02030EAC(bg->vblankTask);
     range = bg->charRange;
-    func_0203FB44(5, (u16)range, (u16)(range >> 16));
+    BG_SYS_DeleteHalf(5, (u16)range, (u16)(range >> 16));
     func_02040DA8(5, 1, 0);
     for (i = 0; i < 8; i++) func_020403F4((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void IRC_COMPATIBLE_MENU_BackgroundVBlank(unsigned taskId, void *work) { func_020419E4(); }
@@ -725,14 +729,14 @@ void IRC_COMPATIBLE_MENU_InitText(IrcTextSystem *text, u16 heapId)
     text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
     text->msgData = func_02045B38(0, 2, 0x31, heapId);
-    text->wordSet = func_0201EC64(heapId);
+    text->wordSet = GF_FONT_Create_EC64(heapId);
     func_02049B40(0x17, 5, 4, 0, 0x20, heapId);
     func_02049B40(0x17, 5, 0, 0, 0x20, heapId);
 }
 
 void IRC_COMPATIBLE_MENU_ExitText(IrcTextSystem *text)
 {
-    func_0201ED04(text->wordSet);
+    WORDSET_DeleteStrbufED04(text->wordSet);
     MSGDATA_Delete(text->msgData);
     PRINTSYS_QUE_Delete(text->printQueue);
     GF_FONT_Delete(text->font);
@@ -877,7 +881,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
         if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, work->args->gameSystem)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
-                saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(func_020120F4(work->args->gameSystem)));
+                saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
                 MISC_SAVEDATA_InsertRecentValue(saveData, func_02008530(work->args->profile->myStatus));
             }
             *state = 6;
@@ -1178,8 +1182,8 @@ void IRC_COMPATIBLE_MENU_ButtonCallback(u16 value, int flag, IrcButtons *buttons
 void IRC_COMPATIBLE_MENU_InitScrollEffect(IrcScrollEffect *effect, u32 unused)
 {
     MI_CpuFill8(effect, 0, 28);
-    func_02041EE4(4, 3, 88);
-    func_02041EE4(7, 3, 88);
+    BG_SYS_ResetSlot(4, 3, 88);
+    BG_SYS_ResetSlot(7, 3, 88);
 }
 
 void IRC_COMPATIBLE_MENU_ExitScrollEffect(IrcScrollEffect *effect) { MI_CpuFill8(effect, 0, 28); }
@@ -1188,8 +1192,8 @@ void IRC_COMPATIBLE_MENU_UpdateScrollEffect(IrcScrollEffect *effect)
 {
     if (effect->active) {
         if (IRC_COMPATIBLE_MENU_StepLinear(&effect->step)) effect->active = 0;
-        func_02041EE4(4, 3, 88 - effect->step.value);
-        func_02041EE4(7, 3, 88 - effect->step.value);
+        BG_SYS_ResetSlot(4, 3, 88 - effect->step.value);
+        BG_SYS_ResetSlot(7, 3, 88 - effect->step.value);
     }
 }
 
@@ -1265,14 +1269,14 @@ void IRC_COMPATIBLE_MENU_InitFloaters(IrcFloaters *floaters, IrcMenuWork *work, 
     if (records == 0)
         floaters->totalCount = 0x1e;
     else
-        floaters->totalCount = func_0200A8AC(records);
+        floaters->totalCount = IRC_RANKING_GetEntryCount(records);
     for (i = 0; i < floaters->totalCount; i++) {
         void *actor = IRC_COMPATIBLE_MENU_GetSprite(work, i);
         u32 isSpecial;
         if (records == 0)
             isSpecial = func_02005728(2);
         else
-            isSpecial = (func_0200A8F8(records, i) == 1);
+            isSpecial = (IRC_RANKING_GetEntryGender(records, i) == 1);
         IRC_COMPATIBLE_MENU_InitFloater(&floaters->floater[i], actor, isSpecial, unused);
     }
 }

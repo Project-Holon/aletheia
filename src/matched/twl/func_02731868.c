@@ -1,5 +1,5 @@
 /*
- * function: func_02731868
+ * function: SHA1_HMAC_Finish
  * address:  0x02731868
  * packet:   twl_sys
  * region:   twl
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02731754  0x02731754  thumb
- *   func_02731760  0x02731760  thumb
- *   func_02731764  0x02731764  thumb
+ *   SHA1_HMAC_Init  0x02731754  thumb
+ *   SHA1_HMAC_Update  0x02731760  thumb
+ *   SHA1_HMAC_GetHash  0x02731764  thumb
  *   NWM_Init  0x02702434  arm
  *   NWM_GetState  0x027028B0  arm
  *   NWM_GetAllowedChannel  0x02702980  arm
@@ -54,6 +54,9 @@
  *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   WCMi_EntryApList  0x02165D04  arm  ov009
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
+ *   SHA1_HMAC_Start  0x02731774  arm
+ *   SHA1_HMAC_UpdateData  0x0273184C  arm
+ *   SHA1_HMAC_Calc  0x02731920  arm
  */
 
 typedef unsigned int u32;
@@ -174,10 +177,10 @@ extern unsigned long func_021656D0(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
 extern void func_02165AF4(void);
 extern void OS_WakeupThread(void *queue);
-void func_02731774(HmacCtx *ctx, const void *key, u32 key_len);
-void func_0273184C(void *a, const void *b, u32 c);
-void func_02731868(HmacCtx *ctx, u8 *digest);
-asm void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
+void SHA1_HMAC_Start(HmacCtx *ctx, const void *key, u32 key_len);
+void SHA1_HMAC_UpdateData(void *a, const void *b, u32 c);
+void SHA1_HMAC_Finish(HmacCtx *ctx, u8 *digest);
+asm void SHA1_HMAC_Calc(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);
 int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c);
@@ -199,14 +202,14 @@ extern u8 data_021A1988[];
 extern u8 data_021A1990[];
 
 #pragma thumb on
-extern void func_02731754(void *ctx);
-extern void func_02731760(void *ctx, const void *data, u32 len);
-extern void func_02731764(void *ctx, void *digest);
+extern void SHA1_HMAC_Init(void *ctx);
+extern void SHA1_HMAC_Update(void *ctx, const void *data, u32 len);
+extern void SHA1_HMAC_GetHash(void *ctx, void *digest);
 #pragma thumb reset
 
 
 
-void func_02731868(HmacCtx *ctx, u8 *digest)
+void SHA1_HMAC_Finish(HmacCtx *ctx, u8 *digest)
 {
     u8 pad[0x40];
     u8 inner[0x14];
@@ -216,7 +219,7 @@ void func_02731868(HmacCtx *ctx, u8 *digest)
     if (ctx == 0 || digest == 0) {
         return;
     }
-    func_02731764(ctx, inner);
+    SHA1_HMAC_GetHash(ctx, inner);
     i = 0;
     if (i < ctx->keyLen) {
         p = pad;
@@ -232,8 +235,8 @@ void func_02731868(HmacCtx *ctx, u8 *digest)
             i++;
         } while (i < 0x40);
     }
-    func_02731754(ctx);
-    func_02731760(ctx, pad, 0x40);
-    func_02731760(ctx, inner, 0x14);
-    func_02731764(ctx, digest);
+    SHA1_HMAC_Init(ctx);
+    SHA1_HMAC_Update(ctx, pad, 0x40);
+    SHA1_HMAC_Update(ctx, inner, 0x14);
+    SHA1_HMAC_GetHash(ctx, digest);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B8C
+ * function: CTVT_COMM_GetSlotConnected
  * address:  0x021B8B8C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021B8B8C(int unused, char *base, int i)
+u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i)
 {
     return *(u32 *)(base + (i << 6) + 0x68);
 }

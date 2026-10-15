@@ -10,16 +10,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02021014, func_020210C8
+ * function: FILE_UTIL_Get_1014, func_020210C8
  *
  * The two halves of one property-getter interface over a packed record: a
  * caller hands in a record pointer and a property id, and gets an unsigned
- * quantity back.  Ids 0..0x11 are answered by func_02021014 out of the record
+ * quantity back.  Ids 0..0x11 are answered by FILE_UTIL_Get_1014 out of the record
  * header; anything above that is delegated, for one of the two header layouts,
  * to func_020210C8 on the sub-record at +0x10, which answers ids 0x12..0x3E out
  * of a seventeen-byte bitfield block.
  *
- * The two are one file rather than two because func_02021014's call to
+ * The two are one file rather than two because FILE_UTIL_Get_1014's call to
  * func_020210C8 is the only branch to that address anywhere in the image: as
  * separate files neither can attest the other and both cap at MATCH, while in
  * one translation unit the call is `local` and needs no image evidence at all
@@ -27,7 +27,7 @@
  *
  * Two shape findings, both of which cost real bytes:
  *
- *  - func_02021014's dispatch runs in r2, not in the switch value's own r1
+ *  - FILE_UTIL_Get_1014's dispatch runs in r2, not in the switch value's own r1
  *    (docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md: the
  *    index register is the switch value's register only when that register is
  *    dead across the arms).  Here it is not dead, and the reason is the
@@ -37,7 +37,7 @@
  *    argument function is byte for byte right everywhere else and wrong in
  *    those nine bytes.  func_020210C8's own `subs r1, #0x12` is the independent
  *    confirmation that its second parameter is the same id.
- *  - the fall-through of func_02021014 is a two-case `switch` on the header
+ *  - the fall-through of FILE_UTIL_Get_1014 is a two-case `switch` on the header
  *    byte at +0xC, not a chain of `if`s: the switch form emits
  *    cmp/beq, cmp/beq, b-to-default, the `if` chain emits the inverted
  *    bne-over form and is two bytes shorter.
@@ -144,7 +144,7 @@ struct Rec {
 
 int func_020210C8(struct Sub *q, u32 sel);
 
-u32 func_02021014(struct Rec *p, u32 sel)
+u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel)
 {
     switch (sel) {
     case 0:

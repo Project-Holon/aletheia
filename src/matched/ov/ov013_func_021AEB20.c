@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0208B24C  0x0208B24C  arm
- *   func_0208B8B0  0x0208B8B0  arm
- *   func_0208BEF0  0x0208BEF0  arm
- *   func_0208BF38  0x0208BF38  arm
+ *   PM_Init  0x0208B8B0  arm
+ *   PM_SetAmp  0x0208BEF0  arm
+ *   PM_SetAmpGain  0x0208BF38  arm
  *   VCT_SESSION_SetSendEnabled  0x021B0CD8  arm  ov013
  *   NNS_SndInit  0x020726D0  arm
  *   NNS_SndStrmInit  0x020737C0  arm
@@ -30,9 +30,9 @@ typedef unsigned int u32;
 extern struct Work *gVctWork;
 
 extern void func_0208B24C(void);
-extern void func_0208B8B0(void);
-extern unsigned int func_0208BEF0(unsigned int status);
-extern unsigned int func_0208BF38(unsigned int gain);
+extern void PM_Init(void);
+extern unsigned int PM_SetAmp(unsigned int status);
+extern unsigned int PM_SetAmpGain(unsigned int gain);
 extern void VCT_SESSION_SetSendEnabled(int x);
 extern void NNS_SndInit(void);
 struct S;
@@ -43,9 +43,9 @@ extern void VCT_SESSION_SetFilterEnabled(int x);
 void VCT_MAIN_InitAudio(void)
 {
     func_0208B24C();
-    func_0208B8B0();
-    func_0208BEF0(1);
-    func_0208BF38(3);
+    PM_Init();
+    PM_SetAmp(1);
+    PM_SetAmpGain(3);
     VCT_SESSION_SetSendEnabled(1);
     NNS_SndInit();
     NNS_SndStrmInit((struct S *)(((u8 *)gVctWork) + 0x19B8));

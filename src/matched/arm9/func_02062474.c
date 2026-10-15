@@ -1,5 +1,5 @@
 /*
- * function: func_02062474
+ * function: NNSi_GfdInitPlttVramManager
  * address:  0x02062474
  * packet:   pkt_02062474
  * region:   arm9
@@ -13,9 +13,9 @@
  *   g_02146BB0       0x02146BB0  data
  *   NNS_GfdDefaultFuncAllocPlttVram       0x020A8148  data
  *   NNS_GfdDefaultFuncFreePlttVram       0x020A814C  data
- *   func_020625D8    0x020625D8  arm
- *   func_020624C8    0x020624C8  arm
- *   func_02062594    0x02062594  arm
+ *   NNSi_GfdInitPlttVramHeap    0x020625D8  arm
+ *   NNS_GfdAllocPlttVram    0x020624C8  arm
+ *   NNS_GfdFreePlttVram    0x02062594  arm
 
  * Blocking class: evidence (`literal`/`label`).  Every concrete byte is right; the
  * one unresolved site is the ABS32 for the data object at 0x020624C8 at 0x020624B8
@@ -35,19 +35,19 @@ typedef unsigned int u32;
 extern struct Hdr02062474 g_02146BB0;
 extern u32 NNS_GfdDefaultFuncAllocPlttVram;
 extern u32 NNS_GfdDefaultFuncFreePlttVram;
-extern void func_020625D8(void);
-extern u32 func_020624C8(u32 size, u32 flag);
-extern int func_02062594(u32 id);
+extern void NNSi_GfdInitPlttVramHeap(void);
+extern u32 NNS_GfdAllocPlttVram(u32 size, u32 flag);
+extern int NNS_GfdFreePlttVram(u32 id);
 
-void func_02062474(u32 a, u32 b, u32 c, u32 d)
+void NNSi_GfdInitPlttVramManager(u32 a, u32 b, u32 c, u32 d)
 {
     g_02146BB0.f08 = a;
     g_02146BB0.f0c = b;
     g_02146BB0.f10 = c;
-    func_020625D8();
+    NNSi_GfdInitPlttVramHeap();
     if (d == 0) {
         return;
     }
-    NNS_GfdDefaultFuncAllocPlttVram = (u32)func_020624C8;
-    NNS_GfdDefaultFuncFreePlttVram = (u32)func_02062594;
+    NNS_GfdDefaultFuncAllocPlttVram = (u32)NNS_GfdAllocPlttVram;
+    NNS_GfdDefaultFuncFreePlttVram = (u32)NNS_GfdFreePlttVram;
 }

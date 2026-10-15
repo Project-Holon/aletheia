@@ -17,9 +17,9 @@
  *   join `b` as in the original. Tried and not taken: the post-switch tail as a static inline
  *   `finish(a, b, r, ret)` (432 B, same bne/b).
  * 2026-10-05 (wD9r lane143): HIDDEN SECOND RESIDUE FOUND AND FIXED. The draft also had an extra lone `b` in the
- *   case 3/6 inner switch (the 0x7A9 if-join jumped to the shared func_0205CC20 call; bne landed on that b).
- *   The original falls through: the 0x7A9 arm has no func_0205CC20 call and no break, it falls into
- *   `case 0: case 1: case 2: func_0205CC20(); break;`. Applied here (real source form). Now only the r == 0
+ *   case 3/6 inner switch (the 0x7A9 if-join jumped to the shared DWC_CleanupInet call; bne landed on that b).
+ *   The original falls through: the 0x7A9 arm has no DWC_CleanupInet call and no break, it falls into
+ *   `case 0: case 1: case 2: DWC_CleanupInet(); break;`. Applied here (real source form). Now only the r == 0
  *   bne/b remains (code 0x19C vs 0x19A; the size shows 436 because the original's 2-byte pad absorbs it).
  *   Probes with the fall-through (scratchpad wD9r/l143): (1) w2.c = lane125's goto mechanism with
  *   `ret = v;` BEFORE the switch, `if (r == 0) goto L;`, case 4 `if (range) { DWC_GdbShutdown(); L: ret = v;
@@ -36,7 +36,7 @@
  *   the top), `ret = v;` after the switch, `if (r == 0) goto L;`, case 4 `if (range) { DWC_GdbShutdown();
  *   L: ret = v; goto out; } break;`: 436 B, beq onto 02156022 exactly. Residue of the probe: two cross-jump
  *   directions flip (case 1 jumps into case 2's `movs r0,#6; bl` tail instead of the reverse; the case 3/6
- *   inner switch gets an extra `b` to the shared func_0205CC20 call). Not filed: goto into a case body is not
+ *   inner switch gets an extra `b` to the shared DWC_CleanupInet call). Not filed: goto into a case body is not
  *   a natural form. Without the goto, an r == 0 copy block of its own is constant-folded (ret = v = 0 ->
  *   movs r6,#0, 440 B). Inline tries: range test plus DWC call as a static inline in cases 2 and 4 (void,
  *   int-returning, and early-return forms): 440 B, r5/r6 swap; switch and r test in a static inline
@@ -65,7 +65,7 @@
  *   Probe with cases 1 and 2 deleted: the beq still expands, no join `b` after a call is reused. So the
  *   original 02156022 b was not a plain join b at branch-fix time; source form still unknown.
  * 2026-10-05 (wD9r lane65): still 4 bytes (440 vs 436). Twin search: no matched function with this
- *   callee set (021552E8 and 02156690 call func_02059E38 but are different shapes). Tried: case 4 as
+ *   callee set (021552E8 and 02156690 call DWC_GetLastErrorEx but are different shapes). Tried: case 4 as
  *   `if (out of range) break; DWC_GdbShutdown(); break;` and as two nested ifs (both 440 B, same bne/b);
  *   a dead local store and `ret = ret` after the switch with case 4 last, as a probe for a non-empty
  *   join block (both 440 B, same bne/b, so an early-emptied block is not the cause); `if (r == 0) goto L;`
@@ -98,7 +98,7 @@
  *   threaded to the tail before range fixing in every form so far.
  *
  * note (2026-10-04, wave D3 lane 13): complete draft, only residue is the first
- *   branch after func_02059E38: original is `beq 0x2156022` (a short branch to the
+ *   branch after DWC_GetLastErrorEx: original is `beq 0x2156022` (a short branch to the
  *   `b end` that closes case 4), ours is `bne body; b end` (+4 bytes, 440 vs 436).
  *   Everything after matches instruction for instruction modulo that shift.
  *   Tried: `if (r == 0) goto tail;` plus a tail label (same output).
@@ -120,10 +120,10 @@
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
- *   func_02059E38  0x02059E38  arm
+ *   DWC_GetLastErrorEx  0x02059E38  arm
  *   func_02059F18  0x02059F18  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
- *   func_0205CC20  0x0205CC20  arm
+ *   DWC_CleanupInet  0x0205CC20  arm
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   DWC_ShutdownFriendsMatch  0x0216AD50  arm  ov009
  *   DWC_NdCleanupAsync  0x021C5B80  arm  ov114
@@ -138,10 +138,10 @@ typedef int (*Cb)(u32, u32, u32, int);
 
 extern u8 *g_021A8264;
 extern void DWC_RAP_SetState(int v);
-extern int func_02059E38(int *a, int *b);
+extern int DWC_GetLastErrorEx(int *a, int *b);
 extern void func_02059F18(void);
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
-extern void func_0205CC20(void);
+extern void DWC_CleanupInet(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void DWC_ShutdownFriendsMatch(void);
 extern int DWC_NdCleanupAsync(void);
@@ -155,7 +155,7 @@ int DWC_RAP_HandleError(void)
     u32 v = 0;
     Cb cb;
 
-    r = func_02059E38(&a, &b);
+    r = DWC_GetLastErrorEx(&a, &b);
     if (r == 0) goto L;
     cb = *(Cb *)(g_021A8264 + 0x294);
     if (cb != 0) {
@@ -203,7 +203,7 @@ int DWC_RAP_HandleError(void)
                 }
                 /* fall through */
             case 0: case 1: case 2:
-                func_0205CC20();
+                DWC_CleanupInet();
                 break;
             default:
                 break;

@@ -1,5 +1,5 @@
 /*
- * function: func_0220B07C
+ * function: B_APP_TOOL_ShowWindow
  * address: 0x0220B07C
  * packet: pkt_ov196_0220B07C
  * region: ov196
@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   sub_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,5 +22,5 @@ struct Descriptor;
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void sub_02041B6C(u32);
-void func_0220B07C(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); sub_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
+extern void BG_SYS_SetFlagField06(u32);
+void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }

@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: func_02034E24, func_02034EF8, func_02034F5C, func_02034F74, func_02034F84, func_02034FA0, func_02034FB8, func_02034FD4, func_02034FE8, func_02035004, func_02035010, func_02035034, func_02035040, func_02035064, func_02035080, func_0203508C, func_02035100, func_02035108, func_02035120, func_0203512C, func_02035138, func_0203515C, func_0203516C, func_02035188, func_020351A0, func_020351BC, func_020351D0, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC, DWCi_IsFold
+ * function: func_02034E24, func_02034EF8, func_02034F5C, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, func_02035080, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, func_02035120, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, func_0203515C, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, func_020351BC, UI_TestFlags39Global, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC, DWCi_IsFold
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -39,8 +39,7 @@
  *   PM_GetBattery  0x0208BF6C  arm
  *   PM_GetACAdapter 0x0208BFAC  arm
  */
-#define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
-struct AreaCtx;
+#define SYS_TICK_COUNTER (*(volatile u32 *)0x02FFFC3C)
 struct UiCtx;
 typedef unsigned char u8;
 
@@ -50,46 +49,41 @@ typedef void (*UiCb)(void *);
 
 typedef int  (*UiPred)(void *);
 
+typedef void (*UiIntrFunc)(u32);
+
+/* The UI context at gUiState (0x021469BC).  ui_p02.c, touchpanel.c and the
+ * areaman tick UI_Main are all views of this one object; the fields
+ * follow the names those files use (keyWork/tpWork/onWake..resumeArmed). */
 struct UiCtx {
-    void   *unk00;
-    void   *unk04;
-    u32     unk08;
-    u32     unk0C;
-    UiCb    on_10;
-    UiCb    on_14;
-    UiCb    on_18;
-    UiCb    on_1c;
-    UiCb    on_20;
-    UiPred  on_24;
-    void   *arg_28;
-    void   *arg_2c;
-    void   *arg_30;
-    void   *arg_34;
-    u8      always;
-    u8      flags39;
-    u8      pad3A;
-    u8      backlight;
-    u8      unk3C;
-    u8      unk3D;
-    u8      pad3E;
-    u8      unk3F;
-    u8      mode;
-    u8      armed;
-    u8      pad42[2];
+    void   *keyWork;          /* 0x00 KEY_Create result */
+    void   *tpWork;           /* 0x04 TOUCHPANEL_Create result */
+    UiIntrFunc intrData;      /* 0x08 per-frame interrupt callback */
+    u32     intrArg;          /* 0x0C its argument */
+    UiCb    onWake;           /* 0x10 */
+    UiCb    onSleep;          /* 0x14 */
+    UiCb    onResume;         /* 0x18 */
+    UiCb    onSuspend;        /* 0x1C */
+    UiCb    onWakePowered;    /* 0x20 */
+    UiPred  keepAwakePred;    /* 0x24 */
+    void   *sleepWakeArg;     /* 0x28 */
+    void   *suspendResumeArg; /* 0x2C */
+    void   *wakePoweredArg;   /* 0x30 */
+    void   *keepAwakeArg;     /* 0x34 */
+    u8      keepAwakeFlags;   /* 0x38 */
+    u8      flags39;          /* 0x39 */
+    u8      reserved3A;       /* 0x3A */
+    u8      backlightState;   /* 0x3B */
+    u8      inputMode;        /* 0x3C */
+    u8      frameRate;        /* 0x3D */
+    u8      frameCounter;     /* 0x3E */
+    u8      powerState;       /* 0x3F */
+    u8      mode;             /* 0x40 */
+    u8      resumeArmed;      /* 0x41 */
+    u8      reserved42;       /* 0x42 */
+    u8      suspended;        /* 0x43 */
 };
 
 typedef unsigned short u16;
-
-struct AreaCtx {
-    u32 unk00;
-    u32 unk04;
-    void (*fn)(u32);
-    u32  arg;
-    u8   unk10[0x29];
-    u8   inhibit;
-    u8   unk3A[4];
-    u8   frames;
-};
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
@@ -102,7 +96,7 @@ extern void UI_ServiceLidSleep(void);
 extern void sub_020356A0(int a0);
 extern unsigned int KEY_GetCont(void);
 extern void sub_02035544(u32 x);
-extern void func_02034EF8(struct AreaCtx *p);
+extern void func_02034EF8(struct UiCtx *p);
 extern void func_02035080(struct UiCtx *p, UiCb fn, void *arg);
 extern void func_02035120(struct UiCtx *p, UiCb fn, void *arg);
 extern void func_0203515C(struct UiCtx *p, u8 mask);
@@ -112,45 +106,44 @@ extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
 extern int PM_GetBattery(u32 *out);
 extern int PM_GetACAdapter(u16 *out);
-void sub_02034E24(u32 heap, u8 mode);
-void sub_02034EF8(struct AreaCtx *p);
-void sub_02034F5C(void);
-void func_02034F74(struct UiCtx *p, u8 flags);
-void func_02034F84(u8 flags);
-void func_02034FA0(struct UiCtx *p, unsigned char flags);
-void func_02034FB8(u8 v);
-u32 func_02034FD4(struct UiCtx *p, u8 flags);
-u32 func_02034FE8(u8 flags);
-void func_02035004(struct UiCtx *o, UiCb a, void *b);
-void func_02035010(UiCb a, void *b);
-void func_02035034(struct UiCtx *o, UiCb a, void *b);
-void func_02035040(UiCb a, void *b);
-void func_02035064(UiPred fn, void *arg);
-void sub_02035080(struct UiCtx *p, UiCb fn, void *arg);
-void func_0203508C(UiCb a, UiCb b, void *c);
-UiCb func_02035100(struct UiCtx *p);
-UiCb func_02035108(void);
-void sub_02035120(struct UiCtx *p, UiCb fn, void *arg);
-void func_0203512C(struct UiCtx *p, UiCb fn, void *arg);
-void func_02035138(UiCb fn, void *arg);
-void sub_0203515C(struct UiCtx *p, u8 mask);
-void func_0203516C(u8 mask);
-void sub_02035188(struct UiCtx *p, u8 mask);
-int func_020351A0(u32 v);
-u32 sub_020351BC(struct UiCtx *p, u32 mask);
-u32 func_020351D0(u32 mask);
-void sub_020351EC(struct UiCtx *p, u32 a, u32 b);
-void sub_020351F8(u32 a, u32 b);
-u32 sub_0203521C(u32 *p);
-struct UiCtx *sub_02035224(void);
-void sub_0203524C(struct UiCtx *p);
-void sub_02035268(struct UiCtx *p);
-void sub_02035284(struct UiCtx *p);
-void sub_020352AC(struct UiCtx *p);
-void sub_020352DC(void);
+void UI_Create(u32 heap, u8 mode);
+void UI_Main(struct UiCtx *p);
+void UI_Update(void);
+void UI_SetKeepAwakeFlags(struct UiCtx *p, u8 flags);
+void UI_SetKeepAwakeFlagsGlobal(u8 flags);
+void UI_ClearKeepAwakeFlags(struct UiCtx *p, unsigned char flags);
+void UI_ClearKeepAwakeFlagsGlobal(u8 v);
+u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags);
+u32 UI_TestKeepAwakeFlagsGlobal(u8 flags);
+void UI_SetSleepHook(struct UiCtx *o, UiCb a, void *b);
+void UI_SetSleepHookGlobal(UiCb a, void *b);
+void UI_SetWakeHook(struct UiCtx *o, UiCb a, void *b);
+void UI_SetWakeHookGlobal(UiCb a, void *b);
+void UI_SetKeepAwakePred(UiPred fn, void *arg);
+void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
+void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c);
+UiCb UI_GetSuspendHook(struct UiCtx *p);
+UiCb UI_GetSuspendHookGlobal(void);
+void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
+void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg);
+void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg);
+void UI_SetFlags39(struct UiCtx *p, u8 mask);
+void UI_SetFlags39Global(u8 mask);
+void UI_ClearFlags39(struct UiCtx *p, u8 mask);
+int UI_ClearFlags39Global(u32 v);
+u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
+u32 UI_TestFlags39Global(u32 mask);
+void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b);
+void UI_SetIntrDataGlobal(u32 a, u32 b);
+u32 UI_GetPointerValue(u32 *p);
+struct UiCtx *UI_GetContext(void);
+void UI_RunSleepHook(struct UiCtx *p);
+void UI_RunWakeHook(struct UiCtx *p);
+void UI_RunSuspendHook(struct UiCtx *p);
+void UI_RunResumeHook(struct UiCtx *p);
+void UI_PollPower(void);
 asm void DWCi_IsFold(void);
 extern const char s_UiFile[];
-extern void *g_02034F5C_Ptr;
 extern struct UiCtx *gUiState;
 
 
@@ -175,7 +168,7 @@ extern struct UiCtx *gUiState;
  * matched function happens to pool 0x020A7984, or when the string area's
  * neighbours are attested.
  *
- * The constructor for the 0x44-byte UI context src/pending/sub_02034F5C.c
+ * The constructor for the 0x44-byte UI context src/pending/UI_Update.c
  * tail-calls through: allocate and zero it, fill the two sub-objects at +0
  * and +4 from the same heap, seed the fixed +0x3c / +0x3d / +0x3f bytes,
  * publish it at 0x021469BC, and stash the mode argument at +0x40.
@@ -209,10 +202,10 @@ extern struct UiCtx *gUiState;
  *   in ui.c, most plausibly in an overlay.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034E24.c \
- *       --func sub_02034E24 --addr 0x02034E24 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_Create.c \
+ *       --func UI_Create --addr 0x02034E24 --cc 1.1p1 --arm
  */
-void sub_02034E24(u32 heap, u8 mode)
+void UI_Create(u32 heap, u8 mode)
 {
     struct UiCtx *p;
     u32 a;
@@ -221,24 +214,24 @@ void sub_02034E24(u32 heap, u8 mode)
     p = func_02030734(heap, sizeof(struct UiCtx), 0, s_UiFile, 58);
     MI_CpuFill8(p, 0, sizeof(struct UiCtx));
 
-    p->unk00 = KEY_Create(heap);
-    p->unk04 = TOUCHPANEL_Create(heap);
+    p->keyWork = KEY_Create(heap);
+    p->tpWork = TOUCHPANEL_Create(heap);
 
-    p->unk3C = 0;
-    p->unk3D = 0x3C;
+    p->inputMode = 0;
+    p->frameRate = 0x3C;
     gUiState = p;
     p->mode = mode;
-    p->unk3F = 5;
+    p->powerState = 5;
 
     if (mode == 0) {
         PM_GetBackLight(0, &a);
-        p->backlight = a;
+        p->backlightState = a;
     }
     if (mode == 1) {
         PM_GetBackLight(0, &b);
-        p->backlight = b;
-        func_02034F84(0x10);
-        func_0203516C(4);
+        p->backlightState = b;
+        UI_SetKeepAwakeFlagsGlobal(0x10);
+        UI_SetFlags39Global(4);
     }
 }
 
@@ -274,22 +267,22 @@ void sub_02034E24(u32 heap, u8 mode)
  * second call site.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034EF8.c \
- *       --func sub_02034EF8 --addr 0x02034EF8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_Main.c \
+ *       --func UI_Main --addr 0x02034EF8 --cc 1.1p1 --arm
  */
-void sub_02034EF8(struct AreaCtx *p)
+void UI_Main(struct UiCtx *p)
 {
-    p->frames++;
+    p->frameCounter++;
 
-    sub_020352DC();
+    UI_PollPower();
     KEY_Main();
     TOUCHPANEL_Main();
     UI_ServiceLidSleep();
     sub_020356A0((int)p);
 
-    if ((KEY_GetCont() & 0x30C) == 0x30C && p->inhibit == 0) {
-        if (p->fn != 0) {
-            p->fn(p->arg);
+    if ((KEY_GetCont() & 0x30C) == 0x30C && p->flags39 == 0) {
+        if (p->intrData != 0) {
+            p->intrData(p->intrArg);
         }
         sub_02035544(0);
     }
@@ -313,39 +306,20 @@ void sub_02034EF8(struct AreaCtx *p)
  * That follower is outside this file's scope.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034F5C.c \
- *       --func sub_02034F5C --addr 0x02034F5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_Update.c \
+ *       --func UI_Update --addr 0x02034F5C --cc 1.1p1 --arm
  */
-void sub_02034F5C(void)
+void UI_Update(void)
 {
-    func_02034EF8(g_02034F5C_Ptr);
+    func_02034EF8(gUiState);
 }
 
 
 
 
-void func_02034F74(struct UiCtx *p, u8 flags)
+void UI_SetKeepAwakeFlags(struct UiCtx *p, u8 flags)
 {
-    p->always |= flags;
-}
-
-
-
-
-
-
-void func_02034F84(u8 flags)
-{
-    func_02034F74(gUiState, flags);
-}
-
-
-
-
-
-void func_02034FA0(struct UiCtx *p, unsigned char flags)
-{
-    p->always &= (unsigned char)~flags;
+    p->keepAwakeFlags |= flags;
 }
 
 
@@ -353,20 +327,18 @@ void func_02034FA0(struct UiCtx *p, unsigned char flags)
 
 
 
-
-void func_02034FB8(u8 v)
+void UI_SetKeepAwakeFlagsGlobal(u8 flags)
 {
-    func_02034FA0(gUiState, v);
+    UI_SetKeepAwakeFlags(gUiState, flags);
 }
 
 
 
 
 
-
-u32 func_02034FD4(struct UiCtx *p, u8 flags)
+void UI_ClearKeepAwakeFlags(struct UiCtx *p, unsigned char flags)
 {
-    return (p->always & flags) != 0;
+    p->keepAwakeFlags &= (unsigned char)~flags;
 }
 
 
@@ -375,9 +347,30 @@ u32 func_02034FD4(struct UiCtx *p, u8 flags)
 
 
 
-u32 func_02034FE8(u8 flags)
+void UI_ClearKeepAwakeFlagsGlobal(u8 v)
 {
-    return func_02034FD4(gUiState, flags);
+    UI_ClearKeepAwakeFlags(gUiState, v);
+}
+
+
+
+
+
+
+u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags)
+{
+    return (p->keepAwakeFlags & flags) != 0;
+}
+
+
+
+
+
+
+
+u32 UI_TestKeepAwakeFlagsGlobal(u8 flags)
+{
+    return UI_TestKeepAwakeFlags(gUiState, flags);
 }
 
 
@@ -389,10 +382,10 @@ u32 func_02034FE8(u8 flags)
 /*
  * Setter: stores two values into an object at +0x14 and +0x28.
  */
-void func_02035004(struct UiCtx *o, UiCb a, void *b)
+void UI_SetSleepHook(struct UiCtx *o, UiCb a, void *b)
 {
-    o->on_14 = a;
-    o->arg_28 = b;
+    o->onSleep = a;
+    o->sleepWakeArg = b;
 }
 
 
@@ -402,11 +395,11 @@ void func_02035004(struct UiCtx *o, UiCb a, void *b)
 
 
 /*
- * Wrapper: calls func_02035004 with the object gUiState points at as the first argument.
+ * Wrapper: calls UI_SetSleepHook with the object gUiState points at as the first argument.
  */
-void func_02035010(UiCb a, void *b)
+void UI_SetSleepHookGlobal(UiCb a, void *b)
 {
-    func_02035004(gUiState, a, b);
+    UI_SetSleepHook(gUiState, a, b);
 }
 
 
@@ -418,10 +411,10 @@ void func_02035010(UiCb a, void *b)
 /*
  * Setter: stores two values into an object at +0x10 and +0x28.
  */
-void func_02035034(struct UiCtx *o, UiCb a, void *b)
+void UI_SetWakeHook(struct UiCtx *o, UiCb a, void *b)
 {
-    o->on_10 = a;
-    o->arg_28 = b;
+    o->onWake = a;
+    o->sleepWakeArg = b;
 }
 
 
@@ -429,11 +422,11 @@ void func_02035034(struct UiCtx *o, UiCb a, void *b)
 
 
 /*
- * Wrapper: calls func_02035034 with the object gUiState points at as the first argument.
+ * Wrapper: calls UI_SetWakeHook with the object gUiState points at as the first argument.
  */
-void func_02035040(UiCb a, void *b)
+void UI_SetWakeHookGlobal(UiCb a, void *b)
 {
-    func_02035034(gUiState, a, b);
+    UI_SetWakeHook(gUiState, a, b);
 }
 
 
@@ -445,10 +438,10 @@ void func_02035040(UiCb a, void *b)
  * the first store may alias it.  Called from GAMESYSTEM_RegisterSleepCheck and
  * GAMESYSTEM_ReleaseSleepCheck.
  */
-void func_02035064(UiPred fn, void *arg)
+void UI_SetKeepAwakePred(UiPred fn, void *arg)
 {
-    gUiState->on_24 = fn;
-    gUiState->arg_34 = arg;
+    gUiState->keepAwakePred = fn;
+    gUiState->keepAwakeArg = arg;
 }
 
 
@@ -466,13 +459,13 @@ void func_02035064(UiPred fn, void *arg)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035080.c \
- *       --func sub_02035080 --addr 0x02035080 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_SetSuspendHook.c \
+ *       --func UI_SetSuspendHook --addr 0x02035080 --cc 1.1p1 --arm
  */
-void sub_02035080(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg)
 {
-    p->on_1c = fn;
-    p->arg_2c = arg;
+    p->onSuspend = fn;
+    p->suspendResumeArg = arg;
 }
 
 
@@ -480,13 +473,13 @@ void sub_02035080(struct UiCtx *p, UiCb fn, void *arg)
 
 
 
-void func_0203508C(UiCb a, UiCb b, void *c)
+void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c)
 {
     struct UiCtx *g = gUiState;
 
-    if (g->armed != 0) {
-        if (g->on_18 != 0) {
-            g->on_18(g->arg_2c);
+    if (g->resumeArmed != 0) {
+        if (g->onResume != 0) {
+            g->onResume(g->suspendResumeArg);
         }
         if (a != 0) {
             a(c);
@@ -504,17 +497,17 @@ void func_0203508C(UiCb a, UiCb b, void *c)
 /*
  * An unlabelled leaf.  disasm.py only traces a prologue that saves lr, so this
  * eight-byte getter was printed as `.word 0xE590001C / .word 0xE12FFF1E` in
- * the word run that follows func_0203508C's literal pool
+ * the word run that follows UI_SetResumeAndSuspendHooks's literal pool
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  It is the
- * only callee func_02035108 has, and that neighbour stays capped at MATCH for
+ * only callee UI_GetSuspendHookGlobal has, and that neighbour stays capped at MATCH for
  * as long as this address has no manifest entry
  * (docs/idioms/a-veneer-attests-nothing-while-its-target-is-an-unlabelled-leaf.md
  * is the same shape, where the stub in between makes a `matched` entry useless
  * - here the pool word names the leaf directly, so the entry is the unblock).
  */
-UiCb func_02035100(struct UiCtx *p)
+UiCb UI_GetSuspendHook(struct UiCtx *p)
 {
-    return p->on_1c;
+    return p->onSuspend;
 }
 
 
@@ -530,11 +523,11 @@ UiCb func_02035100(struct UiCtx *p)
  * Promoted out of src/pending: it was parked at MATCH on 0x02035100, an
  * unlabelled eight-byte leaf that had no witness of any class - its only
  * naming pool word is this function's own.  Filing the leaf (see
- * src/matched/func_02035100.c) closes the site with no change here.
+ * src/matched/UI_GetSuspendHook.c) closes the site with no change here.
  */
-UiCb func_02035108(void)
+UiCb UI_GetSuspendHookGlobal(void)
 {
-    return func_02035100(gUiState);
+    return UI_GetSuspendHook(gUiState);
 }
 
 
@@ -544,7 +537,7 @@ UiCb func_02035108(void)
 
 
 /*
- * Two more plain field setters right after sub_02035080's pair, same shape:
+ * Two more plain field setters right after UI_SetSuspendHook's pair, same shape:
  * "str r1,[r0,#0x18]; str r2,[r0,#0x2c]; bx lr" then
  * "str r1,[r0,#0x20]; str r2,[r0,#0x30]; bx lr", twelve bytes each, no
  * relocations.  A third function follows in the same block at 0x02035138
@@ -560,20 +553,20 @@ UiCb func_02035108(void)
  *   python tools/match.py tu --src src/matched/unit_02035120.c \
  *       --addr 0x02035120 --arm
  */
-void sub_02035120(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg)
 {
-    p->on_18 = fn;
-    p->arg_2c = arg;
+    p->onResume = fn;
+    p->suspendResumeArg = arg;
 }
 
 
 
 
 
-void func_0203512C(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg)
 {
-    p->on_20 = fn;
-    p->arg_30 = arg;
+    p->onWakePowered = fn;
+    p->wakePoweredArg = arg;
 }
 
 
@@ -585,12 +578,12 @@ void func_0203512C(struct UiCtx *p, UiCb fn, void *arg)
 
 
 /*
- * Tail call: func_0203512C(*gUiState, fn, arg).  Called from GAMESYSTEM_RegisterSleepCallback
+ * Tail call: UI_SetWakePoweredHook(*gUiState, fn, arg).  Called from GAMESYSTEM_RegisterSleepCallback
  * and GAMESYSTEM_ReleaseSleepCallback.
  */
-void func_02035138(UiCb fn, void *arg)
+void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg)
 {
-    func_0203512C(gUiState, fn, arg);
+    UI_SetWakePoweredHook(gUiState, fn, arg);
 }
 
 
@@ -604,15 +597,15 @@ void func_02035138(UiCb fn, void *arg)
 /*
  * The set half of a set/clear pair on the flag byte at +0x39, right after
  * the two tail-call veneers in the same block; no lr push, so disasm.py
- * never labels it. Twin of sub_02035188 (clear).
+ * never labels it. Twin of UI_ClearFlags39 (clear).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0203515C.c \
- *       --func sub_0203515C --addr 0x0203515C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_SetFlags39.c \
+ *       --func UI_SetFlags39 --addr 0x0203515C --cc 1.1p1 --arm
  */
-void sub_0203515C(struct UiCtx *p, u8 mask)
+void UI_SetFlags39(struct UiCtx *p, u8 mask)
 {
     p->flags39 |= mask;
 }
@@ -624,7 +617,7 @@ void sub_0203515C(struct UiCtx *p, u8 mask)
 
 
 
-void func_0203516C(u8 mask)
+void UI_SetFlags39Global(u8 mask)
 {
     func_0203515C(gUiState, mask);
 }
@@ -638,15 +631,15 @@ void func_0203516C(u8 mask)
 
 /*
  * The clear half of the set/clear pair on the flag byte at +0x39. No lr
- * push, so disasm.py never labels it. Twin of sub_0203515C (set).
+ * push, so disasm.py never labels it. Twin of UI_SetFlags39 (set).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02035188.c \
- *       --func sub_02035188 --addr 0x02035188 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_ClearFlags39.c \
+ *       --func UI_ClearFlags39 --addr 0x02035188 --cc 1.1p1 --arm
  */
-void sub_02035188(struct UiCtx *p, u8 mask)
+void UI_ClearFlags39(struct UiCtx *p, u8 mask)
 {
     p->flags39 &= ~mask;
 }
@@ -657,7 +650,7 @@ void sub_02035188(struct UiCtx *p, u8 mask)
 
 
 
-int func_020351A0(u32 v)
+int UI_ClearFlags39Global(u32 v)
 {
     return func_02035188(gUiState, v);
 }
@@ -675,10 +668,10 @@ int func_020351A0(u32 v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020351BC.c \
- *       --func sub_020351BC --addr 0x020351BC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_TestFlags39.c \
+ *       --func UI_TestFlags39 --addr 0x020351BC --cc 1.1p1 --arm
  */
-u32 sub_020351BC(struct UiCtx *p, u32 mask)
+u32 UI_TestFlags39(struct UiCtx *p, u32 mask)
 {
     return (p->flags39 & mask) != 0;
 }
@@ -689,7 +682,7 @@ u32 sub_020351BC(struct UiCtx *p, u32 mask)
 
 
 
-u32 func_020351D0(u32 mask)
+u32 UI_TestFlags39Global(u32 mask)
 {
     return func_020351BC(gUiState, mask);
 }
@@ -702,20 +695,20 @@ u32 func_020351D0(u32 mask)
 
 
 /*
- * A plain two-field setter, same shape as sub_02035080/sub_02035120: "str
+ * A plain two-field setter, same shape as UI_SetSuspendHook/UI_SetResumeHook: "str
  * r1,[r0,#8]; str r2,[r0,#0xc]; bx lr", twelve bytes, no relocations. No lr
  * push, so disasm.py never labels it.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020351EC.c \
- *       --func sub_020351EC --addr 0x020351EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_SetIntrData.c \
+ *       --func UI_SetIntrData --addr 0x020351EC --cc 1.1p1 --arm
  */
-void sub_020351EC(struct UiCtx *p, u32 a, u32 b)
+void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b)
 {
-    p->unk08 = a;
-    p->unk0C = b;
+    p->intrData = (UiIntrFunc)a;
+    p->intrArg = b;
 }
 
 
@@ -725,13 +718,13 @@ void sub_020351EC(struct UiCtx *p, u32 a, u32 b)
 
 
 /*
- * Forwards both arguments to the setter sub_020351EC on the object held in
+ * Forwards both arguments to the setter UI_SetIntrData on the object held in
  * gUiState (a tail call through ip).  No lr push, so disasm.py never
  * labels it; filed so its ov088/ov172 callers can resolve the BLX.
  */
-void sub_020351F8(u32 a, u32 b)
+void UI_SetIntrDataGlobal(u32 a, u32 b)
 {
-    sub_020351EC(gUiState, a, b);
+    UI_SetIntrData(gUiState, a, b);
 }
 
 
@@ -747,10 +740,10 @@ void sub_020351F8(u32 a, u32 b)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0203521C.c \
- *       --func sub_0203521C --addr 0x0203521C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_GetPointerValue.c \
+ *       --func UI_GetPointerValue --addr 0x0203521C --cc 1.1p1 --arm
  */
-u32 sub_0203521C(u32 *p)
+u32 UI_GetPointerValue(u32 *p)
 {
     return *p;
 }
@@ -762,7 +755,7 @@ u32 sub_0203521C(u32 *p)
 
 
 /*
- * The singleton accessor for the UI context sub_02034E24 publishes: stop the
+ * The singleton accessor for the UI context UI_Create publishes: stop the
  * machine if it has not been constructed yet, otherwise hand it back.  The
  * pointer is loaded twice off the one pool word because OS_Terminate is an
  * ordinary extern as far as the compiler is concerned, so the global has to
@@ -772,10 +765,10 @@ u32 sub_0203521C(u32 *p)
  * branches reach it image-wide.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035224.c \
- *       --func sub_02035224 --addr 0x02035224 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_GetContext.c \
+ *       --func UI_GetContext --addr 0x02035224 --cc 1.1p1 --arm
  */
-struct UiCtx *sub_02035224(void)
+struct UiCtx *UI_GetContext(void)
 {
     if (gUiState == 0) {
         OS_Terminate();
@@ -796,12 +789,12 @@ struct UiCtx *sub_02035224(void)
  * the null test, so the null check cannot be folded into the call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203524C.c \n *       --func sub_0203524C --addr 0x0203524C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunSleepHook.c \n *       --func UI_RunSleepHook --addr 0x0203524C --cc 1.1p1 --arm
  */
-void sub_0203524C(struct UiCtx *p)
+void UI_RunSleepHook(struct UiCtx *p)
 {
-    if (p->on_14 != 0) {
-        p->on_14(p->arg_28);
+    if (p->onSleep != 0) {
+        p->onSleep(p->sleepWakeArg);
     }
 }
 
@@ -812,16 +805,16 @@ void sub_0203524C(struct UiCtx *p)
 
 
 /*
- * The +0x10 callback slot, same shape as sub_0203524C and sharing its
+ * The +0x10 callback slot, same shape as UI_RunSleepHook and sharing its
  * argument word at +0x28.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035268.c \n *       --func sub_02035268 --addr 0x02035268 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunWakeHook.c \n *       --func UI_RunWakeHook --addr 0x02035268 --cc 1.1p1 --arm
  */
-void sub_02035268(struct UiCtx *p)
+void UI_RunWakeHook(struct UiCtx *p)
 {
-    if (p->on_10 != 0) {
-        p->on_10(p->arg_28);
+    if (p->onWake != 0) {
+        p->onWake(p->sleepWakeArg);
     }
 }
 
@@ -833,17 +826,17 @@ void sub_02035268(struct UiCtx *p)
 
 /*
  * Arm the context: run the +0x1c hook with the +0x2c argument and set the
- * armed flag at +0x41.  sub_020352AC is the disarming half.  The flag is set
+ * armed flag at +0x41.  UI_RunResumeHook is the disarming half.  The flag is set
  * only when a hook was actually installed, so it stays inside the guard.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035284.c \n *       --func sub_02035284 --addr 0x02035284 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunSuspendHook.c \n *       --func UI_RunSuspendHook --addr 0x02035284 --cc 1.1p1 --arm
  */
-void sub_02035284(struct UiCtx *p)
+void UI_RunSuspendHook(struct UiCtx *p)
 {
-    if (p->on_1c != 0) {
-        p->on_1c(p->arg_2c);
-        p->armed = 1;
+    if (p->onSuspend != 0) {
+        p->onSuspend(p->suspendResumeArg);
+        p->resumeArmed = 1;
     }
 }
 
@@ -854,7 +847,7 @@ void sub_02035284(struct UiCtx *p)
 
 
 /*
- * The disarming half of sub_02035284: run the +0x18 hook with the same
+ * The disarming half of UI_RunSuspendHook: run the +0x18 hook with the same
  * +0x2c argument and clear the armed flag, but only if the context was armed
  * in the first place.
  *
@@ -863,13 +856,13 @@ void sub_02035284(struct UiCtx *p)
  * into two (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020352AC.c \n *       --func sub_020352AC --addr 0x020352AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunResumeHook.c \n *       --func UI_RunResumeHook --addr 0x020352AC --cc 1.1p1 --arm
  */
-void sub_020352AC(struct UiCtx *p)
+void UI_RunResumeHook(struct UiCtx *p)
 {
-    if (p->on_18 != 0 && p->armed != 0) {
-        p->on_18(p->arg_2c);
-        p->armed = 0;
+    if (p->onResume != 0 && p->resumeArmed != 0) {
+        p->onResume(p->suspendResumeArg);
+        p->resumeArmed = 0;
     }
 }
 
@@ -907,26 +900,26 @@ void sub_020352AC(struct UiCtx *p)
  * enough that mwcc predicates them instead of branching, which is why
  * the global pointer is re-loaded in each arm rather than hoisted.
  */
-void sub_020352DC(void)
+void UI_PollPower(void)
 {
     u16 ac;
     u32 bat;
 
-    if (unk_02FFFC3C % 600 != 1)
+    if (SYS_TICK_COUNTER % 600 != 1)
         return;
 
     if (OS_IsRunOnTwl() != 0) {
         if (PM_GetACAdapter(&ac) == 0)
-            gUiState->unk3F = ac;
+            gUiState->powerState = ac;
         return;
     }
 
     if (PM_GetBattery(&bat) != 0)
         return;
     if (bat == 0)
-        gUiState->unk3F = 5;
+        gUiState->powerState = 5;
     else
-        gUiState->unk3F = 1;
+        gUiState->powerState = 1;
 }
 
 asm void DWCi_IsFold(void)

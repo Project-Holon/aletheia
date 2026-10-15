@@ -1,5 +1,5 @@
 /*
- * function: func_02169210
+ * function: DWCi_GPProcess
  * address:  0x02169210
  * packet:   pkt_ov009_02169210
  * region:   ov009
@@ -31,7 +31,7 @@ extern struct FriendGlobal g_021AA860;
 extern u64 func_020870D0(void);
 extern u64 _ll_udiv(u64 a, u64 b);
 extern int func_02185948(void *conn);
-int func_02169210(void)
+int DWCi_GPProcess(void)
 {
 	int result;
 	struct Work *w;

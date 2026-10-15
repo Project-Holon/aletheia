@@ -1,5 +1,5 @@
 /*
- * function: func_02059B40
+ * function: DWC_Base64Encode
  * address:  0x02059B40
  * packet:   pkt_02059B40
  * region:   arm9
@@ -26,7 +26,7 @@ extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern char *DWCi_base64_table;
 
-int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen)
+int DWC_Base64Encode(const char *src, u32 srclen, char *dst, u32 dstlen)
 {
     u32 required_dstsize;
     u32 num_dstout;

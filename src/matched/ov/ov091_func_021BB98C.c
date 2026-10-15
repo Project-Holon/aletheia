@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  */
 #include "../include/Obj13253.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct WordSet;
-extern u32 func_0201ED04(struct WordSet *p);
-void PLIST_MESSAGE_DestroyWordSet(void *p,u32 s) { func_0201ED04((struct WordSet *)(((struct Obj13253 *)s)->f2C)); ((struct Obj13253 *)s)->f2C=0; }
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+void PLIST_MESSAGE_DestroyWordSet(void *p,u32 s) { WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj13253 *)s)->f2C)); ((struct Obj13253 *)s)->f2C=0; }

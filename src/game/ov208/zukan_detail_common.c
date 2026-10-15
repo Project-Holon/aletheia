@@ -43,8 +43,8 @@
  *   data_021C80E0  0x021C80E0  data
  *   data_021C80E8  0x021C80E8  data
  *   data_021C80F0  0x021C80F0  data
- *   func_0203FB44 0x0203FB44 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   ZUKAN_DETAIL_COMMON_AllocBlendWork 0x021BC448 thumb
  *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget 0x021BC518 thumb
  *   ZUKAN_DETAIL_COMMON_SetBrightnessNone 0x021BC508 thumb
@@ -188,9 +188,9 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 
 extern void func_02041B6C(u32 bit);
 
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
 
@@ -646,7 +646,7 @@ void ZUKAN_DETAIL_COMMON_FreeBgPalette(char *p)
     unsigned int w;
 
     w = ((struct Obj12112 *)p)->f0;
-    func_0203FB44(((struct Obj12112 *)p)->f4, (unsigned short)w, (unsigned short)(w >> 16));
+    BG_SYS_DeleteHalf(((struct Obj12112 *)p)->f4, (unsigned short)w, (unsigned short)(w >> 16));
     func_020307B0((void *)((int)p));
 }
 
@@ -656,7 +656,7 @@ void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p)
 
     c = ((struct Obj07226 *)p)->f5;
     if (c == 0) {
-        func_02041EE4(((struct Obj07226 *)p)->f4, 1, 1);
+        BG_SYS_ResetSlot(((struct Obj07226 *)p)->f4, 1, 1);
         ((struct Obj07226 *)p)->f5 = 4;
     } else {
         ((struct Obj07226 *)p)->f5 = c - 1;
@@ -686,5 +686,5 @@ u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 coun
 
 void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed)
 {
-    func_0203FB44(a, (u16)packed, (u16)(packed >> 16));
+    BG_SYS_DeleteHalf(a, (u16)packed, (u16)(packed >> 16));
 }

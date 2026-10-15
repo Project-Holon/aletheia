@@ -30,7 +30,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_02030734  0x02030734  arm
  *   d_021C7234     0x021C7234  data
@@ -63,7 +63,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *o, unsigned int k);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 d_021C7234[];
@@ -184,7 +184,7 @@ void func_021BBA94(void *a0, u8 *p)
     *(u32 *)(p + 0x1c) = 0;
     *(u32 *)(p + 8) = 0;
     *(u16 *)(p + 0x34) = 0;
-    func_02041EE4(6, 3, 0);
+    BG_SYS_ResetSlot(6, 3, 0);
     if ((u32)(*(u32 *)(o + 4) - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)*(u32 *)(p + 0x400), 0xf);
         func_021BD134(a0, (char *)p, 0x18);

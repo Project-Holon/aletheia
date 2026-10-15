@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Loads a character-data resource, optionally adds a3 to each of its
- * k2 * k3 u16 cells, then (when func_0204162C(a2) allows) copies it into
+ * k2 * k3 u16 cells, then (when BG_SYS_GetBuf(a2) allows) copies it into
  * background a2 and loads its palette, and frees the resource.
  * The u8 stack arguments are re-read with ldrb before each call because the
  * callees take them as u8 (widths from func_020410D0.c and
@@ -22,8 +22,8 @@
  * symbols:
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_02062B30  0x02062B30  arm
- *   func_0204169C  0x0204169C  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_020410D0  0x020410D0  arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
@@ -36,8 +36,8 @@ typedef unsigned int u32;
 
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *file, void **out);
-extern u8 func_0204169C(int channel);
-extern u32 func_0204162C(int channel);
+extern u8 BG_SYS_GetField16(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u8 a);
@@ -55,14 +55,14 @@ void TOUCHBAR_LoadCharToBg(u32 a0, u32 a1, u32 a2, u32 a3,
     h = ARC_UTIL_LoadHandleMember((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
     func_02062B30(h, (void **)(&out));
     if (a3 != 0) {
-        if (func_0204169C((u8)a2) == 0) {
+        if (BG_SYS_GetField16((u8)a2) == 0) {
             arr = (u16 *)(out + 0xc);
             for (i = 0; i < k2 * k3; i++) {
                 arr[i] += a3;
             }
         }
     }
-    if ((int)func_0204162C((u8)a2)) {
+    if ((int)BG_SYS_GetBuf((u8)a2)) {
         func_020410D0((u8)a2, k4, k5, k6, k7, (u32)(out + 0xc), k0, k1, k2, k3);
         func_020413B0(a2, k4, k5, k6, k7, k8);
         func_020409B4(a2);

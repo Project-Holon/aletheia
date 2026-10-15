@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0200BFA4, func_0200C054
+ * function: INTRUDE_UpdatePlaySeconds, BEACON_GetSize
  * address:  0x0200BFA4
  * packet:   pkt_0200BFA4
  * region:   arm9
@@ -17,9 +17,9 @@
  *   g_02146170     0x02146170  data  a8
  *
  * battle_rec.c, 0x0200BFA4..0x0200C058: the play-clock accumulator and the
- * unlabelled 4-byte follower func_0200C054 (`return 0xEC;`, a size getter).
+ * unlabelled 4-byte follower BEACON_GetSize (`return 0xEC;`, a size getter).
  *
- * func_0200BFA4 converts the h:m:s clock at q to seconds and, by mode,
+ * INTRUDE_UpdatePlaySeconds converts the h:m:s clock at q to seconds and, by mode,
  * latches it (0), adds the elapsed delta into the u64 at +0x1A8 (1), or
  * returns that total plus the delta without storing it (2).  What closed it
  * after docs/notes/pkt_0200BFA4.c.txt (79 out, 4 bytes short):
@@ -46,7 +46,7 @@ extern u8 func_02008650(const struct PlayTime *p);
 extern u8 func_02008654(const struct PlayTime *p);
 extern u64 g_02146170;
 
-u64 func_0200BFA4(u8 *p, void *q, u32 mode)
+u64 INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode)
 {
     u64 hh, mm, ss;
     u64 v;
@@ -69,7 +69,7 @@ u64 func_0200BFA4(u8 *p, void *q, u32 mode)
     return ((struct Obj07120 *)p)->f1A8;
 }
 
-u32 func_0200C054(void)
+u32 BEACON_GetSize(void)
 {
     return 0xEC;
 }

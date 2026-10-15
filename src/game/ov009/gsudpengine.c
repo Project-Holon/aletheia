@@ -1,7 +1,7 @@
 /*
  * file:     gsudpengine.c
  * unit:     yes
- * function: func_02180410, func_02180420, func_02180430, gsUdpRemotePeerCompare, func_02180474, func_0218048C, func_02180518, func_021806A8, func_02180924, func_02180A64, func_02180BFC, func_02180C94, func_02180E48, func_02180E58, func_02181010, func_021810CC, func_02181350, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, func_021815C8, func_02181748, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, func_021818EC
+ * function: func_02180410, func_02180420, func_02180430, gsUdpRemotePeerCompare, func_02180474, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
  * address:  0x02180410
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -114,26 +114,26 @@ int gsUdpMsgHandlerCompare(void *theFirst, void *theSecond);
 int gsUdpMsgHandlerCompare2(void *theFirst, void *theSecond);
 int gsUdpRemotePeerCompare(void *theFirstPeer, void *theSecondPeer);
 int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer);
-void func_0218048C(void);
-void func_02180518(void *theConnection, int reason);
-void func_021806A8(void *theConnection, int theResult);
-void func_02180924(void *theConnection, int theLatency);
-void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
-int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
-void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
-int func_02180E48(void);
-int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
-int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
-int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, int timeOut);
-int func_02181350(unsigned int theIp, unsigned short thePort, char *theHeader, unsigned char *theMsg, unsigned int theMsgLen, int theReliable);
+void gsUdpSocketError(void);
+void gsUdpClosedRoutingCB(void *theConnection, int reason);
+void gsUdpConnectedRoutingCB(void *theConnection, int theResult);
+void gsUdpPingRoutingCB(void *theConnection, int theLatency);
+void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
+int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
+void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
+int gsUdpEngineIsInitialized(void);
+int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
+int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState);
+int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, char *theInitMsg, int timeOut);
+int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *theHeader, unsigned char *theMsg, unsigned int theMsgLen, int theReliable);
 int gsUdpEngineThink(void);
 int gsUdpEngineShutdown(void);
 unsigned short gsUdpEngineGetLocalPort(void);
-int func_021815C8(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
-int func_02181748(char *theHeader);
+int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
+int gsUdpEngineRemoveMsgHandler(char *theHeader);
 int gsUdpEngineNoMoreMsgHandlers(void);
 int gsUdpEngineNoApp(void);
-int func_021818EC(unsigned int theIp, unsigned short thePort);
+int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short thePort);
 extern char g_021A3868[];
 extern char g_021A38A8[];
 extern char g_021A38D0[];
@@ -200,7 +200,7 @@ int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer)
 /*
  * sdk:      gsUdpSocketError (gsudpengine.o)
  */
-void func_0218048C(void)
+void gsUdpSocketError(void)
 {
     int i;
     int len;
@@ -223,7 +223,7 @@ void func_0218048C(void)
 /*
  * sdk:      gsUdpClosedRoutingCB (gsudpengine.o)
  */
-void func_02180518(void *theConnection, int reason)
+void gsUdpClosedRoutingCB(void *theConnection, int reason)
 {
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aRemotePeer;
@@ -269,7 +269,7 @@ void func_02180518(void *theConnection, int reason)
 /*
  * sdk:      gsUdpConnectedRoutingCB (gsudpengine.o)
  */
-void func_021806A8(void *theConnection, int theResult)
+void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
 {
     GSUdpEngineObject *aUdp;
     int aIndex;
@@ -342,7 +342,7 @@ void func_021806A8(void *theConnection, int theResult)
 }
 
 
-void func_02180924(void *theConnection, int theLatency)
+void gsUdpPingRoutingCB(void *theConnection, int theLatency)
 {
     GSUdpEngineObject *aUdp;
     char anAddr[22];
@@ -384,7 +384,7 @@ void func_02180924(void *theConnection, int theLatency)
  * theMessage` gives the mirror image (destination r3, source r4).  Same close as
  * ov009_func_0217ECA4 (sendto) and gsUdpConnAttemptCB (0x02180C94).
  */
-void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
+void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
 {
     GSUdpEngineObject *aUdp;
     GSUdpMsgHandler aHandler;
@@ -418,7 +418,7 @@ void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessag
 }
 
 
-int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
+int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
 {
     int aRet;
     char anAddr[22];
@@ -436,7 +436,7 @@ int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, u
 }
 
 
-void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len)
+void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len)
 {
     int index;
     GSUdpMsgHandler aHandler;
@@ -456,10 +456,10 @@ void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned sho
         func_02184234(aUdp->mRemotePeers, &aRemotePeer);
         index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
         if (index != -1) {
-            aCallbacks.closed = (void (*)(void *, int))func_02180518;
-            aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))func_021806A8;
-            aCallbacks.ping = (void (*)(void *, int))func_02180924;
-            aCallbacks.received = (void (*)(void *, unsigned char *, int, int))func_02180A64;
+            aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
+            aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
+            aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
+            aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
             gt2Accept(aRemotePeer.mConnection, &aCallbacks);
             func_0217D254(12, 0, 16, g_021A3AB8);
             return;
@@ -477,13 +477,13 @@ void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned sho
 }
 
 
-int func_02180E48(void)
+int gsUdpEngineIsInitialized(void)
 {
     return gsUdpEngineContext()->mInitialized;
 }
 
 
-int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize,
+int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize,
     void (*theAppNetworkError)(int, void *),
     void (*theAppConnected)(unsigned int, unsigned short, int, int, void *),
     void (*theAppClosed)(unsigned int, unsigned short, int, void *),
@@ -512,7 +512,7 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
 
 
     func_02198620(0, thePort, anAddr);
-    aGt2Result = func_02195AB4(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, func_0218048C);
+    aGt2Result = func_02195AB4(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, gsUdpSocketError);
     if (aGt2Result != 0) {
         func_0217D254(12, 0, 2, g_021A3B44, aGt2Result);
         return 3;
@@ -530,8 +530,8 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
         return 1;
     }
 
-    gt2SetUnrecognizedMessageCallback(aUdp->mSocket, (int)func_02180BFC);
-    gt2Listen(aUdp->mSocket, (int)func_02180C94);
+    gt2SetUnrecognizedMessageCallback(aUdp->mSocket, (int)gsUdpUnrecognizedMsgCB);
+    gt2Listen(aUdp->mSocket, (int)gsUdpConnAttemptCB);
     aUdp->mLocalAddr = gt2GetLocalIP(aUdp->mSocket);
     aUdp->mLocalPort = gt2GetLocalPort(aUdp->mSocket);
     aUdp->mAppPendingConnections = 0;
@@ -544,7 +544,7 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
 }
 
 
-int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState)
+int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState)
 {
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aPeer;
@@ -573,7 +573,7 @@ int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState)
 /*
  * sdk:      gsUdpEngineStartTalkingToPeer (gsudpengine.o)
  */
-int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, int timeOut)
+int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, char *theInitMsg, int timeOut)
 {
     char anAddr[22];
     GSUdpRemotePeer aRemotePeer;
@@ -620,10 +620,10 @@ int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, 
         GSUdpRemotePeer *aRemotePeerPtr;
 
         func_02198620(theIp, thePort, anAddr);
-        aCallbacks.closed = (void (*)(void *, int))func_02180518;
-        aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))func_021806A8;
-        aCallbacks.ping = (void (*)(void *, int))func_02180924;
-        aCallbacks.received = (void (*)(void *, unsigned char *, int, int))func_02180A64;
+        aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
+        aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
+        aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
+        aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
         func_02195B44(aUdp->mSocket, &aRemotePeer.mConnection, anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
         func_02184234(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
@@ -643,7 +643,7 @@ int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, 
 /*
  * sdk:      gsUdpEngineSendMessage (gsudpengine.o)
  */
-int func_02181350(unsigned int theIp, unsigned short thePort, char *theHeader, unsigned char *theMsg, unsigned int theMsgLen, int theReliable)
+int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *theHeader, unsigned char *theMsg, unsigned int theMsgLen, int theReliable)
 {
     GSUdpEngineObject *aUdp;
     int aTotalMessageLen;
@@ -732,7 +732,7 @@ unsigned short gsUdpEngineGetLocalPort(void)
 }
 
 
-int func_021815C8(char *theInitMsg, char *theHeader,
+int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
                   void (*theMsgHandlerError)(int, void *),
                   void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *),
                   void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *),
@@ -776,7 +776,7 @@ int func_021815C8(char *theInitMsg, char *theHeader,
 }
 
 
-int func_02181748(char *theHeader)
+int gsUdpEngineRemoveMsgHandler(char *theHeader)
 {
     int index;
     GSUdpMsgHandler aHandler;
@@ -829,7 +829,7 @@ int gsUdpEngineNoApp(void)
 }
 
 
-int func_021818EC(unsigned int theIp, unsigned short thePort)
+int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short thePort)
 {
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aRemotePeer;

@@ -28,7 +28,7 @@
  * have outside witnesses), but declaring this address as an offset off
  * that symbol changes the code shape mwccarm emits for the pointer
  * arithmetic and no longer reproduces the bytes, so the two are kept as
- * separate declarations. func_02025B94 (src/matched/sub_02025B94.c)
+ * separate declarations. BMP_OAM_Get (src/matched/sub_02025B94.c)
  * calls this function and reaches EXACT anyway, because the `label`
  * class attests the call itself from a second caller in ov186 at
  * 0x02185CC6, independently of this file's own status.

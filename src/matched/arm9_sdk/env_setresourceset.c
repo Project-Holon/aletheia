@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062FF0   0x02062FF0  arm
+ *   NNS_G2dSetCellAnimationBank   0x02062FF0  arm
  *   NNSi_G2dRefreshCellAnimation   0x0206419C  arm
  *
  * Original (24 bytes):
@@ -22,17 +22,17 @@
  *   pop  {r4, pc}
  *
  * Sets a cell animation's sequence: seq arrives in r1 and is forwarded
- * untouched to func_02062FF0, then the animation is restarted.  The SDK
+ * untouched to NNS_G2dSetCellAnimationBank, then the animation is restarted.  The SDK
  * table's name NNS_G2dSetCellAnimationSequence for this address sits in the rejected
  * list of layout/symbols_sdk.json, so the name is suspect.
  */
 
 struct CellAnim;
-extern void func_02062FF0(struct CellAnim *anim, void *bank);
+extern void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
 extern void NNSi_G2dRefreshCellAnimation(char *self);
 
 void NNS_G2dSetCellAnimationSequence(void *anim, void *seq)
 {
-    func_02062FF0(anim, seq);
+    NNS_G2dSetCellAnimationBank(anim, seq);
     NNSi_G2dRefreshCellAnimation(anim);
 }

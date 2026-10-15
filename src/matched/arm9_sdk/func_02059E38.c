@@ -1,5 +1,5 @@
 /*
- * function: func_02059E38
+ * function: DWC_GetLastErrorEx
  * address:  0x02059E38
  * packet:   pkt_02059E38
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
 
 extern DWCErrorInfo stDwcLastError;
 
-int func_02059E38(int *errorCode, int *errorType)
+int DWC_GetLastErrorEx(int *errorCode, int *errorType)
 {
     if (errorCode != 0)
         *errorCode = stDwcLastError.errorCode;

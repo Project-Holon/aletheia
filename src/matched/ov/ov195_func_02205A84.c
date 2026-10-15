@@ -1,5 +1,5 @@
 /*
- * function: func_02205A84
+ * function: SHINKA_DEMO_GRAPHIC_ReleaseSubBg
  * address:  0x02205A84
  * packet:   pkt_02205A84
  * region:   ov195
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
 extern char d_02208D1C[];
 
-void func_02205A84(int a0)
+void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0)
 {
     unsigned int i;
     for (i = 0; i < 6; i++)

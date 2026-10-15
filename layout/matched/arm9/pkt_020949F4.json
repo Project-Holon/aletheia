@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02094A60",
+   "name": "strcspn",
    "address": "0x02094A60",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02095B3C",
+   "name": "__strtoul",
    "address": "0x02095B3C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02095EAC",
+   "name": "strtoul",
    "address": "0x02095EAC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096004",
+   "name": "__strtoull",
    "address": "0x02096004",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020966B0",
+   "name": "__ull2dec",
    "address": "0x020966B0",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096774",
+   "name": "__timesdec",
    "address": "0x02096774",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096990",
+   "name": "__two_exp",
    "address": "0x02096990",
    "kind": "game",
    "region": "arm9",

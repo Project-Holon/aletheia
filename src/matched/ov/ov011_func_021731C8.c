@@ -17,8 +17,8 @@
  *   +0168 GAME_COMM_ClearInfoMessages (arm9, unlabelled; the integrator's)
  * Because an arm9 leaf is among the blockers, the ov010 leaf is not filed.
  * Levers from the DIFF note (wave 82): the `b` to the next instruction at
- * +0x136 is the shared func_02012B4C(h, 1) call written in both arms of the
- * func_02012B70(h) == 0 test (cross-jumped, see
+ * +0x136 is the shared GAME_DATA_SetEnterMode(h, 1) call written in both arms of the
+ * GAME_DATA_GetIntrudeCount(h) == 0 test (cross-jumped, see
  * docs/idioms/an-if-else-storing-to-one-target-keeps-the-empty-else-branch-to-next.md);
  * the register permutation disappeared once every callee took its matched
  * prototype (h a u32 cast at each call, me a u8, o a void ** parameter).
@@ -47,13 +47,13 @@
  *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   func_02012B70  0x02012B70  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
- *   func_02012114  0x02012114  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_Check2114  0x02012114  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   EVENT_FIELD_PROCLINK_ClearReturnSlots  0x02161F68  thumb  ov010
  *   GAME_DATA_ClearUnionInfo  0x0201281C  thumb
@@ -62,12 +62,12 @@
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_HasResultReward  0x02175E90  thumb  ov011
  *   INTRUDE_COMM_GetSessionResult  0x02175BCC  thumb  ov011
- *   func_02012B58  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_COMM_SetCounter  0x02026480  thumb
- *   func_02012B64  0x02012B64  thumb
- *   func_02012B8C  0x02012B8C  thumb
- *   func_02012B4C  0x02012B4C  thumb
- *   func_02012124  0x02012124  thumb
+ *   GAME_DATA_SetOwnNetId  0x02012B64  thumb
+ *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
+ *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
+ *   ICA_ANIME_SetField30  0x02012124  thumb
  *   GAME_COMM_ClearInfoMessages  0x02026680  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
@@ -93,13 +93,13 @@ struct U16Vec;
 extern u32 GAME_COMM_GetGameData(void *obj);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern int GFL_NET_IsSessionNull(void);
-extern int func_02012B70(const struct BigObj *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern void func_0200FBA0(void);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
+extern void *GAME_DATA_GetField114(struct SaveBlock *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_IsZone117(u32 id);
-extern u32 func_02012114(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern u32 ICA_ANIME_Check2114(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern int FIELDMAP_IsReady(void *a);
 extern void EVENT_FIELD_PROCLINK_ClearReturnSlots(void *p);
 extern void GAME_DATA_ClearUnionInfo(u8 *obj);
@@ -108,12 +108,12 @@ extern u32 func_0200FB24(void);
 extern int INTRUDE_COMM_HasResult(u8 *p);
 extern int INTRUDE_COMM_HasResultReward(void *p, u8 *q);
 extern u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
-extern u8 func_02012B58(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void GAME_COMM_SetCounter(void *obj, u32 value);
-extern void func_02012B64(struct BigObj *p, u8 v);
-extern void func_02012B8C(struct BigObj *p, u32 v);
-extern void func_02012B4C(struct BigObj *p, u8 v);
-extern void func_02012124(struct Ctx *p, u32 v);
+extern void GAME_DATA_SetOwnNetId(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v);
+extern void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
+extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern void GAME_COMM_ClearInfoMessages(u8 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
@@ -134,12 +134,12 @@ int INTRUDE_COMM_Destroy(int a0, void **o, u8 *s)
         return ok;
     }
     if (s[0x8fd] == 10 || GFL_NET_IsSessionNull() == 1) {
-        if (func_02012B70((struct BigObj *)h) == 0) {
+        if (GAME_DATA_GetIntrudeCount((struct BigObj *)h) == 0) {
             func_0200FBA0();
             ok = 1;
-        } else if (ZONEDATA_IsZone117(func_02012AC8(func_020127A4((struct SaveBlock *)h))) == 1
-                   && func_02012114(o[0]) == 1
-                   && FIELDMAP_IsReady(func_0201210C(o[0])) == 1) {
+        } else if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114((struct SaveBlock *)h))) == 1
+                   && ICA_ANIME_Check2114(o[0]) == 1
+                   && FIELDMAP_IsReady(ICA_ANIME_GetField20(o[0])) == 1) {
             ok = 1;
         }
     }
@@ -156,7 +156,7 @@ int INTRUDE_COMM_Destroy(int a0, void **o, u8 *s)
                 GAME_COMM_SetCounter(ctx, 2);
             } else {
                 pt = INTRUDE_COMM_GetSessionResult(s + 0x1ac);
-                me = func_02012B58((struct BigObj *)h);
+                me = GAME_DATA_GetOwnNetId((struct BigObj *)h);
                 for (i = 0; i < 3; i++) {
                     if (pt[0x34 + i] != 4 && me != pt[0x34 + i]) {
                         break;
@@ -171,15 +171,15 @@ int INTRUDE_COMM_Destroy(int a0, void **o, u8 *s)
         } else if (s[0x8fb] > 1) {
             GAME_COMM_SetCounter(ctx, 1);
         }
-        if (func_02012B70((struct BigObj *)h) == 0) {
-            func_02012B64((struct BigObj *)h, 0);
-            func_02012B8C((struct BigObj *)h, 0);
-            func_02012B4C((struct BigObj *)h, 1);
+        if (GAME_DATA_GetIntrudeCount((struct BigObj *)h) == 0) {
+            GAME_DATA_SetOwnNetId((struct BigObj *)h, 0);
+            GAME_DATA_SetIntrudeId((struct BigObj *)h, 0);
+            GAME_DATA_SetEnterMode((struct BigObj *)h, 1);
         } else {
-            func_02012B4C((struct BigObj *)h, 1);
+            GAME_DATA_SetEnterMode((struct BigObj *)h, 1);
         }
-        if ((((Bits *)(s + 0x93f))->b1 == 1 || func_0200FB24() != 0) && func_02012B70((struct BigObj *)h) == 1) {
-            func_02012124(o[0], 1);
+        if ((((Bits *)(s + 0x93f))->b1 == 1 || func_0200FB24() != 0) && GAME_DATA_GetIntrudeCount((struct BigObj *)h) == 1) {
+            ICA_ANIME_SetField30(o[0], 1);
         }
         GAME_COMM_ClearInfoMessages(ctx);
         for (i = 0; i < 2; i++) {

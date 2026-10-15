@@ -15,8 +15,8 @@
  * symbols:
  *   d_021A1FF8  0x021A1FF8  data
  *   OS_SNPrintf  0x02084F80  arm
- *   func_0209477C  0x0209477C  arm
- *   func_02094A28  0x02094A28  arm
+ *   strlen  0x0209477C  arm
+ *   strchr  0x02094A28  arm
  *   strchr   0x02094A28  arm
  *   strlen   0x0209477C  arm
  *   strncmp  0x020949F4  arm
@@ -26,6 +26,9 @@
  *   _ZZ13func_021685CCmE15stRandContext32  0x021AA848  data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
+extern int strncmp(const char *a, const char *b, unsigned long n);
+extern char *strncpy(char *d, const char *s, unsigned long n);
+extern char *strchr(const char *s, int c);
 
 typedef unsigned char  u8;
 
@@ -40,11 +43,6 @@ typedef struct {
 } MATHRandContext32;
 
 extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
-extern int func_0209477C(const u8 *s);
-extern char *func_02094A28(const char *s, int c);
-extern char *strchr(const char *s, int c);
-extern int strncmp(const char *a, const char *b, unsigned long n);
-extern char *strncpy(char *d, const char *s, unsigned long n);
 extern void OS_GetMacAddress(u8 *macAddress);
 extern u64 OS_GetTick(void);
 /* * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length. */ int func_02168454(const char *key, const char *value, char *string, char sep);
@@ -63,7 +61,7 @@ extern char d_021A1FF8[];
 int func_02168454(const char *key, const char *value, char *string, char sep)
 {
     OS_SNPrintf(string, 0x1000, d_021A1FF8, sep, key, sep, value);
-    return func_0209477C((const u8 *)string);
+    return strlen((const char *)string);
 }
 
 
@@ -74,8 +72,8 @@ int func_02168454(const char *key, const char *value, char *string, char sep)
  */
 int func_0216848C(const char *key, const char *value, char *string, char sep)
 {
-    func_02168454(key, value, func_02094A28(string, 0), sep);
-    return func_0209477C((const u8 *)string);
+    func_02168454(key, value, strchr(string, 0), sep);
+    return strlen((const char *)string);
 }
 
 

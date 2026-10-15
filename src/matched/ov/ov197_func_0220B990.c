@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220B094  0x0220B094  thumb  ov196
+ *   B_APP_TOOL_ShowWindows  0x0220B094  thumb  ov196
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0220B094(u8 *, u32);
+extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
 
 u32 func_0220B990(u8 *p)
 {
-    return func_0220B094(p + 0x28, ((struct Obj25010 *)p)->f59C);
+    return B_APP_TOOL_ShowWindows(p + 0x28, ((struct Obj25010 *)p)->f59C);
 }
 

@@ -16,13 +16,13 @@
  *
  * symbols:
  *   MUSICAL_EVENT_GetScoreCapped  0x02156934  thumb  ov010
- *   func_0200A768  0x0200A768  thumb
- *   func_0200A788  0x0200A788  thumb
- *   func_0200A7C0  0x0200A7C0  thumb
- *   func_0200A800  0x0200A800  thumb
+ *   MUSICAL_SAVE_IncrementShowCount  0x0200A768  thumb
+ *   MUSICAL_SAVE_IncrementTopRankCount  0x0200A788  thumb
+ *   MUSICAL_SAVE_SetSelectedProgram  0x0200A7C0  thumb
+ *   MUSICAL_SAVE_AddFanPoints  0x0200A800  thumb
  *   func_021F4F14  0x021F4F14  thumb  ov112
  *   func_021F5140  0x021F5140  thumb  ov112
- *   func_0200A7AC  0x0200A7AC  thumb
+ *   MUSICAL_SAVE_SetEquippedProp  0x0200A7AC  thumb
  *   func_021F4F40  0x021F4F40  thumb  ov112
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
@@ -71,13 +71,13 @@ extern u8 MUSICAL_EVENT_GetScoreCapped(Work *w, u8 idx);
 typedef signed int     s32;
 struct Big;
 struct Sub02008C20Obj;
-extern void func_0200A768(struct Big *p);
-extern void func_0200A788(struct Big *p);
-extern void func_0200A7C0(struct Big *p, u8 value);
-extern void func_0200A800(struct Big *p, s32 delta);
+extern void MUSICAL_SAVE_IncrementShowCount(struct Big *p);
+extern void MUSICAL_SAVE_IncrementTopRankCount(struct Big *p);
+extern void MUSICAL_SAVE_SetSelectedProgram(struct Big *p, u8 value);
+extern void MUSICAL_SAVE_AddFanPoints(struct Big *p, s32 delta);
 extern u32 *func_021F4F14(int heap);
 extern unsigned char func_021F5140(void *p, int i);
-extern void func_0200A7AC(struct Big *p, u32 index, u8 value);
+extern void MUSICAL_SAVE_SetEquippedProp(struct Big *p, u32 index, u8 value);
 extern void func_021F4F40(void **p);
 extern u16 *GAME_DATA_GetMyPlayerWork(void *p);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
@@ -97,11 +97,11 @@ void MUSICAL_EVENT_ApplyResults(Work *w)
 
     a = MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
     b = MUSICAL_EVENT_GetScoreCapped(w, w->f48);
-    func_0200A768(w->f40);
+    MUSICAL_SAVE_IncrementShowCount(w->f40);
     if (a == b && a != 0)
-        func_0200A788(w->f40);
-    func_0200A7C0(w->f40, a);
-    func_0200A800(w->f40, a);
+        MUSICAL_SAVE_IncrementTopRankCount(w->f40);
+    MUSICAL_SAVE_SetSelectedProgram(w->f40, a);
+    MUSICAL_SAVE_AddFanPoints(w->f40, a);
     {
         u8 cnt[4] = {0, 0, 0, 0};
 
@@ -112,7 +112,7 @@ void MUSICAL_EVENT_ApplyResults(Work *w)
                 cnt[(u8)(u32)func_021F5140(h, (u16)m->recs[j].id)]++;
         }
         for (j = 0; j < 4; j++)
-            func_0200A7AC(w->f40, j, cnt[j]);
+            MUSICAL_SAVE_SetEquippedProp(w->f40, j, cnt[j]);
     }
     func_021F4F40(h);
     k = *GAME_DATA_GetMyPlayerWork(w->f04);

@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_021C49A4  0x021C49A4  thumb  ov127
- *   func_021C4A8C  0x021C4A8C  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJ_GetTableByte  0x021C4A8C  thumb  ov127
  * Two ov127 calls, the second on the first one's answer.
  *
  * NOT EXACT.  MATCH: 16 bytes, the call sequence and the first relocation are
@@ -34,10 +34,10 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021C49A4(u8 *p, unsigned int i);
-extern unsigned char func_021C4A8C(int i);
+extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
+extern unsigned char WF2DMAP_OBJ_GetTableByte(int i);
 
 unsigned char WIFICLUBACTOR_GetActorFacing(char *p)
 {
-    return func_021C4A8C(func_021C49A4(((struct Obj18148 *)p)->f0, 6));
+    return WF2DMAP_OBJ_GetTableByte(WF2DMAP_OBJ_GetSlot(((struct Obj18148 *)p)->f0, 6));
 }

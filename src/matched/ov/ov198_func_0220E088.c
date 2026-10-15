@@ -15,7 +15,7 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_0220C4DC 0x0220C4DC thumb ov198
  *   func_0220D6DC 0x0220D6DC thumb ov198
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   func_0220C60C 0x0220C60C thumb ov198
  */
 #include "../include/Obj00507.h"
@@ -31,7 +31,7 @@ extern int func_022110D4(u8 *,int);
 extern void func_0220C4DC(char *,int,int,int,u16,short,unsigned);
 extern void func_0220D6DC(char *p, u8 *record, int slot);
 typedef unsigned int   u32;
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
 extern void func_0220C60C(char *p, int id);
 void func_0220E088(char *p)
 {
@@ -52,6 +52,6 @@ void func_0220E088(char *p)
             func_0220D6DC((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
-    if (func_02020FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
+    if (FILE_UTIL_Get_0FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
         func_0220C60C((char *)p,104);
 }

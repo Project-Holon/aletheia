@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_0214616C 0x0214616C data a4
- *   func_0203F1FC 0x0203F1FC arm
+ *   GF_STANDARD_SetupCalc 0x0203F1FC arm
  *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
  *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
  */
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 extern struct BattleRec *d_0214616C;
 typedef unsigned char  u8;
-extern u16 func_0203F1FC(const u8 *src, unsigned int len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, unsigned int len);
 typedef unsigned int   u32;
 extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
 struct BattleRec;
@@ -31,7 +31,7 @@ int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c)
     case 0:
         *(unsigned char *)(((char *)d_0214616C) + 0xaa) = 1;
         *(u16 *)(((char *)d_0214616C) + 0xa8) = 57985;
-        *(u16 *)(((char *)d_0214616C) + 0xc0) = func_0203F1FC((const u8 *)(((char *)d_0214616C) + 0x80), 56);
+        *(u16 *)(((char *)d_0214616C) + 0xc0) = GF_STANDARD_SetupCalc((const u8 *)(((char *)d_0214616C) + 0x80), 56);
         value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
         BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;

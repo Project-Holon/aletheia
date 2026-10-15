@@ -18,13 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O1 -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020640DC",
-    "func_02064100",
-    "func_02064120"
+    "NNS_G2dSetSRTTranslate",
+    "NNS_G2dSetSRTRotate",
+    "NNS_G2dSetSRTScale"
+   ],
+   "addresses": [
+    "0x020640DC",
+    "0x02064100",
+    "0x02064120"
    ]
   },
   {
-   "name": "func_02064100",
+   "name": "NNS_G2dSetSRTRotate",
    "address": "0x02064100",
    "kind": "game",
    "region": "arm9",

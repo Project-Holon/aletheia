@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C78
+ * function: POKETRADE_DEMO_MIDDLE_StepEndScene
  * address:  0x021D6C78
  * packet:   pkt_021D6C78
  * region:   ov118
@@ -37,7 +37,7 @@ extern u32 func_020307B0(void *p);
 extern void POKETRADE_PROC_SetStep(void *, int);
 extern void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p);
 
-void func_021D6C78(void *p)
+void POKETRADE_DEMO_MIDDLE_StepEndScene(void *p)
 {
     func_021D66E8(p);
     POKETRADE_3D_ExitParticleManager(((struct Obj01725 *)p)->fC, 6);

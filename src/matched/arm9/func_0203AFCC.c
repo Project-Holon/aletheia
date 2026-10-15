@@ -22,7 +22,7 @@
  *           (76 of 76; dsi/1.1p1).
  *
  * symbols:
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   _pNetState     0x021469DC  data
  *   GFL_NET_STATE_InitWork  0x0203AD8C  arm
@@ -33,7 +33,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02034F84(u32 a);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 a);
 extern void GFL_NET_STATE_InitWork(u32 a0);
 typedef unsigned short u16;
 struct NetState;
@@ -44,7 +44,7 @@ extern struct Sys *_pNetState;
 
 void GFL_NET_STATE_DeviceInitialize(void *a, u32 b)
 {
-    func_02034F84(4);
+    UI_SetKeepAwakeFlagsGlobal(4);
     GFL_NET_STATE_InitWork((u32)a);
     ((u32 *)_pNetState)[0xb] = b;
     GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u32 *)_pNetState), (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);

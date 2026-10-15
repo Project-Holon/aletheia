@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_02035120, sub_0203512C
+ * function: UI_SetResumeHook, sub_0203512C
  * address:  0x02035120
  * packet:   pkt_02035080
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Two more plain field setters right after sub_02035080's pair, same shape:
+ * Two more plain field setters right after UI_SetSuspendHook's pair, same shape:
  * "str r1,[r0,#0x18]; str r2,[r0,#0x2c]; bx lr" then
  * "str r1,[r0,#0x20]; str r2,[r0,#0x30]; bx lr", twelve bytes each, no
  * relocations.  A third function follows in the same block at 0x02035138
@@ -39,7 +39,7 @@ struct Obj02035120 {
     u32 unk30;
 };
 
-void sub_02035120(struct Obj02035120 *p, u32 a, u32 b)
+void UI_SetResumeHook(struct Obj02035120 *p, u32 a, u32 b)
 {
     p->unk18 = a;
     p->unk2C = b;

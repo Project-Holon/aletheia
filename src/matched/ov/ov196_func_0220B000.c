@@ -1,5 +1,5 @@
 /*
- * function: func_0220B000
+ * function: B_APP_TOOL_LayoutActors
  * address: 0x0220B000
  * packet: pkt_ov196_0220B000
  * region: ov196
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_0220B000(int *p, u8 *q)
+void B_APP_TOOL_LayoutActors(int *p, u8 *q)
 {
     Pos pos;
     u8 h=q[3]/2;

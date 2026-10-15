@@ -1,5 +1,5 @@
 /*
- * function: func_02205340
+ * function: SHINKA_DEMO_UpdateWindows
  * address:  0x02205340
  * packet:   pkt_02205340
  * region:   ov195
@@ -20,7 +20,7 @@ struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
-void func_02205340(int a, char *b)
+void SHINKA_DEMO_UpdateWindows(int a, char *b)
 {
     TCBL_Main((struct Tcbl *)(((struct Obj06642 *)b)->f68));
     if (((struct Obj06642 *)b)->f64 != 0)

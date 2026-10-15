@@ -1,5 +1,5 @@
 /*
- * function: func_0208C828
+ * function: PM_AppendPostSleepCallback
  * address:  0x0208C828
  * packet:   pkt_0208C828
  * region:   arm9
@@ -21,7 +21,7 @@ extern int g_02153004[];
 
 void PMi_InsertList(void *listp, void *info, int priority, int compare);
 
-void func_0208C828(void *info)
+void PM_AppendPostSleepCallback(void *info)
 {
     PMi_InsertList(g_02153004, info, 255, 0);
 }

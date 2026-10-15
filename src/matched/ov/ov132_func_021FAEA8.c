@@ -9,21 +9,21 @@
  * status: EXACT*
  * note: extent ends with two bytes of zero alignment padding.
  * symbols:
- *   func_021F9DA0 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  */
 #include "../include/Obj06489.h"
 typedef unsigned short u16;
-extern void *func_021F9DA0(char *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
 typedef unsigned int   u32;
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
-extern void func_0207C9D0(void *, void *, void *);
+extern void VEC_Add(void *, void *, void *);
 int func_021FAEA8(char *p, void *out)
 {
     int v[3];
-    func_021F8044(func_021F9DA0(((struct Obj06489 *)p)->f0), (u32 *)(((struct Obj06489 *)p)->f4), (u32 *)v);
-    func_0207C9D0(v, p + 8, out);
+    func_021F8044(STA_ACTING_GetActorSystem(((struct Obj06489 *)p)->f0), (u32 *)(((struct Obj06489 *)p)->f4), (u32 *)v);
+    VEC_Add(v, p + 8, out);
     (((struct Obj06489 *)p)->f16)++;
     if (((struct Obj06489 *)p)->f16 >= ((struct Obj06489 *)p)->f14) return 1;
     return 0;

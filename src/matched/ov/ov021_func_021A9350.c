@@ -12,7 +12,7 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   func_02012944  0x02012944  thumb
@@ -21,7 +21,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02018598  0x02018598  thumb
  *   FIELD_ENCOUNT_ApplyLeadAbility  0x021A9828  thumb  ov021
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
  *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
@@ -67,7 +67,7 @@ struct BigObj;
 struct Blk38;
 struct Sub0200852CObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
 extern u8 *func_02012944(void *p);
@@ -76,7 +76,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u8 func_02018598(void *p);
 extern void FIELD_ENCOUNT_ApplyLeadAbility(struct Sel *s, u16 d);
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct Blk38 *p);
 extern u32 POKEPARTY_GetBattleReadyCount(void *p);
@@ -90,7 +90,7 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
     void *mon;
 
     t = GAME_DATA_GetSaveControl(a);
-    party = func_02012934(a);
+    party = GAME_DATA_GetMyParty(a);
     MI_CpuFill8(s, 0, 0x2C);
     s->f08 = b;
     s->f0C = c;
@@ -110,7 +110,7 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
         s->f1D = func_02018598(mon);
         FIELD_ENCOUNT_ApplyLeadAbility(s, d);
     }
-    s->b0 = ZONEDATA_CheckEventFlag((void *)func_0201296C(a), 0x960);
+    s->b0 = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(a), 0x960);
     if (MOVE_POKEMON_SAVE_IsCooldownDone(MOVE_POKEMON_SAVE_GetBlock(t)) == 0)
         s->b2 = 1;
     if (s->f0C == 2) {

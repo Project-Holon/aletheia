@@ -1,5 +1,5 @@
 /*
- * function: func_021D5310
+ * function: INTRUDE_COMM_VIEW_TickPeerTimers
  * address: 0x021D5310
  * packet: pkt_ov122_021D5310
  * region: ov122
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021D5310(u8 *p) { int i; for(i=0;i<16;i++) if(*(u16 *)(p+i*12+108)) --*(u16 *)(p+i*12+108); }
+void INTRUDE_COMM_VIEW_TickPeerTimers(u8 *p) { int i; for(i=0;i<16;i++) if(*(u16 *)(p+i*12+108)) --*(u16 *)(p+i*12+108); }

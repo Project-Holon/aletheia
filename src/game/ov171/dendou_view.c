@@ -32,9 +32,9 @@
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   sVramBanks 0x021DEB20 data a4
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021DEA50 0x021DEA50 data a4
@@ -45,13 +45,13 @@
  *   d_021DEA80 0x021DEA80 data a4
  *   d_021DEAE0 0x021DEAE0 data a4
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02041090  0x02041090  arm
  *   func_02049B40  0x02049B40  arm
  *   PALANM_Create  0x02021518  thumb
@@ -64,12 +64,12 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
@@ -89,7 +89,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0204363C  0x0204363C  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   ov067_id       0x00000043  data
  *   func_02034A5C 0x02034A5C arm
@@ -120,7 +120,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
- *   func_0201EE60 0x0201EE60 thumb
+ *   WORDSET_Callback 0x0201EE60 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -162,7 +162,7 @@
  *   sMemberActorTemplates 0x021DEC04 data a4
  *   sMemberSlotsByCount 0x021DEC94 data a4
  *   func_0203F6D8 0x0203F6D8 arm
- *   func_0203F684 0x0203F684 arm
+ *   GF_STANDARD_Get_F684 0x0203F684 arm
  *   _ll_mul 0x0209C054 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
@@ -217,17 +217,17 @@ extern void func_020419E4(void), CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void func_0203FC28(BgDispConfig *);
-extern void func_0203FCA0(u32 layer, const BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32 layer, const BgTemplate *, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32), BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void func_020403F4(unsigned), func_0203F9B4(void);
+extern void func_020403F4(unsigned), BG_SYS_Delete(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *archive);
-extern u32 func_0204162C(int a);
+extern u32 BG_SYS_GetBuf(int a);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct PalAnm *PALANM_Create(u32 heap);
@@ -240,12 +240,12 @@ extern u32 PALANM_GetFadeRequestBits(struct PalAnm *palAnm);
 extern void func_0207D63C(int, int, int, int, int);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *que);
-extern unsigned int func_0201ED04(struct WordSet *wordSet);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void *GAME_DATA_GetSaveBlock42(void *gameData);
@@ -264,7 +264,7 @@ extern int func_02034AC4(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0204363C(u32 swap);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02034A5C(int);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *que);
@@ -292,7 +292,7 @@ extern void TOUCHBAR_PrintAligned(DendouViewWindow *window, struct PrintQue *que
 extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 b);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(struct BmpOam *oam);
-extern void func_0201EE60(struct WordSet *wordSet, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *wordSet, u32 i, u16 v);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
 extern void func_0201EF34(struct WordSet *wordSet, u32 i, u32 v);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
@@ -330,7 +330,7 @@ extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 gender, u32 shiny
 extern u32 func_02017ED8(u32 trainerId, u32 personality);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *palAnm, u32 bank, u32 off, u32 size);
 extern s16 func_0203F6D8(s32 x);
-extern short func_0203F684(unsigned short x);
+extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 val);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -505,21 +505,21 @@ void DENDOU_VIEW_InitBgs(void)
 {
     BgDispConfig dispConfig;
     BgTemplate bgMain0, bgMain1, bgMain2, bgMain3, bgSub0, bgSub1;
-    func_0203F8F4(140);
+    BG_SYS_Create(140);
     dispConfig = d_021DEA50;
     func_0203FC28(&dispConfig);
     bgMain0 = d_021DEAC0;
-    func_0203FCA0(0, &bgMain0, 0);
+    BG_SYS_InitBgLayer(0, &bgMain0, 0);
     bgMain1 = d_021DEAA0;
-    func_0203FCA0(1, &bgMain1, 0);
+    BG_SYS_InitBgLayer(1, &bgMain1, 0);
     bgMain2 = sBgTemplateMain2;
-    func_0203FCA0(2, &bgMain2, 0);
+    BG_SYS_InitBgLayer(2, &bgMain2, 0);
     bgMain3 = sBgTemplateMain3;
-    func_0203FCA0(3, &bgMain3, 0);
+    BG_SYS_InitBgLayer(3, &bgMain3, 0);
     bgSub0 = d_021DEA80;
-    func_0203FCA0(4, &bgSub0, 0);
+    BG_SYS_InitBgLayer(4, &bgSub0, 0);
     bgSub1 = d_021DEAE0;
-    func_0203FCA0(5, &bgSub1, 0);
+    BG_SYS_InitBgLayer(5, &bgSub1, 0);
     BG_SYS_SetMainPlaneVisible(13, 1);
     BG_SYS_SetSubPlaneVisible(3, 1);
 }
@@ -534,7 +534,7 @@ void DENDOU_VIEW_ExitBgs(void)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void DENDOU_VIEW_LoadGraphics(void)
@@ -550,7 +550,7 @@ void DENDOU_VIEW_LoadGraphics(void)
     func_020498F4(archive, 4, 2, 0, 0, 1, DENDOU_VIEW_HEAP);
     func_020498F4(archive, 7, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_TOOL_DeleteHandle(archive);
-    func_02041090(3, func_0204162C(0) + 0x540, 0, 0x15, 0x20, 3);
+    func_02041090(3, BG_SYS_GetBuf(0) + 0x540, 0, 0x15, 0x20, 3);
     func_02049B40(0x17, 5, 0, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
 }
@@ -595,7 +595,7 @@ void DENDOU_VIEW_InitText(DendouViewWork *work)
     work->msgData = func_02045B38(0, 2, 0x55, DENDOU_VIEW_HEAP);
     work->fontBody = GF_FONT_Create(0x17, 0, 0, 0, DENDOU_VIEW_HEAP);
     work->fontLevelLabel = GF_FONT_Create(0x17, 3, 0, 0, DENDOU_VIEW_HEAP);
-    work->wordSet = func_0201EC64(DENDOU_VIEW_HEAP);
+    work->wordSet = GF_FONT_Create_EC64(DENDOU_VIEW_HEAP);
     work->printQueue = PRINTSYS_QUE_Create(DENDOU_VIEW_HEAP);
     work->textBuf = STRBUF_Create(0x400, DENDOU_VIEW_HEAP);
 }
@@ -604,7 +604,7 @@ void DENDOU_VIEW_ExitText(DendouViewWork *work)
 {
     STRBUF_Delete(work->textBuf);
     PRINTSYS_QUE_Delete(work->printQueue);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     GF_FONT_Delete(work->fontLevelLabel);
     GF_FONT_Delete(work->fontBody);
     MSGDATA_Delete(work->msgData);
@@ -690,8 +690,8 @@ void DENDOU_VIEW_StateInit(DendouViewWork *work)
     *(volatile u16 *)DENDOU_VIEW_REG_MAIN_BLDCNT = 0;
     *(volatile u16 *)DENDOU_VIEW_REG_SUB_BLDCNT = 0;
     func_0204363C(0);
-    func_0207D534((volatile u16 *)DENDOU_VIEW_REG_MAIN_BRIGHT, -0x10);
-    func_0207D534((volatile u16 *)DENDOU_VIEW_REG_SUB_BRIGHT, -0x10);
+    GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_MAIN_BRIGHT, -0x10);
+    GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_SUB_BRIGHT, -0x10);
     DENDOU_VIEW_LoadHallOfFame(work);
     DENDOU_VIEW_InitVram();
     DENDOU_VIEW_InitBgs();
@@ -716,8 +716,8 @@ int DENDOU_VIEW_StateExit(DendouViewWork *work)
     DENDOU_VIEW_ExitPalAnm(work);
     DENDOU_VIEW_ExitBgs();
     DENDOU_VIEW_FreeHallOfFame(work);
-    func_0207D534((volatile u16 *)DENDOU_VIEW_REG_MAIN_BRIGHT, -16);
-    func_0207D534((volatile u16 *)DENDOU_VIEW_REG_SUB_BRIGHT, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_MAIN_BRIGHT, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_SUB_BRIGHT, -16);
     *(volatile u16 *)DENDOU_VIEW_REG_MAIN_BLDCNT = 0;
     *(volatile u16 *)DENDOU_VIEW_REG_SUB_BLDCNT = 0;
     BG_SYS_SetMainVisiblePlanes(0);
@@ -1233,7 +1233,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     member = &work->rows[work->rowIndex].members[work->cursor];
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
     speciesText = func_02045EC0(work->msgData, 5);
-    func_0201EE60(work->wordSet, 0, member->species);
+    WORDSET_Callback(work->wordSet, 0, member->species);
     func_0201F250(work->wordSet, work->textBuf, speciesText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(speciesText);
@@ -1548,7 +1548,7 @@ void DENDOU_VIEW_PlaceActorOnEllipse(DendouViewWork *work, int actorIndex, int a
 {
     int x, y;
     x = (int)(((long long)func_0203F6D8((u16)angle) * 0x64000 + 0x800) >> 12);
-    y = (int)(((long long)func_0203F684((u16)angle) * 0x2c000 + 0x800) >> 12);
+    y = (int)(((long long)GF_STANDARD_Get_F684((u16)angle) * 0x2c000 + 0x800) >> 12);
     x += 0x80000;
     y += 0x58000;
     DENDOU_VIEW_MoveActor(work, actorIndex, (short)((x & 0x7ffff000) >> 12),

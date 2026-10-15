@@ -1,5 +1,5 @@
 /*
- * function: func_02205100
+ * function: SHINKA_DEMO_DeleteActors
  * address: 0x02205100
  * packet: pkt_ov195_02205100
  * region: ov195
@@ -22,4 +22,4 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
-void func_02205100(void *unused,char *p) {u8 i;if(((struct Obj04593 *)p)->f60){for(i=0;i<6;i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Obj04593 *)p)->f44);CLACT_ReleaseCharacter(((struct Obj04593 *)p)->f3C);CLACT_ReleasePalette(((struct Obj04593 *)p)->f40);((struct Obj04593 *)p)->f60=0;}}
+void SHINKA_DEMO_DeleteActors(void *unused,char *p) {u8 i;if(((struct Obj04593 *)p)->f60){for(i=0;i<6;i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Obj04593 *)p)->f44);CLACT_ReleaseCharacter(((struct Obj04593 *)p)->f3C);CLACT_ReleasePalette(((struct Obj04593 *)p)->f40);((struct Obj04593 *)p)->f60=0;}}

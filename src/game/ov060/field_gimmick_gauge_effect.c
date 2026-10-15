@@ -36,8 +36,8 @@
  *   GAME_DATA_GetEnterMode  0x02012B40  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
- *   func_0200BDF8  0x0200BDF8  thumb
- *   func_0200BDFC  0x0200BDFC  thumb
+ *   INTRUDE_GetMissionScore  0x0200BDF8  thumb
+ *   INTRUDE_GetMissionBonusScore  0x0200BDFC  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
@@ -76,8 +76,8 @@ extern u8 GAME_DATA_GetExitMode(const struct GameData *gameData);
 extern u8 GAME_DATA_GetEnterMode(const struct GameData *gameData);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 extern void *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 slot);
-extern u16 func_0200BDF8(struct BattleRec *record);
-extern u16 func_0200BDFC(struct BattleRec *record);
+extern u16 INTRUDE_GetMissionScore(struct BattleRec *record);
+extern u16 INTRUDE_GetMissionBonusScore(struct BattleRec *record);
 extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 extern IntrudeCommSys *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, int animeIdx, int enabled);
@@ -231,8 +231,8 @@ u8 FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges(struct GameData *gameData, void *expObj
     } else {
         record = GAME_DATA_GetBattleRecSlot(gameData, intrudeId);
     }
-    highStep = FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(func_0200BDF8(record));
-    lowStep = FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(func_0200BDFC(record));
+    highStep = FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(INTRUDE_GetMissionScore(record));
+    lowStep = FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(INTRUDE_GetMissionBonusScore(record));
     pos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, highStep + FIELD_GIMMICK_GAUGE_EFFECT_GAUGE_STEP_COUNT);
     column = (column << 22) + 0x1F8000;
     pos->x = column;

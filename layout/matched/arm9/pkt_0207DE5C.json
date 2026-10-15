@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207DE5C",
+   "name": "G3X_GetMtxStackLevelPJ",
    "address": "0x0207DE5C",
    "kind": "sdk",
    "region": "arm9",

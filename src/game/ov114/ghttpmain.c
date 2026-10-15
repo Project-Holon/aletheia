@@ -44,7 +44,7 @@
  *   ghiFreeLock  0x021C036C  arm  ov114
  *   gGhttpProxyServer  0x021D3B2C  data
  *   ghiNewConnection                    0x021c0998 arm  ov114
- *   func_0217F1E0                    0x0217f1e0 arm  ov009
+ *   goastrdup                    0x0217f1e0 arm  ov009
  *   ghiFreeConnection                    0x021c0d40 arm  ov114
  *   ghiInitFixedBuffer                    0x021bfc54 arm  ov114
  *   ghiInitBuffer                    0x021bfbd0 arm  ov114
@@ -88,7 +88,7 @@ extern void ghiCleanupConnections(void);
 extern void func_0217EAE0(void *ptr);
 extern void ghiFreeLock(void);
 extern GHIConnection *ghiNewConnection(void);
-extern char *func_0217F1E0(const char *src);
+extern char *goastrdup(const char *src);
 extern int ghiFreeConnection(GHIConnection *connection);
 extern int ghiInitFixedBuffer(GHIConnection *connection, GHIBuffer *buffer, char *data, int size);
 extern int ghiInitBuffer(GHIConnection *connection, GHIBuffer *buffer, int initialSize, int sizeIncrement);
@@ -301,13 +301,13 @@ int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSi
         return -1;
 
     connection->type = 0;
-    connection->URL = func_0217F1E0(URL);
+    connection->URL = goastrdup(URL);
     if (!connection->URL) {
         ghiFreeConnection(connection);
         return -1;
     }
     if (headers && *headers) {
-        connection->sendHeaders = func_0217F1E0(headers);
+        connection->sendHeaders = goastrdup(headers);
         if (!connection->sendHeaders) {
             ghiFreeConnection(connection);
             return -1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B80CC",
+   "name": "CTVT_COMM_IsSessionEnded",
    "address": "0x021B80CC",
    "kind": "game",
    "region": "ov172",

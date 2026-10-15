@@ -1,5 +1,5 @@
 /*
- * function: func_021F64FC
+ * function: EGG_DEMO_GRAPHIC_GetClactBank2
  * address: 0x021F64FC
  * packet: pkt_ov215_021F64FC
  * region: ov215
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F662C 0x021F662C thumb ov215
+ *   EGG_DEMO_GRAPHIC_GetClactBank 0x021F662C thumb ov215
  */
-extern int func_021F662C(void *);
-int func_021F64FC(char *p){return func_021F662C(p+4);}
+extern int EGG_DEMO_GRAPHIC_GetClactBank(void *);
+int EGG_DEMO_GRAPHIC_GetClactBank2(char *p){return EGG_DEMO_GRAPHIC_GetClactBank(p+4);}

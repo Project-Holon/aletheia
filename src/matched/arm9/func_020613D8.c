@@ -38,7 +38,7 @@
  * explicit `goto`, a `switch`, and four `#pragma`s) was correct in concluding
  * that no spelling moves it under 1.1p1.
  *
- * The pin is shared with src/matched/func_020616CC.c in this same cluster and
+ * The pin is shared with src/matched/NNS_GfdAllocVram.c in this same cluster and
  * its evidence row is in docs/FRONTEND-PINS.md; a whole-function tail
  * duplication that 1.1p1 merges and 2.0/sp2 keeps is a second instance of the
  * same "2.0 spends bytes where 1.1p1 shares them" family as the kept-constants

@@ -12,7 +12,7 @@
  * sdk:      gpGetBuddyStatus (libdwcgsgp.TWL.HYB.a gp.o)
  *
  * symbols:
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02193734  0x02193734  arm   ov009
  *   func_0219008C  0x0219008C  arm   ov009
  *   func_0219327C  0x0219327C  arm   ov009
@@ -53,7 +53,7 @@ typedef struct GPIConnection {
     int numBuddies;
 } GPIConnection;
 
-extern void *func_020923B0(void *dst, int val, unsigned long len);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern void func_02193734(int *p, int b);
 extern GPIProfile *func_0219008C(void **connection, int buddyIndex);
 extern void func_0219327C(char *p, int b, int n);
@@ -70,7 +70,7 @@ int func_02185FD4(void **connection, int index, GPBuddyStatus *status)
         return 2;
     iconnection = (GPIConnection *)*connection;
     if (iconnection->f108 != 0) {
-        func_020923B0(status, 0, sizeof(GPBuddyStatus));
+        MSL_C_LIB_MemsetPtr(status, 0, sizeof(GPBuddyStatus));
         return 0;
     }
     if (status == 0) {

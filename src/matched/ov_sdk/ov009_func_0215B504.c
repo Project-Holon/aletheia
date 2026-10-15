@@ -14,10 +14,10 @@
  * symbols:
  *   _tcp_send_ack  0x02159404  arm  ov009
  *   CPSi_SslGetLength  0x02162C28  arm  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 extern void _tcp_send_ack(void *soc, int flush);
 struct CPSSoc;
 extern long CPSi_SslGetLength(struct CPSSoc *soc);
@@ -25,7 +25,7 @@ extern long CPSi_SslGetLength(struct CPSSoc *soc);
 long CPS_SocGetLength(void)
 {
     long count;
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *soc = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 4)

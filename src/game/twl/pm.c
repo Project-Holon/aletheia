@@ -23,6 +23,7 @@
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  *   MI_StopAllDma  0x02082658  arm  arm9
  *   OSi_SyncWithOtherProc  0x02084AB0  arm  arm9
+ *   PMi_InsertList  0x0208C6FC  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -60,7 +61,7 @@ extern u32 data_02732FA8;
 extern void OSi_SyncWithOtherProc(int a0, volatile u8 *p);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
-extern void func_0208C6FC(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
+extern void PMi_InsertList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
 extern void GX_DispOff(void);
 extern void OS_SpinWaitSysCycles(u32 n);
 extern void MI_StopAllDma(void);
@@ -145,12 +146,12 @@ u32 PM_GetExitFactor(void)
 
 void PM_AppendPreExitCallback(PMiGenCallbackInfo *info)
 {
-    func_0208C6FC(&d_02732FA4, info, 0xFF, 0);
+    PMi_InsertList(&d_02732FA4, info, 0xFF, 0);
 }
 
 void PMi_InsertPostExitCallbackEx(PMiGenCallbackInfo *info, int priority)
 {
-    func_0208C6FC(&PMi_PostExitCallbackList, info, priority, 0);
+    PMi_InsertList(&PMi_PostExitCallbackList, info, priority, 0);
 }
 
 void PM_DeletePostExitCallback(PMiGenCallbackInfo *info)

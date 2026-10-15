@@ -14,7 +14,7 @@
  *   GAMESYSTEM_ReleaseSleepCallback  0x02012258  thumb
  *   ISS_SYS_Delete  0x0202B4F0  thumb
  *   GAME_DATA_Delete  0x02012704  thumb
- *   func_02026250  0x02026250  thumb
+ *   CURSOR_MOVE_DeleteVecSet  0x02026250  thumb
  *   ZONEDATA_Exit  0x02013A48  thumb
  *
  * Teardown: two calls on the object itself, then three on its words at +0x2c,
@@ -33,7 +33,7 @@ extern void GAMESYSTEM_ReleaseSleepCheck(void *o);
 extern void GAMESYSTEM_ReleaseSleepCallback(void *o);
 extern void ISS_SYS_Delete(unsigned char *p);
 extern void GAME_DATA_Delete(unsigned char *p);
-extern void func_02026250(void *obj);
+extern void CURSOR_MOVE_DeleteVecSet(void *obj);
 extern void ZONEDATA_Exit(void);
 
 void GAMESYSTEM_Exit(u32 *o)
@@ -42,6 +42,6 @@ void GAMESYSTEM_Exit(u32 *o)
     GAMESYSTEM_ReleaseSleepCallback(o);
     ISS_SYS_Delete((unsigned char *)o[0xb]);
     GAME_DATA_Delete((unsigned char *)o[7]);
-    func_02026250((void *)o[9]);
+    CURSOR_MOVE_DeleteVecSet((void *)o[9]);
     ZONEDATA_Exit();
 }

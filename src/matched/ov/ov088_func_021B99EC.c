@@ -16,7 +16,7 @@
  *   TCBL_Destroy  0x02031140  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  */
 
 typedef unsigned int   u32;
@@ -28,7 +28,7 @@ extern void func_02030EAC(struct Node *n);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 void STARTMENU_CaptureDelete(int *p)
 {
@@ -38,5 +38,5 @@ void STARTMENU_CaptureDelete(int *p)
     TCBL_Destroy((struct S02031140 *)p[0]);
     G3D_SYSTEM_Exit();
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }

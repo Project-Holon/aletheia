@@ -27,12 +27,12 @@
  *   RTC_ConvertDateToDay 0x02088F58 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0200FA84 0x0200FA84 thumb
- *   func_0200B078 0x0200B078 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200BBFC 0x0200BBFC thumb
- *   func_0200BBD8 0x0200BBD8 thumb
- *   func_0200B110 0x0200B110 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   BATTLE_BOX_IsLocked 0x0200BBFC thumb
+ *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  */
@@ -64,12 +64,12 @@ typedef signed int     s32;
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *,struct RTCTime *,s64);
 extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *);
-extern unsigned int func_0200BBFC(struct Obj *,unsigned int);
-extern void func_0200BBD8(struct Obj *p, int v);
-extern void func_0200B110(struct Reg2 *,unsigned int,int);
+extern void *BATTLE_BOX_GetFromSave(void *);
+extern unsigned int BATTLE_BOX_IsLocked(struct Obj *,unsigned int);
+extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
+extern void REGULATION_Card_SetValue(struct Reg2 *,unsigned int,int);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void MI_CpuFill8(void *,int,unsigned);
 void func_021D9090(u32 sys,int *state,char *p)
@@ -90,12 +90,12 @@ void func_021D9090(u32 sys,int *state,char *p)
         if(!GFL_NET_GetRunState())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
         if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime));
-        startDate.year=func_0200B078(reg,4);
-        startDate.month=func_0200B078(reg,5);
-        startDate.day=func_0200B078(reg,6);startDate.week=0;
-        endDate.year=func_0200B078(reg,7);
-        endDate.month=func_0200B078(reg,8);
-        endDate.day=func_0200B078(reg,9);endDate.week=0;
+        startDate.year=REGULATION_Card_GetValue(reg,4);
+        startDate.month=REGULATION_Card_GetValue(reg,5);
+        startDate.day=REGULATION_Card_GetValue(reg,6);startDate.week=0;
+        endDate.year=REGULATION_Card_GetValue(reg,7);
+        endDate.month=REGULATION_Card_GetValue(reg,8);
+        endDate.day=REGULATION_Card_GetValue(reg,9);endDate.week=0;
         startDay=RTC_ConvertDateToDay(&startDate);
         endDay=RTC_ConvertDateToDay(&endDate);
         nowDay=RTC_ConvertDateToDay(&nowDate);
@@ -111,13 +111,13 @@ void func_021D9090(u32 sys,int *state,char *p)
         else *state=13;break;
     case 5:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,40,2);
         *state=14;func_021E8AB4(sys,6);break;
-    case 6:box=func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
-        ((struct Obj00728 *)p)->f26C=func_0200BBFC(box,1);
-        func_0200BBD8(box,1);
-        func_0200B110(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
+    case 6:box=BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
+        ((struct Obj00728 *)p)->f26C=BATTLE_BOX_IsLocked(box,1);
+        BATTLE_BOX_ClearLockFlags(box,1);
+        REGULATION_Card_SetValue(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
         GAME_DATA_SaveStart(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
     case 7:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
-    case 8:func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
+    case 8:BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
     case 9:func_021D97E4(p,1);
         func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);

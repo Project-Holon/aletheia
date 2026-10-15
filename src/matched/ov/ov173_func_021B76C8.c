@@ -1,5 +1,5 @@
 /*
- * function: func_021B76C8
+ * function: POKE_SUMMARY_ACTOR_RegisterResources
  * address: 0x021B76C8
  * packet: pkt_ov173_021B76C8
  * region: ov173
@@ -60,7 +60,7 @@ extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-void func_021B76C8(char *p,void *other)
+void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other)
 {
     void *bank;
     u32 i;

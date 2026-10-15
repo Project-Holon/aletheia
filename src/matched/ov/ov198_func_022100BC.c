@@ -11,24 +11,24 @@
  * lever: bounded permuter expanded row use, cast the row/column sum to u32,
  *   and captured the byte selection in tmp before calling func_022110D4.
  * symbols:
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02211970 0x02211970 thumb ov198
- *   func_0220B760 0x0220B760 thumb ov198
- * Caller truncates the selection+18 argument to u8 before func_0220B760.
+ *   B_PLIST_ANM_StartPaletteAnim 0x0220B760 thumb ov198
+ * Caller truncates the selection+18 argument to u8 before B_PLIST_ANM_StartPaletteAnim.
  */
 #include "../include/Obj10851.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sound;
-extern int func_02025DE8(struct Sound *);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
 extern int func_022110D4(u8 *,int);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *p, unsigned int state);
+extern void B_PLIST_ANM_StartPaletteAnim(u8 *p, unsigned int state);
 int func_022100BC(u8 *p)
 {
-    u32 selection=func_02025DE8(*(struct Sound * *)&((struct Obj10851 *)p)->f2184);
+    u32 selection=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj10851 *)p)->f2184);
     u8 tmp;
     switch(selection) {
     case 0: case 1: case 2: case 3: {
@@ -41,17 +41,17 @@ int func_022100BC(u8 *p)
         (*(u8 **)p)[0x4b]=selection;
         (*(u8 **)p)[0x48]=idx;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,(u8)(selection+18));
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)(selection+18));
         return 31;
     }
     case 4:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj10851 *)p)->f217C=11;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj10851 *)p)->f217C=11;
         return 29;
     case (u32)-3: case (u32)-4:

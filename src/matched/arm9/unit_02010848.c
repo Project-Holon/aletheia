@@ -17,8 +17,8 @@
  * at +0x312 of the object behind 0x021461E0 (0 when there is none), a raising
  * setter of the halfword at +0x314 (only upward, and only below 4; the first
  * compare is signed, the bound unsigned, so the parameter is u32 and the
- * field is compared as int), and an empty function.  func_02010888
- * (src/matched/func_02010888.c) follows.
+ * field is compared as int), and an empty function.  GFL_NET_SAVE_SetStep
+ * (src/matched/GFL_NET_SAVE_SetStep.c) follows.
  *
  * SEED REQUEST for the integrator: arm9 0x02010848 thumb, 0x02010864 thumb,
  * 0x02010884 thumb (witness: this unit).

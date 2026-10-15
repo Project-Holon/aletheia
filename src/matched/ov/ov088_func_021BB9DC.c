@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_0200C308  0x0200C308  thumb
+ *   BEACON_GetSlotState  0x0200C308  thumb
  */
 #include "../include/Obj03675.h"
 
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Blk34;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern u8 func_0200C308(struct Blk34 *p, u32 i);
+extern u8 BEACON_GetSlotState(struct Blk34 *p, u32 i);
 
 void STARTMENU_ShowRowActors(char *p, int flag)
 {
@@ -37,13 +37,13 @@ void STARTMENU_ShowRowActors(char *p, int flag)
         if (c == 8)
             return;
         if (c == 3) {
-            if (func_0200C308(((struct Obj03675 *)p)->f8, 1) == 1)
+            if (BEACON_GetSlotState(((struct Obj03675 *)p)->f8, 1) == 1)
                 CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f24, 1);
         } else if (c == 4) {
-            if (func_0200C308(((struct Obj03675 *)p)->f8, 2) == 1)
+            if (BEACON_GetSlotState(((struct Obj03675 *)p)->f8, 2) == 1)
                 CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f28, 1);
         } else if (c == 7) {
-            if (func_0200C308(((struct Obj03675 *)p)->f8, 3) == 1)
+            if (BEACON_GetSlotState(((struct Obj03675 *)p)->f8, 3) == 1)
                 CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f2C, 1);
         } else if (c == 5) {
             CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f30, 1);

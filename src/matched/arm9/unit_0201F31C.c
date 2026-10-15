@@ -16,7 +16,7 @@
  *
  * The wordset.c "clear every slot" walk and the one-line initialiser that
  * fills the file-scope template string at 0x020A7370.  That pointer is loaded
- * by func_0201EE60 in src/matched/unit_0201ED04.c and by seven functions
+ * by WORDSET_Callback in src/matched/unit_0201ED04.c and by seven functions
  * outside this region, so the `literal` class has witnesses to spare.
  *
  * func_0201F344 takes its heap id as a u16: the 4th argument of

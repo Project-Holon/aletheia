@@ -16,7 +16,7 @@
  *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   GAME_DATA_GetWifiList 0x0201283C thumb
- *   func_02009CC0 0x02009CC0 thumb
+ *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  */
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ extern void *func_0200E6E8(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
-extern int func_02009CC0(void *a0);
+extern int WIFILIST_GetGsProfileId(void *a0);
 void func_021D6698(u32 *p,u32 *q)
 {
     u32 save=((u32 *)((u32 *)q[16])[2])[0];
@@ -52,5 +52,5 @@ void func_021D6698(u32 *p,u32 *q)
         ctx=(u32 *)q[16];
         p[11]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32 *)ctx[2])[1],2);
     }
-    p[18]=func_02009CC0((void *)GAME_DATA_GetWifiList((const struct BigObj *)save));
+    p[18]=WIFILIST_GetGsProfileId((void *)GAME_DATA_GetWifiList((const struct BigObj *)save));
 }

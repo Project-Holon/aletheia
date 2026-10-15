@@ -1,5 +1,5 @@
 /*
- * function: func_021BA04C
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects
  * address: 0x021BA04C
  * packet: pkt_ov221_021BA04C
  * region: ov221
@@ -12,4 +12,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void);
-void func_021BA04C(void *p){func_020419E4();}
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p){func_020419E4();}

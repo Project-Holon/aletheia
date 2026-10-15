@@ -11,10 +11,10 @@
  * incoming r0 left intact by the switch. Both inputs are named.
  * symbols:
  *   WIFI_BSUBWAY_GRAPHIC_PrintMessage 0x021D8010 thumb ov116
- *   func_021D6EC4 0x021D6EC4 thumb ov116
- *   func_021D6E50 0x021D6E50 thumb ov116
- *   func_021D7060 0x021D7060 thumb ov116
- *   func_021D70B0 0x021D70B0 thumb ov116
+ *   WIFI_BSUBWAY_PollHttpRequest 0x021D6EC4 thumb ov116
+ *   WIFI_BSUBWAY_StartHttpRequest 0x021D6E50 thumb ov116
+ *   WIFI_BSUBWAY_StartUploadPlayer 0x021D7060 thumb ov116
+ *   WIFI_BSUBWAY_IsUploadDone 0x021D70B0 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream 0x021D80CC thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_StartSave 0x021D81D0 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_UpdateSave 0x021D81EC thumb ov116
@@ -24,12 +24,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *,u32);
-extern int func_021D6EC4(u8 *,u8 *,int);
-extern void func_021D6E50(u8 *,u8 *,int,int);
-extern void func_021D7060(u8 *,u8 *);
+extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
+extern void WIFI_BSUBWAY_StartHttpRequest(u8 *,u8 *,int,int);
+extern void WIFI_BSUBWAY_StartUploadPlayer(u8 *,u8 *);
 typedef signed int     s32;
 struct Blk1AC;
-extern int func_021D70B0(void *unused, u8 *p);
+extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
 extern int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *);
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
 extern void WIFI_BSUBWAY_GRAPHIC_StartSave(u8 *);
@@ -40,19 +40,19 @@ int WIFI_BSUBWAY_GRAPHIC_Step(u8 *p,int b)
     int v;
     switch (((struct Obj01926 *)p)->fB6C) {
     case 0: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,7); ++((struct Obj01926 *)p)->fB6C; break;
-    case 1: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
+    case 1: WIFI_BSUBWAY_StartHttpRequest(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 2:
-        v=func_021D6EC4(p+0x1610,p+0x182c,0);
+        v=WIFI_BSUBWAY_PollHttpRequest(p+0x1610,p+0x182c,0);
         if(v==1) ((struct Obj01926 *)p)->fB6C=5;
         else if(v==2) ((struct Obj01926 *)p)->fB6C=3;
         break;
-    case 3: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
+    case 3: WIFI_BSUBWAY_StartHttpRequest(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 4:
-        if(func_021D6EC4(p+0x1610,p+0x182c,1)==1) ((struct Obj01926 *)p)->fB6C=5;
+        if(WIFI_BSUBWAY_PollHttpRequest(p+0x1610,p+0x182c,1)==1) ((struct Obj01926 *)p)->fB6C=5;
         break;
-    case 5: func_021D7060(p+0x1610,p+0x182c); ++((struct Obj01926 *)p)->fB6C; break;
+    case 5: WIFI_BSUBWAY_StartUploadPlayer(p+0x1610,p+0x182c); ++((struct Obj01926 *)p)->fB6C; break;
     case 6:
-        if(func_021D70B0(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
+        if(WIFI_BSUBWAY_IsUploadDone(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
         break;
     case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
     case 8:

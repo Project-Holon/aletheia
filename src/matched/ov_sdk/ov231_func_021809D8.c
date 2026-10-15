@@ -1,5 +1,5 @@
 /*
- * function: func_021809D8
+ * function: CARD_SPI_CheckCardId
  * address:  0x021809D8
  * packet:   pkt_ov231_021809D8
  * region:   ov231
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02180820  0x02180820  thumb  ov231
+ *   CARD_SPI_RunCommand  0x02180820  thumb  ov231
  *
  * Promoted from src/pending 2026-09-27 (recursive MATCH unblocker,
  * 0x02180000..0x0219FFFF band): match.py one = EXACT, 22/22 bytes, both
@@ -19,10 +19,10 @@
  * and file name carry the ov231 token.
  */
 
-extern int func_02180820(void);
+extern int CARD_SPI_RunCommand(void);
 
-int func_021809D8(void)
+int CARD_SPI_CheckCardId(void)
 {
-    func_02180820();
-    return func_02180820() == 0xaa;
+    CARD_SPI_RunCommand();
+    return CARD_SPI_RunCommand() == 0xaa;
 }

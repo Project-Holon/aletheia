@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02078588",
+   "name": "FS_UnmountArchive",
    "address": "0x02078588",
    "kind": "sdk",
    "region": "arm9",

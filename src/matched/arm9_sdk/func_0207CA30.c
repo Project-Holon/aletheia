@@ -1,5 +1,5 @@
 /*
- * function: func_0207CA30
+ * function: VEC_Fx16Add
  * address:  0x0207CA30
  * packet:   pkt_0207CA30
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct {
     fx16 x, y, z;
 } VecFx16;
 
-void func_0207CA30(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab)
+void VEC_Fx16Add(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab)
 {
     ab->x = (fx16)(a->x + b->x);
     ab->y = (fx16)(a->y + b->y);

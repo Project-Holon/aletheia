@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gBtlMsgState  0x021F6398  data  a4
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  */
@@ -32,7 +32,7 @@ extern D gBtlMsgState;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -40,7 +40,7 @@ void BTL_MSG_Exit(void)
 {
     int i;
 
-    func_0201ED04((struct WordSet *)gBtlMsgState.f8);
+    WORDSET_DeleteStrbufED04((struct WordSet *)gBtlMsgState.f8);
     STRBUF_Delete((struct U16Vec *)gBtlMsgState.fc);
     for (i = 0; i < 8; i++)
         MSGDATA_Delete((struct Rec *)gBtlMsgState.t[i]);

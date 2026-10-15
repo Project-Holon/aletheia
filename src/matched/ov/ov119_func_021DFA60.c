@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
- *   g_021E7844      0x021E7844  data  ov119
+ *   gPokeTradeNegoTable25      0x021E7844  data  ov119
  *
  * Addresses are Black-image addresses.
  */
@@ -28,14 +28,14 @@ typedef struct {
 } Table;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern const Table g_021E7844;
+extern const Table gPokeTradeNegoTable25;
 
 void POKETRADE_NEGO_PlaySeByKeyA(u32 key)
 {
     Table local;
     unsigned int i;
 
-    local = g_021E7844;
+    local = gPokeTradeNegoTable25;
     for (i = 0; i < 25; i++)
         if (key == local.t[i].b)
             GFL_USE_PlaySeDefaultVolume(local.t[i].a);

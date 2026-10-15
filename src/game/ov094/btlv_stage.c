@@ -21,7 +21,7 @@
  *   G3D_SYSTEM_CreateAnime 0x02047564 arm
  *   G3D_SYSTEM_CreateObject 0x0204767C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   func_0207DCF8 0x0207DCF8 arm
@@ -55,7 +55,7 @@ extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *, G3dAnime **, int);
 
 extern int G3D_SYSTEM_EnableObjectAnime(G3dObject *, u32 idx);
 
-extern void func_0207ADC4(int *rotate);
+extern void MTX_Identity33_(int *rotate);
 
 extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
@@ -172,14 +172,14 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     stage->status[0].scale.x = 0x1000;
     stage->status[0].scale.y = 0x1000;
     stage->status[0].scale.z = 0x1000;
-    func_0207ADC4(stage->status[0].rotate);
+    MTX_Identity33_(stage->status[0].rotate);
     stage->status[1].trans.x = 0;
     stage->status[1].trans.y = 0;
     stage->status[1].trans.z = -0xcb7d;
     stage->status[1].scale.x = 0x1000;
     stage->status[1].scale.y = 0x1000;
     stage->status[1].scale.z = 0x1000;
-    func_0207ADC4(stage->status[1].rotate);
+    MTX_Identity33_(stage->status[1].rotate);
     if (mode == 3) {
         stage->status[0].trans.z = 0xa000;
         stage->status[1].trans.z = -0xf000;

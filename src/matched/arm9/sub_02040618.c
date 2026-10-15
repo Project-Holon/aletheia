@@ -19,7 +19,7 @@
  * GFL_NET_SetIrcParams takes the layer's scroll pair (x, y) as its two arguments
  * (the case-1 arm keeps r0/r1 live across the register write for the call,
  * as in func_02041B94), and scrollX is read before scrollY.  The star is the
- * unlabelled follower sub_020407E8 (already EXACT in unit_020407E8.c); the
+ * unlabelled follower BG_SYS_GetScrollX (already EXACT in unit_020407E8.c); the
  * true extent is 464 bytes, ending at 0x020407E8.
  */
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02166880
+ * function: WCMi_WmifStartupAsync
  * address:  0x02166880
  * packet:   pkt_ov009_02166880
  * region:   ov009
@@ -18,7 +18,7 @@
  *   WM_SetIndCallback    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   func_021665CC    0x021665CC  arm  ov009
- *   func_0208F224    0x0208F224  arm
+ *   WM_Enable    0x0208F224  arm
  *   func_02166EB0    0x02166EB0  arm  ov009
  *   func_02166F24    0x02166F24  arm  ov009
  */
@@ -41,11 +41,11 @@ extern void WCMi_SetPhase(unsigned char phase);
 extern long WM_SetIndCallback(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern void func_021665CC(unsigned char *macAddress);
-extern int func_0208F224(char *path);
+extern int WM_Enable(char *path);
 extern void func_02166EB0(void *arg);
 extern void func_02166F24(void *arg);
 
-long func_02166880(void)
+long WCMi_WmifStartupAsync(void)
 {
     unsigned char macAddress[6];
     WCMWork *wcmw;
@@ -75,7 +75,7 @@ long func_02166880(void)
     }
     OS_GetMacAddress(macAddress);
     func_021665CC(macAddress);
-    wmResult = func_0208F224((char *)func_02166F24);
+    wmResult = WM_Enable((char *)func_02166F24);
     switch (wmResult) {
     case 2:
         WCMi_SetPhase(2);

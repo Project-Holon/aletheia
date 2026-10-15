@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC48
+ * function: NET_PARTY_COMMAND_BuildStatusParam
  * address: 0x021DCC48
  * packet: pkt_ov134_021DCC48
  * region: ov134
@@ -30,7 +30,7 @@ struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
-void func_021DCC48(u8 *p, void *unused, u8 *out)
+void NET_PARTY_COMMAND_BuildStatusParam(u8 *p, void *unused, u8 *out)
 {
     void *a;
     void *b;

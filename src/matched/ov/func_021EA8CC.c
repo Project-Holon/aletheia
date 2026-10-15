@@ -13,6 +13,7 @@
  *   BOX2_MAIN_HasOtherTradable  0x021DD694  thumb  ov170
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
+ *   FILE_UTIL_Check136C  0x0202136C  thumb  arm9
  *
  * Busy 1 for the 0x16 field below 0x1e, else run the panel query and
  *   answer 2 for a hit, 0 otherwise.  `p` must be unsigned char *
@@ -27,17 +28,17 @@ typedef unsigned int u32;
 extern int BOX2_MAIN_HasOtherTradable(void ***p, unsigned skip);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 typedef unsigned short u16;
-extern u32 func_0202136C(u16 v);
-extern int BOX2_MAIN_HasOtherTradable(void ***p, unsigned skip);
+extern u32 FILE_UTIL_Check136C(u16 v);
+
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern u32 func_0202136C(u16 v);
+
+
 int BOX2_SEQ_CheckTradableMon(unsigned char *p)
 {
     int i = p[0x16] - 0x1e;
     if (BOX2_MAIN_HasOtherTradable((void ***)p, i) == 0)
         return 1;
-    if (func_0202136C((unsigned short)POKE_TOOL_GetPartyValue(
+    if (FILE_UTIL_Check136C((unsigned short)POKE_TOOL_GetPartyValue(
             POKEPARTY_GetMember(*(void **)(((struct Obj12168 *)p)->f0 + 8), i), 6, 0)) == 1)
         return 2;
     return 0;

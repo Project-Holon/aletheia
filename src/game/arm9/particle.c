@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_02030734     0x02030734  arm
- *   func_0204EBD4     0x0204EBD4  arm
+ *   BILLBOARD_Create     0x0204EBD4  arm
  *   func_02033C00     0x02033C00  arm
  *   sBillboardAct     0x020A7FB0  data
  *   gBillboardActTpl  0x020A155C  data  a4
  *   BILLBOARD_FreeElem  0x0204F5A8  arm
- *   func_0204ED24  0x0204ED24  arm
+ *   BILLBOARD_Delete  0x0204ED24  arm
  *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
  *   AREAMAN_Alloc  0x02033CA8  arm
@@ -52,15 +52,15 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   PARTICLE_KillAllEffects  0x02051620  arm
  *   NNS_GfdLoadVramManager  0x0206168C  arm
- *   func_020621FC  0x020621FC  arm
- *   func_02061824  0x02061824  arm
- *   func_02062594  0x02062594  arm
+ *   NNS_GfdFreeTexVram  0x020621FC  arm
+ *   NNSi_GfdSetVramManagerWork  0x02061824  arm
+ *   NNS_GfdFreePlttVram  0x02062594  arm
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   G3D_SYSTEM_GetTexManagerMode  0x02046BFC  arm
  *   G3D_SYSTEM_GetPlttManagerMode  0x02046C10  arm
  *   NNS_GfdSaveVramManager  0x0206164C  arm
- *   func_02061808  0x02061808  arm
+ *   NNSi_GfdGetVramManagerWork  0x02061808  arm
  *   func_02052A50  0x02052A50  arm
  *   func_02030DA8  0x02030DA8  arm
  *   BUTTON_MAN_Func1A3C  0x02051A3C  arm
@@ -307,10 +307,10 @@ struct ParticleMan {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern struct BbBoard *func_0204EBD4(const struct BbActBoardInit *init, u32 heapId);
+extern struct BbBoard *BILLBOARD_Create(const struct BbActBoardInit *init, u32 heapId);
 extern struct AreaMan *func_02033C00(u32 size, u32 heapId);
 extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
-extern void func_0204ED24(struct BbBoard *board);
+extern void BILLBOARD_Delete(struct BbBoard *board);
 extern u32 AREAMAN_Delete(struct AreaMan *pool);
 extern u32 func_020307B0(void *p);
 extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
@@ -336,15 +336,15 @@ extern void OS_RestoreInterrupts(u32 state);
 extern struct ParticleEngine *func_02052DC8(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
 extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void NNS_GfdLoadVramManager(u32 *table);
-extern u32 func_020621FC(u32 handle);
-extern void func_02061824(u32 *table);
-extern int func_02062594(u32 handle);
+extern u32 NNS_GfdFreeTexVram(u32 handle);
+extern void NNSi_GfdSetVramManagerWork(u32 *table);
+extern int NNS_GfdFreePlttVram(u32 handle);
 extern u32 G3D_CAMERA_Delete(struct ParticleCamera *camera);
 extern struct ParticleCamera *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern int G3D_SYSTEM_GetTexManagerMode(void);
 extern int G3D_SYSTEM_GetPlttManagerMode(void);
 extern void NNS_GfdSaveVramManager(u32 *table);
-extern void func_02061808(u32 *table);
+extern void NNSi_GfdGetVramManagerWork(u32 *table);
 extern void func_02052A50(struct ParticleEngine *engine, void *block);
 extern void func_02030DA8(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
 extern u32 BUTTON_MAN_Func1A3C(u32 id, u32 arg);
@@ -495,7 +495,7 @@ extern u32      g_renderStateIdentityMtx[];
  *     into a `struct BbActBoardInit` LOCAL, which mwcc expands to a 16-byte ldm/stm
  *     pair with write-back plus a 12-byte pair without, reusing the bases the
  *     write-back left in sl and sb (the same expansion as the sibling
- *     constructor func_0204EBD4, src/matched/func_0204EBD4.c).  A byte array
+ *     constructor BILLBOARD_Create, src/matched/BILLBOARD_Create.c).  A byte array
  *     or a memcpy compiles to a copy loop instead.
  *   - The two counts are patched into the first two fields of the local,
  *     re-reading sys->slotCount and sys->entryCount rather than reusing the
@@ -532,7 +532,7 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     init = gBillboardActTpl;
     init.slotCount = sys->slotCount;
     init.entryCount = sys->entryCount;
-    sys->board = func_0204EBD4(&init, heapId);
+    sys->board = BILLBOARD_Create(&init, heapId);
 
     sys->slots = func_02030734(heapId, sys->slotCount * 8, 1, file, 119);
     sys->slotPool = func_02033C00(sys->slotCount, heapId);
@@ -574,7 +574,7 @@ void BILLBOARD_ACT_Delete(struct BbActSys *sys)
     func_020307B0(sys->entries);
     AREAMAN_Delete(sys->slotPool);
     func_020307B0(sys->slots);
-    func_0204ED24(sys->board);
+    BILLBOARD_Delete(sys->board);
     func_020307B0(sys);
 }
 
@@ -1672,8 +1672,8 @@ struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCam
 
 /*
  * Emitter teardown: release the two 0x40-entry resource tables (either as a
- * whole through NNS_GfdLoadVramManager / func_02061824, or entry by entry through
- * func_020621FC / func_02062594 depending on the flag byte at +0x258), drop
+ * whole through NNS_GfdLoadVramManager / NNSi_GfdSetVramManagerWork, or entry by entry through
+ * NNS_GfdFreeTexVram / NNS_GfdFreePlttVram depending on the flag byte at +0x258), drop
  * the block at +4 unless the +0x32 bit-0 bitfield says otherwise, unpublish
  * the emitter from the singleton's sixteen-slot table, release the 3D block
  * at +0x20 and free the record.
@@ -1724,18 +1724,18 @@ void PARTICLE_DeleteSystem(struct ParticleSys *sys)
     } else if (sys->loadMode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++) {
             if (sys->texHandles[i] != 0) {
-                func_020621FC(sys->texHandles[i]);
+                NNS_GfdFreeTexVram(sys->texHandles[i]);
                 sys->texHandles[i] = z;
             }
         }
     }
 
     if (sys->loadMode & PARTICLE_LOAD_PAL_BULK) {
-        func_02061824(sys->palHandles);
+        NNSi_GfdSetVramManagerWork(sys->palHandles);
     } else if (sys->loadMode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++) {
             if (sys->palHandles[i] != 0) {
-                func_02062594(sys->palHandles[i]);
+                NNS_GfdFreePlttVram(sys->palHandles[i]);
                 sys->palHandles[i] = z;
             }
         }
@@ -2077,7 +2077,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
         sys->texCount = z;
     }
     if (mode & PARTICLE_LOAD_PAL_BULK) {
-        func_02061808(sys->palHandles);
+        NNSi_GfdGetVramManagerWork(sys->palHandles);
         sys->palLoadFn = BUTTON_MAN_Func1AA0;
     } else if (mode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++)

@@ -1,5 +1,5 @@
 /*
- * function: func_0208FC4C
+ * function: WM_StartMP
  * address:  0x0208FC4C
  * packet:   pkt_0208FC4C
  * region:   arm9
@@ -71,7 +71,7 @@ typedef struct WMMPTmpParam {
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern WMErrCode WMi_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, WMMPTmpParam *tmpParam);
 
-WMErrCode func_0208FC4C(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq)
+WMErrCode WM_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq)
 {
     WMMPTmpParam tmpParam;
 

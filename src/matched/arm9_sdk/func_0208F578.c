@@ -1,5 +1,5 @@
 /*
- * function: func_0208F578
+ * function: WmCheckParentParameter
  * address:  0x0208F578
  * packet:   pkt_0208F578
  * region:   arm9
@@ -76,7 +76,7 @@ typedef struct WMParentParam {
     u16 rsv[4];
 } WMParentParam;
 
-BOOL func_0208F578(WMParentParam *param)
+BOOL WmCheckParentParameter(WMParentParam *param)
 {
     if (param->userGameInfoLength > 0x70) {
         return 0;

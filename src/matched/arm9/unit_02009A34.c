@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4,
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
+ * function: WIFILIST_CountFriends, WIFILIST_GetFriendListEnd, WIFILIST_RemoveFriendSlot, WIFILIST_MoveFriendSlot,
+ *           WIFILIST_CompactFriendList, WIFILIST_SetFriendLastSeen, WIFILIST_AddFriendBattleRecord
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   WIFILIST_IsFriendDataValid  0x02009A1C  thumb
  *
  * alias: wifilist.c's list maintenance.  The two parallel arrays of
@@ -25,9 +25,9 @@
  * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
  * moves both together.
  *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
+ * WIFILIST_CompactFriendList is the compaction pass and is the one worth reading.  It scans
  * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
+ * used slot after a hole it moves it down with WIFILIST_MoveFriendSlot and then sets
  * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
  * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
  * `j = i` become one `adds r5, r4, #0` reached from both, which is only
@@ -39,7 +39,7 @@
  * constant is the loop's sentinel, the value assigned to `i`, and the value
  * compared against in the other arm.
  *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
+ * The tail of WIFILIST_RemoveFriendSlot is where the shape of the source is visible.  It
  * clears slot 31 of both arrays, and the original reaches it as base plus
  * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
  * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
@@ -50,7 +50,7 @@
  * stay live in callee-saved registers and the reload of `obj` from its stack
  * slot disappears.
  *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
+ * WIFILIST_SetFriendLastSeen stamps the entry with the date.  GF_STANDARD_SetField00_F4E4 fills a 0x10-byte
  * record on the stack whose first three words are year, month and day, and the
  * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
  * in front of the `strh`.
@@ -102,13 +102,13 @@ struct Sub0203F4E4Date {
 };
 
 struct RtcDate;
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern int  WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
 
-void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src);
-void sub_02009B80(struct Sub020097BCObj *obj, int i);
+void WIFILIST_MoveFriendSlot(struct Sub020097BCObj *obj, u32 dest, u32 src);
+void WIFILIST_SetFriendLastSeen(struct Sub020097BCObj *obj, int i);
 
-u32 sub_02009A34(struct Sub020097BCObj *obj)
+u32 WIFILIST_CountFriends(struct Sub020097BCObj *obj)
 {
     int i;
     u32 count = 0;
@@ -121,7 +121,7 @@ u32 sub_02009A34(struct Sub020097BCObj *obj)
     return count;
 }
 
-u32 sub_02009A54(struct Sub020097BCObj *obj)
+u32 WIFILIST_GetFriendListEnd(struct Sub020097BCObj *obj)
 {
     int i;
     u32 last = 0;
@@ -134,7 +134,7 @@ u32 sub_02009A54(struct Sub020097BCObj *obj)
     return last;
 }
 
-void sub_02009A74(struct Sub020097BCObj *obj, u32 i)
+void WIFILIST_RemoveFriendSlot(struct Sub020097BCObj *obj, u32 i)
 {
     struct Sub020097BCEnt *ents;
     struct Sub020097BCFriend *friends;
@@ -154,7 +154,7 @@ void sub_02009A74(struct Sub020097BCObj *obj, u32 i)
     MI_CpuFill8(&friends[0x1F], 0, sizeof(friends[0]));
 }
 
-void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src)
+void WIFILIST_MoveFriendSlot(struct Sub020097BCObj *obj, u32 dest, u32 src)
 {
     MI_CpuCopy8(&obj->unk1C0[src], &obj->unk1C0[dest], sizeof(obj->unk1C0[0]));
     MI_CpuCopy8(&obj->unk040[src], &obj->unk040[dest], sizeof(obj->unk040[0]));
@@ -162,7 +162,7 @@ void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src)
     MI_CpuFill8(&obj->unk040[src], 0, sizeof(obj->unk040[0]));
 }
 
-void sub_02009B3C(struct Sub020097BCObj *obj)
+void WIFILIST_CompactFriendList(struct Sub020097BCObj *obj)
 {
     int i;
     int j = -1;
@@ -170,7 +170,7 @@ void sub_02009B3C(struct Sub020097BCObj *obj)
     for (i = 0; i < 0x20; i++) {
         if (WIFILIST_IsFriendDataValid(obj, i) != 0) {
             if (j != -1) {
-                sub_02009AE4(obj, j, i);
+                WIFILIST_MoveFriendSlot(obj, j, i);
                 i = -1;
                 j = -1;
             }
@@ -182,17 +182,17 @@ void sub_02009B3C(struct Sub020097BCObj *obj)
     }
 }
 
-void sub_02009B80(struct Sub020097BCObj *obj, int i)
+void WIFILIST_SetFriendLastSeen(struct Sub020097BCObj *obj, int i)
 {
     struct Sub0203F4E4Date date;
 
-    func_0203F4E4((struct RtcDate *)(&date));
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
     obj->unk1C0[i].unk2A = date.year + 2000;
     obj->unk1C0[i].unk2C = date.month;
     obj->unk1C0[i].unk2D = date.day;
 }
 
-void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c)
+void WIFILIST_AddFriendBattleRecord(struct Sub020097BCObj *obj, int i, int a, int b, int c)
 {
     if (i < 0 || i >= 0x20) {
         return;
@@ -209,5 +209,5 @@ void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c)
     if (obj->unk1C0[i].unk28 > 9999) {
         obj->unk1C0[i].unk28 = 9999;
     }
-    sub_02009B80(obj, i);
+    WIFILIST_SetFriendLastSeen(obj, i);
 }

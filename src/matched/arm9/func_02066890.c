@@ -11,13 +11,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020640B0   0x020640B0  arm
- *   func_020640CC   0x020640CC  arm
+ *   NNSi_G2dSrtcInitTable   0x020640B0  arm
+ *   NNSi_G2dSrtcSetTable   0x020640CC  arm
  *   sCellTransferStateManager      0x02148B20  data
  *
  * Initialise cell `idx` of the bank at 0x02148B20: clear it with
- * func_020640B0, set each of the three channels whose argument is not the
- * -1 sentinel through func_020640CC(rec, 0/1/2, v), then store the four
+ * NNSi_G2dSrtcInitTable, set each of the three channels whose argument is not the
+ * -1 sentinel through NNSi_G2dSrtcSetTable(rec, 0/1/2, v), then store the four
  * stacked words at +0x0c..+0x18.
  *
  * FRONT END: a `../2.0/sp2` PIN row, the "kept constants" tell in its
@@ -67,24 +67,24 @@ struct Bank02066890 {
 };
 
 extern struct Bank02066890 sCellTransferStateManager;
-extern void func_020640B0(signed int *tbl);
+extern void NNSi_G2dSrtcInitTable(signed int *tbl);
 typedef signed int     s32;
-extern void func_020640CC(s32 *tbl, u32 i, u32 v);
+extern void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v);
 
 void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
     struct Rec02066890 *rec = &sCellTransferStateManager.recs[idx];
 
-    func_020640B0((int *)rec);
+    NNSi_G2dSrtcInitTable((int *)rec);
 
     if (a != 0xffffffffu) {
-        func_020640CC((s32 *)rec, 0, a);
+        NNSi_G2dSrtcSetTable((s32 *)rec, 0, a);
     }
     if (b != 0xffffffffu) {
-        func_020640CC((s32 *)rec, 1, b);
+        NNSi_G2dSrtcSetTable((s32 *)rec, 1, b);
     }
     if (c != 0xffffffffu) {
-        func_020640CC((s32 *)rec, 2, c);
+        NNSi_G2dSrtcSetTable((s32 *)rec, 2, c);
     }
 
     rec->unk_0c = d;

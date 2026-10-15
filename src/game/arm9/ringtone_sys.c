@@ -29,7 +29,7 @@
  *   sRingtoneSysFileName     0x020A76BC  data
  *   gRingtone     0x02146944  data
  *   func_020307B0  0x020307B0  arm
- *   func_0203508C  0x0203508C  arm
+ *   UI_SetResumeAndSuspendHooks  0x0203508C  arm
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
@@ -220,7 +220,7 @@ extern u32 ZONEDATA_CheckEventFlag(void *eventFlags, s32 flagId);
 extern u32 ZONEDATA_IsRingtoneEnabled(u32 zoneId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_0203508C(void (*onSleep)(void), void (*onWake)(void), Ringtone *arg);
+extern void UI_SetResumeAndSuspendHooks(void (*onSleep)(void), void (*onWake)(void), Ringtone *arg);
 extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern void GFL_USE_StopSeSlot(int slot);
 extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
@@ -1371,7 +1371,7 @@ void RINGTONE_SYS_Stop(Ringtone *ringtone)
 void RINGTONE_SYS_RegisterSleepCallbacks(void)
 {
     if (gRingtone != 0) {
-        func_0203508C(RINGTONE_SYS_OnSleep, RINGTONE_SYS_OnWake, gRingtone);
+        UI_SetResumeAndSuspendHooks(RINGTONE_SYS_OnSleep, RINGTONE_SYS_OnWake, gRingtone);
     }
 }
 

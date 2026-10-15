@@ -10,9 +10,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200F168, sub_0200F16C
+ * function: NET_DEVICE_TABLE_GetZero, NET_DEVICE_TABLE_SetHeader
  *
- * alias: sub_0200F168 is a stub returning 0; sub_0200F16C stamps a
+ * alias: NET_DEVICE_TABLE_GetZero is a stub returning 0; NET_DEVICE_TABLE_SetHeader stamps a
  * three-word header (a type tag, a size, a count) into the caller's struct.
  *
  * Verified with:
@@ -28,12 +28,12 @@ struct Sub0200F16CHdr {
     u32 count;
 };
 
-u32 sub_0200F168(void)
+u32 NET_DEVICE_TABLE_GetZero(void)
 {
     return 0;
 }
 
-void sub_0200F16C(struct Sub0200F16CHdr *hdr)
+void NET_DEVICE_TABLE_SetHeader(struct Sub0200F16CHdr *hdr)
 {
     hdr->tag = 2;
     hdr->size = 4;

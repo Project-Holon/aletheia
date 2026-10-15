@@ -16,7 +16,7 @@
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   func_020409B4  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
@@ -31,7 +31,7 @@ typedef signed char    s8;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -46,7 +46,7 @@ FIELD_MSGBG_DeleteMsgWin((void *)(((struct Obj04890 *)((u8 *)(a)))->fC));
 func_020409B4(1);
 STRBUF_Delete((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f18));
 STRBUF_Delete((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f1C));
-func_0201ED04((struct WordSet *)(((struct Obj04890 *)((u8 *)(a)))->f14));
+WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj04890 *)((u8 *)(a)))->f14));
 MSGDATA_Delete((struct Rec *)(((struct Obj04890 *)((u8 *)(a)))->f8));
 return func_020307B0(a);
 }

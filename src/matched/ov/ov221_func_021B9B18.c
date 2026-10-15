@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B9B18, func_021B9B64
+ * function: CHIHOU_ZUKAN_AWARD_FlushWindows, CHIHOU_ZUKAN_AWARD_IsWindowsReady
  * address: 0x021B9B18
  * packet: pkt_ov221_021B9B18
  * region: ov221
@@ -25,7 +25,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-void func_021B9B18(unsigned char *p)
+void CHIHOU_ZUKAN_AWARD_FlushWindows(unsigned char *p)
 {
     unsigned char i;
     unsigned char *row;
@@ -41,7 +41,7 @@ void func_021B9B18(unsigned char *p)
         }
     }
 }
-int func_021B9B64(unsigned char *p)
+int CHIHOU_ZUKAN_AWARD_IsWindowsReady(unsigned char *p)
 {
     unsigned char i;
     for(i=0;i<5;i++) if(*(int *)(p+0x30+4*i)==0) return 0;

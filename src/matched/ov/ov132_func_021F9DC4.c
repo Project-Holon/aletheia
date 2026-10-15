@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021F9DC4
+ * function: STA_ACTING_GetAnimSlot
  * address: 0x021F9DC4
  * packet: pkt_ov132_021F9DC4
  * region: ov132
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F9DC4(void *p,u8 i){return *(void **)((u8 *)p+(u32)i*4+0x70);}
+void *STA_ACTING_GetAnimSlot(void *p,u8 i){return *(void **)((u8 *)p+(u32)i*4+0x70);}

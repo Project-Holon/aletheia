@@ -1,5 +1,5 @@
 /*
- * function: func_021B8108
+ * function: CTVT_COMM_IsNetReady
  * address:  0x021B8108
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021B8108(void *unused, void *p)
+int CTVT_COMM_IsNetReady(void *unused, void *p)
 {
     if (((struct Obj24080 *)p)->f8 == 7) {
         return 1;

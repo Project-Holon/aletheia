@@ -1,5 +1,5 @@
 /*
- * function: func_021C4A00
+ * function: WF2DMAP_OBJ_SetSlot
  * address:  0x021C4A00
  * packet:   pkt_021C4A00
  * region:   ov127
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021C4A00(void *p, int i, int v)
+void WF2DMAP_OBJ_SetSlot(void *p, int i, int v)
 {
     switch (i)
     {

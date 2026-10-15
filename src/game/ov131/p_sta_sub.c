@@ -81,12 +81,12 @@
  *   MCSS_Del 0x02015BA4 thumb
  *   d_021DC1EC 0x021DC1EC data a4
  *   d_020A5078 0x020A5078 data a2
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   MCSS_SetShadowOffset 0x02015D94 thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
@@ -103,6 +103,7 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -269,12 +270,12 @@ extern int func_020276C4(struct PokemonParam *pp);
 extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
 extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *mon);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
-extern void func_0201EF40(struct WordSet *wordSet, u32 index, u32 itemId);
+extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 index, u32 itemId);
 extern void MCSS_ResetAnmStopFlag(void *mcss);
 extern void MCSS_SetPosition(void *mcss, const VecFx32 *src);
 extern int _ffix(float);
@@ -288,7 +289,7 @@ extern void MCSS_SetShadowRotateX(void *mcss, u16 value);
 extern void MCSS_TOOL_SetAnimeStopCallback(void *mcss);
 extern void MCSS_SetShadowScale(void *mcss, const VecFx32 *src);
 extern void MCSS_Del(void *mcssSys, void *mcss);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void MCSS_SetShadowOffset(void *mcss, const VecFx32 *src);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
 int P_STATUS_GetPokeParaSource(PStatusWork *wk);
@@ -617,7 +618,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
 {
     struct WordSet *wordSet;
     struct Strbuf *buf, *name, *text;
-    wordSet = func_0201EC64(wk->heapId);
+    wordSet = GF_FONT_Create_EC64(wk->heapId);
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
     func_02017E88(mon, 115, name);
@@ -625,7 +626,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     text = func_02045EC0(wk->msgData, 0);
     func_0201F250(wordSet, buf, text);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);
-    STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); func_0201ED04(wordSet);
+    STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     if (wk->isEgg == 0 && func_02017E88(mon, 173, 0) == 1) {
         u32 gender = func_02017E88(mon, 110, 0);
         if (gender == 0) {
@@ -640,24 +641,24 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     }
     if (wk->isEgg == 0) {
         struct Strbuf *levelText;
-        wordSet = func_0201EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
+        wordSet = GF_FONT_Create_EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         func_0201EFA4(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
         levelText = func_02045EC0(wk->msgData, 3);
         func_0201F250(wordSet, buf, levelText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 9, 17, buf, wk->font, 1088);
-        STRBUF_Delete(levelText); STRBUF_Delete(buf); func_0201ED04(wordSet);
+        STRBUF_Delete(levelText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     }
     buf = func_02045EC0(wk->msgData, 4);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 10, 1, buf, wk->font, 1088);
     STRBUF_Delete(buf);
     {
         struct Strbuf *itemText;
-        wordSet = func_0201EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
-        func_0201EF40(wordSet, 0, func_02017E88(mon, 6, 0));
+        wordSet = GF_FONT_Create_EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
+        WORDSET_Callback_EF40(wordSet, 0, func_02017E88(mon, 6, 0));
         itemText = func_02045EC0(wk->msgData, 5);
         func_0201F250(wordSet, buf, itemText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
-        STRBUF_Delete(itemText); STRBUF_Delete(buf); func_0201ED04(wordSet);
+        STRBUF_Delete(itemText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     }
 }
 
@@ -1072,7 +1073,7 @@ void P_STA_SUB_SetPetOffset(PStatusWork *wk, PStaSubWork *work, int radius) {
 
 void P_STA_SUB_ApplyMcssOffset(PStatusWork *wk, PStaSubWork *work, VecFx32 *baseOfs) {
     VecFx32 sum;
-    func_0207C9D0(baseOfs, &work->petOffset, &sum);
+    VEC_Add(baseOfs, &work->petOffset, &sum);
     MCSS_SetShadowOffset(work->mcss[STA_SUB_MCSS_FRONT], &sum);
     MCSS_SetShadowOffset(work->mcss[STA_SUB_MCSS_BACK], &sum);
 }

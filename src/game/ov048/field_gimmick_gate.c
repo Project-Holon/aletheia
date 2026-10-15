@@ -16,7 +16,7 @@
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
@@ -28,9 +28,9 @@
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   gElboardLayout 0x021F50C0 data a4
  *   func_021F47B0 0x021F47B0 thumb ov048
- *   func_0200C0F0 0x0200C0F0 thumb
- *   func_0200C3B8 0x0200C3B8 thumb
- *   func_0201296C  0x0201296C  thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   BEACON_SetGatePoints 0x0200C3B8 thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   GIMMICK_OBJ_ELBOARD_SetScroll 0x021F47BC thumb ov048
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -40,8 +40,8 @@
  *   GIMMICK_OBJ_ELBOARD_Create  0x021F4698  thumb  ov048
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   GAME_DATA_GetSaveControlWork 0x02012EC0 thumb
- *   func_0200C0E8 0x0200C0E8 thumb
- *   func_0200C3B0 0x0200C3B0 thumb
+ *   BEACON_GetFromSave 0x0200C0E8 thumb
+ *   BEACON_GetGatePoints 0x0200C3B0 thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
@@ -69,6 +69,8 @@
  *   GIMMICK_OBJ_ELBOARD_CheckEntryZone  0x021F4DF4  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CheckEntryGPower  0x021F4E3C  thumb  ov048
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb  arm9
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb  arm9
+ *   GIMMICK_WORK_GetId  0x0200B3AC  thumb  arm9
  */
 #include "field_gimmick_gate_types.h"
 
@@ -80,20 +82,20 @@ extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size);
 extern void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id);
 extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern struct EventWork *func_0201296C(struct GameData *gameData);
+extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void *GAME_DATA_GetSaveBlock42(struct GameData *gameData);
-extern void *func_0200B3A4(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern s32 func_0200B3AC(struct GimmickWork *gimmickWork);
+extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmickWork);
 extern struct ConfigSave *func_0200873C(struct SaveControl *saveControl);
 extern int CONFIG_GetAppliedFlag(struct ConfigSave *config);
-extern void *func_0200C0E8(struct SaveControl *saveControl);
-extern u16 func_0200C3B0(struct MiscSave *miscSave);
-extern struct MiscSave *func_0200C0F0(struct SaveControl *saveControl);
-extern void func_0200C3B8(struct MiscSave *miscSave, u16 value);
+extern void *BEACON_GetFromSave(struct SaveControl *saveControl);
+extern u16 BEACON_GetGatePoints(struct MiscSave *miscSave);
+extern struct MiscSave *BEACON_GetBlock(struct SaveControl *saveControl);
+extern void BEACON_SetGatePoints(struct MiscSave *miscSave, u16 value);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
@@ -173,7 +175,7 @@ void FIELD_GIMMICK_GATE_Init(FieldMap *fieldMap)
     int textMode;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    textMode = CONFIG_GetAppliedFlag(func_0200873C(GAME_DATA_GetSaveControl(func_020120F4(FIELDMAP_GetGameSystem(fieldMap)))));
+    textMode = CONFIG_GetAppliedFlag(func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)))));
     if (textMode != 0) {
         if (textMode == 1) {
             setupIndex = 0;
@@ -234,8 +236,8 @@ GateSave *FIELD_GIMMICK_GATE_GetSave(FieldMap *fieldMap)
 {
     struct GimmickWork *gimmickWork;
 
-    gimmickWork = GAME_DATA_GetFieldSave(func_020120F4(FIELDMAP_GetGameSystem(fieldMap)));
-    return func_0200B3A4(gimmickWork, func_0200B3AC(gimmickWork));
+    gimmickWork = GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)));
+    return GIMMICK_WORK_GetWork(gimmickWork, GIMMICK_WORK_GetId(gimmickWork));
 }
 
 /* Copies the board state (scroll, misc value, message log) into the save area. */
@@ -264,7 +266,7 @@ void FIELD_GIMMICK_GATE_LoadState(GateWork *work)
 /* Writes the work's misc value to the misc save. */
 void FIELD_GIMMICK_GATE_StoreMiscSaveValue(GateWork *work)
 {
-    func_0200C3B8(func_0200C0F0(GAME_DATA_GetSaveControl(work->gameData)), work->miscSaveValue);
+    BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData)), work->miscSaveValue);
 }
 
 /* Sets the event flag of every news message that was logged as shown. */
@@ -274,7 +276,7 @@ void FIELD_GIMMICK_GATE_RestoreLoggedFlags(GateWork *work)
     int i;
     GateMessageLog *log;
 
-    eventWork = func_0201296C(work->gameData);
+    eventWork = GAME_DATA_GetEventWork(work->gameData);
     log = &FIELD_GIMMICK_GATE_GetSave(work->fieldMap)->messageLog;
     for (i = 0; i < log->count; i++) {
         if (log->messageType[i] == GATE_MESSAGE_TYPE_NEWS) {
@@ -306,7 +308,7 @@ GateWork *FIELD_GIMMICK_GATE_CreateWork(FieldMap *fieldMap)
     work->fieldMap = fieldMap;
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     work->gameSystem = gameSystem;
-    work->gameData = func_020120F4(gameSystem);
+    work->gameData = ICA_ANIME_GetField1C(gameSystem);
     work->initialized = 0;
     setup.heapId = heapId;
     setup.maxMessages = 7;
@@ -331,7 +333,7 @@ void FIELD_GIMMICK_GATE_DeleteWork(GateWork *work)
 void FIELD_GIMMICK_GATE_InitMiscSaveValue(GateWork *work)
 {
     if (work->initialized == 0) {
-        work->miscSaveValue = func_0200C3B0(func_0200C0E8(GAME_DATA_GetSaveControlWork(work->gameData)));
+        work->miscSaveValue = BEACON_GetGatePoints(BEACON_GetFromSave(GAME_DATA_GetSaveControlWork(work->gameData)));
         work->initialized = 1;
     }
 }
@@ -440,13 +442,13 @@ int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work)
 /* The board lists the values of the save block. */
 int FIELD_GIMMICK_GATE_IsSaveBlockListOn(GateWork *work)
 {
-    return ZONEDATA_CheckEventFlag(func_0201296C(work->gameData), GATE_FLAG_SAVE_BLOCK_LIST) == 1;
+    return ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(work->gameData), GATE_FLAG_SAVE_BLOCK_LIST) == 1;
 }
 
 /* The board lists the values of the extra save. */
 int FIELD_GIMMICK_GATE_IsExtraSaveListOn(GateWork *work)
 {
-    return ZONEDATA_CheckEventFlag(func_0201296C(work->gameData), GATE_FLAG_EXTRA_SAVE_LIST) == 1;
+    return ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(work->gameData), GATE_FLAG_EXTRA_SAVE_LIST) == 1;
 }
 
 /* Reads the values of the extra save list (count and one value per entry). */
@@ -533,7 +535,7 @@ GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work)
     int zoneMatches;
 
     zoneId = FIELDMAP_GetZoneId(work->fieldMap);
-    eventWork = func_0201296C(work->gameData);
+    eventWork = GAME_DATA_GetEventWork(work->gameData);
     if (work->newsList == 0) {
         return 0;
     }
@@ -551,7 +553,7 @@ GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work)
 GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work)
 {
     int zoneId = FIELDMAP_GetZoneId(work->fieldMap);
-    struct EventWork *eventWork = func_0201296C(work->gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(work->gameData);
     int i;
 
     if (work->newsList == 0) {

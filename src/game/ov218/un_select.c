@@ -1,7 +1,7 @@
 /*
  * file:     un_select.c
  * unit:     yes
- * function: func_021B95A0, func_021B95D0, func_021B9674, func_021B96CC, func_021B9820, func_021B9888, func_021B9890, func_021B9898, func_021B9914, func_021B991C, func_021B9924, func_021B9944, func_021B9964, func_021B9A80, func_021B9AD0, func_021B9AE4, func_021B9B78, func_021B9C00, func_021B9C74, func_021B9C80, func_021B9C84, func_021B9C88, func_021B9C8C, func_021B9CDC, func_021B9D10, func_021B9D48, func_021B9E28, func_021B9E48, func_021B9F98, func_021B9FD4, func_021B9FD8, func_021BA0B0, func_021BA138, func_021BA1A0, func_021BA1C0, func_021BA208, func_021BA21C, func_021BA290, func_021BA2EC, func_021BA328, func_021BA4B4, func_021BA4D4, func_021BA4FC, func_021BA554, func_021BA61C, func_021BA680, func_021BA6BC, func_021BA6E8, func_021BA720, func_021BA75C, func_021BA780, func_021BA7A4
+ * function: func_021B95A0, func_021B95D0, func_021B9674, func_021B96CC, func_021B9820, UN_SELECT_Delete, func_021B9890, func_021B9898, func_021B9914, func_021B991C, UN_SELECT_InitRecord, func_021B9944, func_021B9964, func_021B9A80, func_021B9AD0, func_021B9AE4, func_021B9B78, func_021B9C00, func_021B9C74, func_021B9C80, func_021B9C84, func_021B9C88, func_021B9C8C, func_021B9CDC, func_021B9D10, func_021B9D48, func_021B9E28, func_021B9E48, func_021B9F98, func_021B9FD4, func_021B9FD8, func_021BA0B0, func_021BA138, func_021BA1A0, func_021BA1C0, func_021BA208, func_021BA21C, func_021BA290, func_021BA2EC, func_021BA328, func_021BA4B4, func_021BA4D4, func_021BA4FC, UN_SELECT_Check, func_021BA61C, func_021BA680, func_021BA6BC, func_021BA6E8, func_021BA720, func_021BA75C, func_021BA780, func_021BA7A4
  * address:  0x021B95A0
  * region:   ov218
  * compiler: dsi/1.1p1
@@ -19,13 +19,13 @@
  *   func_02030EAC 0x02030EAC arm
  *   UI_SCENE_Delete 0x021B613C thumb ov067
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   func_021BA8F0 0x021BA8F0 thumb ov218
+ *   UN_SELECT_GRAPHIC_Delete 0x021BA8F0 thumb ov218
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  *   UI_SCENE_Step 0x021B6144 thumb ov067
- *   func_021BA94C 0x021BA94C thumb ov218
+ *   UN_SELECT_GRAPHIC_Update 0x021BA94C thumb ov218
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -52,7 +52,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02049B40 0x02049B40 arm
  *   func_0201F5BC 0x0201F5BC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -74,14 +74,14 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   TCBL_Main  0x020310C4  arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   func_0201D2C8 0x0201D2C8 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
@@ -110,11 +110,11 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_0207D534 0x0207D534 arm
- *   func_021BA848 0x021BA848 thumb ov218
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
+ *   UN_SELECT_GRAPHIC_Create 0x021BA848 thumb ov218
  *   d_021BAB20 0x021BAB20 data a4
  *   UI_SCENE_Create 0x021B6100 thumb ov067
- *   func_021BA960 0x021BA960 thumb ov218
+ *   UN_SELECT_GRAPHIC_GetActor 0x021BA960 thumb ov218
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_0207D63C 0x0207D63C arm
  *   func_02005624 0x02005624 thumb
@@ -256,12 +256,12 @@ extern int FADE_IsActive(void);
 extern void func_02030EAC(struct Node *);
 extern void UI_SCENE_Delete(void *);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern void func_021BA8F0(char *);
+extern void UN_SELECT_GRAPHIC_Delete(char *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int);
 extern int UI_SCENE_Step(struct S *);
-extern void func_021BA94C(char *);
+extern void UN_SELECT_GRAPHIC_Update(char *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -286,7 +286,7 @@ extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -308,14 +308,14 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern unsigned int GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(struct StrObj *s);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void func_0201F73C(void *, int, int, int);
 extern unsigned int PRINTSYS_PrintStreamGetState(void *);
@@ -343,10 +343,10 @@ extern void FRAME_LIST_Delete(struct S *);
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_0207D534(volatile u16 *reg, int brightness);
-extern char *func_021BA848(unsigned swap, unsigned heap);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+extern char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
 extern void *UI_SCENE_Create(u32,void *,u8,u16,void *);
-extern u32 func_021BA960(char *p);
+extern u32 UN_SELECT_GRAPHIC_GetActor(char *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 extern void *func_02005624(u32 a, u32 b, u32 c);
@@ -385,12 +385,12 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p);
 int func_021B9674(void *ctx, int *state, void *unused, char *p);
 void func_021B96CC(u8 *p, u16 heap);
 R *func_021B9820(int heap, int id);
-void func_021B9888(u8 *p);
+void UN_SELECT_Delete(u8 *p);
 void func_021B9890(S *p);
 struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap);
 void func_021B9914(struct TaskMenu *p);
 void func_021B991C(Obj *p);
-int func_021B9924(void);
+int UN_SELECT_InitRecord(void);
 void func_021B9944(void);
 void *func_021B9964(u16 heap);
 void func_021B9A80(char *p);
@@ -415,14 +415,14 @@ int func_021BA1A0(void);
 int func_021BA1C0(unsigned char *task, char *ctx);
 int func_021BA208(void *unused, char *p);
 int func_021BA21C(unsigned char *task, char *ctx);
-void func_021BA238(void);
+void UN_SELECT_Callback(void);
 void func_021BA290(char *ctx);
 void func_021BA2EC(char *p);
 void func_021BA328(char *p);
 void func_021BA4B4(char *p);
 struct Obj *func_021BA4D4(u32 owner,char *p);
 void func_021BA4FC(char *ctx);
-void func_021BA554(const char *p,int delta);
+void UN_SELECT_Check(const char *p,int delta);
 void func_021BA61C(char *ctx);
 void func_021BA680(char *p,int v);
 void func_021BA6BC(char *p,int y);
@@ -481,8 +481,8 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         func_021BA4B4(p);
         func_021BA2EC(p);
         APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj01983 *)p)->f18);
-        func_021B9888(((struct Obj01983 *)p)->f8);
-        func_021BA8F0(*(char * *)&((struct Obj01983 *)p)->f4);
+        UN_SELECT_Delete(((struct Obj01983 *)p)->f8);
+        UN_SELECT_GRAPHIC_Delete(*(char * *)&((struct Obj01983 *)p)->f4);
         heap = ((struct Obj01983 *)p)->f0;
         func_020315D4(ctx);
         func_020306F0(heap);
@@ -515,7 +515,7 @@ int func_021B9674(void *ctx, int *state, void *unused, char *p)
         break;
     }
     func_021B9AD0(*(char * *)&((struct Obj10971 *)p)->f28);
-    func_021BA94C(*(char * *)&((struct Obj10971 *)p)->f4);
+    UN_SELECT_GRAPHIC_Update(*(char * *)&((struct Obj10971 *)p)->f4);
     return result != 0;
 }
 
@@ -595,7 +595,7 @@ R *func_021B9820(int heap, int id)
 
 
 
-void func_021B9888(u8 *p)
+void UN_SELECT_Delete(u8 *p)
 {
     TOUCHBAR_Delete(p);
 }
@@ -668,7 +668,7 @@ void func_021B991C(Obj *p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021B9924(void)
+int UN_SELECT_InitRecord(void)
 {
     BRIGHTNESS_ChangeReset(1);
     return BRIGHTNESS_ChangeRequest(8, -8, 0, 0x3c, 1);
@@ -694,7 +694,7 @@ void *func_021B9964(u16 heap)
     *(u16 *)p=heap;
     func_02049B40(23,5,0,0x1c0,32,heap);
     func_0201F5BC(0,1,15,0,heap);
-    *(void **)(p+0x14)=func_0201EC64(heap);
+    *(void **)(p+0x14)=GF_FONT_Create_EC64(heap);
     *(void **)(p+8)=func_02045B38(0,2,229,heap);
     *(void **)(p+0x10)=(void *)PRINTSYS_QUE_Create((void *)heap);
     *(void **)(p+0xc)=GF_FONT_Create(23,0,0,0,heap);
@@ -729,7 +729,7 @@ void func_021B9A80(char *p)
     PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj02264 *)p)->f10);
     GF_FONT_Delete(((struct Obj02264 *)p)->fC);
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj02264 *)p)->f4);
-    func_0201ED04(*(struct WordSet * *)&((struct Obj02264 *)p)->f14);
+    WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj02264 *)p)->f14);
     func_020307B0(p);
 }
 
@@ -769,7 +769,7 @@ void func_021B9AE4(p, a, b, cd)
 
 void func_021B9B78(char *p, u32 id)
 {
-    int value = func_02012FFC();
+    int value = MSG_SPEED_GetWait();
     struct Descriptor *obj = *(struct Descriptor * *)&((struct Obj02265 *)p)->f24;
     BMP_Clear(BMP_WIN_GetBmp(obj), 15);
     GF_FONT_SetTextColor(1, 2, 15);
@@ -887,7 +887,7 @@ void func_021B9D10(u8 *p,int delta)
 {
     int selected;
     s16 y;
-    func_021BA554((const char *)p,(int)(0u-(u32)delta));
+    UN_SELECT_Check((const char *)p,(int)(0u-(u32)delta));
     y=FRAME_LIST_GetScrollBarTop(*(u8 * *)&((struct Obj03959 *)p)->f2C);
     func_021BA680((char *)p,y);
     selected=FRAME_LIST_GetSelectedIndex(*(char * *)&((struct Obj03959 *)p)->f2C);
@@ -966,13 +966,13 @@ char *func_021B9E48(void *owner,char *input)
         else value=65535;
         *(int *)(p+0x2dc+i*4)=value;
     }
-    func_0207D534((u16 *)0x0400006c,-16);
-    func_0207D534((u16 *)0x0400106c,-16);
-    ((struct Obj00243 *)p)->f4=func_021BA848(0,((struct Obj00243 *)p)->f0);
+    GXx_SetMasterBrightness_((u16 *)0x0400006c,-16);
+    GXx_SetMasterBrightness_((u16 *)0x0400106c,-16);
+    ((struct Obj00243 *)p)->f4=UN_SELECT_GRAPHIC_Create(0,((struct Obj00243 *)p)->f0);
     ((struct Obj00243 *)p)->f24=UI_SCENE_Create(((struct Obj00243 *)p)->f0,d_021BAB20,3,0,p);
     func_021B96CC((u8 *)p,((struct Obj00243 *)p)->f0);
     ((struct Obj00243 *)p)->f28=func_021B9964(((struct Obj00243 *)p)->f0);
-    ((struct Obj00243 *)p)->f8=func_021B9820(func_021BA960(((struct Obj00243 *)p)->f4),((struct Obj00243 *)p)->f0);
+    ((struct Obj00243 *)p)->f8=func_021B9820(UN_SELECT_GRAPHIC_GetActor(((struct Obj00243 *)p)->f4),((struct Obj00243 *)p)->f0);
     a=(u32)func_021B9C80(((struct Obj00243 *)p)->f28);
     b=(u32)func_021B9C84(((struct Obj00243 *)p)->f28);
     ((struct Obj00243 *)p)->f18=APP_TASKMENU_RES_Create(1,11,a,b,((struct Obj00243 *)p)->f0);
@@ -981,7 +981,7 @@ char *func_021B9E48(void *owner,char *input)
     func_021BA328(p);
     func_021BA61C(p);
     func_0207D63C((u32 *)0x04001050,4,8,6,10);
-    ((struct Obj00243 *)p)->f23C=func_02005624((u32)func_021BA238,(u32)p,0);
+    ((struct Obj00243 *)p)->f23C=func_02005624((u32)UN_SELECT_Callback,(u32)p,0);
     GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00243 *)p)->f0);
     return p;
 }
@@ -1061,7 +1061,7 @@ u32 func_021BA0B0(u8 *a, u8 *b)
 {
     switch (UI_SCENE_GetPhaseFrame(a)) {
     case 0:
-        func_021B9924();
+        UN_SELECT_InitRecord();
     tail:
         UI_SCENE_AdvancePhaseFrame(a);
         break;
@@ -1123,7 +1123,7 @@ int func_021BA1C0(unsigned char *task, char *ctx)
 {
     switch (UI_SCENE_GetPhaseFrame(task)) {
     case 0:
-        func_021B9924();
+        UN_SELECT_InitRecord();
 advance:
         UI_SCENE_AdvancePhaseFrame(task);
         break;
@@ -1166,7 +1166,7 @@ int func_021BA21C(unsigned char *task, char *ctx)
 
 
 
-void func_021BA238(void)
+void UN_SELECT_Callback(void)
 {
     int count = *(volatile unsigned short *)0x04000006;
     if (count >= 152)
@@ -1214,7 +1214,7 @@ void func_021BA328(char *p)
     Config a,b,c,d,e;
     void *manager,*item;
     int i,j;
-    manager=(void *)func_021BA960(((struct Obj00243 *)p)->f4);
+    manager=(void *)UN_SELECT_GRAPHIC_GetActor(((struct Obj00243 *)p)->f4);
     for(j=0;j<36;j++)*(u32 *)(p+0x240+j*4)=0;
     a=d_021BABC8;
     a.c=((struct Obj00243 *)p)->f2D0;a.d=((struct Obj00243 *)p)->f2D4;a.e=((struct Obj00243 *)p)->f2D8;
@@ -1350,7 +1350,7 @@ static inline void scrollSecond(const char *p,short delta,int space,Pair_021BA29
  * Two manual scheduling variants used; once-only permuter 300/jobs1/types unchanged, emitted baseline agrees at DIFF 200/200 with 9 concrete bytes.
  * single-lever: separate inline helpers use item-before-index in the first loop and index-before-item in the second; shared helper order swaps one loop's r4/r5 pair (9 bytes out).
  */
-void func_021BA554(const char *p,int delta)
+void UN_SELECT_Check(const char *p,int delta)
 {
     Pair_021BA290 pos;
     scroll(p,delta,0,&pos);

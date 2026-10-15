@@ -14,7 +14,7 @@
  * symbols:
  *   func_0218D71C  0x0218D71C  arm   ov009
  *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_0217F1E0  0x0217F1E0  arm   ov009
+ *   goastrdup  0x0217F1E0  arm   ov009
  */
 
 typedef struct GPIInfoCache {
@@ -41,7 +41,7 @@ typedef struct GPIConnection {
 
 extern void func_0218D71C(GPIProfile *profile);
 extern void *func_0217EAB0(unsigned long size);
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 
 int func_0218D644(void **connection, GPIProfile *profile, GPIInfoCache *cache)
 {
@@ -51,13 +51,13 @@ int func_0218D644(void **connection, GPIProfile *profile, GPIInfoCache *cache)
     profile->cache = func_0217EAB0(sizeof(GPIInfoCache));
     if (profile->cache != 0) {
         *profile->cache = *cache;
-        profile->cache->s0 = func_0217F1E0(cache->s0);
-        profile->cache->s4 = func_0217F1E0(cache->s4);
-        profile->cache->s8 = func_0217F1E0(cache->s8);
-        profile->cache->sC = func_0217F1E0(cache->sC);
-        profile->cache->s10 = func_0217F1E0(cache->s10);
-        profile->cache->s14 = func_0217F1E0(cache->s14);
-        profile->cache->sC8 = func_0217F1E0(cache->sC8);
+        profile->cache->s0 = goastrdup(cache->s0);
+        profile->cache->s4 = goastrdup(cache->s4);
+        profile->cache->s8 = goastrdup(cache->s8);
+        profile->cache->sC = goastrdup(cache->sC);
+        profile->cache->s10 = goastrdup(cache->s10);
+        profile->cache->s14 = goastrdup(cache->s14);
+        profile->cache->sC8 = goastrdup(cache->sC8);
     }
     return profile->cache != 0;
 }

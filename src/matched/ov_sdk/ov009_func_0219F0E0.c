@@ -18,7 +18,7 @@
  *   func_0219E120  0x0219E120  arm  ov009
  *   func_0219E1B8  0x0219E1B8  arm  ov009
  *   func_0219E0C0  0x0219E0C0  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   strcmp_nocase  0x0209ABF8  arm
  *   _dsub  0x0209AF34  arm
  *   _d2f  0x0209B64C  arm
@@ -46,7 +46,7 @@ extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 struct _SBServer;
 extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
-extern int func_020948E0(const char *a, const char *b);
+extern int strcmp(const char *a, const char *b);
 extern int strcmp_nocase(const char *a, const char *b);
 extern struct G_021AEB04 gSBSortContext;
 extern char gSBEmptyString[];
@@ -72,7 +72,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = func_020948E0(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
+        diff = strcmp(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
         break;
     case 3:
         diff = strcmp_nocase(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));

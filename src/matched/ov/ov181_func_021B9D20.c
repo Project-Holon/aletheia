@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D20
+ * function: STAFF_ROLL_FreeRows
  * address:  0x021B9D20
  * packet:   pkt_021B9D20
  * region:   ov181
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9C30  0x021B9C30  thumb  ov181
+ *   STAFF_ROLL_DeleteRowList  0x021B9C30  thumb  ov181
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj24504.h"
 
-extern void func_021B9C30(char *);
+extern void STAFF_ROLL_DeleteRowList(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021B9D20(char *p)
+void STAFF_ROLL_FreeRows(char *p)
 {
-    func_021B9C30(p);
+    STAFF_ROLL_DeleteRowList(p);
     func_020307B0((void *)(((struct Obj24504 *)p)->f2D4));
 }

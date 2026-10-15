@@ -24,7 +24,7 @@
  *   func_021C6C20 0x021C6C20 thumb ov128
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021CA4B4 0x021CA4B4 thumb ov128
- *   func_02025C88 0x02025C88 thumb
+ *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
@@ -56,7 +56,7 @@ extern void func_021C9FC8(u8 *,void *,u8 *,u32,int,int,int);
 extern void func_021C6C94(char **,int);
 extern int func_021C6C20(u8 *,u8 *,int);
 extern void BMP_WIN_TransferChars(struct Descriptor *),func_021CA4B4(char *);
-extern u32 func_02025C88(u32);
+extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 typedef signed int     s32;
@@ -94,7 +94,7 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     else BMP_WIN_TransferChars(((struct Obj00773 *)p)->f170);
     for(i=0;i<10;i++) func_021CA4B4(*(char **)(p+i*8+0x128));
     bounds=d_021CA640;
-    id=func_02025C88(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
+    id=CURSOR_MOVE_GetTableGroup(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
     archive=POKEGRA_OpenTrainerHandle(heap);
     ((struct Obj00773 *)p)->f17C=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
     ((struct Obj00773 *)p)->f180=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);

@@ -45,7 +45,7 @@
  *   VEC_Add        0x0207C9D0  arm
  *   MTX_RotY33_    0x0207AF1C  thumb
  *   FX_SinCosTable_   0x020A1B38  data
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   NNS_G3dGetTex  0x0206E964  arm
@@ -53,7 +53,7 @@
  *   NNS_G3dBindMdlPltt  0x0206A4AC  arm
  *   NNS_G3dRenderObjInit  0x02069D14  arm
  *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
- *   func_0207DEA4  0x0207DEA4  arm
+ *   G3X_GetBoxTestResult  0x0207DEA4  arm
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  */
 #include "field_g3d_map_types.h"
@@ -95,7 +95,7 @@ extern void *G3D_SYSTEM_GetObjectRender(void *res);
 extern FieldG3dMapRenderObj *G3D_SYSTEM_GetRenderObj(void *res);
 extern void VEC_Add(const FieldG3dMapVec *a, const FieldG3dMapVec *b, FieldG3dMapVec *dst);
 extern void MTX_RotY33_(void *m, short sinv, short cosv);
-extern void func_0207CA00(const FieldG3dMapVec *pos, const FieldG3dMapVec *origin, FieldG3dMapVec *out);
+extern void VEC_Subtract(const FieldG3dMapVec *pos, const FieldG3dMapVec *origin, FieldG3dMapVec *out);
 extern void *G3D_SYSTEM_GetResourceFile(void *handle);
 extern int NNS_G3dGetMdlSet(int p0);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
@@ -103,7 +103,7 @@ extern void NNS_G3dBindMdlTex(void *a, void *b);
 extern void NNS_G3dBindMdlPltt(void *a, void *b);
 extern void NNS_G3dRenderObjInit(void *a, void *b);
 extern void NNS_G3dGeFlushBuffer(void);
-extern int func_0207DEA4(int *result);
+extern int G3X_GetBoxTestResult(int *result);
 extern void ARC_TOOL_ReadHandleMember(ArcFile *archive, u32 member, void *dst);
 FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
 void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
@@ -665,7 +665,7 @@ void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const Fi
     out->count = 0;
     if (map->dataReady != 0) {
         height = map->pos.y;
-        func_0207CA00(pos, &map->pos, &localPos);
+        VEC_Subtract(pos, &map->pos, &localPos);
         query = map->typeTable[map->typeIndex].queryHits;
         if (query != 0)
             query(out, map->buffer, &localPos, gridSize, height);
@@ -675,7 +675,7 @@ void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const Fi
 /*
  * Query the plane of the block type at `pos` into `plane` (0x41 words).
  * extent: trailing two-byte alignment padding.
- * output proof: func_0207CA00 stores localPos at 0207CA20/0207CA28; the
+ * output proof: VEC_Subtract stores localPos at 0207CA20/0207CA28; the
  * callback receives that initialized three-word vector, with original arity.
  */
 void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
@@ -683,7 +683,7 @@ void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec
     FieldG3dMapVec localPos;
     FieldG3dMapQueryFunc query;
 
-    func_0207CA00(pos, &map->pos, &localPos);
+    VEC_Subtract(pos, &map->pos, &localPos);
     query = map->typeTable[map->typeIndex].queryPlane;
     query(plane, map->buffer, &localPos, gridSize, map->pos.y);
 }
@@ -818,7 +818,7 @@ u32 FIELD_G3D_MAP_RunBoxTest(const short *box)
     NNS_G3dGeBufferOP_N(0x41, 0, 0);
     NNS_G3dGeBufferOP_N(0x70, box, 3);
     NNS_G3dGeFlushBuffer();
-    while (func_0207DEA4(&result) != 0)
+    while (G3X_GetBoxTestResult(&result) != 0)
         ;
     return result;
 }

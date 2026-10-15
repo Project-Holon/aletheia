@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DCC
+ * function: STAFF_ROLL_SetWindowFlags
  * address:  0x021B9DCC
  * packet:   pkt_021B9DCC
  * region:   ov181
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021B9DCC(char *p, u32 v)
+void STAFF_ROLL_SetWindowFlags(char *p, u32 v)
 {
     ((struct Obj24505 *)p)->f2CC |= (u8)v;
 }

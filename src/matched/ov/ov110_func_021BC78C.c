@@ -8,23 +8,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02041648 0x02041648 arm
- *   func_02041664 0x02041664 arm
+ *   BG_SYS_GetScrollX_1648 0x02041648 arm
+ *   BG_SYS_GetScrollY_1664 0x02041664 arm
  */
 #include "../include/Obj02461.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned int func_02041648(u8 channel);
+extern unsigned int BG_SYS_GetScrollX_1648(u8 channel);
 typedef unsigned int   u32;
-extern u32 func_02041664(u8 channel);
+extern u32 BG_SYS_GetScrollY_1664(u8 channel);
 void PMSIV_BGSCROLL_Start(u8 *p, int a, int b, int step, int n)
 {
     ((struct Obj02461 *)p)->f0=a;
     if (b==0) {
-        ((struct Obj02461 *)p)->f8=func_02041648(a);
+        ((struct Obj02461 *)p)->f8=BG_SYS_GetScrollX_1648(a);
         ((struct Obj02461 *)p)->f4=0;
     } else {
-        ((struct Obj02461 *)p)->f8=func_02041664(a);
+        ((struct Obj02461 *)p)->f8=BG_SYS_GetScrollY_1664(a);
         ((struct Obj02461 *)p)->f4=3;
     }
     ((struct Obj02461 *)p)->fC=(((struct Obj02461 *)p)->f8+step)&511;

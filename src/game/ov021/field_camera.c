@@ -19,7 +19,7 @@
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FX_SinCosTable_     0x020A1B38  data   a2
  *   gFieldCameraFileName     0x021DDA28  data  ov021  a4
  *   func_02048B78  0x02048B78  arm
@@ -34,14 +34,14 @@
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   func_02048B44  0x02048B44  arm
  *   func_02048AFC  0x02048AFC  arm
  *   gFieldCameraUpdateModeFuncs  0x021D3E44  data  ov021  a4
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CA68  0x0207CA68  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_DotProduct  0x0207CA68  arm
  *   gFieldCameraUpVec     0x021D3E2C  data   ov021  a4
  *   func_02048B20  0x02048B20  arm
  *   func_02048B0C  0x02048B0C  arm
@@ -83,7 +83,7 @@ extern void *func_02030734(u16, u32, u32, const void *, u32);
 extern u32 func_020307B0(void *);
 extern void *func_020490F4(u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0207C9D0(VecFx32 *, VecFx32 *, VecFx32 *);
+extern void VEC_Add(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int func_02048B78(struct G3dCamera *camera);
 extern void func_02048B88(struct G3dCamera *camera, unsigned int *out);
 extern u16 FX_AcosIdx(int a);
@@ -93,13 +93,13 @@ extern void func_02048B94(struct G3dCamera *camera, u32 v);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, u32, u32, u32, void *);
 extern void VEC_Normalize(VecFx32 *, VecFx32 *);
-extern void func_0207CEE4(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
+extern void VEC_MultAdd(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
 extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *in);
 extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *in);
-extern int func_0207CBD0(void *a);
+extern int VEC_Mag(void *a);
 extern int func_0207CFB8(int a, int b);
-extern void func_0207CA00(VecFx32 *, VecFx32 *, VecFx32 *);
-extern int func_0207CA68(VecFx32 *a, VecFx32 *b);
+extern void VEC_Subtract(VecFx32 *, VecFx32 *, VecFx32 *);
+extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
 extern void func_02048B60(struct G3dCamera *camera, const u32 *in);
 extern void func_02048B6C(struct G3dCamera *camera, const u32 *in);
 extern void func_02048B20(struct G3dCamera *camera, const VecFx32 *in);
@@ -108,11 +108,8 @@ extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
 extern void MI_CpuCopy8(void *, void *, int);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
-extern void VEC_Subtract(VecFx32 *a, VecFx32 *b, VecFx32 *o);
-extern int VEC_Mag(VecFx32 *a);
 extern int FX_Modf(int x, int *ip);
 extern void VEC_CrossProduct(VecFx32 *a, VecFx32 *b, VecFx32 *o);
-extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
 FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId);
 void FIELD_CAMERA_Delete(FieldCamera *camera);
 void FIELD_CAMERA_Main(FieldCamera *camera, u32 arg);
@@ -404,7 +401,7 @@ void FIELD_CAMERA_CalcOffsetPoint(VecFx32 *base, VecFx32 *out, int yaw, int pitc
     dir.y = pitchSin;
     dir.z = (int)(((long long)yawCos * pitchCos + 0x800) >> 12);
     VEC_Normalize(&dir, &dir);
-    func_0207CEE4(distance, &dir, base, &dir);
+    VEC_MultAdd(distance, &dir, base, &dir);
     *out = dir;
 }
 
@@ -473,8 +470,8 @@ void FIELD_CAMERA_ApplyToG3d(FieldCamera *camera)
     VecFx32 targetWithShift;
     VecFx32 eyeWithShift;
 
-    func_0207C9D0(&camera->target, &camera->targetShift, &targetWithShift);
-    func_0207C9D0(&camera->eye, &camera->eyeShift, &eyeWithShift);
+    VEC_Add(&camera->target, &camera->targetShift, &targetWithShift);
+    VEC_Add(&camera->eye, &camera->eyeShift, &eyeWithShift);
     func_02048B44(camera->g3dCamera, &targetWithShift);
     func_02048AFC(camera->g3dCamera, &eyeWithShift);
     FIELD_CAMERA_ApplyDelayToG3d(camera);
@@ -533,12 +530,12 @@ void FIELD_CAMERA_CalcAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
     u16 angles[2];
     int length;
 
-    length = func_0207CBD0(vec);
+    length = VEC_Mag(vec);
     VEC_Normalize(vec, &unit);
     flat.x = unit.x;
     flat.y = 0;
     flat.z = unit.z;
-    angles[1] = func_0207CFB8(unit.y, func_0207CBD0(&flat));
+    angles[1] = func_0207CFB8(unit.y, VEC_Mag(&flat));
     angles[0] = func_0207CFB8(unit.x, unit.z);
     FIELD_CAMERA_RefineAngles(&unit, angles[0], angles[1], angles, &angles[1]);
     *pitch = angles[1];
@@ -566,7 +563,7 @@ void FIELD_CAMERA_PrepareTargetMode(FieldCamera *camera)
         camera->yaw = camera->yaw + 0x8000;
         camera->pitch = camera->pitch + 0x8000;
     } else {
-        func_0207CA00(&camera->eyeRaw, &camera->target, &dir);
+        VEC_Subtract(&camera->eyeRaw, &camera->target, &dir);
         FIELD_CAMERA_SetAnglesFromVector(camera, &dir);
     }
 }
@@ -580,7 +577,7 @@ void FIELD_CAMERA_PrepareEyeMode(FieldCamera *camera)
         camera->yaw = camera->yaw + 0x8000;
         camera->pitch = camera->pitch + 0x8000;
     } else {
-        func_0207CA00(&camera->targetRaw, &camera->eye, &dir);
+        VEC_Subtract(&camera->targetRaw, &camera->eye, &dir);
         FIELD_CAMERA_SetAnglesFromVector(camera, &dir);
     }
 }
@@ -607,16 +604,16 @@ void FIELD_CAMERA_UpdateViewAngles(FieldCamera *camera, VecFx32 *targetPos, VecF
     int upDot, flatDot;
     int pitch;
 
-    func_0207CA00(eyePos, targetPos, &dir);
+    VEC_Subtract(eyePos, targetPos, &dir);
     VEC_Normalize(&dir, &dir);
     camera->viewYaw = func_0207CFB8(dir.x, dir.z);
     up = gFieldCameraUpVec;
-    upDot = func_0207CA68(&up, &dir);
+    upDot = VEC_DotProduct(&up, &dir);
     flat = dir;
     pitch = 0;
     flat.y = 0;
     VEC_Normalize(&flat, &flat);
-    flatDot = func_0207CA68(&flat, &dir);
+    flatDot = VEC_DotProduct(&flat, &dir);
     if (flatDot != 0) {
         pitch = func_0207CFB8(upDot, flatDot);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_02094B20
+ * function: strstr
  * address:  0x02094B20
  * packet:   pkt_02094798
  * region:   arm9
@@ -12,13 +12,13 @@
  * strstr implementation in standard string utility module.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02094B20.c \
- *       --func func_02094B20 --addr 0x02094B20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strstr.c \
+ *       --func strstr --addr 0x02094B20 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 
-u8 *func_02094B20(const u8 *s1, const u8 *s2)
+u8 *strstr(const u8 *s1, const u8 *s2)
 {
     u8 c2;
     u8 c1;

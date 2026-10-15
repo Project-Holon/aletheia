@@ -12,17 +12,17 @@
  * sdk:      DWCi_Prof_ParseResponse (libdwcauth.TWL.HYB.a dwc_prof.o)
  *
  * symbols:
- *   func_0217A484  0x0217A484  arm  ov009
+ *   DWC_Http_ParseResult  0x0217A484  arm  ov009
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
  *   func_02059F54  0x02059F54  arm
  *   g_021A27B8     0x021A27B8  data ov009
  *   g_021ACEF0     0x021ACEF0  data ov009
  *   g_021A2818     0x021A2818  data ov009
  *   g_021A2820     0x021A2820  data ov009
- *   g_02153FAC     0x02153FAC  data
+ *   errno     0x02153FAC  data
  *   g_021A282C     0x021A282C  data ov009
  *   g_021A2838     0x021A2838  data ov009
  */
@@ -44,11 +44,11 @@ typedef struct DWCProfFieldNames {
     char *name[8];
 } DWCProfFieldNames;
 
-extern int func_0217A484(DWCHttp *http, int noparsebody);
+extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void func_02059F54(int error, int errorCode);
 
@@ -56,7 +56,7 @@ extern const DWCProfFieldNames g_021A27B8;
 extern DWCProfWorkarea *g_021ACEF0;
 extern char g_021A2818[];
 extern char g_021A2820[];
-extern int g_02153FAC;
+extern int errno;
 extern char g_021A282C[];
 extern char g_021A2838[];
 
@@ -73,7 +73,7 @@ int func_0217BDA8(void)
     int j;
     DWCHttp *DWChttp = &g_021ACEF0->http;
 
-    if (!func_0217A484(DWChttp, 0))
+    if (!DWC_Http_ParseResult(DWChttp, 0))
         goto error;
 
     strp = func_0217A728(DWChttp, g_021A2818);
@@ -83,14 +83,14 @@ int func_0217BDA8(void)
     strp = func_0217A728(DWChttp, g_021A2820);
     if (strp == 0)
         goto error;
-    httpretcode = func_020964E0((u32)strp);
-    if (g_02153FAC == 34 || httpretcode != 200)
+    httpretcode = atoi((u32)strp);
+    if (errno == 34 || httpretcode != 200)
         goto error;
 
     if (func_0217A77C(DWChttp, g_021A282C, retcode, 4) <= 0)
         goto error;
-    httpretcode = func_020964E0((u32)retcode);
-    if (g_02153FAC == 34)
+    httpretcode = atoi((u32)retcode);
+    if (errno == 34)
         goto error;
     if (httpretcode == 1 || (httpretcode >= 100 && httpretcode != 100)) {
         func_02059F54(17, -33000 - httpretcode);

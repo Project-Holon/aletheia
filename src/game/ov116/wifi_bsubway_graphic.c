@@ -23,44 +23,44 @@
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   gNetSaveRetryProc 0x021D654C data ov115 a4
  *   d_021D8580 0x021D8580 data a4
- *   func_021D6EC4 0x021D6EC4 thumb ov116
- *   func_021D6E50 0x021D6E50 thumb ov116
- *   func_021D7060 0x021D7060 thumb ov116
- *   func_021D70B0 0x021D70B0 thumb ov116
- *   func_021D69A8 0x021D69A8 thumb ov116
- *   func_021D69C0 0x021D69C0 thumb ov116
- *   func_021D69EC 0x021D69EC thumb ov116
- *   func_021D6A10 0x021D6A10 thumb ov116
- *   func_021D6A40 0x021D6A40 thumb ov116
- *   func_021D6A44 0x021D6A44 thumb ov116
- *   func_021D6A48 0x021D6A48 thumb ov116
- *   func_021D6A4C 0x021D6A4C thumb ov116
- *   func_021D6A5C 0x021D6A5C thumb ov116
- *   func_021D6AF0 0x021D6AF0 thumb ov116
- *   func_021D6B30 0x021D6B30 thumb ov116
- *   func_021D7278 0x021D7278 thumb ov116
+ *   WIFI_BSUBWAY_PollHttpRequest 0x021D6EC4 thumb ov116
+ *   WIFI_BSUBWAY_StartHttpRequest 0x021D6E50 thumb ov116
+ *   WIFI_BSUBWAY_StartUploadPlayer 0x021D7060 thumb ov116
+ *   WIFI_BSUBWAY_IsUploadDone 0x021D70B0 thumb ov116
+ *   WIFI_BSUBWAY_StartRoomRequest 0x021D69A8 thumb ov116
+ *   WIFI_BSUBWAY_FinishRoomRequest 0x021D69C0 thumb ov116
+ *   WIFI_BSUBWAY_StartPlayerDownload 0x021D69EC thumb ov116
+ *   WIFI_BSUBWAY_FinishPlayerDownload 0x021D6A10 thumb ov116
+ *   WIFI_BSUBWAY_GetRoomNumber 0x021D6A40 thumb ov116
+ *   WIFI_BSUBWAY_GetPlayerIndex 0x021D6A44 thumb ov116
+ *   WIFI_BSUBWAY_GetDownloadResult 0x021D6A48 thumb ov116
+ *   WIFI_BSUBWAY_GetTransferState 0x021D6A4C thumb ov116
+ *   WIFI_BSUBWAY_NormalizeTrainers 0x021D6A5C thumb ov116
+ *   WIFI_BSUBWAY_SaveTrainers 0x021D6AF0 thumb ov116
+ *   WIFI_BSUBWAY_SaveHistory 0x021D6B30 thumb ov116
+ *   WIFI_BSUBWAY_OpenCodeIn 0x021D7278 thumb ov116
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_02167ED8 0x02167ED8 arm ov009
- *   func_021D6998 0x021D6998 thumb ov116
+ *   WIFI_BSUBWAY_ClearTrainers 0x021D6998 thumb ov116
  *   func_02009860 0x02009860 thumb
- *   func_02009CC0 0x02009CC0 thumb
+ *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   DPW_BT_Init 0x021C8F2C arm ov114
  *   DPW_BT_GetServerStateAsync 0x021C96CC arm ov114
- *   func_021D70E4 0x021D70E4 thumb ov116
- *   func_021D70EC 0x021D70EC thumb ov116
+ *   WIFI_BSUBWAY_AsyncReset 0x021D70E4 thumb ov116
+ *   WIFI_BSUBWAY_PollAsync 0x021D70EC thumb ov116
  *   DPW_BT_IsAsyncEnd 0x021C93D0 arm ov114
  *   DPW_BT_CancelAsync 0x021C9634 arm ov114
  *   DPW_BT_End 0x021C93BC arm ov114
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB24 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
- *   func_021D7158 0x021D7158 thumb ov116
- *   func_021D7200 0x021D7200 thumb ov116
- *   func_021D7184 0x021D7184 thumb ov116
+ *   WIFI_BSUBWAY_AsyncHasError 0x021D7158 thumb ov116
+ *   WIFI_BSUBWAY_CheckFatalError 0x021D7200 thumb ov116
+ *   WIFI_BSUBWAY_GetErrorState 0x021D7184 thumb ov116
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -69,7 +69,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_Create 0x0203101C arm
@@ -77,7 +77,7 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_0201DD68 0x0201DD68 thumb
@@ -99,18 +99,18 @@
  *   func_020056A0 0x020056A0 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_0203FA08 0x0203FA08 arm
+ *   BG_SYS_CreateRun 0x0203FA08 arm
  *   func_0201F5DC 0x0201F5DC thumb
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
  *   func_02040618 0x02040618 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_02045CAC 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -118,7 +118,7 @@
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
- *   d_021D8560 0x021D8560 data a4
+ *   gWifiBsubwayCodeInParam 0x021D8560 data a4
  *   d_021D8560_menu 0x021D8560 data a4
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   func_020056BC 0x020056BC thumb
@@ -137,10 +137,10 @@
  *   d_021D858C 0x021D858C data a1
  *   d_021D83C0 0x021D83C0 data a4
  *   WIFI_BSUBWAY_GRAPHIC_Draw 0x021D839C thumb ov116
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021D83B0 0x021D83B0 data a4
@@ -148,7 +148,7 @@
  *   g_021D83F0  0x021D83F0  data
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   ov129_id 0x81 data
  *   ov115_id 0x73 data
  */
@@ -276,47 +276,47 @@ extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void func_0202E54C(struct Obj0202E54C *p);
 extern u16 STRBUF_GetEosChar(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern int func_021D6EC4(u8 *,u8 *,int);
-extern void func_021D6E50(u8 *,u8 *,int,int);
-extern void func_021D7060(u8 *,u8 *);
-extern int func_021D70B0(void *unused, u8 *p);
+extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
+extern void WIFI_BSUBWAY_StartHttpRequest(u8 *,u8 *,int,int);
+extern void WIFI_BSUBWAY_StartUploadPlayer(u8 *,u8 *);
+extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
 extern u32 func_0200DBA0(struct Blk1AC *p, s32_021D7450 i, u32 op);
 extern u8 func_0200DC08(struct Blk1AC *p);
-extern void func_021D69A8(u8 *,u8 *,u16);
-extern void func_021D69EC(u8 *,u8 *,u16);
-extern int func_021D69C0(u8 *,u8 *);
-extern int func_021D6A10(u8 *,u8 *);
-extern u16 func_021D6A40(u8 *);
-extern u16 func_021D6A44(u8 *);
-extern u16 func_021D6A48(u8 *);
-extern int func_021D6A4C(unsigned char *p);
-extern void func_021D6A5C(u8 *);
-extern void func_021D6AF0(u8 *,void *);
-extern void func_021D6B30(u8 *,void *);
-extern void func_021D7278(u8 *,int);
+extern void WIFI_BSUBWAY_StartRoomRequest(u8 *,u8 *,u16);
+extern void WIFI_BSUBWAY_StartPlayerDownload(u8 *,u8 *,u16);
+extern int WIFI_BSUBWAY_FinishRoomRequest(u8 *,u8 *);
+extern int WIFI_BSUBWAY_FinishPlayerDownload(u8 *,u8 *);
+extern u16 WIFI_BSUBWAY_GetRoomNumber(u8 *);
+extern u16 WIFI_BSUBWAY_GetPlayerIndex(u8 *);
+extern u16 WIFI_BSUBWAY_GetDownloadResult(u8 *);
+extern int WIFI_BSUBWAY_GetTransferState(unsigned char *p);
+extern void WIFI_BSUBWAY_NormalizeTrainers(u8 *);
+extern void WIFI_BSUBWAY_SaveTrainers(u8 *,void *);
+extern void WIFI_BSUBWAY_SaveHistory(u8 *,void *);
+extern void WIFI_BSUBWAY_OpenCodeIn(u8 *,int);
 extern int FADE_IsActive(void);
 extern void FADE_Start(u32 a, s32_021D7550 b, s32_021D7550 c, s32_021D7550 d);
 extern int func_02167ED8(void *date, void *time);
 extern int func_0200DDD0(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
-extern void func_021D6998(void *a);
+extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern int func_02009CC0(void *a0);
+extern int WIFILIST_GetGsProfileId(void *a0);
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode);
 extern void DPW_BT_GetServerStateAsync(void);
-extern void func_021D70E4(u8 *p);
-extern int func_021D70EC(u8 *, int *);
+extern void WIFI_BSUBWAY_AsyncReset(u8 *p);
+extern int WIFI_BSUBWAY_PollAsync(u8 *, int *);
 extern int DPW_BT_IsAsyncEnd(void);
 extern void DPW_BT_CancelAsync(void);
 extern void DPW_BT_End(void);
 extern int DWC_RAPCOMMON_HandleNetError(int,int);
 extern u32 func_0200FB24(void);
 extern u32 GFL_NET_STATE_GetError(void);
-extern int func_021D7158(u8 *p);
-extern int func_021D7200(int *p);
-extern int func_021D7184(int *p);
+extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
+extern int WIFI_BSUBWAY_CheckFatalError(int *p);
+extern int WIFI_BSUBWAY_GetErrorState(int *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -325,7 +325,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
@@ -335,7 +335,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32_021D7C58 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
@@ -355,18 +355,18 @@ extern u32_021D7D0C func_020307B0(void *p);
 extern void *func_020056A0(void *, void *, int);
 extern void DWCi_ScreenDC_FlushRange(void *, u32_021D7D0C);
 extern void func_0207D63C(void *, int, int, int, int);
-extern u32_021D7D0C func_0203FA08(u32_021D7D0C layer, u32_021D7D0C size, u32_021D7D0C top);
+extern u32_021D7D0C BG_SYS_CreateRun(u32_021D7D0C layer, u32_021D7D0C size, u32_021D7D0C top);
 extern void *func_0201F5DC(void *a0, u32_021D7D0C a1, u32_021D7D0C a2, u32_021D7D0C a3);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void GX_LoadBGPltt(void *,int,int);
 extern void func_0207E468(void *,int,int);
 extern void func_02040618(u32_021D7F54 layer, u32_021D7F54 a, u32_021D7F54 b);
-extern void func_0203FB44(u32_021D7FC4 layer, u32_021D7FC4 offset, u32_021D7FC4 size);
+extern void BG_SYS_DeleteHalf(u32_021D7FC4 layer, u32_021D7FC4 offset, u32_021D7FC4 size);
 extern void func_02030EAC(struct Node *n);
 extern void func_02045CAC(struct MsgBank *bank, u32_021D8010 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(u32_021D8010 r, u32_021D8010 g, u32_021D8010 b);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(u32_021D8010,int,int,u32_021D8010,u32_021D8010,u32_021D8010,u32_021D8010,int,u16,int);
 extern u32_021D80CC PRINTSYS_PrintStreamGetState(void *p);
 extern u32_021D80CC KEY_GetTrg(void);
@@ -389,15 +389,15 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void WIFI_BSUBWAY_GRAPHIC_Draw(void *);
-extern void func_0203F8F4(unsigned);
+extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32_021D8304 bgId, const struct BgTemplate *tmpl, u32_021D8304 type);
+extern void BG_SYS_InitBgLayer(u32_021D8304 bgId, const struct BgTemplate *tmpl, u32_021D8304 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 void func_020403F4(u32_021D8364 i);
 void BMP_WIN_Exit(void);
-void func_0203F9B4(void);
+void BG_SYS_Delete(void);
 void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(u8 *p, u32 heap);
 void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p);
 u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(u8 *p);
@@ -443,7 +443,7 @@ extern u32 gNetSaveMainProc[];
 extern u8 ov115_id[];
 extern u32 gNetSaveRetryProc[];
 extern const Tbl d_021D8580;
-extern u8 d_021D8560[];
+extern u8 gWifiBsubwayCodeInParam[];
 extern u8 d_021D8560_menu[];
 extern char d_021D858C[];
 extern char d_021D83C0[];
@@ -535,19 +535,19 @@ int WIFI_BSUBWAY_GRAPHIC_Step(u8 *p,int b)
     int v;
     switch (((struct Obj01926 *)p)->fB6C) {
     case 0: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,7); ++((struct Obj01926 *)p)->fB6C; break;
-    case 1: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
+    case 1: WIFI_BSUBWAY_StartHttpRequest(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 2:
-        v=func_021D6EC4(p+0x1610,p+0x182c,0);
+        v=WIFI_BSUBWAY_PollHttpRequest(p+0x1610,p+0x182c,0);
         if(v==1) ((struct Obj01926 *)p)->fB6C=5;
         else if(v==2) ((struct Obj01926 *)p)->fB6C=3;
         break;
-    case 3: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
+    case 3: WIFI_BSUBWAY_StartHttpRequest(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 4:
-        if(func_021D6EC4(p+0x1610,p+0x182c,1)==1) ((struct Obj01926 *)p)->fB6C=5;
+        if(WIFI_BSUBWAY_PollHttpRequest(p+0x1610,p+0x182c,1)==1) ((struct Obj01926 *)p)->fB6C=5;
         break;
-    case 5: func_021D7060(p+0x1610,p+0x182c); ++((struct Obj01926 *)p)->fB6C; break;
+    case 5: WIFI_BSUBWAY_StartUploadPlayer(p+0x1610,p+0x182c); ++((struct Obj01926 *)p)->fB6C; break;
     case 6:
-        if(func_021D70B0(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
+        if(WIFI_BSUBWAY_IsUploadDone(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
         break;
     case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
     case 8:
@@ -567,28 +567,28 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,short heap)
     u8 extra[12];
     u8 record[16];
     switch(((struct Obj00494 *)p)->fB6C) {
-    case 0: func_021D69A8(p+0xb74,p+0x182c,(u32)func_0200DC08(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
-    case 1: if(func_021D69C0(p+0xb74,p+0x182c)!=0) ++((struct Obj00494 *)p)->fB6C; break;
+    case 0: WIFI_BSUBWAY_StartRoomRequest(p+0xb74,p+0x182c,(u32)func_0200DC08(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
+    case 1: if(WIFI_BSUBWAY_FinishRoomRequest(p+0xb74,p+0x182c)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 2:
-        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=func_021D6A48(p+0xb74);
-        WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,0); ++((struct Obj00494 *)p)->fB6C; break;
+        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
+        WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)WIFI_BSUBWAY_GetTransferState(p+0xb74)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,0); ++((struct Obj00494 *)p)->fB6C; break;
     case 3: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 4: FADE_Start((int)3,0,16,1); ++((struct Obj00494 *)p)->fB6C; break;
     case 5: if(FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(p+4); ++((struct Obj00494 *)p)->fB6C; } break;
-    case 6: func_021D7278(p,heap); ++((struct Obj00494 *)p)->fB6C; break;
+    case 6: WIFI_BSUBWAY_OpenCodeIn(p,heap); ++((struct Obj00494 *)p)->fB6C; break;
     case 7: ((struct Obj00494 *)p)->fB70=WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(p); WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(p); WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,heap); FADE_Start((int)3,16,0,1); ++((struct Obj00494 *)p)->fB6C; break;
     case 8:
         if(FADE_IsActive()==0) {
-            box=func_021D6A40(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=func_021D6A48(p+0xb74);
+            box=WIFI_BSUBWAY_GetRoomNumber(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
             func_02167ED8(record,extra);
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
             if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
-            func_021D69EC(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
-            v=func_021D6A44(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
-            WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00494 *)p)->fB6C;
+            WIFI_BSUBWAY_StartPlayerDownload(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
+            v=WIFI_BSUBWAY_GetPlayerIndex(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)WIFI_BSUBWAY_GetTransferState(p+0xb74));
+            WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,WIFI_BSUBWAY_GetRoomNumber(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00494 *)p)->fB6C;
         } break;
-    case 9: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
-    case 10: func_021D6A5C(p+0xb74); func_021D6AF0(p+0xb74,((struct Obj00494 *)p)->f1854); func_021D6B30(p+0xb74,((struct Obj00494 *)p)->f1854); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj00494 *)p)->fB6C; break;
+    case 9: if(WIFI_BSUBWAY_FinishPlayerDownload(p+0xb74,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
+    case 10: WIFI_BSUBWAY_NormalizeTrainers(p+0xb74); WIFI_BSUBWAY_SaveTrainers(p+0xb74,((struct Obj00494 *)p)->f1854); WIFI_BSUBWAY_SaveHistory(p+0xb74,((struct Obj00494 *)p)->f1854); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj00494 *)p)->fB6C; break;
     case 11: if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,3); ++((struct Obj00494 *)p)->fB6C; } break;
     case 12: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 13: return 1;
@@ -618,35 +618,35 @@ int WIFI_BSUBWAY_GRAPHIC_StepRetry(u8 *p,short heap)
         if(FADE_IsActive()==0) {
             n=((struct Obj00470 *)p)->fB70;
             if(n>=1 && n<=10) {
-                func_021D69A8(p+0xb74,p+0x182c,n); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00470 *)p)->fB6C;
+                WIFI_BSUBWAY_StartRoomRequest(p+0xb74,p+0x182c,n); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00470 *)p)->fB6C;
             } else ((struct Obj00470 *)p)->fB6C=19;
         } break;
     case 7:
-        if(func_021D69C0(p+0xb74,p+0x182c)!=0) {
-            WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=func_021D6A48(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,6); ++((struct Obj00470 *)p)->fB6C;
+        if(WIFI_BSUBWAY_FinishRoomRequest(p+0xb74,p+0x182c)!=0) {
+            WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)WIFI_BSUBWAY_GetTransferState(p+0xb74)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,6); ++((struct Obj00470 *)p)->fB6C;
         } break;
     case 8: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 9: FADE_Start(3,0,16,1); ++((struct Obj00470 *)p)->fB6C; break;
     case 10: if(FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
-    case 11: func_021D7278(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
+    case 11: WIFI_BSUBWAY_OpenCodeIn(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
     case 12: ((struct Obj00470 *)p)->fB70=WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(p); WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(p); WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,heap); FADE_Start(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
     case 13:
         if(FADE_IsActive()==0) {
-            v=func_021D6A48(p+0xb74); n=((struct Obj00470 *)p)->fB70;
+            v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74); n=((struct Obj00470 *)p)->fB70;
             if(n<1 || n>(u32)v) { ((struct Obj00470 *)p)->fB6C=19; break; }
-            func_021D69EC(p+0xb74,p+0x182c,n);
-            v=func_021D6A44(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
-            WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00470 *)p)->fB6C;
+            WIFI_BSUBWAY_StartPlayerDownload(p+0xb74,p+0x182c,n);
+            v=WIFI_BSUBWAY_GetPlayerIndex(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)WIFI_BSUBWAY_GetTransferState(p+0xb74));
+            WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,WIFI_BSUBWAY_GetRoomNumber(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00470 *)p)->fB6C;
         } break;
-    case 14: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
-    case 15: func_021D6A5C(p+0xb74); func_021D6B30(p+0xb74,((struct Obj00470 *)p)->f1854); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj00470 *)p)->fB6C; break;
+    case 14: if(WIFI_BSUBWAY_FinishPlayerDownload(p+0xb74,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 15: WIFI_BSUBWAY_NormalizeTrainers(p+0xb74); WIFI_BSUBWAY_SaveHistory(p+0xb74,((struct Obj00470 *)p)->f1854); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj00470 *)p)->fB6C; break;
     case 16: if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,3); ++((struct Obj00470 *)p)->fB6C; } break;
     case 17: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 18: return 1;
     case 19: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,9); ++((struct Obj00470 *)p)->fB6C; break;
     case 20: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 21: WIFI_BSUBWAY_GRAPHIC_CreateYesNo(p+4); ++((struct Obj00470 *)p)->fB6C; break;
-    case 22: v=WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(p+4); if(v==0) return 2; if(v==-2) { func_021D6998(p+0xb74); ((struct Obj00470 *)p)->fB6C=0; } break;
+    case 22: v=WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(p+4); if(v==0) return 2; if(v==-2) { WIFI_BSUBWAY_ClearTrainers(p+0xb74); ((struct Obj00470 *)p)->fB6C=0; } break;
     }
     return 0;
 }
@@ -656,12 +656,12 @@ void WIFI_BSUBWAY_GRAPHIC_InitBt(u8 *p) {
     void *a=func_02009860(((struct Obj00671 *)p)->f184C);
     void *b;
     u64 value;
-    func_02008540(((struct Obj00671 *)p)->f1850,(u32)func_02009CC0(((struct Obj00671 *)p)->f184C));
+    func_02008540(((struct Obj00671 *)p)->f1850,(u32)WIFILIST_GetGsProfileId(((struct Obj00671 *)p)->f184C));
     b=(void *)func_0200853C(((struct Obj00671 *)p)->f1850);
     value=DWC_CreateFriendKey(a);
     DPW_BT_Init((unsigned int)b,(u32)value,(u32)(value>>32),0);
     DPW_BT_GetServerStateAsync();
-    func_021D70E4(p+0x182c);
+    WIFI_BSUBWAY_AsyncReset(p+0x182c);
     ((struct Obj00671 *)p)->fB68=1;
 }
 
@@ -669,7 +669,7 @@ void WIFI_BSUBWAY_GRAPHIC_InitBt(u8 *p) {
 int WIFI_BSUBWAY_GRAPHIC_PollBt(u8 *p)
 {
     int result;
-    return func_021D70EC(p + 0x182c, &result);
+    return WIFI_BSUBWAY_PollAsync(p + 0x182c, &result);
 }
 
 
@@ -682,7 +682,7 @@ void WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *p)
 {
     if (DPW_BT_IsAsyncEnd() == 0) {
         DPW_BT_CancelAsync();
-        func_021D70E4(p + 0x182c);
+        WIFI_BSUBWAY_AsyncReset(p + 0x182c);
     }
 }
 
@@ -691,7 +691,7 @@ int WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *p)
 {
     int result;
     if (((struct Obj13868 *)p)->fB68 == 0) return 1;
-    if (func_021D70EC(p + 0x182c, &result)) {
+    if (WIFI_BSUBWAY_PollAsync(p + 0x182c, &result)) {
         DPW_BT_End();
         ((struct Obj13868 *)p)->fB68 = 0;
         return 1;
@@ -708,10 +708,10 @@ int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *p) {
         GFL_NET_STATE_GetError();
         return no;
     }
-    if(func_021D7158(p+0x182c)!=0) {
+    if(WIFI_BSUBWAY_AsyncHasError(p+0x182c)!=0) {
         int v;
-        if(func_021D7200((int *)(p+0x182c))!=0) return no;
-        v=func_021D7184((int *)(p+0x182c));
+        if(WIFI_BSUBWAY_CheckFatalError((int *)(p+0x182c))!=0) return no;
+        v=WIFI_BSUBWAY_GetErrorState((int *)(p+0x182c));
         WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4);
         WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,v);
         return yes;
@@ -740,7 +740,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, short heap)
     BMP_WIN_TransferChars(P(0x97c));
     func_02041B6C(1);
     P(0x990) = func_02045B38(0, 2, 206, heap);
-    P(0x994) = func_0201EC64(heap);
+    P(0x994) = GF_FONT_Create_EC64(heap);
     P(0x998) = GF_FONT_Create(23, 0, 0, 0, heap);
     P(0x99c) = STRBUF_Create(128, heap);
     P(0x9a0) = STRBUF_Create(128, heap);
@@ -757,7 +757,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
         if(((struct Obj01721 *)p)->f9A4) PRINTSYS_PrintStreamDelete(((struct Obj01721 *)p)->f9A4);
         TCBL_Destroy(((struct Obj01721 *)p)->f9A8);
         MSGDATA_Delete(((struct Obj01721 *)p)->f990);
-        func_0201ED04(((struct Obj01721 *)p)->f994);
+        WORDSET_DeleteStrbufED04(((struct Obj01721 *)p)->f994);
         GF_FONT_Delete(((struct Obj01721 *)p)->f998);
         STRBUF_Delete(((struct Obj01721 *)p)->f99C);
         STRBUF_Delete(((struct Obj01721 *)p)->f9A0);
@@ -843,8 +843,8 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *p, short heap) {
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     p[0x978] = 0;
     ARC_TOOL_DeleteHandle(arc);
-    func_0203FA08(1, 0x20, 0);
-    func_0203FA08(2, 0x20, 0);
+    BG_SYS_CreateRun(1, 0x20, 0);
+    BG_SYS_CreateRun(2, 0x20, 0);
     *(void **)(p + 0x984) = func_0201F5DC((void *)1, 0xd, 0, heap);
     *(void **)(p + 0x988) = func_0201F5DC((void *)2, 0xd, 0, heap);
     func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
@@ -867,9 +867,9 @@ void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,u8 *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(u8 *p) {
     u32_021D7FC4 x=((struct Obj05322 *)p)->f984;
-    func_0203FB44(1,(u16)x,(u16)(x>>16));
+    BG_SYS_DeleteHalf(1,(u16)x,(u16)(x>>16));
     x=((struct Obj05322 *)p)->f988;
-    func_0203FB44(2,(u16)x,(u16)(x>>16));
+    BG_SYS_DeleteHalf(2,(u16)x,(u16)(x>>16));
     if(((struct Obj05322 *)p)->fC) {
         func_02030EAC(((struct Obj05322 *)p)->fC);
         *(u32_021D7FC4 *)&((struct Obj05322 *)p)->fC=0;
@@ -885,7 +885,7 @@ void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p,u32_021D8010 a) {
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
  BMP_Clear((struct CharBuf *)((u32_021D8010)BMP_WIN_GetBmp((struct Descriptor *)I(0x97c))),15);
  GF_FONT_SetTextColor(1,2,15);
- I(0x9a4)=(u32_021D8010)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
+ I(0x9a4)=(u32_021D8010)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),MSG_SPEED_GetWait(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
  func_0201F73C((void *)I(0x97c),1,(u16)I(0x984),13);
  BMP_WIN_TransferChars((struct Descriptor *)I(0x97c));
 }
@@ -911,7 +911,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetWord(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021
  * The duplicated 021D8560 pool words require separate extern names;
  * see the duplicated-pool-word idiom.
  */
-void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
+void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p) { *(u16 *)(gWifiBsubwayCodeInParam+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
 
 
 u32_021D8168 WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(u8 *p) { u32_021D8168 result=-2; if(*(u8 * *)&((struct Obj10343 *)p)->f980!=0) { result=BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj10343 *)p)->f980); if(result!=-1) *(u32_021D8168 *)&((struct Obj10343 *)p)->f980=0; } return result; }
@@ -966,10 +966,10 @@ void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *a,void *b) {WIFI_BSUBWAY_GRAPHIC_Draw(b
 void WIFI_BSUBWAY_GRAPHIC_SetupBg(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
  MI_CpuFill8(p,0,4);
- func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
+ BG_SYS_Create(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
  for(i=0;i<8;i++) {
  q=d_021D83F0+i*44; n=((struct Obj10347 *)q)->f0;
- func_0203FCA0((u8)n,(const struct BgTemplate *)(q+4),(u8)(((struct Obj10347 *)q)->f24));
+ BG_SYS_InitBgLayer((u8)n,(const struct BgTemplate *)(q+4),(u8)(((struct Obj10347 *)q)->f24));
  func_020414AC(n); func_02040588(n,((struct Obj10347 *)q)->f28);
  }
 }
@@ -984,7 +984,7 @@ void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
         func_020403F4((u8)*(u32_021D8364 *)(g_021D83F0 + i * 0x2c));
     }
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(a0, 0, 4);
 }
 

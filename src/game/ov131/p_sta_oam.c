@@ -1,7 +1,7 @@
 /*
  * file:     p_sta_oam.c
  * unit:     yes
- * function: P_STA_OAM_CreateManager, P_STA_OAM_DeleteManager, P_STA_OAM_CreateBitmapActors, P_STA_OAM_DeleteBitmapActors, P_STA_OAM_SetBitmapActorsEnabled, P_STA_OAM_TransferBitmap, P_STA_OAM_SetBitmapActorsPos, P_STA_OAM_SwapInts, P_STA_OAM_GetCellResMode, P_STA_OAM_FreeCellRes, P_STA_RIBBON_GetRibbonInfo
+ * function: P_STA_OAM_CreateManager, P_STA_OAM_DeleteManager, P_STA_OAM_CreateBitmapActors, P_STA_OAM_DeleteBitmapActors, P_STA_OAM_SetBitmapActorsEnabled, P_STA_OAM_TransferBitmap, P_STA_OAM_SetBitmapActorsPos, P_STA_OAM_SwapInts, P_STA_OAM_GetCellResMode, P_STA_OAM_FreeCellRes, P_STA_RIBBON_GetRibbonInfo, P_STA_RIBBON_GetRibbonDescMsg
  * address:  0x021DBA90
  * region:   ov131
  * compiler: dsi/1.1p1
@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * Split from p_sta_oam.c: 0x021DBA90-end. Cuts at the __FILE__ anchor functions (layout/file_anchors.txt);
  * the functions in this range use no sub-screen work struct (OAM and bitmap helpers the sub-screens call).
  *
@@ -39,16 +40,17 @@
  *   func_0207E804 0x0207E804 arm
  *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
  */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-
 #include "p_status_types.h"
 
 #define REG_DISPCNT_MAIN 0x04000000
 #define REG_DISPCNT_SUB  0x04001000
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef signed short s16;
 
 extern u32 func_020307B0(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -82,8 +84,10 @@ void P_STA_OAM_SwapInts(int *a, int *b);
 int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc);
 void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr);
 u32 P_STA_RIBBON_GetRibbonInfo(u32 index, u32 field);
+unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
 extern const char P_STA_OAM_FileName[];
 extern const struct StaRibbonInfo P_STA_RIBBON_InfoTable[];
+
 
 struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit) {
     struct StaOamManager *mgr = func_02030734(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
@@ -94,11 +98,13 @@ struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit) {
     return mgr;
 }
 
+
 void P_STA_OAM_DeleteManager(struct StaOamManager *mgr)
 {
     P_STA_OAM_FreeCellRes(mgr);
     func_020307B0(mgr);
 }
+
 
 /*
  * note (2026-10-02): desc is const-qualified; that frees the desc loads from ordering behind the stack
@@ -139,6 +145,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     return grid;
 }
 
+
 void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
 {
     u8 i, j;
@@ -151,6 +158,7 @@ void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
     func_020307B0(grid);
 }
 
+
 void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enable)
 {
     u8 i, j;
@@ -160,6 +168,7 @@ void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enabl
         }
     }
 }
+
 
 void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
 {
@@ -195,6 +204,7 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     }
 }
 
+
 void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y)
 {
     struct StaOamPoint pt;
@@ -208,11 +218,13 @@ void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y)
     }
 }
 
+
 void P_STA_OAM_SwapInts(int *a, int *b) {
     int tmp = *a;
     *a = *b;
     *b = tmp;
 }
+
 
 /*
  * volatile: hardware register read at 021DBEB4
@@ -233,6 +245,7 @@ int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc)
     return mode;
 }
 
+
 void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -242,6 +255,7 @@ void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr) {
         }
     }
 }
+
 
 u32 P_STA_RIBBON_GetRibbonInfo(u32 index, u32 field)
 {
@@ -254,4 +268,8 @@ u32 P_STA_RIBBON_GetRibbonInfo(u32 index, u32 field)
     case 5: return P_STA_RIBBON_InfoTable[index].selector;
     default: return 0;
     }
+}
+
+unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo) {
+ return P_STA_RIBBON_InfoTable[ribbonNo].descMsg;
 }

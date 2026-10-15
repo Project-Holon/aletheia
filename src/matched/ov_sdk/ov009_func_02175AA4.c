@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_0219F00C                0x0219F00C arm   ov009
+ *   ServerBrowserClear                0x0219F00C arm   ov009
  *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   func_02171C08                0x02171C08 arm   ov009
  *   DWCi_HandleMatchCommandError                0x021719A4 arm   ov009
@@ -42,7 +42,7 @@ struct DWCstMatchControl {
 };
 
 extern int func_02175F3C(void);
-extern void func_0219F00C(char *p);
+extern void ServerBrowserClear(char *p);
 extern void DWCi_SetMatchStatus(int state);
 extern int func_02171C08(int delay, int init, int resendPid);
 extern int DWCi_HandleMatchCommandError(int error);
@@ -57,7 +57,7 @@ int DWCi_StartMatch(void)
     int sbError;
 
     if (((struct DWCstMatchControl *)func_02175F3C())->sbObj != 0)
-        func_0219F00C(((struct DWCstMatchControl *)func_02175F3C())->sbObj);
+        ServerBrowserClear(((struct DWCstMatchControl *)func_02175F3C())->sbObj);
     if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0) {
         DWCi_SetMatchStatus(0xc);
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 0) {

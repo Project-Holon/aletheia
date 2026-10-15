@@ -16,7 +16,7 @@
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
  *   d_021C6100 0x021C6100 data a1
- *   func_021C4790 0x021C4790 thumb ov127
+ *   WF2DMAP_MAP_IsEmpty 0x021C4790 thumb ov127
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  *   CLACT_CreateActor  0x0204B294  arm
@@ -127,7 +127,7 @@ typedef signed char s8;
 
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_021C4790(char *p);
+extern int WF2DMAP_MAP_IsEmpty(char *p);
 extern void ARC_TOOL_DeleteHandle(u32);
 extern u32 func_020307B0(void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
@@ -232,7 +232,7 @@ void func_021C3F80(u8 *p)
 {
     u32 i;
     for (i = 0; i < ((struct Obj05371 *)p)->fC; i++) {
-        if (!func_021C4790((char *)(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24)))
+        if (!WF2DMAP_MAP_IsEmpty((char *)(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24)))
             func_021C41BC(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24);
     }
     func_021C4330((char *)p, 0);
@@ -381,7 +381,7 @@ void func_021C4214(u8 *p, u32 v)
 
 
 /*
- * Leaf of ov099 func_021B989C's callee func_021C5858 (a forwarder to here).
+ * Leaf of ov099 func_021B989C's callee WF2DMAP_OBJDRAW_GetActorValue2 (a forwarder to here).
  */
 int func_021C4224(u8 *p)
 {
@@ -412,7 +412,7 @@ void func_021C424C(char *p, int a)
 
 /*
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=0x0204B3F4; bx r3.
- * Leaf of ov127 func_021C5834 (blocker of ov099 func_021BA2D4).
+ * Leaf of ov127 WF2DMAP_OBJDRAW_GetActorValue (blocker of ov099 func_021BA2D4).
  */
 int func_021C425C(char *p)
 {
@@ -638,7 +638,7 @@ void func_021C45E0(u8 *p) { int i; for(i=0;i<16;i++){CLACT_ReleaseCellAnim(*(u32
 
 
 
-void *func_021C4604(u8 *p) { u32 i; for(i=0;i<((struct Obj10467 *)p)->fC;i++) { if(func_021C4790(*(char * *)&((struct Obj10467 *)p)->f8+i*24)==1) return *(char * *)&((struct Obj10467 *)p)->f8+i*24; } return 0; }
+void *func_021C4604(u8 *p) { u32 i; for(i=0;i<((struct Obj10467 *)p)->fC;i++) { if(WF2DMAP_MAP_IsEmpty(*(char * *)&((struct Obj10467 *)p)->f8+i*24)==1) return *(char * *)&((struct Obj10467 *)p)->f8+i*24; } return 0; }
 
 
 

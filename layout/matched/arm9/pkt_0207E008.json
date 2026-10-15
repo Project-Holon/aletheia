@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207E008",
+   "name": "G2_GetBG2ScrPtr",
    "address": "0x0207E008",
    "kind": "sdk",
    "region": "arm9",

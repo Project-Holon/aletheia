@@ -1,5 +1,5 @@
 /*
- * function: func_0205F9D8
+ * function: WriteNVRAM
  * address:  0x0205F9D8
  * packet:   pkt_0205F9D8
  * region:   arm9
@@ -13,7 +13,7 @@
  *           NCFG_WriteBackupMemory's PC24 relocation names this address WriteNVRAM
  *
  * symbols:
- *   func_02083DC8 0x02083DC8 arm
+ *   NVRAMi_Write 0x02083DC8 arm
  *   OS_IsTickAvailable  0x02087058 arm
  *   OS_IsAlarmAvailable 0x02087244 arm
  *   OS_Sleep            0x02085A38 arm
@@ -28,18 +28,18 @@ typedef enum NVRAMResult {
     NVRAM_RESULT_BUSY = 1
 } NVRAMResult;
 
-extern NVRAMResult func_02083DC8(u32 address, u32 size, void *pData);
+extern NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData);
 extern BOOL OS_IsTickAvailable(void);
 extern BOOL OS_IsAlarmAvailable(void);
 extern void OS_Sleep(u32 msec);
 
-NVRAMResult func_0205F9D8(u32 address, u32 size, void *pData)
+NVRAMResult WriteNVRAM(u32 address, u32 size, void *pData)
 {
     NVRAMResult nvramResult;
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        nvramResult = func_02083DC8(address, size, pData);
+        nvramResult = NVRAMi_Write(address, size, pData);
         if (nvramResult != NVRAM_RESULT_BUSY)
             break;
         if (OS_IsTickAvailable() && OS_IsAlarmAvailable())

@@ -10,14 +10,17 @@
  * status:   EXACT
  *
  *
- * Thunk: func_0205A17C(10, a, b) through the literal pool.
+ * Thunk: DWC_AllocEx(10, a, b) through the literal pool.
+ *
+ * symbols:
+ *   DWC_AllocEx  0x0205A17C  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_0205A17C(int name, unsigned long size, int align);
+extern void *DWC_AllocEx(int name, unsigned long size, int align);
 
 void *DWCi_NdAlloc(int a, int b)
 {
-    return func_0205A17C(0xa, a, b);
+    return DWC_AllocEx(0xa, a, b);
 }

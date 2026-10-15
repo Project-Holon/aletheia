@@ -8,8 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   resetBankForX_  0x020808BC  arm
  */
 
 typedef unsigned short u16;
-extern int func_020808BC(u16 *g3bit);
-int func_02080964(void){ return func_020808BC((void *)0x02150E54); }
+extern int resetBankForX_(u16 *g3bit);
+int func_02080964(void){ return resetBankForX_((void *)0x02150E54); }

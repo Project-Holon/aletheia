@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201EC64
+ * function: GF_FONT_Create_EC64
  *
  * The first function of wordset.c.  The file identity is in the image: the
  * constructor at 0x0201EC74, immediately after this, passes 0x020A7364 to the
@@ -30,15 +30,18 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201EC64.c \
  *       --addr 0x0201EC64 --thumb
+ *
+ * symbols:
+ *   WORDSET_Create  0x0201EC74  arm
  */
 
 typedef unsigned int u32;
 
 struct WordSet;
 
-extern struct WordSet *func_0201EC74(u32 count, u32 size, u32 heap);
+extern struct WordSet *WORDSET_Create(u32 count, u32 size, u32 heap);
 
-struct WordSet *func_0201EC64(u32 heap)
+struct WordSet *GF_FONT_Create_EC64(u32 heap)
 {
-    return func_0201EC74(8, 0x20, heap);
+    return WORDSET_Create(8, 0x20, heap);
 }

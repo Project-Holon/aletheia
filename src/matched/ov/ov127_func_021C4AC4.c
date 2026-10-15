@@ -1,5 +1,5 @@
 /*
- * function: func_021C4AC4
+ * function: WF2DMAP_OBJ_GetPos
  * address: 0x021C4AC4
  * packet: pkt_ov127_021C4AC4
  * region: ov127
@@ -11,4 +11,4 @@
  */
 typedef unsigned short u16;
 struct pair { u16 a,b; };
-struct pair func_021C4AC4(char *p) { return *(struct pair *)(p+4); }
+struct pair WF2DMAP_OBJ_GetPos(char *p) { return *(struct pair *)(p+4); }

@@ -12,7 +12,7 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 struct Big;
 struct Ctx;
 struct Sub020073D8Ctrl;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -56,7 +56,7 @@ extern char d_021DE674[];
 
 int TRIAL_HOUSE_SaveTaskMain(u32 a, u32 *b, u32 *c)
 {
-    u32 s4 = (u32)func_020120F4((const struct Ctx *)c[0]);
+    u32 s4 = (u32)ICA_ANIME_GetField1C((const struct Ctx *)c[0]);
     u32 r6 = (u32)GAME_DATA_GetSaveControl((struct Big *)s4);
     u32 x;
 

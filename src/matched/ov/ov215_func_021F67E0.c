@@ -1,5 +1,5 @@
 /*
- * function: func_021F67E0
+ * function: EGG_DEMO_VIEW_Update
  * address: 0x021F67E0
  * packet: pkt_ov215_021F67E0
  * region: ov215
@@ -13,64 +13,64 @@
  * TU: singleton --suggest-split concrete-correct MATCH; five overlay leaves
  *   subsequently filed at 6CC0,6EEC and unit 70F8 (7100,7110).
  * symbols:
- *   func_021F6CCC 0x021F6CCC thumb ov215
- *   func_021F6EEC 0x021F6EEC thumb ov215
+ *   EGG_DEMO_VIEW_PlayAnim 0x021F6CCC thumb ov215
+ *   EGG_DEMO_VIEW_StartParticles 0x021F6EEC thumb ov215
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
- *   func_021F6D58 0x021F6D58 thumb ov215
- *   func_021F70F8 0x021F70F8 thumb ov215
- *   func_021F6D7C 0x021F6D7C thumb ov215
- *   func_021F7100 0x021F7100 thumb ov215
- *   func_021F6CC0 0x021F6CC0 thumb ov215
- *   func_021F6D90 0x021F6D90 thumb ov215
- *   func_021F7110 0x021F7110 thumb ov215
+ *   EGG_DEMO_VIEW_StartFadeOut 0x021F6D58 thumb ov215
+ *   EGG_DEMO_VIEW_StartModelAnim 0x021F70F8 thumb ov215
+ *   EGG_DEMO_VIEW_IsFadeOutDone 0x021F6D7C thumb ov215
+ *   EGG_DEMO_VIEW_IsModelAnimDone 0x021F7100 thumb ov215
+ *   EGG_DEMO_VIEW_HidePokeMcss 0x021F6CC0 thumb ov215
+ *   EGG_DEMO_VIEW_StartFadeIn 0x021F6D90 thumb ov215
+ *   EGG_DEMO_VIEW_EndModelAnim 0x021F7110 thumb ov215
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   PM_VOICE_Play 0x02006984 thumb
  *   PM_VOICE_IsAnyActive 0x02006650 thumb
- *   func_021F6D1C 0x021F6D1C thumb ov215
+ *   EGG_DEMO_VIEW_UpdateAlpha 0x021F6D1C thumb ov215
  *   MCSS_Main 0x02014C08 thumb
- *   func_021F6E5C 0x021F6E5C thumb ov215
- *   func_021F7048 0x021F7048 thumb ov215
+ *   EGG_DEMO_VIEW_UpdateParticles 0x021F6E5C thumb ov215
+ *   EGG_DEMO_VIEW_UpdateModel 0x021F7048 thumb ov215
  */
 #include "../include/Obj01083.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_021F6CCC(char *,unsigned,int);
-extern void func_021F6EEC(char *);
+extern void EGG_DEMO_VIEW_PlayAnim(char *,unsigned,int);
+extern void EGG_DEMO_VIEW_StartParticles(char *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int GFL_USE_IsAnySeBusy(void);
 extern int GFL_USE_IsSeSlotBusy(u32);
 extern int GFL_USE_GetSeSlot(u32);
 extern void GFL_USE_PlaySeInSlot(void *,int);
 extern void GFL_USE_StopSeSlot(int);
-extern void func_021F6D58(char *);
-extern void func_021F70F8(char *);
-extern int func_021F6D7C(char *);
-extern int func_021F7100(char *);
-extern void func_021F6CC0(char *);
-extern void func_021F6D90(char *);
-extern void func_021F7110(char *);
+extern void EGG_DEMO_VIEW_StartFadeOut(char *);
+extern void EGG_DEMO_VIEW_StartModelAnim(char *);
+extern int EGG_DEMO_VIEW_IsFadeOutDone(char *);
+extern int EGG_DEMO_VIEW_IsModelAnimDone(char *);
+extern void EGG_DEMO_VIEW_HidePokeMcss(char *);
+extern void EGG_DEMO_VIEW_StartFadeIn(char *);
+extern void EGG_DEMO_VIEW_EndModelAnim(char *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int PM_VOICE_IsAnyActive(void);
-extern void func_021F6D1C(char *);
+extern void EGG_DEMO_VIEW_UpdateAlpha(char *);
 extern void MCSS_Main(char *);
-extern void func_021F6E5C(char *);
-extern void func_021F7048(char *);
+extern void EGG_DEMO_VIEW_UpdateParticles(char *);
+extern void EGG_DEMO_VIEW_UpdateModel(char *);
 #define W(o) (*(u32 *)(p+(o)))
-void func_021F67E0(char *p)
+void EGG_DEMO_VIEW_Update(char *p)
 {
     u32 limit,a,b;
     switch(W(12)) {
     case 0:
         if(W(16)) {
             W(12)=1;W(24)=0;
-            func_021F6CCC(p,1,1);
-            func_021F6EEC(*(char * *)&((struct Obj01083 *)p)->f44);
+            EGG_DEMO_VIEW_PlayAnim(p,1,1);
+            EGG_DEMO_VIEW_StartParticles(*(char * *)&((struct Obj01083 *)p)->f44);
         }
         break;
     case 1:
@@ -109,14 +109,14 @@ void func_021F67E0(char *p)
             }
         }
         if(W(24)==limit) {
-            func_021F6D58(p);func_021F70F8(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
+            EGG_DEMO_VIEW_StartFadeOut(p);EGG_DEMO_VIEW_StartModelAnim(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
         }
         break;
-    case 2:if(func_021F6D7C(p))W(12)=3;break;
-    case 3:if(func_021F7100(p)){func_021F6CC0(p);W(20)=1;W(12)=4;}break;
+    case 2:if(EGG_DEMO_VIEW_IsFadeOutDone(p))W(12)=3;break;
+    case 3:if(EGG_DEMO_VIEW_IsModelAnimDone(p)){EGG_DEMO_VIEW_HidePokeMcss(p);W(20)=1;W(12)=4;}break;
     case 4:W(20)=0;break;
     case 6:
-        if(++W(24)>=120){func_021F6D90(p);func_021F7110(p);W(12)=7;W(24)=0;}
+        if(++W(24)>=120){EGG_DEMO_VIEW_StartFadeIn(p);EGG_DEMO_VIEW_EndModelAnim(p);W(12)=7;W(24)=0;}
         break;
     case 7:
         if(++W(24)>=65) {
@@ -129,8 +129,8 @@ void func_021F67E0(char *p)
     case 8:if(!PM_VOICE_IsAnyActive())W(12)=9;break;
     case 9:break;
     }
-    func_021F6D1C(p);
+    EGG_DEMO_VIEW_UpdateAlpha(p);
     MCSS_Main(*(char * *)&((struct Obj01083 *)p)->f30);
-    func_021F6E5C(*(char * *)&((struct Obj01083 *)p)->f44);
-    func_021F7048(p);
+    EGG_DEMO_VIEW_UpdateParticles(*(char * *)&((struct Obj01083 *)p)->f44);
+    EGG_DEMO_VIEW_UpdateModel(p);
 }

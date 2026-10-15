@@ -19,16 +19,16 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0207D704  0x0207D704  arm
- *   func_0207DA8C  0x0207DA8C  arm
- *   func_0207D7C4  0x0207D7C4  arm
+ *   G3i_PerspectiveW_  0x0207D704  arm
+ *   G3X_Reset  0x0207DA8C  arm
+ *   G3i_LookAt_  0x0207D7C4  arm
  *   d_020A1EB8     0x020A1EB8  data  a4
  *   d_021F55F8     0x021F55F8  data  ov075  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   func_0204047C  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
- *   func_02080C44  0x02080C44  arm
+ *   GX_GetBankForTex  0x02080C44  arm
  *   func_02080B98  0x02080B98  arm
  *   func_02080294  0x02080294  arm
  *   func_02040588  0x02040588  arm
@@ -57,15 +57,15 @@ typedef enum { BANK_NONE, BANK_A = 1, BANK_B = 2, BANK_C = 4 } Bank;
 extern struct GameEvent *func_020122C0(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
-extern void func_0207D704(int a, int b, int c, int d, int e, int f, int g, int h);
-extern void func_0207DA8C(void);
-extern void func_0207D7C4(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
+extern void G3i_PerspectiveW_(int a, int b, int c, int d, int e, int f, int g, int h);
+extern void G3X_Reset(void);
+extern void G3i_LookAt_(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern void func_0204047C(int idx, u16 val);
 extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
-extern u16 func_02080C44(void);
+extern u16 GX_GetBankForTex(void);
 extern void func_02080B98(void);
 extern void func_02080294(u32 bank);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -129,7 +129,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
 
 static inline void G3_Perspective(int fovySin, int fovyCos, int aspect, int near, int far, void *mtx)
 {
-    func_0207D704(fovySin, fovyCos, aspect, near, far, 0x1000, 1, (int)mtx);
+    G3i_PerspectiveW_(fovySin, fovyCos, aspect, near, far, 0x1000, 1, (int)mtx);
 }
 
 
@@ -140,14 +140,14 @@ void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work)
     VecFx32 up;
 
     G3_Perspective(d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0x1000, 0x400000, 0);
-    func_0207DA8C();
+    G3X_Reset();
     up = d_021F55F8;
     {
         VecFx32 target = {0, 0, 0};
         VecFx32 eye;
 
         eye = work->cameraPos;
-        func_0207D7C4(&eye, &up, &target, 1, 0);
+        G3i_LookAt_(&eye, &up, &target, 1, 0);
     }
     REG_G3_TEXIMAGE_PARAM = ((u16)work->texParam & 0x1FFFFFFF) | 0x5ED00000;
     work->draw(work->effectWork);
@@ -168,7 +168,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
     struct GameEvent *child;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, 0);
@@ -199,7 +199,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
             func_0204047C(0, 0);
             func_0204047C(2, 3);
             work->savedDrawMode = FIELDMAP_GetDrawMode(fieldMap);
-            texBanks = func_02080C44();
+            texBanks = GX_GetBankForTex();
             work->texBanks = texBanks;
             work->addedTexBank = 0;
             if ((texBanks & 8) == 0) {
@@ -257,7 +257,7 @@ u32 ENCEFF_GetScreenTexParam(void)
     Bank banks;
     u32 count;
 
-    banks = func_02080C44();
+    banks = GX_GetBankForTex();
     count = 0;
     banks |= 4; if (banks) count += 0x20000;
     banks |= 2; if (banks) count += 0x20000;
@@ -285,7 +285,7 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
             func_0204047C(0, 0);
             func_0204047C(2, 3);
             work->savedDrawMode = FIELDMAP_GetDrawMode(fieldMap);
-            texBanks = func_02080C44();
+            texBanks = GX_GetBankForTex();
             work->texBanks = texBanks;
             work->addedTexBank = 0;
             if ((texBanks & 8) == 0) {

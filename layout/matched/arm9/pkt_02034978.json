@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034E24",
+   "name": "UI_Create",
    "address": "0x02034E24",
    "kind": "game",
    "region": "arm9",
@@ -108,7 +108,7 @@
    }
   },
   {
-   "name": "sub_02034EF8",
+   "name": "UI_Main",
    "address": "0x02034EF8",
    "kind": "game",
    "region": "arm9",

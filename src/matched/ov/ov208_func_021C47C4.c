@@ -11,11 +11,11 @@
  *
  * symbols:
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02045EC0  0x02045EC0  arm
  */
 #include "../include/Obj06686.h"
@@ -28,11 +28,11 @@ extern u16  ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
@@ -51,12 +51,12 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, u8 *p, int key, u32 *outStr
     k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     switch (*(u32 *)(p + 0x148 + idx * 16)) {
     case 0:
-        ws = (u32)func_0201EC64(*heap);
+        ws = (u32)GF_FONT_Create_EC64(*heap);
         src = ((struct Obj06686 *)p)->f5A4;
         str = (u32)STRBUF_Create(0x40, *heap);
-        func_0201EE60((struct WordSet *)ws, 0, k);
+        WORDSET_Callback((struct WordSet *)ws, 0, k);
         func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
-        func_0201ED04((struct WordSet *)ws);
+        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
         c = 1;
         break;
     case 1:

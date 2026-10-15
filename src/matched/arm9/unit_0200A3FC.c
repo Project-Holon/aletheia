@@ -13,9 +13,9 @@
  * status:   EXACT
  * function: MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags,
  *           MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer,
- *           MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
+ *           MYSTERY_DATA_DecryptBuffer, MUSICAL_SAVE_GetSize, MUSICAL_SAVE_Init, MUSICAL_SAVE_GetFromSave,
+ *           MUSICAL_SAVE_InitOutfits, MUSICAL_SAVE_GetOutfits, MUSICAL_SAVE_IsShowActive, MUSICAL_SAVE_NoOp,
+ *           MUSICAL_SAVE_IsPropOwned, MUSICAL_SAVE_IsPropNew, MUSICAL_SAVE_AddProp
  *
  * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
  * carry no label in the generated listing (0x0200A53C, 0x0200A628,
@@ -149,8 +149,8 @@ struct Big {
 void *MYSTERY_DATA_GetBuffer(struct Obj *obj);
 void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
 void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
-void func_0200A604(struct Big *p);
-void func_0200A6BC(struct Big *p, u32 index);
+void MUSICAL_SAVE_InitOutfits(struct Big *p);
+void MUSICAL_SAVE_AddProp(struct Big *p, u32 index);
 
 u32 MYSTERY_DATA_GetSaveType(struct Obj *obj)
 {
@@ -251,45 +251,45 @@ void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind)
     h->unk02 = 0;
 }
 
-u32 func_0200A53C(void)
+u32 MUSICAL_SAVE_GetSize(void)
 {
     return sizeof(struct Big);
 }
 
-void func_0200A544(struct Big *p)
+void MUSICAL_SAVE_Init(struct Big *p)
 {
     u8 i;
 
     MI_CpuFill8(p, 0, sizeof(struct Big));
-    func_0200A604(p);
+    MUSICAL_SAVE_InitOutfits(p);
     for (i = 0; i < 10; i++) {
         p->unk1E0[i].unk0 = 4;
     }
     p->unk29D = 0;
     p->unk29E = 0;
-    func_0200A6BC(p, 0x30);
-    func_0200A6BC(p, 0x46);
-    func_0200A6BC(p, 0x53);
-    func_0200A6BC(p, 0x4B);
-    func_0200A6BC(p, 0x00);
-    func_0200A6BC(p, 0x01);
-    func_0200A6BC(p, 0x0A);
-    func_0200A6BC(p, 0x1C);
-    func_0200A6BC(p, 0x08);
-    func_0200A6BC(p, 0x3B);
-    func_0200A6BC(p, 0x3F);
-    func_0200A6BC(p, 0x42);
-    func_0200A6BC(p, 0x10);
-    func_0200A6BC(p, 0x59);
-    func_0200A6BC(p, 0x4C);
+    MUSICAL_SAVE_AddProp(p, 0x30);
+    MUSICAL_SAVE_AddProp(p, 0x46);
+    MUSICAL_SAVE_AddProp(p, 0x53);
+    MUSICAL_SAVE_AddProp(p, 0x4B);
+    MUSICAL_SAVE_AddProp(p, 0x00);
+    MUSICAL_SAVE_AddProp(p, 0x01);
+    MUSICAL_SAVE_AddProp(p, 0x0A);
+    MUSICAL_SAVE_AddProp(p, 0x1C);
+    MUSICAL_SAVE_AddProp(p, 0x08);
+    MUSICAL_SAVE_AddProp(p, 0x3B);
+    MUSICAL_SAVE_AddProp(p, 0x3F);
+    MUSICAL_SAVE_AddProp(p, 0x42);
+    MUSICAL_SAVE_AddProp(p, 0x10);
+    MUSICAL_SAVE_AddProp(p, 0x59);
+    MUSICAL_SAVE_AddProp(p, 0x4C);
 }
 
-void *func_0200A5F8(void *sys)
+void *MUSICAL_SAVE_GetFromSave(void *sys)
 {
     return func_020071CC(sys, 0x2A);
 }
 
-void func_0200A604(struct Big *p)
+void MUSICAL_SAVE_InitOutfits(struct Big *p)
 {
     u8 i;
 
@@ -298,7 +298,7 @@ void func_0200A604(struct Big *p)
     }
 }
 
-u8 *func_0200A628(struct Big *p)
+u8 *MUSICAL_SAVE_GetOutfits(struct Big *p)
 {
     return (u8 *)p->unk1B0;
 }
@@ -309,16 +309,16 @@ struct Bits {
     u32 unk00_21 : 11;
 };
 
-u32 func_0200A630(struct Bits *p)
+u32 MUSICAL_SAVE_IsShowActive(struct Bits *p)
 {
     return p->unk00_16 != 0;
 }
 
-void func_0200A640(void)
+void MUSICAL_SAVE_NoOp(void)
 {
 }
 
-u32 func_0200A644(struct Big *p, u8 index)
+u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index)
 {
     if (index < 100) {
         u8 shift = (s32)index % 8;
@@ -330,7 +330,7 @@ u32 func_0200A644(struct Big *p, u8 index)
     return 0;
 }
 
-u32 func_0200A680(struct Big *p, u8 index)
+u32 MUSICAL_SAVE_IsPropNew(struct Big *p, u8 index)
 {
     if (index < 100) {
         u8 shift = (s32)index % 8;
@@ -342,7 +342,7 @@ u32 func_0200A680(struct Big *p, u8 index)
     return 0;
 }
 
-void func_0200A6BC(struct Big *p, u32 index)
+void MUSICAL_SAVE_AddProp(struct Big *p, u32 index)
 {
     u8 shift, byte;
 

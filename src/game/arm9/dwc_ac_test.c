@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_test.c
  * unit:     yes
- * function: func_0205F07C, func_0205F154, func_0205F1B8, func_0205F298, func_0205F2C4, func_0205F35C, func_0205F384, func_0205F3B0, func_0205F504, func_0205F558, func_0205F5AC
+ * function: DWCi_AC_ConnectTest, ConnectTestStart, GetIPAddress, ConnectTestCreate, ConnectTestProcess, ConnectTestEnd, ConnectTestRetry, MakeSOCConfig, ConvAddress, ConvNetMask, CheckSetDNS
  * address:  0x0205F07C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -244,10 +244,10 @@ typedef struct SOCInAddr {
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern unsigned char DWCi_AC_GetPhase(void);
 extern long WCM_GetPhase(void);
-extern unsigned char ConnectTestStart(tagACWORK_0205F07C *wk);
-extern unsigned char GetIPAddress(tagACWORK_0205F07C *wk);
+extern unsigned char ConnectTestStart(tagACWORK *wk);
+extern unsigned char GetIPAddress(tagACWORK_0205F1B8 *wk);
 extern unsigned char ConnectTestCreate(void);
-extern unsigned char ConnectTestProcess(tagACWORK_0205F07C *wk);
+extern unsigned char ConnectTestProcess(tagACWORK_0205F2C4 *wk);
 extern unsigned char ConnectTestEnd(tagACWORK_0205F07C *wk);
 extern unsigned char ConnectTestRetry(void);
 extern void DWC_Netcheck_Abort(void);
@@ -258,28 +258,20 @@ extern void DWCi_AC_SetError(int error);
 extern unsigned char DWCi_ConvConnectAPType(unsigned char type);
 extern int OS_IsRunOnTwl(void);
 extern long SOC_GetHostID(void);
-extern void CheckSetDNS(tagACWORK_0205F1B8 *wk);
+extern void CheckSetDNS(tagACWORK *wk);
 extern unsigned long long OS_GetTick(void);
-extern void *func_0205C214(unsigned long name);
 extern int DWC_Netcheck_Create(DWCNetcheckParam *param);
-extern void func_0205C2E4(int error);
 extern int DWC_Netcheck_GetError(void);
 extern int DWC_Netcheck_GetReturnCode(void);
-extern void func_0205C31C(unsigned char type);
-extern void func_0205C3B0(unsigned char type);
+extern void DWCi_AC_SetApType(unsigned char type);
+extern void DWCi_AC_CopyExSetting(unsigned char type);
 extern int SOCL_CalmDown(void);
 extern int SOC_Cleanup(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern unsigned long ConvAddress(unsigned char *add);
 extern unsigned long ConvNetMask(unsigned char netmask);
 extern int SOC_SetResolver(SOCInAddr *dns1, SOCInAddr *dns2);
-unsigned char func_0205F07C(void);
-unsigned char func_0205F154(tagACWORK *wk);
-unsigned char func_0205F1B8(tagACWORK_0205F1B8 *wk);
-unsigned char func_0205F2C4(tagACWORK_0205F2C4 *wk);
-void func_0205F3B0(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc);
-unsigned long func_0205F504(unsigned char *add);
-void func_0205F5AC(tagACWORK *wk);
+unsigned char DWCi_AC_ConnectTest(void);
 extern int SOCLiYieldWait;
 extern int CPSNoIpReason;
 extern SOCConfig g_020A16A0;
@@ -292,7 +284,7 @@ extern SOCConfig g_020A16A0;
 /*
  * sdk:      DWCi_AC_ConnectTest (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char func_0205F07C(void)
+unsigned char DWCi_AC_ConnectTest(void)
 {
     unsigned char phase;
     tagACWORK_0205F07C *wk;
@@ -302,16 +294,16 @@ unsigned char func_0205F07C(void)
     if (WCM_GetPhase() == 9) {
         switch (phase) {
         case 10:
-            phase = ConnectTestStart(wk);
+            phase = ConnectTestStart((tagACWORK *)wk);
             break;
         case 12:
-            phase = GetIPAddress(wk);
+            phase = GetIPAddress((tagACWORK_0205F1B8 *)wk);
             break;
         case 13:
             phase = ConnectTestCreate();
             break;
         case 14:
-            phase = ConnectTestProcess(wk);
+            phase = ConnectTestProcess((tagACWORK_0205F2C4 *)wk);
             break;
         case 15:
             phase = ConnectTestEnd(wk);
@@ -348,7 +340,7 @@ unsigned char func_0205F07C(void)
 /*
  * sdk:      ConnectTestStart (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char func_0205F154(tagACWORK *wk)
+unsigned char ConnectTestStart(tagACWORK *wk)
 {
     tagACHOLD *hd;
     struct SOCConfig *sc;
@@ -372,13 +364,13 @@ unsigned char func_0205F154(tagACWORK *wk)
 /*
  * sdk:      GetIPAddress (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char func_0205F1B8(tagACWORK_0205F1B8 *wk)
+unsigned char GetIPAddress(tagACWORK_0205F1B8 *wk)
 {
     unsigned char ap_type;
     unsigned long long t;
 
     if (SOC_GetHostID() != 0) {
-        CheckSetDNS(wk);
+        CheckSetDNS((tagACWORK *)wk);
         if (wk->skipNetCheck == 1) {
             return 0xf;
         }
@@ -405,14 +397,14 @@ unsigned char func_0205F1B8(tagACWORK_0205F1B8 *wk)
 /*
  * sdk:      ConnectTestCreate (test.o)
  */
-static unsigned char func_0205F298(void)
+static unsigned char ConnectTestCreate(void)
 {
-    DWCNetcheckParam *nc = (DWCNetcheckParam *)func_0205C214(8);
+    DWCNetcheckParam *nc = (DWCNetcheckParam *)DWCi_AC_GetMemPtr(8);
 
     if (DWC_Netcheck_Create(nc) == 0) {
         return 0xE;
     }
-    func_0205C2E4(3);
+    DWCi_AC_SetError(3);
     return 0x11;
 }
 
@@ -424,7 +416,7 @@ static unsigned char func_0205F298(void)
 /*
  * sdk:      ConnectTestProcess (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char func_0205F2C4(tagACWORK_0205F2C4 *wk)
+unsigned char ConnectTestProcess(tagACWORK_0205F2C4 *wk)
 {
     tagACHOLD *hd;
     int result;
@@ -457,10 +449,10 @@ unsigned char func_0205F2C4(tagACWORK_0205F2C4 *wk)
 /*
  * sdk:      ConnectTestEnd (test.o)
  */
-static unsigned char func_0205F35C(tagACWORK *wk)
+static unsigned char ConnectTestEnd(tagACWORK_0205F07C *wk)
 {
-    func_0205C31C(wk->connectApType);
-    func_0205C3B0(wk->connectApType);
+    DWCi_AC_SetApType(wk->connectApType);
+    DWCi_AC_CopyExSetting(wk->connectApType);
     return 0x10;
 }
 
@@ -470,7 +462,7 @@ static unsigned char func_0205F35C(tagACWORK *wk)
 /*
  * sdk:      ConnectTestRetry (test.o)
  */
-static unsigned char func_0205F384(void)
+static unsigned char ConnectTestRetry(void)
 {
     int result;
 
@@ -490,7 +482,7 @@ static unsigned char func_0205F384(void)
 /*
  * sdk:      MakeSOCConfig (libdwcac.TWL.HYB.a(test.o))
  */
-void func_0205F3B0(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc)
+void MakeSOCConfig(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc)
 {
     NCFGApInfo *info;
     unsigned char type;
@@ -550,7 +542,7 @@ void func_0205F3B0(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc)
 /*
  * sdk:      ConvAddress (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned long func_0205F504(unsigned char *add)
+unsigned long ConvAddress(unsigned char *add)
 {
     unsigned long address;
 
@@ -570,7 +562,7 @@ unsigned long func_0205F504(unsigned char *add)
 /*
  * sdk:      ConvNetMask (test.o)
  */
-static unsigned long func_0205F558(unsigned char netmask)
+static unsigned long ConvNetMask(unsigned char netmask)
 {
     int i;
     int n;
@@ -589,7 +581,7 @@ static unsigned long func_0205F558(unsigned char netmask)
 /*
  * sdk:      CheckSetDNS (libdwcac.TWL.HYB.a(test.o))
  */
-void func_0205F5AC(tagACWORK *wk)
+void CheckSetDNS(tagACWORK *wk)
 {
     NCFGApInfo *info;
     int dns;

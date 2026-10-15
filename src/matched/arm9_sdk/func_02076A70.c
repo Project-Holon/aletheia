@@ -1,5 +1,5 @@
 /*
- * function: func_02076A70
+ * function: CARDi_BeginBackupCommand
  * address:  0x02076A70
  * packet:   pkt_02076A70
  * region:   arm9
@@ -75,7 +75,7 @@ extern u32 CARDi_GetAccessLevel(void);
 extern void OS_Terminate(void);
 extern BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
 
-void func_02076A70(u32 level, void (*callback)(void *), void *arg)
+void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *arg)
 {
     OSi_ReferSymbol(cardi_backup_assert);
     CARD_CheckEnabled();

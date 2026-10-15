@@ -40,7 +40,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   MAIL_SetSlot   0x0200903C  thumb
@@ -52,24 +52,24 @@
  *   func_02025C30  0x02025C30  thumb
  *   func_02008574  0x02008574  thumb
  *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
- *   sub_02009DE8   0x02009DE8  thumb
+ *   TRADE_HISTORY_AddPartner   0x02009DE8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009470  0x02009470  thumb
- *   sub_0200949C   0x0200949C  thumb
- *   sub_020094D8   0x020094D8  thumb
+ *   WIFI_HISTORY_GetCountryRegionState   0x0200949C  thumb
+ *   WIFI_HISTORY_SetCountryRegionState   0x020094D8  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   func_0202F190  0x0202F190  thumb
  *   sub_02008DF0   0x02008DF0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
- *   sub_02009EB0   0x02009EB0  thumb
+ *   TRADE_HISTORY_IncrementTradeCount   0x02009EB0  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   POKEPARTY_SetMember   0x0201AB48  thumb
  *   POKE_TOOL_GetBoxParam   0x020185F4  thumb
  *   func_020075B0  0x020075B0  thumb
  *   sub_0201283C   0x0201283C  thumb
- *   sub_02009BB8   0x02009BB8  thumb
- *   sub_02009D1C   0x02009D1C  thumb
+ *   WIFILIST_AddFriendBattleRecord   0x02009BB8  thumb
+ *   WIFILIST_FindFriendByStatus   0x02009D1C  thumb
  *   d_021E8108     0x021E8108  data  ov119
  *   d_021E811C     0x021E811C  data  ov119
  *   d_021E8130     0x021E8130  data  ov119
@@ -120,7 +120,7 @@ extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box)
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 extern int MAIL_FindEmptySlot(void *obj, int v);
 extern void *MAIL_Create(int a0);
 extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
@@ -132,24 +132,24 @@ extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
-extern void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
+extern void TRADE_HISTORY_AddPartner(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u32 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col);
-extern void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
+extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
+extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
 extern void POKE_TOOL_HealFull(void *mon);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
-extern void sub_02009EB0(struct Sub02009D9CObj *obj);
+extern void TRADE_HISTORY_IncrementTradeCount(struct Sub02009D9CObj *obj);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern u32 sub_0201283C(const struct BigObj *p);
-extern void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
-extern int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
+extern void WIFILIST_AddFriendBattleRecord(struct Sub020097BCObj *obj, int i, int a, int b, int c);
+extern int WIFILIST_FindFriendByStatus(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
 extern const char d_021E8108[];
 extern const char d_021E811C[];
 extern const char d_021E8130[];
@@ -223,7 +223,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
         Trade *t = T(p);
         if (t->box != BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
             mon = POKEPARTY_GetMember(t->party, 0);
-            if (func_0202136C(POKE_TOOL_GetPartyValue(mon, 6, 0))) {
+            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(mon, 6, 0))) {
                 void *o = MAIL_GetBox(I(p, 0x82C));
                 int idx = MAIL_FindEmptySlot(o, 0);
                 if (idx != -1) {
@@ -248,7 +248,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
             func_02008574(I(p, 0x834), 0, 0);
     }
 
-    sub_02009DE8(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)), I(p, 0x834));
+    TRADE_HISTORY_AddPartner(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)), I(p, 0x834));
     obj = func_02009470(GAME_DATA_GetSaveControl(I(p, 0x82C)));
     list[0] = I(p, 0x830);
     list[1] = I(p, 0x834);
@@ -258,8 +258,8 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
             u8 row = func_0200856C(q);
             u8 col = func_02008570(q);
             func_02008564(q);
-            if (!sub_0200949C(obj, row, col))
-                sub_020094D8(obj, row, col, 1);
+            if (!WIFI_HISTORY_GetCountryRegionState(obj, row, col))
+                WIFI_HISTORY_SetCountryRegionState(obj, row, col, 1);
         }
     }
 
@@ -284,7 +284,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     }
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);
     if (W(p, 0x118C) == 3)
-        sub_02009EB0(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)));
+        TRADE_HISTORY_IncrementTradeCount(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)));
     if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x1EC && POKE_TOOL_GetPartyValue(mon, 0x6F, 0) == 1) {
         POKE_TOOL_ChangeForm(mon, 0);
         ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);
@@ -300,12 +300,12 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     }
     switch (W(p, 0x118C)) {
     case 2:
-        sub_02009BB8((void *)sub_0201283C(I(p, 0x82C)), T(p)->count - 1, 0, 0, 1);
+        WIFILIST_AddFriendBattleRecord((void *)sub_0201283C(I(p, 0x82C)), T(p)->count - 1, 0, 0, 1);
         break;
     case 0:
     case 1:
-        if (sub_02009D1C((void *)sub_0201283C(I(p, 0x82C)), I(p, 0x834), (u32 *)(&out)))
-            sub_02009BB8((void *)sub_0201283C(I(p, 0x82C)), out, 0, 0, 1);
+        if (WIFILIST_FindFriendByStatus((void *)sub_0201283C(I(p, 0x82C)), I(p, 0x834), (u32 *)(&out)))
+            WIFILIST_AddFriendBattleRecord((void *)sub_0201283C(I(p, 0x82C)), out, 0, 0, 1);
         break;
     }
 }

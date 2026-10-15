@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040C14
+ * function: BG_SYS_Init
  * address:  0x02040C14
  * packet:   pkt_02040B94
  * region:   arm9
@@ -40,8 +40,8 @@
  * docs/idioms/a-four-term-or-chain-is-right-associated-in-arm.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040C14.c \
- *       --func func_02040C14 --addr 0x02040C14 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_Init.c \
+ *       --func BG_SYS_Init --addr 0x02040C14 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -75,7 +75,7 @@ extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
 extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 
-void func_02040C14(u32 layer, u32 value, u32 count, u32 index)
+void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
 {
     u32   size;
     void *buf;

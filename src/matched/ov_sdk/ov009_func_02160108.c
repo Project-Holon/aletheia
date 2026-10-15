@@ -13,15 +13,15 @@
  * +0x818 words.
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
 
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 
 void CPS_SetRootCa(int a, int b)
 {
-    char *p = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *p = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
     char *q;
 
     if (p != 0 && (q = *(char **)(p + 0xc)) != 0) {

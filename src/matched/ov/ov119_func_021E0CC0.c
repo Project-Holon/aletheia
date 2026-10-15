@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -37,7 +37,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 struct Bank;
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -61,7 +61,7 @@ extern void POKETRADE_PROC_StepResetForNewRound(char *p);
 void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
 {
     if(((struct Obj02828 *)p)->fF2C>=6 && WIPE_SYS_EndCheck()) {
-        if(((struct Obj02828 *)p)->f644) func_0203FB44((int)6,(u16)(((struct Obj02828 *)p)->f644),(u16)(((struct Obj02828 *)p)->f644>>16));
+        if(((struct Obj02828 *)p)->f644) BG_SYS_DeleteHalf((int)6,(u16)(((struct Obj02828 *)p)->f644),(u16)(((struct Obj02828 *)p)->f644>>16));
         *(int *)&((struct Obj02828 *)p)->f644=0;
         BG_SYS_SetMainVisiblePlanes((int)0);BG_SYS_SetSubVisiblePlanes((int)0);
         CLACT_DeleteUnit(((struct Obj02828 *)p)->f9C4);

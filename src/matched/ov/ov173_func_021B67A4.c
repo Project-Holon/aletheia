@@ -1,5 +1,5 @@
 /*
- * function: func_021B67A4
+ * function: POKE_SUMMARY_MAIN_CreateBmpWindows
  * address: 0x021B67A4
  * packet: pkt_ov173_021B67A4
  * region: ov173
@@ -32,7 +32,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern u32 func_02028590(int,int,int,int);
-void func_021B67A4(u8 *p)
+void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *p)
 {
     u32 i;
     u32 h;

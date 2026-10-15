@@ -1,5 +1,5 @@
 /*
- * function: func_020774B0
+ * function: CARD_IsPulledOut
  * address:  0x020774B0
  * packet:   pkt_020774B0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   s_data_02150B00  0x02150B00  data
+ *   CARDiSlotResetCount  0x02150B00  data
  */
 
 struct Data02150B00 {
@@ -18,9 +18,9 @@ struct Data02150B00 {
     void *unk04;
 };
 
-extern struct Data02150B00 s_data_02150B00;
+extern struct Data02150B00 CARDiSlotResetCount;
 
-void *func_020774B0(void)
+void *CARD_IsPulledOut(void)
 {
-    return s_data_02150B00.unk04;
+    return CARDiSlotResetCount.unk04;
 }

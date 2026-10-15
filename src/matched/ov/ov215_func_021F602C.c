@@ -1,5 +1,5 @@
 /*
- * function: func_021F602C, func_021F603C
+ * function: EGG_DEMO_MAIN_StopBgm, EGG_DEMO_MAIN_IsBgmStopped
  * address: 0x021F602C
  * packet: pkt_ov215_021F602C
  * region: ov215
@@ -17,13 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void GFL_USE_FadeOutBgm(u32 a);
-void func_021F602C(void *unused, char *p)
+void EGG_DEMO_MAIN_StopBgm(void *unused, char *p)
 {
     GFL_USE_FadeOutBgm(0x3c);
     ((struct Obj25745 *)p)->f18 = 7;
 }
 
-int func_021F603C(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgmStopped(void *unused, char *p)
 {
     if (((struct Obj25746 *)p)->f18 == 7) return 1;
     return 0;

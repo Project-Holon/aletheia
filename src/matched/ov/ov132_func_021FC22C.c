@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F9DD4 0x021F9DD4 thumb ov132
- *   func_021F9DDC 0x021F9DDC thumb ov132
+ *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
+ *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   func_021F6EE4 0x021F6EE4 thumb ov112
- *   func_021F9DE8 0x021F9DE8 thumb ov132
- *   func_021F95E8 0x021F95E8 thumb ov132
+ *   STA_ACTING_SetCharSlot 0x021F9DE8 thumb ov132
+ *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
  */
 #include "../include/Obj08169.h"
 #include "../include/Obj14120.h"
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 VM_GetU32(struct Cursor *);
-extern void *func_021F9DD4(void *);
-extern void *func_021F9DDC(void *,u8);
+extern void *STA_ACTING_GetCharSystem(void *);
+extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void func_021F6EE4(void *,u8 *);
-extern void func_021F9DE8(void *,void *,u8);
-extern void func_021F95E8(char *p);
-int func_021FC22C(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct Obj14120 *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct Obj14120 *)p)->f4); ctx=func_021F9DD4(((struct Obj08169 *)o)->f34); func_021F6EE4(ctx,func_021F9DDC(((struct Obj08169 *)o)->f34,a)); func_021F9DE8(((struct Obj08169 *)o)->f34,0,a); func_021F95E8(((struct Obj08169 *)o)->f34); return 0; }
+extern void STA_ACTING_SetCharSlot(void *,void *,u8);
+extern void STA_ACTING_MarkDirty(char *p);
+int func_021FC22C(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct Obj14120 *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct Obj14120 *)p)->f4); ctx=STA_ACTING_GetCharSystem(((struct Obj08169 *)o)->f34); func_021F6EE4(ctx,STA_ACTING_GetCharSlot(((struct Obj08169 *)o)->f34,a)); STA_ACTING_SetCharSlot(((struct Obj08169 *)o)->f34,0,a); STA_ACTING_MarkDirty(((struct Obj08169 *)o)->f34); return 0; }

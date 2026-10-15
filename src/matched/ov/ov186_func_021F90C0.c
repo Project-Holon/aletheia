@@ -15,7 +15,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_GRAPHIC_Create 0x021FC3BC thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C3E0 0x0200C3E0 thumb
+ *   BEACON_GetRecorderFlag 0x0200C3E0 thumb
  *   BR_RES_Create 0x021FB884 thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_PROC_SYS_Create 0x021F99CC thumb ov186
@@ -31,7 +31,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02012A30 0x02012A30 thumb
+ *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   func_02028A58 0x02028A58 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
@@ -76,7 +76,7 @@ extern void *GAME_DATA_GetMiscSave(int *);
 extern void *BR_RES_Create(unsigned,unsigned,unsigned);
 struct BigObj;
 struct Blk34;
-extern u8 func_0200C3E0(struct Blk34 *p);
+extern u8 BEACON_GetRecorderFlag(struct Blk34 *p);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern void *BR_PROC_SYS_Create(unsigned,void *,unsigned,unsigned,unsigned *,u16);
 extern int *BR_FADE_Create(unsigned);
@@ -88,7 +88,7 @@ extern void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap);
 extern char *BR_NET_Create(void *owner, void *arg, u32 heap);
 extern int func_02034AC4(int),GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void BR_SIDEBAR_ResetPositions(char *p);
@@ -110,7 +110,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     if(**(int * *)&((struct Obj24766 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC!=2) flag=zero;
     enabled=1;
     ((struct Obj00387 *)p)->f0=BR_GRAPHIC_Create(flag,1,0x5a);
-    mode=func_0200C3E0(GAME_DATA_GetMiscSave(*(int * *)&((struct Obj24769 *)(*(char * *)&((struct Obj24768 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4));
+    mode=BEACON_GetRecorderFlag(GAME_DATA_GetMiscSave(*(int * *)&((struct Obj24769 *)(*(char * *)&((struct Obj24768 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4));
     if(**(int * *)&((struct Obj24770 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) enabled=0;
     ((struct Obj00387 *)p)->f4=BR_RES_Create(mode,enabled,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj00387 *)p)->f4),0,0x5a);
@@ -127,7 +127,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     } else func_02034AC4((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
     if(!**(int * *)&((struct Obj24783 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
-        if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)func_02012A30(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
+        if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)GAME_DATA_GetBgmInfo(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct Obj24788 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4==1) {
         BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct Obj00387 *)p)->f10));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct Obj00387 *)p)->f10));

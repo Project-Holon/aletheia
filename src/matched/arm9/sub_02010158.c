@@ -1,5 +1,5 @@
 /*
- * function: sub_02010158
+ * function: GFL_NET_ERR_GetMessageId
  * address:  0x02010158
  * packet:   pkt_02010068
  * region:   arm9
@@ -34,7 +34,7 @@ extern u8  gNetErrWork[];
 extern const u16 sNetErrMessageIdsDS[];
 extern const u16 sNetErrMessageIdsTwl[];
 
-u32 sub_02010158(u8 *obj, u32 a)
+u32 GFL_NET_ERR_GetMessageId(u8 *obj, u32 a)
 {
     u32 v;
 

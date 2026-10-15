@@ -44,11 +44,11 @@
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
- *   func_020129D0  0x020129D0  thumb
+ *   GAME_DATA_SetFrameRate  0x020129D0  thumb
  *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
- *   func_020129B8  0x020129B8  thumb
+ *   GAME_DATA_SetSubscreenType  0x020129B8  thumb
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  */
 #include "../ov010/fldmmdl_types.h"
@@ -128,11 +128,11 @@ extern void *func_020124E8(struct GameEvent *event);
 extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *subscreen);
 extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
-extern void func_020129D0(struct GameData *gameData, u8 flag);
+extern void GAME_DATA_SetFrameRate(struct GameData *gameData, u8 flag);
 extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *subscreen, u32 mode);
-extern void func_020129B8(struct GameData *gameData, u32 mode);
+extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 mode);
 extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
 FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime);
 void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl);
@@ -376,16 +376,16 @@ int func_021945E0(struct GameEvent *event, int *seq, void *work)
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(evWork->fieldMap)) == 1) {
             mmdlSys = FIELDMAP_GetMmdlSys(evWork->fieldMap);
-            gameData = func_020120F4(GAME_EVENT_GetGameSystem(event));
+            gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event));
             FLDMMDL_SysPauseMove(mmdlSys);
-            func_020129D0(gameData, 1);
+            GAME_DATA_SetFrameRate(gameData, 1);
             FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(evWork->fieldMap), evWork->mode);
             evWork->seq++;
         }
         break;
     case 1:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(evWork->fieldMap)) == 1) {
-            func_020129B8(func_020120F4(GAME_EVENT_GetGameSystem(event)), evWork->mode & 0xff);
+            GAME_DATA_SetSubscreenType(ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event)), evWork->mode & 0xff);
             evWork->seq++;
         }
         break;

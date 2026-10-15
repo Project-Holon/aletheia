@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202A4B4",
+   "name": "TR_TOOL_BuildParty",
    "address": "0x0202A4B4",
    "kind": "game",
    "region": "arm9",

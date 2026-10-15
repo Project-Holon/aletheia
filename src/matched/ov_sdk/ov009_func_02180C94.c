@@ -1,5 +1,5 @@
 /*
- * function: func_02180C94
+ * function: gsUdpConnAttemptCB
  * address:  0x02180C94
  * packet:   pkt_ov009_02180C94
  * region:   ov009
@@ -28,10 +28,10 @@
  *   func_02184200                  0x02184200  arm ov009
  *   func_02184324                  0x02184324  arm ov009
  *   func_02180420                  0x02180420  arm ov009
- *   func_02180518                  0x02180518  arm ov009
- *   func_021806A8                  0x021806A8  arm ov009
- *   func_02180924                  0x02180924  arm ov009
- *   func_02180A64                  0x02180A64  arm ov009
+ *   gsUdpClosedRoutingCB                  0x02180518  arm ov009
+ *   gsUdpConnectedRoutingCB                  0x021806A8  arm ov009
+ *   gsUdpPingRoutingCB                  0x02180924  arm ov009
+ *   gsUdpReceivedRoutingCB                  0x02180A64  arm ov009
  *   g_021A3A8C                     0x021A3A8C  data
  *   g_021A3AB8                     0x021A3AB8  data
  *   g_021A3AFC                     0x021A3AFC  data
@@ -91,15 +91,15 @@ extern void gt2Reject(void *connection, unsigned char *message, int len);
 extern int func_02184200(void *array);
 extern void func_02184324(void *array, int n);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
-extern void func_02180518(void *theConnection, int reason);
-extern void func_021806A8(void *theConnection, int theResult, unsigned char *theMessage, int theMessageLen);
-extern void func_02180924(void *theConnection, int theLatency);
-extern void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
+extern void gsUdpClosedRoutingCB(void *theConnection, int reason);
+extern void gsUdpConnectedRoutingCB(void *theConnection, int theResult, unsigned char *theMessage, int theMessageLen);
+extern void gsUdpPingRoutingCB(void *theConnection, int theLatency);
+extern void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
 extern char g_021A3A8C[];
 extern char g_021A3AB8[];
 extern char g_021A3AFC[];
 
-void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len)
+void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len)
 {
     int index;
     GSUdpMsgHandler aHandler;
@@ -119,10 +119,10 @@ void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned sho
         func_02184234(aUdp->mRemotePeers, &aRemotePeer);
         index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
         if (index != -1) {
-            aCallbacks.closed = (void (*)(void *, int))func_02180518;
-            aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))func_021806A8;
-            aCallbacks.ping = (void (*)(void *, int))func_02180924;
-            aCallbacks.received = (void (*)(void *, unsigned char *, int, int))func_02180A64;
+            aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
+            aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
+            aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
+            aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
             gt2Accept(aRemotePeer.mConnection, &aCallbacks);
             func_0217D254(12, 0, 16, g_021A3AB8);
             return;

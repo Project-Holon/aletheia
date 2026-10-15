@@ -1,5 +1,5 @@
 /*
- * function: func_0218EFEC
+ * function: gpiProcessPeers
  * address:  0x0218EFEC
  * packet:   pkt_ov009_0218EFEC
  * region:   ov009
@@ -16,7 +16,7 @@
  *   func_0218EE48  0x0218EE48  arm  ov009
  *   func_02184098  0x02184098  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_0218EF04  0x0218EF04  arm  ov009
+ *   gpiRemovePeer  0x0218EF04  arm  ov009
  *   g_021A4F70  0x021A4F70  data
  */
 
@@ -43,10 +43,10 @@ extern int func_021814EC(void);
 extern int func_0218EE48(void **connection, struct GPIPeer *peer);
 extern long func_02184098(long *timer);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0218EF04(void **connection, struct GPIPeer *peer);
+extern void gpiRemovePeer(void **connection, struct GPIPeer *peer);
 extern char g_021A4F70[];
 
-int func_0218EFEC(void **connection)
+int gpiProcessPeers(void **connection)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
     struct GPIPeer *nextPeer;
@@ -59,12 +59,12 @@ int func_0218EFEC(void **connection)
         nextPeer = peer->pnext;
         if (peer->state == 0x6a) {
             func_0217D254(1, (char *)4, 8, g_021A4F70, peer->profile);
-            func_0218EF04(connection, peer);
+            gpiRemovePeer(connection, peer);
         } else {
             result = func_0218EE48(connection, peer);
             if (peer->state == 0x6a || result != 0 || func_02184098(0) > peer->timeout) {
                 func_0217D254(1, (char *)4, 8, g_021A4F70, peer->profile);
-                func_0218EF04(connection, peer);
+                gpiRemovePeer(connection, peer);
             }
         }
         peer = nextPeer;

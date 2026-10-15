@@ -1,5 +1,5 @@
 /*
- * function: func_021E2FA8
+ * function: BR_CODEIN_ShowMenuText
  * address: 0x021E2FA8
  * packet: pkt_ov183_021E2FA8
  * region: ov183
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void BR_UTIL_StartEffect(int, int, int *);
-void func_021E2FA8(char *p)
+void BR_CODEIN_ShowMenuText(char *p)
 {
     int args[2];
     if (((struct Obj03885 *)p)->f8 == 0)

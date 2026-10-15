@@ -24,7 +24,7 @@
  *   FS_GetArchiveName      0x02078530  arm
  *   STD_GetStringLength    0x0208CC78  arm
  *   MI_CpuCopy8            0x02082D44  arm
- *   g_020A84A8             0x020A84A8  data
+ *   fsi_str_colon_slash             0x020A84A8  data
  */
 
 typedef unsigned long u32;
@@ -144,7 +144,7 @@ extern FSResult FSi_TranslateCommand(FSFile *file, FSCommandType command, BOOL b
 extern char *FS_GetArchiveName(FSArchive *arc);
 extern int STD_GetStringLength(const char *str);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern const char g_020A84A8[];   /* ":/" */
+extern const char fsi_str_colon_slash[];   /* ":/" */
 
 static inline BOOL FS_IsDir(const FSFile *file)
 {
@@ -236,7 +236,7 @@ FSResult FSi_GetPathDefault(FSFile *file)
 
                 MI_CpuCopy8(arcname, dst + pos, len);
                 pos += len;
-                MI_CpuCopy8(g_020A84A8, dst + pos, 2);
+                MI_CpuCopy8(fsi_str_colon_slash, dst + pos, 2);
             }
             FSi_SeekDirDirect(tmp, id);
             if (file_id != INVALID_ID) {

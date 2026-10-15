@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CCC
+ * function: EGG_DEMO_VIEW_PlayAnim
  * address: 0x021F6CCC
  * packet: pkt_ov215_021F6CCC
  * region: ov215
@@ -12,9 +12,9 @@
  *   MCSS_GetAnimCtrl 0x02015EE8 thumb
  *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
- *   func_02063000 0x02063000 arm
+ *   NNS_G2dSetCellAnimationParam 0x02063000 arm
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
- *   func_021F6D0C 0x021F6D0C thumb ov215
+ *   EGG_DEMO_VIEW_OnAnimStop 0x021F6D0C thumb ov215
  */
 #include "../include/Obj06707.h"
 /* Legacy 020173B4 inputs r1-r3 are replaced by its body; full forwarding
@@ -25,10 +25,10 @@ extern void *MCSS_GetAnimCtrl(void *);
 struct Obj;
 extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 extern void MCSS_ResetAnmStopFlag(void *);
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
-extern int func_021F6D0C(char *);
-void func_021F6CCC(char *p,unsigned flag,int enable)
+extern int EGG_DEMO_VIEW_OnAnimStop(char *);
+void EGG_DEMO_VIEW_PlayAnim(char *p,unsigned flag,int enable)
 {
     void *obj;
     MCSS_SetAnimeIndex(((struct Obj06707 *)p)->f34,flag);
@@ -36,7 +36,7 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
     NNS_G2dRestartMCAnimation(obj);
     MCSS_ResetAnmStopFlag(((struct Obj06707 *)p)->f34);
     if(enable) {
-        func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);
+        NNS_G2dSetCellAnimationParam((int)obj,1,(int)p,(int)EGG_DEMO_VIEW_OnAnimStop);
         ((struct Obj06707 *)p)->f38=0;
     } else MCSS_TOOL_SetAnimeStopCallback((int)(((struct Obj06707 *)p)->f34));
 }

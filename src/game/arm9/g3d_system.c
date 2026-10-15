@@ -35,10 +35,10 @@
  *   ARC_TOOL_LoadMemberFromPath      0x02048F9C  arm
  *   ARC_TOOL_LoadHandleMember      0x02049250  arm
  *   NNS_GfdInitVramManager      0x020613D8  arm
- *   func_0206210C      0x0206210C  arm
- *   func_02062114      0x02062114  arm
- *   func_0206246C      0x0206246C  arm
- *   func_02062474      0x02062474  arm
+ *   NNSi_GfdSizeToGranuleTex      0x0206210C  arm
+ *   NNSi_GfdInitTexVramManager      0x02062114  arm
+ *   NNSi_GfdSizeToGranulePltt      0x0206246C  arm
+ *   NNSi_GfdInitPlttVramManager      0x02062474  arm
  *   NNS_G3dAnmObjInit      0x02069C74  arm
  *   NNS_G3dRenderObjInit      0x02069D14  arm
  *   NNS_G3dRenderObjAddAnmObj      0x02069E88  arm
@@ -79,8 +79,8 @@
  *   func_0207C1D0      0x0207C1D0  arm
  *   func_0207C408      0x0207C408  arm
  *   func_0207C554      0x0207C554  arm
- *   func_0207DA8C      0x0207DA8C  arm
- *   func_0207DEA4      0x0207DEA4  arm
+ *   G3X_Reset      0x0207DA8C  arm
+ *   G3X_GetBoxTestResult      0x0207DEA4  arm
  *   G3X_InitMtxStack   0x0207DB1C  arm
  *   G3X_SetFog         0x0207DC44  arm
  *   G3X_SetClearColor  0x0207DD24  arm
@@ -305,10 +305,10 @@ extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 dataId, u16 heapId);
 extern void  NNS_GfdInitVramManager(u32 size, u32 useAsDefault);
-extern int   func_0206210C(int numBlocks);
-extern void  func_02062114(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
-extern int   func_0206246C(int numBlocks);
-extern void  func_02062474(u32 size, u32 work, u32 workSize, u32 useAsDefault);
+extern int   NNSi_GfdSizeToGranuleTex(int numBlocks);
+extern void  NNSi_GfdInitTexVramManager(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
+extern int   NNSi_GfdSizeToGranulePltt(int numBlocks);
+extern void  NNSi_GfdInitPlttVramManager(u32 size, u32 work, u32 workSize, u32 useAsDefault);
 extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
 extern void  NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, void *resMdl);
 extern void  NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
@@ -349,8 +349,8 @@ extern void *NNS_G3dGetAnmByIdx(void *file, u32 anmIdx);
 extern void  func_0207C1D0(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  func_0207C408(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  func_0207C554(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
-extern void  func_0207DA8C(void);
-extern int   func_0207DEA4(s32 *result);
+extern void  G3X_Reset(void);
+extern int   G3X_GetBoxTestResult(s32 *result);
 extern void  G3X_InitMtxStack(void);
 extern void  G3X_SetFog(BOOL enable, int mode, int slope, int offset);
 extern void  G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
@@ -474,18 +474,18 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
     func_020307C8(&_G3dSystem.work->allocator, _G3dSystem.work->heapId, 4);
 
     if (texManMode == 0) {
-        workSize = func_0206210C(texManSize << 7);
+        workSize = NNSi_GfdSizeToGranuleTex(texManSize << 7);
         _G3dSystem.work->texManagerWork = func_02030734(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x7e);
-        func_02062114(texManSize << 17, 0, (u32)_G3dSystem.work->texManagerWork, workSize, 1);
+        NNSi_GfdInitTexVramManager(texManSize << 17, 0, (u32)_G3dSystem.work->texManagerWork, workSize, 1);
     } else {
         NNS_GfdInitVramManager((u16)texManSize, 1);
         _G3dSystem.work->texManagerWork = 0;
     }
 
     if (plttManMode == 0) {
-        workSize = func_0206246C(plttManSize << 9);
+        workSize = NNSi_GfdSizeToGranulePltt(plttManSize << 9);
         _G3dSystem.work->plttManagerWork = func_02030734(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x8d);
-        func_02062474(plttManSize << 14, (u32)_G3dSystem.work->plttManagerWork, workSize, 1);
+        NNSi_GfdInitPlttVramManager(plttManSize << 14, (u32)_G3dSystem.work->plttManagerWork, workSize, 1);
     } else {
         NNS_GfdInitVramManager((u16)(plttManSize << 14), 1);
         _G3dSystem.work->texManagerWork = 0;
@@ -1374,7 +1374,7 @@ BOOL G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step)
 /* Start a frame of 3D drawing. */
 void G3D_SYSTEM_DrawStart(void)
 {
-    func_0207DA8C();
+    G3X_Reset();
 }
 
 /* End a frame of 3D drawing: flush the command buffer and request the buffer swap. */
@@ -1505,7 +1505,7 @@ BOOL G3D_SYSTEM_BoxTest(const GXBoxTestParam *box)
     NNS_G3dGeBufferOP_N(G3OP_END_VTXS, 0, 0);
     NNS_G3dGeBufferOP_N(G3OP_BOX_TEST, box, 3);
     NNS_G3dGeFlushBuffer();
-    while (func_0207DEA4(&result) != 0) {
+    while (G3X_GetBoxTestResult(&result) != 0) {
         ;
     }
     return result;

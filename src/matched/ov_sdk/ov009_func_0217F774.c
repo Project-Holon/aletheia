@@ -1,5 +1,5 @@
 /*
- * function: func_0217F774
+ * function: longrand
  * address:  0x0217F774
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,15 +12,15 @@
  * Refreshes the word the state object holds.
  *
  * symbols:
- *   g_021A37C8  0x021A37C8  data
- *   func_0217F730  0x0217F730  arm  ov009
+ *   gGsRandState  0x021A37C8  data
+ *   nextlongrand  0x0217F730  arm  ov009
  */
 
-extern char g_021A37C8[];
-extern int func_0217F730(int v);
+extern char gGsRandState[];
+extern int nextlongrand(int v);
 
-void func_0217F774(void)
+void longrand(void)
 {
-    *(int *)g_021A37C8 = func_0217F730(*(int *)g_021A37C8);
+    *(int *)gGsRandState = nextlongrand(*(int *)gGsRandState);
 }
 

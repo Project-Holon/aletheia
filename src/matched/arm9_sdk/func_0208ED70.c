@@ -1,5 +1,5 @@
 /*
- * function: func_0208ED70
+ * function: WM_ReadMPData
  * address:  0x0208ED70
  * packet:   pkt_0208ED70
  * region:   arm9
@@ -85,7 +85,7 @@ extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckInitialized(void);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 
-WMMpRecvData *func_0208ED70(const WMMpRecvHeader *header, u16 aid)
+WMMpRecvData *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid)
 {
     int i;
     WMErrCode result;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_TASK_CalcOffsetByProgress  0x021C7940  thumb  ov021
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  * Addresses are Black-image addresses.
  */
@@ -32,7 +32,7 @@ typedef struct {
 } Obj;
 
 extern void FIELD_TASK_CalcOffsetByProgress(Vec *, u16, Vec *, u16);
-extern void func_0207C9D0(Vec *, Vec *, Vec *);
+extern void VEC_Add(Vec *, Vec *, Vec *);
 extern void FLDMMDL_SetPos(int, Vec *);
 
 int FIELD_TASK_UpdateMmdlPosOffsetTween(Obj *p)
@@ -47,7 +47,7 @@ int FIELD_TASK_UpdateMmdlPosOffsetTween(Obj *p)
         } else if (p->f8 == 1) {
             FIELD_TASK_CalcOffsetByProgress(&v, p->fE - p->fC, &p->f10, p->fE);
         }
-        func_0207C9D0(&v, &p->f1C, &v);
+        VEC_Add(&v, &p->f1C, &v);
         FLDMMDL_SetPos(h, &v);
         if (p->fE <= p->fC) {
             return 1;

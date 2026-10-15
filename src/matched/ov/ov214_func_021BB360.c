@@ -1,5 +1,5 @@
 /*
- * function: func_021BB360
+ * function: BTL_REC_SEL_GRAPHIC_Noop
  * address: 0x021BB360
  * packet: pkt_ov214_021BB360
  * region: ov214
@@ -13,4 +13,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021BB360(void *p) { }
+void BTL_REC_SEL_GRAPHIC_Noop(void *p) { }

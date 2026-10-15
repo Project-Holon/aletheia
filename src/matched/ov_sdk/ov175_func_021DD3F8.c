@@ -11,6 +11,7 @@
  *
  * symbols:
  *   sFileDownloadUrlOverride  0x021E4B88  data
+ *   strcpy  0x02094798  arm  arm9
  *
  * Flush gate: a null destination or source is refused with 0, otherwise the
  * 0x021E4B88 block is released and 1 comes back.
@@ -19,13 +20,13 @@
 typedef unsigned long u32;
 
 extern u32 sFileDownloadUrlOverride[];
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 
 int sakeSetFileDownloadURL(char *a, char *b)
 {
     if (a == 0 || b == 0)
         return 0;
-    func_02094798((char *)((u32)sFileDownloadUrlOverride), b);
+    strcpy((char *)((u32)sFileDownloadUrlOverride), b);
     return 1;
 }
 

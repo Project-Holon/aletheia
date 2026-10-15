@@ -1,5 +1,5 @@
 /*
- * function: func_021C4914
+ * function: WF2DMAP_OBJ_GetCount
  * address: 0x021C4914
  * packet: pkt_ov127_021C4914
  * region: ov127
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-u32 func_021C4914(u8 *p) { return ((struct Obj23038 *)p)->f4; }
+u32 WF2DMAP_OBJ_GetCount(u8 *p) { return ((struct Obj23038 *)p)->f4; }

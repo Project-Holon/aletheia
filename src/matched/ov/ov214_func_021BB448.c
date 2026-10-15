@@ -1,5 +1,5 @@
 /*
- * function: func_021BB448
+ * function: BTL_REC_SEL_GRAPHIC_DeleteG3d
  * address:  0x021BB448
  * packet:   pkt_021BB448
  * region:   ov214
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 
-void func_021BB448(int *p)
+void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

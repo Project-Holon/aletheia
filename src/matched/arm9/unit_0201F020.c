@@ -34,6 +34,9 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
+ *   WORDSET_Set  0x0201F0F8  arm
+ *   BMP_OAM_Get  0x02025B94  arm
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  */
 
 typedef unsigned char  u8;
@@ -50,8 +53,8 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
-extern u32   func_02025B94(u32 a);
-extern u32 func_0202A230(void *a, u32 idx);
+extern u32   BMP_OAM_Get(u32 a);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 extern void func_0200785C(void *save, u32 box, void *dest);
 
 struct Tag;
@@ -72,7 +75,7 @@ extern void func_0201ED64(struct WordSet *p, u32 i);
 extern void func_0201ED84(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
 extern void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v);
-extern void func_0201F0F8(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
 
 void func_0201F020(struct WordSet *p, u32 i, u32 v)
 {

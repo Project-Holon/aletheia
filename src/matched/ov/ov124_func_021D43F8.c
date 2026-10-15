@@ -13,7 +13,7 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   CG_HELP_SetupBgLayer 0x021D4534 thumb ov124
@@ -46,7 +46,7 @@ struct Cfg;
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16), BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16), BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 struct BgTemplate;
 extern void CG_HELP_SetupBgLayer(const struct BgTemplate *p, int layer, int type);
@@ -78,7 +78,7 @@ void CG_HELP_InitDisplay(char *p)
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)gCgHelpVramBanks);
-    func_0203F8F4(((struct Obj00068 *)p)->f0);
+    BG_SYS_Create(((struct Obj00068 *)p)->f0);
     BMP_WIN_Init(((struct Obj00068 *)p)->f0);
     func_0203FC28((struct DispConfig *)gCgHelpDispConfig);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer4, 4, 0);

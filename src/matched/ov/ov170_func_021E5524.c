@@ -16,12 +16,13 @@
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb ov170
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb ov170
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb  arm9
  */
 extern void BOX2_MAIN_UpdateBoxSlots(unsigned char *);
 extern void BOX2_SEQ_Delete(char *p);
 typedef unsigned char  u8;
 struct Sound;
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **, unsigned);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
 extern void BOX2_UI_DeleteSlotObjects(char *, int, int, int);
@@ -41,7 +42,7 @@ int BOX2_SEQ_DeleteBox2UiB(unsigned char *p)
         BOX2_SEQ_PrintPrompt(p, p[0x16], 1, 0x18);
         r = 0x23;
     }
-    func_020260E4(OBJ(p), r);
+    CURSOR_MOVE_SetCurrent(OBJ(p), r);
     BOX2_UI_SetCursorPos((char **)p, r);
     return 0x2c;
 }

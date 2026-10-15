@@ -12,12 +12,12 @@
  * sdk:      cmpBack (libdwcutil.TWL.HYB.a(archive.o))
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_020923F0  0x020923F0  arm
  */
 
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 
 int func_021D4C9C(char *str0, char *str1, int n)
@@ -25,8 +25,8 @@ int func_021D4C9C(char *str0, char *str1, int n)
 	int len0;
 	int len1;
 	int rs;
-	len0 = func_0209477C((const u8 *)str0);
-	len1 = func_0209477C((const u8 *)str1);
+	len0 = strlen((const u8 *)str0);
+	len1 = strlen((const u8 *)str1);
 	if (len0 < n || len1 < n)
 		return 0;
 	rs = func_020923F0((const u8 *)(str0 + (len0 - n)), (const u8 *)(str1 + (len1 - n)), n);

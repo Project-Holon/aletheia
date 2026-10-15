@@ -23,16 +23,16 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B40  0x02049B40  arm
  *   DC_FlushRange  0x020862F0  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   sBgTemplateMain0     0x021D40A0  data  ov021  a4
  *   sBgTemplateMain1     0x021D40C0  data  ov021  a4
  *   sBgTemplateSub0     0x021D40E0  data  ov021  a4
@@ -75,14 +75,14 @@
  *   sTopMenuWinDescs     0x021DDB84  data  a4
  *   func_0201DD68  0x0201DD68  thumb
  *   func_02040DA8  0x02040DA8  arm
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_020403F4  0x020403F4  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   func_02155A90  0x02155A90  thumb  ov010
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -94,14 +94,14 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   sKindMenuMsgIds     0x021D3FE0  data  ov021  a4
  *   sKindMenuTouchRects     0x021D3FF4  data  ov021  a4
  *   sKindMenuWinDescs     0x021DDAF4  data  ov021  a4
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   sRuleMenuMsgIds     0x021D4080  data  ov021  a4
  *   sRuleMenuTouchRects     0x021D4034  data  ov021  a4
  *   sRuleMenuWinDescs     0x021DDB44  data  ov021  a4
@@ -138,7 +138,7 @@
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02041570  0x02041570  arm
@@ -153,7 +153,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0201DD60  0x0201DD60  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -172,10 +172,10 @@
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_0207D63C  0x0207D63C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
@@ -184,7 +184,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   func_02012204  0x02012204  thumb
+ *   ICA_ANIME_GetUnk330  0x02012204  thumb
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   func_02155A8C  0x02155A8C  thumb  ov010
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
@@ -197,7 +197,7 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
@@ -335,7 +335,7 @@ extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 posX, u32 posY, u32 width,
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern void GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 back);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct StrBuf *str, struct GfFont *font, u32 wait, struct Tcbl *tcbl, u32 pri, u32 heapId, u32 back);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct StrBuf *str, struct GfFont *font);
 extern void func_0201F73C(struct BmpWin *win, int transfer, int frameChar, int palNo);
@@ -347,7 +347,7 @@ extern int GAME_DATA_SaveMain(struct GameData *gameData);
 extern void func_0201F7A8(struct BmpWin *win, u32 transfer);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern int GAME_DATA_SaveStart(struct GameData *gameData);
-extern void func_020414EC(u32 frame);
+extern void BG_SYS_ClearSlot(u32 frame);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenuWork *menu);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
@@ -357,7 +357,7 @@ extern void CLACT_VBlankSystem(void);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeap, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct ProcWork *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, u32 value, u32 size);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0201DD60(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *vram);
@@ -374,10 +374,10 @@ extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
 extern void WIPE_SYS_Start(u32 pattern0, u32 pattern1, u32 pattern2, u32 color, u32 div, u32 sync, u32 heapId);
 extern struct GameSystem *func_02155A90(IrcBattleEntryWork *entry);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSys);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSys);
 extern void func_0207D63C(u32 reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 type, u32 heapId);
-extern struct WifiList *func_0201283C(const struct GameData *gameData);
+extern struct WifiList *GAME_DATA_GetField1A0(const struct GameData *gameData);
 extern u32 WIH_DWC_PollStatus(struct WifiList *wifiList);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
@@ -387,7 +387,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void CLACT_DrawSystem(void);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 func_02012204(const struct GameSystem *gameSys);
+extern u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSys);
 extern void WIPE_SetBrightnessFadeOut(u32 screen, u32 value);
 extern void func_02155A8C(IrcBattleEntryWork *entry, u32 mode);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
@@ -404,7 +404,7 @@ extern void func_02030EAC(struct TaskNode *task);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020315D4(struct ProcWork *proc);
 extern void func_020306F0(u32 heapId);
 
@@ -464,10 +464,10 @@ extern u32 func_020409B4(u32 bgId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void DC_FlushRange(void *p, u32 size);
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
-extern void func_0203FCA0(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
+extern void BG_SYS_InitBgLayer(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
 extern void func_020414AC(int bgId);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern struct PlttFade *PALANM_Create(u32 heapId);
 extern void PALANM_AllocSlotBuffers(struct PlttFade *fade, u32 bank, u32 size, u32 heapId);
 extern void PALANM_CopyHwPaletteToSlot(struct PlttFade *fade, u32 bank, u32 offset, u32 size);
@@ -492,19 +492,19 @@ extern struct TouchSwitch *BUTTON_MAN_Create(const u8 *table, void (*callback)(u
 extern s32 BUTTON_MAN_UpdateSlots(struct TouchSwitch *touchSw);
 extern void func_0201DD68(void);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
-extern void func_0203FB44(u32 a, u32 b, u32 c);
+extern void BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern struct CommSys *func_02012138(const struct GameSystem *gameSys);
+extern struct CommSys *ICA_ANIME_GetField24(const struct GameSystem *gameSys);
 extern u32 GAME_COMM_GetKind(struct CommSys *comm);
 extern void GAME_COMM_RequestExitNoCallback(struct CommSys *comm);
 extern void *func_02155A94(IrcBattleEntryWork *entry);
 extern struct PartyInfo *func_0200873C(void *sys);
 extern int CONFIG_GetButtonMode(struct PartyInfo *info);
-extern void *func_02012934(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKEPARTY_GetNonEggCount(void *party);
-extern void *func_0200BAC8(void *saveData);
-extern u32 func_0200BBA8(void *data);
+extern void *BATTLE_BOX_GetFromSave(void *saveData);
+extern u32 BATTLE_BOX_HasMon(void *data);
 extern s32 CLACT_RegisterCharacter(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 heapId);
 extern s32 CLACT_RegisterPaletteEx(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 d, u16 e, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(struct ArcHandle *arc, u32 a, u32 b, u32 heapId);
@@ -627,31 +627,31 @@ void IRCBATTLEMENU_InitBgLayers(IrcBattleMenuWork *work)
     BgTemplate subBg3;
 
     mainBg0 = sBgTemplateMain0;
-    func_0203FCA0(0, &mainBg0, 0);
+    BG_SYS_InitBgLayer(0, &mainBg0, 0);
     func_020414AC(0);
     func_020409B4(0);
     func_02040588(0, 1);
     mainBg1 = sBgTemplateMain1;
-    func_0203FCA0(1, &mainBg1, 0);
+    BG_SYS_InitBgLayer(1, &mainBg1, 0);
     func_020414AC(1);
     func_020409B4(1);
     func_02040588(1, 1);
     subBg0 = sBgTemplateSub0;
-    func_0203FCA0(4, &subBg0, 0);
+    BG_SYS_InitBgLayer(4, &subBg0, 0);
     func_02040588(4, 1);
     func_020409B4(4);
     subBg1 = sBgTemplateSub1;
-    func_0203FCA0(5, &subBg1, 0);
+    BG_SYS_InitBgLayer(5, &subBg1, 0);
     func_02040588(5, 1);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(5);
     subBg2 = sBgTemplateSub2;
-    func_0203FCA0(6, &subBg2, 0);
+    BG_SYS_InitBgLayer(6, &subBg2, 0);
     func_02040588(6, 1);
     func_020409B4(6);
     subBg3 = sBgTemplateSub3;
-    func_0203FCA0(7, &subBg3, 0);
+    BG_SYS_InitBgLayer(7, &subBg3, 0);
     func_02040588(7, 1);
     func_020409B4(7);
 }
@@ -734,7 +734,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork
     int x;
     int y;
 
-    func_020414EC(7);
+    BG_SYS_ClearSlot(7);
     work->menuWinCount = count;
     func_02049B40(0x17, 5, 4, 0x100, 0x20, work->heapId);
     for (i = 0; i < 4; i++) {
@@ -898,7 +898,7 @@ void IRCBATTLEMENU_FreeMenuGraphics(IrcBattleMenuWork *work)
     IRCBATTLEMENU_DeleteButtonWindows(work);
     func_02040DA8(5, 1, 0);
     frameChar = work->winFrameChar;
-    func_0203FB44(5, (u16)frameChar, (u16)(frameChar >> 16));
+    BG_SYS_DeleteHalf(5, (u16)frameChar, (u16)(frameChar >> 16));
     func_020403F4(5);
     func_020403F4(4);
     MSGDATA_Delete(work->msgData);
@@ -912,7 +912,7 @@ void IRCBATTLEMENU_SeqWaitFadeEnd(IrcBattleMenuWork *work)
 {
     if (WIPE_SYS_EndCheck()) {
         if (work->mode != 0xC) {
-            if (GAME_COMM_GetKind(func_02012138(func_02155A90(work->param))) == 0)
+            if (GAME_COMM_GetKind(ICA_ANIME_GetField24(func_02155A90(work->param))) == 0)
                 IRCBATTLEMENU_SetSeq(work, 0, 0x361);
         } else {
             IRCBATTLEMENU_SetSeq(work, 0, 0x365);
@@ -926,8 +926,8 @@ void IRCBATTLEMENU_SeqStartFadeOut(IrcBattleMenuWork *work)
     work->noAutoComm = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, work->heapId);
     if (work->mode != 0xC) {
-        if (GAME_COMM_GetKind(func_02012138(func_02155A90(work->param))) != 0) {
-            GAME_COMM_RequestExitNoCallback(func_02012138(func_02155A90(work->param)));
+        if (GAME_COMM_GetKind(ICA_ANIME_GetField24(func_02155A90(work->param))) != 0) {
+            GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(func_02155A90(work->param)));
         }
     }
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitFadeEnd, 0x37C);
@@ -1004,7 +1004,7 @@ int IRCBATTLEMENU_TouchTopMenu(u32 index, IrcBattleMenuWork *work)
         break;
     case 1:
     case 6:
-        if ((int)POKEPARTY_GetNonEggCount(func_02012934(work->gameData)) < 2) {
+        if ((int)POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(work->gameData)) < 2) {
             func_02045CAC(work->msgData, 0x2C, work->message);
             IRCBATTLEMENU_PrintMessage(work, 0);
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitNotEnoughMsg, 0x3EA);
@@ -1062,7 +1062,7 @@ void IRCBATTLEMENU_SeqSetupKindMenu(IrcBattleMenuWork *work)
 void IRCBATTLEMENU_HookKindMenuPressed(IrcBattleMenuWork *work)
 {
     if (work->mode == 5) {
-        if (func_0200BBA8(func_0200BAC8(work->param->saveData)) != 0) {
+        if (BATTLE_BOX_HasMon(BATTLE_BOX_GetFromSave(work->param->saveData)) != 0) {
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, 0x443);
         } else {
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, 0x446);
@@ -1252,7 +1252,7 @@ void IRCBATTLEMENU_HookRuleMenuPressed(IrcBattleMenuWork *work)
     if (work->mode == 0xC) {
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, 0x558);
     } else {
-        if (func_0200BBA8(func_0200BAC8(work->param->saveData)) != 0) {
+        if (BATTLE_BOX_HasMon(BATTLE_BOX_GetFromSave(work->param->saveData)) != 0) {
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, 0x55D);
         } else {
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, 0x560);
@@ -1570,7 +1570,7 @@ void IRCBATTLEMENU_PrintMessage(IrcBattleMenuWork *work, u32 isInstant)
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     if (isInstant == 0) {
-        work->printStream = PRINTSYS_PrintStream(win, 0, 0, work->message, work->font, func_02012FFC(), work->tcbl, 2, work->heapId, 15);
+        work->printStream = PRINTSYS_PrintStream(win, 0, 0, work->message, work->font, MSG_SPEED_GetWait(), work->tcbl, 2, work->heapId, 15);
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->message, work->font);
         work->printStream = 0;
@@ -1622,7 +1622,7 @@ void IRCBATTLEMENU_SeqWaitTouchExit(IrcBattleMenuWork *work)
 {
     if (IRCBATTLEMENU_IsMessageEnd(work) != 0 && TOUCHPANEL_GetTrg() != 0) {
         IRCBATTLEMENU_SetSubPaletteActive(work, 0);
-        func_020414EC(3);
+        BG_SYS_ClearSlot(3);
         IRCBATTLEMENU_DeleteMsgWin(work);
         work->mode = 12;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, 0x7a2);
@@ -1647,7 +1647,7 @@ void IRCBATTLEMENU_SeqSaveYesNo(IrcBattleMenuWork *work)
             }
         } else {
             IRCBATTLEMENU_SetSubPaletteActive(work, 0);
-            func_020414EC(3);
+            BG_SYS_ClearSlot(3);
             IRCBATTLEMENU_DeleteMsgWin(work);
             work->mode = 12;
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, 0x7c7);
@@ -1681,7 +1681,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     work = PROCSYS_AllocProcWork(proc, 0x308, 0x1f);
     MI_CpuFill8(work, 0, 0x308);
     work->heapId = 0x1f;
-    func_0203F8F4(work->heapId);
+    BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     func_0201DD60();
     BG_SYS_SetVramBanks((const struct DispVram *)sVramBank);
@@ -1708,7 +1708,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, work->heapId);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, 0x83B);
     work->param = (struct IrcBattleEntryWork *)param;
-    work->gameData = func_020120F4(func_02155A90((IrcBattleEntryWork *)work->param));
+    work->gameData = ICA_ANIME_GetField1C(func_02155A90((IrcBattleEntryWork *)work->param));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
     BG_SYS_SetMainVisiblePlanes(0x13);
@@ -1725,7 +1725,7 @@ u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
 
     seqFunc = work->seqFunc;
     ret = 1;
-    WIH_DWC_PollStatus(func_0201283C(work->gameData));
+    WIH_DWC_PollStatus(GAME_DATA_GetField1A0(work->gameData));
     if (seqFunc != 0) {
         seqFunc(work);
         ret = 0;
@@ -1745,7 +1745,7 @@ u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
         GAMESYSTEM_TryStartAutoComm(func_02155A90((IrcBattleEntryWork *)work->param));
     }
     if (WIPE_SYS_EndCheck() != 0) {
-        if (func_02012204(func_02155A90((IrcBattleEntryWork *)work->param)) != 0) {
+        if (ICA_ANIME_GetUnk330(func_02155A90((IrcBattleEntryWork *)work->param)) != 0) {
             work->mode = 12;
             ret = 1;
             WIPE_SetBrightnessFadeOut(0, 0);
@@ -1794,7 +1794,7 @@ int IRCBATTLEMENU_Exit(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     CLACT_DeleteUnit(work->clactUnit);
     CLACT_ExitSystem();
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020315D4(proc);
     func_020306F0(0x1f);
     return 1;

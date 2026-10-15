@@ -1,5 +1,5 @@
 /*
- * function: func_021968A0
+ * function: gti2DeliverHoldMessages
  * address:  0x021968A0
  * packet:   pkt_ov009_021968A0
  * region:   ov009
@@ -14,8 +14,8 @@
  * symbols:
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_02196558  0x02196558  arm  ov009
- *   func_0219681C  0x0219681C  arm  ov009
+ *   gti2DeliverReliableMessage  0x02196558  arm  ov009
+ *   gti2RemoveHoldMessage  0x0219681C  arm  ov009
  */
 
 typedef struct Hold {
@@ -38,10 +38,10 @@ extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 typedef unsigned char  u8;
 struct GTI2Connection;
-extern int func_02196558(struct GTI2Connection *connection, int type, u8 *message, int len);
-extern void func_0219681C(Conn *c, Hold *m, int index);
+extern int gti2DeliverReliableMessage(struct GTI2Connection *connection, int type, u8 *message, int len);
+extern void gti2RemoveHoldMessage(Conn *c, Hold *m, int index);
 
-int func_021968A0(Conn *c)
+int gti2DeliverHoldMessages(Conn *c)
 {
 	int i;
 	Hold *m;
@@ -50,9 +50,9 @@ again:
 	for (i = func_02184200(c->holds) - 1; i >= 0; i--) {
 		m = (Hold *)func_02184208(c->holds, i);
 		if (m->id == c->expectedId) {
-			if (!func_02196558((struct GTI2Connection *)c, m->type, c->data + m->start, m->len))
+			if (!gti2DeliverReliableMessage((struct GTI2Connection *)c, m->type, c->data + m->start, m->len))
 				return 0;
-			func_0219681C(c, m, i);
+			gti2RemoveHoldMessage(c, m, i);
 			goto again;
 		}
 	}

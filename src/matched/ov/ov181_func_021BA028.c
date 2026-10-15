@@ -1,5 +1,5 @@
 /*
- * function: func_021BA028
+ * function: STAFF_ROLL_CalcVelocity
  * address: 0x021BA028
  * packet: pkt_ov181_021BA028
  * region: ov181
@@ -13,7 +13,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef struct { int x, y, z; } Vec;
-void func_021BA028(Vec *out, const Vec *base, const Vec *target, unsigned duration)
+void STAFF_ROLL_CalcVelocity(Vec *out, const Vec *base, const Vec *target, unsigned duration)
 {
     Vec v;
     int b, a, diff;

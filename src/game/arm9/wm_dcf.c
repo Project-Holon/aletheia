@@ -1,7 +1,7 @@
 /*
  * file:     wm_dcf.c
  * unit:     yes
- * function: func_0208FE64, func_0208FF0C, func_0208FFDC
+ * function: WM_StartDCF, WM_SetDCFData, WM_EndDCF
  * address:  0x0208FE64
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -79,15 +79,15 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-WMErrCode func_0208FF0C(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize);
-WMErrCode func_0208FFDC(WMCallbackFunc callback);
+WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize);
+WMErrCode WM_EndDCF(WMCallbackFunc callback);
 
 
 /*
  * sdk:      WM_StartDCF (libwm.TWL.HYB.a(wm_dcf.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208FE64(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u16 recvBufSize)
+WMErrCode WM_StartDCF(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u16 recvBufSize)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();
@@ -124,7 +124,7 @@ WMErrCode func_0208FE64(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u
  * sdk:      WM_SetDCFData (libwm.TWL.HYB.a(wm_dcf.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208FF0C(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize)
+WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize)
 {
     WMErrCode result;
     u32 wMac[2];
@@ -160,7 +160,7 @@ WMErrCode func_0208FF0C(WMCallbackFunc callback, const u8 *destAdr, const u16 *s
  * sdk:      WM_EndDCF (libwm.TWL.HYB.a(wm_dcf.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208FFDC(WMCallbackFunc callback)
+WMErrCode WM_EndDCF(WMCallbackFunc callback)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

@@ -11,14 +11,14 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0200BF70  0x0200BF70  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   INTRUDE_GetMissionClearCount  0x0200BF70  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200BFA4  0x0200BFA4  thumb
- *   func_0200BF94  0x0200BF94  thumb
- *   func_0200BF54  0x0200BF54  thumb
+ *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
+ *   INTRUDE_GetPlaySeconds  0x0200BF94  thumb
+ *   INTRUDE_GetObtainedFlags  0x0200BF54  thumb
  */
 
 typedef unsigned char      u8;
@@ -37,27 +37,27 @@ struct Big;
 struct BigObj;
 struct Rec1B0;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32 func_0200BF70(struct Rec1B0 *p);
-extern int func_02012B70(const struct BigObj *p);
+extern u32 INTRUDE_GetMissionClearCount(struct Rec1B0 *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern int GAME_DATA_GetPlayTime(int p0);
-extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
-extern unsigned long long func_0200BF94(struct Rec1B0 *p);
-extern void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n);
+extern unsigned long long INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode);
+extern unsigned long long INTRUDE_GetPlaySeconds(struct Rec1B0 *p);
+extern void INTRUDE_GetObtainedFlags(struct Rec1B0 *p, u8 *dest, u32 n);
 
 void INTRUDE_COMM_BuildLocalProfile(void *sv, Out *o)
 {
     void *q;
 
-    q = func_0200BE48(GAME_DATA_GetSaveControl(sv));
+    q = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(sv));
     MI_CpuFill8(o, 0, 0x10);
-    o->f00 = func_0200BF70(q);
-    if (func_02012B70(sv) == 1) {
-        o->f04 = func_0200BFA4(q, (void *)GAME_DATA_GetPlayTime((int)sv), 2);
+    o->f00 = INTRUDE_GetMissionClearCount(q);
+    if (GAME_DATA_GetIntrudeCount(sv) == 1) {
+        o->f04 = INTRUDE_UpdatePlaySeconds(q, (void *)GAME_DATA_GetPlayTime((int)sv), 2);
     } else {
-        o->f04 = func_0200BF94(q);
+        o->f04 = INTRUDE_GetPlaySeconds(q);
     }
-    func_0200BF54(q, o->f0c, 2);
+    INTRUDE_GetObtainedFlags(q, o->f0c, 2);
     o->f0e = 1;
 }

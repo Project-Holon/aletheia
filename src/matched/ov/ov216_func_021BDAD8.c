@@ -1,5 +1,5 @@
 /*
- * function: func_021BDAD8
+ * function: BEACON_DETAIL_GRA_PrintWaitTask
  * address:  0x021BDAD8
  * packet:   pkt_021BDAD8
  * region:   ov216
@@ -29,7 +29,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *x);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021BDAD8(int a, int **b)
+void BEACON_DETAIL_GRA_PrintWaitTask(int a, int **b)
 {
     u8   *s = (u8 *)b[0] + 8;
     int   q = ((struct Obj25799 *)((char *)b[1]))->f12C;

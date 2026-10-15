@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202A298",
+   "name": "TPOKE_DATA_FindRecord",
    "address": "0x0202A298",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202A310",
+   "name": "TPOKE_DATA_ReadRecordString",
    "address": "0x0202A310",
    "kind": "game",
    "region": "arm9",

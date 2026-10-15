@@ -16,7 +16,7 @@
  *   send_ping  0x02158524  arm  ov009
  *   CPSi_SslWrite2  0x02162CA0  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   g_021A826C  0x021A826C  data
  */
 
@@ -44,7 +44,7 @@ extern void send_udp(unsigned char *data, unsigned long len, struct _CPSSoc *soc
 extern void send_ping(unsigned char *pattern, unsigned long len, struct Soc *soc);
 extern unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct CPSSoc *soc);
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
-extern struct ThreadInfo g_02150FEC;
+extern struct ThreadInfo gMslRefToken;
 extern unsigned char g_021A826C;
 
 unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2)
@@ -52,7 +52,7 @@ unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned cha
 	struct Soc *soc;
 	unsigned long total_written;
 
-	soc = g_02150FEC.current->soc;
+	soc = gMslRefToken.current->soc;
 	if (soc != 0) {
 		if (soc->state == 10) {
 			if (len)

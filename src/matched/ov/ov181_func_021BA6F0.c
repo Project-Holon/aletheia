@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6F0
+ * function: STAFF_ROLL_StepFadeOut
  * address: 0x021BA6F0
  * packet: pkt_ov181_021BA6F0
  * region: ov181
@@ -22,7 +22,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf { u8 *pixels; u16 width, height, tileSize; };
 extern void BMP_Clear(struct CharBuf *, u8);
-int func_021BA6F0(char *p)
+int STAFF_ROLL_StepFadeOut(char *p)
 {
     int a, b;
     switch (((struct Obj00784 *)p)->f2CE) {

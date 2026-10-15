@@ -56,7 +56,7 @@
  *   FIELD_G3DOBJ_DrawObject  0x021C67F4  thumb  ov021
  *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
  *   VEC_Fx16Normalize  0x0207CDB8  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   BUTTON_MAN_MakeLookAtMtx  0x020521BC  arm
  *   sNamipokeSplashFuncs  0x021D9170  data
  *   sNamipokeSplashOffsets     0x021D91F8  data  a4
@@ -214,7 +214,7 @@ extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, VecFx32 *out);
 extern void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *out);
 extern void VEC_Fx16Normalize(s16 *in, s16 *out);
-extern s32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
+extern s32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, MtxFx33 *dst);
 extern void BUTTON_MAN_MakeLookAtMtx(const VecFx32 *v, MtxFx33 *dst);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
@@ -653,7 +653,7 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
                     wake->tailPos.z = mmdlPos.z;
             }
         }
-        distance = func_0207CF3C(&mmdlPos, &wake->tailPos);
+        distance = VEC_Distance(&mmdlPos, &wake->tailPos);
         if (distance >= NAMIPOKE_WAKE_MAX_LENGTH) {
             wake->tailPos.x = mmdlPos.x - FX_Mul(faceDir[0], NAMIPOKE_WAKE_MAX_LENGTH);
             wake->tailPos.z = mmdlPos.z - FX_Mul(faceDir[2], NAMIPOKE_WAKE_MAX_LENGTH);

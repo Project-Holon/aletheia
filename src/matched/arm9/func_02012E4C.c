@@ -17,6 +17,8 @@
  *   SAVE_CONTROL_BeginExtraSaveWrite  0x02007374  thumb
  *   WIH_DWC_PauseTimers  0x0201042C  thumb
  *   GAME_DATA_WriteToSave  0x02012CE0  thumb
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
+ *   UI_SetFlags39Global  0x0203516C  arm
  */
 #include "../include/Obj00054.h"
 
@@ -26,18 +28,18 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern void func_02034F84(int v);
+extern void UI_SetKeepAwakeFlagsGlobal(int v);
 extern void GAME_DATA_WriteToSave(u8 *p);
 extern void WIH_DWC_PauseTimers(void);
-extern void func_0203516C(int mode);
+extern void UI_SetFlags39Global(int mode);
 extern void SAVE_CONTROL_BeginExtraSaveWrite(char *a0, u32 a1);
 
 void GAME_DATA_PartSaveStart(u8 *p, u32 id)
 {
-    func_02034F84(0x80);
+    UI_SetKeepAwakeFlagsGlobal(0x80);
     GAME_DATA_WriteToSave(p);
     WIH_DWC_PauseTimers();
     ((struct Obj00054 *)p)->f1CE = 1;
-    func_0203516C(2);
+    UI_SetFlags39Global(2);
     SAVE_CONTROL_BeginExtraSaveWrite((char *)*(u32 *)&((struct Obj00054 *)p)->f0, id);
 }

@@ -1,5 +1,5 @@
 /*
- * function: sub_0201D2C8
+ * function: GF_FONT_CountLine
  * address:  0x0201D2C8
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -18,8 +18,8 @@
  * three header halfwords plus that many payload halfwords.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201D2C8.c
- *       --func sub_0201D2C8 --addr 0x0201D2C8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_CountLine.c
+ *       --func GF_FONT_CountLine --addr 0x0201D2C8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ struct StrObj {
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
-u32 sub_0201D2C8(struct StrObj *s)
+u32 GF_FONT_CountLine(struct StrObj *s)
 {
     u16 *p;
     u32 n;

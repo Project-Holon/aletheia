@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041F6C 0x02041F6C arm
  *   func_02041FB0 0x02041FB0 arm
@@ -39,17 +39,17 @@
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   sRhythmVramBankConfig 0x021B8F78 data a4
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02049740 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
@@ -58,10 +58,10 @@
  *   sRhythmBackgroundTemplates 0x021B8FB4 data
  *   sRhythmBackgroundTypes 0x021B8F40 data ov104
  *   func_02040DA8 0x02040DA8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   gClActorInitParam 0x020A1448 data
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -86,7 +86,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   CLACT_DrawSystem  0x0204A600  arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -136,10 +136,10 @@
  *   func_02061CA4 0x02061CA4 arm
  *   func_020056EC 0x020056EC thumb
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_0207CBD0 0x0207CBD0 arm
- *   func_0207CEE4 0x0207CEE4 arm
+ *   VEC_Mag 0x0207CBD0 arm
+ *   VEC_MultAdd 0x0207CEE4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   _fflt 0x0209BDBC arm
  *   _ffix 0x0209C494 arm
@@ -148,6 +148,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  */
 #include "irc_rhythm_types.h"
 
@@ -228,7 +229,7 @@ typedef void (*IrcTaskProc)(void *task, void *work);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc,u32 size,u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
-extern u32 func_02012138(const void *gameSystem);
+extern u32 ICA_ANIME_GetField24(const void *gameSystem);
 extern void func_0201F73C(void *window, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
@@ -246,25 +247,25 @@ extern void BG_SYS_SetVramBanks(const void *banks);
 extern void func_0204363C(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02040C14(u32,u32,u32,u32);
+extern void BG_SYS_Init(u32,u32,u32,u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void func_02040DA8(u32,u32,u32);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *,const void *config,u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
@@ -293,8 +294,8 @@ extern void func_0201DD60(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(struct WordSet *p);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *messages);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -337,10 +338,10 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_02061CA4(u32 target, u32 offset, const void *src, int size);
 extern u32 func_020056EC(u32);
-extern void func_0207CA00(const VecFx32 *,const VecFx32 *,VecFx32 *);
+extern void VEC_Subtract(const VecFx32 *,const VecFx32 *,VecFx32 *);
 extern void VEC_Normalize(const VecFx32 *,VecFx32 *);
-extern int func_0207CBD0(VecFx32 *);
-extern void func_0207CEE4(int,VecFx32 *,VecFx32 *,VecFx32 *);
+extern int VEC_Mag(VecFx32 *);
+extern void VEC_MultAdd(int,VecFx32 *,VecFx32 *,VecFx32 *);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern float _fflt(int);
 extern int _ffix(float);
@@ -440,7 +441,7 @@ int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  work->context=context;
  IRC_RHYTHM_InitScreen(&work->screen,0x38);
  IRC_RHYTHM_InitTextSystem(&work->text,0,0x38);
- if(work->context->gameSystem) func_02012138(work->context->gameSystem);
+ if(work->context->gameSystem) ICA_ANIME_GetField24(work->context->gameSystem);
  IRC_RHYTHM_InitMessageWindow(&work->messageWindow,5,1,18,30,5,8,0x38);
  func_0201F73C(work->messageWindow.window,0,(u16)(work->screen.bgCharRegion),6);
  IRC_RHYTHM_InitPulse(&work->pulse,0x38);
@@ -520,12 +521,12 @@ void IRC_RHYTHM_ScreenVBlankTask(void *task,void *arg) { IrcScreen *screen=arg; 
 
 void IRC_RHYTHM_InitBackgrounds(IrcScreen *screen,u16 heapId) {
  int i; u32 layer; void *archive;
- func_0203F8F4(heapId);
+ BG_SYS_Create(heapId);
  BMP_WIN_Init(heapId);
  func_0203FC28(&sRhythmDisplayConfig);
  for(i=0;i<7;i++) {
   layer=sRhythmBackgroundLayers[i];
-  func_0203FCA0((u8)layer,&sRhythmBackgroundTemplates[i],(u8)sRhythmBackgroundTypes[i]);
+  BG_SYS_InitBgLayer((u8)layer,&sRhythmBackgroundTemplates[i],(u8)sRhythmBackgroundTypes[i]);
   func_020414AC(layer);
   func_02040588(layer,1);
  }
@@ -538,14 +539,14 @@ void IRC_RHYTHM_InitBackgrounds(IrcScreen *screen,u16 heapId) {
  func_020498F4(archive,0x25,1,0,0,0,heapId);
  func_020498F4(archive,4,6,0,0,0,heapId);
  func_020498F4(archive,0x2f,4,0,0,0,heapId);
- func_02040C14(5,0,1,0);
+ BG_SYS_Init(5,0,1,0);
  screen->bgCharRegion=func_02049740(archive,0x31,5,0,0,heapId);
  ARC_TOOL_DeleteHandle(archive);
  func_02049B40(0x17,5,0,0x1a0,0x20,heapId);
- func_02040C14(2,0,1,0);
+ BG_SYS_Init(2,0,1,0);
 }
 
-void IRC_RHYTHM_ExitBackgrounds(u32 *bgCharRegion) { int i; func_02040DA8(2,1,0); func_0203FB44(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16)); func_02040DA8(5,1,0); for(i=0;i<7;i++) func_020403F4((u8)sRhythmBackgroundLayers[i]); BMP_WIN_Exit(); func_0203F9B4(); }
+void IRC_RHYTHM_ExitBackgrounds(u32 *bgCharRegion) { int i; func_02040DA8(2,1,0); BG_SYS_DeleteHalf(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16)); func_02040DA8(5,1,0); for(i=0;i<7;i++) func_020403F4((u8)sRhythmBackgroundLayers[i]); BMP_WIN_Exit(); BG_SYS_Delete(); }
 
 void IRC_RHYTHM_VBlankBackgrounds(void *unused) { func_020419E4(); }
 
@@ -635,12 +636,12 @@ void IRC_RHYTHM_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
  }
  text->printQueue=PRINTSYS_QUE_Create(heapId);
  text->messages=func_02045B38(0,2,0x34,heapId);
- text->wordSet=func_0201EC64(heapId);
+ text->wordSet=GF_FONT_Create_EC64(heapId);
  func_02049B40(0x17,5,4,0x1C0,0x20,heapId);
  func_02049B40(0x17,5,0,0x1C0,0x20,heapId);
 }
 
-void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { func_0201ED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
+void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { WORDSET_DeleteStrbufED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
 
 int IRC_RHYTHM_RunPrintQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
 
@@ -1009,7 +1010,7 @@ void IRC_RHYTHM_SpawnBurst(IrcRhythmParticles *particles, const IrcPoint *center
                 random.x=FX_FROM_INT(end.x);
                 random.y=FX_FROM_INT(end.y);
                 random.z=0;
-                func_0207CA00(&random,&origin,&delta);
+                VEC_Subtract(&random,&origin,&delta);
                 VEC_Normalize(&delta,&delta);
                 rawY=delta.y;
                 end.x=FX_SCALE_RADIUS(delta.x)>>12;
@@ -1032,9 +1033,9 @@ void IRC_RHYTHM_InitParticle(IrcRhythmParticle *particle, struct Obj *actor, int
 void IRC_RHYTHM_UpdateParticle(IrcRhythmParticle *particle) {
  u16 xy[2]; VecFx32 delta; VecFx32 pos; int length;
  if(particle->active) {
-  func_0207CA00(&particle->end,&particle->start,&delta);
-  length=func_0207CBD0(&delta); VEC_Normalize(&delta,&delta);
-  func_0207CEE4((u32)(length * particle->counter)/ particle->lifetime,&delta,&particle->start,&pos);
+  VEC_Subtract(&particle->end,&particle->start,&delta);
+  length=VEC_Mag(&delta); VEC_Normalize(&delta,&delta);
+  VEC_MultAdd((u32)(length * particle->counter)/ particle->lifetime,&delta,&particle->start,&pos);
   xy[0]=pos.x>>12; xy[1]=pos.y>>12;
   if((particle->counter)++ > particle->lifetime) {
    xy[0]=particle->end.x; xy[1]=particle->end.y;

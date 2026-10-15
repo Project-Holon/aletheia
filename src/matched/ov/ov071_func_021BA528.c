@@ -12,8 +12,8 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF10  0x0200BF10  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -36,8 +36,8 @@ struct Rec1B0;
 struct U16Vec;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
-extern u8 func_0200BF10(struct Rec1B0 *p);
+extern u16 *INTRUDE_GetFromSave(void *sys);
+extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -52,7 +52,7 @@ void MONOLITH_TOOL_DrawActiveEntry(u32 **a, u8 *b, u8 *c)
     u32 k;
     u32 h;
 
-    k = func_0200BF10((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(**a)))));
+    k = INTRUDE_GetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(**a)))));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj06193 *)c)->f4)), 0);
     if (k == 0x30) {
         s = (u32)func_02045EC0((struct MsgBank *)(((struct Obj03178 *)b)->f28), 0x27);

@@ -27,7 +27,7 @@
  * No cut helps: the only pool word holding 0xAA is this function's own.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -44,13 +44,13 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
  *   func_02009304  0x02009304  thumb
- *   func_0201293C  0x0201293C  thumb
- *   func_02012934  0x02012934  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02012944  0x02012944  thumb
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -85,7 +85,7 @@ struct Obj;
 struct Sub02008700Obj;
 struct Sub02009210Obj;
 struct Sub02009448Obj;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
@@ -102,13 +102,13 @@ extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_02009304(const struct Sub02009210Obj *obj);
-extern u32 func_0201293C(const struct BigObj *p);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern int func_020079A0(void *save);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
@@ -136,7 +136,7 @@ extern char d_021EF78C[];
 u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
 {
     u32 h = F(0x0);
-    u32 v = (u32)func_0201210C((const struct Ctx *)h);
+    u32 v = (u32)ICA_ANIME_GetField20((const struct Ctx *)h);
     int r;
 
     switch (*mode) {
@@ -214,8 +214,8 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
     case 13:
         return 1;
     case 16:
-        r = func_02009304((const struct Sub02009210Obj *)func_02009448(GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)h))));
-        if (func_020079A0((void *)func_0201293C(func_020120F4((const struct Ctx *)h))) == 0 && r == 0) {
+        r = func_02009304((const struct Sub02009210Obj *)func_02009448(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C((const struct Ctx *)h))));
+        if (func_020079A0((void *)GAME_DATA_GetBoxManager(ICA_ANIME_GetField1C((const struct Ctx *)h))) == 0 && r == 0) {
             F(0x1c8) = 4;
             *mode = 19;
         } else {
@@ -268,10 +268,10 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
         }
         break;
     case 21:
-        F(0x29c) = (u32)func_020120F4((const struct Ctx *)h);
-        F(0x2a0) = func_0201293C((const struct BigObj *)F(0x29c));
-        F(0x2a4) = (u32)func_02012934((const struct BigObj *)F(0x29c));
-        F(0x2a8) = (u32)func_0201292C((const struct BigObj *)F(0x29c));
+        F(0x29c) = (u32)ICA_ANIME_GetField1C((const struct Ctx *)h);
+        F(0x2a0) = GAME_DATA_GetBoxManager((const struct BigObj *)F(0x29c));
+        F(0x2a4) = (u32)GAME_DATA_GetMyParty((const struct BigObj *)F(0x29c));
+        F(0x2a8) = (u32)GAME_DATA_GetMyItem((const struct BigObj *)F(0x29c));
         F(0x2ac) = (u32)func_02012944((void *)F(0x29c));
         F(0x2b4) = (u32)func_0200873C(GAME_DATA_GetSaveControl((struct Big *)F(0x29c)));
         F(0x2bc) = (u32)(args + 0x1d8);
@@ -304,7 +304,7 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
         }
         break;
     case 23:
-        F(0x280) = (u32)func_020120F4((const struct Ctx *)h);
+        F(0x280) = (u32)ICA_ANIME_GetField1C((const struct Ctx *)h);
         F(0x284) = 1;
         F(0x288) = 0;
         GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov115_id, gNetSaveRetryProc, args + 0x280);

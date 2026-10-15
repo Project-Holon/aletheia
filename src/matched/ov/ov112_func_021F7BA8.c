@@ -11,9 +11,9 @@
  *   func_021F5450 0x021F5450 thumb ov112
  *   func_021F5464 0x021F5464 thumb ov112
  *   func_021F4EA4 0x021F4EA4 thumb ov112
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   func_021F9FD0 0x021F9FD0 thumb ov132
- *   func_021F9DC0 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
  *   func_021F9FB4 0x021F9FB4 thumb ov132
  *   func_021F9F58 0x021F9F58 thumb ov132
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
@@ -29,9 +29,9 @@ extern u8 *func_021F5450(u8 *,int);
 extern char *func_021F5464(char *);
 typedef unsigned int   u32;
 extern void func_021F4EA4(u32 unused, u32 p, u32 q);
-extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
+extern void VEC_Add(const Vec *,const Vec *,Vec *);
 extern void func_021F9FD0(char *,int,int);
-extern void *func_021F9DC0(void *p);
+extern void *STA_ACTING_GetAnimHandle(void *p);
 extern void func_021F9FB4(char *,int);
 extern void func_021F9F58(u8 *unused, u8 *p);
 extern void GFL_USE_StopSeSlot(int);
@@ -47,7 +47,7 @@ void func_021F7BA8(u8 *p,u8 *q)
         v.y=(0xc0000-v.y)/16;
         v.z+=0x1000;
     } else {
-        func_0207C9D0((Vec *)(q+24),(Vec *)func_021F5464(*(char * *)&((struct Obj06409 *)q)->f58),&v);
+        VEC_Add((Vec *)(q+24),(Vec *)func_021F5464(*(char * *)&((struct Obj06409 *)q)->f58),&v);
         v.x/=16;
         v.y=(0xc0000-v.y)/16;
         v.z-=0x1c000;
@@ -55,7 +55,7 @@ void func_021F7BA8(u8 *p,u8 *q)
     func_021F9FD0((char *)t->a,0,(int)&v);
     t->count++;
     if(t->count>=180) {
-        a=(int)func_021F9DC0((void *)(((struct Obj08028 *)p)->f4));
+        a=(int)STA_ACTING_GetAnimHandle((void *)(((struct Obj08028 *)p)->f4));
         func_021F9FB4((char *)t->a,0);
         func_021F9F58((void *)a,(void *)t->a);
         ((struct Obj06409 *)q)->f104=0;

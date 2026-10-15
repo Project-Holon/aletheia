@@ -1,5 +1,5 @@
 /*
- * function: func_021F9DA4
+ * function: STA_ACTING_GetActor
  * address: 0x021F9DA4
  * packet: pkt_ov132_021F9DA4
  * region: ov132
@@ -10,4 +10,4 @@
  * symbols:
  */
 typedef unsigned int u32;
-void *func_021F9DA4(char *p,u32 i){return *(void **)((u32)p+4*i+0x44);}
+void *STA_ACTING_GetActor(char *p,u32 i){return *(void **)((u32)p+4*i+0x44);}

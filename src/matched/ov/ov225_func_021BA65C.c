@@ -13,7 +13,7 @@
  *   d_021BC028 0x021BC028 data ov225 a1
  *   func_021BA898 0x021BA898 thumb ov225
  *   func_021BAA44 0x021BAA44 thumb ov225
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BB074 0x021BB074 thumb ov225
  *   func_021BB258 0x021BB258 thumb ov225
@@ -64,7 +64,7 @@ extern const char d_021BC028[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_021BA898(char *);
 extern void func_021BAA44(struct Work *);
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u16 func_021BB074(u16 **);
 extern u16 func_021BB258(void *, u16, u16);
@@ -97,7 +97,7 @@ void *func_021BA65C(char *owner, struct Data *data)
   p->field94 = 0;
   func_021BA898((char *)p);
   func_021BAA44(p);
-  func_02041EE4(5, 3, 12);
+  BG_SYS_ResetSlot(5, 3, 12);
   flag = 0;
   if ((*((u16 *) (p->owner + 4))) > 6)
     flag = 1;

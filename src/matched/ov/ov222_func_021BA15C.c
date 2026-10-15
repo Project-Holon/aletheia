@@ -1,5 +1,5 @@
 /*
- * function: func_021BA15C
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera
  * address: 0x021BA15C
  * region: ov222
  * isa: thumb
@@ -11,7 +11,7 @@
  * symbols:
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021B9E6C 0x021B9E6C thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_Callback 0x021B9E6C thumb ov222
  *   dims 0x020A1EB8 data
  *   vec1 0x021BA268 data a4
  *   vec2 0x021BA25C data a4
@@ -24,11 +24,11 @@ typedef unsigned short u16;
 struct Vec3 { u32 x,y,z; };
 extern const char dims[];
 extern struct Vec3 vec1,vec2,vec3;
-extern void func_021B9E6C(void);
+extern void ZENKOKU_ZUKAN_AWARD_Callback(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u32);
-void func_021BA15C(u32 **out,u32 heap)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap)
 {
-    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021B9E6C);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,ZENKOKU_ZUKAN_AWARD_Callback);
     *out=G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,&vec1,&vec2,&vec3,heap);
 }

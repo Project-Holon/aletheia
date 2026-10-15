@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020409E0
+ * function: BG_SYS_PushTileSource
  * address:  0x020409E0
  * packet:   pkt_020409E0
  * region:   arm9
@@ -22,8 +22,8 @@
  * 0x02146A44.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020409E0.c \
- *       --func func_020409E0 --addr 0x020409E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_PushTileSource.c \
+ *       --func BG_SYS_PushTileSource --addr 0x020409E0 --cc 1.1p1 --arm
  */
 #include "../include/Obj16005.h"
 
@@ -49,7 +49,7 @@ extern u32 func_020307B0(void *p);
 extern void func_02040968(const void *src, void *dst, u32 mode);
 extern void func_0204241C(u32 index, const void *src, u32 offset, u32 size);
 
-void func_020409E0(u32 index, const void *src, u32 mode, u32 offset)
+void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset)
 {
     if (mode == 0) {
         void *tiles = g_02146A44[index].tiles;

@@ -11,7 +11,7 @@
  *   d_021E412C     0x021E412C  data  a4
  *   OS_SNPrintf  0x02084F80  arm
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  */
 typedef unsigned int u32;
 
@@ -22,7 +22,7 @@ extern int d_021E412C;
 
 void OS_SNPrintf(void *p, int a, void *b, void *c);
 void *func_0217EAB0(int size);
-void func_020923B0(void *dst, int c, int n);
+void MSL_C_LIB_MemsetPtr(void *dst, int c, int n);
 
 int sciInterfaceCreate(void **out)
 {
@@ -38,6 +38,6 @@ int sciInterfaceCreate(void **out)
     *out = p;
     if (p == 0)
         return 5;
-    func_020923B0(p, 0, 0xac);
+    MSL_C_LIB_MemsetPtr(p, 0, 0xac);
     return 0;
 }

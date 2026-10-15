@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3AC
+ * function: BTL_REC_SEL_GRAPHIC_DeleteClact
  * address: 0x021BB3AC
  * packet: pkt_ov214_021BB3AC
  * region: ov214
@@ -20,4 +20,4 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,u32,u32);
-void func_021BB3AC(void *p) { CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25732 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4); }
+void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p) { CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25732 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4); }

@@ -1,5 +1,5 @@
 /*
- * function: func_0207C7B4
+ * function: FX_Sqrt
  * address:  0x0207C7B4
  * packet:   pkt_0207C7B4
  * region:   arm9
@@ -80,7 +80,7 @@ static inline s64 CP_GetDivResult64(void)
 
 extern fx32 FX_GetSqrtResult(void);
 
-fx32 func_0207C7B4(fx32 x)
+fx32 FX_Sqrt(fx32 x)
 {
     if (x > 0) {
         CP_SetSqrt64((u64)x << 32);

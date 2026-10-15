@@ -12,6 +12,8 @@
  * symbols:
  *   _dsub  0x0209AF34  arm
  *   __kernel_sin  0x0209A0EC  arm
+ *   __ieee754_rem_pio2  0x02098B44  arm
+ *   __kernel_cos  0x02099224  arm
  *
  * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
  * disasm label func_0209A390: the disassembler never saw the real entry
@@ -30,18 +32,18 @@
  * table entry `__dadd_dsub` at 0x0209AF34 is its subtract entry).
  *
  * Callees by address:
- *   func_02099224  __kernel_cos(double, double)
+ *   __kernel_cos  __kernel_cos(double, double)
  *   __kernel_sin  __kernel_sin(double, double, int)
- *   func_02098B44  __ieee754_rem_pio2(double, double *)
+ *   __ieee754_rem_pio2  __ieee754_rem_pio2(double, double *)
  */
 
 typedef int i32;
 
 #define HI(x) (((i32 *)&(x))[1])
 
-extern double func_02099224(double x, double y);
+extern double __kernel_cos(double x, double y);
 extern double __kernel_sin(double x, double y, int iy);
-extern int func_02098B44(double x, double *y);
+extern int __ieee754_rem_pio2(double x, double *y);
 
 double func_0209A390(double x)
 {
@@ -52,20 +54,20 @@ double func_0209A390(double x)
 
     ix = HI(x) & 0x7fffffff;
     if (ix <= 0x3fe921fb)
-        return func_02099224(x, z);
+        return __kernel_cos(x, z);
     else if (ix >= 0x7ff00000)
         return x - x;
     else
     {
-        n = func_02098B44(x, y);
+        n = __ieee754_rem_pio2(x, y);
         switch (n & 3)
         {
         case 0:
-            return func_02099224(y[0], y[1]);
+            return __kernel_cos(y[0], y[1]);
         case 1:
             return -__kernel_sin(y[0], y[1], 1);
         case 2:
-            return -func_02099224(y[0], y[1]);
+            return -__kernel_cos(y[0], y[1]);
         default:
             return __kernel_sin(y[0], y[1], 1);
         }

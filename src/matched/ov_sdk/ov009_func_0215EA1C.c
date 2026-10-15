@@ -18,7 +18,7 @@
  *   func_0215F31C  0x0215F31C  arm  ov009
  *   func_0215F3B8  0x0215F3B8  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A1CD8     0x021A1CD8  data
+ *   gSoclConfig     0x021A1CD8  data
  */
 
 #include "../include/G_021A1CD8.h"
@@ -57,7 +57,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern void func_0215F31C(int a);
 extern void func_0215F3B8(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 
 static inline int IsStream(Socket *socket)
 {
@@ -85,7 +85,7 @@ void func_0215EA1C(Socket *socket)
 		udpdata = socket->recv_pipe->udpdata.head;
 		while (udpdata) {
 			udpdata_next = udpdata->next;
-			g_021A1CD8->free(udpdata);
+			gSoclConfig->free(udpdata);
 			udpdata = udpdata_next;
 		}
 		socket->recv_pipe->udpdata.size = 0;
@@ -99,6 +99,6 @@ void func_0215EA1C(Socket *socket)
 	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F3B8((int)socket);
-	g_021A1CD8->free(socket);
+	gSoclConfig->free(socket);
 	OS_RestoreInterrupts(enable);
 }

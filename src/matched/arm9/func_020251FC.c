@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020490F4       0x020490F4  arm
- *   func_0203FA08       0x0203FA08  arm
+ *   BG_SYS_CreateRun       0x0203FA08  arm
  *   func_02049B68       0x02049B68  arm
  *   func_02049658       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
@@ -42,7 +42,7 @@ struct Sys {
 extern struct Sys *gSysState;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32   func_0203FA08(u32 a, u32 b, u32 c);
+extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
@@ -59,7 +59,7 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
     }
 
     env = func_020490F4(0x32, c);
-    gSysState->field_0 = func_0203FA08(a, 1 << 12, 1);
+    gSysState->field_0 = BG_SYS_CreateRun(a, 1 << 12, 1);
     func_02049B68(env, 0, sel, b << 5, 0x20, c);
     func_02049658(env, 1, a, gSysState->field_0, 0, 0, c);
     ENV_SetResourceSet(env);

@@ -8,7 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   MUSICAL_SHOT_GetFromSave  0x0200A864  thumb
+ *   MUSICAL_SHOT_GetExtraData  0x0200A898  thumb
  */
 #include "../include/Obj15628.h"
 
-int GAME_DATA_GetMysteryRecvFlagB(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15628 *)((char *)(a0)))->f0); t1 = func_0200A898((int)t0); return t1; }
+int GAME_DATA_GetMysteryRecvFlagB(int a0){ int t0, t1; t0 = MUSICAL_SHOT_GetFromSave((int)((struct Obj15628 *)((char *)(a0)))->f0); t1 = MUSICAL_SHOT_GetExtraData((int)t0); return t1; }

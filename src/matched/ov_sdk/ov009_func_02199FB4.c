@@ -15,8 +15,8 @@
  *   FindNegotiatorForCookie  0x021990D4 arm
  *   gsDebugFormat            0x0217D254 arm
  *   closesocket              0x0217EB2C arm
- *   g_021A5E2C               0x021A5E2C data
- *   g_021A5E5C               0x021A5E5C data
+ *   gNatNegCancelNotFoundFmt               0x021A5E2C data
+ *   gNatNegCancelFmt               0x021A5E5C data
  */
 
 typedef unsigned char u8;
@@ -31,18 +31,18 @@ struct _NATNegotiator
 extern struct _NATNegotiator * FindNegotiatorForCookie(int cookie);
 extern int gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern int closesocket(int sock);
-extern char g_021A5E2C[];
-extern char g_021A5E5C[];
+extern char gNatNegCancelNotFoundFmt[];
+extern char gNatNegCancelFmt[];
 
 void NNCancel(int cookie)
 {
     struct _NATNegotiator *neg = FindNegotiatorForCookie(cookie);
 
     if (neg == 0) {
-        gsDebugFormat(7, 4, 4, g_021A5E2C, cookie);
+        gsDebugFormat(7, 4, 4, gNatNegCancelNotFoundFmt, cookie);
         return;
     }
-    gsDebugFormat(7, 4, 8, g_021A5E5C, cookie);
+    gsDebugFormat(7, 4, 8, gNatNegCancelFmt, cookie);
     if (neg->sock != -1) {
         closesocket(neg->sock);
         neg->sock = -1;

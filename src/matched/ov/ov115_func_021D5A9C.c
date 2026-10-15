@@ -13,9 +13,9 @@
  *   func_021D5D3C 0x021D5D3C thumb ov115
  *   func_021D5FA0 0x021D5FA0 thumb ov115
  *   func_021D5FC4 0x021D5FC4 thumb ov115
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -44,9 +44,9 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void func_021D5D3C(u8 *p);
 extern u32 func_021D5FA0(u32);
 extern u32 func_021D5FC4(u32);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -63,11 +63,11 @@ void func_021D5A9C(u8 *p) {
     if (((struct Obj00724 *)p)->f38) { PRINTSYS_PrintStreamDelete(((struct Obj00724 *)p)->f38); ((struct Obj00724 *)p)->f38=0; }
     func_021D5D3C(p);
     n=((struct Obj00724 *)p)->f0;
-    func_0203FB44(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_DeleteHalf(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     n=((struct Obj00724 *)p)->f4;
-    func_0203FB44(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_DeleteHalf(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     func_0201DD68();
-    func_0201ED04(((struct Obj00724 *)p)->f20);
+    WORDSET_DeleteStrbufED04(((struct Obj00724 *)p)->f20);
     MSGDATA_Delete(((struct Obj00724 *)p)->f1C);
     GF_FONT_Delete(((struct Obj00724 *)p)->f24);
     STRBUF_Delete(((struct Obj00724 *)p)->f28);

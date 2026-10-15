@@ -20,7 +20,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
  *   BSUBWAY_RECORD_LIST_VBlankTask  0x021B96C8  thumb  ov069
  *   GAME_DATA_GetSaveBlock3B  0x02012EFC  thumb
@@ -43,7 +43,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void *fn, void *arg, u32 c);
 extern void  BSUBWAY_RECORD_LIST_VBlankTask(void);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
@@ -66,7 +66,7 @@ void BSUBWAY_RECORD_LIST_InitWork(u8 *p, u32 a)
         STRBUF_GetChars(*(void **)(p + i * 4 + off));
     }
     *(void **)(p + 0xfc) = STRBUF_Create(0x40, 0x80);
-    *(void **)(p + 0xf8) = func_0201EC74(8, 0x40, 0x80);
+    *(void **)(p + 0xf8) = WORDSET_Create(8, 0x40, 0x80);
     *(void **)(p + 0x150) = func_020056A0((void *)BSUBWAY_RECORD_LIST_VBlankTask, p, 0);
     *(void **)(p + 8) = BSUBWAY_SAVEDATA_AllocHistoryCopy(GAME_DATA_GetSaveBlock3B(**(void ***)(p + 0x154)), 0x80);
     *(u32 *)(p + 0x164) = BSUBWAY_SAVEDATA_CountHistoryEntries(*(void **)(p + 8));

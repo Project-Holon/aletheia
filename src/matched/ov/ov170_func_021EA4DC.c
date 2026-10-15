@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   BOX2_SEQ_CreateB 0x021EA728 thumb
@@ -25,7 +25,7 @@ typedef struct {
 
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern void BOX2_MAIN_ResetBoxView(char *p);
 extern void BOX2_SEQ_CreateB(void *p);
@@ -36,7 +36,7 @@ extern int BOX2_SEQ_StateMenuMain(unsigned char *p);
 
 int BOX2_SEQ_UpdateGridCursor(Obj *p)
 {
-    unsigned char v = func_020260E0(OBJ(p));
+    unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
     if (v < 0x24)
         BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
     else

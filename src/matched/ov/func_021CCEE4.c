@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -23,13 +23,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct WordSet;
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 struct Rec;
 extern u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
 
 int PARTY_SELECT_LIST_FreeMessageResources(u32 a)
 {
-func_0201ED04((struct WordSet *)(*(u32 *)((u8 *)((a + 160)))));
+WORDSET_DeleteStrbufED04((struct WordSet *)(*(u32 *)((u8 *)((a + 160)))));
 return FIELD_MSGBG_DeleteMsgData((struct Rec *)(*(u32 *)((u8 *)((a + 168)))));
 }
 

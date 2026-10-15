@@ -18,7 +18,7 @@
  *   STARTMENU_SaveEraseUpdateTimeIcon  0x021BCE70  thumb  ov088
  *   func_020070A4  0x020070A4  thumb
  *   func_02034AC4  0x02034AC4  arm
- *   func_021DFF18  0x021DFF18  thumb  ov228
+ *   SAVE_OUTSIDE_ClearFlash  0x021DFF18  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
  *   func_02007230  0x02007230  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
@@ -52,7 +52,7 @@ extern int func_02005654(int a, int b);
 extern void STARTMENU_SaveEraseUpdateTimeIcon(void);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern int func_02034AC4(s32 handle);
-extern void func_021DFF18(u32 heap);
+extern void SAVE_OUTSIDE_ClearFlash(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern void *func_02007230(struct Sub020071E4Ctrl *ctrl);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
@@ -72,7 +72,7 @@ void STARTMENU_SaveEraseStepErase(u8 *p, int *a1)
         func_02005654((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
         r = func_020070A4();
         func_02034AC4((u32)ov228_id);
-        func_021DFF18(0x81);
+        SAVE_OUTSIDE_ClearFlash(0x81);
         func_02034A5C((u32)ov228_id);
         func_02007230(r);
         for (i = 0; i < 9; i++) {

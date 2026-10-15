@@ -1,7 +1,7 @@
 /*
  * file:     net_device_table.c
  * unit:     yes
- * function: func_0200EE48, func_0200EE50, func_0200EE64, sub_0200EEAC, func_0200EED8, func_0200EF78, func_0200F0CC, func_0200F104, func_0200F128, func_0200F168, func_0200F16C, func_0200F17C, func_0200F234
+ * function: func_0200EE48, func_0200EE50, NET_DEVICE_TABLE_BuildFromProducer, NET_DEVICE_TABLE_Setup, func_0200EED8, NET_DEVICE_TABLE_InitEntry, func_0200F0CC, func_0200F104, func_0200F128, func_0200F168, func_0200F16C, NET_DEVICE_TABLE_Select, NET_DEVICE_TABLE_Reset
  * address:  0x0200EE48
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -159,19 +159,19 @@ extern int func_02034AC4(s32 handle);
 extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
 extern void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 extern void *IRCNET_GetHandlerTable(void);
-u32 sub_0200EE48(void);
-void sub_0200EE50(void *dest);
-void func_0200EE64(u32 a0, u8 *a1);
-void sub_0200EEAC(void *ctx, void *list);
-void sub_0200EED8(const void *item, void *record);
-void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2);
-u32 sub_0200F0CC(const void *obj, void *out, u32 *idxptr);
-void *sub_0200F104(void *ctx);
-u32 sub_0200F128(u32 x);
-u32 sub_0200F168(void);
-void sub_0200F16C(struct Sub0200F16CHdr *hdr);
-int func_0200F17C(u32 sel);
-void func_0200F234(u32 sel);
+u32 NET_DEVICE_TABLE_GetSize(void);
+void NET_DEVICE_TABLE_Clear(void *dest);
+void NET_DEVICE_TABLE_BuildFromProducer(u32 a0, u8 *a1);
+void NET_DEVICE_TABLE_Setup(void *ctx, void *list);
+void NET_DEVICE_TABLE_CopyRecord(const void *item, void *record);
+void NET_DEVICE_TABLE_InitEntry(DstStruct *dst, const SrcStruct *src, void *arg2);
+u32 NET_DEVICE_TABLE_GetNextUsed(const void *obj, void *out, u32 *idxptr);
+void *NET_DEVICE_TABLE_GetFreeSlot(void *ctx);
+u32 NET_DEVICE_TABLE_RemapId(u32 x);
+u32 NET_DEVICE_TABLE_GetZero(void);
+void NET_DEVICE_TABLE_SetHeader(struct Sub0200F16CHdr *hdr);
+int NET_DEVICE_TABLE_Select(u32 sel);
+void NET_DEVICE_TABLE_Reset(u32 sel);
 extern u8 ov_id_0A[];
 extern u8 ov_id_0B[];
 extern u8 ov_id_09[];
@@ -182,7 +182,7 @@ extern u8 ov_id_0F[];
 
 
 
-u32 sub_0200EE48(void)
+u32 NET_DEVICE_TABLE_GetSize(void)
 {
     return 5 << 10;
 }
@@ -190,9 +190,9 @@ u32 sub_0200EE48(void)
 
 
 
-void sub_0200EE50(void *dest)
+void NET_DEVICE_TABLE_Clear(void *dest)
 {
-    MI_CpuFill8(dest, 0, sub_0200EE48());
+    MI_CpuFill8(dest, 0, NET_DEVICE_TABLE_GetSize());
 }
 
 
@@ -201,20 +201,20 @@ void sub_0200EE50(void *dest)
 /*
  * Drain loop over a producer: while the enumerator at 0x0200F0CC still hands
  * back 1, take the item at the out-slot and, unless bit 20 of its +4 word is
- * set, retire the 0x50-byte destination cursor through sub_0200EED8.  The
+ * set, retire the 0x50-byte destination cursor through NET_DEVICE_TABLE_CopyRecord.  The
  * enumerator call is rotated (first test above the loop body) so this is a
  * plain `while`, not a do/while.
  */
-void func_0200EE64(u32 a0, u8 *a1)
+void NET_DEVICE_TABLE_BuildFromProducer(u32 a0, u8 *a1)
 {
     u32 hint = 0;
     void *item;
 
-    sub_0200EE50(a1);
+    NET_DEVICE_TABLE_Clear(a1);
 
-    while (sub_0200F0CC((const void *)a0, &item, &hint) == 1) {
+    while (NET_DEVICE_TABLE_GetNextUsed((const void *)a0, &item, &hint) == 1) {
         if ((((struct Obj00607 *)item)->f4 & 0x100000) == 0) {
-            sub_0200EED8(item, a1);
+            NET_DEVICE_TABLE_CopyRecord(item, a1);
             a1 += 0x50;
         }
     }
@@ -228,30 +228,30 @@ void func_0200EE64(u32 a0, u8 *a1)
  *
  * Walks 64 0x50-byte records; for each whose leading word has bit 0 set,
  * looks up a free slot with func_0200F104 and hands it, the record and
- * the context to func_0200EF78. Stores the record count (always 0x40)
+ * the context to NET_DEVICE_TABLE_InitEntry. Stores the record count (always 0x40)
  * into the context at +6 once the walk finishes.
  *
  * Every concrete byte matches; func_0200F104 (a documented near miss,
- * still open) and func_0200EF78 are each called from exactly this one
+ * still open) and NET_DEVICE_TABLE_InitEntry are each called from exactly this one
  * site in the whole ROM, so both relocations stay unresolved under the
  * honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200EEAC.c \
- *       --func sub_0200EEAC --addr 0x0200EEAC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_Setup.c \
+ *       --func NET_DEVICE_TABLE_Setup --addr 0x0200EEAC --cc 1.1p1
  *
  * The `matched` class does not reach it: neither func_0200F104 nor
- * func_0200EF78 is matched, so no EXACT entry covers either address.  It closes
+ * NET_DEVICE_TABLE_InitEntry is matched, so no EXACT entry covers either address.  It closes
  * when one of the two is matched, or when the image acquires a second caller.
  */
-void sub_0200EEAC(void *ctx, void *list)
+void NET_DEVICE_TABLE_Setup(void *ctx, void *list)
 {
     u8 *rec = (u8 *)list;
     u32 i;
 
     for (i = 0; i < 0x40; i++, rec += 0x50) {
         if (((struct Obj00606 *)rec)->f0 & 1) {
-            func_0200EF78((DstStruct *)sub_0200F104(ctx), (const SrcStruct *)rec, ctx);
+            NET_DEVICE_TABLE_InitEntry((DstStruct *)NET_DEVICE_TABLE_GetFreeSlot(ctx), (const SrcStruct *)rec, ctx);
         }
     }
 
@@ -270,10 +270,10 @@ void sub_0200EEAC(void *ctx, void *list)
  * record is two flat 0x10-byte blocks copied with MI_CpuCopy8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200EED8.c \
- *       --func sub_0200EED8 --addr 0x0200EED8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_CopyRecord.c \
+ *       --func NET_DEVICE_TABLE_CopyRecord --addr 0x0200EED8 --cc 1.1p1
  */
-void sub_0200EED8(const void *item, void *record)
+void NET_DEVICE_TABLE_CopyRecord(const void *item, void *record)
 {
     const u8 *src = (const u8 *)item;
     u8 *dest = (u8 *)record;
@@ -311,7 +311,7 @@ void sub_0200EED8(const void *item, void *record)
 
 
 
-void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
+void NET_DEVICE_TABLE_InitEntry(DstStruct *dst, const SrcStruct *src, void *arg2) {
     MI_CpuFill8(dst, 0, 0x100);
 
     dst->flags = src->f0;
@@ -393,10 +393,10 @@ void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
  * docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F0CC.c \
- *       --func sub_0200F0CC --addr 0x0200F0CC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_GetNextUsed.c \
+ *       --func NET_DEVICE_TABLE_GetNextUsed --addr 0x0200F0CC --cc 1.1p1
  */
-u32 sub_0200F0CC(const void *obj, void *out, u32 *idxptr)
+u32 NET_DEVICE_TABLE_GetNextUsed(const void *obj, void *out, u32 *idxptr)
 {
     u32 count = *(const u16 *)&((struct Obj11712 *)obj)->f4;
     u32 idx = *idxptr;
@@ -437,10 +437,10 @@ u32 sub_0200F0CC(const void *obj, void *out, u32 *idxptr)
  * byte difference (see "the two missing labels" in docs/MATCHING.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F104.c \
- *       --func sub_0200F104 --addr 0x0200F104 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_GetFreeSlot.c \
+ *       --func NET_DEVICE_TABLE_GetFreeSlot --addr 0x0200F104 --cc 1.1p1
  */
-void *sub_0200F104(void *ctx)
+void *NET_DEVICE_TABLE_GetFreeSlot(void *ctx)
 {
     u16 count = *(u16 *)&((struct Obj00192 *)ctx)->f4;
     int i = 0;
@@ -475,10 +475,10 @@ void *sub_0200F104(void *ctx)
  * out reversed; see docs/idioms/the-fall-through-arm-is-the-source-order.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F128.c \
- *       --func sub_0200F128 --addr 0x0200F128 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_RemapId.c \
+ *       --func NET_DEVICE_TABLE_RemapId --addr 0x0200F128 --cc 1.1p1
  */
-u32 sub_0200F128(u32 x)
+u32 NET_DEVICE_TABLE_RemapId(u32 x)
 {
     if (x < 0xdf) {
         return x;
@@ -498,14 +498,14 @@ u32 sub_0200F128(u32 x)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * alias: sub_0200F168 is a stub returning 0; sub_0200F16C stamps a
+ * alias: NET_DEVICE_TABLE_GetZero is a stub returning 0; NET_DEVICE_TABLE_SetHeader stamps a
  * three-word header (a type tag, a size, a count) into the caller's struct.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0200F168.c \
  *       --addr 0x0200F168 --thumb
  */
-u32 sub_0200F168(void)
+u32 NET_DEVICE_TABLE_GetZero(void)
 {
     return 0;
 }
@@ -513,7 +513,7 @@ u32 sub_0200F168(void)
 
 
 
-void sub_0200F16C(struct Sub0200F16CHdr *hdr)
+void NET_DEVICE_TABLE_SetHeader(struct Sub0200F16CHdr *hdr)
 {
     hdr->tag = 2;
     hdr->size = 4;
@@ -534,7 +534,7 @@ void sub_0200F16C(struct Sub0200F16CHdr *hdr)
  * and 5 share the arm at 0x0200F1FC, selectors 3 and 4 the one at
  * 0x0200F208, and 6, 1, 2 have their own (0x0200F19C, 0x0200F1C0,
  * 0x0200F1DE).  The cases below are written in that memory order, which is
- * what decides the arm layout (the sibling function func_0200F234, same
+ * what decides the arm layout (the sibling function NET_DEVICE_TABLE_Reset, same
  * packet, closes the same way).
  *
  * The arguments are absolute symbols, not numbers: every one of them arrives
@@ -552,10 +552,10 @@ void sub_0200F16C(struct Sub0200F16CHdr *hdr)
  *           `overlay_id` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200F17C.c \
- *       --func func_0200F17C --addr 0x0200F17C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_Select.c \
+ *       --func NET_DEVICE_TABLE_Select --addr 0x0200F17C --cc 1.1p1 --thumb
  */
-int func_0200F17C(u32 sel)
+int NET_DEVICE_TABLE_Select(u32 sel)
 {
     switch (sel) {
     case 6:
@@ -590,7 +590,7 @@ int func_0200F17C(u32 sel)
 }
 
 
-void func_0200F234(u32 sel)
+void NET_DEVICE_TABLE_Reset(u32 sel)
 {
     switch (sel) {
     case 6:

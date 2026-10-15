@@ -27,7 +27,7 @@
  *   func_020409B4  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   g_02203B0C  0x02203B0C  data  ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositionsLower 0x021FFD74 thumb ov135
@@ -36,16 +36,16 @@
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   g_02202C94  0x02202C94  data  ov135
  *   g_02202CE4  0x02202CE4  data  ov135
  *   g_02202D04  0x02202D04  data  ov135
  *   g_02202CA4  0x02202CA4  data  ov135
  *   g_02202CC4  0x02202CC4  data  ov135
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -90,7 +90,7 @@
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   func_02017DE4  0x02017DE4  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   func_02007A18  0x02007A18  thumb
  *   func_0200785C  0x0200785C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -196,7 +196,7 @@ extern void WORLDTRADE_TITLE_ScrollBg(Work *, u32, u32);
 
 extern void WORLDTRADE_SUBLCD_SetSlotActorPositions(char *p);
 
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 
@@ -210,15 +210,15 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate_021F4580 *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate_021F4580 *tmpl, u32 type);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -337,7 +337,7 @@ extern u32 func_02017DBC(struct Sav *p);
 
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
@@ -536,7 +536,7 @@ int WORLDTRADE_BOX_Init(Work *p)
     WORLDTRADE_BOX_CreateWindows((Work *)p);
     WORLDTRADE_BOX_CreateActors((Work *)p);
     WORLDTRADE_SUBLCD_SetSlotActorPositions((char *)p);
-    if (func_0207D55C((u16 *)0x0400106c) == 0) {
+    if (GXx_GetMasterBrightness_((u16 *)0x0400106c) == 0) {
         WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
     } else {
         WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);
@@ -558,7 +558,7 @@ void WORLDTRADE_BOX_Main(u8 *p)
 
 int WORLDTRADE_BOX_Exit(Work *p)
 {
-    if (func_0207D55C((u16 *)0x0400106c)) {
+    if (GXx_GetMasterBrightness_((u16 *)0x0400106c)) {
         WORLDTRADE_SUBLCD_SetSlotActorPositionsLower((char *)p);
     }
     WORLDTRADE_BOX_DeleteActors((Work *)(void *)p);
@@ -584,29 +584,29 @@ void WORLDTRADE_BOX_SetupBgPlanes(void)
     BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate_021F4580 t = g_02202CE4;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
         struct BgTemplate_021F4580 t = g_02202D04;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
         struct BgTemplate_021F4580 t = g_02202CA4;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_020414EC(2);
+    BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
     {
         struct BgTemplate_021F4580 t = g_02202CC4;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
     }
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_02040588(3, 1);
-    func_02040B94(0, 0x20, 0, 0x48);
-    func_02040B94(3, 0x20, 0, 0x48);
+    BG_SYS_InitRun(0, 0x20, 0, 0x48);
+    BG_SYS_InitRun(3, 0x20, 0, 0x48);
 }
 
 /*
@@ -614,10 +614,10 @@ void WORLDTRADE_BOX_SetupBgPlanes(void)
  */
 void WORLDTRADE_BOX_ExitBgPlanes(void)
 {
-    sub_020403F4(2);
-    sub_020403F4(1);
-    sub_020403F4(0);
-    sub_020403F4(3);
+    BG_SYS_Delete_03F4(2);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(0);
+    BG_SYS_Delete_03F4(3);
 }
 
 void WORLDTRADE_BOX_LoadBgGraphics(Work *p)
@@ -1417,7 +1417,7 @@ void WORLDTRADE_BOX_TransferIconPalette(Work *p)
  * 0x6F, egg 0x4C, held item 6, parameter 0x6E + 1) into the info record,
  * clearing its +3 byte for an egg. A present Pokemon gets its icon loaded
  * (WORLDTRADE_BOX_LoadPokeIcon) and shown; the item sprite is shown with animation 0x29
- * or 0x28 by func_0202136C, or hidden when there is no item. An empty
+ * or 0x28 by FILE_UTIL_Check136C, or hidden when there is no item. An empty
  * slot hides both sprites and clears the icon record's +8 word.
  */
 void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec)
@@ -1444,7 +1444,7 @@ void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *speci
         CLACT_SetActorDrawEnable((struct Obj *)icon, 1);
         if (item != 0) {
             CLACT_SetActorDrawEnable((struct Obj *)item_spr, 1);
-            if (func_0202136C(item) != 0) {
+            if (FILE_UTIL_Check136C(item) != 0) {
                 CLACT_SetActorAnimSeq((struct Obj *)item_spr, 0x29);
             } else {
                 CLACT_SetActorAnimSeq((struct Obj *)item_spr, 0x28);
@@ -1689,7 +1689,7 @@ int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle)
     int ok = 0;
     u16 v = (u16)func_02017E1C((void *)handle, 6, 0);
 
-    if (func_0202136C(v) != 0) {
+    if (FILE_UTIL_Check136C(v) != 0) {
         ok = 1;
     }
     return ok;

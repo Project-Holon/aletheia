@@ -16,13 +16,13 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -57,15 +57,15 @@ extern Row gOptionMenuBgLayers[];
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void MI_CpuCopy8(void *src, void *dst, u32 n);
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8 id);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
+extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -87,18 +87,18 @@ void OPTION_MENU_InitGfx(u8 *p, u16 heap)
     u32 id;
 
     MI_CpuFill8(p, 0, 0x7c);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)gOptionMenuDispConfig);
     for (i = 0; i < 6; i++) {
         id = gOptionMenuBgLayers[i].id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)(&gOptionMenuBgLayers[i].w[0]), (u8)gOptionMenuBgLayers[i].f24);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)(&gOptionMenuBgLayers[i].w[0]), (u8)gOptionMenuBgLayers[i].f24);
         func_020414AC(id);
         func_02040588(id, 1);
     }
     func_02040588(3, 0);
-    func_02040C14(4, 0, 1, 0);
-    func_02040C14(3, 0, 1, 0);
+    BG_SYS_Init(4, 0, 1, 0);
+    BG_SYS_Init(3, 0, 1, 0);
     h = func_020490F4(0x1b, heap);
     func_02049B68(h, 1, 0, 0, 0, heap);
     func_02049658(h, 0xd, 0, 0, 0, 0, heap);

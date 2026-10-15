@@ -1,5 +1,5 @@
 /*
- * function: func_021F5D4C
+ * function: EGG_DEMO_MAIN_LoadGraphics
  * address: 0x021F5D4C
  * packet: pkt_ov215_021F5D4C
  * region: ov215
@@ -28,7 +28,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
-void func_021F5D4C(int unused, char *p)
+void EGG_DEMO_MAIN_LoadGraphics(int unused, char *p)
 {
     void *h = func_020490F4(189, ((struct Obj08424 *)p)->f0);
     func_02049B68(h, 3, 0, 0, 32, ((struct Obj08424 *)p)->f0);

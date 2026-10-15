@@ -1,7 +1,7 @@
 /*
  * file:     fs_overlay.c
  * unit:     yes
- * function: func_02078C40, func_02078CB0, func_02078CCC, func_02078D08, func_02078D34, func_02078EB0, func_02078F30, func_0207902C, FS_EndOverlay, FS_UnloadOverlayImage, func_02079264, func_020792B8
+ * function: FSi_InitOverlay, FSi_GetOverlayBinarySize, FS_ClearOverlayImage, FS_GetOverlayFileID, FS_LoadOverlayInfo, FS_LoadOverlayImage, FSi_CompareDigest, FS_StartOverlay, FS_EndOverlay, FS_UnloadOverlayImage, FS_LoadOverlay, FS_UnloadOverlay
  * address:  0x02078C40
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -35,7 +35,7 @@
  *   FS_GetFileImageTop  0x0207A7BC  arm
  *   FS_GetFileLength  0x02078A94  arm
  *   SDK_OVERLAY_NUMBER  0x000000ED  data
- *   func_0209125C  0x0209125C  thumb
+ *   MSL_C_LIB_TwlCall5  0x0209125C  thumb
  *   OS_Terminate  0x02088234  arm
  *   MIi_UncompressBackward  0x02004DF4  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -45,7 +45,7 @@
  *   SDK_OVERLAY_DIGEST  0x020A8BE0  data
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021542B8     0x021542B8  data
+ *   gOverlayEndCallbacks     0x021542B8  data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -123,20 +123,20 @@ typedef struct FSOverlaySource
     u32 length;
 } FSOverlaySource;
 
-typedef struct FSiOverlayContext
+typedef struct FSOverlayContext
 {
     FSArchive *arc;
     FSOverlaySource source[2];
     const u8 *digest_key;
     u32 digest_key_len;
-} FSiOverlayContextType;
+} FSOverlayContext;
 
-typedef struct Node02079164
+typedef struct FSOverlayEndCallback
 {
-    struct Node02079164 *next;
-    void (*fn)(void *);
+    struct FSOverlayEndCallback *next;
+    void (*callback)(void *);
     void *arg;
-} Node02079164;
+} FSOverlayEndCallback;
 
 extern u16 OS_GetBootType(void);
 extern BOOL OS_IsRunOnTwl(void);
@@ -154,7 +154,7 @@ extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
-extern void func_0209125C(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
+extern void MSL_C_LIB_TwlCall5(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern u32 func_0208139C(u32);
 extern void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern void OS_Terminate(void);
@@ -168,32 +168,32 @@ extern u8 SDK_LTDAUTOLOAD_LTDMAIN_START[];
 extern u8 SDK_LTDAUTOLOAD_LTDMAIN_BSS_END[];
 extern u8 SDK_OVERLAY_DIGEST_END[];
 extern u8 SDK_OVERLAY_DIGEST[];
-extern Node02079164 *g_021542B8;
+extern FSOverlayEndCallback *gOverlayEndCallbacks;
 
-void func_02078C40(void);
-u32 func_02078CB0(FSOverlayInfo *p);
-void func_02078CCC(FSOverlayInfo *p_ovi);
-FSFileID func_02078D08(FSOverlayInfo *p_ovi);
-BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id);
-BOOL func_02078EB0(FSOverlayInfo *p_ovi);
-BOOL func_02078F30(const u8 *spec_digest, void *src, int len, BOOL table_mode);
-void func_0207902C(FSOverlayInfo *p_ovi);
+void FSi_InitOverlay(void);
+u32 FSi_GetOverlayBinarySize(FSOverlayInfo *p);
+void FS_ClearOverlayImage(FSOverlayInfo *p_ovi);
+FSFileID FS_GetOverlayFileID(FSOverlayInfo *p_ovi);
+BOOL FS_LoadOverlayInfo(FSOverlayInfo *p_ovi, u32 target, u32 id);
+BOOL FS_LoadOverlayImage(FSOverlayInfo *p_ovi);
+BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mode);
+void FS_StartOverlay(FSOverlayInfo *p_ovi);
 void FS_EndOverlay(FSOverlayInfo *p_ovi);
 BOOL FS_UnloadOverlayImage(FSOverlayInfo *p_ovi);
-BOOL func_02079264(int target, u32 id);
-int func_020792B8(int target, u32 id);
+BOOL FS_LoadOverlay(int target, u32 id);
+int FS_UnloadOverlay(int target, u32 id);
 
 /* .bss of the object: FS_StartOverlay's function-static `once` at +0, then
  * FSiOverlayContext at +4 */
 static int once_slot = 0;
 
-static FSiOverlayContextType FSiOverlayContext = { 0 };
+static FSOverlayContext FSiOverlayContext = { 0 };
 
 
 /*
  * sdk:      FSi_InitOverlay (libfs.TWL.HYB.a fs_overlay.o)
  */
-void func_02078C40(void)
+void FSi_InitOverlay(void)
 {
     if (OS_GetBootType() == 2)
     {
@@ -216,7 +216,7 @@ void func_02078C40(void)
 
 
 
-u32 func_02078CB0(FSOverlayInfo *p)
+u32 FSi_GetOverlayBinarySize(FSOverlayInfo *p)
 {
     if (p->header.flag & 1)
         return p->header.compressed;
@@ -228,7 +228,7 @@ u32 func_02078CB0(FSOverlayInfo *p)
 /*
  * sdk:      FS_ClearOverlayImage (libfs.TWL.HYB.a fs_overlay.o)
  */
-void func_02078CCC(FSOverlayInfo *p_ovi)
+void FS_ClearOverlayImage(FSOverlayInfo *p_ovi)
 {
     u8 *const addr = p_ovi->header.ram_address;
     const u32 image_size = p_ovi->header.ram_size;
@@ -243,7 +243,7 @@ void func_02078CCC(FSOverlayInfo *p_ovi)
 /*
  * sdk:      FS_GetOverlayFileID (fs_overlay.o)
  */
-FSFileID func_02078D08(FSOverlayInfo *p_ovi)
+FSFileID FS_GetOverlayFileID(FSOverlayInfo *p_ovi)
 {
     FSFileID ret;
 
@@ -261,7 +261,7 @@ FSFileID func_02078D08(FSOverlayInfo *p_ovi)
  *
  * sdk:      FS_LoadOverlayInfo (libfs.TWL.HYB.a fs_overlay.o)
  */
-BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id)
+BOOL FS_LoadOverlayInfo(FSOverlayInfo *p_ovi, u32 target, u32 id)
 {
     BOOL retval = 0;
     const u32 pos = id * 32;
@@ -278,7 +278,7 @@ BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id)
                 FS_InitFile(file);
                 MI_CpuCopy8(src->buffer + pos, p_ovi, 32);
                 p_ovi->target = target;
-                if (FS_OpenFileFast(file, func_02078D08(p_ovi)))
+                if (FS_OpenFileFast(file, FS_GetOverlayFileID(p_ovi)))
                 {
                     p_ovi->file_pos.offset = FS_GetFileImageTop(file);
                     p_ovi->file_pos.length = FS_GetFileLength(file);
@@ -306,7 +306,7 @@ BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id)
                     {
                         (void)FS_CloseFile(file);
                         p_ovi->target = target;
-                        if (FS_OpenFileFast(file, func_02078D08(p_ovi)))
+                        if (FS_OpenFileFast(file, FS_GetOverlayFileID(p_ovi)))
                         {
                             p_ovi->file_pos.offset = FS_GetFileImageTop(file);
                             p_ovi->file_pos.length = FS_GetFileLength(file);
@@ -325,17 +325,17 @@ BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id)
 /*
  * sdk:      FS_LoadOverlayImage (libfs.TWL.HYB.a fs_overlay.o)
  */
-BOOL func_02078EB0(FSOverlayInfo *p_ovi)
+BOOL FS_LoadOverlayImage(FSOverlayInfo *p_ovi)
 {
     BOOL retval = 0;
     FSFile p_file[1];
 
     FS_InitFile(p_file);
-    if (FS_OpenFileFast(p_file, func_02078D08(p_ovi)))
+    if (FS_OpenFileFast(p_file, FS_GetOverlayFileID(p_ovi)))
     {
-        s32 size = (s32)func_02078CB0(p_ovi);
+        s32 size = (s32)FSi_GetOverlayBinarySize(p_ovi);
 
-        func_02078CCC(p_ovi);
+        FS_ClearOverlayImage(p_ovi);
         if (FS_ReadFile(p_file, p_ovi->header.ram_address, size) == size)
         {
             retval = 1;
@@ -352,7 +352,7 @@ BOOL func_02078EB0(FSOverlayInfo *p_ovi)
 /*
  * DRAFT: compiles the whole 252-byte range; verdict pending.
  */
-BOOL func_02078F30(const u8 *spec_digest, void *src, int len, BOOL table_mode)
+BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mode)
 {
     u8 buf[0x14];
     u8 tmp[0x40];
@@ -363,7 +363,7 @@ BOOL func_02078F30(const u8 *spec_digest, void *src, int len, BOOL table_mode)
     MI_CpuCopy8(FSiOverlayContext.digest_key, tmp, FSiOverlayContext.digest_key_len);
 
     if (table_mode == 0 && OS_IsRunOnTwl() != 0) {
-        func_0209125C(buf, src, len, tmp, FSiOverlayContext.digest_key_len);
+        MSL_C_LIB_TwlCall5(buf, src, len, tmp, FSiOverlayContext.digest_key_len);
     } else {
         handle = 0;
         if (table_mode != 0) {
@@ -391,9 +391,9 @@ BOOL func_02078F30(const u8 *spec_digest, void *src, int len, BOOL table_mode)
  *
  * sdk:      FS_StartOverlay (libfs.TWL.HYB.a fs_overlay.o)
  */
-void func_0207902C(FSOverlayInfo *p_ovi)
+void FS_StartOverlay(FSOverlayInfo *p_ovi)
 {
-    u32 rare_size = func_02078CB0(p_ovi);
+    u32 rare_size = FSi_GetOverlayBinarySize(p_ovi);
 
     if (((u32)p_ovi->header.ram_address >= (u32)SDK_LTDAUTOLOAD_LTDMAIN_START) &&
         ((u32)p_ovi->header.ram_address < (u32)SDK_LTDAUTOLOAD_LTDMAIN_BSS_END) && OS_IsRunOnTwl())
@@ -413,7 +413,7 @@ void func_0207902C(FSOverlayInfo *p_ovi)
 
             if (p_ovi->header.id < max)
             {
-                ret = func_02078F30(SDK_OVERLAY_DIGEST + p_ovi->header.id * 20,
+                ret = FSi_CompareDigest(SDK_OVERLAY_DIGEST + p_ovi->header.id * 20,
                                     p_ovi->header.ram_address, (int)rare_size, 0);
             }
         }
@@ -449,7 +449,7 @@ void func_0207902C(FSOverlayInfo *p_ovi)
  * wrapper.
  *
  * FS_EndOverlay repeatedly detaches, inside the 0x02087988/0x0208799C
- * critical section, every node of the global list g_021542B8 whose
+ * critical section, every node of the global list gOverlayEndCallbacks whose
  * callback argument (+8) falls in the overlay's byte range, or whose
  * callback function (+4) does when the argument is null, then runs the
  * detached callbacks with interrupts restored and starts over.  The
@@ -464,7 +464,7 @@ void func_0207902C(FSOverlayInfo *p_ovi)
  *    Spelling both as `void f(void)` leaves r0 free, and the allocator
  *    then has one spare register and picks a different colouring for
  *    every local in the function.
- *  - `cur->arg` and `cur->fn` are read into locals before the test, not
+ *  - `cur->arg` and `cur->callback` are read into locals before the test, not
  *    referenced inside it: the original loads +4 unconditionally, ahead
  *    of the branch that only one arm of the test needs.
  *  - which locals live in the function scope and which in the `for` body
@@ -474,18 +474,18 @@ void func_0207902C(FSOverlayInfo *p_ovi)
  */
 void FS_EndOverlay(FSOverlayInfo *p_ovi)
 {
-    Node02079164 *prev;
-    Node02079164 *list;
+    FSOverlayEndCallback *prev;
+    FSOverlayEndCallback *list;
 
     for (;;) {
-        Node02079164 *head;
-        Node02079164 *tail;
-        Node02079164 *cur;
-        Node02079164 *next;
+        FSOverlayEndCallback *head;
+        FSOverlayEndCallback *tail;
+        FSOverlayEndCallback *cur;
+        FSOverlayEndCallback *next;
         u32 lo;
         u32 hi;
         u32 arg;
-        u32 fn;
+        u32 fnAddr;
         u32 e;
 
         head = 0;
@@ -495,21 +495,21 @@ void FS_EndOverlay(FSOverlayInfo *p_ovi)
 
         e = OS_DisableInterrupts();
 
-        list = g_021542B8;
+        list = gOverlayEndCallbacks;
         prev = 0;
         cur = list;
         while (cur != 0) {
             arg = (u32)cur->arg;
             next = cur->next;
-            fn = (u32)cur->fn;
-            if ((arg == 0 && fn >= lo && fn < hi) || (arg >= lo && arg < hi)) {
+            fnAddr = (u32)cur->callback;
+            if ((arg == 0 && fnAddr >= lo && fnAddr < hi) || (arg >= lo && arg < hi)) {
                 if (tail != 0) {
                     tail->next = cur;
                 } else {
                     head = cur;
                 }
                 if (list == cur) {
-                    g_021542B8 = next;
+                    gOverlayEndCallbacks = next;
                     list = next;
                 }
                 cur->next = 0;
@@ -531,8 +531,8 @@ void FS_EndOverlay(FSOverlayInfo *p_ovi)
 
         do {
             next = head->next;
-            if (head->fn != 0) {
-                head->fn(head->arg);
+            if (head->callback != 0) {
+                head->callback(head->arg);
             }
             head = next;
         } while (head != 0);
@@ -550,14 +550,14 @@ BOOL FS_UnloadOverlayImage(FSOverlayInfo *p_ovi)
 /*
  * sdk:      FS_LoadOverlay (libfs.TWL.HYB.a fs_overlay.o)
  */
-BOOL func_02079264(int target, u32 id)
+BOOL FS_LoadOverlay(int target, u32 id)
 {
     BOOL retval = 0;
     FSOverlayInfo ovi;
 
-    if (func_02078D34(&ovi, target, id) && func_02078EB0(&ovi))
+    if (FS_LoadOverlayInfo(&ovi, target, id) && FS_LoadOverlayImage(&ovi))
     {
-        func_0207902C(&ovi);
+        FS_StartOverlay(&ovi);
         retval = 1;
     }
     return retval;
@@ -574,14 +574,14 @@ BOOL func_02079264(int target, u32 id)
  * that succeeded, runs it once; the result is normalised to 0/1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020792B8.c \
- *       --func func_020792B8 --addr 0x020792B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FS_UnloadOverlay.c \
+ *       --func FS_UnloadOverlay --addr 0x020792B8 --cc 1.1p1 --arm
  */
-int func_020792B8(int target, u32 id)
+int FS_UnloadOverlay(int target, u32 id)
 {
     FSOverlayInfo ovi;
 
-    if (func_02078D34(&ovi, target, id) != 0 && FS_UnloadOverlayImage(&ovi) != 0) {
+    if (FS_LoadOverlayInfo(&ovi, target, id) != 0 && FS_UnloadOverlayImage(&ovi) != 0) {
         return 1;
     }
     return 0;

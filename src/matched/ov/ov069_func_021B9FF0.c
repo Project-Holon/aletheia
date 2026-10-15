@@ -19,7 +19,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F048  0x0201F048  thumb
- *   func_0201F094  0x0201F094  thumb
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   func_0201F250  0x0201F250  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -39,7 +39,7 @@ struct WordSet; struct U16Vec; struct Descriptor; struct CharBuf; struct Cfg; st
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -72,7 +72,7 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(char *p, struct Rec *tbl, int idx)
     func_0201EFA4(*(struct WordSet **)(p + 0xF8), 0, *(u32 *)(*(char **)(p + 0x154) + 4), 2, 0, 1);
     func_0201EFA4(*(struct WordSet **)(p + 0xF8), 1, *(u32 *)(*(char **)(p + 0x154) + 8), 3, 0, 1);
     func_0201F048(*(struct WordSet **)(p + 0xF8), 2, a);
-    func_0201F094(*(struct WordSet **)(p + 0xF8), 3, a, b);
+    WORDSET_DeleteMsgdataF094(*(struct WordSet **)(p + 0xF8), 3, a, b);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x3C)), 0);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x40)), 0);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x44)), 0);

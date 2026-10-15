@@ -57,10 +57,10 @@
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_BTN_Delete 0x021F9F48 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
- *   BR_BTN_GetField14 0x021FA018 thumb ov186
+ *   BR_BTN_GetPressed 0x021FA018 thumb ov186
  *   BR_BTN_UpdatePrint 0x021F9FE8 thumb ov186
  *   BR_BTN_GetPlacement 0x021FA004 thumb ov186
- *   BR_BTN_GetField54 0x021FA01C thumb ov186
+ *   BR_BTN_GetResultValue 0x021FA01C thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   BR_RES_SetPalSet 0x021FC230 thumb ov186
  *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
@@ -154,7 +154,7 @@
  *   d_021E336C 0x021E336C data a4
  *   d_021E3440 0x021E3440 data a4
  *   func_0200DBA0 0x0200DBA0 thumb
- *   func_0201296C 0x0201296C thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_021E3358 0x021E3358 data a4
@@ -171,7 +171,7 @@
  *   BR_NET_GetSearchResultsForRanking 0x021FF6DC thumb ov186
  *   BR_NET_GetSearchResultsForNewest 0x021FF704 thumb ov186
  *   BR_NET_GetSearchResults 0x021FF6B4 thumb ov186
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   BMP_Create 0x02043678 arm
@@ -185,11 +185,11 @@
  *   BR_UTIL_GetListMenuField 0x021FCE0C thumb ov186
  *   BR_UTIL_GetListItemBitmap 0x021FCDE8 thumb ov186
  *   BMP_Delete 0x020437AC arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
- *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   CLACT_GetActorPaletteOffset 0x0204B714 arm
@@ -218,7 +218,7 @@
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   func_02025B64 0x02025B64 thumb
  *   func_0201F048 0x0201F048 thumb
- *   func_0201F094 0x0201F094 thumb
+ *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   d_021E3780 0x021E3780 data a4
  *   d_021E372E 0x021E372E data a4
  *   d_021E37D8 0x021E37D8 data ov183
@@ -260,10 +260,10 @@
  *   GDS_RAP_StartVideoSave 0x021D76A8 thumb ov125
  *   GDS_RAP_StepVideoSave 0x021D76D8 thumb ov125
  *   d_021E3900 0x021E3900 data a4
- *   func_021E2F98 0x021E2F98 thumb ov183
- *   func_021E300C 0x021E300C thumb ov183
- *   func_021E31E8 0x021E31E8 thumb ov183
- *   func_021E3228 0x021E3228 thumb ov183
+ *   BR_CODEIN_SOCL_InitDefault 0x021E2F98 thumb ov183
+ *   BR_CODEIN_GetMenuCallbacks 0x021E300C thumb ov183
+ *   BR_CODEIN_HitTestOptionA 0x021E31E8 thumb ov183
+ *   BR_CODEIN_HitTestOptionB 0x021E3228 thumb ov183
  *   GDS_RAP_SaveVideoSeq 0x021D7540 thumb ov125
  *   d_021E3910 0x021E3910 data a4
  *   d_021E3928 0x021E3928 data a4
@@ -507,7 +507,7 @@ extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap)
 extern struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap);
 extern void BR_FADE_SetBlendLevel(int,int,int);
 extern void BR_FADE_Start(int,int,int,int);
-extern int BR_BTN_GetField14(char *),BR_BTN_GetField54(char *);
+extern int BR_BTN_GetPressed(char *),BR_BTN_GetResultValue(char *);
 extern void BR_BTN_UpdatePrint(char *);
 extern int BR_BTN_GetPlacement(char *,int *,int *);
 extern int BR_RES_GetPalSet(char *),BR_RES_GetCurrentSetParam(char *);
@@ -583,7 +583,7 @@ extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
 extern u8 func_0200DC08(struct Blk1AC *p);
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *,int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u16 BSUBWAY_SAVEDATA_GetStat(Row *,int,int);
@@ -593,7 +593,7 @@ extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern int BR_NET_GetSearchResultsForRanking(char *p, void *buffer, int count, int *out);
 extern int BR_NET_GetSearchResultsForNewest(char *p, void *buffer, int count, int *out);
 extern int BR_NET_GetSearchResults(char *p, void *buffer, int count, int *out);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern Slot_021DB2E0 *BMP_MENUWORK_Create(u32,u32);
 extern void *BR_UTIL_CreateListMenu(const Config_021DF1DC *,u16);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -606,11 +606,11 @@ extern void BR_UTIL_RefreshList(char *p);
 extern int BR_UTIL_GetListMenuField(char *p, unsigned field);
 extern u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i);
 extern void BMP_Delete(struct Obj020437AC *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BR_UTIL_MainListMenu(char *p);
-extern int BR_UTIL_GetListMenuField48(char *);
+extern int BR_UTIL_GetListMenuHitId(char *);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
@@ -636,7 +636,7 @@ extern int BR_POKESEARCH_GetResult(int *, u16 *);
 extern void BMP_MENUWORK_AddStrItem(Slot_021DB2E0 *table, u32 a, u32 b, u32 tag);
 extern u8 func_02025B64(u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BUTTON_MAN_Delete(void *);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -660,9 +660,9 @@ extern u32 BR_NET_GetUploadedDataNumber(u8 *p, unsigned long long *out);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void GDS_RAP_StartVideoSave(int,int,int);
 extern int GDS_RAP_StepVideoSave(char *p, int id);
-extern void func_021E2F98(SOCLResource *resource);
-extern void func_021E300C(Point *);
-extern int func_021E31E8(char *,int,int),func_021E3228(char *,int,int);
+extern void BR_CODEIN_SOCL_InitDefault(SOCLResource *resource);
+extern void BR_CODEIN_GetMenuCallbacks(Point *);
+extern int BR_CODEIN_HitTestOptionA(char *,int,int),BR_CODEIN_HitTestOptionB(char *,int,int);
 extern int GDS_RAP_SaveVideoSeq(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
 int func_021DB2E0(int *task, int unused, char *p);
 int func_021DB36C(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p);
@@ -1178,7 +1178,7 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
     case 0: BR_FADE_Start(p->f10,p->fC,3,0);*state=1;break;
     case 1: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=2;break;
     case 2:
-        if(p->f0<=4 && !BR_BTN_GetField14(*(char * *)&q->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
+        if(p->f0<=4 && !BR_BTN_GetPressed(*(char * *)&q->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
         }
         BR_BTN_UpdatePrint(*(char * *)&q->f0);
@@ -1192,7 +1192,7 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
     case 5:
         switch(BR_BTN_GetPlacement(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) {
         case 1: BR_PROC_SYS_PushEntry(*(unsigned * *)&p->f1C,(unsigned short)p->f4);return 1;
-        case 2: BR_PROC_SYS_PopEntry((*(void * *)&p->f1C));**(int * *)&p->f28=BR_BTN_GetField54(*(char * *)&q->f0);return 1;
+        case 2: BR_PROC_SYS_PopEntry((*(void * *)&p->f1C));**(int * *)&p->f28=BR_BTN_GetResultValue(*(char * *)&q->f0);return 1;
         }
         break;
     case 6: {
@@ -3079,7 +3079,7 @@ int func_021DDFA0(char *p, int x, int y)
 
 
 
-int func_021DE000(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b=ZONEDATA_CheckEventFlag((void *)func_0201296C((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }
+int func_021DE000(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b=ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }
 
 
 
@@ -3090,7 +3090,7 @@ int func_021DE000(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b=ZONEDATA
 int func_021DE02C(void *p, void *q)
 {
     int a = func_0200DBA0(p, 5, 0);
-    unsigned b = ZONEDATA_CheckEventFlag((void *)func_0201296C(q), 0x960);
+    unsigned b = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(q), 0x960);
     if (a && b) return 1;
     return 0;
 }
@@ -3104,7 +3104,7 @@ int func_021DE02C(void *p, void *q)
 int func_021DE058(void *p, void *q)
 {
     int a = func_0200DBA0(p, 6, 0);
-    unsigned b = ZONEDATA_CheckEventFlag((void *)func_0201296C(q), 0x960);
+    unsigned b = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(q), 0x960);
     if (a && b) return 1;
     return 0;
 }
@@ -4035,7 +4035,7 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     second=BR_RES_GetMsgData(res);
     MI_CpuFill8(p,0,0xd4);
     p->base=base;
-    p->words=func_0201EC64(heap);
+    p->words=GF_FONT_Create_EC64(heap);
     p->c=a5;
     p->d=a6;
     p->list=BMP_MENUWORK_Create(*(u32 *)(base+0x1718),heap);
@@ -4084,7 +4084,7 @@ void func_021DF388(char *p)
     for (i = 0; i < BR_UTIL_GetListMenuField(((struct CodeinWorkG *)p)->f4, 3); i++) {
         BMP_Delete((struct Obj020437AC *)BR_UTIL_GetListItemBitmap(((struct CodeinWorkG *)p)->f4, i));
     }
-    func_0201ED04(((struct CodeinWorkG *)p)->f8);
+    WORDSET_DeleteStrbufED04(((struct CodeinWorkG *)p)->f8);
     BR_UTIL_DeleteListMenu(((struct CodeinWorkG *)p)->f4);
     BMP_MENUWORK_Delete(((struct CodeinWorkG *)p)->f0);
     MI_CpuFill8(p, 0, 0xD4);
@@ -4117,7 +4117,7 @@ void func_021DF3DC(char *p, u16 a)
 
 int func_021DF41C(char *p)
 {
-    return BR_UTIL_GetListMenuField48(*(char * *)&((struct CodeinWorkA *)p)->f4);
+    return BR_UTIL_GetListMenuHitId(*(char * *)&((struct CodeinWorkA *)p)->f4);
 }
 
 
@@ -4657,7 +4657,7 @@ int func_021DFFB0(struct CodeinWorkB *p, struct CodeinArgB *q)
     int selected, pressed;
     unsigned int x, y;
     BR_UTIL_MainListMenu(p->f18);
-    selected = BR_UTIL_GetListMenuField48(p->f18);
+    selected = BR_UTIL_GetListMenuHitId(p->f18);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
     pressed &= BR_BTN_HitTestWithSound((unsigned int *)(p->fC), x, y);
     if (selected != -1) {
@@ -4760,7 +4760,7 @@ int func_021E00D8(struct CodeinWorkB *p,struct CodeinArgA *q)
     ws=BR_RES_GetWordSet(*(char * *)&q->f8);
     data=func_02045EC0((void *)second,125);
     if(!func_02025B64(a))func_0201F048((void *)ws,0,a);
-    else func_0201F094((void *)ws,0,a,b);
+    else WORDSET_DeleteMsgdataF094((void *)ws,0,a,b);
     func_0201F250((void *)ws,text,data);
     STRBUF_Delete(data);
     *(Slot_021DB2E0 * *)&p->f14=BMP_MENUWORK_Create(1,p->f54);
@@ -4810,7 +4810,7 @@ int func_021E024C(struct CodeinWorkB *p, struct CodeinArgB *q)
     int selected, pressed;
     unsigned int x, y;
     BR_UTIL_MainListMenu(p->f18);
-    selected = BR_UTIL_GetListMenuField48(p->f18);
+    selected = BR_UTIL_GetListMenuHitId(p->f18);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
     pressed &= BR_BTN_HitTestWithSound((unsigned int *)(p->fC), x, y);
     if (selected != -1) {
@@ -4901,7 +4901,7 @@ void func_021E03B0(struct CodeinWorkB *p,struct CodeinArgB *q,int mode)
         data=func_02045EC0((void *)second,24);
         text=STRBUF_Create(128,p->f54);
         if(!func_02025B64(q->f16))func_0201F048((void *)ws,0,q->f16);
-        else func_0201F094((void *)ws,0,q->f16,q->f17);
+        else WORDSET_DeleteMsgdataF094((void *)ws,0,q->f16,q->f17);
         func_0201F250((void *)ws,text,data);
         BR_UTIL_SetTextFromBuffer(p->f34,text,(void *)first,0x3da0);
         STRBUF_Delete(data);STRBUF_Delete(text);
@@ -6498,7 +6498,7 @@ void func_021E26B8(int *task,State_021E21E0 *state,char *p) {
     u64 value;char *arg;
     switch(*state) {
     case 0:
-        func_021E2F98(&cb);arg=*(char **)(p+0x3c);*(SOCLResource *)(p+0x4c)=cb;
+        BR_CODEIN_SOCL_InitDefault(&cb);arg=*(char **)(p+0x3c);*(SOCLResource *)(p+0x4c)=cb;
         func_021E2E30((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
     case 1:BR_FADE_Start(**(int **)(p+0x3c),2,3,0);*state=2;break;
     case 2:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=3;break;
@@ -6554,7 +6554,7 @@ void func_021E2910(int *task,int *state,char *p) {
     int i;
     switch(*state) {
     case 0: {
-        func_021E300C(&cb);
+        BR_CODEIN_GetMenuCallbacks(&cb);
         *(Point *)(p+0x4c)=cb;
         func_021E2E30(p+0x4c,(int)p,*(int *)&((struct CodeinWorkA *)p)->f3C);
         *state=1; break;
@@ -6617,8 +6617,8 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         break;
     case 3:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
-            if(func_021E31E8(p,x,y)) *state=4;
-            if(func_021E3228(p,x,y)) *state=7;
+            if(BR_CODEIN_HitTestOptionA(p,x,y)) *state=4;
+            if(BR_CODEIN_HitTestOptionB(p,x,y)) *state=7;
         }
         break;
     case 4:

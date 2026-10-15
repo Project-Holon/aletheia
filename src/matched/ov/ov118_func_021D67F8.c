@@ -21,7 +21,7 @@
  *   POKETRADE_SAVE_CloseMessageWindow  0x021E106C  thumb  ov119
  *   func_02040EBC  0x02040EBC  arm
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
- *   func_021D6918  0x021D6918  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_StepStartPlayback  0x021D6918  thumb  ov118
  *   d_021D8650     0x021D8650  data
  *   d_021D7CC4     0x021D7CC4  data
  *   d_021D7CD0     0x021D7CD0  data
@@ -51,7 +51,7 @@ extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 ste
 extern void POKETRADE_SAVE_CloseMessageWindow(char *p);
 extern void func_02040EBC(u32 a0, u32 a1);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void func_021D6918(u8 *p);
+extern void POKETRADE_DEMO_MIDDLE_StepStartPlayback(u8 *p);
 extern const char d_021D8650[];
 extern const Vec d_021D7CC4;
 extern const Vec d_021D7CD0;
@@ -85,5 +85,5 @@ void func_021D67F8(u8 *p)
     func_02040EBC(1, 0);
     func_02040EBC(5, 0);
     func_021D6738(p, 0);
-    POKETRADE_PROC_SetStep(p, (int)func_021D6918);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepStartPlayback);
 }

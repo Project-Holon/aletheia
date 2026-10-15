@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021F9DAC
+ * function: STA_ACTING_GetActObj
  * address: 0x021F9DAC
  * packet: pkt_ov132_021F9DAC
  * region: ov132
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F9DAC(void *p){return ((struct Obj23213 *)p)->f54;}
+void *STA_ACTING_GetActObj(void *p){return ((struct Obj23213 *)p)->f54;}

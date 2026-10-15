@@ -1,5 +1,5 @@
 /*
- * function: func_021C5B98
+ * function: WF2DMAP_SCRDRAW_DrawTilesClipped
  * address: 0x021C5B98
  * packet: pkt_ov127_021C5B98
  * region: ov127
@@ -7,19 +7,19 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: Two bytes of zero alignment padding precede func_021C5C8C.
+ * extent: Two bytes of zero alignment padding precede WF2DMAP_SCRDRAW_DrawTilesWrapped.
  * lever: Integer address q spills; a pointer q consumes the clipping register.
  * symbols:
  *   func_02041300 0x02041300 arm
- *   func_021C5C8C 0x021C5C8C thumb ov127
+ *   WF2DMAP_SCRDRAW_DrawTilesWrapped 0x021C5C8C thumb ov127
  */
 #include "../include/Obj14033.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
 extern void func_02041300(u8,int,int,int,u8,u8,u8);
-extern void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height);
-void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
+extern void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height);
+void WF2DMAP_SCRDRAW_DrawTilesClipped(void *p,int layer,unsigned int q,s16 x,s16 y)
 {
     s16 width=((struct Obj14033 *)q)->f0/8;
     s16 height=((struct Obj14033 *)q)->f2/8;
@@ -34,5 +34,5 @@ void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
     if(height<sy+h) h-= (s16)(sy+h-height);
     func_02041300(layer,0,0,0,33,25,17);
     q+=12;
-    func_021C5C8C(p,layer,x,y,w,h,(void *)q,sx,sy,(u8)width,(u8)height);
+    WF2DMAP_SCRDRAW_DrawTilesWrapped(p,layer,x,y,w,h,(void *)q,sx,sy,(u8)width,(u8)height);
 }

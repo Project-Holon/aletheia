@@ -1,5 +1,5 @@
 /*
- * function: func_0205E64C
+ * function: SearchEndCheck
  * address:  0x0205E64C
  * packet:   pkt_0205E64C
  * region:   arm9
@@ -146,7 +146,7 @@ extern void DWCi_AC_SetError(int error);
 extern BOOL DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
 extern BOOL WCM_EndSearchAsync(void);
 
-u8 func_0205E64C(ACWORK *wk, u8 phase)
+u8 SearchEndCheck(ACWORK *wk, u8 phase)
 {
     u8 no;
 

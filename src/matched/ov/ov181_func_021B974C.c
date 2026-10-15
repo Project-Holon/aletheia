@@ -1,5 +1,5 @@
 /*
- * function: func_021B974C
+ * function: STAFF_ROLL_StateWaitIntro
  * address: 0x021B974C
  * packet: pkt_ov181_021B974C
  * region: ov181
@@ -9,13 +9,13 @@
  * status: EXACT*
  * Padding: two zero bytes at 0x021B97BA, then the next function.
  * symbols:
- *   func_021BA83C 0x021BA83C thumb ov181
+ *   STAFF_ROLL_StepWindowSlide 0x021BA83C thumb ov181
  */
 #include "../include/Obj00682.h"
-extern int func_021BA83C(char *);
+extern int STAFF_ROLL_StepWindowSlide(char *);
 #define STATE(p) (*(int *)((p) + 0x2EC))
 #define COUNT(p) (*(unsigned *)((p) + 0x2E4))
-int func_021B974C(char *p)
+int STAFF_ROLL_StateWaitIntro(char *p)
 {
     switch (STATE(p)) {
     case 0:
@@ -29,7 +29,7 @@ int func_021B974C(char *p)
         }
         break;
     case 1:
-        if (func_021BA83C(p) == 0)
+        if (STAFF_ROLL_StepWindowSlide(p) == 0)
             STATE(p)++;
         break;
     case 2:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0200A940",
+   "name": "IRC_RANKING_FindClosestEntry",
    "address": "0x0200A940",
    "kind": "game",
    "region": "arm9",
@@ -30,8 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200A9A4",
-    "sub_0200A9D4"
+    "IRC_RANKING_IsEntryNew",
+    "IRC_RANKING_HasEntry"
+   ],
+   "addresses": [
+    "0x0200A9A4",
+    "0x0200A9D4"
    ]
   },
   {
@@ -46,12 +50,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200AB04",
-    "sub_0200AB24"
+    "IRC_RANKING_ClearNewFlags",
+    "IRC_RANKING_GetSize"
+   ],
+   "addresses": [
+    "0x0200AB04",
+    "0x0200AB24"
    ]
   },
   {
-   "name": "func_0200AB2C",
+   "name": "IRC_RANKING_Init",
    "address": "0x0200AB2C",
    "kind": "game",
    "region": "arm9",
@@ -63,7 +71,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200ABE0",
+   "name": "IRC_RANKING_HasEntryByTrainerId",
    "address": "0x0200ABE0",
    "kind": "game",
    "region": "arm9",
@@ -75,7 +83,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200ACD0",
+   "name": "IRC_RANKING_FindEntryByTrainerId",
    "address": "0x0200ACD0",
    "kind": "game",
    "region": "arm9",

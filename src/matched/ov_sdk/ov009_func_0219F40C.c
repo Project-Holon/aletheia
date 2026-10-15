@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0219E0C0  0x0219E0C0  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   prevKeyCompare  0x0219F0E0  arm  ov009
  *   gSBSortContext  0x021AEB04  data
  *   gSBEmptyString  0x021A8230  data
@@ -26,7 +26,7 @@ extern struct G_021AEB04 gSBSortContext;
 extern int gSBEmptyString;
 struct _SBServer;
 extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern int prevKeyCompare(void *s1, void *s2);
 int StrCaseKeyCompare(void *entry1, void *entry2)
 {
@@ -37,7 +37,7 @@ int StrCaseKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->sortkey;
-	diff = func_020948E0(func_0219E0C0(server1, currsortkey, (char *)&gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)&gSBEmptyString));
+	diff = strcmp(func_0219E0C0(server1, currsortkey, (char *)&gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)&gSBEmptyString));
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->ascending == 0)

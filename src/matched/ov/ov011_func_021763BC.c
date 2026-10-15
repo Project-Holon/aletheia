@@ -13,7 +13,7 @@
  *   INTRUDE_COMM_PickEntryForKind  0x021763D8  thumb  ov011
  *
  * Zeroes the six bytes at +6 one at a time, and after each store lets
- * INTRUDE_COMM_PickEntryForKind fill p[key] for key 0..5.  Called from arm9 func_0200BDE4
+ * INTRUDE_COMM_PickEntryForKind fill p[key] for key 0..5.  Called from arm9 INTRUDE_InitOccupy
  * (bl at 0x0200BDF2) and from ov011 at 0x0217644C.
  */
 

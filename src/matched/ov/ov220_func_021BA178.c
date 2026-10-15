@@ -1,5 +1,5 @@
 /*
- * function: func_021BA178
+ * function: TH_AWARD_GRAPHIC_Delete
  * address: 0x021BA178
  * packet: pkt_ov220_021BA178
  * region: ov220
@@ -10,8 +10,8 @@
  * volatile: 021BA19E/021BA1A8 hardware DISPCNT masked updates.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_021BA2E4 0x021BA2E4 thumb ov220
- *   func_021BA260 0x021BA260 thumb ov220
+ *   TH_AWARD_GRAPHIC_DeleteClact 0x021BA2E4 thumb ov220
+ *   TH_AWARD_GRAPHIC_CleanupBg 0x021BA260 thumb ov220
  *   func_0201DD68 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
@@ -19,17 +19,17 @@
 #include "../include/Obj26062.h"
 struct Node;
 extern void func_02030EAC(struct Node *);
-extern void func_021BA2E4(char *);
-extern void func_021BA260(void *p);
+extern void TH_AWARD_GRAPHIC_DeleteClact(char *);
+extern void TH_AWARD_GRAPHIC_CleanupBg(void *p);
 extern void func_0201DD68(void);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BA178(unsigned char *p)
+void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
 {
     func_02030EAC(*(struct Node * *)&((struct Obj26062 *)p)->fC);
-    func_021BA2E4((char *)p+4);
-    func_021BA260(p);
+    TH_AWARD_GRAPHIC_DeleteClact((char *)p+4);
+    TH_AWARD_GRAPHIC_CleanupBg(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8F98
+ * function: ZUKAN_GetResumeState
  * address: 0x021C8F98
  * packet: pkt_ov212_021C8F98
  * region: ov212
@@ -14,14 +14,14 @@
 
 typedef unsigned int u32;
 
-/* hidden function: 16 bytes between func_021C8F90 and func_021C8FA8 */
+/* hidden function: 16 bytes between ZUKAN_SetResumeState and ZUKAN_StartProc211 */
 struct Obj021C8F98 {
     u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20;
 };
 
-u32 func_021C8F98(struct Obj021C8F98 *p);
+u32 ZUKAN_GetResumeState(struct Obj021C8F98 *p);
 
-u32 func_021C8F98(struct Obj021C8F98 *p)
+u32 ZUKAN_GetResumeState(struct Obj021C8F98 *p)
 {
     if (p->f8 != 1)
         return p->f20;

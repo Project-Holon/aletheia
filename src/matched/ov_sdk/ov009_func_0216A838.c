@@ -1,5 +1,5 @@
 /*
- * function: func_0216A838
+ * function: DWCi_RemoteLoginProcess
  * address:  0x0216A838
  * packet:   pkt_ov009_0216A838
  * region:   ov009
@@ -12,19 +12,19 @@
  * sdk:      DWCi_RemoteLoginProcess (libdwcmatch.TWL.HYB.a(dwc_login.o))
  *
  * symbols:
- *   func_02178DB4  0x02178DB4  arm  ov009
- *   func_02178E70  0x02178E70  arm  ov009
- *   func_02178E80  0x02178E80  arm  ov009
- *   func_02178EA0  0x02178EA0  arm  ov009
+ *   DWCi_Auth_ProcessAuthentication  0x02178DB4  arm  ov009
+ *   DWCi_Auth_IsFinished  0x02178E70  arm  ov009
+ *   DWCi_Auth_IsSucceeded  0x02178E80  arm  ov009
+ *   DWCi_Auth_GetGameSpyToken  0x02178EA0  arm  ov009
  *   DWCi_Auth_ShutdownAuthentication  0x02178EF4  arm  ov009
  *   func_020596C8  0x020596C8  arm
- *   func_0216A68C  0x0216A68C  arm  ov009
- *   func_02178F00  0x02178F00  arm  ov009
+ *   DWCi_GPConnect  0x0216A68C  arm  ov009
+ *   DWCi_Auth_GetConsoleUserId  0x02178F00  arm  ov009
  *   func_020590C8  0x020590C8  arm
- *   func_02178E90  0x02178E90  arm  ov009
- *   func_0216A3B8  0x0216A3B8  arm  ov009
- *   func_0216A4D4  0x0216A4D4  arm  ov009
- *   g_021AA874  0x021AA874  data
+ *   DWCi_Auth_GetErrorCode  0x02178E90  arm  ov009
+ *   DWCi_StopLogin  0x0216A3B8  arm  ov009
+ *   DWCi_GPConnectCallback  0x0216A4D4  arm  ov009
+ *   gDwcLoginControl  0x021AA874  data
  */
 
 #pragma pack(4)
@@ -46,43 +46,43 @@ typedef struct LoginCnt {
 } LoginCnt;
 #pragma pack()
 
-extern LoginCnt *g_021AA874;
+extern LoginCnt *gDwcLoginControl;
 
-extern void func_02178DB4(void);
-extern int func_02178E70(void);
-extern int func_02178E80(void);
-extern void func_02178EA0(char *authtoken, char *partnerchallenge);
+extern void DWCi_Auth_ProcessAuthentication(void);
+extern int DWCi_Auth_IsFinished(void);
+extern int DWCi_Auth_IsSucceeded(void);
+extern void DWCi_Auth_GetGameSpyToken(char *authtoken, char *partnerchallenge);
 extern void DWCi_Auth_ShutdownAuthentication();
 extern int func_020596C8(void *userdata);
-extern void func_0216A68C(void *callback, int next_state);
-extern unsigned long long func_02178F00(void);
+extern void DWCi_GPConnect(void *callback, int next_state);
+extern unsigned long long DWCi_Auth_GetConsoleUserId(void);
 extern void func_020590C8(void *loginId, unsigned long long userid);
-extern int func_02178E90(void);
-extern void func_0216A3B8(int error, int errorCode);
+extern int DWCi_Auth_GetErrorCode(void);
+extern void DWCi_StopLogin(int error, int errorCode);
 struct GPConnectResponseArg;
-extern void func_0216A4D4(void **pconnection, struct GPConnectResponseArg *arg);
+extern void DWCi_GPConnectCallback(void **pconnection, struct GPConnectResponseArg *arg);
 
-void func_0216A838(void)
+void DWCi_RemoteLoginProcess(void)
 {
 	long errorcode;
 
-	func_02178DB4();
-	if (!func_02178E70())
+	DWCi_Auth_ProcessAuthentication();
+	if (!DWCi_Auth_IsFinished())
 		return;
-	if (func_02178E80()) {
-		func_02178EA0(g_021AA874->authToken, g_021AA874->partnerChallenge);
+	if (DWCi_Auth_IsSucceeded()) {
+		DWCi_Auth_GetGameSpyToken(gDwcLoginControl->authToken, gDwcLoginControl->partnerChallenge);
 		DWCi_Auth_ShutdownAuthentication();
-		if (func_020596C8(g_021AA874->userdata)) {
-			func_0216A68C(func_0216A4D4, 2);
+		if (func_020596C8(gDwcLoginControl->userdata)) {
+			DWCi_GPConnect(DWCi_GPConnectCallback, 2);
 			return;
 		}
-		func_020590C8(g_021AA874->loginId, func_02178F00());
-		func_0216A68C(func_0216A4D4, 3);
+		func_020590C8(gDwcLoginControl->loginId, DWCi_Auth_GetConsoleUserId());
+		DWCi_GPConnect(DWCi_GPConnectCallback, 3);
 		return;
 	}
-	errorcode = func_02178E90();
+	errorcode = DWCi_Auth_GetErrorCode();
 	if (errorcode <= -29000)
-		func_0216A3B8(9, errorcode);
+		DWCi_StopLogin(9, errorcode);
 	else
-		func_0216A3B8(2, errorcode);
+		DWCi_StopLogin(2, errorcode);
 }

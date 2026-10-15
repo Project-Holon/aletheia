@@ -18,14 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02025C9C",
-    "func_02025CB0"
+    "CURSOR_MOVE_GetTableKind",
+    "CURSOR_MOVE_FindTableGroupIndex"
    ],
    "evidence": {
     "sole-ref": [
      "self:0x0209FB1A"
     ]
-   }
+   },
+   "addresses": [
+    "0x02025C9C",
+    "0x02025CB0"
+   ]
   }
  ]
 }

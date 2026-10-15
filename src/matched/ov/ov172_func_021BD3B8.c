@@ -14,7 +14,7 @@
  *   func_021BBA88 0x021BBA88 thumb ov172
  *   CTVT_DRAW_Free 0x021BA2B8 thumb ov172
  *   CTVT_TALK_Delete 0x021B8CB0 thumb ov172
- *   func_021B7DCC 0x021B7DCC thumb ov172
+ *   CTVT_COMM_Delete 0x021B7DCC thumb ov172
  *   CTVT_CAMVIEW_Delete 0x021B70A8 thumb ov172
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_021BDC70 0x021BDC70 thumb ov172
@@ -33,7 +33,7 @@ extern void DRAW_SYSTEM_DeleteCanvas(char *);
 extern void func_021BBA88(int unused, int v);
 extern void CTVT_DRAW_Free(int unused, int v);
 extern void CTVT_TALK_Delete(void *, char *);
-extern void func_021B7DCC(void *p, char *q);
+extern void CTVT_COMM_Delete(void *p, char *q);
 extern void CTVT_CAMVIEW_Delete(int unused, char *q);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void func_021BDC70(u32 *a0);
@@ -48,7 +48,7 @@ void func_021BD3B8(u8 *p)
     func_021BBA88((int)p, ((struct Obj03855 *)p)->f1F0);
     CTVT_DRAW_Free((int)p, ((struct Obj03855 *)p)->f1EC);
     CTVT_TALK_Delete(p, *(char * *)&((struct Obj03855 *)p)->f1E8);
-    func_021B7DCC(p, (char *)(((struct Obj03855 *)p)->f1E4));
+    CTVT_COMM_Delete(p, (char *)(((struct Obj03855 *)p)->f1E4));
     CTVT_CAMVIEW_Delete((int)p, (char *)(((struct Obj03855 *)p)->f1E0));
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((struct Obj03855 *)p)->f1D4));
     func_021BDC70((u32 *)p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4A54
+ * function: WF2DMAP_OBJ_OffsetPos
  * address: 0x021C4A54
  * packet: pkt_ov127_021C4A54
  * region: ov127
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C6014 0x021C6014 data a4
+ *   sWf2dmapStepDelta 0x021C6014 data a4
  */
 typedef signed short s16;
 struct pair { s16 a,b; };
 struct delta { signed char a,b; };
-extern struct delta d_021C6014;
-struct pair func_021C4A54(struct pair p,int i)
+extern struct delta sWf2dmapStepDelta;
+struct pair WF2DMAP_OBJ_OffsetPos(struct pair p,int i)
 {
  struct pair *v=&p;
- v->a += *(signed char *)((unsigned)&d_021C6014.a+i*2);
- v->b += *(signed char *)((unsigned)&d_021C6014.b+i*2);
+ v->a += *(signed char *)((unsigned)&sWf2dmapStepDelta.a+i*2);
+ v->b += *(signed char *)((unsigned)&sWf2dmapStepDelta.b+i*2);
  return p;
 }

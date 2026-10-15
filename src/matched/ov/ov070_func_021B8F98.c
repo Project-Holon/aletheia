@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * BG setup: GX_SetDispSelect(0), then seven 32-byte BG templates copied
- * to the stack and handed to func_0203FCA0 for BGs 0-6, each followed by
+ * to the stack and handed to BG_SYS_InitBgLayer for BGs 0-6, each followed by
  * its clear/enable calls.
  *
  * volatile: 0x04000304 (POWCNT1, read-modify-write at 0x021B8FA0/0x021B8FA8)
  *
  * symbols:
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040588  0x02040588  arm
- *   func_02040C14  0x02040C14  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_Init  0x02040C14  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   d_021BBB40     0x021BBB40  data  a4
  *   d_021BBB60     0x021BBB60  data  a4
  *   d_021BBB80     0x021BBB80  data  a4
@@ -61,12 +61,12 @@ extern const BgTemplate d_021BBAC0;
 extern const BgTemplate d_021BBAE0;
 extern const BgTemplate d_021BBB00;
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(int bg);
 extern void func_020409B4(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_ClearSlot(u32 i);
 
 void ITEMMENU_InitDisplayBanks(void)
 {
@@ -81,42 +81,42 @@ void ITEMMENU_InitDisplayBanks(void)
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
 
     t0 = d_021BBB40;
-    func_0203FCA0(0, &t0, 0);
+    BG_SYS_InitBgLayer(0, &t0, 0);
     func_020414AC(0);
     func_020409B4(0);
     func_02040588(0, 0);
 
     t1 = d_021BBB60;
-    func_0203FCA0(1, &t1, 0);
+    BG_SYS_InitBgLayer(1, &t1, 0);
     func_020414AC(1);
     func_020409B4(1);
     func_02040588(1, 0);
 
     t2 = d_021BBB80;
-    func_0203FCA0(2, &t2, 0);
+    BG_SYS_InitBgLayer(2, &t2, 0);
     func_020414AC(2);
     func_020409B4(2);
     func_02040588(2, 0);
 
     t3 = d_021BBB20;
-    func_0203FCA0(3, &t3, 0);
-    func_02040C14(3, 0, 1, 0);
+    BG_SYS_InitBgLayer(3, &t3, 0);
+    BG_SYS_Init(3, 0, 1, 0);
     func_020414AC(3);
     func_020409B4(3);
     func_02040588(3, 0);
 
     t4 = d_021BBAC0;
-    func_0203FCA0(4, &t4, 0);
+    BG_SYS_InitBgLayer(4, &t4, 0);
     func_02040588(4, 0);
     func_020409B4(4);
 
     t5 = d_021BBAE0;
-    func_0203FCA0(5, &t5, 0);
+    BG_SYS_InitBgLayer(5, &t5, 0);
     func_02040588(5, 0);
 
     t6 = d_021BBB00;
-    func_0203FCA0(6, &t6, 0);
+    BG_SYS_InitBgLayer(6, &t6, 0);
     func_02040588(6, 0);
-    func_02040C14(6, 0, 1, 0);
-    func_020414EC(6);
+    BG_SYS_Init(6, 0, 1, 0);
+    BG_SYS_ClearSlot(6);
 }

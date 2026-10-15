@@ -26,7 +26,7 @@
  *   gNetIrcWirelessLink     0x021469F0  data
  *   d_020A7D34     0x020A7D34  data
  *   func_02030734  0x02030734  arm
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   GFL_NET_IRC_WIRELESS_OnConnectEnd  0x0203DC4C  arm
  *   GFL_NET_IRC_WIRELESS_GetBeaconData  0x0203E420  arm
  *   GFL_NET_IRC_WIRELESS_GetBeaconCompare  0x0203E458  arm
@@ -71,7 +71,7 @@ typedef struct Wrap {
 
 extern Wrap *gNetIrcWirelessLink;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02034F84(u32 v);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 v);
 extern void GFL_NET_IRC_WIRELESS_OnConnectEnd(void);
 extern void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *arg);
 extern void *GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *arg);
@@ -99,6 +99,6 @@ Base *GFL_NET_IRC_WIRELESS_Create(const Base *src, u32 a1)
     obj->f107 = obj->base.f60;
 
     gNetIrcWirelessLink = obj;
-    func_02034F84(0x20);
+    UI_SetKeepAwakeFlagsGlobal(0x20);
     return &gNetIrcWirelessLink->base;
 }

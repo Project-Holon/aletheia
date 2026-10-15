@@ -1,5 +1,5 @@
 /*
- * function: func_02178C88
+ * function: DWCi_Auth_InitInterface
  * address:  0x02178C88
  * packet:   pkt_ov009_02178C88
  * region:   ov009
@@ -23,7 +23,7 @@ extern char g_021A2424[];
 extern char g_021A244C[];
 extern char g_021A2470[];
 
-int func_02178C88(int auth_server)
+int DWCi_Auth_InitInterface(int auth_server)
 {
 	switch (auth_server) {
 	case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F900
+ * function: gpiPeerRemoveOp
  * address:  0x0218F900
  * packet:   pkt_ov009_0218F900
  * region:   ov009
@@ -37,7 +37,7 @@ extern char g_021A5170[];
 extern char g_021A518C[];
 extern char g_021A51B8[];
 
-void func_0218F900(struct GPIPeer *peer, struct GPIPeerOp *operation)
+void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation)
 {
     struct GPIPeerOp *aPrevOp;
 

@@ -18,7 +18,7 @@
  *   MI_CpuCopy8           0x02082D44  arm
  *   MI_CpuFill8           0x02082BCC  arm
  *   WCM_UpdateOption         0x021656D0  arm  ov009
- *   func_02166B2C         0x02166B2C  arm  ov009
+ *   WCMi_WmifConnectAsync         0x02166B2C  arm  ov009
  *   OS_IsRunOnTwl         0x02085D3C  arm
  *   WCMi_NwmifConnectAsync         0x02731BF8  arm  twl
  *
@@ -63,7 +63,7 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned long WCM_UpdateOption(unsigned long option);
-extern long func_02166B2C(void);
+extern long WCMi_WmifConnectAsync(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifConnectAsync();
 
@@ -124,7 +124,7 @@ long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
     }
     switch (wcmw->deviceId) {
     case 1:
-        wcmResult = func_02166B2C();
+        wcmResult = WCMi_WmifConnectAsync();
         break;
     case 2:
         if (OS_IsRunOnTwl()) {

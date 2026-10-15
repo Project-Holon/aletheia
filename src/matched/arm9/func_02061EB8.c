@@ -1,5 +1,5 @@
 /*
- * function: func_02061EB8
+ * function: NNSi_GfdAllocLnkVram
  * address:  0x02061EB8
  * packet:   pkt_02061D0C
  * region:   arm9
@@ -29,8 +29,8 @@
  *     over the 24 orders; this is the only EXACT one).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02061EB8.c \
- *       --func func_02061EB8 --addr 0x02061EB8 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_GfdAllocLnkVram.c \
+ *       --func NNSi_GfdAllocLnkVram --addr 0x02061EB8 --arm --cc ../2.0/sp2
  *   EXACT, 320 bytes, no relocations (sp2p2 EXACT too, 1.1p1 312 DIFF).
  */
 typedef unsigned int u32;
@@ -80,7 +80,7 @@ static inline void RemoveBlock_(Blk **list, Blk *b)
         next->prev = prev;
 }
 
-BOOL func_02061EB8(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment)
+BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment)
 {
     u32 aligned;
     u32 need;

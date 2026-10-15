@@ -13,7 +13,7 @@
  *   G3D_UTIL_AddUnitLoaded  0x02047F4C  arm
  *   func_02030734  0x02030734  arm
  *   FLD_EXP_OBJ_InitAnimeSet  0x021BE630  thumb  ov021
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FLD_EXP_OBJ_GetModelObject  0x021BE4C4  thumb  ov021
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   sFldExpObjFileName     0x021DE390  data   a4
@@ -82,7 +82,7 @@ extern int sFldExpObjFileName;
 extern u16 G3D_UTIL_AddUnitLoaded(void *util, const Setup *setup);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void FLD_EXP_OBJ_InitAnimeSet(int *p, int n, int heap);
-extern void func_0207ADC4(Mtx33 *m);
+extern void MTX_Identity33_(Mtx33 *m);
 extern void *FLD_EXP_OBJ_GetModelObject(P *p, int i, int j);
 extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
 
@@ -117,7 +117,7 @@ void FLD_EXP_OBJ_AddUnit(P *p, Setup *b, u16 i)
         FLD_EXP_OBJ_InitAnimeSet((int *)(&p->slots[i].grps[j]), b->ents[j].fC, p->heap);
         nd = &nodes[j];
         vset(&nd->s, 0x1000, 0x1000, 0x1000);
-        func_0207ADC4(&nd->r);
+        MTX_Identity33_(&nd->r);
         vset(&nd->t, 0, 0, 0);
         nd->f0 = 0;
         nd->f4 = 0;

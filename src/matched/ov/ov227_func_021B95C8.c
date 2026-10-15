@@ -1,5 +1,5 @@
 /*
- * function: func_021B95C8
+ * function: EVENT_PDC_RETURN_DeleteArgs
  * address: 0x021B95C8
  * packet: pkt_ov227_021B95C8
  * region: ov227
@@ -12,4 +12,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B95C8(void *p){func_020307B0(p);}
+void EVENT_PDC_RETURN_DeleteArgs(void *p){func_020307B0(p);}

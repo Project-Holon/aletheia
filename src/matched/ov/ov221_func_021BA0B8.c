@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0B8, func_021BA0C0
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank, CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue
  * unit: yes
  * address: 0x021BA0B8
  * packet: pkt_ov221_021BA0B8
@@ -13,5 +13,5 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021BA0B8(void *p){CLACT_VBlankSystem();}
-unsigned func_021BA0C0(unsigned *p){return *p;}
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
+unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue(unsigned *p){return *p;}

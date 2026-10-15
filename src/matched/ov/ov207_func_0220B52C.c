@@ -1,5 +1,5 @@
 /*
- * function: func_0220B52C
+ * function: ZUKAN_TOROKU_GRAPHIC_DeleteActors
  * address: 0x0220B52C
  * packet: pkt_ov207_0220B52C
  * region: ov207
@@ -20,4 +20,4 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void*,int,u32);
-void func_0220B52C(struct Bank**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Bank**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}

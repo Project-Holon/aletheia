@@ -15,7 +15,7 @@
  * symbols:
  *   sub_0209E8C8_Map  0x0209E8C8  data
  *   sub_0209E8CA_Map  0x0209E8CA  data  a1
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BMP_WIN_GetPosX 0x02045758 arm
@@ -46,7 +46,7 @@
  *   MI_CpuFill8     0x02082BCC  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   GF_FONT_Create   0x0201D7EC  thumb
- *   func_0201DC80   0x0201DC80  thumb
+ *   GF_FONT_GetField58   0x0201DC80  thumb
  *   PRINTSYS_QUE_Create   0x0201C440  thumb
  *   BMP_WIN_MakeScreen   0x02045374  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -133,7 +133,7 @@ typedef struct {
 extern void func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
 extern void func_02049B40(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
 extern void *func_020496E4(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02041300(u32 bgId, u32 tile, u8 x, u8 y, u8 width, u8 height,
                           u32 palette);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
@@ -165,7 +165,7 @@ extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
 extern struct GfFont *GF_FONT_Create(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
-extern u32 func_0201DC80(struct GfFont *p);
+extern u32 GF_FONT_GetField58(struct GfFont *p);
 extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr);
 extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
@@ -374,7 +374,7 @@ void *func_0201F5DC(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
 
 void func_0201F614(int layer, u32 packedOffsets)
 {
-    func_0203FB44(layer, (u16)packedOffsets, (u16)(packedOffsets >> 16));
+    BG_SYS_DeleteHalf(layer, (u16)packedOffsets, (u16)(packedOffsets >> 16));
 }
 
 
@@ -1244,7 +1244,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     header.wrap = 0;
     header.util = func_02030734(heapId, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
     header.fontH = GF_FONT_Create(0x17, 0, 0, 0, heapId);
-    header.lineHeight = func_0201DC80(header.fontH);
+    header.lineHeight = GF_FONT_GetField58(header.fontH);
     header.xPad = 10;
     PrintUtil_Init(header.util, header.win);
     header.que = PRINTSYS_QUE_Create((void *)heapId);

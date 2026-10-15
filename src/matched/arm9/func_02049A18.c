@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02062B30  0x02062B30  arm
- *   func_0204169C  0x0204169C  arm
- *   func_0204162C  0x0204162C  arm
- *   func_02040AF0  0x02040AF0  arm
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
+ *   BG_SYS_DecodeTileSource  0x02040AF0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020307B0  0x020307B0  arm
@@ -23,9 +23,9 @@
  * ends of unit_0204994C.c, ARC_UTIL_UploadBgPaletteFromArchive.c and ARC_UTIL_UploadBgPaletteFromHandle.c forward to.
  * Look up the resource's palette block; default the size to the block's own
  * (+0x08); when `add` is non-zero, add it to every entry of the data at +0x0C
- * -- as halfwords (size / 2 of them) when func_0204169C says the channel is
- * not 8-bit, else as bytes; then upload through func_02040AF0 plus the
- * flag-selected commit (func_02041B6C / func_020409B4) or func_020409E0, and
+ * -- as halfwords (size / 2 of them) when BG_SYS_GetField16 says the channel is
+ * not 8-bit, else as bytes; then upload through BG_SYS_DecodeTileSource plus the
+ * flag-selected commit (func_02041B6C / func_020409B4) or BG_SYS_PushTileSource, and
  * release the resource either way.  Every `and rN, r7, #0xff` is a callee's
  * u8 channel parameter, not a cast in the source.
  *
@@ -48,10 +48,10 @@ struct Pal {
 };
 
 extern int func_02062B30(void *file, void **out);
-extern u8 func_0204169C(int channel);
-extern u32 func_0204162C(int channel);
-extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
-extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
+extern u8 BG_SYS_GetField16(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
+extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
+extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020409B4(u8 channel);
 extern void func_02041B6C(u8 channel);
 extern u32 func_020307B0(void *p);
@@ -64,7 +64,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
         if (size == 0)
             size = pal->size;
         if (add != 0) {
-            if (func_0204169C((u8)channel) == 0) {
+            if (BG_SYS_GetField16((u8)channel) == 0) {
                 u32 i;
                 u16 *p = (u16 *)pal->data;
                 for (i = 0; i < size / 2; i++)
@@ -76,14 +76,14 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
                     p[i] += (u8)add;
             }
         }
-        if ((int)func_0204162C((u8)channel) != 0) {
-            func_02040AF0((u8)channel, pal->data, size, a2);
+        if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
+            BG_SYS_DecodeTileSource((u8)channel, pal->data, size, a2);
             if (flag != 0)
                 func_02041B6C(channel);
             else
                 func_020409B4(channel);
         } else {
-            func_020409E0((u8)channel, pal->data, size, a2);
+            BG_SYS_PushTileSource((u8)channel, pal->data, size, a2);
         }
     }
     return func_020307B0(file);

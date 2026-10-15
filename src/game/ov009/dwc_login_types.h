@@ -64,23 +64,23 @@ typedef struct DWCstLoginControl {
 } DWCstLoginControl;
 #pragma pack()
 
-extern DWCstLoginControl *g_021AA874;
+extern DWCstLoginControl *gDwcLoginControl;
 
 /* callees */
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern int func_02178F30(void);
-extern int func_02059F38(void);
+extern int DWCi_Auth_IsConsoleUserIdAuthentic(void);
+extern int DWCi_IsError(void);
 extern int func_02185948(void **connection);
 extern u64 func_020870D0(void);
 extern void func_02059F54(int error, int errorCode);
-extern int func_02178E70(void);
+extern int DWCi_Auth_IsFinished(void);
 extern void DWCi_Auth_AbortAuthentication(void);
 extern void DWCi_Auth_ShutdownAuthentication(void);
 extern void *DWCi_Np_GetConsoleIdPrefix(void);
 extern long long func_02167E88(void);
 extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int func_02185CB4(void **connection, int info, char *value);
-extern u64 func_02178F00(void);
+extern u64 DWCi_Auth_GetConsoleUserId(void);
 extern void DWCi_Acc_U64ToString32(u64 num, int bitnum, char *result);
 extern char *func_02167EA0(void);
 extern int DWCi_GPSetServerStatus(int matchType);
@@ -97,35 +97,34 @@ extern int DWCi_Acc_CheckConsoleUserId(DWCstAccLoginId *loginid);
 extern void DWCi_Acc_CreateTempLoginId(DWCstAccLoginId *loginid);
 extern u64 OS_GetTick(void);
 extern void DWCi_Acc_SetPlayerId(DWCstAccLoginId *loginid, u32 v);
-extern int func_02178D14(u16 *ingamesn, char *gsbrcd, u64 userid, void *(*allocator)(u32, long), void (*deallocator)(u32, void *, long));
+extern int DWCi_Auth_StartAuthentication(u16 *ingamesn, char *gsbrcd, u64 userid, void *(*allocator)(u32, long), void (*deallocator)(u32, void *, long));
 extern void *func_0205A16C(u32 size, long align);
 extern void func_0205A1B0(u32 name, void *ptr, long align);
-extern void func_02178DB4(void);
-extern int func_02178E80(void);
-extern void func_02178EA0(char *authtoken, char *partnerchallenge);
+extern void DWCi_Auth_ProcessAuthentication(void);
+extern int DWCi_Auth_IsSucceeded(void);
+extern void DWCi_Auth_GetGameSpyToken(char *authtoken, char *partnerchallenge);
 extern void func_020590C8(DWCstAccLoginId *loginid, u64 userid);
-extern int func_02178E90(void);
+extern int DWCi_Auth_GetErrorCode(void);
 extern void func_02185ACC(void **connection);
 extern int strcmp(const char *a, const char *b);
 extern void DWCi_Acc_SetLoginIdToUserData(DWCstAccUserData *userdata, DWCstAccLoginId *loginid, int gs_profile_id);
 extern int func_02186618(void **connection, char *loginTicket);
 
 /* this unit */
-extern void func_0216A1F4(DWCstLoginControl *logcnt, DWCstAccUserData *userdata, void **pGpObj, int productID, u32 gamecode, u16 *playerName, void (*callback)(int, int, void *), void *param);
-extern int func_0216A278(void);
-extern void func_0216A2B0(void);
-extern DWCstAccUserData *func_0216A39C(void);
-extern void func_0216A3B8(int error, int errorCode);
-extern void func_0216A404(void);
-extern void func_0216A42C(void);
-extern int func_0216A460(int result);
-extern void func_0216A4D4(void **pconnection, void *arg, void *param);
-extern void func_0216A68C(GPCallback callback, int next_state);
-extern int func_0216A6F4(void);
-extern void func_0216A838(void);
-extern void func_0216A8F4(void **pconnection, void *arg, void *param);
-extern int func_0216AA70(void);
-extern int func_0216AA9C(char **authToken, char **partnerChallenge);
-extern int func_0216AAE0(char *loginTicket);
+extern void DWCi_LoginInit(DWCstLoginControl *logcnt, DWCstAccUserData *userdata, void **pGpObj, int productID, u32 gamecode, u16 *playerName, void (*callback)(int, int, void *), void *param);
+extern int DWCi_LoginAsync(void);
+extern void DWCi_LoginProcess(void);
+extern DWCstAccUserData *DWCi_GetUserData(void);
+extern void DWCi_StopLogin(int error, int errorCode);
+extern void DWCi_ShutdownLogin(void);
+extern void DWCi_CloseLogin(void);
+extern void DWCi_GPConnectCallback(void **pconnection, void *arg, void *param);
+extern void DWCi_GPConnect(GPCallback callback, int next_state);
+extern int DWCi_RemoteLogin(void);
+extern void DWCi_RemoteLoginProcess(void);
+extern void DWCi_GPGetInfoCallback(void **pconnection, void *arg, void *param);
+extern int DWCi_CheckLogin(void);
+extern int DWCi_GetAuthInfo(char **authToken, char **partnerChallenge);
+extern int DWCi_GetLoginTicket(char *loginTicket);
 
 #endif

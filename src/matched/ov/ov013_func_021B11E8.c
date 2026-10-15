@@ -15,7 +15,7 @@
  *   gVctSession  0x021B60D8  data  ov013  a4
  *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
  *   VCT_AUDIO_EncodeSendFrame  0x021B0D18  arm  ov013
- *   func_02177044  0x02177044  arm  ov009
+ *   DWC_SendUnreliable  0x02177044  arm  ov009
  */
 
 #include "../include/G_Ctx42C0.h"
@@ -53,7 +53,7 @@ extern Ctx60D8 gVctSession;
 extern u8 gVctSendSchedule[][3];
 
 extern u32 VCT_AUDIO_EncodeSendFrame(void);
-extern void func_02177044(u8 bit, u32 a, u32 b);
+extern void DWC_SendUnreliable(u8 bit, u32 a, u32 b);
 
 static inline u32 clz32(u32 x)
 {
@@ -88,7 +88,7 @@ int VCT_AUDIO_SendFrameStep(void)
         if (z == 32)
             break;
         gVctSendBuffer.f8CC = mask & ~(0x80000000 >> z);
-        func_02177044((u8)(31 - z), gVctSendBuffer.f8C8, gVctSendState.fC);
+        DWC_SendUnreliable((u8)(31 - z), gVctSendBuffer.f8C8, gVctSendState.fC);
         if (gVctSendBuffer.f8CC == 0) {
             gVctSendBuffer.f8C0++;
             gVctSendBuffer.f8C8 = 0;

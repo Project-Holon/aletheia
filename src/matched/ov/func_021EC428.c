@@ -28,9 +28,6 @@ struct Obj;
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern u16 CLACT_GetActorCharacterIndex(u8 *p);
-extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 void BOX2_SEQ_SetSlotIconPal(char *p, int a, int i, int b)
 {
     int v = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(p + 0x9E74 + i * 4)));

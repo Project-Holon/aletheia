@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F70F8,func_021F7100,func_021F7110
+ * function: EGG_DEMO_VIEW_StartModelAnim,EGG_DEMO_VIEW_IsModelAnimDone,EGG_DEMO_VIEW_EndModelAnim
  * address: 0x021F70F8
  * packet: pkt_ov215_021F70F8
  * region: ov215
@@ -16,6 +16,6 @@
 #include "../include/Obj25764.h"
 #include "../include/Obj25765.h"
 #include "../include/Obj25766.h"
-void func_021F70F8(char *p){((struct Obj25764 *)p)->f5C=1;}
-int func_021F7100(char *p){return ((struct Obj25765 *)p)->f5C==2;}
-void func_021F7110(char *p){((struct Obj25766 *)p)->f5C=3;}
+void EGG_DEMO_VIEW_StartModelAnim(char *p){((struct Obj25764 *)p)->f5C=1;}
+int EGG_DEMO_VIEW_IsModelAnimDone(char *p){return ((struct Obj25765 *)p)->f5C==2;}
+void EGG_DEMO_VIEW_EndModelAnim(char *p){((struct Obj25766 *)p)->f5C=3;}

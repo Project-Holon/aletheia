@@ -1,5 +1,5 @@
 /*
- * function: func_021C47E4
+ * function: WF2DMAP_MAP_DeleteGrid
  * address: 0x021C47E4
  * packet: pkt_ov127_021C47E4
  * region: ov127
@@ -19,4 +19,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-void func_021C47E4(u8 *p) { func_020307B0(((struct Obj23033 *)p)->f4);func_020307B0(p); }
+void WF2DMAP_MAP_DeleteGrid(u8 *p) { func_020307B0(((struct Obj23033 *)p)->f4);func_020307B0(p); }

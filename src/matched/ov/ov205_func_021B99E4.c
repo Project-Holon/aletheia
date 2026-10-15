@@ -16,7 +16,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F02C 0x0201F02C thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201F73C 0x0201F73C thumb
@@ -36,7 +36,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,void *,unsigned,void *,unsigned,u16,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201F73C(void *,int,int,int);
@@ -48,7 +48,7 @@ void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
     MSGDATA_ReadString(((struct Obj01777 *)p)->f14,entry,buffer);
     func_0201F02C(((struct Obj01777 *)p)->f18,0,((struct Obj01777 *)p)->f8);
     func_0201F250(((struct Obj01777 *)p)->f18,((struct Obj01777 *)p)->fC,buffer);
-    ((struct Obj01777 *)p)->f20=PRINTSYS_PrintStream(((struct Obj01777 *)p)->f1C,index,kind,((struct Obj01777 *)p)->fC,((struct Obj01777 *)p)->f10,func_02012FFC(),((struct Obj01777 *)p)->f24,0,((struct Obj01777 *)p)->f0,3855);
+    ((struct Obj01777 *)p)->f20=PRINTSYS_PrintStream(((struct Obj01777 *)p)->f1C,index,kind,((struct Obj01777 *)p)->fC,((struct Obj01777 *)p)->f10,MSG_SPEED_GetWait(),((struct Obj01777 *)p)->f24,0,((struct Obj01777 *)p)->f0,3855);
     STRBUF_Delete(buffer);
     func_0201F73C(((struct Obj01777 *)p)->f1C,2,1,12);
 }

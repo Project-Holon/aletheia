@@ -1,5 +1,5 @@
 /*
- * function: func_021B8154
+ * function: CTVT_COMM_Update
  * address: 0x021B8154
  * packet: pkt_ov172_021B8154
  * region: ov172
@@ -21,10 +21,10 @@
  *   SSP_StartJpegEncoder 0x021C2B74 arm ov172
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   CTVT_CAMVIEW_StartLayoutChange 0x021B7740 thumb ov172
- *   func_021B8454 0x021B8454 thumb ov172
+ *   CTVT_COMM_UpdateMembers 0x021B8454 thumb ov172
  *   COMM_TVT_SYS_ClearNameWindows 0x021BE1A4 thumb ov172
  *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
- *   func_021B8628 0x021B8628 thumb ov172
+ *   CTVT_COMM_UpdatePeerSlot 0x021B8628 thumb ov172
  *   COMM_TVT_SYS_GetCameraBusy 0x021BE0F8 thumb ov172
  *   COMM_TVT_SYS_SetCameraBusy 0x021BE0FC thumb ov172
  *   COMM_TVT_SYS_GetMessageActive 0x021BE0AC thumb ov172
@@ -32,9 +32,9 @@
  *   CTVT_CAMVIEW_GetSlotBufferStep 0x021B785C thumb ov172
  *   CTVT_CAMVIEW_GetWindowHeight 0x021B77B8 thumb ov172
  *   CTVT_CAMVIEW_GetWindowWidth 0x021B77E8 thumb ov172
- *   func_021B8A14 0x021B8A14 thumb ov172
- *   func_021B8740 0x021B8740 thumb ov172
- *   func_021B8AD4 0x021B8AD4 thumb ov172
+ *   CTVT_COMM_SendStrokeQueue 0x021B8A14 thumb ov172
+ *   CTVT_COMM_SendCommand 0x021B8740 thumb ov172
+ *   CTVT_COMM_SendPeerStatus 0x021B8AD4 thumb ov172
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,10 +50,10 @@ extern void MIi_CpuCopy32(const void *, void *, u32);
 extern unsigned long SSP_StartJpegEncoder(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern u32 COMM_TVT_SYS_GetCamView(void *);
 extern void CTVT_CAMVIEW_StartLayoutChange(void *, char *, int, int);
-extern void func_021B8454(void *, char *);
+extern void CTVT_COMM_UpdateMembers(void *, char *);
 extern void COMM_TVT_SYS_ClearNameWindows(char *p);
 extern u32 COMM_TVT_SYS_GetHalfRes(void *);
-extern void func_021B8628(void *a, int b, int *t, int c);
+extern void CTVT_COMM_UpdatePeerSlot(void *a, int b, int *t, int c);
 extern u32 COMM_TVT_SYS_GetCameraBusy(void *);
 extern void COMM_TVT_SYS_SetCameraBusy(void *, u32);
 extern u32 COMM_TVT_SYS_GetMessageActive(void *);
@@ -61,13 +61,13 @@ extern u32 CTVT_CAMVIEW_GetOwnSlotBuffer(void *p, void *q);
 extern u32 CTVT_CAMVIEW_GetSlotBufferStep(void *, u32);
 extern u32 CTVT_CAMVIEW_GetWindowHeight(void *, u32);
 extern u32 CTVT_CAMVIEW_GetWindowWidth(void *, u32);
-extern u32 func_021B8A14(int unused, char *q);
-extern u32 func_021B8740(int a, int b, u8 c, u32 d);
-extern int func_021B8AD4(int unused, char *base);
+extern u32 CTVT_COMM_SendStrokeQueue(int unused, char *q);
+extern u32 CTVT_COMM_SendCommand(int a, int b, u8 c, u32 d);
+extern int CTVT_COMM_SendPeerStatus(int unused, char *base);
 typedef struct { u8 x[0x21]; } S21;
 #define W(o) (*(int *)(b + (o)))
 #define B(o) (*(u8 *)(b + (o)))
-void func_021B8154(void *a, char *b)
+void CTVT_COMM_Update(void *a, char *b)
 {
     int busy;
     u8 i;
@@ -96,7 +96,7 @@ void func_021B8154(void *a, char *b)
     } else {
         cur = GFL_NET_GetNegotiationNum();
         if (B(4) != cur) {
-            func_021B8454(a, b);
+            CTVT_COMM_UpdateMembers(a, b);
             COMM_TVT_SYS_ClearNameWindows(a);
             if (B(4) < cur && busy == 0) {
                 W(0x3b8) = 1;
@@ -107,7 +107,7 @@ void func_021B8154(void *a, char *b)
             B(0x2c) = cur;
         }
     }
-    for (i = 0; i < 4; i++) func_021B8628(a, (int)b, (int *)(b + 0x64 + i * 0x40), i);
+    for (i = 0; i < 4; i++) CTVT_COMM_UpdatePeerSlot(a, (int)b, (int *)(b + 0x64 + i * 0x40), i);
     if (B(4) > 1) {
         if (W(0x184) == 1) {
             if (GFL_NET_LOWER_DATA_IsSendFinished() == 1) W(0x184) = 0;
@@ -136,21 +136,21 @@ void func_021B8154(void *a, char *b)
             }
         }
         if (B(0x1ac) != B(0x1ad)) {
-            if (W(0x3c0) == 1) func_021B8A14((int)a, b);
+            if (W(0x3c0) == 1) CTVT_COMM_SendStrokeQueue((int)a, b);
         }
         if (W(0x3c4) == 1) {
-            if (func_021B8740((int)a, (int)b, 4, 0) == 1) W(0x3c4) = 0;
+            if (CTVT_COMM_SendCommand((int)a, (int)b, 4, 0) == 1) W(0x3c4) = 0;
         }
         if (W(0x3cc) == 1) {
-            if (func_021B8740((int)a, (int)b, 5, 0) == 1) W(0x3cc) = 0;
+            if (CTVT_COMM_SendCommand((int)a, (int)b, 5, 0) == 1) W(0x3cc) = 0;
         }
         if (W(0x3b4) == 1) {
-            if (func_021B8AD4((int)a, b) == 1) W(0x3b4) = 0;
+            if (CTVT_COMM_SendPeerStatus((int)a, b) == 1) W(0x3b4) = 0;
         }
     }
     if (busy == 0) {
         if (W(0x3b8) == 1) {
-            if (func_021B8740((int)a, (int)b, 2, W(0x3bc)) == 1) W(0x3b8) = 0;
+            if (CTVT_COMM_SendCommand((int)a, (int)b, 2, W(0x3bc)) == 1) W(0x3b8) = 0;
         }
         if (W(0x3b0) == 1) {
             hit = 0;
@@ -174,7 +174,7 @@ void func_021B8154(void *a, char *b)
             }
         }
         if (W(0x3d4) == 1) {
-            if (func_021B8740((int)a, (int)b, 1, B(0x3d8)) == 1) W(0x3d4) = 0;
+            if (CTVT_COMM_SendCommand((int)a, (int)b, 1, B(0x3d8)) == 1) W(0x3d4) = 0;
         }
     }
 }

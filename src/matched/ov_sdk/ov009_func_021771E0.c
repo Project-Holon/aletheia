@@ -13,10 +13,10 @@
  * symbols:
  *   MI_CpuCopy8  0x02082D44 arm
  *   memcmp       0x020923F0 arm
- *   g_021A2344   0x021A2344 data
+ *   gDwcTransHeaderMagic   0x021A2344 data
  */
 
-extern char g_021A2344[];
+extern char gDwcTransHeaderMagic[];
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int memcmp(const void *a, const void *b, unsigned int n);
 
@@ -25,7 +25,7 @@ unsigned short DWCs_DecodeHeader(void *message)
     char header[8];
 
     MI_CpuCopy8(message, header, 8);
-    if (memcmp(header + 6, g_021A2344, 2) == 0)
+    if (memcmp(header + 6, gDwcTransHeaderMagic, 2) == 0)
         return *(unsigned short *)(header + 4);
     return 0;
 }

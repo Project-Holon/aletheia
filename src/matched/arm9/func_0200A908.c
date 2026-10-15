@@ -1,5 +1,5 @@
 /*
- * function: func_0200A908
+ * function: IRC_RANKING_GetEntryProfile
  * address:  0x0200A908
  * packet:   pkt_0200A908
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 pad[24]; u16 n; u8 a; u8 b : 6, c : 1, d : 1; } Entry;
-void func_0200A908(const Entry *p, u32 i, u16 *n, u8 *a, u8 *b, u8 *c)
+void IRC_RANKING_GetEntryProfile(const Entry *p, u32 i, u16 *n, u8 *a, u8 *b, u8 *c)
 {
     *n = p[i].n;
     *a = p[i].a;

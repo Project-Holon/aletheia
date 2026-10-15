@@ -23,9 +23,9 @@
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   G3D_SYSTEM_GetObjectAnime 0x02047790 arm
  *   G3D_SYSTEM_GetAnimeObj 0x02047674 arm
- *   func_0207C9D0 0x0207C9D0 arm
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Add 0x0207C9D0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   sLaneRideOffsets 0x021F4CA0 data a4
  *
  * note (2026-10-05, wave D5 lane 13): EXACT. The byte array at +0x21EC is a struct
@@ -67,9 +67,9 @@ extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
 extern int G3D_SYSTEM_GetObjectAnime(int a, u16 n);
 extern int G3D_SYSTEM_GetAnimeObj(int p);
-extern void func_0207C9D0(const Vec *a, const Vec *b, Vec *out);
-extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
-extern int func_0207CBD0(const Vec *v);
+extern void VEC_Add(const Vec *a, const Vec *b, Vec *out);
+extern void VEC_Subtract(const Vec *a, const Vec *b, Vec *out);
+extern int VEC_Mag(const Vec *v);
 
 void FIELD_GIMMICK_CART_LANES_UpdateCartSound(void *a0, Rec *a1)
 {
@@ -104,10 +104,10 @@ void FIELD_GIMMICK_CART_LANES_UpdateCartSound(void *a0, Rec *a1)
         FLD_EXP_OBJ_GetAnime(sys, 0, (u16)kk, (u16)n);
         pos = FIELD_GIMMICK_CART_LANES_GetAnimeFrame(sys, kk, n);
         FIELD_GIMMICK_CART_LANES_SampleJointTranslation(*(void **)(G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(h, n)) + 8), 0, pos, (int *)(&v6c));
-        func_0207C9D0(&v6c, &sLaneRideOffsets[k], &v6c);
+        VEC_Add(&v6c, &sLaneRideOffsets[k], &v6c);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(a0), (struct VecFx32 *)(&v60));
-        func_0207CA00(&v6c, &v60, &v54);
-        d = func_0207CBD0(&v54);
+        VEC_Subtract(&v6c, &v60, &v54);
+        d = VEC_Mag(&v54);
         if (best > d || first) {
             best = d;
             bestK = kk;
@@ -137,8 +137,8 @@ void FIELD_GIMMICK_CART_LANES_UpdateCartSound(void *a0, Rec *a1)
         vol = 0;
         FIELD_GIMMICK_CART_LANES_SampleJointTranslation(*(void **)(img + 8), 0, cur, (int *)(&a48));
         FIELD_GIMMICK_CART_LANES_SampleJointTranslation(*(void **)(img + 8), 0, nxt, (int *)(&a3c));
-        func_0207CA00(&a48, &a3c, &a30);
-        d = func_0207CBD0(&a30);
+        VEC_Subtract(&a48, &a3c, &a30);
+        d = VEC_Mag(&a30);
         if (d >= 0x20000)
             vol = 0x7F;
         else if (d >= 0x18000)

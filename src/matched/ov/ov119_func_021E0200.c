@@ -13,7 +13,7 @@
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   sub_02009D9C  0x02009D9C  thumb
+ *   TRADE_HISTORY_GetSize  0x02009D9C  thumb
  *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
  *   d_021E8130     0x021E8130  data  ov119
  *
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 sub_02009D9C(void);
+extern u32 TRADE_HISTORY_GetSize(void);
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
 extern const char d_021E8130[];
 
@@ -37,8 +37,8 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 
 void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, sub_02009D9C(), 0, d_021E8130, 0x1DA);
+    void *buf = sub_02030734(heapId, TRADE_HISTORY_GetSize(), 0, d_021E8130, 0x1DA);
 
-    GFL_STD_MemCopy(GAME_DATA_GetSaveBlock1F(sys), buf, sub_02009D9C());
+    GFL_STD_MemCopy(GAME_DATA_GetSaveBlock1F(sys), buf, TRADE_HISTORY_GetSize());
     return buf;
 }

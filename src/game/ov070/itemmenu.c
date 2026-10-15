@@ -20,10 +20,10 @@
  *   ITEMMENU_PrintItemList 0x021BA218 thumb ov070
  *   ITEMMENU_UpdatePocketSortIcon 0x021B81F4 thumb ov070
  *   func_020081DC 0x020081DC thumb
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   func_02007F7C 0x02007F7C thumb
  *   func_02007FA0 0x02007FA0 thumb
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201EF6C 0x0201EF6C thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_02008298  0x02008298  thumb
@@ -61,7 +61,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
  *   ITEMMENU_IsMessageFinished  0x021BADF0  thumb  ov070
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   func_02028754  0x02028754  thumb
@@ -71,17 +71,17 @@
  *   GAME_BEACON_SetItemUse  0x02027324  thumb
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   func_020355D8  0x020355D8  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   func_0201EF34  0x0201EF34  thumb
  *   func_02021350  0x02021350  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C278  0x0200C278  thumb
+ *   BEACON_AddPoints  0x0200C278  thumb
  *   func_02007F1C  0x02007F1C  thumb
  *   func_02007FB8  0x02007FB8  thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -89,9 +89,9 @@
  *   sQuantityTouchRects     0x021BB960  data  a1
  *   func_02030734  0x02030734  arm
  *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
- *   func_02020F14  0x02020F14  thumb
+ *   FILE_UTIL_Create_0F14  0x02020F14  thumb
  *   func_02020F20  0x02020F20  thumb
- *   func_02021014  0x02021014  thumb
+ *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MATH_QSort     0x02081BE4  arm
@@ -100,7 +100,7 @@
  *   func_0202E448  0x0202E448  thumb
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_02020F34  0x02020F34  thumb
+ *   FILE_UTIL_CreateArcTool0F34  0x02020F34  thumb
  *   sActionMsgIds 0x021BB998 data ov070 a4
  *   sDefaultActionIds 0x021BB95C data a1
  *   sTabPockets     0x021BB984  data  a4
@@ -114,8 +114,8 @@
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
- *   func_0203FB44  0x0203FB44  arm
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02040DA8  0x02040DA8  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -124,7 +124,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   BUTTON_MAN_Delete  0x02051C6C  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   BLINK_PALANM_Create  0x0202E940  thumb
@@ -140,12 +140,12 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   func_02012B70 0x02012B70 thumb
- *   func_0203FCA0  0x0203FCA0  arm
+ *   GAME_DATA_GetIntrudeCount 0x02012B70 thumb
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040588  0x02040588  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   sBgLayer0Template     0x021BBB40  data  a4
  *   sBgLayer1Template     0x021BBB60  data  a4
  *   sBgLayer2Template     0x021BBB80  data  a4
@@ -169,7 +169,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0202130C  0x0202130C  thumb
+ *   FILE_UTIL_GetId  0x0202130C  thumb
  *   func_02020FB4  0x02020FB4  thumb
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
@@ -180,12 +180,12 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02020E60  0x02020E60  thumb
+ *   FILE_UTIL_Get  0x02020E60  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   BMP_Create  0x02043678  arm
- *   func_02021288  0x02021288  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   sRowStyleFlags     0x021BBA79  data  ov070  a1
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
@@ -213,7 +213,7 @@
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   BMP_FillRect  0x02043AF4  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_0201F73C  0x0201F73C  thumb
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
@@ -224,7 +224,7 @@
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   func_0201F14C  0x0201F14C  thumb
  *   func_0201D304  0x0201D304  thumb
- *   func_0200C274 0x0200C274 thumb
+ *   BEACON_GetPoints 0x0200C274 thumb
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_02062B30  0x02062B30  arm
  *   func_02041090  0x02041090  arm
@@ -255,6 +255,8 @@
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   BG_SYS_Create  0x0203F8F4  arm  arm9
  */
 
 #include "itemmenu_types.h"
@@ -436,7 +438,7 @@ typedef struct ItemMenuArgs {
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *p);
 extern void GAME_BEACON_SetItemUse(u16 id);
-extern u32 func_02020FE4(u16 a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(u16 a, u32 sel, u32 id);
 extern u32 func_02028754(struct Actor *obj, u32 n);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -445,7 +447,7 @@ extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 extern u8 func_020355C4(void);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
-extern unsigned int func_0202136C(u16 v);
+extern unsigned int FILE_UTIL_Check136C(u16 v);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int TOUCHPANEL_GetCont(void);
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
@@ -457,24 +459,24 @@ extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_02007CC8(u8 *base, void *buf, u32 id, int save);
 extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern int GFL_USE_IsAnySeBusy(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern u16 func_020212B0(u16 id);
+extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern u8 func_02021350(u16 id);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 func_0200C278(struct MiscSave *p, u32 v);
+extern u32 BEACON_AddPoints(struct MiscSave *p, u32 v);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
-extern void *func_02020F14(u32 a);
+extern void *FILE_UTIL_Create_0F14(u32 a);
 extern int func_02020F20(int h, int id, u16 heap);
-extern u32 func_02021014(struct ItemData *p, u32 sel);
+extern u32 FILE_UTIL_Get_1014(struct ItemData *p, u32 sel);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(SortEntry *, SortEntry *), void *buf);
@@ -482,7 +484,7 @@ extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *p);
 extern u32 func_0202E448(u32 id);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern int GAME_DATA_CheckSaveFlag(void *p, int a);
-extern void *func_02020F34(unsigned int item, unsigned int which, unsigned int heap);
+extern void *FILE_UTIL_CreateArcTool0F34(unsigned int item, unsigned int which, unsigned int heap);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern void CLACT_VBlankSystem();
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -495,8 +497,8 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *s);
 extern void TCBL_Destroy(struct Tcbl *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void STRBUF_Delete(struct Strbuf *vec);
-extern u32 func_0201ED04(struct WordSet *p);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -505,7 +507,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BUTTON_MAN_Delete(struct ButtonTask *task);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void func_020315D4(struct Proc *a);
 extern void func_020306F0(unsigned int a);
@@ -521,12 +523,12 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-extern int func_02012B70(const struct GameData *p);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern int GAME_DATA_GetIntrudeCount(const struct GameData *p);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(int bg);
 extern void func_020409B4(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -534,7 +536,7 @@ extern void func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
 extern void BG_SYS_SetVramBanks(const struct VramBankConfig *c);
@@ -565,7 +567,7 @@ extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern void BMP_WIN_ClearScreen(struct BmpWin *d);
-extern u32 func_0202130C(u32 id);
+extern u32 FILE_UTIL_GetId(u32 id);
 extern void func_02020FB4(void *dst, u32 entry, u32 heap);
 extern void CLACT_DeleteActor(struct Actor *p);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -576,11 +578,11 @@ extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 extern void CLACT_ExitSystem(void);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
-extern int func_02020E60(unsigned short, int);
+extern int FILE_UTIL_Get(unsigned short, int);
 extern void CLACT_DrawSystem(void);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern u32 func_02021288(u32 id);
+extern u32 FILE_UTIL_Check1288(u32 id);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct SurfacePos *out, u16 space);
@@ -601,7 +603,7 @@ extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern struct TextStream *PRINTSYS_PrintStream(int, int, int, void *, int, int, struct Tcbl *, int, int, int);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern u32 PRINTSYS_PrintStreamGetState(struct TextStream *stream);
@@ -612,7 +614,7 @@ extern unsigned int KEY_GetCont(void);
 extern void PRINTSYS_PrintStreamShortWait(struct TextStream *p, s32 v);
 extern void func_0201F14C(struct WordSet *p, u32 i, u32 v);
 extern u32 func_0201D304(struct Strbuf *s, u32 a, u32 b);
-extern u32 func_0200C274(struct MiscSave *);
+extern u32 BEACON_GetPoints(struct MiscSave *);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern int func_02062B30(void *file, void **out);
 extern void func_02041090(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
@@ -629,7 +631,7 @@ extern void func_0200816C();
 extern int func_02008284(struct BagCursor *p);
 extern void func_02008270(struct BagCursor *p, int i, s16 *a, s16 *b);
 extern void *func_02045B38();
-extern void *func_0201EC64();
+extern void *GF_FONT_Create_EC64();
 extern void *PRINTSYS_QUE_CreateEx();
 extern struct KeyCursor *func_02028590();
 extern int GF_FONT_Create();
@@ -797,7 +799,7 @@ typedef struct ItemUseRange {
 extern BagSlot *func_020081DC(void *bag, u32 pocket, u32 index);
 extern unsigned int func_02007F7C(const BagSlot *items, unsigned int maxCount);
 extern u32 func_02007FA0(void *bag, u32 pocket);
-extern void func_0201EF40(void *wordSet, u32 slot, u32 itemId);
+extern void WORDSET_Callback_EF40(void *wordSet, u32 slot, u32 itemId);
 extern void func_0201EF6C(void *wordSet, u32 slot, u32 itemId, u32 isPlural, u32 flags);
 extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
 extern u32 func_0202EDE4(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
@@ -889,7 +891,7 @@ int ITEMMENU_GetSellTotal(int itemId, int count, unsigned int heapId)
 {
     typedef enum { HALF_ZERO } Half;
     Half unitPrice;
-    unitPrice = (Half)((int)func_02020FE4((u16)itemId, 0, heapId) / 2);
+    unitPrice = (Half)((int)FILE_UTIL_Get_0FE4((u16)itemId, 0, heapId) / 2);
     return (int)((unsigned int)unitPrice * (unsigned int)count);
 }
 
@@ -907,7 +909,7 @@ int ITEMMENU_GetItemCount(ItemMenuWork *work)
 
 void ITEMMENU_RegisterItemName(ItemMenuWork *work, int slot, unsigned int itemId)
 {
-    func_0201EF40(work->wordSet, slot, itemId);
+    WORDSET_Callback_EF40(work->wordSet, slot, itemId);
 }
 
 /*
@@ -1261,7 +1263,7 @@ void ITEMMENU_UseRepel(ItemMenuWork *work)
     if (ITEMMENU_IsRepelItem(work->selectedItemId)) {
         repelState = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(work->saveData));
         if (MOVE_POKEMON_SAVE_IsCooldownDone(repelState)) {
-            steps = func_02020FE4(work->selectedItemId, 2, work->heapId);
+            steps = FILE_UTIL_Get_0FE4(work->selectedItemId, 2, work->heapId);
             MOVE_POKEMON_SAVE_SetCooldown(repelState, steps);
             ITEMMENU_RemoveSelectedItems(work, 1);
             func_02045CAC(work->msgBank, ITEMMENU_MSG_REPEL_USED, work->tempString);
@@ -1286,7 +1288,7 @@ void ITEMMENU_TaskWaitMessage(ItemMenuWork *work)
         return;
     if ((KEY_GetTrg() & (ITEMMENU_KEY_A | ITEMMENU_KEY_B)) == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     work->shownItemId = 0xFFFF;
     ITEMMENU_RedrawList(work);
     work->listDirty = 1;
@@ -1505,7 +1507,7 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
                 GAME_BEACON_SetItemUse(work->selectedItemId);
             if (work->currentPocket == 2) {
                 func_021B6100(work, ITEMMENU_TaskUseNoticeMessage);
-            } else if (func_02020FE4(work->selectedItemId, 0x1D, work->heapId) == 1) {
+            } else if (FILE_UTIL_Get_0FE4(work->selectedItemId, 0x1D, work->heapId) == 1) {
                 work->nextState = 0xC;
                 func_021B6100(work, 0);
             } else if (ITEMMENU_FindUseRange(work->selectedItemId) >= 0) {
@@ -1602,8 +1604,8 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
         work->selectedItemId = *itemIdPtr;
     mode = work->bagMode;
     if (mode == 2) {
-        if (func_02020FE4(work->selectedItemId, 3, work->heapId) == 0 && PALANM_IsOutsideReservedIdRange(work->selectedItemId) == 1) {
-            if (func_0202136C(work->selectedItemId) != 0)
+        if (FILE_UTIL_Get_0FE4(work->selectedItemId, 3, work->heapId) == 0 && PALANM_IsOutsideReservedIdRange(work->selectedItemId) == 1) {
+            if (FILE_UTIL_Check136C(work->selectedItemId) != 0)
                 work->nextState = 0x12;
             else
                 work->nextState = 3;
@@ -1772,7 +1774,7 @@ void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
         func_021B6100(work, 0);
     } else {
         ITEMMENU_ClearMessageWindow(work);
-        func_020414EC(3);
+        BG_SYS_ClearSlot(3);
         CLACT_SetActorAutoAnim(work->cursorActor, 1);
         ITEMMENU_UpdateSideButtons(work, 1);
         if (func_020355C4() == 1) {
@@ -1808,7 +1810,7 @@ void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work)
     if ((KEY_GetTrg() & 3) == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
     func_02045CAC(work->msgBank, 0x3E, work->tempString);
-    func_0201EF34(work->wordSet, 0, func_020212B0(work->selectedItemId));
+    func_0201EF34(work->wordSet, 0, FILE_UTIL_Get_12B0(work->selectedItemId));
     func_0201F250(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessage(work, 1);
     func_021B6100(work, ITEMMENU_TaskOpenActionMenu);
@@ -1847,7 +1849,7 @@ void ITEMMENU_TaskUseNoticeMessage(ItemMenuWork *work)
 void ITEMMENU_TaskReturnToListAfterMessage(ItemMenuWork *work)
 {
     if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() != 0) {
-        func_020414EC(3);
+        BG_SYS_ClearSlot(3);
         work->shownItemId = 0xFFFF;
         ITEMMENU_RedrawList(work);
         work->listDirty = 1;
@@ -1880,7 +1882,7 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
         return;
     choice = APP_TASKMENU_GetCursorPos(work->menuList);
     ITEMMENU_CloseYesNoList(work);
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     if (choice == 0) {
         GFL_USE_PlaySeDefaultVolume(0x647);
         ITEMMENU_RemoveSelectedItems(work, work->listCount);
@@ -1978,8 +1980,8 @@ void ITEMMENU_TaskGiveItem(ItemMenuWork *work)
     unsigned int isKeyItem;
 
     CLACT_SetActorAutoAnim(work->cursorActor, 0);
-    canHold = func_02020FE4(work->selectedItemId, 0, work->heapId);
-    isKeyItem = func_02020FE4(work->selectedItemId, 3, work->heapId);
+    canHold = FILE_UTIL_Get_0FE4(work->selectedItemId, 0, work->heapId);
+    isKeyItem = FILE_UTIL_Get_0FE4(work->selectedItemId, 3, work->heapId);
     if (canHold == 0 || isKeyItem != 0) {
         ITEMMENU_UpdateSideButtons(work, 0);
         func_02045CAC(work->msgBank, 0x4D, work->tempString);
@@ -2080,7 +2082,7 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
     case 0:
         sellTotal = ITEMMENU_GetSellTotal(work->selectedItemId, work->listCount, work->heapId);
         ITEMMENU_RemoveSelectedItems(work, work->listCount);
-        func_0200C278(GAME_DATA_GetMiscSave(work->saveData), sellTotal);
+        BEACON_AddPoints(GAME_DATA_GetMiscSave(work->saveData), sellTotal);
         GFL_USE_PlaySeDefaultVolume(0x655);
         ITEMMENU_PrintMoney(work);
         func_02045CAC(work->msgBank, 0x50, work->tempString);
@@ -2125,7 +2127,7 @@ void ITEMMENU_TaskWaitMessageDismiss(ItemMenuWork *work)
 
 void ITEMMENU_TaskReturnToListFromQuantity(ItemMenuWork *work)
 {
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     work->shownItemId = 0xFFFF;
     ITEMMENU_RedrawList(work);
     work->listDirty = 1;
@@ -2173,7 +2175,7 @@ void ITEMMENU_ShowQuantityWindows(ItemMenuWork *work, int v) { work->listMode=v;
 
 
 
-void ITEMMENU_HideQuantityWindows(ItemMenuWork *work) { func_020414EC(3); CLACT_SetActorDrawEnable(work->listWindowA, 0); CLACT_SetActorDrawEnable(work->listWindowB, 0); }
+void ITEMMENU_HideQuantityWindows(ItemMenuWork *work) { BG_SYS_ClearSlot(3); CLACT_SetActorDrawEnable(work->listWindowA, 0); CLACT_SetActorDrawEnable(work->listWindowB, 0); }
 
 
 
@@ -2292,12 +2294,12 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     items = func_02030734(work->heapId, 0x4D8, 0, sHeapSiteName, 0xB36);
     MYITEM_SAVEDATA_CopyPocket(work->bag, items, work->currentPocket, 1);
     itemCount = ITEMMENU_GetItemCount(work);
-    itemArchive = (int)func_02020F14(work->heapId);
+    itemArchive = (int)FILE_UTIL_Create_0F14(work->heapId);
     for (i = 0; i < itemCount; i++) {
         itemData = func_02020F20(itemArchive, items[i].itemId, work->heapId);
         entry = &ents[i];
-        iconKind = func_02021014((struct ItemData *)itemData, 0xF);
-        entry->key = (iconKind << 28) + (func_02021014((struct ItemData *)itemData, 0x11) << 16) + items[i].itemId;
+        iconKind = FILE_UTIL_Get_1014((struct ItemData *)itemData, 0xF);
+        entry->key = (iconKind << 28) + (FILE_UTIL_Get_1014((struct ItemData *)itemData, 0x11) << 16) + items[i].itemId;
         entry->item = items[i];
         func_020307B0((void *)itemData);
     }
@@ -2420,8 +2422,8 @@ void ITEMMENU_UpdatePocketSortIcon(ItemMenuWork *work) { if (work->usingWorkCopy
 
 void ITEMMENU_CheckItemFilter(ItemMenuWork *work, void *itemData, u16 *itemIdPtr, u8 *filterKind)
 {
-    if (func_02021014(itemData, 6) != 0) {
-        if (func_0202136C(*itemIdPtr) == 1)
+    if (FILE_UTIL_Get_1014(itemData, 6) != 0) {
+        if (FILE_UTIL_Check136C(*itemIdPtr) == 1)
             *filterKind = 2;
         else if (*itemIdPtr == 0x1C2 && work->bagFilter == 1)
             *filterKind = 1;
@@ -2440,13 +2442,13 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
 {
     unsigned short *itemIdPtr = (void *)ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work));
     if (itemIdPtr != 0 && *itemIdPtr != 0) {
-        void *itemData = func_02020F34(*itemIdPtr, 0, work->heapId);
+        void *itemData = FILE_UTIL_CreateArcTool0F34(*itemIdPtr, 0, work->heapId);
         unsigned char pocket = work->currentPocket;
         ITEMMENU_CheckItemFilter(work, itemData, itemIdPtr, actions);
         if (ITEMMENU_IsCheckModeAllowed(work, pocket) == 0 && actions[0] != 2) {
             actions[0] = 0xFF;
         }
-        if (func_02021014(itemData, 3) == 0) {
+        if (FILE_UTIL_Get_1014(itemData, 3) == 0) {
             if (PALANM_IsOutsideReservedIdRange(*itemIdPtr) == 1) {
                 actions[1] = 6;
             }
@@ -2454,7 +2456,7 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
                 actions[2] = 3;
             }
         }
-        if (func_02021014(itemData, 4) != 0) {
+        if (FILE_UTIL_Get_1014(itemData, 4) != 0) {
             if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 1) {
                 actions[2] = 5;
             } else {
@@ -2693,7 +2695,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->tempString = STRBUF_Create(0xc8, work->heapId);
     work->messageString = STRBUF_Create(0xc8, work->heapId);
     work->listStrings = STRBUF_Create(0x40, work->heapId);
-    work->wordSet = func_0201EC64(work->heapId);
+    work->wordSet = GF_FONT_Create_EC64(work->heapId);
     work->printSys = PRINTSYS_QUE_CreateEx(0x40 << 6, work->heapId);
     work->itemDescWindow = func_02028590(0xf, 1, 1, work->heapId);
     work->menuTaskArg = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
@@ -2765,10 +2767,10 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     STRBUF_Delete(work->tempString);
     STRBUF_Delete(work->messageString);
     STRBUF_Delete(work->listStrings);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     ITEMMENU_HideSideWindows(work);
     if (work->messageWindows[0].window != 0) {
-        func_0203FB44(3, (unsigned short)work->keyRepeatPacked, (unsigned short)(work->keyRepeatPacked >> 16));
+        BG_SYS_DeleteHalf(3, (unsigned short)work->keyRepeatPacked, (unsigned short)(work->keyRepeatPacked >> 16));
         BMP_WIN_Delete(work->messageWindows[0].window);
     }
     func_02040DA8(3, 1, 0);
@@ -2780,7 +2782,7 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     ITEMMENU_DeleteBlinkPalAnm(work);
     BUTTON_MAN_Delete(work->taskSys);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     parentArgs->nextState = work->nextState;
     parentArgs->selectedItemId = work->selectedItemId;
     KEY_SetRepeatSpeed(work->keyRepeatDelay, work->keyRepeatInterval);
@@ -3118,7 +3120,7 @@ int ITEMMENU_IsCheckModeAllowed(ItemMenuWork *work, int value)
 {
     if (work->bagMode == 3 || work->bagMode == 1)
         return 0;
-    if (func_02012B70(work->saveData) == 1 && value == 4)
+    if (GAME_DATA_GetIntrudeCount(work->saveData) == 1 && value == 4)
         return 0;
     return 1;
 }
@@ -3161,7 +3163,7 @@ static inline void GX_SetDispSelect(GXDispSelect sel)
 
 /*
  * BG setup: GX_SetDispSelect(0), then seven 32-byte BG templates copied
- * to the stack and handed to func_0203FCA0 for BGs 0-6, each followed by
+ * to the stack and handed to BG_SYS_InitBgLayer for BGs 0-6, each followed by
  * its clear/enable calls.
  *
  * volatile: 0x04000304 (POWCNT1, read-modify-write at 0x021B8FA0/0x021B8FA8)
@@ -3179,44 +3181,44 @@ void ITEMMENU_InitDisplayBanks(void)
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
 
     layer0Template = sBgLayer0Template;
-    func_0203FCA0(0, &layer0Template, 0);
+    BG_SYS_InitBgLayer(0, &layer0Template, 0);
     func_020414AC(0);
     func_020409B4(0);
     func_02040588(0, 0);
 
     layer1Template = sBgLayer1Template;
-    func_0203FCA0(1, &layer1Template, 0);
+    BG_SYS_InitBgLayer(1, &layer1Template, 0);
     func_020414AC(1);
     func_020409B4(1);
     func_02040588(1, 0);
 
     layer2Template = sBgLayer2Template;
-    func_0203FCA0(2, &layer2Template, 0);
+    BG_SYS_InitBgLayer(2, &layer2Template, 0);
     func_020414AC(2);
     func_020409B4(2);
     func_02040588(2, 0);
 
     layer3Template = sBgLayer3Template;
-    func_0203FCA0(3, &layer3Template, 0);
-    func_02040C14(3, 0, 1, 0);
+    BG_SYS_InitBgLayer(3, &layer3Template, 0);
+    BG_SYS_Init(3, 0, 1, 0);
     func_020414AC(3);
     func_020409B4(3);
     func_02040588(3, 0);
 
     layer4Template = sBgLayer4Template;
-    func_0203FCA0(4, &layer4Template, 0);
+    BG_SYS_InitBgLayer(4, &layer4Template, 0);
     func_02040588(4, 0);
     func_020409B4(4);
 
     layer5Template = sBgLayer5Template;
-    func_0203FCA0(5, &layer5Template, 0);
+    BG_SYS_InitBgLayer(5, &layer5Template, 0);
     func_02040588(5, 0);
 
     layer6Template = sBgLayer6Template;
-    func_0203FCA0(6, &layer6Template, 0);
+    BG_SYS_InitBgLayer(6, &layer6Template, 0);
     func_02040588(6, 0);
-    func_02040C14(6, 0, 1, 0);
-    func_020414EC(6);
+    BG_SYS_Init(6, 0, 1, 0);
+    BG_SYS_ClearSlot(6);
 }
 
 
@@ -3332,7 +3334,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     u32 i;
 
     *(volatile u16 *)0x04000050 = 0;
-    func_0203F8F4(work->heapId);
+    BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     func_0201DD60();
     BG_SYS_SetVramBanks((const struct VramBankConfig *)sVramBankConfig);
@@ -3423,15 +3425,15 @@ void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work)
 {
     unsigned packedPalette;
     packedPalette = work->bgPaletteA;
-    func_0203FB44(4, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_DeleteHalf(4, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->bgPaletteB;
-    func_0203FB44(5, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_DeleteHalf(5, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->bgPaletteD;
-    func_0203FB44(3, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_DeleteHalf(3, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->frameCounter;
-    func_0203FB44(0, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_DeleteHalf(0, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->bgPaletteC;
-    func_0203FB44(1, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_DeleteHalf(1, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
 }
 
 
@@ -3467,7 +3469,7 @@ void ITEMMENU_SetMoveTypeIconsVisible(ItemMenuWork *work, int mode)
     if (work->movingCursorActor != 0) {
         CLACT_SetActorDrawEnable(work->movingCursorActor, mode);
     }
-    moveId = func_020212B0(ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work))->itemId);
+    moveId = FILE_UTIL_Get_12B0(ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work))->itemId);
     if (moveId != 0) {
         CLACT_SetActorDrawEnable(work->damageClassActors[WAZA_TOOL_GetDamageType(moveId)], mode);
         CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType((void *)moveId)], mode);
@@ -3503,7 +3505,7 @@ void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->listWindows[ITEMMENU_WINDOW_ITEM_COUNT].window), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->listWindows[ITEMMENU_WINDOW_ITEM_PRICE].window), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->listWindows[ITEMMENU_WINDOW_ITEM_DESC].window), 0);
-    moveId = func_020212B0(*slotPtr);
+    moveId = FILE_UTIL_Get_12B0(*slotPtr);
     if (moveId == 0) {
         func_02045CAC(work->msgBank, 0x86, work->tempString);
         ITEMMENU_RegisterItemName(work, 0, *slotPtr);
@@ -3522,7 +3524,7 @@ void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
         machineIndex = func_02021350(*slotPtr);
         if (machineIndex == 0xFF) {
             func_02045CAC(work->msgBank, 0x45, work->tempString);
-            func_0201EFA4(work->wordSet, 0, func_0202130C(*slotPtr) + 1, 2, 2, 1);
+            func_0201EFA4(work->wordSet, 0, FILE_UTIL_GetId(*slotPtr) + 1, 2, 2, 1);
         } else {
             func_02045CAC(work->msgBank, 0x47, work->tempString);
             func_0201EFA4(work->wordSet, 0, machineIndex + 1, 2, 2, 1);
@@ -3672,8 +3674,8 @@ void ITEMMENU_CreateMovingCursor(ItemMenuWork *work, int id)
         ITEMMENU_DestroyMovingCursor(work);
     }
     archive = func_020490F4(0x19, work->heapId);
-    work->cellRes = CLACT_RegisterPaletteEx(archive, func_02020E60(id, 2), 1, 0, 0, 1, work->heapId);
-    work->cellAnimRes = CLACT_RegisterCharacter(archive, func_02020E60(id, 1), 0, 1, work->heapId);
+    work->cellRes = CLACT_RegisterPaletteEx(archive, FILE_UTIL_Get(id, 2), 1, 0, 0, 1, work->heapId);
+    work->cellAnimRes = CLACT_RegisterCharacter(archive, FILE_UTIL_Get(id, 1), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
     actorTemplate.x = 0x84;
     actorTemplate.y = 0x50;
@@ -3785,8 +3787,8 @@ void ITEMMENU_CreateCursorActors(ItemMenuWork *work)
 
 int ITEMMENU_GetRowColorKind(u16 itemId)
 {
-    if (func_02021288(itemId) == 1) {
-        switch (func_020212B0(itemId)) {
+    if (FILE_UTIL_Check1288(itemId) == 1) {
+        switch (FILE_UTIL_Get_12B0(itemId)) {
         case 0xF:
         case 0x13:
         case 0x39:
@@ -3829,7 +3831,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
     if (work->shownItemId == work->scrollOffset) {
         return;
     }
-    itemArchive = (int)func_02020F14(work->heapId);
+    itemArchive = (int)FILE_UTIL_Create_0F14(work->heapId);
     for (i = 0; i < 8; i++) {
         work->slotAnimIndex[i] = 0;
         itemIndex = work->scrollOffset + i;
@@ -3841,7 +3843,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             continue;
         }
         itemData = func_02020F20(itemArchive, *itemIdPtr, work->heapId);
-        iconKind = func_02021014((struct ItemData *)itemData, 0xf);
+        iconKind = FILE_UTIL_Get_1014((struct ItemData *)itemData, 0xf);
         if (sRowStyleFlags[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*itemIdPtr) == 1) {
                 color = 0x18AD;
@@ -3857,7 +3859,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
         }
         BMP_Clear(work->slotBitmap[i], 0xd);
         func_02045CAC(work->msgBank, 0x82, work->tempString);
-        moveId = func_020212B0(*itemIdPtr);
+        moveId = FILE_UTIL_Get_12B0(*itemIdPtr);
         if (moveId == 0) {
             ITEMMENU_RegisterItemName(work, 0, *itemIdPtr);
         } else {
@@ -3873,9 +3875,9 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             work->slotAnimIndex[i] = 6;
         } else if (func_02021350(*itemIdPtr) != 0xff) {
             work->slotAnimIndex[i] = 8;
-        } else if (func_0202130C(*itemIdPtr) != 0xff) {
+        } else if (FILE_UTIL_GetId(*itemIdPtr) != 0xff) {
             work->slotAnimIndex[i] = 7;
-        } else if (func_02021014((struct ItemData *)itemData, 4) == 0) {
+        } else if (FILE_UTIL_Get_1014((struct ItemData *)itemData, 4) == 0) {
             work->slotAnimIndex[i] = 3;
         } else if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 0) {
             work->slotAnimIndex[i] = 2;
@@ -4254,7 +4256,7 @@ void ITEMMENU_ShowMessage(ItemMenuWork *work, int mode)
     win = &work->messageWindows[0];
     if (mode == 1) {
         work->messageWindow = PRINTSYS_PrintStream((int)work->messageWindows[0].window, 0, 0, work->messageString,
-                                            work->menuTaskArg, func_02012FFC(),
+                                            work->menuTaskArg, MSG_SPEED_GetWait(),
                                             work->touchTask, 2, work->heapId, 0xF);
     } else {
         ITEMMENU_PrintToWindow(work, win, work->messageString, 0, 0, 0x44F);
@@ -4370,7 +4372,7 @@ void ITEMMENU_PrintMoney(ItemMenuWork *work)
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_1], work->tempString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_1]);
     func_02045CAC(work->msgBank, 0x52, work->tempString);
-    func_0201EFA4(work->wordSet, 0, func_0200C274(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
+    func_0201EFA4(work->wordSet, 0, BEACON_GetPoints(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
     func_0201F250(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_2], work->messageString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_2]);

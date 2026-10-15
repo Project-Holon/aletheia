@@ -11,8 +11,8 @@
  *
  * symbols:
  *   DWC_GetDateTime  0x02167ED8  arm  ov009
- *   func_0200ADD8  0x0200ADD8  thumb
- *   func_0200ADD0  0x0200ADD0  thumb
+ *   WORLDTRADE_SetLastSearchId  0x0200ADD8  thumb
+ *   WORLDTRADE_SetLastTradeId  0x0200ADD0  thumb
  */
 
 typedef signed char s8;
@@ -36,8 +36,8 @@ typedef struct {
 
 extern int DWC_GetDateTime(RTCDate *date, RTCTime *time);
 struct RegB;
-extern void func_0200ADD8(struct RegB *p, u32 value);
-extern void func_0200ADD0(struct RegB *p, u32 value);
+extern void WORLDTRADE_SetLastSearchId(struct RegB *p, u32 value);
+extern void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value);
 
 void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
 {
@@ -48,8 +48,8 @@ void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
     DWC_GetDateTime(&date, &time);
     v = ((u32)date.year << 24) | (((u32)date.month << 24) >> 8) | (((u32)date.day << 24) >> 16) | date.week;
     if (which == 1) {
-        func_0200ADD8(p, v);
+        WORLDTRADE_SetLastSearchId(p, v);
     } else {
-        func_0200ADD0(p, v);
+        WORLDTRADE_SetLastTradeId(p, v);
     }
 }

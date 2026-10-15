@@ -13,7 +13,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   func_020490F4 0x020490F4 arm
  *   GURU2_MAIN_SetupAll 0x021DF800 thumb ov137
  *   func_020056A0 0x020056A0 thumb
@@ -52,7 +52,7 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void GURU2_MAIN_SetupAll(char *p);
 extern void GURU2_MAIN_AddBackgroundUnit(u8 *);
@@ -88,7 +88,7 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,u8 *q)
     *(u8 * *)&((struct Obj08213 *)q)->f1C=p;
     *(u8 * *)&((struct Obj02208 *)p)->fD8=q;
     ((struct Obj02208 *)p)->fDC=((struct Obj08213 *)q)->f18;
-    ((struct Obj02208 *)p)->f24=func_02012934(((struct Obj23740 *)(*(u8 * *)&((struct Obj23739 *)(*(u8 * *)&((struct Obj02208 *)p)->fD8))->f14))->f4);
+    ((struct Obj02208 *)p)->f24=GAME_DATA_GetMyParty(((struct Obj23740 *)(*(u8 * *)&((struct Obj23739 *)(*(u8 * *)&((struct Obj02208 *)p)->fD8))->f14))->f4);
     ((struct Obj02208 *)p)->fD58=func_020490F4(183,114);
     GURU2_MAIN_SetupAll((char *)p);
     ((struct Obj02208 *)p)->fD9C=func_020056A0((void (*)(int,  void *))GURU2_MAIN_VBlank,p,1);

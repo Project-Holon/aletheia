@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   CARDi_WaitAsync  0x02076050  arm
  */
 
-extern void func_02076050(void);
-void CARD_WaitRomAsync(void){ func_02076050(); }
+extern void CARDi_WaitAsync(void);
+void CARD_WaitRomAsync(void){ CARDi_WaitAsync(); }

@@ -19,14 +19,14 @@
  *   NNS_G3dTexGetRequiredSize  0x02069FD0  arm
  *   NNS_G3dTexSetTexKey  0x02069FF8  arm
  *   NNS_G3dGetTex  0x0206E964  arm
- *   func_02080C44  0x02080C44  arm
+ *   GX_GetBankForTex  0x02080C44  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *
  * Screen-texture setup (the __FILE__ anchor for this address is
  * screentex.c, 0x020A77E0). Allocates a small control block and a 0x8C-byte
  * work buffer off the heap in a0, seeds the buffer from a template with
  * MI_CpuCopy8 (MI_CpuCopy8), binds it to the control block, then builds a
- * packed VRAM descriptor: bits of the bank word returned by func_02080C44
+ * packed VRAM descriptor: bits of the bank word returned by GX_GetBankForTex
  * are folded into an accumulator under a fall-through switch on a1, and the
  * result is combined with the texture size from NNS_G3dGetTex /
  * NNS_G3dTexGetRequiredSize before the final publish through NNS_G3dTexSetTexKey.
@@ -61,7 +61,7 @@ struct Rec;
 extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int NNS_G3dTexGetRequiredSize(int p);
-extern u16 func_02080C44(void);
+extern u16 GX_GetBankForTex(void);
 extern void NNS_G3dTexSetTexKey(char *p, int a, int b);
 
 void *SCREENTEX_Create(u32 heap, u32 sel)
@@ -79,7 +79,7 @@ void *SCREENTEX_Create(u32 heap, u32 sel)
     func_02046C9C(blk, 2, (u32)buf);
     tex = NNS_G3dGetTex(buf);
     size = NNS_G3dTexGetRequiredSize((int)tex);
-    bank = func_02080C44();
+    bank = GX_GetBankForTex();
     acc = 0;
     switch (sel) {
     case 3:

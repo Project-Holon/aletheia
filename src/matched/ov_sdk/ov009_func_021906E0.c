@@ -21,7 +21,7 @@
  *   func_02193734  0x02193734  arm  ov009
  *   func_021905A4  0x021905A4  arm  ov009
  *   func_0219327C  0x0219327C  arm  ov009
- *   func_0217F21C  0x0217F21C  arm  ov009
+ *   _strlwr  0x0217F21C  arm  ov009
  *   func_02190650  0x02190650  arm  ov009
  *   g_021A5344     0x021A5344  data ov009
  */
@@ -50,7 +50,7 @@ typedef struct {
 extern void func_02193734(int *connection, int string);
 extern int func_021905A4(int *connection, GPISearchData **out, int type);
 extern void func_0219327C(char *p, int b, int n);
-extern char *func_0217F21C(char *s);
+extern char *_strlwr(char *s);
 extern int func_02190650(void *a, int a1, int a2, int a3, int a4);
 extern char g_021A5344[];
 
@@ -87,7 +87,7 @@ int func_021906E0(int *connection, char *nick, char *uniquenick, char *email,
         data->email[0] = 0;
     else
         func_0219327C(data->email, (int)email, 0x33);
-    func_0217F21C(data->email);
+    _strlwr(data->email);
     if (firstname == 0)
         data->firstname[0] = 0;
     else

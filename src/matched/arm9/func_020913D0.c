@@ -1,5 +1,5 @@
 /*
- * function: func_020913D0
+ * function: MSL_C_LIB_AllocFromHeap
  * address:  0x020913D0
  * packet:   pkt_020913D0
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0209138C  0x0209138C  arm
+ *   MSL_C_LIB_AllocAllFromHeap  0x0209138C  arm
  */
 
 typedef unsigned int u32;
 
-extern void *func_0209138C(u32 heap);
+extern void *MSL_C_LIB_AllocAllFromHeap(u32 heap);
 
-void *func_020913D0(u32 heap)
+void *MSL_C_LIB_AllocFromHeap(u32 heap)
 {
     if (heap == 0)
         return 0;
-    return func_0209138C(heap);
+    return MSL_C_LIB_AllocAllFromHeap(heap);
 }

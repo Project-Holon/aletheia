@@ -29,7 +29,7 @@
  *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
  *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
  *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   gFkDemoDrawTemplate     0x021F42C0  data  a4
@@ -68,12 +68,12 @@
  *   func_020115EC  0x020115EC  thumb
  *   ICA_ANIME_SetCameraStatus  0x02011B8C  thumb
  *   func_02048B0C  0x02048B0C  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  *   gFkDemoOrigin     0x021F426C  data  a4
  *   func_020490F4  0x020490F4  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   func_02008550  0x02008550  thumb
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
@@ -105,7 +105,7 @@
  *   FIELD_FK_SOUND_ANIME_Step  0x021F40A0  thumb  ov056
  *   FIELD_BUILDMODEL_GetEntrySlotFrame  0x0218C6F4  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlot  0x02028A7C  thumb
  *   gFkBuildSoundModelPos  0x021F4278  data  ov056  a4
  *   gFkBuildSoundTriggerFrame  0x021F4258  data  ov056  a4
@@ -153,10 +153,10 @@ extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
 extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, const VecFx32 *eye);
 extern void G3D_CAMERA_Delete(struct G3dCamera *g3dCamera);
 extern void ICA_ANIME_SetCameraStatus(struct G3dCamera *g3dCamera, struct IcaAnime *anime);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern struct ArcFile *func_020490F4(u32 arcId, u32 heapId);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void func_0207ADC4(MtxFx33 *matrix);
+extern void MTX_Identity33_(MtxFx33 *matrix);
 extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcFile *arc, u32 memberId);
 extern int G3D_SYSTEM_AllocVramTexture(struct G3dResource *res);
 extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
@@ -282,7 +282,7 @@ int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work)
     heapId = FIELDMAP_GetHeapId(work->fieldMap);
     switch (*seq) {
     case 0:
-        myStatus = func_02012944(func_020120F4(work->gameSystem));
+        myStatus = func_02012944(ICA_ANIME_GetField1C(work->gameSystem));
         FIELD_FK_DEMO_InitModel(&work->model, FIELDMAP_GetFieldPlayer(work->fieldMap), myStatus, heapId, work->variant);
         (*seq)++;
         break;
@@ -461,8 +461,8 @@ void FIELD_FK_DEMO_ApplyCameraAnime(FkDemoCamera *demoCamera)
     func_02048AE8(demoCamera->g3dCamera, &eye);
     func_02048B30(demoCamera->g3dCamera, &target);
     func_02048B0C(demoCamera->g3dCamera, &up);
-    func_0207C9D0(&eye, &gFkDemoOrigin, &eye);
-    func_0207C9D0(&target, &gFkDemoOrigin, &target);
+    VEC_Add(&eye, &gFkDemoOrigin, &eye);
+    VEC_Add(&target, &gFkDemoOrigin, &target);
     FIELD_CAMERA_SetEyeRaw(demoCamera->fieldCamera, &eye);
     FIELD_CAMERA_SetTarget(demoCamera->fieldCamera, &target);
     FIELD_CAMERA_SetG3dUp(demoCamera->fieldCamera, &up);
@@ -490,7 +490,7 @@ void FIELD_FK_DEMO_InitModel(FkDemoModel *model, struct FieldPlayer *player, str
     model->status.scale.x = 0x1000;
     model->status.scale.y = 0x1000;
     model->status.scale.z = 0x1000;
-    func_0207ADC4(&model->status.rotate);
+    MTX_Identity33_(&model->status.rotate);
     if (func_02008550(myStatus) == 0) {
         fileBase = variant * FK_DEMO_MODEL_FILE_STEP;
         model->modelRes = G3D_SYSTEM_CreateResourceArcHandle(arc, fileBase + 3);
@@ -667,13 +667,13 @@ void FIELD_FK_BUILD_SOUND_Init(struct FieldSubproc *proc, struct FieldMap *field
             break;
         }
     }
-    FIELD_SOUND_SYSTEM_ClaimSlot(func_02012A30(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ClaimSlot(GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Exit of that proc: stops the loop sound. */
 void FIELD_FK_BUILD_SOUND_Exit(struct FieldSubproc *proc, struct FieldMap *fieldMap)
 {
-    FIELD_SOUND_SYSTEM_ReleaseSlot(func_02012A30(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Update of that proc: plays the hit sound when the building animation reaches the trigger frame. */
@@ -682,7 +682,7 @@ void FIELD_FK_BUILD_SOUND_Update(struct FieldSubproc *proc, struct FieldMap *fie
     struct FieldSoundSystem *soundSys;
 
     if (work->triggerFrame == FIELD_BUILDMODEL_GetEntrySlotFrame(work->man, work->entry, 1)) {
-        soundSys = func_02012A30(func_020120F4(FIELDMAP_GetGameSystem(fieldMap)));
+        soundSys = GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)));
         work->triggerIndex = 0;
         work->triggerFrame = gFkBuildSoundTriggerFrame[work->triggerIndex];
         FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, FK_SE_BUILD_ANIME_HIT);

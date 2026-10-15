@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02063000
+ * function: NNS_G2dSetCellAnimationParam
  * address:  0x02063000
  * packet:   pkt_02063000
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj00800.h"
 
-void func_02063000(struct Obj00800 *anim, int p1, int p2, int p3)
+void NNS_G2dSetCellAnimationParam(struct Obj00800 *anim, int p1, int p2, int p3)
 {
     anim->f28 = p3;
     anim->f24 = p2;

@@ -14,7 +14,7 @@
  *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
- *   func_0203F684 0x0203F684 arm
+ *   GF_STANDARD_Get_F684 0x0203F684 arm
  *   BR_SIDEBAR_SetSlotMode 0x021FF038 thumb ov186
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -32,7 +32,7 @@ typedef unsigned char  u8;
 extern s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
-extern s16 func_0203F684(u16);
+extern s16 GF_STANDARD_Get_F684(u16);
 extern void BR_SIDEBAR_SetSlotMode(u8 *p, u32 mode);
 void BR_SIDEBAR_UpdateBounce(char *p)
 {
@@ -67,7 +67,7 @@ void BR_SIDEBAR_UpdateBounce(char *p)
             ((struct Obj00153 *)p)->f1C=3;
             ((struct Obj00153 *)p)->f24=0;
         }else{
-            ((struct Obj00153 *)p)->f10+=-direction*func_0203F684(((struct Obj00153 *)p)->f20*65535/360);
+            ((struct Obj00153 *)p)->f10+=-direction*GF_STANDARD_Get_F684(((struct Obj00153 *)p)->f20*65535/360);
             ((struct Obj00153 *)p)->f20+=32;
             ((struct Obj00153 *)p)->f20%=360;
             CLACT_SetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f10>>12,(u16)(((struct Obj00153 *)p)->f44),0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C499C
+ * function: WF2DMAP_OBJ_GetByIndex2
  * address: 0x021C499C
  * packet: pkt_ov127_021C499C
  * region: ov127
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4980 0x021C4980 thumb ov127
+ *   WF2DMAP_OBJ_GetByIndex 0x021C4980 thumb ov127
  */
-extern char *func_021C4980(char **, int);
-char *func_021C499C(char **p,int i) { return func_021C4980(p,i); }
+extern char *WF2DMAP_OBJ_GetByIndex(char **, int);
+char *WF2DMAP_OBJ_GetByIndex2(char **p,int i) { return WF2DMAP_OBJ_GetByIndex(p,i); }

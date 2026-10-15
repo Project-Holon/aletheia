@@ -14,7 +14,7 @@
  * have no witness outside this range:
  *
  *   +0034  bl GAME_EVENT_Control   -> pkt_02012380
- *   +003A  bl func_0202627C   -> pkt_0202627C
+ *   +003A  bl GAME_COMM_Update   -> pkt_0202627C
  *   +0052  bl ISS_SYS_Update   -> pkt_0202B500
  *   +0058  bl PALANM_UpdateTimer   -> pkt_02021464
  *
@@ -43,7 +43,7 @@
  *   GAME_EVENT_StartByCreator  0x020123D8  thumb
  *   GAMESYSTEM_UpdateAutoComm  0x0201205C  thumb
  *   GAME_EVENT_Control  0x02012380  thumb
- *   func_0202627C  0x0202627C  thumb
+ *   GAME_COMM_Update  0x0202627C  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_Update  0x02028A14  thumb
@@ -65,7 +65,7 @@ extern void GAMESYSTEM_UpdateAutoComm(struct IcaAnime *p);
 struct T;
 extern int GAME_EVENT_Control(void *p);
 struct Comm;
-extern void func_0202627C(struct Comm *p);
+extern void GAME_COMM_Update(struct Comm *p);
 extern unsigned int PROCSYS_Main(void *p);
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_Update(struct T *p);
@@ -82,7 +82,7 @@ int GAMESYSTEM_Main(char *p)
         GAME_EVENT_StartByCreator(p, (unsigned int (*)(void *, void *))((struct Obj01458 *)p)->f10, (void *)((struct Obj01458 *)p)->f14);
         GAMESYSTEM_UpdateAutoComm((struct IcaAnime *)p);
         GAME_EVENT_Control(p);
-        func_0202627C((struct Comm *)((struct Obj01458 *)p)->f24);
+        GAME_COMM_Update((struct Comm *)((struct Obj01458 *)p)->f24);
     }
     ((struct Obj01458 *)p)->fC = PROCSYS_Main((void *)((struct Obj01458 *)p)->f8);
     FIELD_SOUND_SYSTEM_Update((struct T *)GAME_DATA_GetBgmInfo((const struct BigObj *)((struct Obj01458 *)p)->f1C));

@@ -28,20 +28,20 @@
  *   OS_CreateAlarm        0x02087254 arm
  *   WcmConfigure        0x021657D8 arm ov009
  *   WM_GetAllowedChannel        0x0208EE60 arm
- *   func_02166880        0x02166880 arm ov009
+ *   WCMi_WmifStartupAsync        0x02166880 arm ov009
  *   WCMi_NwmifStartupAsync        0x0273199C arm twl
  *   func_021669B8        0x021669B8 arm ov009
  *   WCMi_NwmifCleanupAsync        0x02731A84 arm twl
- *   func_02166A24        0x02166A24 arm ov009
+ *   WCMi_WmifBeginSearchAsync        0x02166A24 arm ov009
  *   WCMi_NwmifBeginSearchAsync        0x02731AF0 arm twl
  *   WCMi_SetPhase        0x02165A4C arm ov009
  *   WCMi_GetSystemWork        0x021657C8 arm ov009
  *   WCM_UpdateOption        0x021656D0 arm ov009
- *   func_02166B2C        0x02166B2C arm ov009
+ *   WCMi_WmifConnectAsync        0x02166B2C arm ov009
  *   WCMi_NwmifConnectAsync        0x02731BF8 arm twl
  *   func_02166BD8        0x02166BD8 arm ov009
  *   WCMi_NwmifDisconnectAsync        0x02731CFC arm twl
- *   func_02166C44        0x02166C44 arm ov009
+ *   WCMi_WmifTerminateAsync        0x02166C44 arm ov009
  *   WCMi_NwmifTerminateAsync        0x02731D6C arm twl
  *   WCMi_WmifGetAllowedChannel  0x02166DE4 arm
  *   WCMi_NwmifGetAllowedChannel 0x02731F00 arm
@@ -91,18 +91,18 @@ extern void OS_InitAlarm(void);
 extern void OS_CreateAlarm(void *alarm);
 extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
 extern unsigned short WM_GetAllowedChannel(void);
-extern long func_02166880(void);
+extern long WCMi_WmifStartupAsync(void);
 extern long WCMi_NwmifStartupAsync(void);
 extern long func_021669B8(void);
 extern long WCMi_NwmifCleanupAsync(void);
-extern long func_02166A24(void *bssid, void *essid, unsigned long option);
+extern long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 extern void WCMi_SetPhase(unsigned char phase);
-extern long func_02166B2C(void);
+extern long WCMi_WmifConnectAsync(void);
 extern long WCMi_NwmifConnectAsync();
 extern long func_02166BD8(void);
 extern long WCMi_NwmifDisconnectAsync(void);
-extern long func_02166C44(void);
+extern long WCMi_WmifTerminateAsync(void);
 extern long WCMi_NwmifTerminateAsync();
 extern unsigned short WCMi_WmifGetAllowedChannel(void);
 extern unsigned short WCMi_NwmifGetAllowedChannel(void);
@@ -323,7 +323,7 @@ long WCM_StartupAsync(void *config, void (*notify)(void *))
     }
     switch (wcmw->deviceId) {
     case 1:
-        wcmResult = func_02166880();
+        wcmResult = WCMi_WmifStartupAsync();
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
@@ -411,7 +411,7 @@ long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
     }
     switch (wcmw->deviceId) {
     case 1:
-        wcmResult = func_02166A24(bssid, essid, option);
+        wcmResult = WCMi_WmifBeginSearchAsync(bssid, essid, option);
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
@@ -523,7 +523,7 @@ long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
     }
     switch (w->deviceId) {
     case 1:
-        wcmResult = func_02166B2C();
+        wcmResult = WCMi_WmifConnectAsync();
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
@@ -631,7 +631,7 @@ long WCM_TerminateAsync(void)
         } else {
             switch (wcmw->deviceId) {
             case 1:
-                wcmResult = func_02166C44();
+                wcmResult = WCMi_WmifTerminateAsync();
                 break;
             case 2:
                 if (OS_IsRunOnTwl()) {

@@ -30,13 +30,15 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
+ *   BEACON_CountFlags  0x0200C258  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *
  * ica_anime.c: scene bring-up.  Loads overlay 230, runs three checksum
  * probes over this family's own code (GAMESYSTEM_CallIfSet to GAMESYSTEM_LeakHeapPenalty,
  * GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat; each result compared with the complement of
  * the end address), creates three heaps through GFL_HEAP_CreateChildHeap, allocates
  * the work block and publishes it to _GameSystemGlobal, then, when the probe
- * results do not add up to a multiple of 0x12AF, runs a func_0200C258-counted
+ * results do not add up to a multiple of 0x12AF, runs a BEACON_CountFlags-counted
  * loop of GAMESYSTEM_LeakHeapPenalty.
  *
  * Byte-correct: 272 of 272 bytes, 0 concrete bytes out (match.py one,
@@ -89,9 +91,9 @@ struct IcaAnime;
 extern void GAMESYSTEM_Setup(struct IcaAnime *p, u16 id, u32 a2);
 extern u32   SCRCMD_NETWORK_CreateOv020Event(void *p, u32 a);
 extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 func_0200C258(struct Blk34 *p);
+extern u32 BEACON_CountFlags(struct Blk34 *p);
 extern void  GAMESYSTEM_LeakHeapPenalty(void);
 extern u32 GAMESYSTEM_CallIfSet(u32 (*fn)(void));
 extern void  GAMESYSTEM_ProbeHeapCreate(void);
@@ -135,7 +137,7 @@ u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
     GAMESYSTEM_Setup(p, 3, a2);
     GAMESYSTEM_SetEvent(p, SCRCMD_NETWORK_CreateOv020Event(p, a2));
     if ((base + off) % 0x12af != 0) {
-        n = func_0200C258(GAME_DATA_GetMiscSave(func_020120F4(p)));
+        n = BEACON_CountFlags(GAME_DATA_GetMiscSave(ICA_ANIME_GetField1C(p)));
         for (i = 0; i < n; i++)
             GAMESYSTEM_LeakHeapPenalty();
     }

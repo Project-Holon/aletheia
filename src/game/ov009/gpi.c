@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0218FB14  0x0218FB14  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   SocketStartUp  0x0217F25C  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_020946C8  0x020946C8  arm
+ *   current_time  0x0217F264  arm  ov009
+ *   srand  0x020946C8  arm
  *   func_0218B760  0x0218B760  arm  ov009
  *   func_0218D840  0x0218D840  arm  ov009
  *   func_021846B4  0x021846B4  arm  ov009
@@ -182,19 +182,18 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern void *func_0217EAB0(int size);
-extern void *func_020923B0(void *p, int c, u32_02186664 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32_02186664 n);
 extern int   func_0218FB14(void **pp);
 extern void  func_0217EAE0(void *p);
 extern void  SocketStartUp(void);
-extern unsigned int func_0217F264(void);
-extern void  func_020946C8(void);
+extern unsigned int current_time(void);
+extern void  srand(void);
 extern void func_0218B760(void **connection, int tellServer);
 extern void func_0218D840(void **connection);
 extern void func_021846B4(void *table);
 extern int func_0218D7F4(GPConnection *connection);
 extern void func_0218E240(void **connection, GPIOperation_s *operation);
 extern int func_0218FFFC(GPConnection *connection, int (*func)(GPConnection *, GPIProfile_021867E8 *, void *), void *data);
-extern unsigned int current_time(void);
 extern int gpiAddLocalInfo(void **connection, GPIBuffer *buffer);
 extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer,
                              int *connClosed, int clipSentData, char *id);
@@ -266,7 +265,7 @@ int func_02186664(void **out, int a1, int a2, int a3)
     p = func_0217EAB0(0x638);
     if (p == 0)
         return 1;
-    func_020923B0(p, 0, 0x638);
+    MSL_C_LIB_MemsetPtr(p, 0, 0x638);
     p[0] = 0;
     *(int *)(p + 0x5b8) = 0;
     *(int *)(p + 0x100) = 1;
@@ -295,8 +294,8 @@ int func_02186664(void **out, int a1, int a2, int a3)
     }
 
     SocketStartUp();
-    func_0217F264();
-    func_020946C8();
+    current_time();
+    srand();
     *out = p;
     return 0;
 }

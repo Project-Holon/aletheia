@@ -1,5 +1,5 @@
 /*
- * function: func_02076DA0
+ * function: CARDi_RefreshRom
  * address:  0x02076DA0
  * packet:   pkt_02076DA0
  * region:   arm9
@@ -28,7 +28,7 @@ extern void CARDi_RefreshRomCore(void);
 extern BOOL OS_IsAlarmAvailable(void);
 extern void OS_Sleep(u32 msec);
 
-void func_02076DA0(u32 warn_mask)
+void CARDi_RefreshRom(u32 warn_mask)
 {
     if ((CARDi_ReadRomStatusCore() & warn_mask) != 0)
     {

@@ -294,7 +294,7 @@ typedef struct WifiClubWork {
     /* 0x0B0 */ void *subMenuWork; void *subMenuList; void *menuWork; void *menuList;   /* BMP_MENUWORK / BMP_MENULIST pairs */
     /* 0x0C0 */ void *saveData;              /* args+8; func_02008730(saveData) = my status */
     /* 0x0C4 */ void *gameData;              /* args+4 */
-    /* 0x0C8 */ void *party;                 /* func_02012934(gameData) */
+    /* 0x0C8 */ void *party;                 /* GAME_DATA_GetMyParty(gameData) */
     /* 0x0CC */ void *savedRegulation;       /* WIFICLUB_LoadSavedRegulation(gameData); nonzero = custom regulation present */
     u8 padD0[8];
     /* 0x0D8 */ void *myStatus;              /* func_0200873C(saveData) */

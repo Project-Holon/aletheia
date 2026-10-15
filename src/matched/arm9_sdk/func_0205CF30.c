@@ -1,5 +1,5 @@
 /*
- * function: func_0205CF30
+ * function: DWC_CheckNintendoZone
  * address:  0x0205CF30
  * packet:   pkt_0205CF30
  * region:   arm9
@@ -16,7 +16,7 @@
  *   MATHi_CRC16InitTableRev 0x020819FC arm
  *   WDS_DecryptWMBssDesc 0x0205A7CC arm
  *   WDS_IsAvailableForAutoConnect 0x0205A8FC arm
- *   func_0205CCE4 0x0205CCE4 arm
+ *   DWCi_DivideFullApinfo 0x0205CCE4 arm
  */
 
 typedef struct {
@@ -73,9 +73,9 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
 extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable, WMBssDesc *bssdesc, WDSApInfo *apinfo);
 extern int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
-extern void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo);
+extern void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo);
 
-int func_0205CF30(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
+int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
 {
     DWCCheckNintendoZoneWork *pwork;
 
@@ -93,7 +93,7 @@ int func_0205CF30(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
             && WDS_IsAvailableForAutoConnect(&pwork->apinfo)) {
             if (apinfo != 0) {
                 apinfo->aptype = 8;
-                func_0205CCE4(pwork->apinfo.fullapinfo, apinfo);
+                DWCi_DivideFullApinfo(pwork->apinfo.fullapinfo, apinfo);
             }
             return 1;
         }

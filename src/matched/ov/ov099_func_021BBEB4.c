@@ -19,7 +19,7 @@
  *   func_0201F73C 0x0201F73C thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   POKE_REGULATION_CreateText 0x0201A4D4 thumb
- *   func_0200AE3C 0x0200AE3C thumb
+ *   REGULATION_CreateCupName 0x0200AE3C thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -45,7 +45,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_0201F73C(void *,int,int,int);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u8 *POKE_REGULATION_CreateText(u8 *a0, u32 a1, u16 a2, u32 a3);
-extern void *func_0200AE3C(struct Reg *p, u32 heap);
+extern void *REGULATION_CreateCupName(struct Reg *p, u32 heap);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
@@ -81,7 +81,7 @@ void WIFICLUB_ShowRuleWindow(struct O *p, int mask, u32 a, int mode)
     GF_FONT_SetDefaultTextColor();
     p->f1344 = (void **)POKE_REGULATION_CreateText((u8 *)p->f1348, (u32)p->fdc, 33, a);
     if (mode == 0) {
-        t = func_0200AE3C((struct Reg *)p->f1348, 33);
+        t = REGULATION_CreateCupName((struct Reg *)p->f1348, 33);
         PRINTSYS_Print(BMP_WIN_GetBmp(p->f19c), 0, 0, t, p->fe8);
         STRBUF_Delete(t);
     } else if (mode != 1) {

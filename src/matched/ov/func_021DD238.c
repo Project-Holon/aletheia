@@ -11,6 +11,8 @@
  *
  * symbols:
  *   func_020355D8  0x020355D8  arm  arm9
+ *   CURSOR_MOVE_GetState  0x020260F0  thumb  arm9
+ *   CURSOR_MOVE_SetState  0x020260F4  thumb  arm9
  *
  * Enable the pooled object when it reports zero.
  */
@@ -23,13 +25,13 @@ typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
 extern void func_020355D8(u8 v);
-extern u32 func_020260F0(struct Sound *obj);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 
 void BOX2_MAIN_PlayCursorSound(char *p)
 {
     func_020355D8(0);
-    if (func_020260F0(((struct Obj18441 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70) == 0)
-        func_020260F4(((struct Obj18442 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70, 1);
+    if (CURSOR_MOVE_GetState(((struct Obj18441 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70) == 0)
+        CURSOR_MOVE_SetState(((struct Obj18442 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70, 1);
 }
 

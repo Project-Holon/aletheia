@@ -116,9 +116,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009448",
-    "sub_02009454",
-    "sub_0200945C"
+    "GAME_SYNC_GetBlock",
+    "GAME_SYNC_GetBlockSize",
+    "GAME_SYNC_ClearBlock"
+   ],
+   "addresses": [
+    "0x02009448",
+    "0x02009454",
+    "0x0200945C"
    ]
   },
   {
@@ -133,13 +138,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009470",
-    "sub_0200947C",
-    "sub_0200949C",
-    "sub_020094D8",
-    "sub_02009524",
-    "sub_0200952C",
+    "WIFI_HISTORY_GetBlock",
+    "WIFI_HISTORY_InitLanguageRegion",
+    "WIFI_HISTORY_GetCountryRegionState",
+    "WIFI_HISTORY_SetCountryRegionState",
+    "WIFI_HISTORY_GetMode",
+    "WIFI_HISTORY_PromoteVisitedStates",
     "sub_02009584"
+   ],
+   "addresses": [
+    "0x02009470",
+    "0x0200947C",
+    "0x0200949C",
+    "0x020094D8",
+    "0x02009524",
+    "0x0200952C",
+    "0x02009584"
    ]
   }
  ]

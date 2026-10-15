@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D70EC 0x021D70EC thumb ov116
+ *   WIFI_BSUBWAY_PollAsync 0x021D70EC thumb ov116
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021D70EC(u8 *, int *);
+extern int WIFI_BSUBWAY_PollAsync(u8 *, int *);
 int WIFI_BSUBWAY_GRAPHIC_PollBt(u8 *p)
 {
     int result;
-    return func_021D70EC(p + 0x182c, &result);
+    return WIFI_BSUBWAY_PollAsync(p + 0x182c, &result);
 }

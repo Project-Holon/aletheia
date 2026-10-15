@@ -28,7 +28,7 @@
  * SDK's own, and the pitch numerator carries the `rsb r0, r2, #0` negation.
  *
  * Both angle indices feed the shared interleaved sin/cos halfword table at
- * 0x020A1B38 (see src/matched/func_0203F684.c) at i = angle >> 4, sin at
+ * 0x020A1B38 (see src/matched/GF_STANDARD_Get_F684.c) at i = angle >> 4, sin at
  * tbl[2*i] and cos at tbl[2*i+1], exactly as in BUTTON_MAN_MakeRotMtxXYZ next door.
  *
  * Declaration order is the whole difference between 184 correct bytes and four

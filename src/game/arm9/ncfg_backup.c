@@ -1,7 +1,7 @@
 /*
  * file:     ncfg_backup.c
  * unit:     yes
- * function: func_0205F648, func_0205F700, func_0205F72C, func_0205F7C8, func_0205F8A0, func_0205F970, func_0205F9D8, func_0205FA40
+ * function: NCFGi_InitBackupMemory, NCFG_GetFormatVersion, NCFG_ReadBackupMemory, NCFG_WriteBackupMemory, getSlotInfo, ReadNVRAM, WriteNVRAM, VerifyNVRAM
  * address:  0x0205F648
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,8 +30,8 @@
  *   OS_IsTickAvailable  0x02087058 arm
  *   OS_IsAlarmAvailable 0x02087244 arm
  *   OS_Sleep            0x02085A38 arm
- *   func_02083DC8 0x02083DC8 arm
- *   func_020840F8 0x020840F8 arm
+ *   NVRAMi_Write 0x02083DC8 arm
+ *   NVRAMi_Verify 0x020840F8 arm
  */
 typedef unsigned char  u8;
 
@@ -60,27 +60,21 @@ typedef enum NVRAMResult {
 
 extern void NVRAMi_Init(void);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern int  ReadNVRAM(u32 address, u32 size, void *pData);
+extern NVRAMResult ReadNVRAM(u32 address, u32 size, void *pData);
 extern s32  NCFGi_InitBackupMemory(void);
 extern int  getSlotInfo(s32 index, u32 *address, u32 *size);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern int  WriteNVRAM(u32 address, u32 size, void *pData);
-extern int  VerifyNVRAM(u32 address, u32 size, void *pData);
+extern NVRAMResult WriteNVRAM(u32 address, u32 size, void *pData);
+extern NVRAMResult VerifyNVRAM(u32 address, u32 size, void *pData);
 extern u8  NCFG_GetFormatVersion(void);
 extern NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData);
 extern BOOL OS_IsTickAvailable(void);
 extern BOOL OS_IsAlarmAvailable(void);
 extern void OS_Sleep(u32 msec);
-extern NVRAMResult func_02083DC8(u32 address, u32 size, void *pData);
-extern NVRAMResult func_020840F8(u32 address, u32 size, void *pData);
-s32 func_0205F648(void);
-unsigned char func_0205F700(void);
-s32 func_0205F72C(void *buf, u32 size, s32 index);
-s32 func_0205F7C8(s32 index, void *buf, u32 size);
-int func_0205F8A0(s32 index, u32 *address, u32 *size);
-NVRAMResult func_0205F970(u32 address, u32 size, void *pData);
-NVRAMResult func_0205F9D8(u32 address, u32 size, void *pData);
-NVRAMResult func_0205FA40(u32 address, u32 size, void *pData);
+extern NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData);
+extern NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData);
+s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
+s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
 extern u32 BaseAddress;
 extern NCFGBackupBss FormatVersionNumber;
 extern u8 nvramBuf[32];
@@ -90,7 +84,7 @@ extern u8 nvramBuf2[32];
 /*
  * sdk:      NCFGi_InitBackupMemory (libncfg.TWL.HYB.a backup.o)
  */
-s32 func_0205F648(void)
+s32 NCFGi_InitBackupMemory(void)
 {
     s32 result;
 
@@ -120,12 +114,12 @@ end:
 /*
  * sdk:      NCFG_GetFormatVersion (backup.o)
  */
-unsigned char func_0205F700(void)
+unsigned char NCFG_GetFormatVersion(void)
 {
     long result;
     unsigned char version;
 
-    result = func_0205F648();
+    result = NCFGi_InitBackupMemory();
     if (result != 0) {
         return 0;
     }
@@ -143,7 +137,7 @@ unsigned char func_0205F700(void)
 /*
  * sdk:      NCFG_ReadBackupMemory (libncfg.TWL.HYB.a backup.o)
  */
-s32 func_0205F72C(void *buf, u32 size, s32 index)
+s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index)
 {
     s32 result;
     u32 address;
@@ -171,7 +165,7 @@ s32 func_0205F72C(void *buf, u32 size, s32 index)
 /*
  * sdk:      NCFG_WriteBackupMemory (libncfg.TWL.HYB.a backup.o)
  */
-s32 func_0205F7C8(s32 index, void *buf, u32 size)
+s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size)
 {
     s32 result;
     u32 address;
@@ -217,7 +211,7 @@ s32 func_0205F7C8(s32 index, void *buf, u32 size)
 /*
  * sdk:      getSlotInfo (libncfg.TWL.HYB.a backup.o)
  */
-int func_0205F8A0(s32 index, u32 *address, u32 *size)
+int getSlotInfo(s32 index, u32 *address, u32 *size)
 {
     switch (index) {
     case 0:
@@ -251,7 +245,7 @@ int func_0205F8A0(s32 index, u32 *address, u32 *size)
 /*
  * sdk:      ReadNVRAM (libncfg.TWL.HYB.a backup.o)
  */
-NVRAMResult func_0205F970(u32 address, u32 size, void *pData)
+NVRAMResult ReadNVRAM(u32 address, u32 size, void *pData)
 {
     NVRAMResult nvramResult;
     s32 i;
@@ -273,13 +267,13 @@ NVRAMResult func_0205F970(u32 address, u32 size, void *pData)
  * sdk:      WriteNVRAM (libncfg.TWL.HYB.a backup.o); the catalog row says ReadNVRAM,
  *           NCFG_WriteBackupMemory's PC24 relocation names this address WriteNVRAM
  */
-NVRAMResult func_0205F9D8(u32 address, u32 size, void *pData)
+NVRAMResult WriteNVRAM(u32 address, u32 size, void *pData)
 {
     NVRAMResult nvramResult;
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        nvramResult = func_02083DC8(address, size, pData);
+        nvramResult = NVRAMi_Write(address, size, pData);
         if (nvramResult != NVRAM_RESULT_BUSY)
             break;
         if (OS_IsTickAvailable() && OS_IsAlarmAvailable())
@@ -295,13 +289,13 @@ NVRAMResult func_0205F9D8(u32 address, u32 size, void *pData)
  * sdk:      VerifyNVRAM (libncfg.TWL.HYB.a backup.o); the catalog row says ReadNVRAM,
  *           NCFG_WriteBackupMemory's PC24 relocation names this address VerifyNVRAM
  */
-NVRAMResult func_0205FA40(u32 address, u32 size, void *pData)
+NVRAMResult VerifyNVRAM(u32 address, u32 size, void *pData)
 {
     NVRAMResult nvramResult;
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        nvramResult = func_020840F8(address, size, pData);
+        nvramResult = NVRAMi_Verify(address, size, pData);
         if (nvramResult != NVRAM_RESULT_BUSY)
             break;
         if (OS_IsTickAvailable() && OS_IsAlarmAvailable())

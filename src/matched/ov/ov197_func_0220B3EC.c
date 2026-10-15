@@ -20,6 +20,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   d_0220DA3C 0x0220DA3C data a4
  *   BMP_WIN_GetWidth  0x02045738  arm  arm9
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);

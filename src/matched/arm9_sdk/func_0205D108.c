@@ -1,5 +1,5 @@
 /*
- * function: func_0205D108
+ * function: DWCi_AC_GetResult
  * address:  0x0205D108
  * packet:   pkt_0205D108
  * region:   arm9
@@ -152,7 +152,7 @@ extern int GetIrregularError(void);
 extern int GetNotFoundAP(ACHOLD *hd);
 extern int GetNotFoundInet(ACHOLD *hd);
 
-int func_0205D108(void)
+int DWCi_AC_GetResult(void)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     int error = DWCi_AC_GetError();

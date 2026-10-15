@@ -45,7 +45,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
- *   func_0200A640 0x0200A640 thumb
+ *   MUSICAL_SAVE_NoOp 0x0200A640 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
@@ -61,7 +61,7 @@
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   TCBL_Main 0x020310C4 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   d_021F8290 0x021F8290 data a1
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -86,7 +86,7 @@
  *   d_021F8298 0x021F8298 data a4
  *   d_021F82B8 0x021F82B8 data a4
  *   d_021F82D8 0x021F82D8 data a4
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_020414AC 0x020414AC arm
  *   func_0201DD68 0x0201DD68 thumb
@@ -129,18 +129,18 @@
  *   d_021F83D4 0x021F83D4 data a1
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   NNS_G2dTickMCAnimation 0x020649D4 arm
- *   func_0207D7C4 0x0207D7C4 arm
+ *   G3i_LookAt_ 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
  *   func_02082B60 0x02082B60 arm
- *   func_0207ADE8 0x0207ADE8 arm
- *   func_0207B5C0 0x0207B5C0 arm
+ *   MTX_Copy33To44_ 0x0207ADE8 arm
+ *   MTX_Copy43To44_ 0x0207B5C0 arm
  *   func_0207BE14 0x0207BE14 arm
  *   func_0207C768 0x0207C768 arm
  *   func_0207D8FC 0x0207D8FC arm
- *   func_0207D888 0x0207D888 arm
+ *   G3_RotZ 0x0207D888 arm
  *   func_0207AF38 0x0207AF38 thumb
- *   func_0207B51C 0x0207B51C arm
- *   func_0207CA00 0x0207CA00 arm
+ *   MTX_MultVec33 0x0207B51C arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -154,7 +154,7 @@
  *   d_021F8304 0x021F8304 data ov112
  *   d_02148B98 0x02148B98 data
  *   d_02148B54 0x02148B54 data
- *   func_0207D760 0x0207D760 arm
+ *   G3i_OrthoW_ 0x0207D760 arm
  *   func_020627D8 0x020627D8 arm
  *   NNS_G2dSetAnimSequenceToMCAnimation 0x0206469C arm
  *   func_02063790 0x02063790 arm
@@ -195,6 +195,9 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../../matched/include/Obj00669.h"
 #include "../../matched/include/Obj04456.h"
@@ -548,14 +551,14 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *,s16_021F40F4,s16_021F40F4,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -579,7 +582,7 @@ extern void APP_TASKMENU_UpdateMenu(void *);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-extern void *func_0200A640(void *);
+extern void *MUSICAL_SAVE_NoOp(void *);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);
@@ -595,7 +598,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -616,7 +619,7 @@ extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern s32_021F44F8 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -629,7 +632,7 @@ extern void TIME_ICON_Delete(u8 *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_0201F73C(void *,int,int,int);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
@@ -664,19 +667,19 @@ extern int POKEGRA_GetMCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetMAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetNcecArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern void NNS_G2dTickMCAnimation(char *, int);
-extern void func_0207D7C4(const Vec_021F56BC *a, const Vec_021F56BC *b, const Vec_021F56BC *c, int d, void *e);
+extern void G3i_LookAt_(const Vec_021F56BC *a, const Vec_021F56BC *b, const Vec_021F56BC *c, int d, void *e);
 extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
 extern void func_02082B60(Mtx43 *a, Mtx33 *b);
-extern void func_0207ADE8(Mtx33 *a, Mtx44 *b);
-extern void func_0207B5C0(const Mtx43 *src, Mtx44 *dst);
+extern void MTX_Copy33To44_(Mtx33 *a, Mtx44 *b);
+extern void MTX_Copy43To44_(const Mtx43 *src, Mtx44 *dst);
 extern void func_0207BE14(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_0207D8FC(Mtx44 *m);
-extern void func_0207D888(int s, int c);
+extern void G3_RotZ(int s, int c);
 extern void func_0207AF38(Mtx33 *m, int s, int c);
-extern void func_0207B51C(void *v, Mtx33 *m, void *out);
-extern void func_0207CA00(void *a, void *b, void *c);
-extern void func_0207D760(int a, int b, int c, int d, int e, int f, int g, int h, int i);
+extern void MTX_MultVec33(void *v, Mtx33 *m, void *out);
+extern void VEC_Subtract(void *a, void *b, void *c);
+extern void G3i_OrthoW_(int a, int b, int c, int d, int e, int f, int g, int h, int i);
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void NNS_G2dSetAnimSequenceToMCAnimation(void *,void *);
 extern void func_02063790(u32 *);
@@ -875,7 +878,7 @@ void func_021F40F4(u8 *p)
     ((struct Obj00669 *)p)->f60=GF_FONT_Create(23,0,0,0,((struct Obj00669 *)p)->f0);
     func_02049B40(23,5,0,320,32,((struct Obj00669 *)p)->f0);
     buf=STRBUF_Create(128,((struct Obj00669 *)p)->f0);
-    t=func_0201EC64(((struct Obj00669 *)p)->f0);
+    t=GF_FONT_Create_EC64(((struct Obj00669 *)p)->f0);
     f=func_02045B38(0,2,78,((struct Obj00669 *)p)->f0);
     b=func_02045EC0(f,0);
     func_0201EFA4(t,0,(*(Input_021F40D0 * *)&((struct Obj00669 *)p)->f4)->a,2,2,1);
@@ -885,7 +888,7 @@ void func_021F40F4(u8 *p)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f54),0,0,buf,((struct Obj00669 *)p)->f5C,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
-    func_0201ED04(t);
+    WORDSET_DeleteStrbufED04(t);
     MSGDATA_Delete(f);
     buf=STRBUF_Create(37,((struct Obj00669 *)p)->f0);
     STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((struct Obj00669 *)p)->f4+356));
@@ -998,7 +1001,7 @@ void func_021F4350(u8 *p)
         if(APP_TASKMENU_IsFinish(((struct Obj00226 *)p)->f3C)==1) {
             v=APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct Obj00226 *)p)->f3C);
             APP_TASKMENU_CloseMenu(((struct Obj00226 *)p)->f3C);
-            if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,func_0200A640(((struct Obj00226 *)p)->f14),432);
+            if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,MUSICAL_SAVE_NoOp(((struct Obj00226 *)p)->f14),432);
             if(*(int *)&((struct Obj00226 *)p)->f44) {
                 ((struct Obj00226 *)p)->f4=4;
                 func_021FCDEC(*(int *)&((struct Obj00226 *)p)->f44,71);
@@ -1040,8 +1043,8 @@ void func_021F4350(u8 *p)
     (*(volatile u8 *)&((struct Obj00226 *)p)->f8)++;
     if(*(volatile u8 *)&((struct Obj00226 *)p)->f8>1) {
         *(volatile u8 *)&((struct Obj00226 *)p)->f8=0;
-        func_02041EE4(7,1,1);
-        func_02041EE4(7,5,1);
+        BG_SYS_ResetSlot(7,1,1);
+        BG_SYS_ResetSlot(7,5,1);
     }
 }
 
@@ -1111,7 +1114,7 @@ void func_021F44F8(u8 *p)
 
 
 
-void func_021F4684(const void *a,u32 b,u32 c) { func_0203FCA0(b,a,c); func_02040588(b,1); func_020414AC(b); func_020409B4(b); }
+void func_021F4684(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); func_020414AC(b); func_020409B4(b); }
 
 
 
@@ -1183,7 +1186,7 @@ void func_021F4794(u8 *p,u32 index)
     }
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj01395 *)p)->f1C)),15);
     ((struct Obj01395 *)p)->f2C=func_02045EC0((struct MsgBank *)(((struct Obj01395 *)p)->f28),index);
-    t=func_02012FFC();
+    t=MSG_SPEED_GetWait();
     *(u32 *)&((struct Obj01395 *)p)->f24=PRINTSYS_PrintStream(*(u32 *)&((struct Obj01395 *)p)->f1C,0,0,*(u32 *)&((struct Obj01395 *)p)->f2C,((struct Obj01395 *)p)->f20,t,((struct Obj01395 *)p)->f18,2,((struct Obj01395 *)p)->f0,0);
     func_0201F73C(((struct Obj01395 *)p)->f1C,1,1,11);
 }
@@ -2287,7 +2290,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   obj+0x100/0x104/0x108.  k loop: two rotations (part by pose.rot + sub.rot scaled by the
  *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
  *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
- *   constants at sp+0x114, func_0207B5C0(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
+ *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
  *   &m4), second func_021F660C uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
  *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
  *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
@@ -2297,7 +2300,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   register shape (original keeps src = obj+0x28 in r0), the eight spilled 0x800 rounding
  *   words at sp+0x80..0x94/0x9C/0xA0 and the 0x100/0x10C offsets at sp+0x98/0xA4..0xAC.
  * note (2026-10-05, wave D6 lane 01): three fixes from a fresh reading of the head and the pose loader.
- *   (1) func_0207D7C4 takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
+ *   (1) G3i_LookAt_ takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
  *   at entry is that stack argument, written once before the camera-pick branch. The prologue now
  *   matches to 021F56F8 apart from the frame size. (2) LoadPose is a switch on the u16 kind with a
  *   compare chain (beq 0, cmp 1, cmp 2, b out), and the id is a u16 read (ldrh) through a
@@ -2650,7 +2653,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   obj+0x100/0x104/0x108.  k loop: two rotations (part by pose.rot + sub.rot scaled by the
  *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
  *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
- *   constants at sp+0x114, func_0207B5C0(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
+ *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
  *   &m4), second func_021F660C uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
  *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
  *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
@@ -2660,7 +2663,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   register shape (original keeps src = obj+0x28 in r0), the eight spilled 0x800 rounding
  *   words at sp+0x80..0x94/0x9C/0xA0 and the 0x100/0x10C offsets at sp+0x98/0xA4..0xAC.
  * note (2026-10-05, wave D6 lane 01): three fixes from a fresh reading of the head and the pose loader.
- *   (1) func_0207D7C4 takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
+ *   (1) G3i_LookAt_ takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
  *   at entry is that stack argument, written once before the camera-pick branch. The prologue now
  *   matches to 021F56F8 apart from the frame size. (2) LoadPose is a switch on the u16 kind with a
  *   compare chain (beq 0, cmp 1, cmp 2, b out), and the id is a u16 read (ldrh) through a
@@ -3001,12 +3004,12 @@ void func_021F56BC(int *p, void (*arg)(unsigned, Input_021F53CC *, Big *))
     REG(0x04000454) = 0;
     REG(0x04000440) = 2;
     if ((((Bits_021F53CC *)&p[2])->b0) == 0)
-        func_0207D7C4(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
+        G3i_LookAt_(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
     else
-        func_0207D7C4(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
+        G3i_LookAt_(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
     func_0207B67C(&d_02148B98, &m1);
     func_02082B60(&m1, &m2);
-    func_0207ADE8(&m2, &m3);
+    MTX_Copy33To44_(&m2, &m3);
 
     for (i = 0; i < p[0]; i++) {
         if (((char **)p[1])[i] == 0 || ((Bits3 *)(((char **)p[1])[i] + 0xEC))->b2)
@@ -3041,7 +3044,7 @@ void func_021F56BC(int *p, void (*arg)(unsigned, Input_021F53CC *, Big *))
             proj.m[13] = 0;
             proj.m[14] = 0;
             proj.m[15] = (int)0xFFFFF000;
-            func_0207B5C0(&d_02148B98, &m4);
+            MTX_Copy43To44_(&d_02148B98, &m4);
             func_0207BE14(&m4, &d_02148B54, &m4);
             func_021F660C((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
             pos.x = func_0207C768(pos.x, cb.w);
@@ -3060,7 +3063,7 @@ void func_021F56BC(int *p, void (*arg)(unsigned, Input_021F53CC *, Big *))
         G3_Translate(ox, oy, 0);
         {
             u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;
-            func_0207D888(-FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
+            G3_RotZ(-FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
         }
 
         {
@@ -3071,8 +3074,8 @@ void func_021F56BC(int *p, void (*arg)(unsigned, Input_021F53CC *, Big *))
         {
             u16 a = *(u16 *)(obj + 0xFC);
             func_0207AF38(&m5, -FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
-            func_0207B51C(obj + 0x100, &m5, obj + 0x10C);
-            func_0207CA00(obj + 0x100, obj + 0x10C, obj + 0x10C);
+            MTX_MultVec33(obj + 0x100, &m5, obj + 0x10C);
+            VEC_Subtract(obj + 0x100, obj + 0x10C, obj + 0x10C);
             *(int *)(obj + 0x10C) = func_0207C768(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
             *(int *)(obj + 0x110) = func_0207C768(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
         }
@@ -3189,7 +3192,7 @@ void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, stru
     u32 t1;
 
     if (flag != 0) {
-        func_0207D760(0x60000, 0xFFFA1000, 0xFFF81000, 0x80000, 0x1000, 0x3E8000, 0x1000, 1, 0);
+        G3i_OrthoW_(0x60000, 0xFFFA1000, 0xFFF81000, 0x80000, 0x1000, 0x3E8000, 0x1000, 1, 0);
         *(volatile u32 *)0x04000440 = 2;
     }
     *(volatile u32 *)0x04000450 = 0x1D;
@@ -3202,9 +3205,9 @@ void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, stru
     } else if ((mode & 1) != 0) {
         ang = (u16)(0x10000 - *(u16 *)(p + 0xFC));
     }
-    func_0207D888(-FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
+    G3_RotZ(-FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
     G3_Translate(x, y, *pz);
-    func_0207D888(-FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2], FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2 + 1]);
+    G3_RotZ(-FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2], FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2 + 1]);
     if (mode == 0) {
         G3_Scale(s->f4, s->f8, 0x1000);
         G3_Translate(a1, a2, 0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0200F0CC",
+   "name": "NET_DEVICE_TABLE_GetNextUsed",
    "address": "0x0200F0CC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0200F128",
+   "name": "NET_DEVICE_TABLE_RemapId",
    "address": "0x0200F128",
    "kind": "game",
    "region": "arm9",
@@ -42,8 +42,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200F168",
-    "sub_0200F16C"
+    "NET_DEVICE_TABLE_GetZero",
+    "NET_DEVICE_TABLE_SetHeader"
+   ],
+   "addresses": [
+    "0x0200F168",
+    "0x0200F16C"
    ]
   },
   {

@@ -1,5 +1,5 @@
 /*
- * function: func_02090E50
+ * function: WM_MeasureChannel
  * address:  0x02090E50
  * packet:   pkt_02090E50
  * region:   arm9
@@ -71,7 +71,7 @@ extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 
-WMErrCode func_02090E50(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime)
+WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime)
 {
     WMErrCode result;
     WMMeasureChannelReq Req;

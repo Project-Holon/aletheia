@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B8C
+ * function: POKE_SUMMARY_ACTOR_StartProc
  * address: 0x021B7B8C
  * packet: pkt_ov173_021B7B8C
  * region: ov173
@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   k_83 0x00000083 data a1
- *   func_021B6460 0x021B6460 thumb ov173
- *   func_021B7438 0x021B7438 thumb ov173
+ *   POKE_SUMMARY_MAIN_ExitScreen 0x021B6460 thumb ov173
+ *   POKE_SUMMARY_MAIN_GetRecordWord 0x021B7438 thumb ov173
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAMESYSTEM_CallProc 0x020120B4 thumb
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
@@ -21,19 +21,19 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021B6460(char *);
-extern u16 func_021B7438(char **);
+extern void POKE_SUMMARY_MAIN_ExitScreen(char *);
+extern u16 POKE_SUMMARY_MAIN_GetRecordWord(char **);
 struct Ctx;
 struct IcaAnime;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern char gPokeStatusProcData[];
 extern char k_83[];
-int func_021B7B8C(char *p)
+int POKE_SUMMARY_ACTOR_StartProc(char *p)
 {
     char *q;
     u32 zero;
-    func_021B6460(p);
+    POKE_SUMMARY_MAIN_ExitScreen(p);
     q = *(char * *)&((struct Obj02217 *)p)->f0;
     ((struct Obj02217 *)p)->f180 = ((struct Obj10670 *)q)->f0;
     ((struct Obj02217 *)p)->f184 = ((struct Obj10670 *)q)->f8;
@@ -42,7 +42,7 @@ int func_021B7B8C(char *p)
     ((struct Obj02217 *)p)->f18C = zero;
     ((struct Obj02217 *)p)->f18F = zero;
     ((struct Obj02217 *)p)->f18E = 1;
-    ((struct Obj02217 *)p)->f194 = func_021B7438((char **)p);
+    ((struct Obj02217 *)p)->f194 = POKE_SUMMARY_MAIN_GetRecordWord((char **)p);
     ((struct Obj02217 *)p)->f18D = 2;
     ((struct Obj02217 *)p)->f190 = zero;
     ((struct Obj02217 *)p)->f198 = zero;

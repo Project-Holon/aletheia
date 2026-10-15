@@ -94,7 +94,7 @@ void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId)
 
 /*
  * Recursive MATCH unblocker: the alloc + store callee named by the parked
- * ov118 func_021D6CC4 (+0014 / +001E... it is the same pokemontrade_mcss.c
+ * ov118 POKETRADE_DEMO_MIDDLE_CreateOfferSlide (+0014 / +001E... it is the same pokemontrade_mcss.c
  * helper family as ov119 0x021DFB84) and by all three ov119 0x021DFBxx
  * entries.  POKETRADE_MCSS_SlideCreate is the four-argument form (line 0xD2) and this is
  * the five-argument form (a3 stored at +0x34, line 0xE7); the heap id is the

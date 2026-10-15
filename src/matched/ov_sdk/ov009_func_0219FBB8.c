@@ -15,11 +15,11 @@
  *   func_0219FB64  0x0219FB64  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0217ED38  0x0217ED38  arm  ov009
+ *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   gSBSortContext     0x021AEB04  data
  *   gSBMasterHostFormat     0x021A8234  data
  */
@@ -58,11 +58,11 @@ extern char gSBMasterHostFormat[];
 extern int func_0219FB64(char *s, int numbuckets);
 extern u32 func_021803BC(char *dst, char *src, u32 size);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern u32 func_0217ED38(char *name);
+extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 
 int ServerListConnect(SBServerList *slist)
 {
@@ -78,7 +78,7 @@ int ServerListConnect(SBServerList *slist)
         OS_SPrintf(masterHostname, gSBMasterHostFormat, slist->gamename, masterIndex);
     saddr.family = 2;
     saddr.port = 0xEE70;
-    saddr.addr = func_0217ED38(masterHostname);
+    saddr.addr = inet_addr(masterHostname);
     if (saddr.addr == (u32)-1) {
         hent = SOC_GetHostByName(masterHostname);
         if (!hent)
@@ -92,7 +92,7 @@ int ServerListConnect(SBServerList *slist)
     }
     if (func_0217EC08(slist->sock, &saddr, 8) == 0)
         return 0;
-    func_0217EB2C(slist->sock);
+    closesocket(slist->sock);
     slist->sock = -1;
     return 3;
 }

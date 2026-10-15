@@ -25,9 +25,9 @@
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   ITEMMENU_HideSideWindows  0x021BAF10  thumb  ov070
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02040DA8  0x02040DA8  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -38,7 +38,7 @@
  *   ITEMMENU_DeleteBlinkPalAnm  0x021B8B6C  thumb  ov070
  *   BUTTON_MAN_Delete  0x02051C6C  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   KEY_SetRepeatSpeed  0x02036270  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
@@ -112,9 +112,9 @@ extern void ITEMMENU_ApplyBgPalettes(char *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void ITEMMENU_HideSideWindows(char *p);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -125,7 +125,7 @@ extern void ITEMMENU_FreePalAnmSlots(char *p);
 extern void ITEMMENU_DeleteBlinkPalAnm(char *p);
 extern void BUTTON_MAN_Delete(void *p);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *a);
@@ -148,10 +148,10 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
     STRBUF_Delete((struct U16Vec *)o->f524);
     STRBUF_Delete((struct U16Vec *)o->f528);
     STRBUF_Delete((struct U16Vec *)o->f52C);
-    func_0201ED04((struct WordSet *)o->f520);
+    WORDSET_DeleteStrbufED04((struct WordSet *)o->f520);
     ITEMMENU_HideSideWindows((char *)o);
     if (o->f4FC != 0) {
-        func_0203FB44((int)3, (unsigned short)o->f838, (unsigned short)(o->f838 >> 16));
+        BG_SYS_DeleteHalf((int)3, (unsigned short)o->f838, (unsigned short)(o->f838 >> 16));
         BMP_WIN_Delete((struct Descriptor *)o->f4FC);
     }
     func_02040DA8(3, 1, 0);
@@ -163,7 +163,7 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
     ITEMMENU_DeleteBlinkPalAnm((char *)o);
     BUTTON_MAN_Delete((void *)o->f694);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     par->f34 = o->f844;
     par->f38 = o->f84C;
     KEY_SetRepeatSpeed(o->f86C, o->f870);

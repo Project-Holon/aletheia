@@ -1,5 +1,5 @@
 /*
- * function: func_021B8740
+ * function: CTVT_COMM_SendCommand
  * address: 0x021B8740
  * packet: pkt_ov172_021B8740
  * region: ov172
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
-u32 func_021B8740(int a, int b, u8 c, u32 d)
+u32 CTVT_COMM_SendCommand(int a, int b, u8 c, u32 d)
 {
     struct { u32 w; u8 b; } buf;
     u32 entry;

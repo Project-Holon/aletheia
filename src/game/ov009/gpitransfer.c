@@ -16,7 +16,7 @@
  *   func_0218F4BC  0x0218F4BC  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_02189750  0x02189750  arm  ov009
- *   func_0218F51C  0x0218F51C  arm  ov009
+ *   gpiPeerFinishTransferMessage  0x0218F51C  arm  ov009
  *   g_021A5698  0x021A5698  data
  *   g_021A569C  0x021A569C  data
  *   func_02193418  0x02193418  arm  ov009
@@ -34,7 +34,7 @@ struct GPITransferID {
 extern int func_0218F4BC(void **connection, void *peer, int type, struct GPITransferID *transferID);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, void *peer, char *string);
-extern int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int len);
+extern int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *message, int len);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 extern int func_0208CF34(char *src, char *fmt, ...);
 int func_02192F24(void **connection, struct GPITransferID *transferID, void *peer, int result, char *msg);
@@ -62,7 +62,7 @@ int func_02192F24(void **connection, struct GPITransferID *transferID, void *pee
     r = func_02189750(connection, peer, buffer);
     if (r != 0)
         return r;
-    r = func_0218F51C(connection, peer, msg, -1);
+    r = gpiPeerFinishTransferMessage(connection, peer, msg, -1);
     if (r != 0)
         return r;
     return 0;

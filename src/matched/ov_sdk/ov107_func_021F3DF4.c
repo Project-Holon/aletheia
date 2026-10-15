@@ -13,8 +13,8 @@
  *
  * symbols:
  *   FS_InitFile  0x020788AC  arm
- *   func_020789FC  0x020789FC  arm
- *   func_02078A94  0x02078A94  arm
+ *   FS_OpenFileEx  0x020789FC  arm
+ *   FS_GetFileLength  0x02078A94  arm
  *   FS_CloseFile  0x02078A80  arm
  *   FS_ReadFile  0x02078B70  arm
  */
@@ -27,8 +27,8 @@ extern void FS_InitFile(FSFile *file);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct FSFile;
-extern int func_020789FC(struct FSFile *file, const char *path, u32 mode);
-extern u32 func_02078A94(struct FSFile *file);
+extern int FS_OpenFileEx(struct FSFile *file, const char *path, u32 mode);
+extern u32 FS_GetFileLength(struct FSFile *file);
 extern int FS_CloseFile(FSFile *file);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
@@ -46,9 +46,9 @@ int MBi_ReadIconInfo(char *filePathp, unsigned char *iconp, int char_flag)
     if (filePathp == 0)
         return 0;
     FS_InitFile(&file);
-    if (!func_020789FC((struct FSFile *)(&file), filePathp, 1))
+    if (!FS_OpenFileEx((struct FSFile *)(&file), filePathp, 1))
         return 0;
-    if (size != func_02078A94((struct FSFile *)(&file))) {
+    if (size != FS_GetFileLength((struct FSFile *)(&file))) {
         FS_CloseFile(&file);
         return 0;
     }

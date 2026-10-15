@@ -13,7 +13,7 @@
  * movs r7,#2 lands after the first blx.
  *
  * symbols:
- *   func_021C49A4  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
  *   KEY_GetCont  0x0203630C  arm
  *   WIFICLUBACTOR_QueueMoveCommand  0x021BA594  thumb  ov099
  */
@@ -31,7 +31,7 @@ typedef struct {
     void *f0;
 } S;
 
-extern int func_021C49A4(u8 *p, unsigned int i);
+extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 extern unsigned int KEY_GetCont(void);
 extern void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c);
 
@@ -42,9 +42,9 @@ int WIFICLUBACTOR_UpdatePlayer(W *w, S *s)
     int k;
     int t;
 
-    a = func_021C49A4(s->f0, 6);
-    b = func_021C49A4(s->f0, 4);
-    if (func_021C49A4(s->f0, 5) != 0) {
+    a = WF2DMAP_OBJ_GetSlot(s->f0, 6);
+    b = WF2DMAP_OBJ_GetSlot(s->f0, 4);
+    if (WF2DMAP_OBJ_GetSlot(s->f0, 5) != 0) {
         return 0;
     }
     if (w->fc == 1) {

@@ -14,7 +14,7 @@
  *   GAME_BEACON_ACCESSOR_GetActionNo 0x02165E24 thumb ov010
  *   GAME_BEACON_ACCESSOR_RegisterRecordWords 0x02165FCC thumb ov010
  *   GAME_BEACON_SEARCH_SetPresetEvent 0x02165374 thumb ov010
- *   func_0200C1C8 0x0200C1C8 thumb
+ *   BEACON_IncrementGreetCount 0x0200C1C8 thumb
  *   func_021F18C4 0x021F18C4 thumb
  *   func_021F199C 0x021F199C thumb
  *   func_021F1888 0x021F1888 thumb
@@ -28,7 +28,7 @@ extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(int a, int b, u16 c);
 extern void GAME_BEACON_SEARCH_SetPresetEvent(unsigned a0);
 typedef unsigned int   u32;
 struct Blk34;
-extern u32 func_0200C1C8(struct Blk34 *p);
+extern u32 BEACON_IncrementGreetCount(struct Blk34 *p);
 extern void func_021F18C4(char *this, int a);
 extern int func_021F199C(char *p, void *x, int flag);
 extern void func_021F1888(char *this, int a);
@@ -51,7 +51,7 @@ int func_021F180C(char *this, int x, int flag)
     case 0x32:
         return func_021F199C(this, (void *)x, 1);
     case 0x18:
-        GAME_BEACON_SEARCH_SetPresetEvent(func_0200C1C8((struct Blk34 *)(((struct Obj00007 *)this)->f14)));
+        GAME_BEACON_SEARCH_SetPresetEvent(BEACON_IncrementGreetCount((struct Blk34 *)(((struct Obj00007 *)this)->f14)));
         break;
     }
     func_021F1888(this, x);

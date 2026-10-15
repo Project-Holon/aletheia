@@ -1,5 +1,5 @@
 /*
- * function: func_0205FA40
+ * function: VerifyNVRAM
  * address:  0x0205FA40
  * packet:   pkt_0205FA40
  * region:   arm9
@@ -13,7 +13,7 @@
  *           NCFG_WriteBackupMemory's PC24 relocation names this address VerifyNVRAM
  *
  * symbols:
- *   func_020840F8 0x020840F8 arm
+ *   NVRAMi_Verify 0x020840F8 arm
  *   OS_IsTickAvailable  0x02087058 arm
  *   OS_IsAlarmAvailable 0x02087244 arm
  *   OS_Sleep            0x02085A38 arm
@@ -28,18 +28,18 @@ typedef enum NVRAMResult {
     NVRAM_RESULT_BUSY = 1
 } NVRAMResult;
 
-extern NVRAMResult func_020840F8(u32 address, u32 size, void *pData);
+extern NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData);
 extern BOOL OS_IsTickAvailable(void);
 extern BOOL OS_IsAlarmAvailable(void);
 extern void OS_Sleep(u32 msec);
 
-NVRAMResult func_0205FA40(u32 address, u32 size, void *pData)
+NVRAMResult VerifyNVRAM(u32 address, u32 size, void *pData)
 {
     NVRAMResult nvramResult;
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        nvramResult = func_020840F8(address, size, pData);
+        nvramResult = NVRAMi_Verify(address, size, pData);
         if (nvramResult != NVRAM_RESULT_BUSY)
             break;
         if (OS_IsTickAvailable() && OS_IsAlarmAvailable())

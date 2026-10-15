@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   sResultSuccess     0x021E3730  data
  *   sResultSecretKeyInvalid     0x021E3738  data
  *   sResultServiceDisabled     0x021E374C  data
@@ -31,7 +31,7 @@
  *   sResultTargetFilterInvalid     0x021E3844  data
  *
  * Nintendo WFC / Wi-Fi connection error-name to index table: a plain
- * strcmp-style probe (func_020948E0) against each known status string,
+ * strcmp-style probe (strcmp) against each known status string,
  * returning the string's index.  Seven indices (6 in the 9..0x14 range)
  * are skipped because they are not reachable from this pool; the caller
  * reads the dedicated return value from those.
@@ -39,7 +39,7 @@
 
 typedef int s32;
 
-extern s32 func_020948E0(const char *a, const char *b);
+extern s32 strcmp(const char *a, const char *b);
 
 extern char sResultSuccess[];
 extern char sResultSecretKeyInvalid[];
@@ -62,39 +62,39 @@ extern char sResultTargetFilterInvalid[];
 
 s32 sakeiCheckSakeResult(const char *p)
 {
-    if (func_020948E0(p, sResultSuccess) == 0)
+    if (strcmp(p, sResultSuccess) == 0)
         return 0;
-    if (func_020948E0(p, sResultSecretKeyInvalid) == 0)
+    if (strcmp(p, sResultSecretKeyInvalid) == 0)
         return 1;
-    if (func_020948E0(p, sResultServiceDisabled) == 0)
+    if (strcmp(p, sResultServiceDisabled) == 0)
         return 2;
-    if (func_020948E0(p, sResultDatabaseUnavailable) == 0)
+    if (strcmp(p, sResultDatabaseUnavailable) == 0)
         return 7;
-    if (func_020948E0(p, sResultLoginTicketInvalid) == 0)
+    if (strcmp(p, sResultLoginTicketInvalid) == 0)
         return 8;
-    if (func_020948E0(p, sResultLoginTicketExpired) == 0)
+    if (strcmp(p, sResultLoginTicketExpired) == 0)
         return 9;
-    if (func_020948E0(p, sResultTableNotFound) == 0)
+    if (strcmp(p, sResultTableNotFound) == 0)
         return 0xa;
-    if (func_020948E0(p, sResultRecordNotFound) == 0)
+    if (strcmp(p, sResultRecordNotFound) == 0)
         return 0xb;
-    if (func_020948E0(p, sResultFieldNotFound) == 0)
+    if (strcmp(p, sResultFieldNotFound) == 0)
         return 0xc;
-    if (func_020948E0(p, sResultFieldTypeInvalid) == 0)
+    if (strcmp(p, sResultFieldTypeInvalid) == 0)
         return 0xd;
-    if (func_020948E0(p, sResultNoPermission) == 0)
+    if (strcmp(p, sResultNoPermission) == 0)
         return 0xe;
-    if (func_020948E0(p, sResultRecordLimitReached) == 0)
+    if (strcmp(p, sResultRecordLimitReached) == 0)
         return 0xf;
-    if (func_020948E0(p, sResultAlreadyRated) == 0)
+    if (strcmp(p, sResultAlreadyRated) == 0)
         return 0x10;
-    if (func_020948E0(p, sResultNotRateable) == 0)
+    if (strcmp(p, sResultNotRateable) == 0)
         return 0x11;
-    if (func_020948E0(p, sResultNotOwned) == 0)
+    if (strcmp(p, sResultNotOwned) == 0)
         return 0x12;
-    if (func_020948E0(p, sResultFilterInvalid) == 0)
+    if (strcmp(p, sResultFilterInvalid) == 0)
         return 0x13;
-    if (func_020948E0(p, sResultSortInvalid) == 0)
+    if (strcmp(p, sResultSortInvalid) == 0)
         return 0x14;
-    return func_020948E0(p, sResultTargetFilterInvalid) == 0 ? 0x15 : 0x16;
+    return strcmp(p, sResultTargetFilterInvalid) == 0 ? 0x15 : 0x16;
 }

@@ -18,7 +18,7 @@
  * symbols:
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
  *   func_02198850  0x02198850  arm  ov009
@@ -36,7 +36,7 @@
  *   strAddressArray 0x021AE46C data
  *   g_021AE498     0x021AE498  data
  *   g_021A59B4     0x021A59B4  data
- *   g_021A5A7C     0x021A5A7C  data
+ *   gNatNegMagic     0x021A5A7C  data
  *   g_021AE4A7     0x021AE4A7  data
  *   g_021AE4AB     0x021AE4AB  data
  *   g_021A59CC     0x021A59CC  data
@@ -143,7 +143,7 @@ typedef struct _NAT {
 
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
 extern char *func_02198850(unsigned int ip, unsigned short port, char *string);
@@ -163,7 +163,7 @@ static int gotADDRESS1b = 0;
 static char strAddressArray[44] = {0};
 extern char g_021AE498[];
 extern char g_021A59B4[];
-extern struct Magic6 g_021A5A7C;
+extern struct Magic6 gNatNegMagic;
 extern char g_021A59CC[];
 extern char g_021A59F0[];
 extern char g_021A5A20[];
@@ -184,11 +184,11 @@ int func_02198A0C(int sock, NAT *nat)
     if (sock != -1 && func_0217EF50(sock)) do {
         length = func_0217EC60(sock, g_021AE498, 512, 0, &saddr, &saddrlen);
         if (length == -1) {
-            func_0217D254(7, 0, 8, g_021A59B4, func_0217ED54(sock));
+            func_0217D254(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
             break;
         }
 
-        if (func_020923F0(g_021AE498, ((char *)&g_021A5A7C), 6) != 0)
+        if (func_020923F0(g_021AE498, ((char *)&gNatNegMagic), 6) != 0)
             return 1;
 
         ptype = *(unsigned char *)(g_021AE498 + 7);

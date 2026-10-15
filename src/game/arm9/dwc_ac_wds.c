@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_wds.c
  * unit:     yes
- * function: func_0205A2C8, func_0205A2DC, func_0205A4C8, func_0205A4D4, func_0205A558, func_0205A598, func_0205A650, func_0205A688, func_0205A724, func_0205A7CC, func_0205A8C8, func_0205A8FC
+ * function: func_0205A2C8, WDSScanCallback, func_0205A4C8, WDS_Initialize, WDS_End, WDS_StartScan, WDS_EndScan, WDS_GetApInfoByIndex, WDS_GetApInfoAll, WDS_DecryptWMBssDesc, IsValidApnum, WDS_IsAvailableForAutoConnect
  * address:  0x0205A2C8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -148,17 +148,13 @@ extern void MATHi_CRC16UpdateRev(MATHCRC16Table *table, unsigned short *context,
 extern unsigned short MATH_CalcCRC16(MATHCRC16Table *table, const void *data, unsigned long dataLength);
 extern int IsValidApnum(unsigned char *apnum);
 unsigned char WDSGetRssi8(unsigned char rssi);
-void func_0205A2DC(void *arg);
 unsigned long WDS_GetWorkAreaSize(void);
-int func_0205A4D4(void *wdsWork, void (*callback)(void *), unsigned short dmaNo);
-int func_0205A558(void (*callback)(void *));
-int func_0205A598(void (*callback)(void *));
-int func_0205A650(void (*callback)(void *));
-int func_0205A688(int index, WDSBriefApInfo *briefapinfo);
-int func_0205A724(WDSBriefApInfo *briefapinfo);
-int func_0205A7CC(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable, const WMBssDesc *bssDesc, WDSApInfo *apinfo);
-int func_0205A8C8(unsigned char *apnum);
-int func_0205A8FC(WDSApInfo *apinfo);
+int WDS_Initialize(void *wdsWork, void (*callback)(void *), unsigned short dmaNo);
+int WDS_End(void (*callback)(void *));
+int WDS_StartScan(void (*callback)(void *));
+int WDS_EndScan(void (*callback)(void *));
+int WDS_GetApInfoAll(WDSBriefApInfo *briefapinfo);
+int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
 extern WDSWork *gWdsWork;
 extern const unsigned char g_020A1618[4];
 
@@ -182,7 +178,7 @@ unsigned char WDSGetRssi8(unsigned char rssi)
 /*
  * sdk:      WDSScanCallback (libdwcac.TWL.HYB.a(wds.o))
  */
-void func_0205A2DC(void *arg)
+void WDSScanCallback(void *arg)
 {
     WMStartScanExCallback *pParam;
     unsigned long i;
@@ -241,7 +237,7 @@ unsigned long WDS_GetWorkAreaSize(void)
 /*
  * sdk:      WDS_Initialize (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A4D4(void *wdsWork, void (*callback)(void *), unsigned short dmaNo)
+int WDS_Initialize(void *wdsWork, void (*callback)(void *), unsigned short dmaNo)
 {
     int errcode;
 
@@ -266,7 +262,7 @@ int func_0205A4D4(void *wdsWork, void (*callback)(void *), unsigned short dmaNo)
 /*
  * sdk:      WDS_End (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A558(void (*callback)(void *))
+int WDS_End(void (*callback)(void *))
 {
     int errcode;
 
@@ -287,7 +283,7 @@ int func_0205A558(void (*callback)(void *))
 /*
  * sdk:      WDS_StartScan (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A598(void (*callback)(void *))
+int WDS_StartScan(void (*callback)(void *))
 {
     int errcode;
 
@@ -314,7 +310,7 @@ int func_0205A598(void (*callback)(void *))
 /*
  * sdk:      WDS_EndScan (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A650(void (*callback)(void *))
+int WDS_EndScan(void (*callback)(void *))
 {
     int errcode;
 
@@ -334,7 +330,7 @@ int func_0205A650(void (*callback)(void *))
 /*
  * sdk:      WDS_GetApInfoByIndex (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A688(int index, WDSBriefApInfo *briefapinfo)
+int WDS_GetApInfoByIndex(int index, WDSBriefApInfo *briefapinfo)
 {
     if (gWdsWork->status != 2) {
         return -1;
@@ -354,7 +350,7 @@ int func_0205A688(int index, WDSBriefApInfo *briefapinfo)
 /*
  * sdk:      WDS_GetApInfoAll (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A724(WDSBriefApInfo *briefapinfo)
+int WDS_GetApInfoAll(WDSBriefApInfo *briefapinfo)
 {
     int index;
 
@@ -378,7 +374,7 @@ int func_0205A724(WDSBriefApInfo *briefapinfo)
 /*
  * sdk:      WDS_DecryptWMBssDesc (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A7CC(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable,
+int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable,
                   const WMBssDesc *bssDesc, WDSApInfo *apinfo)
 {
     unsigned char rc4key[8];
@@ -407,7 +403,7 @@ int func_0205A7CC(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATH
 /*
  * sdk:      IsValidApnum (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A8C8(unsigned char *apnum)
+int IsValidApnum(unsigned char *apnum)
 {
     int i;
 
@@ -424,7 +420,7 @@ int func_0205A8C8(unsigned char *apnum)
 /*
  * sdk:      WDS_IsAvailableForAutoConnect (libdwcac.TWL.HYB.a(wds.o))
  */
-int func_0205A8FC(WDSApInfo *apinfo)
+int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo)
 {
     if ((apinfo->infoflag & 2) && IsValidApnum(apinfo->apnum) && apinfo->encryptflag <= 3) {
         return 1;

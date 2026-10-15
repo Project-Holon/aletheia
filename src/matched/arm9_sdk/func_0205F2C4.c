@@ -1,5 +1,5 @@
 /*
- * function: func_0205F2C4
+ * function: ConnectTestProcess
  * address:  0x0205F2C4
  * packet:   pkt_0205F2C4
  * region:   arm9
@@ -81,7 +81,7 @@ extern unsigned char DWCi_ConvConnectAPType(unsigned char type);
 extern int DWC_Netcheck_GetReturnCode(void);
 extern void DWC_Netcheck_Destroy(void);
 
-unsigned char func_0205F2C4(tagACWORK *wk)
+unsigned char ConnectTestProcess(tagACWORK *wk)
 {
     tagACHOLD *hd;
     int result;

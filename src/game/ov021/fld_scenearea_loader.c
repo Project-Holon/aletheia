@@ -23,8 +23,8 @@
  *   gFldSceneAreaLoaderFileName  0x021DE000  data  a4
  *   gFldSceneAreaArcIds  0x021D8EEC  data  a4
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
@@ -52,8 +52,8 @@ extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *arcHandle, int fileId, int decompress, u32 heapId, u32 *outSize);
-extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern int func_0207CBD0(const VecFx32 *v);
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern int VEC_Mag(const VecFx32 *v);
 extern void VEC_Normalize(const VecFx32 *v, VecFx32 *out);
 extern u32 func_0207CFB8(int x, int z);
 extern void FIELD_CAMERA_EnterMode(void *camera, u32 mode);
@@ -178,9 +178,9 @@ int FLD_SCENEAREA_LOADER_CheckSector(FldSceneArea *sceneArea, const FldSceneArea
     u32 angle;
 
     VecSet(&center, rec->shape.sector.center.x, rec->shape.sector.center.y, rec->shape.sector.center.z);
-    func_0207CA00(pos, &center, &offset);
+    VEC_Subtract(pos, &center, &offset);
     offset.y = 0;
-    distance = func_0207CBD0(&offset);
+    distance = VEC_Mag(&offset);
     VEC_Normalize(&offset, &offset);
     angle = func_0207CFB8(offset.x, offset.z);
     if (rec->shape.sector.minDistance <= distance && rec->shape.sector.maxDistance > distance) {
@@ -232,7 +232,7 @@ void FLD_SCENEAREA_LOADER_ApplySectorCamera(FldSceneArea *sceneArea, const FldSc
     center.y = 0;
     playerOffset = *pos;
     playerOffset.y = 0;
-    func_0207CA00(&playerOffset, &center, &playerOffset);
+    VEC_Subtract(&playerOffset, &center, &playerOffset);
     VEC_Normalize(&playerOffset, &dir);
     sinValue = FX_SinCosTable_[(rec->shape.sector.angleIndex >> 4) * 2];
     center.y = centerY;

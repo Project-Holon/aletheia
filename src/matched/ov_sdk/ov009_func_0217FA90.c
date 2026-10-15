@@ -1,5 +1,5 @@
 /*
- * function: func_0217FA90
+ * function: B64Encode
  * address:  0x0217FA90
  * packet:   pkt_0219091C
  * region:   ov009
@@ -15,21 +15,21 @@
  * table, 2 the URL-safe table, otherwise the default.
  *
  * symbols:
- *   func_0217F824  0x0217F824  arm  ov009
- *   g_021A19FC     0x021A19FC  data
- *   g_021A19FF     0x021A19FF  data
- *   g_021A1A02     0x021A1A02  data
+ *   TripToQuart  0x0217F824  arm  ov009
+ *   gGsB64CharsDefault     0x021A19FC  data
+ *   gGsB64CharsUrl     0x021A19FF  data
+ *   gGsB64CharsAlt     0x021A1A02  data
  */
 
 #define GSI_MIN(a, b) ((a) < (b) ? (a) : (b))
 
 typedef unsigned char  u8;
-extern void func_0217F824(const char *src, u8 *dst, int n);
-extern char g_021A19FC[];
-extern char g_021A19FF[];
-extern char g_021A1A02[];
+extern void TripToQuart(const char *src, u8 *dst, int n);
+extern char gGsB64CharsDefault[];
+extern char gGsB64CharsUrl[];
+extern char gGsB64CharsAlt[];
 
-void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
+void B64Encode(const char *input, char *output, int inlen, int encodingType)
 {
     const char *encoding;
     char *holdout = output;
@@ -38,17 +38,17 @@ void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
 
     switch (encodingType) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
     }
 
     while (todo > 0) {
-        func_0217F824(input, (u8 *)output, GSI_MIN(todo, 3));
+        TripToQuart(input, (u8 *)output, GSI_MIN(todo, 3));
         output += 4;
         input += 3;
         todo -= 3;

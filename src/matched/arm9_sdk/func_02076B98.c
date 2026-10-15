@@ -1,5 +1,5 @@
 /*
- * function: func_02076B98
+ * function: CARD_CancelBackupAsync
  * address:  0x02076B98
  * packet:   pkt_02076B98
  * region:   arm9
@@ -66,7 +66,7 @@ extern CARDiCommon cardi_common;
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 
-void func_02076B98(void)
+void CARD_CancelBackupAsync(void)
 {
     u32 bak_cpsr = OS_DisableInterrupts();
 

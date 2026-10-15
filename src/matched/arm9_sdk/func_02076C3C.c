@@ -1,5 +1,5 @@
 /*
- * function: func_02076C3C
+ * function: CARDi_IsNormalMode
  * address:  0x02076C3C
  * packet:   pkt_02076C3C
  * region:   arm9
@@ -39,7 +39,7 @@ extern CARDRomHeaderTWL *CARD_GetOwnRomHeaderTWL(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern u16 OS_GetBootType(void);
 
-BOOL func_02076C3C(void)
+BOOL CARDi_IsNormalMode(void)
 {
     const CARDRomHeaderTWL *oh = CARD_GetOwnRomHeaderTWL();
 

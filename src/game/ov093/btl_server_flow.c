@@ -28,7 +28,7 @@
  *   func_02007E50 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C274  0x0200C274  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
@@ -396,7 +396,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207C7B4  0x0207C7B4  arm
+ *   FX_Sqrt  0x0207C7B4  arm
  *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   gEffortValueStatTable      0x021EFDC0  data  ov093
  *   func_02019C90   0x02019C90  thumb arm9
@@ -502,7 +502,7 @@
  *   BTLV_EFFECT_PollLowHpBgm 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
- *   func_0202A298 0x0202A298 thumb
+ *   TPOKE_DATA_FindRecord 0x0202A298 thumb
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   gBtlClientSupportItemKeys 0x021EFF78 data ov093 a2
  *   BTLV_CORE_StartMoveMenu 0x021E97BC thumb ov093
@@ -1935,7 +1935,7 @@ extern unsigned char BTL_EVENT_GetClientPartyCount(unsigned char *p);
 extern u8 BTL_EVENT_GetClientPartySlotId(u8 *p, u32 i);
 extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 GPOWER_ApplyExpRate(u32);
-extern int func_0207C7B4(int x);
+extern int FX_Sqrt(int x);
 extern u32 BTL_POKEPARAM_GetMaxLevelExp(u8 *p);
 extern u32 func_02019C90(u32 a, u32 b, u32 c);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
@@ -1944,7 +1944,6 @@ extern int BTL_MAIN_CheckZukanSeen(char *p, void *m);
 extern void BTL_EVENT_StartClientPalAnm(void **p, int value);
 extern int GPOWER_ApplyCaptureRate(int);
 extern int FX_Div(int, int);
-extern int FX_Sqrt(int);
 extern u32 BTL_MAIN_GetZukanSeenCount(char **p);
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern int BTL_ID_IsBallWithCatchBonus(u16);
@@ -19705,9 +19704,9 @@ u32 BTL_SERVER_FLOW_CalcLevelScaledExp(void *poke, u32 baseExp, u16 defeatedLeve
   u32 r, lim;
   u32 x = (2 * gainerLevel) + 10;
   u32 y = (gainerLevel + defeatedLevel) + 10;
-  u32 t1 = ((u32) (func_0207C7B4((int) ((x > 0) ? ((x * (1 << 12)) + 0.5f) : ((x * (1 << 12)) - 0.5f))) * (x * x))) >> 12;
+  u32 t1 = ((u32) (FX_Sqrt((int) ((x > 0) ? ((x * (1 << 12)) + 0.5f) : ((x * (1 << 12)) - 0.5f))) * (x * x))) >> 12;
   tmp = (int) ((y > 0) ? ((y * (1 << 12)) + 0.5f) : ((y * (1 << 12)) - 0.5f));
-  tmp1 = func_0207C7B4(tmp);
+  tmp1 = FX_Sqrt(tmp);
   y *= y;
   r = ((baseExp * t1) / ((y * tmp1) >> 12)) + 1;
   lim = BTL_POKEPARAM_GetMaxLevelExp(poke);

@@ -15,7 +15,7 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_0201F5BC 0x0201F5BC thumb
  */
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u1
 typedef unsigned int   u32;
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02040C14(unsigned,unsigned,unsigned,unsigned);
+extern void BG_SYS_Init(unsigned,unsigned,unsigned,unsigned);
 extern void func_0201F5BC(unsigned,unsigned,unsigned,unsigned,u16);
 void func_021F1780(int unused,u16 heap)
 {
@@ -45,6 +45,6 @@ void func_021F1780(int unused,u16 heap)
     p=func_020490F4(23,heap);
     func_02049B68(p,6,4,480,32,heap);
     ARC_TOOL_DeleteHandle(p);
-    func_02040C14(4,0,1,0);
+    BG_SYS_Init(4,0,1,0);
     func_0201F5BC(4,1,14,0,heap);
 }

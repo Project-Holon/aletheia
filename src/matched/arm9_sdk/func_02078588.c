@@ -1,5 +1,5 @@
 /*
- * function: func_02078588
+ * function: FS_UnmountArchive
  * address:  0x02078588
  * packet:   pkt_02078588
  * region:   arm9
@@ -71,7 +71,7 @@ static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
     return (arc->flag & 2) ? 1 : 0;
 }
 
-BOOL func_02078588(FSArchive *arc)
+BOOL FS_UnmountArchive(FSArchive *arc)
 {
     u32 bak_psr = OS_DisableInterrupts();
 

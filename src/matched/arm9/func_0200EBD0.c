@@ -21,7 +21,7 @@
  * it untouched.  With a1..a3 live in r1..r3 across the prologue the index
  * temporary cannot take r1 and lands in r6.  The only caller
  * (ov205 0x021B9B62) passes (obj, GAME_DATA_GetMyParty result, &stack date record
- * from func_02088864, 4).  The slot index is read inline in the call's
+ * from RTC_GetDate, 4).  The slot index is read inline in the call's
  * argument, not through a named local.
  *
  * Current listing extent is 68 bytes; compiled bytes match exactly.

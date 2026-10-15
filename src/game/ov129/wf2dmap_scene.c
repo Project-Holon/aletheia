@@ -21,7 +21,7 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   PALANM_Create 0x02021518 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -38,7 +38,7 @@
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -48,8 +48,8 @@
  *   func_020306F0 0x020306F0 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_0204363C 0x0204363C arm
  *   d_021DA638 0x021DA638 data a4
  *   d_021DA698 0x021DA698 data a4
@@ -122,13 +122,13 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_020409B4 0x020409B4 arm
  */
@@ -330,7 +330,7 @@ extern struct Param *CODEIN_PARAM_Create(u32_021D85C0 heap, u32_021D85C0 a1, u32
 extern u32_021D85C0 func_020307B0(void *p);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32_021D85C0 id, u32_021D85C0 heap);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void * PALANM_Create(u32_021D85C0);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32_021D85C0 heapId);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
@@ -345,7 +345,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void func_020403F4(unsigned);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32_021D872C idx);
 extern u32_021D872C PALANM_Delete(void *a0);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -356,8 +356,8 @@ extern void func_020306F0(u32_021D872C heap);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_02082A7C(u32_021D8804,void *,u32_021D8804);
-extern void func_0203FCA0(u32_021D8804 bgId, const struct BgTemplate *tmpl, u32_021D8804 type);
-extern void func_020414EC(u32_021D8804);
+extern void BG_SYS_InitBgLayer(u32_021D8804 bgId, const struct BgTemplate *tmpl, u32_021D8804 type);
+extern void BG_SYS_ClearSlot(u32_021D8804);
 extern void func_0204363C(u32_021D8804);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
@@ -419,13 +419,13 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *,int,int,int);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,s16_021DA578,s16_021DA578,void *,void *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_020409B4(u32);
 int func_021D85C0(void *obj,void *unused,const Param *cfg);
@@ -525,7 +525,7 @@ int func_021D85C0(void *obj,void *unused,const Param *cfg)
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
     *(void **)(p+0x258)=func_020490F4(59,50);
-    func_0203F8F4(50); BMP_WIN_Init(50);
+    BG_SYS_Create(50); BMP_WIN_Init(50);
     *(void **)(p+0x290)=PALANM_Create(50);
     *(void **)(p+0x314)=GF_FONT_Create(23,0,0,0,50);
     PALANM_SetAutoTransfer(*(void **)(p+0x290),1);
@@ -574,7 +574,7 @@ int func_021D872C(void *a,int b,int c,char *p)
     BG_SYS_SetSubPlaneVisible(1,0); BG_SYS_SetSubPlaneVisible(2,0); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
     func_020403F4(1); func_020403F4(2); func_020403F4(3); func_020403F4(4);
     func_020403F4(5); func_020403F4(6); func_020403F4(7);
-    func_0203F9B4();
+    BG_SYS_Delete();
     PALANM_FreeSlotBuffers(((struct Obj04506 *)p)->f290,0);
     PALANM_Delete(((struct Obj04506 *)p)->f290);
     ARC_TOOL_DeleteHandle(((struct Obj04506 *)p)->f258);
@@ -601,17 +601,17 @@ void func_021D8804(void)
     func_02082A7C(0,(void *)0x06400000,0x40000);
     func_02082A7C(0,(void *)0x06600000,0x20000);
     main=d_021DA638;
-    func_0203FCA0(1,(const struct BgTemplate *)(&main.rows[0]),0);
-    func_0203FCA0(2,(const struct BgTemplate *)(&main.rows[1]),0);
-    func_0203FCA0(3,(const struct BgTemplate *)(&main.rows[2]),0);
-    func_020414EC(1); func_020414EC(2); func_020414EC(3);
+    BG_SYS_InitBgLayer(1,(const struct BgTemplate *)(&main.rows[0]),0);
+    BG_SYS_InitBgLayer(2,(const struct BgTemplate *)(&main.rows[1]),0);
+    BG_SYS_InitBgLayer(3,(const struct BgTemplate *)(&main.rows[2]),0);
+    BG_SYS_ClearSlot(1); BG_SYS_ClearSlot(2); BG_SYS_ClearSlot(3);
     BG_SYS_SetMainPlaneVisible(1,0); BG_SYS_SetMainPlaneVisible(2,1); BG_SYS_SetMainPlaneVisible(4,0); BG_SYS_SetMainPlaneVisible(8,0);
     sub=d_021DA698;
-    func_0203FCA0(4,(const struct BgTemplate *)(&sub.rows[0]),0);
-    func_0203FCA0(5,(const struct BgTemplate *)(&sub.rows[1]),0);
-    func_0203FCA0(6,(const struct BgTemplate *)(&sub.rows[2]),0);
-    func_0203FCA0(7,(const struct BgTemplate *)(&sub.rows[3]),0);
-    func_020414EC(4); func_020414EC(5); func_020414EC(6); func_020414EC(7);
+    BG_SYS_InitBgLayer(4,(const struct BgTemplate *)(&sub.rows[0]),0);
+    BG_SYS_InitBgLayer(5,(const struct BgTemplate *)(&sub.rows[1]),0);
+    BG_SYS_InitBgLayer(6,(const struct BgTemplate *)(&sub.rows[2]),0);
+    BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&sub.rows[3]),0);
+    BG_SYS_ClearSlot(4); BG_SYS_ClearSlot(5); BG_SYS_ClearSlot(6); BG_SYS_ClearSlot(7);
     BG_SYS_SetSubPlaneVisible(1,1); BG_SYS_SetSubPlaneVisible(2,1); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
     func_0204363C(0);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
@@ -1746,7 +1746,7 @@ void func_021DA524(void **p,int a,int b,int c,int d,int e,int f,int g,int h)
 
 void func_021DA578(void *p,int a,void *b,u32 c)
 {
-    void *ws=func_0201EC64(50);
+    void *ws=GF_FONT_Create_EC64(50);
     void *bank=func_02045B38(0,2,25,50);
     void *msg=func_02045EC0(bank,a);
     void *out=STRBUF_Create(88,50);
@@ -1757,7 +1757,7 @@ void func_021DA578(void *p,int a,void *b,u32 c)
     STRBUF_Delete(out);
     STRBUF_Delete(msg);
     MSGDATA_Delete(bank);
-    func_0201ED04(ws);
+    WORDSET_DeleteStrbufED04(ws);
     BMP_WIN_TransferChars(p);
     func_020409B4(4);
 }

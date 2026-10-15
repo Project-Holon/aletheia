@@ -1,5 +1,5 @@
 /*
- * function: func_02731774
+ * function: SHA1_HMAC_Start
  * address:  0x02731774
  * packet:   twl_sys
  * region:   twl
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02731754  0x02731754  thumb
- *   func_02731760  0x02731760  thumb
- *   func_02731770  0x02731770  thumb
+ *   SHA1_HMAC_Init  0x02731754  thumb
+ *   SHA1_HMAC_Update  0x02731760  thumb
+ *   SHA1_HMAC_HashRange  0x02731770  thumb
  *   NWM_Init  0x02702434  arm
  *   NWM_GetState  0x027028B0  arm
  *   NWM_GetAllowedChannel  0x02702980  arm
@@ -55,6 +55,9 @@
  *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   WCMi_EntryApList  0x02165D04  arm  ov009
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
+ *   SHA1_HMAC_UpdateData  0x0273184C  arm
+ *   SHA1_HMAC_Finish  0x02731868  arm
+ *   SHA1_HMAC_Calc  0x02731920  arm
  */
 
 typedef unsigned int u32;
@@ -175,10 +178,10 @@ extern unsigned long func_021656D0(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
 extern void func_02165AF4(void);
 extern void OS_WakeupThread(void *queue);
-void func_02731774(HmacCtx *ctx, const void *key, u32 key_len);
-void func_0273184C(void *a, const void *b, u32 c);
-void func_02731868(HmacCtx *ctx, u8 *digest);
-asm void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
+void SHA1_HMAC_Start(HmacCtx *ctx, const void *key, u32 key_len);
+void SHA1_HMAC_UpdateData(void *a, const void *b, u32 c);
+void SHA1_HMAC_Finish(HmacCtx *ctx, u8 *digest);
+asm void SHA1_HMAC_Calc(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);
 int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c);
@@ -200,14 +203,14 @@ extern u8 data_021A1988[];
 extern u8 data_021A1990[];
 
 #pragma thumb on
-extern void func_02731754(void *ctx);
-extern void func_02731760(void *ctx, const void *data, u32 len);
-extern void func_02731770(void *dst, const void *src, u32 len);
+extern void SHA1_HMAC_Init(void *ctx);
+extern void SHA1_HMAC_Update(void *ctx, const void *data, u32 len);
+extern void SHA1_HMAC_HashRange(void *dst, const void *src, u32 len);
 #pragma thumb reset
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void func_02731774(HmacCtx *ctx, const void *key, u32 key_len)
+
+void SHA1_HMAC_Start(HmacCtx *ctx, const void *key, u32 key_len)
 {
     u8 pad[0x40];
     u8 *p;
@@ -220,7 +223,7 @@ void func_02731774(HmacCtx *ctx, const void *key, u32 key_len)
         return;
     }
     if (key_len > 0x40) {
-        func_02731770(ctx->key, key, key_len);
+        SHA1_HMAC_HashRange(ctx->key, key, key_len);
         ctx->keyLen = 0x14;
     } else {
         MI_CpuCopy8(key, ctx->key, key_len);
@@ -241,6 +244,6 @@ void func_02731774(HmacCtx *ctx, const void *key, u32 key_len)
             i++;
         } while (i < 0x40);
     }
-    func_02731754(ctx);
-    func_02731760(ctx, pad, 0x40);
+    SHA1_HMAC_Init(ctx);
+    SHA1_HMAC_Update(ctx, pad, 0x40);
 }

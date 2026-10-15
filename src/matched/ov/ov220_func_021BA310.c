@@ -1,5 +1,5 @@
 /*
- * function: func_021BA310
+ * function: TH_AWARD_GRAPHIC_GetValue
  * address: 0x021BA310
  * packet: pkt_ov220_021BA310
  * region: ov220
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 typedef unsigned int u32;
-u32 func_021BA310(u32*p){return *p;}
+u32 TH_AWARD_GRAPHIC_GetValue(u32*p){return *p;}

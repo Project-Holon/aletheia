@@ -1,5 +1,5 @@
 /*
- * function: func_021F6D1C
+ * function: EGG_DEMO_VIEW_UpdateAlpha
  * address: 0x021F6D1C
  * packet: pkt_ov215_021F6D1C
  * region: ov215
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 struct Data;
 extern u8 MCSS_GetAlpha(struct Data *);
 extern void MCSS_SetAlpha(char *,int);
-void func_021F6D1C(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=MCSS_GetAlpha(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}
+void EGG_DEMO_VIEW_UpdateAlpha(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=MCSS_GetAlpha(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}

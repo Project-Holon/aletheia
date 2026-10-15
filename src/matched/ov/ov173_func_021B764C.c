@@ -1,5 +1,5 @@
 /*
- * function: func_021B764C
+ * function: POKE_SUMMARY_ANIM_Finish
  * address: 0x021B764C
  * packet: pkt_ov173_021B764C
  * region: ov173
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24179.h"
-int func_021B764C(unsigned char *p) {((struct Obj24179 *)p)->f1B0=10;return 0;}
+int POKE_SUMMARY_ANIM_Finish(unsigned char *p) {((struct Obj24179 *)p)->f1B0=10;return 0;}

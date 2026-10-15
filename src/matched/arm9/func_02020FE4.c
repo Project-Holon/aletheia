@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02020FE4
+ * function: FILE_UTIL_Get_0FE4
  *
  * symbols:
- *   func_02020F34  0x02020F34  thumb
- *   func_02021014  0x02021014  thumb
+ *   FILE_UTIL_CreateArcTool0F34  0x02020F34  thumb
+ *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * One-shot wrapper over the record getter of src/matched/unit_02021014.c:
@@ -24,25 +24,25 @@
  * mask and derives the set bit from it with `adds r2, r3, #1`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020FE4.c \
- *       --func func_02020FE4 --addr 0x02020FE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_Get_0FE4.c \
+ *       --func FILE_UTIL_Get_0FE4 --addr 0x02020FE4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02020F34(u32 item, u32 which, u32 heap);
+extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
 struct Rec;
-extern u32 func_02021014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
 
-u32 func_02020FE4(void *a, u32 sel, u32 id)
+u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id)
 {
     void *rec;
     u32   v;
 
-    rec = func_02020F34((u32)a, 0, (u16)((id & 0x7FFF) | 0x8000));
-    v = func_02021014(rec, sel);
+    rec = FILE_UTIL_CreateArcTool0F34((u32)a, 0, (u16)((id & 0x7FFF) | 0x8000));
+    v = FILE_UTIL_Get_1014(rec, sel);
     func_020307B0(rec);
     return v;
 }

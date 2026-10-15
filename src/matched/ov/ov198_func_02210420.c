@@ -21,7 +21,7 @@
  *   func_022105E4 0x022105E4 thumb ov198
  *   TCBL_Destroy 0x02031140 arm
  *   func_022119E8 0x022119E8 thumb ov198
- *   func_0220AF64 0x0220AF64 thumb ov196
+ *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
  *   sub_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -46,7 +46,7 @@ extern void func_0220BE04(u8 *p);
 extern void func_022105E4(void);
 extern void TCBL_Destroy(struct S02031140 *);
 extern u32 func_022119E8(u8 *);
-extern void func_0220AF64(void *);
+extern void B_APP_TOOL_Delete(void *);
 extern void sub_02030EAC(struct Node *);
 extern u32 func_020307B0(void *p);
 int func_02210420(struct Node *task,char *p)
@@ -68,7 +68,7 @@ int func_02210420(struct Node *task,char *p)
         func_022105E4();
         TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01006 *)p)->f1D4);
         func_022119E8((u8 *)p);
-        func_0220AF64(((struct Obj01006 *)p)->f2188);
+        B_APP_TOOL_Delete(((struct Obj01006 *)p)->f2188);
         if(((struct Obj01006 *)p)->f218C==1) **(u8 * *)&((struct Obj25241 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f44=1;
         else **(u8 * *)&((struct Obj25243 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f44=0;
     }

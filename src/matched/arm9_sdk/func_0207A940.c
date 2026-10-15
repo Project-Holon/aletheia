@@ -1,5 +1,5 @@
 /*
- * function: func_0207A940
+ * function: FS_CreateFileFromMemory
  * address:  0x0207A940
  * packet:   pkt_0207A940
  * region:   arm9
@@ -29,7 +29,7 @@ extern struct FSArchive fsi_arc_mem;
 extern void FSi_InitMemArchive(void);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 
-BOOL func_0207A940(FSFile *p_file, void *buf, u32 size)
+BOOL FS_CreateFileFromMemory(FSFile *p_file, void *buf, u32 size)
 {
     FSi_InitMemArchive();
     return FS_OpenFileDirect(p_file, &(*(FSArchive *)&fsi_arc_mem), (u32)buf, (u32)buf + size, 0);

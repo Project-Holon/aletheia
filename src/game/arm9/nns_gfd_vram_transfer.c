@@ -23,7 +23,7 @@
  *   NNSi_GfdRingIsFull  0x02061860  arm
  *   NNSi_GfdGetTailVramTransferTask  0x02061BC0  arm
  *   NNSi_GfdPushVramTransferTask  0x02061B74  arm
- *   func_02061EB8 0x02061EB8 arm
+ *   NNSi_GfdAllocLnkVram 0x02061EB8 arm
  */
 struct Obj02061BD0;
 typedef unsigned char u8;
@@ -72,7 +72,7 @@ extern void NNSi_GfdRunVramTransferTask(u32 *s);
 extern int NNSi_GfdRingIsFull(u8 *p);
 extern u32 NNSi_GfdGetTailVramTransferTask(u8 *p);
 extern int NNSi_GfdPushVramTransferTask(char *p);
-extern int func_02061EB8(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);
+extern int NNSi_GfdAllocLnkVram(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);
 void NNS_GfdDoVramTransfer(void);
 s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
 u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
@@ -307,5 +307,5 @@ err:
 
 int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size)
 {
-    return func_02061EB8(ppList, ppPool, pAddr, size, 0);
+    return NNSi_GfdAllocLnkVram(ppList, ppPool, pAddr, size, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0200AA00
+ * function: IRC_RANKING_GetDateScore
  * address:  0x0200AA00
  * packet:   pkt_0200AA00
  * region:   arm9
@@ -11,13 +11,14 @@
  * symbols:
  *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
+ *   GF_STANDARD_SetupRtc_F540  0x0203F540  arm
  *
  * A date interpolation: copy the caller's 16-byte date record onto the
  * stack (the `ldm/stm` pair of docs/idioms/aggregate-assignment-is-ldm-stm.md),
- * take its day number with func_0203F540, overwrite the two fields at +4 and
+ * take its day number with GF_STANDARD_SetupRtc_F540, overwrite the two fields at +4 and
  * +8 with the two scalar arguments, take the day number again, and wrap the
  * difference into a year.  The tail is the fixed-point sine lookup
- * src/matched/func_0203F684.c already evidences -- the same 4096-entry signed
+ * src/matched/GF_STANDARD_Get_F684.c already evidences -- the same 4096-entry signed
  * halfword table at 0x020A1B38 indexed at `2 * i`, with 30 in place of 360 --
  * scaled to a percentage: `(sin + 0x1000) * 50 >> 12`, truncated to u8.
  *
@@ -32,11 +33,11 @@
  *    naming the FIRST day number first.  The equivalent `if (b <= a)` is two
  *    bytes wrong (cmp operands swapped and blo becomes bhi).  This is
  *    docs/idioms/cmp-operand-order-names-the-temporary.md, and it is the same
- *    lever src/matched/func_0200ABE0.c in this family already records.
+ *    lever src/matched/IRC_RANKING_HasEntryByTrainerId.c in this family already records.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0200AA00.c \
- *       --func func_0200AA00 --addr 0x0200AA00 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/IRC_RANKING_GetDateScore.c \
+ *       --func IRC_RANKING_GetDateScore --addr 0x0200AA00 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -53,17 +54,17 @@ struct Date {
 
 extern s16  FX_SinCosTable_[];
 struct RtcDate;
-extern s32  func_0203F540(struct RtcDate *d);
+extern s32  GF_STANDARD_SetupRtc_F540(struct RtcDate *d);
 
-u8 func_0200AA00(u32 a0, u32 a1, struct Date *src)
+u8 IRC_RANKING_GetDateScore(u32 a0, u32 a1, struct Date *src)
 {
     struct Date d = *src;
     u32 a, b;
 
-    a = func_0203F540((struct RtcDate *)&d);
+    a = GF_STANDARD_SetupRtc_F540((struct RtcDate *)&d);
     d.f04 = a0;
     d.f08 = a1;
-    b = func_0203F540((struct RtcDate *)&d);
+    b = GF_STANDARD_SetupRtc_F540((struct RtcDate *)&d);
     if (a >= b) {
         b += 365;
     }

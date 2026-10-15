@@ -1,5 +1,5 @@
 /*
- * function: func_0205B488
+ * function: ConnectAP
  * address:  0x0205B488
  * packet:   pkt_0205B488
  * region:   arm9
@@ -94,7 +94,7 @@ extern long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
 extern unsigned long long OS_GetTick(void);
 extern void DWCi_AC_SetError(int error);
 
-unsigned char func_0205B488(ACWORK *wk)
+static unsigned char ConnectAP(ACWORK *wk)
 {
     int phase;
     WMBssDesc *bssdesc;

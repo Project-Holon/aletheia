@@ -1,5 +1,5 @@
 /*
- * function: func_02025F60
+ * function: CURSOR_MOVE_GetNeighbour
  * address:  0x02025F60
  * packet:   pkt_02025C44
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_02025F60(const u8 *ptr, u32 idx, u32 type)
+u32 CURSOR_MOVE_GetNeighbour(const u8 *ptr, u32 idx, u32 type)
 {
     switch (type) {
     case 0:

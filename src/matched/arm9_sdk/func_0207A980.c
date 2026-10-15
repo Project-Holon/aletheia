@@ -26,7 +26,7 @@ typedef struct CARDRomHeader {
     unsigned short twl_ltd_area_rom_offset;
 } CARDRomHeader;
 
-extern char *func_02078530(FSArchive *arc);
+extern char *FS_GetArchiveName(FSArchive *arc);
 extern int STD_CompareString(const char *str1, const char *str2);
 extern int OS_IsRunOnTwl(void);
 extern const char g_020A84B0[]; /* "rom", the vendor object's @12296 */
@@ -36,7 +36,7 @@ int FSi_IsUnreadableRomOffset(FSArchive *arc, unsigned long offset)
 {
     int result = 0;
 
-    if (STD_CompareString(func_02078530(arc), g_020A84B0) == 0 && !OS_IsRunOnTwl()) {
+    if (STD_CompareString(FS_GetArchiveName(arc), g_020A84B0) == 0 && !OS_IsRunOnTwl()) {
         CARDRomHeader *header = CARD_GetOwnRomHeader();
         if (offset >= (unsigned long)header->twl_ltd_area_rom_offset * 0x80000) {
             result = 1;

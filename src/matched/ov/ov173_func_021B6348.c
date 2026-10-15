@@ -1,5 +1,5 @@
 /*
- * function: func_021B6348
+ * function: POKE_SUMMARY_MAIN_DeleteTaskMenu
  * address: 0x021B6348
  * packet: pkt_ov173_021B6348
  * region: ov173
@@ -9,7 +9,7 @@
  * status: EXACT*
  * Extent remainder: two zero alignment bytes at 021B638E.
  * symbols:
- *   func_021B7EB0 0x021B7EB0 thumb ov173
+ *   POKE_SUMMARY_ACTOR_ToggleTaskMenu 0x021B7EB0 thumb ov173
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -17,16 +17,16 @@
 #include "../include/Obj00362.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_021B7EB0(char *p, int flag);
+extern void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag);
 struct PrintSys;
 struct TaskMenuState;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-void func_021B6348(u8 *p)
+void POKE_SUMMARY_MAIN_DeleteTaskMenu(u8 *p)
 {
-    func_021B7EB0((char *)p, 0);
+    POKE_SUMMARY_ACTOR_ToggleTaskMenu((char *)p, 0);
     STRBUF_Delete((struct U16Vec *)(((struct Obj00362 *)p)->f1E4));
     STRBUF_Delete((struct U16Vec *)(((struct Obj00362 *)p)->f1F0));
     STRBUF_Delete((struct U16Vec *)(((struct Obj00362 *)p)->f1FC));

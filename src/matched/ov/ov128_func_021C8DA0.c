@@ -14,6 +14,7 @@
  *   func_021C8F88 0x021C8F88 thumb ov128
  *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   BEACON_GetBlock  0x0200C0F0  thumb  arm9
  * extent: includes the eight-byte forwarding follower at 0x021C8E24.
  */
 #include "../include/Obj00227.h"
@@ -25,7 +26,7 @@ typedef unsigned int u32;
 struct Big;
 struct Sub020097BCObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *);
+extern void *BEACON_GetBlock(void *);
 struct BigObj;
 struct Strbuf;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
@@ -34,7 +35,7 @@ extern char *NAMEIN_SETUP_CreateArgs(int,int,u32,u32,int,int,void *);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 char *func_021C8DA0(void *unused,char *q,int mode,int heap) {
  void *v;void *base;int idx;char *ret;unsigned kind;
- v=func_0200C0F0(GAME_DATA_GetSaveControl(((struct Obj00227 *)q)->f4));
+ v=BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00227 *)q)->f4));
  base=(void *)GAME_DATA_GetWifiList(((struct Obj00227 *)q)->f4);idx=*(u8 *)(q+24+*(signed char *)&((struct Obj00227 *)q)->fB);
  kind=func_02009864(base,idx,9);
  if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,7,0,v);

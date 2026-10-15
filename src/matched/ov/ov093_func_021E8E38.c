@@ -10,7 +10,7 @@
  * lever: the POWCNT read/OR/write is spelled as assignment, not compound assignment.
  * volatile: 021E8E60 POWCNT; 021E8E8E,021E8E9C,021E8EA4 DISP3DCNT; 021E8EBE BG0CNT.
  * symbols:
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -27,7 +27,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 gBtlvCoreVramBanks[], gBtlvCoreDispConfig[], gBtlvCoreBgConfig[];
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 struct DispConfig;
@@ -47,7 +47,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 #define BG0CNT (*(volatile u16 *)0x04000008)
 void BTLV_CORE_InitDisplay(u16 heap)
 {
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     GF_FONT_ResetTextColor();
     BG_SYS_SetVramBanks((const struct DispVram *)gBtlvCoreVramBanks);

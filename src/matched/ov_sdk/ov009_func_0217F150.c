@@ -1,5 +1,5 @@
 /*
- * function: func_0217F150
+ * function: gsiStartResolvingHostname
  * address:  0x0217F150
  * packet:   pkt_ov009_0217F150
  * region:   ov009
@@ -15,7 +15,7 @@
  *   func_0217D254                  0x0217D254  arm ov009
  *   SOC_GetHostByName                  0x0215F650  arm ov009
  *   func_0217EAB0                  0x0217EAB0  arm ov009
- *   g_021A383C                     0x021A383C  data
+ *   gGsResolveDebugFmt                     0x021A383C  data
  */
 
 struct SOCHostEnt {
@@ -33,14 +33,14 @@ struct GSIResolveHostnameInfo {
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern void *func_0217EAB0(unsigned long size);
-extern char g_021A383C[];
+extern char gGsResolveDebugFmt[];
 
-int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle)
+int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle)
 {
     struct GSIResolveHostnameInfo *info;
     struct SOCHostEnt *SOCHostEnt;
 
-    func_0217D254(8, (char *)3, 16, g_021A383C);
+    func_0217D254(8, (char *)3, 16, gGsResolveDebugFmt);
     SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0205E818
+ * function: GetStartChannel
  * address:  0x0205E818
  * packet:   pkt_0205E818
  * region:   arm9
@@ -144,7 +144,7 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 
 extern u16 WCM_GetAllowedChannel(void);
 
-s8 func_0205E818(int lap)
+s8 GetStartChannel(int lap)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     int i;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02080CA8   0x02080CA8  arm
+ *   GX_SendFifo64B   0x02080CA8  arm
  *
  * Original (28 bytes):
  *   ldr r1, [pc, #0xc]   ; 0x04000400
@@ -20,10 +20,10 @@
  *   bx  ip
  */
 
-extern void func_02080CA8(const void *src);
+extern void GX_SendFifo64B(const void *src);
 
 void G3_LoadMtx44(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x16;
-    func_02080CA8(m);
+    GX_SendFifo64B(m);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0202A230
+ * function: TPOKE_DATA_GetRecordField
  * address:  0x0202A230
  * packet:   pkt_0202A230
  * region:   arm9
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0202A3AC  0x0202A3AC  thumb
+ *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0202A3AC(void *a, void *out);
+extern void TPOKE_DATA_ReadRecord(void *a, void *out);
 
 typedef struct {
     u8  b0;
@@ -30,12 +30,12 @@ typedef struct {
     u16 h12;
 } Buf;
 
-u32 func_0202A230(void *a, u32 idx)
+u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
 {
     Buf buf;
     u32 r;
 
-    func_0202A3AC(a, &buf);
+    TPOKE_DATA_ReadRecord(a, &buf);
     switch (idx) {
     case 0:
         r = buf.b0;

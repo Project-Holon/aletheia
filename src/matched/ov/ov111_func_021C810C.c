@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C234  0x0200C234  thumb
+ *   BEACON_GetFlag  0x0200C234  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_021C80E8  0x021C80E8  thumb
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
@@ -104,7 +104,7 @@ typedef struct {
 struct Blk34;
 struct Obj;
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 func_0200C234(struct Blk34 *p, u32 bit);
+extern u32 BEACON_GetFlag(struct Blk34 *p, u32 bit);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_021C80E8(Work *p, int row, int v);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
@@ -117,7 +117,7 @@ void func_021C810C(Work *p, int a, int b)
 
     obj = GAME_DATA_GetMiscSave(p->f108->f4);
     for (i = 0; i < 8; i++) {
-        if (func_0200C234(obj, i)) {
+        if (BEACON_GetFlag(obj, i)) {
             CLACT_SetActorDrawEnable(p->f5C[i], 1);
             func_021C80E8(p, i, 1);
             p->f17C[i] = 1;

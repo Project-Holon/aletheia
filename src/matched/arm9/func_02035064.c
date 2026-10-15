@@ -1,5 +1,5 @@
 /*
- * function: func_02035064
+ * function: UI_SetKeepAwakePred
  * address:  0x02035064
  * packet:   pkt_02035064
  * region:   arm9
@@ -29,7 +29,7 @@ struct Obj021469BC {
 
 extern struct Obj021469BC *gUiState;
 
-void func_02035064(const void *fn, u32 arg)
+void UI_SetKeepAwakePred(const void *fn, u32 arg)
 {
     gUiState->fn = fn;
     gUiState->arg = arg;

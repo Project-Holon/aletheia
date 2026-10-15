@@ -14,7 +14,7 @@
  *   func_021C4754  0x021C4754  thumb  ov111
  *   func_021C5938  0x021C5938  thumb  ov111
  *   func_0204989C  0x0204989C  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -39,16 +39,16 @@ extern int func_021C4530(int x);
 extern void func_021C4754(Work *p, int kind);
 extern void func_021C5938(void *p);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 void func_021C479C(Work *p)
 {
     if (p->f3034 == 0) {
         func_0204989C(0x28, func_021C4530(p->info->kind), 6, 0, 0, 0, p->heap);
-        func_020414EC(7);
+        BG_SYS_ClearSlot(7);
     } else {
         func_021C4754(p, p->info->kind);
         func_021C5938(p);
-        func_020414EC(7);
+        BG_SYS_ClearSlot(7);
     }
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021F9664  0x021F9664  thumb
+ *   STA_ACTING_InstallBgm  0x021F9664  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,13 +21,13 @@
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021F9664(char *p, int a);
+extern void STA_ACTING_InstallBgm(char *p, int a);
 
 int func_021FC5A0(int a, char **pp)
 {
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct Obj14122 *)pp)->f4));
 
-    func_021F9664(((struct Obj23263 *)p)->f34, (unsigned short)x);
+    STA_ACTING_InstallBgm(((struct Obj23263 *)p)->f34, (unsigned short)x);
     return 0;
 }

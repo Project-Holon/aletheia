@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6B54",
+   "name": "POKE_SUMMARY_MAIN_ShowTextKind6",
    "address": "0x021B6B54",
    "kind": "game",
    "region": "ov173",

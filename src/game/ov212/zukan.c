@@ -1,7 +1,7 @@
 /*
  * file:     zukan.c
  * unit:     yes
- * function: func_021C8E80, func_021C8F2C, func_021C8F58, func_021C8F7C, func_021C8F90, func_021C8F98, func_021C8FA8, func_021C8FF4, func_021C9024, func_021C9098, func_021C9130, func_021C9184, func_021C91C4, func_021C9244, func_021C9288, func_021C92EC, func_021C9348, func_021C9380, func_021C93A8, func_021C93C4, func_021C93E4, func_021C940C, func_021C9428, func_021C9460, func_021C9468, func_021C976C, func_021C983C, func_021C98A8
+ * function: ZUKAN_Create, ZUKAN_Update, ZUKAN_Delete, ZUKAN_FreeIdList, ZUKAN_SetResumeState, ZUKAN_GetResumeState, ZUKAN_StartProc211, ZUKAN_ResumeProc211, ZUKAN_StartProc209, ZUKAN_ResumeProc209, ZUKAN_StartProc210, ZUKAN_ResumeProc210, ZUKAN_StartProc208, ZUKAN_ResumeProc208, ZUKAN_LoadListAndSelection, ZUKAN_FixLastViewedSpecies, ZUKAN_IsNationalMode, ZUKAN_InitQuery, ZUKAN_StartWipeIn, ZUKAN_StartWipeOut, ZUKAN_TickCounter, ZUKAN_CreateActor, ZUKAN_SEARCH_ENGINE_Create, ZUKAN_SEARCH_ENGINE_ReleaseWork, ZUKAN_SEARCH_ENGINE_Filter, ZUKAN_SEARCH_ENGINE_LoadSpeciesIds, ZUKAN_SEARCH_ENGINE_LoadFormIds, ZUKAN_SEARCH_ENGINE_LoadTables, ZUKAN_SEARCH_ENGINE_FinalTest
  * address:  0x021C8E80
  * region:   ov212
  * compiler: dsi/1.1p1
@@ -59,6 +59,7 @@
  *   g_021C9968     0x021C9968  data
  *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
  *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  */
 #include "../../matched/include/Obj00635.h"
 #include "../../matched/include/Obj25642.h"
@@ -71,7 +72,6 @@
 #include "../../matched/include/Obj25649.h"
 #include "../../matched/include/Obj25650.h"
 #include "../../matched/include/Obj08415.h"
-#include "../../matched/include/Obj08416.h"
 #include "../../matched/include/Obj08416.h"
 #include "../../matched/include/Obj25651.h"
 #include "../../matched/include/Obj06701.h"
@@ -121,7 +121,7 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-/* hidden function: 16 bytes between func_021C8F90 and func_021C8FA8 */
+/* hidden function: 16 bytes between ZUKAN_SetResumeState and ZUKAN_StartProc211 */
 struct Obj021C8F98 {
     u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20;
 };
@@ -154,7 +154,7 @@ extern unsigned ZUKAN_SAVE_GetViewMode(struct Blk37 *);
 extern unsigned ZUKAN_SAVE_IsCaught(struct Blk37 *,u16);
 extern unsigned ZUKAN_SAVE_IsSeen(struct Blk37 *,u16);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void *open(u32, u16);
 extern void close(void *);
@@ -173,34 +173,35 @@ extern void *load(int,int,int,int,u32 *);
 extern u16 *names(int,u16 *);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx);
-int func_021C8F2C(int a,int b,int c,unsigned char *p);
-int func_021C8F58(struct S020315D4 *obj, void *b, void *c, u8 *p);
-void func_021C8F7C(u8 *p);
-int func_021C8F90(char *p, int v);
-u32 func_021C8F98(struct Obj021C8F98 *p);
-void func_021C8FA8(char *p);
-int func_021C8FF4(u8 *p);
-void func_021C9024(char *p);
-int func_021C9098(char *p);
-void func_021C9130(char *p);
-int func_021C9184(char *p);
-void func_021C91C4(char *p);
-int func_021C9244(char *p);
-u16 func_021C9288(struct Blk37 *save,u16 **out,unsigned heap);
-void func_021C92EC(void *p,u16 *ids,unsigned count);
-int func_021C9348(struct Blk37 *p);
-void func_021C9380(struct Blk37 *p, u8 *out);
-void func_021C93A8(u32 heap);
-void func_021C93C4(u32 heap);
-void func_021C93E4(u32 a, u32 b, u32 *counter);
-struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
-void func_021C9428(int p, int b, int c);
-void func_021C9460(int a0);
-int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out);
-u32 func_021C976C(u32 mode,int heap,u16 **out);
-unsigned int func_021C983C(int a0, int a1, int a2, int a3, u16 **out);
-void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3, u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9);
+int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx);
+int ZUKAN_Update(int a,int b,int c,unsigned char *p);
+int ZUKAN_Delete(struct S020315D4 *obj, void *b, void *c, u8 *p);
+void ZUKAN_FreeIdList(u8 *p);
+int ZUKAN_SetResumeState(char *p, int v);
+u32 ZUKAN_GetResumeState(struct Obj021C8F98 *p);
+void ZUKAN_StartProc211(char *p);
+int ZUKAN_ResumeProc211(u8 *p);
+void ZUKAN_StartProc209(char *p);
+int ZUKAN_ResumeProc209(char *p);
+void ZUKAN_StartProc210(char *p);
+int ZUKAN_ResumeProc210(char *p);
+void ZUKAN_StartProc208(char *p);
+int ZUKAN_ResumeProc208(char *p);
+u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,unsigned heap);
+void ZUKAN_FixLastViewedSpecies(void *p,u16 *ids,unsigned count);
+int ZUKAN_IsNationalMode(struct Blk37 *p);
+void ZUKAN_InitQuery(struct Blk37 *p, u8 *out);
+void ZUKAN_StartWipeIn(u32 heap);
+void ZUKAN_StartWipeOut(u32 heap);
+void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
+struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
+void ZUKAN_SEARCH_ENGINE_Create(int p, int b, int c);
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0);
+int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
+u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out);
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16 **out);
+void ZUKAN_SEARCH_ENGINE_LoadTables(u32 a0, u32 a1, u16 *a2, u32 *a3, u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9);
+u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *t, const u16 *u, u32 s, u32 f);
 extern unsigned char d_021C9944[];
 extern const char d_021C99A0[];
 extern const unsigned d_021BC8BC[];
@@ -218,13 +219,14 @@ extern int g_021C9968[];
 
 
 
+
 /*
  * trailing: two zero alignment bytes at 021C8F2A.
  * prototype: caller consumes r0 from legacy void 0203159C and 02031324;
  * 31324 forwards r0 to matched 31354(int), which returns allocation.
  * 3064C visibly receives three inputs here; retain caller's r2 size.
  */
-int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
+int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,105,0x8000);
@@ -232,10 +234,10 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
     MI_CpuFill8(p,0,44);
     ((struct Obj00635 *)p)->f0=ctx;
     ((struct Obj00635 *)p)->f4=PROCSYS_Create(105);
-    ((struct Obj00635 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);
+    ((struct Obj00635 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);
     ((struct Obj00635 *)p)->f12=0;
-    func_021C92EC(*(struct Blk37 * *)&((struct Obj25643 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,*(u16 * *)&((struct Obj00635 *)p)->fC,((struct Obj00635 *)p)->f10);
-    func_021C9380(*(struct Blk37 * *)&((struct Obj25644 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(unsigned char *)(p+20));
+    ZUKAN_FixLastViewedSpecies(*(struct Blk37 * *)&((struct Obj25643 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,*(u16 * *)&((struct Obj00635 *)p)->fC,((struct Obj00635 *)p)->f10);
+    ZUKAN_InitQuery(*(struct Blk37 * *)&((struct Obj25644 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(unsigned char *)(p+20));
     if(((struct Obj25645 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==0){((struct Obj00635 *)p)->f1C=1;}
     else if(((struct Obj25646 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==1){((struct Obj00635 *)p)->f1C=3;}
     else if(((struct Obj25647 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==2){((struct Obj00635 *)p)->f1C=5;((struct Obj00635 *)p)->f24=1;}
@@ -249,13 +251,15 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
 
 
 
-int func_021C8F2C(int a,int b,int c,unsigned char *p){if(((struct Obj08415 *)p)->f1C==9)return 1;((struct Obj08415 *)p)->f8=PROCSYS_Main(((struct Obj08415 *)p)->f4);((struct Obj08415 *)p)->f1C=(*(unsigned (**)(unsigned char *))(d_021C9944+*(unsigned *)(p+28)*4))(p);return 0;}
+
+int ZUKAN_Update(int a,int b,int c,unsigned char *p){if(((struct Obj08415 *)p)->f1C==9)return 1;((struct Obj08415 *)p)->f8=PROCSYS_Main(((struct Obj08415 *)p)->f4);((struct Obj08415 *)p)->f1C=(*(unsigned (**)(unsigned char *))(d_021C9944+*(unsigned *)(p+28)*4))(p);return 0;}
 
 
 
 
-int func_021C8F58(struct S020315D4 *obj, void *b, void *c, u8 *p) {
-    func_021C8F7C(p);
+
+int ZUKAN_Delete(struct S020315D4 *obj, void *b, void *c, u8 *p) {
+    ZUKAN_FreeIdList(p);
     func_0203133C(*(struct S020314B8 * *)&((struct Obj08416 *)p)->f4);
     func_020315D4(obj);
     func_020306F0(105);
@@ -264,7 +268,8 @@ int func_021C8F58(struct S020315D4 *obj, void *b, void *c, u8 *p) {
 
 
 
-void func_021C8F7C(u8 *p)
+
+void ZUKAN_FreeIdList(u8 *p)
 {
     if (((struct Obj08416 *)p)->fC != 0) {
         func_020307B0(((struct Obj08416 *)p)->fC);
@@ -274,14 +279,16 @@ void func_021C8F7C(u8 *p)
 
 
 
-int func_021C8F90(char *p, int v)
+
+int ZUKAN_SetResumeState(char *p, int v)
 {
     ((struct Obj25651 *)p)->f20 = v;
     return 0;
 }
 
 
-u32 func_021C8F98(struct Obj021C8F98 *p)
+
+u32 ZUKAN_GetResumeState(struct Obj021C8F98 *p)
 {
     if (p->f8 != 1)
         return p->f20;
@@ -290,7 +297,8 @@ u32 func_021C8F98(struct Obj021C8F98 *p)
 
 
 
-void func_021C8FA8(char *p)
+
+void ZUKAN_StartProc211(char *p)
 {
     unsigned *q;
     q=func_02030734(105,12,0,d_021C99A0,297);
@@ -298,13 +306,14 @@ void func_021C8FA8(char *p)
     q[0]=**(unsigned * *)&((struct Obj06701 *)p)->f0;
     q[1]=((struct Obj25653 *)(*(char * *)&((struct Obj06701 *)p)->f0))->f8;
     PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj06701 *)p)->f4,(unsigned)ov211_id,(unsigned)d_021BC8BC,*(unsigned *)&((struct Obj06701 *)p)->f28);
-    func_021C8F90(p,2);
+    ZUKAN_SetResumeState(p,2);
 }
 
 
 
 
-int func_021C8FF4(u8 *p) {
+
+int ZUKAN_ResumeProc211(u8 *p) {
     int result;
     switch (((struct Obj25654 *)(*(u8 * *)&((struct Obj08417 *)p)->f28))->f8) {
     case 0:
@@ -324,18 +333,19 @@ int func_021C8FF4(u8 *p) {
 
 
 
+
 /*
  * prototype: 02031348 legacy void(void) forwards r0-r3 to 020314F4,
  * whose matched body reads all four; this caller sets all four.
  */
-void func_021C9024(char *p)
+void ZUKAN_StartProc209(char *p)
 {
     char *q=func_02030734(105,20,0,d_021C99A0,359);
     ((struct Obj02259 *)p)->f28=q;
     ((struct Obj04626 *)q)->f0=**(unsigned * *)&((struct Obj02259 *)p)->f0;
     ((struct Obj04626 *)q)->f4=((struct Obj25658 *)(*(char * *)&((struct Obj02259 *)p)->f0))->f4;
     ((struct Obj04626 *)q)->f8=((struct Obj02259 *)p)->f12;
-    if(((struct Obj02259 *)p)->f12==0&&func_021C9348(*(struct Blk37 * *)&((struct Obj25659 *)(*(char * *)&((struct Obj02259 *)p)->f0))->f4)==0){
+    if(((struct Obj02259 *)p)->f12==0&&ZUKAN_IsNationalMode(*(struct Blk37 * *)&((struct Obj25659 *)(*(char * *)&((struct Obj02259 *)p)->f0))->f4)==0){
         *(u16 * *)&((struct Obj04626 *)q)->fC=*(u16 * *)&((struct Obj02259 *)p)->fC+1;
         ((struct Obj04626 *)q)->fA=((struct Obj02259 *)p)->f10-1;
     }else{
@@ -343,8 +353,9 @@ void func_021C9024(char *p)
         ((struct Obj04626 *)q)->fA=((struct Obj02259 *)p)->f10;
     }
     PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj02259 *)p)->f4,(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)&((struct Obj02259 *)p)->f28);
-    func_021C8F90(p,4);
+    ZUKAN_SetResumeState(p,4);
 }
+
 
 
 
@@ -353,7 +364,7 @@ void func_021C9024(char *p)
  * lever: spell the empty-result arm first in the nested if/else;
  * shared failure exit remains after the switch.
  */
-int func_021C9098(char *p)
+int ZUKAN_ResumeProc209(char *p)
 {
     int result;
     switch(((struct Obj25660 *)(*(char * *)&((struct Obj01587 *)p)->f28))->f10){
@@ -361,21 +372,21 @@ int func_021C9098(char *p)
         if(((struct Obj01587 *)p)->f12==0){
             ((struct Obj25661 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=0;result=9;
         }else{
-            func_021C8F7C((u8 *)p);
-            ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25662 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+            ZUKAN_FreeIdList((u8 *)p);
+            ((struct Obj01587 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25662 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
             ((struct Obj01587 *)p)->f12=0;result=3;
         }
         goto done;
     case 1:((struct Obj25663 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=1;result=9;goto done;
     case 2:
-        func_021C8F7C((u8 *)p);
-        ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25664 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+        ZUKAN_FreeIdList((u8 *)p);
+        ((struct Obj01587 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25664 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         result=3;goto done;
     case 3:result=5;((struct Obj01587 *)p)->f24=1;goto done;
     case 4:
         if(((struct Obj01587 *)p)->f12==1){
-            func_021C8F7C((u8 *)p);
-            ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25665 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+            ZUKAN_FreeIdList((u8 *)p);
+            ((struct Obj01587 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25665 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         }
         result=7;goto done;
     default:break;
@@ -389,11 +400,12 @@ done:
 
 
 
+
 /*
  * prototype: 02031348 legacy void(void) forwards untouched r0-r3 to
  * 020314F4; its matched body reads all four and caller sets all four.
  */
-void func_021C9130(char *p)
+void ZUKAN_StartProc210(char *p)
 {
     char *q;
     q=func_02030734(105,24,0,d_021C99A0,455);
@@ -404,8 +416,9 @@ void func_021C9130(char *p)
     ((struct Obj06703 *)q)->f10=0;
     ((struct Obj06703 *)q)->f14=0;
     PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj06702 *)p)->f4,(unsigned)ov210_id,(unsigned)d_021C0714,*(unsigned *)&((struct Obj06702 *)p)->f28);
-    func_021C8F90(p,8);
+    ZUKAN_SetResumeState(p,8);
 }
+
 
 
 
@@ -414,13 +427,13 @@ void func_021C9130(char *p)
  * trailing: two zero alignment bytes at 021C91C2.
  * lever: assign the result in each arm after its stores, keeping r4 reusable.
  */
-int func_021C9184(char *p)
+int ZUKAN_ResumeProc210(char *p)
 {
     char *q=*(char * *)&((struct Obj04627 *)p)->f28;
     int result;
     switch(((struct Obj10926 *)q)->fC){
     case 0:
-        func_021C8F7C((u8 *)p);
+        ZUKAN_FreeIdList((u8 *)p);
         ((struct Obj04627 *)p)->fC=((struct Obj10926 *)q)->f10;
         ((struct Obj04627 *)p)->f10=((struct Obj10926 *)q)->f14;
         ((struct Obj04627 *)p)->f12=1;
@@ -443,11 +456,12 @@ int func_021C9184(char *p)
 
 
 
+
 /*
  * prototype: 02031348 forwards all four original inputs to 020314F4;
  * the matched forwarding target reads each, overriding legacy void(void).
  */
-void func_021C91C4(char *p)
+void ZUKAN_StartProc208(char *p)
 {
     char *q;
     u16 selected,i;
@@ -463,13 +477,14 @@ void func_021C91C4(char *p)
     }
     PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj04628 *)p)->f4,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
     ((struct Obj04628 *)p)->f28=q;
-    func_021C8F90(p,6);
+    ZUKAN_SetResumeState(p,6);
 }
 
 
 
 
-int func_021C9244(char *p)
+
+int ZUKAN_ResumeProc208(char *p)
 {
     struct Blk37 *save;
     char *q;
@@ -493,17 +508,18 @@ int func_021C9244(char *p)
 
 
 
+
 /*
  * lever: branch-local calls retain the original boolean polarity and hoist
  * the shared output-address setup; initializing selected follows the call.
  */
-u16 func_021C9288(struct Blk37 *save,u16 **out,unsigned heap)
+u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,unsigned heap)
 {
     u16 *list;
     unsigned count,i;
     u16 selected;
-    if(ZUKAN_SAVE_GetViewMode(save)==1)count=func_021C976C(0,heap,&list);
-    else count=func_021C976C(1,heap,&list);
+    if(ZUKAN_SAVE_GetViewMode(save)==1)count=ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(0,heap,&list);
+    else count=ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(1,heap,&list);
     selected=0;
     for(i=0;i<count;i++){
         if(ZUKAN_SAVE_IsCaught(save,list[i])==1||ZUKAN_SAVE_IsSeen(save,list[i])==1)selected=i+1;
@@ -514,7 +530,8 @@ u16 func_021C9288(struct Blk37 *save,u16 **out,unsigned heap)
 
 
 
-void func_021C92EC(void *p,u16 *ids,unsigned count)
+
+void ZUKAN_FixLastViewedSpecies(void *p,u16 *ids,unsigned count)
 {
     unsigned current;
     u16 chosen,i;
@@ -530,7 +547,8 @@ void func_021C92EC(void *p,u16 *ids,unsigned count)
 
 
 
-int func_021C9348(struct Blk37 *p) {
+
+int ZUKAN_IsNationalMode(struct Blk37 *p) {
     if (ZUKAN_SAVE_GetViewMode(p) == 1) return 1;
     if (ZUKAN_SAVE_IsCaught(p,494) == 1 || ZUKAN_SAVE_IsSeen(p,494) == 1) return 1;
     return 0;
@@ -538,36 +556,42 @@ int func_021C9348(struct Blk37 *p) {
 
 
 
-void func_021C9380(struct Blk37 *p, u8 *out) {
+
+void ZUKAN_InitQuery(struct Blk37 *p, u8 *out) {
     if(ZUKAN_SAVE_GetViewMode(p)==1) out[0]=0; else out[0]=1;
     out[1]=0; out[2]=255; out[3]=255; out[4]=255; out[5]=255; out[6]=255;
 }
 
 
 
-void func_021C93A8(u32 heap) { WIPE_SYS_Start(0,1,1,0,6,1,heap); }
+
+void ZUKAN_StartWipeIn(u32 heap) { WIPE_SYS_Start(0,1,1,0,6,1,heap); }
 
 
 
-void func_021C93C4(u32 heap) { WIPE_SYS_Start(0,0,0,0,6,1,heap); }
+
+void ZUKAN_StartWipeOut(u32 heap) { WIPE_SYS_Start(0,0,0,0,6,1,heap); }
 
 
 
-void func_021C93E4(u32 a, u32 b, u32 *counter) {
+
+void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter) {
     ++*counter;
-    if(*counter==4) { func_02041EE4(a,1,1); func_02041EE4(b,1,1); *counter=0; }
+    if(*counter==4) { BG_SYS_ResetSlot(a,1,1); BG_SYS_ResetSlot(b,1,1); *counter=0; }
 }
 
 
 
-struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap) {
+
+struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap) {
     return CLACT_CreateActor((void *)bank,*(const u32 *)&((struct Obj08418 *)t)->f8,*(const u32 *)&((struct Obj08418 *)t)->fC,*(const u32 *)&((struct Obj08418 *)t)->f10,t,*(const u16 *)&((struct Obj08418 *)t)->f16,heap);
 }
 
 
 
 
-void func_021C9428(int p, int b, int c)
+
+void ZUKAN_SEARCH_ENGINE_Create(int p, int b, int c)
 {
     unsigned char *q = func_02030734(c, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 
@@ -584,6 +608,7 @@ void func_021C9428(int p, int b, int c)
 
 
 
+
 /*
  * Bottom-up unblocker for the last unresolved site of
  * src/pending/func_021BD3AC.c.  Thumb tail-call veneer into the ARM9
@@ -591,10 +616,11 @@ void func_021C9428(int p, int b, int c)
  * disasm emits it as an unlabelled `.word` run, so no listing class attests
  * it.  Addresses are Black-image addresses.
  */
-void func_021C9460(int a0)
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0)
 {
     func_020307B0((void *)a0);
 }
+
 
 
 
@@ -610,7 +636,7 @@ void func_021C9460(int a0)
  *   before i = p->index (load order at the top of case 3), (6) mask = 1023 as a local gives the
  *   ldr 999; adds 0x18 pair. Older draft docs/notes/pkt_ov212_021C9468.c.txt is superseded.
  */
-int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
+int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out)
 {
   u32 unused1, unused2, outForm;
   u16 end, i, j, used, species, form;
@@ -708,7 +734,8 @@ int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
 
 
 
-u32 func_021C976C(u32 mode,int heap,u16 **out)
+
+u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out)
 {
     u16 *result;
     u16 *map;
@@ -750,7 +777,8 @@ u32 func_021C976C(u32 mode,int heap,u16 **out)
 
 
 
-unsigned int func_021C983C(int a0, int a1, int a2, int a3, u16 **out)
+
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16 **out)
 {
     u16 *buf;
     unsigned int n;
@@ -775,10 +803,11 @@ unsigned int func_021C983C(int a0, int a1, int a2, int a3, u16 **out)
 
 
 
+
 /*
  * Addresses are Black-image addresses.
  */
-void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
+void ZUKAN_SEARCH_ENGINE_LoadTables(u32 a0, u32 a1, u16 *a2, u32 *a3,
                    u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9)
 {
     u32 buf;
@@ -791,4 +820,18 @@ void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
     *a6 = buf;
     *a9 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 0, 0, a1, &buf);
     *a8 = buf >> 1;
+}
+
+u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *t, const u16 *u, u32 s, u32 f)
+{
+    u16 n;
+    n = 0;
+    if (f != 0) {
+        do {
+            s = u[s];
+            if (s == 0) break;
+            n++;
+        } while (n != f);
+    }
+    return t[s];
 }

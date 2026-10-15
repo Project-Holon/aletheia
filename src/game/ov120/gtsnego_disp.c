@@ -65,7 +65,7 @@
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   DWC_GetMatchIntValue 0x0216CB30 arm ov009
- *   func_02009EC8 0x02009EC8 thumb
+ *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  *   func_02009E74 0x02009E74 thumb
  *   func_02012944 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
@@ -143,7 +143,7 @@
  *   func_021D70F0 0x021D70F0 thumb ov120
  *   func_0200F800 0x0200F800 thumb
  *   func_021D7D6C 0x021D7D6C thumb ov120
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetNonEggCount 0x0201AA1C thumb
  *   func_021D6AC0  0x021D6AC0  thumb
  *   func_021D7B60 0x021D7B60 thumb ov120
@@ -173,7 +173,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_0204363C 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -199,16 +199,16 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_0202EA20 0x0202EA20 thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02034A5C 0x02034A5C arm
  *   d_021D89B0      0x021D89B0  data
- *   func_0203FCA0   0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer   0x0203FCA0  arm
  *   func_020414AC   0x020414AC  arm
  *   func_020409B4   0x020409B4  arm
- *   func_02040C14   0x02040C14  arm
+ *   BG_SYS_Init   0x02040C14  arm
  *   func_02041300   0x02041300  arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -258,6 +258,8 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb  arm9
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
+ *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb  arm9
  */
 #include "ov120_types.h"
 struct GtsnegoDispCtx;
@@ -453,7 +455,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
@@ -483,7 +485,7 @@ extern void GFL_NET_SetLoginOption(u8 a0);
 extern void func_021D7B38(char *p);
 extern void func_021D8648(u8 *p);
 extern int DWC_GetMatchIntValue(int, int, int);
-extern void *func_02009EC8(void *);
+extern void *TRADE_HISTORY_GetFromSave(void *);
 extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
 extern void func_021D8590(u8 *, int, int);
 extern void GFL_NET_SetWaitMode(int);
@@ -553,7 +555,7 @@ extern void func_021D81E0(char *, void *);
 extern void func_021D70F0(void *);
 extern void func_0200F800(void);
 extern void func_021D7D6C(char *p, int a, int b);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetNonEggCount(void *);
 extern int func_021D6AC0(u8 *p);
 extern void *func_021D7B60(char *p, int n);
@@ -563,7 +565,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern char *func_021D7724(u32 heap, u32 n);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
@@ -585,7 +587,7 @@ extern int func_02034AC4(int);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void func_0204363C(u32 swap);
 extern void GX_DispOn(void);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
@@ -606,15 +608,15 @@ extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32,u32,u32);
 extern void func_020403F4(u32 i);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_02034A5C(int handle);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 extern void *PALANM_Create(u32);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
@@ -952,7 +954,7 @@ void func_021D4608(struct GtsnegoDispCtx *p)
             func_020084E4((u16 *)value, text);
             STRBUF_Delete(text);
         }
-        MYSTATUS_Copy((void *)value, func_02012950((struct Sub24 *)(*(int *)&p->f2C), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
+        MYSTATUS_Copy((void *)value, GAME_DATA_GetPlayerStatusById((struct Sub24 *)(*(int *)&p->f2C), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
         result = func_02008530((const struct Sub0200852CObj *)value);
         MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)(*(int *)&p->f30)), result);
         func_021D4244(((int *)p), func_021D4584, 0x283);
@@ -1174,7 +1176,7 @@ int func_021D4A20(int a, u8 *p)
     if (I(0x138) == 1) {
         if (mode == 4) {
             if (I(0x148) == -1) {
-                if (func_02009E74(func_02009EC8(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
+                if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
                     score = 100;
             } else {
                 if (I(0x18) == id) score = 100;
@@ -1182,7 +1184,7 @@ int func_021D4A20(int a, u8 *p)
         } else {
             if (group == func_02008530((const struct Sub0200852CObj *)func_02012944((void *)(((struct GtsnegoDispCtx2 *)q)->f0)))) {
                 if (I(0x148) == -1) {
-                    if (func_02009E74(func_02009EC8(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
+                    if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
                         score = 100;
                 } else {
                     if (I(0x18) == id) score = 100;
@@ -1889,7 +1891,7 @@ void func_021D588C(u8 *p)
         func_021D69F4(((struct GtsnegoDispCtx *)p)->f3C, 0, 9);
     func_021D7D6C(((struct GtsnegoDispCtx *)p)->f40, (int)func_021D4C98, (int)p);
     *(void (**)(void))(p + 4) = (void (*)(void))func_021D42D8;
-    if ((int)POKEPARTY_GetNonEggCount(func_02012934(((struct GtsnegoDispCtx *)p)->f2C)) < 2)
+    if ((int)POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(((struct GtsnegoDispCtx *)p)->f2C)) < 2)
         ((struct GtsnegoDispCtx *)p)->f184 = 1;
     if (((struct GtsnegoDispCtx *)p)->f184 == 0)
         func_021D79F4(((struct GtsnegoDispCtx *)p)->f40, 0x20);
@@ -2114,7 +2116,7 @@ int func_021D5C60(void *a, int unused, u8 *q)
     ((struct GtsnegoDispCtx *)p)->f40 = func_021D7724(((struct GtsnegoDispCtx *)p)->fC, 0x28);
     ((struct GtsnegoDispCtx *)p)->f2C = ((struct GtsnegoDispCtx *)q)->f0;
     ((struct GtsnegoDispCtx *)p)->f30 = GAME_DATA_GetSaveControl(((struct GtsnegoDispCtx *)q)->f0);
-    ((struct GtsnegoDispCtx *)p)->f44 = func_0201283C(((struct GtsnegoDispCtx *)q)->f0);
+    ((struct GtsnegoDispCtx *)p)->f44 = GAME_DATA_GetField1A0(((struct GtsnegoDispCtx *)q)->f0);
     ((struct GtsnegoDispCtx_f48 *)((struct GtsnegoDispCtx *)p)->f48)->f1B0 = 1;
     ((struct GtsnegoDispCtx *)p)->f15C = zero;
     ((struct GtsnegoDispCtx *)p)->f160 = 2;
@@ -2228,7 +2230,7 @@ u8 *func_021D5E88(u32 heap,void *arg)
     func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
-    func_0203F8F4(((struct GtsnegoMsgCtx *)p)->fF4);
+    BG_SYS_Create(((struct GtsnegoMsgCtx *)p)->fF4);
     CLACT_InitSystem((const struct Cfg *)d_021D8974,(u32)(&d_021D8B98),((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f10=CLACT_CreateUnit(64,0,((struct GtsnegoMsgCtx *)p)->fF4);
     BG_SYS_SetVramBanks(&d_021D8B98);
@@ -2290,15 +2292,15 @@ void func_021D5FC4(u8 *p)
     CLACT_ExitSystem();
     func_0202EA20(((struct GtsnegoMsgCtx *)p)->fF8);
     func_0202EA20(((struct GtsnegoMsgCtx *)p)->fFC);
-    func_0203FB44(7,(u16)(*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8),(u16)(*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8>>16));
-    func_0203FB44(4,(u16)(((struct GtsnegoMsgCtx *)p)->f0),(u16)(((struct GtsnegoMsgCtx *)p)->f0>>16));
-    func_0203FB44(0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),(u16)(((struct GtsnegoMsgCtx *)p)->f4>>16));
+    BG_SYS_DeleteHalf(7,(u16)(*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8),(u16)(*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8>>16));
+    BG_SYS_DeleteHalf(4,(u16)(((struct GtsnegoMsgCtx *)p)->f0),(u16)(((struct GtsnegoMsgCtx *)p)->f0>>16));
+    BG_SYS_DeleteHalf(0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),(u16)(((struct GtsnegoMsgCtx *)p)->f4>>16));
     func_02040DA8(1,1,0);
     func_02040DA8(5,1,0);
     func_02040DA8(6,1,0);
     func_02040588(5,0);
     for(i=0;i<=7;i++) func_020403F4((u8)i);
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020307B0(p);
     func_02034A5C((int)ov_id);
 }
@@ -2323,7 +2325,7 @@ u32 func_021D60FC(struct GtsnegoDispCtx *p){return p->f10;}
 
 /*
  * BG-layer init: eight copies of the const template table at 0x021D89B0
- * (index order 0,5,1,2,3,4,6,7) passed to func_0203FCA0, each followed by
+ * (index order 0,5,1,2,3,4,6,7) passed to BG_SYS_InitBgLayer, each followed by
  * its layer enable / fill sequence.  The local array is written high-to-low
  * (b[7] first) because the original places the first-used slot at the top of
  * the frame.
@@ -2333,51 +2335,51 @@ void func_021D6100(u8 *a0)
     struct BgTemplate b[8];
 
     b[7] = d_021D89B0[0];
-    func_0203FCA0(0, &b[7], 0);
+    BG_SYS_InitBgLayer(0, &b[7], 0);
     func_020414AC(0);
     func_020409B4(0);
     func_02040588(0, 1);
 
     b[6] = d_021D89B0[5];
-    func_0203FCA0(1, &b[6], 0);
+    BG_SYS_InitBgLayer(1, &b[6], 0);
     func_02040588(1, 1);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(1);
 
     b[5] = d_021D89B0[1];
-    func_0203FCA0(2, &b[5], 0);
+    BG_SYS_InitBgLayer(2, &b[5], 0);
     func_02040588(2, 1);
     func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(2);
 
     b[4] = d_021D89B0[2];
-    func_0203FCA0(3, &b[4], 0);
+    BG_SYS_InitBgLayer(3, &b[4], 0);
     func_02040588(3, 1);
     func_02041300(3, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(3);
 
     b[3] = d_021D89B0[3];
-    func_0203FCA0(4, &b[3], 0);
+    BG_SYS_InitBgLayer(4, &b[3], 0);
     func_02040588(4, 1);
     func_020409B4(4);
 
     b[2] = d_021D89B0[4];
-    func_0203FCA0(5, &b[2], 0);
+    BG_SYS_InitBgLayer(5, &b[2], 0);
     func_02040588(5, 1);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(5);
 
     b[1] = d_021D89B0[6];
-    func_0203FCA0(6, &b[1], 0);
+    BG_SYS_InitBgLayer(6, &b[1], 0);
     func_02040588(6, 1);
-    func_02040C14(6, 0, 1, 0);
+    BG_SYS_Init(6, 0, 1, 0);
     func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(6);
 
     b[0] = d_021D89B0[7];
-    func_0203FCA0(7, &b[0], 0);
+    BG_SYS_InitBgLayer(7, &b[0], 0);
     func_02040588(7, 1);
     func_020409B4(7);
 }

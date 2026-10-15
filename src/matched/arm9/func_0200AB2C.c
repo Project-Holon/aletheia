@@ -1,5 +1,5 @@
 /*
- * function: func_0200AB2C
+ * function: IRC_RANKING_Init
  * address:  0x0200AB2C
  * packet:   pkt_0200A940
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *p, int c, u32 n);
 
-void func_0200AB2C(void *a0)
+void IRC_RANKING_Init(void *a0)
 {
     MI_CpuFill8(a0, 0, 0x34c);
     ((struct Obj11229 *)a0)->f348 = (((struct Obj11229 *)a0)->f348 & ~0xff) | 0x7f;

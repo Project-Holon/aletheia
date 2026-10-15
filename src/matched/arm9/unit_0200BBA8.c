@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BBA8
+ * function: BATTLE_BOX_HasMon
  *
  * 30 bytes, 0x0200BBA8..0x0200BBC8, one function, which carries a label in
  * the generated listing.
@@ -20,7 +20,7 @@
  * initialised to 0 and set to 1 inside the `if`, not a `return 1` /
  * `return 0` pair: there is one epilogue and the arm is a single `movs`.
  *
- * func_0200BBEC, which it calls, is the first function of
+ * BATTLE_BOX_GetMon, which it calls, is the first function of
  * src/matched/unit_0200BBC8.c; the other caller of that address is
  * func_0200BAF4 at 0x0200BB1E, and that call is what attests it here.
  *
@@ -46,6 +46,8 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   (none)
  */
 
@@ -64,7 +66,7 @@ struct Party;
 struct PartyMon;
 struct Rec;
 struct Sav;
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -83,7 +85,7 @@ extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void *func_0200BBEC(void *a, u32 b, u32 c);
+extern void *BATTLE_BOX_GetMon(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];
 
@@ -127,11 +129,11 @@ struct Rec35C {
     u8 unk344[0x18];
 };
 
-u32 func_0200BBA8(void *a)
+u32 BATTLE_BOX_HasMon(void *a)
 {
     u32 r = 0;
 
-    if (func_02017E88(func_0200BBEC(a, 0, 0), 0xA9, 0) != 0) {
+    if (func_02017E88(BATTLE_BOX_GetMon(a, 0, 0), 0xA9, 0) != 0) {
         r = 1;
     }
     return r;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215CF88
+ * function: SOCLi_ExecCommandPacketInRecvPipe
  * address:  0x0215CF88
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Tail call on the word at +0xa0 of the object.
  *
  * symbols:
- *   func_0215CF14  0x0215CF14  arm
+ *   SOCLi_ExecCommandPacket  0x0215CF14  arm
  */
 
-extern void func_0215CF14(int v);
+extern void SOCLi_ExecCommandPacket(int v);
 
-void func_0215CF88(const int *p)
+void SOCLi_ExecCommandPacketInRecvPipe(const int *p)
 {
-    func_0215CF14(p[0x28]);
+    SOCLi_ExecCommandPacket(p[0x28]);
 }
 

@@ -21,7 +21,7 @@
  *   SBRefStr  0x0219F8B0  arm  ov009
  *   func_02184234  0x02184234  arm  ov009
  *   IncomingListParseServer  0x021A08E8  arm  ov009
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   gSBNullServer  0x021AEB00  data
  *
  * The object is stamped 4.0.0.1025; built with dsi/1.1p1.
@@ -79,7 +79,7 @@ extern int func_02184200(void *array);
 extern char *SBRefStr(SBServerList *slist, char *str);
 extern void func_02184234(void *array, void *newElem);
 extern int IncomingListParseServer(SBServerList *slist, char *buf, int len);
-extern void *func_02092364(void *dst, const void *src, unsigned int n);
+extern void *memmove(void *dst, const void *src, unsigned int n);
 extern struct SBServer *gSBNullServer;
 
 #define NTOHS(x) ((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00))
@@ -209,7 +209,7 @@ SBError ProcessMainListData(SBServerList *slist)
     if (slist->inbuffer == NULL)
         return sbe_noerror;
     if (inlen != 0)
-        func_02092364(slist->inbuffer, inbuf, inlen);
+        memmove(slist->inbuffer, inbuf, inlen);
     slist->inbufferlen = inlen;
     return sbe_noerror;
 }

@@ -13,15 +13,15 @@
  * +0x50 word.
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
 
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 
 void CPS_SocDatagramMode(void)
 {
-    char *q = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *q = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
 
     if (q != 0) {
         *(unsigned char *)(q + 8) = 0xa;

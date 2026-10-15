@@ -1,5 +1,5 @@
 /*
- * function: func_02205B60
+ * function: SHINKA_DEMO_GRAPHIC_Noop
  * address: 0x02205B60
  * packet: pkt_ov195_02205B60
  * region: ov195
@@ -14,4 +14,4 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-void func_02205B60(void *a0) {}
+void SHINKA_DEMO_GRAPHIC_Noop(void *a0) {}

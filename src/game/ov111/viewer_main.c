@@ -21,9 +21,9 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_020355C4  0x020355C4  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   func_020056A0  0x020056A0  thumb
@@ -64,8 +64,8 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -74,7 +74,7 @@
  *   d_021C8E20     0x021C8E20  data  a4
  *   d_021C86E8     0x021C86E8  data  a4
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02040588  0x02040588  arm
  *   d_021C85C8     0x021C85C8  data  a4
@@ -96,9 +96,9 @@
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02040618  0x02040618  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021C85D8     0x021C85D8  data  a4
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_021C60CC  0x021C60CC  thumb  ov111
  *   func_021C6874  0x021C6874  thumb  ov111
  *   func_021C636C  0x021C636C  thumb  ov111
@@ -134,7 +134,7 @@
  *   func_02040B1C  0x02040B1C  arm
  *   func_020410D0  0x020410D0  arm
  *   func_02041300  0x02041300  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207E468  0x0207E468  arm
  *   d_021C8534     0x021C8534  data  a1
@@ -1008,9 +1008,9 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u8 func_020355C4(void);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern int GFL_NET_GetNegotiationNum(void);
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work_021C581C *), void *ctx, int pri);
@@ -1050,15 +1050,15 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(struct WordSet *p);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32 bgId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -1074,8 +1074,8 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_020403F4(u32 bgId);
-extern void func_0203F9B4(void);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_Delete(void);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_021C60CC(Work_v4754 *p, void **bg, Info_v4754 *info);
 extern void func_021C6874(Work_v4754 *p, int scroll, int flush, int idx);
 extern void func_021C636C(Work_v4754 *p, void **bg, Info_v4754 *info);
@@ -1106,7 +1106,7 @@ extern void OS_WaitVBlankIntr(void);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_02041B6C(u32 bit);
 extern void func_0207E468(const void *src, u32 offset, u32 size);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
@@ -1215,7 +1215,7 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
     p->args = args;
     p->info = args->info;
     p->f3060 = func_020355C4();
-    p->b32D5 = func_02012FFC();
+    p->b32D5 = MSG_SPEED_GetWait();
     p->b32D4 = 0;
     if (p->info->b33) {
         p->f32CA_0 = 1;
@@ -1234,7 +1234,7 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
     if (GFL_NET_GetNegotiationNum() > 0) {
         p->f32CA_1 = 1;
     }
-    func_0203F8F4(p->heap);
+    BG_SYS_Create(p->heap);
     func_021C41C4((Work_021C41C4 *)p);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
     func_021C43E8();
@@ -1470,7 +1470,7 @@ void func_021C41C4(Work_021C41C4 *p)
     for (i = 0; i < 5; i++) {
         p->f3294[i] = func_02045EC0(p->f3200, i + 0x38);
     }
-    p->f3204 = func_0201EC64(p->heap);
+    p->f3204 = GF_FONT_Create_EC64(p->heap);
 }
 
 
@@ -1485,7 +1485,7 @@ void func_021C42C0(Work_021C42C0 *p)
 {
     int i;
 
-    func_0201ED04(p->f3204);
+    WORDSET_DeleteStrbufED04(p->f3204);
     for (i = 0; i < 5; i++) {
         STRBUF_Delete(p->f3294[i]);
     }
@@ -1558,34 +1558,34 @@ void func_021C43E8(void)
     }
     {
         struct BgTemplate t = d_021C85E8;
-        func_0203FCA0(7, &t, 2);
+        BG_SYS_InitBgLayer(7, &t, 2);
         func_020414AC(7);
         func_02040588(7, 1);
     }
     {
         struct BgTemplatePair t = d_021C8668;
-        func_0203FCA0(4, &t.t[0], 0);
+        BG_SYS_InitBgLayer(4, &t.t[0], 0);
         func_020414AC(4);
         func_02040588(4, 1);
-        func_0203FCA0(5, &t.t[1], 0);
+        BG_SYS_InitBgLayer(5, &t.t[1], 0);
         func_020414AC(5);
         func_02040588(5, 1);
     }
     {
         struct BgTemplate t = d_021C8608;
-        func_0203FCA0(6, &t, 2);
+        BG_SYS_InitBgLayer(6, &t, 2);
         func_020414AC(6);
         func_02040588(6, 1);
     }
     {
         struct BgTemplate t = d_021C8628;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
         func_020414AC(2);
         func_02040588(2, 0);
     }
     {
         struct BgTemplate t = d_021C8648;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
         func_020414AC(3);
         func_02040588(3, 1);
     }
@@ -1679,7 +1679,7 @@ void func_021C46F0(void)
     func_020403F4(5);
     func_020403F4(2);
     func_020403F4(3);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -1711,11 +1711,11 @@ void func_021C479C(Work_021C479C *p)
 {
     if (p->f3034 == 0) {
         func_0204989C(0x28, func_021C4530(p->info->kind), 6, 0, 0, 0, p->heap);
-        func_020414EC(7);
+        BG_SYS_ClearSlot(7);
     } else {
         func_021C4754((Work_021C4754 *)p, p->info->kind);
         func_021C5938(p);
-        func_020414EC(7);
+        BG_SYS_ClearSlot(7);
     }
 }
 
@@ -2657,7 +2657,7 @@ void func_021C59B0(const u8 *src, u8 *dst)
 
 void func_021C59DC(u32 bg, int mode)
 {
-    u16 *map = (u16 *)func_0204162C((u8)bg);
+    u16 *map = (u16 *)BG_SYS_GetBuf((u8)bg);
     u8 x, y;
     u16 n;
 

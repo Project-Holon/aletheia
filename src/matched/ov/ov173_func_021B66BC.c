@@ -1,5 +1,5 @@
 /*
- * function: func_021B66BC
+ * function: POKE_SUMMARY_MAIN_CreateMsgWindows
  * address:  0x021B66BC
  * packet:   pkt_021B66BC
  * region:   ov173
@@ -29,7 +29,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *p, u32 a, u32 b, void **ou
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-void func_021B66BC(u8 *p, u8 *q)
+void POKE_SUMMARY_MAIN_CreateMsgWindows(u8 *p, u8 *q)
 {
     u32 v = 1 << 0xb;
     void *t;

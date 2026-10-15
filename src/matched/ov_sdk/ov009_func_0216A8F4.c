@@ -1,5 +1,5 @@
 /*
- * function: func_0216A8F4
+ * function: DWCi_GPGetInfoCallback
  * address:  0x0216A8F4
  * packet:   pkt_ov009_0216A8F4
  * region:   ov009
@@ -14,16 +14,16 @@
  * symbols:
  *   DWCi_Acc_LoginIdToUserName  0x02059474  arm
  *   func_02185CB4  0x02185CB4  arm  ov009
- *   func_0216A460  0x0216A460  arm  ov009
+ *   DWCi_HandleGPError  0x0216A460  arm  ov009
  *   func_02185BD8  0x02185BD8  arm  ov009
  *   func_02185ACC  0x02185ACC  arm  ov009
- *   func_0216A6F4  0x0216A6F4  arm  ov009
+ *   DWCi_RemoteLogin  0x0216A6F4  arm  ov009
  *   strcmp         0x020948E0  arm
  *   DWCi_Acc_SetLoginIdToUserData  0x020597F0  arm
- *   func_0216A68C  0x0216A68C  arm  ov009
- *   g_021AA874     0x021AA874  data
- *   func_0216A8F4  0x0216A8F4  arm  ov009
- *   func_0216A4D4  0x0216A4D4  arm  ov009
+ *   DWCi_GPConnect  0x0216A68C  arm  ov009
+ *   gDwcLoginControl     0x021AA874  data
+ *   DWCi_GPGetInfoCallback  0x0216A8F4  arm  ov009
+ *   DWCi_GPConnectCallback  0x0216A4D4  arm  ov009
  */
 
 typedef unsigned long u32;
@@ -57,24 +57,24 @@ typedef struct {
     char nick[21];
 } GPGetInfoResponseArg;
 
-extern LoginControl *g_021AA874;
+extern LoginControl *gDwcLoginControl;
 
 struct DWCstAccLoginId;
 struct DWCstAccUserData;
 extern void DWCi_Acc_LoginIdToUserName(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username);
 extern int func_02185CB4(void **connection, int info, char *value);
-extern int func_0216A460(int result);
+extern int DWCi_HandleGPError(int result);
 extern int func_02185BD8(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern void func_02185ACC(void **connection);
-extern int func_0216A6F4(void);
+extern int DWCi_RemoteLogin(void);
 extern int strcmp(const char *a, const char *b);
 extern void DWCi_Acc_SetLoginIdToUserData(struct DWCstAccUserData *userdata, struct DWCstAccLoginId *loginid, int gs_profile_id);
 struct GPConnectResponseArg;
-extern void func_0216A68C(void *callback, int next_state);
-extern void func_0216A8F4(void **pconnection, GPGetInfoResponseArg *arg);
-extern void func_0216A4D4(void **pconnection, struct GPConnectResponseArg *arg);
+extern void DWCi_GPConnect(void *callback, int next_state);
+extern void DWCi_GPGetInfoCallback(void **pconnection, GPGetInfoResponseArg *arg);
+extern void DWCi_GPConnectCallback(void **pconnection, struct GPConnectResponseArg *arg);
 
-void func_0216A8F4(void **pconnection, GPGetInfoResponseArg *arg)
+void DWCi_GPGetInfoCallback(void **pconnection, GPGetInfoResponseArg *arg)
 {
     char pseudo_name2[21];
     char pseudo_name[21];
@@ -83,30 +83,30 @@ void func_0216A8F4(void **pconnection, GPGetInfoResponseArg *arg)
 
     if (arg->result != 0)
         return;
-    if (g_021AA874->state == 3) {
+    if (gDwcLoginControl->state == 3) {
         if (arg->nick[0] == 0) {
-            DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&g_021AA874->userdata->consoleId), g_021AA874->gamecode, pseudo_name2);
+            DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&gDwcLoginControl->userdata->consoleId), gDwcLoginControl->gamecode, pseudo_name2);
             gpResult = func_02185CB4(pconnection, 0x705, pseudo_name2);
-            if (func_0216A460(gpResult))
+            if (DWCi_HandleGPError(gpResult))
                 return;
-            g_021AA874->state = 4;
-            gpResult = func_02185BD8(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))func_0216A8F4, 0);
-            func_0216A460(gpResult);
+            gDwcLoginControl->state = 4;
+            gpResult = func_02185BD8(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback, 0);
+            DWCi_HandleGPError(gpResult);
         } else {
             func_02185ACC(pconnection);
-            func_0216A6F4();
-            g_021AA874->state = 1;
+            DWCi_RemoteLogin();
+            gDwcLoginControl->state = 1;
         }
-    } else if (g_021AA874->state == 4) {
-        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&g_021AA874->userdata->consoleId), g_021AA874->gamecode, pseudo_name);
+    } else if (gDwcLoginControl->state == 4) {
+        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&gDwcLoginControl->userdata->consoleId), gDwcLoginControl->gamecode, pseudo_name);
         if (strcmp(arg->nick, pseudo_name) == 0) {
-            DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&g_021AA874->loginId), g_021AA874->gamecode, username);
-            DWCi_Acc_SetLoginIdToUserData((struct DWCstAccUserData *)g_021AA874->userdata, (struct DWCstAccLoginId *)(&g_021AA874->loginId), arg->profile);
+            DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&gDwcLoginControl->loginId), gDwcLoginControl->gamecode, username);
+            DWCi_Acc_SetLoginIdToUserData((struct DWCstAccUserData *)gDwcLoginControl->userdata, (struct DWCstAccLoginId *)(&gDwcLoginControl->loginId), arg->profile);
             func_02185ACC(pconnection);
-            func_0216A68C(func_0216A4D4, 2);
+            DWCi_GPConnect(DWCi_GPConnectCallback, 2);
         } else {
-            gpResult = func_02185BD8(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))func_0216A8F4, 0);
-            func_0216A460(gpResult);
+            gpResult = func_02185BD8(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback, 0);
+            DWCi_HandleGPError(gpResult);
         }
     }
 }

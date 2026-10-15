@@ -1,5 +1,5 @@
 /*
- * function: func_021C5C8C
+ * function: WF2DMAP_SCRDRAW_DrawTilesWrapped
  * address: 0x021C5C8C
  * packet: pkt_ov127_021C5C8C
  * region: ov127
@@ -11,10 +11,10 @@
  * note 2026-10-05 wD4 lane03: EXACT. Keys: width/height are int params (word prologue copy, raw in call 1);
  *   func_020410D0 declared (u8 x5, void *, u8, u8, u32, u32) in this unit, so out[] (s16) is cast (u8) in call 2;
  *   mode is unsigned (int mode coalesced with the call temp and took the lowest slot); ox/oy are int;
- *   sy/y advance by (u8)n (the listing truncates n before both adds); u8 params for tx/ty in func_021C5E2C.
+ *   sy/y advance by (u8)n (the listing truncates n before both adds); u8 params for tx/ty in WF2DMAP_SCRDRAW_GetTileSource.
  * symbols:
- *   func_021C5E14 0x021C5E14 thumb ov127
- *   func_021C5E2C 0x021C5E2C thumb ov127
+ *   WF2DMAP_SCRDRAW_GetMode 0x021C5E14 thumb ov127
+ *   WF2DMAP_SCRDRAW_GetTileSource 0x021C5E2C thumb ov127
  *   func_020410D0 0x020410D0 arm
  */
 typedef unsigned char u8;
@@ -22,17 +22,17 @@ typedef signed char s8;
 typedef signed short s16;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021C5E14(unsigned, unsigned);
-extern char *func_021C5E2C(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out);
+extern int WF2DMAP_SCRDRAW_GetMode(unsigned, unsigned);
+extern char *WF2DMAP_SCRDRAW_GetTileSource(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out);
 extern void func_020410D0(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
-void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height)
+void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height)
 {
     s16 out[2];
     int ox, oy;
     s8 hh, n;
     unsigned mode;
     s8 ccx, ww, cs, cx, m, tx, ty, cw, ccs;
-    mode = func_021C5E14(width, height);
+    mode = WF2DMAP_SCRDRAW_GetMode(width, height);
     if (mode == 0) {
         func_020410D0(layer, x, y, w, h, q, sx, sy, width, height);
         return;
@@ -66,7 +66,7 @@ void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8
             }
             tx = ccs / 32;
             func_020410D0(layer, ccx, y, m, n,
-                func_021C5E2C(q, tx, ty, mode, width, height, (u16 *)out),
+                WF2DMAP_SCRDRAW_GetTileSource(q, tx, ty, mode, width, height, (u16 *)out),
                 ox, oy, (u8)out[0], (u8)out[1]);
             ccs = ccs + m;
             ccx = ccx + m;

@@ -14,7 +14,7 @@
  * symbols:
  *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
  *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
- *   func_021B80E4  0x021B80E4  thumb  ov172
+ *   CTVT_COMM_GetNetMode  0x021B80E4  thumb  ov172
  *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
  *
  * Addresses are Black-image addresses.
@@ -27,13 +27,13 @@ typedef signed int     s32;
 
 extern u32 COMM_TVT_SYS_GetEndRequested(void *p);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
-extern u32 func_021B80E4(int unused, char *p);
+extern u32 CTVT_COMM_GetNetMode(int unused, char *p);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 
 int CTVT_TALK_CheckEnd(void *p, int *out)
 {
     if (COMM_TVT_SYS_GetEndRequested(p) == 1) {
-        int v = func_021B80E4((int)p, (char *)COMM_TVT_SYS_GetComm(p));
+        int v = CTVT_COMM_GetNetMode((int)p, (char *)COMM_TVT_SYS_GetComm(p));
 
         *out = (v == 5) ? 0x10 : 0xd;
         return 1;

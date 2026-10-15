@@ -1,5 +1,5 @@
 /*
- * function: func_021F5F84, func_021F5FA0
+ * function: EGG_DEMO_MAIN_PlayBgm, EGG_DEMO_MAIN_IsBgmPlaying
  * address: 0x021F5F84
  * packet: pkt_ov215_021F5F84
  * region: ov215
@@ -16,13 +16,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
-void func_021F5F84(void *unused, char *p)
+void EGG_DEMO_MAIN_PlayBgm(void *unused, char *p)
 {
     GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
     ((struct Obj25741 *)p)->f18 = 2;
 }
 
-int func_021F5FA0(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgmPlaying(void *unused, char *p)
 {
     if (((struct Obj25742 *)p)->f18 == 2) return 1;
     return 0;

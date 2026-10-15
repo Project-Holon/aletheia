@@ -1,5 +1,5 @@
 /*
- * function: func_021F857C
+ * function: BR_DOWNLOAD_Main
  * address: 0x021F857C
  * packet: pkt_ov184_021F857C
  * region: ov184
@@ -15,7 +15,7 @@
  *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
- *   func_021F3C50 0x021F3C50 thumb ov112
+ *   MUSICAL_SHOT_SYS_DrawScene 0x021F3C50 thumb ov112
  */
 #include "../include/Obj03336.h"
 #include "../include/Obj24698.h"
@@ -30,8 +30,8 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BR_UTIL_FlushWindow(void *p);
-extern void func_021F3C50(u8 *p);
-int func_021F857C(int a,int b,int c,char *p)
+extern void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
+int BR_DOWNLOAD_Main(int a,int b,int c,char *p)
 {
     int i;
     if (BR_NET_HandleNetError(*(char * *)&((struct Obj24698 *)(*(char * *)&((struct Obj03336 *)p)->f30))->f14)==2) {
@@ -43,6 +43,6 @@ int func_021F857C(int a,int b,int c,char *p)
     for (i=0;i<2;i++) BR_UTIL_RunHandles(*(char **)(p+i*4+20));
     PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj03336 *)p)->f20));
     if (*(char * *)&((struct Obj03336 *)p)->f10) BR_UTIL_FlushWindow(*(char * *)&((struct Obj03336 *)p)->f10);
-    if (*(char * *)&((struct Obj03336 *)p)->f0) func_021F3C50((u8 *)(*(char * *)&((struct Obj03336 *)p)->f0));
+    if (*(char * *)&((struct Obj03336 *)p)->f0) MUSICAL_SHOT_SYS_DrawScene((u8 *)(*(char * *)&((struct Obj03336 *)p)->f0));
     return 0;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D7250",
+   "name": "WIFI_BSUBWAY_SetHttpError",
    "address": "0x021D7250",
    "kind": "game",
    "region": "ov116",

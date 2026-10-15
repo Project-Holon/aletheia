@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BFC
+ * function: CTVT_COMM_AdvanceWriteCursor
  * address:  0x021B8BFC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B8BFC(int unused, u8 *p)
+void CTVT_COMM_AdvanceWriteCursor(int unused, u8 *p)
 {
     p[0x1ac] += 1;
     if (p[0x1ac] >= 0x40) {

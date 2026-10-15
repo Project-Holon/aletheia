@@ -1,5 +1,5 @@
 /*
- * function: func_020922B0
+ * function: MSL_C_LIB_CallFormatHook
  * address:  0x020922B0
  * packet:   pkt_02092144
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8878     0x020A8878  data
+ *   gMslFormatHook     0x020A8878  data
  */
 
 typedef unsigned int u32;
 
-extern unsigned char g_020A8878[];
+extern unsigned char gMslFormatHook[];
 
 typedef struct {
     unsigned char pad[4];
@@ -27,7 +27,7 @@ typedef struct {
     FuncTable *table;
 } Holder;
 
-u32 func_020922B0(u32 *dst, u32 c)
+u32 MSL_C_LIB_CallFormatHook(u32 *dst, u32 c)
 {
-    return ((Holder *)g_020A8878)->table->fn(dst, c);
+    return ((Holder *)gMslFormatHook)->table->fn(dst, c);
 }

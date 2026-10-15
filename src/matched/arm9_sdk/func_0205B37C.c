@@ -1,5 +1,5 @@
 /*
- * function: func_0205B37C
+ * function: ConnectStart
  * address:  0x0205B37C
  * packet:   pkt_0205B37C
  * region:   arm9
@@ -12,9 +12,9 @@
  * sdk:      ConnectStart (connect.o)
  *
  * symbols:
- *   func_0205B5EC 0x0205B5EC arm
+ *   GetConnectType 0x0205B5EC arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0205B7D0 0x0205B7D0 arm
+ *   GetWepKey 0x0205B7D0 arm
  */
 
 typedef struct {
@@ -84,17 +84,17 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-extern unsigned char func_0205B5EC(ACWORK *wk);
+extern unsigned char GetConnectType(ACWORK *wk);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_0205B7D0(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey);
+extern int GetWepKey(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey);
 
-unsigned char func_0205B37C(ACWORK *wk)
+unsigned char ConnectStart(ACWORK *wk)
 {
     WMBssDesc *bssdesc = &wk->bssDesc[wk->connectNo];
 
-    wk->connectApType = func_0205B5EC(wk);
+    wk->connectApType = GetConnectType(wk);
     MI_CpuFill8(&wk->wepKey, 0, sizeof(WCMWepDesc));
-    if (func_0205B7D0(wk, wk->connectApType, &wk->wepKey)) {
+    if (GetWepKey(wk, wk->connectApType, &wk->wepKey)) {
         wk->authMode = 1;
         if (((bssdesc->capaInfo >> 4) & 1) == 0) {
             wk->findList[wk->connectNo].state = 3;

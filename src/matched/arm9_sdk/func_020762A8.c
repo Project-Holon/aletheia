@@ -1,5 +1,5 @@
 /*
- * function: func_020762A8
+ * function: CARDi_EndTask
  * address:  0x020762A8
  * packet:   pkt_020762A8
  * region:   arm9
@@ -66,7 +66,7 @@ extern u32 OS_DisableInterrupts(void);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 extern u32 OS_RestoreInterrupts(u32 state);
 
-void func_020762A8(CARDiCommon *p)
+void CARDi_EndTask(CARDiCommon *p)
 {
     void (*const callback)(void *) = p->callback;
     void *const userdata = p->callback_arg;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219681C
+ * function: gti2RemoveHoldMessage
  * address:  0x0219681C
  * packet:   pkt_ov009_0219681C
  * region:   ov009
@@ -34,7 +34,7 @@ extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_02194E80(void *buffer, int start, int shortenBy);
 
-void func_0219681C(Conn *c, Hold *message, int index)
+void gti2RemoveHoldMessage(Conn *c, Hold *message, int index)
 {
 	int moveAfter;
 	int shortenBy;

@@ -1,5 +1,5 @@
 /*
- * function: func_02168E50
+ * function: DWCi_StopFriendProcess
  * address:  0x02168E50
  * packet:   pkt_ov009_02168E50
  * region:   ov009
@@ -14,24 +14,24 @@
  * symbols:
  *   g_021AA860    0x021AA860  data
  *   func_02059F54  0x02059F54  arm
- *   func_02168D7C  0x02168D7C  arm
+ *   DWCi_IsServerUpdating  0x02168D7C  arm
  *   func_0205A1B0  0x0205A1B0  arm
- *   func_02169294  0x02169294  arm
+ *   DWCi_CloseFriendProcess  0x02169294  arm
  */
 
 #include "../include/G_FriendGlobal.h"
 
 extern struct FriendGlobal g_021AA860;
 extern void func_02059F54(int error, int errorCode);
-extern int func_02168D7C(void);
+extern int DWCi_IsServerUpdating(void);
 extern void func_0205A1B0(int name, void *ptr, int flag);
-extern void func_02169294(void);
+extern void DWCi_CloseFriendProcess(void);
 
-void func_02168E50(int error, int errorCode)
+void DWCi_StopFriendProcess(int error, int errorCode)
 {
     if (*(char **)(((char *)&g_021AA860) + 0xc) == 0 || error == 0) return;
     func_02059F54(error, errorCode);
-    if (func_02168D7C() != 0) {
+    if (DWCi_IsServerUpdating() != 0) {
         if (*(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x5c) != 0) {
             func_0205A1B0(4, *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x5c), 0);
             *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x5c) = 0;
@@ -41,5 +41,5 @@ void func_02168E50(int error, int errorCode)
             *(unsigned char *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x1d),
             *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x30));
     }
-    func_02169294();
+    DWCi_CloseFriendProcess();
 }

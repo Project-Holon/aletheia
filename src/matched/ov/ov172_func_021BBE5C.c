@@ -20,8 +20,8 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -40,8 +40,8 @@ extern void func_020409B4(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 func_020307B0(void *p);
-extern void func_020414EC(u32 i);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 void func_021BBE5C(void *a0, char *a1)
 {
@@ -78,10 +78,10 @@ void func_021BBE5C(void *a0, char *a1)
     for (j = 0; j < 0xf; j++)
         func_020307B0((void *)(*(u32 *)(a1 + j * 0x24 + 0x1f8)));
 
-    func_020414EC(6);
+    BG_SYS_ClearSlot(6);
     func_020409B4(6);
-    func_02041EE4(6, 3, 0);
-    func_020414EC(4);
+    BG_SYS_ResetSlot(6, 3, 0);
+    BG_SYS_ClearSlot(4);
     func_020409B4(4);
-    func_02041EE4(4, 3, 0);
+    BG_SYS_ResetSlot(4, 3, 0);
 }

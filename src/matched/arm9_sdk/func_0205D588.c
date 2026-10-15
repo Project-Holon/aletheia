@@ -1,5 +1,5 @@
 /*
- * function: func_0205D588
+ * function: MakeUserList
  * address:  0x0205D588
  * packet:   pkt_0205D588
  * region:   arm9
@@ -148,7 +148,7 @@ static inline int SetList(ACSL *list, const unsigned char *ssid, unsigned char t
     return 0;
 }
 
-unsigned char func_0205D588(ACWORK *wk)
+unsigned char MakeUserList(ACWORK *wk)
 {
     int i;
     unsigned char num;

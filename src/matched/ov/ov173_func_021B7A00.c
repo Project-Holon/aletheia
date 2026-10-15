@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A00
+ * function: POKE_SUMMARY_ACTOR_CreateActors
  * address: 0x021B7A00
  * packet: pkt_ov173_021B7A00
  * region: ov173
@@ -10,8 +10,8 @@
  * status: EXACT
  * abi: B294 returns the Obj pointer stored and used by this caller.
  * symbols:
- *   func_021B7658 0x021B7658 thumb ov173
- *   func_021B76C8 0x021B76C8 thumb ov173
+ *   POKE_SUMMARY_ACTOR_InitSystem 0x021B7658 thumb ov173
+ *   POKE_SUMMARY_ACTOR_RegisterResources 0x021B76C8 thumb ov173
  *   func_020275E4 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -25,20 +25,20 @@ typedef unsigned int u32;
 typedef struct {short x,y;u16 unused,z;u32 a,b,c,d,e,f,g,h,i;} Row;
 typedef struct {short x,y;u16 z;u8 a,b;} Position;
 extern const Row d_021B85E0[];
-extern void func_021B7658(u8 *p, void *a1);
-extern void func_021B76C8(char *,void *);
+extern void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *a1);
+extern void POKE_SUMMARY_ACTOR_RegisterResources(char *,void *);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021B7A00(char *p,void *arg)
+void POKE_SUMMARY_ACTOR_CreateActors(char *p,void *arg)
 {
     u32 i;
     Position pos;
-    func_021B7658((u8 *)p,arg);
-    func_021B76C8(p,arg);
+    POKE_SUMMARY_ACTOR_InitSystem((u8 *)p,arg);
+    POKE_SUMMARY_ACTOR_RegisterResources(p,arg);
     ((struct Obj00180 *)p)->f13C=func_020490F4(func_020275E4(),79);
     for(i=0;i<14;i++) {
         pos.x=d_021B85E0[i].x;

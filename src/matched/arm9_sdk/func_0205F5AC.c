@@ -1,5 +1,5 @@
 /*
- * function: func_0205F5AC
+ * function: CheckSetDNS
  * address:  0x0205F5AC
  * packet:   pkt_0205F5AC
  * region:   arm9
@@ -62,7 +62,7 @@ extern unsigned char DWCi_ConvConnectAPType(unsigned char type);
 extern unsigned long ConvAddress(unsigned char *add);
 extern int SOC_SetResolver(SOCInAddr *dns1, SOCInAddr *dns2);
 
-void func_0205F5AC(tagACWORK *wk)
+void CheckSetDNS(tagACWORK *wk)
 {
     NCFGApInfo *info;
     int dns;

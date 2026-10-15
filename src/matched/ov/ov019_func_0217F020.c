@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   UNION_MSG_RegisterPartnerWords 0x0217EE90 thumb ov019
  */
 #include "../include/Obj00484.h"
@@ -17,13 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 struct Self;
 extern void UNION_MSG_RegisterPartnerWords(struct Self *self);
 void UNION_MSG_CreateWordSet(u8 *p)
 {
     if (((struct Obj00484 *)p)->f2804 == 0) {
-        ((struct Obj00484 *)p)->f2804 = func_0201EC74(5, 0x40, 0x41);
+        ((struct Obj00484 *)p)->f2804 = WORDSET_Create(5, 0x40, 0x41);
         UNION_MSG_RegisterPartnerWords((struct Self *)p);
     }
 }

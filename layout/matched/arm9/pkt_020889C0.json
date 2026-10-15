@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020889C0",
+   "name": "RTC_GetDateTime",
    "address": "0x020889C0",
    "kind": "sdk",
    "region": "arm9",

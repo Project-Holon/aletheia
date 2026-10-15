@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2E4
+ * function: TH_AWARD_GRAPHIC_DeleteClact
  * address:  0x021BA2E4
  * packet:   pkt_021BA2E4
  * region:   ov220
@@ -24,7 +24,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BA2E4(char *p)
+void TH_AWARD_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26063 *)p)->f0));
     CLACT_ExitSystem();

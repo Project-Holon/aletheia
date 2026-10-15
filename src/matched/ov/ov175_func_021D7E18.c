@@ -21,9 +21,9 @@
  *   func_021E8844  0x021E8844  thumb  ov177
  *   func_021E7E0C  0x021E7E0C  thumb  ov177
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02009EC8  0x02009EC8  thumb
- *   func_0200AE14  0x0200AE14  thumb
- *   func_0200B078  0x0200B078  thumb
+ *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
+ *   REGULATION_NoOp  0x0200AE14  thumb
+ *   REGULATION_Card_GetValue  0x0200B078  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   POKE_REGULATION_CheckParty  0x0201A090  thumb
@@ -32,7 +32,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   PMSI_PARAM_IsValid  0x020245D4  thumb
- *   func_02025BEC  0x02025BEC  thumb
+ *   BMP_OAM_Check5BEC  0x02025BEC  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02040588  0x02040588  arm
@@ -176,9 +176,9 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 typedef signed int     s32;
 struct Big;
 struct Reg2;
-extern void *func_02009EC8(void *sys);
-extern int func_0200AE14(u32 a);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern void *TRADE_HISTORY_GetFromSave(void *sys);
+extern int REGULATION_NoOp(u32 a);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 struct MsgBank;
 struct Rec;
 struct T;
@@ -191,7 +191,7 @@ extern unsigned int POKEPARTY_GetCount(void *list);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern u32 PMSI_PARAM_IsValid(struct T *p, u32 a1);
-extern u32 func_02025BEC(u32 a, u32 b, u32 c);
+extern u32 BMP_OAM_Check5BEC(u32 a, u32 b, u32 c);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern int GFL_NET_GetRunState(void);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -407,7 +407,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         MI_CpuFill8(&buf, 0, sizeof(buf));
         buf.a = obj->f104->f34->f10;
         buf.b = obj->f104->f34->f04;
-        buf.c = func_0200B078((struct Reg2 *)i, 2);
+        buf.c = REGULATION_Card_GetValue((struct Reg2 *)i, 2);
         buf.d = obj->f104->f34->f08 + obj->f104->f34->f0c;
         func_021DA0D4(obj->f34, 0, 0, w18->f08[1], (int *)(&buf));
         obj->fe4 = 0;
@@ -482,7 +482,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 r[0x1c] = r[0x1d] == 0 ? 0 : 8;
                 bad++;
             }
-            if (func_02025BEC(r[0x18], r[0x19], r[0x1a]) == 0) {
+            if (BMP_OAM_Check5BEC(r[0x18], r[0x19], r[0x1a]) == 0) {
                 r[0x18] = 0;
                 r[0x19] = 0;
                 bad++;
@@ -492,7 +492,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 bad++;
             }
             if (bad == 0)
-                func_02009EC8(GAME_DATA_GetSaveControl((struct Big *)(*w18->f08)));
+                TRADE_HISTORY_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*w18->f08)));
             *state = 0xf;
         }
         flag = 1;
@@ -508,7 +508,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x10:
         mask = 0;
-        if (POKE_REGULATION_CheckParty((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, &mask) == 0) {
+        if (POKE_REGULATION_CheckParty((void *)REGULATION_NoOp(obj->f108), w18->f18 + 0xd4, &mask) == 0) {
             *state = 0x11;
         } else {
             obj->fe4++;

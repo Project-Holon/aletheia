@@ -1,5 +1,5 @@
 /*
- * function: func_02184470
+ * function: BEACON_DETAIL_Exit
  * address: 0x02184470
  * packet: pkt_ov219_02184470
  * region: ov219
@@ -18,7 +18,7 @@
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_021845A4 0x021845A4 thumb ov219
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -32,9 +32,9 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetLcdSwap(unsigned);
 extern int APP_KEYCURSOR_Delete(int);
 extern void TCBL_Destroy(struct S02031140 *);
-extern unsigned func_0201ED04(struct WordSet *);
+extern unsigned WORDSET_DeleteStrbufED04(struct WordSet *);
 extern void func_021845A4(int),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
-int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
+int BEACON_DETAIL_Exit(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=((struct Obj05564 *)p)->f0;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
@@ -43,7 +43,7 @@ int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char 
     BG_SYS_SetLcdSwap(1);
     APP_KEYCURSOR_Delete(((struct Obj05564 *)p)->fC088);
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj05564 *)p)->fC0A4);
-    func_021845A4(func_0201ED04(*(struct WordSet * *)&((struct Obj05564 *)p)->fC0A8));
+    func_021845A4(WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj05564 *)p)->fC0A8));
     func_020315D4(controller);func_020306F0((u16)heap);
     return 1;
 }

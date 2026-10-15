@@ -15,7 +15,7 @@
  *
  * Unlabelled ov186 thunk hidden in a word run: tail-calls BR_UTIL_SetTaskStep with
  * the second argument zeroed.  Matched to supply the `matched` witness for the
- * pending caller func_021F8624.
+ * pending caller BR_DOWNLOAD_StepClose.
  */
 
 extern int *BR_UTIL_SetTaskStep(int *p, int v);

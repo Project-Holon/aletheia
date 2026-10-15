@@ -10,7 +10,7 @@
  * lever: score declared before id gives score r4 and id r5; reverse gives 23-byte DIFF.
  * symbols:
  *   DWC_GetMatchIntValue 0x0216CB30 arm ov009
- *   func_02009EC8 0x02009EC8 thumb
+ *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  *   func_02009E74 0x02009E74 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
@@ -19,7 +19,7 @@
 #include "../include/Obj22828.h"
 typedef unsigned char u8;
 extern int DWC_GetMatchIntValue(int, int, int);
-extern void *func_02009EC8(void *);
+extern void *TRADE_HISTORY_GetFromSave(void *);
 typedef unsigned int   u32;
 struct Sub02009D9CObj;
 extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
@@ -45,7 +45,7 @@ int func_021D4A20(int a, u8 *p)
     if (I(0x138) == 1) {
         if (mode == 4) {
             if (I(0x148) == -1) {
-                if (func_02009E74(func_02009EC8(((struct Obj10386 *)p)->f30), id) != 0)
+                if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct Obj10386 *)p)->f30), id) != 0)
                     score = 100;
             } else {
                 if (I(0x18) == id) score = 100;
@@ -53,7 +53,7 @@ int func_021D4A20(int a, u8 *p)
         } else {
             if (group == func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)(((struct Obj22828 *)q)->f0)))) {
                 if (I(0x148) == -1) {
-                    if (func_02009E74(func_02009EC8(((struct Obj10386 *)p)->f30), id) != 0)
+                    if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct Obj10386 *)p)->f30), id) != 0)
                         score = 100;
                 } else {
                     if (I(0x18) == id) score = 100;

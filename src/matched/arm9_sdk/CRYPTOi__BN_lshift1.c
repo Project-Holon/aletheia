@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020789FC 0x020789FC arm
+ *   FS_OpenFileEx 0x020789FC arm
  */
 
 typedef int BOOL;
 typedef struct FSFile FSFile;
 typedef unsigned long u32;
-extern BOOL func_020789FC(FSFile *file, const char *path, u32 mode);
+extern BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
 
 BOOL FS_OpenFile(FSFile *file, const char *path)
 {
-    return func_020789FC(file, path, 1);
+    return FS_OpenFileEx(file, path, 1);
 }

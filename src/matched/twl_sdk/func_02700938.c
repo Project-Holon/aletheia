@@ -29,7 +29,7 @@
  *   CAMERA_ResetCore  0x02702080  arm twl a2
  *   CAMERA_StopCaptureCore  0x0270212C  arm twl a2
  *   CAMERA_ClearBufferCore  0x027021E4  arm twl a2
- *   func_0208C848  0x0208C848  arm twl a2
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm twl a2
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm twl a2
  *   CAMERA_SetVsyncInterruptCore  0x0270223C  arm twl a2
  *   CAMERA_SetBufferErrorInterruptCore  0x02702268  arm twl a2
@@ -136,7 +136,7 @@ extern void CAMERA_ResetCore(void);
 extern void CAMERA_StopCaptureCore(void);
 extern void CAMERA_ClearBufferCore(void);
 extern void CameraStandbyCallback(void);
-extern void func_0208C848(u32*, u32);
+extern void PMi_InsertPreSleepCallbackEx(u32*, u32);
 extern void PMi_InsertPostExitCallbackEx(u32*, u32);
 extern void CAMERA_SetVsyncInterruptCore(u32);
 extern void CAMERA_SetBufferErrorInterruptCore(u32);
@@ -174,7 +174,7 @@ u32 CAMERA_InitCore(void) {
     CAMERA_ClearBufferCore();
     data_02732FC8.f30 = CameraStandbyCallback;
     data_02732FC8.f34 = 0;
-    func_0208C848(data_02732FF8, 0x3FC);
+    PMi_InsertPreSleepCallbackEx(data_02732FF8, 0x3FC);
     data_02732FC8.f40 = CameraStandbyCallback;
     data_02732FC8.f44 = 0;
     PMi_InsertPostExitCallbackEx(data_02733008, 0x3FC);

@@ -1,7 +1,7 @@
 /*
  * file:     b_plist_anm.c
  * unit:     yes
- * function: func_0220B120, func_0220B3B4, func_0220B460, func_0220B4B0, func_0220B5AC, func_0220B6D0, func_0220B760, func_0220B7AC, func_0220B848, func_0220BB94, func_0220BBB4, func_0220BBF0, func_0220BC24
+ * function: B_PLIST_ANM_CopyMonSpriteTiles, B_PLIST_ANM_CopySubSpriteTiles, B_PLIST_ANM_BlitTileRect, B_PLIST_ANM_GetTileBuffer, B_PLIST_ANM_ApplyTilePalette, B_PLIST_ANM_UploadTileBuffer, B_PLIST_ANM_StartPaletteAnim, B_PLIST_ANM_StepPaletteAnim, B_PLIST_ANM_UpdateByMode, B_PLIST_ANM_CopyPaletteSlot, B_PLIST_ANM_CountActiveRecords, B_PLIST_ANM_UpdateSelectedTile, B_PLIST_ANM_CreateTileWindows
  * address:  0x0220B120
  * region:   ov198
  * compiler: dsi/1.1p1
@@ -70,73 +70,73 @@ extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx
 extern int func_02211128(u8 *,u8 *,u8 *,int);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0220BC70(u8 *, unsigned int);
-void func_0220B120(char *p,u16 *src);
-void func_0220B3B4(char *p,u16 *src);
-void func_0220B460(u16 *dst, u16 *src, int x, int y, u8 width, u8 height);
-void *func_0220B4B0(void *p,u32 kind,u32 i,int which);
-void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which);
-void func_0220B6D0(u8 *p,u8 state,u8 flag,u8 mode);
-void func_0220B760(u8 *p,unsigned int state);
-void func_0220B7AC(u8 *p);
-void func_0220B848(u8 *p,u32 mode);
-void func_0220BB94(unsigned char *p, u32 a1);
-u8 func_0220BBB4(u8 *p);
-void func_0220BBF0(u8 *p);
-void func_0220BC24(u8 *p);
+void B_PLIST_ANM_CopyMonSpriteTiles(char *p,u16 *src);
+void B_PLIST_ANM_CopySubSpriteTiles(char *p,u16 *src);
+void B_PLIST_ANM_BlitTileRect(u16 *dst, u16 *src, int x, int y, u8 width, u8 height);
+void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which);
+void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which);
+void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode);
+void B_PLIST_ANM_StartPaletteAnim(u8 *p,unsigned int state);
+void B_PLIST_ANM_StepPaletteAnim(u8 *p);
+void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode);
+void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 a1);
+u8 B_PLIST_ANM_CountActiveRecords(u8 *p);
+void B_PLIST_ANM_UpdateSelectedTile(u8 *p);
+void B_PLIST_ANM_CreateTileWindows(u8 *p);
 extern const Rect_0220B5AC d_02211A74[];
 extern char d_02212540[];
 extern Item d_02211B14[];
 
-void func_0220B120(char *p,u16 *src)
+void B_PLIST_ANM_CopyMonSpriteTiles(char *p,u16 *src)
 {
  int a=0x1dc,b=0x35c,c=0x4dc,d=0x65c;
- func_0220B460((u16 *)(p+a),src,0,0,16,6);
- a+=0xc0;func_0220B460((u16 *)(p+a),src,0,6,16,6);
- func_0220B460((u16 *)(p+b),src,0,12,16,6);
- b+=0xc0;func_0220B460((u16 *)(p+b),src,0,18,16,6);
- func_0220B460((u16 *)(p+c),src,16,0,16,6);
- c+=0xc0;func_0220B460((u16 *)(p+c),src,16,6,16,6);
- func_0220B460((u16 *)(p+d),src,16,12,16,6);
- d+=0xc0;func_0220B460((u16 *)(p+d),src,16,18,16,6);
- func_0220B460((u16 *)(p+0x7dc),src,0,39,13,5);
- func_0220B460((u16 *)(p+0x85e),src,0,44,13,5);
- func_0220B460((u16 *)(p+0x8e0),src,13,39,13,5);
- func_0220B460((u16 *)(p+0x962),src,13,44,13,5);
- func_0220B460((u16 *)(p+0x9e4),src,0,49,5,5);
- func_0220B460((u16 *)(p+0xa16),src,5,49,5,5);
- func_0220B460((u16 *)(p+0xa48),src,10,49,5,5);
- func_0220B460((u16 *)(p+0xa7a),src,15,49,5,5);
- func_0220B460((u16 *)(p+0xaac),src,0,54,5,5);
- func_0220B460((u16 *)(p+0xade),src,5,54,5,5);
- func_0220B460((u16 *)(p+0xb10),src,10,54,5,5);
- func_0220B460((u16 *)(p+0xb42),src,15,54,5,5);
- func_0220B460((u16 *)(p+0xb74),src,26,24,5,5);
- func_0220B460((u16 *)(p+0xba6),src,26,29,5,5);
- func_0220B460((u16 *)(p+0xbd8),src,26,34,5,5);
- func_0220B460((u16 *)(p+0xc0a),src,26,39,5,5);
- func_0220B460((u16 *)(p+0x1b30),src,0,24,26,5);
- func_0220B460((u16 *)(p+0x1c34),src,0,29,26,5);
- func_0220B460((u16 *)(p+0x1d38),src,0,34,26,5);
- func_0220B460((u16 *)(p+0x1e3c),src,0,59,5,2);
- func_0220B460((u16 *)(p+0x1e50),src,5,59,5,2);
- func_0220B460((u16 *)(p+0x1e64),src,10,59,5,2);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+a),src,0,0,16,6);
+ a+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+a),src,0,6,16,6);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+b),src,0,12,16,6);
+ b+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+b),src,0,18,16,6);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+c),src,16,0,16,6);
+ c+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+c),src,16,6,16,6);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+d),src,16,12,16,6);
+ d+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+d),src,16,18,16,6);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x7dc),src,0,39,13,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x85e),src,0,44,13,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x8e0),src,13,39,13,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x962),src,13,44,13,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x9e4),src,0,49,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xa16),src,5,49,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xa48),src,10,49,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xa7a),src,15,49,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xaac),src,0,54,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xade),src,5,54,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xb10),src,10,54,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xb42),src,15,54,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xb74),src,26,24,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xba6),src,26,29,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xbd8),src,26,34,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0xc0a),src,26,39,5,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1b30),src,0,24,26,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1c34),src,0,29,26,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1d38),src,0,34,26,5);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1e3c),src,0,59,5,2);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1e50),src,5,59,5,2);
+ B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1e64),src,10,59,5,2);
 }
 
-void func_0220B3B4(char *p,u16 *src)
+void B_PLIST_ANM_CopySubSpriteTiles(char *p,u16 *src)
 {
-    func_0220B460((u16 *)(p+0xC3C),src,0,0,30,17);
-    func_0220B460((u16 *)(p+0x1038),src,0,17,30,17);
-    func_0220B460((u16 *)(p+0x1434),src,0,34,30,17);
-    func_0220B460((u16 *)(p+0x1830),src,0,51,16,6);
-    func_0220B460((u16 *)(p+0x18F0),src,16,51,16,6);
-    func_0220B460((u16 *)(p+0x19B0),src,0,57,16,6);
-    func_0220B460((u16 *)(p+0x1A70),src,16,57,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0xC3C),src,0,0,30,17);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1038),src,0,17,30,17);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1434),src,0,34,30,17);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1830),src,0,51,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x18F0),src,16,51,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x19B0),src,0,57,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1A70),src,16,57,16,6);
 }
 
 /*
  * trailing: 0220B4AE..0220B4AF is two-byte alignment padding.
  */
-void func_0220B460(u16 *dst, u16 *src, int x, int y, u8 width, u8 height)
+void B_PLIST_ANM_BlitTileRect(u16 *dst, u16 *src, int x, int y, u8 width, u8 height)
 {
     u16 row;
     u16 col;
@@ -146,7 +146,7 @@ void func_0220B460(u16 *dst, u16 *src, int x, int y, u8 width, u8 height)
     }
 }
 
-void *func_0220B4B0(void *p,u32 kind,u32 i,int which)
+void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which)
 {
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
@@ -168,7 +168,7 @@ void *func_0220B4B0(void *p,u32 kind,u32 i,int which)
 /*
  * lever: expand the inner-loop value use to pair[i]; the bounded permuter baseline was DIFF 7 and this mutation reached EXACT.
  */
-void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which)
+void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
 {
  void *src;
  int count,n;
@@ -176,7 +176,7 @@ void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which)
  u8 i,j;
  u16 pair[2];
  u8 *rec;
- src=func_0220B4B0(p,kind,index,which);
+ src=B_PLIST_ANM_GetTileBuffer(p,kind,index,which);
  w=((const u8 *)&d_02211A74[0].w)[kind*4];
  count=w*((const u8 *)&d_02211A74[0].h)[kind*4];
  MI_CpuCopy8(src,dst,count*2);
@@ -206,19 +206,19 @@ void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which)
 /*
  * lever: byte parameters, u32 dimensions and unsigned long byte-table offset.
  */
-void func_0220B6D0(u8 *p,u8 state,u8 flag,u8 mode)
+void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
 {
     unsigned long off=state*4;
     u32 h=((const u8 *)d_02211A74)[off+3];
     u32 w=((const u8 *)d_02211A74)[off+2];
     void *buf=func_02030734((u16)((((struct Obj25126 *)(*(char * *)&((struct Obj25125 *)p)->f0))->f10&0x7FFF)|0x8000),w*h*2,0,d_02212540,0x205);
-    func_0220B5AC(p,buf,state,flag,mode);
+    B_PLIST_ANM_ApplyTilePalette(p,buf,state,flag,mode);
     func_02041090(6,(u32)buf,((const u8 *)d_02211A74)[off],((const u8 *)d_02211A74)[off+1],w,h);
     func_02041B6C(6);
     func_020307B0(buf);
 }
 
-void func_0220B760(u8 *p,unsigned int state)
+void B_PLIST_ANM_StartPaletteAnim(u8 *p,unsigned int state)
 {
     ((Bits_0220B760 *)(p+0x1E9B))->mode=0;
     if (state<=5 && func_02210B00(p,state)==2) ((Bits_0220B760 *)(p+0x1E9B))->mode=1;
@@ -228,17 +228,17 @@ void func_0220B760(u8 *p,unsigned int state)
     ((Bits_0220B760 *)(p+0x1E9B))->active=1;
 }
 
-void func_0220B7AC(u8 *p)
+void B_PLIST_ANM_StepPaletteAnim(u8 *p)
 {
     if (((Bits_0220B7AC *)(p+0x1E9B))->active != 0) {
         switch (p[0x1E98]) {
         case 0:
-            func_0220B6D0(p,p[0x1E9A],1,((Bits_0220B7AC *)(p+0x1E9B))->mode);
+            B_PLIST_ANM_UploadTileBuffer(p,p[0x1E9A],1,((Bits_0220B7AC *)(p+0x1E9B))->mode);
             p[0x1E98]++;
             break;
         case 1:
             if (p[0x1E99]==4) {
-                func_0220B6D0(p,p[0x1E9A],0,((Bits_0220B7AC *)(p+0x1E9B))->mode);
+                B_PLIST_ANM_UploadTileBuffer(p,p[0x1E9A],0,((Bits_0220B7AC *)(p+0x1E9B))->mode);
                 p[0x1E99]=0;
                 p[0x1E98]++;
             } else p[0x1E99]++;
@@ -258,95 +258,95 @@ void func_0220B7AC(u8 *p)
  * trailing: 0220BB92..0220BB93 is two-byte alignment padding.
  * lever: the inline byte range guard adds 255 before its u8 narrowing.
  */
-void func_0220B848(u8 *p,u32 mode)
+void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
 {
  switch(mode){
  case 0:{
   u16 i;
   for(i=0;i<6;i++){
    int s=func_02210B00(p,i);
-   if(s==0) func_0220B6D0(p,(u8)i,3,1);
-   else if(s==1) func_0220B6D0(p,(u8)i,0,0);
-   else if(s==2) func_0220B6D0(p,(u8)i,0,1);
+   if(s==0) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,3,1);
+   else if(s==1) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,0);
+   else if(s==2) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,1);
   }
-  if((u8)((*(u8 **)p)[0x1f]+255)<=1) func_0220BBF0(p);
-  else func_0220B6D0(p,6,0,0);
+  if((u8)((*(u8 **)p)[0x1f]+255)<=1) B_PLIST_ANM_UpdateSelectedTile(p);
+  else B_PLIST_ANM_UploadTileBuffer(p,6,0,0);
   break;
  }
  case 8:{
   u16 i;
   for(i=0;i<6;i++){
    int s=func_02210B00(p,i);
-   if(s==0) func_0220B6D0(p,(u8)i,3,1);
-   else if(s==1) func_0220B6D0(p,(u8)i,0,0);
-   else if(s==2) func_0220B6D0(p,(u8)i,0,1);
+   if(s==0) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,3,1);
+   else if(s==1) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,0);
+   else if(s==2) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,1);
   }
-  func_0220B6D0(p,6,0,0);
+  B_PLIST_ANM_UploadTileBuffer(p,6,0,0);
   break;
  }
  case 1:{
-  func_0220B6D0(p,6,0,0);func_0220B6D0(p,7,0,0);
+  B_PLIST_ANM_UploadTileBuffer(p,6,0,0);B_PLIST_ANM_UploadTileBuffer(p,7,0,0);
   if(((Bits_0220B848 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+0x1b))->high){
-   func_0220B6D0(p,8,3,0);func_0220B6D0(p,10,3,0);
+   B_PLIST_ANM_UploadTileBuffer(p,8,3,0);B_PLIST_ANM_UploadTileBuffer(p,10,3,0);
   }else{
-   func_0220B6D0(p,8,0,0);func_0220B6D0(p,10,0,0);
+   B_PLIST_ANM_UploadTileBuffer(p,8,0,0);B_PLIST_ANM_UploadTileBuffer(p,10,0,0);
   }
   break;
  }
  case 2:
-  if(func_0220BBB4(p)==1){
-   func_0220B6D0(p,12,0,0);func_0220B6D0(p,13,0,0);
+  if(B_PLIST_ANM_CountActiveRecords(p)==1){
+   B_PLIST_ANM_UploadTileBuffer(p,12,0,0);B_PLIST_ANM_UploadTileBuffer(p,13,0,0);
   }else{
-   func_0220B6D0(p,12,3,0);func_0220B6D0(p,13,3,0);
+   B_PLIST_ANM_UploadTileBuffer(p,12,3,0);B_PLIST_ANM_UploadTileBuffer(p,13,3,0);
   }
-  func_0220B6D0(p,11,0,0);func_0220B6D0(p,6,0,0);break;
+  B_PLIST_ANM_UploadTileBuffer(p,11,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
  case 3:{
   u16 i;
-  if(func_0220BBB4(p)==1){
-   func_0220B6D0(p,12,0,0);func_0220B6D0(p,13,0,0);
+  if(B_PLIST_ANM_CountActiveRecords(p)==1){
+   B_PLIST_ANM_UploadTileBuffer(p,12,0,0);B_PLIST_ANM_UploadTileBuffer(p,13,0,0);
   }else{
-   func_0220B6D0(p,12,3,0);func_0220B6D0(p,13,3,0);
+   B_PLIST_ANM_UploadTileBuffer(p,12,3,0);B_PLIST_ANM_UploadTileBuffer(p,13,3,0);
   }
   for(i=0;i<4;i++){
-   if(*(u16 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) func_0220B6D0(p,(u8)(i+14),0,0);
-   else func_0220B6D0(p,(u8)(i+14),3,0);
+   if(*(u16 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+14),0,0);
+   else B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+14),3,0);
   }
-  func_0220B6D0(p,9,0,0);func_0220B6D0(p,6,0,0);break;
+  B_PLIST_ANM_UploadTileBuffer(p,9,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
  }
  case 4:{
   u16 i;
-  func_0220B6D0(p,6,0,0);
+  B_PLIST_ANM_UploadTileBuffer(p,6,0,0);
   for(i=0;i<4;i++){
-   if((*(u8 **)p)[0x4b]==i) func_0220B6D0(p,(u8)(i+28),2,0);
-   else func_0220B6D0(p,(u8)(i+28),0,0);
+   if((*(u8 **)p)[0x4b]==i) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+28),2,0);
+   else B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+28),0,0);
   }
   break;
  }
  case 5:{
   u16 i;
   for(i=0;i<4;i++){
-   if(*(u16 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) func_0220B6D0(p,(u8)(i+18),0,0);
-   else func_0220B6D0(p,(u8)(i+18),3,0);
+   if(*(u16 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+18),0,0);
+   else B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+18),3,0);
   }
-  func_0220B6D0(p,6,0,0);break;
+  B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
  }
  case 6:
-  func_0220B6D0(p,22,0,0);func_0220B6D0(p,23,0,0);func_0220B6D0(p,24,0,0);func_0220B6D0(p,25,0,0);func_0220B6D0(p,26,0,0);func_0220B6D0(p,6,0,0);break;
+  B_PLIST_ANM_UploadTileBuffer(p,22,0,0);B_PLIST_ANM_UploadTileBuffer(p,23,0,0);B_PLIST_ANM_UploadTileBuffer(p,24,0,0);B_PLIST_ANM_UploadTileBuffer(p,25,0,0);B_PLIST_ANM_UploadTileBuffer(p,26,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
  case 7:
-  func_0220B6D0(p,27,0,0);func_0220B6D0(p,6,0,0);break;
+  B_PLIST_ANM_UploadTileBuffer(p,27,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
  }
 }
 
 
-void func_0220BB94(unsigned char *p, u32 a1)
+void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 a1)
 {
     PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj25127 *)p)->f1D8), p + 0x1e78, 1, 0xc0, 0x20);
 }
 
 /*
- * leaf: sole unresolved blocker of func_0220B848.
+ * leaf: sole unresolved blocker of B_PLIST_ANM_UpdateByMode.
  */
-u8 func_0220BBB4(u8 *p)
+u8 B_PLIST_ANM_CountActiveRecords(u8 *p)
 {
  u16 i,count=0;
  for(i=0;i<6;i++){
@@ -356,12 +356,12 @@ u8 func_0220BBB4(u8 *p)
  return count>=2;
 }
 
-void func_0220BBF0(u8 *p){u8 pair[2];if(func_02211128(p,pair+1,pair,0)==1)func_0220B6D0(p,6,0,0);else func_0220B6D0(p,6,3,0);}
+void B_PLIST_ANM_UpdateSelectedTile(u8 *p){u8 pair[2];if(func_02211128(p,pair+1,pair,0)==1)B_PLIST_ANM_UploadTileBuffer(p,6,0,0);else B_PLIST_ANM_UploadTileBuffer(p,6,3,0);}
 
 /*
  * lever: a nonconst table pointer preserves the original load/store schedule.
  */
-void func_0220BC24(u8 *p)
+void B_PLIST_ANM_CreateTileWindows(u8 *p)
 {
     Item *s = d_02211B14;
     u32 i;

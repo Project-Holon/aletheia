@@ -1,5 +1,5 @@
 /*
- * function: func_021F9AD8
+ * function: STA_ACTING_ScheduleActions
  * address: 0x021F9AD8
  * packet: pkt_ov132_021F9AD8
  * region: ov132
@@ -13,7 +13,7 @@
  * symbols:
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_0203F0A8 0x0203F0A8 arm
- *   func_021F9774 0x021F9774 thumb ov132
+ *   STA_ACTING_GetActionByIndex 0x021F9774 thumb ov132
  *   _ll_mul 0x0209C054 arm
  *   _ull_mul 0x0209C054 arm
  */
@@ -27,14 +27,14 @@ typedef unsigned long long u64;
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
 extern u32 GFL_NET_IsParentAid(void);
 extern u32 func_0203F0A8(void);
-extern int func_021F9774(char *, unsigned);
+extern int STA_ACTING_GetActionByIndex(char *, unsigned);
 static inline u32 random_below(u32 n)
 {
     u32 draw;
     draw = func_0203F0A8();
     return ((u64)draw * n) >> 32;
 }
-void func_021F9AD8(char *p, int mode, u8 slot)
+void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot)
 {
     u8 i;
     if (**(void ** *)&((struct Obj08155 *)p)->f30 && GFL_NET_IsParentAid() != 1) return;
@@ -43,7 +43,7 @@ void func_021F9AD8(char *p, int mode, u8 slot)
         char *record = *(char **)(*(char * *)&((struct Obj08155 *)p)->f30 + i * 4 + 4);
         Action action;
         int value;
-        if (((struct Obj03287 *)record)->f0 != 2 || func_021F9774(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
+        if (((struct Obj03287 *)record)->f0 != 2 || STA_ACTING_GetActionByIndex(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
         if (((struct Obj03287 *)record)->f3E != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
         if (((struct Obj03287 *)record)->f44 != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
         if (!eligible[0] && !eligible[1]) continue;

@@ -1,5 +1,5 @@
 /*
- * function: func_02078CCC
+ * function: FS_ClearOverlayImage
  * address:  0x02078CCC
  * packet:   pkt_02078CCC
  * region:   arm9
@@ -37,7 +37,7 @@ extern void IC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-void func_02078CCC(FSOverlayInfo *p_ovi)
+void FS_ClearOverlayImage(FSOverlayInfo *p_ovi)
 {
     u8 *const addr = p_ovi->header.ram_address;
     const u32 image_size = p_ovi->header.ram_size;

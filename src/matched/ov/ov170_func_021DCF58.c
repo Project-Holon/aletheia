@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260F0 0x020260F0 thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   func_020355D8 0x020355D8 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
@@ -34,7 +34,7 @@ typedef struct {
 } MenuTmpl;
 
 struct Sound;
-extern u32 func_020260F0(struct Sound *obj);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void func_020355D8(u8 v);
 struct TaskMenu;
 struct TaskMenuTmpl;
@@ -54,7 +54,7 @@ void BOX2_MAIN_OpenTaskMenu(unsigned char *p, int sel)
     t.y = 0x12;
     t.w = 8;
     t.h = 3;
-    if (func_020260F0(*(void **)(WORK(p) + 0x70)) == 1)
+    if (CURSOR_MOVE_GetState(*(void **)(WORK(p) + 0x70)) == 1)
         func_020355D8(0);
     else
         func_020355D8(1);

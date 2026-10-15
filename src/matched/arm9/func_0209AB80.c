@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020979BC  0x020979BC  arm
+ *   __ieee754_pow  0x020979BC  arm
  */
 
-extern void func_020979BC(void);
+extern void __ieee754_pow(void);
 
 void pow(void)
 {
-    func_020979BC();
+    __ieee754_pow();
 }

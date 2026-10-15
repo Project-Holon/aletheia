@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C70
+ * function: LOCAL_TVT_CHARA_Create
  * address: 0x021B6C70
  * packet: pkt_ov174_021B6C70
  * region: ov174
@@ -12,9 +12,9 @@
  *   func_02005728 0x02005728 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
- *   func_021B7004 0x021B7004 thumb ov174
- *   func_021B6F3C 0x021B6F3C thumb ov174
- *   func_021B71B8 0x021B71B8 thumb ov174
+ *   LOCAL_TVT_CHARA_SetupActors 0x021B7004 thumb ov174
+ *   LOCAL_TVT_CHARA_SetupPalette 0x021B6F3C thumb ov174
+ *   LOCAL_TVT_CHARA_DrawLabel 0x021B71B8 thumb ov174
  *   d_021B74BC 0x021B74BC data
  */
 #include "../include/Obj01422.h"
@@ -28,11 +28,11 @@ extern u32 func_02005728(u32 range);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_021B7004(u8 *p, u8 *q);
-extern void func_021B6F3C(char *p, u8 *q);
-extern void func_021B71B8(u8 *p, u8 *q);
+extern void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q);
+extern void LOCAL_TVT_CHARA_SetupPalette(char *p, u8 *q);
+extern void LOCAL_TVT_CHARA_DrawLabel(u8 *p, u8 *q);
 extern char d_021B74BC[];
-char *func_021B6C70(char *p,int index)
+char *LOCAL_TVT_CHARA_Create(char *p,int index)
 {
     char *q;
     if((*(u8 **)(p+0x3c))[index]==0xff) return 0;
@@ -46,9 +46,9 @@ char *func_021B6C70(char *p,int index)
     ((struct Obj01759 *)q)->f34=0;
     ((struct Obj01759 *)q)->f30=func_02005728(0x4b);
     if(((struct Obj01759 *)q)->f2==0 && func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct Obj24205 *)(*(char * *)&((struct Obj01422 *)p)->f30))->f4))==1) ((struct Obj01759 *)q)->f2=5;
-    func_021B7004((u8 *)p,(u8 *)q);
-    func_021B6F3C(p,(u8 *)q);
-    func_021B71B8((u8 *)p,(u8 *)q);
+    LOCAL_TVT_CHARA_SetupActors((u8 *)p,(u8 *)q);
+    LOCAL_TVT_CHARA_SetupPalette(p,(u8 *)q);
+    LOCAL_TVT_CHARA_DrawLabel((u8 *)p,(u8 *)q);
     ((struct Obj01759 *)q)->f8=0;
     ((struct Obj01759 *)q)->f10=0;
     ((struct Obj01759 *)q)->f6=func_02005728(40);

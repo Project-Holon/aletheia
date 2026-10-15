@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_020407E8, sub_02040804
+ * function: BG_SYS_GetScrollX, BG_SYS_GetScrollY
  * address:  0x020407E8
  * packet:   pkt_02040618
  * region:   arm9
@@ -52,12 +52,12 @@ struct BgLayer {
 
 extern struct BgLayer *g_BgConfig;
 
-u32 sub_020407E8(u32 layer)
+u32 BG_SYS_GetScrollX(u32 layer)
 {
     return g_BgConfig[layer].scrollX;
 }
 
-u32 sub_02040804(u32 layer)
+u32 BG_SYS_GetScrollY(u32 layer)
 {
     return g_BgConfig[layer].scrollY;
 }

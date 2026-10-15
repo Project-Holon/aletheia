@@ -12,8 +12,8 @@
  * symbols:
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_ONESELF_CheckMyParty  0x0217BA48  thumb  ov019
  *   UNION_ONESELF_CheckBattleTeamParty  0x0217BA6C  thumb  ov019
@@ -64,8 +64,8 @@ typedef unsigned short u16;
 struct Big;
 struct Obj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *p);
-extern u32 func_0200BBA8(void *a);
+extern void *BATTLE_BOX_GetFromSave(void *p);
+extern u32 BATTLE_BOX_HasMon(void *a);
 struct BigObj;
 extern void UNION_MSG_CloseAllWindows(void *p);
 extern int UNION_ONESELF_CheckMyParty(char *p, unsigned int *mask);
@@ -104,7 +104,7 @@ int UNION_ONESELF_ColosseumPartySelectMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state
         obj->f6e = 0;
         (*state)++;
     case 1:
-        if (func_0200BBA8(func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)ctx->sys->f8))) == 1) {
+        if (BATTLE_BOX_HasMon(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)ctx->sys->f8))) == 1) {
             (*state)++;
         } else {
             w[0x16d] = 0;

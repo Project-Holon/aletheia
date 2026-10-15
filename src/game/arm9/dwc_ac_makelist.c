@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_makelist.c
  * unit:     yes
- * function: func_0205D318, func_0205D3E0, func_0205D434, func_0205D470, func_0205D4D8, func_0205D588, func_0205D848, func_0205D8D4
+ * function: DWCi_AC_MakeSearchList, DWCi_AC_CheckFreespot, DWCi_AC_GetSearchListNum, MakeAroundList, MakeStealthList, MakeUserList, MakeDifferChannelList, CheckDifferChannelStart
  * address:  0x0205D318
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -140,14 +140,14 @@ extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 extern int OS_IsRunOnTwl(void);
 extern int strncmp(const char *s1, const char *s2, unsigned long n);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-int func_0205D318(int type);
-unsigned char func_0205D3E0(WMBssDesc *bssdesc);
-unsigned char func_0205D434(void);
-unsigned char func_0205D470(ACWORK *wk);
-unsigned char func_0205D4D8(ACWORK *wk);
-unsigned char func_0205D588(ACWORK *wk);
-unsigned char func_0205D848(ACWORK *wk);
-unsigned char func_0205D8D4(ACWORK *wk);
+int DWCi_AC_MakeSearchList(int type);
+unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc);
+unsigned char DWCi_AC_GetSearchListNum(void);
+unsigned char MakeAroundList(ACWORK *wk);
+unsigned char MakeStealthList(ACWORK *wk);
+unsigned char MakeUserList(ACWORK *wk);
+unsigned char MakeDifferChannelList(ACWORK *wk);
+unsigned char CheckDifferChannelStart(ACWORK *wk);
 extern const unsigned char FREESPOT_SSID[8];
 extern const char g_020A80A4[];
 extern const unsigned char NINTENDOWFC_SSID[11];
@@ -159,18 +159,18 @@ extern const unsigned char NINTENDOWFC_SSID[11];
 /*
  * sdk:      DWCi_AC_MakeSearchList (makelist.o)
  */
-int func_0205D318(int type)
+int DWCi_AC_MakeSearchList(int type)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
     switch (type) {
     case 0:
         MIi_CpuClear32(0, wk->searchList, sizeof(wk->searchList));
-        wk->searchListNum = func_0205D470(wk);
+        wk->searchListNum = MakeAroundList(wk);
         break;
     case 1:
-        wk->searchListNum = func_0205D848(wk);
-        wk->searchListNo = func_0205D8D4(wk);
+        wk->searchListNum = MakeDifferChannelList(wk);
+        wk->searchListNo = CheckDifferChannelStart(wk);
         if (wk->searchListNum == 0) {
             return 0;
         }
@@ -178,7 +178,7 @@ int func_0205D318(int type)
     case 2:
         MIi_CpuClear32(0, wk->searchList, sizeof(wk->searchList));
         wk->searchListNo = 0;
-        wk->searchListNum = func_0205D4D8(wk);
+        wk->searchListNum = MakeStealthList(wk);
         if (wk->searchListNum == 0) {
             return 0;
         }
@@ -195,7 +195,7 @@ int func_0205D318(int type)
 /*
  * sdk:      DWCi_AC_CheckFreespot (makelist.o)
  */
-unsigned char func_0205D3E0(WMBssDesc *bssdesc)
+unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
@@ -214,7 +214,7 @@ unsigned char func_0205D3E0(WMBssDesc *bssdesc)
 /*
  * sdk:      DWCi_AC_GetSearchListNum (makelist.o)
  */
-unsigned char func_0205D434(void)
+unsigned char DWCi_AC_GetSearchListNum(void)
 {
     unsigned char num;
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
@@ -234,12 +234,12 @@ unsigned char func_0205D434(void)
 /*
  * sdk:      MakeAroundList (makelist.o)
  */
-unsigned char func_0205D470(ACWORK *wk)
+unsigned char MakeAroundList(ACWORK *wk)
 {
     ACSL *list = wk->searchList;
     unsigned char num;
 
-    num = func_0205D588(wk);
+    num = MakeUserList(wk);
     list += num;
     if (wk->connectType == 0 || wk->connectType == 6) {
         MI_CpuCopy8(FREESPOT_SSID, list->ssid, 8);
@@ -258,12 +258,12 @@ unsigned char func_0205D470(ACWORK *wk)
  *
  * g_020A80A4 is the object's anonymous 8-byte SSID literal (@16449).
  */
-unsigned char func_0205D4D8(ACWORK *wk)
+unsigned char MakeStealthList(ACWORK *wk)
 {
     unsigned char num;
     ACSL *list = wk->searchList;
 
-    num = func_0205D588(wk);
+    num = MakeUserList(wk);
     list += num;
     if (wk->connectType == 0 || wk->connectType == 4) {
         MI_CpuCopy8(g_020A80A4, list->ssid, 8);
@@ -306,7 +306,7 @@ static inline int SetList(ACSL *list, const unsigned char *ssid, unsigned char t
 /*
  * sdk:      MakeUserList (makelist.o)
  */
-unsigned char func_0205D588(ACWORK *wk)
+unsigned char MakeUserList(ACWORK *wk)
 {
     int i;
     unsigned char num;
@@ -364,7 +364,7 @@ unsigned char func_0205D588(ACWORK *wk)
 /*
  * sdk:      MakeDifferChannelList (makelist.o)
  */
-unsigned char func_0205D848(ACWORK *wk)
+unsigned char MakeDifferChannelList(ACWORK *wk)
 {
     int i;
     unsigned char num = 0;
@@ -385,7 +385,7 @@ unsigned char func_0205D848(ACWORK *wk)
 /*
  * sdk:      CheckDifferChannelStart (makelist.o)
  */
-unsigned char func_0205D8D4(ACWORK *wk)
+unsigned char CheckDifferChannelStart(ACWORK *wk)
 {
     unsigned char i;
     unsigned char no = 0;

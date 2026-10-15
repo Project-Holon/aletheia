@@ -11,17 +11,17 @@
  *
  * symbols:
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb  ov010
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  */
 
 typedef unsigned char  u8;
 struct V3;
 void FIELD_G3D_MAP_GetPos(u8 *src, struct V3 *dst);
-void func_0207C9D0(unsigned char *a, int *buf, int b);
+void VEC_Add(unsigned char *a, int *buf, int b);
 
 void FIELD_BUILDMODEL_GetEntryWorldPos(int *p, int b)
 {
     int buf[3];
     FIELD_G3D_MAP_GetPos((u8 *)p[0], (struct V3 *)buf);
-    func_0207C9D0((unsigned char *)p[3] + 4, buf, b);
+    VEC_Add((unsigned char *)p[3] + 4, buf, b);
 }

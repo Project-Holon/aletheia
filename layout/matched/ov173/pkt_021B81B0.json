@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B81B0",
+   "name": "POKE_SUMMARY_ACTOR_SetSubBrightness",
    "address": "0x021B81B0",
    "kind": "game",
    "region": "ov173",

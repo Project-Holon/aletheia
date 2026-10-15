@@ -1,5 +1,5 @@
 /*
- * function: func_0200BC2C
+ * function: DAYCARE_GetSlotMon
  * address:  0x0200BC2C
  * packet:   pkt_0200BC2C
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     u32 count;
 } E;
 
-void *func_0200BC2C(E *e, int i)
+void *DAYCARE_GetSlotMon(E *e, int i)
 {
     if (i < 0 || i >= 2 || e[i].active != 1)
         i = 0;

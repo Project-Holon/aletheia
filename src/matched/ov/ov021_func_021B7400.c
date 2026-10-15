@@ -14,7 +14,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   sPdwPostmanFileName     0x021DE288  data   ov021  a1
@@ -47,7 +47,7 @@ extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *FIELD_MSGBG_CreateMsgWin(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 extern u8 sPdwPostmanFileName[];
@@ -68,7 +68,7 @@ Obj *PDW_POSTMAN_CreateListWin(u32 a, u32 b, int c)
     o->f20 = c;
     line += 0xc8;
     o->f8 = (u32)func_02045B38(0, 3, line, heap);
-    o->f14 = (u32)func_0201EC64(heap);
+    o->f14 = (u32)GF_FONT_Create_EC64(heap);
     o->f18 = (u32)STRBUF_Create(0x80, heap);
     o->f1C = (u32)STRBUF_Create(0x80, heap);
     sz = (c * 14 + 7) & ~7;

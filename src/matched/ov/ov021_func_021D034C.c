@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sBtrainDrawStatus  0x021DB8F0  data  ov021  a4
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  * Addresses are Black-image addresses.
@@ -26,7 +26,7 @@ typedef struct V {
 } V;
 
 extern const V sBtrainDrawStatus;
-extern void func_0207ADC4(void *a);
+extern void MTX_Identity33_(void *a);
 extern void FIELD_EFFECT_GetObjectPos(u32 a, V *v);
 struct Arg;
 extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
@@ -37,7 +37,7 @@ void FLDEFF_BTRAIN_Draw(u32 a, u8 *b)
 
     if (b[1] == 0) {
         v = sBtrainDrawStatus;
-        func_0207ADC4(&v.w[6]);
+        MTX_Identity33_(&v.w[6]);
         FIELD_EFFECT_GetObjectPos(a, &v);
         G3D_SYSTEM_DrawObjectCulling((void *)(((struct Obj12997 *)b)->fC), (struct Arg *)(&v));
     }

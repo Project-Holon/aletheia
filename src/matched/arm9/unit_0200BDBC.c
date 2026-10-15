@@ -11,25 +11,25 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BDBC, func_0200BDC4, func_0200BDE4, func_0200BDF8,
- *           func_0200BDFC, func_0200BE00, func_0200BE24
+ * function: INTRUDE_GetSize, INTRUDE_Init, INTRUDE_InitOccupy, INTRUDE_GetMissionScore,
+ *           INTRUDE_GetMissionBonusScore, INTRUDE_AddMissionScore, INTRUDE_AddMissionBonusScore
  *
  * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
  * label in the generated listing.
  *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
+ * A 0x1B0-byte record: INTRUDE_GetSize returns its size and INTRUDE_Init
  * clears exactly that many bytes, which is the block-file opening this region
  * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
  * and reaches it by subtracting 0x10 from the size it already has in a
  * register rather than materialising 0x1A0 again; that is the compiler's
  * doing and not a second constant in the source.
  *
- * func_0200BDE4 hands the first sixteen bytes to INTRUDE_COMM_ResetOutcomes, which lives
+ * INTRUDE_InitOccupy hands the first sixteen bytes to INTRUDE_COMM_ResetOutcomes, which lives
  * in overlay address space.  The call is attested because ov019's generated
  * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
  * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
  *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
+ * INTRUDE_AddMissionScore and INTRUDE_AddMissionBonusScore are the same clamped adder over two
  * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
  * pool in each of them because it does not fit a Thumb immediate.  The
  * increment has to be written `p->f += v` with a **signed** parameter: the
@@ -59,37 +59,37 @@ struct Rec1B0 {
     u8  unk1A1[0x0F];
 };
 
-void func_0200BDE4(struct Rec1B0 *p);
+void INTRUDE_InitOccupy(struct Rec1B0 *p);
 
-u32 func_0200BDBC(void)
+u32 INTRUDE_GetSize(void)
 {
     return sizeof(struct Rec1B0);
 }
 
-void func_0200BDC4(struct Rec1B0 *p)
+void INTRUDE_Init(struct Rec1B0 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec1B0));
-    func_0200BDE4(p);
+    INTRUDE_InitOccupy(p);
     p->unk1A0 = 0x30;
 }
 
-void func_0200BDE4(struct Rec1B0 *p)
+void INTRUDE_InitOccupy(struct Rec1B0 *p)
 {
     MI_CpuFill8(p, 0, 0x10);
     INTRUDE_COMM_ResetOutcomes(p);
 }
 
-u16 func_0200BDF8(struct Rec1B0 *p)
+u16 INTRUDE_GetMissionScore(struct Rec1B0 *p)
 {
     return p->unk0C;
 }
 
-u16 func_0200BDFC(struct Rec1B0 *p)
+u16 INTRUDE_GetMissionBonusScore(struct Rec1B0 *p)
 {
     return p->unk0E;
 }
 
-void func_0200BE00(struct Rec1B0 *p, s32 v)
+void INTRUDE_AddMissionScore(struct Rec1B0 *p, s32 v)
 {
     if (p->unk0C + v > 999) {
         p->unk0C = 999;
@@ -98,7 +98,7 @@ void func_0200BE00(struct Rec1B0 *p, s32 v)
     }
 }
 
-void func_0200BE24(struct Rec1B0 *p, s32 v)
+void INTRUDE_AddMissionBonusScore(struct Rec1B0 *p, s32 v)
 {
     if (p->unk0E + v > 999) {
         p->unk0E = 999;

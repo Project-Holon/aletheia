@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_OnSleep  0x02012220  thumb
- *   func_02035138  0x02035138  arm
+ *   UI_SetWakePoweredHookGlobal  0x02035138  arm
  *
  * Promoted from src/pending/GAMESYSTEM_RegisterSleepCallback.c.  The C never changed; the ISA
  * on the second symbols line did.  The tail call goes through the pool word
@@ -35,9 +35,9 @@ typedef unsigned int u32;
 struct IcaAnime;
 
 extern void GAMESYSTEM_OnSleep(struct IcaAnime *p);
-extern void func_02035138(void *fn, u32 arg);
+extern void UI_SetWakePoweredHookGlobal(void *fn, u32 arg);
 
 void GAMESYSTEM_RegisterSleepCallback(struct IcaAnime *p)
 {
-    func_02035138((void *)GAMESYSTEM_OnSleep, (u32)p);
+    UI_SetWakePoweredHookGlobal((void *)GAMESYSTEM_OnSleep, (u32)p);
 }

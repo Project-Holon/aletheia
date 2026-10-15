@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * blocker: ARM9 0x0201F614 lacks a witness outside this caller; scratch verification EXACT, 20 bytes.
- *   symbols: func_0203FB44 0x0203FB44 arm
- *   extern void func_0203FB44(unsigned,unsigned short,unsigned short);
- *   void func_0201F614(unsigned a,unsigned b) { func_0203FB44(a,(unsigned short)b,b>>16); }
+ *   symbols: BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   extern void BG_SYS_DeleteHalf(unsigned,unsigned short,unsigned short);
+ *   void func_0201F614(unsigned a,unsigned b) { BG_SYS_DeleteHalf(a,(unsigned short)b,b>>16); }
  * padding: 0x021BF4C2..0x021BF4C4 is zero alignment padding.
  * symbols:
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb

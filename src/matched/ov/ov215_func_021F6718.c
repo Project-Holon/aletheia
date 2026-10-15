@@ -1,5 +1,5 @@
 /*
- * function: func_021F6718
+ * function: EGG_DEMO_VIEW_FreeRecords
  * address: 0x021F6718
  * packet: pkt_ov215_021F6718
  * region: ov215
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F6718(void *p){func_020307B0(p);}
+void EGG_DEMO_VIEW_FreeRecords(void *p){func_020307B0(p);}

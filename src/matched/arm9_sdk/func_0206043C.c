@@ -1,5 +1,5 @@
 /*
- * function: func_0206043C
+ * function: NCFGi_CheckAddress
  * address:  0x0206043C
  * packet:   pkt_0205F7C8
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_0206043C(unsigned char *address)
+int NCFGi_CheckAddress(unsigned char *address)
 {
     if (address[0] == 127) {
         return 0;

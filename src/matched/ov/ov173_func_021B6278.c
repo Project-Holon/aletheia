@@ -1,5 +1,5 @@
 /*
- * function: func_021B6278
+ * function: POKE_SUMMARY_MAIN_CreateTaskMenu
  * address: 0x021B6278
  * packet: pkt_ov173_021B6278
  * region: ov173
@@ -29,7 +29,7 @@ struct MsgBank;
 struct R;
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void func_021B6278(u8 *p)
+void POKE_SUMMARY_MAIN_CreateTaskMenu(u8 *p)
 {
     int i;
     const Row *r;

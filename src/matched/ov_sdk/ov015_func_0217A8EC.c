@@ -17,7 +17,7 @@
  *   IRCi_CommWrite  0x0217A674  arm  ov015
  *   IRCi_WaitCommand  0x0217A5B4  arm  ov015
  *   OS_UnLockCard  0x02084E2C  arm
- *   func_02075EAC  0x02075EAC  arm
+ *   CARD_UnlockBackup  0x02075EAC  arm
  *   gIrcWriteBuffer     0x0217AD58  data
  *   gIrcCommParamAlias2     0x0217AC90  data
  *   g_0217AC90_b   0x0217AC90  data
@@ -37,7 +37,7 @@ extern long OS_LockCard(unsigned short lockID);
 extern unsigned char IRCi_CommWrite(IRCParam *p);
 extern void IRCi_WaitCommand(void);
 extern void OS_UnLockCard();
-extern void func_02075EAC(unsigned short lock_id);
+extern void CARD_UnlockBackup(unsigned short lock_id);
 extern unsigned char gIrcWriteBuffer[181];
 extern struct IRCParam gIrcCommParamAlias2;
 extern struct IRCParam g_0217AC90_b;
@@ -68,5 +68,5 @@ void IRCi_Write(unsigned char *data, unsigned char size)
     while (*(volatile unsigned short *)0x040001A0 & 0x80)
         ;
     OS_UnLockCard(gIrcLockId);
-    func_02075EAC(gIrcLockId);
+    CARD_UnlockBackup(gIrcLockId);
 }

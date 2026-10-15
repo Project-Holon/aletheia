@@ -18,13 +18,13 @@
  *   FIELD_MSGBG_ReleaseSysFrame  0x02190378  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
  *   func_020403F4  0x020403F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_02062B30  0x02062B30  arm
  *   func_02062A98  0x02062A98  arm
  *   func_02040B1C  0x02040B1C  arm
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *   func_02040E78  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
  *   func_0204047C  0x0204047C  arm
@@ -71,13 +71,13 @@ extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern int FIELD_MSGBG_ReleaseSysFrame(u8 *a);
 extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
 extern void func_020403F4(u32 i);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern int func_02062B30(void *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
+extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_02040E78(u32 index, void *src, u32 size, u32 offset);
 extern u32 func_020307B0(void *p);
 extern void func_0204047C(int idx, unsigned short val);
@@ -123,7 +123,7 @@ void FLD_FACEUP_SetupBg(u8 *w, int p)
     else
         func_020403F4(2);
     tbl = gFldFaceupBgTemplate;
-    func_0203FCA0(2, (const struct BgTemplate *)(&tbl), 0);
+    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&tbl), 0);
     if (((struct Obj09918 *)w)->fC == 0) {
         a = 4;
         b = 8;
@@ -143,7 +143,7 @@ void FLD_FACEUP_SetupBg(u8 *w, int p)
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, b, 0x8015);
     func_02062B30(f, (void **)(&scr1));
-    func_020409E0(2, scr1->data, scr1->size, 0);
+    BG_SYS_PushTileSource(2, scr1->data, scr1->size, 0);
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, c, 0x8015);
     func_02062A98(f, (void **)(&plt));
@@ -155,7 +155,7 @@ void FLD_FACEUP_SetupBg(u8 *w, int p)
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, 11, 0x8015);
     func_02062B30(f, (void **)(&scr2));
-    func_020409E0(3, scr2->data, scr2->size, 0);
+    BG_SYS_PushTileSource(3, scr2->data, scr2->size, 0);
     func_020307B0(f);
     func_0204047C(0, 3);
     func_0204047C(1, 0);

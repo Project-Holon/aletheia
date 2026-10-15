@@ -13,7 +13,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   WORLDTRADE_ReleaseGraphics  0x021F4EFC  thumb
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  */
 #include "../include/Obj05413.h"
 
@@ -30,7 +30,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void WORLDTRADE_ReleaseGraphics(u8 *p);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 void WORLDTRADE_ExitPlanes(u8 *p)
 {
@@ -42,7 +42,7 @@ void WORLDTRADE_ExitPlanes(u8 *p)
     *(vu16 *)0x04001050 = 0;
     WORLDTRADE_ReleaseGraphics(p);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     *(vu32 *)0x04000000 &= 0xFFFF1FFF;
     *(vu32 *)0x04001000 &= 0xFFFF1FFF;
 }

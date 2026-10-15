@@ -12,13 +12,13 @@
  * Address of the module state object.
  *
  * symbols:
- *   g_021ACFD4  0x021ACFD4  data
+ *   gGSCoreManager  0x021ACFD4  data
  */
 
-extern char g_021ACFD4[];
+extern char gGSCoreManager[];
 
 void *gsiCoreGetManager(void)
 {
-    return g_021ACFD4;
+    return gGSCoreManager;
 }
 

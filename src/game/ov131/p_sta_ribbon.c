@@ -53,9 +53,9 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02041300 0x02041300 arm
  *   func_02041570 0x02041570 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   P_STA_RIBBON_FileName 0x021DC834 data a1
  *   func_02049E74 0x02049E74 arm
@@ -260,8 +260,8 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgId);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *func_0201EC64(u32 heapId);
-extern u32 func_0201ED04(struct WordSet *ws);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
 extern void func_0201EFA4(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
@@ -777,7 +777,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     MI_CpuCopy8(pixels,source,0x660);
     text=func_02045EC0(work->msgBank,owned->category+160);
     buffer=STRBUF_Create(32,wk->heapId);
-    wordSet=func_0201EC64(wk->heapId);
+    wordSet=GF_FONT_Create_EC64(wk->heapId);
     func_0201EFA4(wordSet,0,owned->number,2,2,1);
     func_0201F250(wordSet,buffer,text);
     GF_FONT_SetTextColor(1,2,0);
@@ -785,7 +785,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     func_0201DD68();
     STRBUF_Delete(text);
     STRBUF_Delete(buffer);
-    func_0201ED04(wordSet);
+    WORDSET_DeleteStrbufED04(wordSet);
     P_STA_OAM_TransferBitmap(row->actors);
 }
 

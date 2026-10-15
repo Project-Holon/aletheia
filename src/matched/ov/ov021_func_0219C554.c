@@ -19,8 +19,8 @@
  *   FLDMMDL_BLACT_CreateReserve  0x0219CBE0  thumb  ov021
  *   FLDMMDL_BLACT_CreateCodeChange  0x0219D2CC  thumb  ov021
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
- *   func_0204ED70  0x0204ED70  arm
- *   func_0204EDB0  0x0204EDB0  arm
+ *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   BILLBOARD_SetField24  0x0204EDB0  arm
  *   sBlactFileName     0x021DDD70  data  a1
  *   sBlactBoardScale     0x021D8058  data  a4
  */
@@ -42,8 +42,8 @@ extern void FLDMMDL_BLACT_CreateReserve(u8 *o);
 struct Blk3;
 extern void FLDMMDL_BLACT_CreateCodeChange(int *obj);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
-extern void func_0204ED70(u8 *dst, struct Blk3 *src);
-extern void func_0204EDB0(u8 *dst, u8 *src);
+extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
 
 void FLDMMDL_BLACT_Init(u32 a, u32 b, u32 c)
 {
@@ -60,7 +60,7 @@ void FLDMMDL_BLACT_Init(u32 a, u32 b, u32 c)
     FLDMMDL_BLACT_CreateCodeChange((int *)p);
     h = BILLBOARD_ACT_GetBoard((u32 *)b);
     t = sBlactBoardScale;
-    func_0204ED70((u8 *)h, (struct Blk3 *)(&t));
+    BILLBOARD_SetField10((u8 *)h, (struct Blk3 *)(&t));
     z = 0;
-    func_0204EDB0((u8 *)h, &z);
+    BILLBOARD_SetField24((u8 *)h, &z);
 }

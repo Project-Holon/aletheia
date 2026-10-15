@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4BA4  0x021C4BA4  thumb  ov127
+ *   WF2DMAP_OBJ_FindAtPos  0x021C4BA4  thumb  ov127
  *
  * Asks the ov127 routine at 0x021C4BA4 for a handle (the word the caller
  * points at, plus the pointer at +0x58C) and then walks the 0x30 records of
@@ -29,11 +29,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u8 *func_021C4BA4(u8 *p, void *list, int n);
+extern u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n);
 
 void *WIFICLUBACTOR_FindActorFacing(char *p, u32 *q, int c)
 {
-    void *v = func_021C4BA4((void *)*q, ((struct Obj18152 *)p)->f58C, c);
+    void *v = WF2DMAP_OBJ_FindAtPos((void *)*q, ((struct Obj18152 *)p)->f58C, c);
     int i;
 
     if (v != 0) {

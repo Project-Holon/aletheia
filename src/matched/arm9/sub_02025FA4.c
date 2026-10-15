@@ -1,5 +1,5 @@
 /*
- * function: func_02025FA4
+ * function: CURSOR_MOVE_StartInput
  * address:  0x02025FA4
  * packet:   pkt_02025C44
  * region:   arm9
@@ -34,7 +34,7 @@ struct Struct_02025CD0 {
     u32 field_1C;
 };
 
-int func_02025FA4(struct Struct_02025CD0 *obj)
+int CURSOR_MOVE_StartInput(struct Struct_02025CD0 *obj)
 {
     int one = 1;
 

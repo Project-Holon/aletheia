@@ -39,8 +39,8 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203F8F4  0x0203F8F4  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   BG_SYS_Create  0x0203F8F4  arm
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
@@ -77,7 +77,7 @@
  *   OEKAKI_CloseYesNoMenu  0x02186694  thumb  ov023
  *   OEKAKI_DeleteWindows  0x02185004  thumb  ov023
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
@@ -86,9 +86,9 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   gOekakiVramBanks     0x02186ACC  data  ov023  a4
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   gOekakiDispConfig     0x02186B3C  data  ov023  a4
  *   gOekakiBgTemplate0     0x02186BCC  data  ov023  a4
  *   gOekakiBgTemplate1     0x02186B6C  data  ov023  a4
@@ -102,9 +102,9 @@
  *   gOekakiFileName     0x02186F58  data  ov023  a4
  *   func_020307B0 0x020307B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049B40  0x02049B40  arm
  *   func_02049658  0x02049658  arm
@@ -167,7 +167,7 @@
  *   BMP_Blit  0x020439A0  arm
  *   BMP_Delete  0x020437AC  arm
  *   gOekakiBrushPixels     0x02186C34  data  ov023  a4
- *   func_0203F684  0x0203F684  arm
+ *   GF_STANDARD_Get_F684  0x0203F684  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   func_02008500  0x02008500  thumb
@@ -193,6 +193,7 @@
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb  arm9
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 typedef unsigned int u32;
 
@@ -254,8 +255,8 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *task, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern void func_0203F8F4(u16 heapId);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern void BG_SYS_Create(u16 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 heapId);
@@ -278,7 +279,7 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern u32 CLACT_DeleteUnit(void *clactSys);
 extern void CLACT_ExitSystem(void);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(void *font);
 extern void func_020315D4(struct S020315D4 *task);
 extern void func_020306F0(u32 heapId);
@@ -286,17 +287,17 @@ void CLACT_VBlankSystem(void);
 void func_020419E4(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0203FC28(const DispConfig *config);
-extern void func_0203FCA0(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
-extern void func_020414EC(u32 bgId);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
+extern void BG_SYS_ClearSlot(u32 bgId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, StrBuf *dest);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void STRBUF_Delete(StrBuf *vec);
-void func_0207D534(volatile u16 *reg, int brightness);
+void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 void func_020403F4(u32 layer);
-void func_0203F9B4(void);
+void BG_SYS_Delete(void);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
@@ -427,7 +428,7 @@ extern u32 GFL_NET_HANDLE_IsTimingSyncRange(NetHandle *h, u32 a, u32 b);
 extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 width, u32 height, u32 key);
 extern void BMP_Delete(struct Bmp *p);
-extern short func_0203F684(unsigned short x);
+extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
 extern void func_02008500(UnionAppEntry *entry, StrBuf *dst);
@@ -436,7 +437,7 @@ extern int  GFL_NET_ResetSendQueue(void *h);
 extern void func_0201F250(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
 extern void func_0201F73C(struct BmpWin *window, int a, int b, int c);
 extern void PRINTSYS_PrintStreamDelete(void *stream);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, StrBuf *text, void *font, u32 speed, TcbList *taskList, u32 a, u16 heap, u32 color);
 extern u32 PRINTSYS_PrintStreamGetState(void *stream);
 extern u32 KEY_GetTrg(void);
@@ -839,8 +840,8 @@ int OEKAKI_Init(void *task, int *state, OekakiParam *param)
         GFL_HEAP_CreateChildHeap(1, OEKAKI_HEAP_ID, 0x50000);
         work = PROCSYS_AllocProcWork(task, OEKAKI_WORK_SIZE, OEKAKI_HEAP_ID);
         MI_CpuFill8(work, 0, OEKAKI_WORK_SIZE);
-        func_0203F8F4(OEKAKI_HEAP_ID);
-        work->wordSet = func_0201EC64(OEKAKI_HEAP_ID);
+        BG_SYS_Create(OEKAKI_HEAP_ID);
+        work->wordSet = GF_FONT_Create_EC64(OEKAKI_HEAP_ID);
         work->msgBank = func_02045B38(0, 2, 0x53, OEKAKI_HEAP_ID);
         work->font = GF_FONT_Create(0x17, 0, 0, 0, OEKAKI_HEAP_ID);
         OEKAKI_SetVramBanks();
@@ -972,7 +973,7 @@ int OEKAKI_Exit(struct S020315D4 *task, int *seq, void *unused, OekakiWork *work
         OEKAKI_DeleteWindows(work);
         OEKAKI_ResetDisplay();
         MSGDATA_Delete(work->msgBank);
-        func_0201ED04(work->wordSet);
+        WORDSET_DeleteStrbufED04(work->wordSet);
         GF_FONT_Delete(work->font);
         (*seq)++;
         break;
@@ -1067,27 +1068,27 @@ void OEKAKI_SetupBgs(void)
     func_0203FC28(&dispConfig);
 
     bg0 = gOekakiBgTemplate0;
-    func_0203FCA0(0, &bg0, 0);
-    func_020414EC(0);
+    BG_SYS_InitBgLayer(0, &bg0, 0);
+    BG_SYS_ClearSlot(0);
 
     bg1 = gOekakiBgTemplate1;
-    func_0203FCA0(1, &bg1, 0);
-    func_020414EC(1);
+    BG_SYS_InitBgLayer(1, &bg1, 0);
+    BG_SYS_ClearSlot(1);
 
     bg2 = gOekakiBgTemplate2;
-    func_0203FCA0(2, &bg2, 0);
+    BG_SYS_InitBgLayer(2, &bg2, 0);
 
     bg4 = gOekakiBgTemplate4;
-    func_0203FCA0(4, &bg4, 0);
-    func_020414EC(4);
+    BG_SYS_InitBgLayer(4, &bg4, 0);
+    BG_SYS_ClearSlot(4);
 
     bg5 = gOekakiBgTemplate5;
-    func_0203FCA0(5, &bg5, 0);
+    BG_SYS_InitBgLayer(5, &bg5, 0);
 
-    func_02040B94(0, 0x20, 0, OEKAKI_HEAP_ID);
-    func_02040B94(4, 0x20, 0, OEKAKI_HEAP_ID);
-    func_02040B94(1, 0x20, 0, OEKAKI_HEAP_ID);
-    func_02040B94(5, 0x20, 0, OEKAKI_HEAP_ID);
+    BG_SYS_InitRun(0, 0x20, 0, OEKAKI_HEAP_ID);
+    BG_SYS_InitRun(4, 0x20, 0, OEKAKI_HEAP_ID);
+    BG_SYS_InitRun(1, 0x20, 0, OEKAKI_HEAP_ID);
+    BG_SYS_InitRun(5, 0x20, 0, OEKAKI_HEAP_ID);
 }
 
 
@@ -1143,14 +1144,14 @@ void OEKAKI_FreeWork(OekakiWork *work)
 
 void OEKAKI_ResetDisplay(void)
 {
-    func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, -16);
-    func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, -16);
     func_020403F4(5);
     func_020403F4(4);
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -2038,7 +2039,7 @@ void OEKAKI_AnimatePalette(u16 *angle)
     *angle += 20;
     if (*angle > 360)
         *angle = 0;
-    color = (u16)((((func_0203F684(*angle) * 10) / 0x1000) + 15) << 5 | 0x1d);
+    color = (u16)((((GF_STANDARD_Get_F684(*angle) * 10) / 0x1000) + 15) << 5 | 0x1d);
     GX_LoadOBJPltt(&color, 0x18, 2);
 }
 
@@ -2170,7 +2171,7 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
         p->printJob[6].busy = 1;
     } else {
         p->messageStream = PRINTSYS_PrintStream(p->messageWindow, 0, 0, p->messageText,
-                                         p->font, func_02012FFC(),
+                                         p->font, MSG_SPEED_GetWait(),
                                          p->taskList, 1, 0x28, 0xF0F);
     }
     window = p->messageWindow;

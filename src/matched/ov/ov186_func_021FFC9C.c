@@ -14,7 +14,7 @@
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
- *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -39,7 +39,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern void BR_UTIL_StartEffect(char *,u32,const Pair *);
 extern void BR_UTIL_MainListMenu(char *);
-extern int BR_UTIL_GetListMenuField48(char *),BR_UTIL_IsEffectDone(char *),BR_FADE_GetResult(int *);
+extern int BR_UTIL_GetListMenuHitId(char *),BR_UTIL_IsEffectDone(char *),BR_FADE_GetResult(int *);
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern void BR_POKESEARCH_DestroyGroupWindows(u8 *p);
 extern void BR_POKESEARCH_DestroySpeciesList(u8 *p);
@@ -74,7 +74,7 @@ int BR_POKESEARCH_Main(char *p)
             int x,y,held;
             Pair pair;
             BR_UTIL_MainListMenu(*(char * *)&((struct Obj00221 *)p)->f68);
-            ((struct Obj00221 *)p)->f10=BR_UTIL_GetListMenuField48(*(char * *)&((struct Obj00221 *)p)->f68);
+            ((struct Obj00221 *)p)->f10=BR_UTIL_GetListMenuHitId(*(char * *)&((struct Obj00221 *)p)->f68);
             held=TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
             if (BR_BTN_HitTestWithSound((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;

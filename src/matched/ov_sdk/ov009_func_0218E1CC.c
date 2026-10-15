@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217EB9C  0x0217EB9C  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  */
 
@@ -36,7 +36,7 @@ struct GPISearchData {
 };
 
 extern int func_0217EB9C(int sock, int how);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern void func_0217EAE0(void *ptr);
 
 void func_0218E1CC(void **connection, struct GPIOperation *operation)
@@ -48,7 +48,7 @@ void func_0218E1CC(void **connection, struct GPIOperation *operation)
 
         iconnection->numSearches--;
         func_0217EB9C(data->sock, 2);
-        func_0217EB2C(data->sock);
+        closesocket(data->sock);
         func_0217EAE0(data->b);
         data->b = 0;
         func_0217EAE0(data->a);

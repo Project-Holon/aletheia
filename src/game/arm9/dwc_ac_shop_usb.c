@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_shop_usb.c
  * unit:     yes
- * function: func_0205EA08, func_0205EA44, func_0205EA70, func_0205EAFC, func_0205EB20, func_0205EB30, func_0205EC2C, func_0205EC7C, func_0205EE28, func_0205EE98
+ * function: DWCi_AC_CheckNintendoShopAP, DWCi_AC_GetNintendoShopWepKey, DWCi_AC_GetPostalCode, DWCi_AC_CheckNintendoUsbAP, DWCi_AC_GetNintendoUSBWepKey, decodeSSID, makeShopWepKey, makeUsbWepKey, codetovalue, db64
  * address:  0x0205EA08
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -58,16 +58,12 @@ extern void MATH_MD5Init(MATHMD5Context *context);
 extern void MATH_MD5Update(MATHMD5Context *context, const void *input, unsigned long length);
 extern void MATH_MD5GetHash(MATHMD5Context *context, void *digest);
 extern long codetovalue(unsigned char c);
-int func_0205EA08(char *ssid);
-void func_0205EA44(char *ssid, unsigned char *wep);
-int func_0205EA70(char *ssid, unsigned char *pos);
-int func_0205EAFC(char *ssid);
-void func_0205EB20(char *ssid, unsigned char *wep);
-void func_0205EB30(char *ssid, unsigned char *buf);
-static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey);
-void func_0205EC7C(unsigned char *seed, unsigned char *wepkey);
-long func_0205EE28(unsigned char c);
-int func_0205EE98(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize);
+int DWCi_AC_CheckNintendoShopAP(char *ssid);
+void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep);
+int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos);
+int DWCi_AC_CheckNintendoUsbAP(char *ssid);
+void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep);
+static void makeShopWepKey(unsigned char *seed, unsigned char *wepkey);
 extern const char g_020A8118[];
 extern const char g_020A8124[]; /* "NWCUSBAP", the vendor object's @16393 */
 extern const CTable g_020A1688;
@@ -80,11 +76,11 @@ extern const unsigned char g_020A1675[16];
 /*
  * sdk:      DWCi_AC_CheckNintendoShopAP (shop_usb.o)
  */
-int func_0205EA08(char *ssid)
+int DWCi_AC_CheckNintendoShopAP(char *ssid)
 {
     unsigned char buf[24];
 
-    func_0205EB30(ssid, buf);
+    decodeSSID(ssid, buf);
     if (memcmp(buf, "NDWCSHAP", 8) == 0) {
         return 1;
     }
@@ -96,12 +92,12 @@ int func_0205EA08(char *ssid)
 /*
  * sdk:      DWCi_AC_GetNintendoShopWepKey (shop_usb.o)
  */
-void func_0205EA44(char *ssid, unsigned char *wep)
+void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep)
 {
     unsigned char buf[24];
 
-    func_0205EB30(ssid, buf);
-    func_0205EC2C(buf, wep);
+    decodeSSID(ssid, buf);
+    makeShopWepKey(buf, wep);
 }
 
 
@@ -109,7 +105,7 @@ void func_0205EA44(char *ssid, unsigned char *wep)
 /*
  * sdk:      DWCi_AC_GetPostalCode (libdwcac.TWL.HYB.a(shop_usb.o))
  */
-int func_0205EA70(char *ssid, unsigned char *pos)
+int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos)
 {
     int i;
     unsigned char buf[24];
@@ -131,7 +127,7 @@ int func_0205EA70(char *ssid, unsigned char *pos)
 /*
  * sdk:      DWCi_AC_CheckNintendoUsbAP (shop_usb.o)
  */
-int func_0205EAFC(char *ssid)
+int DWCi_AC_CheckNintendoUsbAP(char *ssid)
 {
     if (memcmp(ssid, g_020A8124, 8) == 0) {
         return 1;
@@ -144,7 +140,7 @@ int func_0205EAFC(char *ssid)
 /*
  * sdk:      DWCi_AC_GetNintendoUSBWepKey (libdwcac.TWL.HYB.a(shop_usb.o))
  */
-void func_0205EB20(char *ssid, unsigned char *wep)
+void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep)
 {
     makeUsbWepKey((unsigned char *)ssid + 12, wep);
 }
@@ -154,7 +150,7 @@ void func_0205EB20(char *ssid, unsigned char *wep)
 /*
  * sdk:      decodeSSID (shop_usb.o)
  */
-void func_0205EB30(char *ssid, unsigned char *buf)
+void decodeSSID(char *ssid, unsigned char *buf)
 {
     int i;
     CTable ctable_inv;
@@ -191,7 +187,7 @@ void func_0205EB30(char *ssid, unsigned char *buf)
 /*
  * sdk:      makeShopWepKey (shop_usb.o)
  */
-static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey)
+static void makeShopWepKey(unsigned char *seed, unsigned char *wepkey)
 {
     unsigned char temp[17];
     MATHMD5Context context;
@@ -207,7 +203,7 @@ static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey)
 /*
  * sdk:      makeUsbWepKey (libdwcac.TWL.HYB.a(shop_usb.o))
  */
-void func_0205EC7C(unsigned char *seed, unsigned char *wepkey)
+void makeUsbWepKey(unsigned char *seed, unsigned char *wepkey)
 {
     int i;
     unsigned char keytemp[13];
@@ -244,7 +240,7 @@ void func_0205EC7C(unsigned char *seed, unsigned char *wepkey)
 /*
  * sdk:      codetovalue (libdwcac.TWL.HYB.a(shop_usb.o))
  */
-long func_0205EE28(unsigned char c)
+long codetovalue(unsigned char c)
 {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A';
@@ -269,7 +265,7 @@ long func_0205EE28(unsigned char c)
 /*
  * sdk:      db64 (libdwcac.TWL.HYB.a(shop_usb.o))
  */
-int func_0205EE98(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize)
+int db64(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize)
 {
     tagU4B u4b;
     unsigned long x;

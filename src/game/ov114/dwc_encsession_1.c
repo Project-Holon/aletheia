@@ -15,13 +15,13 @@
  * symbols:
  *   gDwcEncSession     0x021CF7AC  data
  *   gDwcEncRandState     0x021D4228  data
- *   func_0209477C  0x0209477C  arm
- *   func_02094860  0x02094860  arm
+ *   strlen  0x0209477C  arm
+ *   strncpy  0x02094860  arm
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_020816B8  0x020816B8  arm
- *   func_020949F4  0x020949F4  arm
- *   func_0217FA90  0x0217FA90  arm  ov009
+ *   strncmp  0x020949F4  arm
+ *   B64Encode  0x0217FA90  arm  ov009
  *   @16077  0x021CE1B8  data
  *   @16117  0x021CE1CC  data
  */
@@ -33,7 +33,7 @@ extern int strncmp(const char *a, const char *b, unsigned long n);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern void func_020816B8(void *digest, void *data, u32 len);
 
 unsigned long b64size(unsigned long len);
@@ -147,7 +147,7 @@ int DWCi_EncSessionValidateResponse(char *response, int responseLen)
     if (scratch == 0)
         return 0;
     memcpy(scratch, gDwcEncSession.secretKey, 20);
-    func_0217FA90(response, (char *)(scratch + 20), responseLen - 40u, 2);
+    B64Encode(response, (char *)(scratch + 20), responseLen - 40u, 2);
     {
         u8 *d = scratch + 20 + b64size(responseLen - 40u);
         memcpy(d, gDwcEncSession.secretKey, 20);

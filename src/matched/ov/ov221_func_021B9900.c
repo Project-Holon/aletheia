@@ -1,5 +1,5 @@
 /*
- * function: func_021B9900
+ * function: CHIHOU_ZUKAN_AWARD_LoadBgAssets
  * address: 0x021B9900
  * packet: pkt_ov221_021B9900
  * region: ov221
@@ -25,7 +25,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(unsigned);
-void func_021B9900(unsigned char *p)
+void CHIHOU_ZUKAN_AWARD_LoadBgAssets(unsigned char *p)
 {
     void *h=func_020490F4(0xCA,((struct Obj08452 *)p)->f0);
     func_02049B68((void *)((unsigned)h),1,0,0,0x1E0,((struct Obj08452 *)p)->f0);

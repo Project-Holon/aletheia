@@ -1,5 +1,5 @@
 /*
- * function: func_0202A3AC
+ * function: TPOKE_DATA_ReadRecord
  * address:  0x0202A3AC
  * packet:   pkt_0202A230
  * region:   arm9
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-void func_0202A3AC(void *a0, void *a1)
+void TPOKE_DATA_ReadRecord(void *a0, void *a1)
 {
     ARC_TOOL_ReadMember(a1, 0x5c, (u32)a0);
 }

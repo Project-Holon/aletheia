@@ -10,11 +10,11 @@
  * status:   EXACT
  * note:     wave 16: promoted.  0x021DFDB8 is an unlabelled ov228 leaf, a
  *           one-argument tail call to the ARM heap free func_020307B0, now
- *           matched in src/matched/func_021DFDB8.c (shard ov228/pkt_021DFC20);
+ *           matched in src/matched/SAVE_OUTSIDE_Free.c (shard ov228/pkt_021DFC20);
  *           the ov228 hint below makes the site `matched, overlay`.
  * symbols:
  *   ov_abs_e4      0x000000E4  data
- *   func_021DFDB8  0x021DFDB8  thumb  ov228
+ *   SAVE_OUTSIDE_Free  0x021DFDB8  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *
@@ -48,7 +48,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8   ov_abs_e4[];
-extern void func_021DFDB8(void *v);
+extern void SAVE_OUTSIDE_Free(void *v);
 extern void func_02034A5C(int p);
 extern void MI_CpuFill8(void *p, int c, u32 n);
 
@@ -56,7 +56,7 @@ void MYSTERY_DATA_Unload(void *obj)
 {
     switch (((struct Obj11228 *)obj)->f4) {
     case 0:
-        func_021DFDB8((void *)((struct Obj11228 *)obj)->f8);
+        SAVE_OUTSIDE_Free((void *)((struct Obj11228 *)obj)->f8);
         func_02034A5C((int)ov_abs_e4);
         break;
     case 1:

@@ -30,18 +30,18 @@
  * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is WIFICLUB_RunPeerAddrRoutine, a Thumb veneer in ov099). No change possible in C.
  *
  * symbols:
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   FIELD_STATUS_CreateFieldCloseEvent 0x020144DC thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb
  *   FIELD_STATUS_CreateFieldOpenEvent 0x020145CC thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_0201283C 0x0201283C thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   BTL_SETUP_Delete 0x020130B4 thumb
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   ov008_id 0x8 data a1
  *   ov067_id 0x43 data a1
@@ -126,7 +126,7 @@ struct Rec44;
 struct S020314B8;
 struct Sub020097BCObj;
 struct Sub24;
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 extern u32 GAME_COMM_GetKind(void *);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int,int);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
@@ -136,7 +136,7 @@ extern int GFL_NET_IsSessionNull(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *,int,int,int,int,u8,u8);
 extern void MI_CpuFill8(void *,int,int);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void GFL_USE_FadeInBgmFull(u32);
@@ -145,7 +145,7 @@ extern void PROCSYS_Push(void *,u32,u32,u32);
 extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
@@ -165,7 +165,7 @@ extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void *GAME_DATA_GetTrainerRecord(int *);
 extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
@@ -200,7 +200,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         ++*state;
         break;
     case 1:
-        if (!GAME_COMM_GetKind((void *)func_02012138(p))) {
+        if (!GAME_COMM_GetKind((void *)ICA_ANIME_GetField24(p))) {
             W(obj,0x10)=0;
             GAME_EVENT_CallEvent(evt,(void *)FIELD_STATUS_CreateFieldCloseEvent((int)p,W(obj,8)));
             ++*state;
@@ -237,7 +237,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         W(obj,0xac)=0;
         break;
     case 9:
-        W(obj,0x98)=(u32)func_020120F4(p);
+        W(obj,0x98)=(u32)ICA_ANIME_GetField1C(p);
         W(obj,0xa0)=1;
         W(obj,0x9c)=0;
         W(obj,0xa4)=10;
@@ -252,12 +252,12 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         if (PROCSYS_Main((void *)W(obj,0x1c))) { GFL_NET_ERR_ShowScreen(0); return 0; }
         func_0203133C((void *)W(obj,0x1c));
         if (!W(obj,0xb4)) {
-            if (!func_02009A34((void *)func_0201283C((void *)W(obj,0x90)))) *state=30;
+            if (!func_02009A34((void *)GAME_DATA_GetField1A0((void *)W(obj,0x90)))) *state=30;
             else { *state=11; GFL_USE_FadeOutBgm(6); }
         } else { GFL_USE_FadeOutBgm(6); *state=25; }
         break;
     case 30:
-        W(obj,0xc0)=(u32)func_020120F4(p);
+        W(obj,0xc0)=(u32)ICA_ANIME_GetField1C(p);
         W(obj,0xc8)=1;
         W(obj,0xc4)=0;
         W(obj,0xcc)=1;
@@ -290,7 +290,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         func_02034A5C((int)ov099_id);
         break;
     case 13:
-        EVENT_WIFICLUB_BuildBattleEntry(obj,(u32)func_020120F4(p),s);
+        EVENT_WIFICLUB_BuildBattleEntry(obj,(u32)ICA_ANIME_GetField1C(p),s);
         W(obj,0xdc)=(u32)BTL_SETUP_Create(4);
         EVENT_WIFICLUB_SetupBattle(obj,W(W(obj,0x5c),0xc));
         GAME_EVENT_CallProc((void *)W(obj,0),(u32)ov134_id,(u32)d_021DCCA4,(u32)(obj+0x20));
@@ -306,7 +306,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
                 *state=9;
             }
         } else {
-            EVENT_WIFICLUB_SetBattleParty(obj,(u32)func_020120F4(p),s);
+            EVENT_WIFICLUB_SetBattleParty(obj,(u32)ICA_ANIME_GetField1C(p),s);
             func_02034AC4((int)ov093_id);
             GFL_NET_COMMAND_AddCommandTable(0x100,(u32)d_021F03C4,9,0);
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),100,10);
@@ -325,22 +325,22 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         if (!GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
             for (i=0;i<2;i++) {
                 off=i<<4;
-                W((u32)obj+off,0xe4)=(u32)func_02012950((void *)func_020120F4(p),i);
+                W((u32)obj+off,0xe4)=(u32)GAME_DATA_GetPlayerStatusById((void *)ICA_ANIME_GetField1C(p),i);
                 W((u32)obj+off,0xe0)=((Sub *)W(obj,0x5c))->values[i];
             }
         } else {
             pair=d_02154C2C;
             for (i=0;i<2;i++) {
                 off=((u8 *)&pair)[i]<<4;
-                W((u32)obj+off,0xe4)=(u32)func_02012950((void *)func_020120F4(p),i);
+                W((u32)obj+off,0xe4)=(u32)GAME_DATA_GetPlayerStatusById((void *)ICA_ANIME_GetField1C(p),i);
                 W((u32)obj+off,0xe0)=((Sub *)W(obj,0x5c))->values[i];
             }
         }
-        W(obj,0x138)=(u32)func_020120F4((void *)W(obj,4));
+        W(obj,0x138)=(u32)ICA_ANIME_GetField1C((void *)W(obj,4));
         W(obj,0x13c)=W(obj,0xdc);
         W(obj,0x140)=(u32)(obj+0xe0);
         W(obj,0x14c)=1;
-        W(obj,0x134)=(u32)GAME_DATA_GetTrainerRecord((int *)func_020120F4((void *)W(obj,4)));
+        W(obj,0x134)=(u32)GAME_DATA_GetTrainerRecord((int *)ICA_ANIME_GetField1C((void *)W(obj,4)));
         func_02034A5C((int)ov093_id);
         GAME_EVENT_CallProc((void *)W(obj,0),(u32)ov008_id,(u32)d_0215513C,(u32)(obj+0x138));
         ++*state;
@@ -348,9 +348,9 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
     case 17:
         if (!GFL_NET_GetRunState()) goto cleanup;
         if (W(obj,0x120)==0)
-            func_02009BB8((void *)func_0201283C((void *)func_020120F4((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,1,0,0);
+            func_02009BB8((void *)GAME_DATA_GetField1A0((void *)ICA_ANIME_GetField1C((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,1,0,0);
         else if (W(obj,0x120)==1)
-            func_02009BB8((void *)func_0201283C((void *)func_020120F4((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,0,1,0);
+            func_02009BB8((void *)GAME_DATA_GetField1A0((void *)ICA_ANIME_GetField1C((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,0,1,0);
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         *state=11;
         break;
@@ -360,7 +360,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         ++*state;
         break;
     case 19:
-        W(obj,0x74)=(u32)func_020120F4(p);
+        W(obj,0x74)=(u32)ICA_ANIME_GetField1C(p);
         GAME_EVENT_CallProc((void *)W(obj,0),(u32)ov119_id,(u32)d_021E75C0,(u32)(obj+0x60));
         ++*state;
         break;
@@ -377,7 +377,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         break;
     case 21:
         r=func_02030734(4,0x14,0,d_02154C80,0x24b);
-        W(r,0)=(u32)func_020120F4((void *)W(obj,4));
+        W(r,0)=(u32)ICA_ANIME_GetField1C((void *)W(obj,4));
         W(r,4)=W(obj,0x7c);
         H(r,8)=W(obj,0x6c);
         B(r,0xa)=0;
@@ -398,7 +398,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         }
         break;
     case 23:
-        W(obj,0x4c)=(u32)func_020120F4(p);
+        W(obj,0x4c)=(u32)ICA_ANIME_GetField1C(p);
         W(obj,0x50)=3;
         GAME_EVENT_CallProc((void *)W(obj,0),(u32)ov172_id,(u32)d_021C7240,(u32)(obj+0x4c));
         ++*state;

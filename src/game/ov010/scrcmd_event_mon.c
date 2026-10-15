@@ -13,7 +13,7 @@
  * Cut from unit_0216B24C.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
@@ -26,7 +26,7 @@
  *   SP_POKE_GIMMICK_ShowAndPlay  0x021F3AA0  thumb  ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeEnd 0x021F3B68 thumb ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeProgress 0x021F3B40 thumb ov059
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0202F488  0x0202F488  thumb
@@ -36,7 +36,7 @@
 #include "field_intrude_event_shared_types.h"
 #include "scrcmd_research_shared_types.h"
 
-extern void *func_0201210C(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 
@@ -62,7 +62,7 @@ extern void *SP_POKE_GIMMICK_StartWaitAnimeEnd(void *gameSystem, u32 value);
 
 extern void *SP_POKE_GIMMICK_StartWaitAnimeProgress(void *gameSystem, u32 value);
 
-extern void *func_02012934(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 
 extern u32 POKEPARTY_GetCount(void *party);
 
@@ -96,7 +96,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct
 
     scriptSystem = SCRCMD_WORK_GetScriptWork(scrWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(scrWork);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     fromPlayer = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     gridX = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     height = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
@@ -177,7 +177,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepB(struct ScriptContext *ctx, struc
  */
 int SCRCMD_EVENT_MON_CmdFindEventMonInParty(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
 {
-    void *party = func_02012934(SCRCMD_WORK_GetGameData(scrWork));
+    void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(scrWork));
     int species = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     unsigned int useSignatureMove = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     u16 *outIndex = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
@@ -266,7 +266,7 @@ int SCRCMD_EVENT_MON_CmdClearEventMonFlag(struct ScriptContext *ctx, struct ScrC
     int kind;
     void *mon;
 
-    party = func_02012934(SCRCMD_WORK_GetGameData(scrWork));
+    party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(scrWork));
     species = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     partyIndex = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     switch (species) {

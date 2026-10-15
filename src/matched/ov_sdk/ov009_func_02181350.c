@@ -1,5 +1,5 @@
 /*
- * function: func_02181350
+ * function: gsUdpEngineSendMessage
  * address:  0x02181350
  * packet:   pkt_ov009_02181350
  * region:   ov009
@@ -79,7 +79,7 @@ extern char g_021A3B9C[];
 extern char g_021A3C34[];
 extern char g_021A3C68[];
 
-int func_02181350(unsigned int theIp, unsigned short thePort, char *theHeader, unsigned char *theMsg, unsigned int theMsgLen, int theReliable)
+int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *theHeader, unsigned char *theMsg, unsigned int theMsgLen, int theReliable)
 {
     GSUdpEngineObject *aUdp;
     int aTotalMessageLen;

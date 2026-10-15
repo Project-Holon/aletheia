@@ -1,7 +1,7 @@
 /*
  * file:     egg_demo_view.c
  * unit:     yes
- * function: func_021F63CC, func_021F6474, func_021F64D0, func_021F64E4, func_021F64F0, func_021F64FC, func_021F6508, func_021F651C, func_021F657C, func_021F65B4, func_021F65B8, func_021F65C0, func_021F6600, func_021F661C, func_021F6624, func_021F6630, func_021F669C, func_021F66AC, func_021F66C8, func_021F6718, func_021F6720, func_021F67B0, func_021F67E0, func_021F6A24, func_021F6A3C, func_021F6A48, func_021F6A84, func_021F6A98, func_021F6AB4, func_021F6AB8, func_021F6AE0, func_021F6AEC, func_021F6CAC, func_021F6CC0, func_021F6CCC, func_021F6D0C, func_021F6D1C, func_021F6D58, func_021F6D7C, func_021F6D90, func_021F6DB4, func_021F6E4C, func_021F6E5C, func_021F6EE4, func_021F6EEC, func_021F6EF8, func_021F6F18, func_021F6F24, func_021F6F64, func_021F7028, func_021F7048, func_021F70F8, func_021F7100, func_021F7110
+ * function: EGG_DEMO_GRAPHIC_Create, EGG_DEMO_GRAPHIC_Delete, EGG_DEMO_GRAPHIC_Draw, EGG_DEMO_GRAPHIC_Draw3d, EGG_DEMO_GRAPHIC_DrawEnd, EGG_DEMO_GRAPHIC_GetClactBank2, EGG_DEMO_GRAPHIC_VBlank, EGG_DEMO_GRAPHIC_InitBg, EGG_DEMO_GRAPHIC_DeleteBg, EGG_DEMO_GRAPHIC_Noop, EGG_DEMO_GRAPHIC_TickDisplay, EGG_DEMO_GRAPHIC_InitClact, EGG_DEMO_GRAPHIC_DeleteClact, EGG_DEMO_GRAPHIC_DrawClact, EGG_DEMO_GRAPHIC_VBlankClact, EGG_DEMO_GRAPHIC_InitG3d, EGG_DEMO_GRAPHIC_DeleteG3d, EGG_DEMO_GRAPHIC_DrawG3d, EGG_DEMO_VIEW_CreateRecords, EGG_DEMO_VIEW_FreeRecords, EGG_DEMO_VIEW_Create, EGG_DEMO_VIEW_Delete, EGG_DEMO_VIEW_Update, EGG_DEMO_VIEW_Draw, EGG_DEMO_VIEW_SetActive, EGG_DEMO_VIEW_SetSpecies, EGG_DEMO_VIEW_IsFadeDone, EGG_DEMO_VIEW_ResetAnimState, EGG_DEMO_VIEW_Noop, EGG_DEMO_VIEW_InitMcss, EGG_DEMO_VIEW_DeleteMcss, EGG_DEMO_VIEW_AddPokeMcss, EGG_DEMO_VIEW_DeletePokeMcss, EGG_DEMO_VIEW_HidePokeMcss, EGG_DEMO_VIEW_PlayAnim, EGG_DEMO_VIEW_OnAnimStop, EGG_DEMO_VIEW_UpdateAlpha, EGG_DEMO_VIEW_StartFadeOut, EGG_DEMO_VIEW_IsFadeOutDone, EGG_DEMO_VIEW_StartFadeIn, EGG_DEMO_VIEW_CreateParticles, EGG_DEMO_VIEW_DeleteParticles, EGG_DEMO_VIEW_UpdateParticles, EGG_DEMO_VIEW_MainParticles, EGG_DEMO_VIEW_StartParticles, EGG_DEMO_VIEW_InitModel, EGG_DEMO_VIEW_DeleteModel, EGG_DEMO_VIEW_DrawModels, EGG_DEMO_VIEW_AddModel, EGG_DEMO_VIEW_RemoveModel, EGG_DEMO_VIEW_UpdateModel, EGG_DEMO_VIEW_StartModelAnim, EGG_DEMO_VIEW_IsModelAnimDone, EGG_DEMO_VIEW_EndModelAnim
  * address:  0x021F63CC
  * region:   ov215
  * compiler: dsi/1.1p1
@@ -28,17 +28,17 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021F7178 0x021F7178 data a4
  *   d_021F71F4 0x021F71F4 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -51,7 +51,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021F6328 0x021F6328 thumb ov215
+ *   EGG_DEMO_MENU_InitGraphics 0x021F6328 thumb ov215
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021F7160 0x021F7160 data a4
  *   d_021F7154 0x021F7154 data a4
@@ -62,7 +62,7 @@
  *   func_02048AD0 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   d_021F73F4 0x021F73F4 data a1
  *   func_02017E1C 0x02017E1C thumb
  *   d_021F7340 0x021F7340 data a4
@@ -74,9 +74,9 @@
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
- *   func_021F70F8 0x021F70F8 thumb ov215
- *   func_021F7100 0x021F7100 thumb ov215
- *   func_021F7110 0x021F7110 thumb ov215
+ *   EGG_DEMO_VIEW_StartModelAnim 0x021F70F8 thumb ov215
+ *   EGG_DEMO_VIEW_IsModelAnimDone 0x021F7100 thumb ov215
+ *   EGG_DEMO_VIEW_EndModelAnim 0x021F7110 thumb ov215
  *   PM_VOICE_Play 0x02006984 thumb
  *   PM_VOICE_IsAnyActive 0x02006650 thumb
  *   MCSS_Main 0x02014C08 thumb
@@ -111,7 +111,7 @@
  *   MCSS_GetAnimCtrl 0x02015EE8 thumb
  *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
- *   func_02063000 0x02063000 arm
+ *   NNS_G2dSetCellAnimationParam 0x02063000 arm
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
  *   MCSS_GetAlpha 0x02015FAC thumb
  *   MCSS_SetAlpha 0x02015FBC thumb
@@ -231,15 +231,15 @@ extern void *func_020056A0(void (*)(int,char *),char *,unsigned);
 extern void func_02030EAC(struct Node *n);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
-extern void func_0203F8F4(unsigned);
+extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -250,7 +250,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_021F6328(void);
+extern void EGG_DEMO_MENU_InitGraphics(void);
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
 extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,const struct Vec3 *,const struct Vec3 *,const struct Vec3 *,u16);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -259,7 +259,7 @@ extern void func_02047964(void);
 extern void func_02048AD0(struct Light *);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void sub_02030EAC(struct Node *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
@@ -268,9 +268,9 @@ extern int GFL_USE_IsSeSlotBusy(u32);
 extern int GFL_USE_GetSeSlot(u32);
 extern void GFL_USE_PlaySeInSlot(void *,int);
 extern void GFL_USE_StopSeSlot(int);
-extern void func_021F70F8(char *);
-extern int func_021F7100(char *);
-extern void func_021F7110(char *);
+extern void EGG_DEMO_VIEW_StartModelAnim(char *);
+extern int EGG_DEMO_VIEW_IsModelAnimDone(char *);
+extern void EGG_DEMO_VIEW_EndModelAnim(char *);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int PM_VOICE_IsAnyActive(void);
 extern void MCSS_Main(char *);
@@ -299,7 +299,7 @@ extern void MCSS_SetAnimeIndex(void *,unsigned);
 extern void *MCSS_GetAnimCtrl(void *);
 extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 extern void MCSS_ResetAnmStopFlag(void *);
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
 extern u8 MCSS_GetAlpha(struct Data *);
 extern void MCSS_SetAlpha(char *,int);
@@ -323,61 +323,61 @@ extern unsigned func_020489F4(unsigned char *,int);
 extern unsigned G3D_SYSTEM_EnableObjectAnime(struct G3dSys *,unsigned);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *p, int a, int b);
-char *func_021F63CC(unsigned mode,u16 heap);
-void func_021F6474(char *p);
-void func_021F64D0(char *a);
-void func_021F64E4(char *p);
-void func_021F64F0(char *p);
-int func_021F64FC(char *p);
-void func_021F6508(int a, char *b);
-void func_021F651C(void *out,unsigned heap);
-void func_021F657C(void *p);
-void func_021F65B4(void *a0);
-void func_021F65B8(void *a0);
-void func_021F65C0(unsigned char *p, int a, u32 b);
-void func_021F6600(char *p);
-void func_021F661C(void *a0);
-void func_021F6624(void *a0);
-int func_021F662C(void *p);
-void func_021F6630(void **out,u16 heap);
-void func_021F669C(int *p);
-void func_021F66AC(void *p);
-void func_021F66C0(void *p);
-Record *func_021F66C8(unsigned heap,unsigned count);
-void func_021F6718(void *p);
-char *func_021F6720(unsigned heap,void *mon);
-void func_021F67B0(char *p);
-void func_021F67E0(char *p);
-void func_021F6A24(char *p);
-void func_021F6A3C(char *p);
-int func_021F6A44(char *p);
-void func_021F6A48(char *p,int a);
-int func_021F6A84(char *p);
-void func_021F6A98(char *p);
-int func_021F6AA4(char *p);
-void func_021F6AB4(void);
-void func_021F6AB8(char *p);
-void func_021F6AE0(char *p);
-void func_021F6AEC(char *p);
-void func_021F6CAC(char *p);
-void func_021F6CC0(char *p);
-void func_021F6CCC(char *p,unsigned flag,int enable);
-int func_021F6D0C(char *a);
-void func_021F6D1C(char *p);
-void func_021F6D58(char *p);
-int func_021F6D7C(char *p);
-void func_021F6D90(char *p);
-char *func_021F6DB4(unsigned heap,unsigned count,const void *table);
-void func_021F6E4C(char *a);
-void func_021F6E5C(char *p);
-void func_021F6EE4(char *p);
-void func_021F6EEC(char *p);
-void func_021F6EF8(char *p);
-void func_021F6F18(char *p);
-void func_021F6F24(char *p);
-void func_021F6F64(char *p);
-void func_021F7028(char *p);
-void func_021F7048(char *p);
+char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heap);
+void EGG_DEMO_GRAPHIC_Delete(char *p);
+void EGG_DEMO_GRAPHIC_Draw(char *a);
+void EGG_DEMO_GRAPHIC_Draw3d(char *p);
+void EGG_DEMO_GRAPHIC_DrawEnd(char *p);
+int EGG_DEMO_GRAPHIC_GetClactBank2(char *p);
+void EGG_DEMO_GRAPHIC_VBlank(int a, char *b);
+void EGG_DEMO_GRAPHIC_InitBg(void *out,unsigned heap);
+void EGG_DEMO_GRAPHIC_DeleteBg(void *p);
+void EGG_DEMO_GRAPHIC_Noop(void *a0);
+void EGG_DEMO_GRAPHIC_TickDisplay(void *a0);
+void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
+void EGG_DEMO_GRAPHIC_DeleteClact(char *p);
+void EGG_DEMO_GRAPHIC_DrawClact(void *a0);
+void EGG_DEMO_GRAPHIC_VBlankClact(void *a0);
+int EGG_DEMO_GRAPHIC_GetClactBank(void *p);
+void EGG_DEMO_GRAPHIC_InitG3d(void **out,u16 heap);
+void EGG_DEMO_GRAPHIC_DeleteG3d(int *p);
+void EGG_DEMO_GRAPHIC_DrawG3d(void *p);
+void EGG_DEMO_GRAPHIC_DrawG3dEnd(void *p);
+Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count);
+void EGG_DEMO_VIEW_FreeRecords(void *p);
+char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon);
+void EGG_DEMO_VIEW_Delete(char *p);
+void EGG_DEMO_VIEW_Update(char *p);
+void EGG_DEMO_VIEW_Draw(char *p);
+void EGG_DEMO_VIEW_SetActive(char *p);
+int EGG_DEMO_VIEW_GetActive(char *p);
+void EGG_DEMO_VIEW_SetSpecies(char *p,int a);
+int EGG_DEMO_VIEW_IsFadeDone(char *p);
+void EGG_DEMO_VIEW_ResetAnimState(char *p);
+int EGG_DEMO_VIEW_IsFinished(char *p);
+void EGG_DEMO_VIEW_Noop(void);
+void EGG_DEMO_VIEW_InitMcss(char *p);
+void EGG_DEMO_VIEW_DeleteMcss(char *p);
+void EGG_DEMO_VIEW_AddPokeMcss(char *p);
+void EGG_DEMO_VIEW_DeletePokeMcss(char *p);
+void EGG_DEMO_VIEW_HidePokeMcss(char *p);
+void EGG_DEMO_VIEW_PlayAnim(char *p,unsigned flag,int enable);
+int EGG_DEMO_VIEW_OnAnimStop(char *a);
+void EGG_DEMO_VIEW_UpdateAlpha(char *p);
+void EGG_DEMO_VIEW_StartFadeOut(char *p);
+int EGG_DEMO_VIEW_IsFadeOutDone(char *p);
+void EGG_DEMO_VIEW_StartFadeIn(char *p);
+char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *table);
+void EGG_DEMO_VIEW_DeleteParticles(char *a);
+void EGG_DEMO_VIEW_UpdateParticles(char *p);
+void EGG_DEMO_VIEW_MainParticles(char *p);
+void EGG_DEMO_VIEW_StartParticles(char *p);
+void EGG_DEMO_VIEW_InitModel(char *p);
+void EGG_DEMO_VIEW_DeleteModel(char *p);
+void EGG_DEMO_VIEW_DrawModels(char *p);
+void EGG_DEMO_VIEW_AddModel(char *p);
+void EGG_DEMO_VIEW_RemoveModel(char *p);
+void EGG_DEMO_VIEW_UpdateModel(char *p);
 extern const char d_021F73E0[];
 extern const unsigned d_021F71C4[];
 extern const unsigned d_021F7178[];
@@ -400,7 +400,7 @@ extern const struct Setup d_021F7330;
 /*
  * volatile: hardware 021F63F2,63F4,63F8,6400,6402,6406.
  */
-char *func_021F63CC(unsigned mode,u16 heap)
+char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heap)
 {
     char *p;
     p=func_02030734(heap,16,0,d_021F73E0,466);
@@ -416,10 +416,10 @@ char *func_021F63CC(unsigned mode,u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021F651C(p,heap);
-    func_021F65C0((unsigned char *)(p+4),(int)d_021F71C4,heap);
-    func_021F6630((void **)(p+8),heap);
-    ((struct Obj25749 *)p)->fC=func_020056A0(func_021F6508,p,0);
+    EGG_DEMO_GRAPHIC_InitBg(p,heap);
+    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(p+4),(int)d_021F71C4,heap);
+    EGG_DEMO_GRAPHIC_InitG3d((void **)(p+8),heap);
+    ((struct Obj25749 *)p)->fC=func_020056A0(EGG_DEMO_GRAPHIC_VBlank,p,0);
     return p;
 }
 
@@ -429,12 +429,12 @@ char *func_021F63CC(unsigned mode,u16 heap)
 
 
 
-void func_021F6474(char *p)
+void EGG_DEMO_GRAPHIC_Delete(char *p)
 {
     func_02030EAC(((struct Obj25750 *)p)->fC);
-    func_021F669C((int *)(p+8));
-    func_021F6600(p+4);
-    func_021F657C(p);
+    EGG_DEMO_GRAPHIC_DeleteG3d((int *)(p+8));
+    EGG_DEMO_GRAPHIC_DeleteClact(p+4);
+    EGG_DEMO_GRAPHIC_DeleteBg(p);
     func_0201DD68();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
@@ -451,10 +451,10 @@ void func_021F6474(char *p)
 
 
 
-void func_021F64D0(char *a)
+void EGG_DEMO_GRAPHIC_Draw(char *a)
 {
-    func_021F661C(a + 4);
-    func_021F65B4(a);
+    EGG_DEMO_GRAPHIC_DrawClact(a + 4);
+    EGG_DEMO_GRAPHIC_Noop(a);
 }
 
 
@@ -463,7 +463,7 @@ void func_021F64D0(char *a)
 
 
 
-void func_021F64E4(char *p){func_021F66AC(p+8);}
+void EGG_DEMO_GRAPHIC_Draw3d(char *p){EGG_DEMO_GRAPHIC_DrawG3d(p+8);}
 
 
 
@@ -471,7 +471,7 @@ void func_021F64E4(char *p){func_021F66AC(p+8);}
 
 
 
-void func_021F64F0(char *p){func_021F66C0(p+8);}
+void EGG_DEMO_GRAPHIC_DrawEnd(char *p){EGG_DEMO_GRAPHIC_DrawG3dEnd(p+8);}
 
 
 
@@ -479,7 +479,7 @@ void func_021F64F0(char *p){func_021F66C0(p+8);}
 
 
 
-int func_021F64FC(char *p){return func_021F662C(p+4);}
+int EGG_DEMO_GRAPHIC_GetClactBank2(char *p){return EGG_DEMO_GRAPHIC_GetClactBank(p+4);}
 
 
 
@@ -488,10 +488,10 @@ int func_021F64FC(char *p){return func_021F662C(p+4);}
 
 
 
-void func_021F6508(int a, char *b)
+void EGG_DEMO_GRAPHIC_VBlank(int a, char *b)
 {
-    func_021F65B8(b);
-    func_021F6624(b + 4);
+    EGG_DEMO_GRAPHIC_TickDisplay(b);
+    EGG_DEMO_GRAPHIC_VBlankClact(b + 4);
 }
 
 
@@ -500,15 +500,15 @@ void func_021F6508(int a, char *b)
 
 
 
-void func_021F651C(void *out,unsigned heap)
+void EGG_DEMO_GRAPHIC_InitBg(void *out,unsigned heap)
 {
     unsigned i;
     MI_CpuFill8(out,0,4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021F7178);
     for(i=0;i<6;i++) {
-        func_0203FCA0((u8)d_021F71F4[i].layer,&d_021F71F4[i].template,(u8)d_021F71F4[i].type);
+        BG_SYS_InitBgLayer((u8)d_021F71F4[i].layer,&d_021F71F4[i].template,(u8)d_021F71F4[i].type);
         func_020414AC(d_021F71F4[i].layer);
         func_02040588(d_021F71F4[i].layer,d_021F71F4[i].enable);
     }
@@ -526,7 +526,7 @@ void func_021F651C(void *out,unsigned heap)
  * lever: a named unsigned byte-address base keeps the table in r4 and
  * index in r5; the inline address swaps them, and word indexing adds lsl #2.
  */
-void func_021F657C(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteBg(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 
 
@@ -537,7 +537,7 @@ void func_021F657C(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=
 /*
  * extent: two-byte alignment padding follows the body.
  */
-void func_021F65B4(void *a0){}
+void EGG_DEMO_GRAPHIC_Noop(void *a0){}
 
 
 
@@ -545,7 +545,7 @@ void func_021F65B4(void *a0){}
 
 
 
-void func_021F65B8(void *a0){func_020419E4();}
+void EGG_DEMO_GRAPHIC_TickDisplay(void *a0){func_020419E4();}
 
 
 
@@ -554,7 +554,7 @@ void func_021F65B8(void *a0){func_020419E4();}
 
 
 
-void func_021F65C0(unsigned char *p, int a, u32 b)
+void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021F7188, a, b);
@@ -570,7 +570,7 @@ void func_021F65C0(unsigned char *p, int a, u32 b)
 
 
 
-void func_021F6600(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteClact(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 
 
@@ -578,7 +578,7 @@ void func_021F6600(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj2575
 
 
 
-void func_021F661C(void *a0){CLACT_DrawSystem();}
+void EGG_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
 
 
 
@@ -587,9 +587,9 @@ void func_021F661C(void *a0){CLACT_DrawSystem();}
 
 
 /*
- * extent: includes cleared tiny follower func_021F662C; no further code included.
+ * extent: includes cleared tiny follower EGG_DEMO_GRAPHIC_GetClactBank; no further code included.
  */
-void func_021F6624(void *a0){CLACT_VBlankSystem();}
+void EGG_DEMO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
 
 
 
@@ -597,7 +597,7 @@ void func_021F6624(void *a0){CLACT_VBlankSystem();}
 
 
 
-int func_021F662C(void *p){return ((struct Obj25752 *)p)->f0;}
+int EGG_DEMO_GRAPHIC_GetClactBank(void *p){return ((struct Obj25752 *)p)->f0;}
 
 
 
@@ -608,9 +608,9 @@ int func_021F662C(void *p){return ((struct Obj25752 *)p)->f0;}
 /*
  * evidence: 46440 heap extern widened; original stores full r1 at sp+4.
  */
-void func_021F6630(void **out,u16 heap)
+void EGG_DEMO_GRAPHIC_InitG3d(void **out,u16 heap)
 {
-    G3D_SYSTEM_Init(0,2,0,1,0,heap,func_021F6328);
+    G3D_SYSTEM_Init(0,2,0,1,0,heap,EGG_DEMO_MENU_InitGraphics);
     *out=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,&d_021F7160,&d_021F7154,&d_021F716C,heap);
 }
 
@@ -621,7 +621,7 @@ void func_021F6630(void **out,u16 heap)
 
 
 
-void func_021F669C(int *p)
+void EGG_DEMO_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
@@ -633,9 +633,9 @@ void func_021F669C(int *p)
 
 
 /*
- * extent: includes cleared tiny follower func_021F66C0; no further code included.
+ * extent: includes cleared tiny follower EGG_DEMO_GRAPHIC_DrawG3dEnd; no further code included.
  */
-void func_021F66AC(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);G3D_SYSTEM_ApplyLookAt();}
+void EGG_DEMO_GRAPHIC_DrawG3d(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);G3D_SYSTEM_ApplyLookAt();}
 
 
 
@@ -643,7 +643,7 @@ void func_021F66AC(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((
 
 
 
-void func_021F66C0(void *p){G3D_SYSTEM_DrawEnd();}
+void EGG_DEMO_GRAPHIC_DrawG3dEnd(void *p){G3D_SYSTEM_DrawEnd();}
 
 
 
@@ -651,7 +651,7 @@ void func_021F66C0(void *p){G3D_SYSTEM_DrawEnd();}
 
 
 
-Record *func_021F66C8(unsigned heap,unsigned count)
+Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
 {
     Record *p;
     u16 i;
@@ -659,7 +659,7 @@ Record *func_021F66C8(unsigned heap,unsigned count)
     for(i=0;i<count;i++) {
         p[i].x=0;p[i].y=0;p[i].z=0;
         p[i].sx=4096;p[i].sy=4096;p[i].sz=4096;
-        func_0207ADC4(p[i].matrix);
+        MTX_Identity33_(p[i].matrix);
     }
     return p;
 }
@@ -670,7 +670,7 @@ Record *func_021F66C8(unsigned heap,unsigned count)
 
 
 
-void func_021F6718(void *p){func_020307B0(p);}
+void EGG_DEMO_VIEW_FreeRecords(void *p){func_020307B0(p);}
 
 
 
@@ -681,7 +681,7 @@ void func_021F6718(void *p){func_020307B0(p);}
 /*
  * evidence: sole callback 021F6AB4 resolved after owned leaf shard verification.
  */
-char *func_021F6720(unsigned heap,void *mon)
+char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
 {
     char *p;
     p=func_02030734(heap,96,1,d_021F73F4,433);
@@ -695,15 +695,15 @@ char *func_021F6720(unsigned heap,void *mon)
     ((struct Obj00317 *)p)->f1C=0;
     ((struct Obj00317 *)p)->f24=0;
     ((struct Obj00317 *)p)->f28=0;
-    ((struct Obj00317 *)p)->f2C=func_020056A0((void ( *)(int,char *))func_021F6AB4, (char *)p, 1);
-    func_021F6AB8(p);
-    func_021F6AEC(p);
+    ((struct Obj00317 *)p)->f2C=func_020056A0((void ( *)(int,char *))EGG_DEMO_VIEW_Noop, (char *)p, 1);
+    EGG_DEMO_VIEW_InitMcss(p);
+    EGG_DEMO_VIEW_AddPokeMcss(p);
     if(((struct Obj00317 *)p)->f8==490)
-        ((struct Obj00317 *)p)->f44=func_021F6DB4(((struct Obj00317 *)p)->f0,5,d_021F7340);
+        ((struct Obj00317 *)p)->f44=EGG_DEMO_VIEW_CreateParticles(((struct Obj00317 *)p)->f0,5,d_021F7340);
     else
-        ((struct Obj00317 *)p)->f44=func_021F6DB4(((struct Obj00317 *)p)->f0,3,d_021F7314);
-    func_021F6EF8(p);
-    func_021F6F64(p);
+        ((struct Obj00317 *)p)->f44=EGG_DEMO_VIEW_CreateParticles(((struct Obj00317 *)p)->f0,3,d_021F7314);
+    EGG_DEMO_VIEW_InitModel(p);
+    EGG_DEMO_VIEW_AddModel(p);
     return p;
 }
 
@@ -716,7 +716,7 @@ char *func_021F6720(unsigned heap,void *mon)
 /*
  * trailing: zero halfword at 021F67DE is alignment padding.
  */
-void func_021F67B0(char *p){func_021F7028(p);func_021F6F18(p);func_021F6E4C(*(char * *)&((struct Obj04636 *)p)->f44);func_021F6CAC(p);func_021F6AE0(p);sub_02030EAC(*(struct Node * *)&((struct Obj04636 *)p)->f2C);func_020307B0(p);}
+void EGG_DEMO_VIEW_Delete(char *p){EGG_DEMO_VIEW_RemoveModel(p);EGG_DEMO_VIEW_DeleteModel(p);EGG_DEMO_VIEW_DeleteParticles(*(char * *)&((struct Obj04636 *)p)->f44);EGG_DEMO_VIEW_DeletePokeMcss(p);EGG_DEMO_VIEW_DeleteMcss(p);sub_02030EAC(*(struct Node * *)&((struct Obj04636 *)p)->f2C);func_020307B0(p);}
 
 
 
@@ -724,15 +724,15 @@ void func_021F67B0(char *p){func_021F7028(p);func_021F6F18(p);func_021F6E4C(*(ch
 
 
 
-void func_021F67E0(char *p)
+void EGG_DEMO_VIEW_Update(char *p)
 {
     u32 limit,a,b;
     switch(W(12)) {
     case 0:
         if(W(16)) {
             W(12)=1;W(24)=0;
-            func_021F6CCC(p,1,1);
-            func_021F6EEC(*(char * *)&((struct Obj01083 *)p)->f44);
+            EGG_DEMO_VIEW_PlayAnim(p,1,1);
+            EGG_DEMO_VIEW_StartParticles(*(char * *)&((struct Obj01083 *)p)->f44);
         }
         break;
     case 1:
@@ -771,14 +771,14 @@ void func_021F67E0(char *p)
             }
         }
         if(W(24)==limit) {
-            func_021F6D58(p);func_021F70F8(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
+            EGG_DEMO_VIEW_StartFadeOut(p);EGG_DEMO_VIEW_StartModelAnim(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
         }
         break;
-    case 2:if(func_021F6D7C(p))W(12)=3;break;
-    case 3:if(func_021F7100(p)){func_021F6CC0(p);W(20)=1;W(12)=4;}break;
+    case 2:if(EGG_DEMO_VIEW_IsFadeOutDone(p))W(12)=3;break;
+    case 3:if(EGG_DEMO_VIEW_IsModelAnimDone(p)){EGG_DEMO_VIEW_HidePokeMcss(p);W(20)=1;W(12)=4;}break;
     case 4:W(20)=0;break;
     case 6:
-        if(++W(24)>=120){func_021F6D90(p);func_021F7110(p);W(12)=7;W(24)=0;}
+        if(++W(24)>=120){EGG_DEMO_VIEW_StartFadeIn(p);EGG_DEMO_VIEW_EndModelAnim(p);W(12)=7;W(24)=0;}
         break;
     case 7:
         if(++W(24)>=65) {
@@ -791,10 +791,10 @@ void func_021F67E0(char *p)
     case 8:if(!PM_VOICE_IsAnyActive())W(12)=9;break;
     case 9:break;
     }
-    func_021F6D1C(p);
+    EGG_DEMO_VIEW_UpdateAlpha(p);
     MCSS_Main(*(char * *)&((struct Obj01083 *)p)->f30);
-    func_021F6E5C(*(char * *)&((struct Obj01083 *)p)->f44);
-    func_021F7048(p);
+    EGG_DEMO_VIEW_UpdateParticles(*(char * *)&((struct Obj01083 *)p)->f44);
+    EGG_DEMO_VIEW_UpdateModel(p);
 }
 
 
@@ -803,7 +803,7 @@ void func_021F67E0(char *p)
 
 
 
-void func_021F6A24(char *p){MCSS_Draw(*(struct McssSys * *)&((struct Obj06708 *)p)->f30);func_021F6F24(p);func_021F6EE4(*(char * *)&((struct Obj06708 *)p)->f44);}
+void EGG_DEMO_VIEW_Draw(char *p){MCSS_Draw(*(struct McssSys * *)&((struct Obj06708 *)p)->f30);EGG_DEMO_VIEW_DrawModels(p);EGG_DEMO_VIEW_MainParticles(*(char * *)&((struct Obj06708 *)p)->f44);}
 
 
 
@@ -815,7 +815,7 @@ void func_021F6A24(char *p){MCSS_Draw(*(struct McssSys * *)&((struct Obj06708 *)
  * leaf: two unlabelled leaves blocking concrete MATCH900 ov215021F5884.
  * extent: setter, two alignment bytes, four-byte getter; twelve bytes total.
  */
-void func_021F6A3C(char *p){((struct Obj25756 *)p)->f10=1;}
+void EGG_DEMO_VIEW_SetActive(char *p){((struct Obj25756 *)p)->f10=1;}
 
 
 
@@ -823,19 +823,19 @@ void func_021F6A3C(char *p){((struct Obj25756 *)p)->f10=1;}
 
 
 
-int func_021F6A44(char *p){return ((struct Obj25757 *)p)->f14;}
+int EGG_DEMO_VIEW_GetActive(char *p){return ((struct Obj25757 *)p)->f14;}
 
 
 
 
 
 
-void func_021F6A48(char *p,int a)
+void EGG_DEMO_VIEW_SetSpecies(char *p,int a)
 {
-    func_021F6CAC(p);
+    EGG_DEMO_VIEW_DeletePokeMcss(p);
     *(int *)(p + 4) = a;
-    func_021F6AEC(p);
-    func_021F6CCC(p,0,0);
+    EGG_DEMO_VIEW_AddPokeMcss(p);
+    EGG_DEMO_VIEW_PlayAnim(p,0,0);
     MCSS_SetVanishFlag(*(void **)(p + 0x34));
     MCSS_SetPaletteFade(*(struct McssFade **)(p + 0x34),16,16,0,32767);
     *(int *)(p + 0xC) = 5;
@@ -849,21 +849,21 @@ void func_021F6A48(char *p,int a)
 /*
  * trailing: existing followers 021F6A98/6AA4 unit and 021F6AB4 shard.
  */
-int func_021F6A84(char *p){if(MCSS_CheckPaletteFade(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFadeDone(char *p){if(MCSS_CheckPaletteFade(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}
 
 
 
 
 
 
-void func_021F6A98(char *p){((struct Obj14710 *)p)->fC=6;((struct Obj14710 *)p)->f18=0;}
+void EGG_DEMO_VIEW_ResetAnimState(char *p){((struct Obj14710 *)p)->fC=6;((struct Obj14710 *)p)->f18=0;}
 
 
 
 
 
 
-int func_021F6AA4(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFinished(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}
 
 
 
@@ -874,7 +874,7 @@ int func_021F6AA4(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}
  * evidence: sole callback blocker of 021F6720; parent SDK/ownership audit.
  * extent: bx lr at 021F6AB4, zero padding at 6AB6; 6AB8 begins next function.
  */
-void func_021F6AB4(void)
+void EGG_DEMO_VIEW_Noop(void)
 {
 }
 
@@ -883,7 +883,7 @@ void func_021F6AB4(void)
 
 
 
-void func_021F6AB8(char *p)
+void EGG_DEMO_VIEW_InitMcss(char *p)
 {
     *(void **)(p + 0x30) = MCSS_Init(1, (void *)(*(unsigned short *)p));
     MCSS_SetTextureTransAdrs(*(void **)(p + 0x30), 3 << 16);
@@ -897,7 +897,7 @@ void func_021F6AB8(char *p)
 
 
 
-void func_021F6AE0(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}
+void EGG_DEMO_VIEW_DeleteMcss(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}
 
 
 
@@ -907,7 +907,7 @@ void func_021F6AE0(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}
 /*
  * lever: FX float rounding macro; translation z shares the constructor's -50<<16 literal.
  */
-void func_021F6AEC(char *p)
+void EGG_DEMO_VIEW_AddPokeMcss(char *p)
 {
     Vec_021F63CC trans,scale,delta;
     u32 species;
@@ -948,7 +948,7 @@ void func_021F6AEC(char *p)
 /*
  * trailing: existing follower 021F6CC0 in its own matched shard.
  */
-void func_021F6CAC(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
+void EGG_DEMO_VIEW_DeletePokeMcss(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
 
 
 
@@ -958,14 +958,14 @@ void func_021F6CAC(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS
 /*
  * leaf: sole overlay blocker of 021F67E0; tail-call pool ends at 021F6CCC.
  */
-void func_021F6CC0(char *p){MCSS_SetVanishFlag(((struct Obj25761 *)p)->f34);}
+void EGG_DEMO_VIEW_HidePokeMcss(char *p){MCSS_SetVanishFlag(((struct Obj25761 *)p)->f34);}
 
 
 
 
 
 
-void func_021F6CCC(char *p,unsigned flag,int enable)
+void EGG_DEMO_VIEW_PlayAnim(char *p,unsigned flag,int enable)
 {
     void *obj;
     MCSS_SetAnimeIndex(((struct Obj06707 *)p)->f34,flag);
@@ -973,7 +973,7 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
     NNS_G2dRestartMCAnimation(obj);
     MCSS_ResetAnmStopFlag(((struct Obj06707 *)p)->f34);
     if(enable) {
-        func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);
+        NNS_G2dSetCellAnimationParam((int)obj,1,(int)p,(int)EGG_DEMO_VIEW_OnAnimStop);
         ((struct Obj06707 *)p)->f38=0;
     } else MCSS_TOOL_SetAnimeStopCallback((int)(((struct Obj06707 *)p)->f34));
 }
@@ -988,7 +988,7 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
  *   entry), so neither label nor sole-ref/code can attest the bl site;
  *   byte-correct.
  */
-int func_021F6D0C(char *a)
+int EGG_DEMO_VIEW_OnAnimStop(char *a)
 {
     MCSS_SetAnmStopFlag((void *)(((struct Obj14711 *)a)->f34));
     ((struct Obj14711 *)a)->f38 = 1;
@@ -1000,32 +1000,32 @@ int func_021F6D0C(char *a)
 
 
 
-void func_021F6D1C(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=MCSS_GetAlpha(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}
+void EGG_DEMO_VIEW_UpdateAlpha(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=MCSS_GetAlpha(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}
 
 
 
 
 
 
-void func_021F6D58(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
+void EGG_DEMO_VIEW_StartFadeOut(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
 
 
 
 
 
-int func_021F6D7C(char *p){if(MCSS_CheckPaletteFade(((struct Obj25762 *)p)->f34)==0)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFadeOutDone(char *p){if(MCSS_CheckPaletteFade(((struct Obj25762 *)p)->f34)==0)return 1;return 0;}
 
 
 
 
 
-void func_021F6D90(char *p){MCSS_ResetVanishFlag(((struct Obj14713 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14713 *)p)->f34,16,0,2,32767);}
+void EGG_DEMO_VIEW_StartFadeIn(char *p){MCSS_ResetVanishFlag(((struct Obj14713 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14713 *)p)->f34,16,0,2,32767);}
 
 
 
 
 
-char *func_021F6DB4(unsigned heap,unsigned count,const void *table)
+char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *table)
 {
     char *p;
     unsigned zero[3]={0};
@@ -1052,7 +1052,7 @@ char *func_021F6DB4(unsigned heap,unsigned count,const void *table)
 
 
 
-void func_021F6E4C(char *a)
+void EGG_DEMO_VIEW_DeleteParticles(char *a)
 {
     PARTICLE_ExitManager();
     func_020307B0(a);
@@ -1065,7 +1065,7 @@ void func_021F6E4C(char *a)
 /*
  * prototype: 515B4 receives visibly loaded r1/r2 despite legacy one-argument callee.
  */
-void func_021F6E5C(char *p)
+void EGG_DEMO_VIEW_UpdateParticles(char *p)
 {
     if (((struct Obj02263 *)p)->f4814) {
         Vec_021F6D7C v=d_021F73B4;
@@ -1090,7 +1090,7 @@ void func_021F6E5C(char *p)
 
 
 
-void func_021F6EE4(char *p){PARTICLE_Main();}
+void EGG_DEMO_VIEW_MainParticles(char *p){PARTICLE_Main();}
 
 
 
@@ -1098,21 +1098,21 @@ void func_021F6EE4(char *p){PARTICLE_Main();}
 /*
  * leaf: sole overlay blocker of 021F67E0; store and return, pool ends 021F6EF8.
  */
-void func_021F6EEC(char *p){((struct Obj25763 *)p)->f4814=1;}
+void EGG_DEMO_VIEW_StartParticles(char *p){((struct Obj25763 *)p)->f4814=1;}
 
 
 
 
-void func_021F6EF8(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
+void EGG_DEMO_VIEW_InitModel(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
 
 
 
 
-void func_021F6F18(char *p){G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}
+void EGG_DEMO_VIEW_DeleteModel(char *p){G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}
 
 
 
-void func_021F6F24(char *p)
+void EGG_DEMO_VIEW_DrawModels(char *p)
 {
     unsigned short i;
     for(i=0;i<((struct Obj06708 *)p)->f50;i++) {
@@ -1124,7 +1124,7 @@ void func_021F6F24(char *p)
 
 
 
-void func_021F6F64(char *p)
+void EGG_DEMO_VIEW_AddModel(char *p)
 {
     unsigned id;
     char *entry;
@@ -1133,7 +1133,7 @@ void func_021F6F64(char *p)
     int frame;
     ((struct Obj00317 *)p)->f4C=G3D_UTIL_AddUnit(*(struct Util * *)&((struct Obj00317 *)p)->f48,&d_021F7330);
     ((struct Obj00317 *)p)->f50=1;
-    *(struct Record * *)&((struct Obj00317 *)p)->f54=(struct Record *)func_021F66C8(((struct Obj00317 *)p)->f0,((struct Obj00317 *)p)->f50);
+    *(struct Record * *)&((struct Obj00317 *)p)->f54=(struct Record *)EGG_DEMO_VIEW_CreateRecords(((struct Obj00317 *)p)->f0,((struct Obj00317 *)p)->f50);
     id=func_020489F4(*(unsigned char * *)&((struct Obj00317 *)p)->f48,((struct Obj00317 *)p)->f4C);
     ((struct Obj00317 *)p)->f4E=0;
     entry=*(char * *)&((struct Obj00317 *)p)->f54;
@@ -1155,11 +1155,11 @@ void func_021F6F64(char *p)
 }
 
 
-void func_021F7028(char *p){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj04636 *)p)->f48,((struct Obj04636 *)p)->f4C);func_021F6718(((struct Obj04636 *)p)->f54);((struct Obj04636 *)p)->f50=0;}
+void EGG_DEMO_VIEW_RemoveModel(char *p){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj04636 *)p)->f48,((struct Obj04636 *)p)->f4C);EGG_DEMO_VIEW_FreeRecords(((struct Obj04636 *)p)->f54);((struct Obj04636 *)p)->f50=0;}
 
 
 
-void func_021F7048(char *p)
+void EGG_DEMO_VIEW_UpdateModel(char *p)
 {
     u16 i;
     void *q;
@@ -1183,6 +1183,6 @@ void func_021F7048(char *p)
     }
 }
 
-void func_021F70F8(char *p){((struct Obj01083 *)p)->f5C=1;}
-int func_021F7100(char *p){return ((struct Obj01083 *)p)->f5C==2;}
-void func_021F7110(char *p){((struct Obj01083 *)p)->f5C=3;}
+void EGG_DEMO_VIEW_StartModelAnim(char *p){((struct Obj01083 *)p)->f5C=1;}
+int EGG_DEMO_VIEW_IsModelAnimDone(char *p){return ((struct Obj01083 *)p)->f5C==2;}
+void EGG_DEMO_VIEW_EndModelAnim(char *p){((struct Obj01083 *)p)->f5C=3;}

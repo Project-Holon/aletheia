@@ -30,11 +30,11 @@
  *   func_0201F73C 0x0201F73C thumb
  *   func_02017E1C 0x02017E1C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
@@ -79,11 +79,11 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(u32,u32,s16,s16,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -130,11 +130,11 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),i+0x95); y=i<<4;
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
             STRBUF_Delete((struct U16Vec *)buf);
-            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)func_0201EC64(H(0));
+            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)GF_FONT_Create_EC64(H(0));
             func_0201EFA4((struct WordSet *)text,0,delta,3,0,1); func_0201F250((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
-            STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); func_0201ED04((struct WordSet *)text);
+            STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); WORDSET_DeleteStrbufED04((struct WordSet *)text);
         }
         for(j=0;j<6;j++) {
             x=flag==1 ? 72 : 80;
@@ -157,11 +157,11 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130))),0x50,0,0x20,0x60,15);
         for(i=0;i<6;i++) {
             delta=func_02017E1C((void *)W(0x38),gPlistStatParamIds[i],0);
-            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)func_0201EC64(H(0));
+            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)GF_FONT_Create_EC64(H(0));
             func_0201EFA4((struct WordSet *)text,0,delta,3,0,1); func_0201F250((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);
-            STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); func_0201ED04((struct WordSet *)text);
+            STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); WORDSET_DeleteStrbufED04((struct WordSet *)text);
         }
         p[0xe]=4; break;
     }

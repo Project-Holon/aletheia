@@ -1,5 +1,5 @@
 /*
- * function: func_021B74F8
+ * function: POKE_SUMMARY_MAIN_SoundStateCallback
  * address: 0x021B74F8
  * packet: pkt_ov173_021B74F8
  * region: ov173
@@ -23,7 +23,7 @@ extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int, unsigned int);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
-int func_021B74F8(unsigned int state)
+int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state)
 {
     switch (state) {
     case 1: return GFL_USE_IsAnySeBusy();

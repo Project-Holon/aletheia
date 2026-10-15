@@ -10,7 +10,7 @@
  * status:   EXACT
  * note:     net.c: start one network session (0x354-byte record on the
  *           request's +0x56 heap, published into gGFLNetMain's +8 slot, the
- *           vtable from func_0200F17C for mode +0x65, then a seven-way mode
+ *           vtable from NET_DEVICE_TABLE_Select for mode +0x65, then a seven-way mode
  *           switch).  Closed in wave 16 after the 80-byte residue of
  *           docs/notes/pkt_0203CBAC.c.txt:
  *           - the id guard at the head and in the beacon arm is a call in
@@ -32,7 +32,7 @@
  *   str_020A7CE8   0x020A7CE8  data
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_02030734  0x02030734  arm
- *   func_0200F17C  0x0200F17C  thumb
+ *   NET_DEVICE_TABLE_Select  0x0200F17C  thumb
  *   func_02034714  0x02034714  arm
  *   GFL_NET_IRC_WIRELESS_Create  0x0203D8F0  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -85,7 +85,7 @@ extern struct Singleton gGFLNetMain;
 
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_0200F17C(u32 sel);
+extern int NET_DEVICE_TABLE_Select(u32 sel);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
 struct Base;
 extern struct Base *GFL_NET_IRC_WIRELESS_Create(const struct Base *src, u32 a1);
@@ -108,7 +108,7 @@ void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3)
     s = (struct Sess *)func_02030734(req->f56, 0x354, 1, sNetFileName, 0x6a);
     gGFLNetMain.unk_08 = s;
     s->f352 = 1;
-    s->f340 = (u32 (**)(void))func_0200F17C(req->f65);
+    s->f340 = (u32 (**)(void))NET_DEVICE_TABLE_Select(req->f65);
     if (s->f340 == 0)
         func_02034714(sNetFileName, 0x6f, str_020A7CA8);
     if (req->f65 == 4)

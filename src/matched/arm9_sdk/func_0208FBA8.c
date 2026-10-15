@@ -1,5 +1,5 @@
 /*
- * function: func_0208FBA8
+ * function: WM_StartMPEx
  * address:  0x0208FBA8
  * packet:   pkt_0208FBA8
  * region:   arm9
@@ -71,7 +71,7 @@ typedef struct WMMPTmpParam {
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern WMErrCode WMi_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, WMMPTmpParam *tmpParam);
 
-WMErrCode func_0208FBA8(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError)
+WMErrCode WM_StartMPEx(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError)
 {
     WMMPTmpParam tmpParam;
 

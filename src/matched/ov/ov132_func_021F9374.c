@@ -1,5 +1,5 @@
 /*
- * function: func_021F9374
+ * function: STA_ACTING_UpdateText
  * address: 0x021F9374
  * packet: pkt_ov132_021F9374
  * region: ov132
@@ -28,7 +28,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021F9374(u8 *p)
+void STA_ACTING_UpdateText(u8 *p)
 {
     TCBL_Main(((struct Obj02849 *)p)->fCC);
     if (((struct Obj02849 *)p)->fD8 && PRINTSYS_PrintStreamGetState(((struct Obj02849 *)p)->fD8) == 2) {

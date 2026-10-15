@@ -12,7 +12,7 @@
  * sdk:      DWCi_GHTTPGetEx (libdwcghttp.TWL.HYB.a(dwc_ghttp.o))
  *
  * symbols:
- *   func_02059F38  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   DWCi_AppendDWCGHTTPParam  0x021BFA08  arm  ov114
  *   DWCi_HandleGHTTPError  0x021BF8C0  arm  ov114
  *   func_0205A16C  0x0205A16C  arm
@@ -42,7 +42,7 @@ typedef struct DWCGHTTPParamEntry {
     struct DWCGHTTPParamEntry *nextentry;
 } DWCGHTTPParamEntry;
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern DWCGHTTPParamEntry *DWCi_AppendDWCGHTTPParam(DWCGHTTPParam *param);
 extern int DWCi_HandleGHTTPError(int result);
 extern void *func_0205A16C(int name, unsigned long size);
@@ -63,7 +63,7 @@ int DWCi_GHTTPGetEx(char *url, int bufferlen, int buffer_clear, void **post,
     DWCGHTTPParamEntry *entry;
     DWCGHTTPParam parameter_instance;
 
-    if (func_02059F38())
+    if (DWCi_IsError())
         return -1;
     parameter_instance.param = param;
     parameter_instance.completedCallback = completedCallback;

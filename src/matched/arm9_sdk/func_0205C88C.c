@@ -1,5 +1,5 @@
 /*
- * function: func_0205C88C
+ * function: DWC_CheckInet
  * address:  0x0205C88C
  * packet:   pkt_0205C88C
  * region:   arm9
@@ -40,7 +40,7 @@ extern struct INETBSS g_02146AD4;
 
 extern int DWC_GetInetStatus(void);
 
-int func_0205C88C(void)
+int DWC_CheckInet(void)
 {
     if (g_02146AD4.stpInetCntl == 0) {
         return 0;

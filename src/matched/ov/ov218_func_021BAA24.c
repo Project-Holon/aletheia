@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA24
+ * function: UN_SELECT_GRAPHIC_SetupClact
  * address:  0x021BAA24
  * packet:   pkt_021BAA24
  * region:   ov218
@@ -31,7 +31,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021BAA24(unsigned char *p, int a, int b)
+void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BAEBC, a, b);

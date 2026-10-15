@@ -14,7 +14,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FIELD_BUILDMODEL_GetEntryAnimKind  0x0218C674  thumb  ov021
  *   gBuildModelFileName     0x021DD9CC  data   a4
  * Addresses are Black-image addresses.
@@ -46,7 +46,7 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void FIELD_G3D_MAP_GetPos(int o, Vec *v);
-extern void func_0207C9D0(Vec *a, Vec *b, Vec *c);
+extern void VEC_Add(Vec *a, Vec *b, Vec *c);
 extern int FIELD_BUILDMODEL_GetEntryAnimKind(unsigned char *p, int b);
 extern char gBuildModelFileName[];
 
@@ -73,7 +73,7 @@ Ent **FIELD_BUILDMODEL_CollectEntriesInRect(u8 *s, Rect *r, int kind, int *count
         if (kind != 0 && kind != FIELD_BUILDMODEL_GetEntryAnimKind(s, (int)e))
             continue;
         FIELD_G3D_MAP_GetPos(e->obj, &v);
-        func_0207C9D0((Vec *)(e->ref + 4), &v, &v);
+        VEC_Add((Vec *)(e->ref + 4), &v, &v);
         if (InRect(r, v.x, v.z) == 1) {
             list[n] = e;
             n++;

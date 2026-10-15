@@ -52,10 +52,10 @@
  * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
  * `veneer` attestation class carries 0x02072788, so the two twelve byte
  * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
+ * to UI_SetResumeAndSuspendHooks are src/matched/unit_02005794.c and are EXACT.
  *
  * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
+ * unchanged and structural: UI_GetSuspendHookGlobal has exactly one caller anywhere in
  * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
  * function.  Shrinking the range cannot help, because the witness is the call
  * itself, and the target is ARM library code that cannot be made `local`.

@@ -77,7 +77,7 @@
  *   func_0220BBD8 0x0220BBD8 thumb ov197
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0220B904 0x0220B904 thumb ov197
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -86,7 +86,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0220B904(char *);
-extern unsigned func_02020FE4(void *, unsigned, unsigned);
+extern unsigned FILE_UTIL_Get_0FE4(void *, unsigned, unsigned);
 int func_0220D11C(char *p)
 {
     char *q = *(char **)p;
@@ -122,7 +122,7 @@ int func_0220D11C(char *p)
             return 0xe;
         }
     }
-    if (*(u8 *)(q + 0x29) == 0 && func_02020FE4((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
+    if (*(u8 *)(q + 0x29) == 0 && FILE_UTIL_Get_0FE4((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
         MSGDATA_ReadString(*(void **)(p + 0xc), 0x32, *(void **)(p + 0x14));
         func_0220B904(p);
         *(u8 *)(p + 0x531) = 0xd;

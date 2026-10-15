@@ -1,5 +1,5 @@
 /*
- * function: func_0205BEA8
+ * function: DWC_AC_SetSpecifyApEx
  * address:  0x0205BEA8
  * packet:   pkt_0205BEA8
  * region:   arm9
@@ -129,7 +129,7 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void DWC_AC_SetSpecifyAp(void *ssid, void *wep, int wepMode);
 
-void func_0205BEA8(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType)
+void DWC_AC_SetSpecifyApEx(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);

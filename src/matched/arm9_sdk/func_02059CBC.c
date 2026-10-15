@@ -1,5 +1,5 @@
 /*
- * function: func_02059CBC
+ * function: DWC_Base64Decode
  * address:  0x02059CBC
  * packet:   pkt_02059CBC
  * region:   arm9
@@ -15,7 +15,7 @@
 
 typedef unsigned long u32;
 
-int func_02059CBC(const char *src, u32 srclen, char *dst, u32 dstlen)
+int DWC_Base64Decode(const char *src, u32 srclen, char *dst, u32 dstlen)
 {
     const char *srcread_index;
     char *dstwrite_index;

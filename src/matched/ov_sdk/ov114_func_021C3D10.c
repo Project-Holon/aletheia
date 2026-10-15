@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_0217ED38  0x0217ED38  arm   ov009
- *   func_0217F150  0x0217F150  arm   ov009
+ *   inet_addr  0x0217ED38  arm   ov009
+ *   gsiStartResolvingHostname  0x0217F150  arm   ov009
  *   ghiCallProgressCallback  0x021C02C8  arm   ov114
  *   sGhttpHostLookup     0x021CF0D0  data  ov114
  *   sGhttpThreadCreationFailed     0x021CF0E0  data  ov114
@@ -38,9 +38,9 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0217ED38(int a);
+extern int inet_addr(int a);
 struct GSIResolveHostnameInfo;
-extern int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle);
+extern int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
 extern char sGhttpHostLookup[];
 extern char sGhttpThreadCreationFailed[];
@@ -62,9 +62,9 @@ void ghiDoHostLookup(GHIConnection *connection)
         if (server == 0)
             server = connection->f18;
     }
-    connection->f1C = func_0217ED38((int)server);
+    connection->f1C = inet_addr((int)server);
     if (connection->f1C == (unsigned int)-1) {
-        if (func_0217F150(server, (struct GSIResolveHostnameInfo **)(&connection->f1CC)) == -1) {
+        if (gsiStartResolvingHostname(server, (struct GSIResolveHostnameInfo **)(&connection->f1CC)) == -1) {
             func_0217D254(8, (char *)3, 1, sGhttpThreadCreationFailed);
             connection->f1CC = 0;
             connection->f124 = 1;

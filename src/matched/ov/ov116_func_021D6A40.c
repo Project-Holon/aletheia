@@ -1,5 +1,5 @@
 /*
- * function: func_021D6A40
+ * function: WIFI_BSUBWAY_GetRoomNumber
  * address: 0x021D6A40
  * packet: pkt_ov116_021D6A40
  * region: ov116
@@ -13,4 +13,4 @@
 #include "../include/Obj22616.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021D6A40(u8 *p) { return ((struct Obj22616 *)p)->f8; }
+u16 WIFI_BSUBWAY_GetRoomNumber(u8 *p) { return ((struct Obj22616 *)p)->f8; }

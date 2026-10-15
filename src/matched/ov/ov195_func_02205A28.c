@@ -1,5 +1,5 @@
 /*
- * function: func_02205A28
+ * function: SHINKA_DEMO_GRAPHIC_GetCamera
  * address:  0x02205A28
  * packet:   pkt_02205A28
  * region:   ov195
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02205BD8 0x02205BD8 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_GetCameraId 0x02205BD8 thumb ov195
  */
 
-extern int func_02205BD8(int *p);
+extern int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p);
 
-int func_02205A28(char *a)
+int SHINKA_DEMO_GRAPHIC_GetCamera(char *a)
 {
-    return func_02205BD8((int *)(a + 4));
+    return SHINKA_DEMO_GRAPHIC_GetCameraId((int *)(a + 4));
 }

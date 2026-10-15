@@ -25,6 +25,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  */
 #include "../include/Obj00001.h"
 typedef unsigned char u8;
@@ -47,7 +48,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *,void *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u8 func_02009628(const struct Sub02009470Obj *obj);
-extern u8 func_02009584(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj);
 extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 extern int POKETRADE_PROC_IsHostSide(void *);
 extern void *POKETRADE_PROC_GetSideMon(void *,int);
@@ -75,7 +76,7 @@ void POKETRADE_SAVE_SendTradeSummary(char *p)
     packet.first=POKE_TOOL_GetPartyValue(first,5,0);
     packet.second=POKE_TOOL_GetPartyValue(second,5,0);
     packet.a=func_02009628(saved);
-    packet.b=func_02009584(saved);
+    packet.b=WIFI_HISTORY_GetVisitedCountryCount(saved);
     packet.mode=func_0200960C(saved);
     if(POKETRADE_PROC_IsNetSession(p)) {
         if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc12,40,(u32)(&packet))) {

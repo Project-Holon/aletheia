@@ -58,7 +58,7 @@
  *   func_021DA318 0x021DA318 thumb ov121
  *   func_02040588 0x02040588 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MYSTERY_ALBUM_PathFrameIds 0x021DF858 data a2
  *   MYSTERY_ALBUM_PathDirections 0x021DF822 data a1
@@ -264,7 +264,7 @@ extern void func_021DA4A8(void *cardView);
 extern void func_021DA318(void *albumData);
 extern void func_02040588(unsigned char plane, unsigned char enable);
 extern void *func_020056A0(u32 func,u32 arg,u32 priority);
-extern void func_020414EC(unsigned bgLayer);
+extern void BG_SYS_ClearSlot(unsigned bgLayer);
 extern void MI_CpuFill8(void *dst,int value,u32 size);
 extern int _s32_div_f(int, int);
 extern u32 _u32_div_f(u32, u32);
@@ -469,7 +469,7 @@ void MYSTERY_ALBUM_RequestSetup(MysteryAlbum *album,u32 mode) { album->setupMode
 void MYSTERY_ALBUM_HideScreen(MysteryAlbumUi *ui)
 {
     MysteryAlbumPoint16 cursorPos;
-    func_020414EC(4);
+    BG_SYS_ClearSlot(4);
     func_020409B4(4);
     CLACT_SetActorDrawEnable(ui->iconActor,0);
     cursorPos.x=184;

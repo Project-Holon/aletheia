@@ -1,5 +1,5 @@
 /*
- * function: func_021F6AEC
+ * function: EGG_DEMO_VIEW_AddPokeMcss
  * address: 0x021F6AEC
  * packet: pkt_ov215_021F6AEC
  * region: ov215
@@ -49,7 +49,7 @@ extern s16 MCSS_GetOfsX(void *);
 extern void MCSS_SetOfsPosition(void *,u32 *);
 extern void MCSS_SetAnmStopFlag(void *);
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
-void func_021F6AEC(char *p)
+void EGG_DEMO_VIEW_AddPokeMcss(char *p)
 {
     Vec trans,scale,delta;
     u32 species;

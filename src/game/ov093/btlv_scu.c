@@ -19,12 +19,12 @@
  *   gBtlvScuFileName     0x021F3AD0  data   a4
  *   STRBUF_Create  0x020457B0  arm    arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_02041300 0x02041300 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_0204989C 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -47,12 +47,12 @@
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02049658  0x02049658  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FADE_IsActive   0x0204E804  arm
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
- *   func_0207D55C  0x0207D55C  arm    arm9
+ *   GXx_GetMasterBrightness_  0x0207D55C  arm    arm9
  *   FADE_Start  0x0204E720  arm    arm9
  *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
@@ -99,7 +99,7 @@
  *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
  *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
  *   PRINTSYS_PrintStreamSetSpeed  0x0201CE8C  thumb  arm9
- *   func_02013080  0x02013080  thumb  arm9
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb  arm9
  *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   KEY_GetCont  0x0203630C  arm  arm9
@@ -175,22 +175,22 @@
  *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EE84  0x0201EE84  thumb
- *   func_0201F0F8  0x0201F0F8  thumb
+ *   WORDSET_Set  0x0201F0F8  thumb
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
  *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
- *   func_0202A3CC  0x0202A3CC  thumb
+ *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
@@ -202,7 +202,7 @@
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
- *   func_0201D5CC  0x0201D5CC  thumb
+ *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
  *   func_0201D5F4  0x0201D5F4  thumb
  *   func_0201D658  0x0201D658  thumb
@@ -211,7 +211,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201EF8C 0x0201EF8C thumb
  *   func_0201EF34 0x0201EF34 thumb
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
@@ -300,12 +300,12 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern struct MsgBuf *STRBUF_Create(int, int);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct CharBuf *BMP_WIN_GetBmp(struct BmpWin *win);
@@ -325,11 +325,11 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
 extern void STRBUF_Delete(struct MsgBuf *buf);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern int BTL_MAIN_GetCompetitor(struct BtlContext *);
 extern u32 BTL_MAIN_GetRule(struct BtlContext *);
 extern int BTL_MAIN_IsMultiMode(struct BtlContext *);
-extern int func_0207D55C(volatile u16 *);
+extern int GXx_GetMasterBrightness_(volatile u16 *);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlContext *, u8 side);
 extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(struct BtlMonTable *table, u8 monIdx);
@@ -366,7 +366,7 @@ extern u8 BTL_MAIN_GetCommPos(struct BtlContext *ctx);
 extern void PRINTSYS_PrintStreamRun(struct PrintStream *stream);
 extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct PrintStream *stream);
 extern void PRINTSYS_PrintStreamSetSpeed(struct PrintStream *stream, s32 speed);
-extern signed char func_02013080(u32 idx);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern void PRINTSYS_PrintStreamResetSpeed(struct PrintStream *stream);
 extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
 extern u32 KEY_GetCont(void);
@@ -659,15 +659,15 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
 {
     u16 zero;
     u32 frameTile;
-    func_0203FCA0(1, &gBtlvScuBgTemplateMsg, 0);
-    func_0203FCA0(2, &gBtlvScuBgTemplateName, 0);
-    func_0203FCA0(3, &gBtlvScuBgTemplateBack, 0);
+    BG_SYS_InitBgLayer(1, &gBtlvScuBgTemplateMsg, 0);
+    BG_SYS_InitBgLayer(2, &gBtlvScuBgTemplateName, 0);
+    BG_SYS_InitBgLayer(3, &gBtlvScuBgTemplateBack, 0);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0x5a, scu->heapId, 0, 0x20, 0, 0);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0xd6, scu->heapId, 0, 0x60, 0x10, 0x10);
     zero = 0;
     PALANM_CopyToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), &zero, 0, 0, 2);
     func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     frameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0x59, 1);
     scu->msgTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0xd5, 3);
     func_0204989C(0xb, 0xd7, 2, 0, 0, 0, scu->heapId);
@@ -754,7 +754,7 @@ void BTLV_SCU_ReloadGraphics(const BtlvScu *scu)
     func_02049658(handle, 0xd5, 3, scu->msgTile, 0, 0, scu->heapId);
     func_02049658(handle, 0xdd, 3, scu->nameTile, 0, 0, scu->heapId);
     ARC_TOOL_DeleteHandle(handle);
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
 }
 
@@ -840,7 +840,7 @@ int BTLV_SCU_RunProc(BtlvScu *scu)
 
 void BTLV_SCU_StartBrightnessFade(int speed)
 {
-    if (func_0207D55C(REG_MASTER_BRIGHT_MAIN) <= 0)
+    if (GXx_GetMasterBrightness_(REG_MASTER_BRIGHT_MAIN) <= 0)
         FADE_Start(3, 0x10, 0, speed);
     else
         FADE_Start(0xc, 0x10, 0, speed);
@@ -2075,7 +2075,7 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
             if (BTL_MAIN_GetCommPos(scu->context) == 0) {
                 if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(scu->msgStream) == 0)
-                        PRINTSYS_PrintStreamSetSpeed(scu->msgStream, func_02013080(2));
+                        PRINTSYS_PrintStreamSetSpeed(scu->msgStream, MSG_SPEED_GetWaitForSpeed(2));
                 } else {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(scu->msgStream) != 0)
                         PRINTSYS_PrintStreamResetSpeed(scu->msgStream);

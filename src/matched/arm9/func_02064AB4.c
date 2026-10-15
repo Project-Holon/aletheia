@@ -11,9 +11,9 @@
  *
  * PIN ../2.0/sp2: the "kept branches" tell.  The image writes the case-2
  * call tail out in its own arm -- `add r0, r4, #0x48` (0x02064B20) /
- * `bl func_020640DC` (0x02064B24) / `b 0x02064B54` (0x02064B28) -- although
+ * `bl NNS_G2dSetSRTTranslate` (0x02064B24) / `b 0x02064B54` (0x02064B28) -- although
  * the default arm ends in a byte-identical `add r0, r4, #0x48` /
- * `bl func_020640DC` pair at 0x02064B4C/0x02064B50.  1.1p1 -O4,p cross-jumps
+ * `bl NNS_G2dSetSRTTranslate` pair at 0x02064B4C/0x02064B50.  1.1p1 -O4,p cross-jumps
  * the two, branching case 2 into the default arm's pair and giving 172 bytes
  * against the original's 180, 64 concrete bytes out.  Two independent lanes
  * measured a dozen spellings (switch arm order, if-chain, goto tail, named
@@ -25,9 +25,9 @@
  *   func_02062D40  0x02062D40  arm
  *   func_020629E8  0x020629E8  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
- *   func_020640DC  0x020640DC  arm
- *   func_02064120  0x02064120  arm
- *   func_02064100  0x02064100  arm
+ *   NNS_G2dSetSRTTranslate  0x020640DC  arm
+ *   NNS_G2dSetSRTScale  0x02064120  arm
+ *   NNS_G2dSetSRTRotate  0x02064100  arm
  *   NNSi_G2dSetMCDataToMCInstanceImpl  0x020643CC  arm
  *
  * Same body as NNS_G2dTickMCAnimation from the header test down, but with a guard
@@ -51,10 +51,10 @@ struct MultiCellBank;
 struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
-extern void func_020640DC(char *self, int a, int b);
-extern void func_02064120(char *self, int a, int b);
+extern void NNS_G2dSetSRTTranslate(char *self, int a, int b);
+extern void NNS_G2dSetSRTScale(char *self, int a, int b);
 struct Obj02064100;
-extern void func_02064100(struct Obj02064100 *obj, u16 val);
+extern void NNS_G2dSetSRTRotate(struct Obj02064100 *obj, u16 val);
 extern void NNSi_G2dSetMCDataToMCInstanceImpl(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
 void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i)
@@ -73,12 +73,12 @@ void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i)
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x48, *(short *)&((struct Obj03475 *)p)->f4, *(short *)(p + 6));
+        NNS_G2dSetSRTTranslate(self + 0x48, *(short *)&((struct Obj03475 *)p)->f4, *(short *)(p + 6));
         break;
     default:
-        func_02064120(self + 0x48, ((struct Obj03475 *)p)->f4, ((struct Obj03475 *)p)->f8);
-        func_02064100((struct Obj02064100 *)(self + 0x48), ((struct Obj03475 *)p)->f2);
-        func_020640DC(self + 0x48, ((struct Obj03475 *)p)->fC, ((struct Obj03475 *)p)->fE);
+        NNS_G2dSetSRTScale(self + 0x48, ((struct Obj03475 *)p)->f4, ((struct Obj03475 *)p)->f8);
+        NNS_G2dSetSRTRotate((struct Obj02064100 *)(self + 0x48), ((struct Obj03475 *)p)->f2);
+        NNS_G2dSetSRTTranslate(self + 0x48, ((struct Obj03475 *)p)->fC, ((struct Obj03475 *)p)->fE);
         break;
     }
     NNSi_G2dSetMCDataToMCInstanceImpl((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)item, ((struct Obj07024 *)self)->f30);

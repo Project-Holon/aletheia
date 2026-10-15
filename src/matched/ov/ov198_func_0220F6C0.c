@@ -14,7 +14,7 @@
  *   func_02210A4C 0x02210A4C thumb ov198
  *   func_02211128 0x02211128 thumb ov198
  *   func_02211970 0x02211970 thumb ov198
- *   func_0220B760 0x0220B760 thumb ov198
+ *   B_PLIST_ANM_StartPaletteAnim 0x0220B760 thumb ov198
  *   func_02211944 0x02211944 thumb ov198
  *   func_0220F7C4 0x0220F7C4 thumb ov198
  */
@@ -26,7 +26,7 @@ extern u32 func_02211958(u8 **);
 extern int func_02210A4C(u8 *);
 extern int func_02211128(u8 *,u8 *,u8 *,int);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *,u32);
+extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
 extern void func_02211944(u8 **);
 extern int func_0220F7C4(u8 *);
 int func_0220F6C0(u8 *p)
@@ -48,13 +48,13 @@ int func_0220F6C0(u8 *p)
                 }
             } else if((*(u8 **)p)[31]!=1) {
                 func_02211970((u8 **)p,1362);
-                func_0220B760(p,6);
+                B_PLIST_ANM_StartPaletteAnim(p,6);
                 func_02211944((u8 **)p);
                 return 31;
             }
         } else {
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,(*(u8 **)p)[32]);
+            B_PLIST_ANM_StartPaletteAnim(p,(*(u8 **)p)[32]);
             if((*(u8 **)p)[31]==3) return func_0220F7C4(p);
             ((struct Obj04601 *)p)->f217C=12;
             return 29;

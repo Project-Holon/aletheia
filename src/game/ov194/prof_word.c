@@ -1,7 +1,7 @@
 /*
  * file:     prof_word.c
  * unit:     yes
- * function: func_021F5304, func_021F5354, func_021F5370, func_021F546C, func_021F5494
+ * function: PROF_WORD_Create, PROF_WORD_Delete, PROF_WORD_FindMatch, PROF_WORD_CompareChunks, PROF_WORD_MatchWord, PROF_WORD_CheckDigitCount
  * address:  0x021F5304
  * region:   ov194
  * compiler: dsi/1.1p1
@@ -11,6 +11,11 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * Zeroes a 0x20-entry u16 buffer (aggregate initialiser gives the
+ * post-decrement loop), has MI_CpuCopy8 fill it from the caller's source, then
+ * counts wide/ASCII digit code units: 1 when more than four.  Initialising c
+ * at its declaration fixes the register of n.
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -39,18 +44,20 @@ extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern u16 STRBUF_GetEosChar(void);
-Resources *func_021F5304(unsigned short heap);
-void func_021F5354(u8 *p);
-int func_021F5370(const u32 *cache,const void *input,u16 heap);
-int func_021F546C(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
-int func_021F5494(const u16 *a,const u16 *b);
+Resources *PROF_WORD_Create(unsigned short heap);
+void PROF_WORD_Delete(u8 *p);
+int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap);
+int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
+int PROF_WORD_MatchWord(const u16 *a,const u16 *b);
+int PROF_WORD_CheckDigitCount(void *src, int n, int a2);
 extern const char d_021F57B8[];
+
 
 /*
  * Match levers: u16 heap, counter declared first, zero set before size-base
  * assignment; the int heap and later zero caused the recorded diffs.
  */
-Resources *func_021F5304(unsigned short heap)
+Resources *PROF_WORD_Create(unsigned short heap)
 {
     int i;
     Resources *p;
@@ -67,10 +74,11 @@ Resources *func_021F5304(unsigned short heap)
 }
 
 
+
 /*
  * Addresses are Black-image addresses.
  */
-void func_021F5354(u8 *p)
+void PROF_WORD_Delete(u8 *p)
 {
     int i;
 
@@ -80,7 +88,8 @@ void func_021F5354(u8 *p)
     func_020307B0((void *)((u32)p));
 }
 
-int func_021F5370(const u32 *cache,const void *input,u16 heap)
+
+int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
 {
     u16 buf[32]={0};
     u32 size;
@@ -100,23 +109,43 @@ int func_021F5370(const u32 *cache,const void *input,u16 heap)
             data=ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,&size);
             func_0203F37C((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
-        { u32 currentHeap=heap; result=func_021F546C(buf,i,currentHeap,(const u16 *)data,size); }
+        { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }
         if(cache==0) func_020307B0((void *)data);
         if(result==1) break;
     }
     return result;
 }
 
-int func_021F546C(const u16 *a, u32 b, u32 c, const u16 *d, u32 n)
+
+int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n)
 {
     int r;
     int i;
     int cnt = (n << 10) >> 16;
     for (i = 0; i < cnt; i++) {
-        r = func_021F5494(a, d + i * 32);
+        r = PROF_WORD_MatchWord(a, d + i * 32);
         if (r == 1) break;
     }
     return r;
 }
 
-int func_021F5494(const u16 *a,const u16 *b) {int i;for(i=0;i<32;i++){if(a[i]!=b[i])return 0;if(a[i]==STRBUF_GetEosChar() && b[i]==STRBUF_GetEosChar())return 1;}return 0;}
+
+int PROF_WORD_MatchWord(const u16 *a,const u16 *b) {int i;for(i=0;i<32;i++){if(a[i]!=b[i])return 0;if(a[i]==STRBUF_GetEosChar() && b[i]==STRBUF_GetEosChar())return 1;}return 0;}
+
+
+int PROF_WORD_CheckDigitCount(void *src, int n, int a2)
+{
+    u16 buf[0x20] = {0};
+    int j, c = 0;
+
+    MI_CpuCopy8(src, buf, n * 2);
+    for (j = 0; j < 0x20; j++) {
+        u16 v = buf[j];
+
+        if ((v >= 0x30 && v <= 0x39) || (v >= 0xFF10 && v <= 0xFF19))
+            c++;
+        if (c > 4)
+            return 1;
+    }
+    return 0;
+}

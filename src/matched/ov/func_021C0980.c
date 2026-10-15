@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02040804  0x02040804  arm
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  */
@@ -19,7 +19,7 @@
 
 extern unsigned int func_02040804(unsigned int layer);
 typedef unsigned int   u32;
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -37,20 +37,20 @@ void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
         break;
     case 1:
         if ((int)func_02040804((int)7) >= 0x40) {
-            func_02041EE4(7, 3, 0x40);
+            BG_SYS_ResetSlot(7, 3, 0x40);
             ((struct Obj02346 *)p)->f70 = 2;
         } else {
-            func_02041EE4(7, 4, 8);
-            func_02041EE4(6, 4, 8);
+            BG_SYS_ResetSlot(7, 4, 8);
+            BG_SYS_ResetSlot(6, 4, 8);
         }
         break;
     case 3:
         if ((int)func_02040804((int)7) <= 0) {
-            func_02041EE4(7, 3, 0);
+            BG_SYS_ResetSlot(7, 3, 0);
             ((struct Obj02346 *)p)->f70 = 0;
         } else {
-            func_02041EE4(7, 5, 8);
-            func_02041EE4(6, 5, 8);
+            BG_SYS_ResetSlot(7, 5, 8);
+            BG_SYS_ResetSlot(6, 5, 8);
         }
         break;
     }

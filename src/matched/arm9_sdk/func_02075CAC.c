@@ -1,5 +1,5 @@
 /*
- * function: func_02075CAC
+ * function: CARD_Init
  * address:  0x02075CAC
  * packet:   pkt_02075CAC
  * region:   arm9
@@ -99,7 +99,7 @@ static inline void OS_InitThreadQueue(OSThreadQueue *queue)
     queue->head = queue->tail = 0;
 }
 
-void func_02075CAC(void)
+void CARD_Init(void)
 {
     CARDiCommon *p = &cardi_common;
 

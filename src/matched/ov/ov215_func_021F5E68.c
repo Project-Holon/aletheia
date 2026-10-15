@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021F5E68, func_021F5E90
+ * function: EGG_DEMO_MAIN_StartActorAnims, EGG_DEMO_MAIN_AreActorAnimsDone
  * address:  0x021F5E68
  * packet:   pkt_021F5E68
  * region:   ov215
@@ -29,7 +29,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-void func_021F5E68(int unused, struct S021F5E68 *p)
+void EGG_DEMO_MAIN_StartActorAnims(int unused, struct S021F5E68 *p)
 {
     unsigned char i;
     for (i = 0; i < 6; i++)
@@ -39,7 +39,7 @@ void func_021F5E68(int unused, struct S021F5E68 *p)
     }
 }
 
-int func_021F5E90(int unused, struct S021F5E68 *p)
+int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct S021F5E68 *p)
 {
     unsigned char i;
     int r = 1;

@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D4B74",
-    "func_021D4BDC",
-    "func_021D4BF0"
+    "INTRUDE_COMM_VIEW_BeginExit",
+    "INTRUDE_COMM_VIEW_StartExit",
+    "INTRUDE_COMM_VIEW_Noop"
+   ],
+   "addresses": [
+    "0x021D4B74",
+    "0x021D4BDC",
+    "0x021D4BF0"
    ]
   }
  ]

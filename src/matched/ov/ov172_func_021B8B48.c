@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B48
+ * function: CTVT_COMM_IsTimingSync
  * address:  0x021B8B48
  * packet:   pkt_021B6100
  * region:   ov172
@@ -28,7 +28,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 
-int func_021B8B48(void *p, u32 a, u32 b)
+int CTVT_COMM_IsTimingSync(void *p, u32 a, u32 b)
 {
     return GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x20);
 }

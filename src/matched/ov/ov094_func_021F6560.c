@@ -19,7 +19,7 @@
  *   G3D_SYSTEM_CreateAnime 0x02047564 arm
  *   G3D_SYSTEM_CreateObject 0x0204767C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   func_0207DCF8 0x0207DCF8 arm
@@ -68,7 +68,7 @@ extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G
 struct G3dSys;
 extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern void func_0207ADC4(int *);
+extern void MTX_Identity33_(int *);
 extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void func_0207DCF8(void *);
@@ -145,14 +145,14 @@ Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     o->xf[0].sx = 0x1000;
     o->xf[0].sy = 0x1000;
     o->xf[0].sz = 0x1000;
-    func_0207ADC4(o->xf[0].matrix);
+    MTX_Identity33_(o->xf[0].matrix);
     o->xf[1].f0 = 0;
     o->xf[1].f4 = 0;
     o->xf[1].f8 = -0xcb7d;
     o->xf[1].sx = 0x1000;
     o->xf[1].sy = 0x1000;
     o->xf[1].sz = 0x1000;
-    func_0207ADC4(o->xf[1].matrix);
+    MTX_Identity33_(o->xf[1].matrix);
     if (mode == 3) {
         o->xf[0].f8 = 0xa000;
         o->xf[1].f8 = -0xf000;

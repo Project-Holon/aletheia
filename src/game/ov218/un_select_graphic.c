@@ -1,7 +1,7 @@
 /*
  * file:     un_select_graphic.c
  * unit:     yes
- * function: func_021BA848, func_021BA8F0, func_021BA94C, func_021BA960, func_021BA96C, func_021BA980, func_021BA9E0, func_021BAA18, func_021BAA1C, func_021BAA24, func_021BAA64, func_021BAA80, func_021BAA88, func_021BAA94
+ * function: UN_SELECT_GRAPHIC_Create, UN_SELECT_GRAPHIC_Delete, UN_SELECT_GRAPHIC_Update, UN_SELECT_GRAPHIC_GetActor, UN_SELECT_GRAPHIC_Task, UN_SELECT_GRAPHIC_SetupBg, UN_SELECT_GRAPHIC_CleanupBg, UN_SELECT_GRAPHIC_Noop, UN_SELECT_GRAPHIC_DrawObjects, UN_SELECT_GRAPHIC_SetupClact, UN_SELECT_GRAPHIC_DeleteClact, UN_SELECT_GRAPHIC_Draw, UN_SELECT_GRAPHIC_VBlank, UN_SELECT_GRAPHIC_SetupCamera, UN_SELECT_GRAPHIC_DeleteCamera
  * address:  0x021BA848
  * region:   ov218
  * compiler: dsi/1.1p1
@@ -26,20 +26,20 @@
  *   d_021BB094 0x021BB094 data a1
  *   d_021BAEF8 0x021BAEF8 data a4
  *   func_02030EAC 0x02030EAC arm
- *   func_021BAB00 0x021BAB00 thumb ov218
+ *   UN_SELECT_GRAPHIC_DeleteCamera 0x021BAB00 thumb ov218
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BAEAC 0x021BAEAC data a4
  *   d_021BAF28 0x021BAF28 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -92,18 +92,18 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void func_02030EAC(struct Node *n);
-extern void func_021BAB00(int *);
+extern void UN_SELECT_GRAPHIC_DeleteCamera(int *);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
-extern void func_0203F8F4(unsigned);
+extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void func_020403F4(u8);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
@@ -117,21 +117,23 @@ extern void CLACT_VBlankSystem(void);
 extern void func_021BA7A4(void);
 extern void G3D_SYSTEM_Init(unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned, void (*)(void));
 extern unsigned *G3D_CAMERA_Create(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, const Vec3 *, const Vec3 *, const Vec3 *, unsigned);
-char *func_021BA848(unsigned swap, unsigned heap);
-void func_021BA8F0(char *ctx);
-void func_021BA94C(char *p);
-u32 func_021BA960(char *p);
-void func_021BA96C(void *unused, char *p);
-void func_021BA980(char *ctx, unsigned heap);
-void func_021BA9E0(void *p);
-void func_021BAA18(void *a0);
-void func_021BAA1C(void *a0);
-void func_021BAA24(unsigned char *p, int a, int b);
-void func_021BAA64(char *p);
-void func_021BAA80(void *p);
-void func_021BAA88(void *p);
-u32 func_021BAA90(u32 *p);
-void func_021BAA94(unsigned **out, unsigned heap);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
+char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
+void UN_SELECT_GRAPHIC_Delete(char *ctx);
+void UN_SELECT_GRAPHIC_Update(char *p);
+u32 UN_SELECT_GRAPHIC_GetActor(char *p);
+void UN_SELECT_GRAPHIC_Task(void *unused, char *p);
+void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap);
+void UN_SELECT_GRAPHIC_CleanupBg(void *p);
+void UN_SELECT_GRAPHIC_Noop(void *a0);
+void UN_SELECT_GRAPHIC_DrawObjects(void *a0);
+void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void UN_SELECT_GRAPHIC_DeleteClact(char *p);
+void UN_SELECT_GRAPHIC_Draw(void *p);
+void UN_SELECT_GRAPHIC_VBlank(void *p);
+u32 UN_SELECT_GRAPHIC_GetValue(u32 *p);
+void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap);
 extern const struct DispVram d_021BAEF8;
 extern const char d_021BB094[];
 extern const unsigned d_021BAEAC[];
@@ -139,7 +141,7 @@ extern const Record d_021BAF28[];
 extern const Vec3 d_021BAE94, d_021BAE88, d_021BAEA0;
 extern const short d_020A1EB8[];
 
-char *func_021BA848(unsigned swap, unsigned heap)
+char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
 {
     char *p;
     p = func_02030734(heap, 16, 0, d_021BB094, 436);
@@ -155,22 +157,22 @@ char *func_021BA848(unsigned swap, unsigned heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021BA980(p, heap);
-    func_021BAA24((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
-    func_021BAA94((unsigned **)(p + 8), heap);
-    ((struct Obj26049 *)p)->fC = func_020056A0((unsigned)func_021BA96C, (unsigned)p, 0);
+    UN_SELECT_GRAPHIC_SetupBg(p, heap);
+    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
+    UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);
+    ((struct Obj26049 *)p)->fC = func_020056A0((unsigned)UN_SELECT_GRAPHIC_Task, (unsigned)p, 0);
     return p;
 }
 
 /*
  * volatile: display registers 04000050/04001050 are cleared at A916/A91C; 04000000/04001000 read and masked at A91E-A92C.
  */
-void func_021BA8F0(char *ctx)
+void UN_SELECT_GRAPHIC_Delete(char *ctx)
 {
     func_02030EAC(((struct Obj26050 *)ctx)->fC);
-    func_021BAB00((int *)(ctx + 8));
-    func_021BAA64(ctx + 4);
-    func_021BA9E0(ctx);
+    UN_SELECT_GRAPHIC_DeleteCamera((int *)(ctx + 8));
+    UN_SELECT_GRAPHIC_DeleteClact(ctx + 4);
+    UN_SELECT_GRAPHIC_CleanupBg(ctx);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -186,53 +188,53 @@ void func_021BA8F0(char *ctx)
  *
  * Addresses are Black-image addresses.
  */
-void func_021BA94C(char *p)
+void UN_SELECT_GRAPHIC_Update(char *p)
 {
-    func_021BAA80(p + 4);
-    func_021BAA18(p);
+    UN_SELECT_GRAPHIC_Draw(p + 4);
+    UN_SELECT_GRAPHIC_Noop(p);
 }
 
-u32 func_021BA960(char *p){return func_021BAA90((u32 *)(p+4));}
+u32 UN_SELECT_GRAPHIC_GetActor(char *p){return UN_SELECT_GRAPHIC_GetValue((u32 *)(p+4));}
 
 
-void func_021BA96C(void *unused, char *p)
+void UN_SELECT_GRAPHIC_Task(void *unused, char *p)
 {
-    func_021BAA1C(p);
-    func_021BAA88(p + 4);
+    UN_SELECT_GRAPHIC_DrawObjects(p);
+    UN_SELECT_GRAPHIC_VBlank(p + 4);
 }
 
 /*
  * prototype: heap extern parameters widened where original forwards r5 without truncation; BG and flag callee parameters narrowed to u8 where A9AC-A9CE shows explicit shifts. 414AC visibly receives BG input despite its legacy asm void prototype.
  */
-void func_021BA980(char *ctx, unsigned heap)
+void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap)
 {
     unsigned i;
     const Record *record;
     unsigned bg;
     MI_CpuFill8(ctx, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021BAEAC);
     for (i = 0; i < 7; i++) {
         record = &d_021BAF28[i];
         bg = record->bg;
-        func_0203FCA0((unsigned char)bg, (const struct BgTemplate *)record->config, (unsigned char)record->type);
+        BG_SYS_InitBgLayer((unsigned char)bg, (const struct BgTemplate *)record->config, (unsigned char)record->type);
         func_020414AC(bg);
         func_02040588(bg, record->enable);
     }
 }
 
-void func_021BA9E0(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0;i<7;i++)func_020403F4(*(const u32 *)(base+i*44));BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
+void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0;i<7;i++)func_020403F4(*(const u32 *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 /*
  * extent: 2 zero alignment bytes at 021BAA1A.
  */
-void func_021BAA18(void *a0) {}
+void UN_SELECT_GRAPHIC_Noop(void *a0) {}
 
-void func_021BAA1C(void *a0) {func_020419E4();}
+void UN_SELECT_GRAPHIC_DrawObjects(void *a0) {func_020419E4();}
 
 
-void func_021BAA24(unsigned char *p, int a, int b)
+void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BAEBC, a, b);
@@ -246,21 +248,28 @@ void func_021BAA24(unsigned char *p, int a, int b)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021BAA64(char *p)
+void UN_SELECT_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26051 *)p)->f0));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
 
-void func_021BAA80(void *p){CLACT_DrawSystem();}
+void UN_SELECT_GRAPHIC_Draw(void *p){CLACT_DrawSystem();}
 
-void func_021BAA88(void *p){CLACT_VBlankSystem();}
+void UN_SELECT_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
 
-u32 func_021BAA90(u32 *p){return *p;}
+u32 UN_SELECT_GRAPHIC_GetValue(u32 *p){return *p;}
 
-void func_021BAA94(unsigned **out, unsigned heap)
+void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, func_021BA7A4);
     *out = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, &d_021BAE94, &d_021BAE88, &d_021BAEA0, heap);
+}
+
+
+void UN_SELECT_GRAPHIC_DeleteCamera(int *p)
+{
+    G3D_CAMERA_Delete((void *)(*p));
+    G3D_SYSTEM_Exit();
 }

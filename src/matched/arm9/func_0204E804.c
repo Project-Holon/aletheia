@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Direct non-SDK callee of the ov195 dependency tree rooted at
- * func_022040E0: an ARM9 boolean accessor, `g->f0 != 0`, reached by
+ * SHINKA_DEMO_Main: an ARM9 boolean accessor, `g->f0 != 0`, reached by
  * `blx 0x0204E804` from the root's state 23 case.
  *
  * symbols:

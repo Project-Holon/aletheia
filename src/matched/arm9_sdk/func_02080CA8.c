@@ -1,5 +1,5 @@
 /*
- * function: func_02080CA8
+ * function: GX_SendFifo64B
  * address:  0x02080CA8
  * packet:   pkt_02080CA8
  * region:   arm9
@@ -19,7 +19,7 @@
  *   (none)
  */
 
-asm void func_02080CA8(void)
+asm void GX_SendFifo64B(void)
 {
     stmfd sp!, {r4, r5, r6, r7, r8}
     ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r12}

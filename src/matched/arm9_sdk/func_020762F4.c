@@ -1,5 +1,5 @@
 /*
- * function: func_020762F4
+ * function: CARDi_GetDmaInterface
  * address:  0x020762F4
  * packet:   pkt_020762F4
  * region:   arm9
@@ -28,7 +28,7 @@ extern CARDDmaInterface CARDiDmaUsingNew;
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_Terminate(void);
 
-CARDDmaInterface *func_020762F4(u32 channel)
+CARDDmaInterface *CARDi_GetDmaInterface(u32 channel)
 {
     CARDDmaInterface *retval = 0;
     BOOL isNew = (channel & 0x10) != 0;

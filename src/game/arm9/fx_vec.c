@@ -1,7 +1,7 @@
 /*
  * file:     fx_vec.c
  * unit:     yes
- * function: func_0207C9D0, func_0207CA00, func_0207CA30, func_0207CA68, VEC_Fx16DotProduct, func_0207CAE8, VEC_Fx16CrossProduct, func_0207CBD0, func_0207CC30, VEC_Normalize, VEC_Fx16Normalize, func_0207CEE4, func_0207CF3C
+ * function: VEC_Add, VEC_Subtract, VEC_Fx16Add, VEC_DotProduct, VEC_Fx16DotProduct, VEC_CrossProduct, VEC_Fx16CrossProduct, VEC_Mag, VEC_Fx16Mag, VEC_Normalize, VEC_Fx16Normalize, VEC_MultAdd, VEC_Distance
  * address:  0x0207C9D0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -41,25 +41,25 @@ typedef unsigned long long u64;
 
 typedef long long s64;
 
-void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-void func_0207CA30(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab);
-fx32 func_0207CA68(const VecFx32 *a, const VecFx32 *b);
+void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+void VEC_Fx16Add(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab);
+fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
 fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b);
-void func_0207CAE8(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
+void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
-fx32 func_0207CBD0(const VecFx32 *pSrc);
-fx32 func_0207CC30(const VecFx16 *pSrc);
+fx32 VEC_Mag(const VecFx32 *pSrc);
+fx32 VEC_Fx16Mag(const VecFx16 *pSrc);
 void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst);
-void func_0207CEE4(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest);
-fx32 func_0207CF3C(const VecFx32 *v1, const VecFx32 *v2);
+void VEC_MultAdd(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest);
+fx32 VEC_Distance(const VecFx32 *v1, const VecFx32 *v2);
 
 
 /*
  * sdk:      VEC_Add (libfx.TWL.HYB.a fx_vec.o)
  */
-void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
+void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
 {
     ab->x = a->x + b->x;
     ab->y = a->y + b->y;
@@ -70,7 +70,7 @@ void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
 /*
  * sdk:      VEC_Subtract (libfx.TWL.HYB.a fx_vec.o)
  */
-void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
+void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
 {
     ab->x = a->x - b->x;
     ab->y = a->y - b->y;
@@ -81,7 +81,7 @@ void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
 /*
  * sdk:      VEC_Fx16Add (libfx.TWL.HYB.a fx_vec.o)
  */
-void func_0207CA30(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab)
+void VEC_Fx16Add(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab)
 {
     ab->x = (fx16)(a->x + b->x);
     ab->y = (fx16)(a->y + b->y);
@@ -92,7 +92,7 @@ void func_0207CA30(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab)
 /*
  * sdk:      VEC_DotProduct (libfx.TWL.HYB.a fx_vec.o)
  */
-fx32 func_0207CA68(const VecFx32 *a, const VecFx32 *b)
+fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b)
 {
     return (fx32)(((fx64)a->x * b->x + (fx64)a->y * b->y + (fx64)a->z * b->z + (1 << 11)) >> 12);
 }
@@ -135,7 +135,7 @@ static inline u32 CP_GetSqrtResult32(void)
 /*
  * sdk:      VEC_CrossProduct (libfx.TWL.HYB.a fx_vec.o)
  */
-void func_0207CAE8(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb)
+void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb)
 {
     fx32 x, y, z;
 
@@ -167,7 +167,7 @@ void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb)
 /*
  * sdk:      VEC_Mag (libfx.TWL.HYB.a fx_vec.o)
  */
-fx32 func_0207CBD0(const VecFx32 *pSrc)
+fx32 VEC_Mag(const VecFx32 *pSrc)
 {
     fx64 t;
 
@@ -184,7 +184,7 @@ fx32 func_0207CBD0(const VecFx32 *pSrc)
 /*
  * sdk:      VEC_Fx16Mag (libfx.TWL.HYB.a fx_vec.o)
  */
-fx32 func_0207CC30(const VecFx16 *pSrc)
+fx32 VEC_Fx16Mag(const VecFx16 *pSrc)
 {
     fx64 t;
 
@@ -274,7 +274,7 @@ void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst)
 /*
  * sdk:      VEC_MultAdd (libfx.TWL.HYB.a fx_vec.o)
  */
-void func_0207CEE4(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest)
+void VEC_MultAdd(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest)
 {
     pDest->x = (fx32)(((fx64)a * v1->x) >> 12) + v2->x;
     pDest->y = (fx32)(((fx64)a * v1->y) >> 12) + v2->y;
@@ -285,7 +285,7 @@ void func_0207CEE4(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest)
 /*
  * sdk:      VEC_Distance (libfx.TWL.HYB.a fx_vec.o)
  */
-fx32 func_0207CF3C(const VecFx32 *v1, const VecFx32 *v2)
+fx32 VEC_Distance(const VecFx32 *v1, const VecFx32 *v2)
 {
     fx32 diff;
     fx64 tmp;

@@ -13,7 +13,7 @@
  *   gVctSession  0x021B60D8  data  ov013  a4
  *   gVctGroup  0x021B4BD0  data  ov013  a4
  *   VCT_SESSION_FillAnnounceFields  0x021B25FC  arm  ov013
- *   func_02176E90  0x02176E90  arm  ov009
+ *   DWC_SendReliable  0x02176E90  arm  ov009
  */
 
 #include "../include/G_Stat.h"
@@ -29,7 +29,7 @@ typedef struct Stat Stat;
 extern Ctx gVctSession;
 extern struct Stat gVctGroup;
 extern void VCT_SESSION_FillAnnounceFields(u8 *a, u8 *b);
-extern int func_02176E90(int i, u8 *p, int n);
+extern int DWC_SendReliable(int i, u8 *p, int n);
 
 int VCT_SESSION_BroadcastPacket(int *o, u8 *p)
 {
@@ -42,7 +42,7 @@ int VCT_SESSION_BroadcastPacket(int *o, u8 *p)
         unsigned int m = (i != 0) ? (1 << i) : 1;
         if ((gVctGroup.mask & m) != 0 && i != gVctSession.b0) {
             p[9] = i;
-            if (func_02176E90(i, p, 0x10) != 0)
+            if (DWC_SendReliable(i, p, 0x10) != 0)
                 cnt++;
         }
     }

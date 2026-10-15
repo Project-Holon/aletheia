@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202A19C",
+   "name": "TPOKE_DATA_IsRecordKindTwo",
    "address": "0x0202A19C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202A1CC",
+   "name": "TPOKE_DATA_FindEntryIndex",
    "address": "0x0202A1CC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202A21C",
+   "name": "TPOKE_DATA_GetRecordPtr",
    "address": "0x0202A21C",
    "kind": "game",
    "region": "arm9",

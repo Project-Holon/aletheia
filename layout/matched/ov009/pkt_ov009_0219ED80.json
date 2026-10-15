@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219ED80",
+   "name": "ServerBrowserBeginUpdate2",
    "address": "0x0219ED80",
    "kind": "sdk",
    "region": "ov009",

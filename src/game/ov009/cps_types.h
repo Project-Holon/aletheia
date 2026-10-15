@@ -138,6 +138,6 @@ extern struct CPSFragTable g_021A8A64[8];
 extern struct _OSThread g_021A8524;
 extern struct _OSThread g_021A85E4;
 extern struct _OSThread g_021A86A4;
-extern struct OSThreadInfo g_02150FEC;
+extern struct OSThreadInfo gMslRefToken;
 
 #endif

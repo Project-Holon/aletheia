@@ -1,5 +1,5 @@
 /*
- * function: func_02166A24
+ * function: WCMi_WmifBeginSearchAsync
  * address:  0x02166A24
  * packet:   pkt_ov009_02166A24
  * region:   ov009
@@ -50,7 +50,7 @@ extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
 extern void WCMi_SetPhase(unsigned char phase);
 extern void func_021671C0(void *arg);
 
-long func_02166A24(void *bssid, void *essid, unsigned long option)
+long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option)
 {
     WCMWork *wcmw;
     long wmResult;

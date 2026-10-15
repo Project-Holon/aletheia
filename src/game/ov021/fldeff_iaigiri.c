@@ -36,7 +36,7 @@
  *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sFldeffIaigiriFileName  0x021DE578  data  ov021  a4
@@ -136,7 +136,7 @@ extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
 extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
-extern void func_0207ADC4(MtxFx33 *mtx);
+extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 
@@ -306,7 +306,7 @@ void FLDEFF_IAIGIRI_Update(FieldEffectObj *effect, IaigiriTaskWork *work)
 void FLDEFF_IAIGIRI_Draw(FieldEffectObj *effect, IaigiriTaskWork *work)
 {
     G3dObjectStatus status = sIaigiriDrawStatus;
-    func_0207ADC4(&status.rotate);
+    MTX_Identity33_(&status.rotate);
     FIELD_EFFECT_GetObjectPos(effect, &status.trans);
     G3D_SYSTEM_DrawObjectCulling(work->object, &status);
 }

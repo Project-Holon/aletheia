@@ -18,7 +18,7 @@
  *   calc_checksum_do  0x02157700  arm  ov009
  *   invert_checksum  0x02157808  arm  ov009
  *   send_ip  0x0215832C  arm  ov009
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *   g_021A86A4     0x021A86A4  data
  *   g_021A8328     0x021A8328  data
  *   g_021A826C     0x021A826C  data
@@ -95,7 +95,7 @@ struct thread_info {
     void *current;            /* 0x04 */
 };
 
-extern struct thread_info g_02150FEC;
+extern struct thread_info gMslRefToken;
 extern struct G_021A86A4 g_021A86A4;
 extern u8 g_021A8328[90];
 extern struct net_vars g_021A826C;
@@ -120,7 +120,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     if ((flag & 5) == 0 && soc->state == 0)
         return len;
 
-    if (g_02150FEC.current == ((u8 *)&g_021A86A4))
+    if (gMslRefToken.current == ((u8 *)&g_021A86A4))
         hdr = g_021A8328 + 0x22;
     else
         hdr = soc->sndbuf.data + 0x22;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020911D8",
+   "name": "MSL_C_LIB_TwlCall1",
    "address": "0x020911D8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02091200",
+   "name": "MSL_C_LIB_TwlCall3",
    "address": "0x02091200",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02091230",
+   "name": "MSL_C_LIB_TwlCall2",
    "address": "0x02091230",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209125C",
+   "name": "MSL_C_LIB_TwlCall5",
    "address": "0x0209125C",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020912A8",
+   "name": "MSL_C_LIB_LockRegisterDestructor",
    "address": "0x020912A8",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02091374",
+   "name": "nan",
    "address": "0x02091374",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209138C",
+   "name": "MSL_C_LIB_AllocAllFromHeap",
    "address": "0x0209138C",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020913A4",
+   "name": "MSL_C_LIB_FreeToHeap",
    "address": "0x020913A4",
    "kind": "game",
    "region": "arm9",

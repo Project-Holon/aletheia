@@ -15,11 +15,11 @@
  * checks: 1 020124E8 takes live hd from122C0, own matched accessor reads+0xc; 2 family/neighbours reread, no full twin; 3 unsigned b/c each retain31 before search; 4 pointer-copy idiom read; 5 neighbours/idioms reread, frame is scalar spills, no stack aggregate.
  * permuter: once budget300 types, emitted baseline agreed31/192; stopped at47 with MATCH; fixed one confirmsMATCH192.
  * symbols:
- *   func_0201210C 0x0201210C thumb
+ *   ICA_ANIME_GetField20 0x0201210C thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   POKEPARTY_GetCount 0x0201AA18 thumb
@@ -68,11 +68,11 @@ struct Blk37;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void POKE_REGULATION_LoadInto(int a, unsigned int b);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern int ZUKAN_SAVE_GetFromGameData(void);
 extern void MI_CpuFill8(void *, int, int);
 extern u32 POKEPARTY_GetCount(void *p);
@@ -92,7 +92,7 @@ int FLD_BTL_INST_TOOL_CreatePokeListEvent(int a, int b, int c, int d, int e, int
   u8 *tmp2;
   P *tmp3;
   u8 tmp;
-  x = (int)func_0201210C((const struct Ctx *)a);
+  x = (int)ICA_ANIME_GetField20((const struct Ctx *)a);
   hd = (int)func_020122C0((void *)a, 0, FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
   tmp3 = func_020124E8((struct Obj *)hd);
   p = tmp3;
@@ -113,7 +113,7 @@ int FLD_BTL_INST_TOOL_CreatePokeListEvent(int a, int b, int c, int d, int e, int
   q->f38 = b;
   q->f34 = c;
   t = (T *) (((u8 *) p) + 8);
-  r7 = (int)func_020120F4((const struct Ctx *)a);
+  r7 = (int)ICA_ANIME_GetField1C((const struct Ctx *)a);
   s = ZUKAN_SAVE_GetFromGameData();
   MI_CpuFill8(t, 0, 0x28);
   p->f8 = e;

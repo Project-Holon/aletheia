@@ -1,5 +1,5 @@
 /*
- * function: func_02076E00
+ * function: CARDi_RefreshRomCore
  * address:  0x02076E00
  * packet:   pkt_02076E00
  * region:   arm9
@@ -23,7 +23,7 @@ typedef volatile u32 vu32;
 
 extern void CARDi_SetRomOp(u32 command, u32 offset);
 
-void func_02076E00(void)
+void CARDi_RefreshRomCore(void)
 {
     CARDi_SetRomOp(0xB5, 0);
     reg_MI_MCCNT1 = (u32)((CARDi_romctrl & ~0x07000000) | 0xA0000000) & ~0x1FFF;

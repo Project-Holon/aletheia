@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207D3AC",
+   "name": "GX_HBlankIntr",
    "address": "0x0207D3AC",
    "kind": "sdk",
    "region": "arm9",

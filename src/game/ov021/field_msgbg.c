@@ -115,14 +115,14 @@
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm  arm9
  *   func_02062A4C  0x02062A4C  arm  arm9
  *   func_02082EA4  0x02082EA4  arm  arm9
- *   func_0201DC80  0x0201DC80  thumb
+ *   GF_FONT_GetField58  0x0201DC80  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   BMP_CreateFromBuffer  0x020436FC  arm  arm9
  *   sCursorOffsetY     0x021D3E50  data   ov021  a1
  *   d_021D3E60     0x021D3E60  data  a2
  *   d_021D3E58     0x021D3E58  data  a2
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   TALKMSGWIN_Create  0x02194670  thumb  ov021
  *   TALKMSGWIN_LoadTexture  0x02194704  thumb  ov021
  *   func_0207D63C  0x0207D63C  arm
@@ -141,8 +141,8 @@
  *   TALKMSGWIN_ReloadFrameGraphics  0x02195588  thumb  ov021
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_0201F548  0x0201F548  thumb  arm9
- *   func_02012FFC  0x02012FFC  thumb  arm9
- *   func_02013080  0x02013080  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb  arm9
  *   PRINTSYS_PrintStreamSetSpeed  0x0201CE8C  thumb  arm9
  *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
  *   TCBL_Create  0x0203101C  arm  arm9
@@ -171,8 +171,8 @@ typedef struct FieldBgTemplate {
 
 struct BgTemplate;
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *bgTemplate, u32 type);
-extern void func_02040C14(u32 frame, u32 value, u32 count, u32 index);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *bgTemplate, u32 type);
+extern void BG_SYS_Init(u32 frame, u32 value, u32 count, u32 index);
 extern void func_02040588(u8 frame, u8 enable);
 extern void func_0207D63C(u32 reg, u32 mode, u32 planeMask, u32 coeffA, u32 coeffB);
 extern int GFL_USE_IsCardIrqEnabled(void);
@@ -185,8 +185,8 @@ extern void func_0201F5BC(u32 frame, u32 charStart, u32 palette, u32 trans, u32 
 extern void TALKMSGWIN_ReloadFrameGraphics(struct TalkMsgWinSys *talkSys);
 extern void func_0201F7A8(struct BmpWin *bmpWin, u32 kind);
 extern u8 func_0201F548(int windowType);
-extern signed char func_02013080(u32 index);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 index);
+extern signed char MSG_SPEED_GetWait(void);
 extern void PRINTSYS_PrintStreamSetSpeed(struct PrintStream *stream, s32 wait);
 extern void PRINTSYS_PrintStreamResetSpeed(struct PrintStream *stream);
 
@@ -325,7 +325,7 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u16 colorKey);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082EA4(void *src, void *dst, u32 size);
-extern u32 func_0201DC80(struct GfFont *font);
+extern u32 GF_FONT_GetField58(struct GfFont *font);
 extern void FIELD_MSGBG_AnimateCursorOnFrame(FieldMsgCursor *cursor, struct Bmp *bmp, struct Bmp *backBmp);
 extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 colorMode, u16 heapId);
@@ -2099,7 +2099,7 @@ void FIELD_MSGBG_PrintLines(u16 x, u16 y, struct Bmp *bmp, struct GfFont *font, 
     struct Strbuf *lineStr;
     int lineHeight;
 
-    lineHeight = func_0201DC80(font) + 2;
+    lineHeight = GF_FONT_GetField58(font) + 2;
     lineStr = STRBUF_Create(STRBUF_GetLength(str) + 1, heapId);
     for (line = 0; func_0201D37C(str, lineStr, line) == 1; line++) {
         PRINTSYS_Print(bmp, (s16)x, (s16)y, lineStr, font);
@@ -2365,11 +2365,11 @@ void FIELD_MSGBG_InitBgTwoLayerTalk(FieldMsgBg *msgBg, int loadTalkSys)
 
     msgBg->bgFrame = 1;
     msgTemplate = d_021D3E98;
-    func_0203FCA0((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
+    BG_SYS_InitBgLayer((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
     msgBg->bgFrameSys = 2;
     sysTemplate = d_021D3E78;
-    func_0203FCA0((u8)msgBg->bgFrameSys, (const struct BgTemplate *)&sysTemplate, 0);
-    func_02040C14(msgBg->bgFrame, 0, 1, 0);
+    BG_SYS_InitBgLayer((u8)msgBg->bgFrameSys, (const struct BgTemplate *)&sysTemplate, 0);
+    BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     func_02041300((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02041300((u8)msgBg->bgFrameSys, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4((u8)msgBg->bgFrame);
@@ -2402,11 +2402,11 @@ void FIELD_MSGBG_InitBgTwoLayer(FieldMsgBg *msgBg, int loadTalkSys)
 
     msgBg->bgFrame = 1;
     msgTemplate = d_021D3ED8;
-    func_0203FCA0((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
+    BG_SYS_InitBgLayer((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
     msgBg->bgFrameSys = 2;
     sysTemplate = d_021D3EF8;
-    func_0203FCA0((u8)msgBg->bgFrameSys, (const struct BgTemplate *)&sysTemplate, 0);
-    func_02040C14(msgBg->bgFrame, 0, 1, 0);
+    BG_SYS_InitBgLayer((u8)msgBg->bgFrameSys, (const struct BgTemplate *)&sysTemplate, 0);
+    BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     func_02041300((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02041300((u8)msgBg->bgFrameSys, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4((u8)msgBg->bgFrame);
@@ -2437,8 +2437,8 @@ void FIELD_MSGBG_InitBgOneLayer(FieldMsgBg *msgBg)
 
     msgBg->bgFrame = 1;
     msgTemplate = d_021D3EB8;
-    func_0203FCA0((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
-    func_02040C14(msgBg->bgFrame, 0, 1, 0);
+    BG_SYS_InitBgLayer((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
+    BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     func_02041300((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4((u8)msgBg->bgFrame);
     FIELD_MSGBG_LoadWindowGraphicsAll(msgBg->bgFrame, msgBg->heapId);
@@ -2476,7 +2476,7 @@ void FIELD_MSGBG_SetupSysFrameBg(int useTemplate)
     func_02040588(2, 0);
     if (useTemplate == 1) {
         sysTemplate = d_021D3F18;
-        func_0203FCA0(2, (const struct BgTemplate *)&sysTemplate, 0);
+        BG_SYS_InitBgLayer(2, (const struct BgTemplate *)&sysTemplate, 0);
     } else {
         /* Keep priority and mosaic, screen base 0x1F, character base 4. */
         REG_BG2CNT = (REG_BG2CNT & 0x43) | 0x1F10;
@@ -2538,7 +2538,7 @@ void FIELD_MSGBG_SetBlendThunk(u32 enable)
 void FIELD_MSGBG_ReloadBg(FieldMsgBg *msgBg)
 {
     func_02040DA8(msgBg->bgFrame, 1, 0);
-    func_02040C14(msgBg->bgFrame, 0, 1, 0);
+    BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     func_02041300((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4((u8)msgBg->bgFrame);
     FIELD_MSGBG_LoadWindowGraphicsAll(msgBg->bgFrame, msgBg->heapId);
@@ -2634,8 +2634,8 @@ u8 FIELD_MSGBG_KeyWaitGetAuto(FieldMsgKeyWait *keyWait)
 u32 FIELD_MSGBG_KeyWaitGetCharWait(FieldMsgKeyWait *keyWait)
 {
     if (keyWait->autoMode != 0)
-        return func_02013080(1);
-    return func_02012FFC();
+        return MSG_SPEED_GetWaitForSpeed(1);
+    return MSG_SPEED_GetWait();
 }
 
 /* Returns 1 when A or B is pressed after one of them was held since the stream started. */
@@ -2681,7 +2681,7 @@ int FIELD_MSGBG_KeyWaitCheckAdvance(FieldMsgKeyWait *keyWait, u32 streamState)
 void FIELD_MSGBG_StreamSetSpeed(struct PrintStream *stream, int fast)
 {
     if (fast == 1)
-        PRINTSYS_PrintStreamSetSpeed(stream, func_02013080(2));
+        PRINTSYS_PrintStreamSetSpeed(stream, MSG_SPEED_GetWaitForSpeed(2));
     else
         PRINTSYS_PrintStreamResetSpeed(stream);
 }

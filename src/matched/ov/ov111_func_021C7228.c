@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
  *   d_021C895C  0x021C895C  data
@@ -102,12 +102,12 @@ typedef struct { u32 w[4]; } BankCfg;
 typedef struct { u32 w[8]; } BgTemplate;
 typedef struct { BgTemplate t[6]; } BgTemplates;
 
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u8 frame, const BgTemplate *t, int mode);
-extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(u8 frame, const BgTemplate *t, int mode);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
 extern const BankCfg d_021C895C;
@@ -120,15 +120,15 @@ void func_021C7228(void)
     BgTemplates tmpl;
     u32 i;
 
-    func_0203F8F4(0x27);
+    BG_SYS_Create(0x27);
     bank = d_021C895C;
     func_0203FC28((struct DispConfig *)(&bank));
     tmpl = d_021C89E0;
     for (i = 0; i < 6; i++) {
         u32 v = d_021C885C[i];
-        func_0203FCA0(v, &tmpl.t[i], 0);
-        func_020414EC((u8)v);
-        func_02040B94(v, 0x20, 0, 0x27);
+        BG_SYS_InitBgLayer(v, &tmpl.t[i], 0);
+        BG_SYS_ClearSlot((u8)v);
+        BG_SYS_InitRun(v, 0x20, 0, 0x27);
         func_02040588(v, 1);
     }
     func_02040588(7, 0);

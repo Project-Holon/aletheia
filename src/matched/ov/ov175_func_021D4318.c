@@ -24,7 +24,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   func_021D9DC8 0x021D9DC8 thumb ov175
  *   func_021E8568 0x021E8568 thumb ov177
  *   func_021E8A3C 0x021E8A3C thumb ov177
@@ -53,7 +53,7 @@ struct WordSet;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, unsigned short heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, unsigned short heap);
 typedef unsigned short u16;
 extern char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap);
 extern void *func_021E8568(unsigned, unsigned, unsigned, unsigned, void *, void *, unsigned);
@@ -79,7 +79,7 @@ int func_021D4318(void *sys, int *state, u32 *ctx)
     p[2] = (u32)GF_FONT_Create(23, 0, 0, 0, 87);
     p[3] = PRINTSYS_QUE_Create((void *)87);
     p[4] = (u32)func_02045B38(0, 2, 210, 87);
-    p[5] = (u32)func_0201EC74(8, 64, 87);
+    p[5] = (u32)WORDSET_Create(8, 64, 87);
     p[12] = (u32)func_021D9DC8(((u32 *)p[16])[15], (void *)(((u32 *)ctx[2])[0]), ctx[7], 87);
     p[9] = (u32)func_021E8568(0, 15, 14, 10, (void *)p[3], (void *)p[2], 87);
     p[13] = (u32)func_021E8A3C((int)p, (int)func_021D458C, 87);

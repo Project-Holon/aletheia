@@ -1,5 +1,5 @@
 /*
- * function: func_021BA848
+ * function: UN_SELECT_GRAPHIC_Create
  * address: 0x021BA848
  * packet: pkt_ov218_021BA848
  * region: ov218
@@ -18,10 +18,10 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021BA980 0x021BA980 thumb ov218
- *   func_021BAA24 0x021BAA24 thumb ov218
- *   func_021BAA94 0x021BAA94 thumb ov218
- *   func_021BA96C 0x021BA96C thumb ov218
+ *   UN_SELECT_GRAPHIC_SetupBg 0x021BA980 thumb ov218
+ *   UN_SELECT_GRAPHIC_SetupClact 0x021BAA24 thumb ov218
+ *   UN_SELECT_GRAPHIC_SetupCamera 0x021BAA94 thumb ov218
+ *   UN_SELECT_GRAPHIC_Task 0x021BA96C thumb ov218
  *   func_020056A0 0x020056A0 thumb
  *   d_021BB094 0x021BB094 data a1
  *   d_021BAEF8 0x021BAEF8 data a4
@@ -39,12 +39,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021BA980(char *, unsigned);
-extern void func_021BAA24(unsigned char *, int, int);
-extern void func_021BAA94(unsigned **, unsigned);
-extern void func_021BA96C(void *, char *);
+extern void UN_SELECT_GRAPHIC_SetupBg(char *, unsigned);
+extern void UN_SELECT_GRAPHIC_SetupClact(unsigned char *, int, int);
+extern void UN_SELECT_GRAPHIC_SetupCamera(unsigned **, unsigned);
+extern void UN_SELECT_GRAPHIC_Task(void *, char *);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
-char *func_021BA848(unsigned swap, unsigned heap)
+char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
 {
     char *p;
     p = func_02030734(heap, 16, 0, d_021BB094, 436);
@@ -60,9 +60,9 @@ char *func_021BA848(unsigned swap, unsigned heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021BA980(p, heap);
-    func_021BAA24((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
-    func_021BAA94((unsigned **)(p + 8), heap);
-    ((struct Obj26049 *)p)->fC = func_020056A0((unsigned)func_021BA96C, (unsigned)p, 0);
+    UN_SELECT_GRAPHIC_SetupBg(p, heap);
+    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
+    UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);
+    ((struct Obj26049 *)p)->fC = func_020056A0((unsigned)UN_SELECT_GRAPHIC_Task, (unsigned)p, 0);
     return p;
 }

@@ -12,7 +12,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EE60 0x0201EE60 thumb
+ *   WORDSET_Callback 0x0201EE60 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -38,7 +38,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -54,7 +54,7 @@ void DENDOU_VIEW_DrawMemberInfo(u8 *p)
     row=p+0xc+((struct Obj00142 *)p)->fC5E*0xbc+((struct Obj00142 *)p)->fC5C*0x1c;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00142 *)p)->fB50),0);
     s0=func_02045EC0(((struct Obj00142 *)p)->fB60,5);
-    func_0201EE60(((struct Obj00142 *)p)->fB64,0,((struct Obj05441 *)row)->f10);
+    WORDSET_Callback(((struct Obj00142 *)p)->fB64,0,((struct Obj05441 *)row)->f10);
     func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s0);
     TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),0,0,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
     STRBUF_Delete(s0);

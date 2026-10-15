@@ -1,5 +1,5 @@
 /*
- * function: func_021C9468
+ * function: ZUKAN_SEARCH_ENGINE_Filter
  * address: 0x021C9468
  * packet: pkt_ov212_021C9468
  * region: ov212
@@ -59,7 +59,7 @@ extern void *personal(u32, int, u32);
 extern u32 value(const void *, u32);
 extern u8 finalTest(const u8 *, const u16 *, u32, u32);
 extern const char site[];
-int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
+int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out)
 {
   u32 unused1, unused2, outForm;
   u16 end, i, j, used, species, form;

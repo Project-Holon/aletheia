@@ -1,5 +1,5 @@
 /*
- * function: func_0208F5C8
+ * function: WMi_StartParentEx
  * address:  0x0208F5C8
  * packet:   pkt_0208F5C8
  * region:   arm9
@@ -67,7 +67,7 @@ extern WMArm9Buf *WMi_GetSystemWork(void);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F5C8(WMCallbackFunc callback, BOOL powerSave)
+WMErrCode WMi_StartParentEx(WMCallbackFunc callback, BOOL powerSave)
 {
     WMErrCode result;
     WMArm9Buf *w9b;

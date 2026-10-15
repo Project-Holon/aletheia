@@ -17,7 +17,7 @@
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   INTRUDE_FIELD_AddSymbolMonMmdl  0x0217C1D0  thumb  ov018
- *   func_0202A128  0x0202A128  thumb
+ *   TPOKE_DATA_Create  0x0202A128  thumb
  *   func_0202A170  0x0202A170  thumb
  *   func_02005728  0x02005728  thumb
  *   INTRUDE_FIELD_gSymbolMonOffsetsHome     0x02183678  data  a4
@@ -55,7 +55,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern int FLDMMDL_GetGridNowX(void *);
 extern int FLDMMDL_GetGridNowZ(void *);
-extern int func_0202A128(int);
+extern int TPOKE_DATA_Create(int);
 extern void func_0202A170(int);
 extern u32 func_02005728(u32 range);
 extern void INTRUDE_FIELD_AddSymbolMonMmdl(Ctx *, Entry *, u16, u16, u16, int);
@@ -80,7 +80,7 @@ void INTRUDE_FIELD_SpawnSymbolMons(int a0, int a1, Entry *list, int a3, int kind
     else
         tbl = INTRUDE_FIELD_gSymbolMonOffsetsOther;
 
-    ctx.f0 = func_0202A128(FIELDMAP_GetHeapId((u8 *)a0));
+    ctx.f0 = TPOKE_DATA_Create(FIELDMAP_GetHeapId((u8 *)a0));
     ctx.f4 = a0;
     ctx.f8 = a1;
     obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)a0));

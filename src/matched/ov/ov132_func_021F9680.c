@@ -1,5 +1,5 @@
 /*
- * function: func_021F9680
+ * function: STA_ACTING_StartSeq
  * address:  0x021F9680
  * packet:   pkt_021F9680
  * region:   ov132
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_StartSeq(u32 a);
 
-void func_021F9680(char *p, int a)
+void STA_ACTING_StartSeq(char *p, int a)
 {
     ((struct Obj23185 *)p)->f28 = 1;
     GFL_USE_StartSeq(a);

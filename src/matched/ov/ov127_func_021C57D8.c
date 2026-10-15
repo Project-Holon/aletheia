@@ -1,5 +1,5 @@
 /*
- * function: func_021C57D8
+ * function: WF2DMAP_OBJDRAW_SetActive
  * address:  0x021C57D8
  * packet:   pkt_ov127_021C57D8
  * region:   ov127
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-void func_021C57D8(u8 *p, int v)
+void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v)
 {
     p[0x13] = v;
 }

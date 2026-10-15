@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179F3C",
+   "name": "DWC_Http_Add_PostBase64Item",
    "address": "0x02179F3C",
    "kind": "sdk",
    "region": "ov009",

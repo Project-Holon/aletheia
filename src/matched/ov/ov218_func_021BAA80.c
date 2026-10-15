@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA80
+ * function: UN_SELECT_GRAPHIC_Draw
  * address: 0x021BAA80
  * packet: pkt_ov218_021BAA80
  * region: ov218
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_DrawSystem(void);
-void func_021BAA80(void *p){CLACT_DrawSystem();}
+void UN_SELECT_GRAPHIC_Draw(void *p){CLACT_DrawSystem();}

@@ -1,5 +1,5 @@
 /*
- * function: func_021D533C
+ * function: INTRUDE_COMM_VIEW_SumPeerTimers
  * address: 0x021D533C
  * packet: pkt_ov122_021D533C
  * region: ov122
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021D533C(u8 *p) { int i; int sum; sum=0; for(i=0;i<16;i++) if(*(u16 *)(p+i*12+108)) sum+=*(u16 *)(p+i*12+110); return sum; }
+u32 INTRUDE_COMM_VIEW_SumPeerTimers(u8 *p) { int i; int sum; sum=0; for(i=0;i<16;i++) if(*(u16 *)(p+i*12+108)) sum+=*(u16 *)(p+i*12+110); return sum; }

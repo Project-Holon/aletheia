@@ -1,7 +1,7 @@
 /*
  * file:     dwc_memfunc.c
  * unit:     yes
- * function: DWCi_GetAllocateHeader, func_0205A134, func_0205A148, func_0205A158, func_0205A16C, func_0205A17C, func_0205A1B0, func_0205A1EC, func_0205A200, func_0205A26C, func_0205A280, func_0205A29C, func_0205A2B4
+ * function: DWCi_GetAllocateHeader, func_0205A134, DWCi_GetAllocateSize, func_0205A158, func_0205A16C, DWC_AllocEx, func_0205A1B0, DWC_Realloc, func_0205A200, func_0205A26C, func_0205A280, func_0205A29C, func_0205A2B4
  * address:  0x0205A12C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,16 +30,14 @@ typedef struct { DWCiMemFree free; DWCiMemAlloc alloc; } DWCiMemFunc;
 typedef void *(*DWCiMemAlloc_0205A1B0)(int, unsigned long);
 
 extern void *DWC_AllocEx(int name, unsigned long size, int tag);
-extern unsigned long DWCi_GetAllocateSize(void *ptr);
+
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
 void *DWCi_GetAllocateHeader(char *p);
 void *DWCi_SetAllocateHeader(void *ptr, unsigned long size);
-unsigned long func_0205A148(char *ptr);
 void DWCi_SetMemFunc(DWCiMemAlloc alloc, DWCiMemFree free);
 void *DWC_Alloc(int name, unsigned long size);
-void *func_0205A17C(int name, unsigned long size, int align);
 void DWC_Free(int name, void *ptr, unsigned long size);
-void *func_0205A1EC(int name, void *ptr, unsigned long oldsize, unsigned long newsize);
+void *DWC_Realloc(int name, void *ptr, unsigned long oldsize, unsigned long newsize);
 void *DWC_ReallocEx(int name, void *ptr, unsigned long oldsize, unsigned long newsize, int align);
 void *DWCi_GsMalloc(unsigned long size);
 void *DWCi_GsRealloc(void *ptr, unsigned long size);
@@ -68,7 +66,7 @@ void *DWCi_SetAllocateHeader(void *ptr, unsigned long size)
 
 
 
-unsigned long func_0205A148(char *ptr)
+unsigned long DWCi_GetAllocateSize(char *ptr)
 {
     _tagDWCiAllocHeader *header = DWCi_GetAllocateHeader(ptr);
     return header->size;
@@ -106,7 +104,7 @@ void *DWC_Alloc(int name, unsigned long size)
 /*
  * sdk:      DWC_AllocEx (libdwccommon.TWL.HYB.a dwc_memfunc.o)
  */
-void *func_0205A17C(int name, unsigned long size, int align)
+void *DWC_AllocEx(int name, unsigned long size, int align)
 {
     void *ptr = s_mem.alloc(name, size + 0x20, align);
     if (ptr == 0)
@@ -131,9 +129,9 @@ void DWC_Free(int name, void *ptr, unsigned long size)
 
 
 /*
- * The ARM9 listing labels this address func_0205A1EC; it is dwc_memfunc.o's DWC_Realloc, forcing align 32 (the SDK table's CTRDG_DmaCopy32 attribution here does not match the linked bytes).
+ * The ARM9 listing labels this address DWC_Realloc; it is dwc_memfunc.o's DWC_Realloc, forcing align 32 (the SDK table's CTRDG_DmaCopy32 attribution here does not match the linked bytes).
  */
-void *func_0205A1EC(int name, void *ptr, unsigned long oldsize, unsigned long newsize)
+void *DWC_Realloc(int name, void *ptr, unsigned long oldsize, unsigned long newsize)
 {
     return DWC_ReallocEx(name, ptr, oldsize, newsize, 32);
 }
@@ -169,7 +167,7 @@ void *DWCi_GsMalloc(unsigned long size)
 
 void *DWCi_GsRealloc(void *ptr, unsigned long size)
 {
-    return func_0205A1EC(9, ptr, size, size);
+    return DWC_Realloc(9, ptr, size, size);
 }
 
 

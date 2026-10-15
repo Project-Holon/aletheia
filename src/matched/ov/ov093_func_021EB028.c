@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_02041300 0x02041300 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   BTLV_SCU_LoadArcTiles 0x021EB1D8 thumb ov093
  *   func_0204989C 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 struct BgTemplate;
 extern struct _anon_V gBtlvScuBgTemplateBack;
 extern const struct BgTemplate gBtlvScuBgTemplateMsg, gBtlvScuBgTemplateName;
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 struct S;
 extern int BTLV_EFFECT_GetPalanm(void);
 struct Cfg;
@@ -50,7 +50,7 @@ struct PalAnmSlot;
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u16 BTLV_SCU_LoadArcTiles(u8 *, u32, u32, u32);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -70,15 +70,15 @@ void BTLV_SCU_SetupDisplay(u8 *p)
 {
     u16 zero;
     u32 tile;
-    func_0203FCA0(1, &gBtlvScuBgTemplateMsg, 0);
-    func_0203FCA0(2, &gBtlvScuBgTemplateName, 0);
-    func_0203FCA0(3, &(*(struct BgTemplate *)&gBtlvScuBgTemplateBack), 0);
+    BG_SYS_InitBgLayer(1, &gBtlvScuBgTemplateMsg, 0);
+    BG_SYS_InitBgLayer(2, &gBtlvScuBgTemplateName, 0);
+    BG_SYS_InitBgLayer(3, &(*(struct BgTemplate *)&gBtlvScuBgTemplateBack), 0);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0x5a, ((struct Obj00970 *)p)->f13C, 0, 0x20, 0, 0);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0xd6, ((struct Obj00970 *)p)->f13C, 0, 0x60, 0x10, 0x10);
     zero = 0;
     PALANM_CopyToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), &zero, 0, 0, 2);
     func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     tile = BTLV_SCU_LoadArcTiles(p, 0xb, 0x59, 1);
     *(u32 *)&((struct Obj00970 *)p)->f14 = BTLV_SCU_LoadArcTiles(p, 0xb, 0xd5, 3);
     func_0204989C(0xb, 0xd7, 2, 0, 0, 0, ((struct Obj00970 *)p)->f13C);

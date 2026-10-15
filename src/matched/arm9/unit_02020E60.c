@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02020E60
+ * function: FILE_UTIL_Get
  * address:  0x02020E60
  * packet:   pkt_02020E60
  * region:   arm9
@@ -24,11 +24,11 @@
  * word-runs.md).
  *
  * This is the file that closes the item chain
- * func_02021014 <- func_02020FE4 <- func_02020F34: three separate functions
+ * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_CreateArcTool0F34: three separate functions
  * here name the item archive id 0x18 as a plain immediate
- * (func_02020F14's handle open, func_02020F34's one-shot member read) and
+ * (FILE_UTIL_Create_0F14's handle open, FILE_UTIL_CreateArcTool0F34's one-shot member read) and
  * two name the item graphics archive 0x19 (func_02020F08 answers it as a
- * constant, func_02020F34 reads members of it).  Archive ids are the
+ * constant, FILE_UTIL_CreateArcTool0F34 reads members of it).  Archive ids are the
  * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
  * 0x19 = 25 = a/0/2/5.
  *
@@ -40,14 +40,14 @@
  *   - item_gfx_member_x (0x0209E9E8) and func_0202F170 (0x0202F170) are
  *     named only from here anywhere in the image.
  *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
- *     0x02020F7C, which is func_02020F34's own pool and therefore inside
- *     this range.  func_02020E60's copy of the same word sits at
+ *     0x02020F7C, which is FILE_UTIL_CreateArcTool0F34's own pool and therefore inside
+ *     this range.  FILE_UTIL_Get's copy of the same word sits at
  *     0x02020EF4 but is not indexed as a literal pool by disasm.py: that
  *     pool is inside the `.byte` run this unit's leaf functions live in.
- *     Splitting func_02020E60 and func_02020F34 into two files does not
+ *     Splitting FILE_UTIL_Get and FILE_UTIL_CreateArcTool0F34 into two files does not
  *     fix it either: verified separately, the split leaves
- *     func_02020E60 attested (literal 0x02020F7C, now outside its range)
- *     and func_02020F34 still not, since its only witness is its own
+ *     FILE_UTIL_Get attested (literal 0x02020F7C, now outside its range)
+ *     and FILE_UTIL_CreateArcTool0F34 still not, since its only witness is its own
  *     pool word.  `tu --suggest-split` agrees and leaves both out.
  *
  * The middle piece that --suggest-split does keep, the five leaf
@@ -79,7 +79,7 @@ struct ArcFile;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
-u32 func_02020E60(u32 item, u32 which)
+u32 FILE_UTIL_Get(u32 item, u32 which)
 {
     if (item > 626) {
         item = 0;
@@ -131,7 +131,7 @@ u32 func_02020F10(void)
     return 0;
 }
 
-void *func_02020F14(u32 heap)
+void *FILE_UTIL_Create_0F14(u32 heap)
 {
     return func_020490F4(0x18, heap);
 }
@@ -145,7 +145,7 @@ u32 func_02020F20(void *handle, u32 item, u32 arg)
     return (u32)ARC_TOOL_LoadHandleMember(handle, item, arg);
 }
 
-void *func_02020F34(u32 item, u32 which, u32 heap)
+void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap)
 {
     if (item > 626) {
         item = 0;

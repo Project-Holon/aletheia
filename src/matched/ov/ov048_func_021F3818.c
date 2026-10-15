@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200C0F0 0x0200C0F0 thumb
- *   func_0200C3B8 0x0200C3B8 thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   BEACON_SetGatePoints 0x0200C3B8 thumb
  */
 #include "../include/Obj00377.h"
 typedef unsigned short u16;
 struct Big;
 struct Blk34;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *p);
-extern void func_0200C3B8(struct Blk34 *p, u16 v);
-void FIELD_GIMMICK_GATE_StoreMiscSaveValue(int *p) { func_0200C3B8(func_0200C0F0(GAME_DATA_GetSaveControl(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }
+extern void *BEACON_GetBlock(void *p);
+extern void BEACON_SetGatePoints(struct Blk34 *p, u16 v);
+void FIELD_GIMMICK_GATE_StoreMiscSaveValue(int *p) { BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }

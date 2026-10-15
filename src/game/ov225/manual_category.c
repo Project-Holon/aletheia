@@ -1,7 +1,7 @@
 /*
  * file:     manual_category.c
  * unit:     yes
- * function: func_021BB6E0, func_021BB7F4, func_021BB850, func_021BB854, func_021BBA14, func_021BBA70, func_021BBA74, func_021BBAE8, func_021BBB0C, func_021BBBF0, func_021BBBF4, func_021BBC44, func_021BBC50, func_021BBC54, func_021BBCF4, func_021BBD28
+ * function: func_021BB6E0, func_021BB7F4, func_021BB850, func_021BB854, func_021BBA14, func_021BBA70, func_021BBA74, func_021BBAE8, func_021BBB0C, func_021BBBF0, func_021BBBF4, func_021BBC44, func_021BBC50, func_021BBC54, func_021BBCF4, func_021BBD28, func_021BBD74
  * address:  0x021BB6E0
  * region:   ov225
  * compiler: dsi/1.1p1
@@ -11,6 +11,10 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * Builds a graphics record: releases the p+0x24 handle, sizes the p+0x18
+ * resource through BMP_WIN_GetBmp, resolves a slot word, and submits a
+ * seven-argument call before marking p+0x30 and repointing the slot.
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -35,7 +39,6 @@
  *   file_021BC06C 0x021BC06C data a1
  *   func_021BA068 0x021BA068 thumb ov225
  *   func_021BA0F0 0x021BA0F0 thumb ov225
- *   func_021BBD74 0x021BBD74 thumb ov225
  *   func_021B9CDC 0x021B9CDC thumb ov225
  *   func_021B9E80 0x021B9E80 thumb ov225
  *   sub_02030EAC 0x02030EAC arm
@@ -45,7 +48,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
- *   sub_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -114,6 +117,9 @@
 #include "../../matched/include/Obj26322.h"
 #include "../../matched/include/Obj26323.h"
 #include "../../matched/include/Obj06736.h"
+#include "../../matched/include/Obj02267.h"
+#include "../../matched/include/Obj26324.h"
+#include "../../matched/include/Obj26325.h"
 
 struct Data;
 struct Node;
@@ -160,7 +166,6 @@ extern int func_021B9C98(void *, int, int);
 extern u16 func_021B9BC8(char *, int);
 extern void func_021BA068(char *, unsigned);
 extern void func_021BA0F0(char *, unsigned, unsigned);
-extern void func_021BBD74(char *);
 extern int func_021B9CDC(void *);
 extern void func_021B9E80(char *,u32);
 extern void sub_02030EAC(struct Node *);
@@ -170,7 +175,7 @@ extern unsigned func_021BA154(char *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void sub_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern u32 BMP_WIN_Create(u32 layer,u32 a,u32 b,u32 tiles,u8 c,u8 d,u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *p,u8 value);
@@ -203,10 +208,12 @@ void func_021BBC50(char *a0);
 void func_021BBC54(u8 *p);
 void func_021BBCF4(char *p);
 void func_021BBD28(u8 *p);
+void func_021BBD74(char *p);
 extern const char d_021BC048[];
 extern const char d_021BC05C[];
 extern const char file_021BC06C[];
 extern const Record d_021BBFA8[];
+
 
 char *func_021BB6E0(char *p,char *data)
 {
@@ -245,6 +252,7 @@ char *func_021BB6E0(char *p,char *data)
     return q;
 }
 
+
 /*
  * extent: 94-byte unit; two zero alignment bytes at 021BB852 are outside the unit.
  * followers: parent cleared 021BB844 tail stub and 021BB850 empty Thumb leaf.
@@ -264,14 +272,17 @@ void func_021BB7F4(char *p)
     func_020307B0(p);
 }
 
+
 int func_021BB844(char *p)
 {
     return func_021BA760(*(char * *)&((struct Obj26295 *)p)->f1C);
 }
 
+
 void func_021BB850(void)
 {
 }
+
 
 Q *func_021BB854(Owner *p, Data *data)
 {
@@ -344,6 +355,7 @@ Q *func_021BB854(Owner *p, Data *data)
     return q;
 }
 
+
 /*
  * extent: 94-byte unit; two zero alignment bytes at 021BBA72 are outside the unit.
  * followers: parent cleared 021BBA64 tail stub and 021BBA70 empty Thumb leaf.
@@ -363,14 +375,17 @@ void func_021BBA14(char *p)
     func_020307B0(p);
 }
 
+
 int func_021BBA64(char *p)
 {
     return func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
 }
 
+
 void func_021BBA70(void)
 {
 }
+
 
 /*
  * arity: BBC44 retains original visible r0 context although its fixed tail ignores it.
@@ -396,7 +411,9 @@ char *func_021BBA74(char *p, char *data)
     return q;
 }
 
+
 void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); sub_02030EAC(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
+
 
 int func_021BBB0C(char *p)
 {
@@ -453,12 +470,14 @@ done:
     return result;
 }
 
+
 /*
  * leaf: sole unresolved BA74 callback; parent clearance. Thumb bx lr, then two zero alignment bytes.
  */
 void func_021BBBF0(void *p)
 {
 }
+
 
 void func_021BBBF4(char *p)
 {
@@ -467,9 +486,12 @@ void func_021BBBF4(char *p)
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct Obj26320 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 6, 4, 0, 0, 0, 0, ((struct Obj26321 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
 }
 
-void func_021BBC44(char *a0) { sub_02041B6C(4); }
+
+void func_021BBC44(char *a0) { BG_SYS_SetFlagField06(4); }
+
 
 void func_021BBC50(char *a0) {}
+
 
 void func_021BBC54(u8 *p)
 {
@@ -497,7 +519,9 @@ void func_021BBC54(u8 *p)
     func_021BBD28(p);
 }
 
-void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; PRINTSYS_QUE_Clear(*(struct PrintSys **)(p+i*4+0x1c)); BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4+0x10)); BMP_WIN_Delete(*(struct Descriptor **)(p+i*4+0x10)); } sub_02041B6C(5); }
+
+void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; PRINTSYS_QUE_Clear(*(struct PrintSys **)(p+i*4+0x1c)); BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4+0x10)); BMP_WIN_Delete(*(struct Descriptor **)(p+i*4+0x10)); } BG_SYS_SetFlagField06(5); }
+
 
 void func_021BBD28(u8 *p)
 {
@@ -516,4 +540,22 @@ void func_021BBD28(u8 *p)
             }
         }
     }
+}
+
+
+void func_021BBD74(char *p)
+{
+    void *r;
+
+    PRINTSYS_QUE_Clear(((struct Obj02267 *)p)->f24);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj02267 *)p)->f18), 0);
+    r = func_02045EC0(((struct Obj26324 *)(*(char * *)&((struct Obj02267 *)p)->f4))->f20,
+                      *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 6));
+    PRINTSYS_PrintQueColor(((struct Obj02267 *)p)->f24, (u32)BMP_WIN_GetBmp(((struct Obj02267 *)p)->f18),
+                  4, 6, (u32)r, ((struct Obj26325 *)(*(char * *)&((struct Obj02267 *)p)->f4))->fC, 0x440);
+    STRBUF_Delete(r);
+    ((struct Obj02267 *)p)->f30 = 1;
+    func_021BBD28((u8 *)p);
+    func_021B9E80(((struct Obj02267 *)p)->f4,
+                  *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 4));
 }

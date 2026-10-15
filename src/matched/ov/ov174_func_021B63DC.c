@@ -1,5 +1,5 @@
 /*
- * function: func_021B63DC
+ * function: LOCAL_TVT_SYS_SetupDisplay
  * address: 0x021B63DC
  * packet: pkt_ov174_021B63DC
  * region: ov174
@@ -27,10 +27,10 @@
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_021B6538 0x021B6538 thumb ov174
+ *   LOCAL_TVT_SYS_SetupBgLayer 0x021B6538 thumb ov174
  *   func_02082A7C 0x02082A7C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -59,10 +59,10 @@ struct DispVram;
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 struct BgTemplate;
-extern void func_021B6538(const struct BgTemplate *p, int i, int type);
+extern void LOCAL_TVT_SYS_SetupBgLayer(const struct BgTemplate *p, int i, int type);
 extern void func_02082A7C(int,int,u32);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -72,7 +72,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_0207D63C(void *,int,int,int,int);
 extern const u32 d_021B7450[],d_021B7388[],d_021B73D0[],d_021B73B0[],d_021B7410[],d_021B7430[],d_021B73F0[];
 extern const Config gClActorInitParam;
-void func_021B63DC(u8 *p)
+void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
 {
     Config c;
     BG_SYS_ClearMainPlanes();
@@ -87,14 +87,14 @@ void func_021B63DC(u8 *p)
     *(volatile u16 *)0x04001050=0;
     *(volatile u16 *)0x04000304 |=0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B7450);
-    func_0203F8F4(*(u16 *)p);
+    BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((void *)d_021B7388);
-    func_021B6538((const struct BgTemplate *)d_021B73D0,0,0);
-    func_021B6538((const struct BgTemplate *)d_021B73B0,1,0);
-    func_021B6538((const struct BgTemplate *)d_021B7410,2,2);
-    func_021B6538((const struct BgTemplate *)d_021B7430,3,2);
-    func_021B6538((const struct BgTemplate *)d_021B73F0,7,0);
+    LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73D0,0,0);
+    LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73B0,1,0);
+    LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7410,2,2);
+    LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7430,3,2);
+    LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73F0,7,0);
     func_02082A7C(0,0x06000000,0x40000);
     c=gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&c),(u32)d_021B7450,*(u16 *)p);

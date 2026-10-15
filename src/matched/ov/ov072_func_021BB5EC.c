@@ -12,8 +12,8 @@
  * symbols:
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_Mag  0x0207CBD0  arm
  */
 typedef unsigned int u32;
 
@@ -29,8 +29,8 @@ struct Obj {
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern void func_0207CA00(struct V *a, struct V *b, struct V *c);
-extern int func_0207CBD0(struct V *a);
+extern void VEC_Subtract(struct V *a, struct V *b, struct V *c);
+extern int VEC_Mag(struct V *a);
 
 void TOWNMAP_GRH_UpdateTouch(struct Obj *p)
 {
@@ -58,8 +58,8 @@ void TOWNMAP_GRH_UpdateTouch(struct Obj *p)
             p->b.x = y << 12;
             p->b.y = x << 12;
             p->b.z = 0;
-            func_0207CA00(&p->b, &p->a, &p->c);
-            if (func_0207CBD0(&p->c) >= 0x1000) {
+            VEC_Subtract(&p->b, &p->a, &p->c);
+            if (VEC_Mag(&p->c) >= 0x1000) {
                 p->f1c = 1;
             }
         } else {

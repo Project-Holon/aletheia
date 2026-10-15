@@ -1,5 +1,5 @@
 /*
- * function: func_0220B4B0
+ * function: B_PLIST_ANM_GetTileBuffer
  * address: 0x0220B4B0
  * packet: pkt_ov198_0220B4B0
  * region: ov198
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef unsigned int u32;
-void *func_0220B4B0(void *p,u32 kind,u32 i,int which)
+void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which)
 {
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:

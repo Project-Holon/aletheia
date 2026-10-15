@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200BC20",
+   "name": "DAYCARE_ClearEggReady",
    "address": "0x0200BC20",
    "kind": "game",
    "region": "arm9",

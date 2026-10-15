@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020260F0 0x020260F0 thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  */
 #include "../include/Obj24022.h"
 
 typedef unsigned int   u32;
 struct Sound;
-extern u32 func_020260F0(struct Sound *obj);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 
 void BOX2_SEQ_SetCursorDraw(char **p, int flag)
 {
     if (flag == 1) {
-        if (func_020260F0(((struct Obj24022 *)(p[11]))->f70) == 1)
+        if (CURSOR_MOVE_GetState(((struct Obj24022 *)(p[11]))->f70) == 1)
             BOX2_SEQ_SetActorDrawEnable(p[11], 4, 1);
     } else {
         BOX2_SEQ_SetActorDrawEnable(p[11], 4, 0);

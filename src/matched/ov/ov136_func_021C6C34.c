@@ -9,8 +9,8 @@
  * status: EXACT*
  * symbols:
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   func_02025DE8 0x02025DE8 thumb
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   MB_SEQ_GetPageButtonHit 0x021C7648 thumb
  *   MB_SEQ_StartArrowFlash 0x021C7250 thumb
@@ -36,8 +36,8 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int MB_SEQ_StartArrowFlash(u8 *p, int v, int w);
 extern int MB_SEQ_StartMailFlash(u8 *p, int v, int w);
 extern void MB_SEQ_SetActorAnim(u8 *p, int i, u32 v);
-extern int func_02025DE8(struct Sound *obj);
-extern u8 func_020260E0(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern int MB_SEQ_IsXPressed(void);
 
 int MB_SEQ_StateList(u8 *p)
@@ -74,7 +74,7 @@ int MB_SEQ_StateList(u8 *p)
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x19;
     }
-    k = func_02025DE8(((struct Obj23620 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
+    k = CURSOR_MOVE_PollRepeatInput(((struct Obj23620 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
     switch (k) {
     case 0:
     case 1:
@@ -100,7 +100,7 @@ int MB_SEQ_StateList(u8 *p)
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x18;
     case (u32)-5:
-        func_020260E0(((struct Obj23621 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
+        CURSOR_MOVE_GetCurrent(((struct Obj23621 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
         if (((struct Obj00412 *)p)->f1C != ((struct Obj23622 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f2FE) {
             ((struct Obj00412 *)p)->f1C += 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -108,7 +108,7 @@ int MB_SEQ_StateList(u8 *p)
         }
         break;
     case (u32)-6:
-        func_020260E0(((struct Obj23623 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
+        CURSOR_MOVE_GetCurrent(((struct Obj23623 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
         if (((struct Obj00412 *)p)->f1C != 0) {
             ((struct Obj00412 *)p)->f1C -= 1;
             GFL_USE_PlaySeDefaultVolume(0x548);

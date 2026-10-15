@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   G3D_SYSTEM_Init  0x02046440  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
@@ -25,7 +25,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0207D4B0(int, int, int);
+extern void GX_SetGraphicsMode(int, int, int);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
 extern int G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
 struct Light;
@@ -40,7 +40,7 @@ void POKELIST_SetupLight(char *p)
 {
     int r;
 
-    func_0207D4B0(1, 0, 1);
+    GX_SetGraphicsMode(1, 0, 1);
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, ((struct Obj07728 *)p)->f0, 0);
     *(volatile u16 *)0x04000008 = *(volatile u16 *)0x04000008 & ~3;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x20;

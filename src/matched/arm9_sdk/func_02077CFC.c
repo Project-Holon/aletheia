@@ -1,5 +1,5 @@
 /*
- * function: func_02077CFC
+ * function: FSi_ExecuteSyncCommand
  * address:  0x02077CFC
  * packet:   pkt_02077CFC
  * region:   arm9
@@ -63,7 +63,7 @@ static inline u32 FSi_GetCurrentCommand(const FSFile *file)
     return (file->stat >> 8) & 0xFF;
 }
 
-void func_02077CFC(FSFile *file)
+void FSi_ExecuteSyncCommand(FSFile *file)
 {
     u32 bak_psr = OS_DisableInterrupts();
 

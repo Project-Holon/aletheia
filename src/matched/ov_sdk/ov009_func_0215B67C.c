@@ -31,7 +31,7 @@
  *   g_021A88E4     0x021A88E4  data
  *   g_021A8764     0x021A8764  data
  *   g_021A8384     0x021A8384  data
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *   g_021A8A64     0x021A8A64  data
  *
  * g_021A826C is network.o's block of file statics (first symbol wfailed);
@@ -125,7 +125,7 @@ extern struct net_vars g_021A826C;
 extern unsigned char g_021A88E4[384];
 extern unsigned char g_021A8764[384];
 extern struct ArpEntry g_021A8384[8];
-extern struct thread_info g_02150FEC;
+extern struct thread_info gMslRefToken;
 extern struct CPSFragTable g_021A8A64[8];
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -304,7 +304,7 @@ void scavenger(void)
             gwcache_sleep = 105;
         }
 
-        for (t = g_02150FEC.list; t; t = t->next)
+        for (t = gMslRefToken.list; t; t = t->next)
         {
             soc = (CPSSoc *)t->specific[0];
             if (soc && soc->thread)

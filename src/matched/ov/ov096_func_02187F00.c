@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * 2026-10-05 (wD9r lane35): EXACT. Fix: heap is a u16 parameter and the heap-taking callees
- *   (func_02030734, func_020490F4, func_02020F14, VM_Create, WAZA_TOOL_CreateCache) take u16 heap, the house
+ *   (func_02030734, func_020490F4, FILE_UTIL_Create_0F14, VM_Create, WAZA_TOOL_CreateCache) take u16 heap, the house
  *   heap-id form. With u16 consumers mwcc loads the u16 stack parameter with a word ldr (no add/ldrh) and
  *   the tag pool load is no longer hoisted above the parameter homing.
  * 2026-10-05 (wD9 lane09): still DIFF 14 bytes. Tried an unprototyped alloc callee
@@ -43,7 +43,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02020F14 0x02020F14 thumb
+ *   FILE_UTIL_Create_0F14 0x02020F14 thumb
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   VM_Create 0x0201121C thumb
@@ -62,7 +62,7 @@ struct ScriptVm;
 struct ScriptVmParams;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u16 heap);
-extern void *func_02020F14(u16 heap);
+extern void *FILE_UTIL_Create_0F14(u16 heap);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
@@ -81,7 +81,7 @@ void *TR_AI_Create(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(u32 *)(p + 0xC4) = 1;
     *(u32 *)(p + 0x40) = d;
     *(void **)(p + 0xA4) = func_020490F4(0xAB, heap);
-    *(void **)(p + 0xA8) = func_02020F14(heap);
+    *(void **)(p + 0xA8) = FILE_UTIL_Create_0F14(heap);
     *(void ***)(p + 0xB0) = a;
     *(u32 *)(p + 0xB4) = b;
     *(u32 *)(p + 0xB8) = c;

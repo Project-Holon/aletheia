@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02078AEC  0x02078AEC  arm
+ *   FS_GetFilePosition  0x02078AEC  arm
  *   FS_ReadFile  0x02078B70  arm
- *   func_02078B44  0x02078B44  arm
+ *   FS_SeekFile  0x02078B44  arm
  *   CARD_GetOwnRomHeader             0x02075DF8  arm
  *   FS_GetFilePosition               0x02078AEC  arm
  *   FS_ReadFile                      0x02078B70  arm
@@ -197,17 +197,15 @@ typedef enum {
     SEG_C = 2
 } SegType;
 
-extern u32_021F2F1C func_02078AEC(struct FSFile *file);
+extern u32_021F2F1C FS_GetFilePosition(struct FSFile *file);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern void *CARD_GetOwnRomHeader(void);
-extern u32_021F2F1C FS_GetFilePosition(FSFile *file);
 extern void FS_InitFile(FSFile *file);
 extern void *FS_FindArchive(char *name, int name_len);
 extern int FS_OpenFileDirect(FSFile *file, void *arc, u32_021F2F1C image_top, u32_021F2F1C image_bottom, u32_021F2F1C id);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32_021F2F1C size);
 extern u8 *CARDi_GetOwnSignature(void);
-extern int FS_SeekFile(FSFile *file, long offset, int origin);
 extern void MBi_InitCache(MBiCacheList *pl);
 extern void MBi_AttachCacheBuffer(MBiCacheList *pl, u32_021F2F1C src, u32_021F2F1C len, void *ptr, u32_021F2F1C state);
 extern u32_021F2F1C FS_GetFileImageTop(FSFile *file);
@@ -260,10 +258,10 @@ u32_021F2F1C MB_GetSegmentLength(void *file)
     p = 0;
     ret = 0;
     if (file) {
-        bak_pos = func_02078AEC(file);
+        bak_pos = FS_GetFilePosition(file);
         if ((u32_021F2F1C)FS_ReadFile(file, rom, 96) >= 96)
             p = (RomHeader_021F2F1C *)rom;
-        func_02078B44(file, bak_pos, 0);
+        FS_SeekFile(file, bak_pos, 0);
     } else {
         p = (RomHeader_021F2F1C *)0x02FFFE00;
     }

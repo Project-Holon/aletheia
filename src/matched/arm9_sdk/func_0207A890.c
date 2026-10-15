@@ -1,5 +1,5 @@
 /*
- * function: func_0207A890
+ * function: FSi_InitMemArchive
  * address:  0x0207A890
  * packet:   pkt_0207A890
  * region:   arm9
@@ -51,7 +51,7 @@ static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
     return (arc->flag & 2) ? 1 : 0;
 }
 
-void func_0207A890(void)
+void FSi_InitMemArchive(void)
 {
     u32 bak_cpsr = OS_DisableInterrupts();
 

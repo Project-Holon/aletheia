@@ -1,5 +1,5 @@
 /*
- * function: func_020912A8
+ * function: MSL_C_LIB_LockRegisterDestructor
  * address:  0x020912A8
  * packet:   pkt_020911D8
  * region:   arm9
@@ -22,7 +22,7 @@
  *     +0010 OS_TryLockMutex [label x20]   +0070 OS_LockMutex [label x25]
  *     +0090 MSL_CONSOLE_IO_RegisterDestructor [UNRESOLVED - no witness outside this range]
  *     +00B0 func_02086078 [label x25]
- *     +00BC g_02153BD4 [literal x15]    +00C0 g_02150FEC [literal x60]
+ *     +00BC gMslMutexTable [literal x15]    +00C0 gMslRefToken [literal x60]
  *     +00C4 g_02153B8C [literal x15]    +00C8 g_02153BB0 [literal x15]
  *   every concrete byte right, no wildcard byte is inside a branch opcode.
  *
@@ -31,10 +31,10 @@
  *   OS_TryLockMutex    0x020860D0  arm
  *   func_02086078    0x02086078  arm
  *   MSL_CONSOLE_IO_RegisterDestructor    0x0209D728  arm
- *   g_02150FEC       0x02150FEC  data
+ *   gMslRefToken       0x02150FEC  data
  *   g_02153B8C       0x02153B8C  data
  *   g_02153BB0       0x02153BB0  data
- *   g_02153BD4       0x02153BD4  data
+ *   gMslMutexTable       0x02153BD4  data
  */
 
 typedef unsigned int u32;
@@ -44,28 +44,28 @@ extern int OS_TryLockMutex(void *a0);
 extern void func_02086078(void *a0);
 extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 
-extern u32 g_02150FEC[];
+extern u32 gMslRefToken[];
 extern u32 g_02153B8C;
 extern u32 g_02153BB0;
-extern u32 g_02153BD4;
+extern u32 gMslMutexTable;
 
-u32 func_020912A8(u32 a0)
+u32 MSL_C_LIB_LockRegisterDestructor(u32 a0)
 {
     u32 r;
 
-    if (OS_TryLockMutex(&g_02153BD4) == 0) {
-        g_02153B8C = *(u32 *)(g_02150FEC[1] + 0x6C);
+    if (OS_TryLockMutex(&gMslMutexTable) == 0) {
+        g_02153B8C = *(u32 *)(gMslRefToken[1] + 0x6C);
         g_02153BB0 = 1;
-    } else if (g_02153B8C == *(u32 *)(g_02150FEC[1] + 0x6C)) {
+    } else if (g_02153B8C == *(u32 *)(gMslRefToken[1] + 0x6C)) {
         g_02153BB0 = g_02153BB0 + 1;
     } else {
-        OS_LockMutex(&g_02153BD4);
-        g_02153B8C = *(u32 *)(g_02150FEC[1] + 0x6C);
+        OS_LockMutex(&gMslMutexTable);
+        g_02153B8C = *(u32 *)(gMslRefToken[1] + 0x6C);
         g_02153BB0 = 1;
     }
     r = MSL_CONSOLE_IO_RegisterDestructor(a0);
     if (--g_02153BB0 == 0) {
-        func_02086078(&g_02153BD4);
+        func_02086078(&gMslMutexTable);
     }
     return r;
 }

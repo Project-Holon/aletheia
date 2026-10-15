@@ -10,6 +10,9 @@
  * isa:      arm
  * status:   EXACT
  * sdk:      libaes.TWL.HYB.a aes_lock.o
+ *
+ * symbols:
+ *   gMslRefToken  0x02150FEC  data  arm9
  */
 typedef unsigned int u32;
 typedef struct OSThread OSThread;
@@ -28,7 +31,7 @@ typedef struct {
 } ThreadInfoLike;
 
 extern SysLockLike g_02735B20;
-extern ThreadInfoLike g_02150FEC;
+extern ThreadInfoLike gMslRefToken;
 extern int OS_DisableInterrupts(void);
 extern int OS_RestoreInterrupts(int);
 extern void OS_SleepThread(void *queue);
@@ -50,7 +53,7 @@ void AESi_InitLock(void)
 int AESi_TryLock(void)
 {
     int enabled = OS_DisableInterrupts();
-    OSThread *cur = g_02150FEC.current;
+    OSThread *cur = gMslRefToken.current;
     int ok;
     if ((*(OSThread * volatile *)&g_02735B20.owner) == 0) {
         (*(OSThread * volatile *)&g_02735B20.owner) = cur;
@@ -69,7 +72,7 @@ int AESi_TryLock(void)
 void AESi_Lock(void)
 {
     int enabled = OS_DisableInterrupts();
-    OSThread *cur = g_02150FEC.current;
+    OSThread *cur = gMslRefToken.current;
     for (;;) {
         if (g_02735B20.owner == 0) {
             g_02735B20.owner = cur;

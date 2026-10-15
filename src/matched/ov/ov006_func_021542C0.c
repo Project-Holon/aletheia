@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0200AEE8  0x0200AEE8  thumb
+ *   REGULATION_SetRuleValue  0x0200AEE8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
@@ -33,7 +33,7 @@ struct Ctx;
 struct Reg;
 struct ZoneData;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
+extern void REGULATION_SetRuleValue(struct Reg *p, u32 id, s32 value);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned short u16;
@@ -64,9 +64,9 @@ void EVENT_WIFICLUB_SetupBattle(char *obj, int idx)
     h = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj01027 *)obj)->f4));
     flag = (*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f48;
     if (flag)
-        func_0200AEE8((struct Reg *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), 0xd, 1);
+        REGULATION_SetRuleValue((struct Reg *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), 0xd, 1);
     else
-        func_0200AEE8((struct Reg *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), 0xd, 0);
+        REGULATION_SetRuleValue((struct Reg *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), 0xd, 0);
 
     switch (idx) {
     case 8:

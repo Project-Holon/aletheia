@@ -11,14 +11,14 @@
  *
  * symbols:
  *   d_02732FA4 0x02732FA4 data
- *   func_0208C6FC 0x0208C6FC arm
+ *   PMi_InsertList 0x0208C6FC arm
  */
 
 typedef struct PMiGenCallbackInfo PMiGenCallbackInfo;
 extern PMiGenCallbackInfo *d_02732FA4;
-extern void func_0208C6FC(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
+extern void PMi_InsertList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
 
 void PM_AppendPreExitCallback(PMiGenCallbackInfo *info)
 {
-    func_0208C6FC(&d_02732FA4, info, 0xFF, 0);
+    PMi_InsertList(&d_02732FA4, info, 0xFF, 0);
 }

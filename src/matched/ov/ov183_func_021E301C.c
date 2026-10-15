@@ -1,5 +1,5 @@
 /*
- * function: func_021E301C
+ * function: BR_CODEIN_CreateMenuButtons
  * address: 0x021E301C
  * packet: pkt_ov183_021E301C
  * region: ov183
@@ -139,7 +139,7 @@ extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021E301C(char *p,char *q)
+void BR_CODEIN_CreateMenuButtons(char *p,char *q)
 {
     Triple t;
     Desc d;

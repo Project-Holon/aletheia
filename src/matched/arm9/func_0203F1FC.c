@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F1FC
+ * function: GF_STANDARD_SetupCalc
  * address:  0x0203F1FC
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -22,8 +22,8 @@
  * ARM immediate, so the base is always two `add`s (+0x1cc then +0x800).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F1FC.c \
- *       --func func_0203F1FC --addr 0x0203F1FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_SetupCalc.c \
+ *       --func GF_STANDARD_SetupCalc --addr 0x0203F1FC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ extern struct Mt *g_021469F8;
 struct MATHCRC16Table;
 extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
 
-u16 func_0203F1FC(const u8 *src, u32 len)
+u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len)
 {
     if (len < 2) {
         u8 pair[2];

@@ -1,5 +1,5 @@
 /*
- * function: func_021D724C
+ * function: WIFI_BSUBWAY_SetDownloadResult
  * address:  0x021D724C
  * packet:   pkt_ov116_021D724C
  * region:   ov116
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D724C(u8 *p, u32 v) { ((struct Obj22622 *)p)->fC = v; }
+void WIFI_BSUBWAY_SetDownloadResult(u8 *p, u32 v) { ((struct Obj22622 *)p)->fC = v; }

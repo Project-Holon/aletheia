@@ -1,5 +1,5 @@
 /*
- * function: func_021D50DC
+ * function: INTRUDE_COMM_VIEW_ClearFoundPeerMac
  * address: 0x021D50DC
  * packet: pkt_ov122_021D50DC
  * region: ov122
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *GFL_NET_GetInitParam(void);extern void MI_CpuCopy8(const void *,void *,u32);
-void func_021D50DC(char *p) {u8 buf[6]={0};GFL_NET_GetInitParam();((struct Obj22933 *)(*(char * *)&((struct Obj13966 *)p)->f344))->f10=1;MI_CpuCopy8(buf,*(char * *)&((struct Obj13966 *)p)->f344+20,6);}
+void INTRUDE_COMM_VIEW_ClearFoundPeerMac(char *p) {u8 buf[6]={0};GFL_NET_GetInitParam();((struct Obj22933 *)(*(char * *)&((struct Obj13966 *)p)->f344))->f10=1;MI_CpuCopy8(buf,*(char * *)&((struct Obj13966 *)p)->f344+20,6);}

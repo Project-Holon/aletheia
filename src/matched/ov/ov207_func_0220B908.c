@@ -1,5 +1,5 @@
 /*
- * function: func_0220B908
+ * function: ZUKAN_NICKNAME_SetupScreen
  * address: 0x0220B908
  * packet: pkt_ov207_0220B908
  * region: ov207
@@ -17,4 +17,4 @@
  */
 #include "../include/Obj06677.h"
 struct Descriptor;struct Cfg;extern void func_0201F73C(void *,int,unsigned short,int);extern void BMP_WIN_TransferChars(struct Descriptor *);extern void BMP_WIN_MakeScreen(struct Cfg *);extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);extern void func_02041B6C(unsigned);
-void func_0220B908(char *p){if(!((struct Obj06677 *)p)->f3C){struct Descriptor *d;unsigned flag=1;func_0201F73C(((struct Obj06677 *)p)->f24,1,((struct Obj06677 *)p)->f30,8);d=*(struct Descriptor * *)&((struct Obj06677 *)p)->f24;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));((struct Obj06677 *)p)->f3C=flag;}}
+void ZUKAN_NICKNAME_SetupScreen(char *p){if(!((struct Obj06677 *)p)->f3C){struct Descriptor *d;unsigned flag=1;func_0201F73C(((struct Obj06677 *)p)->f24,1,((struct Obj06677 *)p)->f30,8);d=*(struct Descriptor * *)&((struct Obj06677 *)p)->f24;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));((struct Obj06677 *)p)->f3C=flag;}}

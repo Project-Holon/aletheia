@@ -19,7 +19,7 @@
  *   SocketStartUp  0x0217F25C  arm  ov009
  *   func_021986C4  0x021986C4  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02184638  0x02184638  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
@@ -27,7 +27,7 @@
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  *   func_0217EBB0  0x0217EBB0  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
  *   func_02197D1C  0x02197D1C  arm  ov009
  *   func_02197CFC  0x02197CFC  arm  ov009
@@ -38,7 +38,7 @@
  *   gsifree         0x0217EAE0  arm  ov009
  *   SocketShutDown  0x0217F260  arm  ov009
  *   func_02197D5C  0x02197D5C  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   func_02194DA8  0x02194DA8  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
  *   ArrayLength    0x02184200  arm  ov009
@@ -47,10 +47,10 @@
  *   TableRemove    0x021847BC  arm  ov009
  *   func_02198808  0x02198808  arm  ov009
  *   func_0217EF84  0x0217EF84  arm  ov009
- *   func_0217ECA4  0x0217ECA4  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_021970BC  0x021970BC  arm  ov009
- *   func_021971BC  0x021971BC  arm  ov009
+ *   sendto  0x0217ECA4  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
+ *   gti2HandleConnectionReset  0x021970BC  arm  ov009
+ *   gti2HandleHostUnreachable  0x021971BC  arm  ov009
  *   func_021985E4  0x021985E4  arm  ov009
  *   func_02195408  0x02195408  arm  ov009
  *   gti2ConnectionThink        0x02195918  arm  ov009
@@ -90,7 +90,7 @@ extern void *TableLookup(struct HashImplementation *table, void *elemKey);
 extern void SocketStartUp(void);
 extern int func_021986C4(char *string, unsigned int *ip, unsigned short *port);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern struct HashImplementation *func_02184638(int elemSize, int nBuckets, int nChains,
                                                 int (*hashFn)(void *, int),
                                                 int (*compFn)(void *, void *),
@@ -102,18 +102,17 @@ extern void func_021846B4(struct HashImplementation *table);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern void func_021841B0(struct DArrayImplementation *array);
 extern int func_0217EBB0(int sock, void *addr, int len);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 extern int func_02197D1C(void *elem1, void *elem2);
 extern int func_02197CFC(void *elem, int numBuckets);
 extern void func_02197D4C(void *elem);
-extern int closesocket(int sock);
 extern void TableFree(struct HashImplementation *table);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern void gsifree(void *ptr);
 extern void SocketShutDown(void);
 extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern int func_02194DA8(GTI2Buffer *buffer, int size);
 extern void func_0218474C(struct HashImplementation *table, void *newElem);
 extern int ArrayLength(struct DArrayImplementation *array);
@@ -122,16 +121,15 @@ extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 extern int TableRemove(struct HashImplementation *table, void *delElem);
 extern void func_02198808(unsigned char **message, int *len);
 extern int func_0217EF84(int sock);
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern int func_0217ED54(int sock);
-extern int func_021970BC(GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern int func_021971BC(struct Sock *sock, unsigned int ip, unsigned short port, int send);
+extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+extern int GOAGetLastError(int sock);
+extern int gti2HandleConnectionReset(GTI2Socket *socket, unsigned int ip, unsigned short port);
+extern int gti2HandleHostUnreachable(struct Sock *sock, unsigned int ip, unsigned short port, int send);
 extern void func_021985E4(GTI2Socket *socket);
 extern int func_02195408(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 extern int gti2ConnectionThink(GTI2Connection *connection,
                                unsigned int now);
-extern unsigned int current_time(void);
 extern int TableMapSafe2(struct HashImplementation *table,
                          int (*fn)(void *, void *), void *data);
 extern void gt2CloseAllConnectionsHard(GTI2Socket *socket);
@@ -225,7 +223,7 @@ int func_02197D94(GTI2Socket **sock, char *localAddress, int outgoingBufferSize,
     if (!socketTemp)
         return 1;
 
-    func_020923B0(socketTemp, 0, sizeof(GTI2Socket));
+    MSL_C_LIB_MemsetPtr(socketTemp, 0, sizeof(GTI2Socket));
     socketTemp->socket = -1;
     socketTemp->incomingBufferSize = incomingBufferSize;
     socketTemp->outgoingBufferSize = outgoingBufferSize;
@@ -266,7 +264,7 @@ int func_02197D94(GTI2Socket **sock, char *localAddress, int outgoingBufferSize,
     if (type != 3) {
         rcode = func_0217EBB0(socketTemp->socket, &address, sizeof(address));
         if (rcode == -1) {
-            func_0217EB2C(socketTemp->socket);
+            closesocket(socketTemp->socket);
             func_021846B4(socketTemp->connections);
             func_021841B0(socketTemp->closedConnections);
             func_0217EAE0(socketTemp);
@@ -334,11 +332,11 @@ int func_02198038(GTI2Socket *socket, GTI2Connection **connection, unsigned int 
     if (!connectionPtr)
         goto failed;
 
-    func_020923B0(connectionPtr, 0, sizeof(GTI2Connection));
+    MSL_C_LIB_MemsetPtr(connectionPtr, 0, sizeof(GTI2Connection));
     connectionPtr->ip = ip;
     connectionPtr->port = port;
     connectionPtr->socket = socket;
-    connectionPtr->startTime = func_0217F264();
+    connectionPtr->startTime = current_time();
     connectionPtr->lastSend = connectionPtr->startTime;
     connectionPtr->serialNumber = 0;
     connectionPtr->expectedSerialNumber = 0;
@@ -441,15 +439,15 @@ int func_02198328(GTI2Socket *socket, unsigned int ip, unsigned short port, unsi
         address.addr = ip;
         address.port = (unsigned short)(((port >> 8) & 0xFF) | ((port << 8) & 0xFF00));
 
-        rcode = func_0217ECA4(socket->socket, (char *)message, len, 0, (struct SOCSockAddr *)(&address), sizeof(address));
+        rcode = sendto(socket->socket, (char *)message, len, 0, (struct SOCSockAddr *)(&address), sizeof(address));
     }
     if (rcode == -1) {
-        rcode = func_0217ED54(socket->socket);
+        rcode = GOAGetLastError(socket->socket);
         if (rcode == -15) {
-            if (!func_021970BC(socket, ip, port))
+            if (!gti2HandleConnectionReset(socket, ip, port))
                 return 0;
         } else if (rcode == -23) {
-            if (!func_021971BC((struct Sock *)socket, ip, port, 1))
+            if (!gti2HandleHostUnreachable((struct Sock *)socket, ip, port, 1))
                 return 0;
         } else {
             if (rcode == -42 || rcode == -6)

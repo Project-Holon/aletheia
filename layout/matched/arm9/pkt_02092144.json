@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02092144",
+   "name": "MSL_C_LIB_PopCount64",
    "address": "0x02092144",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020921D8",
+   "name": "__signbitd",
    "address": "0x020921D8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020921F4",
+   "name": "__fpclassifyd",
    "address": "0x020921F4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020922B0",
+   "name": "MSL_C_LIB_CallFormatHook",
    "address": "0x020922B0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020922CC",
+   "name": "MSL_C_LIB_WideToNarrow",
    "address": "0x020922CC",
    "kind": "game",
    "region": "arm9",

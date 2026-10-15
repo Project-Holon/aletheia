@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203FCA0            0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer            0x0203FCA0  arm
  *   MIi_CpuClear32           0x02082A7C  arm
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   func_02049658            0x02049658  arm
@@ -51,7 +51,7 @@ struct BgTemplate {
 extern const struct BgTemplate d_0218370C;
 extern const struct BgTemplate d_0218372C;
 
-void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 void MIi_CpuClear32(u32 data, void *dest, u32 size);
 void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -76,8 +76,8 @@ void INTRUDE_SUBDISP_BgSetup(u8 *w, void *bg)
     void *res;
 
     layer = 6;
-    func_0203FCA0(6, &d_0218370C, 0);
-    func_0203FCA0(7, &d_0218372C, 0);
+    BG_SYS_InitBgLayer(6, &d_0218370C, 0);
+    BG_SYS_InitBgLayer(7, &d_0218372C, 0);
     MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;

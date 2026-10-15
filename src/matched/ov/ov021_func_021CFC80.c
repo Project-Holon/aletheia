@@ -17,7 +17,7 @@
  *   func_0200856C  0x0200856C  thumb
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02025C74  0x02025C74  thumb
+ *   CURSOR_MOVE_GetTableValue  0x02025C74  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -41,7 +41,7 @@ extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u32 func_02025C74(u32 x);
+extern u32 CURSOR_MOVE_GetTableValue(u32 x);
 
 void SCRCMD_CollectPartnersByLanguage(void *a, Out *out, u32 key, u32 b)
 {
@@ -60,7 +60,7 @@ void SCRCMD_CollectPartnersByLanguage(void *a, Out *out, u32 key, u32 b)
                     v = (func_02008550(p) != 0) ? 0xf : 0xb;
                 }
                 out->slot[out->count] = i;
-                out->val[out->count] = func_02025C74(v);
+                out->val[out->count] = CURSOR_MOVE_GetTableValue(v);
                 out->count++;
                 if (out->count >= 5) {
                     break;

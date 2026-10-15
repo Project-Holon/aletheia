@@ -15,7 +15,7 @@
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
  *   BOX2_UI_HideWindowA 0x021EF680 thumb
  *   BOX2_UI_HideWindowB 0x021EF69C thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
  *   BOX2_MAIN_SceneWaitCursor 0x021E0778 thumb
  */
@@ -33,7 +33,7 @@ extern void BOX2_UI_HideWindowA(char *w);
 extern void BOX2_UI_HideWindowB(char *w);
 typedef unsigned int   u32;
 struct Sound;
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_SceneWaitCursor(unsigned char *p);
 
@@ -49,7 +49,7 @@ int BOX2_SEQ_HideSlotWindow(unsigned char *p, unsigned char i)
     if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 4) {
         BOX2_UI_HideWindowA(WORK(p));
         BOX2_UI_HideWindowB(WORK(p));
-        func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
+        CURSOR_MOVE_ClearSkipBit(*(void **)(WORK(p) + 0x70), 0x27);
     }
     return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_SceneWaitCursor, 0x20);
 }

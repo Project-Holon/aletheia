@@ -23,7 +23,7 @@
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
  *   CPS_SocGetEport  0x0215A970  arm  ov009
- *   func_0215CF98  0x0215CF98  arm  ov009
+ *   SOCLi_ExecCommandPacketInSendPipe  0x0215CF98  arm  ov009
  *   func_0215E450  0x0215E450  arm  ov009
  *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   func_0215E620  0x0215E620  arm  ov009
@@ -31,7 +31,7 @@
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
  *   func_0209C0A4  0x0209C0A4  arm
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *   g_021AA450     0x021AA450  data
  */
 #include "../../matched/include/G_CPSConfig.h"
@@ -118,13 +118,13 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct SOCLiCommandWrite *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 extern unsigned short CPS_SocGetEport(void);
-extern int func_0215CF98(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
+extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_TcpClose(void);
 extern void OS_WakeupThread(void *queue);
 extern int func_0209C0A4(int a, int b);
-extern Info g_02150FEC;
+extern Info gMslRefToken;
 extern struct CPSConfig g_021AA450;
 int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
                   int flags);
@@ -376,7 +376,7 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
     } else {
         command->remote_ip = 0;
     }
-    result = func_0215CF98(send_pipe->exe_socket, command);
+    result = SOCLi_ExecCommandPacketInSendPipe(send_pipe->exe_socket, command);
     if (result) {
         send_pipe->buffer.in = saved_send_buffer_in;
         buffer_len = 0;
@@ -471,7 +471,7 @@ int func_0215E588(int len)
 	unsigned long enabled;
 	int count;
 
-	soc = g_02150FEC.cur->soc;
+	soc = gMslRefToken.cur->soc;
 	enabled = OS_DisableInterrupts();
 	if (soc != 0) {
 		if (soc->winSize != 0 && soc->mss != 0) {

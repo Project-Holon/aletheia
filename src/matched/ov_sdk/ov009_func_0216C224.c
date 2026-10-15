@@ -11,14 +11,17 @@
  *
  * sdk:      DWCi_GT2ReceivedCallback (libdwcmatch.TWL.HYB.a(dwc_main.o), static)
  *
- * notes:    12 bytes: ldr ip / bx ip / pool word func_02177340 (vendor DWCi_RecvCallback).
+ * notes:    12 bytes: ldr ip / bx ip / pool word DWCi_RecvCallback (vendor DWCi_RecvCallback).
  *           The listing labels it veneer_0216C224, but the vendor object holds
  *           these exact bytes as this C function, not a linker veneer.
+ *
+ * symbols:
+ *   DWCi_RecvCallback  0x02177340  arm
  */
 
-extern void func_02177340(void *connection, unsigned char *message, int size, int reliable);
+extern void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable);
 
 void DWCi_GT2ReceivedCallback(void *connection, unsigned char *message, int size, int reliable)
 {
-    func_02177340(connection, message, size, reliable);
+    DWCi_RecvCallback(connection, message, size, reliable);
 }

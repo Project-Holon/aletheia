@@ -1,5 +1,5 @@
 /*
- * function: func_0205EB30
+ * function: decodeSSID
  * address:  0x0205EB30
  * packet:   pkt_0205EB30
  * region:   arm9
@@ -25,7 +25,7 @@ extern const CTable g_020A1688;
 extern char *g_020A80B0[4];
 extern int db64(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize);
 
-void func_0205EB30(char *ssid, unsigned char *buf)
+void decodeSSID(char *ssid, unsigned char *buf)
 {
     int i;
     CTable ctable_inv;

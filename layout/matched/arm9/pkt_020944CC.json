@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02094750",
+   "name": "MSL_C_LIB_CallExitHook",
    "address": "0x02094750",
    "kind": "game",
    "region": "arm9",

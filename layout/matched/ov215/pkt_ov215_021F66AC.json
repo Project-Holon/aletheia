@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F66AC",
-    "func_021F66C0"
+    "EGG_DEMO_GRAPHIC_DrawG3d",
+    "EGG_DEMO_GRAPHIC_DrawG3dEnd"
+   ],
+   "addresses": [
+    "0x021F66AC",
+    "0x021F66C0"
    ]
   }
  ]

@@ -31,11 +31,11 @@
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   PROCSYS_Main  0x02031330  arm  arm9
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021EF7FC 0x021EF7FC data
@@ -47,7 +47,7 @@
  *   d_021EF8AC 0x021EF8AC data
  *   d_021EF84C 0x021EF84C data
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
  *   func_02049740  0x02049740  arm
@@ -63,7 +63,7 @@
  *   func_0202762C  0x0202762C  thumb
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_0201F5DC  0x0201F5DC  thumb
  *   func_02049B40  0x02049B40  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
@@ -71,17 +71,17 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_020260F0 0x020260F0 thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   func_020355D8 0x020355D8 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
@@ -138,7 +138,7 @@
  *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
  *   BOX2_SEQ_SetSlotDimB 0x021ED75C thumb
  *   BOX2_SEQ_MoveCursorToSlot 0x021ED7C4 thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
  *   BOX2_UI_FindSlotPos 0x021EDA70 thumb
  *   BOX2_SEQ_SwapSlotActorsB 0x021ECBD8 thumb
@@ -172,7 +172,7 @@
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   BOX2_SEQ_ClearTextWin 0x021EB324 thumb
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BOX2_SEQ_SetSlotDim  0x021ED6E4  thumb  ov170
  *   d_021EF798 0x021EF798 data a1
  *   BOX2_UI_GetGridSlotPoint  0x021EF224  thumb  ov170
@@ -182,7 +182,7 @@
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   ov070_id       0x00000046  data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200C0F0 0x0200C0F0 thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
  *   func_0200785C 0x0200785C thumb
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
  *   gNameInProcData 0x021F5580 data a4 ov194
@@ -190,7 +190,7 @@
  *   func_02007898 0x02007898 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
@@ -227,7 +227,7 @@
  *   BOX2_UI_SlideBarIn 0x021EF3D8 thumb
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
  *   d_021EF7B4 0x021EF7B4 data a1
  *   d_021EF79C 0x021EF79C data a1
@@ -288,7 +288,7 @@
  *   BOX2_MAIN_IsTaskMenuFinished  0x021DCFC0  thumb  ov170
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
  *   BOX2_MAIN_SelectBox 0x021DD1C4 thumb
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
  *   BOX2_MAIN_ClearCursorBox 0x021DF0BC thumb
@@ -608,11 +608,8 @@ void *BOX2_MAIN_GetDispVram(void)
     return (void *)0x021EF7CC;
 }
 
-#define HALF(p,n) (*(unsigned short *)((char *)((BoxTask *)p)->work +(n)))
 
-#define RESULT(p) (*(unsigned char *)(*(char **)((char *)(p) + 0x2C) + 0xA173))
 
-#define FLAGS(o) (*(unsigned *)((char *)(char *)(o) + 0x18))
 
 
 struct GfFont;
@@ -733,13 +730,6 @@ typedef struct {
     unsigned dirY:1;
     unsigned count:30;
 } Motion;
-
-typedef struct {
-    char pad[0xA178];
-    signed char box;
-    unsigned char flip;
-} Work_021DE728;
-
 typedef struct {
     void *mon;
     unsigned short species;
@@ -771,22 +761,15 @@ typedef struct {
 
 typedef struct { void *task; void *text; } Request_021DF378;
 
-typedef struct {
-    unsigned char pad[8];
-    void *moves;
-    unsigned short state;
-    unsigned short timer;
-} Blk;
-
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 
 extern void func_0203FC28(struct DispConfig *cfg);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
@@ -794,7 +777,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 extern void func_020403F4(unsigned);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
@@ -826,7 +809,7 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void func_02041B6C(u32);
 
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 
@@ -846,7 +829,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern void *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
 
@@ -857,7 +840,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 struct PrintBoxTask;
 extern void PRINTSYS_QUE_Delete(struct PrintBoxTask *p);
 
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -869,7 +852,7 @@ extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 hea
 
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
-extern u32 func_020260F0(struct Sound *obj);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 
 extern void func_020355D8(u8 v);
 
@@ -909,7 +892,7 @@ extern void BOX2_SEQ_DrawOffsetName(unsigned char *p, int i);
 
 extern void BOX2_UI_PutInfoBar(struct WinMgr *mgr);
 
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 
 extern unsigned POKEPARTY_GetCount(void *p);
 
@@ -991,7 +974,7 @@ extern void BOX2_SEQ_SetSlotDimB(char **p, int i);
 
 extern void BOX2_SEQ_MoveCursorToSlot(BoxWork *w, int i);
 
-extern unsigned func_0202136C(unsigned short v);
+extern unsigned FILE_UTIL_Check136C(unsigned short v);
 
 extern void BOX2_SEQ_GetActorSurfacePos(BoxWork *w, int i, short *x, short *y, unsigned short z);
 
@@ -1051,7 +1034,7 @@ extern void BOX2_SEQ_ShowHandSlotB(BoxWork *p, unsigned char *q);
 
 extern void BOX2_SEQ_DeleteTextEntries(BoxTask *p, int a);
 
-extern void func_02041EE4(unsigned index, unsigned a, unsigned b);
+extern void BG_SYS_ResetSlot(unsigned index, unsigned a, unsigned b);
 
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 
@@ -1069,7 +1052,7 @@ extern void *BAG_PARAM_Create(const struct BigObj *a0, int a1, int a2, int a3);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 
 extern void func_0200785C(void *save, unsigned box, void *dest);
 
@@ -1107,7 +1090,7 @@ void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 
 extern void BOX2_UI_ToggleSlotPair(BoxWork *p, int v);
 
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 
 extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
 
@@ -1153,7 +1136,7 @@ extern void BOX2_UI_HideWindowB(BoxWork *p);
 
 extern void BOX2_UI_ShowWindowA(BoxWork *p);
 
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 
@@ -1410,29 +1393,29 @@ void BOX2_MAIN_InitBgSys(u8 *a0)
     struct BgTemplate t5;
     struct BgTemplate t6;
 
-    func_0203F8F4(0x4C);
+    BG_SYS_Create(0x4C);
     c = d_021EF7FC;
     func_0203FC28(&c);
     t0 = d_021EF82C;
-    func_0203FCA0(0, &t0, 0);
+    BG_SYS_InitBgLayer(0, &t0, 0);
     t1 = d_021EF8CC;
-    func_0203FCA0(1, &t1, 0);
-    func_020414EC(1);
-    func_02040B94(1, 0x20, 0, 0x4C);
+    BG_SYS_InitBgLayer(1, &t1, 0);
+    BG_SYS_ClearSlot(1);
+    BG_SYS_InitRun(1, 0x20, 0, 0x4C);
     t2 = d_021EF86C;
-    func_0203FCA0(2, &t2, 0);
+    BG_SYS_InitBgLayer(2, &t2, 0);
     t3 = d_021EF88C;
-    func_0203FCA0(3, &t3, 0);
+    BG_SYS_InitBgLayer(3, &t3, 0);
     t4 = d_021EF80C;
-    func_0203FCA0(4, &t4, 0);
-    func_020414EC(4);
-    func_02040B94(4, 0x20, 0, 0x4C);
+    BG_SYS_InitBgLayer(4, &t4, 0);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_InitRun(4, 0x20, 0, 0x4C);
     t5 = d_021EF8AC;
-    func_0203FCA0(5, &t5, 0);
+    BG_SYS_InitBgLayer(5, &t5, 0);
     t6 = d_021EF84C;
-    func_0203FCA0(6, &t6, 0);
-    func_020414EC(6);
-    func_02040B94(6, 0x20, 0, 0x4C);
+    BG_SYS_InitBgLayer(6, &t6, 0);
+    BG_SYS_ClearSlot(6);
+    BG_SYS_InitRun(6, 0x20, 0, 0x4C);
     BG_SYS_SetMainPlaneVisible(0xF, 1);
     BG_SYS_SetSubPlaneVisible(7, 1);
 }
@@ -1448,7 +1431,7 @@ void BOX2_MAIN_DeleteBgSys(void *p)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
@@ -1494,8 +1477,8 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     func_02041B6C(0);
     r6 = func_02049740((void *)arc2, func_02027628(), 2, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc2);
-    a = (u16 *)func_0204162C(0);
-    b = (u16 *)func_0204162C(2);
+    a = (u16 *)BG_SYS_GetBuf(0);
+    b = (u16 *)BG_SYS_GetBuf(2);
     for (i = 0; i < 0x60u; i++) {
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
@@ -1530,46 +1513,37 @@ void BOX2_MAIN_SetDisplayControl(int a)
         *(volatile unsigned short *)0x04000050 = 0;
 }
 
-#define PTR(p,n) (*(void **)(*(char **)((char *)(p)+0x2c)+(n)))
 
 void BOX2_MAIN_CreateTextSystem(char *p)
 {
-    PTR(p,0x80) = func_02045B38(0,2,9,0x4c);
-    PTR(p,0x78) = GF_FONT_Create(0x17,0,1,0,0x4c);
-    PTR(p,0x7c) = GF_FONT_Create(0x17,3,0,0,0x4c);
-    PTR(p,0x84) = func_0201EC64(0x4c);
-    PTR(p,0x8c) = PRINTSYS_QUE_CreateEx(0x800,0x4c);
-    PTR(p,0x88) = STRBUF_Create(0x400,0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x80))) = func_02045B38(0,2,9,0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x78))) = GF_FONT_Create(0x17,0,1,0,0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x7c))) = GF_FONT_Create(0x17,3,0,0,0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x84))) = GF_FONT_Create_EC64(0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x8c))) = PRINTSYS_QUE_CreateEx(0x800,0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x88))) = STRBUF_Create(0x400,0x4c);
 }
 
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#define PTR(p,n) (*(void **)((char *)((BoxTask *)p)->work +(n)))
 
 /*
  * trailing: two bytes alignment padding at 0x021DCEBE.
  */
 void BOX2_MAIN_DeleteTextSystem(char *p)
 {
-    STRBUF_Delete(PTR(p,0x88));
-    PRINTSYS_QUE_Delete(PTR(p,0x8c));
-    func_0201ED04(PTR(p,0x84));
-    GF_FONT_Delete(PTR(p,0x7c));
-    GF_FONT_Delete(PTR(p,0x78));
-    MSGDATA_Delete(PTR(p,0x80));
+    STRBUF_Delete((*(void **)((char *)((BoxTask *)(p))->work + (0x88))));
+    PRINTSYS_QUE_Delete((*(void **)((char *)((BoxTask *)(p))->work + (0x8c))));
+    WORDSET_DeleteStrbufED04((*(void **)((char *)((BoxTask *)(p))->work + (0x84))));
+    GF_FONT_Delete((*(void **)((char *)((BoxTask *)(p))->work + (0x7c))));
+    GF_FONT_Delete((*(void **)((char *)((BoxTask *)(p))->work + (0x78))));
+    MSGDATA_Delete((*(void **)((char *)((BoxTask *)(p))->work + (0x80))));
 }
 
 
@@ -1580,31 +1554,23 @@ void BOX2_MAIN_DeleteTextSystem(char *p)
 
 
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#undef PTR
 
-#define PTR(p,n) (*(void **)((char *)((BoxTask *)p)->work +(n)))
 
 void BOX2_MAIN_CreateTaskMenu(char *p)
 {
-    PTR(p,0x184)=func_02045EC0(PTR(p,0x80),0x6e);
-    HALF(p,0x188)=0x39e3;
-    PTR(p,0x18c)=0;
-    PTR(p,0x190)=func_02045EC0(PTR(p,0x80),0x6f);
-    HALF(p,0x194)=0x39e3;
-    PTR(p,0x198)=0;
-    PTR(p,0x19c)=APP_TASKMENU_RES_Create(0,8,(u32)PTR(p,0x78),(u32)PTR(p,0x8c),0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x184)))=func_02045EC0((*(void **)((char *)((BoxTask *)(p))->work + (0x80))),0x6e);
+    (*(unsigned short *)((char *)((BoxTask *)(p))->work + (0x188)))=0x39e3;
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x18c)))=0;
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x190)))=func_02045EC0((*(void **)((char *)((BoxTask *)(p))->work + (0x80))),0x6f);
+    (*(unsigned short *)((char *)((BoxTask *)(p))->work + (0x194)))=0x39e3;
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x198)))=0;
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x19c)))=APP_TASKMENU_RES_Create(0,8,(u32)(*(void **)((char *)((BoxTask *)(p))->work + (0x78))),(u32)(*(void **)((char *)((BoxTask *)(p))->work + (0x8c))),0x4c);
 }
 
 /*
@@ -1636,7 +1602,7 @@ void BOX2_MAIN_OpenTaskMenu(BoxTask *p, int sel)
     t.y = 0x12;
     t.w = 8;
     t.h = 3;
-    if (func_020260F0(p->work->sound) == 1)
+    if (CURSOR_MOVE_GetState(p->work->sound) == 1)
         func_020355D8(0);
     else
         func_020355D8(1);
@@ -1701,8 +1667,8 @@ void BOX2_MAIN_UpdateWindowFrame(BoxTask *p, unsigned idx)
 
 void BOX2_MAIN_RefreshCursorBox(BoxTask *p)
 {
-    BOX2_UI_DeleteSlotObjects((BoxTask *)p, p->b1F, p->b20,
-                  p->b21);
+    BOX2_UI_DeleteSlotObjects((BoxTask *)p, p->slot6Mode, p->slot7Mode,
+                  p->slot8Mode);
     BOX2_UI_PutFadeFrame(p->work->winMgr);
 }
 
@@ -1725,7 +1691,7 @@ void BOX2_MAIN_StopSeq(BoxTask *p, int dir)
  */
 void BOX2_MAIN_SelectBox(BoxTask *p, int a)
 {
-    p->b19 = BOX2_MAIN_WrapOffset((unsigned char *)p, (signed char)a);
+    p->prevBox = BOX2_MAIN_WrapOffset((unsigned char *)p, (signed char)a);
     BOX2_UI_HideSlotIcon((BoxTask *)p, a);
     BOX2_UI_SetMiniIconVisible((BoxTask *)p, 0, 0);
 }
@@ -1763,8 +1729,8 @@ int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b)
 void BOX2_MAIN_PlayCursorSound(BoxTask *p)
 {
     func_020355D8(0);
-    if (func_020260F0(p->work->sound) == 0)
-        func_020260F4(p->work->sound, 1);
+    if (CURSOR_MOVE_GetState(p->work->sound) == 0)
+        CURSOR_MOVE_SetState(p->work->sound, 1);
 }
 
 unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, unsigned short box, unsigned id, unsigned v)
@@ -2187,16 +2153,16 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *p, unsigned a, unsigned b)
     if (b >= 0x24) {
         int n = BOX2_MAIN_WrapSlot((unsigned char *)p, b - 0x24);
         if (n == p->curBox || func_020078C4((void *)p->params->boxSave, n) == 0x1E) {
-            RESULT(p) = 1;
+            (((BoxTask *)(p))->work->result) = 1;
             return 0;
         }
         if (a >= 0x1E) {
             if (BOX2_MAIN_HasOtherTradable((void ***)p, a - 0x1E) == 0) {
-                RESULT(p) = 3;
+                (((BoxTask *)(p))->work->result) = 3;
                 return 0;
             }
-            if (func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)p->params->party, a - 0x1E), 6, 0)) == 1) {
-                RESULT(p) = 2;
+            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)p->params->party, a - 0x1E), 6, 0)) == 1) {
+                (((BoxTask *)(p))->work->result) = 2;
                 return 0;
             }
         }
@@ -2206,15 +2172,15 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *p, unsigned a, unsigned b)
     }
     if (p->params->mode == 4) {
         if (p->params->linkMode == 1) {
-            RESULT(p) = 5;
+            (((BoxTask *)(p))->work->result) = 5;
             return 0;
         }
         if (a < 0x1E && b >= 0x1E && b < 0x24 && BOX2_MAIN_GetPartyValueAt((void ***)p, a, p->heldSlot, 0x4C, 0) != 0) {
-            RESULT(p) = 4;
+            (((BoxTask *)(p))->work->result) = 4;
             return 0;
         }
         if (a >= 0x1E && a < 0x24 && b < 0x1E && m != 0 && BOX2_MAIN_GetPartyValueAt((void ***)p, b, p->curBox, 0x4C, 0) != 0) {
-            RESULT(p) = 4;
+            (((BoxTask *)(p))->work->result) = 4;
             return 0;
         }
     }
@@ -2222,29 +2188,29 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *p, unsigned a, unsigned b)
         if (BOX2_MAIN_HasOtherTradable((void ***)p, a - 0x1E) == 0) {
             if (m == 0) {
                 if ((b < 0x1E || b >= 0x24) && p->params->mode != 4) {
-                    RESULT(p) = 3;
+                    (((BoxTask *)(p))->work->result) = 3;
                     return 0;
                 }
             } else if (BOX2_MAIN_GetPartyValueAt((void ***)p, b, p->curBox, 0x4C, 0) != 0 && b < 0x1E && p->params->mode != 4) {
-                RESULT(p) = 3;
+                (((BoxTask *)(p))->work->result) = 3;
                 return 0;
             }
         }
-        if (b < 0x1E && func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)p->params->party, a - 0x1E), 6, 0)) == 1) {
-            RESULT(p) = 2;
+        if (b < 0x1E && FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)p->params->party, a - 0x1E), 6, 0)) == 1) {
+            (((BoxTask *)(p))->work->result) = 2;
             return 0;
         }
     } else if (b >= 0x1E && m != 0) {
-        if (func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)p->params->party, b - 0x1E), 6, 0)) == 1) {
-            RESULT(p) = 2;
+        if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)p->params->party, b - 0x1E), 6, 0)) == 1) {
+            (((BoxTask *)(p))->work->result) = 2;
             return 0;
         }
         if (BOX2_MAIN_GetPartyValueAt((void ***)p, a, p->heldSlot, 0x4C, 0) != 0 && BOX2_MAIN_HasOtherTradable((void ***)p, b - 0x1E) == 0 && p->params->mode != 4) {
-            RESULT(p) = 3;
+            (((BoxTask *)(p))->work->result) = 3;
             return 0;
         }
     }
-    RESULT(p) = 0;
+    (((BoxTask *)(p))->work->result) = 0;
     return 1;
 }
 
@@ -2258,7 +2224,7 @@ int BOX2_MAIN_ComparePartyValue(unsigned char *p,unsigned a,unsigned b)
         return result;
     if (!BOX2_MAIN_HasOtherTradable((void ***)p,a-30))
         return result;
-    if (func_0202136C((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)p)[2],a-30),6,0)) != 1)
+    if (FILE_UTIL_Check136C((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)p)[2],a-30),6,0)) != 1)
         result = 1;
     return result;
 }
@@ -2269,9 +2235,9 @@ int BOX2_MAIN_CompareSlots(unsigned char *p, unsigned a, unsigned b)
         return 0;
     if (BOX2_MAIN_GetPartyValueAt((void ***)p, b, p[0x14], 0x4C, 0) != 0)
         return 0;
-    if (func_0202136C(BOX2_MAIN_GetPartyValueAt((void ***)p, a, p[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_Check136C(BOX2_MAIN_GetPartyValueAt((void ***)p, a, p[0x14], 6, 0)) == 1)
         return 0;
-    if (func_0202136C(BOX2_MAIN_GetPartyValueAt((void ***)p, b, p[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_Check136C(BOX2_MAIN_GetPartyValueAt((void ***)p, b, p[0x14], 6, 0)) == 1)
         return 0;
     return 1;
 }
@@ -2809,7 +2775,7 @@ void BOX2_MAIN_ClearFlagsScene(BoxTask *p, int mode)
         BOX2_SEQ_GetActorSurfacePos(p->work, 1, &to[1], &to[0], 0);
     o->idx = 0xFF;
     o->slot = 0xFF;
-    FLAGS(o) &= 3;
+    (*(unsigned *)((char *)(o) + 0x18)) &= 3;
     o->mode = mode;
     {
         int tx = to[1];
@@ -2827,10 +2793,10 @@ void BOX2_MAIN_ClearFlagsScene(BoxTask *p, int mode)
         ty = to[0];
         py = pos[0];
         if (py > ty) {
-            FLAGS(o) |= 2;
+            (*(unsigned *)((char *)(o) + 0x18)) |= 2;
             d = py - ty;
         } else {
-            FLAGS(o) &= ~2;
+            (*(unsigned *)((char *)(o) + 0x18)) &= ~2;
             d = ty - py;
         }
         o->vy = (d << 8) / 8;
@@ -3120,7 +3086,7 @@ void BOX2_MAIN_SetupSummary(BoxTask *p, int a)
     BOX2_SEQ_DeleteTextEntries((BoxTask *)p, a);
     BOX2_MAIN_SetBodySlots((char *)p, ((struct Obj18457 *)a)->f10);
     BOX2_MAIN_SetupSummaryActors(p->work, (Summary *)a);
-    func_02041EE4(5, 3, 0);
+    BG_SYS_ResetSlot(5, 3, 0);
 }
 
 int BOX2_MAIN_ChangeBoxForm(char *p, int a, unsigned b)
@@ -3188,7 +3154,7 @@ void BOX2_MAIN_ResetBoxView(BoxTask *p)
     BOX2_SEQ_SetActorDrawEnable((BoxWork *)p->work, 0x19, 0);
     BOX2_SEQ_SetActorDrawEnable((BoxWork *)p->work, 0x1A, 0);
     BOX2_SEQ_SetActorDrawEnable((BoxWork *)p->work, 0x1B, 0);
-    func_02041EE4(5, 3, 0xC0);
+    BG_SYS_ResetSlot(5, 3, 0xC0);
 }
 
 /*
@@ -3295,7 +3261,7 @@ int BOX2_MAIN_HitPartyGrid(BoxTask *p, short x, short y)
     unsigned w;
     if (v == 0xff)
         return v;
-    w = v - 0x24 + p->b19;
+    w = v - 0x24 + p->prevBox;
     if (w >= p->boxLimit)
         w -= p->boxLimit;
     if (w == p->curBox)
@@ -3342,7 +3308,7 @@ int BOX2_MAIN_PushPartyScene(BoxTask *p)
 int BOX2_MAIN_PushPartySceneB(BoxTask *p)
 {
     int q = ((struct Obj04901 *)p)->fC;
-    if (p->b18 == 0) {
+    if (p->handMode == 0) {
         if (p->cursorSlot < 0x1e)
             p->cursorSlot = ((struct Obj12155 *)q)->fF;
         else
@@ -3380,7 +3346,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *p)
 {
     int value;
     Request_021DF378 *r;
-    value = (int)func_0200C0F0(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
+    value = (int)BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
     r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
     func_0200785C((*(void ***)p)[1], p->curBox, r->text);
@@ -3404,7 +3370,7 @@ void BOX2_MAIN_MoveCursorActor(BoxTask *p, int x, int y)
 
 int BOX2_MAIN_StateMachinePick(BoxTask *p)
 {
-    Blk *b = (Blk *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     int busy = BOX2_UI_UpdateBarMove((BoxTask *)p);
     unsigned r = BOX2_UI_UpdateListPacks(p->work->winMgr);
     unsigned x;
@@ -3463,7 +3429,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *p)
                 BOX2_UI_ToggleSlotPair((BoxWork *)p->work, 1);
                 BOX2_UI_MoveCursor((char **)p, 6, p->cursorSlot);
                 if ((*(int **)p)[9] == 4)
-                    func_02026124(p->work->sound, 0x27);
+                    CURSOR_MOVE_ClearSkipBit(p->work->sound, 0x27);
                 BOX2_UI_DeleteSlotObjects((BoxTask *)p, 2, 1, 2);
                 p->work->heldSlot = p->cursorSlot;
                 p->work->waitFrames = 0x17;
@@ -3605,13 +3571,13 @@ int BOX2_MAIN_StateMachinePick(BoxTask *p)
             BOX2_MAIN_MoveCursorActor((BoxTask *)p, x, y);
         break;
     case 16:
-        BOX2_MAIN_SetMoverEntry((BoxTask *)p, (BoxMover *)b->moves);
+        BOX2_MAIN_SetMoverEntry((BoxTask *)p, (BoxMover *)b->entry);
         if (BOX2_UI_IsTopBarClosed(p->work->winMgr) == 1) {
             BOX2_SEQ_MoveCursorToSlot(p->work, p->cursorSlot);
             BOX2_SEQ_SetSlotDim((char **)p, 1);
         } else {
             BOX2_SEQ_SetSlotDim((char **)p, 0);
-            func_020260E4(p->work->sound, p->cursorSlot);
+            CURSOR_MOVE_SetCurrent(p->work->sound, p->cursorSlot);
             BOX2_UI_SetCursorPos((char **)p, p->cursorSlot);
             BOX2_SEQ_SetCursorDraw((char **)p, 1);
         }
@@ -3639,7 +3605,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *p)
 
 int BOX2_MAIN_StateMachineScroll(BoxTask *p)
 {
-    Blk *b = (Blk *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     int busy = 0;
     unsigned r;
     unsigned x;
@@ -3706,7 +3672,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *p)
             b->timer--;
         if (busy == 0 && r == 0 && BOX2_UI_IsInfoBarOpen(p->work->winMgr) == 0 && BOX2_UI_IsTopBarOpen(p->work->winMgr) == 0) {
             if (p->cursorSlot != BOX2_UI_GetPartySlotPoint(x, y)) {
-                p->b19 = p->curBox;
+                p->prevBox = p->curBox;
                 BOX2_MAIN_RefreshBoxUi(p);
                 GFL_USE_PlaySeDefaultVolume(0x669);
                 BOX2_UI_MoveCursor((char **)p, 4, p->cursorSlot);
@@ -3876,13 +3842,13 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *p)
         }
         break;
     case 16:
-        BOX2_MAIN_SetMoverEntry((BoxTask *)p, (BoxMover *)b->moves);
+        BOX2_MAIN_SetMoverEntry((BoxTask *)p, (BoxMover *)b->entry);
         if (BOX2_UI_IsInfoBarOpen(p->work->winMgr) == 0 && BOX2_UI_IsTopBarOpen(p->work->winMgr) == 0) {
             BOX2_SEQ_MoveCursorToSlot(p->work, p->cursorSlot);
             BOX2_SEQ_SetSlotDim((char **)p, 1);
         } else {
             BOX2_SEQ_SetSlotDim((char **)p, 0);
-            func_020260E4(p->work->sound, p->cursorSlot);
+            CURSOR_MOVE_SetCurrent(p->work->sound, p->cursorSlot);
             BOX2_UI_SetCursorPos((char **)p, p->cursorSlot);
             BOX2_SEQ_SetCursorDraw((char **)p, 1);
         }
@@ -3945,7 +3911,7 @@ int BOX2_MAIN_IsSeqIdle(BoxTask *p)
         p->work->seq.timer = 0;
         return 0;
     }
-    func_02041EE4(3, 2, 8);
+    BG_SYS_ResetSlot(3, 2, 8);
     BOX2_SEQ_ShiftSlotIcons((char **)p, 8);
     BOX2_UI_ShiftSlotOams((BoxWork *)p->work, 8);
     BOX2_UI_UpdateListPacks(p->work->winMgr);
@@ -3962,7 +3928,7 @@ int BOX2_MAIN_IsSeqStep(BoxTask *p)
         p->work->seq.timer = 0;
         return 0;
     }
-    func_02041EE4(3, 1, 8);
+    BG_SYS_ResetSlot(3, 1, 8);
     BOX2_SEQ_ShiftSlotIcons((char **)p, -8);
     BOX2_UI_ShiftSlotOams((BoxWork *)p->work, -8);
     BOX2_UI_UpdateListPacks(p->work->winMgr);
@@ -4017,7 +3983,7 @@ int BOX2_MAIN_ShiftWindowLeft(BoxTask *p)
 
 int BOX2_MAIN_StateMachineMove(BoxTask *p)
 {
-    Blk *b = (Blk *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     unsigned r = BOX2_UI_UpdateListPacks(p->work->winMgr);
     int busy = BOX2_UI_UpdateBarMove((BoxTask *)p);
     unsigned x;
@@ -4100,7 +4066,7 @@ int BOX2_MAIN_StateMachineMove(BoxTask *p)
         break;
     case 5:
         if (busy == 0 && r == 0) {
-            BOX2_MAIN_SetMoverEntry((BoxTask *)p, b->moves);
+            BOX2_MAIN_SetMoverEntry((BoxTask *)p, b->entry);
             BOX2_SEQ_MoveCursorToSlot(p->work, p->cursorSlot);
             BOX2_SEQ_SetSlotDim((char **)p, 1);
             b->state = 8;
@@ -4108,7 +4074,7 @@ int BOX2_MAIN_StateMachineMove(BoxTask *p)
         break;
     case 6:
         if (BOX2_MAIN_WaitBoxScroll((BoxTask *)p) == 0) {
-            BOX2_MAIN_SetMoverEntry((BoxTask *)p, b->moves);
+            BOX2_MAIN_SetMoverEntry((BoxTask *)p, b->entry);
             BOX2_MAIN_ResetBoxView(p);
             GFL_USE_PlaySeDefaultVolume(0x667);
             GFL_USE_PlaySeDefaultVolume(0x669);
@@ -4130,29 +4096,12 @@ int BOX2_MAIN_StateMachineMove(BoxTask *p)
     }
     return 1;
 }
-
-
-typedef struct {
-    unsigned char pad[8];
-    void *entry;
-    unsigned short state;
-    unsigned short timer;
-} Blk_021E0470;
-
 typedef struct {
     unsigned char x, y, dx, dy;
     unsigned directionX:1;
     unsigned directionY:1;
     unsigned count:30;
 } BoxScrollMotion;
-
-typedef struct {
-    unsigned char pad[8];
-    void *moves;
-    unsigned short state;
-    unsigned short timer;
-} Blk_021E087C;
-
 extern void BOX2_SEQ_RefreshHandSlot(BoxTask *p);
 
 void BOX2_SEQ_SetCursorFrame(BoxTask *p, int b);
@@ -4177,7 +4126,7 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *p);
  */
 int BOX2_MAIN_StateMachinePen(BoxTask *p)
 {
-    Blk_021E0470 *b = (Blk_021E0470 *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     int busy = BOX2_UI_UpdateListPacks(p->work->winMgr);
     int wait = BOX2_UI_UpdateBarMove((BoxTask *)p);
     unsigned x;
@@ -4356,7 +4305,7 @@ int BOX2_MAIN_SceneWaitCursor(BoxTask *p)
  */
 int BOX2_MAIN_SceneOpenBox(BoxTask *p)
 {
-    Blk_021E087C *b = (Blk_021E087C *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     int r;
 
     switch (b->state) {
@@ -4398,7 +4347,7 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *p)
         break;
     case 4:
         if (BOX2_MAIN_WaitCursorMove((BoxTask *)p) == 0) {
-            BOX2_MAIN_SetMoverEntry((BoxTask *)p, b->moves);
+            BOX2_MAIN_SetMoverEntry((BoxTask *)p, b->entry);
             BOX2_SEQ_SetCursorFrame((BoxTask *)p, 6);
             BOX2_SEQ_SetSlotDim((char **)p, 0);
             GFL_USE_PlaySeDefaultVolume(0x667);
@@ -4427,24 +4376,6 @@ typedef struct {
     unsigned short slot;
 } BoxSlotRef;
 
-typedef struct {
-    unsigned char pad[0xC];
-    unsigned short state;
-    unsigned short timer;
-} Blk_021E0ABC;
-
-typedef struct {
-    unsigned char pad[0xC];
-    unsigned short state;
-    unsigned short timer;
-} Blk_021E0FD8;
-
-typedef struct {
-    unsigned char pad[8];
-    BoxSlotRef *entry;
-    unsigned short state;
-} Blk_021E122C;
-
 
 int BOX2_MAIN_Check09E0(BoxTask *p);
 
@@ -4472,7 +4403,6 @@ void BOX2_SEQ_SetActorAffineMode(BoxWork *p, int on);
 
 void BOX2_SEQ_ShowHandSlots(BoxWork *p);
 
-#define CNT(p) (((BoxTask *)p)->work->counter)
 
 
 int BOX2_MAIN_Check09E0(BoxTask *p)
@@ -4536,15 +4466,15 @@ int BOX2_MAIN_Check0A40(BoxTask *p)
  */
 int BOX2_MAIN_StateMachineCoin(BoxTask *p)
 {
-    Blk_021E0ABC *b = (Blk_021E0ABC *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     int busy = BOX2_UI_UpdateListPacks(p->work->winMgr);
     int wait = BOX2_UI_UpdateBarMove((BoxTask *)p);
     unsigned x;
     unsigned y;
     switch (b->state) {
     case 0:
-        BOX2_SEQ_SetActorAnim((BoxTask *)p, (short)CNT(p));
-        if (CNT(p) != 0) {
+        BOX2_SEQ_SetActorAnim((BoxTask *)p, (short)(((BoxTask *)(p))->work->counter));
+        if ((((BoxTask *)(p))->work->counter) != 0) {
             BOX2_SEQ_SetActorAffineMode((BoxWork *)p->work, 1);
             BOX2_SEQ_SetActorAnimSeq((BoxWork *)p->work, 10, 1);
             BOX2_SEQ_SetActorDrawEnable((BoxWork *)p->work, 10, 1);
@@ -4613,10 +4543,10 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *p)
             BOX2_SEQ_SetSlotActors((char *)p, 0x82, 1);
             GFL_USE_PlaySeDefaultVolume(0x669);
             BOX2_UI_MoveCursor((char **)p, 6, p->cursorSlot);
-            func_02026124(p->work->sound, 0x27);
-            func_02026124(p->work->sound, 0x28);
+            CURSOR_MOVE_ClearSkipBit(p->work->sound, 0x27);
+            CURSOR_MOVE_ClearSkipBit(p->work->sound, 0x28);
             BOX2_UI_DeleteSlotObjects((BoxTask *)p, 2, 1, 1);
-            p->b1E = 0;
+            p->barFlag = 0;
             p->work->cancelFlag = 0;
             p->work->heldSlot = p->cursorSlot;
             p->work->waitFrames = 0x42;
@@ -4668,7 +4598,7 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *p)
     case 8:
         if (BOX2_MAIN_IsSwapScene((int)p) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
-            if (CNT(p) != 0) {
+            if ((((BoxTask *)(p))->work->counter) != 0) {
                 BOX2_SEQ_SetActorAffineMode((BoxWork *)p->work, 0);
                 BOX2_SEQ_ShowHandSlots((BoxWork *)p->work);
             }
@@ -4790,7 +4720,7 @@ void BOX2_MAIN_MoveCursorTo(BoxWork *w, int x, int y)
  */
 int BOX2_MAIN_StateMachineSlide(BoxTask *p)
 {
-    Blk_021E0FD8 *b = (Blk_021E0FD8 *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     unsigned x;
     unsigned y;
     switch (b->state) {
@@ -4910,7 +4840,7 @@ int BOX2_MAIN_StateMachineSlide(BoxTask *p)
  */
 int BOX2_MAIN_Check122C(BoxTask *p)
 {
-    Blk_021E122C *b = (Blk_021E122C *)((char *)p->work + 0x58);
+    BoxSeq *b = (BoxSeq *)((char *)p->work + 0x58);
     switch (b->state) {
     case 0:
         BOX2_SEQ_SetActorAffineMode((BoxWork *)p->work, 1);
@@ -4926,7 +4856,7 @@ int BOX2_MAIN_Check122C(BoxTask *p)
         break;
     case 2: {
         unsigned char old = p->cursorSlot;
-        p->cursorSlot = b->entry->idx;
+        p->cursorSlot = ((BoxSlotRef *)b->entry)->idx;
         if (p->heldSlot != 0xFF && p->heldSlot != p->curBox)
             BOX2_MAIN_ClearFlagsScene((BoxTask *)p, 2);
         else

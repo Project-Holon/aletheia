@@ -1,5 +1,5 @@
 /*
- * function: func_021D4480
+ * function: POKETRADE_DEMO_COMMON_PassThrough
  * address:  0x021D4480
  * packet:   pkt_ov117_021D4480
  * region:   ov117
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D4480(void) { }
+void POKETRADE_DEMO_COMMON_PassThrough(void) { }

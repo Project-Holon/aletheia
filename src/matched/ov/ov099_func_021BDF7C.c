@@ -24,9 +24,9 @@
  *   WIFICLUB_DeleteAllWindows 0x021BB0B4 thumb ov099
  *   WIFICLUB_ExitHook 0x021BE538 thumb ov099
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
@@ -50,9 +50,9 @@ extern void CLACT_ExitSystem(void);
 extern void WIFICLUB_DeleteAllWindows(char *p);
 extern void WIFICLUB_ExitHook(char *p);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void CLACT_VBlankSystem(void);
@@ -71,10 +71,10 @@ void WIFICLUB_ExitScreen(char *p)
     WIFICLUB_DeleteAllWindows(p);
     WIFICLUB_ExitHook(p);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MSGDATA_Delete(((struct Obj00008 *)p)->fE4);
     MSGDATA_Delete(((struct Obj00008 *)p)->fE0);
-    func_0201ED04(((struct Obj00008 *)p)->fDC);
+    WORDSET_DeleteStrbufED04(((struct Obj00008 *)p)->fDC);
     GF_FONT_Delete(((struct Obj00008 *)p)->fEC);
     GF_FONT_Delete(((struct Obj00008 *)p)->fE8);
 }

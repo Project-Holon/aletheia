@@ -10,9 +10,9 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_0208B24C 0x0208B24C arm
- *   func_0208B8B0 0x0208B8B0 arm
- *   func_0208BEF0 0x0208BEF0 arm
- *   func_0208BF54 0x0208BF54 arm
+ *   PM_Init 0x0208B8B0 arm
+ *   PM_SetAmp 0x0208BEF0 arm
+ *   PM_SetAmpGainLevel 0x0208BF54 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021BA014 0x021BA014 arm ov172
  *   CTVT_MIC_InitChannel 0x021BA1B4 thumb ov172
@@ -28,9 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_0208B24C(void);
-extern void func_0208B8B0(void);
-extern u32 func_0208BEF0(u32);
-extern u32 func_0208BF54(u8);
+extern void PM_Init(void);
+extern u32 PM_SetAmp(u32);
+extern u32 PM_SetAmpGainLevel(u8);
 extern int OS_IsRunOnTwl(void);
 extern void func_021BA014(int, void *);
 extern void CTVT_MIC_InitChannel(char *, u32);
@@ -43,9 +43,9 @@ void *CTVT_MIC_Create(u32 heap)
 {
     u32 *p = func_02030734(heap, 36, 1, gCtvtMicAllocSite, 87);
     func_0208B24C();
-    func_0208B8B0();
-    func_0208BEF0(1);
-    func_0208BF54(80);
+    PM_Init();
+    PM_SetAmp(1);
+    PM_SetAmpGainLevel(80);
     if (OS_IsRunOnTwl() == 1) func_021BA014(0, (void *)gCtvtMicIirFilter);
     CTVT_MIC_InitChannel((char *)p, heap);
     p[1] = (u32)GFL_NET_AllocAligned(heap, 51200, gCtvtMicAllocSite, 134);

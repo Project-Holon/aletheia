@@ -14,7 +14,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   SWEET_SCENT_EventMain  0x021C60B8  thumb  ov021
  */
 #include "../include/Obj06082.h"
@@ -30,7 +30,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void SWEET_SCENT_EventMain(void);
 
 void *SWEET_SCENT_CreateEvent(void *a, void *b, u8 c)
@@ -45,6 +45,6 @@ void *SWEET_SCENT_CreateEvent(void *a, void *b, u8 c)
     ((struct Obj06082 *)w)->f4 = a;
     ((struct Obj06082 *)w)->fC = b;
     ((struct Obj06082 *)w)->f10 = FIELDMAP_GetFieldPlayer(b);
-    ((struct Obj06082 *)w)->f8 = func_020120F4(a);
+    ((struct Obj06082 *)w)->f8 = ICA_ANIME_GetField1C(a);
     return task;
 }

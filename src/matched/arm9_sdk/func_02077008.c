@@ -1,5 +1,5 @@
 /*
- * function: func_02077008
+ * function: CARDi_ReadRomWithDMA
  * address:  0x02077008
  * packet:   pkt_02077008
  * region:   arm9
@@ -101,7 +101,7 @@ extern u32 OS_EnableIrqMask(u32 intr);
 extern void CARDi_StartRomPageTransfer(u32 offset);
 extern void CARDi_DmaReadPageCallback(void);
 
-void func_02077008(CARDTransferInfo *info)
+void CARDi_ReadRomWithDMA(CARDTransferInfo *info)
 {
     u32 bak_psr = OS_DisableInterrupts();
 

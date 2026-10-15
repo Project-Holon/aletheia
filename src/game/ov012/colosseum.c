@@ -24,7 +24,7 @@
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   func_02034714  0x02034714  arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -46,7 +46,7 @@
  *   gColosseumAssertText2 0x0217563C data a4
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   COMM_PLAYER_Create  0x02167518  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb
  *   gColosseumAllocFile   0x02175630  data  ov012
  *   COMM_PLAYER_Delete  0x0216754C  thumb  ov010
@@ -155,7 +155,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
 
-extern struct Party *func_02012934(const struct GameData *gameData);
+extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
 
 extern void MYSTATUS_Copy(const struct MyStatus *src, void *dst);
 
@@ -167,7 +167,7 @@ extern void COMM_PLAYER_Delete(void *gameSystem, void *commPlayer);
 
 void COLOSSEUM_SetupBattleMember(ColosseumWork *colosseum, ColosseumBattleMember *member, u8 playerIndex, int heapId);
 
-extern void *func_020120F4(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 
 extern void *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
 
@@ -465,7 +465,7 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     }
     work->myChoice = COLOSSEUM_NO_CHOICE;
     work->myChoiceReply = COLOSSEUM_NO_CHOICE;
-    POKEPARTY_Copy(func_02012934(gameData), work->party[selfNetId]);
+    POKEPARTY_Copy(GAME_DATA_GetMyParty(gameData), work->party[selfNetId]);
     self = &work->player[selfNetId];
     MYSTATUS_Copy(myStatus, self);
     OS_GetMacAddress(self->statusExtra);
@@ -684,7 +684,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         }
         COLOSSEUM_SetupBattleMember(work, &out->member[slot], (u8)i, heapId);
     }
-    out->trainerRecord = GAME_DATA_GetTrainerRecord(func_020120F4(gameSystem));
+    out->trainerRecord = GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(gameSystem));
 }
 
 /*

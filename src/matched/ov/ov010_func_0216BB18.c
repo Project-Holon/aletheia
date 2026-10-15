@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200C32C  0x0200C32C  thumb
- *   func_0200C37C  0x0200C37C  thumb
- *   func_0203F524  0x0203F524  arm
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   BEACON_GetEntryCount  0x0200C32C  thumb
+ *   BEACON_GetLastTime  0x0200C37C  thumb
+ *   GF_STANDARD_SetupRtc  0x0203F524  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  */
 
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 struct Blk34;
-extern u8 func_0200C32C(struct Blk34 *p);
-extern unsigned long long func_0200C37C(struct Blk34 *p);
-extern u64 func_0203F524();
+extern u8 BEACON_GetEntryCount(struct Blk34 *p);
+extern unsigned long long BEACON_GetLastTime(struct Blk34 *p);
+extern u64 GF_STANDARD_SetupRtc();
 struct RTCDate;
 struct RTCTime;
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
@@ -37,12 +37,12 @@ int SCRCMD_RESEARCH_GetMissionElapsedHours(void *sys)
     void *r4;
     u64 t;
 
-    r4 = func_0200C0F0(sys);
-    if (func_0200C32C(r4) == 0) {
+    r4 = BEACON_GetBlock(sys);
+    if (BEACON_GetEntryCount(r4) == 0) {
         return 0;
     }
-    t = func_0200C37C(r4);
-    RTC_ConvertSecondToDateTime((struct RTCDate *)(a + 3), (struct RTCTime *)a, func_0203F524() - t);
+    t = BEACON_GetLastTime(r4);
+    RTC_ConvertSecondToDateTime((struct RTCDate *)(a + 3), (struct RTCTime *)a, GF_STANDARD_SetupRtc() - t);
     if (a[3] != 0 || a[4] > 1 || a[5] > 1) {
         return 24;
     }

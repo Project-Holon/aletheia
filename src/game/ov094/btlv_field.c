@@ -21,7 +21,7 @@
  *   G3D_SYSTEM_CreateAnime 0x02047564 arm
  *   G3D_SYSTEM_CreateObject 0x0204767C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   sub_020307B0 0x020307B0 arm
@@ -55,7 +55,7 @@ extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *, G3dAnime **, int);
 
 extern int G3D_SYSTEM_EnableObjectAnime(G3dObject *, u32 idx);
 
-extern void func_0207ADC4(int *rotate);
+extern void MTX_Identity33_(int *rotate);
 
 extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
@@ -142,7 +142,7 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->status.scale.x = 0x1000;
     field->status.scale.y = 0x1000;
     field->status.scale.z = 0x1000;
-    func_0207ADC4(field->status.rotate);
+    MTX_Identity33_(field->status.rotate);
     bytes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(field->resource))->plttInfo.sizePltt * 8;
     field->palFade.resources = sub_02030734(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
     field->palFade.palettes = sub_02030734(field->heap, 4, 0, gBtlvFieldFileName, 0xab);

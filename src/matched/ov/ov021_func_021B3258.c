@@ -15,7 +15,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   SCRCMD_PROC_FLD_AllocShopResources 0x021B3B14 thumb ov021
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C258 0x0200C258 thumb
+ *   BEACON_CountFlags 0x0200C258 thumb
  *   SCRCMD_PROC_FLD_BuildItemListByBadges 0x021B38E0 thumb ov021
  *   SCRCMD_PROC_FLD_BuildItemListFixed 0x021B39C4 thumb ov021
  *   SCRCMD_PROC_FLD_BuildItemListFromRange 0x021B3A64 thumb ov021
@@ -34,7 +34,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int SCRCMD_PROC_FLD_AllocShopResources(char *p, int a);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern int func_0200C258(void);
+extern int BEACON_CountFlags(void);
 extern void SCRCMD_PROC_FLD_BuildItemListByBadges(char *p, int a, int b, int c);
 extern void SCRCMD_PROC_FLD_BuildItemListFixed(u8 *, int);
 extern void SCRCMD_PROC_FLD_BuildItemListFromRange(char *p, int i);
@@ -57,7 +57,7 @@ void SCRCMD_PROC_FLD_InitShop(int ctx, u8 *a, int b, int c)
     switch (r) {
     case 255:
         GAME_DATA_GetMiscSave(t);
-        SCRCMD_PROC_FLD_BuildItemListByBadges((char *)a, r, c, func_0200C258());
+        SCRCMD_PROC_FLD_BuildItemListByBadges((char *)a, r, c, BEACON_CountFlags());
         break;
     case 254:
         SCRCMD_PROC_FLD_BuildItemListFixed(a, 0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217A044",
+   "name": "DWC_Http_Add_Body",
    "address": "0x0217A044",
    "kind": "sdk",
    "region": "ov009",

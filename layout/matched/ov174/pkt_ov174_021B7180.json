@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7180",
+   "name": "LOCAL_TVT_CHARA_LoadPalette",
    "address": "0x021B7180",
    "kind": "game",
    "region": "ov174",

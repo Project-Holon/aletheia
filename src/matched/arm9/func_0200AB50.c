@@ -1,5 +1,5 @@
 /*
- * function: func_0200AB50
+ * function: IRC_RANKING_InsertEntry
  * address:  0x0200AB50
  * packet:   pkt_0200AB50
  * region:   arm9
@@ -33,7 +33,7 @@ typedef struct {
 
 extern void *memcpy(void *dst, const void *src, u32 n);
 
-u8 func_0200AB50(Ent *list, s32 n, Ent *dst)
+u8 IRC_RANKING_InsertEntry(Ent *list, s32 n, Ent *dst)
 {
     s32 i;
     s32 best = -1;

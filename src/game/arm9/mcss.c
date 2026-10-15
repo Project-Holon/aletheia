@@ -59,7 +59,7 @@
  *   d_0209E09C       0x0209E09C  data
  *   G3i_FrustumW_    0x0207D760  arm
  *   MCSS_DeleteTextureTask  0x02016C0C  thumb
- *   func_02063000  0x02063000  arm
+ *   NNS_G2dSetCellAnimationParam  0x02063000  arm
  *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
  *   func_020627D8  0x020627D8  arm
  *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
@@ -489,7 +489,7 @@ extern u32 FX_Div(u32 value, u32 divisor);
 extern void G3i_FrustumW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
                           fx32 scaleW, int draw, void *mtx);
 extern void MCSS_DeleteTextureTask(void *taskHandle);
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
 extern void *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void NNS_G2dSetAnimSequenceToMCAnimation(McssAnimCtrl *ctrl, void *seq);
@@ -2105,7 +2105,7 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
 
 
 /*
- * A pure forwarder: tail-calls func_02063000 on a member 0x34 bytes into
+ * A pure forwarder: tail-calls NNS_G2dSetCellAnimationParam on a member 0x34 bytes into
  * the object, with a fixed 1 as the second argument.
  *
  * EXACT* because the 18 compiled bytes fall far short of the disasm.py
@@ -2119,7 +2119,7 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
  */
 int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg)
 {
-    func_02063000((int)&work->animCtrl, 1, callback, callbackWork);
+    NNS_G2dSetCellAnimationParam((int)&work->animCtrl, 1, callback, callbackWork);
 }
 
 

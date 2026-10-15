@@ -14,7 +14,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_022110D4 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201F250 0x0201F250 thumb
  */
 #include "../include/Obj04599.h"
@@ -35,7 +35,7 @@ extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_022110D4(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0220C42C(char *p, int i, int index)
 {
@@ -49,7 +49,7 @@ void func_0220C42C(char *p, int i, int index)
     else {
         t = (void *)STRBUF_Create(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
         format = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 15);
-        func_0201EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
+        WORDSET_Callback_EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
         func_0201F250(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
         STRBUF_Delete(format);
     }

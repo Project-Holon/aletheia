@@ -12,11 +12,55 @@ typedef struct BezierCurve {
     int count;
 } BezierCurve;
 
+/*
+ * Cross-overlay trade request. A caller overlay (ov117/ov118) allocates it and
+ * passes it to POKETRADE_PROC_StartRequestN. Overlay 119 keeps it at
+ * TradeWork::request and reads/writes its state while the request runs.
+ */
+struct TradeRequest {
+    unsigned char pad_0[8];
+    int state;                  /* 0x08: 0 idle, 1 cancel requested, 3 finished */
+    unsigned int evolveResult;  /* 0x0C: SHINKA_CHECK result */
+    unsigned int evolveOut;     /* 0x10: SHINKA_CHECK output */
+    void * gameData;            /* 0x14: GAME_DATA handle */
+    void * context;             /* 0x18: struct TradeContext */
+    void * party;               /* 0x1C: POKEPARTY handle */
+    unsigned char pad_20[4];
+    int httpParam;              /* 0x24: third argument of NHTTP_RAP_Create */
+    unsigned short box;         /* 0x28 */
+    unsigned short slot;        /* 0x2A */
+    unsigned char pad_2C[2];
+    unsigned short setupParam;  /* 0x2E: second argument of SetupGameData (unused) */
+    void * gameDataSource;      /* 0x30: gameData for the McssPokemon request types */
+    void * monA;                /* 0x34: first party mon data */
+    void * monB;                /* 0x38: second party mon data */
+    int trainerValue;           /* 0x3C: copied to TradeWork::f830 */
+    int playerStatus;           /* 0x40: copied to TradeWork::f834 */
+};
+
+/* Trade context pointed to by TradeRequest::context. */
+struct TradeContext {
+    unsigned char pad_0[432];
+    int entryCount;             /* 0x1B0 */
+};
+
+/* One embedded UI scene slot; a CLACT actor handle lives at 0x10. */
+struct UiScene {
+    unsigned char pad_0[16];
+    void * actor;               /* 0x10 */
+};
+
+/* Graphic load result written by func_02049DF4; the data pointer is at 0x14. */
+struct GfxLoadResult {
+    unsigned char pad_0[20];
+    void * data;                /* 0x14 */
+};
+
 /* Work area of the Pokemon trade scene (overlay 119). One object, fields by byte offset. */
 typedef struct TradeWork {
     void * f0;
     unsigned char pad_4[4];
-    char * f8;
+    struct TradeRequest * request;
     struct ParticleManager * particleManager;
     unsigned char pad_10[1452];
     int  f5BC;

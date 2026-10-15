@@ -16,7 +16,7 @@
  *   BTLV_CAMERA_SetEyeAndTarget  0x021F6EDC  thumb  ov094
  *   BTLV_CAMERA_StartMove  0x021F6F48  thumb  ov094
  *   BTLV_CAMERA_GetEyeAndUp  0x021F70F0  thumb  ov094
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -32,7 +32,7 @@ extern int BTLV_EFFECT_GetCamera(void);
 extern void BTLV_CAMERA_SetEyeAndTarget(int *p, int *a, int *b);
 extern void BTLV_CAMERA_StartMove(int cam, int *a, int *b, int n, int s, int t);
 extern void BTLV_CAMERA_GetEyeAndUp(void **p, void *b, int c);
-extern void func_0207C9D0(int *a, int *b, int *c);
+extern void VEC_Add(int *a, int *b, int *c);
 
 int BTLV_EFFVM_CmdMoveCameraTo(void *r, Ctx *c)
 {
@@ -65,8 +65,8 @@ int BTLV_EFFVM_CmdMoveCameraTo(void *r, Ctx *c)
         break;
     case 2:
         BTLV_CAMERA_GetEyeAndUp((void **)BTLV_EFFECT_GetCamera(), C, (int)D);
-        func_0207C9D0(C, A, A);
-        func_0207C9D0(D, B, B);
+        VEC_Add(C, A, A);
+        VEC_Add(D, B, B);
         BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), A, B, n, s, t);
         break;
     }

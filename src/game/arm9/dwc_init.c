@@ -1,7 +1,7 @@
 /*
  * file:     dwc_init.c
  * unit:     yes
- * function: func_02059F6C, func_02059FA8, func_0205A10C, func_0205A11C
+ * function: DWC_InitForProduction, DWCi_Init, DWCi_GetGamecode, func_0205A11C
  * address:  0x02059F6C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -76,9 +76,8 @@ extern void *DWCi_GsMalloc(u32 size);
 extern void  DWCi_GsFree(void *ptr);
 extern void *DWCi_GsRealloc(void *ptr, u32 size);
 extern void *DWCi_GsMemalign(u32 boundary, u32 size);
-int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
-int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
-void *func_0205A10C(void);
+int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
+void *DWCi_GetGamecode(void);
 void DWCi_Np_SetInitFlag(int initialized);
 extern char id_string_production[68];
 extern u32  dwci_gamecode;
@@ -91,7 +90,7 @@ extern void *s_data_02146AAC;
 /*
  * sdk:      DWC_InitForProduction (libdwccommon.TWL.HYB.a dwc_init.o)
  */
-int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
+int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
     OSi_ReferSymbol(id_string_production);
     return DWCi_Init(DWC_AUTHSERVER_PRODUCTION, gameName, gameCode, alloc, free);
@@ -104,7 +103,7 @@ int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeE
 /*
  * sdk:      DWCi_Init (dwc_init.o)
  */
-int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
+int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
     int ret;
     int result;
@@ -151,7 +150,7 @@ int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx
 
 
 
-void *func_0205A10C(void)
+void *DWCi_GetGamecode(void)
 {
     return s_data_02146AAC;
 }

@@ -23,7 +23,7 @@
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_GetScanResult  0x0203CF10  arm
- *   func_0205D01C  0x0205D01C  arm
+ *   DWC_ParseWMBssDesc  0x0205D01C  arm
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb  ov014
  *   WIH_DWC_FindSlotByKey   0x020107FC  thumb
  *   WIH_DWC_IsSsidInFilterList   0x020104F8  thumb
@@ -38,7 +38,7 @@
  * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
  * 0x40..0x200 from those countdowns.
  *
- * Two declaration facts close it: func_0205D01C's third argument is a
+ * Two declaration facts close it: DWC_ParseWMBssDesc's third argument is a
  * 0x40-byte out record whose first word is the switch key (the frame is
  * sub sp,#0x60 plus the r3 pad; an `int *` gives sub sp,#0x24), and the
  * switch has explicit empty arms for 7 and 9 so the 13-entry halfword table
@@ -67,7 +67,7 @@ struct WihInfo {
     u8  rest[0x3C];    /* +0x04 */
 };
 
-extern int  func_0205D01C(u32 buf, u8 *rec, struct WihInfo *out);
+extern int  DWC_ParseWMBssDesc(u32 buf, u8 *rec, struct WihInfo *out);
 extern int  WIH_DWC_FindSlotByKey(void *key);
 extern int  WIH_DWC_IsSsidInFilterList(u8 *rec);
 extern int WIH_DWC_IsOpenTaggedBeacon(const u8 *obj);
@@ -108,7 +108,7 @@ u32 WIH_DWC_PollStatus(void *key)
             *(int *)((*(u8 * *)&gWihDwc) + 0x318) = 600;
         } else if (WIH_DWC_IsOpenTaggedBeacon(rec)) {
             *(int *)((*(u8 * *)&gWihDwc) + 0x31C) = 600;
-        } else if (func_0205D01C(*(u32 *)((*(u8 * *)&gWihDwc) + 0x300), rec, &info)) {
+        } else if (DWC_ParseWMBssDesc(*(u32 *)((*(u8 * *)&gWihDwc) + 0x300), rec, &info)) {
             switch (info.kind) {
             case 0: case 1: case 2: case 3:
             case 10: case 11: case 12:

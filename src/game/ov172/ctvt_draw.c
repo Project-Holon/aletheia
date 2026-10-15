@@ -15,12 +15,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
- *   func_0207E008  0x0207E008  arm
+ *   G2_GetBG2ScrPtr  0x0207E008  arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
  *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
- *   func_0207E100 0x0207E100 arm
+ *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
  *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
@@ -46,7 +46,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   COMM_TVT_SYS_GetReturnedFromChild 0x021BE02C thumb ov172
  *   COMM_TVT_SYS_SetMessageActive 0x021BE0B0 thumb ov172
  *   COMM_TVT_SYS_GetPrintQue 0x021BE044 thumb ov172
@@ -78,10 +78,10 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
  *   CTVT_CAMVIEW_SetCameraEffect  0x021B7B3C  thumb  ov172
- *   func_021B8084  0x021B8084  thumb  ov172
- *   func_021B8740  0x021B8740  thumb  ov172
- *   func_021B8B34  0x021B8B34  thumb  ov172
- *   func_021B8B48  0x021B8B48  thumb  ov172
+ *   CTVT_COMM_StopSession  0x021B8084  thumb  ov172
+ *   CTVT_COMM_SendCommand  0x021B8740  thumb  ov172
+ *   CTVT_COMM_SetTimingSync  0x021B8B34  thumb  ov172
+ *   CTVT_COMM_IsTimingSync  0x021B8B48  thumb  ov172
  *   FX_SinCosTable_     0x020A1B38  data a2
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
@@ -97,16 +97,16 @@
  *   gCtvtDrawPenCursorPos     0x021C7038  data
  *   gCtvtDrawStampCursorPos     0x021C703C  data
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_021B8BB8  0x021B8BB8  thumb  ov172
- *   func_021B8BFC  0x021B8BFC  thumb  ov172
- *   func_02041EE4 0x02041EE4 arm
+ *   CTVT_COMM_PopStroke  0x021B8BB8  thumb  ov172
+ *   CTVT_COMM_AdvanceWriteCursor  0x021B8BFC  thumb  ov172
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   gCtvtDrawPenButtonAnimSeq     0x021C6FB2  data
  *   gCtvtDrawPickButtonAnimSeq     0x021C6FB4  data
  *   gCtvtDrawEraserButtonAnimSeq     0x021C6FB6  data
  *   gCtvtDrawStampButtonAnimSeq     0x021C6FB8  data
- *   func_021B80E4  0x021B80E4  thumb  ov172
+ *   CTVT_COMM_GetNetMode  0x021B80E4  thumb  ov172
  *   func_02041B6C  0x02041B6C  arm
  *   func_02040588  0x02040588  arm
  *   func_020490F4 0x020490F4 arm
@@ -121,8 +121,8 @@
 /* ARM9 library. */
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_020307B0(void *p);
-extern void *func_0207E008(void);
-extern u32 func_0207E100(void);
+extern void *G2_GetBG2ScrPtr(void);
+extern u32 G2_GetBG3ScrPtr(void);
 extern s32 func_02061CA4(u32 dmaNo, u32 dest, u16 *src, s32 size);
 extern void func_020498F4(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_020409B4(u32 layer);
@@ -130,12 +130,12 @@ extern void func_02040588(u32 which, u8 enable);
 extern u32 func_020275E4(void);
 extern u32 func_0202762C(void);
 extern struct ArcHandle *func_020490F4(u32 id, u32 heapId);
-extern void func_020414EC(u32 a);
+extern void BG_SYS_ClearSlot(u32 a);
 extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
-extern void func_02041EE4(u32 a, u32 b, u32 c);
+extern void BG_SYS_ResetSlot(u32 a, u32 b, u32 c);
 extern void func_02041B6C(u32 layer);
 extern void func_0201F73C(struct BmpWin *win, int a1, int a2, int a3);
 extern void func_0201F7A8(struct BmpWin *win, u32 kind);
@@ -188,13 +188,13 @@ extern void CTVT_CAMVIEW_RequestShutterSound1(CtvtWork *work, CtvtCamView *view)
 extern void CTVT_CAMVIEW_StopCapture(CtvtWork *work, CtvtCamView *view);
 extern int CTVT_CAMVIEW_IsShutterIdle(CtvtWork *work, CtvtCamView *view);
 extern u32 CTVT_CAMVIEW_IsLayoutChanging(CtvtWork *work, CtvtCamView *view);
-extern u32 func_021B80E4(CtvtWork *work, struct CtvtComm *comm);
-extern void func_021B8084(CtvtWork *work, struct CtvtComm *comm);
-extern u32 func_021B8740(CtvtWork *work, struct CtvtComm *comm, u8 a, u32 b);
-extern void func_021B8B34(CtvtWork *work, struct CtvtComm *comm, u32 id);
-extern int func_021B8B48(CtvtWork *work, struct CtvtComm *comm, u32 id);
-extern CtvtStroke *func_021B8BB8(CtvtWork *work, struct CtvtComm *comm, int *full);
-extern void func_021B8BFC(CtvtWork *work, struct CtvtComm *comm);
+extern u32 CTVT_COMM_GetNetMode(CtvtWork *work, struct CtvtComm *comm);
+extern void CTVT_COMM_StopSession(CtvtWork *work, struct CtvtComm *comm);
+extern u32 CTVT_COMM_SendCommand(CtvtWork *work, struct CtvtComm *comm, u8 a, u32 b);
+extern void CTVT_COMM_SetTimingSync(CtvtWork *work, struct CtvtComm *comm, u32 id);
+extern int CTVT_COMM_IsTimingSync(CtvtWork *work, struct CtvtComm *comm, u32 id);
+extern CtvtStroke *CTVT_COMM_PopStroke(CtvtWork *work, struct CtvtComm *comm, int *full);
+extern void CTVT_COMM_AdvanceWriteCursor(CtvtWork *work, struct CtvtComm *comm);
 
 extern s16 FX_SinCosTable_[];
 extern const u8 gCtvtDrawPanelButtonRects[];
@@ -275,7 +275,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
         REG_POWCNT1 = t & 0xFFFF7FFF;
     }
     arc = func_020490F4(func_020275E4(), heapId);
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_02049990(arc, func_0202762C(), 0, 0x60, 0, 0x600, 0, heapId);
     func_020413B0(0, 0, 0x15, 0x20, 3, 0);
     func_020409B4(0);
@@ -419,10 +419,10 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
     CLACT_DeleteActor(scene->stampPicker);
     CLACT_SetActorDrawEnable(scene->penPicker, 0);
     CLACT_DeleteActor(scene->penPicker);
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_020409B4(0);
     func_02040618(0, 3, 0);
-    func_020414EC(6);
+    BG_SYS_ClearSlot(6);
     func_020409B4(6);
     func_02040588(5, 1);
     REG_POWCNT1 |= 0x8000;
@@ -491,7 +491,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
         }
         break;
     case 6:
-        func_021B8084(work, COMM_TVT_SYS_GetComm(work));
+        CTVT_COMM_StopSession(work, COMM_TVT_SYS_GetComm(work));
         CTVT_DRAW_ShowMessage(work, scene, 0x24);
         flag = 1;
         COMM_TVT_SYS_SetMessageActive(work, 1);
@@ -509,12 +509,12 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
         }
         break;
     case 8:
-        if (func_021B8740(work, COMM_TVT_SYS_GetComm(work), 10, zero) == 1) {
+        if (CTVT_COMM_SendCommand(work, COMM_TVT_SYS_GetComm(work), 10, zero) == 1) {
             scene->state = 9;
         }
         break;
     case 9:
-        func_021B8084(work, COMM_TVT_SYS_GetComm(work));
+        CTVT_COMM_StopSession(work, COMM_TVT_SYS_GetComm(work));
         CTVT_DRAW_ShowMessage(work, scene, 0x25);
         flag = 1;
         COMM_TVT_SYS_SetMessageActive(work, 1);
@@ -531,11 +531,11 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
         }
         break;
     case 11:
-        func_021B8B34(work, COMM_TVT_SYS_GetComm(work), 0x2f);
+        CTVT_COMM_SetTimingSync(work, COMM_TVT_SYS_GetComm(work), 0x2f);
         scene->state = 12;
         break;
     case 12:
-        if (func_021B8B48(work, COMM_TVT_SYS_GetComm(work), 0x2f) == 1) {
+        if (CTVT_COMM_IsTimingSync(work, COMM_TVT_SYS_GetComm(work), 0x2f) == 1) {
             scene->exitKind = flag = 1;
             scene->state = 2;
             COMM_TVT_SYS_SetMessageActive(work, 1);
@@ -544,7 +544,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
         }
         break;
     case 13:
-        func_021B8084(work, COMM_TVT_SYS_GetComm(work));
+        CTVT_COMM_StopSession(work, COMM_TVT_SYS_GetComm(work));
         CTVT_DRAW_ShowMessage(work, scene, 0x26);
         flag = 1;
         COMM_TVT_SYS_SetMessageActive(work, 1);
@@ -832,7 +832,7 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
         mode = COMM_TVT_SYS_GetMemberCount(work);
         comm = COMM_TVT_SYS_GetComm(work);
         sprites1 = COMM_TVT_SYS_GetSprites(work);
-        stroke = func_021B8BB8(work, comm, &full1);
+        stroke = CTVT_COMM_PopStroke(work, comm, &full1);
         if (full1 == 0) {
             stroke->x0 = x;
             stroke->y0 = y;
@@ -843,20 +843,20 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
             if (mode == 1) {
                 DRAW_SYSTEM_PushStroke(sprites1, stroke);
             } else {
-                func_021B8BFC(work, comm);
+                CTVT_COMM_AdvanceWriteCursor(work, comm);
             }
         }
     }
     if (TOUCHPANEL_GetTrg() == 1 && scene->uiHandled == 0) {
         if (scene->toolMode == 1) {
-            bgBuf = func_0207E008();
+            bgBuf = G2_GetBG2ScrPtr();
             srcOff = y << 9;
             srcRow = (x << 1) + (u32)bgBuf;
-            func_0207E100();
+            G2_GetBG3ScrPtr();
             if (COMM_TVT_SYS_GetHalfRes(work) == 1) {
-                dstAddr = ((y >> 1) << 9) + ((x & ~1) + func_0207E100());
+                dstAddr = ((y >> 1) << 9) + ((x & ~1) + G2_GetBG3ScrPtr());
             } else {
-                dstAddr = (y << 9) + ((x << 1) + func_0207E100());
+                dstAddr = (y << 9) + ((x << 1) + G2_GetBG3ScrPtr());
             }
             srcColor = *(u16 *)(srcOff + srcRow);
             if (srcColor & 0x8000) {
@@ -887,7 +887,7 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
                 mode = COMM_TVT_SYS_GetMemberCount(work);
                 comm = COMM_TVT_SYS_GetComm(work);
                 sprites2 = COMM_TVT_SYS_GetSprites(work);
-                stroke = func_021B8BB8(work, comm, &full2);
+                stroke = CTVT_COMM_PopStroke(work, comm, &full2);
                 if (full2 == 0) {
                     stroke->x0 = scene->lastX;
                     stroke->y0 = scene->lastY;
@@ -903,7 +903,7 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
                     if (mode == 1) {
                         DRAW_SYSTEM_PushStroke(sprites2, stroke);
                     } else {
-                        func_021B8BFC(work, comm);
+                        CTVT_COMM_AdvanceWriteCursor(work, comm);
                     }
                 } else {
                     scene->penDown = 0;
@@ -926,7 +926,7 @@ void CTVT_DRAW_SlidePanel(CtvtWork *work, CtvtDrawScene *scene)
         else if ((u8)scene->panelTarget > (u8)scene->panelPos) { scene->panelPos += 24; changed = 1; }
     }
     if (changed == 1) {
-        func_02041EE4(0, 3, 24 - (u8)scene->panelPos);
+        BG_SYS_ResetSlot(0, 3, 24 - (u8)scene->panelPos);
         for (i = 0; i < 6; i++) {
             CLACT_GetActorSurfacePos(scene->button[i], &pos, 0);
             pos.y = scene->panelPos + 180;
@@ -1047,7 +1047,7 @@ void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
 int CTVT_DRAW_CheckLeave(CtvtWork *work, int *out)
 {
     if (COMM_TVT_SYS_GetEndRequested(work) == 1) {
-        int peerState = func_021B80E4(work, COMM_TVT_SYS_GetComm(work));
+        int peerState = CTVT_COMM_GetNetMode(work, COMM_TVT_SYS_GetComm(work));
 
         *out = (peerState == 5) ? 9 : 6;
         return 1;

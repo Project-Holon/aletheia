@@ -1,5 +1,5 @@
 /*
- * function: func_0205A650
+ * function: WDS_EndScan
  * address:  0x0205A650
  * packet:   pkt_0205A650
  * region:   arm9
@@ -62,7 +62,7 @@ extern WDSWork *gWdsWork;
 
 extern int WM_EndScan(void (*callback)(void *));
 
-int func_0205A650(void (*callback)(void *))
+int WDS_EndScan(void (*callback)(void *))
 {
     int errcode;
 

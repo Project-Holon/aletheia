@@ -32,7 +32,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
- *   func_02177044  0x02177044  arm  ov009
+ *   DWC_SendUnreliable  0x02177044  arm  ov009
  *   g_021B4B98     0x021B4B98  data  a4
  *   g_021B4BA0     0x021B4BA0  data  a4
  *   gVctPendingList  0x021B4B98  data
@@ -70,7 +70,7 @@ extern void VCT_ADPCM_DecodePacket(AdpcmState *state, void *dst, int sampleCount
 typedef u32 OSIntrMode;
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern int func_02177044(unsigned char aid, void *buffer, int size);
+extern int DWC_SendUnreliable(unsigned char aid, void *buffer, int size);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern unsigned long long func_020870D0(void);
 extern VctPeer *VCT_SESSION_AllocPeer(unsigned int index);
@@ -423,7 +423,7 @@ int VCT_AUDIO_SendFrameStep(void)
         if (zeros == 32)
             break;
         gVctSendBuffer.pendingMask = mask & ~(0x80000000 >> zeros);
-        func_02177044((u8)(31 - zeros), gVctSendBuffer.sendFrame, gVctSendState.packetBytes);
+        DWC_SendUnreliable((u8)(31 - zeros), gVctSendBuffer.sendFrame, gVctSendState.packetBytes);
         if (gVctSendBuffer.pendingMask == 0) {
             gVctSendBuffer.readCount++;
             gVctSendBuffer.sendFrame = 0;

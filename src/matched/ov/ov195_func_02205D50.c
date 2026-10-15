@@ -1,5 +1,5 @@
 /*
- * function: func_02205D50
+ * function: SHINKA_DEMO_VIEW_Main
  * address: 0x02205D50
  * packet: pkt_ov195_02205D50
  * region: ov195
@@ -60,7 +60,7 @@ extern void func_02206604(struct Owner *);
 #define P(n) (*(void **)(p+(n)))
 #define B(n) (*(u8 *)(p+(n)))
 #define NODE(i) (*(void **)(p+0x50+(u32)(i)*4))
-void func_02205D50(char *p)
+void SHINKA_DEMO_VIEW_Main(char *p)
 {
     switch(W(0x14)) {
     case 0:

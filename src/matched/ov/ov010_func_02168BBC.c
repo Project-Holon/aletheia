@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *, int, unsigned int);
@@ -27,7 +27,7 @@ void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b)
 {
     void *h;
     void **p;
-    func_020120F4(a);
+    ICA_ANIME_GetField1C(a);
     h = func_020122C0(a, 0, FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
     p = func_020124E8(h);
     MI_CpuFill8(p, 0, 0xc);

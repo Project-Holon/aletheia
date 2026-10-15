@@ -33,12 +33,12 @@
  * w8 re-probed-2 (all parked at 46 B unless stated): making g_021A826C `const` AND storing ping_seq
  *     through a const-stripping cast does NOT let its base win the materialisation race -- still
  *     OSi first, same as OSi const alone, so the flip is not about the write. A `const unsigned
- *     long *osi = g_02150FEC` local with `(u16)osi[1]` also leaves 46 B. DWARF order plus
+ *     long *osi = gMslRefToken` local with `(u16)osi[1]` also leaves 46 B. DWARF order plus
  *     `soc->local_port = seq = ...` chained = 55 B. Loading OSi[1] into a u16 local *ahead of* the
  *     0x22 store DOES hoist both bases with netvars first (pool pair correct) but overshoots: the
  *     netvars value load goes to the very top, 60 B. Decision: pure 1.1p1 pre-RA scheduling.
  *
- * w8 re-probed (all still 46 concrete B): `const` on g_02150FEC hoists BOTH bases above the
+ * w8 re-probed (all still 46 concrete B): `const` on gMslRefToken hoists BOTH bases above the
  *     first strh -- the schedule half of the residue -- but materialises OSi_ThreadInfo first,
  *     flipping the pool pair (netvars must stay first). const-read/const-pointer-local of either
  *     base, a named local for the loaded OSi word, and moving the netvars store earlier all fail
@@ -70,7 +70,7 @@
  *   calc_checksum_do  0x02157700  arm  ov009
  *   invert_checksum  0x02157808  arm  ov009
  *   send_ip  0x0215832C  arm  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   wfailed  0x021A826C  data
  *   ip_conflict  0x021A826D  data
  *   ipid  0x021A826E  data
@@ -96,7 +96,7 @@ struct Soc {
 extern unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum);
 extern unsigned short invert_checksum(unsigned short sum);
 extern void send_ip(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
-extern unsigned long g_02150FEC[];
+extern unsigned long gMslRefToken[];
 
 static unsigned char ip_conflict = 0;
 static unsigned char wfailed = 0;
@@ -116,7 +116,7 @@ void send_ping(unsigned char *pattern, unsigned long len, struct Soc *soc)
 
 	icmp = soc->sndbuf.data;
 	*(unsigned short *)(icmp + 0x22) = 8;
-	*(unsigned short *)(icmp + 0x26) = g_02150FEC[1];
+	*(unsigned short *)(icmp + 0x26) = gMslRefToken[1];
 	*(unsigned short *)(icmp + 0x24) = 0;
 	soc->local_port = pingseq;
 	*(unsigned short *)(icmp + 0x28) = pingseq++;

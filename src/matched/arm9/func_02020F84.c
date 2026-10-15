@@ -18,7 +18,7 @@
  * One of a pair of near-identical entry points (func_02020F84 uses table 0x36,
  * func_02020FB4 table 0x35) that open a message archive, read one entry into
  * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id func_02021288
+ * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
  * accepts, which is why it is a pool word rather than a folded immediate.
  *
  * The heap argument stays in r3 across the guard because it is the fourth

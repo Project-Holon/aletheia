@@ -14,8 +14,8 @@
  * symbols:
  *   func_02197D5C  0x02197D5C  arm  ov009
  *   func_02198028  0x02198028  arm  ov009
- *   func_020923B0  0x020923B0  arm
- *   func_0217F264  0x0217F264  arm  ov009
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
+ *   current_time  0x0217F264  arm  ov009
  *   func_02194DA8  0x02194DA8  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
@@ -93,8 +93,8 @@ struct GTI2Socket {
 
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern struct GTI2Connection *func_02198028(void);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
-extern unsigned int func_0217F264(void);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
+extern unsigned int current_time(void);
 extern int func_02194DA8(struct GTI2Buffer *buffer, int size);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                  void (*elemFreeFn)(void *));
@@ -114,11 +114,11 @@ int func_02198038(struct GTI2Socket *socket, struct GTI2Connection **connection,
     if (!connectionPtr)
         goto failed;
 
-    func_020923B0(connectionPtr, 0, sizeof(struct GTI2Connection));
+    MSL_C_LIB_MemsetPtr(connectionPtr, 0, sizeof(struct GTI2Connection));
     connectionPtr->ip = ip;
     connectionPtr->port = port;
     connectionPtr->socket = socket;
-    connectionPtr->startTime = func_0217F264();
+    connectionPtr->startTime = current_time();
     connectionPtr->lastSend = connectionPtr->startTime;
     connectionPtr->serialNumber = 0;
     connectionPtr->expectedSerialNumber = 0;

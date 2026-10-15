@@ -1,5 +1,5 @@
 /*
- * function: func_021B81B0
+ * function: POKE_SUMMARY_ACTOR_SetSubBrightness
  * address:  0x021B81B0
  * packet:   pkt_021B81B0
  * region:   ov173
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_021B81B0(int a)
+void POKE_SUMMARY_ACTOR_SetSubBrightness(int a)
 {
     volatile unsigned short *p = (volatile unsigned short *)0x04001050;
 

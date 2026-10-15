@@ -1,5 +1,5 @@
 /*
- * function: func_02077518
+ * function: CARDi_CheckPulledOutCore
  * address:  0x02077518
  * packet:   pkt_02077518
  * region:   arm9
@@ -25,7 +25,7 @@ extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern void CARDi_PulledOutCallback(int tag, u32 data, BOOL err);
 
-void func_02077518(u32 id)
+void CARDi_CheckPulledOutCore(u32 id)
 {
     vu32 iplCardID = *(u32 *)0x02FFFC00;
 

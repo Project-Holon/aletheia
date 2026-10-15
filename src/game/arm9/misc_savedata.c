@@ -12,7 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- *   func_0203F1FC 0x0203F1FC  arm, not otherwise called in arm9_main
+ *   GF_STANDARD_SetupCalc 0x0203F1FC  arm, not otherwise called in arm9_main
  * symbols:
  *   QUESTIONNAIRE_GetFirstAnswerMessageOffset    0x0216736C  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
@@ -182,7 +182,7 @@ struct RecentValueSave {
 
 extern u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 id);
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
@@ -578,7 +578,7 @@ void BATTLE_EXAMINATION_ClearBlock(void *p)
  */
 int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery)
 {
-    if (((struct TrialHouseDelivery *)delivery)->checksum == func_0203F1FC(delivery, 0x5c6) &&
+    if (((struct TrialHouseDelivery *)delivery)->checksum == GF_STANDARD_SetupCalc(delivery, 0x5c6) &&
         ((struct TrialHouseDelivery *)delivery)->magic == 0xd68)
         return 1;
     return 0;
@@ -697,7 +697,7 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
  *
  * alias: BATTLE_EXAMINATION_RefreshMarker toggles one flag half of a caller object's field pair
  * addressed by the constant id 0x5c6: it looks the field up through
- * func_0203F1FC, and if the stored halfword at +0x5c6 already equals the
+ * GF_STANDARD_SetupCalc, and if the stored halfword at +0x5c6 already equals the
  * looked-up value, rewrites the paired halfword at +0x5c2 with the constant
  * 0x7da and refreshes +0x5c6 with a second lookup.  BATTLE_EXAMINATION_GetGreetingSize is an
  * unlabelled getter returning the constant 0x28, sitting in what disasm.py
@@ -712,9 +712,9 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
 void BATTLE_EXAMINATION_RefreshMarker(void *delivery)
 {
     u32 fieldId = 0x5c6;
-    if (*(u16 *)((u8 *)delivery + fieldId) == func_0203F1FC(delivery, fieldId)) {
+    if (*(u16 *)((u8 *)delivery + fieldId) == GF_STANDARD_SetupCalc(delivery, fieldId)) {
         *(u16 *)((u8 *)delivery + (fieldId - 4)) = 0x7da;
-        *(u16 *)((u8 *)delivery + fieldId) = func_0203F1FC(delivery, fieldId);
+        *(u16 *)((u8 *)delivery + fieldId) = GF_STANDARD_SetupCalc(delivery, fieldId);
     }
 }
 
@@ -1611,8 +1611,8 @@ void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *party, struct Date *date
  * (its prologue homes r0..r3), and this function forwards its own r1..r3 to
  * it untouched.  With a1..a3 live in r1..r3 across the prologue the index
  * temporary cannot take r1 and lands in r6.  The only caller
- * (ov205 0x021B9B62) passes (obj, func_02012934 result, &stack date record
- * from func_02088864, 4).  The slot index is read inline in the call's
+ * (ov205 0x021B9B62) passes (obj, GAME_DATA_GetMyParty result, &stack date record
+ * from RTC_GetDate, 4).  The slot index is read inline in the call's
  * argument, not through a named local.
  *
  * Current listing extent is 68 bytes; compiled bytes match exactly.

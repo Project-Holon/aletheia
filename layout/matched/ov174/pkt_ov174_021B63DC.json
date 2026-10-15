@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B63DC",
+   "name": "LOCAL_TVT_SYS_SetupDisplay",
    "address": "0x021B63DC",
    "kind": "game",
    "region": "ov174",

@@ -18,7 +18,7 @@
  *   IRCBATTLEMENU_PrintMessage  0x02197644  thumb  ov021
  *   IRCBATTLEMENU_CreateTimeIcon  0x02196290  thumb  ov021
  *   IRCBATTLEMENU_SetSubPaletteActive  0x02196228  thumb  ov021
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   IRCBATTLEMENU_DeleteMsgWin  0x021962F4  thumb  ov021
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
  *   IRCBATTLEMENU_SeqWaitTouchExit  0x021977C0  thumb  ov021
@@ -44,7 +44,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void IRCBATTLEMENU_PrintMessage(u8 *, u32);
 extern void IRCBATTLEMENU_CreateTimeIcon(u8 *);
 extern void IRCBATTLEMENU_SetSubPaletteActive(u8 *p, int flag);
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 extern void IRCBATTLEMENU_DeleteMsgWin(u8 *);
 extern void IRCBATTLEMENU_SetSeq(u8 *, void (*)(), u32);
 extern void IRCBATTLEMENU_SeqWaitTouchExit(u8 *a);
@@ -69,7 +69,7 @@ void IRCBATTLEMENU_SeqSaveYesNo(u8 *a)
             }
         } else {
             IRCBATTLEMENU_SetSubPaletteActive(a, 0);
-            func_020414EC(3);
+            BG_SYS_ClearSlot(3);
             IRCBATTLEMENU_DeleteMsgWin(a);
             ((struct Obj00094 *)a)->f8 = 12;
             IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqUpdateTouchTop, 0x7c7);

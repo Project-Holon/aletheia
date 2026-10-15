@@ -1,5 +1,5 @@
 /*
- * function: sub_02043094
+ * function: BG_SYS_DeleteBlock
  * address:  0x02043094
  * packet:   pkt_02042B24
  * region:   arm9
@@ -46,7 +46,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-void sub_02043094(u32 idx, u32 offset, u32 size)
+void BG_SYS_DeleteBlock(u32 idx, u32 offset, u32 size)
 {
     switch (idx) {
     case 0:

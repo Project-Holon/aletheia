@@ -37,7 +37,7 @@
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_02080C44  0x02080C44  arm
+ *   GX_GetBankForTex  0x02080C44  arm
  *   func_02080294  0x02080294  arm
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -97,7 +97,7 @@ extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern u32 ENCEFF_GetWork(u32 *p);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-extern u16 func_02080C44(void);
+extern u16 GX_GetBankForTex(void);
 extern void func_02080294(u32 bank);
 extern void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
@@ -148,7 +148,7 @@ int ENCEFF_ModelSceneEventMain(void *task, int *st)
         }
         break;
     case 3:
-        w->f8 = func_02080C44();
+        w->f8 = GX_GetBankForTex();
         w->fC = 0;
         if ((w->f8 & 8) == 0) {
             w->fC = 1;

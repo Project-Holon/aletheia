@@ -27,7 +27,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0209C0A4  0x0209C0A4  arm
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *   g_021AA450     0x021AA450  data
  *
  * Verified with:
@@ -57,7 +57,7 @@ typedef struct {
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0209C0A4(int a, int b);
-extern Info g_02150FEC;
+extern Info gMslRefToken;
 extern struct CPSConfig g_021AA450;
 
 int func_0215E588(int len)
@@ -67,7 +67,7 @@ int func_0215E588(int len)
 	unsigned long enabled;
 	int count;
 
-	soc = g_02150FEC.cur->soc;
+	soc = gMslRefToken.cur->soc;
 	enabled = OS_DisableInterrupts();
 	if (soc != 0) {
 		if (soc->winSize != 0 && soc->mss != 0) {

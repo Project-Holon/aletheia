@@ -32,7 +32,7 @@
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -87,7 +87,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void WIPE_ResetWndMask(int a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207D63C(u32 r, int a, int b, int c, int d);
@@ -140,7 +140,7 @@ void POKELIST_SetupDisplay(u8 *p)
     WIPE_ResetWndMask(1);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)(&a));
-    func_0203F8F4(*(u16 *)p);
+    BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021BEAEC);
     POKELIST_LoadBgPlane(d_021BEBDC, 3, 0);

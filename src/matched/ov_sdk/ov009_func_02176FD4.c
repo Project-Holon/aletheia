@@ -1,5 +1,5 @@
 /*
- * function: func_02176FD4
+ * function: DWC_SendReliableBitmap
  * address:  0x02176FD4
  * packet:   pkt_ov009_02176FD4
  * region:   ov009
@@ -24,7 +24,7 @@
 extern unsigned char DWC_GetMyAID(void);
 extern int DWC_SendReliable(unsigned char aid, void *buffer, int size);
 
-unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size)
+unsigned long DWC_SendReliableBitmap(unsigned long bitmap, void *buffer, int size)
 {
     unsigned long aidbit;
     unsigned char aid;

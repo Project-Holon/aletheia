@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041F6C 0x02041F6C arm
  *   func_02041FB0 0x02041FB0 arm
@@ -37,17 +37,17 @@
  *   func_020056A0 0x020056A0 thumb
  *   IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig 0x021B92D4 data ov103 a4
  *   func_02030EAC 0x02030EAC arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02049740 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
@@ -55,11 +55,11 @@
  *   IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds 0x021B927C data a4
  *   IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes 0x021B9298 data a4
  *   IRC_COMPATIBLE_TOUCH_TEST_BgTemplates 0x021B9310 data ov103 a4
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -106,7 +106,7 @@
  *   G3D_SYSTEM_CreateObject 0x0204767C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   NNS_G3dMdlSetMdlPolygonIDAll 0x0206E5EC arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_DeleteObject 0x02047738 arm
  *   G3D_SYSTEM_DeleteAnime 0x0204762C arm
  *   G3D_SYSTEM_DeleteRender 0x02047504 arm
@@ -119,8 +119,8 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -156,7 +156,7 @@
  *   COMPATIBLE_IRC_SYS_StepShareValue 0x021B630C thumb ov101
  *   COMPATIBLE_IRC_SYS_SendOwnValue 0x021B6424 thumb ov101
  *   IRC_APPBAR_SetActive 0x021B72A0 thumb ov101
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200A9D4 0x0200A9D4 thumb
@@ -167,10 +167,10 @@
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   COMPATIBLE_IRC_SYS_SendData 0x021B64B8 thumb ov101
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_0206E0C4 0x0206E0C4 arm
- *   func_0207CA00 0x0207CA00 arm
+ *   NNS_G3dScrPosToWorldLine 0x0206E0C4 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_0207CEE4 0x0207CEE4 arm
+ *   VEC_MultAdd 0x0207CEE4 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   _u32_div_f 0x0209C2B0 arm
@@ -181,6 +181,9 @@
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm  arm9
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm  arm9
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
+ *   BG_SYS_GetBuf  0x0204162C  arm  arm9
+ *   BG_SYS_GetField16  0x0204169C  arm  arm9
  */
 #include "../ov102/irc_screen_types.h"
 #include "../ov101/irc_appbar.h"
@@ -334,7 +337,7 @@ typedef struct IrcTouchWork {
 extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
-extern u32 func_02012138(void *gameSystem);
+extern u32 ICA_ANIME_GetField24(void *gameSystem);
 extern void func_0201F73C(void *bmpWin, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32 which, u32 op, u16 value);
@@ -351,25 +354,25 @@ extern int BG_SYS_ResetSubDisplay(int);
 extern void BG_SYS_ClearMainPlanes(int);
 extern unsigned func_020056A0(void (*task)(unsigned, void *), void *work, unsigned priority);
 extern void func_02030EAC(unsigned task);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(const void *config);
-extern void func_0203FCA0(u32 bgId, const void *template, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(int, int, int);
 extern void func_020403F4(u8);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const void *config, u32 arg, u32 heapId);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -413,7 +416,7 @@ extern void *G3D_SYSTEM_CreateAnime(void *, const void *, int);
 extern void *G3D_SYSTEM_CreateObject(void *, void *, int);
 extern void G3D_SYSTEM_EnableObjectAnime(void *, u16);
 extern void NNS_G3dMdlSetMdlPolygonIDAll(int, int);
-extern void func_0207ADC4(void *matrix);
+extern void MTX_Identity33_(void *matrix);
 extern void G3D_SYSTEM_DeleteObject(void *);
 extern void G3D_SYSTEM_DeleteAnime(void *);
 extern void G3D_SYSTEM_DeleteRender(void *);
@@ -426,8 +429,8 @@ extern void func_0201DD60(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(void *wordSet);
+extern void *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
 extern void PRINTSYS_QUE_Delete(void *printQueue);
 extern void GF_FONT_Delete(void *font);
@@ -459,9 +462,9 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys, int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
-extern void *func_020120F4(void *gameSystem);
+extern void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *func_0200A8A0(void *saveControl);
+extern void *IRC_RANKING_GetFromSave(void *saveControl);
 extern u32 func_02008530(const u8 *myStatus);
 extern int func_0200A9D4(void *records, u32 value);
 extern void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys, int commandBase, const void *commandTable, int count, void *userData);
@@ -470,16 +473,16 @@ extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(void *handle);
 extern u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys, u32 commandBase, u32 size, void *data, u8 isParent, u32 e, u32 f, u32 g);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_0206E0C4(int x, int y, IrcVec3 *origin, IrcVec3 *target);
-extern void func_0207CA00(IrcVec3 *a, IrcVec3 *b, IrcVec3 *out);
+extern void NNS_G3dScrPosToWorldLine(int x, int y, IrcVec3 *origin, IrcVec3 *target);
+extern void VEC_Subtract(IrcVec3 *a, IrcVec3 *b, IrcVec3 *out);
 extern void VEC_Normalize(IrcVec3 *in, IrcVec3 *out);
-extern void func_0207CEE4(int scale, IrcVec3 *dir, IrcVec3 *origin, IrcVec3 *out);
+extern void VEC_MultAdd(int scale, IrcVec3 *dir, IrcVec3 *origin, IrcVec3 *out);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 memberId, u32 compressed, u32 flags);
 extern int func_02062B30(void *file, void **out);
-extern u8 func_0204169C(int channel);
-extern u32 func_0204162C(int channel);
+extern u8 BG_SYS_GetField16(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8, u8, u8, u8, u8, u8);
 extern u32 func_020307B0(void *p);
@@ -592,7 +595,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs
     IRC_COMPATIBLE_TOUCH_TEST_InitExchange(&work->exchange, work->args->view);
     IRC_COMPATIBLE_TOUCH_TEST_InitScene(work, 55);
     IRC_COMPATIBLE_TOUCH_TEST_InitText(&work->text, 0, 55);
-    if (work->args->gameSystem) func_02012138(work->args->gameSystem);
+    if (work->args->gameSystem) ICA_ANIME_GetField24(work->args->gameSystem);
     IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(&work->title, 5, 1, 18, 30, 5, 8, 55);
     func_0201F73C(work->title.bmpWin, 0, (u16)work->bgCharRange, 6);
     IRC_COMPATIBLE_TOUCH_TEST_InitWindow(&work->bottomWin, 7, 6, 3, 20, 5, 8, 1, 1, 55);
@@ -737,12 +740,12 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(u32 *charRange, u16 heapId)
     int i;
     u32 layer;
     void *arc;
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(IRC_COMPATIBLE_TOUCH_TEST_BgDisplayConfig);
     for (i = 0; i < 7; i++) {
         layer = IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i];
-        func_0203FCA0((u8)layer, IRC_COMPATIBLE_TOUCH_TEST_BgTemplates[i], (u8)IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes[i]);
+        BG_SYS_InitBgLayer((u8)layer, IRC_COMPATIBLE_TOUCH_TEST_BgTemplates[i], (u8)IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes[i]);
         func_020414AC(layer);
         func_02040588(layer, 1);
     }
@@ -759,7 +762,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(u32 *charRange, u16 heapId)
     func_020498F4(arc, 45, 4, 0, 0, 0, heapId);
     func_020498F4(arc, 7, 2, 0, 0, 0, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_LoadGuideScreens(1, heapId);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     *charRange = func_02049740(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
     func_0207D63C(0x04000050, 5, 12, 13, 8);
@@ -769,11 +772,11 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(u32 *charRange)
 {
     int i;
     REG_BLDCNT_MAIN = 0;
-    func_0203FB44(5, (u16)(*charRange), (u16)(*charRange >> 16));
+    BG_SYS_DeleteHalf(5, (u16)(*charRange), (u16)(*charRange >> 16));
     func_02040DA8(5, 1, 0);
     for (i = 0; i < 7; i++) func_020403F4(IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i]);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_BackgroundVBlank(void *unused) { func_020419E4(); }
@@ -909,7 +912,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitModel(IrcModel *model, void *arc, const u16 *
         for (j = 0; j < 2; j++) G3D_SYSTEM_EnableObjectAnime(model->object, j);
         NNS_G3dMdlSetMdlPolygonIDAll(renderObj[1], polygonId);
     }
-    func_0207ADC4(model->transform.rotation);
+    MTX_Identity33_(model->transform.rotation);
     model->transform.scaleX = 4096;
     model->transform.scaleY = 4096;
     model->transform.scaleZ = 4096;
@@ -972,12 +975,12 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitText(IrcTextSystem *text, int skipFont, u32 h
         text->font = GF_FONT_Create(23, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
     text->msgData = func_02045B38(0, 2, 47, heapId);
-    text->wordSet = func_0201EC64(heapId);
+    text->wordSet = GF_FONT_Create_EC64(heapId);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitText(IrcTextSystem *text)
 {
-    func_0201ED04(text->wordSet);
+    WORDSET_DeleteStrbufED04(text->wordSet);
     MSGDATA_Delete(text->msgData);
     PRINTSYS_QUE_Delete(text->printQueue);
     GF_FONT_Delete(text->font);
@@ -1331,7 +1334,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleScoring(IrcTouchWork *work, u16 *state)
         own.attempts = work->attempts;
         if (work->args->gameSystem) {
             void *records;
-            records = func_0200A8A0(GAME_DATA_GetSaveControl(func_020120F4(work->args->gameSystem)));
+            records = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
             own.bonus = func_0200A9D4(records, func_02008530(work->args->profile->myStatus)) == 0;
         }
         if (IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(&work->exchange, &own)) *state = 3;
@@ -1476,19 +1479,19 @@ void IRC_COMPATIBLE_TOUCH_TEST_SetMarkerPosition(IrcMarkers *markers, int index,
     IrcVec3 origin, target, direction;
     switch (index) {
     case 0:
-        func_0206E0C4(x, y, &origin, &target);
-        func_0207CA00(&target, &origin, &direction);
+        NNS_G3dScrPosToWorldLine(x, y, &origin, &target);
+        VEC_Subtract(&target, &origin, &direction);
         VEC_Normalize(&direction, &direction);
-        func_0207CEE4(0x40000, &direction, &origin, &origin);
+        VEC_MultAdd(0x40000, &direction, &origin, &origin);
         IRC_COMPATIBLE_TOUCH_TEST_ModelSetPosition(markers->model[index], &origin);
         markers->lastX = x;
         markers->lastY = y;
         break;
     case 1:
-        func_0206E0C4(markers->lastX + (x - markers->lastX) * 2, markers->lastY + (y - markers->lastY) * 2, &origin, &target);
-        func_0207CA00(&target, &origin, &direction);
+        NNS_G3dScrPosToWorldLine(markers->lastX + (x - markers->lastX) * 2, markers->lastY + (y - markers->lastY) * 2, &origin, &target);
+        VEC_Subtract(&target, &origin, &direction);
         VEC_Normalize(&direction, &direction);
-        func_0207CEE4(0x40000, &direction, &origin, &origin);
+        VEC_MultAdd(0x40000, &direction, &origin, &origin);
         IRC_COMPATIBLE_TOUCH_TEST_ModelSetPosition(markers->model[index], &origin);
         break;
     }
@@ -1593,11 +1596,11 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(void *arc, int memberId, int bgLa
     u16 *screen;
     file = ARC_UTIL_LoadHandleMember(arc, memberId, compressed, (u16)((heapId & 0x7fff) | 0x8000));
     func_02062B30(file, (void **)(&data));
-    if (tileOffset && !func_0204169C((u8)bgLayer)) {
+    if (tileOffset && !BG_SYS_GetField16((u8)bgLayer)) {
         screen = (u16 *)(data + 12);
         for (t = 0; t < (srcWidth * srcHeight); t++) screen[t] += (u16)tileOffset;
     }
-    if (func_0204162C((u8)bgLayer)) {
+    if (BG_SYS_GetBuf((u8)bgLayer)) {
         func_020410D0((u8)bgLayer, dstX, dstY, dstWidth, dstHeight, (u32)(data + 12), srcX, srcY, srcWidth, srcHeight);
         func_020413B0(bgLayer, dstX, dstY, dstWidth, dstHeight, palette);
         func_020409B4(bgLayer);

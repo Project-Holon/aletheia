@@ -1,5 +1,5 @@
 /*
- * function: func_021F969C
+ * function: STA_ACTING_ReplaceWaveData
  * address:  0x021F969C
  * packet:   pkt_ov132_021F969C
  * region:   ov132
@@ -22,7 +22,7 @@
 typedef unsigned int u32;
 extern int GFL_USE_ReplaceWaveData(u32, u32, u32, u32);
 
-int func_021F969C(char *p, u32 a, u32 b, u32 d)
+int STA_ACTING_ReplaceWaveData(char *p, u32 a, u32 b, u32 d)
 {
     return GFL_USE_ReplaceWaveData(a, b, ((struct Obj23187 *)p)->f1E4, d);
 }

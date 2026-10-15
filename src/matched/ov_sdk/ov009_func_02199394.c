@@ -1,5 +1,5 @@
 /*
- * function: func_02199394
+ * function: SendReportPacket
  * address:  0x02199394
  * packet:   pkt_ov009_02199394
  * region:   ov009
@@ -17,12 +17,12 @@
  *   SOC_InetNtoA   0x0215FA9C  arm  ov009
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   SendPacket     0x021992A8  arm  ov009
- *   g_021A5A7C     0x021A5A7C  data
+ *   gNatNegMagic     0x021A5A7C  data
  *   gGsAvailabilityGameName     0x021ACEFC  data
- *   g_021A5A70     0x021A5A70  data
- *   g_021AE698     0x021AE698  data
- *   g_021AE6C4     0x021AE6C4  data
- *   g_021A5AB4     0x021A5AB4  data
+ *   gNatSocks     0x021A5A70  data
+ *   gNatnegGlobals     0x021AE698  data
+ *   gNatNegServer1IP     0x021AE6C4  data
+ *   gNatNegSendReportFmt     0x021A5AB4  data
  */
 
 #include "../include/G_Magic6.h"
@@ -79,19 +79,19 @@ extern void *memcpy();
 extern char *SOC_InetNtoA();
 extern void gsDebugFormat();
 extern void SendPacket();
-extern struct Magic6 g_021A5A7C;
+extern struct Magic6 gNatNegMagic;
 extern char gGsAvailabilityGameName[];
-extern struct NatSocks g_021A5A70;
-extern NegotiateAnchor g_021AE698;
-extern u32 g_021AE6C4;
-extern char g_021A5AB4[];
+extern struct NatSocks gNatSocks;
+extern NegotiateAnchor gNatnegGlobals;
+extern u32 gNatNegServer1IP;
+extern char gNatNegSendReportFmt[];
 
-void func_02199394(NATNegotiator *neg)
+void SendReportPacket(NATNegotiator *neg)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -105,10 +105,10 @@ void func_02199394(NATNegotiator *neg)
     p.cookie = NN_SWAP32((u32)neg->cookie);
     p.clientindex = (u8)neg->clientindex;
     p.negResult = neg->result == 0 ? 1 : 0;
-    p.natType = g_021A5A70.natType;
-    p.mappingScheme = g_021AE698.natMappingScheme;
+    p.natType = gNatSocks.natType;
+    p.mappingScheme = gNatnegGlobals.natMappingScheme;
     if (strlen(gGsAvailabilityGameName))
         memcpy(p.gamename, gGsAvailabilityGameName, 0x32);
-    gsDebugFormat(7, 0, 8, g_021A5AB4, neg->cookie, SOC_InetNtoA(g_021AE6C4), 27901, p.negResult);
-    SendPacket(neg->negotiateSock, g_021AE698.matchup1ip, 27901, &p, 0x49);
+    gsDebugFormat(7, 0, 8, gNatNegSendReportFmt, neg->cookie, SOC_InetNtoA(gNatNegServer1IP), 27901, p.negResult);
+    SendPacket(neg->negotiateSock, gNatnegGlobals.matchup1ip, 27901, &p, 0x49);
 }

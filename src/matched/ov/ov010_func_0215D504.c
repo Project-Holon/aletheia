@@ -38,16 +38,16 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0200A628  0x0200A628  thumb
- *   func_0200A640  0x0200A640  thumb
- *   func_0200A644  0x0200A644  thumb
- *   func_0200A75C  0x0200A75C  thumb
- *   func_0200A780  0x0200A780  thumb
- *   func_0200A7A0  0x0200A7A0  thumb
- *   func_0200A7B8  0x0200A7B8  thumb
- *   func_0200A7C8  0x0200A7C8  thumb
- *   func_0200A7D4  0x0200A7D4  thumb
- *   func_0200A7E0  0x0200A7E0  thumb
+ *   MUSICAL_SAVE_GetOutfits  0x0200A628  thumb
+ *   MUSICAL_SAVE_NoOp  0x0200A640  thumb
+ *   MUSICAL_SAVE_IsPropOwned  0x0200A644  thumb
+ *   MUSICAL_SAVE_GetShowCount  0x0200A75C  thumb
+ *   MUSICAL_SAVE_GetTopRankCount  0x0200A780  thumb
+ *   MUSICAL_SAVE_GetEquippedProp  0x0200A7A0  thumb
+ *   MUSICAL_SAVE_GetSelectedProgram  0x0200A7B8  thumb
+ *   MUSICAL_SAVE_GetScriptSetting  0x0200A7C8  thumb
+ *   MUSICAL_SAVE_SetScriptSetting  0x0200A7D4  thumb
+ *   MUSICAL_SAVE_GetHasDistData  0x0200A7E0  thumb
  *   func_021F6744  0x021F6744  thumb  ov112
  */
 
@@ -93,16 +93,16 @@ extern int GAME_DATA_GetExternalWork(char *base);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *list);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u8 *func_0200A628(struct Big *p);
-extern Flags *func_0200A640(void *sv);
-extern u32 func_0200A644(struct Big *p, u8 index);
-extern u16 func_0200A75C(struct Big *p);
-extern u16 func_0200A780(struct Big *p);
-extern u8 func_0200A7A0(struct Big *p, u32 index);
-extern u8 func_0200A7B8(struct Big *p);
-extern u8 func_0200A7C8(struct Big *p);
-extern void func_0200A7D4(struct Big *p, u8 value);
-extern u8 func_0200A7E0(struct Big *p);
+extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
+extern Flags *MUSICAL_SAVE_NoOp(void *sv);
+extern u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index);
+extern u16 MUSICAL_SAVE_GetShowCount(struct Big *p);
+extern u16 MUSICAL_SAVE_GetTopRankCount(struct Big *p);
+extern u8 MUSICAL_SAVE_GetEquippedProp(struct Big *p, u32 index);
+extern u8 MUSICAL_SAVE_GetSelectedProgram(struct Big *p);
+extern u8 MUSICAL_SAVE_GetScriptSetting(struct Big *p);
+extern void MUSICAL_SAVE_SetScriptSetting(struct Big *p, u8 value);
+extern u8 MUSICAL_SAVE_GetHasDistData(struct Big *p);
 extern int func_021F6744(void *p);
 
 int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
@@ -142,20 +142,20 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
     }
     switch (op) {
     case 0:
-        *dst = func_0200A75C(sv);
+        *dst = MUSICAL_SAVE_GetShowCount(sv);
         break;
     case 1:
-        *dst = func_0200A780(sv);
+        *dst = MUSICAL_SAVE_GetTopRankCount(sv);
         break;
     case 2:
-        *dst = func_0200A7B8(sv);
+        *dst = MUSICAL_SAVE_GetSelectedProgram(sv);
         break;
     case 3: {
         max = 0;
         best3 = 4;
 
         for (i = 0; i < 4; i++) {
-            u8 v = func_0200A7A0(sv, i);
+            u8 v = MUSICAL_SAVE_GetEquippedProp(sv, i);
 
             if (v > max) {
                 max = v;
@@ -168,20 +168,20 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         break;
     }
     case 4:
-        *dst = func_0200A7C8(sv);
+        *dst = MUSICAL_SAVE_GetScriptSetting(sv);
         break;
     case 5:
-        func_0200A7D4(sv, arg);
+        MUSICAL_SAVE_SetScriptSetting(sv, arg);
         break;
     case 6:
         *dst = 0;
         for (i = 0; i < 4; i++) {
-            if (func_0200A7A0(sv, i) != 0)
+            if (MUSICAL_SAVE_GetEquippedProp(sv, i) != 0)
                 *dst = 1;
         }
         break;
     case 7:
-        if (func_0200A640(sv)->n == 0)
+        if (MUSICAL_SAVE_NoOp(sv)->n == 0)
             *dst = 0;
         else
             *dst = 1;
@@ -191,7 +191,7 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         best8 = 4;
 
         for (i = 0; i < 4; i++) {
-            u8 v = func_0200A7A0(sv, i);
+            u8 v = MUSICAL_SAVE_GetEquippedProp(sv, i);
 
             if (v <= max) {
                 max = v;
@@ -206,7 +206,7 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         best9 = 4;
 
         for (i = 0; i < 4; i++) {
-            u8 v = func_0200A7A0(sv, i);
+            u8 v = MUSICAL_SAVE_GetEquippedProp(sv, i);
 
             if (v > max) {
                 max = v;
@@ -225,7 +225,7 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         next = 4;
 
         for (j = 0; j < 4; j++) {
-            u8 v = func_0200A7A0(sv, j);
+            u8 v = MUSICAL_SAVE_GetEquippedProp(sv, j);
 
             if (v > max) {
                 if (second == max) {
@@ -262,7 +262,7 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
             *dst = 0;
         break;
     case 13: {
-        Rec *r = (Rec *)func_0200A628(sv);
+        Rec *r = (Rec *)MUSICAL_SAVE_GetOutfits(sv);
 
         *dst = 0;
         for (i = 0; i < 8; i++) {
@@ -272,13 +272,13 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         break;
     }
     case 14:
-        if (func_0200A7E0(sv) == 1)
+        if (MUSICAL_SAVE_GetHasDistData(sv) == 1)
             *dst = 1;
         else
             *dst = 0;
         break;
     case 15:
-        if (func_0200A644(sv, (u8)arg) == 1)
+        if (MUSICAL_SAVE_IsPropOwned(sv, (u8)arg) == 1)
             *dst = 1;
         else
             *dst = 0;

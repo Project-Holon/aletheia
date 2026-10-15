@@ -1,5 +1,5 @@
 /*
- * function: func_0205C3B0
+ * function: DWCi_AC_CopyExSetting
  * address:  0x0205C3B0
  * packet:   pkt_0205C3B0
  * region:   arm9
@@ -129,7 +129,7 @@ extern u8 DWCi_ConvConnectAPType(u8 type);
 extern BOOL OS_IsRunOnTwl(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 
-void func_0205C3B0(u8 type)
+void DWCi_AC_CopyExSetting(u8 type)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);

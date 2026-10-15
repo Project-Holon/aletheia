@@ -1,5 +1,5 @@
 /*
- * function: func_021F9E0C
+ * function: STA_ACTING_GetActorCount
  * address: 0x021F9E0C
  * packet: pkt_ov132_021F9E0C
  * region: ov132
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021F4F10(u8 *);
-u32 func_021F9E0C(u8 *p) { return func_021F4F10(*(u8 * *)&((struct Obj10534 *)p)->f38); }
+u32 STA_ACTING_GetActorCount(u8 *p) { return func_021F4F10(*(u8 * *)&((struct Obj10534 *)p)->f38); }

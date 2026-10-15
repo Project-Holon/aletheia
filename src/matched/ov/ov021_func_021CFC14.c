@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -32,7 +32,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern void INTRUDE_TakeOfferSlot(void *a, void *b, void *c);
 extern int INTRUDE_OfferEventMain(u32 a, u32 unused, const struct Rec *src);
 
@@ -41,6 +41,6 @@ void *INTRUDE_StartOfferEvent(void *a, void *unused, void *c)
     void *task = func_020122C0(a, 0, INTRUDE_OfferEventMain, 0x14);
     void *work = func_020124E8(task);
 
-    INTRUDE_TakeOfferSlot(func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(a))), c, work);
+    INTRUDE_TakeOfferSlot(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(a))), c, work);
     return task;
 }

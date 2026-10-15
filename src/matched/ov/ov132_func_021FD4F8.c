@@ -1,5 +1,5 @@
 /*
- * function: func_021FD4F8
+ * function: STA_NET_FindRecValueByKey
  * address:  0x021FD4F8
  * packet:   pkt_ov132_021FD4F8
  * region:   ov132
@@ -34,7 +34,7 @@ struct Ctx {
     struct Rec rec[4];
 };
 
-u32 func_021FD4F8(struct Ctx *p, u8 key)
+u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key)
 {
     u8 i;
 

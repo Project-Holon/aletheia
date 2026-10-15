@@ -18,7 +18,7 @@
  *   gti2BufferWriteData                 0x02194E2C  arm  ov009
  *   gti2BufferWriteByte                 0x02194DE4  arm  ov009
  *   gti2BufferWriteUShort               0x02194DFC  arm  ov009
- *   d_021A5948                          0x021A5948  data ov009
+ *   gGti2PacketMagic                          0x021A5948  data ov009
  *
  * Opens a reliable GT2 message: sizes the VDP length word, reserves outgoing
  * sequence space and appends the header (2-byte token, type byte, sequence
@@ -55,7 +55,7 @@ extern void gti2BufferWriteData(struct GTI2Buffer *buffer,
                                 unsigned char *data, int len);
 extern void gti2BufferWriteByte(struct GTI2Buffer *buffer, unsigned char b);
 extern void gti2BufferWriteUShort(struct GTI2Buffer *buffer, unsigned short s);
-extern unsigned char d_021A5948[];
+extern unsigned char gGti2PacketMagic[];
 
 struct GTI2Socket {
     char pad00[0x40];
@@ -96,7 +96,7 @@ static int gti2BeginReliableMessage(struct GTI2Connection *connection,
         gti2BufferWriteData(&connection->buffer,
                             (unsigned char *)&vdpDataLength,
                             connection->socket->field_44);
-    gti2BufferWriteData(&connection->buffer, d_021A5948, 2);
+    gti2BufferWriteData(&connection->buffer, gGti2PacketMagic, 2);
     gti2BufferWriteByte(&connection->buffer, (unsigned char)type);
     gti2BufferWriteUShort(&connection->buffer, connection->field_64++);
     gti2BufferWriteUShort(&connection->buffer, connection->field_66);

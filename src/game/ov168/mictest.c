@@ -69,19 +69,19 @@
  *   d_021848AC 0x021848AC data a4
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   func_02040588 0x02040588 arm
  *   d_02184878 0x02184878 data a4
  *   d_02184964 0x02184964 data a1
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049624 0x02049624 arm
  *   func_0204989C 0x0204989C arm
@@ -104,9 +104,9 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   SND_MIC_Init 0x02006CBC thumb
- *   func_02034F84 0x02034F84 arm
+ *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   SND_MIC_Exit  0x02006D44  thumb
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   SND_MIC_AddElapsed   0x02006D64  thumb
  *   func_0208B500  0x0208B500  arm
  *   func_0208B528  0x0208B528  arm
@@ -114,14 +114,14 @@
  *   func_020056EC 0x020056EC thumb
  *   func_02030DA8  0x02030DA8  arm
  *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   func_0203F5FC  0x0203F5FC  arm
+ *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   _ll_mul        0x0209C054  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   KEY_GetTrg  0x020362DC  arm  arm9
  */
@@ -255,17 +255,17 @@ extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_VBlankSystem(void);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(unsigned);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u16 heapId);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(unsigned);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u16 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 v);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
@@ -286,18 +286,18 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void SND_MIC_Init(u16 heap);
-extern void func_02034F84(u32 v);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 v);
 extern void SND_MIC_Exit(void);
-extern void func_02034FB8(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 extern void SND_MIC_AddElapsed(u32 n);
 extern void func_0208B500(int *);
 extern int func_0208B528(void);
 extern u32 func_020056EC(u32 range);
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int func_0203F5FC(u32 x);
+extern int GF_STANDARD_Get_F5FC(u32 x);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-extern void func_0207C9D0(void *, void *, void *);
+extern void VEC_Add(void *, void *, void *);
 extern int TOUCHPANEL_HitTrg(const void *p);
 enum Result func_02183B60(void *obj);
 int func_02183C50(int a, int b, int c, void *p);
@@ -822,15 +822,15 @@ void func_0218414C(char *p, int heap)
 {
     unsigned i;
     unsigned bg;
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_02184878);
     ((struct Obj23821 *)p)->f10 = GF_FONT_Create(23, 0, 0, 0, (u16)heap);
     for (i = 0; i < 5; i++) {
         bg = d_02184964[i * 0x24 + 0x20];
-        func_0203FCA0(bg, (const struct BgTemplate *)(d_02184964 + i * 0x24), d_02184964[i * 0x24 + 0x21]);
-        func_020414EC(bg);
-        func_02040B94(bg, 32, 0, (u16)heap);
+        BG_SYS_InitBgLayer(bg, (const struct BgTemplate *)(d_02184964 + i * 0x24), d_02184964[i * 0x24 + 0x21]);
+        BG_SYS_ClearSlot(bg);
+        BG_SYS_InitRun(bg, 32, 0, (u16)heap);
         func_02040588(bg, 1);
     }
 }
@@ -850,7 +850,7 @@ void func_021841C8(void *a0)
     for (i = 0; i < 5; i++)
         func_020403F4(d_02184964[i * 0x24 + 0x20]);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -948,7 +948,7 @@ void func_02184398(u8 *p, int heap, u32 b, u32 c)
 {
     u8 *buf;
     SND_MIC_Init(heap);
-    func_02034F84(8);
+    UI_SetKeepAwakeFlagsGlobal(8);
     buf = func_02030734((u16)heap, 0x120, 0, d_02184A20, 0x603);
     MI_CpuFill8(buf, 0, 0x120);
     *(u8 **)(p + 0x1c) = buf;
@@ -974,7 +974,7 @@ void func_02184408(int *p)
 {
     func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
     SND_MIC_Exit();
-    func_02034FB8(8);
+    UI_ClearKeepAwakeFlagsGlobal(8);
 }
 
 
@@ -1170,9 +1170,9 @@ void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 
     o->x = FX_F32_TO_FX32(a3);
     o->y = FX_F32_TO_FX32(e);
     o->z0 = 0;
-    c = func_0203F5FC((u16)(g + 0x5a));
+    c = GF_STANDARD_Get_F5FC((u16)(g + 0x5a));
     o->vx = FX_MUL(f, c);
-    c = func_0203F5FC((u16)g);
+    c = GF_STANDARD_Get_F5FC((u16)g);
     o->vy = -FX_MUL(f, c);
     o->w0 = 0;
     o->w1 = 0;
@@ -1200,13 +1200,13 @@ void func_02184780(void *task, int *p)
             CLACT_SetActorDrawEnable((void *)p[0], 1);
         return;
     }
-    func_0207C9D0(p + 2, p + 5, p + 2);
+    VEC_Add(p + 2, p + 5, p + 2);
     x = p[2] >> 12;
     y = p[3] >> 12;
     p[8] += p[9];
     while (p[8] > 0x168000)
         p[8] -= 0x168000;
-    angle = func_0203F5FC((u16)(p[8] >> 12));
+    angle = GF_STANDARD_Get_F5FC((u16)(p[8] >> 12));
     x += (s16)((p[10] * angle) >> 12);
     CLACT_SetActorPosAxis((void *)p[0], x, 0);
     CLACT_SetActorPosAxis((void *)p[0], y, 1);

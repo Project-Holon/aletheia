@@ -1,5 +1,5 @@
 /*
- * function: func_021C983C
+ * function: ZUKAN_SEARCH_ENGINE_LoadFormIds
  * address:  0x021C983C
  * packet:   pkt_ov212_021C983C
  * region:   ov212
@@ -23,7 +23,7 @@ extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decom
 extern const char g_021C99A8[];
 extern int g_021C9968[];
 
-unsigned int func_021C983C(int a0, int a1, int a2, int a3, u16 **out)
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16 **out)
 {
     u16 *buf;
     unsigned int n;

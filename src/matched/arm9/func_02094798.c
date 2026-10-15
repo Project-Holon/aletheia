@@ -1,5 +1,5 @@
 /*
- * function: func_02094798
+ * function: strcpy
  * address:  0x02094798
  * packet:   pkt_02094798
  * region:   arm9
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 #define K1 0xFEFEFEFF
 #define K2 0x80808080
 
-char *func_02094798(char *dst, const char *src)
+char *strcpy(char *dst, const char *src)
 {
     u8 *destb;
     u8 *fromb;

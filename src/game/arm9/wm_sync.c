@@ -1,7 +1,7 @@
 /*
  * file:     wm_sync.c
  * unit:     yes
- * function: WM_SetIndCallback, WM_SetPortCallback, WM_ReadStatus, func_0208EC34, func_0208ECA4, func_0208ED70, WM_GetAllowedChannel, WM_GetLinkLevel, WM_GetDispersionBeaconPeriod, func_0208EFC4, WM_GetOtherElements, func_0208F1B4
+ * function: WM_SetIndCallback, WM_SetPortCallback, WM_ReadStatus, WM_GetMPSendBufferSize, WM_GetMPReceiveBufferSize, WM_ReadMPData, WM_GetAllowedChannel, WM_GetLinkLevel, WM_GetDispersionBeaconPeriod, WM_GetDispersionScanPeriod, WM_GetOtherElements, WM_GetNextTgid
  * address:  0x0208EAC8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -197,15 +197,15 @@ extern int RTC_GetTime(RTCTime *time);
 WMErrCode WM_SetIndCallback(WMCallbackFunc callback);
 WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg);
 WMErrCode WM_ReadStatus(struct WMStatus *statusBuf);
-int func_0208EC34(void);
-int func_0208ECA4(void);
-WMMpRecvData *func_0208ED70(const WMMpRecvHeader *header, u16 aid);
+int WM_GetMPSendBufferSize(void);
+int WM_GetMPReceiveBufferSize(void);
+WMMpRecvData *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid);
 u16 WM_GetAllowedChannel(void);
 WMLinkLevel WM_GetLinkLevel(void);
 u16 WM_GetDispersionBeaconPeriod(void);
-u16 func_0208EFC4(void);
+u16 WM_GetDispersionScanPeriod(void);
 WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc);
-u16 func_0208F1B4(void);
+u16 WM_GetNextTgid(void);
 extern u32 g_020A872C;
 
 
@@ -316,7 +316,7 @@ WMErrCode WM_ReadStatus(struct WMStatus *statusBuf)
  * sdk:      WM_GetMPSendBufferSize (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-int func_0208EC34(void)
+int WM_GetMPSendBufferSize(void)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();
@@ -342,7 +342,7 @@ int func_0208EC34(void)
  * sdk:      WM_GetMPReceiveBufferSize (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-int func_0208ECA4(void)
+int WM_GetMPReceiveBufferSize(void)
 {
     WMErrCode result;
     BOOL isParent;
@@ -376,7 +376,7 @@ int func_0208ECA4(void)
  * sdk:      WM_ReadMPData (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMMpRecvData *func_0208ED70(const WMMpRecvHeader *header, u16 aid)
+WMMpRecvData *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid)
 {
     int i;
     WMErrCode result;
@@ -495,7 +495,7 @@ u16 WM_GetDispersionBeaconPeriod(void)
  * sdk:      WM_GetDispersionScanPeriod (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-u16 func_0208EFC4(void)
+u16 WM_GetDispersionScanPeriod(void)
 {
     u8 mac[6];
     u16 ret;
@@ -566,7 +566,7 @@ WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc)
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  *           g_020A872C is the function-local static tgid_bak (_ZZ14WM_GetNextTgidvE8tgid_bak), initial 0x10000
  */
-u16 func_0208F1B4(void)
+u16 WM_GetNextTgid(void)
 {
     if (tgid_bak == 0x10000) {
         RTCTime rt[1];

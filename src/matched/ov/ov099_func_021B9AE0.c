@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C57D8 0x021C57D8 thumb ov127
+ *   WF2DMAP_OBJDRAW_SetActive 0x021C57D8 thumb ov127
  */
 #include "../include/Obj04411.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C57D8(u8 *p, int v);
-void WIFICLUBACTOR_RestoreActorUpdate(void *w,u8 *s) { if (s) { if (((struct Obj04411 *)s)->f14) { ((struct Obj04411 *)s)->f10=((struct Obj04411 *)s)->f14; ((struct Obj04411 *)s)->f14=0; ((struct Obj04411 *)s)->fC=((struct Obj04411 *)s)->fE; func_021C57D8(((struct Obj04411 *)s)->f4,1); } } }
+extern void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v);
+void WIFICLUBACTOR_RestoreActorUpdate(void *w,u8 *s) { if (s) { if (((struct Obj04411 *)s)->f14) { ((struct Obj04411 *)s)->f10=((struct Obj04411 *)s)->f14; ((struct Obj04411 *)s)->f14=0; ((struct Obj04411 *)s)->fC=((struct Obj04411 *)s)->fE; WF2DMAP_OBJDRAW_SetActive(((struct Obj04411 *)s)->f4,1); } } }

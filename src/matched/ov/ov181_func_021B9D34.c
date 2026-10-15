@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D34
+ * function: STAFF_ROLL_InitWindows
  * address: 0x021B9D34
  * packet: pkt_ov181_021B9D34
  * region: ov181
@@ -26,7 +26,7 @@ struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned);
-void func_021B9D34(char *p)
+void STAFF_ROLL_InitWindows(char *p)
 {
     unsigned h;
     BMP_WIN_Init(0x8E);

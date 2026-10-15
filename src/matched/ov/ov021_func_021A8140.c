@@ -14,7 +14,7 @@
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_GetMoveOffsetInDir  0x021A3484  thumb  ov021
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  */
@@ -34,7 +34,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 typedef signed int     s32;
 extern void FIELD_PLAYER_GetMoveOffsetInDir(unsigned char **a, int b, s32 *c);
-extern void func_0207CEE4(int a, V *b, V *c, V *d);
+extern void VEC_MultAdd(int a, V *b, V *c, V *d);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern void FLDMMDL_MOVE_GetMapHeight(void *p, V *in, int *out);
 
@@ -51,7 +51,7 @@ void func_021A8140(void *a, V *out)
     k = FIELD_PLAYER_GetDirDisp(ctx);
     FIELD_PLAYER_GetPos(ctx, (struct VecFx32 *)&v0);
     FIELD_PLAYER_GetMoveOffsetInDir(ctx, k, (s32 *)(&v1));
-    func_0207CEE4(0x10000, &v1, &v0, &v2);
+    VEC_MultAdd(0x10000, &v1, &v0, &v2);
     FLDMMDL_MOVE_GetMapHeight(FIELD_PLAYER_GetMmdl(ctx), &v2, &t);
     v2.y = t;
     *out = v2;

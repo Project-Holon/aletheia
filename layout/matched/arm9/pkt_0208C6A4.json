@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208C6A4",
+   "name": "PMi_SendLEDPatternCommand",
    "address": "0x0208C6A4",
    "kind": "sdk",
    "region": "arm9",

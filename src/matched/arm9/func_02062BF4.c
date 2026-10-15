@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062F90  0x02062F90  arm
+ *   NNS_G2dResetCellAnimation  0x02062F90  arm
  *
  * One step of the NNS G2D cell/animation player: advance the playback cursor,
- * fire the user callback if one is armed, hand off to func_02062F90 when the
+ * fire the user callback if one is armed, hand off to NNS_G2dResetCellAnimation when the
  * playback mode says to, and finally clamp the cursor into the frame table's
  * bounds.
  *
@@ -115,7 +115,7 @@ struct Slider {
 };
 
 struct NNSG2dAnimController;
-extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
+extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
 
 static inline u32 getMode(struct Slider *s) {
     u32 m = s->field_18;
@@ -140,7 +140,7 @@ void func_02062BF4(struct Slider *s)
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
-                func_02062F90((struct NNSG2dAnimController *)s);
+                NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
             } else {
                 s->field_0C = 0;
             }
@@ -151,7 +151,7 @@ void func_02062BF4(struct Slider *s)
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
-            func_02062F90((struct NNSG2dAnimController *)s);
+            NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
         } else {
             s->field_0C = 0;
         }

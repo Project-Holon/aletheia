@@ -1,5 +1,5 @@
 /*
- * function: func_0207CBD0
+ * function: VEC_Mag
  * address:  0x0207CBD0
  * packet:   pkt_0207CBD0
  * region:   arm9
@@ -51,7 +51,7 @@ static inline u32 CP_GetSqrtResult32(void)
     return reg_CP_SQRT_RESULT;
 }
 
-fx32 func_0207CBD0(const VecFx32 *pSrc)
+fx32 VEC_Mag(const VecFx32 *pSrc)
 {
     fx64 t;
 

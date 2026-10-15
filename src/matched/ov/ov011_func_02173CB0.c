@@ -12,7 +12,7 @@
  * symbols:
  *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb ov011
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -25,7 +25,7 @@ struct Big;
 struct Out;
 u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetSaveControl(struct Big *p);
-u16 *func_0200BE48(void *sys);
+u16 *INTRUDE_GetFromSave(void *sys);
 int INTRUDE_COMM_IsLinked(void);
 void INTRUDE_COMM_BuildLocalProfile(void *sv, struct Out *o);
 struct Entry;
@@ -38,7 +38,7 @@ int INTRUDE_CMD_SendSaveSummary(int *a, int b)
     int buf[4];
 
     v = GAME_COMM_GetGameData((void *)a[1]);
-    func_0200BE48(GAME_DATA_GetSaveControl((struct Big *)v));
+    INTRUDE_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)v));
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }

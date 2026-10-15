@@ -15,7 +15,7 @@
  *   FIELD_RAIL_GetFocusPos  0x021B79D4  thumb  ov021
  *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
  *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb  ov021
@@ -37,7 +37,7 @@ u32 FIELD_RAIL_GetFieldCamera(u8 *p);
 void FIELD_RAIL_GetFocusPos(void **o, void *out);
 void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
 int FIELD_CAMERA_ResumeTargetTrace(u32 a);
-void func_0207CA00(const V *a, const V *b, V *c);
+void VEC_Subtract(const V *a, const V *b, V *c);
 void VEC_Normalize(const V *a, V *b);
 int func_0207CFB8(int a, int b);
 void FIELD_CAMERA_SetPitch(u8 *p, u16 v);
@@ -62,7 +62,7 @@ void FIELD_RAIL_CAMERA_YawFromPoint(u8 *p)
     w.x = ((struct Obj07529 *)q)->fC;
     w.y = 0;
     w.z = ((struct Obj07529 *)q)->f10;
-    func_0207CA00(&v, &w, &v);
+    VEC_Subtract(&v, &w, &v);
     VEC_Normalize(&v, &v);
     h = func_0207CFB8(v.x, v.z);
     FIELD_CAMERA_SetPitch((u8 *)o, ((struct Obj07529 *)q)->f4);

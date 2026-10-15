@@ -1,5 +1,5 @@
 /*
- * function: func_02169FE4
+ * function: DWCi_GetPersCallbackLevel
  * address:  0x02169FE4
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-int func_02169FE4(void)
+int DWCi_GetPersCallbackLevel(void)
 {
     int blk = *(int *)(((char *)&g_021AA860) + 0xc);
 

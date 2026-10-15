@@ -27,7 +27,7 @@
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
  *   WORLDTRADE_SUBLCD_UpdateSlotAnims 0x021FFBC8 thumb ov135
  *   func_02040588 0x02040588 arm
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  */
 #include "../include/Obj00137.h"
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ extern void WORLDTRADE_TITLE_DrawMenuLabels(u8 *);
 extern void WORLDTRADE_TITLE_SetBgVisible(char *p);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void WORLDTRADE_SUBLCD_StartAnimTaskA(u8 *);
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void WORLDTRADE_SUBLCD_SetSlotActorPositions(char *p);
 extern void WORLDTRADE_SUBLCD_UpdateSlotAnims(u8 *);
 int WORLDTRADE_TITLE_Init(u8 *p)
@@ -77,7 +77,7 @@ int WORLDTRADE_TITLE_Init(u8 *p)
         ((struct Obj00137 *)p)->f30=1;
         WORLDTRADE_SUBLCD_StartAnimTaskA(p);
     } else {
-        if(((struct Obj00137 *)p)->fEB4==1 && func_0207D55C((u16 *)0x0400106C)!=0) {
+        if(((struct Obj00137 *)p)->fEB4==1 && GXx_GetMasterBrightness_((u16 *)0x0400106C)!=0) {
             WORLDTRADE_SUBLCD_SetSlotActorPositions((char *)p);
             WIPE_SYS_Start(0,1,1,0,6,1,0x48);
         } else WIPE_SYS_Start((void *)3,1,1,0,6,1,0x48);

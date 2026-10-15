@@ -1,5 +1,5 @@
 /*
- * function: func_020788D8
+ * function: FS_ConvertPathToFileID
  * address:  0x020788D8
  * packet:   pkt_020788D8
  * region:   arm9
@@ -64,7 +64,7 @@ typedef struct FSArgumentForFindPath
 extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
 extern void FS_InitFile(FSFile *file);
 
-BOOL func_020788D8(FSFileID *p_fileid, const char *path)
+BOOL FS_ConvertPathToFileID(FSFileID *p_fileid, const char *path)
 {
     BOOL retval = 0;
     u32 baseid = 0;

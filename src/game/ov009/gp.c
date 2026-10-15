@@ -44,13 +44,13 @@
  *   func_0217EAE0  0x0217EAE0  arm   ov009
  *   func_02190140  0x02190140  arm   ov009
  *   func_0218FF24  0x0218FF24  arm   ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0219008C  0x0219008C  arm   ov009
  *   g_021A40A0     0x021A40A0  data
  *   g_021A40B0     0x021A40B0  data
  *   gpiGetProfile  0x0218FD9C  arm
  *   gpiDeleteBuddy     0x021890E0  arm
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   g_021A40C0     0x021A40C0  data
  *   g_021A40D8     0x021A40D8  data
  *   g_021A40F0     0x021A40F0  data
@@ -236,11 +236,11 @@ extern int func_0218FD9C(void **connection, int profileid, GPIProfile_021858FC *
 extern void func_0217EAE0(void *ptr);
 extern int func_02190140(char *p);
 extern void func_0218FF24(const int *p, void *profile);
-extern void *func_020923B0(void *dst, int val, unsigned long len);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern GPIProfile_02185FD4 *func_0219008C(void **connection, int buddyIndex);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile_021861A8 **pProfile);
 extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
-extern int func_020948E0(const char *a, const char *b);
+extern int strcmp(const char *a, const char *b);
 extern int func_021889A0(void **connection, int profileid, int type, char *message,
                          int sendOption, void *peerOp);
 extern int func_021908B0(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
@@ -604,7 +604,7 @@ int func_02185FD4(void **connection, int index, GPBuddyStatus *status)
         return 2;
     iconnection = (GPIConnection_02185FD4 *)*connection;
     if (iconnection->f108 != 0) {
-        func_020923B0(status, 0, sizeof(GPBuddyStatus));
+        MSL_C_LIB_MemsetPtr(status, 0, sizeof(GPBuddyStatus));
         return 0;
     }
     if (status == 0) {
@@ -745,8 +745,8 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
             locationStringFixed[i] = '/';
 
     if (status == iconnection->lastStatus
-        && func_020948E0(statusStringFixed, iconnection->lastStatusString) == 0
-        && func_020948E0(locationStringFixed, iconnection->lastLocationString) == 0)
+        && strcmp(statusStringFixed, iconnection->lastStatusString) == 0
+        && strcmp(locationStringFixed, iconnection->lastLocationString) == 0)
         return 0;
 
     iconnection->lastStatus = status;

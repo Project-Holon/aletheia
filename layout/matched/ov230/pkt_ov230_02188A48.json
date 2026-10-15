@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02188A48",
+   "name": "LOADER_DECRYPT_DecodeBlocks",
    "address": "0x02188A48",
    "kind": "game",
    "region": "ov230",

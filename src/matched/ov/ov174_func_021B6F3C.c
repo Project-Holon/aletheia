@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F3C
+ * function: LOCAL_TVT_CHARA_SetupPalette
  * address: 0x021B6F3C
  * packet: pkt_ov174_021B6F3C
  * region: ov174
@@ -23,7 +23,7 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern const u8 d_021B7484[],d_021B7480[];
-void func_021B6F3C(char *p,u8 *q)
+void LOCAL_TVT_CHARA_SetupPalette(char *p,u8 *q)
 {
     u8 height=24;
     if(((struct Obj05453 *)p)->f8!=2) height=12;

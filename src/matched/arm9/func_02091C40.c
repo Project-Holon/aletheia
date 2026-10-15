@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_020A60DC  0x020A60DC  data
+ *   __tolower_map  0x020A60DC  data
  *
  * Bounded case-insensitive string compare (the `strncmp` twin of
  * src/matched/stricmp.c, which is the unbounded `strcmp`): each byte is
@@ -31,7 +31,7 @@
  *    pass's spelling) leaves the same 26-byte register swap that note
  *    describes: lr/ip carry the loop counter and the table there, r4/ip here.
  *  - THE TABLE BASE IS ASSIGNED INSIDE THE GUARD.  `const u8 *tab =
- *    g_020A60DC;` at the top of the function hoists its pool load above the
+ *    __tolower_map;` at the top of the function hoists its pool load above the
  *    `ble`, which is the last 12-byte residue: the image emits
  *    `mov lr,#0 / ble / ldr ip,[pc,#0x60]`, i.e. the table is not loaded at
  *    all on the n <= 0 path.  Declaring it at the top and assigning it in
@@ -49,7 +49,7 @@
 
 typedef unsigned char u8;
 
-extern const u8 g_020A60DC[];
+extern const u8 __tolower_map[];
 
 int func_02091C40(const u8 *s1, const u8 *s2, int n)
 {
@@ -62,7 +62,7 @@ int func_02091C40(const u8 *s1, const u8 *s2, int n)
 
     if (n > 0)
     {
-        tab = g_020A60DC;
+        tab = __tolower_map;
         do
         {
             c1 = *s1++;

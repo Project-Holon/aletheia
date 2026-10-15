@@ -11,12 +11,12 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   BR_BTN_GetField14 0x021FA018 thumb ov186
+ *   BR_BTN_GetPressed 0x021FA018 thumb ov186
  *   BR_BTN_UpdatePrint 0x021F9FE8 thumb ov186
  *   BR_BTN_GetPlacement 0x021FA004 thumb ov186
  *   BR_PROC_SYS_PushEntry 0x021F9BF4 thumb ov186
  *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
- *   BR_BTN_GetField54 0x021FA01C thumb ov186
+ *   BR_BTN_GetResultValue 0x021FA01C thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   BR_RES_SetPalSet 0x021FC230 thumb ov186
  *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
@@ -35,7 +35,7 @@
 typedef unsigned int u32;
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
-extern int BR_BTN_GetField14(char *),BR_BTN_GetField54(char *);
+extern int BR_BTN_GetPressed(char *),BR_BTN_GetResultValue(char *);
 extern void BR_BTN_UpdatePrint(char *);
 extern int BR_BTN_GetPlacement(char *,int *,int *);
 extern void BR_PROC_SYS_PushEntry(unsigned *,unsigned);
@@ -57,7 +57,7 @@ int func_021DB770(int *task,int *state,char *p,char *q)
     case 0: BR_FADE_Start(*(int *)&((struct Obj01004 *)p)->f10,((struct Obj01004 *)p)->fC,3,0);*state=1;break;
     case 1: if(BR_FADE_GetResult(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;
     case 2:
-        if(((struct Obj01004 *)p)->f0<=4 && !BR_BTN_GetField14(*(char * *)&((struct Obj02891 *)q)->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
+        if(((struct Obj01004 *)p)->f0<=4 && !BR_BTN_GetPressed(*(char * *)&((struct Obj02891 *)q)->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
         }
         BR_BTN_UpdatePrint(*(char * *)&((struct Obj02891 *)q)->f0);
@@ -71,7 +71,7 @@ int func_021DB770(int *task,int *state,char *p,char *q)
     case 5:
         switch(BR_BTN_GetPlacement(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) {
         case 1: BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct Obj01004 *)p)->f1C,(unsigned short)((struct Obj01004 *)p)->f4);return 1;
-        case 2: BR_PROC_SYS_PopEntry(((struct Obj01004 *)p)->f1C);**(int * *)&((struct Obj01004 *)p)->f28=BR_BTN_GetField54(*(char * *)&((struct Obj02891 *)q)->f0);return 1;
+        case 2: BR_PROC_SYS_PopEntry(((struct Obj01004 *)p)->f1C);**(int * *)&((struct Obj01004 *)p)->f28=BR_BTN_GetResultValue(*(char * *)&((struct Obj02891 *)q)->f0);return 1;
         }
         break;
     case 6: {

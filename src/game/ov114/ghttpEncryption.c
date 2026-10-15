@@ -25,7 +25,7 @@
  *   sGhttpSslNullPointerOrEmpty    0x021CE75C  data  a4
  *   sGhttpEncryptionFileName    0x021CE7B0  data  a4
  *   sFuncNameGhiEncyptorSetRootCAList    0x021CE6AE  data  a1
- *   func_020948E0 0x020948E0  arm
+ *   strcmp 0x020948E0  arm
  *   func_0217D254 0x0217D254  arm
  *   ghiGetServerAddressFromUrl  0x021c1020  arm   ov114
  *   func_021843E8  0x021843e8  arm   ov009
@@ -57,7 +57,7 @@
  *   OS_GetLowEntropyData  0x02088168  arm
  *   CPS_SslAddRandomSeed  0x02162248  arm   ov009
  *   func_0217EAB0  0x0217eab0  arm   ov009
- *   func_020923B0  0x020923b0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923b0  arm
  *   gGhttpSslRandomSeed     0x021d3b44  data  ov114
  *   sFuncNameGhiTwlSSLInit     0x021ce678  data  ov114
  *   sGhttpTwlFailedToAllocateMemory     0x021cea74  data  ov114
@@ -117,7 +117,7 @@ extern int ghiEncryptorSslStartFunc(GHIConnection *connection, GHIEncryptor *enc
 extern int ghiEncryptorSslCleanupFunc(GHIConnection *connection, GHIEncryptor *encryptor);
 extern int ghiEncryptorSslEncryptFunc(GHIConnection *connection, void *encryptor, const char *plainText, int plainTextLen, char *cipherText, int *cipherTextLen);
 extern int ghiEncryptorSslDecryptFunc(GHIConnection *connection, void *encryptor, char *readPos, int *readLen, char *writePos, int *writeLen);
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char *ghiGetServerAddressFromUrl(char *);
 extern int func_021843E8(void *array, void *key, GHTTPArrayCompareFunc compare, int start, int isSorted);
@@ -131,7 +131,7 @@ extern void func_021841B0(void *);
 extern void OS_GetLowEntropyData(unsigned long *);
 extern void CPS_SslAddRandomSeed(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);
-extern void *func_020923B0(void *, int, unsigned long);
+extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned long);
 extern int func_0215FC80(int s, void *con);
 int ghttpSetRequestEncryptionEngine(int request, int engine);
 int ghiEncyptorSetRootCAList(char *url, void *theRootCAList);
@@ -236,7 +236,7 @@ int ghttpSetRequestEncryptionEngine(int request, int engine)
 int ghiEncyptorSetRootCAList(char *url, void *theRootCAList)
 {
     if (theRootCAList != 0 && url != 0) {
-        if (func_020948E0(url, sGhttpEmptyString) != 0)
+        if (strcmp(url, sGhttpEmptyString) != 0)
             goto done;
     }
     func_0217D254(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncyptorSetRootCAList, 0x74, url, theRootCAList);
@@ -255,7 +255,7 @@ int ghiEncryptorCleanupRootCAList(char *url)
 
 int ghiCompareCertUrl(void *a, void *b)
 {
-    return func_020948E0(*(const char **)a, *(const char **)b);
+    return strcmp(*(const char **)a, *(const char **)b);
 }
 
 
@@ -269,7 +269,7 @@ void *ghiEncryptorGetRootCAList(char *url)
     GHTTPCertificateInfo *certInfoToReturn;
     int pos;
 
-    if (url == 0 || gGhttpRootCaTable == 0 || func_020948E0(url, sGhttpEmptyString) == 0) {
+    if (url == 0 || gGhttpRootCaTable == 0 || strcmp(url, sGhttpEmptyString) == 0) {
         func_0217D254(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty2, sGhttpEncryptionFileName, sFuncNameGhiEncryptorGetRootCAList, 0x312, url, gGhttpRootCaTable);
         return 0;
     }
@@ -310,7 +310,7 @@ int ghiEncryptorSetTwlRootCA(char *url, void *theRootCAList)
     int pos;
     GHTTPCertificateInfo *certInfoToUpdate;
 
-    if (url == 0 || theRootCAList == 0 || func_020948E0(url, sGhttpEmptyString) == 0) {
+    if (url == 0 || theRootCAList == 0 || strcmp(url, sGhttpEmptyString) == 0) {
         func_0217D254(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSetTwlRootCA, 0x345, url, theRootCAList);
         return 0;
     }
@@ -348,7 +348,7 @@ int ghiEncryptorCleanupTwlRootCA(char *url)
     GHTTPCertificateInfo *certInfoToUpdate;
 
     result = 1;
-    if (url == 0 || gGhttpRootCaTable == 0 || func_020948E0(url, sGhttpEmptyString) == 0) {
+    if (url == 0 || gGhttpRootCaTable == 0 || strcmp(url, sGhttpEmptyString) == 0) {
         func_0217D254(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty3, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x37b, url, gGhttpRootCaTable);
         return 0;
     }
@@ -427,7 +427,7 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
             CPS_SslAddRandomSeed(gGhttpSslRandomSeed, 0x20);
             sslCon = func_0217EAB0(0x830);
             if (sslCon != 0) {
-                func_020923B0(sslCon, 0, 0x830);
+                MSL_C_LIB_MemsetPtr(sslCon, 0, 0x830);
                 sslCon->verifyState = 0;
                 sslCon->rootCerts = rootCaList->certs;
                 sslCon->rootCertCount = rootCaList->count;

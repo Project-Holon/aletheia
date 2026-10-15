@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B68B0",
+   "name": "POKE_SUMMARY_MAIN_WaitWipe",
    "address": "0x021B68B0",
    "kind": "game",
    "region": "ov173",

@@ -23,9 +23,9 @@
  *   func_02034714  0x02034714  arm
  *   str_020A7858   0x020A7858  data
  *   str_020A7868   0x020A7868  data
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_0203EFC8  0x0203EFC8  arm
@@ -140,8 +140,8 @@ extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern void func_02034714(const char *file, u32 line, const char *expr);
 extern u32 func_020307B0(void *mem);
-extern void  func_02034F84(u32 flag);
-extern void func_02034FB8(u32 flag);
+extern void  UI_SetKeepAwakeFlagsGlobal(u32 flag);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
@@ -481,7 +481,7 @@ int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
     page = func_02030734((u16)heap_id, 0x1000, 0, str_020A7848, 0x1e8);
 
     one = 1;
-    func_02034F84(one);
+    UI_SetKeepAwakeFlagsGlobal(one);
     BACKUP_SYSTEM_EraseFooter(sv, one);
     if (sv->area_addr[0] != sv->area_addr[1])
         BACKUP_SYSTEM_EraseFooter(sv, 2);
@@ -495,7 +495,7 @@ int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
     BACKUP_SYSTEM_ClearWork(sv);
     sv->data_exists = 0;
 
-    func_02034FB8(1);
+    UI_ClearKeepAwakeFlagsGlobal(1);
     return 1;
 }
 
@@ -1300,7 +1300,7 @@ void BACKUP_SYSTEM_InitSaveSeq(BackupSaveData *sv, u32 set_busy)
     sv->prev_save_count = save_count;
 
     if (set_busy == 1) {
-        func_02034F84(1);
+        UI_SetKeepAwakeFlagsGlobal(1);
     }
 }
 
@@ -1340,7 +1340,7 @@ void BACKUP_SYSTEM_CalcDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_s
     u32 result;
 
     i = 0;
-    func_02034F84(1);
+    UI_SetKeepAwakeFlagsGlobal(1);
 
     *diff_size = 0;
     *total_size = 0;
@@ -1365,7 +1365,7 @@ void BACKUP_SYSTEM_CalcDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_s
         i++;
     } while (i < SAVEDATA_GetTableMax(sv->table));
 
-    func_02034FB8(1);
+    UI_ClearKeepAwakeFlagsGlobal(1);
 }
 
 
@@ -1667,7 +1667,7 @@ void BACKUP_SYSTEM_EndSave(BackupSaveData *sv, u32 result, u32 clear_busy)
     }
 
     if (clear_busy == 1) {
-        func_02034FB8(1);
+        UI_ClearKeepAwakeFlagsGlobal(1);
     }
 }
 
@@ -1693,7 +1693,7 @@ void BACKUP_SYSTEM_CancelSaveSeq(BackupSaveData *sv)
 {
     sv->save_count = sv->prev_save_count;
     FLASH_ACCESS_CancelWrite(svsys->lock_id);
-    func_02034FB8(1);
+    UI_ClearKeepAwakeFlagsGlobal(1);
 }
 
 
@@ -1983,7 +1983,7 @@ void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size)
  * 0x02146994, read its field at +0x208, and forward r0-r2 plus that word
  * as the fourth argument of FLASH_ACCESS_StartWrite.  Unlabelled in the listing (it
  * saves no lr), so it is invisible to `sole-ref/code` until this entry
- * exists; it is the witness that unblocks the thumb caller func_021DFE00.
+ * exists; it is the witness that unblocks the thumb caller SAVE_OUTSIDE_WriteAsync.
  */
 u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size)
 {
@@ -1998,7 +1998,7 @@ u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size)
  * (not r3 like BACKUP_SYSTEM_WriteFlashAsync), which is what fixes the arity at three.
  * Unlabelled in the listing (it saves no lr), so it is invisible to
  * `sole-ref/code` until this entry exists; it is the witness that
- * unblocks the thumb caller func_021DFE00.
+ * unblocks the thumb caller SAVE_OUTSIDE_WriteAsync.
  */
 int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success)
 {

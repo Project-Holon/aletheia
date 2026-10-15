@@ -1,5 +1,5 @@
 /*
- * function: func_0207902C
+ * function: FS_StartOverlay
  * address:  0x0207902C
  * packet:   pkt_0207902C
  * region:   arm9
@@ -75,7 +75,7 @@ extern void OS_Terminate(void);
 extern void MIi_UncompressBackward(void *bottom);
 extern void DC_FlushRange(void *startAddr, u32 nBytes);
 
-void func_0207902C(FSOverlayInfo *p_ovi)
+void FS_StartOverlay(FSOverlayInfo *p_ovi)
 {
     u32 rare_size = FSi_GetOverlayBinarySize(p_ovi);
 

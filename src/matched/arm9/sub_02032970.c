@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *
  * savedata.c.  Opens a new backup generation: clears the two status bytes
  * and the two counters, remembers the generation the write is going to
@@ -44,7 +44,7 @@ struct SaveBackup {
     u32 unk144;
 };
 
-extern void func_02034F84(u32 bit);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 bit);
 
 void BACKUP_SYSTEM_InitSaveSeq(struct SaveBackup *p, u32 flag)
 {
@@ -59,6 +59,6 @@ void BACKUP_SYSTEM_InitSaveSeq(struct SaveBackup *p, u32 flag)
     p->unk10 = gen;
 
     if (flag == 1) {
-        func_02034F84(1);
+        UI_SetKeepAwakeFlagsGlobal(1);
     }
 }

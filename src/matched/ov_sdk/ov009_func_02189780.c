@@ -24,7 +24,7 @@
  *
  * symbols:
  *   func_0217EC4C  0x0217EC4C  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
  *   func_0217EAC8  0x0217EAC8  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_02092344  0x02092344  arm
@@ -48,7 +48,7 @@ typedef struct {
 } GPIBuffer;
 
 extern int func_0217EC4C(int sock, char *buffer, int len, int flags);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern char *func_0217EAC8(char *p, int size);
 extern char *func_0217EAB0(int size);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
@@ -95,7 +95,7 @@ int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
         rcode = func_0217EC4C(sock, &buffer[len], size - len, 0);
 
         if (rcode == -1) {
-            int error = func_0217ED54(sock);
+            int error = GOAGetLastError(sock);
             if (error != -6 && error != -26 && error != -76) {
                 func_02193734(connection, (int)g_021A453C);
                 return 3;

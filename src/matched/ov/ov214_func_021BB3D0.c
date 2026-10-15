@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3D0,func_021BB3D8
+ * function: BTL_REC_SEL_GRAPHIC_VBlankClact,BTL_REC_SEL_GRAPHIC_GetClactBank
  * address: 0x021BB3D0
  * packet: pkt_ov214_021BB3D0
  * region: ov214
@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021BB3D0(void) { CLACT_VBlankSystem(); }
-u32 func_021BB3D8(u32 *p) { return *p; }
+void BTL_REC_SEL_GRAPHIC_VBlankClact(void) { CLACT_VBlankSystem(); }
+u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return *p; }

@@ -17,18 +17,18 @@
  * Five unlabelled leaf accessors of the item archive block, none of which
  * saves lr and none of which therefore carries a `func_` label in the
  * listing (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md):
- * they print as a `.byte` run between func_02020E60's literal pool and
- * func_02020F34.
+ * they print as a `.byte` run between FILE_UTIL_Get's literal pool and
+ * FILE_UTIL_CreateArcTool0F34.
  *
  * This unit is the code-side attestation of the item archive's identity.
  * The archive id in this image is the decimal spelling of the a/X/Y/Z
  * path, so:
- *   - func_02020F14 opens archive id 0x18 = 24 = a/0/2/4 as a persistent
+ *   - FILE_UTIL_Create_0F14 opens archive id 0x18 = 24 = a/0/2/4 as a persistent
  *     0x50-byte handle (func_020490F4 takes the archive id in r0), and
  *     func_02020F20 reads member `item` out of that same handle after
  *     clamping the item id to 626, the last of a/0/2/4's 627 members.
  *   - func_02020F08 answers archive id 0x19 = 25 = a/0/2/5, the item
- *     graphics archive func_02020F34 reads icon members out of.
+ *     graphics archive FILE_UTIL_CreateArcTool0F34 reads icon members out of.
  *
  * func_02020F0C and func_02020F10 are constant 1 / constant 0 answers in
  * the same block; the value they stand for is not attested here, only the
@@ -66,7 +66,7 @@ u32 func_02020F10(void)
     return 0;
 }
 
-void *func_02020F14(u32 heap)
+void *FILE_UTIL_Create_0F14(u32 heap)
 {
     return func_020490F4(0x18, heap);
 }

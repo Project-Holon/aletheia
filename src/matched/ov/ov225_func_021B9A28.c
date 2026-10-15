@@ -10,10 +10,10 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   config 0x021BBDF0 data ov225
@@ -25,25 +25,25 @@ struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 extern u32 config[];
 extern struct Record table[];
 extern void MI_CpuFill8(void *, u32, u32);
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 void func_021B9A28(void *p, u32 heap)
 {
     u32 i = 0;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)config);
     for (; i < 4; i++) {
         struct Record *r = &table[i];
         u32 id = r->id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
         func_020414AC(id);
         func_02040588(id, r->visible);
     }

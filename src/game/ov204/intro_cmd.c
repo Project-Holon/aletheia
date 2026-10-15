@@ -47,7 +47,7 @@
  *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
  *   func_021BF864  0x021BF864  thumb ov204
  *   func_0207D63C 0x0207D63C arm
- *   func_021BFCE8 0x021BFCE8 thumb ov204
+ *   INTRO_PARTICLE_StartEffect 0x021BFCE8 thumb ov204
  *   func_021BFAE4 0x021BFAE4 thumb
  *   func_021BFBC8 0x021BFBC8 thumb
  *   func_021BFA40 0x021BFA40 thumb ov204
@@ -82,7 +82,7 @@
  *   d_021C09D8 0x021C09D8 data a4
  *   d_021C0AB8 0x021C0AB8 data a4
  *   site 0x021C0AE4 data a1
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
  *   func_02049B40 0x02049B40 arm
@@ -105,7 +105,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_02045B38 0x02045B38 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -151,6 +151,7 @@
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 #include "../../matched/include/Obj25350.h"
 #include "../../matched/include/Obj14608.h"
@@ -322,7 +323,7 @@ extern int PM_VOICE_Start(u32 idx);
 extern u32 PM_VOICE_IsSlotActive(u32 i);
 extern int func_021BF864(char *p, int delta, int limit);
 extern void func_0207D63C(volatile void *, int, int, int, int);
-extern void func_021BFCE8(u32*,u32,u32,u32);
+extern void INTRO_PARTICLE_StartEffect(u32*,u32,u32,u32);
 extern void func_021BFAE4(char *p, int v);
 extern void func_021BFBC8(char *p, unsigned value);
 extern int func_021BFA40(char*);
@@ -351,7 +352,7 @@ extern u32 CLACT_GetActorObjMode(const struct Actor *actor);
 extern void func_0201F02C(struct WordSet*,u32,void*);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -374,11 +375,11 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void TCBL_Main(struct Tcbl*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys*);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void GF_FONT_SetTextColor(unsigned int, unsigned int, unsigned int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -852,7 +853,7 @@ int func_021BE7A8(u8 *p, u32 *q)
 
 
 
-int func_021BE838(u8*p,u32 unused,u32*q){func_0207D63C((void*)0x04000050,1,9,0,0);func_021BFCE8(*(u32* *)&((struct Obj25369 *)p)->f10,q[0],q[1],0);return 1;}
+int func_021BE838(u8*p,u32 unused,u32*q){func_0207D63C((void*)0x04000050,1,9,0,0);INTRO_PARTICLE_StartEffect(*(u32* *)&((struct Obj25369 *)p)->f10,q[0],q[1],0);return 1;}
 
 
 
@@ -1287,7 +1288,7 @@ char *func_021BF0A0(u16 heap)
     void *obj;
     p=func_02030734(heap,72,1,site,129);
     ((struct Obj01008 *)p)->f0=heap;
-    ((struct Obj01008 *)p)->f8=func_0201EC64(heap);
+    ((struct Obj01008 *)p)->f8=GF_FONT_Create_EC64(heap);
     ((struct Obj01008 *)p)->f4=(void *)PRINTSYS_QUE_Create((void *)heap);
     ((struct Obj01008 *)p)->f18=TCBL_Create(((struct Obj01008 *)p)->f0,((struct Obj01008 *)p)->f0,2,0);
     func_02049B40(23,5,0,320,32,heap);
@@ -1324,7 +1325,7 @@ void func_021BF1A4(char *p)
     PRINTSYS_QUE_Delete(((struct Obj01292 *)p)->f4);
     if (((struct Obj01292 *)p)->fC)
         MSGDATA_Delete(((struct Obj01292 *)p)->fC);
-    func_0201ED04(((struct Obj01292 *)p)->f8);
+    WORDSET_DeleteStrbufED04(((struct Obj01292 *)p)->f8);
     func_020307B0(p);
 }
 
@@ -1349,7 +1350,7 @@ void func_021BF228(u8*p){TCBL_Main(*(struct Tcbl* *)&((struct Obj14621 *)p)->f18
  */
 void func_021BF23C(char *p, void *a, int flag)
 {
-    unsigned int value = func_02012FFC();
+    unsigned int value = MSG_SPEED_GetWait();
     void *desc = ((struct Obj02540 *)p)->f1C;
     BMP_Clear(BMP_WIN_GetBmp(desc), 15);
     GF_FONT_SetTextColor(1, 2, 15);

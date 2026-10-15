@@ -1,5 +1,5 @@
 /*
- * function: func_021E2FE8
+ * function: BR_CODEIN_HideMenuText
  * address: 0x021E2FE8
  * packet: pkt_ov183_021E2FE8
  * region: ov183
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void BR_UTIL_StartEffect(char *,u32,const struct Pair *);
 extern void BR_UTIL_DeleteTextWin(void *,int);
-void func_021E2FE8(char *p) { int zero=0;BR_UTIL_StartEffect(*(char * *)&((struct Obj06616 *)p)->f30,0,0);if(((struct Obj06616 *)p)->f8){BR_UTIL_DeleteTextWin(((struct Obj06616 *)p)->f8,((struct Obj24695 *)(*(char * *)&((struct Obj06616 *)p)->f3C))->f8);*(int *)&((struct Obj06616 *)p)->f8=zero;} }
+void BR_CODEIN_HideMenuText(char *p) { int zero=0;BR_UTIL_StartEffect(*(char * *)&((struct Obj06616 *)p)->f30,0,0);if(((struct Obj06616 *)p)->f8){BR_UTIL_DeleteTextWin(((struct Obj06616 *)p)->f8,((struct Obj24695 *)(*(char * *)&((struct Obj06616 *)p)->f3C))->f8);*(int *)&((struct Obj06616 *)p)->f8=zero;} }

@@ -12,14 +12,14 @@
  * sdk:      _gsi_memalign (gsmemory.o)
  *
  * symbols:
- *   func_0209146C                  0x0209146C  arm
+ *   MSL_C_LIB_Calloc                  0x0209146C  arm
  *   _u32_div_f                     0x0209C2B0  arm
  */
 
-extern void *func_0209146C(unsigned long n, unsigned long size);
+extern void *MSL_C_LIB_Calloc(unsigned long n, unsigned long size);
 
 void *func_0217EA7C(unsigned long boundary, unsigned long size)
 {
-    void *ptr = func_0209146C(size / boundary, boundary);
+    void *ptr = MSL_C_LIB_Calloc(size / boundary, boundary);
     return ptr;
 }

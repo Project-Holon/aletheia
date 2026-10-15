@@ -1,5 +1,5 @@
 /*
- * function: func_021782B4
+ * function: DWCi_Auth_Start
  * address:  0x021782B4
  * packet:   pkt_ov009_021782B4
  * region:   ov009
@@ -12,19 +12,19 @@
  * sdk:      DWCi_Auth_Start (libdwcauth.TWL.HYB.a dwc_auth.o)
  *
  * symbols:
- *   func_020948E0  0x020948E0  arm
- *   func_0217956C  0x0217956C  arm  ov009
+ *   strcmp  0x020948E0  arm
+ *   DWC_Http_Create  0x0217956C  arm  ov009
  *   DWCi_BM_GetWiFiInfo  0x02058518  arm
- *   func_02178A94  0x02178A94  arm  ov009
- *   func_0217967C  0x0217967C  arm  ov009
+ *   DWCi_Auth_Prepare_FirstPost  0x02178A94  arm  ov009
+ *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
  *   OS_GetThreadPriority  0x02085A30  arm
- *   func_02179718  0x02179718  arm  ov009
+ *   DWC_Http_StartThread  0x02179718  arm  ov009
  *   g_021A2358  0x021A2358  data  ov009
- *   g_021A2358_arg  0x021A2358  data  ov009
- *   g_021A2374  0x021A2374  data  ov009
- *   g_021AB184  0x021AB184  data  ov009
- *   g_021AB190  0x021AB190  data  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gDwcHttpParamArg  0x021A2358  data  ov009
+ *   gDwcAuthNasUrl  0x021A2374  data  ov009
+ *   gDwcAuthGlobal  0x021AB184  data  ov009
+ *   gDwcWiFiInfo  0x021AB190  data  ov009
+ *   gMslRefToken  0x02150FEC  data
  *
  * The pool carried 0x021A2358 twice: once for the url/f14/fc/f10 accesses and
  * once for the DWC_Http_Create argument, so the source named the struct through
@@ -34,7 +34,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_021782B4.c \
- *       --func func_021782B4 --addr 0x021782B4 --region ov009 --arm --cc 1.1p1 --lang c99 --diff
+ *       --func DWCi_Auth_Start --addr 0x021782B4 --region ov009 --arm --cc 1.1p1 --lang c99 --diff
  */
 
 #include "../include/G_DWCWFCUtil.h"
@@ -61,45 +61,45 @@ typedef struct
     void *current;
 } OSThreadInfo;
 
-extern int func_020948E0(const char *, const char *);
-extern int func_0217956C(struct DWCHttp *http, struct DWCHttpParam *param);
+extern int strcmp(const char *, const char *);
+extern int DWC_Http_Create(struct DWCHttp *http, struct DWCHttpParam *param);
 struct tagDWCWiFiInfo;
 extern void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
-extern int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn);
-extern int func_0217967C(char *http);
+extern int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn);
+extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(void *thread);
-extern void func_02179718(char *http, unsigned long prio);
+extern void DWC_Http_StartThread(char *http, unsigned long prio);
 
 extern struct DWCHttpParam g_021A2358;
-extern struct DWCHttpParam g_021A2358_arg;
-extern char g_021A2374[];
-extern struct DWCWFCUtil g_021AB184;
-extern char g_021AB190[];
-extern OSThreadInfo g_02150FEC;
+extern struct DWCHttpParam gDwcHttpParamArg;
+extern char gDwcAuthNasUrl[];
+extern struct DWCWFCUtil gDwcAuthGlobal;
+extern char gDwcWiFiInfo[];
+extern OSThreadInfo gMslRefToken;
 
-#define AUTH_RESULT (*(int *)(((char *)g_021AB184.auth) + 0x1004))
-#define AUTH_HTTP (*(DWCHttp **)(((char *)g_021AB184.auth) + 0x1314))
+#define AUTH_RESULT (*(int *)(((char *)gDwcAuthGlobal.auth) + 0x1004))
+#define AUTH_HTTP (*(DWCHttp **)(((char *)gDwcAuthGlobal.auth) + 0x1314))
 
-int func_021782B4(int getwifiinfofromflash)
+int DWCi_Auth_Start(int getwifiinfofromflash)
 {
-    if (func_020948E0(g_021A2358.url, g_021A2374) != 0)
+    if (strcmp(g_021A2358.url, gDwcAuthNasUrl) != 0)
         g_021A2358.f14 = 1;
 
-    g_021A2358.fc = *(int *)(((char *)g_021AB184.auth) + 0x120c);
-    g_021A2358.f10 = *(int *)(((char *)g_021AB184.auth) + 0x1210);
-    if (func_0217956C(AUTH_HTTP, &g_021A2358_arg) != 0)
+    g_021A2358.fc = *(int *)(((char *)gDwcAuthGlobal.auth) + 0x120c);
+    g_021A2358.f10 = *(int *)(((char *)gDwcAuthGlobal.auth) + 0x1210);
+    if (DWC_Http_Create(AUTH_HTTP, &gDwcHttpParamArg) != 0)
         return 4;
 
     if (getwifiinfofromflash == 1)
-        DWCi_BM_GetWiFiInfo((struct tagDWCWiFiInfo *)g_021AB190);
+        DWCi_BM_GetWiFiInfo((struct tagDWCWiFiInfo *)gDwcWiFiInfo);
 
-    AUTH_RESULT = func_02178A94(AUTH_HTTP, ((char *)g_021AB184.auth) + 0x1200, (unsigned short *)(((char *)g_021AB184.auth) + 0x11cc));
+    AUTH_RESULT = DWCi_Auth_Prepare_FirstPost(AUTH_HTTP, ((char *)gDwcAuthGlobal.auth) + 0x1200, (unsigned short *)(((char *)gDwcAuthGlobal.auth) + 0x11cc));
     if (AUTH_RESULT != 0)
         return 4;
 
-    if (func_0217967C((char *)AUTH_HTTP) != 0)
+    if (DWC_Http_FinishHeader((char *)AUTH_HTTP) != 0)
         return 4;
 
-    func_02179718((char *)AUTH_HTTP, OS_GetThreadPriority(g_02150FEC.current) - 1);
+    DWC_Http_StartThread((char *)AUTH_HTTP, OS_GetThreadPriority(gMslRefToken.current) - 1);
     return 0;
 }

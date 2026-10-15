@@ -18,7 +18,7 @@
  *   ENCEFF_RequestScreenCapture  0x021F54A0  thumb  ov075
  *   func_0204047C  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
- *   func_02080C44  0x02080C44  arm
+ *   GX_GetBankForTex  0x02080C44  arm
  *   func_02080B98  0x02080B98  arm
  *   func_02080294  0x02080294  arm
  *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
@@ -51,7 +51,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void ENCEFF_RequestScreenCapture(char *p);
 extern void func_0204047C(int idx, u16 val);
 extern u32 FIELDMAP_GetDrawMode(u8 *p);
-extern u16 func_02080C44(void);
+extern u16 GX_GetBankForTex(void);
 extern void func_02080B98(void);
 extern void func_02080294(u32 bank);
 extern u32 ENCEFF_GetScreenTexParam(void);
@@ -81,7 +81,7 @@ int ENCEFF_ScreenTexEventMain(void *task, int *st, Work *w)
             func_0204047C(0, 0);
             func_0204047C(2, 3);
             w->fC = FIELDMAP_GetDrawMode((u8 *)v);
-            bank = func_02080C44();
+            bank = GX_GetBankForTex();
             w->f4 = bank;
             w->f8 = 0;
             if ((bank & 8) == 0) {

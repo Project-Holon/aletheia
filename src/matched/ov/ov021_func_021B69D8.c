@@ -13,12 +13,12 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200A8A0  0x0200A8A0  thumb
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb
  *   FIELD_CLOCK_GetDate  0x021690A4  thumb  ov010
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_0200A940  0x0200A940  thumb
- *   func_0200A8F8  0x0200A8F8  thumb
- *   func_0200A8C8  0x0200A8C8  thumb
+ *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb
+ *   IRC_RANKING_GetEntry  0x0200A8C8  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   STRBUF_Create  0x020457B0  arm
@@ -46,15 +46,15 @@ struct Big;
 struct Rec;
 struct U16Vec;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A8A0(void *);
+extern void *IRC_RANKING_GetFromSave(void *);
 struct Entry;
 struct Strbuf;
 extern void *FIELD_CLOCK_GetDate(int a0);
 struct OSOwnerInfo;
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern int func_0200A940(void *, int, int, void *);
-extern u32 func_0200A8F8(struct Rec *r, u32 index);
-extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
+extern u32 IRC_RANKING_GetEntryGender(struct Rec *r, u32 index);
+extern struct Entry *IRC_RANKING_GetEntry(struct Rec *r, u32 index);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -74,13 +74,13 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(void *a, void *b)
     u32 r7;
     struct Owner o;
 
-    r4 = func_0200A8A0(GAME_DATA_GetSaveControl(r5));
+    r4 = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(r5));
     r5 = FIELD_CLOCK_GetDate((int)r5);
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&o));
     r6 = func_0200A940(r4, o.month, o.day, r5);
-    fl = func_0200A8F8(r4, r6);
+    fl = IRC_RANKING_GetEntryGender(r4, r6);
     fl = fl != 1;
-    r6 = (int)func_0200A8C8(r4, r6);
+    r6 = (int)IRC_RANKING_GetEntry(r4, r6);
     r7 = (u32)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(b));
     v = STRBUF_Create(8, 0x8001);
     STRBUF_SetString(v, (const u16 *)r6);

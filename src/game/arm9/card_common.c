@@ -1,7 +1,7 @@
 /*
  * file:     card_common.c
  * unit:     yes
- * function: func_02075ED4, func_02075F4C, CARDi_GetAccessLevel, func_02076050, func_02076070, func_0207608C, func_020760B4
+ * function: CARDi_LockResource, CARDi_UnlockResource, CARDi_GetAccessLevel, CARDi_WaitAsync, CARDi_TryWaitAsync, CARDi_InitResourceLock, CARDi_InitCommand
  * address:  0x02075ED4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,8 +34,7 @@
  *   OS_GetBootType  0x02087B04  arm
  *   OS_IsRunOnTwl   0x02085D3C  arm
  *   func_02075E04   0x02075E04  arm
- *   g_02150200    0x02150200  data
- *   func_02076230 0x02076230  arm
+ *   CARDi_WaitForTask 0x02076230  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   DC_FlushRange  0x020862F0  arm
  *   PXI_SetFifoRecvCallback  0x020885A0  arm
@@ -123,20 +122,19 @@ extern void OS_WakeupThread(OSThreadQueue *queue);
 extern int OS_GetBootType(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern TwlRomHeader *func_02075E04(void);
-extern int func_02076230(struct CARDiCommon *p, int restart, void (*callback)(void *), void *callback_arg);
+extern int CARDi_WaitForTask(struct CARDiCommon *p, int restart, void (*callback)(void *), void *callback_arg);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern void DC_FlushRange(void *startAddr, u32 nBytes);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void CARDi_OnFifoRecv(int tag, u32 data, BOOL err);
-void func_02075ED4(s32 owner, CARDTarget target);
-void func_02075F4C(s32 owner, CARDTarget target);
+void CARDi_LockResource(s32 owner, CARDTarget target);
+void CARDi_UnlockResource(s32 owner, CARDTarget target);
 u32 CARDi_GetAccessLevel(void);
-void func_02076050(void);
-int func_02076070(void);
-void func_0207608C(void);
-void func_020760B4(void);
+void CARDi_WaitAsync(void);
+int CARDi_TryWaitAsync(void);
+void CARDi_InitResourceLock(void);
+void CARDi_InitCommand(void);
 extern CARDiCommon cardi_common;
-extern u32 g_02150200;
 extern CARDiCommandArg cardi_arg;
 
 
@@ -144,7 +142,7 @@ extern CARDiCommandArg cardi_arg;
 /*
  * sdk:      CARDi_LockResource (libcard.TWL.HYB.a card_common.o)
  */
-void func_02075ED4(s32 owner, CARDTarget target)
+void CARDi_LockResource(s32 owner, CARDTarget target)
 {
     CARDiCommon *const p = &cardi_common;
     u32 bak_psr = OS_DisableInterrupts();
@@ -174,7 +172,7 @@ void func_02075ED4(s32 owner, CARDTarget target)
 /*
  * sdk:      CARDi_UnlockResource (libcard.TWL.HYB.a card_common.o)
  */
-void func_02075F4C(s32 owner, CARDTarget target)
+void CARDi_UnlockResource(s32 owner, CARDTarget target)
 {
     CARDiCommon *const p = &cardi_common;
     u32 bak_psr = OS_DisableInterrupts();
@@ -228,7 +226,7 @@ u32 CARDi_GetAccessLevel(void)
 
 
 
-void func_02076050(void) { func_02076230((struct CARDiCommon *)((u32)&g_02150200), 0, 0, 0); }
+void CARDi_WaitAsync(void) { CARDi_WaitForTask(&cardi_common, 0, 0, 0); }
 
 
 
@@ -242,9 +240,9 @@ void func_02076050(void) { func_02076230((struct CARDiCommon *)((u32)&g_02150200
  * one-word veneer, so filing it and then re-running that wrapper is the
  * bottom-up promotion for this pair.
  */
-int func_02076070(void)
+int CARDi_TryWaitAsync(void)
 {
-    return (*(u32 *)((char *)&g_02150200 + 4) & 4) ? 0 : 1;
+    return (cardi_common.flag & 4) ? 0 : 1;
 }
 
 
@@ -261,7 +259,7 @@ static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 /*
  * sdk:      CARDi_InitResourceLock (libcard.TWL.HYB.a card_common.o)
  */
-void func_0207608C(void)
+void CARDi_InitResourceLock(void)
 {
     CARDiCommon *p = (CARDiCommon *)&cardi_common;
 
@@ -276,7 +274,7 @@ void func_0207608C(void)
 /*
  * sdk:      CARDi_InitCommand (libcard.TWL.HYB.a card_common.o)
  */
-void func_020760B4(void)
+void CARDi_InitCommand(void)
 {
     CARDiCommon *p = &cardi_common;
 

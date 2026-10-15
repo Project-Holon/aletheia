@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA44
+ * function: BEACON_DETAIL_GRA_Task
  * address:  0x021BCA44
  * packet:   pkt_021BCA44
  * region:   ov216
@@ -19,7 +19,7 @@
 extern void func_021BCAF4(void *);
 extern void func_021BCB98(void *);
 
-void func_021BCA44(void *unused, char *p)
+void BEACON_DETAIL_GRA_Task(void *unused, char *p)
 {
     func_021BCAF4(p);
     func_021BCB98(p + 4);

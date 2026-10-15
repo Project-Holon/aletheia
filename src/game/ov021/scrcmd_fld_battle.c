@@ -23,7 +23,7 @@
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_020307B0  0x020307B0  arm
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
  *   func_02030734  0x02030734  arm
@@ -34,8 +34,8 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02019ED4  0x02019ED4  thumb
  *   POKE_REGULATION_CheckParty  0x0201A090  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -83,7 +83,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_020307B0(void *p);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -93,8 +93,8 @@ extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
 extern int func_02019ED4(void *rules, void *party);
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
-extern void *func_0200BAC8(void *);
-extern u32 func_0200BBA8(void *a);
+extern void *BATTLE_BOX_GetFromSave(void *);
+extern u32 BATTLE_BOX_HasMon(void *a);
 extern void *func_0200BAF4(int a0, int a1);
 extern struct FieldTask *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct FieldTask *p);
@@ -175,7 +175,7 @@ u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *gameData, void *wordSet, u3
     regulation = POKE_REGULATION_Load(regulationNo, heapId);
     speciesList = SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(regulation, gameData, &count, heapId);
     for (i = 0; i < count; i++) {
-        func_0201EE60(wordSet, i, speciesList[i]);
+        WORDSET_Callback(wordSet, i, speciesList[i]);
     }
     func_020307B0(speciesList);
     func_020307B0(regulation);
@@ -244,8 +244,8 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     } else {
         playerPartyInvalid = POKE_REGULATION_CheckParty(rules, playerParty, &mask);
     }
-    battleRec = func_0200BAC8(GAME_DATA_GetSaveControl(gameData));
-    if (func_0200BBA8(battleRec) == 1) {
+    battleRec = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    if (BATTLE_BOX_HasMon(battleRec) == 1) {
         mask = 0;
         recordParty = func_0200BAF4((int)battleRec, heapId);
         if (isSubwayRules) {

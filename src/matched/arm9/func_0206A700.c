@@ -11,7 +11,7 @@
  *
  * The 3D/rig register block init at data_02148B4C: sixteen pool constants
  * written into the block around three subsystem calls, then a second pass
- * over the 0xec..0x260 window after func_0207ADC4 returns.
+ * over the 0xec..0x260 window after MTX_Identity33_ returns.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md),
  * in both of its recorded forms at once. (a) The image RE-LOADS the block
@@ -32,9 +32,9 @@
  *   data_02148B54  0x02148B54  data
  *   data_02148B98  0x02148B98  data
  *   data_02148C08  0x02148C08  data
- *   func_0207B598  0x0207B598  arm
- *   func_0207BDB4  0x0207BDB4  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity43_  0x0207B598  arm
+ *   MTX_Identity44_  0x0207BDB4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  */
 
 typedef unsigned int u32;
@@ -44,9 +44,9 @@ extern u32 data_02148B54[];
 extern u32 data_02148B98[];
 extern u32 data_02148C08[];
 
-extern void func_0207B598(void *);
-extern void func_0207BDB4(void *);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity43_(void *);
+extern void MTX_Identity44_(void *);
+extern void MTX_Identity33_(void *);
 
 void NNS_G3dGlbInit(void)
 {
@@ -60,8 +60,8 @@ void NNS_G3dGlbInit(void)
     g[0x90 / 4] = 0x60293130;
     g[0xa4 / 4] = 0x33333333;
     g[0xb8 / 4] = 0x002A1B19;
-    func_0207B598(data_02148B98);
-    func_0207BDB4(data_02148B54);
+    MTX_Identity43_(data_02148B98);
+    MTX_Identity44_(data_02148B54);
 
     a = 0x40000200;
     b = 0xC0080000;
@@ -81,7 +81,7 @@ void NNS_G3dGlbInit(void)
     g[0xe0 / 4] = 0;
     g[0xe4 / 4] = 0;
     g[0xe8 / 4] = 0;
-    func_0207ADC4(data_02148C08);
+    MTX_Identity33_(data_02148C08);
 
     g = data_02148B4C;
     g[0xec / 4] = 0x1000;

@@ -1,5 +1,5 @@
 /*
- * function: func_020618E4
+ * function: NNS_GfdFuncLoadClearImageColor
  * address:  0x020618E4
  * packet:   pkt_020618E4
  * region:   arm9
@@ -20,8 +20,8 @@
  * EXACT entry or a second caller.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020618E4.c \
- *       --func func_020618E4 --addr 0x020618E4 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNS_GfdFuncLoadClearImageColor.c \
+ *       --func NNS_GfdFuncLoadClearImageColor --addr 0x020618E4 --arm --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ extern void func_0207FB2C(void);
 extern void func_0207FBBC(u32 a, u32 c);
 extern void func_0207FCE4(void);
 
-void func_020618E4(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
 {
     func_0207FB2C();
     func_0207FBBC(a, c);

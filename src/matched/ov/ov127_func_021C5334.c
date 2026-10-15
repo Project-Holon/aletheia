@@ -1,5 +1,5 @@
 /*
- * function: func_021C5334
+ * function: WF2DMAP_OBJCMD_Restart
  * address: 0x021C5334
  * packet: pkt_ov127_021C5334
  * region: ov127
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4AC4 0x021C4AC4 thumb ov127
- *   func_021C49A4 0x021C49A4 thumb ov127
- *   func_021C4CE4 0x021C4CE4 thumb ov127
+ *   WF2DMAP_OBJ_GetPos 0x021C4AC4 thumb ov127
+ *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
+ *   WF2DMAP_OBJCMD_StartCmd0 0x021C4CE4 thumb ov127
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct pair {u16 a,b;};
-extern struct pair func_021C4AC4(char *);
-extern int func_021C49A4(u8 *,unsigned);
-extern void func_021C4CE4(char *,struct pair,int);
-void func_021C5334(char *p) { struct pair v=func_021C4AC4(p); func_021C4CE4(p,v,func_021C49A4((u8 *)p,6)); }
+extern struct pair WF2DMAP_OBJ_GetPos(char *);
+extern int WF2DMAP_OBJ_GetSlot(u8 *,unsigned);
+extern void WF2DMAP_OBJCMD_StartCmd0(char *,struct pair,int);
+void WF2DMAP_OBJCMD_Restart(char *p) { struct pair v=WF2DMAP_OBJ_GetPos(p); WF2DMAP_OBJCMD_StartCmd0(p,v,WF2DMAP_OBJ_GetSlot((u8 *)p,6)); }

@@ -24,12 +24,12 @@
  *           The `%08x` vs `%x` string spelling is irrelevant (ABS32).
  *
  * symbols:
- *   func_020949F4                    0x020949f4 arm
- *   func_02094A28                    0x02094a28 arm
+ *   strncmp                    0x020949f4 arm
+ *   strchr                    0x02094a28 arm
  *   func_0208CF34                    0x0208cf34 arm
- *   func_020964E0                    0x020964e0 arm
- *   func_02092364                    0x02092364 arm
- *   func_020923B0                    0x020923b0 arm
+ *   atoi                    0x020964e0 arm
+ *   memmove                    0x02092364 arm
+ *   MSL_C_LIB_MemsetPtr                    0x020923b0 arm
  *   gGsXmlEntityAmp                       0x021a3f1c data
  *   gGsXmlEntityQuot                       0x021a3f24 data
  *   gGsXmlEntityApos                       0x021a3f2c data
@@ -41,13 +41,13 @@
  */
 
 typedef unsigned char  u8;
-extern int func_020949F4(const u8 *s1, const u8 *s2, unsigned int n);
-extern char *func_02094A28(const char *s, int c);
+extern int strncmp(const u8 *s1, const u8 *s2, unsigned int n);
+extern char *strchr(const char *s, int c);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
-extern void *func_02092364(void *dst, const void *src, unsigned int n);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
+extern int atoi(u32 a0);
+extern void *memmove(void *dst, const void *src, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern char gGsXmlEntityAmp[];       /* "&amp;" */
 extern char gGsXmlEntityQuot[];       /* "&quot;" */
 extern char gGsXmlEntityApos[];       /* "&apos;" */
@@ -71,32 +71,32 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			continue;
 		}
 
-		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityAmp, 5)==0)
+		if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityAmp, 5)==0)
 		{
 			buffer[readPos++] = '&';
 			charsToRemove = 5-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityQuot, 6)==0)
+		else if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityQuot, 6)==0)
 		{
 			buffer[readPos++] = '"';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityApos, 6)==0)
+		else if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityApos, 6)==0)
 		{
 			buffer[readPos++] = '\'';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityLt, 4)==0)
+		else if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityLt, 4)==0)
 		{
 			buffer[readPos++] = '<';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityGt, 4)==0)
+		else if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityGt, 4)==0)
 		{
 			buffer[readPos++] = '>';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityHexPrefix, 3)==0)
+		else if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityHexPrefix, 3)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -104,7 +104,7 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			int i = 0;
 			unsigned int mask = 0xFF000000;
 
-			char * digitEnd = func_02094A28(&buffer[readPos+3], ';');
+			char * digitEnd = strchr(&buffer[readPos+3], ';');
 			if (digitEnd == 0)
 				return 0;
 			if (digitEnd - &buffer[readPos+3] > 8)
@@ -125,7 +125,7 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 
 			charsToRemove = digitEnd - &buffer[readPos] + 1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityDecPrefix, 2)==0)
+		else if (strncmp((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityDecPrefix, 2)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -133,11 +133,11 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			int i = 0;
 			unsigned int mask = 0xFF000000;
 
-			char * digitEnd = func_02094A28(&buffer[readPos+2], ';');
+			char * digitEnd = strchr(&buffer[readPos+2], ';');
 			if (digitEnd == 0)
 				return 0;
 
-			digitValue = (unsigned int)func_020964E0((u32)(&buffer[readPos+2]));
+			digitValue = (unsigned int)atoi((u32)(&buffer[readPos+2]));
 
 			for (i=0; i < 4; i++)
 			{
@@ -155,8 +155,8 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 		else
 			return 0;
 
-		func_02092364(&buffer[readPos], &buffer[readPos+charsToRemove], (unsigned int)(*len-(readPos+charsToRemove)));
-		func_020923B0(&buffer[*len-charsToRemove], ' ', (unsigned int)charsToRemove);
+		memmove(&buffer[readPos], &buffer[readPos+charsToRemove], (unsigned int)(*len-(readPos+charsToRemove)));
+		MSL_C_LIB_MemsetPtr(&buffer[*len-charsToRemove], ' ', (unsigned int)charsToRemove);
 		(*len) -= charsToRemove;
 	}
 

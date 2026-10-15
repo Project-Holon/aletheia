@@ -1,5 +1,5 @@
 /*
- * function: func_0217F790
+ * function: Util_RandSeed
  * address:  0x0217F790
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * probe
  *
  * symbols:
- *   g_021A37C8  0x021A37C8  data
+ *   gGsRandState  0x021A37C8  data
  */
 
-extern char g_021A37C8[];
+extern char gGsRandState[];
 
-void func_0217F790(unsigned int v)
+void Util_RandSeed(unsigned int v)
 {
-    *(int *)g_021A37C8 = v ? (int)(v & 0x7fffffff) : 1;
+    *(int *)gGsRandState = v ? (int)(v & 0x7fffffff) : 1;
 }
 

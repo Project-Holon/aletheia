@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203FA08",
+   "name": "BG_SYS_CreateRun",
    "address": "0x0203FA08",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203FAF0",
+   "name": "BG_SYS_CheckFAF0",
    "address": "0x0203FAF0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203FB44",
+   "name": "BG_SYS_DeleteHalf",
    "address": "0x0203FB44",
    "kind": "game",
    "region": "arm9",

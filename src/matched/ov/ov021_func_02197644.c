@@ -14,7 +14,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   func_0201F73C  0x0201F73C  thumb
@@ -37,7 +37,7 @@ struct Cfg;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -56,7 +56,7 @@ void IRCBATTLEMENU_PrintMessage(u8 *a, u32 b)
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)t)), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     if (b == 0) {
-        *(u32 *)&((struct Obj00094 *)a)->f2B4 = PRINTSYS_PrintStream(t, 0, 0, ((struct Obj00094 *)a)->f38, ((struct Obj00094 *)a)->f2C, func_02012FFC(), ((struct Obj00094 *)a)->f2B8, 2, ((struct Obj00094 *)a)->f10, 15);
+        *(u32 *)&((struct Obj00094 *)a)->f2B4 = PRINTSYS_PrintStream(t, 0, 0, ((struct Obj00094 *)a)->f38, ((struct Obj00094 *)a)->f2C, MSG_SPEED_GetWait(), ((struct Obj00094 *)a)->f2B8, 2, ((struct Obj00094 *)a)->f10, 15);
     } else {
         PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)t)), 0, 0, (void *)(((struct Obj00094 *)a)->f38), (void *)(((struct Obj00094 *)a)->f2C));
         *(u32 *)&((struct Obj00094 *)a)->f2B4 = 0;

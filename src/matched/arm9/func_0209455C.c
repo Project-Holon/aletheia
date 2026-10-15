@@ -1,5 +1,5 @@
 /*
- * function: func_0209455C
+ * function: qsort
  * address:  0x0209455C
  * packet:   pkt_020929E8
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * note:     MSL stdlib qsort.c `qsort` (heapsort), 312 bytes, the real open
  *           code of worklist row pkt_02094534 (0x02094534..0x0209455C is the
- *           tail of sprintf, already EXACT as src/matched/func_02094530.c).
+ *           tail of sprintf, already EXACT as src/matched/sprintf.c).
  *           disasm.py has NO label at 0x0209455C (the listing folds
  *           0x02094534..0x02094750 into one block), so the worklist counts
  *           these 312 bytes as data-adjacent extent, not code: integrator,
@@ -19,8 +19,8 @@
  *           swap macro's count is assigned before its two pointers (sets
  *           the mov r2 / ldr r4 / ldr r3 order) and the bytes are unsigned
  *           char (ldrb, MSL is char-unsigned).  Verified with
- *             python3 tools/match.py one --src src/matched/func_0209455C.c \
- *                 --func func_0209455C --addr 0x0209455C --arm
+ *             python3 tools/match.py one --src src/matched/qsort.c \
+ *                 --func qsort --addr 0x0209455C --arm
  */
 
 typedef unsigned long size_t;
@@ -41,7 +41,7 @@ typedef int (*_compare_function)(const void *, const void *);
         } while (--n);                               \
     } while (0)
 
-void func_0209455C(void *table_base, size_t num_members, size_t member_size,
+void qsort(void *table_base, size_t num_members, size_t member_size,
                    _compare_function compare_members)
 {
     size_t l, r, j;

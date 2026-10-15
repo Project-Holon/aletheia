@@ -21,7 +21,7 @@
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
@@ -30,12 +30,12 @@
  *   sEffectEncountFileName  0x021DDFB4  data  a4
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   sEffectEncountSettings  0x021D8E70  data  a4
- *   func_02012974  0x02012974  thumb
+ *   GAME_DATA_GetFieldWork  0x02012974  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   MAP_MATRIX_IsInRangeByPos  0x02159C48  thumb  ov010
  *   MAP_MATRIX_GetZoneIdByPos  0x02159BD4  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C234  0x0200C234  thumb
+ *   BEACON_GetFlag  0x0200C234  thumb
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
  *   FIELD_PLAYER_CheckGridMoving  0x021A3624  thumb  ov021
@@ -122,19 +122,19 @@ extern u32 func_02005728(u32 range);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *func_02030734(u32 heapId, u32 size, int mode, const char *fileName, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern EncountGimmickWork *func_02012A38(const struct GameData *gameData);
+extern EncountGimmickWork *GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
 extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
-extern void *func_02012974(const struct GameData *gameData);
+extern void *GAME_DATA_GetFieldWork(const struct GameData *gameData);
 extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *out);
 extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
 extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
 extern struct BeaconSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 func_0200C234(struct BeaconSave *beacon, u32 bit);
+extern u32 BEACON_GetFlag(struct BeaconSave *beacon, u32 bit);
 extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, GridPos *out);
 extern int FIELD_PLAYER_CheckGridMoving(struct FieldPlayer *player);
@@ -232,7 +232,7 @@ void EFFECT_ENCOUNT_LoadSetting(FieldEncount *encount, EffectEncount *effectEnco
 void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
 {
     EffectEncount *effectEncount = encount->effectEncount;
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     void *fieldWork;
     u16 playerZoneId;
     VecFx32 pos;
@@ -240,7 +240,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
 
     if (encount == 0 || encount->encountData == 0 || !encount->encountData->enabled)
         return;
-    fieldWork = func_02012974(encount->gameData);
+    fieldWork = GAME_DATA_GetFieldWork(encount->gameData);
     if (encount->fieldMap == 0 || fieldWork == 0)
         return;
     playerZoneId = FIELDMAP_GetZoneId(encount->fieldMap);
@@ -250,7 +250,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
     mapZoneId = MAP_MATRIX_GetZoneIdByPos((int)fieldWork, pos.x, pos.z);
     if (playerZoneId == 0xFFFF || mapZoneId == 0xFFFF || playerZoneId != mapZoneId)
         return;
-    if (func_0200C234(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
+    if (BEACON_GetFlag(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
         return;
     if (FIELDMAP_GetMoveKind(encount->fieldMap) != 0)
         return;
@@ -282,7 +282,7 @@ void EFFECT_ENCOUNT_UpdateOccupiedSpot(FieldEncount *encount)
 /* True when the active spot lies on the tile pos[0] (x), pos[1] (height), pos[2] (z). */
 int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, short *pos)
 {
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
 
     if (gimmick->spot.active == 0)
         return 0;
@@ -306,7 +306,7 @@ static inline int isSpotAt(EffectEncountSpot *spot, GridPos *pos)
 int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
 {
     EffectEncount *effectEncount = encount->effectEncount;
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     EffectEncountSpot *spot = &gimmick->spot;
     int isItemEvent = 0;
     GridPos playerPos;
@@ -357,7 +357,7 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
 /* Writes the larger of the x and z tile distance between the player and the active spot; 0 when there is no spot. */
 int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out)
 {
-    EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
+    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
     GridPos playerPos;
     int distX, distZ;
 
@@ -382,7 +382,7 @@ int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out)
 /* Marks the active spot as used and tells its effect object. */
 void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount)
 {
-    EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
+    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
     if (spot->active) {
         spot->consumed = 1;
         if (encount->effectEncount->effectObj != 0) {
@@ -394,7 +394,7 @@ void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount)
 /* Sets the pause state of the effect object of the active spot. */
 void EFFECT_ENCOUNT_SetEffectPaused(FieldEncount *encount, int paused)
 {
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     EffectEncount *effectEncount = encount->effectEncount;
     if (gimmick->spot.active && effectEncount->effectObj != 0) {
         FLDEFF_ENCOUNT_SetPaused(effectEncount->effectObj, paused);
@@ -404,7 +404,7 @@ void EFFECT_ENCOUNT_SetEffectPaused(FieldEncount *encount, int paused)
 /* Sets the trigger flag of the effect object of the active spot. */
 void EFFECT_ENCOUNT_SetEffectFlag(FieldEncount *encount, int flag)
 {
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     EffectEncount *effectEncount = encount->effectEncount;
     if (gimmick->spot.active && effectEncount->effectObj != 0) {
         FLDEFF_ENCOUNT_SetDrawHidden(effectEncount->effectObj, flag);
@@ -419,7 +419,7 @@ u16 EFFECT_ENCOUNT_GetItemId(FieldEncount *encount)
 /* Map exit: flags the active spot so that the next map entry recreates its effect object. */
 void EFFECT_ENCOUNT_MarkSpotForRestore(FieldEncount *encount)
 {
-    EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
+    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
     if (spot->active) {
         spot->needsRestore = 1;
     }
@@ -428,7 +428,7 @@ void EFFECT_ENCOUNT_MarkSpotForRestore(FieldEncount *encount)
 /* Map entry: recreates the effect object of a saved spot, or drops the spot when it no longer fits. */
 void EFFECT_ENCOUNT_RestoreSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
+    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
     unsigned short zoneId;
 
     if (spot->active == 0 || spot->needsRestore == 0)
@@ -553,7 +553,7 @@ void EFFECT_ENCOUNT_PickSpot(FieldEncount *encount, EffectEncount *effectEncount
 {
     u16 index = func_02005728(effectEncount->candidateCount);
     EffectEncountCandidate *candidate = &effectEncount->candidates[index];
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     EffectEncountSpot *spot = &gimmick->spot;
     candidate->gridHeight = (candidate->heightFx >> 4) / 0x1000;
     if (EFFECT_ENCOUNT_IsTileOccupied(encount, candidate->gridX, candidate->gridHeight, candidate->gridZ, 0) == 0) {
@@ -604,7 +604,7 @@ int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeig
 /* Removes the active spot when a model stands on it; returns 1 if it did. */
 int EFFECT_ENCOUNT_ClearSpotIfOccupied(FieldEncount *encount)
 {
-    EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
+    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
 
     if (spot->active == 0)
         return 0;
@@ -618,7 +618,7 @@ int EFFECT_ENCOUNT_ClearSpotIfOccupied(FieldEncount *encount)
 /* Deletes the effect object and clears the active spot. */
 void EFFECT_ENCOUNT_ClearSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
+    EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     EFFECT_ENCOUNT_DeleteEffectObj(effectEncount);
     MI_CpuFill8(&gimmick->spot, 0, 0x10);
 }

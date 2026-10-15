@@ -22,7 +22,7 @@
  *   func_021BDF18 0x021BDF18 thumb
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   func_021BDF24 0x021BDF24 thumb
- *   func_0204EA4C 0x0204EA4C arm
+ *   DOUBLE3DDISP_SetField08 0x0204EA4C arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -44,7 +44,7 @@ extern void G3D_CAMERA_Reset(struct Light *);
 extern void func_021BDF18(char *p);
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 extern void func_021BDF24(char *p);
-extern void func_0204EA4C(void);
+extern void DOUBLE3DDISP_SetField08(void);
 int func_021BE538(const struct Context *ctx, u32 frames)
 {
     u32 done;
@@ -70,6 +70,6 @@ int func_021BE538(const struct Context *ctx, u32 frames)
         G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]),(struct Arg *)ctx->args);
     }
     func_021BDF24(ctx->a0);
-    if(ctx->a10 != 0) func_0204EA4C();
+    if(ctx->a10 != 0) DOUBLE3DDISP_SetField08();
     return done;
 }

@@ -33,10 +33,10 @@
  *   CTVT_CAMVIEW_StopCapture  0x021B7578  thumb  ov172
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
  *   CTVT_CAMVIEW_SetCameraEffect  0x021B7B3C  thumb  ov172
- *   func_021B8084  0x021B8084  thumb  ov172
- *   func_021B8740  0x021B8740  thumb  ov172
- *   func_021B8B34  0x021B8B34  thumb  ov172
- *   func_021B8B48  0x021B8B48  thumb  ov172
+ *   CTVT_COMM_StopSession  0x021B8084  thumb  ov172
+ *   CTVT_COMM_SendCommand  0x021B8740  thumb  ov172
+ *   CTVT_COMM_SetTimingSync  0x021B8B34  thumb  ov172
+ *   CTVT_COMM_IsTimingSync  0x021B8B48  thumb  ov172
  *   CTVT_CAMVIEW_IsLayoutChanging  0x021B77B4  thumb  ov172
  *   CTVT_DRAW_ShowMessage  0x021BB938  thumb  ov172
  *   CTVT_DRAW_CheckLeave  0x021BB8F4  thumb  ov172
@@ -81,10 +81,10 @@ extern int CTVT_CAMVIEW_IsShutterIdle(int x, char *p);
 extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
 extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 extern void CTVT_CAMVIEW_SetCameraEffect(int x, int y, int z);
-extern void func_021B8084(void *a, char *q);
-extern u32 func_021B8740(int a, int b, u8 c, u32 d);
-extern void func_021B8B34(void *c, u32 v, u32 k);
-extern int  func_021B8B48(void *c, u32 v, u32 k);
+extern void CTVT_COMM_StopSession(void *a, char *q);
+extern u32 CTVT_COMM_SendCommand(int a, int b, u8 c, u32 d);
+extern void CTVT_COMM_SetTimingSync(void *c, u32 v, u32 k);
+extern int  CTVT_COMM_IsTimingSync(void *c, u32 v, u32 k);
 extern u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p);
 extern void CTVT_DRAW_ShowMessage(void *p, u8 *q, int id);
 extern int CTVT_DRAW_CheckLeave(void *a0, int *out);
@@ -169,7 +169,7 @@ int CTVT_DRAW_Main(void *a0, char *p)
         }
         break;
     case 6:
-        func_021B8084(a0, (char *)COMM_TVT_SYS_GetComm(a0));
+        CTVT_COMM_StopSession(a0, (char *)COMM_TVT_SYS_GetComm(a0));
         CTVT_DRAW_ShowMessage(a0, (u8 *)p, 0x24);
         flag = 1;
         COMM_TVT_SYS_SetMessageActive(a0, 1);
@@ -187,12 +187,12 @@ int CTVT_DRAW_Main(void *a0, char *p)
         }
         break;
     case 8:
-        if (func_021B8740((int)a0, COMM_TVT_SYS_GetComm(a0), 10, z) == 1) {
+        if (CTVT_COMM_SendCommand((int)a0, COMM_TVT_SYS_GetComm(a0), 10, z) == 1) {
             ((struct Obj00140 *)p)->f0 = 9;
         }
         break;
     case 9:
-        func_021B8084(a0, (char *)COMM_TVT_SYS_GetComm(a0));
+        CTVT_COMM_StopSession(a0, (char *)COMM_TVT_SYS_GetComm(a0));
         CTVT_DRAW_ShowMessage(a0, (u8 *)p, 0x25);
         flag = 1;
         COMM_TVT_SYS_SetMessageActive(a0, 1);
@@ -209,11 +209,11 @@ int CTVT_DRAW_Main(void *a0, char *p)
         }
         break;
     case 11:
-        func_021B8B34(a0, COMM_TVT_SYS_GetComm(a0), 0x2f);
+        CTVT_COMM_SetTimingSync(a0, COMM_TVT_SYS_GetComm(a0), 0x2f);
         ((struct Obj00140 *)p)->f0 = 12;
         break;
     case 12:
-        if (func_021B8B48(a0, COMM_TVT_SYS_GetComm(a0), 0x2f) == 1) {
+        if (CTVT_COMM_IsTimingSync(a0, COMM_TVT_SYS_GetComm(a0), 0x2f) == 1) {
             ((struct Obj00140 *)p)->f1C = flag = 1;
             ((struct Obj00140 *)p)->f0 = 2;
             COMM_TVT_SYS_SetMessageActive(a0, 1);
@@ -222,7 +222,7 @@ int CTVT_DRAW_Main(void *a0, char *p)
         }
         break;
     case 13:
-        func_021B8084(a0, (char *)COMM_TVT_SYS_GetComm(a0));
+        CTVT_COMM_StopSession(a0, (char *)COMM_TVT_SYS_GetComm(a0));
         CTVT_DRAW_ShowMessage(a0, (u8 *)p, 0x26);
         flag = 1;
         COMM_TVT_SYS_SetMessageActive(a0, 1);

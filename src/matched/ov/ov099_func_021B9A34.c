@@ -15,12 +15,12 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021C4948  0x021C4948  thumb  ov127
- *   func_021C5704  0x021C5704  thumb  ov127
+ *   WF2DMAP_OBJ_Clear  0x021C4948  thumb  ov127
+ *   WF2DMAP_OBJDRAW_RemoveActor  0x021C5704  thumb  ov127
  */
 typedef unsigned char  u8;
-extern void func_021C5704(u8 *p);
-extern void func_021C4948(void *p);
+extern void WF2DMAP_OBJDRAW_RemoveActor(u8 *p);
+extern void WF2DMAP_OBJ_Clear(void *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 
 typedef struct {
@@ -31,7 +31,7 @@ typedef struct {
 
 void WIFICLUBACTOR_FreeActor(Obj *p)
 {
-    func_021C5704(p->f4);
-    func_021C4948(p->f0);
+    WF2DMAP_OBJDRAW_RemoveActor(p->f4);
+    WF2DMAP_OBJ_Clear(p->f0);
     MI_CpuFill8(p, 0, sizeof(Obj));
 }

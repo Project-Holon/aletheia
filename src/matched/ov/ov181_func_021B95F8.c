@@ -1,5 +1,5 @@
 /*
- * function: func_021B95F8
+ * function: STAFF_ROLL_RunState
  * address: 0x021B95F8
  * packet: pkt_ov181_021B95F8
  * region: ov181
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA318 0x021BA318 thumb ov181
- *   func_021B9C80 0x021B9C80 thumb ov181
- *   func_021B9F40 0x021B9F40 thumb ov181
+ *   STAFF_ROLL_UpdateInput 0x021BA318 thumb ov181
+ *   STAFF_ROLL_PrintNextRow 0x021B9C80 thumb ov181
+ *   STAFF_ROLL_Draw3d 0x021B9F40 thumb ov181
  *   d_021BAB70 0x021BAB70 data a4
  */
 #include "../include/Obj14406.h"
-extern void func_021BA318(unsigned char *),func_021B9C80(char *),func_021B9F40(char *);
+extern void STAFF_ROLL_UpdateInput(unsigned char *),STAFF_ROLL_PrintNextRow(char *),STAFF_ROLL_Draw3d(char *);
 extern int (*const d_021BAB70[])(char *);
-int func_021B95F8(char *p){func_021BA318((unsigned char *)p);((struct Obj14406 *)p)->f2E8=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(((struct Obj14406 *)p)->f2E8==5)return 0;func_021B9C80(p);func_021B9F40(p);return 1;}
+int STAFF_ROLL_RunState(char *p){STAFF_ROLL_UpdateInput((unsigned char *)p);((struct Obj14406 *)p)->f2E8=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(((struct Obj14406 *)p)->f2E8==5)return 0;STAFF_ROLL_PrintNextRow(p);STAFF_ROLL_Draw3d(p);return 1;}

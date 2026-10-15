@@ -16,7 +16,7 @@
  *   OS_SleepThread  0x020857B0  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A826C  0x021A826C  data
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
@@ -41,11 +41,11 @@ extern unsigned long OS_DisableInterrupts(void);
 extern void OS_SleepThread(void *queue);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct NetVars g_021A826C;
-extern struct ThreadInfo g_02150FEC;
+extern struct ThreadInfo gMslRefToken;
 
 static inline void *cur_thread(void)
 {
-	void *volatile t = g_02150FEC.current;
+	void *volatile t = gMslRefToken.current;
 	return t;
 }
 

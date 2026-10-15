@@ -1,5 +1,5 @@
 /*
- * function: func_0205A2DC
+ * function: WDSScanCallback
  * address:  0x0205A2DC
  * packet:   pkt_0205A2DC
  * region:   arm9
@@ -118,7 +118,7 @@ extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *cr
                                 const WMBssDesc *bssDesc, WDSApInfo *apinfo);
 extern unsigned char WDSGetRssi8(unsigned char rssi);
 
-void func_0205A2DC(void *arg)
+void WDSScanCallback(void *arg)
 {
     WMStartScanExCallback *pParam;
     unsigned long i;

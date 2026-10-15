@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207C9D0",
+   "name": "VEC_Add",
    "address": "0x0207C9D0",
    "kind": "sdk",
    "region": "arm9",

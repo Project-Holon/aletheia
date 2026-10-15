@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BBE7C, func_021BBF0C
+ * function: BEACON_DETAIL_GRA_Main, func_021BBF0C
  * address: 0x021BBE7C
  * packet: pkt_ov216_021BBE7C
  * region: ov216
@@ -34,7 +34,7 @@ extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern int func_021BC920(unsigned *);
 extern void func_021BCA24(char *);
 int func_021BBF0C(char *);
-int func_021BBE7C(int unused0,int *state,int unused2,char *p)
+int BEACON_DETAIL_GRA_Main(int unused0,int *state,int unused2,char *p)
 {
     if (((struct Obj03374 *)p)->f10) return 1;
     if (*state>=2 && *state<=3) func_021BC3DC(((struct Obj03374 *)p)->f124);

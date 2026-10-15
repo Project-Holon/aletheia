@@ -1,5 +1,5 @@
 /*
- * function: func_021FD5E4
+ * function: STA_NET_SendChunk
  * address: 0x021FD5E4
  * packet: pkt_ov132_021FD5E4
  * region: ov132
@@ -21,7 +21,7 @@ typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_021FD5E4(char *p,u32 i)
+int STA_NET_SendChunk(char *p,u32 i)
 {
     char *q;
     char *s;

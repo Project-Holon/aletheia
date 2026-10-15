@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=0x0204B3F4; bx r3.
- * Leaf of ov127 func_021C5834 (blocker of ov099 func_021BA2D4).
+ * Leaf of ov127 WF2DMAP_OBJDRAW_GetActorValue (blocker of ov099 func_021BA2D4).
  *
  * symbols:
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm

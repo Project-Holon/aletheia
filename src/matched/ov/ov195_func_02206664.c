@@ -14,7 +14,7 @@
  *   d_02148BCC 0x02148BCC data
  *   G3D_SYSTEM_GetProjection 0x020467EC arm
  *   G3D_SYSTEM_GetLookAt 0x02046AFC arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
  *   func_02082B60 0x02082B60 arm
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
@@ -72,7 +72,7 @@ extern GlbState d_02148BCC;
 extern void G3D_SYSTEM_GetProjection(int p0);
 struct Light;
 extern void G3D_SYSTEM_GetLookAt(u8 *dst);
-extern void func_0207ADC4(MtxFx33 *m);
+extern void MTX_Identity33_(MtxFx33 *m);
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
@@ -100,7 +100,7 @@ void func_02206664(Owner *o)
         MtxFx33 rot;
         VecFx32 trans = {0, 0, 0};
 
-        func_0207ADC4(&rot);
+        MTX_Identity33_(&rot);
         NNS_G3dGlbBaseTrans(&trans);
         func_02082B60(&rot, &d_02148BCC.baseRot);
         d_02148BCC.flag &= ~0xa4;

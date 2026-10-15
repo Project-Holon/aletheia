@@ -1,5 +1,5 @@
 /*
- * function: func_020963F8
+ * function: strtoll
  * address:  0x020963F8
  * packet:   pkt_02095AA4
  * region:   arm9
@@ -16,15 +16,15 @@
  *           relocation stays wildcarded and the file cannot be EXACT.  The
  *           file becomes EXACT* the day 0x02096004 gets a shard entry.
  *
- * bcd_to_s64: the 64-bit sibling of func_02095EAC/func_02095F40.  It hands
- * the decimal parser func_02096004 a working buffer, a pointer to the first
+ * bcd_to_s64: the 64-bit sibling of strtoul/strtol.  It hands
+ * the decimal parser __strtoull a working buffer, a pointer to the first
  * byte after the parsed digits and a sign flag, then clamps the parsed
  * magnitude to the s64 range: with a zero sign a magnitude above
  * 0x7FFFFFFFFFFFFFFF does not fit, with a set sign the magnitude may reach
  * 0x8000000000000000, and the result is negated for the sign.
  *
  * The error path returns the saturating extremes of the original's own sign
- * flag, which is why the reserved word g_02153FAC is set to 0x22 there.
+ * flag, which is why the reserved word errno is set to 0x22 there.
  *
  * The bounded-magnitude test has to be one disjunction: written as an
  * if/else the shared error block is laid out after the final return and the
@@ -41,13 +41,13 @@
  * layout/function_starts.txt; neither is producible from C.
  *
  * symbols:
- *   func_02096004  0x02096004  arm
- *   func_020946D8  0x020946D8  arm
- *   g_02153FAC     0x02153FAC  data
+ *   __strtoull  0x02096004  arm
+ *   MSL_C_LIB_StrReadProc  0x020946D8  arm
+ *   errno     0x02153FAC  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020963F8.c \
- *       --func func_020963F8 --addr 0x020963F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strtoll.c \
+ *       --func strtoll --addr 0x020963F8 --cc 1.1p1 --arm
  *   MATCH* with no concrete byte differing; EXACT* once the symbols above
  *   are declared and the two thunk addresses are labelled.
  */
@@ -56,11 +56,11 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef long long s64;
 
-extern unsigned long long func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-extern int func_020946D8(u32 *p, u32 a1, u32 a2);
-extern u32 g_02153FAC;
+extern unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+extern int MSL_C_LIB_StrReadProc(u32 *p, u32 a1, u32 a2);
+extern u32 errno;
 
-s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
+s64 strtoll(u32 a0, u32 *a1, u32 a2)
 {
     u32 buf[5];
     s64 r;
@@ -68,7 +68,7 @@ s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
 
     buf[0] = a0;
     buf[1] = 0;
-    r = (s64)func_02096004(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))func_020946D8, buf,
+    r = (s64)__strtoull(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))MSL_C_LIB_StrReadProc, buf,
                            (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
     if (a1 != 0)
         *a1 = a0 + buf[4];
@@ -77,7 +77,7 @@ s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
         (buf[3] != 0 && (u64)r > 0x8000000000000000ULL)) {
         v = (buf[3] != 0) ? (s64)0x8000000000000000ULL
                           : (s64)0x7FFFFFFFFFFFFFFFULL;
-        g_02153FAC = 0x22;
+        errno = 0x22;
         return v;
     }
     if (buf[3] != 0)

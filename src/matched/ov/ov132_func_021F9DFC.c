@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021F9DFC
+ * function: STA_ACTING_GetCameraPos
  * address: 0x021F9DFC
  * packet: pkt_ov132_021F9DFC
  * region: ov132
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u16 func_021F9DFC(void *p){return ((struct Obj23217 *)p)->f8;}
+u16 STA_ACTING_GetCameraPos(void *p){return ((struct Obj23217 *)p)->f8;}

@@ -19,7 +19,7 @@
  *   func_020409B4  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -38,7 +38,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 void CTVT_TALK_Exit(void *a0, char *a1)
 {
@@ -62,7 +62,7 @@ void CTVT_TALK_Exit(void *a0, char *a1)
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f9C);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f94);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f90);
-    func_020414EC(6);
+    BG_SYS_ClearSlot(6);
     func_020409B4(6);
     *(u16 *)0x04001050 = 0;
 }

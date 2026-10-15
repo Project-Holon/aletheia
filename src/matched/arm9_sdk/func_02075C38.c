@@ -1,5 +1,5 @@
 /*
- * function: func_02075C38
+ * function: CARDi_PeekEventListener
  * address:  0x02075C38
  * packet:   pkt_02075C38
  * region:   arm9
@@ -43,7 +43,7 @@ typedef struct CARDEventListener
 extern void OS_SignalEvent(OSEvent *event, u32 setPattern);
 extern void OS_SetVAlarm(OSiVAlarm *alarm, s16 count, s16 delay, void (*handler)(void *), void *arg);
 
-void func_02075C38(void *arg)
+void CARDi_PeekEventListener(void *arg)
 {
     CARDEventListener *el = (CARDEventListener *)arg;
 
@@ -53,6 +53,6 @@ void func_02075C38(void *arg)
     }
     else
     {
-        OS_SetVAlarm(el->alarm, 192, 263, func_02075C38, el);
+        OS_SetVAlarm(el->alarm, 192, 263, CARDi_PeekEventListener, el);
     }
 }

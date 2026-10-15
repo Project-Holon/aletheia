@@ -12,7 +12,7 @@
  * sdk:      DWC_NdGetProgress (libdwcnd.TWL.HYB.a dwc_nd.o)
  *
  * symbols:
- *   func_02059F38  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
  *   DWCi_NdGetProgress  0x021C757C  arm  ov114
@@ -24,7 +24,7 @@
 
 typedef struct NdState NdState;
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern int DWCi_NdGetProgress(unsigned long *received, unsigned long *contentlen);
@@ -33,7 +33,7 @@ extern struct NdState gDwcNdState;
 
 int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen)
 {
-    if (func_02059F38())
+    if (DWCi_IsError())
         return 0;
     OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.f14 != 2) {

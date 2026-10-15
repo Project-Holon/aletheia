@@ -13,8 +13,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF18  0x0200BF18  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_SetObtainedFlag  0x0200BF18  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18098.h"
@@ -24,13 +24,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u16 *func_0200BE48(void *sys);
-extern u32 func_0200BF18(u32, u32);
+extern u16 *INTRUDE_GetFromSave(void *sys);
+extern u32 INTRUDE_SetObtainedFlag(u32, u32);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 int SCRCMD_POKEMON_FLD_ReceiveGiftFlag(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0200BF18((u32)func_0200BE48((void *)GAME_DATA_GetSaveControl((struct Big *)b)), ((struct Obj18098 *)((u8 *)(c)))->f0);
+return INTRUDE_SetObtainedFlag((u32)INTRUDE_GetFromSave((void *)GAME_DATA_GetSaveControl((struct Big *)b)), ((struct Obj18098 *)((u8 *)(c)))->f0);
 }
 

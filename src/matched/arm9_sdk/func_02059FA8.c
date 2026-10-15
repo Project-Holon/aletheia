@@ -1,5 +1,5 @@
 /*
- * function: func_02059FA8
+ * function: DWCi_Init
  * address:  0x02059FA8
  * packet:   pkt_02059FA8
  * region:   arm9
@@ -70,7 +70,7 @@ extern char StatsServerHostname[];
 
 /* @16103 "sdkdev.gamespy.com", @16104 "gamestats.gs.nintendowifi.net":
  * both strcpy calls below are expanded inline (see libc/string.h) */
-int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
+int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
     int ret;
     int result;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7158
+ * function: WIFI_BSUBWAY_AsyncHasError
  * address: 0x021D7158
  * packet: pkt_ov116_021D7158
  * region: ov116
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-int func_021D7158(u8 *p)
+int WIFI_BSUBWAY_AsyncHasError(u8 *p)
 {
     if (((struct Obj08047 *)p)->f0 < 0) return 1;
     if (((struct Obj08047 *)p)->f4 != 0) return 1;

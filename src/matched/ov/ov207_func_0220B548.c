@@ -1,5 +1,5 @@
 /*
- * function: func_0220B548
+ * function: ZUKAN_TOROKU_GRAPHIC_DrawActors
  * address: 0x0220B548
  * packet: pkt_ov207_0220B548
  * region: ov207
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_DrawSystem(void);
-void func_0220B548(void*p){CLACT_DrawSystem();}
+void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p){CLACT_DrawSystem();}

@@ -33,17 +33,17 @@
  *   d_0220096C 0x0220096C data a4
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_02200900 0x02200900 data a4
  *   d_0220099C 0x0220099C data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   d_02200920      0x02200920  data
  *   CLACT_InitSystem   0x0204A48C  arm
@@ -55,7 +55,7 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_0207D4B0 0x0207D4B0 arm
+ *   GX_SetGraphicsMode 0x0207D4B0 arm
  */
 #include "br_types.h"
 
@@ -92,13 +92,13 @@ extern void func_02030EAC(struct Node *n);
 
 extern void func_0201DD68(void);
 
-extern void func_0203F8F4(unsigned);
+extern void BG_SYS_Create(unsigned);
 
 extern void BMP_WIN_Init(unsigned);
 
 extern void func_0203FC28(DispConfig *);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate_021FC3BC *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate_021FC3BC *tmpl, u32 type);
 
 extern void func_020414AC(unsigned char);
 
@@ -126,7 +126,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern void func_020403F4(u32);
 
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
 void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId);
 
@@ -234,18 +234,18 @@ void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId)
     const Record_021FC4FC *r;
     unsigned id;
     MI_CpuFill8(bgState,0,4);
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(&d_02200900);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
-        func_0203FCA0((unsigned char)id,&r->template,(unsigned char)r->type);
+        BG_SYS_InitBgLayer((unsigned char)id,&r->template,(unsigned char)r->type);
         func_020414AC(id);
         func_02040588(id,r->enable);
     }
 }
 
-void BR_GRAPHIC_ExitBgWindows(void *bgState){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(bgState,0,4);}
+void BR_GRAPHIC_ExitBgWindows(void *bgState){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgState,0,4);}
 
 void BR_GRAPHIC_DrawBg(void *bgState){}
 
@@ -274,7 +274,7 @@ void BR_GRAPHIC_VBlankActors(void *actorSys){CLACT_VBlankSystem();}
 
 u32 BR_GRAPHIC_GetUnitFromActorSys(u32 *actorSys){return *actorSys;}
 
-void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}
+void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}GX_SetGraphicsMode(1,0,1);}
 
 /*
  * volatile: hardware BLDCNT 04000050 and DISPCNT 04000000, read-modify-write at 021FC64A..021FC650.
@@ -285,10 +285,10 @@ void BR_GRAPHIC_End3d(void)
     const Record_021FC4FC *r;
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned *)0x04000000&=~0xe000;
-    func_0207D4B0(1,0,0);
+    GX_SetGraphicsMode(1,0,0);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
-        if(id<4){func_0203FCA0((unsigned char)id,&r->template,(unsigned char)r->type);func_020414AC(id);}
+        if(id<4){BG_SYS_InitBgLayer((unsigned char)id,&r->template,(unsigned char)r->type);func_020414AC(id);}
         func_02040588((unsigned char)id,(unsigned char)r->enable);
     }
 }

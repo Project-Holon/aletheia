@@ -21,6 +21,7 @@
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  *   POKE_TOOL_ChangeForm  0x02017988  thumb  arm9
  *   MIi_CpuCopyFast  0x02082B0C  arm  arm9
+ *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  */
 
 typedef signed char s8;
@@ -62,7 +63,7 @@ extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02009628(const struct Sub02009470Obj *obj);
-extern u8 func_02009584(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj);
 extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 
 void WORLDTRADE_DEPOSIT_BuildOffer(u8 *dst, Work *p)
@@ -91,6 +92,6 @@ void WORLDTRADE_DEPOSIT_BuildOffer(u8 *dst, Work *p)
     dst[0x124] = 0x15;
     dst[0x125] = 2;
     dst[0x126] = func_02009628(p->ctx->status);
-    dst[0x127] = func_02009584(p->ctx->status);
+    dst[0x127] = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->status);
     dst[0xF7] = func_0200960C(p->ctx->status);
 }

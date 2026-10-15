@@ -1,5 +1,5 @@
 /*
- * function: func_0218EF04
+ * function: gpiRemovePeer
  * address:  0x0218EF04
  * packet:   pkt_ov009_0218EF04
  * region:   ov009
@@ -55,7 +55,7 @@ extern void func_0218437C(int a, int b);
 extern void func_0218EEC0(void **connection, struct GPIPeer *peer);
 extern char g_021A4F4C[];
 
-void func_0218EF04(void **connection, struct GPIPeer *peer)
+void gpiRemovePeer(void **connection, struct GPIPeer *peer)
 {
     struct GPIMessage *message;
     struct GPIConnection *iconnection;

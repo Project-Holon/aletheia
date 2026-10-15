@@ -37,7 +37,7 @@
  *   d_021C8DE4 0x021C8DE4 data a1
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   func_02040804 0x02040804 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   d_021C8388 0x021C8388 data a4
  *   d_021C8384 0x021C8384 data a1
  *   func_021BE170  0x021BE170  thumb
@@ -109,7 +109,7 @@ extern u32 func_020307B0(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 extern void func_02030EAC(struct Node *n);
 
@@ -349,7 +349,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
     case 1:
         if (m->step == 0) {
             if ((int)func_02040804((int)1) >= 0) {
-                func_02041EE4(1, 3, 0);
+                BG_SYS_ResetSlot(1, 3, 0);
                 m->pos = 0;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 2;
@@ -357,7 +357,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
                     ZKND_TBAR_SetTouchEnable(m->mgr, 1);
                 break;
             }
-            func_02041EE4(1, 4, d_021C8388[m->idx]);
+            BG_SYS_ResetSlot(1, 4, d_021C8388[m->idx]);
             m->pos = m->pos - (short)d_021C8388[m->idx];
             ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
             m->step = d_021C8384[m->idx];
@@ -368,12 +368,12 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
     case 3:
         if (m->step == 0) {
             if ((int)func_02040804((int)1) <= -24) {
-                func_02041EE4(1, 3, -24);
+                BG_SYS_ResetSlot(1, 3, -24);
                 m->pos = 24;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 0;
             } else {
-                func_02041EE4(1, 5, d_021C8388[m->idx]);
+                BG_SYS_ResetSlot(1, 5, d_021C8388[m->idx]);
                 m->pos = m->pos + (short)d_021C8388[m->idx];
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->step = d_021C8384[m->idx];

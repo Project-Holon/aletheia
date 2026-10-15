@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Twin of func_0203F5FC at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
+ * Twin of GF_STANDARD_Get_F5FC at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
  *
  * symbols:
  *   FX_SinCosTable_   0x020A1B38  data

@@ -1,5 +1,5 @@
 /*
- * function: func_0200BB58
+ * function: BATTLE_BOX_StoreParty
  * address:  0x0200BB58
  * packet:   pkt_0200BAF4
  * region:   arm9
@@ -35,7 +35,7 @@ struct Grp330;
 struct Ent88;
 extern void sub_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src);
 
-void func_0200BB58(u8 *a0, u8 *a1)
+void BATTLE_BOX_StoreParty(u8 *a0, u8 *a1)
 {
     u32 i;
     u32 k = 0;

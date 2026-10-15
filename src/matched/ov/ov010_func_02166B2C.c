@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0207AD40 0x0207AD40 arm
+ *   MTX_Identity22_ 0x0207AD40 arm
  *   func_0207D59C 0x0207D59C arm
  */
-extern void func_0207AD40(void *);
+extern void MTX_Identity22_(void *);
 extern void func_0207D59C(void *, void *, int, int, int, int);
 extern void func_0200566C(void);
 void SYMBOL_MAP_StopBg2Scale(void) {
     int m[4];
-    func_0207AD40(m);
+    MTX_Identity22_(m);
     func_0207D59C((void *)0x04000020, m, 128, 92, 0, 0);
     func_0200566C();
 }

@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_srt_control.c
  * unit:     yes
- * function: func_020640B0, func_020640DC, func_02064100, func_02064120, NNSi_G2dSrtcInitControl, NNSi_G2dSrtcResetSrtData
+ * function: NNSi_G2dSrtcInitTable, NNS_G2dSetSRTTranslate, NNS_G2dSetSRTRotate, NNS_G2dSetSRTScale, NNSi_G2dSrtcInitControl, NNSi_G2dSrtcResetSrtData
  * address:  0x020640B0
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -23,26 +23,6 @@ typedef signed int     s32;
 
 typedef unsigned int   u32;
 
-struct Srt {
-    u32 mode;
-    s32 scaleX;
-    s32 scaleY;
-    s16 tx;
-    s16 ty;
-    u16 rot;
-    u16 dirty;
-};
-
-typedef struct {
-    u32 state;
-    u32 arg1;
-    u32 arg2;
-    u16 field0c;
-    u16 field0e;
-    u16 field10;
-    u16 flags;
-} Obj020640DC;
-
 struct NNSG2dSRTControl {
     u32 mode;
     s32 scaleX;
@@ -54,12 +34,12 @@ struct NNSG2dSRTControl {
 };
 
 extern void MIi_CpuClear16(u32 data, void *dest, u32 size);
-void func_020640B0(s32 *tbl);
-void func_020640CC(s32 *tbl, u32 i, u32 v);
-s32 func_020640D4(const s32 *tbl, u32 i);
-void func_020640DC(Obj020640DC *obj, u16 a, u16 b);
-void func_02064100(Obj020640DC *obj, u16 val);
-void func_02064120(Obj020640DC *obj, u32 a1, u32 a2);
+void NNSi_G2dSrtcInitTable(s32 *tbl);
+void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v);
+s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i);
+void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 a, u16 b);
+void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 val);
+void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 a1, u32 a2);
 void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode);
 int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
 
@@ -84,7 +64,7 @@ int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
  *
  *     slot = nodeStates + i * 0x28;
  *     slot->enabled = 1;
- *     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y);
+ *     NNS_G2dSetSRTTranslate(&slot->srt, (s16)node->x, (s16)node->y);
  *
  * i.e. the NMCR node's own signed (x, y) is written into the node's
  * translation verbatim.  There is no table indexed by species, form or
@@ -93,13 +73,13 @@ int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
  * the scale and rotation NNS_G2dSetAnimSequenceToMCAnimation pulls out of the node's NANR
  * frame record.
  *
- * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for
- * the three-slot table func_020640CC / func_020640D4 index), which is the
+ * NNSi_G2dSrtcInitTable fills three words with -1 (a "no cell bound" sentinel for
+ * the three-slot table NNSi_G2dSrtcSetTable / NNSi_G2dSrtcGetTable index), which is the
  * same table, not a fourth placement lane.
  *
  * Only the three table leaves are in this file.  The three setters
- * themselves (func_020640DC translate, func_02064100 rotate,
- * func_02064120 scale) are byte-correct except that the original never
+ * themselves (NNS_G2dSetSRTTranslate translate, NNS_G2dSetSRTRotate rotate,
+ * NNS_G2dSetSRTScale scale) are byte-correct except that the original never
  * predicates the guarded block and every C spelling tried does; that near
  * miss and its evidence are in docs/notes/g2d_srt_setters.c.txt, and the
  * struct layout above is read off those three functions.
@@ -108,7 +88,7 @@ int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
  *   python tools/match.py tu --src src/matched/nns_g2d_srt_control_1.c \
  *       --addr 0x020640B0 --arm
  */
-void func_020640B0(s32 *tbl)
+void NNSi_G2dSrtcInitTable(s32 *tbl)
 {
     int i;
 
@@ -119,45 +99,45 @@ void func_020640B0(s32 *tbl)
 
 
 
-void func_020640CC(s32 *tbl, u32 i, u32 v)
+void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v)
 {
     tbl[i] = v;
 }
 
 
 
-s32 func_020640D4(const s32 *tbl, u32 i)
+s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i)
 {
     return tbl[i];
 }
 
 
 
-void func_020640DC(Obj020640DC *obj, u16 a, u16 b)
+void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 a, u16 b)
 {
-    if (obj->state != 1) return;
-    obj->flags |= 8;
-    obj->field0c = a;
-    obj->field0e = b;
+    if (obj->mode != 1) return;
+    obj->dirtyFlags |= 8;
+    obj->transX = a;
+    obj->transY = b;
 }
 
 
 
-void func_02064100(Obj020640DC *obj, u16 val)
+void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 val)
 {
-    if (obj->state != 1) return;
-    obj->flags |= 4;
-    obj->field10 = val;
+    if (obj->mode != 1) return;
+    obj->dirtyFlags |= 4;
+    obj->rotZ = val;
 }
 
 
 
-void func_02064120(Obj020640DC *obj, u32 a1, u32 a2)
+void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 a1, u32 a2)
 {
-    if (obj->state != 1) return;
-    obj->flags |= 2;
-    obj->arg1 = a1;
-    obj->arg2 = a2;
+    if (obj->mode != 1) return;
+    obj->dirtyFlags |= 2;
+    obj->scaleX = a1;
+    obj->scaleY = a2;
 }
 
 

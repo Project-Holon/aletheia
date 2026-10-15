@@ -1,5 +1,5 @@
 /*
- * function: func_0207D7C4
+ * function: G3i_LookAt_
  * address:  0x0207D7C4
  * packet:   pkt_0207D7C4
  * region:   arm9
@@ -64,7 +64,7 @@ typedef union {
 extern void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 extern void G3_LoadMtx43(const MtxFx43 *m);
 
-void func_0207D7C4(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx)
+void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx)
 {
     MtxFx43 tmp[1];
 

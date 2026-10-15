@@ -10,8 +10,8 @@
  * lever: u16 third argument places its spill before hardware writes; caller supplies u16.
  * volatile: hardware command stores 021E391C..021E3A22, 04000440..04000504
  * symbols:
- *   func_0207D84C 0x0207D84C arm
- *   func_0207D810 0x0207D810 arm
+ *   G3_RotY 0x0207D84C arm
+ *   G3_RotX 0x0207D810 arm
  *   POKETRADE_3D_SetToonEdgeColors 0x021E38D8 thumb ov119
  *   POKETRADE_3D_SetCubeTexCoord 0x021E3744 thumb ov119
  *   POKETRADE_3D_SetCubeNormal 0x021E3730 thumb ov119
@@ -23,8 +23,8 @@ typedef unsigned long u32;
 typedef unsigned short u16;
 typedef short s16;
 typedef long fx32;
-extern void func_0207D84C(fx32,fx32);
-extern void func_0207D810(fx32,fx32);
+extern void G3_RotY(fx32,fx32);
+extern void G3_RotX(fx32,fx32);
 extern void POKETRADE_3D_SetToonEdgeColors(int,int);
 extern void POKETRADE_3D_SetCubeTexCoord(int);
 extern void POKETRADE_3D_SetCubeNormal(int);
@@ -36,14 +36,14 @@ void POKETRADE_3D_DrawCubeFace(int z,int index,u16 a,int b)
 {
     REG(0x04000444)=0;
     REG(0x04000440)=1;
-    func_0207D84C(FX_SinCosTable_[(b>>4)*2],FX_SinCosTable_[(b>>4)*2+1]);
+    G3_RotY(FX_SinCosTable_[(b>>4)*2],FX_SinCosTable_[(b>>4)*2+1]);
     REG(0x04000444)=0;
-    func_0207D84C(FX_SinCosTable_[(a>>4)*2],FX_SinCosTable_[(a>>4)*2+1]);
+    G3_RotY(FX_SinCosTable_[(a>>4)*2],FX_SinCosTable_[(a>>4)*2+1]);
     REG(0x04000470)=0;
     REG(0x04000470)=0;
     REG(0x04000470)=z;
-    func_0207D84C(FX_SinCosTable_[(d_021E8144[0]>>4)*2],FX_SinCosTable_[(d_021E8144[0]>>4)*2+1]);
-    func_0207D810(FX_SinCosTable_[(d_021E8144[1]>>4)*2],FX_SinCosTable_[(d_021E8144[1]>>4)*2+1]);
+    G3_RotY(FX_SinCosTable_[(d_021E8144[0]>>4)*2],FX_SinCosTable_[(d_021E8144[0]>>4)*2+1]);
+    G3_RotX(FX_SinCosTable_[(d_021E8144[1]>>4)*2],FX_SinCosTable_[(d_021E8144[1]>>4)*2+1]);
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;

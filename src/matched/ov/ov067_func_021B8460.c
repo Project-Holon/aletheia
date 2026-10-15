@@ -78,7 +78,7 @@
  *   FRAME_LIST_WrapIndex 0x021B91BC thumb ov067
  *   FRAME_LIST_DrawRowB 0x021B9228 thumb ov067
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   gFrameListFlickSteps 0x021B94F8 data a1
  */
 typedef unsigned char u8;
@@ -111,7 +111,7 @@ extern void FRAME_LIST_DrawRowA(struct S *,int,int);
 extern s8 FRAME_LIST_WrapIndex(s8,s8,int);
 extern void FRAME_LIST_DrawRowB(struct S *p, int i, int a2);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern const u8 gFrameListFlickSteps[];
 #pragma opt_propagation off
 int FRAME_LIST_StepScroll(struct S *s)
@@ -232,8 +232,8 @@ int FRAME_LIST_StepScroll(struct S *s)
   }
  }
  s->f66=s->f66+s->f67;
- func_02041EE4(s->f0,3,(int)s->f66);
- if(s->f1!=255) func_02041EE4(s->f1,3,(int)s->f66);
+ BG_SYS_ResetSlot(s->f0,3,(int)s->f66);
+ if(s->f1!=255) BG_SYS_ResetSlot(s->f1,3,(int)s->f66);
  s->f20->c(s->f24,s->f67);
  s->f69--;
  return 1;

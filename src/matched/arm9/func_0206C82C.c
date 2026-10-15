@@ -15,7 +15,7 @@
  * the translation row and row lengths it builds the upper 3x3 of the block's
  * matrix from the clip matrix's second row (row0 = (m._11, -m._10, 0),
  * row1 = m row 1, both VEC_Normalize'd by VEC_Normalize, row2 = their
- * VEC_CrossProduct, func_0207CAE8).
+ * VEC_CrossProduct, VEC_CrossProduct).
  *
  * Levers: a third pointer local for the block's matrix (loaded into r7 in the
  * prologue with the other two), and the six row stores written in reverse
@@ -31,12 +31,12 @@
  *   NNS_G3dGlbGetWVMtx  0x0206ADBC  arm
  *   NNS_G3dGlbGetInvWVMtx  0x0206ADF4  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
- *   func_0207B5C0  0x0207B5C0  arm
+ *   MTX_Copy43To44_  0x0207B5C0  arm
  *   func_0207BE14  0x0207BE14  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   MIi_CpuSend32  0x02082AA8  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CAE8  0x0207CAE8  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
  */
 
 typedef unsigned char u8;
@@ -84,11 +84,11 @@ extern int  G3X_GetClipMtx(MtxFx44 *m);
 extern u32 *NNS_G3dGlbGetWVMtx(void);
 extern u32 *NNS_G3dGlbGetInvWVMtx(void);
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
-extern void func_0207B5C0(const MtxFx43 *src, MtxFx44 *dst);
+extern void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
 extern void func_0207BE14(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
-extern fx32 func_0207CBD0(const VecFx32 *v);
+extern fx32 VEC_Mag(const VecFx32 *v);
 extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
-extern void func_0207CAE8(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
+extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern void MIi_CpuSend32(const void *src, volatile void *dst, u32 n);
 
 static inline u32 CheckPossibilityOfCallback(RS *rs, u32 cmd)
@@ -161,19 +161,19 @@ void NNSi_G3dFuncSbc_BBY(RS *rs, u32 opt)
                 ;
             if (g_renderState.flag & 1) {
                 MtxFx44 tmp;
-                func_0207B5C0((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
+                MTX_Copy43To44_((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
             } else if (g_renderState.flag & 2) {
                 MtxFx44 tmp;
-                func_0207B5C0(&g_renderState.cameraMtx, &tmp);
+                MTX_Copy43To44_(&g_renderState.cameraMtx, &tmp);
                 func_0207BE14(&m, &tmp, &m);
             }
             trans->x = m._30;
             trans->y = m._31;
             trans->z = m._32;
-            scale->x = func_0207CBD0((VecFx32 *)&m._00);
-            scale->y = func_0207CBD0((VecFx32 *)&m._10);
-            scale->z = func_0207CBD0((VecFx32 *)&m._20);
+            scale->x = VEC_Mag((VecFx32 *)&m._00);
+            scale->y = VEC_Mag((VecFx32 *)&m._10);
+            scale->z = VEC_Mag((VecFx32 *)&m._20);
 
             mtx->_12 = m._12;
             mtx->_11 = m._11;
@@ -183,7 +183,7 @@ void NNSi_G3dFuncSbc_BBY(RS *rs, u32 opt)
             mtx->_00 = m._11;
             VEC_Normalize((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_00);
             VEC_Normalize((VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_10);
-            func_0207CAE8((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_20);
+            VEC_CrossProduct((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_20);
 
             if (g_renderState.flag & 1) {
                 GXFIFO = 0x00171012;

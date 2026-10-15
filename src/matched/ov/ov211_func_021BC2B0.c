@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2B0
+ * function: ZUKAN_SEARCH_SCREEN_SetupVram
  * address:  0x021BC2B0
  * packet:   pkt_021BC2B0
  * region:   ov211
@@ -26,7 +26,7 @@ struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern S021BC2B0 d_021BC990;
 
-void func_021BC2B0(void)
+void ZUKAN_SEARCH_SCREEN_SetupVram(void)
 {
     S021BC2B0 buf = d_021BC990;
     BG_SYS_ClearGraphicsMemory(0);

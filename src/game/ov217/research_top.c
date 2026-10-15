@@ -13,21 +13,21 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02012204 0x02012204 thumb
+ *   ICA_ANIME_GetUnk330 0x02012204 thumb
  *   RESEARCH_COMMON_SetInputFlag 0x021C09FC thumb ov217
  *   WIH_DWC_PollStatus  0x0201058C  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
  *   RESEARCH_COMMON_Create  0x021C097C  thumb  ov217
  *   RESEARCH_COMMON_Destroy  0x021C099C  thumb  ov217
  *   ListViewState_Create  0x021C0DC4  thumb  ov217
  *   ListViewState_Reset  0x021C0DE4  thumb  ov217
  *   ListViewState_Destroy  0x021C0DDC  thumb  ov217
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   d_021C2E30     0x021C2E30  data  ov217  a4
  *   d_021C2E60     0x021C2E60  data  a4
@@ -71,7 +71,7 @@
  *   PALETTE_ANIME_Stop  0x021C2A00  thumb  ov217
  *   PALETTE_ANIME_Update  0x021C29F0  thumb  ov217
  *   RESEARCH_COMMON_GetAppResource 0x021C09B4 thumb ov217
- *   func_0201296C 0x0201296C thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   RESEARCH_COMMON_GetInputFlag  0x021C09F8  thumb  ov217
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -137,6 +137,9 @@
  *   RESEARCH_GRAPH_Update 0x021BD62C thumb ov217
  *   RESEARCH_GRAPH_GetVisible 0x021BD708 thumb ov217
  *   RESEARCH_GRAPH_GetActive 0x021BD710 thumb ov217
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   BG_SYS_Init  0x02040C14  arm  arm9
+ *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  */
 #include "../../matched/include/Obj10952.h"
 #include "../../matched/include/Obj25801.h"
@@ -212,17 +215,17 @@ extern void func_0204363C(u32 swap);
 
 extern void func_020315D4(struct S020315D4 *);
 
-extern u32 func_02012204(const struct Ctx *);
+extern u32 ICA_ANIME_GetUnk330(const struct Ctx *);
 
 extern void RESEARCH_COMMON_SetInputFlag(void *);
 
 extern u32 WIH_DWC_PollStatus(void *key);
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
@@ -238,15 +241,15 @@ extern void ListViewState_Reset(void *p);
 
 extern void ListViewState_Destroy(void *a0);
 
-extern void func_0203F8F4(unsigned short heapId);
+extern void BG_SYS_Create(unsigned short heapId);
 
 extern void func_0203FC28(struct DispConfig *cfg);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern u32 func_0203F9B4();
+extern u32 BG_SYS_Delete();
 
 extern u32 func_020403F4(u32 i);
 
@@ -336,7 +339,7 @@ extern void PALETTE_ANIME_Update(int);
 
 extern unsigned RESEARCH_COMMON_GetAppResource(void *);
 
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
@@ -362,9 +365,9 @@ extern void BMP_WIN_Init(u16);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern u32 func_020414EC();
+extern u32 BG_SYS_ClearSlot();
 
 extern void func_02040DA8(u32, u32, u32);
 
@@ -739,7 +742,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *p)
 {
     u32 next;
     RESEARCH_TOP_UpdateNetwork((u32)p);
-    if (func_02012204((const struct Ctx *)p[1]) != 0)
+    if (ICA_ANIME_GetUnk330((const struct Ctx *)p[1]) != 0)
         RESEARCH_COMMON_SetInputFlag((void *)p[3]);
     switch (*state) {
     case 0: next = RESEARCH_TOP_StateIdle(p); break;
@@ -763,7 +766,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *p)
  */
 void RESEARCH_TOP_UpdateNetwork(u32 a0)
 {
-    WIH_DWC_PollStatus((void *)func_0201283C(func_020120F4(((struct ResearchProc *)a0)->appResource)));
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(((struct ResearchProc *)a0)->appResource)));
     if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)a0)->appResource)) != 0) {
     GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchProc *)a0)->heapId);
     }
@@ -934,13 +937,13 @@ u32 RESEARCH_TOP_DestroyListView(u32 a0)
  */
 void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
 {
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     func_0203FC28((struct DispConfig *)(&d_021C2E30));
-    func_0203FCA0(4, (const struct BgTemplate *)(&d_021C2E60), 0);
-    func_0203FCA0(5, (const struct BgTemplate *)(&d_021C2E40), 0);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&d_021C2E60), 0);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&d_021C2E40), 0);
     func_02040588(4, 1);
     func_02040588(5, 1);
-    func_0203FCA0(1, (const struct BgTemplate *)(&d_021C2E80), 0);
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&d_021C2E80), 0);
     func_02040588(1, 1);
 }
 
@@ -948,7 +951,7 @@ u32 RESEARCH_TOP_ExitBackgrounds(void)
 {
     func_020403F4(1);
     func_020403F4(4);
-    return func_0203F9B4();
+    return BG_SYS_Delete();
 }
 
 void RESEARCH_TOP_LoadSubAssets(u32 heap)
@@ -1486,7 +1489,7 @@ void RESEARCH_TOP_UpdateEntryPaletteAnime(int *p)
  */
 unsigned char RESEARCH_TOP_CountUnlockedEntries(char *p)
 {
-    void *bitmap=(void *)func_0201296C((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct ResearchObjC *)p)->owner));
+    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct ResearchObjC *)p)->owner));
     int count=1;
     if(ZONEDATA_CheckEventFlag(bitmap,240)==1)count++;
     if(ZONEDATA_CheckEventFlag(bitmap,241)==1)count++;
@@ -1638,8 +1641,8 @@ void RESEARCH_TOP_DestroyCommandQueue(struct ResearchObjC *p)
 void RESEARCH_TOP_InitOverlayBackgrounds(char *p)
 {
     func_0203FC28(&d_021C2EEC);
-    func_0203FCA0(6,&d_021C2F78,0);func_0203FCA0(7,&d_021C2F18,0);
-    func_0203FCA0(2,&d_021C2F38,0);func_0203FCA0(3,&d_021C2F58,0);
+    BG_SYS_InitBgLayer(6,&d_021C2F78,0);BG_SYS_InitBgLayer(7,&d_021C2F18,0);
+    BG_SYS_InitBgLayer(2,&d_021C2F38,0);BG_SYS_InitBgLayer(3,&d_021C2F58,0);
     func_02040588(4,1);func_02040588(5,1);func_02040588(6,1);func_02040588(7,1);
     func_02040588(1,1);func_02040588(2,1);func_02040588(3,1);
     func_0207D63C((volatile unsigned *)0x04001050,2,1,7,15);
@@ -1672,8 +1675,8 @@ void RESEARCH_TOP_DummyBg7(u32 a0)
 
 u32 RESEARCH_TOP_UpdateBackground7(void *a0)
 {
-    func_02040C14(7, 0, 1, 0);
-    return func_020414EC(7);
+    BG_SYS_Init(7, 0, 1, 0);
+    return BG_SYS_ClearSlot(7);
 }
 
 void RESEARCH_TOP_ShowBackground7(u32 a0)
@@ -1697,8 +1700,8 @@ void RESEARCH_TOP_DummyBg3(u32 a0)
 
 u32 RESEARCH_TOP_UpdateBackground3(void *a0)
 {
-    func_02040C14(3, 0, 1, 0);
-    return func_020414EC(3);
+    BG_SYS_Init(3, 0, 1, 0);
+    return BG_SYS_ClearSlot(3);
 }
 
 void RESEARCH_TOP_ShowBackground3(u32 a0)

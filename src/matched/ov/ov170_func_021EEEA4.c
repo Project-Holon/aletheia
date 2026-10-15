@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020260E0 0x020260E0 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb ov170
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb ov170
  *   KEY_GetRepeat 0x0203633C arm
  *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb ov170
@@ -19,10 +19,10 @@
 struct WinMgr;
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
-extern int func_02025DE8(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_UpdateCursor(char *, int);
 extern unsigned int KEY_GetRepeat(void);
 extern void BOX2_MAIN_PlayCursorSound(char *);
@@ -30,20 +30,20 @@ extern void BOX2_MAIN_PlayCursorSound(char *);
 #define OBJ(p) (*(void **)(WORK(p)+0x70))
 unsigned BOX2_UI_CursorInputPage(char *p)
 {
-    unsigned char sel=func_020260E0(OBJ(p));
-    unsigned r=func_02025DE8(OBJ(p));
+    unsigned char sel=CURSOR_MOVE_GetCurrent(OBJ(p));
+    unsigned r=CURSOR_MOVE_PollRepeatInput(OBJ(p));
     if(BOX2_UI_IsListOpen(*(struct WinMgr **)(WORK(p)+0x74))==0) {
         if(r>=0x22 && r<=0x23) {
-            func_020260E4(OBJ(p),sel);
+            CURSOR_MOVE_SetCurrent(OBJ(p),sel);
             BOX2_UI_UpdateCursor(p,sel);
             return -1;
         }
         if(r==0x21) {
-            func_020260E4(OBJ(p),sel);
+            CURSOR_MOVE_SetCurrent(OBJ(p),sel);
             return 0x21;
         }
     } else if(r==0x1e || r==0x21) {
-        func_020260E4(OBJ(p),sel);
+        CURSOR_MOVE_SetCurrent(OBJ(p),sel);
         BOX2_UI_UpdateCursor(p,sel);
         return -1;
     }

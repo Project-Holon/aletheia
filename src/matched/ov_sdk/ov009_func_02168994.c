@@ -1,5 +1,5 @@
 /*
- * function: func_02168994
+ * function: DWC_SetBuddyFriendCallback
  * address:  0x02168994
  * packet:   pkt_ov009_02168994
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-int func_02168994(void (*callback)(int, void *), void *param)
+int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param)
 {
     if (*(char **)(((char *)&g_021AA860) + 0xc) == 0) return 0;
     *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x44) = (void *)callback;

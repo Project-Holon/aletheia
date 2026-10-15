@@ -1,5 +1,5 @@
 /*
- * function: func_0207D988
+ * function: G3X_Init
  * address:  0x0207D988
  * packet:   pkt_0207D988
  * region:   arm9
@@ -86,7 +86,7 @@ static inline void G2_SetBG0Priority(int priority)
     reg_G2_BG0CNT = (u16)((reg_G2_BG0CNT & ~0x3) | (priority << 0));
 }
 
-void func_0207D988(void)
+void G3X_Init(void)
 {
     G3X_ClearFifo();
     reg_G3_END_VTXS = 0;

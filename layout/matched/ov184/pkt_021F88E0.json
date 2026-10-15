@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F88E0",
+   "name": "BR_DOWNLOAD_End3d",
    "address": "0x021F88E0",
    "kind": "game",
    "region": "ov184",

@@ -1,5 +1,5 @@
 /*
- * function: func_02196098
+ * function: gti2HandleAppUnreliable
  * address:  0x02196098
  * packet:   pkt_ov009_02196098
  * region:   ov009
@@ -28,7 +28,7 @@ extern int func_02184200(const int *p);
 extern int func_02195340(Conn *c, int filterID, unsigned char *msg, int len, int reliable);
 extern int func_021950B4(Conn *c, unsigned char *msg, int len, int reliable);
 
-int func_02196098(Conn *c, unsigned char *msg, int len)
+int gti2HandleAppUnreliable(Conn *c, unsigned char *msg, int len)
 {
 	int ret;
 

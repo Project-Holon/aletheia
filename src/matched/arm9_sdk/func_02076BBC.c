@@ -1,5 +1,5 @@
 /*
- * function: func_02076BBC
+ * function: CARDi_SetRomOp
  * address:  0x02076BBC
  * packet:   pkt_02076BBC
  * region:   arm9
@@ -26,7 +26,7 @@ typedef volatile u32 vu32;
 
 #define MI_HToBE32(x) ((((x) & 0xFF000000) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
 
-void func_02076BBC(u32 command, u32 offset)
+void CARDi_SetRomOp(u32 command, u32 offset)
 {
     u32 cmd1 = (u32)((offset >> 8) | (command << 24));
     u32 cmd2 = (u32)((offset << 24));

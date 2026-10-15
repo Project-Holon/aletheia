@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B5C
+ * function: CTVT_COMM_GetHandleNetId
  * address:  0x021B8B5C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -28,7 +28,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
-void func_021B8B5C(void)
+void CTVT_COMM_GetHandleNetId(void)
 {
     GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
 }

@@ -11,14 +11,14 @@
  *
  * symbols:
  *   PMi_PostExitCallbackList 0x02732FAC data
- *   func_0208C6FC 0x0208C6FC arm
+ *   PMi_InsertList 0x0208C6FC arm
  */
 
 typedef struct PMiGenCallbackInfo PMiGenCallbackInfo;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
-extern void func_0208C6FC(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
+extern void PMi_InsertList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
 
 void PMi_InsertPostExitCallbackEx(PMiGenCallbackInfo *info, int priority)
 {
-    func_0208C6FC(&PMi_PostExitCallbackList, info, priority, 0);
+    PMi_InsertList(&PMi_PostExitCallbackList, info, priority, 0);
 }

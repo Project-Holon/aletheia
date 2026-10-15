@@ -46,7 +46,7 @@
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   func_0207C768  0x0207C768  arm
  *   g_DefaultProjectionMtx  0x02148B54  data
  *   CLACT_GetActorPos  0x0204B53C  arm
@@ -124,7 +124,7 @@ int FIELD_ZONEFOG_GetLightId(FieldZoneFog *zoneFog);
 void *FIELD_CAMERA_GetG3dCamera(FieldCamera *camera);
 void func_02048B30(void *camera, VecFx32 *out);
 extern void func_02048AE8(void *camera, VecFx32 *out);
-extern fx32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
+extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
 extern u32 func_0207C768(u32 a, u32 b);
 void CLACT_GetActorPos(const Actor *actor, WeatherScreenPos *out);
 void CLACT_SetActorPos(Actor *actor, const WeatherScreenPos *src);
@@ -725,7 +725,7 @@ void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task)
 /*
  * Turns the camera movement since the last call into a scroll in whole
  * pixels. A jump beyond the limits is treated as a warp: no scroll.
- * func_0207C768 is FX_Div, func_0207CF3C VEC_Distance.
+ * func_0207C768 is FX_Div, VEC_Distance VEC_Distance.
  */
 void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY)
 {
@@ -755,7 +755,7 @@ void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY)
         *outY = 0;
         return;
     }
-    WEATHER_TASK_GetViewScale(&g_DefaultProjectionMtx, func_0207CF3C(&pos, &target), &width, &height);
+    WEATHER_TASK_GetViewScale(&g_DefaultProjectionMtx, VEC_Distance(&pos, &target), &width, &height);
     width = func_0207C768(width, 0x100000);
     height = func_0207C768(height, 0xC0000);
     signX = 0x1000;

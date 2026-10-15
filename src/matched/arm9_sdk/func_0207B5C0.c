@@ -1,5 +1,5 @@
 /*
- * function: func_0207B5C0
+ * function: MTX_Copy43To44_
  * address:  0x0207B5C0
  * packet:   pkt_0207B5C0
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_0207B5C0(void)
+asm void MTX_Copy43To44_(void)
 {
     stmfd sp!, {r4}
     mov r12, #0

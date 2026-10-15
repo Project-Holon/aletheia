@@ -1,5 +1,5 @@
 /*
- * function: func_02078834
+ * function: FSi_DecrementSjisPositionToSlash
  * address:  0x02078834
  * packet:   pkt_02078834
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern int FSi_DecrementSjisPosition(const char *str, int pos);
 
-int func_02078834(const char *str, int pos)
+int FSi_DecrementSjisPositionToSlash(const char *str, int pos)
 {
     for (;;)
     {

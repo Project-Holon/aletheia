@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02096D10",
+   "name": "__equals_dec",
    "address": "0x02096D10",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096DF0",
+   "name": "__less_dec",
    "address": "0x02096DF0",
    "kind": "game",
    "region": "arm9",

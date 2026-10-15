@@ -11,7 +11,7 @@
  * note 2026-10-05 (final push G6L3): EXACT*. The three running x values are separate locals (x, x1 = x - w, x2 = x1 - w, third draw x2 - w), not one x updated in place; the separate values give each its own live range and the original colours (str r4, p r5, heap-base temp and buf r6, x r7). Earlier notes (all pragmas, declaration orders, inline helpers, u8/u16 widths) did not move the colours.
  * symbols:
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -21,7 +21,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  */
 typedef unsigned char  u8;
@@ -36,7 +36,7 @@ struct PrintSys;
 struct Rec;
 struct StrObj;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u16 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -46,7 +46,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
 void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap)
@@ -59,7 +59,7 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     u16 w;
 
     msg = func_02045B38(0, 2, 0xa3, heap);
-    ws = func_0201EC64(heap);
+    ws = GF_FONT_Create_EC64(heap);
     buf = STRBUF_Create(0x20, heap);
     x = (u16)(BMP_WIN_GetWidth((void *)p[0]) << 3);
 
@@ -87,6 +87,6 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
     STRBUF_Delete(buf);
-    func_0201ED04(ws);
+    WORDSET_DeleteStrbufED04(ws);
     MSGDATA_Delete((struct Rec *)msg);
 }

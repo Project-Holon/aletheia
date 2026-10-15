@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4AC4  0x021C4AC4  thumb  ov127
- *   func_021C5858  0x021C5858  thumb  ov127
- *   func_021C584C  0x021C584C  thumb  ov127
+ *   WF2DMAP_OBJ_GetPos  0x021C4AC4  thumb  ov127
+ *   WF2DMAP_OBJDRAW_GetActorValue2  0x021C5858  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorValue2  0x021C584C  thumb  ov127
  *   WIFICLUBACTOR_ShowMarker  0x021B9F90  thumb
  */
 typedef struct {
@@ -24,16 +24,16 @@ typedef struct {
     void *f4;
 } Rec;
 
-extern Pos func_021C4AC4(void *v);
+extern Pos WF2DMAP_OBJ_GetPos(void *v);
 typedef unsigned char  u8;
-extern int func_021C5858(u8 *p);
-extern void func_021C584C(u8 *p, int a);
+extern int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p);
+extern void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a);
 extern void WIFICLUBACTOR_ShowMarker(void *o, Pos pos, int c);
 
 void WIFICLUBACTOR_ShowMarkerAtActor(void *o, Rec *r)
 {
-    Pos p = func_021C4AC4(r->f0);
+    Pos p = WF2DMAP_OBJ_GetPos(r->f0);
 
-    WIFICLUBACTOR_ShowMarker(o, p, func_021C5858(r->f4) - 2);
-    func_021C584C(r->f4, 0);
+    WIFICLUBACTOR_ShowMarker(o, p, WF2DMAP_OBJDRAW_GetActorValue2(r->f4) - 2);
+    WF2DMAP_OBJDRAW_SetActorValue2(r->f4, 0);
 }

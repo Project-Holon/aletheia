@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB64
+ * function: COMM_BTL_DEMO_GRAPHIC_Create
  * address: 0x021BAB64
  * packet: pkt_ov213_021BAB64
  * region: ov213
@@ -18,11 +18,11 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021BACB4 0x021BACB4 thumb ov213
- *   func_021BAD58 0x021BAD58 thumb ov213
- *   func_021BADC8 0x021BADC8 thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_InitBg 0x021BACB4 thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_InitClact 0x021BAD58 thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_InitG3d 0x021BADC8 thumb ov213
  *   func_020056A0 0x020056A0 thumb
- *   func_021BACA0 0x021BACA0 thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_VBlank 0x021BACA0 thumb ov213
  *   d_021BB33C 0x021BB33C data a4
  *   d_021BB1C8 0x021BB1C8 data a4
  * arity: 434CC full body/4349C/434B4 read no incoming inputs;
@@ -43,12 +43,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021BACB4(void *p,unsigned heap);
-extern void func_021BAD58(void **out, int a, int b);
-extern void func_021BADC8(unsigned **p,unsigned heap);
-extern void func_021BACA0(void *unused, char *p);
+extern void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p,unsigned heap);
+extern void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b);
+extern void COMM_BTL_DEMO_GRAPHIC_InitG3d(unsigned **p,unsigned heap);
+extern void COMM_BTL_DEMO_GRAPHIC_VBlank(void *unused, char *p);
 extern void *func_020056A0(void *callback,void *ctx,int priority);
-void *func_021BAB64(unsigned mode,unsigned heap)
+void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
     p=func_02030734(heap,16,0,d_021BB33C,0x1B4);
@@ -64,9 +64,9 @@ void *func_021BAB64(unsigned mode,unsigned heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021BACB4(p,heap);
-    func_021BAD58((void **)(p+4),(int)&d_021BB1C8,heap);
-    func_021BADC8((unsigned **)(p+8),heap);
-    ((struct Obj25714 *)p)->fC=func_020056A0((void *)func_021BACA0,p,0);
+    COMM_BTL_DEMO_GRAPHIC_InitBg(p,heap);
+    COMM_BTL_DEMO_GRAPHIC_InitClact((void **)(p+4),(int)&d_021BB1C8,heap);
+    COMM_BTL_DEMO_GRAPHIC_InitG3d((unsigned **)(p+8),heap);
+    ((struct Obj25714 *)p)->fC=func_020056A0((void *)COMM_BTL_DEMO_GRAPHIC_VBlank,p,0);
     return p;
 }

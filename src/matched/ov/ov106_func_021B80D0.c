@@ -17,7 +17,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   IRC_RANKING_DataGetCount 0x021B8D8C thumb ov106
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   IRC_RANKING_LoadRowScreens 0x021B8AD0 thumb ov106
  *   func_020490F4 0x020490F4 arm
  *   func_0201BC3C 0x0201BC3C thumb
@@ -40,7 +40,7 @@ struct WordSet;
 extern void MI_CpuFill8(void *,int,int);
 extern u32 IRC_RANKING_DataGetCount(u8 *);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void IRC_RANKING_LoadRowScreens(u8 *,u8 *,u16);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
@@ -68,7 +68,7 @@ void IRC_RANKING_ListInit(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s
     *(u16 *)(p+0x554) = IRC_RANKING_DataGetCount(s4);
     *(struct GfFont **)(p+0x570) = GF_FONT_Create(23,0,0,1,heap);
     *(void **)(p+0x574) = s3;
-    *(struct WordSet **)(p+0x588) = func_0201EC64(heap);
+    *(struct WordSet **)(p+0x588) = GF_FONT_Create_EC64(heap);
     IRC_RANKING_LoadRowScreens(p+8,(u8 *)s1,heap);
     arc = func_020490F4(7,heap);
     *(int *)p = CLACT_RegisterPaletteCompressed(arc,func_0201BC3C(),0,0x20,heap);

@@ -1,5 +1,5 @@
 /*
- * function: func_0205C2E4
+ * function: DWCi_AC_SetError
  * address:  0x0205C2E4
  * packet:   pkt_0205C2E4
  * region:   arm9
@@ -28,13 +28,13 @@ typedef struct tagACHOLD {
     int errorTest;
 } tagACHOLD;
 
-extern void *func_0205C214(unsigned long name);
+extern void *DWCi_AC_GetMemPtr(unsigned long name);
 
 extern unsigned char DWCi_AC_GetPhase(void);
 
-void func_0205C2E4(int error)
+void DWCi_AC_SetError(int error)
 {
-    tagACHOLD *hd = (tagACHOLD *)func_0205C214(1);
+    tagACHOLD *hd = (tagACHOLD *)DWCi_AC_GetMemPtr(1);
 
     hd->error = error;
     hd->phaseError = DWCi_AC_GetPhase();

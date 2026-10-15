@@ -24,7 +24,7 @@
  * symbols:
  *   GAME_DATA_GetMyStatus    0x02012944  thumb
  *   GAME_DATA_GetSaveControl    0x02012EBC  thumb
- *   func_0200C0F0    0x0200C0F0  thumb
+ *   BEACON_GetBlock    0x0200C0F0  thumb
  *   func_0200E6E8    0x0200E6E8  thumb
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   GAME_DATA_GetMyPlayerWork    0x020127A4  thumb
@@ -38,9 +38,9 @@
  *   func_02008554    0x02008554  thumb
  *   func_0200856C    0x0200856C  thumb
  *   func_02008570    0x02008570  thumb
- *   func_0200C224    0x0200C224  thumb
- *   func_0200C1C4    0x0200C1C4  thumb
- *   func_0200C1DC    0x0200C1DC  thumb
+ *   BEACON_GetMode    0x0200C224  thumb
+ *   BEACON_GetGreetCount    0x0200C1C4  thumb
+ *   BEACON_GetThanksCount    0x0200C1DC  thumb
  *   GAME_DATA_GetPlayTime    0x02012FCC  thumb
  *   func_0200864C    0x0200864C  thumb
  *   func_02008650    0x02008650  thumb
@@ -51,7 +51,7 @@
  *   GAME_BEACON_SetMyPms    0x020274B4  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_020084F4    0x020084F4  thumb
- *   func_0200C1F4    0x0200C1F4  thumb
+ *   BEACON_GetGreetMessage    0x0200C1F4  thumb
  *   GAME_BEACON_ResetDetails    0x0202744C  thumb
  */
 #include "../include/Obj15760.h"
@@ -113,7 +113,7 @@ struct SaveBlock;
 struct Sub0200852CObj;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *p);
+extern void *BEACON_GetBlock(void *p);
 extern void *func_0200E6E8(u32 a);
 extern void  OS_GetOwnerInfo(OSOwnerInfo *info);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
@@ -128,9 +128,9 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern u8 func_0200C224(struct Blk34 *p);
-extern u32 func_0200C1C4(struct Blk34 *p);
-extern u32 func_0200C1DC(struct Blk34 *p);
+extern u8 BEACON_GetMode(struct Blk34 *p);
+extern u32 BEACON_GetGreetCount(struct Blk34 *p);
+extern u32 BEACON_GetThanksCount(struct Blk34 *p);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
@@ -141,7 +141,7 @@ extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struc
 extern void GAME_BEACON_SetMyPms(u32 a0);
 extern u16   STRBUF_GetEosChar(void);
 extern u16  *func_020084F4(void *p);
-extern u16 *func_0200C1F4(struct Blk34 *p);
+extern u16 *BEACON_GetGreetMessage(struct Blk34 *p);
 extern void GAME_BEACON_ResetDetails(void *dst);
 
 void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
@@ -159,7 +159,7 @@ void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
 
     prof = GAME_DATA_GetMyStatus(sys);
     save = GAME_DATA_GetSaveControl(sys);
-    tbl = func_0200C0F0(save);
+    tbl = BEACON_GetBlock(save);
     bag = func_0200E6E8((u32)save);
     OS_GetOwnerInfo(&info);
 
@@ -182,9 +182,9 @@ void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
     o->f04hi = 2;
     o->b01 = func_0200856C(prof);
     o->b02 = func_02008570(prof);
-    o->c9 = func_0200C224(tbl);
-    o->peer = func_0200C1C4(tbl);
-    o->id = func_0200C1DC(tbl);
+    o->c9 = BEACON_GetMode(tbl);
+    o->peer = BEACON_GetGreetCount(tbl);
+    o->id = BEACON_GetThanksCount(tbl);
     st = (void *)GAME_DATA_GetPlayTime((int)sys);
     o->trainer = func_0200864C(st);
     o->f0chi = func_02008650(st);
@@ -198,7 +198,7 @@ void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
         if (v == q[i])
             break;
     }
-    q = func_0200C1F4(tbl);
+    q = BEACON_GetGreetMessage(tbl);
     for (i = 0; i < 8; i++) {
         o->vec[i] = q[i];
         if (v == q[i])

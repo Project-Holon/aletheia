@@ -19,7 +19,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02045EC0  0x02045EC0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -56,10 +56,10 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202D01C  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
@@ -107,7 +107,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *actor, const PlistPlatePos *del
 extern void CLACT_SetActorAnimSeq(struct Obj *actor, u16 animation);
 extern void func_02041B6C(u32 bit);
 extern u32 func_02017E1C(void *mon, u32 id, u32 value);
-extern u32 func_0202136C(u16 item);
+extern u32 FILE_UTIL_Check136C(u16 item);
 extern u32 func_020307B0(void *mem);
 extern void *POKEPARTY_GetMember(void *party, u32 idx);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -140,10 +140,10 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *boxMon);
 extern void CLACT_SetActorPaletteOffset(struct Obj *actor, u32 palette, u32 flag);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 index, void *mon);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padMode, u32 d);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcLevel(void *mon);
 extern u8 func_0202D01C(u32 a, u32 b, u32 c);
 extern void BMP_FillRect(struct Bmp *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
@@ -398,10 +398,10 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
         isTeachMode = 1;
     }
     if (isRefresh == 0) {
-        wordSet = func_0201EC64(work->heapId);
+        wordSet = GF_FONT_Create_EC64(work->heapId);
         func_0201EEF4(wordSet, 0, plate->mon);
         POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
-        func_0201ED04(wordSet);
+        WORDSET_DeleteStrbufED04(wordSet);
     }
     if (isRefresh == 0) {
         if (func_02017E1C(plate->mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1) {
@@ -415,14 +415,14 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     }
     if (isTeachMode == 0) {
         if ((POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) || plate->labelState != PLIST_PLATE_LABEL_NONE) {
-            wordSetB = func_0201EC64(work->heapId);
+            wordSetB = GF_FONT_Create_EC64(work->heapId);
             func_0201EFA4(wordSetB, 0, POKE_TOOL_CalcLevel(plate->mon), 3, 0, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             } else {
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             }
-            func_0201ED04(wordSetB);
+            WORDSET_DeleteStrbufED04(wordSetB);
             CLACT_SetActorDrawEnable(plate->statusIconActor, 0);
         } else {
             if (plate->hp == 0) {
@@ -470,22 +470,22 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
             CLACT_SetActorDrawEnable(plate->hpBarActor, 0);
         } else {
-            wordSetB = func_0201EC64(work->heapId);
+            wordSetB = GF_FONT_Create_EC64(work->heapId);
             func_0201EFA4(wordSetB, 0, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             } else {
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             }
-            func_0201ED04(wordSetB);
-            wordSetC = func_0201EC64(work->heapId);
+            WORDSET_DeleteStrbufED04(wordSetB);
+            wordSetC = GF_FONT_Create_EC64(work->heapId);
             func_0201EFA4(wordSetC, 0, plate->hp, 3, 1, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             } else {
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             }
-            func_0201ED04(wordSetC);
+            WORDSET_DeleteStrbufED04(wordSetC);
             if (isRefresh == 0) {
                 POKELIST_PrintTextSub(work, plate->window, 6, 0x52, 0x23, 0x440);
             } else {
@@ -496,7 +496,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     heldItem = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
     if (heldItem != 0) {
         CLACT_SetActorDrawEnable(plate->itemIconActor, 1);
-        if (func_0202136C(heldItem) == 1) {
+        if (FILE_UTIL_Check136C(heldItem) == 1) {
             CLACT_SetActorAnimSeq(plate->itemIconActor, 1);
         } else {
             CLACT_SetActorAnimSeq(plate->itemIconActor, 0);
@@ -554,12 +554,12 @@ void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
 {
     struct WordSet *wordSet;
     void *eggText;
-    wordSet = func_0201EC64(work->heapId);
+    wordSet = GF_FONT_Create_EC64(work->heapId);
     eggText = func_02045EC0(gSpeciesNameBank, PLIST_PLATE_MSG_EGG);
     func_0201EE0C(wordSet, 0, eggText, 0, 1, 2);
     POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
     STRBUF_Delete(eggText);
-    func_0201ED04(wordSet);
+    WORDSET_DeleteStrbufED04(wordSet);
     CLACT_SetActorDrawEnable(plate->hpBarActor, 0);
     CLACT_SetActorAnimSeq(plate->monIconActor, 1);
     plate->textPending = 1;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02080C84   0x02080C84  arm
+ *   GX_SendFifo48B   0x02080C84  arm
  *
  * Original (28 bytes):
  *   ldr r1, [pc, #0xc]   ; 0x04000400
@@ -20,10 +20,10 @@
  *   bx  ip
  */
 
-extern void func_02080C84(const void *src);
+extern void GX_SendFifo48B(const void *src);
 
 void G3_MultMtx43(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x19;
-    func_02080C84(m);
+    GX_SendFifo48B(m);
 }

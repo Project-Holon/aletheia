@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200EE64",
+   "name": "NET_DEVICE_TABLE_BuildFromProducer",
    "address": "0x0200EE64",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200EEAC",
+   "name": "NET_DEVICE_TABLE_Setup",
    "address": "0x0200EEAC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0200EED8",
+   "name": "NET_DEVICE_TABLE_CopyRecord",
    "address": "0x0200EED8",
    "kind": "game",
    "region": "arm9",

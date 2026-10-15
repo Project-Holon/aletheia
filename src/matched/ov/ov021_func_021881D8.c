@@ -77,13 +77,13 @@
  *   GAME_DATA_GetSubscreenType  0x020129AC  thumb
  *   FIELD_SUBSCREEN_Create  0x021A0CF4  thumb  ov021
  *   FIELD_ENCOUNT_Create  0x021A9ED8  thumb  ov021
- *   func_02026388  0x02026388  thumb
+ *   GAME_COMM_CallHandler  0x02026388  thumb
  *   FIELD_SUBPROC_MGR_Create  0x021BB890  thumb  ov021
  *   FLD_PARTICLE_Create  0x021C1A08  thumb  ov021
  *   FLD3D_CI_Create  0x021C1AF4  thumb  ov021
  *   ENCEFF_Create  0x021CF45C  thumb  ov021
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BDB0  0x0200BDB0  thumb
+ *   DAYCARE_GetFromSave  0x0200BDB0  thumb
  *   SODATEYA_Create  0x021C31D4  thumb  ov021
  *   FIELDMAP_SetupSceneArea  0x02189684  thumb  ov021
  */
@@ -185,13 +185,13 @@ extern void FIELD_GIMMICK_Setup(void *arg);
 extern u8 GAME_DATA_GetSubscreenType(const struct BigObj *p);
 extern u32 *FIELD_SUBSCREEN_Create(u32 a, u32 b, u32 c);
 extern u32 *FIELD_ENCOUNT_Create(u32 a);
-extern void func_02026388(struct Obj *p, u32 a);
+extern void GAME_COMM_CallHandler(struct Obj *p, u32 a);
 extern int *FIELD_SUBPROC_MGR_Create(int a, int b, int n);
 extern u32 *FLD_PARTICLE_Create(u32 a);
 extern u32 *FLD3D_CI_Create(u32 a, u32 b);
 extern void *ENCEFF_Create(u32 heap, u32 v);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BDB0(void *sys);
+extern void *DAYCARE_GetFromSave(void *sys);
 extern int SODATEYA_Create(u16 heap, void *a, int b);
 extern void FIELDMAP_SetupSceneArea(char *p, unsigned int id);
 
@@ -291,12 +291,12 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         break;
     case 6:
         F32(0x90) = (int)FIELD_ENCOUNT_Create((u32)p);
-        func_02026388((struct Obj *)GAMESYSTEM_GetGameComm((const struct Ctx *)a), (u32)p);
+        GAME_COMM_CallHandler((struct Obj *)GAMESYSTEM_GetGameComm((const struct Ctx *)a), (u32)p);
         F32(0xbc) = (int)FIELD_SUBPROC_MGR_Create((int)p, F16(0), 0x20);
         F32(0x120) = (int)FLD_PARTICLE_Create(0x50);
         F32(0x124) = (int)FLD3D_CI_Create(0x50, F32(0x120));
         F32(0x13c) = (int)ENCEFF_Create(F16(0), (u32)p);
-        F32(0x128) = SODATEYA_Create(F16(0), p, (int)func_0200BDB0(GAME_DATA_GetSaveControl((struct Big *)F32(8))));
+        F32(0x128) = SODATEYA_Create(F16(0), p, (int)DAYCARE_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)F32(8))));
         FIELDMAP_SetupSceneArea(p, F16(0xd0));
         flag = 0;
         break;

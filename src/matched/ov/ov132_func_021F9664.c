@@ -1,5 +1,5 @@
 /*
- * function: func_021F9664
+ * function: STA_ACTING_InstallBgm
  * address:  0x021F9664
  * packet:   pkt_021F9664
  * region:   ov132
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern int GFL_USE_InstallBgmBuffers(u32 a0, u32 a1, u32 a2);
 
-void func_021F9664(char *p, int a)
+void STA_ACTING_InstallBgm(char *p, int a)
 {
     ((struct Obj10533 *)p)->f24 = 1;
     GFL_USE_InstallBgmBuffers(((struct Obj10533 *)p)->f1DC, ((struct Obj10533 *)p)->f1E0, a);

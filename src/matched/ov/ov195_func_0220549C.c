@@ -1,5 +1,5 @@
 /*
- * function: func_0220549C
+ * function: SHINKA_DEMO_ClearText
  * address:  0x0220549C
  * packet:   pkt_0220549C
  * region:   ov195
@@ -36,7 +36,7 @@ extern void func_02041B6C(u32 bit);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_0220549C(char *a, int b)
+void SHINKA_DEMO_ClearText(char *a, int b)
 {
     int p;
 

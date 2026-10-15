@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AF4
+ * function: THE_END_GRAPHIC_DeleteActors
  * address:  0x021B9AF4
  * packet:   pkt_021B9AF4
  * region:   ov182
@@ -22,7 +22,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021B9AF4(void *p)
+void THE_END_GRAPHIC_DeleteActors(void *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj24516 *)p)->f0));
     CLACT_ExitSystem();

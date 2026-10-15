@@ -12,14 +12,14 @@
  * Clears the word at +0xa4 of the block the state object holds.
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 
 void CPS_SocUnRegister(void)
 {
-    int *p = *(int **)(g_02150FEC + 4);
+    int *p = *(int **)(gMslRefToken + 4);
 
     *(int *)((char *)p + 0xa4) = 0;
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02034FB8 0x02034FB8 arm
+ *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_0200566C 0x0200566C thumb
  *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Node;
-extern void func_02034FB8(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 extern void func_02030EAC(struct Node *n);
 extern void func_0200566C(void);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
@@ -40,7 +40,7 @@ extern void MB_UTIL_MSG_Delete(char *p);
 extern void MB_COMM_SYS_ExitDisplay(char *p);
 void MB_COMM_SYS_Exit(u8 *p) {
  void *q; u16 *a,*b;
- func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();GFL_NET_WM_ICON_EasyEnd();
+ UI_ClearKeepAwakeFlagsGlobal(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();GFL_NET_WM_ICON_EasyEnd();
  if(p[40]==1) GFL_USE_CancelChangeAndStopBgm();
  else { q=(void *)GAME_DATA_GetEventWork(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)ZONEDATA_GetEventWorkAddress((u32)q,16384);b=(u16 *)ZONEDATA_GetEventWorkAddress((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
  if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);

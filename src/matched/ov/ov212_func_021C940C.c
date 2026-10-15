@@ -1,5 +1,5 @@
 /*
- * function: func_021C940C
+ * function: ZUKAN_CreateActor
  * address: 0x021C940C
  * packet: pkt_ov212_021C940C
  * region: ov212
@@ -17,6 +17,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap) {
+struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap) {
     return CLACT_CreateActor((void *)bank,*(const u32 *)&((struct Obj08418 *)t)->f8,*(const u32 *)&((struct Obj08418 *)t)->fC,*(const u32 *)&((struct Obj08418 *)t)->f10,t,*(const u16 *)&((struct Obj08418 *)t)->f16,heap);
 }

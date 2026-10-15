@@ -1,5 +1,5 @@
 /*
- * function: func_021678AC
+ * function: WcmWmcbEndDCF
  * address:  0x021678AC
  * packet:   pkt_ov009_021678AC
  * region:   ov009
@@ -17,7 +17,7 @@
  *   func_02166E5C    0x02166E5C  arm  ov009
  *   WM_Disconnect    0x0208F938  arm
  *   func_021659B4    0x021659B4  arm  ov009
- *   func_021676E4    0x021676E4  arm  ov009
+ *   WcmWmcbDisconnect    0x021676E4  arm  ov009
  */
 
 typedef struct WMEndDCFCallback {
@@ -37,9 +37,9 @@ extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166E5C(void);
 extern long WM_Disconnect(void (*callback)(void *), unsigned long arg);
 extern void func_021659B4(short result, void *para0, void *para1, long para2);
-extern void func_021676E4(void *arg);
+extern void WcmWmcbDisconnect(void *arg);
 
-void func_021678AC(void *arg)
+void WcmWmcbEndDCF(void *arg)
 {
     WCMWork *wcmw;
     long wmResult;
@@ -54,7 +54,7 @@ void func_021678AC(void *arg)
             func_02166E5C();
             return;
         }
-        wmResult = WM_Disconnect(func_021676E4, 0);
+        wmResult = WM_Disconnect(WcmWmcbDisconnect, 0);
         switch (wmResult) {
         case 2:
             return;

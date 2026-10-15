@@ -22,7 +22,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_020490F4  0x020490F4  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   BMP_CreateFromArchive  0x0204384C  arm
@@ -36,12 +36,12 @@
  *   func_02048AD0  0x02048AD0  arm
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CAE8  0x0207CAE8  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
  *   d_021DB984     0x021DB984  data  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -103,7 +103,7 @@ extern void *func_020056A0(void *, void *, int);
 extern void func_02030EAC(struct Node *n);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *FIELDMAP_GetGameSystem(void *p);
-extern void *func_020120F4(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
@@ -116,11 +116,11 @@ extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void func_02048AD0(struct Light *l);
 extern void func_02048B30(u32 l, V *out);
 extern void func_02048AE8(u32 l, V *out);
-extern void func_0207CA00(const V *a, const V *b, V *c);
+extern void VEC_Subtract(const V *a, const V *b, V *c);
 extern void VEC_Normalize(const V *a, V *b);
-extern void func_0207CAE8(const V *a, const V *b, V *c);
+extern void VEC_CrossProduct(const V *a, const V *b, V *c);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern void func_0206DF3C(V *a, int *x, int *y);
+extern void NNS_G3dWorldPosToScrPos(V *a, int *x, int *y);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -193,7 +193,7 @@ void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId)
     void *arc = func_020490F4(200, heapId);
     u32 version;
 
-    version = func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap))));
+    version = func_02008550((const struct Sub0200852CObj *)func_02012944(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap))));
     work->charData = BMP_CreateFromArchive(200, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromHandle(arc, 1, 0, d_021DB97C[version] << 5, 0x120, 0x20, heapId);
     ARC_TOOL_DeleteHandle(arc);
@@ -229,18 +229,18 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     func_02048AD0((struct Light *)camera);
     func_02048B30(camera, &eye);
     func_02048AE8(camera, &target);
-    func_0207CA00(&eye, &target, &dir);
+    VEC_Subtract(&eye, &target, &dir);
     flatDir = dir;
     flatDir.y = 0;
     VEC_Normalize(&flatDir, &flatDir);
-    func_0207CAE8(&flatDir, &d_021DB984, &side);
-    func_0207CAE8(&dir, &side, &up);
+    VEC_CrossProduct(&flatDir, &d_021DB984, &side);
+    VEC_CrossProduct(&dir, &side, &up);
     VEC_Normalize(&up, &up);
     FIELD_PLAYER_GetPos(player, (struct VecFx32 *)&pos);
     pos.x += (int)(((long long)up.x * -0x1C000 + 0x800) >> 12);
     pos.y += (int)(((long long)up.y * -0x1C000 + 0x800) >> 12);
     pos.z += (int)(((long long)up.z * -0x1C000 + 0x800) >> 12);
-    func_0206DF3C(&pos, &x, &y);
+    NNS_G3dWorldPosToScrPos(&pos, &x, &y);
     x -= 0x10;
     y -= 0x18;
     work->ofsX = x % 8;

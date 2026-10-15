@@ -16,11 +16,11 @@
  * SCRCMD_PROC_FLD_CallOv001Event (pool word 0x02154695).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -145,11 +145,11 @@ typedef struct GtsNegoEventWork {
     u32 startMode;
 } GtsNegoEventWork;
 
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
-extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetKind(void *gameComm);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
@@ -195,8 +195,8 @@ extern char d_021546A0[];
 u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
-    struct GameData *gameData = func_020120F4(gameSystem);
-    void *fieldMap = func_0201210C(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    void *fieldMap = ICA_ANIME_GetField20(gameSystem);
     EvolutionRequest *request;
 
     switch (*seq) {
@@ -206,7 +206,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         (*seq)++;
         break;
     case 1:
-        if (GAME_COMM_GetKind(func_02012138(gameSystem)) == 0) {
+        if (GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem)) == 0) {
             GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap));
             (*seq)++;
         }
@@ -341,23 +341,23 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
 {
     GtsNegoEventWork *work;
 
-    if (GAME_COMM_GetKind(func_02012138(gameSystem)))
-        GAME_COMM_RequestExitNoCallback(func_02012138(gameSystem));
+    if (GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem)))
+        GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(gameSystem));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->startMode = startMode;
     work->tradedParty = POKEPARTY_Create(4);
     work->tradeParam.party = work->tradedParty;
     MI_CpuFill8(&work->dispParam, 0, 0x1b4);
-    work->dispParam.gameData = func_020120F4(gameSystem);
+    work->dispParam.gameData = ICA_ANIME_GetField1C(gameSystem);
     work->dispParam.myStatusCopy = func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     work->dispParam.partnerStatusCopy = func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
-    MI_CpuCopy8((u32)func_02012944(func_020120F4(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
+    MI_CpuCopy8((u32)func_02012944(ICA_ANIME_GetField1C(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
     MI_CpuFill8(&work->login, 0, 0x28);
-    work->login.gameData = func_020120F4(gameSystem);
+    work->login.gameData = ICA_ANIME_GetField1C(gameSystem);
     work->login.loginType = 0;
     work->login.loginOption = 1;
-    work->confirm.gameData = func_020120F4(gameSystem);
+    work->confirm.gameData = ICA_ANIME_GetField1C(gameSystem);
     work->confirm.loginType = 0;
     work->confirm.loginOption = 1;
     return work;

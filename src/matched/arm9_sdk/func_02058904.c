@@ -1,5 +1,5 @@
 /*
- * function: func_02058904
+ * function: DWCi_BACKUPlConvWifiInfo
  * address:  0x02058904
  * packet:   pkt_02058904
  * region:   arm9
@@ -42,7 +42,7 @@ extern u8 Wifi[14];
 
 /* info is const: this DWARF drops const qualifiers (MI_CpuCopy8's srcp reads `void *`),
  * and without it the byte stores are assumed to clobber *info, which reorders the tmp stores */
-u8 *func_02058904(const DWCWiFiInfo *info)
+u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info)
 {
     u64 tmp;
 

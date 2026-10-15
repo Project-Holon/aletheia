@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204EA64",
+   "name": "DOUBLE3DDISP_Delete",
    "address": "0x0204EA64",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EAD4",
+   "name": "DOUBLE3DDISP_SetupGraphics",
    "address": "0x0204EAD4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EB68",
+   "name": "DOUBLE3DDISP_SetupGraphics_EB68",
    "address": "0x0204EB68",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204ED24",
+   "name": "BILLBOARD_Delete",
    "address": "0x0204ED24",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204ED4C",
+   "name": "BILLBOARD_SetFlagWord",
    "address": "0x0204ED4C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204ED70",
+   "name": "BILLBOARD_SetField10",
    "address": "0x0204ED70",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204ED80",
+   "name": "BILLBOARD_SetField1C",
    "address": "0x0204ED80",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204ED8C",
+   "name": "BILLBOARD_SetField1E",
    "address": "0x0204ED8C",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204ED98",
+   "name": "BILLBOARD_SetField20",
    "address": "0x0204ED98",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EDA4",
+   "name": "BILLBOARD_SetField22",
    "address": "0x0204EDA4",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EDB0",
+   "name": "BILLBOARD_SetField24",
    "address": "0x0204EDB0",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EDBC",
+   "name": "BILLBOARD_SetField25",
    "address": "0x0204EDBC",
    "kind": "game",
    "region": "arm9",

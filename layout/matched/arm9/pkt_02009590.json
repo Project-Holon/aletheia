@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02009590"
+    "WIFI_HISTORY_GetDisplayCount"
+   ],
+   "addresses": [
+    "0x02009590"
    ]
   }
  ]

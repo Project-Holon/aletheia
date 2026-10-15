@@ -1,5 +1,5 @@
 /*
- * function: func_020261E4
+ * function: CURSOR_MOVE_CreateVecSet
  * address:  0x020261E4
  * packet:   pkt_020261E4
  * region:   arm9
@@ -22,8 +22,8 @@
  * resource handle GAME_DATA_GetMyStatus returned for a1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020261E4.c \
- *       --func func_020261E4 --addr 0x020261E4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/CURSOR_MOVE_CreateVecSet.c \
+ *       --func CURSOR_MOVE_CreateVecSet --addr 0x020261E4 --cc 1.1p1 --thumb
  */
 #include "../include/Obj06910.h"
 #include "../include/Obj15758.h"
@@ -39,7 +39,7 @@ extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
 extern void  func_02008500(void *a0, void *a1);
 extern u32   g_020A74B0[];
 
-void *func_020261E4(u32 a0, void *a1)
+void *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1)
 {
     int i;
     u8 *p;

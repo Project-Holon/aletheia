@@ -13,7 +13,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   func_02184968 0x02184968 thumb ov219
  *   func_0201F048 0x0201F048 thumb
- *   func_0201F094 0x0201F094 thumb
+ *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
  *   func_02184D30 0x02184D30 thumb ov219
@@ -29,7 +29,7 @@ struct Record {struct Descriptor *descriptor;u8 active;};
 extern struct U16Vec *STRBUF_Create(unsigned int capacity, unsigned int heapId);
 typedef unsigned int   u32;
 extern u32 func_02184968(const u8 *p, int flag);
-extern void func_0201F048(struct WordSet *,unsigned,unsigned),func_0201F094(struct WordSet *,unsigned,unsigned,unsigned);
+extern void func_0201F048(struct WordSet *,unsigned,unsigned),WORDSET_DeleteMsgdataF094(struct WordSet *,unsigned,unsigned,unsigned);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),func_0201F250(struct WordSet *,void *,void *);
 extern void func_02184D30(char *,struct Record *,struct Descriptor *,void *,u8,u8);
 extern void STRBUF_Delete(struct U16Vec *),func_0201F73C(void *,int,int,int),BMP_WIN_TransferChars(struct Descriptor *);
@@ -40,7 +40,7 @@ void func_0218519C(char *p)
     dst=STRBUF_Create(1024,(u16)(((struct Obj01984 *)p)->f0));src=STRBUF_Create(1024,(u16)(((struct Obj01984 *)p)->f0));
     *(struct Descriptor * *)&((struct Obj01984 *)p)->fC040=(struct Descriptor *)func_02184968(d_02185DCB,1);
     func_0201F048(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,0,((struct Obj01984 *)p)->fC33C);
-    func_0201F094(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,1,((struct Obj01984 *)p)->fC33C,((struct Obj01984 *)p)->fC340);
+    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,1,((struct Obj01984 *)p)->fC33C,((struct Obj01984 *)p)->fC340);
     MSGDATA_ReadString(*(struct MsgBank * *)&((struct Obj01984 *)p)->fC070,14,src);
     func_0201F250(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,dst,src);
     func_02184D30(p,(struct Record *)(p+0xc044),*(struct Descriptor * *)&((struct Obj01984 *)p)->fC040,dst,0,0);

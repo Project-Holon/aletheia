@@ -1,5 +1,5 @@
 /*
- * function: func_0205F1B8
+ * function: GetIPAddress
  * address:  0x0205F1B8
  * packet:   pkt_0205F1B8
  * region:   arm9
@@ -92,7 +92,7 @@ extern long SOC_GetHostID(void);
 extern void CheckSetDNS(tagACWORK *wk);
 extern unsigned long long OS_GetTick(void);
 
-unsigned char func_0205F1B8(tagACWORK *wk)
+unsigned char GetIPAddress(tagACWORK *wk)
 {
     unsigned char ap_type;
     unsigned long long t;

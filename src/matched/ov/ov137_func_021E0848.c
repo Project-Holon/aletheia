@@ -12,7 +12,7 @@
  *   func_02048A18 0x02048A18 arm
  *   BUTTON_MAN_MakeRotMtxXYZ 0x020520FC arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  */
 #include "../include/Obj02873.h"
 #include "../include/Obj02874.h"
@@ -31,7 +31,7 @@ extern u32 func_02048A18(u8 *a0, int i);
 struct Mtx33;
 extern void BUTTON_MAN_MakeRotMtxXYZ(int,int,int,struct Mtx33 *);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
-extern void func_0207ADC4(Mtx *);
+extern void MTX_Identity33_(Mtx *);
 static inline void VecSet(Vec *v,int x,int y,int z){v->x=x;v->y=y;v->z=z;}
 void GURU2_MAIN_DrawPlayerRecords(u8 *p)
 {
@@ -61,7 +61,7 @@ void GURU2_MAIN_DrawPlayerRecords(u8 *p)
             void *object=(void *)func_02048A18(((struct Obj08222 *)p)->fAF4,(u16)(*(int *)((unsigned)(base+i*4)+0x940)));
             VecSet(&t.pos,((struct Obj08223 *)third)->f4,((struct Obj08223 *)third)->f8,((struct Obj08223 *)third)->fC);
             VecSet(&t.scale,4096,4096,4096);
-            func_0207ADC4(&t.rot);
+            MTX_Identity33_(&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct Arg *)(&t));
         }
         first+=0xb4;second+=0x7c;third+=0x68;

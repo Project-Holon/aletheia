@@ -1,5 +1,5 @@
 /*
- * function: func_021F5FDC
+ * function: EGG_DEMO_MAIN_PushBgm
  * address:  0x021F5FDC
  * packet:   pkt_021F5FDC
  * region:   ov215
@@ -17,7 +17,7 @@
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 
-void func_021F5FDC(void *a0, void *a1)
+void EGG_DEMO_MAIN_PushBgm(void *a0, void *a1)
 {
     GFL_USE_SetBgmPlayerParam((void *)1);
     GFL_USE_PushBgm();

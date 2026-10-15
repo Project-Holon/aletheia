@@ -1,5 +1,5 @@
 /*
- * function: func_021F7048
+ * function: EGG_DEMO_VIEW_UpdateModel
  * address:  0x021F7048
  * packet:   pkt_021F7048
  * region:   ov215
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern void *func_02048A18(void *p, int v);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *p, int a, int b);
 
-void func_021F7048(char *p)
+void EGG_DEMO_VIEW_UpdateModel(char *p)
 {
     u16 i;
     void *q;

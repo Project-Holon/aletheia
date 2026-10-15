@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02195F9C",
+   "name": "gti2HandleESN",
    "address": "0x02195F9C",
    "kind": "sdk",
    "region": "ov009",

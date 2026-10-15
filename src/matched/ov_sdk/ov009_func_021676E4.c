@@ -1,5 +1,5 @@
 /*
- * function: func_021676E4
+ * function: WcmWmcbDisconnect
  * address:  0x021676E4
  * packet:   pkt_ov009_021676E4
  * region:   ov009
@@ -37,7 +37,7 @@ extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166E5C(void);
 extern void func_021659B4(short result, void *para0, void *para1, long para2);
 
-void func_021676E4(void *arg)
+void WcmWmcbDisconnect(void *arg)
 {
     WCMWork *wcmw;
 

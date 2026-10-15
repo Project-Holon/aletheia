@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D4B74, func_021D4BDC, func_021D4BF0
+ * function: INTRUDE_COMM_VIEW_BeginExit, INTRUDE_COMM_VIEW_StartExit, INTRUDE_COMM_VIEW_Noop
  * address: 0x021D4B74
  * packet: pkt_ov122_021D4B74
  * region: ov122
@@ -12,10 +12,10 @@
  * extent: unit includes tail-call stub 0x021D4BDC and return stub 0x021D4BF0;
  *   two zero padding bytes at 0x021D4BF2 follow the intended code.
  * symbols:
- *   func_021D4B74  0x021D4B74  thumb  ov122
+ *   INTRUDE_COMM_VIEW_BeginExit  0x021D4B74  thumb  ov122
  *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
- *   func_021D4B30 0x021D4B30 thumb ov122
- *   func_021D4244 0x021D4244 thumb ov122
+ *   INTRUDE_COMM_VIEW_CheckExitRequest 0x021D4B30 thumb ov122
+ *   INTRUDE_COMM_VIEW_SetCallback 0x021D4244 thumb ov122
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb  arm9
@@ -31,21 +31,21 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern void func_021D4244(void *p, u32 a, int a2);
-extern void func_021D4B30(char *p);
-void func_021D4B74(char *p)
+extern void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 a, int a2);
+extern void INTRUDE_COMM_VIEW_CheckExitRequest(char *p);
+void INTRUDE_COMM_VIEW_BeginExit(char *p)
 {
     ((struct Obj06457 *)p)->f38C = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, ((struct Obj06457 *)p)->fC);
     NET_WHPIPE_SetNotifyCallback(0, 0);
     if (((struct Obj06457 *)p)->f8 == 1 && GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354)))
         GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354));
-    func_021D4244(p, (u32)func_021D4B30, 0x35e);
+    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_CheckExitRequest, 0x35e);
 }
-void func_021D4BDC(char *p)
+void INTRUDE_COMM_VIEW_StartExit(char *p)
 {
-    func_021D4244(p, (u32)func_021D4B74, 0x36f);
+    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_BeginExit, 0x36f);
 }
-void func_021D4BF0(void)
+void INTRUDE_COMM_VIEW_Noop(void)
 {
 }

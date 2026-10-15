@@ -29,8 +29,8 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   sub_0209E280_Map  0x0209E280  data
  *   d_0209E42C 0x0209E42C data a2
- *   func_0200AE54   0x0200AE54  thumb
- *   func_0200AFD4   0x0200AFD4  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
+ *   REGULATION_GetVetoBit   0x0200AFD4  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -51,6 +51,7 @@
  *   POKE_PERSONAL_LoadData 0x0201ADA4 thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   WORDSET_CheckF448  0x0201F448  thumb
  */
 struct MsgBank;
 struct Pokemon;
@@ -113,7 +114,7 @@ typedef struct Strbuf *(*RegulationLineFn)(const struct Regulation *, struct Wor
                                            struct RegulationText *, struct Strbuf *, u16);
 
 extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_0201F448(const u16 *a, const u16 *b);
+extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
 extern struct Pokemon *func_020185F0();
 extern u32   func_02017E88(struct Pokemon *mon, u32 paramId, u32 value);
 extern void  POKE_TOOL_SetBoxValue(struct Pokemon *mon, u32 paramId, const void *value);
@@ -123,8 +124,8 @@ extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 paramId, u32 value)
 extern u32  func_02018584(u16 species, u16 form, u16 level);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *data, u32 field);
-extern u32 func_0200AE54(const struct Regulation *reg, u32 ruleId);
-extern u32 func_0200AFD4(const struct Regulation *reg, u32 ruleId, s32 value);
+extern u32 REGULATION_GetRuleValue(const struct Regulation *reg, u32 ruleId);
+extern u32 REGULATION_GetVetoBit(const struct Regulation *reg, u32 ruleId, s32 value);
 extern u32 POKEPARTY_GetCount(struct Party *party);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern struct Pokemon *POKEPARTY_GetMember(struct Party *party, u32 index);
@@ -310,7 +311,7 @@ u32 func_02019ABC(struct BoxPokemon *box)
     void *blockC = func_02019C38(box, box->personality, 2);
 
     MSGDATA_ReadUnits(gSpeciesNameBank, blockA->species, gNameBuf, 0x20);
-    if (func_0201F448(gNameBuf, blockC) == 0) {
+    if (WORDSET_CheckF448(gNameBuf, blockC) == 0) {
         isDefault = 1;
     }
     return isDefault;
@@ -848,8 +849,8 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
     if (reg == 0)
         return 1;
 
-    levelLimit = func_0200AE54(reg, 4);
-    levelRule = func_0200AE54(reg, 5);
+    levelLimit = REGULATION_GetRuleValue(reg, 4);
+    levelRule = REGULATION_GetRuleValue(reg, 5);
     level = func_02017E1C(mon, 0x9E, 0);
 
     switch (levelRule) {
@@ -866,9 +867,9 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
     reason = 0;
     if (func_02017E1C(mon, 0x4C, 0) != 0)
         return 0x20;
-    if (func_0200AFD4(reg, 9, species) != 0)
+    if (REGULATION_GetVetoBit(reg, 9, species) != 0)
         return 4;
-    if (func_0200AFD4(reg, 0xA, item) != 0)
+    if (REGULATION_GetVetoBit(reg, 0xA, item) != 0)
         reason = 0x40;
     return reason;
 }
@@ -944,7 +945,7 @@ int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order)
  * arrays, zeroes the species of any member POKE_REGULATION_CheckPokemon rejects, then runs an
  * O(n^2) duplicate-species scan that zeroes the worse of each colliding pair
  * (worse = the larger form value) and decrements a running count.  If the
- * surviving count is below what func_0200AE54(ctx, 2) requires it answers 4;
+ * surviving count is below what REGULATION_GetRuleValue(ctx, 2) requires it answers 4;
  * otherwise the answer is 0 or 1 from POKE_REGULATION_FindValidOrder.
  *
  * Two layout tells pin the frame:
@@ -990,7 +991,7 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
         }
     }
 
-    if ((int)func_0200AE54(reg, 7) == 0 && partyCount > 1) {
+    if ((int)REGULATION_GetRuleValue(reg, 7) == 0 && partyCount > 1) {
         i = 0;
         last = partyCount - 1;
         for (; i < last; i++) {
@@ -1007,7 +1008,7 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
         }
     }
 
-    if (usable < (int)func_0200AE54(reg, 2)) {
+    if (usable < (int)REGULATION_GetRuleValue(reg, 2)) {
         return 4;
     }
 
@@ -1056,8 +1057,8 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
     if (reg == 0)
         return allowed;
 
-    levelLimit = func_0200AE54(reg, 4);
-    levelRule = func_0200AE54(reg, 5);
+    levelLimit = REGULATION_GetRuleValue(reg, 4);
+    levelRule = REGULATION_GetRuleValue(reg, 5);
     level = func_02017E1C(mon, 0x9E, 0);
 
     switch (levelRule) {
@@ -1075,13 +1076,13 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
         break;
     }
 
-    if (func_0200AFD4(reg, 9, species) != 0) {
+    if (REGULATION_GetVetoBit(reg, 9, species) != 0) {
         if (func_02017E1C(mon, 0x4C, 0) == 0) {
             allowed = 0;
             *flags |= 4;
         }
     }
-    if (func_0200AFD4(reg, 0xA, item) != 0) {
+    if (REGULATION_GetVetoBit(reg, 0xA, item) != 0) {
         allowed = 0;
         *flags |= 0x40;
     }
@@ -1142,7 +1143,7 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
         item[i] = 0;
     }
     total = POKEPARTY_GetBattleReadyCount(party);
-    if (total < (int)func_0200AE54(reg, 2)) {
+    if (total < (int)REGULATION_GetRuleValue(reg, 2)) {
         *flags |= 1;
         error = 4;
     }
@@ -1157,7 +1158,7 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
             levelSum += func_02017E1C(mon, 0x9e, 0);
         }
     }
-    if ((int)func_0200AE54(reg, 7) == 0 && total > 1) {
+    if ((int)REGULATION_GetRuleValue(reg, 7) == 0 && total > 1) {
         for (i = 0; i < 5; i++) {
             for (k = i + 1; k < 6; k++) {
                 if (species[i] == species[k] && species[i] != 0) {
@@ -1167,7 +1168,7 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
             }
         }
     }
-    if ((int)func_0200AE54(reg, 8) == 0 && total > 1) {
+    if ((int)REGULATION_GetRuleValue(reg, 8) == 0 && total > 1) {
         for (i = 0; i < 5; i++) {
             for (k = i + 1; k < 6; k++) {
                 if (item[i] == item[k] && species[i] != 0 && item[i] != 0) {
@@ -1177,8 +1178,8 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
             }
         }
     }
-    requiredSpecies = (int)func_0200AE54(reg, 0xb);
-    requiredForm = (int)func_0200AE54(reg, 0xc);
+    requiredSpecies = (int)REGULATION_GetRuleValue(reg, 0xb);
+    requiredForm = (int)REGULATION_GetRuleValue(reg, 0xc);
     i = 0;
     if (requiredSpecies != 0 && total > 1) {
         for (i = 0; i < 6; i++) {
@@ -1217,8 +1218,8 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
  */
 u32 POKE_REGULATION_AdjustLevel(const struct Regulation *reg, u32 level)
 {
-    u32 levelValue = func_0200AE54(reg, 4);
-    u32 levelRule = func_0200AE54(reg, 5);
+    u32 levelValue = REGULATION_GetRuleValue(reg, 4);
+    u32 levelRule = REGULATION_GetRuleValue(reg, 5);
 
     switch (levelRule) {
     case 3:
@@ -1260,7 +1261,7 @@ u32 POKE_REGULATION_AdjustLevel(const struct Regulation *reg, u32 level)
  */
 void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Party *party)
 {
-    u32 levelValue = func_0200AE54(reg, 4);
+    u32 levelValue = REGULATION_GetRuleValue(reg, 4);
     int i;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
@@ -1302,7 +1303,7 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
 {
     int i;
 
-    if (func_0200AE54(reg, 0x11) != 0)
+    if (REGULATION_GetRuleValue(reg, 0x11) != 0)
         return;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
@@ -1657,7 +1658,7 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
     int found;
 
     levelTotal = 0;
-    levelBudget = (u32)(int)func_0200AE54(reg, (int)6);
+    levelBudget = (u32)(int)REGULATION_GetRuleValue(reg, (int)6);
 
     if (picked != 0)
         *picked = 0;
@@ -1682,13 +1683,13 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         }
         allowed = 1;
         for (j = 0; j < count; j++) {
-            if ((int)func_0200AE54(reg, (int)7) == 0 && species == speciesList[j]) {
+            if ((int)REGULATION_GetRuleValue(reg, (int)7) == 0 && species == speciesList[j]) {
                 allowed = 0;
                 if (flags != 0)
                     *flags |= 8;
                 break;
             }
-            if ((int)func_0200AE54(reg, (int)8) == 0 && item != 0 && item == itemList[j]) {
+            if ((int)REGULATION_GetRuleValue(reg, (int)8) == 0 && item != 0 && item == itemList[j]) {
                 allowed = 0;
                 if (flags != 0)
                     *flags |= 0x10;
@@ -1709,18 +1710,18 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         itemList[count] = item;
         levelTotal = (u16)(levelTotal + (u16)levelCost);
         count = (u8)(count + 1);
-        if ((int)count < (int)func_0200AE54(reg, (int)3))
+        if ((int)count < (int)REGULATION_GetRuleValue(reg, (int)3))
             continue;
         if (flags != 0 && count < 6 && order[count] != 0)
             *flags |= 1;
         break;
     }
 
-    if ((int)count >= (int)func_0200AE54(reg, (int)2)) {
-        requiredSpecies = (u32)(int)func_0200AE54(reg, (int)0xb);
+    if ((int)count >= (int)REGULATION_GetRuleValue(reg, (int)2)) {
+        requiredSpecies = (u32)(int)REGULATION_GetRuleValue(reg, (int)0xb);
         found = 1;
         if (requiredSpecies != 0) {
-            requiredForm = (u32)(int)func_0200AE54(reg, (int)0xc);
+            requiredForm = (u32)(int)REGULATION_GetRuleValue(reg, (int)0xc);
             found = 0;
             for (k = 0; k < count; k++) {
                 if (requiredSpecies == speciesList[k] && requiredForm == formList[k]) {

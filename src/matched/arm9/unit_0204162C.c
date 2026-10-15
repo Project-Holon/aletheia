@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_0204162C, func_02041648, func_02041664, func_02041680,
- *           func_0204169C, func_020416B8
+ * function: BG_SYS_GetBuf, BG_SYS_GetScrollX_1648, BG_SYS_GetScrollY_1664, BG_SYS_GetType,
+ *           BG_SYS_GetField16, BG_SYS_GetField17
  * address:  0x0204162C
  * packet:   pkt_0204152C
  * region:   arm9
@@ -41,32 +41,32 @@ struct Channel {
 
 extern struct Channel *ptr_02146A44;
 
-u32 func_0204162C(int channel)
+u32 BG_SYS_GetBuf(int channel)
 {
     return ptr_02146A44[channel].field_08;
 }
 
-u32 func_02041648(u8 channel)
+u32 BG_SYS_GetScrollX_1648(u8 channel)
 {
     return ptr_02146A44[channel].field_14;
 }
 
-u32 func_02041664(u8 channel)
+u32 BG_SYS_GetScrollY_1664(u8 channel)
 {
     return ptr_02146A44[channel].field_18;
 }
 
-u8 func_02041680(int channel)
+u8 BG_SYS_GetType(int channel)
 {
     return ptr_02146A44[channel].field_1c;
 }
 
-u8 func_0204169C(int channel)
+u8 BG_SYS_GetField16(int channel)
 {
     return ptr_02146A44[channel].field_1e;
 }
 
-u8 func_020416B8(int channel)
+u8 BG_SYS_GetField17(int channel)
 {
     return ptr_02146A44[channel].field_1f;
 }

@@ -17,7 +17,7 @@
  *   ghiAppendHeaderToBuffer  0x021BFF7C  arm  ov114
  *   ghiAppendCharToBuffer  0x021C0004  arm  ov114
  *   ghiAppendIntToBuffer  0x021C00C0  arm  ov114
- *   func_02094B20  0x02094B20  arm
+ *   strstr  0x02094B20  arm
  *   OS_SPrintf  0x02084F40  arm
  *   ghiPostGetContentType  0x021C25C8  arm  ov114
  *   ghiEncryptDataToBuffer  0x021BFDEC  arm  ov114
@@ -98,7 +98,7 @@ extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataL
 extern int ghiAppendHeaderToBuffer(GHIBuffer *buffer, const char *name, const char *value);
 extern int ghiAppendCharToBuffer(struct Ctx *ctx, int ch);
 extern int ghiAppendIntToBuffer(GHIBuffer *buffer, int i);
-extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
+extern u8 *strstr(const u8 *s1, const u8 *s2);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern char *ghiPostGetContentType(struct Conn *connection);
 extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
@@ -165,7 +165,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
             ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, sGhttpLineEndProcess, 2);
         }
 
-        if (connection->sendHeaders == 0 || func_02094B20((const u8 *)connection->sendHeaders, (const u8 *)sGhttpUserAgent) == 0)
+        if (connection->sendHeaders == 0 || strstr((const u8 *)connection->sendHeaders, (const u8 *)sGhttpUserAgent) == 0)
             ghiAppendHeaderToBuffer(writeBuffer, sGhttpUserAgent, sGhttpGamespyhttp);
 
         if (connection->persistConnection)

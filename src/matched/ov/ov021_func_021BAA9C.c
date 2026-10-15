@@ -17,7 +17,7 @@
  *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
  *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0207CC30  0x0207CC30  arm
+ *   VEC_Fx16Mag  0x0207CC30  arm
  *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb  ov021
  *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
  *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb  ov021
@@ -37,7 +37,7 @@ extern void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
 extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
 extern void FIELD_RAIL_WORK_GetStepVector(struct Sub *o, s16 *out);
 extern int func_0207CFB8(int, int);
-extern int func_0207CC30(s16 *);
+extern int VEC_Fx16Mag(s16 *);
 extern void FIELD_CAMERA_SetPitch(u8 *p, u16 v);
 extern void FIELD_CAMERA_SetDistance(u8 *p, u32 v);
 extern void FIELD_CAMERA_SetYaw(u8 *p, u32 v);
@@ -59,7 +59,7 @@ void FIELD_RAIL_CAMERA_FollowHeadingSlope(u32 a)
     b[0] = b[3];
     b[2] = b[5];
     b[1] = 0;
-    y = func_0207CFB8(-b[4], func_0207CC30(b));
+    y = func_0207CFB8(-b[4], VEC_Fx16Mag(b));
     FIELD_CAMERA_SetPitch((u8 *)h, y + r[2]);
     FIELD_CAMERA_SetDistance((u8 *)h, r[3]);
     FIELD_CAMERA_SetYaw((u8 *)h, (u16)(x + r[1]));

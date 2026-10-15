@@ -18,14 +18,14 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02045B38 0x02045B38 arm
  *   CONFIG_GetTextSpeed 0x02008374 thumb
- *   func_02013080 0x02013080 thumb
+ *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02041300 0x02041300 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -36,7 +36,7 @@
  *   gPdcMsgSrcName 0x021B6E74 data a4
  *   gPdcMsgBgTemplate 0x021B6E24 data a4
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -71,14 +71,14 @@ extern u32 func_020307B0(void *p);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_0203FCA0(u32 layer, const struct BgTemplate *template, u32 mode);
+extern void BG_SYS_InitBgLayer(u32 layer, const struct BgTemplate *template, u32 mode);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 CONFIG_GetTextSpeed(struct Config *config);
-extern signed char func_02013080(u32 textSpeed);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 textSpeed);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 charBase);
@@ -87,7 +87,7 @@ extern void BMP_WIN_DrawFrame(struct BmpWin *window, u16 frameIndex, u32 palette
 extern void func_020409B4(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void func_0201ED04(struct WordSet *wordSet);
+extern void WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void PRINTSYS_PrintStreamDelete(void *stream);
 extern void func_020403F4(int);
 extern void MSGDATA_Delete(struct MsgBank *msgBank);
@@ -142,16 +142,16 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     u32 frameIndex;
 
     msg = func_02030734(heapId, 0x48, 1, gPdcMsgSrcName, 0x82);
-    func_0203FCA0(1, &gPdcMsgBgTemplate, 0);
+    BG_SYS_InitBgLayer(1, &gPdcMsgBgTemplate, 0);
     msg->heapId = heapId;
     msg->tcbl = tcbl;
     msg->msgBank = func_02045B38(0, 2, 0x56, msg->heapId);
     msg->font = font;
-    msg->textSpeed = func_02013080(CONFIG_GetTextSpeed(config));
+    msg->textSpeed = MSG_SPEED_GetWaitForSpeed(CONFIG_GetTextSpeed(config));
     msg->strbuf = STRBUF_Create(0x100, heapId);
-    msg->wordSet = func_0201EC64(heapId);
+    msg->wordSet = GF_FONT_Create_EC64(heapId);
     func_02041300(1, 0, 0, 0, 32, 32, 17);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     frameIndex = func_020496E4(11, 89, 1, 0, 0, msg->heapId);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 11, 90, msg->heapId, 0, 32, 0, 0);
     msg->window = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);
@@ -166,7 +166,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
 void PDC_MSG_Delete(struct PdcMsg *msg)
 {
     STRBUF_Delete(msg->strbuf);
-    func_0201ED04(msg->wordSet);
+    WORDSET_DeleteStrbufED04(msg->wordSet);
     if (msg->printStream) PRINTSYS_PrintStreamDelete(msg->printStream);
     func_020403F4(1);
     MSGDATA_Delete(msg->msgBank);

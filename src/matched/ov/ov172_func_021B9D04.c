@@ -23,7 +23,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CTVT_CAMVIEW_StopCapture  0x021B7578  thumb  ov172
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
- *   func_021B80E4  0x021B80E4  thumb  ov172
+ *   CTVT_COMM_GetNetMode  0x021B80E4  thumb  ov172
  *   CTVT_TALK_ShowMessage  0x021B9C1C  thumb  ov172
  *   CTVT_TALK_CheckEnd  0x021B9DF8  thumb  ov172
  *   COMM_TVT_SYS_GetCamView  0x021BDFDC  thumb  ov172
@@ -54,7 +54,7 @@ extern void func_020409B4(u32 index);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
 extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
-extern u32 func_021B80E4(int unused, char *p);
+extern u32 CTVT_COMM_GetNetMode(int unused, char *p);
 extern void CTVT_TALK_ShowMessage(void *p, char *q, int id);
 extern int CTVT_TALK_CheckEnd(void *p, int *out);
 extern u32 COMM_TVT_SYS_GetCamView(void *p);
@@ -77,7 +77,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
     if (APP_TASKMENU_IsFinish((void *)q[0x20]) != 1)
         return;
     if (APP_TASKMENU_GetCursorPos((const u8 *)q[0x20]) == 0) {
-        if (func_021B80E4(self, (char *)COMM_TVT_SYS_GetComm((void *)self)) == 5) {
+        if (CTVT_COMM_GetNetMode(self, (char *)COMM_TVT_SYS_GetComm((void *)self)) == 5) {
             q[0] = 0xF;
             q[0x21] = 1;
             CTVT_TALK_ShowMessage((void *)self, (char *)q, 0x2A);

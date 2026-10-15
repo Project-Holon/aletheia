@@ -1,5 +1,5 @@
 /*
- * function: func_0207ADE8
+ * function: MTX_Copy33To44_
  * address:  0x0207ADE8
  * packet:   pkt_0207ADE8
  * region:   arm9
@@ -18,7 +18,7 @@
  *   (none)
  */
 
-asm void func_0207ADE8(void)
+asm void MTX_Copy33To44_(void)
 {
     stmfd sp!, {r4}
     mov r12, #0

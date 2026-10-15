@@ -1,5 +1,5 @@
 /*
- * function: func_02169294
+ * function: DWCi_CloseFriendProcess
  * address:  0x02169294
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-void func_02169294(void)
+void DWCi_CloseFriendProcess(void)
 {
     char *p = *(char **)(((char *)&g_021AA860) + 0xc);
     char *q;

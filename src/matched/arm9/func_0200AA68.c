@@ -1,5 +1,5 @@
 /*
- * function: sub_0200AA68
+ * function: IRC_RANKING_AddEntry
  * address:  0x0200AA68
  * packet:   pkt_0200AA68
  * region:   arm9
@@ -10,23 +10,23 @@
  * status:   EXACT*
  * symbols:
  *   sub_0200ACD0  0x0200ACD0  thumb
- *   sub_0200AC14  0x0200AC14  thumb
+ *   IRC_RANKING_InitEntry  0x0200AC14  thumb
  *   sub_0200AB50  0x0200AB50  thumb
  *   sub_0200ABE0  0x0200ABE0  thumb
- *   sub_0200AD00  0x0200AD00  thumb
+ *   IRC_RANKING_UpdateEntryMeetCount  0x0200AD00  thumb
  *
  * EXACT*: the listing extent is 196 bytes because the two unlabelled leaves
  * at 0x0200AB04 and 0x0200AB24 follow without a label; they are already
  * matched separately as src/matched/unit_0200AB04.c.  This file reproduces
- * the 154 bytes of sub_0200AA68 itself.
+ * the 154 bytes of IRC_RANKING_AddEntry itself.
  *
  * The orchestrator of the family (see docs/families/mystery_data.h).  Find an
  * existing Entry with the caller's key (sub_0200ACD0), take its 10-bit
  * counter if there is one, build a fresh Entry on the stack from that counter
- * and the caller's eleven arguments (sub_0200AC14), insert it in key order
+ * and the caller's eleven arguments (IRC_RANKING_InitEntry), insert it in key order
  * (sub_0200AB50) recording the slot in the low byte of the record's flag word
  * at +0x348, and if the new entry duplicates one already present
- * (sub_0200ABE0) bump every matching entry's counter (sub_0200AD00).  It
+ * (sub_0200ABE0) bump every matching entry's counter (IRC_RANKING_UpdateEntryMeetCount).  It
  * returns the slot back out of the flag word.
  *
  * This row was the "unfilable" one of docs/notes/pkt_0200AA00.c.txt (misfiled
@@ -41,7 +41,7 @@
  *
  * Three declaration-level levers, none of them a statement shape:
  *
- *  1. sub_0200AC14 takes EIGHT SEPARATE SCALAR PARAMETERS, not one 0x20-byte
+ *  1. IRC_RANKING_InitEntry takes EIGHT SEPARATE SCALAR PARAMETERS, not one 0x20-byte
  *     struct by value (see the header of src/matched/func_0200AC14.c, which
  *     this wave re-read the same way).  Passing a struct makes this caller
  *     emit an ldm/stm block copy where the original stores each field into
@@ -65,7 +65,7 @@
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_0200AA68.c \
- *       --func sub_0200AA68 --addr 0x0200AA68 --cc 1.1p1 --thumb
+ *       --func IRC_RANKING_AddEntry --addr 0x0200AA68 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -101,13 +101,13 @@ typedef struct {
 } Rec;
 
 extern char *sub_0200ACD0(char *base, int count, int target);
-extern void   sub_0200AC14(Entry *dst, const void *src, u32 a2, u32 a3,
+extern void   IRC_RANKING_InitEntry(Entry *dst, const void *src, u32 a2, u32 a3,
                            u32 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7);
 extern u8     sub_0200AB50(Entry *list, s32 n, Entry *dst);
 extern s32    sub_0200ABE0(u8 *base, s32 n, u8 *other);
-extern void   sub_0200AD00(Entry *base, s32 n, Entry *ref);
+extern void   IRC_RANKING_UpdateEntryMeetCount(Entry *base, s32 n, Entry *ref);
 
-u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u32 a3,
+u8 IRC_RANKING_AddEntry(Rec *r, const void *src, u16 a2, u32 a3,
                 u8 s0, u8 s1, u32 s2, u16 s3, u8 s4, u8 s5, u8 s6)
 {
     Entry tmp;
@@ -118,12 +118,12 @@ u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u32 a3,
     if (hit != 0) {
         count = hit->b1;
     }
-    sub_0200AC14(&tmp, src, a2, count, a3, s0, s1, s2, s3, s4, s5, s6);
+    IRC_RANKING_InitEntry(&tmp, src, a2, count, a3, s0, s1, s2, s3, s4, s5, s6);
     {
     ((Flags *)&r->f348)->b0 = sub_0200AB50(r->entries, 30, &tmp);
     }
     if (sub_0200ABE0((u8 *)r->entries, 30, (u8 *)&tmp) != 0) {
-        sub_0200AD00(r->entries, 30, &tmp);
+        IRC_RANKING_UpdateEntryMeetCount(r->entries, 30, &tmp);
     }
     {
         u8 v = ((Flags *)&r->f348)->b0;

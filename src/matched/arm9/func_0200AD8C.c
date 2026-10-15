@@ -1,5 +1,5 @@
 /*
- * function: func_0200AD8C
+ * function: WORLDTRADE_GetIsDeposited
  * address:  0x0200AD8C
  * packet:   pkt_0200AD8C
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct Rec0200AD8C {
     u16 fEC;
 } Rec0200AD8C;
 
-u16 func_0200AD8C(const Rec0200AD8C *p)
+u16 WORLDTRADE_GetIsDeposited(const Rec0200AD8C *p)
 {
     return p->fEC;
 }

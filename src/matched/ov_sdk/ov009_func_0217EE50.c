@@ -1,5 +1,5 @@
 /*
- * function: func_0217EE50
+ * function: SetSockBlocking
  * address:  0x0217EE50
  * packet:   pkt_0219091C
  * region:   ov009
@@ -33,7 +33,7 @@ extern char g_021A374C[];
 extern char g_021A375C[];
 extern char g_021A3784[];
 
-int func_0217EE50(int sock, int isblocking)
+int SetSockBlocking(int sock, int isblocking)
 {
     int val;
     int rcode;

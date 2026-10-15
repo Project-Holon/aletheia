@@ -24,17 +24,17 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   gGFLNetMain     0x021469E0  data
  *   sNetFileName  0x020A7CA0  data
  *   str_020A7CA8   0x020A7CA8  data
  *   str_020A7CB8   0x020A7CB8  data
  *   str_020A7CE8   0x020A7CE8  data
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
- *   func_0200F17C  0x0200F17C  thumb
+ *   NET_DEVICE_TABLE_Select  0x0200F17C  thumb
  *   func_020306F0  0x020306F0  arm
- *   func_02034FB8  0x02034FB8  arm
- *   func_0200F234  0x0200F234  thumb
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
+ *   NET_DEVICE_TABLE_Reset  0x0200F234  thumb
  *   GFL_NET_LOWER_DATA_MainSend 0x0203EA9C  arm
  *   FLASH_ACCESS_GetBusyFlag  0x020338F8  arm
  *   g_020A7CEC     0x020A7CEC  data
@@ -104,12 +104,12 @@ extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 extern void OS_GetMacAddress(void *dst);
 extern s32 func_0203EFC8(const u8 *lhs, const u8 *rhs, u32 size);
-extern void func_02034F84(u32 flag);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 flag);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
-extern struct GFLNetModeOps *func_0200F17C(u32 netType);
-extern void func_0200F234(u32 netType);
+extern struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 netType);
+extern void NET_DEVICE_TABLE_Reset(u32 netType);
 extern void func_020306F0(u32 heapId);
-extern void func_02034FB8(u32 flag);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
 extern void GFL_NET_LOWER_DATA_MainSend(void);
 extern u32  FLASH_ACCESS_GetBusyFlag(void);
 extern void GFL_NET_HANDLE_IsTimingSync(void);
@@ -284,12 +284,12 @@ extern char s_020A7D68[];
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId)
 {
-    GFLNetModeOps *ops = func_0200F17C(1);
+    GFLNetModeOps *ops = NET_DEVICE_TABLE_Select(1);
 
     if (ops != 0)
         ops->initLibrary(parentHeapId, zero);
 
-    func_0200F234(1);
+    NET_DEVICE_TABLE_Reset(1);
 
     if (oldBaseHeapId != newBaseHeapId) {
         gGFLNetMain.baseHeapId = (u16)newBaseHeapId;
@@ -347,7 +347,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     session = (GFLNetSession *)func_02030734(req->heapId, 0x354, 1, sNetFileName, 0x6a);
     gGFLNetMain.session = session;
     session->errorCheckEnabled = 1;
-    session->ops = func_0200F17C(req->bNetType);
+    session->ops = NET_DEVICE_TABLE_Select(req->bNetType);
     if (session->ops == 0)
         func_02034714(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
@@ -515,7 +515,7 @@ void GFL_NET_EndSession(void)
         callback(session->userArg);
 
     GFL_NET_HANDLE_ExitWork(session);
-    func_0200F234(netType);
+    NET_DEVICE_TABLE_Reset(netType);
     func_020307B0(session);
 
     gGFLNetMain.session = 0;
@@ -539,7 +539,7 @@ void GFL_NET_EndSession(void)
     }
 
     func_020306F0(heapId);
-    func_02034FB8(4);
+    UI_ClearKeepAwakeFlagsGlobal(4);
 }
 
 
@@ -2800,7 +2800,7 @@ GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct
     link->expectedMemberNum = link->init.maxConnectNum;
 
     gNetIrcWirelessLink = link;
-    func_02034F84(0x20);
+    UI_SetKeepAwakeFlagsGlobal(0x20);
     return &gNetIrcWirelessLink->init;
 }
 
@@ -2825,7 +2825,7 @@ void GFL_NET_IRC_WIRELESS_Destroy(void)
     if (gNetIrcWirelessLink == 0) {
         return;
     }
-    func_02034FB8(0x20);
+    UI_ClearKeepAwakeFlagsGlobal(0x20);
     func_020307B0(gNetIrcWirelessLink);
     gNetIrcWirelessLink = 0;
 }

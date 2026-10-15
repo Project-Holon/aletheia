@@ -12,7 +12,7 @@
  * sdk:      gti2CheckTimeout (libdwcgsgt2.TWL.HYB.a(gt2connection.o))
  *
  * symbols:
- *   func_02197BB8  0x02197BB8  arm  ov009
+ *   gti2SendClosed  0x02197BB8  arm  ov009
  *   func_021959D0  0x021959D0  arm  ov009
  *   func_0219500C  0x0219500C  arm  ov009
  */
@@ -26,7 +26,7 @@ typedef struct Conn {
 	unsigned int timeout;
 } Conn;
 
-extern int func_02197BB8(int *p);
+extern int gti2SendClosed(int *p);
 extern void func_021959D0(Conn *c);
 extern int func_0219500C(Conn *c, int result, unsigned char *msg, int len);
 
@@ -46,7 +46,7 @@ int func_02195798(Conn *c, unsigned int now)
 				timedOut = 1;
 		}
 		if (timedOut) {
-			func_02197BB8((int *)c);
+			gti2SendClosed((int *)c);
 			func_021959D0(c);
 			if (!func_0219500C(c, 6, 0, 0))
 				return 0;

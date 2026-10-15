@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207C904",
+   "name": "FX_GetSqrtResult",
    "address": "0x0207C904",
    "kind": "sdk",
    "region": "arm9",

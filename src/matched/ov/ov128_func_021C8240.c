@@ -11,7 +11,7 @@
  * mutable config declaration preserves sequential halfword loads/stores.
  * symbols:
  *   CLACT_SetSurfacePos 0x0204B09C arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_021C8A50 0x021C8A50 thumb ov128
  *   func_021C860C 0x021C860C thumb ov128
  *   d_021CA7C0 0x021CA7C0 data a4
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void CLACT_SetSurfacePos(void *, int, Pair *);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void func_021C8A50(char *p, int unused);
 extern void func_021C860C(u8 *, u8 *, u8 *, int, int, u16);
 int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)
@@ -53,8 +53,8 @@ int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)
     }
     delta = (((struct Obj00179 *)p)->f100 * 256) / 24;
     if (((struct Obj00179 *)p)->f102 == 2) delta = -delta;
-    func_02041EE4(2, 0, delta);
-    func_02041EE4(3, 0, delta);
+    BG_SYS_ResetSlot(2, 0, delta);
+    BG_SYS_ResetSlot(3, 0, delta);
     pos.x = d_021CA7C0.pos.x;
     pos.y = d_021CA7C0.pos.y;
     pos.x += (s16)delta;

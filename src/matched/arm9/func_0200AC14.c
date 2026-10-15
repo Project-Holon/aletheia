@@ -1,5 +1,5 @@
 /*
- * function: sub_0200AC14
+ * function: IRC_RANKING_InitEntry
  * address:  0x0200AC14
  * packet:   pkt_0200AC14
  * region:   arm9
@@ -64,7 +64,7 @@
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_0200AC14.c \
- *       --func sub_0200AC14 --addr 0x0200AC14 --cc 1.1p1 --thumb
+ *       --func IRC_RANKING_InitEntry --addr 0x0200AC14 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -91,7 +91,7 @@ typedef struct {
 extern void MI_CpuFill8(void *p, int c, u32 n);
 extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 
-void sub_0200AC14(Self *self, const void *src, u32 a2, u32 a3,
+void IRC_RANKING_InitEntry(Self *self, const void *src, u32 a2, u32 a3,
                   u8 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7)
 {
     MI_CpuFill8(self, 0, 0x1c);

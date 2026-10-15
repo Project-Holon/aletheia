@@ -55,7 +55,7 @@
  *   func_020461E4 0x020461E4 arm
  *   FS_InitFile 0x020788AC arm
  *   FS_OpenFile 0x02078C18 arm
- *   func_02078B44 0x02078B44 arm
+ *   FS_SeekFile 0x02078B44 arm
  *   FS_GetLength 0x02078C28 arm
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
@@ -68,9 +68,9 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_0202EB44 0x0202EB44 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_0200C184 0x0200C184 thumb
+ *   BEACON_GetBestScore 0x0200C184 thumb
  *   func_0200575C 0x0200575C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008DF0 0x02008DF0 thumb
@@ -100,7 +100,7 @@ extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int func_0202EB44(void);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void GFL_USE_FadeOutBgm(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
 extern void MB_UTIL_MSG_PrintStream(void *,int,int);
@@ -116,13 +116,13 @@ extern int MB_COMM_SYS_GetNetRunState(void *);
 extern int MB_COMM_SYS_IsLoginDone(int *p);
 extern void MB_COMM_SYS_StartNet(u8 *p);
 extern u32 func_020461E4(int);
-extern u32 func_0200C184(struct Blk34 *p);
+extern u32 BEACON_GetBestScore(struct Blk34 *p);
 extern int MB_COMM_SYS_SendHeader(void *,void *),MB_COMM_SYS_GetCommStage(void *);
 extern void *func_0200575C(u32);
 extern void FS_InitFile(File *);
 extern int FS_OpenFile(File *,void *),FS_CloseFile(File *);
 typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern u32 FS_GetLength(struct FSFile *a0);
 extern u8 d_021F6E08[],d_021F6E0C[];
@@ -158,7 +158,7 @@ static inline void load_payload(u8 *p) {
  File file; void *name;
  name=func_0200575C(142);FS_InitFile(&file);
  if(!FS_OpenFile(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
- func_02078B44((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
+ FS_SeekFile((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
  P(96)=func_02030734(H(0),W(100),1,(const char *)d_021F6E0C,660);
  FS_ReadFile((struct FSFile *)(&file),P(96),W(100));
  if(!FS_CloseFile(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
@@ -177,14 +177,14 @@ int MB_COMM_SYS_Main(u8 *p) {
  case 1:
   if(WIPE_SYS_EndCheck()==1) {
    if(func_0202EB44()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
-   else {MB_UTIL_MSG_SetWindowLayout(M,5);MB_UTIL_MSG_PrintStreamSystemMsg(M,func_02012FFC());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=33;}
+   else {MB_UTIL_MSG_SetWindowLayout(M,5);MB_UTIL_MSG_PrintStreamSystemMsg(M,MSG_SPEED_GetWait());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=33;}
   }break;
  case 2:
   if(*(u8 *)P(8)==0)WIPE_SYS_Start(0,0,0,0,6,1,H(0));
   else {WIPE_SYS_Start(0,0,0,32767,6,1,H(0));GFL_USE_FadeOutBgm(6);}
   W(32)=3;break;
  case 3:if(WIPE_SYS_EndCheck()==1)return 1;break;
- case 4:MB_UTIL_MSG_SetWindowLayout(M,5);MB_UTIL_MSG_PrintStream(M,43,func_02012FFC());W(32)=5;break;
+ case 4:MB_UTIL_MSG_SetWindowLayout(M,5);MB_UTIL_MSG_PrintStream(M,43,MSG_SPEED_GetWait());W(32)=5;break;
  case 5:if(MB_UTIL_MSG_IsStreamIdle(M)==1){MB_UTIL_MSG_OpenYesNoMenu(M,0);W(32)=6;}break;
  case 6:
   result=MB_UTIL_MSG_ProcessYesNoMenu(M);
@@ -201,8 +201,8 @@ int MB_COMM_SYS_Main(u8 *p) {
   H(42)++;
   if(H(42)>=1800){MB_COMM_SYS_UpdateSaveState(p,3);W(32)=30;}
   else if(MB_COMM_SYS_IsLoginDone(O)==1){
-   W(88)=func_02012FFC();p[94]=func_020461E4(W(88));
-   if(p[40]==0)H(92)=func_0200C184(P(76));
+   W(88)=MSG_SPEED_GetWait();p[94]=func_020461E4(W(88));
+   if(p[40]==0)H(92)=BEACON_GetBestScore(P(76));
    if(MB_COMM_SYS_SendHeader(O,p+88)==1){if(p[40]==0)W(32)=12;else W(32)=32;}
   }break;
  case 12:load_payload(p);break;
@@ -211,13 +211,13 @@ int MB_COMM_SYS_Main(u8 *p) {
   if(MB_COMM_SYS_GetCommStage(O)==10)goto failure;
   if(MB_COMM_SYS_GetCommStage(O)==2){
    if(W(44)==0){W(44)=1;MB_COMM_SYS_QueuePayload((int)O,(int)P(96),W(100));}
-   MB_UTIL_MSG_PrintStream(M,2,func_02012FFC());W(32)=15;
+   MB_UTIL_MSG_PrintStream(M,2,MSG_SPEED_GetWait());W(32)=15;
   }break;
  case 15:
-  if(MB_COMM_SYS_GetCommStage(O)==3){MB_UTIL_MSG_PrintStream(M,3,func_02012FFC());W(32)=16;}
-  else if(MB_COMM_SYS_GetCommStage(O)==13){MB_COMM_SYS_UpdateSaveState(p,4);MB_UTIL_MSG_PrintStream(M,8,func_02012FFC());MB_COMM_SYS_SetSyncRange(O);W(32)=28;}
+  if(MB_COMM_SYS_GetCommStage(O)==3){MB_UTIL_MSG_PrintStream(M,3,MSG_SPEED_GetWait());W(32)=16;}
+  else if(MB_COMM_SYS_GetCommStage(O)==13){MB_COMM_SYS_UpdateSaveState(p,4);MB_UTIL_MSG_PrintStream(M,8,MSG_SPEED_GetWait());MB_COMM_SYS_SetSyncRange(O);W(32)=28;}
  case 16:
-  if(MB_COMM_SYS_GetCommStage(O)==4){MB_COMM_SYS_ClearMonBuffer(O);MB_UTIL_MSG_PrintStream(M,4,func_02012FFC());W(32)=17;}break;
+  if(MB_COMM_SYS_GetCommStage(O)==4){MB_COMM_SYS_ClearMonBuffer(O);MB_UTIL_MSG_PrintStream(M,4,MSG_SPEED_GetWait());W(32)=17;}break;
  case 17:
   if(MB_COMM_SYS_GetCommStage(O)==5){func_02008DF0(GAME_DATA_GetTrainerRecord(SAVE),120);H(58)++;W(32)=18;}
   else if(MB_COMM_SYS_GetCommStage(O)==8){func_02008DF0(GAME_DATA_GetTrainerRecord(SAVE),120);H(58)++;MB_COMM_SYS_UpdateSaveState(p,2);W(32)=23;}
@@ -228,32 +228,32 @@ int MB_COMM_SYS_Main(u8 *p) {
    if(MB_COMM_SYS_GetCommStage(O)==6)W(32)=20;
    else if(MB_COMM_SYS_GetCommStage(O)==10){
     if(p[40]==0){
-failure:MB_COMM_SYS_UpdateSaveState(p,3);MB_UTIL_MSG_PrintStream(M,8,func_02012FFC());
+failure:MB_COMM_SYS_UpdateSaveState(p,3);MB_UTIL_MSG_PrintStream(M,8,MSG_SPEED_GetWait());
 fail_tail:MB_COMM_SYS_SetSyncRange(O);W(32)=28;
-    }else {MB_UTIL_MSG_PrintStream(M,38,func_02012FFC());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=26;}
+    }else {MB_UTIL_MSG_PrintStream(M,38,MSG_SPEED_GetWait());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=26;}
    }
   }break;
  case 20:MB_COMM_SYS_FinishReceive(p);W(32)=21;p[36]=9;break;
  case 21:MB_COMM_SYS_MainSave(p);break;
  case 22:
   MB_COMM_SYS_NoOp(p);
-  if(p[40]==0){MB_UTIL_MSG_PrintStream(M,7,func_02012FFC());W(32)=23;}
-  else {MB_UTIL_MSG_PrintStream(M,39,func_02012FFC());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=27;}break;
+  if(p[40]==0){MB_UTIL_MSG_PrintStream(M,7,MSG_SPEED_GetWait());W(32)=23;}
+  else {MB_UTIL_MSG_PrintStream(M,39,MSG_SPEED_GetWait());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=27;}break;
  case 23:
-  if(MB_UTIL_MSG_IsStreamIdle(M)==1) {u16 cnt=func_02007774((void *)GAME_DATA_GetBoxManager(SAVE));if(MB_COMM_SYS_SendMessage(O,5,cnt)==1){MB_UTIL_MSG_PrintStream(M,11,func_02012FFC());W(32)=24;}}break;
+  if(MB_UTIL_MSG_IsStreamIdle(M)==1) {u16 cnt=func_02007774((void *)GAME_DATA_GetBoxManager(SAVE));if(MB_COMM_SYS_SendMessage(O,5,cnt)==1){MB_UTIL_MSG_PrintStream(M,11,MSG_SPEED_GetWait());W(32)=24;}}break;
  case 24:
   if(MB_COMM_SYS_GetCommStage(O)==2){MB_COMM_SYS_ClearRoundFlags(O);W(32)=14;}
   else if(MB_COMM_SYS_GetCommStage(O)==9 || MB_COMM_SYS_GetCommStage(O)==10){
    if(MB_COMM_SYS_GetCommStage(O)==10)MB_COMM_SYS_UpdateSaveState(p,3);
-   MB_UTIL_MSG_PrintStream(M,8,func_02012FFC());W(32)=27;
+   MB_UTIL_MSG_PrintStream(M,8,MSG_SPEED_GetWait());W(32)=27;
   }break;
  case 27:if(MB_COMM_SYS_SendMessage(O,18,0)!=1)break;goto fail_tail;
  case 28:if(MB_UTIL_MSG_IsStreamIdle(M)==1 && MB_COMM_SYS_IsSyncDone(O)==1){MB_COMM_SYS_StopNetSession(O);W(32)=29;}break;
  case 29:if(MB_COMM_SYS_IsNetSessionNull(O)==1){if(p[40]==0)W(32)=2;else W(32)=25;}break;
  case 25:
-  if(MB_UTIL_MSG_IsStreamIdle(M)==1){MB_UTIL_MSG_ClearWindow(M);MB_UTIL_MSG_SetWindowLayout(M,1);MB_UTIL_MSG_PrintStream(M,35,func_02012FFC());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=26;}break;
+  if(MB_UTIL_MSG_IsStreamIdle(M)==1){MB_UTIL_MSG_ClearWindow(M);MB_UTIL_MSG_SetWindowLayout(M,1);MB_UTIL_MSG_PrintStream(M,35,MSG_SPEED_GetWait());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=26;}break;
  case 26:if(MB_COMM_SYS_IsNetSessionNull(O)==1 && MB_UTIL_MSG_IsStreamIdle(M)==1)W(32)=2;break;
- case 30:MB_UTIL_MSG_PrintStream(M,10,func_02012FFC());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=31;MB_COMM_SYS_StopNetSession(O);break;
+ case 30:MB_UTIL_MSG_PrintStream(M,10,MSG_SPEED_GetWait());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=31;MB_COMM_SYS_StopNetSession(O);break;
  case 31:if(MB_UTIL_MSG_IsStreamIdle(M)==1)W(32)=29;
  case 32:MB_COMM_SYS_MainChildFlow(p);break;
  case 33:if(MB_UTIL_MSG_IsStreamIdle(M)==1)W(32)=2;break;

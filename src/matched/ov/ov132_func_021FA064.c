@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: compiled ends 021FA0CE; two zero padding bytes before labelled 021FA0D0.
  * symbols:
- *   func_021F9DFC 0x021F9DFC thumb ov132
+ *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
  *   func_021FA3A8 0x021FA3A8 thumb ov132
  *   func_021FA4AC 0x021FA4AC thumb ov132
@@ -18,7 +18,7 @@
 #include "../include/Obj10539.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 func_021F9DFC(void *p);
+extern u16 STA_ACTING_GetCameraPos(void *p);
 extern unsigned func_02005728(unsigned);
 extern void func_021FA3A8(char *p, u8 *rec, unsigned type);
 extern void func_021FA4AC(char *);
@@ -26,7 +26,7 @@ extern void func_021FA27C(char *);
 void func_021FA064(char *p)
 {
     u8 i;
-    if (func_021F9DFC(((struct Obj10539 *)p)->f1E8) == 0) {
+    if (STA_ACTING_GetCameraPos(((struct Obj10539 *)p)->f1E8) == 0) {
         if (func_02005728(10) == 0) {
             for (i = 0; i < 3; i++) {
                 u8 a = func_02005728(4);

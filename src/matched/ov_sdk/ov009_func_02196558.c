@@ -1,5 +1,5 @@
 /*
- * function: func_02196558
+ * function: gti2DeliverReliableMessage
  * address:  0x02196558
  * packet:   pkt_ov009_02196558
  * region:   ov009
@@ -38,7 +38,7 @@ extern int gti2HandleAccept();
 extern int gti2HandleReject();
 extern int gti2HandleClose();
 
-int func_02196558(GTI2Connection *connection, int type, u8 *message, int len)
+int gti2DeliverReliableMessage(GTI2Connection *connection, int type, u8 *message, int len)
 {
     connection->serverChallengeCount++;
     if (type == 0)

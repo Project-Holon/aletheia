@@ -1,5 +1,5 @@
 /*
- * function: func_02095EAC
+ * function: strtoul
  * address:  0x02095EAC
  * packet:   pkt_020949F4
  * region:   arm9
@@ -26,21 +26,21 @@
  * type is u32 (unsigned long) and the core's return is u32 as well.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02095EAC.c \
- *       --func func_02095EAC --addr 0x02095EAC --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/strtoul.c \
+ *       --func strtoul --addr 0x02095EAC --cc 1.1p1 --arm
  *   EXACT, 148 bytes, 3 relocation sites, all resolved.
  *
  * symbols:
- *   func_02095B3C  0x02095B3C  arm
- *   func_020946D8  0x020946D8  arm
- *   g_02153FAC     0x02153FAC  data
+ *   __strtoul  0x02095B3C  arm
+ *   MSL_C_LIB_StrReadProc  0x020946D8  arm
+ *   errno     0x02153FAC  data
  */
 typedef unsigned int u32;
-extern u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-extern int func_020946D8(u32 *p, u32 a1, u32 a2);
-extern u32 g_02153FAC;
+extern u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+extern int MSL_C_LIB_StrReadProc(u32 *p, u32 a1, u32 a2);
+extern u32 errno;
 
-u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
+u32 strtoul(u32 a0, u32 *a1, u32 mode)
 {
     u32 len;
     u32 sign;
@@ -50,12 +50,12 @@ u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
 
     buf[0] = a0;
     buf[1] = 0;
-    r = func_02095B3C(mode, 0x7FFFFFFFu, (int (*)(void *, int,  int))((u32)func_020946D8), buf, (int *)(&len), (int *)(&sign), (int *)(&err));
+    r = __strtoul(mode, 0x7FFFFFFFu, (int (*)(void *, int,  int))((u32)MSL_C_LIB_StrReadProc), buf, (int *)(&len), (int *)(&sign), (int *)(&err));
     if (a1 != 0)
         *a1 = a0 + len;
     if (err != 0) {
         r = 0xFFFFFFFFu;
-        g_02153FAC = 0x22;
+        errno = 0x22;
     } else if (sign != 0)
         r = -r;
     return r;

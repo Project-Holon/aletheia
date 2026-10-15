@@ -1,5 +1,5 @@
 /*
- * function: func_02205010
+ * function: SHINKA_DEMO_LoadSprites
  * address:  0x02205010
  * packet:   pkt_02205010
  * region:   ov195
@@ -29,7 +29,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32 index);
 
-void func_02205010(int a, char *b)
+void SHINKA_DEMO_LoadSprites(int a, char *b)
 {
     void *h = func_020490F4(0xb6, ((struct Obj08347 *)b)->f2);
 

@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_exp_c_cruiser.c
  * unit:     yes
- * function: func_021BF9D0, func_021BFA20, func_021BFAE4
+ * function: func_021BF9D0, func_021BFA20, func_021BFAE4, DEMO3D_EXP_C_CRUISER_DeleteActorGfx
  * address:  0x021BF9D0
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -30,9 +30,12 @@
  *   d_021C3D5C 0x021C3D5C data a1
  *   d_021C3BD0 0x021C3BD0 data a2
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb
+ *   func_020307B0 0x020307B0 arm
  */
 #include "../../matched/include/Obj04607.h"
 #include "../../matched/include/Obj14600.h"
+#include "../../matched/include/Obj14601.h"
 
 struct Obj;
 typedef unsigned short u16;
@@ -44,6 +47,8 @@ struct Vec2 { short x, y; };
 typedef struct { int f0, f4, f8, fC; } Out;
 
 typedef struct { int f0; unsigned f4; int f8, fC, f10, f14, f18; unsigned char b1c, b1d, b1e; } In;
+
+typedef unsigned char u8;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
@@ -60,11 +65,15 @@ extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
+extern void UI_SCENE_FreeActorGfx(void *);
+extern u32 func_020307B0(void *p);
 void func_021BF9D0(unsigned short heap);
 void func_021BFA20(char *p);
 void func_021BFAE4(char *p);
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(char *arg0);
 extern const char d_021C3D5C[];
 extern const struct Vec2 d_021C3BD0[];
+
 
 void func_021BF9D0(unsigned short heap)
 {
@@ -74,6 +83,7 @@ void func_021BF9D0(unsigned short heap)
     func_020498F4(h, 18, 6, 0, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);
 }
+
 
 /*
  * note: 2026-10-05 wave P13 lane B1: closed from the 6 B DIFF draft (movs r7,#0 sat after movs r1,#0x14 instead of before str r1,[sp,#0x1c]). The store `config.f4 = 0;` moves to between f10 and f14; the other constant stores keep the listing order. 4 compiles. Callee shapes follow the matched ov203 siblings (021BF9D0, 021BDF30, 021BE620, 021BFAE4). The d_021C3BD2 pool word is the .y field of d_021C3BD0 (struct Vec2 array), folded by the compiler. The volatile read at 021BFA50 rereads the byte just stored at 021BFA4E, the same form as matched sibling 021BFAE4 (volatile: 021BFB12). No constant locals. EXACT in c99 and c.
@@ -107,6 +117,7 @@ void func_021BFA20(char *p)
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
+
 void func_021BFAE4(char *p)
 {
     unsigned char *a = *(unsigned char * *)&((struct Obj14600 *)p)->f10;
@@ -117,4 +128,18 @@ void func_021BFAE4(char *p)
         if (*(volatile unsigned char *)&((struct Obj04607 *)a)->f0 == 54)
             CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
     }
+}
+
+
+#pragma thumb off
+
+#pragma thumb on
+
+
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(char *arg0)
+{
+    char *ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
+    UI_SCENE_FreeActorGfx(ptr + 4);
+    ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
+    func_020307B0(ptr);
 }

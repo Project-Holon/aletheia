@@ -1,7 +1,7 @@
 /*
  * file:     fs_archive.c
  * unit:     yes
- * function: func_02077634, func_0207765C, FSi_WaitForArchiveCompletion, FSi_InvokeCommand, FSi_NextCommand, func_02077C78, func_02077CFC, FSi_SendCommand, func_02077EB8, func_02077F44, func_02078018, func_02078078, FS_InitArchive, FS_RegisterArchiveName, func_02078484, func_02078530, func_02078540, func_02078588, func_02078648, func_020786D8, func_02078734
+ * function: func_02077634, func_0207765C, FSi_WaitForArchiveCompletion, FSi_InvokeCommand, FSi_NextCommand, FSi_ExecuteAsyncCommand, FSi_ExecuteSyncCommand, FSi_SendCommand, FS_FindArchive, FS_SetCurrentDirectory, FSi_CopySafeString, func_02078078, FS_InitArchive, FS_RegisterArchiveName, FS_ReleaseArchiveName, FS_GetArchiveName, FS_MountArchive, FS_UnmountArchive, FS_SuspendArchive, FS_ResumeArchive, FS_NotifyArchiveAsyncEnd
  * address:  0x02077634
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -27,8 +27,7 @@
  *   FS_NormalizePath  0x02078078  arm
  *   STD_CopyLString  0x0208CB10  arm
  *   current_dir_path  0x02150C1C  data
- *   g_02150B0C                     0x02150B0C  data
- *   g_020A84A0                     0x020A84A0  data
+ *   fsi_str_slash                     0x020A84A0  data
  *   FSi_CopySafeString             0x02078018  arm
  *   FS_FindArchive                 0x02077EB8  arm
  *   FSi_DecrementSjisPositionToSlash 0x02078834  arm
@@ -267,7 +266,7 @@ typedef struct FSArgumentForSeekDirectory { u32 id; u32 position; } FSArgumentFo
 
 typedef struct FSArgumentForReadDirectory { FSDirectoryEntryInfo *info; } FSArgumentForReadDirectory;
 
-typedef struct FSArgumentForFindPath_0 { u32 baseid; const char *relpath; u32 target_id; BOOL target_is_directory; } FSArgumentForFindPath_0;
+typedef struct FSArgumentForFindPath { u32 baseid; const char *relpath; u32 target_id; BOOL target_is_directory; } FSArgumentForFindPath;
 
 typedef struct FSArgumentForGetPath { BOOL is_directory; char *buffer; u32 length; } FSArgumentForGetPath;
 
@@ -301,14 +300,6 @@ typedef struct FSArgumentForSetFileLength { u32 length; } FSArgumentForSetFileLe
 
 typedef struct FSArgumentForSetSeekCache { void *buf; u32 buf_size; } FSArgumentForSetSeekCache;
 
-typedef struct FSArgumentForFindPath_02077634
-{
-    u32 baseid;
-    const char *path;
-    u32 target_id;
-    BOOL target_is_directory;
-} FSArgumentForFindPath_02077634;
-
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_WakeupThread(OSThreadQueue *queue);
@@ -317,7 +308,7 @@ extern void FS_InitFile(FSFile *file);
 extern void FSi_ExecuteAsyncCommand(FSFile *file);
 extern void OS_Terminate(void);
 extern void FSi_ExecuteSyncCommand(FSFile *file);
-extern const char *FS_GetArchiveName(const FSArchive *arc);
+extern char *FS_GetArchiveName(FSArchive *arc);
 extern int STD_CompareNString(const char *str1, const char *str2, int len);
 extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
@@ -325,29 +316,22 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 void FS_InitArchive(FSArchive *p_arc);
 extern FSArchive *FS_FindArchive(const char *name, int name_len);
 BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len);
-void func_02078484(FSArchive *p_arc);
-char *func_02078530(FSArchive *arc);
-BOOL func_02078540(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl);
+void FS_ReleaseArchiveName(FSArchive *p_arc);
+BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl);
 extern BOOL FS_SuspendArchive(FSArchive *p_arc);
 extern BOOL FS_ResumeArchive(FSArchive *arc);
-BOOL func_02078588(FSArchive *arc);
-BOOL func_02078648(FSArchive *p_arc);
-BOOL func_020786D8(FSArchive *arc);
+BOOL FS_UnmountArchive(FSArchive *arc);
 BOOL FSi_IsEventCommand(FSCommandType command);
 void FSi_EndCommand(FSFile *file, FSResult ret);
 FSResult FSi_WaitForArchiveCompletion(FSFile *file, FSResult result);
 FSResult FSi_InvokeCommand(FSFile *file, FSCommandType command);
 FSFile *FSi_NextCommand(FSArchive *arc, BOOL owner);
-void func_02077C78(FSFile *file);
-void func_02077CFC(FSFile *file);
 BOOL FSi_SendCommand(FSFile *file, u32 command, BOOL blocking);
-FSArchive *func_02077EB8(const char *name, int name_len);
-BOOL func_02077F44(const char *path);
-int func_02078018(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure);
-void func_02078734(FSArchive *arc, int ret);
-extern FSiArchiveBss g_02150B0C;
-extern char current_dir_path[260];
+BOOL FS_SetCurrentDirectory(const char *path);
+int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure);
+void FS_NotifyArchiveAsyncEnd(FSArchive *arc, int ret);
 extern FSiArchiveBss fsi_archive_state;
+extern char current_dir_path[260];
 extern FSArchive *arc_list;
 extern char FSiLongNameTable[16][16];
 
@@ -910,7 +894,7 @@ FSResult FSi_InvokeCommand(FSFile *file, FSCommandType command)
                 result = arc->vtbl->ReadDirectory(arc, file, ((FSArgumentForReadDirectory *)file->argument)->info);
                 break;
             case FS_COMMAND_FINDPATH: {
-                FS_DECLARE_ARGUMENT_(FSArgumentForFindPath_0);
+                FS_DECLARE_ARGUMENT_(FSArgumentForFindPath);
                 result = arc->vtbl->FindPath(arc, arg->baseid, arg->relpath, &arg->target_id, arg->target_is_directory);
             } break;
             case FS_COMMAND_GETPATH: {
@@ -1238,7 +1222,7 @@ FSFile *FSi_NextCommand(FSArchive *arc, BOOL owner)
 /*
  * sdk:      FSi_ExecuteAsyncCommand (libfs.TWL.HYB.a fs_archive.o)
  */
-void func_02077C78(FSFile *file)
+void FSi_ExecuteAsyncCommand(FSFile *file)
 {
     FSArchive *const arc = file->arc;
 
@@ -1291,7 +1275,7 @@ static inline u32 FSi_GetCurrentCommand(const FSFile *file)
 /*
  * sdk:      FSi_ExecuteSyncCommand (libfs.TWL.HYB.a fs_archive.o)
  */
-void func_02077CFC(FSFile *file)
+void FSi_ExecuteSyncCommand(FSFile *file)
 {
     u32 bak_psr = OS_DisableInterrupts();
 
@@ -1604,12 +1588,12 @@ static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
 /*
  * sdk:      FS_FindArchive (libfs.TWL.HYB.a fs_archive.o)
  */
-FSArchive *func_02077EB8(const char *name, int name_len)
+FSArchive *FS_FindArchive(const char *name, int name_len)
 {
     u32 bak_psr = OS_DisableInterrupts();
     FSArchive *arc;
 
-    for (arc = g_02150B0C.list; arc; arc = arc->next)
+    for (arc = fsi_archive_state.list; arc; arc = arc->next)
     {
         if (FS_IsArchiveLoaded(arc))
         {
@@ -1670,21 +1654,21 @@ FSArchive *func_02077EB8(const char *name, int name_len)
 /*
  * sdk:      FS_SetCurrentDirectory (libfs.TWL.HYB.a fs_archive.o)
  */
-BOOL func_02077F44(const char *path)
+BOOL FS_SetCurrentDirectory(const char *path)
 {
     BOOL retval = 0;
     u32 baseid = 0;
-    FSArgumentForFindPath_02077634 arg[1];
+    FSArgumentForFindPath arg[1];
     char relpath[260];
     FSFile dir[1];
     FSArchive *arc = FS_NormalizePath(path, &baseid, relpath);
 
     if (arc)
     {
-        g_02150B0C.current_dir_pos.arc = arc;
-        g_02150B0C.current_dir_pos.own_id = 0;
-        g_02150B0C.current_dir_pos.index = 0;
-        g_02150B0C.current_dir_pos.pos = 0;
+        fsi_archive_state.current_dir_pos.arc = arc;
+        fsi_archive_state.current_dir_pos.own_id = 0;
+        fsi_archive_state.current_dir_pos.index = 0;
+        fsi_archive_state.current_dir_pos.pos = 0;
         (void)STD_CopyLString(current_dir_path, relpath, sizeof(current_dir_path));
         if (arc->vtbl->FindPath)
         {
@@ -1692,11 +1676,11 @@ BOOL func_02077F44(const char *path)
             dir->arc = arc;
             dir->argument = arg;
             arg->baseid = baseid;
-            arg->path = relpath;
+            arg->relpath = relpath;
             arg->target_is_directory = 1;
             if (FSi_SendCommand(dir, 4, 1))
             {
-                g_02150B0C.current_dir_pos.own_id = (u16)arg->target_id;
+                fsi_archive_state.current_dir_pos.own_id = (u16)arg->target_id;
                 (void)STD_CopyLString(current_dir_path, relpath, sizeof(current_dir_path));
             }
         }
@@ -1715,7 +1699,7 @@ BOOL func_02077F44(const char *path)
 /*
  * sdk:      FSi_CopySafeString (libfs.TWL.HYB.a fs_archive.o)
  */
-int func_02078018(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure)
+int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure)
 {
     int i;
     int n = (dstlen - 1 < srclen) ? (dstlen - 1) : srclen;
@@ -1740,9 +1724,8 @@ int func_02078018(char *dst, int dstlen, const char *src, int srclen, BOOL *stic
 
 
 extern char current_dir_path[260];    /* current_dir_path */
-extern const char g_020A84A0[]; /* "/" */
+extern const char fsi_str_slash[]; /* "/" */
 
-extern int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure);
 extern int FSi_DecrementSjisPositionToSlash(const char *str, int pos);
 extern int FSi_TrimSjisTrailingSlash(char *str);
 
@@ -1772,16 +1755,16 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
     int pathlen = 0;
     BOOL stickyFailure = 0;
 
-    if (g_02150B0C.current_dir_pos.arc == 0) {
-        g_02150B0C.current_dir_pos.arc = g_02150B0C.list;
-        g_02150B0C.current_dir_pos.own_id = 0;
-        g_02150B0C.current_dir_pos.pos = 0;
-        g_02150B0C.current_dir_pos.index = 0;
+    if (fsi_archive_state.current_dir_pos.arc == 0) {
+        fsi_archive_state.current_dir_pos.arc = fsi_archive_state.list;
+        fsi_archive_state.current_dir_pos.own_id = 0;
+        fsi_archive_state.current_dir_pos.pos = 0;
+        fsi_archive_state.current_dir_pos.index = 0;
         current_dir_path[0] = '\0';
     }
 
     if (FSi_IsSlash((u8)*path)) {
-        arc = g_02150B0C.current_dir_pos.arc;
+        arc = fsi_archive_state.current_dir_pos.arc;
         ++path;
         if (baseid) {
             *baseid = 0;
@@ -1793,13 +1776,13 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
             u32 c = (u8)path[i];
 
             if ((c == '\0') || FSi_IsSlash(c)) {
-                arc = g_02150B0C.current_dir_pos.arc;
+                arc = fsi_archive_state.current_dir_pos.arc;
                 if (baseid) {
-                    *baseid = g_02150B0C.current_dir_pos.own_id;
+                    *baseid = fsi_archive_state.current_dir_pos.own_id;
                 }
-                if (relpath && (g_02150B0C.current_dir_pos.own_id == 0) && (current_dir_path[0] != '\0')) {
+                if (relpath && (fsi_archive_state.current_dir_pos.own_id == 0) && (current_dir_path[0] != '\0')) {
                     pathlen += FSi_CopySafeString(relpath, 0x104, current_dir_path, 0x104, &stickyFailure);
-                    pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, g_020A84A0, 1, &stickyFailure);
+                    pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, fsi_str_slash, 1, &stickyFailure);
                 }
                 break;
             } else if (c == ':') {
@@ -1836,7 +1819,7 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
                 } else {
                     pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, path, curlen, &stickyFailure);
                     if (c != '\0') {
-                        pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, g_020A84A0, 1, &stickyFailure);
+                        pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, fsi_str_slash, 1, &stickyFailure);
                     }
                 }
                 if (c == '\0') {
@@ -1993,7 +1976,7 @@ BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len)
 /*
  * sdk:      FS_ReleaseArchiveName (libfs.TWL.HYB.a fs_archive.o)
  */
-void func_02078484(FSArchive *p_arc)
+void FS_ReleaseArchiveName(FSArchive *p_arc)
 {
     if (p_arc == fsi_archive_state.list)
     {
@@ -2033,7 +2016,7 @@ void func_02078484(FSArchive *p_arc)
 
 
 
-char *func_02078530(FSArchive *arc)
+char *FS_GetArchiveName(FSArchive *arc)
 {
     if (arc->name.ptr[3] != 0) {
         return arc->name.name;
@@ -2046,7 +2029,7 @@ char *func_02078530(FSArchive *arc)
 /*
  * sdk:      FS_MountArchive (libfs.TWL.HYB.a fs_archive.o)
  */
-BOOL func_02078540(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl)
+BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl)
 {
     FSFile tmp[1];
 
@@ -2102,7 +2085,7 @@ BOOL func_02078540(FSArchive *arc, void *userdata, const FSArchiveInterface *vtb
 /*
  * sdk:      FS_UnmountArchive (libfs.TWL.HYB.a fs_archive.o)
  */
-BOOL func_02078588(FSArchive *arc)
+BOOL FS_UnmountArchive(FSArchive *arc)
 {
     u32 bak_psr = OS_DisableInterrupts();
 
@@ -2152,7 +2135,7 @@ static inline BOOL FS_IsArchiveSuspended(const FSArchive *arc)
 /*
  * sdk:      FS_SuspendArchive (libfs.TWL.HYB.a fs_archive.o)
  */
-BOOL func_02078648(FSArchive *p_arc)
+BOOL FS_SuspendArchive(FSArchive *p_arc)
 {
     BOOL retval;
     u32 bak_psr = OS_DisableInterrupts();
@@ -2222,7 +2205,7 @@ BOOL func_02078648(FSArchive *p_arc)
 /*
  * sdk:      FS_ResumeArchive (libfs.TWL.HYB.a fs_archive.o)
  */
-BOOL func_020786D8(FSArchive *arc)
+BOOL FS_ResumeArchive(FSArchive *arc)
 {
     BOOL retval;
     FSFile *file;
@@ -2281,7 +2264,7 @@ BOOL func_020786D8(FSArchive *arc)
 /*
  * sdk:      FS_NotifyArchiveAsyncEnd (libfs.TWL.HYB.a fs_archive.o)
  */
-void func_02078734(FSArchive *arc, int ret)
+void FS_NotifyArchiveAsyncEnd(FSArchive *arc, int ret)
 {
     FSFile *file = arc->list;
 

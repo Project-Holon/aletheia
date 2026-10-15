@@ -27,7 +27,7 @@
  *   func_0219E120  0x0219E120  arm  ov009
  *   func_0219E1B8  0x0219E1B8  arm  ov009
  *   func_0219E0C0  0x0219E0C0  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   strcmp_nocase  0x0209ABF8  arm
  *   _dsub  0x0209AF34  arm
  *   _d2f  0x0209B64C  arm
@@ -51,27 +51,27 @@
  *   func_02184144  0x02184144  arm  ov009
  *   func_0219DF64  0x0219DF64  arm  ov009
  *   func_0218482C  0x0218482C  arm  ov009
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
  *   func_021847BC  0x021847BC  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_020946C8  0x020946C8  arm
+ *   current_time  0x0217F264  arm  ov009
+ *   srand  0x020946C8  arm
  *   SocketStartUp  0x0217F25C  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
- *   func_0209477C  0x0209477C  arm
- *   func_020949F4  0x020949F4  arm
+ *   strlen  0x0209477C  arm
+ *   strncmp  0x020949F4  arm
  *   gSBMasterHostname  0x021A821C  data
  *   gSBNullServer  0x021AEB00  data
  *   _u32_div_f     0x0209C2B0  arm
  *   __lower_mapC   0x020A60DC  data
  *   func_0219FB64  0x0219FB64  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0217ED38  0x0217ED38  arm  ov009
+ *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   gSBMasterHostFormat     0x021A8234  data
  *   func_02092344  0x02092344  arm
  *   unit_02092344  0x02092344  arm
@@ -94,7 +94,7 @@
  *   func_0219E9D8  0x0219E9D8  arm  ov009
  *   gSBNatNegMagic  0x021A8250  data
  *   func_0219D478  0x0219D478  arm  ov009
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   memmove        0x02092364  arm
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC4C  0x0217EC4C  arm  ov009
@@ -185,10 +185,7 @@ typedef void (*SBMapLoopCallback)(SBServerList *slist, void *server, long change
 extern int func_0219E120(SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 extern char *func_0219E0C0(SBServer *server, char *keyname, char *def);
-extern int func_020948E0(const char *a, const char *b);
 extern int strcmp_nocase(const char *a, const char *b);
-extern unsigned long strlen(const char *s);
-extern int strcmp(const char *a, const char *b);
 extern void func_021843C8(int *p, int b);
 extern void func_02184234(void *array, void *newElem);
 extern int func_02184200(const void *array);
@@ -203,23 +200,21 @@ extern void func_0218452C(void *a);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void *func_0219DF64(void *l);
 extern struct Ref *func_0218482C(void *t, void *k);
-extern char *func_0217F1E0(char *s);
+extern char *goastrdup(char *s);
 extern void func_0218474C(void *t, void *e);
 extern int func_021847BC(void *t, void *k);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
-extern unsigned int func_0217F264(void);
-extern void func_020946C8(unsigned int seed);
+extern unsigned int current_time(void);
+extern void srand(unsigned int seed);
 extern void SocketStartUp(void);
-extern int func_0209477C(const u8 *s);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern int func_0219FB64(char *s, int numbuckets);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern u32 func_0217ED38(char *name);
+extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *unit_02092344(void *dst, const void *src, unsigned long n);
 extern int func_02094694(void);
@@ -236,12 +231,9 @@ extern void func_0219E084(SBServer *server, char *keyname, int value);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern unsigned char SBServerGetState(SBServer *server);
 extern void SBServerSetState(SBServer *server, unsigned char state);
-extern int memcmp(const void *a, const void *b, unsigned long n);
 extern SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
 extern int func_0219E9D8(int v);
 extern void func_0219D478(void *state, unsigned char *bp, int len);
-extern void *func_02092364(void *dst, const void *src, unsigned int n);
-extern void *memmove(void *dst, const void *src, unsigned long n);
 extern int func_0217EF50(int sock);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
@@ -315,6 +307,10 @@ extern char gSBNatNegMagic[];
 
 
 
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
+extern int strcmp(const char *a, const char *b);
+extern void *memmove(void *dst, const void *src, unsigned int n);
+extern int memcmp(const void *a, const void *b, unsigned long n);
 /*
  * sdk:      prevKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
@@ -342,7 +338,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = func_020948E0(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
+        diff = strcmp(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     case 3:
         diff = strcmp_nocase(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
@@ -431,7 +427,7 @@ int StrCaseKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
-	diff = func_020948E0(func_0219E0C0(server1, currsortkey, (char *)gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)gSBEmptyString));
+	diff = strcmp(func_0219E0C0(server1, currsortkey, (char *)gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)gSBEmptyString));
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->sortascending == 0)
@@ -695,7 +691,7 @@ char *SBRefStr(void *slist, char *str)
 		val->refcount++;
 		return val->str;
 	}
-	ref.str = func_0217F1E0(str);
+	ref.str = goastrdup(str);
 	ref.refcount = 1;
 	func_0218474C(func_0219DF64(slist), &ref);
 	return ref.str;
@@ -775,7 +771,7 @@ void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFr
     SBServerListSetLastError(slist, gSBEmptyString);
     slist->mLanAdapterOverride = 0;
     slist->backendgameflags = 0x80;
-    func_020946C8(func_0217F264());
+    srand(current_time());
     SocketStartUp();
 }
 
@@ -790,11 +786,11 @@ void ErrorDisconnect(SBServerList *slist)
 {
 	int len = slist->inbufferlen;
 	char *q;
-	if (len > 0 && len > (unsigned int)func_0209477C((const u8 *)(q = gSBMasterHostname))) {
+	if (len > 0 && len > (unsigned int)strlen((const char *)(q = gSBMasterHostname))) {
 		char *e = gSBMasterHostname;
 		char *s = (char *)slist->inbuffer;
-		if (func_020949F4((const u8 *)s, (const u8 *)e, (unsigned int)func_0209477C((const u8 *)e)) == 0) {
-			SBServerListSetLastError(slist, s + func_0209477C((const u8 *)q));
+		if (strncmp((const u8 *)s, (const u8 *)e, (unsigned int)strlen((const char *)e)) == 0) {
+			SBServerListSetLastError(slist, s + strlen((const char *)q));
 			slist->ListCallback(slist, 5, gSBNullServer, slist->instance);
 		}
 	}
@@ -843,7 +839,7 @@ int ServerListConnect(SBServerList *slist)
         OS_SPrintf(masterHostname, gSBMasterHostFormat, slist->queryforgamename, masterIndex);
     saddr.family = 2;
     saddr.port = 0xEE70;
-    saddr.addr = func_0217ED38(masterHostname);
+    saddr.addr = inet_addr(masterHostname);
     if (saddr.addr == (u32)-1) {
         hent = SOC_GetHostByName(masterHostname);
         if (!hent)
@@ -857,7 +853,7 @@ int ServerListConnect(SBServerList *slist)
     }
     if (func_0217EC08(slist->slsocket, &saddr, 8) == 0)
         return 0;
-    func_0217EB2C(slist->slsocket);
+    closesocket(slist->slsocket);
     slist->slsocket = -1;
     return 3;
 }
@@ -876,7 +872,7 @@ void BufferAddNTS(char **buffer, char *str, int *len)
 	int slen;
 	if (!str)
 		str = gSBEmptyString;
-	slen = func_0209477C((const u8 *)str) + 1;
+	slen = strlen((const char *)str) + 1;
 	func_02092344(*buffer, str, slen);
 	*len += slen;
 	*buffer += slen;
@@ -1127,7 +1123,7 @@ void SBServerListDisconnect(SBServerList *slist)
 	slist->inbuffer = 0;
 	slist->inbufferlen = 0;
 	if (slist->slsocket != -1)
-		func_0217EB2C(slist->slsocket);
+		closesocket(slist->slsocket);
 	slist->slsocket = -1;
 	slist->state = 1;
 	FreeKeyList(slist);
@@ -1167,7 +1163,7 @@ void InitCryptKey(SBServerList *slist, char *key, int keylen)
 	int i;
 	int seckeylen;
 	char *seckey;
-	seckeylen = func_0209477C((const u8 *)slist->queryfromkey);
+	seckeylen = strlen((const char *)slist->queryfromkey);
 	seckey = slist->queryfromkey;
 	for (i = 0; i < keylen; i++)
 		slist->mychallenge[(i * seckey[i % seckeylen]) % 8] ^= slist->mychallenge[i % 8] ^ key[i];
@@ -1585,7 +1581,7 @@ SBError ProcessMainListData(SBServerList *slist)
     if (slist->inbuffer == NULL)
         return sbe_noerror;
     if (inlen != 0)
-        func_02092364(slist->inbuffer, inbuf, inlen);
+        memmove(slist->inbuffer, inbuf, inlen);
     slist->inbufferlen = inlen;
     return sbe_noerror;
 }
@@ -1981,8 +1977,8 @@ int ProcessLanData(SBServerList *slist)
         SBServerSetFlags(server, 0x11);
         SBServerListAppendServer(slist, server);
     }
-    if (func_0217F264() - slist->lanstarttime > 2000) {
-        func_0217EB2C(slist->slsocket);
+    if (current_time() - slist->lanstarttime > 2000) {
+        closesocket(slist->slsocket);
         slist->slsocket = -1;
         slist->state = 1;
         slist->ListCallback(slist, 3, gSBNullServer, slist->instance);

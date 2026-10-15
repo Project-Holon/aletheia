@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F0F8, func_0201F104, func_0201F124, func_0201F134,
+ * function: WORDSET_Set, func_0201F104, WORDSET_Callback_F124, func_0201F134,
  *           func_0201F140, func_0201F14C, func_0201F158, func_0201F164,
  *           func_0201F184, func_0201F198, func_0201F1B0, func_0201F1C8,
- *           func_0201F1E0, func_0201F230
+ *           WORDSET_DrawF1E0, func_0201F230
  *
  * The second half of the wordset.c setter run, 0x0201F0F8..0x0201F250.
  * Every one of these is the same shape: clamp or range-check the caller's
@@ -24,7 +24,7 @@
  * func_0201F184 clamps with a signed `blt`, so its value parameter is `s32`
  * while every other clamp in the file is an unsigned `bls`/`bhi`.
  *
- * func_0201F1E0 clears the slot unconditionally before the range check and
+ * WORDSET_DrawF1E0 clears the slot unconditionally before the range check and
  * only overwrites it when the id is in range, so a caller with an
  * out-of-range id leaks the rendered string; that is what the bytes say and
  * it is reproduced here rather than tidied.
@@ -41,6 +41,8 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
+ *   BMP_OAM_Get  0x02025B94  arm
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  */
 
 typedef unsigned char  u8;
@@ -57,8 +59,8 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
-extern u32   func_02025B94(u32 a);
-extern u32 func_0202A230(void *a, u32 idx);
+extern u32   BMP_OAM_Get(u32 a);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 extern void func_0200785C(void *save, u32 box, void *dest);
 
 struct Tag;
@@ -79,19 +81,19 @@ extern void func_0201ED64(struct WordSet *p, u32 i);
 extern void func_0201ED84(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
 extern void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v);
-extern void func_0201F0F8(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
 
-void func_0201F0F8(struct WordSet *p, u32 i, u32 v)
+void WORDSET_Set(struct WordSet *p, u32 i, u32 v)
 {
     func_0201EDD0(p, i, 0xBF, v);
 }
 
 void func_0201F104(struct WordSet *p, u32 i, u32 a)
 {
-    func_0201F0F8(p, i, (u8)func_0202A230((void *)a, 1));
+    WORDSET_Set(p, i, (u8)TPOKE_DATA_GetRecordField((void *)a, 1));
 }
 
-void func_0201F124(struct WordSet *p, u32 i, u32 v)
+void WORDSET_Callback_F124(struct WordSet *p, u32 i, u32 v)
 {
     func_0201EDD0(p, i, 0x11B, v);
 }
@@ -157,7 +159,7 @@ void func_0201F1C8(struct WordSet *p, u32 i, u32 v)
     func_0201EDD0(p, i, 0x38, v);
 }
 
-void func_0201F1E0(struct WordSet *p, u32 i, u32 v)
+void WORDSET_DrawF1E0(struct WordSet *p, u32 i, u32 v)
 {
     void *s = func_02045B38(0, 3, (u16)0x1CD, (u16)p->heap);
 

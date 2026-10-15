@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F5354 0x021F5354 thumb ov194
+ *   PROF_WORD_Delete 0x021F5354 thumb ov194
  *   func_021F3ED0 0x021F3ED0 thumb ov194
  *   func_021F3D54 0x021F3D54 thumb ov194
  *   func_021F31B8 0x021F31B8 thumb ov194
@@ -24,7 +24,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   BMP_OAM_DeleteSys 0x02025588 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -33,7 +33,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021F5354(u8 *);
+extern void PROF_WORD_Delete(u8 *);
 extern void func_021F3ED0(u8 *);
 extern void func_021F3D54(u8 *);
 extern void func_021F31B8(u8 *);
@@ -51,7 +51,7 @@ extern void func_021F1968(u8 *);
 extern int func_021F1878(void *a0);
 extern void BMP_OAM_DeleteSys(void *);
 extern void func_021F4B84(unsigned char *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -60,7 +60,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
 int func_021F168C(void *a,u32 b,u32 c,u8 *d)
 {
-    func_021F5354(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
+    PROF_WORD_Delete(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
     func_021F3ED0(d+596);
     func_021F3D54(d+560);
     func_021F31B8(d+252);
@@ -73,7 +73,7 @@ int func_021F168C(void *a,u32 b,u32 c,u8 *d)
     func_021F1878(d+100);
     BMP_OAM_DeleteSys(((struct Obj02908 *)d)->f2C0);
     func_021F4B84(((struct Obj02908 *)d)->f0);
-    func_0201ED04(((struct Obj02908 *)d)->f2BC);
+    WORDSET_DeleteStrbufED04(((struct Obj02908 *)d)->f2BC);
     MSGDATA_Delete(((struct Obj02908 *)d)->f2B8);
     PRINTSYS_QUE_Clear(((struct Obj02908 *)d)->f2B4);
     PRINTSYS_QUE_Delete(((struct Obj02908 *)d)->f2B4);

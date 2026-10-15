@@ -13,17 +13,17 @@
  *
  * symbols:
  *   CPS_SocGetEport  0x0215A970  arm  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   g_021A826C  0x021A826C  data
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 extern char g_021A826C[];
 extern unsigned short CPS_SocGetEport(void);
 
 void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
 {
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *soc = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
 
     if (soc == 0)
         return;

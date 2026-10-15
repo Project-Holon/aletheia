@@ -19,13 +19,13 @@
  * aTextOffSet locals, so they are literals; theInStream is plain `char *`.
  *
  * symbols:
- *   func_020923B0                  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   OS_SPrintf                  0x02084F40  arm
  *   g_020A61DC                     0x020A61DC  data
  *   g_021A3710                     0x021A3710  data
  */
 
-extern void *func_020923B0(void *p, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern const unsigned short g_020A61DC[];
 static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x10)); }
@@ -36,7 +36,7 @@ void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
     char *aTextOutStream = theOutStream + 41;
     unsigned int aWriteBit = theInLen & 1;
 
-    func_020923B0(theOutStream, ' ', 64);
+    MSL_C_LIB_MemsetPtr(theOutStream, ' ', 64);
     while (theInLen--) {
         unsigned char aChar = (unsigned char)(*theInStream++);
 

@@ -1,5 +1,5 @@
 /*
- * function: sub_02035080
+ * function: UI_SetSuspendHook
  * address:  0x02035080
  * packet:   pkt_02035080
  * region:   arm9
@@ -17,8 +17,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035080.c \
- *       --func sub_02035080 --addr 0x02035080 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_SetSuspendHook.c \
+ *       --func UI_SetSuspendHook --addr 0x02035080 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ struct Obj02035080 {
     u32 unk2C;
 };
 
-void sub_02035080(struct Obj02035080 *p, u32 a, u32 b)
+void UI_SetSuspendHook(struct Obj02035080 *p, u32 a, u32 b)
 {
     p->unk1C = a;
     p->unk2C = b;

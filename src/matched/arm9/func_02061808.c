@@ -1,5 +1,5 @@
 /*
- * function: func_02061808
+ * function: NNSi_GfdGetVramManagerWork
  * address:  0x02061808
  * packet:   pkt_0206123C
  * region:   arm9
@@ -26,7 +26,7 @@ struct Pair02061808 {
 
 extern struct Arena02146B74 g_02146B74;
 
-void func_02061808(struct Pair02061808 *dst)
+void NNSi_GfdGetVramManagerWork(struct Pair02061808 *dst)
 {
     dst->a = g_02146B74.a;
     dst->b = g_02146B74.b;

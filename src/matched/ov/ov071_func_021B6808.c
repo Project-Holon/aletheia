@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -21,7 +21,7 @@ struct WordSet;
 struct PrintSys;
 struct S02031140;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 typedef unsigned int   u32;
@@ -33,7 +33,7 @@ void MONOLITH_TOOL_FreeText(void **p)
     MSGDATA_Delete(p[8]);
     MSGDATA_Delete(p[9]);
     MSGDATA_Delete(p[10]);
-    func_0201ED04(p[4]);
+    WORDSET_DeleteStrbufED04(p[4]);
     PRINTSYS_QUE_Clear(p[2]);
     PRINTSYS_QUE_Delete(p[2]);
     GF_FONT_Delete(p[3]);

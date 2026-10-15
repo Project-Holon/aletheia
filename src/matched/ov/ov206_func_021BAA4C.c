@@ -16,9 +16,9 @@
  *   func_021BAF7C 0x021BAF7C thumb ov206
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -39,9 +39,9 @@ struct U16Vec;
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -81,10 +81,10 @@ void func_021BAA4C(char *p)
         func_020307B0(tab);
     }
     if (r7 != 0x3e7) {
-        h2 = (u32)func_0201EC64(((struct Obj00031 *)p)->f0);
+        h2 = (u32)GF_FONT_Create_EC64(((struct Obj00031 *)p)->f0);
         func_0201EFA4((struct WordSet *)h2, 0, r7, 3, 2, 1);
         func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
-        func_0201ED04((struct WordSet *)h2);
+        WORDSET_DeleteStrbufED04((struct WordSet *)h2);
     } else {
         func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
     }

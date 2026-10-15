@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5704",
+   "name": "WF2DMAP_OBJDRAW_RemoveActor",
    "address": "0x021C5704",
    "kind": "game",
    "region": "ov127",

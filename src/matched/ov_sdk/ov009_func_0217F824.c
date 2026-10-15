@@ -1,5 +1,5 @@
 /*
- * function: func_0217F824
+ * function: TripToQuart
  * address:  0x0217F824
  * packet:   pkt_02156B70
  * region:   ov009
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-void func_0217F824(const char *src, u8 *dst, int n)
+void TripToQuart(const char *src, u8 *dst, int n)
 {
     unsigned char buf[4];
     int i;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02185CF4",
+   "name": "BEACON_DETAIL_HasEntry",
    "address": "0x02185CF4",
    "kind": "sdk",
    "region": "ov219",

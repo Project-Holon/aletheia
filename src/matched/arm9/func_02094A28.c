@@ -1,5 +1,5 @@
 /*
- * function: func_02094A28
+ * function: strchr
  * address:  0x02094A28
  * packet:   pkt_02094A28
  * region:   arm9
@@ -31,14 +31,14 @@
  * its own so it lands in a shard no other lane writes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02094A28.c \
- *       --func func_02094A28 --addr 0x02094A28 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strchr.c \
+ *       --func strchr --addr 0x02094A28 --cc 1.1p1 --arm
  *   EXACT, 56 bytes, no relocation sites.
  */
 
 typedef unsigned char u8;
 
-u8 *func_02094A28(const u8 *s, int c)
+u8 *strchr(const u8 *s, int c)
 {
     u8 m = (u8)c;
     u8 ch;

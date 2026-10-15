@@ -1,5 +1,5 @@
 /*
- * function: func_021F3C50
+ * function: MUSICAL_SHOT_SYS_DrawScene
  * address: 0x021F3C50
  * packet: pkt_ov112_021F3C50
  * region: ov112
@@ -42,7 +42,7 @@ extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void G3D_SYSTEM_DrawEnd(void);
-void func_021F3C50(u8 *p)
+void MUSICAL_SHOT_SYS_DrawScene(u8 *p)
 {
     func_021F7160((u8 *)(((struct Obj02823 *)p)->f2C));
     func_021F51E8(*(u8 * *)&((struct Obj02823 *)p)->f20);

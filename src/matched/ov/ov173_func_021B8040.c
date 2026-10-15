@@ -1,5 +1,5 @@
 /*
- * function: func_021B8040
+ * function: POKE_SUMMARY_ACTOR_SetIdleAnim
  * address: 0x021B8040
  * packet: pkt_ov173_021B8040
  * region: ov173
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021B8040(u8 *p)
+void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *p)
 {
     if(((struct Obj00180 *)p)->f1B8<=4) {
         CLACT_SetActorAnimSeq(((struct Obj00180 *)p)->f108,17);

@@ -1,5 +1,5 @@
 /*
- * function: func_0217EB00
+ * function: CheckRcode
  * address:  0x0217EB00
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AD0F4[];
 
-int func_0217EB00(int a, int b)
+int CheckRcode(int a, int b)
 {
     if (a < 0) {
         *(int *)(g_021AD0F4 + 0x4) = a;

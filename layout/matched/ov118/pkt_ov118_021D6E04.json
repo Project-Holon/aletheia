@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D6E04",
+   "name": "POKETRADE_DEMO_MIDDLE_ResetMonSlide",
    "address": "0x021D6E04",
    "kind": "game",
    "region": "ov118",

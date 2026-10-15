@@ -1,5 +1,5 @@
 /*
- * function: func_0205911C
+ * function: DWCi_Acc_GetFlag_DataType
  * address:  0x0205911C
  * packet:   pkt_0205911C
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct {
 } DWCstAccFlag;
 extern unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata);
 
-unsigned long func_0205911C(void *userdata)
+unsigned long DWCi_Acc_GetFlag_DataType(void *userdata)
 {
     return DWCi_Acc_GetFlags(userdata) & 3;
 }

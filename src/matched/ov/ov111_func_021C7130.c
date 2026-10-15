@@ -16,7 +16,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_021C70EC  0x021C70EC  thumb
  *   func_021C80B4  0x021C80B4  thumb
@@ -96,7 +96,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), Work *p, int pri);
 extern void func_021C70EC(void *unused, Work *p);
 extern void func_021C80B4(Work *p);
@@ -116,7 +116,7 @@ void func_021C7130(Work *p, Parent *parent)
         STRBUF_GetChars(p->f2C[i]);
     }
     p->f28 = STRBUF_Create(0x68, 0x27);
-    p->f24 = func_0201EC74(8, 0x40, 0x27);
+    p->f24 = WORDSET_Create(8, 0x40, 0x27);
     p->fF4 = func_020056A0(func_021C70EC, p, 0);
     p->f118 = 8;
     p->f144 = -1;

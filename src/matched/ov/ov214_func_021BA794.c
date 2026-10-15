@@ -12,8 +12,8 @@
  * symbols:
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   BMP_Clear  0x02043B5C  arm
@@ -69,8 +69,8 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintQueColor(int, int, int, int, int, int, int);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(struct WordSet *p);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct S;
@@ -119,7 +119,7 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
     }
 
     if (state != e->fBC || v != e->fC0) {
-        x = (int)func_0201EC64(e->f00);
+        x = (int)GF_FONT_Create_EC64(e->f00);
         h2 = (int)func_02045EC0((struct MsgBank *)e->f58, 0x12);
         p2 = (int)STRBUF_Create(8, e->f00);
         PRINTSYS_QUE_Clear((struct PrintSys *)e->f18);
@@ -130,7 +130,7 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
         e->fA8 = 0;
         STRBUF_Delete((struct U16Vec *)p2);
         STRBUF_Delete((struct U16Vec *)h2);
-        func_0201ED04((struct WordSet *)x);
+        WORDSET_DeleteStrbufED04((struct WordSet *)x);
     }
 
     e->fBC = state;

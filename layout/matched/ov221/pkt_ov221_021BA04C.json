@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA04C",
+   "name": "CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects",
    "address": "0x021BA04C",
    "kind": "game",
    "region": "ov221",

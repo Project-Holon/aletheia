@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA18
+ * function: UN_SELECT_GRAPHIC_Noop
  * address: 0x021BAA18
  * packet: pkt_ov218_021BAA18
  * region: ov218
@@ -13,4 +13,4 @@
 
  */
 
-void func_021BAA18(void *a0) {}
+void UN_SELECT_GRAPHIC_Noop(void *a0) {}

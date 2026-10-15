@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5A4C  0x021C5A4C  thumb  ov127
+ *   WF2DMAP_SCRDRAW_DeleteBitmapDesc  0x021C5A4C  thumb  ov127
  *
  * Tail call on the pointer 0x598 bytes in.
  */
@@ -24,9 +24,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021C5A4C(u8 *p);
+extern void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *p);
 
 void WIFICLUBACTOR_ExitLayer(char *p)
 {
-    func_021C5A4C(((struct Obj18155 *)p)->f598);
+    WF2DMAP_SCRDRAW_DeleteBitmapDesc(((struct Obj18155 *)p)->f598);
 }

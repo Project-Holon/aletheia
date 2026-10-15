@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C49A4  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
  *
  * Calls the ov127 routine on the pointer at +0x00 and truncates the answer to a byte.
  */
@@ -24,9 +24,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021C49A4(u8 *p, unsigned int i);
+extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 
 u8 WIFICLUBACTOR_GetActorId(char *p)
 {
-    return (u8)func_021C49A4(((struct Obj18147 *)p)->f0, 4);
+    return (u8)WF2DMAP_OBJ_GetSlot(((struct Obj18147 *)p)->f0, 4);
 }

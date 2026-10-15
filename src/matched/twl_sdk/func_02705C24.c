@@ -34,6 +34,9 @@
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   STD_CompareString  0x0208CD94  arm  arm9
+ *   FS_IsAvailable  0x0207AD30  arm  arm9
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,7 +63,7 @@ typedef struct DspGlobals {
 } DspGlobals;
 extern DspGlobals DAT_027344AC;
 extern DSPProc *DSPi_ProcList;
-extern int func_0207AD30(void);
+extern int FS_IsAvailable(void);
 extern void FS_Init(u32 v);
 extern void DSP_InitPipe(void);
 extern void func_02084774(u32 mask, void (*fn)(void));
@@ -76,8 +79,8 @@ extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 v);
 extern int OS_IsRunOnTwl(void);
 extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
-extern void func_0208C848(void *p, u32 v);
-extern void func_0208C86C(void *p);
+extern void PMi_InsertPreSleepCallbackEx(void *p, u32 v);
+extern void PM_DeletePreSleepCallback(void *p);
 extern void DSP_PowerOnCore(void);
 extern void DSP_ResetOffExCore(u32 v);
 extern void DSP_MaskSemaphoreCore(u32 v);
@@ -97,7 +100,7 @@ u32 DSP_ExecuteProcess(DSPProc *p, u32 a, u32 b, u32 c)
     u16 en;
     u16 dis;
     vu16 v;
-    if (func_0207AD30() == 0) {
+    if (FS_IsAvailable() == 0) {
         FS_Init(-1);
     }
     DSP_InitPipe();
@@ -121,7 +124,7 @@ u32 DSP_ExecuteProcess(DSPProc *p, u32 a, u32 b, u32 c)
         if (DAT_027344AC.preInit == 0) {
             DAT_027344AC.preFn = DSPi_PreSleepCallback;
             DAT_027344AC.preArg = 0;
-            func_0208C848(&DAT_027344AC.preFn, 0x3F2);
+            PMi_InsertPreSleepCallbackEx(&DAT_027344AC.preFn, 0x3F2);
             DAT_027344AC.preInit = 1;
         }
         if (OS_IsRunOnTwl() == 1) {

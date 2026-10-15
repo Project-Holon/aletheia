@@ -14,7 +14,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  */
 #include "../include/Obj00725.h"
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 void func_021C6980(u8 *p)
 {
     PRINTSYS_QUE_Clear(((struct Obj00725 *)p)->f34);
@@ -44,5 +44,5 @@ void func_021C6980(u8 *p)
     ((struct Obj00725 *)p)->f28=0;
     GF_FONT_Delete(((struct Obj00725 *)p)->f17C);
     MSGDATA_Delete(((struct Obj00725 *)p)->f4);
-    func_0201ED04(((struct Obj00725 *)p)->f0);
+    WORDSET_DeleteStrbufED04(((struct Obj00725 *)p)->f0);
 }

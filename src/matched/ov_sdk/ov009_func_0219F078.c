@@ -1,5 +1,5 @@
 /*
- * function: func_0219F078
+ * function: ServerBrowserSortA
  * address:  0x0219F078
  * packet:   pkt_ov009_0219F078
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      ServerBrowserSortA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  *
  * symbols:
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *   SBServerListSort  0x0219F50C  arm  ov009
  */
 
@@ -26,14 +26,14 @@ struct ServerBrowser {
     char list[1];
 };
 
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
 
-void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode)
+void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode)
 {
     struct SortInfo info;
 
     info.comparemode = comparemode;
-    func_02094798(info.sortkey, sortkey);
+    strcpy(info.sortkey, sortkey);
     SBServerListSort(&sb->list, ascending, info);
 }

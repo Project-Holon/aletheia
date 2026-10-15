@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *
  * Clears the byte at +0x84 when the second argument is zero and returns
  *  *  right away; otherwise forwards the address of that same byte to 0x02094798
@@ -18,7 +18,7 @@
  *  *  register clear and the epilogue with moveq/strbeq/popeq.
  */
 
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 
 void sciInterfaceSetConnectionId(char *obj, int v)
 {
@@ -26,6 +26,6 @@ void sciInterfaceSetConnectionId(char *obj, int v)
         obj[0x84] = 0;
         return;
     }
-    func_02094798(obj + 0x84, (const char *)v);
+    strcpy(obj + 0x84, (const char *)v);
 }
 

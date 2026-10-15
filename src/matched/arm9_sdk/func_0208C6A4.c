@@ -1,5 +1,5 @@
 /*
- * function: func_0208C6A4
+ * function: PMi_SendLEDPatternCommand
  * address:  0x0208C6A4
  * packet:   pkt_0208C6A4
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 unsigned int PM_SendUtilityCommand(unsigned int cmd, u16 param, void *result);
 
-unsigned int func_0208C6A4(unsigned int pattern)
+unsigned int PMi_SendLEDPatternCommand(unsigned int pattern)
 {
     return PM_SendUtilityCommand(0x12, (u16)pattern, 0);
 }

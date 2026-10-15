@@ -13,7 +13,7 @@
  *   BOX2_SEQ_PrintTextWinEx 0x021EAC28 thumb ov170
  *   BOX2_SEQ_PrintTextWin 0x021EABD0 thumb ov170
  *   BOX2_SEQ_MakeScreen 0x021EABA0 thumb ov170
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  */
 #include "../include/Obj00414.h"
 #include "../include/Obj06549.h"
@@ -28,12 +28,12 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BOX2_SEQ_PrintTextWinEx(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void BOX2_SEQ_PrintTextWin(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
 extern void BOX2_SEQ_MakeScreen(void **);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 void BOX2_SEQ_DrawItemEntry(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (((struct Obj06549 *)e)->f6 != 0) {
-        func_0201EF40(((struct Obj00414 *)p)->f84, 0, ((struct Obj06549 *)e)->f6);
+        WORDSET_Callback_EF40(((struct Obj00414 *)p)->f84, 0, ((struct Obj06549 *)e)->f6);
         BOX2_SEQ_PrintTextWinEx(p, i, ((struct Obj00414 *)p)->f80, 99, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);
     } else {
         BOX2_SEQ_PrintTextWin((unsigned char *)p, i, ((struct Obj00414 *)p)->f80, 105, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);

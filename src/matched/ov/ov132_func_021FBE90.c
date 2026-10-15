@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F9DAC 0x021F9DAC thumb ov132
- *   func_021F9DB0 0x021F9DB0 thumb ov132
+ *   STA_ACTING_GetActObj 0x021F9DAC thumb ov132
+ *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
  *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
  *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
  *   func_02030734 0x02030734 arm
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   func_021FADA0 0x021FADA0 thumb ov132
  *   func_021FBF74 0x021FBF74 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
@@ -28,12 +28,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void *func_021F9DAC(void *);
-extern u32 *func_021F9DB0(void *,u8);
+extern void *STA_ACTING_GetActObj(void *);
+extern u32 *STA_ACTING_GetSlot(void *,u8);
 extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
 extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_0207CA00(void *,void *,void *);
+extern void VEC_Subtract(void *,void *,void *);
 extern void *func_021FADA0(char *,u32,u32,u32);
 extern void func_021FBF74(int,char *);
 extern const char d_021FDD00[];
@@ -51,8 +51,8 @@ int func_021FBE90(int unused,char *p)
     c=VM_GetU32(((struct Obj05402 *)p)->f4);
     d=VM_GetU32(((struct Obj05402 *)p)->f4);
     e=VM_GetU32(((struct Obj05402 *)p)->f4);
-    ctx=func_021F9DAC(((struct Obj08167 *)owner)->f34);
-    target=func_021F9DB0(((struct Obj08167 *)owner)->f34,a);
+    ctx=STA_ACTING_GetActObj(((struct Obj08167 *)owner)->f34);
+    target=STA_ACTING_GetSlot(((struct Obj08167 *)owner)->f34,a);
     if (b==0) {
         pos[0]=c;pos[1]=d;pos[2]=e;
         STA_ACT_OBJ_SetEntryTarget(ctx,target,pos);
@@ -65,7 +65,7 @@ int func_021FBE90(int unused,char *p)
         STA_ACT_OBJ_GetEntryTarget(ctx,target,(u32 *)(q+8));
         ((struct Obj02193 *)q)->f14=c;((struct Obj02193 *)q)->f18=d;((struct Obj02193 *)q)->f1C=e;
         ((struct Obj02193 *)q)->f2C=b;
-        func_0207CA00(q+20,q+8,delta);
+        VEC_Subtract(q+20,q+8,delta);
         ((struct Obj02193 *)q)->f20=delta[0]/(int)b;
         ((struct Obj02193 *)q)->f24=delta[1]/(int)b;
         ((struct Obj02193 *)q)->f28=delta[2]/(int)b;

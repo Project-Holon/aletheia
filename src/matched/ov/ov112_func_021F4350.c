@@ -18,7 +18,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
- *   func_0200A640 0x0200A640 thumb
+ *   MUSICAL_SAVE_NoOp 0x0200A640 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
@@ -36,7 +36,7 @@
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   TCBL_Main 0x020310C4 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   d_021F8290 0x021F8290 data a1
  */
 #include "../include/Obj00226.h"
@@ -60,7 +60,7 @@ struct Tcbl;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-extern void *func_0200A640(void *);
+extern void *MUSICAL_SAVE_NoOp(void *);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);
@@ -78,7 +78,7 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 void func_021F4350(u8 *p)
 {
     u8 v;
@@ -105,7 +105,7 @@ void func_021F4350(u8 *p)
         if(APP_TASKMENU_IsFinish(((struct Obj00226 *)p)->f3C)==1) {
             v=APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct Obj00226 *)p)->f3C);
             APP_TASKMENU_CloseMenu(((struct Obj00226 *)p)->f3C);
-            if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,func_0200A640(((struct Obj00226 *)p)->f14),432);
+            if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,MUSICAL_SAVE_NoOp(((struct Obj00226 *)p)->f14),432);
             if(*(int *)&((struct Obj00226 *)p)->f44) {
                 ((struct Obj00226 *)p)->f4=4;
                 func_021FCDEC(*(int *)&((struct Obj00226 *)p)->f44,71);
@@ -147,7 +147,7 @@ void func_021F4350(u8 *p)
     (*(volatile u8 *)&((struct Obj00226 *)p)->f8)++;
     if(*(volatile u8 *)&((struct Obj00226 *)p)->f8>1) {
         *(volatile u8 *)&((struct Obj00226 *)p)->f8=0;
-        func_02041EE4(7,1,1);
-        func_02041EE4(7,5,1);
+        BG_SYS_ResetSlot(7,1,1);
+        BG_SYS_ResetSlot(7,5,1);
     }
 }

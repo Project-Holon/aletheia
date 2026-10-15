@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B6C
+ * function: POKE_SUMMARY_MAIN_ShowMoveText
  * address: 0x021B6B6C
  * packet: pkt_ov173_021B6B6C
  * region: ov173
@@ -12,18 +12,18 @@
  *   from one merged local after the join. The compiler merges the two stores itself, but then no
  *   longer derives 0x1b0 from the live 0x1ba register: it builds 0x1b0 fresh (movs 0x1b; lsls 4) as the original does.
  * symbols:
- *   func_021B7460 0x021B7460 thumb ov173
+ *   POKE_SUMMARY_MAIN_StartTextStream 0x021B7460 thumb ov173
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021B7460(char *, u32);
-int func_021B6B6C(char *p)
+extern void POKE_SUMMARY_MAIN_StartTextStream(char *, u32);
+int POKE_SUMMARY_MAIN_ShowMoveText(char *p)
 {
     if (*(u8 *)(*(char **)p + 0x1b) < 4) {
-        func_021B7460(p, 10);
+        POKE_SUMMARY_MAIN_StartTextStream(p, 10);
         p[0x1ba] = 4;
     } else {
-        func_021B7460(p, 7);
+        POKE_SUMMARY_MAIN_StartTextStream(p, 7);
         p[0x1ba] = 3;
     }
     *(u32 *)(p + 0x1b0) = 3;

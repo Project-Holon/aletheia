@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040618 0x02040618 arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -32,7 +32,7 @@ typedef struct {
 extern struct G_ov033_021F0DF0 sDowsingBgSetup[];
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct BgTemplate;
-extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
+extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void func_020414AC(unsigned char);
 extern void func_02040618(unsigned char, unsigned, unsigned);
 typedef unsigned int   u32;
@@ -53,7 +53,7 @@ void DOWSING_InitBgsAndActorUnit(char *p)
     for (j = 0; j < 2; j++) {
         e = &((E *)sDowsingBgSetup)[j];
         id = e->f00;
-        func_0203FCA0((unsigned char)id, (const struct BgTemplate *)e->f04, (unsigned char)e->f24);
+        BG_SYS_InitBgLayer((unsigned char)id, (const struct BgTemplate *)e->f04, (unsigned char)e->f24);
         func_020414AC(id);
         func_02040588((unsigned char)id, (unsigned char)e->f28);
         func_02040618(id, 0, 0);

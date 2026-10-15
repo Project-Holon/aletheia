@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02009470  0x02009470  thumb
- *   sub_020095FC  0x020095FC  thumb
+ *   WIFI_HISTORY_SetRatingLevel  0x020095FC  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
@@ -32,7 +32,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern void sub_020095FC(struct Sub02009470Obj *obj, int value);
+extern void WIFI_HISTORY_SetRatingLevel(struct Sub02009470Obj *obj, int value);
 
 int SCRCMD_SetWifiHistoryRatingLevel(u32 a, u32 b)
 {
@@ -42,6 +42,6 @@ int SCRCMD_SetWifiHistoryRatingLevel(u32 a, u32 b)
     SCRCMD_WORK_GetScriptWork((void *)b);
     x = SCRCMD_WORK_GetGameSystem((void *)b);
     v = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
-    sub_020095FC(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)x))), v);
+    WIFI_HISTORY_SetRatingLevel(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)x))), v);
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02178194
+ * function: DWC_Auth_Join
  * address:  0x02178194
  * packet:   pkt_ov009_02178194
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_JoinThread  0x02085710  arm
- *   g_021AB184     0x021AB184  data
+ *   gDwcAuthGlobal     0x021AB184  data
  */
 
 #include "../include/G_DWCAuthGlobal.h"
@@ -34,16 +34,16 @@ struct DWCAuthCtx {
 	int abort_flag;
 };
 
-extern struct DWCAuthGlobal g_021AB184;
+extern struct DWCAuthGlobal gDwcAuthGlobal;
 
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_JoinThread(void *thread);
 
-void func_02178194(void)
+void DWC_Auth_Join(void)
 {
-	if (g_021AB184.ctx->started == 0)
+	if (gDwcAuthGlobal.ctx->started == 0)
 		return;
-	if (OS_IsThreadTerminated(g_021AB184.ctx->thread) != 0)
+	if (OS_IsThreadTerminated(gDwcAuthGlobal.ctx->thread) != 0)
 		return;
-	OS_JoinThread(g_021AB184.ctx->thread);
+	OS_JoinThread(gDwcAuthGlobal.ctx->thread);
 }

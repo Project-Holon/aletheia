@@ -13,9 +13,9 @@
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
  *   BOX2_SEQ_DeleteB 0x021EA750 thumb
  *   BOX2_SEQ_SetSlotActorMode 0x021ECB60 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_PrintMessageC 0x021EBB28 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
@@ -53,9 +53,9 @@ extern void BOX2_SEQ_DeleteB(char *p);
 extern void BOX2_SEQ_SetSlotActorMode(char *w, int i, int f);
 typedef unsigned char  u8;
 struct Sound;
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
-extern unsigned func_0202136C(unsigned short v);
+extern unsigned FILE_UTIL_Check136C(unsigned short v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_SEQ_PrintMessageC(char *p, int b);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
@@ -91,9 +91,9 @@ int BOX2_SEQ_StateMoveItemScroll(unsigned char *p)
         unsigned short from = o->slot;
         BOX2_SEQ_DeleteB((char *)p);
         BOX2_SEQ_SetSlotActorMode(WORK(p), p[0x16], 0);
-        func_020260E4(OBJ(p), p[0x16]);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16]);
         BOX2_UI_DeleteSlotObjects((char *)p, 0, 1, 1);
-        if (func_0202136C(ITEM(p)) == 1 && from != p[0x16]) {
+        if (FILE_UTIL_Check136C(ITEM(p)) == 1 && from != p[0x16]) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintMessageC((char *)p, 0x18);
             STATE(p) = 0x44;
@@ -112,7 +112,7 @@ int BOX2_SEQ_StateMoveItemScroll(unsigned char *p)
             BOX2_SEQ_ShowSlotIcon(p, p[0x14], o->idx, WIN(p, o->idx));
         }
         BOX2_MAIN_ChangeBoxFormPreserve((char *)p, o->idx);
-        func_020260E4(OBJ(p), o->idx);
+        CURSOR_MOVE_SetCurrent(OBJ(p), o->idx);
         ITEM(p) = item;
         BOX2_MAIN_SetBoxValueAt((int)p, p[0x16], p[0x17], 6, ITEM(p));
         if (BOX2_MAIN_CanPlaceInBox((void **)p, (void *)BOX2_MAIN_GetMonAt((void ***)p, p[0x17], p[0x16])) == 1) {

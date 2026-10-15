@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   TALKMSGWIN_ProjectToWorld  0x02194E74  thumb  ov021
  *   TALKMSGWIN_GetAnchorWindowPoint  0x02194E90  thumb  ov021
  *   TALKMSGWIN_CalcTail  0x02194F84  thumb  ov021
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } V;
 
-extern void func_0207CA00(u32 a, u8 *b, V *c);
+extern void VEC_Subtract(u32 a, u8 *b, V *c);
 extern int TALKMSGWIN_ProjectToWorld(u32 a, u32 b, u32 c, u32 d);
 extern void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d);
 extern int TALKMSGWIN_CalcTail(u8 *e, int b, int c, void *d, void *f);
@@ -48,7 +48,7 @@ u32 TALKMSGWIN_UpdateShape(u8 *p, u8 *e)
     int r;
 
     if (((struct Obj01494 *)e)->f10 != 0) {
-        func_0207CA00(((struct Obj01494 *)e)->f10, p + 0xCB8, &v1);
+        VEC_Subtract(((struct Obj01494 *)e)->f10, p + 0xCB8, &v1);
         TALKMSGWIN_ProjectToWorld((u32)(&v1), (u32)(&b), (u32)(&c), (u32)(&v8));
     } else {
         TALKMSGWIN_GetAnchorWindowPoint(e, p + 0x18 + ((struct Obj01494 *)e)->f1A * 100, &b, &c, &v8);

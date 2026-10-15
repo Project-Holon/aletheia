@@ -14,7 +14,7 @@
  * symbols:
  *   RINGTONE_SYS_OnSleep  0x02029FD0  thumb
  *   RINGTONE_SYS_OnWake  0x02029FE4  thumb
- *   func_0203508C  0x0203508C  arm
+ *   UI_SetResumeAndSuspendHooks  0x0203508C  arm
  *   gRingtone     0x02146944  data
  */
 
@@ -26,11 +26,11 @@ typedef unsigned int   u32;
 extern u32  gRingtone;
 extern void RINGTONE_SYS_OnSleep(void);
 extern void RINGTONE_SYS_OnWake(void);
-extern void func_0203508C(u32 a, u32 b, u32 c);
+extern void UI_SetResumeAndSuspendHooks(u32 a, u32 b, u32 c);
 
 void RINGTONE_SYS_RegisterSleepCallbacks(void)
 {
     if (gRingtone != 0) {
-        func_0203508C((u32)((void *)RINGTONE_SYS_OnSleep), (u32)((void *)RINGTONE_SYS_OnWake), gRingtone);
+        UI_SetResumeAndSuspendHooks((u32)((void *)RINGTONE_SYS_OnSleep), (u32)((void *)RINGTONE_SYS_OnWake), gRingtone);
     }
 }

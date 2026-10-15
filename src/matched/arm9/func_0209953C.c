@@ -16,7 +16,7 @@
  *   _dflt        0x0209B750  arm
  *   _deq         0x0209BA3C  arm
  *   _dgeq        0x0209B7CC  arm
- *   func_02097990  0x02097990  arm
+ *   scalbn  0x02097990  arm
  *   func_0209A524  0x0209A524  arm
  *   init_jk      0x020A64A8  data
  *   PIo2         0x020A64B8  data
@@ -34,7 +34,7 @@
 
 extern const int init_jk[];
 extern const double PIo2[];
-extern double func_02097990(double x, int n);
+extern double scalbn(double x, int n);
 extern double func_0209A524(double x);
 
 static const double
@@ -70,7 +70,7 @@ recompute:
 	    z     =  q[j-1]+fw;
 	}
 
-	z  = func_02097990(z,q0);
+	z  = scalbn(z,q0);
 	z -= 8.0*func_0209A524(z*0.125);
 	n  = (int) z;
 	z -= (double)n;
@@ -103,7 +103,7 @@ recompute:
 	    }
 	    if(ih==2) {
 		z = one - z;
-		if(carry!=0) z -= func_02097990(one,q0);
+		if(carry!=0) z -= scalbn(one,q0);
 	    }
 	}
 
@@ -127,7 +127,7 @@ recompute:
 	    jz -= 1; q0 -= 24;
 	    while(iq[jz]==0) { jz--; q0-=24;}
 	} else {
-	    z = func_02097990(z,-q0);
+	    z = scalbn(z,-q0);
 	    if(z>=two24) {
 		fw = (double)((int)(twon24*z));
 		iq[jz] = (int)(z-two24*fw);
@@ -136,7 +136,7 @@ recompute:
 	    } else iq[jz] = (int) z ;
 	}
 
-	fw = func_02097990(one,q0);
+	fw = scalbn(one,q0);
 	for(i=jz;i>=0;i--) {
 	    q[i] = fw*(double)iq[i]; fw*=twon24;
 	}

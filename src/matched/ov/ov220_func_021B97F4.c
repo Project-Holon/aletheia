@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B97F4, func_021B995C
+ * function: TH_AWARD_Main, func_021B995C
  * address: 0x021B97F4
  * packet: pkt_ov220_021B97F4
  * region: ov220
@@ -30,7 +30,7 @@
  * BMP_WIN_GetBgLayer 0x02045730 arm
  * func_02041B6C 0x02041B6C arm
  * func_021BA01C 0x021BA01C thumb ov220
- * func_021BA1CC 0x021BA1CC thumb ov220
+ * TH_AWARD_GRAPHIC_Update 0x021BA1CC thumb ov220
  * sounds 0x021BA3B0 data a4
  */
 #include "../include/Obj03379.h"
@@ -56,8 +56,8 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_021BA01C(struct Obj *o);
-extern void func_021BA1CC(char*);
-int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
+extern void TH_AWARD_GRAPHIC_Update(char*);
+int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
 {
     u32 x,y;
     u8 i;
@@ -105,7 +105,7 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
         ((struct Obj03379 *)p)->f80=1;
     }
     func_021BA01C((struct Obj *)p);
-    func_021BA1CC(*(char * *)&((struct Obj03379 *)p)->f8);
+    TH_AWARD_GRAPHIC_Update(*(char * *)&((struct Obj03379 *)p)->f8);
     return 0;
 }
 void func_021B995C(void) {}

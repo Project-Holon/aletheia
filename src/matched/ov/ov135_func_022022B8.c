@@ -20,7 +20,7 @@
  *   func_020076D0  0x020076D0  thumb
  *   WORLDTRADE_ADAPTER_GetBoxParam  0x022026BC  thumb
  *   func_0200752C  0x0200752C  thumb
- *   func_0200AD94  0x0200AD94  thumb
+ *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
  */
 
 typedef signed char s8;
@@ -59,7 +59,7 @@ extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
-extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
+extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
 
 void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hatch)
 {
@@ -94,5 +94,5 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
         slot = pos;
     }
     p->pos = slot;
-    func_0200AD94(p->ctx->sys, 0);
+    WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
 }

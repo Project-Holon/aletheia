@@ -1,5 +1,5 @@
 /*
- * function: func_021B7658
+ * function: POKE_SUMMARY_ACTOR_InitSystem
  * address: 0x021B7658
  * packet: pkt_ov173_021B7658
  * region: ov173
@@ -29,4 +29,4 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 typedef enum { OFFSET=14 } Offset;
-void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
+void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}

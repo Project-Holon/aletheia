@@ -1,5 +1,5 @@
 /*
- * function: func_021F65B8
+ * function: EGG_DEMO_GRAPHIC_TickDisplay
  * address: 0x021F65B8
  * packet: pkt_ov215_021F65B8
  * region: ov215
@@ -12,4 +12,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void);
-void func_021F65B8(void *a0){func_020419E4();}
+void EGG_DEMO_GRAPHIC_TickDisplay(void *a0){func_020419E4();}

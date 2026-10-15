@@ -1,5 +1,5 @@
 /*
- * function: func_021D70D8
+ * function: WIFI_BSUBWAY_AsyncInit
  * address:  0x021D70D8
  * packet:   pkt_ov116_021D70D8
  * region:   ov116
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021D70D8(void *p) { MI_CpuFill8(p, 0, 0x14); }
+void WIFI_BSUBWAY_AsyncInit(void *p) { MI_CpuFill8(p, 0, 0x14); }

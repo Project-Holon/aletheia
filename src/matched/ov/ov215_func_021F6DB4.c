@@ -1,5 +1,5 @@
 /*
- * function: func_021F6DB4
+ * function: EGG_DEMO_VIEW_CreateParticles
  * address: 0x021F6DB4
  * packet: pkt_ov215_021F6DB4
  * region: ov215
@@ -28,7 +28,7 @@ extern int PARTICLE_CreateSystemDefault(int,int,int,int);
 extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 extern u16 BUTTON_MAN_GetResourceType(void *);
 extern void PARTICLE_SetupSystem(void *,unsigned,unsigned,unsigned);
-char *func_021F6DB4(unsigned heap,unsigned count,const void *table)
+char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *table)
 {
     char *p;
     unsigned zero[3]={0};

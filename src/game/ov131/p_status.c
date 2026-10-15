@@ -36,14 +36,14 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Draw 0x02014D2C thumb
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
@@ -58,7 +58,7 @@
  *   func_02048AD0 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   MCSS_Init 0x02014B08 thumb
  *   MCSS_SetTextureTransAdrs 0x02016020 thumb
  *   MCSS_SetGlobalScale 0x020160C0 thumb
@@ -76,8 +76,8 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
@@ -299,14 +299,14 @@ extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Draw(struct McssSys *sys);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void CLACT_SetActorAnimSeq(struct ClactObj *p, u16 value);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32,u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_02040588(unsigned int which, unsigned char enable);
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
@@ -318,7 +318,7 @@ extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
 extern void func_02048AD0(struct Camera *l);
 extern void func_0207DCF8(const void *);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),func_0204044C(u32);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_SetLowBit(u32);
 extern void *MCSS_Init(u32,void *);
 extern void MCSS_SetTextureTransAdrs(void *,u32);
 extern void MCSS_SetGlobalScale(char *p, unsigned int v);
@@ -330,8 +330,8 @@ extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 extern void CLACT_ExitSystem(void);
 extern void func_020403F4(unsigned int);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_Delete(void);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -723,10 +723,10 @@ int P_STATUS_MainSeq(PStatusWork *wk)
     wk->vblankCount+=(u8)(tick-wk->lastTick);
     wk->lastTick=tick;
     while (wk->vblankCount>=4) {
-        func_02041EE4(3,1,1);
-        func_02041EE4(3,4,1);
-        func_02041EE4(7,1,1);
-        func_02041EE4(7,4,1);
+        BG_SYS_ResetSlot(3,1,1);
+        BG_SYS_ResetSlot(3,4,1);
+        BG_SYS_ResetSlot(7,1,1);
+        BG_SYS_ResetSlot(7,4,1);
         wk->vblankCount-=4;
     }
     if (wk->prevButtonAnim==1 && CLACT_IsActorAnimActive(wk->buttonActor[4])==0) {
@@ -831,7 +831,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     *(volatile u16 *)HW_REG_BLDCNT_SUB=0;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks(&_VramBankConfig);
-    func_0203F8F4(wk->heapId);BMP_WIN_Init(wk->heapId);
+    BG_SYS_Create(wk->heapId);BMP_WIN_Init(wk->heapId);
     func_0203FC28(&_DispConfig);
     P_STATUS_InitBgLayer(&_BgSetups[6],1,0);P_STATUS_InitBgLayer(&_BgSetups[4],2,0);P_STATUS_InitBgLayer(&_BgSetups[0],3,0);
     func_02040588(0,1);
@@ -848,7 +848,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     func_02048AD0(wk->camera);
     func_0207DCF8(_EdgeColorTable);
     *(volatile u16 *)HW_REG_DISP3DCNT &= ~0x3020;
-    G3D_SYSTEM_SetSwapBuffersMode(0,0);func_0204044C(0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);BG_SYS_SetLowBit(0);
     wk->mcssSys=MCSS_Init(2,(void *)wk->heapId);
     MCSS_SetTextureTransAdrs(wk->mcssSys,0);
     MCSS_SetGlobalScale(wk->mcssSys,0x10000);
@@ -890,7 +890,7 @@ void P_STATUS_ExitGraphics(PStatusWork *wk)
     func_020403F4(1);
     func_020403F4(0);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -910,7 +910,7 @@ void P_STATUS_ExitGraphics(PStatusWork *wk)
 
 void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
 {
-    func_0203FCA0(bg,(const struct BgTemplate *)cfg,mode);
+    BG_SYS_InitBgLayer(bg,(const struct BgTemplate *)cfg,mode);
     func_02040588(bg,1);
     func_020414AC(bg);
     func_020409B4(bg);

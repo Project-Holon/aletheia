@@ -16,7 +16,7 @@
  *   func_0217EAB0 0x0217EAB0  arm
  *   strlen  0x0209477C arm
  *   memcpy  0x02092344 arm
- *   func_02092364 0x02092364  arm
+ *   memmove 0x02092364  arm
  */
 struct GTI2Buffer;
 typedef struct {
@@ -34,7 +34,7 @@ struct GTI2Buffer {
 extern void *func_0217EAB0(unsigned long size);
 extern unsigned int strlen(const char *s);
 extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern void *func_02092364(void *dest, const void *src, unsigned int n);
+extern void *memmove(void *dest, const void *src, unsigned int n);
 int func_02194DA8(GTI2Buffer *buffer, int size);
 int func_02194DD4(const int *p);
 void func_02194DE4(int *p, int v);
@@ -103,7 +103,7 @@ void func_02194E80(GTI2Buffer *buffer, int start, int shortenBy)
 {
     if (start == -1)
         start = buffer->length - shortenBy;
-    func_02092364(buffer->buffer + start, buffer->buffer + start + shortenBy,
+    memmove(buffer->buffer + start, buffer->buffer + start + shortenBy,
                   buffer->length - start - shortenBy);
     buffer->length -= shortenBy;
 }

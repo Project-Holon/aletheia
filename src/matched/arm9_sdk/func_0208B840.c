@@ -1,5 +1,5 @@
 /*
- * function: func_0208B840
+ * function: PMi_DummyCallback
  * address:  0x0208B840
  * packet:   pkt_0208B840
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     spi/ARM9/pm.o PMi_DummyCallback.
  */
 
-void func_0208B840(unsigned int result, unsigned int *arg)
+void PMi_DummyCallback(unsigned int result, unsigned int *arg)
 {
     if (arg) {
         *arg = result;

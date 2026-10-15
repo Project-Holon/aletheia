@@ -1,5 +1,5 @@
 /*
- * function: func_021B8978
+ * function: CTVT_COMM_ReceiveVoicePacket
  * address: 0x021B8978
  * packet: pkt_ov172_021B8978
  * region: ov172
@@ -14,7 +14,7 @@
  *   CTVT_ADPCM_ResetDecoder 0x021B69F0 thumb ov172
  *   func_02082A7C 0x02082A7C arm
  *   CTVT_MIC_DecodeAdpcm 0x021BA194 thumb ov172
- *   d_021C6EC0 0x021C6EC0 data a2
+ *   gCtvtCommFreqTable 0x021C6EC0 data a2
  */
 #include "../include/Obj03854.h"
 #include "../include/Obj05444.h"
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 a[9]; } Table;
-extern const Table d_021C6EC0;
+extern const Table gCtvtCommFreqTable;
 extern int COMM_TVT_SYS_GetTalkStatus(void *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -31,7 +31,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void CTVT_ADPCM_ResetDecoder(void);
 extern void func_02082A7C(int, void *, int);
 extern int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
-void func_021B8978(int a, int b, int c, char *q)
+void CTVT_COMM_ReceiveVoicePacket(int a, int b, int c, char *q)
 {
     void *p;
     char *data, *input;
@@ -46,7 +46,7 @@ void func_021B8978(int a, int b, int c, char *q)
     }
     CTVT_MIC_DecodeAdpcm((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
     if (((struct Obj05444 *)data)->f4 == 1) {
-        table = d_021C6EC0;
+        table = gCtvtCommFreqTable;
         ((struct Obj03854 *)q)->f1A0 = table.a[((struct Obj05444 *)data)->f6];
         ((struct Obj03854 *)q)->f198 = 1;
         ((struct Obj03854 *)q)->f19C = ((struct Obj05444 *)data)->f2;

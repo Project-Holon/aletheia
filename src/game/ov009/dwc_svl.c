@@ -18,19 +18,19 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_Terminate  0x02088234  arm
- *   func_020948E0  0x020948E0  arm
- *   func_0217956C  0x0217956C  arm  ov009
+ *   strcmp  0x020948E0  arm
+ *   DWC_Http_Create  0x0217956C  arm  ov009
  *   func_02178F4C  0x02178F4C  arm  ov009
  *   func_02179218  0x02179218  arm  ov009
- *   func_02179CF4  0x02179CF4  arm  ov009
- *   func_02179F3C  0x02179F3C  arm  ov009
- *   func_0217967C  0x0217967C  arm  ov009
+ *   DWC_Http_Destroy  0x02179CF4  arm  ov009
+ *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
+ *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
  *   OS_GetThreadPriority  0x02085A30  arm
- *   func_02179718  0x02179718  arm  ov009
- *   func_0217A484  0x0217A484  arm  ov009
+ *   DWC_Http_StartThread  0x02179718  arm  ov009
+ *   DWC_Http_ParseResult  0x0217A484  arm  ov009
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
  *   g_021ACEF4     0x021ACEF4  data ov009
  *   g_021A2358     0x021A2358  data ov009
@@ -40,17 +40,17 @@
  *   g_021A2870     0x021A2870  data ov009
  *   g_021A2874     0x021A2874  data ov009
  *   g_021A287C     0x021A287C  data ov009
- *   g_02153FAC     0x02153FAC  data
+ *   errno     0x02153FAC  data
  *   g_021A2888     0x021A2888  data ov009
  *   g_021A2894     0x021A2894  data ov009
  *   g_021A289C     0x021A289C  data ov009
  *   g_021A28AC     0x021A28AC  data ov009
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *
  * Service-locator (SVL) token request on top of the DWC HTTP client.  The
  * control block g_021ACEF4 is one DWCSvlIntWorkarea (0x1C5C bytes): the
  * caller's alloc and free callbacks, the embedded DWCHttp, and the result
- * pointer.  strcmp (func_020948E0) is declared pure: the object keeps the
+ * pointer.  strcmp (strcmp) is declared pure: the object keeps the
  * intwork load live across the call, which only a side-effect-free callee
  * allows.
  */
@@ -173,19 +173,19 @@ extern void func_02059F54(int error, int errorCode);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int OS_IsThreadTerminated(OSThread *thread);
 extern void OS_Terminate(void);
-extern int func_020948E0(const char *s1, const char *s2) __attribute__((pure));
-extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
+extern int strcmp(const char *s1, const char *s2) __attribute__((pure));
+extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern void func_02179CF4(DWCHttp *http);
-extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_0217967C(DWCHttp *http);
+extern void DWC_Http_Destroy(DWCHttp *http);
+extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
+extern int DWC_Http_FinishHeader(DWCHttp *http);
 extern unsigned long OS_GetThreadPriority(OSThread *thread);
-extern void func_02179718(DWCHttp *http, unsigned long prio);
-extern int func_0217A484(DWCHttp *http, int noparsebody);
+extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
+extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 int func_0217C448(void);
 
@@ -197,12 +197,12 @@ extern char g_021A2868[];
 extern char g_021A2870[];
 extern char g_021A2874[];
 extern char g_021A287C[];
-extern int g_02153FAC;
+extern int errno;
 extern char g_021A2888[];
 extern char g_021A2894[];
 extern char g_021A289C[];
 extern char g_021A28AC[];
-extern OSThreadInfo g_02150FEC;
+extern OSThreadInfo gMslRefToken;
 
 int func_0217C070(DWCSvlAlloc alloc, DWCSvlFree free)
 {
@@ -235,7 +235,7 @@ void func_0217C104(void)
     if (g_021ACEF4 == 0) {
         return;
     }
-    func_02179CF4(&g_021ACEF4->http);
+    DWC_Http_Destroy(&g_021ACEF4->http);
     g_021ACEF4->free(0, g_021ACEF4, 0);
     g_021ACEF4 = 0;
 }
@@ -243,7 +243,7 @@ void func_0217C104(void)
 /*
  * sdk:      DWC_Svl_GetTokenAsync (libdwcauth.TWL.HYB.a dwc_svl.o)
  *
- * strcmp (func_020948E0) is declared pure: the object keeps the intwork
+ * strcmp (strcmp) is declared pure: the object keeps the intwork
  * load live across the call, which only a side-effect-free callee allows.
  */
 int func_0217C144(char *svc, DWCSvlResult *result)
@@ -262,39 +262,39 @@ int func_0217C144(char *svc, DWCSvlResult *result)
     httpparam.len_recvbuf = 0x1000;
     httpparam.alloc = g_021ACEF4->alloc;
     httpparam.free = g_021ACEF4->free;
-    if (func_020948E0(g_021A2358.url, g_021A2840) != 0)
+    if (strcmp(g_021A2358.url, g_021A2840) != 0)
         httpparam.ignoreca = 1;
     else
         httpparam.ignoreca = 0;
     httpparam.timeout = 20000;
 
-    if (func_0217956C(&g_021ACEF4->http, &httpparam) != 0) {
+    if (DWC_Http_Create(&g_021ACEF4->http, &httpparam) != 0) {
         func_02059F54(9, -24100);
         return 0;
     }
 
     if (!func_02178F4C(&calinfo) || !func_02179218(&g_021ACEF4->http, &calinfo, 0)) {
-        func_02179CF4(&g_021ACEF4->http);
+        DWC_Http_Destroy(&g_021ACEF4->http);
         func_02059F54(9, -24100);
         return 0;
     }
 
-    if (func_02179F3C(&g_021ACEF4->http, g_021A2860, g_021A2868, 6) != 0
-        || func_02179F3C(&g_021ACEF4->http, g_021A2870, svc, 4) != 0) {
-        func_02179CF4(&g_021ACEF4->http);
+    if (DWC_Http_Add_PostBase64Item(&g_021ACEF4->http, g_021A2860, g_021A2868, 6) != 0
+        || DWC_Http_Add_PostBase64Item(&g_021ACEF4->http, g_021A2870, svc, 4) != 0) {
+        DWC_Http_Destroy(&g_021ACEF4->http);
         func_02059F54(9, -24100);
         return 0;
     }
 
-    if (func_0217967C(&g_021ACEF4->http) != 0) {
-        func_02179CF4(&g_021ACEF4->http);
+    if (DWC_Http_FinishHeader(&g_021ACEF4->http) != 0) {
+        DWC_Http_Destroy(&g_021ACEF4->http);
         func_02059F54(9, -24100);
         return 0;
     }
 
-    func_02179718(&g_021ACEF4->http, OS_GetThreadPriority(g_02150FEC.current) - 1);
+    DWC_Http_StartThread(&g_021ACEF4->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
     if (g_021ACEF4->http.thread.id == 0) {
-        func_02179CF4(&g_021ACEF4->http);
+        DWC_Http_Destroy(&g_021ACEF4->http);
         func_02059F54(9, -24100);
         return 0;
     }
@@ -316,16 +316,16 @@ int func_0217C384(void)
         switch (g_021ACEF4->http.error) {
         case 8:
             if (func_0217C448() == 0) {
-                func_02179CF4(&g_021ACEF4->http);
+                DWC_Http_Destroy(&g_021ACEF4->http);
                 return 4;
             }
-            func_02179CF4(&g_021ACEF4->http);
+            DWC_Http_Destroy(&g_021ACEF4->http);
             return 3;
         case 7:
-            func_02179CF4(&g_021ACEF4->http);
+            DWC_Http_Destroy(&g_021ACEF4->http);
             return 5;
         default:
-            func_02179CF4(&g_021ACEF4->http);
+            DWC_Http_Destroy(&g_021ACEF4->http);
             func_02059F54(0x10, -24101);
             return 4;
         }
@@ -343,7 +343,7 @@ int func_0217C448(void)
     char retcode[4];
     DWCHttp *DWChttp = &g_021ACEF4->http;
 
-    if (!func_0217A484(DWChttp, 0)) {
+    if (!DWC_Http_ParseResult(DWChttp, 0)) {
         func_02059F54(15, -25101);
         return 0;
     }
@@ -357,8 +357,8 @@ int func_0217C448(void)
         func_02059F54(15, -25101);
         return 0;
     }
-    httpretcode = func_020964E0((u32)strp);
-    if (g_02153FAC == 34) {
+    httpretcode = atoi((u32)strp);
+    if (errno == 34) {
         func_02059F54(15, -25101);
         return 0;
     }
@@ -371,8 +371,8 @@ int func_0217C448(void)
         func_02059F54(15, -25101);
         return 0;
     }
-    httpretcode = func_020964E0((u32)retcode);
-    if (g_02153FAC == 34) {
+    httpretcode = atoi((u32)retcode);
+    if (errno == 34) {
         func_02059F54(15, -25101);
         return 0;
     }

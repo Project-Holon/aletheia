@@ -1,5 +1,5 @@
 /*
- * function: func_02077410
+ * function: CARDi_PulledOutCallback
  * address:  0x02077410
  * packet:   pkt_02077410
  * region:   arm9
@@ -33,7 +33,7 @@ extern void CARDi_NotifyEvent(u32 event, void *arg);
 extern void CARD_TerminateForPulledOut(void);
 extern void OS_Terminate(void);
 
-void func_02077410(int tag, u32 data, BOOL err)
+void CARDi_PulledOutCallback(int tag, u32 data, BOOL err)
 {
 #pragma unused(tag, err)
     u32 command = data & 0x3F;

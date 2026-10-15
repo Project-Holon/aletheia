@@ -13,7 +13,7 @@
  *
  * symbols:
  *   value_for_key_safe 0x02193FD0  arm
- *   func_020964E0 0x020964E0  arm
+ *   atoi 0x020964E0  arm
  *   FindRequest 0x0219405C  arm
  *   func_02184208 0x02184208  arm
  *   CallReqCallback 0x0219451C  arm
@@ -26,7 +26,7 @@
 
 extern char *value_for_key_safe(char *s, char *key);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int FindRequest(int reqtype, int localid, int profileid);
 extern int *func_02184208(void *array, int n);
 extern void CallReqCallback(int reqindex, int success, long modified, char *data, int length);
@@ -40,8 +40,8 @@ void ProcessGetPid(char *buf)
     int pid;
     int reqindex;
 
-    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyGetpidr));
-    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyGetpidr));
+    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
     reqindex = FindRequest(3, lid, 0);
     if (reqindex == -1)
         return;

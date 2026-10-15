@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sD06DenkiFollowDrawStatus     0x021DAC08  data  a4
@@ -25,7 +25,7 @@ typedef struct V3 { int v[3]; } V3;
 
 extern T sD06DenkiFollowDrawStatus;
 
-extern void func_0207ADC4(int *m);
+extern void MTX_Identity33_(int *m);
 extern void FIELD_EFFECT_GetObjectPos(u32 a, T *t);
 struct Arg;
 extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
@@ -34,7 +34,7 @@ void FLDEFF_D06DENKI_FollowDraw(u32 a, u32 *b)
 {
     T t = sD06DenkiFollowDrawStatus;
 
-    func_0207ADC4(&t.w[6]);
+    MTX_Identity33_(&t.w[6]);
     FIELD_EFFECT_GetObjectPos(a, &t);
     G3D_SYSTEM_DrawObjectCulling((void *)b[6], (struct Arg *)(&t));
     *(V3 *)&t = *(V3 *)(b + 10);

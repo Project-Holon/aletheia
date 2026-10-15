@@ -1,5 +1,5 @@
 /*
- * function: func_021D5368
+ * function: INTRUDE_COMM_VIEW_VBlankHandler
  * address: 0x021D5368
  * packet: pkt_ov122_021D5368
  * region: ov122
@@ -8,12 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * leaf: root-claimed sole callback witness for func_021D5370.
+ * leaf: root-claimed sole callback witness for INTRUDE_COMM_VIEW_Create.
  * symbols:
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021D5368(void)
+void INTRUDE_COMM_VIEW_VBlankHandler(void)
 {
     CLACT_VBlankSystem();
 }

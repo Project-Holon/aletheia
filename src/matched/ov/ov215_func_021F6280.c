@@ -1,5 +1,5 @@
 /*
- * function: func_021F6280
+ * function: EGG_DEMO_MENU_InitDialog
  * address:  0x021F6280
  * packet:   pkt_021F6280
  * region:   ov215
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203FA08 0x0203FA08 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_CreateRun 0x0203FA08 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  */
 #include "../include/Obj05550.h"
 
 typedef unsigned int   u32;
-extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-void func_021F6280(int unused, unsigned char *q)
+void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *q)
 {
-    int h = func_0203FA08(1, 0x500, 1);
+    int h = BG_SYS_CreateRun(1, 0x500, 1);
 
-    func_0203FB44(1, h, 0x500);
+    BG_SYS_DeleteHalf(1, h, 0x500);
     q[0x70] = 1;
     q[0x71] = 0x18;
     q[0x72] = 0xd;

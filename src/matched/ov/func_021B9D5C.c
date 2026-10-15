@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5608  0x021C5608  thumb  ov127
+ *   WF2DMAP_OBJDRAW_DeleteAnimSeq  0x021C5608  thumb  ov127
  *
  * Tail call into ov127 on the pointer 0x590 bytes into the block.
  */
@@ -24,9 +24,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021C5608(u8 *p);
+extern void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *p);
 
 void WIFICLUBACTOR_ExitSpriteManager(char *p)
 {
-    func_021C5608(((struct Obj18154 *)p)->f590);
+    WF2DMAP_OBJDRAW_DeleteAnimSeq(((struct Obj18154 *)p)->f590);
 }

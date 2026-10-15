@@ -15,7 +15,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   g_02203F5C     0x02203F5C  data  ov135
  */
 
@@ -35,7 +35,7 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 typedef struct {
     void *font;
@@ -56,6 +56,6 @@ Ctx *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap)
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
     ctx->msg = (void *)PRINTSYS_QUE_Create((void *)heap);
     ctx->bank = func_02045B38(0, 2, 0xD0, heap);
-    ctx->words = func_0201EC64(heap);
+    ctx->words = GF_FONT_Create_EC64(heap);
     return ctx;
 }

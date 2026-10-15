@@ -1,5 +1,5 @@
 /*
- * function: func_0207D704
+ * function: G3i_PerspectiveW_
  * address:  0x0207D704
  * packet:   pkt_0207D704
  * region:   arm9
@@ -64,7 +64,7 @@ typedef union {
 extern void MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void G3_LoadMtx44(const MtxFx44 *m);
 
-void func_0207D704(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
+void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
 {
     MtxFx44 tmp[1];
 

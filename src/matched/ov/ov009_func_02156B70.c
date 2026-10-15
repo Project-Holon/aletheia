@@ -14,7 +14,7 @@
  *
  * Reads the signed halfword at +0x782 of the ov009 work block held in the
  * bss pointer at 0x021A8264, or 0 when no block is allocated.  A leaf with
- * no lr-saving prologue whose only caller is in arm9 (sub_0200F698), so
+ * no lr-saving prologue whose only caller is in arm9 (GFL_NET_ERR_SetBgmTrackVolume), so
  * the listing emits it as data words.
  */
 

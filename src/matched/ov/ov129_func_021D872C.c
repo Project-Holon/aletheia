@@ -16,7 +16,7 @@
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -38,7 +38,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void func_020403F4(unsigned);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -56,7 +56,7 @@ int func_021D872C(void *a,int b,int c,char *p)
     BG_SYS_SetSubPlaneVisible(1,0); BG_SYS_SetSubPlaneVisible(2,0); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
     func_020403F4(1); func_020403F4(2); func_020403F4(3); func_020403F4(4);
     func_020403F4(5); func_020403F4(6); func_020403F4(7);
-    func_0203F9B4();
+    BG_SYS_Delete();
     PALANM_FreeSlotBuffers(((struct Obj04506 *)p)->f290,0);
     PALANM_Delete(((struct Obj04506 *)p)->f290);
     ARC_TOOL_DeleteHandle(((struct Obj04506 *)p)->f258);

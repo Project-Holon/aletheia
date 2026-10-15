@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208C788 0x0208C788 arm
+ *   PMi_DeleteList 0x0208C788 arm
  *   g_02153000 0x02153000 data
  */
 
@@ -53,9 +53,9 @@ typedef struct PmBss {
 } PmBss;
 
 extern PmBss g_02153000;
-extern void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
+extern void PMi_DeleteList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
 
 void PM_DeletePostSleepCallback(PMGenCallbackInfo *info)
 {
-    func_0208C788(&g_02153000.postSleepCallbackList, info);
+    PMi_DeleteList(&g_02153000.postSleepCallbackList, info);
 }

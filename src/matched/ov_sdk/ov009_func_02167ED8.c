@@ -12,7 +12,7 @@
  * sdk:      DWC_GetDateTime (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  *
  * symbols:
- *   func_020889C0  0x020889C0  arm
+ *   RTC_GetDateTime  0x020889C0  arm
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   g_021AA834     0x021AA834  data
@@ -24,7 +24,7 @@
 
 struct RTCDate;
 struct RTCTime;
-extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
+extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
 extern struct NasTimeDiff_ g_021AA834;
@@ -37,7 +37,7 @@ int func_02167ED8(void *date, void *time)
 
     if ((*(int *)&g_021AA834) == 0)
         return 0;
-    if (func_020889C0(date, time) != 0)
+    if (RTC_GetDateTime(date, time) != 0)
         return 0;
     localsec = RTC_ConvertDateTimeToSecond(date, time);
     if (localsec == -1LL)

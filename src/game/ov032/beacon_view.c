@@ -22,7 +22,7 @@
  *   GAME_BEACON_ACCESSOR_IsDistributionAction  0x02165C10  thumb  ov010
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb  ov010
- *   func_02012204  0x02012204  thumb
+ *   ICA_ANIME_GetUnk330  0x02012204  thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   BEACON_STATUS_GetViewFlags  0x020275D0  thumb
  *   BEACON_STATUS_GetMessage  0x020275C4  thumb
@@ -31,7 +31,7 @@
  *   GAME_BEACON_ACCESSOR_TablePop  0x021658D4  thumb  ov010
  *   GAME_BEACON_ACCESSOR_IsInfoInvalid  0x02165B5C  thumb  ov010
  *   GAME_BEACON_ACCESSOR_TableRingAdd  0x02165A10  thumb  ov010
- *   func_0200C1E0  0x0200C1E0  thumb
+ *   BEACON_IncrementThanksCount  0x0200C1E0  thumb
  *   PALANM_BlendChannel  0x02021FD8  thumb
  *   FLD_VREQ_SetSubBlendAlpha  0x021D3294  thumb  ov021
  *   PRINTSYS_QUE_SetLimitTick 0x0201C4DC thumb
@@ -53,7 +53,7 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02041FF4  0x02041FF4  arm
+ *   BG_SYS_Check1FF4  0x02041FF4  arm
  *   APP_TASKMENU_WIN_CreateEx  0x0202800C  thumb
  *   APP_TASKMENU_WIN_IsUpdateTrans  0x0202846C  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
@@ -97,7 +97,7 @@
  *   func_02040618 0x02040618 arm
  *   GAME_BEACON_ACCESSOR_RegisterRecordWords 0x02165FCC thumb ov010
  *   GAME_BEACON_SEARCH_SetPresetEvent 0x02165374 thumb ov010
- *   func_0200C1C8 0x0200C1C8 thumb
+ *   BEACON_IncrementGreetCount 0x0200C1C8 thumb
  *   STRBUF_Copy 0x02045838 arm
  *   GAME_BEACON_ACCESSOR_GetDistributionSerial 0x02165EBC thumb ov010
  *   GAME_BEACON_ACCESSOR_GetInfoVersion 0x02165D20 thumb ov010
@@ -118,8 +118,8 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02030734 0x02030734 arm
  *   d_021F36A0 0x021F36A0 data ov032 a1
- *   func_020120F4 0x020120F4 thumb
- *   func_0201210C 0x0201210C thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   ICA_ANIME_GetField20 0x0201210C thumb
  *   FIELDMAP_GetVReq 0x02188E30 thumb ov021
  *   func_020490F4 0x020490F4 arm
  *   TCBL_DeleteAllTasks 0x0203115C arm
@@ -140,19 +140,19 @@
  *   GAME_EVENT_ChangeEvent 0x0201235C thumb
  *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_02012A54  0x02012A54  thumb
+ *   GAME_DATA_GetItemUseWork  0x02012A54  thumb
  *   BEACON_STATUS_GetLog  0x020275A8  thumb
  *   GAME_BEACON_ACCESSOR_TableGetCount  0x02165B04  thumb  ov010
  *   BEACON_STATUS_GetViewTop  0x020275AC  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF10  0x0200BF10  thumb
- *   func_02012138  0x02012138  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_0201292C  0x0201292C  thumb
- *   func_0200C0E8  0x0200C0E8  thumb
- *   func_0200C1DC  0x0200C1DC  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
+ *   BEACON_GetFromSave  0x0200C0E8  thumb
+ *   BEACON_GetThanksCount  0x0200C1DC  thumb
  *   func_02008730  0x02008730  thumb
  *   func_02008530  0x02008530  thumb
  *   func_02008550  0x02008550  thumb
@@ -171,19 +171,19 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   func_0201DD68  0x0201DD68  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   func_02030EAC 0x02030EAC arm
  *   TCBL_Destroy 0x02031140 arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
@@ -364,7 +364,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int INTRUDE_COMM_GetVisitProgress(int);
-extern u32 func_02012204(const struct Ctx *p);
+extern u32 ICA_ANIME_GetUnk330(const struct Ctx *p);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern int BEACON_STATUS_GetMessage(void *p);
@@ -373,7 +373,7 @@ extern u8 GPOWER_GetActiveIdOfSameType(int,u8 *);
 extern int GAME_BEACON_ACCESSOR_TablePop(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag);
 extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec_021EFEC0 *r);
 extern int GAME_BEACON_ACCESSOR_TableRingAdd(struct Queue *q, struct Rec_021EFEC0 *rec, u16 tag, int *flag);
-extern u32 func_0200C1E0(struct Blk34 *p);
+extern u32 BEACON_IncrementThanksCount(struct Blk34 *p);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void FLD_VREQ_SetSubBlendAlpha(u32 p, u32 a, u32 b, u32 c, u32 d);
 extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
@@ -390,7 +390,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags);
+extern u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags);
 extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7,
                           u16 a8);
 extern u32 APP_TASKMENU_WIN_IsUpdateTrans(u8 *p);
@@ -430,7 +430,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(int a, int b, u16 c);
 extern void GAME_BEACON_SEARCH_SetPresetEvent(unsigned a0);
-extern u32 func_0200C1C8(struct Blk34 *p);
+extern u32 BEACON_IncrementGreetCount(struct Blk34 *p);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(struct Rec_021EFEC0 *r);
 extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct Rec_021EFEC0 *r);
@@ -449,8 +449,8 @@ extern void func_020409B4(u32 index);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void func_02041B6C(u32 bit);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern u32 FIELDMAP_GetVReq(u8 *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
@@ -471,19 +471,19 @@ extern void *func_020124E8(struct Obj *p);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
-extern u32 func_02012A54(const struct BigObj *p);
+extern u32 GAME_DATA_GetItemUseWork(const struct BigObj *p);
 extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 GAME_BEACON_ACCESSOR_TableGetCount(u8 *q);
 extern u8 BEACON_STATUS_GetViewTop(u8 *p);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
-extern u8 func_0200BF10(struct Rec1B0 *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
-extern void *func_0200C0E8(void *sys);
-extern u32 func_0200C1DC(struct Blk34 *p);
+extern u16 *INTRUDE_GetFromSave(void *sys);
+extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
+extern void *BEACON_GetFromSave(void *sys);
+extern u32 BEACON_GetThanksCount(struct Blk34 *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -502,19 +502,19 @@ extern void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
 extern void func_0201DD68(void);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(void *rec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void func_02030EAC(struct Node *n);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
@@ -838,7 +838,7 @@ int BEACON_VIEW_CheckLeaveRequest(BeaconViewWork *work)
     int r;
 
     r = INTRUDE_COMM_GetVisitProgress(work->playerProfile);
-    if (func_02012204((const struct Ctx *)((unsigned int)work->fieldSystem)) != 0) {
+    if (ICA_ANIME_GetUnk330((const struct Ctx *)((unsigned int)work->fieldSystem)) != 0) {
         func_021F253C(work, 1);
         return 1;
     }
@@ -923,7 +923,7 @@ int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
         work->currentEntry = func_021F0F44(work, work->currentId);
     } else {
         work->currentEntry = 0;
-        work->playTime = func_0200C1E0((struct Blk34 *)(work->playerBlock));
+        work->playTime = BEACON_IncrementThanksCount((struct Blk34 *)(work->playerBlock));
     }
     if (work->currentEntry != 0 && work->currentEntry->busy != 0)
         work->step = 0;
@@ -1174,7 +1174,7 @@ int func_021F055C(BeaconViewWork *work)
     int r;
     int s;
 
-    if (func_02012204((const struct Ctx *)((unsigned int)work->fieldSystem)) != 0) {
+    if (ICA_ANIME_GetUnk330((const struct Ctx *)((unsigned int)work->fieldSystem)) != 0) {
         func_021F253C(work, 1);
         return 6;
     }
@@ -1649,7 +1649,7 @@ int func_021F0BA8(u8 *p)
         return 1;
     }
     if (TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
-        if (func_02041FF4(6, x, y + 0x40, &v) != 0) {
+        if (BG_SYS_Check1FF4(6, x, y + 0x40, &v) != 0) {
             p[0] = 0;
             return 1;
         }
@@ -2572,7 +2572,7 @@ int func_021F180C(BeaconViewWork *work, int x, int flag)
     case 0x32:
         return func_021F199C(work, (void *)x, 1);
     case 0x18:
-        GAME_BEACON_SEARCH_SetPresetEvent(func_0200C1C8((struct Blk34 *)(work->playerBlock)));
+        GAME_BEACON_SEARCH_SetPresetEvent(BEACON_IncrementGreetCount((struct Blk34 *)(work->playerBlock)));
         break;
     }
     func_021F1888(work, (Rec_021EFEC0 *)x);
@@ -3232,8 +3232,8 @@ BeaconViewWork *BEACON_VIEW_Create(u32 a0, u32 a1)
 
     work = func_02030734(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
     *(unsigned int *)&work->fieldSystem = a0;
-    work->saveInfo = (u32)func_020120F4((const struct Ctx *)a0);
-    work->sessionInfo = v = func_0201210C((void *)a0);
+    work->saveInfo = (u32)ICA_ANIME_GetField1C((const struct Ctx *)a0);
+    work->sessionInfo = v = ICA_ANIME_GetField20((void *)a0);
     work->bgConfig = FIELDMAP_GetVReq(v);
     work->initArg = a1;
     work->mainHeapId = 0x70;
@@ -3712,7 +3712,7 @@ void func_021F27D4(BeaconViewWork *work)
     u32 sv;
     u32 s2;
 
-    *(u32 *)&work->beaconStatus = func_02012A54((const struct BigObj *)(work->saveInfo));
+    *(u32 *)&work->beaconStatus = GAME_DATA_GetItemUseWork((const struct BigObj *)(work->saveInfo));
     *(u32 *)&work->recordLog = BEACON_STATUS_GetLog(*(u32 *)&work->beaconStatus);
     work->recordCount = GAME_BEACON_ACCESSOR_TableGetCount((u8 *)(*(u32 *)&work->recordLog));
     work->scrollTop = BEACON_STATUS_GetViewTop((u8 *)(*(u32 *)&work->beaconStatus));
@@ -3721,14 +3721,14 @@ void func_021F27D4(BeaconViewWork *work)
     else
         work->visibleRows = 4;
     *(u8 *)&work->powerIdArg = 0x30;
-    work->languageCode = func_02012FFC();
+    work->languageCode = MSG_SPEED_GetWait();
     sv = (u32)GAME_DATA_GetSaveControl((struct Big *)(work->saveInfo));
-    *(u32 *)&work->powerId = func_0200BF10((struct Rec1B0 *)func_0200BE48((void *)sv));
-    *(u32 *)&work->playerProfile = func_02012138((const struct Ctx *)(*(u32 *)&work->fieldSystem));
-    *(u32 *)&work->optionData = func_0201283C((const struct BigObj *)(work->saveInfo));
-    work->messageArchive = (u32)func_0201292C((const struct BigObj *)(work->saveInfo));
-    *(u32 *)&work->playerBlock = (u32)func_0200C0E8((void *)sv);
-    work->playTime = func_0200C1DC((struct Blk34 *)(*(u32 *)&work->playerBlock));
+    *(u32 *)&work->powerId = INTRUDE_GetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave((void *)sv));
+    *(u32 *)&work->playerProfile = ICA_ANIME_GetField24((const struct Ctx *)(*(u32 *)&work->fieldSystem));
+    *(u32 *)&work->optionData = GAME_DATA_GetField1A0((const struct BigObj *)(work->saveInfo));
+    work->messageArchive = (u32)GAME_DATA_GetMyItem((const struct BigObj *)(work->saveInfo));
+    *(u32 *)&work->playerBlock = (u32)BEACON_GetFromSave((void *)sv);
+    work->playTime = BEACON_GetThanksCount((struct Blk34 *)(*(u32 *)&work->playerBlock));
     s2 = (u32)func_02008730((void *)sv);
     work->profileId = (u16)func_02008530((const struct Sub0200852CObj *)s2);
     work->gender = func_02008550((const struct Sub0200852CObj *)s2);
@@ -3780,7 +3780,7 @@ void func_021F2908(BeaconViewWork *work)
     PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(work->printQueue), 0x1f4, 0);
     work->font = FIELD_MSGBG_GetFont((u8 *)FIELDMAP_GetMsgBg((u8 *)(*(u32 *)&work->sessionInfo)));
     func_0201DD68();
-    *(void * *)&work->wordSet = func_0201EC64(work->mainHeapId);
+    *(void * *)&work->wordSet = GF_FONT_Create_EC64(work->mainHeapId);
     work->messageBank = func_02045B38(1, 2, 8, work->mainHeapId);
     work->messageBuffer = STRBUF_Create(0xd9, work->mainHeapId);
     *(void * *)&work->formatBuffer = STRBUF_Create(0xd9, work->mainHeapId);
@@ -3800,7 +3800,7 @@ void func_021F2A04(BeaconViewWork *work)
     STRBUF_Delete((struct U16Vec *)((int)work->formatBuffer));
     STRBUF_Delete((struct U16Vec *)((int)work->messageBuffer));
     MSGDATA_Delete(work->messageBank);
-    func_0201ED04((struct WordSet *)((int)work->wordSet));
+    WORDSET_DeleteStrbufED04((struct WordSet *)((int)work->wordSet));
     PRINTSYS_QUE_Clear((struct PrintSys *)((int)work->printQueue));
     PRINTSYS_QUE_Delete((struct PrintSys *)((int)work->printQueue));
     func_0201DD68();
@@ -3824,10 +3824,10 @@ void func_021F2A04(BeaconViewWork *work)
  */
 void func_021F2A8C(BeaconViewWork *work, void *h)
 {
-    func_0203FCA0(4, (const struct BgTemplate *)d_021F3608, 0);
-    func_0203FCA0(5, (const struct BgTemplate *)d_021F3628, 0);
-    func_0203FCA0(6, (const struct BgTemplate *)d_021F3648, 0);
-    func_0203FCA0(7, (const struct BgTemplate *)d_021F3668, 0);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021F3608, 0);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021F3628, 0);
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021F3648, 0);
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)d_021F3668, 0);
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;

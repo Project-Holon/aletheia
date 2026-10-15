@@ -32,8 +32,8 @@
  *   POKERUS_TryInfectParty 0x0201B038 thumb
  *   POKERUS_SpreadParty 0x0201B170 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C278 0x0200C278 thumb
- *   func_0200C29C 0x0200C29C thumb
+ *   BEACON_AddPoints 0x0200C278 thumb
+ *   BEACON_SubPoints 0x0200C29C thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02008500 0x02008500 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -57,7 +57,7 @@
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200C0F0 0x0200C0F0 thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
  *   NAMEIN_SETUP_CreateCaptureArgs 0x0216C0A4 thumb ov010
  *   NAMEIN_SETUP_IsCanceled 0x0216C0E4 thumb ov010
  *   NAMEIN_SETUP_CopyName 0x0216C0D4 thumb ov010
@@ -242,8 +242,8 @@ extern void POKEPARTY_Copy(const struct PokeParty *src, struct PokeParty *dst);
 extern void POKERUS_TryInfectParty(struct PokeParty *party);
 extern void POKERUS_SpreadParty(struct PokeParty *party);
 extern struct MiscSave *GAME_DATA_GetMiscSave(const struct GameData *gameData);
-extern u32 func_0200C278(struct MiscSave *misc, u32 amount);
-extern u32 func_0200C29C(struct MiscSave *misc, u32 amount);
+extern u32 BEACON_AddPoints(struct MiscSave *misc, u32 amount);
+extern u32 BEACON_SubPoints(struct MiscSave *misc, u32 amount);
 extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern void func_02008500(struct MyStatus *status, struct Strbuf *name);
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *mon, u32 paramId, u32 value);
@@ -267,7 +267,7 @@ extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *zukan, struct PokemonParam
 extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *zukan, struct PokemonParam *mon);
 extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, const struct SubProcTable *procTable, void *args);
 extern struct SaveControl *GAME_DATA_GetSaveControl(const struct GameData *gameData);
-extern struct MiscSave *func_0200C0F0(struct SaveControl *saveControl);
+extern struct MiscSave *BEACON_GetBlock(struct SaveControl *saveControl);
 extern struct NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, struct PokemonParam *mon, int maxLength, int mode, struct Strbuf *boxFullMsg, struct BoxManager *boxManager, int boxNo, struct MiscSave *misc);
 extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
 extern void NAMEIN_SETUP_CopyName(struct NameInArgs *args, struct Strbuf *dst);
@@ -413,8 +413,8 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             EVENT_BATTLE_RETURN_ApplyBurmyForms(args, party, EVENT_BATTLE_RETURN_GetBurmyForm(&args->battleParam->field, work->heapId));
             EVENT_BATTLE_RETURN_RegisterShayminForms(args, party);
             moneyDelta = args->battleParam->moneyDelta;
-            if (moneyDelta > 0) func_0200C278(GAME_DATA_GetMiscSave(args->gameData), moneyDelta);
-            else if (moneyDelta < 0) func_0200C29C(GAME_DATA_GetMiscSave(args->gameData), -moneyDelta);
+            if (moneyDelta > 0) BEACON_AddPoints(GAME_DATA_GetMiscSave(args->gameData), moneyDelta);
+            else if (moneyDelta < 0) BEACON_SubPoints(GAME_DATA_GetMiscSave(args->gameData), -moneyDelta);
         }
         EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
@@ -454,7 +454,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         wantsNickname = 0;
         if (work->catchArgs.wantsNickname == 1) wantsNickname = 1;
         if (wantsNickname) {
-            miscSave = func_0200C0F0(GAME_DATA_GetSaveControl(args->gameData));
+            miscSave = BEACON_GetBlock(GAME_DATA_GetSaveControl(args->gameData));
             work->nameInArgs = NAMEIN_SETUP_CreateCaptureArgs(work->heapId, work->caughtMon, MAX_NICKNAME_LENGTH, 0, work->boxFullMsg, boxManager, work->boxNo, miscSave);
             PROCSYS_Push(work->procSys, (u32)ov194_id, &data_021F5580, work->nameInArgs);
             ++*seq;

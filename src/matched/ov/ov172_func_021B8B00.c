@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B00
+ * function: CTVT_COMM_ClaimSlot
  * address:  0x021B8B00
  * packet:   pkt_021B6868
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void COMM_TVT_SYS_ClearNameWindows(char *p);
 
-void func_021B8B00(int i, void *a, void *b, char *q)
+void CTVT_COMM_ClaimSlot(int i, void *a, void *b, char *q)
 {
     u32 *p = (u32 *)(q + 0x68) + (i << 4);
 

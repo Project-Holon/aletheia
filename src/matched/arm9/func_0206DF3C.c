@@ -1,5 +1,5 @@
 /*
- * function: func_0206DF3C
+ * function: NNS_G3dWorldPosToScrPos
  * address:  0x0206DF3C
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -25,7 +25,7 @@
  * symbols:
  *   g_renderState     0x02148B4C  data
  *   MTX_MultVec43  0x0207BC08  arm
- *   func_0207C8A0  0x0207C8A0  arm
+ *   FX_InvAsync  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
  *   NNS_G3dGlbGetViewPort  0x0206AE94  arm
  */
@@ -72,7 +72,7 @@ typedef struct
 } Glb;
 extern Glb g_renderState;
 extern void MTX_MultVec43(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
-extern void func_0207C8A0(fx32 d);
+extern void FX_InvAsync(fx32 d);
 extern fx64c func_0207C848(void);
 typedef unsigned int   u32;
 extern void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
@@ -82,7 +82,7 @@ inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
   return (fx32) (tmp >> 32);
 }
 
-int func_0206DF3C(const VecFx32 *pWorld, int *px, int *py)
+int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py)
 {
     VecFx32 vec;
     int x1, y1, x2, y2;
@@ -99,7 +99,7 @@ int func_0206DF3C(const VecFx32 *pWorld, int *px, int *py)
         fx32 tw = (fx32)(((fx64)vec.x * m->_03 + (fx64)vec.y * m->_13 + (fx64)vec.z * m->_23) >> 12);
         w = tw + m->_33;
     }
-    func_0207C8A0(w);                                    /* FX_InvAsync */
+    FX_InvAsync(w);                                    /* FX_InvAsync */
 
     {
         fx64 tx = ((fx64)vec.x * m->_00 + (fx64)vec.y * m->_10 + (fx64)vec.z * m->_20) >> 12;

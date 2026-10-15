@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CAC
+ * function: EGG_DEMO_VIEW_DeletePokeMcss
  * address: 0x021F6CAC
  * packet: pkt_ov215_021F6CAC
  * region: ov215
@@ -17,4 +17,4 @@
 
 extern void MCSS_SetVanishFlag(void *);
 extern void MCSS_Del(void *,void *);
-void func_021F6CAC(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
+void EGG_DEMO_VIEW_DeletePokeMcss(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}

@@ -39,11 +39,11 @@
  *   func_02008FC4 0x02008FC4 thumb
  *   PMSI_PARAM_InitSentenceId 0x020242C0 thumb
  *   d_021C77A0 0x021C77A0 data a1
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
- *   func_0203F8F4 0x0203F8F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MAILVIEW_HideAllPlanes 0x021C4AF8 thumb ov136
@@ -133,11 +133,11 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void func_02008FD8(struct Mail *mail, struct PmsData *msg, u32 i);
 extern void func_02008FC4(struct Mail *mail, u16 value);
 extern void PMSI_PARAM_InitSentenceId(struct PmsData *msg, u32 type, u32 id);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void func_0203F8F4(u16);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Create(u16);
+extern void BG_SYS_Delete(void);
 extern void TCBL_Destroy(struct Tcbl *p);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
@@ -278,12 +278,12 @@ int MAILSYS_ProcInit(void *a, void *b, struct MailDraft *draft)
     proc->highlightSlot = v;
     proc->blinkSlot = v;
     draft->result = 0xFFFF;
-    proc->textSpeed = func_02012FFC();
+    proc->textSpeed = MSG_SPEED_GetWait();
     MAILSYS_FillDefaultSentences(proc, proc->draft);
     proc->font = GF_FONT_Create((unsigned)0x17, (unsigned)0, (unsigned)0, (unsigned)0, (u16)(proc->heapId));
     proc->tcbl = TCBL_Create((u16)(proc->heapId), proc->heapId, 0x20, 0x20);
     proc->inputMode = 1;
-    func_0203F8F4(proc->heapId);
+    BG_SYS_Create(proc->heapId);
     return 1;
 }
 
@@ -296,7 +296,7 @@ int MAILSYS_ProcMain(void *a, void *b, void *c, struct MailEditProc *proc)
 int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc)
 {
     u32 h;
-    func_0203F9B4();
+    BG_SYS_Delete();
     TCBL_Destroy(proc->tcbl);
     GF_FONT_Delete(proc->font);
     h = proc->heapId;

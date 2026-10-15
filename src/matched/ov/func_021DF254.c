@@ -19,7 +19,7 @@
 #include "../include/Obj00000.h"
 
 extern int BOX2_UI_GetGridSlotPoint(int, int);
-extern int BOX2_UI_GetGridSlotPoint(int, int);
+
 int BOX2_MAIN_HitPartyGrid(unsigned char *p, short x, short y)
 {
     int v = BOX2_UI_GetGridSlotPoint(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA180),

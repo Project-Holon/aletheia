@@ -1,5 +1,5 @@
 /*
- * function: func_0206207C
+ * function: NNSi_GfdFreeLnkVram
  * address:  0x0206207C
  * packet:   pkt_02061EB8
  * region:   arm9
@@ -29,7 +29,7 @@ typedef struct Node0206207C {
     struct Node0206207C *f0c;
 } Node0206207C;
 
-int func_0206207C(void *headp, void *freep, int a2, int a3)
+int NNSi_GfdFreeLnkVram(void *headp, void *freep, int a2, int a3)
 {
     u32 buf[2];
     Node0206207C *x;

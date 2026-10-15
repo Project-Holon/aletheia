@@ -20,11 +20,11 @@
  *   func_02193734  0x02193734  arm  ov009
  *   g_021A44C8     0x021A44C8  data
  *   func_02092344  0x02092344  arm
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   g_021A44D8     0x021A44D8  data
  *   func_0217EC90  0x0217EC90  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
  *   func_02193710  0x02193710  arm  ov009
  *   func_02189D78  0x02189D78  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
@@ -46,10 +46,10 @@
  *   g_021A45A0     0x021A45A0  data ov009
  *   sendCount      0x021ADFC8  data ov009
  *   _ZZ13func_02189780PiiP9GPIBufferS_S_PcE9recvCount 0x021ADFCC data
- *   func_02092364  0x02092364  arm
- *   func_021818EC  0x021818ec  arm   ov009
- *   func_02181350  0x02181350  arm   ov009
- *   func_02181010  0x02181010  arm   ov009
+ *   memmove  0x02092364  arm
+ *   gsUdpEngineGetPeerOutBufferFreeSpace  0x021818ec  arm   ov009
+ *   gsUdpEngineSendMessage  0x02181350  arm   ov009
+ *   gsUdpEngineGetPeerState  0x02181010  arm   ov009
  *   strchr         0x02094a28  arm
  *   strncmp        0x020949f4  arm
  *   func_02193418  0x02193418  arm   ov009
@@ -134,10 +134,9 @@ typedef struct GPIBuffer_02189D28 {
 extern char *func_0217EAC8(char *p, int n);
 extern void func_02193734(int *connection, int string);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-extern int func_0209477C(const u8 *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char *func_0217EAB0(int size);
@@ -151,16 +150,9 @@ extern int gsUdpEngineSendMessage(u32 theIp, u16 thePort, char *theHeader,
 extern int gpiAppendStringToBufferLen(void **connection,
                                       struct GPIBuffer_0218964C *outputBuffer,
                                       char *string, int stringLen);
-extern int strlen(char *s);
 extern int func_0217EC4C(int sock, char *buffer, int len, int flags);
-extern void *func_02092364(void *dest, const void *src, unsigned int n);
-extern int func_021818EC(unsigned int ip, unsigned short port);
-extern int func_02181350(unsigned int ip, unsigned short port, char *header, unsigned char *msg, unsigned int len, int reliable);
-extern int func_02181010(unsigned int ip, unsigned short port, int *state);
-extern char *strchr(const char *, int);
-extern int strncmp(const char *, const char *, unsigned int);
+extern int gsUdpEngineGetPeerState(unsigned int ip, unsigned short port, int *state);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int atoi(const char *);
 int func_0218934C(int *connection, int *buffer, int c);
 int func_021893C8(int *connection, int *buffer, int src, int n);
 int func_0218946C(int *connection, int *buffer, const char *string);
@@ -189,6 +181,11 @@ extern char g_021A45C0[];
 
 
 
+extern int strlen(const char *s);
+extern int strncmp(const char *, const char *, unsigned int);
+extern char *strchr(const char *, int);
+extern int atoi(const char *);
+extern void *memmove(void *dest, const void *src, unsigned int n);
 /*
  * gpiAppendCharToBuffer: append one character to a GPIBuffer (0=data,
  * 4=size, 8=len), growing the backing store by 0x4000 bytes when full.
@@ -261,7 +258,7 @@ int func_021893C8(int *connection, int *buffer, int src, int n)
  */
 int func_0218946C(int *connection, int *buffer, const char *string)
 {
-    return func_021893C8(connection, buffer, (int)string, func_0209477C((const u8 *)string));
+    return func_021893C8(connection, buffer, (int)string, strlen((const char *)string));
 }
 
 
@@ -356,7 +353,7 @@ int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
     int rcode = func_0217EC90(sock, buffer, bufferLen, 0);
 
     if (rcode == -1) {
-        rcode = func_0217ED54(sock);
+        rcode = GOAGetLastError(sock);
         if (rcode != -6 && rcode != -26 && rcode != -76) {
             if (id[0] == 'P' && id[1] == 'R')
                 return 3;
@@ -487,7 +484,7 @@ int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer,
         rcode = func_0217EC4C(sock, &buffer[len], size - len, 0);
 
         if (rcode == -1) {
-            int error = func_0217ED54(sock);
+            int error = GOAGetLastError(sock);
             if (error != -6 && error != -26 && error != -76) {
                 func_02193734(connection, (int)g_021A453C);
                 return 3;
@@ -567,7 +564,7 @@ int func_0218998C(int *connection, int sock, GPIBuffer_0218998C *outputBuffer,
 
     if (clipSentData) {
         if (total > 0) {
-            func_02092364(buffer, &buffer[total], remaining + 1);
+            memmove(buffer, &buffer[total], remaining + 1);
             len -= total;
         }
     } else {
@@ -608,17 +605,17 @@ int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short po
     if (remaining == 0)
         return 0;
 
-    freeSpace = func_021818EC(ip, port) - 23;
+    freeSpace = gsUdpEngineGetPeerOutBufferFreeSpace(ip, port) - 23;
     if ((int)remaining <= (int)freeSpace) {
-        func_02181350(ip, port, iconnection->header, buffer + pos, remaining, 1);
+        gsUdpEngineSendMessage(ip, port, iconnection->header, buffer + pos, remaining, 1);
         total = remaining;
         remaining = 0;
     } else {
         do {
-            sendAmount = func_021818EC(ip, port) - 23;
+            sendAmount = gsUdpEngineGetPeerOutBufferFreeSpace(ip, port) - 23;
             if (sendAmount <= 23)
                 break;
-            if (func_02181350(ip, port, iconnection->header, &buffer[pos + total], sendAmount, 1) == 8)
+            if (gsUdpEngineSendMessage(ip, port, iconnection->header, &buffer[pos + total], sendAmount, 1) == 8)
                 break;
             total += sendAmount;
             remaining -= sendAmount;
@@ -627,7 +624,7 @@ int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short po
 
     if (clipSentData) {
         if (total != 0) {
-            func_02092364(buffer, buffer + total, remaining + 1);
+            memmove(buffer, buffer + total, remaining + 1);
             len -= total;
         }
     } else {
@@ -635,7 +632,7 @@ int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short po
     }
     outputBuffer->len = len;
     outputBuffer->pos = pos;
-    func_02181010(ip, port, &aPeerState);
+    gsUdpEngineGetPeerState(ip, port, &aPeerState);
     if (aPeerState == 3)
         *closed = 1;
     else
@@ -692,7 +689,7 @@ int func_02189D28(void **unused, GPIBuffer_02189D28 *buffer)
         return 0;
     buffer->len -= buffer->pos;
     if (buffer->len != 0)
-        func_02092364(buffer->buffer, buffer->buffer + buffer->pos, buffer->len);
+        memmove(buffer->buffer, buffer->buffer + buffer->pos, buffer->len);
     buffer->buffer[buffer->len] = 0;
     buffer->pos = 0;
     return 0;

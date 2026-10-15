@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sciWsDestroy  0x021E0730  arm
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *
  * Reset the owner: release it, blank the two 0x28-byte parameter blocks, put
  * the 0xadde signature on the front of each and clear the live flag.
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void sciWsDestroy(char *p);
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 
 void sciInterfaceDestroy(char *p)
 {
@@ -29,8 +29,8 @@ void sciInterfaceDestroy(char *p)
     u32 n = 0x28;
 
     sciWsDestroy(p);
-    func_020923B0(p + 0x5c, z, n);
-    func_020923B0(p + 0x84, z, n);
+    MSL_C_LIB_MemsetPtr(p + 0x5c, z, n);
+    MSL_C_LIB_MemsetPtr(p + 0x84, z, n);
     *(u8 *)(p + 0x5c) = 0xde;
     *(u8 *)(p + 0x5d) = 0xad;
     *(u8 *)(p + 0x84) = 0xde;

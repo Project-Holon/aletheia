@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_0204152C, func_02041570, func_020415B4
+ * function: func_0204152C, func_02041570, BG_SYS_GetGraphics
  * address:  0x0204152C
  * packet:   pkt_0204152C
  * region:   arm9
@@ -17,14 +17,14 @@
  *   MIi_CpuClear16  0x02082A48  arm
  *   func_020409B4   0x020409B4  arm
  *   func_02041B6C   0x02041B6C  arm
- *   func_0207E1F8   0x0207E1F8  arm
- *   func_0207E24C   0x0207E24C  arm
- *   func_0207E2A0   0x0207E2A0  arm
- *   func_0207E330   0x0207E330  arm
+ *   G2_GetBG0CharPtr   0x0207E1F8  arm
+ *   G2_GetBG1CharPtr   0x0207E24C  arm
+ *   G2_GetBG2CharPtr   0x0207E2A0  arm
+ *   G2_GetBG3CharPtr   0x0207E330  arm
  *   func_0207E22C   0x0207E22C  arm
  *   func_0207E280   0x0207E280  arm
- *   func_0207E2F0   0x0207E2F0  arm
- *   func_0207E388   0x0207E388  arm
+ *   G2S_GetBG2CharPtr   0x0207E2F0  arm
+ *   G2S_GetBG3CharPtr   0x0207E388  arm
  *
  * Channel clear and audio dispatcher functions.
  *
@@ -69,26 +69,26 @@ void func_02041570(int channel, u16 val)
     func_02041B6C(channel);
 }
 
-extern void *func_0207E1F8(void);
-extern void *func_0207E24C(void);
-extern void *func_0207E2A0(void);
-extern void *func_0207E330(void);
+extern void *G2_GetBG0CharPtr(void);
+extern void *G2_GetBG1CharPtr(void);
+extern void *G2_GetBG2CharPtr(void);
+extern void *G2_GetBG3CharPtr(void);
 extern u32 func_0207E22C(void);
 extern u32 func_0207E280(void);
-extern void *func_0207E2F0(void);
-extern void *func_0207E388(void);
+extern void *G2S_GetBG2CharPtr(void);
+extern void *G2S_GetBG3CharPtr(void);
 
-u32 func_020415B4(u32 channel)
+u32 BG_SYS_GetGraphics(u32 channel)
 {
     switch (channel) {
-    case 0: return (u32)func_0207E1F8();
-    case 1: return (u32)func_0207E24C();
-    case 2: return (u32)func_0207E2A0();
-    case 3: return (u32)func_0207E330();
+    case 0: return (u32)G2_GetBG0CharPtr();
+    case 1: return (u32)G2_GetBG1CharPtr();
+    case 2: return (u32)G2_GetBG2CharPtr();
+    case 3: return (u32)G2_GetBG3CharPtr();
     case 4: return func_0207E22C();
     case 5: return func_0207E280();
-    case 6: return (u32)func_0207E2F0();
-    case 7: return (u32)func_0207E388();
+    case 6: return (u32)G2S_GetBG2CharPtr();
+    case 7: return (u32)G2S_GetBG3CharPtr();
     default: return 0;
     }
 }

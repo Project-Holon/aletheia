@@ -1,5 +1,5 @@
 /*
- * function: func_0205F970
+ * function: ReadNVRAM
  * address:  0x0205F970
  * packet:   pkt_0205F970
  * region:   arm9
@@ -32,7 +32,7 @@ extern BOOL OS_IsTickAvailable(void);
 extern BOOL OS_IsAlarmAvailable(void);
 extern void OS_Sleep(u32 msec);
 
-NVRAMResult func_0205F970(u32 address, u32 size, void *pData)
+NVRAMResult ReadNVRAM(u32 address, u32 size, void *pData)
 {
     NVRAMResult nvramResult;
     s32 i;

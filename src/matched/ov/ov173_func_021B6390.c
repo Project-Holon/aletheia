@@ -1,5 +1,5 @@
 /*
- * function: func_021B6390
+ * function: POKE_SUMMARY_MAIN_UpdateTaskMenu
  * address:  0x021B6390
  * packet:   pkt_ov173_021B6390
  * region:   ov173
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 
-void func_021B6390(int *p)
+void POKE_SUMMARY_MAIN_UpdateTaskMenu(int *p)
 {
     if (((struct Obj06564 *)p)->f220) {
         APP_TASKMENU_WIN_Update((u8 *)(((struct Obj06564 *)p)->f220));

@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8A78     0x020A8A78  data
+ *   MslRandSeed     0x020A8A78  data
  */
 
 typedef unsigned int u32;
 
-extern u32 g_020A8A78;
+extern u32 MslRandSeed;
 
 u32 func_02094694(void)
 {
-    g_020A8A78 = g_020A8A78 * 0x41C64E6Du + 0x3039u;
-    return (g_020A8A78 >> 16) & 0x7FFFu;
+    MslRandSeed = MslRandSeed * 0x41C64E6Du + 0x3039u;
+    return (MslRandSeed >> 16) & 0x7FFFu;
 }

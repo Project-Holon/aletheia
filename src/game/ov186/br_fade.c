@@ -176,7 +176,7 @@ void BR_FADE_StartTimed(struct BrFade *fade,u32 stepIndex,u32 planeMask,u32 dire
 /*
  * Unlabelled ov186 leaf hidden in a word run: loads the word its argument
  * points at.  Matched to supply the `matched` witness for the two pending
- * ov184 callers (func_021F85DC, func_021F8624).
+ * ov184 callers (BR_DOWNLOAD_StepFadeIn, BR_DOWNLOAD_StepClose).
  */
 int BR_FADE_GetResult(struct BrFade *fade)
 {

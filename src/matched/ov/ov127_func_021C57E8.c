@@ -1,5 +1,5 @@
 /*
- * function: func_021C57E8
+ * function: WF2DMAP_OBJDRAW_RefreshActor
  * address:  0x021C57E8
  * packet:   pkt_ov127_021C57E8
  * region:   ov127
@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 extern void func_021C42C4(u8 *p);
 
-void func_021C57E8(char *p)
+void WF2DMAP_OBJDRAW_RefreshActor(char *p)
 {
     func_021C42C4(((struct Obj23047 *)p)->f4);
 }

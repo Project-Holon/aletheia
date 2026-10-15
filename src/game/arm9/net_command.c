@@ -33,7 +33,7 @@
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   lbl_020A7A20    0x020A7A20  data
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   d_020A7A24     0x020A7A24  data
  *   d_020A7A50     0x020A7A50  data
  *   str_020A7A54   0x020A7A54  data
@@ -67,11 +67,11 @@
  *   g_020A7B78     0x020A7B78  data
  *   g_020A7BA8     0x020A7BA8  data
  *   g_020A7BB4     0x020A7BB4  data
- *   func_020889C0     0x020889C0  arm
+ *   RTC_GetDateTime     0x020889C0  arm
  *   func_0203F034     0x0203F034  arm
  *   func_0203F0A8     0x0203F0A8  arm
  *   g_02FFFC3C        0x02FFFC3C  data
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   s_020A7BA8     0x020A7BA8  data
  *   s_020A7BC8     0x020A7BC8  data
  *   GFL_NET_SYSTEM_SetNoSend  0x02039578  arm

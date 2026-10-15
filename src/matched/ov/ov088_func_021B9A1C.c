@@ -13,13 +13,13 @@
  * overlay starts an object there); without it it resolves as sole-ref/data.
  *
  * symbols:
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_02049B40  0x02049B40  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040588  0x02040588  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -67,13 +67,13 @@ extern const BgTemplate d_021BD490;
 extern const BgTemplate d_021BD430;
 extern const BgTemplate d_021BD450;
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_020409B4(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
@@ -99,10 +99,10 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
 {
     int w;
 
-    func_0203FCA0(3, &d_021BD470, 0);
-    func_0203FCA0(5, &d_021BD490, 0);
-    func_0203FCA0(7, &d_021BD430, 0);
-    func_0203FCA0(6, &d_021BD450, 0);
+    BG_SYS_InitBgLayer(3, &d_021BD470, 0);
+    BG_SYS_InitBgLayer(5, &d_021BD490, 0);
+    BG_SYS_InitBgLayer(7, &d_021BD430, 0);
+    BG_SYS_InitBgLayer(6, &d_021BD450, 0);
     ARC_UTIL_UploadBgCharFromArchive(0x1A, 9, 3, 0, 0, 1, heap);
     func_0204989C(0x1A, 10, 3, 0, 0, 1, heap);
     func_02049B40(0x1A, 8, 0, 0, 0, heap);
@@ -115,7 +115,7 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
     func_02040588(7, 1);
     func_0204989C(0x1A, 3, 6, 0, 0, 1, heap);
     func_02040588(6, 1);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     p->win = BMP_WIN_Create(5, 0, 0x13, 0x20, 2, 0xA, 0);
     p->bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)p->win);

@@ -1,5 +1,5 @@
 /*
- * function: sub_0200EED8
+ * function: NET_DEVICE_TABLE_CopyRecord
  * address:  0x0200EED8
  * packet:   pkt_0200EE64
  * region:   arm9
@@ -21,8 +21,8 @@
  * record is two flat 0x10-byte blocks copied with MI_CpuCopy8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200EED8.c \
- *       --func sub_0200EED8 --addr 0x0200EED8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_CopyRecord.c \
+ *       --func NET_DEVICE_TABLE_CopyRecord --addr 0x0200EED8 --cc 1.1p1
  */
 #include "../include/Obj00607.h"
 #include "../include/Obj00648.h"
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void sub_0200EED8(const void *item, void *record)
+void NET_DEVICE_TABLE_CopyRecord(const void *item, void *record)
 {
     const u8 *src = (const u8 *)item;
     u8 *dest = (u8 *)record;

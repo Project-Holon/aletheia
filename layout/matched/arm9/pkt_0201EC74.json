@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201EC74",
+   "name": "WORDSET_Create",
    "address": "0x0201EC74",
    "kind": "game",
    "region": "arm9",

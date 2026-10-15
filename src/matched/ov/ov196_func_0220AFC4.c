@@ -1,5 +1,5 @@
 /*
- * function: func_0220AFC4
+ * function: B_APP_TOOL_DeleteActors
  * address:  0x0220AFC4
  * packet:   pkt_0220AFC4
  * region:   ov196
@@ -22,7 +22,7 @@ typedef signed char    s8;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_0220AFC4(u8 *p)
+void B_APP_TOOL_DeleteActors(u8 *p)
 {
     u32 i;
 

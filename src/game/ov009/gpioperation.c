@@ -15,13 +15,13 @@
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_02193734  0x02193734  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02189DFC  0x02189DFC  arm  ov009
  *   g_021A4DF8     0x021A4DF8  data
  *   gsimalloc          0x0217EAB0  arm
  *   gpiSetErrorString  0x02193734  arm
  *   func_0217EB9C  0x0217EB9C  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_0218AE9C  0x0218AE9C  arm  ov009
  *   func_0218FB68  0x0218FB68  arm  ov009
@@ -108,12 +108,12 @@ struct GPISearchData {
 
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(void **connection, char *errorString);
-extern void *func_020923B0(void *dst, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned long n);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, const GPIOperation *operation, int type);
 extern void *gsimalloc(u32 size);
 extern void gpiSetErrorString(void **connection, char *errorString);
 extern int func_0217EB9C(int sock, int how);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern void func_0217EAE0(void *ptr);
 extern int func_0218AE9C(void **connection, GPIOperation *operation, char *input);
 extern int func_0218FB68(void **connection, GPIOperation *operation, char *input);
@@ -180,7 +180,7 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
                 func_02193734(connection, g_021A4DF8);
                 return 1;
             }
-            func_020923B0(arg, 0, sizeof(GPConnectResponseArg));
+            MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPConnectResponseArg));
             arg->result = operation->result;
             if (iconnection->errorCode == 0x201) {
                 arg->profile = iconnection->profileid;
@@ -235,7 +235,7 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
                 func_02193734(connection, g_021A4DF8);
                 return 1;
             }
-            func_020923B0(arg, 0, sizeof(GPGetInfoResponseArg));
+            MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPGetInfoResponseArg));
             arg->result = operation->result;
             {
                 int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
@@ -350,7 +350,7 @@ void func_0218E1CC(void **connection, GPIOperation *operation)
 
         iconnection->numSearches--;
         func_0217EB9C(data->sock, 2);
-        func_0217EB2C(data->sock);
+        closesocket(data->sock);
         func_0217EAE0(data->b);
         data->b = 0;
         func_0217EAE0(data->a);

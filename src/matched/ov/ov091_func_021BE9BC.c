@@ -11,14 +11,14 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_02021014  0x02021014  thumb
+ *   FILE_UTIL_Get_1014  0x02021014  thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 struct Rec;
-extern u32 func_02021014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 
 int PLIST_DEMO_FriendshipItemApplies(void *a, void *b)
 {
@@ -27,17 +27,17 @@ int PLIST_DEMO_FriendshipItemApplies(void *a, void *b)
     if (v >= 0xFF)
         return r;
     if (v < 100) {
-        if ((int)func_02021014(b, 0x31) != 0 && (int)func_02021014(b, 0x3C) > 0)
+        if ((int)FILE_UTIL_Get_1014(b, 0x31) != 0 && (int)FILE_UTIL_Get_1014(b, 0x3C) > 0)
             return 1;
         return 0;
     }
     if (v >= 100 && v < 200) {
-        if ((int)func_02021014(b, 0x32) != 0 && (int)func_02021014(b, 0x3D) > 0)
+        if ((int)FILE_UTIL_Get_1014(b, 0x32) != 0 && (int)FILE_UTIL_Get_1014(b, 0x3D) > 0)
             return 1;
         return 0;
     }
     if (v >= 200 && v < 0xFF) {
-        if ((int)func_02021014(b, 0x33) != 0 && (int)func_02021014(b, 0x3E) > 0)
+        if ((int)FILE_UTIL_Get_1014(b, 0x33) != 0 && (int)FILE_UTIL_Get_1014(b, 0x3E) > 0)
             return 1;
         return 0;
     }

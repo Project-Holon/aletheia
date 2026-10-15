@@ -9,20 +9,20 @@
  * status: EXACT*
  * extent: 774 bytes of code; final two zero bytes align the next function.
  * symbols:
- *   func_02020F34 0x02020F34 thumb
- *   func_02021014 0x02021014 thumb
+ *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
+ *   FILE_UTIL_Get_1014 0x02021014 thumb
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned int   u32;
 struct Rec;
-extern void *func_02020F34(u32 item, u32 which, u32 heap);
-extern u32 func_02021014(struct Rec *p, u32 sel);
+extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
+extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
-#define GET(k) func_02021014(p,(k))
+#define GET(k) FILE_UTIL_Get_1014(p,(k))
 #define DONE(k) {func_020307B0(p);return(k);}
 int PLIST_MENU_GetItemUseKind(int id)
 {
-    void *p=func_02020F34(id,0,23);
+    void *p=FILE_UTIL_CreateArcTool0F34(id,0,23);
     int mask;
     int val;
     if(GET(14)!=1) DONE(29);

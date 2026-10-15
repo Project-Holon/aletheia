@@ -1,5 +1,5 @@
 /*
- * function: func_021D6A4C
+ * function: WIFI_BSUBWAY_GetTransferState
  * address: 0x021D6A4C
  * packet: pkt_ov116_021D6A4C
  * region: ov116
@@ -12,7 +12,7 @@
  *   (none)
  */
 
-int func_021D6A4C(unsigned char *p)
+int WIFI_BSUBWAY_GetTransferState(unsigned char *p)
 {
     if (*(unsigned short *)(p + 12) < 100) {
         return 2;

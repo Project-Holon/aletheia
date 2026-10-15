@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_GetAnimCtrl  0x0204D410  arm
- *   func_02063000  0x02063000  arm
+ *   NNS_G2dSetCellAnimationParam  0x02063000  arm
  *
  * Reset the animation handle behind the cell actor's +0x68 sub-object: the
  * all-zero form of the case-0 arm of CLACT_ApplyAnimCommand next door.
@@ -35,9 +35,9 @@ struct Ctl {
 struct Obj;
 struct Rec;
 extern struct Rec *CLACT_GetAnimCtrl(struct Obj *o);
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 
 void CLACT_ResetAnimCommand(struct Ctl *c)
 {
-    func_02063000((int)CLACT_GetAnimCtrl((struct Obj *)c), 0, 0, 0);
+    NNS_G2dSetCellAnimationParam((int)CLACT_GetAnimCtrl((struct Obj *)c), 0, 0, 0);
 }

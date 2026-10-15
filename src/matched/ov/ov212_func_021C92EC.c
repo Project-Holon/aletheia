@@ -1,5 +1,5 @@
 /*
- * function: func_021C92EC
+ * function: ZUKAN_FixLastViewedSpecies
  * address: 0x021C92EC
  * packet: pkt_ov212_021C92EC
  * region: ov212
@@ -19,7 +19,7 @@ extern unsigned int ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 typedef unsigned int   u32;
 struct Blk37;
 extern void ZUKAN_SAVE_SetLastViewedSpecies(struct Blk37 *p, u32 v);
-void func_021C92EC(void *p,u16 *ids,unsigned count)
+void ZUKAN_FixLastViewedSpecies(void *p,u16 *ids,unsigned count)
 {
     unsigned current;
     u16 chosen,i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CC8
+ * function: STAFF_ROLL_BlitRow
  * address: 0x021B9CC8
  * packet: pkt_ov181_021B9CC8
  * region: ov181
@@ -17,4 +17,4 @@ struct Bmp;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *,struct Bmp *,unsigned,unsigned,int,int,unsigned,unsigned,unsigned);
-void func_021B9CC8(char *p){struct Bmp *s=BMP_WIN_GetBmp(((struct Obj14408 *)p)->f2C4);BMP_Blit(*(struct Bmp **)((unsigned)p+((struct Obj14408 *)p)->f2BB*8+0xb8),s,0,0,0,192,256,16,0);}
+void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((struct Obj14408 *)p)->f2C4);BMP_Blit(*(struct Bmp **)((unsigned)p+((struct Obj14408 *)p)->f2BB*8+0xb8),s,0,0,0,192,256,16,0);}

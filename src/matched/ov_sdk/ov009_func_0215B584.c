@@ -12,16 +12,16 @@
  * sdk:      CPS_SocFlush (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   CPSi_SocWrite2  0x0215B3A0  arm  ov009
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 extern unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2);
 
 void CPS_SocFlush(void)
 {
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *soc = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
 
     if (soc != 0 && *(unsigned long *)(soc + 0x6c) != 0) {
         CPSi_SocWrite2(*(unsigned char **)(soc + 0x68), *(unsigned long *)(soc + 0x6c), 0, 0);

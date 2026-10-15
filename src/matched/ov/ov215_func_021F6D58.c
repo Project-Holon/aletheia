@@ -1,5 +1,5 @@
 /*
- * function: func_021F6D58
+ * function: EGG_DEMO_VIEW_StartFadeOut
  * address: 0x021F6D58
  * packet: pkt_ov215_021F6D58
  * region: ov215
@@ -19,4 +19,4 @@ extern void MCSS_SetAnmStopFlag(void *);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
-void func_021F6D58(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
+void EGG_DEMO_VIEW_StartFadeOut(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}

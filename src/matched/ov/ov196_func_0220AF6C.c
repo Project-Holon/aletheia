@@ -1,5 +1,5 @@
 /*
- * function: func_0220AF6C
+ * function: B_APP_TOOL_CreateActors
  * address: 0x0220AF6C
  * packet: pkt_ov196_0220AF6C
  * region: ov196
@@ -22,7 +22,7 @@ struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
-void func_0220AF6C(char *p, int a, int b, int c, int d)
+void B_APP_TOOL_CreateActors(char *p, int a, int b, int c, int d)
 {
     Pos pos;
     unsigned i;

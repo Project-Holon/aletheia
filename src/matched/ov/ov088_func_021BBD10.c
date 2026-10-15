@@ -13,7 +13,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   STARTMENU_ClearFrameBox  0x021BBB84  thumb  ov088
  *   func_02041570  0x02041570  arm
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   STARTMENU_ShowRowActors  0x021BB9DC  thumb  ov088
  */
 #include "../include/Obj00263.h"
@@ -26,7 +26,7 @@ struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg);
 extern void func_02041570(int channel, u16 val);
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void STARTMENU_ShowRowActors(char *, int);
 
 void STARTMENU_CloseDescWindow(char *p, int mode)
@@ -35,10 +35,10 @@ void STARTMENU_CloseDescWindow(char *p, int mode)
     if (mode != 1) {
         STARTMENU_ClearFrameBox(0x20, 1, 0x20, 0x16, 2);
         func_02041570(0, 0);
-        func_02041EE4(1, 0, 0);
-        func_02041EE4(1, 3, ((struct Obj00263 *)p)->f130);
-        func_02041EE4(2, 0, 0);
-        func_02041EE4(2, 3, ((struct Obj00263 *)p)->f130);
+        BG_SYS_ResetSlot(1, 0, 0);
+        BG_SYS_ResetSlot(1, 3, ((struct Obj00263 *)p)->f130);
+        BG_SYS_ResetSlot(2, 0, 0);
+        BG_SYS_ResetSlot(2, 3, ((struct Obj00263 *)p)->f130);
         if (((struct Obj00263 *)p)->f120 == 0)
             STARTMENU_ShowRowActors(p, 1);
     }

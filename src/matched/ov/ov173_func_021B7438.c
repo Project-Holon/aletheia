@@ -1,5 +1,5 @@
 /*
- * function: func_021B7438
+ * function: POKE_SUMMARY_MAIN_GetRecordWord
  * address:  0x021B7438
  * packet:   pkt_021B7438
  * region:   ov173
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-u16 func_021B7438(char **p)
+u16 POKE_SUMMARY_MAIN_GetRecordWord(char **p)
 {
     char *q = *p;
 

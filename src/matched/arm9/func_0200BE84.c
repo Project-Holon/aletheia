@@ -1,5 +1,5 @@
 /*
- * function: func_0200BE84
+ * function: INTRUDE_AddLogEntry
  * address:  0x0200BE84
  * packet:   pkt_0200BE84
  * region:   arm9
@@ -13,7 +13,7 @@
  *   GX_GetBankForLCDC  0x02045A98  arm
  *
  * A 20-entry table of 20-byte records at p+0x10 (not at p: p+0x10..p+0x1A0
- * is exactly 20 * 0x14, and p+0x1A0 is the byte func_0200BF08 of
+ * is exactly 20 * 0x14, and p+0x1A0 is the byte INTRUDE_SetMonolithLevel of
  * src/matched/unit_0200BF08.c sets).  Insert a copy of *q into the first
  * record whose `f00[8] == 0`, else drop the oldest record and append.
  *
@@ -41,8 +41,8 @@
  * label; the compared range is the 130 bytes of this function.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200BE84.c \
- *       --func func_0200BE84 --addr 0x0200BE84 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/INTRUDE_AddLogEntry.c \
+ *       --func INTRUDE_AddLogEntry --addr 0x0200BE84 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -60,7 +60,7 @@ typedef struct {
 
 extern u16 GX_GetBankForLCDC(void);
 
-void func_0200BE84(Rec *p, Slot *q)
+void INTRUDE_AddLogEntry(Rec *p, Slot *q)
 {
     Slot *s = p->slot;
     u16 stamp;

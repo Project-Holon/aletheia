@@ -1,5 +1,5 @@
 /*
- * function: func_020770B4
+ * function: CARDi_IsRomDmaAvailable
  * address:  0x020770B4
  * packet:   pkt_020770B4
  * region:   arm9
@@ -40,7 +40,7 @@ static inline BOOL CARDi_IsDmaDestination(u32 dma, const void *dst, u32 len)
     return CARDi_IsDmaTarget(dma, dst, len) && CARDi_IsNotDTCM(dst, len);
 }
 
-BOOL func_020770B4(u32 dma, void *dst, u32 src, u32 len)
+BOOL CARDi_IsRomDmaAvailable(u32 dma, void *dst, u32 src, u32 len)
 {
     return CARDi_IsDmaDestination(dma, dst, len) && (((src | len) & 0x1FF) == 0);
 }

@@ -19,7 +19,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009470  0x02009470  thumb
- *   func_02009794  0x02009794  thumb
+ *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *   func_020095C8  0x020095C8  thumb
  *   func_0200973C  0x0200973C  thumb
  *   func_0200856C  0x0200856C  thumb
@@ -52,7 +52,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u32 func_02009794(const struct Sub02009470Obj *obj, u32 n);
+extern u32 WIFI_HISTORY_IsCountryVisited(const struct Sub02009470Obj *obj, u32 n);
 extern u8 func_020095C8(const struct Sub02009470Obj *obj);
 extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
 struct Sub0200852CObj;
@@ -77,7 +77,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *a, int b, u32 c, u32 d, u32 e)
     o = func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(a)));
     for (i = 1; i < 0xE9; i++) {
         j = i - 1;
-        if (func_02009794(o, i))
+        if (WIFI_HISTORY_IsCountryVisited(o, i))
             t->flag[j] = 1;
         else
             t->flag[j] = 0;

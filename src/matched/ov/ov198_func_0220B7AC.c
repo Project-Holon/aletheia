@@ -1,5 +1,5 @@
 /*
- * function: func_0220B7AC
+ * function: B_PLIST_ANM_StepPaletteAnim
  * address: 0x0220B7AC
  * packet: pkt_ov198_0220B7AC
  * region: ov198
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0220B6D0 0x0220B6D0 thumb ov198
+ *   B_PLIST_ANM_UploadTileBuffer 0x0220B6D0 thumb ov198
  */
 typedef unsigned char u8;
 typedef struct Bits { unsigned char low:4; unsigned char mode:3; unsigned char active:1; } Bits;
-extern void func_0220B6D0(u8 *p, u8 state, u8 flag, u8 mode);
-void func_0220B7AC(u8 *p)
+extern void B_PLIST_ANM_UploadTileBuffer(u8 *p, u8 state, u8 flag, u8 mode);
+void B_PLIST_ANM_StepPaletteAnim(u8 *p)
 {
     if (((Bits *)(p+0x1E9B))->active != 0) {
         switch (p[0x1E98]) {
         case 0:
-            func_0220B6D0(p,p[0x1E9A],1,((Bits *)(p+0x1E9B))->mode);
+            B_PLIST_ANM_UploadTileBuffer(p,p[0x1E9A],1,((Bits *)(p+0x1E9B))->mode);
             p[0x1E98]++;
             break;
         case 1:
             if (p[0x1E99]==4) {
-                func_0220B6D0(p,p[0x1E9A],0,((Bits *)(p+0x1E9B))->mode);
+                B_PLIST_ANM_UploadTileBuffer(p,p[0x1E9A],0,((Bits *)(p+0x1E9B))->mode);
                 p[0x1E99]=0;
                 p[0x1E98]++;
             } else p[0x1E99]++;

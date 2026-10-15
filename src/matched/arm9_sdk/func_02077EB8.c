@@ -1,5 +1,5 @@
 /*
- * function: func_02077EB8
+ * function: FS_FindArchive
  * address:  0x02077EB8
  * packet:   pkt_02077EB8
  * region:   arm9
@@ -43,7 +43,7 @@ static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
     return (arc->flag & 2) ? 1 : 0;
 }
 
-FSArchive *func_02077EB8(const char *name, int name_len)
+FSArchive *FS_FindArchive(const char *name, int name_len)
 {
     u32 bak_psr = OS_DisableInterrupts();
     FSArchive *arc;

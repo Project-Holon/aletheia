@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C58
+ * function: STAFF_ROLL_PrintRow
  * address: 0x021B9C58
  * packet: pkt_ov181_021B9C58
  * region: ov181
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA4AC 0x021BA4AC thumb ov181
+ *   STAFF_ROLL_PrintText 0x021BA4AC thumb ov181
  */
 #include "../include/Obj14407.h"
-extern void func_021BA4AC(char *,unsigned char *,void *,int);
-void func_021B9C58(char *p,void *s,unsigned i){unsigned char *q=*(unsigned char * *)&((struct Obj14407 *)p)->f2D4+i*16;if(q[9]==0)func_021BA4AC(p,q,s,0);else func_021BA4AC(p,q,s,2);}
+extern void STAFF_ROLL_PrintText(char *,unsigned char *,void *,int);
+void STAFF_ROLL_PrintRow(char *p,void *s,unsigned i){unsigned char *q=*(unsigned char * *)&((struct Obj14407 *)p)->f2D4+i*16;if(q[9]==0)STAFF_ROLL_PrintText(p,q,s,0);else STAFF_ROLL_PrintText(p,q,s,2);}

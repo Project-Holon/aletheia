@@ -16,7 +16,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_0201F73C  0x0201F73C  thumb
@@ -40,7 +40,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u16 a10);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -56,7 +56,7 @@ void MONOLITH_TOOL_LIST_ShowFormattedMessage(char *a, char *b, u32 c)
     ((struct Obj00044 *)a)->f290 = STRBUF_Create(0x100, 0x61);
     func_0201F250(((struct Obj07704 *)b)->f10, ((struct Obj00044 *)a)->f290, r6);
     STRBUF_Delete(r6);
-    ((struct Obj00044 *)a)->f294 = PRINTSYS_PrintStream(((struct Obj00044 *)a)->f280, 0, 0, ((struct Obj00044 *)a)->f290, ((struct Obj07704 *)b)->fC, func_02012FFC(), ((struct Obj07704 *)b)->f18, 0xa, 0x61, 0xf);
+    ((struct Obj00044 *)a)->f294 = PRINTSYS_PrintStream(((struct Obj00044 *)a)->f280, 0, 0, ((struct Obj00044 *)a)->f290, ((struct Obj07704 *)b)->fC, MSG_SPEED_GetWait(), ((struct Obj07704 *)b)->f18, 0xa, 0x61, 0xf);
     BMP_WIN_MakeScreen(((struct Obj00044 *)a)->f280);
     func_0201F73C(((struct Obj00044 *)a)->f280, 1, 1, 0xb);
 }

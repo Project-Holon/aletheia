@@ -9,10 +9,10 @@
  * status: EXACT
  * ABI: B294 leaves live r0 which the original stores and passes to B3DC despite its legacy void declaration.
  * symbols:
- *   func_021F9E18 0x021F9E18 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
- *   func_021F9E04 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetSelection 0x021F9E18 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -31,11 +31,11 @@ typedef unsigned int u32;
 typedef struct { short x,y; } Point;
 typedef struct { Point pos; u16 x,y,z; u8 a,b; } Desc;
 typedef struct { int x,y,z; } Vec;
-extern int func_021F9E18(char *);
+extern int STA_ACTING_GetSelection(char *);
 struct Obj;
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
-extern u16 func_021F9E04(u8 *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
+extern u16 STA_ACTING_GetCameraTarget(u8 *p);
 struct Vec2;
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
@@ -50,7 +50,7 @@ void func_021F6D68(char *p)
     char *ctx;
     char *model;
     u16 n;
-    if(((struct Obj00771 *)p)->f88==0 && func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)!=4) {
+    if(((struct Obj00771 *)p)->f88==0 && STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4)!=4) {
         ((struct Obj00771 *)p)->f88=1;
         d.x=128;
         d.y=96;
@@ -62,14 +62,14 @@ void func_021F6D68(char *p)
         CLACT_SetActorDrawEnable(a,1);
     }
     if(((struct Obj00771 *)p)->f88==1) {
-        if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
+        if(STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
             CLACT_DeleteActor(((struct Obj00771 *)p)->fA4);
             ((struct Obj00771 *)p)->f88=0;
             return;
         }
-        ctx=func_021F9DA0(((struct Obj00771 *)p)->f4);
-        model=func_021F9DA4(((struct Obj00771 *)p)->f4,func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4));
-        n=func_021F9E04(((struct Obj00771 *)p)->f4);
+        ctx=STA_ACTING_GetActorSystem(((struct Obj00771 *)p)->f4);
+        model=STA_ACTING_GetActor(((struct Obj00771 *)p)->f4,STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4));
+        n=STA_ACTING_GetCameraTarget(((struct Obj00771 *)p)->f4);
         func_021F8044(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);

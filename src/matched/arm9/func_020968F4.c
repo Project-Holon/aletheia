@@ -1,5 +1,5 @@
 /*
- * function: func_020968F4
+ * function: __str2dec
  * address:  0x020968F4
  * packet:   pkt_02096670
  * region:   arm9
@@ -13,7 +13,7 @@
  * flag byte, store the caller's halfword parameter at +2, convert up to 32
  * digits into the byte array at +5, then decide whether the value is in range.
  * A string whose first unconsumed character is below '5' is accepted as is,
- * above '5' is rejected through func_02096620, and exactly '5' is accepted
+ * above '5' is rejected through MSL_C_LIB_IncrementDigits, and exactly '5' is accepted
  * only when some later digit is non-zero or the last converted digit is odd.
  *
  * The pointer is unsigned throughout: `const char *` gives `ldrsb` and signed
@@ -33,12 +33,12 @@
  *    order - and every later branch then targets an address four bytes off.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020968F4.c \
- *       --func func_020968F4 --addr 0x020968F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__str2dec.c \
+ *       --func __str2dec --addr 0x020968F4 --cc 1.1p1 --arm
  *   EXACT, 156 bytes, 1 relocation site, resolved.
  *
  * symbols:
- *   func_02096620  0x02096620  arm
+ *   MSL_C_LIB_IncrementDigits  0x02096620  arm
  */
 
 typedef unsigned char u8;
@@ -52,9 +52,9 @@ struct P020968F4 {
     u8  f05[32];
 };
 
-extern void func_02096620(u8 *p, int idx);
+extern void MSL_C_LIB_IncrementDigits(u8 *p, int idx);
 
-void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v)
+void __str2dec(struct P020968F4 *p, const u8 *s, u16 v)
 {
     int i;
     u8 c;
@@ -84,5 +84,5 @@ last:
     if ((p->f05[i - 1] & 1) == 0)
         return;
 tail:
-    func_02096620((u8 *)p, p->f04);
+    MSL_C_LIB_IncrementDigits((u8 *)p, p->f04);
 }

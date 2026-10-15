@@ -26,9 +26,6 @@ struct Obj;
 extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
-extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
-extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
-extern void CLACT_DrawSystem(void);
 void BOX2_SEQ_DrawActors(char *p)
 {
     unsigned i;

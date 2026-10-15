@@ -13,7 +13,7 @@
  *   func_0207AF00  0x0207AF00  thumb
  *   func_0207AF1C  0x0207AF1C  thumb
  *   func_0207AF38  0x0207AF38  thumb
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  *
  * wave r8 lane rigD: first compile, EXACT under ../1.2/sp2 -proc arm946e.
  * The r6 note called this row "untouched" and predicted five label-class
@@ -43,7 +43,7 @@ extern s16 FX_SinCosTable_[];
 extern void func_0207AF00(u8 *buf, int a, int b);
 extern void func_0207AF1C(u8 *buf, int a, int b);
 extern void func_0207AF38(u8 *buf, int a, int b);
-extern void func_0207B51C(u8 *a, u8 *b, u8 *c);
+extern void MTX_MultVec33(u8 *a, u8 *b, u8 *c);
 
 void func_020580A8(struct Obj *o, u8 *dst)
 {
@@ -65,5 +65,5 @@ void func_020580A8(struct Obj *o, u8 *dst)
         break;
     }
 
-    func_0207B51C(dst + 8, buf, dst + 8);
+    MTX_MultVec33(dst + 8, buf, dst + 8);
 }

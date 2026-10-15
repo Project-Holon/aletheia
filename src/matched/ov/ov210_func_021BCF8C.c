@@ -15,7 +15,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_021BC3D4  0x021BC3D4  thumb  ov210
@@ -57,7 +57,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetLcdSwap(u32 a);
 struct Blk37;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_021BC3D4(void);
@@ -92,8 +92,8 @@ u32 func_021BCF8C(u8 *p)
     *(volatile u16 *)&((struct Obj25596 *)rb)->f0 = z;
     BG_SYS_SetLcdSwap(0);
     m = -16;
-    func_0207D534((volatile u16 *)(ra + 0x1c), m);
-    func_0207D534((volatile u16 *)(rb + 0x1c), m);
+    GXx_SetMasterBrightness_((volatile u16 *)(ra + 0x1c), m);
+    GXx_SetMasterBrightness_((volatile u16 *)(rb + 0x1c), m);
     if (ZUKAN_SAVE_GetViewMode((struct Blk37 *)(((struct Obj25597 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f4)) == 1) {
         ((struct Obj25599 *)(*(u8 * *)&((struct Obj25598 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = z;
     } else {

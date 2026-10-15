@@ -1,5 +1,5 @@
 /*
- * function: func_0205BDD0
+ * function: DWC_AC_GetApType
  * address:  0x0205BDD0
  * packet:   pkt_0205BDD0
  * region:   arm9
@@ -138,7 +138,7 @@ static struct {
 
 extern u8 DWCi_AC_GetPhase(void);
 
-u8 func_0205BDD0(void)
+u8 DWC_AC_GetApType(void)
 {
     u8 type = 0xff;
     u8 phase = DWCi_AC_GetPhase();

@@ -1,5 +1,5 @@
 /*
- * function: func_02180E48
+ * function: gsUdpEngineIsInitialized
  * address:  0x02180E48
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern char *gsUdpEngineContext(void);
 
-int func_02180E48(void)
+int gsUdpEngineIsInitialized(void)
 {
     return *(int *)(gsUdpEngineContext() + 0xc);
 }

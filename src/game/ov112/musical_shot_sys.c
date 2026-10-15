@@ -1,7 +1,7 @@
 /*
  * file:     musical_shot_sys.c
  * unit:     yes
- * function: func_021F36C0, func_021F3970, func_021F3A08, func_021F3A54, func_021F3AE0, func_021F3AF0, func_021F3BF0, func_021F3C50, func_021F3CA4, func_021F3EAC, func_021F3ED0, func_021F3F00
+ * function: MUSICAL_SHOT_SYS_Create, MUSICAL_SHOT_SYS_Exit, MUSICAL_SHOT_SYS_Update, MUSICAL_SHOT_SYS_InitGraphics, MUSICAL_SHOT_SYS_ExitGraphics, MUSICAL_SHOT_SYS_CreateScene, MUSICAL_SHOT_SYS_DeleteScene, MUSICAL_SHOT_SYS_DrawScene, MUSICAL_SHOT_SYS_Init3D, MUSICAL_SHOT_SYS_LoadBg, MUSICAL_SHOT_SYS_Exit3D, MUSICAL_SHOT_SYS_InitActors
  * address:  0x021F36C0
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02030734 0x02030734 arm
- *   func_0203F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   KEY_GetCont 0x0203630C arm
  *   func_020056A0 0x020056A0 thumb
@@ -25,7 +25,7 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   d_021F836C 0x021F836C data a4
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021F4300 0x021F4300 thumb ov112
  *   func_02030EAC 0x02030EAC arm
@@ -41,7 +41,7 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -51,7 +51,7 @@
  *   gClActorInitParam 0x020A1448 data a4
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_021F67E0  0x021F67E0  thumb  ov112
  *   func_021F40F4  0x021F40F4  thumb  ov112
  *   func_021F6F24  0x021F6F24  thumb  ov112
@@ -79,13 +79,13 @@
  *   BILLBOARD_Draw 0x0204F7DC arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   G3D_SYSTEM_Init  0x02046440  arm
- *   func_0204044C  0x0204044C  arm
+ *   BG_SYS_SetLowBit  0x0204044C  arm
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   func_02048AD0  0x02048AD0  arm
  *   func_0207DCF8  0x0207DCF8  arm
- *   func_0204EBD4  0x0204EBD4  arm
- *   func_0204ED70  0x0204ED70  arm
+ *   BILLBOARD_Create  0x0204EBD4  arm
+ *   BILLBOARD_SetField10  0x0204ED70  arm
  *   func_02040618  0x02040618  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
@@ -102,11 +102,11 @@
  *   d_021F8214  0x021F8214  data  a4
  *   d_021F81D4  0x021F81D4  data  ov112  a4
  *   d_021F81F4  0x021F81F4  data  ov112  a4
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_020414AC 0x020414AC arm
  *   func_020403F4 0x020403F4 arm
- *   func_0204ED24 0x0204ED24 arm
+ *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_021F5164 0x021F5164 thumb ov112
@@ -218,14 +218,14 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern int func_02034AC4(int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u16 STRBUF_GetEosChar(void);
 extern u32 KEY_GetCont(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void *func_021F4284(u8 *,u32,u32,u32,u16);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern unsigned WIPE_SYS_EndCheck(void);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021F4300(u8 *);
 extern void func_02030EAC(struct Node *n);
@@ -242,14 +242,14 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern char *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
 extern void func_021F40F4(u8 *p);
 extern u8 *func_021F6F24(u32 heap, u32 v);
@@ -277,13 +277,13 @@ extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
-extern void func_0204044C(u32 mode);
+extern void BG_SYS_SetLowBit(u32 mode);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, int);
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DCF8(const void *a);
-extern void *func_0204EBD4(u8 *src, void *heap);
-extern void func_0204ED70(u8 *dst, struct Blk3 *src);
+extern void *BILLBOARD_Create(u8 *src, void *heap);
+extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
 extern void func_02040618(u32, u32, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
@@ -291,11 +291,11 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 index);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_020403F4(u32);
-extern void func_0204ED24(void *);
+extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern void *func_021F5164(u32);
@@ -311,19 +311,19 @@ extern u32 func_021F40D0(void *p, u32 i, u16 c);
 extern void func_021F8054(void *unused, u32 *p, const u32 *q);
 extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
-int func_021F36C0(void *owner,int unused,const Save *save);
-int func_021F3970(void *owner,void *arg,int flag,u8 *p);
-int func_021F3A08(int a,int b,int c,u8 *p);
-void func_021F3A4C(void);
-void func_021F3A54(u8 *p);
-void func_021F3AE0(void *a0);
-u8 *func_021F3AF0(u8 *src, u16 heap);
-void func_021F3BF0(u8 *p);
-void func_021F3C50(u8 *p);
-void func_021F3CA4(char *p);
-void func_021F3EAC(const void *a,u32 b,u32 c);
-void func_021F3ED0(u8 *p);
-void func_021F3F00(Context *p);
+int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save);
+int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p);
+int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p);
+void MUSICAL_SHOT_SYS_VBlank(void);
+void MUSICAL_SHOT_SYS_InitGraphics(u8 *p);
+void MUSICAL_SHOT_SYS_ExitGraphics(void *a0);
+u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap);
+void MUSICAL_SHOT_SYS_DeleteScene(u8 *p);
+void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
+void MUSICAL_SHOT_SYS_Init3D(char *p);
+void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c);
+void MUSICAL_SHOT_SYS_Exit3D(u8 *p);
+void MUSICAL_SHOT_SYS_InitActors(Context *p);
 extern char ov132_id[];
 extern const char d_021F836C[];
 extern u8 ov_abs_84[];
@@ -343,7 +343,7 @@ extern const Vec d_021F8234;
 extern const Vec d_021F824C;
 
 
-int func_021F36C0(void *owner,int unused,const Save *save)
+int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
 {
  State *p;u8 *cfg;u8 i,j;Options options;u32 length;
  GFL_HEAP_CreateChildHeap(1,74,1<<19);
@@ -355,7 +355,7 @@ int func_021F36C0(void *owner,int unused,const Save *save)
   p->save->config=func_02030734(74,length,1,d_021F836C,111);
   p->save->b=0;
   cfg=p->save->config;
-  func_0203F4E4((struct RtcDate *)(&options));
+  GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&options));
   ((Settings *)cfg)->a=3;((Settings *)cfg)->b=(u8)2;
   ((Settings *)cfg)->c=options.x;((Settings *)cfg)->d=options.y;((Settings *)cfg)->e=options.z;
   *(u16 *)((u32)cfg+(length-0x4C))=0x30DD;
@@ -390,22 +390,22 @@ int func_021F36C0(void *owner,int unused,const Save *save)
   p->save->c=0;
  }else p->save=(Save *)save;
  if(p->save->b==1)func_02034AC4((u32)ov132_id);
- p->task=func_020056A0((u32)func_021F3A4C,(u32)p,64);
- func_021F3A54((u8 *)p);
- p->scene=func_021F3AF0(p->save->config,p->heap);
+ p->task=func_020056A0((u32)MUSICAL_SHOT_SYS_VBlank,(u32)p,64);
+ MUSICAL_SHOT_SYS_InitGraphics((u8 *)p);
+ p->scene=MUSICAL_SHOT_SYS_CreateScene(p->save->config,p->heap);
  p->actors=func_021F4284(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
  WIPE_SYS_Start(0,1,1,0,6,1,p->heap);return 1;
 }
 
 
-int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
+int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     if (!WIPE_SYS_EndCheck()) return 0;
-    func_0207D534((void *)0x0400006c,-16);
-    func_0207D534((void *)0x0400106c,-16);
+    GXx_SetMasterBrightness_((void *)0x0400006c,-16);
+    GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
     func_021F4300(*(u8 * *)&((struct Obj05308 *)p)->f10);
-    func_021F3BF0(*(u8 * *)&((struct Obj05308 *)p)->fC);
-    func_021F3AE0(p);
+    MUSICAL_SHOT_SYS_DeleteScene(*(u8 * *)&((struct Obj05308 *)p)->fC);
+    MUSICAL_SHOT_SYS_ExitGraphics(p);
     func_02030EAC(((struct Obj05308 *)p)->f4);
     if (((struct Obj22509 *)(*(u8 * *)&((struct Obj05308 *)p)->f8))->f4==1) func_02034A5C((int)ov_abs_84);
     if (flag==0) {
@@ -419,9 +419,9 @@ int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
 }
 
 
-int func_021F3A08(int a,int b,int c,u8 *p)
+int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p)
 {
-    func_021F3C50(*(u8 * *)&((struct Obj08020 *)p)->fC);
+    MUSICAL_SHOT_SYS_DrawScene(*(u8 * *)&((struct Obj08020 *)p)->fC);
     func_021F4350(((struct Obj08020 *)p)->f10);
     CLACT_DrawSystem();
     if(func_021F44E8(((struct Obj08020 *)p)->f10)==1) {
@@ -435,14 +435,14 @@ int func_021F3A08(int a,int b,int c,u8 *p)
 /*
  * follower: tail stub at 0x021F3A4C; function_starts seed.
  */
-void func_021F3A4C(void) { CLACT_VBlankSystem(); }
+void MUSICAL_SHOT_SYS_VBlank(void) { CLACT_VBlankSystem(); }
 
 
 /*
  * volatile: hardware read-modify-writes at 0x021F3A64, 0x021F3A6E,
  *   0x021F3A94 (0x04000000, 0x04001000, 0x04000304).
  */
-void func_021F3A54(u8 *p)
+void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
@@ -454,7 +454,7 @@ void func_021F3A54(u8 *p)
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021F816C);
-    func_0203F8F4(((struct Obj10296 *)p)->f0);
+    BG_SYS_Create(((struct Obj10296 *)p)->f0);
     BMP_WIN_Init(((struct Obj10296 *)p)->f0);
     func_0203FC28((struct DispConfig *)d_021F815C);
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
@@ -462,10 +462,10 @@ void func_021F3A54(u8 *p)
 }
 
 
-void func_021F3AE0(void *a0) { CLACT_ExitSystem(); BMP_WIN_Exit(); func_0203F9B4(); }
+void MUSICAL_SHOT_SYS_ExitGraphics(void *a0) { CLACT_ExitSystem(); BMP_WIN_Exit(); BG_SYS_Delete(); }
 
 
-u8 *func_021F3AF0(u8 *src, u16 heap)
+u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
 {
     u8 i;
     u8 *o;
@@ -487,8 +487,8 @@ u8 *func_021F3AF0(u8 *src, u16 heap)
             }
         }
     }
-    func_021F3CA4((char *)o);
-    func_021F3F00((Context *)o);
+    MUSICAL_SHOT_SYS_Init3D((char *)o);
+    MUSICAL_SHOT_SYS_InitActors((Context *)o);
     func_021F40F4(o);
     *(void **)(o + 0x28) = func_021F6F24(*(u16 *)o, 0);
     func_021F6FB0(*(void **)(o + 0x28), (u8)((struct F5 *)*(u8 **)(o + 4))->v);
@@ -498,7 +498,7 @@ u8 *func_021F3AF0(u8 *src, u16 heap)
 }
 
 
-void func_021F3BF0(u8 *p)
+void MUSICAL_SHOT_SYS_DeleteScene(u8 *p)
 {
     u8 i;
     func_021F6C7C((char *)(((struct Obj03246 *)p)->f40));
@@ -510,7 +510,7 @@ void func_021F3BF0(u8 *p)
     BMP_WIN_Delete(((struct Obj03246 *)p)->f54);
     GF_FONT_Delete(((struct Obj03246 *)p)->f60);
     GF_FONT_Delete(((struct Obj03246 *)p)->f5C);
-    func_021F3ED0(p);
+    MUSICAL_SHOT_SYS_Exit3D(p);
     for(i=0;i<4;i++) func_020307B0(*(void **)(p+i*4+8));
     func_020307B0(p);
 }
@@ -519,7 +519,7 @@ void func_021F3BF0(u8 *p)
 /*
  * extent: two-byte padding at 0x021F3CA2.
  */
-void func_021F3C50(u8 *p)
+void MUSICAL_SHOT_SYS_DrawScene(u8 *p)
 {
     func_021F7160((u8 *)(((struct Obj02823 *)p)->f2C));
     func_021F51E8(*(u8 * *)&((struct Obj02823 *)p)->f20);
@@ -572,7 +572,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, int effect)
  * ARC_UTIL_UploadPaletteFromHandle declared u32; its matched arm9 definition is void and every matched caller declares
  * it void. Waiting for the user to accept or reject that declaration.
  */
-void func_021F3CA4(char *p)
+void MUSICAL_SHOT_SYS_Init3D(char *p)
 {
     void *h;
     void *cam;
@@ -581,7 +581,7 @@ void func_021F3CA4(char *p)
     T12 *pb;
 
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, *(u16 *)p, 0);
-    func_0204044C(3);
+    BG_SYS_SetLowBit(3);
     G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     cam = G3D_CAMERA_Create(2, 0xC000, 0, 0, 0x10000, 0x1000, 0x3E8000, 0,
                         d_021F81AC, d_021F81B8, d_021F81A0, *(u16 *)p);
@@ -595,12 +595,12 @@ void func_021F3CA4(char *p)
     a = d_021F8274;
     b = d_021F8258;
     pb = &b;
-    h = func_0204EBD4((u8 *)(&a), (void *)(*(u16 *)p));
+    h = BILLBOARD_Create((u8 *)(&a), (void *)(*(u16 *)p));
     *(void **)(p + 0x1C) = h;
-    func_0204ED70(h, (struct Blk3 *)pb);
-    func_021F3EAC(d_021F8214, 1, 0);
-    func_021F3EAC(d_021F81D4, 2, 0);
-    func_021F3EAC(d_021F81F4, 3, 0);
+    BILLBOARD_SetField10(h, (struct Blk3 *)pb);
+    MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
+    MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
+    MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);
     func_02040618(2, 3, 0xE0);
     h = func_020490F4(0x2F, *(u16 *)p);
     ARC_UTIL_UploadPaletteFromHandle(h, 3, 0, 0, 0, 0x20, *(u16 *)p);
@@ -619,10 +619,10 @@ void func_021F3CA4(char *p)
 }
 
 
-void func_021F3EAC(const void *a,u32 b,u32 c) { func_0203FCA0(b,a,c); func_02040588(b,1); func_020414AC(b); func_020409B4(b); }
+void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); func_020414AC(b); func_020409B4(b); }
 
 
-void func_021F3ED0(u8 *p) { func_020403F4(3); func_020403F4(1); func_020403F4(2); func_0204ED24(((struct Obj13824 *)p)->f1C); G3D_CAMERA_Delete(((struct Obj13824 *)p)->f18); G3D_SYSTEM_Exit(); func_020403F4(0); }
+void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { func_020403F4(3); func_020403F4(1); func_020403F4(2); BILLBOARD_Delete(((struct Obj13824 *)p)->f1C); G3D_CAMERA_Delete(((struct Obj13824 *)p)->f18); G3D_SYSTEM_Exit(); func_020403F4(0); }
 
 
 /*
@@ -630,7 +630,7 @@ void func_021F3ED0(u8 *p) { func_020403F4(3); func_020403F4(1); func_020403F4(2)
  * match: u32 offset and integer row address retain the spilled row and live index; vectors follow frame order; second loop reuses the earlier j as mask and mask as index; final mask advances before i.
  * ABI: 760C leaves a live result used by this caller despite its own void declaration.
  */
-void func_021F3F00(Context *p)
+void MUSICAL_SHOT_SYS_InitActors(Context *p)
 {
   u32 offset;
   Vec pos = d_021F8240;

@@ -56,8 +56,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BA78",
-    "func_0200BA80"
+    "BATTLE_BOX_GetSize",
+    "BATTLE_BOX_Init"
+   ],
+   "addresses": [
+    "0x0200BA78",
+    "0x0200BA80"
    ]
   },
   {
@@ -72,7 +76,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BAD4"
+    "BATTLE_BOX_SetMon"
+   ],
+   "addresses": [
+    "0x0200BAD4"
    ]
   },
   {
@@ -87,7 +94,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BBA8"
+    "BATTLE_BOX_HasMon"
+   ],
+   "addresses": [
+    "0x0200BBA8"
    ]
   }
  ]

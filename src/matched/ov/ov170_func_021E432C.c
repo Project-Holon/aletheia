@@ -18,7 +18,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb ov170
  *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb ov170
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb ov170
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb ov170
@@ -43,7 +43,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowBusy(u8 *);
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern void BOX2_SEQ_SetWindow9(u8 *, int, int);
@@ -71,7 +71,7 @@ int BOX2_SEQ_StateMoveClose(u8 *p)
         return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_IsWindowBusy, 33);
     case 1:
         *(u32 *)(W(p) + 0xa194) = 0;
-        index = func_020260E0(*(void **)(W(p) + 112));
+        index = CURSOR_MOVE_GetCurrent(*(void **)(W(p) + 112));
         if (index < 30 || index >= 36)
             selection = 0;
         else
@@ -88,7 +88,7 @@ int BOX2_SEQ_StateMoveClose(u8 *p)
         return 39;
     case 2:
         *(u32 *)(W(p) + 0xa194) = 0;
-        index = func_020260E0(*(void **)(W(p) + 112));
+        index = CURSOR_MOVE_GetCurrent(*(void **)(W(p) + 112));
         if (index >= 30)
             index = 0;
         BOX2_MAIN_ChangeBoxFormPreserve((char *)p, index);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8770
+ * function: CTVT_COMM_HandleMessage
  * address: 0x021B8770
  * packet: pkt_ov172_021B8770
  * region: ov172
@@ -46,7 +46,7 @@ extern void COMM_TVT_SYS_SetHalfRes(void *p, u32 v);
 extern void CTVT_CAMVIEW_StartLayoutChange(void *p, char *q, int a, int b);
 extern int CTVT_MIC_PlayVoice(int *self, char *buf, unsigned n, int vol, int freq);
 extern void COMM_TVT_SYS_SetEndRequested(void *p, u32 v);
-void func_021B8770(int id, int size, u32 *msg, char *q)
+void CTVT_COMM_HandleMessage(int id, int size, u32 *msg, char *q)
 {
     u32 self;
     void *r;

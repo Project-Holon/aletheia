@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3C8
+ * function: BTL_REC_SEL_GRAPHIC_DrawClact
  * address: 0x021BB3C8
  * packet: pkt_ov214_021BB3C8
  * region: ov214
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_DrawSystem(void);
-void func_021BB3C8(void) { CLACT_DrawSystem(); }
+void BTL_REC_SEL_GRAPHIC_DrawClact(void) { CLACT_DrawSystem(); }

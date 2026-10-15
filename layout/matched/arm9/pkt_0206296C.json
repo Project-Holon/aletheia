@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062FF0",
+   "name": "NNS_G2dSetCellAnimationBank",
    "address": "0x02062FF0",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063018",
+   "name": "NNS_G2dSetCellAnimationParamTagged",
    "address": "0x02063018",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063030",
+   "name": "NNS_G2dIsCellAnimationBoundingBox",
    "address": "0x02063030",
    "kind": "game",
    "region": "arm9",

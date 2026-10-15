@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0206210C
+ * function: NNSi_GfdSizeToGranuleTex
  * address:  0x0206210C
  * packet:   pkt_02061EB8
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0206210C(int v){ return v << 4; }
+int NNSi_GfdSizeToGranuleTex(int v){ return v << 4; }

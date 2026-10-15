@@ -1,5 +1,5 @@
 /*
- * function: func_021B9840
+ * function: THE_END_GRAPHIC_Setup3d
  * address: 0x021B9840
  * packet: pkt_ov182_021B9840
  * region: ov182
@@ -25,7 +25,7 @@ extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int 
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern const u32 d_021B9C28[][2];
-void func_021B9840(void)
+void THE_END_GRAPHIC_Setup3d(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);

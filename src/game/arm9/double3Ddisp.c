@@ -1,7 +1,7 @@
 /*
  * file:     double3Ddisp.c
  * unit:     yes
- * function: func_0204E8C0, func_0204E914, func_0204EA0C, func_0204EA38, func_0204EA4C, func_0204EA64, func_0204EAD4, func_0204EB68, func_0204EBD4, func_0204ED24, func_0204ED4C, func_0204ED70, func_0204ED80, func_0204ED8C, func_0204ED98, func_0204EDA4, func_0204EDB0, func_0204EDBC, func_0204EDC4, func_0204EDD0
+ * function: func_0204E8C0, func_0204E914, func_0204EA0C, DOUBLE3DDISP_GetField04, DOUBLE3DDISP_SetField08, DOUBLE3DDISP_Delete, DOUBLE3DDISP_SetupGraphics, DOUBLE3DDISP_SetupGraphics_EB68, BILLBOARD_Create, BILLBOARD_Delete, BILLBOARD_SetFlagWord, BILLBOARD_SetField10, BILLBOARD_SetField1C, BILLBOARD_SetField1E, BILLBOARD_SetField20, BILLBOARD_SetField22, BILLBOARD_SetField24, BILLBOARD_SetField25, func_0204EDC4, func_0204EDD0
  * address:  0x0204E8C0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -22,12 +22,12 @@
  *   func_02080BAC  0x02080BAC  arm
  *   func_02080BC0  0x02080BC0  arm
  *   func_020809B4   0x020809B4  arm
- *   func_020806B0   0x020806B0  arm
+ *   GX_SetBankForSubBG   0x020806B0  arm
  *   func_0208068C   0x0208068C  arm
- *   func_0207D4B0   0x0207D4B0  arm
+ *   GX_SetGraphicsMode   0x0207D4B0  arm
  *   func_0207D518   0x0207D518  arm
  *   func_020809A0   0x020809A0  arm
- *   func_0208074C   0x0208074C  arm
+ *   GX_SetBankForSubOBJ   0x0208074C  arm
  *   sBillboard     0x020A7FA4  data
  *   BILLBOARD_DeleteAllImages  0x0204F27C  arm
  *   func_020307B0  0x020307B0  arm
@@ -87,12 +87,12 @@ struct Board {
 struct BigElem { u32 f00; u32 f04; u32 f08; u32 f0c; u32 f10; u32 f14; u32 f18; u32 f1c; u32 f20; u32 f24; };  /* 0x28 */
 
 extern void func_020809B4(void);
-extern void func_020806B0(int sub_bg);
+extern void GX_SetBankForSubBG(int sub_bg);
 extern void func_0208068C(u32 v);
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 v);
 extern int func_020809A0(void);
-extern void func_0208074C(int sub_obj);
+extern void GX_SetBankForSubOBJ(int sub_obj);
 extern void BILLBOARD_DeleteAllImages(struct Actor *p);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -105,21 +105,21 @@ extern void func_02080BC0(void);
 void func_0204E8C0(u32 heap);
 void func_0204E914(void);
 int func_0204EA0C(void);
-u32 func_0204EA38(void);
-void func_0204EA4C(void);
-void func_0204EA64(void);
-void func_0204EAD4(void);
-void func_0204EB68(void);
-void *func_0204EBD4(u8 *src, void *heap);
-void func_0204ED24(void *p);
-void func_0204ED4C(u8 *a0, short *a1);
-void func_0204ED70(u8 *dst, struct Blk3 *src);
-void func_0204ED80(u8 *dst, u16 *src);
-void func_0204ED8C(u8 *dst, u16 *src);
-void func_0204ED98(u8 *dst, u16 *src);
-void func_0204EDA4(u8 *dst, u16 *src);
-void func_0204EDB0(u8 *dst, u8 *src);
-void func_0204EDBC(u8 *dst, u8 val);
+u32 DOUBLE3DDISP_GetField04(void);
+void DOUBLE3DDISP_SetField08(void);
+void DOUBLE3DDISP_Delete(void);
+void DOUBLE3DDISP_SetupGraphics(void);
+void DOUBLE3DDISP_SetupGraphics_EB68(void);
+void *BILLBOARD_Create(u8 *src, void *heap);
+void BILLBOARD_Delete(void *p);
+void BILLBOARD_SetFlagWord(u8 *a0, short *a1);
+void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+void BILLBOARD_SetField1C(u8 *dst, u16 *src);
+void BILLBOARD_SetField1E(u8 *dst, u16 *src);
+void BILLBOARD_SetField20(u8 *dst, u16 *src);
+void BILLBOARD_SetField22(u8 *dst, u16 *src);
+void BILLBOARD_SetField24(u8 *dst, u8 *src);
+void BILLBOARD_SetField25(u8 *dst, u8 val);
 void func_0204EDC4(u8 *dst, int a, int b);
 void func_0204EDD0(s32 flags, u16 *a, u16 *b);
 extern struct Double3Ddisp *g_02146A80;
@@ -224,9 +224,9 @@ int func_0204EA0C(void)
 
 /*
  * The +4 word of the singleton, through its pool word.  The same global
- * func_0204EA64 and func_0204EAD4 write.
+ * DOUBLE3DDISP_Delete and DOUBLE3DDISP_SetupGraphics write.
  */
-u32 func_0204EA38(void)
+u32 DOUBLE3DDISP_GetField04(void)
 {
     return g_02146A80->unk04;
 }
@@ -239,7 +239,7 @@ u32 func_0204EA38(void)
  * Sets the +8 word of the cell-actor singleton to 1.
  * Witness leaf for ov180 func_021B6704.
  */
-void func_0204EA4C(void)
+void DOUBLE3DDISP_SetField08(void)
 {
     g_02146A80->unk08 = 1;
 }
@@ -268,7 +268,7 @@ void func_0204EA4C(void)
  * and a single predicated `moveq r2, #1` here: the zero is materialised once
  * and shared with the store of 0 to +8.
  */
-void func_0204EA64(void)
+void DOUBLE3DDISP_Delete(void)
 {
     if (*(volatile u16 *)0x04000606 != 0) {
         return;
@@ -277,9 +277,9 @@ void func_0204EA64(void)
         return;
     }
     if (g_02146A80->unk04 != 0) {
-        func_0204EB68();
+        DOUBLE3DDISP_SetupGraphics_EB68();
     } else {
-        func_0204EAD4();
+        DOUBLE3DDISP_SetupGraphics();
     }
     g_02146A80->unk08 = 0;
     g_02146A80->unk04 = (g_02146A80->unk04 == 0) ? 1 : 0;
@@ -291,7 +291,7 @@ void func_0204EA64(void)
 
 
 /*
- * The mirror of func_0204EB68, and func_0204EA64's other shutdown arm: it
+ * The mirror of DOUBLE3DDISP_SetupGraphics_EB68, and DOUBLE3DDISP_Delete's other shutdown arm: it
  * *sets* bit 15 of the power-control halfword at 0x04000304 instead of
  * clearing it, runs the complementary SDK calls, and leaves 0x04001000 and
  * 0x0400100c in the "on" state.
@@ -304,16 +304,16 @@ void func_0204EA64(void)
  * last statements each read 0x0400100c afresh, because the first one's store
  * makes the second's read a genuinely new volatile load.
  */
-void func_0204EAD4(void)
+void DOUBLE3DDISP_SetupGraphics(void)
 {
     u16 v = *(volatile u16 *)0x04000304;
 
     *(volatile u16 *)0x04000304 = v | 0x8000;
     func_020809B4();
-    func_020806B0(4);
+    GX_SetBankForSubBG(4);
     func_0208068C(8);
     *(volatile u32 *)0x04000064 = 0x80330010;
-    func_0207D4B0(1, 0, 1);
+    GX_SetGraphicsMode(1, 0, 1);
     func_0207D518(5);
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x400;
     *(volatile u16 *)0x0400100c = (*(volatile u16 *)0x0400100c & 0x43) | 0x84 | 0x4000;
@@ -326,7 +326,7 @@ void func_0204EAD4(void)
 
 
 /*
- * The other arm of func_0204EA64's shutdown: it clears bit 15 of the
+ * The other arm of DOUBLE3DDISP_Delete's shutdown: it clears bit 15 of the
  * power-control halfword at 0x04000304, runs three SDK calls, writes
  * 0x80320010 to 0x04000064, runs the two channel teardowns and finally sets
  * bit 12 of 0x04001000 in place.
@@ -342,16 +342,16 @@ void func_0204EAD4(void)
  * Both read-modify-writes are one expression each, which is why there is
  * exactly one load and one store per register despite both being volatile.
  */
-void func_0204EB68(void)
+void DOUBLE3DDISP_SetupGraphics_EB68(void)
 {
     u16 v = *(volatile u16 *)0x04000304;
 
     *(volatile u16 *)0x04000304 = (u16)(v & ~0x8000);
     func_020809A0();
-    func_0208074C(8);
+    GX_SetBankForSubOBJ(8);
     func_0208068C(4);
     *(volatile u32 *)0x04000064 = 0x80320010;
-    func_0207D4B0(1, 0, 1);
+    GX_SetGraphicsMode(1, 0, 1);
     func_0207D518(5);
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x1000;
 }
@@ -374,7 +374,7 @@ void func_0204EB68(void)
  * must be a 4-aligned aggregate; a struct of bytes compiles to a byte-copy
  * loop instead.
  */
-void *func_0204EBD4(u8 *src, void *heap)
+void *BILLBOARD_Create(u8 *src, void *heap)
 {
     struct Board *h;
     const char *file;
@@ -410,7 +410,7 @@ void *func_0204EBD4(u8 *src, void *heap)
 /*
  * Free an actor and its two sub-objects, in +8, +4, self order.
  */
-void func_0204ED24(void *p)
+void BILLBOARD_Delete(void *p)
 {
     BILLBOARD_DeleteAllImages(p);
     func_020307B0(((struct Obj11443 *)p)->f8);
@@ -427,7 +427,7 @@ void func_0204ED24(void *p)
  * caller's array into +0x30, +0x32 and +0x34.
  *
  * Unlabelled in the generated listing, and it is the follower that makes
- * func_0204ED24 EXACT*: the prologue saves nothing, so `disasm.py` never
+ * BILLBOARD_Delete EXACT*: the prologue saves nothing, so `disasm.py` never
  * auto-labelled it, and the extent inferred for 0x0204ED24 runs through these
  * 36 bytes to the next label at 0x0204ED70
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Seeding
@@ -445,7 +445,7 @@ void func_0204ED24(void *p)
  * Writing the three stores straight from the array (no locals) interleaves
  * each load with its store and is eight bytes wrong.
  */
-void func_0204ED4C(u8 *a0, short *a1)
+void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
 {
     short v2;
     short v1;
@@ -472,7 +472,7 @@ void func_0204ED4C(u8 *a0, short *a1)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED70 and its body ends at 0x0204ED80.
  */
-void func_0204ED70(u8 *dst, struct Blk3 *src)
+void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src)
 {
     *(struct Blk3 *)(dst + 0x10) = *src;
 }
@@ -488,7 +488,7 @@ void func_0204ED70(u8 *dst, struct Blk3 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED80 and its body ends at 0x0204ED8C.
  */
-void func_0204ED80(u8 *dst, u16 *src)
+void BILLBOARD_SetField1C(u8 *dst, u16 *src)
 {
     ((struct Obj16108 *)dst)->f1C = *src;
 }
@@ -504,7 +504,7 @@ void func_0204ED80(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED8C and its body ends at 0x0204ED98.
  */
-void func_0204ED8C(u8 *dst, u16 *src)
+void BILLBOARD_SetField1E(u8 *dst, u16 *src)
 {
     ((struct Obj16110 *)dst)->f1E = *src;
 }
@@ -520,7 +520,7 @@ void func_0204ED8C(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED98 and its body ends at 0x0204EDA4.
  */
-void func_0204ED98(u8 *dst, u16 *src)
+void BILLBOARD_SetField20(u8 *dst, u16 *src)
 {
     ((struct Obj16112 *)dst)->f20 = *src;
 }
@@ -536,7 +536,7 @@ void func_0204ED98(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDA4 and its body ends at 0x0204EDB0.
  */
-void func_0204EDA4(u8 *dst, u16 *src)
+void BILLBOARD_SetField22(u8 *dst, u16 *src)
 {
     ((struct Obj16114 *)dst)->f22 = *src;
 }
@@ -552,7 +552,7 @@ void func_0204EDA4(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDB0 and its body ends at 0x0204EDBC.
  */
-void func_0204EDB0(u8 *dst, u8 *src)
+void BILLBOARD_SetField24(u8 *dst, u8 *src)
 {
     ((struct Obj16116 *)dst)->f24 = *src;
 }
@@ -569,7 +569,7 @@ void func_0204EDB0(u8 *dst, u8 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDBC and its body ends at 0x0204EDC4.
  */
-void func_0204EDBC(u8 *dst, u8 val)
+void BILLBOARD_SetField25(u8 *dst, u8 val)
 {
     ((struct Obj16118 *)dst)->f25 = val;
 }

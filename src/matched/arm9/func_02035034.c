@@ -1,5 +1,5 @@
 /*
- * function: func_02035034
+ * function: UI_SetWakeHook
  * address:  0x02035034
  * packet:   pkt_02035034
  * region:   arm9
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-void func_02035034(char *o, u32 a, u32 b)
+void UI_SetWakeHook(char *o, u32 a, u32 b)
 {
     *(u32 *)(o + 0x10) = a;
     *(u32 *)(o + 0x28) = b;

@@ -1,5 +1,5 @@
 /*
- * function: func_02168D7C
+ * function: DWCi_IsServerUpdating
  * address:  0x02168D7C
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-int func_02168D7C(void)
+int DWCi_IsServerUpdating(void)
 {
     int r = 0;
     char *p = *(char **)(((char *)&g_021AA860) + 0xc);

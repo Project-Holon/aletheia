@@ -23,7 +23,7 @@
  * each MTX_Concat33 folds it in.
  *
  * Each angle feeds the shared interleaved sin/cos halfword table at
- * 0x020A1B38 (see src/matched/func_0203F684.c): index i = angle >> 4, with
+ * 0x020A1B38 (see src/matched/GF_STANDARD_Get_F684.c): index i = angle >> 4, with
  * sin at tbl[2*i] and cos at tbl[2*i+1].  The `asr #4` is a shift, not a
  * division, and the arguments are signed, which is what makes `ldrsh` with a
  * register offset the load (docs/idioms/ldrsh-register-offset-is-signedness.md).

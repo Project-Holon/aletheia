@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  */
 
 typedef struct {
@@ -21,13 +21,13 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 void FIELD_MENU_ApplyBgScroll(S *s)
 {
     if (s->f100 == 1) {
-        func_02041EE4(5, 3, -s->hfc);
-        func_02041EE4(6, 3, -5 - s->hfc);
+        BG_SYS_ResetSlot(5, 3, -s->hfc);
+        BG_SYS_ResetSlot(6, 3, -5 - s->hfc);
         s->f100 = 0;
     }
 }

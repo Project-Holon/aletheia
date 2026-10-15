@@ -1,5 +1,5 @@
 /*
- * function: func_02076D38
+ * function: CARDi_ReadRomStatusCore
  * address:  0x02076D38
  * packet:   pkt_02076D38
  * region:   arm9
@@ -25,7 +25,7 @@ typedef volatile u32 vu32;
 
 extern void CARDi_SetRomOp(u32 command, u32 offset);
 
-u32 func_02076D38(void)
+u32 CARDi_ReadRomStatusCore(void)
 {
     if ((CARDi_romid & 0x20000000) == 0)
     {

@@ -1,5 +1,5 @@
 /*
- * function: func_021C91C4
+ * function: ZUKAN_StartProc208
  * address: 0x021C91C4
  * packet: pkt_ov212_021C91C4
  * region: ov212
@@ -14,7 +14,7 @@
  *   ZUKAN_SAVE_GetLastViewedSpecies 0x0200CA8C thumb
  *   func_02030734 0x02030734 arm
  *   PROCSYS_Push 0x02031348 arm
- *   func_021C8F90 0x021C8F90 thumb ov212
+ *   ZUKAN_SetResumeState 0x021C8F90 thumb ov212
  *   d_021C99A0 0x021C99A0 data a1
  *   d_021C8108 0x021C8108 data ov208 a4
  *   ov208_id 0x000000D0 data a1
@@ -27,11 +27,11 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void PROCSYS_Push(struct Obj020314F4 *,unsigned,unsigned,unsigned);
-extern int func_021C8F90(char *,int);
+extern int ZUKAN_SetResumeState(char *,int);
 extern const char d_021C99A0[];
 extern const unsigned d_021C8108[];
 extern unsigned char ov208_id[];
-void func_021C91C4(char *p)
+void ZUKAN_StartProc208(char *p)
 {
     char *q;
     u16 selected,i;
@@ -47,5 +47,5 @@ void func_021C91C4(char *p)
     }
     PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj04628 *)p)->f4,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
     ((struct Obj04628 *)p)->f28=q;
-    func_021C8F90(p,6);
+    ZUKAN_SetResumeState(p,6);
 }

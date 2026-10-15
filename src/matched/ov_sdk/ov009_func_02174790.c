@@ -13,14 +13,14 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0219F068  0x0219F068  arm  ov009
- *   func_0219F058  0x0219F058  arm  ov009
+ *   ServerBrowserCount  0x0219F068  arm  ov009
+ *   ServerBrowserGetServer  0x0219F058  arm  ov009
  *   func_0219E120  0x0219E120  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
- *   func_0219EFA8  0x0219EFA8  arm  ov009
+ *   ServerBrowserRemoveServer  0x0219EFA8  arm  ov009
  *   func_021685CC  0x021685CC  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
- *   func_0219F078  0x0219F078  arm  ov009
+ *   ServerBrowserSortA  0x0219F078  arm  ov009
  *   @24222         0x021A20A4  data
  *   @26585         0x021A21BC  data
  */
@@ -38,16 +38,16 @@ typedef struct DWCstMatchControl {
 } DWCstMatchControl;
 
 extern int func_02175F3C(void);
-extern int func_0219F068(void *sb);
-extern void *func_0219F058(void *sb, int index);
+extern int ServerBrowserCount(void *sb);
+extern void *ServerBrowserGetServer(void *sb, int index);
 struct SBServer;
 struct ServerBrowser;
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
-extern void func_0219EFA8(struct ServerBrowser *sb, struct SBServer *server);
+extern void ServerBrowserRemoveServer(struct ServerBrowser *sb, struct SBServer *server);
 extern unsigned long func_021685CC(unsigned long max);
 extern void func_0219E084(void *server, char *keyname, int value);
-extern void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
+extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 
 static int func_02174790(int sort)
 {
@@ -58,13 +58,13 @@ static int func_02174790(int sort)
     int i;
     void *server;
 
-    for (i = 0; i < func_0219F068(((DWCstMatchControl *)func_02175F3C())->sb); i++) {
-        server = func_0219F058(((DWCstMatchControl *)func_02175F3C())->sb, i);
+    for (i = 0; i < ServerBrowserCount(((DWCstMatchControl *)func_02175F3C())->sb); i++) {
+        server = ServerBrowserGetServer(((DWCstMatchControl *)func_02175F3C())->sb, i);
         if (((DWCstMatchControl *)func_02175F3C())->qr2IsReserved == 0) {
             profileID = func_0219E120(server, "dwc_pid", 0);
             localDelete = 0;
             if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID)) {
-                func_0219EFA8(((DWCstMatchControl *)func_02175F3C())->sb, server);
+                ServerBrowserRemoveServer(((DWCstMatchControl *)func_02175F3C())->sb, server);
                 i--;
                 localDelete = 1;
             }
@@ -78,7 +78,7 @@ static int func_02174790(int sort)
                     eval = 0x7fffff;
                 func_0219E084(server, "dwc_eval", (eval << 8) | func_021685CC(0x100));
             } else {
-                func_0219EFA8(((DWCstMatchControl *)func_02175F3C())->sb, server);
+                ServerBrowserRemoveServer(((DWCstMatchControl *)func_02175F3C())->sb, server);
                 deleteFlag = 1;
                 i--;
             }
@@ -86,9 +86,9 @@ static int func_02174790(int sort)
             func_0219E084(server, "dwc_eval", func_021685CC(0x80));
         }
     }
-    if (sort && func_0219F068(((DWCstMatchControl *)func_02175F3C())->sb))
-        func_0219F078(((DWCstMatchControl *)func_02175F3C())->sb, 0, "dwc_eval", 0);
-    if (deleteFlag && func_0219F068(((DWCstMatchControl *)func_02175F3C())->sb) == 0)
+    if (sort && ServerBrowserCount(((DWCstMatchControl *)func_02175F3C())->sb))
+        ServerBrowserSortA(((DWCstMatchControl *)func_02175F3C())->sb, 0, "dwc_eval", 0);
+    if (deleteFlag && ServerBrowserCount(((DWCstMatchControl *)func_02175F3C())->sb) == 0)
         return 0;
     return 1;
 }

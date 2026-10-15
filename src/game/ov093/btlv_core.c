@@ -53,7 +53,7 @@
  *   func_0208068C  0x0208068C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -69,7 +69,7 @@
  *   BTLV_EFFECT_Exit  0x021F7808  thumb  ov094
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   func_02030734 0x02030734 arm
  *   BTL_CLIENT_GetClientId 0x021D3D70 thumb ov093
@@ -207,8 +207,8 @@
  *   BTL_MSG_BuildItemUse  0x021EF5E8  thumb  ov093
  *   BTL_MSG_BuildPlainEntry  0x021EF664  thumb  ov093
  *   STRBUF_Copy  0x02045838  arm
- *   func_0202A298  0x0202A298  thumb
- *   func_0202A310  0x0202A310  thumb
+ *   TPOKE_DATA_FindRecord  0x0202A298  thumb
+ *   TPOKE_DATA_ReadRecordString  0x0202A310  thumb
  *   BTLV_SCU_ConsumeMessageEnded   0x021ECF50  thumb  ov093
  *   BTLV_SCU_StartMessage  0x021ECEB8  thumb  ov093
  *   BTLV_SCU_PrintMessageInstant   0x021ECE60  thumb  ov093
@@ -332,7 +332,7 @@ extern int func_02034AC4(const void *overlayId);
 extern void func_0208068C(unsigned int v);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void func_02034A5C(const void *overlayId);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -345,7 +345,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, const struct DispVram *vram,
 extern void BTLV_EFFECT_Exit(void);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void G3D_SYSTEM_Exit(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 BTL_CLIENT_GetClientId(void *client);
@@ -472,8 +472,8 @@ extern void BTL_MSG_BuildTrainerString(struct MsgBuf *buf, u32 msgId, u32 *args)
 extern void BTL_MSG_BuildItemUse(struct MsgBuf *buf, u8 clientId, u16 item);
 extern void BTL_MSG_BuildPlainEntry(struct MsgBuf *buf, u16 msgId, int arg);
 void STRBUF_Copy(struct MsgBuf *dst, struct MsgBuf *src);
-extern u32 func_0202A298(u32 trainerId, u32 msgIndex, u32 heapId);
-extern void func_0202A310(int trainerId, int msgIndex, struct MsgBuf *dest, u32 heapId);
+extern u32 TPOKE_DATA_FindRecord(u32 trainerId, u32 msgIndex, u32 heapId);
+extern void TPOKE_DATA_ReadRecordString(int trainerId, int msgIndex, struct MsgBuf *dest, u32 heapId);
 extern void BTLV_SCU_StartMessage(struct BtlvScu *scu, struct MsgBuf *buf, u16 speed, u32 flag);
 extern void BTLV_EFFECT_SetIntroState(int a);
 extern void BTLV_SCU_PrintWaitMessage(struct BtlvScu *scu);
@@ -1227,7 +1227,7 @@ void BTLV_CORE_ResetDisplay(u16 heapId)
  */
 void BTLV_CORE_InitDisplay(u16 heapId)
 {
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     GF_FONT_ResetTextColor();
     BG_SYS_SetVramBanks(&gBtlvCoreVramBanks);
@@ -1253,7 +1253,7 @@ void BTLV_CORE_ExitDisplay(void)
     BTLV_EFFECT_Exit();
     CLACT_ExitSystem();
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     G3D_SYSTEM_Exit();
 }
 
@@ -2523,8 +2523,8 @@ void BTLV_CORE_PrintTaggedMessage(struct BtlvCore *core, u16 msgId, u32 *args)
 
 int BTLV_CORE_PrintTrainerMessage(struct BtlvCore *core, u16 trainerId, u16 msgIndex)
 {
-    if (func_0202A298(trainerId, msgIndex, core->heapId) != 0) {
-        func_0202A310(trainerId, msgIndex, core->msgBuffer, core->heapId);
+    if (TPOKE_DATA_FindRecord(trainerId, msgIndex, core->heapId) != 0) {
+        TPOKE_DATA_ReadRecordString(trainerId, msgIndex, core->msgBuffer, core->heapId);
         BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0x50, 0);
     } else {
         return 0;

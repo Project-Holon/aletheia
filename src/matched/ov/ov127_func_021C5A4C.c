@@ -1,5 +1,5 @@
 /*
- * function: func_021C5A4C
+ * function: WF2DMAP_SCRDRAW_DeleteBitmapDesc
  * address:  0x021C5A4C
  * packet:   pkt_021C5A4C
  * region:   ov127
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C5A4C(u8 *p)
+void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *p)
 {
     func_020307B0(((struct Obj23060 *)p)->f8);
     func_020307B0(p);

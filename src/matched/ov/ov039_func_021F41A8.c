@@ -45,8 +45,8 @@
  *   KEY_GetCont 0x0203630C arm
  *   G3D_SYSTEM_GetObjectAnime 0x02047790 arm
  *   G3D_SYSTEM_GetAnimeObj 0x02047674 arm
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   SCRIPT_SYS_CallScriptEvent 0x02158780 thumb ov010
  *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb ov021
  *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
@@ -130,8 +130,8 @@ extern void NNS_SndHandleSetVolume(struct Obj *o, u8 v);
 extern unsigned int KEY_GetCont(void);
 extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
 extern int G3D_SYSTEM_GetAnimeObj(int p);
-extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
-extern int func_0207CBD0(const Vec *a);
+extern void VEC_Subtract(const Vec *a, const Vec *b, Vec *out);
+extern int VEC_Mag(const Vec *a);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
@@ -330,8 +330,8 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(void *a0, int *a1)
     vol = 0;
     FIELD_GIMMICK_CART_LANES_SampleJointTranslation(r->mdl, 0, f, (int *)(&a));
     FIELD_GIMMICK_CART_LANES_SampleJointTranslation(r->mdl, 0, f2, (int *)(&b));
-    func_0207CA00(&a, &b, &e);
-    d = func_0207CBD0(&e);
+    VEC_Subtract(&a, &b, &e);
+    d = VEC_Mag(&e);
     if (d >= 0x20000) {
         vol = 0x7f;
     } else if (d >= 0x18000) {

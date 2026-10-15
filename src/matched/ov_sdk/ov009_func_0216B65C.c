@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWC_CancelMatch              0x0216C858 arm   ov009
- *   func_02059F38                0x02059F38 arm
+ *   DWCi_IsError                0x02059F38 arm
  *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
  *   DWCi_GPSetServerStatus                0x0216F20C arm   ov009
  *   DWCi_NNFreeNegotiateList     0x02176B34 arm   ov009
@@ -58,7 +58,7 @@ extern struct DwcGlobal g_021AA878;
 extern void *g_021AA8A0[32];
 
 extern int DWC_CancelMatch(void);
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern int DWCi_NodeInfoList_GetCount(void);
 struct GTI2Connection;
 extern int DWCi_GPSetServerStatus(int status);
@@ -82,7 +82,7 @@ int DWC_CloseAllConnectionsHard(void)
     ((struct DWCControl *)g_021AA878.st)->fb05 = 1;
     if (DWC_CancelMatch())
         return 1;
-    if (g_021AA878.st == 0 || func_02059F38() ||
+    if (g_021AA878.st == 0 || DWCi_IsError() ||
         (((struct DWCControl *)g_021AA878.st)->state != 4 && ((struct DWCControl *)g_021AA878.st)->state != 5))
         return -1;
     for (i = 0; i < 32; i++) {

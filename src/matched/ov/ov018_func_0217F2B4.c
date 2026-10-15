@@ -11,7 +11,7 @@
  * symbols:
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  */
@@ -39,7 +39,7 @@ struct WordSet;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 typedef unsigned short u16;
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 
@@ -49,7 +49,7 @@ void EVENT_COMM_COMMON_InitMsgBox(Ov018Obj *p, void *a)
 
     r = (void *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(a));
     if (p->f00 == 0) {
-        p->f00 = func_0201EC74(6, 0x20, 4);
+        p->f00 = WORDSET_Create(6, 0x20, 4);
         p->f04 = STRBUF_Create(0x1F0, 4);
         p->f08 = STRBUF_Create(0x1D0, 4);
         p->f0C = (void *)FIELD_MSGBG_CreateMsgData((u32)r, 0x44);

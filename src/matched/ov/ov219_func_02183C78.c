@@ -1,5 +1,5 @@
 /*
- * function: func_02183C78
+ * function: BEACON_DETAIL_Main
  * address: 0x02183C78
  * packet: pkt_ov219_02183C78
  * region: ov219
@@ -24,7 +24,7 @@ extern int func_02183D14(u8 *p, int *state);
 extern void func_02185B74(char *);
 extern void func_02183CEC(u8 *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-int func_02183C78(void *unused, char *state, int unused2, char *ctx)
+int BEACON_DETAIL_Main(void *unused, char *state, int unused2, char *ctx)
 {
     int result;
     TCBL_Main(((struct Obj10973 *)ctx)->fC0A4);

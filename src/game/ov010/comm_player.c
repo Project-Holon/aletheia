@@ -21,7 +21,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_02030734 0x02030734 arm
  *   d_02172A18 0x02172A18 data a1
- *   func_02012114  0x02012114  thumb
+ *   ICA_ANIME_Check2114  0x02012114  thumb
  *   FIELD_COMM_ACTOR_CTRL_Delete  0x021942C8  thumb  ov021
  *   func_02034714  0x02034714  arm
  *   func_020307B0  0x020307B0  arm
@@ -29,14 +29,14 @@
  *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb
  *   FIELD_COMM_ACTOR_CTRL_AddActor  0x02194300  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_DeleteActor 0x02194354 thumb ov021
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_Create  0x02194284  thumb  ov021
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B28  0x02012B28  thumb
- *   func_02012B38  0x02012B38  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -45,8 +45,8 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
- *   func_02012AA0  0x02012AA0  thumb
- *   func_02012AE4  0x02012AE4  thumb
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   func_0203EFC8  0x0203EFC8  arm
  *   FIELD_COMM_ACTOR_CTRL_SearchGridPos   0x02194384  thumb
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
@@ -149,20 +149,20 @@ extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern unsigned int func_02012114(const struct Ctx *a);
+extern unsigned int ICA_ANIME_Check2114(const struct Ctx *a);
 extern void FIELD_COMM_ACTOR_CTRL_Delete(void *obj);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020307B0(void *p);
 extern int FLDEFF_GYOE_IsFinished(u32 v);
 extern void FIELD_COMM_ACTOR_CTRL_AddActor(u16 *a, int b, int c, u16 *d, int e, int f);
 extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(void *, u32);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012B28(const struct Rec44 *p);
-extern void *func_02012B38(const struct BigObj *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAME_DATA_GetField114(struct SaveBlock *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
 extern int FIELDMAP_IsReady(void *proc);
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
@@ -171,8 +171,8 @@ extern int FIELD_PLAYER_GetFormSlot(u8 *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, fx32 *out);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
-extern VecFx32 *func_02012AA0(void *pl);
-extern u16 func_02012AE4(void *pl);
+extern VecFx32 *GAME_DATA_GetPlayerPosition(void *pl);
+extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
 extern fx32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(void *playerSys, int, int, int, int, int);
 extern u32 FIELDMAP_GetEffect(u8 *p);
@@ -406,7 +406,7 @@ void COMM_PLAYER_Delete(void *gameSystem, CommPlayerWork *work)
     if (work->playerSys != 0) {
         for (i = 0; i < 4; i++)
             COMM_PLAYER_Del(work, i);
-        if (func_02012114(gameSystem) == 1)
+        if (ICA_ANIME_Check2114(gameSystem) == 1)
             FIELD_COMM_ACTOR_CTRL_Delete(work->playerSys);
         else
             func_02034714(d_02172A28, 0, d_02172A28);
@@ -418,7 +418,7 @@ void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work)
 {
     int i;
     COMM_PLAYER_CreateSys(gameSystem, work);
-    if (func_02012114(work->gameSystem) == 1) {
+    if (ICA_ANIME_Check2114(work->gameSystem) == 1) {
         for (i = 0; i < 4; i++) {
             if (work->entries[i].used == 1 && work->entries[i].effect != 0 && FLDEFF_GYOE_IsFinished(work->entries[i].effect) == 1)
                 work->entries[i].effect = 0;
@@ -467,7 +467,7 @@ void COMM_PLAYER_Suspend(CommPlayerWork *work)
 {
     CommPlayerFlagView *flags;
     int i;
-    if (func_02012114(work->gameSystem) != 1)
+    if (ICA_ANIME_Check2114(work->gameSystem) != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0) {
         i = 0;
@@ -488,11 +488,11 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
     CommPlayerPackage package;
     CommPlayerFlagView *flags;
     int i;
-    if (func_02012114(work->gameSystem) != 1)
+    if (ICA_ANIME_Check2114(work->gameSystem) != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(func_0201210C(work->gameSystem)), work->heapId, work->sysOption);
+    work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)), work->heapId, work->sysOption);
     MI_CpuFill8(&package, 0, 0x14);
     flags = (CommPlayerFlagView *)work;
     flags = (CommPlayerFlagView *)((char *)flags + 0x1C);
@@ -511,7 +511,7 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
 {
     CommPlayerFlagView *flags;
     int i;
-    if (func_02012114(work->gameSystem) != 1)
+    if (ICA_ANIME_Check2114(work->gameSystem) != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
@@ -583,20 +583,20 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
     u32 vanish;
     u32 dir;
     u16 zoneId;
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     last = &work->last;
     vanish = 0;
     if (work->updateStopped == 1)
         return 0;
-    player = func_020127A4(gameData);
-    dir = func_02012B28(player);
-    if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38(gameData)) == 2) {
+    player = GAME_DATA_GetField114(gameData);
+    dir = GAME_DATA_GetPlayerObjectCode(player);
+    if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData)) == 2) {
         zoneId = last->zoneId;
         pos = last->pos;
         vanish = 1;
         dir = last->dir;
-    } else if (func_02012114(work->gameSystem) == 1 && FIELDMAP_IsReady(func_0201210C(work->gameSystem)) == 1) {
-        rail = FIELDMAP_GetFieldPlayer(func_0201210C(work->gameSystem));
+    } else if (ICA_ANIME_Check2114(work->gameSystem) == 1 && FIELDMAP_IsReady(ICA_ANIME_GetField20(work->gameSystem)) == 1) {
+        rail = FIELDMAP_GetFieldPlayer(ICA_ANIME_GetField20(work->gameSystem));
         railPlayer = FIELD_PLAYER_GetMmdl(rail);
         if (FIELD_PLAYER_GetFormSlot(rail) == 4)
             FIELD_PLAYER_GetPos(rail, &pos);
@@ -604,8 +604,8 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
             FLDMMDL_ACMD_GetDrawPos(railPlayer, (fx32 *)(&pos));
         zoneId = FIELD_PLAYER_GetDirDisp(rail);
     } else {
-        pos = *func_02012AA0(player);
-        zoneId = func_02012AE4(player);
+        pos = *GAME_DATA_GetPlayerPosition(player);
+        zoneId = GAME_DATA_GetPlayerDirectionType(player);
     }
     out->zoneId = zoneId;
     out->pos = pos;
@@ -641,7 +641,7 @@ int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
     entry = &work->entries[index];
     if (work->playerSys == 0 || entry->used == 0 || entry->effect != 0)
         return 0;
-    effectSys = (void *)FIELDMAP_GetEffect(func_0201210C(work->gameSystem));
+    effectSys = (void *)FIELDMAP_GetEffect(ICA_ANIME_GetField20(work->gameSystem));
     entry->effect = FLDEFF_GYOE_StartHeld(effectSys, (void *)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index), 0, 0);
     return 1;
 }
@@ -670,7 +670,7 @@ void COMM_PLAYER_CreateSys(void *gameSystem, CommPlayerWork *work)
 {
     void *fieldmap;
     if (work->playerSys == 0) {
-        fieldmap = func_0201210C(gameSystem);
+        fieldmap = ICA_ANIME_GetField20(gameSystem);
         if (fieldmap != 0 && FIELDMAP_IsReady(fieldmap) != 0)
             work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(fieldmap), work->heapId, work->sysOption);
     }

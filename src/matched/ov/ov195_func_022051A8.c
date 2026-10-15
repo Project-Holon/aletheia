@@ -1,5 +1,5 @@
 /*
- * function: func_022051A8
+ * function: SHINKA_DEMO_MainTask
  * address: 0x022051A8
  * packet: pkt_ov195_022051A8
  * region: ov195
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct S02021D50;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-void func_022051A8(int task, char *p)
+void SHINKA_DEMO_MainTask(int task, char *p)
 {
     switch (((struct Obj04594 *)p)->f88) {
     case 1:

@@ -1,5 +1,5 @@
 /*
- * function: func_02058FB4
+ * function: DWC_Auth_GetId
  * address:  0x02058FB4
  * packet:   pkt_02058FB4
  * region:   arm9
@@ -36,7 +36,7 @@ typedef struct {
 
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
 
-void func_02058FB4(DWCAuthWiFiId *id)
+void DWC_Auth_GetId(DWCAuthWiFiId *id)
 {
     DWCWiFiInfo wifiinfo;
 

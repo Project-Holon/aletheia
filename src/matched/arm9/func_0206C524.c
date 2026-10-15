@@ -15,7 +15,7 @@
  * (0x13) of c[2] after; between them, unless NOGECMD (0x100) or the timing-A
  * callback asked to skip, it reads the clip matrix back (G3X_GetClipMtx),
  * undoes the camera (flag bits 0/1 of NNS_G3dGlb+0xfc), stores the
- * translation row and the three row lengths (VEC_Mag, func_0207CBD0) into the
+ * translation row and the three row lengths (VEC_Mag, VEC_Mag) into the
  * static command block at 0x020A8328 and sends that block to GXFIFO.
  *
  * The static block (0x48 bytes, .data because it is written):
@@ -35,9 +35,9 @@
  *   NNS_G3dGlbGetWVMtx  0x0206ADBC  arm
  *   NNS_G3dGlbGetInvWVMtx  0x0206ADF4  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
- *   func_0207B5C0  0x0207B5C0  arm
+ *   MTX_Copy43To44_  0x0207B5C0  arm
  *   func_0207BE14  0x0207BE14  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   MIi_CpuSend32  0x02082AA8  arm
  */
 
@@ -86,9 +86,9 @@ extern int  G3X_GetClipMtx(MtxFx44 *m);
 extern u32 *NNS_G3dGlbGetWVMtx(void);
 extern u32 *NNS_G3dGlbGetInvWVMtx(void);
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
-extern void func_0207B5C0(const MtxFx43 *src, MtxFx44 *dst);
+extern void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
 extern void func_0207BE14(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
-extern fx32 func_0207CBD0(const VecFx32 *v);
+extern fx32 VEC_Mag(const VecFx32 *v);
 extern void MIi_CpuSend32(const void *src, volatile void *dst, u32 n);
 
 static inline u32 CheckPossibilityOfCallback(RS *rs, u32 cmd)
@@ -160,19 +160,19 @@ void NNSi_G3dFuncSbc_BB(RS *rs, u32 opt)
                 ;
             if (g_renderState.flag & 1) {
                 MtxFx44 tmp;
-                func_0207B5C0((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
+                MTX_Copy43To44_((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
             } else if (g_renderState.flag & 2) {
                 MtxFx44 tmp;
-                func_0207B5C0(&g_renderState.cameraMtx, &tmp);
+                MTX_Copy43To44_(&g_renderState.cameraMtx, &tmp);
                 func_0207BE14(&m, &tmp, &m);
             }
             trans->x = m._30;
             trans->y = m._31;
             trans->z = m._32;
-            scale->x = func_0207CBD0((VecFx32 *)&m._00);
-            scale->y = func_0207CBD0((VecFx32 *)&m._10);
-            scale->z = func_0207CBD0((VecFx32 *)&m._20);
+            scale->x = VEC_Mag((VecFx32 *)&m._00);
+            scale->y = VEC_Mag((VecFx32 *)&m._10);
+            scale->z = VEC_Mag((VecFx32 *)&m._20);
 
             if (g_renderState.flag & 1) {
                 GXFIFO = 0x00171012;

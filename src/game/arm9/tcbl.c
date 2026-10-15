@@ -34,7 +34,7 @@
  *   MI_CpuCopy8            0x02082D44 arm
  *   sub_020303D8           0x020303D8 arm
  *   sub_0203038C           0x0203038C arm
- *   func_0209128C          0x0209128C arm
+ *   MSL_C_LIB_SetTwlFlag          0x0209128C arm
  *   NNSi_FndWalkHeapBlocks          0x02060F50 arm
  *   func_02030534          0x02030534 arm
  *   GFL_HEAP_AllocSystem          0x020305C4 arm
@@ -144,7 +144,7 @@ extern u32 func_0203F004(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern u32 sub_020303D8(u32 heapId);
 extern void *sub_0203038C(u32 heapId);
-extern void func_0209128C(int x);
+extern void MSL_C_LIB_SetTwlFlag(int x);
 extern void NNSi_FndWalkHeapBlocks(int *heap, HeapVisitFunc visitor, u32 userParam);
 extern signed int func_02030534(u32 size);
 extern void *GFL_HEAP_AllocSystem(u32 size);
@@ -989,9 +989,9 @@ void func_02030A7C(void *block, int *heap, u32 userParam)
 /*
  * Tears the object down and then runs func_02030A7C over every block in the
  * allocator list: the five per-object teardown calls, the global
- * "shutting down" flag set through func_0209128C(1), then NNSi_FndWalkHeapBlocks with
+ * "shutting down" flag set through MSL_C_LIB_SetTwlFlag(1), then NNSi_FndWalkHeapBlocks with
  * the callback and the context the teardown returned, and the flag cleared
- * again with func_0209128C(0).  The callback is passed a zero context, which
+ * again with MSL_C_LIB_SetTwlFlag(0).  The callback is passed a zero context, which
  * is why the constant is materialised once in r4 and copied to r2 rather
  * than emitted twice.
  *
@@ -1031,9 +1031,9 @@ void func_02030B50(u32 heapId)
     sub_02030344(heapId);
     sub_0203038C(heapId);
     sub_0203046C(heapId);
-    func_0209128C(1);
+    MSL_C_LIB_SetTwlFlag(1);
     NNSi_FndWalkHeapBlocks(sub_02030428(heapId), func_02030A7C, 0);
-    func_0209128C(0);
+    MSL_C_LIB_SetTwlFlag(0);
 }
 
 

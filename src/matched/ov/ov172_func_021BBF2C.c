@@ -34,11 +34,11 @@
  *   CTVT_CAMVIEW_StopCapture  0x021B7578  thumb  ov172
  *   CTVT_CAMVIEW_IsShutterIdle  0x021B7590  thumb  ov172
  *   CTVT_CAMVIEW_RequestShutterSound0  0x021B7B64  thumb  ov172
- *   func_021B80DC  0x021B80DC  thumb  ov172
- *   func_021B80EC  0x021B80EC  thumb  ov172
- *   func_021B8B7C  0x021B8B7C  thumb  ov172
- *   func_021B8C14  0x021B8C14  thumb  ov172
- *   func_021B8C20  0x021B8C20  thumb  ov172
+ *   CTVT_COMM_SetRequestedMode  0x021B80DC  thumb  ov172
+ *   CTVT_COMM_SetConnectMac  0x021B80EC  thumb  ov172
+ *   CTVT_COMM_GetMyStatusPtr  0x021B8B7C  thumb  ov172
+ *   CTVT_COMM_ResetSlotTimer  0x021B8C14  thumb  ov172
+ *   CTVT_COMM_IsSlotTimerDone  0x021B8C20  thumb  ov172
  *   func_021BC5E8  0x021BC5E8  thumb  ov172
  *   func_021BC7FC  0x021BC7FC  thumb  ov172
  *   func_021BCE2C  0x021BCE2C  thumb  ov172
@@ -64,6 +64,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
+ *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -92,11 +93,11 @@ extern u32 COMM_TVT_SYS_GetComm(void *c);
 extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
 extern int CTVT_CAMVIEW_IsShutterIdle(int x, char *p);
 extern void CTVT_CAMVIEW_RequestShutterSound0(int x, char *p);
-extern void func_021B80DC(int unused, char *p, u32 v);
-extern void func_021B80EC(int unused, char *p, const u8 *src);
-extern u8 *func_021B8B7C(void *c, u8 *x);
-extern void func_021B8C14(void *c, u8 *x);
-extern u32 func_021B8C20(void *c, u8 *x);
+extern void CTVT_COMM_SetRequestedMode(int unused, char *p, u32 v);
+extern void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src);
+extern u8 *CTVT_COMM_GetMyStatusPtr(void *c, u8 *x);
+extern void CTVT_COMM_ResetSlotTimer(void *c, u8 *x);
+extern u32 CTVT_COMM_IsSlotTimerDone(void *c, u8 *x);
 extern void func_021BC5E8(void *ctx, u8 *list);
 extern void func_021BC7FC(void *ctx, u8 *list);
 extern void func_021BCE2C(void *c, char *p, char *r, u8 i);
@@ -127,7 +128,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define B(o) (*(u8 *)(p + (o)))
@@ -204,8 +205,8 @@ int func_021BBF2C(void *a0, char *p)
             break;
         if (W(0x18) == 2) {
             t = COMM_TVT_SYS_GetComm(a0);
-            func_021B80DC((int)a0, (char *)t, 4);
-            func_021B80EC((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
+            CTVT_COMM_SetRequestedMode((int)a0, (char *)t, 4);
+            CTVT_COMM_SetConnectMac((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
             func_021BD134(a0, p, 0x18);
             W(0x38) = 1;
             W(8) = 7;
@@ -219,10 +220,10 @@ int func_021BBF2C(void *a0, char *p)
             func_021BD134(a0, p, 0x14);
             W(0x38) = 1;
             H(0x36) = 0;
-            func_021B80DC((int)a0, (char *)t2, 3);
+            CTVT_COMM_SetRequestedMode((int)a0, (char *)t2, 3);
             APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
-            ip = func_021B8B7C(a0, (u8 *)t2);
+            ip = CTVT_COMM_GetMyStatusPtr(a0, (u8 *)t2);
             for (i = 0; i < 3; i++) {
                 if (B(i) == 0xff) {
                     for (j = 0; j < 6; j++)
@@ -233,7 +234,7 @@ int func_021BBF2C(void *a0, char *p)
                 }
             }
             ip[0x21] |= 2;
-            func_021B8C14(a0, (u8 *)t2);
+            CTVT_COMM_ResetSlotTimer(a0, (u8 *)t2);
         }
         CLACT_SetActorAnimSeq(OBJ, 0xf);
         break;
@@ -258,15 +259,15 @@ int func_021BBF2C(void *a0, char *p)
             }
         }
         if (W(8) == 9) {
-            if (func_021B8C20(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
-                func_021B80DC((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
+            if (CTVT_COMM_IsSlotTimerDone(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
+                CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
                 func_021BD134(a0, p, 0x27);
                 W(8) = 10;
             }
         } else if (W(8) == 7 || W(8) == 8) {
             H(0x34)++;
             if (H(0x34) >= 0x4b0) {
-                func_021B80DC((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
+                CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
                 func_021BD134(a0, p, 0x28);
                 W(8) = 10;
             }
@@ -353,7 +354,7 @@ int func_021BBF2C(void *a0, char *p)
             u8 cnt = 0;
             for (i = 0; i < 15; i++)
                 func_021BCE2C(a0, p, p + 0x40 + i * 0x1c, i);
-            func_02041EE4(6, 3, H(4));
+            BG_SYS_ResetSlot(6, 3, H(4));
             for (i = 0; i < 3; i++) {
                 if (B(i) != 0xff)
                     cnt++;

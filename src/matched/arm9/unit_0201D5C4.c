@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201D5C4, func_0201D5CC, func_0201D5F4, func_0201D60C,
+ * function: func_0201D5C4, GF_FONT_CheckD5CC, func_0201D5F4, func_0201D60C,
  *           func_0201D658, func_0201D670, func_0201D688
  *
  * The message-tag primitives of the text stack, seven functions and 216 bytes.
@@ -62,7 +62,7 @@ u32 func_0201D5C4(void)
     return 0xF000;
 }
 
-u32 func_0201D5CC(const u16 *p)
+u32 GF_FONT_CheckD5CC(const u16 *p)
 {
     u32 k;
 

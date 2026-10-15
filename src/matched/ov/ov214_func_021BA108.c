@@ -16,7 +16,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  */
 #include "../include/Obj01782.h"
@@ -33,7 +33,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void*PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 void func_021BA108(int unused,char*p,unsigned entry,int v)
 {
@@ -42,7 +42,7 @@ void func_021BA108(int unused,char*p,unsigned entry,int v)
     if(*(void* *)&((struct Obj01782 *)p)->f5C)PRINTSYS_PrintStreamDelete(*(void* *)&((struct Obj01782 *)p)->f5C);
     if(*(void* *)&((struct Obj01782 *)p)->f78)STRBUF_Delete(*(void* *)&((struct Obj01782 *)p)->f78);
     *(void* *)&((struct Obj01782 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01782 *)p)->f58,entry);
-    x=func_02012FFC();
+    x=MSG_SPEED_GetWait();
     *(void* *)&((struct Obj01782 *)p)->f5C=PRINTSYS_PrintStream(*(unsigned *)&((struct Obj01782 *)p)->f6C,0,0,*(unsigned *)&((struct Obj01782 *)p)->f78,((struct Obj01782 *)p)->f8,x,((struct Obj01782 *)p)->f68,2,((struct Obj01782 *)p)->f0,15);
     ((struct Obj01782 *)p)->f60=v;
 }

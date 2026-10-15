@@ -20,7 +20,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_0201DD68  0x0201DD68  thumb
  *   func_02040618  0x02040618  arm
@@ -137,7 +137,7 @@
  *   TOWNMAP_GRH_LoadTownInfo  0x021BBB24  thumb
  *   TOWNMAP_GRH_FreeTownInfo  0x021BBB34  thumb
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   func_02041FB0  0x02041FB0  arm
  *   func_02041F6C  0x02041F6C  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
@@ -250,7 +250,7 @@ extern void *PROCSYS_AllocProcWork(struct HeapTask *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void func_0201DD68(void);
 extern void func_02040618(u32 a, u32 b, u32 c);
@@ -422,7 +422,7 @@ extern char ov067_id[];
 extern const TownMapPoint d_021BBB78;
 extern ButtonTable d_021BBB8C;
 extern char d_021BBD60[];
-extern void func_02041EE4(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ResetSlot(u32 bgId, u32 which, u32 value);
 extern void func_02041FB0(u32 bgId, u32 which, u16 value);
 extern void func_02041F6C(u32 bgId, u32 which, u32 value);
 extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
@@ -464,7 +464,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     work->gfx = TOWNMAP_GRH_Create(0x44);
     work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
-    ctx = (u32)func_020120F4((const struct Ctx *)work->args->gameCtx);
+    ctx = (u32)ICA_ANIME_GetField1C((const struct Ctx *)work->args->gameCtx);
     if (work->args->mode != 1) {
         TOWNMAP_GRH_InitTextBox(&work->panel, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
         GF_FONT_SetTextColor(0xf, 1, 0);
@@ -474,7 +474,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
     func_02040618(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
-    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)func_020120F4((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
+    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)ICA_ANIME_GetField1C((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
     if (town != 0) {
@@ -1640,14 +1640,14 @@ void TOWNMAP_ApplyScroll(TownMapScroll *scroll, const TownMapPoint *pos)
     scroll->pos.x = (pos->x > scroll->maxX) ? scroll->maxX : ((pos->x < scroll->minX) ? scroll->minX : pos->x);
     scroll->pos.y = (pos->y > scroll->maxY) ? scroll->maxY : ((pos->y < scroll->minY) ? scroll->minY : pos->y);
 
-    func_02041EE4(scroll->bgId[0], 0, scroll->pos.x);
-    func_02041EE4(scroll->bgId[0], 3, scroll->pos.y);
+    BG_SYS_ResetSlot(scroll->bgId[0], 0, scroll->pos.x);
+    BG_SYS_ResetSlot(scroll->bgId[0], 3, scroll->pos.y);
     func_02041FB0(scroll->bgId[0], 9, 0x80);
     func_02041FB0(scroll->bgId[0], 12, 0x60);
     func_02041F6C(scroll->bgId[0], 3, scroll->scale);
     func_02041F6C(scroll->bgId[0], 6, scroll->scale);
-    func_02041EE4(scroll->bgId[1], 0, scroll->pos.x);
-    func_02041EE4(scroll->bgId[1], 3, scroll->pos.y);
+    BG_SYS_ResetSlot(scroll->bgId[1], 0, scroll->pos.x);
+    BG_SYS_ResetSlot(scroll->bgId[1], 3, scroll->pos.y);
     func_02041FB0(scroll->bgId[1], 9, 0x80);
     func_02041FB0(scroll->bgId[1], 12, 0x60);
     func_02041F6C(scroll->bgId[1], 3, scroll->scale);

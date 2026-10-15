@@ -1,5 +1,5 @@
 /*
- * function: func_02205C58
+ * function: SHINKA_DEMO_GRAPHIC_Update3d
  * address:  0x02205C58
  * packet:   pkt_02205C58
  * region:   ov195
@@ -20,7 +20,7 @@ extern void G3D_SYSTEM_DrawStart(void *);
 extern int G3D_CAMERA_Reset(int);
 extern void G3D_SYSTEM_ApplyLookAt(int);
 
-void func_02205C58(char *a)
+void SHINKA_DEMO_GRAPHIC_Update3d(char *a)
 {
     G3D_SYSTEM_DrawStart(a);
     G3D_SYSTEM_ApplyLookAt(G3D_CAMERA_Reset(((struct Obj24957 *)a)->f0));

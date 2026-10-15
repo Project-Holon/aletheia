@@ -13,14 +13,14 @@
  * ARM9 tail call then a byte read-modify-write.
  *
  * symbols:
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  */
 #include "../include/Obj13144.h"
 
 void OPTION_MENU_GetTextWait(void)
 {
-    signed char func_02012FFC(void);
-    func_02012FFC();
+    signed char MSG_SPEED_GetWait(void);
+    MSG_SPEED_GetWait();
 }
 
 int OPTION_MENU_TakeLastChanged(void *p)

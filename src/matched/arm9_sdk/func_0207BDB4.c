@@ -1,5 +1,5 @@
 /*
- * function: func_0207BDB4
+ * function: MTX_Identity44_
  * address:  0x0207BDB4
  * packet:   pkt_0207BDB4
  * region:   arm9
@@ -24,7 +24,7 @@ typedef union {
     fx32 a[16];
 } MtxFx44;
 
-asm void func_0207BDB4(MtxFx44 *pDst)
+asm void MTX_Identity44_(MtxFx44 *pDst)
 {
     mov r2, #0x1000
     mov r3, #0

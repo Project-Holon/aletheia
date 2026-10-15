@@ -11,7 +11,7 @@
  *   later SetNumber calls is the same u8 local that later holds the best
  *   row index (stack slot 0x14); max is seeded from it before the table
  *   copies, and the loop counter is zeroed before the row lookup.
- *   func_0201EC74 takes an int heap here (no u8 narrowing in the caller).
+ *   WORDSET_Create takes an int heap here (no u8 narrowing in the caller).
  * symbols:
  *   P_STA_INFO_GetPlaceName 0x021D8784 thumb
  *   _u32_div_f 0x0209C2B0 arm
@@ -25,6 +25,9 @@
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
+ *   WORDSET_Create  0x0201EC74  arm  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   GF_FONT_CountLine  0x0201D2C8  arm  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"
@@ -47,13 +50,13 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
-extern u32 sub_0201D2C8(struct StrObj *s);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 GF_FONT_CountLine(struct StrObj *s);
 extern void *P_STA_INFO_GetPlaceName(void *, u8 *, u32);
 extern const u32 d_021DC24C[6];
 extern const u8 d_021DC264[6][6];
@@ -124,7 +127,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
         y = 0x10;
     }
     str = STRBUF_Create(0x100, ((struct Obj00112 *)a)->f0);
-    ws = func_0201EC74(10, 0x20, ((struct Obj00112 *)a)->f0);
+    ws = WORDSET_Create(10, 0x20, ((struct Obj00112 *)a)->f0);
     if (isEgg == 0) {
         if (f96 == 0x7531) {
             msgAlt = 0x29;
@@ -213,8 +216,8 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
     func_0201F250(ws, str, t);
     PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
-    func_0201ED04(ws);
-    y += sub_0201D2C8(str) << 4;
+    WORDSET_DeleteStrbufED04(ws);
+    y += GF_FONT_CountLine(str) << 4;
     STRBUF_Delete(s68);
     STRBUF_Delete(s6c);
     STRBUF_Delete(t);

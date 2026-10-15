@@ -20,10 +20,10 @@
  *   BACKUP_SYSTEM_Load   0x02031AE0  arm
  *   BACKUP_SYSTEM_ClearWork   0x020319C0  arm
  *   func_02034714   0x02034714  arm
- *   func_021DFC20   0x021DFC20  thumb  ov228
- *   func_021DFE90   0x021DFE90  thumb  ov228
- *   func_021DFE98   0x021DFE98  thumb  ov228
- *   func_021DFDB8   0x021DFDB8  thumb  ov228
+ *   SAVE_OUTSIDE_Load   0x021DFC20  thumb  ov228
+ *   SAVE_OUTSIDE_IsLoaded   0x021DFE90  thumb  ov228
+ *   SAVE_OUTSIDE_IsCorrupt   0x021DFE98  thumb  ov228
+ *   SAVE_OUTSIDE_Free   0x021DFDB8  thumb  ov228
  *   SYSTEM_DATA_IsActive    0x02008754  thumb
  *   SYSTEM_DATA_IsMarked    0x02008784  thumb
  *   sub_0200725C    0x0200725C  thumb
@@ -37,8 +37,8 @@
  *   _EmptyString  0x020A7064  data
  *   func_020307B0       0x020307B0  arm
  *   BACKUP_SYSTEM_Delete       0x0203195C  arm
- *   func_0200A5F8  0x0200A5F8  thumb
- *   func_0200A7EC  0x0200A7EC  thumb
+ *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
+ *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
  *   func_02008784  0x02008784  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020072A4  0x020072A4  thumb
@@ -81,9 +81,9 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02020FE4  0x02020FE4  thumb
- *   func_02021288  0x02021288  thumb
- *   func_0202130C  0x0202130C  thumb
+ *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_GetId  0x0202130C  thumb
  *   _MyItemSavedataFileName  0x020A708C  data
  *   BACKUP_SYSTEM_StartSave  0x02031B8C  arm
  *   BACKUP_SYSTEM_CancelSave  0x02031C04  arm
@@ -282,10 +282,10 @@ extern u32 BACKUP_SYSTEM_GetWrittenSize(struct BackupSaveData *backup);
 extern void BACKUP_SYSTEM_WriteFlash(u32 flashAddr, const void *src, u32 size);
 extern int BACKUP_SYSTEM_ReadRecordFromFlash(struct BackupSaveData *backup, u32 recordId, u32 areaIndex, u32 dest, u32 size);
 
-extern void *func_021DFC20(u32 heapId);
-extern u8 func_021DFE90(struct SaveOutside *outside);
-extern int func_021DFE98(struct SaveOutside *outside);
-extern void func_021DFDB8(struct SaveOutside *outside);
+extern void *SAVE_OUTSIDE_Load(u32 heapId);
+extern u8 SAVE_OUTSIDE_IsLoaded(struct SaveOutside *outside);
+extern int SAVE_OUTSIDE_IsCorrupt(struct SaveOutside *outside);
+extern void SAVE_OUTSIDE_Free(struct SaveOutside *outside);
 
 extern u8 SYSTEM_DATA_IsActive(struct SaveControl *save);
 extern void SYSTEM_DATA_SetActive(struct SaveControl *save);
@@ -294,8 +294,8 @@ extern int SYSTEM_DATA_IsMarked(struct SaveControl *save, u32 slot);
 extern void SYSTEM_DATA_SetMark(struct SaveControl *save, u32 slot);
 extern void SYSTEM_DATA_ClearMark(struct SaveControl *save, u32 slot);
 extern u32 *SYSTEM_DATA_GetWordSlot(struct SaveControl *save, u32 slot);
-extern struct MusicalSave *func_0200A5F8(struct SaveControl *save);
-extern void func_0200A7EC(struct MusicalSave *musical, u8 hasDistData);
+extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 hasDistData);
 
 extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
 extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *mon);
@@ -308,9 +308,9 @@ extern void MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 index, u16 *dest, u32 maxLen);
 extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
 extern void STRBUF_ToChars(const struct Strbuf *src, u16 *dest, u32 length);
-extern u32 func_02020FE4(u32 itemId, u32 param, u32 heapId);
-extern u32 func_02021288(u32 itemId);
-extern u32 func_0202130C(u32 itemId);
+extern u32 FILE_UTIL_Get_0FE4(u32 itemId, u32 param, u32 heapId);
+extern u32 FILE_UTIL_Check1288(u32 itemId);
+extern u32 FILE_UTIL_GetId(u32 itemId);
 
 /* Data: symbols at fixed addresses (see the symbols block above). */
 extern u8 ov228_id[]; /* absolute symbol: overlay id 228, see the note at the constructor */
@@ -394,10 +394,10 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
     u32 *loadFlags;
 
     func_02034AC4((int)ov228_id);
-    outsideSave = func_021DFC20(heapId);
-    outsideLoaded = func_021DFE90(outsideSave);
-    outsideBroken = func_021DFE98(outsideSave);
-    func_021DFDB8(outsideSave);
+    outsideSave = SAVE_OUTSIDE_Load(heapId);
+    outsideLoaded = SAVE_OUTSIDE_IsLoaded(outsideSave);
+    outsideBroken = SAVE_OUTSIDE_IsCorrupt(outsideSave);
+    SAVE_OUTSIDE_Free(outsideSave);
     func_02034A5C((int)ov228_id);
     saveControl = (struct SaveControl *)func_02030734(heapId, 0x38, 1, _SaveControlFileName, 0x58);
     _pSaveControl = saveControl;
@@ -432,18 +432,18 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
                     case SAVE_LOAD_OK:
                     case SAVE_LOAD_RECOVERED:
                         if (slot == EXTRA_SAVE_MUSICAL_DIST)
-                            func_0200A7EC(func_0200A5F8(saveControl), 1);
+                            MUSICAL_SAVE_SetHasDistData(MUSICAL_SAVE_GetFromSave(saveControl), 1);
                         break;
                     case SAVE_LOAD_NO_DATA:
                     case SAVE_LOAD_BROKEN:
                     case SAVE_LOAD_NO_FLASH:
                         *loadFlags |= 1 << (slot + SAVE_FLAG_EXTRA_SHIFT);
                         if (slot == EXTRA_SAVE_MUSICAL_DIST)
-                            func_0200A7EC(func_0200A5F8(saveControl), 0);
+                            MUSICAL_SAVE_SetHasDistData(MUSICAL_SAVE_GetFromSave(saveControl), 0);
                         break;
                     }
                 } else if (slot == EXTRA_SAVE_MUSICAL_DIST) {
-                    func_0200A7EC(func_0200A5F8(saveControl), 0);
+                    MUSICAL_SAVE_SetHasDistData(MUSICAL_SAVE_GetFromSave(saveControl), 0);
                 }
                 slot++;
             } while (slot < EXTRA_SAVE_MAX);
@@ -519,15 +519,15 @@ int SAVE_CONTROL_Reload(struct SaveControl *saveControl)
     }
     {
         saveControl->hasFlashSave = 1;
-        musical = func_0200A5F8(saveControl);
-        func_0200A7EC(musical, 0);
+        musical = MUSICAL_SAVE_GetFromSave(saveControl);
+        MUSICAL_SAVE_SetHasDistData(musical, 0);
         if (SYSTEM_DATA_IsMarked(saveControl, EXTRA_SAVE_MUSICAL_DIST) == 1) {
             int extraResult = SAVE_CONTROL_LoadExtraSave(saveControl, EXTRA_SAVE_MUSICAL_DIST, 1);
 
             SAVE_CONTROL_DeleteExtraSave(saveControl, EXTRA_SAVE_MUSICAL_DIST);
             if (extraResult != SAVE_LOAD_OK && extraResult != SAVE_LOAD_RECOVERED)
                 goto bits;
-            func_0200A7EC(musical, 1);
+            MUSICAL_SAVE_SetHasDistData(musical, 1);
         }
 bits:
         if (saveControl->loadFlags != 0) {
@@ -1748,7 +1748,7 @@ u32 PERAPVOICE_GetVoiceKind(struct PerapVoice *voice)
  *    Written the other way round the compiler has no zero in hand at the
  *    point it needs one and materialises it from a literal pool, which costs
  *    four bytes of pool the original does not have.
- *  - MYITEM_SAVEDATA_SortPocketByItemOrder compares two calls to func_0202130C.  The first result is
+ *  - MYITEM_SAVEDATA_SortPocketByItemOrder compares two calls to FILE_UTIL_GetId.  The first result is
  *    spilled across the second call and the comparison comes out `cmp r1, r0`
  *    with the spilled operand first, which is the same tell
  *    docs/idioms/cmp-operand-order-names-the-temporary.md records.
@@ -1819,7 +1819,7 @@ u32 MYITEM_SAVEDATA_GetPocket(struct MyItem *bag, u32 pocket, struct BagSlot **s
 /* Pocket of an item (item parameter 5), with its array and size; returns the pocket. */
 u32 MYITEM_SAVEDATA_GetPocketOfItem(struct MyItem *bag, u32 itemId, struct BagSlot **slots, u32 *count, u16 heapId)
 {
-    u32 pocket = func_02020FE4(itemId, 5, heapId);
+    u32 pocket = FILE_UTIL_Get_0FE4(itemId, 5, heapId);
 
     MYITEM_SAVEDATA_GetPocket(bag, pocket, slots, count);
     return pocket;
@@ -2065,7 +2065,7 @@ void MYITEM_SAVEDATA_SortPocketById(struct BagSlot *slots, u32 count)
     }
 }
 
-/* Sort a pocket by the item sort key (func_0202130C), empty slots last. */
+/* Sort a pocket by the item sort key (FILE_UTIL_GetId), empty slots last. */
 void MYITEM_SAVEDATA_SortPocketByItemOrder(struct BagSlot *slots, u32 count)
 {
     u32 lastIndex;
@@ -2077,7 +2077,7 @@ void MYITEM_SAVEDATA_SortPocketByItemOrder(struct BagSlot *slots, u32 count)
         for (j = i + 1; j < count; j++) {
             if (slots[i].quantity == 0 ||
                 (slots[j].quantity != 0 &&
-                 func_0202130C(slots[i].itemId) > func_0202130C(slots[j].itemId))) {
+                 FILE_UTIL_GetId(slots[i].itemId) > FILE_UTIL_GetId(slots[j].itemId))) {
                 MYITEM_SAVEDATA_SwapSlots(&slots[i], &slots[j]);
             }
         }
@@ -2136,10 +2136,10 @@ struct BagSlot *MYITEM_SAVEDATA_GetSlot(struct MyItem *bag, u32 pocket, u32 inde
     return &slots[index];
 }
 
-/* Largest stack of an item: 1 for items that func_02021288 flags, else 999. */
+/* Largest stack of an item: 1 for items that FILE_UTIL_Check1288 flags, else 999. */
 u32 MYITEM_SAVEDATA_GetMaxStack(u32 itemId)
 {
-    if (func_02021288(itemId) == 1) {
+    if (FILE_UTIL_Check1288(itemId) == 1) {
         return 1;
     }
     return BAG_STACK_MAX;

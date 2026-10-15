@@ -1,5 +1,5 @@
 /*
- * function: func_021F65C0
+ * function: EGG_DEMO_GRAPHIC_InitClact
  * address:  0x021F65C0
  * packet:   pkt_021F65C0
  * region:   ov215
@@ -30,7 +30,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021F65C0(unsigned char *p, int a, u32 b)
+void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021F7188, a, b);

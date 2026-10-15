@@ -28,8 +28,8 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   func_020307B0 0x020307B0 arm
- *   func_021F9E04 0x021F9E04 thumb ov132
- *   func_021F9E18 0x021F9E18 thumb ov132
+ *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetSelection 0x021F9E18 thumb ov132
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   _fflt 0x0209BDBC arm
@@ -37,13 +37,13 @@
  *   _fdiv 0x0209CE10 arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   d_021F8454 0x021F8454 data a1
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   d_021F8430 0x021F8430 data a4
  *   d_021F8418 0x021F8418 data a4
@@ -65,10 +65,10 @@
  *   func_021F4990 0x021F4990 thumb ov112
  *   func_021F545C 0x021F545C thumb ov112
  *   func_021F5464 0x021F5464 thumb ov112
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   func_0207AF38 0x0207AF38 thumb
- *   func_0207B51C 0x0207B51C arm
- *   func_0207CA00 0x0207CA00 arm
+ *   MTX_MultVec33 0x0207B51C arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   func_021F5350 0x021F5350 thumb ov112
  *   func_021F5368 0x021F5368 thumb ov112
  *   func_021F535C 0x021F535C thumb ov112
@@ -100,7 +100,7 @@
  *   func_021F514C 0x021F514C thumb ov112
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   d_021F832C 0x021F832C data a4
- *   func_021F9DC0 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
  *   func_021F9EDC 0x021F9EDC thumb ov132
  *   func_021F9F74 0x021F9F74 thumb ov132
  *   func_021F4EA4 0x021F4EA4 thumb ov112
@@ -280,16 +280,16 @@ extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_DeleteUnit(void *);
 extern void func_020307B0(void *);
-extern u16 func_021F9E04(u8 *p);
-extern int func_021F9E18(char *p);
+extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern int STA_ACTING_GetSelection(char *p);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 extern void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
 extern int G3D_SYSTEM_TransVramTexture(int *self);
@@ -308,10 +308,10 @@ extern u32 func_021F9E44(u8 *p);
 extern void func_021F4990(int);
 extern u8 *func_021F545C(u8 *);
 extern char *func_021F5464(char *);
-extern void func_0207C9D0(const Vec_021F6F64 *,const Vec_021F6F64 *,Vec_021F6F64 *);
+extern void VEC_Add(const Vec_021F6F64 *,const Vec_021F6F64 *,Vec_021F6F64 *);
 extern void func_0207AF38(Mtx *,int,int);
-extern void func_0207B51C(const Vec_021F6F64 *,const Mtx *,Vec_021F6F64 *);
-extern void func_0207CA00(const Vec_021F6F64 *,const Vec_021F6F64 *,Vec_021F6F64 *);
+extern void MTX_MultVec33(const Vec_021F6F64 *,const Mtx *,Vec_021F6F64 *);
+extern void VEC_Subtract(const Vec_021F6F64 *,const Vec_021F6F64 *,Vec_021F6F64 *);
 extern void func_021F5350(int *p, int *q);
 extern void func_021F5368(int *,u16);
 extern void func_021F535C(int *p, int *q);
@@ -340,7 +340,7 @@ extern u32 func_021F4F10(u8 *);
 extern unsigned char func_021F514C(void *p, int i);
 extern void GFL_USE_PlaySeInSlot(void *,int);
 extern void GFL_USE_StopSeSlot(int);
-extern void *func_021F9DC0(void *p);
+extern void *STA_ACTING_GetAnimHandle(void *p);
 extern char *func_021F9EDC(char *p, u32 a);
 extern void func_021F9F74(int, int, Vec_021F6F64 *);
 extern void func_021F4EA4(u32 unused, u32 p, u32 q);
@@ -469,13 +469,13 @@ void func_021F6CE0(char *p, char *q) {
     int tmp;
     Point_021F6CE0 point;
     if (*(int *)&((struct Obj00771 *)p)->f4 == 0) tmp = 0x80;
-    else tmp = func_021F9E04((u8 *)(*(int *)&((struct Obj00771 *)p)->f4));
+    else tmp = STA_ACTING_GetCameraTarget((u8 *)(*(int *)&((struct Obj00771 *)p)->f4));
     n = tmp;
     if (((struct Obj05317 *)q)->f0 == 1) {
         point.x = (short)((float)((struct Obj05317 *)q)->f8 / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)((struct Obj05317 *)q)->fC / 4096.0f);
         CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
-        if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && func_021F9E18((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
+        if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && STA_ACTING_GetSelection((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
             return;
         }
@@ -497,7 +497,7 @@ void func_021F6D68(char *p)
     char *ctx;
     char *model;
     u16 n;
-    if(((struct Obj00771 *)p)->f88==0 && func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)!=4) {
+    if(((struct Obj00771 *)p)->f88==0 && STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4)!=4) {
         ((struct Obj00771 *)p)->f88=1;
         d.x=128;
         d.y=96;
@@ -509,14 +509,14 @@ void func_021F6D68(char *p)
         CLACT_SetActorDrawEnable(a,1);
     }
     if(((struct Obj00771 *)p)->f88==1) {
-        if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
+        if(STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
             CLACT_DeleteActor(((struct Obj00771 *)p)->fA4);
             ((struct Obj00771 *)p)->f88=0;
             return;
         }
-        ctx=func_021F9DA0(((struct Obj00771 *)p)->f4);
-        model=func_021F9DA4(((struct Obj00771 *)p)->f4,func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4));
-        n=func_021F9E04(((struct Obj00771 *)p)->f4);
+        ctx=STA_ACTING_GetActorSystem(((struct Obj00771 *)p)->f4);
+        model=STA_ACTING_GetActor(((struct Obj00771 *)p)->f4,STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4));
+        n=STA_ACTING_GetCameraTarget(((struct Obj00771 *)p)->f4);
         func_021F8044(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
@@ -629,7 +629,7 @@ void func_021F6F64(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;
 
 
 
-void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { func_0207ADC4(d_021F8430); G3D_SYSTEM_DrawObject(((struct Obj13838 *)p)->f3C,&d_021F8418); } }
+void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { MTX_Identity33_(d_021F8430); G3D_SYSTEM_DrawObject(((struct Obj13838 *)p)->f3C,&d_021F8418); } }
 
 
 
@@ -787,13 +787,13 @@ void func_021F7204(u8 *p,u8 *q)
     int angle;
     a=(Vec_021F6F64 *)func_021F545C(*(u8 * *)&((struct Obj00904 *)q)->f58);
     b=(Vec_021F6F64 *)func_021F5464(*(char * *)&((struct Obj00904 *)q)->f58);
-    func_0207C9D0((const Vec_021F6F64 *)((Vec_021F6F64 *)(q+24)), (const Vec_021F6F64 *)((Vec_021F6F64 *)(q+48)), (Vec_021F6F64 *)&pos);
+    VEC_Add((const Vec_021F6F64 *)((Vec_021F6F64 *)(q+24)), (const Vec_021F6F64 *)((Vec_021F6F64 *)(q+48)), (Vec_021F6F64 *)&pos);
     angle=((struct Obj00904 *)q)->f48;
     delta.x=0;
     delta.y=b->y;
     func_0207AF38(&matrix,-table[(angle>>4)*2],table[(angle>>4)*2+1]);
-    func_0207B51C((const Vec_021F6F64 *)&delta, &matrix, (Vec_021F6F64 *)(q+60));
-    func_0207CA00((const Vec_021F6F64 *)&delta, (const Vec_021F6F64 *)((Vec_021F6F64 *)(q+60)), (Vec_021F6F64 *)(q+60));
+    MTX_MultVec33((const Vec_021F6F64 *)&delta, &matrix, (Vec_021F6F64 *)(q+60));
+    VEC_Subtract((const Vec_021F6F64 *)&delta, (const Vec_021F6F64 *)((Vec_021F6F64 *)(q+60)), (Vec_021F6F64 *)(q+60));
     pos.x=(pos.x-a->x-((struct Obj00904 *)q)->f3C)/16;
     pos.y=(0xc0000-(pos.y-a->y+((struct Obj00904 *)q)->f40))/16;
     func_021F5350(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&pos));
@@ -864,15 +864,15 @@ void func_021F732C(u8 *self, u8 *q)
                     func_021F545C(*(u8 **)(q + 0x58));
                     z = *(int *)(t + 0x1C);
                     func_0207AF38(&mtx, -table[(ang0 >> 4) * 2], table[(ang0 >> 4) * 2 + 1]);
-                    func_0207B51C((const Vec_021F6F64 *)((Vec_021F732C *)(t + 0x10)), &mtx, (Vec_021F6F64 *)&v1);
+                    MTX_MultVec33((const Vec_021F6F64 *)((Vec_021F732C *)(t + 0x10)), &mtx, (Vec_021F6F64 *)&v1);
                     if (neg == 1) {
                         ang2 = (u16)(0x10000 - ang2);
                     }
                     if (func_021F4B30(E) == 0 && neg == 1) {
                         z = -z;
                     }
-                    func_0207B51C((const Vec_021F6F64 *)((Vec_021F732C *)(t + 0x28)), &mtx, (Vec_021F6F64 *)&v2);
-                    func_0207CA00((const Vec_021F6F64 *)((Vec_021F732C *)(t + 0x28)), (const Vec_021F6F64 *)&v2, (Vec_021F6F64 *)&v2);
+                    MTX_MultVec33((const Vec_021F6F64 *)((Vec_021F732C *)(t + 0x28)), &mtx, (Vec_021F6F64 *)&v2);
+                    VEC_Subtract((const Vec_021F6F64 *)((Vec_021F732C *)(t + 0x28)), (const Vec_021F6F64 *)&v2, (Vec_021F6F64 *)&v2);
                     h = *(u16 *)(self + 0x434);
                     v3.x = *(int *)(t + 4) + v1.x + 0x80000 + FXR(h);
                     v3.y = *(int *)(t + 8) + v1.y + 0x60000;
@@ -1160,7 +1160,7 @@ void func_021F7A98(char *p, char *q) {
  */
 void func_021F7AEC(char *p, char *q) {
     Tail_021F7AEC *t = (Tail_021F7AEC *)(q + 0xf0);
-    int a = (int)func_021F9DC0((void *)(((struct Obj13843 *)p)->f4));
+    int a = (int)STA_ACTING_GetAnimHandle((void *)(((struct Obj13843 *)p)->f4));
     char *r = (char *)func_021F5450((u8 *)(*(char * *)&((struct Obj08027 *)q)->f58), ((struct Obj08027 *)q)->fF4);
     Vec_021F6F64 v;
     t->a = (int)func_021F9EDC((char *)a, 0x35);
@@ -1170,7 +1170,7 @@ void func_021F7AEC(char *p, char *q) {
         v.y = (0xc0000 - v.y) / 16;
         v.z += 0x1000;
     } else {
-        func_0207C9D0((const Vec_021F6F64 *)((Vec_021F6F64 *)(q + 0x18)), (const Vec_021F6F64 *)((Vec_021F6F64 *)func_021F5464(*(char * *)&((struct Obj08027 *)q)->f58)), (Vec_021F6F64 *)&v);
+        VEC_Add((const Vec_021F6F64 *)((Vec_021F6F64 *)(q + 0x18)), (const Vec_021F6F64 *)((Vec_021F6F64 *)func_021F5464(*(char * *)&((struct Obj08027 *)q)->f58)), (Vec_021F6F64 *)&v);
         v.x /= 16;
         v.y = (0xc0000 - v.y) / 16;
         v.z -= 0x1c000;
@@ -1192,7 +1192,7 @@ void func_021F7BA8(u8 *p,u8 *q)
         v.y=(0xc0000-v.y)/16;
         v.z+=0x1000;
     } else {
-        func_0207C9D0((const Vec_021F6F64 *)((Vec_021F7BA8 *)(q+24)), (const Vec_021F6F64 *)((Vec_021F7BA8 *)func_021F5464(*(char * *)&((struct Obj06409 *)q)->f58)), (Vec_021F6F64 *)&v);
+        VEC_Add((const Vec_021F6F64 *)((Vec_021F7BA8 *)(q+24)), (const Vec_021F6F64 *)((Vec_021F7BA8 *)func_021F5464(*(char * *)&((struct Obj06409 *)q)->f58)), (Vec_021F6F64 *)&v);
         v.x/=16;
         v.y=(0xc0000-v.y)/16;
         v.z-=0x1c000;
@@ -1200,7 +1200,7 @@ void func_021F7BA8(u8 *p,u8 *q)
     func_021F9FD0((char *)t->a,0,(int)&v);
     t->count++;
     if(t->count>=180) {
-        a=(int)func_021F9DC0((void *)(((struct Obj08028 *)p)->f4));
+        a=(int)STA_ACTING_GetAnimHandle((void *)(((struct Obj08028 *)p)->f4));
         func_021F9FB4((char *)t->a,0);
         func_021F9F58((void *)a,(void *)t->a);
         ((struct Obj06409 *)q)->f104=0;
@@ -1220,7 +1220,7 @@ void func_021F7C90(char *p, char *q) {
     Vec_021F7C90 v;
     *(int *)(q + 0xcc + ((struct Obj06410 *)q)->fF4 * 4) = 0;
     if (((struct Obj06410 *)q)->f8 == 0 || ((struct Obj22563 *)r)->f0 == 0) {
-        func_0207C9D0((Vec_021F6F64 *)((Vec_021F7C90 *)(q + 0x18)), (Vec_021F6F64 *)((Vec_021F7C90 *)func_021F5464(*(char * *)&((struct Obj06410 *)q)->f58)), (Vec_021F6F64 *)((Vec_021F7C90 *)&v));
+        VEC_Add((Vec_021F6F64 *)((Vec_021F7C90 *)(q + 0x18)), (Vec_021F6F64 *)((Vec_021F7C90 *)func_021F5464(*(char * *)&((struct Obj06410 *)q)->f58)), (Vec_021F6F64 *)((Vec_021F7C90 *)&v));
         v.z -= 0x1c000;
         func_021F4E8C((u32)(((struct Obj08029 *)p)->f10), (u8 *)(*(int *)(q + 0x84 + t->index * 4)), (Vec_021F732C *)((Vec_021F7C90 *)&v));
     }
@@ -1282,7 +1282,7 @@ void func_021F7E2C(char *p, char *q) {
     Vec_021F7C90 v;
     *(int *)(q + 0xcc + ((struct Obj06411 *)q)->fF4 * 4) = 0;
     if (((struct Obj06411 *)q)->f8 == 0 || ((struct Obj22564 *)r)->f0 == 0) {
-        func_0207C9D0((Vec_021F6F64 *)((Vec_021F7C90 *)((Vec_021F7C90 *)(q + 0x18))), (Vec_021F6F64 *)((Vec_021F7C90 *)((Vec_021F7C90 *)func_021F5464(*(char * *)&((struct Obj06411 *)q)->f58))), (Vec_021F6F64 *)((Vec_021F7C90 *)&v));
+        VEC_Add((Vec_021F6F64 *)((Vec_021F7C90 *)((Vec_021F7C90 *)(q + 0x18))), (Vec_021F6F64 *)((Vec_021F7C90 *)((Vec_021F7C90 *)func_021F5464(*(char * *)&((struct Obj06411 *)q)->f58))), (Vec_021F6F64 *)((Vec_021F7C90 *)&v));
         func_021F4E8C((u32)(((struct Obj08031 *)p)->f10), (u8 *)(*(int *)(q + 0x84 + t->index * 4)), (Vec_021F732C *)((Vec_021F7C90 *)&v));
     }
     t->b = -0x3000;

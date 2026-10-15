@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Initialise cell `idx` of the bank at 0x02148B20: clear it with
- * func_020640B0, set each of the three channels whose argument is not the
- * -1 sentinel through func_020640CC(rec, 0/1/2, v), then store the four
+ * NNSi_G2dSrtcInitTable, set each of the three channels whose argument is not the
+ * -1 sentinel through NNSi_G2dSrtcSetTable(rec, 0/1/2, v), then store the four
  * stacked words at +0x0c..+0x18.
  * FRONT END: a `../2.0/sp2` PIN row, the "kept constants" tell in its
  * sentinel form -- the same pin src/matched/func_02066AE0.c takes in this
@@ -42,7 +42,7 @@
  *       --func func_02066890 --addr 0x02066890 --cc ../2.0/sp2 --arm
  * Publish the record pool (callback, count, array) into the global bank at
  * 0x02148B20, then, for each of the n 0x30-byte records, run the per-record
- * routine func_020640B0 on it and clear the nine words at +0x0C..+0x2C.
+ * routine NNSi_G2dSrtcInitTable on it and clear the nine words at +0x0C..+0x2C.
  * n == 0 is the predicated early return off the `movs` that loads it.
  * THE NINE STORES WRITE ZERO, NOT THE LOOP INDEX.  The loop's back edge is
  * `blo 0x02066954` (the argument move) and the `mov r4, r5` that feeds every
@@ -64,7 +64,7 @@
  * (NNS_G2dUpdateCellTransferStateManager shape).  sCellTransferStateManager is the
  * manager's control block { transfer-request callback, state count, state
  * array }; each 0x30-byte state is NNSG2dCellTransferState: a three-word
- * VRAM location (func_020640D4 = NNSi_G2dGetVramLocation), szDst,
+ * VRAM location (NNSi_G2dSrtcGetTable = NNSi_G2dGetVramLocation), szDst,
  * pSrcNCGR +0x10, pSrcNCBR +0x14, szSrcData, bActive +0x1c, bDrawn +0x20,
  * bTransferRequested +0x24, srcOffset +0x28, szByte +0x2c.  For every
  * active state and every VRAM type (3D uses the NCBR, the two 2D types
@@ -114,7 +114,7 @@
  *   python3 tools/match.py one --src src/matched/func_02066AE0.c \
  *       --func func_02066AE0 --addr 0x02066AE0 --cc ../2.0/sp2 --arm
  * Release one 0x30-byte cell of the bank whose array pointer lives at
- * +8 of the global at 0x02148B20: hand it to func_020640B0, then clear the
+ * +8 of the global at 0x02148B20: hand it to NNSi_G2dSrtcInitTable, then clear the
  * nine words from +0xc to +0x2c.
  * The element address is one `mla`, not a shift and an add, because 0x30 is
  * not a power of two: the size goes into r1, the array base into r2, and
@@ -130,10 +130,10 @@
  *
  * symbols:
  *   sCellTransferStateManager       0x02148B20  data
- *   func_020640B0   0x020640B0  arm
- *   func_020640CC   0x020640CC  arm
+ *   NNSi_G2dSrtcInitTable   0x020640B0  arm
+ *   NNSi_G2dSrtcSetTable   0x020640CC  arm
  *   tbl_020A1808    0x020A1808  data
- *   func_020640D4   0x020640D4  arm
+ *   NNSi_G2dSrtcGetTable   0x020640D4  arm
  */
 typedef unsigned char u8;
 
@@ -175,9 +175,9 @@ typedef struct CellTransferStateManager {
     CellTransferState *pStateArray;    /* +0x08 */
 } CellTransferStateManager;
 
-extern void func_020640B0(s32 *tbl);
-extern void func_020640CC(s32 *tbl, u32 i, u32 v);
-extern s32 func_020640D4(const s32 *tbl, u32 i);
+extern void NNSi_G2dSrtcInitTable(s32 *tbl);
+extern void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v);
+extern s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i);
 CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
 void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStates, TransferFunc pTransferFunc);
@@ -200,15 +200,15 @@ void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
     CellTransferState *rec = &sCellTransferStateManager.pStateArray[idx];
 
-    func_020640B0((s32 *)rec);
+    NNSi_G2dSrtcInitTable((s32 *)rec);
     if (a != 0xffffffffu) {
-        func_020640CC((s32 *)rec, 0, a);
+        NNSi_G2dSrtcSetTable((s32 *)rec, 0, a);
     }
     if (b != 0xffffffffu) {
-        func_020640CC((s32 *)rec, 1, b);
+        NNSi_G2dSrtcSetTable((s32 *)rec, 1, b);
     }
     if (c != 0xffffffffu) {
-        func_020640CC((s32 *)rec, 2, c);
+        NNSi_G2dSrtcSetTable((s32 *)rec, 2, c);
     }
     rec->szDst = d;
     rec->pSrcNCGR = (const void *)e;
@@ -226,7 +226,7 @@ void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStat
     sCellTransferStateManager.numState      = numStates;
     if (numStates == 0) return;
     do {
-        func_020640B0((s32 *)pStates);
+        NNSi_G2dSrtcInitTable((s32 *)pStates);
         pStates->szDst = 0; pStates->pSrcNCGR = 0; pStates->pSrcNCBR = 0;
         pStates->szSrcData = 0; pStates->bActive = 0; pStates->bDrawn = 0;
         pStates->bTransferRequested = 0; pStates->srcOffset = 0; pStates->szByte = 0;
@@ -255,7 +255,7 @@ void func_02066998(void)
                     s32 gfdType = tbl_020A1808[t];
                     const void *src = (t == VRAM_TYPE_3DMAIN) ? s->pSrcNCBR : s->pSrcNCGR;
                     if ((*sCellTransferStateManager.pFuncTransfer)(gfdType,
-                                                    func_020640D4((const s32 *)(&s->dstVramLocation), t),
+                                                    NNSi_G2dSrtcGetTable((const s32 *)(&s->dstVramLocation), t),
                                                     (void *)((u32)src + s->srcOffset),
                                                     s->szByte))
                         s->bTransferRequested &= ~(1 << t);
@@ -302,7 +302,7 @@ void NNSi_G2dResetCellTransferState(u32 stateIdx)
 {
     CellTransferState *state = &sCellTransferStateManager.pStateArray[stateIdx];
 
-    func_020640B0((s32 *)state);
+    NNSi_G2dSrtcInitTable((s32 *)state);
     state->szDst = 0;
     state->pSrcNCGR = 0;
     state->pSrcNCBR = 0;

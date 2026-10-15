@@ -17,7 +17,7 @@
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclConfig  0x021A1CD8  data
  */
 
 #include "../include/G_021A1CD8.h"
@@ -56,7 +56,7 @@ extern void OS_SleepThread(void *queue);
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 
 static inline int isNotReady(struct SOCLSocket *socket)
 {
@@ -106,7 +106,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
             pipe->head = udpdata->next;
             if (udpdata->next == 0)
                 pipe->tail = 0;
-            g_021A1CD8->free(udpdata);
+            gSoclConfig->free(udpdata);
             pipe->recv_size -= (unsigned short)result;
         }
     }

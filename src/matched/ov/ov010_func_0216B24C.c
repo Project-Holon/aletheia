@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef struct { int value; u8 flag; u8 padding[3]; } Work;
 struct Ctx;
 struct Desc;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
@@ -31,7 +31,7 @@ int FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(void *vm, int value, int flag)
 {
     int task;
     Work *p;
-    func_020120F4((const struct Ctx *)vm);
+    ICA_ANIME_GetField1C((const struct Ctx *)vm);
     task = (int)func_020122C0((void *)vm, 0, FIELD_INTRUDE_EVENT_IntrudeRequestEventMain, 8);
     p = func_020124E8((struct Obj *)task);
     MI_CpuFill8(p, 0, 8);

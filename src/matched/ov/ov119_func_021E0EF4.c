@@ -16,7 +16,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_02028470 0x02028470 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -39,7 +39,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_02028470(u8 *,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
@@ -57,7 +57,7 @@ void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h)
     BMP_Clear(BMP_WIN_GetBmp(v),15);
     GF_FONT_SetTextColor(1,2,15);
     if(flag==0) {
-        ((struct Obj01055 *)p)->f72C=PRINTSYS_PrintStream((u32)v,0,0,*(u32 *)&((struct Obj01055 *)p)->f738,*(u32 *)&((struct Obj01055 *)p)->f728,func_02012FFC(),((struct Obj01055 *)p)->f744,2,((struct Obj01055 *)p)->f5F4,15);
+        ((struct Obj01055 *)p)->f72C=PRINTSYS_PrintStream((u32)v,0,0,*(u32 *)&((struct Obj01055 *)p)->f738,*(u32 *)&((struct Obj01055 *)p)->f728,MSG_SPEED_GetWait(),((struct Obj01055 *)p)->f744,2,((struct Obj01055 *)p)->f5F4,15);
         func_02028470((u8 *)p+0x11d4,2);
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,((struct Obj01055 *)p)->f738,((struct Obj01055 *)p)->f728);

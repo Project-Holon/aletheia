@@ -39,11 +39,11 @@
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
  *   COMM_TVT_SYS_ClearAndTransferNameWindows 0x021BE1E4 thumb ov172
- *   func_021B8B8C 0x021B8B8C thumb ov172
- *   func_021B8BAC 0x021B8BAC thumb ov172
+ *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
+ *   CTVT_COMM_GetSlotReady 0x021B8BAC thumb ov172
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207ECF0 0x0207ECF0 arm
- *   func_0207E100 0x0207E100 arm
+ *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
  *   func_0202EB14 0x0202EB14 thumb
  *   CTVT_CAMERA_StopCapture  0x021B6868  thumb  ov172
@@ -57,7 +57,7 @@
  *   COMM_TVT_SYS_GetCameraBusy 0x021BE0F8 thumb ov172
  *   COMM_TVT_SYS_SetCameraBusy 0x021BE0FC thumb ov172
  *   d_021C71F0 0x021C71F0 data a4
- *   func_021B8BA4 0x021B8BA4 thumb ov172
+ *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
  *   CTVT_CAMVIEW_SetWindowLayout 0x021B796C thumb ov172
  *   gCtvtWindowHeightTable     0x021C6E9C  data   ov172
  *   gCtvtWindowWidthTable     0x021C6EA8  data   ov172
@@ -107,11 +107,11 @@ extern u32 COMM_TVT_SYS_GetHalfRes(void *p);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 extern void COMM_TVT_SYS_ClearAndTransferNameWindows(void *p);
-extern u32 func_021B8B8C(int unused, char *base, int i);
-extern u8 func_021B8BAC(void *unused, char *base, int i);
+extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
+extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
-extern void *func_0207E100(void);
+extern void *G2_GetBG3ScrPtr(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern int func_0202EB14(void);
 extern void CTVT_CAMERA_StopCapture(struct Camera *p);
@@ -124,7 +124,7 @@ extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 extern u32 COMM_TVT_SYS_GetCameraBusy(void *p);
 extern void COMM_TVT_SYS_SetCameraBusy(void *p, u32 v);
-extern unsigned int func_021B8BA4(int, char *, int);
+extern unsigned int CTVT_COMM_IsSlotActive(int, char *, int);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 extern int OS_IsRunOnTwl();
 extern void CTVT_CAMERA_RequestShutterSound0(struct Camera *p);
@@ -309,7 +309,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 view->dirtyMask = 0;
                 view->settleCount++;
                 for (i = 0; i < 4; i++) {
-                    if (func_021B8B8C((int)work, (char *)members, i) == 1 && func_021B8BAC(work, (char *)members, i) == 0)
+                    if (CTVT_COMM_GetSlotConnected((int)work, (char *)members, i) == 1 && CTVT_COMM_GetSlotReady(work, (char *)members, i) == 0)
                         view->dirtyMask |= (u8)(1 << i);
                 }
                 return;
@@ -329,7 +329,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 view->clearPending = 0;
                 COMM_TVT_SYS_ClearAndTransferNameWindows(work);
             }
-            func_02082A7C(0, func_0207E100(), 0x18000);
+            func_02082A7C(0, G2_GetBG3ScrPtr(), 0x18000);
             view->layoutDirty = 0;
             if (view->halfRes != COMM_TVT_SYS_GetHalfRes(work)) {
                 view->halfRes = COMM_TVT_SYS_GetHalfRes(work);
@@ -371,7 +371,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
             bit = 1 << i;
             if (!(bit & view->dirtyMask))
                 continue;
-            if (func_021B8B8C((int)work, (char *)members, i) == 1) {
+            if (CTVT_COMM_GetSlotConnected((int)work, (char *)members, i) == 1) {
                 u32 srcSlot = i;
                 int w;
                 int j;
@@ -384,7 +384,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                     w = 0x40;
                     h = (u16)(screenSplit == 1 ? 0x60 : 0x30);
                 }
-                if (func_021B8BAC(work, (char *)members, i) == 1 && func_0202EB14() == 0) {
+                if (CTVT_COMM_GetSlotReady(work, (char *)members, i) == 1 && func_0202EB14() == 0) {
                     dst = (u32)((char *)view->screenBuf + srcSlot * (w * h * 2));
                     DWCi_ScreenDC_FlushRange((void *)dst, w * h * 2);
                 } else if (halfRes == 0) {
@@ -521,7 +521,7 @@ void CTVT_CAMVIEW_StartLayoutChange(void *work, CtvtCamView *view, int revealArg
     if (COMM_TVT_SYS_IsNetIdle() == 0)
         view->dirtyMask |= (u8)(1 << COMM_TVT_SYS_GetSelfSlot(work));
     for (i = 0; i < 4; i++) {
-        if (func_021B8BA4((int)work, members, i) == 1)
+        if (CTVT_COMM_IsSlotActive((int)work, members, i) == 1)
             CTVT_CAMVIEW_SetWindowLayout(work, view, i);
     }
 }

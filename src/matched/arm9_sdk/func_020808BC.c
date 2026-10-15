@@ -1,5 +1,5 @@
 /*
- * function: func_020808BC
+ * function: resetBankForX_
  * address:  0x020808BC
  * packet:   pkt_020808BC
  * region:   arm9
@@ -84,7 +84,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
-int func_020808BC(u16 *g3bit)
+int resetBankForX_(u16 *g3bit)
 {
     int rval = *g3bit;
 

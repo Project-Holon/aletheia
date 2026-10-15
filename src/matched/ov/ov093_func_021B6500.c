@@ -11,8 +11,8 @@
  * lever: cache each re-read fade value for the comparison and setter; associate callback integer offsets before adding the base.
  * volatile: fade field re-read at 021B6584 and 021B659C across hardware-brightness calls.
  * symbols:
- *   func_0207D55C 0x0207D55C arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -46,8 +46,8 @@ struct S020315D4;
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern int func_0207D55C(volatile u16 *);
-extern void func_0207D534(volatile u16 *, int);
+extern int GXx_GetMasterBrightness_(volatile u16 *);
+extern void GXx_SetMasterBrightness_(volatile u16 *, int);
 extern void BTL_FIELD_Delete(void *);
 extern u32 func_020307B0(void *p);
 extern void BTL_NET_FreeRelayPacket(void *);
@@ -86,10 +86,10 @@ int BTL_MAIN_ProcExit(int handle, u32 *state, int unused, u8 *p)
     case 0:
         if (!((Flags *)p)->flag5) GFL_USE_FadeOutBgm(30);
         ((Fade *)p)->fade = 0;
-        if (func_0207D55C((volatile u16 *)0x0400006c) != 0) {
+        if (GXx_GetMasterBrightness_((volatile u16 *)0x0400006c) != 0) {
             ((Fade *)p)->fade = -16;
-            func_0207D534((volatile u16 *)0x0400006c, -16);
-            func_0207D534((volatile u16 *)0x0400106c, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400006c, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400106c, -16);
             *state += 2;
         } else *state += 1;
         break;
@@ -98,10 +98,10 @@ int BTL_MAIN_ProcExit(int handle, u32 *state, int unused, u8 *p)
         v = ((Fade *)p)->fade;
         if (v > -16) {
             ((Fade *)p)->fade = v - 1;
-            if (func_0207D55C((volatile u16 *)0x0400006c) > (v = ((Fade *)p)->fade))
-                func_0207D534((volatile u16 *)0x0400006c, v);
-            if (func_0207D55C((volatile u16 *)0x0400106c) > (v = ((Fade *)p)->fade))
-                func_0207D534((volatile u16 *)0x0400106c, v);
+            if (GXx_GetMasterBrightness_((volatile u16 *)0x0400006c) > (v = ((Fade *)p)->fade))
+                GXx_SetMasterBrightness_((volatile u16 *)0x0400006c, v);
+            if (GXx_GetMasterBrightness_((volatile u16 *)0x0400106c) > (v = ((Fade *)p)->fade))
+                GXx_SetMasterBrightness_((volatile u16 *)0x0400106c, v);
         } else *state += 1;
         break;
     }

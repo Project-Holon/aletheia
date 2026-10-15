@@ -13,7 +13,7 @@
  *   sub_02030734   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   sub_02009454  0x02009454  thumb
+ *   GAME_SYNC_GetBlockSize  0x02009454  thumb
  *   func_02009470  0x02009470  thumb
  *   d_021E8130     0x021E8130  data  ov119
  *
@@ -29,7 +29,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 sub_02009454(void);
+extern u32 GAME_SYNC_GetBlockSize(void);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern const char d_021E8130[];
 
@@ -41,8 +41,8 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 void *POKETRADE_SAVE_BackupSaveControl(void *sys, u16 heapId)
 {
     void *h = GAME_DATA_GetSaveControl(sys);
-    void *buf = sub_02030734(heapId, sub_02009454(), 0, d_021E8130, 0x1A0);
+    void *buf = sub_02030734(heapId, GAME_SYNC_GetBlockSize(), 0, d_021E8130, 0x1A0);
 
-    GFL_STD_MemCopy(func_02009470(h), buf, sub_02009454());
+    GFL_STD_MemCopy(func_02009470(h), buf, GAME_SYNC_GetBlockSize());
     return buf;
 }

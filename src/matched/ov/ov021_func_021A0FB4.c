@@ -13,7 +13,7 @@
  *   FIELDMAP_GetVReq  0x02188E30  thumb  ov021
  *   FLD_VREQ_SetMainBlendBrightnessExt  0x021D3270  thumb  ov021
  *   FIELD_MSGBG_SetBlendThunk  0x02193060  thumb  ov021
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FIELD_MSGBG_LoadWindowGraphics  0x021902A4  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -26,13 +26,13 @@ typedef unsigned int   u32;
 extern u32 FIELDMAP_GetVReq(u8 *p);
 extern void FLD_VREQ_SetMainBlendBrightnessExt(u32, u32, u32, u32, u32, u32);
 extern void FIELD_MSGBG_SetBlendThunk(u32);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void FIELD_MSGBG_LoadWindowGraphics(u32, u32);
 
 void FIELD_SUBSCREEN_ResumeField(u32 *p, u32 a)
 {
     FLD_VREQ_SetMainBlendBrightnessExt(FIELDMAP_GetVReq((u8 *)p[5]), 1, 0, 0, 0, 0);
     FIELD_MSGBG_SetBlendThunk(0);
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     FIELD_MSGBG_LoadWindowGraphics(1, a);
 }

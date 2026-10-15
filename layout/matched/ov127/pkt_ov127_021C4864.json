@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4864",
+   "name": "WF2DMAP_MAP_GetCellValue",
    "address": "0x021C4864",
    "kind": "game",
    "region": "ov127",

@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50
+ * function: WIFILIST_IsProfileValid, WIFILIST_GetFromSave, WIFILIST_FindFriendByStatus, WIFILIST_FindFriendByStatusAndOutfit
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock           0x020071CC  thumb
@@ -26,7 +26,7 @@
  *   WIFILIST_GetFriendInfo  0x020099D4  thumb
  *   WIFILIST_IsFriendDataValid  0x02009A1C  thumb
  *
- * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
+ * alias: the DWC-facing end of wifilist.c.  WIFILIST_GetFromSave is the one that names
  * the save block: it fetches block id 0x1E out of SAVE_CONTROL_GetBlock and hands it
  * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
  * friend list lives in block 0x1E.
@@ -53,25 +53,25 @@
  *       DWC_GetGsProfileId(account, token);
  *   }
  *
- * and with sub_02009C24 they reproduce every concrete byte.  The chain that
+ * and with WIFILIST_MergeFriendRecord they reproduce every concrete byte.  The chain that
  * blocks them is two links long.  DWC_CreateExchangeToken is reached from
- * exactly two places in the image: the pool word of sub_02009CA8 at 0x02009CAC
+ * exactly two places in the image: the pool word of WIFILIST_CreateExchangeToken at 0x02009CAC
  * and the `blx` in sub_02009CB0 at 0x02009CB8.  Whichever of the two is in the
  * range, the other is its witness, so exactly one of them can be matched, and
- * src/matched/unit_02009C24.c takes sub_02009CA8 because that choice is what
+ * src/matched/unit_02009C24.c takes WIFILIST_CreateExchangeToken because that choice is what
  * lets its own pool word be attested by the `blx`.  sub_02009CB0 is then
  * unmatched, and the only branch to *it* anywhere in the image is the one in
  * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
  * anything else in the image calls either address.
  *
- * sub_02009D50 compares two call results against two parameters, and both
+ * WIFILIST_FindFriendByStatusAndOutfit compares two call results against two parameters, and both
  * comparisons only come out `cmp r0, rN` when a named local holds the result:
  * written inline, in either operand order or as one `&&` chain, the compiler
  * normalises to `cmp rN, r0` and the file is two bytes wrong.  See
  * docs/idioms/cmp-operand-order-names-the-temporary.md.
  *
- * sub_02009D50's second parameter is dead: nothing in it reads r1, and
- * sub_02009D1C still computes MYSTATUS_GetName(p) to pass there.  Leaving the
+ * WIFILIST_FindFriendByStatusAndOutfit's second parameter is dead: nothing in it reads r1, and
+ * WIFILIST_FindFriendByStatus still computes MYSTATUS_GetName(p) to pass there.  Leaving the
  * parameter out moves every argument and the function does not match, so the
  * dead argument is part of the shape.
  *
@@ -128,10 +128,10 @@ extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern u8  MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern const void *MYSTATUS_GetName(const void *p);
 
-int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
+int WIFILIST_FindFriendByStatusAndOutfit(struct Sub020097BCObj *obj, const void *unused, u32 id,
                  u32 kind, u32 *out);
 
-u32 sub_02009CE4(struct Sub020097BCObj *obj)
+u32 WIFILIST_IsProfileValid(struct Sub020097BCObj *obj)
 {
     void *account = WIFILIST_GetWork(obj);
 
@@ -143,7 +143,7 @@ u32 sub_02009CE4(struct Sub020097BCObj *obj)
     return 0;
 }
 
-struct Sub020097BCObj *sub_02009D08(void *sys)
+struct Sub020097BCObj *WIFILIST_GetFromSave(void *sys)
 {
     struct Sub020097BCObj *obj = SAVE_CONTROL_GetBlock(sys, 0x1E);
 
@@ -151,16 +151,16 @@ struct Sub020097BCObj *sub_02009D08(void *sys)
     return obj;
 }
 
-int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p,
+int WIFILIST_FindFriendByStatus(struct Sub020097BCObj *obj, struct Sub0200852CObj *p,
                  u32 *out)
 {
     u32 id = MYSTATUS_GetId(p);
     u8 kind = MYSTATUS_GetOutfitVariant(p);
 
-    return sub_02009D50(obj, MYSTATUS_GetName(p), id, kind, out);
+    return WIFILIST_FindFriendByStatusAndOutfit(obj, MYSTATUS_GetName(p), id, kind, out);
 }
 
-int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
+int WIFILIST_FindFriendByStatusAndOutfit(struct Sub020097BCObj *obj, const void *unused, u32 id,
                  u32 kind, u32 *out)
 {
     u8 i;

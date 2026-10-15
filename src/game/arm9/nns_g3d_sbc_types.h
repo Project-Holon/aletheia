@@ -15,6 +15,8 @@
  *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm  arm9
  *   G3X_GetClipMtx  0x0207DC98  arm  arm9
  *   MIi_CpuSend32  0x02082AA8  arm  arm9
+ *   MTX_Copy43To44_  0x0207B5C0  arm  arm9
+ *   VEC_Mag  0x0207CBD0  arm  arm9
  */
 #ifndef NNS_G3D_SBC_TYPES_H
 #define NNS_G3D_SBC_TYPES_H
@@ -58,9 +60,9 @@ extern u32 *NNS_G3dGlbGetWVMtx(void);
 extern u32 *NNS_G3dGlbGetInvWVMtx(void);
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
 extern void NNS_G3dGeSendDL(const u32 *pDisplayList, u32 size);
-extern void func_0207B5C0(const MtxFx43 *pSrc, MtxFx44 *pDst);
+extern void MTX_Copy43To44_(const MtxFx43 *pSrc, MtxFx44 *pDst);
 extern void func_0207BE14(const MtxFx44 *pA, const MtxFx44 *pB, MtxFx44 *pAB);
-extern fx32 func_0207CBD0(const VecFx32 *pVec);
+extern fx32 VEC_Mag(const VecFx32 *pVec);
 extern void MIi_CpuSend32(const void *pSrc, volatile void *pDst, u32 size);
 
 /* Index into a dictionary: the data address of entry idx, or 0. */

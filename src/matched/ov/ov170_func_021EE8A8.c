@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260E0 0x020260E0 thumb
- *   func_020260E4 0x020260E4 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -24,9 +24,9 @@ typedef unsigned int u32;
 struct WinMgr;
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
-extern void func_020260E4(struct Sound *obj, u8 sel);
-extern int func_02025DE8(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern u32 KEY_GetTrg(void);
@@ -36,12 +36,12 @@ extern void func_020355D8(u8 v);
 
 unsigned BOX2_UI_UpdateCursorInputD(char *p)
 {
-    unsigned char sel = func_020260E0(*(void **)(WORK(p) + 0x70));
-    unsigned r = func_02025DE8(*(void **)(WORK(p) + 0x70));
+    unsigned char sel = CURSOR_MOVE_GetCurrent(*(void **)(WORK(p) + 0x70));
+    unsigned r = CURSOR_MOVE_PollRepeatInput(*(void **)(WORK(p) + 0x70));
 
     if (BOX2_UI_IsListOpen(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
         if (r >= 9 && r <= 14) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            CURSOR_MOVE_SetCurrent(*(void **)(WORK(p) + 0x70), sel);
             BOX2_UI_UpdateCursor(p, sel);
             return -1;
         }
@@ -54,11 +54,11 @@ unsigned BOX2_UI_UpdateCursorInputD(char *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            CURSOR_MOVE_SetCurrent(*(void **)(WORK(p) + 0x70), sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+        CURSOR_MOVE_SetCurrent(*(void **)(WORK(p) + 0x70), sel);
         BOX2_UI_UpdateCursor(p, sel);
         return -1;
     }

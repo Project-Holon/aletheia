@@ -1,5 +1,5 @@
 /*
- * function: sub_02034EF8
+ * function: UI_Main
  * address:  0x02034EF8
  * packet:   pkt_02034978
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020352DC  0x020352DC  arm
+ *   UI_PollPower  0x020352DC  arm
  *   KEY_Main  0x020360A8  arm
  *   TOUCHPANEL_Main  0x02035A60  arm
  *   UI_ServiceLidSleep  0x0203545C  arm
@@ -44,8 +44,8 @@
  * second call site.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034EF8.c \
- *       --func sub_02034EF8 --addr 0x02034EF8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_Main.c \
+ *       --func UI_Main --addr 0x02034EF8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -62,7 +62,7 @@ struct AreaCtx {
     u8   frames;
 };
 
-extern void sub_020352DC(void);
+extern void UI_PollPower(void);
 extern void KEY_Main(void);
 extern void TOUCHPANEL_Main(void);
 extern void UI_ServiceLidSleep(void);
@@ -70,11 +70,11 @@ extern void sub_020356A0(int a0);
 extern unsigned int KEY_GetCont(void);
 extern void sub_02035544(u32 x);
 
-void sub_02034EF8(struct AreaCtx *p)
+void UI_Main(struct AreaCtx *p)
 {
     p->frames++;
 
-    sub_020352DC();
+    UI_PollPower();
     KEY_Main();
     TOUCHPANEL_Main();
     UI_ServiceLidSleep();

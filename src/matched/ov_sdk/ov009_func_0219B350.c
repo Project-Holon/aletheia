@@ -12,7 +12,7 @@
  * sdk:      qr2_check_send_heartbeat (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
  * symbols:
- *   func_0217F264  0x0217F264  arm   ov009
+ *   current_time  0x0217F264  arm   ov009
  *   func_0217D254  0x0217D254  arm   ov009
  *   send_heartbeat  0x0219CE58  arm   ov009
  *   send_keepalive  0x0219CDBC  arm   ov009
@@ -75,7 +75,7 @@ typedef struct qr2_implementation_s {
 } qr2_implementation_s;
 
 
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void send_heartbeat(qr2_implementation_s *qrec, int statechanged);
 extern void send_keepalive(qr2_implementation_s *qrec);
@@ -85,7 +85,7 @@ extern char g_021A75B8[];
 
 void qr2_check_send_heartbeat(qr2_implementation_s *qrec)
 {
-    unsigned int tc = func_0217F264();
+    unsigned int tc = current_time();
 
     if (qrec->hbsock == -1) {
         func_0217D254(3, 0, 2, g_021A7564);
@@ -105,6 +105,6 @@ void qr2_check_send_heartbeat(qr2_implementation_s *qrec)
     } else if (tc - qrec->lastheartbeat > 60000 || qrec->lastheartbeat == 0 || tc < qrec->lastheartbeat) {
         send_heartbeat(qrec, 0);
     }
-    if (func_0217F264() - qrec->lastka > 20000)
+    if (current_time() - qrec->lastka > 20000)
         send_keepalive(qrec);
 }

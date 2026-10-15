@@ -22,8 +22,8 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201EE60  0x0201EE60  thumb
- *   func_0203F4CC  0x0203F4CC  arm
+ *   WORDSET_Callback  0x0201EE60  thumb
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   func_020056EC  0x020056EC  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   gGreetingCounterTable     0x021DD774  data  ov021
@@ -68,10 +68,10 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 struct RtcTime;
 struct Sub0200852CObj;
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern u32 func_020056EC(u32 v);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern const Entry gGreetingCounterTable[];
@@ -109,11 +109,11 @@ int SCRCMD_GetNpcGreetingMessage(u32 a, u32 b)
     for (i = 0; i < n; i++) {
         mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
-            func_0201EE60((struct WordSet *)ws, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
+            WORDSET_Callback((struct WordSet *)ws, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
             break;
         }
     }
-    func_0203F4CC((struct RtcTime *)(&t));
+    GF_STANDARD_SetField00((struct RtcTime *)(&t));
     if (t.minute < 10) {
         base = 0;
         k = func_020056EC(0x1D);

@@ -14,18 +14,18 @@
  * symbols:
  *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
- *   func_02177748  0x02177748  arm  ov009
+ *   DWCi_ResetLastSomeDataRecvTimeByAid  0x02177748  arm  ov009
  */
 
 extern int DWCi_NodeInfoList_GetCount(void);
 extern unsigned char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
-extern void func_02177748(int aid);
+extern void DWCi_ResetLastSomeDataRecvTimeByAid(int aid);
 
 void DWCi_ResetLastSomeDataRecvTimeByAidAll(void)
 {
     int i;
 
     for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
-        func_02177748(DWCi_NodeInfoList_GetNodeInfoForIndex(i)[0x16]);
+        DWCi_ResetLastSomeDataRecvTimeByAid(DWCi_NodeInfoList_GetNodeInfoForIndex(i)[0x16]);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8118
+ * function: CTVT_COMM_GetMyStatus
  * address: 0x021B8118
  * packet: pkt_ov172_021B8118
  * region: ov172
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char  u8;
-u8 *func_021B8118(u8 *p);
+u8 *CTVT_COMM_GetMyStatus(u8 *p);
 
-u8 *func_021B8118(u8 *p)
+u8 *CTVT_COMM_GetMyStatus(u8 *p)
 {
     return p + 12;
 }

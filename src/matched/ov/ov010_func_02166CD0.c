@@ -15,7 +15,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009470  0x02009470  thumb
- *   func_02009590  0x02009590  thumb
+ *   WIFI_HISTORY_GetDisplayCount  0x02009590  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
  */
@@ -32,7 +32,7 @@ struct Sub02009470Obj;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u8 func_02009590(void *a, u32 b, u32 c);
+extern u8 WIFI_HISTORY_GetDisplayCount(void *a, u32 b, u32 c);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *a, int i, void *b);
 
@@ -49,7 +49,7 @@ int SYMBOL_MAP_CheckEventFlag(void *a, u32 msg)
         return FIELD_G3D_MAP_CheckBeaconTrainerKey((void *)r0, 1, (void *)r6);
     case 0xF001:
         res = 0;
-        if (func_02009590((void *)t, r6, 0) >= 1)
+        if (WIFI_HISTORY_GetDisplayCount((void *)t, r6, 0) >= 1)
             res = 1;
         return res;
     }

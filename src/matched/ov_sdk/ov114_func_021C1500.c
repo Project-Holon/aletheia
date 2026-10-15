@@ -12,7 +12,7 @@
  * sdk:      ghiEncryptorCleanupTwlRootCA (libdwcgsghttp.TWL.HYB.a(ghttpencryption.o))
  *
  * symbols:
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   func_0217D254  0x0217D254  arm   ov009
  *   ghiGetServerAddressFromUrl  0x021C1020  arm   ov114
  *   func_021843E8  0x021843E8  arm   ov009
@@ -37,7 +37,7 @@ typedef struct GHTTPCertificateInfo {
     int refCount;
 } GHTTPCertificateInfo;
 
-extern int func_020948E0(const char *, const char *);
+extern int strcmp(const char *, const char *);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char *ghiGetServerAddressFromUrl(char *);
 extern int func_021843E8(void *, void *, int (*)(void *, void *), int, int);
@@ -62,7 +62,7 @@ int ghiEncryptorCleanupTwlRootCA(char *url)
     GHTTPCertificateInfo *certInfoToUpdate;
 
     result = 1;
-    if (url == 0 || gGhttpRootCaTable == 0 || func_020948E0(url, sGhttpEmptyString) == 0) {
+    if (url == 0 || gGhttpRootCaTable == 0 || strcmp(url, sGhttpEmptyString) == 0) {
         func_0217D254(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty3, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x37b, url, gGhttpRootCaTable);
         return 0;
     }

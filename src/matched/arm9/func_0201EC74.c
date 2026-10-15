@@ -1,5 +1,5 @@
 /*
- * function: func_0201EC74
+ * function: WORDSET_Create
  * address:  0x0201EC74
  * packet:   pkt_0201EC74
  * region:   arm9
@@ -65,11 +65,11 @@
  *   sFile_020A7364  0x020A7364  data  a1
  *   func_02030734   0x02030734  arm
  *   STRBUF_Create   0x020457B0  arm
- *   func_0201ED50   0x0201ED50  thumb
+ *   WORDSET_Init   0x0201ED50  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201EC74.c \
- *       --func func_0201EC74 --addr 0x0201EC74 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WORDSET_Create.c \
+ *       --func WORDSET_Create --addr 0x0201EC74 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -102,9 +102,9 @@ struct WordSet {
     void *str0;
 };
 
-extern void func_0201ED50(struct Tag *t);
+extern void WORDSET_Init(struct Tag *t);
 
-struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap)
+struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap)
 {
     struct WordSet *p;
     u32 i = 0;
@@ -124,7 +124,7 @@ struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap)
         goto fail;
     }
     while (i < n) {
-        func_0201ED50(&p->entries[i].tag);
+        WORDSET_Init(&p->entries[i].tag);
         p->entries[i].str = STRBUF_Create(size, heap);
         if (p->entries[i].str == 0) {
             break;

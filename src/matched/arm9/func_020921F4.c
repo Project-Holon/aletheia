@@ -1,5 +1,5 @@
 /*
- * function: func_020921F4
+ * function: __fpclassifyd
  * address:  0x020921F4
  * packet:   pkt_02092144
  * region:   arm9
@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-int func_020921F4(double v)
+int __fpclassifyd(double v)
 {
     if ((*(u32 *)((char *)&v + 4) & 0x7FF00000u) != 0) {
         if ((*(u32 *)((char *)&v + 4) & 0x7FF00000u) == 0x7FF00000u)

@@ -16,8 +16,8 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012964  0x02012964  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -68,8 +68,8 @@ extern struct Tmpl g_02183AF0;
 extern void MI_CpuFill8(void *, int, int);
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012964(const struct BigObj *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
@@ -102,7 +102,7 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(Rec *r, void *a1, void *a2, void *a3, u16 i
     r->f8 = r->fA;
     r->f13 = idx;
     if (place != 0) {
-        sys = func_02012964(func_020120F4(a1));
+        sys = GAME_DATA_GetOccupyInfo(ICA_ANIME_GetField1C(a1));
         obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a2));
         zone = FIELDMAP_GetZoneId(a2);
         d_02183AF0.f2 = FLDMMDL_GetObjCode(obj);

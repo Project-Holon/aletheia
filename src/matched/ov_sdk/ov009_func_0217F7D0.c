@@ -1,5 +1,5 @@
 /*
- * function: func_0217F7D0
+ * function: QuartToTrip
  * address:  0x0217F7D0
  * packet:   pkt_0219091C
  * region:   ov009
@@ -14,7 +14,7 @@
  * flags, so the loads are ldrsb and the shifts arithmetic.
  */
 
-void func_0217F7D0(char *quart, char *trip, int inlen)
+void QuartToTrip(char *quart, char *trip, int inlen)
 {
     if (inlen >= 2)
         trip[0] = (char)(quart[0] << 2 | quart[1] >> 4);

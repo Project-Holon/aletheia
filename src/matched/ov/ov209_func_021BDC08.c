@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_021C940C 0x021C940C thumb ov212
+ *   ZUKAN_CreateActor 0x021C940C thumb ov212
  *   CLACT_SetActorVisible 0x0204BA20 arm
  *   ZUKAN_LIST_SetActorVisible 0x021BD8D8 thumb ov209
  *   ZUKAN_LIST_StartActorAnim 0x021BD890 thumb ov209
@@ -33,7 +33,7 @@ struct Bank;
 struct Blk37;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct Obj;
-extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 extern void ZUKAN_LIST_SetActorVisible(char *p, u32 idx, u32 value);
 extern void ZUKAN_LIST_StartActorAnim(char *, int, int);
@@ -52,7 +52,7 @@ void ZUKAN_LIST_CreateActors(char *p)
         t.w8 = *(u32 *)(p + t.w8 * 4 + 0xb64);
         t.wC = *(u32 *)(p + t.wC * 4 + 0xbf4);
         t.w10 = *(u32 *)(p + t.w10 * 4 + 0xc0c);
-        *(void **)(p + i * 4 + 0xa74) = func_021C940C((u32)(((struct Obj04617 *)p)->fA70), (const u8 *)(&t), 0x6b);
+        *(void **)(p + i * 4 + 0xa74) = ZUKAN_CreateActor((u32)(((struct Obj04617 *)p)->fA70), (const u8 *)(&t), 0x6b);
         CLACT_SetActorVisible(*(void **)(p + i * 4 + 0xa74), 0);
     }
     if (((struct Obj25570 *)(*(char * *)&((struct Obj04617 *)p)->f0))->fA <= 7) {

@@ -14,7 +14,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ZUKAN_LIST_InitPaletteAnim 0x021BC6C4 thumb ov209
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 extern const char ov067_id[];
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern int func_02034AC4(int);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
@@ -69,8 +69,8 @@ int ZUKAN_LIST_StateInit(char *p)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     BG_SYS_SetLcdSwap(0);
     ZUKAN_LIST_InitPaletteAnim(p);
     ZUKAN_LIST_SetVramBanks();

@@ -15,9 +15,9 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   POKE_REGULATION_Load 0x0201A354 thumb
- *   func_0200AE14 0x0200AE14 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
- *   func_0200B358 0x0200B358 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
@@ -39,9 +39,9 @@ extern void POKEPARTY_Init(struct Party *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern void *POKE_REGULATION_Load(int, int);
-extern void *func_0200AE14(void *);
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern void *func_0200B358(void *);
+extern void *REGULATION_NoOp(void *);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Rec534;
 struct Sub0200852CObj;
@@ -71,9 +71,9 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
         }
         ((struct Obj02537 *)out)->f0 = POKE_REGULATION_Load(id, heap);
     } else if (((struct Obj01078 *)p)->f1C == 0) {
-        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01078 *)p)->f4)), 0));
+        ((struct Obj02537 *)out)->f0 = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj01078 *)p)->f4)), 0));
     } else if (((struct Obj01078 *)p)->f1C == 1) {
-        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01078 *)p)->f4)), 1));
+        ((struct Obj02537 *)out)->f0 = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj01078 *)p)->f4)), 1));
     } else {
         func_02034714(d_02213D00, 0, d_02213D00);
     }

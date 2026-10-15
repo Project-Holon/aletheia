@@ -12,7 +12,7 @@
  * Verified EXACT C copied from ov029_func_021F0DB4.c:
  * int PALANM_GetDefaultWork(char *p, int i) { return *(int *)(p + i * 0x14); }
  * symbols:
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
@@ -21,7 +21,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   PALANM_CopyToSlot 0x020215BC thumb
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef signed short   s16;
 struct PalAnmSlot;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -45,7 +45,7 @@ extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern int PALANM_GetDefaultWork(char *, int);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
@@ -56,7 +56,7 @@ void BTLV_INPUT_DrawSelectScreenText(char *s, const int *b)
     void *w;
     void *extra;
     u8 c[3];
-    h = (int)func_0201EC64(((struct Obj02440 *)s)->f240);
+    h = (int)GF_FONT_Create_EC64(((struct Obj02440 *)s)->f240);
     v = STRBUF_Create(8, ((struct Obj02440 *)s)->f240);
     w = func_02045EC0(((struct Obj02440 *)s)->f5C, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -74,7 +74,7 @@ void BTLV_INPUT_DrawSelectScreenText(char *s, const int *b)
     PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x7c, 8, extra, (void *)(((struct Obj02440 *)s)->f224));
     STRBUF_Delete(extra);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    func_0201ED04((struct WordSet *)h);
+    WORDSET_DeleteStrbufED04((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
     PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj02440 *)s)->f64), (u16 *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), 1, 0x70, 0x20);

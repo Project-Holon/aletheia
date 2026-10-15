@@ -1,5 +1,5 @@
 /*
- * function: func_021C4C88
+ * function: WF2DMAP_OBJ_ApplyCommand
  * address: 0x021C4C88
  * packet: pkt_ov127_021C4C88
  * region: ov127
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C601C 0x021C601C data a4
+ *   sWf2dmapCommandTable 0x021C601C data a4
  */
 #include "../include/Obj23041.h"
 #include "../include/Obj23042.h"
 typedef unsigned short u16;
 struct pair {u16 a,b;};
-extern void (*d_021C601C)(char *,struct pair,unsigned);
-void func_021C4C88(char *p,char *q)
+extern void (*sWf2dmapCommandTable)(char *,struct pair,unsigned);
+void WF2DMAP_OBJ_ApplyCommand(char *p,char *q)
 {
- (*(void (**)(char *,struct pair,unsigned))((unsigned)&d_021C601C+*(u16 *)(q+4)*4))(p,*(struct pair *)q,((struct Obj23042 *)q)->f6);
+ (*(void (**)(char *,struct pair,unsigned))((unsigned)&sWf2dmapCommandTable+*(u16 *)(q+4)*4))(p,*(struct pair *)q,((struct Obj23042 *)q)->f6);
  ((struct Obj23041 *)p)->f16=0;
 }

@@ -31,7 +31,7 @@
  *   DWC_NdGetProgress  0x021C5E14  arm  ov114
  *   NHTTP_CancelConnection  0x021BF374  arm  ov114
  *   DWCi_Ndi_unprepareHttpCallback  0x021C797C  arm  ov114
- *   func_0205CD24  0x0205CD24  arm
+ *   DWC_GetApInfo  0x0205CD24  arm
  *   sDwciNdEmptyMacAddress  0x021CE0E4  data
  *   gDwciNdApInfo  0x021D3C8C  data
  *   DWCi_BM_GetWiFiInfo  0x02058518  arm
@@ -146,7 +146,7 @@ extern int NHTTP_DeleteConnection(void *handle);
 extern void func_02059F54(int error, int errorCode);
 extern int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen);
 extern int NHTTP_CancelConnection(void *handle);
-extern int func_0205CD24(NdApInfo *apinfo);
+extern int DWC_GetApInfo(NdApInfo *apinfo);
 extern void DWCi_BM_GetWiFiInfo(NdWiFiInfo *buf);
 extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern void *NHTTP_GetUserParam(void *handle);
@@ -640,7 +640,7 @@ int DWCi_NdCancelAsync(void)
 int DWCi_Ndi_getApInfo(char *apinfo)
 {
     NdApString strAp = sDwciNdEmptyMacAddress;
-    if (func_0205CD24(&gDwciNdApInfo)) {
+    if (DWC_GetApInfo(&gDwciNdApInfo)) {
         if (gDwciNdApInfo.type >= 0 && gDwciNdApInfo.type < 10)
             strAp.b[1] = gDwciNdApInfo.type + '0';
         else if (gDwciNdApInfo.type >= 10 && gDwciNdApInfo.type < 100)

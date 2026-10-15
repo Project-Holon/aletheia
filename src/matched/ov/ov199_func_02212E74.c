@@ -15,10 +15,10 @@
  *   BATTLE_REC_TOOL_PackSetup 0x021EEE78 thumb ov188
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200B358 0x0200B358 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
- *   func_0200AE14 0x0200AE14 thumb
- *   func_0200B078 0x0200B078 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   func_022133E4 0x022133E4 thumb ov199
  *   POKE_REGULATION_Load 0x0201A354 thumb
  *   func_020307B0 0x020307B0 arm
@@ -42,10 +42,10 @@ struct Big;
 struct Rec160;
 struct Reg2;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200B358(void *);
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern void *func_0200AE14(void *);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern void *BATTLE_COMPETITION_GetFromSave(void *);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern void *REGULATION_NoOp(void *);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern void func_022133E4(u8 *p, void *party1, void *party2, u8 *save, void *reg, int setting, u8 *record, void *other, int mode);
 extern void *POKE_REGULATION_Load(int,int);
 extern u32 func_020307B0(void *p);
@@ -69,9 +69,9 @@ int func_02212E74(void *manager, u8 *arg, u8 *p)
     BATTLE_REC_TOOL_PackSetup(((struct Obj03909 *)arg)->f4);
     BATTLE_REC_UnloadToolOverlay();
     if (((struct Obj01007 *)p)->f1C == 0) {
-        rules = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01007 *)p)->f4)),0);
-        reg = func_0200AE14(rules);
-        setting = func_0200B078(rules,2);
+        rules = REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj01007 *)p)->f4)),0);
+        reg = REGULATION_NoOp(rules);
+        setting = REGULATION_Card_GetValue(rules,2);
         if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,reg,setting,record,p + 0x1b4,0);
     } else if (((struct Obj01007 *)p)->f1C == 2) {
         created = POKE_REGULATION_Load(((struct Obj01007 *)p)->f8 + 0xf,0x56);

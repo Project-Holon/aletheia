@@ -1,5 +1,5 @@
 /*
- * function: func_021B7ADC
+ * function: POKE_SUMMARY_ACTOR_PositionMonActor
  * address:  0x021B7ADC
  * packet:   pkt_021B7ADC
  * region:   ov173
@@ -18,7 +18,7 @@ struct Vec2;
 void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
-void func_021B7ADC(unsigned char *p, u32 idx, int unused)
+void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *p, u32 idx, int unused)
 {
     u16 local[2];
 

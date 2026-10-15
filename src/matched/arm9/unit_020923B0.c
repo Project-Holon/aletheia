@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020923B0, func_020923C4, func_020923F0
+ * function: MSL_C_LIB_MemsetPtr, memchr, func_020923F0
  * address:  0x020923B0
  * packet:   pkt_020923B0
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * String / memory utilities:
- *   func_020923B0 (20 B)  wraps func_02092430 (memset) and returns ptr
- *   func_020923C4 (44 B)  memchr (byte search)
+ *   MSL_C_LIB_MemsetPtr (20 B)  wraps func_02092430 (memset) and returns ptr
+ *   memchr (44 B)  memchr (byte search)
  *   func_020923F0 (64 B)  memcmp (memory comparison)
  *
  * Verified with:
@@ -25,13 +25,13 @@ typedef unsigned int  u32;
 
 extern void func_02092430(u8 *dest, u32 val, u32 count);
 
-void *func_020923B0(void *p, int c, u32 n)
+void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n)
 {
     func_02092430(p, c, n);
     return p;
 }
 
-u8 *func_020923C4(u8 *s, u32 c, u32 n)
+u8 *memchr(u8 *s, u32 c, u32 n)
 {
     u8 val = (u8)c;
 

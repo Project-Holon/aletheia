@@ -1,5 +1,5 @@
 /*
- * function: func_021D4BF4
+ * function: POKETRADE_IRCDEMO_StepSetup
  * address:  0x021D4BF4
  * packet:   pkt_ov117_021D4BF4
  * region:   ov117
@@ -23,7 +23,7 @@
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   POKETRADE_3D_InitTradeParticleSet  0x021E3070  thumb  ov119
  *   POKETRADE_3D_CreateIcaStreamsEnding  0x021E2EFC  thumb  ov119
- *   func_021D4484  0x021D4484  thumb  ov117
+ *   POKETRADE_DEMO_COMMON_SetFrame  0x021D4484  thumb  ov117
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_IRCDEMO_UpdateScene  0x021D4CE8  thumb  ov117
  *   d_021D55CC     0x021D55CC  data
@@ -53,7 +53,7 @@ extern void MCSS_GetScale(void *p, u32 *out);
 extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_3D_InitTradeParticleSet(void *w);
 extern void POKETRADE_3D_CreateIcaStreamsEnding(char *p);
-extern void func_021D4484(u8 *p, u32 v);
+extern void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_IRCDEMO_UpdateScene(u8 *p);
 extern const char d_021D55CC[];
@@ -62,7 +62,7 @@ extern const char d_021D55CC[];
 #define OBJ(i) (((u32 *)(p + 0x844))[i])
 #define WORK (*(u8 **)(p + 0xc))
 
-void func_021D4BF4(u8 *p)
+void POKETRADE_IRCDEMO_StepSetup(u8 *p)
 {
     POKETRADE_PROC_DeleteAllResources((char *)p);
     CLACT_ExitSystem();
@@ -83,6 +83,6 @@ void func_021D4BF4(u8 *p)
     MCSS_SetVanishFlag((void *)OBJ(3));
     POKETRADE_3D_InitTradeParticleSet(WORK);
     POKETRADE_3D_CreateIcaStreamsEnding((char *)WORK);
-    func_021D4484(p, 0);
+    POKETRADE_DEMO_COMMON_SetFrame(p, 0);
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_IRCDEMO_UpdateScene);
 }

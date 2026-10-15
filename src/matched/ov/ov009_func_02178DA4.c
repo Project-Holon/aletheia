@@ -12,15 +12,17 @@
  * Calls the two module helpers in order.
  *
  * symbols:
+ *   DWC_Auth_Abort  0x021780A8  arm
+ *   DWC_Auth_Destroy  0x02178144  arm
 
  */
 
-extern void func_021780A8(void);
-extern void func_02178144(void);
+extern void DWC_Auth_Abort(void);
+extern void DWC_Auth_Destroy(void);
 
 void DWCi_Auth_AbortAuthentication(void)
 {
-    func_021780A8();
-    func_02178144();
+    DWC_Auth_Abort();
+    DWC_Auth_Destroy();
 }
 

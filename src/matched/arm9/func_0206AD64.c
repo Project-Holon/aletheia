@@ -27,7 +27,7 @@
  * helper, then hand the pair back to the slot fetch.
  *
  * PARKED AT MATCH.  Every concrete byte of the 88-byte body reproduces under
- * the pin; the single open site is func_0207B60C's only branch reference
+ * the pin; the single open site is MTX_ScaleApply43's only branch reference
  * anywhere in the image, the `bl` at 0x0206AD94 inside this function, so the
  * PC24 site is its own witness and no C can resolve it.  It unsticks the day
  * 0x0207B60C is itself an EXACT manifest entry (`matched`) or a second caller
@@ -41,7 +41,7 @@
  *   g_02148C7C   0x02148C7C  data
  *   g_02148CAC   0x02148CAC  data
  *   func_0207B9F0  0x0207B9F0  arm
- *   func_0207B60C  0x0207B60C  arm
+ *   MTX_ScaleApply43  0x0207B60C  arm
  *   func_0207B67C  0x0207B67C  arm
  *
  * Verified with:
@@ -58,13 +58,13 @@ extern char g_02148C7C[];
 extern char g_02148CAC[];
 
 extern void func_0207B9F0(void *a, void *b, void *c);
-extern void func_0207B60C(void *a, void *b, u32 c, u32 d, u32 e);
+extern void MTX_ScaleApply43(void *a, void *b, u32 c, u32 d, u32 e);
 extern void func_0207B67C(void *a, void *b);
 
 void NNSi_G3dGlbUpdateWV(void)
 {
     func_0207B9F0(g_renderStateIdentityMtx, g_renderStateDrawParams, g_02148C7C);
-    func_0207B60C(g_02148C7C, g_02148C7C, g_renderState[0x3b], g_renderState[0x3c],
+    MTX_ScaleApply43(g_02148C7C, g_02148C7C, g_renderState[0x3b], g_renderState[0x3c],
                   g_renderState[0x3d]);
     func_0207B67C(g_02148C7C, g_02148CAC);
 }

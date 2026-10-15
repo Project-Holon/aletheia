@@ -1,5 +1,5 @@
 /*
- * function: func_02185848
+ * function: BEACON_DETAIL_SetupCalc
  * address: 0x02185848
  * packet: pkt_ov219_02185848
  * region: ov219
@@ -21,7 +21,7 @@ extern void func_0207AF1C(Matrix *,int,int),func_0207AF00(Matrix *,int,int),func
 extern void func_0207B388(const Matrix *,const Matrix *,Matrix *);
 static inline int sine(u16 a) {return FX_SinCosTable_[(a>>4)*2];}
 static inline int cosine(u16 a) {return FX_SinCosTable_[(a>>4)*2+1];}
-void func_02185848(Matrix *p,int *angles)
+void BEACON_DETAIL_SetupCalc(Matrix *p,int *angles)
 {
     Matrix temp;
     func_0207AF1C(p,sine(angles[1]),cosine(angles[1]));

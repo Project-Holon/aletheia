@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * blocker:  every concrete byte reproduces; the single call to
- *   func_02025D14 (0x02025D14) stays wildcarded because the target is an
+ *   CURSOR_MOVE_Delete (0x02025D14) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *   func_02025D14  0x02025D14  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
  */
 #include "../include/Obj00000.h"
 
-extern void func_02025D14(void);
+extern void CURSOR_MOVE_Delete(void);
 
 void BOX2_UI_DeleteSound(int *p)
 {
     if (*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70)) {
-        func_02025D14();
+        CURSOR_MOVE_Delete();
         *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70) = 0;
     }
 }

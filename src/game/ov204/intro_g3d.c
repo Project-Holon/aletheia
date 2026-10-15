@@ -1,7 +1,7 @@
 /*
  * file:     intro_g3d.c
  * unit:     yes
- * function: func_021BF67C, func_021BF720, func_021BF744, func_021BF788, func_021BF794, func_021BF7CC, func_021BF7F0, func_021BF804, func_021BF864, func_021BF898, func_021BF8DC, func_021BF9D0, func_021BF9FC, func_021BFA40, func_021BFAE4, func_021BFAE8, func_021BFB2C, func_021BFBA0, func_021BFBC8, func_021BFC24, func_021BFCD0, func_021BFCE0
+ * function: func_021BF67C, func_021BF720, func_021BF744, func_021BF788, func_021BF794, func_021BF7CC, func_021BF7F0, func_021BF804, func_021BF864, func_021BF898, func_021BF8DC, func_021BF9D0, func_021BF9FC, func_021BFA40, func_021BFAE4, func_021BFAE8, func_021BFB2C, func_021BFBA0, func_021BFBC8, func_021BFC24, func_021BFCD0, func_021BFCE0, INTRO_PARTICLE_StartEffect
  * address:  0x021BF67C
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -47,7 +47,7 @@
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
  *   func_02048AD0 0x02048AD0 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   G3D_SYSTEM_IncObjectAnimeFrame 0x020478B8 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
@@ -71,6 +71,7 @@
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
  *   POKE_TOOL_Create  0x020173F0  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   PARTICLE_StartEffect  0x020515B4  arm
  */
 #include "../../matched/include/Obj10881.h"
 #include "../../matched/include/Obj10882.h"
@@ -142,7 +143,7 @@ extern void G3D_CAMERA_Delete(void *);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 extern void G3D_UTIL_Delete(struct Rec *);
 extern void func_02048AD0(struct Light *l);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
@@ -155,6 +156,7 @@ extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 extern void PARTICLE_SetupSystem(void *,unsigned,unsigned,unsigned);
 extern void PARTICLE_ExitManager(void);
 extern void PARTICLE_Main(void);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
 void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 void func_021BF720(u8 *p, int flag, u8 index);
 void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
@@ -178,6 +180,7 @@ void func_021BFBC8(char *p,unsigned value);
 char *func_021BFC24(void *owner,unsigned heap);
 void func_021BFCD0(char *a);
 void func_021BFCE0(int a0);
+void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3);
 extern const struct Vec defaultPos_021C08FC;
 extern const Vec3 va,vb,vc;
 extern const char site_021C0B00[];
@@ -185,6 +188,7 @@ extern const char setup[];
 extern const char d_021C0B30[];
 extern int d_021C0B18[];
 extern int d_021C0B0C[],d_021C0B24[];
+
 
 
 void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i)
@@ -205,11 +209,13 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }
 
+
 void func_021BF720(u8 *p, int flag, u8 index)
 {
     if(flag==1)MCSS_ResetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
     else MCSS_SetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
 }
+
 
 
 /*
@@ -229,16 +235,19 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
 }
 
 
+
 unsigned int func_021BF77C(char *p, u8 i)
 {
     return *(unsigned int *)(p + i * 12 + 12);
 }
 
 
+
 void func_021BF788(u8 *p, u8 index)
 {
     *(int *)((u8 *)((u32)p+(u32)index*12)+12)=0;
 }
+
 
 /*
  * prototype: The shifts at 021BF7B8/021BF7BC narrow the outgoing alpha to u8.
@@ -250,17 +259,20 @@ void func_021BF794(u8 *p, u8 index, u32 alpha)
     MCSS_SetAlpha(*(char **)((u32)p+(u32)index*12+8),(u8)alpha);
 }
 
+
 void func_021BF7CC(u8 *p, u8 index, int flag)
 {
     if(flag!=0)MCSS_SetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
     else MCSS_ResetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
 }
 
+
 void func_021BF7F0(u8 *p)
 {
     ((struct Obj10882 *)p)->f4=1;
     if(((struct Obj10882 *)p)->f8==1)MCSS_RestartAnime(((struct Obj10882 *)p)->f0);
 }
+
 
 
 int func_021BF804(char *p, unsigned int i, int step, int limit)
@@ -285,10 +297,12 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
     return done;
 }
 
+
 /*
  * extent: two zero alignment bytes at 0x021BF896 follow; no follower.
  */
 int func_021BF864(char *p,int delta,int limit) { u32 v[3]; int done; MCSS_GetPosition(((struct Obj14628 *)p)->f14,v); v[1]-=delta; if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;MCSS_SetPosition(((struct Obj14628 *)p)->f14,v);return done; }
+
 
 
 void func_021BF898(char *p)
@@ -305,6 +319,7 @@ void func_021BF898(char *p)
         --((struct Obj06674 *)p)->f68;
     }
 }
+
 
 char *func_021BF8DC(void *owner,int kind,u32 heap)
 {
@@ -327,7 +342,9 @@ char *func_021BF8DC(void *owner,int kind,u32 heap)
     return p;
 }
 
+
 void func_021BF9D0(char *p) { u16 id; G3D_CAMERA_Delete(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }
+
 
 
 void func_021BF9FC(char *p)
@@ -342,10 +359,11 @@ void func_021BF9FC(char *p)
         t.scale[0] = 4096;
         t.scale[1] = 4096;
         t.scale[2] = 4096;
-        func_0207ADC4(t.matrix);
+        MTX_Identity33_(t.matrix);
         G3D_SYSTEM_DrawObject((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
     }
 }
+
 
 
 int func_021BFA40(char *p)
@@ -382,10 +400,12 @@ int func_021BFA40(char *p)
 
 
 
+
 void func_021BFAE4(char *p, int v)
 {
     ((struct Obj25391 *)p)->f14 = v;
 }
+
 
 
 void func_021BFAE8(char *p, unsigned int v)
@@ -404,6 +424,7 @@ void func_021BFAE8(char *p, unsigned int v)
     case 4: ((struct Obj03922 *)p)->f28 = 70; break;
     }
 }
+
 
 
 int func_021BFB2C(char *p)
@@ -436,6 +457,7 @@ int func_021BFB2C(char *p)
 }
 
 
+
 int func_021BFBA0(int *p)
 {
     if (p[7] == 3) {
@@ -447,6 +469,7 @@ int func_021BFBA0(int *p)
     }
     return p[10] == 60;
 }
+
 
 void func_021BFBC8(char *p,unsigned value)
 {
@@ -461,6 +484,7 @@ void func_021BFBC8(char *p,unsigned value)
     G3D_SYSTEM_SetObjectAnimeFrame(ctl,1,&frame);
     G3D_SYSTEM_SetObjectAnimeFrame(ctl,2,&frame);
 }
+
 
 char *func_021BFC24(void *owner,unsigned heap)
 {
@@ -486,10 +510,26 @@ char *func_021BFC24(void *owner,unsigned heap)
 }
 
 
+
 void func_021BFCD0(char *a)
 {
     PARTICLE_ExitManager();
     func_020307B0(a);
 }
 
+
 void func_021BFCE0(int a0) { PARTICLE_Main(); }
+
+
+void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3)
+{
+    u32 *p = a0;
+    u32 buf[3] = { 0 };
+
+    buf[0] = a1;
+    buf[1] = a2;
+    buf[2] = a3;
+    PARTICLE_StartEffect((void *)p[2], 0, (int)buf);
+    PARTICLE_StartEffect((void *)p[2], 1, (int)buf);
+    PARTICLE_StartEffect((void *)p[2], 2, (int)buf);
+}

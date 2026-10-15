@@ -12,7 +12,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_02030EAC  0x02030EAC  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -28,7 +28,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *p);
@@ -42,7 +42,7 @@ void BSUBWAY_RECORD_LIST_FreeWork(u8 *p)
         STRBUF_Delete(*(void **)(p + i * 4 + 0x100));
     }
     STRBUF_Delete(((struct Obj01132 *)p)->fFC);
-    func_0201ED04(((struct Obj01132 *)p)->fF8);
+    WORDSET_DeleteStrbufED04(((struct Obj01132 *)p)->fF8);
     MSGDATA_Delete(((struct Obj01132 *)p)->fF4);
     func_02030EAC(((struct Obj01132 *)p)->f150);
     ARC_TOOL_DeleteHandle(((struct Obj01132 *)p)->f0);

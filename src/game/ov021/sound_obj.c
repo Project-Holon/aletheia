@@ -27,7 +27,7 @@
  *   ICA_ANIME_GetFrame  0x0201160C  thumb
  *   ISS_3DS_SYS_SetSourcePos  0x0202B934  thumb
  *   ICA_ANIME_GetRotate  0x02011638  thumb
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  *   abs_id_C2      0x000000C2  data
  *   ov171_id       0x000000AB  data  a1
@@ -141,7 +141,7 @@ extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *t, VecFx32 *out);
 extern void ISS_3DS_SYS_SetSourcePos(u32 a, u32 b, VecFx32 *pos);
 extern u32 ICA_ANIME_GetRotate(struct IcaAnime *ctx, VecFx32 *out);
-extern void func_0207ADC4(void *p);
+extern void MTX_Identity33_(void *p);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
 /* Retain the mode used to store f59 for the helper's second argument. */
 SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1);
@@ -294,6 +294,6 @@ void SOUND_OBJ_ApplyRotation(SoundObj *obj)
     rotX = (u16)(u32)(65535.0f * (degX / 360.0f));
     rotY = (u16)(u32)(65535.0f * (degY / 360.0f));
     rotZ = (u16)(u32)(65535.0f * (degZ / 360.0f));
-    func_0207ADC4(&obj->target->rotate);
+    MTX_Identity33_(&obj->target->rotate);
     BUTTON_MAN_MakeRotMtxXYZ(rotX, rotY, rotZ, (struct Mtx33 *)&obj->target->rotate);
 }

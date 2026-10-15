@@ -12,8 +12,8 @@
  * sdk:      DWCi_EncSessionInitialize (libdwcenc.TWL.HYB.a(dwc_encsession.o))
  *
  * symbols:
- *   func_02094860  0x02094860  arm
- *   func_02095EAC  0x02095EAC  arm
+ *   strncpy  0x02094860  arm
+ *   strtoul  0x02095EAC  arm
  *   DWCi_EncValidateKey  0x021C98E0  arm  ov114
  *   DWC_InitGHTTP  0x021BF558  arm  ov114
  *   gDwcEncSession  0x021CF7AC  data
@@ -62,8 +62,8 @@ typedef union {
     } info;
 } InitData;
 
-extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
-extern u32 func_02095EAC(u32 a0, u32 *a1, u32 mode);
+extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+extern u32 strtoul(u32 a0, u32 *a1, u32 mode);
 extern int DWCi_EncValidateKey(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4);
 extern int DWC_InitGHTTP();
 extern struct Session gDwcEncSession;
@@ -102,12 +102,12 @@ void DWCi_EncSessionInitialize(int server, char *initdata)
     }
 
     ptr = (InitData *)initdata;
-    func_02094860((u8 *)secretkey, (const u8 *)ptr->info.secretkey, 20);
+    strncpy((u8 *)secretkey, (const u8 *)ptr->info.secretkey, 20);
     secretkey[20] = '\0';
-    randkey_1 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key1, 8), 0, 16);
-    randkey_2 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key2, 8), 0, 16);
-    randkey_3 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key3, 8), 0, 16);
-    randkey_4 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key4, 8), 0, 16);
+    randkey_1 = strtoul((u32)strncpy((u8 *)buf, (const u8 *)ptr->info.key1, 8), 0, 16);
+    randkey_2 = strtoul((u32)strncpy((u8 *)buf, (const u8 *)ptr->info.key2, 8), 0, 16);
+    randkey_3 = strtoul((u32)strncpy((u8 *)buf, (const u8 *)ptr->info.key3, 8), 0, 16);
+    randkey_4 = strtoul((u32)strncpy((u8 *)buf, (const u8 *)ptr->info.key4, 8), 0, 16);
     DWCi_EncValidateKey(ptr->info.gamename, secretkey, randkey_1, randkey_2, randkey_3, randkey_4);
     DWC_InitGHTTP(0);
     gDwcEncSession.state = 3;

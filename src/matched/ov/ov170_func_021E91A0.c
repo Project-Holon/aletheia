@@ -28,7 +28,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_PrintMessageD 0x021EBB58 thumb ov170
  *   func_020355C4 0x020355C4 arm
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
  */
@@ -50,7 +50,7 @@ extern void BOX2_MAIN_SetBoxForm(char *p, unsigned b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_SEQ_PrintMessageD(char *p, int b);
 extern u8 func_020355C4(void);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
@@ -65,8 +65,8 @@ extern void BOX2_SEQ_PrintPromptB(unsigned char *,int,int);
 int BOX2_SEQ_StateUseItemMenu(unsigned char *p)
 {
     void *mon;
-    if(func_020355C4()==1) func_020260F4(*(void **)(WORK(p)+0x70),0);
-    else { func_020260F4(*(void **)(WORK(p)+0x70),1); BOX2_SEQ_SetCursorDraw((char **)p,0); }
+    if(func_020355C4()==1) CURSOR_MOVE_SetState(*(void **)(WORK(p)+0x70),0);
+    else { CURSOR_MOVE_SetState(*(void **)(WORK(p)+0x70),1); BOX2_SEQ_SetCursorDraw((char **)p,0); }
     if(func_02007E50(((struct Obj23943 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC,*(unsigned short *)(WORK(p)+0xa16c),1,0x4c)==1) {
         mon=(void *)BOX2_MAIN_GetMonAt((void ***)p,p[0x14],p[0x16]);
         BOX2_MAIN_SetBoxValueAt((int)p,p[0x16],p[0x14],6,0);

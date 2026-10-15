@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0207D4B0 0x0207D4B0 arm
+ *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   POKELIST_LoadBgPlane 0x021B7078 thumb ov091
  *   d_021BEB7C 0x021BEB7C data a4
  */
-extern void func_0207D4B0(int,int,int);
+extern void GX_SetGraphicsMode(int,int,int);
 extern void POKELIST_LoadBgPlane(const void *,unsigned,unsigned);
 extern char d_021BEB7C[];
-void POKELIST_SetupBgPlanes(void *p) { func_0207D4B0(1,0,0); POKELIST_LoadBgPlane(d_021BEB7C,0,0); }
+void POKELIST_SetupBgPlanes(void *p) { GX_SetGraphicsMode(1,0,0); POKELIST_LoadBgPlane(d_021BEB7C,0,0); }

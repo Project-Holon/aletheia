@@ -63,7 +63,7 @@ typedef struct SaveControlIntr {
 
 /*
  * func_020351F8 (arm) resolves through the matched entry
- * src/matched/arm9/sub_020351F8.c.
+ * src/matched/arm9/UI_SetIntrDataGlobal.c.
  */
 void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl)
 {

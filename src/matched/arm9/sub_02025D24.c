@@ -1,5 +1,5 @@
 /*
- * function: func_02025D24
+ * function: CURSOR_MOVE_SetMode
  * address:  0x02025D24
  * packet:   pkt_02025C44
  * region:   arm9
@@ -18,7 +18,7 @@ struct Struct_02025D24 {
     u32 field_8;
 };
 
-void func_02025D24(struct Struct_02025D24 *obj)
+void CURSOR_MOVE_SetMode(struct Struct_02025D24 *obj)
 {
     obj->field_8 = 1;
 }

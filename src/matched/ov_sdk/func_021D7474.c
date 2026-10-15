@@ -11,8 +11,9 @@
  *
  * symbols:
  *   DWCi_SetLedNormal   0x021D7474  arm
+ *   PMi_SendLEDPatternCommand  0x0208C6A4  arm  arm9
  *
- * Tail-call func_0208C6A4 with the constant 1.
+ * Tail-call PMi_SendLEDPatternCommand with the constant 1.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,9 +21,9 @@
  *       --func DWCi_SetLedNormal --addr 0x021D7474 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern unsigned int func_0208C6A4(unsigned int pattern);
+extern unsigned int PMi_SendLEDPatternCommand(unsigned int pattern);
 
 void DWCi_SetLedNormal(void)
 {
-    func_0208C6A4(1);
+    PMi_SendLEDPatternCommand(1);
 }

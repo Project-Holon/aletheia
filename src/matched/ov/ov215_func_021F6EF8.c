@@ -1,5 +1,5 @@
 /*
- * function: func_021F6EF8
+ * function: EGG_DEMO_VIEW_InitModel
  * address: 0x021F6EF8
  * packet: pkt_ov215_021F6EF8
  * region: ov215
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 struct Util;
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 extern struct Util *G3D_UTIL_Create(u16,u16,u16);
-void func_021F6EF8(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
+void EGG_DEMO_VIEW_InitModel(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}

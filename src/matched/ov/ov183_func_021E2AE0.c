@@ -12,8 +12,8 @@
  *   func_021E2E60 0x021E2E60 thumb ov183
  *   func_021E2E30 0x021E2E30 thumb ov183
  *   func_021E2E48 0x021E2E48 thumb ov183
- *   func_021E31E8 0x021E31E8 thumb ov183
- *   func_021E3228 0x021E3228 thumb ov183
+ *   BR_CODEIN_HitTestOptionA 0x021E31E8 thumb ov183
+ *   BR_CODEIN_HitTestOptionB 0x021E3228 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
@@ -26,7 +26,7 @@ typedef struct Pair {int a,b;} Pair;
 extern void func_021E2E60(Pair *);
 extern void func_021E2E30(char *,int,int);
 extern void func_021E2E48(char *p, int a, int b);
-extern int func_021E31E8(char *,int,int),func_021E3228(char *,int,int);
+extern int BR_CODEIN_HitTestOptionA(char *,int,int),BR_CODEIN_HitTestOptionB(char *,int,int);
 extern void BR_FADE_Start(int,int,int,int);
 typedef unsigned int   u32;
 extern int BR_FADE_GetResult(int *);
@@ -52,8 +52,8 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         break;
     case 3:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
-            if(func_021E31E8(p,x,y)) *state=4;
-            if(func_021E3228(p,x,y)) *state=7;
+            if(BR_CODEIN_HitTestOptionA(p,x,y)) *state=4;
+            if(BR_CODEIN_HitTestOptionB(p,x,y)) *state=7;
         }
         break;
     case 4:

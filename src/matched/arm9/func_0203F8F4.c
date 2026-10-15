@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F8F4
+ * function: BG_SYS_Create
  * address:  0x0203F8F4
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -27,8 +27,8 @@
  * allocator's return value, since nothing has been called since the store.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F8F4.c \
- *       --func func_0203F8F4 --addr 0x0203F8F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_Create.c \
+ *       --func BG_SYS_Create --addr 0x0203F8F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -58,7 +58,7 @@ extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 struct AreaMan;
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 
-void func_0203F8F4(u16 heapId)
+void BG_SYS_Create(u16 heapId)
 {
     s32 i;
 

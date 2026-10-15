@@ -1,5 +1,5 @@
 /*
- * function: func_021B71C4
+ * function: POKE_SUMMARY_MAIN_DrawMoveDetail
  * address: 0x021B71C4
  * packet: pkt_ov173_021B71C4
  * region: ov173
@@ -79,12 +79,12 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   func_02045CAC 0x02045CAC arm
- *   func_021B6C84 0x021B6C84 thumb ov173
- *   func_021B6BF8 0x021B6BF8 thumb ov173
+ *   POKE_SUMMARY_MAIN_PrintValue 0x021B6C84 thumb ov173
+ *   POKE_SUMMARY_MAIN_PrintAligned 0x021B6BF8 thumb ov173
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_021B79E0 0x021B79E0 thumb ov173
+ *   POKE_SUMMARY_ACTOR_SetMoveAnim 0x021B79E0 thumb ov173
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -105,12 +105,12 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B6C84(char *,u32,u32,u32,u8);
-extern u32 func_021B6BF8(char *,int,u32,u16,int,u8);
+extern void POKE_SUMMARY_MAIN_PrintValue(char *,u32,u32,u32,u8);
+extern u32 POKE_SUMMARY_MAIN_PrintAligned(char *,int,u32,u16,int,u8);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_021B79E0(u8 *p, u16 id);
+extern void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *p, u16 id);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -127,7 +127,7 @@ static inline void clear(void *win)
     BMP_WIN_ClearScreen(win);
     func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
-void func_021B71C4(char *p,int move)
+void POKE_SUMMARY_MAIN_DrawMoveDetail(char *p,int move)
 {
     u32 value;
     void *bank;
@@ -140,17 +140,17 @@ void func_021B71C4(char *p,int move)
     if(move!=zero-2) {
         value=WAZA_TOOL_GetParam(move,3);
         if(value<=1) func_02045CAC(*(void **)(p+0x44),0x21,*(void **)(p+0x4c));
-        else func_021B6C84(p,0x1d,value,3,0);
-        func_021B6BF8(p,4,*(u32 *)(p+0x60),0x440,1,0);
+        else POKE_SUMMARY_MAIN_PrintValue(p,0x1d,value,3,0);
+        POKE_SUMMARY_MAIN_PrintAligned(p,4,*(u32 *)(p+0x60),0x440,1,0);
         value=WAZA_TOOL_GetParam(move,4);
         if(value==0 || WAZA_TOOL_IsAlwaysHit(move)!=0) func_02045CAC(*(void **)(p+0x44),0x21,*(void **)(p+0x4c));
-        else func_021B6C84(p,0x1e,value,3,0);
-        func_021B6BF8(p,5,*(u32 *)(p+0x60),0x440,1,0);
+        else POKE_SUMMARY_MAIN_PrintValue(p,0x1e,value,3,0);
+        POKE_SUMMARY_MAIN_PrintAligned(p,5,*(u32 *)(p+0x60),0x440,1,0);
         bank=func_02045B38(0,2,0xca,79);
         func_02045CAC(bank,move,*(void **)(p+0x4c));
-        func_021B6BF8(p,6,*(u32 *)(p+0x60),0x440,0,0);
+        POKE_SUMMARY_MAIN_PrintAligned(p,6,*(u32 *)(p+0x60),0x440,0,0);
         MSGDATA_Delete(bank);
-        func_021B79E0((u8 *)p,move);
+        POKE_SUMMARY_ACTOR_SetMoveAnim((u8 *)p,move);
         CLACT_SetActorDrawEnable(*(void **)(p+0x110),1);
         flush(*(void **)(p+0xc));
         flush(*(void **)(p+0x10));

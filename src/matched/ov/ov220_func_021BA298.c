@@ -1,5 +1,5 @@
 /*
- * function: func_021BA298
+ * function: TH_AWARD_GRAPHIC_Noop
  * address: 0x021BA298
  * packet: pkt_ov220_021BA298
  * region: ov220
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BA298(void *p){}
+void TH_AWARD_GRAPHIC_Noop(void *p){}

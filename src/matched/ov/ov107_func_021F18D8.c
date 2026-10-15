@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  */
 
 typedef struct {
@@ -20,11 +20,11 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct WordSet;
-struct WordSet *func_0201EC64(u32 heap);
+struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 void MB_UTIL_MSG_CreateWordSet(Ov107Ctx *p)
 {
     if (p->f24 == 0) {
-        p->f24 = func_0201EC64(p->f00);
+        p->f24 = GF_FONT_Create_EC64(p->f00);
     }
 }

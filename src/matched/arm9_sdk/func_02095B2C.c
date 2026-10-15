@@ -1,5 +1,5 @@
 /*
- * function: func_02095B2C
+ * function: atof
  * address:  0x02095B2C
  * packet:   pkt_02095B2C
  * region:   arm9
@@ -13,12 +13,13 @@
  *
  * symbols:
  *   FATFSi_FormatDriveEx  0x02095AA4  arm
+ *   strtod  0x02095AA4  arm
  */
 
 typedef unsigned int   u32;
-extern unsigned long long func_02095AA4(u32 a0, u32 *a1);
+extern unsigned long long strtod(u32 a0, u32 *a1);
 
-int func_02095B2C(char *path)
+int atof(char *path)
 {
-    return func_02095AA4((u32)path, 0);
+    return strtod((u32)path, 0);
 }

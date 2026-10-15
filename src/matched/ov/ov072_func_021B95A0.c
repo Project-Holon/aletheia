@@ -21,7 +21,7 @@
  *   TOWNMAP_GRH_LoadTownInfo  0x021BBB24  thumb  ov072
  *   TOWNMAP_ProcInit  0x021B991C  thumb  ov072
  *   TOWNMAP_StepFadeIn  0x021B996C  thumb  ov072
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   TOWNMAP_GRH_GetBgId  0x021BB764  thumb  ov072
  *   TOWNMAP_GRH_InitTextBox  0x021BB3E8  thumb  ov072
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
@@ -84,7 +84,7 @@ extern u32 *TOWNMAP_GRH_Create(u32 heap);
 extern int TOWNMAP_GRH_LoadTownInfo(int a);
 extern void TOWNMAP_ProcInit(int *p, int a, int b);
 extern void TOWNMAP_StepFadeIn(int a, int *b);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 TOWNMAP_GRH_GetBgId(int unused, u32 i);
 extern void TOWNMAP_GRH_InitTextBox(void *p, int a, int b, int c, u8 s0, u8 s1, u8 s2, u8 s3, u16 s4);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
@@ -134,7 +134,7 @@ int TOWNMAP_Create(void *a, void *b, Arg *c)
     *(u32 * *)&((struct Obj00433 *)o)->f0 = TOWNMAP_GRH_Create(0x44);
     ((struct Obj00433 *)o)->f34 = TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit((int *)(o + 4), (int)o, (int)TOWNMAP_StepFadeIn);
-    v = (u32)func_020120F4((const struct Ctx *)((*(u32 **)(o + 0x130))[5]));
+    v = (u32)ICA_ANIME_GetField1C((const struct Ctx *)((*(u32 **)(o + 0x130))[5]));
     if ((*(Arg * *)&((struct Obj00433 *)o)->f130)->f0 != 1) {
         TOWNMAP_GRH_InitTextBox(o + 0xc4, TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f12C, 0, 0x15, 0x18, 3, 0x44);
         GF_FONT_SetTextColor(0xf, 1, 0);
@@ -144,7 +144,7 @@ int TOWNMAP_Create(void *a, void *b, Arg *c)
     TOWNMAP_BackButtonInit((u32 *)(o + 0x14), (*(Arg * *)&((struct Obj00433 *)o)->f130)->f0, TOWNMAP_GRH_GetHandle((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 0), 0xf, 8, v, 0x44);
     TOWNMAP_GRH_InitLabel((u32 *)(o + 0xd4), TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f128, TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), 0x44);
     func_02040618(TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), 3, -4);
-    TOWNMAP_MapInit(o + 0x50, c->f8, c->fA, ((struct Obj00433 *)o)->f34, *(u32 *)&((struct Obj00433 *)o)->f0, (u32)func_020120F4((const struct Ctx *)((*(u32 **)(o + 0x130))[5])), 0x44, flag);
+    TOWNMAP_MapInit(o + 0x50, c->f8, c->fA, ((struct Obj00433 *)o)->f34, *(u32 *)&((struct Obj00433 *)o)->f0, (u32)ICA_ANIME_GetField1C((const struct Ctx *)((*(u32 **)(o + 0x130))[5])), 0x44, flag);
     TOWNMAP_CursorInit(o + 0x38, TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 1), TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 2), 0x44);
     e = (int)TOWNMAP_MapFindTownById((char *)(o + 0x50), c->f8, c->fA);
     if (e != 0) {

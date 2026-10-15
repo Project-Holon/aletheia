@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020979BC"
+    "__ieee754_pow"
    ],
    "evidence": {
     "sole-ref": [
@@ -26,7 +26,10 @@
      "self:0x020A6300",
      "self:0x020A6310"
     ]
-   }
+   },
+   "addresses": [
+    "0x020979BC"
+   ]
   }
  ]
 }

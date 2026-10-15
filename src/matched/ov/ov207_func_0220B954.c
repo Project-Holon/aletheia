@@ -1,5 +1,5 @@
 /*
- * function: func_0220B954
+ * function: ZUKAN_NICKNAME_InitKeyboard
  * address: 0x0220B954
  * packet: pkt_ov207_0220B954
  * region: ov207
@@ -27,7 +27,7 @@ extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 struct Obj;
 extern struct Obj *BTLV_INPUT_CreateDefault(int a, int b, int c, int d, int e, u16 k);
-void func_0220B954(unsigned *p)
+void ZUKAN_NICKNAME_InitKeyboard(unsigned *p)
 {
     func_02034AC4((int)overlay94);
     p[22]=(unsigned)PALANM_Create(((struct Obj00174 *)p)->f0);

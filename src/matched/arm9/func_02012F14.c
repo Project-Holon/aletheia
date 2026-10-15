@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02009EC8  0x02009EC8  thumb
+ *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
  *
  * Save-block getter through the handle's first word: tail call to
- * func_02009EC8 (block 0x1f).  Seeded from ov119 0x021E0226, 0x021E06D0,
+ * TRADE_HISTORY_GetFromSave (block 0x1f).  Seeded from ov119 0x021E0226, 0x021E06D0,
  * 0x021E080C (tree_ov170_3).
  *
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02009EC8(void *sys);
+extern void *TRADE_HISTORY_GetFromSave(void *sys);
 
 void *GAME_DATA_GetSaveBlock1F(void **h)
 {
-    return func_02009EC8(*h);
+    return TRADE_HISTORY_GetFromSave(*h);
 }

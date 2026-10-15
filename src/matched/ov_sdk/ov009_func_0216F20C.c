@@ -23,7 +23,7 @@
  *   func_0216848C  0x0216848C  arm  ov009
  *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
  *   DWCi_IsServerLocked  0x021767F4  arm  ov009
- *   func_021690D0  0x021690D0  arm  ov009
+ *   DWCi_SetGPStatus  0x021690D0  arm  ov009
  */
 
 extern char d_021A207C[];
@@ -37,7 +37,7 @@ extern int func_02168454(const char *key, const char *value, char *string, char 
 extern int func_0216848C(const char *key, const char *value, char *string, char sep);
 extern int DWCi_NodeInfoList_GetCount(void);
 extern int DWCi_IsServerLocked(void);
-extern int func_021690D0(int status, const char *statusString, const char *locString);
+extern int DWCi_SetGPStatus(int status, const char *statusString, const char *locString);
 
 int DWCi_GPSetServerStatus(int status)
 {
@@ -57,5 +57,5 @@ int DWCi_GPSetServerStatus(int status)
     func_0216848C(d_021A2088, value, str, '/');
     OS_SNPrintf(value, 12, d_021A207C, DWCi_IsServerLocked() ? 1 : 0);
     func_0216848C(d_021A208C, value, str, '/');
-    return func_021690D0(status, str, 0);
+    return DWCi_SetGPStatus(status, str, 0);
 }

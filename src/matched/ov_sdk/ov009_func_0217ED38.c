@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED38
+ * function: inet_addr
  * address:  0x0217ED38
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
 
-int func_0217ED38(int a)
+int inet_addr(int a)
 {
     int v;
 

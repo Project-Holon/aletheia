@@ -17,7 +17,7 @@
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  *   NNS_SndStrmFreeChannel  0x02073898  arm
  *   VCT_Exit  0x021B3844  arm  ov013
- *   func_0208BEF0  0x0208BEF0  arm
+ *   PM_SetAmp  0x0208BEF0  arm
  *   DWC_RAPCOMMON_Free  0x02156FDC  thumb  ov009
  */
 
@@ -36,7 +36,7 @@ extern void NNSi_SndStrmStopIfSetup(void *p);
 struct X;
 extern void NNS_SndStrmFreeChannel(struct X *x);
 extern void VCT_Exit(void);
-extern unsigned int func_0208BEF0(unsigned int status);
+extern unsigned int PM_SetAmp(unsigned int status);
 extern void DWC_RAPCOMMON_Free(u32 a, void *p, int b);
 
 void VCT_MAIN_Exit(void)
@@ -55,7 +55,7 @@ void VCT_MAIN_Exit(void)
     NNSi_SndStrmStopIfSetup(gVctWork->f19B8);
     NNS_SndStrmFreeChannel((struct X *)gVctWork->f19B8);
     VCT_Exit();
-    func_0208BEF0(0);
+    PM_SetAmp(0);
     DWC_RAPCOMMON_Free(0, gVctWork->f880, 0);
     DWC_RAPCOMMON_Free(0, gVctWork, 0);
     gVctWork = 0;

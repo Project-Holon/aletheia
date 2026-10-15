@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  * func_0203FC28 0x0203FC28 arm
- * func_0203FCA0 0x0203FCA0 arm
- * func_020414EC 0x020414EC arm
- * func_02040B94 0x02040B94 arm
+ * BG_SYS_InitBgLayer 0x0203FCA0 arm
+ * BG_SYS_ClearSlot 0x020414EC arm
+ * BG_SYS_InitRun 0x02040B94 arm
  * gGuru2LobbyDispConfig 0x021E1B70 data a4
  * gGuru2LobbyBg0Template 0x021E1BE0 data a4
  * gGuru2LobbyBg1Template 0x021E1B80 data a4
@@ -25,11 +25,11 @@ struct BgTemplate { u32 w[8]; };
 extern const struct DispConfig gGuru2LobbyDispConfig;
 extern const struct BgTemplate gGuru2LobbyBg0Template,gGuru2LobbyBg1Template,gGuru2LobbyBg2Template,gGuru2LobbyBg3Template,gGuru2LobbyBg4Template;
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
-extern void func_020414EC(u32);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_ClearSlot(u32);
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 void GURU2_RECEIPT_InitBg(void)
 {
     struct DispConfig d;
@@ -37,13 +37,13 @@ void GURU2_RECEIPT_InitBg(void)
     d=gGuru2LobbyDispConfig;
     func_0203FC28(&d);
     a=gGuru2LobbyBg0Template;
-    func_0203FCA0(4,&a,0); func_020414EC(4);
+    BG_SYS_InitBgLayer(4,&a,0); BG_SYS_ClearSlot(4);
     b=gGuru2LobbyBg1Template;
-    func_0203FCA0(5,&b,0); func_020414EC(5);
+    BG_SYS_InitBgLayer(5,&b,0); BG_SYS_ClearSlot(5);
     c=gGuru2LobbyBg2Template;
-    func_0203FCA0(6,&c,0); func_02040B94(4,32,0,114);
+    BG_SYS_InitBgLayer(6,&c,0); BG_SYS_InitRun(4,32,0,114);
     e=gGuru2LobbyBg3Template;
-    func_0203FCA0(0,&e,0); func_020414EC(0);
+    BG_SYS_InitBgLayer(0,&e,0); BG_SYS_ClearSlot(0);
     f=gGuru2LobbyBg4Template;
-    func_0203FCA0(1,&f,0); func_02040B94(0,32,0,114);
+    BG_SYS_InitBgLayer(1,&f,0); BG_SYS_InitRun(0,32,0,114);
 }

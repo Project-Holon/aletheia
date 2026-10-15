@@ -12,7 +12,7 @@
  * extent: 154 instruction bytes followed by two zero alignment bytes; UNION_SUBDISP_ScrollChatLines is separately matched.
  * symbols:
  *   UNION_SUBDISP_MoveChatLine  0x021F0A04  thumb
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_Copy  0x0202DD24  thumb
@@ -39,7 +39,7 @@ typedef struct {
 
 struct Bmp;
 struct PmsDraw;
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void MI_CpuCopy8(void *dst, const void *src, int n);
 extern void func_02041B6C(u32 bit);
 extern void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j);
@@ -58,7 +58,7 @@ void UNION_SUBDISP_MoveChatLine(O *o, int a, int b, void *c, int d)
     RowOffset sourceOffset;
     RowOffset destOffset;
 
-    base = (u16 *)func_0204162C(6);
+    base = (u16 *)BG_SYS_GetBuf(6);
     sourceOffset = b * 0xE0;
     sourceOffset <<= 1;
     destOffset = a * 0xE0;

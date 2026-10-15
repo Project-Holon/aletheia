@@ -11,11 +11,11 @@
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
- *   func_0200C1C4  0x0200C1C4  thumb
- *   func_0200C1DC  0x0200C1DC  thumb
+ *   BEACON_GetGreetCount  0x0200C1C4  thumb
+ *   BEACON_GetThanksCount  0x0200C1DC  thumb
  *   GAME_BEACON_Work     0x02146940  data
  */
 
@@ -45,11 +45,11 @@ struct Blk34;
 struct PlayTime;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int GAME_DATA_GetPlayTime(int p0);
-extern void *func_0200C0F0(void *a);
+extern void *BEACON_GetBlock(void *a);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
-extern u32 func_0200C1C4(struct Blk34 *p);
-extern u32 func_0200C1DC(struct Blk34 *p);
+extern u32 BEACON_GetGreetCount(struct Blk34 *p);
+extern u32 BEACON_GetThanksCount(struct Blk34 *p);
 
 void GAME_BEACON_RequestSend(Obj *o)
 {
@@ -58,11 +58,11 @@ void GAME_BEACON_RequestSend(Obj *o)
 
     a = GAME_DATA_GetSaveControl(*(void **)GAME_BEACON_Work);
     b = (void *)GAME_DATA_GetPlayTime((int)(*(void **)GAME_BEACON_Work));
-    a = func_0200C0F0(a);
+    a = BEACON_GetBlock(a);
     o->f0c = func_0200864C(b);
     o->f0chi = func_02008650(b);
-    o->f08 = func_0200C1C4(a);
-    o->f04 = func_0200C1DC(a);
+    o->f08 = BEACON_GetGreetCount(a);
+    o->f04 = BEACON_GetThanksCount(a);
     o->f08b = o->f08b + 1;
     o->f5c = 0;
     o->f5e = 1;

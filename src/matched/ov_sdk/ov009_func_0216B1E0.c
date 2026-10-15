@@ -12,9 +12,9 @@
  * sdk:      DWC_UpdateServersAsync (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_02059F38  0x02059F38  arm
- *   func_02168D7C  0x02168D7C  arm  ov009
- *   func_02168DA4  0x02168DA4  arm  ov009
+ *   DWCi_IsError  0x02059F38  arm
+ *   DWCi_IsServerUpdating  0x02168D7C  arm  ov009
+ *   DWCi_UpdateServersAsync  0x02168DA4  arm  ov009
  *   DWCi_UpdateServersCallback  0x0216BF98  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
@@ -42,17 +42,17 @@ extern struct DwcGlobal g_021AA878;
 
 
 
-extern int func_02059F38(void);
-extern int func_02168D7C(void);
-extern void func_02168DA4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+extern int DWCi_IsError(void);
+extern int DWCi_IsServerUpdating(void);
+extern void DWCi_UpdateServersAsync(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern void DWCi_UpdateServersCallback(int error, int isChanged);
 
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam)
 {
-	if (func_02059F38() || ((DwcState *)g_021AA878.st)->state < 3 || func_02168D7C())
+	if (DWCi_IsError() || ((DwcState *)g_021AA878.st)->state < 3 || DWCi_IsServerUpdating())
 		return 0;
 	((DwcState *)g_021AA878.st)->updateCallback = updateCallback;
 	((DwcState *)g_021AA878.st)->updateParam = updateParam;
-	func_02168DA4((int)((DwcState *)g_021AA878.st)->updateBuf0, (int)((DwcState *)g_021AA878.st)->updateBuf1, (int)DWCi_UpdateServersCallback, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
+	DWCi_UpdateServersAsync((int)((DwcState *)g_021AA878.st)->updateBuf0, (int)((DwcState *)g_021AA878.st)->updateBuf1, (int)DWCi_UpdateServersCallback, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
 	return 1;
 }

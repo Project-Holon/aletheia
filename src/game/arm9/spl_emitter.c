@@ -55,11 +55,11 @@
  *   func_02053E1C_Verts  0x020A1B38  data
  *   func_02053E1C_Hooks  0x020A7FE4  data
  *   func_02053E1C_Hooks2 0x020A7FDC  data
- *   func_0207B598        0x0207B598  arm
+ *   MTX_Identity43_        0x0207B598  arm
  *   func_0207B5F4        0x0207B5F4  thumb
  *   func_0207B9F0        0x0207B9F0  arm
- *   func_0207CA68        0x0207CA68  arm
- *   func_0207CAE8        0x0207CAE8  arm
+ *   VEC_DotProduct        0x0207CA68  arm
+ *   VEC_CrossProduct        0x0207CAE8  arm
  *   func_0207D8E0        0x0207D8E0  arm
  *   func_0207D918        0x0207D918  arm
  *   func_0205429C_Verts  0x020A1B38  data
@@ -87,7 +87,7 @@
  *   func_0207AF00  0x0207AF00  thumb
  *   func_0207AF1C  0x0207AF1C  thumb
  *   func_0207AF38  0x0207AF38  thumb
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  */
 #include "../../matched/include/Obj00077.h"
 #include "../../matched/include/Obj11462.h"
@@ -362,7 +362,7 @@ struct Rig {
     s16          r1[3];
 };
 
-typedef struct { fx32 x, y, z; } VecFx32;
+typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
 
 struct Mtx3 {
     u8  pad[0x84];
@@ -766,8 +766,6 @@ typedef struct SPLEmitterList {
     int count;
     SPLEmitter *last;
 } SPLEmitterList;
-
-struct VecFx32 { s32 x, y, z; };
 
 struct PBf { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; };
 
@@ -1371,7 +1369,7 @@ struct Scratch {
 extern void func_0207AF00(u8 *buf, int a, int b);
 extern void func_0207AF1C(u8 *buf, int a, int b);
 extern void func_0207AF38(u8 *buf, int a, int b);
-extern void func_0207B51C(u8 *a, u8 *b, u8 *c);
+extern void MTX_MultVec33(const VecFx32 *a, const MtxFx33 *b, VecFx32 *c);
 extern int _s32_div_f(int num, int den);
 extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
@@ -1388,16 +1386,13 @@ extern void func_0207D918(const void *);
 extern void G3_MultMtx43(const MtxFx43 *m);
 extern void MI_Copy36B(const void *pSrc, void *pDst);
 extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
-extern void MTX_MultVec33(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern void SPLUtil_DrawXYPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetY);
 extern void SPLUtil_DrawXZPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetZ);
 extern u32 func_0207B5F4(void *, s32, s32, s32);
 extern void func_0207B9F0(const void *, const void *, void *);
 extern void func_0207D8E0(const void *);
-extern void func_0207B598(void *);
-extern s32 func_0207CA68(const void *, const void *);
-extern void func_0207CAE8(const void *, const void *, void *);
+extern void MTX_Identity43_(void *);
 extern SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
 extern void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
 extern void SPLAnim_Color(SPLParticle *ptcl, SPLResource *res, int lifeRate);
@@ -1666,7 +1661,7 @@ void func_020580A8(struct Obj_02057EF8 *o, u8 *dst)
         break;
     }
 
-    func_0207B51C(dst + 8, buf, dst + 8);
+    MTX_MultVec33((const VecFx32 *)(dst + 8), (const MtxFx33 *)buf, (VecFx32 *)(dst + 8));
 }
 
 
@@ -3887,7 +3882,7 @@ void func_0205429C(struct Obj *obj, struct S_020524C8 *s)
     func_0205429C_Hooks[obj->f40->f20->f00->f00.z.sel2]
         (func_0205429C_Verts[2 * i], func_0205429C_Verts[2 * i + 1], &f.m2);
 
-    func_0207B598(&f.m4);
+    MTX_Identity43_(&f.m4);
     if (obj->f40->f20->f00->f48.hi == 0) {
         VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
     } else {
@@ -3900,15 +3895,15 @@ void func_0205429C(struct Obj *obj, struct S_020524C8 *s)
     f.v3.x = 0;
     f.v3.y = 0x1000;
     f.v3.z = 0;
-    i = func_0207CA68(&f.v0, &f.v3);
+    i = VEC_DotProduct(&f.v0, &f.v3);
     if (i > 0xCCD || i < -0xCCD) {
         f.v3.x = 0x1000;
         f.v3.y = 0;
         f.v3.z = 0;
     }
 
-    func_0207CAE8(&f.v0, &f.v3, &f.v1);
-    func_0207CAE8(&f.v0, &f.v1, &f.v2);
+    VEC_CrossProduct(&f.v0, &f.v3, &f.v1);
+    VEC_CrossProduct(&f.v0, &f.v1, &f.v2);
 
     f.m4.m[0] = f.v1.x;
     f.m4.m[1] = f.v1.y;
@@ -4050,7 +4045,7 @@ void func_02053E1C(struct Obj *obj, struct S_020524C8 *s)
     func_02053E1C_Hooks[obj->f40->f20->f14->hw.sel2]
         (func_02053E1C_Verts[2 * i], func_02053E1C_Verts[2 * i + 1], &f.m2);
 
-    func_0207B598(&f.m4);
+    MTX_Identity43_(&f.m4);
     if (obj->f40->f20->f14->f10.sel == 0) {
         VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
     } else {
@@ -4063,15 +4058,15 @@ void func_02053E1C(struct Obj *obj, struct S_020524C8 *s)
     f.v3.x = 0;
     f.v3.y = 0x1000;
     f.v3.z = 0;
-    i = func_0207CA68(&f.v0, &f.v3);
+    i = VEC_DotProduct(&f.v0, &f.v3);
     if (i > 0xCCD || i < -0xCCD) {
         f.v3.x = 0x1000;
         f.v3.y = 0;
         f.v3.z = 0;
     }
 
-    func_0207CAE8(&f.v0, &f.v3, &f.v1);
-    func_0207CAE8(&f.v0, &f.v1, &f.v2);
+    VEC_CrossProduct(&f.v0, &f.v3, &f.v1);
+    VEC_CrossProduct(&f.v0, &f.v1, &f.v2);
 
     f.m4.m[0] = f.v1.x;
     f.m4.m[1] = f.v1.y;

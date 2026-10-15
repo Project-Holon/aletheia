@@ -1,5 +1,5 @@
 /*
- * function: func_021799E8
+ * function: DWCi_Http_Thread
  * address:  0x021799E8
  * packet:   pkt_ov009_021799E8
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217988C  0x0217988C  arm  ov009
- *   func_021798E4  0x021798E4  arm  ov009
+ *   DWCi_Http_Resolve  0x021798E4  arm  ov009
  *   CPS_SocUse  0x0215AB10  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   CPS_SetRootCa  0x02160108  arm  ov009
@@ -22,7 +22,7 @@
  *   CPS_TcpConnect  0x0215AC60  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_SocFlush  0x0215B584  arm  ov009
  *   func_02179814  0x02179814  arm  ov009
@@ -32,7 +32,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
- *   func_021798F8  0x021798F8  arm  ov009
+ *   DWCi_Http_CheckHeaderReceived  0x021798F8  arm  ov009
  *   CPS_SocConsume  0x0215B064  arm  ov009
  *   _ll_udiv       0x0209C00C  arm
  *   CPS_TcpShutdown  0x0215AD00  arm  ov009
@@ -103,7 +103,7 @@ typedef struct SOCLCaInfo SOCLCaInfo;
 
 extern void func_0217988C(DWCHttp *http);
 typedef unsigned int   u32;
-extern u32 func_021798E4(const char *p);
+extern u32 DWCi_Http_Resolve(const char *p);
 extern void CPS_SocUse(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 typedef unsigned char  u8;
@@ -113,7 +113,7 @@ extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, u
 extern unsigned long CPS_TcpConnect(void);
 extern void CPS_SocRelease(void);
 extern void CPS_SocUnRegister(void);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_SocFlush(void);
 extern int func_02179814(DWCHttp *http);
@@ -123,7 +123,7 @@ extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void OS_LockMutex(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
-extern int func_021798F8(char *http);
+extern int DWCi_Http_CheckHeaderReceived(char *http);
 extern void CPS_SocConsume(unsigned long len);
 extern void CPS_TcpShutdown(void);
 extern void CPS_TcpClose(void);
@@ -132,7 +132,7 @@ extern int func_0217A0C8(int result);
 extern SOCLCaInfo *g_021A2590[12];
 extern unsigned long g_021A82BC;
 
-void func_021799E8(void *arg)
+void DWCi_Http_Thread(void *arg)
 {
     DWCHttp *http = (DWCHttp *)arg;
     CPSSoc *soc = &http->soc;
@@ -153,7 +153,7 @@ void func_021799E8(void *arg)
         timeout = 60000;
 
     func_0217988C(http);
-    ip = func_021798E4((const char *)http);
+    ip = DWCi_Http_Resolve((const char *)http);
     if (ip == 0) {
         http->error = 2;
         return;
@@ -180,7 +180,7 @@ void func_021799E8(void *arg)
     }
 
     s = (unsigned char *)http->req.buffer;
-    len = CPS_SocWrite(s, func_0209477C((const u8 *)s));
+    len = CPS_SocWrite(s, strlen((const u8 *)s));
     if (len <= 0) {
         http->error = 5;
         goto fail;
@@ -218,7 +218,7 @@ void func_021799E8(void *arg)
                 http->receivedbody_len += copy_length;
                 func_02086078(&http->content_len_mutex);
             } else {
-                header_received = func_021798F8((char *)http);
+                header_received = DWCi_Http_CheckHeaderReceived((char *)http);
             }
             if (len > copy_length) {
                 CPS_SocConsume(len);

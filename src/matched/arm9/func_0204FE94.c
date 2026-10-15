@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734     0x02030734  arm
- *   func_0204EBD4     0x0204EBD4  arm
+ *   BILLBOARD_Create     0x0204EBD4  arm
  *   func_02033C00     0x02033C00  arm
  *   BILLBOARD_ACT_InitSlot     0x02050088  arm
  *   BILLBOARD_ACT_InitEntry     0x020500B8  arm
@@ -38,7 +38,7 @@
  *     into a `struct Blob28` LOCAL, which mwcc expands to a 16-byte ldm/stm
  *     pair with write-back plus a 12-byte pair without, reusing the bases the
  *     write-back left in sl and sb (the same expansion as the sibling
- *     constructor func_0204EBD4, src/matched/func_0204EBD4.c).  A byte array
+ *     constructor BILLBOARD_Create, src/matched/BILLBOARD_Create.c).  A byte array
  *     or a memcpy compiles to a copy loop instead.
  *   - The two halfword patches are written through casts ONTO the local
  *     (`*(u16 *)&tmp`), re-reading h->f10 and h->f1C rather than reusing the
@@ -82,7 +82,7 @@ struct Sys {
 
 struct AreaMan;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0204EBD4(u8 *src, void *heap);
+extern void *BILLBOARD_Create(u8 *src, void *heap);
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 extern void BILLBOARD_ACT_InitSlot(int p0);
 extern void BILLBOARD_ACT_InitEntry(u32 *p);
@@ -106,7 +106,7 @@ void *BILLBOARD_ACT_Create(u16 a0, u16 a1, u32 a2, int heap)
     tmp = gBillboardActTpl;
     *(u16 *)&tmp = h->f10;
     *((u16 *)&tmp + 1) = h->f1C;
-    h->f04 = func_0204EBD4((u8 *)(&tmp), (void *)heap);
+    h->f04 = BILLBOARD_Create((u8 *)(&tmp), (void *)heap);
 
     h->f0C = func_02030734(heap, h->f10 * 8, 1, file, 119);
     h->f14 = func_02033C00(h->f10, heap);

@@ -1,7 +1,7 @@
 /*
  * file:     card_rom.c
  * unit:     yes
- * function: func_02076BBC, func_02076C3C, func_02076C88, func_02076CD0, func_02076D38, func_02076DA0, func_02076E00, func_02076E4C, func_02076F68, func_02077008, func_02077084, func_020770B4, func_02077168, CARDi_ReadRom, func_0207733C, CARD_WaitRomAsync, CARDi_GetRomCacheBuffer
+ * function: CARDi_SetRomOp, CARDi_IsNormalMode, CARDi_StartRomPageTransfer, CARDi_ReadRomIDCore, CARDi_ReadRomStatusCore, CARDi_RefreshRom, CARDi_RefreshRomCore, CARDi_ReadRomWithCPU, CARDi_DmaReadPageCallback, CARDi_ReadRomWithDMA, CARDi_DmaReadDone, CARDi_IsRomDmaAvailable, CARDi_ReadRomSyncCore, CARDi_ReadRom, CARDi_InitRom, CARD_WaitRomAsync, CARDi_GetRomCacheBuffer
  * address:  0x02076BBC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -62,7 +62,7 @@
  *   OS_ReleaseLockID  0x02084F10  arm
  *   CARDi_InitRomHash  0x0272EA74  arm
  *   CARDiOwnSignature  0x0215086C  data
- *   g_0215086C  0x0215086C  data
+ *   CARDi_WaitAsync  0x02076050  arm
  */
 #define reg_MI_MCCNT0 (*(vu16 *)0x040001A0)
 #define reg_MI_MCCNT1 (*(vu32 *)0x040001A4)
@@ -266,22 +266,9 @@ extern void CARD_LockRom(u16 lock_id);
 extern void CARD_UnlockRom(u16 lock_id);
 extern void OS_ReleaseLockID(u16 lockID);
 extern void CARDi_InitRomHash(void);
-extern void func_02076050(void);
-void func_02076BBC(u32 command, u32 offset);
-BOOL func_02076C3C(void);
-void func_02076C88(u32 offset);
-u32 func_02076CD0(void);
-u32 func_02076D38(void);
-void func_02076DA0(u32 warn_mask);
-void func_02076E00(void);
-BOOL func_02076E4C(void *userdata, void *buffer, u32 offset, u32 length);
-void func_02076F68(void);
-void func_02077008(CARDTransferInfo *info);
-void func_02077084(void);
-BOOL func_020770B4(u32 dma, void *dst, u32 src, u32 len);
-void func_02077168(CARDiCommon *c);
+extern void CARDi_WaitAsync(void);
 void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback callback, void *arg, BOOL is_async);
-void func_0207733C(void);
+void CARDi_InitRom(void);
 void CARD_WaitRomAsync(void);
 void *CARDi_GetRomCacheBuffer(void);
 extern BOOL OSi_IsThreadInitialized;
@@ -290,7 +277,6 @@ extern CARDiCommon cardi_common;
 extern CARDiRomState cardi_rom_base;
 extern CARDTransferInfo CARDiDmaReadInfo[1];
 extern u8 CARDiOwnSignature[136];
-extern char g_0215086C[];
 
 
 
@@ -302,7 +288,7 @@ extern char g_0215086C[];
 /*
  * sdk:      CARDi_SetRomOp (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02076BBC(u32 command, u32 offset)
+void CARDi_SetRomOp(u32 command, u32 offset)
 {
     u32 cmd1 = (u32)((offset >> 8) | (command << 24));
     u32 cmd2 = (u32)((offset << 24));
@@ -325,7 +311,7 @@ void func_02076BBC(u32 command, u32 offset)
 /*
  * sdk:      CARDi_IsNormalMode (libcard.TWL.HYB.a card_rom.o)
  */
-BOOL func_02076C3C(void)
+BOOL CARDi_IsNormalMode(void)
 {
     const CARDRomHeaderTWL *oh = CARD_GetOwnRomHeaderTWL();
 
@@ -345,7 +331,7 @@ BOOL func_02076C3C(void)
 /*
  * sdk:      CARDi_StartRomPageTransfer (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02076C88(u32 offset)
+void CARDi_StartRomPageTransfer(u32 offset)
 {
     u8 op = 0xB7;
 
@@ -367,7 +353,7 @@ void func_02076C88(u32 offset)
 /*
  * sdk:      CARDi_ReadRomIDCore (libcard.TWL.HYB.a card_rom.o)
  */
-u32 func_02076CD0(void)
+u32 CARDi_ReadRomIDCore(void)
 {
     u8 op = 0xB8;
 
@@ -393,7 +379,7 @@ u32 func_02076CD0(void)
 /*
  * sdk:      CARDi_ReadRomStatusCore (libcard.TWL.HYB.a card_rom.o)
  */
-u32 func_02076D38(void)
+u32 CARDi_ReadRomStatusCore(void)
 {
     if ((CARDi_romid & 0x20000000) == 0)
     {
@@ -417,7 +403,7 @@ u32 func_02076D38(void)
 /*
  * sdk:      CARDi_RefreshRom (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02076DA0(u32 warn_mask)
+void CARDi_RefreshRom(u32 warn_mask)
 {
     if ((CARDi_ReadRomStatusCore() & warn_mask) != 0)
     {
@@ -442,7 +428,7 @@ void func_02076DA0(u32 warn_mask)
 /*
  * sdk:      CARDi_RefreshRomCore (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02076E00(void)
+void CARDi_RefreshRomCore(void)
 {
     CARDi_SetRomOp(0xB5, 0);
     reg_MI_MCCNT1 = (u32)((CARDi_romctrl & ~0x07000000) | 0xA0000000) & ~0x1FFF;
@@ -472,7 +458,7 @@ extern u8 CARDi_cache_buf[512] __attribute__((aligned(32)));
  *
  * sdk:      CARDi_ReadRomWithCPU (libcard.TWL.HYB.a card_rom.o)
  */
-BOOL func_02076E4C(void *userdata, void *buffer, u32 offset, u32 length)
+BOOL CARDi_ReadRomWithCPU(void *userdata, void *buffer, u32 offset, u32 length)
 {
     BOOL retval = (BOOL)length;
     u32 cachedPage = CARDiEnableCacheInvalidationDC.cached_page;
@@ -540,7 +526,7 @@ BOOL func_02076E4C(void *userdata, void *buffer, u32 offset, u32 length)
 /*
  * sdk:      CARDi_DmaReadPageCallback (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02076F68(void)
+void CARDi_DmaReadPageCallback(void)
 {
     CARDTransferInfo *const info = cardi_rom_base.registeredInfo;
 
@@ -577,7 +563,7 @@ void func_02076F68(void)
 /*
  * sdk:      CARDi_ReadRomWithDMA (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02077008(CARDTransferInfo *info)
+void CARDi_ReadRomWithDMA(CARDTransferInfo *info)
 {
     u32 bak_psr = OS_DisableInterrupts();
 
@@ -603,7 +589,7 @@ void func_02077008(CARDTransferInfo *info)
 /*
  * sdk:      CARDi_DmaReadDone (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02077084(void)
+void CARDi_DmaReadDone(void *arg)
 {
     CARDi_CheckPulledOutCore(CARDi_ReadRomIDCore());
     CARDi_RefreshRom(8);
@@ -659,7 +645,7 @@ static inline BOOL CARDi_IsDmaDestination(u32 dma, const void *dst, u32 len)
 /*
  * sdk:      CARDi_IsRomDmaAvailable (libcard.TWL.HYB.a card_rom.o)
  */
-BOOL func_020770B4(u32 dma, void *dst, u32 src, u32 len)
+BOOL CARDi_IsRomDmaAvailable(u32 dma, void *dst, u32 src, u32 len)
 {
     return CARDi_IsDmaDestination(dma, dst, len) && (((src | len) & 0x1FF) == 0);
 }
@@ -672,7 +658,7 @@ BOOL func_020770B4(u32 dma, void *dst, u32 src, u32 len)
 /*
  * sdk:      CARDi_ReadRomSyncCore (libcard.TWL.HYB.a card_rom.o)
  */
-void func_02077168(CARDiCommon *c)
+void CARDi_ReadRomSyncCore(CARDiCommon *c)
 {
     (void)(*cardi_rom_base.read_func)(0, (void *)c->dst, c->src, c->len);
     CARDi_CheckPulledOutCore(CARDi_ReadRomIDCore());
@@ -740,7 +726,7 @@ void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback c
 /*
  * sdk:      CARDi_InitRom (libcard.TWL.HYB.a card_rom.o)
  */
-void func_0207733C(void)
+void CARDi_InitRom(void)
 {
     cardi_rom_base.read_func = CARDi_ReadRomWithCPU;
     if ((OS_GetBootType() == 1) && (CARD_GetOwnRomHeader()->rom_size != 0))
@@ -759,7 +745,7 @@ void func_0207733C(void)
 }
 
 
-void CARD_WaitRomAsync(void){ func_02076050(); }
+void CARD_WaitRomAsync(void){ CARDi_WaitAsync(); }
 
 
 
@@ -769,5 +755,5 @@ void CARD_WaitRomAsync(void){ func_02076050(); }
  */
 void *CARDi_GetRomCacheBuffer(void)
 {
-    return g_0215086C;
+    return CARDiOwnSignature;
 }

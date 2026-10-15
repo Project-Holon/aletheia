@@ -1,5 +1,5 @@
 /*
- * function: func_021F6F24
+ * function: EGG_DEMO_VIEW_DrawModels
  * address: 0x021F6F24
  * packet: pkt_ov215_021F6F24
  * region: ov215
@@ -17,7 +17,7 @@
 struct Arg;
 extern unsigned func_02048A18(unsigned char *,int);
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
-void func_021F6F24(char *p)
+void EGG_DEMO_VIEW_DrawModels(char *p)
 {
     unsigned short i;
     for(i=0;i<((struct Obj06708 *)p)->f50;i++) {

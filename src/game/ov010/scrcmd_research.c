@@ -16,20 +16,20 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0200C224  0x0200C224  thumb
- *   func_0200C22C  0x0200C22C  thumb
+ *   BEACON_GetMode  0x0200C224  thumb
+ *   BEACON_SetMode  0x0200C22C  thumb
  *   GAME_BEACON_SetResearchTeamRank  0x02027138  thumb
- *   func_0200C32C  0x0200C32C  thumb
- *   func_0200C33C  0x0200C33C  thumb
+ *   BEACON_GetEntryCount  0x0200C32C  thumb
+ *   BEACON_GetRecentId  0x0200C33C  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_0200C334  0x0200C334  thumb
- *   func_0200C344  0x0200C344  thumb
- *   func_0200C358  0x0200C358  thumb
- *   func_0203F524  0x0203F524  arm
- *   func_0200C384  0x0200C384  thumb
+ *   BEACON_SetEntryCount  0x0200C334  thumb
+ *   BEACON_SetRecentId  0x0200C344  thumb
+ *   BEACON_SetRecentValue  0x0200C358  thumb
+ *   GF_STANDARD_SetupRtc  0x0203F524  arm
+ *   BEACON_SetLastTime  0x0200C384  thumb
  *   MISC_SAVEDATA_GetScoreValue  0x0200E4F8  thumb
  *   MISC_SAVEDATA_GetTallyValue  0x0200E4B0  thumb
  *   sTallyCategoryEntryCount     0x0217219C  data  ov010  a1
@@ -40,11 +40,11 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   EVENT_RESEARCH_RADAR_CreateReportTask  0x021670F8  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
- *   func_0200C0E8  0x0200C0E8  thumb
+ *   BEACON_GetFromSave  0x0200C0E8  thumb
  *   MISC_SAVEDATA_GetHalfword 0x0200E458 thumb
  *   MISC_SAVEDATA_GetTallyWord 0x0200E47C thumb
- *   func_0200C34C 0x0200C34C thumb
- *   func_0200C37C  0x0200C37C  thumb
+ *   BEACON_GetRecentValue 0x0200C34C thumb
+ *   BEACON_GetLastTime  0x0200C37C  thumb
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   sMissionKind 0x021723BC data a1
  *   sMissionTargetCount 0x021723BD data a1
@@ -75,33 +75,33 @@ extern void *SCRCMD_WORK_GetGameData(struct ScrCmdWork *work);
 
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern struct BeaconSave *func_0200C0F0(void *saveControl);
+extern struct BeaconSave *BEACON_GetBlock(void *saveControl);
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptContext *ctx, struct ScrCmdWork *work);
 
-extern u8 func_0200C224(struct BeaconSave *beacon);
+extern u8 BEACON_GetMode(struct BeaconSave *beacon);
 
-extern int func_0200C22C();
+extern int BEACON_SetMode();
 
 extern int GAME_BEACON_SetResearchTeamRank();
 
-extern u8 func_0200C32C(struct BeaconSave *beacon);
+extern u8 BEACON_GetEntryCount(struct BeaconSave *beacon);
 
-extern int func_0200C33C(struct BeaconSave *beacon, u32 index);
+extern int BEACON_GetRecentId(struct BeaconSave *beacon, u32 index);
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *saveControl);
 
 extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *work);
 
-extern void func_0200C334(struct BeaconSave *beacon, u8 missionIndex);
+extern void BEACON_SetEntryCount(struct BeaconSave *beacon, u8 missionIndex);
 
-extern void func_0200C344(struct BeaconSave *beacon, u8 slot, u8 targetId);
+extern void BEACON_SetRecentId(struct BeaconSave *beacon, u8 slot, u8 targetId);
 
-extern void func_0200C358(struct BeaconSave *beacon, u32 slot, int value);
+extern void BEACON_SetRecentValue(struct BeaconSave *beacon, u32 slot, int value);
 
-extern u64 func_0203F524();
+extern u64 GF_STANDARD_SetupRtc();
 
-extern void func_0200C384(struct BeaconSave *beacon, u32 lo, u32 hi);
+extern void BEACON_SetLastTime(struct BeaconSave *beacon, u32 lo, u32 hi);
 
 extern int MISC_SAVEDATA_GetScoreValue(int tally, int category, int entry);
 
@@ -119,15 +119,15 @@ extern void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem);
 
 extern int SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
 
-extern void *func_0200C0E8(void *saveControl);
+extern void *BEACON_GetFromSave(void *saveControl);
 
 extern u16 MISC_SAVEDATA_GetHalfword(const u16 *tally, int id);
 
 extern u32 MISC_SAVEDATA_GetTallyWord(u8 *tally, int id);
 
-extern u16 func_0200C34C(struct BeaconSave *beacon, u32 slot);
+extern u16 BEACON_GetRecentValue(struct BeaconSave *beacon, u32 slot);
 
-extern unsigned long long func_0200C37C(struct BeaconSave *beacon);
+extern unsigned long long BEACON_GetLastTime(struct BeaconSave *beacon);
 
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
 
@@ -186,9 +186,9 @@ int SCRCMD_RESEARCH_CmdGetResearchRank(struct ScriptContext *ctx, struct ScrCmdW
     SCRCMD_WORK_GetScriptWork(scrWork);
     gameData = SCRCMD_WORK_GetGameData(scrWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    beacon = func_0200C0F0(saveControl);
+    beacon = BEACON_GetBlock(saveControl);
     dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    *dst = func_0200C224(beacon);
+    *dst = BEACON_GetMode(beacon);
     return 0;
 }
 
@@ -201,11 +201,11 @@ int SCRCMD_RESEARCH_CmdRaiseResearchRank(struct ScriptContext *ctx, struct ScrCm
 
     SCRCMD_WORK_GetScriptWork(scrWork);
     gameData = SCRCMD_WORK_GetGameData(scrWork);
-    beacon = func_0200C0F0(GAME_DATA_GetSaveControl(gameData));
-    rank = func_0200C224(beacon);
+    beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    rank = BEACON_GetMode(beacon);
     if (rank >= 5)
         return 0;
-    func_0200C22C(beacon, rank + 1);
+    BEACON_SetMode(beacon, rank + 1);
     GAME_BEACON_SetResearchTeamRank((u8)(rank + 1));
     return 0;
 }
@@ -221,9 +221,9 @@ int SCRCMD_RESEARCH_CmdGetMissionIndex(struct ScriptContext *ctx, struct ScrCmdW
     SCRCMD_WORK_GetScriptWork(scrWork);
     gameData = SCRCMD_WORK_GetGameData(scrWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    beacon = func_0200C0F0(saveControl);
+    beacon = BEACON_GetBlock(saveControl);
     dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    *dst = func_0200C32C(beacon);
+    *dst = BEACON_GetEntryCount(beacon);
     return 0;
 }
 
@@ -236,13 +236,13 @@ int SCRCMD_RESEARCH_CmdGetMissionTargets(struct ScriptContext *ctx, struct ScrCm
     u16 *dst2;
 
     SCRCMD_WORK_GetScriptWork(scrWork);
-    beacon = func_0200C0F0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork)));
+    beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork)));
     dst0 = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
     dst1 = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
     dst2 = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    *dst0 = func_0200C33C(beacon, 0);
-    *dst1 = func_0200C33C(beacon, 1);
-    *dst2 = func_0200C33C(beacon, 2);
+    *dst0 = BEACON_GetRecentId(beacon, 0);
+    *dst1 = BEACON_GetRecentId(beacon, 1);
+    *dst2 = BEACON_GetRecentId(beacon, 2);
     return 0;
 }
 
@@ -274,20 +274,20 @@ int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrCmdWork
 
     SCRCMD_WORK_GetScriptWork(scrWork);
     saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
-    beacon = func_0200C0F0(saveControl);
+    beacon = BEACON_GetBlock(saveControl);
     SYMBOL_SAVE_GetBitBlock(saveControl);
     missionIndex = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     targetId[0] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     targetId[1] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     targetId[2] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    func_0200C334(beacon, missionIndex);
+    BEACON_SetEntryCount(beacon, missionIndex);
     zero = 0;
     for (i = 0; i < 3; i++) {
-        func_0200C344(beacon, i, targetId[i]);
-        func_0200C358(beacon, (u8)i, zero);
+        BEACON_SetRecentId(beacon, i, targetId[i]);
+        BEACON_SetRecentValue(beacon, (u8)i, zero);
     }
-    now = func_0203F524();
-    func_0200C384(beacon, (u32)now, (u32)(now >> 32));
+    now = GF_STANDARD_SetupRtc();
+    BEACON_SetLastTime(beacon, (u32)now, (u32)(now >> 32));
     return zero;
 }
 
@@ -300,11 +300,11 @@ int SCRCMD_RESEARCH_CmdClearMission(struct ScriptContext *ctx, struct ScrCmdWork
 
     SCRCMD_WORK_GetScriptWork(scrWork);
     saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
-    beacon = func_0200C0F0(saveControl);
+    beacon = BEACON_GetBlock(saveControl);
     SYMBOL_SAVE_GetBitBlock(saveControl);
-    func_0200C334(beacon, 0);
+    BEACON_SetEntryCount(beacon, 0);
     for (i = 0; i < 3; i++)
-        func_0200C344(beacon, (u8)i, 0xFF);
+        BEACON_SetRecentId(beacon, (u8)i, 0xFF);
     return 0;
 }
 
@@ -377,10 +377,10 @@ int SCRCMD_RESEARCH_CmdGetMissionStatus(struct ScriptContext *ctx, struct ScrCmd
     u16 *dst;
 
     saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
-    beacon = func_0200C0E8(saveControl);
+    beacon = BEACON_GetFromSave(saveControl);
     missionIndex = (u8)SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    if (missionIndex == func_0200C32C(beacon)) {
+    if (missionIndex == BEACON_GetEntryCount(beacon)) {
         SCRCMD_RESEARCH_GetCurrentMissionStatus(saveControl, dst);
     } else {
         SCRCMD_RESEARCH_GetMissionStatus(saveControl, missionIndex, dst);
@@ -398,9 +398,9 @@ int SCRCMD_RESEARCH_CmdGetMissionProgress(struct ScriptContext *ctx, struct ScrC
     u8 kind;
 
     saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
-    beacon = func_0200C0E8(saveControl);
+    beacon = BEACON_GetFromSave(saveControl);
     dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    kind = SCRCMD_RESEARCH_GetMissionKind(func_0200C32C(beacon));
+    kind = SCRCMD_RESEARCH_GetMissionKind(BEACON_GetEntryCount(beacon));
     if (kind != 0) {
         if (kind == 1) {
             progress = SCRCMD_RESEARCH_GetMissionHoursLeft(saveControl);
@@ -421,8 +421,8 @@ int SCRCMD_RESEARCH_GetCurrentMissionStatus(void *saveControl, u16 *status)
     int kind;
 
     tally = SYMBOL_SAVE_GetBitBlock(saveControl);
-    beacon = func_0200C0E8(saveControl);
-    missionIndex = func_0200C32C(beacon);
+    beacon = BEACON_GetFromSave(saveControl);
+    missionIndex = BEACON_GetEntryCount(beacon);
     kind = (u8)SCRCMD_RESEARCH_GetMissionKind(missionIndex);
     if (kind == 0) {
         if (SCRCMD_RESEARCH_AreMissionTargetsAtGoal(tally, missionIndex) != 0) {
@@ -454,7 +454,7 @@ int SCRCMD_RESEARCH_GetMissionStatus(void *saveControl, int missionIndex, u16 *s
     int kind;
 
     tally = SYMBOL_SAVE_GetBitBlock(saveControl);
-    func_0200C0E8(saveControl);
+    BEACON_GetFromSave(saveControl);
     kind = (u8)SCRCMD_RESEARCH_GetMissionKind(missionIndex);
     if (kind == 0) {
         if (SCRCMD_RESEARCH_AreMissionTargetsAtGoal(tally, missionIndex) != 0) {
@@ -511,8 +511,8 @@ int SCRCMD_RESEARCH_IsMissionTimeUp(void *saveControl)
     void *beacon;
 
     SYMBOL_SAVE_GetBitBlock(saveControl);
-    beacon = func_0200C0E8(saveControl);
-    missionIndex = func_0200C32C(beacon);
+    beacon = BEACON_GetFromSave(saveControl);
+    missionIndex = BEACON_GetEntryCount(beacon);
     elapsedHours = SCRCMD_RESEARCH_GetMissionElapsedHours(saveControl);
     if (SCRCMD_RESEARCH_GetMissionTimeLimitHours((u8)missionIndex) > elapsedHours)
         return 0;
@@ -524,10 +524,10 @@ int SCRCMD_RESEARCH_AreAllTargetValuesRecorded(void *saveControl)
 {
     void *beacon;
     int i, targetCount;
-    beacon = func_0200C0E8(saveControl);
-    targetCount = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(func_0200C32C(beacon));
+    beacon = BEACON_GetFromSave(saveControl);
+    targetCount = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(BEACON_GetEntryCount(beacon));
     for (i = 0; i < targetCount; i++) {
-        if (func_0200C34C(beacon, (u8)i) == 0) return 0;
+        if (BEACON_GetRecentValue(beacon, (u8)i) == 0) return 0;
     }
     return 1;
 }
@@ -562,7 +562,7 @@ u16 SCRCMD_RESEARCH_GetMissionShortfall(void *saveControl)
     int missionIndex;
 
     tally = SYMBOL_SAVE_GetBitBlock(saveControl);
-    missionIndex = func_0200C32C(func_0200C0E8(saveControl));
+    missionIndex = BEACON_GetEntryCount(BEACON_GetFromSave(saveControl));
     goal = SCRCMD_RESEARCH_GetMissionGoal(missionIndex);
     targetCount = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(missionIndex);
     SCRCMD_RESEARCH_GetMissionTargetIds(missionIndex, targetId);
@@ -587,7 +587,7 @@ u16 SCRCMD_RESEARCH_GetMissionHoursLeft(void *saveControl)
 {
     int missionIndex, elapsedHours, hoursLeft;
     SYMBOL_SAVE_GetBitBlock(saveControl);
-    missionIndex = func_0200C32C(func_0200C0E8(saveControl));
+    missionIndex = BEACON_GetEntryCount(BEACON_GetFromSave(saveControl));
     elapsedHours = SCRCMD_RESEARCH_GetMissionElapsedHours(saveControl);
     hoursLeft = (int)((u32)SCRCMD_RESEARCH_GetMissionTimeLimitHours((u8)missionIndex) - (u32)elapsedHours);
     if (hoursLeft < 0) hoursLeft = 0;
@@ -604,12 +604,12 @@ int SCRCMD_RESEARCH_GetMissionElapsedHours(void *saveControl)
     struct BeaconSave *beacon;
     u64 startTime;
 
-    beacon = func_0200C0F0(saveControl);
-    if (func_0200C32C(beacon) == 0) {
+    beacon = BEACON_GetBlock(saveControl);
+    if (BEACON_GetEntryCount(beacon) == 0) {
         return 0;
     }
-    startTime = func_0200C37C(beacon);
-    RTC_ConvertSecondToDateTime((struct RTCDate *)&elapsed.date, (struct RTCTime *)&elapsed.time, func_0203F524() - startTime);
+    startTime = BEACON_GetLastTime(beacon);
+    RTC_ConvertSecondToDateTime((struct RTCDate *)&elapsed.date, (struct RTCTime *)&elapsed.time, GF_STANDARD_SetupRtc() - startTime);
     if (elapsed.date.year != 0 || elapsed.date.month > 1 || elapsed.date.day > 1) {
         return 24;
     }

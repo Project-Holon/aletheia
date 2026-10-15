@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025D14  0x02025D14  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
  *
- * blocker: +000C ABS32 func_02025D14          -> unresolved: 02025D14 (arm, from name) has no witness outside 022119E8..022119F8
+ * blocker: +000C ABS32 CURSOR_MOVE_Delete          -> unresolved: 02025D14 (arm, from name) has no witness outside 022119E8..022119F8
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj25290.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02025D14(void *a0);
+extern u32 CURSOR_MOVE_Delete(void *a0);
 
 u32 func_022119E8(u8 *p)
 {
-    return func_02025D14((void *)(((struct Obj25290 *)p)->f2184));
+    return CURSOR_MOVE_Delete((void *)(((struct Obj25290 *)p)->f2184));
 }
 

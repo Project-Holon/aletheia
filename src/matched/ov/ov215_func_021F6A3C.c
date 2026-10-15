@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F6A3C,func_021F6A44
+ * function: EGG_DEMO_VIEW_SetActive,EGG_DEMO_VIEW_GetActive
  * address: 0x021F6A3C
  * packet: pkt_ov215_021F6A3C
  * region: ov215
@@ -13,5 +13,5 @@
  */
 #include "../include/Obj25756.h"
 #include "../include/Obj25757.h"
-void func_021F6A3C(char *p){((struct Obj25756 *)p)->f10=1;}
-int func_021F6A44(char *p){return ((struct Obj25757 *)p)->f14;}
+void EGG_DEMO_VIEW_SetActive(char *p){((struct Obj25756 *)p)->f10=1;}
+int EGG_DEMO_VIEW_GetActive(char *p){return ((struct Obj25757 *)p)->f14;}

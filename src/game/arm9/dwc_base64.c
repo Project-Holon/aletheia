@@ -1,7 +1,7 @@
 /*
  * file:     dwc_base64.c
  * unit:     yes
- * function: func_02059B40, func_02059CBC
+ * function: DWC_Base64Encode, DWC_Base64Decode
  * address:  0x02059B40
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,8 +23,8 @@ typedef unsigned long u32;
 
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen);
-int func_02059CBC(const char *src, u32 srclen, char *dst, u32 dstlen);
+int DWC_Base64Encode(const char *src, u32 srclen, char *dst, u32 dstlen);
+int DWC_Base64Decode(const char *src, u32 srclen, char *dst, u32 dstlen);
 extern char *DWCi_base64_table;
 
 
@@ -34,7 +34,7 @@ extern char *DWCi_base64_table;
 /*
  * sdk:      DWC_Base64Encode (libdwccommon.TWL.HYB.a dwc_base64.o)
  */
-int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen)
+int DWC_Base64Encode(const char *src, u32 srclen, char *dst, u32 dstlen)
 {
     u32 required_dstsize;
     u32 num_dstout;
@@ -73,7 +73,7 @@ int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen)
 /*
  * sdk:      DWC_Base64Decode (dwc_base64.o)
  */
-int func_02059CBC(const char *src, u32 srclen, char *dst, u32 dstlen)
+int DWC_Base64Decode(const char *src, u32 srclen, char *dst, u32 dstlen)
 {
     const char *srcread_index;
     char *dstwrite_index;

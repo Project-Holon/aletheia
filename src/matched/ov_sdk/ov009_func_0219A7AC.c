@@ -1,5 +1,5 @@
 /*
- * function: func_0219A7AC
+ * function: ProcessPingPacket
  * address:  0x0219A7AC
  * packet:   pkt_ov009_0219A7AC
  * region:   ov009
@@ -14,12 +14,12 @@
  * symbols:
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_02199A90  0x02199A90  arm  ov009
- *   func_021994F0  0x021994F0  arm  ov009
- *   g_021A6330     0x021A6330  data
- *   g_021A6384     0x021A6384  data
- *   g_021A63D8     0x021A63D8  data
- *   g_021A640C     0x021A640C  data
+ *   SendPingPacket  0x02199A90  arm  ov009
+ *   StartReport  0x021994F0  arm  ov009
+ *   gNatNegPingPacketFmt     0x021A6330  data
+ *   gNatNegPingEarlyFmt     0x021A6384  data
+ *   gNatNegGotPingFmt     0x021A63D8  data
+ *   gNatNegConnectFinishedFmt     0x021A640C  data
  */
 
 typedef struct SOCSockAddrIn {
@@ -65,25 +65,25 @@ typedef struct _NatNegPacket {
 extern char *func_0215FA9C(unsigned int in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 struct NATNegotiator;
-extern void func_02199A90(struct NATNegotiator *neg);
-extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
+extern void SendPingPacket(struct NATNegotiator *neg);
+extern void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
 
-extern char g_021A6330[];
-extern char g_021A6384[];
-extern char g_021A63D8[];
-extern char g_021A640C[];
+extern char gNatNegPingPacketFmt[];
+extern char gNatNegPingEarlyFmt[];
+extern char gNatNegGotPingFmt[];
+extern char gNatNegConnectFinishedFmt[];
 
-void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
+void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
-    func_0217D254(7, 0, 8, g_021A6330, neg->cookie, func_0215FA9C(fromaddr->addr),
+    func_0217D254(7, 0, 8, gNatNegPingPacketFmt, neg->cookie, func_0215FA9C(fromaddr->addr),
                   NN_NTOHS(fromaddr->port), p->gotyourdata, p->finished);
 
     if (neg->state < 4) {
-        func_0217D254(7, 0, 8, g_021A6384, neg->cookie);
+        func_0217D254(7, 0, 8, gNatNegPingEarlyFmt, neg->cookie);
         return;
     }
 
-    func_0217D254(7, 0, 8, g_021A63D8, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port),
+    func_0217D254(7, 0, 8, gNatNegGotPingFmt, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port),
                   p->gotyourdata, p->finished);
 
     neg->guessedIP = fromaddr->addr;
@@ -91,10 +91,10 @@ void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     neg->gotRemoteData = 1;
     neg->sendGotRemoteData = p->gotyourdata ? 1 : 0;
 
-    func_02199A90((struct NATNegotiator *)neg);
+    SendPingPacket((struct NATNegotiator *)neg);
 
     if (neg->state == 4 && neg->sendGotRemoteData) {
-        func_0217D254(7, 0, 8, g_021A640C, neg->cookie);
-        func_021994F0(neg, 0, neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, fromaddr);
+        func_0217D254(7, 0, 8, gNatNegConnectFinishedFmt, neg->cookie);
+        StartReport(neg, 0, neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, fromaddr);
     }
 }

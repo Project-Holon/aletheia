@@ -1,5 +1,5 @@
 /*
- * function: func_021BB458
+ * function: BTL_REC_SEL_GRAPHIC_DrawG3d
  * address:  0x021BB458
  * packet:   pkt_021BB458
  * region:   ov214
@@ -24,7 +24,7 @@ struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-void func_021BB458(unsigned int *p)
+void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)
 {
     G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset((struct Light *)(*p));

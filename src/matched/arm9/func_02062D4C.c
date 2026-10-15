@@ -36,7 +36,7 @@
  *   EXACT, 436 bytes, 2 of 2 relocation sites resolved (sp2p2 also EXACT).
  *
  * symbols:
- *   func_02091588  0x02091588  arm
+ *   abs  0x02091588  arm
  *   func_02062BF4  0x02062BF4  arm
  */
 typedef unsigned short u16;
@@ -78,7 +78,7 @@ typedef struct {
     Functor callback;
 } Ctrl;
 
-extern s32 func_02091588(s32 x);
+extern s32 abs(s32 x);
 struct Slider;
 extern void func_02062BF4(struct Slider *s);
 
@@ -142,7 +142,7 @@ BOOL func_02062D4C(Ctrl *p, s32 frames)
 
     if (p->bActive != 1)
         return 0;
-    p->currentTime += func_02091588(FX_Mul(p->speed, frames));
+    p->currentTime += abs(FX_Mul(p->speed, frames));
     while (ShouldAdvance_(p)) {
         bChanged = 1;
         p->currentTime -= p->pCurrent->frames << 12;

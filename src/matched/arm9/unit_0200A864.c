@@ -11,29 +11,29 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200A864, func_0200A870, func_0200A884, func_0200A890,
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
+ * function: MUSICAL_SHOT_GetFromSave, MUSICAL_SHOT_CopyPhoto, MUSICAL_SHOT_CopyPhotoRev, MUSICAL_SHOT_GetTitle,
+ *           MUSICAL_SHOT_GetExtraData, IRC_RANKING_GetFromSave, IRC_RANKING_GetEntryCount, IRC_RANKING_GetEntry,
+ *           IRC_RANKING_GetEntryScore, IRC_RANKING_GetEntryMeetCount, IRC_RANKING_GetEntryGender
  *
  * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
  * label in the generated listing.
  *
  * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
  * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
+ * offset IRC_RANKING_GetLastSlot reads that word at, so the array length and the
  * record size check against each other.  Each entry carries a packed word at
  * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
+ * at bit 7, one bit at bit 17, and one bit at bit 31 that IRC_RANKING_GetEntryCount
  * scans for to find how many entries are in use.
  *
  * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
  * two shift counts give the field's position and width directly, and where
  * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
+ * truncating pair: IRC_RANKING_GetEntryScore's `lsls #25 / lsrs #25` is the 7-bit field
  * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
  * changes two instructions.
  *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
+ * Near miss, and the reason this unit stops where it does: IRC_RANKING_GetEntryProfile at
  * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
  * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
  * and the original loads that byte exactly once, with `ldrb` into the
@@ -89,37 +89,37 @@ struct Rec {
     u32 f348_8 : 24;
 };
 
-void *func_0200A864(void *sys)
+void *MUSICAL_SHOT_GetFromSave(void *sys)
 {
     return func_020071CC(sys, 0x2B);
 }
 
-void func_0200A870(struct Rec2Head *dest, const struct Rec2Head *src)
+void MUSICAL_SHOT_CopyPhoto(struct Rec2Head *dest, const struct Rec2Head *src)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Rec2Head));
 }
 
-void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest)
+void MUSICAL_SHOT_CopyPhotoRev(const struct Rec2Head *src, struct Rec2Head *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Rec2Head));
 }
 
-u8 *func_0200A890(struct Rec2 *p)
+u8 *MUSICAL_SHOT_GetTitle(struct Rec2 *p)
 {
     return p->unk1E8;
 }
 
-u8 *func_0200A898(struct Rec2 *p)
+u8 *MUSICAL_SHOT_GetExtraData(struct Rec2 *p)
 {
     return p->unk1FC;
 }
 
-void *func_0200A8A0(void *sys)
+void *IRC_RANKING_GetFromSave(void *sys)
 {
     return func_020071CC(sys, 0x2C);
 }
 
-s32 func_0200A8AC(struct Rec *r)
+s32 IRC_RANKING_GetEntryCount(struct Rec *r)
 {
     s32 i;
 
@@ -131,22 +131,22 @@ s32 func_0200A8AC(struct Rec *r)
     return i;
 }
 
-struct Entry *func_0200A8C8(struct Rec *r, u32 index)
+struct Entry *IRC_RANKING_GetEntry(struct Rec *r, u32 index)
 {
     return &r->entries[index];
 }
 
-u8 func_0200A8D0(struct Rec *r, u32 index)
+u8 IRC_RANKING_GetEntryScore(struct Rec *r, u32 index)
 {
     return r->entries[index].f10_0;
 }
 
-u16 func_0200A8E4(struct Rec *r, u32 index)
+u16 IRC_RANKING_GetEntryMeetCount(struct Rec *r, u32 index)
 {
     return r->entries[index].f10_7;
 }
 
-u32 func_0200A8F8(struct Rec *r, u32 index)
+u32 IRC_RANKING_GetEntryGender(struct Rec *r, u32 index)
 {
     return r->entries[index].f10_17;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0200F234
+ * function: NET_DEVICE_TABLE_Reset
  * address:  0x0200F234
  * packet:   pkt_0200F17C
  * region:   arm9
@@ -47,7 +47,7 @@ extern u8 ov_id_0B[];
 extern u8 ov_id_0E[];
 extern u8 ov_id_0F[];
 
-void func_0200F234(u32 sel)
+void NET_DEVICE_TABLE_Reset(u32 sel)
 {
     switch (sel) {
     case 6:

@@ -17,7 +17,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02040804  0x02040804  arm
  *   TALKMSGWIN_GetTailBaseX  0x02194F5C  thumb  ov021
- *   func_0206E0C4  0x0206E0C4  arm
+ *   NNS_G3dScrPosToWorldLine  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01494.h"
@@ -34,7 +34,7 @@ extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern u32 func_02040804(u32 layer);
 extern void TALKMSGWIN_GetTailBaseX(int x, int w, int side, u16 *a, u16 *b);
-extern void func_0206E0C4(int x, int y, void *c, int z);
+extern void NNS_G3dScrPosToWorldLine(int x, int y, void *c, int z);
 
 int TALKMSGWIN_CalcTail(u8 *e, int b, int c, void *d, void *f)
 {
@@ -133,7 +133,7 @@ int TALKMSGWIN_CalcTail(u8 *e, int b, int c, void *d, void *f)
         TALKMSGWIN_GetTailBaseX(x, w, side, &v[1], &v[0]);
         break;
     }
-    func_0206E0C4(v[1], ya, d, 0);
-    func_0206E0C4(v[0], yb, f, 0);
+    NNS_G3dScrPosToWorldLine(v[1], ya, d, 0);
+    NNS_G3dScrPosToWorldLine(v[0], yb, f, 0);
     return r;
 }

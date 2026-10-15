@@ -12,7 +12,7 @@
  * symbols:
  *   d_02208F7C 0x02208F7C data
  *   func_02030734 0x02030734 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  */
 
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ typedef struct Node {
 
 extern char d_02208F7C[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 
 Node *func_022086C8(u16 heap, u16 n)
 {
@@ -46,7 +46,7 @@ Node *func_022086C8(u16 heap, u16 n)
         p[i].sx = 0x1000;
         p[i].sy = 0x1000;
         p[i].sz = 0x1000;
-        func_0207ADC4(p[i].mtx);
+        MTX_Identity33_(p[i].mtx);
     }
     return p;
 }

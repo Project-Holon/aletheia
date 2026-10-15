@@ -1,5 +1,5 @@
 /*
- * function: func_021FD8D4
+ * function: STA_NET_GetCurrentSlotValue
  * address: 0x021FD8D4
  * packet: pkt_ov132_021FD8D4
  * region: ov132
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 struct Entry;struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
-u32 func_021FD8D4(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
+u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}

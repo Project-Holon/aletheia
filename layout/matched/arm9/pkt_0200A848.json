@@ -18,11 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200A840"
+    "MUSICAL_SHOT_GetSize"
+   ],
+   "addresses": [
+    "0x0200A840"
    ]
   },
   {
-   "name": "func_0200A848",
+   "name": "MUSICAL_SHOT_Init",
    "address": "0x0200A848",
    "kind": "game",
    "region": "arm9",

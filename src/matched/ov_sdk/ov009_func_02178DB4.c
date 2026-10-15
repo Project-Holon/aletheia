@@ -1,5 +1,5 @@
 /*
- * function: func_02178DB4
+ * function: DWCi_Auth_ProcessAuthentication
  * address:  0x02178DB4
  * packet:   pkt_ov009_02178DB4
  * region:   ov009
@@ -12,14 +12,14 @@
  * sdk:      DWCi_Auth_ProcessAuthentication (dwc_auth_interface.o)
  *
  * symbols:
- *   func_021781DC  0x021781DC  arm  ov009
- *   func_02178224  0x02178224  arm  ov009
- *   func_02178144  0x02178144  arm  ov009
- *   func_02178CE0  0x02178CE0  arm  ov009
- *   func_02177EE8  0x02177EE8  arm  ov009
- *   g_021AB1C0     0x021AB1C0  data
- *   g_021AB208     0x021AB208  data
- *   g_021AB1A4     0x021AB1A4  data
+ *   DWC_Auth_GetError  0x021781DC  arm  ov009
+ *   DWC_Auth_GetResult  0x02178224  arm  ov009
+ *   DWC_Auth_Destroy  0x02178144  arm  ov009
+ *   DWCi_Auth_InitAdapterParam  0x02178CE0  arm  ov009
+ *   DWC_Auth_Create  0x02177EE8  arm  ov009
+ *   gDwcAuthParam     0x021AB1C0  data
+ *   gDwcAuthResultBuf     0x021AB208  data
+ *   gDwcAuthState     0x021AB1A4  data
  */
 
 #include "../include/G_DWCAuthState.h"
@@ -30,35 +30,35 @@ typedef struct {
     char pad[0x1c0];
 } AuthResult;
 
-extern struct DWCAuthParam g_021AB1C0;
-extern char g_021AB208[];
-extern struct DWCAuthState g_021AB1A4;
-extern int func_021781DC(void);
+extern struct DWCAuthParam gDwcAuthParam;
+extern char gDwcAuthResultBuf[];
+extern struct DWCAuthState gDwcAuthState;
+extern int DWC_Auth_GetError(void);
 struct DWCAuthParam;
-extern void func_02178224(int *result);
-extern void func_02178144(void);
-extern void func_02178CE0(void);
-extern int func_02177EE8(struct DWCAuthParam *param, void *http);
+extern void DWC_Auth_GetResult(int *result);
+extern void DWC_Auth_Destroy(void);
+extern void DWCi_Auth_InitAdapterParam(void);
+extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
 
-void func_02178DB4(void)
+void DWCi_Auth_ProcessAuthentication(void)
 {
     int authError;
     int returnCode;
 
-    authError = func_021781DC();
+    authError = DWC_Auth_GetError();
     if (authError == 0x15) {
         AuthResult result;
-        func_02178224((int *)(&result));
+        DWC_Auth_GetResult((int *)(&result));
         if (result.code == 0x4e22) {
-            func_02178144();
-            func_02178CE0();
-            if (func_02177EE8((struct DWCAuthParam *)((char *)&g_021AB1C0), g_021AB208) == 0) {
+            DWC_Auth_Destroy();
+            DWCi_Auth_InitAdapterParam();
+            if (DWC_Auth_Create((struct DWCAuthParam *)((char *)&gDwcAuthParam), gDwcAuthResultBuf) == 0) {
                 return;
             }
             returnCode = -20100;
         } else {
-            g_021AB1A4.s_finished = 1;
-            g_021AB1A4.state = 1;
+            gDwcAuthState.s_finished = 1;
+            gDwcAuthState.state = 1;
             return;
         }
     } else {
@@ -66,11 +66,11 @@ void func_02178DB4(void)
         if (authError == 0) {
             return;
         }
-        func_02178224((int *)(&result));
-        func_02178144();
+        DWC_Auth_GetResult((int *)(&result));
+        DWC_Auth_Destroy();
         returnCode = result.code;
     }
-    g_021AB1A4.s_finished = 1;
-    g_021AB1A4.state = 0;
-    g_021AB1A4.returnCode = returnCode;
+    gDwcAuthState.s_finished = 1;
+    gDwcAuthState.state = 0;
+    gDwcAuthState.returnCode = returnCode;
 }

@@ -14,14 +14,14 @@
  * symbols:
  *   func_0219DF64  0x0219DF64  arm  ov009
  *   func_0218482C  0x0218482C  arm  ov009
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
  */
 
 struct Ref { char *str; int refcount; };
 extern void *func_0219DF64(void *l);
 extern struct Ref *func_0218482C(void *t, void *k);
-extern char *func_0217F1E0(char *s);
+extern char *goastrdup(char *s);
 extern void func_0218474C(void *t, void *e);
 char *SBRefStr(void *slist, char *str)
 {
@@ -33,7 +33,7 @@ char *SBRefStr(void *slist, char *str)
 		val->refcount++;
 		return val->str;
 	}
-	ref.str = func_0217F1E0(str);
+	ref.str = goastrdup(str);
 	ref.refcount = 1;
 	func_0218474C(func_0219DF64(slist), &ref);
 	return ref.str;

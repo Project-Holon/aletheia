@@ -10,10 +10,10 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void BMP_WIN_Exit(void); extern void func_0203F9B4(void);
-void func_021B99D8(void) { BMP_WIN_Exit();func_0203F9B4(); }
+extern void BMP_WIN_Exit(void); extern void BG_SYS_Delete(void);
+void func_021B99D8(void) { BMP_WIN_Exit();BG_SYS_Delete(); }

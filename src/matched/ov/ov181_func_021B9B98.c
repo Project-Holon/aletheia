@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B98
+ * function: STAFF_ROLL_BuildRowList
  * address: 0x021B9B98
  * packet: pkt_ov181_021B9B98
  * region: ov181
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 #define COUNT(p) (*(unsigned short *)((p) + 0x2B8))
 #define ENTRIES(p) (*(Entry **)((p) + 0x2D4))
-void func_021B9B98(char *p)
+void STAFF_ROLL_BuildRowList(char *p)
 {
     unsigned short i;
     int found = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B68F8",
+   "name": "LOCAL_TVT_SYS_CreateTextWindow",
    "address": "0x021B68F8",
    "kind": "game",
    "region": "ov174",

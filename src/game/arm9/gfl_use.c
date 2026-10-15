@@ -64,7 +64,7 @@
  *   _TwlServiceBuf          0x020A9E94  data
  *   _PreExitState          0x020A9E80  data
  *   _PreExitCallbackInfo          0x020A9E84  data
- *   func_020351D0  0x020351D0  arm
+ *   UI_TestFlags39Global  0x020351D0  arm
  *   NNS_GfdDoVramTransfer  0x02061C44  arm
  *   CTRDG_DummyInit  0x020911A0  arm
  *   _GflUse      0x020AA194  data
@@ -89,8 +89,8 @@
  *   func_02034F5C       0x02034F5C  arm
  *   KEY_GetCont       0x0203630C  arm
  *   NNS_SndSetMasterVolume  0x02072788  arm
- *   func_0203508C    0x0203508C  arm
- *   func_02035108  0x02035108  arm
+ *   UI_SetResumeAndSuspendHooks    0x0203508C  arm
+ *   UI_GetSuspendHookGlobal  0x02035108  arm
  *   _SndStack    0x020AA1AC  data
  *   _SndSlots  0x020AA1B8  data
  *   NNS_SndPlayerSetPlayableSeqCount       0x02072DB0  arm
@@ -139,6 +139,10 @@
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
  *   NNS_SndArcPlayerSetup  0x020754C4  arm
  *   MI_WaitDma  0x02082594  arm
+ *   CONFIG_InitKeyControlTable  0x020082DC  thumb
+ *   GFL_NET_ERR_PollNetState  0x0200F2D4  thumb
+ *   MSG_SPEED_SetSaveControl  0x02012FF0  thumb
+ *   GF_STANDARD_Reset  0x0203F3B4  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -248,14 +252,14 @@ extern struct SaveCtrl *SAVE_CONTROL_Create(int heapId);
 extern struct SaveData *func_020070A4(void);
 extern struct Config *func_0200873C(struct SaveData *save);
 extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
-extern void func_02012FF0(struct SaveData *save);
+extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
 extern void SAVEDATA_SetFailHook(u32 handler);
 extern void func_0201F344(u16 heapId);
 extern void POKE_TOOL_InitSystem(u32 heapId);
 extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
-extern void func_020082DC(void);
+extern void CONFIG_InitKeyControlTable(void);
 extern void GAME_BEACON_Create(u32 heapId);
 extern void GPOWER_Init(void);
 extern void func_0200FB6C(void);
@@ -286,7 +290,7 @@ extern u32 sub_0202EB0C(void);
 extern void PM_AppendPreExitCallback(void *info);
 extern void PM_GetAmp(u32 *out);
 extern void PM_SetAmp(int on);
-extern int func_020351D0(u32 mode);
+extern int UI_TestFlags39Global(u32 mode);
 extern int PM_GetAutoExit(void);
 extern int PM_ReadyToExit(void);
 /* ARM, and attested by a branch to it from an overlay. */
@@ -317,12 +321,12 @@ extern struct TcbList *func_02030CBC(u32 capacity, void *buf);
 extern void  FADE_Create(u32 heapId);
 extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
 extern void  TEXTPRINT_Init(u32 heapId);
-extern void  func_0203F3B4(void);
+extern void  GF_STANDARD_Reset(void);
 extern void FADE_SetSpeed(s32 speed);
 extern void  func_0202F768(void);
 extern void func_0202F774(u32 on);
 extern void func_02034F5C(void);
-extern int func_0200F2D4(void);
+extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
 extern void func_0203F3F0(void);
 extern int func_02030D28(struct TcbList *list);
@@ -336,8 +340,8 @@ extern unsigned int KEY_GetCont(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
 extern void NNS_SndSetMasterVolume(u32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
-extern void func_0203508C(u32 onCallback, u32 offCallback, u32 arg);
-extern u32  func_02035108(void);
+extern void UI_SetResumeAndSuspendHooks(u32 onCallback, u32 offCallback, u32 arg);
+extern u32  UI_GetSuspendHookGlobal(void);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
 extern void NNS_SndHandleInit(u32 **handle);
 extern void NNS_SndHandleReleaseSeq(u32 **handle);
@@ -572,7 +576,7 @@ void GFL_USE_InitGameSystems(void)
     PROCSYS_PushGlobal(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
     CONFIG_ApplyAppliedFlag(func_0200873C(func_020070A4()));
-    func_02012FF0(func_020070A4());
+    MSG_SPEED_SetSaveControl(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
     SAVEDATA_SetFailHook((u32)&func_0200FB6C);
@@ -581,7 +585,7 @@ void GFL_USE_InitGameSystems(void)
     GFL_USE_InitSound();
     PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
     GFL_USE_ApplySoundModeFromConfig(func_0200873C(func_020070A4()));
-    func_020082DC();
+    CONFIG_InitKeyControlTable();
     GAME_BEACON_Create(1);
     GPOWER_Init();
 }
@@ -708,7 +712,7 @@ void GFL_USE_PollPowerExit(void)
     if (_PreExitState[0] == 0) {
         return;
     }
-    if (func_020351D0(2) != 0) {
+    if (UI_TestFlags39Global(2) != 0) {
         return;
     }
     if (PM_GetAutoExit() != 0) {
@@ -841,7 +845,7 @@ void GFL_USE_InitSystem(void)
     FADE_Create(0);
     BACKUP_SYSTEM_Init(7, (u32)func_0202F768, (u32)func_0202F774);
     TEXTPRINT_Init(0);
-    func_0203F3B4();
+    GF_STANDARD_Reset();
     _GflUse.frameCount = 0;
     GFL_USE_ClearVBlankHook();
     GFL_USE_SetSleepVolumeHooks();
@@ -852,7 +856,7 @@ void GFL_USE_InitSystem(void)
 void GFL_USE_PollFrameInput(void)
 {
     func_02034F5C();
-    func_0200F2D4();
+    GFL_NET_ERR_PollNetState();
     PROCSYS_MainGlobal();
     func_0203F3F0();
 }
@@ -1139,7 +1143,7 @@ void GFL_USE_WaitInputReady(void)
  * disassembly in asm/arm9/src/000_02004000.s.
  *
  * Two twelve byte thunks that set the master volume to its two extremes, and
- * the function that hands both of them to func_0203508C as a pair of
+ * the function that hands both of them to UI_SetResumeAndSuspendHooks as a pair of
  * callbacks.  48 bytes, three sections, three literal pools.
  *
  * This range was the near miss recorded in the header of
@@ -1194,7 +1198,7 @@ void GFL_USE_UnmuteSound(void)
 
 void GFL_USE_SetSleepVolumeHooks(void)
 {
-    func_0203508C((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
+    UI_SetResumeAndSuspendHooks((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
 }
 
 
@@ -1210,7 +1214,7 @@ void GFL_USE_SetSleepVolumeHooks(void)
  *
  * "Is the master volume callback still the initial one": the pool word is
  * GFL_USE_MuteSound with its Thumb bit set (0x02005795) and is compared against the
- * word func_02035108 hands back, so the C compares the call's result with the
+ * word UI_GetSuspendHookGlobal hands back, so the C compares the call's result with the
  * *address* of the thunk - which is why the constant is a relocation and not a
  * plain literal.
  *
@@ -1222,7 +1226,7 @@ int GFL_USE_IsMuteHookActive(void)
 {
     u32 hook;
 
-    hook = func_02035108();
+    hook = UI_GetSuspendHookGlobal();
     return hook == (u32)GFL_USE_MuteSound;
 }
 
@@ -1261,10 +1265,10 @@ int GFL_USE_IsMuteHookActive(void)
  * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
  * `veneer` attestation class carries 0x02072788, so the two twelve byte
  * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
+ * to UI_SetResumeAndSuspendHooks are src/matched/unit_02005794.c and are EXACT.
  *
  * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
+ * unchanged and structural: UI_GetSuspendHookGlobal has exactly one caller anywhere in
  * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
  * function.  Shrinking the range cannot help, because the witness is the call
  * itself, and the target is ARM library code that cannot be made `local`.

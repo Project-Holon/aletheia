@@ -37,11 +37,11 @@
  *   func_02027618  0x02027618  thumb
  *   func_0202761C  0x0202761C  thumb
  *   func_02027620  0x02027620  thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_02062B30  0x02062B30  arm
- *   func_0204169C  0x0204169C  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_020410D0  0x020410D0  arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
@@ -60,14 +60,14 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201D304  0x0201D304  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  */
 
@@ -117,11 +117,11 @@ extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 iconSet);
 extern u32 func_02027620(u32 iconSet);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 fileId, u32 loadMode, u32 heapFlags);
 extern int func_02062B30(void *file, void **out);
-extern u8 func_0204169C(int bgLayer);
-extern u32 func_0204162C(int bgLayer);
+extern u8 BG_SYS_GetField16(int bgLayer);
+extern u32 BG_SYS_GetBuf(int bgLayer);
 extern void func_020410D0(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void func_020413B0(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void func_020409B4(u8 bgLayer);
@@ -139,14 +139,14 @@ extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int bgPriority);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201EC64(u16 heapId);
+extern void *GF_FONT_Create_EC64(u16 heapId);
 extern void *STRBUF_Create(u32 size, u16 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *str, u32 fontId, u32 spacing);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padMode, u32 flags);
 extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct Rec *msgBank);
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 void TOUCHBAR_Delete(TouchBar *bar);
@@ -431,7 +431,7 @@ void TOUCHBAR_FreeGfx(TouchBarGfx *gfx)
     CLACT_ReleaseCellAnim(gfx->animHandle);
     CLACT_ReleaseCharacter(gfx->charHandle);
     CLACT_ReleasePalette(gfx->plttHandle);
-    func_0203FB44(gfx->bgLayer, (u16)gfx->tileAlloc, (u16)(gfx->tileAlloc >> 16));
+    BG_SYS_DeleteHalf(gfx->bgLayer, (u16)gfx->tileAlloc, (u16)(gfx->tileAlloc >> 16));
     MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
 }
 
@@ -448,7 +448,7 @@ int TOUCHBAR_GetGfxWord(const TouchBarGfx *gfx, int index)
 
 /*
  * Loads a character-data resource, optionally adds tileOffset to each of its
- * srcWidth * srcHeight u16 cells, then (when func_0204162C(bgLayer) allows)
+ * srcWidth * srcHeight u16 cells, then (when BG_SYS_GetBuf(bgLayer) allows)
  * copies it into background bgLayer and loads its palette, and frees the
  * resource.
  * The u8 stack arguments are re-read with ldrb before each call because the
@@ -475,14 +475,14 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
     file = ARC_UTIL_LoadHandleMember(arc, fileId, loadMode, (u16)((*(u16 *)&heapId & 0x7fff) | 0x8000));
     func_02062B30(file, (void **)(&data));
     if (tileOffset != 0) {
-        if (func_0204169C((u8)bgLayer) == 0) {
+        if (BG_SYS_GetField16((u8)bgLayer) == 0) {
             cells = (u16 *)(data + 0xc);
             for (i = 0; i < srcWidth * srcHeight; i++) {
                 cells[i] += tileOffset;
             }
         }
     }
-    if ((int)func_0204162C((u8)bgLayer)) {
+    if ((int)BG_SYS_GetBuf((u8)bgLayer)) {
         func_020410D0(bgLayer, dstX, dstY, dstWidth, dstHeight, (u32)(data + 0xc), srcX, srcY, srcWidth, srcHeight);
         func_020413B0(bgLayer, dstX, dstY, dstWidth, dstHeight, plttSlot);
         func_020409B4(bgLayer);
@@ -742,7 +742,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     u16 strWidth;
 
     msgBank = func_02045B38(0, 2, 0xa3, heapId);
-    wordSet = func_0201EC64(heapId);
+    wordSet = GF_FONT_Create_EC64(heapId);
     buf = STRBUF_Create(0xa, heapId);
     str = func_02045EC0(msgBank, 0);
     strWidth = func_0201D304(str, fontId, 0);
@@ -760,7 +760,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     TOUCHBAR_PrintAligned(window, textCtx, x + strWidth, y, (u32)buf, fontId, color, 0);
     STRBUF_Delete(str);
     STRBUF_Delete(buf);
-    func_0201ED04(wordSet);
+    WORDSET_DeleteStrbufED04(wordSet);
     MSGDATA_Delete(msgBank);
 }
 

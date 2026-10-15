@@ -1,5 +1,5 @@
 /*
- * function: func_02078AEC
+ * function: FS_GetFilePosition
  * address:  0x02078AEC
  * packet:   pkt_02078AEC
  * region:   arm9
@@ -53,7 +53,7 @@ typedef struct FSArgumentForGetFilePosition
 
 extern BOOL FSi_GetFilePositionIfProc(FSFile *file, u32 *position);
 
-u32 func_02078AEC(FSFile *file)
+u32 FS_GetFilePosition(FSFile *file)
 {
     u32 retval = 0;
     FSArgumentForGetFilePosition arg[1];

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201CEE0",
+   "name": "GF_FONT_Task",
    "address": "0x0201CEE0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D110",
+   "name": "GF_FONT_Apply",
    "address": "0x0201D110",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D2C8",
+   "name": "GF_FONT_CountLine",
    "address": "0x0201D2C8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D33C",
+   "name": "GF_FONT_InitCallerSuppliedArray",
    "address": "0x0201D33C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D37C",
+   "name": "GF_FONT_CopyLine",
    "address": "0x0201D37C",
    "kind": "game",
    "region": "arm9",
@@ -114,7 +114,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201D478"
+    "GF_FONT_CountControlTag"
+   ],
+   "addresses": [
+    "0x0201D478"
    ]
   },
   {
@@ -129,7 +132,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201D4BC"
+    "GF_FONT_SearchIndex"
+   ],
+   "addresses": [
+    "0x0201D4BC"
    ]
   },
   {
@@ -160,12 +166,21 @@
    "status": "EXACT",
    "functions": [
     "func_0201D5C4",
-    "func_0201D5CC",
+    "GF_FONT_CheckD5CC",
     "func_0201D5F4",
     "func_0201D60C",
     "func_0201D658",
     "func_0201D670",
     "func_0201D688"
+   ],
+   "addresses": [
+    "0x0201D5C4",
+    "0x0201D5CC",
+    "0x0201D5F4",
+    "0x0201D60C",
+    "0x0201D658",
+    "0x0201D670",
+    "0x0201D688"
    ]
   }
  ]

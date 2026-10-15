@@ -16,7 +16,7 @@
  *
  * PIN ../2.0/sp2, inherited from the sibling src/matched/NNS_G2dSetMCAnimationCurrentFrame.c: the
  * same case-2 cross-jump.  1.1p1 -O4,p shares case 2's
- * `add r0, r4, #0x48` / `bl func_020640DC` tail with the default arm's
+ * `add r0, r4, #0x48` / `bl NNS_G2dSetSRTTranslate` tail with the default arm's
  * identical pair at 0x02064A88/0x02064A8C and lands at 220 bytes against the
  * original's 224 (docs/notes/pkt_02064934.NNS_G2dTickMCAnimation.c.txt).
  *
@@ -45,9 +45,9 @@
  *   func_02062D40  0x02062D40  arm
  *   func_020629E8  0x020629E8  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
- *   func_020640DC  0x020640DC  arm
- *   func_02064120  0x02064120  arm
- *   func_02064100  0x02064100  arm
+ *   NNS_G2dSetSRTTranslate  0x020640DC  arm
+ *   NNS_G2dSetSRTScale  0x02064120  arm
+ *   NNS_G2dSetSRTRotate  0x02064100  arm
  *   NNSi_G2dSetMCDataToMCInstanceImpl  0x020643CC  arm
  */
 #include "../include/Obj03474.h"
@@ -66,10 +66,10 @@ struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
-extern void func_020640DC(char *self, int a, int b);
-extern void func_02064120(char *self, int a, int b);
+extern void NNS_G2dSetSRTTranslate(char *self, int a, int b);
+extern void NNS_G2dSetSRTScale(char *self, int a, int b);
 struct Obj02064100;
-extern void func_02064100(struct Obj02064100 *obj, u16 val);
+extern void NNS_G2dSetSRTRotate(struct Obj02064100 *obj, u16 val);
 extern void NNSi_G2dSetMCDataToMCInstanceImpl(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
 void NNS_G2dTickMCAnimation(char *self, int a1)
@@ -93,12 +93,12 @@ void NNS_G2dTickMCAnimation(char *self, int a1)
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x48, *(short *)&((struct Obj03474 *)p)->f4, *(short *)(p + 6));
+        NNS_G2dSetSRTTranslate(self + 0x48, *(short *)&((struct Obj03474 *)p)->f4, *(short *)(p + 6));
         break;
     default:
-        func_02064120(self + 0x48, ((struct Obj03474 *)p)->f4, ((struct Obj03474 *)p)->f8);
-        func_02064100((struct Obj02064100 *)(self + 0x48), ((struct Obj03474 *)p)->f2);
-        func_020640DC(self + 0x48, ((struct Obj03474 *)p)->fC, ((struct Obj03474 *)p)->fE);
+        NNS_G2dSetSRTScale(self + 0x48, ((struct Obj03474 *)p)->f4, ((struct Obj03474 *)p)->f8);
+        NNS_G2dSetSRTRotate((struct Obj02064100 *)(self + 0x48), ((struct Obj03474 *)p)->f2);
+        NNS_G2dSetSRTTranslate(self + 0x48, ((struct Obj03474 *)p)->fC, ((struct Obj03474 *)p)->fE);
         break;
     }
     NNSi_G2dSetMCDataToMCInstanceImpl((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)r7, ((struct Obj04783 *)self)->f30);

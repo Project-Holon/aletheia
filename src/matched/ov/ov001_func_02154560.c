@@ -12,8 +12,8 @@
  * Builder: guard + allocator, then a straight slab/field layout.
  *
  * symbols:
- *   func_020120F4   0x020120F4  thumb
- *   func_02012138   0x02012138  thumb
+ *   ICA_ANIME_GetField1C   0x020120F4  thumb
+ *   ICA_ANIME_GetField24   0x02012138  thumb
  *   func_020124E8   0x020124E8  thumb
  *   GAME_COMM_GetKind   0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback   0x02026400  thumb
@@ -34,10 +34,10 @@ typedef unsigned int   u32;
 struct Comm;
 struct Ctx;
 struct Party;
-void *func_020120F4(const struct Ctx *p);
+void *ICA_ANIME_GetField1C(const struct Ctx *p);
 struct Ctx;
 struct Obj;
-u32 func_02012138(const struct Ctx *p);
+u32 ICA_ANIME_GetField24(const struct Ctx *p);
 void *func_020124E8(struct Obj *p);
 u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
@@ -54,23 +54,23 @@ void *EVENT_GTSNEGO_InitWork(void *obj_in, void *p, int a, int b)
 {
     void *obj;
 
-    if (GAME_COMM_GetKind((void *)func_02012138(p)))
-        GAME_COMM_RequestExitNoCallback((struct Comm *)func_02012138(p));
+    if (GAME_COMM_GetKind((void *)ICA_ANIME_GetField24(p)))
+        GAME_COMM_RequestExitNoCallback((struct Comm *)ICA_ANIME_GetField24(p));
     obj = func_020124E8(obj_in);
     ((struct Obj01477 *)obj)->f17C = (int)p;
     ((struct Obj01477 *)obj)->f3B0 = b;
     ((struct Obj01477 *)obj)->f3AC = (int)POKEPARTY_Create(4);
     ((struct Obj01477 *)obj)->f354 = ((struct Obj01477 *)obj)->f3AC;
     MI_CpuFill8((char *)obj + 0x184, 0, 0x1b4);
-    ((struct Obj01477 *)obj)->f184 = (int)func_020120F4(p);
+    ((struct Obj01477 *)obj)->f184 = (int)ICA_ANIME_GetField1C(p);
     ((struct Obj01477 *)obj)->f198 = (int)func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     ((struct Obj01477 *)obj)->f19C = (int)func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
-    MI_CpuCopy8((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, MYSTATUS_GetSize());
+    MI_CpuCopy8((u32)func_02012944(ICA_ANIME_GetField1C(p)), (void *)((struct Obj01477 *)obj)->f198, MYSTATUS_GetSize());
     MI_CpuFill8((char *)obj + 0x368, 0, 0x28);
-    ((struct Obj01477 *)obj)->f368 = (int)func_020120F4(p);
+    ((struct Obj01477 *)obj)->f368 = (int)ICA_ANIME_GetField1C(p);
     ((struct Obj01477 *)obj)->f36C = 0;
     ((struct Obj01477 *)obj)->f370 = 1;
-    ((struct Obj01477 *)obj)->f390 = (int)func_020120F4(p);
+    ((struct Obj01477 *)obj)->f390 = (int)ICA_ANIME_GetField1C(p);
     ((struct Obj01477 *)obj)->f394 = 0;
     ((struct Obj01477 *)obj)->f398 = 1;
     return obj;

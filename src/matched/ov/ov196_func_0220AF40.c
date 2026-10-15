@@ -1,5 +1,5 @@
 /*
- * function: func_0220AF40
+ * function: B_APP_TOOL_Create
  * address: 0x0220AF40
  * packet: pkt_ov196_0220AF40
  * region: ov196
@@ -20,4 +20,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_0220B100[];
-u8 *func_0220AF40(u16 v) { u8 *p; p=sub_02030734(v,24,0,d_0220B100,43); ((struct Obj14539 *)p)->f10=v; ((struct Obj14539 *)p)->f14=1; return p; }
+u8 *B_APP_TOOL_Create(u16 v) { u8 *p; p=sub_02030734(v,24,0,d_0220B100,43); ((struct Obj14539 *)p)->f10=v; ((struct Obj14539 *)p)->f14=1; return p; }

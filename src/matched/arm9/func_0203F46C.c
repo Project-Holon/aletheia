@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F46C
+ * function: GF_STANDARD_GetRtc
  * address:  0x0203F46C
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -11,19 +11,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F42C  0x0203F42C  arm
- *   func_02088944  0x02088944  arm
+ *   GF_STANDARD_Task  0x0203F42C  arm
+ *   RTC_GetDateTimeAsync  0x02088944  arm
  *
  * TU: gf_standard.c.
  *
  * Start an asynchronous RTC read into the staging date and time at
- * +0x2c/+0x3c, with func_0203F42C as the completion callback and the block
+ * +0x2c/+0x3c, with GF_STANDARD_Task as the completion callback and the block
  * itself as its argument.  The busy flag at +0x04 is raised before the call
  * and the request's return code is parked in +0x0c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F46C.c \
- *       --func func_0203F46C --addr 0x0203F46C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetRtc.c \
+ *       --func GF_STANDARD_GetRtc --addr 0x0203F46C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -53,14 +53,14 @@ struct RtcRequest {
     struct RtcTime stagedTime;
 };
 
-extern void func_0203F42C(u32 result, struct RtcRequest *req);
-extern u32  func_02088944(struct RtcDate *date, struct RtcTime *time,
+extern void GF_STANDARD_Task(u32 result, struct RtcRequest *req);
+extern u32  RTC_GetDateTimeAsync(struct RtcDate *date, struct RtcTime *time,
                           void (*done)(u32, struct RtcRequest *),
                           struct RtcRequest *arg);
 
-void func_0203F46C(struct RtcRequest *req)
+void GF_STANDARD_GetRtc(struct RtcRequest *req)
 {
     req->unk_04 = 1;
-    req->result = func_02088944(&req->stagedDate, &req->stagedTime,
-                                func_0203F42C, req);
+    req->result = RTC_GetDateTimeAsync(&req->stagedDate, &req->stagedTime,
+                                GF_STANDARD_Task, req);
 }

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  PC24 func_0209128C at +0x28 and +0x48: the only 2 call sites of 0x0209128C image-wide are these two, both inside this extent
+ * blocker:  PC24 MSL_C_LIB_SetTwlFlag at +0x28 and +0x48: the only 2 call sites of 0x0209128C image-wide are these two, both inside this extent
  * blocker:  ABS32 func_02030A7C at +0x50: 0x02030A7C's only pool word image-wide is at 0x02030BA0, inside this extent, and nothing branches to it
  * symbols:
  *   func_02030A7C   0x02030A7C  arm
@@ -17,14 +17,14 @@
  *   GFL_HEAP_GetAllocatableSize   0x0203038C  arm
  *   GFL_HEAP_GetAllocCountById   0x0203046C  arm
  *   GFL_HEAP_GetHeapHandle   0x02030428  arm
- *   func_0209128C   0x0209128C  arm
+ *   MSL_C_LIB_SetTwlFlag   0x0209128C  arm
  *   NNSi_FndWalkHeapBlocks   0x02060F50  arm
  *
  * Tears the object down and then runs func_02030A7C over every block in the
  * allocator list: the five per-object teardown calls, the global
- * "shutting down" flag set through func_0209128C(1), then NNSi_FndWalkHeapBlocks with
+ * "shutting down" flag set through MSL_C_LIB_SetTwlFlag(1), then NNSi_FndWalkHeapBlocks with
  * the callback and the context the teardown returned, and the flag cleared
- * again with func_0209128C(0).  The callback is passed a zero context, which
+ * again with MSL_C_LIB_SetTwlFlag(0).  The callback is passed a zero context, which
  * is why the constant is materialised once in r4 and copied to r2 rather
  * than emitted twice.
  *
@@ -69,7 +69,7 @@ extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 extern void *GFL_HEAP_GetAllocatableSize(u32 heapId);
 extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
-extern void func_0209128C(int x);
+extern void MSL_C_LIB_SetTwlFlag(int x);
 extern void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx);
 extern void func_02030A7C(void *heap);
 
@@ -79,7 +79,7 @@ void func_02030B50(void *p)
     GFL_HEAP_GetTotalFreeSize((u32)p);
     GFL_HEAP_GetAllocatableSize((u32)p);
     GFL_HEAP_GetAllocCountById((u32)p);
-    func_0209128C(1);
+    MSL_C_LIB_SetTwlFlag(1);
     NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);
-    func_0209128C(0);
+    MSL_C_LIB_SetTwlFlag(0);
 }

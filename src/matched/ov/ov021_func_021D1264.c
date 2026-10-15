@@ -16,13 +16,13 @@
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   G3D_CAMERA_GetUp  0x02048B30  arm
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CAE8  0x0207CAE8  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
  *   d_021DB984     0x021DB984  data  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   _ll_mul        0x0209C054  arm
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -47,13 +47,13 @@ extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_CAMERA_GetUp(u32 l, V *out);
 extern void G3D_CAMERA_GetEye(u32 l, V *out);
-extern void func_0207CA00(const V *a, const V *b, V *c);
+extern void VEC_Subtract(const V *a, const V *b, V *c);
 extern void VEC_Normalize(const V *a, V *b);
-extern void func_0207CAE8(const V *a, const V *b, V *c);
+extern void VEC_CrossProduct(const V *a, const V *b, V *c);
 extern const V d_021DB984;
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern void func_0206DF3C(V *a, int *x, int *y);
+extern void NNS_G3dWorldPosToScrPos(V *a, int *x, int *y);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *a);
@@ -80,18 +80,18 @@ void FIELD_SAVEANIME_CreateWindow(u8 *p)
     G3D_CAMERA_Reset((struct Light *)cam);
     G3D_CAMERA_GetUp(cam, &eye);
     G3D_CAMERA_GetEye(cam, &at);
-    func_0207CA00(&eye, &at, &d);
+    VEC_Subtract(&eye, &at, &d);
     f = d;
     f.y = 0;
     VEC_Normalize(&f, &f);
-    func_0207CAE8(&f, &d_021DB984, &s);
-    func_0207CAE8(&d, &s, &u);
+    VEC_CrossProduct(&f, &d_021DB984, &s);
+    VEC_CrossProduct(&d, &s, &u);
     VEC_Normalize(&u, &u);
     FIELD_PLAYER_GetPos(o, (struct VecFx32 *)&pos);
     pos.x += (int)(((long long)u.x * -0x1C000 + 0x800) >> 12);
     pos.y += (int)(((long long)u.y * -0x1C000 + 0x800) >> 12);
     pos.z += (int)(((long long)u.z * -0x1C000 + 0x800) >> 12);
-    func_0206DF3C(&pos, &x, &y);
+    NNS_G3dWorldPosToScrPos(&pos, &x, &y);
     x -= 0x10;
     y -= 0x18;
     ((struct Obj01509 *)p)->f8 = x % 8;

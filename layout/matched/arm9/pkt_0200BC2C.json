@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200BC2C",
+   "name": "DAYCARE_GetSlotMon",
    "address": "0x0200BC2C",
    "kind": "game",
    "region": "arm9",

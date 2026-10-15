@@ -26,7 +26,7 @@
  *   d_020A814C     0x020A814C  data  a4
  *   d_020A8144     0x020A8144  data  a4
  *   TCBL_Destroy  0x02031140  arm
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_020409B4  0x020409B4  arm
@@ -35,26 +35,26 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_0206E0C4  0x0206E0C4  arm
+ *   NNS_G3dScrPosToWorldLine  0x0206E0C4  arm
  *   BMP_WIN_GetPosX  0x02045758  arm
  *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_WIN_GetDispWidth  0x02045748  arm
  *   BMP_WIN_GetDispHeight  0x02045750  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02040804  0x02040804  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   func_02048AFC  0x02048AFC  arm
  *   func_02048B20  0x02048B20  arm
  *   func_02048B44  0x02048B44  arm
  *   func_02048B60  0x02048B60  arm
  *   func_02048AD0  0x02048AD0  arm
- *   func_0207D7C4  0x0207D7C4  arm
+ *   G3i_LookAt_  0x0207D7C4  arm
  *   func_02048AE8  0x02048AE8  arm
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
  *   func_02048B54  0x02048B54  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B40  0x02049B40  arm
  *   func_02049624  0x02049624  arm
  *   func_0207F7A0  0x0207F7A0  arm
@@ -94,7 +94,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void TCBL_Main(struct Tcbl *tcbl);
 extern void NNS_G3dGeFlushBuffer(void);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
-extern void func_0206DF3C(const VecFx32 *worldPos, int *screenX, int *screenY);
+extern void NNS_G3dWorldPosToScrPos(const VecFx32 *worldPos, int *screenX, int *screenY);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
                                          u32 wait, struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u32 clearColor);
@@ -104,26 +104,26 @@ extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 he
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern int func_0206E0C4(int screenX, int screenY, VecFx32 *out, int mode);
+extern int NNS_G3dScrPosToWorldLine(int screenX, int screenY, VecFx32 *out, int mode);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern u32 func_02040804(u32 bgLayer);
-extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern int func_0207CBD0(const VecFx32 *v);
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern int VEC_Mag(const VecFx32 *v);
 extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *eye);
 extern void func_02048B20(struct G3dCamera *camera, const VecFx32 *vec);
 extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *vec);
 extern void func_02048B60(struct G3dCamera *camera, const s32 *scale);
 extern void func_02048AD0(struct G3dCamera *camera);
-extern void func_0207D7C4(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int a, int b);
+extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int a, int b);
 extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B54(struct G3dCamera *camera, s32 *out);
-extern void func_020414EC(u32 bgLayer);
+extern void BG_SYS_ClearSlot(u32 bgLayer);
 extern void func_02049B40(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
 extern u32 func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u16 heapId);
 extern void func_0207F7A0(void);
@@ -338,7 +338,7 @@ void TALKMSGWIN_SetupAutoBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *p
     int screenX;
     int screenY;
 
-    func_0206DF3C(pos, &screenX, &screenY);
+    NNS_G3dWorldPosToScrPos(pos, &screenX, &screenY);
     if (screenY < 0x60)
         TALKMSGWIN_SetupLowerBalloon(sys, index, pos, str, unusedColor, frameType, 0, wait);
     else
@@ -697,8 +697,8 @@ void TALKMSGWIN_DrawBalloonShape(TalkMsgWinSys *sys, TalkMsgWin *win, int tailOn
 /* Projects a position (relative to the camera target) to the screen and back onto the draw plane. */
 int TALKMSGWIN_ProjectToWorld(const VecFx32 *relPos, int *screenX, int *screenY, VecFx32 *outWorld)
 {
-    func_0206DF3C(relPos, screenX, screenY);
-    return func_0206E0C4(*screenX, *screenY, outWorld, 0);
+    NNS_G3dWorldPosToScrPos(relPos, screenX, screenY);
+    return NNS_G3dScrPosToWorldLine(*screenX, *screenY, outWorld, 0);
 }
 
 /*
@@ -739,7 +739,7 @@ void TALKMSGWIN_GetAnchorWindowPoint(TalkMsgWin *win, TalkMsgWin *anchor, int *s
     } else {
         *screenY = anchorY + anchorH / 2;
     }
-    func_0206E0C4(*screenX, *screenY, outWorld, 0);
+    NNS_G3dScrPosToWorldLine(*screenX, *screenY, outWorld, 0);
 }
 
 /* Horizontal span of the tail base: 16 pixels, 64 pixels in from the left or right window edge. */
@@ -855,8 +855,8 @@ int TALKMSGWIN_CalcTail(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outB
         TALKMSGWIN_GetTailBaseX(x, w, side, &baseX[1], &baseX[0]);
         break;
     }
-    func_0206E0C4(baseX[1], yA, outBaseA, 0);
-    func_0206E0C4(baseX[0], yB, outBaseB, 0);
+    NNS_G3dScrPosToWorldLine(baseX[1], yA, outBaseA, 0);
+    NNS_G3dScrPosToWorldLine(baseX[0], yB, outBaseB, 0);
     return tailSide;
 }
 
@@ -872,10 +872,10 @@ void TALKMSGWIN_GetWindowCornerPoints(TalkMsgWin *win, VecFx32 *outTopLeft, VecF
     y = (BMP_WIN_GetPosY(win->bmpWin) - 1) << 3;
     w = BMP_WIN_GetDispWidth(win->bmpWin) << 3;
     h = (BMP_WIN_GetDispHeight(win->bmpWin) + 2) << 3;
-    func_0206E0C4(x, y, outTopLeft, 0);
-    func_0206E0C4(x + w, y, outTopRight, 0);
-    func_0206E0C4(x, y + h, outBottomLeft, 0);
-    func_0206E0C4(x + w, y + h, outBottomRight, 0);
+    NNS_G3dScrPosToWorldLine(x, y, outTopLeft, 0);
+    NNS_G3dScrPosToWorldLine(x + w, y, outTopRight, 0);
+    NNS_G3dScrPosToWorldLine(x, y + h, outBottomLeft, 0);
+    NNS_G3dScrPosToWorldLine(x + w, y + h, outBottomRight, 0);
 }
 
 static inline void setVec32(VecFx32 *out, s32 x, s32 y, s32 z)
@@ -913,18 +913,18 @@ void TALKMSGWIN_BuildShape(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *t
     int distBottomLeft;
     int distBottomRight;
 
-    func_0207CA00(tailBaseA, tip, &offsetA);
-    func_0207CA00(tailBaseB, tip, &offsetB);
-    func_0207CA00(topLeft, tip, &offsetTopLeft);
-    func_0207CA00(topRight, tip, &offsetTopRight);
-    func_0207CA00(bottomLeft, tip, &offsetBottomLeft);
-    func_0207CA00(bottomRight, tip, &offsetBottomRight);
-    maxDist = func_0207CBD0(&offsetA);
-    distB = func_0207CBD0(&offsetB);
-    distTopLeft = func_0207CBD0(&offsetTopLeft);
-    distTopRight = func_0207CBD0(&offsetTopRight);
-    distBottomLeft = func_0207CBD0(&offsetBottomLeft);
-    distBottomRight = func_0207CBD0(&offsetBottomRight);
+    VEC_Subtract(tailBaseA, tip, &offsetA);
+    VEC_Subtract(tailBaseB, tip, &offsetB);
+    VEC_Subtract(topLeft, tip, &offsetTopLeft);
+    VEC_Subtract(topRight, tip, &offsetTopRight);
+    VEC_Subtract(bottomLeft, tip, &offsetBottomLeft);
+    VEC_Subtract(bottomRight, tip, &offsetBottomRight);
+    maxDist = VEC_Mag(&offsetA);
+    distB = VEC_Mag(&offsetB);
+    distTopLeft = VEC_Mag(&offsetTopLeft);
+    distTopRight = VEC_Mag(&offsetTopRight);
+    distBottomLeft = VEC_Mag(&offsetBottomLeft);
+    distBottomRight = VEC_Mag(&offsetBottomRight);
     if (maxDist < distB) {
         maxDist = distB;
     }
@@ -973,7 +973,7 @@ u32 TALKMSGWIN_UpdateShape(TalkMsgWinSys *sys, TalkMsgWin *win)
     int tailSide;
 
     if (win->targetPos != 0) {
-        func_0207CA00(win->targetPos, &sys->savedTarget, &relPos);
+        VEC_Subtract(win->targetPos, &sys->savedTarget, &relPos);
         TALKMSGWIN_ProjectToWorld(&relPos, &screenX, &screenY, &tipPos);
     } else {
         TALKMSGWIN_GetAnchorWindowPoint(win, &sys->windows[win->anchorIndex], &screenX, &screenY, &tipPos);
@@ -1001,7 +1001,7 @@ void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
     VecFx32 target;
     int scale;
 
-    func_0207CA00(&sys->savedEye, &sys->savedTarget, &eyeOffset);
+    VEC_Subtract(&sys->savedEye, &sys->savedTarget, &eyeOffset);
     eye.x = eyeOffset.x;
     eye.y = eyeOffset.y;
     eye.z = eyeOffset.z;
@@ -1022,7 +1022,7 @@ void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
         func_02048AD0(sys->param.camera);
         return;
     }
-    func_0207D7C4(&eye, &up, &target, 1, 0);
+    G3i_LookAt_(&eye, &up, &target, 1, 0);
 }
 
 /* Saves the field camera state. */
@@ -1049,7 +1049,7 @@ u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
 {
     u32 screenSelect;
 
-    func_020414EC(param->bgLayer & 0xFF);
+    BG_SYS_ClearSlot(param->bgLayer & 0xFF);
     screenSelect = 0;
     switch (param->bgLayer) {
     case 0:
@@ -1087,7 +1087,7 @@ void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys)
     u32 screenSelect;
     u32 bgLayer;
 
-    func_020414EC(sys->param.bgLayer & 0xFF);
+    BG_SYS_ClearSlot(sys->param.bgLayer & 0xFF);
     bgLayer = sys->param.bgLayer;
     screenSelect = 0;
     switch (bgLayer) {

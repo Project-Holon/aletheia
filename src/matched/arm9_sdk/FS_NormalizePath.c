@@ -14,7 +14,7 @@
  * symbols:
  *   g_02150B0C                     0x02150B0C  data
  *   g_02150C1C                     0x02150C1C  data
- *   g_020A84A0                     0x020A84A0  data
+ *   fsi_str_slash                     0x020A84A0  data
  *   FSi_CopySafeString             0x02078018  arm
  *   FS_FindArchive                 0x02077EB8  arm
  *   FSi_DecrementSjisPositionToSlash 0x02078834  arm
@@ -39,7 +39,7 @@ typedef struct FsArchiveBss {
 
 extern FsArchiveBss g_02150B0C;
 extern char g_02150C1C[260];    /* current_dir_path */
-extern const char g_020A84A0[]; /* "/" */
+extern const char fsi_str_slash[]; /* "/" */
 
 extern int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure);
 extern FSArchive *FS_FindArchive(const char *name, int name_len);
@@ -99,7 +99,7 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
                 }
                 if (relpath && (g_02150B0C.cur_own_id == 0) && (g_02150C1C[0] != '\0')) {
                     pathlen += FSi_CopySafeString(relpath, 0x104, g_02150C1C, 0x104, &stickyFailure);
-                    pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, g_020A84A0, 1, &stickyFailure);
+                    pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, fsi_str_slash, 1, &stickyFailure);
                 }
                 break;
             } else if (c == ':') {
@@ -136,7 +136,7 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
                 } else {
                     pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, path, curlen, &stickyFailure);
                     if (c != '\0') {
-                        pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, g_020A84A0, 1, &stickyFailure);
+                        pathlen += FSi_CopySafeString(&relpath[pathlen], 0x104 - pathlen, fsi_str_slash, 1, &stickyFailure);
                     }
                 }
                 if (c == '\0') {

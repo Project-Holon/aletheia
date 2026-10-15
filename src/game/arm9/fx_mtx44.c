@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx44.c
  * unit:     yes
- * function: func_0207BDB4, MTX_Copy44To43_, func_0207BE14, MTX_FrustumW, MTX_PerspectiveW, MTX_OrthoW
+ * function: MTX_Identity44_, MTX_Copy44To43_, func_0207BE14, MTX_FrustumW, MTX_PerspectiveW, MTX_OrthoW
  * address:  0x0207BDB4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,44 +19,6 @@
  *   FX_Div                         0x0207C768  arm
  *   FX_GetDivResult                0x0207C86C  arm
  */
-typedef long fx32_0207BDB4;
-
-typedef union {
-    fx32_0207BDB4 m[4][4];
-    fx32_0207BDB4 a[16];
-} MtxFx44_0207BDB4;
-
-typedef long fx32_0207BDE0;
-
-typedef union {
-    fx32_0207BDE0 m[4][4];
-    fx32_0207BDE0 a[16];
-} MtxFx44_0207BDE0;
-
-typedef union {
-    fx32_0207BDE0 m[4][3];
-    fx32_0207BDE0 a[12];
-} MtxFx43;
-
-typedef long s32;
-
-typedef long long s64;
-
-typedef s32 fx32_2;
-
-typedef s64 fx64_0207BDB4;
-
-typedef union MtxFx44_2 {
-    struct {
-        fx32_2 _00, _01, _02, _03;
-        fx32_2 _10, _11, _12, _13;
-        fx32_2 _20, _21, _22, _23;
-        fx32_2 _30, _31, _32, _33;
-    };
-    fx32_2 m[4][4];
-    fx32_2 a[16];
-} MtxFx44_2;
-
 typedef long fx32;
 
 typedef long long fx64;
@@ -66,8 +28,6 @@ typedef long long fx64c;
 typedef unsigned long u32;
 
 typedef unsigned long long u64;
-
-typedef volatile u64 vu64;
 
 typedef union {
     struct {
@@ -80,13 +40,18 @@ typedef union {
     fx32 a[16];
 } MtxFx44;
 
+typedef union {
+    fx32 m[4][3];
+    fx32 a[12];
+} MtxFx43;
+
 void FX_InvAsync(fx32 denom);
 fx64c FX_GetDivResultFx64c(void);
 fx32 FX_Div(fx32 numer, fx32 denom);
 fx32 FX_GetDivResult(void);
-asm void func_0207BDB4(MtxFx44_0207BDB4 *pDst);
-asm void MTX_Copy44To43_(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst);
-void MTX_Concat44(const MtxFx44_2 *a, const MtxFx44_2 *b, MtxFx44_2 *ab);
+asm void MTX_Identity44_(MtxFx44 *pDst);
+asm void MTX_Copy44To43_(MtxFx44 *pSrc, MtxFx43 *pDst);
+void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 void MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 void MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 void MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
@@ -96,7 +61,7 @@ void MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, Mtx
  *
  * asm:      fixed-register stm block (stmia r0!, {r1, r2, r3} runs) has no C spelling
  */
-asm void func_0207BDB4(MtxFx44_0207BDB4 *pDst)
+asm void MTX_Identity44_(MtxFx44 *pDst)
 {
     mov r2, #0x1000
     mov r3, #0
@@ -116,7 +81,7 @@ asm void func_0207BDB4(MtxFx44_0207BDB4 *pDst)
  *
  * asm:      fixed-register ldm/stm block copy (ldmia r0!/stmia r1!, {r2, r3, r12}) has no C spelling
  */
-asm void MTX_Copy44To43_(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst)
+asm void MTX_Copy44To43_(MtxFx44 *pSrc, MtxFx43 *pDst)
 {
     ldmia r0!, {r2, r3, r12}
     add r0, r0, #4
@@ -135,13 +100,13 @@ asm void MTX_Copy44To43_(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst)
 
 #define FX32_SHIFT 12
 
-void MTX_Concat44(const MtxFx44_2 *a, const MtxFx44_2 *b, MtxFx44_2 *ab)
+void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab)
 {
-    MtxFx44_2 tmp;
-    MtxFx44_2 *p;
+    MtxFx44 tmp;
+    MtxFx44 *p;
 
-    register fx32_2 x, y, z, w;
-    register fx32_2 xx, yy, zz, ww;
+    register fx32 x, y, z, w;
+    register fx32 xx, yy, zz, ww;
 
     if (ab == b)
     {
@@ -158,77 +123,77 @@ void MTX_Concat44(const MtxFx44_2 *a, const MtxFx44_2 *b, MtxFx44_2 *ab)
     w = a->_03;
 
     p->_00 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_00 + (fx64_0207BDB4)y * b->_10 + (fx64_0207BDB4)z * b->_20 +
-                (fx64_0207BDB4)w * b->_30) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_00 + (fx64)y * b->_10 + (fx64)z * b->_20 +
+                (fx64)w * b->_30) >> FX32_SHIFT);
     p->_01 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_01 + (fx64_0207BDB4)y * b->_11 + (fx64_0207BDB4)z * b->_21 +
-                (fx64_0207BDB4)w * b->_31) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_01 + (fx64)y * b->_11 + (fx64)z * b->_21 +
+                (fx64)w * b->_31) >> FX32_SHIFT);
     p->_03 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_03 + (fx64_0207BDB4)y * b->_13 + (fx64_0207BDB4)z * b->_23 +
-                (fx64_0207BDB4)w * b->_33) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_03 + (fx64)y * b->_13 + (fx64)z * b->_23 +
+                (fx64)w * b->_33) >> FX32_SHIFT);
 
     xx = b->_02;
     yy = b->_12;
     zz = b->_22;
     ww = b->_32;
 
-    p->_02 = (fx32_2)(((fx64_0207BDB4)x * xx + (fx64_0207BDB4)y * yy + (fx64_0207BDB4)z * zz + (fx64_0207BDB4)w * ww) >> FX32_SHIFT);
+    p->_02 = (fx32)(((fx64)x * xx + (fx64)y * yy + (fx64)z * zz + (fx64)w * ww) >> FX32_SHIFT);
 
     x = a->_10;
     y = a->_11;
     z = a->_12;
     w = a->_13;
 
-    p->_12 = (fx32_2)(((fx64_0207BDB4)x * xx + (fx64_0207BDB4)y * yy + (fx64_0207BDB4)z * zz + (fx64_0207BDB4)w * ww) >> FX32_SHIFT);
+    p->_12 = (fx32)(((fx64)x * xx + (fx64)y * yy + (fx64)z * zz + (fx64)w * ww) >> FX32_SHIFT);
     p->_11 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_01 + (fx64_0207BDB4)y * b->_11 + (fx64_0207BDB4)z * b->_21 +
-                (fx64_0207BDB4)w * b->_31) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_01 + (fx64)y * b->_11 + (fx64)z * b->_21 +
+                (fx64)w * b->_31) >> FX32_SHIFT);
     p->_13 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_03 + (fx64_0207BDB4)y * b->_13 + (fx64_0207BDB4)z * b->_23 +
-                (fx64_0207BDB4)w * b->_33) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_03 + (fx64)y * b->_13 + (fx64)z * b->_23 +
+                (fx64)w * b->_33) >> FX32_SHIFT);
 
     xx = b->_00;
     yy = b->_10;
     zz = b->_20;
     ww = b->_30;
 
-    p->_10 = (fx32_2)(((fx64_0207BDB4)x * xx + (fx64_0207BDB4)y * yy + (fx64_0207BDB4)z * zz + (fx64_0207BDB4)w * ww) >> FX32_SHIFT);
+    p->_10 = (fx32)(((fx64)x * xx + (fx64)y * yy + (fx64)z * zz + (fx64)w * ww) >> FX32_SHIFT);
 
     x = a->_20;
     y = a->_21;
     z = a->_22;
     w = a->_23;
 
-    p->_20 = (fx32_2)(((fx64_0207BDB4)x * xx + (fx64_0207BDB4)y * yy + (fx64_0207BDB4)z * zz + (fx64_0207BDB4)w * ww) >> FX32_SHIFT);
+    p->_20 = (fx32)(((fx64)x * xx + (fx64)y * yy + (fx64)z * zz + (fx64)w * ww) >> FX32_SHIFT);
     p->_21 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_01 + (fx64_0207BDB4)y * b->_11 + (fx64_0207BDB4)z * b->_21 +
-                (fx64_0207BDB4)w * b->_31) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_01 + (fx64)y * b->_11 + (fx64)z * b->_21 +
+                (fx64)w * b->_31) >> FX32_SHIFT);
     p->_23 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_03 + (fx64_0207BDB4)y * b->_13 + (fx64_0207BDB4)z * b->_23 +
-                (fx64_0207BDB4)w * b->_33) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_03 + (fx64)y * b->_13 + (fx64)z * b->_23 +
+                (fx64)w * b->_33) >> FX32_SHIFT);
 
     xx = b->_02;
     yy = b->_12;
     zz = b->_22;
     ww = b->_32;
 
-    p->_22 = (fx32_2)(((fx64_0207BDB4)x * xx + (fx64_0207BDB4)y * yy + (fx64_0207BDB4)z * zz + (fx64_0207BDB4)w * ww) >> FX32_SHIFT);
+    p->_22 = (fx32)(((fx64)x * xx + (fx64)y * yy + (fx64)z * zz + (fx64)w * ww) >> FX32_SHIFT);
 
     x = a->_30;
     y = a->_31;
     z = a->_32;
     w = a->_33;
 
-    p->_32 = (fx32_2)(((fx64_0207BDB4)x * xx + (fx64_0207BDB4)y * yy + (fx64_0207BDB4)z * zz + (fx64_0207BDB4)w * ww) >> FX32_SHIFT);
+    p->_32 = (fx32)(((fx64)x * xx + (fx64)y * yy + (fx64)z * zz + (fx64)w * ww) >> FX32_SHIFT);
     p->_31 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_01 + (fx64_0207BDB4)y * b->_11 + (fx64_0207BDB4)z * b->_21 +
-                (fx64_0207BDB4)w * b->_31) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_01 + (fx64)y * b->_11 + (fx64)z * b->_21 +
+                (fx64)w * b->_31) >> FX32_SHIFT);
     p->_30 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_00 + (fx64_0207BDB4)y * b->_10 + (fx64_0207BDB4)z * b->_20 +
-                (fx64_0207BDB4)w * b->_30) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_00 + (fx64)y * b->_10 + (fx64)z * b->_20 +
+                (fx64)w * b->_30) >> FX32_SHIFT);
     p->_33 =
-        (fx32_2)(((fx64_0207BDB4)x * b->_03 + (fx64_0207BDB4)y * b->_13 + (fx64_0207BDB4)z * b->_23 +
-                (fx64_0207BDB4)w * b->_33) >> FX32_SHIFT);
+        (fx32)(((fx64)x * b->_03 + (fx64)y * b->_13 + (fx64)z * b->_23 +
+                (fx64)w * b->_33) >> FX32_SHIFT);
 
     if (p == &tmp)
     {

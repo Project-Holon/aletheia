@@ -1,5 +1,5 @@
 /*
- * function: func_0217CB5C
+ * function: gsiCoreTaskDispatchCallback
  * address:  0x0217CB5C
  * packet:   pkt_ov009_0217CB5C
  * region:   ov009
@@ -23,7 +23,7 @@ typedef struct GSTask {
     void (*cb28)(void *, int);
 } GSTask;
 
-void func_0217CB5C(GSTask *theTask, int theResult)
+void gsiCoreTaskDispatchCallback(GSTask *theTask, int theResult)
 {
     if (theTask->pending) {
         void (*cb)(void *, int);

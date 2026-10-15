@@ -22,8 +22,8 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   _s32_div_f 0x0209C0A4 arm
  *   func_021B9028 0x021B9028 thumb ov133
- *   func_0200A828 0x0200A828 thumb
- *   func_0200A834 0x0200A834 thumb
+ *   MUSICAL_SAVE_GetFittingSetting 0x0200A828 thumb
+ *   MUSICAL_SAVE_SetFittingSetting 0x0200A834 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
@@ -45,8 +45,8 @@ extern void *func_020056A0(void *,void *,int);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B9028(u8 *,int,u16);
 struct Big;
-extern u32 func_0200A828(struct Big *p);
-extern void func_0200A834(struct Big *p, u8 value);
+extern u32 MUSICAL_SAVE_GetFittingSetting(struct Big *p);
+extern void MUSICAL_SAVE_SetFittingSetting(struct Big *p, u8 value);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 u8 *func_021B6100(u8 *parent, int heap)
@@ -102,8 +102,8 @@ u8 *func_021B6100(u8 *parent, int heap)
     *(u32 *)(p + 0x98) = 1;
     *(u32 *)(p + 0x9c) = 0;
     *(u32 *)(p + 0xa0) = *(u16 *)(p + 0x182c) % 0x1249 + 0x10000;
-    if (func_0200A828((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8))) == 0) {
-        func_0200A834((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8)), 1);
+    if (MUSICAL_SAVE_GetFittingSetting((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8))) == 0) {
+        MUSICAL_SAVE_SetFittingSetting((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8)), 1);
         *(u32 *)(p + 0x1840) = 1;
     } else {
         *(u32 *)(p + 0x1840) = 0;

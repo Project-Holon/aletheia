@@ -1,5 +1,5 @@
 /*
- * function: func_0200BCA0
+ * function: DAYCARE_GetEggReady
  * address:  0x0200BCA0
  * packet:   pkt_0200BCA0
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-int func_0200BCA0(struct Obj11233 *p)
+int DAYCARE_GetEggReady(struct Obj11233 *p)
 {
     return *(int *)&p->f1C8;
 }

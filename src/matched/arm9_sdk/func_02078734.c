@@ -1,5 +1,5 @@
 /*
- * function: func_02078734
+ * function: FS_NotifyArchiveAsyncEnd
  * address:  0x02078734
  * packet:   pkt_02078734
  * region:   arm9
@@ -62,7 +62,7 @@ extern void FSi_EndCommand(FSFile *file, int ret);
 extern FSFile *FSi_NextCommand(FSArchive *arc, BOOL owner);
 extern void FSi_ExecuteAsyncCommand(FSFile *file);
 
-void func_02078734(FSArchive *arc, int ret)
+void FS_NotifyArchiveAsyncEnd(FSArchive *arc, int ret)
 {
     FSFile *file = arc->list;
 

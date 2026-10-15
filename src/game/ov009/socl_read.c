@@ -27,7 +27,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_SleepThread  0x020857B0  arm
  *   OS_WakeupThread  0x02085800  arm
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclConfig  0x021A1CD8  data
  *   g_021AA4A4  0x021AA4A4  data
  */
 #include "../../matched/include/G_021A1CD8.h"
@@ -115,7 +115,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_SleepThread(void *queue);
 extern void OS_WakeupThread(void *queue);
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern unsigned long g_021AA4A4[2];
 
 int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
@@ -560,7 +560,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
             pipe->head = udpdata->next;
             if (udpdata->next == 0)
                 pipe->tail = 0;
-            g_021A1CD8->free(udpdata);
+            gSoclConfig->free(udpdata);
             pipe->recv_size -= (unsigned short)result;
         }
     }
@@ -582,7 +582,7 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct SOCLSocket *soc
 
     enable = OS_DisableInterrupts();
     if (pipe->recv_max >= pipe->recv_size + len) {
-        udpheader = g_021A1CD8->alloc(len + 12);
+        udpheader = gSoclConfig->alloc(len + 12);
         if (udpheader != 0) {
             pipe->recv_size += len;
             udpheader->next = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02204F78
+ * function: SHINKA_DEMO_FadeOutBgm
  * address:  0x02204F78
  * packet:   pkt_02204F78
  * region:   ov195
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-void func_02204F78(int a, char *b)
+void SHINKA_DEMO_FadeOutBgm(int a, char *b)
 {
     if (((struct Obj14525 *)b)->f30 == 4) {
         GFL_USE_FadeOutBgm(0x3c);

@@ -14,19 +14,19 @@
  *
  * symbols:
  *   gDwcEncSession     0x021CF7AC  data
- *   func_02094860  0x02094860  arm
+ *   strncpy  0x02094860  arm
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_020816B8  0x020816B8  arm
- *   func_020949F4  0x020949F4  arm
- *   func_0217FA90  0x0217FA90  arm  ov009
+ *   strncmp  0x020949F4  arm
+ *   B64Encode  0x0217FA90  arm  ov009
  *   func_02092344  0x02092344  arm
  *   strlen  0x0209477C  arm
  *   func_0205A29C  0x0205A29C  arm
  *   DWCi_EncSetError  0x021CA06C  arm  ov114
  *   sDwcEncSessionHash  0x021CF84C  data
  *   sDwcEncSessionError  0x021CF854  data
- *   func_02095EAC  0x02095EAC  arm
+ *   strtoul  0x02095EAC  arm
  *   DWC_InitGHTTP  0x021BF558  arm  ov114
  *   gDwcEncServerUrl  0x021CF7A8  data
  *   sDwcEncSessionHttpGamestatsGsNintendowifiNet  0x021CF85C  data
@@ -79,12 +79,12 @@ extern int strncmp(const char *a, const char *b, unsigned long n);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern void func_020816B8(void *digest, void *data, u32 len);
 extern void *func_02092344();
 extern void DWCi_EncSetError(void);
 extern void DWCi_GsFree(void *ptr);
-extern unsigned long func_02095EAC(const char *str, char **endptr, int base);
+extern unsigned long strtoul(const char *str, char **endptr, int base);
 extern int DWC_InitGHTTP();
 extern int CTRDGi_IsTaskAvailable(void);
 extern void DWCi_SetError(int mode, long value);
@@ -222,7 +222,7 @@ int DWCi_EncSessionEncrypt(u8 *outBuffer, u8 *header, u32 headerLen, u8 *source,
     scratch[1] = (u8)(sum >> 16);
     scratch[2] = (u8)(sum >> 8);
     scratch[3] = (u8)sum;
-    func_0217FA90((char *)scratch, (char *)outBuffer, sourceLen + headerLen + 4, 2);
+    B64Encode((char *)scratch, (char *)outBuffer, sourceLen + headerLen + 4, 2);
     DWC_Free(8, scratch, 0);
     outBuffer[b64size(sourceLen + headerLen + 4)] = 0;
     return 0;
@@ -264,10 +264,10 @@ void DWCi_EncSessionInitialize(int server, char *initData)
     init = (DWCEncInitData *)initData;
     strncpy(secretKey, init->info.secretKey, 20);
     secretKey[20] = '\0';
-    multiplier = func_02095EAC(strncpy(buffer, init->info.multiplier, 8), 0, 16);
-    increment = func_02095EAC(strncpy(buffer, init->info.increment, 8), 0, 16);
-    modulus = func_02095EAC(strncpy(buffer, init->info.modulus, 8), 0, 16);
-    checksumMask = func_02095EAC(strncpy(buffer, init->info.checksumMask, 8), 0, 16);
+    multiplier = strtoul(strncpy(buffer, init->info.multiplier, 8), 0, 16);
+    increment = strtoul(strncpy(buffer, init->info.increment, 8), 0, 16);
+    modulus = strtoul(strncpy(buffer, init->info.modulus, 8), 0, 16);
+    checksumMask = strtoul(strncpy(buffer, init->info.checksumMask, 8), 0, 16);
     DWCi_EncValidateKey(init->info.gameName, secretKey, multiplier, increment, modulus, checksumMask);
     DWC_InitGHTTP(0);
     gDwcEncSession.state = 3;

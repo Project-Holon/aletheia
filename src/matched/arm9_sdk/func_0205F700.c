@@ -1,5 +1,5 @@
 /*
- * function: func_0205F700
+ * function: NCFG_GetFormatVersion
  * address:  0x0205F700
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -18,15 +18,15 @@
 
 #include "../include/G_NCFGBackupBss.h"
 
-extern long func_0205F648(void);
+extern long NCFGi_InitBackupMemory(void);
 extern struct NCFGBackupBss FormatVersionNumber;
 
-unsigned char func_0205F700(void)
+unsigned char NCFG_GetFormatVersion(void)
 {
     long result;
     unsigned char version;
 
-    result = func_0205F648();
+    result = NCFGi_InitBackupMemory();
     if (result != 0) {
         return 0;
     }

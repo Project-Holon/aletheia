@@ -1,5 +1,5 @@
 /*
- * function: func_02731760
+ * function: SHA1_HMAC_Update
  * address:  0x02731760
  * packet:   twl_sys
  * region:   twl
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-asm void func_02731760(void)
+asm void SHA1_HMAC_Update(void)
 {
     swi     0x25
     bx      lr

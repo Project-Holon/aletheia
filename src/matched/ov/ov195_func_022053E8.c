@@ -1,5 +1,5 @@
 /*
- * function: func_022053E8
+ * function: SHINKA_DEMO_AdvanceText
  * address:  0x022053E8
  * packet:   pkt_022053E8
  * region:   ov195
@@ -43,7 +43,7 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void func_020355D8(u8 v);
 
-int func_022053E8(char *a)
+int SHINKA_DEMO_AdvanceText(char *a)
 {
     int r = 0;
 

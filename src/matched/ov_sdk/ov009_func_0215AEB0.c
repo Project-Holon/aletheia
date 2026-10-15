@@ -15,10 +15,10 @@
  *   udp_read_raw  0x0215ADC4  arm  ov009
  *   CPSi_SslRead  0x021629BC  arm  ov009
  *   CPSi_TcpReadRaw  0x0215AE18  arm  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 struct CPSSoc;
 struct soc;
 extern unsigned char *udp_read_raw(unsigned long *len, struct soc *soc);
@@ -27,7 +27,7 @@ extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, char *soc);
 
 unsigned char *CPS_SocRead(unsigned long *len)
 {
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *soc = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)

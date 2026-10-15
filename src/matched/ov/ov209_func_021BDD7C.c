@@ -27,7 +27,7 @@
  *   POKEGRA_RegisterCgr 0x0202D81C thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
- *   func_021C940C 0x021C940C thumb ov212
+ *   ZUKAN_CreateActor 0x021C940C thumb ov212
  *   CLACT_SetActorVisible 0x0204BA20 arm
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
@@ -64,7 +64,7 @@ extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 struct Obj;
-extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 extern void *POKE_PERSONAL_Create(u32,int,u32);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -117,7 +117,7 @@ void ZUKAN_LIST_LoadSpeciesIcon(char *p,u16 species)
     t.w8=*(unsigned *)(p+t.w8*4+0xb64);
     t.wC=*(unsigned *)(p+t.wC*4+0xbf4);
     t.w10=*(unsigned *)(p+t.w10*4+0xc0c);
-    *(void **)(p+0xa74+index*4)=func_021C940C((u32)(((struct Obj08410 *)p)->fA70),(const u8 *)(&t),0x6b);
+    *(void **)(p+0xa74+index*4)=ZUKAN_CreateActor((u32)(((struct Obj08410 *)p)->fA70),(const u8 *)(&t),0x6b);
     CLACT_SetActorVisible(*(void **)(p+0xa74+index*4),0);
     personal=POKE_PERSONAL_Create(species,(u16)outForm,0x806b);
     if (species!=0 && POKE_PERSONAL_GetParam(personal,0x22)==0)

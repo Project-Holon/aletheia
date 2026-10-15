@@ -43,7 +43,7 @@
  * literal.  Both are now matched on their own: src/matched/arm9/
  * BATTLE_REC_LoadToolOverlay.c and BATTLE_REC_UnloadToolOverlay.c. *
  * symbols:
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   BATTLE_REC_Decode  0x0200B900  thumb
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
@@ -57,6 +57,7 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
  */
 
 typedef unsigned char  u8;
@@ -67,7 +68,7 @@ typedef signed int     s32;
 
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 struct Mon;
 struct MsgBank;
 struct MsgData;
@@ -93,7 +94,7 @@ extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void *func_0200BBEC(void *a, u32 b, u32 c);
+extern void *BATTLE_BOX_GetMon(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];
 
@@ -147,6 +148,6 @@ u32 BATTLE_REC_IsVersionSupported(u32 v)
 
 void BATTLE_REC_SetBodyCrc(struct RecC4 *p)
 {
-    p->unk17DC = func_0203F1FC((const u8 *)p, 0x17DC);
+    p->unk17DC = GF_STANDARD_SetupCalc((const u8 *)p, 0x17DC);
 }
 

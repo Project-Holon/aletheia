@@ -9,7 +9,7 @@
  *   G3D_SYSTEM_GetTexManagerMode  0x02046BFC  arm
  *   G3D_SYSTEM_GetPlttManagerMode  0x02046C10  arm
  *   NNS_GfdSaveVramManager  0x0206164C  arm
- *   func_02061808  0x02061808  arm
+ *   NNSi_GfdGetVramManagerWork  0x02061808  arm
  *   func_02052A50  0x02052A50  arm
  *   PARTICLE_ApplyLoadHandlers  0x02051394  arm
  *   func_02030DA8  0x02030DA8  arm
@@ -29,7 +29,7 @@ typedef signed int     s32;
 extern int G3D_SYSTEM_GetTexManagerMode(void);
 extern int G3D_SYSTEM_GetPlttManagerMode(void);
 extern void NNS_GfdSaveVramManager(u8 *p);
-extern void func_02061808(u8 *p);
+extern void NNSi_GfdGetVramManagerWork(u8 *p);
 extern void func_02052A50(u32 a, u32 b);
 extern void PARTICLE_ApplyLoadHandlers(u8 *o);
 extern void func_02030DA8(u32 a, u32 b, u8 *c, u32 d);
@@ -60,7 +60,7 @@ void PARTICLE_SetupSystem(u8 *o, u32 a1, u32 a2, u32 a3)
         *(u16 *)(o + 0x200 + 0x5c) = z;
     }
     if (f & 4) {
-        func_02061808(o + 0x158);
+        NNSi_GfdGetVramManagerWork(o + 0x158);
         ((struct Obj02319 *)o)->f1C = 0x02051AA0;
     } else if (f & 8) {
         for (i = 0; i < 0x40; i++)

@@ -1,7 +1,7 @@
 /*
  * file:     pokemontrade_demo_common.c
  * unit:     yes
- * function: func_021D4240, func_021D4290, func_021D434C, func_021D43C8, func_021D4434, func_021D4480, func_021D4484, func_021D4490, func_021D449C, func_021D4520, func_021D4544
+ * function: POKETRADE_DEMO_COMMON_StepFade, POKETRADE_DEMO_COMMON_CompareSideMon, POKETRADE_DEMO_COMMON_ShowUnitActor, POKETRADE_DEMO_COMMON_LoadUnitResources, POKETRADE_DEMO_COMMON_ReleaseUnit, POKETRADE_DEMO_COMMON_PassThrough, POKETRADE_DEMO_COMMON_SetFrame, POKETRADE_DEMO_COMMON_SetFinishFlag, POKETRADE_DEMO_COMMON_StepCompareMons, POKETRADE_DEMO_COMMON_StepWaitSync, POKETRADE_DEMO_COMMON_StepStartSlides
  * address:  0x021D4240
  * region:   ov117
  * compiler: dsi/1.1p1
@@ -41,7 +41,7 @@
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   POKETRADE_SAVE_CloseMessageWindow  0x021E106C  thumb  ov119
  *   func_02040EBC  0x02040EBC  arm
- *   func_021D4664  0x021D4664  thumb  ov117
+ *   POKETRADE_IRCDEMO_StepStartPlayback  0x021D4664  thumb  ov117
  *   d_021D55B0     0x021D55B0  data
  *   d_021D51F4     0x021D51F4  data
  *   d_021D51E8     0x021D51E8  data
@@ -54,27 +54,8 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
-#include "../../matched/include/Obj22634.h"
-#include "../../matched/include/Obj03253.h"
-#include "../../matched/include/Obj22635.h"
-#include "../../matched/include/Obj22636.h"
-#include "../../matched/include/Obj22637.h"
-#include "../../matched/include/Obj22638.h"
-#include "../../matched/include/Obj03768.h"
-#include "../../matched/include/Obj22639.h"
-#include "../../matched/include/Obj01722.h"
-#include "../../matched/include/Obj22640.h"
-#include "../../matched/include/Obj22641.h"
-#include "../../matched/include/Obj22642.h"
-#include "../../matched/include/Obj22643.h"
-#include "../../matched/include/Obj22644.h"
-#include "../../matched/include/Obj00001.h"
+#include "../ov118/pokemontrade_demo_up.h"
 
-#define OBJ(i) (((u32 *)(p + 0x844))[i])
-#define HEAP (*(u16 *)(p + 0x5F4))
-#define SLOT0 (*(u32 *)(p + 0x85C))
-#define SLOT1 (*(u32 *)(p + 0x860))
-#define FADE (*(s8 **)(p + 0x818))
 struct Personal;
 struct Sub0200852CObj;
 struct Obj;
@@ -84,31 +65,24 @@ struct Link;
 struct McssFade;
 typedef signed char s8;
 
-typedef int s32_021D4240;
-
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
 typedef unsigned char u8;
 
+/* Parameter block passed to CLACT_CreateActor as its position argument. */
 typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u8 d;
-    u8 e;
-} Local;
-
-typedef signed int     s32_021D43C8;
+    u16 charId;
+    u16 palId;
+    u16 cellId;
+    u8  x;
+    u8  y;
+} ClactCellParam;
 
 typedef short s16;
 
 typedef int s32;
-
-typedef struct {
-    s32 x, y, z;
-} Vec;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern int POKETRADE_PROC_IsHostSide(void *p);
@@ -123,9 +97,9 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void *func_020490F4(u32 id, u32 heap);
-extern s32_021D43C8 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32_021D43C8 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32_021D43C8 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -146,18 +120,18 @@ extern void POKETRADE_MCSS_StopAnimation(char *p);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern void POKETRADE_SAVE_CloseMessageWindow(char *p);
 extern void func_02040EBC(u32 a0, u32 a1);
-extern void func_021D4664(u8 *p);
-void func_021D4240(s8 *fade);
-void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy);
-void func_021D434C(void *p);
-void func_021D43C8(void *p);
-void func_021D4434(void *p);
-int func_021D4480(int a);
-void func_021D4484(u8 *p, u32 v);
-void func_021D4490(u8 *p);
-void func_021D449C(u8 *p);
-void func_021D4520(u8 *p);
-void func_021D4544(u8 *p);
+extern void POKETRADE_IRCDEMO_StepStartPlayback(u8 *p);
+void POKETRADE_DEMO_COMMON_StepFade(s8 *fade);
+void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy);
+void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p);
+void POKETRADE_DEMO_COMMON_LoadUnitResources(void *p);
+void POKETRADE_DEMO_COMMON_ReleaseUnit(void *p);
+int POKETRADE_DEMO_COMMON_PassThrough(int a);
+void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v);
+void POKETRADE_DEMO_COMMON_SetFinishFlag(u8 *p);
+void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p);
+void POKETRADE_DEMO_COMMON_StepWaitSync(u8 *p);
+void POKETRADE_DEMO_COMMON_StepStartSlides(u8 *p);
 extern const char d_021D55B0[];
 extern const Vec d_021D51F4;
 extern const Vec d_021D51E8;
@@ -165,67 +139,67 @@ extern const Vec d_021D51E8;
 
 
 
-void func_021D4240(s8 *fade)
+void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
 {
-    s32_021D4240 value;
+    s32 brightness;
 
     if (fade == 0) {
         return;
     }
     if (fade[0] >= fade[1]) {
         fade[1]++;
-        value = ((fade[3] - fade[2]) << 12) / fade[0];
-        value = value * fade[1] / 4096;
-        func_0207D658(0x04000050, 0x1E, value);
-        func_0207D658(0x04001050, 0x1F, value);
+        brightness = ((fade[3] - fade[2]) << 12) / fade[0];
+        brightness = brightness * fade[1] / 4096;
+        func_0207D658(0x04000050, 0x1E, brightness);
+        func_0207D658(0x04001050, 0x1F, brightness);
     }
 }
 
 
 
 
-void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
+void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
 {
-    int which;
+    int side;
     void *mon;
-    u32 id;
-    u32 a;
-    u32 b;
-    u32 egg;
-    u32 h;
-    u32 flag;
+    u32 monId;
+    u32 species;
+    u32 form;
+    u32 isEgg;
+    u32 personal;
+    u32 isSpecial;
 
     if (enemy != 0) {
         if (POKETRADE_PROC_IsHostSide(p) != 0) {
-            which = 1;
+            side = 1;
         } else {
-            which = 0;
+            side = 0;
         }
     } else {
         if (POKETRADE_PROC_IsHostSide(p) != 0) {
-            which = 0;
+            side = 0;
         } else {
-            which = 1;
+            side = 1;
         }
     }
-    mon = POKETRADE_PROC_GetSideMon(p, which);
-    id = func_02017E1C(mon, 7, 0);
-    a = func_02017E1C(mon, 0xAB, 0);
-    b = func_02017E1C(mon, 0x6F, 0);
-    egg = func_02017E1C(mon, 0x4C, 0);
-    if (egg == 0) {
-        h = (u32)POKE_PERSONAL_Create((u16)a, (int)(u16)b, ((struct Obj22634 *)p)->f5F4);
-        flag = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x10);
-        POKE_PERSONAL_Delete((void *)h);
+    mon = POKETRADE_PROC_GetSideMon(p, side);
+    monId = func_02017E1C(mon, 7, 0);
+    species = func_02017E1C(mon, 0xAB, 0);
+    form = func_02017E1C(mon, 0x6F, 0);
+    isEgg = func_02017E1C(mon, 0x4C, 0);
+    if (isEgg == 0) {
+        personal = (u32)POKE_PERSONAL_Create((u16)species, (int)(u16)form, ((PokeTradeDemoWork *)p)->heapId);
+        isSpecial = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x10);
+        POKE_PERSONAL_Delete((void *)personal);
     }
-    if (egg != 0) {
+    if (isEgg != 0) {
         *outFlag = 1;
-    } else if (flag != 0) {
+    } else if (isSpecial != 0) {
         *outFlag = 1;
     } else {
         *outFlag = 0;
     }
-    if (id != func_02008530((const struct Sub0200852CObj *)key)) {
+    if (monId != func_02008530((const struct Sub0200852CObj *)key)) {
         *outSame = 0;
     } else {
         *outSame = 1;
@@ -235,128 +209,129 @@ void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
 
 
 
-void func_021D434C(void *p)
+void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p)
 {
-    u32 v = ((struct Obj22635 *)((char *)((struct Obj03253 *)p)->fC))->fB0;
-    if (v == 0) {
-        Local s;
-        s.a = 0x80;
-        s.b = 0x63;
-        s.c = 0;
-        s.d = 0;
-        s.e = 0;
-        ((struct Obj22636 *)((char *)((struct Obj03253 *)p)->fC))->fB0 =
-            (u32)CLACT_CreateActor((void *)((struct Obj03253 *)p)->f9C4,
-                          ((struct Obj03253 *)p)->f8A8,
-                          ((struct Obj03253 *)p)->f88C,
-                          ((struct Obj03253 *)p)->f8BC,
-                          &s, 0, ((struct Obj03253 *)p)->f5F4);
-        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj22637 *)((char *)((struct Obj03253 *)p)->fC))->fB0, 1);
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj22638 *)((char *)((struct Obj03253 *)p)->fC))->fB0, 1);
+    void *actor = ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor;
+    if (actor == 0) {
+        ClactCellParam s;
+        s.charId = 0x80;
+        s.palId = 0x63;
+        s.cellId = 0;
+        s.x = 0;
+        s.y = 0;
+        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor =
+            CLACT_CreateActor((void *)((PokeTradeDemoWork *)p)->clactSystem,
+                          ((PokeTradeDemoWork *)p)->characterHandle,
+                          ((PokeTradeDemoWork *)p)->paletteHandle,
+                          ((PokeTradeDemoWork *)p)->cellAnimHandle,
+                          &s, 0, ((PokeTradeDemoWork *)p)->heapId);
+        CLACT_SetActorAutoAnim((struct Obj *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor, 1);
     } else {
-        CLACT_RestartActorAnim((struct Actor *)v);
+        CLACT_RestartActorAnim((struct Actor *)actor);
     }
 }
 
 
 
 
-void func_021D43C8(void *p)
+void POKETRADE_DEMO_COMMON_LoadUnitResources(void *p)
 {
-    void *h = func_020490F4(0x67, ((struct Obj03768 *)p)->f5F4);
-    ((struct Obj03768 *)p)->f8A8 = CLACT_RegisterCharacter(h, 2, 0, 0, ((struct Obj03768 *)p)->f5F4);
-    ((struct Obj03768 *)p)->f88C = CLACT_RegisterPaletteEx(h, 3, 0, 0xE0, 0, 1, ((struct Obj03768 *)p)->f5F4);
-    ((struct Obj03768 *)p)->f8BC = CLACT_RegisterCellAnim(h, 1, 0, ((struct Obj03768 *)p)->f5F4);
-    ARC_TOOL_DeleteHandle(h);
-    ((struct Obj22639 *)((char *)((struct Obj03768 *)p)->fC))->fB0 = 0;
+    void *res = func_020490F4(0x67, ((PokeTradeDemoWork *)p)->heapId);
+    ((PokeTradeDemoWork *)p)->characterHandle = CLACT_RegisterCharacter(res, 2, 0, 0, ((PokeTradeDemoWork *)p)->heapId);
+    ((PokeTradeDemoWork *)p)->paletteHandle = CLACT_RegisterPaletteEx(res, 3, 0, 0xE0, 0, 1, ((PokeTradeDemoWork *)p)->heapId);
+    ((PokeTradeDemoWork *)p)->cellAnimHandle = CLACT_RegisterCellAnim(res, 1, 0, ((PokeTradeDemoWork *)p)->heapId);
+    ARC_TOOL_DeleteHandle(res);
+    ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor = 0;
 }
 
 
 
 
-void func_021D4434(void *p)
+void POKETRADE_DEMO_COMMON_ReleaseUnit(void *p)
 {
     u8 *b = p;
 
-    if (((struct Obj22640 *)((u8 *)((struct Obj01722 *)b)->fC))->fB0 != 0)
-        CLACT_DeleteActor(((struct Obj22641 *)((u8 *)((struct Obj01722 *)b)->fC))->fB0);
-    if (((struct Obj01722 *)b)->f8A8 != 0) {
-        CLACT_ReleaseCharacter((u32)(((struct Obj01722 *)b)->f8A8));
-        CLACT_ReleasePalette((u32)(((struct Obj01722 *)b)->f88C));
-        CLACT_ReleaseCellAnim((u32)(((struct Obj01722 *)b)->f8BC));
+    if (((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor != 0)
+        CLACT_DeleteActor((struct Obj *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor);
+    if (((PokeTradeDemoWork *)b)->characterHandle != 0) {
+        CLACT_ReleaseCharacter((u32)((PokeTradeDemoWork *)b)->characterHandle);
+        CLACT_ReleasePalette((u32)((PokeTradeDemoWork *)b)->paletteHandle);
+        CLACT_ReleaseCellAnim((u32)((PokeTradeDemoWork *)b)->cellAnimHandle);
     }
-    ((struct Obj01722 *)b)->f8A8 = 0;
-    ((struct Obj01722 *)b)->f88C = 0;
-    ((struct Obj01722 *)b)->f8BC = 0;
-    ((struct Obj22642 *)((u8 *)((struct Obj01722 *)b)->fC))->fB0 = 0;
+    ((PokeTradeDemoWork *)b)->characterHandle = 0;
+    ((PokeTradeDemoWork *)b)->paletteHandle = 0;
+    ((PokeTradeDemoWork *)b)->cellAnimHandle = 0;
+    ((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor = 0;
 }
 
 
 
 
-int func_021D4480(int a) { return a; }
+int POKETRADE_DEMO_COMMON_PassThrough(int a) { return a; }
 
 
 
 
-void func_021D4484(u8 *p, u32 v) { ((struct Obj22643 *)p)->fF2C = v; }
+void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v) { ((PokeTradeDemoWork *)p)->frame = v; }
 
 
 
 
-void func_021D4490(u8 *p) { ((struct Obj22644 *)p)->f1094 = 1; }
+void POKETRADE_DEMO_COMMON_SetFinishFlag(u8 *p) { ((PokeTradeDemoWork *)p)->finishFlag = 1; }
 
 
 
-void func_021D449C(u8 *p)
+
+void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p)
 {
     POKETRADE_3D_FadeTexturePalette((char *)p);
-    if (((struct Obj00001 *)p)->f854 == 1) {
-        func_021D4290(p, p + 0x11ED, p + 0x11EF, ((struct Obj00001 *)p)->f834, 1);
-        func_021D4290(p, p + 0x11EE, p + 0x11F0, ((struct Obj00001 *)p)->f830, 0);
+    if (((PokeTradeDemoWork *)p)->sceneStarted == 1) {
+        POKETRADE_DEMO_COMMON_CompareSideMon(p, &((PokeTradeDemoWork *)p)->enemySameMon, &((PokeTradeDemoWork *)p)->enemySpecialMon, ((PokeTradeDemoWork *)p)->enemyMonKey, 1);
+        POKETRADE_DEMO_COMMON_CompareSideMon(p, &((PokeTradeDemoWork *)p)->ownSameMon, &((PokeTradeDemoWork *)p)->ownSpecialMon, ((PokeTradeDemoWork *)p)->ownMonKey, 0);
         POKETRADE_3D_RemoveCurrentUnit(p);
         if (POKETRADE_PROC_IsNetSession(p) != 0) {
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8);
-            POKETRADE_PROC_SetStep(p, (int)func_021D4520);
+            POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepWaitSync);
         } else {
-            POKETRADE_PROC_SetStep(p, (int)func_021D4544);
+            POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepStartSlides);
         }
     }
 }
 
 
 
-void func_021D4520(u8 *p)
+void POKETRADE_DEMO_COMMON_StepWaitSync(u8 *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
-        POKETRADE_PROC_SetStep(p, (int)func_021D4544);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepStartSlides);
     }
 }
 
 
 
-void func_021D4544(u8 *p)
+void POKETRADE_DEMO_COMMON_StepStartSlides(u8 *p)
 {
     Vec a;
     Vec b;
 
-    func_021D4484(p, 0);
-    FADE = func_02030734(HEAP, 4, 1, d_021D55B0, 0xF5);
-    FADE[0] = func_021D4480(0xE);
-    FADE[1] = 0;
-    FADE[2] = 0;
-    FADE[3] = -0x10;
+    POKETRADE_DEMO_COMMON_SetFrame(p, 0);
+    ((PokeTradeDemoWork *)p)->fade = func_02030734(((PokeTradeDemoWork *)p)->heapId, 4, 1, d_021D55B0, 0xF5);
+    ((PokeTradeDemoWork *)p)->fade[0] = POKETRADE_DEMO_COMMON_PassThrough(0xE);
+    ((PokeTradeDemoWork *)p)->fade[1] = 0;
+    ((PokeTradeDemoWork *)p)->fade[2] = 0;
+    ((PokeTradeDemoWork *)p)->fade[3] = -0x10;
     a = d_021D51F4;
-    POKETRADE_SAVE_FreeIfSet((u32 *)SLOT0);
-    SLOT0 = (u32)POKETRADE_MCSS_SlideCreate((void *)OBJ(0), (void *)func_021D4480(0x2A), &a, HEAP);
+    POKETRADE_SAVE_FreeIfSet((u32 *)((PokeTradeDemoWork *)p)->slideOwn);
+    ((PokeTradeDemoWork *)p)->slideOwn = POKETRADE_MCSS_SlideCreate((void *)((PokeTradeDemoWork *)p)->mcssObj[0], (void *)POKETRADE_DEMO_COMMON_PassThrough(0x2A), &a, ((PokeTradeDemoWork *)p)->heapId);
     b = d_021D51E8;
-    POKETRADE_SAVE_FreeIfSet((u32 *)SLOT1);
-    SLOT1 = (u32)POKETRADE_MCSS_SlideCreate((void *)OBJ(1), (void *)func_021D4480(0x54), &b, HEAP);
-    MCSS_SetAnimCallback(OBJ(0), p, (void (*)(void))POKETRADE_MCSS_StopAnimation, 1);
-    MCSS_SetPaletteFade((struct McssFade *)OBJ(1), 0, 0x10, (s8)(func_021D4480(0xE) / 16), 0);
+    POKETRADE_SAVE_FreeIfSet((u32 *)((PokeTradeDemoWork *)p)->slidePeer);
+    ((PokeTradeDemoWork *)p)->slidePeer = POKETRADE_MCSS_SlideCreate((void *)((PokeTradeDemoWork *)p)->mcssObj[1], (void *)POKETRADE_DEMO_COMMON_PassThrough(0x54), &b, ((PokeTradeDemoWork *)p)->heapId);
+    MCSS_SetAnimCallback((u32)((PokeTradeDemoWork *)p)->mcssObj[0], p, (void (*)(void))POKETRADE_MCSS_StopAnimation, 1);
+    MCSS_SetPaletteFade((struct McssFade *)((PokeTradeDemoWork *)p)->mcssObj[1], 0, 0x10, (s8)(POKETRADE_DEMO_COMMON_PassThrough(0xE) / 16), 0);
     POKETRADE_SAVE_CloseMessageWindow((char *)p);
     func_02040EBC(1, 0);
     func_02040EBC(5, 0);
-    func_021D4484(p, 0);
-    POKETRADE_PROC_SetStep(p, (int)func_021D4664);
+    POKETRADE_DEMO_COMMON_SetFrame(p, 0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_IRCDEMO_StepStartPlayback);
 }

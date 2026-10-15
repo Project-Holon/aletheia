@@ -1,5 +1,5 @@
 /*
- * function: func_021D6B88
+ * function: WIFI_BSUBWAY_StatusSetMessage
  * address: 0x021D6B88
  * packet: pkt_ov116_021D6B88
  * region: ov116
@@ -35,7 +35,7 @@ extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
 extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021D6B88(u8 *p, void *save, int id)
+void WIFI_BSUBWAY_StatusSetMessage(u8 *p, void *save, int id)
 {
     void *str;
     u16 *chars;

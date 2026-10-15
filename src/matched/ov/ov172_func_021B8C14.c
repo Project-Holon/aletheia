@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C14
+ * function: CTVT_COMM_ResetSlotTimer
  * address:  0x021B8C14
  * packet:   pkt_ov172_021B8C14
  * region:   ov172
@@ -13,7 +13,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B8C14(void *c, u8 *x)
+void CTVT_COMM_ResetSlotTimer(void *c, u8 *x)
 {
     *(u16 *)(x + 0x3d0) = 0x4b0;
 }

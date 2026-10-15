@@ -1,5 +1,5 @@
 /*
- * function: func_020351A0
+ * function: UI_ClearFlags39Global
  * address:  0x020351A0
  * packet:   pkt_020351A0
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u32 d_021469BC[];
 extern int func_02035188(void *p, u32 v);
 
-int func_020351A0(u32 v)
+int UI_ClearFlags39Global(u32 v)
 {
     return func_02035188((void *)d_021469BC[0], v);
 }

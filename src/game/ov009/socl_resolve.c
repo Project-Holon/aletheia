@@ -17,7 +17,7 @@
  *   CPS_SocRegister  0x0215AA5C  arm  ov009
  *   CPS_Resolve  0x0215C910  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
- *   g_021A1CD8     0x021A1CD8  data
+ *   gSoclConfig     0x021A1CD8  data
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A82DC     0x021A82DC  data
@@ -54,7 +54,7 @@ unsigned long func_0215EDD0(char *hostname);
 unsigned long func_0215EE98(char *hostname);
 int func_0215EEE0(unsigned long dns1, unsigned long dns2);
 unsigned long SOCL_GetHostID(void);
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern unsigned long g_021A82DC[2];
 extern unsigned long g_021A8278;
 extern unsigned long CPSMyIp;
@@ -68,11 +68,11 @@ unsigned long func_0215EDD0(char *hostname)
     CpsSoc soc;
     unsigned long hostip;
 
-    if (g_021A1CD8 == 0)
+    if (gSoclConfig == 0)
         return 0;
     if (hostname == 0)
         return 0;
-    buffers = g_021A1CD8->alloc(0x1708);
+    buffers = gSoclConfig->alloc(0x1708);
     if (buffers == 0)
         return 0;
     MI_CpuFill8(&soc, 0, sizeof(soc));
@@ -83,7 +83,7 @@ unsigned long func_0215EDD0(char *hostname)
     CPS_SocRegister((int)(&soc));
     hostip = CPS_Resolve(hostname);
     CPS_SocUnRegister();
-    g_021A1CD8->free(buffers);
+    gSoclConfig->free(buffers);
     return hostip;
 }
 

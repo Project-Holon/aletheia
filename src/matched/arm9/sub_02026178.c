@@ -1,5 +1,5 @@
 /*
- * function: func_02026178
+ * function: CURSOR_MOVE_IsWrapNeighbour
  * address:  0x02026178
  * packet:   pkt_02025C44
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_02026178(const u8 *ptr, u32 type)
+int CURSOR_MOVE_IsWrapNeighbour(const u8 *ptr, u32 type)
 {
     switch (type) {
     case 0:

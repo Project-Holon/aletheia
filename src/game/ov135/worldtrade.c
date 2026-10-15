@@ -20,7 +20,7 @@
  *   ov114_id  0x00000072  data
  *   ov067_id  0x00000043  data
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_0205D074 0x0205D074 arm
+ *   DWC_UpdateConnection 0x0205D074 arm
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   DPW_TR_Main 0x021C7C1C arm ov114
  *   PROCSYS_Main 0x02031330 arm
@@ -84,12 +84,12 @@
  *   tbl_02202BB8  0x02202BB8  data
  *   func_02030EAC  0x02030EAC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_0200F7C0   0x0200F7C0  thumb
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_02030734 0x02030734 arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
@@ -129,6 +129,9 @@
  *   WORLDTRADE_QueryGameData 0x021F4ED4 thumb ov135
  *   WORLDTRADE_CreateTimeIcon  0x021F4FA4  thumb
  *   func_02045B38 0x02045B38 arm
+ *   WORDSET_Create  0x0201EC74  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   BG_SYS_Create  0x0203F8F4  arm  arm9
  */
 #include "worldtrade_types.h"
 #include "../../matched/include/Obj00018.h"
@@ -203,7 +206,7 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
 
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -215,7 +218,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 extern int GFL_NET_GetRunState(void);
 
-extern int func_0205D074(void);
+extern int DWC_UpdateConnection(void);
 
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 
@@ -237,7 +240,7 @@ extern void CLACT_DrawSystem(void *);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void func_02030DA4(void *);
 
@@ -347,7 +350,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 
 extern void BMP_WIN_Init(u16 heapId);
 
@@ -359,9 +362,9 @@ extern void func_02030EAC(struct Node *n);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern void GAME_DATA_SaveCancel(char *p);
 
@@ -478,7 +481,7 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args_021F4580 *args)
     p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
     p->rec_p = func_02030CBC(8, p->recMem);
     WORLDTRADE_ADAPTER_InitPrinter(p->tail, args->x20);
-    p->words = func_0201EC74(0xB, 0x40, 0x48);
+    p->words = WORDSET_Create(0xB, 0x40, 0x48);
     p->msg[0] = func_02045B38(0, 2, 0xD0, 0x48);
     p->msg[2] = func_02045B38(0, 2, 0xD1, 0x48);
     p->msg[3] = func_02045B38(0, 2, 0xE8, 0x48);
@@ -495,7 +498,7 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args_021F4580 *args)
 int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, Work *p)
 {
     if (GFL_NET_GetRunState() != 0) {
-        func_0205D074();
+        DWC_UpdateConnection();
         GFL_NET_WM_ICON_EasySetLevel(WORLDTRADE_GetWifiLinkLevel());
     }
     DPW_TR_Main();
@@ -545,7 +548,7 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p)
     MSGDATA_Delete(p->msg[2]);
     MSGDATA_Delete(p->bank);
     MSGDATA_Delete(p->msg_p);
-    func_0201ED04(p->words);
+    WORDSET_DeleteStrbufED04(p->words);
     func_02030DA4(p->rec_p);
     func_020307B0(p->recMem);
     func_0203133C(p->f12F0);
@@ -980,7 +983,7 @@ void WORLDTRADE_ClearAndShowPlanes(Work *p)
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     WORLDTRADE_SetupGraphics(p);
-    func_0203F8F4(0x48);
+    BG_SYS_Create(0x48);
     BMP_WIN_Init(0x48);
     {
         struct DispConfig_021F4580 c = tbl_02202BB8;
@@ -1005,13 +1008,13 @@ void WORLDTRADE_ExitPlanes(Work *p)
     *(vu16_021F50EC *)0x04001050 = 0;
     WORLDTRADE_ReleaseGraphics(p);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     *(vu32_021F4D50 *)0x04000000 &= 0xFFFF1FFF;
     *(vu32_021F4D50 *)0x04001000 &= 0xFFFF1FFF;
 }
 
 void WORLDTRADE_CancelSave(Work *p)
 {
-    GAME_DATA_SaveCancel(func_020120F4((const struct Ctx *)p->ctx->f40));
+    GAME_DATA_SaveCancel(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40));
     func_0200F7C0(0x29);
 }

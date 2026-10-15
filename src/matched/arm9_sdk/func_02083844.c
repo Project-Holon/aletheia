@@ -1,5 +1,5 @@
 /*
- * function: func_02083844
+ * function: NVRAMi_Read
  * address:  0x02083844
  * packet:   pkt_02083844
  * region:   arm9
@@ -114,7 +114,7 @@ void OS_Terminate(void);
 void NVRAMi_SyncCallback(NVRAMResult result, void *arg);
 NVRAMResult NVRAMi_ReadAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 
-NVRAMResult func_02083844(u32 address, u32 size, void *pData)
+NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData)
 {
     NVRAMResult result;
     OSMessageQueue msgQ;

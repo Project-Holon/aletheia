@@ -12,18 +12,18 @@
  * sdk:      SOCLi_StartupSOCL (libsoc.TWL.HYB.a(socl_startup.o))
  *
  * symbols:
- *   func_0215CD3C  0x0215CD3C  arm  ov009
+ *   SOCLi_StartupCommandPacketQueue  0x0215CD3C  arm  ov009
  *   func_0215D070  0x0215D070  arm  ov009
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclConfig  0x021A1CD8  data
  *   g_021A1D14  0x021A1D14  data
  *   g_021AA440  0x021AA440  data
  */
 
 #include "../include/G_021A1CD8.h"
 
-extern int func_0215CD3C(long cp_max_count);
+extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
 extern void *func_0215D070(void *param);
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern int g_021A1D14;
 extern void *g_021AA440[4];
 
@@ -31,7 +31,7 @@ int func_0215CAE4(void)
 {
 	int r;
 
-	r = func_0215CD3C(g_021A1CD8->cpMaxCount);
+	r = SOCLi_StartupCommandPacketQueue(gSoclConfig->cpMaxCount);
 	if (r >= 0) {
 		g_021AA440[3] = func_0215D070(&g_021A1D14);
 	}

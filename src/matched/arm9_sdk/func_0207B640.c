@@ -1,5 +1,5 @@
 /*
- * function: func_0207B640
+ * function: MTX_RotY43_
  * address:  0x0207B640
  * packet:   pkt_0207B640
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_0207B640(void)
+asm void MTX_RotY43_(void)
 {
     str r1, [r0, #0x18]
     mov r3, #0

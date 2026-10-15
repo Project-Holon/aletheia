@@ -21,7 +21,7 @@
  *
  * symbols:
  *   GIMMICK_OBJ_ELBOARD_CollectHighlights  0x021F44D8  thumb  ov048
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   func_02045B38  0x02045B38  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -29,7 +29,7 @@
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GIMMICK_OBJ_ELBOARD_CountHighlights  0x021F4488  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
@@ -50,7 +50,7 @@ typedef struct {
 
 extern void GIMMICK_OBJ_ELBOARD_CollectHighlights(int *p, Slots *q);
 struct WordSet;
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 struct MsgBank;
 struct Rec;
 struct U16Vec;
@@ -64,7 +64,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int GIMMICK_OBJ_ELBOARD_CountHighlights(unsigned char *p);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
@@ -90,7 +90,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
 
     GIMMICK_OBJ_ELBOARD_CollectHighlights(p, &s);
     sz = 0x100;
-    h1 = func_0201EC74(4, sz, ((struct Obj02413 *)p)->f0);
+    h1 = WORDSET_Create(4, sz, ((struct Obj02413 *)p)->f0);
     a = (u32)func_02045B38(0, 2, 0x59, ((struct Obj02413 *)p)->f0);
     b = (u32)func_02045B38(0, 2, 0x26, ((struct Obj02413 *)p)->f0);
     for (i = 0; i < 4; i++) {
@@ -99,14 +99,14 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
         c = s.b[i];
         s1 = (u32)func_02045EC0((struct MsgBank *)a, ZONEDATA_GetPlaceNameId(s.h[i]));
         s2 = (u32)func_02045EC0((struct MsgBank *)b, gElboardLabelMsgId[c]);
-        h2 = func_0201EC74(2, sz, ((struct Obj02413 *)p)->f0);
+        h2 = WORDSET_Create(2, sz, ((struct Obj02413 *)p)->f0);
         s3 = (u32)func_02045EC0((struct MsgBank *)b, 0xc0);
         buf = STRBUF_Create(0x40, ((struct Obj02413 *)p)->f0);
         func_0201EE0C(h2, 0, (const void *)s1, 0, 1, 0);
         func_0201EE0C(h2, 1, (const void *)s2, 0, 1, 0);
         func_0201F250(h2, buf, (void *)s3);
         STRBUF_Delete((struct U16Vec *)s3);
-        func_0201ED04(h2);
+        WORDSET_DeleteStrbufED04(h2);
         func_0201EE0C(h1, i, (const void *)buf, 0, 1, 0);
         STRBUF_Delete((struct U16Vec *)s1);
         STRBUF_Delete((struct U16Vec *)s2);
@@ -138,5 +138,5 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
     m.f = f;
     m.g = (int)h1;
     GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)&m, 2, 0);
-    func_0201ED04(h1);
+    WORDSET_DeleteStrbufED04(h1);
 }

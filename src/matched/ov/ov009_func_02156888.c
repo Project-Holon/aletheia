@@ -23,10 +23,10 @@
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   DWC_RAP_AllocRecvBuffer  0x02156C00  thumb  ov009
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
- *   func_02177138  0x02177138  arm  ov009
- *   func_02177160  0x02177160  arm  ov009
+ *   DWC_SetUserSendCallback  0x02177138  arm  ov009
+ *   DWC_SetUserRecvCallback  0x02177160  arm  ov009
  *   DWC_SetConnectionClosedCallback  0x0216B634  arm  ov009
- *   func_02177188  0x02177188  arm  ov009
+ *   DWC_SetUserRecvTimeoutCallback  0x02177188  arm  ov009
  *   DWC_RAP_OnSendComplete  0x02155D80  thumb  ov009
  *   DWC_RAP_OnReceive  0x02155DCC  thumb  ov009
  *   DWC_RAP_OnConnectionClosed  0x02155E9C  thumb  ov009
@@ -72,10 +72,10 @@ u8 DWC_RAP_AttemptCallback(void);
 void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 void DWC_RAP_AllocRecvBuffer(u32 a);
 void DWC_RAP_SetState(int);
-int func_02177138(int a, int b);
-int func_02177160(int a, int b);
+int DWC_SetUserSendCallback(int a, int b);
+int DWC_SetUserRecvCallback(int a, int b);
 int DWC_SetConnectionClosedCallback(int a, int b);
-int func_02177188(int a, int b);
+int DWC_SetUserRecvTimeoutCallback(int a, int b);
 void DWC_RAP_OnSendComplete(int a, u32 i);
 void DWC_RAP_OnReceive(u32 a, u8 *p, int c);
 void DWC_RAP_OnConnectionClosed(int a, int b, int c, u32 d);
@@ -125,10 +125,10 @@ int DWC_RAP_StartFriendMatch(int a, int b, int c)
     for (i = 0; i < b; i++)
         DWC_RAP_AllocRecvBuffer(i);
     DWC_RAP_SetState(7);
-    func_02177138((int)DWC_RAP_OnSendComplete, 0);
-    func_02177160((int)DWC_RAP_OnReceive, 0);
+    DWC_SetUserSendCallback((int)DWC_RAP_OnSendComplete, 0);
+    DWC_SetUserRecvCallback((int)DWC_RAP_OnReceive, 0);
     DWC_SetConnectionClosedCallback((int)DWC_RAP_OnConnectionClosed, 0);
-    func_02177188((int)DWC_RAP_OnReceiveTimeout, 0);
+    DWC_SetUserRecvTimeoutCallback((int)DWC_RAP_OnReceiveTimeout, 0);
     _pRapWork->f760 = 0;
     return 0;
 }

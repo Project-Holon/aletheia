@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0B4
+ * function: BEACON_DETAIL_GRA_Delete
  * address:  0x021BC0B4
  * packet:   pkt_021BC0B4
  * region:   ov216
@@ -21,7 +21,7 @@ extern void TOWNMAP_GRH_FreeTownInfo(void *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BC0B4(char *p)
+void BEACON_DETAIL_GRA_Delete(char *p)
 {
     TOWNMAP_GRH_FreeTownInfo((void *)(((struct Obj14715 *)p)->f1C));
     func_020307B0((void *)(((struct Obj14715 *)p)->f28));

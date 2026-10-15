@@ -1,5 +1,5 @@
 /*
- * function: func_021B6594
+ * function: LOCAL_TVT_SYS_CreateGraphics
  * address: 0x021B6594
  * packet: pkt_ov174_021B6594
  * region: ov174
@@ -49,7 +49,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021B6594(u8 *p)
+void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
 {
     int id=37;
     void *save;

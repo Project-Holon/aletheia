@@ -29,11 +29,11 @@
  *   FIELD_RAIL_WORK_GetLinePos  0x021B835C  thumb  ov021
  *   FIELD_RAIL_SlerpVec  0x021B9B24  thumb  ov021
  *   func_0207C768  0x0207C768  arm
- *   func_0207C9D0  0x0207C9D0  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CAE8  0x0207CAE8  arm
+ *   VEC_Add  0x0207C9D0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   _ll_mul        0x0209C054  arm
  * Addresses are Black-image addresses.
  */
@@ -55,11 +55,11 @@ u8 *FIELD_RAIL_WORK_GetEndPoint(u8 *p);
 u8 *FIELD_RAIL_WORK_GetLinePos(void *p);
 void FIELD_RAIL_SlerpVec(V *a, V *b, V *c, int k);
 u32 func_0207C768(u32 a, u32 b);
-void func_0207C9D0(V *a, V *b, V *c);
-void func_0207CA00(V *a, V *b, V *c);
-void func_0207CAE8(V *a, V *b, V *c);
+void VEC_Add(V *a, V *b, V *c);
+void VEC_Subtract(V *a, V *b, V *c);
+void VEC_CrossProduct(V *a, V *b, V *c);
 void VEC_Normalize(V *a, V *b);
-void func_0207CEE4(int s, V *a, V *b, V *c);
+void VEC_MultAdd(int s, V *a, V *b, V *c);
 
 static inline int FX_Mul(int a, int b)
 {
@@ -98,21 +98,21 @@ void FIELD_RAIL_LINEPOS_ArcFlat(void *p, V *out)
     c.x = ((struct Obj12865 *)q)->f4;
     c.y = out->y;
     c.z = ((struct Obj12865 *)q)->fC;
-    func_0207CA00(a, &c, &d);
-    func_0207CA00(b, &c, &e);
+    VEC_Subtract(a, &c, &d);
+    VEC_Subtract(b, &c, &e);
     d.y = 0;
     e.y = 0;
-    func_0207CA00(&e, &d, &f);
+    VEC_Subtract(&e, &d, &f);
     f.y = 0;
     VEC_Normalize(&f, &f);
     FIELD_RAIL_SlerpVec(&g, &d, &e, s);
-    func_0207C9D0(&c, &g, out);
+    VEC_Add(&c, &g, out);
     r = (int)(((s64)((int)FIELD_RAIL_WORK_GetWidthOffsetRaw(p) << 12) * FIELD_RAIL_WORK_GetUnitScale(p) + 0x800) >> 12);
     VEC_Normalize(&g, &h);
-    func_0207CAE8(&h, &f, &i);
+    VEC_CrossProduct(&h, &f, &i);
     if (i.y < 0) {
-        func_0207CEE4(-r, &h, out, out);
+        VEC_MultAdd(-r, &h, out, out);
     } else {
-        func_0207CEE4(r, &h, out, out);
+        VEC_MultAdd(r, &h, out, out);
     }
 }

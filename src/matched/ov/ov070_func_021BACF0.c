@@ -21,7 +21,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   ITEMMENU_PrintToWindow  0x021BB6E0  thumb  ov070
  *   func_0201F73C  0x0201F73C  thumb
@@ -41,7 +41,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern int PRINTSYS_PrintStream(int, int, int, int, int, int, int, int, int, int);
 extern void ITEMMENU_PrintToWindow(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -59,7 +59,7 @@ void ITEMMENU_ShowMessage(int p, int mode)
     win = p + 0x4FC;
     if (mode == 1) {
         ((struct Obj00002 *)p)->f510 = PRINTSYS_PrintStream(((struct Obj00002 *)p)->f4FC, 0, 0, *(int *)&((struct Obj00002 *)p)->f528,
-                                            ((struct Obj00002 *)p)->f530, func_02012FFC(),
+                                            ((struct Obj00002 *)p)->f530, MSG_SPEED_GetWait(),
                                             ((struct Obj00002 *)p)->f730, 2, ((struct Obj00002 *)p)->f544, 0xF);
     } else {
         ITEMMENU_PrintToWindow(p, (u32 *)win, *(int *)&((struct Obj00002 *)p)->f528, 0, 0, 0x44F);

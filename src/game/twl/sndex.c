@@ -24,6 +24,7 @@
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
  *   OSi_IsCodecTwlMode  0x02087B20  arm  arm9
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -67,7 +68,7 @@ extern void SVC_WaitByLoop(u32);
 extern void func_020885A0(u32, void (*)(u32, u32, u32));
 
 extern void PMi_InsertPostExitCallbackEx(u32 *, u32);
-extern void func_0208C848(u32 *, u32);
+extern void PMi_InsertPreSleepCallbackEx(u32 *, u32);
 extern u32 OS_IsRunOnTwl(void);
 extern u32 OSi_IsCodecTwlMode(void);
 extern void OS_SpinWaitSysCycles(u32);
@@ -119,7 +120,7 @@ void SNDEXi_Init(void) {
     PMi_InsertPostExitCallbackEx(DAT_0273446c, 0xfffd);
     DAT_02734450.f3c = SndexSleepAndExitCallback;
     DAT_02734450.f40 = 0;
-    func_0208C848(DAT_0273448c, 0xfffd);
+    PMi_InsertPreSleepCallbackEx(DAT_0273448c, 0xfffd);
     DAT_02734450.state = 2;
 }
 

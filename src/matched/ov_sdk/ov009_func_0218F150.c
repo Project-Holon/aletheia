@@ -1,5 +1,5 @@
 /*
- * function: func_0218F150
+ * function: gpiAddPeer
  * address:  0x0218F150
  * packet:   pkt_ov009_0218F150
  * region:   ov009
@@ -13,10 +13,10 @@
  *
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02184098  0x02184098  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_0218F134  0x0218F134  arm  ov009
+ *   gpiFreeMessage  0x0218F134  arm  ov009
  */
 
 struct GPIPeer {
@@ -40,12 +40,12 @@ struct GPIConnection {
 
 extern void *func_0217EAB0(unsigned long size);
 typedef unsigned int   u32;
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern long func_02184098(long *timer);
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
-extern void func_0218F134(void **p);
+extern void gpiFreeMessage(void **p);
 
-struct GPIPeer *func_0218F150(void **connection, int profileid, int initiate)
+struct GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
     struct GPIPeer *peer;
@@ -53,13 +53,13 @@ struct GPIPeer *func_0218F150(void **connection, int profileid, int initiate)
     peer = (struct GPIPeer *)func_0217EAB0(sizeof(struct GPIPeer));
     if (peer == 0)
         return 0;
-    func_020923B0(peer, 0, sizeof(struct GPIPeer));
+    MSL_C_LIB_MemsetPtr(peer, 0, sizeof(struct GPIPeer));
     peer->state = 0x64;
     peer->initiated = initiate;
     peer->profile = profileid;
     peer->timeout = func_02184098(0) + 10000;
     peer->pnext = iconnection->peerList;
-    peer->messages = func_02184144(0x18, 0, (void (*)(void *))func_0218F134);
+    peer->messages = func_02184144(0x18, 0, (void (*)(void *))gpiFreeMessage);
     iconnection->peerList = peer;
     peer->gotHeader = 0;
     peer->sizeReceived = 0;

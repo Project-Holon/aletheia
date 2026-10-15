@@ -3197,7 +3197,7 @@
    }
   },
   {
-   "name": "func_02731754",
+   "name": "SHA1_HMAC_Init",
    "address": "0x02731754",
    "kind": "game",
    "region": "twl",
@@ -3209,7 +3209,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731760",
+   "name": "SHA1_HMAC_Update",
    "address": "0x02731760",
    "kind": "game",
    "region": "twl",
@@ -3221,7 +3221,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731764",
+   "name": "SHA1_HMAC_GetHash",
    "address": "0x02731764",
    "kind": "game",
    "region": "twl",
@@ -3233,7 +3233,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731770",
+   "name": "SHA1_HMAC_HashRange",
    "address": "0x02731770",
    "kind": "game",
    "region": "twl",
@@ -3245,7 +3245,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731774",
+   "name": "SHA1_HMAC_Start",
    "address": "0x02731774",
    "kind": "game",
    "region": "twl",
@@ -3257,7 +3257,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0273184C",
+   "name": "SHA1_HMAC_UpdateData",
    "address": "0x0273184C",
    "kind": "game",
    "region": "twl",
@@ -3269,7 +3269,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731868",
+   "name": "SHA1_HMAC_Finish",
    "address": "0x02731868",
    "kind": "game",
    "region": "twl",
@@ -3281,7 +3281,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731920",
+   "name": "SHA1_HMAC_Calc",
    "address": "0x02731920",
    "kind": "game",
    "region": "twl",

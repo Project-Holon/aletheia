@@ -1,5 +1,5 @@
 /*
- * function: func_021D696C
+ * function: WIFI_BSUBWAY_IsTransferReady
  * address: 0x021D696C
  * packet: pkt_ov116_021D696C
  * region: ov116
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj13858.h"
 extern int FADE_IsActive(void);
-int func_021D696C(unsigned char *a,int b) { if(b<=13 && FADE_IsActive()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }
+int WIFI_BSUBWAY_IsTransferReady(unsigned char *a,int b) { if(b<=13 && FADE_IsActive()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }

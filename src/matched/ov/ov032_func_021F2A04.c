@@ -13,7 +13,7 @@
  *   func_021F2A04 0x021F2A04 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
@@ -34,7 +34,7 @@ struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void GF_FONT_SetDefaultTextColor(void);
@@ -49,7 +49,7 @@ void func_021F2A04(char *p)
     STRBUF_Delete((struct U16Vec *)(((struct Obj00812 *)p)->f11C));
     STRBUF_Delete((struct U16Vec *)(((struct Obj00812 *)p)->f118));
     MSGDATA_Delete((struct Rec *)(((struct Obj00812 *)p)->f114));
-    func_0201ED04((struct WordSet *)(((struct Obj00812 *)p)->f110));
+    WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj00812 *)p)->f110));
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00812 *)p)->fB4));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00812 *)p)->fB4));
     GF_FONT_SetDefaultTextColor();

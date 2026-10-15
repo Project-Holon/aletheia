@@ -1,5 +1,5 @@
 /*
- * function: func_021F5FB0, func_021F5FCC
+ * function: EGG_DEMO_MAIN_LoadBgm1, EGG_DEMO_MAIN_IsBgm1Loaded
  * address: 0x021F5FB0
  * packet: pkt_ov215_021F5FB0
  * region: ov215
@@ -17,14 +17,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
-void func_021F5FB0(void *unused, char *p)
+void EGG_DEMO_MAIN_LoadBgm1(void *unused, char *p)
 {
     ((struct Obj14707 *)p)->f24 = 0;
     GFL_USE_StepBgmLoad((u8 *)0x3f3, (u32 *)(p + 0x24), 1);
     ((struct Obj14707 *)p)->f18 = 3;
 }
 
-int func_021F5FCC(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *p)
 {
     if (((struct Obj25743 *)p)->f18 == 4) return 1;
     return 0;

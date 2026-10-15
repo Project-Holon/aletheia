@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CC0
+ * function: EGG_DEMO_VIEW_HidePokeMcss
  * address: 0x021F6CC0
  * packet: pkt_ov215_021F6CC0
  * region: ov215
@@ -14,4 +14,4 @@
  */
 #include "../include/Obj25761.h"
 extern void MCSS_SetVanishFlag(void *);
-void func_021F6CC0(char *p){MCSS_SetVanishFlag(((struct Obj25761 *)p)->f34);}
+void EGG_DEMO_VIEW_HidePokeMcss(char *p){MCSS_SetVanishFlag(((struct Obj25761 *)p)->f34);}

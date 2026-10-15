@@ -37,7 +37,7 @@
  *   d_021BED80     0x021BED80  data  a1
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020355C4  0x020355C4  arm
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PLIST_PLATE_Create  0x021BA6A0  thumb  ov091
  *   PLIST_PLATE_CreateEmpty  0x021BA81C  thumb  ov091
@@ -95,7 +95,7 @@
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -114,7 +114,7 @@
  *   d_021BEBBC     0x021BEBBC  data  a4
  *   d_021BEBDC     0x021BEBDC  data  a4
  *   gClActorInitParam     0x020A1448  data  a4
- *   func_0207D4B0 0x0207D4B0 arm
+ *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   d_021BEB7C 0x021BEB7C data a4
  *   G3D_SYSTEM_Init  0x02046440  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
@@ -126,11 +126,11 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   PARTICLE_ExitManager 0x02050ED4 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_020414AC 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
@@ -200,7 +200,7 @@
  *   POKELIST_ShowMoveLearned 0x021BA004 thumb ov091
  *   POKELIST_CloseMessageToList 0x021B9E20 thumb ov091
  *   func_02017E1C 0x02017E1C thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_02009050 0x02009050 thumb
  *   func_0200902C 0x0200902C thumb
  *   POKELIST_EnterMenuPhase 0x021B907C thumb ov091
@@ -274,7 +274,7 @@
  *   POKELIST_OpenContextMenu 0x021B8180 thumb ov091
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   POKEPARTY_SwapMembers 0x0201AB8C thumb
- *   func_0202130C 0x0202130C thumb
+ *   FILE_UTIL_GetId 0x0202130C thumb
  *   POKE_TOOL_CheckTmCompat 0x020188AC thumb
  *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -316,10 +316,10 @@
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202D01C  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
@@ -347,7 +347,7 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_02028470  0x02028470  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
@@ -355,8 +355,8 @@
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
- *   func_0201EF40 0x0201EF40 thumb
- *   func_0201EF4C 0x0201EF4C thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF4C 0x0201EF4C thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201F140 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
@@ -374,9 +374,9 @@
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_02020F34 0x02020F34 thumb
- *   func_02021014 0x02021014 thumb
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
+ *   FILE_UTIL_Get_1014 0x02021014 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   func_02019CF8 0x02019CF8 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   func_02019D00  0x02019D00  thumb
@@ -415,7 +415,7 @@
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   func_02011400  0x02011400  thumb
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
  *   func_02018584 0x02018584 thumb
@@ -544,7 +544,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 extern u32 POKEPARTY_GetCount(void *);
 extern u8 func_020355C4(void);
-extern u16 func_020212B0(u16 id);
+extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern struct PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int k, void *mon);
 extern struct PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int k);
@@ -592,7 +592,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void WIPE_ResetWndMask(int a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -600,7 +600,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void NNS_GfdResetVramTransferTaskQueue(void);
-extern void func_0207D4B0(int,int,int);
+extern void GX_SetGraphicsMode(int,int,int);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
 extern int G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
 extern void func_02048AD0(struct Light *l);
@@ -608,11 +608,11 @@ extern void PARTICLE_InitManager(u32 heap);
 extern void CLACT_ExitSystem(void);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void PARTICLE_ExitManager(void);
 extern unsigned int G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(unsigned);
 extern void func_020409B4(u32 index);
@@ -670,7 +670,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int id);
@@ -708,7 +708,7 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_02041570(int channel, u16 val);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_0202130C(u32 id);
+extern u32 FILE_UTIL_GetId(u32 id);
 extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
 extern int   MAIL_FindEmptySlot(void *obj, int v);
 extern void *MAIL_Create(int a0);
@@ -1108,7 +1108,7 @@ int POKELIST_InitWork(PokelistWork *work)
     }
     arg = work->arg;
     if (arg->mode == 6 && arg->moveId == 0)
-        work->arg->moveId = func_020212B0(arg->itemId);
+        work->arg->moveId = FILE_UTIL_Get_12B0(arg->itemId);
     POKELIST_SetupDisplay(work);
     POKELIST_LoadGraphics(work);
     POKELIST_CreateFonts(work);
@@ -1494,7 +1494,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     WIPE_ResetWndMask(1);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)(&a));
-    func_0203F8F4(work->heapId);
+    BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     func_0203FC28((struct DispConfig *)d_021BEAEC);
     POKELIST_LoadBgPlane(d_021BEBDC, 3, 0);
@@ -1519,7 +1519,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
 
 
 
-void POKELIST_SetupBgPlanes(PokelistWork *work) { func_0207D4B0(1,0,0); POKELIST_LoadBgPlane(d_021BEB7C,0,0); }
+void POKELIST_SetupBgPlanes(PokelistWork *work) { GX_SetGraphicsMode(1,0,0); POKELIST_LoadBgPlane(d_021BEB7C,0,0); }
 
 
 
@@ -1529,7 +1529,7 @@ void POKELIST_SetupLight(PokelistWork *work)
 {
     int r;
 
-    func_0207D4B0(1, 0, 1);
+    GX_SetGraphicsMode(1, 0, 1);
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, work->heapId, 0);
     *(volatile u16 *)0x04000008 = *(volatile u16 *)0x04000008 & ~3;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x20;
@@ -1567,7 +1567,7 @@ void POKELIST_ShutdownDisplay(PokelistWork *work)
     func_020403F4(5);
     func_020403F4(4);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -1584,7 +1584,7 @@ void POKELIST_ShutdownLight(PokelistWork *work) { PARTICLE_ExitManager(); G3D_CA
 
 
 
-void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { func_0203FCA0(id,work,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }
+void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { BG_SYS_InitBgLayer(id,work,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }
 
 
 
@@ -1952,7 +1952,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
     case 9:
         old=func_02017E1C((void *)work->selectedMon,6,0);
         if (old == 0) {
-            if (func_0202136C(work->arg->itemId) == 1) {
+            if (FILE_UTIL_Check136C(work->arg->itemId) == 1) {
                 work->phase=19; work->arg->selectedIndex=work->selectedSlot; work->arg->exitCode=6; return;
             }
             work->arg->exitCode=10;
@@ -1969,7 +1969,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
             } else POKELIST_ShowMessage(work,0x56,1,POKELIST_EndMessageToExit);
             PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
         }
-        if (func_0202136C(old)==1) {
+        if (FILE_UTIL_Check136C(old)==1) {
             work->arg->exitCode=10; POKELIST_ShowMessage(work,0x39,1,POKELIST_EndMessageToExit); return;
         }
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
@@ -2050,7 +2050,7 @@ void POKELIST_OpenContextMenu(PokelistWork *work)
             buf[0] = 0;
             buf[4] = 6;
             buf[5] = 0x10;
-            if (func_0202136C(func_02017E1C((void *)work->selectedMon, 6, 0)) == 1) {
+            if (FILE_UTIL_Check136C(func_02017E1C((void *)work->selectedMon, 6, 0)) == 1) {
                 buf[3] = 5;
             }
         }
@@ -3254,7 +3254,7 @@ int POKELIST_GetMoveLearnStatus(PokelistWork *work, void *mon, u8 partySlot)
                 hasEmptySlot = 1;
         }
         if (work->arg->itemId != 0) {
-            u32 machineIndex = func_0202130C(work->arg->itemId);
+            u32 machineIndex = FILE_UTIL_GetId(work->arg->itemId);
             if (machineIndex != 0xff && POKE_TOOL_CheckTmCompat(mon, machineIndex) == 1) {
                 int result = 0;
                 if (hasEmptySlot != 1)
@@ -3446,7 +3446,7 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
                 PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
                 POKELIST_ShowMessage(work, 0x3f, 1, POKELIST_EndMessageToExit);
             }
-        } else if (func_0202136C(work->arg->itemId) == 1) {
+        } else if (FILE_UTIL_Check136C(work->arg->itemId) == 1) {
             work->arg->selectedIndex = work->selectedSlot;
             work->phase = 0x13;
             work->arg->exitCode = 6;

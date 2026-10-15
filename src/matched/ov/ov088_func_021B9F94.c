@@ -15,7 +15,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_020070A4  0x020070A4  thumb
  *   func_02008730  0x02008730  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   func_02009210  0x02009210  thumb
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  */
@@ -30,7 +30,7 @@ struct Sub0200852CObj;
 struct Sub02009210Obj;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub0200852CObj *func_02008730(void *sys);
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 struct Sub020071CCCtrl;
 extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
@@ -43,7 +43,7 @@ int STARTMENU_MenuInit(struct Obj0203159C *a)
     MI_CpuFill8(p, 0, 0x150);
     p[0] = (int)func_020070A4();
     p[1] = (int)func_02008730((void *)p[0]);
-    p[2] = (int)func_0200C0F0((void *)p[0]);
+    p[2] = (int)BEACON_GetBlock((void *)p[0]);
     p[3] = (int)func_02009210((void *)p[0]);
     p[4] = (int)GAME_DATA_GetEventWorkFromSave((struct Sub020071CCCtrl *)p[0]);
     return 1;

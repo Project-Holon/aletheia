@@ -13,13 +13,13 @@
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   G3D_CAMERA_GetUp  0x02048B30  arm
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Mag  0x0207CBD0  arm
  */
 
 extern void G3D_CAMERA_GetEye(int, int *);
 extern void G3D_CAMERA_GetUp(int, int *);
 extern int func_0207CFB8(int, int);
-extern int func_0207CBD0(int *);
+extern int VEC_Mag(int *);
 
 void BTLV_CAMERA_SyncOrbitFromCamera(int *p)
 {
@@ -32,5 +32,5 @@ void BTLV_CAMERA_SyncOrbitFromCamera(int *p)
     a[2] -= b[2];
     p[2] = func_0207CFB8(a[1], a[2]);
     p[3] = func_0207CFB8(a[2], a[0]);
-    p[4] = func_0207CBD0(a);
+    p[4] = VEC_Mag(a);
 }

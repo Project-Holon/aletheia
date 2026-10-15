@@ -1,5 +1,5 @@
 /*
- * function: func_02063030
+ * function: NNS_G2dIsCellAnimationBoundingBox
  * address:  0x02063030
  * packet:   pkt_0206296C
  * region:   arm9
@@ -16,7 +16,7 @@
  * from the bound cell data bank's +0x08 field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02063030.c  *       --func func_02063030 --addr 0x02063030 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dIsCellAnimationBoundingBox.c  *       --func NNS_G2dIsCellAnimationBoundingBox --addr 0x02063030 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -37,7 +37,7 @@ struct CellAnim {
     struct CellBank *bank;
 };
 
-s32 func_02063030(struct CellAnim *anim)
+s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim)
 {
     u32 attr = anim->attrOverride;
 

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201D7C4
+ * function: GF_FONT_UpdatePrintsy
  *
  * Steps the printsys.c record ring one slot on and returns the word stored
  * there, which is the next record or NULL.  The ring lives at +0x18 of the
@@ -22,13 +22,13 @@
  * of the four points; a `u16` local folds the redundant casts away and the
  * function is ten bytes short.
  *
- * func_0201D6D8 and func_0201D768, the two functions in front of this one, are
+ * GF_FONT_CopyStrbufD6D8 and GF_FONT_Copy, the two functions in front of this one, are
  * still open; see the note in src/matched/unit_0201D69C.c, which this work
- * narrows.  func_0201D6D8 is EXACT when it is compiled in a range with
- * func_0201D768, and func_0201D768 is four bytes short: the original spills the
+ * narrows.  GF_FONT_CopyStrbufD6D8 is EXACT when it is compiled in a range with
+ * GF_FONT_Copy, and GF_FONT_Copy is four bytes short: the original spills the
  * byte counter and keeps the ring cursor in r4, and every source shape tried
- * makes the opposite choice.  Since func_0201D768's only callers are the three
- * inside func_0201D6D8 the two cannot be cut apart, so neither lands.
+ * makes the opposite choice.  Since GF_FONT_Copy's only callers are the three
+ * inside GF_FONT_CopyStrbufD6D8 the two cannot be cut apart, so neither lands.
  *
  * Addresses are Black-image addresses.
  *
@@ -54,7 +54,7 @@ struct PrintSys {
     u8  buf[4];
 };
 
-void *func_0201D7C4(struct PrintSys *p, void *q)
+void *GF_FONT_UpdatePrintsy(struct PrintSys *p, void *q)
 {
     u32 off = (u16)((u8 *)q - &p->buf[0]);
 

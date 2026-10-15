@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D534 0x0207D534  arm
+ *   GXx_SetMasterBrightness_ 0x0207D534  arm
  *
  * Two writes of a fixed global struct's fields straight to hardware I/O
  * registers at 0x0400006C and 0x0400106C (main-engine and sub-engine
@@ -29,11 +29,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 typedef unsigned short u16;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 void GFL_NET_ERR_RestoreBrightness(void)
 {
     u32 *g = (u32 *)0x0214617C;
-    func_0207D534((volatile u16 *)0x0400006C, ((struct Obj11713 *)g)->f14);
-    func_0207D534((volatile u16 *)0x0400106C, ((struct Obj11713 *)g)->f18);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, ((struct Obj11713 *)g)->f14);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, ((struct Obj11713 *)g)->f18);
 }

@@ -16,7 +16,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
@@ -30,12 +30,12 @@
  *   FIELD_CAMERA_PopState  0x0218F878  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  *   d_021D9738     0x021D9738  data   ov021  a4
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_02012944 0x02012944 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C258 0x0200C258 thumb
+ *   BEACON_CountFlags 0x0200C258 thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_0200C274  0x0200C274  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
  *   func_0200DABC  0x0200DABC  thumb
  *   func_02007FB8  0x02007FB8  thumb
  *   func_02007E3C  0x02007E3C  thumb
@@ -56,7 +56,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02008DAC  0x02008DAC  thumb
  *   func_02008DF0  0x02008DF0  thumb
- *   func_0200C29C  0x0200C29C  thumb
+ *   BEACON_SubPoints  0x0200C29C  thumb
  *   func_0200DA98  0x0200DA98  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -69,16 +69,16 @@
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   TCBL_Main  0x020310C4  arm
  *   d_021D9440     0x021D9440  data   ov021  a4
- *   func_02021288  0x02021288  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_020212B0 0x020212B0 thumb
+ *   FILE_UTIL_Get_12B0 0x020212B0 thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201F250 0x0201F250 thumb
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   func_02045B38 0x02045B38 arm
  *   BMP_MENUWORK_Create 0x0201F81C thumb
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   GPOWER_ApplyShopPrice 0x0201102C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   d_021D946C 0x021D946C data
@@ -88,11 +88,11 @@
  *   d_021D9430     0x021D9430  data  a1
  *   FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries 0x02186670 thumb ov020
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_Create 0x0203101C arm
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -100,12 +100,12 @@
  *   func_02049990 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201F5BC 0x0201F5BC thumb
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_0204047C 0x0204047C arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   func_02049F78 0x02049F78 arm
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
@@ -146,16 +146,16 @@
  *   BMP_MENULIST_Delete  0x0202020C  thumb
  *   func_0201EF6C  0x0201EF6C  thumb
  *   func_0201F14C  0x0201F14C  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   KEY_GetRepeat 0x0203633C arm
  *   func_02041300  0x02041300  arm
  *   d_021D9654     0x021D9654  data  a4
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   FIELDMAP_GetCommKind  0x021896F4  thumb  ov021
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   func_02009CE4  0x02009CE4  thumb
  *   func_02009A34  0x02009A34  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
@@ -167,17 +167,17 @@
  *   abs_id_01        0x00000001  data
  *   EVENT_GTSNEGO_Entry  0x02154694  thumb  ov001
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BB58  0x0200BB58  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_StoreParty  0x0200BB58  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_0201293C  0x0201293C  thumb
- *   func_02012934  0x02012934  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_0200BBFC  0x0200BBFC  thumb
+ *   BATTLE_BOX_IsLocked  0x0200BBFC  thumb
  *   FIELD_STATUS_CreateSubProcNoFadeCallbackEvent  0x02014840  thumb
  *   func_02030734  0x02030734  arm
  *   d_021DE220     0x021DE220  data  a1
@@ -200,7 +200,7 @@
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
  *   FIELD_ENCOUNT_StartScriptedWild  0x021AA0A0  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
- *   func_02012A44  0x02012A44  thumb
+ *   GAME_DATA_GetFieldMode  0x02012A44  thumb
  *   EVENT_BATTLE_GetKindFlag  0x0216EFCC  thumb  ov010
  *   EVENT_BATTLE_CreateCatchTutorial  0x0216E95C  thumb  ov010
  *   EFFECT_ENCOUNT_GetItemId  0x021AAB48  thumb  ov021
@@ -208,7 +208,7 @@
  *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
  *   MOVE_POKEMON_SpawnEntry  0x0215E440  thumb  ov010
  *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02005728  0x02005728  thumb
  *   d_021DE234     0x021DE234  data  a1
  *   d_021D98D0     0x021D98D0  data  a2
@@ -376,7 +376,7 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRIPT_WORK_GetUserWorkPtr(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern void *FIELDMAP_GetCamera(void *a);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
@@ -389,12 +389,12 @@ extern void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v);
 extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 extern void FIELD_CAMERA_PopState(u8 *a);
 extern u32 func_020307B0(void *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern int func_0200C258(void);
+extern int BEACON_CountFlags(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_0200C274(struct Blk34 *p);
+extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
 extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
@@ -412,7 +412,7 @@ extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 func_0200C29C(struct Blk34 *p, u32 v);
+extern u32 BEACON_SubPoints(struct Blk34 *p, u32 v);
 extern void func_0200DA98(struct Blk1AC *p, u16 v);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -426,25 +426,25 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void TCBL_Main(struct Tcbl *p);
-extern u32 func_02021288(u32 id);
+extern u32 FILE_UTIL_Check1288(u32 id);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int func_020212B0(u32 a);
+extern int FILE_UTIL_Get_12B0(u32 a);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *BMP_MENUWORK_Create(int, int);
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
 extern u32 GPOWER_ApplyShopPrice(u32 v);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries(char *base, char *out, u16 *cnt, int n, u16 id);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -452,12 +452,12 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_0204047C(int idx, unsigned short val);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern unsigned func_02020E60(unsigned a, unsigned b);
+extern unsigned FILE_UTIL_Get(unsigned a, unsigned b);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferPalette(u32 a, u32 b, u32 c);
@@ -490,15 +490,15 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 extern void func_0201F14C(struct WordSet *p, u32 i, u32 v);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern unsigned int KEY_GetRepeat(void);
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 extern int FIELDMAP_GetCommKind(void *p);
 extern u32 func_02009CE4(struct Sub020097BCObj *obj);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
@@ -507,17 +507,17 @@ extern int EVENT_WIFICLUB_Entry(int x, struct Pair *p);
 extern int EVENT_WORLDTRADE_Entry(int x, struct Pair *p);
 extern void *EVENT_GTSNEGO_Entry(void *p, int a);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *p);
-extern void func_0200BB58(u8 *a0, u8 *a1);
+extern void *BATTLE_BOX_GetFromSave(void *p);
+extern void BATTLE_BOX_StoreParty(u8 *a0, u8 *a1);
 extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u32 func_0201293C(const struct BigObj *p);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *func_0200BAF4(int a0, int a1);
-extern u32 func_0200BBFC(struct Obj *p, u32 mask);
+extern u32 BATTLE_BOX_IsLocked(struct Obj *p, u32 mask);
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
@@ -535,7 +535,7 @@ extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern u32 func_02012A44(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
 extern u8 EVENT_BATTLE_GetKindFlag(int i);
 extern void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap);
 extern u16 EFFECT_ENCOUNT_GetItemId(char *p);
@@ -543,7 +543,7 @@ extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
 extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
 extern void MOVE_POKEMON_SpawnEntry(void *sys, u8 which);
 extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, u32 x);
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u32 func_02005728(u32 range);
 extern u32 SCRIPT_WORK_ResetCheckFlag(u32);
 extern u32 FIELDMAP_GetNogridMapper(u8 *p);
@@ -708,7 +708,7 @@ int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork
     slot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork));
     task = *slot;
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = func_0201210C((void *)gameSystem);
+    fieldMap = ICA_ANIME_GetField20((void *)gameSystem);
     fieldRegion = FIELDMAP_GetCamera(fieldMap);
     switch (task->state) {
     case 0:
@@ -766,7 +766,7 @@ int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork
 
 void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int shopVariant)
 {
-    void *gameData = func_020120F4((void *)gameSystem);
+    void *gameData = ICA_ANIME_GetField1C((void *)gameSystem);
     int tableKind;
 
     func_02012944(gameData);
@@ -776,7 +776,7 @@ void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int 
     switch (tableKind) {
     case 255:
         GAME_DATA_GetMiscSave(gameData);
-        SCRCMD_PROC_FLD_BuildItemListByBadges(shop, tableKind, shopVariant, func_0200C258());
+        SCRCMD_PROC_FLD_BuildItemListByBadges(shop, tableKind, shopVariant, BEACON_CountFlags());
         break;
     case 254:
         SCRCMD_PROC_FLD_BuildItemListFixed(shop, 0);
@@ -826,7 +826,7 @@ void SCRCMD_PROC_FLD_LoadShopMessages(ShopWork *shop, int usesBattlePoints)
 u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *shop)
 {
     if (shop->usesBattlePoints == 0) {
-        return func_0200C274((struct Blk34 *)(shop->moneyData));
+        return BEACON_GetPoints((struct Blk34 *)(shop->moneyData));
     } else {
         return func_0200DABC((struct Blk1AC *)(shop->battlePointData));
     }
@@ -964,7 +964,7 @@ u8 SCRCMD_PROC_FLD_PollMessageEnd(ShopWork *shop)
 void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
 {
     if (shop->usesBattlePoints == 0) {
-        func_0200C29C((struct Blk34 *)(shop->moneyData), cost);
+        BEACON_SubPoints((struct Blk34 *)(shop->moneyData), cost);
         func_02008DAC((struct Sub02008C20Obj *)(shop->recordData), 0x16, cost);
     } else {
         func_0200DA98((struct Blk1AC *)(shop->battlePointData), cost);
@@ -1098,11 +1098,11 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
 
 u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int count)
 {
-    u32 result = func_02021288(items[0].itemId);
+    u32 result = FILE_UTIL_Check1288(items[0].itemId);
     int i;
 
     for (i = 0; i < count; i++) {
-        func_02021288(items[i].itemId);
+        FILE_UTIL_Check1288(items[i].itemId);
     }
     return result;
 }
@@ -1118,7 +1118,7 @@ void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, in
 {
     if (isTmShop == 1) {
         func_0201EFA4(shop->wordSet, 0, itemId - 327, 2, 2, 1);
-        func_0201EF34(shop->wordSet, 1, func_020212B0((u16)itemId));
+        func_0201EF34(shop->wordSet, 1, FILE_UTIL_Get_12B0((u16)itemId));
         func_0201F250(shop->wordSet, shop->textBuffer, shop->cancelText);
         BMP_MENUWORK_AddStrItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), (u32)(shop->textBuffer), slotIndex, shop->heapId);
     } else {
@@ -1156,7 +1156,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int sho
         tableIndex = shopVariant + 6;
     }
     tableOffset = tableIndex * 4;
-    if (func_02021288(**(u16 **)((char *)d_021DE1A8 + tableOffset))) {
+    if (FILE_UTIL_Check1288(**(u16 **)((char *)d_021DE1A8 + tableOffset))) {
         shop->isTmShop = 1;
         tableOffset = tableIndex * 4;
     }
@@ -1168,7 +1168,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int sho
         /* stand-in: the row is reached as base + row * 8 plus the field offset */
         rowBase = (ShopWork *)((char *)shop + row * 8);
         rowBase->items[0].itemId = itemId;
-        rowBase->items[0].price = GPOWER_ApplyShopPrice(func_02020FE4((void *)itemId, 0, shop->heapId));
+        rowBase->items[0].price = GPOWER_ApplyShopPrice(FILE_UTIL_Get_0FE4((void *)itemId, 0, shop->heapId));
     }
     shop->itemCount = row;
     SCRCMD_PROC_FLD_LoadItemRows(shop->items, shop->itemCount);
@@ -1254,7 +1254,7 @@ int SCRCMD_PROC_FLD_AllocShopResources(ShopWork *shop, int shopKind)
 {
     shop->shopMsgBank = func_02045B38(0, 3, 423, shop->heapId);
     shop->itemMsgBank = func_02045B38(0, 2, 53, shop->heapId);
-    shop->wordSet = func_0201EC64(shop->heapId);
+    shop->wordSet = GF_FONT_Create_EC64(shop->heapId);
     shop->textBuffer = STRBUF_Create(200, shop->heapId);
     shop->tcbList = TCBL_Create(shop->heapId, shop->heapId, 32, 32);
     shop->cancelText = func_02045EC0(shop->shopMsgBank, 29);
@@ -1271,7 +1271,7 @@ int SCRCMD_PROC_FLD_AllocShopResources(ShopWork *shop, int shopKind)
 void SCRCMD_PROC_FLD_FreeShopResources(ShopWork *shop)
 {
     TCBL_Destroy(shop->tcbList);
-    func_0201ED04(shop->wordSet);
+    WORDSET_DeleteStrbufED04(shop->wordSet);
     STRBUF_Delete(shop->cancelText);
     STRBUF_Delete(shop->textBuffer);
     STRBUF_Delete(shop->soldOutText);
@@ -1298,7 +1298,7 @@ void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *shop)
     func_02049990(archive, 2, 2, 0, 100, 0, 0, shop->heapId);
     ARC_TOOL_DeleteHandle(archive);
     func_0201F5BC(1, 228, 9, 0, shop->heapId);
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     func_0204047C(2, 1);
 }
 
@@ -1311,8 +1311,8 @@ void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *shop)
 
 void SCRCMD_PROC_FLD_ExitShopGraphics(ShopWork *shop)
 {
-    func_020414EC(1);
-    func_020414EC(2);
+    BG_SYS_ClearSlot(1);
+    BG_SYS_ClearSlot(2);
     func_0204047C(2, 0);
     FIELD_MSGBG_SetBlendThunk(1);
 }
@@ -1345,8 +1345,8 @@ void SCRCMD_PROC_FLD_LoadCursorResources(ShopWork *shop)
 
 void SCRCMD_PROC_FLD_LoadIconResources(ShopWork *shop)
 {
-    shop->iconCharRes = (u32)CLACT_RegisterPaletteEx(shop->iconArchive, func_02020E60(1, 2), 0, 0x20, 0, 1, shop->heapId);
-    shop->iconPlttRes = (u32)CLACT_RegisterCharacter(shop->iconArchive, func_02020E60(1, 1), 0, 0, shop->heapId);
+    shop->iconCharRes = (u32)CLACT_RegisterPaletteEx(shop->iconArchive, FILE_UTIL_Get(1, 2), 0, 0x20, 0, 1, shop->heapId);
+    shop->iconPlttRes = (u32)CLACT_RegisterCharacter(shop->iconArchive, FILE_UTIL_Get(1, 1), 0, 0, shop->heapId);
     shop->iconCellRes = (u32)CLACT_RegisterCellAnim(shop->iconArchive, 1, 0, shop->heapId);
 }
 
@@ -1364,8 +1364,8 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
     u32 plttBuf;
 
     if (itemId <= 0x272) {
-        charBuf = (u32)func_02049F78((void *)(shop->iconArchive), func_02020E60(itemId, 2), (u32)(&charData), shop->heapId);
-        plttBuf = (u32)func_02049E74((void *)(shop->iconArchive), func_02020E60(itemId, 1), 0, (u32)(&plttData), shop->heapId);
+        charBuf = (u32)func_02049F78((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (u32)(&charData), shop->heapId);
+        plttBuf = (u32)func_02049E74((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (u32)(&plttData), shop->heapId);
         CLACT_TransferPalette(shop->iconCharRes, charData, 1);
         CLACT_TransferCharacter(shop->iconPlttRes, (struct Sub0204A9D0 *)plttData);
         func_020307B0((void *)charBuf);
@@ -1515,7 +1515,7 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     } else {
         formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x15);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);
-        func_0201EFA4((struct WordSet *)(shop->wordSet), 0, func_0200C274((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
+        func_0201EFA4((struct WordSet *)(shop->wordSet), 0, BEACON_GetPoints((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
     }
     func_0201F250((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
     bitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_MONEY]);
@@ -1816,12 +1816,12 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_MESSAGE])), 0xf);
     func_0201F73C((void *)(shop->windows[SHOP_WIN_MESSAGE]), 0, 0xe4, 9);
     func_0201EF6C((struct WordSet *)(shop->wordSet), 0, itemId, isPlural, 0);
-    func_0201F14C((struct WordSet *)(shop->wordSet), 1, func_02020FE4((void *)itemId, 5, shop->heapId));
+    func_0201F14C((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_Get_0FE4((void *)itemId, 5, shop->heapId));
     messageText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), messageId);
     func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct U16Vec *)messageText);
     shop->messagePrinter = PRINTSYS_PrintStreamCallBack(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
-                                        shop->fontInfo, func_02012FFC(),
+                                        shop->fontInfo, MSG_SPEED_GetWait(),
                                         (u32)shop->tcbList, 0, shop->heapId, 0xffff,
                                         (u32)SCRCMD_PROC_FLD_ReturnZero);
     window = shop->windows[SHOP_WIN_MESSAGE];
@@ -1877,7 +1877,7 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
     func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct U16Vec *)messageText);
     shop->messagePrinter = PRINTSYS_PrintStreamCallBack(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
-                                        shop->fontInfo, func_02012FFC(), (u32)shop->tcbList, 0,
+                                        shop->fontInfo, MSG_SPEED_GetWait(), (u32)shop->tcbList, 0,
                                         shop->heapId, 0xFFFF, 0);
     window = shop->windows[SHOP_WIN_MESSAGE];
     BMP_WIN_TransferChars((struct Descriptor *)window);
@@ -1911,7 +1911,7 @@ void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *shop, u32 messageId, u32 itemId,
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
     func_0201EFA4((struct WordSet *)(shop->wordSet), 0, itemId - 327, 2, 2, 1);
-    func_0201EF34((struct WordSet *)(shop->wordSet), 1, func_020212B0(itemId));
+    func_0201EF34((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_Get_12B0(itemId));
     func_0201EFA4((struct WordSet *)(shop->wordSet), 2, price, 5, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
@@ -2010,7 +2010,7 @@ int SCRCMD_PROC_FLD_StoreGameSystemValue(struct ScriptVm *vm, struct ScrcmdWork 
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = FIELDMAP_GetCommKind((void *)func_02012138(gameSystem));
+    *resultVar = FIELDMAP_GetCommKind((void *)ICA_ANIME_GetField24(gameSystem));
     return 1;
 }
 
@@ -2019,7 +2019,7 @@ int SCRCMD_PROC_FLD_StoreGameSystemValue(struct ScriptVm *vm, struct ScrcmdWork 
 
 int SCRCMD_PROC_FLD_StoreSubObjectValueA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009CE4((struct Sub020097BCObj *)func_0201283C(SCRCMD_WORK_GetGameData(cmdWork)));
+*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009CE4((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
 return 0;
 }
 
@@ -2028,7 +2028,7 @@ return 0;
 
 int SCRCMD_PROC_FLD_StoreSubObjectValueB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009A34((struct Sub020097BCObj *)func_0201283C(SCRCMD_WORK_GetGameData(cmdWork)));
+*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
 return 0;
 }
 
@@ -2043,7 +2043,7 @@ int SCRCMD_PROC_FLD_CallOv006Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    args.fieldMap = func_0201210C(gameSystem);
+    args.fieldMap = ICA_ANIME_GetField20(gameSystem);
     args.reserved = 0;
     SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_6, (void *)EVENT_WIFICLUB_Entry, (u32)(&args)));
     return 1;
@@ -2060,7 +2060,7 @@ int SCRCMD_PROC_FLD_CallOv004Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    args.fieldMap = func_0201210C(gameSystem);
+    args.fieldMap = ICA_ANIME_GetField20(gameSystem);
     args.reserved = 0;
     SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_4, (void *)EVENT_WORLDTRADE_Entry, (u32)(&args)));
     return 1;
@@ -2084,7 +2084,7 @@ int SCRCMD_PROC_FLD_CallOv001Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_01, (u32 (*)(void *, u32))EVENT_GTSNEGO_Entry, (u32)func_0201210C(gameSystem)));
+    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_01, (u32 (*)(void *, u32))EVENT_GTSNEGO_Entry, (u32)ICA_ANIME_GetField20(gameSystem)));
     return 1;
 }
 
@@ -2098,7 +2098,7 @@ void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff)
     Ov170EventWork *work;
 
     if (handoff->work->kind == 4) {
-        func_0200BB58(func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)handoff->gameData)), (u8 *)handoff->work->party);
+        BATTLE_BOX_StoreParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)handoff->gameData)), (u8 *)handoff->work->party);
     }
     work = handoff->work;
     if (work->kind == 4) {
@@ -2159,27 +2159,27 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     saveStateSource = ZUKAN_SAVE_GetFromGameData(gameData);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     kind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     vm = func_02030734(4, 0x2c, 0, d_021DE220, 0x7c);
     work = (Ov170EventWork *)vm;
     work->gameData = gameData;
-    work->boxManager = func_0201293C(gameData);
-    work->party = func_02012934(gameData);
-    work->myItem = (u32)func_0201292C(gameData);
+    work->boxManager = GAME_DATA_GetBoxManager(gameData);
+    work->party = GAME_DATA_GetMyParty(gameData);
+    work->myItem = (u32)GAME_DATA_GetMyItem(gameData);
     work->myStatus = func_02012944(gameData);
     work->saveStateA = (u32)func_0200873C(saveControl);
     work->saveStateB = ZUKAN_SAVE_IsNationalDexEnabled(saveStateSource);
     work->kind = kind;
     work->extraData = 0;
     if (kind == 4) {
-        saveBlock = func_0200BAC8(saveControl);
+        saveBlock = BATTLE_BOX_GetFromSave(saveControl);
         work->party = func_0200BAF4((int)saveBlock, 4);
-        work->extraData = func_0200BBFC(saveBlock, 3);
+        work->extraData = BATTLE_BOX_IsLocked(saveBlock, 3);
     }
     handoff = func_02030734(4, 0xc, 0, d_021DE220, 0x90);
     handoff->gameData = gameData;
@@ -2200,7 +2200,7 @@ int SCRCMD_PROC_FLD_StartNameInMode5(struct ScriptVm *vm, struct ScrcmdWork *cmd
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_NAMEIN_Create((u32)gameSystem, (u32)fieldMap, 0, 5, (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
     return 1;
 }
@@ -2216,7 +2216,7 @@ int SCRCMD_PROC_FLD_StartNameInMode6(struct ScriptVm *vm, struct ScrcmdWork *cmd
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_NAMEIN_Create((u32)gameSystem, (u32)fieldMap, 0, 6, (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
     return 1;
 }
@@ -2229,7 +2229,7 @@ int SCRCMD_PROC_FLD_SetNextEventAndEnd(struct ScriptVm *vm, struct ScrcmdWork *c
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     SCRIPT_SYS_SetNextEventFromWork((int)scriptWork, (int)SCRCMD_NETWORK_CreateCommBattleEvent(gameSystem, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     func_02011290(vm);
     return 1;
@@ -2265,8 +2265,8 @@ int SCRCMD_PROC_FLD_CallOv219Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    fieldMap = func_0201210C(gameSystem);
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcEvent(gameSystem, (int)fieldMap, (int)abs_id_DB, (int)d_02185F0C, (int)func_020120F4(gameSystem)));
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcEvent(gameSystem, (int)fieldMap, (int)abs_id_DB, (int)d_02185F0C, (int)ICA_ANIME_GetField1C(gameSystem)));
     return 1;
 }
 
@@ -2283,8 +2283,8 @@ int SCRCMD_PROC_FLD_CallShortcutEvent(struct ScriptVm *vm, struct ScrcmdWork *cm
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
-    func_0201210C(gameSystem);
+    GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
+    ICA_ANIME_GetField20(gameSystem);
     flag = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     if (flag == 0 || flag != 1)
@@ -2334,7 +2334,7 @@ int SCRCMD_PROC_FLD_CallFieldMapEvent(struct ScriptVm *vm, struct ScrcmdWork *cm
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (int)func_0201210C(gameSystem), 0, 0, 1, 0, 0));
+    SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (int)ICA_ANIME_GetField20(gameSystem), 0, 0, 1, 0, 0));
     return 1;
 }
 
@@ -2346,7 +2346,7 @@ int SCRCMD_PROC_FLD_CallFieldMapEvent(struct ScriptVm *vm, struct ScrcmdWork *cm
  */
 int SCRCMD_PROC_FLD_StoreByteValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 flagValue = func_02012A44(SCRCMD_WORK_GetGameData(cmdWork));
+    u32 flagValue = GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData(cmdWork));
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
     *resultVar = EVENT_BATTLE_GetKindFlag(flagValue);
@@ -2361,7 +2361,7 @@ int SCRCMD_PROC_FLD_CallEventMode4(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateCatchTutorial(gameSystem, (u32)func_0201210C(gameSystem), 4));
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateCatchTutorial(gameSystem, (u32)ICA_ANIME_GetField20(gameSystem), 4));
     return 1;
 }
 
@@ -2370,7 +2370,7 @@ int SCRCMD_PROC_FLD_CallEventMode4(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
 int SCRCMD_PROC_FLD_StoreCameraValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *fieldMap = func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
     *resultVar = EFFECT_ENCOUNT_GetItemId((char *)FIELDMAP_GetEncount(fieldMap));
@@ -2431,7 +2431,7 @@ int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWor
     count = 0;
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    season = func_02012984(gameData);
+    season = GAME_DATA_GetSeason(gameData);
     archive = func_020490F4(0x7e, 0x8015);
     speciesList = func_02030734(0x8015, 0x78, 1, d_021DE234, 0xf8);
     for (tableIndex = 0; tableIndex < 6; tableIndex++) {
@@ -2474,7 +2474,7 @@ return SCRIPT_WORK_ResetCheckFlag(0);
 
 int SCRCMD_PROC_FLD_ReleaseFieldRegionTask(void **eventWork)
 {
-    void *fieldMap = func_0201210C(eventWork[0]);
+    void *fieldMap = ICA_ANIME_GetField20(eventWork[0]);
 
     SCRCMD_PROC_FLD_ReleaseFieldRegion(fieldMap, FIELDMAP_GetCamera(fieldMap));
     return 1;
@@ -2490,7 +2490,7 @@ int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWo
     void *fieldRegion;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     fieldRegion = FIELDMAP_GetCamera(fieldMap);
     SCRIPT_WORK_SetCheckFlag(0);
     if (FIELD_CAMERA_HasDelay(fieldRegion) != 0) {
@@ -2511,7 +2511,7 @@ int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWo
 
 int SCRCMD_PROC_FLD_ReleaseFieldRegionCmd(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *fieldMap = func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
 
     SCRCMD_PROC_FLD_ReleaseFieldRegion(fieldMap, FIELDMAP_GetCamera(fieldMap));
     return 0;
@@ -2522,7 +2522,7 @@ int SCRCMD_PROC_FLD_ReleaseFieldRegionCmd(struct ScriptVm *vm, struct ScrcmdWork
 
 int SCRCMD_PROC_FLD_ResetFieldRegionA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_StopTargetTrace(FIELDMAP_GetCamera(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork))));
+FIELD_CAMERA_StopTargetTrace(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))));
 return 0;
 }
 
@@ -2531,7 +2531,7 @@ return 0;
 
 int SCRCMD_PROC_FLD_ResetFieldRegionB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork))));
+FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))));
 return 0;
 }
 
@@ -2543,7 +2543,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct ScriptVm *vm, struct ScrcmdW
     FieldRegionParam param;
     void *fieldRegion;
 
-    fieldRegion = FIELDMAP_GetCamera(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
     param.areaWidth = func_02011330(vm);
     param.areaHeight = func_02011330(vm);
     param.areaFlags = VM_GetU32(vm);
@@ -2571,7 +2571,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct Scrcmd
     int memberIndex;
     int regionIndex;
 
-    fieldRegion = FIELDMAP_GetCamera(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
     memberIndex = func_02011330(vm);
     regionIndex = func_02011330(vm);
     ARC_TOOL_ReadMember(&record, 0xa3, memberIndex);
@@ -2590,7 +2590,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct Scrcmd
 int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     LayerFlags layers;
-    void *fieldRegion = FIELDMAP_GetCamera(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    void *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
     u16 regionIndex = func_02011330(vm);
 
     layers.flag[0] = 1;
@@ -2608,7 +2608,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdW
 
 int SCRCMD_PROC_FLD_SetFieldRegionValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork))), func_02011330(vm));
+FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))), func_02011330(vm));
 return 0;
 }
 
@@ -2663,7 +2663,7 @@ int SCRCMD_PROC_FLD_CallCustomEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdW
 
 int SCRCMD_PROC_FLD_PollFieldRegionStart(void *event)
 {
-    u8 *fieldRegion = FIELDMAP_GetCamera(func_0201210C(GAME_EVENT_GetGameSystem(event)));
+    u8 *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event)));
 
     if (FIELD_CAMERA_IsDelayEnabled(fieldRegion) == 0) {
         FIELD_CAMERA_PushState(fieldRegion);
@@ -2677,7 +2677,7 @@ int SCRCMD_PROC_FLD_PollFieldRegionStart(void *event)
 
 int SCRCMD_PROC_FLD_PollFieldRegionIdle(void *event)
 {
-    int busy = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(func_0201210C(GAME_EVENT_GetGameSystem(event))));
+    int busy = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event))));
 
     return busy != 0 ? B_FALSE : B_TRUE;
 }
@@ -2689,7 +2689,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 *fieldMap = func_0201210C(gameSystem);
+    u8 *fieldMap = ICA_ANIME_GetField20(gameSystem);
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
     SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_INIT_SetCartLanesFlags(gameSystem, fieldMap, (u16)(slotNumber - 1)));
@@ -2704,7 +2704,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
  */
 int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *fieldMap = func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 *fieldRegion = FIELDMAP_GetCamera(fieldMap);
 
@@ -2717,7 +2717,7 @@ int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork
 
 int SCRCMD_PROC_FLD_SetFieldRegionTable(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int regionTable = FIELDMAP_GetMapFunc(func_0201210C(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    int regionTable = FIELDMAP_GetMapFunc(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
     switch (SCRIPT_WORK_ReadWorkValue(vm, cmdWork)) {
     case 0:

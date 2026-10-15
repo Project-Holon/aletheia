@@ -1,5 +1,5 @@
 /*
- * function: func_021E300C
+ * function: BR_CODEIN_GetMenuCallbacks
  * address: 0x021E300C
  * packet: pkt_ov183_021E300C
  * region: ov183
@@ -16,6 +16,6 @@ typedef unsigned int u32;
 typedef struct { u32 a,b; } Pair;
 typedef struct { u32 f0,f4; Pair callbacks; } Table;
 extern const Table d_021E3910;
-void func_021E300C(Pair *out) {
+void BR_CODEIN_GetMenuCallbacks(Pair *out) {
     *out=d_021E3910.callbacks;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C93C4",
+   "name": "ZUKAN_StartWipeOut",
    "address": "0x021C93C4",
    "kind": "game",
    "region": "ov212",

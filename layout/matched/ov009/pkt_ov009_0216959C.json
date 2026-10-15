@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216959C",
+   "name": "DWCi_DeleteFriendFromList",
    "address": "0x0216959C",
    "kind": "sdk",
    "region": "ov009",

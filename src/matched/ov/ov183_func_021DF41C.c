@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  */
 #include "../include/Obj24619.h"
 typedef unsigned short u16;
-extern int BR_UTIL_GetListMenuField48(char *);
+extern int BR_UTIL_GetListMenuHitId(char *);
 int func_021DF41C(char *p)
 {
-    return BR_UTIL_GetListMenuField48(*(char * *)&((struct Obj24619 *)p)->f4);
+    return BR_UTIL_GetListMenuHitId(*(char * *)&((struct Obj24619 *)p)->f4);
 }

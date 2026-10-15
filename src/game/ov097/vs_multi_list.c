@@ -35,17 +35,17 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   gVsMultiListDispVram 0x021F761C data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   gVsMultiListDispConfig     0x021F75F8  data  ov097  a4
  *   gVsMultiListBg0Template     0x021F7688  data  ov097  a4
  *   gVsMultiListBg1Template     0x021F7668  data  ov097  a4
  *   gVsMultiListBg2Template     0x021F76A8  data  ov097  a4
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -54,11 +54,11 @@
  *   func_02040EBC  0x02040EBC  arm
  *   func_02045B38  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_020419E4 0x020419E4 arm
@@ -113,7 +113,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   gVsMultiListActorDescs 0x021F76C8 data a4
@@ -127,7 +127,7 @@
  *   BGWINFRM_SetFrameData 0x0202CAC4 thumb
  *   BGWINFRM_ChangePalette 0x0202CE50 thumb
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
- *   func_0204162C 0x0204162C arm
+ *   BG_SYS_GetBuf 0x0204162C arm
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -273,13 +273,13 @@ extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020403F4(u32);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern struct ArcHandle *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -288,11 +288,11 @@ extern void ARC_TOOL_DeleteHandle(struct ArcHandle *h);
 extern void func_02040EBC(u32 a, u32 b);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern struct VBlankTask *func_020056A0(void (*)(void), void *, u32);
 extern void func_02030EAC(struct VBlankTask *task);
@@ -347,7 +347,7 @@ extern void CLACT_SetActorDrawEnable(struct ClactActor *, u32);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *, u32);
 extern int POKE_TOOL_GetIconPalette(void *boxParam);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *, u32, u32);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *, u32);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *, u16);
 extern void CLACT_DeleteActor(struct ClactActor *);
@@ -361,7 +361,7 @@ extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, int x, int y, u8 w, u8 h, u8 pal);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
-extern u32 func_0204162C(int);
+extern u32 BG_SYS_GetBuf(int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 extern void MIi_CpuCopy16(const void *, void *, u32);
@@ -574,17 +574,17 @@ void VS_MULTI_LIST_InitBgs(void)
     struct BgTemplate bg0;
     struct BgTemplate bg1;
     struct BgTemplate bg2;
-    func_0203F8F4(0x71);
+    BG_SYS_Create(0x71);
     dispConfig = gVsMultiListDispConfig;
     func_0203FC28(&dispConfig);
     bg0 = gVsMultiListBg0Template;
-    func_0203FCA0(0, &bg0, 0);
-    func_020414EC(0);
-    func_02040B94(0, 0x20, 0, 0x71);
+    BG_SYS_InitBgLayer(0, &bg0, 0);
+    BG_SYS_ClearSlot(0);
+    BG_SYS_InitRun(0, 0x20, 0, 0x71);
     bg1 = gVsMultiListBg1Template;
-    func_0203FCA0(1, &bg1, 0);
+    BG_SYS_InitBgLayer(1, &bg1, 0);
     bg2 = gVsMultiListBg2Template;
-    func_0203FCA0(2, &bg2, 0);
+    BG_SYS_InitBgLayer(2, &bg2, 0);
 }
 
 void VS_MULTI_LIST_ExitBgs(void)
@@ -592,7 +592,7 @@ void VS_MULTI_LIST_ExitBgs(void)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void VS_MULTI_LIST_LoadBgGraphics(struct VsMultiList *work)
@@ -612,7 +612,7 @@ void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work)
     work->msgBank = func_02045B38(0, 2, 0x12, 0x71);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x71);
     work->fontSmall = GF_FONT_Create(0x17, 3, 0, 0, 0x71);
-    work->wordSet = func_0201EC64(0x71);
+    work->wordSet = GF_FONT_Create_EC64(0x71);
     work->printQue = PRINTSYS_QUE_CreateEx(0x800, 0x71);
 }
 
@@ -621,7 +621,7 @@ void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work)
     MSGDATA_Delete(work->msgBank);
     GF_FONT_Delete(work->font);
     GF_FONT_Delete(work->fontSmall);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     PRINTSYS_QUE_Delete(work->printQue);
 }
 
@@ -997,7 +997,7 @@ void VS_MULTI_LIST_CreateActors(struct VsMultiList *work)
             CLACT_SetActorPaletteOffset(work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
             heldItem = func_02017E1C(work->mons[i], POKE_TOOL_PARAM_HELD_ITEM, 0);
             if (heldItem == 0) CLACT_SetActorDrawEnable(work->actors.set.heldItem[i], 0);
-            else if (func_0202136C(heldItem) == 1) {
+            else if (FILE_UTIL_Check136C(heldItem) == 1) {
                 CLACT_SetActorAnimFrame(work->actors.set.heldItem[i], 0);
                 CLACT_SetActorAnimSeq(work->actors.set.heldItem[i], 1);
             } else {
@@ -1066,14 +1066,14 @@ void VS_MULTI_LIST_CreateBgFrames(struct VsMultiList *work)
         BGWINFRM_AddFrame(work->bgFrames, i + 6, 0, 16, 6);
         BGWINFRM_PutBmpWin(work->bgFrames, i + 6, work->windows[i].bmpWin);
     }
-    palette = (u8 *)func_0204162C(1);
+    palette = (u8 *)BG_SYS_GetBuf(1);
     buf = func_02030734(0x8071, 0xc0, 0, gVsMultiListSrcName, 0x606);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + i * 64, buf + i * 32, 32);
     for (i = 0; i < 6; i++) if (work->mons[i]) BGWINFRM_SetFrameData(work->bgFrames, i, buf);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + (i + 18) * 64, buf + i * 32, 32);
     for (i = 0; i < 6; i++) if (!work->mons[i]) BGWINFRM_SetFrameData(work->bgFrames, i, buf);
     func_020307B0(buf);
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     if (work->args->swapSides == 0) {
         for (i = 3; i < 6; i++) if (work->mons[i]) BGWINFRM_ChangePalette(work->bgFrames, i, 0, 0, 16, 6, 5);
     } else {

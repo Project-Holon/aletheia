@@ -1,5 +1,5 @@
 /*
- * function: func_021B68F8
+ * function: LOCAL_TVT_SYS_CreateTextWindow
  * address: 0x021B68F8
  * packet: pkt_ov174_021B68F8
  * region: ov174
@@ -42,7 +42,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
-void func_021B68F8(u8 *p,int mode)
+void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
 {
  void *tmp;
  if(((struct Obj02507 *)p)->f5C){

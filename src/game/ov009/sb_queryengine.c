@@ -31,15 +31,15 @@
  *   QEStartQuery  0x0219D5C4  arm  ov009
  *   g_021A7C90  0x021A7C90  data
  *   g_021A8104  0x021A8104  data
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   FIFORemove  0x0219D544  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
- *   func_020949F4  0x020949F4  arm
+ *   strncmp  0x020949F4  arm
  *   func_0219E5B8  0x0219E5B8  arm  ov009
  *   func_0219E3CC  0x0219E3CC  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   strstr                   0x02094b20  arm
  *   SBServerParseKeyVals     0x0219e33c  arm
  *   g_021A8110               0x021a8110  data
@@ -69,15 +69,14 @@ extern int socket(int pf, int type, int protocol);
 extern void FIFOClear(SBServerFIFO *fifo);
 extern int closesocket(int sock);
 extern void QEStartQuery(SBQueryEngine *engine, SBServer *server);
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
 extern int NTSLengthSB(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void func_0219E5B8(SBServer *server, char *data, int len);
 extern void func_0219E3CC(SBServer *server, char *data, int len);
-extern unsigned int func_0217F264(void);
 extern char *strstr(const char *haystack, const char *needle);
 extern void SBServerParseKeyVals(SBServer *server, char *keyvals);
 extern int CanReceiveOnSocket(int sock);
@@ -389,7 +388,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
     if (server->state & 0x80) {
         server->state &= (unsigned char)~0x80;
         if (len > 0) {
-            server->querychallenge = (unsigned int)func_020964E0((u32)data);
+            server->querychallenge = (unsigned int)atoi((u32)data);
             FIFORemove(&engine->querylist, server);
             QEStartQuery(engine, server);
             engine->ListCallback(engine, 3, server, engine->instance);
@@ -407,7 +406,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
         }
         server->state |= 0x01 | 0x40;
     } else {
-        if (*data && func_020949F4((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
+        if (*data && strncmp((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
             func_0219E5B8(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;
@@ -418,7 +417,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
         }
     }
     server->state &= (unsigned char)~(0x04 | 0x08);
-    server->updatetime = func_0217F264() - server->updatetime;
+    server->updatetime = current_time() - server->updatetime;
     FIFORemove(&engine->querylist, server);
     engine->ListCallback(engine, 0, server, engine->instance);
 }

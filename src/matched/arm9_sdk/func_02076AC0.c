@@ -1,5 +1,5 @@
 /*
- * function: func_02076AC0
+ * function: CARDi_RequestStreamCommand
  * address:  0x02076AC0
  * packet:   pkt_02076AC0
  * region:   arm9
@@ -68,7 +68,7 @@ extern void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 extern void CARDi_RequestStreamCommandCore(CARDiCommon *p);
 
-BOOL func_02076AC0(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async,
+BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async,
                    int req_type, int req_retry, int req_mode)
 {
     CARDiCommon *p;

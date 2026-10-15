@@ -1,6 +1,6 @@
 /*
  * file:     dwc_ac_retry.c
- * function: func_0205DD2C
+ * function: DWCi_AC_ConnectRetryAP
  * address:  0x0205DD2C
  * packet:   pkt_0205DD2C
  * region:   arm9
@@ -153,7 +153,7 @@ extern s32 WCM_DisconnectAsync(void);
 extern s32 WCM_TerminateAsync(void);
 extern void DWCi_AC_SetError(int error);
 
-u8 func_0205DD2C(void)
+u8 DWCi_AC_ConnectRetryAP(void)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u8 phase = 9;

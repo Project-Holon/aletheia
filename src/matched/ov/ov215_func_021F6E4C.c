@@ -1,5 +1,5 @@
 /*
- * function: func_021F6E4C
+ * function: EGG_DEMO_VIEW_DeleteParticles
  * address:  0x021F6E4C
  * packet:   pkt_021F6E4C
  * region:   ov215
@@ -18,7 +18,7 @@ extern void PARTICLE_ExitManager(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021F6E4C(char *a)
+void EGG_DEMO_VIEW_DeleteParticles(char *a)
 {
     PARTICLE_ExitManager();
     func_020307B0(a);

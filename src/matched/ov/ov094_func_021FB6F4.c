@@ -17,7 +17,7 @@
  *   BTLV_MCSS_GetSlotPosition  0x021FF3F4  thumb  ov094
  *   BTLV_EFFECT_GetClact  0x021F86F0  thumb  ov094
  *   BTLV_CLACT_LoadActorSimple  0x02201AF8  thumb  ov094
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  */
 #include "../include/Obj21668.h"
 typedef short s16;
@@ -30,7 +30,7 @@ extern int BTLV_EFFECT_GetMcss(void);
 extern void BTLV_MCSS_GetSlotPosition(void *obj, void *out, int idx);
 extern int BTLV_EFFECT_GetClact(void);
 extern int BTLV_CLACT_LoadActorSimple(int a, int b, int c, s16 d, s16 e, int f, int g);
-extern void func_0206DF3C(int *p, int *q, int *r);
+extern void NNS_G3dWorldPosToScrPos(int *p, int *q, int *r);
 
 int BTLV_EFFVM_CmdLoadClactAtPoke(struct Cursor *a, char *b)
 {
@@ -48,7 +48,7 @@ int BTLV_EFFVM_CmdLoadClactAtPoke(struct Cursor *a, char *b)
     BTLV_MCSS_GetSlotPosition((void *)BTLV_EFFECT_GetMcss(), pt, t2);
     pt[0] += t3;
     pt[1] += t4;
-    func_0206DF3C(pt, &o1, &o2);
+    NNS_G3dWorldPosToScrPos(pt, &o1, &o2);
     *(int *)(b + t0 * 4 + 0xcc) =
         BTLV_CLACT_LoadActorSimple(BTLV_EFFECT_GetClact(), 0x5f, t1, o1, o2, t5, t6);
     return ((struct Obj21668 *)b)->f23C;

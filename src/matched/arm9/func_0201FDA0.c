@@ -18,7 +18,7 @@
  *   func_02030734   0x02030734  arm
  *   sBmpMenuFile    0x020A7384  data
  *   GF_FONT_Create   0x0201D7EC  thumb
- *   func_0201DC80   0x0201DC80  thumb
+ *   GF_FONT_GetField58   0x0201DC80  thumb
  *   PRINTSYS_QUE_Create   0x0201C440  thumb
  *   BMP_MENU_Add   0x0201F9D0  thumb
  *   BMP_WIN_MakeScreen   0x02045374  arm
@@ -104,7 +104,7 @@ extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201DC80(struct Font *p);
+extern u32 GF_FONT_GetField58(struct Font *p);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern BmpMenu *BMP_MENU_Add(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -150,7 +150,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winDat, u16 base, u8 pal, u8 pos, u1
     hdr.bf0b6 = 0;
     hdr.util = func_02030734(heap, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
     hdr.fontH = GF_FONT_Create(0x17, 0, 0, 0, heap);
-    hdr.unk0e = func_0201DC80(hdr.fontH);
+    hdr.unk0e = GF_FONT_GetField58(hdr.fontH);
     hdr.unk0c = 10;
     PrintUtil_Init(hdr.util, hdr.win);
     hdr.que = (void *)PRINTSYS_QUE_Create((void *)heap);

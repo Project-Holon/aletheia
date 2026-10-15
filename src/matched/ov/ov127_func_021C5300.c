@@ -1,5 +1,5 @@
 /*
- * function: func_021C5300
+ * function: WF2DMAP_OBJCMD_AdvanceTimer
  * address: 0x021C5300
  * packet: pkt_ov127_021C5300
  * region: ov127
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C49A4 0x021C49A4 thumb ov127
- *   func_021C4A00 0x021C4A00 thumb ov127
+ *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
+ *   WF2DMAP_OBJ_SetSlot 0x021C4A00 thumb ov127
  */
 typedef unsigned char u8;
-extern int func_021C49A4(u8 *,unsigned);
-extern void func_021C4A00(void *,int,int);
-int func_021C5300(u8 *p)
+extern int WF2DMAP_OBJ_GetSlot(u8 *,unsigned);
+extern void WF2DMAP_OBJ_SetSlot(void *,int,int);
+int WF2DMAP_OBJCMD_AdvanceTimer(u8 *p)
 {
- int a=func_021C49A4(p,8), b=func_021C49A4(p,9);
- if(a<b) { func_021C4A00(p,8,a+1); if(a+1<b) return 0; }
+ int a=WF2DMAP_OBJ_GetSlot(p,8), b=WF2DMAP_OBJ_GetSlot(p,9);
+ if(a<b) { WF2DMAP_OBJ_SetSlot(p,8,a+1); if(a+1<b) return 0; }
  return 1;
 }

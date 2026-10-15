@@ -9,11 +9,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   UI_SetWakePoweredHookGlobal  0x02035138  arm
  */
 
 typedef unsigned int   u32;
-extern void func_02035138(void *fn, u32 arg);
+extern void UI_SetWakePoweredHookGlobal(void *fn, u32 arg);
 void GAMESYSTEM_ReleaseSleepCallback(void *o)
 {
-    func_02035138(0, 0);
+    UI_SetWakePoweredHookGlobal(0, 0);
 }

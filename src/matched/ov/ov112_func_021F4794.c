@@ -14,6 +14,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 #include "../include/Obj01395.h"
 typedef unsigned char u8;
@@ -29,7 +30,7 @@ struct CharBuf;
 struct MsgBank;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_0201F73C(void *,int,int,int);
 void func_021F4794(u8 *p,u32 index)
@@ -45,7 +46,7 @@ void func_021F4794(u8 *p,u32 index)
     }
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj01395 *)p)->f1C)),15);
     ((struct Obj01395 *)p)->f2C=func_02045EC0((struct MsgBank *)(((struct Obj01395 *)p)->f28),index);
-    t=func_02012FFC();
+    t=MSG_SPEED_GetWait();
     *(u32 *)&((struct Obj01395 *)p)->f24=PRINTSYS_PrintStream(*(u32 *)&((struct Obj01395 *)p)->f1C,0,0,*(u32 *)&((struct Obj01395 *)p)->f2C,((struct Obj01395 *)p)->f20,t,((struct Obj01395 *)p)->f18,2,((struct Obj01395 *)p)->f0,0);
     func_0201F73C(((struct Obj01395 *)p)->f1C,1,1,11);
 }

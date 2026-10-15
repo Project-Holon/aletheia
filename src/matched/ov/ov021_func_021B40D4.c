@@ -13,7 +13,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0200DABC 0x0200DABC thumb
- *   func_0200C274 0x0200C274 thumb
+ *   BEACON_GetPoints 0x0200C274 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -43,7 +43,7 @@ struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u16 func_0200DABC(struct Blk1AC *p);
-extern u32 func_0200C274(struct Blk34 *p);
+extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
@@ -67,7 +67,7 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(char *w)
     } else {
         t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x15);
         t6 = (u32)STRBUF_Create(10, ((struct Obj00037 *)w)->f4);
-        func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200C274((struct Blk34 *)(((struct Obj00037 *)w)->fC)), 7, 1, 1);
+        func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, BEACON_GetPoints((struct Blk34 *)(((struct Obj00037 *)w)->fC)), 7, 1, 1);
     }
     func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), (void *)t6, (void *)t7);
     s = (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00037 *)w)->f168);

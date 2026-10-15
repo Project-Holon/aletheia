@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F6000",
-    "func_021F601C"
+    "EGG_DEMO_MAIN_LoadBgm2",
+    "EGG_DEMO_MAIN_IsBgm2Loading"
+   ],
+   "addresses": [
+    "0x021F6000",
+    "0x021F601C"
    ]
   }
  ]

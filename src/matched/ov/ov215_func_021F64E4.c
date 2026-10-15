@@ -1,5 +1,5 @@
 /*
- * function: func_021F64E4
+ * function: EGG_DEMO_GRAPHIC_Draw3d
  * address: 0x021F64E4
  * packet: pkt_ov215_021F64E4
  * region: ov215
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F66AC 0x021F66AC thumb ov215
+ *   EGG_DEMO_GRAPHIC_DrawG3d 0x021F66AC thumb ov215
  */
-extern void func_021F66AC(void *);
-void func_021F64E4(char *p){func_021F66AC(p+8);}
+extern void EGG_DEMO_GRAPHIC_DrawG3d(void *);
+void EGG_DEMO_GRAPHIC_Draw3d(char *p){EGG_DEMO_GRAPHIC_DrawG3d(p+8);}

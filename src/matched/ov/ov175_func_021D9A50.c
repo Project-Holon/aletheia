@@ -10,7 +10,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
@@ -23,7 +23,7 @@
 extern void MI_CpuFill8(void *, int, int);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *);
+extern void *BATTLE_BOX_GetFromSave(void *);
 extern void *func_0200BAF4(int a0, int a1);
 extern void *POKEPARTY_Init(void *);
 extern int POKE_REGULATION_GetDataSize(void *);
@@ -34,7 +34,7 @@ void func_021D9A50(char *dest, char *ctx)
 {
     void *records;
     MI_CpuFill8(dest, 0, 212);
-    records = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
+    records = func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
     MI_CpuCopy8(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
     func_020307B0(records);
     ((struct Obj24310 *)dest)->f44 = 100;

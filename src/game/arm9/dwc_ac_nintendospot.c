@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_nintendospot.c
  * unit:     yes
- * function: func_0205D91C, func_0205D98C, func_0205DC58, func_0205DC74, func_0205DCC8, func_0205DCDC, func_0205DCF0, func_0205DD04, func_0205DD18
+ * function: DWC_AC_StartupGetWDSInfo, DWC_AC_ProcessGetWDSInfo, func_0205DC58, DWC_AC_CleanupGetWDSInfo, WDS_Initialize_CB, WDS_StartScan_CB, WDS_EndScan_CB, WDS_End_CB, WDS_Error_End_CB
  * address:  0x0205D91C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -107,15 +107,10 @@ extern void WDS_End_CB(void);
 extern void WDS_Error_End_CB(void);
 extern void g_02146ADC(void);
 extern void DWC_Free(int name, void *ptr, long size);
-BOOL func_0205D91C(DWCWDSData *nspotInfo, u16 dmaNo);
-int func_0205D98C(void);
+BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo);
+int DWC_AC_ProcessGetWDSInfo(void);
 asm void DWC_AC_CancelGetWDSInfo(void);
-void func_0205DC74(void);
-void func_0205DCC8(void);
-void func_0205DCDC(void);
-void func_0205DCF0(void);
-void func_0205DD04(void);
-void func_0205DD18(void);
+void DWC_AC_CleanupGetWDSInfo(void);
 
 
 static NSpotState s_nspot;
@@ -126,7 +121,7 @@ static NSpotState s_nspot;
 /*
  * sdk:      DWC_AC_StartupGetWDSInfo (nintendospot.o)
  */
-BOOL func_0205D91C(DWCWDSData *nspotInfo, u16 dmaNo)
+BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo)
 {
     s_nspot.wdsSysBuf = DWC_Alloc(1, WDS_GetWorkAreaSize());
     s_nspot.gDwcWdsWork = DWC_Alloc(1, sizeof(DWCWDSWork));
@@ -143,7 +138,7 @@ BOOL func_0205D91C(DWCWDSData *nspotInfo, u16 dmaNo)
 /*
  * sdk:      DWC_AC_ProcessGetWDSInfo (nintendospot.o)
  */
-int func_0205D98C(void)
+int DWC_AC_ProcessGetWDSInfo(void)
 {
     int i;
     u16 maxRssi;
@@ -261,7 +256,7 @@ asm void DWC_AC_CancelGetWDSInfo(void)
 /*
  * sdk:      DWC_AC_CleanupGetWDSInfo (nintendospot.o)
  */
-void func_0205DC74(void)
+void DWC_AC_CleanupGetWDSInfo(void)
 {
     if (s_nspot.wdsSysBuf != NULL) {
         DWC_Free(1, s_nspot.wdsSysBuf, 0);
@@ -278,7 +273,7 @@ void func_0205DC74(void)
 /*
  * sdk:      WDS_Initialize_CB (nintendospot.o)
  */
-void func_0205DCC8(void)
+void WDS_Initialize_CB(void)
 {
     s_nspot.gAppstate = 2;
 }
@@ -288,7 +283,7 @@ void func_0205DCC8(void)
 /*
  * sdk:      WDS_StartScan_CB (nintendospot.o)
  */
-void func_0205DCDC(void)
+void WDS_StartScan_CB(void)
 {
     s_nspot.gAppstate = 4;
 }
@@ -298,7 +293,7 @@ void func_0205DCDC(void)
 /*
  * sdk:      WDS_EndScan_CB (nintendospot.o)
  */
-void func_0205DCF0(void)
+void WDS_EndScan_CB(void)
 {
     s_nspot.gAppstate = 7;
 }
@@ -308,7 +303,7 @@ void func_0205DCF0(void)
 /*
  * sdk:      WDS_End_CB (nintendospot.o)
  */
-void func_0205DD04(void)
+void WDS_End_CB(void)
 {
     s_nspot.gAppstate = 9;
 }
@@ -318,7 +313,7 @@ void func_0205DD04(void)
 /*
  * sdk:      WDS_Error_End_CB (nintendospot.o)
  */
-void func_0205DD18(void)
+void WDS_Error_End_CB(void)
 {
     s_nspot.gAppstate = 0xb;
 }

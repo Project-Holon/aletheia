@@ -15,8 +15,8 @@
  * symbols:
  *   func_020808F4  0x020808F4  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   func_0207D4B0  0x0207D4B0  arm
- *   func_0207D534  0x0207D534  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   TEXTPRINT_Init  0x0204E130  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_Clear   0x02043B5C  arm
@@ -34,7 +34,7 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   _pOverlayTables    0x021469B8  data
  *   _FileName      0x020A7970  data
- *   func_020792B8  0x020792B8  arm
+ *   FS_UnloadOverlay  0x020792B8  arm
  *   GF_OVERLAY_GetArea  0x02034D60  arm
  *   GF_OVERLAY_GetSlots  0x02034CBC  arm
  *   GF_OVERLAY_GetSlotCount  0x02034D08  arm
@@ -117,8 +117,8 @@ struct OverlayInfo {
 
 extern int func_020808F4(void);
 extern void  func_0207FDCC(u32 enable);
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void  TEXTPRINT_Init(u32 fontId);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Clear(struct CharBuf *buf, u8 fillValue);
@@ -131,7 +131,7 @@ extern void OS_Terminate(void);
 extern void SAVEDATA_SetPanicHandlers(u32 initFn, u32 printFn, u32 dieFn);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern int func_020792B8(u32 target, u32 id);
+extern int FS_UnloadOverlay(u32 target, u32 id);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
@@ -214,10 +214,10 @@ void sub_02034768(void)
     func_0207FDCC(1);
 
     REG_POWCNT = REG_POWCNT & ~0x8000;
-    func_0207D4B0(1, 0, 0);
+    GX_SetGraphicsMode(1, 0, 0);
 
     REG_BLDCNT = 0;
-    func_0207D534((volatile u16 *)0x0400006c, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006c, 0);
 
     REG_DISPCNT = REG_DISPCNT & ~0xe000;
     REG_DISPCNT = (REG_DISPCNT & ~0x1f00) | 0x100;
@@ -410,9 +410,9 @@ void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount)
  * Forwards `p`'s first field to an extern with a constant 0, then clears
  * `p`'s second field regardless of what the call returns.
  *
- * func_020792B8 is called from exactly this one site in the whole ROM, so
+ * FS_UnloadOverlay is called from exactly this one site in the whole ROM, so
  * the relocation has no `label` witness; it resolves on class `matched`
- * against src/matched/func_020792B8.c, which is EXACT since
+ * against src/matched/FS_UnloadOverlay.c, which is EXACT since
  * src/matched/unit_02079164.c attested its own callee.
  *
  * Verified with:
@@ -421,7 +421,7 @@ void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount)
  */
 void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot)
 {
-    func_020792B8(0, slot->handle);
+    FS_UnloadOverlay(0, slot->handle);
     slot->state = 0;
 }
 
@@ -446,7 +446,7 @@ void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot)
  * 0x02034AAC inside this function is 0x02034A3C's only reference anywhere
  * in the image.  It resolves on class `matched` now that
  * src/matched/GF_OVERLAY_ReleaseSlot.c is EXACT, which in turn waited on
- * src/matched/func_020792B8.c and src/matched/unit_02079164.c.
+ * src/matched/FS_UnloadOverlay.c and src/matched/unit_02079164.c.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GF_OVERLAY_Unload.c \

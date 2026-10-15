@@ -1,5 +1,5 @@
 /*
- * function: func_021B71A0
+ * function: LOCAL_TVT_CHARA_CopyTiles
  * address:  0x021B71A0
  * packet:   pkt_021B71A0
  * region:   ov174
@@ -16,7 +16,7 @@
 
 extern void MIi_CpuCopy32(int, int, int);
 
-void func_021B71A0(int a, int *b, int c, int d, int e)
+void LOCAL_TVT_CHARA_CopyTiles(int a, int *b, int c, int d, int e)
 {
     MIi_CpuCopy32(*(int *)((char *)(((struct Obj24209 *)b)->fC) + 0x14) + c,
                   d + 0x06000000, e);

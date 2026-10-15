@@ -1,5 +1,5 @@
 /*
- * function: func_020913A4
+ * function: MSL_C_LIB_FreeToHeap
  * address:  0x020913A4
  * packet:   pkt_020911D8
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
 
-void func_020913A4(u32 heap)
+void MSL_C_LIB_FreeToHeap(u32 heap)
 {
     OS_FreeToHeap(0, (u32)-1, heap);
 }

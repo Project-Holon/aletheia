@@ -1,5 +1,5 @@
 /*
- * function: func_02205854
+ * function: SHINKA_DEMO_Setup3d
  * address:  0x02205854
  * packet:   pkt_02205854
  * region:   ov195
@@ -33,7 +33,7 @@ extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int 
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
-void func_02205854(void)
+void SHINKA_DEMO_Setup3d(void)
 {
     u32 i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F9E04
+ * function: STA_ACTING_GetCameraTarget
  * address: 0x021F9E04
  * packet: pkt_ov132_021F9E04
  * region: ov132
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u16 func_021F9E04(u8 *p) { return ((struct Obj23219 *)p)->f4; }
+u16 STA_ACTING_GetCameraTarget(u8 *p) { return ((struct Obj23219 *)p)->f4; }

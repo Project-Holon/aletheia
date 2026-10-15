@@ -1,5 +1,5 @@
 /*
- * function: func_021810CC
+ * function: gsUdpEngineStartTalkingToPeer
  * address:  0x021810CC
  * packet:   pkt_ov009_021810CC
  * region:   ov009
@@ -23,10 +23,10 @@
  *   func_02184200                  0x02184200  arm ov009
  *   func_02180448                  0x02180448  arm ov009
  *   func_02180420                  0x02180420  arm ov009
- *   func_02180518                  0x02180518  arm ov009
- *   func_021806A8                  0x021806A8  arm ov009
- *   func_02180924                  0x02180924  arm ov009
- *   func_02180A64                  0x02180A64  arm ov009
+ *   gsUdpClosedRoutingCB                  0x02180518  arm ov009
+ *   gsUdpConnectedRoutingCB                  0x021806A8  arm ov009
+ *   gsUdpPingRoutingCB                  0x02180924  arm ov009
+ *   gsUdpReceivedRoutingCB                  0x02180A64  arm ov009
  *   g_021A3B9C                     0x021A3B9C  data
  *   g_021A3BC4                     0x021A3BC4  data
  *   g_021A3BF8                     0x021A3BF8  data
@@ -87,15 +87,15 @@ extern void func_02184234(void *array, void *newElem);
 extern int func_02184200(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
-extern void func_02180518(void *theConnection, int reason);
-extern void func_021806A8(void *theConnection, int theResult);
-extern void func_02180924(void *theConnection, int theLatency);
-extern void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
+extern void gsUdpClosedRoutingCB(void *theConnection, int reason);
+extern void gsUdpConnectedRoutingCB(void *theConnection, int theResult);
+extern void gsUdpPingRoutingCB(void *theConnection, int theLatency);
+extern void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
 extern char g_021A3B9C[];
 extern char g_021A3BC4[];
 extern char g_021A3BF8[];
 
-int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, int timeOut)
+int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, char *theInitMsg, int timeOut)
 {
     char anAddr[22];
     GSUdpRemotePeer aRemotePeer;
@@ -142,10 +142,10 @@ int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, 
         GSUdpRemotePeer *aRemotePeerPtr;
 
         func_02198620(theIp, thePort, anAddr);
-        aCallbacks.closed = (void (*)(void *, int))func_02180518;
-        aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))func_021806A8;
-        aCallbacks.ping = (void (*)(void *, int))func_02180924;
-        aCallbacks.received = (void (*)(void *, unsigned char *, int, int))func_02180A64;
+        aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
+        aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
+        aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
+        aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
         func_02195B44(aUdp->mSocket, (struct GTI2Connection **)(&aRemotePeer.mConnection), anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
         func_02184234(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B40  0x02049B40  arm
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  */
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020414EC(u32 a);
+extern void BG_SYS_ClearSlot(u32 a);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
@@ -29,7 +29,7 @@ void TALKMSGWIN_ReloadFrameGraphics(u8 *p)
     u32 r;
     u32 v;
 
-    func_020414EC(((struct Obj04219 *)p)->f10 & 0xFF);
+    BG_SYS_ClearSlot(((struct Obj04219 *)p)->f10 & 0xFF);
     v = ((struct Obj04219 *)p)->f10;
     r = 0;
     switch (v) {

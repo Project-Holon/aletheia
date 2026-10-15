@@ -15,7 +15,7 @@
  *   func_0200566C  0x0200566C  thumb
  *   CTVT_MIC_StopCapture  0x021BA120  thumb  ov172
  *   CTVT_MIC_FreeChannel  0x021BA1D8  thumb  ov172
- *   func_0208BEF0  0x0208BEF0  arm
+ *   PM_SetAmp  0x0208BEF0  arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   func_020307B0  0x020307B0  arm
  *
@@ -31,7 +31,7 @@ typedef signed int     s32;
 extern void func_0200566C(void);
 extern int CTVT_MIC_StopCapture(u32 *p);
 extern void CTVT_MIC_FreeChannel(void *p);
-extern unsigned int func_0208BEF0(unsigned int status);
+extern unsigned int PM_SetAmp(unsigned int status);
 extern void GFL_NET_FreeAligned(void *p);
 extern u32 func_020307B0(void *p);
 
@@ -41,7 +41,7 @@ void CTVT_MIC_Delete(char *p)
     *(u32 *)0x021C88EC = 0;
     CTVT_MIC_StopCapture((u32 *)p);
     CTVT_MIC_FreeChannel(p);
-    func_0208BEF0(0);
+    PM_SetAmp(0);
     GFL_NET_FreeAligned(((struct Obj04554 *)p)->f4);
     func_020307B0(p);
 }

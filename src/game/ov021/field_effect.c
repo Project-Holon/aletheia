@@ -28,9 +28,9 @@
  *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
- *   func_0204EDBC  0x0204EDBC  arm
- *   func_0204ED70  0x0204ED70  arm
- *   func_0204EDB0  0x0204EDB0  arm
+ *   BILLBOARD_SetField25  0x0204EDBC  arm
+ *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   BILLBOARD_SetField24  0x0204EDB0  arm
  *   d_021DE018     0x021DE018  data  a1
  *   d_021D8F04     0x021D8F04  data  a4
  *   FIELDMAP_GetG3dObjCtrl  0x02188CD8  thumb  ov021
@@ -66,9 +66,9 @@ extern u32 FIELDMAP_GetAreaData(u8 *p);
 extern u8 ZONEDATA_GetAreaInnerOuter(void *p);
 extern u32 FIELDMAP_GetEffectBbdAct(u8 *p);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
-extern void func_0204EDBC(u8 *dst, u8 val);
-extern void func_0204ED70(u8 *dst, VecFx32 *src);
-extern void func_0204EDB0(u8 *dst, u8 *src);
+extern void BILLBOARD_SetField25(u8 *dst, u8 val);
+extern void BILLBOARD_SetField10(u8 *dst, VecFx32 *src);
+extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
 extern u32 FIELDMAP_GetG3dObjCtrl(u8 *p);
 extern u32 func_02030CB0(u32 idx);
 extern int func_02030CBC(u32 capacity, void *buffer);
@@ -139,11 +139,11 @@ FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapI
     sys->modelBaseOffsetAlt = ZONEDATA_GetAreaInnerOuter((void *)FIELDMAP_GetAreaData((u8 *)fieldmap));
     FIELD_EFFECT_InitResourceTable(sys);
     billboard = BILLBOARD_ACT_GetBoard((u32 *)FIELDMAP_GetEffectBbdAct((u8 *)sys->fieldmap));
-    func_0204EDBC((u8 *)billboard, 0);
+    BILLBOARD_SetField25((u8 *)billboard, 0);
     vec = d_021D8F04;
-    func_0204ED70((u8 *)billboard, &vec);
+    BILLBOARD_SetField10((u8 *)billboard, &vec);
     zero = 0;
-    func_0204EDB0((u8 *)billboard, &zero);
+    BILLBOARD_SetField24((u8 *)billboard, &zero);
     return sys;
 }
 

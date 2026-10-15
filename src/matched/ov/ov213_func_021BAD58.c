@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD58
+ * function: COMM_BTL_DEMO_GRAPHIC_InitClact
  * address:  0x021BAD58
  * packet:   pkt_ov213_021BAD58
  * region:   ov213
@@ -40,7 +40,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern int d_021BB18C;
 
-void func_021BAD58(void **out, int a, int b)
+void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((const struct Cfg *)(&d_021BB18C), a, b);

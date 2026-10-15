@@ -16,17 +16,17 @@
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0207E008  0x0207E008  arm
+ *   G2_GetBG2ScrPtr  0x0207E008  arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
  *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
- *   func_021B8B8C 0x021B8B8C thumb ov172
- *   func_0207E100 0x0207E100 arm
+ *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
+ *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   func_0202EB14 0x0202EB14 thumb
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   MIi_CpuCopy32 0x02082A90 arm
- *   func_021B8BA4 0x021B8BA4 thumb ov172
+ *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   COMM_TVT_SYS_GetLaunchParams 0x021BE004 thumb ov172
  *   func_02012944 0x02012944 thumb
@@ -49,7 +49,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   COMM_TVT_SYS_GetReturnedFromChild 0x021BE02C thumb ov172
  *   COMM_TVT_SYS_SetReturnedFromChild 0x021BE030 thumb ov172
  *   COMM_TVT_SYS_GetPrintQue 0x021BE044 thumb ov172
@@ -80,23 +80,23 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
- *   func_021B8084  0x021B8084  thumb  ov172
+ *   CTVT_COMM_StopSession  0x021B8084  thumb  ov172
  *   FX_SinCosTable_     0x020A1B38  data a2
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   g_021C7234    0x021C7234  data  ov172
  *   d_021C7234     0x021C7234  data
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   CTVT_CAMVIEW_RequestShutterSound0  0x021B7B64  thumb  ov172
- *   func_021B80DC  0x021B80DC  thumb  ov172
- *   func_021B80EC  0x021B80EC  thumb  ov172
- *   func_021B8B7C  0x021B8B7C  thumb  ov172
- *   func_021B8C14  0x021B8C14  thumb  ov172
- *   func_021B8C20  0x021B8C20  thumb  ov172
+ *   CTVT_COMM_SetRequestedMode  0x021B80DC  thumb  ov172
+ *   CTVT_COMM_SetConnectMac  0x021B80EC  thumb  ov172
+ *   CTVT_COMM_GetMyStatusPtr  0x021B8B7C  thumb  ov172
+ *   CTVT_COMM_ResetSlotTimer  0x021B8C14  thumb  ov172
+ *   CTVT_COMM_IsSlotTimerDone  0x021B8C20  thumb  ov172
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   d_021C7040     0x021C7040  data
- *   func_021B8108  0x021B8108  thumb  ov172
+ *   CTVT_COMM_IsNetReady  0x021B8108  thumb  ov172
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   NET_WHPIPE_GetEntryBeaconKind  0x02177B80  thumb
@@ -104,39 +104,39 @@
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_021B85D0  0x021B85D0  thumb  ov172
+ *   CTVT_COMM_FindPeerName  0x021B85D0  thumb  ov172
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   COMM_PLAYER_SUPPORT_GetRecordFieldPtr  0x0202E930  thumb
  *   STRBUF_SetStringN  0x02045994  arm
  *   COMM_PLAYER_SUPPORT_GetRecordField  0x0202E938  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   func_02009D50  0x02009D50  thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
- *   func_021B7BA8 0x021B7BA8 thumb ov172
+ *   CTVT_COMM_Create 0x021B7BA8 thumb ov172
  *   CTVT_TALK_Create 0x021B8C3C thumb ov172
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
  *   func_020056A0 0x020056A0 thumb
- *   func_02012A30 0x02012A30 thumb
+ *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   func_02028A70 0x02028A70 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02030EAC 0x02030EAC arm
  *   DRAW_SYSTEM_DeleteCanvas 0x021B6C34 thumb ov172
  *   CTVT_TALK_Delete 0x021B8CB0 thumb ov172
- *   func_021B7DCC 0x021B7DCC thumb ov172
+ *   CTVT_COMM_Delete 0x021B7DCC thumb ov172
  *   CTVT_CAMVIEW_Delete 0x021B70A8 thumb ov172
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   func_021B7E34  0x021B7E34  thumb  ov172
+ *   CTVT_COMM_Main  0x021B7E34  thumb  ov172
  *   CTVT_TALK_Main  0x021B9044  thumb  ov172
- *   func_021B80CC  0x021B80CC  thumb
+ *   CTVT_COMM_IsSessionEnded  0x021B80CC  thumb
  *   DRAW_SYSTEM_Nop  0x021B6C48  thumb  ov172
  *   CTVT_CAMVIEW_Update  0x021B712C  thumb  ov172
  *   CTVT_CAMVIEW_UploadWindows  0x021B71B8  thumb  ov172
@@ -148,7 +148,7 @@
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_02040588  0x02040588  arm
@@ -170,7 +170,7 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -206,8 +206,8 @@
  *   CTVT_TALK_Exit 0x021B8FB8 thumb ov172
  *   CTVT_TALK_Init 0x021B8CC8 thumb ov172
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
- *   func_021B8B94 0x021B8B94 thumb ov172
- *   func_021B8B68 0x021B8B68 thumb ov172
+ *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
+ *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
  *   func_02008510 0x02008510 thumb
  *   func_0201D304 0x0201D304 thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
@@ -226,6 +226,7 @@
  *   COMM_TVT_SYS_GetTaskMenu 0x021BE04C thumb ov172
  *   COMM_TVT_SYS_GetHostBusy 0x021BE0EC thumb ov172
  *   COMM_TVT_SYS_ClearHostBusy 0x021BE0F0 thumb ov172
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  */
 #include "../../matched/include/Obj03316.h"
 #include "../../matched/include/Obj08261.h"
@@ -251,9 +252,9 @@
 #include "ctvt_draw_shared_types.h"
 #include "ctvt_call_shared_types.h"
 
-extern void *func_0207E008(void);
+extern void *G2_GetBG2ScrPtr(void);
 
-extern u32 func_021B8B8C(int unused, char *base, int i);
+extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 
 extern int func_0202EB14(void);
 
@@ -443,7 +444,7 @@ extern u32_021BA2C4  func_0202762C(void);
 
 extern void *func_020490F4(u32_021BA2C4 id, u32_021BA2C4 heap);
 
-extern void func_020414EC(u32_021BA2C4 a);
+extern void BG_SYS_ClearSlot(u32_021BA2C4 a);
 
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -471,7 +472,7 @@ extern u32_021BA8C4 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 
-extern void func_021B8084(void *a, char *q);
+extern void CTVT_COMM_StopSession(void *a, char *q);
 
 extern void WIPE_SYS_Start(void *p1, u32_021BA9EC p2, u32_021BA9EC p3, u32_021BA9EC p4, u32_021BA9EC p5, u32_021BA9EC p6, u32_021BA9EC p7);
 
@@ -497,11 +498,11 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern u32_021BB288 TOUCHPANEL_GetPointTrg(u32_021BB288 *outA, u32_021BB288 *outB);
 
-extern u32_021BB288 func_0207E100(void);
+extern u32_021BB288 G2_GetBG3ScrPtr(void);
 
 extern u32_021BB288 TOUCHPANEL_GetPointCont(u32_021BB288 *outA, u32_021BB288 *outB);
 
-extern void func_02041EE4(u32_021BB4D0, u32_021BB4D0, u32_021BB4D0);
+extern void BG_SYS_ResetSlot(u32_021BB4D0, u32_021BB4D0, u32_021BB4D0);
 
 extern u32_021BBA94 func_02049658(void *a, u32_021BBA94 b, u32_021BBA94 c, u32_021BBA94 d, u32_021BBA94 e, u32_021BBA94 f, u16 g);
 
@@ -509,15 +510,15 @@ extern void APP_TASKMENU_WIN_Delete(u8 *p);
 
 extern void CTVT_CAMVIEW_RequestShutterSound0(int x, char *p);
 
-extern void func_021B80DC(int unused, char *p, u32_021BBF2C v);
+extern void CTVT_COMM_SetRequestedMode(int unused, char *p, u32_021BBF2C v);
 
-extern void func_021B80EC(int unused, char *p, const u8 *src);
+extern void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src);
 
-extern u8 *func_021B8B7C(void *c, u8 *x);
+extern u8 *CTVT_COMM_GetMyStatusPtr(void *c, u8 *x);
 
-extern void func_021B8C14(void *c, u8 *x);
+extern void CTVT_COMM_ResetSlotTimer(void *c, u8 *x);
 
-extern u32_021BBF2C func_021B8C20(void *c, u8 *x);
+extern u32_021BBF2C CTVT_COMM_IsSlotTimerDone(void *c, u8 *x);
 
 extern u32_021BBF2C APP_TASKMENU_WIN_IsFinish(u8 *p);
 
@@ -531,7 +532,7 @@ extern u32_021BC5E8 APP_TASKMENU_WIN_IsTouch(void **p);
 
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 
-extern int func_021B8108(void *unused, void *p);
+extern int CTVT_COMM_IsNetReady(void *unused, void *p);
 
 extern u32_021BC7FC GFL_NET_GetScanResult(u32_021BC7FC a);
 
@@ -547,7 +548,7 @@ extern u32_021BC7FC func_02008530(const struct Sub0200852CObj *obj);
 
 extern void OS_GetMacAddress(void *p);
 
-extern int func_021B85D0(unsigned char *p, unsigned char *q);
+extern int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q);
 
 extern u32_021BC7FC ZONEDATA_IsZone117(u32_021BC7FC id);
 
@@ -555,7 +556,7 @@ extern u32_021BC7FC ZONEDATA_IsZoneGroup118To120(u32_021BC7FC id);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32_021BC7FC n);
 
-extern struct WordSet *func_0201EC64(u32_021BCC40 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32_021BCC40 heap);
 
 extern struct U16Vec *STRBUF_Create(u32_021BCC40 capacity, u32_021BCC40 heapId);
 
@@ -569,11 +570,11 @@ extern void func_0201EFA4(struct WordSet *p, u32_021BCC40 i, u32_021BCC40 a, u32
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern u32_021BCC40 func_0201ED04(struct WordSet *p);
+extern u32_021BCC40 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32_021BCEF8 APP_TASKMENU_WIN_Create(u32_021BCEF8 a0, u32_021BCEF8 a1, u32_021BCEF8 a2, u32_021BCEF8 a3, u8 a4, u16 a5);
 
-extern u32_021BD0A4 func_0201283C(const struct BigObj *p);
+extern u32_021BD0A4 GAME_DATA_GetField1A0(const struct BigObj *p);
 
 extern int func_02009D50(struct Sub020097BCObj *obj, const void *unused, u32_021BD0A4 id, u32_021BD0A4 kind, u32_021BD0A4 *out);
 
@@ -581,7 +582,7 @@ extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32_021BD1AC a2, u32_02
 
 extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 
-extern char *func_021B7BA8(void *p, u16 heap);
+extern char *CTVT_COMM_Create(void *p, u16 heap);
 
 extern char *CTVT_TALK_Create(char *unused, u16 heap);
 
@@ -589,7 +590,7 @@ extern u32_021BD1AC DRAW_SYSTEM_CreateCanvas(Params *);
 
 extern u32_021BD1AC func_020056A0(void (*)(int, char *), char *, int);
 
-extern u32_021BD1AC func_02012A30(const struct BigObj *p);
+extern u32_021BD1AC GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
 extern void func_02028A70(struct SoundSys *sys);
 
@@ -601,17 +602,17 @@ extern void DRAW_SYSTEM_DeleteCanvas(char *);
 
 extern void CTVT_TALK_Delete(void *, char *);
 
-extern void func_021B7DCC(void *p, char *q);
+extern void CTVT_COMM_Delete(void *p, char *q);
 
 extern void CTVT_CAMVIEW_Delete(int unused, char *q);
 
 extern u32_021BD3B8 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
-extern void func_021B7E34(void *p, char *q);
+extern void CTVT_COMM_Main(void *p, char *q);
 
 extern u32_021BD43C CTVT_TALK_Main(void *p, struct S *s);
 
-extern u32_021BD43C func_021B80CC(int unused, char *p);
+extern u32_021BD43C CTVT_COMM_IsSessionEnded(int unused, char *p);
 
 extern void DRAW_SYSTEM_Nop(u32_021BD43C a);
 
@@ -649,7 +650,7 @@ extern u32 WIPE_ResetWndMask(void *win);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 
 extern void BMP_WIN_Init(u16 heap);
 
@@ -673,9 +674,9 @@ extern void func_020403F4(u32 i);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void func_020414AC(u32 which);
 
@@ -739,13 +740,13 @@ extern void CTVT_TALK_Exit(void *,char *);
 
 extern void CTVT_TALK_Init(void *,char *);
 
-extern u32 func_021B8BA4(int unused, char *base, int i);
+extern u32 CTVT_COMM_IsSlotActive(int unused, char *base, int i);
 
 extern u32 CTVT_CAMVIEW_IsWindowMoving(int unused, char *base, int i);
 
-extern char *func_021B8B94(int unused, char *base, int i);
+extern char *CTVT_COMM_GetSlotParam(int unused, char *base, int i);
 
-extern u8 func_021B8B68(int unused, char *p);
+extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 
 extern void *func_02008510(void *a, int tag);
 
@@ -1032,7 +1033,7 @@ void func_021BBA94(void *a0, u8 *p)
     *(u32_021BBA94 *)(p + 0x1c) = 0;
     *(u32_021BBA94 *)(p + 8) = 0;
     *(u16 *)(p + 0x34) = 0;
-    func_02041EE4(6, 3, 0);
+    BG_SYS_ResetSlot(6, 3, 0);
     if ((u32_021BBA94)(*(u32_021BBA94 *)(o + 4) - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)*(u32_021BBA94 *)(p + 0x400), 0xf);
         func_021BD134(a0, (char *)p, 0x18);
@@ -1076,12 +1077,12 @@ void func_021BBE5C(void *a0, char *a1)
     for (j = 0; j < 0xf; j++)
         func_020307B0((void *)(*(u32_021BBE5C *)(a1 + j * 0x24 + 0x1f8)));
 
-    func_020414EC(6);
+    BG_SYS_ClearSlot(6);
     func_020409B4(6);
-    func_02041EE4(6, 3, 0);
-    func_020414EC(4);
+    BG_SYS_ResetSlot(6, 3, 0);
+    BG_SYS_ClearSlot(4);
     func_020409B4(4);
-    func_02041EE4(4, 3, 0);
+    BG_SYS_ResetSlot(4, 3, 0);
 }
 
 /*
@@ -1163,8 +1164,8 @@ int func_021BBF2C(void *a0, char *p)
             break;
         if (W(0x18) == 2) {
             t = COMM_TVT_SYS_GetComm(a0);
-            func_021B80DC((int)a0, (char *)t, 4);
-            func_021B80EC((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
+            CTVT_COMM_SetRequestedMode((int)a0, (char *)t, 4);
+            CTVT_COMM_SetConnectMac((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
             func_021BD134(a0, p, 0x18);
             W(0x38) = 1;
             W(8) = 7;
@@ -1178,10 +1179,10 @@ int func_021BBF2C(void *a0, char *p)
             func_021BD134(a0, p, 0x14);
             W(0x38) = 1;
             H(0x36) = 0;
-            func_021B80DC((int)a0, (char *)t2, 3);
+            CTVT_COMM_SetRequestedMode((int)a0, (char *)t2, 3);
             APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
-            ip = func_021B8B7C(a0, (u8 *)t2);
+            ip = CTVT_COMM_GetMyStatusPtr(a0, (u8 *)t2);
             for (i = 0; i < 3; i++) {
                 if (B(i) == 0xff) {
                     for (j = 0; j < 6; j++)
@@ -1192,7 +1193,7 @@ int func_021BBF2C(void *a0, char *p)
                 }
             }
             ip[0x21] |= 2;
-            func_021B8C14(a0, (u8 *)t2);
+            CTVT_COMM_ResetSlotTimer(a0, (u8 *)t2);
         }
         CLACT_SetActorAnimSeq(OBJ, 0xf);
         break;
@@ -1217,15 +1218,15 @@ int func_021BBF2C(void *a0, char *p)
             }
         }
         if (W(8) == 9) {
-            if (func_021B8C20(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
-                func_021B80DC((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
+            if (CTVT_COMM_IsSlotTimerDone(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
+                CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
                 func_021BD134(a0, p, 0x27);
                 W(8) = 10;
             }
         } else if (W(8) == 7 || W(8) == 8) {
             H(0x34)++;
             if (H(0x34) >= 0x4b0) {
-                func_021B80DC((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
+                CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
                 func_021BD134(a0, p, 0x28);
                 W(8) = 10;
             }
@@ -1312,7 +1313,7 @@ int func_021BBF2C(void *a0, char *p)
             u8 cnt = 0;
             for (i = 0; i < 15; i++)
                 func_021BCE2C(a0, p, p + 0x40 + i * 0x1c, i);
-            func_02041EE4(6, 3, H(4));
+            BG_SYS_ResetSlot(6, 3, H(4));
             for (i = 0; i < 3; i++) {
                 if (B(i) != 0xff)
                     cnt++;
@@ -1520,7 +1521,7 @@ void func_021BC7FC(void *ctx, u8 *list)
 
     changed = 0;
     refresh = 0;
-    if (!func_021B8108(ctx, (void *)COMM_TVT_SYS_GetComm(ctx)))
+    if (!CTVT_COMM_IsNetReady(ctx, (void *)COMM_TVT_SYS_GetComm(ctx)))
         return;
     for (i = 0; i < 15; i++) {
         e = list + i * 0x24;
@@ -1546,7 +1547,7 @@ void func_021BC7FC(void *ctx, u8 *list)
                 b = func_02008550((const struct Sub0200852CObj *)p);
                 c = func_02008530((const struct Sub0200852CObj *)p);
                 OS_GetMacAddress(buf);
-                if (p->f21_1 == 0 || func_021B85D0((u8 *)p, buf) == 1)
+                if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
                     ok = func_021BD0A4(ctx, (u32_021BC7FC)list, a, c, b);
             } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
                 ok = func_021BD0A4(ctx, (u32_021BC7FC)list, (u32_021BC7FC)((u8 *)p + 0x1a), p->f4, p->bB_7);
@@ -1726,7 +1727,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         msgs = COMM_TVT_SYS_GetMsgData(ctx);
         sys = COMM_TVT_SYS_GetPrintQue(ctx);
         e = list + 0x1e4 + ((struct Obj02882 *)row)->f18 * 0x24;
-        ws = (u32_021BCC40)func_0201EC64(heap);
+        ws = (u32_021BCC40)GF_FONT_Create_EC64(heap);
         BMP_Clear((struct CharBuf *)((u32_021BCC40)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
         str = (u32_021BCC40)STRBUF_Create(0x20, heap);
         if (((struct Obj01166 *)e)->f18 == 0x20)
@@ -1769,7 +1770,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         } else {
             ((struct Obj01166 *)e)->fC = 0;
         }
-        func_0201ED04((struct WordSet *)ws);
+        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
         ((struct Obj02882 *)row)->f4 = 1;
     } else {
         func_02041B6C(func_021BCC40_show(((struct Obj02882 *)row)->f14));
@@ -1907,7 +1908,7 @@ void func_021BD038(void *ctx, char *st)
 
 int func_021BD0A4(void *ctx, u32_021BD0A4 unused, u32_021BD0A4 a, u32_021BD0A4 b, u32_021BD0A4 c)
 {
-    return func_02009D50((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(*((u32_021BD0A4 *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)a, b, c, 0);
+    return func_02009D50((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)(*((u32_021BD0A4 *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)a, b, c, 0);
 }
 
 #undef W
@@ -1991,7 +1992,7 @@ void func_021BD1AC(char *self)
     func_021BDBC4((u8 *)self);
     W(0x1d4) = (u32_021BD1AC)APP_TASKMENU_RES_Create(4, 7, W(0x1c8), W(0x1d0), H(0));
     W(0x1e0) = (u32_021BD1AC)CTVT_CAMVIEW_Create(self, H(0));
-    W(0x1e4) = (u32_021BD1AC)func_021B7BA8(self, H(0));
+    W(0x1e4) = (u32_021BD1AC)CTVT_COMM_Create(self, H(0));
     W(0x1e8) = (u32_021BD1AC)CTVT_TALK_Create(self, H(0));
     W(0x1ec) = (u32_021BD1AC)CTVT_DRAW_Create(self, H(0));
     W(0x1f0) = (u32_021BD1AC)func_021BBA6C((int)self, (void *)H(0));
@@ -2018,21 +2019,21 @@ void func_021BD1AC(char *self)
     GFL_NET_RestartWithDefaultTimeout(0, H(0));
     switch (*(u32_021BD1AC *)(W(0x1f8) + 4)) {
     case 0:
-        func_021B80DC((int)self, (char *)W(0x1e4), 3);
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 3);
         W(0xc) = 1;
         break;
     case 1:
-        func_021B80DC((int)self, (char *)W(0x1e4), 2);
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 2);
         W(0xc) = 2;
         break;
     case 2:
-        func_021B80DC((int)self, (char *)W(0x1e4), 4);
-        func_021B80EC((int)self, (char *)W(0x1e4), (const u8 *)(W(0x1f8) + 8));
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 4);
+        CTVT_COMM_SetConnectMac((int)self, (char *)W(0x1e4), (const u8 *)(W(0x1f8) + 8));
         W(0xc) = 2;
-        func_02028A70((struct SoundSys *)func_02012A30((const struct BigObj *)(*(u32_021BD1AC *)W(0x1f8))));
+        func_02028A70((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)(*(u32_021BD1AC *)W(0x1f8))));
         break;
     case 3:
-        func_021B80DC((int)self, (char *)W(0x1e4), 5);
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 5);
         W(0xc) = 2;
         break;
     }
@@ -2057,7 +2058,7 @@ void func_021BD3B8(u8 *p)
     func_021BBA88((int)p, ((struct Obj03855 *)p)->f1F0);
     CTVT_DRAW_Free((int)p, ((struct Obj03855 *)p)->f1EC);
     CTVT_TALK_Delete(p, *(char * *)&((struct Obj03855 *)p)->f1E8);
-    func_021B7DCC(p, (char *)(((struct Obj03855 *)p)->f1E4));
+    CTVT_COMM_Delete(p, (char *)(((struct Obj03855 *)p)->f1E4));
     CTVT_CAMVIEW_Delete((int)p, (char *)(((struct Obj03855 *)p)->f1E0));
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((struct Obj03855 *)p)->f1D4));
     func_021BDC70((u32_021BD3B8 *)p);
@@ -2083,7 +2084,7 @@ int func_021BD43C(char *ctx)
     s32 v;
     u8 pal;
 
-    func_021B7E34(ctx, (char *)F(0x1e4));
+    CTVT_COMM_Main(ctx, (char *)F(0x1e4));
     switch (F(8)) {
     case 1:
         F(0xc) = CTVT_TALK_Main(ctx, (struct S *)F(0x1e8));
@@ -2095,12 +2096,12 @@ int func_021BD43C(char *ctx)
         F(0xc) = CTVT_DRAW_Main(ctx, (char *)F(0x1ec));
         break;
     case 4:
-        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1) {
+        if (CTVT_COMM_IsSessionEnded((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1) {
             return 1;
         }
         return 0;
     case 5:
-        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1
+        if (CTVT_COMM_IsSessionEnded((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1
             && WIPE_SYS_EndCheck() == 1) {
             return 1;
         }
@@ -2186,7 +2187,7 @@ void func_021BD5D8(u8 *p)
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C7120);
-    func_0203F8F4(*(u16 *)p);
+    BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021C7050);
     func_021BD820((const struct BgTemplate *)d_021C70A0, 0, 0);
@@ -2198,8 +2199,8 @@ void func_021BD5D8(u8 *p)
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & 0x43) | 0x4484;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & 0x43) | 0x4A84;
     size = 0x18000;
-    MI_CpuFill8(func_0207E008(), 0, size);
-    MI_CpuFill8((void *)func_0207E100(), 0, size);
+    MI_CpuFill8(G2_GetBG2ScrPtr(), 0, size);
+    MI_CpuFill8((void *)G2_GetBG3ScrPtr(), 0, size);
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & ~3) | 1;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & ~3) | 2;
     func_02040588(2, 1);
@@ -2243,12 +2244,12 @@ void func_021BD7D0(void *a0)
     func_020403F4(1);
     func_020403F4(0);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type)
 {
-    func_0203FCA0(bgId, tmpl, type);
+    BG_SYS_InitBgLayer(bgId, tmpl, type);
     func_02040588(bgId, 1);
     func_020414AC(bgId);
     func_020409B4(bgId);
@@ -2384,7 +2385,7 @@ void func_021BDCB8(u8 *p)
         WIPE_SetBrightnessFadeOut(0,0);
         WIPE_SetBrightnessFadeOut(1,0);
     case 4:
-        func_021B8084(p,*(char **)(p+0x1e4));
+        CTVT_COMM_StopSession(p,*(char **)(p+0x1e4));
         CTVT_CAMVIEW_StopCapture((int)p,*(char **)(p+0x1e0));
         CTVT_CAMVIEW_RequestShutterSound1((int)p,*(char **)(p+0x1e0));
         break;
@@ -2405,13 +2406,13 @@ void func_021BDD6C(u8 *p)
     }
     r = COMM_TVT_SYS_GetLayoutMode(p);
     for (i = found; i < 4; i++) {
-        if (func_021B8BA4((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
-        if (func_021B8B8C((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
+        if (CTVT_COMM_IsSlotActive((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
+        if (CTVT_COMM_GetSlotConnected((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
         if (CTVT_CAMVIEW_IsWindowMoving((int)p, *(char * *)&((struct Obj02215 *)p)->f1E0, i) != 0) continue;
         m = 1 << i;
         if (m & p[0x1b4]) continue;
         {
-            char *k = func_021B8B94((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i);
+            char *k = CTVT_COMM_GetSlotParam((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i);
             if (r == 1) {
                 if (i == 0) b = 2; else b = 3;
             } else {
@@ -2434,7 +2435,7 @@ void func_021BDD6C(u8 *p)
         found = 1;
     }
     if (found == 1) {
-        u8 v = func_021B8B68((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4);
+        u8 v = CTVT_COMM_GetMarkerSlot((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4);
         if (v != 0xff) {
             COMM_TVT_SYS_PlaceSlotMarker((char *)p, v);
         }

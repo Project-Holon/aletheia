@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   EFFECT_ENCOUNT_CreateEffectObj  0x021AAFC0  thumb
  *   MI_CpuFill8  0x02082BCC  arm
@@ -38,14 +38,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void EFFECT_ENCOUNT_CreateEffectObj(Self *self, int a, Ent *e);
 extern void MI_CpuFill8(void *p, int v, unsigned long n);
 
 void EFFECT_ENCOUNT_RestoreSpot(Self *self, int a)
 {
-    Ent *e = (Ent *)(func_02012A38(self->obj) + 0x10);
+    Ent *e = (Ent *)(GAME_DATA_GetFieldGimmick(self->obj) + 0x10);
     unsigned short id;
 
     if (e->flags == 0 || e->f4 == 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_02061908
+ * function: NNS_GfdFuncLoadClearImageDepth
  * address:  0x02061908
  * packet:   pkt_020618E4
  * region:   arm9
@@ -14,12 +14,12 @@
  * PARKED AT MATCH: every concrete byte is right; the PC24 at +0x0018 is
  * wildcarded because 0x0207FC48 (GX_LoadClearImageDepth) has exactly one
  * branch reference image wide and it is that call.  Same class and same
- * unblock as src/pending/func_020618E4.c: label/matched, no outside witness.
+ * unblock as src/pending/NNS_GfdFuncLoadClearImageColor.c: label/matched, no outside witness.
  * The `*` is disasm.py's extent for the original running past the leaf.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02061908.c \
- *       --func func_02061908 --addr 0x02061908 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNS_GfdFuncLoadClearImageDepth.c \
+ *       --func NNS_GfdFuncLoadClearImageDepth --addr 0x02061908 --arm --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -28,7 +28,7 @@ extern void func_0207FB2C(void);
 extern void func_0207FC48(u32 a, u32 c);
 extern void func_0207FCE4(void);
 
-void func_02061908(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c)
 {
     func_0207FB2C();
     func_0207FC48(a, c);

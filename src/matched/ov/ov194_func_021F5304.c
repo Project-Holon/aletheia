@@ -1,5 +1,5 @@
 /*
- * function: func_021F5304
+ * function: PROF_WORD_Create
  * address: 0x021F5304
  * packet: pkt_ov194_021F5304
  * region: ov194
@@ -20,7 +20,7 @@ extern const char d_021F57B8[];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern int ARC_UTIL_LoadMemberWithSize(int, int, int, int, unsigned *);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
-Resources *func_021F5304(unsigned short heap)
+Resources *PROF_WORD_Create(unsigned short heap)
 {
     int i;
     Resources *p;

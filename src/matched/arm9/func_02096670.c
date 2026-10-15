@@ -1,5 +1,5 @@
 /*
- * function: func_02096670
+ * function: MSL_C_LIB_SetPrecision
  * address:  0x02096670
  * packet:   pkt_02096670
  * region:   arm9
@@ -14,14 +14,14 @@
  *
  * symbols:
  *   func_020965B4    0x020965B4  arm
- *   func_02096620    0x02096620  arm
+ *   MSL_C_LIB_IncrementDigits    0x02096620  arm
  *
  * Clamps the new value against the count byte at +4, records it and, when the
  * worker returns non-negative, propagates it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02096670.c \
- *       --func func_02096670 --addr 0x02096670 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_SetPrecision.c \
+ *       --func MSL_C_LIB_SetPrecision --addr 0x02096670 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -33,9 +33,9 @@ typedef struct {
 } Obj02096670;
 
 extern int func_020965B4(u8 *p, int i);
-extern void func_02096620(u8 *p, int idx);
+extern void MSL_C_LIB_IncrementDigits(u8 *p, int idx);
 
-void func_02096670(Obj02096670 *p, int v)
+void MSL_C_LIB_SetPrecision(Obj02096670 *p, int v)
 {
     int r;
 
@@ -50,5 +50,5 @@ void func_02096670(Obj02096670 *p, int v)
     if (r < 0) {
         return;
     }
-    func_02096620((u8 *)p, v);
+    MSL_C_LIB_IncrementDigits((u8 *)p, v);
 }

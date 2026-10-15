@@ -1,5 +1,5 @@
 /*
- * function: func_021FD52C
+ * function: STA_NET_BeginTransfer
  * address:  0x021FD52C
  * packet:   pkt_ov132_021FD52C
  * region:   ov132
@@ -24,7 +24,7 @@ typedef struct S {
     int f17c;
 } S;
 
-void func_021FD52C(S *s)
+void STA_NET_BeginTransfer(S *s)
 {
     if (s->f150 == 0) {
         s->f150 = 1;

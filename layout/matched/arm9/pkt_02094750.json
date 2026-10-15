@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020948E0",
+   "name": "strcmp",
    "address": "0x020948E0",
    "kind": "game",
    "region": "arm9",

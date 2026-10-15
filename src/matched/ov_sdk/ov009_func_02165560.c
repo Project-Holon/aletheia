@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   WCMi_SetPhase  0x02165A4C  arm  ov009
- *   func_02166C44  0x02166C44  arm  ov009
+ *   WCMi_WmifTerminateAsync  0x02166C44  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifTerminateAsync  0x02731D6C  arm  twl
  *   g_021AA7D4     0x021AA7D4  data ov009
@@ -40,7 +40,7 @@ extern struct WcmState {
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void WCMi_SetPhase(unsigned char phase);
-extern long func_02166C44(void);
+extern long WCMi_WmifTerminateAsync(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifTerminateAsync();
 
@@ -79,7 +79,7 @@ long WCM_TerminateAsync(void)
         } else {
             switch (g_021AA7D4.wcmw->deviceId) {
             case 1:
-                wcmResult = func_02166C44();
+                wcmResult = WCMi_WmifTerminateAsync();
                 break;
             case 2:
                 if (OS_IsRunOnTwl()) {

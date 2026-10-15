@@ -1,5 +1,5 @@
 /*
- * function: func_0205BE00
+ * function: DWC_AC_GetApSpotInfo
  * address:  0x0205BE00
  * packet:   pkt_0205BE00
  * region:   arm9
@@ -139,7 +139,7 @@ static struct {
 extern u8 DWCi_AC_GetPhase(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 
-BOOL func_0205BE00(u8 *apSpotInfo)
+BOOL DWC_AC_GetApSpotInfo(u8 *apSpotInfo)
 {
     BOOL result = 0;
     u8 phase = DWCi_AC_GetPhase();

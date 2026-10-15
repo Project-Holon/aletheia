@@ -1,5 +1,5 @@
 /*
- * function: func_021B98F4
+ * function: STAFF_ROLL_SetupVramBanks
  * address:  0x021B98F4
  * packet:   pkt_ov181_021B98F4
  * region:   ov181
@@ -21,7 +21,7 @@ struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern int  d_021BABFC[];
 
-void func_021B98F4(void)
+void STAFF_ROLL_SetupVramBanks(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BABFC);

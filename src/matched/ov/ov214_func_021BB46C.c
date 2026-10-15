@@ -1,5 +1,5 @@
 /*
- * function: func_021BB46C
+ * function: BTL_REC_SEL_GRAPHIC_DrawG3dEnd
  * address: 0x021BB46C
  * packet: pkt_ov214_021BB46C
  * region: ov214
@@ -12,4 +12,4 @@
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 extern void G3D_SYSTEM_DrawEnd(void);
-void func_021BB46C(void *a0) { G3D_SYSTEM_DrawEnd(); }
+void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *a0) { G3D_SYSTEM_DrawEnd(); }

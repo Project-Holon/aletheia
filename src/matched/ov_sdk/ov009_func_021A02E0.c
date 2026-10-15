@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   FreeKeyList  0x021A027C  arm  ov009
  *   FreePopularValues  0x021A0238  arm  ov009
  */
@@ -29,7 +29,7 @@ struct SBL {
 	int sock;
 };
 extern void func_0217EAE0(void *p);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern void FreeKeyList(struct SBL *slist);
 extern void FreePopularValues(char *slist);
 void SBServerListDisconnect(struct SBL *slist)
@@ -39,7 +39,7 @@ void SBServerListDisconnect(struct SBL *slist)
 	slist->errstr = 0;
 	slist->errlen = 0;
 	if (slist->sock != -1)
-		func_0217EB2C(slist->sock);
+		closesocket(slist->sock);
 	slist->sock = -1;
 	slist->state = 1;
 	FreeKeyList(slist);

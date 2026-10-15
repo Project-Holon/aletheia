@@ -19,9 +19,9 @@
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   CTVT_CAMVIEW_SetCameraEffect 0x021B7B3C thumb ov172
  *   CTVT_MIC_IsCaptureDone 0x021BA270 thumb ov172
- *   func_021B8B5C 0x021B8B5C thumb ov172
- *   func_021B8B68 0x021B8B68 thumb ov172
- *   func_021B8740 0x021B8740 thumb ov172
+ *   CTVT_COMM_GetHandleNetId 0x021B8B5C thumb ov172
+ *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
+ *   CTVT_COMM_SendCommand 0x021B8740 thumb ov172
  *   CTVT_TALK_HitCenter 0x021B9F4C thumb ov172
  *   COMM_TVT_SYS_ToggleViewSwapped 0x021BE0B8 thumb ov172
  *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
@@ -48,9 +48,9 @@ extern u32 COMM_TVT_SYS_GetViewSwapped(void *);
 extern u32 COMM_TVT_SYS_GetCamView(void *);
 extern void CTVT_CAMVIEW_SetCameraEffect(int x, int y, int z);
 extern int CTVT_MIC_IsCaptureDone(void *p);
-extern u32 func_021B8B5C(void *, u32);
-extern u8 func_021B8B68(int unused, char *p);
-extern u32 func_021B8740(int a, int b, u8 c, u32 d);
+extern u32 CTVT_COMM_GetHandleNetId(void *, u32);
+extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
+extern u32 CTVT_COMM_SendCommand(int a, int b, u8 c, u32 d);
 extern int CTVT_TALK_HitCenter(int a, int b, int mode);
 extern void COMM_TVT_SYS_ToggleViewSwapped(void *);
 extern u32 COMM_TVT_SYS_GetSelfSlot(void *);
@@ -84,15 +84,15 @@ void CTVT_TALK_HandleInput(u8 *c, u8 *q)
     if (b == 1 || CTVT_MIC_IsCaptureDone((void *)(*(u32 *)(q + 0x10))) == 0) {
         *(int *)(q + 0xa4) = 2;
     } else {
-        u32 t = func_021B8B5C(c, a);
-        u32 u = func_021B8B68((int)c, (char *)a);
+        u32 t = CTVT_COMM_GetHandleNetId(c, a);
+        u32 u = CTVT_COMM_GetMarkerSlot((int)c, (char *)a);
         if (u != 0xff) {
             if (u == t) {
                 u32 k = q[0xc];
                 if (k) {
                     k--;
                     q[0xc] = k;
-                } else if (func_021B8740((int)c, a, 9, 0) == 1) {
+                } else if (CTVT_COMM_SendCommand((int)c, a, 9, 0) == 1) {
                     q[0xc] = 8;
                 }
             }

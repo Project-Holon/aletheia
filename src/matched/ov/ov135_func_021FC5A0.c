@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200ADB4 0x0200ADB4 thumb
+ *   WORLDTRADE_NoOp 0x0200ADB4 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   WORLDTRADE_DETAIL_PrintMessage 0x021FC810 thumb ov135
@@ -19,7 +19,7 @@
 #include "../include/Obj00018.h"
 
 typedef unsigned int u32;
-extern void *func_0200ADB4(void *);
+extern void *WORLDTRADE_NoOp(void *);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 int WORLDTRADE_DETAIL_StateMainInput(char *p)
 {
     void *q;
-    q = func_0200ADB4(**(void ** *)&((struct Obj00018 *)p)->f0);
+    q = WORLDTRADE_NoOp(**(void ** *)&((struct Obj00018 *)p)->f0);
     if ((KEY_GetTrg() & 1) || TOUCHPANEL_GetTrg()) {
         WORLDTRADE_DETAIL_PrintMessage((u8 *)p, 5, 1, 0, 0xf0f, q);
         WORLDTRADE_SetNextState((u8 *)p, 3, 7);

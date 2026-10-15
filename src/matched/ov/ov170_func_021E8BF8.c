@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02007A80 0x02007A80 thumb
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
@@ -22,7 +22,7 @@
 #include "../include/Obj00000.h"
 
 struct Sound;
-extern int func_02025DE8(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_02007A80(void *save, unsigned bits);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
@@ -36,7 +36,7 @@ extern int BOX2_SEQ_SetSeqSecond(char *p, int a);
 
 int BOX2_SEQ_StateClosePmVoiceB(unsigned char *p)
 {
-    switch ((unsigned)func_02025DE8(*(void **)(WORK(p) + 0x70))) {
+    switch ((unsigned)CURSOR_MOVE_PollRepeatInput(*(void **)(WORK(p) + 0x70))) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         if (SEL(p) == 0) {

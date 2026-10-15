@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *
  * Re-arm the object: clear both the +4 and +0x18 ranges, store the +0x14
  * count and set the live flag at +0.
  */
 
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 
 void sakeSetGame(char *p, int b, int c, int d)
 {
-    func_02094798(p + 4, (const char *)b);
-    func_02094798(p + 0x18, (const char *)d);
+    strcpy(p + 4, (const char *)b);
+    strcpy(p + 0x18, (const char *)d);
     *(int *)(p + 0x14) = c;
     *(int *)p = 1;
 }

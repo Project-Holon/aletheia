@@ -1,5 +1,5 @@
 /*
- * function: func_02168ECC
+ * function: DWCi_GPRecvBuddyRequestCallback
  * address:  0x02168ECC
  * packet:   pkt_ov009_02168ECC
  * region:   ov009
@@ -24,7 +24,7 @@ extern int func_02185BD8(void **connection, int profile, int checkCache, int blo
                          void (*callback)(void **, void *, void *), void *param);
 extern void func_02169BB0(void **connection, void *arg);
 
-void func_02168ECC(void **connection, int *arg)
+void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg)
 {
     if (*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x18) == 0) return;
     func_02185BD8(connection, *arg, 0, 0, (void (*)(void **, void *, void *))func_02169BB0, 0);

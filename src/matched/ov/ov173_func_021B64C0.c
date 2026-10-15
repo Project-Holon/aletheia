@@ -1,5 +1,5 @@
 /*
- * function: func_021B64C0
+ * function: POKE_SUMMARY_MAIN_SetVramBanks
  * address:  0x021B64C0
  * packet:   pkt_021B64C0
  * region:   ov173
@@ -16,7 +16,7 @@
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_021B64C0(void)
+void POKE_SUMMARY_MAIN_SetVramBanks(void)
 {
     BG_SYS_SetVramBanks((void *)0x021B8250);
 }

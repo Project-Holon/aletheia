@@ -27,9 +27,9 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalCaughtComplete  0x0200D298  thumb
  *   func_0200DBA0  0x0200DBA0  thumb
- *   func_0200A73C  0x0200A73C  thumb
- *   func_0200BDF8  0x0200BDF8  thumb
- *   func_0200BDFC  0x0200BDFC  thumb
+ *   MUSICAL_SAVE_HasAllProps  0x0200A73C  thumb
+ *   INTRUDE_GetMissionScore  0x0200BDF8  thumb
+ *   INTRUDE_GetMissionBonusScore  0x0200BDFC  thumb
  */
 
 typedef unsigned short u16;
@@ -48,9 +48,9 @@ extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern void *ZUKAN_SAVE_GetFromGameData(void *save);
 extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *p);
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
-extern u32 func_0200A73C(struct Big *p);
-extern u16 func_0200BDF8(struct Rec1B0 *p);
-extern u16 func_0200BDFC(struct Rec1B0 *p);
+extern u32 MUSICAL_SAVE_HasAllProps(struct Big *p);
+extern u16 INTRUDE_GetMissionScore(struct Rec1B0 *p);
+extern u16 INTRUDE_GetMissionBonusScore(struct Rec1B0 *p);
 
 int TRCARD_SYS_CountStars(void *save)
 {
@@ -69,9 +69,9 @@ int TRCARD_SYS_CountStars(void *save)
         n++;
     if (func_0200DBA0(a, 7, 0) && func_0200DBA0(a, 8, 0))
         n++;
-    if (func_0200A73C(b))
+    if (MUSICAL_SAVE_HasAllProps(b))
         n++;
-    if (func_0200BDF8(c) >= 30 && func_0200BDFC(c) >= 30)
+    if (INTRUDE_GetMissionScore(c) >= 30 && INTRUDE_GetMissionBonusScore(c) >= 30)
         n++;
     return n;
 }

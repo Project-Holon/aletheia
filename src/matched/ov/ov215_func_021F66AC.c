@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F66AC,func_021F66C0
+ * function: EGG_DEMO_GRAPHIC_DrawG3d,EGG_DEMO_GRAPHIC_DrawG3dEnd
  * address: 0x021F66AC
  * packet: pkt_ov215_021F66AC
  * region: ov215
@@ -9,7 +9,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * extent: includes cleared tiny follower func_021F66C0; no further code included.
+ * extent: includes cleared tiny follower EGG_DEMO_GRAPHIC_DrawG3dEnd; no further code included.
  * symbols:
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -22,5 +22,5 @@ extern void G3D_SYSTEM_DrawStart(void *);
 extern void G3D_CAMERA_Reset(struct Light *);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
-void func_021F66AC(void *p){G3D_SYSTEM_DrawStart(p);G3D_CAMERA_Reset(*(struct Light * *)&((struct Obj25755 *)p)->f0);G3D_SYSTEM_ApplyLookAt();}
-void func_021F66C0(void *p){G3D_SYSTEM_DrawEnd();}
+void EGG_DEMO_GRAPHIC_DrawG3d(void *p){G3D_SYSTEM_DrawStart(p);G3D_CAMERA_Reset(*(struct Light * *)&((struct Obj25755 *)p)->f0);G3D_SYSTEM_ApplyLookAt();}
+void EGG_DEMO_GRAPHIC_DrawG3dEnd(void *p){G3D_SYSTEM_DrawEnd();}

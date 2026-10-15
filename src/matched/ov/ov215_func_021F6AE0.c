@@ -1,5 +1,5 @@
 /*
- * function: func_021F6AE0
+ * function: EGG_DEMO_VIEW_DeleteMcss
  * address: 0x021F6AE0
  * packet: pkt_ov215_021F6AE0
  * region: ov215
@@ -14,4 +14,4 @@
 #include "../include/Obj25760.h"
 typedef unsigned char u8;
 extern void MCSS_Exit(u8 *);
-void func_021F6AE0(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}
+void EGG_DEMO_VIEW_DeleteMcss(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}

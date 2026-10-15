@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201EC64"
+    "GF_FONT_Create_EC64"
+   ],
+   "addresses": [
+    "0x0201EC64"
    ]
   },
   {
@@ -45,28 +48,52 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201ED04",
-    "func_0201ED50",
+    "WORDSET_DeleteStrbufED04",
+    "WORDSET_Init",
     "func_0201ED64",
     "func_0201ED84",
     "func_0201EDD0",
     "func_0201EE0C",
-    "func_0201EE60",
+    "WORDSET_Callback",
     "func_0201EE84",
     "func_0201EEA4",
-    "func_0201EEC4",
+    "WORDSET_Callback_EEC4",
     "func_0201EED4",
     "func_0201EEF4",
     "func_0201EF14",
     "func_0201EF34",
-    "func_0201EF40",
-    "func_0201EF4C",
+    "WORDSET_Callback_EF40",
+    "WORDSET_Callback_EF4C",
     "func_0201EF5C",
     "func_0201EF6C",
     "func_0201EF8C",
     "func_0201EF98",
     "func_0201EFA4",
     "func_0201EFC8"
+   ],
+   "addresses": [
+    "0x0201ED04",
+    "0x0201ED50",
+    "0x0201ED64",
+    "0x0201ED84",
+    "0x0201EDD0",
+    "0x0201EE0C",
+    "0x0201EE60",
+    "0x0201EE84",
+    "0x0201EEA4",
+    "0x0201EEC4",
+    "0x0201EED4",
+    "0x0201EEF4",
+    "0x0201EF14",
+    "0x0201EF34",
+    "0x0201EF40",
+    "0x0201EF4C",
+    "0x0201EF5C",
+    "0x0201EF6C",
+    "0x0201EF8C",
+    "0x0201EF98",
+    "0x0201EFA4",
+    "0x0201EFC8"
    ]
   },
   {

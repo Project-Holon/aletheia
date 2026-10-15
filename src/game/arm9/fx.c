@@ -1,7 +1,7 @@
 /*
  * file:     fx.c
  * unit:     yes
- * function: FX_Init, func_0207D14C
+ * function: FX_Init, FX_Modf
  * address:  0x0207D148
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -22,12 +22,12 @@ typedef short fx16;
 typedef unsigned short u16;
 
 void FX_Init(void);
-fx32 func_0207D14C(fx32 x, fx32 *iPtr);
+fx32 FX_Modf(fx32 x, fx32 *iPtr);
 
 void FX_Init(void){ }
 
 
-fx32 func_0207D14C(fx32 x, fx32 *iPtr)
+fx32 FX_Modf(fx32 x, fx32 *iPtr)
 {
     if (x >= 0) {
         *iPtr = x & 0x7ffff000;

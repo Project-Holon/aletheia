@@ -1,5 +1,5 @@
 /*
- * function: func_0216A42C
+ * function: DWCi_CloseLogin
  * address:  0x0216A42C
  * packet:   pkt_ov009_0216A42C
  * region:   ov009
@@ -21,7 +21,7 @@
 extern char *stpLoginCnt;
 extern void DWCi_Auth_ShutdownAuthentication(void);
 
-void func_0216A42C(void)
+void DWCi_CloseLogin(void)
 {
     if (stpLoginCnt == 0) return;
     DWCi_Auth_ShutdownAuthentication();

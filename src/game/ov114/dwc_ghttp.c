@@ -33,6 +33,7 @@
  *   ghttpCancelRequest  0x021C22A4  arm  ov114
  *   gDwcGhttpParamList    0x021D3B20  data  ov114
  *   sDwcGhttpRootCaList  0x021CE544  data
+ *   DWCi_IsError  0x02059F38  arm  arm9
  */
 #include "ghttp_types.h"
 #include "dwc_ghttp_types.h"
@@ -41,7 +42,7 @@ extern int ghttpSetRootCAList(char *url, void *rootCAList);
 extern int ghttpCleanupRootCAList(char *url);
 extern void ghttpStartup(void);
 extern void ghttpCleanup(void);
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern void ghttpThink(void);
 extern void DWCi_RemoveAllDWCGHTTPParamEntry(void);
 extern void DWC_Free(int name, void *ptr, int size);
@@ -114,7 +115,7 @@ int DWC_ShutdownGHTTP(void)
 
 int DWC_ProcessGHTTP(void)
 {
-    if (func_02059F38() != 0)
+    if (DWCi_IsError() != 0)
         return 0;
     ghttpThink();
     return 1;
@@ -189,7 +190,7 @@ int DWCi_GHTTPGetEx(char *url, int bufferLen, int bufferClear, GHIPost **post,
     DWCGHTTPParamEntry *entry;
     DWCGHTTPParam paramInstance;
 
-    if (func_02059F38())
+    if (DWCi_IsError())
         return -1;
     paramInstance.param = param;
     paramInstance.completedCallback = completedCallback;

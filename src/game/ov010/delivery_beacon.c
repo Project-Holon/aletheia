@@ -21,7 +21,7 @@
  *   gDeliveryBeaconAssertText 0x021727F0 data a4
  *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
  *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
  *   func_0203F328  0x0203F328  arm
@@ -88,7 +88,7 @@ extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 index);
 extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
 extern void func_0203F328(u16 *data, u32 size, u32 seed);
@@ -244,7 +244,7 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
                 continue;
             if (work->slots[0][pieceIndex].pieceNumber != 0)
                 continue;
-            crc = func_0203F1FC(entry->data, DELIVERY_BEACON_PIECE_SIZE);
+            crc = GF_STANDARD_SetupCalc(entry->data, DELIVERY_BEACON_PIECE_SIZE);
             if (crc != entry->checksum) {
                 NET_WHPIPE_ReleaseEntrySlot(i);
             } else {

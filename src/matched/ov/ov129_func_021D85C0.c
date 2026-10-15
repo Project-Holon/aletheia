@@ -29,7 +29,7 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   PALANM_Create 0x02021518 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -61,7 +61,7 @@ extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void * PALANM_Create(u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
@@ -94,7 +94,7 @@ int func_021D85C0(void *obj,void *unused,const Param *cfg)
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
     *(void **)(p+0x258)=func_020490F4(59,50);
-    func_0203F8F4(50); BMP_WIN_Init(50);
+    BG_SYS_Create(50); BMP_WIN_Init(50);
     *(void **)(p+0x290)=PALANM_Create(50);
     *(void **)(p+0x314)=GF_FONT_Create(23,0,0,0,50);
     PALANM_SetAutoTransfer(*(void **)(p+0x290),1);

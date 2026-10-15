@@ -1,5 +1,5 @@
 /*
- * function: func_021BC280
+ * function: ZUKAN_SEARCH_PROC_Delete
  * address: 0x021BC280
  * packet: pkt_ov211_021BC280
  * region: ov211
@@ -13,4 +13,4 @@
  *   func_020306F0 0x020306F0 arm
  */
 struct S020315D4;extern void func_020315D4(struct S020315D4 *);extern void func_020306F0(unsigned int);
-int func_021BC280(struct S020315D4 *p){func_020315D4(p);func_020306F0(126);return 1;}
+int ZUKAN_SEARCH_PROC_Delete(struct S020315D4 *p){func_020315D4(p);func_020306F0(126);return 1;}

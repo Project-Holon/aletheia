@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BD98, func_0200BDA0, func_0200BDB0
+ * function: DAYCARE_GetSize, DAYCARE_Init, DAYCARE_GetFromSave
  *
  * 36 bytes, 0x0200BD98..0x0200BDBC, 3 functions, none of which carries a
  * label in the generated listing.
@@ -42,17 +42,17 @@ struct Blk32 {
     u8 unk000[0x1CC];
 };
 
-u32 func_0200BD98(void)
+u32 DAYCARE_GetSize(void)
 {
     return sizeof(struct Blk32);
 }
 
-void func_0200BDA0(struct Blk32 *p)
+void DAYCARE_Init(struct Blk32 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk32));
 }
 
-void *func_0200BDB0(void *sys)
+void *DAYCARE_GetFromSave(void *sys)
 {
     return func_020071CC(sys, 0x32);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0205F72C",
+   "name": "NCFG_ReadBackupMemory",
    "address": "0x0205F72C",
    "kind": "sdk",
    "region": "arm9",

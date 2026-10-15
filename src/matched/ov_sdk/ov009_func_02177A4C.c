@@ -21,9 +21,9 @@
  *   DWC_GetMyAID                                0x0216B838 arm
  *   DWCi_SendUnreliable                         0x02177848 arm
  *   OS_GetTick                                  0x020870D0 arm
- *   g_021A234C                                  0x021A234C data
- *   g_021A2348                                  0x021A2348 data
- *   g_021AB180                                  0x021AB180 data
+ *   gDwcTransMatchMagic                                  0x021A234C data
+ *   gDwcTransForwardMagic                                  0x021A2348 data
+ *   gDwcTransInfo                                  0x021AB180 data
  */
 
 extern unsigned char DWCi_GetConnectionAID(void *connection);
@@ -37,11 +37,11 @@ extern unsigned char DWC_GetMyAID(void);
 extern void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo,
     unsigned char *buffer, int size, int fromDWC_SendUnreliable);
 extern unsigned long long OS_GetTick(void);
-extern char g_021A234C[];
-extern char g_021A2348[];
-extern char g_021AB180[];
+extern char gDwcTransMatchMagic[];
+extern char gDwcTransForwardMagic[];
+extern char gDwcTransInfo[];
 
-#define sTransInfo (*(char **)g_021AB180)
+#define sTransInfo (*(char **)gDwcTransInfo)
 
 void DWCs_HandleUnreliableMessage(void *connection, void *message, int size)
 {
@@ -60,11 +60,11 @@ void DWCs_HandleUnreliableMessage(void *connection, void *message, int size)
         DWCi_SetError(6, 0xfffe8298);
         return;
     }
-    if (size >= 0x14u && strncmp(message, g_021A234C, 4) == 0) {
+    if (size >= 0x14u && strncmp(message, gDwcTransMatchMagic, 4) == 0) {
         DWCi_HandleGT2UnreliableMatchCommandMessage(message, size);
         return;
     }
-    if (size >= 8 && memcmp(message, g_021A2348, 3) == 0)
+    if (size >= 8 && memcmp(message, gDwcTransForwardMagic, 3) == 0)
         headerAvailable = 1;
     if (headerAvailable == 1) {
         aidFrom = ((unsigned char *)message)[3];

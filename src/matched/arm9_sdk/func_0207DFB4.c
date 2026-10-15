@@ -1,5 +1,5 @@
 /*
- * function: func_0207DFB4
+ * function: G2_GetBG1ScrPtr
  * address:  0x0207DFB4
  * packet:   pkt_0207DFB4
  * region:   arm9
@@ -28,7 +28,7 @@ static inline int GetScreenBase(void)
     return (reg_G2_BGCNT & 0x1F00) >> 8;
 }
 
-void *func_0207DFB4(void)
+void *G2_GetBG1ScrPtr(void)
 {
     int screenBase = GetScreenBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x38000000) >> 27);

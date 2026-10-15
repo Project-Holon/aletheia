@@ -1,5 +1,5 @@
 /*
- * function: func_0205C018
+ * function: DWCi_AC_InvalidatePriorityWPA
  * address:  0x0205C018
  * packet:   pkt_0205C018
  * region:   arm9
@@ -24,11 +24,11 @@ typedef struct tagACWORK {
     unsigned char wpaSetting : 1;
 } tagACWORK;
 
-extern void *func_0205C214(unsigned long name);
+extern void *DWCi_AC_GetMemPtr(unsigned long name);
 
-void func_0205C018(void)
+void DWCi_AC_InvalidatePriorityWPA(void)
 {
-    tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
+    tagACWORK *wk = (tagACWORK *)DWCi_AC_GetMemPtr(0x10);
 
     wk->wpaSetting = 0;
 }

@@ -16,26 +16,26 @@
  *
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0218FB14  0x0218FB14  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_021867E8  0x021867E8  arm  ov009
  *   func_02186788  0x02186788  arm  ov009
  *   SocketStartUp  0x0217F25C  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_020946C8  0x020946C8  arm
+ *   current_time  0x0217F264  arm  ov009
+ *   srand  0x020946C8  arm
  */
 
 extern void *func_0217EAB0(int size);
 typedef unsigned int   u32;
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern int   func_0218FB14(void **pp);
 extern void  func_0217EAE0(void *p);
 extern int   func_021867E8(void **pp);
 extern void  func_02186788(void **pp);
 extern void  SocketStartUp(void);
-extern unsigned int func_0217F264(void);
-extern void  func_020946C8(void);
+extern unsigned int current_time(void);
+extern void  srand(void);
 
 int func_02186664(void **out, int a1, int a2, int a3)
 {
@@ -46,7 +46,7 @@ int func_02186664(void **out, int a1, int a2, int a3)
     p = func_0217EAB0(0x638);
     if (p == 0)
         return 1;
-    func_020923B0(p, 0, 0x638);
+    MSL_C_LIB_MemsetPtr(p, 0, 0x638);
     p[0] = 0;
     *(int *)(p + 0x5b8) = 0;
     *(int *)(p + 0x100) = 1;
@@ -75,8 +75,8 @@ int func_02186664(void **out, int a1, int a2, int a3)
     }
 
     SocketStartUp();
-    func_0217F264();
-    func_020946C8();
+    current_time();
+    srand();
     *out = p;
     return 0;
 }

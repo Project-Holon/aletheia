@@ -13,7 +13,7 @@
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -33,7 +33,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, u32, u32, u32, u16, u32, u32, u16);
 extern void func_020403F4(u32 i);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204047C(int idx, unsigned short val);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -50,7 +50,7 @@ void POKETRADE_2D_SetupCursorBg(char *p)
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 7, 5, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     t = d_021E7E44;
     func_020403F4(7);
-    func_0203FCA0(7, &t, 0);
+    BG_SYS_InitBgLayer(7, &t, 0);
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 8, 7, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     func_02040618(4, 0, -0x80);
     func_02040618(7, 0, 0);

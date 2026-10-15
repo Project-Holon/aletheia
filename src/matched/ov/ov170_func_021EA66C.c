@@ -18,9 +18,9 @@
  *   BOX2_SEQ_MoveActorToSlot 0x021ED164 thumb
  *   BOX2_SEQ_SetSlotCharacter 0x021ED094 thumb
  *   BOX2_SEQ_CreateHandSlotActorsB 0x021ED1C8 thumb
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_MoveCursorBetweenIcons 0x021EEF74 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_SEQ_SetState 0x021E8FE0 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
  *   BOX2_MAIN_Check0A40 0x021E0A40 thumb
@@ -81,8 +81,8 @@ extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern void BOX2_SEQ_CreateB(void *p);
 extern void BOX2_SEQ_SetActorAnim(Obj *p, int v);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
-extern u8 func_020260E0(struct Sound *obj);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
 extern int BOX2_MAIN_StateMachineCoin(unsigned char *p);
 extern int BOX2_MAIN_Check0A40(char *p);
@@ -105,11 +105,11 @@ int BOX2_SEQ_SetCursorMoveB(Obj *p, int i)
         BOX2_SEQ_MoveActorToSlot(p->work, p->b16, 1);
         BOX2_SEQ_SetSlotCharacter(p->work, CNT(p));
         BOX2_SEQ_CreateHandSlotActorsB(p->work);
-        BOX2_UI_MoveCursorBetweenIcons(p->work, 9, func_020260E0(OBJ(p)));
-        func_020260E4(OBJ(p), 9);
+        BOX2_UI_MoveCursorBetweenIcons(p->work, 9, CURSOR_MOVE_GetCurrent(OBJ(p)));
+        CURSOR_MOVE_SetCurrent(OBJ(p), 9);
     } else {
-        BOX2_UI_MoveCursorBetweenIcons(p->work, 10, func_020260E0(OBJ(p)));
-        func_020260E4(OBJ(p), 10);
+        BOX2_UI_MoveCursorBetweenIcons(p->work, 10, CURSOR_MOVE_GetCurrent(OBJ(p)));
+        CURSOR_MOVE_SetCurrent(OBJ(p), 10);
     }
     return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_Check0A40, BOX2_SEQ_SetState((char *)p, 0x46));
 }

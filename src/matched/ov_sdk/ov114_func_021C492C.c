@@ -16,11 +16,11 @@
  *   ghiDoReceive  0x021C04D4  arm  ov114
  *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
  *   ghiDecryptReceivedData  0x021C0378  arm  ov114
- *   func_02094B20  0x02094B20  arm
+ *   strstr  0x02094B20  arm
  *   ghiParseStatus  0x021C4830  arm  ov114
  *   ghiResetBuffer  0x021C00FC  arm  ov114
  *   ghiCallProgressCallback  0x021C02C8  arm  ov114
- *   func_0217ED54  0x0217ED54  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
  *   sGhttpReceivingStatus     0x021CF220  data
  *   sGhttpLineEndProcess     0x021CF194  data
  *   sGhttpGotHttpContinue     0x021CF234  data
@@ -62,11 +62,11 @@ struct GHIConnection;
 extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
 extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
 extern int ghiDecryptReceivedData(struct GHIConnection *connection);
-extern char *func_02094B20(const char *s, const char *find);
+extern char *strstr(const char *s, const char *find);
 extern int ghiParseStatus(struct GHIConnection *connection);
 extern void ghiResetBuffer(GHIBuffer *buffer);
 extern void ghiCallProgressCallback(struct GHIConnection *connection, char *buffer, int bufferLen);
-extern int func_0217ED54(int socket);
+extern int GOAGetLastError(int socket);
 extern char sGhttpReceivingStatus[];
 extern char sGhttpLineEndProcess[];
 extern char sGhttpGotHttpContinue[];
@@ -106,7 +106,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
         }
     }
 
-    endOfStatus = func_02094B20(connection->recvBuffer.data, sGhttpLineEndProcess);
+    endOfStatus = strstr(connection->recvBuffer.data, sGhttpLineEndProcess);
     if (endOfStatus != 0)
     {
         *endOfStatus = '\0';
@@ -135,6 +135,6 @@ void ghiDoReceivingStatus(GHIConnection *connection)
     {
         connection->completed = 1;
         connection->result = 7;
-        connection->socketError = func_0217ED54(connection->socket);
+        connection->socketError = GOAGetLastError(connection->socket);
     }
 }

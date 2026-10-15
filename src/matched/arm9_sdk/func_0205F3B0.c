@@ -1,5 +1,5 @@
 /*
- * function: func_0205F3B0
+ * function: MakeSOCConfig
  * address:  0x0205F3B0
  * packet:   pkt_0205F3B0
  * region:   arm9
@@ -116,7 +116,7 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern unsigned long ConvAddress(unsigned char *add);
 extern unsigned long ConvNetMask(unsigned char netmask);
 
-void func_0205F3B0(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc)
+void MakeSOCConfig(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc)
 {
     NCFGApInfo *info;
     unsigned char type;

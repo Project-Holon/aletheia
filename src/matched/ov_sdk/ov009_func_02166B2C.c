@@ -1,5 +1,5 @@
 /*
- * function: func_02166B2C
+ * function: WCMi_WmifConnectAsync
  * address:  0x02166B2C
  * packet:   pkt_ov009_02166B2C
  * region:   ov009
@@ -36,7 +36,7 @@ extern long WM_SetLifeTime(void (*callback)(void *), unsigned short tableNumber,
 extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166F24(void *arg);
 
-long func_02166B2C(void)
+long WCMi_WmifConnectAsync(void)
 {
     WCMWork *wcmw;
     long wmResult;

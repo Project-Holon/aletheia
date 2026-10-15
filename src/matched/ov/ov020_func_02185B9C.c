@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   func_0200B37C  0x0200B37C  thumb
- *   func_0200B394  0x0200B394  thumb
+ *   GIMMICK_WORK_Reset  0x0200B37C  thumb
+ *   GIMMICK_WORK_InitWithId  0x0200B394  thumb
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
@@ -30,8 +30,8 @@ struct Big;
 struct Rec94;
 struct Struct_0200B37C;
 u8 *GAME_DATA_GetFieldSave(struct Big *p);
-void func_0200B37C(struct Struct_0200B37C *p);
-s32 *func_0200B394(struct Rec94 *p, s32 value);
+void GIMMICK_WORK_Reset(struct Struct_0200B37C *p);
+s32 *GIMMICK_WORK_InitWithId(struct Rec94 *p, s32 value);
 void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 struct ArcFile;
@@ -48,13 +48,13 @@ void EVENT_MAPCHANGE_ApplyZoneTableEntry(int a0, int id)
     int c = 0x8001;
     Ent *e;
 
-    func_0200B37C((struct Struct_0200B37C *)r0);
+    GIMMICK_WORK_Reset((struct Struct_0200B37C *)r0);
     h = func_020490F4(0x65, c);
     e = ARC_TOOL_LoadHandleMember(h, 0, c);
     n = ARC_TOOL_GetHandleMemberSize(h, 0) >> 3;
     for (i = 0; i < n; i++) {
         if (id == e[i].id) {
-            func_0200B394((struct Rec94 *)r0, e[i].v);
+            GIMMICK_WORK_InitWithId((struct Rec94 *)r0, e[i].v);
             break;
         }
     }

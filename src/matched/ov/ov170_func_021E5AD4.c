@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetRepeat 0x0203633C arm
  *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   func_020077B8 0x020077B8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb
@@ -31,10 +31,10 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
-extern int func_02025DE8(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern unsigned int KEY_GetRepeat(void);
 extern void BOX2_MAIN_PlayCursorSound(char *p);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern int func_020077B8(void *save, u32 box);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_SEQ_PrintPrompt(unsigned char *p, int sel, int kind, int i);
@@ -54,7 +54,7 @@ int BOX2_SEQ_StateListScroll(unsigned char *p)
     unsigned r;
     unsigned b, a;
 
-    r = func_02025DE8(LIST(p));
+    r = CURSOR_MOVE_PollRepeatInput(LIST(p));
     if (r == (unsigned)-1) {
         if (KEY_GetRepeat() & 0x200) {
             BOX2_MAIN_PlayCursorSound((char *)p);
@@ -67,7 +67,7 @@ int BOX2_SEQ_StateListScroll(unsigned char *p)
     switch (r) {
     case 0:
     case 1:
-        func_020260E4(LIST(p), 0);
+        CURSOR_MOVE_SetCurrent(LIST(p), 0);
         if (func_020077B8(*(void **)(TOP(p) + 4), p[0x14]) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintPrompt(p, 0, 4, 0x18);
@@ -83,12 +83,12 @@ int BOX2_SEQ_StateListScroll(unsigned char *p)
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return BOX2_SEQ_ReturnAfterClear((char *)p, 0x36);
     case 2:
-        func_020260E4(LIST(p), 0);
+        CURSOR_MOVE_SetCurrent(LIST(p), 0);
     case (unsigned)-6:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelA((char *)p, 0, 0x35);
     case 3:
-        func_020260E4(LIST(p), 0);
+        CURSOR_MOVE_SetCurrent(LIST(p), 0);
     case (unsigned)-5:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelB((char *)p, 0, 0x35);

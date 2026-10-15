@@ -1,5 +1,5 @@
 /*
- * function: func_021B7360
+ * function: LOCAL_TVT_CHARA_GetState
  * address: 0x021B7360
  * packet: pkt_ov174_021B7360
  * region: ov174
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned func_021B7360(unsigned char *p) {return p[7];}
+unsigned LOCAL_TVT_CHARA_GetState(unsigned char *p) {return p[7];}

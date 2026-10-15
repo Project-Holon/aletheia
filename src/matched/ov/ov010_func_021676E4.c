@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012114  0x02012114  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_Check2114  0x02012114  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_Create  0x02194284  thumb  ov021
  *   func_02034714  0x02034714  arm
@@ -79,8 +79,8 @@ typedef struct Src {
 
 extern u8 d_02172A28[];
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern u32 ICA_ANIME_Check2114(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -93,11 +93,11 @@ void COMM_PLAYER_Resume(Work *w)
     Slot *s;
     int i;
 
-    if (func_02012114(w->sys) != 1)
+    if (ICA_ANIME_Check2114(w->sys) != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->obj != 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    w->obj = FIELD_COMM_ACTOR_CTRL_Create(w->f8e, FIELDMAP_GetMmdlSys(func_0201210C(w->sys)), w->f8c, w->f90);
+    w->obj = FIELD_COMM_ACTOR_CTRL_Create(w->f8e, FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(w->sys)), w->f8c, w->f90);
     MI_CpuFill8(&t, 0, 0x14);
     s = (Slot *)w;
     s = (Slot *)((char *)s + 0x1C);

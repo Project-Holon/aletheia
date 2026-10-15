@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206029C",
+   "name": "NCFGi_CheckIpInfo",
    "address": "0x0206029C",
    "kind": "sdk",
    "region": "arm9",

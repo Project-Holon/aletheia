@@ -1,5 +1,5 @@
 /*
- * function: func_021B63B0
+ * function: LOCAL_TVT_SYS_VBlankHandler
  * address: 0x021B63B0
  * packet: pkt_ov174_021B63B0
  * region: ov174
@@ -14,4 +14,4 @@
  *   func_02040618 0x02040618 arm
  */
 extern void CLACT_VBlankSystem(void);extern int func_02005728(int);extern void func_02040618(unsigned,unsigned,unsigned);
-void func_021B63B0(void) {CLACT_VBlankSystem();func_02040618(1,0,func_02005728(256));func_02040618(1,3,func_02005728(256));}
+void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();func_02040618(1,0,func_02005728(256));func_02040618(1,3,func_02005728(256));}

@@ -3261,56 +3261,56 @@ ov208	0x021C3B14	0x021C3B68	84	func	labeled	EXACT	thumb	strong	label,ref,push	pu
 ov208	0x021C3B68	0x021C3B6C	4	leaf	labeled		thumb	strong	label,ref	strh r1, [r0]; bx lr	2	func_021C3AA8	src/game/ov208/zukan_detail_voice.c	func_021C3B6C	src/game/ov208/zukan_detail_form.c	
 ov217	0x021B9774	0x021B97B8	68	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, r5, r6, lr}; adds r5, r2, #0; adds r4, r0, #0; adds r6, r1, #0	25	func_021B970C	src/game/ov217/research_top.c	func_021B97BC	src/game/ov217/research_top.c	
 ov217	0x021B97B8	0x021B97BC	4	leaf	labeled		thumb	strong	label,ref	movs r0, #1; bx lr	2	func_021B970C	src/game/ov217/research_top.c	func_021B97BC	src/game/ov217/research_top.c	
-ov230	0x02187F00	0x021882A0	928	data	hidden				ptrs=10 t:ok					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021882A0	0x021882C4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021882C4	0x021882DC	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021882DC	0x02188300	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188300	0x02188318	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188318	0x0218833C	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x0218833C	0x02188354	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188354	0x02188378	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188378	0x02188390	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188390	0x021883B4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021883B4	0x021883CC	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021883CC	0x021883F0	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021883F0	0x02188408	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x0218840A	0x021888C0	1206	data	hidden				ptrs=15 a:align t:ok					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021888C0	0x021888E4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021888E4	0x021888FC	24	data	hidden				ptrs=5 a:no end t:pool out of range @21888E8					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021888FC	0x02188920	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188920	0x02188938	24	data	hidden				ptrs=5 a:no end t:pool out of range @2188924					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188938	0x0218895C	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x0218895C	0x02188974	24	data	hidden				ptrs=5 a:no end t:pool out of range @2188960					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188974	0x02188998	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x02188998	0x021889B0	24	data	hidden				ptrs=5 a:no end t:pool out of range @218899C					func_021889B0	src/game/ov230/unit_021889B0.c	
-ov230	0x021889BC	0x021889E4	40	data	hidden				ptrs=8 a:no end t:no end			func_021889B0	src/game/ov230/unit_021889B0.c	func_021889E4	src/game/ov230/unit_021889E4.c	
-ov230	0x02188B48	0x02188BD0	136	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, lr}; sub sp, sp, #0x10; ldr r3, [pc, #0x74]; mov r5, r1	33	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188BD0	0x02188C60	144	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, lr}; sub sp, sp, #0x10; ldr r3, [pc, #0x7c]; mov r7, r0	35	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188C60	0x02188CB0	80	func	labeled		arm	strong	label,push	push {r0, r1, r2, r3}; str sl, [ip, #0x10]; mov sl, ip; str lr, [sl]	20	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188CB2	0x02188E3C	394	data	hidden				ptrs=20 a:align t:ok			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188E3C	0x02188E60	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188E60	0x02188E78	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188E78	0x02188E9C	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02188E9C	0x02189098	508	data	hidden				ptrs=5 a:too many conditions t:cond branch out @2188EB4			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189098	0x021890BC	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021890BC	0x021890D4	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021890D4	0x021890F8	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021890F8	0x02189340	584	data	hidden				ptrs=7 a:too many conditions t:ok			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189340	0x02189364	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189364	0x0218937C	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x0218937C	0x021893A0	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021893A0	0x021893D0	48	data	hidden				ptrs=5 a:no end t:ok			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021893D0	0x021893F4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021893F4	0x0218940C	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x0218940C	0x02189430	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189430	0x02189448	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x0218944A	0x0218949C	82	data	hidden				ptrs=16 a:align t:ok			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x0218949C	0x02189528	140	func	labeled		arm	strong	label,ref,push	push {r4, r5, r6, r7, r8, lr}; mov r4, #0xaa; mov r3, #0; str r4, [r0]	33	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189528	0x02189580	88	func	labeled		arm	strong	label,ref,push	push {r4, lr}; ldr r1, [r0, #4]; ldr r2, [r0]; add r1, r1, #1	22	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189580	0x021895B8	56	func	labeled		arm	strong	label,ref,push	push {r3, lr}; ldr ip, [pc, #0x24]; ldr r2, [pc, #0x24]; add lr, r0, #0x100	12	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021895B8	0x021896D0	280	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}; sub sp, sp, #0x100; mov r7, r3; tst r7, #3	70	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021896D0	0x02189858	392	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}; sub sp, sp, #0x100; mov r5, r3; tst r5, #3	97	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189858	0x021898B0	88	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, lr}; sub sp, sp, #0x10c; mov r4, r0; mov r6, r1	22	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x021898B0	0x02189908	88	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, lr}; sub sp, sp, #0x10c; mov r4, r0; mov r6, r1	22	func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x0218990A	0x02189954	74	data	hidden				ptrs=14 a:align t:ok			func_02188A48	src/game/ov230/unit_021889E4.c			
-ov230	0x02189954	0x02189958	4	leaf	hidden		arm	strong	ref	ldm pc, {r0, r1, r2, r4, sb, sl, fp, ip, sp, lr, pc} ^	1	func_02188A48	src/game/ov230/unit_021889E4.c			
+ov230	0x02187F00	0x021882A0	928	data	hidden				ptrs=10 t:ok					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021882A0	0x021882C4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021882C4	0x021882DC	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021882DC	0x02188300	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188300	0x02188318	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188318	0x0218833C	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x0218833C	0x02188354	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188354	0x02188378	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188378	0x02188390	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188390	0x021883B4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021883B4	0x021883CC	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021883CC	0x021883F0	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021883F0	0x02188408	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x0218840A	0x021888C0	1206	data	hidden				ptrs=15 a:align t:ok					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021888C0	0x021888E4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021888E4	0x021888FC	24	data	hidden				ptrs=5 a:no end t:pool out of range @21888E8					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021888FC	0x02188920	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188920	0x02188938	24	data	hidden				ptrs=5 a:no end t:pool out of range @2188924					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188938	0x0218895C	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x0218895C	0x02188974	24	data	hidden				ptrs=5 a:no end t:pool out of range @2188960					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188974	0x02188998	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x02188998	0x021889B0	24	data	hidden				ptrs=5 a:no end t:pool out of range @218899C					func_021889B0	src/game/ov230/loader_entry.c	
+ov230	0x021889BC	0x021889E4	40	data	hidden				ptrs=8 a:no end t:no end			func_021889B0	src/game/ov230/loader_entry.c	func_021889E4	src/game/ov230/loader_decrypt.c	
+ov230	0x02188B48	0x02188BD0	136	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, lr}; sub sp, sp, #0x10; ldr r3, [pc, #0x74]; mov r5, r1	33	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188BD0	0x02188C60	144	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, lr}; sub sp, sp, #0x10; ldr r3, [pc, #0x7c]; mov r7, r0	35	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188C60	0x02188CB0	80	func	labeled		arm	strong	label,push	push {r0, r1, r2, r3}; str sl, [ip, #0x10]; mov sl, ip; str lr, [sl]	20	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188CB2	0x02188E3C	394	data	hidden				ptrs=20 a:align t:ok			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188E3C	0x02188E60	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188E60	0x02188E78	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188E78	0x02188E9C	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02188E9C	0x02189098	508	data	hidden				ptrs=5 a:too many conditions t:cond branch out @2188EB4			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189098	0x021890BC	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021890BC	0x021890D4	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021890D4	0x021890F8	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021890F8	0x02189340	584	data	hidden				ptrs=7 a:too many conditions t:ok			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189340	0x02189364	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189364	0x0218937C	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x0218937C	0x021893A0	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021893A0	0x021893D0	48	data	hidden				ptrs=5 a:no end t:ok			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021893D0	0x021893F4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021893F4	0x0218940C	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x0218940C	0x02189430	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189430	0x02189448	24	data	hidden				ptrs=5 a:no end t:no end			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x0218944A	0x0218949C	82	data	hidden				ptrs=16 a:align t:ok			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x0218949C	0x02189528	140	func	labeled		arm	strong	label,ref,push	push {r4, r5, r6, r7, r8, lr}; mov r4, #0xaa; mov r3, #0; str r4, [r0]	33	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189528	0x02189580	88	func	labeled		arm	strong	label,ref,push	push {r4, lr}; ldr r1, [r0, #4]; ldr r2, [r0]; add r1, r1, #1	22	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189580	0x021895B8	56	func	labeled		arm	strong	label,ref,push	push {r3, lr}; ldr ip, [pc, #0x24]; ldr r2, [pc, #0x24]; add lr, r0, #0x100	12	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021895B8	0x021896D0	280	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}; sub sp, sp, #0x100; mov r7, r3; tst r7, #3	70	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021896D0	0x02189858	392	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}; sub sp, sp, #0x100; mov r5, r3; tst r5, #3	97	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189858	0x021898B0	88	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, lr}; sub sp, sp, #0x10c; mov r4, r0; mov r6, r1	22	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x021898B0	0x02189908	88	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, r6, lr}; sub sp, sp, #0x10c; mov r4, r0; mov r6, r1	22	func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x0218990A	0x02189954	74	data	hidden				ptrs=14 a:align t:ok			func_02188A48	src/game/ov230/loader_decrypt.c			
+ov230	0x02189954	0x02189958	4	leaf	hidden		arm	strong	ref	ldm pc, {r0, r1, r2, r4, sb, sl, fp, ip, sp, lr, pc} ^	1	func_02188A48	src/game/ov230/loader_decrypt.c			

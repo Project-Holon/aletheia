@@ -1,5 +1,5 @@
 /*
- * function: func_021F8BD4
+ * function: STA_ACTING_UploadPalettes
  * address: 0x021F8BD4
  * packet: pkt_ov132_021F8BD4
  * region: ov132
@@ -28,7 +28,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern void func_020409B4(u32);
 extern u8 *func_021F6F24(u32 heap, u32 v);
-void func_021F8BD4(u8 *p)
+void STA_ACTING_UploadPalettes(u8 *p)
 {
     u16 palette[16];
     u8 i=0;

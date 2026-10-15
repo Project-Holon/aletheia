@@ -1,5 +1,5 @@
 /*
- * function: func_0203508C
+ * function: UI_SetResumeAndSuspendHooks
  * address:  0x0203508C
  * packet:   pkt_0203508C
  * region:   arm9
@@ -24,7 +24,7 @@ struct Obj02035120;
 extern void func_02035080(struct Obj02035080 *p, u32 a, u32 b);
 extern void func_02035120(struct Obj02035120 *p, u32 a, u32 b);
 
-void func_0203508C(u32 a, u32 b, u32 c)
+void UI_SetResumeAndSuspendHooks(u32 a, u32 b, u32 c)
 {
     u8 *g = gUiState;
 

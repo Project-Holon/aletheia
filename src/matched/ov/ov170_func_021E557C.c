@@ -15,7 +15,7 @@
  *
  * symbols:
  *   BOX2_UI_GetHandSlotHit 0x021EF194 thumb
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
@@ -23,7 +23,7 @@
  *   BOX2_SEQ_DrawFrameList 0x021EB988 thumb
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
  *   BOX2_SEQ_SelectPartySlotC 0x021E9FA8 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   BOX2_UI_OpenListPack 0x021EF57C thumb
@@ -36,7 +36,7 @@
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
  *   BOX2_SEQ_GotoBox2Main 0x021E949C thumb
  *   BOX2_SEQ_GotoBox2MainWithSlot 0x021E954C thumb
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_MoveCursorBetweenIcons 0x021EEF74 thumb
  *   BOX2_SEQ_SetState 0x021E8FE0 thumb
  *   BOX2_SEQ_SetSeqSecond 0x021E8FD0 thumb
@@ -74,7 +74,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
@@ -82,7 +82,7 @@ extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void BOX2_SEQ_DrawFrameList(Obj *p, const void *e, unsigned n);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern int BOX2_SEQ_SelectPartySlotC(Obj *p, int i);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_MAIN_ResetBoxView(char *p);
 extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
@@ -95,7 +95,7 @@ extern unsigned BOX2_UI_UpdateCursorInputA(char *p);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 extern int BOX2_SEQ_GotoBox2Main(char *p, int a, int b);
 extern int BOX2_SEQ_GotoBox2MainWithSlot(Obj *p, int id, int lo, int arg);
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
 extern int BOX2_SEQ_SetState(char *p, int v);
 extern int BOX2_SEQ_SetSeqSecond(char *p, int a);
@@ -109,7 +109,7 @@ int BOX2_SEQ_StateItemMenuD(Obj *p)
 {
     unsigned r = BOX2_UI_GetHandSlotHit();
     if (r != -1) {
-        func_020260F4(OBJ(p), 0);
+        CURSOR_MOVE_SetState(OBJ(p), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
@@ -118,7 +118,7 @@ int BOX2_SEQ_StateItemMenuD(Obj *p)
             BOX2_MAIN_ChangeBoxFormPreserve((char *)p, (int)r + 0x1E);
             return BOX2_SEQ_SelectPartySlotC(p, r + 0x1E);
         }
-        func_020260E4(OBJ(p), r);
+        CURSOR_MOVE_SetCurrent(OBJ(p), r);
         BOX2_UI_SetCursorPos((char **)p, r + 0x3C);
         BOX2_MAIN_ResetBoxView((char *)p);
         if (BOX2_UI_IsListOpen(MGR(p)) == 1) {
@@ -157,15 +157,15 @@ int BOX2_SEQ_StateItemMenuD(Obj *p)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16 - 0x1E;
-        BOX2_UI_MoveCursorBetweenIcons(p->work, k, func_020260E0(OBJ(p)));
-        func_020260E4(OBJ(p), k);
+        BOX2_UI_MoveCursorBetweenIcons(p->work, k, CURSOR_MOVE_GetCurrent(OBJ(p)));
+        CURSOR_MOVE_SetCurrent(OBJ(p), k);
         return BOX2_SEQ_GotoBox2Main((char *)p, 5, 0x32);
     }
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = func_020260E0(OBJ(p));
+        unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
         if (v < 6)
             BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v + 0x1E);
         else if (v != 8 && v != 9 && v != 10 && v != 11 && v != 12)
@@ -177,8 +177,8 @@ int BOX2_SEQ_StateItemMenuD(Obj *p)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen(MGR(p)) == 1) {
             unsigned char k = p->b16 - 0x1E;
-            BOX2_UI_MoveCursorBetweenIcons(p->work, k, func_020260E0(OBJ(p)));
-            func_020260E4(OBJ(p), k);
+            BOX2_UI_MoveCursorBetweenIcons(p->work, k, CURSOR_MOVE_GetCurrent(OBJ(p)));
+            CURSOR_MOVE_SetCurrent(OBJ(p), k);
             return BOX2_SEQ_GotoBox2Main((char *)p, 5, 0x32);
         }
         p->top->h28 = 0;
@@ -194,8 +194,8 @@ int BOX2_SEQ_StateItemMenuD(Obj *p)
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList(p, d_021EF950, 5);
             BOX2_MAIN_ChangeBoxFormPreserve((char *)p, (int)r + 0x1E);
-            BOX2_UI_MoveCursorBetweenIcons(p->work, 8, func_020260E0(OBJ(p)));
-            func_020260E4(OBJ(p), 8);
+            BOX2_UI_MoveCursorBetweenIcons(p->work, 8, CURSOR_MOVE_GetCurrent(OBJ(p)));
+            CURSOR_MOVE_SetCurrent(OBJ(p), 8);
             return BOX2_SEQ_GotoSlotHandlerB(p, r + 0x1E, 0x31);
         }
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_02095F40
+ * function: strtol
  * address:  0x02095F40
  * packet:   pkt_02095AA4
  * region:   arm9
@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * The 32-bit member of the decimal-to-integer family (func_02095EAC,
- * func_020963F8 are its siblings and differ only in their callee and in the
+ * The 32-bit member of the decimal-to-integer family (strtoul,
+ * strtoll are its siblings and differ only in their callee and in the
  * width of the clamped result).  It runs the parser at 0x02095B3C over a
  * five-word working buffer with the sign flag 0x7FFFFFFF and the default
  * radix, stores the end-of-digits pointer through the optional out parameter,
@@ -33,25 +33,25 @@
  *    twelve bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02095F40.c \
- *       --func func_02095F40 --addr 0x02095F40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strtol.c \
+ *       --func strtol --addr 0x02095F40 --cc 1.1p1 --arm
  *   EXACT, 196 bytes, 3 relocation sites, all resolved.
  *
  * symbols:
- *   func_02095B3C  0x02095B3C  arm
- *   func_020946D8  0x020946D8  arm
- *   g_02153FAC     0x02153FAC  data
+ *   __strtoul  0x02095B3C  arm
+ *   MSL_C_LIB_StrReadProc  0x020946D8  arm
+ *   errno     0x02153FAC  data
  */
 
 typedef int s32;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-extern int func_020946D8(u32 *p, u32 a1, u32 a2);
-extern u32 g_02153FAC;
+extern u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+extern int MSL_C_LIB_StrReadProc(u32 *p, u32 a1, u32 a2);
+extern u32 errno;
 
-s32 func_02095F40(u32 a0, u32 *a1, u32 a2)
+s32 strtol(u32 a0, u32 *a1, u32 a2)
 {
     u32 buf[5];
     s32 r;
@@ -59,7 +59,7 @@ s32 func_02095F40(u32 a0, u32 *a1, u32 a2)
 
     buf[0] = a0;
     buf[1] = 0;
-    r = (s32)func_02095B3C(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))func_020946D8, buf,
+    r = (s32)__strtoul(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))MSL_C_LIB_StrReadProc, buf,
                            (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
     if (a1 != 0)
         *a1 = a0 + buf[4];
@@ -67,7 +67,7 @@ s32 func_02095F40(u32 a0, u32 *a1, u32 a2)
         (buf[3] == 0 && (u32)r > 0x7FFFFFFFu) ||
         (buf[3] != 0 && (u32)r > 0x80000000u)) {
         v = (buf[3] != 0) ? (s32)0x80000000 : (s32)0x7FFFFFFF;
-        g_02153FAC = 0x22;
+        errno = 0x22;
         return v;
     }
     if (buf[3] != 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_0205C25C
+ * function: DWCi_AC_SetPhase
  * address:  0x0205C25C
  * packet:   pkt_0205C25C
  * region:   arm9
@@ -127,7 +127,7 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 
 extern u8 DWCi_ConvConnectAPType(u8 type);
 
-void func_0205C25C(u8 phase)
+void DWCi_AC_SetPhase(u8 phase)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);

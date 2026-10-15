@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035108  0x02035108  arm
+ *   UI_GetSuspendHookGlobal  0x02035108  arm
  *   GFL_USE_MuteSound   0x02005794  thumb
  *
  * Promoted from src/pending/ in the third 0-64 byte band pass (lane 1).  It
@@ -24,7 +24,7 @@
  *
  * "Is the master volume callback still the initial one": the pool word is
  * GFL_USE_MuteSound with its Thumb bit set (0x02005795) and is compared against the
- * word func_02035108 hands back, so the C compares the call's result with the
+ * word UI_GetSuspendHookGlobal hands back, so the C compares the call's result with the
  * *address* of the thunk - which is why the constant is a relocation and not a
  * plain literal.
  *
@@ -35,13 +35,13 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02035108(void);
+extern u32  UI_GetSuspendHookGlobal(void);
 extern void GFL_USE_MuteSound(void);
 
 int GFL_USE_IsMuteHookActive(void)
 {
     u32 v;
 
-    v = func_02035108();
+    v = UI_GetSuspendHookGlobal();
     return v == (u32)GFL_USE_MuteSound;
 }

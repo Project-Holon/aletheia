@@ -20,8 +20,8 @@
  *   func_020870D0  0x020870D0  arm
  *   VCT_SESSION_BuildGroupCommand  0x021B2010  arm  ov013
  *   VCT_SESSION_BuildPeerReply  0x021B20D4  arm  ov013
- *   func_02176E90  0x02176E90  arm  ov009
- *   func_020923B0 0x020923B0 arm
+ *   DWC_SendReliable  0x02176E90  arm  ov009
+ *   MSL_C_LIB_MemsetPtr 0x020923B0 arm
  *   gVctGroupEventCodes  0x021B3AF0  data  ov013  a1
  *   gVctPeerEventCodes  0x021B3AF5  data  ov013  a1
  *   gVctHostPhaseTable  0x021B3BC8  data  ov013  a1
@@ -37,8 +37,8 @@
 #include "vct_types.h"
 
 extern u64 func_020870D0(void);
-extern int func_02176E90(int peerId, VctPacket *packet, int length);
-extern void *func_020923B0(void *, int, unsigned int);
+extern int DWC_SendReliable(int peerId, VctPacket *packet, int length);
+extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned int);
 extern void MIi_CpuClearFast(int, void *, u32);
 extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
@@ -189,7 +189,7 @@ int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet)
         unsigned int bit = (id != 0) ? (1 << id) : 1;
         if ((gVctGroup.peerMask & bit) != 0 && id != gVctSession.localId) {
             packet->dstId = id;
-            if (func_02176E90(id, packet, 0x10) != 0)
+            if (DWC_SendReliable(id, packet, 0x10) != 0)
                 sent++;
         }
     }
@@ -216,7 +216,7 @@ void VCT_SESSION_BroadcastState(int flag)
 /* Clear a peer record and bind it to a peer id. */
 void VCT_SESSION_InitPeer(VctPeer *peer, unsigned int peerId)
 {
-    func_020923B0(peer, 0, 24);
+    MSL_C_LIB_MemsetPtr(peer, 0, 24);
     peer->mode = gVctSession.mode;
     peer->phase = 0;
     peer->peerId = peerId;
@@ -228,7 +228,7 @@ int VCT_SESSION_SendPacket(VctPeer *peer, VctPacket *packet)
 {
     if (packet->kind == 0xff && packet->command == 4) {
         VCT_SESSION_BroadcastPacket(peer, packet);
-    } else if (func_02176E90(peer->peerId, packet, 0x10) == 0) {
+    } else if (DWC_SendReliable(peer->peerId, packet, 0x10) == 0) {
         return 0;
     }
     return 1;

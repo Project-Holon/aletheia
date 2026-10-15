@@ -1,5 +1,5 @@
 /*
- * function: func_02078D08
+ * function: FS_GetOverlayFileID
  * address:  0x02078D08
  * packet:   pkt_02078D08
  * region:   arm9
@@ -50,7 +50,7 @@ typedef struct FSiOverlayContextType {
 static int once_slot = 0;
 static FSiOverlayContextType FSiOverlayContext = { 0 };
 
-FSFileID func_02078D08(FSOverlayInfo *p_ovi)
+FSFileID FS_GetOverlayFileID(FSOverlayInfo *p_ovi)
 {
     FSFileID ret;
 

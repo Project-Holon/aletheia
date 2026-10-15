@@ -1,5 +1,5 @@
 /*
- * function: func_021C9428
+ * function: ZUKAN_SEARCH_ENGINE_Create
  * address:  0x021C9428
  * packet:   pkt_021C9428
  * region:   ov212
@@ -16,7 +16,7 @@
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 
-void func_021C9428(int p, int b, int c)
+void ZUKAN_SEARCH_ENGINE_Create(int p, int b, int c)
 {
     unsigned char *q = func_02030734(c, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 

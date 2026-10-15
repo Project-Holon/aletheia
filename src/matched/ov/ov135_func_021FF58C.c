@@ -12,7 +12,7 @@
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
  *   WORLDTRADE_BOX_GetMonCount 0x021F6B80 thumb ov135
  *   WORLDTRADE_BOX_GetPartyMon 0x021F6B40 thumb ov135
@@ -46,7 +46,7 @@ extern void WORLDTRADE_ExitPlanes(u8 *);
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern int WORLDTRADE_BOX_ClampSlot(int);
 extern u32 WORLDTRADE_BOX_GetMonCount(u8 *p, u32 b, u32 c);
 extern void *WORLDTRADE_BOX_GetPartyMon(void *,void *,int,int);
@@ -59,7 +59,7 @@ void WORLDTRADE_STATUS_Open(u8 *p)
     MI_CpuFill8(*(Request * *)&((struct Obj01162 *)p)->f10DC,0,sizeof(Request));
     r=*(Request * *)&((struct Obj01162 *)p)->f10DC;
     r->ctx=((struct Obj23428 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f20;
-    r->save=func_020120F4(((struct Obj23429 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f40);
+    r->save=ICA_ANIME_GetField1C(((struct Obj23429 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f40);
     if(WORLDTRADE_BOX_ClampSlot(((struct Obj01162 *)p)->fC4))
         r->fE=WORLDTRADE_BOX_GetMonCount(((struct Obj23430 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f8,(u32)(((struct Obj23431 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->fC),((struct Obj01162 *)p)->fC4);
     else r->fE=30;

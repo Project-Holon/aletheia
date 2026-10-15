@@ -34,7 +34,7 @@
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   NNS_G3dGlbFlush    0x0206A854  arm
  *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
- *   func_0207ADC4    0x0207ADC4  arm
+ *   MTX_Identity33_    0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos    0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling    0x02047AC8  arm
  *   g_DefaultProjectionMtx       0x02148B54  data
@@ -43,13 +43,13 @@
  *   func_02048AE8  0x02048AE8  arm
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
- *   func_0207BCA0  0x0207BCA0  arm
+ *   MTX_LookAt  0x0207BCA0  arm
  *   func_02082B60  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   func_02030734  0x02030734  arm
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
@@ -67,8 +67,8 @@
  *   func_0201F41C  0x0201F41C  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
@@ -264,20 +264,20 @@ void FIELD_EFFECT_DeleteObject(void *task);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern void NNS_G3dGlbFlush(void);
 extern void NNS_G3dGeFlushBuffer(void);
-extern void func_0207ADC4(MtxFx33 *mtx);
+extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(void *task, G3dObjectTransform *transform);
 extern int G3D_SYSTEM_DrawObjectCulling(void *object, G3dObjectTransform *transform);
 void GFL_USE_PlaySeDefaultVolume(u32 seId);
 void func_02048AE8(void *g3dCamera, VecFx32 *out);
 void func_02048B0C(void *g3dCamera, VecFx32 *out);
 void func_02048B30(void *g3dCamera, VecFx32 *out);
-void func_0207BCA0(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
+void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
 void func_02082B60(int *mtx43, int *outMtx33);
 void func_0207B0A4(int *mtx33, int *outMtx33);
-void func_0207B51C(VecFx32 *src, int *mtx33, VecFx32 *dst);
+void MTX_MultVec33(VecFx32 *src, int *mtx33, VecFx32 *dst);
 void *FIELDMAP_GetCamera(void *fieldMap);
 void *FIELD_CAMERA_GetG3dCamera(void *fieldCamera);
-void func_0207C9D0(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
+void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
 void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
 u32 func_02030CB0(u32 capacity);
 struct TcbList *func_02030CBC(u32 capacity, struct TcbList *buf);
@@ -294,8 +294,8 @@ u8 func_02008550(void *myStatus);
 void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 void OS_GetMacAddress(u8 *outMac);
 void MI_CpuCopy8(const void *src, void *dst, int n);
-void *func_020120F4(void *gameSystem);
-void *func_0201283C(void *gameData);
+void *ICA_ANIME_GetField1C(void *gameSystem);
+void *GAME_DATA_GetField1A0(void *gameData);
 void *GAME_DATA_GetSaveControl(void *gameData);
 void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 int UNION_CHARA_IsWifiFriendBeacon(void *wifiList, UnionBeacon *beacon);
@@ -429,7 +429,7 @@ void FLDEFF_GYOE_DrawTask(void *task, FldeffGyoeTaskWork *work)
     SCREENTEX_CameraState.matrixDirtyFlags &= ~0x50;
     NNS_G3dGlbFlush();
     NNS_G3dGeFlushBuffer();
-    func_0207ADC4(&transform.rotation);
+    MTX_Identity33_(&transform.rotation);
     FIELD_EFFECT_GetObjectPos(task, &transform);
     G3D_SYSTEM_DrawObjectCulling(work->param.gyoe->object[work->param.type], &transform);
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
@@ -470,10 +470,10 @@ void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst)
     func_02048AE8(g3dCamera, &eye);
     func_02048B0C(g3dCamera, &target);
     func_02048B30(g3dCamera, &up);
-    func_0207BCA0(&eye, &target, &up, lookAt);
+    MTX_LookAt(&eye, &target, &up, lookAt);
     func_02082B60(lookAt, inverse);
     func_0207B0A4(inverse, inverse);
-    func_0207B51C(src, inverse, dst);
+    MTX_MultVec33(src, inverse, dst);
 }
 
 /* Steps the hop and wait animation and returns the mark position in out. */
@@ -508,7 +508,7 @@ void FLDEFF_GYOE_StepAnimation(FldeffGyoeTaskWork *work, VecFx32 *out)
         offset = above;
     }
     FLDEFF_GYOE_RotateByCamera(g3dCamera, &offset, &offset);
-    func_0207C9D0(&offset, out, out);
+    VEC_Add(&offset, out, out);
 }
 
 FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, int heapId, int capacity)
@@ -668,8 +668,8 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->chatCount = beaconPc->beacon.chatCount;
         MI_CpuCopy8(beaconPc->mac, line->senderMac, 6);
         line->sex = beaconPc->beacon.sex;
-        saveControl = func_020120F4(work->parent->gameSystem);
-        wifiList = func_0201283C(saveControl);
+        saveControl = ICA_ANIME_GetField1C(work->parent->gameSystem);
+        wifiList = GAME_DATA_GetField1A0(saveControl);
         saveControl = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(saveControl));
         if (UNION_CHARA_IsWifiFriendBeacon(wifiList, &beaconPc->beacon) == 1) {
             relation = 1;

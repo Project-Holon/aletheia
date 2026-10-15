@@ -1,5 +1,5 @@
 /*
- * function: func_02059F6C
+ * function: DWC_InitForProduction
  * address:  0x02059F6C
  * packet:   pkt_02059F6C
  * region:   arm9
@@ -28,7 +28,7 @@ extern void OSi_ReferSymbol(const void *symbol);  /* OSi_ReferSymbol */
 extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
 extern char id_string_production[68];
 
-int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
+int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
     OSi_ReferSymbol(id_string_production);
     return DWCi_Init(DWC_AUTHSERVER_PRODUCTION, gameName, gameCode, alloc, free);

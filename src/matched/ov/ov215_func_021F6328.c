@@ -1,5 +1,5 @@
 /*
- * function: func_021F6328
+ * function: EGG_DEMO_MENU_InitGraphics
  * address: 0x021F6328
  * packet: pkt_ov215_021F6328
  * region: ov215
@@ -29,7 +29,7 @@ static inline void SetPriority(int priority)
 {
     *(volatile u16 *)0x04000008=(u16)((*(volatile u16 *)0x04000008 & ~3)|(priority<<0));
 }
-void func_021F6328(void)
+void EGG_DEMO_MENU_InitGraphics(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);

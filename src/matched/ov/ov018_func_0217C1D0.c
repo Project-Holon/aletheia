@@ -15,7 +15,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
- *   func_0202A188  0x0202A188  thumb
+ *   TPOKE_DATA_GetRecordIndex  0x0202A188  thumb
  *   INTRUDE_FIELD_gSymbolMonMoveParams     0x0218360C  data   a4
  *   INTRUDE_FIELD_gSymbolMonMmdlHeader     0x0218362C  data   a4
  */
@@ -59,7 +59,7 @@ typedef struct {
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void FLDMMDL_AddMmdl(int a, int b, int c);
-extern u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3);
+extern u32 TPOKE_DATA_GetRecordIndex(u8 *p, u32 a, u32 v2, u32 v3);
 extern const E INTRUDE_FIELD_gSymbolMonMoveParams[];
 extern const S INTRUDE_FIELD_gSymbolMonMmdlHeader;
 
@@ -76,7 +76,7 @@ void INTRUDE_FIELD_AddSymbolMonMmdl(const O *o, const B *p, u16 a2, u16 a3, T x)
     c = FIELDMAP_GetZoneId((u8 *)o->f4);
     s = INTRUDE_FIELD_gSymbolMonMmdlHeader;
     s.h[0] = a2;
-    s.h[1] = func_0202A188((u8 *)o->f0, (u16)p->x, (u16)p->y, (u16)p->z);
+    s.h[1] = TPOKE_DATA_GetRecordIndex((u8 *)o->f0, (u16)p->x, (u16)p->y, (u16)p->z);
     s.h[2] = e->h0;
     s.h[10] = e->b2;
     s.h[11] = e->b3;

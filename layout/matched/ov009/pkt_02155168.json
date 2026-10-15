@@ -470,7 +470,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215CE9C",
+   "name": "SOCLi_GetCtrlPipe",
    "address": "0x0215CE9C",
    "kind": "sdk",
    "region": "ov009",
@@ -482,7 +482,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215CEFC",
+   "name": "SOCLi_SendCommandPacketToCtrlPipe",
    "address": "0x0215CEFC",
    "kind": "sdk",
    "region": "ov009",
@@ -494,7 +494,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215CF88",
+   "name": "SOCLi_ExecCommandPacketInRecvPipe",
    "address": "0x0215CF88",
    "kind": "sdk",
    "region": "ov009",
@@ -506,7 +506,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215CF98",
+   "name": "SOCLi_ExecCommandPacketInSendPipe",
    "address": "0x0215CF98",
    "kind": "sdk",
    "region": "ov009",
@@ -518,7 +518,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215CFA8",
+   "name": "SOCLi_ExecCommandPacketInCtrlPipe",
    "address": "0x0215CFA8",
    "kind": "sdk",
    "region": "ov009",
@@ -1011,7 +1011,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216870C",
+   "name": "DWC_GetFriendStatus",
    "address": "0x0216870C",
    "kind": "sdk",
    "region": "ov009",
@@ -1023,7 +1023,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02168848",
+   "name": "DWC_GetFriendStatusData",
    "address": "0x02168848",
    "kind": "sdk",
    "region": "ov009",
@@ -1040,7 +1040,7 @@
    }
   },
   {
-   "name": "func_02168D7C",
+   "name": "DWCi_IsServerUpdating",
    "address": "0x02168D7C",
    "kind": "sdk",
    "region": "ov009",
@@ -1057,7 +1057,7 @@
    }
   },
   {
-   "name": "func_021691FC",
+   "name": "DWCi_ShutdownFriend",
    "address": "0x021691FC",
    "kind": "sdk",
    "region": "ov009",
@@ -1074,7 +1074,7 @@
    }
   },
   {
-   "name": "func_02169294",
+   "name": "DWCi_CloseFriendProcess",
    "address": "0x02169294",
    "kind": "sdk",
    "region": "ov009",
@@ -1091,7 +1091,7 @@
    }
   },
   {
-   "name": "func_02169FE4",
+   "name": "DWCi_GetPersCallbackLevel",
    "address": "0x02169FE4",
    "kind": "sdk",
    "region": "ov009",
@@ -1108,7 +1108,7 @@
    }
   },
   {
-   "name": "func_02169FF8",
+   "name": "DWCi_BeginCloseStatsConnection",
    "address": "0x02169FF8",
    "kind": "sdk",
    "region": "ov009",
@@ -1125,7 +1125,7 @@
    }
   },
   {
-   "name": "func_0216A00C",
+   "name": "DWCi_EndCloseStatsConnection",
    "address": "0x0216A00C",
    "kind": "sdk",
    "region": "ov009",
@@ -1142,7 +1142,7 @@
    }
   },
   {
-   "name": "func_0216A39C",
+   "name": "DWCi_GetUserData",
    "address": "0x0216A39C",
    "kind": "sdk",
    "region": "ov009",
@@ -1159,7 +1159,7 @@
    }
   },
   {
-   "name": "func_0216A404",
+   "name": "DWCi_ShutdownLogin",
    "address": "0x0216A404",
    "kind": "sdk",
    "region": "ov009",
@@ -1176,7 +1176,7 @@
    }
   },
   {
-   "name": "func_0216AA70",
+   "name": "DWCi_CheckLogin",
    "address": "0x0216AA70",
    "kind": "sdk",
    "region": "ov009",
@@ -1755,7 +1755,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176E90",
+   "name": "DWC_SendReliable",
    "address": "0x02176E90",
    "kind": "sdk",
    "region": "ov009",
@@ -1767,7 +1767,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02177138",
+   "name": "DWC_SetUserSendCallback",
    "address": "0x02177138",
    "kind": "sdk",
    "region": "ov009",
@@ -1784,7 +1784,7 @@
    }
   },
   {
-   "name": "func_02177160",
+   "name": "DWC_SetUserRecvCallback",
    "address": "0x02177160",
    "kind": "sdk",
    "region": "ov009",
@@ -1801,7 +1801,7 @@
    }
   },
   {
-   "name": "func_02177188",
+   "name": "DWC_SetUserRecvTimeoutCallback",
    "address": "0x02177188",
    "kind": "sdk",
    "region": "ov009",
@@ -1818,7 +1818,7 @@
    }
   },
   {
-   "name": "func_021772B8",
+   "name": "DWC_SetConnectionKeepAliveTime",
    "address": "0x021772B8",
    "kind": "sdk",
    "region": "ov009",
@@ -1835,7 +1835,7 @@
    }
   },
   {
-   "name": "func_021772DC",
+   "name": "DWC_GetConnectionKeepAliveTime",
    "address": "0x021772DC",
    "kind": "sdk",
    "region": "ov009",
@@ -1852,7 +1852,7 @@
    }
   },
   {
-   "name": "func_0217772C",
+   "name": "DWCi_ShutdownTransport",
    "address": "0x0217772C",
    "kind": "sdk",
    "region": "ov009",
@@ -1872,7 +1872,7 @@
    }
   },
   {
-   "name": "func_02177770",
+   "name": "DWCs_GetTransConnection",
    "address": "0x02177770",
    "kind": "sdk",
    "region": "ov009",
@@ -1889,7 +1889,7 @@
    }
   },
   {
-   "name": "func_02177788",
+   "name": "DWCs_GetSendState",
    "address": "0x02177788",
    "kind": "sdk",
    "region": "ov009",
@@ -1906,7 +1906,7 @@
    }
   },
   {
-   "name": "func_021777A4",
+   "name": "DWCs_GetRecvState",
    "address": "0x021777A4",
    "kind": "sdk",
    "region": "ov009",
@@ -1952,7 +1952,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02178E70",
+   "name": "DWCi_Auth_IsFinished",
    "address": "0x02178E70",
    "kind": "sdk",
    "region": "ov009",
@@ -1969,7 +1969,7 @@
    }
   },
   {
-   "name": "func_02178E80",
+   "name": "DWCi_Auth_IsSucceeded",
    "address": "0x02178E80",
    "kind": "sdk",
    "region": "ov009",
@@ -1986,7 +1986,7 @@
    }
   },
   {
-   "name": "func_02178E90",
+   "name": "DWCi_Auth_GetErrorCode",
    "address": "0x02178E90",
    "kind": "sdk",
    "region": "ov009",
@@ -2015,7 +2015,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02178F30",
+   "name": "DWCi_Auth_IsConsoleUserIdAuthentic",
    "address": "0x02178F30",
    "kind": "sdk",
    "region": "ov009",
@@ -2027,7 +2027,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021798E4",
+   "name": "DWCi_Http_Resolve",
    "address": "0x021798E4",
    "kind": "sdk",
    "region": "ov009",
@@ -2056,7 +2056,7 @@
    }
   },
   {
-   "name": "func_0217CA2C",
+   "name": "gsiCoreAtExitShutdown",
    "address": "0x0217CA2C",
    "kind": "sdk",
    "region": "ov009",
@@ -2143,7 +2143,7 @@
    }
   },
   {
-   "name": "func_0217EB00",
+   "name": "CheckRcode",
    "address": "0x0217EB00",
    "kind": "sdk",
    "region": "ov009",
@@ -2172,7 +2172,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217EB2C",
+   "name": "closesocket",
    "address": "0x0217EB2C",
    "kind": "sdk",
    "region": "ov009",
@@ -2220,7 +2220,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217ECF8",
+   "name": "setsockopt",
    "address": "0x0217ECF8",
    "kind": "sdk",
    "region": "ov009",
@@ -2232,7 +2232,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217ED38",
+   "name": "inet_addr",
    "address": "0x0217ED38",
    "kind": "sdk",
    "region": "ov009",
@@ -2244,7 +2244,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217ED54",
+   "name": "GOAGetLastError",
    "address": "0x0217ED54",
    "kind": "sdk",
    "region": "ov009",
@@ -2309,7 +2309,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F1CC",
+   "name": "gsiGetResolvedIP",
    "address": "0x0217F1CC",
    "kind": "sdk",
    "region": "ov009",
@@ -2357,7 +2357,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F774",
+   "name": "longrand",
    "address": "0x0217F774",
    "kind": "sdk",
    "region": "ov009",
@@ -2377,7 +2377,7 @@
    }
   },
   {
-   "name": "func_0217F790",
+   "name": "Util_RandSeed",
    "address": "0x0217F790",
    "kind": "sdk",
    "region": "ov009",
@@ -2423,7 +2423,7 @@
    }
   },
   {
-   "name": "func_02180E48",
+   "name": "gsUdpEngineIsInitialized",
    "address": "0x02180E48",
    "kind": "sdk",
    "region": "ov009",
@@ -2579,7 +2579,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218F0B8",
+   "name": "gpiGetPeerByProfile",
    "address": "0x0218F0B8",
    "kind": "sdk",
    "region": "ov009",
@@ -2591,7 +2591,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218F134",
+   "name": "gpiFreeMessage",
    "address": "0x0218F134",
    "kind": "sdk",
    "region": "ov009",
@@ -3033,7 +3033,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195EA0",
+   "name": "gti2UShortToBuffer",
    "address": "0x02195EA0",
    "kind": "sdk",
    "region": "ov009",
@@ -3045,7 +3045,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195EB4",
+   "name": "gti2SNDiff",
    "address": "0x02195EB4",
    "kind": "sdk",
    "region": "ov009",
@@ -3057,7 +3057,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195F5C",
+   "name": "gti2ConnectionCommunicationError",
    "address": "0x02195F5C",
    "kind": "sdk",
    "region": "ov009",
@@ -3086,7 +3086,7 @@
    }
   },
   {
-   "name": "func_02197BB8",
+   "name": "gti2SendClosed",
    "address": "0x02197BB8",
    "kind": "sdk",
    "region": "ov009",
@@ -3098,7 +3098,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02197CE0",
+   "name": "gti2Send",
    "address": "0x02197CE0",
    "kind": "sdk",
    "region": "ov009",
@@ -3145,7 +3145,7 @@
    }
   },
   {
-   "name": "func_02199284",
+   "name": "CheckMagic",
    "address": "0x02199284",
    "kind": "sdk",
    "region": "ov009",
@@ -3162,7 +3162,7 @@
    }
   },
   {
-   "name": "func_0219A034",
+   "name": "RemoveFinishedNegotiator",
    "address": "0x0219A034",
    "kind": "sdk",
    "region": "ov009",
@@ -3455,7 +3455,7 @@
    }
   },
   {
-   "name": "func_0219EFD0",
+   "name": "ServerBrowserThink",
    "address": "0x0219EFD0",
    "kind": "sdk",
    "region": "ov009",
@@ -3473,7 +3473,7 @@
    }
   },
   {
-   "name": "func_0219EFF0",
+   "name": "ServerBrowserHalt",
    "address": "0x0219EFF0",
    "kind": "sdk",
    "region": "ov009",
@@ -3490,7 +3490,7 @@
    }
   },
   {
-   "name": "func_0219F00C",
+   "name": "ServerBrowserClear",
    "address": "0x0219F00C",
    "kind": "sdk",
    "region": "ov009",
@@ -3507,7 +3507,7 @@
    }
   },
   {
-   "name": "func_0219F024",
+   "name": "ServerBrowserState",
    "address": "0x0219F024",
    "kind": "sdk",
    "region": "ov009",
@@ -3519,7 +3519,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219F058",
+   "name": "ServerBrowserGetServer",
    "address": "0x0219F058",
    "kind": "sdk",
    "region": "ov009",
@@ -3531,7 +3531,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219F068",
+   "name": "ServerBrowserCount",
    "address": "0x0219F068",
    "kind": "sdk",
    "region": "ov009",

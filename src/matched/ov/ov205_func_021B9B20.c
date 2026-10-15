@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02088864 0x02088864 arm
+ *   RTC_GetDate 0x02088864 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
@@ -20,7 +20,7 @@
 #include "../include/Obj08386.h"
 typedef unsigned char u8;
 struct RTCDate;
-extern int func_02088864(struct RTCDate *date);
+extern int RTC_GetDate(struct RTCDate *date);
 typedef unsigned int   u32;
 struct Big;
 struct BigObj;
@@ -39,7 +39,7 @@ void func_021B9B20(char *p)
 {
     unsigned date[4];
     void *save,*object,*record;
-    func_02088864((struct RTCDate *)date);
+    RTC_GetDate((struct RTCDate *)date);
     object=GAME_DATA_GetMyParty(((struct Obj08386 *)p)->f4);
     save=GAME_DATA_GetSaveControl(((struct Obj08386 *)p)->f4);
     SAVE_CONTROL_LoadExtraSave(save,8,4);

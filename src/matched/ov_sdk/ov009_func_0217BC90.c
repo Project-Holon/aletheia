@@ -13,10 +13,10 @@
  *
  * symbols:
  *   OS_IsThreadTerminated  0x0208574C  arm
- *   func_0205BDD0  0x0205BDD0  arm
+ *   DWC_AC_GetApType  0x0205BDD0  arm
  *   func_0217BDA8  0x0217BDA8  arm  ov009
  *   func_02059F54  0x02059F54  arm
- *   func_02179CF4  0x02179CF4  arm  ov009
+ *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
  *   g_021ACEF0     0x021ACEF0  data ov009
  */
@@ -46,10 +46,10 @@ typedef struct DWCProfWorkarea {
 } DWCProfWorkarea;
 
 extern int OS_IsThreadTerminated(OSThread *thread);
-extern unsigned char func_0205BDD0(void);
+extern unsigned char DWC_AC_GetApType(void);
 extern int func_0217BDA8(void);
 extern void func_02059F54(int error, int errorCode);
-extern void func_02179CF4(char *http);
+extern void DWC_Http_Destroy(char *http);
 extern void func_0205A1B0(int name, void *ptr, long size);
 
 extern DWCProfWorkarea *g_021ACEF0;
@@ -62,7 +62,7 @@ int func_0217BC90(void)
     if (g_021ACEF0 == 0 || g_021ACEF0->http.thread.id == 0)
         return 0;
     if (OS_IsThreadTerminated(&g_021ACEF0->http.thread) == 1) {
-        aptype = func_0205BDD0();
+        aptype = DWC_AC_GetApType();
         if (aptype == 0xff || aptype > 99)
             aptype = 99;
 
@@ -92,7 +92,7 @@ int func_0217BC90(void)
         return 1;
     }
 
-    func_02179CF4((char *)(&g_021ACEF0->http));
+    DWC_Http_Destroy((char *)(&g_021ACEF0->http));
     func_0205A1B0(0, g_021ACEF0, 0);
     g_021ACEF0 = 0;
     return retval;

@@ -19,7 +19,7 @@
  *   MI_CpuCopy8                            0x02082D44 arm
  *   gt2Send                                0x02195CC0 arm
  *   DWC_Free                               0x0205A1B0 arm
- *   g_021A2348                             0x021A2348 data
+ *   gDwcTransForwardMagic                             0x021A2348 data
  */
 
 extern void *DWCi_GetGT2Connection(unsigned char aid);
@@ -30,7 +30,7 @@ extern void strncpy(char *dst, const char *src, int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int gt2Send(void *connection, unsigned char *message, int len, int reliable);
 extern void DWC_Free(int name, void *ptr, int flag);
-extern char g_021A2348[];
+extern char gDwcTransForwardMagic[];
 
 void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned char *buffer,
     int size, int fromDWC_SendUnreliable)
@@ -53,7 +53,7 @@ void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned ch
         sendBuf = DWC_Alloc(4, size + 8);
         if (sendBuf == 0)
             return;
-        strncpy((char *)sendBuf, g_021A2348, 3);
+        strncpy((char *)sendBuf, gDwcTransForwardMagic, 3);
         sendBuf[3] = aidFrom;
         *(unsigned long *)(sendBuf + 4) = 1 << aidTo;
         MI_CpuCopy8(buffer, sendBuf + 8, size);

@@ -16,7 +16,7 @@
  *   func_02030734   0x02030734  arm
  *   MI_CpuFill8     0x02082BCC  arm
  *   func_0209C0A4   0x0209C0A4  arm
- *   func_0207D534   0x0207D534  arm
+ *   GXx_SetMasterBrightness_   0x0207D534  arm
  *   fade_File       0x020A7F8C  data
  *   g_02146A7C      0x02146A7C  data
  */
@@ -38,7 +38,7 @@ typedef struct Fade {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
 extern s32   func_0209C0A4(s32 a, s32 b);
-extern void  func_0207D534(volatile u16 *reg, int brightness);
+extern void  GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 void FADE_Create(u32 heap);
 void FADE_Update(void);
 s32 FADE_GetSpeed(void);
@@ -177,7 +177,7 @@ int FADE_IsActive(void)
  * function's only two pool words besides the singleton pointer.
  *
  * The pointer and the flag word are re-read from scratch in front of every
- * one of the four tests, because func_0207D534 is opaque and may write
+ * one of the four tests, because GXx_SetMasterBrightness_ is opaque and may write
  * either of them.
  *
  * Verified with:
@@ -187,14 +187,14 @@ int FADE_IsActive(void)
 void FADE_ApplyBrightness(void)
 {
     if (g_02146A7C->flags & 1)
-        func_0207D534((void *)0x0400006c, -g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)0x0400006c, -g_02146A7C->cur);
 
     if (g_02146A7C->flags & 2)
-        func_0207D534((void *)0x0400106c, -g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)0x0400106c, -g_02146A7C->cur);
 
     if (g_02146A7C->flags & 4)
-        func_0207D534((void *)0x0400006c, g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)0x0400006c, g_02146A7C->cur);
 
     if (g_02146A7C->flags & 8)
-        func_0207D534((void *)0x0400106c, g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)0x0400106c, g_02146A7C->cur);
 }

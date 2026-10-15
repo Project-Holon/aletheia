@@ -1,5 +1,5 @@
 /*
- * function: func_0209739C
+ * function: __dec2num
  * address:  0x0209739C
  * packet:   pkt_0209739C
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  * symbols:
  *   copysign  0x0209A368  arm
- *   func_020968F4  0x020968F4  arm
- *   func_02096DF0  0x02096DF0  arm
- *   func_02096D10  0x02096D10  arm
- *   func_02096ED0  0x02096ED0  arm
- *   func_02097170  0x02097170  arm
+ *   __str2dec  0x020968F4  arm
+ *   __less_dec  0x02096DF0  arm
+ *   __equals_dec  0x02096D10  arm
+ *   __minus_dec  0x02096ED0  arm
+ *   __num2dec  0x02097170  arm
  *   pow  0x0209AB80  arm
  *   ldexp  0x0209A7A8  arm
- *   func_020921F4  0x020921F4  arm
+ *   __fpclassifyd  0x020921F4  arm
  *   __float_huge   0x020A8814  data
  *   _f2d           0x0209BD38  arm
  *   _dfltu         0x0209B790  arm
@@ -60,7 +60,7 @@ typedef struct decimal {
 } decimal;
 
 #define FP_INFINITE 2
-#define isinf(x) (func_020921F4(x) == FP_INFINITE)
+#define isinf(x) (__fpclassifyd(x) == FP_INFINITE)
 
 extern float __float_huge;
 extern const double pow_10[8];
@@ -70,16 +70,16 @@ extern double copysign(double x, double y);                        /* copysign *
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct P020968F4;
-extern void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v);        /* __str2dec */
-extern int func_02096DF0(const decimal *x, const decimal *y);           /* __less_dec */
-extern int func_02096D10(const decimal *x, const decimal *y);           /* __equals_dec */
-extern void func_02096ED0(decimal *z, const decimal *x, const decimal *y); /* __minus_dec */
-extern void func_02097170(decimal *d, double x);                        /* __num2dec_internal */
+extern void __str2dec(struct P020968F4 *p, const u8 *s, u16 v);        /* __str2dec */
+extern int __less_dec(const decimal *x, const decimal *y);           /* __less_dec */
+extern int __equals_dec(const decimal *x, const decimal *y);           /* __equals_dec */
+extern void __minus_dec(decimal *z, const decimal *x, const decimal *y); /* __minus_dec */
+extern void __num2dec(decimal *d, double x);                        /* __num2dec_internal */
 extern double pow(double x, double y);                        /* pow */
 extern double ldexp(double x, int n);                           /* ldexp */
-extern int func_020921F4(double x);                                     /* __fpclassifyd */
+extern int __fpclassifyd(double x);                                     /* __fpclassifyd */
 
-double func_0209739C(const decimal *d)
+double __dec2num(const decimal *d)
 {
     if (d->sig.length <= 0)
         return copysign(0.0, d->sign == 0 ? 1.0 : -1.0);
@@ -117,8 +117,8 @@ double func_0209739C(const decimal *d)
         {
             decimal max;
 
-            func_020968F4((struct P020968F4 *)(&max), (const u8 *)s_020A8B90, 308);
-            if (func_02096DF0(&max, &dec))
+            __str2dec((struct P020968F4 *)(&max), (const u8 *)s_020A8B90, 308);
+            if (__less_dec(&max, &dec))
                 return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
         }
 
@@ -159,10 +159,10 @@ double func_0209739C(const decimal *d)
             unsigned long long *ll = (unsigned long long *)&guess;
             int is_low = 0;
 
-            func_02097170(&feval, first_guess);
-            if (func_02096D10(&feval, &dec))
+            __num2dec(&feval, first_guess);
+            if (__equals_dec(&feval, &dec))
                 goto done;
-            if (func_02096DF0(&feval, &dec))
+            if (__less_dec(&feval, &dec))
                 is_low = 1;
             guess = first_guess;
             for (;;) {
@@ -172,10 +172,10 @@ double func_0209739C(const decimal *d)
                         goto done;
                 } else
                     --*ll;
-                func_02097170(&feval2, guess);
-                if (is_low && !func_02096DF0(&feval2, &dec))
+                __num2dec(&feval2, guess);
+                if (is_low && !__less_dec(&feval2, &dec))
                     break;
-                if (!is_low && !func_02096DF0(&dec, &feval2)) {
+                if (!is_low && !__less_dec(&dec, &feval2)) {
                     double tg;
 
                     difflow = feval;
@@ -189,12 +189,12 @@ double func_0209739C(const decimal *d)
                 feval = feval2;
                 first_guess = guess;
             }
-            func_02096ED0(&difflow, &dec, &feval);
-            func_02096ED0(&diffhigh, &feval2, &dec);
-            if (func_02096D10(&difflow, &diffhigh)) {
+            __minus_dec(&difflow, &dec, &feval);
+            __minus_dec(&diffhigh, &feval2, &dec);
+            if (__equals_dec(&difflow, &diffhigh)) {
                 if (*(unsigned long long *)&first_guess & 1)
                     first_guess = guess;
-            } else if (!func_02096DF0(&difflow, &diffhigh))
+            } else if (!__less_dec(&difflow, &diffhigh))
                 first_guess = guess;
         }
 done:

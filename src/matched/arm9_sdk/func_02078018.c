@@ -1,5 +1,5 @@
 /*
- * function: func_02078018
+ * function: FSi_CopySafeString
  * address:  0x02078018
  * packet:   pkt_02078018
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef int BOOL;
 
-int func_02078018(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure)
+int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure)
 {
     int i;
     int n = (dstlen - 1 < srclen) ? (dstlen - 1) : srclen;

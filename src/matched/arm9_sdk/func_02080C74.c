@@ -1,5 +1,5 @@
 /*
- * function: func_02080C74
+ * function: GX_GetBankForSubOBJExtPltt
  * address:  0x02080C74
  * packet:   pkt_02080C74
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern struct GX_State gGXState;
 
-u16 func_02080C74(void)
+u16 GX_GetBankForSubOBJExtPltt(void)
 {
     return gGXState.vramCnt_sub_objExtPltt;
 }

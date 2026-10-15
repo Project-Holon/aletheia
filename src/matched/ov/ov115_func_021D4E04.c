@@ -13,7 +13,7 @@
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   func_02040588 0x02040588 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj02170.h"
@@ -25,7 +25,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern u32 func_020307B0(void *p);
 void func_021D4E04(u8 *p) {
     if (((struct Obj02170 *)p)->f8 == 1) func_021D584C(p);
@@ -39,6 +39,6 @@ void func_021D4E04(u8 *p) {
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5, 0);
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020307B0(p);
 }

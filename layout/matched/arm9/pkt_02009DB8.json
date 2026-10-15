@@ -18,14 +18,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009DB8",
-    "sub_02009DE8",
-    "sub_02009E40",
-    "sub_02009E54",
-    "sub_02009E74",
-    "sub_02009E8C",
-    "sub_02009EA8",
-    "sub_02009EB0"
+    "TRADE_HISTORY_FindPartner",
+    "TRADE_HISTORY_AddPartner",
+    "TRADE_HISTORY_GetPartnerId",
+    "TRADE_HISTORY_GetPartner",
+    "TRADE_HISTORY_HasPartner",
+    "TRADE_HISTORY_GetPartnerCount",
+    "TRADE_HISTORY_GetTradeCount",
+    "TRADE_HISTORY_IncrementTradeCount"
+   ],
+   "addresses": [
+    "0x02009DB8",
+    "0x02009DE8",
+    "0x02009E40",
+    "0x02009E54",
+    "0x02009E74",
+    "0x02009E8C",
+    "0x02009EA8",
+    "0x02009EB0"
    ]
   }
  ]

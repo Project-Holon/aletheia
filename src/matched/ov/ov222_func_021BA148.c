@@ -1,5 +1,5 @@
 /*
- * function: func_021BA148
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw
  * address: 0x021BA148
  * packet: pkt_ov222_021BA148
  * region: ov222
@@ -12,4 +12,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021BA148(void *p) { CLACT_DrawSystem(); }
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw(void *p) { CLACT_DrawSystem(); }

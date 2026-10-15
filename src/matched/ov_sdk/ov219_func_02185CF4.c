@@ -1,5 +1,5 @@
 /*
- * function: func_02185CF4
+ * function: BEACON_DETAIL_HasEntry
  * address:  0x02185CF4
  * packet:   pkt_02185CF4
  * region:   ov219
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 func_02184790(u32 key);
 
-int func_02185CF4(int a)
+int BEACON_DETAIL_HasEntry(int a)
 {
     return func_02184790(a) != 0;
 }

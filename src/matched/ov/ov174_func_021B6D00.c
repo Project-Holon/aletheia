@@ -1,5 +1,5 @@
 /*
- * function: func_021B6D00
+ * function: LOCAL_TVT_CHARA_Delete
  * address: 0x021B6D00
  * packet: pkt_ov174_021B6D00
  * region: ov174
@@ -18,4 +18,4 @@
  */
 #include "../include/Obj03860.h"
 struct Obj;struct Descriptor;extern void CLACT_DeleteActor(struct Obj *);extern void CLACT_ReleasePalette(unsigned),CLACT_ReleaseCharacter(unsigned),CLACT_ReleaseCellAnim(unsigned);extern void BMP_WIN_Delete(struct Descriptor *);extern void func_020307B0(void *);
-void func_021B6D00(unsigned char *unused,char *p) {CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03860 *)p)->f28);CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03860 *)p)->f2C);CLACT_ReleasePalette(((struct Obj03860 *)p)->f1C);CLACT_ReleaseCharacter(((struct Obj03860 *)p)->f20);CLACT_ReleaseCellAnim(((struct Obj03860 *)p)->f24);BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj03860 *)p)->f18);if(((struct Obj03860 *)p)->f10)func_020307B0(((struct Obj03860 *)p)->f10);func_020307B0(p);}
+void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03860 *)p)->f28);CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03860 *)p)->f2C);CLACT_ReleasePalette(((struct Obj03860 *)p)->f1C);CLACT_ReleaseCharacter(((struct Obj03860 *)p)->f20);CLACT_ReleaseCellAnim(((struct Obj03860 *)p)->f24);BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj03860 *)p)->f18);if(((struct Obj03860 *)p)->f10)func_020307B0(((struct Obj03860 *)p)->f10);func_020307B0(p);}

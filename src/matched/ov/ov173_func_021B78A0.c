@@ -1,5 +1,5 @@
 /*
- * function: func_021B78A0
+ * function: POKE_SUMMARY_ACTOR_TransferCharacter
  * address: 0x021B78A0
  * packet: pkt_ov173_021B78A0
  * region: ov173
@@ -20,4 +20,4 @@ struct Sub0204A9D0;
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 func_020307B0(void *p);
-void func_021B78A0(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);func_020307B0(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);func_020307B0(raw);}

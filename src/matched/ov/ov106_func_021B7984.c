@@ -16,7 +16,7 @@
  *   IRC_RANKING_ListScrollBy 0x021B8408 thumb ov106
  *   IRC_RANKING_InertiaStop 0x021B9134 thumb ov106
  *   IRC_RANKING_InputGetFlick 0x021B8E90 thumb ov106
- *   func_0207CA68 0x0207CA68 arm
+ *   VEC_DotProduct 0x0207CA68 arm
  *   gIrcRankingFlickAxis 0x021B949C data a4
  *   IRC_RANKING_InertiaIsActive 0x021B9198 thumb ov106
  *   IRC_RANKING_InertiaStep 0x021B913C thumb ov106
@@ -44,7 +44,7 @@ extern const Vec gIrcRankingFlickAxis;
 extern int IRC_APPBAR_IsBusy(int),IRC_APPBAR_GetResult(int *);
 extern void *IRC_RANKING_InputGetKeys(u8 *p, int *out);
 extern int IRC_RANKING_InputGetDrag(u8 *,Pair *,Pair *,Pair *),IRC_RANKING_InputGetFlick(u8 *,Pair *,Pair *,Vec *,int *);
-extern int func_0207CA68(const Vec *,const Vec *),func_0207C768(int,int);
+extern int VEC_DotProduct(const Vec *,const Vec *),func_0207C768(int,int);
 extern void IRC_RANKING_InertiaStart(u8 *,int,int),IRC_RANKING_ListScrollBy(u8 *,s16),IRC_RANKING_InertiaStop(u8 *);
 extern int IRC_RANKING_InertiaIsActive(int *p);
 extern s16 IRC_RANKING_InertiaStep(u8 *);
@@ -72,7 +72,7 @@ void IRC_RANKING_SeqBrowse(u8 *a,u32 unused,u8 *p) {
             IRC_RANKING_ListScrollBy(p+0x38,-pair.y);
             IRC_RANKING_InertiaStop(p+0x600);
         } else if(IRC_RANKING_InputGetFlick(p+0x5d4,0,0,&vec,&duration))
-            IRC_RANKING_InertiaStart(p+0x600,func_0207CA68(&gIrcRankingFlickAxis,&vec),duration);
+            IRC_RANKING_InertiaStart(p+0x600,VEC_DotProduct(&gIrcRankingFlickAxis,&vec),duration);
     }
     if(IRC_RANKING_InertiaIsActive((int *)(p+0x600)))IRC_RANKING_ListScrollBy(p+0x38,IRC_RANKING_InertiaStep(p+0x600));
     if(IRC_APPBAR_GetResult(*(int * *)&((struct Obj10252 *)p)->f614)==1)IRC_RANKING_SeqSetFunc(a,(u32)IRC_RANKING_SeqFadeOut);

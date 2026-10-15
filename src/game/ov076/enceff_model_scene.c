@@ -41,7 +41,7 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_02080C44  0x02080C44  arm
+ *   GX_GetBankForTex  0x02080C44  arm
  *   func_02080294  0x02080294  arm
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -77,7 +77,7 @@ extern void SCREENTEX_SetupCamera(void *object);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
-extern u16 func_02080C44(void);
+extern u16 GX_GetBankForTex(void);
 extern void func_02080294(u32 bank);
 extern void *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberIndex);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
@@ -188,7 +188,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
         }
         break;
     case 3:
-        scene->texBankMask = func_02080C44();
+        scene->texBankMask = GX_GetBankForTex();
         scene->texBankAdded = 0;
         if ((scene->texBankMask & 8) == 0) {
             scene->texBankAdded = 1;

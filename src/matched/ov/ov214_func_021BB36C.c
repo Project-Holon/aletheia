@@ -1,5 +1,5 @@
 /*
- * function: func_021BB36C
+ * function: BTL_REC_SEL_GRAPHIC_InitClact
  * address:  0x021BB36C
  * packet:   pkt_021BB36C
  * region:   ov214
@@ -30,7 +30,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021BB36C(unsigned char *p, int a, int b)
+void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BB54C, a, b);

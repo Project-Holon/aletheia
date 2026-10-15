@@ -73,7 +73,7 @@
  *   gSpeciesNameBank     0x020A7370  data
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_CreateEx 0x02017430 thumb
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
@@ -82,9 +82,9 @@
  *   func_020074D8  0x020074D8  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C278 0x0200C278 thumb
- *   func_0200C29C 0x0200C29C thumb
- *   func_0200C274 0x0200C274 thumb
+ *   BEACON_AddPoints 0x0200C278 thumb
+ *   BEACON_SubPoints 0x0200C29C thumb
+ *   BEACON_GetPoints 0x0200C274 thumb
  *   FIELD_STATUS_CreateFieldOpenEvent   0x020145CC  thumb
  *   SCRIPT_SYS_CallEvent   0x0215897C  thumb  ov010
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -115,7 +115,7 @@
  *   INTRUDE_COMM_GetMemberNameNetId  0x02175FB4  thumb  ov011
  *   INTRUDE_COMM_GetMemberEntry  0x0215840C  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb  ov011
  *   gPlayerProfileProcData     0x021BA758  data  ov099  a1
  *   ov071_id       0x00000047  data
@@ -149,7 +149,7 @@
  *   SODATEYA_HasEgg  0x021C3400  thumb  ov021
  *   SODATEYA_ReceiveEgg 0x021C32F4 thumb ov021
  *   SODATEYA_DeclineEgg  0x021C335C  thumb
- *   func_0200BDB0  0x0200BDB0  thumb
+ *   DAYCARE_GetFromSave  0x0200BDB0  thumb
  *   SODATEYA_DepositPokemon 0x021C3204 thumb ov021
  *   SODATEYA_WithdrawPokemon 0x021C3270 thumb ov021
  *   SODATEYA_GetPokemonCount  0x021C340C  thumb
@@ -383,7 +383,7 @@ extern void func_0202F190(void *mon, u32, void *, u32, u32 heap);
 extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32, int, int, int, int, int);
 extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
-extern int func_02020FE4(u16, u32, u16);
+extern int FILE_UTIL_Get_0FE4(u16, u32, u16);
 extern unsigned short PALANM_GetPairedCodeForFirst(int);
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
@@ -392,9 +392,9 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
 extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
 extern void *GAME_DATA_GetMiscSave(int *);
-extern u32 func_0200C278(struct MiscSave *, u32);
-extern u32 func_0200C29C(struct MiscSave *, u32);
-extern u32 func_0200C274(struct MiscSave *);
+extern u32 BEACON_AddPoints(struct MiscSave *, u32);
+extern u32 BEACON_SubPoints(struct MiscSave *, u32);
+extern u32 BEACON_GetPoints(struct MiscSave *);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *);
@@ -418,7 +418,7 @@ extern u8 GAME_DATA_GetIntrudeIdByte(void *);
 extern int INTRUDE_COMM_GetMemberNameNetId(u8 *);
 extern PlayerName *INTRUDE_COMM_GetMemberEntry(CommState *, int idx);
 extern void *GAME_DATA_GetSaveControl(struct GameData *);
-extern u16 *func_0200BE48(void *);
+extern u16 *INTRUDE_GetFromSave(void *);
 extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct PlayerProfile *o);
 extern void *SCRIPT_WORK_GetEvent(void *);
 extern void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *, void *, int kind, int sub, int flag);
@@ -437,7 +437,7 @@ extern void *FIELDMAP_GetSodateya(void *);
 extern int SODATEYA_HasEgg(void *);
 extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
 extern void SODATEYA_DeclineEgg(void **);
-extern void *func_0200BDB0(void *);
+extern void *DAYCARE_GetFromSave(void *);
 extern void SODATEYA_DepositPokemon(unsigned int *, unsigned int, unsigned int);
 extern void SODATEYA_WithdrawPokemon(unsigned int *, unsigned int, unsigned int);
 extern int SODATEYA_GetPokemonCount();
@@ -1821,7 +1821,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x6F, spec->form);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 6, spec->heldItem);
-    if (func_02020FE4(spec->ballItem, 0xF, spec->heapId) == 4)
+    if (FILE_UTIL_Get_0FE4(spec->ballItem, 0xF, spec->heapId) == 4)
         POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
     func_0202F190(trainerIdOrMon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
     POKE_TOOL_RecalcParam(trainerIdOrMon);
@@ -1881,7 +1881,7 @@ int SCRCMD_PROC_SetMiscValue(int vm,int cmdWork)
     int value;
     GAME_DATA_GetMyPlayerWork(gameData);
     value = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
-    func_0200C278(GAME_DATA_GetMiscSave(gameData),value);
+    BEACON_AddPoints(GAME_DATA_GetMiscSave(gameData),value);
     return 0;
 }
 
@@ -1895,7 +1895,7 @@ int SCRCMD_PROC_AddMiscValue(int vm,int cmdWork)
     int value;
     GAME_DATA_GetMyPlayerWork(gameData);
     value = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
-    func_0200C29C(GAME_DATA_GetMiscSave(gameData),value);
+    BEACON_SubPoints(GAME_DATA_GetMiscSave(gameData),value);
     return 0;
 }
 
@@ -1910,7 +1910,7 @@ int SCRCMD_PROC_CheckMiscValueReached(void *vm, void *cmdWork)
     unsigned int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     GAME_DATA_GetMyPlayerWork(gameData);
-    *resultVar = value <= func_0200C274(GAME_DATA_GetMiscSave(gameData)) ? 1 : 0;
+    *resultVar = value <= BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData)) ? 1 : 0;
     return 0;
 }
 
@@ -2314,7 +2314,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
         work->profile = *(PlayerProfile *)((u8 *)commState + 0x914);
         work->isRemote = 1;
     } else {
-        func_0200BE48(GAME_DATA_GetSaveControl(gameData));
+        INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
         INTRUDE_COMM_BuildLocalProfile(gameData, (struct PlayerProfile *)(&work->profile));
         playerIndex = 0;
         work->isRemote = 0;
@@ -2735,7 +2735,7 @@ int SCRCMD_PROC_CallDaycarePartyMenu(void *vm, void *cmdWork)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     void *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     GAME_DATA_GetMyParty(gameData);
-    func_0200BDB0(GAME_DATA_GetSaveControl(gameData));
+    DAYCARE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     SCRIPT_SYS_CallEvent(eventSlot, SCRCMD_SODATEYA_Create(gameSystem, fieldMap, resultVar));
     return 1;
 }

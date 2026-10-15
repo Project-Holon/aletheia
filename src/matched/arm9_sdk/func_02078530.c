@@ -1,5 +1,5 @@
 /*
- * function: func_02078530
+ * function: FS_GetArchiveName
  * address:  0x02078530
  * packet:   pkt_02078530
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct FSArchive {
     } name;
 } FSArchive;
 
-char *func_02078530(FSArchive *arc)
+char *FS_GetArchiveName(FSArchive *arc)
 {
     if (arc->name.ptr[3] != 0) {
         return arc->name.name;

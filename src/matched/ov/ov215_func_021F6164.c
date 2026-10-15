@@ -1,5 +1,5 @@
 /*
- * function: func_021F6164
+ * function: EGG_DEMO_MENU_Draw
  * address: 0x021F6164
  * packet: pkt_ov215_021F6164
  * region: ov215
@@ -25,7 +25,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 typedef unsigned int   u32;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021F6164(void *unused, char *p)
+void EGG_DEMO_MENU_Draw(void *unused, char *p)
 {
     void *obj;
     func_0201F73C(((struct Obj10939 *)p)->f58, 0, (u16)(((struct Obj10939 *)p)->f60), 2);

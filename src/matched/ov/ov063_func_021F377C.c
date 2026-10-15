@@ -27,11 +27,11 @@
  *   FIELD_NOGRID_MAPPER_GetAttribute 0x021BB3C4 thumb ov021
  *   MAP_ATTR_GetFlags 0x021AB0F8 thumb ov021
  *   FIELD_RAIL_GetLocationPos 0x021B7D38 thumb ov021
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   func_0207C768 0x0207C768 arm
- *   func_0207D14C 0x0207D14C arm
+ *   FX_Modf 0x0207D14C arm
  *   FIELD_CAMERA_EndDelay 0x0218F0A8 thumb ov021
  *   FIELD_CAMERA_IsDelayEnabled 0x0218F0E8 thumb ov021
  *   FIELD_CAMERA_StopTargetTrace 0x0218EC54 thumb ov021
@@ -83,11 +83,11 @@ extern int FIELD_RAIL_GetLocationWidthGrid(int,LocalCell *);
 extern u32 FIELD_NOGRID_MAPPER_GetAttribute(u8 *p, char *a1);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern void FIELD_RAIL_GetLocationPos(int,LocalCell *,Vec *);
-extern void func_0207CA00(const Vec *,const Vec *,Vec *);
-extern int func_0207CBD0(const Vec *);
+extern void VEC_Subtract(const Vec *,const Vec *,Vec *);
+extern int VEC_Mag(const Vec *);
 extern void VEC_Normalize(Vec *,Vec *);
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0207D14C(int,int *);
+extern int FX_Modf(int,int *);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
@@ -150,10 +150,10 @@ void RAIL_SLIPDOWN_TaskMain(int unused,S *s)
   for(i=0;i<bound;i++) {cell.c--;if(MAP_ATTR_GetFlags(FIELD_NOGRID_MAPPER_GetAttribute((u8 *)s->scene,(char *)(&cell)))&1)break;s->cell=cell;valid=1;}
   if(!valid) {s->state=9;return;}
   FIELD_RAIL_GetLocationPos(terrain,&s->cell,&s->end);
-  func_0207CA00(&s->end,&s->start,&delta);length=func_0207CBD0(&delta);VEC_Normalize(&delta,&delta);
+  VEC_Subtract(&s->end,&s->start,&delta);length=VEC_Mag(&delta);VEC_Normalize(&delta,&delta);
   vset16(&s->dir,delta.x,delta.y,delta.z);
   length=func_0207C768(length,0x8000);
-  if(func_0207D14C(length,&length)==0)s->count=length>>12;else s->count=(length>>12)+1;
+  if(FX_Modf(length,&length)==0)s->count=length>>12;else s->count=(length>>12)+1;
   s->step=0;
   if(s->obj!=0) {FIELD_CAMERA_EndDelay((u8 *)s->player);s->state=1;}else s->state=4;
   break;
@@ -163,7 +163,7 @@ void RAIL_SLIPDOWN_TaskMain(int unused,S *s)
   FIELD_CAMERA_GetEyeRaw(s->player,&s->oldpos);FIELD_CAMERA_GetTargetRaw(s->player,&s->oldlook);FIELD_NOGRID_MAPPER_SetCameraLocation((void **)s->scene,&s->cell);
   if(FIELD_CAMERA_GetTraceTarget((u8 *)s->player)!=0) {FIELD_CAMERA_SetTarget(s->player,&s->end);FIELD_CAMERA_StopTargetTrace((u8 *)s->player);}
   FIELD_CAMERA_SetMode((u8 *)s->player,2);FIELD_CAMERA_GetEyeRaw(s->player,&s->delta);FIELD_CAMERA_GetTargetRaw(s->player,&s->lookdelta);
-  func_0207CA00(&s->delta,&s->oldpos,&s->delta);func_0207CA00(&s->lookdelta,&s->oldlook,&s->lookdelta);
+  VEC_Subtract(&s->delta,&s->oldpos,&s->delta);VEC_Subtract(&s->lookdelta,&s->oldlook,&s->lookdelta);
   FIELD_NOGRID_MAPPER_SetActive(s->scene,0);FIELD_CAMERA_EnterMode((u8 *)s->player,2);FIELD_CAMERA_StopTargetTrace((u8 *)s->player);
   FIELD_CAMERA_SetTarget(s->player,&s->oldlook);FIELD_CAMERA_SetEyeRaw(s->player,&s->oldpos);
   s->state=4;break;

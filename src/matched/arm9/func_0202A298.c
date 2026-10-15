@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202A298
+ * function: TPOKE_DATA_FindRecord
  * address:  0x0202A298
  * packet:   pkt_0202A298
  * region:   arm9
@@ -28,7 +28,7 @@ struct ArcFile;
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void  ARC_TOOL_DeleteHandle(void *h);
 
-u32 func_0202A298(u32 key, u32 want, u32 heap)
+u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
 {
     u16   rec[4];
     void *h;

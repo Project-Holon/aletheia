@@ -25,7 +25,7 @@
  *   BG_SYS_GetSubVisiblePlanes             0x02043668  arm
  *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   GFL_NET_ERR_LoadScreenGraphics              0x02010068  thumb
- *   func_020101D4             0x020101D4  thumb
+ *   GFL_NET_ERR_DrawWindow             0x020101D4  thumb
  *   gNetErrWork                0x0214617C  data
  *
  * net_err.c's graphics save-and-blank: saves both master brightness levels,
@@ -33,7 +33,7 @@
  * window mask and BG1CNT into the module object at 0x0214617C, reprograms
  * BG1 as a 16-colour text layer, backs up BG1's character, screen and the
  * first palette block (unless +0x59 is 0x60), then draws the error screen
- * (GFL_NET_ERR_LoadScreenGraphics and func_020101D4).  The SDK inlines are NitroSDK's gx.h /
+ * (GFL_NET_ERR_LoadScreenGraphics and GFL_NET_ERR_DrawWindow).  The SDK inlines are NitroSDK's gx.h /
  * g2.h shapes (GX_SetVisiblePlane, G2_SetBG1Control with the saved control
  * word's bgExtPltt bit, G2_BG1Mosaic).  The lever that closed it (the
  * earlier note was 20 bytes short): the two backup copies read their buffer
@@ -76,7 +76,7 @@ extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32  BG_SYS_GetSubVisiblePlanes(void);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void GFL_NET_ERR_LoadScreenGraphics(u32 a);
-extern void func_020101D4(u32 a, u32 b);
+extern void GFL_NET_ERR_DrawWindow(u32 a, u32 b);
 extern u8   gNetErrWork[];
 
 #define reg_GX_MASTER_BRIGHT   (*(volatile u16 *)0x0400006C)
@@ -181,7 +181,7 @@ void GFL_NET_ERR_SaveDisplayAndDraw(u32 a0, u32 a1)
         GFL_NET_ERR_LoadScreenGraphics(1);
     } else {
         GFL_NET_ERR_LoadScreenGraphics(0);
-        func_020101D4(a0, a1);
+        GFL_NET_ERR_DrawWindow(a0, a1);
     }
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);

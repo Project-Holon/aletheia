@@ -1,5 +1,5 @@
 /*
- * function: func_0215CDD0
+ * function: SOCLi_CleanupCommandPacketQueue
  * address:  0x0215CDD0
  * packet:   pkt_ov009_0215CDD0
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      SOCLi_CleanupCommandPacketQueue (libsoc.TWL.HYB.a(socl_command.o))
  *
  * symbols:
- *   g_021AA480  0x021AA480  data
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclCmdQueue  0x021AA480  data
+ *   gSoclConfig  0x021A1CD8  data
  */
 
 #include "../include/G_021A1CD8.h"
@@ -27,14 +27,14 @@ typedef struct {
 	int b;
 } Cmd;
 
-extern struct Cmd g_021AA480;
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct Cmd gSoclCmdQueue;
+extern struct G_021A1CD8 *gSoclConfig;
 
-int func_0215CDD0(void)
+int SOCLi_CleanupCommandPacketQueue(void)
 {
-	if (g_021AA480.b < g_021AA480.a)
+	if (gSoclCmdQueue.b < gSoclCmdQueue.a)
 		return -1;
-	g_021A1CD8->free(g_021AA480.packets);
-	g_021AA480.packets = 0;
+	gSoclConfig->free(gSoclCmdQueue.packets);
+	gSoclCmdQueue.packets = 0;
 	return 0;
 }

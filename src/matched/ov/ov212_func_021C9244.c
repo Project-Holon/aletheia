@@ -1,5 +1,5 @@
 /*
- * function: func_021C9244
+ * function: ZUKAN_ResumeProc208
  * address: 0x021C9244
  * packet: pkt_ov212_021C9244
  * region: ov212
@@ -25,7 +25,7 @@ struct Blk37;
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void ZUKAN_SAVE_SetLastViewedSpecies(struct Blk37 *p, u32 v);
 extern u32 func_020307B0(void *p);
-int func_021C9244(char *p)
+int ZUKAN_ResumeProc208(char *p)
 {
     struct Blk37 *save;
     char *q;

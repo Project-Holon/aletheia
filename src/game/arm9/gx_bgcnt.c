@@ -1,7 +1,7 @@
 /*
  * file:     gx_bgcnt.c
  * unit:     yes
- * function: func_0207DF60, func_0207DF94, func_0207DFB4, func_0207DFE8, func_0207E008, func_0207E08C, func_0207E100, func_0207E184, func_0207E1F8, func_0207E22C, func_0207E24C, func_0207E280, func_0207E2A0, func_0207E2F0, func_0207E330, func_0207E388
+ * function: G2_GetBG0ScrPtr, func_0207DF94, G2_GetBG1ScrPtr, func_0207DFE8, G2_GetBG2ScrPtr, G2S_GetBG2ScrPtr, G2_GetBG3ScrPtr, G2S_GetBG3ScrPtr, G2_GetBG0CharPtr, func_0207E22C, G2_GetBG1CharPtr, func_0207E280, G2_GetBG2CharPtr, G2S_GetBG2CharPtr, G2_GetBG3CharPtr, G2S_GetBG3CharPtr
  * address:  0x0207DF60
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -48,22 +48,22 @@ typedef enum {
 } GXBGMode;
 
 
-void *func_0207DF60(void);
+void *G2_GetBG0ScrPtr(void);
 u32 G2S_GetBG0ScrPtr(void);
-void *func_0207DFB4(void);
+void *G2_GetBG1ScrPtr(void);
 u32 G2S_GetBG1ScrPtr(void);
-void *func_0207E008(void);
-void *func_0207E08C(void);
-void *func_0207E100(void);
-void *func_0207E184(void);
-void *func_0207E1F8(void);
+void *G2_GetBG2ScrPtr(void);
+void *G2S_GetBG2ScrPtr(void);
+void *G2_GetBG3ScrPtr(void);
+void *G2S_GetBG3ScrPtr(void);
+void *G2_GetBG0CharPtr(void);
 u32 G2S_GetBG0CharPtr(void);
-void *func_0207E24C(void);
+void *G2_GetBG1CharPtr(void);
 u32 G2S_GetBG1CharPtr(void);
-void *func_0207E2A0(void);
-void *func_0207E2F0(void);
-void *func_0207E330(void);
-void *func_0207E388(void);
+void *G2_GetBG2CharPtr(void);
+void *G2S_GetBG2CharPtr(void);
+void *G2_GetBG3CharPtr(void);
+void *G2S_GetBG3CharPtr(void);
 
 
 static inline int GetBG0ScreenBase(void)
@@ -75,7 +75,7 @@ static inline int GetBG0ScreenBase(void)
 /*
  * sdk:      G2_GetBG0ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207DF60(void)
+void *G2_GetBG0ScrPtr(void)
 {
     int screenBase = GetBG0ScreenBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x38000000) >> 27);
@@ -99,7 +99,7 @@ static inline int GetBG1ScreenBase(void)
 /*
  * sdk:      G2_GetBG1ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207DFB4(void)
+void *G2_GetBG1ScrPtr(void)
 {
     int screenBase = GetBG1ScreenBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x38000000) >> 27);
@@ -117,7 +117,7 @@ u32 G2S_GetBG1ScrPtr(void)
 /*
  * sdk:      G2_GetBG2ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E008(void)
+void *G2_GetBG2ScrPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GX_DISPCNT & 7);
     u32 bg = reg_G2_BG2CNT;
@@ -148,7 +148,7 @@ void *func_0207E008(void)
 /*
  * sdk:      G2S_GetBG2ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E08C(void)
+void *G2S_GetBG2ScrPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GXS_DB_DISPCNT & 7);
     u32 bg = reg_G2S_DB_BG2CNT;
@@ -178,7 +178,7 @@ void *func_0207E08C(void)
 /*
  * sdk:      G2_GetBG3ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E100(void)
+void *G2_GetBG3ScrPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GX_DISPCNT & 7);
     u32 bg = reg_G2_BG3CNT;
@@ -209,7 +209,7 @@ void *func_0207E100(void)
 /*
  * sdk:      G2S_GetBG3ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E184(void)
+void *G2S_GetBG3ScrPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GXS_DB_DISPCNT & 7);
     u32 bg = reg_G2S_DB_BG3CNT;
@@ -245,7 +245,7 @@ static inline int GetBG0CharBase(void)
 /*
  * sdk:      G2_GetBG0CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E1F8(void)
+void *G2_GetBG0CharPtr(void)
 {
     int charBase = GetBG0CharBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x07000000) >> 24);
@@ -269,7 +269,7 @@ static inline int GetBG1CharBase(void)
 /*
  * sdk:      G2_GetBG1CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E24C(void)
+void *G2_GetBG1CharPtr(void)
 {
     int charBase = GetBG1CharBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x07000000) >> 24);
@@ -287,7 +287,7 @@ u32 G2S_GetBG1CharPtr(void)
 /*
  * sdk:      G2_GetBG2CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E2A0(void)
+void *G2_GetBG2CharPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GX_DISPCNT & 7);
     u32 bg = reg_G2_BG2CNT;
@@ -303,7 +303,7 @@ void *func_0207E2A0(void)
 /*
  * sdk:      G2S_GetBG2CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E2F0(void)
+void *G2S_GetBG2CharPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GXS_DB_DISPCNT & 7);
     u32 bg = reg_G2S_DB_BG2CNT;
@@ -319,7 +319,7 @@ void *func_0207E2F0(void)
 /*
  * sdk:      G2_GetBG3CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E330(void)
+void *G2_GetBG3CharPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GX_DISPCNT & 7);
     u32 bg = reg_G2_BG3CNT;
@@ -335,7 +335,7 @@ void *func_0207E330(void)
 /*
  * sdk:      G2S_GetBG3CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
-void *func_0207E388(void)
+void *G2S_GetBG3CharPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GXS_DB_DISPCNT & 7);
     u32 bg = reg_G2S_DB_BG3CNT;

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0219329C  0x0219329c  arm   ov009
- *   func_020949F4  0x020949f4  arm
+ *   strncmp  0x020949f4  arm
  *   func_02193710  0x02193710  arm   ov009
  *   func_02189D78  0x02189d78  arm   ov009
  *   func_0217EAB0  0x0217eab0  arm   ov009
@@ -45,7 +45,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct GPIOperation;
 extern int func_0219329C(int *connection, const char *input, int fatal);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern void *func_0217EAB0(unsigned long size);
@@ -64,7 +64,7 @@ int func_0219305C(void **connection, GPIOperation *operation, char *input)
 
     if (func_0219329C((int *)connection, input, 1))
         return 4;
-    if (func_020949F4((const u8 *)input, (const u8 *)g_021A56C8, 4) != 0) {
+    if (strncmp((const u8 *)input, (const u8 *)g_021A56C8, 4) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A56D0);
         __result__ = 3;
         func_02189D78((int *)connection, __result__, 1);

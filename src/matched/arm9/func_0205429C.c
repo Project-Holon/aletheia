@@ -13,11 +13,11 @@
  *   func_0205429C_Verts  0x020A1B38  data
  *   func_0205429C_Hooks  0x020A7FE4  data
  *   func_0205429C_Hooks2 0x020A7FDC  data
- *   func_0207B598        0x0207B598  arm
+ *   MTX_Identity43_        0x0207B598  arm
  *   func_0207B5F4        0x0207B5F4  thumb
  *   func_0207B9F0        0x0207B9F0  arm
- *   func_0207CA68        0x0207CA68  arm
- *   func_0207CAE8        0x0207CAE8  arm
+ *   VEC_DotProduct        0x0207CA68  arm
+ *   VEC_CrossProduct        0x0207CAE8  arm
  *   VEC_Normalize        0x0207CCA4  arm
  *   func_0207D8E0        0x0207D8E0  arm
  *   func_0207D918        0x0207D918  arm
@@ -153,11 +153,11 @@ extern const s16 func_0205429C_Verts[];
 extern u32 (*const func_0205429C_Hooks[])(s32, s32, void *);
 extern u32 (*const func_0205429C_Hooks2[])(s32, s32, s32, s32);
 
-extern void func_0207B598(void *);
+extern void MTX_Identity43_(void *);
 extern u32 func_0207B5F4(void *, s32, s32, s32);
 extern void func_0207B9F0(const void *, const void *, void *);
-extern s32 func_0207CA68(const void *, const void *);
-extern void func_0207CAE8(const void *, const void *, void *);
+extern s32 VEC_DotProduct(const void *, const void *);
+extern void VEC_CrossProduct(const void *, const void *, void *);
 extern void VEC_Normalize(const void *, void *);
 extern void func_0207D8E0(const void *);
 extern void func_0207D918(const void *);
@@ -188,7 +188,7 @@ void func_0205429C(struct Obj *obj, struct S *s)
     func_0205429C_Hooks[obj->f40->f20->f00->f00.sel2]
         (func_0205429C_Verts[2 * i], func_0205429C_Verts[2 * i + 1], &f.m2);
 
-    func_0207B598(&f.m4);
+    MTX_Identity43_(&f.m4);
     if (obj->f40->f20->f00->f48.hi == 0) {
         VEC_Normalize(&s->p2, &f.v0);
     } else {
@@ -201,15 +201,15 @@ void func_0205429C(struct Obj *obj, struct S *s)
     f.v3.x = 0;
     f.v3.y = 0x1000;
     f.v3.z = 0;
-    i = func_0207CA68(&f.v0, &f.v3);
+    i = VEC_DotProduct(&f.v0, &f.v3);
     if (i > 0xCCD || i < -0xCCD) {
         f.v3.x = 0x1000;
         f.v3.y = 0;
         f.v3.z = 0;
     }
 
-    func_0207CAE8(&f.v0, &f.v3, &f.v1);
-    func_0207CAE8(&f.v0, &f.v1, &f.v2);
+    VEC_CrossProduct(&f.v0, &f.v3, &f.v1);
+    VEC_CrossProduct(&f.v0, &f.v1, &f.v2);
 
     f.m4.m[0] = f.v1.x;
     f.m4.m[1] = f.v1.y;

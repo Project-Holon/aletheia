@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_021F2A8C  0x021F2A8C  thumb
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct BgTemplate;
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
@@ -52,10 +52,10 @@ extern const u8 d_021F3668[];
 
 void func_021F2A8C(u8 *p, void *h)
 {
-    func_0203FCA0(4, (const struct BgTemplate *)d_021F3608, 0);
-    func_0203FCA0(5, (const struct BgTemplate *)d_021F3628, 0);
-    func_0203FCA0(6, (const struct BgTemplate *)d_021F3648, 0);
-    func_0203FCA0(7, (const struct BgTemplate *)d_021F3668, 0);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021F3608, 0);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021F3628, 0);
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021F3648, 0);
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)d_021F3668, 0);
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;

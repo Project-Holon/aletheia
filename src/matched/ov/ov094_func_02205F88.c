@@ -12,13 +12,13 @@
  * symbols:
  *   d_0220A392  0x0220A392  data  ov094  a2
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_0201EF34  0x0201EF34  thumb
  *   func_0201F250  0x0201F250  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
  *   BMP_Create  0x02043678  arm  arm9
  *   BMP_Delete  0x020437AC  arm  arm9
@@ -57,7 +57,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
@@ -71,7 +71,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void MIi_CpuCopy16(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_Delete(struct Obj020437AC *p);
 
 void BTLV_INPUT_CreateBackActor(char *p)
@@ -97,7 +97,7 @@ void BTLV_INPUT_CreateBackActor(char *p)
     CLACT_SetActorAnimSeq(((struct Obj01384 *)p)->f21C, 0x14);
     str = STRBUF_Create(0x10, ((struct Obj01384 *)p)->f240);
     msg = func_02045EC0(((struct Obj01384 *)p)->f5C, 0);
-    font = (int)func_0201EC64(((struct Obj01384 *)p)->f240);
+    font = (int)GF_FONT_Create_EC64(((struct Obj01384 *)p)->f240);
     bmp = BMP_Create(0xe, 4, 0x20, ((struct Obj01384 *)p)->f240);
     BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -117,6 +117,6 @@ void BTLV_INPUT_CreateBackActor(char *p)
     }
     STRBUF_Delete(str);
     STRBUF_Delete(msg);
-    func_0201ED04((struct WordSet *)font);
+    WORDSET_DeleteStrbufED04((struct WordSet *)font);
     BMP_Delete(bmp);
 }

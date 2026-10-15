@@ -16,7 +16,7 @@
  * Addresses are Black-image addresses.
  *
  * symbols:
- *   func_02094860  0x02094860  arm
+ *   strncpy  0x02094860  arm
  *   DWCi_Language  0x021c0ec8  arm  ov016
  *   gCommonWork  0x021de510  data
  *   sCommonLanguageCodes  0x021da044  data

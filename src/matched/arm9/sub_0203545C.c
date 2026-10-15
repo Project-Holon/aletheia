@@ -22,7 +22,7 @@
  *   func_02035428   0x02035428  arm
  *   func_02035284   0x02035284  arm
  *
- * The lid/sleep service, one of the five sub_02034EF8 runs per frame.  Bit
+ * The lid/sleep service, one of the five UI_Main runs per frame.  Bit
  * 15 of the halfword at 0x02FFFFA8 is the lid-closed flag; when it is set
  * and the veto predicate UI_IsSleepInhibited says no, the machine goes to sleep
  * with the whole shutdown/wake sequence around it, and when the predicate
@@ -44,7 +44,7 @@
  * split can help, because the site is inside the only function that needs
  * it.
  *
- * This is what caps src/pending/sub_02034EF8.c as well.
+ * This is what caps src/pending/UI_Main.c as well.
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/UI_ServiceLidSleep.c \

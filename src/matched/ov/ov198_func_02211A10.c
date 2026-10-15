@@ -12,12 +12,12 @@
  *           across the store, so the index decrement stays in r2.
  *
  * symbols:
- *   func_0220AFDC  0x0220AFDC  thumb  ov196
+ *   B_APP_TOOL_SetActorsVisible  0x0220AFDC  thumb  ov196
  */
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
-extern u32 func_0220AFDC(u32, u32);
+extern u32 B_APP_TOOL_SetActorsVisible(u32, u32);
 
 u32 func_02211A10(u8 *p, u32 v)
 {
@@ -25,5 +25,5 @@ u32 func_02211A10(u8 *p, u32 v)
 
     *(u32 *)(p + i) = v;
     i -= 4;
-    return func_0220AFDC(*(u32 *)(p + i), v);
+    return B_APP_TOOL_SetActorsVisible(*(u32 *)(p + i), v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0207DBB4
+ * function: G3X_ResetMtxStack
  * address:  0x0207DBB4
  * packet:   pkt_0207DBB4
  * region:   arm9
@@ -68,7 +68,7 @@ typedef union {
 extern int G3X_GetMtxStackLevelPV(s32 *level);
 extern int G3X_GetMtxStackLevelPJ(s32 *level);
 
-void func_0207DBB4(void)
+void G3X_ResetMtxStack(void)
 {
     s32 levelPV, levelPJ;
 

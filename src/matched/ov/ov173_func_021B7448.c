@@ -1,5 +1,5 @@
 /*
- * function: func_021B7448
+ * function: POKE_SUMMARY_MAIN_GetMoveWord
  * address:  0x021B7448
  * packet:   pkt_021B7448
  * region:   ov173
@@ -17,7 +17,7 @@
 
 extern unsigned int POKE_TOOL_GetPartyValue(void *, unsigned int, unsigned int);
 
-unsigned short func_021B7448(int *p)
+unsigned short POKE_SUMMARY_MAIN_GetMoveWord(int *p)
 {
     int *q = *(int * *)&((struct Obj24174 *)p)->f0;
 

@@ -12,7 +12,7 @@
  *   func_02040588 0x02040588 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   d_021BFC24 0x021BFC24 data a4
  */
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *, int, unsigned);
 void func_021BE02C(void *ctx)
 {
@@ -35,6 +35,6 @@ void func_021BE02C(void *ctx)
         func_020403F4((unsigned char)layer);
     }
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(ctx, 0, 4);
 }

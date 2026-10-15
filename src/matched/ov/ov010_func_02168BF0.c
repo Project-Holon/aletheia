@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   FLD_BTL_INST_TOOL_PartySelectStepEventMain  0x02168C74  thumb ov010
  */
@@ -49,7 +49,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *p);
+extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 extern void FLD_BTL_INST_TOOL_PartySelectStepEventMain(void);
 
@@ -84,7 +84,7 @@ struct Desc *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(int a, int b, int c, i
         p->f1c = 0;
         v = GAME_DATA_GetMyParty(h);
     } else {
-        v = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(h)), 5);
+        v = func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(h)), 5);
         p->f1c = v;
     }
     p->f18 = v;

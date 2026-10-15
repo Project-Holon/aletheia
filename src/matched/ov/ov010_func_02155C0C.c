@@ -34,14 +34,14 @@
  *   MUSICAL_PROGRAM_Create  0x02157028  thumb  ov010
  *   MUSICAL_PROGRAM_PackBonus  0x02157260  thumb  ov010
  *   MUSICAL_PROGRAM_PackPicks  0x02157298  thumb  ov010
- *   func_021FD908  0x021FD908  thumb  ov132
- *   func_021FD904  0x021FD904  thumb  ov132
- *   func_021FD918  0x021FD918  thumb  ov132
- *   func_021FD8D4  0x021FD8D4  thumb  ov132
- *   func_021FD8EC  0x021FD8EC  thumb  ov132
+ *   STA_NET_GetField158  0x021FD908  thumb  ov132
+ *   STA_NET_GetField48  0x021FD904  thumb  ov132
+ *   STA_NET_SetState6Pair  0x021FD918  thumb  ov132
+ *   STA_NET_GetCurrentSlotValue  0x021FD8D4  thumb  ov132
+ *   STA_NET_GetSlotValueByIndex  0x021FD8EC  thumb  ov132
  *   func_021FCE28  0x021FCE28  thumb  ov132
- *   func_021FD83C  0x021FD83C  thumb  ov132
- *   func_0200A81C  0x0200A81C  thumb
+ *   STA_NET_GetSlot1Done  0x021FD83C  thumb  ov132
+ *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_02008530  0x02008530  thumb
@@ -120,14 +120,14 @@ extern void MUSICAL_EVENT_ReceiveShowProgram(struct Work *w);
 extern struct Deal *MUSICAL_PROGRAM_Create(u32 heap, struct Src *src, u16 lim);
 extern u32 MUSICAL_PROGRAM_PackBonus(const u8 *p);
 extern u32 MUSICAL_PROGRAM_PackPicks(const u8 *p);
-extern u32 func_021FD908(u8 *p);
-extern int func_021FD904(int *p);
-extern void func_021FD918(char *p, u32 a, int b);
-extern u32 func_021FD8D4(char *p);
-extern u8 func_021FD8EC(char *p, int index);
+extern u32 STA_NET_GetField158(u8 *p);
+extern int STA_NET_GetField48(int *p);
+extern void STA_NET_SetState6Pair(char *p, u32 a, int b);
+extern u32 STA_NET_GetCurrentSlotValue(char *p);
+extern u8 STA_NET_GetSlotValueByIndex(char *p, int index);
 extern int func_021FCE28(char *p, u32 index);
-extern u32 func_021FD83C(char *p);
-extern u16 func_0200A81C(struct Big *p);
+extern u32 STA_NET_GetSlot1Done(char *p);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -142,22 +142,22 @@ int MUSICAL_EVENT_Main(void *evt, void *unused, Seq *s)
     MUSICAL_EVENT_CheckNetError(s);
     switch (s->state) {
     case 11:
-        if (func_021FD908(s->link->sess) == 1) {
+        if (STA_NET_GetField158(s->link->sess) == 1) {
             u32 lo = 0;
             u32 hi = 0;
             void *list;
             u8 i;
 
-            if (func_021FD904(s->link->sess) == 1) {
-                s->f38 = MUSICAL_PROGRAM_Create(4, s->f24, func_0200A81C(s->f40));
+            if (STA_NET_GetField48(s->link->sess) == 1) {
+                s->f38 = MUSICAL_PROGRAM_Create(4, s->f24, MUSICAL_SAVE_GetFanPoints(s->f40));
                 lo = MUSICAL_PROGRAM_PackBonus(s->f38);
                 hi = MUSICAL_PROGRAM_PackPicks(s->f38);
             }
-            func_021FD918(s->link->sess, lo, hi);
+            STA_NET_SetState6Pair(s->link->sess, lo, hi);
             s->state = 12;
             list = MISC_SAVEDATA_GetBlock44(s->f1c);
             for (i = 0; i < 4; i++) {
-                if (func_021FD8D4(s->link->sess) != func_021FD8EC(s->link->sess, i)) {
+                if (STA_NET_GetCurrentSlotValue(s->link->sess) != STA_NET_GetSlotValueByIndex(s->link->sess, i)) {
                     void *p = (void *)func_021FCE28(s->link->sess, i);
                     if (p != 0)
                         MISC_SAVEDATA_InsertRecentValue(list, func_02008530(p));
@@ -168,13 +168,13 @@ int MUSICAL_EVENT_Main(void *evt, void *unused, Seq *s)
         }
         break;
     case 12:
-        if (func_021FD83C(s->link->sess) == 1) {
+        if (STA_NET_GetSlot1Done(s->link->sess) == 1) {
             u8 i;
 
             s->state = 13;
             for (i = 0; i < 4; i++)
-                s->f44[i] = func_021FD8EC(s->link->sess, i);
-            s->f4c = func_021FD8D4(s->link->sess);
+                s->f44[i] = STA_NET_GetSlotValueByIndex(s->link->sess, i);
+            s->f4c = STA_NET_GetCurrentSlotValue(s->link->sess);
             MUSICAL_EVENT_ReceiveShowProgram((struct Work *)s);
         } else if (s->f50 == 1) {
             s->state = 0x17;

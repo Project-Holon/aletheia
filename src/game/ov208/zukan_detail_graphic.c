@@ -40,17 +40,17 @@
  *   d_021C8DC0 0x021C8DC0 data a1
  *   d_021C8184 0x021C8184 data a4
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021C8138 0x021C8138 data a4
  *   d_021C81B4 0x021C81B4 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4  arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -152,13 +152,13 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 
 extern void func_0201DD68(void);
 
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 
 extern void BMP_WIN_Init(u32);
 
 extern void func_0203FC28(struct DispConfig *cfg);
 
-extern void func_0203FCA0(u8 bgId, const struct BgTemplate *tmpl, u8 type);
+extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
 
 extern void func_020414AC(u8);
 
@@ -168,7 +168,7 @@ extern void func_020403F4(u32 i);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void func_020419E4(void);
 
@@ -366,13 +366,13 @@ void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *p,u32 heap)
     const struct BgEntry *row;
     u32 bg;
     MI_CpuFill8(p,0,4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021C8138);
     for(;i<8;i++) {
         row=&d_021C81B4[i];
         bg=row->bg;
-        func_0203FCA0((u8)bg,(const struct BgTemplate *)&row->tmpl,(u8)row->type);
+        BG_SYS_InitBgLayer((u8)bg,(const struct BgTemplate *)&row->tmpl,(u8)row->type);
         func_020414AC(bg);
         func_02040588(bg,row->on);
     }
@@ -384,7 +384,7 @@ void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *p)
     for (i = 0; i < 8; i++)
         func_020403F4((u8)d_021C81B4[i].bg);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p, 0, 4);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02196348
+ * function: gti2HandleClientResponse
  * address:  0x02196348
  * packet:   pkt_ov009_02196348
  * region:   ov009
@@ -48,7 +48,7 @@ extern void gti2ConnectionClosed();
 extern u32 current_time(void);
 extern int gti2ConnectAttemptCallback();
 
-int func_02196348(GTI2Connection *connection, u8 *message, int len)
+int gti2HandleClientResponse(GTI2Connection *connection, u8 *message, int len)
 {
     int latency;
 

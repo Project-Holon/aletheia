@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C44
+ * function: POKE_SUMMARY_ACTOR_CreateSound
  * address: 0x021B7C44
  * packet: pkt_ov173_021B7C44
  * region: ov173
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02025CD0 0x02025CD0 thumb
- *   func_02026124 0x02026124 thumb
- *   func_021B7F64 0x021B7F64 thumb ov173
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
+ *   POKE_SUMMARY_ACTOR_UpdateScrollArrows 0x021B7F64 thumb ov173
  *   d_021B83A8 0x021B83A8 data a4
  *   d_021B81DC 0x021B81DC data a4
  */
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Struct_02025CD0;struct Sound;
 extern u8 d_021B81DC[];
 extern const u8 d_021B83A8[];
-extern struct Struct_02025CD0 *func_02025CD0(u32,u32,u32,u32,u8,u16);
-extern void func_02026124(struct Sound *,u32);
-extern void func_021B7F64(char *);
-void func_021B7C44(u8 *p) {struct Struct_02025CD0 *q;q=func_02025CD0((u32)d_021B83A8,(u32)d_021B81DC,(u32)p,1,0,79);*(struct Struct_02025CD0 * *)&((struct Obj00180 *)p)->f1C8=q;func_02026124((struct Sound *)q,8);func_021B7F64((char *)p);}
+extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *,u32);
+extern void POKE_SUMMARY_ACTOR_UpdateScrollArrows(char *);
+void POKE_SUMMARY_ACTOR_CreateSound(u8 *p) {struct Struct_02025CD0 *q;q=CURSOR_MOVE_Create((u32)d_021B83A8,(u32)d_021B81DC,(u32)p,1,0,79);*(struct Struct_02025CD0 * *)&((struct Obj00180 *)p)->f1C8=q;CURSOR_MOVE_ClearSkipBit((struct Sound *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)p);}

@@ -1,5 +1,5 @@
 /*
- * function: func_0205C670
+ * function: CheckWirelessPowerON
  * address:  0x0205C670
  * packet:   pkt_0205C670
  * region:   arm9
@@ -24,7 +24,7 @@ extern BOOL OS_IsRunOnTwl(void);
 extern BOOL OS_IsAvailableWireless(void);
 extern BOOL OS_IsForceDisableWireless(void);
 
-BOOL func_0205C670(void)
+BOOL CheckWirelessPowerON(void)
 {
     if (OS_IsRunOnTwl()) {
         if (OS_IsAvailableWireless() == 1 && OS_IsForceDisableWireless() == 0) {

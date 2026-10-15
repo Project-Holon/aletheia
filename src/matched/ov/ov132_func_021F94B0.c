@@ -1,5 +1,5 @@
 /*
- * function: func_021F94B0
+ * function: STA_ACTING_ClearText
  * address: 0x021F94B0
  * packet: pkt_ov132_021F94B0
  * region: ov132
@@ -25,7 +25,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021F94B0(u8 *p)
+void STA_ACTING_ClearText(u8 *p)
 {
     if (((struct Obj03817 *)p)->fD8) {
         PRINTSYS_PrintStreamDelete(((struct Obj03817 *)p)->fD8);

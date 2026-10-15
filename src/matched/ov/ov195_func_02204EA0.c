@@ -1,5 +1,5 @@
 /*
- * function: func_02204EA0
+ * function: SHINKA_DEMO_IsBgmState1
  * address:  0x02204EA0
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Leaf of the func_022040E0 dependency tree: true when the scene object's
+ * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 1.  Unlabelled in the listing (a leaf that saves no
  * lr), so region-qualified.
  */
-int func_02204EA0(int a, int *p)
+int SHINKA_DEMO_IsBgmState1(int a, int *p)
 {
     return p[0xc] == 1;
 }

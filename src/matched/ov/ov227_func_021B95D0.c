@@ -1,5 +1,5 @@
 /*
- * function: func_021B95D0
+ * function: EVENT_PDC_RETURN_Init
  * address:  0x021B95D0
  * packet:   pkt_ov227_021B95D0
  * region:   ov227
@@ -27,7 +27,7 @@ extern void *PROCSYS_Create(int a0);
 
 struct s { char pad[0x38]; };
 
-int func_021B95D0(struct Obj0203159C *a)
+int EVENT_PDC_RETURN_Init(struct Obj0203159C *a)
 {
     struct s *p;
 

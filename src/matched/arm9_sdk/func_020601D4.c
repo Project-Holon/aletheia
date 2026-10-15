@@ -1,5 +1,5 @@
 /*
- * function: func_020601D4
+ * function: NCFGi_CheckApInfo
  * address:  0x020601D4
  * packet:   pkt_020601D4
  * region:   arm9
@@ -45,7 +45,7 @@ typedef struct NCFGApInfo {
 extern int NCFGi_CheckSsid(u8 *ssid);
 extern int NCFGi_CheckIpInfo(NCFGApInfo *info);
 
-int func_020601D4(NCFGApInfo *info)
+int NCFGi_CheckApInfo(NCFGApInfo *info)
 {
     if (info->setType == 0xFF)
         return 1;

@@ -18,7 +18,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   FIELD_WFBC_DATA_LOCAL_ReadValue  0x021869D0  thumb  ov020
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
@@ -37,7 +37,7 @@ u16 *SCRIPT_WORK_ReadWorkPointer(void *a, void *b);
 u32 POKEPARTY_GetCount(void *a);
 u16 FIELD_WFBC_DATA_LOCAL_ReadValue(char *p);
 struct RtcDate;
-void func_0203F4E4(struct RtcDate *date);
+void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 void *POKEPARTY_GetMember(void *a, u32 i);
 u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
@@ -66,7 +66,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(void *a0, void *a1)
     f2 = SCRIPT_WORK_ReadWorkPointer(a0, a1);
     n = POKEPARTY_GetCount(b);
     key = FIELD_WFBC_DATA_LOCAL_ReadValue(w);
-    func_0203F4E4((struct RtcDate *)d);
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)d);
     *f0 = 0;
     *f1 = 0;
     *f2 = 0xFFFF;

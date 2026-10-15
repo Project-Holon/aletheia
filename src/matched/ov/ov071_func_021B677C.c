@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  */
 typedef unsigned int u32;
-extern void func_0203FB44(u32, u32, u32);
+extern void BG_SYS_DeleteHalf(u32, u32, u32);
 void MONOLITH_TOOL_FreeSubBgChar(u32 *p)
 {
-    func_0203FB44(7, p[0x138 / 4], 0x80);
+    BG_SYS_DeleteHalf(7, p[0x138 / 4], 0x80);
 }

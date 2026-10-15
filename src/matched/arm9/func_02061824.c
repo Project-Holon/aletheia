@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02061824
+ * function: NNSi_GfdSetVramManagerWork
  * address:  0x02061824
  * packet:   pkt_0206123C
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj11496.h"
 
-void func_02061824(void *p0){ *(int *)(0x2146B74) = (int)((struct Obj11496 *)p0)->f0; *(int *)((0x2146B74 + 4)) = (int)((struct Obj11496 *)p0)->f4; }
+void NNSi_GfdSetVramManagerWork(void *p0){ *(int *)(0x2146B74) = (int)((struct Obj11496 *)p0)->f0; *(int *)((0x2146B74 + 4)) = (int)((struct Obj11496 *)p0)->f4; }

@@ -10,15 +10,15 @@
  * status:   EXACT
  *           --suggest-split offers nothing (single function, the one
  *           unresolved site's only witness is inside this range).
- * blocker:  func_02076B98 (label) -- has no witness outside 0203386C..020338B8,
+ * blocker:  CARD_CancelBackupAsync (label) -- has no witness outside 0203386C..020338B8,
  *           the only branch to it in the image is this function's own call.
  *           Every concrete byte of the body reproduces.
  * symbols:
  *   g_02146998    0x02146998  data
  *   CARD_TryWaitBackupAsync 0x02076B8C  arm
- *   func_02076B98 0x02076B98  arm
+ *   CARD_CancelBackupAsync 0x02076B98  arm
  *   CARD_WaitBackupAsync 0x02076B80  arm
- *   func_02075EAC 0x02075EAC  arm
+ *   CARD_UnlockBackup 0x02075EAC  arm
  *   OS_ReleaseLockID 0x02084F10  arm
  */
 
@@ -26,21 +26,21 @@ typedef unsigned int u32;
 
 extern u32 g_02146998;
 extern u32 CARD_TryWaitBackupAsync(void);
-extern void func_02076B98(void);
+extern void CARD_CancelBackupAsync(void);
 extern void CARD_WaitBackupAsync(void);
-extern void func_02075EAC(u32 a);
+extern void CARD_UnlockBackup(u32 a);
 extern void OS_ReleaseLockID(u32 a);
 
 void FLASH_ACCESS_CancelWrite(u32 a)
 {
     if (CARD_TryWaitBackupAsync() == 0) {
-        func_02076B98();
+        CARD_CancelBackupAsync();
         CARD_WaitBackupAsync();
     }
     if (g_02146998 != 1) {
         return;
     }
-    func_02075EAC(a);
+    CARD_UnlockBackup(a);
     OS_ReleaseLockID(a);
     g_02146998 = 0;
 }

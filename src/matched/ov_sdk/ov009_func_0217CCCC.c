@@ -1,5 +1,5 @@
 /*
- * function: func_0217CCCC
+ * function: gsCoreThink
  * address:  0x0217CCCC
  * packet:   pkt_ov009_0217CCCC
  * region:   ov009
@@ -20,10 +20,10 @@
  * symbols:
  *   gsiCoreGetManager                  0x0217CA20  arm ov009
  *   gsiEnterCriticalSection                  0x0217F108  arm ov009
- *   func_0217F264                  0x0217F264  arm ov009
+ *   current_time                  0x0217F264  arm ov009
  *   func_02184200                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
- *   func_0217CB88                  0x0217CB88  arm ov009
+ *   gsCoreTaskThink                  0x0217CB88  arm ov009
  *   ghttpCleanup                  0x021C204C  arm ov114
  *   func_021841B0                  0x021841B0  arm ov009
  *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
@@ -45,15 +45,15 @@ typedef struct GSCoreMgr {
 
 extern void *gsiCoreGetManager(void);
 extern void gsiEnterCriticalSection(void *cs);
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
-extern int func_0217CB88(GSTask *theTask);
+extern int gsCoreTaskThink(GSTask *theTask);
 extern void ghttpCleanup(void);
 extern void func_021841B0(void *array);
 extern void gsiLeaveCriticalSection(void *cs);
 
-void func_0217CCCC(unsigned int theMS)
+void gsCoreThink(unsigned int theMS)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
     int i;
@@ -65,15 +65,15 @@ void func_0217CCCC(unsigned int theMS)
     if (aCore->active == 0)
         return;
     gsiEnterCriticalSection(&aCore->cs);
-    aStartTime = func_0217F264();
+    aStartTime = current_time();
     len = func_02184200(aCore->tasks);
     if (len > 0)
         allTasksAreDead = 0;
     for (i = len - 1; i >= 0; i--) {
         task = *(GSTask **)func_02184208(aCore->tasks, i);
         if (task->b0c != 0)
-            func_0217CB88(task);
-        if (theMS != 0 && func_0217F264() - aStartTime > theMS)
+            gsCoreTaskThink(task);
+        if (theMS != 0 && current_time() - aStartTime > theMS)
             break;
     }
     if (aCore->shutdown != 0 && allTasksAreDead) {

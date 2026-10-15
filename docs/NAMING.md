@@ -218,6 +218,12 @@ ov123, ov135, ov137, ov170, ov172, ov186, ov208, ov209, ov217 and the ARM9 os, m
 heap, lib, save and sound clusters. The applied names fit the table above, so no
 new convention was needed.
 
+Wave 7 applied it to the remaining sweep blocks (ov095 to ov231), the ARM9
+graphics cluster, the two logic groups, the filesystem, wifi and msl_c_lib
+clusters, the remaining ov009 files, and the ov137, ov170, ov172, ov186 and
+ov119 continuations. The applied names fit the table above, so no new convention
+was needed.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

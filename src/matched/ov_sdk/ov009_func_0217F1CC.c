@@ -1,5 +1,5 @@
 /*
- * function: func_0217F1CC
+ * function: gsiGetResolvedIP
  * address:  0x0217F1CC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void func_0217EAE0(void *p);
 
-int func_0217F1CC(int *p)
+int gsiGetResolvedIP(int *p)
 {
     int v = p[1];
 

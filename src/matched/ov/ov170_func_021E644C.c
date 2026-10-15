@@ -29,7 +29,7 @@
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb
  *   BOX2_SEQ_DrawGridSlotB 0x021EA458 thumb
@@ -65,7 +65,7 @@ extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 typedef unsigned int   u32;
 struct Sound;
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
 extern int BOX2_SEQ_DrawGridSlotB(unsigned char *p, unsigned i);
@@ -120,8 +120,8 @@ int BOX2_SEQ_StateSummaryD(unsigned char *p)
         BOX2_UI_ToggleSlotPair(WORK(p), 1);
         BOX2_UI_MoveCursor((char **)p, 6, p[0x16]);
         BOX2_SEQ_SetCursorFrame((char *)p, 6);
-        func_02026124(OBJ(p), 0x27);
-        func_02026124(OBJ(p), 0x28);
+        CURSOR_MOVE_ClearSkipBit(OBJ(p), 0x27);
+        CURSOR_MOVE_ClearSkipBit(OBJ(p), 0x28);
         if (NIB(p)->lo == 1) {
             BOX2_UI_DeleteSlotObjects((char *)p, 0, 1, 1);
             BOX2_SEQ_SetWindow9(p, 0xD, 1);

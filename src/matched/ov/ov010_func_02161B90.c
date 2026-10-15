@@ -13,7 +13,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   EVENT_FIELD_PROCLINK_StartCommProc  0x02161CDC  thumb  ov010
  *   EVENT_FIELD_PROCLINK_StartSeasonCommProc  0x02161D18  thumb  ov010
  *   GAME_BEACON_SEARCH_SetSimpleEventB  0x0216570C  thumb  ov010
@@ -36,7 +36,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 struct Ctx;
-extern unsigned int func_02012138(const struct Ctx *p);
+extern unsigned int ICA_ANIME_GetField24(const struct Ctx *p);
 extern void EVENT_FIELD_PROCLINK_StartCommProc(void *a, void *b, u8 c, u8 d);
 extern void EVENT_FIELD_PROCLINK_StartSeasonCommProc(int a, int b, u8 c, u8 d);
 extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
@@ -51,7 +51,7 @@ void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *p, void *a1, int kind, int 
     n = func_020124E8(h);
     MI_CpuFill8(n, 0, 0x24);
     n->f00 = p;
-    n->f04 = (void *)func_02012138(p);
+    n->f04 = (void *)ICA_ANIME_GetField24(p);
     if (flag != 0)
         EVENT_FIELD_PROCLINK_StartCommProc(n->f08, p, kind, sub);
     else

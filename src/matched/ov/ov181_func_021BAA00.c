@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA00
+ * function: STAFF_ROLL_CmdPrintEntry
  * address: 0x021BAA00
  * packet: pkt_ov181_021BAA00
  * region: ov181
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA558 0x021BA558 thumb ov181
+ *   STAFF_ROLL_PrintRowText 0x021BA558 thumb ov181
  */
 #include "../include/Obj06591.h"
 #include "../include/Obj06592.h"
-extern void func_021BA558(char *, unsigned char *);
-int func_021BAA00(char *p, unsigned char *q)
+extern void STAFF_ROLL_PrintRowText(char *, unsigned char *);
+int STAFF_ROLL_CmdPrintEntry(char *p, unsigned char *q)
 {
     if (((struct Obj06592 *)q)->f0 == 0xffff) {
         ((struct Obj06591 *)p)->f2DA = ((struct Obj06592 *)q)->f4;
@@ -22,7 +22,7 @@ int func_021BAA00(char *p, unsigned char *q)
     }
     if (((struct Obj06591 *)p)->f2DA == 0)
         ((struct Obj06591 *)p)->f2DA = ((struct Obj06592 *)q)->f4;
-    func_021BA558(p, q);
+    STAFF_ROLL_PrintRowText(p, q);
     if (q[0x16] != 0 || ((struct Obj06592 *)q)->f14 != 0) {
         ((struct Obj06591 *)p)->f2EC = 1;
         return 1;

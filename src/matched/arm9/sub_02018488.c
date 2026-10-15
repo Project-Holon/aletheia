@@ -30,7 +30,7 @@
  * second name field (0x9A) out of it, reads the same two out of the mail
  * object through func_02008530 and func_02008550, copies both names into the
  * two 0x20 byte scratch buffers at 0x021462F0 and 0x021462B0, and compares
- * the strings with func_0201F448.
+ * the strings with WORDSET_CheckF448.
  *
  * The three tests are one conjunction: all three conditional branches land on
  * the same address and there is one `movs r6, #1`
@@ -49,6 +49,7 @@
  *   gNameCompareBuf  0x021462B0  data
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   WORDSET_CheckF448  0x0201F448  thumb
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/POKE_TOOL_IsBoxOwnedByPlayer.c \
@@ -67,7 +68,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_020084F8(void *dst, u32 value, u32 size);
 typedef unsigned short u16;
-extern u32 func_0201F448(const u16 *a, const u16 *b);
+extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
 
 extern u8 gNameBuf[];
 extern u8 gNameCompareBuf[];
@@ -87,7 +88,7 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail)
     d = func_02017E88(p, 0x9A, 0);
     func_020084F8(mail, (u32)gNameBuf, 0x20);
     func_02017E88(p, 0x8E, (u32)gNameCompareBuf);
-    if (a == b && c == d && func_0201F448((const u16 *)gNameBuf, (const u16 *)gNameCompareBuf) != 0) {
+    if (a == b && c == d && WORDSET_CheckF448((const u16 *)gNameBuf, (const u16 *)gNameCompareBuf) != 0) {
         r = 1;
     }
     POKE_TOOL_EncodeBoxParam(p, lock);

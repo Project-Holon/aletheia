@@ -1,5 +1,5 @@
 /*
- * function: func_0205E590
+ * function: NextSearchCheck
  * address:  0x0205E590
  * packet:   pkt_0205E590
  * region:   arm9
@@ -148,7 +148,7 @@ extern u8 CheckStartStealthSearch(ACWORK *wk);
 extern u8 SearchAround2ndLap(ACWORK *wk);
 extern void DWCi_AC_SearchReStart(u8 phase);
 
-u8 func_0205E590(ACWORK *wk, u8 phase)
+u8 NextSearchCheck(ACWORK *wk, u8 phase)
 {
     switch (phase) {
     case 3:

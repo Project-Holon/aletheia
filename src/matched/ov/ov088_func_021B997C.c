@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   G3D_SYSTEM_Init  0x02046440  arm
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb
@@ -21,7 +21,7 @@
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  */
 
-extern void func_0203F8F4(int);
+extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
 extern void GF_FONT_ResetTextColor(void);
@@ -34,7 +34,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 
 void STARTMENU_CaptureInit(int *p, int heap)
 {
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     G3D_SYSTEM_Init(0, 2, 0, 2, 0x1000, heap, 0);
     GF_FONT_ResetTextColor();

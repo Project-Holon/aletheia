@@ -1,5 +1,5 @@
 /*
- * function: func_0220B1B0
+ * function: B_BAG_MAIN_DrawPage
  * address:  0x0220B1B0
  * packet:   pkt_0220B1B0
  * region:   ov197
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220B248 0x0220B248 thumb
+ *   B_BAG_MAIN_DrawLabels 0x0220B248 thumb
  *   func_0220B774 0x0220B774 thumb
  *   func_0220B880 0x0220B880 thumb
  */
 
-extern void func_0220B248(char *);
+extern void B_BAG_MAIN_DrawLabels(char *);
 extern void func_0220B774(char *);
 extern void func_0220B880(char *);
 
-void func_0220B1B0(char *a, int which)
+void B_BAG_MAIN_DrawPage(char *a, int which)
 {
     switch (which)
     {
     case 0:
-        func_0220B248(a);
+        B_BAG_MAIN_DrawLabels(a);
         break;
     case 1:
         func_0220B774(a);

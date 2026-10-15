@@ -1,5 +1,5 @@
 /*
- * function: func_0207C788
+ * function: FX_InvFx64c
  * address:  0x0207C788
  * packet:   pkt_0207C788
  * region:   arm9
@@ -81,7 +81,7 @@ static inline s64 CP_GetDivResult64(void)
 
 extern void FX_InvAsync(fx32 denom);
 
-fx64 func_0207C788(fx32 denom)
+fx64 FX_InvFx64c(fx32 denom)
 {
     FX_InvAsync(denom);
     CP_WaitDiv();

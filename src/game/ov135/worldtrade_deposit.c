@@ -29,11 +29,11 @@
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
@@ -134,6 +134,7 @@
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
  *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
  *   func_020173EC 0x020173EC thumb
+ *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -189,17 +190,17 @@ extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate_021F4580 *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate_021F4580 *tmpl, u32 type);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -336,7 +337,7 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 
 extern u8 func_02009628(const struct Sub02009470Obj *obj);
 
-extern u8 func_02009584(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj);
 
 extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 
@@ -573,30 +574,30 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
 {
     {
         struct BgTemplate_021F4580 t = g_02202F64;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
         struct BgTemplate_021F4580 t = g_02202F84;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
         struct BgTemplate_021F4580 t = g_02202F44;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
     func_02041300(2, 0, 0, 0, 0x20, 0x18, 0);
     func_020409B4(2);
     func_02040588(2, 1);
     {
         struct BgTemplate_021F4580 t = g_02202FA4;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
     }
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_02040588(3, 1);
-    func_02040B94(0, 0x20, 0, 0x48);
-    func_02040B94(3, 0x20, 0, 0x48);
+    BG_SYS_InitRun(0, 0x20, 0, 0x48);
+    BG_SYS_InitRun(3, 0x20, 0, 0x48);
 }
 
 /*
@@ -604,10 +605,10 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
  */
 void WORLDTRADE_DEPOSIT_ExitBgPlanes(void)
 {
-    sub_020403F4(2);
-    sub_020403F4(1);
-    sub_020403F4(0);
-    sub_020403F4(3);
+    BG_SYS_Delete_03F4(2);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(0);
+    BG_SYS_Delete_03F4(3);
 }
 
 void WORLDTRADE_DEPOSIT_LoadBgGraphics(Work *p)
@@ -1214,7 +1215,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
     dst->region = 0x15;
     dst->city = 2;
     dst->profileFlagB = func_02009628(p->ctx->status);
-    dst->profileFlagC = func_02009584(p->ctx->status);
+    dst->profileFlagC = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->status);
     dst->profileFlagA = func_0200960C(p->ctx->status);
 }
 

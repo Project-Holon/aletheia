@@ -1,7 +1,7 @@
 /*
  * file:     fs_api.c
  * unit:     yes
- * function: FS_Init, func_0207AD30, func_0207AD40
+ * function: FS_Init, FS_IsAvailable, MTX_Identity22_
  * address:  0x0207AD04
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,13 +19,10 @@
  *   .bss                             0x02150e04 data
  */
 extern void FSi_InitRomArchive(unsigned long default_dma_no);
-extern void func_02078C40(void);
+extern void FSi_InitOverlay(void);
 void FS_Init(unsigned long default_dma_no);
-int func_0207AD30(void);
-asm void func_0207AD40(void);
-extern int is_init;
-
-
+int FS_IsAvailable(void);
+asm void MTX_Identity22_(void);
 
 static int is_init = 0;
 
@@ -41,7 +38,7 @@ void FS_Init(unsigned long default_dma_no)
     }
     is_init = 1;
     FSi_InitRomArchive(default_dma_no);
-    func_02078C40();
+    FSi_InitOverlay();
 }
 
 
@@ -49,7 +46,7 @@ void FS_Init(unsigned long default_dma_no)
 /*
  * sdk:      FS_IsAvailable (libfs.TWL.HYB.a fs_api.o)
  */
-int func_0207AD30(void)
+int FS_IsAvailable(void)
 {
     return is_init;
 }
@@ -60,7 +57,7 @@ int func_0207AD30(void)
  *
  * void MTX_Identity22_(MtxFx22 *pDst)
  */
-asm void func_0207AD40(void)
+asm void MTX_Identity22_(void)
 {
     mov r1, #0
     mov r2, #0x1000

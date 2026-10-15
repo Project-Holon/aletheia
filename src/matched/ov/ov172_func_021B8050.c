@@ -1,5 +1,5 @@
 /*
- * function: func_021B8050
+ * function: CTVT_COMM_StartSession
  * address:  0x021B8050
  * packet:   pkt_021B6868
  * region:   ov172
@@ -33,7 +33,7 @@ typedef struct {
     u32 w[0x1c];
 } Blob;
 
-void func_021B8050(void *a, void *b)
+void CTVT_COMM_StartSession(void *a, void *b)
 {
     Blob s = *(Blob *)0x021C6EF4;
 

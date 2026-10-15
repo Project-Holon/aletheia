@@ -1,5 +1,5 @@
 /*
- * function: func_0205A10C
+ * function: DWCi_GetGamecode
  * address:  0x0205A10C
  * packet:   pkt_0205A10C
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void *s_data_02146AAC;
 
-void *func_0205A10C(void)
+void *DWCi_GetGamecode(void)
 {
     return s_data_02146AAC;
 }

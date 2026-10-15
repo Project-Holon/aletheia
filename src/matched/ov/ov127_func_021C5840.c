@@ -1,5 +1,5 @@
 /*
- * function: func_021C5840
+ * function: WF2DMAP_OBJDRAW_SetActorValue
  * address:  0x021C5840
  * packet:   pkt_ov127_021C5840
  * region:   ov127
@@ -20,7 +20,7 @@
 
 extern void func_021C4230(char *p, int a);
 
-void func_021C5840(char *p, int a)
+void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
 {
     func_021C4230(((struct Obj23050 *)p)->f4, a);
 }

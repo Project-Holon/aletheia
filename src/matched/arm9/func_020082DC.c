@@ -1,5 +1,5 @@
 /*
- * function: func_020082DC
+ * function: CONFIG_InitKeyControlTable
  * address:  0x020082DC
  * packet:   pkt_020082DC
  * region:   arm9
@@ -16,7 +16,7 @@
 
 extern char g_0209DD64[];
 extern void KEY_SetControlModeTable(const void *p);
-void func_020082DC(void)
+void CONFIG_InitKeyControlTable(void)
 {
     KEY_SetControlModeTable(g_0209DD64);
 }

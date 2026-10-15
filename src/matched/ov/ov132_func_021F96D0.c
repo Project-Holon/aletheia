@@ -1,5 +1,5 @@
 /*
- * function: func_021F96D0
+ * function: STA_ACTING_PlayRankSe
  * address: 0x021F96D0
  * packet: pkt_ov132_021F96D0
  * region: ov132
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021F96D0(char *p)
+void STA_ACTING_PlayRankSe(char *p)
 {
     u8 i;
     u8 min = 255;

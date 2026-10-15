@@ -1,5 +1,5 @@
 /*
- * function: func_021D503C
+ * function: INTRUDE_COMM_VIEW_UpdateActorAnim
  * address: 0x021D503C
  * packet: pkt_ov122_021D503C
  * region: ov122
@@ -25,7 +25,7 @@ extern int INTRUDE_COMM_GetRequestState(int a);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021D503C(char *p)
+void INTRUDE_COMM_VIEW_UpdateActorAnim(char *p)
 {
     switch (INTRUDE_COMM_GetRequestState(GAMESYSTEM_GetGameComm(((struct Obj00265 *)p)->f354))) {
     case 0:

@@ -20,7 +20,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009210 0x02009210 thumb
  *   func_020090E0 0x020090E0 thumb
- *   func_0201296C 0x0201296C thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   func_0200EDEC  0x0200EDEC  thumb
@@ -73,11 +73,11 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_020275E4 0x020275E4 thumb
  *   func_02027614 0x02027614 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -101,7 +101,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   d_021BC028 0x021BC028 data ov225 a1
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
@@ -116,7 +116,7 @@
  *   func_02061CA4 0x02061CA4 arm
  *   func_020355C4 0x020355C4 arm
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
- *   sub_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -415,7 +415,7 @@ extern u32 func_020307B0(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern struct Sub02009210Obj *func_02009210(void *);
 extern u8 func_020090E0(const struct Sub020090B0Obj *);
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern int func_0200EDEC(char *obj, int i);
@@ -462,11 +462,11 @@ extern void func_02041B6C(unsigned);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern void PRINTSYS_PrintQueColor(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void STRBUF_Delete(struct U16Vec *);
-extern struct WordSet *func_0201EC64(u32);
+extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -488,7 +488,7 @@ extern u32_021BA508 TOUCHPANEL_GetPointTrg(u32_021BA508 *,u32_021BA508 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void GFL_USE_PlaySeDefaultVolume(u32_021BA508);
 extern u32_021BA508 CLACT_IsActorAnimActive(struct Actor *);
-extern void func_02041EE4(u32_021BA65C, u32_021BA65C, u32_021BA65C);
+extern void BG_SYS_ResetSlot(u32_021BA65C, u32_021BA65C, u32_021BA65C);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2_021BA508 *, u32_021BA65C);
 extern u32_021BA760 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
@@ -501,7 +501,7 @@ extern struct R *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
 extern int func_02061CA4(void *, unsigned, void *, int);
 extern u8 func_020355C4(void);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
-extern void sub_02041B6C(u32_021BAA44);
+extern void BG_SYS_SetFlagField06(u32_021BAA44);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 extern u32_021BAA88 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern int TOUCHPANEL_HitTrg(const void *);
@@ -688,7 +688,7 @@ int func_021B9C58(void *unused,int kind,void *save)
         if(func_020090E0((const struct Sub020090B0Obj *)func_02009210(GAME_DATA_GetSaveControl((struct Big *)save)))!=0)result=1;
         break;
     case 2:
-        if(ZONEDATA_CheckEventFlag((void *)func_0201296C(save),2400)!=0)result=1;
+        if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save),2400)!=0)result=1;
         break;
     }
     return result;
@@ -1003,14 +1003,14 @@ void func_021BA368(char *p)
     void *slot;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26162 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),0);
-    words=func_0201EC64(((struct Obj26163 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
+    words=GF_FONT_Create_EC64(((struct Obj26163 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
     slot=func_02045EC0(*(struct MsgBank * *)&((struct Obj26164 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f1C,4);
     str=STRBUF_Create(16,((struct Obj26165 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
     func_0201EFA4(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
     func_0201EFA4(words,1,((struct Obj02561 *)p)->fC,1,0,1);
     func_0201F250(words,str,slot);
     PRINTSYS_PrintQueColor(((struct Obj26166 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),32,4,(u32)str,((struct Obj26167 *)(*(char * *)&((struct Obj02561 *)p)->f0))->fC,0x3c40);
-    STRBUF_Delete(str);STRBUF_Delete(slot);func_0201ED04(words);
+    STRBUF_Delete(str);STRBUF_Delete(slot);WORDSET_DeleteStrbufED04(words);
     ((struct Obj02561 *)p)->f1C=1;func_021BA240(p);
 }
 
@@ -1127,7 +1127,7 @@ void *func_021BA65C(char *owner, struct Data *data)
   p->field94 = 0;
   func_021BA898((char *)p);
   func_021BAA44(p);
-  func_02041EE4(5, 3, 12);
+  BG_SYS_ResetSlot(5, 3, 12);
   flag = 0;
   if ((*((u16 *) (p->owner + 4))) > 6)
     flag = 1;
@@ -1160,7 +1160,7 @@ void *func_021BA65C(char *owner, struct Data *data)
 void func_021BA740(char *p)
 {
     func_02030EAC(((struct Obj26178 *)p)->f80);
-    func_02041EE4(5, 3, 0);
+    BG_SYS_ResetSlot(5, 3, 0);
     func_020307B0(p);
 }
 
@@ -1276,7 +1276,7 @@ void func_021BA9D0(char *p)
 
 
 
-void func_021BAA44(struct Work *a0) { sub_02041B6C(4); }
+void func_021BAA44(struct Work *a0) { BG_SYS_SetFlagField06(4); }
 
 
 
@@ -1284,7 +1284,7 @@ void func_021BAA50(char *p) { u8 i; func_021BAA88(p); for(i=0;i<8;i++) CLACT_Del
 
 
 
-void func_021BAA88(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); sub_02041B6C(5); }
+void func_021BAA88(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); BG_SYS_SetFlagField06(5); }
 
 
 
@@ -1732,7 +1732,7 @@ void func_021BB458(char *p)
 
 
 
-void func_021BB4F8(char *a0) { sub_02041B6C(4); }
+void func_021BB4F8(char *a0) { BG_SYS_SetFlagField06(4); }
 
 
 
@@ -1740,7 +1740,7 @@ void func_021BB504(char *p) { func_021BB50C(p); }
 
 
 
-void func_021BB50C(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26253 *)(*(char * *)&((struct Obj14809 *)p)->f4))->f14); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14809 *)p)->f8); sub_02041B6C(5); }
+void func_021BB50C(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26253 *)(*(char * *)&((struct Obj14809 *)p)->f4))->f14); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14809 *)p)->f8); BG_SYS_SetFlagField06(5); }
 
 
 

@@ -1,7 +1,7 @@
 /*
  * file:     gx.c
  * unit:     yes
- * function: func_0207D204, func_0207D384, func_0207D3AC, GX_VBlankIntr, func_0207D41C, GX_DispOff, GX_DispOn, func_0207D4B0, func_0207D518, func_0207D534, func_0207D55C
+ * function: func_0207D204, GX_SetVCountEqVal, GX_HBlankIntr, GX_VBlankIntr, func_0207D41C, GX_DispOff, GX_DispOn, GX_SetGraphicsMode, func_0207D518, GXx_SetMasterBrightness_, GXx_GetMasterBrightness_
  * address:  0x0207D204
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -57,7 +57,7 @@ extern void MI_NDmaFill(u32 ndmaNo, void *dest, u32 data, u32 size);
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 void GX_Init(void);
-void func_0207D384(s32 val);
+void GX_SetVCountEqVal(s32 val);
 extern GXBssState sDispMode;
 extern GXDataState sIsDispOn;
 
@@ -95,17 +95,15 @@ extern GXDataState sIsDispOn;
 
 #define reg_G2S_DB_BG3PD    (*(vu16 *)0x04001036)
 extern void PMi_SetDispOffCount(void);
-long func_0207D3AC(int enable);
+long GX_HBlankIntr(int enable);
 long GX_VBlankIntr(int enable);
 u16 GX_IsDispOn(void);
 void GX_DispOff(void);
-typedef unsigned int u32_0;
-typedef unsigned long u32_0207D534;
 void GX_DispOn(void);
-void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-void GXS_SetGraphicsMode(u32_0 mode);
-void func_0207D534(vu16 *reg, int brightness);
-int func_0207D55C(vu16 *reg);
+void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+void GXS_SetGraphicsMode(u32 mode);
+void GXx_SetMasterBrightness_(vu16 *reg, int brightness);
+int GXx_GetMasterBrightness_(vu16 *reg);
 
 void GX_Init(void)
 {
@@ -160,7 +158,7 @@ void GX_Init(void)
 /*
  * sdk:      GX_SetVCountEqVal (libgx.TWL.HYB.a gx.o)
  */
-void func_0207D384(s32 val)
+void GX_SetVCountEqVal(s32 val)
 {
     reg_GX_DISPSTAT = (u16)((reg_GX_DISPSTAT & 0x3f) | ((val & 0xff) << 8) | ((val & 0x100) >> 1));
 }
@@ -168,7 +166,7 @@ void func_0207D384(s32 val)
 /*
  * sdk:      GX_HBlankIntr (gx.o)
  */
-long func_0207D3AC(int enable)
+long GX_HBlankIntr(int enable)
 {
     long rval = reg_GX_DISPSTAT & 0x10;
 
@@ -240,7 +238,7 @@ void GX_DispOn(void)
 /*
  * sdk:      GX_SetGraphicsMode (libgx.TWL.HYB.a gx.o)
  */
-void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d)
+void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d)
 {
     u32 cnt = reg_GX_DISPCNT;
 
@@ -258,9 +256,9 @@ void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d)
 
 
 
-void GXS_SetGraphicsMode(u32_0 mode)
+void GXS_SetGraphicsMode(u32 mode)
 {
-    *(volatile u32_0 *)0x04001000 = (*(volatile u32_0 *)0x04001000 & ~7) | mode;
+    *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~7) | mode;
 }
 
 
@@ -271,7 +269,7 @@ void GXS_SetGraphicsMode(u32_0 mode)
 /*
  * sdk:      GXx_SetMasterBrightness_ (libgx.TWL.HYB.a gx.o)
  */
-void func_0207D534(vu16 *reg, int brightness)
+void GXx_SetMasterBrightness_(vu16 *reg, int brightness)
 {
     if (brightness == 0) {
         *reg = 0;
@@ -287,7 +285,7 @@ void func_0207D534(vu16 *reg, int brightness)
 /*
  * sdk:      GXx_GetMasterBrightness_ (libgx.TWL.HYB.a gx.o)
  */
-int func_0207D55C(vu16 *reg)
+int GXx_GetMasterBrightness_(vu16 *reg)
 {
     u16 mode = (u16)(*reg & 0xC000);
 

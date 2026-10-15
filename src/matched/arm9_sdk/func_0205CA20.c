@@ -1,5 +1,5 @@
 /*
- * function: func_0205CA20
+ * function: DWC_GetInetStatus
  * address:  0x0205CA20
  * packet:   pkt_0205CA20
  * region:   arm9
@@ -12,13 +12,13 @@
  * sdk:      DWC_GetInetStatus (dwc_connectinet.o)
  *
  * symbols:
- *   func_0205C8E0 0x0205C8E0 arm
+ *   DWC_ProcessInet 0x0205C8E0 arm
  *   DWCi_SetError 0x02059F54 arm
  *   DWC_AC_GetStatus 0x0205BD64 arm
  *   CPS_GetSslHandshakePriority 0x0216007C arm
- *   func_0205CC20 0x0205CC20 arm
- *   func_0205C6AC 0x0205C6AC arm
- *   func_0205C710 0x0205C710 arm
+ *   DWC_CleanupInet 0x0205CC20 arm
+ *   DWC_InitInetEx 0x0205C6AC arm
+ *   DWC_SetRwinSize 0x0205C710 arm
  *   DWC_AC_StartupGetWDSInfo 0x0205D91C arm
  *   g_02146AD4 0x02146AD4 data
  */
@@ -52,16 +52,16 @@ typedef struct {
 
 extern struct INETBSS g_02146AD4;
 
-extern void func_0205C8E0(void);
+extern void DWC_ProcessInet(void);
 extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_AC_GetStatus(void);
 extern unsigned long CPS_GetSslHandshakePriority(void);
-extern void func_0205CC20(void);
-extern void func_0205C6AC(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short powerMode, unsigned short ssl_priority);
-extern void func_0205C710(long size);
+extern void DWC_CleanupInet(void);
+extern void DWC_InitInetEx(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short powerMode, unsigned short ssl_priority);
+extern void DWC_SetRwinSize(long size);
 extern int DWC_AC_StartupGetWDSInfo(void *nspotInfo, unsigned short dmaNo);
 
-int func_0205CA20(void)
+int DWC_GetInetStatus(void)
 {
     int state;
     int result;
@@ -80,7 +80,7 @@ int func_0205CA20(void)
     case 2:
         return 2;
     case 3:
-        func_0205C8E0();
+        DWC_ProcessInet();
         DWCi_SetError(5, g_02146AD4.stateOld);
         ((DWCstInetControl *)g_02146AD4.stpInetCntl)->state = 7;
         ((DWCstInetControl *)g_02146AD4.stpInetCntl)->processWDSstate = 4;
@@ -121,11 +121,11 @@ int func_0205CA20(void)
             wontExecuteEULACheck_Temp = ((DWCstInetControl *)g_02146AD4.stpInetCntl)->wontExecuteEULACheck;
             rwin_Temp = ((DWCstInetControl *)g_02146AD4.stpInetCntl)->rwin;
             g_02146AD4.stateOld = state;
-            func_0205CC20();
-            func_0205C6AC(cntl, dmaNoTemp, 1, (unsigned short)ssl_priority_Temp);
+            DWC_CleanupInet();
+            DWC_InitInetEx(cntl, dmaNoTemp, 1, (unsigned short)ssl_priority_Temp);
             ((DWCstInetControl *)g_02146AD4.stpInetCntl)->wontExecuteEULACheck = wontExecuteEULACheck_Temp;
             if (rwin_Temp != 0) {
-                func_0205C710(rwin_Temp);
+                DWC_SetRwinSize(rwin_Temp);
             }
             DWC_AC_StartupGetWDSInfo(&((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo, dmaNoTemp);
             ((DWCstInetControl *)g_02146AD4.stpInetCntl)->processWDSstate = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0200C058
+ * function: BEACON_Init
  * address:  0x0200C058
  * packet:   pkt_0200BFA4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200C10C    0x0200C10C  thumb
+ *   BEACON_ClearInputFlags    0x0200C10C  thumb
  *   func_02045B38    0x02045B38  arm
  *   func_02045EC0    0x02045EC0  arm
  *   STRBUF_ToChars    0x02045A38  arm
@@ -47,17 +47,17 @@ extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 struct Blk34;
-extern void func_0200C10C(struct Blk34 *p);
+extern void BEACON_ClearInputFlags(struct Blk34 *p);
 extern void *memset(void *dst, int c, u32 n);
 
-void func_0200C058(Obj *p)
+void BEACON_Init(Obj *p)
 {
     void *a;
     void *b;
     void *c;
 
     memset(p, 0, 0xec);
-    func_0200C10C((struct Blk34 *)p);
+    BEACON_ClearInputFlags((struct Blk34 *)p);
     p->f14 &= 0xf0000000;
     a = func_02045B38(0, 3, 0x2f, 0x8007);
     b = func_02045EC0(a, 0x151);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F891C
+ * function: BR_DOWNLOAD_CreateButtons
  * address: 0x021F891C
  * packet: pkt_ov184_021F891C
  * region: ov184
@@ -39,7 +39,7 @@ extern void MI_CpuFill8(void *, int, unsigned);
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern int BR_RES_GetSprite(char *, unsigned, void *);
 extern int BR_BTN_CreateFromMessage(Config *, u16, int, int, void *, int, int, int, void *, u16);
-void func_021F891C(char *p, const char *q)
+void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
 {
   Config cfg;
   int resources[3];

@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_020808F4  0x020808F4  arm
  *   func_020809A0  0x020809A0  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ERROR_SCREEN_LoadBackground  0x021B6298  thumb  ov017
  *   ERROR_SCREEN_PrintMessage  0x021B6368  thumb  ov017
  */
@@ -22,11 +22,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern int func_020808F4(void);
 extern int func_020809A0(void);
 extern void func_0207FDCC(int);
-extern void func_0207D4B0(int, int, int);
+extern void GX_SetGraphicsMode(int, int, int);
 extern void ERROR_SCREEN_LoadBackground(void);
 extern void ERROR_SCREEN_PrintMessage(int);
 
@@ -35,12 +35,12 @@ extern void ERROR_SCREEN_PrintMessage(int);
 
 void ERROR_SCREEN_Setup(int a)
 {
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     func_020808F4();
     func_020809A0();
     func_0207FDCC(4);
-    func_0207D4B0(1, 0, 0);
+    GX_SetGraphicsMode(1, 0, 0);
     R32(0x04000000) = (R32(0x04000000) & 0xFFFFE0FF) | (1 << 9);
     R32(0x04000000) &= 0xFFFF1FFF;
     R16(0x0400000A) = (R16(0x0400000A) & 0x43) | 4;
@@ -49,6 +49,6 @@ void ERROR_SCREEN_Setup(int a)
     R16(0x04000050) = 0;
     ERROR_SCREEN_LoadBackground();
     ERROR_SCREEN_PrintMessage(a);
-    func_0207D534((volatile u16 *)0x0400006C, 0);
-    func_0207D534((volatile u16 *)0x0400106C, 0x10);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 0x10);
 }

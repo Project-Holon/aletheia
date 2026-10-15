@@ -14,7 +14,7 @@
  *   CircleGraph_GetCenterColor 0x021C1B60 thumb ov217
  *   CircleGraph_GetRimColor 0x021C1B4C thumb ov217
  *   CircleGraph_GetPointRange 0x021C1B28 thumb ov217
- *   func_0207CA30 0x0207CA30 arm
+ *   VEC_Fx16Add 0x0207CA30 arm
  */
 #include "../include/Obj00554.h"
 #include "../include/Obj03377.h"
@@ -28,7 +28,7 @@ extern void *CircleGraph_GetSlice(void *,u32);
 extern u16 CircleGraph_GetCenterColor(void *);
 extern u16 CircleGraph_GetRimColor(void *);
 extern void CircleGraph_GetPointRange(u8 *,u8 *,u8 *);
-extern void func_0207CA30(const s16 *,const s16 *,s16 *);
+extern void VEC_Fx16Add(const s16 *,const s16 *,s16 *);
 void CircleGraph_BuildVertices(u8 *p)
 {
     struct Range range;
@@ -54,10 +54,10 @@ void CircleGraph_BuildVertices(u8 *p)
             ((struct Obj03377 *)q)->f416=range.z;
             q[0x41a]=i;
             ((struct Obj03377 *)q)->f422=color2;
-            func_0207CA30((s16 *)&range.x,(s16 *)(p+0x1ba+j*6),(s16 *)(p+0x412+((u32)k+1)*10));
+            VEC_Fx16Add((s16 *)&range.x,(s16 *)(p+0x1ba+j*6),(s16 *)(p+0x412+((u32)k+1)*10));
             q[0x424]=i;
             ((struct Obj03377 *)q)->f42C=color2;
-            func_0207CA30((s16 *)&range.x,(s16 *)(p+0x1ba+((j+1)%100)*6),(s16 *)(p+0x412+((u32)k+2)*10));
+            VEC_Fx16Add((s16 *)&range.x,(s16 *)(p+0x1ba+((j+1)%100)*6),(s16 *)(p+0x412+((u32)k+2)*10));
             q[0x42e]=i;
             k+=3;
         }

@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "func_021B97C4",
-    "func_021B98FC"
+    "CHIHOU_ZUKAN_AWARD_Task"
+   ],
+   "addresses": [
+    "0x021B97C4",
+    "0x021B98FC"
    ]
   }
  ]

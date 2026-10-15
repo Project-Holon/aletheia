@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021C885C  0x021C885C  data
  *
  * Addresses are Black-image addresses.
@@ -42,7 +42,7 @@ typedef struct {
 } Work;
 
 extern void func_020403F4(u32 i);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern const u32 d_021C885C[];
 
 void func_021C72C8(void)
@@ -52,7 +52,7 @@ void func_021C72C8(void)
     for (i = 0; i < 6; i++) {
         func_020403F4((u8)d_021C885C[i]);
     }
-    func_0203F9B4();
+    BG_SYS_Delete();
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
 }

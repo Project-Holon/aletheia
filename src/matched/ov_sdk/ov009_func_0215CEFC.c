@@ -1,5 +1,5 @@
 /*
- * function: func_0215CEFC
+ * function: SOCLi_SendCommandPacketToCtrlPipe
  * address:  0x0215CEFC
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,17 +12,17 @@
  * Passes the second argument on to both calls.
  *
  * symbols:
- *   func_0215CE9C  0x0215CE9C  arm  ov009
- *   func_0215CEB0  0x0215CEB0  arm  ov009
+ *   SOCLi_GetCtrlPipe  0x0215CE9C  arm  ov009
+ *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  */
 
-extern int func_0215CE9C(const int *p, int b);
-extern int func_0215CEB0(int a0, char *a1);
+extern int SOCLi_GetCtrlPipe(const int *p, int b);
+extern int SOCLi_SendCommandPacket(int a0, char *a1);
 
-void func_0215CEFC(int a, int b)
+void SOCLi_SendCommandPacketToCtrlPipe(int a, int b)
 {
-    int v = func_0215CE9C((const int *)a, b);
+    int v = SOCLi_GetCtrlPipe((const int *)a, b);
 
-    func_0215CEB0(v, (char *)b);
+    SOCLi_SendCommandPacket(v, (char *)b);
 }
 

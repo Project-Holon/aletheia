@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B97C4, func_021B98FC
+ * function: ZENKOKU_ZUKAN_AWARD_Main, func_021B98FC
  * address: 0x021B97C4
  * packet: pkt_ov222_021B97C4
  * region: ov222
@@ -15,7 +15,7 @@
  *   func_021B9E44 0x021B9E44 thumb ov222
  *   func_021B9BB0 0x021B9BB0 thumb ov222
  *   func_021B9DD0 0x021B9DD0 thumb ov222
- *   func_021BA014 0x021BA014 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update 0x021BA014 thumb ov222
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
@@ -38,7 +38,7 @@ extern int func_021B9E44(char *p);
 extern void func_021B9BB0(char *p);
 extern void func_021B9DD0(char *p);
 struct PrintSys;
-extern void func_021BA014(char *p);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void*);
 extern int GFL_USE_PushBgm(void);
@@ -52,7 +52,7 @@ extern u32 KEY_GetTrg(void);
 extern void func_020355D8(unsigned char);
 extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
+int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p)
 {
  int ready;
  u32 x,y;
@@ -85,7 +85,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  PRINTSYS_QUE_Main(*(void* *)&((struct Obj02560 *)p)->f10);
  func_021B9BB0((char *)p);
  if(*state>=1 && *state<=5) func_021B9DD0((char *)p);
- func_021BA014(*(void* *)&((struct Obj02560 *)p)->f8);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(*(void* *)&((struct Obj02560 *)p)->f8);
  return 0;
 }
 void func_021B98FC(void) {}

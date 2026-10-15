@@ -1,5 +1,5 @@
 /*
- * function: func_0207C8D0
+ * function: FX_SqrtAsync
  * address:  0x0207C8D0
  * packet:   pkt_0207C8D0
  * region:   arm9
@@ -31,7 +31,7 @@ static inline void CP_SetSqrt64(u64 param)
     reg_CP_SQRT_PARAM = param;
 }
 
-void func_0207C8D0(fx32 x)
+void FX_SqrtAsync(fx32 x)
 {
     if (x > 0) {
         CP_SetSqrt64((u64)x << 32);

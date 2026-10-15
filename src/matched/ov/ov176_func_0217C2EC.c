@@ -19,10 +19,10 @@
  *   func_0217CEAC 0x0217CEAC thumb ov176
  *   func_0217CFDC 0x0217CFDC thumb ov176
  *   func_0217CFD0 0x0217CFD0 thumb ov176
- *   func_0200AE14 0x0200AE14 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200B110 0x0200B110 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021E8AA0 0x021E8AA0 thumb ov177
@@ -31,10 +31,10 @@
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  *   func_0217D2F0 0x0217D2F0 thumb ov176
  *   func_0200E918 0x0200E918 thumb
- *   func_0200AE54 0x0200AE54 thumb
+ *   REGULATION_GetRuleValue 0x0200AE54 thumb
  *   func_0217CC78 0x0217CC78 thumb ov176
  *   func_0217C628 0x0217C628 thumb ov176
- *   func_0200BBD8 0x0200BBD8 thumb
+ *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
  *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
  */
 #include "../include/Obj00053.h"
@@ -59,10 +59,10 @@ struct Reg2;
 extern void func_0217CEAC(u8 *p, int mode);
 extern int func_0217CFDC(int *p);
 extern void func_0217CFD0(int *p);
-extern void * func_0200AE14(void *);
+extern void * REGULATION_NoOp(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void * func_0200BAC8(void *);
-extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
+extern void * BATTLE_BOX_GetFromSave(void *);
+extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 extern void func_021E8AA0(int *,int);
@@ -71,10 +71,10 @@ extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
 extern void func_0217D2F0(u8 *,u8 *);
 extern u8 func_0200E918(const u8 *base, u32 idx);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern void func_0217CC78(int *a, int *state, u8 *p);
 extern void func_0217C628(int *sys, u32 *state, u8 *p);
-extern void func_0200BBD8(struct Obj *p, int v);
+extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 void func_0217C2EC(int *sys,u32 *state,u8 *p)
 {
@@ -84,9 +84,9 @@ void func_0217C2EC(int *sys,u32 *state,u8 *p)
     case 2:if(((struct Obj24408 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C4))->fC)*state=3;else *state=4;break;
     case 3:func_0217CFE8(p,39,1);*state=25;func_021E8AB4((u32)sys,4);break;
     case 4:{
-        void *v=func_0200AE14(((struct Obj00053 *)p)->f38);
+        void *v=REGULATION_NoOp(((struct Obj00053 *)p)->f38);
         unsigned sel=func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34,0);
-        if(sel>=func_0200AE54(v,22))func_021E8AA0(sys,(int)func_0217CC78);else *state=5;break;
+        if(sel>=REGULATION_GetRuleValue(v,22))func_021E8AA0(sys,(int)func_0217CC78);else *state=5;break;
     }
     case 5:func_0217CFE8(p,12,1);*state=25;func_021E8AB4((u32)sys,6);break;
     case 6:func_0217CEAC(p,1);*state=7;break;
@@ -111,7 +111,7 @@ void func_0217C2EC(int *sys,u32 *state,u8 *p)
         if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=14;break;case 1:*state=5;break;}}break;
     }
     case 14:func_0217CFE8(p,10,2);*state=25;func_021E8AB4((u32)sys,15);break;
-    case 15:func_0200B110(((struct Obj00053 *)p)->f38,10,4);func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),2);GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
+    case 15:REGULATION_Card_SetValue(((struct Obj00053 *)p)->f38,10,4);BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),2);GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
     case 16:switch((u32)GAME_DATA_SaveMain(*(u8 * *)&((struct Obj00053 *)p)->f1B8)){case 2:case 3:*state=17;break;case 0:case 1:break;}break;
     case 17:func_0217D1A0(p,1);func_0217CFE8(p,19,1);*state=25;func_021E8AB4((u32)sys,18);break;
     case 18:if(func_0217D194((int *)p)){func_0217D174((int *)p);*state=24;}break;

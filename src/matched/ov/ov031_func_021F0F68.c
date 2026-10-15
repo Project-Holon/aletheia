@@ -11,7 +11,7 @@
  *
  * symbols:
  *   UNION_SUBDISP_SetLinePalette  0x021F0F68  thumb
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 
@@ -30,7 +30,7 @@ int UNION_SUBDISP_SetLinePalette(void *unused, int idx, int flag)
     u16 *map;
     int pal;
 
-    map = (u16 *)func_0204162C(6);
+    map = (u16 *)BG_SYS_GetBuf(6);
     switch ((u16)(map[idx * 0xE0] >> 12)) {
     case 0:
     case 1:

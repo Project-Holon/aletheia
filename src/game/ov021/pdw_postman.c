@@ -17,7 +17,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   sPdwPostmanFileName     0x021DE288  data   ov021  a1
@@ -25,7 +25,7 @@
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   func_020409B4  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_020307B0  0x020307B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -132,8 +132,8 @@ extern u32 func_020307B0(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *msgData);
 extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
-extern struct WordSet *func_0201EC64(u32 heapId);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
 extern void func_0201F250(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -199,7 +199,7 @@ PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostm
     listWin->items = items;
     listWin->itemCount = itemCount;
     listWin->msgData = func_02045B38(0, 3, 0x13B, heapId);
-    listWin->wordSet = func_0201EC64(heapId);
+    listWin->wordSet = GF_FONT_Create_EC64(heapId);
     listWin->strBuf = STRBUF_Create(0x80, heapId);
     listWin->expandBuf = STRBUF_Create(0x80, heapId);
     height = (itemCount * PDW_POSTMAN_LINE_HEIGHT + 7) & ~7;
@@ -215,7 +215,7 @@ int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin)
     func_020409B4(1);
     STRBUF_Delete(listWin->strBuf);
     STRBUF_Delete(listWin->expandBuf);
-    func_0201ED04(listWin->wordSet);
+    WORDSET_DeleteStrbufED04(listWin->wordSet);
     MSGDATA_Delete(listWin->msgData);
     return func_020307B0(listWin);
 }

@@ -12,7 +12,7 @@
  * sdk:      DWC_SetupGameServer (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_02059F38  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   DWCi_ClearGT2ConnectionList  0x0216BB98  arm  ov009
  *   DWCi_SetState  0x0216BC84  arm  ov009
  *   DWCi_CustomCommonInit  0x0216C7E0  arm  ov009
@@ -48,7 +48,7 @@ typedef struct DwcGlobal DwcGlobal;
 
 extern struct DwcGlobal g_021AA878;
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern void DWCi_ClearGT2ConnectionList(void);
 extern void DWCi_SetState(int state);
 extern void DWCi_CustomCommonInit(unsigned char matchType);
@@ -57,7 +57,7 @@ extern void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, 
 
 int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
 {
-	if (func_02059F38() || ((DwcState *)g_021AA878.st)->state != 3)
+	if (DWCi_IsError() || ((DwcState *)g_021AA878.st)->state != 3)
 		return 0;
 	DWCi_ClearGT2ConnectionList();
 	((DwcState *)g_021AA878.st)->matchedCallback = matchedCallback;

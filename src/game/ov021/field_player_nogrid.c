@@ -25,7 +25,7 @@
  *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb
  *   FLDMMDL_RAIL_GetLocationByDir  0x0219E664  thumb
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
@@ -43,7 +43,7 @@
  *   MAP_ATTR_IsForcedSlide  0x021AB348  thumb  ov021
  *   FLDMMDL_ClearStatusBit  0x0216D550  thumb  ov010
  *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
- *   func_02012844  0x02012844  thumb
+ *   GAME_DATA_GetField158  0x02012844  thumb
  *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
  *   FLDMMDL_ChangeHeader  0x0216E0AC  thumb  ov010
  *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
@@ -132,9 +132,9 @@ extern int RAIL_ATTR_IsForceMoveStop(int attr);
 extern int RAIL_ATTR_IsSlipDown(int attr);
 
 /* Game system and event data. */
-void *func_020120F4(void *gameSystem);
+void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern void *func_02012844(void *gameData);
+extern void *GAME_DATA_GetField158(void *gameData);
 extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(void *eventData, RailLocation *location);
 
 /* Player core (field_player_core.c). */
@@ -1391,7 +1391,7 @@ int FIELD_PLAYER_NOGRID_HasConnectionAhead(FieldPlayerNogrid *player, u32 dir)
     Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
     void *eventData;
 
-    eventData = func_02012844(func_020120F4(FIELDMAP_GetGameSystem(player->fieldMap)));
+    eventData = GAME_DATA_GetField158(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(player->fieldMap)));
     FLDMMDL_RAIL_GetLocationByDir(mmdl, dir, &location);
     return EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(eventData, &location) != 0xFFFF;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0207CC30
+ * function: VEC_Fx16Mag
  * address:  0x0207CC30
  * packet:   pkt_0207CC30
  * region:   arm9
@@ -51,7 +51,7 @@ static inline u32 CP_GetSqrtResult32(void)
     return reg_CP_SQRT_RESULT;
 }
 
-fx32 func_0207CC30(const VecFx16 *pSrc)
+fx32 VEC_Fx16Mag(const VecFx16 *pSrc)
 {
     fx64 t;
 

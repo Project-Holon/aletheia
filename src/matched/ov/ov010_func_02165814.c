@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200C0F0 0x0200C0F0 thumb
- *   func_0200C20C 0x0200C20C thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   BEACON_GetThanksMessage 0x0200C20C thumb
  *   func_0201F41C 0x0201F41C thumb
  *   GAME_BEACON_ResetDetails 0x0202744C thumb
  */
@@ -21,8 +21,8 @@ typedef unsigned int u32;
 struct Big;
 struct Blk34;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *);
-extern u16 *func_0200C20C(struct Blk34 *p);
+extern void *BEACON_GetBlock(void *);
+extern u16 *BEACON_GetThanksMessage(struct Blk34 *p);
 extern void func_0201F41C(const u16 *,u16 *,u32);
 extern void GAME_BEACON_ResetDetails(void *);
-void GAME_BEACON_SEARCH_SetInfoThanks(u8 *p,void *a,u16 b) { func_0201F41C(func_0200C20C(func_0200C0F0(GAME_DATA_GetSaveControl(a))),(u16 *)(p+0x34),9); ((struct Obj00121 *)p)->f30=0x18; ((struct Obj00121 *)p)->f46=b; GAME_BEACON_ResetDetails(p); }
+void GAME_BEACON_SEARCH_SetInfoThanks(u8 *p,void *a,u16 b) { func_0201F41C(BEACON_GetThanksMessage(BEACON_GetBlock(GAME_DATA_GetSaveControl(a))),(u16 *)(p+0x34),9); ((struct Obj00121 *)p)->f30=0x18; ((struct Obj00121 *)p)->f46=b; GAME_BEACON_ResetDetails(p); }

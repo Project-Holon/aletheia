@@ -14,7 +14,7 @@
  *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_WIN_GetDispWidth  0x02045748  arm
  *   BMP_WIN_GetDispHeight  0x02045750  arm
- *   func_0206E0C4  0x0206E0C4  arm
+ *   NNS_G3dScrPosToWorldLine  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj07453.h"
@@ -29,7 +29,7 @@ extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
-extern void func_0206E0C4(int x, int y, void *c, int z);
+extern void NNS_G3dScrPosToWorldLine(int x, int y, void *c, int z);
 
 void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d)
 {
@@ -64,5 +64,5 @@ void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d)
     } else {
         *c = y2 + h2 / 2;
     }
-    func_0206E0C4(*b, *c, d, 0);
+    NNS_G3dScrPosToWorldLine(*b, *c, d, 0);
 }

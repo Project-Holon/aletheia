@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D70EC 0x021D70EC thumb ov116
+ *   WIFI_BSUBWAY_PollAsync 0x021D70EC thumb ov116
  *   DPW_BT_End 0x021C93BC arm ov114
  */
 #include "../include/Obj13868.h"
@@ -17,13 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021D70EC(u8 *, int *);
+extern int WIFI_BSUBWAY_PollAsync(u8 *, int *);
 extern void DPW_BT_End(void);
 int WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *p)
 {
     int result;
     if (((struct Obj13868 *)p)->fB68 == 0) return 1;
-    if (func_021D70EC(p + 0x182c, &result)) {
+    if (WIFI_BSUBWAY_PollAsync(p + 0x182c, &result)) {
         DPW_BT_End();
         ((struct Obj13868 *)p)->fB68 = 0;
         return 1;

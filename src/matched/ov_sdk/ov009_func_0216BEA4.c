@@ -13,7 +13,7 @@
  *
  * symbols:
  *   g_021AA878  0x021AA878  data
- *   func_02059F38  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410  arm  ov009
  *   DWCi_GT2ClosedProcess  0x0216C230  arm  ov009
@@ -23,7 +23,7 @@
 #include "../include/G_DwcGlobal.h"
 
 extern struct DwcGlobal g_021AA878;
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 struct GTI2Connection;
 extern int DWCi_GetGT2Connection(int aid);
 extern char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
@@ -35,7 +35,7 @@ int DWCi_CloseConnectionHard(unsigned char aid)
     int conn;
     unsigned char *node;
 
-    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || func_02059F38() != 0 ||
+    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || DWCi_IsError() != 0 ||
         (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24) != 4 &&
          *(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24) != 5)) {
         return -1;

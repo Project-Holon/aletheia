@@ -1,5 +1,5 @@
 /*
- * function: func_021C4790
+ * function: WF2DMAP_MAP_IsEmpty
  * address:  0x021C4790
  * packet:   pkt_021C4790
  * region:   ov127
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C4790(char *p)
+int WF2DMAP_MAP_IsEmpty(char *p)
 {
     return ((struct Obj23032 *)p)->f4 == 0;
 }

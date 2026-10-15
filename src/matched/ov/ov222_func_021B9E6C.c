@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E6C
+ * function: ZENKOKU_ZUKAN_AWARD_Callback
  * address: 0x021B9E6C
  * packet: pkt_ov222_021B9E6C
  * region: ov222
@@ -28,7 +28,7 @@ extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 #define R (*(volatile u16*)0x04000060)
-void func_021B9E6C(void)
+void ZENKOKU_ZUKAN_AWARD_Callback(void)
 {
  u32 i;
  BG_SYS_SetMainPlaneVisible(1,1);

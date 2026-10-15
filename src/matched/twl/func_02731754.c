@@ -1,5 +1,5 @@
 /*
- * function: func_02731754
+ * function: SHA1_HMAC_Init
  * address:  0x02731754
  * packet:   twl_sys
  * region:   twl
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-asm void func_02731754(void)
+asm void SHA1_HMAC_Init(void)
 {
     mov     r3, #0x60
     add     r3, r0

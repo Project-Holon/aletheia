@@ -1,5 +1,5 @@
 /*
- * function: func_0220B4EC
+ * function: ZUKAN_TOROKU_GRAPHIC_InitActors
  * address:  0x0220B4EC
  * packet:   pkt_0220B4EC
  * region:   ov207
@@ -30,7 +30,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_0220B4EC(unsigned char *p, int a, int b)
+void ZUKAN_TOROKU_GRAPHIC_InitActors(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x0220BACC, a, b);

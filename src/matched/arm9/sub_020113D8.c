@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   TIMEZONE_GetTimeZoneOfHour  0x020113F0  thumb
  *
- * Fills a 12-byte buffer through func_0203F4CC and tail-hands its own
+ * Fills a 12-byte buffer through GF_STANDARD_SetField00 and tail-hands its own
  * argument and the buffer's first word to TIMEZONE_GetTimeZoneOfHour, a table lookup
  * that is a documented near miss (src/matched/sub_02011410.c's header has
  * the details) and so is declared here only, not defined.
@@ -29,13 +29,13 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct RtcTime;
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 
 u32 TIMEZONE_GetNowTimeZone(u32 row)
 {
     u32 buf[3];
 
-    func_0203F4CC((struct RtcTime *)buf);
+    GF_STANDARD_SetField00((struct RtcTime *)buf);
     return TIMEZONE_GetTimeZoneOfHour(row, buf[0]);
 }

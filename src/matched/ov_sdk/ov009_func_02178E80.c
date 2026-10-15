@@ -1,5 +1,5 @@
 /*
- * function: func_02178E80
+ * function: DWCi_Auth_IsSucceeded
  * address:  0x02178E80
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,15 +12,15 @@
  * The word at +8 of the module state block.
  *
  * symbols:
- *   g_021AB1A4  0x021AB1A4  data
+ *   gDwcAuthState  0x021AB1A4  data
  */
 
 #include "../include/G_DWCAuthState.h"
 
-extern struct DWCAuthState g_021AB1A4;
+extern struct DWCAuthState gDwcAuthState;
 
-int func_02178E80(void)
+int DWCi_Auth_IsSucceeded(void)
 {
-    return *(int *)(((char *)&g_021AB1A4) + 8);
+    return *(int *)(((char *)&gDwcAuthState) + 8);
 }
 

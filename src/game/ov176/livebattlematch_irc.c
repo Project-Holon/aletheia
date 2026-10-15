@@ -1,7 +1,7 @@
 /*
  * file:     livebattlematch_irc.c
  * unit:     yes
- * function: func_0217DEA4, func_0217DEDC, func_0217DFA8, func_0217DFBC, func_0217DFD0, func_0217DFE4, func_0217DFF0, func_0217E000, func_0217E00C, func_0217E058, func_0217E074, func_0217E078, func_0217E0A8, func_0217E0B0, func_0217E158, func_0217E178, func_0217E1C0, func_0217E1FC, func_0217E23C, func_0217E258, func_0217E298, func_0217E2C0, func_0217E2F8, func_0217E318, func_0217E380, func_0217E414, func_0217E45C, func_0217E484, func_0217E4AC, func_0217E4D4, func_0217E4FC
+ * function: func_0217DEA4, func_0217DEDC, func_0217DFA8, func_0217DFBC, func_0217DFD0, func_0217DFE4, func_0217DFF0, func_0217E000, func_0217E00C, func_0217E058, func_0217E074, func_0217E078, func_0217E0A8, func_0217E0B0, func_0217E158, func_0217E178, func_0217E1C0, func_0217E1FC, func_0217E23C, func_0217E258, func_0217E298, func_0217E2C0, func_0217E2F8, func_0217E318, func_0217E380, func_0217E414, func_0217E45C, func_0217E484, func_0217E4AC, func_0217E4D4, func_0217E4FC, func_0217E524
  * address:  0x0217DEA4
  * region:   ov176
  * compiler: dsi/1.1p1
@@ -11,6 +11,8 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * leaf: callback blocker of func_0217E0B0
  *
  * symbols:
  *   func_021E5F24 0x021E5F24 thumb ov177
@@ -40,7 +42,6 @@
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   d_0217E564 0x0217E564 data a4
  *   d_0217E630 0x0217E630 data a4
- *   func_0217E524 0x0217E524 thumb ov176
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -119,7 +120,6 @@ extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int 
 extern void IRCNET_SetFilter(int);
 extern int GFL_NET_StartChangeoverChild(int a0);
 extern int GFL_NET_GetNegotiationNum(void);
-extern int func_0217E524(int a, int b);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -166,6 +166,7 @@ void func_0217E484(u32 a, void *b, void *c, u8 *p, struct Entry *e);
 void func_0217E4AC(u32 a, void *b, void *c, u8 *p, struct Entry *e);
 void func_0217E4D4(u32 a, void *b, void *c, u8 *p, struct Entry *e);
 int func_0217E4FC(int a, int b);
+int func_0217E524(int a, int b);
 extern const char d_0217E634[];
 extern const unsigned d_0217E544[];
 extern const unsigned d_0217E564[];
@@ -173,7 +174,9 @@ extern int d_0217E630;
 extern unsigned char GAME_LANGUAGE_Code;
 extern const char d_0217E64C[];
 
+
 void func_0217DEA4(int *p, int a) {if(((struct Obj00348 *)p)->f14==0)func_021E5F24(*(char * *)&((struct Obj00348 *)p)->f8,a,((struct Obj00348 *)p)->f0,((struct Obj00348 *)p)->f24,((struct Obj00348 *)p)->f1C,((struct Obj00348 *)p)->f34);else func_021E62CC(*(char * *)&((struct Obj00348 *)p)->f8,a,((struct Obj00348 *)p)->f0,((struct Obj00348 *)p)->f24,((struct Obj00348 *)p)->f1C,((struct Obj00348 *)p)->f34);}
+
 
 /*
  * E88B0 returns its allocated record; original call truncates four coordinates to bytes.
@@ -208,6 +211,7 @@ void func_0217DEDC(char *p, int mode)
 }
 
 
+
 void func_0217DFA8(int *p)
 {
     if (*(int *)&((struct Obj00348 *)p)->fC) {
@@ -215,6 +219,7 @@ void func_0217DFA8(int *p)
         *(int *)&((struct Obj00348 *)p)->fC = 0;
     }
 }
+
 
 
 int func_0217DFBC(int *p)
@@ -225,12 +230,15 @@ int func_0217DFBC(int *p)
 }
 
 
+
 void func_0217DFD0(int *p, int a, int b)
 {
     func_021E8738((int *)(*(int *)&((struct Obj00348 *)p)->f18), *(int *)&((struct Obj00348 *)p)->f0, a, b);
 }
 
+
 int func_0217DFE4(int *p) {return func_021E8844(*(int * *)&((struct Obj00348 *)p)->f18);}
+
 
 
 /*
@@ -241,6 +249,7 @@ int func_0217DFF0(int a0, int b)
     return func_02040588(0, (unsigned char)b);
 }
 
+
 /*
  * Unlabelled blocker leaf for DA38 and DB0C; parent confirmed unowned.
  */
@@ -248,6 +257,7 @@ void func_0217E000(int *p)
 {
     func_021E8870((struct S *)p[6]);
 }
+
 
 void *func_0217E00C(int unused, int heap)
 {
@@ -260,6 +270,7 @@ void *func_0217E00C(int unused, int heap)
 }
 
 
+
 void func_0217E058(int *p)
 {
     if (GFL_NET_GetRunState())
@@ -267,11 +278,15 @@ void func_0217E058(int *p)
     func_020307B0(p);
 }
 
+
 void func_0217E074(void) {}
+
 
 int func_0217E078(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {DELIVERY_IRC_Delete((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}
 
+
 int func_0217E0A8(int *p){*p=0;return 1;}
+
 
 int func_0217E0B0(unsigned *p)
 {
@@ -310,7 +325,9 @@ int func_0217E0B0(unsigned *p)
     return 0;
 }
 
+
 void func_0217E158(u32 *p) {int n;if(*p>=2)GFL_NET_COMMAND_DeleteCommandTable(0x1f00);n=0;IRCNET_SetFilter(0);*p=n;}
+
 
 int func_0217E178(int *p)
 {
@@ -333,9 +350,12 @@ int func_0217E178(int *p)
     return 0;
 }
 
+
 int func_0217E1B8(int *p) { *p = 0; return 1; }
 
+
 int func_0217E1C0(int *p) {switch(*p) {case 0:GFL_NET_COMMAND_DeleteCommandTable(0x1f00);GFL_NET_Exit(0);*p=1;break;case 1:if(GFL_NET_IsSessionNull())*p=2;break;case 2:return 1;}return 0;}
+
 
 /*
  * extent: remaining code is the separate leaf func_0217E23C
@@ -355,6 +375,7 @@ int func_0217E1FC(int unused, int arg)
     return GFL_NET_SendData((int)obj, (unsigned char)flag, (int)0x1F00, n + 0xD4, (int)arg, (int)1, (int)1, (int)1);
 }
 
+
 /*
  * leaf: follower of func_0217E1FC
  */
@@ -367,6 +388,7 @@ int func_0217E23C(char *p, void **out)
     }
     return value;
 }
+
 
 int func_0217E258(int unused, int arg)
 {
@@ -383,11 +405,15 @@ int func_0217E258(int unused, int arg)
     return GFL_NET_SendData((int)obj, (unsigned char)flag, (int)0x1F01, n, (int)arg, (int)1, (int)1, (int)1);
 }
 
+
 int func_0217E298(u8 *p,const void *q) {int v;v=((struct Obj14369 *)p)->f100C;if(v) {((struct Obj14369 *)p)->f100C=0;MI_CpuCopy8(p+6,q,POKE_REGULATION_GetDataSize());}return v;}
+
 
 u32 func_0217E2C0(int unused,int a) {int flag;int v;v=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()));flag=1;if(v!=0)flag=0;return GFL_NET_SendData((int)GFL_NET_HANDLE_GetCurrentHandle(),(u8)flag,0x1f03,4,(int)a,(int)1,(int)1,(int)1);}
 
+
 int func_0217E2F8(u8 *p,const void *q) {int v;v=((struct Obj14370 *)p)->f1014;if(v) {((struct Obj14370 *)p)->f1014=0;MI_CpuCopy8(p+6,q,4);}return v;}
+
 
 void func_0217E318(char *p, unsigned value)
 {
@@ -406,6 +432,7 @@ void func_0217E318(char *p, unsigned value)
     ((struct Obj08287 *)p)->f1018 = DELIVERY_IRC_Create((u8 *)(&config));
     ((struct Obj08287 *)p)->f0 = 0;
 }
+
 
 /*
  * extent: two alignment bytes follow func_0217E40C
@@ -443,7 +470,9 @@ int func_0217E380(char *p)
     return 0;
 }
 
+
 void func_0217E40C(int *p) { *p = 0; }
+
 
 int func_0217E414(char *p)
 {
@@ -465,6 +494,7 @@ int func_0217E414(char *p)
     return 0;
 }
 
+
 void func_0217E45C(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
@@ -472,6 +502,7 @@ void func_0217E45C(u32 a, void *b, void *c, u8 *p, struct Entry *e)
             ((struct Obj24438 *)p)->f1008 = 1;
     }
 }
+
 
 void func_0217E484(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
@@ -481,6 +512,7 @@ void func_0217E484(u32 a, void *b, void *c, u8 *p, struct Entry *e)
     }
 }
 
+
 void func_0217E4AC(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
@@ -488,6 +520,7 @@ void func_0217E4AC(u32 a, void *b, void *c, u8 *p, struct Entry *e)
             ((struct Obj24440 *)p)->f1010 = 1;
     }
 }
+
 
 void func_0217E4D4(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
@@ -498,6 +531,7 @@ void func_0217E4D4(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 }
 
 
+
 int func_0217E4FC(int a, int b)
 {
     if (a == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
@@ -506,3 +540,5 @@ int func_0217E4FC(int a, int b)
     }
     return b + 6;
 }
+
+int func_0217E524(int a, int b) { int value = a == b; d_0217E630 = value; return value; }

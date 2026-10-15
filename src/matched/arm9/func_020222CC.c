@@ -11,11 +11,11 @@
  * function: WIPE_SetBrightness
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *
  * Selects one of two hardware register addresses (0x0400006C, 0x0400106C:
  * the master brightness registers of the two DS display engines) from its
- * first argument and passes it to func_0207D534 together with the second
+ * first argument and passes it to GXx_SetMasterBrightness_ together with the second
  * argument, the brightness level, which stays in r1 untouched (an argument
  * passed through a register must be named in the C).
  *
@@ -27,13 +27,13 @@
 typedef unsigned int u32;
 
 typedef unsigned short u16;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 void WIPE_SetBrightness(u32 which, int brightness)
 {
     if (which == 0) {
-        func_0207D534((volatile u16 *)0x0400006C, brightness);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, brightness);
     } else {
-        func_0207D534((volatile u16 *)0x0400106C, brightness);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, brightness);
     }
 }

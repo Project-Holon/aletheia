@@ -1,5 +1,5 @@
 /*
- * function: func_0200BCA8
+ * function: DAYCARE_IsSlotInUse
  * address:  0x0200BCA8
  * packet:   pkt_0200BCA8
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     u32 count;
 } E;
 
-int func_0200BCA8(E *e, u32 i)
+int DAYCARE_IsSlotInUse(E *e, u32 i)
 {
     if (i >= 2)
         return 0;

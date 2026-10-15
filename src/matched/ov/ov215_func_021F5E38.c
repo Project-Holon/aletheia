@@ -1,5 +1,5 @@
 /*
- * function: func_021F5E38
+ * function: EGG_DEMO_MAIN_DeleteActors
  * address: 0x021F5E38
  * packet: pkt_ov215_021F5E38
  * region: ov215
@@ -21,7 +21,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
-void func_021F5E38(void *unused, char *p)
+void EGG_DEMO_MAIN_DeleteActors(void *unused, char *p)
 {
     u8 i;
     for (i = 0; i < 6; i++) CLACT_DeleteActor(*(void **)(p + i * 4 + 0x38));

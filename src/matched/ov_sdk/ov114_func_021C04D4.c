@@ -12,10 +12,10 @@
  * sdk:      ghiDoReceive (ghttpcommon.o)
  *
  * symbols:
- *   func_0217F264                    0x0217f264 arm  ov009
+ *   current_time                    0x0217f264 arm  ov009
  *   ghiEncryptorSslReceiveFunc                    0x021c1c80 arm  ov114
  *   func_0217EC4C                    0x0217ec4c arm  ov009
- *   func_0217ED54                    0x0217ed54 arm  ov009
+ *   GOAGetLastError                    0x0217ed54 arm  ov009
  *   func_0217D254                    0x0217d254 arm  ov009
  *   gGhttpThrottle                       0x021ce5ac data
  *   sGhttpReceivedBytes                       0x021ce60c data
@@ -46,10 +46,10 @@ typedef struct GHIConnection {
     int encryptOnSend;          /* +0x1ac */
 } GHIConnection;
 
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern int ghiEncryptorSslReceiveFunc(void *connection, void *encryptor, char *buffer, int *bufferLen);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern struct GHIThrottle gGhttpThrottle;
 extern char sGhttpReceivedBytes[];
@@ -63,7 +63,7 @@ int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen)
     len = *bufferLen - 1;
 
     if (connection->throttle) {
-        unsigned int now = func_0217F264();
+        unsigned int now = current_time();
         if (now < connection->lastThrottleRecv + gGhttpThrottle.timeDelay)
             return 1;
         connection->lastThrottleRecv = now;
@@ -90,7 +90,7 @@ int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen)
     } else {
         rcode = func_0217EC4C(connection->socket, buffer, len, 0);
         if (rcode == -1) {
-            socketError = func_0217ED54(connection->socket);
+            socketError = GOAGetLastError(connection->socket);
             if (socketError == -56) {
                 connection->connectionClosed = 1;
                 return 2;

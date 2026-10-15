@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   func_02040EBC  0x02040EBC  arm
  *   d_021BD980     0x021BD980  data  a4
@@ -33,11 +33,11 @@ extern A16 d_021BD980;
 extern B32 d_021BD990;
 
 typedef unsigned short u16;
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void func_02040EBC(u32 a0, u32 a1);
 
@@ -46,11 +46,11 @@ void STARTMENU_SaveEraseSetupGraphics(void)
     A16 a;
     B32 b;
 
-    func_0203F8F4(0x81);
+    BG_SYS_Create(0x81);
     a = d_021BD980;
     func_0203FC28((struct DispConfig *)(&a));
     b = d_021BD990;
-    func_0203FCA0(0, (const struct BgTemplate *)(&b), 0);
+    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b), 0);
     BG_SYS_SetMainPlaneVisible(1, 1);
     func_02040EBC(0, 0x7D8C);
     func_02040EBC(4, 0x7D8C);

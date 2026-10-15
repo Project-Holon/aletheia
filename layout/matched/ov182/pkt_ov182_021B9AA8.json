@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9AA8",
+   "name": "THE_END_GRAPHIC_Dummy2",
    "address": "0x021B9AA8",
    "kind": "game",
    "region": "ov182",

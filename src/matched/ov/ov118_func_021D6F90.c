@@ -1,5 +1,5 @@
 /*
- * function: func_021D6F90
+ * function: POKETRADE_DEMO_MIDDLE_StepSetup
  * address:  0x021D6F90
  * packet:   pkt_ov118_021D6F90
  * region:   ov118
@@ -27,7 +27,7 @@
  *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb
  *   func_021D6738  0x021D6738  thumb
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb
- *   func_021D7100  0x021D7100  thumb
+ *   POKETRADE_DEMO_MIDDLE_StepParticleSystems  0x021D7100  thumb
  *   d_021D866C  0x021D866C  data
  *
  * Addresses are Black-image addresses.
@@ -56,14 +56,14 @@ extern void POKETRADE_3D_SetupParticleSystemsLow(char *p);
 extern void POKETRADE_3D_CreateIcaStreamsForMode(void *w, int a);
 extern void func_021D6738(u8 *p, u32 v);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void func_021D7100(u8 *p);
+extern void POKETRADE_DEMO_MIDDLE_StepParticleSystems(u8 *p);
 extern const char d_021D866C[];
 
 #define HEAP (*(u16 *)(p + 0x5F4))
 #define OBJ(i) (((u32 *)(p + 0x844))[i])
 #define WORK (*(u8 **)(p + 0xc))
 
-void func_021D6F90(u8 *p)
+void POKETRADE_DEMO_MIDDLE_StepSetup(u8 *p)
 {
     POKETRADE_PROC_DeleteAllResources(p);
     CLACT_ExitSystem();
@@ -94,5 +94,5 @@ void func_021D6F90(u8 *p)
     POKETRADE_3D_SetupParticleSystemsLow((char *)WORK);
     POKETRADE_3D_CreateIcaStreamsForMode(WORK, 0);
     func_021D6738(p, 0);
-    POKETRADE_PROC_SetStep(p, (int)func_021D7100);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepParticleSystems);
 }

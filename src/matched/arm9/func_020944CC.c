@@ -1,5 +1,5 @@
 /*
- * function: func_020944CC
+ * function: vsnprintf
  * address:  0x020944CC
  * packet:   pkt_02094488
  * region:   arm9
@@ -14,21 +14,21 @@
  *           the function disasm.py labels at 0x02093BE0 (worklist pkt_020933B8,
  *           size 4); four bytes of caller-save home area cannot be produced
  *           from C, so no source file can ever earn the shard entry that
- *           would attest it.  The other site (func_02094488) resolved as
+ *           would attest it.  The other site (MSL_C_LIB_SprintfWriteProc) resolved as
  *           `matched` once this packet's own shard was written.
  *
  * symbols:
- *   func_02094488  0x02094488  arm
- *   func_02093BDC  0x02093BDC  arm
+ *   MSL_C_LIB_SprintfWriteProc  0x02094488  arm
+ *   __pformatter  0x02093BDC  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02094488(u8 *p, const void *src, u32 n);
-extern u32 func_02093BDC(u32 writer, void *s, const u8 *format, u8 *ap, int is_secure);
+extern u32 MSL_C_LIB_SprintfWriteProc(u8 *p, const void *src, u32 n);
+extern u32 __pformatter(u32 writer, void *s, const u8 *format, u8 *ap, int is_secure);
 
-u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
+u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap)
 {
     u32 state[3];
     u32 len;
@@ -36,7 +36,7 @@ u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
     state[0] = (u32)dst;
     state[1] = n;
     state[2] = 0;
-    len = func_02093BDC((u32)func_02094488, state, format, ap, 0);
+    len = __pformatter((u32)MSL_C_LIB_SprintfWriteProc, state, format, ap, 0);
     if (dst == 0)
         return len;
     if (len < n) {

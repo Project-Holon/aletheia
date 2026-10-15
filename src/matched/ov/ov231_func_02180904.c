@@ -1,5 +1,5 @@
 /*
- * function: func_02180904
+ * function: CARD_SPI_WaitNotBusy
  * address:  0x02180904
  * packet:   pkt_02180904
  * region:   ov231
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_02180904(void)
+void CARD_SPI_WaitNotBusy(void)
 {
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B75D4
+ * function: POKE_SUMMARY_MAIN_Finish
  * address: 0x021B75D4
  * packet: pkt_ov173_021B75D4
  * region: ov173
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_021B75D4(u8 *p) { *(u32 *)(p + 0x1b0) = 10; return 0; }
+int POKE_SUMMARY_MAIN_Finish(u8 *p) { *(u32 *)(p + 0x1b0) = 10; return 0; }

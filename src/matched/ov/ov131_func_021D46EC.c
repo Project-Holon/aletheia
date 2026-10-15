@@ -22,7 +22,7 @@
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   P_STATUS_InitBgLayer 0x021D4940 thumb ov131
@@ -38,7 +38,7 @@
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   MCSS_Init 0x02014B08 thumb
  *   MCSS_SetTextureTransAdrs 0x02016020 thumb
  *   MCSS_SetGlobalScale 0x020160C0 thumb
@@ -69,7 +69,7 @@ extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32,u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void P_STATUS_InitBgLayer(struct BgConfig *,u32,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -84,7 +84,7 @@ extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,stru
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(const void *);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),func_0204044C(u32);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_SetLowBit(u32);
 extern void *MCSS_Init(u32,void *);
 extern void MCSS_SetTextureTransAdrs(void *,u32);
 extern void MCSS_SetGlobalScale(char *p, unsigned int v);
@@ -106,7 +106,7 @@ void P_STATUS_InitGraphics(char *p)
     *(volatile u16 *)0x04001050=0;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks(&g_C0E4);
-    func_0203F8F4(((struct Obj01739 *)p)->f0);BMP_WIN_Init(((struct Obj01739 *)p)->f0);
+    BG_SYS_Create(((struct Obj01739 *)p)->f0);BMP_WIN_Init(((struct Obj01739 *)p)->f0);
     func_0203FC28(&g_BFF4);
     P_STATUS_InitBgLayer(&g_C004[6],1,0);P_STATUS_InitBgLayer(&g_C004[4],2,0);P_STATUS_InitBgLayer(&g_C004[0],3,0);
     func_02040588(0,1);
@@ -123,7 +123,7 @@ void P_STATUS_InitGraphics(char *p)
     G3D_CAMERA_Reset(((struct Obj01739 *)p)->f70);
     func_0207DCF8(g_BFE4);
     *(volatile u16 *)0x04000060 &= ~0x3020;
-    G3D_SYSTEM_SetSwapBuffersMode(0,0);func_0204044C(0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);BG_SYS_SetLowBit(0);
     ((struct Obj01739 *)p)->f78=MCSS_Init(2,(void *)((struct Obj01739 *)p)->f0);
     MCSS_SetTextureTransAdrs(((struct Obj01739 *)p)->f78,0);
     MCSS_SetGlobalScale(((struct Obj01739 *)p)->f78,0x10000);

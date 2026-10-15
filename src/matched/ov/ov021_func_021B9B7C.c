@@ -25,10 +25,10 @@
  *   FIELD_RAIL_WORK_GetStartPoint  0x021B833C  thumb  ov021
  *   FIELD_RAIL_WORK_GetEndPoint  0x021B834C  thumb  ov021
  *   func_0207C768  0x0207C768  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CAE8  0x0207CAE8  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   _ll_mul        0x0209C054  arm
  *   d_021D9A54     0x021D9A54  data  ov021  a4
  */
@@ -47,10 +47,10 @@ u32 FIELD_RAIL_WORK_GetUnitScale(u8 *p);
 u8 *FIELD_RAIL_WORK_GetStartPoint(u8 *p);
 u8 *FIELD_RAIL_WORK_GetEndPoint(u8 *p);
 u32 func_0207C768(u32 a, u32 b);
-void func_0207CA00(V *a, V *b, V *c);
-void func_0207CAE8(V *a, V *b, V *c);
+void VEC_Subtract(V *a, V *b, V *c);
+void VEC_CrossProduct(V *a, V *b, V *c);
 void VEC_Normalize(V *a, V *b);
-void func_0207CEE4(int s, V *a, V *b, V *c);
+void VEC_MultAdd(int s, V *a, V *b, V *c);
 extern V d_021D9A54;
 
 void FIELD_RAIL_LINEPOS_Straight(void *p, V *out)
@@ -69,12 +69,12 @@ void FIELD_RAIL_LINEPOS_Straight(void *p, V *out)
     a = (V *)FIELD_RAIL_WORK_GetStartPoint(p);
     b = FIELD_RAIL_WORK_GetEndPoint(p);
     a = (V *)((u8 *)a + 0x30);
-    func_0207CA00((V *)(b + 0x30), a, &t);
-    func_0207CEE4(s, &t, a, out);
+    VEC_Subtract((V *)(b + 0x30), a, &t);
+    VEC_MultAdd(s, &t, a, out);
     w = d_021D9A54;
     m = FIELD_RAIL_WORK_GetWidthOffsetRaw(p);
     k = FIELD_RAIL_WORK_GetUnitScale(p);
-    func_0207CAE8(&t, &w, &u);
+    VEC_CrossProduct(&t, &w, &u);
     VEC_Normalize(&u, &u);
-    func_0207CEE4((int)(((s64)(m << 12) * k + 0x800) >> 12), &u, out, out);
+    VEC_MultAdd((int)(((s64)(m << 12) * k + 0x800) >> 12), &u, out, out);
 }

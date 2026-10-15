@@ -14,7 +14,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   func_0201EF34  0x0201EF34  thumb
  *   func_0201F250  0x0201F250  thumb
  *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
@@ -40,7 +40,7 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u16 func_020212B0(u16 id);
+extern u16 FILE_UTIL_Get_12B0(u16 id);
 struct WordSet;
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -55,7 +55,7 @@ void ITEMMENU_TaskRegisterResultMessage(Obj *o)
     if ((KEY_GetTrg() & 3) == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
     MSGDATA_ReadString(o->f51C, 0x3E, (void *)o->f524);
-    func_0201EF34(o->f520, 0, func_020212B0(o->f84C));
+    func_0201EF34(o->f520, 0, FILE_UTIL_Get_12B0(o->f84C));
     func_0201F250(o->f520, o->f528, (void *)o->f524);
     ITEMMENU_ShowMessage((int)o, 1);
     ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskOpenActionMenu));

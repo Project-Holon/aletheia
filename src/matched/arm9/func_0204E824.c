@@ -17,11 +17,11 @@
  * function's only two pool words besides the singleton pointer.
  *
  * The pointer and the flag word are re-read from scratch in front of every
- * one of the four tests, because func_0207D534 is opaque and may write
+ * one of the four tests, because GXx_SetMasterBrightness_ is opaque and may write
  * either of them.
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   g_02146A7C     0x02146A7C  data
  *
  * Verified with:
@@ -37,19 +37,19 @@ typedef unsigned int u32;
 extern struct Run0204E720 *g_02146A7C;
 
 typedef unsigned short u16;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 void FADE_ApplyBrightness(void)
 {
     if (g_02146A7C->unk00 & 1)
-        func_0207D534((void *)0x0400006c, -g_02146A7C->unk08);
+        GXx_SetMasterBrightness_((void *)0x0400006c, -g_02146A7C->unk08);
 
     if (g_02146A7C->unk00 & 2)
-        func_0207D534((void *)0x0400106c, -g_02146A7C->unk08);
+        GXx_SetMasterBrightness_((void *)0x0400106c, -g_02146A7C->unk08);
 
     if (g_02146A7C->unk00 & 4)
-        func_0207D534((void *)0x0400006c, g_02146A7C->unk08);
+        GXx_SetMasterBrightness_((void *)0x0400006c, g_02146A7C->unk08);
 
     if (g_02146A7C->unk00 & 8)
-        func_0207D534((void *)0x0400106c, g_02146A7C->unk08);
+        GXx_SetMasterBrightness_((void *)0x0400106c, g_02146A7C->unk08);
 }

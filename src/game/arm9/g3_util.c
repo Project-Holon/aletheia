@@ -1,7 +1,7 @@
 /*
  * file:     g3_util.c
  * unit:     yes
- * function: func_0207D704, func_0207D760, func_0207D7C4, func_0207D810, func_0207D84C, func_0207D888
+ * function: G3i_PerspectiveW_, G3i_OrthoW_, G3i_LookAt_, G3_RotX, G3_RotY, G3_RotZ
  * address:  0x0207D704
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -68,12 +68,12 @@ extern void G3_LoadMtx44(const MtxFx44 *m);
 extern void MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 extern void G3_LoadMtx43(const MtxFx43 *m);
-void func_0207D704(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx);
-void func_0207D760(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx);
-void func_0207D7C4(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx);
-void func_0207D810(fx32 s, fx32 c);
-void func_0207D84C(fx32 s, fx32 c);
-void func_0207D888(fx32 s, fx32 c);
+void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx);
+void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx);
+void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx);
+void G3_RotX(fx32 s, fx32 c);
+void G3_RotY(fx32 s, fx32 c);
+void G3_RotZ(fx32 s, fx32 c);
 
 
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
@@ -86,7 +86,7 @@ void func_0207D888(fx32 s, fx32 c);
 /*
  * sdk:      G3i_PerspectiveW_ (libgx.TWL.HYB.a g3_util.o)
  */
-void func_0207D704(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
+void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
 {
     MtxFx44 tmp[1];
 
@@ -111,7 +111,7 @@ void func_0207D704(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32
 /*
  * sdk:      G3i_FrustumW_ (libgx.TWL.HYB.a g3_util.o)
  */
-void func_0207D760(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
+void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
 {
     MtxFx44 tmp[1];
 
@@ -136,7 +136,7 @@ void func_0207D760(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, 
 /*
  * sdk:      G3i_LookAt_ (libgx.TWL.HYB.a g3_util.o)
  */
-void func_0207D7C4(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx)
+void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx)
 {
     MtxFx43 tmp[1];
 
@@ -161,7 +161,7 @@ void func_0207D7C4(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *t
 /*
  * sdk:      G3_RotX (libgx.TWL.HYB.a g3_util.o)
  */
-void func_0207D810(fx32 s, fx32 c)
+void G3_RotX(fx32 s, fx32 c)
 {
     reg_G3_MTX_MULT_3x3 = 0x1000;
     reg_G3_MTX_MULT_3x3 = 0;
@@ -185,7 +185,7 @@ void func_0207D810(fx32 s, fx32 c)
 /*
  * sdk:      G3_RotY (libgx.TWL.HYB.a g3_util.o)
  */
-void func_0207D84C(fx32 s, fx32 c)
+void G3_RotY(fx32 s, fx32 c)
 {
     reg_G3_MTX_MULT_3x3 = (u32)c;
     reg_G3_MTX_MULT_3x3 = 0;
@@ -209,7 +209,7 @@ void func_0207D84C(fx32 s, fx32 c)
 /*
  * sdk:      G3_RotZ (libgx.TWL.HYB.a g3_util.o)
  */
-void func_0207D888(fx32 s, fx32 c)
+void G3_RotZ(fx32 s, fx32 c)
 {
     reg_G3_MTX_MULT_3x3 = (u32)c;
     reg_G3_MTX_MULT_3x3 = (u32)s;

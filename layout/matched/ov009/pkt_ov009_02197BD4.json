@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02197BD4",
+   "name": "gti2SendClosedOnSocket",
    "address": "0x02197BD4",
    "kind": "sdk",
    "region": "ov009",

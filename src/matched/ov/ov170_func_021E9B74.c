@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   BOX2_SEQ_StopRightBar 0x021EA770 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_SEQ_SwapSlotActors 0x021ECB84 thumb
  *   BOX2_MAIN_SceneMoveCursor 0x021E072C thumb
  *   BOX2_SEQ_SetSlotDimB 0x021ED75C thumb
@@ -27,7 +27,7 @@
  *   data_021EF918 0x021EF918 data a1
  *   BOX2_UI_PutListFrames 0x021EF4E4 thumb
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb
  *   BOX2_MAIN_SetBoxValueAt 0x021DD2B4 thumb
  *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb
@@ -53,7 +53,7 @@ extern void BOX2_SEQ_DrawFrameList(unsigned char *,const void *,unsigned);
 extern const unsigned char data_021EF918[];
 extern void BOX2_UI_PutListFrames(struct WinMgr *mgr);
 extern void BOX2_SEQ_PrintPrompt(unsigned char *,int,int,int);
-extern unsigned func_0202136C(unsigned short);
+extern unsigned FILE_UTIL_Check136C(unsigned short);
 extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
 extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);
@@ -64,7 +64,7 @@ extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 #define WORK (*(char **)(p+0x2c))
 #define ITEM (*(unsigned short *)(p+0x10))
 extern void BOX2_SEQ_StopRightBar(int p);
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void BOX2_SEQ_SwapSlotActors(char *,unsigned);
 extern void BOX2_MAIN_SceneMoveCursor(unsigned char *);
 extern void BOX2_SEQ_SetSlotDimB(char **p, int i);
@@ -83,7 +83,7 @@ int BOX2_SEQ_StatePmVoiceOpenD(unsigned char *p)
         BOX2_UI_MoveCursor((char **)p,0xe,0xa); BOX2_SEQ_StopLeftBar((int)p); BOX2_SEQ_RefreshCursorSlot((char *)p); return 0x27;
     case 4:
         BOX2_SEQ_StopRightBar((int)p); BOX2_UI_MoveCursor((char **)p,6,p[0x16]);
-        func_02026124(*(void **)(WORK+0x70),0x27);
+        CURSOR_MOVE_ClearSkipBit(*(void **)(WORK+0x70),0x27);
         p[0x16]=0xff; return 0x20;
     case 5:
         BOX2_SEQ_StopRightBar((int)p);
@@ -91,7 +91,7 @@ int BOX2_SEQ_StatePmVoiceOpenD(unsigned char *p)
             BOX2_SEQ_ShowSlotIcon(p,p[0x17],p[0x16],*(unsigned char *)(WORK+0x3df6));
         else BOX2_SEQ_SwapSlotActors(WORK,p[0x16]);
         BOX2_MAIN_SceneMoveCursor(p); BOX2_SEQ_SetSlotDimB((char **)p,0x24);
-        BOX2_UI_MoveCursor((char **)p,6,p[0x1d]); func_02026124(*(void **)(WORK+0x70),0x27);
+        BOX2_UI_MoveCursor((char **)p,6,p[0x1d]); CURSOR_MOVE_ClearSkipBit(*(void **)(WORK+0x70),0x27);
         BOX2_SEQ_MoveCursorActor((char *)p,0x24); return 0x20;
     }
     return 0;

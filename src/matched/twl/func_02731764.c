@@ -1,5 +1,5 @@
 /*
- * function: func_02731764
+ * function: SHA1_HMAC_GetHash
  * address:  0x02731764
  * packet:   twl_sys
  * region:   twl
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-asm void func_02731764(void)
+asm void SHA1_HMAC_GetHash(void)
 {
     mov     r12, r1
     add     r1, r0, #0

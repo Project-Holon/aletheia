@@ -1,5 +1,5 @@
 /*
- * function: func_0200EF78
+ * function: NET_DEVICE_TABLE_InitEntry
  * address:  0x0200EF78
  * packet:   pkt_0200EF78
  * region:   arm9
@@ -111,7 +111,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 struct Record;
 extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
 
-void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
+void NET_DEVICE_TABLE_InitEntry(DstStruct *dst, const SrcStruct *src, void *arg2) {
     MI_CpuFill8(dst, 0, 0x100);
 
     dst->flags = src->f0;

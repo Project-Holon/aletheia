@@ -33,7 +33,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Draw 0x02014D2C thumb
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   P_STATUS_SearchPokemon 0x021D5BAC thumb ov131
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   P_STATUS_UpdatePaletteAnime 0x021D5650 thumb ov131
@@ -66,7 +66,7 @@ extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Draw(struct McssSys *sys);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern int P_STATUS_SearchPokemon(u8 *,int,u16 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef signed int     s32;
@@ -130,10 +130,10 @@ int P_STATUS_MainSeq(char *p)
     ((struct Obj00035 *)p)->f1B+=(u8)(tick-((struct Obj00035 *)p)->f20);
     ((struct Obj00035 *)p)->f20=tick;
     while (((struct Obj00035 *)p)->f1B>=4) {
-        func_02041EE4(3,1,1);
-        func_02041EE4(3,4,1);
-        func_02041EE4(7,1,1);
-        func_02041EE4(7,4,1);
+        BG_SYS_ResetSlot(3,1,1);
+        BG_SYS_ResetSlot(3,4,1);
+        BG_SYS_ResetSlot(7,1,1);
+        BG_SYS_ResetSlot(7,4,1);
         ((struct Obj00035 *)p)->f1B-=4;
     }
     if (((struct Obj00035 *)p)->f48==1 && CLACT_IsActorAnimActive(((struct Obj00035 *)p)->f188)==0) {

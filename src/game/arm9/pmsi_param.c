@@ -24,8 +24,8 @@
  *   func_020355D8 0x020355D8 arm
  *   FX_SinCosTable_   0x020A1B38  data
  *   Table_0209F724   0x0209F724  data
- *   func_0201EC64    0x0201EC64  thumb
- *   func_0201ED04    0x0201ED04  thumb
+ *   GF_FONT_Create_EC64    0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
  *   func_0201EFC8    0x0201EFC8  thumb
  *   func_0201EFFC    0x0201EFFC  thumb
  *   func_0201F250    0x0201F250  thumb
@@ -39,6 +39,7 @@
  *   data_0209F734  0x0209F734  data
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
  *   PMS_WORD_GetSaveData  0x02024988  thumb
+ *   GF_FONT_CountControlTag  0x0201D478  thumb
  */
 #include "pms_types.h"
 
@@ -93,8 +94,8 @@ extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *a0);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
 extern void func_020355D8(void *);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(struct WordSet *p);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -103,7 +104,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct MsgBank *func_02045B38(int resident, int arcId, u32 fileId, u16 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_0201D478(void *s);
+extern u32 GF_FONT_CountControlTag(void *s);
 struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSentence, u32 optionFlag, void *saveControl, u32 heapId);
 void PMSI_PARAM_Delete(void *obj);
 void PMSI_PARAM_SetWord(struct PmsiParam *obj, u16 word);
@@ -555,7 +556,7 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
     void *message;
     int i;
 
-    wordSet = func_0201EC64((u16)heapId);
+    wordSet = GF_FONT_Create_EC64((u16)heapId);
     for (i = 0; i < wordCount; i++) {
         u16 word = sentence->word[i];
 
@@ -575,7 +576,7 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
     func_0201F250(wordSet, buffer, message);
     STRBUF_Delete(message);
     MSGDATA_Delete(bank);
-    func_0201ED04(wordSet);
+    WORDSET_DeleteStrbufED04(wordSet);
     return buffer;
 }
 
@@ -620,7 +621,7 @@ u32 PMSI_PARAM_GetWordCount(u32 sentenceType, u32 sentenceId, u16 heapId)
     u32 length;
 
     MSGDATA_Delete((struct Rec *)bank);
-    length = func_0201D478(message);
+    length = GF_FONT_CountControlTag(message);
     STRBUF_Delete((struct U16Vec *)message);
 
     return length;

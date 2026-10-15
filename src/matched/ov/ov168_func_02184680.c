@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030DA8  0x02030DA8  arm
  *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   func_0203F5FC  0x0203F5FC  arm
+ *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   func_02184780  0x02184780  thumb  ov168
  *   _ll_mul        0x0209C054  arm
@@ -48,7 +48,7 @@ typedef struct {
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int func_0203F5FC(u32 x);
+extern int GF_STANDARD_Get_F5FC(u32 x);
 struct Actor;
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void func_02184780(void *task, int *p);
@@ -71,9 +71,9 @@ void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 
     o->x = FX_F32_TO_FX32(a3);
     o->y = FX_F32_TO_FX32(e);
     o->z0 = 0;
-    c = func_0203F5FC((u16)(g + 0x5a));
+    c = GF_STANDARD_Get_F5FC((u16)(g + 0x5a));
     o->vx = FX_MUL(f, c);
-    c = func_0203F5FC((u16)g);
+    c = GF_STANDARD_Get_F5FC((u16)g);
     o->vy = -FX_MUL(f, c);
     o->w0 = 0;
     o->w1 = 0;

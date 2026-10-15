@@ -27,6 +27,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
  */
 #include "../include/Obj01401.h"
 #include "../include/Obj06435.h"
@@ -44,7 +45,7 @@ struct BigObj;
 extern char *func_021D7724(u32 heap, u32 n);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -74,7 +75,7 @@ int func_021D5C60(void *a, int unused, u8 *q)
     ((struct Obj01401 *)p)->f40 = func_021D7724(((struct Obj01401 *)p)->fC, 0x28);
     ((struct Obj01401 *)p)->f2C = ((struct Obj06435 *)q)->f0;
     ((struct Obj01401 *)p)->f30 = GAME_DATA_GetSaveControl(((struct Obj06435 *)q)->f0);
-    ((struct Obj01401 *)p)->f44 = func_0201283C(((struct Obj06435 *)q)->f0);
+    ((struct Obj01401 *)p)->f44 = GAME_DATA_GetField1A0(((struct Obj06435 *)q)->f0);
     ((struct Obj22836 *)(*(u8 * *)&((struct Obj01401 *)p)->f48))->f1B0 = 1;
     ((struct Obj01401 *)p)->f15C = zero;
     ((struct Obj01401 *)p)->f160 = 2;

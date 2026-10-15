@@ -11,7 +11,7 @@
  * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_02048A18  0x02048A18  arm
  *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
@@ -115,7 +115,7 @@ typedef struct {
     int f4;
 } Counter;
 
-extern void func_0207ADC4(MtxFx33 *m);
+extern void MTX_Identity33_(MtxFx33 *m);
 typedef signed int     s32;
 struct AnmCtl;
 struct Light;
@@ -146,7 +146,7 @@ void func_021C7830(Work *p)
     t.trans.x = 0;
     t.trans.y = 0;
     t.trans.z = 0;
-    func_0207ADC4(&t.rot);
+    MTX_Identity33_(&t.rot);
     G3D_CAMERA_Reset(p->f104);
     mdl = (void *)func_02048A18(p->fF8, p->fFC);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);

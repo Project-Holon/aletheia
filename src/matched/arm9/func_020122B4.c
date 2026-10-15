@@ -9,11 +9,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   UI_SetKeepAwakePred  0x02035064  arm
  */
 
 typedef unsigned int   u32;
-extern void func_02035064(const void *fn, u32 arg);
+extern void UI_SetKeepAwakePred(const void *fn, u32 arg);
 void GAMESYSTEM_ReleaseSleepCheck(void *o)
 {
-    func_02035064(0, 0);
+    UI_SetKeepAwakePred(0, 0);
 }

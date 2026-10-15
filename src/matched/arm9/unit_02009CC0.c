@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02009CC0
+ * function: WIFILIST_GetGsProfileId
  * address:  0x02009CC0
  * packet:   pkt_02009CC0
  * region:   arm9
@@ -11,6 +11,7 @@
  * status:   EXACT
  * symbols:
  *   DWC_GetGsProfileId    0x020598EC  arm
+ *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
  *
  * Compared as a unit rather than as a single function because the packet's
  * range runs two bytes past the last instruction: `match.py one` sees the
@@ -22,15 +23,15 @@ typedef unsigned char u8;
 
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern int func_02009CB0(int a0, int a1);
+extern int WIFILIST_MakeExchangeToken(int a0, int a1);
 struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 
-int func_02009CC0(void *a0)
+int WIFILIST_GetGsProfileId(void *a0)
 {
     u8 buf[12];
     void *h = func_02009860(a0);
 
-    func_02009CB0((int)a0, (int)buf);
+    WIFILIST_MakeExchangeToken((int)a0, (int)buf);
     return DWC_GetGsProfileId(h, buf);
 }

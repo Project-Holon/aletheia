@@ -1,5 +1,5 @@
 /*
- * function: func_0205DCC8
+ * function: WDS_Initialize_CB
  * address:  0x0205DCC8
  * packet:   pkt_0205DCC8
  * region:   arm9
@@ -62,7 +62,7 @@ static struct {
     int gAppstate;
 } s_nspot;
 
-void func_0205DCC8(void)
+void WDS_Initialize_CB(void)
 {
     s_nspot.gAppstate = 2;
 }

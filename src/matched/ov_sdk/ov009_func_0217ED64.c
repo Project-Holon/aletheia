@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED64
+ * function: GSISocketSelect
  * address:  0x0217ED64
  * packet:   pkt_0219091C
  * region:   ov009
@@ -28,7 +28,7 @@ typedef struct {
 
 extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
 
-int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag)
+int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag)
 {
     GSPollFd pfd;
     int result;

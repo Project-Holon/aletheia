@@ -81,8 +81,8 @@
  *   NNS_G2dSetMCAnimationSpeed  0x02064B68  arm
  *   g_ClactAnimResetFuncs  0x020A7F48  data
  *   NNS_G2dRestartCellAnimation  0x020643A4  arm
- *   func_02063000  0x02063000  arm
- *   func_02063018  0x02063018  arm
+ *   NNS_G2dSetCellAnimationParam  0x02063000  arm
+ *   NNS_G2dSetCellAnimationParamTagged  0x02063018  arm
  *   VMAN_Create  0x02034558  arm
  *   VMAN_Delete  0x020345DC  arm
  *   MI_UncompressLZ8  0x020834C0  arm
@@ -97,11 +97,11 @@
  *   func_02062A98  0x02062A98  arm
  *   func_020637D4  0x020637D4  arm
  *   func_02063F4C  0x02063F4C  arm
- *   func_02080C34  0x02080C34  arm
- *   func_02080C74  0x02080C74  arm
+ *   GX_GetBankForOBJExtPltt  0x02080C34  arm
+ *   GX_GetBankForSubOBJExtPltt  0x02080C74  arm
  *   func_0208068C  0x0208068C  arm
- *   func_020801F8  0x020801F8  arm
- *   func_0208083C  0x0208083C  arm
+ *   GX_SetBankForOBJExtPltt  0x020801F8  arm
+ *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *   func_02062820  0x02062820  arm
  *   func_02062670  0x02062670  arm
  *   func_02062A00  0x02062A00  arm
@@ -614,8 +614,8 @@ extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
 extern void NNS_G2dSetMCAnimationSpeed(u8 *o, void *arg);
 extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
 extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct CellXferState *x);
-extern void func_02063000(int p0, int p1, int p2, int p3);
-extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 extern struct VramAllocator *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
 extern void VMAN_Delete(struct VramAllocator *obj);
 extern void MI_UncompressLZ8(const void *src, void *dest);
@@ -629,11 +629,11 @@ extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_02063E54(struct PaletteData *s, u32 size, int mode,
                          struct PlttSlot *ent);
-extern u16 func_02080C34(void);
-extern u16 func_02080C74(void);
+extern u16 GX_GetBankForOBJExtPltt(void);
+extern u16 GX_GetBankForSubOBJExtPltt(void);
 extern void func_0208068C(void);
-extern void func_020801F8(int objExtPltt);
-extern void func_0208083C(int sub_objExtPltt);
+extern void GX_SetBankForOBJExtPltt(int objExtPltt);
+extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 extern void func_02063F4C(struct PaletteData *self, struct PaletteCompInfo *list, u32 base, int sel, struct PaletteProxy *out);
 extern int func_02062820(int a, struct G2dDataBank **out);
 extern s32 func_02062670(void *handle, struct G2dDataBank **slot);
@@ -6075,7 +6075,7 @@ u16 CLACT_GetVramCellBankCount(struct AnimCtl *anim_ctl)
 /*
  * Apply one animation command record to the handle behind the cell actor's
  * +0x68 sub-object.  The opcode is the u16 at +0 of the record; 0 and 2 both
- * call func_02063000 with a different mode, 1 calls func_02063018 with the
+ * call NNS_G2dSetCellAnimationParam with a different mode, 1 calls NNS_G2dSetCellAnimationParamTagged with the
  * record's own u16 at +2 as its last argument.
  *
  * Three cases dense from zero, yet no halfword table: the compiler emits a
@@ -6102,13 +6102,13 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
 
     switch (cmd->op) {
     case 0:
-        func_02063000((int)anim_ctrl, 1, cmd->arg1, cmd->arg2);
+        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 1, cmd->arg1, cmd->arg2);
         break;
     case 2:
-        func_02063000((int)anim_ctrl, 3, cmd->arg1, cmd->arg2);
+        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 3, cmd->arg1, cmd->arg2);
         break;
     case 1:
-        func_02063018(anim_ctrl, cmd->arg1, cmd->arg2, cmd->arg0);
+        NNS_G2dSetCellAnimationParamTagged(anim_ctrl, cmd->arg1, cmd->arg2, cmd->arg0);
         break;
     }
 }
@@ -6139,7 +6139,7 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
  */
 void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl)
 {
-    func_02063000((int)CLACT_GetAnimCtrl(anim_ctl), 0, 0, 0);
+    NNS_G2dSetCellAnimationParam((int)CLACT_GetAnimCtrl(anim_ctl), 0, 0, 0);
 }
 
 
@@ -6664,16 +6664,16 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
     }
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
-        saved_state = func_02080C34();
+        saved_state = GX_GetBankForOBJExtPltt();
         if (extended) func_0208068C();
         func_02063E54(pltt_data, vram_offset, 1, (struct PlttSlot *)(slots + slot_off));
-        if (extended) func_020801F8(saved_state);
+        if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
-        saved_state = func_02080C74();
+        saved_state = GX_GetBankForSubOBJExtPltt();
         if (extended) func_0208068C();
         func_02063E54(pltt_data, vram_offset, 2, (struct PlttSlot *)(slots + slot_off));
-        if (extended) func_0208083C(saved_state);
+        if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
 
     ((struct PlttSlot *)((u8 *)res->pltts + slot_off))->bits &= ~0x80000000;
@@ -6729,16 +6729,16 @@ void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vra
     func_020637D4((u32 *)slot);
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
-        saved_state = func_02080C34();
+        saved_state = GX_GetBankForOBJExtPltt();
         if (extended) func_0208068C();
         func_02063F4C(pltt_data, pltt_hdr, vram_offset, 1, (struct PaletteProxy *)slot);
-        if (extended) func_020801F8(saved_state);
+        if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
-        saved_state = func_02080C74();
+        saved_state = GX_GetBankForSubOBJExtPltt();
         if (extended) func_0208068C();
         func_02063F4C(pltt_data, pltt_hdr, vram_offset, 2, (struct PaletteProxy *)slot);
-        if (extended) func_0208083C(saved_state);
+        if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
 
     ((struct PlttSlot *)((u8 *)res->pltts + slot_off))->bits &= ~0x80000000;

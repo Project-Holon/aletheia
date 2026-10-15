@@ -1,5 +1,5 @@
 /*
- * function: func_0205FDAC
+ * function: checkConfigEx
  * address:  0x0205FDAC
  * packet:   pkt_0205FDAC
  * region:   arm9
@@ -97,7 +97,7 @@ extern int  NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx);
 extern void initPageEx(NCFGConfigEx *configEx, int page);
 extern int  writeAllExSlots(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
 
-s32 func_0205FDAC(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
+s32 checkConfigEx(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
 {
     u8  state;
     u8  prevState;

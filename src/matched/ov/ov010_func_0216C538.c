@@ -22,12 +22,12 @@
  * ARM data run: a seed for the ARM9 session.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   NAMEIN_SETUP_RunPartyPickEvent  0x0216C484  thumb  ov010
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
@@ -89,12 +89,12 @@ struct BigObj;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern int NAMEIN_SETUP_RunPartyPickEvent(int a, int *st, int *o);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
@@ -115,8 +115,8 @@ void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
     u32 mode;
     u32 sel;
 
-    p = func_020120F4(sys);
-    q = func_0201210C(sys);
+    p = ICA_ANIME_GetField1C(sys);
+    q = ICA_ANIME_GetField20(sys);
     task = func_020122C0(sys, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
     w = func_020124E8(task);
     w->sys = sys;
@@ -125,7 +125,7 @@ void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
     w->outCC = &c->f82;
     w->outC8 = &c->f84;
     if (useOwn == 0)
-        party = func_02012934(p);
+        party = GAME_DATA_GetMyParty(p);
     else
         party = c->party;
     mode = 0x14;

@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021BA2AC
+ * function: STAFF_ROLL_StartWipe
  * address: 0x021BA2AC
  * packet: pkt_ov181_021BA2AC
  * region: ov181
@@ -15,4 +15,4 @@
 #include "../include/Obj24508.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-int func_021BA2AC(u8 *p, int a){WIPE_SYS_Start(0,0,0,0,6,1,142);((struct Obj24508 *)p)->f2F0=a;return 1;}
+int STAFF_ROLL_StartWipe(u8 *p, int a){WIPE_SYS_Start(0,0,0,0,6,1,142);((struct Obj24508 *)p)->f2F0=a;return 1;}

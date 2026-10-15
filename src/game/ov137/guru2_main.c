@@ -30,11 +30,11 @@
  *   GURU2_MAIN_StoreAngles 0x021E1814 thumb ov137
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_020490F4 0x020490F4 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_02045B38 0x02045B38 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056A0 0x020056A0 thumb
@@ -59,14 +59,14 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045CAC 0x02045CAC arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -93,7 +93,7 @@
  *   func_02008530 0x02008530 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   G3D_UTIL_Create 0x02047CFC arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
@@ -103,7 +103,7 @@
  *   func_02030DA4 0x02030DA4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_020351A0 0x020351A0 arm
+ *   UI_ClearFlags39Global 0x020351A0 arm
  *   gGuru2MainStateTable 0x021E217C data a4
  *   func_02030D28 0x02030D28 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
@@ -112,18 +112,18 @@
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GURU2_MAIN_BroadcastResult 0x021E19C0 thumb ov137
  *   func_020056EC 0x020056EC thumb
- *   func_0201292C 0x0201292C thumb
+ *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   func_02007E50 0x02007E50 thumb
  *   gGuru2RewardRangeTable 0x021E1F34 data a4
  *   func_02008DF0 0x02008DF0 thumb
- *   func_0203516C 0x0203516C arm
- *   func_0201088C 0x0201088C thumb
+ *   UI_SetFlags39Global 0x0203516C arm
+ *   GFL_NET_SAVE_Create 0x0201088C thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
- *   func_02010904 0x02010904 thumb
+ *   GFL_NET_SAVE_CheckFinished 0x02010904 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
- *   func_02010934 0x02010934 thumb
+ *   GFL_NET_SAVE_Delete 0x02010934 thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02048B6C 0x02048B6C arm
  *   func_02047964 0x02047964 arm
@@ -178,10 +178,10 @@
  *   func_0201F5BC 0x0201F5BC thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_02041B6C 0x02041B6C arm
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   gGuru2SlotDescTable 0x021E1E30 data a4
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -197,10 +197,10 @@
  *   gGuru2MarkerUnitSetupA 0x021E1E60 data a4
  *   gGuru2MarkerUnitSetupB 0x021E1E70 data a4
  *   gGuru2CardUnitSetupTable 0x021E212C data a4
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0203F63C 0x0203F63C arm
- *   func_0203F5FC 0x0203F5FC arm
+ *   GF_STANDARD_Get_F5FC 0x0203F5FC arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   func_02030DA8 0x02030DA8 arm
  *   gGuru2DropEffectStateTable 0x021E1CB8 data a4
@@ -242,9 +242,9 @@ extern void func_020315D4(struct S020315D4 *);
 
 extern u32 func_020307B0(void *p);
 
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
@@ -258,9 +258,9 @@ extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -294,7 +294,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -452,11 +452,11 @@ struct RangeList { unsigned count; struct RangeU16 *ranges; };
 
 extern void func_0203FC28(struct DispConfig *);
 
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -466,7 +466,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void func_020403F4(u32);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 
@@ -555,7 +555,7 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern int func_020351A0(u32);
+extern int UI_ClearFlags39Global(u32);
 
 extern void func_02030D28(struct Ctx *c);
 
@@ -581,11 +581,11 @@ extern u32 func_02007E50(u8 *, u16, u16, u16);
 
 extern u32 func_02008DF0(struct Sub02008C20Obj *,int);
 
-extern void func_0203516C(u32);
+extern void UI_SetFlags39Global(u32);
 
-extern void *func_0201088C(unsigned, unsigned);
+extern void *GFL_NET_SAVE_Create(unsigned, unsigned);
 
-extern u32 func_02010904(struct Sub0201088CObj *p);
+extern u32 GFL_NET_SAVE_CheckFinished(struct Sub0201088CObj *p);
 
 extern u32 func_0200FBB0(void);
 
@@ -593,7 +593,7 @@ extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned, unsigned);
 
-extern void func_02010934(struct Sub0201088CObj *p);
+extern void GFL_NET_SAVE_Delete(struct Sub0201088CObj *p);
 
 extern void PALANM_TransferPalettes(struct S02021D50 *);
 
@@ -654,7 +654,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 
 extern void func_02041B6C(u32 bit);
 
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -670,11 +670,11 @@ extern void BUTTON_MAN_MakeRotMtxXYZ(int,int,int,struct Mtx33 *);
 
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-extern void func_0207ADC4(Mtx *);
+extern void MTX_Identity33_(Mtx *);
 
 extern s16 func_0203F63C(u32 x);
 
-extern int func_0203F5FC(u32 x);
+extern int GF_STANDARD_Get_F5FC(u32 x);
 
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 
@@ -782,19 +782,19 @@ int GURU2_MAIN_StateRoundEnd(struct Guru2Game *p);
 
 int GURU2_MAIN_StateRoundEndChild(struct Guru2Game *p);
 
-int GURU2_MAIN_StepAngle(SelectObj *obj);
+int GURU2_MAIN_StepAngle(struct Guru2Game *p);
 
 int GURU2_MAIN_StateStartSync3(struct Guru2Game *p);
 
 int GURU2_MAIN_StateWaitSync3(struct Guru2Game *p);
 
-int GURU2_MAIN_SendAngles(AngleObj *obj);
+int GURU2_MAIN_SendAngles(struct Guru2Game *p);
 
-int GURU2_MAIN_ApplyAngles(u8 *p);
+int GURU2_MAIN_ApplyAngles(struct Guru2Game *p);
 
-int GURU2_MAIN_ShowResultNames(u8 *p);
+int GURU2_MAIN_ShowResultNames(struct Guru2Game *p);
 
-int GURU2_MAIN_StateResultDelay(u8 *p);
+int GURU2_MAIN_StateResultDelay(struct Guru2Game *p);
 
 int GURU2_MAIN_StateWaitSe(struct Guru2Game *p);
 
@@ -830,77 +830,77 @@ int GURU2_MAIN_StateFinished(void);
 
 void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p);
 
-void GURU2_MAIN_SetupAll(char *p);
+void GURU2_MAIN_SetupAll(struct Guru2Game *p);
 
-void GURU2_MAIN_TeardownAll(char *p);
+void GURU2_MAIN_TeardownAll(struct Guru2Game *p);
 
-void GURU2_MAIN_Draw3D(u8 *p);
+void GURU2_MAIN_Draw3D(struct Guru2Game *p);
 
-void GURU2_MAIN_SetupVram(char *p);
+void GURU2_MAIN_SetupVram(struct Guru2Game *p);
 
-void GURU2_MAIN_ShowPlanes(char *a0);
+void GURU2_MAIN_ShowPlanes(struct Guru2Game *p);
 
-void GURU2_MAIN_HidePlanes(char *a0);
+void GURU2_MAIN_HidePlanes(struct Guru2Game *p);
 
 void GURU2_MAIN_Setup3dState(void);
 
-void GURU2_MAIN_Setup3dSystem(u8 *p);
+void GURU2_MAIN_Setup3dSystem(struct Guru2Game *p);
 
-void GURU2_MAIN_SetupBg(char *a0);
+void GURU2_MAIN_SetupBg(struct Guru2Game *p);
 
-void GURU2_MAIN_LoadBgPalette(char *p);
+void GURU2_MAIN_LoadBgPalette(struct Guru2Game *p);
 
-void GURU2_MAIN_ExitBg(char *p);
+void GURU2_MAIN_ExitBg(struct Guru2Game *p);
 
-void GURU2_MAIN_LoadScreen(u8 *p,int file);
+void GURU2_MAIN_LoadScreen(struct Guru2Game *p,int file);
 
-void GURU2_MAIN_LoadScreen26(u8 *p);
+void GURU2_MAIN_LoadScreen26(struct Guru2Game *p);
 
-void GURU2_MAIN_LoadScreen24(u8 *p);
+void GURU2_MAIN_LoadScreen24(struct Guru2Game *p);
 
-void GURU2_MAIN_LoadScreen25(u8 *p);
+void GURU2_MAIN_LoadScreen25(struct Guru2Game *p);
 
-void GURU2_MAIN_CreatePaletteAnim(char *p);
+void GURU2_MAIN_CreatePaletteAnim(struct Guru2Game *p);
 
-void GURU2_MAIN_DeletePaletteAnim(char *p);
+void GURU2_MAIN_DeletePaletteAnim(struct Guru2Game *p);
 
-void GURU2_MAIN_BlendPalette(struct Guru2MainCtx2 *p,int a);
+void GURU2_MAIN_BlendPalette(struct Guru2Game *p,int a);
 
-void GURU2_MAIN_InitActorSystem(u8 *p);
+void GURU2_MAIN_InitActorSystem(struct Guru2Game *p);
 
-void GURU2_MAIN_LoadActorResources(u8 *p);
+void GURU2_MAIN_LoadActorResources(struct Guru2Game *p);
 
-void GURU2_MAIN_FreeActorResources(u8 *p);
+void GURU2_MAIN_FreeActorResources(struct Guru2Game *p);
 
-void GURU2_MAIN_CreateWindows(u8 *p);
+void GURU2_MAIN_CreateWindows(struct Guru2Game *p);
 
-void GURU2_MAIN_DeleteWindows(u8 *p);
+void GURU2_MAIN_DeleteWindows(struct Guru2Game *p);
 
-void GURU2_MAIN_PrintMessage(u8 *p,int message);
+void GURU2_MAIN_PrintMessage(struct Guru2Game *p,int message);
 
-void GURU2_MAIN_PrintMessageWithName(u8 *p,int message,void *value);
+void GURU2_MAIN_PrintMessageWithName(struct Guru2Game *p,int message,void *value);
 
-void GURU2_MAIN_PrintMessageWithNumber(u8 *p,int message,unsigned value);
+void GURU2_MAIN_PrintMessageWithNumber(struct Guru2Game *p,int message,unsigned value);
 
-void GURU2_MAIN_ClearMessageWindow(u8 *p);
+void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p);
 
-void GURU2_MAIN_CreateNameWindows(u8 *p,int count);
+void GURU2_MAIN_CreateNameWindows(struct Guru2Game *p,int count);
 
-void GURU2_MAIN_DeleteNameWindows(u8 *p);
+void GURU2_MAIN_DeleteNameWindows(struct Guru2Game *p);
 
-void GURU2_MAIN_PrintNameWindow(u8 *p,void *text,int index,int color);
+void GURU2_MAIN_PrintNameWindow(struct Guru2Game *p,void *text,int index,int color);
 
-void GURU2_MAIN_PrintPlayerName(u8 *p,void *text,int index,int a);
+void GURU2_MAIN_PrintPlayerName(struct Guru2Game *p,void *text,int index,int a);
 
-void GURU2_MAIN_ClearNameWindow(u8 *p,u32 i);
+void GURU2_MAIN_ClearNameWindow(struct Guru2Game *p,u32 i);
 
-void GURU2_MAIN_DeleteCamera(u8 *p);
+void GURU2_MAIN_DeleteCamera(struct Guru2Game *p);
 
 int GURU2_MAIN_IsTouched(char *a0);
 
 void GURU2_MAIN_AddCenterUnit(u8 *p);
 
-void GURU2_MAIN_RemoveCenterUnit(u8 *p);
+void GURU2_MAIN_RemoveCenterUnit(struct Guru2Game *p);
 
 void GURU2_MAIN_UpdateCenterTransform(u8 *p);
 
@@ -908,15 +908,15 @@ void GURU2_MAIN_DrawCenterUnit(u8 *p);
 
 void GURU2_MAIN_AddAngle(u8 *p,int a);
 
-void GURU2_MAIN_AddBackgroundUnit(u8 *p);
+void GURU2_MAIN_AddBackgroundUnit(struct Guru2Game *p);
 
-void GURU2_MAIN_RemoveBackgroundUnit(char *p);
+void GURU2_MAIN_RemoveBackgroundUnit(struct Guru2Game *p);
 
-void GURU2_MAIN_DrawBackgroundUnit(u8 *p);
+void GURU2_MAIN_DrawBackgroundUnit(struct Guru2Game *p);
 
-void GURU2_MAIN_AddPlayerUnits(char *p);
+void GURU2_MAIN_AddPlayerUnits(struct Guru2Game *p);
 
-void GURU2_MAIN_RemovePlayerUnits(char *p);
+void GURU2_MAIN_RemovePlayerUnits(struct Guru2Game *p);
 
 void GURU2_MAIN_ActivatePlayerRecord(char *p,char *q);
 
@@ -952,9 +952,9 @@ void GURU2_MAIN_UpdateBounceEffect(char *p,int *q);
 
 void GURU2_MAIN_BounceEffectTask(void *unused,char *p);
 
-void GURU2_MAIN_CreateBounceEffectTask(char *p);
+void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_DeleteBounceEffectTask(u8 *p);
+void GURU2_MAIN_DeleteBounceEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_AddBounceEffect(char *p,int value);
 
@@ -966,9 +966,9 @@ void GURU2_MAIN_UpdateSettleEffect(int *p);
 
 void GURU2_MAIN_SettleEffectTask(void *unused,char *p);
 
-void GURU2_MAIN_CreateSettleEffectTask(char *p);
+void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_DeleteSettleEffectTask(u8 *p);
+void GURU2_MAIN_DeleteSettleEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_AddSettleEffect(char *p, int key);
 
@@ -976,9 +976,9 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p);
 
 void GURU2_MAIN_WobbleEffectTask(void *unused,char *p);
 
-void GURU2_MAIN_CreateWobbleEffectTask(char *p);
+void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_DeleteWobbleEffectTask(u8 *p);
+void GURU2_MAIN_DeleteWobbleEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_AddWobbleEffect(char *p, int key);
 
@@ -986,9 +986,9 @@ void GURU2_MAIN_UpdateEntranceEffect(u8 *p,PlayerState *s);
 
 void GURU2_MAIN_EntranceEffectTask(void *unused,u8 *p);
 
-void GURU2_MAIN_CreateEntranceEffectTask(char *p);
+void GURU2_MAIN_CreateEntranceEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_DeleteEntranceEffectTask(u8 *p);
+void GURU2_MAIN_DeleteEntranceEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_StartEntranceEffect(char *p);
 
@@ -1004,9 +1004,9 @@ void GURU2_MAIN_UpdateScreenFlash(void *task, ModeState *p);
 
 void GURU2_MAIN_ScreenFlashTask(void *unused, char *p);
 
-void GURU2_MAIN_CreateScreenFlashTask(char *p);
+void GURU2_MAIN_CreateScreenFlashTask(struct Guru2Game *p);
 
-void GURU2_MAIN_DeleteScreenFlashTask(u8 *p);
+void GURU2_MAIN_DeleteScreenFlashTask(struct Guru2Game *p);
 
 u16 GURU2_MAIN_GetScreenFlashFlag(char *p);
 
@@ -1016,9 +1016,9 @@ void GURU2_MAIN_UpdatePulseEffect(void *unused, int *p);
 
 void GURU2_MAIN_PulseEffectTask(void *unused, char *p);
 
-void GURU2_MAIN_CreatePulseEffectTask(char *p);
+void GURU2_MAIN_CreatePulseEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_DeletePulseEffectTask(u8 *p);
+void GURU2_MAIN_DeletePulseEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_AddPulseEffect(char *p, char *q);
 
@@ -1036,9 +1036,9 @@ int GURU2_MAIN_TickTimeout(char *p);
 
 void *GURU2_MAIN_LoadArcMember(char *p, u32 member, int flag);
 
-void GURU2_MAIN_SetPlayerInput(int *p,int a);
+void GURU2_MAIN_SetPlayerInput(struct Guru2Game *p,int a);
 
-void GURU2_MAIN_StoreRoundResult(char *p, const FiveRecord *q);
+void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p, const FiveRecord *q);
 
 char *GURU2_MAIN_ClearSendBuffer(struct Guru2Game *p, int n);
 
@@ -1050,9 +1050,9 @@ int GURU2_MAIN_AreAllOthersReady(const struct Guru2Game *p);
 
 int GURU2_MAIN_CountReadyMembers(struct Guru2Game *p);
 
-void GURU2_MAIN_StoreSlotAssignment(char *p,unsigned short *q);
+void GURU2_MAIN_StoreSlotAssignment(struct Guru2Game *p,unsigned short *q);
 
-void GURU2_MAIN_SyncPlayerCount(char *p, int a1);
+void GURU2_MAIN_SyncPlayerCount(struct Guru2Game *p, int a1);
 
 int GURU2_MAIN_IsMemberPresent(struct Guru2Game *p, int i);
 
@@ -1062,7 +1062,7 @@ int GURU2_MAIN_CountActiveMembers(struct Guru2Game *p);
 
 void GURU2_MAIN_SetPlayerSelectedSlot(int *p,int a,int b);
 
-void GURU2_MAIN_StoreAngles(unsigned char *p,u16 *q);
+void GURU2_MAIN_StoreAngles(struct Guru2Game *p,u16 *q);
 
 int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index);
 
@@ -1136,12 +1136,12 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q)
     q->gameWork=p;
     p->session=q;
     p->comm=q->comm;
-    p->party=func_02012934(p->session->param->gameData);
+    p->party=GAME_DATA_GetMyParty(p->session->param->gameData);
     p->arcHandle=func_020490F4(183,114);
-    GURU2_MAIN_SetupAll((char *)p);
+    GURU2_MAIN_SetupAll(p);
     p->taskMain=func_020056A0((void (*)(int,  void *))GURU2_MAIN_VBlank,p,1);
     p->g3dUtil=G3D_UTIL_Create(20,11,114);
-    GURU2_MAIN_AddBackgroundUnit((u8 *)p);GURU2_MAIN_AddPlayerUnits((char *)p);GURU2_MAIN_AddCenterUnit((u8 *)p);
+    GURU2_MAIN_AddBackgroundUnit(p);GURU2_MAIN_AddPlayerUnits(p);GURU2_MAIN_AddCenterUnit((u8 *)p);
     n=0;
     player=GFL_NET_SYSTEM_GetCurrentAid();
     s=&p->spinner;
@@ -1153,7 +1153,7 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q)
     r=func_02030734(0x8072,func_02030CB0(32),0,gGuru2MainAllocFileName,0x4ec);
     p->taskCtx=r;
     p->taskMgr=func_02030CBC(32,r);
-    GURU2_MAIN_CreateBounceEffectTask((char *)p);GURU2_MAIN_CreateSettleEffectTask((char *)p);GURU2_MAIN_CreateWobbleEffectTask((char *)p);GURU2_MAIN_CreateEntranceEffectTask((char *)p);GURU2_MAIN_CreateScreenFlashTask((char *)p);GURU2_MAIN_CreatePulseEffectTask((char *)p);
+    GURU2_MAIN_CreateBounceEffectTask(p);GURU2_MAIN_CreateSettleEffectTask(p);GURU2_MAIN_CreateWobbleEffectTask(p);GURU2_MAIN_CreateEntranceEffectTask(p);GURU2_MAIN_CreateScreenFlashTask(p);GURU2_MAIN_CreatePulseEffectTask(p);
     WIPE_SYS_Start(0,1,1,0,8,1,114);
     GFL_NET_SetLoginOption(1);
     return 1;
@@ -1164,25 +1164,25 @@ int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, struct Guru2Game *p)
     PRINTSYS_QUE_Clear(p->windows.printQueue);
     PRINTSYS_QUE_Delete(p->windows.printQueue);
     if (p->timeIcon != 0) TIME_ICON_Delete(p->timeIcon);
-    GURU2_MAIN_DeleteBounceEffectTask((u8 *)p);
-    GURU2_MAIN_DeleteSettleEffectTask((u8 *)p);
-    GURU2_MAIN_DeleteWobbleEffectTask((u8 *)p);
-    GURU2_MAIN_DeleteEntranceEffectTask((u8 *)p);
-    GURU2_MAIN_DeleteScreenFlashTask((u8 *)p);
-    GURU2_MAIN_DeletePulseEffectTask((u8 *)p);
+    GURU2_MAIN_DeleteBounceEffectTask(p);
+    GURU2_MAIN_DeleteSettleEffectTask(p);
+    GURU2_MAIN_DeleteWobbleEffectTask(p);
+    GURU2_MAIN_DeleteEntranceEffectTask(p);
+    GURU2_MAIN_DeleteScreenFlashTask(p);
+    GURU2_MAIN_DeletePulseEffectTask(p);
     func_02030DA4(p->taskMgr);
     func_020307B0(p->taskCtx);
-    GURU2_MAIN_RemoveBackgroundUnit((char *)p);
-    GURU2_MAIN_RemoveCenterUnit((u8 *)p);
-    GURU2_MAIN_RemovePlayerUnits((char *)p);
+    GURU2_MAIN_RemoveBackgroundUnit(p);
+    GURU2_MAIN_RemoveCenterUnit(p);
+    GURU2_MAIN_RemovePlayerUnits(p);
     G3D_UTIL_Delete(p->g3dUtil);
     G3D_SYSTEM_Exit();
-    GURU2_MAIN_TeardownAll((char *)p);
+    GURU2_MAIN_TeardownAll(p);
     func_02030EAC(p->taskMain);
     ARC_TOOL_DeleteHandle(p->arcHandle);
     func_020315D4(a);
     func_020306F0(0x72);
-    func_020351A0(8);
+    UI_ClearFlags39Global(8);
     return 1;
 }
 
@@ -1195,7 +1195,7 @@ int GURU2_MAIN_ProcMain(int a, int b, int c, struct Guru2Game *p)
     if (result == 2) return 1;
     GURU2_MAIN_UpdateCenterTransform((u8 *)p);
     GURU2_MAIN_UpdatePlayerRecords((char *)p);
-    GURU2_MAIN_Draw3D((u8 *)p);
+    GURU2_MAIN_Draw3D(p);
     GURU2_MAIN_ClearTransferFlags(p);
     func_02030D28(p->taskMgr);
     if (WIPE_SYS_EndCheck() && func_0200FB24()) return 1;
@@ -1206,7 +1206,7 @@ void GURU2_MAIN_ClearTransferFlags(struct Guru2Game *p) { p->unknown_34=0;p->unk
 
 int GURU2_MAIN_StateStart(struct Guru2Game *p)
 {
-    GURU2_MAIN_PrintMessage((u8 *)p, 0);
+    GURU2_MAIN_PrintMessage(p, 0);
     p->state = 1;
     return 0;
 }
@@ -1324,7 +1324,7 @@ int GURU2_MAIN_StateBuildPlayerSlots(struct Guru2Game *p)
     p->state = 17;
     GFL_USE_CancelChangeAndPlayBgm(1157, 65535);
     p->session->param->resultFlag = 1;
-    GURU2_MAIN_ClearMessageWindow((u8 *)p);
+    GURU2_MAIN_ClearMessageWindow(p);
     return 1;
 }
 
@@ -1394,7 +1394,7 @@ int GURU2_MAIN_StateWaitSync2(struct Guru2Game *p) { if(GFL_NET_HANDLE_IsTimingS
 
 int GURU2_MAIN_StateShowRound(struct Guru2Game *p) { GURU2_MAIN_StartBlendFade((char *)p,1); GURU2_MAIN_CreateCenterActorTask((char *)p); p->state=25; return 0; }
 
-int GURU2_MAIN_StateRoundDelay(struct Guru2Game *p) { int i; p->timer+=1; if(p->timer<95) return 0; for(i=0;i<p->playerCount;i++) GURU2_MAIN_ClearNameWindow((u8 *)p,i); p->timer=0; p->state=26; return 0; }
+int GURU2_MAIN_StateRoundDelay(struct Guru2Game *p) { int i; p->timer+=1; if(p->timer<95) return 0; for(i=0;i<p->playerCount;i++) GURU2_MAIN_ClearNameWindow(p,i); p->timer=0; p->state=26; return 0; }
 
 int GURU2_MAIN_StateToPlay(struct Guru2Game *p)
 {
@@ -1477,17 +1477,17 @@ int GURU2_MAIN_StateRoundEndChild(struct Guru2Game *p) { GURU2_MAIN_BroadcastRes
  * local without a copy before muls. The reads in the order index, selected, count, angle
  * give the low colours (angle r1, count r2, index r3).
  */
-int GURU2_MAIN_StepAngle(SelectObj *obj)
+int GURU2_MAIN_StepAngle(struct Guru2Game *p)
 {
-    Selected *sel;
+    struct Guru2Player *sel;
     int current, index, count;
     int target, step;
     int angle, delta;
     const u16 (*table)[5];
     table = gGuru2PointerAngleTable;
-    index = obj->index;
-    sel = obj->selected;
-    count = obj->count;
+    index = p->seat;
+    sel = p->current;
+    count = p->playerCount;
     current = sel->angle;
     step = 0x4000;
     target = table[count][index] << 12;
@@ -1496,9 +1496,9 @@ int GURU2_MAIN_StepAngle(SelectObj *obj)
     if (delta < 0) delta = target + 0x168000 - current;
     if (delta <= 0x10000) step >>= 1;
     if (delta < step) step = delta;
-    GURU2_MAIN_BroadcastResult((char *)obj, step);
+    GURU2_MAIN_BroadcastResult((char *)p, step);
     GURU2_MAIN_AddAngleWrapped(&angle, step);
-    if (angle / 4096 == target / 4096) obj->state = 31;
+    if (angle / 4096 == target / 4096) p->state = 31;
     return 0;
 }
 
@@ -1508,78 +1508,77 @@ int GURU2_MAIN_StateStartSync3(struct Guru2Game *p) { GFL_NET_HANDLE_SetTimingSy
 
 int GURU2_MAIN_StateWaitSync3(struct Guru2Game *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40)) { if(GFL_NET_SYSTEM_GetCurrentAid()==0) p->state=33; else p->state=34; } return 0; }
 
-int GURU2_MAIN_SendAngles(AngleObj *obj)
+int GURU2_MAIN_SendAngles(struct Guru2Game *p)
 {
-    u8 *p = (u8 *)obj;
     struct { u16 angle, mask, entries[6]; } buf;
     int i;
-    u8 *q;
-    buf.angle = *(int *)&((struct Guru2MainCtx *)p)->f58 / 4096;
-    ((struct Guru2MainCtx *)p)->f1C = 0;
-    for (i = 0; i < ((struct Guru2MainCtx *)p)->f30; i++) {
-        q = p + 0x2e0 + i * 180;
+    struct Guru2Player *q;
+    buf.angle = p->turnAngle / 4096;
+    p->resultMask = 0;
+    for (i = 0; i < p->playerCount; i++) {
+        q = &p->players[i];
         {
         int angle;
-        angle = obj->angles[i];
-        buf.entries[*(int *)&((struct Guru2MainCtx *)q)->f10] = angle;
-        if (GURU2_MAIN_IsAngleInRangeList((char *)p, angle << 12, ((struct Guru2MainCtx *)p)->f30) == 1)
-            ((struct Guru2MainCtx *)p)->f1C |= 1 << ((struct Guru2MainCtx *)q)->fC;
+        angle = p->angle[i];
+        buf.entries[q->slot] = angle;
+        if (GURU2_MAIN_IsAngleInRangeList((char *)p, angle << 12, p->playerCount) == 1)
+            p->resultMask |= 1 << q->aid;
         }
     }
-    buf.mask = ((struct Guru2MainCtx *)p)->f1C;
-    if (GURU2_COMM_Send(((struct Guru2MainCtx *)p)->fDC, 10252, &buf, 16) == 1) ((struct Guru2MainCtx *)p)->f0 = 35;
+    buf.mask = p->resultMask;
+    if (GURU2_COMM_Send(p->comm, 10252, &buf, 16) == 1) p->state = 35;
     return 0;
 }
 
-int GURU2_MAIN_ApplyAngles(u8 *p)
+int GURU2_MAIN_ApplyAngles(struct Guru2Game *p)
 {
     int i;
-    u8 *entry;
+    struct Guru2Player *entry;
     u16 *values;
-    if (((struct Guru2MainCtx *)p)->f40 == 1) {
-        values = (u16 *)(p + 108);
-        ((struct Guru2MainCtx *)p)->f11C = values[0] << 12;
-        *(int *)&((struct Guru2MainCtx *)p)->f58 = values[0] << 12;
-        for (i = 0; i < ((struct Guru2MainCtx *)p)->f30; i++) {
-            entry = p + 736 + i * 180;
-            ((struct Guru2MainCtx *)entry)->f1C = values[*(int *)&((struct Guru2MainCtx *)entry)->f10 + 2] << 12;
-            *(u16 *)(p + 96 + i * 2) = values[*(int *)&((struct Guru2MainCtx *)entry)->f10 + 2];
+    if (p->received == 1) {
+        values = p->recvBuf;
+        p->spinner.angle = values[0] << 12;
+        p->turnAngle = values[0] << 12;
+        for (i = 0; i < p->playerCount; i++) {
+            entry = &p->players[i];
+            entry->angle = values[entry->slot + 2] << 12;
+            p->angle[i] = values[entry->slot + 2];
         }
-        ((struct Guru2MainCtx *)p)->f1C = values[1];
-        GURU2_MAIN_UpdateCenterTransform(p);
+        p->resultMask = values[1];
+        GURU2_MAIN_UpdateCenterTransform((u8 *)p);
         GURU2_MAIN_UpdatePlayerRecords((char *)p);
-        *(u8 * *)&((struct Guru2MainCtx *)p)->f28 = GURU2_MAIN_FindNearestPlayerRecord((Obj *)p);
-        ((struct Guru2MainCtx *)p)->f0 = 35;
+        p->current = GURU2_MAIN_FindNearestPlayerRecord((Obj *)p);
+        p->state = 35;
     }
     return 0;
 }
 
-int GURU2_MAIN_ShowResultNames(u8 *p)
+int GURU2_MAIN_ShowResultNames(struct Guru2Game *p)
 {
     int index, i, count, selected;
-    index = (*(int * *)&((struct Guru2MainCtx *)p)->f28)[4];
-    *(int *)&((struct Guru2MainCtx *)p)->f5C = 0;
-    for (i = 0; i < ((struct Guru2MainCtx *)p)->f30; i++) {
-        selected = *(int *)(p + 748 + index * 180);
-        GURU2_MAIN_PrintPlayerName(p, (void *)(*(int *)(p + 164 + selected * 4)), i, selected);
-        count = ((struct Guru2MainCtx *)p)->f30;
+    index = p->current->slot;
+    p->turnSpeed = 0;
+    for (i = 0; i < p->playerCount; i++) {
+        selected = p->players[index].aid;
+        GURU2_MAIN_PrintPlayerName(p, (void *)p->nameBuf[selected], i, selected);
+        count = p->playerCount;
         index = (index + 1) % count;
     }
-    ((struct Guru2MainCtx *)p)->fC = 0;
-    ((struct Guru2MainCtx *)p)->f0 = 36;
+    p->timer = 0;
+    p->state = 36;
     return 0;
 }
 
-int GURU2_MAIN_StateResultDelay(u8 *p)
+int GURU2_MAIN_StateResultDelay(struct Guru2Game *p)
 {
     int i;
-    ((struct Guru2MainCtx *)p)->fC += 1;
-    if (((struct Guru2MainCtx *)p)->fC < 120) return 0;
-    ((struct Guru2MainCtx *)p)->fC = 0;
-    for (i = 0; i < ((struct Guru2MainCtx *)p)->f30; i++) GURU2_MAIN_ClearNameWindow(p, i);
-    GURU2_MAIN_PrintMessageWithName(p, 2, (void *)(*(int *)(p + 144 + 4 * (*(int * *)&((struct Guru2MainCtx *)p)->f28)[3])));
+    p->timer += 1;
+    if (p->timer < 120) return 0;
+    p->timer = 0;
+    for (i = 0; i < p->playerCount; i++) GURU2_MAIN_ClearNameWindow(p, i);
+    GURU2_MAIN_PrintMessageWithName(p, 2, (void *)p->memberEntry[p->current->aid]);
     GURU2_MAIN_PushAndPlayBgm(1302);
-    ((struct Guru2MainCtx *)p)->f0 = 37;
+    p->state = 37;
     return 0;
 }
 
@@ -1603,8 +1602,8 @@ int GURU2_MAIN_StateComputeReward(struct Guru2Game *p)
     low += func_020056EC(65535) % (high - low + 1);
     if (low < gGuru2RewardRangeTable[count].low) low = gGuru2RewardRangeTable[count].low;
     else if (low > high) low = high;
-    GURU2_MAIN_PrintMessageWithNumber((u8 *)p, 3, low);
-    value = func_02007E50(func_0201292C((p->session->param->gameData)), low, 1, 114);
+    GURU2_MAIN_PrintMessageWithNumber(p, 3, low);
+    value = func_02007E50(GAME_DATA_GetMyItem((p->session->param->gameData)), low, 1, 114);
     GURU2_MAIN_PushAndPlayBgm(1302);
     if (value == 1) p->state = 39;
     else p->state = 40;
@@ -1620,7 +1619,7 @@ int GURU2_MAIN_StateWaitEffectToMessage(struct Guru2Game *p)
     } else if (GURU2_MAIN_PopBgmWhenDone() == 0) {
         p->timer = 0;
         p->state = 41;
-        GURU2_MAIN_PrintMessage((u8 *)p, 4);
+        GURU2_MAIN_PrintMessage(p, 4);
     }
     return 0;
 }
@@ -1636,13 +1635,13 @@ int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2Game *p)
     return 0;
 }
 
-int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); func_02008DF0(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage((u8 *)p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; func_0203516C(8); return 0; }
+int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); func_02008DF0(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; UI_SetFlags39Global(8); return 0; }
 
 int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 205, 40)) {
         GURU2_MAIN_CopyMemberPokemon(p, p->current->aid);
-        p->errScreen = func_0201088C(114, (unsigned)p->session->param->gameData);
+        p->errScreen = GFL_NET_SAVE_Create(114, (unsigned)p->session->param->gameData);
         p->timeIcon = TIME_ICON_Create(p->taskMgr, p->windows.mainWindow, 15, 16, 114);
         p->state = 44;
     }
@@ -1651,13 +1650,13 @@ int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 
 /*
  *   extern void func_020307B0(void *);
- *   void func_02010934(void *p) { func_020307B0(p); }
+ *   void GFL_NET_SAVE_Delete(void *p) { func_020307B0(p); }
  * tail: 021DF6A2..021DF6A4 is two zero alignment bytes.
  */
 int GURU2_MAIN_StateWaitSaveDone(struct Guru2Game *p)
 {
     int ready;
-    ready = func_02010904(p->errScreen);
+    ready = GFL_NET_SAVE_CheckFinished(p->errScreen);
     if (func_0200FB24()) {
         func_0200FBB0();
         GFL_NET_ERR_ShowScreen(1);
@@ -1668,20 +1667,20 @@ int GURU2_MAIN_StateWaitSaveDone(struct Guru2Game *p)
     if (ready) {
         TIME_ICON_Delete(p->timeIcon);
         p->timeIcon = 0;
-        func_02010934(p->errScreen);
+        GFL_NET_SAVE_Delete(p->errScreen);
         p->state = 47;
     }
     return 0;
 }
 
-int GURU2_MAIN_StateShowEndMessage(struct Guru2Game *p){GURU2_MAIN_PrintMessage((u8 *)p,12);p->state=46;return 0;}
+int GURU2_MAIN_StateShowEndMessage(struct Guru2Game *p){GURU2_MAIN_PrintMessage(p,12);p->state=46;return 0;}
 
 /*
  * follower: unlabelled timer inside handed 021DF6A4 extent, followed by 2-byte zero padding.
  */
 int GURU2_MAIN_StateEndDelay(struct Guru2Game *p){if(++p->timer>=180){p->timer=0;p->state=47;return 1;}return 0;}
 
-int GURU2_MAIN_StateStartSync5(struct Guru2Game *p){void *ctx=GFL_NET_HANDLE_GetCurrentHandle();if(!p->modeFlag)GFL_NET_HANDLE_SetTimingSyncRange(ctx,206,40);GURU2_MAIN_PrintMessage((u8 *)p,10);p->state=48;return 0;}
+int GURU2_MAIN_StateStartSync5(struct Guru2Game *p){void *ctx=GFL_NET_HANDLE_GetCurrentHandle();if(!p->modeFlag)GFL_NET_HANDLE_SetTimingSyncRange(ctx,206,40);GURU2_MAIN_PrintMessage(p,10);p->state=48;return 0;}
 
 int GURU2_MAIN_StateWaitSync5(struct Guru2Game *p)
 {
@@ -1716,51 +1715,51 @@ int GURU2_MAIN_StateFinished(void){return 2;}
 
 void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p){PALANM_TransferPalettes(*(struct S02021D50 * *)&p->palAnm);CLACT_VBlankSystem();func_020419E4();}
 
-void GURU2_MAIN_SetupAll(char *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN_Setup3dSystem((u8 *)p);GURU2_MAIN_SetupBg(p);GURU2_MAIN_CreatePaletteAnim(p);GURU2_MAIN_InitActorSystem((u8 *)p);GURU2_MAIN_LoadBgPalette(p);GURU2_MAIN_CreateWindows((u8 *)p);GURU2_MAIN_LoadActorResources((u8 *)p);GURU2_MAIN_ShowPlanes(p);}
+void GURU2_MAIN_SetupAll(struct Guru2Game *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN_Setup3dSystem(p);GURU2_MAIN_SetupBg(p);GURU2_MAIN_CreatePaletteAnim(p);GURU2_MAIN_InitActorSystem(p);GURU2_MAIN_LoadBgPalette(p);GURU2_MAIN_CreateWindows(p);GURU2_MAIN_LoadActorResources(p);GURU2_MAIN_ShowPlanes(p);}
 
-void GURU2_MAIN_TeardownAll(char *p){GURU2_MAIN_HidePlanes(p);GURU2_MAIN_FreeActorResources((u8 *)p);GURU2_MAIN_DeleteWindows((u8 *)p);GURU2_MAIN_ExitBg(p);GURU2_MAIN_DeletePaletteAnim(p);GURU2_MAIN_DeleteCamera((u8 *)p);}
+void GURU2_MAIN_TeardownAll(struct Guru2Game *p){GURU2_MAIN_HidePlanes(p);GURU2_MAIN_FreeActorResources(p);GURU2_MAIN_DeleteWindows(p);GURU2_MAIN_ExitBg(p);GURU2_MAIN_DeletePaletteAnim(p);GURU2_MAIN_DeleteCamera(p);}
 
 /*
  * omits func_02048B6C from function: and its shard. tu --suggest-split leaves caller OUT.
  * typedef unsigned int u32;
  * void func_02048B6C(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
  */
-void GURU2_MAIN_Draw3D(u8 *p)
+void GURU2_MAIN_Draw3D(struct Guru2Game *p)
 {
     u32 flags=0x1000000;
     void *r;
     int i;
-    func_02048B6C(*(void **)(p+0xd54),&flags);
+    func_02048B6C(p->light,&flags);
     func_02047964();
-    func_02048AD0(*(void **)(p+0xd54));
+    func_02048AD0(p->light);
     G3D_SYSTEM_ApplyLookAt();
     NNS_G3dGlbLightVector(0,0,-4096,0);
     NNS_G3dGlbLightColor(0,0x7fff);
     NNS_G3dGlbMaterialColorDiffAmb(0x7fff,0x7fff,0);
     NNS_G3dGlbMaterialColorSpecEmi(0x7fff,0x7fff,0);
-    GURU2_MAIN_DrawBackgroundUnit(p);GURU2_MAIN_DrawCenterUnit(p);GURU2_MAIN_DrawPlayerRecords(p);
+    GURU2_MAIN_DrawBackgroundUnit(p);GURU2_MAIN_DrawCenterUnit((u8 *)p);GURU2_MAIN_DrawPlayerRecords((u8 *)p);
     G3D_SYSTEM_DrawEnd();CLACT_DrawSystem();
-    PRINTSYS_QUE_Main(*(void **)(p+0xd38));
-    r=*(void **)(p+0xd38);
-    if(*(u8 *)(p+0xd0c)) {
-        if(!PRINTSYS_QUE_IsExistTarget(r,BMP_WIN_GetBmp(*(void **)(p+0xd08)))) {
-            BMP_WIN_TransferChars(*(void **)(p+0xd08));
-            *(u8 *)(p+0xd0c)=0;
+    PRINTSYS_QUE_Main(p->windows.printQueue);
+    r=p->windows.printQueue;
+    if(p->windows.printPending) {
+        if(!PRINTSYS_QUE_IsExistTarget(r,BMP_WIN_GetBmp(p->windows.activeWindow))) {
+            BMP_WIN_TransferChars(p->windows.activeWindow);
+            p->windows.printPending=0;
         }
     }
     for(i=0;i<5;i++) {
-        r=*(void **)(p+0xd38);
-        if(*(u8 *)(p+i*8+0xd14)) {
-            if(!PRINTSYS_QUE_IsExistTarget(r,BMP_WIN_GetBmp(*(void **)(p+i*8+0xd10)))) {
-                BMP_WIN_TransferChars(*(void **)(p+i*8+0xd10));
-                *(u8 *)(p+i*8+0xd14)=0;
+        r=p->windows.printQueue;
+        if(p->windows.slot[i].printed) {
+            if(!PRINTSYS_QUE_IsExistTarget(r,BMP_WIN_GetBmp(p->windows.slot[i].window))) {
+                BMP_WIN_TransferChars(p->windows.slot[i].window);
+                p->windows.slot[i].printed=0;
             }
         }
     }
-    if(*(void **)(p+0xda8)) TIME_ICON_Update(*(void **)(p+0xda8));
+    if(p->timeIcon) TIME_ICON_Update(p->timeIcon);
 }
 
-void GURU2_MAIN_SetupVram(char *p){BG_SYS_SetVramBanks(&gGuru2GameVramBanks);BMP_WIN_Init(114);}
+void GURU2_MAIN_SetupVram(struct Guru2Game *p){BG_SYS_SetVramBanks(&gGuru2GameVramBanks);BMP_WIN_Init(114);}
 
 static inline void G2_SetBG0Priority(int priority)
 {
@@ -1770,7 +1769,7 @@ static inline void G2_SetBG0Priority(int priority)
 /*
  * volatile: BG0CNT 0x04000008 read at 021DF9F2, written 021DF9FC.
  */
-void GURU2_MAIN_ShowPlanes(char *a0)
+void GURU2_MAIN_ShowPlanes(struct Guru2Game *p)
 {
     func_02040588(0, 1);
     func_02040588(1, 1);
@@ -1786,7 +1785,7 @@ void GURU2_MAIN_ShowPlanes(char *a0)
     func_0207D63C(0x04000050, 4, 40, 11, 10);
 }
 
-void GURU2_MAIN_HidePlanes(char *a0)
+void GURU2_MAIN_HidePlanes(struct Guru2Game *p)
 {
     func_02040588(0, 0);
     func_02040588(1, 0);
@@ -1846,212 +1845,209 @@ void GURU2_MAIN_Setup3dState(void)
     *(volatile u32 *)0x04000580 = 0xbfff0000;
 }
 
-void GURU2_MAIN_Setup3dSystem(u8 *p)
+void GURU2_MAIN_Setup3dSystem(struct Guru2Game *p)
 {
     u8 *section;
     Vec3 position;
-    section = p + 3392;
+    section = (u8 *)p + 3392;
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, 114, GURU2_MAIN_Setup3dState);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
     position = gGuru2CameraTarget;
-    *(void * *)&((struct Guru2MainCtx *)section)->f14 = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, &gGuru2CameraEye, &position, &gGuru2CameraUp, 114);
-    func_02048AD0(*(void * *)&((struct Guru2MainCtx *)section)->f14);
+    *(void **)(section + 0x14) = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, &gGuru2CameraEye, &position, &gGuru2CameraUp, 114);
+    func_02048AD0(*(void **)(section + 0x14));
 }
 
 /*
  * volatile: 021DFB6E reads and 021DFB76 writes hardware register 04000304
  */
-void GURU2_MAIN_SetupBg(char *a0)
+void GURU2_MAIN_SetupBg(struct Guru2Game *p)
 {
-    func_0203F8F4(114);
+    BG_SYS_Create(114);
     *(volatile u16 *)0x04000304 |= 0x8000;
     {struct DispConfig t=gGuru2GameDispConfig; func_0203FC28((struct DispConfig *)&t);}
-    {struct BgTemplate t=gGuru2GameBg1Template; func_0203FCA0(1, (const struct BgTemplate *)&t, 0); func_020414EC(1); func_02040B94(1,32,0,114);}
-    {struct BgTemplate t=gGuru2GameBg2Template; func_0203FCA0(2, (const struct BgTemplate *)&t, 0); func_020414EC(2);}
-    {struct BgTemplate t=gGuru2GameBg3Template; func_0203FCA0(3, (const struct BgTemplate *)&t, 0); func_020414EC(3);}
-    {struct BgTemplate t=gGuru2GameBg6Template; func_0203FCA0(6, (const struct BgTemplate *)&t, 0); func_020414EC(6);}
-    {struct BgTemplate t=gGuru2GameBg7Template; func_0203FCA0(7, (const struct BgTemplate *)&t, 0); func_020414EC(7);}
+    {struct BgTemplate t=gGuru2GameBg1Template; BG_SYS_InitBgLayer(1, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(1); BG_SYS_InitRun(1,32,0,114);}
+    {struct BgTemplate t=gGuru2GameBg2Template; BG_SYS_InitBgLayer(2, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(2);}
+    {struct BgTemplate t=gGuru2GameBg3Template; BG_SYS_InitBgLayer(3, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(3);}
+    {struct BgTemplate t=gGuru2GameBg6Template; BG_SYS_InitBgLayer(6, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(6);}
+    {struct BgTemplate t=gGuru2GameBg7Template; BG_SYS_InitBgLayer(7, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(7);}
 }
 
-void GURU2_MAIN_LoadBgPalette(char *p)
+void GURU2_MAIN_LoadBgPalette(struct Guru2Game *p)
 {
     void *buf;
     u8 *data;
-    buf=GURU2_MAIN_LoadArcMember(p,17,0);
-    func_02062A98(buf,(void **)(p+0xd64));
-    PALANM_CopyToSlot(((struct Guru2MainCtx *)p)->fD78,((struct Guru2MainCtx_fD64 *)((struct Guru2MainCtx *)p)->fD64)->fC,0,0,64);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,17,0);
+    func_02062A98(buf,&p->res64);
+    PALANM_CopyToSlot(p->palAnm,((struct Guru2MainCtx_fD64 *)p->res64)->fC,0,0,64);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,20,0);
-    func_02062A98(buf,(void **)(p+0xd64));
-    PALANM_CopyToSlot(((struct Guru2MainCtx *)p)->fD78,((struct Guru2MainCtx_fD64 *)((struct Guru2MainCtx *)p)->fD64)->fC,1,0,64);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,20,0);
+    func_02062A98(buf,&p->res64);
+    PALANM_CopyToSlot(p->palAnm,((struct Guru2MainCtx_fD64 *)p->res64)->fC,1,0,64);
     func_020307B0(buf);
-    PALANM_BlendChannelMask(*(u32 *)&((struct Guru2MainCtx *)p)->fD78,1,65535,8,0);
-    buf=GURU2_MAIN_LoadArcMember(p,16,0);
-    func_02062A00(buf,(void **)(p+0xd60));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD60;
-    func_02040B1C(3,*(void * *)&((struct Guru2MainCtx *)data)->f14,*(unsigned int *)&((struct Guru2MainCtx *)data)->f10,0);
+    PALANM_BlendChannelMask((u32)p->palAnm,1,65535,8,0);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,16,0);
+    func_02062A00(buf,&p->res60);
+    data=(u8 *)p->res60;
+    func_02040B1C(3,*(void **)(data+0x14),*(u32 *)(data+0x10),0);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,22,0);
-    func_02062A00(buf,(void **)(p+0xd60));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD60;
-    func_02040B1C(6,*(void * *)&((struct Guru2MainCtx *)data)->f14,*(unsigned int *)&((struct Guru2MainCtx *)data)->f10,0);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,22,0);
+    func_02062A00(buf,&p->res60);
+    data=(u8 *)p->res60;
+    func_02040B1C(6,*(void **)(data+0x14),*(u32 *)(data+0x10),0);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,21,0);
-    func_02062A00(buf,(void **)(p+0xd60));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD60;
-    func_02040B1C(7,*(void * *)&((struct Guru2MainCtx *)data)->f14,*(unsigned int *)&((struct Guru2MainCtx *)data)->f10,0);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,21,0);
+    func_02062A00(buf,&p->res60);
+    data=(u8 *)p->res60;
+    func_02040B1C(7,*(void **)(data+0x14),*(u32 *)(data+0x10),0);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,19,0);
-    func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD5C;
-    func_02040AE0(2,data+12,*(unsigned int *)&((struct Guru2MainCtx *)data)->f8);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,19,0);
+    func_02062B30(buf,&p->res5C);
+    data=(u8 *)p->res5C;
+    func_02040AE0(2,data+12,*(u32 *)(data+8));
     func_020409B4(2);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,18,0);
-    func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD5C;
-    func_02040AE0(3,data+12,*(unsigned int *)&((struct Guru2MainCtx *)data)->f8);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,18,0);
+    func_02062B30(buf,&p->res5C);
+    data=(u8 *)p->res5C;
+    func_02040AE0(3,data+12,*(u32 *)(data+8));
     func_020409B4(3);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,24,0);
-    func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD5C;
-    func_02040AE0(6,data+12,*(unsigned int *)&((struct Guru2MainCtx *)data)->f8);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,24,0);
+    func_02062B30(buf,&p->res5C);
+    data=(u8 *)p->res5C;
+    func_02040AE0(6,data+12,*(u32 *)(data+8));
     func_020409B4(6);
     func_020307B0(buf);
-    buf=GURU2_MAIN_LoadArcMember(p,23,0);
-    func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 * *)&((struct Guru2MainCtx *)p)->fD5C;
-    func_02040AE0(7,data+12,*(unsigned int *)&((struct Guru2MainCtx *)data)->f8);
+    buf=GURU2_MAIN_LoadArcMember((char *)p,23,0);
+    func_02062B30(buf,&p->res5C);
+    data=(u8 *)p->res5C;
+    func_02040AE0(7,data+12,*(u32 *)(data+8));
     func_020409B4(7);
     func_020307B0(buf);
 }
 
-void GURU2_MAIN_ExitBg(char *p){BMP_WIN_Exit();func_020403F4(1);func_020403F4(2);func_020403F4(3);func_020403F4(6);func_020403F4(7);func_0203F9B4();}
+void GURU2_MAIN_ExitBg(struct Guru2Game *p){BMP_WIN_Exit();func_020403F4(1);func_020403F4(2);func_020403F4(3);func_020403F4(6);func_020403F4(7);BG_SYS_Delete();}
 
 /*
  * followers: 021DFEA0,021DFEAC,021DFEB8 are pooled tail-call stubs; parent cleared ownership.
  */
-void GURU2_MAIN_LoadScreen(u8 *p,int file)
+void GURU2_MAIN_LoadScreen(struct Guru2Game *p,int file)
 {
     void *buf;
     u8 *screen;
     buf=GURU2_MAIN_LoadArcMember((char *)p,file,0);
-    func_02062B30(buf,(void **)(p+3420));
-    screen=*(u8 * *)&((struct Guru2MainCtx *)p)->fD5C;
-    func_02040AE0(6,screen+12,((struct Guru2MainCtx2 *)screen)->f8);
+    func_02062B30(buf,&p->res5C);
+    screen=(u8 *)p->res5C;
+    func_02040AE0(6,screen+12,*(int *)(screen+8));
     func_020409B4(6);
     func_020307B0(buf);
 }
 
-void GURU2_MAIN_LoadScreen26(u8 *p) { GURU2_MAIN_LoadScreen(p,26); }
+void GURU2_MAIN_LoadScreen26(struct Guru2Game *p) { GURU2_MAIN_LoadScreen(p,26); }
 
-void GURU2_MAIN_LoadScreen24(u8 *p) { GURU2_MAIN_LoadScreen(p,24); }
+void GURU2_MAIN_LoadScreen24(struct Guru2Game *p) { GURU2_MAIN_LoadScreen(p,24); }
 
-void GURU2_MAIN_LoadScreen25(u8 *p) { GURU2_MAIN_LoadScreen(p,25); }
+void GURU2_MAIN_LoadScreen25(struct Guru2Game *p) { GURU2_MAIN_LoadScreen(p,25); }
 
-void GURU2_MAIN_CreatePaletteAnim(char *p){*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78=PALANM_Create(114);PALANM_SetAutoTransfer(*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78,1);PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78,0,512,114);PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78,1,512,114);}
+void GURU2_MAIN_CreatePaletteAnim(struct Guru2Game *p){p->palAnm=PALANM_Create(114);PALANM_SetAutoTransfer(p->palAnm,1);PALANM_AllocSlotBuffers(p->palAnm,0,512,114);PALANM_AllocSlotBuffers(p->palAnm,1,512,114);}
 
-void GURU2_MAIN_DeletePaletteAnim(char *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78,1);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Guru2MainCtx *)p)->fD78);}
+void GURU2_MAIN_DeletePaletteAnim(struct Guru2Game *p){PALANM_FreeSlotBuffers(p->palAnm,0);PALANM_FreeSlotBuffers(p->palAnm,1);PALANM_Delete(p->palAnm);}
 
-void GURU2_MAIN_BlendPalette(struct Guru2MainCtx2 *p,int a){PALANM_BlendChannelMask(p->fD78,1,65535,(u8)a,0);}
+void GURU2_MAIN_BlendPalette(struct Guru2Game *p,int a){PALANM_BlendChannelMask((u32)p->palAnm,1,65535,(u8)a,0);}
 
 /*
  * blocking: ABS32 data gClActorInitParam at +0x20 has no witness outside 021DFF44..021DFF70; ROM pool at021DFF64 is020A1448. Alignment-only data a4 hint already used; one recheck and tu --suggest-split remain MATCH with zero witnesses. Both ARM9 callees resolve matched.
  */
-void GURU2_MAIN_InitActorSystem(u8 *p){CLACT_InitSystem(&gClActorInitParam,0x021E1EA4,114);*(struct Bank **)(p+0xd68)=CLACT_CreateUnit(30,1,114);}
+void GURU2_MAIN_InitActorSystem(struct Guru2Game *p){CLACT_InitSystem(&gClActorInitParam,0x021E1EA4,114);p->clactUnit=CLACT_CreateUnit(30,1,114);}
 
-void GURU2_MAIN_LoadActorResources(u8 *p)
+void GURU2_MAIN_LoadActorResources(struct Guru2Game *p)
 {
     void *arc;
     arc = func_020490F4(184,114);
-    *(int *)&((struct Guru2MainCtx *)p)->fD6C = CLACT_RegisterCharacter(arc,6,0,0,114);
-    *(int *)&((struct Guru2MainCtx *)p)->fD70 = CLACT_RegisterPalette(arc,0,0,0,114);
-    *(int *)&((struct Guru2MainCtx *)p)->fD74 = CLACT_RegisterCellAnim(arc,10,14,114);
+    p->clactChar = CLACT_RegisterCharacter(arc,6,0,0,114);
+    p->clactPal = CLACT_RegisterPalette(arc,0,0,0,114);
+    p->clactCell = CLACT_RegisterCellAnim(arc,10,14,114);
     ARC_TOOL_DeleteHandle(arc);
     GFL_NET_RestartWithDefaultTimeout(1,114);
 }
 
-void GURU2_MAIN_FreeActorResources(u8 *p){CLACT_ReleaseCharacter(((struct Guru2MainCtx *)p)->fD6C);CLACT_ReleasePalette(((struct Guru2MainCtx *)p)->fD70);CLACT_ReleaseCellAnim(((struct Guru2MainCtx *)p)->fD74);CLACT_DeleteUnit(*(struct Bank * *)&((struct Guru2MainCtx *)p)->fD68);CLACT_ExitSystem();}
+void GURU2_MAIN_FreeActorResources(struct Guru2Game *p){CLACT_ReleaseCharacter(p->clactChar);CLACT_ReleasePalette(p->clactPal);CLACT_ReleaseCellAnim(p->clactCell);CLACT_DeleteUnit(p->clactUnit);CLACT_ExitSystem();}
 
-void GURU2_MAIN_CreateWindows(u8 *p)
+void GURU2_MAIN_CreateWindows(struct Guru2Game *p)
 {
     int i;
-    u8 *s=p+0xce0;
+    struct Guru2Windows *s=&p->windows;
     func_0201F5BC(1,1,15,0,114);
-    PALANM_LoadArcPaletteToSlot(((struct Guru2MainCtx *)p)->fD78,5,3,114,0,32,224);
-    PALANM_LoadArcPaletteToSlot(((struct Guru2MainCtx *)p)->fD78,23,5,114,0,32,240);
-    ((struct Guru2MainCtx *)s)->f4=GF_FONT_Create(23,0,0,0,114);
-    ((struct Guru2MainCtx *)s)->f8=func_02045B38(0,2,41,114);
-    *(void * *)&((struct Guru2MainCtx *)s)->fC=func_0201EC64(114);
-    *(unsigned int *)&((struct Guru2MainCtx *)s)->f10=BMP_WIN_Create(1,2,19,26,4,15,1);
-    ((struct Guru2MainCtx *)s)->f5C=STRBUF_Create(256,114);
-    for(i=0;i<5;i++) {*(void **)(p+0xa4+i*4)=STRBUF_Create(8,114);}
-    *(unsigned int *)&((struct Guru2MainCtx *)s)->f28=*(unsigned int *)&((struct Guru2MainCtx *)s)->f10;
-    *(unsigned char *)&((struct Guru2MainCtx *)s)->f2C=0;
-    *(unsigned int *)&((struct Guru2MainCtx *)s)->f58=PRINTSYS_QUE_Create((void *)114);
-    GURU2_MAIN_CreateNameWindows(p,((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->playerCount);
+    PALANM_LoadArcPaletteToSlot(p->palAnm,5,3,114,0,32,224);
+    PALANM_LoadArcPaletteToSlot(p->palAnm,23,5,114,0,32,240);
+    s->font=GF_FONT_Create(23,0,0,0,114);
+    s->msgData=func_02045B38(0,2,41,114);
+    s->wordSet=GF_FONT_Create_EC64(114);
+    s->mainWindow=(void *)BMP_WIN_Create(1,2,19,26,4,15,1);
+    s->textBuf=STRBUF_Create(256,114);
+    for(i=0;i<5;i++) {p->nameBuf[i]=STRBUF_Create(8,114);}
+    s->activeWindow=s->mainWindow;
+    s->printPending=0;
+    s->printQueue=(void *)PRINTSYS_QUE_Create((void *)114);
+    GURU2_MAIN_CreateNameWindows(p,p->session->playerCount);
 }
 
 /*
  * extent: Two zero alignment bytes at 021E012E follow the 90-byte function.
  */
-void GURU2_MAIN_DeleteWindows(u8 *p)
+void GURU2_MAIN_DeleteWindows(struct Guru2Game *p)
 {
-    u8 *s;
+    struct Guru2Windows *s=&p->windows;
     void *obj;
     int i;
-    s=p+3296;
-    obj=((struct Guru2MainCtx *)s)->f10;
+    obj=s->mainWindow;
     BMP_WIN_ClearScreen(obj);
     func_020409B4(BMP_WIN_GetBgLayer(obj));
-    BMP_WIN_Delete(((struct Guru2MainCtx *)s)->f10);
+    BMP_WIN_Delete(s->mainWindow);
     GURU2_MAIN_DeleteNameWindows(p);
-    MSGDATA_Delete(((struct Guru2MainCtx *)s)->f8);
-    func_0201ED04(*(void * *)&((struct Guru2MainCtx *)s)->fC);
-    GF_FONT_Delete(((struct Guru2MainCtx *)s)->f4);
-    STRBUF_Delete(((struct Guru2MainCtx *)s)->f5C);
-    for(i=0;i<5;i++) STRBUF_Delete(*(void **)(p+164+i*4));
+    MSGDATA_Delete(s->msgData);
+    WORDSET_DeleteStrbufED04(s->wordSet);
+    GF_FONT_Delete(s->font);
+    STRBUF_Delete(s->textBuf);
+    for(i=0;i<5;i++) STRBUF_Delete(p->nameBuf[i]);
     BMP_WIN_Exit();
 }
 
-void GURU2_MAIN_PrintMessage(u8 *p,int message)
+void GURU2_MAIN_PrintMessage(struct Guru2Game *p,int message)
 {
-    u8 *s;
+    struct Guru2Windows *s=&p->windows;
     void *window,*owner,*data;
-    s=p+3296;
-    window=((struct Guru2MainCtx *)s)->f10;
+    window=s->mainWindow;
     BMP_Clear(BMP_WIN_GetBmp(window),15);
     func_0201F73C(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
-    func_02045CAC(((struct Guru2MainCtx *)s)->f8,message,((struct Guru2MainCtx *)s)->f5C);
-    owner=((struct Guru2MainCtx *)s)->f58;
-    data=BMP_WIN_GetBmp(((struct Guru2MainCtx *)s)->f28);
-    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)(((struct Guru2MainCtx *)s)->f5C),(u32)(((struct Guru2MainCtx *)s)->f4),1088);
-    *(unsigned char *)&((struct Guru2MainCtx *)s)->f2C=1;
+    func_02045CAC(s->msgData,message,s->textBuf);
+    owner=s->printQueue;
+    data=BMP_WIN_GetBmp(s->activeWindow);
+    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)s->textBuf,(u32)s->font,1088);
+    s->printPending=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
     func_02041B6C(BMP_WIN_GetBgLayer(window));
 }
 
-void GURU2_MAIN_PrintMessageWithName(u8 *p,int message,void *value)
+void GURU2_MAIN_PrintMessageWithName(struct Guru2Game *p,int message,void *value)
 {
-    u8 *s;
+    struct Guru2Windows *s=&p->windows;
     void *window,*text,*owner,*data;
-    s=p+3296;
-    window=((struct Guru2MainCtx *)s)->f10;
-    func_0201F02C(*(void * *)&((struct Guru2MainCtx *)s)->fC,1,UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp((struct Guru2Game *)p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
-    func_0201F02C(*(void * *)&((struct Guru2MainCtx *)s)->fC,2,value);
+    window=s->mainWindow;
+    func_0201F02C(s->wordSet,1,UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp(p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
+    func_0201F02C(s->wordSet,2,value);
     text=STRBUF_Create(256,114);
-    func_02045CAC(((struct Guru2MainCtx *)s)->f8,message,text);
-    func_0201F250(*(void * *)&((struct Guru2MainCtx *)s)->fC,((struct Guru2MainCtx *)s)->f5C,text);
+    func_02045CAC(s->msgData,message,text);
+    func_0201F250(s->wordSet,s->textBuf,text);
     STRBUF_Delete(text);
     func_0201F73C(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
-    owner=((struct Guru2MainCtx *)s)->f58;
-    data=BMP_WIN_GetBmp(((struct Guru2MainCtx *)s)->f28);
-    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)(((struct Guru2MainCtx *)s)->f5C),(u32)(((struct Guru2MainCtx *)s)->f4),1088);
-    *(unsigned char *)&((struct Guru2MainCtx *)s)->f2C=1;
+    owner=s->printQueue;
+    data=BMP_WIN_GetBmp(s->activeWindow);
+    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)s->textBuf,(u32)s->font,1088);
+    s->printPending=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
     func_02041B6C(BMP_WIN_GetBgLayer(window));
@@ -2060,45 +2056,43 @@ void GURU2_MAIN_PrintMessageWithName(u8 *p,int message,void *value)
 /*
  * extent: Two zero alignment bytes at 021E0302.
  */
-void GURU2_MAIN_PrintMessageWithNumber(u8 *p,int message,unsigned value)
+void GURU2_MAIN_PrintMessageWithNumber(struct Guru2Game *p,int message,unsigned value)
 {
-    u8 *s;
+    struct Guru2Windows *s=&p->windows;
     void *window,*text,*owner,*data;
-    s=p+3296;
-    window=((struct Guru2MainCtx *)s)->f10;
-    func_0201EF40(*(void * *)&((struct Guru2MainCtx *)s)->fC,0,value);
+    window=s->mainWindow;
+    WORDSET_Callback_EF40(s->wordSet,0,value);
     text=STRBUF_Create(256,114);
-    func_02045CAC(((struct Guru2MainCtx *)s)->f8,message,text);
-    func_0201F250(*(void * *)&((struct Guru2MainCtx *)s)->fC,((struct Guru2MainCtx *)s)->f5C,text);
+    func_02045CAC(s->msgData,message,text);
+    func_0201F250(s->wordSet,s->textBuf,text);
     STRBUF_Delete(text);
     func_0201F73C(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
-    owner=((struct Guru2MainCtx *)s)->f58;
-    data=BMP_WIN_GetBmp(((struct Guru2MainCtx *)s)->f28);
-    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)(((struct Guru2MainCtx *)s)->f5C),(u32)(((struct Guru2MainCtx *)s)->f4),1088);
-    *(unsigned char *)&((struct Guru2MainCtx *)s)->f2C=1;
+    owner=s->printQueue;
+    data=BMP_WIN_GetBmp(s->activeWindow);
+    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)s->textBuf,(u32)s->font,1088);
+    s->printPending=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
     func_02041B6C(BMP_WIN_GetBgLayer(window));
 }
 
-void GURU2_MAIN_ClearMessageWindow(u8 *p){struct Descriptor *w=*(struct Descriptor * *)&((struct Guru2MainCtx *)p)->fCF0;func_0201F7A8(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);func_02041B6C(BMP_WIN_GetBgLayer(w));}
+void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p){struct Descriptor *w=(struct Descriptor *)p->windows.mainWindow;func_0201F7A8(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);func_02041B6C(BMP_WIN_GetBgLayer(w));}
 
 /*
  * lever: Store the call result directly into its slot, then reuse that slot; declare counter before section base.
  */
-void GURU2_MAIN_CreateNameWindows(u8 *p,int count)
+void GURU2_MAIN_CreateNameWindows(struct Guru2Game *p,int count)
 {
     int i;
-    u8 *s;
+    u8 *s=(u8 *)&p->windows;
     const Desc *table;
     u32 obj;
     u32 *slot;
     const Desc *entry;
-    s=p+3296;
     i=0;
     table=gGuru2SlotDescTable[count];
-    ((struct Guru2MainCtx3 *)s)->f0=count;
+    ((struct Guru2Windows *)s)->count=count;
     for(;i<count;i++) {
         entry=&table[i];
         slot=(u32 *)(s+i*4);
@@ -2109,30 +2103,29 @@ void GURU2_MAIN_CreateNameWindows(u8 *p,int count)
     }
 }
 
-void GURU2_MAIN_DeleteNameWindows(u8 *p){int i;u8 *s=p+0xce0;for(i=0;i<((struct Guru2MainCtx3 *)s)->f0;i++){u8 *q=s+(u32)i*4;struct Descriptor *w=*(struct Descriptor * *)&((struct Guru2MainCtx *)q)->f14;BMP_WIN_ClearScreen(w);func_020409B4(BMP_WIN_GetBgLayer(w));BMP_WIN_Delete(*(struct Descriptor * *)&((struct Guru2MainCtx *)q)->f14);}}
+void GURU2_MAIN_DeleteNameWindows(struct Guru2Game *p){int i;struct Guru2Windows *s=&p->windows;for(i=0;i<s->count;i++){struct Descriptor *w=(struct Descriptor *)s->window[i];BMP_WIN_ClearScreen(w);func_020409B4(BMP_WIN_GetBgLayer(w));BMP_WIN_Delete((struct Descriptor *)s->window[i]);}}
 
-void GURU2_MAIN_PrintNameWindow(u8 *p,void *text,int index,int color)
+void GURU2_MAIN_PrintNameWindow(struct Guru2Game *p,void *text,int index,int color)
 {
-    u8 *s;
+    struct Guru2Windows *s=&p->windows;
     void *window,*owner,*data;
-    s=p+3296;
-    window=*(void **)(s+20+index*4);
+    window=s->window[index];
     func_0201F73C(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
-    owner=((struct Guru2MainCtx *)s)->f58;
-    data=BMP_WIN_GetBmp(*(void **)(s+48+index*8));
-    PRINTSYS_PrintQueColor(owner,(u32)data,4,1,(u32)text,(u32)(((struct Guru2MainCtx *)s)->f4),color);
-    *(u8 *)(s+52+index*8)=1;
+    owner=s->printQueue;
+    data=BMP_WIN_GetBmp(s->slot[index].window);
+    PRINTSYS_PrintQueColor(owner,(u32)data,4,1,(u32)text,(u32)s->font,color);
+    s->slot[index].printed=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
     func_02041B6C(BMP_WIN_GetBgLayer(window));
 }
 
-void GURU2_MAIN_PrintPlayerName(u8 *p,void *text,int index,int a){int c=0x440;if(a==GFL_NET_SYSTEM_GetCurrentAid())c=0xc80;GURU2_MAIN_PrintNameWindow(p,text,index,c);}
+void GURU2_MAIN_PrintPlayerName(struct Guru2Game *p,void *text,int index,int a){int c=0x440;if(a==GFL_NET_SYSTEM_GetCurrentAid())c=0xc80;GURU2_MAIN_PrintNameWindow(p,text,index,c);}
 
-void GURU2_MAIN_ClearNameWindow(u8 *p,u32 i){struct Descriptor *w=*(struct Descriptor **)(p+i*4+0xcf4);func_0201F7A8(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);func_02041B6C(BMP_WIN_GetBgLayer(w));}
+void GURU2_MAIN_ClearNameWindow(struct Guru2Game *p,u32 i){struct Descriptor *w=(struct Descriptor *)p->windows.window[i];func_0201F7A8(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);func_02041B6C(BMP_WIN_GetBgLayer(w));}
 
-void GURU2_MAIN_DeleteCamera(u8 *p){G3D_CAMERA_Delete(((struct Guru2MainCtx *)p)->fD54);}
+void GURU2_MAIN_DeleteCamera(struct Guru2Game *p){G3D_CAMERA_Delete(p->light);}
 
 int GURU2_MAIN_IsTouched(char *a0){if(TOUCHPANEL_HitTrg(gGuru2TouchRects)!=-1)return 1;return 0;}
 
@@ -2162,7 +2155,7 @@ void GURU2_MAIN_AddCenterUnit(u8 *p)
     *(Vec *)(s+12)=*(Vec *)s;
 }
 
-void GURU2_MAIN_RemoveCenterUnit(u8 *p){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)p)->f19C));}
+void GURU2_MAIN_RemoveCenterUnit(struct Guru2Game *p){G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(p->spinner.g3dUnit));}
 
 void GURU2_MAIN_UpdateCenterTransform(u8 *p)
 {
@@ -2198,43 +2191,43 @@ void GURU2_MAIN_DrawCenterUnit(u8 *p)
 
 void GURU2_MAIN_AddAngle(u8 *p,int a){GURU2_MAIN_AddAngleWrapped((int *)(p+0x3c),a);}
 
-void GURU2_MAIN_AddBackgroundUnit(u8 *p){((struct Guru2MainCtx *)p)->fDA4=G3D_UTIL_AddUnit(*(struct Util * *)&((struct Guru2MainCtx *)p)->fAF4,&gGuru2BackgroundUnitSetup);G3X_SetClearColor(0,0,32767,0,0);}
+void GURU2_MAIN_AddBackgroundUnit(struct Guru2Game *p){p->skyUnit=G3D_UTIL_AddUnit(p->g3dUtil,&gGuru2BackgroundUnitSetup);G3X_SetClearColor(0,0,32767,0,0);}
 
 /*
  * note: original narrows the second call argument with lsls/lsrs #16 at 021E0682/021E0686, so this caller's extern uses u16.
  */
-void GURU2_MAIN_RemoveBackgroundUnit(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)p)->fDA4)); }
+void GURU2_MAIN_RemoveBackgroundUnit(struct Guru2Game *p) { G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(p->skyUnit)); }
 
 /*
  * lever: Position setter before scale setter keeps zero in r0 and scale in r1.
  */
-void GURU2_MAIN_DrawBackgroundUnit(u8 *p)
+void GURU2_MAIN_DrawBackgroundUnit(struct Guru2Game *p)
 {
     Transform t;
     void *object;
-    object = (void *)func_02048A18(((struct Guru2MainCtx *)p)->fAF4,(u16)(*(int *)&((struct Guru2MainCtx *)p)->fDA4));
+    object = (void *)func_02048A18(p->g3dUtil,(u16)(p->skyUnit));
     VecSet(&t.pos,0,0,0);
     VecSet(&t.scale,4096,4096,4096);
     BUTTON_MAN_MakeRotMtxXYZ(0,0,0,(struct Mtx33 *)&t.rot);
     G3D_SYSTEM_DrawObject(object,(struct Arg *)(&t));
 }
 
-void GURU2_MAIN_AddPlayerUnits(char *p)
+void GURU2_MAIN_AddPlayerUnits(struct Guru2Game *p)
 {
     int i;
-    char *q=p+0x1a0;
-    ((struct Guru2MainCtx *)q)->f938=G3D_UTIL_AddUnit(((struct Guru2MainCtx *)p)->fAF4,gGuru2MarkerUnitSetupA);
-    ((struct Guru2MainCtx *)q)->f93C=G3D_UTIL_AddUnit(((struct Guru2MainCtx *)p)->fAF4,gGuru2MarkerUnitSetupB);
-    for (i=0;i<5;i++) *(int *)(q+0x940+i*4)=G3D_UTIL_AddUnit(((struct Guru2MainCtx *)p)->fAF4,gGuru2CardUnitSetupTable+i*16);
+    u8 *q=(u8 *)p+0x1a0;
+    *(int *)(q+0x938)=G3D_UTIL_AddUnit(p->g3dUtil,gGuru2MarkerUnitSetupA);
+    *(int *)(q+0x93C)=G3D_UTIL_AddUnit(p->g3dUtil,gGuru2MarkerUnitSetupB);
+    for (i=0;i<5;i++) *(int *)(q+0x940+i*4)=G3D_UTIL_AddUnit(p->g3dUtil,gGuru2CardUnitSetupTable+i*16);
 }
 
-void GURU2_MAIN_RemovePlayerUnits(char *p)
+void GURU2_MAIN_RemovePlayerUnits(struct Guru2Game *p)
 {
     int i;
-    char *q = p+0x1a0;
-    for (i=0;i<5;i++) G3D_UTIL_RemoveUnit(((struct Guru2MainCtx *)p)->fAF4,(u16)(*(int *)(q+0x940+i*4)));
-    G3D_UTIL_RemoveUnit(((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)q)->f938));
-    G3D_UTIL_RemoveUnit(((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)q)->f93C));
+    u8 *q = (u8 *)p+0x1a0;
+    for (i=0;i<5;i++) G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(*(int *)(q+0x940+i*4)));
+    G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(*(int *)(q+0x938)));
+    G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(*(int *)(q+0x93C)));
 }
 
 void GURU2_MAIN_ActivatePlayerRecord(char *p,char *q) { *(int *)&((struct Guru2MainCtx *)q)->f4=1; GURU2_MAIN_ActivatePlayerUnit(p,q); GURU2_MAIN_ActivateCardUnit(p,q); }
@@ -2284,7 +2277,7 @@ void GURU2_MAIN_DrawPlayerRecords(u8 *p)
             void *object=(void *)func_02048A18(((struct Guru2MainCtx *)p)->fAF4,(u16)(*(int *)((unsigned)(base+i*4)+0x940)));
             VecSet(&t.pos,*(int *)&((struct Guru2MainCtx *)third)->f4,*(int *)&((struct Guru2MainCtx *)third)->f8,((struct Guru2MainCtx *)third)->fC);
             VecSet(&t.scale,4096,4096,4096);
-            func_0207ADC4(&t.rot);
+            MTX_Identity33_(&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct Arg *)(&t));
         }
         first+=0xb4;second+=0x7c;third+=0x68;
@@ -2313,7 +2306,7 @@ void GURU2_MAIN_RotatePlayerRecords(char *p,int amount)
  *     if (angle >= 360) return 0;
  *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2 + 1];
  * }
- * int func_0203F5FC(u16 angle) {
+ * int GF_STANDARD_Get_F5FC(u16 angle) {
  *     if (angle >= 360) return 0;
  *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  * }
@@ -2325,7 +2318,7 @@ void GURU2_MAIN_UpdateRecordPosition(char *p,int *q,int amount,int extra)
     angle=amount/4096;
     *(int *)(p+0x44)=*(int *)(p+0x50)+q[0]+22*func_0203F63C(angle);
     *(int *)(p+0x48)=extra+(*(int *)(p+0x54)-0x6000+q[1]);
-    *(int *)(p+0x4c)=*(int *)(p+0x58)+q[2]+22*func_0203F5FC(angle);
+    *(int *)(p+0x4c)=*(int *)(p+0x58)+q[2]+22*GF_STANDARD_Get_F5FC(angle);
     *(short *)(p+0x24)=*(int *)(p+0x2c)/4096;
     *(short *)(p+0x26)=*(int *)(p+0x30)/4096;
     *(short *)(p+0x28)=*(int *)(p+0x34)/4096;
@@ -2455,7 +2448,7 @@ int GURU2_MAIN_DropEffectStateLand(int *p)
     if (q[21] <= 0) {
         q[21] = 0;
         r = (char *)p[5];
-        GURU2_MAIN_PrintPlayerName((u8 *)r, (void *)(*(int *)(r + 0xa4 + q[3]*4)), q[5], q[3]);
+        GURU2_MAIN_PrintPlayerName((struct Guru2Game *)r, (void *)(*(int *)(r + 0xa4 + q[3]*4)), q[5], q[3]);
         return 2;
     }
     return 0;
@@ -2488,11 +2481,11 @@ void GURU2_MAIN_UpdateBounceEffect(char *p,int *q)
 
 void GURU2_MAIN_BounceEffectTask(void *unused,char *p) { int i; int *q; q=(int *)(p+0xaf8); for(i=0;i<5;i++,q+=8) if(*q!=0) GURU2_MAIN_UpdateBounceEffect(p,q); }
 
-void GURU2_MAIN_CreateBounceEffectTask(char *p) { MI_CpuFill8(p+2808,0,160); *(struct Node * *)&((struct Guru2MainCtx *)p)->fD7C=func_02030DA8(*(struct Ctx * *)&((struct Guru2MainCtx *)p)->fD98, (void ( *)(void *,void *))((u32)GURU2_MAIN_BounceEffectTask), (void *)((u32)p), 256); }
+void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8(p->fx0,0,160); p->taskFx0=func_02030DA8(p->taskMgr, (void ( *)(void *,void *))((u32)GURU2_MAIN_BounceEffectTask), (void *)p, 256); }
 
-void GURU2_MAIN_DeleteBounceEffectTask(u8 *p)
+void GURU2_MAIN_DeleteBounceEffectTask(struct Guru2Game *p)
 {
-    func_02030EAC(((struct Guru2MainCtx *)p)->fD7C);
+    func_02030EAC(p->taskFx0);
 }
 
 void GURU2_MAIN_AddBounceEffect(char *p,int value) { int i; int *q; q=(int *)(p+0xaf8); for(i=0;i<5;i++,q+=8) { if(*q==0) { *q=1; q[7]=value; return; } } }
@@ -2543,11 +2536,11 @@ void GURU2_MAIN_UpdateSettleEffect(int *p)
 
 void GURU2_MAIN_SettleEffectTask(void *unused,char *p) { int i; int *q; q=(int *)(p+0xb98); for(i=0;i<5;i++,q+=5) if(*q!=0) GURU2_MAIN_UpdateSettleEffect(q); }
 
-void GURU2_MAIN_CreateSettleEffectTask(char *p) { MI_CpuFill8(p+2968,0,100); *(struct Node * *)&((struct Guru2MainCtx *)p)->fD80=func_02030DA8(*(struct Ctx * *)&((struct Guru2MainCtx *)p)->fD98, (void ( *)(void *,void *))((u32)GURU2_MAIN_SettleEffectTask), (void *)((u32)p), 257); }
+void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8(p->fx1,0,100); p->taskFx1=func_02030DA8(p->taskMgr, (void ( *)(void *,void *))((u32)GURU2_MAIN_SettleEffectTask), (void *)p, 257); }
 
-void GURU2_MAIN_DeleteSettleEffectTask(u8 *p)
+void GURU2_MAIN_DeleteSettleEffectTask(struct Guru2Game *p)
 {
-    func_02030EAC(((struct Guru2MainCtx *)p)->fD80);
+    func_02030EAC(p->taskFx1);
 }
 
 void GURU2_MAIN_AddSettleEffect(char *p, int key)
@@ -2574,7 +2567,7 @@ void GURU2_MAIN_AddSettleEffect(char *p, int key)
 /*
  *   typedef unsigned short u16;
  *   extern const short FX_SinCosTable_[];
- *   int func_0203F5FC(u16 angle) {
+ *   int GF_STANDARD_Get_F5FC(u16 angle) {
  *       if (angle >= 360) return 0;
  *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
@@ -2592,7 +2585,7 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p)
         p[3] = 0x14000;
         p[1]++;
     case 1:
-        amount = func_0203F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
+        amount = GF_STANDARD_Get_F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
         q[13] = 0;
         GURU2_MAIN_AddAngleWrapped(q + 13, amount);
         old = p[4];
@@ -2610,11 +2603,11 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p)
 
 void GURU2_MAIN_WobbleEffectTask(void *unused,char *p) { int i; int *q; q=(int *)(p+0xbfc); for(i=0;i<5;i++,q+=6) if(*q!=0) GURU2_MAIN_UpdateWobbleEffect(q); }
 
-void GURU2_MAIN_CreateWobbleEffectTask(char *p) { MI_CpuFill8(p+3068,0,120); *(struct Node * *)&((struct Guru2MainCtx *)p)->fD84=func_02030DA8(*(struct Ctx * *)&((struct Guru2MainCtx *)p)->fD98, (void ( *)(void *,void *))((u32)GURU2_MAIN_WobbleEffectTask), (void *)((u32)p), 258); }
+void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8(p->fx2,0,120); p->taskFx2=func_02030DA8(p->taskMgr, (void ( *)(void *,void *))((u32)GURU2_MAIN_WobbleEffectTask), (void *)p, 258); }
 
-void GURU2_MAIN_DeleteWobbleEffectTask(u8 *p)
+void GURU2_MAIN_DeleteWobbleEffectTask(struct Guru2Game *p)
 {
-    func_02030EAC(((struct Guru2MainCtx *)p)->fD84);
+    func_02030EAC(p->taskFx2);
 }
 
 void GURU2_MAIN_AddWobbleEffect(char *p, int key)
@@ -2681,15 +2674,15 @@ void GURU2_MAIN_EntranceEffectTask(void *unused,u8 *p)
     GURU2_MAIN_UpdateEntranceEffect(p,(PlayerState *)(p+0xc74));
 }
 
-void GURU2_MAIN_CreateEntranceEffectTask(char *p)
+void GURU2_MAIN_CreateEntranceEffectTask(struct Guru2Game *p)
 {
-    MI_CpuFill8(p + 0xc74, 0, 20);
-    ((struct Guru2MainCtx *)p)->fD88 = (void *)func_02030DA8(((struct Guru2MainCtx *)p)->fD98, (void ( *)(void *,void *))GURU2_MAIN_EntranceEffectTask, p, 255);
+    MI_CpuFill8(p->fx3, 0, 20);
+    p->taskFx3 = (void *)func_02030DA8(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_EntranceEffectTask, p, 255);
 }
 
-void GURU2_MAIN_DeleteEntranceEffectTask(u8 *p)
+void GURU2_MAIN_DeleteEntranceEffectTask(struct Guru2Game *p)
 {
-    func_02030EAC(((struct Guru2MainCtx *)p)->fD88);
+    func_02030EAC(p->taskFx3);
 }
 
 void GURU2_MAIN_StartEntranceEffect(char *p)
@@ -2794,17 +2787,17 @@ void GURU2_MAIN_ScreenFlashTask(void *unused, char *p)
     GURU2_MAIN_UpdateScreenFlash(p, (ModeState *)(p + 0xc88));
 }
 
-void GURU2_MAIN_CreateScreenFlashTask(char *p)
+void GURU2_MAIN_CreateScreenFlashTask(struct Guru2Game *p)
 {
     unsigned n = 8;
-    MI_CpuFill8(p + 0xc88, 0, n);
+    MI_CpuFill8(&p->fx4State, 0, n);
     n += 251;
-    ((struct Guru2MainCtx *)p)->fD8C = (void *)func_02030DA8(((struct Guru2MainCtx *)p)->fD98, (void ( *)(void *,void *))GURU2_MAIN_ScreenFlashTask, p, n);
+    p->taskFx4 = (void *)func_02030DA8(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_ScreenFlashTask, p, n);
 }
 
-void GURU2_MAIN_DeleteScreenFlashTask(u8 *p)
+void GURU2_MAIN_DeleteScreenFlashTask(struct Guru2Game *p)
 {
-    func_02030EAC(((struct Guru2MainCtx *)p)->fD8C);
+    func_02030EAC(p->taskFx4);
 }
 
 u16 GURU2_MAIN_GetScreenFlashFlag(char *p)
@@ -2849,17 +2842,17 @@ void GURU2_MAIN_PulseEffectTask(void *unused, char *p)
     for (i = 0; i < 5; i++, q += 4) GURU2_MAIN_UpdatePulseEffect(p, q);
 }
 
-void GURU2_MAIN_CreatePulseEffectTask(char *p)
+void GURU2_MAIN_CreatePulseEffectTask(struct Guru2Game *p)
 {
     unsigned n = 80;
-    MI_CpuFill8(p + 0xc90, 0, n);
+    MI_CpuFill8(p->fx5, 0, n);
     n += 180;
-    ((struct Guru2MainCtx *)p)->fD90 = (void *)func_02030DA8(((struct Guru2MainCtx *)p)->fD98, (void ( *)(void *,void *))GURU2_MAIN_PulseEffectTask, p, n);
+    p->taskFx5 = (void *)func_02030DA8(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_PulseEffectTask, p, n);
 }
 
-void GURU2_MAIN_DeletePulseEffectTask(u8 *p)
+void GURU2_MAIN_DeletePulseEffectTask(struct Guru2Game *p)
 {
-    func_02030EAC(((struct Guru2MainCtx *)p)->fD90);
+    func_02030EAC(p->taskFx5);
 }
 
 void GURU2_MAIN_AddPulseEffect(char *p, char *q)
@@ -2958,12 +2951,12 @@ void *GURU2_MAIN_LoadArcMember(char *p, u32 member, int flag)
     return result;
 }
 
-void GURU2_MAIN_SetPlayerInput(int *p,int a) { if(a!=0) p[13]=a; }
+void GURU2_MAIN_SetPlayerInput(struct Guru2Game *p,int a) { if(a!=0) p->unknown_34=a; }
 
-void GURU2_MAIN_StoreRoundResult(char *p, const FiveRecord *q)
+void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p, const FiveRecord *q)
 {
-    ((struct Guru2MainCtx2 *)p)->f3C = 1;
-    *(FiveRecord *)(p + 0x58) = *q;
+    p->unknown_3C = 1;
+    *(FiveRecord *)&p->turnAngle = *q;
 }
 
 char *GURU2_MAIN_ClearSendBuffer(struct Guru2Game *p, int n)
@@ -3017,9 +3010,9 @@ int GURU2_MAIN_CountReadyMembers(struct Guru2Game *p) { int count; unsigned int 
  * extent: 42-byte body followed by two bytes of zero alignment padding.
  * volatile: The raw halfword at q+0 is re-read at 021E1732/021E1734.
  */
-void GURU2_MAIN_StoreSlotAssignment(char *p,unsigned short *q) { unsigned int index;unsigned short value; index=*(volatile unsigned short *)&((struct Guru2MainCtx4 *)q)->f0;value=*(volatile unsigned short *)&((struct Guru2MainCtx4 *)q)->f0;*(unsigned short *)(p+index*4+0x7c)=value;*(unsigned short *)(p+index*4+0x7e)=q[1];if(q[1]==GFL_NET_SYSTEM_GetCurrentAid())((struct Guru2MainCtx *)p)->f2C=q[0]; }
+void GURU2_MAIN_StoreSlotAssignment(struct Guru2Game *p,unsigned short *q) { unsigned int index;unsigned short value; index=*(volatile unsigned short *)&((struct Guru2MainCtx4 *)q)->f0;value=*(volatile unsigned short *)&((struct Guru2MainCtx4 *)q)->f0;p->recvEntry[index].seat=value;p->recvEntry[index].aid=q[1];if(q[1]==GFL_NET_SYSTEM_GetCurrentAid())p->seat=q[0]; }
 
-void GURU2_MAIN_SyncPlayerCount(char *p, int a1) { ((struct Guru2MainCtx *)p)->f30=UNION_APP_GetMemberCount(GURU2_MAIN_GetUnionApp((struct Guru2Game *)p)); }
+void GURU2_MAIN_SyncPlayerCount(struct Guru2Game *p, int a1) { p->playerCount=UNION_APP_GetMemberCount(GURU2_MAIN_GetUnionApp(p)); }
 
 /*
  * The `&` operand order names the temporary: `field & (1 << i)` (field into
@@ -3063,12 +3056,12 @@ int GURU2_MAIN_CountActiveMembers(struct Guru2Game *p)
 
 void GURU2_MAIN_SetPlayerSelectedSlot(int *p,int a,int b) { (p+a)[17]=b; }
 
-void GURU2_MAIN_StoreAngles(unsigned char *p,u16 *q)
+void GURU2_MAIN_StoreAngles(struct Guru2Game *p,u16 *q)
 {
-    u16 *d=(u16 *)(p+108);
+    u16 *d=p->recvBuf;
     unsigned n=8;
     do { *d++=*q++; } while(--n);
-    ((struct Guru2MainCtx3 *)p)->f40=1;
+    p->received=1;
 }
 
 int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index)

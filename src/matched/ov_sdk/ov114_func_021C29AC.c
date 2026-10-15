@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02092004  0x02092004  arm
- *   func_02091D38  0x02091D38  arm
- *   func_02092120  0x02092120  arm
+ *   fseek  0x02092004  arm
+ *   ftell  0x02091D38  arm
+ *   rewind  0x02092120  arm
  */
 
 typedef struct Obj {
@@ -22,11 +22,11 @@ typedef struct Obj {
     int fC;
 } Obj;
 
-extern int func_02092004(void *, int, int);
+extern int fseek(void *, int, int);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern s32 func_02091D38(u32 a0);
-extern int func_02092120(void *);
+extern s32 ftell(u32 a0);
+extern int rewind(void *);
 
 int ghiPostStateInit(Obj *o)
 {
@@ -37,12 +37,12 @@ int ghiPostStateInit(Obj *o)
     } else if (t == 1) {
         if (o->f8 == 0)
             return 0;
-        if (func_02092004(o->f8, 0, 2) != 0)
+        if (fseek(o->f8, 0, 2) != 0)
             return 0;
-        o->fC = func_02091D38((u32)o->f8);
+        o->fC = ftell((u32)o->f8);
         if (o->fC == -1)
             return 0;
-        func_02092120(o->f8);
+        rewind(o->f8);
     } else if (t != 2 && t != 3) {
         return 0;
     }

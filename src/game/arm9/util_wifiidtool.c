@@ -1,7 +1,7 @@
 /*
  * file:     util_wifiidtool.c
  * unit:     yes
- * function: func_02058A3C, func_02058BC0, func_02058D88, func_02058DD0, func_02058E20, func_02058FB4, func_02059008
+ * function: DWCi_Util_WiFiId_scrambleUid, DWCi_AUTH_GetNewWiFiInfo, DWCi_AUTH_MakeWiFiID, DWCi_AUTH_UpDateWiFiID, DWCi_AUTH_RemakeWiFiID, DWC_Auth_GetId, DWC_Auth_CheckWiFiIDNeedCreate
  * address:  0x02058A3C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -84,13 +84,11 @@ extern void OS_GetMacAddress(u8 *macAddress);
 extern u64  DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit);
 extern int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo);
 extern int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work);
-u64 func_02058A3C(u16 rand, u32 mac, u8 vend, u8 mainunit);
-int func_02058BC0(DWCWiFiInfo *wifiinfo);
-int func_02058D88(void *work);
-int func_02058DD0(DWCWiFiInfo *wifiinfo, void *work);
-int func_02058E20(DWCWiFiInfo *wifiinfo);
-void func_02058FB4(DWCAuthWiFiId *id);
-int func_02059008(void);
+int DWCi_AUTH_MakeWiFiID(void *work);
+int DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *wifiinfo, void *work);
+int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo);
+void DWC_Auth_GetId(DWCAuthWiFiId *id);
+int DWC_Auth_CheckWiFiIDNeedCreate(void);
 extern const u8 DWCi_util_wifiid_ttable[16];
 extern const u8 DWCi_util_wifiid_exctable[8];
 
@@ -98,7 +96,7 @@ extern const u8 DWCi_util_wifiid_exctable[8];
 /*
  * sdk:      DWCi_Util_WiFiId_scrambleUid (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
-u64 func_02058A3C(u16 rand, u32 mac, u8 vend, u8 mainunit)
+u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit)
 {
     UNI64 uni64;
     u8 uidtemp[8];
@@ -137,7 +135,7 @@ u64 func_02058A3C(u16 rand, u32 mac, u8 vend, u8 mainunit)
 /*
  * sdk:      DWCi_AUTH_GetNewWiFiInfo (util_wifiidtool.o)
  */
-int func_02058BC0(DWCWiFiInfo *wifiinfo)
+int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo)
 {
     u8 vend;
     u8 macaddr[6];
@@ -189,7 +187,7 @@ int func_02058BC0(DWCWiFiInfo *wifiinfo)
 /*
  * sdk:      DWCi_AUTH_MakeWiFiID (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
-int func_02058D88(void *work)
+int DWCi_AUTH_MakeWiFiID(void *work)
 {
     DWCWiFiInfo wifiinfo;
 
@@ -202,7 +200,7 @@ int func_02058D88(void *work)
 /*
  * sdk:      DWCi_AUTH_UpDateWiFiID (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
-int func_02058DD0(DWCWiFiInfo *wifiinfo, void *work)
+int DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *wifiinfo, void *work)
 {
     DWCWiFiInfo wifiinfotemp;
 
@@ -223,7 +221,7 @@ int func_02058DD0(DWCWiFiInfo *wifiinfo, void *work)
 /*
  * sdk:      DWCi_AUTH_RemakeWiFiID (util_wifiidtool.o)
  */
-int func_02058E20(DWCWiFiInfo *wifiinfo)
+int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo)
 {
     u8 vend;
     u8 macaddr[6] = { 0, 0, 0, 0, 0, 0 };
@@ -266,7 +264,7 @@ int func_02058E20(DWCWiFiInfo *wifiinfo)
 /*
  * sdk:      DWC_Auth_GetId (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
-void func_02058FB4(DWCAuthWiFiId *id)
+void DWC_Auth_GetId(DWCAuthWiFiId *id)
 {
     DWCWiFiInfo wifiinfo;
 
@@ -283,7 +281,7 @@ void func_02058FB4(DWCAuthWiFiId *id)
 /*
  * sdk:      DWC_Auth_CheckWiFiIDNeedCreate (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
-int func_02059008(void)
+int DWC_Auth_CheckWiFiIDNeedCreate(void)
 {
     DWCWiFiInfo wifiinfo;
 

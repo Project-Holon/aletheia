@@ -15,7 +15,7 @@
  *           printed extent is 612 against a compiled 608.  All 608 compared
  *           bytes match and all 12 relocations resolve.
  * symbols:
- *   func_020921F4  0x020921F4  arm
+ *   __fpclassifyd  0x020921F4  arm
  *   copysign  0x0209A368  arm
  *   _deq   0x0209BA3C  arm
  *   _dmul  0x0209B2E8  arm
@@ -51,14 +51,14 @@ static const double twom54  = 5.55111512312578270212e-17;
 static const double huge    = 1.0e+300;
 static const double tiny    = 1.0e-300;
 
-extern int func_020921F4(double x);
+extern int __fpclassifyd(double x);
 extern double copysign(double x, double y);
 
 double ldexp(double x, int n)
 {
     i32 k, hx, lx;
 
-    if (func_020921F4(x) <= 2 || x == 0.0)
+    if (__fpclassifyd(x) <= 2 || x == 0.0)
         return x;
 
     hx = HI(x);

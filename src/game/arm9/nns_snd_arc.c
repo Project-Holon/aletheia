@@ -16,7 +16,7 @@
  *
  * symbols:
  *   gNNSSndCurrentArc  0x0214EA50  data
- *   func_02078B44  0x02078B44  arm
+ *   FS_SeekFile  0x02078B44  arm
  *   FS_ReadFile  0x02078B70  arm
  *   NNS_FndCreateFrmHeap  0x020610E0  arm
  *   NNS_FndDestroyFrmHeap  0x02061118  arm
@@ -55,7 +55,7 @@
  */
 #include "nns_snd_arc_types.h"
 
-extern int  func_02078B44(struct FSFile *file, long offset, int origin);
+extern int  FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern s32  FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern NNSFndHeapHandle NNS_FndCreateFrmHeap(void *start, u32 size, u32 optFlag);
 extern void NNS_FndDestroyFrmHeap(NNSFndHeapHandle heap);
@@ -383,7 +383,7 @@ int NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset)
             if (chunkLen == 0) {
                 break;
             }
-            if (!func_02078B44((struct FSFile *)&arc->file, fileEntry->offset + offset, 0)) {
+            if (!FS_SeekFile((struct FSFile *)&arc->file, fileEntry->offset + offset, 0)) {
                 return -1;
             }
             readResult = FS_ReadFile((struct FSFile *)&arc->file, dst, chunkLen);

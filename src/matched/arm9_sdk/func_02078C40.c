@@ -1,5 +1,5 @@
 /*
- * function: func_02078C40
+ * function: FSi_InitOverlay
  * address:  0x02078C40
  * packet:   pkt_02078C40
  * region:   arm9
@@ -44,7 +44,7 @@ extern const char fsi_str_rom[];
 extern u16 OS_GetBootType(void);
 extern FSArchive *FS_FindArchive(const char *name, int name_len);
 
-void func_02078C40(void)
+void FSi_InitOverlay(void)
 {
     if (OS_GetBootType() == 2)
     {

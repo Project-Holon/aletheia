@@ -19,7 +19,7 @@
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuFill8   0x02082BCC  arm
  *   UI_GetPowerState       0x0203568C  arm
- *   func_0201283C       0x0201283C  thumb
+ *   GAME_DATA_GetField1A0       0x0201283C  thumb
  *   GAME_DATA_IsConfigFlagSet       0x02012BB0  thumb
  *   gInfoWin            0x0214693C  data
  *   infowin_File        0x020A7478  data
@@ -42,12 +42,13 @@
  *   func_02035630       0x02035630  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
  *   func_020490F4       0x020490F4  arm
- *   func_0203FA08       0x0203FA08  arm
+ *   BG_SYS_CreateRun       0x0203FA08  arm
  *   func_02049B68       0x02049B68  arm
  *   func_02049658       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
  *   func_02041300       0x02041300  arm
- *   func_0203F4CC       0x0203F4CC  arm
+ *   GF_STANDARD_SetField00       0x0203F4CC  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  */
 struct Node;
 struct BigObj;
@@ -139,7 +140,7 @@ extern void *func_020056A0(void *fn, void *arg, u32 prio);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 extern int UI_GetPowerState(void);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
 extern int   GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
@@ -147,15 +148,15 @@ extern int   GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
-extern int  func_0203FB44(u32 a, u32 b, u32 c);
+extern int  BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
 extern int  func_02040E78(u32 a, const void *b, u16 c, u16 d);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32   func_0203FA08(u32 a, u32 b, u32 c);
+extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
 extern void  func_02041300(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 a0);
 extern u8 func_02035630(void);
@@ -196,7 +197,7 @@ void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap)
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (a2 != 0) {
-        gInfoWin->wifiConfig = func_0201283C(a2);
+        gInfoWin->wifiConfig = GAME_DATA_GetField1A0(a2);
         gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(a2);
     } else {
         gInfoWin->wifiConfig = 0;
@@ -330,7 +331,7 @@ int INFOWIN_Exit(void)
 {
     if (gInfoWin != 0) {
         func_02030EAC(gInfoWin->task);
-        func_0203FB44(gInfoWin->bgFrame, gInfoWin->charBase, 1 << 12);
+        BG_SYS_DeleteHalf(gInfoWin->bgFrame, gInfoWin->charBase, 1 << 12);
         func_020307B0(gInfoWin);
         gInfoWin = 0;
         return 0;
@@ -499,7 +500,7 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
     }
 
     env = func_020490F4(0x32, c);
-    gInfoWin->charBase = func_0203FA08(a, 1 << 12, 1);
+    gInfoWin->charBase = BG_SYS_CreateRun(a, 1 << 12, 1);
     func_02049B68(env, 0, sel, b << 5, 0x20, c);
     func_02049658(env, 1, a, gInfoWin->charBase, 0, 0, c);
     ENV_SetResourceSet(env);
@@ -513,7 +514,7 @@ void INFOWIN_UpdateClock(void)
     struct Cfg cfg;
     u32 v;
 
-    func_0203F4CC((struct RtcTime *)(&cfg));
+    GF_STANDARD_SetField00((struct RtcTime *)(&cfg));
     v = cfg.c & 1;
 
     if (cfg.a != gInfoWin->hour) {

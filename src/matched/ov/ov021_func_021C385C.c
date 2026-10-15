@@ -12,7 +12,7 @@
  * Step counter: every 16 steps rolls for an egg against compatibility (EXACT*: pad).
  *
  * symbols:
- *   func_0200BCB8  0x0200BCB8  thumb
+ *   DAYCARE_GetInUseCount  0x0200BCB8  thumb
  *   SODATEYA_GetCompatibility  0x021C34C4  thumb  ov021
  */
 
@@ -27,7 +27,7 @@ typedef struct {
     u16 steps;
 } S;
 
-extern int func_0200BCB8(void *e);
+extern int DAYCARE_GetInUseCount(void *e);
 extern u32 func_02005728(u32 v);
 extern u8 SODATEYA_GetCompatibility(void **p);
 
@@ -38,7 +38,7 @@ int SODATEYA_UpdateStepCounter(S *p)
     p->steps = old + 0x10;
     if (old > 0xFF) {
         p->steps = 0;
-        if (func_0200BCB8(p->box) >= 2) {
+        if (DAYCARE_GetInUseCount(p->box) >= 2) {
             u32 r = func_02005728(0x640);
             if (r < SODATEYA_GetCompatibility((void **)p))
                 return 1;

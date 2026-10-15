@@ -1,5 +1,5 @@
 /*
- * function: func_021C9184
+ * function: ZUKAN_ResumeProc210
  * address: 0x021C9184
  * packet: pkt_ov212_021C9184
  * region: ov212
@@ -10,23 +10,23 @@
  * trailing: two zero alignment bytes at 021C91C2.
  * lever: assign the result in each arm after its stores, keeping r4 reusable.
  * symbols:
- *   func_021C8F7C 0x021C8F7C thumb ov212
+ *   ZUKAN_FreeIdList 0x021C8F7C thumb ov212
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj04627.h"
 #include "../include/Obj10926.h"
 #include "../include/Obj25669.h"
 typedef unsigned char  u8;
-extern void func_021C8F7C(u8 *p);
+extern void ZUKAN_FreeIdList(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-int func_021C9184(char *p)
+int ZUKAN_ResumeProc210(char *p)
 {
     char *q=*(char * *)&((struct Obj04627 *)p)->f28;
     int result;
     switch(((struct Obj10926 *)q)->fC){
     case 0:
-        func_021C8F7C((u8 *)p);
+        ZUKAN_FreeIdList((u8 *)p);
         ((struct Obj04627 *)p)->fC=((struct Obj10926 *)q)->f10;
         ((struct Obj04627 *)p)->f10=((struct Obj10926 *)q)->f14;
         ((struct Obj04627 *)p)->f12=1;

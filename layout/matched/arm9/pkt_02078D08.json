@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02078D08",
+   "name": "FS_GetOverlayFileID",
    "address": "0x02078D08",
    "kind": "sdk",
    "region": "arm9",

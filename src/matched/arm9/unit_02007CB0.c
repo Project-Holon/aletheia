@@ -22,9 +22,9 @@
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02020FE4  0x02020FE4  thumb
- *   func_02021288  0x02021288  thumb
- *   func_0202130C  0x0202130C  thumb
+ *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_GetId  0x0202130C  thumb
  *
  * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
  * qty;}` entries, and the add, take, count and sort routines over them.  The
@@ -66,7 +66,7 @@
  *    Written the other way round the compiler has no zero in hand at the
  *    point it needs one and materialises it from a literal pool, which costs
  *    four bytes of pool the original does not have.
- *  - MYITEM_SAVEDATA_SortPocketByItemOrder compares two calls to func_0202130C.  The first result is
+ *  - MYITEM_SAVEDATA_SortPocketByItemOrder compares two calls to FILE_UTIL_GetId.  The first result is
  *    spilled across the second call and the comparison comes out `cmp r1, r0`
  *    with the spilled operand first, which is the same tell
  *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
@@ -92,9 +92,9 @@ struct Item {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
-extern u32 func_02021288(u32 a);
-extern u32 func_0202130C(u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Check1288(u32 a);
+extern u32 FILE_UTIL_GetId(u32 id);
 
 u32 MYITEM_SAVEDATA_GetPocket(u8 *base, u32 id, void **pp, u32 *pn);
 u32 MYITEM_SAVEDATA_GetPocketOfItem(u8 *base, u32 a, void **pp, u32 *pn, u16 d);
@@ -165,7 +165,7 @@ u32 MYITEM_SAVEDATA_GetPocket(u8 *base, u32 id, void **pp, u32 *pn)
 
 u32 MYITEM_SAVEDATA_GetPocketOfItem(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
 {
-    u32 id = func_02020FE4((void *)a, 5, d);
+    u32 id = FILE_UTIL_Get_0FE4((void *)a, 5, d);
 
     MYITEM_SAVEDATA_GetPocket(base, id, pp, pn);
     return id;
@@ -410,7 +410,7 @@ void MYITEM_SAVEDATA_SortPocketByItemOrder(struct Item *arr, u32 n)
         for (j = i + 1; j < n; j++) {
             if (arr[i].qty == 0 ||
                 (arr[j].qty != 0 &&
-                 func_0202130C(arr[i].id) > func_0202130C(arr[j].id))) {
+                 FILE_UTIL_GetId(arr[i].id) > FILE_UTIL_GetId(arr[j].id))) {
                 MYITEM_SAVEDATA_SwapSlots(&arr[i], &arr[j]);
             }
         }
@@ -467,7 +467,7 @@ struct Item *MYITEM_SAVEDATA_GetSlot(u8 *base, u32 id, u32 index)
 
 u32 MYITEM_SAVEDATA_GetMaxStack(u32 a)
 {
-    if (func_02021288(a) == 1) {
+    if (FILE_UTIL_Check1288(a) == 1) {
         return 1;
     }
     return 999;

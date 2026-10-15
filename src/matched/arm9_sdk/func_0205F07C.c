@@ -1,5 +1,5 @@
 /*
- * function: func_0205F07C
+ * function: DWCi_AC_ConnectTest
  * address:  0x0205F07C
  * packet:   pkt_0205F07C
  * region:   arm9
@@ -90,7 +90,7 @@ extern unsigned char ConnectTestRetry(void);
 extern void DWC_Netcheck_Abort(void);
 extern void DWC_Netcheck_Destroy(void);
 
-unsigned char func_0205F07C(void)
+unsigned char DWCi_AC_ConnectTest(void)
 {
     unsigned char phase;
     tagACWORK *wk;

@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: GAME_DATA_GetTrainerRecord leaves its return in r0 for func_02008DF0.
  * symbols:
- *   func_0203F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   func_020093D8 0x020093D8 thumb
  *   func_02009428 0x02009428 thumb
  *   func_020093F0 0x020093F0 thumb
@@ -24,7 +24,7 @@ struct RtcDate { u32 year, month, day, week; };
 struct Sub02009210Obj;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern void func_0203F4E4(struct RtcDate *);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *);
 extern void func_020093CC(struct Sub02009210Obj *obj, u32 value);
 extern u32 func_020093D8(const struct Sub02009210Obj *obj);
 extern void func_02009428(struct Sub02009210Obj *obj, int value);
@@ -42,7 +42,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *p)
     struct RtcDate date;
     q=func_02009448(((struct Obj05369 *)p)->f28);
     p[0xaa]=0;
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     func_020093CC(q, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
     if (func_020093D8(q)!=127) {
         func_02009428(q,1);

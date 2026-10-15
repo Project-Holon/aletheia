@@ -1,5 +1,5 @@
 /*
- * function: func_0205D470
+ * function: MakeAroundList
  * address:  0x0205D470
  * packet:   pkt_0205D470
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      MakeAroundList (makelist.o)
  *
  * symbols:
- *   func_0205D588 0x0205D588 arm
+ *   MakeUserList 0x0205D588 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   FREESPOT_SSID 0x020A1620 data
  */
@@ -129,16 +129,16 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-extern unsigned char func_0205D588(ACWORK *wk);
+extern unsigned char MakeUserList(ACWORK *wk);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern const unsigned char FREESPOT_SSID[8];
 
-unsigned char func_0205D470(ACWORK *wk)
+unsigned char MakeAroundList(ACWORK *wk)
 {
     ACSL *list = wk->searchList;
     unsigned char num;
 
-    num = func_0205D588(wk);
+    num = MakeUserList(wk);
     list += num;
     if (wk->connectType == 0 || wk->connectType == 6) {
         MI_CpuCopy8(FREESPOT_SSID, list->ssid, 8);

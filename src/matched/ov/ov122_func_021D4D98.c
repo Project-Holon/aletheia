@@ -1,5 +1,5 @@
 /*
- * function: func_021D4D98
+ * function: INTRUDE_COMM_VIEW_UpdatePeerList
  * address: 0x021D4D98
  * packet: pkt_ov122_021D4D98
  * region: ov122
@@ -14,10 +14,10 @@
  *   INTRUDE_COMM_GetRequestState 0x02158630 thumb ov010
  *   INTRUDE_COMM_CountEventPeers 0x02158678 thumb ov010
  *   INTRUDE_COMM_GetRequesterStatus 0x021586C8 thumb ov010
- *   func_021D4CD8 0x021D4CD8 thumb ov122
- *   func_021D4590 0x021D4590 thumb ov122
- *   func_021D45BC 0x021D45BC thumb ov122
- *   func_021D44BC 0x021D44BC thumb ov122
+ *   INTRUDE_COMM_VIEW_DrawRowText 0x021D4CD8 thumb ov122
+ *   INTRUDE_COMM_VIEW_DeleteRowSlot 0x021D4590 thumb ov122
+ *   INTRUDE_COMM_VIEW_ResetRowSlot 0x021D45BC thumb ov122
+ *   INTRUDE_COMM_VIEW_RebuildRow 0x021D44BC thumb ov122
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_02041B6C 0x02041B6C arm
@@ -42,18 +42,18 @@ struct WordSet;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetRequestState(int);
 extern int GAME_BEACON_GetNextNewLogIndex(int *);
-extern void func_021D4CD8(int, int, int, int, void *);
+extern void INTRUDE_COMM_VIEW_DrawRowText(int, int, int, int, void *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_021D4590(u32 i, u32 p);
+extern void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i, u32 p);
 extern int INTRUDE_COMM_CountEventPeers(void *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_021D45BC(u32 i, u32 p);
+extern void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i, u32 p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021D44BC(int, void *, Row *, const int *, const int *);
+extern void INTRUDE_COMM_VIEW_RebuildRow(int, void *, Row *, const int *, const int *);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int INTRUDE_COMM_GetRequesterStatus(int, int);
 extern void func_02041B6C(u32 bit);
-void func_021D4D98(char *p)
+void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
 {
     int force = 0;
     int scratch = 0;
@@ -66,49 +66,49 @@ void func_021D4D98(char *p)
     }
     if (((struct Obj00265 *)p)->f36C != ((struct Obj00265 *)p)->f370) force = 1;
     if (((struct Obj00265 *)p)->f368 != ((struct Obj00265 *)p)->f364) force = 1;
-    func_021D4CD8(4, 2, 0, 0, p);
-    func_021D4CD8(6, 4, 0, 0, p);
-    func_021D4CD8(8, 12, 0, 0, p);
+    INTRUDE_COMM_VIEW_DrawRowText(4, 2, 0, 0, p);
+    INTRUDE_COMM_VIEW_DrawRowText(6, 4, 0, 0, p);
+    INTRUDE_COMM_VIEW_DrawRowText(8, 12, 0, 0, p);
     if (mode == 0) {
         func_0201EFA4(((struct Obj00265 *)p)->f48, 0, ((struct Obj00265 *)p)->f36C, 2, 0, 1);
-        func_021D4CD8(5, 3, force, 1, p);
-        if (((struct Obj00265 *)p)->f364 & 32) func_021D4CD8(7, 5, force, 1, p);
-        else func_021D4CD8(7, 6, force, 1, p);
-        if (((struct Obj00265 *)p)->f374) func_021D4CD8(9, 5, force, 1, p);
-        else func_021D4CD8(9, 6, force, 1, p);
+        INTRUDE_COMM_VIEW_DrawRowText(5, 3, force, 1, p);
+        if (((struct Obj00265 *)p)->f364 & 32) INTRUDE_COMM_VIEW_DrawRowText(7, 5, force, 1, p);
+        else INTRUDE_COMM_VIEW_DrawRowText(7, 6, force, 1, p);
+        if (((struct Obj00265 *)p)->f374) INTRUDE_COMM_VIEW_DrawRowText(9, 5, force, 1, p);
+        else INTRUDE_COMM_VIEW_DrawRowText(9, 6, force, 1, p);
     } else {
-        func_021D4590(5, (u32)p); func_021D4590(7, (u32)p); func_021D4590(9, (u32)p);
+        INTRUDE_COMM_VIEW_DeleteRowSlot(5, (u32)p); INTRUDE_COMM_VIEW_DeleteRowSlot(7, (u32)p); INTRUDE_COMM_VIEW_DeleteRowSlot(9, (u32)p);
     }
     if (mode == 2 && ((struct Obj00265 *)p)->f128 != INTRUDE_COMM_CountEventPeers((void *)object)) ((struct Obj00265 *)p)->f124 = 0;
     if (((struct Obj00265 *)p)->f124 != mode) {
         switch (mode) {
         case 0:
             CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
-            func_021D45BC(10, (u32)p);
+            INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 0, ((struct Obj00265 *)p)->f54);
-            func_021D44BC(0, p, &data_021D5840, data_021D5710, data_021D5714);
+            INTRUDE_COMM_VIEW_RebuildRow(0, p, &data_021D5840, data_021D5710, data_021D5714);
             break;
         case 1:
             CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
-            func_021D45BC(10, (u32)p);
+            INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 15, ((struct Obj00265 *)p)->f54);
-            func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
+            INTRUDE_COMM_VIEW_RebuildRow(0, p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 2:
             count = INTRUDE_COMM_CountEventPeers((void *)object);
             ((struct Obj00265 *)p)->f128 = count;
             CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
-            func_021D45BC(10, (u32)p);
+            INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
             func_0201EFA4(((struct Obj00265 *)p)->f48, 0, count, 1, 0, 1);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 16, ((struct Obj00265 *)p)->f50);
             func_0201F250(((struct Obj00265 *)p)->f48, ((struct Obj00265 *)p)->f54, ((struct Obj00265 *)p)->f50);
-            func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
+            INTRUDE_COMM_VIEW_RebuildRow(0, p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 3:
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 17, ((struct Obj00265 *)p)->f54);
-            func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
+            INTRUDE_COMM_VIEW_RebuildRow(0, p, &data_021D5860, data_021D5710, data_021D5714);
             if (INTRUDE_COMM_GetRequesterStatus(object, *(int *)&((struct Obj00265 *)p)->f54)) {
-                func_021D44BC(10, p, &data_021D5850, 0, 0);
+                INTRUDE_COMM_VIEW_RebuildRow(10, p, &data_021D5850, 0, 0);
                 CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 1);
             }
             break;

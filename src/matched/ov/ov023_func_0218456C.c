@@ -15,8 +15,8 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203F8F4  0x0203F8F4  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   BG_SYS_Create  0x0203F8F4  arm
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   OEKAKI_SetVramBanks  0x021848D0  thumb  ov023
@@ -59,9 +59,9 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 struct GfFont;
 struct MsgBank;
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void OEKAKI_SetVramBanks(void);
@@ -94,8 +94,8 @@ int OEKAKI_Init(void *task, int *state, u32 arg)
         GFL_HEAP_CreateChildHeap(1, 0x28, 0x50000);
         w = PROCSYS_AllocProcWork(task, 0x9e84, 0x28);
         MI_CpuFill8(w, 0, 0x9e84);
-        func_0203F8F4(0x28);
-        w->f10 = (u32)func_0201EC64(0x28);
+        BG_SYS_Create(0x28);
+        w->f10 = (u32)GF_FONT_Create_EC64(0x28);
         w->f14 = func_02045B38(0, 2, 0x53, 0x28);
         w->fc = GF_FONT_Create(0x17, 0, 0, 0, 0x28);
         OEKAKI_SetVramBanks();

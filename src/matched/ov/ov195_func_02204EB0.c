@@ -1,5 +1,5 @@
 /*
- * function: func_02204EB0
+ * function: SHINKA_DEMO_RestoreBgm
  * address:  0x02204EB0
  * packet:   pkt_02204EB0
  * region:   ov195
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_02204EB0(char *a, char *b)
+void SHINKA_DEMO_RestoreBgm(char *a, char *b)
 {
     if (((struct Obj24946 *)b)->f30 == 0 && ((struct Obj14523 *)a)->fC != 0) {
         GFL_USE_PopBgm();

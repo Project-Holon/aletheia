@@ -15,7 +15,7 @@
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   func_0215F0D4  0x0215F0D4  arm  ov009
  *   func_0215EC90  0x0215EC90  arm  ov009
- *   func_0215CD3C  0x0215CD3C  arm  ov009
+ *   SOCLi_StartupCommandPacketQueue  0x0215CD3C  arm  ov009
  *   func_0215D070  0x0215D070  arm  ov009
  *   func_02166384  0x02166384  arm  ov009
  *   g_020050C4  0x020050C4  data
@@ -118,7 +118,7 @@ int SOCLi_CheckNConfig(void);
 extern void OSi_ReferSymbol(const void *symbol);
 extern void func_0215F0D4(void);
 extern void func_0215EC90(void);
-extern int func_0215CD3C(long cp_max_count);
+extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
 extern void *func_0215D070(void *param);
 extern unsigned char *func_02166384(void);
 extern char g_020050C4[42];
@@ -163,7 +163,7 @@ int func_0215CAE4(void)
 {
 	int r;
 
-	r = func_0215CD3C(SOCLiConfigPtr->cmd_packet_max);
+	r = SOCLi_StartupCommandPacketQueue(SOCLiConfigPtr->cmd_packet_max);
 	if (r >= 0) {
 		SOCLiUDPSendSocket = func_0215D070(&g_021A1D14);
 	}

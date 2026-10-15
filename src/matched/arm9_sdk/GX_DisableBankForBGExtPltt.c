@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020808BC 0x020808BC arm
+ *   resetBankForX_ 0x020808BC arm
  *   g_02150E5A 0x02150E5A data
  */
 
@@ -18,10 +18,10 @@ typedef unsigned short u16;
 typedef volatile unsigned long vu32;
 #define reg_GX_DISPCNT     (*(vu32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
-extern int func_020808BC(u16 *g3bit);
+extern int resetBankForX_(u16 *g3bit);
 
 void GX_ResetBankForBGExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x40000000;
-    func_020808BC((u16 *)((int)0x2150E5A));
+    resetBankForX_((u16 *)((int)0x2150E5A));
 }

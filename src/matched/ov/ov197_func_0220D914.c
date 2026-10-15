@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025D14  0x02025D14  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
  *
  * blocker: the ABS32 at +000C names 0x02025D14, an unlabelled arm9 leaf (no
  *   traced func_ label), so neither label nor sole-ref/code can attest it;
@@ -25,10 +25,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02025D14(void *a0);
+extern u32 CURSOR_MOVE_Delete(void *a0);
 
 u32 func_0220D914(u8 *p)
 {
-    return func_02025D14((void *)(((struct Obj25122 *)p)->f144));
+    return CURSOR_MOVE_Delete((void *)(((struct Obj25122 *)p)->f144));
 }
 

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260F0 0x020260F0 thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   func_020355D8 0x020355D8 arm
  *   BOX2_SEQ_StartWipeBlack 0x021E8F90 thumb
  *
@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
-extern u32 func_020260F0(struct Sound *obj);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void func_020355D8(u8 v);
 extern int BOX2_SEQ_StartWipeBlack(void *p, int a);
 
@@ -29,7 +29,7 @@ extern int BOX2_SEQ_StartWipeBlack(void *p, int a);
 
 int BOX2_SEQ_GotoBox2Ui(unsigned char *p, unsigned char v)
 {
-    if (func_020260F0(*(void **)(WORK(p) + 0x70)) == 1)
+    if (CURSOR_MOVE_GetState(*(void **)(WORK(p) + 0x70)) == 1)
         func_020355D8(0);
     else
         func_020355D8(1);

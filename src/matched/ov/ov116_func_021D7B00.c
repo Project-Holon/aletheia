@@ -12,9 +12,9 @@
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB24 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
- *   func_021D7158 0x021D7158 thumb ov116
- *   func_021D7200 0x021D7200 thumb ov116
- *   func_021D7184 0x021D7184 thumb ov116
+ *   WIFI_BSUBWAY_AsyncHasError 0x021D7158 thumb ov116
+ *   WIFI_BSUBWAY_CheckFatalError 0x021D7200 thumb ov116
+ *   WIFI_BSUBWAY_GetErrorState 0x021D7184 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon 0x021D81B4 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_PrintMessage 0x021D8010 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream 0x021D80CC thumb ov116
@@ -24,9 +24,9 @@ extern int DWC_RAPCOMMON_HandleNetError(int,int);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern u32 GFL_NET_STATE_GetError(void);
-extern int func_021D7158(u8 *p);
-extern int func_021D7200(int *p);
-extern int func_021D7184(int *p);
+extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
+extern int WIFI_BSUBWAY_CheckFatalError(int *p);
+extern int WIFI_BSUBWAY_GetErrorState(int *p);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p, u32 a);
 extern int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *);
@@ -38,10 +38,10 @@ int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *p) {
         GFL_NET_STATE_GetError();
         return no;
     }
-    if(func_021D7158(p+0x182c)!=0) {
+    if(WIFI_BSUBWAY_AsyncHasError(p+0x182c)!=0) {
         int v;
-        if(func_021D7200((int *)(p+0x182c))!=0) return no;
-        v=func_021D7184((int *)(p+0x182c));
+        if(WIFI_BSUBWAY_CheckFatalError((int *)(p+0x182c))!=0) return no;
+        v=WIFI_BSUBWAY_GetErrorState((int *)(p+0x182c));
         WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4);
         WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,v);
         return yes;

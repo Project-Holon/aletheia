@@ -15,7 +15,7 @@
  *           96.  All 96 compared bytes (code + literal pool) match and the
  *           single relocation resolves via `literal`.
  * symbols:
- *   g_020A60DC  0x020A60DC  data
+ *   __tolower_map  0x020A60DC  data
  *
  * Case-insensitive string compare: each byte is mapped through the 256-byte
  * table at 0x020A60DC when it is below 0x80, then compared as unsigned.
@@ -30,11 +30,11 @@
 
 typedef unsigned char u8;
 
-extern const u8 g_020A60DC[];
+extern const u8 __tolower_map[];
 
 int stricmp(const u8 *s1, const u8 *s2)
 {
-    const u8 *tab = g_020A60DC;
+    const u8 *tab = __tolower_map;
     int c1;
     u8 m1;
     int c2;

@@ -1,5 +1,5 @@
 /*
- * function: func_020587F8
+ * function: DWCi_BACKUPlConvMaskCidr
  * address:  0x020587F8
  * packet:   pkt_020587F8
  * region:   arm9
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-u8 func_020587F8(u8 *mask)
+u8 DWCi_BACKUPlConvMaskCidr(u8 *mask)
 {
     int snm;
     int i;

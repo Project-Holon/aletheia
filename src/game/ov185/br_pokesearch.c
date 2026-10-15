@@ -41,7 +41,7 @@
  *   BR_UTIL_FlushText 0x021FC830 thumb ov186
  *   BR_UTIL_MainProfileScreen 0x021FD6B0 thumb ov186
  *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
- *   func_021F3C50 0x021F3C50 thumb ov112
+ *   MUSICAL_SHOT_SYS_DrawScene 0x021F3C50 thumb ov112
  *   BR_POKESEARCH_UpdatePrint 0x021FFE34 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -68,8 +68,8 @@
  *   BR_RES_ApplyBgSet   0x021FBDA4  thumb
  *   BR_RES_ReleaseUiPalette   0x021FC1F8  thumb
  *   WORLDTRADE_DETAIL_StateStartWipeOut   0x021FC610  thumb  ov135
- *   func_021F3AF0   0x021F3AF0  thumb
- *   func_021F3BF0 0x021F3BF0 thumb ov112
+ *   MUSICAL_SHOT_SYS_CreateScene   0x021F3AF0  thumb
+ *   MUSICAL_SHOT_SYS_DeleteScene 0x021F3BF0 thumb ov112
  *   BR_GRAPHIC_End3d 0x021FC640 thumb ov186
  *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
@@ -179,7 +179,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int BR_UTIL_FlushText(u8 *p);
 extern int BR_UTIL_MainProfileScreen(u8 *p);
 extern void BR_UTIL_FlushWindow(void *p);
-extern void func_021F3C50(u8 *p);
+extern void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
 extern unsigned BR_POKESEARCH_UpdatePrint(char *p);
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *p);
@@ -204,8 +204,8 @@ extern void BR_SIDEBAR_SetVisibleBySpace(int, int, int);
 extern void BR_RES_ApplyBgSet(int, int);
 extern void BR_RES_ReleaseUiPalette(int, int);
 extern int WORLDTRADE_DETAIL_StateStartWipeOut(u8 *p, int a1);
-extern int func_021F3AF0(int, int);
-extern void func_021F3BF0(u8 *);
+extern int MUSICAL_SHOT_SYS_CreateScene(int, int);
+extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *);
 extern void BR_GRAPHIC_End3d(void *,unsigned);
 extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
 extern void BR_RES_LoadBgGraphics(void *,unsigned,u16);
@@ -337,7 +337,7 @@ int BR_POKESEARCH_Update(int a,int b,int c,char *p)
     if (*(char * *)&((struct Obj01966 *)p)->f1C) BR_UTIL_FlushText((u8 *)(*(char * *)&((struct Obj01966 *)p)->f1C));
     if (*(char * *)&((struct Obj01966 *)p)->f10) BR_UTIL_MainProfileScreen((u8 *)(*(char * *)&((struct Obj01966 *)p)->f10));
     if (*(char * *)&((struct Obj01966 *)p)->f4) BR_UTIL_FlushWindow(*(char * *)&((struct Obj01966 *)p)->f4);
-    if (*(char * *)&((struct Obj01966 *)p)->f14) func_021F3C50((u8 *)(*(char * *)&((struct Obj01966 *)p)->f14));
+    if (*(char * *)&((struct Obj01966 *)p)->f14) MUSICAL_SHOT_SYS_DrawScene((u8 *)(*(char * *)&((struct Obj01966 *)p)->f14));
     return 0;
 }
 
@@ -663,7 +663,7 @@ void BR_POKESEARCH_CreateSidebar(char *a, int *r4)
         BR_RES_ApplyBgSet(r4[3], 0);
         BR_RES_ReleaseUiPalette(r4[3], 0);
         WORLDTRADE_DETAIL_StateStartWipeOut((u8 *)r4[2], ((struct Obj06622 *)a)->f30);
-        ((struct Obj06622 *)a)->f14 = func_021F3AF0(
+        ((struct Obj06622 *)a)->f14 = MUSICAL_SHOT_SYS_CreateScene(
             *(int *)(a + 0x40 + ((struct Obj06622 *)a)->fC * 4) + 0x80,
             ((struct Obj06622 *)a)->f30);
     }
@@ -671,7 +671,7 @@ void BR_POKESEARCH_CreateSidebar(char *a, int *r4)
 
 
 
-void BR_POKESEARCH_ShowBg(char *p,char *q) { if(((struct Obj03337 *)p)->f14){func_021F3BF0(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;BR_GRAPHIC_End3d(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);BR_RES_LoadUiPalette(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_RES_LoadBgGraphics(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_SIDEBAR_SetVisibleBySpace((int)((char *)(((struct Obj04583 *)q)->f4)), 0, 1);} }
+void BR_POKESEARCH_ShowBg(char *p,char *q) { if(((struct Obj03337 *)p)->f14){MUSICAL_SHOT_SYS_DeleteScene(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;BR_GRAPHIC_End3d(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);BR_RES_LoadUiPalette(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_RES_LoadBgGraphics(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_SIDEBAR_SetVisibleBySpace((int)((char *)(((struct Obj04583 *)q)->f4)), 0, 1);} }
 
 
 

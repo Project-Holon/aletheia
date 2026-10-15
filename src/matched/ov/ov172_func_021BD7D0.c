@@ -17,7 +17,7 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -30,7 +30,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(u32 p);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 void func_021BD7D0(void *a0)
 {
@@ -43,5 +43,5 @@ void func_021BD7D0(void *a0)
     func_020403F4(1);
     func_020403F4(0);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }

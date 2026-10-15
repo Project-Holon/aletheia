@@ -22,7 +22,6 @@
  */
 
 extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
-extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
 void BOX2_UI_FindSlotPos(int a0, int a1, short *a2, short *a3)
 {
     unsigned i;

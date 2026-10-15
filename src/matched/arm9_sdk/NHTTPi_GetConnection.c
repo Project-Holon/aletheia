@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02078B44 0x02078B44 arm
+ *   FS_SeekFile 0x02078B44 arm
  */
 
 struct FSFile;
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 
 int ARC_TOOL_SeekHandle(struct FSFile *file, long offset)
 {
-    return func_02078B44(file, offset, 0);
+    return FS_SeekFile(file, offset, 0);
 }

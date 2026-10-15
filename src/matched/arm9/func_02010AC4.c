@@ -1,5 +1,5 @@
 /*
- * function: func_02010AC4
+ * function: GFL_NET_SAVE_Main
  * address:  0x02010AC4
  * packet:   pkt_02010AC4
  * region:   arm9
@@ -13,7 +13,7 @@
  *           resolve as `overlay_id` (id argument of PROCSYS_PushGlobal).  Two
  *           ABS32 sites are left, the overlay-resident proc pointers
  *           0x021D6338 / 0x021D654C, whose only other pool words sit in
- *           func_02010C34's pool (0x02010D84..), which disasm.py prints as
+ *           GFL_NET_SAVE_ScreenMain's pool (0x02010D84..), which disasm.py prints as
  *           Thumb code, so the literal index misses them.  Seeding those
  *           pools as .word, or a matched referrer, would close both.
  *           Seed round 10: both words are ov115 proc tables (three Thumb
@@ -52,7 +52,7 @@
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *
  * The net_save.c save task's per-frame step (the task record of
- * sub_02010A5C; state word at +0x1D4): case 0 starts overlay 0x73's proc
+ * GFL_NET_SAVE_InitWork; state word at +0x1D4): case 0 starts overlay 0x73's proc
  * 0x021D6338 on the record, case 1 starts overlay 0x7B's proc on +0x48
  * unless +0x1C says finished, case 2 hands off to GFL_NET_ERR_ShowScreen(0), case 3
  * restarts overlay 0x73 with proc 0x021D654C on +0x28 or ends the task.
@@ -75,7 +75,7 @@ extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int  GFL_NET_GetRunState(void);
 
-int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
+int GFL_NET_SAVE_Main(u32 a0, u32 a1, u32 a2, u8 *ctx)
 {
     switch (((struct Obj00562 *)ctx)->f1D4) {
     case 0:

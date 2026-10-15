@@ -91,7 +91,7 @@ u16 ZUKAN_SAVE_CountCaughtNationalCounted(void *a0);
 int ZUKAN_SAVE_CountCaughtRegionalCounted(void *a0, int a1);
 u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap);
 
-u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap);
+
 
 u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap)
 {

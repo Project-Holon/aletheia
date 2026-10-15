@@ -1,5 +1,5 @@
 /*
- * function: func_0207E184
+ * function: G2S_GetBG3ScrPtr
  * address:  0x0207E184
  * packet:   pkt_0207E184
  * region:   arm9
@@ -44,7 +44,7 @@ typedef enum {
 #define GX_GetBGScrOffset()  ((u32)((reg_GX_DISPCNT & 0x38000000) >> 27))
 #define GX_GetBGCharOffset() ((u32)((reg_GX_DISPCNT & 0x07000000) >> 24))
 
-void *func_0207E184(void)
+void *G2S_GetBG3ScrPtr(void)
 {
     GXBGMode bgMode = (GXBGMode)(reg_GXS_DB_DISPCNT & 7);
     u32 bg = reg_G2S_DB_BG3CNT;

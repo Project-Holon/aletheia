@@ -1,7 +1,7 @@
 /*
  * file:     gscore.c
  * unit:     yes
- * function: gsiCoreGetManager, func_0217CA2C, func_0217CA40, func_0217CB5C, func_0217CB88, func_0217CCCC, func_0217CD94, func_0217CE1C, func_0217CE48, func_0217CECC, func_0217CF24
+ * function: gsiCoreGetManager, gsiCoreAtExitShutdown, gsCoreInitialize, gsiCoreTaskDispatchCallback, gsCoreTaskThink, gsCoreThink, gsCoreShutdown, gsCoreIsShutdown, gsiCoreExecuteTask, gsiCoreCancelTask, gsiCoreCreateTask
  * address:  0x0217CA20
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,16 +15,16 @@
  * Address of the module state object.
  *
  * symbols:
- *   g_021ACFD4  0x021ACFD4  data
+ *   gGSCoreManager  0x021ACFD4  data
  *   msleep  0x0217F2BC  arm  ov009
  *   func_0217F0B4  0x0217F0B4  arm  ov009
  *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
- *   func_020912A8  0x020912A8  arm
+ *   MSL_C_LIB_LockRegisterDestructor  0x020912A8  arm
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   ghttpStartup  0x021C1FF8  arm  ov114
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_02184324  0x02184324  arm  ov009
@@ -34,7 +34,7 @@
  *   func_0217F0D8                  0x0217F0D8  arm ov009
  *   func_02184234                  0x02184234  arm ov009
  *   func_0217EAB0                  0x0217EAB0  arm ov009
- *   func_020923B0                  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   gsiDeleteCriticalSection  0x0217F120  arm
  */
 typedef unsigned char u8;
@@ -71,12 +71,12 @@ extern void gsiDeleteCriticalSection(void *p);
 extern void msleep(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
 extern void gsiInitializeCriticalSection(void *mutex);
-extern u32 func_020912A8(u32 a0);
+extern u32 MSL_C_LIB_LockRegisterDestructor(u32 a0);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ghttpStartup(void);
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_02184324(void *array, int n);
@@ -86,24 +86,24 @@ extern void func_021841B0(void *array);
 extern unsigned int func_0217F0D8(unsigned int *value);
 extern void func_02184234(void *array, void *elem);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *p, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 void *gsiCoreGetManager(void);
-void func_0217CA2C(void);
-void func_0217CA40(void);
-void func_0217CB5C(GSTask *theTask, int theResult);
-int func_0217CB88(GSTask *theTask);
-void func_0217CCCC(unsigned int theMS);
-void func_0217CD94(void);
-int func_0217CE1C(void);
-void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs);
-void func_0217CECC(GSTask *theTask);
-GSTask *func_0217CF24(void);
-extern char g_021ACFD4[];
+void gsiCoreAtExitShutdown(void);
+void gsCoreInitialize(void);
+void gsiCoreTaskDispatchCallback(GSTask *theTask, int theResult);
+int gsCoreTaskThink(GSTask *theTask);
+void gsCoreThink(unsigned int theMS);
+void gsCoreShutdown(void);
+int gsCoreIsShutdown(void);
+void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs);
+void gsiCoreCancelTask(GSTask *theTask);
+GSTask *gsiCoreCreateTask(void);
+extern char gGSCoreManager[];
 
 
 void *gsiCoreGetManager(void)
 {
-    return g_021ACFD4;
+    return gGSCoreManager;
 }
 
 
@@ -115,7 +115,7 @@ void *gsiCoreGetManager(void)
 /*
  * Calls gsiDeleteCriticalSection on the block sixteen bytes into the result.
  */
-void func_0217CA2C(void)
+void gsiCoreAtExitShutdown(void)
 {
     gsiDeleteCriticalSection((char *)gsiCoreGetManager() + 0x10);
 }
@@ -127,7 +127,7 @@ void func_0217CA2C(void)
 
 
 
-void func_0217CA40(void)
+void gsCoreInitialize(void)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
 
@@ -136,7 +136,7 @@ void func_0217CA40(void)
     if (func_0217F0B4(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             gsiInitializeCriticalSection(aCore->mQueueCrit);
-            func_020912A8((u32)func_0217CA2C);
+            MSL_C_LIB_LockRegisterDestructor((u32)gsiCoreAtExitShutdown);
             aCore->mIsStaticInitComplete = 1;
         }
         gsiEnterCriticalSection(aCore->mQueueCrit);
@@ -166,7 +166,7 @@ void func_0217CA40(void)
 /*
  * sdk:      gsiCoreTaskDispatchCallback (gscore.o)
  */
-void func_0217CB5C(GSTask *theTask, int theResult)
+void gsiCoreTaskDispatchCallback(GSTask *theTask, int theResult)
 {
     if (theTask->mIsCallbackPending) {
         void (*cb)(void *, int);
@@ -185,7 +185,7 @@ void func_0217CB5C(GSTask *theTask, int theResult)
 /*
  * sdk:      gsCoreTaskThink (libdwcgscommon.TWL.HYB.a(gscore.o))
  */
-int func_0217CB88(GSTask *theTask)
+int gsCoreTaskThink(GSTask *theTask)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     int aResult = 0;
@@ -199,15 +199,15 @@ int func_0217CB88(GSTask *theTask)
         aResult = theTask->mThinkFunc(theTask->mTaskData);
     if (!theTask->mIsCanceled && aResult == 1) {
         if (theTask->mTimeout != 0) {
-            if (func_0217F264() - theTask->mStartTime > theTask->mTimeout) {
-                func_0217CECC(theTask);
-                func_0217CB5C(theTask, 3);
+            if (current_time() - theTask->mStartTime > theTask->mTimeout) {
+                gsiCoreCancelTask(theTask);
+                gsiCoreTaskDispatchCallback(theTask, 3);
             }
         }
     } else if (aResult != 1) {
         removeTask = 1;
         if (theTask->mIsRunning) {
-            func_0217CB5C(theTask, aResult);
+            gsiCoreTaskDispatchCallback(theTask, aResult);
             theTask->mIsRunning = 0;
         }
         if (theTask->mCleanupFunc)
@@ -244,7 +244,7 @@ int func_0217CB88(GSTask *theTask)
  *           name is ov114 (libdwcgsghttp ghttpmain.o) at 0x021C204C, so the
  *           hint is ov114 (tools/sdkobj.py --region ov009 0x0217CCCC).
  */
-void func_0217CCCC(unsigned int theMS)
+void gsCoreThink(unsigned int theMS)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     int i;
@@ -256,15 +256,15 @@ void func_0217CCCC(unsigned int theMS)
     if (aCore->mIsInitialized == 0)
         return;
     gsiEnterCriticalSection(aCore->mQueueCrit);
-    aStartTime = func_0217F264();
+    aStartTime = current_time();
     len = func_02184200(aCore->mTaskArray);
     if (len > 0)
         allTasksAreDead = 0;
     for (i = len - 1; i >= 0; i--) {
         task = *(GSTask **)func_02184208(aCore->mTaskArray, i);
         if (task->mAutoThink != 0)
-            func_0217CB88(task);
-        if (theMS != 0 && func_0217F264() - aStartTime > theMS)
+            gsCoreTaskThink(task);
+        if (theMS != 0 && current_time() - aStartTime > theMS)
             break;
     }
     if (aCore->mIsShuttingDown != 0 && allTasksAreDead) {
@@ -288,7 +288,7 @@ void func_0217CCCC(unsigned int theMS)
 /*
  * sdk:      gsCoreShutdown (gscore.o)
  */
-void func_0217CD94(void)
+void gsCoreShutdown(void)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     int i;
@@ -304,7 +304,7 @@ void func_0217CD94(void)
     aCore->mIsShuttingDown = 1;
     len = func_02184200(aCore->mTaskArray);
     for (i = 0; i < len; i++)
-        func_0217CECC(*(GSTask **)func_02184208(aCore->mTaskArray, i));
+        gsiCoreCancelTask(*(GSTask **)func_02184208(aCore->mTaskArray, i));
     gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
@@ -318,7 +318,7 @@ void func_0217CD94(void)
 /*
  * sdk:      gsCoreIsShutdown (gscore.o)
  */
-int func_0217CE1C(void)
+int gsCoreIsShutdown(void)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     if (aCore->mIsShuttingDown != 0)
@@ -336,14 +336,14 @@ int func_0217CE1C(void)
 /*
  * sdk:      gsiCoreExecuteTask (gscore.o)
  */
-void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
+void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     theTask->mIsCallbackPending = 1;
     theTask->mIsStarted = 1;
     theTask->mIsRunning = 1;
     theTask->mTimeout = theTimeoutMs;
-    theTask->mStartTime = func_0217F264();
+    theTask->mStartTime = current_time();
     if (theTask->mExecuteFunc != 0)
         theTask->mExecuteFunc(theTask->mTaskData);
     gsiEnterCriticalSection(aCore->mQueueCrit);
@@ -357,7 +357,7 @@ void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
 /*
  * sdk:      gsiCoreCancelTask (gscore.o)
  */
-void func_0217CECC(GSTask *theTask)
+void gsiCoreCancelTask(GSTask *theTask)
 {
     GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     gsiEnterCriticalSection(aCore->mQueueCrit);
@@ -374,12 +374,12 @@ void func_0217CECC(GSTask *theTask)
 /*
  * sdk:      gsiCoreCreateTask (gscore.o)
  */
-GSTask *func_0217CF24(void)
+GSTask *gsiCoreCreateTask(void)
 {
     GSTask *aTask = (GSTask *)func_0217EAB0(sizeof(GSTask));
     if (aTask == 0)
         return 0;
-    func_020923B0(aTask, 0, sizeof(GSTask));
+    MSL_C_LIB_MemsetPtr(aTask, 0, sizeof(GSTask));
     aTask->mAutoThink = 1;
     return aTask;
 }

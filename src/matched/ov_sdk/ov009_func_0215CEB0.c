@@ -1,5 +1,5 @@
 /*
- * function: func_0215CEB0
+ * function: SOCLi_SendCommandPacket
  * address:  0x0215CEB0
  * packet:   pkt_0215CEB0
  * region:   ov009
@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02085DBC  0x02085DBC  arm
- *   func_0215CE7C  0x0215CE7C  arm  ov009
+ *   SOCLi_FreeCommandPacket  0x0215CE7C  arm  ov009
  */
 
 typedef unsigned char  u8;
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 int func_02085DBC(int a0, char *a1, int r2);
-void func_0215CE7C(void *ptr);
+void SOCLi_FreeCommandPacket(void *ptr);
 
-int func_0215CEB0(int a0, char *a1)
+int SOCLi_SendCommandPacket(int a0, char *a1)
 {
     int r2;
     int r4;
@@ -36,6 +36,6 @@ int func_0215CEB0(int a0, char *a1)
         r2 = 0;
     r4 = func_02085DBC(a0, a1, r2);
     if (r4 == 0)
-        func_0215CE7C(a1);
+        SOCLi_FreeCommandPacket(a1);
     return r4 ? 0 : -0x2A;
 }

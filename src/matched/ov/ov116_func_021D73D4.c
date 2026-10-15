@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * leaf: sole blocker of func_021D6710.
+ * leaf: sole blocker of WIFI_BSUBWAY_Step.
  */
 #include "../include/Obj22628.h"
 typedef unsigned char u8;

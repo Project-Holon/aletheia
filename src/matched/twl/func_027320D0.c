@@ -53,6 +53,10 @@
  *   WCMi_GetNextScanChannel  0x02165918  arm  ov009
  *   WCMi_EntryApList  0x02165D04  arm  ov009
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
+ *   SHA1_HMAC_Start  0x02731774  arm
+ *   SHA1_HMAC_UpdateData  0x0273184C  arm
+ *   SHA1_HMAC_Finish  0x02731868  arm
+ *   SHA1_HMAC_Calc  0x02731920  arm
  */
 
 typedef unsigned int u32;
@@ -173,10 +177,10 @@ extern unsigned long func_021656D0(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
 extern void func_02165AF4(void);
 extern void OS_WakeupThread(void *queue);
-void func_02731774(HmacCtx *ctx, const void *key, u32 key_len);
-void func_0273184C(void *a, const void *b, u32 c);
-void func_02731868(HmacCtx *ctx, u8 *digest);
-asm void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
+void SHA1_HMAC_Start(HmacCtx *ctx, const void *key, u32 key_len);
+void SHA1_HMAC_UpdateData(void *a, const void *b, u32 c);
+void SHA1_HMAC_Finish(HmacCtx *ctx, u8 *digest);
+asm void SHA1_HMAC_Calc(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);
 int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c);
@@ -197,17 +201,17 @@ void WcmNwmcbSetDCFData(u16 *arg);
 extern u8 data_021A1988[];
 extern u8 data_021A1990[];
 
-extern NetWork *WCMi_GetSystemWork(void);
-extern void WCMi_SetPhase(unsigned char phase);
-extern u32 NWM_End(void);
-extern u32 NWM_UnloadDevice(void *arg);
-extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
-extern u32 NWM_Open(void *arg);
-extern void OS_GetMacAddress(void *mac);
-extern void func_021665CC(void *mac);
-extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
-extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
-void WcmNwmcbSetRecvFrmBuf(Pkt *p);
+
+
+
+
+
+
+
+
+
+
+
 
 void WcmNwmcbCommon(u16 *arg)
 {

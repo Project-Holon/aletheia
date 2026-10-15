@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02040588  0x02040588  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -26,7 +26,7 @@ extern const B32 d_021D3F18;
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct BgTemplate;
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void func_0207D63C(int, int, int, int, int);
@@ -39,7 +39,7 @@ void FIELD_MSGBG_SetupSysFrameBg(int a)
     func_02040588(2, 0);
     if (a == 1) {
         tmp = d_021D3F18;
-        func_0203FCA0(2, (const struct BgTemplate *)(&tmp), 0);
+        BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&tmp), 0);
     } else {
         *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & 0x43) | 0x1F10;
     }

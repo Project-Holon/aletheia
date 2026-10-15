@@ -12,7 +12,7 @@
  * sdk:      ghiDoReceivingFile (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
  *   ghiDoReceive  0x021C04D4  arm  ov114
@@ -53,7 +53,7 @@ typedef struct {
     unsigned int lastReceiveTime; /* 0x1D0 */
 } GHIConnection;
 
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 struct GHIBuffer;
@@ -75,7 +75,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
     char *buffer;
     int decryptedLen;
 
-    start_time = func_0217F264();
+    start_time = current_time();
     running_time = 0;
     bufferLen = 0;
 
@@ -98,12 +98,12 @@ void ghiDoReceivingFile(GHIConnection *connection)
             ghiFreeTempBuffer((int)buffer);
             if (connection->lastReceiveTime == 0)
             {
-                connection->lastReceiveTime = func_0217F264();
+                connection->lastReceiveTime = current_time();
                 return;
             }
-            if (func_0217F264() - connection->lastReceiveTime < 30000)
+            if (current_time() - connection->lastReceiveTime < 30000)
                 return;
-            func_0217D254(8, 0, 1, sGhttpReceiveFileIdleTimeout, func_0217F264() - connection->lastReceiveTime);
+            func_0217D254(8, 0, 1, sGhttpReceiveFileIdleTimeout, current_time() - connection->lastReceiveTime);
             connection->lastReceiveTime = 0;
             connection->completed = 1;
             connection->result = 0x13;
@@ -159,7 +159,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
             }
         }
 
-        running_time = func_0217F264() - start_time;
+        running_time = current_time() - start_time;
     }
 
     ghiFreeTempBuffer((int)buffer);

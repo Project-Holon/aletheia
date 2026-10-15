@@ -1,5 +1,5 @@
 /*
- * function: func_02204FC4
+ * function: SHINKA_DEMO_IsBgmState7Or8
  * address:  0x02204FC4
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf of the func_022040E0 dependency tree: true when the scene object's
+ * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 7 or 8.
  */
-int func_02204FC4(int a, int *p)
+int SHINKA_DEMO_IsBgmState7Or8(int a, int *p)
 {
     return p[0xc] == 7 || p[0xc] == 8;
 }

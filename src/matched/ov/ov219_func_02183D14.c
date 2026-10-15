@@ -44,8 +44,8 @@
  *           a `call:` label on `GFL_USE_PlaySeDefaultVolume(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
  *           case 17 writes `if (W(0xC350) != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
- *           Remaining: three callees with no witness: arm9 func_02025BE8 and GAME_BEACON_SetNationArea and ov219
- *           func_021856CC. This lane filed all three EXACT (src/matched/arm9/func_02025BE8.c,
+ *           Remaining: three callees with no witness: arm9 BMP_OAM_Update5BE8 and GAME_BEACON_SetNationArea and ov219
+ *           func_021856CC. This lane filed all three EXACT (src/matched/arm9/BMP_OAM_Update5BE8.c,
  *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/ov219_func_021856CC.c); after the
  *           manifest picks them up this should verify EXACT.
  *
@@ -71,9 +71,9 @@
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
- *   func_02025BE8 0x02025BE8 thumb
- *   func_02025C44 0x02025C44 thumb
- *   func_02025B94 0x02025B94 thumb
+ *   BMP_OAM_Update5BE8 0x02025BE8 thumb
+ *   BMP_OAM_Check5C44 0x02025C44 thumb
+ *   BMP_OAM_Get 0x02025B94 thumb
  *   func_0200947C 0x0200947C thumb
  *   GAME_BEACON_SetNationArea 0x02027120 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
@@ -101,7 +101,7 @@
  *   func_02185794 0x02185794 thumb ov219
  *   func_02185934 0x02185934 thumb ov219
  *   func_02185AC8 0x02185AC8 thumb ov219
- *   func_02185CF4 0x02185CF4 thumb ov219
+ *   BEACON_DETAIL_HasEntry 0x02185CF4 thumb ov219
  *   d_02185DE6 0x02185DE6 data a1
  *   d_02185DB6 0x02185DB6 data ov219 a1
  *   d_02185E98 0x02185E98 data ov219 a4
@@ -145,9 +145,9 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void *BMP_MENU_CreateYesNo(const void *a, int b, int c, int d, u16 heap);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
-extern int func_02025BE8(void);
-extern int func_02025C44(u32 a0, u32 *a1, u32 *a2);
-extern u32 func_02025B94(u32 a);
+extern int BMP_OAM_Update5BE8(void);
+extern int BMP_OAM_Check5C44(u32 a0, u32 *a1, u32 *a2);
+extern u32 BMP_OAM_Get(u32 a);
 extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
@@ -175,7 +175,7 @@ extern void func_021856CC(u8 *p);
 extern void func_02185794(char *p);
 extern int func_02185934(u8 *p, u32 key, u32 b);
 extern int func_02185AC8(char *p);
-extern int func_02185CF4(int i);
+extern int BEACON_DETAIL_HasEntry(int i);
 
 extern const u8 d_02185DE6[];
 extern const u8 d_02185DB6[];
@@ -292,7 +292,7 @@ int func_02183D14(u8 *p, int *state)
         switch ((u32)(int)BMP_MENU_ProcessYesNo(*(void **)(p + 0xC054))) {
         case 0:
             if (W(0xC318) == 1) {
-                *(void **)(p + 0xC344) = (void *)func_02025BE8();
+                *(void **)(p + 0xC344) = (void *)BMP_OAM_Update5BE8();
                 *state = 0xA;
             } else {
                 *state = 7;
@@ -324,7 +324,7 @@ int func_02183D14(u8 *p, int *state)
         func_0218516C(p);
         if (r != -2) {
             W(0xC344) = r;
-            if (func_02185CF4(r) == 1) {
+            if (BEACON_DETAIL_HasEntry(r) == 1) {
                 n = 0xA;
             } else {
                 W(0xC348) = 0;
@@ -342,8 +342,8 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 10:
         W(0xC348) = 0;
-        func_02025C44((u32)(*(void **)(p + 0xC344)), (u32 *)(&ids), &count);
-        func_021850EC((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, func_02025B94((u32)(*(void **)(p + 0xC344))), ids, count);
+        BMP_OAM_Check5C44((u32)(*(void **)(p + 0xC344)), (u32 *)(&ids), &count);
+        func_021850EC((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, BMP_OAM_Get((u32)(*(void **)(p + 0xC344))), ids, count);
         *state = 0xB;
         break;
     case 11:

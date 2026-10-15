@@ -1,5 +1,5 @@
 /*
- * function: func_0207B598
+ * function: MTX_Identity43_
  * address:  0x0207B598
  * packet:   pkt_0207B598
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_0207B598(void)
+asm void MTX_Identity43_(void)
 {
     mov r2, #0x1000
     mov r3, #0

@@ -1,5 +1,5 @@
 /*
- * function: func_02060224
+ * function: NCFGi_CheckApInfoEx
  * address:  0x02060224
  * packet:   pkt_02060224
  * region:   arm9
@@ -56,7 +56,7 @@ extern int NCFGi_CheckApInfo(NCFGApInfo *info);
 extern int NCFGi_CheckSsid(u8 *ssid);
 extern int NCFGi_CheckIpInfo(NCFGApInfo *info);
 
-int func_02060224(NCFGApInfo *info, NCFGApInfoEx *infoEx)
+int NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx)
 {
     if (info->setType == 0xFF)
         return 1;

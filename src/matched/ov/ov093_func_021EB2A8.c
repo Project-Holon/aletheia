@@ -16,7 +16,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_0204989C  0x0204989C  arm
  */
 #include "../include/Obj05226.h"
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void * h);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
 void BTLV_SCU_ReloadGraphics(const u8 *a)
@@ -38,6 +38,6 @@ void BTLV_SCU_ReloadGraphics(const u8 *a)
     func_02049658(h, 0xd5, 3, ((struct Obj05226 *)a)->f14, 0, 0, ((struct Obj05226 *)a)->f13C);
     func_02049658(h, 0xdd, 3, ((struct Obj05226 *)a)->f10, 0, 0, ((struct Obj05226 *)a)->f13C);
     ARC_TOOL_DeleteHandle(h);
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_0204989C(0xb, 0xd8, 3, 0, 0, 0, ((struct Obj05226 *)a)->f13C);
 }

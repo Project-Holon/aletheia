@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C84
+ * function: POKE_SUMMARY_MAIN_PrintValue
  * address: 0x021B6C84
  * packet: pkt_ov173_021B6C84
  * region: ov173
@@ -25,4 +25,4 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021B6C84(char *p,u32 idx,u32 a,u32 b,u8 c) { void *s; s=func_02045EC0(((struct Obj08265 *)p)->f44,idx); func_0201EFA4(((struct Obj08265 *)p)->f48,0,a,b,c,1); func_0201F250(((struct Obj08265 *)p)->f48,((struct Obj08265 *)p)->f4C,s); STRBUF_Delete(s); }
+void POKE_SUMMARY_MAIN_PrintValue(char *p,u32 idx,u32 a,u32 b,u8 c) { void *s; s=func_02045EC0(((struct Obj08265 *)p)->f44,idx); func_0201EFA4(((struct Obj08265 *)p)->f48,0,a,b,c,1); func_0201F250(((struct Obj08265 *)p)->f48,((struct Obj08265 *)p)->f4C,s); STRBUF_Delete(s); }

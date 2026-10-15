@@ -1,5 +1,5 @@
 /*
- * function: func_02080C24
+ * function: GX_GetBankForOBJ
  * address:  0x02080C24
  * packet:   pkt_02080C24
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern struct GX_State gGXState;
 
-u16 func_02080C24(void)
+u16 GX_GetBankForOBJ(void)
 {
     return gGXState.vramCnt_obj;
 }

@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0209146C                  0x0209146C  arm
+ *   MSL_C_LIB_Calloc                  0x0209146C  arm
  *   _u32_div_f                     0x0209C2B0  arm
  *   d_021A3730                   0x021A3730  data
  *   g_021A3730  0x021A3730  data
  */
-extern void *func_0209146C(unsigned long n, unsigned long size);
+extern void *MSL_C_LIB_Calloc(unsigned long n, unsigned long size);
 void *func_0217EA7C(unsigned long boundary, unsigned long size);
 void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long));
 void func_0217EAB0(int a);
@@ -33,7 +33,7 @@ extern char g_021A3730[];
  */
 void *func_0217EA7C(unsigned long boundary, unsigned long size)
 {
-    void *ptr = func_0209146C(size / boundary, boundary);
+    void *ptr = MSL_C_LIB_Calloc(size / boundary, boundary);
     return ptr;
 }
 

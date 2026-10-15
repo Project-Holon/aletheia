@@ -13,6 +13,7 @@
  *   _pNetState     0x021469DC  data
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   GFL_NET_GetSession  0x0203D788  arm
+ *   UI_ClearFlags39Global  0x020351A0  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -32,7 +33,7 @@ extern struct Sys *_pNetState;
 extern void *GFL_NET_GetSession(void);
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
-extern int func_020351A0(u32 v);
+extern int UI_ClearFlags39Global(u32 v);
 
 void GFL_NET_STATE_WifiLogout(u32 v)
 {
@@ -42,7 +43,7 @@ void GFL_NET_STATE_WifiLogout(u32 v)
         return;
 
     s = GFL_NET_GetSession();
-    func_020351A0(1);
+    UI_ClearFlags39Global(1);
     *(u32 *)(((u8 *)_pNetState) + 0x28) = v;
     (*(void (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x54))(1, 0);
 

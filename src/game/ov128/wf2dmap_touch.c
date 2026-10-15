@@ -24,7 +24,7 @@
  *   func_021C63AC 0x021C63AC thumb ov128
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02045CAC 0x02045CAC arm
@@ -46,7 +46,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -69,7 +69,7 @@
  *   func_021C6C94 0x021C6C94 thumb ov128
  *   func_021C6C20 0x021C6C20 thumb ov128
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02025C88 0x02025C88 thumb
+ *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
@@ -106,6 +106,7 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   BEACON_GetBlock  0x0200C0F0  thumb  arm9
  */
 #include "../../matched/include/Obj00227.h"
 #include "../../matched/include/Obj03544.h"
@@ -179,8 +180,8 @@ typedef signed int     s32;
 typedef struct {u16 x,y,z,pad;u32 value;void *items[8];volatile u32 count[8];} Record;
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *);
-extern u32 func_0201283C(const struct BigObj *p);
+extern void *BEACON_GetBlock(void *);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern char *NAMEIN_SETUP_CreateArgs(int,int,u32,u32,int,int,void *);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -215,7 +216,7 @@ extern void func_02041300(u32,int,u8,u8,u8,u8,u8);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void func_021C6E18(u8 *p, int i, u16 a);
 extern unsigned int KEY_GetCont(void);
 extern void func_021C6DF8(u8 *p, u32 a);
@@ -229,7 +230,7 @@ extern void TOUCHBAR_PrintYesNoCancelLabels(u32 a0, void *a1, u32 a2, u16 a3, u1
 extern void func_021C6C94(char **,int);
 extern int func_021C6C20(u8 *,u8 *,int);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern u32 func_02025C88(u32);
+extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -343,8 +344,8 @@ extern const u8 d_021CA5A2[10][4];
 
 char *func_021C8DA0(void *unused,char *q,int mode,int heap) {
  void *v;void *base;int idx;char *ret;unsigned kind;
- v=func_0200C0F0(GAME_DATA_GetSaveControl(((struct Obj00227 *)q)->f4));
- base=(void *)func_0201283C(((struct Obj00227 *)q)->f4);idx=*(u8 *)(q+24+*(signed char *)&((struct Obj00227 *)q)->fB);
+ v=BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00227 *)q)->f4));
+ base=(void *)GAME_DATA_GetField1A0(((struct Obj00227 *)q)->f4);idx=*(u8 *)(q+24+*(signed char *)&((struct Obj00227 *)q)->fB);
  kind=func_02009864(base,idx,9);
  if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,7,0,v);
  else ret=NAMEIN_SETUP_CreateArgs(heap,4,func_02009864(base,idx,8),0,7,0,v);
@@ -511,7 +512,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
     func_021C63AC(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
     text = (u32)STRBUF_Create(0xc0, heap);
     buf2 = STRBUF_Create(0x80, heap);
-    key = DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860((void *)func_0201283C(*(void **)(q + 4))));
+    key = DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860((void *)GAME_DATA_GetField1A0(*(void **)(q + 4))));
     if (key != 0) {
         func_02045CAC(*(void **)(ctx + 4), 0x35, (void *)text);
         TOUCHBAR_PrintAligned(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
@@ -601,7 +602,7 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
     case 4: if(func_021C95CC(p,q,r,heap)==1)q[8]=5; break;
     case 5:
         if(PRINTSYS_QUE_IsFinished(((struct Obj10491 *)r)->f34)==1) {
-            func_02041EE4(2,0,0);func_02041EE4(3,0,0);q[8]=2;
+            BG_SYS_ResetSlot(2,0,0);BG_SYS_ResetSlot(3,0,0);q[8]=2;
         } break;
     case 6:
         if(((struct Obj00773 *)p)->fE) {
@@ -858,7 +859,7 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     u32 i,base,id,archive,offset;
     int pos;
     Bounds bounds;
-    base=func_0201283C(((struct Obj00992 *)q)->f4);
+    base=GAME_DATA_GetField1A0(((struct Obj00992 *)q)->f4);
     func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),9);
     for(i=0;i<10;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
@@ -882,7 +883,7 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     else BMP_WIN_TransferChars(((struct Obj00773 *)p)->f170);
     for(i=0;i<10;i++) func_021CA4B4(*(char **)(p+i*8+0x128));
     bounds=d_021CA640;
-    id=func_02025C88(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
+    id=CURSOR_MOVE_GetTableGroup(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
     archive=POKEGRA_OpenTrainerHandle(heap);
     ((struct Obj00773 *)p)->f17C=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
     ((struct Obj00773 *)p)->f180=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
@@ -958,7 +959,7 @@ int func_021C9D0C(u8 *p,int direction)
     int index;
     u32 data;
     u32 count;
-    data=func_0201283C(((struct Obj00227 *)p)->f4);
+    data=GAME_DATA_GetField1A0(((struct Obj00227 *)p)->f4);
     index=*(s8 *)&((struct Obj00227 *)p)->fB;
     if(direction==0) {
         for(count=0;count<((struct Obj00227 *)p)->f10-1;count++) {
@@ -994,7 +995,7 @@ int func_021C9D88(u8 *p,int direction)
     int index;
     u32 data;
     u32 count;
-    data=func_0201283C(((struct Obj00992 *)p)->f4);
+    data=GAME_DATA_GetField1A0(((struct Obj00992 *)p)->f4);
     index=((struct Obj00992 *)p)->fB;
     if(direction==0) {
         for(count=0;count<((struct Obj00992 *)p)->f10-1;count++) {

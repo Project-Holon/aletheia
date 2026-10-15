@@ -14,7 +14,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_021D4FA4 0x021D4FA4 thumb ov115
@@ -40,7 +40,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GX_DispOn(void);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -63,7 +63,7 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
-    func_0203F8F4(((struct Obj00198 *)p)->fC);
+    BG_SYS_Create(((struct Obj00198 *)p)->fC);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021D65E4);
     func_0203FC28((struct DispConfig *)d_021D65D4);
     switch (((struct Obj00198 *)p)->f8) {

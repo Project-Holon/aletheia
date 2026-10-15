@@ -26,12 +26,12 @@
  * func_020490F4 0x020490F4 arm
  * PROCSYS_AllocProcWork 0x0203159C arm
  * MI_CpuFill8 0x02082BCC arm
- * func_0203F8F4 0x0203F8F4 arm
+ * BG_SYS_Create 0x0203F8F4 arm
  * func_02045B38 0x02045B38 arm
  * TCBL_Create 0x0203101C arm
  * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
- * func_0201EC64 0x0201EC64 thumb
+ * GF_FONT_Create_EC64 0x0201EC64 thumb
  * GF_FONT_Create 0x0201D7EC thumb
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
@@ -55,12 +55,12 @@ extern void *func_020490F4(u32 id, u32 heap);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 struct GfFont;
 struct MsgBank;
 struct Tcbl;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void GURU2_RECEIPT_SetVramBanks(void),GURU2_RECEIPT_InitBg(void);
@@ -89,8 +89,8 @@ int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
         MI_CpuFill8(p,0,0x4874);
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
-        func_0203F8F4(114);
-        *(void **)(p+60)=func_0201EC64(114);
+        BG_SYS_Create(114);
+        *(void **)(p+60)=GF_FONT_Create_EC64(114);
         *(void **)(p+64)=func_02045B38(0,2,42,114);
         *(void **)(p+56)=GF_FONT_Create(23,0,0,0,114);
         GURU2_RECEIPT_SetVramBanks(); GURU2_RECEIPT_InitBg();

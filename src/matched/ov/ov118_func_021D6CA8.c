@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CA8
+ * function: POKETRADE_DEMO_MIDDLE_DeleteSlide
  * address:  0x021D6CA8
  * packet:   pkt_021D6CA8
  * region:   ov118
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021D6CA8(void *p, int a1)
+void POKETRADE_DEMO_MIDDLE_DeleteSlide(void *p, int a1)
 {
     void *q = ((struct Obj13881 *)p)->f85C;
     if (q != 0) {

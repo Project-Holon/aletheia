@@ -1,5 +1,5 @@
 /*
- * function: func_0205D1E4
+ * function: GetNotFoundInet
  * address:  0x0205D1E4
  * packet:   pkt_0205D1E4
  * region:   arm9
@@ -139,7 +139,7 @@ typedef struct tagACWORK {
 
 extern void *DWCi_AC_GetMemPtr(u32 name);
 
-int func_0205D1E4(ACHOLD *hd)
+int GetNotFoundInet(ACHOLD *hd)
 {
     u8 type;
     int ret;

@@ -377,4 +377,50 @@ struct CodeinA1A {
     int  fC;
 };
 
+/* The option-menu sub-state of the battle recorder code input screen
+ * (br_codein_rec.c): a text window, four option buttons, two effect handles
+ * and the heap the window is created in. */
+struct CodeinMenuState {
+    int  kind;                  /* 0x00 handed to BR_BTN_CreateObject */
+    void * owner;               /* 0x04 text window owner */
+    void * textWin;             /* 0x08 */
+    unsigned char pad_0C[8];    /* 0x0C */
+    void * buttons[4];          /* 0x14 first three option buttons, then the message button */
+    unsigned char pad_24[12];   /* 0x24 */
+    int  effectShow;            /* 0x30 effect played when the text appears */
+    int  effectHit;             /* 0x34 effect played on an option hit */
+    unsigned short heapId;      /* 0x38 */
+    unsigned char pad_3A[2];    /* 0x3A */
+    void * sub;                 /* 0x3C resource handle owner */
+};
+
+struct CodeinMenuEntries;
+
+/* The configuration the menu is built from (second argument of the
+ * br_codein_rec.c functions). */
+struct CodeinMenuArg {
+    int  mode;                  /* 0x00 */
+    int  windowKind;            /* 0x04 handed to BR_BTN_CreateObject */
+    void * resource;            /* 0x08 font, message bank and word set source */
+    unsigned char pad_0C[12];   /* 0x0C */
+    struct CodeinMenuEntries * entries;  /* 0x18 */
+};
+
+/* The three option entries of the menu: a presence flag, the option text and
+ * its length. */
+struct CodeinMenuEntries {
+    unsigned int f0;            /* 0x00 */
+    unsigned int present[3];    /* 0x04 */
+    unsigned int pad_10;        /* 0x10 */
+    char * text[3];             /* 0x14 */
+    unsigned int pad_20;        /* 0x20 */
+    unsigned int length[3];     /* 0x24 */
+};
+
+/* The handle holder behind CodeinMenuState.sub. */
+struct CodeinMenuSub {
+    unsigned char pad_0[8];
+    int  handle;                /* 0x08 */
+};
+
 #endif

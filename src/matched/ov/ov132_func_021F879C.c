@@ -1,5 +1,5 @@
 /*
- * function: func_021F879C,func_021F8994
+ * function: STA_ACTING_Update,STA_ACTING_VBlankCallback
  * unit: yes
  * address: 0x021F879C
  * packet: pkt_ov132_021F879C
@@ -11,18 +11,18 @@
  * extent: lead followed by 021F8994 tail-call stub.
  * note: 021F6E74 retains the explicitly loaded pointer despite own void prototype.
  * symbols:
- *   func_021F8EA8 0x021F8EA8 thumb ov132
+ *   STA_ACTING_UpdateCamera 0x021F8EA8 thumb ov132
  *   func_021FA6CC 0x021FA6CC thumb ov132
- *   func_021F9794 0x021F9794 thumb ov132
+ *   STA_ACTING_ProcessRecords 0x021F9794 thumb ov132
  *   func_021FABD8 0x021FABD8 thumb ov132
  *   func_021F9ECC 0x021F9ECC thumb ov132
- *   func_021F9374 0x021F9374 thumb ov132
- *   func_021F94F8 0x021F94F8 thumb ov132
+ *   STA_ACTING_UpdateText 0x021F9374 thumb ov132
+ *   STA_ACTING_UpdateSelection 0x021F94F8 thumb ov132
  *   func_021FA064 0x021FA064 thumb ov132
- *   func_021F91CC 0x021F91CC thumb ov132
+ *   STA_ACTING_FadePalette 0x021F91CC thumb ov132
  *   func_021F9ED4 0x021F9ED4 thumb ov132
  *   func_021F9E4C 0x021F9E4C thumb ov132
- *   func_021F90E0 0x021F90E0 thumb ov132
+ *   STA_ACTING_LoadCharAnims 0x021F90E0 thumb ov132
  *   func_021FAD7C 0x021FAD7C thumb ov132
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
@@ -65,18 +65,18 @@ struct Camera;
 struct Lights;
 extern int func_021FCE00(char *p, int id);
 extern u8 func_021FAD7C(char *);
-extern void func_021F8EA8(u8 *);
+extern void STA_ACTING_UpdateCamera(u8 *);
 extern void func_021FA6CC(char *p);
-extern void func_021F9794(char *p);
+extern void STA_ACTING_ProcessRecords(char *p);
 extern void func_021FABD8(char *p);
 extern int func_021F9ECC(u8 *a0);
-extern void func_021F9374(u8 *);
-extern void func_021F94F8(char *p);
+extern void STA_ACTING_UpdateText(u8 *);
+extern void STA_ACTING_UpdateSelection(char *p);
 extern void func_021FA064(char *p);
-extern void func_021F91CC(u8 *);
+extern void STA_ACTING_FadePalette(u8 *);
 extern int func_021F9ED4(u8 *a0);
 extern void func_021F9E4C(u8 *);
-extern void func_021F90E0(u8 *);
+extern void STA_ACTING_LoadCharAnims(u8 *);
 extern void func_021F6F64(u8 *);
 extern void func_021F7160(u8 *);
 extern void STA_ACT_OBJ_Update(char *p);
@@ -89,7 +89,7 @@ extern void func_021F718C(char *p);
 extern void func_021F6F8C(u8 *);
 extern void G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void),CLACT_DrawSystem(void),CLACT_VBlankSystem(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
-int func_021F879C(u8 *p)
+int STA_ACTING_Update(u8 *p)
 {
     u32 tick;
     tick=d_02FFFC3C;
@@ -123,7 +123,7 @@ int func_021F879C(u8 *p)
     case 5:
         if(((struct Obj00191 *)p)->f164==0) {
             ((struct Obj00191 *)p)->fB4=((struct Obj23178 *)(*(u8 * *)&((struct Obj23177 *)(*(u8 * *)&((struct Obj00191 *)p)->f30))->f18))->fC;
-            func_021F90E0(p);
+            STA_ACTING_LoadCharAnims(p);
             ((struct Obj00191 *)p)->f1C=6;
         }
         break;
@@ -139,20 +139,20 @@ int func_021F879C(u8 *p)
             ((struct Obj00191 *)p)->f1C=4;
         break;
     }
-    func_021F8EA8(p);
+    STA_ACTING_UpdateCamera(p);
     func_021FA6CC((char *)(*(u8 * *)&((struct Obj00191 *)p)->fA4));
-    func_021F9794((char *)p);
+    STA_ACTING_ProcessRecords((char *)p);
     if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB0));
     func_021F6F64(*(u8 * *)&((struct Obj00191 *)p)->f3C);
     func_021F7160(*(u8 * *)&((struct Obj00191 *)p)->f40);
     STA_ACT_OBJ_Update((char *)(*(u8 * *)&((struct Obj00191 *)p)->f54));
     func_021F9ECC(*(u8 * *)&((struct Obj00191 *)p)->f6C);
-    func_021F9374(p);
+    STA_ACTING_UpdateText(p);
     func_021F51E8(*(u8 * *)&((struct Obj00191 *)p)->f34);
     func_021F6CB0((char *)(*(u8 * *)&((struct Obj00191 *)p)->f90));
-    func_021F94F8((char *)p);
+    STA_ACTING_UpdateSelection((char *)p);
     func_021FA064((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB8));
-    func_021F91CC(p);
+    STA_ACTING_FadePalette(p);
     G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
     func_021F6E74(*(u8 * *)&((struct Obj00191 *)p)->f90);
     func_021F75A0(*(u8 * *)&((struct Obj00191 *)p)->f40);
@@ -169,4 +169,4 @@ int func_021F879C(u8 *p)
         ((struct Obj00191 *)p)->f1C=2;
     return 0;
 }
-void func_021F8994(void) { CLACT_VBlankSystem(); }
+void STA_ACTING_VBlankCallback(void) { CLACT_VBlankSystem(); }

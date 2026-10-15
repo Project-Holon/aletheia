@@ -1,5 +1,5 @@
 /*
- * function: func_02177770
+ * function: DWCs_GetTransConnection
  * address:  0x02177770
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Indexes the record array at +0x38 a record.
  *
  * symbols:
- *   g_021AB180  0x021AB180  data
+ *   gDwcTransInfo  0x021AB180  data
  */
 
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 
-int func_02177770(int i)
+int DWCs_GetTransConnection(int i)
 {
-    return *(int *)g_021AB180 + i * 0x38;
+    return *(int *)gDwcTransInfo + i * 0x38;
 }
 

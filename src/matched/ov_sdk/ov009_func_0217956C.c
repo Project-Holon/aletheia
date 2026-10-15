@@ -1,5 +1,5 @@
 /*
- * function: func_0217956C
+ * function: DWC_Http_Create
  * address:  0x0217956C
  * packet:   pkt_ov009_0217956C
  * region:   ov009
@@ -14,8 +14,8 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_0217A0D4  0x0217A0D4  arm  ov009
- *   func_0217A1FC  0x0217A1FC  arm  ov009
- *   func_02179DA0  0x02179DA0  arm  ov009
+ *   DWCi_Http_SetHostinfo  0x0217A1FC  arm  ov009
+ *   DWCi_Http_WriteBasicHeader  0x02179DA0  arm  ov009
  */
 
 typedef struct DWCHttpBuffer {
@@ -55,10 +55,10 @@ typedef struct DWCHttp {
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0217A0D4(DWCHttp *http, DWCHttpBuffer *buf, unsigned long size);
-extern int func_0217A1FC(DWCHttp *http, char *url);
-extern int func_02179DA0(char *http);
+extern int DWCi_Http_SetHostinfo(DWCHttp *http, char *url);
+extern int DWCi_Http_WriteBasicHeader(char *http);
 
-int func_0217956C(DWCHttp *http, DWCHttpParam *param)
+int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
@@ -81,11 +81,11 @@ int func_0217956C(DWCHttp *http, DWCHttpParam *param)
         http->error = 1;
         return 1;
     }
-    if (!func_0217A1FC(http, param->url)) {
+    if (!DWCi_Http_SetHostinfo(http, param->url)) {
         http->error = 1;
         return 1;
     }
-    http->error = func_02179DA0((char *)http);
+    http->error = DWCi_Http_WriteBasicHeader((char *)http);
     if (http->error == 0)
         http->initflag = 0xff;
     return http->error;

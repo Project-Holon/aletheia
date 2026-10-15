@@ -13,8 +13,8 @@
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BE48 0x0200BE48 thumb
- *   func_0200BF10 0x0200BF10 thumb
+ *   INTRUDE_GetFromSave 0x0200BE48 thumb
+ *   INTRUDE_GetMonolithLevel 0x0200BF10 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,15 +24,15 @@ struct Big;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *);
+extern u16 *INTRUDE_GetFromSave(void *);
 struct Rec1B0;
-extern u8 func_0200BF10(struct Rec1B0 *p);
+extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
 int EVENT_COMM_COMMON_CmdCheckBattleRecState(void *a, void *vm)
 {
     u16 *out;
     int v;
     out = SCRIPT_WORK_ReadWorkPointer(a, vm);
-    if (func_0200BF10((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(vm))))) != 0x30) {
+    if (INTRUDE_GetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(vm))))) != 0x30) {
         v = 1;
     } else {
         v = 0;

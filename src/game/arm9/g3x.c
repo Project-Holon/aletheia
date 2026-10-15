@@ -1,7 +1,7 @@
 /*
  * file:     g3x.c
  * unit:     yes
- * function: func_0207D988, func_0207DA8C, func_0207DAF8, func_0207DB1C, func_0207DBB4, G3X_SetFog, G3X_GetClipMtx, G3X_GetVectorMtx, func_0207DCF8, G3X_SetFogTable, G3X_SetClearColor, func_0207DD4C, func_0207DE30, func_0207DE5C, func_0207DE88, func_0207DEA4, func_0207DECC
+ * function: G3X_Init, G3X_Reset, G3X_ClearFifo, G3X_InitMtxStack, G3X_ResetMtxStack, G3X_SetFog, G3X_GetClipMtx, G3X_GetVectorMtx, func_0207DCF8, G3X_SetFogTable, G3X_SetClearColor, G3X_InitTable, G3X_GetMtxStackLevelPV, G3X_GetMtxStackLevelPJ, G3X_SetDisp1DotDepth, G3X_GetBoxTestResult, GXi_NopClearFifo128_
  * address:  0x0207D988
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -113,23 +113,16 @@ extern void MI_NDmaFill(u32 ndmaNo, void *dest, u32 data, u32 size);
 extern void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-void func_0207D988(void);
-void func_0207DA8C(void);
-void func_0207DAF8(void);
-void func_0207DB1C(void);
-void func_0207DBB4(void);
+void G3X_Init(void);
+void G3X_Reset(void);
 void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
 int G3X_GetClipMtx(MtxFx44 *m);
 int G3X_GetVectorMtx(MtxFx33 *m);
 void G3X_SetEdgeColorTable(const void *src);
 void G3X_SetFogTable(const void *src);
 void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
-void func_0207DD4C(void);
-int func_0207DE30(s32 *level);
-int func_0207DE5C(s32 *level);
-void func_0207DE88(fx32 w);
-int func_0207DEA4(s32 *in);
-asm void func_0207DECC(void);
+void G3X_SetDisp1DotDepth(fx32 w);
+int G3X_GetBoxTestResult(s32 *in);
 extern u32 GXi_DmaId;
 
 
@@ -160,7 +153,7 @@ static inline void G2_SetBG0Priority(int priority)
 /*
  * sdk:      G3X_Init (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207D988(void)
+void G3X_Init(void)
 {
     G3X_ClearFifo();
     reg_G3_END_VTXS = 0;
@@ -197,7 +190,7 @@ void func_0207D988(void)
 /*
  * sdk:      G3X_Reset (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DA8C(void)
+void G3X_Reset(void)
 {
     while (reg_G3X_GXSTAT & 0x08000000) {
     }
@@ -218,7 +211,7 @@ void func_0207DA8C(void)
 /*
  * sdk:      G3X_ClearFifo (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DAF8(void)
+void G3X_ClearFifo(void)
 {
     GXi_NopClearFifo128_((void *)&reg_G3X_GXFIFO);
     while (reg_G3X_GXSTAT & 0x08000000) {
@@ -233,7 +226,7 @@ void func_0207DAF8(void)
 /*
  * sdk:      G3X_InitMtxStack (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DB1C(void)
+void G3X_InitMtxStack(void)
 {
     s32 levelPV, levelPJ;
 
@@ -262,7 +255,7 @@ void func_0207DB1C(void)
 /*
  * sdk:      G3X_ResetMtxStack (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DBB4(void)
+void G3X_ResetMtxStack(void)
 {
     s32 levelPV, levelPJ;
 
@@ -383,7 +376,7 @@ void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog)
 /*
  * sdk:      G3X_InitTable (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DD4C(void)
+void G3X_InitTable(void)
 {
     int i;
 
@@ -411,7 +404,7 @@ void func_0207DD4C(void)
 /*
  * sdk:      G3X_GetMtxStackLevelPV (libgx.TWL.HYB.a g3x.o)
  */
-int func_0207DE30(s32 *level)
+int G3X_GetMtxStackLevelPV(s32 *level)
 {
     if (reg_G3X_GXSTAT & 0x4000) {
         return -1;
@@ -428,7 +421,7 @@ int func_0207DE30(s32 *level)
 /*
  * sdk:      G3X_GetMtxStackLevelPJ (libgx.TWL.HYB.a g3x.o)
  */
-int func_0207DE5C(s32 *level)
+int G3X_GetMtxStackLevelPJ(s32 *level)
 {
     if (reg_G3X_GXSTAT & 0x4000) {
         return -1;
@@ -443,7 +436,7 @@ int func_0207DE5C(s32 *level)
 /*
  * sdk:      G3X_SetDisp1DotDepth (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DE88(fx32 w)
+void G3X_SetDisp1DotDepth(fx32 w)
 {
     reg_G3X_DISP_1DOT_DEPTH = (u16)((w >> 9) & 0x7fff);
 }
@@ -453,7 +446,7 @@ void func_0207DE88(fx32 w)
 /*
  * sdk:      G3X_GetBoxTestResult (libgx.TWL.HYB.a g3x.o)
  */
-int func_0207DEA4(s32 *in)
+int G3X_GetBoxTestResult(s32 *in)
 {
     if (reg_G3X_GXSTAT & 1) {
         return -1;
@@ -468,7 +461,7 @@ int func_0207DEA4(s32 *in)
  * sdk:      GXi_NopClearFifo128_ (libgx.TWL.HYB.a g3x.o)
  * asm:      fixed-register stm block into the geometry FIFO (stmia r0, {r1, r2, r3, r12} x32); no C spelling.
  */
-asm void func_0207DECC(void)
+asm void GXi_NopClearFifo128_(void *pDest)
 {
     mov r1, #0
     mov r2, #0

@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov021/scrcmd_screeneffects.c and filed here.
  *
  * symbols:
- *   func_0201EF4C 0x0201EF4C thumb
+ *   WORDSET_Callback_EF4C 0x0201EF4C thumb
  *   SCRCMD_BufferEntryCommon 0x021AF794 thumb
  */
 
@@ -24,7 +24,7 @@ typedef struct {
     u8 *cur;
 } Script;
 
-extern void func_0201EF4C();
+extern void WORDSET_Callback_EF4C();
 int SCRCMD_BufferItemNameAlt(Script *a, u32 b);
 
-int SCRCMD_BufferItemNameAlt(Script *a, u32 b) { return SCRCMD_BufferEntryCommon(a, b, func_0201EF4C); }
+int SCRCMD_BufferItemNameAlt(Script *a, u32 b) { return SCRCMD_BufferEntryCommon(a, b, WORDSET_Callback_EF4C); }

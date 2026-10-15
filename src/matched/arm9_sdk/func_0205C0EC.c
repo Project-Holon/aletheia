@@ -1,5 +1,5 @@
 /*
- * function: func_0205C0EC
+ * function: DWCi_AC_FreeAll
  * address:  0x0205C0EC
  * packet:   pkt_0205C0EC
  * region:   arm9
@@ -136,7 +136,7 @@ static struct {
     ACWORK *acWork;
 } s_ac_work;
 
-void func_0205C0EC(void)
+void DWCi_AC_FreeAll(void)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 

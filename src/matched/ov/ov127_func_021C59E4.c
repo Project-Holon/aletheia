@@ -1,5 +1,5 @@
 /*
- * function: func_021C59E4
+ * function: WF2DMAP_SCRDRAW_GetPointY
  * address: 0x021C59E4
  * packet: pkt_ov127_021C59E4
  * region: ov127
@@ -9,4 +9,4 @@
  * status: EXACT*
  */
 typedef signed short s16;
-int func_021C59E4(const s16 *p) { return p[0]; }
+int WF2DMAP_SCRDRAW_GetPointY(const s16 *p) { return p[0]; }

@@ -17,7 +17,7 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   func_02008F88  0x02008F88  thumb
  *   func_020307B0  0x020307B0  arm
@@ -41,7 +41,7 @@ extern void func_02019B58(void *mon);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 extern void *MAIL_Create(int a0);
 extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 extern u32 func_020307B0(void *p);
@@ -60,7 +60,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     MSGDATA_Delete(bank);
     func_02019B58(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
-    if (func_0202136C((u16)POKE_TOOL_GetPartyValue(mon, 6, 0)) != 0) {
+    if (FILE_UTIL_Check136C((u16)POKE_TOOL_GetPartyValue(mon, 6, 0)) != 0) {
         buf = MAIL_Create((u16)id);
         POKE_TOOL_GetPartyValue(mon, 0xA7, (u32)buf);
         func_02008F88(buf, STRBUF_GetChars(str));

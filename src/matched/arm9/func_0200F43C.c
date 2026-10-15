@@ -1,6 +1,6 @@
 
 /*
- * function: func_0200F43C
+ * function: GFL_NET_ERR_FindFriendByKey
  * address:  0x0200F43C
  * packet:   pkt_0200F43C
  * region:   arm9
@@ -59,7 +59,7 @@ extern void DWC_CreateFriendKeyToken(DWCFriendData *tok, u64 key);
 extern int  DWC_GetGsProfileId(void *p, const DWCFriendData *rec);
 extern int  DWC_IsValidFriendData(const DWCFriendData *rec);
 
-int func_0200F43C(void *obj, u64 key, int *out)
+int GFL_NET_ERR_FindFriendByKey(void *obj, u64 key, int *out)
 {
     void *p;
     DWCFriendData *arr;

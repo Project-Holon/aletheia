@@ -1,5 +1,5 @@
 /*
- * function: func_02205620
+ * function: SHINKA_DEMO_BuildString
  * address:  0x02205620
  * packet:   pkt_02205620
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201EE84 0x0201EE84 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
@@ -19,7 +19,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  */
 
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
@@ -43,9 +43,9 @@ extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
+u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
 {
     Param p[2];
     u32 src, w, r, i;
@@ -55,7 +55,7 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
         r = (u32)func_02045EC0((struct MsgBank *)a, b);
     } else {
         src = (u32)func_02045EC0((struct MsgBank *)a, b);
-        w = (u32)func_0201EC64(heap);
+        w = (u32)GF_FONT_Create_EC64(heap);
         p[0].kind = k0;
         p[0].val = v0;
         p[1].kind = k1;
@@ -79,7 +79,7 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
         r = (u32)STRBUF_Create(0x100, heap);
         func_0201F250((struct WordSet *)w, (void *)r, (void *)src);
         STRBUF_Delete((struct U16Vec *)src);
-        func_0201ED04((struct WordSet *)w);
+        WORDSET_DeleteStrbufED04((struct WordSet *)w);
     }
     return r;
 }

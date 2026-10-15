@@ -34,11 +34,11 @@
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   func_02082A7C  0x02082A7C  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   SCRCMD_WORK_CreateCommon  0x0215A514  thumb  ov010
  *   sScriptWorkFileName     0x0217289C  data  ov010  a1
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   SCRCMD_WORK_DeleteCommon  0x0215A554  thumb  ov010
  *   FLDMMDL_GetObjId 0x0216D588 thumb ov010
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -90,10 +90,10 @@ extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 extern void *SCRCMD_WORK_GetGameSystem(ScriptVm *vm);
 extern int func_02082A7C();
 extern int FIELDMAP_GetMsgBg();
-extern void *func_0201EC74(u32 count, u32 size, u16 heapId);
+extern void *WORDSET_Create(u32 count, u32 size, u16 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *SCRCMD_WORK_CreateCommon(ScriptWork *work, int heapId);
-extern int func_0201ED04();
+extern int WORDSET_DeleteStrbufED04();
 extern int SCRCMD_WORK_DeleteCommon();
 extern u16 FLDMMDL_GetObjId(void *obj);
 extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
@@ -189,7 +189,7 @@ ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 sc
     work->parentWork = parentWork;
     work->isChild = SCRIPT_SYS_IsChildScript(parentWork);
     if (work->isChild == 0) {
-        work->wordSet = func_0201EC74(0x1C, 0x40, heapId);
+        work->wordSet = WORDSET_Create(0x1C, 0x40, heapId);
         work->msgBuffer = STRBUF_Create(0x500, heapId);
         work->tempBuffer = STRBUF_Create(0x500, heapId);
     } else {
@@ -208,7 +208,7 @@ int SCRIPT_WORK_Delete(ScriptWork *work)
 {
     work->magic = 0;
     if (work->wordSet != 0)
-        func_0201ED04(work->wordSet);
+        WORDSET_DeleteStrbufED04(work->wordSet);
     if (work->msgBuffer != 0)
         STRBUF_Delete(work->msgBuffer);
     if (work->tempBuffer != 0)

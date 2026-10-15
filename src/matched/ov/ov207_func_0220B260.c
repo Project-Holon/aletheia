@@ -1,5 +1,5 @@
 /*
- * function: func_0220B260
+ * function: ZUKAN_TOROKU_GRAPHIC_CreateBg
  * address: 0x0220B260
  * packet: pkt_ov207_0220B260
  * region: ov207
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_0204047C 0x0204047C arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -20,7 +20,7 @@
 #include "../include/Obj00162.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -28,11 +28,11 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32 index);
-void func_0220B260(unsigned *p)
+void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p)
 {
     void *r;
     p[11]=1;
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_0204047C(1,3);
     func_0204047C(3,0);
     r=func_020490F4(159,((struct Obj00162 *)p)->f0);

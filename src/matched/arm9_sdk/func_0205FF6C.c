@@ -1,5 +1,5 @@
 /*
- * function: func_0205FF6C
+ * function: initPage
  * address:  0x0205FF6C
  * packet:   pkt_0205FF6C
  * region:   arm9
@@ -83,7 +83,7 @@ typedef struct NCFGConfigEx {
 
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 
-void func_0205FF6C(NCFGConfig *config, int page)
+void initPage(NCFGConfig *config, int page)
 {
     MIi_CpuClear16(0, &config->slot[page], sizeof(NCFGSlotInfo));
     config->slot[page].ap.setType = 0xFF;

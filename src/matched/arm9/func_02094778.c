@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02094778
+ * function: MSL_C_LIB_DefaultExitHook
  * address:  0x02094778
  * packet:   pkt_02094488
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_02094778(void){ }
+void MSL_C_LIB_DefaultExitHook(void){ }

@@ -1,5 +1,5 @@
 /*
- * function: func_02195F5C
+ * function: gti2ConnectionCommunicationError
  * address:  0x02195F5C
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void func_02195EC4(int a, int b, int c);
 
-void func_02195F5C(int a)
+void gti2ConnectionCommunicationError(int a)
 {
     func_02195EC4(a, 7, 2);
 }

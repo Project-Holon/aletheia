@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02076050",
+   "name": "CARDi_WaitAsync",
    "address": "0x02076050",
    "kind": "sdk",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02076070",
+   "name": "CARDi_TryWaitAsync",
    "address": "0x02076070",
    "kind": "sdk",
    "region": "arm9",

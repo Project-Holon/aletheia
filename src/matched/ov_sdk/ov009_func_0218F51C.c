@@ -1,5 +1,5 @@
 /*
- * function: func_0218F51C
+ * function: gpiPeerFinishTransferMessage
  * address:  0x0218F51C
  * packet:   pkt_ov009_0218F51C
  * region:   ov009
@@ -32,7 +32,7 @@
  * sdk:      gpiPeerFinishTransferMessage (libdwcgsgp.TWL.HYB.a(gpipeer.o))
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   func_02189750  0x02189750  arm  ov009
  *   func_0218964C  0x0218964C  arm  ov009
@@ -48,7 +48,7 @@ struct GPIPeer {
 };
 
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, struct GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, struct GPIPeer *peer, char *string, int stringLen);
@@ -57,7 +57,7 @@ extern long func_02184098(long *timer);
 extern char g_021A4FEC[];   /* "" -- the default when message is 0 */
 extern char g_021A4FF0[];   /* "\len\%d\msg\\\n" -- OS_SPrintf's format */
 
-int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int len)
+int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *message, int len)
 {
     char buffer[32];
     int result;
@@ -67,7 +67,7 @@ int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int le
     if (message == 0)
         message = g_021A4FEC;
     if (len == -1)
-        len = func_0209477C((const u8 *)message);
+        len = strlen((const u8 *)message);
     OS_SPrintf(buffer, g_021A4FF0, len);
     result = func_02189750(connection, peer, buffer);
     if (result != 0)

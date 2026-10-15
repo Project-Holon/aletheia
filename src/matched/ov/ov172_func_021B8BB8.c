@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BB8
+ * function: CTVT_COMM_PopStroke
  * address:  0x021B8BB8
  * packet:   pkt_021B6868
  * region:   ov172
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021B8BB8(int a, unsigned char *p, int *out);
+extern int CTVT_COMM_PopStroke(int a, unsigned char *p, int *out);
 
-int func_021B8BB8(int a, unsigned char *p, int *out)
+int CTVT_COMM_PopStroke(int a, unsigned char *p, int *out)
 {
     unsigned char v = (unsigned char)(p[0x1ac] + 1);
 

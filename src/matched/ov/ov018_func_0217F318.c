@@ -15,7 +15,7 @@
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  */
 
 typedef struct {
@@ -44,7 +44,7 @@ u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
 struct U16Vec;
 struct WordSet;
 void STRBUF_Delete(struct U16Vec *vec);
-u32 func_0201ED04(struct WordSet *p);
+u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p)
 {
@@ -61,7 +61,7 @@ void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p)
         FIELD_MSGBG_DeleteMsgData(p->f14);
         STRBUF_Delete(p->f08);
         STRBUF_Delete(p->f04);
-        func_0201ED04(p->f00);
+        WORDSET_DeleteStrbufED04(p->f00);
         p->f00 = 0;
     }
 }

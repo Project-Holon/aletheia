@@ -59,13 +59,13 @@
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
@@ -74,14 +74,14 @@
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
  *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
- *   func_0201F0F8  0x0201F0F8  thumb
+ *   WORDSET_Set  0x0201F0F8  thumb
  *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
  *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
- *   func_0202A3CC  0x0202A3CC  thumb
+ *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
@@ -94,7 +94,7 @@
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
- *   func_0201D5CC  0x0201D5CC  thumb
+ *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
  *   func_0201D5F4  0x0201D5F4  thumb
  *   func_0201D658  0x0201D658  thumb
@@ -103,7 +103,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201EF8C 0x0201EF8C thumb
  *   func_0201EF34 0x0201EF34 thumb
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093

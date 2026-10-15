@@ -19,6 +19,9 @@
  *   DWCi_ScCleanupRootCAList  0x021DEFC4  arm  ov175
  *   DWCi_ScGetRequestErrorCode  0x021DF644  arm
  *   scShutdown  0x021DFA3C  arm
+ *   gsCoreThink  0x0217CCCC  arm  ov009
+ *   gsCoreShutdown  0x0217CD94  arm  ov009
+ *   gsCoreIsShutdown  0x0217CE1C  arm  ov009
  */
 
 typedef unsigned int u32;
@@ -29,9 +32,9 @@ extern int DWCi_DWCScResultToDWCError(void);
 extern int DWCi_ScGetRequestErrorCode(int, int);
 extern void func_02059F54(int, int);
 extern void DWCi_ScCleanupRootCAList(void);
-extern void func_0217CD94(void);
-extern void func_0217CCCC(int);
-extern int func_0217CE1C(void);
+extern void gsCoreShutdown(void);
+extern void gsCoreThink(int);
+extern int gsCoreIsShutdown(void);
 
 int DWC_ScShutdown(void)
 {
@@ -41,9 +44,9 @@ int DWC_ScShutdown(void)
     if (r != 0)
         func_02059F54(DWCi_DWCScResultToDWCError(), DWCi_ScGetRequestErrorCode(3, r));
     DWCi_ScCleanupRootCAList();
-    func_0217CD94();
-    func_0217CCCC(0);
-    if (func_0217CE1C() != 2)
-        func_0217CCCC(0);
+    gsCoreShutdown();
+    gsCoreThink(0);
+    if (gsCoreIsShutdown() != 2)
+        gsCoreThink(0);
     return r;
 }

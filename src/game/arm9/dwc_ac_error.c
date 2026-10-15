@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_error.c
  * unit:     yes
- * function: func_0205D0E4, func_0205D108, func_0205D178, GetIrregularError, func_0205D1C4, func_0205D1E4
+ * function: DWCi_AC_Error, DWCi_AC_GetResult, func_0205D178, GetIrregularError, func_0205D1C4, GetNotFoundInet
  * address:  0x0205D0E4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -153,19 +153,18 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 extern int DWCi_AC_CloseNetwork(u8 *phase);
 extern int DWCi_AC_GetError(void);
 extern int GetNotFoundInet(ACHOLD *hd);
-u8 func_0205D0E4(void);
-int func_0205D108(void);
+u8 DWCi_AC_Error(void);
+int DWCi_AC_GetResult(void);
 int GetProgramaError(int err);
 int GetIrregularError(void);
 int GetNotFoundAP(ACHOLD *hd);
-int func_0205D1E4(ACHOLD *hd);
 
 
 
 /*
  * sdk:      DWCi_AC_Error (error.o)
  */
-u8 func_0205D0E4(void)
+u8 DWCi_AC_Error(void)
 {
     ACHOLD *hd = (ACHOLD *)DWCi_AC_GetMemPtr(1);
 
@@ -179,7 +178,7 @@ u8 func_0205D0E4(void)
 /*
  * sdk:      DWCi_AC_GetResult (error.o)
  */
-int func_0205D108(void)
+int DWCi_AC_GetResult(void)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     int error = DWCi_AC_GetError();
@@ -238,7 +237,7 @@ int GetNotFoundAP(ACHOLD *hd)
 /*
  * sdk:      GetNotFoundInet (error.o)
  */
-int func_0205D1E4(ACHOLD *hd)
+int GetNotFoundInet(ACHOLD *hd)
 {
     u8 type;
     int ret;

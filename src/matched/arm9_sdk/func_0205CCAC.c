@@ -1,5 +1,5 @@
 /*
- * function: func_0205CCAC
+ * function: DWCi_CheckDisconnected
  * address:  0x0205CCAC
  * packet:   pkt_0205CCAC
  * region:   arm9
@@ -30,7 +30,7 @@ typedef struct {
 
 extern struct INETBSS g_02146AD4;
 
-int func_0205CCAC(void)
+int DWCi_CheckDisconnected(void)
 {
     if (g_02146AD4.stpInetCntl != 0 && ((DWCstInetControl *)g_02146AD4.stpInetCntl)->state == 6) {
         return 1;

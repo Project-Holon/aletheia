@@ -1,5 +1,5 @@
 /*
- * function: func_0220BC24
+ * function: B_PLIST_ANM_CreateTileWindows
  * address: 0x0220BC24
  * packet: pkt_ov198_0220BC24
  * region: ov198
@@ -19,7 +19,7 @@ typedef struct Item { u8 a,b,c,d,e,f; } Item;
 extern Item d_02211B14[];
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0220BC70(u8 *, unsigned int);
-void func_0220BC24(u8 *p)
+void B_PLIST_ANM_CreateTileWindows(u8 *p)
 {
     Item *s = d_02211B14;
     u32 i;

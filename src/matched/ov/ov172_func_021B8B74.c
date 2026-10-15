@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B74
+ * function: CTVT_COMM_IsPostBusy
  * address: 0x021B8B74
  * packet: pkt_ov172_021B8B74
  * region: ov172
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_021B8B74(void *ctx, u8 *rec)
+int CTVT_COMM_IsPostBusy(void *ctx, u8 *rec)
 {
     return *(u32 *)(rec + 0x194);
 }

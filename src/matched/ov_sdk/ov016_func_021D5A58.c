@@ -27,7 +27,7 @@
  *   DWCi_HEAPlAllocEx  0x021D6414  arm    ov016
  *   func_02068FC4  0x02068FC4  arm
  *   func_0207DF94  0x0207DF94  arm
- *   func_0207DF60  0x0207DF60  arm
+ *   G2_GetBG0ScrPtr  0x0207DF60  arm
  *   func_02069078  0x02069078  arm
  *   DWCi_FNTlClear  0x021D5F14  arm    ov016
  *   DWCi_TSKlForm  0x021D7680  arm    ov016
@@ -58,7 +58,7 @@ extern const u16 sFontTable1[];
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
 extern void func_02068FC4(int a, int b, int c, int d, int e);
 extern void *func_0207DF94(void);
-extern void *func_0207DF60(void);
+extern void *G2_GetBG0ScrPtr(void);
 extern void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 extern void DWCi_FNTlClear(void *c, int col);
 extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
@@ -90,7 +90,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     if (lcd == 1)
         scr = func_0207DF94();
     else
-        scr = func_0207DF60();
+        scr = G2_GetBG0ScrPtr();
     chr = sFontTable1[lcd];
     func_02069078(scr, w, h, 0, 0, 0x20, chr, 0xF);
     DWCi_FNTlClear(cv, 0);

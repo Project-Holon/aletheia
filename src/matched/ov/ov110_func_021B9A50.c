@@ -17,9 +17,9 @@
  *   PMS_INPUT_GetUiInputModePtr 0x021BF6D4 thumb ov110
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   PMS_INPUT_GetTasks 0x021BF7D0 thumb ov110
  *   PMS_INPUT_VIEW_MainTask 0x021B9BAC thumb ov110
  *   func_02030DA8 0x02030DA8 arm
@@ -40,9 +40,9 @@ struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 PMS_INPUT_GetTasks(u8 *);
 extern void PMS_INPUT_VIEW_MainTask(int a, unsigned char *b);
 extern void *func_02030DA8(u32,u32,void *,int);
@@ -61,10 +61,10 @@ void *PMS_INPUT_VIEW_Create(u8 *context,void *arg) {
         *(u8 * *)&((struct Obj01920 *)p)->f78=PMS_INPUT_GetUiInputModePtr(context);
         CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)gPmsInputVramBanks,42);
         ((struct Obj01920 *)p)->f20=CLACT_CreateUnit(128,0,42);
-        func_0203F8F4(42);
+        BG_SYS_Create(42);
         BMP_WIN_Init(42);
-        func_0207D534((void *)0x0400006c,-16);
-        func_0207D534((void *)0x0400106c,-16);
+        GXx_SetMasterBrightness_((void *)0x0400006c,-16);
+        GXx_SetMasterBrightness_((void *)0x0400106c,-16);
         ((struct Obj01920 *)p)->f0=func_02030DA8(PMS_INPUT_GetTasks(context),(u32)PMS_INPUT_VIEW_MainTask,p,2);
         ((struct Obj01920 *)p)->f4=PMS_INPUT_VIEW_AddVBlankTask((void (*)(void *, u8 *))PMS_INPUT_VIEW_VBlankTask,p,1);
         for(i=0;i<4;++i) *(void **)(p+8+i*4)=0;

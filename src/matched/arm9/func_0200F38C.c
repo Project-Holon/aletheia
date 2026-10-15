@@ -1,5 +1,5 @@
 /*
- * function: func_0200F38C
+ * function: GFL_NET_ERR_SearchFriendSlot
  * address:  0x0200F38C
  * packet:   pkt_0200F38C
  * region:   arm9
@@ -29,8 +29,8 @@
  * witness that turns it EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200F38C.c \
- *       --func func_0200F38C --addr 0x0200F38C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_SearchFriendSlot.c \
+ *       --func GFL_NET_ERR_SearchFriendSlot --addr 0x0200F38C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ extern int   func_020596D8(void *p);
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int   DWC_IsEqualFriendData(void *a, void *b);
 
-int func_0200F38C(void *a, int *out)
+int GFL_NET_ERR_SearchFriendSlot(void *a, int *out)
 {
     int   i;
     void *key = (void *)GFL_NET_GetWifiUserData();

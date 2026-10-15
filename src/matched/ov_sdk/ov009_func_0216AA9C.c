@@ -1,5 +1,5 @@
 /*
- * function: func_0216AA9C
+ * function: DWCi_GetAuthInfo
  * address:  0x0216AA9C
  * packet:   pkt_ov009_0216AA9C
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      DWCi_GetAuthInfo (libdwcmatch.TWL.HYB.a(dwc_login.o))
  *
  * symbols:
- *   func_0216AA70  0x0216AA70  arm  ov009
- *   g_021AA874  0x021AA874  data
+ *   DWCi_CheckLogin  0x0216AA70  arm  ov009
+ *   gDwcLoginControl  0x021AA874  data
  */
 
 typedef struct LoginCnt {
@@ -28,16 +28,16 @@ typedef struct LoginCnt {
 	char partnerChallenge[0x100];
 } LoginCnt;
 
-extern LoginCnt *g_021AA874;
+extern LoginCnt *gDwcLoginControl;
 
 
-extern int func_0216AA70(void);
+extern int DWCi_CheckLogin(void);
 
-int func_0216AA9C(char **authToken, char **partnerChallenge)
+int DWCi_GetAuthInfo(char **authToken, char **partnerChallenge)
 {
-	if (!func_0216AA70())
+	if (!DWCi_CheckLogin())
 		return 0;
-	*authToken = g_021AA874->authToken;
-	*partnerChallenge = g_021AA874->partnerChallenge;
+	*authToken = gDwcLoginControl->authToken;
+	*partnerChallenge = gDwcLoginControl->partnerChallenge;
 	return 1;
 }

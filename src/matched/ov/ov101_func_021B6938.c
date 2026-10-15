@@ -13,7 +13,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   IRC_COMPATIBLE_StepRunnerInit 0x021B6BE4 thumb ov101
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   COMPATIBLE_IRC_SYS_Create 0x021B6100 thumb ov101
  *   IRC_COMPATIBLE_SetHandler 0x021B6A3C thumb ov101
  *   IRC_COMPATIBLE_HandleEntry 0x021B6A4C thumb ov101
@@ -32,7 +32,7 @@ extern void MI_CpuFill8(void *,int,u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void IRC_COMPATIBLE_StepRunnerInit(u8 *,int);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *COMPATIBLE_IRC_SYS_Create(int,int,int,int);
 extern void IRC_COMPATIBLE_SetHandler(u8 *,u32);
 extern void IRC_COMPATIBLE_HandleEntry(u8 *p, u16 *state);
@@ -51,7 +51,7 @@ int IRC_COMPATIBLE_ProcInit(struct Obj0203159C *a,int b,int c)
     ((struct Obj04421 *)p)->f3C=func_02030734(58,44,0,IRC_COMPATIBLE_SourceFileName,0x119);
     MI_CpuFill8(((struct Obj04421 *)p)->f3C,0,44);
     IRC_COMPATIBLE_StepRunnerInit(p+4,58);
-    if(*(int *)((struct Obj04421 *)p)->f10) handle=(int)func_020120F4((const struct Ctx *)(*(int *)((struct Obj04421 *)p)->f10));
+    if(*(int *)((struct Obj04421 *)p)->f10) handle=(int)ICA_ANIME_GetField1C((const struct Ctx *)(*(int *)((struct Obj04421 *)p)->f10));
     ((struct Obj04421 *)p)->f0=COMPATIBLE_IRC_SYS_Create(-1,handle,58,0);
     ((struct Obj04421 *)p)->f34=1;
     IRC_COMPATIBLE_SetHandler(p,(u32)IRC_COMPATIBLE_HandleEntry);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C59DC
+ * function: WF2DMAP_SCRDRAW_SetPoint
  * address: 0x021C59DC
  * packet: pkt_ov127_021C59DC
  * region: ov127
@@ -9,4 +9,4 @@
  * status: EXACT*
  */
 typedef signed short s16;
-void func_021C59DC(s16 *p, s16 a, s16 b) { p[0]=a; p[1]=b; }
+void WF2DMAP_SCRDRAW_SetPoint(s16 *p, s16 a, s16 b) { p[0]=a; p[1]=b; }

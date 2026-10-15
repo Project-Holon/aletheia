@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BAD4
+ * function: BATTLE_BOX_SetMon
  *
  * 30 bytes, 0x0200BAD4..0x0200BAF4, one function, which carries no label in
  * the generated listing.
@@ -24,9 +24,9 @@
  * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
  *
  * It is a range of its own because the function on either side of it is a
- * near miss: func_0200BAC8 before it, which has no witness for 0x020271CC,
+ * near miss: BATTLE_BOX_GetFromSave before it, which has no witness for 0x020271CC,
  * and func_0200BAF4 after it, which is fifteen bytes of register numbering.
- * Its only caller, func_0200BB58, is therefore outside this range and is what
+ * Its only caller, BATTLE_BOX_StoreParty, is therefore outside this range and is what
  * attests it. *
  * symbols:
  *   BATTLE_REC_Decode  0x0200B900  thumb
@@ -42,6 +42,8 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   (none)
  */
 
@@ -60,7 +62,7 @@ struct Party;
 struct PartyMon;
 struct Rec;
 struct Sav;
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -79,7 +81,7 @@ extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void *func_0200BBEC(void *a, u32 b, u32 c);
+extern void *BATTLE_BOX_GetMon(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];
 
@@ -123,7 +125,7 @@ struct Rec35C {
     u8 unk344[0x18];
 };
 
-void func_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src)
+void BATTLE_BOX_SetMon(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src)
 {
     p[g].ent[i] = *src;
 }

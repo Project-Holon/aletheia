@@ -1,5 +1,5 @@
 /*
- * function: func_0208BF08
+ * function: PMi_SetAmp
  * address:  0x0208BF08
  * packet:   pkt_0208BF08
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 int PM_GetLCDPower(void);
 unsigned int PM_SendUtilityCommand(unsigned int cmd, u16 param, void *result);
 
-unsigned int func_0208BF08(unsigned int status)
+unsigned int PMi_SetAmp(unsigned int status)
 {
     if (PM_GetLCDPower()) {
         return PM_SendUtilityCommand(0x10, (u16)status, 0);

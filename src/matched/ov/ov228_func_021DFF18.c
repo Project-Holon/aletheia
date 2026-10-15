@@ -1,5 +1,5 @@
 /*
- * function: func_021DFF18
+ * function: SAVE_OUTSIDE_ClearFlash
  * address: 0x021DFF18
  * packet: pkt_ov228_021DFF18
  * region: ov228
@@ -23,7 +23,7 @@ extern void func_02082A7C(u32 data,void *dest,u32 size);
 extern void BACKUP_SYSTEM_WriteFlash(int a,int b,int c);
 extern u32 func_020307B0(void *p);
 extern const char d_021DFF60[];
-void func_021DFF18(u32 heap)
+void SAVE_OUTSIDE_ClearFlash(u32 heap)
 {
     void *p;
     p=func_02030734(heap,2048,0,d_021DFF60,339);

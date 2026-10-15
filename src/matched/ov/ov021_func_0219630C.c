@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_0201F7A8  0x0201F7A8  thumb
@@ -51,7 +51,7 @@ typedef struct Obj {
     u8 pad3c[0x2B8];
     int x2f4;
 } Obj;
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
 struct CharBuf;
@@ -82,7 +82,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int n, u32 *msg, Obj *a, Desc *d, int *xs
     int x;
     int y;
 
-    func_020414EC(7);
+    BG_SYS_ClearSlot(7);
     a->x2f4 = n;
     func_02049B40(0x17, 5, 4, 0x100, 0x20, a->x10);
     for (i = 0; i < 4; i++) {

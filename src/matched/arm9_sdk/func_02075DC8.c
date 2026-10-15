@@ -1,5 +1,5 @@
 /*
- * function: func_02075DC8
+ * function: CARD_Enable
  * address:  0x02075DC8
  * packet:   pkt_02075DC8
  * region:   arm9
@@ -14,7 +14,7 @@
  */
 
 extern void g_0215019C(void);
-asm void func_02075DC8(void)
+asm void CARD_Enable(void)
 {
     ldr r1, =g_0215019C
     str r0, [r1]

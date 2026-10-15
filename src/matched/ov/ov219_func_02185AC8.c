@@ -11,16 +11,16 @@
  *   G3D_CAMERA_GetEye 0x02048AE8 arm
  *   G3D_CAMERA_GetUp 0x02048B30 arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_0207CEE4 0x0207CEE4 arm
+ *   VEC_MultAdd 0x0207CEE4 arm
  */
 #include "../include/Obj02935.h"
 typedef struct {long x,y,z;} Vec;
 extern void G3D_CAMERA_GetEye(void *,Vec *),G3D_CAMERA_GetUp(void *,Vec *),G3D_CAMERA_SetEye(void *,const Vec *);
-extern void func_0207CA00(const Vec *,const Vec *,Vec *),VEC_Normalize(const Vec *,Vec *),func_0207CEE4(long,const Vec *,const Vec *,Vec *);
-extern long func_0207CBD0(const Vec *);
+extern void VEC_Subtract(const Vec *,const Vec *,Vec *),VEC_Normalize(const Vec *,Vec *),VEC_MultAdd(long,const Vec *,const Vec *,Vec *);
+extern long VEC_Mag(const Vec *);
 int func_02185AC8(char *p)
 {
     Vec position,target,direction;
@@ -29,8 +29,8 @@ int func_02185AC8(char *p)
     done=0;
     G3D_CAMERA_GetEye(((struct Obj02935 *)p)->fC36C,&position);
     G3D_CAMERA_GetUp(((struct Obj02935 *)p)->fC36C,&target);
-    func_0207CA00(&position,&target,&direction);
-    distance=func_0207CBD0(&direction);
+    VEC_Subtract(&position,&target,&direction);
+    distance=VEC_Mag(&direction);
     VEC_Normalize(&direction,&direction);
     switch(((struct Obj02935 *)p)->fC30C) {
     case 1:
@@ -48,7 +48,7 @@ int func_02185AC8(char *p)
         } else {distance=1212416;done=1;}
         break;
     }
-    func_0207CEE4(distance,&direction,&target,&position);
+    VEC_MultAdd(distance,&direction,&target,&position);
     G3D_CAMERA_SetEye(((struct Obj02935 *)p)->fC36C,&position);
     return done;
 }

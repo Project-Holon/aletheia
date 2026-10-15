@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E34
+ * function: CTVT_COMM_Main
  * address: 0x021B7E34
  * packet: pkt_ov172_021B7E34
  * region: ov172
@@ -10,23 +10,23 @@
  * symbols:
  *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
  *   GFL_NET_SetWaitMode 0x0203D644 arm
- *   func_021B8050 0x021B8050 thumb ov172
+ *   CTVT_COMM_StartSession 0x021B8050 thumb ov172
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   GFL_NET_StartByNetType 0x0203D01C arm
  *   WIH_SetJudgeAcceptFunc 0x02179328 thumb ov014
- *   func_021B8130 0x021B8130 thumb ov172
- *   func_021B8614 0x021B8614 thumb ov172
+ *   CTVT_COMM_MatchPeerName 0x021B8130 thumb ov172
+ *   CTVT_COMM_ClearPeerSlot 0x021B8614 thumb ov172
  *   GFL_NET_ConnectMacAddressParent 0x0203CFF0 arm
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
- *   d_021C6ED4 0x021C6ED4 data a4
+ *   gCtvtCommCommandTable 0x021C6ED4 data a4
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_021B8154 0x021B8154 thumb ov172
- *   func_021B8448 0x021B8448 thumb ov172
+ *   CTVT_COMM_Update 0x021B8154 thumb ov172
+ *   CTVT_COMM_SetScanWait 0x021B8448 thumb ov172
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
@@ -43,30 +43,30 @@ typedef struct {
 } Flags;
 extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
 extern void GFL_NET_SetWaitMode(int a);
-extern void func_021B8050(void *a, void *b);
+extern void CTVT_COMM_StartSession(void *a, void *b);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_BeaconScanStart(void);
 extern void GFL_NET_StartByNetType(void);
 extern void WIH_SetJudgeAcceptFunc(void *v);
-extern int func_021B8130(void *a0, u8 *a1);
-extern void func_021B8614(int unused, int unused2, void *p);
+extern int CTVT_COMM_MatchPeerName(void *a0, u8 *a1);
+extern void CTVT_COMM_ClearPeerSlot(int unused, int unused2, void *p);
 extern void GFL_NET_ConnectMacAddressParent(void *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern u8 d_021C6ED4[];
+extern u8 gCtvtCommCommandTable[];
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 a, u32 b);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 a, u32 b);
-extern void func_021B8154(void *p, char *q);
-extern void func_021B8448(void *p, char *q);
+extern void CTVT_COMM_Update(void *p, char *q);
+extern void CTVT_COMM_SetScanWait(void *p, char *q);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern u32 func_0200FB24(void);
-void func_021B7E34(void *p, char *q)
+void CTVT_COMM_Main(void *p, char *q)
 {
     u32 h;
     u8 i;
@@ -85,7 +85,7 @@ void func_021B7E34(void *p, char *q)
         }
         break;
     case 1:
-        func_021B8050(p, q);
+        CTVT_COMM_StartSession(p, q);
         ((struct Obj00289 *)q)->f8 = 2;
         break;
     case 2:
@@ -98,12 +98,12 @@ void func_021B7E34(void *p, char *q)
             break;
         case 3:
             GFL_NET_StartByNetType();
-            WIH_SetJudgeAcceptFunc(func_021B8130);
+            WIH_SetJudgeAcceptFunc(CTVT_COMM_MatchPeerName);
             ((struct Obj00289 *)q)->f8 = 3;
             break;
         case 4:
             if (((struct Obj00289 *)q)->f174 == 2)
-                func_021B8614((int)p, (int)q, q + 0x64);
+                CTVT_COMM_ClearPeerSlot((int)p, (int)q, q + 0x64);
             GFL_NET_ConnectMacAddressParent(q + 0x17c);
             ((struct Obj00289 *)q)->f8 = 3;
             break;
@@ -124,7 +124,7 @@ void func_021B7E34(void *p, char *q)
         break;
     case 5:
         h = (u32)GFL_NET_HANDLE_GetCurrentHandle();
-        GFL_NET_COMMAND_AddCommandTable(0x2000, (u32)d_021C6ED4, 4, (u32)q);
+        GFL_NET_COMMAND_AddCommandTable(0x2000, (u32)gCtvtCommCommandTable, 4, (u32)q);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)h, 8, 0x20);
         ((struct Obj00289 *)q)->f8 = 6;
         break;
@@ -133,11 +133,11 @@ void func_021B7E34(void *p, char *q)
             ((struct Obj00289 *)q)->f8 = 7;
         break;
     case 7:
-        func_021B8154(p, q);
+        CTVT_COMM_Update(p, q);
         if (((struct Obj00289 *)q)->f174 != ((struct Obj00289 *)q)->f178)
             ((struct Obj00289 *)q)->f8 = 8;
         if (((struct Obj00289 *)q)->f174 == 2)
-            func_021B8448(p, q);
+            CTVT_COMM_SetScanWait(p, q);
         break;
     case 8:
         GFL_NET_Exit(0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0207D810
+ * function: G3_RotX
  * address:  0x0207D810
  * packet:   pkt_0207D810
  * region:   arm9
@@ -60,7 +60,7 @@ typedef union {
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
 
-void func_0207D810(fx32 s, fx32 c)
+void G3_RotX(fx32 s, fx32 c)
 {
     reg_G3_MTX_MULT_3x3 = 0x1000;
     reg_G3_MTX_MULT_3x3 = 0;

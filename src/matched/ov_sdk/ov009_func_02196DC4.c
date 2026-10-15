@@ -1,5 +1,5 @@
 /*
- * function: func_02196DC4
+ * function: gti2HandleMessage
  * address:  0x02196DC4
  * packet:   pkt_ov009_02196DC4
  * region:   ov009
@@ -16,12 +16,12 @@
  *   func_02195408  0x02195408  arm  ov009
  *   func_020923F0  0x020923F0  arm
  *   func_021954F4  0x021954F4  arm  ov009
- *   func_02197BD4  0x02197BD4  arm  ov009
+ *   gti2SendClosedOnSocket  0x02197BD4  arm  ov009
  *   func_021955C0  0x021955C0  arm  ov009
- *   func_02197BB8  0x02197BB8  arm  ov009
- *   func_02196098  0x02196098  arm  ov009
- *   func_02196948  0x02196948  arm  ov009
- *   func_02196D00  0x02196D00  arm  ov009
+ *   gti2SendClosed  0x02197BB8  arm  ov009
+ *   gti2HandleAppUnreliable  0x02196098  arm  ov009
+ *   gti2HandleReliableMessage  0x02196948  arm  ov009
+ *   gti2HandleUnreliableMessage  0x02196D00  arm  ov009
  *   g_021A5948     0x021A5948  data
  */
 
@@ -96,15 +96,15 @@ extern int func_020923F0(const u8 *a, const u8 *b, int n);
 struct Conn;
 struct Sock;
 extern int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
-extern int func_02197BD4(struct Sock *sock, unsigned int ip, unsigned short port);
+extern int gti2SendClosedOnSocket(struct Sock *sock, unsigned int ip, unsigned short port);
 extern int func_021955C0(struct GTI2Socket *socket, struct GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
-extern int func_02197BB8(int *p);
-extern int func_02196098(struct Conn *c, unsigned char *msg, int len);
-extern int func_02196948(struct GTI2Connection *connection, int type, unsigned char *message, int len);
-extern int func_02196D00(struct Conn *c, int type, unsigned char *message, int len);
+extern int gti2SendClosed(int *p);
+extern int gti2HandleAppUnreliable(struct Conn *c, unsigned char *msg, int len);
+extern int gti2HandleReliableMessage(struct GTI2Connection *connection, int type, unsigned char *message, int len);
+extern int gti2HandleUnreliableMessage(struct Conn *c, int type, unsigned char *message, int len);
 
-int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, unsigned int ip, unsigned short port)
+int gti2HandleMessage(struct GTI2Socket *socket, unsigned char *message, int len, unsigned int ip, unsigned short port)
 {
     struct GTI2Connection *connection;
     int magicString;
@@ -134,7 +134,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
 
         if (!magicString || actualMessage[2] != 1) {
             if (!magicString || actualMessage[2] != 0x68) {
-                if (!func_02197BD4((struct Sock *)socket, ip, port))
+                if (!gti2SendClosedOnSocket((struct Sock *)socket, ip, port))
                     return 0;
             }
             return 1;
@@ -144,7 +144,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
         result = func_021955C0(socket, &connection, ip, port);
         if (result != 0) {
             if (result != 5) {
-                if (!func_02197BD4((struct Sock *)socket, ip, port))
+                if (!gti2SendClosedOnSocket((struct Sock *)socket, ip, port))
                     return 0;
             }
             return 1;
@@ -153,7 +153,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
 
     if (connection->state == 7) {
         if (!magicString || actualMessage[2] != 0x68) {
-            if (!func_02197BB8((int *)connection))
+            if (!gti2SendClosed((int *)connection))
                 return 0;
         }
         return 1;
@@ -173,7 +173,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
             if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
                 return 0;
         } else {
-            if (!func_02196098((struct Conn *)connection, message, len))
+            if (!gti2HandleAppUnreliable((struct Conn *)connection, message, len))
                 return 0;
         }
         return 1;
@@ -181,8 +181,8 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
 
     type = actualMessage[2];
     if (type < 8)
-        return func_02196948(connection, type, message, len) != 0;
-    if (!func_02196D00((struct Conn *)connection, type, message, len))
+        return gti2HandleReliableMessage(connection, type, message, len) != 0;
+    if (!gti2HandleUnreliableMessage((struct Conn *)connection, type, message, len))
         return 0;
     return 1;
 }

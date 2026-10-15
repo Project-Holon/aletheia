@@ -12,8 +12,8 @@
  * Two-layer twin of FIELD_MSGBG_InitBgOneLayer.
  *
  * symbols:
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   FIELD_MSGBG_LoadWindowGraphicsAll  0x02192FA4  thumb  ov021
@@ -34,9 +34,9 @@ typedef struct { u16 a; int b; int c; u16 d; int e; u8 f; u8 g; } Req;
 extern const B32 d_021D3ED8;
 extern const B32 d_021D3EF8;
 struct BgTemplate;
-extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
+extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 typedef unsigned int   u32;
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void FIELD_MSGBG_LoadWindowGraphicsAll(int, int);
@@ -52,11 +52,11 @@ void FIELD_MSGBG_InitBgTwoLayer(char *p, int flag)
 
     ((struct Obj01031 *)p)->f2 = 1;
     tmp1 = d_021D3ED8;
-    func_0203FCA0(((struct Obj01031 *)p)->f2 & 0xff, (const struct BgTemplate *)(&tmp1), 0);
+    BG_SYS_InitBgLayer(((struct Obj01031 *)p)->f2 & 0xff, (const struct BgTemplate *)(&tmp1), 0);
     ((struct Obj01031 *)p)->f4 = 2;
     tmp2 = d_021D3EF8;
-    func_0203FCA0(((struct Obj01031 *)p)->f4 & 0xff, (const struct BgTemplate *)(&tmp2), 0);
-    func_02040C14(((struct Obj01031 *)p)->f2, 0, 1, 0);
+    BG_SYS_InitBgLayer(((struct Obj01031 *)p)->f4 & 0xff, (const struct BgTemplate *)(&tmp2), 0);
+    BG_SYS_Init(((struct Obj01031 *)p)->f2, 0, 1, 0);
     func_02041300(((struct Obj01031 *)p)->f2 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02041300(((struct Obj01031 *)p)->f4 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(((struct Obj01031 *)p)->f2 & 0xff);

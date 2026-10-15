@@ -1,5 +1,5 @@
 /*
- * function: func_0205F7C8
+ * function: NCFG_WriteBackupMemory
  * address:  0x0205F7C8
  * packet:   pkt_0205F7C8
  * region:   arm9
@@ -29,7 +29,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern int  WriteNVRAM(u32 address, u32 size, void *pData);
 extern int  VerifyNVRAM(u32 address, u32 size, void *pData);
 
-s32 func_0205F7C8(s32 index, void *buf, u32 size)
+s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size)
 {
     s32 result;
     u32 address;

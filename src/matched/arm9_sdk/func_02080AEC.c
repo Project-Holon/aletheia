@@ -1,5 +1,5 @@
 /*
- * function: func_02080AEC
+ * function: GX_DisableBankForOBJ
  * address:  0x02080AEC
  * packet:   pkt_02080AEC
  * region:   arm9
@@ -84,7 +84,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern int disableBankForX_(u16 *g3bit);
 
-GXVRam func_02080AEC(void)
+GXVRam GX_DisableBankForOBJ(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt_obj);
 }

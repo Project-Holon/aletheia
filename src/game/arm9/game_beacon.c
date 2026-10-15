@@ -16,9 +16,9 @@
  * symbols:
  *   GAME_COMM_KindTable  0x0209FB5C  data
  *   MI_CpuFill8 0x02082BCC  arm
- *   func_02012B58  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02012950  0x02012950  thumb
+ *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   func_020084BC  0x020084BC  thumb
  *   func_02008500  0x02008500  thumb
  *   func_02008550  0x02008550  thumb
@@ -40,35 +40,35 @@
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
  *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200C33C  0x0200C33C  thumb
- *   func_0200C364  0x0200C364  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   BEACON_GetRecentId  0x0200C33C  thumb
+ *   BEACON_AddRecentValue  0x0200C364  thumb
  *   func_0200E6E8    0x0200E6E8  thumb
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_020127A4    0x020127A4  thumb
- *   func_02012AC8    0x02012AC8  thumb
+ *   GAME_DATA_GetField114    0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId    0x02012AC8  thumb
  *   ZONEDATA_IsZone1A6    0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
- *   func_02012894    0x02012894  thumb
+ *   GAME_DATA_GetField168    0x02012894  thumb
  *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
  *   func_02008534    0x02008534  thumb
  *   func_02008554    0x02008554  thumb
  *   func_0200856C    0x0200856C  thumb
  *   func_02008570    0x02008570  thumb
- *   func_0200C224    0x0200C224  thumb
- *   func_0200C1C4    0x0200C1C4  thumb
- *   func_0200C1DC    0x0200C1DC  thumb
+ *   BEACON_GetMode    0x0200C224  thumb
+ *   BEACON_GetGreetCount    0x0200C1C4  thumb
+ *   BEACON_GetThanksCount    0x0200C1DC  thumb
  *   func_02008650    0x02008650  thumb
  *   SYMBOL_SAVE_GetQuestionnaireBits    0x0200E3A0  thumb
  *   MISC_SAVEDATA_CopyQuadRecord    0x0200E6FC  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_020084F4    0x020084F4  thumb
- *   func_0200C1F4    0x0200C1F4  thumb
+ *   BEACON_GetGreetMessage    0x0200C1F4  thumb
  *   GAME_BEACON_ActionTable    0x0209FC20  data
  *   GAME_BEACON_SpecialPokemonTable  0x0209FC04  data
  *   STRBUF_ToChars       0x02045A38  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_021809D8  0x021809D8  thumb ov231
+ *   CARD_SPI_CheckCardId  0x021809D8  thumb ov231
  *   func_02034A5C  0x02034A5C  arm
  *   func_02005624  0x02005624  thumb
  *   ov231_id       0x000000E7  data
@@ -120,7 +120,7 @@ typedef struct GameCommKindFuncs {
     void *run;
     void *exit;
     void *end;
-    void *update;               /* 0x14: called by func_02026388 */
+    void *update;               /* 0x14: called by GAME_COMM_CallHandler */
     GameCommNotifyFunc notify;  /* 0x18 */
 } GameCommKindFuncs;
 
@@ -195,7 +195,7 @@ typedef struct GameBeaconActionInfo {
     u32 frames : 24;
 } GameBeaconActionInfo;
 
-/* Only the zone id of the location func_02012894 answers is read here. */
+/* Only the zone id of the location GAME_DATA_GetField168 answers is read here. */
 struct WarpLocation {
     u32 locationType;
     s16 zoneId;
@@ -215,9 +215,9 @@ typedef struct {
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
 extern void OS_GetOwnerInfo(OSOwnerInfo *info);
-extern u8 func_02012B58(const struct GameData *gameData);
+extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
-extern struct MyStatus *func_02012950(struct GameData *gameData, u32 netId);
+extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern int func_020084BC(const struct MyStatus *status);
 extern void func_02008500(const struct MyStatus *status, struct Strbuf *dst);
 extern u32 func_02008550(const struct MyStatus *status);
@@ -237,20 +237,20 @@ extern u32 MISC_SAVEDATA_IsTallyFull(struct QuestionnaireSave *questionnaire, u3
 extern void MISC_SAVEDATA_AddHalfwordClamped(struct QuestionnaireSave *questionnaire, int questionId, int counted);
 extern void MISC_SAVEDATA_AddTallyValue(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer, int count);
 extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct QuestionnaireSave *questionnaire);
-extern struct MiscSave *func_0200C0F0(struct SaveControl *save);
-extern int func_0200C33C(struct MiscSave *misc, u8 slot);
-extern void func_0200C364(struct MiscSave *misc, u8 slot, int value);
-extern u8 func_0200C224(struct MiscSave *misc);
-extern u32 func_0200C1C4(struct MiscSave *misc);
-extern u32 func_0200C1DC(struct MiscSave *misc);
-extern u16 *func_0200C1F4(struct MiscSave *misc);
+extern struct MiscSave *BEACON_GetBlock(struct SaveControl *save);
+extern int BEACON_GetRecentId(struct MiscSave *misc, u8 slot);
+extern void BEACON_AddRecentValue(struct MiscSave *misc, u8 slot, int value);
+extern u8 BEACON_GetMode(struct MiscSave *misc);
+extern u32 BEACON_GetGreetCount(struct MiscSave *misc);
+extern u32 BEACON_GetThanksCount(struct MiscSave *misc);
+extern u16 *BEACON_GetGreetMessage(struct MiscSave *misc);
 extern struct PmsSave *func_0200E6E8(struct SaveControl *save);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
-extern struct PlayerWork *func_020127A4(struct GameData *gameData);
-extern u16 func_02012AC8(const struct PlayerWork *player);
+extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
-extern struct WarpLocation *func_02012894(const struct GameData *gameData);
+extern struct WarpLocation *GAME_DATA_GetField168(const struct GameData *gameData);
 extern u32 SYMBOL_MAP_ResolveZoneId();
 extern u16 func_02008534(const struct MyStatus *status);
 extern u8 func_02008554(const struct MyStatus *status);
@@ -260,7 +260,7 @@ extern u16 *func_020084F4(const struct MyStatus *status);
 extern u16   STRBUF_GetEosChar(void);
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
 extern int   func_02034AC4(signed int overlayId);
-extern int   func_021809D8(void);
+extern int   CARD_SPI_CheckCardId(void);
 extern void  func_02034A5C(int overlayId);
 extern void *func_02005624(void (*func)(void), u32 arg, u32 priority);
 void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
@@ -812,11 +812,11 @@ void GAME_COMM_ClearPlayerStatus(GameComm *comm)
 
 /*
  * Push one message onto the six-entry info queue at +0x3c of the comm
- * object (func_020261E4 creates it; 0xc bytes per entry, write index at
+ * object (CURSOR_MOVE_CreateVecSet creates it; 0xc bytes per entry, write index at
  * +0x85, read index at +0x84, which is pushed along when the writer
  * overruns it).  Each net id is resolved to a player status: the console's
  * own (func_02012944) when it equals the console's net id, otherwise the
- * by-id lookup (func_02012950).  If either status is unusable
+ * by-id lookup (GAME_DATA_GetPlayerStatusById).  If either status is unusable
  * (func_020084BC == 1) nothing is written.
  */
 void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messageId)
@@ -827,15 +827,15 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     GameCommInfoQueueEntry *entry;
 
     queue = &comm->infoQueue;
-    if (netId0 == func_02012B58(comm->gameData)) {
+    if (netId0 == GAME_DATA_GetOwnNetId(comm->gameData)) {
         status0 = func_02012944(comm->gameData);
     } else {
-        status0 = func_02012950(comm->gameData, netId0);
+        status0 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId0);
     }
-    if (netId1 == func_02012B58(comm->gameData)) {
+    if (netId1 == GAME_DATA_GetOwnNetId(comm->gameData)) {
         status1 = func_02012944(comm->gameData);
     } else {
-        status1 = func_02012950(comm->gameData, netId1);
+        status1 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId1);
     }
     if (func_020084BC(status0) == 1) {
         return;
@@ -1297,14 +1297,14 @@ void GAME_BEACON_AddLog(GameBeaconWork *work, const GameBeaconInfo *info)
     }
     save = GAME_DATA_GetSaveControl(work->gameData);
     researchQuestionnaire = SYMBOL_SAVE_GetBitBlock(save);
-    misc = func_0200C0F0(save);
+    misc = BEACON_GetBlock(save);
     for (i = 0; i < 3; i++) {
-        questionId = func_0200C33C(misc, i);
+        questionId = BEACON_GetRecentId(misc, i);
         if (questionId != 0xff) {
             for (j = 0; j < 3; j++) {
                 if (questionId == MISC_SAVEDATA_GetStatusByte(researchQuestionnaire, j)) {
                     if (GAME_BEACON_GetAnswer(info, questionId) != 0)
-                        func_0200C364(misc, i, 1);
+                        BEACON_AddRecentValue(misc, i, 1);
                 }
             }
         }
@@ -1691,13 +1691,13 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
 
     myStatus = func_02012944(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
-    misc = func_0200C0F0(save);
+    misc = BEACON_GetBlock(save);
     pmsSave = func_0200E6E8(save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
-    info->zoneId = func_02012AC8(func_020127A4(gameData));
+    info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
     if (ZONEDATA_IsZone1A6(info->zoneId) == 1 || ZONEDATA_IsZone96Pair(info->zoneId) == 1) {
-        info->zoneId = func_02012894(gameData)->zoneId;
+        info->zoneId = GAME_DATA_GetField168(gameData)->zoneId;
     }
     info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(gameData, (u16)info->zoneId);
     info->infoVersion = 0x30;
@@ -1713,9 +1713,9 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     info->language = 2;
     info->nation = func_0200856C(myStatus);
     info->area = func_02008570(myStatus);
-    info->researchTeamRank = func_0200C224(misc);
-    info->passCount = func_0200C1C4(misc);
-    info->thanksCount = func_0200C1DC(misc);
+    info->researchTeamRank = BEACON_GetMode(misc);
+    info->passCount = BEACON_GetGreetCount(misc);
+    info->thanksCount = BEACON_GetThanksCount(misc);
     playTime = GAME_DATA_GetPlayTime(gameData);
     info->playHours = func_0200864C(playTime);
     info->playMinutes = func_02008650(playTime);
@@ -1729,7 +1729,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
         if (eomCode == codes[i])
             break;
     }
-    codes = func_0200C1F4(misc);
+    codes = BEACON_GetGreetMessage(misc);
     for (i = 0; i < 8; i++) {
         info->greeting[i] = codes[i];
         if (eomCode == codes[i])
@@ -1764,11 +1764,11 @@ void GAME_BEACON_RequestSend(GameBeaconRecord *record)
 
     save = GAME_DATA_GetSaveControl(GAME_BEACON_Work->gameData);
     playTime = GAME_DATA_GetPlayTime(GAME_BEACON_Work->gameData);
-    misc = func_0200C0F0(save);
+    misc = BEACON_GetBlock(save);
     record->info.playHours = func_0200864C(playTime);
     record->info.playMinutes = func_02008650(playTime);
-    record->info.passCount = func_0200C1C4(misc);
-    record->info.thanksCount = func_0200C1DC(misc);
+    record->info.passCount = BEACON_GetGreetCount(misc);
+    record->info.thanksCount = BEACON_GetThanksCount(misc);
     record->info.serialNo = record->info.serialNo + 1;
     record->elapsed.actionFrames = 0;
     record->sendRequest = 1;
@@ -2069,9 +2069,9 @@ void GAME_BEACON_UpdateGreeting(void)
     int i;
 
     own = &work->own;
-    misc = func_0200C0F0(GAME_DATA_GetSaveControl(work->gameData));
+    misc = BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     eomCode = STRBUF_GetEosChar();
-    codes = func_0200C1F4(misc);
+    codes = BEACON_GetGreetMessage(misc);
     for (i = 0; i < 8; i++) {
         own->info.greeting[i] = codes[i];
         if (codes[i] == eomCode) {
@@ -2722,7 +2722,7 @@ void GAME_BEACON_SetMyPms(const GameBeaconPms *pms)
  *           register of a known overlay loader), which was the last blocker.
  *
  * The ABS32 pool word 0x000000E7 is an absolute overlay-id symbol (ov231,
- * matching the bl into func_021809D8 in asm/overlays/ov231.s), per
+ * matching the bl into CARD_SPI_CheckCardId in asm/overlays/ov231.s), per
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  * EXACT* because the listing extent (84 bytes) runs over the follower
  * GAME_BEACON_ClearFlags.
@@ -2732,7 +2732,7 @@ void GAME_BEACON_RegisterClearCallback(void)
     int result;
 
     func_02034AC4((int)ov231_id);
-    result = func_021809D8();
+    result = CARD_SPI_CheckCardId();
     func_02034A5C((int)ov231_id);
     if (result == 0) {
         func_02005624(GAME_BEACON_ClearFlags, 0, 3);

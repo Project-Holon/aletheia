@@ -19,7 +19,7 @@
  */
 
 extern void FSi_InitRomArchive(unsigned long default_dma_no);
-extern void func_02078C40(void);
+extern void FSi_InitOverlay(void);
 
 static int is_init = 0;
 
@@ -30,5 +30,5 @@ void FS_Init(unsigned long default_dma_no)
     }
     is_init = 1;
     FSi_InitRomArchive(default_dma_no);
-    func_02078C40();
+    FSi_InitOverlay();
 }

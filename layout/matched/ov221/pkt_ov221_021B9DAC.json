@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9DAC",
+   "name": "CHIHOU_ZUKAN_AWARD_IsActorIdle",
    "address": "0x021B9DAC",
    "kind": "game",
    "region": "ov221",

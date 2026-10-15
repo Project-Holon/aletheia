@@ -1,5 +1,5 @@
 /*
- * function: func_0207AE24
+ * function: MTX_Scale33_
  * address:  0x0207AE24
  * packet:   pkt_0207AE24
  * region:   arm9
@@ -18,7 +18,7 @@
  *   (none)
  */
 
-asm void func_0207AE24(void)
+asm void MTX_Scale33_(void)
 {
     stmia r0!, {r1}
     mov r1, #0

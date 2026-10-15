@@ -1,5 +1,5 @@
 /*
- * function: func_02025D14
+ * function: CURSOR_MOVE_Delete
  * address:  0x02025D14
  * packet:   pkt_02025D14
  * region:   arm9
@@ -14,14 +14,14 @@
  * not label it because it has no prologue; the live bytes decode as Thumb.
  *
  * symbols:
- *   func_02025D14  0x02025D14  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
  *   GFL_HEAP_FreeMemory  0x02030164  arm
  */
 
 typedef unsigned int   u32;
 extern u32 GFL_HEAP_FreeMemory(void *p);
 
-u32 func_02025D14(void *a0)
+u32 CURSOR_MOVE_Delete(void *a0)
 {
     return GFL_HEAP_FreeMemory(a0);
 }

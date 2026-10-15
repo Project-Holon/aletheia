@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0AC
+ * function: STAFF_ROLL_StepPosition
  * address: 0x021BA0AC
  * packet: pkt_ov181_021BA0AC
  * region: ov181
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef struct { int x, y, z; } Vec;
-void func_021BA0AC(Vec *out, const Vec *base, const Vec *velocity, unsigned step)
+void STAFF_ROLL_StepPosition(Vec *out, const Vec *base, const Vec *velocity, unsigned step)
 {
     Vec v = *base;
     unsigned n;

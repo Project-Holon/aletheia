@@ -18,7 +18,7 @@
  *   func_0200D59C_File  0x020A71E8  data
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   STRBUF_GetEosChar    0x02045A98  arm
- *   func_0203F1FC    0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc    0x0203F1FC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -29,6 +29,7 @@
  *   PMS_WORD_MakeWordId  0x02024888  thumb
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
+ *   BEACON_GetSelect  0x0200C164  thumb
  */
 #include "../../matched/include/Obj03045.h"
 
@@ -171,7 +172,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void OS_GetOwnerInfo(void *info);
 extern u16   STRBUF_GetEosChar(void);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
 extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
@@ -185,7 +186,7 @@ extern u8 func_02008550(const struct TrainerRec *obj);
 extern u8 func_02008554(const struct TrainerRec *obj);
 extern u8 func_0200856C(const struct TrainerRec *obj);
 extern u8 func_02008570(const struct TrainerRec *obj);
-extern void func_0200C164(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
+extern void BEACON_GetSelect(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
 extern int func_02019D58(u16 a, int b);
@@ -336,14 +337,14 @@ void GDS_PROFILE_Delete(struct GdsProfile_0200D59C *profile)
  *    front of each mask; without the cast the pair is gone.  The widths come
  *    off the second pair: `lsls #0x1A` / `lsrs #0x19` is bits 1..6, `ands #1`
  *    is bit 0 and `lsls #0x1F` / `lsrs #0x18` is bit 7.
- *  - the four out-parameters of func_0200C164 are declared in the order the
+ *  - the four out-parameters of BEACON_GetSelect are declared in the order the
  *    call passes them, so the first lands at sp+0x14 and the last at sp+8;
  *    declared the other way round every offset is mirrored and nothing else
  *    moves.  See docs/idioms/local-declaration-order-is-stack-order.md.
  *  - the byte of owner information is read as `add r0, sp, #8` /
  *    `ldrb r0, [r0, #0x12]` rather than off the OSOwnerInfo frame slot,
  *    because `sp + 8` is already a common subexpression: it is the fifth
- *    argument func_0200C164 took a few instructions earlier.
+ *    argument BEACON_GetSelect took a few instructions earlier.
  */
 void GDS_PROFILE_Init(struct GdsProfile_0200D59C *profile, void *sys)
 {
@@ -362,7 +363,7 @@ void GDS_PROFILE_Init(struct GdsProfile_0200D59C *profile, void *sys)
     progress = GAME_DATA_GetMiscSave(sys);
     recordEnv = func_0200E6E8((u32)saveData);
     OS_GetOwnerInfo(&info);
-    func_0200C164(progress, &playHours, &playMinutes, &cleared, &nationalDex);
+    BEACON_GetSelect(progress, &playHours, &playMinutes, &cleared, &nationalDex);
 
     MI_CpuFill8(profile, 0, sizeof(struct GdsProfile_0200D59C));
     func_0201F41C(func_020084F4(trainerRec), (u16 *)profile, 8);
@@ -382,7 +383,7 @@ void GDS_PROFILE_Init(struct GdsProfile_0200D59C *profile, void *sys)
     profile->trainerSprite = func_02008554(trainerRec);
     profile->gameVersion = 0x15;
     profile->language = 2;
-    profile->checksum = func_0203F1FC((const u8 *)profile, 0x7C);
+    profile->checksum = GF_STANDARD_SetupCalc((const u8 *)profile, 0x7C);
 }
 
 
@@ -662,7 +663,7 @@ u32 func_0200D82C(struct GdsProfile_0200D6EC *p)
  *
  * func_0200D868 truncates its value to `u16` before extracting the bit, which
  * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
+ * casts at the use, the same shape as BATTLE_BOX_SetLockFlags in
  * src/matched/unit_0200BBC8.c.
  *
  * func_0200D9E8 adds three deltas into three counters, each guarded against

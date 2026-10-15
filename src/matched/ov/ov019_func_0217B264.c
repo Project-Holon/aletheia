@@ -11,8 +11,8 @@
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_02012964  0x02012964  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
  *   memcmp         0x0203EFC8  arm
  *   MI_CpuFill8    0x02082BCC  arm
@@ -45,8 +45,8 @@ struct Big;
 struct BigObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_02012964(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 extern u32 FIELDMAP_GetUnionEff(u8 *p);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -70,9 +70,9 @@ void UNION_CHARA_Main(u8 *w, void *sys, void *q)
 
     flag = 0;
     a = (u32)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(sys));
-    b = func_0201283C(sys);
+    b = GAME_DATA_GetField1A0(sys);
     c = FIELDMAP_GetUnionEff(q);
-    func_02012964(sys);
+    GAME_DATA_GetOccupyInfo(sys);
     if (memcmp(buf, w + 0x28A4, 6) != 0) {
         flag = 1;
     }

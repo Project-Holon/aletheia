@@ -14,7 +14,7 @@
  *   COMM_TVT_SYS_GetFont  0x021BE034  thumb  ov172
  *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
  *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -26,7 +26,7 @@
  *   COMM_PLAYER_SUPPORT_GetRecordField  0x0202E938  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -67,7 +67,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -81,7 +81,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 COMM_PLAYER_SUPPORT_GetRecordField(void *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
@@ -115,7 +115,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         msgs = COMM_TVT_SYS_GetMsgData(ctx);
         sys = COMM_TVT_SYS_GetPrintQue(ctx);
         e = list + 0x1e4 + ((struct Obj02882 *)row)->f18 * 0x24;
-        ws = (u32)func_0201EC64(heap);
+        ws = (u32)GF_FONT_Create_EC64(heap);
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
         str = (u32)STRBUF_Create(0x20, heap);
         if (((struct Obj01166 *)e)->f18 == 0x20)
@@ -158,7 +158,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         } else {
             ((struct Obj01166 *)e)->fC = 0;
         }
-        func_0201ED04((struct WordSet *)ws);
+        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
         ((struct Obj02882 *)row)->f4 = 1;
     } else {
         func_02041B6C(func_021BCC40_show(((struct Obj02882 *)row)->f14));

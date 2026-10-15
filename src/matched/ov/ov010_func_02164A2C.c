@@ -20,8 +20,8 @@
  * class).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -64,8 +64,8 @@ typedef struct SeqWork2 {
 struct Ctx;
 struct Evt;
 struct IcaAnime;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
@@ -88,8 +88,8 @@ int CALENDER_OverlaySequenceEvent(void *evt, u32 *seq, SeqWork2 *w)
     void *p;
 
     sys = w->sys;
-    func_020120F4(sys);
-    p = func_0201210C(sys);
+    ICA_ANIME_GetField1C(sys);
+    p = ICA_ANIME_GetField20(sys);
     switch (*seq) {
     case 0:
         GAME_EVENT_CallEvent(evt, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut(sys, (int)p, 0, 0));

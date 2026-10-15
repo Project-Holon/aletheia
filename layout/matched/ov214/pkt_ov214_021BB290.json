@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB290",
+   "name": "BTL_REC_SEL_GRAPHIC_Draw3d",
    "address": "0x021BB290",
    "kind": "game",
    "region": "ov214",

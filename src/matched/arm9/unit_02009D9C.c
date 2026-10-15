@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009D9C, sub_02009DA4
+ * function: TRADE_HISTORY_GetSize, TRADE_HISTORY_Init
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
@@ -39,14 +39,14 @@ struct Sub02009D9CObj {
     u8 unk000[0xD54];
 };
 
-u32 sub_02009D9C(void);
+u32 TRADE_HISTORY_GetSize(void);
 
-u32 sub_02009D9C(void)
+u32 TRADE_HISTORY_GetSize(void)
 {
     return sizeof(struct Sub02009D9CObj);
 }
 
-void sub_02009DA4(struct Sub02009D9CObj *obj)
+void TRADE_HISTORY_Init(struct Sub02009D9CObj *obj)
 {
-    MI_CpuFill8(obj, 0, sub_02009D9C());
+    MI_CpuFill8(obj, 0, TRADE_HISTORY_GetSize());
 }

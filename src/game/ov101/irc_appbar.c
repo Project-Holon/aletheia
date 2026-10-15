@@ -39,6 +39,7 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   BG_SYS_Get  0x020416D4  arm  arm9
  */
 struct MsgBank;
 struct Rec;
@@ -61,7 +62,7 @@ typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
 extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern u8 func_020416D4(u32);
+extern u8 BG_SYS_Get(u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
@@ -97,7 +98,7 @@ extern void CLACT_DeleteActor(struct Obj *);
  * MI_CpuFill8 0x02082BCC arm
  * IRC_APPBAR_LoadResources 0x021B732C thumb ov101
  * APP_TASKMENU_RES_Create 0x02027F60 thumb
- * func_020416D4 0x020416D4 arm
+ * BG_SYS_Get 0x020416D4 arm
  * IRC_APPBAR_CreateActor 0x021B739C thumb ov101
  * func_02045B38 0x02045B38 arm
  * func_02045EC0 0x02045EC0 arm
@@ -125,7 +126,7 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
     bar->taskMenuRes=APP_TASKMENU_RES_Create(layer,x,(u32)font,(u32)printQueue,heapId);
-    IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,func_020416D4(layer),heapId);
+    IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,BG_SYS_Get(layer),heapId);
     bank=func_02045B38(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;

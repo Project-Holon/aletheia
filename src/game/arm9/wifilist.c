@@ -1,7 +1,7 @@
 /*
  * file:     wifilist.c
  * unit:     yes
- * function: sub_02009448, sub_02009454, sub_0200945C, func_02009470, func_0200947C, func_0200949C, func_020094D8, func_0200952C, func_02009584, func_02009590, sub_020095C8, sub_020095E8, sub_020095FC, sub_0200960C,, WIFILIST_GetWorkSize, WIFILIST_Create, func_020097F0, func_02009800, func_02009860, func_02009864
+ * function: GAME_SYNC_GetBlock, GAME_SYNC_GetBlockSize, GAME_SYNC_ClearBlock, func_02009470, func_0200947C, func_0200949C, func_020094D8, func_0200952C, WIFI_HISTORY_GetVisitedCountryCount, WIFI_HISTORY_GetDisplayCount, WIFI_HISTORY_GetFirstFreeEntry, WIFI_HISTORY_IncrementVisitedCountryCount, WIFI_HISTORY_SetRatingLevel, WIFI_HISTORY_GetRatingLevel,, WIFILIST_GetWorkSize, WIFILIST_Create, func_020097F0, func_02009800, func_02009860, func_02009864
  * address:  0x02009448
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,9 +15,9 @@
  * symbols:
  *   SAVE_CONTROL_GetBlock    0x020071CC  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
- *   func_02009584  0x02009584  thumb
+ *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb
  *   func_0200856C  0x0200856C  thumb
- *   func_02009794  0x02009794  thumb
+ *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *   sWifilistFile  0x020A7198  data
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -116,9 +116,9 @@ struct WifiList {
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern void MYSTATUS_SetLanguageAndVersion(struct MyStatus *status, u8 country, u8 region);
-extern u8 func_02009584(const struct WifiHistory *history);
+extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history);
 extern u8 func_0200856C(const struct MyStatus *status);
-extern u32 func_02009794(const struct WifiHistory *history, u32 country);
+extern u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_02009800(struct WifiList *list);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
@@ -129,28 +129,28 @@ extern void DWC_RAPCOMMON_InitUserData(void *p);
 extern int  DWC_IsValidFriendData(const void *friendData);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 extern void STRBUF_ToChars(struct U16Vec *src, u16 *dest, u32 size);
-struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
-u32 sub_02009454(void);
-void sub_0200945C(struct GameSyncData *data);
-struct WifiHistory *sub_02009470(struct SaveControl *saveControl);
-void sub_0200947C(struct WifiHistory *history, struct MyStatus *status, u8 country, u8 region);
-u32 sub_0200949C(const struct WifiHistory *history, int country, int region);
-void sub_020094D8(struct WifiHistory *history, int country, int region, int state);
-u8 sub_02009524(const struct WifiHistory *history);
-void sub_0200952C(struct WifiHistory *history);
+struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
+u32 GAME_SYNC_GetBlockSize(void);
+void GAME_SYNC_ClearBlock(struct GameSyncData *data);
+struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
+void WIFI_HISTORY_InitLanguageRegion(struct WifiHistory *history, struct MyStatus *status, u8 country, u8 region);
+u32 WIFI_HISTORY_GetCountryRegionState(const struct WifiHistory *history, int country, int region);
+void WIFI_HISTORY_SetCountryRegionState(struct WifiHistory *history, int country, int region, int state);
+u8 WIFI_HISTORY_GetMode(const struct WifiHistory *history);
+void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history);
 u8 sub_02009584(const struct WifiHistory *history);
-u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag);
-u8 sub_020095C8(const struct WifiHistory *history);
-void sub_020095E8(struct WifiHistory *history);
-void sub_020095FC(struct WifiHistory *history, int value);
-u8 sub_0200960C(const struct WifiHistory *history);
-void sub_02009618(struct WifiHistory *history, int value);
-u8 sub_02009628(const struct WifiHistory *history);
-u32 sub_02009634(const struct WifiHistory *history, u32 index, u32 field);
-void sub_02009698(struct WifiHistory *history, int index, u32 field, u32 value);
-struct HistoryEntry *sub_0200973C(struct WifiHistory *history, int index);
-void sub_0200974C(void);
-u32 sub_02009750(struct WifiHistory *history, u32 country);
+u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, int flag);
+u8 WIFI_HISTORY_GetFirstFreeEntry(const struct WifiHistory *history);
+void WIFI_HISTORY_IncrementVisitedCountryCount(struct WifiHistory *history);
+void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value);
+u8 WIFI_HISTORY_GetRatingLevel(const struct WifiHistory *history);
+void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value);
+u8 WIFI_HISTORY_GetGreetingSet(const struct WifiHistory *history);
+u32 WIFI_HISTORY_GetEntryField(const struct WifiHistory *history, u32 index, u32 field);
+void WIFI_HISTORY_SetEntryField(struct WifiHistory *history, int index, u32 field, u32 value);
+struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, int index);
+void WIFI_HISTORY_Dummy(void);
+u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country);
 u32 sub_02009794(const struct WifiHistory *history, u32 country);
 u32 WIFILIST_GetWorkSize(void);
 struct WifiList *WIFILIST_Create(int heapId);
@@ -191,10 +191,10 @@ static inline void MI_CpuClear32(void *dest, u32 size)
  * the size and a constructor that clears it and does nothing else.  Three
  * functions, forty bytes, and not one of them carries a label.
  *
- * sub_02009454 is `ldr r0, [pc, #0]; bx lr` over its own pool word: 0x1338 is
+ * GAME_SYNC_GetBlockSize is `ldr r0, [pc, #0]; bx lr` over its own pool word: 0x1338 is
  * past every Thumb immediate and past `movs` plus one `lsls`, so the constant
- * costs a word.  sub_0200945C loads the same constant into its own pool rather
- * than calling sub_02009454, so the source spells the size out in both, which
+ * costs a word.  GAME_SYNC_ClearBlock loads the same constant into its own pool rather
+ * than calling GAME_SYNC_GetBlockSize, so the source spells the size out in both, which
  * is what `sizeof` does.
  *
  * `MI_CpuClear32` is the SDK header's inline wrapper over MIi_CpuClear32 with
@@ -206,7 +206,7 @@ static inline void MI_CpuClear32(void *dest, u32 size)
  *   python tools/match.py tu --src src/matched/unit_02009448.c \
  *       --addr 0x02009448 --thumb
  */
-struct GameSyncData *sub_02009448(struct SaveControl *saveControl)
+struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl)
 {
     return SAVE_CONTROL_GetBlock(saveControl, GAME_SYNC_BLOCK_ID);
 }
@@ -215,7 +215,7 @@ struct GameSyncData *sub_02009448(struct SaveControl *saveControl)
 
 
 
-u32 sub_02009454(void)
+u32 GAME_SYNC_GetBlockSize(void)
 {
     return sizeof(struct GameSyncData);
 }
@@ -224,7 +224,7 @@ u32 sub_02009454(void)
 
 
 
-void sub_0200945C(struct GameSyncData *data)
+void GAME_SYNC_ClearBlock(struct GameSyncData *data)
 {
     MI_CpuClear32(data, sizeof(struct GameSyncData));
 }
@@ -237,7 +237,7 @@ void sub_0200945C(struct GameSyncData *data)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/001_02007664.s.
  *
- *           sub_02009524, sub_0200952C, sub_02009584
+ *           WIFI_HISTORY_GetMode, WIFI_HISTORY_PromoteVisitedStates, sub_02009584
  *
  * alias: the save block with id 0x1D.  Its bulk is a 0xFF0-byte array of
  * two-bit fields at +0x348, sixteen bytes (sixty-four fields) per row, and
@@ -251,7 +251,7 @@ void sub_0200945C(struct GameSyncData *data)
  * The row term is added second, `b / 4 + (a - 1) * 16`, which is the operand
  * order of the `adds`.
  *
- * sub_020094D8 clears and sets in two separate read-modify-writes with a
+ * WIFI_HISTORY_SetCountryRegionState clears and sets in two separate read-modify-writes with a
  * `ldrb` in each, because the destination is a `u8` array element rather than
  * a bitfield.  Two spellings are load bearing there.  The mask is `0xFF ^
  * (3 << sh)` and not `~(3 << sh)`: the second gives a single `mvns`, two bytes
@@ -291,7 +291,7 @@ void sub_0200945C(struct GameSyncData *data)
  * these two bytes out and nothing else moves, so this is register allocation
  * of a dead temporary and not a shape the source can state.
  *
- * sub_0200952C is the same field written as a rewrite pass: for every one of
+ * WIFI_HISTORY_PromoteVisitedStates is the same field written as a rewrite pass: for every one of
  * the 0xFF0 bytes it walks the four fields and turns every 1 into a 2, keeping
  * the byte in a register across the inner loop and storing it once.  The four
  * constants it needs are hoisted out of both loops, 3 twice because one is the
@@ -301,7 +301,7 @@ void sub_0200945C(struct GameSyncData *data)
  *   python tools/match.py tu --src src/matched/unit_02009470.c \
  *       --addr 0x02009470 --thumb
  */
-struct WifiHistory *sub_02009470(struct SaveControl *saveControl)
+struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl)
 {
     return SAVE_CONTROL_GetBlock(saveControl, WIFI_HISTORY_BLOCK_ID);
 }
@@ -311,16 +311,16 @@ struct WifiHistory *sub_02009470(struct SaveControl *saveControl)
 
 
 
-void sub_0200947C(struct WifiHistory *history, struct MyStatus *status,
+void WIFI_HISTORY_InitLanguageRegion(struct WifiHistory *history, struct MyStatus *status,
                   u8 country, u8 region)
 {
     MYSTATUS_SetLanguageAndVersion(status, country, region);
-    sub_020094D8(history, country, region, 3);
+    WIFI_HISTORY_SetCountryRegionState(history, country, region, 3);
 }
 
 
 
-u32 sub_0200949C(const struct WifiHistory *history, int country, int region)
+u32 WIFI_HISTORY_GetCountryRegionState(const struct WifiHistory *history, int country, int region)
 {
     if (country == 0) {
         return 0;
@@ -330,7 +330,7 @@ u32 sub_0200949C(const struct WifiHistory *history, int country, int region)
 
 
 
-void sub_020094D8(struct WifiHistory *history, int country, int region, int state)
+void WIFI_HISTORY_SetCountryRegionState(struct WifiHistory *history, int country, int region, int state)
 {
     u8 *cell;
     int shift;
@@ -346,14 +346,14 @@ void sub_020094D8(struct WifiHistory *history, int country, int region, int stat
 
 
 
-u8 sub_02009524(const struct WifiHistory *history)
+u8 WIFI_HISTORY_GetMode(const struct WifiHistory *history)
 {
     return history->mode;
 }
 
 
 
-void sub_0200952C(struct WifiHistory *history)
+void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history)
 {
     int byteIndex;
     int shift;
@@ -388,15 +388,15 @@ u8 sub_02009584(const struct WifiHistory *history)
  *   python tools/match.py tu --src src/matched/unit_02009590.c \
  *       --addr 0x02009590 --thumb
  */
-u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag)
+u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, int flag)
 {
-    u8 count = func_02009584(history);
+    u8 count = WIFI_HISTORY_GetVisitedCountryCount(history);
 
     if (flag == 0) {
         int country = func_0200856C(status);
         if (country == 0) {
             count = 0;
-        } else if (func_02009794(history, country) && count != 0) {
+        } else if (WIFI_HISTORY_IsCountryVisited(history, country) && count != 0) {
             count--;
         }
     }
@@ -411,15 +411,15 @@ u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           sub_02009618, sub_02009628, sub_02009634, sub_02009698,
- *           sub_0200973C, sub_0200974C, sub_02009750, sub_02009794
+ *           WIFI_HISTORY_SetGreetingSet, WIFI_HISTORY_GetGreetingSet, WIFI_HISTORY_GetEntryField, WIFI_HISTORY_SetEntryField,
+ *           WIFI_HISTORY_GetEntry, WIFI_HISTORY_Dummy, WIFI_HISTORY_MarkCountryVisited, sub_02009794
  *
  * alias: the rest of the save block with id 0x1D whose first half is
  * src/matched/unit_02009470.c.  This half is the twenty 0x28-byte records at
  * the front of the block, the 0xE9-bit flag array at +0x320, and the four
  * scalars at +0x344..+0x347 that sit between them.
  *
- * sub_02009634 and sub_02009698 are the getter and the setter over the record
+ * WIFI_HISTORY_GetEntryField and WIFI_HISTORY_SetEntryField are the getter and the setter over the record
  * fields, both dispatched through a PC-relative halfword table; see
  * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The two tables
  * are the interesting part, because they disagree.  The getter's seven entries
@@ -446,10 +446,10 @@ u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag)
  * bitfield and not an assignment of the value itself.
  *
  * The index bound is checked unsigned in the getter (`blo`) and signed in the
- * setter and in sub_0200973C (`bge`, `blt`), so the three functions do not
+ * setter and in WIFI_HISTORY_GetEntry (`bge`, `blt`), so the three functions do not
  * agree about the type of their index and the source says so.
  *
- * sub_02009750 seeds its result from a literal pool word holding zero rather
+ * WIFI_HISTORY_MarkCountryVisited seeds its result from a literal pool word holding zero rather
  * than from a `movs`, which costs four bytes and is what the compiler does
  * here for a value initialised before a conditional; the `bne` that follows
  * reads the flags of the `adds r5, r1, #0` that moved the argument, so there
@@ -459,7 +459,7 @@ u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag)
  *   python tools/match.py tu --src src/matched/unit_020095C8.c \
  *       --addr 0x020095C8 --thumb
  */
-u8 sub_020095C8(const struct WifiHistory *history)
+u8 WIFI_HISTORY_GetFirstFreeEntry(const struct WifiHistory *history)
 {
     int i;
 
@@ -473,7 +473,7 @@ u8 sub_020095C8(const struct WifiHistory *history)
 
 
 
-void sub_020095E8(struct WifiHistory *history)
+void WIFI_HISTORY_IncrementVisitedCountryCount(struct WifiHistory *history)
 {
     if (history->visitedCountryCount < WIFI_HISTORY_COUNTRY_MAX) {
         history->visitedCountryCount++;
@@ -482,7 +482,7 @@ void sub_020095E8(struct WifiHistory *history)
 
 
 
-void sub_020095FC(struct WifiHistory *history, int value)
+void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value)
 {
     if (value < 5) {
         history->ratingLevel = value;
@@ -491,14 +491,14 @@ void sub_020095FC(struct WifiHistory *history, int value)
 
 
 
-u8 sub_0200960C(const struct WifiHistory *history)
+u8 WIFI_HISTORY_GetRatingLevel(const struct WifiHistory *history)
 {
     return history->ratingLevel;
 }
 
 
 
-void sub_02009618(struct WifiHistory *history, int value)
+void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value)
 {
     if (value < 9) {
         history->greetingSet = value;
@@ -507,14 +507,14 @@ void sub_02009618(struct WifiHistory *history, int value)
 
 
 
-u8 sub_02009628(const struct WifiHistory *history)
+u8 WIFI_HISTORY_GetGreetingSet(const struct WifiHistory *history)
 {
     return history->greetingSet;
 }
 
 
 
-u32 sub_02009634(const struct WifiHistory *history, u32 index, u32 field)
+u32 WIFI_HISTORY_GetEntryField(const struct WifiHistory *history, u32 index, u32 field)
 {
     const struct HistoryEntry *entry;
 
@@ -543,7 +543,7 @@ u32 sub_02009634(const struct WifiHistory *history, u32 index, u32 field)
 
 
 
-void sub_02009698(struct WifiHistory *history, int index, u32 field, u32 value)
+void WIFI_HISTORY_SetEntryField(struct WifiHistory *history, int index, u32 field, u32 value)
 {
     struct HistoryEntry *entry;
 
@@ -581,7 +581,7 @@ void sub_02009698(struct WifiHistory *history, int index, u32 field, u32 value)
 
 
 
-struct HistoryEntry *sub_0200973C(struct WifiHistory *history, int index)
+struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, int index)
 {
     if (index >= WIFI_HISTORY_ENTRY_MAX) {
         return 0;
@@ -591,13 +591,13 @@ struct HistoryEntry *sub_0200973C(struct WifiHistory *history, int index)
 
 
 
-void sub_0200974C(void)
+void WIFI_HISTORY_Dummy(void)
 {
 }
 
 
 
-u32 sub_02009750(struct WifiHistory *history, u32 country)
+u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country)
 {
     u32 isNew = 0;
 

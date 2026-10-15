@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F9B4
+ * function: BG_SYS_Delete
  * address:  0x0203F9B4
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -26,8 +26,8 @@
  * every call because the callees may write it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F9B4.c \
- *       --func func_0203F9B4 --addr 0x0203F9B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_Delete.c \
+ *       --func BG_SYS_Delete --addr 0x0203F9B4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -53,7 +53,7 @@ extern void func_020403F4(u32 layer);
 extern u32 AREAMAN_Delete(void *a);
 extern u32 func_020307B0(void *p);
 
-void func_0203F9B4(void)
+void BG_SYS_Delete(void)
 {
     u8 i;
 

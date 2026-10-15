@@ -12,10 +12,10 @@
  * Derives two 16-bit angles from a matrix and stores them at +0x82/+0x84.
  *
  * symbols:
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0207CA68  0x0207CA68  arm
+ *   VEC_DotProduct  0x0207CA68  arm
  *   gFieldCameraUpVec     0x021D3E2C  data   ov021  a4
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef struct { int x, y, z; } V;
 
-extern void func_0207CA00(void *a, void *b, void *c);
+extern void VEC_Subtract(void *a, void *b, void *c);
 extern void VEC_Normalize(V *a, V *b);
 extern int func_0207CFB8(int a, int b);
-extern int func_0207CA68(V *a, V *b);
+extern int VEC_DotProduct(V *a, V *b);
 extern V gFieldCameraUpVec;
 
 void FIELD_CAMERA_UpdateViewAngles(u8 *a, void *b, void *c)
@@ -39,16 +39,16 @@ void FIELD_CAMERA_UpdateViewAngles(u8 *a, void *b, void *c)
     int r, t;
     int s;
 
-    func_0207CA00(c, b, &v);
+    VEC_Subtract(c, b, &v);
     VEC_Normalize(&v, &v);
     ((struct Obj00428 *)a)->f82 = func_0207CFB8(v.x, v.z);
     k = gFieldCameraUpVec;
-    r = func_0207CA68(&k, &v);
+    r = VEC_DotProduct(&k, &v);
     w = v;
     s = 0;
     w.y = 0;
     VEC_Normalize(&w, &w);
-    t = func_0207CA68(&w, &v);
+    t = VEC_DotProduct(&w, &v);
     if (t != 0) {
         s = func_0207CFB8(r, t);
     }

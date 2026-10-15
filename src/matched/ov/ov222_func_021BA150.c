@@ -1,5 +1,5 @@
 /*
- * function: func_021BA150, func_021BA158
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank, ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue
  * address: 0x021BA150
  * packet: pkt_ov222_021BA150
  * region: ov222
@@ -15,5 +15,5 @@
  */
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021BA150(void *p) { CLACT_VBlankSystem(); }
-u32 func_021BA158(const u32 *p) { return *p; }
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p) { CLACT_VBlankSystem(); }
+u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue(const u32 *p) { return *p; }

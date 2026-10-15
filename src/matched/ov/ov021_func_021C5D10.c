@@ -12,7 +12,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -70,7 +70,7 @@ struct Self;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *p, int v, u32 n);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *q);
@@ -99,7 +99,7 @@ void *FISHING_CreateEvent(struct Obj00020 *a, void *b)
     MI_CpuFill8(w, 0, sizeof(Work));
     w->f0 = b;
     w->f8 = (u8 *)a;
-    w->f4 = func_020120F4(b);
+    w->f4 = ICA_ANIME_GetField1C(b);
     w->fC = (void *)FIELDMAP_GetEncount(w->f8);
     w->f10 = (u32)GAME_DATA_GetTrainerRecord(w->f4);
     w->f14 = FIELDMAP_GetMmdlSys(w->f8);

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKEPARTY_GetBattleReadyCount   0x0201AA50  thumb
- *   func_0200AE54   0x0200AE54  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_REGULATION_CheckPokemonFlags   0x02019FD0  thumb
@@ -45,7 +45,7 @@ typedef unsigned int   u32;
 
 extern u32 POKEPARTY_GetBattleReadyCount(void *p);
 struct Reg;
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern u32   POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int   POKE_REGULATION_CheckPokemonFlags(void *rules, void *mon, u32 *mask);
@@ -75,7 +75,7 @@ int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask)
         item[i] = 0;
     }
     total = POKEPARTY_GetBattleReadyCount(party);
-    if (total < (int)func_0200AE54(rules, 2)) {
+    if (total < (int)REGULATION_GetRuleValue(rules, 2)) {
         *mask |= 1;
         err = 4;
     }
@@ -90,7 +90,7 @@ int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask)
             n += POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
         }
     }
-    if ((int)func_0200AE54(rules, 7) == 0 && total > 1) {
+    if ((int)REGULATION_GetRuleValue(rules, 7) == 0 && total > 1) {
         for (i = 0; i < 5; i++) {
             for (k = i + 1; k < 6; k++) {
                 if (species[i] == species[k] && species[i] != 0) {
@@ -100,7 +100,7 @@ int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask)
             }
         }
     }
-    if ((int)func_0200AE54(rules, 8) == 0 && total > 1) {
+    if ((int)REGULATION_GetRuleValue(rules, 8) == 0 && total > 1) {
         for (i = 0; i < 5; i++) {
             for (k = i + 1; k < 6; k++) {
                 if (item[i] == item[k] && species[i] != 0 && item[i] != 0) {
@@ -110,8 +110,8 @@ int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask)
             }
         }
     }
-    want_s = (int)func_0200AE54(rules, 0xb);
-    want_f = (int)func_0200AE54(rules, 0xc);
+    want_s = (int)REGULATION_GetRuleValue(rules, 0xb);
+    want_f = (int)REGULATION_GetRuleValue(rules, 0xc);
     i = 0;
     if (want_s != 0 && total > 1) {
         for (i = 0; i < 6; i++) {

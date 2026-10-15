@@ -1,5 +1,5 @@
 /*
- * function: func_0205C710
+ * function: DWC_SetRwinSize
  * address:  0x0205C710
  * packet:   pkt_0205C710
  * region:   arm9
@@ -40,7 +40,7 @@ extern struct INETBSS g_02146AD4;
 
 extern int OS_IsRunOnTwl(void);
 
-void func_0205C710(long size)
+void DWC_SetRwinSize(long size)
 {
     if (g_02146AD4.stpInetCntl == 0) {
         return;

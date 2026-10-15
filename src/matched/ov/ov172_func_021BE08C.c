@@ -16,7 +16,7 @@
  *
  * Addresses are Black-image addresses.
  *
- * evidence: COMM_TVT_SYS_ApplyHalfRes is ov172's own code (a tail call to func_021B8720
+ * evidence: COMM_TVT_SYS_ApplyHalfRes is ov172's own code (a tail call to CTVT_COMM_SendSlotHit
  * right after COMM_TVT_SYS_GetHalfRes's bx lr), inside ov172's window, so only ov172
  * can be resident there when this pool word is used.  Its start is seeded in
  * layout/function_starts.txt from this pointer word, the only reference; it

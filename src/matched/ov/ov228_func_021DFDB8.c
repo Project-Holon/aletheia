@@ -1,5 +1,5 @@
 /*
- * function: func_021DFDB8
+ * function: SAVE_OUTSIDE_Free
  * address:  0x021DFDB8
  * packet:   pkt_021DFC20
  * region:   ov228
@@ -22,7 +22,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021DFDB8(void *p)
+void SAVE_OUTSIDE_Free(void *p)
 {
     func_020307B0(p);
 }

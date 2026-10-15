@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_SETUP_Clear  0x020130C4  thumb
- *   func_0202A230  0x0202A230  thumb
- *   func_0202A420  0x0202A420  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   TPOKE_DATA_GetTrainerGroup  0x0202A420  thumb
  *   BTL_SETUP_SetupTrainerMulti  0x02013734  thumb
  *   BTL_SETUP_SetupTrainerDouble  0x02013644  thumb
  *   BTL_SETUP_SetupTrainerTag  0x020136E0  thumb
@@ -34,8 +34,8 @@ struct Ctx { void *f00; u8 pad04[4]; void *f08; };
 struct Info { u32 f00; u32 f04; u8 f08; u8 f09; u16 f0A; u8 f0C; u8 f0D; u8 pad0E[2]; };
 
 extern void BTL_SETUP_Clear(u8 *p);
-extern u32 func_0202A230(void *a, u32 idx);
-extern u32 func_0202A420(u32 key);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+extern u32 TPOKE_DATA_GetTrainerGroup(u32 key);
 extern void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2);
 struct Obj020136E0;
 struct Obj02013734;
@@ -54,7 +54,7 @@ void FIELD_ENCOUNT_SetupTrainerBattle(struct Ctx *ctx, void *a1, u32 mode, u32 f
 
     BTL_SETUP_Clear(a1);
     FIELD_ENCOUNT_SetFieldSituation(&info, ctx->f08, ctx->f00);
-    r = func_0202A420(func_0202A230(mon, 1));
+    r = TPOKE_DATA_GetTrainerGroup(TPOKE_DATA_GetRecordField(mon, 1));
     if (r != 0x11) {
         info.f04 = r;
     }

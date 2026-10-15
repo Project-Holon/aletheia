@@ -1,5 +1,5 @@
 /*
- * function: func_021F9DA0
+ * function: STA_ACTING_GetActorSystem
  * address: 0x021F9DA0
  * packet: pkt_ov132_021F9DA0
  * region: ov132
@@ -10,4 +10,4 @@
  * symbols:
  */
 #include "../include/Obj23212.h"
-void *func_021F9DA0(char *p){return ((struct Obj23212 *)p)->f40;}
+void *STA_ACTING_GetActorSystem(char *p){return ((struct Obj23212 *)p)->f40;}

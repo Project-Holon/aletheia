@@ -37,23 +37,24 @@
  *    front of each mask; without the cast the pair is gone.  The widths come
  *    off the second pair: `lsls #0x1A` / `lsrs #0x19` is bits 1..6, `ands #1`
  *    is bit 0 and `lsls #0x1F` / `lsrs #0x18` is bit 7.
- *  - the four out-parameters of func_0200C164 are declared in the order the
+ *  - the four out-parameters of BEACON_GetSelect are declared in the order the
  *    call passes them, so the first lands at sp+0x14 and the last at sp+8;
  *    declared the other way round every offset is mirrored and nothing else
  *    moves.  See docs/idioms/local-declaration-order-is-stack-order.md.
  *  - the byte of owner information is read as `add r0, sp, #8` /
  *    `ldrb r0, [r0, #0x12]` rather than off the OSOwnerInfo frame slot,
  *    because `sp + 8` is already a common subexpression: it is the fifth
- *    argument func_0200C164 took a few instructions earlier.
+ *    argument BEACON_GetSelect took a few instructions earlier.
  *
  * symbols:
  *   MI_CpuFill8      0x02082BCC  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   STRBUF_GetEosChar    0x02045A98  arm
- *   func_0203F1FC    0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc    0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
+ *   BEACON_GetSelect  0x0200C164  thumb
  */
 
 typedef unsigned char  u8;
@@ -65,7 +66,7 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void OS_GetOwnerInfo(void *info);
 
 extern u16   STRBUF_GetEosChar(void);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 struct Big;
 struct Blk34;
@@ -85,7 +86,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
+extern void BEACON_GetSelect(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
 
 struct OwnerInfo {
     u8 unk00;
@@ -137,7 +138,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     blk = GAME_DATA_GetMiscSave(sys);
     env = func_0200E6E8((u32)save);
     OS_GetOwnerInfo(&info);
-    func_0200C164(blk, &a, &b, &c, &d);
+    BEACON_GetSelect(blk, &a, &b, &c, &d);
 
     MI_CpuFill8(p, 0, sizeof(struct GdsProfile));
     func_0201F41C(func_020084F4(rec), (u16 *)p, 8);
@@ -157,5 +158,5 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     p->unk16 = func_02008554(rec);
     p->unk19 = 0x15;
     p->unk1A = 2;
-    p->unk7C = func_0203F1FC((const u8 *)p, 0x7C);
+    p->unk7C = GF_STANDARD_SetupCalc((const u8 *)p, 0x7C);
 }

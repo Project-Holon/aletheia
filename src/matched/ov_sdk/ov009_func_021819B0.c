@@ -14,7 +14,7 @@
  * symbols:
  *   func_0217EAB0                    0x0217eab0 arm  ov009
  *   func_0217D254                    0x0217d254 arm  ov009
- *   func_0209477C                    0x0209477c arm
+ *   strlen                    0x0209477c arm
  *   gsiXmlUtilWriteString                    0x0218325c arm  ov009
  *   func_0217EAE0                    0x0217eae0 arm  ov009
  *   gsiXmlUtilWriteChar                    0x02183210 arm  ov009
@@ -35,7 +35,7 @@ typedef struct GSIXmlStreamWriter {
 extern void *func_0217EAB0(unsigned long size);
 typedef unsigned char  u8;
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
 extern void func_0217EAE0(void *ptr);
 extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
@@ -59,12 +59,12 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     }
 
     for (i = 0; i < 4; i++) {
-        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
-        namespaceLen += func_0209477C((const u8 *)gGsXmlSoapDefaultNamespaces[i]);
+        namespaceLen += strlen((const u8 *)gGsXmlNamespacePrefix) + 1;
+        namespaceLen += strlen((const u8 *)gGsXmlSoapDefaultNamespaces[i]);
     }
     for (i = 0; i < count; i++) {
-        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
-        namespaceLen += func_0209477C((const u8 *)namespaces[i]);
+        namespaceLen += strlen((const u8 *)gGsXmlNamespacePrefix) + 1;
+        namespaceLen += strlen((const u8 *)namespaces[i]);
     }
     while (initialCapacity < namespaceLen)
         initialCapacity += 1024;

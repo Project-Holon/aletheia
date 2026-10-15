@@ -13,13 +13,13 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
  *   BTLV_EFFECT_IsRecordEnabledInComm  0x021F88F4  thumb  ov094
  */
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 extern int BTLV_EFFECT_IsRecordEnabledInComm(void);
 typedef signed short   s16;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -45,7 +45,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 void BTLV_INPUT_DrawRunButtonText(char *s, char *b)
 {
@@ -58,7 +58,7 @@ void BTLV_INPUT_DrawRunButtonText(char *s, char *b)
 
     if (BTLV_EFFECT_IsRecordEnabledInComm() == 0)
         return;
-    h = (int)func_0201EC64(((struct Obj05249 *)s)->f240);
+    h = (int)GF_FONT_Create_EC64(((struct Obj05249 *)s)->f240);
     v = STRBUF_Create(6, ((struct Obj05249 *)s)->f240);
     w = func_02045EC0(((struct Obj05249 *)s)->f5C, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -68,7 +68,7 @@ void BTLV_INPUT_DrawRunButtonText(char *s, char *b)
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
     PRINTSYS_Print((void *)(((struct Obj05249 *)s)->f234), 12 - v18 / 2, 0, v, (void *)(((struct Obj05249 *)s)->f224));
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    func_0201ED04((struct WordSet *)h);
+    WORDSET_DeleteStrbufED04((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
 }

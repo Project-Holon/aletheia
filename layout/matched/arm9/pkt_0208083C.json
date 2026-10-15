@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208083C",
+   "name": "GX_SetBankForSubOBJExtPltt",
    "address": "0x0208083C",
    "kind": "sdk",
    "region": "arm9",

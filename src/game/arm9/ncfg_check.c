@@ -1,7 +1,7 @@
 /*
  * file:     ncfg_check.c
  * unit:     yes
- * function: func_020601D4, func_02060224, func_0206029C, func_02060368, func_02060394, func_020603BC, func_0206043C
+ * function: NCFGi_CheckApInfo, NCFGi_CheckApInfoEx, NCFGi_CheckIpInfo, NCFGi_ConvMaskAddr, NCFGi_CheckSsid, NCFGi_CheckIp, NCFGi_CheckAddress
  * address:  0x020601D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -66,19 +66,13 @@ extern int  NCFGi_CheckAddress(u8 *address);
 extern void NCFGi_ConvMaskAddr(int mask, u8 *buf);
 extern int  NCFGi_CheckIp(u8 *ip, u8 *mask);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-int func_020601D4(NCFGApInfo *info);
-int func_02060224(NCFGApInfo *info, NCFGApInfoEx *infoEx);
-int func_0206029C(NCFGApInfo *info);
-void func_02060368(int mask, unsigned char *buf);
-int func_02060394(unsigned char *ssid);
-int func_020603BC(u8 *ip, u8 *mask);
-int func_0206043C(unsigned char *address);
+int NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx);
 
 
 /*
  * sdk:      NCFGi_CheckApInfo (libncfg.TWL.HYB.a check.o)
  */
-int func_020601D4(NCFGApInfo *info)
+int NCFGi_CheckApInfo(NCFGApInfo *info)
 {
     if (info->setType == 0xFF)
         return 1;
@@ -95,7 +89,7 @@ int func_020601D4(NCFGApInfo *info)
 /*
  * sdk:      NCFGi_CheckApInfoEx (libncfg.TWL.HYB.a check.o)
  */
-int func_02060224(NCFGApInfo *info, NCFGApInfoEx *infoEx)
+int NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx)
 {
     if (info->setType == 0xFF)
         return 1;
@@ -116,7 +110,7 @@ int func_02060224(NCFGApInfo *info, NCFGApInfoEx *infoEx)
 /*
  * sdk:      NCFGi_CheckIpInfo (libncfg.TWL.HYB.a check.o)
  */
-int func_0206029C(NCFGApInfo *info)
+int NCFGi_CheckIpInfo(NCFGApInfo *info)
 {
     u8 snm[4];
 
@@ -139,7 +133,7 @@ int func_0206029C(NCFGApInfo *info)
 /*
  * sdk:      NCFGi_ConvMaskAddr (check.o)
  */
-void func_02060368(int mask, unsigned char *buf)
+void NCFGi_ConvMaskAddr(int mask, unsigned char *buf)
 {
     int i;
     unsigned long snm;
@@ -153,7 +147,7 @@ void func_02060368(int mask, unsigned char *buf)
 /*
  * sdk:      NCFGi_CheckSsid (check.o)
  */
-int func_02060394(unsigned char *ssid)
+int NCFGi_CheckSsid(unsigned char *ssid)
 {
     int i;
 
@@ -169,7 +163,7 @@ int func_02060394(unsigned char *ssid)
 /*
  * sdk:      NCFGi_CheckIp (libncfg.TWL.HYB.a check.o)
  */
-int func_020603BC(u8 *ip, u8 *mask)
+int NCFGi_CheckIp(u8 *ip, u8 *mask)
 {
     u32 ipa;
     u32 snm;
@@ -186,7 +180,7 @@ int func_020603BC(u8 *ip, u8 *mask)
 /*
  * sdk:      NCFGi_CheckAddress (check.o)
  */
-int func_0206043C(unsigned char *address)
+int NCFGi_CheckAddress(unsigned char *address)
 {
     if (address[0] == 127) {
         return 0;

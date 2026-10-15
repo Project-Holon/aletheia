@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 void func_0201F614(int a, u32 x)
 {
-    func_0203FB44((int)a, (u16)x, (u16)(x >> 16));
+    BG_SYS_DeleteHalf((int)a, (u16)x, (u16)(x >> 16));
 }

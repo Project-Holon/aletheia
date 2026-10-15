@@ -17,7 +17,7 @@
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_02034714 0x02034714 arm
  *   func_022135CC 0x022135CC thumb ov199
- *   func_0200AE54 0x0200AE54 thumb
+ *   REGULATION_GetRuleValue 0x0200AE54 thumb
  *   d_02213D00 0x02213D00 data a1 ov199
  */
 #include "../include/Obj06660.h"
@@ -41,7 +41,7 @@ struct Reg;
 extern int func_02167ED8(void *date, void *time);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_022135CC(u8 *,u8 *,u8 *);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern const char d_02213D00[];
 void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode)
 {
@@ -83,6 +83,6 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     func_022135CC(record,&bytes.a,&bytes.b);
     ((Nibbles *)(p + 0x4e))->a=bytes.a;
     ((Nibbles *)(p + 0x4e))->b=bytes.b;
-    p[0x4d]=func_0200AE54(reg,0x15);
-    ((Flags *)(p + 0x44))->enabled=func_0200AE54(reg,0xd);
+    p[0x4d]=REGULATION_GetRuleValue(reg,0x15);
+    ((Flags *)(p + 0x44))->enabled=REGULATION_GetRuleValue(reg,0xd);
 }

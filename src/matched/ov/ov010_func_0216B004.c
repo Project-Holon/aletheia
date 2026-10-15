@@ -49,8 +49,8 @@
  *   ENCEFF_Start  0x021CF498  thumb  ov021
  *   PDC_CreateArgs  0x021B6100  thumb  ov098
  *   PDC_GetResult  0x021B6158  thumb  ov098
- *   func_021B95A0  0x021B95A0  thumb  ov227
- *   func_021B95C8  0x021B95C8  thumb  ov227
+ *   EVENT_PDC_RETURN_CreateArgs  0x021B95A0  thumb  ov227
+ *   EVENT_PDC_RETURN_DeleteArgs  0x021B95C8  thumb  ov227
  *   ov098_id       0x00000062  data
  *   ov227_id       0x000000E3  data
  *   gPdcProcData     0x021B6D74  data ov098
@@ -118,8 +118,8 @@ extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern void ENCEFF_Start(struct Ctx *c, u32 x, int idx);
 extern struct P *PDC_CreateArgs(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
 extern int PDC_GetResult(void *p);
-extern void *func_021B95A0(u32 a, int b, u32 c, u32 heap);
-extern void func_021B95C8(void *p);
+extern void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap);
+extern void EVENT_PDC_RETURN_DeleteArgs(void *p);
 
 int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
 {
@@ -186,14 +186,14 @@ int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
             *w->f28 = 0;
         func_02034A5C((u32)ov098_id);
         func_02034AC4((u32)ov227_id);
-        w->f08 = func_021B95A0((u32)sys, ok, (u32)w->f0c, w->f24);
+        w->f08 = EVENT_PDC_RETURN_CreateArgs((u32)sys, ok, (u32)w->f0c, w->f24);
         GAME_EVENT_CallProc(evt, -1, (u32)d_021B98A4, (u32)w->f08);
         func_02007F1C(GAME_DATA_GetMyItem(sys), 0x240, 1, w->f24);
         (*state)++;
         break;
     }
     case 6:
-        func_021B95C8(w->f08);
+        EVENT_PDC_RETURN_DeleteArgs(w->f08);
         func_02034A5C((u32)ov227_id);
         GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(h));
         (*state)++;

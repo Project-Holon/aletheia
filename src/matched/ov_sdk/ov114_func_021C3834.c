@@ -15,7 +15,7 @@
  *   func_02184200  0x02184200  arm  ov009
  *   ghiSendBufferedData  0x021C011C  arm  ov114
  *   ghiResetBuffer  0x021C00FC  arm  ov114
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   ghiTrySendThenBuffer  0x021C07B8  arm  ov114
  *   func_02184208  0x02184208  arm  ov009
  *   ghiPostStateDoPosting  0x021C3218  arm  ov114
@@ -69,7 +69,7 @@ struct GHIBuffer;
 struct GHIConnection;
 extern int ghiSendBufferedData(struct GHIConnection *connection);
 extern void ghiResetBuffer(GHIBuffer *buffer);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int ghiTrySendThenBuffer(struct GHIConnection *connection, char *buffer, int len);
 extern void *func_02184208(void *array, int n);
 extern int ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection, int first, int last);
@@ -103,7 +103,7 @@ int ghiPostDoPosting(GHIConnection *connection)
     {
         if (connection->post->hasFiles || connection->post->useDIME)
         {
-            result = ghiTrySendThenBuffer((struct GHIConnection *)connection, sGhttpPostLineEnd, func_0209477C((const u8 *)sGhttpPostLineEnd));
+            result = ghiTrySendThenBuffer((struct GHIConnection *)connection, sGhttpPostLineEnd, strlen((const u8 *)sGhttpPostLineEnd));
             if (result == 0)
                 return 0;
             if (result == 2)
@@ -137,7 +137,7 @@ int ghiPostDoPosting(GHIConnection *connection)
 
     if (connection->post->hasFiles && !connection->post->hasSoap)
     {
-        if (!ghiTrySendThenBuffer((struct GHIConnection *)connection, sGhttpQrGSDD4, func_0209477C((const u8 *)sGhttpQrGSDD4)))
+        if (!ghiTrySendThenBuffer((struct GHIConnection *)connection, sGhttpQrGSDD4, strlen((const u8 *)sGhttpQrGSDD4)))
             return 0;
     }
 

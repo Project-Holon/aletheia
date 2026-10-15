@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035064  0x02035064  arm
+ *   UI_SetKeepAwakePred  0x02035064  arm
  *   GAMESYSTEM_IsSleepBlocked  0x02012264  thumb
  *
  * Two instructions and a two word pool: the first argument is the address of
  * GAMESYSTEM_IsSleepBlocked tagged as a Thumb function pointer (the pool word is 0x02012265,
  * odd), the second is the caller's own argument, and the tail call is
- * `func_02035064(fn, arg)` with func_02035064 an ARM function.  Declaring the
+ * `UI_SetKeepAwakePred(fn, arg)` with UI_SetKeepAwakePred an ARM function.  Declaring the
  * pointer as `GAMESYSTEM_IsSleepBlocked` rather than writing the literal 0x02012265 is what
  * gets the odd word out of the compiler; GAMESYSTEM_IsSleepBlocked's own manifest entry is
  * what attests it (`matched x1`).
@@ -28,10 +28,10 @@
 
 typedef unsigned int u32;
 
-extern void func_02035064(const void *fn, u32 arg);
+extern void UI_SetKeepAwakePred(const void *fn, u32 arg);
 extern int GAMESYSTEM_IsSleepBlocked(int a0, int a1, int a2, int a3);
 
 void GAMESYSTEM_RegisterSleepCheck(u32 arg)
 {
-    func_02035064((const void *)GAMESYSTEM_IsSleepBlocked, arg);
+    UI_SetKeepAwakePred((const void *)GAMESYSTEM_IsSleepBlocked, arg);
 }

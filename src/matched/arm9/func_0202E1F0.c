@@ -14,12 +14,12 @@
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   PMSI_PARAM_Validate  0x0202465C  thumb
  *   PMSI_PARAM_GetSourceString  0x0202441C  thumb
- *   func_0201D478  0x0201D478  thumb
+ *   GF_FONT_CountControlTag  0x0201D478  thumb
  *   PMSI_PARAM_IsDecoWordAt  0x020244F8  thumb
  *   PMSI_PARAM_GetWordId  0x020244D4  thumb
  *   PMSI_PARAM_ToStringWords  0x02024368  thumb
  *   func_0201D528  0x0201D528  thumb
- *   func_0201D4BC  0x0201D4BC  thumb
+ *   GF_FONT_SearchIndex  0x0201D4BC  thumb
  *   PMS_DRAW_PlaceDecoActor  0x0202E040  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -84,12 +84,12 @@ struct T;
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 PMSI_PARAM_Validate(struct T *p, u32 a1, u32 a2);
 extern void *PMSI_PARAM_GetSourceString(const struct Struct_0202441C *obj, u32 heapId);
-extern u32   func_0201D478(void *str);
+extern u32   GF_FONT_CountControlTag(void *str);
 extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
 extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
 extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
 extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
-extern u32   func_0201D4BC(void *s, u8 idx);
+extern u32   GF_FONT_SearchIndex(void *s, u8 idx);
 struct Descriptor;
 extern void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c, u32 n, const struct Pos *base);
 struct Descriptor;
@@ -124,7 +124,7 @@ void PMS_DRAW_PrintElem(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a
     wk->active = 0;
     heapID = *(u16 *)&heap;
     str = PMSI_PARAM_GetSourceString((const struct Struct_0202441C *)param, heapID);
-    n = (u8)func_0201D478(str);
+    n = (u8)GF_FONT_CountControlTag(str);
     for (i = 0; i < n; i++) {
         if (PMSI_PARAM_IsDecoWordAt((struct Container *)param, i)) {
             wk->blink[i] = 1;
@@ -139,11 +139,11 @@ void PMS_DRAW_PrintElem(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a
     for (i = 0; i < n; i++) {
         if (wk->blink[i] == 1) {
             u32 x = func_0201D528(buf, i, (void *)a2, 0);
-            u32 y = func_0201D4BC(buf, i);
+            u32 y = GF_FONT_SearchIndex(buf, i);
             PMS_DRAW_PlaceDecoActor(wk->act[i], a3, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct Pos *)pos);
         } else if (mark[i] == 1) {
             u32 x = func_0201D528(buf, i, (void *)a2, 0);
-            u32 y = func_0201D4BC(buf, i);
+            u32 y = GF_FONT_SearchIndex(buf, i);
             BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
         }
     }

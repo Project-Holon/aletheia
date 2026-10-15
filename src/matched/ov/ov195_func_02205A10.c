@@ -1,5 +1,5 @@
 /*
- * function: func_02205A10
+ * function: SHINKA_DEMO_GRAPHIC_Update
  * address:  0x02205A10
  * packet:   pkt_02205A10
  * region:   ov195
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02205C58 0x02205C58 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Update3d 0x02205C58 thumb ov195
  */
 
-extern void func_02205C58(char *a);
+extern void SHINKA_DEMO_GRAPHIC_Update3d(char *a);
 
-void func_02205A10(char *a)
+void SHINKA_DEMO_GRAPHIC_Update(char *a)
 {
-    func_02205C58(a + 8);
+    SHINKA_DEMO_GRAPHIC_Update3d(a + 8);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021689BC
+ * function: DWCi_FriendInit
  * address:  0x021689BC
  * packet:   pkt_021689BC
  * region:   ov009
@@ -23,7 +23,7 @@
 extern char g_021AA860[];
 extern void DWCi_SetSentBuddyReqFlag(void *frienddata, int setflag);
 
-void func_021689BC(char *p, int a1, int a2, int a3, int n)
+void DWCi_FriendInit(char *p, int a1, int a2, int a3, int n)
 {
     int i;
     char *q;

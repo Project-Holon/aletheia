@@ -1,5 +1,5 @@
 /*
- * function: func_021B6828
+ * function: POKE_SUMMARY_MAIN_DeleteBmpWindows
  * address: 0x021B6828
  * packet: pkt_ov173_021B6828
  * region: ov173
@@ -22,4 +22,4 @@ extern int APP_KEYCURSOR_Delete(int);
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021B6828(char *p) { u32 i; APP_KEYCURSOR_Delete(((struct Obj24151 *)p)->f21C); for(i=0;i<16;i++) BMP_WIN_Delete(*(void **)((u32)p+i*4+4)); BMP_WIN_Exit(); }
+void POKE_SUMMARY_MAIN_DeleteBmpWindows(char *p) { u32 i; APP_KEYCURSOR_Delete(((struct Obj24151 *)p)->f21C); for(i=0;i<16;i++) BMP_WIN_Delete(*(void **)((u32)p+i*4+4)); BMP_WIN_Exit(); }

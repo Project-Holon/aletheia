@@ -1,5 +1,5 @@
 /*
- * function: func_0205C81C
+ * function: DWC_DebugConnectInetExAsync
  * address:  0x0205C81C
  * packet:   pkt_0205C81C
  * region:   arm9
@@ -44,7 +44,7 @@ extern void DWC_ConnectInetAsync(void);
 extern int DWC_GetInetStatus(void);
 extern void DWC_AC_SetSpecifyApEx(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
 
-void func_0205C81C(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType)
+void DWC_DebugConnectInetExAsync(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType)
 {
     DWC_ConnectInetAsync();
     if (g_02146AD4.stpInetCntl != 0) {

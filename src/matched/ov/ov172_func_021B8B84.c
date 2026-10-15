@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B84
+ * function: CTVT_COMM_GetVoiceRecord
  * address:  0x021B8B84
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021B8B84(int unused, char *p)
+u32 CTVT_COMM_GetVoiceRecord(int unused, char *p)
 {
     return ((struct Obj24089 *)p)->f1A4;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062F90  0x02062F90  arm
+ *   NNS_G2dResetCellAnimation  0x02062F90  arm
  *   NNSi_G2dRefreshCellAnimation  0x0206419C  arm
  *
  * Restarts one node's cell animation from frame 0, forces its active flag at
@@ -32,12 +32,12 @@ struct CellAnim {
 };
 
 struct NNSG2dAnimController;
-extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
+extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
 extern void NNSi_G2dRefreshCellAnimation(char *self);
 
 void NNS_G2dRestartCellAnimation(struct CellAnim *anim)
 {
-    func_02062F90((struct NNSG2dAnimController *)anim);
+    NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)anim);
     anim->active = 1;
     NNSi_G2dRefreshCellAnimation((char *)anim);
 }

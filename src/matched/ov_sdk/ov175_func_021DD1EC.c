@@ -12,9 +12,9 @@
  * sdk:      sakeStartup (sakemain.o)
  *
  * symbols:
- *   func_0217CE1C  0x0217CE1C  arm  ov009
+ *   gsCoreIsShutdown  0x0217CE1C  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   g_021ACEF8  0x021ACEF8  data
  */
 
@@ -23,9 +23,9 @@ typedef struct SAKEInternal {
 } SAKEInternal;
 
 extern int g_021ACEF8;
-extern int func_0217CE1C(void);
+extern int gsCoreIsShutdown(void);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *dst, int val, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
 
 int sakeStartup(SAKEInternal **sakePtr)
 {
@@ -33,12 +33,12 @@ int sakeStartup(SAKEInternal **sakePtr)
 
     if (g_021ACEF8 != 1)
         return 1;
-    if (func_0217CE1C())
+    if (gsCoreIsShutdown())
         return 2;
     sake = (SAKEInternal *)func_0217EAB0(sizeof(SAKEInternal));
     if (!sake)
         return 3;
-    func_020923B0(sake, 0, sizeof(SAKEInternal));
+    MSL_C_LIB_MemsetPtr(sake, 0, sizeof(SAKEInternal));
     *sakePtr = sake;
     return 0;
 }

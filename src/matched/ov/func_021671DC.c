@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  */
 #include "../include/Obj00565.h"
 
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 struct WordSet;
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(int a0)
 {
@@ -29,7 +29,7 @@ struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(int a0)
 
 t4 = a0 + 0;
 a0 = ((struct Obj00565 *)((char *)t4))->f0;
-    ws = func_0201EC64(a0);
+    ws = GF_FONT_Create_EC64(a0);
 loc_021671E6:
 *(struct WordSet * *)&((struct Obj00565 *)t4)->f1C = ws;
     return ws;}

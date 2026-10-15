@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020640B0
+ * function: NNSi_G2dSrtcInitTable
  * address:  0x020640B0
  * packet:   pkt_02063640
  * region:   arm9
@@ -28,7 +28,7 @@
  *
  *     slot = nodeStates + i * 0x28;
  *     slot->enabled = 1;
- *     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y);
+ *     NNS_G2dSetSRTTranslate(&slot->srt, (s16)node->x, (s16)node->y);
  *
  * i.e. the NMCR node's own signed (x, y) is written into the node's
  * translation verbatim.  There is no table indexed by species, form or
@@ -37,13 +37,13 @@
  * the scale and rotation NNS_G2dSetAnimSequenceToMCAnimation pulls out of the node's NANR
  * frame record.
  *
- * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for
- * the three-slot table func_020640CC / func_020640D4 index), which is the
+ * NNSi_G2dSrtcInitTable fills three words with -1 (a "no cell bound" sentinel for
+ * the three-slot table NNSi_G2dSrtcSetTable / NNSi_G2dSrtcGetTable index), which is the
  * same table, not a fourth placement lane.
  *
  * Only the three table leaves are in this file.  The three setters
- * themselves (func_020640DC translate, func_02064100 rotate,
- * func_02064120 scale) are byte-correct except that the original never
+ * themselves (NNS_G2dSetSRTTranslate translate, NNS_G2dSetSRTRotate rotate,
+ * NNS_G2dSetSRTScale scale) are byte-correct except that the original never
  * predicates the guarded block and every C spelling tried does; that near
  * miss and its evidence are in docs/notes/g2d_srt_setters.c.txt, and the
  * struct layout above is read off those three functions.
@@ -68,7 +68,7 @@ struct Srt {
     u16 dirty;
 };
 
-void func_020640B0(s32 *tbl)
+void NNSi_G2dSrtcInitTable(s32 *tbl)
 {
     int i;
 
@@ -77,12 +77,12 @@ void func_020640B0(s32 *tbl)
     }
 }
 
-void func_020640CC(s32 *tbl, u32 i, u32 v)
+void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v)
 {
     tbl[i] = v;
 }
 
-s32 func_020640D4(const s32 *tbl, u32 i)
+s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i)
 {
     return tbl[i];
 }

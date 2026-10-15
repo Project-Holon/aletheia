@@ -18,9 +18,9 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_020355C4  0x020355C4  arm
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   func_020056A0  0x020056A0  thumb
@@ -127,9 +127,9 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 struct Tcbl;
 extern u8 func_020355C4(void);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern int GFL_NET_GetNegotiationNum(void);
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
@@ -172,7 +172,7 @@ int func_021C3CC0(void *man, int *state, Args *args)
     p->args = args;
     p->info = args->info;
     p->f3060 = func_020355C4();
-    p->b32D5 = func_02012FFC();
+    p->b32D5 = MSG_SPEED_GetWait();
     p->b32D4 = 0;
     if (p->info->b33) {
         p->f32CA_0 = 1;
@@ -191,7 +191,7 @@ int func_021C3CC0(void *man, int *state, Args *args)
     if (GFL_NET_GetNegotiationNum() > 0) {
         p->f32CA_1 = 1;
     }
-    func_0203F8F4(p->heap);
+    BG_SYS_Create(p->heap);
     func_021C41C4(p);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
     func_021C43E8();

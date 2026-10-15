@@ -1,5 +1,5 @@
 /*
- * function: func_02168F4C
+ * function: DWCi_GPRecvBuddyStatusCallback
  * address:  0x02168F4C
  * packet:   pkt_ov009_02168F4C
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_GPRecvBuddyStatusCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
  * symbols:
- *   func_02169038  0x02169038  arm  ov009
+ *   DWCi_GetFriendListIndex  0x02169038  arm  ov009
  *   func_021861A8  0x021861A8  arm  ov009
  *   func_02186220  0x02186220  arm  ov009
  *   func_02185FD4  0x02185FD4  arm  ov009
@@ -45,18 +45,18 @@ typedef struct RecvArg {
 	int index;
 } RecvArg;
 
-extern int func_02169038(int profileID);
+extern int DWCi_GetFriendListIndex(int profileID);
 extern int func_021861A8(void **connection, int profile);
 extern int func_02186220(void **connection, int profile);
 struct GPBuddyStatus;
 extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
 
-void func_02168F4C(void **connection, RecvArg *arg)
+void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg)
 {
 	BuddyStatus status;
 	int friendIdx;
 
-	friendIdx = func_02169038(arg->profile);
+	friendIdx = DWCi_GetFriendListIndex(arg->profile);
 	if (friendIdx == -1) {
 		if (func_021861A8(connection, arg->profile))
 			func_02186220(connection, arg->profile);

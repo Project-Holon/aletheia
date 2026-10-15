@@ -65,8 +65,8 @@
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
@@ -220,8 +220,8 @@ void func_02028470(u8 *cursorState, u32 v);
 void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, struct StrBuf *s, u32 e);
 int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWin *, struct BmpWin *);
 void func_0201F7A8(struct BmpWin *win, u32 kind);
-struct WordSet *func_0201EC64(u32 heap);
-u32 func_0201ED04(struct WordSet *p);
+struct WordSet *GF_FONT_Create_EC64(u32 heap);
+u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(MbMenuTemplate *tmpl, struct TaskMenuRes *res);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
@@ -497,14 +497,14 @@ void MB_UTIL_MSG_ClearWindow(MbMsgWork *work)
 void MB_UTIL_MSG_CreateWordSet(MbMsgWork *work)
 {
     if (work->wordSet == 0) {
-        work->wordSet = func_0201EC64(work->heapId);
+        work->wordSet = GF_FONT_Create_EC64(work->heapId);
     }
 }
 
 void MB_UTIL_MSG_DeleteWordSet(MbMsgWork *work)
 {
     if (work->wordSet != 0) {
-        func_0201ED04(work->wordSet);
+        WORDSET_DeleteStrbufED04(work->wordSet);
         work->wordSet = 0;
     }
 }

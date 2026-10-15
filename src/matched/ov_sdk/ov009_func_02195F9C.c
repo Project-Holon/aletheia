@@ -1,5 +1,5 @@
 /*
- * function: func_02195F9C
+ * function: gti2HandleESN
  * address:  0x02195F9C
  * packet:   pkt_ov009_02195F9C
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_02195EB4  0x02195EB4  arm  ov009
+ *   gti2SNDiff  0x02195EB4  arm  ov009
  *   func_0218437C  0x0218437C  arm  ov009
  *   func_02194E80  0x02194E80  arm  ov009
  */
@@ -35,11 +35,11 @@ typedef struct Conn {
 
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
-extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
+extern int gti2SNDiff(unsigned short SN1, unsigned short SN2);
 extern void func_0218437C(int a, int b);
 extern void func_02194E80(void *buffer, int start, int shortenBy);
 
-int func_02195F9C(Conn *connection, unsigned short ESN)
+int gti2HandleESN(Conn *connection, unsigned short ESN)
 {
 	int len;
 	int i;
@@ -51,7 +51,7 @@ int func_02195F9C(Conn *connection, unsigned short ESN)
 		return 1;
 	for (i = 0; i < len; i++) {
 		message = func_02184208(connection->outgoing, i);
-		if (func_02195EB4(message->SN, ESN) >= 0)
+		if (gti2SNDiff(message->SN, ESN) >= 0)
 			break;
 	}
 	if (i == 0)

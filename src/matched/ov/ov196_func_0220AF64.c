@@ -1,5 +1,5 @@
 /*
- * function: func_0220AF64
+ * function: B_APP_TOOL_Delete
  * address: 0x0220AF64
  * packet: pkt_ov196_0220AF64
  * region: ov196
@@ -13,7 +13,7 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_0220AF64(void *p)
+void B_APP_TOOL_Delete(void *p)
 {
     func_020307B0(p);
 }

@@ -17,10 +17,10 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0200A8AC  0x0200A8AC  thumb
+ *   IRC_RANKING_GetEntryCount  0x0200A8AC  thumb
  *   IRC_COMPATIBLE_MENU_GetSprite  0x021B78EC  thumb  ov102
  *   func_02005728  0x02005728  thumb
- *   func_0200A8F8  0x0200A8F8  thumb
+ *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb
  *   IRC_COMPATIBLE_MENU_InitFloater  0x021B8810  thumb  ov102
  */
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ typedef unsigned int u32;
 extern void MI_CpuFill8(void *, int, u32);
 typedef signed int     s32;
 struct Rec;
-extern s32 func_0200A8AC(struct Rec *r);
+extern s32 IRC_RANKING_GetEntryCount(struct Rec *r);
 extern u32 IRC_COMPATIBLE_MENU_GetSprite(void *, int);
 extern u32 func_02005728(u32);
-extern u32 func_0200A8F8(struct Rec *r, u32 index);
+extern u32 IRC_RANKING_GetEntryGender(struct Rec *r, u32 index);
 extern void IRC_COMPATIBLE_MENU_InitFloater(int a0, int b, int c, int a3);
 
 void IRC_COMPATIBLE_MENU_InitFloaters(u8 *a, void *b, void *c, int d)
@@ -42,14 +42,14 @@ void IRC_COMPATIBLE_MENU_InitFloaters(u8 *a, void *b, void *c, int d)
     if (c == 0)
         *(u16 *)(a + 0x34e) = 0x1e;
     else
-        *(u16 *)(a + 0x34e) = func_0200A8AC(c);
+        *(u16 *)(a + 0x34e) = IRC_RANKING_GetEntryCount(c);
     for (i = 0; i < *(u16 *)(a + 0x34e); i++) {
         u32 t = IRC_COMPATIBLE_MENU_GetSprite(b, i);
         u32 u;
         if (c == 0)
             u = func_02005728(2);
         else
-            u = (func_0200A8F8(c, i) == 1);
+            u = (IRC_RANKING_GetEntryGender(c, i) == 1);
         IRC_COMPATIBLE_MENU_InitFloater((int)(a + i * 0x1c), t, u, d);
     }
 }

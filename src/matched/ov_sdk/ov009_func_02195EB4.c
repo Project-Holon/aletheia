@@ -1,5 +1,5 @@
 /*
- * function: func_02195EB4
+ * function: gti2SNDiff
  * address:  0x02195EB4
  * packet:   pkt_02155168
  * region:   ov009
@@ -14,7 +14,7 @@
 
 typedef short s16;
 
-s16 func_02195EB4(s16 a, s16 b)
+s16 gti2SNDiff(s16 a, s16 b)
 {
     return (s16)(a - b);
 }

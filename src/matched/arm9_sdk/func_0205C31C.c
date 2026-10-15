@@ -1,5 +1,5 @@
 /*
- * function: func_0205C31C
+ * function: DWCi_AC_SetApType
  * address:  0x0205C31C
  * packet:   pkt_0205C31C
  * region:   arm9
@@ -142,7 +142,7 @@ extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern BOOL DWCi_AC_GetPostalCode(char *ssid, u8 *pos);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-void func_0205C31C(u8 type)
+void DWCi_AC_SetApType(u8 type)
 {
     u8 *essid;
 

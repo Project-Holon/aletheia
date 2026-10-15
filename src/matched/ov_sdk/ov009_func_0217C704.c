@@ -12,8 +12,8 @@
  * sdk:      SendPacket (gsavailable.o)
  *
  * symbols:
- *   func_0217ECA4  0x0217ECA4  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
+ *   sendto  0x0217ECA4  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   g_021ACF7C     0x021ACF7C  data
  *   g_021ACF80     0x021ACF80  data
  *   g_021ACF88     0x021ACF88  data
@@ -31,11 +31,11 @@ extern AC g_021ACF7C;
 extern struct SOCSockAddrIn g_021ACF80;
 extern char g_021ACF88[];
 struct SOCSockAddr;
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern unsigned int func_0217F264(void);
+extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+extern unsigned int current_time(void);
 
 void func_0217C704(void)
 {
-    func_0217ECA4(g_021ACF7C.sock, g_021ACF88, g_021ACF7C.len, 0, (struct SOCSockAddr *)((char *)&g_021ACF80), 8);
-    g_021ACF7C.time = func_0217F264();
+    sendto(g_021ACF7C.sock, g_021ACF88, g_021ACF7C.len, 0, (struct SOCSockAddr *)((char *)&g_021ACF80), 8);
+    g_021ACF7C.time = current_time();
 }

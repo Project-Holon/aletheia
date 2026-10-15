@@ -13,7 +13,7 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   UI_SCENE_FreeActorGfx  0x021B6284  thumb  ov067
  *   BMP_WIN_Delete  0x020452E8  arm
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj07677.h"
@@ -27,7 +27,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 func_020307B0(void *p);
 
 void YESNO_MENU_Delete(u8 *p)
@@ -42,6 +42,6 @@ void YESNO_MENU_Delete(u8 *p)
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj07677 *)p)->f88));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj07677 *)p)->f8C));
     v = ((struct Obj07677 *)p)->f84;
-    func_0203FB44(p[0x14], (u16)v, (u16)(v >> 16));
+    BG_SYS_DeleteHalf(p[0x14], (u16)v, (u16)(v >> 16));
     func_020307B0(p);
 }

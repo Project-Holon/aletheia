@@ -10,7 +10,7 @@
  * symbols:
  *   func_02211420 0x02211420 thumb ov198
  *   func_0221189C 0x0221189C thumb ov198
- *   func_0220BBF0 0x0220BBF0 thumb ov198
+ *   B_PLIST_ANM_UpdateSelectedTile 0x0220BBF0 thumb ov198
  *   func_0220C67C 0x0220C67C thumb ov198
  *   func_0220E27C 0x0220E27C thumb ov198
  */
@@ -18,14 +18,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_02211420(u8 *);
 extern int func_0221189C(u8 *);
-extern void func_0220BBF0(u8 *);
+extern void B_PLIST_ANM_UpdateSelectedTile(u8 *);
 extern void func_0220C67C(char *p);
 extern void func_0220E27C(u8 *p);
 int func_02211810(u8 *p)
 {
     if (func_02211420(p) == 0) {
         if (func_0221189C(p) == 0) return 31;
-        func_0220BBF0(p);
+        B_PLIST_ANM_UpdateSelectedTile(p);
         func_0220C67C((char *)p);
         func_0220E27C(p);
         return 3;

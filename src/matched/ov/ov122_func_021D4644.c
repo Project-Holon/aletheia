@@ -1,5 +1,5 @@
 /*
- * function: func_021D4644
+ * function: INTRUDE_COMM_VIEW_BrightenPalette
  * address: 0x021D4644
  * packet: pkt_ov122_021D4644
  * region: ov122
@@ -10,7 +10,7 @@
  * extent: Two zero padding bytes at 021D46CA, next function 021D46CC.
  */
 typedef unsigned short u16;
-void func_021D4644(u16 *p, const u16 *add, int count)
+void INTRUDE_COMM_VIEW_BrightenPalette(u16 *p, const u16 *add, int count)
 {
     int i, j;
     for (i = 0; i < count; i++) {

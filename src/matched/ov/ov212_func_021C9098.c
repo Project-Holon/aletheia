@@ -1,5 +1,5 @@
 /*
- * function: func_021C9098
+ * function: ZUKAN_ResumeProc209
  * address: 0x021C9098
  * packet: pkt_ov212_021C9098
  * region: ov212
@@ -10,8 +10,8 @@
  * lever: spell the empty-result arm first in the nested if/else;
  * shared failure exit remains after the switch.
  * symbols:
- *   func_021C8F7C 0x021C8F7C thumb ov212
- *   func_021C9288 0x021C9288 thumb ov212
+ *   ZUKAN_FreeIdList 0x021C8F7C thumb ov212
+ *   ZUKAN_LoadListAndSelection 0x021C9288 thumb ov212
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj01587.h"
@@ -25,11 +25,11 @@
 typedef unsigned short u16;
 struct Blk37;
 typedef unsigned char  u8;
-extern void func_021C8F7C(u8 *p);
-extern u16 func_021C9288(struct Blk37 *,u16 **,unsigned);
+extern void ZUKAN_FreeIdList(u8 *p);
+extern u16 ZUKAN_LoadListAndSelection(struct Blk37 *,u16 **,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-int func_021C9098(char *p)
+int ZUKAN_ResumeProc209(char *p)
 {
     int result;
     switch(((struct Obj25660 *)(*(char * *)&((struct Obj01587 *)p)->f28))->f10){
@@ -37,21 +37,21 @@ int func_021C9098(char *p)
         if(((struct Obj01587 *)p)->f12==0){
             ((struct Obj25661 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=0;result=9;
         }else{
-            func_021C8F7C((u8 *)p);
-            ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25662 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+            ZUKAN_FreeIdList((u8 *)p);
+            ((struct Obj01587 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25662 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
             ((struct Obj01587 *)p)->f12=0;result=3;
         }
         goto done;
     case 1:((struct Obj25663 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=1;result=9;goto done;
     case 2:
-        func_021C8F7C((u8 *)p);
-        ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25664 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+        ZUKAN_FreeIdList((u8 *)p);
+        ((struct Obj01587 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25664 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         result=3;goto done;
     case 3:result=5;((struct Obj01587 *)p)->f24=1;goto done;
     case 4:
         if(((struct Obj01587 *)p)->f12==1){
-            func_021C8F7C((u8 *)p);
-            ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25665 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+            ZUKAN_FreeIdList((u8 *)p);
+            ((struct Obj01587 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25665 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         }
         result=7;goto done;
     default:break;

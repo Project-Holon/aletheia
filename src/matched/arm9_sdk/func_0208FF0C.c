@@ -1,5 +1,5 @@
 /*
- * function: func_0208FF0C
+ * function: WM_SetDCFData
  * address:  0x0208FF0C
  * packet:   pkt_0208FF0C
  * region:   arm9
@@ -75,7 +75,7 @@ extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 
-WMErrCode func_0208FF0C(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize)
+WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize)
 {
     WMErrCode result;
     u32 wMac[2];

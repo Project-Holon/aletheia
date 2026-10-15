@@ -1,5 +1,5 @@
 /*
- * function: func_02077168
+ * function: CARDi_ReadRomSyncCore
  * address:  0x02077168
  * packet:   pkt_02077168
  * region:   arm9
@@ -82,7 +82,7 @@ extern u32 CARDi_ReadRomIDCore(void);
 extern void CARDi_CheckPulledOutCore(u32 id);
 extern void CARDi_RefreshRom(u32 warn_mask);
 
-void func_02077168(CARDiCommon *c)
+void CARDi_ReadRomSyncCore(CARDiCommon *c)
 {
     (void)(*cardi_rom_base.read_func)(0, (void *)c->dst, c->src, c->len);
     CARDi_CheckPulledOutCore(CARDi_ReadRomIDCore());

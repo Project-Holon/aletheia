@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C49A4 0x021C49A4 thumb ov127
+ *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
  *   WIFICLUBACTOR_QueueMoveCommand 0x021BA594 thumb ov099
  */
 typedef unsigned char u8;
-extern int func_021C49A4(u8 *, unsigned int);
+extern int WF2DMAP_OBJ_GetSlot(u8 *, unsigned int);
 extern void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c);
 void WIFICLUBACTOR_QueueActorMove(void *a, int b, u8 **p) {
-    int c = func_021C49A4(*p, 6);
-    int d = func_021C49A4(*p, 4);
+    int c = WF2DMAP_OBJ_GetSlot(*p, 6);
+    int d = WF2DMAP_OBJ_GetSlot(*p, 4);
     WIFICLUBACTOR_QueueMoveCommand(a,b,c,d);
 }

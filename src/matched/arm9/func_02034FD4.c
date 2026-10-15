@@ -1,5 +1,5 @@
 /*
- * function: func_02034FD4
+ * function: UI_TestKeepAwakeFlags
  * address:  0x02034FD4
  * packet:   pkt_02034FD4
  * region:   arm9
@@ -21,7 +21,7 @@ struct UiCtx {
 };
 #define gUiState (*(struct UiCtx **)0x021469BC)
 
-u32 func_02034FD4(struct UiCtx *p, u8 flags)
+u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags)
 {
     return (p->always & flags) != 0;
 }

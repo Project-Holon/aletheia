@@ -18,15 +18,19 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6D3C",
-    "func_021B6F24"
+    "LOCAL_TVT_CHARA_Update",
+    "LOCAL_TVT_CHARA_SetActive"
    ],
    "evidence": {
     "sole-ref": [
      "data:0x021B7480",
      "data:0x021B7484"
     ]
-   }
+   },
+   "addresses": [
+    "0x021B6D3C",
+    "0x021B6F24"
+   ]
   }
  ]
 }

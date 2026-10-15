@@ -1,5 +1,5 @@
 /*
- * function: func_0219A054
+ * function: NegotiateThink
  * address:  0x0219A054
  * packet:   pkt_ov009_0219A054
  * region:   ov009
@@ -13,32 +13,32 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021991C8  0x021991C8  arm  ov009
+ *   RemoveNegotiator  0x021991C8  arm  ov009
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_0219AB8C  0x0219AB8C  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_021994F0  0x021994F0  arm  ov009
- *   func_021995E4  0x021995E4  arm  ov009
- *   func_0219972C  0x0219972C  arm  ov009
- *   func_02199A90  0x02199A90  arm  ov009
- *   func_02199394  0x02199394  arm  ov009
- *   func_0219A034  0x0219A034  arm  ov009
- *   g_021A5E88     0x021A5E88  data
- *   g_021A5EAC     0x021A5EAC  data
- *   g_021AE7A0     0x021AE7A0  data
- *   g_021A5EE8     0x021A5EE8  data
- *   g_021A5F1C     0x021A5F1C  data
- *   g_021A5F5C     0x021A5F5C  data
- *   g_021A5FA0     0x021A5FA0  data
- *   g_021A5FE8     0x021A5FE8  data
- *   g_021A6028     0x021A6028  data
- *   g_021A606C     0x021A606C  data
- *   g_021A60B8     0x021A60B8  data
- *   g_021A60FC     0x021A60FC  data
- *   g_021A6150     0x021A6150  data
- *   g_021A61A0     0x021A61A0  data
+ *   GOAGetLastError  0x0217ED54  arm  ov009
+ *   NNProcessData  0x0219AB8C  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
+ *   StartReport  0x021994F0  arm  ov009
+ *   SendPreinitPacket  0x021995E4  arm  ov009
+ *   SendInitPackets  0x0219972C  arm  ov009
+ *   SendPingPacket  0x02199A90  arm  ov009
+ *   SendReportPacket  0x02199394  arm  ov009
+ *   RemoveFinishedNegotiator  0x0219A034  arm  ov009
+ *   gNatNegThinkNullFmt     0x021A5E88  data
+ *   gNatNegThinkRemoveFmt     0x021A5EAC  data
+ *   gNatNegRecvBuf     0x021AE7A0  data
+ *   gNatNegRecvErrFmt     0x021A5EE8  data
+ *   gNatNegInitTimeoutFmt     0x021A5F1C  data
+ *   gNatNegResendInitFmt     0x021A5F5C  data
+ *   gNatNegNoPingFmt     0x021A5FA0  data
+ *   gNatNegPingTimeoutFmt     0x021A5FE8  data
+ *   gNatNegResendPingFmt     0x021A6028  data
+ *   gNatNegReportTimeoutFmt     0x021A606C  data
+ *   gNatNegResendReportFmt     0x021A60B8  data
+ *   gNatNegBothDoneFmt     0x021A60FC  data
+ *   gNatNegLingerDoneFmt     0x021A6150  data
+ *   gNatNegRemovePostFmt     0x021A61A0  data
  *
  * State enum is compared unsigned in the two range tests (bhi), so those
  * two reads are cast to unsigned int. The receive loop is a do/while with
@@ -80,49 +80,49 @@ typedef struct _NATNegotiator {
 } NATNegotiator;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_021991C8(NATNegotiator *neg);
+extern void RemoveNegotiator(NATNegotiator *neg);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern int func_0217ED54(int sock);
-extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
-extern unsigned long func_0217F264(void);
-extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
+extern int GOAGetLastError(int sock);
+extern void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
+extern unsigned long current_time(void);
+extern void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
 struct NATNegotiator;
-extern void func_021995E4(struct NATNegotiator *neg);
-extern void func_0219972C(NATNegotiator *neg);
-extern void func_02199A90(struct NATNegotiator *neg);
-extern void func_02199394(struct NATNegotiator *neg);
-extern void func_0219A034(int *p);
+extern void SendPreinitPacket(struct NATNegotiator *neg);
+extern void SendInitPackets(NATNegotiator *neg);
+extern void SendPingPacket(struct NATNegotiator *neg);
+extern void SendReportPacket(struct NATNegotiator *neg);
+extern void RemoveFinishedNegotiator(int *p);
 
-extern char g_021A5E88[];
-extern char g_021A5EAC[];
-extern char g_021AE7A0[];
-extern char g_021A5EE8[];
-extern char g_021A5F1C[];
-extern char g_021A5F5C[];
-extern char g_021A5FA0[];
-extern char g_021A5FE8[];
-extern char g_021A6028[];
-extern char g_021A606C[];
-extern char g_021A60B8[];
-extern char g_021A60FC[];
-extern char g_021A6150[];
-extern char g_021A61A0[];
+extern char gNatNegThinkNullFmt[];
+extern char gNatNegThinkRemoveFmt[];
+extern char gNatNegRecvBuf[];
+extern char gNatNegRecvErrFmt[];
+extern char gNatNegInitTimeoutFmt[];
+extern char gNatNegResendInitFmt[];
+extern char gNatNegNoPingFmt[];
+extern char gNatNegPingTimeoutFmt[];
+extern char gNatNegResendPingFmt[];
+extern char gNatNegReportTimeoutFmt[];
+extern char gNatNegResendReportFmt[];
+extern char gNatNegBothDoneFmt[];
+extern char gNatNegLingerDoneFmt[];
+extern char gNatNegRemovePostFmt[];
 
-void func_0219A054(NATNegotiator *neg)
+void NegotiateThink(NATNegotiator *neg)
 {
     SOCSockAddrIn saddr;
     int saddrlen = sizeof(SOCSockAddrIn);
     int error;
 
     if (neg == 0) {
-        func_0217D254(7, (char *)4, 4, g_021A5E88);
+        func_0217D254(7, (char *)4, 4, gNatNegThinkNullFmt);
         return;
     }
 
     if (neg->state == ns_canceled) {
-        func_0217D254(7, (char *)2, 8, g_021A5EAC, neg->cookie);
-        func_021991C8(neg);
+        func_0217D254(7, (char *)2, 8, gNatNegThinkRemoveFmt, neg->cookie);
+        RemoveNegotiator(neg);
         return;
     }
 
@@ -130,76 +130,76 @@ void func_0219A054(NATNegotiator *neg)
         do {
             if (!func_0217EF50(neg->negotiateSock))
                 break;
-            error = func_0217EC60(neg->negotiateSock, g_021AE7A0, 512, 0, &saddr, &saddrlen);
+            error = func_0217EC60(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
             if (error == -1) {
-                func_0217D254(7, 0, 8, g_021A5EE8, neg->cookie, func_0217ED54(neg->negotiateSock));
+                func_0217D254(7, 0, 8, gNatNegRecvErrFmt, neg->cookie, GOAGetLastError(neg->negotiateSock));
                 break;
             }
-            func_0219AB8C(g_021AE7A0, error, &saddr);
+            NNProcessData(gNatNegRecvBuf, error, &saddr);
             if (neg->state == ns_canceled)
                 break;
         } while (neg->negotiateSock != -1);
     }
 
     if ((neg->state == ns_preinitsent || neg->state == ns_preinitack || neg->state == ns_initsent ||
-         neg->state == ns_connectping) && func_0217F264() > neg->retryTime) {
+         neg->state == ns_connectping) && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 0, 8, g_021A5F1C, neg->cookie);
+            func_0217D254(7, 0, 8, gNatNegInitTimeoutFmt, neg->cookie);
             if ((unsigned int)neg->state <= ns_initsent)
-                func_021994F0(neg, 2, -1, 0);
+                StartReport(neg, 2, -1, 0);
             else
-                func_021994F0(neg, 3, -1, 0);
+                StartReport(neg, 3, -1, 0);
         } else {
             neg->retryCount++;
-            func_0217D254(7, 0, 8, g_021A5F5C, neg->cookie, neg->retryCount);
+            func_0217D254(7, 0, 8, gNatNegResendInitFmt, neg->cookie, neg->retryCount);
             if ((unsigned int)neg->state <= ns_preinitack)
-                func_021995E4((struct NATNegotiator *)neg);
+                SendPreinitPacket((struct NATNegotiator *)neg);
             else if (neg->state == ns_initsent)
-                func_0219972C(neg);
+                SendInitPackets(neg);
             else
-                func_02199A90((struct NATNegotiator *)neg);
+                SendPingPacket((struct NATNegotiator *)neg);
         }
     }
 
-    if (neg->state == ns_initack && func_0217F264() > neg->retryTime) {
-        func_0217D254(7, 0, 8, g_021A5FA0, neg->cookie);
-        func_021994F0(neg, 1, -1, 0);
+    if (neg->state == ns_initack && current_time() > neg->retryTime) {
+        func_0217D254(7, 0, 8, gNatNegNoPingFmt, neg->cookie);
+        StartReport(neg, 1, -1, 0);
     }
 
-    if (neg->state == ns_connectping && func_0217F264() > neg->retryTime) {
+    if (neg->state == ns_connectping && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 0, 8, g_021A5FE8, neg->cookie);
-            func_021994F0(neg, 3, -1, 0);
+            func_0217D254(7, 0, 8, gNatNegPingTimeoutFmt, neg->cookie);
+            StartReport(neg, 3, -1, 0);
         } else {
             neg->retryCount++;
-            func_0217D254(7, 0, 8, g_021A6028, neg->cookie, neg->retryCount);
-            func_02199A90((struct NATNegotiator *)neg);
-            neg->retryTime = func_0217F264() + 700;
+            func_0217D254(7, 0, 8, gNatNegResendPingFmt, neg->cookie, neg->retryCount);
+            SendPingPacket((struct NATNegotiator *)neg);
+            neg->retryTime = current_time() + 700;
         }
     }
 
-    if (neg->state == ns_reportsent && func_0217F264() > neg->retryTime) {
+    if (neg->state == ns_reportsent && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, (char *)3, 8, g_021A606C, neg->cookie);
+            func_0217D254(7, (char *)3, 8, gNatNegReportTimeoutFmt, neg->cookie);
             neg->state = ns_finished;
         } else {
-            func_02199394((struct NATNegotiator *)neg);
+            SendReportPacket((struct NATNegotiator *)neg);
             neg->retryCount++;
-            func_0217D254(7, 0, 8, g_021A60B8, neg->cookie, neg->retryCount);
-            neg->retryTime = func_0217F264() + 500;
+            func_0217D254(7, 0, 8, gNatNegResendReportFmt, neg->cookie, neg->retryCount);
+            neg->retryTime = current_time() + 500;
         }
     }
 
     if (neg->state == ns_finished || neg->state == ns_reportack) {
         if (neg->sendGotRemoteData)
-            func_0217D254(7, (char *)3, 8, g_021A60FC, neg->cookie);
-        else if (func_0217F264() > neg->retryTime)
-            func_0217D254(7, (char *)3, 8, g_021A6150, neg->cookie);
-        func_0219A034((int *)neg);
+            func_0217D254(7, (char *)3, 8, gNatNegBothDoneFmt, neg->cookie);
+        else if (current_time() > neg->retryTime)
+            func_0217D254(7, (char *)3, 8, gNatNegLingerDoneFmt, neg->cookie);
+        RemoveFinishedNegotiator((int *)neg);
     }
 
     if (neg->state == ns_canceled) {
-        func_0217D254(7, (char *)2, 8, g_021A61A0, neg->cookie);
-        func_021991C8(neg);
+        func_0217D254(7, (char *)2, 8, gNatNegRemovePostFmt, neg->cookie);
+        RemoveNegotiator(neg);
     }
 }

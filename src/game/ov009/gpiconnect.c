@@ -15,24 +15,24 @@
  * symbols:
  *   func_02094694  0x02094694  arm
  *   g_021A4618     0x021A4618  data  ov009
- *   func_02094860  0x02094860  arm
- *   func_02180E48  0x02180E48  arm   ov009
+ *   strncpy  0x02094860  arm
+ *   gsUdpEngineIsInitialized  0x02180E48  arm   ov009
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_02180E58  0x02180E58  arm   ov009
+ *   gsUdpEngineInitialize  0x02180E58  arm   ov009
  *   func_02193710  0x02193710  arm   ov009
  *   func_02189D78  0x02189D78  arm   ov009
  *   func_0218158C  0x0218158C  arm   ov009
- *   func_021815C8  0x021815C8  arm   ov009
+ *   gsUdpEngineAddMsgHandler  0x021815C8  arm   ov009
  *   func_0217EB18  0x0217EB18  arm   ov009
- *   func_0217EE50  0x0217EE50  arm   ov009
- *   func_0217ED38  0x0217ED38  arm   ov009
+ *   SetSockBlocking  0x0217EE50  arm   ov009
+ *   inet_addr  0x0217ED38  arm   ov009
  *   SOC_GetHostByName  0x0215F650  arm   ov009
  *   func_0217EC08  0x0217EC08  arm   ov009
- *   func_0217ED54  0x0217ED54  arm   ov009
+ *   GOAGetLastError  0x0217ED54  arm   ov009
  *   func_0218F5F4  0x0218F5F4  arm   ov009
- *   func_0218F880  0x0218F880  arm   ov009
- *   func_0218F65C  0x0218F65C  arm   ov009
- *   func_0218F7B8  0x0218F7B8  arm   ov009
+ *   gpiPeerPingReplyCallback  0x0218F880  arm   ov009
+ *   gpiPeerMessageCallback  0x0218F65C  arm   ov009
+ *   gpiPeerAcceptedCallback  0x0218F7B8  arm   ov009
  *   g_021A4658     0x021A4658  data
  *   g_021A4664     0x021A4664  data
  *   g_021A467C     0x021A467C  data
@@ -48,15 +48,15 @@
  *   func_021867E8  0x021867E8  arm   ov009
  *   func_02193734  0x02193734  arm   ov009
  *   func_0219327C  0x0219327C  arm   ov009
- *   func_0217F21C  0x0217F21C  arm   ov009
+ *   _strlwr  0x0217F21C  arm   ov009
  *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0218E114  0x0218E114  arm   ov009
  *   func_0218DD88  0x0218DD88  arm   ov009
  *   func_02186E9C  0x02186E9C  arm   ov009
  *   g_021A4818     0x021A4818  data
  *   g_021A482C     0x021A482C  data
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_021858A8  0x021858A8  arm   ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_0218FF98  0x0218FF98  arm   ov009
@@ -88,9 +88,9 @@
  *   g_021A4954     0x021A4954  data
  *   g_021A495C     0x021A495C  data
  *   func_02193748  0x02193748  arm   ov009
- *   func_0217F790  0x0217F790  arm   ov009
- *   func_0217F7AC  0x0217F7AC  arm   ov009
- *   func_0217FA90  0x0217FA90  arm   ov009
+ *   Util_RandSeed  0x0217F790  arm   ov009
+ *   Util_RandInt  0x0217F7AC  arm   ov009
+ *   B64Encode  0x0217FA90  arm   ov009
  *   g_021A4964     0x021A4964  data
  *   g_021A4970     0x021A4970  data
  *   g_021A4978     0x021A4978  data
@@ -99,8 +99,8 @@
  *   func_0219329C  0x0219329C  arm   ov009
  *   func_0218FEF0  0x0218FEF0  arm   ov009
  *   func_02193418  0x02193418  arm   ov009
- *   func_020964E0  0x020964E0  arm
- *   func_020949F4  0x020949F4  arm
+ *   atoi  0x020964E0  arm
+ *   strncmp  0x020949F4  arm
  *   func_020923F0  0x020923F0  arm
  *   func_0218FCD8  0x0218FCD8  arm   ov009
  *   func_02189DFC  0x02189DFC  arm   ov009
@@ -122,8 +122,8 @@
  *   func_0218FF24  0x0218ff24  arm   ov009
  *   func_0218998C  0x0218998C  arm   ov009
  *   func_0217EB9C  0x0217EB9C  arm   ov009
- *   func_0217EB2C  0x0217EB2C  arm   ov009
- *   func_02181748  0x02181748  arm   ov009
+ *   closesocket  0x0217EB2C  arm   ov009
+ *   gsUdpEngineRemoveMsgHandler  0x02181748  arm   ov009
  *   func_02181828  0x02181828  arm   ov009
  *   func_02181874  0x02181874  arm   ov009
  *   func_02181530  0x02181530  arm   ov009
@@ -411,48 +411,48 @@ typedef struct GPIConnection_0218B914 {
 } GPIConnection_0218B914;
 
 extern unsigned int func_02094694();
-extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
-extern int func_02180E48(void);
+extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+extern int gsUdpEngineIsInitialized(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
+extern int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern unsigned short func_0218158C(void);
-extern int func_021815C8(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
+extern int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern int func_0217EE50(int sock, int isblocking);
-extern int func_0217ED38(int a);
+extern int SetSockBlocking(int sock, int isblocking);
+extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern void func_0218F5F4(void);
-extern void func_0218F880(void);
-extern void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message, int messageLength, int unused, void *userData);
-extern void func_0218F7B8(unsigned int ip, unsigned short port, int unused, int rejected, void *userData);
+extern void gpiPeerPingReplyCallback(void);
+extern void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message, int messageLength, int unused, void *userData);
+extern void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, int rejected, void *userData);
 extern int func_021867E8(void **connection);
 extern void func_02193734(int *p, int b);
 extern void func_0219327C(char *p, int b, int n);
-extern char *func_0217F21C(char *string);
+extern char *_strlwr(char *string);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *dst, int val, unsigned long len);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_0218DD88(void **connection, const struct GPIOperation_s *operation);
 extern int func_02186E9C(void **connection, int blockingOperationID);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0218FF98(void **connection, char *nick, char *email, GPIProfile **profile);
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
 extern void func_02193748(const char *plaintext, char *encoded);
-extern void func_0217F790(unsigned long seed);
-extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern void Util_RandSeed(unsigned long seed);
+extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern int func_0219329C(int *connection, const char *input, int fatal);
 extern void func_0218FEF0(void **connection, int profileid);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(u32 a0);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int atoi(u32 a0);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern GPIProfile_0218AE9C *func_0218FCD8(void **connection, int id);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
@@ -463,8 +463,8 @@ extern void func_021841B0(void *array);
 extern void func_0218FF24(const int *p, void *profile);
 extern int func_0218998C(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 extern int func_0217EB9C(int sock, int how);
-extern int func_0217EB2C(int sock);
-extern int func_02181748(char *theHeader);
+extern int closesocket(int sock);
+extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
 extern int func_02181828(void);
 extern int func_02181874(void);
 extern int func_02181530(void);
@@ -560,7 +560,7 @@ void func_0218A1D0(char *buffer, int numChars)
 /*
  * sdk:      gpiStartConnect (gpiconnect.o)
  *
- * gpiPeerPingReplyCallback (func_0218F880) is its own 4-byte function since
+ * gpiPeerPingReplyCallback (gpiPeerPingReplyCallback) is its own 4-byte function since
  * 2026-09-29 (w4_nm: seeded start, catalog row, EXACT stub).
  * The port-retry loop sits under its own if (anError != 0): the object tests
  * the first gsUdpEngineInitialize result once and skips both the loop and the
@@ -577,17 +577,17 @@ int func_0218A238(void **connection, GPIOperation *operation)
     unsigned short peerPort;
     int error;
 
-    func_02094860((u8 *)iconnection->mHeader, (const u8 *)g_021A4658, 16);
+    strncpy((u8 *)iconnection->mHeader, (const u8 *)g_021A4658, 16);
 
-    if (!func_02180E48()) {
+    if (!gsUdpEngineIsInitialized()) {
         peerPort = 6500;
         func_0217D254(1, 0, 8, g_021A4664);
-        anError = func_02180E58(peerPort, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        anError = gsUdpEngineInitialize(peerPort, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         if (anError != 0) {
             while (anError != 0 && peerPort < 6500 + 100) {
                 func_0217D254(1, 0, 16, g_021A467C, peerPort);
                 peerPort++;
-                anError = func_02180E58(peerPort, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                anError = gsUdpEngineInitialize(peerPort, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
             if (anError != 0) {
                 func_0217D254(1, 0, 1, g_021A46A0);
@@ -603,9 +603,9 @@ int func_0218A238(void **connection, GPIOperation *operation)
         iconnection->peerPort = func_0218158C();
     }
 
-    anError = func_021815C8(iconnection->mHeader, iconnection->mHeader, 0,
-                            (void *)func_0218F7B8, (void *)func_0218F5F4,
-                            (void *)func_0218F880, (void *)func_0218F65C, connection);
+    anError = gsUdpEngineAddMsgHandler(iconnection->mHeader, iconnection->mHeader, 0,
+                            (void *)gpiPeerAcceptedCallback, (void *)func_0218F5F4,
+                            (void *)gpiPeerPingReplyCallback, (void *)gpiPeerMessageCallback, connection);
     if (anError != 0) {
         func_02193710((int *)connection, 8, (int)g_021A4734);
         func_02189D78((int *)connection, 3, 1);
@@ -622,7 +622,7 @@ int func_0218A238(void **connection, GPIOperation *operation)
         return 3;
     }
 
-    rcode = func_0217EE50(iconnection->cmSocket, 0);
+    rcode = SetSockBlocking(iconnection->cmSocket, 0);
     if (!rcode) {
         func_02193710((int *)connection, 5, (int)g_021A4788);
         func_02189D78((int *)connection, 3, 1);
@@ -635,7 +635,7 @@ int func_0218A238(void **connection, GPIOperation *operation)
         p[1] = 0;
     }
     address.family = 2;
-    if (func_0217ED38((int)g_021A45D8) == 0xFFFFFFFF) {
+    if (inet_addr((int)g_021A45D8) == 0xFFFFFFFF) {
         host = SOC_GetHostByName(g_021A45D8);
         if (host == 0) {
             func_02193710((int *)connection, 5, (int)g_021A47BC);
@@ -644,13 +644,13 @@ int func_0218A238(void **connection, GPIOperation *operation)
         }
         address.addr = *(unsigned int *)host->addrList[0];
     } else {
-        address.addr = func_0217ED38((int)g_021A45D8);
+        address.addr = inet_addr((int)g_021A45D8);
     }
     address.port = 0xcc74;
 
     rcode = func_0217EC08(iconnection->cmSocket, &address, sizeof(address));
     if (rcode == -1) {
-        error = func_0217ED54(iconnection->cmSocket);
+        error = GOAGetLastError(iconnection->cmSocket);
         if (error != -6 && error != -26 && error != -76) {
             func_02193710((int *)connection, 5, (int)g_021A47F0);
             func_02189D78((int *)connection, 3, 1);
@@ -697,14 +697,14 @@ int func_0218A624(void **connection, char *nick, char *uniquenick, char *email,
     func_0219327C(iconnection->uniquenick, (int)uniquenick, 21);
     func_0219327C(iconnection->email, (int)email, 51);
     func_0219327C(iconnection->password, (int)password, 31);
-    func_0217F21C(iconnection->email);
+    _strlwr(iconnection->email);
 
     data = (GPIConnectData *)func_0217EAB0(sizeof(GPIConnectData));
     if (data == 0) {
         func_02193734((int *)connection, (int)g_021A482C);
         return 1;
     }
-    func_020923B0(data, 0, sizeof(GPIConnectData));
+    MSL_C_LIB_MemsetPtr(data, 0, sizeof(GPIConnectData));
     data->newuser = newuser;
     if (authtoken[0] && partnerchallenge[0]) {
         func_0219327C(data->authtoken, (int)authtoken, 256);
@@ -756,7 +756,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
         passphrase = data->partnerchallenge;
     else
         passphrase = iconnection->password;
-    func_021858A8((unsigned char *)passphrase, func_0209477C((const u8 *)passphrase), data->passwordHash);
+    func_021858A8((unsigned char *)passphrase, strlen((const u8 *)passphrase), data->passwordHash);
 
     if (iconnection->partnerID != 0)
         OS_SPrintf(partnerBuffer, g_021A483C, iconnection->partnerID);
@@ -775,7 +775,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
 
     OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                   data->userChallenge, data->serverChallenge, data->passwordHash);
-    func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), response);
+    func_021858A8((unsigned char *)buffer, strlen((const u8 *)buffer), response);
 
     if (iconnection->infoCaching) {
         func_0218FF98(connection, iconnection->nick, iconnection->email, &profile);
@@ -863,14 +863,14 @@ int func_0218AC4C(void **connection, GPIConnectData *data)
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->uniquenick);
 
     if (data->cdkey[0] != '\0') {
-        cdkeylen = func_0209477C((const u8 *)data->cdkey);
-        func_0217F790(0x79707367);
+        cdkeylen = strlen((const u8 *)data->cdkey);
+        Util_RandSeed(0x79707367);
         for (i = 0; i < cdkeylen; i++) {
-            aRand = (char)func_0217F7AC(0, 0xFF);
+            aRand = (char)Util_RandInt(0, 0xFF);
             cdkeyxor[i] = (char)(data->cdkey[i] ^ aRand);
         }
         cdkeyxor[i] = '\0';
-        func_0217FA90(cdkeyxor, cdkeyenc, (int)cdkeylen, 1);
+        B64Encode(cdkeyxor, cdkeyenc, (int)cdkeylen, 1);
         func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4990);
         func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), cdkeyenc);
     }
@@ -913,7 +913,7 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
             iconnection->profileid = 0;
         } else if (iconnection->errorCode == 0x201) {
             if (func_02193418(input, g_021A499C, buffer, sizeof(buffer)))
-                iconnection->profileid = func_020964E0((u32)buffer);
+                iconnection->profileid = atoi((u32)buffer);
         }
         func_02193710((int *)connection, iconnection->errorCode, (int)iconnection->errorString);
         __result__ = 4;
@@ -925,7 +925,7 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
 
     switch (operation->state) {
     case 1:
-        if (func_020949F4((const u8 *)input, (const u8 *)g_021A49A4, 5) != 0) {
+        if (strncmp((const u8 *)input, (const u8 *)g_021A49A4, 5) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
@@ -950,7 +950,7 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
         }
         break;
     case 3:
-        if (func_020949F4((const u8 *)input, (const u8 *)g_021A49DC, 5) != 0) {
+        if (strncmp((const u8 *)input, (const u8 *)g_021A49DC, 5) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
@@ -962,21 +962,21 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
             func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->userid = func_020964E0((u32)buffer);
+        iconnection->userid = atoi((u32)buffer);
         if (!func_02193418(input, g_021A48DC, buffer, sizeof(buffer))) {
             func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->profileid = func_020964E0((u32)buffer);
+        iconnection->profileid = atoi((u32)buffer);
         __result__ = func_0218A830(connection, data);
         if (__result__ != 0)
             return __result__;
         operation->state = 2;
         break;
     case 2:
-        if (func_020949F4((const u8 *)input, (const u8 *)g_021A4A14, 5) != 0) {
+        if (strncmp((const u8 *)input, (const u8 *)g_021A4A14, 5) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
@@ -988,21 +988,21 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
             func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->sessKey = func_020964E0((u32)buffer);
+        iconnection->sessKey = atoi((u32)buffer);
         if (!func_02193418(input, g_021A48D0, buffer, sizeof(buffer))) {
             func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->userid = func_020964E0((u32)buffer);
+        iconnection->userid = atoi((u32)buffer);
         if (!func_02193418(input, g_021A48DC, buffer, sizeof(buffer))) {
             func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->profileid = func_020964E0((u32)buffer);
+        iconnection->profileid = atoi((u32)buffer);
         if (!func_02193418(input, g_021A48B4, uniquenick, sizeof(uniquenick)))
             uniquenick[0] = '\0';
         if (!func_02193418(input, g_021A4A28, iconnection->loginTicket, sizeof(iconnection->loginTicket)))
@@ -1025,7 +1025,7 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
 
         OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                       data->serverChallenge, data->userChallenge, data->passwordHash);
-        func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), check);
+        func_021858A8((unsigned char *)buffer, strlen((const u8 *)buffer), check);
 
         if (!func_02193418(input, g_021A4A30, buffer, sizeof(buffer))) {
             func_02193710((int *)connection, 1, (int)g_021A49E4);
@@ -1056,7 +1056,7 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
                 func_02193734((int *)connection, (int)g_021A482C);
                 return 1;
             }
-            func_020923B0(arg, 0, sizeof(GPConnectResponseArg));
+            MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPConnectResponseArg));
             arg->profile = iconnection->profileid;
             arg->result = 0;
             func_0219327C(arg->uniquenick, (int)uniquenick, 21);
@@ -1172,7 +1172,7 @@ void func_0218B760(void **connection, int tellServer)
         func_0218998C(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {
             func_0217EB9C(iconnection->cmSocket, 2);
-            func_0217EB2C(iconnection->cmSocket);
+            closesocket(iconnection->cmSocket);
             iconnection->cmSocket = -1;
         }
         iconnection->connectState = 4;
@@ -1180,8 +1180,8 @@ void func_0218B760(void **connection, int tellServer)
         iconnection->profileid = 0;
     }
 
-    if (func_02180E48()) {
-        func_02181748(iconnection->mHeader);
+    if (gsUdpEngineIsInitialized()) {
+        gsUdpEngineRemoveMsgHandler(iconnection->mHeader);
         if (func_02181828() && func_02181874())
             func_02181530();
     }
@@ -1230,12 +1230,12 @@ int func_0218B914(void **connection, char *input)
         func_02189D78((int *)connection, 3, 1);
         return 3;
     }
-    iconnection->f610 = func_020964E0((u32)buffer);
+    iconnection->f610 = atoi((u32)buffer);
     if (!func_02193418(iconnection->f208, g_021A48E8, buffer, 512)) {
         func_02193710((int *)connection, 1, (int)g_021A49AC);
         func_02189D78((int *)connection, 3, 1);
         return 3;
     }
-    iconnection->f1A4 = func_020964E0((u32)buffer);
+    iconnection->f1A4 = atoi((u32)buffer);
     return 0;
 }

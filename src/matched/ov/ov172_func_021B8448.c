@@ -1,5 +1,5 @@
 /*
- * function: func_021B8448
+ * function: CTVT_COMM_SetScanWait
  * address: 0x021B8448
  * packet: pkt_ov172_021B8448
  * region: ov172
@@ -19,7 +19,7 @@
  */
 typedef unsigned short u16;
 extern void WIH_SetScanWaitFrames(u16 v);
-void func_021B8448(void *p, char *q)
+void CTVT_COMM_SetScanWait(void *p, char *q)
 {
     WIH_SetScanWaitFrames(5);
 }

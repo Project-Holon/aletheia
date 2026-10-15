@@ -14,14 +14,15 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_020923B0  0xfunc_020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm  arm9
+ *   MSL_C_LIB_MemsetPtr  0xfunc_020923B0  arm
  */
 
 typedef unsigned int u32;
 
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 
 void *GSMD5_memset(void *p, int c, u32 n)
 {
-    return func_020923B0(p, c, n);
+    return MSL_C_LIB_MemsetPtr(p, c, n);
 }

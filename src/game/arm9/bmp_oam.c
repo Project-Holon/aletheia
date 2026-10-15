@@ -1,7 +1,7 @@
 /*
  * file:     bmp_oam.c
  * unit:     yes
- * function: ACTOR_TOOL_Create, ACTOR_TOOL_Delete, ACTOR_TOOL_AllocRun, ACTOR_TOOL_FreeRun, ACTOR_TOOL_LoadChar, ACTOR_TOOL_LoadCharSimple, ACTOR_TOOL_LoadCharPalAnm, ACTOR_TOOL_LoadCharSimplePalAnm, ACTOR_TOOL_GetCharBlock, ACTOR_TOOL_FreeChar, BMP_OAM_CreateSys, BMP_OAM_DeleteSys, BMP_OAM_Create, BMP_OAM_Delete, BMP_OAM_SetEnabled, BMP_OAM_GetEnabled, BMP_OAM_UploadChars, BMP_OAM_GetPos, BMP_OAM_SetPos, BMP_OAM_SetObjMode, BMP_OAM_SetDrawPriority, BMP_OAM_SetBgPriority, BMP_OAM_SetPalette, BMP_OAM_AcquireModeSlot, BMP_OAM_ReleaseModeSlots, func_02025B38, func_02025B3C, func_02025B64, func_02025B94, func_02025BA0, func_02025BB8, func_02025BD0, func_02025BE8, func_02025BEC, func_02025C1C, func_02025C30, func_02025C44
+ * function: ACTOR_TOOL_Create, ACTOR_TOOL_Delete, ACTOR_TOOL_AllocRun, ACTOR_TOOL_FreeRun, ACTOR_TOOL_LoadChar, ACTOR_TOOL_LoadCharSimple, ACTOR_TOOL_LoadCharPalAnm, ACTOR_TOOL_LoadCharSimplePalAnm, ACTOR_TOOL_GetCharBlock, ACTOR_TOOL_FreeChar, BMP_OAM_CreateSys, BMP_OAM_DeleteSys, BMP_OAM_Create, BMP_OAM_Delete, BMP_OAM_SetEnabled, BMP_OAM_GetEnabled, BMP_OAM_UploadChars, BMP_OAM_GetPos, BMP_OAM_SetPos, BMP_OAM_SetObjMode, BMP_OAM_SetDrawPriority, BMP_OAM_SetBgPriority, BMP_OAM_SetPalette, BMP_OAM_AcquireModeSlot, BMP_OAM_ReleaseModeSlots, func_02025B38, func_02025B3C, func_02025B64, BMP_OAM_Get, func_02025BA0, func_02025BB8, func_02025BD0, BMP_OAM_Update5BE8, BMP_OAM_Check5BEC, func_02025C1C, func_02025C30, BMP_OAM_Check5C44
  * address:  0x02025318
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -189,15 +189,15 @@ void BMP_OAM_ReleaseModeSlots(struct BmpOamSys *sys);
 int func_02025B38(void);
 u32 func_02025B3C(u32 key);
 u8 func_02025B64(u32 key);
-u32 func_02025B94(u32 key);
+u32 BMP_OAM_Get(u32 key);
 u32 func_02025BA0(u32 recIdx);
 u32 func_02025BB8(u32 recIdx);
 u32 func_02025BD0(u32 recIdx);
-int func_02025BE8(void);
-u32 func_02025BEC(u32 id, u32 minValue, u32 flag);
+int BMP_OAM_Update5BE8(void);
+u32 BMP_OAM_Check5BEC(u32 id, u32 minValue, u32 flag);
 u32 sub_02025C1C(u32 id, u32 minValue, u32 flag);
 u32 sub_02025C30(u32 id, u32 minValue, u32 flag);
-int func_02025C44(u32 key, u32 *outWord, u32 *outByte);
+int BMP_OAM_Check5C44(u32 key, u32 *outWord, u32 *outByte);
 
 extern char  g_020A7484[];
 extern u32   g_020A7494[];
@@ -749,7 +749,7 @@ u8 func_02025B64(u32 key)
  * Two-stage lookup: map a caller value to a record index with
  * func_02025B3C, then map that index to an id with func_02025BA0.
  */
-u32 func_02025B94(u32 key)
+u32 BMP_OAM_Get(u32 key)
 {
     return func_02025BA0(func_02025B3C(key));
 }
@@ -785,7 +785,7 @@ u32 func_02025BD0(u32 recIdx)
     return 18;
 }
 
-int func_02025BE8(void)
+int BMP_OAM_Update5BE8(void)
 {
     return 0x69;
 }
@@ -801,7 +801,7 @@ int func_02025BE8(void)
  * shape, "return the value on success, 0 on failure", differing only in
  * which argument is guarded: the first, or the second.
  */
-u32 func_02025BEC(u32 id, u32 minValue, u32 flag)
+u32 BMP_OAM_Check5BEC(u32 id, u32 minValue, u32 flag)
 {
     if (id >= 0xE9) {
         return 0;
@@ -821,7 +821,7 @@ u32 sub_02025C1C(u32 id, u32 minValue, u32 flag)
 {
     u32 result = id;
 
-    if (!func_02025BEC(id, minValue, flag)) {
+    if (!BMP_OAM_Check5BEC(id, minValue, flag)) {
         result = 0;
     }
     return result;
@@ -831,13 +831,13 @@ u32 sub_02025C30(u32 id, u32 minValue, u32 flag)
 {
     u32 result = minValue;
 
-    if (!func_02025BEC(id, minValue, flag)) {
+    if (!BMP_OAM_Check5BEC(id, minValue, flag)) {
         result = 0;
     }
     return result;
 }
 
-int func_02025C44(u32 key, u32 *outWord, u32 *outByte)
+int BMP_OAM_Check5C44(u32 key, u32 *outWord, u32 *outByte)
 {
     u32 recIdx = func_02025B3C(key);
     u32 recOff;

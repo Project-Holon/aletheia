@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   func_020409B4 0x020409B4 arm
  *   sReportBgTemplate6 0x021F0AA0 data ov034 a4
  *   sReportBgTemplate5 0x021F0AC0 data ov034 a4
@@ -42,9 +42,9 @@ struct BgTemplate {
 };
 
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020409B4(u32 layer);
 
 extern struct BgTemplate sReportBgTemplate6;
@@ -60,25 +60,25 @@ void REPORT_InitBgs(u32 heapId)
     {
         struct BgTemplate t = sReportBgTemplate4;
 
-        func_0203FCA0(4, &t, 0);
+        BG_SYS_InitBgLayer(4, &t, 0);
     }
-    func_020414EC(4);
-    func_02040B94(4, 0x20, 0, heapId);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_InitRun(4, 0x20, 0, heapId);
     func_020409B4(4);
     {
         struct BgTemplate t = sReportBgTemplate5;
 
-        func_0203FCA0(5, &t, 0);
+        BG_SYS_InitBgLayer(5, &t, 0);
     }
-    func_020414EC(5);
-    func_02040B94(5, 0x20, 0, heapId);
+    BG_SYS_ClearSlot(5);
+    BG_SYS_InitRun(5, 0x20, 0, heapId);
     func_020409B4(5);
     {
         struct BgTemplate t = sReportBgTemplate6;
 
-        func_0203FCA0(6, &t, 0);
+        BG_SYS_InitBgLayer(6, &t, 0);
     }
-    func_020414EC(6);
-    func_02040B94(6, 0x20, 0, heapId);
+    BG_SYS_ClearSlot(6);
+    BG_SYS_InitRun(6, 0x20, 0, heapId);
     func_020409B4(6);
 }

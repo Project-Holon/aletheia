@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B9C
+ * function: CTVT_COMM_GetPeerStatus
  * address:  0x021B8B9C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-char *func_021B8B9C(int unused, char *base)
+char *CTVT_COMM_GetPeerStatus(int unused, char *base)
 {
     return base + 0x40;
 }

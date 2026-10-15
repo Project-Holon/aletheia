@@ -15,7 +15,7 @@
  * symbols:
  *   func_0217EAB0                    0x0217eab0 arm  ov009
  *   func_0217D254                    0x0217d254 arm  ov009
- *   func_0209477C                    0x0209477c arm
+ *   strlen                    0x0209477c arm
  *   gsiXmlUtilWriteString                    0x0218325c arm  ov009
  *   func_0217EAE0                    0x0217eae0 arm  ov009
  *   gsiXmlUtilWriteChar                    0x02183210 arm  ov009
@@ -50,12 +50,12 @@
  *   func_02181E28  0x02181e28  arm   ov009
  *   g_020A61DC     0x020a61dc  data
  *   gsiXmlUtilDecodeString    0x0218263C arm ov009
- *   func_020949F4                    0x020949f4 arm
- *   func_02094A28                    0x02094a28 arm
+ *   strncmp                    0x020949f4 arm
+ *   strchr                    0x02094a28 arm
  *   func_0208CF34                    0x0208cf34 arm
- *   func_020964E0                    0x020964e0 arm
- *   func_02092364                    0x02092364 arm
- *   func_020923B0                    0x020923b0 arm
+ *   atoi                    0x020964e0 arm
+ *   memmove                    0x02092364 arm
+ *   MSL_C_LIB_MemsetPtr                    0x020923b0 arm
  *   gGsXmlEntityAmp                       0x021a3f1c data
  *   gGsXmlEntityQuot                       0x021a3f24 data
  *   gGsXmlEntityApos                       0x021a3f2c data
@@ -89,11 +89,11 @@
  *   strncpy                          0x02094860 arm
  *   STD_TSScanf           0x0208cf34  arm
  *   gGsXmlHex1Format            0x021a3f98  data
- *   func_0217F8B4         0x0217F8B4 arm ov009
- *   func_0217FBC8         0x0217FBC8 arm ov009
+ *   B64Decode         0x0217F8B4 arm ov009
+ *   B64DecodeLen         0x0217FBC8 arm ov009
  *   atoi                  0x020964E0 arm
  *   gsiStringToInt64      0x0217F124 arm ov009
- *   func_0217F478         0x0217F478 arm ov009
+ *   gsiDateToSeconds         0x0217F478 arm ov009
  *   gGsXmlDateTimeFormatNoZ            0x021A3FA0 data
  *   atof                  0x02095B2C arm
  *   _d2f                  0x0209B64C arm
@@ -169,7 +169,6 @@ typedef struct gsLargeInt_s {
 
 extern void *func_0217EAB0(unsigned long size);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0209477C(const u8 *s);
 static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
 extern void func_0217EAE0(void *ptr);
 extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
@@ -183,7 +182,6 @@ extern void gsiXmlUtilElementFree(void *elem);
 extern void gsiXmlUtilAttributeFree(void *elem);
 static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len, int *pos, int parentIndex);
 extern void ArrayClear(void *array);
-extern char *strchr(const char *s, int c);
 extern int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
@@ -192,12 +190,8 @@ extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayReplaceAt(void *array, void *newElem, int n);
 extern int func_02181E28(void *, char *, int, int *);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
-extern int func_020949F4(const u8 *s1, const u8 *s2, unsigned int n);
-extern char *func_02094A28(const char *s, int c);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
-extern int func_020964E0(u32 a0);
-extern void *func_02092364(void *dst, const void *src, unsigned int n);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 extern int gsiXmlUtilWriteXmlSafeString(void *stream, char *str);
@@ -211,13 +205,11 @@ extern struct tm *gsiSecondsToDate(long *timp);
 extern int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void *ArrayNth(void *array, int n);
-extern char *strncpy(char *dest, const char *src, unsigned int n);
 extern int STD_TSScanf(char *src, char *fmt, ...);
-extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
-extern int func_0217FBC8(char *input, int encodingType);
-extern int atoi(const char *s);
+extern void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
+extern int B64DecodeLen(char *input, int encodingType);
 extern long long gsiStringToInt64(const char *s);
-extern long func_0217F478(struct tm *tb);
+extern long gsiDateToSeconds(struct tm *tb);
 extern double atof(const char *s);
 extern int gsLargeIntReverseBytes(char *p);
 void *gsXmlCreateStreamWriter(const char **namespaces, int count);
@@ -282,6 +274,11 @@ extern char gGsXmlEntityDecPrefix[];       /* "&#" */
 
 
 
+extern int strncmp(const char *s1, const char *s2, unsigned long n);
+extern const char *strncpy(const char *dest, const char *src, unsigned int n);
+extern char *strchr(const char *s, int c);
+extern int atoi(const char *s);
+extern void *memmove(void *dst, const void *src, unsigned int n);
 /*
  * Number of halfwords before the terminating zero, less one.
  */
@@ -316,12 +313,12 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     }
 
     for (i = 0; i < 4; i++) {
-        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
-        namespaceLen += func_0209477C((const u8 *)gGsXmlSoapDefaultNamespaces[i]);
+        namespaceLen += strlen((const char *)gGsXmlNamespacePrefix) + 1;
+        namespaceLen += strlen((const char *)gGsXmlSoapDefaultNamespaces[i]);
     }
     for (i = 0; i < count; i++) {
-        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
-        namespaceLen += func_0209477C((const u8 *)namespaces[i]);
+        namespaceLen += strlen((const char *)gGsXmlNamespacePrefix) + 1;
+        namespaceLen += strlen((const char *)namespaces[i]);
     }
     while (initialCapacity < namespaceLen)
         initialCapacity += 1024;
@@ -876,32 +873,32 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			continue;
 		}
 
-		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityAmp, 5)==0)
+		if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityAmp, 5)==0)
 		{
 			buffer[readPos++] = '&';
 			charsToRemove = 5-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityQuot, 6)==0)
+		else if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityQuot, 6)==0)
 		{
 			buffer[readPos++] = '"';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityApos, 6)==0)
+		else if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityApos, 6)==0)
 		{
 			buffer[readPos++] = '\'';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityLt, 4)==0)
+		else if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityLt, 4)==0)
 		{
 			buffer[readPos++] = '<';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityGt, 4)==0)
+		else if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityGt, 4)==0)
 		{
 			buffer[readPos++] = '>';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityHexPrefix, 3)==0)
+		else if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityHexPrefix, 3)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -909,7 +906,7 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			int i = 0;
 			unsigned int mask = 0xFF000000;
 
-			char * digitEnd = func_02094A28(&buffer[readPos+3], ';');
+			char * digitEnd = strchr(&buffer[readPos+3], ';');
 			if (digitEnd == 0)
 				return 0;
 			if (digitEnd - &buffer[readPos+3] > 8)
@@ -930,7 +927,7 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 
 			charsToRemove = digitEnd - &buffer[readPos] + 1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityDecPrefix, 2)==0)
+		else if (strncmp((const char *)(&buffer[readPos]), (const char *)gGsXmlEntityDecPrefix, 2)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -938,11 +935,11 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			int i = 0;
 			unsigned int mask = 0xFF000000;
 
-			char * digitEnd = func_02094A28(&buffer[readPos+2], ';');
+			char * digitEnd = strchr(&buffer[readPos+2], ';');
 			if (digitEnd == 0)
 				return 0;
 
-			digitValue = (unsigned int)func_020964E0((u32)(&buffer[readPos+2]));
+			digitValue = (unsigned int)atoi((const char *)(&buffer[readPos+2]));
 
 			for (i=0; i < 4; i++)
 			{
@@ -960,8 +957,8 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 		else
 			return 0;
 
-		func_02092364(&buffer[readPos], &buffer[readPos+charsToRemove], (unsigned int)(*len-(readPos+charsToRemove)));
-		func_020923B0(&buffer[*len-charsToRemove], ' ', (unsigned int)charsToRemove);
+		memmove(&buffer[readPos], &buffer[readPos+charsToRemove], (unsigned int)(*len-(readPos+charsToRemove)));
+		MSL_C_LIB_MemsetPtr(&buffer[*len-charsToRemove], ' ', (unsigned int)charsToRemove);
 		(*len) -= charsToRemove;
 	}
 
@@ -1707,14 +1704,14 @@ int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *va
                 if (searchValueElem->value.string == 0)
                     *lenOut = 0;
                 else
-                    func_0217F8B4(searchValueElem->value.string, (char *)valueOut, searchValueElem->value.length, lenOut, 0);
+                    B64Decode(searchValueElem->value.string, (char *)valueOut, searchValueElem->value.length, lenOut, 0);
             }
             else
             {
                 if (searchValueElem->value.string == 0)
                     *lenOut = 0;
                 else
-                    *lenOut = func_0217FBC8(searchValueElem->value.string, 0);
+                    *lenOut = B64DecodeLen(searchValueElem->value.string, 0);
             }
             return 1;
         }
@@ -1829,7 +1826,7 @@ int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut
             timePtr.tm_year -= 1900;
             timePtr.tm_mon -= 1;
             timePtr.tm_isdst = -1;
-            *valueOut = func_0217F478(&timePtr);
+            *valueOut = gsiDateToSeconds(&timePtr);
             return 1;
         }
         if (searchValueElem->parentIndex < reader->index)
@@ -1928,7 +1925,7 @@ int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, int *lintData)
     u32 n = 0;
     u32 k;
 
-    func_020923B0(lintData, 0, 0x104);
+    MSL_C_LIB_MemsetPtr(lintData, 0, 0x104);
     if (gsXmlReadChildAsHexBinary(stream, matchtag, (unsigned char *)(lintData + 1), 0x200, (int *)(&n)) == 0)
         return 0;
 

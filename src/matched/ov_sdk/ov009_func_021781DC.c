@@ -1,5 +1,5 @@
 /*
- * function: func_021781DC
+ * function: DWC_Auth_GetError
  * address:  0x021781DC
  * packet:   pkt_ov009_021781DC
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
- *   g_021AB184     0x021AB184  data
+ *   gDwcAuthGlobal     0x021AB184  data
  */
 
 #include "../include/G_DWCAuthGlobal.h"
@@ -34,19 +34,19 @@ struct DWCAuthCtx {
 	int abort_flag;
 };
 
-extern struct DWCAuthGlobal g_021AB184;
+extern struct DWCAuthGlobal gDwcAuthGlobal;
 
 extern void OS_LockMutex(void *mutex);
 extern void func_02086078(void *mutex);
 
-int func_021781DC(void)
+int DWC_Auth_GetError(void)
 {
 	int error;
 
-	if (g_021AB184.ctx == 0)
+	if (gDwcAuthGlobal.ctx == 0)
 		return 0x16;
-	OS_LockMutex(&g_021AB184.ctx->mutex);
-	error = g_021AB184.ctx->error;
-	func_02086078(&g_021AB184.ctx->mutex);
+	OS_LockMutex(&gDwcAuthGlobal.ctx->mutex);
+	error = gDwcAuthGlobal.ctx->error;
+	func_02086078(&gDwcAuthGlobal.ctx->mutex);
 	return error;
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   sPartyRecoveryBallOffsets     0x021DA0E0  data  a4
  *   FIELD_BUILDMODEL_CreateNodeFromBlock  0x0218C7F0  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 struct Mtx33;
 extern void BUTTON_MAN_MakeRotMtxXYZ(int a, int b, int c, struct Mtx33 *m);
-extern void func_0207C9D0(u8 *a, u8 *b, int *c);
+extern void VEC_Add(u8 *a, u8 *b, int *c);
 extern u8 sPartyRecoveryBallOffsets;
 struct Blk;
 extern u8 *FIELD_BUILDMODEL_CreateNodeFromBlock(u8 *owner, u32 x, struct Blk *src);
@@ -46,7 +46,7 @@ void EVENT_RECOVERY_PlacePartyBall(u8 *p)
         s.scale[1] = 0x1000;
         s.scale[2] = 0x1000;
         BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, (struct Mtx33 *)s.mtx);
-        func_0207C9D0(p + 8, &sPartyRecoveryBallOffsets + i * 12, s.pos);
+        VEC_Add(p + 8, &sPartyRecoveryBallOffsets + i * 12, s.pos);
         *(u32 *)(p + 0x1c + i * 4) = (u32)FIELD_BUILDMODEL_CreateNodeFromBlock((u8 *)(((struct Obj00959 *)p)->f18), 0x62, (struct Blk *)(&s));
         p[0x15]++;
         GFL_USE_PlaySeDefaultVolume(0x568);

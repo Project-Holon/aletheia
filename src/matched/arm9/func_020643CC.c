@@ -14,8 +14,8 @@
  *   func_020627D8       0x020627D8  arm
  *   func_0206434C       0x0206434C  arm
  *   NNS_G2dTickCellAnimation       0x02064364  arm
- *   func_02063030       0x02063030  arm
- *   func_020640DC       0x020640DC  arm
+ *   NNS_G2dIsCellAnimationBoundingBox       0x02063030  arm
+ *   NNS_G2dSetSRTTranslate       0x020640DC  arm
  *
  * NitroSystem g2d SetMCDataToMCInstanceImpl_ (g2d_MultiCellAnimation.c):
  * bind a multi-cell data record to an instance and (re)start every node's
@@ -25,8 +25,8 @@
  * { NNSG2dCellAnimation, bInited } array; otherwise a 0x28-byte node array
  * whose pContent is the cell animation.  Callees: func_020627D8
  * GetAnimSequenceByIdx, func_0206434C SetCellAnimationSequence,
- * func_02063030 IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
- * func_020640DC SrtcSetTrans.
+ * NNS_G2dIsCellAnimationBoundingBox IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
+ * NNS_G2dSetSRTTranslate SrtcSetTrans.
  *
  * Closed in wave 12 by writing the library's own shape: ONE u16 counter at
  * function scope shared by all three loops, the per-node work as the
@@ -74,9 +74,9 @@ struct AnimSequence;
 struct CellAnim;
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206434C(CellAnimation *p, const AnimSequenceData *seq);
-extern s32 func_02063030(struct CellAnim *anim);
+extern s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
 extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
-extern void func_020640DC(SRTControl *s, s16 x, s16 y);
+extern void NNS_G2dSetSRTTranslate(SRTControl *s, s16 x, s16 y);
 
 static inline u32 CalcTotal(const AnimSequenceData *pAnimSeq)
 {
@@ -113,7 +113,7 @@ static inline void SetNodeDataToCellAnim_(CellAnimation *pCellAnim, const HierDa
     if (GetPlayMode(pNodeData) == 1) {
         const u32 animSeqLength = CalcTotal(pAnimSeq);
 
-        if (func_02063030((struct CellAnim *)(&pCellAnim->animCtrl))) {
+        if (NNS_G2dIsCellAnimationBoundingBox((struct CellAnim *)(&pCellAnim->animCtrl))) {
             const u32 frameToMove = (mcTotalFrame % animSeqLength);
             NNS_G2dTickCellAnimation((struct CellAnim *)pCellAnim, (fx32)(frameToMove << 12));
         } else {
@@ -158,7 +158,7 @@ void NNSi_G2dSetMCDataToMCInstanceImpl(MCInstance *pMCInst, const MultiCellData 
             SetNodeDataToCellAnim_(pCellAnim, pNodeData, pMCInst->pAnimDataBank, mcTotalFrame);
 
             pNodeArray[i].bVisible = 1;
-            func_020640DC(&pNodeArray[i].srtCtrl, pNodeData->posX, pNodeData->posY);
+            NNS_G2dSetSRTTranslate(&pNodeArray[i].srtCtrl, pNodeData->posX, pNodeData->posY);
         }
     }
 }

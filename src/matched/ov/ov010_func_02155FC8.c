@@ -19,7 +19,7 @@
  *   MUSICAL_STAGE_SYS_Create  0x02156F68  thumb  ov010
  *   MUSICAL_STAGE_SYS_SetLocalPerformer  0x02156FC4  thumb  ov010
  *   MUSICAL_PROGRAM_CreateNpcPerformer  0x021572E4  thumb  ov010
- *   func_021FD4F8  0x021FD4F8  thumb  ov132
+ *   STA_NET_FindRecValueByKey  0x021FD4F8  thumb  ov132
  *   MUSICAL_STAGE_SYS_SetRemotePerformer  0x02157000  thumb  ov010
  *   MUSICAL_PROGRAM_SplitBonus  0x02157174  thumb  ov010
  */
@@ -56,7 +56,7 @@ struct Deal;
 struct Party;
 extern void MUSICAL_PROGRAM_CreateNpcPerformer(struct Deal *d, void *a, u8 b, u8 slot, u16 y);
 struct Ctx;
-extern u32 func_021FD4F8(struct Ctx *p, u8 key);
+extern u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
 extern int MUSICAL_STAGE_SYS_SetRemotePerformer(int a0, int a1, int a2);
 extern void MUSICAL_PROGRAM_SplitBonus(u32 heap, struct Deal *d, struct Party *party);
 
@@ -77,7 +77,7 @@ void MUSICAL_EVENT_CreateStage(Work *w)
     } else {
         j = 0;
         for (i = 0; i < 4; i++) {
-            r = func_021FD4F8(w->f28, w->f44[i]);
+            r = STA_NET_FindRecValueByKey(w->f28, w->f44[i]);
             if (r != 0) {
                 MUSICAL_STAGE_SYS_SetRemotePerformer((int)w->f30, w->f44[i], r);
             } else {

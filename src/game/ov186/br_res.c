@@ -23,10 +23,10 @@
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   d_02200D3C 0x02200D3C data a1
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -34,7 +34,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_020409B4 0x020409B4 arm
  *   d_02200D48       0x02200D48  data
  *   CLACT_RegisterCharacter    0x0204A6C8  arm
@@ -68,13 +68,13 @@ extern void MI_CpuFill8(void *, int, int);
 
 extern u32 func_020307B0(void *p);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void *func_0201EC74(unsigned,unsigned,unsigned);
+extern void *WORDSET_Create(unsigned,unsigned,unsigned);
 
 extern unsigned int MSGDATA_Delete(struct Rec_021FAA74 *rec);
 
@@ -88,7 +88,7 @@ extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,un
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_020409B4(u32 index);
 
@@ -173,13 +173,13 @@ void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId)
     else res->palSet=1;
     res->font=GF_FONT_Create(0x17,0,0,0,heapId);
     res->msgData=func_02045B38(0,2,5,heapId);
-    res->wordSet=func_0201EC74(8,0x40,heapId);
+    res->wordSet=WORDSET_Create(8,0x40,heapId);
     BR_RES_LoadUiPalette(res,0,heapId);
     BR_RES_LoadUiPalette(res,1,heapId);
     return res;
 }
 
-void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);func_0201ED04(res->wordSet);MSGDATA_Delete((struct Rec_021FAA74 *)res->msgData);GF_FONT_Delete(res->font);func_020307B0(res);}
+void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_DeleteStrbufED04(res->wordSet);MSGDATA_Delete((struct Rec_021FAA74 *)res->msgData);GF_FONT_Delete(res->font);func_020307B0(res);}
 
 void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId)
 {
@@ -320,15 +320,15 @@ void BR_RES_ApplyBgSet(int unusedA,unsigned palSet)
 {
     switch(palSet){
     case 24:
-        func_020414EC(2);func_020409B4(2);
-        func_020414EC(5);func_020409B4(5);break;
-    case 0:func_020414EC(3);func_020409B4(3);break;
-    case 1:func_020414EC(6);func_020409B4(6);break;
-    case 2:func_020414EC(0);func_020409B4(0);break;
+        BG_SYS_ClearSlot(2);func_020409B4(2);
+        BG_SYS_ClearSlot(5);func_020409B4(5);break;
+    case 0:BG_SYS_ClearSlot(3);func_020409B4(3);break;
+    case 1:BG_SYS_ClearSlot(6);func_020409B4(6);break;
+    case 2:BG_SYS_ClearSlot(0);func_020409B4(0);break;
     case 5:case 9:case 15:case 20:case 21:case 22:case 23:case 26:case 27:case 28:case 29:case 30:
-        func_020414EC(5);func_020409B4(5);break;
+        BG_SYS_ClearSlot(5);func_020409B4(5);break;
     case 3:case 4:case 6:case 7:case 8:case 10:case 11:case 12:case 13:case 16:case 17:case 18:case 19:case 25:
-        func_020414EC(2);func_020409B4(2);break;
+        BG_SYS_ClearSlot(2);func_020409B4(2);break;
     case 14:break;
     }
 }

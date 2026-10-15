@@ -1,5 +1,5 @@
 /*
- * function: func_021BA308
+ * function: TH_AWARD_GRAPHIC_VBlank
  * address: 0x021BA308
  * packet: pkt_ov220_021BA308
  * region: ov220
@@ -15,7 +15,7 @@
 
 extern void CLACT_VBlankSystem(void);
 
-void func_021BA308(void *p)
+void TH_AWARD_GRAPHIC_VBlank(void *p)
 {
     CLACT_VBlankSystem();
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217CE1C  0x0217CE1C  arm
+ *   gsCoreIsShutdown  0x0217CE1C  arm
  *
  * Initialise the owner record: refused with 4 while the ov175 session is not
  * up, otherwise the handle is latched at +0, the 0x2c/0x28/0x30 and
@@ -21,13 +21,13 @@
 typedef int s32;
 typedef unsigned int u32;
 
-extern s32 func_0217CE1C(void);
+extern s32 gsCoreIsShutdown(void);
 
 s32 sciWsInit(char *p, u32 v)
 {
     u32 z = 0;
 
-    if (func_0217CE1C() != 0)
+    if (gsCoreIsShutdown() != 0)
         return 4;
     *(u32 *)(p + 0x00) = v;
     *(u32 *)(p + 0x04) = z;

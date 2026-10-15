@@ -1,5 +1,5 @@
 /*
- * function: func_020929E8
+ * function: long2str
  * address:  0x020929E8
  * packet:   pkt_020929E8
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct {
     int precision;
 } print_format;
 
-unsigned char *func_020929E8(long num, unsigned char *buff, print_format format)
+unsigned char *long2str(long num, unsigned char *buff, print_format format)
 {
     unsigned long unsigned_num, base;
     unsigned char *p;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216909C
+ * function: DWCi_InitGPProcessCount
  * address:  0x0216909C
  * packet:   pkt_ov009_0216909C
  * region:   ov009
@@ -21,7 +21,7 @@
 extern struct FriendGlobal g_021AA860;
 extern unsigned long long func_020870D0(void);
 
-void func_0216909C(void)
+void DWCi_InitGPProcessCount(void)
 {
     char *p = *(char **)(((char *)&g_021AA860) + 0xc);
 

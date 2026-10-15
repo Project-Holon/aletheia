@@ -17,7 +17,7 @@
  *   BR_UTIL_FlushText 0x021FC830 thumb ov186
  *   BR_UTIL_MainProfileScreen 0x021FD6B0 thumb ov186
  *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
- *   func_021F3C50 0x021F3C50 thumb ov112
+ *   MUSICAL_SHOT_SYS_DrawScene 0x021F3C50 thumb ov112
  */
 #include "../include/Obj01966.h"
 #include "../include/Obj24716.h"
@@ -34,7 +34,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int BR_UTIL_FlushText(u8 *p);
 extern int BR_UTIL_MainProfileScreen(u8 *p);
 extern void BR_UTIL_FlushWindow(void *p);
-extern void func_021F3C50(u8 *p);
+extern void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
 int BR_POKESEARCH_Update(int a,int b,int c,char *p)
 {
     int i;
@@ -49,6 +49,6 @@ int BR_POKESEARCH_Update(int a,int b,int c,char *p)
     if (*(char * *)&((struct Obj01966 *)p)->f1C) BR_UTIL_FlushText((u8 *)(*(char * *)&((struct Obj01966 *)p)->f1C));
     if (*(char * *)&((struct Obj01966 *)p)->f10) BR_UTIL_MainProfileScreen((u8 *)(*(char * *)&((struct Obj01966 *)p)->f10));
     if (*(char * *)&((struct Obj01966 *)p)->f4) BR_UTIL_FlushWindow(*(char * *)&((struct Obj01966 *)p)->f4);
-    if (*(char * *)&((struct Obj01966 *)p)->f14) func_021F3C50((u8 *)(*(char * *)&((struct Obj01966 *)p)->f14));
+    if (*(char * *)&((struct Obj01966 *)p)->f14) MUSICAL_SHOT_SYS_DrawScene((u8 *)(*(char * *)&((struct Obj01966 *)p)->f14));
     return 0;
 }

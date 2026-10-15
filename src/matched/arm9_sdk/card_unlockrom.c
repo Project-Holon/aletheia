@@ -11,7 +11,7 @@
  *
  * symbols:
  *   OS_UnlockCard   0x02084E10  arm
- *   func_02075F4C   0x02075F4C  arm
+ *   CARDi_UnlockResource   0x02075F4C  arm
  *
  * Original (28 bytes):
  *   push {r4, lr}
@@ -25,10 +25,10 @@
 
 extern int OS_UnlockCard(unsigned int id);
 typedef signed int     s32;
-extern void func_02075F4C(s32 owner, int target);
+extern void CARDi_UnlockResource(s32 owner, int target);
 
 void CARD_UnlockRom(unsigned int id)
 {
     OS_UnlockCard(id);
-    func_02075F4C(id, 1);
+    CARDi_UnlockResource(id, 1);
 }

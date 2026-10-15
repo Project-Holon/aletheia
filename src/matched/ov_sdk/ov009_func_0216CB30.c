@@ -13,14 +13,14 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02059F38  0x02059F38  arm
- *   func_0219F058  0x0219F058  arm  ov009
+ *   DWCi_IsError  0x02059F38  arm
+ *   ServerBrowserGetServer  0x0219F058  arm  ov009
  *   func_0219E120  0x0219E120  arm  ov009
  */
 
 extern int func_02175F3C(void);
-extern int func_02059F38(void);
-extern int func_0219F058(int a, int b);
+extern int DWCi_IsError(void);
+extern int ServerBrowserGetServer(int a, int b);
 struct SBServer;
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 
@@ -28,10 +28,10 @@ int DWC_GetMatchIntValue(int a, int b, int c)
 {
     int t;
 
-    if (func_02175F3C() == 0 || func_02059F38() != 0) {
+    if (func_02175F3C() == 0 || DWCi_IsError() != 0) {
         return c;
     }
-    t = func_0219F058(*(int *)(func_02175F3C() + 0x5e0), a);
+    t = ServerBrowserGetServer(*(int *)(func_02175F3C() + 0x5e0), a);
     if (t != 0) {
         c = func_0219E120((struct SBServer *)t, (char *)b, c);
     }

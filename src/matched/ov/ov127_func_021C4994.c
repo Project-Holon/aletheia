@@ -1,5 +1,5 @@
 /*
- * function: func_021C4994
+ * function: WF2DMAP_OBJ_FindById2
  * address: 0x021C4994
  * packet: pkt_ov127_021C4994
  * region: ov127
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4954 0x021C4954 thumb ov127
+ *   WF2DMAP_OBJ_FindById 0x021C4954 thumb ov127
  */
-extern char *func_021C4954(unsigned *, unsigned);
-char *func_021C4994(unsigned *p,unsigned id) { return func_021C4954(p,id); }
+extern char *WF2DMAP_OBJ_FindById(unsigned *, unsigned);
+char *WF2DMAP_OBJ_FindById2(unsigned *p,unsigned id) { return WF2DMAP_OBJ_FindById(p,id); }

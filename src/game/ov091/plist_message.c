@@ -31,10 +31,10 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F5BC  0x0201F5BC  thumb
@@ -57,7 +57,7 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_02028470  0x02028470  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
@@ -65,8 +65,8 @@
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
- *   func_0201EF40 0x0201EF40 thumb
- *   func_0201EF4C 0x0201EF4C thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF4C 0x0201EF4C thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201F140 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
@@ -101,10 +101,10 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, void *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 index, void *mon);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
 extern void BMP_Clear(void *bitmap, u8 value);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 heapId);
@@ -126,7 +126,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
 extern void func_0201F73C(struct BmpWin *win, int a1, int a2, int a3);
 extern void func_0201F7A8(struct BmpWin *win, u32 kind);
 extern void func_02028470(u8 *wait, u32 v);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern struct TextStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *text, void *font, s32 a5, struct Tcbl *taskList, u32 a7, u32 heapId, u16 a9, int (*callback)(int));
 extern void GFL_USE_SetBgmPlayerParam(int param);
 extern int GFL_USE_PushBgm(void);
@@ -134,8 +134,8 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int a, int b);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern int GFL_USE_IsAnySeBusy(void);
-extern void func_0201EF40(struct WordSet *wordSet, u32 index, u32 v);
-extern void func_0201EF4C(struct WordSet *wordSet, u32 index, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 index, u32 v);
+extern void WORDSET_Callback_EF4C(struct WordSet *wordSet, u32 index, u32 v);
 extern void func_0201EF34(struct WordSet *wordSet, u32 index, u32 v);
 extern void func_0201F140(struct WordSet *wordSet, u32 index, u32 v);
 extern void APP_KEYCURSOR_DrawMark(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
@@ -314,7 +314,7 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
     msg->waitForKey = waitForKey;
     msg->streamText = text;
     func_02028470(msg->streamWait, 6);
-    msg->stream = PRINTSYS_PrintStreamCallBack(msg->window, 0, 0, msg->streamText, work->fontMain, func_02012FFC(), msg->taskList, 0,
+    msg->stream = PRINTSYS_PrintStreamCallBack(msg->window, 0, 0, msg->streamText, work->fontMain, MSG_SPEED_GetWait(), msg->taskList, 0,
                                 work->heapId, 0xf, PLIST_MESSAGE_StreamCallback);
 }
 
@@ -348,15 +348,15 @@ int PLIST_MESSAGE_StreamCallback(int command)
     return 0;
 }
 
-void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->wordSet = func_0201EC64(work->heapId); }
+void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->wordSet = GF_FONT_Create_EC64(work->heapId); }
 
-void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { func_0201ED04(msg->wordSet); msg->wordSet = 0; }
+void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { WORDSET_DeleteStrbufED04(msg->wordSet); msg->wordSet = 0; }
 
 void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { func_0201EEF4(msg->wordSet, index, mon); }
 
-void func_021BB9AC(int unused, PlistMessage *msg, u32 index, u32 itemId) { func_0201EF40(msg->wordSet, index, itemId); }
+void func_021BB9AC(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF40(msg->wordSet, index, itemId); }
 
-void func_021BB9BC(int unused, PlistMessage *msg, u32 index, u32 itemId) { func_0201EF4C(msg->wordSet, index, itemId); }
+void func_021BB9BC(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF4C(msg->wordSet, index, itemId); }
 
 void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId) { func_0201EF34(msg->wordSet, index, moveId); }
 

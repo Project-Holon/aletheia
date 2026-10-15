@@ -1,5 +1,5 @@
 /*
- * function: func_0220B944
+ * function: ZUKAN_NICKNAME_TransferPalette
  * address: 0x0220B944
  * packet: pkt_ov207_0220B944
  * region: ov207
@@ -14,4 +14,4 @@
 typedef unsigned int u32;
 struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-void func_0220B944(void *a, u32 *p){if(p[22])PALANM_TransferPalettes((void*)p[22]);}
+void ZUKAN_NICKNAME_TransferPalette(void *a, u32 *p){if(p[22])PALANM_TransferPalettes((void*)p[22]);}

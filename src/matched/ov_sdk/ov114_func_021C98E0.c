@@ -18,8 +18,8 @@
  * sdk:      DWCi_EncValidateKey (dwc_encsession.o)
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
- *   func_02094860  0x02094860  arm
+ *   strlen  0x0209477C  arm
+ *   strncpy  0x02094860  arm
  *   gDwcEncSession     0x021CF7AC  data
  *   g_021CF7BC     0x021CF7BC  data
  *   g_021CF7DC     0x021CF7DC  data
@@ -40,8 +40,8 @@ typedef struct {
 extern Session gDwcEncSession;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
-extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
+extern int strlen(const u8 *s);
+extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 
 int DWCi_EncValidateKey(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4)
 {
@@ -50,10 +50,10 @@ int DWCi_EncValidateKey(char *gamename, const char *secretkey, unsigned long key
     unsigned int n;
 
     gDwcEncSession.valid = 0;
-    if ((unsigned long)func_0209477C((const u8 *)gamename) >= 0x20) {
+    if ((unsigned long)strlen((const u8 *)gamename) >= 0x20) {
         return 0;
     }
-    if ((unsigned long)func_0209477C((const u8 *)secretkey) != 0x14) {
+    if ((unsigned long)strlen((const u8 *)secretkey) != 0x14) {
         return 0;
     }
     if ((key1 - 5) & 7) {
@@ -70,7 +70,7 @@ int DWCi_EncValidateKey(char *gamename, const char *secretkey, unsigned long key
     if (bitcount != 1) {
         return 0;
     }
-    func_02094860((u8 *)gDwcEncSession.gamename, (const u8 *)gamename, 0x20);
+    strncpy((u8 *)gDwcEncSession.gamename, (const u8 *)gamename, 0x20);
     {
         unsigned char *d = gDwcEncSession.secretkey;
         unsigned char *s = (unsigned char *)secretkey;

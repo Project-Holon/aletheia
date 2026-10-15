@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02168FF0",
+   "name": "DWCi_GetProfileIDFromList",
    "address": "0x02168FF0",
    "kind": "sdk",
    "region": "ov009",
@@ -48,7 +48,7 @@
    }
   },
   {
-   "name": "func_02169038",
+   "name": "DWCi_GetFriendListIndex",
    "address": "0x02169038",
    "kind": "sdk",
    "region": "ov009",
@@ -65,7 +65,7 @@
    }
   },
   {
-   "name": "func_021690D0",
+   "name": "DWCi_SetGPStatus",
    "address": "0x021690D0",
    "kind": "sdk",
    "region": "ov009",
@@ -608,7 +608,7 @@
    }
   },
   {
-   "name": "func_02177748",
+   "name": "DWCi_ResetLastSomeDataRecvTimeByAid",
    "address": "0x02177748",
    "kind": "sdk",
    "region": "ov009",

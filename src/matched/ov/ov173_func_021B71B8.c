@@ -1,5 +1,5 @@
 /*
- * function: func_021B71B8
+ * function: POKE_SUMMARY_MAIN_DeleteMoveList
  * address: 0x021B71B8
  * packet: pkt_ov173_021B71B8
  * region: ov173
@@ -13,7 +13,7 @@
  */
 typedef unsigned int   u32;
 extern u32 BMP_MENUWORK_Delete(void *p);
-void func_021B71B8(char *p)
+void POKE_SUMMARY_MAIN_DeleteMoveList(char *p)
 {
     BMP_MENUWORK_Delete(*(void **)(p + 0x58));
 }

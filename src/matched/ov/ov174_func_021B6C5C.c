@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C5C
+ * function: LOCAL_TVT_SYS_ProcMain
  * address:  0x021B6C5C
  * packet:   pkt_021B6C5C
  * region:   ov174
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B622C  0x021B622C  thumb  ov174
+ *   LOCAL_TVT_SYS_Main  0x021B622C  thumb  ov174
  */
 
 typedef unsigned char  u8;
-extern int func_021B622C(u8 *p);
+extern int LOCAL_TVT_SYS_Main(u8 *p);
 
-int func_021B6C5C(int a, int b, int c, int d)
+int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d)
 {
-    return func_021B622C((u8 *)d) == 1;
+    return LOCAL_TVT_SYS_Main((u8 *)d) == 1;
 }

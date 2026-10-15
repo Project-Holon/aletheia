@@ -16,7 +16,7 @@
  *   func_021BC5B4 0x021BC5B4 thumb ov210
  *   func_021BCD30 0x021BCD30 thumb ov210
  *   func_021BFEAC 0x021BFEAC thumb ov210
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_021BCE0C 0x021BCE0C thumb ov210
  *   func_021BC82C 0x021BC82C thumb ov210
  */
@@ -32,7 +32,7 @@ extern void func_021BC5B4(u32);
 extern void func_021BCD30(u8 *);
 extern void func_021BFEAC(char *ctx, int index);
 typedef unsigned short u16;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_021BCE0C(char *, int);
 extern void func_021BC82C(char *p, u8 b, u8 c);
 int func_021BD118(u8 *p)
@@ -45,8 +45,8 @@ int func_021BD118(u8 *p)
     func_021BCD30(p);
     if (p[0x2b9] == 255) {
         func_021BFEAC((char *)p, 0);
-        func_0207D534((void *)0x0400006c, 0);
-        func_0207D534((void *)0x0400106c, 0);
+        GXx_SetMasterBrightness_((void *)0x0400006c, 0);
+        GXx_SetMasterBrightness_((void *)0x0400106c, 0);
         func_021BCE0C((char *)p, -8);
         func_021BC82C((char *)p, 16, 0);
         return 4;

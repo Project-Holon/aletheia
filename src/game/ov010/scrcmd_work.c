@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   SCRCMD_WORK_GetChildScriptIndex  0x0215AA4C  thumb  ov010
  *   SCRCMD_WORK_RestoreScriptState  0x0215AA34  thumb  ov010
@@ -21,10 +21,10 @@
  *   SCRCMD_WORK_SaveScriptState  0x0215AA24  thumb  ov010
  *   func_02011290  0x02011290  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   func_02030734  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_020307B0  0x020307B0  arm
@@ -34,7 +34,7 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
- *   func_02012964  0x02012964  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   sScrcmdWorkFileName     0x021728E0  data  ov010  a4
  *   SCRIPT_WORK_GetCmdWork 0x02158F6C thumb ov010
  *   MSGDATA_Delete  0x02045C04  arm
@@ -79,26 +79,26 @@
  *   FIELD_CLOCK_GetDay  0x021690E0  thumb  ov010
  *   FIELD_CLOCK_GetHour  0x02169100  thumb  ov010
  *   FIELD_CLOCK_GetMinute  0x02169110  thumb  ov010
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   OS_GetOwnerInfoEx 0x02087D28 arm
  *   func_02008550   0x02008550  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C234 0x0200C234 thumb
- *   func_0200C248  0x0200C248  thumb
- *   func_0203F4E4  0x0203F4E4  arm
+ *   BEACON_GetFlag 0x0200C234 thumb
+ *   BEACON_SetFlag  0x0200C248  thumb
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_02008A7C  0x02008A7C  thumb
- *   func_0200C258  0x0200C258  thumb
+ *   BEACON_CountFlags  0x0200C258  thumb
  *   func_020071EC  0x020071EC  thumb
  *   func_020071E4  0x020071E4  thumb
  *   func_0200723C  0x0200723C  thumb
  *   func_02012900  0x02012900  thumb
- *   func_02012AA0  0x02012AA0  thumb
- *   func_02012AE4  0x02012AE4  thumb
- *   func_0201289C  0x0201289C  thumb
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
+ *   GAME_DATA_SetField168  0x0201289C  thumb
  *   MAP_REPLACE_SetFlag  0x02159F28  thumb  ov010
  *   MAP_MATRIX_ApplyReplace  0x02159CC4  thumb  ov010
- *   func_02012974  0x02012974  thumb
+ *   GAME_DATA_GetFieldWork  0x02012974  thumb
  *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  *   MAP_REPLACE_CheckFlag  0x02159F54  thumb  ov010
  *   POKE_TOOL_Create  0x020173F0  thumb
@@ -110,26 +110,26 @@
  *   ZUKAN_SAVE_EnableNationalDex  0x0200CA28  thumb
  *   ZUKAN_SAVE_SetDexObtained  0x0200CA40  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
- *   func_0201293C 0x0201293C thumb
+ *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   func_02007A68 0x02007A68 thumb
  *   func_020089C0  0x020089C0  thumb
  *   func_02008554  0x02008554  thumb
- *   func_02025C88  0x02025C88  thumb
+ *   CURSOR_MOVE_GetTableGroup  0x02025C88  thumb
  *   func_020089F4  0x020089F4  thumb
  *   func_02008A00  0x02008A00  thumb
- *   func_0200C308 0x0200C308 thumb
- *   func_0200C2F0   0x0200C2F0  thumb
+ *   BEACON_GetSlotState 0x0200C308 thumb
+ *   BEACON_SetSlotState   0x0200C2F0  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_020072A4  0x020072A4  thumb
- *   func_02012844  0x02012844  thumb
+ *   GAME_DATA_GetField158  0x02012844  thumb
  *   EVENTDATA_SYSTEM_SetBgEventGridPos  0x02162A74  thumb  ov010
  *   EVENTDATA_SYSTEM_SetConnectGridPos  0x02162708  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcGridPos  0x02162748  thumb  ov010
  *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
  *   SCRIPT_SYS_SetNextEventFromWork  0x0215898C  thumb  ov010
- *   func_02012A44 0x02012A44 thumb
+ *   GAME_DATA_GetFieldMode 0x02012A44 thumb
  *   EVENT_BATTLE_IsResultSilent 0x0216EFA8 thumb ov010
  *   gScrcmdValueTable 0x02171160 data a2
  *   func_0215A4D8  0x0215A4D8  thumb  ov010
@@ -285,23 +285,23 @@ void func_0215A4EC(struct EventWork *eventWork, unsigned offset);
 void func_0215A500(struct EventWork *eventWork, unsigned offset);
 
 /* game system and game data */
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern struct OccupyInfo *func_02012964(struct GameData *gameData);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct OccupyInfo *GAME_DATA_GetOccupyInfo(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct PlayerWork *func_020127A4(struct GameData *gameData);
-extern u16 func_02012AC8(const struct PlayerWork *playerWork);
-extern u32 func_02012AE4(const struct PlayerWork *playerWork);
-extern struct PlayerPosition *func_02012AA0(struct PlayerWork *playerWork);
-extern void func_0201289C(struct GameData *gameData, const struct Location *location);
+extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
+extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
+extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *playerWork);
+extern void GAME_DATA_SetField168(struct GameData *gameData, const struct Location *location);
 extern void func_02012900(struct GameData *gameData, int warpId);
-extern struct MapMatrix *func_02012974(struct GameData *gameData);
-extern u8 func_02012984(struct GameData *gameData);
-extern struct EventWork *func_0201296C(struct GameData *gameData);
-extern struct BoxManager *func_0201293C(struct GameData *gameData);
+extern struct MapMatrix *GAME_DATA_GetFieldWork(struct GameData *gameData);
+extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
+extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
+extern struct BoxManager *GAME_DATA_GetBoxManager(struct GameData *gameData);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern struct RecordSave *GAME_DATA_GetSaveBlock21(struct GameData *gameData);
-extern struct EventData *func_02012844(struct GameData *gameData);
-extern u32 func_02012A44(struct GameData *gameData);
+extern struct EventData *GAME_DATA_GetField158(struct GameData *gameData);
+extern u32 GAME_DATA_GetFieldMode(struct GameData *gameData);
 extern u32 ZONEDATA_GetMatrixId(u32 zoneId);
 extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, int direction, int x, int y, int z);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
@@ -326,11 +326,11 @@ extern struct RecordSave *func_020089C0(struct SaveControl *saveControl);
 extern u8 func_020089F4(const struct RecordSave *record);
 extern struct RecordSave *func_02008A00(struct RecordSave *record);
 extern void func_02008A7C(struct RecordSave *record, u32 index, u32 year, u32 month, u32 day);
-extern u32 func_0200C234(struct MiscSave *misc, u32 flagId);
-extern void func_0200C248(struct MiscSave *misc, u32 flagId);
-extern u32 func_0200C258(struct MiscSave *misc);
-extern u8 func_0200C308(struct MiscSave *misc, u32 index);
-extern void func_0200C2F0(struct MiscSave *misc, u32 index, u8 value);
+extern u32 BEACON_GetFlag(struct MiscSave *misc, u32 flagId);
+extern void BEACON_SetFlag(struct MiscSave *misc, u32 flagId);
+extern u32 BEACON_CountFlags(struct MiscSave *misc);
+extern u8 BEACON_GetSlotState(struct MiscSave *misc, u32 index);
+extern void BEACON_SetSlotState(struct MiscSave *misc, u32 index, u8 value);
 extern struct ZukanSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
 extern struct ZukanSave *ZUKAN_SAVE_EnableNationalDex(struct ZukanSave *zukan);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *zukan);
@@ -362,9 +362,9 @@ extern void func_02082A7C(int value, void *dest, int size);
 extern void MI_CpuFill8(void *dest, int value, int size);
 extern u32 KEY_GetTrg(void);
 extern u32 func_020056EC(u32 range);
-extern u32 func_02025C88(u32 x);
+extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
 extern void OS_GetOwnerInfoEx(OwnerInfo *info);
-extern void func_0203F4E4(RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId);
 
 /* message data, strings, menus */
@@ -403,8 +403,8 @@ ScrcmdCommonWork *SCRCMD_WORK_CreateCommon(struct ScriptWork *scriptWork, int he
 
     common->scriptWork = scriptWork;
     common->gameSystem = SCRIPT_WORK_GetGameSystem(scriptWork);
-    common->gameData = func_020120F4(common->gameSystem);
-    common->occupyInfo = func_02012964(common->gameData);
+    common->gameData = ICA_ANIME_GetField1C(common->gameSystem);
+    common->occupyInfo = GAME_DATA_GetOccupyInfo(common->gameData);
     common->windowState = 7;
     return common;
 }
@@ -883,7 +883,7 @@ int SCRCMD_WORK_CmdGetFieldRecordPairB(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdGetSeason(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = func_02012984(SCRCMD_WORK_GetGameData(work));
+    *ret = GAME_DATA_GetSeason(SCRCMD_WORK_GetGameData(work));
     return 0;
 }
 
@@ -904,7 +904,7 @@ int SCRCMD_WORK_CmdGetBirthday(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdGetPlayerRomCode(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = (u16)func_02008550(&func_020127A4(SCRCMD_WORK_GetGameData(work))->status);
+    *ret = (u16)func_02008550(&GAME_DATA_GetField114(SCRCMD_WORK_GetGameData(work))->status);
     return 0;
 }
 
@@ -912,7 +912,7 @@ int SCRCMD_WORK_CmdCheckMiscFlag(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     int flagId = SCRIPT_WORK_ReadWorkValue(vm, work);
-    *ret = func_0200C234(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), flagId);
+    *ret = BEACON_GetFlag(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), flagId);
     return 0;
 }
 
@@ -921,8 +921,8 @@ int SCRCMD_WORK_CmdSetMiscFlag(struct ScriptVm *vm, ScrcmdWork *work)
     RtcDate date;
     int flagId = SCRIPT_WORK_ReadWorkValue(vm, work);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
-    func_0200C248(GAME_DATA_GetMiscSave(gameData), flagId);
-    func_0203F4E4(&date);
+    BEACON_SetFlag(GAME_DATA_GetMiscSave(gameData), flagId);
+    GF_STANDARD_SetField00_F4E4(&date);
     func_02008A7C(GAME_DATA_GetSaveBlock21(gameData), flagId, date.year, date.month, date.day);
     return 0;
 }
@@ -930,7 +930,7 @@ int SCRCMD_WORK_CmdSetMiscFlag(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdGetMiscCount(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = func_0200C258(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)));
+    *ret = BEACON_CountFlags(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)));
     return 0;
 }
 
@@ -984,11 +984,11 @@ int SCRCMD_WORK_CmdSetSpecialLocationHere(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct Location location;
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
-    struct PlayerWork *playerWork = func_020127A4(gameData);
-    struct PlayerPosition *position = func_02012AA0(playerWork);
-    int zoneId = func_02012AC8(playerWork);
-    ZONEDATA_SetDirectLocation(&location, zoneId, (short)func_02012AE4(playerWork), position->x, position->y, position->z);
-    func_0201289C(gameData, &location);
+    struct PlayerWork *playerWork = GAME_DATA_GetField114(gameData);
+    struct PlayerPosition *position = GAME_DATA_GetPlayerPosition(playerWork);
+    int zoneId = GAME_DATA_GetPlayerZoneId(playerWork);
+    ZONEDATA_SetDirectLocation(&location, zoneId, (short)GAME_DATA_GetPlayerDirectionType(playerWork), position->x, position->y, position->z);
+    GAME_DATA_SetField168(gameData, &location);
     return 0;
 }
 
@@ -1002,7 +1002,7 @@ int SCRCMD_WORK_CmdSetSpecialLocation(struct ScriptVm *vm, ScrcmdWork *work)
     int y = SCRIPT_WORK_ReadWorkValue(vm, work);
     int z = SCRIPT_WORK_ReadWorkValue(vm, work);
     ZONEDATA_SetDirectLocation(&location, zoneId, (s16)direction, x << 16, y << 16, z << 16);
-    func_0201289C(gameData, &location);
+    GAME_DATA_SetField168(gameData, &location);
     return 0;
 }
 
@@ -1018,8 +1018,8 @@ int SCRCMD_WORK_CmdSetMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     u16 zoneId;
     MAP_REPLACE_SetFlag(gameData, replaceId, enable);
     if (applyNow != 0) {
-        mapMatrix = func_02012974(gameData);
-        zoneId = func_02012AC8(func_020127A4(gameData));
+        mapMatrix = GAME_DATA_GetFieldWork(gameData);
+        zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
         matrixId = ZONEDATA_GetMatrixId(zoneId);
         heapId = SCRCMD_WORK_GetHeapId(work);
         MAP_MATRIX_Load(mapMatrix, matrixId, zoneId, heapId);
@@ -1127,7 +1127,7 @@ int SCRCMD_WORK_CmdGetButtonMode(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct Config *config;
     u16 *ret;
-    config = func_0200873C(GAME_DATA_GetSaveControl(func_020120F4(SCRCMD_WORK_GetGameSystem(work))));
+    config = func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(work))));
     ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     switch (CONFIG_GetButtonMode(config)) {
     case 0:
@@ -1142,14 +1142,14 @@ int SCRCMD_WORK_CmdGetButtonMode(struct ScriptVm *vm, ScrcmdWork *work)
 
 int SCRCMD_WORK_CmdSetFixedEventFlag(struct ScriptVm *vm, ScrcmdWork *work)
 {
-    ZONEDATA_SetEventFlag(func_0201296C(SCRCMD_WORK_GetGameData(work)), 0x963);
+    ZONEDATA_SetEventFlag(GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData(work)), 0x963);
     return 0;
 }
 
 int SCRCMD_WORK_CmdSetBoxFlags(struct ScriptVm *vm, ScrcmdWork *work)
 {
     int bits = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
-    struct BoxManager *boxManager = func_0201293C(SCRCMD_WORK_GetGameData(work));
+    struct BoxManager *boxManager = GAME_DATA_GetBoxManager(SCRCMD_WORK_GetGameData(work));
     if ((u16)(bits + 0xFFFF) <= 1)
         func_02007A68(boxManager, bits);
     return 0;
@@ -1165,9 +1165,9 @@ int SCRCMD_WORK_CmdGetPlayerSaveValue(struct ScriptVm *vm, ScrcmdWork *work)
     retSecond = SCRIPT_WORK_ReadWorkPointer(vm, work);
     retFirst = SCRIPT_WORK_ReadWorkPointer(vm, work);
     gameData = SCRCMD_WORK_GetGameData(work);
-    playerWork = func_020127A4(gameData);
+    playerWork = GAME_DATA_GetField114(gameData);
     record = func_020089C0(GAME_DATA_GetSaveControl(gameData));
-    *retFirst = func_02025C88(func_02008554(&playerWork->status));
+    *retFirst = CURSOR_MOVE_GetTableGroup(func_02008554(&playerWork->status));
     *retSecond = func_020089F4(record);
     func_02008A00(record);
     return 0;
@@ -1177,14 +1177,14 @@ int SCRCMD_WORK_CmdGetMiscByte(struct ScriptVm *vm, ScrcmdWork *work)
 {
     int index = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = (func_0200C308(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), index) & 1) != 0;
+    *ret = (BEACON_GetSlotState(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), index) & 1) != 0;
     return 0;
 }
 
 int SCRCMD_WORK_CmdSetMiscByte(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u32 index = SCRIPT_WORK_ReadWorkValue(vm, work);
-    func_0200C2F0(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), index, 1);
+    BEACON_SetSlotState(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), index, 1);
     return 0;
 }
 
@@ -1192,7 +1192,7 @@ int SCRCMD_WORK_CmdCheckMiscByte(struct ScriptVm *vm, ScrcmdWork *work)
 {
     int index = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    if (func_0200C308(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), index) == 3)
+    if (BEACON_GetSlotState(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), index) == 3)
         *ret = 1;
     else
         *ret = 0;
@@ -1202,7 +1202,7 @@ int SCRCMD_WORK_CmdCheckMiscByte(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdCheckExtraSaveData(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
-    struct EventWork *eventWork = func_0201296C(gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     struct SaveControl *saveControl;
     int result;
@@ -1238,7 +1238,7 @@ int SCRCMD_WORK_CmdEventDataSetA(struct ScriptVm *vm, ScrcmdWork *work)
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 y = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 z = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
-    EVENTDATA_SYSTEM_SetBgEventGridPos(func_02012844(SCRCMD_WORK_GetGameData(work)), eventId, x, y, z);
+    EVENTDATA_SYSTEM_SetBgEventGridPos(GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(work)), eventId, x, y, z);
     return 0;
 }
 
@@ -1248,7 +1248,7 @@ int SCRCMD_WORK_CmdEventDataSetB(struct ScriptVm *vm, ScrcmdWork *work)
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 y = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 z = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
-    EVENTDATA_SYSTEM_SetConnectGridPos(func_02012844(SCRCMD_WORK_GetGameData(work)), eventId, x, (u16)y, z);
+    EVENTDATA_SYSTEM_SetConnectGridPos(GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(work)), eventId, x, (u16)y, z);
     return 0;
 }
 
@@ -1259,14 +1259,14 @@ int SCRCMD_WORK_CmdEventDataSetC(struct ScriptVm *vm, ScrcmdWork *work)
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 y = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 z = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
-    EVENTDATA_SYSTEM_SetNpcGridPos(func_02012844(SCRCMD_WORK_GetGameData(work)), eventId, direction, x, y << 16, z);
+    EVENTDATA_SYSTEM_SetNpcGridPos(GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(work)), eventId, direction, x, y << 16, z);
     return 0;
 }
 
 int SCRCMD_WORK_CmdSetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
-    struct EventWork *eventWork = func_0201296C(gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
     func_0215A4EC(eventWork, offset);
     return 0;
@@ -1275,7 +1275,7 @@ int SCRCMD_WORK_CmdSetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdResetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
-    struct EventWork *eventWork = func_0201296C(gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
     func_0215A500(eventWork, offset);
     return 0;
@@ -1283,7 +1283,7 @@ int SCRCMD_WORK_CmdResetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
 
 int SCRCMD_WORK_CmdCheckEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
 {
-    struct EventWork *eventWork = func_0201296C(SCRCMD_WORK_GetGameData(work));
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData(work));
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     *ret = func_0215A4D8(eventWork, offset);
@@ -1303,7 +1303,7 @@ int SCRCMD_WORK_CmdCheckFieldModeA(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     int notSilent = 1;
-    if (EVENT_BATTLE_IsResultSilent(func_02012A44(SCRCMD_WORK_GetGameData(work)), 1) == 1)
+    if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData(work)), 1) == 1)
         *ret = 0;
     else
         *ret = notSilent;
@@ -1323,7 +1323,7 @@ int SCRCMD_WORK_CmdCheckFieldModeB(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     int silent = 0;
-    if (EVENT_BATTLE_IsResultSilent(func_02012A44(SCRCMD_WORK_GetGameData(work)), 0) == 1)
+    if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData(work)), 0) == 1)
         *ret = silent;
     else
         *ret = 1;

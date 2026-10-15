@@ -13,7 +13,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
@@ -96,7 +96,7 @@ extern void BOX2_SEQ_HidePartialSlots(char **p, int flag);
 extern void BOX2_MAIN_SetMoverEntry(unsigned char *p, void *e);
 typedef unsigned char  u8;
 struct Sound;
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_SEQ_MoveCursorToSlot(char *p, int i);
 
@@ -224,7 +224,7 @@ int BOX2_SEQ_StateMachineScroll(unsigned char *p)
             BOX2_SEQ_SetSlotDim((char **)p, 1);
         } else {
             BOX2_SEQ_SetSlotDim((char **)p, 0);
-            func_020260E4(*(void **)(WORK(p) + 0x70), p[0x16]);
+            CURSOR_MOVE_SetCurrent(*(void **)(WORK(p) + 0x70), p[0x16]);
             BOX2_UI_SetCursorPos((char **)p, p[0x16]);
         }
         b->state = 0;

@@ -37,11 +37,11 @@
  *   func_020071CC  0x020071CC  thumb
  *   func_0200EEAC  0x0200EEAC  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
- *   func_0200BE6C  0x0200BE6C  thumb
+ *   INTRUDE_LoadOccupy  0x0200BE6C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
- *   func_0200A864  0x0200A864  thumb
- *   func_0200A884  0x0200A884  thumb
- *   func_0200B3C8  0x0200B3C8  thumb
+ *   MUSICAL_SHOT_GetFromSave  0x0200A864  thumb
+ *   MUSICAL_SHOT_CopyPhotoRev  0x0200A884  thumb
+ *   GIMMICK_WORK_Load  0x0200B3C8  thumb
  *   func_0200893C  0x0200893C  thumb
  *   func_02008954  0x02008954  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
@@ -77,11 +77,11 @@ struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
 extern void func_0200EEAC(void *ctx, void *list);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
-extern void func_0200BE6C(void *sys, u16 *dest);
+extern void INTRUDE_LoadOccupy(void *sys, u16 *dest);
 extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
-extern void *func_0200A864(void *sys);
-extern void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest);
-extern void func_0200B3C8(void *sys, const struct Rec94 *src);
+extern void *MUSICAL_SHOT_GetFromSave(void *sys);
+extern void MUSICAL_SHOT_CopyPhotoRev(const struct Rec2Head *src, struct Rec2Head *dest);
+extern void GIMMICK_WORK_Load(void *sys, const struct Rec94 *src);
 extern void func_0200893C(const struct Sub02008828Obj *obj, void *dest);
 extern void func_02008954(const struct Sub02008828Obj *obj, u8 *out);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
@@ -108,12 +108,12 @@ void GAME_DATA_LoadFromSave(u8 *p)
     v = GAME_DATA_GetOccupyInfo((const struct BigObj *)p);
     func_0200EEAC((void *)v, (void *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
 
-    func_0200BE6C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)GAME_DATA_GetLastBattleRecSlot(p));
+    INTRUDE_LoadOccupy((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)GAME_DATA_GetLastBattleRecSlot(p));
 
     v = (u32)GAME_DATA_GetSecondUnionInfo(p);
-    func_0200A884(func_0200A864((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Rec2Head *)v);
+    MUSICAL_SHOT_CopyPhotoRev(MUSICAL_SHOT_GetFromSave((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Rec2Head *)v);
 
-    func_0200B3C8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Rec94 *)(p + 0x5EC));
+    GIMMICK_WORK_Load((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Rec94 *)(p + 0x5EC));
 
     h = ((struct Obj00054 *)p)->f15C;
     func_0200893C((const struct Sub02008828Obj *)h, (void *)(*(u32 *)&((struct Obj00054 *)p)->f1B8));

@@ -1,5 +1,5 @@
 /*
- * function: func_02078648
+ * function: FS_SuspendArchive
  * address:  0x02078648
  * packet:   pkt_02078648
  * region:   arm9
@@ -45,7 +45,7 @@ static inline BOOL FS_IsArchiveSuspended(const FSArchive *arc)
     return (arc->flag & 8) ? 1 : 0;
 }
 
-BOOL func_02078648(FSArchive *p_arc)
+BOOL FS_SuspendArchive(FSArchive *p_arc)
 {
     BOOL retval;
     u32 bak_psr = OS_DisableInterrupts();

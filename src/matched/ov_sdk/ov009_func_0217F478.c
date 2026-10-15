@@ -1,5 +1,5 @@
 /*
- * function: func_0217F478
+ * function: gsiDateToSeconds
  * address:  0x0217F478
  * packet:   pkt_ov009_0217F478
  * region:   ov009
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   _s32_div_f                     0x0209C0A4  arm
- *   func_0217F2C8                  0x0217F2C8  arm ov009
- *   g_021A3800                     0x021A3800  data
+ *   gsiSecondsToDate                  0x0217F2C8  arm ov009
+ *   gGsMonthDays                     0x021A3800  data
  */
 
 struct tm {
@@ -32,10 +32,10 @@ struct tm {
 #define ChkAdd(dest, src1, src2) (((src1 >= 0L) && (src2 >= 0L) && (dest < 0L)) || ((src1 < 0L) && (src2 < 0L) && (dest >= 0L)))
 #define ChkMul(dest, src1, src2) (src1 ? (dest / src1 != src2) : 0)
 
-extern struct tm *func_0217F2C8(long *timp);
-extern int g_021A3800[];
+extern struct tm *gsiSecondsToDate(long *timp);
+extern int gGsMonthDays[];
 
-long func_0217F478(struct tm *tb)
+long gsiDateToSeconds(struct tm *tb)
 {
     long tmptm1;
     long tmptm2;
@@ -54,7 +54,7 @@ long func_0217F478(struct tm *tb)
             return -1;
     }
 
-    tmptm2 = g_021A3800[tb->tm_mon];
+    tmptm2 = gGsMonthDays[tb->tm_mon];
     if (!(tmptm1 & 3) && (tb->tm_mon > 1))
         tmptm2++;
 
@@ -87,7 +87,7 @@ long func_0217F478(struct tm *tb)
 
     {
         struct tm *tbtemp;
-        if ((tbtemp = func_0217F2C8(&tmptm1)) == 0)
+        if ((tbtemp = gsiSecondsToDate(&tmptm1)) == 0)
             return -1;
         *tb = *tbtemp;
     }

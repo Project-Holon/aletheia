@@ -1,5 +1,5 @@
 /*
- * function: sub_0200BAF4
+ * function: BATTLE_BOX_CreateParty
  * address:  0x0200BAF4
  * packet:   pkt_0200BAF4
  * region:   arm9
@@ -48,7 +48,7 @@ extern void *sub_0201747C(struct Mon *p, u32 heap);
 extern void *sub_0200BBEC(void *base, u32 i, u32 j);
 extern u32 func_020307B0(void *p);
 
-void *sub_0200BAF4(int a0, int a1)
+void *BATTLE_BOX_CreateParty(int a0, int a1)
 {
     void *h;
     u32 i;

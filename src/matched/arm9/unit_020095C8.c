@@ -11,16 +11,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020095C8, sub_020095E8, sub_020095FC, sub_0200960C,
- *           sub_02009618, sub_02009628, sub_02009634, sub_02009698,
- *           sub_0200973C, sub_0200974C, sub_02009750, sub_02009794
+ * function: WIFI_HISTORY_GetFirstFreeEntry, WIFI_HISTORY_IncrementVisitedCountryCount, WIFI_HISTORY_SetRatingLevel, WIFI_HISTORY_GetRatingLevel,
+ *           WIFI_HISTORY_SetGreetingSet, WIFI_HISTORY_GetGreetingSet, WIFI_HISTORY_GetEntryField, WIFI_HISTORY_SetEntryField,
+ *           WIFI_HISTORY_GetEntry, WIFI_HISTORY_Dummy, WIFI_HISTORY_MarkCountryVisited, sub_02009794
  *
  * alias: the rest of the save block with id 0x1D whose first half is
  * src/matched/unit_02009470.c.  This half is the twenty 0x28-byte records at
  * the front of the block, the 0xE9-bit flag array at +0x320, and the four
  * scalars at +0x344..+0x347 that sit between them.
  *
- * sub_02009634 and sub_02009698 are the getter and the setter over the record
+ * WIFI_HISTORY_GetEntryField and WIFI_HISTORY_SetEntryField are the getter and the setter over the record
  * fields, both dispatched through a PC-relative halfword table; see
  * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The two tables
  * are the interesting part, because they disagree.  The getter's seven entries
@@ -47,10 +47,10 @@
  * bitfield and not an assignment of the value itself.
  *
  * The index bound is checked unsigned in the getter (`blo`) and signed in the
- * setter and in sub_0200973C (`bge`, `blt`), so the three functions do not
+ * setter and in WIFI_HISTORY_GetEntry (`bge`, `blt`), so the three functions do not
  * agree about the type of their index and the source says so.
  *
- * sub_02009750 seeds its result from a literal pool word holding zero rather
+ * WIFI_HISTORY_MarkCountryVisited seeds its result from a literal pool word holding zero rather
  * than from a `movs`, which costs four bytes and is what the compiler does
  * here for a value initialised before a conditional; the `bne` that follows
  * reads the flags of the `adds r5, r1, #0` that moved the argument, so there
@@ -91,7 +91,7 @@ struct Sub02009470Obj {
 
 u32 sub_02009794(const struct Sub02009470Obj *obj, u32 n);
 
-u8 sub_020095C8(const struct Sub02009470Obj *obj)
+u8 WIFI_HISTORY_GetFirstFreeEntry(const struct Sub02009470Obj *obj)
 {
     int i;
 
@@ -103,38 +103,38 @@ u8 sub_020095C8(const struct Sub02009470Obj *obj)
     return i;
 }
 
-void sub_020095E8(struct Sub02009470Obj *obj)
+void WIFI_HISTORY_IncrementVisitedCountryCount(struct Sub02009470Obj *obj)
 {
     if (obj->unk345 < 0xE9) {
         obj->unk345++;
     }
 }
 
-void sub_020095FC(struct Sub02009470Obj *obj, int value)
+void WIFI_HISTORY_SetRatingLevel(struct Sub02009470Obj *obj, int value)
 {
     if (value < 5) {
         obj->unk347 = value;
     }
 }
 
-u8 sub_0200960C(const struct Sub02009470Obj *obj)
+u8 WIFI_HISTORY_GetRatingLevel(const struct Sub02009470Obj *obj)
 {
     return obj->unk347;
 }
 
-void sub_02009618(struct Sub02009470Obj *obj, int value)
+void WIFI_HISTORY_SetGreetingSet(struct Sub02009470Obj *obj, int value)
 {
     if (value < 9) {
         obj->unk346 = value;
     }
 }
 
-u8 sub_02009628(const struct Sub02009470Obj *obj)
+u8 WIFI_HISTORY_GetGreetingSet(const struct Sub02009470Obj *obj)
 {
     return obj->unk346;
 }
 
-u32 sub_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field)
+u32 WIFI_HISTORY_GetEntryField(const struct Sub02009470Obj *obj, u32 i, u32 field)
 {
     const struct Sub02009470Ent *e;
 
@@ -161,7 +161,7 @@ u32 sub_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field)
     return 0;
 }
 
-void sub_02009698(struct Sub02009470Obj *obj, int i, u32 field, u32 value)
+void WIFI_HISTORY_SetEntryField(struct Sub02009470Obj *obj, int i, u32 field, u32 value)
 {
     struct Sub02009470Ent *e;
 
@@ -197,7 +197,7 @@ void sub_02009698(struct Sub02009470Obj *obj, int i, u32 field, u32 value)
     }
 }
 
-struct Sub02009470Ent *sub_0200973C(struct Sub02009470Obj *obj, int i)
+struct Sub02009470Ent *WIFI_HISTORY_GetEntry(struct Sub02009470Obj *obj, int i)
 {
     if (i >= 20) {
         return 0;
@@ -205,11 +205,11 @@ struct Sub02009470Ent *sub_0200973C(struct Sub02009470Obj *obj, int i)
     return &obj->unk000[i];
 }
 
-void sub_0200974C(void)
+void WIFI_HISTORY_Dummy(void)
 {
 }
 
-u32 sub_02009750(struct Sub02009470Obj *obj, u32 n)
+u32 WIFI_HISTORY_MarkCountryVisited(struct Sub02009470Obj *obj, u32 n)
 {
     u32 ret = 0;
 

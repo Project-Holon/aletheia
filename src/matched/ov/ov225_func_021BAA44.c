@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   sub_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void sub_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 struct Work;
 
-void func_021BAA44(struct Work *a0) { sub_02041B6C(4); }
+void func_021BAA44(struct Work *a0) { BG_SYS_SetFlagField06(4); }

@@ -1,5 +1,5 @@
 /*
- * function: sub_0203521C
+ * function: UI_GetPointerValue
  * address:  0x0203521C
  * packet:   pkt_02035080
  * region:   arm9
@@ -15,13 +15,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0203521C.c \
- *       --func sub_0203521C --addr 0x0203521C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_GetPointerValue.c \
+ *       --func UI_GetPointerValue --addr 0x0203521C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-u32 sub_0203521C(u32 *p)
+u32 UI_GetPointerValue(u32 *p)
 {
     return *p;
 }

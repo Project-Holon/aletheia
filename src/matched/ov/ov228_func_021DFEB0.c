@@ -1,5 +1,5 @@
 /*
- * function: func_021DFEB0
+ * function: SAVE_OUTSIDE_CopyPayload
  * address: 0x021DFEB0
  * packet: pkt_ov228_021DFEB0
  * region: ov228
@@ -19,7 +19,7 @@ struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
 extern void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
-void func_021DFEB0(char *p, void *ctrl)
+void SAVE_OUTSIDE_CopyPayload(char *p, void *ctrl)
 {
     u8 *buf;
     u8 *src;

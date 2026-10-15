@@ -22,6 +22,7 @@
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  arm  arm9
  */
 typedef unsigned short u16;
 typedef struct { unsigned char bg, x, y, w; } WinTemplate;
@@ -65,7 +66,7 @@ struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -137,7 +138,7 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void
             break;
         case 5:
             MSGDATA_ReadString(msg, 23, buf);
-            func_0201F094(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data), func_02008570((const struct Sub0200852CObj *)data));
+            WORDSET_DeleteMsgdataF094(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data), func_02008570((const struct Sub0200852CObj *)data));
             func_0201F250(fmt, str, buf);
             break;
         case 6:

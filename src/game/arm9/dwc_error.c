@@ -1,7 +1,7 @@
 /*
  * file:     dwc_error.c
  * unit:     yes
- * function: func_02059E18, func_02059E38, func_02059F18, func_02059F38, DWCi_SetError
+ * function: func_02059E18, DWC_GetLastErrorEx, func_02059F18, DWCi_IsError, DWCi_SetError
  * address:  0x02059E18
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -36,9 +36,9 @@ typedef struct {
 } DWCErrorInfo;
 
 int DWC_GetLastError(int *errorCode);
-int func_02059E38(int *errorCode, int *errorType);
+int DWC_GetLastErrorEx(int *errorCode, int *errorType);
 void DWC_ClearError(void);
-int func_02059F38(void);
+int DWCi_IsError(void);
 void DWCi_SetError(int error, int errorCode);
 extern DWCErrorInfo stDwcLastError;
 extern int g_02146AA4;
@@ -62,7 +62,7 @@ int DWC_GetLastError(int *errorCode)
 /*
  * sdk:      DWC_GetLastErrorEx (libdwccommon.TWL.HYB.a dwc_error.o)
  */
-int func_02059E38(int *errorCode, int *errorType)
+int DWC_GetLastErrorEx(int *errorCode, int *errorType)
 {
     if (errorCode != 0)
         *errorCode = stDwcLastError.errorCode;
@@ -128,7 +128,7 @@ void DWC_ClearError(void)
 }
 
 
-int func_02059F38(void)
+int DWCi_IsError(void)
 {
     return g_02146AA4 != 0;
 }

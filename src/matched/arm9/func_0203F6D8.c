@@ -12,7 +12,7 @@
  * symbols:
  *   FX_SinCosTable_   0x020A1B38  data
  *
- * The odd-halfword twin of func_0203F684: same signed `x % 360`, same
+ * The odd-halfword twin of GF_STANDARD_Get_F684: same signed `x % 360`, same
  * fixed-point multiply by 0xFFFF against the same 360, same `>> 4`, but the
  * table index is `2 * i + 1` instead of `2 * i`.  That difference shows up as
  * `lsl r0, r0, #1 / add r1, r0, #1 / lsl r1, r1, #1` before the `ldrsh`,

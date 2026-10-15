@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   DAILY_LAYOUT_DealCells  0x021F3980  thumb  ov036
  *   gDailyLayoutCellFlags     0x021F3AD4  data  a4
  *   gDailyLayoutMainDefs     0x021F3B4C  data  a4
@@ -93,7 +93,7 @@ typedef struct ExtraEntryDef {
     int valueD;
 } ExtraEntryDef;
 
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern int DAILY_LAYOUT_DealCells(CellDeck *deck);
 extern u32 func_020056EC(u32 range);
 void DAILY_LAYOUT_Generate(DailyLayoutWork *work);
@@ -127,7 +127,7 @@ void DAILY_LAYOUT_Generate(DailyLayoutWork *work)
     u8 pick;
     u8 entryCell;
 
-    func_0203F4E4((struct RtcDate *)(&date));
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
     switch (date.week) {
     case 1:
         mainCount = 4;

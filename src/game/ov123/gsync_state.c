@@ -56,7 +56,7 @@
  *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  *   func_020092D0 0x020092D0 thumb
  *   func_020090F8 0x020090F8 thumb
- *   func_0203F1FC 0x0203F1FC arm
+ *   GF_STANDARD_SetupCalc 0x0203F1FC arm
  *   func_02009108 0x02009108 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
@@ -72,10 +72,10 @@
  *   func_020093F0 0x020093F0 thumb
  *   func_0203EFC8 0x0203EFC8 arm
  *   func_02009348 0x02009348 thumb
- *   func_0202A128 0x0202A128 thumb
+ *   TPOKE_DATA_Create 0x0202A128 thumb
  *   func_02019C90 0x02019C90 thumb
  *   func_02019D58 0x02019D58 thumb
- *   func_0202A19C 0x0202A19C thumb
+ *   TPOKE_DATA_IsRecordKindTwo 0x0202A19C thumb
  *   SYMBOL_SAVE_GetBlock 0x0200E0B0 thumb
  *   SYMBOL_SAVE_WriteRecord 0x0200E1A8 thumb
  *   func_0202A170 0x0202A170 thumb
@@ -83,8 +83,8 @@
  *   func_020092E0 0x020092E0 thumb
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   func_020093C8 0x020093C8 thumb
- *   func_0203F4E4 0x0203F4E4 arm
- *   func_0203F540 0x0203F540 arm
+ *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_SetupRtc_F540 0x0203F540 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   GFL_NET_STATE_SetErrorMode 0x0203C938 arm
  *   func_020093D8 0x020093D8 thumb
@@ -161,6 +161,7 @@
  *   GSYNC_DISP_SetIconRecord 0x021D6A70 thumb ov123
  *   GSYNC_DISP_SetIconRecordSpecies 0x021D6AA8 thumb ov123
  *   GSYNC_DISP_LoadIconResources 0x021D6AB8 thumb ov123
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -311,7 +312,7 @@ extern struct Sub02009210Obj *func_02009210(void *sys);
 
 extern void func_020090F8(struct Sub020090B0Obj *obj, unsigned char value);
 
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 
@@ -337,13 +338,13 @@ extern void func_020093A8(struct Sub02009210Obj *obj, int i, const void *src);
 
 extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 
-extern void *func_0202A128(int);
+extern void *TPOKE_DATA_Create(int);
 
 extern int func_02019C90(u16, int, int);
 
 extern int func_02019D58(u16, int);
 
-extern int func_0202A19C(u32, void *, u16, u16, int);
+extern int TPOKE_DATA_IsRecordKindTwo(u32, void *, u16, u16, int);
 
 extern void *SYMBOL_SAVE_GetBlock(void *);
 
@@ -369,9 +370,9 @@ extern int func_02008BD0(const struct Sub02008AECSession *s);
 
 extern u32 func_020093C8(const struct Sub02009210Obj *obj);
 
-extern void func_0203F4E4(struct GsyncRtcDate *);
+extern void GF_STANDARD_SetField00_F4E4(struct GsyncRtcDate *);
 
-extern int func_0203F540(struct GsyncRtcDate *);
+extern int GF_STANDARD_SetupRtc_F540(struct GsyncRtcDate *);
 
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
@@ -403,7 +404,7 @@ extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0
 
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 
-extern u32 func_0201293C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 
@@ -1010,7 +1011,7 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int a)
     int x;
     b=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)a)->saveData));
     p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-    checksum=func_0203F1FC(p,0x2600);
+    checksum=GF_STANDARD_SetupCalc(p,0x2600);
     if(checksum!=*(u16 *)(p+0x2600)) {
         ((GsyncStateWork *)a)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x345);
@@ -1038,7 +1039,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int a)
     u16 checksum;
     b=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)a)->saveData));
     p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-    checksum=func_0203F1FC(p,0x6200);
+    checksum=GF_STANDARD_SetupCalc(p,0x6200);
     if(checksum!=*(u16 *)(p+0x6200)) {
         ((GsyncStateWork *)a)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x378);
@@ -1069,7 +1070,7 @@ void GSYNC_STATE_StateMusicalSaveCreate(int a,int n)
         GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x39d);
         return;
     }
-    checksum=func_0203F1FC(p,n);
+    checksum=GF_STANDARD_SetupCalc(p,n);
     if(checksum!=*(u16 *)(p+h*2)) {
         ((GsyncStateWork *)a)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x3a3);
@@ -1260,7 +1261,7 @@ void GSYNC_STATE_BuildMonEntry(GsyncStateWork *p, int unused, int species, int g
     int mapped;
     int g;
     if (species == 0 || species > 493) return;
-    h = func_0202A128(p->heapId);
+    h = TPOKE_DATA_Create(p->heapId);
     kind = 3;
     f = (int)func_02019D30((u16)species, (u8)form);
     g = func_02019C90(species, f, 20);
@@ -1271,7 +1272,7 @@ void GSYNC_STATE_BuildMonEntry(GsyncStateWork *p, int unused, int species, int g
     case 255: gender = 2; break;
     default: if (gender > 1) gender = func_020056EC(2); break;
     }
-    if (func_0202A19C((*(unsigned int *)&p->saveData), h, species, gender, mapped)) kind = 2;
+    if (TPOKE_DATA_IsRecordKindTwo((*(unsigned int *)&p->saveData), h, species, gender, mapped)) kind = 2;
     if (v > 8) v = 0;
     SYMBOL_SAVE_WriteRecord(SYMBOL_SAVE_GetBlock(p->saveControl), species, n, gender, mapped, v, kind);
     func_0202A170(h);
@@ -1724,9 +1725,9 @@ void GSYNC_STATE_StateSendFinalRequest(char *p)
     saved.month=(u8)(value>>16);
     saved.day=(u8)(value>>8);
     saved.week=(u8)value;
-    func_0203F4E4((struct GsyncRtcDate *)&current);
-    day=func_0203F540((struct GsyncRtcDate *)&saved);
-    if (day==func_0203F540((struct GsyncRtcDate *)&current)) {
+    GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&current);
+    day=GF_STANDARD_SetupRtc_F540((struct GsyncRtcDate *)&saved);
+    if (day==GF_STANDARD_SetupRtc_F540((struct GsyncRtcDate *)&current)) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
         return;
     }
@@ -1803,7 +1804,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *p)
     struct GsyncRtcDate date;
     q=func_02009448(((GsyncStateWork *)p)->saveControl);
     ((GsyncStateWork *)p)->monStored=0;
-    func_0203F4E4((struct GsyncRtcDate *)&date);
+    GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&date);
     func_020093CC(q, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
     if (func_020093D8(q)!=127) {
         func_02009428(q,1);
@@ -1996,7 +1997,7 @@ int GSYNC_STATE_ProcInit(void *a,int b,GsyncConn *q)
         (*(void * *)&p->saveData)=q->saveData;
         p->saveControl=GAME_DATA_GetSaveControl(q->saveData);
         value=func_0200853C((const struct Sub0200852CObj *)func_02012944(q->saveData));
-        (*(unsigned int *)&p->boxSave)=func_0201293C(q->saveData);
+        (*(unsigned int *)&p->boxSave)=GAME_DATA_GetBoxManager(q->saveData);
         p->boxIndex=q->boxIndex;
         p->slotIndex=q->slotIndex;
         p->responsePending=func_020092EC((const struct Sub02009210Obj *)func_02009448(p->saveControl));

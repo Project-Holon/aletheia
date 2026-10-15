@@ -1,5 +1,5 @@
 /*
- * function: func_0205D91C
+ * function: DWC_AC_StartupGetWDSInfo
  * address:  0x0205D91C
  * packet:   pkt_0205D91C
  * region:   arm9
@@ -68,7 +68,7 @@ extern u32 WDS_GetWorkAreaSize(void);
 extern void *DWC_Alloc(int name, u32 size);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-BOOL func_0205D91C(DWCWDSData *nspotInfo, u16 dmaNo)
+BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo)
 {
     s_nspot.wdsSysBuf = DWC_Alloc(1, WDS_GetWorkAreaSize());
     s_nspot.gDwcWdsWork = DWC_Alloc(1, sizeof(DWCWDSWork));

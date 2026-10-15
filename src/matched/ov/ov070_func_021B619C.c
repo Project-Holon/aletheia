@@ -12,15 +12,15 @@
  * lever: enum quotient preserves its r1 web and the copy to return r0.
  * The signed quotient is multiplied with unsigned modular arithmetic.
  * symbols:
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
 int ITEMMENU_GetSellTotal(int a, int b, unsigned int id)
 {
     typedef enum { HALF_ZERO } Half;
     Half half;
-    half = (Half)((int)func_02020FE4((void *)((u16)a), 0, id) / 2);
+    half = (Half)((int)FILE_UTIL_Get_0FE4((void *)((u16)a), 0, id) / 2);
     return (int)((unsigned int)half * (unsigned int)b);
 }

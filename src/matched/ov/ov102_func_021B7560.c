@@ -16,7 +16,7 @@
  * IRC_COMPATIBLE_MENU_InitText 0x021B7C20 thumb ov102
  * IRC_COMPATIBLE_MENU_InitDisplay 0x021B7860 thumb ov102
  * IRC_COMPATIBLE_MENU_InitBackgrounds 0x021B7908 thumb ov102
- * func_02012138 0x02012138 thumb
+ * ICA_ANIME_GetField24 0x02012138 thumb
  * IRC_COMPATIBLE_MENU_InitButtons 0x021B8464 thumb ov102
  * IRC_COMPATIBLE_MENU_InitTitleWindow 0x021B7CC8 thumb ov102
  * func_0201F73C 0x0201F73C thumb
@@ -26,10 +26,10 @@
  * func_02041F6C 0x02041F6C arm
  * func_02041FB0 0x02041FB0 arm
  * IRC_COMPATIBLE_MENU_InitScrollEffect 0x021B879C thumb ov102
- * func_020120F4 0x020120F4 thumb
+ * ICA_ANIME_GetField1C 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * func_020070A4 0x020070A4 thumb
- * func_0200A8A0 0x0200A8A0 thumb
+ * IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  * IRC_COMPATIBLE_MENU_InitFloaters 0x021B8934 thumb ov102
  * IRC_COMPATIBLE_MENU_GetSpriteUnit 0x021B78F4 thumb ov102
  * IRC_COMPATIBLE_MENU_TextGetFont 0x021B7CBC thumb ov102
@@ -59,7 +59,7 @@ extern void IRC_COMPATIBLE_MENU_InitBackgrounds(u32 *,u16);
 struct Big;
 struct Ctx;
 struct Sub02007084Ctrl;
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 struct Row;
 struct State;
 extern void IRC_COMPATIBLE_MENU_InitButtons(struct State *p, int bg, const struct Row *rows, int count, void *object, u16 heap);
@@ -71,10 +71,10 @@ extern void IRC_COMPATIBLE_MENU_PrintMessageCentered(u8 *,void *,int);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
 extern void IRC_COMPATIBLE_MENU_InitScrollEffect(void *,u32);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007084Ctrl *func_020070A4(void);
-extern void *func_0200A8A0(void *);
+extern void *IRC_RANKING_GetFromSave(void *);
 extern void IRC_COMPATIBLE_MENU_InitFloaters(u8 *a, void *b, void *c, int d);
 extern unsigned IRC_COMPATIBLE_MENU_GetSpriteUnit(unsigned *p);
 extern int IRC_COMPATIBLE_MENU_TextGetFont(void *);
@@ -98,7 +98,7 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *owner,int unused,void *arg)
     IRC_COMPATIBLE_MENU_InitText((u32 *)(p+0x9c),59);
     IRC_COMPATIBLE_MENU_InitDisplay((char *)p,59);
     IRC_COMPATIBLE_MENU_InitBackgrounds((u32 *)(p+0x94),59);
-    if(**(void ** *)&((struct Obj03229 *)p)->f48C) func_02012138(**(void ** *)&((struct Obj03229 *)p)->f48C);
+    if(**(void ** *)&((struct Obj03229 *)p)->f48C) ICA_ANIME_GetField24(**(void ** *)&((struct Obj03229 *)p)->f48C);
     IRC_COMPATIBLE_MENU_InitButtons((struct State *)(p+0xc0),2,(const struct Row *)IRC_COMPATIBLE_MENU_ButtonRows,2,p+0x9c,59);
     IRC_COMPATIBLE_MENU_InitTitleWindow(p+0xac,5,1,18,30,5,8,59);
     func_0201F73C(((struct Obj03229 *)p)->fAC,0,(u16)(((struct Obj03229 *)p)->f94),6);
@@ -111,9 +111,9 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *owner,int unused,void *arg)
     func_02041FB0(7,12,40);
     IRC_COMPATIBLE_MENU_InitScrollEffect(p+0xfc,59);
     save=**(void ** *)&((struct Obj03229 *)p)->f48C;
-    if(save) save=GAME_DATA_GetSaveControl(func_020120F4(save));
+    if(save) save=GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(save));
     else save=func_020070A4();
-    IRC_COMPATIBLE_MENU_InitFloaters((u8 *)((int)(p+0x118)),(void *)((int)p),(void *)((int)func_0200A8A0(save)),59);
+    IRC_COMPATIBLE_MENU_InitFloaters((u8 *)((int)(p+0x118)),(void *)((int)p),(void *)((int)IRC_RANKING_GetFromSave(save)),59);
     handle=IRC_COMPATIBLE_MENU_GetSpriteUnit((unsigned int *)p);
     first=IRC_COMPATIBLE_MENU_TextGetFont(p+0x9c);
     second=IRC_COMPATIBLE_MENU_TextGetPrintQueue(p+0x9c);

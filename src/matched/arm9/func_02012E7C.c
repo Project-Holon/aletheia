@@ -14,6 +14,8 @@
  *   SAVE_CONTROL_StepExtraSaveWrite  0x020073B0  thumb
  *   WIH_DWC_ResumeTimers  0x02010444  thumb
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
+ *   UI_ClearFlags39Global  0x020351A0  arm
  */
 #include "../include/Obj00054.h"
 
@@ -22,9 +24,9 @@ typedef unsigned int u32;
 
 extern int GFL_USE_IsLoaderBusy(void);
 extern int SAVE_CONTROL_StepExtraSaveWrite(char *a0, u32 a1);
-extern int func_020351A0(u32 v);
+extern int UI_ClearFlags39Global(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
-extern void func_02034FB8(u32 a);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 a);
 
 int GAME_DATA_PartSaveMain(char *p, int a1)
 {
@@ -34,10 +36,10 @@ int GAME_DATA_PartSaveMain(char *p, int a1)
         return 0;
     r = SAVE_CONTROL_StepExtraSaveWrite((char *)(*(u32 *)&((struct Obj00054 *)p)->f0), a1);
     if (r == 2 || r == 3) {
-        func_020351A0(2);
+        UI_ClearFlags39Global(2);
         WIH_DWC_ResumeTimers();
         ((struct Obj00054 *)p)->f1CE = 0;
-        func_02034FB8(0x80);
+        UI_ClearKeepAwakeFlagsGlobal(0x80);
     }
     return r;
 }

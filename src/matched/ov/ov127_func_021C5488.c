@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C5488, func_021C54B0
+ * function: WF2DMAP_OBJCMD_SpawnIdle, WF2DMAP_OBJCMD_StepNoop3
  * address: 0x021C5488
  * packet: pkt_ov127_021C5488
  * region: ov127
@@ -10,13 +10,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C49A4 0x021C49A4 thumb ov127
- *   func_021C5564 0x021C5564 thumb ov127
+ *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
+ *   WF2DMAP_OBJDRAW_FillSpawnDesc 0x021C5564 thumb ov127
  */
 #include "../include/Obj10474.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021C49A4(u8 *,unsigned int);
-extern void func_021C5564(u8 *,void *,int,int,int);
-int func_021C5488(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=func_021C49A4(p,5);  if(v==0) { func_021C5564(out,p,((struct Obj10474 *)desc)->f0,desc[3],desc[2]); return 1; } return 0; }
-int func_021C54B0(void) { return 0; }
+extern int WF2DMAP_OBJ_GetSlot(u8 *,unsigned int);
+extern void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *,void *,int,int,int);
+int WF2DMAP_OBJCMD_SpawnIdle(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5);  if(v==0) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((struct Obj10474 *)desc)->f0,desc[3],desc[2]); return 1; } return 0; }
+int WF2DMAP_OBJCMD_StepNoop3(void) { return 0; }

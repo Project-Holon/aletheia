@@ -1,5 +1,5 @@
 /*
- * function: func_0220B460
+ * function: B_PLIST_ANM_BlitTileRect
  * address: 0x0220B460
  * packet: pkt_ov198_0220B460
  * region: ov198
@@ -11,7 +11,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_0220B460(u16 *dst, u16 *src, int x, int y, u8 width, u8 height)
+void B_PLIST_ANM_BlitTileRect(u16 *dst, u16 *src, int x, int y, u8 width, u8 height)
 {
     u16 row;
     u16 col;

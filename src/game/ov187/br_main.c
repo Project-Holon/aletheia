@@ -38,7 +38,7 @@
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   BR_MAIN_SanitizeBgmIds 0x0220B240 thumb ov187
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_02012A30 0x02012A30 thumb
+ *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_02028A58 0x02028A58 thumb
@@ -152,7 +152,7 @@ extern void BR_MAIN_SanitizeBgmIds(u16 *,u16 *);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
 
-extern unsigned int func_02012A30(const struct GameData *);
+extern unsigned int GAME_DATA_GetBgmInfo(const struct GameData *);
 
 extern int GFL_USE_PopBgm(void);
 
@@ -326,7 +326,7 @@ void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work)
 
 void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
 {
-    void *soundSys = (void *)func_02012A30(work->launch->gameData);
+    void *soundSys = (void *)GAME_DATA_GetBgmInfo(work->launch->gameData);
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);
     GFL_USE_FadeInBgmFull(30);

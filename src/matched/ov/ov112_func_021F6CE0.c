@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F9E04 0x021F9E04 thumb ov132
- *   func_021F9E18 0x021F9E18 thumb ov132
+ *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetSelection 0x021F9E18 thumb ov132
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   _fflt 0x0209BDBC arm
@@ -23,8 +23,8 @@
 typedef unsigned short u16;
 typedef struct { short x, y; } Point;
 typedef unsigned char  u8;
-extern u16 func_021F9E04(u8 *p);
-extern int func_021F9E18(char *p);
+extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern int STA_ACTING_GetSelection(char *p);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -36,13 +36,13 @@ void func_021F6CE0(char *p, char *q) {
     int tmp;
     Point point;
     if (*(int *)&((struct Obj00771 *)p)->f4 == 0) tmp = 0x80;
-    else tmp = func_021F9E04((u8 *)(*(int *)&((struct Obj00771 *)p)->f4));
+    else tmp = STA_ACTING_GetCameraTarget((u8 *)(*(int *)&((struct Obj00771 *)p)->f4));
     n = tmp;
     if (((struct Obj05317 *)q)->f0 == 1) {
         point.x = (short)((float)((struct Obj05317 *)q)->f8 / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)((struct Obj05317 *)q)->fC / 4096.0f);
         CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
-        if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && func_021F9E18((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
+        if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && STA_ACTING_GetSelection((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
             return;
         }

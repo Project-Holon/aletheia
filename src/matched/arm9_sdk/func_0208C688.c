@@ -1,5 +1,5 @@
 /*
- * function: func_0208C688
+ * function: PM_GetLCDPower
  * address:  0x0208C688
  * packet:   pkt_0208C688
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     spi/ARM9/pm.o PM_GetLCDPower.
  */
 
-int func_0208C688(void)
+int PM_GetLCDPower(void)
 {
     return (*(volatile unsigned short *)0x04000304 & 1) ? 1 : 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02083DC8
+ * function: NVRAMi_Write
  * address:  0x02083DC8
  * packet:   pkt_02083DC8
  * region:   arm9
@@ -118,7 +118,7 @@ void OS_Terminate(void);
 void NVRAMi_SyncCallback(NVRAMResult result, void *arg);
 NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 
-NVRAMResult func_02083DC8(u32 address, u32 size, void *pData)
+NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData)
 {
     NVRAMResult result;
     OSMessageQueue msgQ;

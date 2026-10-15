@@ -19,14 +19,14 @@
  *   FS_InitFile            0x020788AC  arm
  *   FS_GetArchiveName      0x02078530  arm
  *   STD_GetStringLength    0x0208CC78  arm
- *   g_020A84A8             0x020A84A8  data
+ *   fsi_str_colon_slash             0x020A84A8  data
  *   _ZZ20FSi_TranslateCommandP6FSFilemiE13default_table    0x020A1A04  data
  *   FSi_IsUnreadableRomOffset    0x0207A980  arm
  *   MI_CpuFill8                  0x02082BCC  arm
  *   CARD_GetRomHeader            0x02075DEC  arm
  *   FS_MountArchive              0x02078540  arm
  *   FSiArchiveProcInterface      0x020A1A38  data
- *   func_02078588  0x02078588  arm
+ *   FS_UnmountArchive  0x02078588  arm
  *   FS_OpenFileDirect            0x02078964  arm
  *   FS_ReadFile                  0x02078B70  arm
  *   FS_CloseFile                 0x02078A80  arm
@@ -314,7 +314,7 @@ extern BOOL FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern const CARDRomHeader *CARD_GetRomHeader(void);
 extern BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl, u32 reserved);
-extern BOOL func_02078588(FSArchive *arc);
+extern BOOL FS_UnmountArchive(FSArchive *arc);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern BOOL FS_CloseFile(FSFile *file);
@@ -366,7 +366,7 @@ void *FS_UnloadArchiveTables(FSArchive *arc);
 void *FS_GetArchiveBase(void *arc);
 u32 FS_GetArchiveOffset(void *arc, u32 pos);
 int FS_IsArchiveTableLoaded(void *arc);
-extern const char g_020A84A8[];   /* ":/" */
+extern const char fsi_str_colon_slash[];   /* ":/" */
 extern const FSROMFATDefaultProc _ZZ20FSi_TranslateCommandP6FSFilemiE13default_table[13];
 extern const FSArchiveInterface FSiArchiveProcInterface;
 
@@ -691,7 +691,7 @@ FSResult FSi_GetPathDefault(FSFile *file)
 
                 MI_CpuCopy8(arcname, dst + pos, len);
                 pos += len;
-                MI_CpuCopy8(g_020A84A8, dst + pos, 2);
+                MI_CpuCopy8(fsi_str_colon_slash, dst + pos, 2);
             }
             FSi_SeekDirDirect(tmp, id);
             if (file_id != INVALID_ID) {
@@ -1396,7 +1396,7 @@ BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u3
 
 BOOL FS_UnloadArchive(FSArchive *arc)
 {
-    return func_02078588(arc);
+    return FS_UnmountArchive(arc);
 }
 
 

@@ -33,14 +33,14 @@
  *   NNS_GfdDefaultFuncAllocTexVram   0x020A8140  data
  *   g_pParticleMan   0x02146A88  data
  *   NNS_GfdDefaultFuncAllocPlttVram   0x020A8148  data
- *   func_0207E1F8  0x0207E1F8  arm
- *   func_0207E24C  0x0207E24C  arm
- *   func_0207E2A0  0x0207E2A0  arm
- *   func_0207E330  0x0207E330  arm
+ *   G2_GetBG0CharPtr  0x0207E1F8  arm
+ *   G2_GetBG1CharPtr  0x0207E24C  arm
+ *   G2_GetBG2CharPtr  0x0207E2A0  arm
+ *   G2_GetBG3CharPtr  0x0207E330  arm
  *   func_0207E22C  0x0207E22C  arm
  *   func_0207E280  0x0207E280  arm
- *   func_0207E2F0  0x0207E2F0  arm
- *   func_0207E388  0x0207E388  arm
+ *   G2S_GetBG2CharPtr  0x0207E2F0  arm
+ *   G2S_GetBG3CharPtr  0x0207E388  arm
  *   func_02030734   0x02030734  arm
  *   func_020307B0   0x020307B0  arm
  *   g_020A7FCC      0x020A7FCC  data
@@ -66,6 +66,7 @@
  *   FX_Atan2Idx    0x0207CFB8  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   NNSi_GfdDefaultAllocTexVram  0x020614D4  arm
+ *   NNS_GfdAllocVram  0x020616CC  arm
  */
 typedef unsigned int u32;
 
@@ -189,16 +190,16 @@ extern void func_020580A8(void *o, u8 *dst);
 extern void func_02058180(void *a, void *b, int *c);
 extern void func_02058204(void *o, void *s, int *dst);
 extern void func_020582CC(void *o, void *s, int *dst);
-extern u32 func_020616CC(u32 size, u32 flag, u32 dir);
+extern u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 extern int NNSi_GfdDefaultAllocTexVram(int a, int b, int c);
-extern void *func_0207E1F8(void);
-extern void *func_0207E24C(void);
-extern void *func_0207E2A0(void);
-extern void *func_0207E330(void);
+extern void *G2_GetBG0CharPtr(void);
+extern void *G2_GetBG1CharPtr(void);
+extern void *G2_GetBG2CharPtr(void);
+extern void *G2_GetBG3CharPtr(void);
 extern int func_0207E22C(void);
 extern int func_0207E280(void);
-extern void *func_0207E2F0(void);
-extern void *func_0207E388(void);
+extern void *G2S_GetBG2CharPtr(void);
+extern void *G2S_GetBG3CharPtr(void);
 extern void *func_02030734(u16 id, u32 size, u32 flags, void *file, u32 line);
 extern u32 func_020307B0(void *p);
 extern s32 TOUCHPANEL_GetCont(void);
@@ -668,7 +669,7 @@ u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
  */
 int BUTTON_MAN_Func1AA0(int a, int b)
 {
-    return (u16)func_020616CC(a, b, 1) << 3;
+    return (u16)NNS_GfdAllocVram(a, b, 1) << 3;
 }
 
 
@@ -723,14 +724,14 @@ u16 BUTTON_MAN_GetResourceType(void *res)
 int BUTTON_MAN_CallHandlerById(int i)
 {
     switch (i) {
-    case 0: return (int)func_0207E1F8();
-    case 1: return (int)func_0207E24C();
-    case 2: return (int)func_0207E2A0();
-    case 3: return (int)func_0207E330();
+    case 0: return (int)G2_GetBG0CharPtr();
+    case 1: return (int)G2_GetBG1CharPtr();
+    case 2: return (int)G2_GetBG2CharPtr();
+    case 3: return (int)G2_GetBG3CharPtr();
     case 4: return func_0207E22C();
     case 5: return func_0207E280();
-    case 6: return (int)func_0207E2F0();
-    case 7: return (int)func_0207E388();
+    case 6: return (int)G2S_GetBG2CharPtr();
+    case 7: return (int)G2S_GetBG3CharPtr();
     }
     return 0;
 }
@@ -1040,7 +1041,7 @@ void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst)
  * each MTX_Concat33 folds it in.
  *
  * Each angle feeds the shared interleaved sin/cos halfword table at
- * 0x020A1B38 (see src/matched/func_0203F684.c): index i = angle >> 4, with
+ * 0x020A1B38 (see src/matched/GF_STANDARD_Get_F684.c): index i = angle >> 4, with
  * sin at tbl[2*i] and cos at tbl[2*i+1].  The `asr #4` is a shift, not a
  * division, and the arguments are signed, which is what makes `ldrsh` with a
  * register offset the load (docs/idioms/ldrsh-register-offset-is-signedness.md).
@@ -1090,7 +1091,7 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
  * SDK's own, and the pitch numerator carries the `rsb r0, r2, #0` negation.
  *
  * Both angle indices feed the shared interleaved sin/cos halfword table at
- * 0x020A1B38 (see src/matched/func_0203F684.c) at i = angle >> 4, sin at
+ * 0x020A1B38 (see src/matched/GF_STANDARD_Get_F684.c) at i = angle >> 4, sin at
  * tbl[2*i] and cos at tbl[2*i+1], exactly as in BUTTON_MAN_MakeRotMtxXYZ next door.
  *
  * Declaration order is the whole difference between 184 correct bytes and four

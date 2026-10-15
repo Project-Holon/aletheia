@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5B0
+ * function: ZUKAN_SEARCH_SCREEN_LoadSaveGraphics
  * address: 0x021BC5B0
  * packet: pkt_ov211_021BC5B0
  * region: ov211
@@ -42,7 +42,7 @@ extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32,u32),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32,u32),func_0207F65C(void);
 extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
-void func_021BC5B0(char *p)
+void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *p)
 {
     void *save,*block,*tiles,*palette;
     save=GAME_DATA_GetSaveControl(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);

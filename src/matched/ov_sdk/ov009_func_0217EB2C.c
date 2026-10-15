@@ -1,5 +1,5 @@
 /*
- * function: func_0217EB2C
+ * function: closesocket
  * address:  0x0217EB2C
  * packet:   pkt_02155168
  * region:   ov009
@@ -13,14 +13,15 @@
  *
  * symbols:
  *   SOC_Close  0x0215F644  arm
+ *   CheckRcode  0x0217EB00  arm
 
  */
 
 extern int SOC_Close(int s);
-extern int func_0217EB00(int a, int b);
+extern int CheckRcode(int a, int b);
 
-int func_0217EB2C(int sock)
+int closesocket(int sock)
 {
-    return func_0217EB00(SOC_Close(sock), -1);
+    return CheckRcode(SOC_Close(sock), -1);
 }
 

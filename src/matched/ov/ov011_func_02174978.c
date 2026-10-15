@@ -32,9 +32,9 @@
  *   INTRUDE_COMM_SendPeerStatus  0x02173984  thumb  ov011
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_COMM_IsValidProfileCode  0x021756D0  thumb  ov011
- *   func_0200BE84  0x0200BE84  thumb
+ *   INTRUDE_AddLogEntry  0x0200BE84  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -74,9 +74,9 @@ extern int INTRUDE_COMM_UpdateSelfRecord(u8 *);
 extern int INTRUDE_COMM_SendPeerStatus(char *p, int b);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 x);
-extern void func_0200BE84(void *, u8 *);
+extern void INTRUDE_AddLogEntry(void *, u8 *);
 
 void INTRUDE_COMM_UpdateRunning(u8 *s)
 {
@@ -122,11 +122,11 @@ void INTRUDE_COMM_UpdateRunning(u8 *s)
         s[0x900] = 0;
     }
     if (GAME_DATA_IsSaving((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
-        w = func_0200BE48(GAME_DATA_GetSaveControl((struct Big *)h));
+        w = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)h));
         if (INTRUDE_COMM_IsValidProfileCode(((struct Obj00269 *)s)->f8F4) == 0) {
             ((struct Obj00269 *)s)->f8F4 = 0x11;
         }
-        func_0200BE84(w, s + 0x8e4);
+        INTRUDE_AddLogEntry(w, s + 0x8e4);
         ((Bits *)(s + 0x8f8))->b0 = 0;
     }
 }

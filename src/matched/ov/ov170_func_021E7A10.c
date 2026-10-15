@@ -18,7 +18,7 @@
  *   BOX2_SEQ_GotoBox2Ui 0x021E95CC thumb
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   BOX2_SEQ_SetSlotActorMode 0x021ECB60 thumb
  *   BOX2_UI_ResetSlotFrames 0x021EF508 thumb
@@ -45,7 +45,7 @@ extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, 
 extern int BOX2_SEQ_GotoBox2Ui(unsigned char *p, unsigned char v);
 extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
 extern void BOX2_UI_ToggleSlotPair(char *w, int a);
-extern unsigned func_0202136C(u16 v);
+extern unsigned FILE_UTIL_Check136C(u16 v);
 extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 extern void BOX2_SEQ_SetSlotActorMode(char *w, int i, int f);
 extern void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr);
@@ -81,7 +81,7 @@ int BOX2_SEQ_StateSwapMenuD(unsigned char *p)
             BOX2_SEQ_SetActorDrawEnable(WORK(p), 4, 0);
             BOX2_SEQ_SetWindow9(p, 0xE, 0);
             BOX2_UI_ToggleSlotPair(WORK(p), 0);
-            if (func_0202136C(item) == 1) {
+            if (FILE_UTIL_Check136C(item) == 1) {
                 BOX2_UI_OpenListPack(MGR(p));
                 STEP(p) = 1;
                 return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_IsWindowMoving, 0x50);

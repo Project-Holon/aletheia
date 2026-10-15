@@ -1,5 +1,5 @@
 /*
- * function: func_02177748
+ * function: DWCi_ResetLastSomeDataRecvTimeByAid
  * address:  0x02177748
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   OS_GetTick  0x020870D0  arm
- *   func_02177770  0x02177770  arm  ov009
+ *   DWCs_GetTransConnection  0x02177770  arm  ov009
  */
 
 extern unsigned long long OS_GetTick(void);
-extern int func_02177770(int i);
+extern int DWCs_GetTransConnection(int i);
 
-void func_02177748(int aid)
+void DWCi_ResetLastSomeDataRecvTimeByAid(int aid)
 {
     unsigned long long t = OS_GetTick();
 
-    *(unsigned long long *)(func_02177770(aid) + 0x30) = t;
+    *(unsigned long long *)(DWCs_GetTransConnection(aid) + 0x30) = t;
 }

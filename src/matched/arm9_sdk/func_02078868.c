@@ -1,5 +1,5 @@
 /*
- * function: func_02078868
+ * function: FSi_TrimSjisTrailingSlash
  * address:  0x02078868
  * packet:   pkt_02078868
  * region:   arm9
@@ -19,7 +19,7 @@
 extern int STD_GetStringLength(const char *str);
 extern int FSi_DecrementSjisPosition(const char *str, int pos);
 
-int func_02078868(char *str)
+int FSi_TrimSjisTrailingSlash(char *str)
 {
     int length = STD_GetStringLength(str);
     int lastpos = FSi_DecrementSjisPosition(str, length);

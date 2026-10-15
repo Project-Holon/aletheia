@@ -1,5 +1,5 @@
 /*
- * function: func_0209159C
+ * function: __prep_buffer
  * address:  0x0209159C
  * packet:   pkt_0209159C
  * region:   arm9
@@ -21,8 +21,8 @@
  * byte for byte with nothing wildcarded.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209159C.c \
- *       --func func_0209159C --addr 0x0209159C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/__prep_buffer.c \
+ *       --func __prep_buffer --addr 0x0209159C --cc 1.1p1 --arm
  *   EXACT, 40 bytes, no relocation sites.
  */
 
@@ -40,7 +40,7 @@ struct S0209159C {
     u32 f34;
 };
 
-void func_0209159C(struct S0209159C *p)
+void __prep_buffer(struct S0209159C *p)
 {
     p->f24 = p->f1c;
     p->f28 = p->f20 - (p->f18 & p->f2c);

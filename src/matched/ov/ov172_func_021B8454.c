@@ -1,5 +1,5 @@
 /*
- * function: func_021B8454
+ * function: CTVT_COMM_UpdateMembers
  * address: 0x021B8454
  * packet: pkt_ov172_021B8454
  * region: ov172
@@ -22,7 +22,7 @@
  *   COMM_TVT_SYS_SetSelfSlot 0x021BE0A8 thumb ov172
  *   CTVT_CAMVIEW_RequestWindowAnimation 0x021B7B20 thumb ov172
  *   CTVT_CAMVIEW_StartLayoutChange 0x021B7740 thumb ov172
- *   func_021B8614 0x021B8614 thumb ov172
+ *   CTVT_COMM_ClearPeerSlot 0x021B8614 thumb ov172
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,9 +40,9 @@ extern void COMM_TVT_SYS_SetMemberCount(void *p, u32 v);
 extern void COMM_TVT_SYS_SetSelfSlot(void *p, u32 v);
 extern void CTVT_CAMVIEW_RequestWindowAnimation(int unused, char *base, int i);
 extern void CTVT_CAMVIEW_StartLayoutChange(void *p, char *q, int a, int b);
-extern void func_021B8614(int unused, int unused2, void *p);
+extern void CTVT_COMM_ClearPeerSlot(int unused, int unused2, void *p);
 
-void func_021B8454(void *a, char *q)
+void CTVT_COMM_UpdateMembers(void *a, char *q)
 {
     u32 count = 0;
     int flag = 0;
@@ -93,7 +93,7 @@ void func_021B8454(void *a, char *q)
                     *(u32 *)(q + 0x194) = 0;
                 flag = 1;
                 *(u8 *)(q + 0x182) -= (u8)(flag << i);
-                func_021B8614((int)a, (int)q, q + 0x64 + off);
+                CTVT_COMM_ClearPeerSlot((int)a, (int)q, q + 0x64 + off);
             }
         }
     }

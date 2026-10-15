@@ -1,5 +1,5 @@
 /*
- * function: func_020585DC
+ * function: ReadSlotInfo
  * address:  0x020585DC
  * packet:   pkt_020585DC
  * region:   arm9
@@ -83,7 +83,7 @@ typedef struct NCFGConfigEx {
 
 extern s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
 
-int func_020585DC(NCFGSlotInfo *buf, int offset, u32 num)
+int ReadSlotInfo(NCFGSlotInfo *buf, int offset, u32 num)
 {
     int i;
 

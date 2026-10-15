@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C49A4  0x021C49A4  thumb  ov127
- *   func_021C57D8  0x021C57D8  thumb  ov127
- *   func_021C5864  0x021C5864  thumb  ov127
- *   func_021C5814  0x021C5814  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActive  0x021C57D8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetFrameZero  0x021C5864  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorPos  0x021C5814  thumb  ov127
  *   WIFICLUBACTOR_QueueMoveCommand  0x021BA594  thumb
  */
 typedef struct {
@@ -33,10 +33,10 @@ typedef struct {
 } Ent;
 
 typedef unsigned char  u8;
-extern int func_021C49A4(u8 *p, unsigned int i);
-extern void func_021C57D8(u8 *p, int v);
-extern void func_021C5864(u8 *p, int b);
-extern void func_021C5814(void *p, Pos pos);
+extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
+extern void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v);
+extern void WF2DMAP_OBJDRAW_SetFrameZero(u8 *p, int b);
+extern void WF2DMAP_OBJDRAW_SetActorPos(void *p, Pos pos);
 extern void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c);
 
 void WIFICLUBACTOR_StartTurn(void *o, Ent *e, int n)
@@ -47,10 +47,10 @@ void WIFICLUBACTOR_StartTurn(void *o, Ent *e, int n)
     e->f10 = 0x021BA591;
     e->fe = e->fc;
     e->fc = 5;
-    WIFICLUBACTOR_QueueMoveCommand(o, 0, n, func_021C49A4(e->f0, 4));
-    func_021C57D8(e->f4, 0);
-    func_021C5864(e->f4, n);
-    s.x = func_021C49A4(e->f0, 0);
-    s.y = func_021C49A4(e->f0, 1);
-    func_021C5814(e->f4, s);
+    WIFICLUBACTOR_QueueMoveCommand(o, 0, n, WF2DMAP_OBJ_GetSlot(e->f0, 4));
+    WF2DMAP_OBJDRAW_SetActive(e->f4, 0);
+    WF2DMAP_OBJDRAW_SetFrameZero(e->f4, n);
+    s.x = WF2DMAP_OBJ_GetSlot(e->f0, 0);
+    s.y = WF2DMAP_OBJ_GetSlot(e->f0, 1);
+    WF2DMAP_OBJDRAW_SetActorPos(e->f4, s);
 }

@@ -1,5 +1,5 @@
 /*
- * function: sub_0200A940
+ * function: IRC_RANKING_FindClosestEntry
  * address:  0x0200A940
  * packet:   pkt_0200A940
  * region:   arm9
@@ -27,7 +27,7 @@ extern u8 sub_0200A8D0(struct Rec *r, u32 index);
 extern u8 sub_0200AA00(u32 a0, u32 a1, struct Date *src);
 extern u32 GFL_USE_GetRandom(u32 range);
 
-int sub_0200A940(void *a0, int a1, int a2, void *a3)
+int IRC_RANKING_FindClosestEntry(void *a0, int a1, int a2, void *a3)
 {
     u32 n = sub_0200A8AC(a0);
     int target = sub_0200AA00(a1, a2, a3);

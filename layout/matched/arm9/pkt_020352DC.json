@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020352DC",
+   "name": "UI_PollPower",
    "address": "0x020352DC",
    "kind": "game",
    "region": "arm9",

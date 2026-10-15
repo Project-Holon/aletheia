@@ -1,5 +1,5 @@
 /*
- * function: func_0205D848
+ * function: MakeDifferChannelList
  * address:  0x0205D848
  * packet:   pkt_0205D848
  * region:   arm9
@@ -127,7 +127,7 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-unsigned char func_0205D848(ACWORK *wk)
+unsigned char MakeDifferChannelList(ACWORK *wk)
 {
     int i;
     unsigned char num = 0;

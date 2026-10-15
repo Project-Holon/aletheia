@@ -1,5 +1,5 @@
 /*
- * function: sub_02034E24
+ * function: UI_Create
  * address:  0x02034E24
  * packet:   pkt_02034978
  * region:   arm9
@@ -31,12 +31,12 @@
  *   KEY_Create    0x02035EE8  arm
  *   TOUCHPANEL_Create    0x020357E0  arm
  *   PM_GetBackLight  0x0208BFD0  arm
- *   func_02034F84    0x02034F84  arm
- *   func_0203516C    0x0203516C  arm
+ *   UI_SetKeepAwakeFlagsGlobal    0x02034F84  arm
+ *   UI_SetFlags39Global    0x0203516C  arm
  *   unk_021469BC     0x021469BC  data
  *   s_UiFile         0x020A7984  data
  *
- * The constructor for the 0x44-byte UI context src/pending/sub_02034F5C.c
+ * The constructor for the 0x44-byte UI context src/pending/UI_Update.c
  * tail-calls through: allocate and zero it, fill the two sub-objects at +0
  * and +4 from the same heap, seed the fixed +0x3c / +0x3d / +0x3f bytes,
  * publish it at 0x021469BC, and stash the mode argument at +0x40.
@@ -70,8 +70,8 @@
  *   in ui.c, most plausibly in an overlay.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034E24.c \
- *       --func sub_02034E24 --addr 0x02034E24 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_Create.c \
+ *       --func UI_Create --addr 0x02034E24 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -99,10 +99,10 @@ extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void *KEY_Create(u32 heap);
 extern void *TOUCHPANEL_Create(u32 heap);
 extern void  PM_GetBackLight(u32 *top, u32 *bottom);
-extern void  func_02034F84(u32 x);
-extern void  func_0203516C(u32 x);
+extern void  UI_SetKeepAwakeFlagsGlobal(u32 x);
+extern void  UI_SetFlags39Global(u32 x);
 
-void sub_02034E24(u32 heap, u8 mode)
+void UI_Create(u32 heap, u8 mode)
 {
     struct UiCtx *p;
     u32 a;
@@ -127,7 +127,7 @@ void sub_02034E24(u32 heap, u8 mode)
     if (mode == 1) {
         PM_GetBackLight(0, &b);
         p->backlight = b;
-        func_02034F84(0x10);
-        func_0203516C(4);
+        UI_SetKeepAwakeFlagsGlobal(0x10);
+        UI_SetFlags39Global(4);
     }
 }

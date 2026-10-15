@@ -1,5 +1,5 @@
 /*
- * function: func_0217F8B4
+ * function: B64Decode
  * address:  0x0217F8B4
  * packet:   pkt_0219091C
  * region:   ov009
@@ -15,21 +15,21 @@
  * URL-safe table, otherwise the default.
  *
  * symbols:
- *   func_0217F7D0  0x0217F7D0  arm  ov009
- *   func_020923B0  0x020923B0  arm
- *   g_021A19FC     0x021A19FC  data
- *   g_021A19FF     0x021A19FF  data
- *   g_021A1A02     0x021A1A02  data
+ *   QuartToTrip  0x0217F7D0  arm  ov009
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
+ *   gGsB64CharsDefault     0x021A19FC  data
+ *   gGsB64CharsUrl     0x021A19FF  data
+ *   gGsB64CharsAlt     0x021A1A02  data
  */
 
-extern void func_0217F7D0(char *quart, char *trip, int inlen);
+extern void QuartToTrip(char *quart, char *trip, int inlen);
 typedef unsigned int   u32;
-extern void *func_020923B0(void *p, int c, u32 n);
-extern char g_021A19FC[];
-extern char g_021A19FF[];
-extern char g_021A1A02[];
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
+extern char gGsB64CharsDefault[];
+extern char gGsB64CharsUrl[];
+extern char gGsB64CharsAlt[];
 
-void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType)
+void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType)
 {
     const char *encoding;
     int readpos = 0;
@@ -38,13 +38,13 @@ void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int 
 
     switch (encodingType) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
     }
 
     if (inlen <= 0) {
@@ -77,15 +77,15 @@ void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int 
         }
 
         if (readpos % 4 == 3) {
-            func_0217F7D0(block, &output[writepos], 4);
+            QuartToTrip(block, &output[writepos], 4);
             writepos += 3;
         }
         readpos++;
     }
 
     if (readpos != 0 && readpos % 4 != 0) {
-        func_020923B0(&block[readpos % 4], encoding[2], 4 - readpos % 4);
-        func_0217F7D0(block, &output[writepos], readpos % 4);
+        MSL_C_LIB_MemsetPtr(&block[readpos % 4], encoding[2], 4 - readpos % 4);
+        QuartToTrip(block, &output[writepos], readpos % 4);
         if (readpos % 4 == 3)
             writepos += 2;
         else

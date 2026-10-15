@@ -1,5 +1,5 @@
 /*
- * function: func_021BC26C
+ * function: ZUKAN_SEARCH_PROC_IsDone
  * address: 0x021BC26C
  * packet: pkt_ov211_021BC26C
  * region: ov211
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC290 0x021BC290 thumb ov211
+ *   ZUKAN_SEARCH_PROC_Update 0x021BC290 thumb ov211
  */
-extern int func_021BC290(unsigned char *);
-int func_021BC26C(int a,int b,int c,unsigned char *p){return func_021BC290(p)==0;}
+extern int ZUKAN_SEARCH_PROC_Update(unsigned char *);
+int ZUKAN_SEARCH_PROC_IsDone(int a,int b,int c,unsigned char *p){return ZUKAN_SEARCH_PROC_Update(p)==0;}

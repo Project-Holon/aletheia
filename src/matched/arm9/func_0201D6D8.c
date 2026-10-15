@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_0201D6D8
+ * function: GF_FONT_CopyStrbufD6D8
  * address:  0x0201D6D8
  * packet:   pkt_0201D6D8
  * region:   arm9
@@ -16,7 +16,7 @@
  * three wildcarded call fields.
  *
  * Blocked on the `label` class, and it is a one-address wall: all three
- * unresolved sites at +0x24, +0x32 and +0x44 call func_0201D768, which is the
+ * unresolved sites at +0x24, +0x32 and +0x44 call GF_FONT_Copy, which is the
  * function *immediately after this one* and whose only callers in the whole
  * image are these three.  The compared range ends where 0x0201D768 begins, so
  * shrinking the range is not possible (the callee cannot go in), and the
@@ -25,10 +25,10 @@
  * changes.
  *
  * What it is: the cache-side of a record reader.  It asks
- * func_0201D768(p, STRBUF_GetChars(c), (u16)func_0201D69C(c), 2) for a slot
+ * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)func_0201D69C(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
- * and then walks the list hanging off p->f10 through func_0201D7C4 until it
+ * and then walks the list hanging off p->f10 through GF_FONT_UpdatePrintsy until it
  * runs out, rebasing the node pointer on p+0x18 and clamping the resulting
  * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
  * p->f10 is null it installs the two slots instead.
@@ -40,13 +40,13 @@
  * local, not a single cast.
  *
  * Verified with
- *   python tools/match.py one --src src/pending/func_0201D6D8.c \
- *       --func func_0201D6D8 --addr 0x0201D6D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GF_FONT_CopyStrbufD6D8.c \
+ *       --func GF_FONT_CopyStrbufD6D8 --addr 0x0201D6D8 --cc 1.1p1 --thumb
  *
  * symbols:
  *   func_0201D69C  0x0201D69C  thumb
- *   func_0201D768  0x0201D768  thumb
- *   func_0201D7C4  0x0201D7C4  thumb
+ *   GF_FONT_Copy  0x0201D768  thumb
+ *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   memcpy         0x02082D44  arm
  */
@@ -67,13 +67,13 @@ typedef struct {
 extern u32  func_0201D69C(void *c);
 struct PrintSys;
 struct Ring;
-extern void *func_0201D768(struct Ring *ring, const u8 *src, u16 len, u16 unit);
-extern void *func_0201D7C4(struct PrintSys *p, void *q);
+extern void *GF_FONT_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit);
+extern void *GF_FONT_UpdatePrintsy(struct PrintSys *p, void *q);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
-void func_0201D6D8(Blk *p, void *b, void *c)
+void GF_FONT_CopyStrbufD6D8(Blk *p, void *b, void *c)
 {
     void *e;
     void *q;
@@ -81,15 +81,15 @@ void func_0201D6D8(Blk *p, void *b, void *c)
     u32 v;
     u32 x;
 
-    x = (u32)func_0201D768((struct Ring *)p, (void *)STRBUF_GetChars(c),
+    x = (u32)GF_FONT_Copy((struct Ring *)p, (void *)STRBUF_GetChars(c),
                            (u16)func_0201D69C(c), 2);
-    e = func_0201D768((struct Ring *)p, b, 0x1c, 0x1c);
+    e = GF_FONT_Copy((struct Ring *)p, b, 0x1c, 0x1c);
     v = 0;
-    func_0201D768((struct Ring *)p, (const u8 *)(&v), 4, 4);
+    GF_FONT_Copy((struct Ring *)p, (const u8 *)(&v), 4, 4);
     q = p->f10;
     if (q != 0) {
         for (;;) {
-            t = func_0201D7C4((struct PrintSys *)p, q);
+            t = GF_FONT_UpdatePrintsy((struct PrintSys *)p, q);
             if (t == 0) break;
             q = t;
         }

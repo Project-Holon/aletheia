@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208F398 0x0208F398 arm
+ *   WMi_InitializeEx 0x0208F398 arm
  */
 
 typedef unsigned short u16;
@@ -18,9 +18,9 @@ typedef unsigned long u32;
 typedef int WMErrCode;
 typedef void (*WMCallbackFunc)(void *arg);
 
-extern WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
+extern WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
 
 WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo)
 {
-    return func_0208F398(wmSysBuf, callback, dmaNo, 0);
+    return WMi_InitializeEx(wmSysBuf, callback, dmaNo, 0);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220B40C",
+   "name": "ZUKAN_TOROKU_GRAPHIC_Draw",
    "address": "0x0220B40C",
    "kind": "game",
    "region": "ov207",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CD8
+ * function: INTRUDE_COMM_VIEW_DrawRowText
  * address: 0x021D4CD8
  * packet: pkt_ov122_021D4CD8
  * region: ov122
@@ -38,7 +38,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-void func_021D4CD8(int i, int value, int force, int mode, Object *p)
+void INTRUDE_COMM_VIEW_DrawRowText(int i, int value, int force, int mode, Object *p)
 {
     if (p->f10[i] && !force) return;
     if (!p->f10[i])

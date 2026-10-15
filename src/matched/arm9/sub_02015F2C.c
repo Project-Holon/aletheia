@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02063000  0x02063000  arm
+ *   NNS_G2dSetCellAnimationParam  0x02063000  arm
  *
- * A pure forwarder: tail-calls func_02063000 on a member 0x34 bytes into
+ * A pure forwarder: tail-calls NNS_G2dSetCellAnimationParam on a member 0x34 bytes into
  * the object, with a fixed 1 as the second argument.
  *
  * EXACT* because the 18 compiled bytes fall far short of the disasm.py
@@ -27,9 +27,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 
 void MCSS_SetAnimCallback(void *a, u32 arg1, u32 arg2)
 {
-    func_02063000((int)((char *)a + 0x34), 1, arg1, arg2);
+    NNS_G2dSetCellAnimationParam((int)((char *)a + 0x34), 1, arg1, arg2);
 }

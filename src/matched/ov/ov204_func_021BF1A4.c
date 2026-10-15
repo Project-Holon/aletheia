@@ -17,7 +17,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj01292.h"
@@ -36,7 +36,7 @@ struct Rec;
 struct WordSet;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BF1A4(char *p)
@@ -55,6 +55,6 @@ void func_021BF1A4(char *p)
     PRINTSYS_QUE_Delete(((struct Obj01292 *)p)->f4);
     if (((struct Obj01292 *)p)->fC)
         MSGDATA_Delete(((struct Obj01292 *)p)->fC);
-    func_0201ED04(((struct Obj01292 *)p)->f8);
+    WORDSET_DeleteStrbufED04(((struct Obj01292 *)p)->f8);
     func_020307B0(p);
 }

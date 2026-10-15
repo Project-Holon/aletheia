@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 0x020260E4 has no outside code-start witness. Scratch one EXACT.
- *   void func_020260E4(unsigned char *p, unsigned value) {
+ *   void CURSOR_MOVE_SetCurrent(unsigned char *p, unsigned value) {
  *       p[13] = value; p[14] = 255; p[15] = 255;
  *   }
  * symbols:
  *   BOX2_SEQ_DeleteB 0x021EA750 thumb ov170
  *   BOX2_SEQ_PrintPromptB 0x021EBCB4 thumb ov170
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb ov170
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BOX2_SEQ_SetSlotActorMode 0x021ECB60 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
@@ -32,10 +32,10 @@ typedef unsigned short u16;
 struct Sound;
 extern void BOX2_SEQ_DeleteB(char *p);
 extern void BOX2_SEQ_PrintPromptB(u8 *, int, int);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
-extern unsigned func_0202136C(u16);
+extern unsigned FILE_UTIL_Check136C(u16);
 extern void BOX2_SEQ_SetSlotActorMode(char *p, int i, int f);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
@@ -50,7 +50,7 @@ int BOX2_SEQ_StateMoveItemC(u8 *p)
     if (item == 0) {
         BOX2_SEQ_DeleteB((char *)p);
         BOX2_SEQ_PrintPromptB(p, 0, 24);
-        func_020260E4(*(void **)(W(p) + 112), 10);
+        CURSOR_MOVE_SetCurrent(*(void **)(W(p) + 112), 10);
         BOX2_UI_SetCursorPos((char **)p, 10);
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         return 70;
@@ -58,9 +58,9 @@ int BOX2_SEQ_StateMoveItemC(u8 *p)
     if (pair[0] == p[22]) {
         second = pair[1];
         BOX2_SEQ_DeleteB((char *)p);
-        func_020260E4(*(void **)(W(p) + 112), 9);
+        CURSOR_MOVE_SetCurrent(*(void **)(W(p) + 112), 9);
         BOX2_UI_SetCursorPos((char **)p, 9);
-        if (func_0202136C(*(u16 *)(W(p) + 0xa16c)) == 1 && second != p[22]) {
+        if (FILE_UTIL_Check136C(*(u16 *)(W(p) + 0xa16c)) == 1 && second != p[22]) {
             BOX2_SEQ_SetSlotActorMode((char *)W(p), p[22], 0);
             BOX2_SEQ_PrintPromptB(p, 7, 24);
             GFL_USE_PlaySeDefaultVolume(0x557);
@@ -71,13 +71,13 @@ int BOX2_SEQ_StateMoveItemC(u8 *p)
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         return 70;
     }
-    if (func_0202136C(item) == 1) {
+    if (FILE_UTIL_Check136C(item) == 1) {
         BOX2_SEQ_DeleteB((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x557);
         BOX2_SEQ_SetSlotActorMode((char *)W(p), p[22], 0);
         BOX2_SEQ_PrintPromptB(p, 7, 24);
         GFL_USE_PlaySeDefaultVolume(0x557);
-        func_020260E4(*(void **)(W(p) + 112), 9);
+        CURSOR_MOVE_SetCurrent(*(void **)(W(p) + 112), 9);
         BOX2_UI_SetCursorPos((char **)p, 9);
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         *(int *)(p + 40) = 14;

@@ -40,7 +40,7 @@
  *     before the BUTTON_MAN_MakeRotMtxXYZ call.  Written inline as
  *     `(u16)(u32)(65535.0f * (h / 360.0f))' the lsls/lsrs #0x10 pair
  *     after each _ffixu disappears (about 10 bytes short).
- *   - the scratch the two func_0207B51C calls share is 36 bytes, not
+ *   - the scratch the two MTX_MultVec33 calls share is 36 bytes, not
  *     12: `struct Vec3 rgb[3]'.  With a plain `struct Vec3' the whole
  *     frame comes out `sub sp, #0x68' instead of `sub sp, #0x80' and
  *     nothing else differs, so the 24 extra bytes are real declared
@@ -67,8 +67,8 @@
  *   G3D_CAMERA_SetTarget  0x02048B20  arm
  *   G3D_CAMERA_SetUp  0x02048B44  arm
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
- *   func_0207B51C  0x0207B51C  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   MTX_MultVec33  0x0207B51C  arm
+ *   VEC_Add  0x0207C9D0  arm
  */
 
 typedef unsigned short u16;
@@ -94,8 +94,8 @@ extern void G3D_CAMERA_SetTarget(void *dst, struct Vec3 *v);
 extern void G3D_CAMERA_SetUp(void *dst, struct Vec3 *v);
 struct Mtx33;
 extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
-extern void func_0207B51C(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
-extern void func_0207C9D0(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
+extern void MTX_MultVec33(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
+extern void VEC_Add(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
 
 void ICA_ANIME_SetCameraStatus(void *dst, void *ctx)
 {
@@ -138,11 +138,11 @@ void ICA_ANIME_SetCameraStatus(void *dst, void *ctx)
     cv = (u16)(u32)(65535.0f * (v / 360.0f));
     BUTTON_MAN_MakeRotMtxXYZ(ch, cs, cv, (struct Mtx33 *)rgb);
 
-    func_0207B51C(&a, rgb, &t0);
-    func_0207B51C(&b, rgb, &t1);
+    MTX_MultVec33(&a, rgb, &t0);
+    MTX_MultVec33(&b, rgb, &t1);
 
     ICA_ANIME_GetTranslate(ctx, (struct Rec12 *)&basis);
-    func_0207C9D0(&basis, &t0, &out);
+    VEC_Add(&basis, &t0, &out);
 
     G3D_CAMERA_SetEye(dst, &basis);
     G3D_CAMERA_SetUp(dst, &out);

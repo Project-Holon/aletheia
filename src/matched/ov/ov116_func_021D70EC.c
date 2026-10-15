@@ -1,5 +1,5 @@
 /*
- * function: func_021D70EC
+ * function: WIFI_BSUBWAY_PollAsync
  * address: 0x021D70EC
  * packet: pkt_ov116_021D70EC
  * region: ov116
@@ -33,7 +33,7 @@ extern int DPW_BT_GetAsyncResult(void);
 extern void DPW_BT_CancelAsync(void);
 typedef unsigned int   u32;
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-int func_021D70EC(u8 *p,int *q) {
+int WIFI_BSUBWAY_PollAsync(u8 *p,int *q) {
     int done=0;
     if(DPW_BT_IsAsyncEnd()==0) {
         (*(s16 *)(p+10))++;

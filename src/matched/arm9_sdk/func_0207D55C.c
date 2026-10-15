@@ -1,5 +1,5 @@
 /*
- * function: func_0207D55C
+ * function: GXx_GetMasterBrightness_
  * address:  0x0207D55C
  * packet:   pkt_0207D55C
  * region:   arm9
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 typedef volatile u16 vu16;
 
-int func_0207D55C(vu16 *reg)
+int GXx_GetMasterBrightness_(vu16 *reg)
 {
     u16 mode = (u16)(*reg & 0xC000);
 

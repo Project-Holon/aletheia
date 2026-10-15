@@ -1,5 +1,5 @@
 /*
- * function: func_021D44BC
+ * function: INTRUDE_COMM_VIEW_RebuildRow
  * address: 0x021D44BC
  * packet: pkt_ov122_021D44BC
  * region: ov122
@@ -43,7 +43,7 @@ extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D44BC(int i, Object *p, Row *row, const int *xs, const int *ys)
+void INTRUDE_COMM_VIEW_RebuildRow(int i, Object *p, Row *row, const int *xs, const int *ys)
 {
     int x, y;
     if (p->f10[i]) {

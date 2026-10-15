@@ -1,5 +1,5 @@
 /*
- * function: func_021F9CF4
+ * function: STA_ACTING_CreateAnimHandle
  * address:  0x021F9CF4
  * packet:   pkt_021F9CF4
  * region:   ov132
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern char *func_021F9EDC(char *p, u32 a);
 
-void func_021F9CF4(char *p)
+void STA_ACTING_CreateAnimHandle(char *p)
 {
     ((struct Obj14086 *)p)->fBC = func_021F9EDC(((struct Obj14086 *)p)->f6C, 0x36);
 }

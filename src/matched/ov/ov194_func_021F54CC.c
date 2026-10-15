@@ -1,5 +1,5 @@
 /*
- * function: func_021F54CC
+ * function: PROF_WORD_CheckDigitCount
  * address:  0x021F54CC
  * packet:   pkt_ov194_021F54CC
  * region:   ov194
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 
 extern void MI_CpuCopy8(void *a, u16 *b, int n);
 
-int func_021F54CC(void *src, int n, int a2)
+int PROF_WORD_CheckDigitCount(void *src, int n, int a2)
 {
     u16 buf[0x20] = {0};
     int j, c = 0;

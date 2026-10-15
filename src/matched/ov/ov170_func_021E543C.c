@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 0x020260E4 has no outside code-start witness. Scratch one EXACT.
- *   void func_020260E4(unsigned char *p, unsigned value) {
+ *   void CURSOR_MOVE_SetCurrent(unsigned char *p, unsigned value) {
  *       p[13] = value; p[14] = 255; p[15] = 255;
  *   }
  * symbols:
@@ -26,7 +26,7 @@
  *   BOX2_SEQ_Delete 0x021EA1E8 thumb ov170
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb ov170
  *   BOX2_UI_OpenBar 0x021EF3A0 thumb ov170
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb ov170
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  */
@@ -47,7 +47,7 @@ extern void BOX2_MAIN_UpdateBoxSlots(u8 *);
 extern void BOX2_SEQ_Delete(char *p);
 extern void BOX2_MAIN_ResetBoxView(char *);
 extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **, unsigned);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
 int BOX2_SEQ_StateOpenBoxC(u8 *p)
@@ -76,7 +76,7 @@ int BOX2_SEQ_StateOpenBoxC(u8 *p)
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
         return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_IsWindowBusy, 47);
     case 3:
-        func_020260E4(*(void **)(*(u8 **)(p + 44) + 112), p[22]);
+        CURSOR_MOVE_SetCurrent(*(void **)(*(u8 **)(p + 44) + 112), p[22]);
         BOX2_UI_SetCursorPos((char **)p, p[22]);
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         p[22] = 255;

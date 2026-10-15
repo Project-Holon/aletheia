@@ -1,5 +1,5 @@
 /*
- * function: func_021B8628
+ * function: CTVT_COMM_UpdatePeerSlot
  * address: 0x021B8628
  * packet: pkt_ov172_021B8628
  * region: ov172
@@ -11,7 +11,7 @@
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   COMM_TVT_SYS_IsLaunchModeCall 0x021BE0D8 thumb ov172
  *   COMM_TVT_SYS_SavePeerRecord 0x021BE2F0 thumb ov172
- *   func_021B8740 0x021B8740 thumb ov172
+ *   CTVT_COMM_SendCommand 0x021B8740 thumb ov172
  *   GFL_NET_LOWER_DATA_IsPostComplete 0x0203EA70 arm
  *   CTVT_CAMVIEW_ClearWindowDirty 0x021B7724 thumb ov172
  *   CTVT_CAMVIEW_GetSlotBuffer 0x021B7830 thumb ov172
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern u32 COMM_TVT_SYS_GetCamView(void *p);
 extern int COMM_TVT_SYS_IsLaunchModeCall(void *p);
 extern void COMM_TVT_SYS_SavePeerRecord(u32 *p, void *q);
-extern u32 func_021B8740(int a, int b, u8 c, u32 d);
+extern u32 CTVT_COMM_SendCommand(int a, int b, u8 c, u32 d);
 extern int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int idx);
 extern void CTVT_CAMVIEW_ClearWindowDirty(void *a, char *b, int c);
 extern int CTVT_CAMVIEW_GetSlotBuffer(void *a0, char *a1, int a2);
@@ -39,7 +39,7 @@ extern int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int idx);
 extern int SSP_StartJpegDecoder(unsigned char *data, unsigned long size, void *dst,
                          short *width, short *height, unsigned long option);
 extern void CTVT_CAMVIEW_MarkWindowDirty(void *a, char *b, int c);
-void func_021B8628(void *a, int b, int *t, int c)
+void CTVT_COMM_UpdatePeerSlot(void *a, int b, int *t, int c)
 {
     char *r;
     int x, data;
@@ -56,7 +56,7 @@ void func_021B8628(void *a, int b, int *t, int c)
         case 4:
             break;
         case 1:
-            if (func_021B8740((int)a, b, 0, 0) == 1)
+            if (CTVT_COMM_SendCommand((int)a, b, 0, 0) == 1)
                 t[6] = 2;
             break;
         case 2:

@@ -14,7 +14,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   SCRCMD_POKEMON_FLD_CreateGiftMon  0x021B6EE0  thumb  ov021
  *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EEC4  0x0201EEC4  thumb
+ *   WORDSET_Callback_EEC4  0x0201EEC4  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201EED4  0x0201EED4  thumb
  *   func_020307B0  0x020307B0  arm
@@ -28,7 +28,7 @@ struct WordSet;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int SCRCMD_POKEMON_FLD_CreateGiftMon(u32 a, u32 b);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201EEC4(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v);
 struct WordSet;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_0201EED4(struct WordSet *p, u32 i, void *mon);
@@ -45,7 +45,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftMonMessage(int a, int b, int c)
     r = 5;
     func_0201F02C((struct WordSet *)a, 0, (void *)h);
     if (m == 0) {
-        func_0201EEC4((struct WordSet *)a, 1, 0);
+        WORDSET_Callback_EEC4((struct WordSet *)a, 1, 0);
     } else {
         if (POKE_TOOL_GetPartyValue(m, 0x4c, 0) == 1)
             r = 0xb;

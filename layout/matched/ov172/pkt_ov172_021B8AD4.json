@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8AD4",
+   "name": "CTVT_COMM_SendPeerStatus",
    "address": "0x021B8AD4",
    "kind": "game",
    "region": "ov172",

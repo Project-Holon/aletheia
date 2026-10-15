@@ -13,13 +13,13 @@
  * extent: three 8-byte wrappers; ends at peer-owned 021BE160, which is excluded.
  * symbols:
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_0204EA64 0x0204EA64 arm
+ *   DOUBLE3DDISP_Delete 0x0204EA64 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  */
 extern void G3D_SYSTEM_DrawEnd(void);
-extern void func_0204EA64(void);
+extern void DOUBLE3DDISP_Delete(void);
 typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 void func_021BE148(void *p){G3D_SYSTEM_DrawEnd();}
-void func_021BE150(void){func_0204EA64();}
+void func_021BE150(void){DOUBLE3DDISP_Delete();}
 void func_021BE158(void *p){G3D_CAMERA_Delete(p);}

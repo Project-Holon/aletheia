@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BAA88",
-    "func_021BAA90"
+    "UN_SELECT_GRAPHIC_VBlank",
+    "UN_SELECT_GRAPHIC_GetValue"
+   ],
+   "addresses": [
+    "0x021BAA88",
+    "0x021BAA90"
    ]
   }
  ]

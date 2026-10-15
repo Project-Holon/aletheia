@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   FADE_Start 0x0204E720 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void FADE_Start(u32,int,int,int);
-void PDC_MAIN_StartFadeIn(int a) { if (func_0207D55C((unsigned short *)0x0400006c) <= 0) FADE_Start(3,16,0,a); else FADE_Start(12,16,0,a); }
+void PDC_MAIN_StartFadeIn(int a) { if (GXx_GetMasterBrightness_((unsigned short *)0x0400006c) <= 0) FADE_Start(3,16,0,a); else FADE_Start(12,16,0,a); }

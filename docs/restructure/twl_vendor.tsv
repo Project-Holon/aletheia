@@ -314,14 +314,14 @@ address	our_name	our_size_code	our_extent	vendor_archive	object	vendor_symbol	li
 0x027315D0	PM_GetAutoExit	12	16	TwlSDK/lib/ARM9-TS/Debug/libspi.TWL.HYB.a	pm.o	PM_GetAutoExit	global	0	16	Metrowerks C/C++ for ARM 4.0.0.1024	pm.c	by_neighbour_object	1	libspi.TWL.HYB.a:pm.o:PM_GetAutoExit;libspi.TWL.LTD.a:pm.o:PM_GetAutoExit	pm.c
 0x027315E0	PMi_CallPostExitCallbackAndReset	284	312	TwlSDK/lib/ARM9-TS/Release/libspi.TWL.HYB.a	pm.o	PMi_CallPostExitCallbackAndReset	static	0	312	Metrowerks C/C++ for ARM 4.0.0.1024	pm.c	OK	1	libspi.TWL.HYB.a:pm.o:PMi_CallPostExitCallbackAndReset;libspi.TWL.LTD.a:pm.o:PMi_CallPostExitCallbackAndReset	pm.c
 0x02731718	PMi_TryLockForReset	56	60	TwlSDK/lib/ARM9-TS/Release/libspi.TWL.HYB.a	pm.o	PMi_TryLockForReset	global	0	60	Metrowerks C/C++ for ARM 4.0.0.1024	pm.c	OK	1	libspi.TWL.HYB.a:pm.o:PMi_TryLockForReset;libspi.TWL.LTD.a:pm.o:PMi_TryLockForReset	pm.c
-0x02731754	func_02731754	12	12									NO_MATCH			unit_02731754.c
-0x02731760	func_02731760	4	4									NO_MATCH			unit_02731754.c
-0x02731764	func_02731764	10	12									NO_MATCH			unit_02731754.c
-0x02731770	func_02731770	4	4									NO_MATCH			unit_02731754.c
-0x02731774	func_02731774	216	216									NO_MATCH			unit_02731754.c
-0x0273184C	func_0273184C	28	28									NO_MATCH			unit_02731754.c
-0x02731868	func_02731868	184	184									NO_MATCH			unit_02731754.c
-0x02731920	func_02731920	124	124									NO_MATCH			unit_02731754.c
+0x02731754	func_02731754	12	12									NO_MATCH			sha1_hmac.c
+0x02731760	func_02731760	4	4									NO_MATCH			sha1_hmac.c
+0x02731764	func_02731764	10	12									NO_MATCH			sha1_hmac.c
+0x02731770	func_02731770	4	4									NO_MATCH			sha1_hmac.c
+0x02731774	func_02731774	216	216									NO_MATCH			sha1_hmac.c
+0x0273184C	func_0273184C	28	28									NO_MATCH			sha1_hmac.c
+0x02731868	func_02731868	184	184									NO_MATCH			sha1_hmac.c
+0x02731920	func_02731920	124	124									NO_MATCH			sha1_hmac.c
 0x0273199C	WCMi_NwmifStartupAsync	68	232	TwlWiFi_base/TwlWiFi/lib/ARM9-TS/Rom/libwcm.TWL.HYB.a	nwmif.o	WCMi_NwmifStartupAsync	global	0	232	Metrowerks C/C++ for ARM 4.0.0.1024	nwmif.c	OK	1	libwcm.TWL.HYB.a:nwmif.o:WCMi_NwmifStartupAsync;libwcm.TWL.LTD.a:nwmif.o:WCMi_NwmifStartupAsync	nwmif.c
 0x02731A84	WCMi_NwmifCleanupAsync	104	108	TwlWiFi_base/TwlWiFi/lib/ARM9-TS/Rom/libwcm.TWL.HYB.a	nwmif.o	WCMi_NwmifCleanupAsync	global	0	108	Metrowerks C/C++ for ARM 4.0.0.1024	nwmif.c	OK	1	libwcm.TWL.HYB.a:nwmif.o:WCMi_NwmifCleanupAsync;libwcm.TWL.LTD.a:nwmif.o:WCMi_NwmifCleanupAsync	nwmif.c
 0x02731AF0	WCMi_NwmifBeginSearchAsync	260	264	TwlWiFi_base/TwlWiFi/lib/ARM9-TS/Rom/libwcm.TWL.HYB.a	nwmif.o	WCMi_NwmifBeginSearchAsync	global	0	264	Metrowerks C/C++ for ARM 4.0.0.1024	nwmif.c	OK	1	libwcm.TWL.HYB.a:nwmif.o:WCMi_NwmifBeginSearchAsync;libwcm.TWL.LTD.a:nwmif.o:WCMi_NwmifBeginSearchAsync	nwmif.c

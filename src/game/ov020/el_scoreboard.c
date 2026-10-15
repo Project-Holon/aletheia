@@ -103,7 +103,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
@@ -118,7 +118,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_020127D0  0x020127D0  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
@@ -132,7 +132,7 @@
  *   EVENT_FIELD_PROCLINK_ApplyReturnEntry  0x02161F90  thumb  ov010
  *   FIELD_WFBC_RemovePeople  0x02193B20  thumb  ov021
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
@@ -158,9 +158,9 @@
  *   func_0204047C 0x0204047C arm
  *   func_020414AC 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   EL_SCOREBOARD_VramBankConfig     0x02187E58  data  ov020
  *   EL_SCOREBOARD_DispConfig     0x02187E28  data  ov020
  *   EL_SCOREBOARD_BgTemplate     0x02187E38  data  ov020
@@ -169,7 +169,7 @@
  *   func_02062A4C  0x02062A4C  arm
  *   func_02040B1C  0x02040B1C  arm
  *   func_02062B30  0x02062B30  arm
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -178,7 +178,7 @@
  *   _ffix          0x0209C494  arm
  *   func_0207D658  0x0207D658  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_0209BE04  0x0209BE04  arm
  *   func_0209CE10  0x0209CE10  arm
  *   func_0209C77C  0x0209C77C  arm
@@ -189,6 +189,7 @@
  *   func_02040588  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FIELDMAP_SetSubscreenBusy 0x02189A50 thumb ov021
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
 
 struct ArcHandle;
@@ -228,20 +229,20 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_020414AC(int a);
 void BG_SYS_SetVramBanks(const struct DispVram *c);
-void func_0203F8F4(u16 heapId);
+void BG_SYS_Create(u16 heapId);
 void func_0203FC28(struct DispConfig *cfg);
-void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020403F4(unsigned int i);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 s32 func_02062A98(struct NitroFileHeader *file, void **out);
 void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
 s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 int func_02062B30(void *file, void **out);
-void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
+void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 void func_0207D658(u32 addr, int plane, int brightness);
 void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
-void func_0207D534(volatile u16 *reg, int brightness);
+void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 u32 func_0209BE04(u32 x);
 u32 func_0209CE10(u32 a, u32 b);
 u32 func_0209C77C(u32 a, u32 b);
@@ -425,9 +426,9 @@ void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work)
 void EL_SCOREBOARD_SetupStandaloneDisplay(ElScoreboardWork *work)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)EL_SCOREBOARD_VramBankConfig);
-    func_0203F8F4(work->heapId);
+    BG_SYS_Create(work->heapId);
     func_0203FC28((struct DispConfig *)EL_SCOREBOARD_DispConfig);
-    func_0203FCA0(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
     func_0204047C(0, 1);
     func_0204047C(3, 0);
     func_0204047C(1, 3);
@@ -448,12 +449,12 @@ void EL_SCOREBOARD_TeardownSharedDisplay(ElScoreboardWork *work)
 }
 
 /*
- * \n * symbols:\n *   func_020403F4  0x020403F4  arm\n *   func_0203F9B4  0x0203F9B4  arm\n
+ * \n * symbols:\n *   func_020403F4  0x020403F4  arm\n *   BG_SYS_Delete  0x0203F9B4  arm\n
  */
 void EL_SCOREBOARD_TeardownStandaloneDisplay(ElScoreboardWork *work)
 {
     func_020403F4(3);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId)
@@ -491,7 +492,7 @@ void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId)
     func_020307B0(member);
     member = ARC_TOOL_LoadHandleMember(archive, screenIdx, heapId);
     func_02062B30(member, (void **)(&screenFile));
-    func_020409E0(3, screenFile + 3, screenFile[2], 0);
+    BG_SYS_PushTileSource(3, screenFile + 3, screenFile[2], 0);
     func_020307B0(member);
     ARC_TOOL_DeleteHandle(archive);
 }
@@ -523,7 +524,7 @@ void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
         if (work->shownSeason == work->targetSeason) {
             alpha = (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration));
             func_0207D63C(0x04000050, 8, 0x11, 16 - alpha, alpha);
-            func_0207D534((volatile u16 *)0x0400106C,
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C,
                 (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration) + -16.0f));
         } else {
             func_0207D658(0x04000050, 8,
@@ -596,7 +597,7 @@ void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state)
     case 2:
         func_02040588(3, 1);
         func_02040588(0, 0);
-        func_0207D534((volatile u16 *)0x0400006C, 0);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0);
         func_0207D658(0x04000050, 8, -16);
         work->stateDuration = EL_SCOREBOARD_GetFadeInDuration(work);
         break;

@@ -24,7 +24,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089F4  0x020089F4  thumb
- *   func_02025C9C  0x02025C9C  thumb
+ *   CURSOR_MOVE_GetTableKind  0x02025C9C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -73,7 +73,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
-extern u32 func_02025C9C(u32 x);
+extern u32 CURSOR_MOVE_GetTableKind(u32 x);
 
 void func_021C61EC(Work *p, int k, int flush)
 {
@@ -83,7 +83,7 @@ void func_021C61EC(Work *p, int k, int flush)
 
     bank = func_02045B38(0, 2, 0xBF, p->heap);
     if (func_020089F4(GAME_DATA_GetSaveBlock21(p->f24->f4))) {
-        str = func_02045EC0(bank, func_02025C9C(k));
+        str = func_02045EC0(bank, CURSOR_MOVE_GetTableKind(k));
     } else {
         str = func_02045EC0(bank, 0);
     }

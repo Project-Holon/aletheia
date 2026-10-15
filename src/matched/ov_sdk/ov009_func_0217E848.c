@@ -12,7 +12,7 @@
  * sdk:      gsLargeIntSetFromHexString (gslargeint.o)
  *
  * symbols:
- *   func_0209477C                  0x0209477C  arm
+ *   strlen                  0x0209477C  arm
  *   func_0208CF34                  0x0208CF34  arm
  *   g_021A3728                     0x021A3728  data
  *   g_021A3720                     0x021A3720  data
@@ -24,7 +24,7 @@ struct gsLargeInt_s {
 };
 
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 extern char g_021A3728[];
 extern char g_021A3720[];
@@ -37,7 +37,7 @@ int gsLargeIntSetFromHexString(struct gsLargeInt_s *lint, char *hexstream)
     int byteIndex = 0;
     unsigned int n;
 
-    len = func_0209477C((const u8 *)hexstream);
+    len = strlen((const u8 *)hexstream);
     if (len == 0) {
         lint->mLength = 0;
         lint->mData[0] = 0;

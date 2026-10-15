@@ -1,5 +1,5 @@
 /*
- * function: func_021F6000, func_021F601C
+ * function: EGG_DEMO_MAIN_LoadBgm2, EGG_DEMO_MAIN_IsBgm2Loading
  * address: 0x021F6000
  * packet: pkt_ov215_021F6000
  * region: ov215
@@ -17,14 +17,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
-void func_021F6000(void *unused, char *p)
+void EGG_DEMO_MAIN_LoadBgm2(void *unused, char *p)
 {
     ((struct Obj14708 *)p)->f24 = 0;
     GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(p + 0x24), 1);
     ((struct Obj14708 *)p)->f18 = 5;
 }
 
-int func_021F601C(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *p)
 {
     int state = ((struct Obj25744 *)p)->f18;
     int result = 1;

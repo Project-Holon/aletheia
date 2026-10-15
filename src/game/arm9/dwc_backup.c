@@ -1,7 +1,7 @@
 /*
  * file:     dwc_backup.c
  * unit:     yes
- * function: func_020584E0, func_020584F4, DWCi_BM_GetWiFiInfo, func_020585DC, func_02058634, func_02058664, func_020586BC, func_02058770, func_02058784, func_020587E0, func_020587F8, func_0205883C, func_02058868, func_020588D0, writeDisable, func_02058904, DWCi_BACKUPlGetWifi
+ * function: func_020584E0, func_020584F4, DWCi_BM_GetWiFiInfo, ReadSlotInfo, func_02058634, ReadSlotInfoEx, DWCi_BM_SetWiFiInfo, func_02058770, DWCi_BACKUPlWritePage, func_020587E0, DWCi_BACKUPlConvMaskCidr, func_0205883C, DWC_BACKUPlCheckIp, func_020588D0, writeDisable, DWCi_BACKUPlConvWifiInfo, DWCi_BACKUPlGetWifi
  * address:  0x020584E0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -127,31 +127,28 @@ typedef struct {
     u8  Wifi[14];
 } DWCBackupStatics;
 
-extern int ReadSlotInfo(void *buf, int offset, unsigned long num);
-extern int ReadSlotInfoEx(void *buf, int offset, unsigned long num);
+extern int ReadSlotInfo(NCFGSlotInfo *buf, int offset, unsigned long num);
+extern int ReadSlotInfoEx(NCFGSlotInfoEx *buf, int offset, unsigned long num);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
 extern int NCFG_WriteBackupMemory(int index, void *buf, unsigned long size);
-extern u8  *DWCi_BACKUPlConvWifiInfo(DWCWiFiInfo *info);
+extern u8  *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
 extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, u16 poly);
 extern void OS_Terminate(void);
 extern u16  MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength);
 int DWCi_BM_GetApInfo(void *buf);
 int DWCi_BM_GetApInfoEx(void *buf);
 void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
-int func_020585DC(NCFGSlotInfo *buf, int offset, u32 num);
 int WriteSlotInfo(NCFGSlotInfo *buf, int index, void *work);
-int func_02058664(NCFGSlotInfoEx *buf, int offset, u32 num);
-int func_020586BC(DWCWiFiInfo *info, void *work);
+int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work);
 int DWCi_BACKUPlRead(void *mem);
-int func_02058784(DWCMemMap *data, int *page, void *work);
+int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work);
 void DWCi_BACKUPlSetWiFi(unsigned char *wifi);
-u8 func_020587F8(u8 *mask);
+u8 DWCi_BACKUPlConvMaskCidr(u8 *mask);
 void DWCi_BACKUPlConvMaskAddr(int mask, unsigned char *buf);
-int func_02058868(u8 *ip, u8 *mask);
+int DWC_BACKUPlCheckIp(u8 *ip, u8 *mask);
 int DWC_BACKUPlCheckAddress(unsigned char *address);
 int writeDisable(void);
-u8 *func_02058904(const DWCWiFiInfo *info);
 void *DWCi_BACKUPlGetWifi(void);
 extern u8 Wifi[14];
 extern DWCBackupStatics Address;
@@ -204,7 +201,7 @@ void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf)
 /*
  * sdk:      ReadSlotInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-int func_020585DC(NCFGSlotInfo *buf, int offset, u32 num)
+int ReadSlotInfo(NCFGSlotInfo *buf, int offset, u32 num)
 {
     int i;
 
@@ -231,7 +228,7 @@ int WriteSlotInfo(NCFGSlotInfo *buf, int index, void *work)
 /*
  * sdk:      ReadSlotInfoEx (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-int func_02058664(NCFGSlotInfoEx *buf, int offset, u32 num)
+int ReadSlotInfoEx(NCFGSlotInfoEx *buf, int offset, u32 num)
 {
     int i;
 
@@ -249,7 +246,7 @@ int func_02058664(NCFGSlotInfoEx *buf, int offset, u32 num)
 /*
  * sdk:      DWCi_BM_SetWiFiInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-int func_020586BC(DWCWiFiInfo *info, void *work)
+int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work)
 {
     MEMSWI *wk;
     int i;
@@ -286,7 +283,7 @@ int DWCi_BACKUPlRead(void *mem)
 /*
  * sdk:      DWCi_BACKUPlWritePage (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-int func_02058784(DWCMemMap *data, int *page, void *work)
+int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work)
 {
     int i;
 
@@ -321,7 +318,7 @@ void DWCi_BACKUPlSetWiFi(unsigned char *wifi)
 /*
  * sdk:      DWCi_BACKUPlConvMaskCidr (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-u8 func_020587F8(u8 *mask)
+u8 DWCi_BACKUPlConvMaskCidr(u8 *mask)
 {
     int snm;
     int i;
@@ -356,7 +353,7 @@ void DWCi_BACKUPlConvMaskAddr(int mask, unsigned char *buf)
 /*
  * sdk:      DWC_BACKUPlCheckIp (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-int func_02058868(u8 *ip, u8 *mask)
+int DWC_BACKUPlCheckIp(u8 *ip, u8 *mask)
 {
     u32 ipa;
     u32 snm;
@@ -389,7 +386,7 @@ int writeDisable(void)
 
 /* info is const: this DWARF drops const qualifiers (MI_CpuCopy8's srcp reads `void *`),
  * and without it the byte stores are assumed to clobber *info, which reorders the tmp stores */
-u8 *func_02058904(const DWCWiFiInfo *info)
+u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info)
 {
     u64 tmp;
 

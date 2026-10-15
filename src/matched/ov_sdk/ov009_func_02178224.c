@@ -1,5 +1,5 @@
 /*
- * function: func_02178224
+ * function: DWC_Auth_GetResult
  * address:  0x02178224
  * packet:   pkt_ov009_02178224
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   g_021AB184     0x021AB184  data
+ *   gDwcAuthGlobal     0x021AB184  data
  */
 
 #include "../include/G_DWCAuthGlobal.h"
@@ -34,16 +34,16 @@ struct DWCAuthCtx {
 	int abort_flag;
 };
 
-extern struct DWCAuthGlobal g_021AB184;
+extern struct DWCAuthGlobal gDwcAuthGlobal;
 
 extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 
-void func_02178224(int *result)
+void DWC_Auth_GetResult(int *result)
 {
-	if (g_021AB184.ctx == 0)
+	if (gDwcAuthGlobal.ctx == 0)
 		MI_CpuFill8(result, 0, 0x1c4);
-	MI_CpuCopy8(g_021AB184.ctx->result, result, 0x1c4);
+	MI_CpuCopy8(gDwcAuthGlobal.ctx->result, result, 0x1c4);
 	if (result[0] < 20000 || result[0] >= 30000)
 		result[0] = 20998;
 	if (result[0] >= 20100)

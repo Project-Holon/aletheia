@@ -1,5 +1,5 @@
 /*
- * function: func_02095B3C
+ * function: __strtoul
  * address:  0x02095B3C
  * packet:   pkt_020949F4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * MSL __strtoul: the scan-state machine every strtol/strtoul/atoi entry
- * drives (func_02095EAC and func_02095F40 are two of its wrappers).  The
+ * drives (strtoul and strtol are two of its wrappers).  The
  * source is the Metrowerks one nearly verbatim: the power-of-two scan
  * states (start 1 .. failure 0x40, `tst #0x60` = final_state, `tst #0x34`
  * = success), fetch() as `(count++, ReadProc(arg, 0, 0))` and unfetch as
@@ -22,8 +22,8 @@
  * __ctype_map.  EOF and ULONG_MAX share the one `mvn fp, #0` register.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02095B3C.c \
- *       --func func_02095B3C --addr 0x02095B3C --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__strtoul.c \
+ *       --func __strtoul --addr 0x02095B3C --cc 1.1p1 --arm
  *   EXACT, 880 bytes, 4 relocation sites, all resolved.
  *
  * symbols:
@@ -52,7 +52,7 @@ enum { start = 1, check_for_zero = 2, leading_zero = 4, need_digit = 8,
 #define fetch()        (count++, (*ReadProc)(ReadProcArg, 0, 0))
 #define unfetch(c)     (*ReadProc)(ReadProcArg, c, 1)
 
-u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int),
+u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int),
                   void *ReadProcArg, int *chars_scanned, int *negative,
                   int *overflow)
 {

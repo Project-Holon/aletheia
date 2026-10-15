@@ -22,7 +22,7 @@
  *   MB_PARENT_SYS_Cancel 0x021F0AE4 thumb ov107
  *   MB_UTIL_MSG_ClearWindow 0x021F1898 thumb ov107
  *   MB_UTIL_MSG_SetWindowLayout 0x021F1628 thumb ov107
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   MB_UTIL_MSG_PrintStream 0x021F1704 thumb ov107
  *   MB_UTIL_MSG_IsStreamIdle 0x021F1B14 thumb ov107
  *   MB_UTIL_MSG_OpenYesNoTaskMenu 0x021F1930 thumb ov107
@@ -60,7 +60,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void MB_PARENT_SYS_StartBoot(void),MB_PARENT_SYS_Cancel(void),MB_UTIL_MSG_ClearWindow(void *),MB_UTIL_MSG_SetWindowLayout(void *,int);
 struct Sub0200852CObj;
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void MB_UTIL_MSG_PrintStream(void *,int,int);
 extern void MB_UTIL_MSG_OpenYesNoTaskMenu(char *p, int kind);
 extern void MB_UTIL_MSG_OpenYesNoMenu(void *,int);
@@ -94,8 +94,8 @@ void MB_COMM_SYS_MainRecruit(u8 *p)
  switch(p[0x26]){
  case 1:
   MB_UTIL_MSG_ClearWindow(((struct Obj00072 *)p)->f68);CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,15);
-  if(p[0x28]==0){MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,7);MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,9,func_02012FFC());}
-  else {MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,5);MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,42,func_02012FFC());}
+  if(p[0x28]==0){MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,7);MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,9,MSG_SPEED_GetWait());}
+  else {MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,5);MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,42,MSG_SPEED_GetWait());}
   p[0x26]=2;break;
  case 2:
   if(MB_UTIL_MSG_IsStreamIdle(((struct Obj00072 *)p)->f68)==1){
@@ -116,7 +116,7 @@ void MB_COMM_SYS_MainRecruit(u8 *p)
    if(p[0x28]==0)MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,2);else MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,3);
    MB_UTIL_MSG_CreateWordSet(((struct Obj00072 *)p)->f68);MB_UTIL_MSG_SetNumberZeroPad(((struct Obj00072 *)p)->f68,0,func_02008534(q),5);
    CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,1);
-   if(p[0x28]==0)MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,0,func_02012FFC());else MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,20,func_02012FFC());
+   if(p[0x28]==0)MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,0,MSG_SPEED_GetWait());else MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,20,MSG_SPEED_GetWait());
    MB_UTIL_MSG_DeleteWordSet(((struct Obj00072 *)p)->f68);p[0x26]=0;
   }break;
  }

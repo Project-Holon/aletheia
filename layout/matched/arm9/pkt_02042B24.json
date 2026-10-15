@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02043094",
+   "name": "BG_SYS_DeleteBlock",
    "address": "0x02043094",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02043264",
+   "name": "BG_SYS_Apply",
    "address": "0x02043264",
    "kind": "game",
    "region": "arm9",

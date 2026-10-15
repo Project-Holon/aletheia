@@ -1,5 +1,5 @@
 /*
- * function: func_021F90E0
+ * function: STA_ACTING_LoadCharAnims
  * address: 0x021F90E0
  * packet: pkt_ov132_021F90E0
  * region: ov132
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Bytes { u8 a, b, c, d; };
 extern const struct Bytes d_021FDBD0;
 extern void *func_021FAC74(char *p, void *arg, int flag);
-void func_021F90E0(u8 *p)
+void STA_ACTING_LoadCharAnims(u8 *p)
 {
     u8 i;
     u32 *table;

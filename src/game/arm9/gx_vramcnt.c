@@ -1,7 +1,7 @@
 /*
  * file:     gx_vramcnt.c
  * unit:     yes
- * function: func_0207FD34, func_0207FDCC, GX_SetBankForOBJ, func_02080100, func_020801F8, GX_SetBankForTex, func_0208040C, func_020804E8, func_020805E8, func_0208068C, func_020806B0, func_0208074C, func_020807BC, func_0208083C, func_020808BC, func_020808F4, func_02080908, func_0208091C, func_02080940, func_02080964, func_02080978, func_0208098C, func_020809A0, func_020809B4, func_020809C8, func_020809F0, func_02080A18, func_02080AD8, func_02080AEC, func_02080B00, func_02080B24, func_02080B48, func_02080B5C, func_02080B70, func_02080B84, func_02080B98, func_02080BAC, func_02080BC0, func_02080BD4, func_02080BFC, func_02080C24, func_02080C34, func_02080C44, func_02080C54, func_02080C64, func_02080C74
+ * function: func_0207FD34, func_0207FDCC, GX_SetBankForOBJ, GX_SetBankForBGExtPltt, GX_SetBankForOBJExtPltt, GX_SetBankForTex, GX_SetBankForTexPltt, GX_SetBankForClearImage, GX_SetBankForARM7, func_0208068C, GX_SetBankForSubBG, GX_SetBankForSubOBJ, GX_SetBankForSubBGExtPltt, GX_SetBankForSubOBJExtPltt, resetBankForX_, func_020808F4, func_02080908, func_0208091C, func_02080940, func_02080964, func_02080978, func_0208098C, func_020809A0, func_020809B4, func_020809C8, func_020809F0, disableBankForX_, GX_DisableBankForBG, GX_DisableBankForOBJ, GX_DisableBankForBGExtPltt, GX_DisableBankForOBJExtPltt, GX_DisableBankForTex, GX_DisableBankForTexPltt, GX_DisableBankForClearImage, GX_DisableBankForARM7, func_02080B98, func_02080BAC, func_02080BC0, GX_DisableBankForSubBGExtPltt, GX_DisableBankForSubOBJExtPltt, GX_GetBankForOBJ, GX_GetBankForOBJExtPltt, GX_GetBankForTex, func_02080C54, GX_GetBankForSubOBJ, GX_GetBankForSubOBJExtPltt
  * address:  0x0207FD34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -165,18 +165,18 @@ extern void OSi_UnlockVram(u16 bank, u16 lockId);
 extern int disableBankForX_(u16 *g3bit);
 void GX_SetBankForBG(GXVRamBG bg);
 void GX_SetBankForOBJ(GXVRamOBJ obj);
-void func_02080100(int bgExtPltt);
-void func_020801F8(int objExtPltt);
+void GX_SetBankForBGExtPltt(int bgExtPltt);
+void GX_SetBankForOBJExtPltt(int objExtPltt);
 void GX_SetBankForTex(GXVRamTex tex);
-void func_0208040C(int texPltt);
-void func_020804E8(int clrImg);
-void func_020805E8(int arm7);
+void GX_SetBankForTexPltt(int texPltt);
+void GX_SetBankForClearImage(int clrImg);
+void GX_SetBankForARM7(int arm7);
 asm void GX_SetBankForLCDC(void);
-void func_020806B0(int sub_bg);
-void func_0208074C(int sub_obj);
-void func_020807BC(int sub_bgExtPltt);
-void func_0208083C(int sub_objExtPltt);
-int func_020808BC(u16 *g3bit);
+void GX_SetBankForSubBG(int sub_bg);
+void GX_SetBankForSubOBJ(int sub_obj);
+void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt);
+void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
+int resetBankForX_(u16 *g3bit);
 int func_020808F4(void);
 void func_02080908(void);
 void GX_ResetBankForBGExtPltt(void);
@@ -188,26 +188,25 @@ int func_020809A0(void);
 void func_020809B4(void);
 void GX_ResetBankForSubBGExtPltt(void);
 void GX_ResetBankForSubOBJExtPltt(void);
-int func_02080A18(u16 *g3bit);
-GXVRam func_02080AD8(void);
-GXVRam func_02080AEC(void);
-GXVRam func_02080B00(void);
-GXVRam func_02080B24(void);
-GXVRam func_02080B48(void);
-GXVRam func_02080B5C(void);
-GXVRam func_02080B70(void);
-GXVRam func_02080B84(void);
+GXVRam GX_DisableBankForBG(void);
+GXVRam GX_DisableBankForOBJ(void);
+GXVRam GX_DisableBankForBGExtPltt(void);
+GXVRam GX_DisableBankForOBJExtPltt(void);
+GXVRam GX_DisableBankForTex(void);
+GXVRam GX_DisableBankForTexPltt(void);
+GXVRam GX_DisableBankForClearImage(void);
+GXVRam GX_DisableBankForARM7(void);
 void func_02080B98(void);
 void func_02080BAC(int a0, int a1, int a2, int a3);
 void func_02080BC0(int a0, int a1, int a2, int a3);
-GXVRam func_02080BD4(void);
-GXVRam func_02080BFC(void);
-u16 func_02080C24(void);
-u16 func_02080C34(void);
-u16 func_02080C44(void);
+GXVRam GX_DisableBankForSubBGExtPltt(void);
+GXVRam GX_DisableBankForSubOBJExtPltt(void);
+u16 GX_GetBankForOBJ(void);
+u16 GX_GetBankForOBJExtPltt(void);
+u16 GX_GetBankForTex(void);
 u16 func_02080C54(void);
-u16 func_02080C64(void);
-u16 func_02080C74(void);
+u16 GX_GetBankForSubOBJ(void);
+u16 GX_GetBankForSubOBJExtPltt(void);
 extern GX_State gGXState;
 extern u16 GXi_VRamLockId;
 
@@ -382,7 +381,7 @@ void GX_SetBankForOBJ(GXVRamOBJ obj)
 /*
  * sdk:      GX_SetBankForBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_02080100(int bgExtPltt)
+void GX_SetBankForBGExtPltt(int bgExtPltt)
 {
     gGXState.vramCnt.lcdc = (u16)(~bgExtPltt & (gGXState.vramCnt.lcdc | gGXState.vramCnt.bgExtPltt));
     gGXState.vramCnt.bgExtPltt = (u16)bgExtPltt;
@@ -420,7 +419,7 @@ void func_02080100(int bgExtPltt)
 /*
  * sdk:      GX_SetBankForOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_020801F8(int objExtPltt)
+void GX_SetBankForOBJExtPltt(int objExtPltt)
 {
     gGXState.vramCnt.lcdc = (u16)(~objExtPltt & (gGXState.vramCnt.lcdc | gGXState.vramCnt.objExtPltt));
     gGXState.vramCnt.objExtPltt = (u16)objExtPltt;
@@ -520,7 +519,7 @@ void GX_SetBankForTex(GXVRamTex tex)
 /*
  * sdk:      GX_SetBankForTexPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_0208040C(int texPltt)
+void GX_SetBankForTexPltt(int texPltt)
 {
     gGXState.vramCnt.lcdc = (u16)(~texPltt & (gGXState.vramCnt.lcdc | gGXState.vramCnt.texPltt));
     gGXState.vramCnt.texPltt = (u16)texPltt;
@@ -562,7 +561,7 @@ void func_0208040C(int texPltt)
 /*
  * sdk:      GX_SetBankForClearImage (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_020804E8(int clrImg)
+void GX_SetBankForClearImage(int clrImg)
 {
     gGXState.vramCnt.lcdc = (u16)(~clrImg & (gGXState.vramCnt.lcdc | gGXState.vramCnt.clrImg));
     gGXState.vramCnt.clrImg = (u16)clrImg;
@@ -609,7 +608,7 @@ void func_020804E8(int clrImg)
 /*
  * sdk:      GX_SetBankForARM7 (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_020805E8(int arm7)
+void GX_SetBankForARM7(int arm7)
 {
     gGXState.vramCnt.lcdc = (u16)(~arm7 & (gGXState.vramCnt.lcdc | gGXState.vramCnt.arm7));
     gGXState.vramCnt.arm7 = (u16)arm7;
@@ -660,7 +659,7 @@ asm void GX_SetBankForLCDC(void)
 /*
  * sdk:      GX_SetBankForSubBG (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_020806B0(int sub_bg)
+void GX_SetBankForSubBG(int sub_bg)
 {
     gGXState.vramCnt.lcdc = (u16)(~sub_bg & (gGXState.vramCnt.lcdc | gGXState.vramCnt.sub_bg));
     gGXState.vramCnt.sub_bg = (u16)sub_bg;
@@ -692,7 +691,7 @@ void func_020806B0(int sub_bg)
 /*
  * sdk:      GX_SetBankForSubOBJ (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_0208074C(int sub_obj)
+void GX_SetBankForSubOBJ(int sub_obj)
 {
     gGXState.vramCnt.lcdc = (u16)(~sub_obj & (gGXState.vramCnt.lcdc | gGXState.vramCnt.sub_obj));
     gGXState.vramCnt.sub_obj = (u16)sub_obj;
@@ -721,7 +720,7 @@ void func_0208074C(int sub_obj)
 /*
  * sdk:      GX_SetBankForSubBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_020807BC(int sub_bgExtPltt)
+void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt)
 {
     gGXState.vramCnt.lcdc = (u16)(~sub_bgExtPltt & (gGXState.vramCnt.lcdc | gGXState.vramCnt.sub_bgExtPltt));
     gGXState.vramCnt.sub_bgExtPltt = (u16)sub_bgExtPltt;
@@ -749,7 +748,7 @@ void func_020807BC(int sub_bgExtPltt)
 /*
  * sdk:      GX_SetBankForSubOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-void func_0208083C(int sub_objExtPltt)
+void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt)
 {
     gGXState.vramCnt.lcdc = (u16)(~sub_objExtPltt & (gGXState.vramCnt.lcdc | gGXState.vramCnt.sub_objExtPltt));
     gGXState.vramCnt.sub_objExtPltt = (u16)sub_objExtPltt;
@@ -777,7 +776,7 @@ void func_0208083C(int sub_objExtPltt)
 /*
  * sdk:      resetBankForX_ (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-int func_020808BC(u16 *g3bit)
+int resetBankForX_(u16 *g3bit)
 {
     int rval = *g3bit;
 
@@ -792,14 +791,14 @@ int func_020808BC(u16 *g3bit)
 
 
 
-int func_020808F4(void){ return func_020808BC((u16 *)((int)0x2150E4E)); }
+int func_020808F4(void){ return resetBankForX_((u16 *)((int)0x2150E4E)); }
 
 
 
 
 
 
-void func_02080908(void){ func_020808BC((u16 *)((int)0x2150E50)); }
+void func_02080908(void){ resetBankForX_((u16 *)((int)0x2150E50)); }
 
 
 
@@ -810,7 +809,7 @@ void func_02080908(void){ func_020808BC((u16 *)((int)0x2150E50)); }
 void GX_ResetBankForBGExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x40000000;
-    func_020808BC((u16 *)((int)0x2150E5A));
+    resetBankForX_((u16 *)((int)0x2150E5A));
 }
 
 
@@ -822,7 +821,7 @@ void GX_ResetBankForBGExtPltt(void)
 void GX_ResetBankForOBJExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x80000000;
-    func_020808BC((u16 *)((int)0x2150E5C));
+    resetBankForX_((u16 *)((int)0x2150E5C));
 }
 
 
@@ -830,34 +829,34 @@ void GX_ResetBankForOBJExtPltt(void)
 
 
 
-int func_02080964(void){ return func_020808BC((void *)0x02150E54); }
+int func_02080964(void){ return resetBankForX_((void *)0x02150E54); }
 
 
 
 
 
 
-void func_02080978(void){ func_020808BC((u16 *)((int)0x2150E56)); }
+void func_02080978(void){ resetBankForX_((u16 *)((int)0x2150E56)); }
 
 
 
 
 
 
-void func_0208098C(int a0, int a1, int a2, int a3){ func_020808BC((u16 *)((int)0x2150E58)); }
+void func_0208098C(int a0, int a1, int a2, int a3){ resetBankForX_((u16 *)((int)0x2150E58)); }
 
 
 
 
 
 
-int func_020809A0(void){ return func_020808BC((u16 *)((int)0x2150E5E)); }
+int func_020809A0(void){ return resetBankForX_((u16 *)((int)0x2150E5E)); }
 
 
 
 
 
-void func_020809B4(void){ func_020808BC((u16 *)((int)0x2150E60)); }
+void func_020809B4(void){ resetBankForX_((u16 *)((int)0x2150E60)); }
 
 
 
@@ -867,7 +866,7 @@ void func_020809B4(void){ func_020808BC((u16 *)((int)0x2150E60)); }
 void GX_ResetBankForSubBGExtPltt(void)
 {
     reg_GXS_DB_DISPCNT &= ~0x40000000;
-    func_020808BC((u16 *)((int)0x2150E62));
+    resetBankForX_((u16 *)((int)0x2150E62));
 }
 
 
@@ -878,7 +877,7 @@ void GX_ResetBankForSubBGExtPltt(void)
 void GX_ResetBankForSubOBJExtPltt(void)
 {
     reg_GXS_DB_DISPCNT &= ~0x80000000;
-    func_020808BC((u16 *)((int)0x2150E64));
+    resetBankForX_((u16 *)((int)0x2150E64));
 }
 
 
@@ -889,7 +888,7 @@ void GX_ResetBankForSubOBJExtPltt(void)
 /*
  * sdk:      disableBankForX_ (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-int func_02080A18(u16 *g3bit)
+int disableBankForX_(u16 *g3bit)
 {
     int rval = *g3bit;
 
@@ -933,7 +932,7 @@ int func_02080A18(u16 *g3bit)
 /*
  * sdk:      GX_DisableBankForBG (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080AD8(void)
+GXVRam GX_DisableBankForBG(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.bg);
 }
@@ -946,7 +945,7 @@ GXVRam func_02080AD8(void)
 /*
  * sdk:      GX_DisableBankForOBJ (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080AEC(void)
+GXVRam GX_DisableBankForOBJ(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.obj);
 }
@@ -959,7 +958,7 @@ GXVRam func_02080AEC(void)
 /*
  * sdk:      GX_ResetBankForBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080B00(void)
+GXVRam GX_DisableBankForBGExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x40000000;
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.bgExtPltt);
@@ -973,7 +972,7 @@ GXVRam func_02080B00(void)
 /*
  * sdk:      GX_ResetBankForOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080B24(void)
+GXVRam GX_DisableBankForOBJExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x80000000;
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.objExtPltt);
@@ -987,7 +986,7 @@ GXVRam func_02080B24(void)
 /*
  * sdk:      GX_DisableBankForTex (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080B48(void)
+GXVRam GX_DisableBankForTex(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.tex);
 }
@@ -1000,7 +999,7 @@ GXVRam func_02080B48(void)
 /*
  * sdk:      GX_DisableBankForTexPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080B5C(void)
+GXVRam GX_DisableBankForTexPltt(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.texPltt);
 }
@@ -1013,7 +1012,7 @@ GXVRam func_02080B5C(void)
 /*
  * sdk:      GX_DisableBankForClearImage (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080B70(void)
+GXVRam GX_DisableBankForClearImage(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.clrImg);
 }
@@ -1025,7 +1024,7 @@ GXVRam func_02080B70(void)
 /*
  * sdk:      GX_DisableBankForARM7 (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080B84(void)
+GXVRam GX_DisableBankForARM7(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.arm7);
 }
@@ -1033,17 +1032,17 @@ GXVRam func_02080B84(void)
 
 
 
-void func_02080B98(void){ func_02080A18((void *)0x02150E4C); }
+void func_02080B98(void){ disableBankForX_((void *)0x02150E4C); }
 
 
 
 
-void func_02080BAC(int a0, int a1, int a2, int a3){ func_02080A18((u16 *)((int)0x2150E5E)); }
+void func_02080BAC(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E5E)); }
 
 
 
 
-void func_02080BC0(int a0, int a1, int a2, int a3){ func_02080A18((u16 *)((int)0x2150E60)); }
+void func_02080BC0(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E60)); }
 
 
 
@@ -1052,7 +1051,7 @@ void func_02080BC0(int a0, int a1, int a2, int a3){ func_02080A18((u16 *)((int)0
 /*
  * sdk:      GX_ResetBankForSubBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080BD4(void)
+GXVRam GX_DisableBankForSubBGExtPltt(void)
 {
     reg_GXS_DB_DISPCNT &= ~0x40000000;
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.sub_bgExtPltt);
@@ -1065,7 +1064,7 @@ GXVRam func_02080BD4(void)
 /*
  * sdk:      GX_ResetBankForSubOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
-GXVRam func_02080BFC(void)
+GXVRam GX_DisableBankForSubOBJExtPltt(void)
 {
     reg_GXS_DB_DISPCNT &= ~0x80000000;
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.sub_objExtPltt);
@@ -1076,7 +1075,7 @@ GXVRam func_02080BFC(void)
 /*
  * note:     gx_vramcnt.o GX_GetBankForOBJ; gGXState.vramCnt at 0x02150E4C.
  */
-u16 func_02080C24(void)
+u16 GX_GetBankForOBJ(void)
 {
     return gGXState.vramCnt.obj;
 }
@@ -1086,7 +1085,7 @@ u16 func_02080C24(void)
 /*
  * note:     gx_vramcnt.o GX_GetBankForOBJExtPltt.
  */
-u16 func_02080C34(void)
+u16 GX_GetBankForOBJExtPltt(void)
 {
     return gGXState.vramCnt.objExtPltt;
 }
@@ -1096,7 +1095,7 @@ u16 func_02080C34(void)
 /*
  * note:     gx_vramcnt.o GX_GetBankForTex.
  */
-u16 func_02080C44(void)
+u16 GX_GetBankForTex(void)
 {
     return gGXState.vramCnt.tex;
 }
@@ -1116,7 +1115,7 @@ u16 func_02080C54(void)
 /*
  * note:     gx_vramcnt.o GX_GetBankForSubOBJ.
  */
-u16 func_02080C64(void)
+u16 GX_GetBankForSubOBJ(void)
 {
     return gGXState.vramCnt.sub_obj;
 }
@@ -1126,7 +1125,7 @@ u16 func_02080C64(void)
 /*
  * note:     gx_vramcnt.o GX_GetBankForSubOBJExtPltt.
  */
-u16 func_02080C74(void)
+u16 GX_GetBankForSubOBJExtPltt(void)
 {
     return gGXState.vramCnt.sub_objExtPltt;
 }

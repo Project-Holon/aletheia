@@ -41,9 +41,9 @@
  *   MAP_ATTR_IsAnyGrass  0x021AB2BC  thumb  ov021
  *   MAP_ATTR_IsSplashWaterB  0x021AB364  thumb  ov021
  *   MAP_ATTR_IsSandVariant  0x021AB37C  thumb  ov021
- *   func_0202A230  0x0202A230  thumb
- *   func_0202A3FC  0x0202A3FC  thumb
- *   func_0202A3D8  0x0202A3D8  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   TPOKE_DATA_GetTrainerKind  0x0202A3FC  thumb
+ *   TPOKE_DATA_FindTrainerType  0x0202A3D8  thumb
  *   FIELDMAP_GetAreaData  0x02188D58  thumb  ov021
  *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   d_021DB7E0     0x021DB7E0  data  ov021  a2
@@ -65,8 +65,8 @@
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_020079BC  0x020079BC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBEC  0x0200BBEC  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
@@ -80,7 +80,7 @@
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   func_02009470  0x02009470  thumb
  *   func_0200E878  0x0200E878  thumb
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
@@ -89,20 +89,20 @@
  *   func_0200856C  0x0200856C  thumb
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02025C74  0x02025C74  thumb
+ *   CURSOR_MOVE_GetTableValue  0x02025C74  thumb
  *   func_02025B64  0x02025B64  thumb
  *   func_0201F048  0x0201F048  thumb
  *   func_02008570  0x02008570  thumb
- *   func_0201F094  0x0201F094  thumb
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   func_02009628  0x02009628  thumb
  *   func_0201F198  0x0201F198  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_02009590  0x02009590  thumb
- *   sub_020095C8  0x020095C8  thumb
+ *   WIFI_HISTORY_GetDisplayCount  0x02009590  thumb
+ *   WIFI_HISTORY_GetFirstFreeEntry  0x020095C8  thumb
  *   func_02009698  0x02009698  thumb
- *   sub_020095FC  0x020095FC  thumb
- *   sub_02009618  0x02009618  thumb
+ *   WIFI_HISTORY_SetRatingLevel  0x020095FC  thumb
+ *   WIFI_HISTORY_SetGreetingSet  0x02009618  thumb
  *   VM_GetU16  0x02011330  thumb
  */
 typedef unsigned char u8;
@@ -244,9 +244,9 @@ extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern int MAP_ATTR_IsAnyGrass(u16 tileType);
 extern int MAP_ATTR_IsSplashWaterB(u16 tileType);
 extern int MAP_ATTR_IsSandVariant(u32 tileType);
-extern u32 func_0202A230(void *trainerData, u32 index);
-extern u8 func_0202A3FC(u32 trainerClass);
-extern u8 func_0202A3D8(u32 trainerClass);
+extern u32 TPOKE_DATA_GetRecordField(void *trainerData, u32 index);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerClass);
+extern u8 TPOKE_DATA_FindTrainerType(u32 trainerClass);
 extern u32 FIELDMAP_GetAreaData(struct FieldMap *fieldMap);
 extern u8 ZONEDATA_GetAreaInnerOuter(u32 areaData);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
@@ -274,14 +274,14 @@ extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 dataId, u32 arg);
 extern int func_020079BC(struct BoxData *boxData, u32 box, u32 slot, int dataId, int arg);
-extern struct BattleBoxSave *func_0200BAC8(struct SaveControl *saveControl);
-extern struct PokemonParam *func_0200BBEC(struct BattleBoxSave *battleBox, u32 team, u32 slot);
+extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *saveControl);
+extern struct PokemonParam *BATTLE_BOX_GetMon(struct BattleBoxSave *battleBox, u32 team, u32 slot);
 extern u32 func_02017E88(struct PokemonParam *mon, u32 dataId, u32 arg);
 extern int *FIELD_SUBPROC_Start(int overlayId, int *mapFunc, const int *procData);
 extern u32 FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
 extern struct PlayerLocation *func_02008854(struct SaveControl *saveControl);
 extern u16 func_02008990(const struct PlayerLocation *location);
-extern IntrudeOfferLog *func_0200BE48(struct SaveControl *saveControl);
+extern IntrudeOfferLog *INTRUDE_GetFromSave(struct SaveControl *saveControl);
 extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int arg1, int heapId);
 extern void SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, int param0, int param1, int param2, u16 param3);
 extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
@@ -293,18 +293,18 @@ extern struct WifiHistory *func_02009470(struct SaveControl *saveControl);
 extern struct HistoryEntry *func_0200973C(struct WifiHistory *history, int index);
 extern u32 func_02009634(const struct WifiHistory *history, u32 index, u32 field);
 extern u8 func_02009628(const struct WifiHistory *history);
-extern u8 func_02009590(struct WifiHistory *history, struct MyStatus *myStatus, u32 arg);
-extern u8 sub_020095C8(const struct WifiHistory *history);
+extern u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *myStatus, u32 arg);
+extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct WifiHistory *history);
 extern void func_02009698(struct WifiHistory *history, int index, u32 field, u32 value);
-extern void sub_020095FC(struct WifiHistory *history, int value);
-extern void sub_02009618(struct WifiHistory *history, int value);
+extern void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value);
+extern void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value);
 extern int func_0200E878(PartnerCandidates *candidates);
-extern u32 func_02025C74(u32 outfit);
+extern u32 CURSOR_MOVE_GetTableValue(u32 outfit);
 extern u8 func_02025B64(u32 language);
 extern void func_0201F048(struct WordSet *wordSet, u32 index, u32 number);
-extern void func_0201F094(struct WordSet *wordSet, u32 index, u32 a, u32 number);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *wordSet, u32 index, u32 a, u32 number);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, const void *myStatus);
-extern void func_0201EE60(struct WordSet *wordSet, u32 index, u16 value);
+extern void WORDSET_Callback(struct WordSet *wordSet, u32 index, u16 value);
 extern void func_0201F198(struct WordSet *wordSet, u32 index, u32 value);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 a, u32 b, u32 c, u32 d);
 
@@ -577,9 +577,9 @@ void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, s
 void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId)
 {
     int areaIsInner = 1;
-    u32 trainerClass = func_0202A230(trainerData, 1);
-    u32 bgmGroup = func_0202A3FC(trainerClass);
-    u32 effectGroup = func_0202A3D8(trainerClass);
+    u32 trainerClass = TPOKE_DATA_GetRecordField(trainerData, 1);
+    u32 bgmGroup = TPOKE_DATA_GetTrainerKind(trainerClass);
+    u32 effectGroup = TPOKE_DATA_FindTrainerType(trainerClass);
     int effectKind;
 
     if (bgmGroup < 0xb) {
@@ -727,10 +727,10 @@ int SCRCMD_CountBattleBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32
     int i;
     int added;
 
-    battleBox = func_0200BAC8(GAME_DATA_GetSaveControl(gameData));
+    battleBox = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     added = 0;
     for (i = 0; i < BATTLE_BOX_SLOT_COUNT; i++) {
-        struct PokemonParam *mon = func_0200BBEC(battleBox, team, i);
+        struct PokemonParam *mon = BATTLE_BOX_GetMon(battleBox, team, i);
         if (func_02017E88(mon, MON_DATA_HAS_SPECIES, 0) != 0) {
             u32 otId = func_02017E88(mon, MON_DATA_OT_ID, 0);
             if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
@@ -875,7 +875,7 @@ struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 hea
     struct GameEvent *taskEvent = func_020122C0(gameSystem, 0, INTRUDE_OfferEventMain, 0x14);
     IntrudeOfferSlot *offer = func_020124E8(taskEvent);
 
-    INTRUDE_TakeOfferSlot(func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);
+    INTRUDE_TakeOfferSlot(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);
     return taskEvent;
 }
 
@@ -913,7 +913,7 @@ void SCRCMD_CollectPartnersByLanguage(struct WifiHistory *history, PartnerCandid
                     outfit = (func_02008550(entry) != 0) ? 0xf : 0xb;
                 }
                 out->historyIndex[out->count] = i;
-                out->viewId[out->count] = func_02025C74(outfit);
+                out->viewId[out->count] = CURSOR_MOVE_GetTableValue(outfit);
                 out->count++;
                 if (out->count >= PARTNER_CANDIDATE_MAX) {
                     break;
@@ -999,10 +999,10 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     entry = func_0200973C(history, historyIndex);
     func_0201F048(wordSet, 0, language);
     if (func_02025B64(language)) {
-        func_0201F094(wordSet, 1, language, func_02008570(entry));
+        WORDSET_DeleteMsgdataF094(wordSet, 1, language, func_02008570(entry));
     }
     func_0201F02C(wordSet, 3, GAME_DATA_GetMyStatus(gameData));
-    func_0201EE60(wordSet, 5, func_02009634(history, historyIndex, 0));
+    WORDSET_Callback(wordSet, 5, func_02009634(history, historyIndex, 0));
     func_0201F198(wordSet, 6, func_02009628(history));
     func_0201F02C(wordSet, 7, entry);
     value = func_02009634(history, historyIndex, 3);
@@ -1010,7 +1010,7 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
         value = 1;
     }
     func_0201EFA4(wordSet, 8, value, 3, 0, 1);
-    func_0201EE60(wordSet, 9, func_02009634(history, historyIndex, 1));
+    WORDSET_Callback(wordSet, 9, func_02009634(history, historyIndex, 1));
     language = func_02009634(history, historyIndex, 2);
     func_0201F198(wordSet, 10, language);
 }
@@ -1030,7 +1030,7 @@ int SCRCMD_GetWifiHistoryCountryCount(struct ScriptVm *vm, struct ScrcmdWork *cm
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     history = func_02009470(GAME_DATA_GetSaveControl(gameData));
-    *resultVar = func_02009590(history, GAME_DATA_GetMyStatus(gameData), arg);
+    *resultVar = WIFI_HISTORY_GetDisplayCount(history, GAME_DATA_GetMyStatus(gameData), arg);
     return 0;
 }
 
@@ -1043,7 +1043,7 @@ int SCRCMD_GetWifiHistoryEntryCount(struct ScriptVm *vm, struct ScrcmdWork *cmdW
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *resultVar = sub_020095C8(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+    *resultVar = WIFI_HISTORY_GetFirstFreeEntry(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
     return 0;
 }
 
@@ -1098,7 +1098,7 @@ int SCRCMD_SetWifiHistoryRatingLevel(struct ScriptVm *vm, struct ScrcmdWork *cmd
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     ratingLevel = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    sub_020095FC(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), ratingLevel);
+    WIFI_HISTORY_SetRatingLevel(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), ratingLevel);
     return 0;
 }
 
@@ -1111,7 +1111,7 @@ int SCRCMD_SetWifiHistoryGreetingSet(struct ScriptVm *vm, struct ScrcmdWork *cmd
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     greetingSet = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    sub_02009618(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), greetingSet);
+    WIFI_HISTORY_SetGreetingSet(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), greetingSet);
     return 0;
 }
 

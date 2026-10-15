@@ -27,12 +27,12 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_020490F4 0x020490F4 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_02045B38 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056A0 0x020056A0 thumb
@@ -80,9 +80,9 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   gGuru2LobbyDispConfig 0x021E1B70 data a4
  *   gGuru2LobbyBg0Template 0x021E1BE0 data a4
  *   gGuru2LobbyBg1Template 0x021E1B80 data a4
@@ -94,7 +94,7 @@
  *   func_02049F78 0x02049F78 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -158,7 +158,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   func_0201F5BC 0x0201F5BC thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   CLACT_CreateActor 0x0204B294 arm
  *   gGuru2LobbyActorResourceIds 0x021E1B20 data a4
  *   gGuru2LobbyCellIds 0x021E1B30 data a4
@@ -204,9 +204,9 @@ extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -278,7 +278,7 @@ void GURU2_RECEIPT_ExitBg(u32 a0);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -351,12 +351,12 @@ extern const u32 gGuru2LobbyVramBanks[];
  * func_020490F4 0x020490F4 arm
  * PROCSYS_AllocProcWork 0x0203159C arm
  * MI_CpuFill8 0x02082BCC arm
- * func_0203F8F4 0x0203F8F4 arm
+ * BG_SYS_Create 0x0203F8F4 arm
  * func_02045B38 0x02045B38 arm
  * TCBL_Create 0x0203101C arm
  * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
- * func_0201EC64 0x0201EC64 thumb
+ * GF_FONT_Create_EC64 0x0201EC64 thumb
  * GF_FONT_Create 0x0201D7EC thumb
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
@@ -386,8 +386,8 @@ int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
         MI_CpuFill8(p,0,0x4874);
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
-        func_0203F8F4(114);
-        *(void **)(p+60)=func_0201EC64(114);
+        BG_SYS_Create(114);
+        *(void **)(p+60)=GF_FONT_Create_EC64(114);
         *(void **)(p+64)=func_02045B38(0,2,42,114);
         *(void **)(p+56)=GF_FONT_Create(23,0,0,0,114);
         GURU2_RECEIPT_SetVramBanks(); GURU2_RECEIPT_InitBg();
@@ -502,7 +502,7 @@ int GURU2_RECEIPT_ProcExit(void *a,int b,void *c,u8 *p)
     TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); TCBL_Destroy((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
     PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC)); PRINTSYS_QUE_Delete((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC));
     GURU2_RECEIPT_FreeActors(p); GURU2_RECEIPT_ExitBg(((u32 (*)(void *))GURU2_RECEIPT_DeleteWindows)(p));
-    MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); func_0201ED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));
+    MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); WORDSET_DeleteStrbufED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_02030EAC((struct Node *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f30));
     ((struct Guru2Session *)((struct Guru2MainCtx *)p)->fC)->startConfirmed=*(unsigned int *)&((struct Guru2MainCtx *)p)->f8;
@@ -574,11 +574,11 @@ typedef struct { char pad[0x4824]; WordPair current,previous; } FrameRecord;
 
 extern void func_0203FC28(struct DispConfig *);
 
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -590,7 +590,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void func_020403F4(u32);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 
@@ -839,9 +839,9 @@ extern const u8 gGuru2MemberPaletteIndex[];
 
 /*
  * func_0203FC28 0x0203FC28 arm
- * func_0203FCA0 0x0203FCA0 arm
- * func_020414EC 0x020414EC arm
- * func_02040B94 0x02040B94 arm
+ * BG_SYS_InitBgLayer 0x0203FCA0 arm
+ * BG_SYS_ClearSlot 0x020414EC arm
+ * BG_SYS_InitRun 0x02040B94 arm
  * gGuru2LobbyDispConfig 0x021E1B70 data a4
  * gGuru2LobbyBg0Template 0x021E1BE0 data a4
  * gGuru2LobbyBg1Template 0x021E1B80 data a4
@@ -856,15 +856,15 @@ void GURU2_RECEIPT_InitBg(void)
     d=gGuru2LobbyDispConfig;
     func_0203FC28((struct DispConfig *)&d);
     a=gGuru2LobbyBg0Template;
-    func_0203FCA0(4, (const struct BgTemplate *)&a, 0); func_020414EC(4);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)&a, 0); BG_SYS_ClearSlot(4);
     b=gGuru2LobbyBg1Template;
-    func_0203FCA0(5, (const struct BgTemplate *)&b, 0); func_020414EC(5);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)&b, 0); BG_SYS_ClearSlot(5);
     c=gGuru2LobbyBg2Template;
-    func_0203FCA0(6, (const struct BgTemplate *)&c, 0); func_02040B94(4,32,0,114);
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)&c, 0); BG_SYS_InitRun(4,32,0,114);
     e=gGuru2LobbyBg3Template;
-    func_0203FCA0(0, (const struct BgTemplate *)&e, 0); func_020414EC(0);
+    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)&e, 0); BG_SYS_ClearSlot(0);
     f=gGuru2LobbyBg4Template;
-    func_0203FCA0(1, (const struct BgTemplate *)&f, 0); func_02040B94(0,32,0,114);
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)&f, 0); BG_SYS_InitRun(0,32,0,114);
 }
 
 /*
@@ -895,7 +895,7 @@ void GURU2_RECEIPT_InitStrings(u8 *p,void *q)
 
 void GURU2_RECEIPT_FreeStrings(u8 *p) {int i;GURU2_RECEIPT_FreeCharBuffer(p);func_020307B0(((struct Guru2MainCtx *)p)->f24);for(i=0;i<5;i++)STRBUF_Delete(*(void **)((u32)p+i*4+68));STRBUF_Delete(((struct Guru2MainCtx *)p)->f60);STRBUF_Delete(((struct Guru2MainCtx *)p)->f5C);}
 
-void GURU2_RECEIPT_ExitBg(u32 a0) {func_020403F4(6);func_020403F4(5);func_020403F4(4);func_020403F4(1);func_020403F4(0);func_0203F9B4();}
+void GURU2_RECEIPT_ExitBg(u32 a0) {func_020403F4(6);func_020403F4(5);func_020403F4(4);func_020403F4(1);func_020403F4(0);BG_SYS_Delete();}
 
 /*
  * single-function C below is EXACT (52 bytes) at fixed flags, blocker49624.log.

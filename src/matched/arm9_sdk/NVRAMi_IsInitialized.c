@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02150EA0 0x02150EA0 data
+ *   nvramBss 0x02150EA0 data
  */
 
-extern void g_02150EA0(void);
+extern void nvramBss(void);
 
 asm void NVRAMi_IsInitialized(void)
 {
-    ldr r0, =g_02150EA0
+    ldr r0, =nvramBss
     ldr	r0, [r0]
     cmp	r0, #2
     moveq	r0, #1

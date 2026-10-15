@@ -13,7 +13,7 @@
  *   CARD_LockRom 0x02075E10 arm
  *   CARD_UnlockRom 0x02075E80 arm
  *   FSi_IsUnreadableRomOffset 0x0207A980 arm
- *   g_02150DA0 0x02150DA0 data
+ *   fsi_default_dma_no 0x02150DA0 data
  */
 
 #include "../include/G_FSiRomState.h"
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern void CARD_LockRom(u16 lock_id);
 extern void CARD_UnlockRom(void);
 extern void FSi_IsUnreadableRomOffset(void);
-extern struct FSiRomState g_02150DA0;
+extern struct FSiRomState fsi_default_dma_no;
 
 asm int FSi_RomArchiveProc(void *p_file, int cmd)
 {
@@ -79,7 +79,7 @@ loc_default:
     ldr r0, [pc, #8]
     ldmfd sp!, {r3, pc}
 
-    dcd g_02150DA0
+    dcd fsi_default_dma_no
     dcd 0x00000101
     dcd 0x00000102
 

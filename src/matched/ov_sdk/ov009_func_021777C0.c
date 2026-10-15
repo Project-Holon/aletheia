@@ -1,5 +1,5 @@
 /*
- * function: func_021777C0
+ * function: DWCs_Send
  * address:  0x021777C0
  * packet:   pkt_ov009_021777C0
  * region:   ov009
@@ -25,7 +25,7 @@ extern int gt2Send(void *connection, unsigned char *buffer, int size, int reliab
 extern int func_02176CF8(void *connection, unsigned char *buffer, int size);
 extern void DWCi_SetError(int kind, int code);
 
-void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int reliable)
+void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable)
 {
     void *connection;
     int res;

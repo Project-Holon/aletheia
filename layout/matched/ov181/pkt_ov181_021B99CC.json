@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B99CC",
+   "name": "STAFF_ROLL_TeardownBackgrounds",
    "address": "0x021B99CC",
    "kind": "game",
    "region": "ov181",

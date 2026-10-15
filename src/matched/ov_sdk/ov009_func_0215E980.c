@@ -17,7 +17,7 @@
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
- *   func_0215CEB0  0x0215CEB0  arm  ov009
+ *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215F31C  0x0215F31C  arm  ov009
  *   func_0215F304  0x0215F304  arm  ov009
@@ -44,7 +44,7 @@ extern void CPS_TcpShutdown(void);
 extern void CPS_TcpClose(void);
 extern void CPS_SocRelease(void);
 extern void CPS_SocUnRegister(void);
-extern int func_0215CEB0(int a0, char *a1);
+extern int SOCLi_SendCommandPacket(int a0, char *a1);
 extern unsigned long OS_DisableInterrupts(void);
 extern void func_0215F31C(int a);
 extern void func_0215F304(int a);
@@ -73,7 +73,7 @@ int func_0215E980(void *arg)
 	}
 	CPS_SocUnRegister();
 	socket->state &= ~6;
-	func_0215CEB0((int)(socket->flag_mode == 2 ? socket->send_pipe : socket->recv_pipe), 0);
+	SOCLi_SendCommandPacket((int)(socket->flag_mode == 2 ? socket->send_pipe : socket->recv_pipe), 0);
 	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F304((int)socket);

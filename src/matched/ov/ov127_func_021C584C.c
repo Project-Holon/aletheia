@@ -1,5 +1,5 @@
 /*
- * function: func_021C584C
+ * function: WF2DMAP_OBJDRAW_SetActorValue2
  * address:  0x021C584C
  * packet:   pkt_ov127_021C584C
  * region:   ov127
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern void func_021C424C(char *p, int a);
 
-void func_021C584C(u8 *p, int a)
+void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
 {
     func_021C424C(*(char * *)&((struct Obj23051 *)p)->f4, a);
 }

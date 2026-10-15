@@ -42,7 +42,7 @@
  *   func_021D6E3C 0x021D6E3C thumb ov121
  *   func_021D7814 0x021D7814 thumb ov121
  *   KEY_GetTrg 0x020362DC arm
- *   func_0203F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
  *   MYSTERY_DATA_HasCardSpace  0x0200A0C8  thumb  arm9
  *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
@@ -78,7 +78,7 @@ extern void func_021D849C(char *p);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D7814(void *task, u32 *state, u8 *p);
 extern u32 KEY_GetTrg(void);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
 extern int MYSTERY_DATA_AddCard(void *p, void *arg);
 extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);

@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_0207C768 is FX_Div, func_0207CF3C VEC_Distance.
+ * func_0207C768 is FX_Div, VEC_Distance VEC_Distance.
  *
  * symbols:
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   WEATHER_TASK_GetViewScale  0x021A2D30  thumb  ov021
  *   func_0207C768  0x0207C768  arm
  *   g_DefaultProjectionMtx  0x02148B54  data
@@ -40,7 +40,7 @@ extern u8 g_DefaultProjectionMtx[];
 extern void *FIELD_CAMERA_GetG3dCamera(void);
 extern void func_02048B30(void *cam, VecFx32 *out);
 extern void func_02048AE8(void *cam, VecFx32 *out);
-extern fx32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
+extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
 extern void WEATHER_TASK_GetViewScale(void *p, fx32 dist, fx32 *w, fx32 *h);
 extern u32 func_0207C768(u32 a, u32 b);
 
@@ -72,7 +72,7 @@ void WEATHER_TASK_GetCameraScroll(u8 *o, s32 *outX, s32 *outY)
         *outY = 0;
         return;
     }
-    WEATHER_TASK_GetViewScale(g_DefaultProjectionMtx, func_0207CF3C(&pos, &tgt), &w, &h);
+    WEATHER_TASK_GetViewScale(g_DefaultProjectionMtx, VEC_Distance(&pos, &tgt), &w, &h);
     w = func_0207C768(w, 0x100000);
     h = func_0207C768(h, 0xC0000);
     sx = 0x1000;

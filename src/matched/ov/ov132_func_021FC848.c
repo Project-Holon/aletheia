@@ -15,7 +15,7 @@
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0200A81C 0x0200A81C thumb
+ *   MUSICAL_SAVE_GetFanPoints 0x0200A81C thumb
  *   d_021FDE5C 0x021FDE5C data a4
  * 02012F44 returns the live pointer from its forwarding target 020071CC;
  * its matched void prototype discards that result.
@@ -34,7 +34,7 @@ extern int MYSTATUS_GetSize(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,u8,u32);
 struct Big;
-extern u16 func_0200A81C(struct Big *p);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern const char d_021FDE5C[];
 static inline void clear8(void *dest,u32 size)
 {
@@ -68,7 +68,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   P(row,0x88)=P(row,0x8C)+4+MYSTATUS_GetSize();
   for(j=0;j<2;j++) row[0x73+j]=0xFF;
  }
- ((struct Obj02195 *)p)->f12C=func_0200A81C(data);
+ ((struct Obj02195 *)p)->f12C=MUSICAL_SAVE_GetFanPoints(data);
  ((struct Obj02195 *)p)->f130=a;((struct Obj02195 *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
  P(p,0x128)=func_02030734(((struct Obj02195 *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);

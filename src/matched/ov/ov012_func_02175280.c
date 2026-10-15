@@ -15,7 +15,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  */
 #include "../include/Obj07341.h"
@@ -31,7 +31,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void COLOSSEUM_SetupBattleMember(u8 *a, u8 *slot, u8 i, int d);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 
 void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d)
@@ -72,5 +72,5 @@ void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d)
         }
         COLOSSEUM_SetupBattleMember(a, out + v * 16, (u8)i, d);
     }
-    ((struct Obj07341 *)out)->f54 = (int)GAME_DATA_GetTrainerRecord(func_020120F4(b));
+    ((struct Obj07341 *)out)->f54 = (int)GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(b));
 }

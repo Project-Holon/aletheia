@@ -1,5 +1,5 @@
 /*
- * function: func_021C98A8
+ * function: ZUKAN_SEARCH_ENGINE_LoadTables
  * address:  0x021C98A8
  * packet:   pkt_021C98A8
  * region:   ov212
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
-void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
+void ZUKAN_SEARCH_ENGINE_LoadTables(u32 a0, u32 a1, u16 *a2, u32 *a3,
                    u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9)
 {
     u32 buf;

@@ -1,5 +1,5 @@
 /*
- * function: func_0205EE28
+ * function: codetovalue
  * address:  0x0205EE28
  * packet:   pkt_0205EE28
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-long func_0205EE28(unsigned char c)
+long codetovalue(unsigned char c)
 {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A';

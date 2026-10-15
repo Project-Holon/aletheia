@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204162C 0x0204162C arm
+ *   BG_SYS_GetBuf 0x0204162C arm
  *   BGWINFRM_Create 0x0202C9B4 thumb
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_SetFrameData 0x0202CAC4 thumb
@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct WinMgr;
-extern u32 func_0204162C(int);
+extern u32 BG_SYS_GetBuf(int);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
@@ -27,7 +27,7 @@ extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02041B6C(u32);
 void func_021BCA20(char *p)
 {
-    u32 base = func_0204162C(0);
+    u32 base = BG_SYS_GetBuf(0);
     *(struct WinMgr * *)&((struct Obj10914 *)p)->f20 = BGWINFRM_Create(2, 1, 123);
     BGWINFRM_AddFrame(*(struct WinMgr * *)&((struct Obj10914 *)p)->f20, 0, 0, 32, 3);
     BGWINFRM_SetFrameData(*(struct WinMgr * *)&((struct Obj10914 *)p)->f20, 0, (void *)(base + 0x540));

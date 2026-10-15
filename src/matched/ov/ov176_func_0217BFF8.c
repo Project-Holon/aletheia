@@ -21,20 +21,20 @@
  *   func_0217CFD0 0x0217CFD0 thumb ov176
  *   func_0217D2B0 0x0217D2B0 thumb ov176
  *   func_0217D290 0x0217D290 thumb ov176
- *   func_0200AE14 0x0200AE14 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
  *   func_0217D2BC 0x0217D2BC thumb ov176
  *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_0217D194 0x0217D194 thumb ov176
  *   func_0217D174 0x0217D174 thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200B358 0x0200B358 thumb
- *   func_0200B204 0x0200B204 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
+ *   REGULATION_GetParty 0x0200B204 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
- *   func_0200BBC8 0x0200BBC8 thumb
- *   func_0200B110 0x0200B110 thumb
- *   func_0200B2A4 0x0200B2A4 thumb
+ *   BATTLE_BOX_SetLockFlags 0x0200BBC8 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
+ *   REGULATION_BuildParty 0x0200B2A4 thumb
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
@@ -65,20 +65,20 @@ extern int func_0217CFDC(int *p);
 extern void func_0217CFD0(int *p);
 extern int func_0217D2B0(u8 *);
 extern void func_0217D290(u8 *);
-extern void * func_0200AE14(void *);
+extern void * REGULATION_NoOp(void *);
 extern void func_0217D2BC(u8 *p, const void *q);
 extern u32 POKEPARTY_GetBattleReadyCount(void *);
 extern int POKE_REGULATION_CheckParty(void *,void *,u32 *);
 extern int func_0217D194(int *p);
 extern void func_0217D174(int *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void * func_0200BAC8(void *);
-extern void * func_0200B358(void *);
-extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
+extern void * BATTLE_BOX_GetFromSave(void *);
+extern void * BATTLE_COMPETITION_GetFromSave(void *);
+extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
 extern void * func_0200BAF4(int,int);
-extern void func_0200BBC8(struct Obj *p, u32 v);
-extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-extern void func_0200B2A4(int,int);
+extern void BATTLE_BOX_SetLockFlags(struct Obj *p, u32 v);
+extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
+extern void REGULATION_BuildParty(int,int);
 extern u32 func_020307B0(void *p);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
@@ -112,7 +112,7 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
     case 8:if(func_0217D2B0(p)){func_0217D290(p);*state=9;}break;
     case 9:{
         u32 mask=0;
-        void *v=func_0200AE14(((struct Obj00053 *)p)->f38);
+        void *v=REGULATION_NoOp(((struct Obj00053 *)p)->f38);
         func_0217D2BC(p,((struct Obj00053 *)p)->f30);
         if(POKEPARTY_GetBattleReadyCount(((struct Obj00053 *)p)->f30)==0)*state=11;
         else if(POKE_REGULATION_CheckParty(v,((struct Obj00053 *)p)->f30,&mask)==0)*state=13;
@@ -124,12 +124,12 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
     case 12:if(func_0217D194((int *)p)){func_0217D174((int *)p);*state=20;}break;
     case 13:{
         void *base=GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8);
-        void *rules=func_0200BAC8(base);
-        void *entry=func_0200B204(func_0200B358(base),1);
+        void *rules=BATTLE_BOX_GetFromSave(base);
+        void *entry=REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base),1);
         void *tmp=func_0200BAF4((int)rules,0x8056);
-        func_0200BBC8(rules,2);
-        func_0200B110(((struct Obj00053 *)p)->f38,10,2);
-        func_0200B2A4((int)entry,(int)tmp);
+        BATTLE_BOX_SetLockFlags(rules,2);
+        REGULATION_Card_SetValue(((struct Obj00053 *)p)->f38,10,2);
+        REGULATION_BuildParty((int)entry,(int)tmp);
         func_020307B0(tmp);
         *state=14;break;
     }

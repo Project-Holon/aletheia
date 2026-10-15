@@ -1,5 +1,5 @@
 /*
- * function: func_0205B7D0
+ * function: GetWepKey
  * address:  0x0205B7D0
  * packet:   pkt_0205B7D0
  * region:   arm9
@@ -133,7 +133,7 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep);
 extern void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep);
 
-int func_0205B7D0(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey)
+int GetWepKey(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey)
 {
     NCFGSlotInfo *info;
     NCFGSlotInfoEx *info2;

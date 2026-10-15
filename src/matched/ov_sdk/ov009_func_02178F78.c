@@ -19,14 +19,14 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_020889C0  0x020889C0  arm
+ *   RTC_GetDateTime  0x020889C0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_02166384  0x02166384  arm  ov009
  *   func_020862B8  0x020862B8  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_0205BDD0  0x0205BDD0  arm
+ *   DWC_AC_GetApType  0x0205BDD0  arm
  *   func_021663C8  0x021663C8  arm  ov009
- *   func_0205BE00  0x0205BE00  arm
+ *   DWC_AC_GetApSpotInfo  0x0205BE00  arm
  *   g_021A2490     0x021A2490  data ov009
  *   g_021A2498     0x021A2498  data ov009
  *   g_021A24A0     0x021A24A0  data ov009
@@ -93,14 +93,14 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void OS_GetOwnerInfo(OSOwnerInfo *info);
-extern int func_020889C0(RTCDate *date, RTCTime *time);
+extern int RTC_GetDateTime(RTCDate *date, RTCTime *time);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned char *func_02166384(void);
 extern void func_020862B8(void *startAddr, unsigned long nBytes);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned char func_0205BDD0(void);
+extern unsigned char DWC_AC_GetApType(void);
 extern unsigned char *func_021663C8(unsigned short *length);
-extern int func_0205BE00(unsigned char *apSpotInfo);
+extern int DWC_AC_GetApSpotInfo(unsigned char *apSpotInfo);
 
 extern const char g_021A2490[];
 extern const char g_021A2498[];
@@ -151,7 +151,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     OS_SNPrintf(cal->birth, sizeof(cal->birth), g_021A24A8,
                   ownerinfo.birthday.month, ownerinfo.birthday.day);
 
-    if (func_020889C0(&rtcdate, &rtctime) != 0)
+    if (RTC_GetDateTime(&rtcdate, &rtctime) != 0)
         return 0;
     OS_SNPrintf(cal->devtime, sizeof(cal->devtime), g_021A24B4,
                   rtcdate.year, rtcdate.month, rtcdate.day,
@@ -168,7 +168,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     for (i = 0; i < 6; i++)
         OS_SPrintf(&cal->bssid[i * 2], g_021A24A0, wcmbssid[i]);
 
-    aptype = func_0205BDD0();
+    aptype = DWC_AC_GetApType();
     if (aptype == 0xff || aptype > 99)
         aptype = 99;
     OS_SNPrintf(cal->apinfo, sizeof(cal->apinfo), g_021A24D0, aptype);
@@ -180,7 +180,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
         return 0;
     }
     MI_CpuCopy8(wcmessid, cal->ssid, 32);
-    func_0205BE00((unsigned char *)&cal->apinfo[3]);
+    DWC_AC_GetApSpotInfo((unsigned char *)&cal->apinfo[3]);
 
     OS_RestoreInterrupts(preirq);
     return 1;

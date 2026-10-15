@@ -1,5 +1,5 @@
 /*
- * function: func_0220B150
+ * function: B_BAG_MAIN_CreateWindows
  * address: 0x0220B150
  * packet: pkt_ov197_0220B150
  * region: ov197
@@ -19,4 +19,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern const u8 d_0220DA68[];
-void func_0220B150(char *p,u8 unused) { const u8 *q; u32 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32 *)(p+i*8+0x28)=BMP_WIN_Create(q[0],q[1],q[2],q[3],q[4],q[5],1); }
+void B_BAG_MAIN_CreateWindows(char *p,u8 unused) { const u8 *q; u32 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32 *)(p+i*8+0x28)=BMP_WIN_Create(q[0],q[1],q[2],q[3],q[4],q[5],1); }

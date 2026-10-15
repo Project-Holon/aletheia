@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2D8
+ * function: STAFF_ROLL_UpdateBrightness
  * address: 0x021BA2D8
  * packet: pkt_ov181_021BA2D8
  * region: ov181
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj03877.h"
 extern void func_0207D658(unsigned, int, int);
-void func_021BA2D8(char *p)
+void STAFF_ROLL_UpdateBrightness(char *p)
 {
     int v = ((struct Obj03877 *)p)->f1C;
     if (v <= 0x10000) {

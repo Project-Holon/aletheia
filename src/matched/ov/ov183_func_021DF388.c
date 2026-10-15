@@ -13,7 +13,7 @@
  *   BR_UTIL_GetListMenuField 0x021FCE0C thumb ov186
  *   BR_UTIL_GetListItemBitmap 0x021FCDE8 thumb ov186
  *   BMP_Delete 0x020437AC arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i);
 extern void BMP_Delete(struct Obj020437AC *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void MI_CpuFill8(void *, int, unsigned int);
@@ -39,7 +39,7 @@ void func_021DF388(char *p)
     for (i = 0; i < BR_UTIL_GetListMenuField(((struct Obj02522 *)p)->f4, 3); i++) {
         BMP_Delete((struct Obj020437AC *)BR_UTIL_GetListItemBitmap(((struct Obj02522 *)p)->f4, i));
     }
-    func_0201ED04(((struct Obj02522 *)p)->f8);
+    WORDSET_DeleteStrbufED04(((struct Obj02522 *)p)->f8);
     BR_UTIL_DeleteListMenu(((struct Obj02522 *)p)->f4);
     BMP_MENUWORK_Delete(((struct Obj02522 *)p)->f0);
     MI_CpuFill8(p, 0, 0xD4);

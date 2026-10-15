@@ -1,5 +1,5 @@
 /*
- * function: func_0205FAC0
+ * function: NCFG_CheckConfig
  * address:  0x0205FAC0
  * packet:   pkt_0205FAC0
  * region:   arm9
@@ -109,7 +109,7 @@ extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, u16 poly);
 extern int  readAllSlots(NCFGConfig *config);
 extern s32  checkConfig(NCFGConfig *config, MATHCRC16Table *tbl);
 
-s32 func_0205FAC0(void *work)
+s32 NCFG_CheckConfig(void *work)
 {
     MEMCHECK *wk;
 

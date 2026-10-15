@@ -14,7 +14,7 @@
  * Split from field_msgbg.c at 0x0218C9E8: field_g3d_mapper.c __FILE__ anchor; the functions before it are called only from field_buildmodel.c or use its data.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
@@ -41,7 +41,7 @@
  *   MAP_MATRIX_GetCount  0x02159BFC  thumb
  *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb
  *   func_02159C00  0x02159C00  thumb
- *   func_02012974  0x02012974  thumb
+ *   GAME_DATA_GetFieldWork  0x02012974  thumb
  *   gFieldG3dMapperMapTypeTable     0x021D3DDC  data
  *   FIELD_G3D_MAP_Create  0x02169148  thumb  ov010
  *   FIELD_G3D_MAP_OpenArchive  0x0216937C  thumb  ov010
@@ -113,8 +113,8 @@ extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern int FX_Div(int a, int b);
 extern int FX_ModS32(int a, int b);
 extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern u32 func_02012974(const struct GameData *gameData);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
 extern void *func_02030734(u16 heapId, u32 size, u32 clear, const void *site, u32 line);
 extern u32 func_020307B0(void *p);
 extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberId);
@@ -477,7 +477,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     mapper->gridWidth = newWidth;
     mapper->gridDepth = newDepth;
     mapper->blockCount = newCount;
-    func_02159C00((struct MapMatrix *)func_02012974(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
+    func_02159C00((struct MapMatrix *)GAME_DATA_GetFieldWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
     func_020307B0(newGrid);
     return 1;
 }

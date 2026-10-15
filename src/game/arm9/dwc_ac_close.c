@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_close.c
  * unit:     yes
- * function: func_0205B1E4, func_0205B264, func_0205B2F8
+ * function: DWCi_AC_CloseNetwork, func_0205B264, CloseSocket
  * address:  0x0205B1E4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -22,7 +22,7 @@
  *   WCM_EndSearchAsync 0x02165204 arm
  *   WCM_DisconnectAsync 0x02165478 arm
  *   WCM_TerminateAsync 0x02165560 arm
- *   func_0205C2E4 0x0205C2E4 arm
+ *   DWCi_AC_SetError 0x0205C2E4 arm
  *   SOCL_CalmDown   0x0215ED60  arm
  *   SOC_Cleanup     0x0215FA90  arm
  *   SOCLiConfigPtr  0x021A1CD8  data  ov009
@@ -36,19 +36,19 @@ extern void WCM_CleanupAsync(void);
 extern void WCM_EndSearchAsync(void);
 extern void WCM_DisconnectAsync(void);
 extern void WCM_TerminateAsync(void);
-extern void func_0205C2E4(int error);
+extern void DWCi_AC_SetError(int error);
 extern int SOCL_CalmDown(void);
 extern int SOC_Cleanup(void);
-int func_0205B1E4(unsigned char *phase);
+int DWCi_AC_CloseNetwork(unsigned char *phase);
 int DisConnectAP(void);
-int func_0205B2F8(void);
+int CloseSocket(void);
 extern void *SOCLiConfigPtr;
 
 
 /*
  * sdk:      DWCi_AC_CloseNetwork (close.o)
  */
-int func_0205B1E4(unsigned char *phase)
+int DWCi_AC_CloseNetwork(unsigned char *phase)
 {
     int result;
 
@@ -66,7 +66,7 @@ int func_0205B1E4(unsigned char *phase)
         func_0217A950();
         *phase = 12;
     } else if (*phase < 0x12) {
-        if (func_0205B2F8() == 1)
+        if (CloseSocket() == 1)
             *phase = 10;
     }
     return 0;
@@ -94,7 +94,7 @@ int DisConnectAP(void)
         WCM_TerminateAsync();
         break;
     case 11:
-        func_0205C2E4(0);
+        DWCi_AC_SetError(0);
         return -1;
     }
     return 0;
@@ -104,7 +104,7 @@ int DisConnectAP(void)
 /*
  * sdk:      CloseSocket (libdwcac.TWL.HYB.a close.o, static)
  */
-int func_0205B2F8(void)
+int CloseSocket(void)
 {
     int result;
 

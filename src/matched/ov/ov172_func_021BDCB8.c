@@ -26,7 +26,7 @@
  *   func_021BBA94 0x021BBA94 thumb ov172
  *   CTVT_DRAW_Init 0x021BA2C4 thumb ov172
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
- *   func_021B8084 0x021B8084 thumb ov172
+ *   CTVT_COMM_StopSession 0x021B8084 thumb ov172
  *   CTVT_CAMVIEW_StopCapture 0x021B7578 thumb ov172
  *   CTVT_CAMVIEW_RequestShutterSound1 0x021B7B80 thumb ov172
  */
@@ -40,7 +40,7 @@ extern void CTVT_TALK_Init(void *,char *);
 extern void func_021BBA94(void *a0, u8 *p);
 extern void CTVT_DRAW_Init(void *a0, u8 *p);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
-extern void func_021B8084(void *,char *);
+extern void CTVT_COMM_StopSession(void *,char *);
 extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
 extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 void func_021BDCB8(u8 *p)
@@ -60,7 +60,7 @@ void func_021BDCB8(u8 *p)
         WIPE_SetBrightnessFadeOut(0,0);
         WIPE_SetBrightnessFadeOut(1,0);
     case 4:
-        func_021B8084(p,*(char **)(p+0x1e4));
+        CTVT_COMM_StopSession(p,*(char **)(p+0x1e4));
         CTVT_CAMVIEW_StopCapture((int)p,*(char **)(p+0x1e0));
         CTVT_CAMVIEW_RequestShutterSound1((int)p,*(char **)(p+0x1e0));
         break;

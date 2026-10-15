@@ -20,7 +20,7 @@
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0207D4B0 0x0207D4B0 arm
+ *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_02030734 0x02030734 arm
@@ -53,7 +53,7 @@ extern int CDEMO_WIPE_RunScript(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0207D4B0(int,int,int);
+extern void GX_SetGraphicsMode(int,int,int);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, unsigned int ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,const Mtx *,int,int,int,int);
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,unsigned short);
@@ -115,7 +115,7 @@ void CDEMO_MAIN_SetupScreen(char *unused)
 {
  Mtx m;
  void *p;
- func_0207D4B0(1,5,0);
+ GX_SetGraphicsMode(1,5,0);
  *(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;
  *(volatile unsigned short *)0x0400000E=(*(volatile unsigned short *)0x0400000E&0x43)|0x4884;
  BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&m),0,(void *)0x1000,(void *)0x1000,0);

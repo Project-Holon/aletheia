@@ -16,7 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
@@ -37,7 +37,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern u32 func_020307B0(void *p);
 
-extern void *func_020120F4(const void *p);
+extern void *ICA_ANIME_GetField1C(const void *p);
 
 extern void WORLDTRADE_ExitPlanes(Work *);
 
@@ -74,7 +74,7 @@ void WORLDTRADE_STATUS_Open(Work *p)
     MI_CpuFill8(p->statusReq,0,sizeof(PokeStatusRequest));
     r=p->statusReq;
     r->config=p->ctx->statusConfig;
-    r->save=func_020120F4(p->ctx->f40);
+    r->save=ICA_ANIME_GetField1C(p->ctx->f40);
     if(WORLDTRADE_BOX_ClampSlot(p->box))
         r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,(u32)(p->ctx->box),p->box);
     else r->slotCount=30;

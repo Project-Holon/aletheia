@@ -1,5 +1,5 @@
 /*
- * function: func_02180820
+ * function: CARD_SPI_RunCommand
  * address:  0x02180820
  * packet:   pkt_ov231_02180820
  * region:   ov231
@@ -27,11 +27,11 @@
  *   func_02075E9C  0x02075E9C  arm
  *   OS_LockCard  0x02084DF4  arm
  *   OS_UnLockCard  0x02084E2C  arm
- *   func_02075EAC  0x02075EAC  arm
- *   func_02180904  0x02180904  thumb  ov231
- *   func_02180914  0x02180914  thumb  ov231
- *   func_02180924  0x02180924  thumb  ov231
- *   func_02180984  0x02180984  thumb  ov231
+ *   CARD_UnlockBackup  0x02075EAC  arm
+ *   CARD_SPI_WaitNotBusy  0x02180904  thumb  ov231
+ *   CARD_SPI_SetControl  0x02180914  thumb  ov231
+ *   CARD_SPI_ExchangeByte  0x02180924  thumb  ov231
+ *   CARD_SPI_ReceiveByte  0x02180984  thumb  ov231
  *   d_02180A20  0x02180A20  data  a4
  *   d_02180A20_b  0x02180A20  data  a4
  *   d_02180A30  0x02180A30  data  a1
@@ -60,16 +60,16 @@ extern u64 func_020870D0(void);
 extern void func_02075E9C(u16 a);
 extern int OS_LockCard(unsigned short lockID);
 extern void OS_UnLockCard(u16 a);
-extern void func_02075EAC(u16 a);
-extern void func_02180904(void);
-extern void func_02180914(u16 v);
-extern u8 func_02180924(char *p);
-extern void func_02180984(u8 *p);
+extern void CARD_UnlockBackup(u16 a);
+extern void CARD_SPI_WaitNotBusy(void);
+extern void CARD_SPI_SetControl(u16 v);
+extern u8 CARD_SPI_ExchangeByte(char *p);
+extern void CARD_SPI_ReceiveByte(u8 *p);
 
 
 extern u64 _ull_mul(u64 a, u64 b);
 
-int func_02180820(void)
+int CARD_SPI_RunCommand(void)
 {
     u8 result;
     u64 start;
@@ -84,17 +84,17 @@ int func_02180820(void)
     do {
         d = func_020870D0() - start;
     } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
-    func_02180904();
-    func_02180914(0x42);
-    result = func_02180924((char *)(&d_02180A20_b));
+    CARD_SPI_WaitNotBusy();
+    CARD_SPI_SetControl(0x42);
+    result = CARD_SPI_ExchangeByte((char *)(&d_02180A20_b));
     start = func_020870D0();
     do {
         d = func_020870D0() - start;
     } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
-    func_02180914(2);
-    func_02180984((u8 *)(&d_02180A20_b));
-    func_02180904();
+    CARD_SPI_SetControl(2);
+    CARD_SPI_ReceiveByte((u8 *)(&d_02180A20_b));
+    CARD_SPI_WaitNotBusy();
     OS_UnLockCard(d_02180A00);
-    func_02075EAC(d_02180A00);
+    CARD_UnlockBackup(d_02180A00);
     return result;
 }

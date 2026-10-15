@@ -19,7 +19,7 @@
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetFogTable 0x0207DD10 arm
  *   G3X_SetClearColor 0x0207DD24 arm
- *   func_0207DE88 0x0207DE88 arm
+ *   G3X_SetDisp1DotDepth 0x0207DE88 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  */
 typedef unsigned int u32;
@@ -50,7 +50,7 @@ extern void func_0207DCF8(const u16 *);
 extern void G3X_SetFog(BOOL,GXFogBlend,GXFogSlope,int);
 extern void G3X_SetFogTable(const u32 *);
 extern void G3X_SetClearColor(u16,int,int,int,BOOL);
-extern void func_0207DE88(int);
+extern void G3X_SetDisp1DotDepth(int);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 #define DISP (*(volatile u16 *)0x04000060)
 static inline void Anti(BOOL enable) {
@@ -88,6 +88,6 @@ void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *r
         G3X_SetFogTable(fogtable);
     }
     G3X_SetClearColor(record->clear,record->alpha,record->depth,record->polygon,record->fog);
-    func_0207DE88(record->depthoffset);
+    G3X_SetDisp1DotDepth(record->depthoffset);
     G3D_SYSTEM_SetSwapBuffersMode(record->mode1,record->mode2);
 }

@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0206DF3C  0x0206DF3C  arm
- *   func_0206E0C4  0x0206E0C4  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
+ *   NNS_G3dScrPosToWorldLine  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17945.h"
@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0206DF3C(u32, u32, u32, u32);
-extern u32 func_0206E0C4(u32, u32, u32, u32);
+extern u32 NNS_G3dWorldPosToScrPos(u32, u32, u32, u32);
+extern u32 NNS_G3dScrPosToWorldLine(u32, u32, u32, u32);
 
 int TALKMSGWIN_ProjectToWorld(u32 a, u32 b, u32 c, u32 d)
 {
-func_0206DF3C(a, b, c, d);
-return func_0206E0C4(((struct Obj17945 *)((u8 *)(b)))->f0, ((struct Obj17946 *)((u8 *)(c)))->f0, d, 0);
+NNS_G3dWorldPosToScrPos(a, b, c, d);
+return NNS_G3dScrPosToWorldLine(((struct Obj17945 *)((u8 *)(b)))->f0, ((struct Obj17946 *)((u8 *)(c)))->f0, d, 0);
 }
 

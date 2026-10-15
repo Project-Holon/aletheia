@@ -13,13 +13,13 @@
  * symbols:
  *   sCellTransferStateManager      0x02148B20  data
  *   tbl_020A1808    0x020A1808  data
- *   func_020640D4   0x020640D4  arm
+ *   NNSi_G2dSrtcGetTable   0x020640D4  arm
  *
  * NitroSystem g2d cell-transfer manager, the per-frame update
  * (NNS_G2dUpdateCellTransferStateManager shape).  sCellTransferStateManager is the
  * manager's control block { transfer-request callback, state count, state
  * array }; each 0x30-byte state is NNSG2dCellTransferState: a three-word
- * VRAM location (func_020640D4 = NNSi_G2dGetVramLocation), szDst,
+ * VRAM location (NNSi_G2dSrtcGetTable = NNSi_G2dGetVramLocation), szDst,
  * pSrcNCGR +0x10, pSrcNCBR +0x14, szSrcData, bActive +0x1c, bDrawn +0x20,
  * bTransferRequested +0x24, srcOffset +0x28, szByte +0x2c.  For every
  * active state and every VRAM type (3D uses the NCBR, the two 2D types
@@ -82,7 +82,7 @@ struct CellTransferManager {
 
 extern struct CellTransferManager sCellTransferStateManager;
 extern s32 tbl_020A1808[VRAM_TYPE_MAX];
-extern s32 func_020640D4(const s32 *tbl, u32 i);
+extern s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i);
 
 static inline BOOL ShouldTransfer_(const CellTransferState *s, VRamType t)
 {
@@ -102,7 +102,7 @@ void func_02066998(void)
                     s32 gfdType = tbl_020A1808[t];
                     const void *src = (t == VRAM_TYPE_3DMAIN) ? s->pSrcNCBR : s->pSrcNCGR;
                     if ((*sCellTransferStateManager.pFuncTransfer)(gfdType,
-                                                    func_020640D4((const s32 *)(&s->dstVramLocation), t),
+                                                    NNSi_G2dSrtcGetTable((const s32 *)(&s->dstVramLocation), t),
                                                     (void *)((u32)src + s->srcOffset),
                                                     s->szByte))
                         s->bTransferRequested &= ~(1 << t);

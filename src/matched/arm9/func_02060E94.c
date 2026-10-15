@@ -11,12 +11,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02091588  0x02091588  arm
+ *   abs  0x02091588  arm
  *
  * Largest-free-space search over the allocator's block list hanging off the
  * heap object at +0x24.  Each node is {u32, u32 size, u32, Node *next} with
  * its payload at +0x10; the size passed in is first folded through
- * func_02091588 (abs), so it doubles as the alignment: the aligned start of
+ * abs (abs), so it doubles as the alignment: the aligned start of
  * the candidate payload is (size - 1 + payload) & ~(size - 1), and what is
  * left between that start and the node's end (payload + size) is the space
  * on offer.  The winning node is the one with the most space, ties going to
@@ -72,11 +72,11 @@ struct Heap {
     struct HeapBlock *head;
 };
 
-extern s32 func_02091588(s32 x);
+extern s32 abs(s32 x);
 
 s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x)
 {
-    s32 size = func_02091588(x);
+    s32 size = abs(x);
     u32 best = 0;
     u32 ofs = -1;
     struct HeapBlock *blk = heap->head;

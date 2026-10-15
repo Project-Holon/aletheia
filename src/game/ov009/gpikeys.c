@@ -18,8 +18,8 @@
  *   func_02193734  0x02193734  arm  ov009
  *   g_021A4D80  0x021A4D80  data
  *   func_021841B0  0x021841B0  arm  ov009
- *   func_020948E0                0x020948E0  arm
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   strcmp                0x020948E0  arm
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_021842D0  0x021842D0  arm  ov009
  *   g_021A4D90  0x021A4D90  data
  *   g_021A4DA4  0x021A4DA4  data
@@ -28,11 +28,11 @@
  *   func_02184208  0x02184208  arm  ov009
  *   func_02184200  0x02184200  arm   ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_0217EAB0  0x0217EAB0  arm   ov009
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_020948B0  0x020948B0  arm
- *   func_0217FA90  0x0217FA90  arm   ov009
+ *   strcat  0x020948B0  arm
+ *   B64Encode  0x0217FA90  arm   ov009
  *   g_021A4DB8     0x021A4DB8  data
  *   g_021A4DC4     0x021A4DC4  data
  *   g_021A4DF0     0x021A4DF0  data
@@ -54,19 +54,19 @@ extern void func_0217EAE0(void *ptr);
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
 extern void func_02193734(int *p, int b);
 extern void func_021841B0(void *array);
-extern int func_020948E0(const char *s1, const char *s2);
-extern char *func_0217F1E0(char *src);
+extern int strcmp(const char *s1, const char *s2);
+extern char *goastrdup(char *src);
 extern void func_021842D0(void *array, void *newElem, int (*comparator)(void *, void *));
 extern int func_0218D864(void *elem1, void *elem2);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *func_02184208(void *array, int n);
 extern int func_02184200(const int *p);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern u8 *func_020948B0(u8 *dest, const u8 *src);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern u8 *strcat(u8 *dest, const u8 *src);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 /*
  * sdk: gpiStatusInfoKeyFree (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -157,7 +157,7 @@ void func_0218D840(void **connection)
 
 int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
 {
-    return func_020948E0(*elem1, *elem2);
+    return strcmp(*elem1, *elem2);
 }
 
 
@@ -179,8 +179,8 @@ int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyV
         func_02193734((int *)connection, (int)g_021A4DA4);
         return 2;
     }
-    aKey.keyName = func_0217F1E0(theKeyName);
-    aKey.keyValue = func_0217F1E0(theKeyValue);
+    aKey.keyName = goastrdup(theKeyName);
+    aKey.keyValue = goastrdup(theKeyValue);
     func_021842D0(keys, &aKey, func_0218D864);
     return 0;
 }
@@ -202,12 +202,12 @@ int func_0218D900(void **connection, void *keys, char *keyName, char *newKeyValu
         func_02193734((int *)connection, (int)g_021A4D90);
         return 2;
     }
-    aKey.keyName = func_0217F1E0(keyName);
+    aKey.keyName = goastrdup(keyName);
     anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
         func_0217EAE0(aKeyFound->keyValue);
-        aKeyFound->keyValue = func_0217F1E0(newKeyValue);
+        aKeyFound->keyValue = goastrdup(newKeyValue);
     }
     func_0217EAE0(aKey.keyName);
     aKey.keyName = 0;
@@ -229,7 +229,7 @@ int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue)
         func_02193734((int *)connection, (int)g_021A4D90);
         return 2;
     }
-    aKey.keyName = func_0217F1E0(keyName);
+    aKey.keyName = goastrdup(keyName);
     anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
@@ -243,30 +243,30 @@ int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue)
 
 static inline int B64LEN(char *s)
 {
-    return ((unsigned long)func_0209477C((const u8 *)s) % 3) ? ((4 - (unsigned long)func_0209477C((const u8 *)s) % 3) + (unsigned long)func_0209477C((const u8 *)s) * 4 / 3) : ((unsigned long)func_0209477C((const u8 *)s) * 4 / 3);
+    return ((unsigned long)strlen((const u8 *)s) % 3) ? ((4 - (unsigned long)strlen((const u8 *)s) % 3) + (unsigned long)strlen((const u8 *)s) * 4 / 3) : ((unsigned long)strlen((const u8 *)s) * 4 / 3);
 }
 
 
 static inline void B64ADV(char **p, char *s)
 {
-    if ((unsigned long)func_0209477C((const u8 *)s) % 3)
-        *p += (4 - (unsigned long)func_0209477C((const u8 *)s) % 3) + (unsigned long)func_0209477C((const u8 *)s) * 4 / 3;
+    if ((unsigned long)strlen((const u8 *)s) % 3)
+        *p += (4 - (unsigned long)strlen((const u8 *)s) % 3) + (unsigned long)strlen((const u8 *)s) * 4 / 3;
     else
-        *p += (unsigned long)func_0209477C((const u8 *)s) * 4 / 3;
+        *p += (unsigned long)strlen((const u8 *)s) * 4 / 3;
 }
 
 
 static inline void B64ENC(char *s, char *out)
 {
-    func_0217FA90(s, out, (int)(unsigned long)func_0209477C((const u8 *)s), 2);
+    B64Encode(s, out, (int)(unsigned long)strlen((const u8 *)s), 2);
 }
 
 
 /*
  * sdk:      gpiSaveKeysToBuffer (gpikeys.o)
  *
- * strcat (func_020948B0, arm9) attests as matched through unit_02094860, whose
- * functions list names func_020948B0 since 2026-09-29 (w4_nm).
+ * strcat (strcat, arm9) attests as matched through unit_02094860, whose
+ * functions list names strcat since 2026-09-29 (w4_nm).
  * The Base64 length and encode helpers are static inline so that the key
  * string is loaded once per use, as the object loads it (a macro reloads it).
  */
@@ -292,7 +292,7 @@ int func_0218DA40(void **connection, char **buffer)
         sizeKeys += base64KeyNameLen + 2 + base64KeyValLen;
     }
 
-    *buffer = (char *)func_0217EAB0((unsigned long)func_0209477C((const u8 *)keysHeader) + sizeKeys + 1);
+    *buffer = (char *)func_0217EAB0((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
         func_0217D254(1, (char *)2, 1, g_021A4DC4);
         func_02193734((int *)connection, (int)g_021A4D80);
@@ -304,11 +304,11 @@ int func_0218DA40(void **connection, char **buffer)
 
     for (i = 0; i < aLength; i++) {
         GPIKey *aKey = (GPIKey *)func_02184208(iconnection->extendedInfoKeys, i);
-        func_020948B0((u8 *)tempPoint, (const u8 *)g_021A4DF4);
+        strcat((u8 *)tempPoint, (const u8 *)g_021A4DF4);
         tempPoint++;
         B64ENC(aKey->keyName, tempPoint);
         B64ADV(&tempPoint, aKey->keyName);
-        func_020948B0((u8 *)tempPoint, (const u8 *)g_021A4DF4);
+        strcat((u8 *)tempPoint, (const u8 *)g_021A4DF4);
         tempPoint++;
         B64ENC(aKey->keyValue, tempPoint);
         B64ADV(&tempPoint, aKey->keyValue);

@@ -16,9 +16,9 @@
  *   func_021B9D58 0x021B9D58 thumb ov205
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_021B9DB8 0x021B9DB8 thumb ov205
+ *   SAVE_SCREEN_PrintText 0x021B9DB8 thumb ov205
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -31,7 +31,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_0201F7A8 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020403F4 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -57,9 +57,9 @@ struct Rec;
 struct WordSet;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_021B9DB8(char *p, u32 index, s16 x, s16 y);
+extern void SAVE_SCREEN_PrintText(char *p, u32 index, s16 x, s16 y);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -72,7 +72,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F7A8(void *,u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020403F4(u32);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -88,10 +88,10 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         func_021B9D58(((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->f18=GF_FONT_Create(23,0,0,0,((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->fC=func_02045B38(0,2,37,((struct Obj01293 *)p)->f0);
-        ((struct Obj01293 *)p)->f10=func_0201EC64(((struct Obj01293 *)p)->f0);
+        ((struct Obj01293 *)p)->f10=GF_FONT_Create_EC64(((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->f14=(void *)BMP_WIN_Create(0,2,7,27,15,13,1);
-        if(((struct Obj01293 *)p)->f4==0)func_021B9DB8(p,3,6,0);
-        else func_021B9DB8(p,2,6,0);
+        if(((struct Obj01293 *)p)->f4==0)SAVE_SCREEN_PrintText(p,3,6,0);
+        else SAVE_SCREEN_PrintText(p,2,6,0);
         obj=((struct Obj01293 *)p)->f14;
         BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
         GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);BG_SYS_SetMainPlaneVisible(16,1);
@@ -110,7 +110,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         break;
     case 5:
         func_0201F7A8(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
-        func_0201ED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
+        WORDSET_DeleteStrbufED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
         func_020403F4(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);func_021B9DAC();return 1;
     }
     return 0;

@@ -20,7 +20,7 @@
  * which is inside this function's own extent, so no witness exists outside
  * the compared range and no cut can free it.  Needs a second referrer of
  * the table, or a matched neighbour that pools the same address.
- *   func_0207E24C  0x0207E24C  arm
+ *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
@@ -28,7 +28,7 @@
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02062B30  0x02062B30  arm
- *   func_0207DFB4  0x0207DFB4  arm
+ *   G2_GetBG1ScrPtr  0x0207DFB4  arm
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
  */
@@ -64,8 +64,8 @@ struct res2 {
 
 extern struct ent g0209DEA0[];
 
-extern void *func_0207E24C(void);
-extern void *func_0207DFB4(void);
+extern void *G2_GetBG1CharPtr(void);
+extern void *G2_GetBG1ScrPtr(void);
 extern void func_02082A7C(u32 val, void *dst, u32 n);
 typedef signed int     s32;
 struct NitroFileHeader;
@@ -87,7 +87,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     u32 sp0;
     u16 id;
 
-    func_02082A7C(0, func_0207E24C(), 0x4000);
+    func_02082A7C(0, G2_GetBG1CharPtr(), 0x4000);
 
     id = g0209DEA0[a0].f0;
     h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f2, 0, 1);
@@ -96,7 +96,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
         void *src;
         DWCi_ScreenDC_FlushRange(r0p->ptr, r0p->len);
         n = r0p->len;
-        src = func_0207E24C();
+        src = G2_GetBG1CharPtr();
         MIi_CpuCopy16(r0p->ptr, src, n);
     }
     func_020307B0(h);
@@ -107,7 +107,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
         void *src;
         DWCi_ScreenDC_FlushRange(r1p->buf, r1p->len);
         n = r1p->len;
-        src = func_0207DFB4();
+        src = G2_GetBG1ScrPtr();
         MIi_CpuCopy16(r1p->buf, src, n);
     }
     func_020307B0(h);

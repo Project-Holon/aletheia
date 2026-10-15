@@ -18,14 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F879C",
-    "func_021F8994"
+    "STA_ACTING_Update",
+    "STA_ACTING_VBlankCallback"
    ],
    "evidence": {
     "sole-ref": [
      "self:0x021FDE80"
     ]
-   }
+   },
+   "addresses": [
+    "0x021F879C",
+    "0x021F8994"
+   ]
   }
  ]
 }

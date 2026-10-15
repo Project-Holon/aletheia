@@ -26,7 +26,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -78,7 +78,7 @@
  *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
  *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
  *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc  0x021BC844  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots  0x021BC758  thumb  ov208
  *   ov208_func_021BC718  0x021BC718  thumb  ov208
@@ -107,11 +107,11 @@
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0201D304  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
@@ -205,7 +205,7 @@
  *   MCSS_GetPosition  0x02015C30  thumb
  *   data_021C8E40  0x021C8E40  data
  *   MCSS_GetAnimCtrl  0x02015EE8  thumb
- *   func_02063000  0x02063000  arm
+ *   NNS_G2dSetCellAnimationParam  0x02063000  arm
  *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   MCSS_RequestAnimeStopAtStart  0x02016380  thumb
@@ -262,7 +262,7 @@
 
 extern u32 func_020307B0(void *p);
 
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 extern void func_02030EAC(struct Node *n);
 
@@ -322,7 +322,7 @@ extern void *ov208_func_021BC3B4(int key);
 
 extern void *ov208_func_021BC3B8(int key);
 
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
 extern u32  ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
 
@@ -372,15 +372,15 @@ extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 is
 
 extern u32  POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
@@ -733,7 +733,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         func_0204047C(4, 3);
         func_0204047C(7, 2);
         ov208_func_021BDCA4(scene, 2);
-        func_0207D4B0(1, 0, 1);
+        GX_SetGraphicsMode(1, 0, 1);
         ov208_func_021BCF58(res, *heap);
         ZUKAN_DETAIL_FORM_InitModelSystem(heap, p, key);
         ZUKAN_DETAIL_FORM_CreateTextWindows((u16 *)heap, (struct Ov208Form *)p, key);
@@ -867,7 +867,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             ov208_func_021C51A0(&p->item[i], W(8));
         ov208_func_021C4FDC(heap, p, key);
         ov208_func_021BCF6C(res);
-        func_0207D4B0(1, 0, 0);
+        GX_SetGraphicsMode(1, 0, 0);
         return 1;
     }
     if (W(8) != 0) {
@@ -1100,12 +1100,12 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
     k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     switch (*(u32 *)((u8 *)p + 0x148 + idx * 16)) {
     case 0:
-        ws = (u32)func_0201EC64(*heap);
+        ws = (u32)GF_FONT_Create_EC64(*heap);
         src = ((struct Obj06686 *)p)->f5A4;
         str = (u32)STRBUF_Create(0x40, *heap);
-        func_0201EE60((struct WordSet *)ws, 0, k);
+        WORDSET_Callback((struct WordSet *)ws, 0, k);
         func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
-        func_0201ED04((struct WordSet *)ws);
+        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
         c = 1;
         break;
     case 1:
@@ -1259,22 +1259,22 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key
     p->active[0] = 1;
     STRBUF_Delete((struct U16Vec *)text);
     bmp2 = BMP_WIN_GetBmp((struct Descriptor *)p->win[1]);
-    ws = func_0201EC64(*heap);
+    ws = GF_FONT_Create_EC64(*heap);
     src = ((struct Obj01179 *)p)->f59C;
     str = STRBUF_Create(8, *heap);
     func_0201EFA4(ws, 0, ((struct Obj01179 *)p)->f54A, 2, 1, 1);
     func_0201F250(ws, str, src);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
-    func_0201ED04(ws);
-    ws2 = func_0201EC64(*heap);
+    WORDSET_DeleteStrbufED04(ws);
+    ws2 = GF_FONT_Create_EC64(*heap);
     src2 = ((struct Obj01179 *)p)->f5A0;
     str = STRBUF_Create(8, *heap);
     func_0201EFA4(ws2, 0, ((struct Obj01179 *)p)->f54C, 2, 1, 1);
     func_0201F250(ws2, str, src2);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)0x11, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
-    func_0201ED04(ws2);
+    WORDSET_DeleteStrbufED04(ws2);
     p->active[1] = 1;
     for (i = 0; i <= 1; i++)
         ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, (struct Ov208Form *)p, key, i);
@@ -1342,13 +1342,13 @@ void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p,
 {
     switch (((struct Obj14663 *)p)->f6B8) {
     case 0:
-        func_02041EE4(2, 0, -0x40);
+        BG_SYS_ResetSlot(2, 0, -0x40);
         break;
     case 4:
         if (((struct Obj14663 *)p)->f548 >= 2)
-            func_02041EE4(2, 0, 0);
+            BG_SYS_ResetSlot(2, 0, 0);
         else
-            func_02041EE4(2, 0, -0x40);
+            BG_SYS_ResetSlot(2, 0, -0x40);
         break;
     }
 }
@@ -1483,7 +1483,7 @@ extern void MCSS_GetPosition(void *p, u32 *out);
 
 extern void *MCSS_GetAnimCtrl(void *p);
 
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 
 extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 
@@ -1740,7 +1740,7 @@ void ZUKAN_DETAIL_FORM_CreateModelItem(struct Ov208Mdl *m, u32 heap, void *sys, 
 {
     m->obj = ZUKAN_DETAIL_FORM_AddModel(sys, species, a4, a5, a6, a7, a8, a9);
     m->state = func_02030734(heap, 0x10, 1, data_021C8E64, 0xab1);
-    func_02063000((int)MCSS_GetAnimCtrl((void *)m->obj), 1, (int)m->state, (int)ZUKAN_DETAIL_FORM_OnAnimStopRequest);
+    NNS_G2dSetCellAnimationParam((int)MCSS_GetAnimCtrl((void *)m->obj), 1, (int)m->state, (int)ZUKAN_DETAIL_FORM_OnAnimStopRequest);
     ZUKAN_DETAIL_FORM_GetModelOffsets(m->pos, species, a4, a5, a6, a7, a8, a9);
 }
 

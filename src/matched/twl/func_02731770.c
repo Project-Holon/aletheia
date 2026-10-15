@@ -1,5 +1,5 @@
 /*
- * function: func_02731770
+ * function: SHA1_HMAC_HashRange
  * address:  0x02731770
  * packet:   twl_sys
  * region:   twl
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-asm void func_02731770(void)
+asm void SHA1_HMAC_HashRange(void)
 {
     swi     0x27
     bx      lr

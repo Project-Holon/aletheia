@@ -1,5 +1,5 @@
 /*
- * function: func_02088944
+ * function: RTC_GetDateTimeAsync
  * address:  0x02088944
  * packet:   pkt_02088944
  * region:   arm9
@@ -67,7 +67,7 @@ OSIntrMode OS_DisableInterrupts(void);
 OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 BOOL RTCi_ReadRawDateTimeAsync(void);
 
-RTCResult func_02088944(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg)
+RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

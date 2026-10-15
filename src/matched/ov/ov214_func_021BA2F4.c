@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FA08 0x0203FA08 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_CreateRun 0x0203FA08 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02030734 0x02030734 arm
  *   func_02040E78 0x02040E78 arm
@@ -20,8 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021BB658[];
-extern unsigned func_0203FA08(unsigned,unsigned,unsigned);
-extern void func_0203FB44(unsigned,unsigned,unsigned);
+extern unsigned BG_SYS_CreateRun(unsigned,unsigned,unsigned);
+extern void BG_SYS_DeleteHalf(unsigned,unsigned,unsigned);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void*func_02030734(unsigned,unsigned,int,const char*,u16);
 extern void func_02040E78(unsigned,void*,unsigned,unsigned);
@@ -31,8 +31,8 @@ void func_021BA2F4(int unused,char*p)
 {
     unsigned off;
     u16*colors;
-    off=func_0203FA08(1,0x500,1);
-    func_0203FB44(1,off,0x500);
+    off=BG_SYS_CreateRun(1,0x500,1);
+    BG_SYS_DeleteHalf(1,off,0x500);
     func_02049B40(0x17,5,0,0x160,0x20,((struct Obj04633 *)p)->f0);
     colors=func_02030734(((struct Obj04633 *)p)->f0,6,1,d_021BB658,0x6f9);
     colors[0]=0x294b;colors[1]=0x5694;colors[2]=0x7fff;

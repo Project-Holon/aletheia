@@ -36,7 +36,7 @@
  *   FIELDMAP_GetVReq  0x02188E30  thumb  ov021
  *   FLD_VREQ_SetMainBlendBrightnessExt  0x021D3270  thumb  ov021
  *   FIELD_MSGBG_SetBlendThunk  0x02193060  thumb  ov021
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FIELD_MSGBG_LoadWindowGraphics  0x021902A4  thumb  ov021
  *   func_02009208  0x02009208  thumb
  *   func_02009200  0x02009200  thumb
@@ -66,7 +66,7 @@
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_020414AC  0x020414AC  arm
  *   func_0204152C  0x0204152C  arm
@@ -178,7 +178,7 @@ extern void *NO_GEAR_Create(void *cgearSave, FieldSubscreen *work, void *gameSys
 extern void NO_GEAR_Destroy(void *noGear);
 extern void NO_GEAR_Hook(void *noGear);
 extern void NO_GEAR_Update(void *noGear);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void func_02040588(u8 bgId, u8 visible);
 extern void func_020414AC(u32 bgId);
 extern void func_0204152C(int bgId, u16 value);
@@ -298,7 +298,7 @@ extern u32 ZONEDATA_IsZone4BPair(u32);
 extern struct FieldVReq *FIELDMAP_GetVReq(void *fieldMap);
 extern void FLD_VREQ_SetMainBlendBrightnessExt(struct FieldVReq *vreq, int a, int b, int c, int d, int e);
 extern void FIELD_MSGBG_SetBlendThunk(u32);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void FIELD_MSGBG_LoadWindowGraphics(u32, u32);
 extern u8 func_02009208(void *cgearSave);
 extern void func_02009200(void *cgearSave, u32 commState);
@@ -493,7 +493,7 @@ void FIELD_SUBSCREEN_ResumeField(FieldSubscreen *work, u32 heapId)
 {
     FLD_VREQ_SetMainBlendBrightnessExt(FIELDMAP_GetVReq(work->fieldMap), 1, 0, 0, 0, 0);
     FIELD_MSGBG_SetBlendThunk(0);
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     FIELD_MSGBG_LoadWindowGraphics(1, heapId);
 }
 
@@ -614,7 +614,7 @@ void FIELD_SUBSCREEN_InitMenu(FieldSubscreen *work, u32 prevMode)
     slideIn = 0;
     if (prevMode == FIELD_SUBSCREEN_MODE_CGEAR || prevMode - 2 <= 4)
         slideIn = 1;
-    func_0203FCA0(4, &d_021D8708, 0);
+    BG_SYS_InitBgLayer(4, &d_021D8708, 0);
     func_02040588(4, 1);
     func_020414AC(4);
     func_0204152C(4, 0);

@@ -119,7 +119,7 @@
  *   func_021D94C4 0x021D94C4 thumb ov121
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -180,7 +180,7 @@ extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern unsigned func_021D94C4(int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_02020E60(u32 item, u32 which);
+extern u32 FILE_UTIL_Get(u32 item, u32 which);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -320,9 +320,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         break;
     case 2:
         arc=(u32)func_020490F4(25,heap);
-        O(12)=CLACT_RegisterPalette((void *)arc,func_02020E60((u16)D(0),2),0,448,heap);
+        O(12)=CLACT_RegisterPalette((void *)arc,FILE_UTIL_Get((u16)D(0),2),0,448,heap);
         O(20)=CLACT_RegisterCellAnim((void *)arc,1,0,heap);
-        O(16)=CLACT_RegisterCharacter((void *)arc,func_02020E60((u16)D(0),1),0,0,heap);
+        O(16)=CLACT_RegisterCharacter((void *)arc,FILE_UTIL_Get((u16)D(0),1),0,0,heap);
         ARC_TOOL_DeleteHandle((void *)arc);OH(298)=4;OH(296)=8;
         break;
     case 3:

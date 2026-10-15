@@ -1,5 +1,5 @@
 /*
- * function: func_0217FC70
+ * function: B64EncodeStream
  * address:  0x0217FC70
  * packet:   pkt_ov009_0217FC70
  * region:   ov009
@@ -12,10 +12,10 @@
  * sdk:      B64EncodeStream (libdwcgscommon.TWL.HYB.a(gsplatformutil.o))
  *
  * symbols:
- *   func_0217F824  0x0217F824  arm  ov009
- *   g_021A1A02  0x021A1A02  data
- *   g_021A19FF  0x021A19FF  data
- *   g_021A19FC  0x021A19FC  data
+ *   TripToQuart  0x0217F824  arm  ov009
+ *   gGsB64CharsAlt  0x021A1A02  data
+ *   gGsB64CharsUrl  0x021A19FF  data
+ *   gGsB64CharsDefault  0x021A19FC  data
  */
 
 typedef struct {
@@ -25,12 +25,12 @@ typedef struct {
 } B64StreamData;
 
 typedef unsigned char  u8;
-extern void func_0217F824(const char *src, u8 *dst, int n);
-extern char g_021A1A02[3];
-extern char g_021A19FF[3];
-extern char g_021A19FC[3];
+extern void TripToQuart(const char *src, u8 *dst, int n);
+extern char gGsB64CharsAlt[3];
+extern char gGsB64CharsUrl[3];
+extern char gGsB64CharsDefault[3];
 
-int func_0217FC70(B64StreamData *data, char *output)
+int B64EncodeStream(B64StreamData *data, char *output)
 {
     int i;
     char *encoding;
@@ -41,17 +41,17 @@ int func_0217FC70(B64StreamData *data, char *output)
 
     switch (data->mode) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
         break;
     }
 
-    func_0217F824(data->data, (u8 *)output, data->len >= 3 ? 3 : data->len);
+    TripToQuart(data->data, (u8 *)output, data->len >= 3 ? 3 : data->len);
     data->data += 3;
     data->len -= 3;
 

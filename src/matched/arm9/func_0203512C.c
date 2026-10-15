@@ -1,5 +1,5 @@
 /*
- * function: func_0203512C
+ * function: UI_SetWakePoweredHook
  * address:  0x0203512C
  * packet:   pkt_0203512C
  * region:   arm9
@@ -21,7 +21,7 @@ struct UiCtx {
     void *arg_30;
 };
 
-void func_0203512C(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg)
 {
     p->on_20 = fn;
     p->arg_30 = arg;

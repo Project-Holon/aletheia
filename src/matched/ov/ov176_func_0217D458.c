@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200B358 0x0200B358 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
- *   func_0200B078 0x0200B078 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217D4FC 0x0217D4FC thumb ov176
  *   func_0217D730 0x0217D730 thumb ov176
@@ -23,13 +23,13 @@
 #include "../include/Obj14366.h"
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200B358(void *sys);
+extern void *BATTLE_COMPETITION_GetFromSave(void *sys);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Rec160;
 struct Reg2;
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern void func_021E8AA0(int *p, int v);
 extern void func_0217D4FC(int *a, int *state, int *p);
 extern void func_0217D730(int *a, int *state, int *p);
@@ -42,9 +42,9 @@ void func_0217D458(int a, int unused, char *p)
     void *m;
     unsigned x;
     unsigned y;
-    m = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
-    x = func_0200B078(m, 2);
-    y = func_0200B078(m, 10);
+    m = REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
+    x = REGULATION_Card_GetValue(m, 2);
+    y = REGULATION_Card_GetValue(m, 10);
     if (x && y == 1) {
         func_021E8AA0((int *)a, (int)func_0217D4FC);
         return;

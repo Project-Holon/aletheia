@@ -1,5 +1,5 @@
 /*
- * function: func_0205C528
+ * function: Free_Disused
  * address:  0x0205C528
  * packet:   pkt_0205C528
  * region:   arm9
@@ -138,7 +138,7 @@ static struct {
 
 extern void DWCi_AC_Free(u32 name, void *ptr, s32 size);
 
-void func_0205C528(void)
+void Free_Disused(void)
 {
     DWCi_AC_Free(8, s_ac_work.netCheck, 0xc);
     DWCi_AC_Free(0x10, s_ac_work.acWork, sizeof(ACWORK));

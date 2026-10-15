@@ -1,5 +1,5 @@
 /*
- * function: func_0207E1F8
+ * function: G2_GetBG0CharPtr
  * address:  0x0207E1F8
  * packet:   pkt_0207E1F8
  * region:   arm9
@@ -28,7 +28,7 @@ static inline int GetCharBase(void)
     return (reg_G2_BGCNT & 0x3C) >> 2;
 }
 
-void *func_0207E1F8(void)
+void *G2_GetBG0CharPtr(void)
 {
     int charBase = GetCharBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x07000000) >> 24);

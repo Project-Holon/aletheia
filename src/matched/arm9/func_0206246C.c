@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0206246C
+ * function: NNSi_GfdSizeToGranulePltt
  * address:  0x0206246C
  * packet:   pkt_02061EB8
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0206246C(int v){ return v << 4; }
+int NNSi_GfdSizeToGranulePltt(int v){ return v << 4; }

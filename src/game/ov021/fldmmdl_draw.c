@@ -38,15 +38,15 @@
  *   func_02048AE8  0x02048AE8  arm
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
- *   func_0207BCA0  0x0207BCA0  arm
+ *   MTX_LookAt  0x0207BCA0  arm
  *   func_02082B60  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   FLDMMDL_SysGetFieldMap  0x0216D534  thumb  ov010
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   gMmdlDrawBillboardShift     0x021D854C  data  ov021  a4
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_GetDrawOffset  0x0216D8B0  thumb  ov010
@@ -129,15 +129,15 @@ extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
-extern void func_0207BCA0(VecFx32 *camPos, VecFx32 *camUp, VecFx32 *camTarget, s32 *outMtx43);
+extern void MTX_LookAt(VecFx32 *camPos, VecFx32 *camUp, VecFx32 *camTarget, s32 *outMtx43);
 extern void func_02082B60(s32 *mtx43, s32 *outMtx33);
 extern void func_0207B0A4(s32 *mtx33, s32 *outMtx33);
-extern void func_0207B51C(VecFx32 *vec, s32 *mtx33, VecFx32 *out);
+extern void MTX_MultVec33(VecFx32 *vec, s32 *mtx33, VecFx32 *out);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern struct FieldMap *FLDMMDL_SysGetFieldMap(MmdlSys *sys);
 extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
-extern void func_0207C9D0(VecFx32 *a, VecFx32 *b, VecFx32 *out);
+extern void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *out);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern void FLDMMDL_GetDrawOffset(Mmdl *mmdl, VecFx32 *out);
 extern s32 FLDMMDL_ACMD_CheckAnimePaused(Mmdl *mmdl);
@@ -495,10 +495,10 @@ void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32
     func_02048AE8(camera, &camPos);
     func_02048B0C(camera, &camUp);
     func_02048B30(camera, &camTarget);
-    func_0207BCA0(&camPos, &camUp, &camTarget, viewMtx43);
+    MTX_LookAt(&camPos, &camUp, &camTarget, viewMtx43);
     func_02082B60(viewMtx43, viewMtx33);
     func_0207B0A4(viewMtx33, viewMtx33);
-    func_0207B51C(vec, viewMtx33, out);
+    MTX_MultVec33(vec, viewMtx33, out);
 }
 
 /* Draw procedure frame offset: none. */
@@ -551,7 +551,7 @@ void FLDMMDL_DRAW_DrawBillboardOffset(Mmdl *mmdl)
     if (work->state == 0) {
         rotated = gMmdlDrawBillboardShift;
         FLDMMDL_DRAW_RotateByCamera(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)))), &rotated, &rotated);
-        func_0207C9D0(&pos, &rotated, &pos);
+        VEC_Add(&pos, &rotated, &pos);
     } else {
         pos.y -= 0xC000;
         pos.z += 0x8000;

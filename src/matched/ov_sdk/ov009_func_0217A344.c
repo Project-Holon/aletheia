@@ -1,5 +1,5 @@
 /*
- * function: func_0217A344
+ * function: DWCi_Http_AddResult
  * address:  0x0217A344
  * packet:   pkt_ov009_0217A344
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      DWCi_Http_AddResult (libdwcauth.TWL.HYB.a dwc_http.o)
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
- *   func_02094798  0x02094798  arm
+ *   strlen  0x0209477C  arm
+ *   strcpy  0x02094798  arm
  */
 
 typedef struct DWCHttpParam {
@@ -44,10 +44,10 @@ typedef struct DWCHttpParseResult {
 } DWCHttpParseResult;
 
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
-extern char *func_02094798(char *dst, const char *src);
+extern int strlen(const u8 *s);
+extern char *strcpy(char *dst, const char *src);
 
-int func_0217A344(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value)
+int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value)
 {
     void *(*alloc)(unsigned long, long) = http->param.alloc;
     void (*free)(unsigned long, void *, long) = http->param.free;
@@ -55,12 +55,12 @@ int func_0217A344(DWCHttp *http, DWCHttpParseResult *result, char *label, char *
     if (result->index > result->len)
         return 0;
 
-    result->entry[result->index].label = alloc(0, func_0209477C((const u8 *)label) + 1);
+    result->entry[result->index].label = alloc(0, strlen((const u8 *)label) + 1);
     if (result->entry[result->index].label != 0) {
-        result->entry[result->index].value = alloc(0, func_0209477C((const u8 *)value) + 1);
+        result->entry[result->index].value = alloc(0, strlen((const u8 *)value) + 1);
         if (result->entry[result->index].value != 0) {
-            func_02094798(result->entry[result->index].label, label);
-            func_02094798(result->entry[result->index].value, value);
+            strcpy(result->entry[result->index].label, label);
+            strcpy(result->entry[result->index].value, value);
             result->index++;
             return 1;
         }

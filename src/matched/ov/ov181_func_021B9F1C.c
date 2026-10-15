@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F1C
+ * function: STAFF_ROLL_Exit3d
  * address: 0x021B9F1C
  * packet: pkt_ov181_021B9F1C
  * region: ov181
@@ -26,4 +26,4 @@ extern void G3D_LIGHT_DeleteSlots(void *);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,unsigned);
 extern void G3D_UTIL_Delete(struct Rec *);
 extern void G3D_SYSTEM_Exit(void);
-void func_021B9F1C(char *p){G3D_CAMERA_Delete(*(void **)(p+12));G3D_LIGHT_DeleteSlots(*(void **)(p+16));G3D_UTIL_RemoveUnit(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));G3D_UTIL_Delete(*(struct Rec **)(p+8));G3D_SYSTEM_Exit();}
+void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));G3D_LIGHT_DeleteSlots(*(void **)(p+16));G3D_UTIL_RemoveUnit(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));G3D_UTIL_Delete(*(struct Rec **)(p+8));G3D_SYSTEM_Exit();}

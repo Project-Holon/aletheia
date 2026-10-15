@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA94
+ * function: UN_SELECT_GRAPHIC_SetupCamera
  * address: 0x021BAA94
  * packet: pkt_ov218_021BAA94
  * region: ov218
@@ -23,7 +23,7 @@ extern const short d_020A1EB8[];
 extern void func_021BA7A4(void);
 extern void G3D_SYSTEM_Init(unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned, void (*)(void));
 extern unsigned *G3D_CAMERA_Create(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, const Vec3 *, const Vec3 *, const Vec3 *, unsigned);
-void func_021BAA94(unsigned **out, unsigned heap)
+void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, func_021BA7A4);
     *out = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, &d_021BAE94, &d_021BAE88, &d_021BAEA0, heap);

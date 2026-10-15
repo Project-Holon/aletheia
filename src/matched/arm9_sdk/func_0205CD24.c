@@ -1,5 +1,5 @@
 /*
- * function: func_0205CD24
+ * function: DWC_GetApInfo
  * address:  0x0205CD24
  * packet:   pkt_0205CD24
  * region:   arm9
@@ -23,7 +23,7 @@
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   WCM_GetApEssid 0x021663C8 arm
  *   DWC_AC_GetApSpotInfo 0x0205BE00 arm
- *   func_0205CCE4 0x0205CCE4 arm
+ *   DWCi_DivideFullApinfo 0x0205CCE4 arm
  *   DWC_AC_GetSecuritySetting 0x0205BE58 arm
  */
 
@@ -47,10 +47,10 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int OS_IsRunOnTwl(void);
 extern unsigned char *WCM_GetApEssid(unsigned short *length);
 extern int DWC_AC_GetApSpotInfo(unsigned char *apSpotInfo);
-extern void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo);
+extern void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo);
 extern int DWC_AC_GetSecuritySetting(void);
 
-int func_0205CD24(DWCApInfo *apinfo)
+int DWC_GetApInfo(DWCApInfo *apinfo)
 {
     unsigned short essidlen;
     unsigned char apSpotInfo[10];
@@ -88,7 +88,7 @@ int func_0205CD24(DWCApInfo *apinfo)
     }
     OS_RestoreInterrupts(preirq);
     if (DWC_AC_GetApSpotInfo(apSpotInfo)) {
-        func_0205CCE4((char *)apSpotInfo, apinfo);
+        DWCi_DivideFullApinfo((char *)apSpotInfo, apinfo);
     } else {
         apinfo->area = 0xff;
     }

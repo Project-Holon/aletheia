@@ -1,5 +1,5 @@
 /*
- * function: func_021C8F90
+ * function: ZUKAN_SetResumeState
  * address:  0x021C8F90
  * packet:   pkt_021C8F90
  * region:   ov212
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C8F90(char *p, int v)
+int ZUKAN_SetResumeState(char *p, int v)
 {
     ((struct Obj25651 *)p)->f20 = v;
     return 0;

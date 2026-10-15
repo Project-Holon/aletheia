@@ -106,10 +106,10 @@
  *   PMSI_PARAM_GetDecoId 0x02024520 thumb
  *   BMP_WIN_GetPosX 0x02045758 arm
  *   BMP_WIN_GetPosY 0x02045760 arm
- *   func_020416D4 0x020416D4 arm
+ *   BG_SYS_Get 0x020416D4 arm
  *   PMS_WORD_LoadString 0x02024838 thumb
- *   func_02041648 0x02041648 arm
- *   func_02041664 0x02041664 arm
+ *   BG_SYS_GetScrollX_1648 0x02041648 arm
+ *   BG_SYS_GetScrollY_1664 0x02041664 arm
  *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
  *   _s32_div_f 0x0209C0A4 arm
  */
@@ -262,10 +262,10 @@ extern u32 PMSI_PARAM_GetDecoId(u32);
 extern u8 BMP_WIN_GetPosX(struct Descriptor *);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const ScreenPos *delta, u32 which);
-extern u8 func_020416D4(u32);
+extern u8 BG_SYS_Get(u32);
 extern void PMS_WORD_LoadString(u32, void *, u32);
-extern unsigned int func_02041648(u8 channel);
-extern u32 func_02041664(u8 channel);
+extern unsigned int BG_SYS_GetScrollX_1648(u8 channel);
+extern u32 BG_SYS_GetScrollY_1664(u8 channel);
 extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *arg, int priority);
 extern int _s32_div_f(int, int);
 extern void func_0207D658(u32 addr, int plane, int brightness);
@@ -692,7 +692,7 @@ void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct Descriptor *window, con
         CLACT_SetActorAnimSeq(icon, decoIndex);
         CLACT_AddActorSurfacePos(icon, &iconPos, (u16)surface);
         CLACT_SetActorDrawEnable(icon, 1);
-        CLACT_SetActorBgPriority(icon, (int)(func_020416D4(BMP_WIN_GetBgLayer(window))));
+        CLACT_SetActorBgPriority(icon, (int)(BG_SYS_Get(BMP_WIN_GetBgLayer(window))));
     } else {
         PMS_WORD_LoadString(wordId, p->text, PMSIV_EDIT_HEAP);
         GF_FONT_SetTextColor((u32)3, (u32)4, (u32)14);
@@ -777,10 +777,10 @@ void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int
 {
     scroll->layer = layer;
     if (axis == 0) {
-        scroll->current = func_02041648(layer);
+        scroll->current = BG_SYS_GetScrollX_1648(layer);
         scroll->axis = 0;
     } else {
-        scroll->current = func_02041664(layer);
+        scroll->current = BG_SYS_GetScrollY_1664(layer);
         scroll->axis = 3;
     }
     scroll->target = (scroll->current + step) & 511;

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
  *   BOX2_SEQ_GotoBox2Main 0x021E949C thumb ov170
@@ -21,7 +21,7 @@
 #include "../include/Obj23930.h"
 typedef unsigned char u8;
 struct Sound;
-extern int func_02025DE8(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 extern int BOX2_SEQ_GotoBox2Main(char *p, int a, int b);
@@ -29,7 +29,7 @@ extern int BOX2_SEQ_SetState(char *p, int v);
 extern int BOX2_SEQ_SetSeqSecond(char *p, int a);
 int BOX2_SEQ_StateClosePmVoice(u8 *p)
 {
-    unsigned v = func_02025DE8(((struct Obj23929 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
+    unsigned v = CURSOR_MOVE_PollRepeatInput(((struct Obj23929 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
     switch (v) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);

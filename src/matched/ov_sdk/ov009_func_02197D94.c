@@ -15,7 +15,7 @@
  *   SocketStartUp  0x0217F25C  arm  ov009
  *   func_021986C4  0x021986C4  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02184638  0x02184638  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
@@ -23,7 +23,7 @@
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  *   func_0217EBB0  0x0217EBB0  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
  *   func_02197D1C  0x02197D1C  arm  ov009
  *   func_02197CFC  0x02197CFC  arm  ov009
@@ -65,7 +65,7 @@ struct SOCSockAddrIn {
 extern void SocketStartUp(void);
 extern int func_021986C4(char *string, unsigned int *ip, unsigned short *port);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern struct HashImplementation *func_02184638(int elemSize, int nBuckets, int nChains,
                                                 int (*hashFn)(void *, int),
                                                 int (*compFn)(void *, void *),
@@ -77,7 +77,7 @@ extern void func_021846B4(struct HashImplementation *table);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern void func_021841B0(struct DArrayImplementation *array);
 extern int func_0217EBB0(int sock, void *addr, int len);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 extern int func_02197D1C(void *elem1, void *elem2);
 extern int func_02197CFC(void *elem, int numBuckets);
@@ -107,7 +107,7 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
     if (!socketTemp)
         return 1;
 
-    func_020923B0(socketTemp, 0, sizeof(struct GTI2Socket));
+    MSL_C_LIB_MemsetPtr(socketTemp, 0, sizeof(struct GTI2Socket));
     socketTemp->socket = -1;
     socketTemp->incomingBufferSize = incomingBufferSize;
     socketTemp->outgoingBufferSize = outgoingBufferSize;
@@ -148,7 +148,7 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
     if (type != 3) {
         rcode = func_0217EBB0(socketTemp->socket, &address, sizeof(address));
         if (rcode == -1) {
-            func_0217EB2C(socketTemp->socket);
+            closesocket(socketTemp->socket);
             func_021846B4(socketTemp->connections);
             func_021841B0(socketTemp->closedConnections);
             func_0217EAE0(socketTemp);

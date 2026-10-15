@@ -106,7 +106,7 @@ typedef struct GsyncMessageIdTable {
     int ids[8];                 /* 0x00 */
 } GsyncMessageIdTable;
 
-/* RTC date record used by func_0203F4E4 and func_0203F540. */
+/* RTC date record used by GF_STANDARD_SetField00_F4E4 and GF_STANDARD_SetupRtc_F540. */
 typedef struct GsyncRtcDate {
     u32 year;                   /* 0x00 */
     u32 month;                  /* 0x04 */

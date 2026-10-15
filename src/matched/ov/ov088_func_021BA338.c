@@ -14,7 +14,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   STARTMENU_BeginSelectAnim  0x021BC0AC  thumb  ov088
- *   func_0200C2F0  0x0200C2F0  thumb
+ *   BEACON_SetSlotState  0x0200C2F0  thumb
  *   STARTMENU_BeginFadeIn  0x021BC080  thumb  ov088
  *   KEY_GetRepeat  0x0203633C  arm
  *   STARTMENU_MoveCursor  0x021BB890  thumb  ov088
@@ -31,7 +31,7 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int STARTMENU_BeginSelectAnim(char *p, int v);
 struct Blk34;
-extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
+extern void BEACON_SetSlotState(struct Blk34 *p, u32 i, u8 v);
 extern int STARTMENU_BeginFadeIn(char *p, int v);
 extern unsigned int KEY_GetRepeat(void);
 extern int STARTMENU_MoveCursor(char *p, int d);
@@ -51,15 +51,15 @@ int STARTMENU_StateSelectRow(char *p)
             ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return STARTMENU_BeginSelectAnim(p, 11);
         case 3:
-            func_0200C2F0((struct Blk34 *)(((struct Obj00271 *)p)->f8), 1, 2);
+            BEACON_SetSlotState((struct Blk34 *)(((struct Obj00271 *)p)->f8), 1, 2);
             ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return STARTMENU_BeginSelectAnim(p, 11);
         case 4:
-            func_0200C2F0((struct Blk34 *)(((struct Obj00271 *)p)->f8), 2, 2);
+            BEACON_SetSlotState((struct Blk34 *)(((struct Obj00271 *)p)->f8), 2, 2);
             ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return STARTMENU_BeginSelectAnim(p, 11);
         case 7:
-            func_0200C2F0((struct Blk34 *)(((struct Obj00271 *)p)->f8), 3, 2);
+            BEACON_SetSlotState((struct Blk34 *)(((struct Obj00271 *)p)->f8), 3, 2);
             ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return STARTMENU_BeginSelectAnim(p, 11);
         case 5:

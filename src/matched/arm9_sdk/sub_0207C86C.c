@@ -1,5 +1,5 @@
 /*
- * function: sub_0207C86C
+ * function: FX_GetDivResult
  * address:  0x0207C86C
  * packet:   pkt_0207C86C
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Read the hardware divider result started by sub_0207C930: poll DIVCNT
+ * Read the hardware divider result started by FX_DivAsync: poll DIVCNT
  * bit 15 until the unit is idle, then take the 64-bit DIV_RESULT, add
  * 0x80000 for rounding and shift right 20, keeping the low 32 bits.
  *
@@ -23,7 +23,7 @@ typedef unsigned long long u64;
 typedef volatile u32       vu32;
 typedef volatile u16       vu16;
 
-u32 sub_0207C86C(void)
+u32 FX_GetDivResult(void)
 {
     u64 v;
 

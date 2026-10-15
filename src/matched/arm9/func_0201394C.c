@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202A3FC  0x0202A3FC  thumb
+ *   TPOKE_DATA_GetTrainerKind  0x0202A3FC  thumb
  *
  * zonedata.c.  A one-shot state step: only while the state word is 1 does it
  * advance to 2 and choose a pair of halfword bounds, keyed off a value read
@@ -40,13 +40,13 @@ struct ZoneData {
     u8 *f4c;            /* +0x4C */
 };
 
-extern u8 func_0202A3FC(u32 key);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 key);
 
 void BTL_SETUP_ChangeToSubway(struct ZoneData *o)
 {
     if (o->f0 == 1) {
         o->f0 = 2;
-        if (func_0202A3FC(((struct Obj15647 *)(o->f4c))->f4) != 0xb) {
+        if (TPOKE_DATA_GetTrainerKind(((struct Obj15647 *)(o->f4c))->f4) != 0xb) {
             o->f18 = 0x46b;
             o->f1a = 0x47d;
         } else {

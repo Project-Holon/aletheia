@@ -18,7 +18,7 @@
  *   func_0207E468   0x0207E468  arm
  *   g_wipeSys                0x021467A4  data
  *   CARD_GetBackupSectorSize  0x0204E6E0  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   g_wipePatternHandlers  0x0209F538  data
  *   func_02005624  0x02005624  thumb
  *   func_02030734  0x02030734  arm
@@ -72,7 +72,7 @@ extern u32 func_02030EAC(struct Node *n);
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern u32   CARD_GetBackupSectorSize(void);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020056A0(void *fn, void *arg, u32 prio);
@@ -384,7 +384,7 @@ void WIPE_SetBackColor(u32 a)
 /*
  * Selects one of two hardware register addresses (0x0400006C, 0x0400106C:
  * the master brightness registers of the two DS display engines) from its
- * first argument and passes it to func_0207D534 together with the second
+ * first argument and passes it to GXx_SetMasterBrightness_ together with the second
  * argument, the brightness level, which stays in r1 untouched (an argument
  * passed through a register must be named in the C).
  *
@@ -395,9 +395,9 @@ void WIPE_SetBackColor(u32 a)
 void WIPE_SetBrightness(u32 which, int brightness)
 {
     if (which == 0) {
-        func_0207D534((volatile u16 *)0x0400006C, brightness);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, brightness);
     } else {
-        func_0207D534((volatile u16 *)0x0400106C, brightness);
+        GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, brightness);
     }
 }
 

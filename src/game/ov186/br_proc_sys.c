@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_GRAPHIC_Create 0x021FC3BC thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   func_0200C3E0 0x0200C3E0 thumb
+ *   BEACON_GetRecorderFlag 0x0200C3E0 thumb
  *   BR_RES_Create 0x021FB884 thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_FADE_Create 0x021FE6C0 thumb ov186
@@ -32,7 +32,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02012A30 0x02012A30 thumb
+ *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   func_02028A58 0x02028A58 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
@@ -46,7 +46,7 @@
  *   BR_SIDEBAR_Destroy 0x021FEDC4 thumb ov186
  *   BR_FADE_Delete 0x021FE734 thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
- *   func_0200C3EC 0x0200C3EC thumb
+ *   BEACON_SetRecorderFlag 0x0200C3EC thumb
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_RES_Delete 0x021FB92C thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
@@ -72,8 +72,8 @@
  *   func_0200D6EC 0x0200D6EC thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
- *   func_0200A5F8 0x0200A5F8 thumb
- *   func_0200A630 0x0200A630 thumb
+ *   MUSICAL_SAVE_GetFromSave 0x0200A5F8 thumb
+ *   MUSICAL_SAVE_IsShowActive 0x0200A630 thumb
  *   func_02030734 0x02030734 arm
  *   PROCSYS_Create 0x02031324 arm
  *   d_02200D04 0x02200D04 data a1
@@ -265,7 +265,7 @@ extern void *GAME_DATA_GetMiscSave(int *);
 
 extern void *BR_RES_Create(unsigned,unsigned,unsigned);
 
-extern u8 func_0200C3E0(struct Blk34 *p);
+extern u8 BEACON_GetRecorderFlag(struct Blk34 *p);
 
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 
@@ -285,7 +285,7 @@ extern int func_02034AC4(int),GFL_NET_GetRunState(void);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 
@@ -309,7 +309,7 @@ extern void BR_FADE_Delete(char *p);
 
 extern int BR_RES_GetPalSet(char *p);
 
-extern void func_0200C3EC(struct Blk34 *p, u32 v);
+extern void BEACON_SetRecorderFlag(struct Blk34 *p, u32 v);
 
 extern void BR_RES_ApplyBgSet(int,unsigned);
 
@@ -351,7 +351,7 @@ extern int MISC_SAVEDATA_GetStatsBase2(int);
 
 extern u8 *BATTLE_REC_GetHeader(void);
 
-extern void *func_0200A5F8(void *);
+extern void *MUSICAL_SAVE_GetFromSave(void *);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -359,7 +359,7 @@ extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 
 extern u32 func_0200D6EC(struct RecGet *p);
 
-extern u32 func_0200A630(struct Bits *p);
+extern u32 MUSICAL_SAVE_IsShowActive(struct Bits *p);
 
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 
@@ -489,7 +489,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared!=2) flag=zero;
     enabled=1;
     ((struct BrProcSys *)p)->graphic=BR_GRAPHIC_Create(flag,1,0x5a);
-    mode=func_0200C3E0(GAME_DATA_GetMiscSave(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl));
+    mode=BEACON_GetRecorderFlag(GAME_DATA_GetMiscSave(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl));
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) enabled=0;
     ((struct BrProcSys *)p)->resources=BR_RES_Create(mode,enabled,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),0,0x5a);
@@ -506,7 +506,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     } else func_02034AC4((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
-        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) func_02028A58((void *)func_02012A30((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
+        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) func_02028A58((void *)GAME_DATA_GetBgmInfo((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag==1) {
         BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));
@@ -518,7 +518,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
 int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
-    if(nested[0]==0) func_02028A58((struct SoundSys *)func_02012A30((const struct BigObj *)nested[1]),0x7f,0);
+    if(nested[0]==0) func_02028A58((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)nested[1]),0x7f,0);
     if(p[5]) {
         if(BR_NET_IsFatal((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
         BR_NET_Destroy((char *)p[5]); p[5]=0;
@@ -530,7 +530,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     if(nested[0]==0) {
         int a=(int)GAME_DATA_GetMiscSave((int *)nested[1]);
         int b=BR_RES_GetPalSet((char *)p[1]);
-        func_0200C3EC((struct Blk34 *)a,(unsigned char)b);
+        BEACON_SetRecorderFlag((struct Blk34 *)a,(unsigned char)b);
     }
     BR_RES_ApplyBgSet(p[1],0);
     BR_RES_ApplyBgSet(p[1],1);
@@ -889,7 +889,7 @@ void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
                 *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
-        *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(GAME_DATA_GetSaveControl(sys)));
+        *(u32 *)(p+0x50)=MUSICAL_SAVE_IsShowActive(MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(sys)));
         *(int *)(p+0x54)=1;
     }
 }

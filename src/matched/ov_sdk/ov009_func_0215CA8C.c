@@ -18,7 +18,7 @@
  *   func_0215CAE4  0x0215CAE4  arm  ov009
  *   func_0215EC90  0x0215EC90  arm  ov009
  *   g_020050C4  0x020050C4  data
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclConfig  0x021A1CD8  data
  */
 
 #include "../include/G_021A1CD8.h"
@@ -29,23 +29,23 @@ extern void func_0215CB24(void);
 extern int func_0215CAE4(void);
 extern void func_0215EC90(void);
 extern char g_020050C4[42];
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 
 int func_0215CA8C(void *socl_config)
 {
 	int result;
 
 	OSi_ReferSymbol(g_020050C4);
-	if (g_021A1CD8 != 0) {
+	if (gSoclConfig != 0) {
 		return 0;
 	}
 	func_0215F0D4();
-	g_021A1CD8 = socl_config;
+	gSoclConfig = socl_config;
 	func_0215CB24();
 	result = func_0215CAE4();
 	if (result < 0) {
 		func_0215EC90();
-		g_021A1CD8 = 0;
+		gSoclConfig = 0;
 	}
 	return result;
 }

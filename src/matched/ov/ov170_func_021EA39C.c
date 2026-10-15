@@ -27,13 +27,14 @@
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
  *   BOX2_MAIN_StateMachineSlide 0x021E0FD8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_MAIN_ChangeBoxFormPreserve  0x021DEFEC  thumb
  *   BOX2_MAIN_Check0A40  0x021E0A40  thumb
  *   BOX2_MAIN_StateMachineCoin  0x021E0ABC  thumb
  *   BOX2_SEQ_SetActorAnim  0x021EA878  thumb
  *   BOX2_UI_MoveCursorBetweenIcons  0x021EEF74  thumb
  *   BOX2_UI_CloseListPack  0x021EF534  thumb
+ *   CURSOR_MOVE_GetCurrent  0x020260E0  thumb  arm9
  */
 
 typedef struct {
@@ -82,13 +83,13 @@ extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern void BOX2_SEQ_CreateB(void *p);
 extern void BOX2_SEQ_SetActorAnim(Obj *p, int v);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
-extern u8 func_020260E0(struct Sound *obj);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
 extern int BOX2_MAIN_StateMachineCoin(unsigned char *p);
 extern int BOX2_MAIN_StateMachineSlide(unsigned char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+
 extern int BOX2_MAIN_Check0A40(char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
@@ -102,7 +103,7 @@ int BOX2_SEQ_SelectGridSlot(Obj *p, unsigned i)
     p->b17 = i < 0x1E ? p->b14 : 0xFF;
     CNT(p) = BOX2_MAIN_GetPartyValueAt((void ***)p, p->b16, p->b14, 6, 0);
     if (CNT(p) == 0) {
-        func_020260E4(OBJ(p), p->b16);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p->b16);
         return 0x40;
     }
     GFL_USE_PlaySeDefaultVolume(0x666);

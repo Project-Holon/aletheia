@@ -1,5 +1,5 @@
 /*
- * function: func_0207AD30
+ * function: FS_IsAvailable
  * address:  0x0207AD30
  * packet:   pkt_0207AD30
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern int is_init;
 
-int func_0207AD30(void)
+int FS_IsAvailable(void)
 {
     return is_init;
 }

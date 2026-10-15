@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209128C",
+   "name": "MSL_C_LIB_SetTwlFlag",
    "address": "0x0209128C",
    "kind": "game",
    "region": "arm9",

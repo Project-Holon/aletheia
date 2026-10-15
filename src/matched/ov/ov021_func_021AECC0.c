@@ -12,7 +12,7 @@
  * symbols:
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0202A230  0x0202A230  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u32 func_0202A230(void *a, u32 idx);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 
 int SCRCMD_ClassifyTrainer(u32 a, u32 b)
 {
@@ -31,9 +31,9 @@ int SCRCMD_ClassifyTrainer(u32 a, u32 b)
 
     x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     out = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
-    if (func_0202A230((void *)x, 9)) {
+    if (TPOKE_DATA_GetRecordField((void *)x, 9)) {
         v = 1;
-    } else if (func_0202A230((void *)x, 11)) {
+    } else if (TPOKE_DATA_GetRecordField((void *)x, 11)) {
         v = 2;
     } else {
         v = 0;

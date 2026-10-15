@@ -18,7 +18,7 @@
  *   func_021D4D38 0x021D4D38 thumb ov115
  *   func_021D5984 0x021D5984 thumb ov115
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
@@ -49,7 +49,7 @@ struct Big;
 struct BigObj;
 extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_STATE_SetWifiError(void),GFL_NET_STATE_ClearErrorMode(void);
@@ -71,7 +71,7 @@ int func_021D4BFC(void *ctx,int unused,u8 *q)
     ((struct Obj01719 *)p)->f34=func_021D4D38(((struct Obj01719 *)p)->fC,((struct Obj04465 *)q)->f4,((struct Obj04465 *)q)->f8);
     ((struct Obj01719 *)p)->f38=func_021D5984(((struct Obj01719 *)p)->fC,232,((struct Obj04465 *)q)->f8);
     ((struct Obj01719 *)p)->f2C=GAME_DATA_GetSaveControl(((struct Obj04465 *)q)->f0);
-    ((struct Obj01719 *)p)->f3C=func_0201283C(((struct Obj04465 *)q)->f0);
+    ((struct Obj01719 *)p)->f3C=GAME_DATA_GetField1A0(((struct Obj04465 *)q)->f0);
     WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj01719 *)p)->fC);
     *(u8 * *)&((struct Obj01719 *)p)->f40=q;
     if(GFL_NET_GetRunState()) {

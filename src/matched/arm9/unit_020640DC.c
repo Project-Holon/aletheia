@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: func_020640DC, func_02064100, func_02064120
+ * function: NNS_G2dSetSRTTranslate, NNS_G2dSetSRTRotate, NNS_G2dSetSRTScale
  */
 
 typedef unsigned int u32;
@@ -24,7 +24,7 @@ typedef struct {
     u16 flags;
 } Obj020640DC;
 
-void func_020640DC(Obj020640DC *obj, u16 a, u16 b)
+void NNS_G2dSetSRTTranslate(Obj020640DC *obj, u16 a, u16 b)
 {
     if (obj->state != 1) return;
     obj->flags |= 8;
@@ -32,14 +32,14 @@ void func_020640DC(Obj020640DC *obj, u16 a, u16 b)
     obj->field0e = b;
 }
 
-void func_02064100(Obj020640DC *obj, u16 val)
+void NNS_G2dSetSRTRotate(Obj020640DC *obj, u16 val)
 {
     if (obj->state != 1) return;
     obj->flags |= 4;
     obj->field10 = val;
 }
 
-void func_02064120(Obj020640DC *obj, u32 a1, u32 a2)
+void NNS_G2dSetSRTScale(Obj020640DC *obj, u32 a1, u32 a2)
 {
     if (obj->state != 1) return;
     obj->flags |= 2;

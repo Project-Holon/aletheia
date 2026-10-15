@@ -30,11 +30,11 @@
  *   BUTTON_MAN_SetUserData 0x02051A2C arm
  *   BUTTON_MAN_SetCallback 0x02051A24 arm
  *   func_0207C768 0x0207C768 arm
- *   func_0207CF3C 0x0207CF3C arm
+ *   VEC_Distance 0x0207CF3C arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_0207CA68 0x0207CA68 arm
+ *   VEC_DotProduct 0x0207CA68 arm
  *   FX_AcosIdx 0x0207D184 arm
- *   func_0207CAE8 0x0207CAE8 arm
+ *   VEC_CrossProduct 0x0207CAE8 arm
  *   MTX_RotAxis43 0x0207B65C arm
  *   MTX_MultVec43 0x0207BC08 arm
  *   BUTTON_MAN_SetRow2 0x020519C4 arm
@@ -127,11 +127,11 @@ extern u32 func_020307B0(void *p);
 extern void BUTTON_MAN_SetUserData(void *p, int v);
 extern void BUTTON_MAN_SetCallback(void *p, int v);
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0207CF3C(const Vec *a, const Vec *b);
+extern int VEC_Distance(const Vec *a, const Vec *b);
 extern void VEC_Normalize(const Vec *a, Vec *b);
-extern int func_0207CA68(const Vec *a, const Vec *b);
+extern int VEC_DotProduct(const Vec *a, const Vec *b);
 extern u16 FX_AcosIdx(int a);
-extern void func_0207CAE8(const Vec *a, const Vec *b, Vec *c);
+extern void VEC_CrossProduct(const Vec *a, const Vec *b, Vec *c);
 extern void MTX_RotAxis43(void *m, const Vec *axis, int s, int c);
 extern void MTX_MultVec43(const Vec *a, const void *m, Vec *out);
 extern void BUTTON_MAN_SetRow2(void *p, struct S12 *q);
@@ -292,7 +292,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
         }
         if (o->f40 == 0)
             o->f40 = 1;
-        o->f30 = func_0207CF3C(&a, &b) / 2;
+        o->f30 = VEC_Distance(&a, &b) / 2;
         if (r->kind == 1 || r->kind == 4)
             o->f34 = 0;
         else
@@ -315,8 +315,8 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
         e.x = 0x1000;
         e.y = 0;
         e.z = 0;
-        ang = FX_AcosIdx(func_0207CA68(&e, &d));
-        func_0207CAE8(&e, &d, &axis);
+        ang = FX_AcosIdx(VEC_DotProduct(&e, &d));
+        VEC_CrossProduct(&e, &d, &axis);
         VEC_Normalize(&axis, &axis);
         MTX_RotAxis43(o, &axis, FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
         o->pos.x = a.x;
@@ -339,8 +339,8 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
         v1.z = dir.dir.z;
         VEC_Normalize(&v1, &v1);
         VEC_Normalize(&v2, &v2);
-        ang = FX_AcosIdx(func_0207CA68(&v1, &v2));
-        func_0207CAE8(&v1, &v2, &axis2);
+        ang = FX_AcosIdx(VEC_DotProduct(&v1, &v2));
+        VEC_CrossProduct(&v1, &v2, &axis2);
         VEC_Normalize(&axis2, &axis2);
         MTX_RotAxis43(&m, &axis2, FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
         v1.x = dir.dir.x;

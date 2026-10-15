@@ -1,5 +1,5 @@
 /*
- * function: func_0201CEE0
+ * function: GF_FONT_Task
  * address:  0x0201CEE0
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -18,14 +18,14 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   PRINTSYS_PrintStep  0x0201C974  thumb
  *   PRINTSYS_PrintStreamResetSpeed   0x0201CEB8  thumb
- *   sub_0201D110   0x0201D110  thumb
+ *   GF_FONT_Apply   0x0201D110  thumb
  *
  * The per-frame task callback that PRINTSYS_PrintStreamCallBack installs for a printsys
  * text record (the 0x50-byte object, struct PrintCtx at +0x34).  State 0
  * either scrolls the window up by at most four lines (flag bit 1) or, once
  * the wait counter at +0x1e is spent, prints up to f1b/f1d glyphs through
  * PRINTSYS_PrintStep, handling 0xFFFF (end: state 2), 0xFFFE (line break) and
- * the 0xF000/0xBE control block (sub_0201D110).  State 1 waits on flag
+ * the 0xF000/0xBE control block (GF_FONT_Apply).  State 1 waits on flag
  * bit 2 and then clears or scrolls the window.
  *
  * Shape facts, each measured against the bytes:
@@ -115,7 +115,7 @@ struct Descriptor;
 extern void  BMP_WIN_TransferChars(struct Descriptor *a);
 extern u16  *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
 extern void  PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
-extern void  sub_0201D110(struct Rec *p);
+extern void  GF_FONT_Apply(struct Rec *p);
 
 static inline u32 CtrlCode(u16 c, const u16 *p)
 {
@@ -124,7 +124,7 @@ static inline u32 CtrlCode(u16 c, const u16 *p)
     return 0xFF;
 }
 
-void func_0201CEE0(void *task, struct Rec *p)
+void GF_FONT_Task(void *task, struct Rec *p)
 {
     s32 n;
     s32 i;
@@ -183,7 +183,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                         break;
                     case 0xF000:
                         if (CtrlCode(c, p->cur) == 0xBE) {
-                            sub_0201D110(p);
+                            GF_FONT_Apply(p);
                             if (p->cb != 0) {
                                 p->cbres = p->cb(p->cbarg);
                                 if (p->cbres != 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_0207C7E8
+ * function: FX_InvSqrt
  * address:  0x0207C7E8
  * packet:   pkt_0207C7E8
  * region:   arm9
@@ -84,7 +84,7 @@ extern void FX_InvAsync(fx32 denom);
 extern void FX_SqrtAsync(fx32 x);
 extern fx64 FX_GetDivResultFx64c(void);
 
-fx32 func_0207C7E8(fx32 x)
+fx32 FX_InvSqrt(fx32 x)
 {
     if (x > 0) {
         fx64 inv;

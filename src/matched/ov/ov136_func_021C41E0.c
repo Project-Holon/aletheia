@@ -11,11 +11,11 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   MAILSYS_FillDefaultSentences 0x021C4184 thumb ov136
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  */
 #include "../include/Obj01064.h"
 #include "../include/Obj08198.h"
@@ -25,14 +25,14 @@ extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void MAILSYS_FillDefaultSentences(void *, u8 *);
 typedef unsigned int   u32;
 struct GfFont;
 struct Tcbl;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 int MAILSYS_ProcInit(void *a, void *b, u8 *p)
 {
     u8 *q;
@@ -50,11 +50,11 @@ int MAILSYS_ProcInit(void *a, void *b, u8 *p)
     q[0x1A] = v;
     q[0x1B] = v;
     ((struct Obj08198 *)p)->f0 = 0xFFFF;
-    q[0x15] = func_02012FFC();
+    q[0x15] = MSG_SPEED_GetWait();
     MAILSYS_FillDefaultSentences(q, *(u8 * *)&((struct Obj01064 *)q)->f1C);
     ((struct Obj01064 *)q)->f24 = GF_FONT_Create((unsigned)0x17, (unsigned)0, (unsigned)0, (unsigned)0, (u16)(((struct Obj01064 *)q)->f0));
     ((struct Obj01064 *)q)->f100 = TCBL_Create((u16)(((struct Obj01064 *)q)->f0), ((struct Obj01064 *)q)->f0, 0x20, 0x20);
     q[0xA] = 1;
-    func_0203F8F4(((struct Obj01064 *)q)->f0);
+    BG_SYS_Create(((struct Obj01064 *)q)->f0);
     return 1;
 }

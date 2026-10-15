@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B76C8",
+   "name": "POKE_SUMMARY_ACTOR_RegisterResources",
    "address": "0x021B76C8",
    "kind": "game",
    "region": "ov173",

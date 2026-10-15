@@ -22,8 +22,8 @@
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_02020F34 0x02020F34 thumb
- *   func_02021014 0x02021014 thumb
+ *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
+ *   FILE_UTIL_Get_1014 0x02021014 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
@@ -35,7 +35,7 @@
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
@@ -62,8 +62,8 @@ extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_020307B0(void *p);
 extern u32 POKE_TOOL_GetStatusCondition(void *p);
 void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void *func_02020F34(u32 item, u32 which, u32 heap);
-extern u32 func_02021014(struct Rec *p, u32 sel);
+extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
+extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 extern u32 POKE_TOOL_ChangeForm(void *,u32);
 extern int PARTICLE_LoadArchiveMember(u32,u32,u32);
 extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
@@ -75,7 +75,7 @@ extern void PARTICLE_DeleteSystem(void *system);
 extern void GFL_NET_FreeAligned(void *);
 extern void ZUKAN_SAVE_RegisterCaught(void *zukanSave, void *mon);
 extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
 extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
 extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
@@ -206,7 +206,7 @@ int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
         return result;
     dayStart = TIMEZONE_GetZoneLightLevel(work->arg->season, result);
     dayEnd = TIMEZONE_GetZoneLightLevel(work->arg->season, 3);
-    func_0203F4CC((struct RtcTime *)now);
+    GF_STANDARD_SetField00((struct RtcTime *)now);
     if (now[0] < dayStart || now[0] >= dayEnd)
         return 0;
     return 1;
@@ -236,41 +236,41 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
   int ignoreCap;
   int amount;
   int positive;
-  itemRec = func_02020F34(itemId, 0, (u16)heapId);
+  itemRec = FILE_UTIL_CreateArcTool0F34(itemId, 0, (u16)heapId);
   result = 0;
-  if (func_02021014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1)
   {
     func_020307B0(itemRec);
     return result;
   }
   status = POKE_TOOL_GetStatusCondition(mon);
-  if ((func_02021014(itemRec, PLIST_ITEM_CURES_SLEEP) != 0) && (status == 2))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_SLEEP) != 0) && (status == 2))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_CURES_POISON) != 0) && (status == 5))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_POISON) != 0) && (status == 5))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_CURES_BURN) != 0) && (status == 4))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_BURN) != 0) && (status == 4))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_CURES_FREEZE) != 0) && (status == 3))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_FREEZE) != 0) && (status == 3))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_CURES_PARALYSIS) != 0) && (status == 1))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_PARALYSIS) != 0) && (status == 1))
   {
     func_020307B0(itemRec);
     return 1;
   }
   hp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HP, 0);
-  if (((func_02021014(itemRec, PLIST_ITEM_REVIVES) != 0) || (func_02021014(itemRec, PLIST_ITEM_REVIVES_FULL) != 0)) && (func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL) == 0))
+  if (((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_REVIVES) != 0) || (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_REVIVES_FULL) != 0)) && (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_LEVEL) == 0))
   {
     if (hp == 0)
     {
@@ -279,17 +279,17 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     }
   }
   else
-    if (((func_02021014(itemRec, PLIST_ITEM_RESTORES_HP) != 0) && (hp != 0)) && (hp < POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0)))
+    if (((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_HP) != 0) && (hp != 0)) && (hp < POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0)))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL) != 0) && (POKE_TOOL_GetPartyValue(mon, PLIST_MON_LEVEL, 0) < 100))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_LEVEL) != 0) && (POKE_TOOL_GetPartyValue(mon, PLIST_MON_LEVEL, 0) < 100))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_RAISES_PP_UPS) != 0) || (func_02021014(itemRec, PLIST_ITEM_MAXES_PP_UPS) != 0))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_PP_UPS) != 0) || (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_MAXES_PP_UPS) != 0))
   {
     result = 0;
     if ((POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_ID, 0), result) >= 5))
@@ -298,12 +298,12 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
       return 1;
     }
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_RESTORES_PP_ONE) != 0) && (POKE_TOOL_IsPPRestorable(mon, moveSlot) == 1))
+  if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_PP_ONE) != 0) && (POKE_TOOL_IsPPRestorable(mon, moveSlot) == 1))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if (func_02021014(itemRec, PLIST_ITEM_RESTORES_PP_ALL) != 0)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_PP_ALL) != 0)
   {
     for (i = 0; i < 4; i++)
     {
@@ -321,11 +321,11 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
   evSpeed = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPEED, 0);
   evSpAtk = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPATK, 0);
   evSpDef = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPDEF, 0);
-  ignoreCap = func_02021014(itemRec, PLIST_ITEM_EV_IGNORES_CAP);
+  ignoreCap = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_IGNORES_CAP);
   if (POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA)
-    if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_HP) != 0)
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_HP) != 0)
   {
-    amount = func_02021014(itemRec, PLIST_ITEM_EV_HP_AMOUNT);
+    amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_HP_AMOUNT);
     if (amount > 0)
     {
       if ((((evHp < 100) || (ignoreCap != 0)) && (evHp < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
@@ -349,9 +349,9 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
       }
     }
   }
-  if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_ATK) != 0)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_ATK) != 0)
   {
-    amount = func_02021014(itemRec, PLIST_ITEM_EV_ATK_AMOUNT);
+    amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_ATK_AMOUNT);
     if (amount > 0)
     {
       if ((((evAtk < 100) || (ignoreCap != 0)) && (evAtk < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
@@ -375,9 +375,9 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
       }
     }
   }
-  if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_DEF) != 0)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_DEF) != 0)
   {
-    amount = func_02021014(itemRec, PLIST_ITEM_EV_DEF_AMOUNT);
+    amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_DEF_AMOUNT);
     if (amount > 0)
     {
       if ((((evDef < 100) || (ignoreCap != 0)) && (evDef < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
@@ -401,9 +401,9 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
       }
     }
   }
-  if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPEED) != 0)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_SPEED) != 0)
   {
-    amount = func_02021014(itemRec, PLIST_ITEM_EV_SPEED_AMOUNT);
+    amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_SPEED_AMOUNT);
     if (amount > 0)
     {
       if ((((evSpeed < 100) || (ignoreCap != 0)) && (evSpeed < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
@@ -427,9 +427,9 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
       }
     }
   }
-  if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPATK) != 0)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_SPATK) != 0)
   {
-    amount = func_02021014(itemRec, PLIST_ITEM_EV_SPATK_AMOUNT);
+    amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_SPATK_AMOUNT);
     if (amount > 0)
     {
       if ((((evSpAtk < 100) || (ignoreCap != 0)) && (evSpAtk < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
@@ -453,9 +453,9 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
       }
     }
   }
-  if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPDEF) != 0)
+  if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_SPDEF) != 0)
   {
-    amount = func_02021014(itemRec, PLIST_ITEM_EV_SPDEF_AMOUNT);
+    amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_SPDEF_AMOUNT);
     positive = amount > 0;
     if (positive)
     {
@@ -501,31 +501,31 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
     int applicable;
     int originalStatus, status, evSpAtk, evSpDef, ignoreCap, amount;
     int evHp, hp, evAtk, maxHp, evDef, evSpeed, level, friendship, result, i;
-    itemRec = func_02020F34(item, 0, (u16)heap);
-    if (func_02021014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1) { func_020307B0(itemRec); return changed; }
+    itemRec = FILE_UTIL_CreateArcTool0F34(item, 0, (u16)heap);
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1) { func_020307B0(itemRec); return changed; }
     applicable = 0;
     originalStatus = POKE_TOOL_GetPartyValue(mon, PLIST_MON_STATUS, 0);
     status = originalStatus;
-    if (func_02021014(itemRec, PLIST_ITEM_CURES_SLEEP)) { status = 0; applicable = 1; }
-    if (func_02021014(itemRec, PLIST_ITEM_CURES_POISON)) { status = 0; applicable = 1; }
-    if (func_02021014(itemRec, PLIST_ITEM_CURES_BURN)) { status = 0; applicable = 1; }
-    if (func_02021014(itemRec, PLIST_ITEM_CURES_FREEZE)) { status = 0; applicable = 1; }
-    if (func_02021014(itemRec, PLIST_ITEM_CURES_PARALYSIS)) { status = 0; applicable = 1; }
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_SLEEP)) { status = 0; applicable = 1; }
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_POISON)) { status = 0; applicable = 1; }
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_BURN)) { status = 0; applicable = 1; }
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_FREEZE)) { status = 0; applicable = 1; }
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_PARALYSIS)) { status = 0; applicable = 1; }
     if (originalStatus != status) { POKE_TOOL_SetPartyValue(mon, PLIST_MON_STATUS, status); changed = 1; }
     hp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HP, 0);
     maxHp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0);
-    if ((func_02021014(itemRec, PLIST_ITEM_REVIVES) || func_02021014(itemRec, PLIST_ITEM_REVIVES_FULL)) && !func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL)) {
+    if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_REVIVES) || FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_REVIVES_FULL)) && !FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_LEVEL)) {
         if (hp == 0) {
-            PLIST_DEMO_RestoreHp(mon, hp, maxHp, func_02021014(itemRec, PLIST_ITEM_HP_AMOUNT));
+            PLIST_DEMO_RestoreHp(mon, hp, maxHp, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_HP_AMOUNT));
             changed = 1;
         }
         applicable = 1;
-    } else if (func_02021014(itemRec, PLIST_ITEM_RESTORES_HP)) {
-        if (hp < maxHp) { PLIST_DEMO_RestoreHp(mon, hp, maxHp, func_02021014(itemRec, PLIST_ITEM_HP_AMOUNT)); changed = 1; }
+    } else if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_HP)) {
+        if (hp < maxHp) { PLIST_DEMO_RestoreHp(mon, hp, maxHp, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_HP_AMOUNT)); changed = 1; }
         applicable = 1;
     }
     level = POKE_TOOL_GetPartyValue(mon, PLIST_MON_LEVEL, 0);
-    if (func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL)) {
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_LEVEL)) {
         if (level < 100) {
             i = POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0);
             result = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FORM, 0);
@@ -539,20 +539,20 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
         }
         applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_EVOLVES)) applicable = 1;
-    if (func_02021014(itemRec, PLIST_ITEM_RAISES_PP_UPS)) {
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EVOLVES)) applicable = 1;
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_PP_UPS)) {
         applicable = 1;
         if (PLIST_DEMO_RaiseMovePpUps(mon, moveSlot, 1) == 1) changed = 1;
         applicable = 1;
-    } else if (func_02021014(itemRec, PLIST_ITEM_MAXES_PP_UPS)) {
+    } else if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_MAXES_PP_UPS)) {
         if (PLIST_DEMO_RaiseMovePpUps(mon, moveSlot, 3) == 1) changed = 1;
         applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_RESTORES_PP_ONE)) {
-        if (POKE_TOOL_RestorePP(mon, moveSlot, func_02021014(itemRec, PLIST_ITEM_PP_AMOUNT)) == 1) changed = 1;
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_PP_ONE)) {
+        if (POKE_TOOL_RestorePP(mon, moveSlot, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_PP_AMOUNT)) == 1) changed = 1;
         applicable = 1;
-    } else if (func_02021014(itemRec, PLIST_ITEM_RESTORES_PP_ALL)) {
-        for (i = 0; i < 4; i++) if (POKE_TOOL_RestorePP(mon, i, func_02021014(itemRec, PLIST_ITEM_PP_AMOUNT)) == 1) changed = 1;
+    } else if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_PP_ALL)) {
+        for (i = 0; i < 4; i++) if (POKE_TOOL_RestorePP(mon, i, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_PP_AMOUNT)) == 1) changed = 1;
         applicable = 1;
     }
     evHp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_HP, 0);
@@ -561,39 +561,39 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
     evSpeed = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPEED, 0);
     evSpAtk = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPATK, 0);
     evSpDef = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPDEF, 0);
-    ignoreCap = func_02021014(itemRec, PLIST_ITEM_EV_IGNORES_CAP);
-    if (POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA && func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_HP)) {
-        amount = func_02021014(itemRec, PLIST_ITEM_EV_HP_AMOUNT);
+    ignoreCap = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_IGNORES_CAP);
+    if (POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA && FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_HP)) {
+        amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_HP_AMOUNT);
         result = PLIST_DEMO_AddEv(evHp, evSpDef + (evSpAtk + (evSpeed + (evAtk + evDef))), amount, ignoreCap);
         if (result != -1) { evHp = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_HP, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_ATK)) {
-        amount = func_02021014(itemRec, PLIST_ITEM_EV_ATK_AMOUNT);
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_ATK)) {
+        amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_ATK_AMOUNT);
         result = PLIST_DEMO_AddEv(evAtk, evSpDef + (evSpAtk + (evSpeed + (evHp + evDef))), amount, ignoreCap);
         if (result != -1) { evAtk = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_ATK, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_DEF)) {
-        amount = func_02021014(itemRec, PLIST_ITEM_EV_DEF_AMOUNT);
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_DEF)) {
+        amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_DEF_AMOUNT);
         result = PLIST_DEMO_AddEv(evDef, evSpDef + (evSpAtk + (evSpeed + (evHp + evAtk))), amount, ignoreCap);
         if (result != -1) { evDef = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_DEF, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPEED)) {
-        amount = func_02021014(itemRec, PLIST_ITEM_EV_SPEED_AMOUNT);
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_SPEED)) {
+        amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_SPEED_AMOUNT);
         result = PLIST_DEMO_AddEv(evSpeed, evSpDef + (evSpAtk + (evDef + (evHp + evAtk))), amount, ignoreCap);
         if (result != -1) { evSpeed = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPEED, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPATK)) {
-        amount = func_02021014(itemRec, PLIST_ITEM_EV_SPATK_AMOUNT);
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_SPATK)) {
+        amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_SPATK_AMOUNT);
         result = PLIST_DEMO_AddEv(evSpAtk, evSpDef + (evSpeed + (evDef + (evHp + evAtk))), amount, ignoreCap);
         if (result != -1) { evSpAtk = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPATK, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
-    if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPDEF)) {
-        amount = func_02021014(itemRec, PLIST_ITEM_EV_SPDEF_AMOUNT);
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CHANGES_EV_SPDEF)) {
+        amount = FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_EV_SPDEF_AMOUNT);
         result = PLIST_DEMO_AddEv(evSpDef, evSpAtk + (evSpeed + (evDef + (evHp + evAtk))), amount, ignoreCap);
         if (result != -1) { POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPDEF, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
@@ -601,18 +601,18 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
     if (changed == 0 && applicable == 1) { func_020307B0(itemRec); return 0; }
     friendship = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FRIENDSHIP, 0);
     if (friendship < 100) {
-        if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW)) {
-            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
+        if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW)) {
+            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     } else if (friendship >= 100 && friendship < 200) {
-        if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID)) {
-            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
+        if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_MID)) {
+            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     } else if (friendship >= 200 && friendship <= 255) {
-        if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH)) {
-            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
+        if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH)) {
+            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     }
@@ -689,17 +689,17 @@ int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec)
     if (friendship >= 0xFF)
         return result;
     if (friendship < 100) {
-        if ((int)func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW) != 0 && (int)func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT) > 0)
+        if ((int)FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW) != 0 && (int)FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT) > 0)
             return 1;
         return 0;
     }
     if (friendship >= 100 && friendship < 200) {
-        if ((int)func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID) != 0 && (int)func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT) > 0)
+        if ((int)FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_MID) != 0 && (int)FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT) > 0)
             return 1;
         return 0;
     }
     if (friendship >= 200 && friendship < 0xFF) {
-        if ((int)func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH) != 0 && (int)func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT) > 0)
+        if ((int)FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH) != 0 && (int)FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT) > 0)
             return 1;
         return 0;
     }

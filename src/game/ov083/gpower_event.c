@@ -32,11 +32,11 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   FLDMMDL_SysResumeMove 0x0216D9E4 thumb ov010
  *   FADE_Start  0x0204E720  arm
@@ -61,8 +61,8 @@
  *   func_0201F250  0x0201F250  thumb
  *   FIELD_MSGBG_InfoMsgWinPrintStr  0x02190844  thumb  ov021
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF10  0x0200BF10  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_02010EB4  0x02010EB4  thumb
  *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
@@ -105,11 +105,11 @@ extern void *func_020124E8(struct GameEvent *event);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern struct FldMmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void FLDMMDL_SysPauseMove(struct FldMmdlSys *mmdlSys);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 *FLDMMDL_SysResumeMove(struct FldMmdlSys *mmdlSys);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -134,8 +134,8 @@ extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 value, u32 dig
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct InfoMsgWin *win, int x, int y, struct Strbuf *str);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct GPowerSave *func_0200BE48(struct SaveControl *saveControl);
-extern u8 func_0200BF10(struct GPowerSave *gpowerSave);
+extern struct GPowerSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
+extern u8 INTRUDE_GetMonolithLevel(struct GPowerSave *gpowerSave);
 extern void MSGDATA_ReadString(struct MsgData *msgData, u32 msgId, struct Strbuf *dst);
 extern u8 func_02010EB4(int type);
 extern u32 GPOWER_GetMinutesLeftByType(u32 type);
@@ -229,7 +229,7 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
     work->mmdlSys = FIELDMAP_GetMmdlSys(work->fieldMap);
     work->powerTable = GPOWER_LoadPowerTable(work->heapId);
     work->msgData = func_02045B38(0, 3, 0x108, work->heapId);
-    work->wordSet = func_0201EC64(work->heapId);
+    work->wordSet = GF_FONT_Create_EC64(work->heapId);
     work->templateStr = STRBUF_Create(0x81, work->heapId);
     work->lineStr = STRBUF_Create(0x81, work->heapId);
     FLDMMDL_SysPauseMove(work->mmdlSys);
@@ -240,7 +240,7 @@ void GPOWER_EVENT_FreeListWork(GPowerListWork *work)
 {
     STRBUF_Delete(work->lineStr);
     STRBUF_Delete(work->templateStr);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     MSGDATA_Delete(work->msgData);
     GPOWER_FreePowerTable(work->powerTable);
     FLDMMDL_SysResumeMove(work->mmdlSys);
@@ -345,11 +345,11 @@ void GPOWER_EVENT_PrintPowerList(GPowerListWork *work)
     u8 count;
     u8 swapTmp;
 
-    gpowerSave = func_0200BE48(GAME_DATA_GetSaveControl(work->gameData));
+    gpowerSave = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(work->gameData));
     MSGDATA_ReadString(work->msgData, 4, work->templateStr);
     FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 0, 0, work->templateStr);
     MSGDATA_ReadString(work->msgData, 6, work->templateStr);
-    powerId = (int)func_0200BF10(gpowerSave);
+    powerId = (int)INTRUDE_GetMonolithLevel(gpowerSave);
     if (powerId != GPOWER_ID_NONE) {
         GPOWER_EVENT_PrintPowerRow(work, work->templateStr, powerId, 0, 1);
     }

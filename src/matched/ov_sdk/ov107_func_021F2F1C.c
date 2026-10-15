@@ -12,9 +12,9 @@
  * sdk:      MB_GetSegmentLength (libmb.TWL.HYB.a mb_fileinfo.o)
  *
  * symbols:
- *   func_02078AEC  0x02078AEC  arm
+ *   FS_GetFilePosition  0x02078AEC  arm
  *   FS_ReadFile  0x02078B70  arm
- *   func_02078B44  0x02078B44  arm
+ *   FS_SeekFile  0x02078B44  arm
  */
 
 typedef unsigned char u8;
@@ -29,9 +29,9 @@ typedef struct {
 
 typedef signed int     s32;
 struct FSFile;
-extern u32 func_02078AEC(struct FSFile *file);
+extern u32 FS_GetFilePosition(struct FSFile *file);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 
 u32 MB_GetSegmentLength(void *file)
 {
@@ -43,10 +43,10 @@ u32 MB_GetSegmentLength(void *file)
     p = 0;
     ret = 0;
     if (file) {
-        bak_pos = func_02078AEC(file);
+        bak_pos = FS_GetFilePosition(file);
         if ((u32)FS_ReadFile(file, rom, 96) >= 96)
             p = (RomHeader *)rom;
-        func_02078B44(file, bak_pos, 0);
+        FS_SeekFile(file, bak_pos, 0);
     } else {
         p = (RomHeader *)0x02FFFE00;
     }

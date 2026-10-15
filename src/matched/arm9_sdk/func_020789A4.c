@@ -1,5 +1,5 @@
 /*
- * function: func_020789A4
+ * function: FS_OpenFileFast
  * address:  0x020789A4
  * packet:   pkt_020789A4
  * region:   arm9
@@ -57,7 +57,7 @@ typedef struct FSArgumentForOpenFileFast
     u32 mode;
 } FSArgumentForOpenFileFast;
 
-BOOL func_020789A4(FSFile *file, FSFileID id)
+BOOL FS_OpenFileFast(FSFile *file, FSFileID id)
 {
     BOOL retval = 0;
 

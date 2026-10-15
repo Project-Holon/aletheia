@@ -17,11 +17,12 @@
  * symbols:
  *   gsLargeIntReverseBytes  0x0217E934  arm
  *   gsXmlReadChildAsHexBinary  0x021837A4  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm  arm9
  */
 
 typedef unsigned int u32;
 
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut);
 extern int gsLargeIntReverseBytes(char *p);
 
@@ -30,7 +31,7 @@ int gsXmlReadChildAsLargeInt(void *a, int b, int *c)
     u32 n = 0;
     u32 k;
 
-    func_020923B0(c, 0, 0x104);
+    MSL_C_LIB_MemsetPtr(c, 0, 0x104);
     if (gsXmlReadChildAsHexBinary(a, (char *)b, (unsigned char *)(c + 1), 0x200, (int *)(&n)) == 0)
         return 0;
 

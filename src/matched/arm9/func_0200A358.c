@@ -10,10 +10,10 @@
  * status:   EXACT
  * note:     wave 16: promoted.  0x021DFE90 and 0x021DFEAC are unlabelled
  *           ov228 leaves (a byte getter at +0x378 and `p + 0xC`), now matched
- *           in src/matched/func_021DFE90.c / func_021DFEAC.c (shard
+ *           in src/matched/SAVE_OUTSIDE_IsLoaded.c / SAVE_OUTSIDE_GetPayload.c (shard
  *           ov228/pkt_021DFC20); the ov228 hints below make both sites
- *           `matched, overlay`.  func_021DFEAC's body reads r0, so its
- *           prototype now takes the pointer func_021DFC20 returned (the
+ *           `matched, overlay`.  SAVE_OUTSIDE_GetPayload's body reads r0, so its
+ *           prototype now takes the pointer SAVE_OUTSIDE_Load returned (the
  *           callee-arity lever; same bytes, it was a live leftover before).
  * symbols:
  *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
@@ -21,9 +21,9 @@
  *   MYSTERY_DATA_Encrypt   0x0200A480  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021DFC20  0x021DFC20  thumb  ov228
- *   func_021DFE90  0x021DFE90  thumb  ov228
- *   func_021DFEAC  0x021DFEAC  thumb  ov228
+ *   SAVE_OUTSIDE_Load  0x021DFC20  thumb  ov228
+ *   SAVE_OUTSIDE_IsLoaded  0x021DFE90  thumb  ov228
+ *   SAVE_OUTSIDE_GetPayload  0x021DFEAC  thumb  ov228
  *   ov_id_E4       0x000000E4  data
  *
  * WHAT CHANGED THIS WAVE (docs/notes/pkt_0200A358.c.txt had this row at DIFF,
@@ -63,9 +63,9 @@ struct Obj;
 extern void  MYSTERY_DATA_Encrypt(struct Obj *p);
 extern int func_02034AC4(int id);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
-extern void *func_021DFC20(u32 heap);
-extern u8 func_021DFE90(u8 *p);
-extern void *func_021DFEAC(u8 *p);
+extern void *SAVE_OUTSIDE_Load(u32 heap);
+extern u8 SAVE_OUTSIDE_IsLoaded(u8 *p);
+extern void *SAVE_OUTSIDE_GetPayload(u8 *p);
 extern u8    ov_id_E4[];
 
 void MYSTERY_DATA_Load(u8 *p, void *ctrl, int a2, int a3)
@@ -91,11 +91,11 @@ void MYSTERY_DATA_Load(u8 *p, void *ctrl, int a2, int a3)
         return;
     }
     func_02034AC4((int)ov_id_E4);
-    w = func_021DFC20(a3);
+    w = SAVE_OUTSIDE_Load(a3);
     ((struct Obj04037 *)p)->f8 = (u32)w;
-    ((struct Obj04037 *)p)->f0 = (u32)func_021DFEAC(w);
+    ((struct Obj04037 *)p)->f0 = (u32)SAVE_OUTSIDE_GetPayload(w);
     ((struct Obj04037 *)p)->f4 = 0;
-    if (func_021DFE90((void *)((struct Obj04037 *)p)->f8) == 0) {
+    if (SAVE_OUTSIDE_IsLoaded((void *)((struct Obj04037 *)p)->f8) == 0) {
         MI_CpuFill8((void *)((struct Obj04037 *)p)->f0, 0, 0x368);
         MYSTERY_DATA_Encrypt((struct Obj *)p);
     }

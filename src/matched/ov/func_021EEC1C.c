@@ -11,6 +11,7 @@
  *
  * symbols:
  *   BOX2_UI_UpdateCursor  0x021EE408  thumb  ov170
+ *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb  arm9
  *
  * Queue the byte-narrowed index, then re-run the frame update.
  */
@@ -19,10 +20,10 @@
 
 typedef unsigned char  u8;
 struct Sound;
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_UpdateCursor(char *, int);
 void BOX2_UI_PlayAndUpdateCursorB(char *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)(*(int *)(((struct Obj18531 *)p)->f2C + 0x70)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)(*(int *)(((struct Obj18531 *)p)->f2C + 0x70)), (unsigned char)a);
     BOX2_UI_UpdateCursor(p, a);
 }

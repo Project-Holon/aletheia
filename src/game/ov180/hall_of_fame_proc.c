@@ -29,6 +29,9 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   BG_SYS_Create  0x0203F8F4  arm  arm9
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   DOUBLE3DDISP_Delete  0x0204EA64  arm  arm9
  */
 #include "hall_of_fame.h"
 
@@ -47,12 +50,12 @@ extern void func_020306F0(unsigned int heapId);
 extern int func_020056A0(void *func, void *work, int priority);
 extern void func_02030EAC(void *task);
 extern void CLACT_VBlankSystem(void);
-extern void func_0204EA64(void);
+extern void DOUBLE3DDISP_Delete(void);
 extern void func_020419E4(void);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0203F8F4(u16);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Create(u16);
+extern void BG_SYS_Delete(void);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_02040EBC(u32, u32);
 extern u32 SDK_AUTOLOAD_DTCM_START[];
@@ -105,7 +108,7 @@ void HALL_OF_FAME_RemoveVBlankTask(HallOfFameWork *work)
 void HALL_OF_FAME_VBlankMon(void)
 {
     CLACT_VBlankSystem();
-    func_0204EA64();
+    DOUBLE3DDISP_Delete();
     *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
 }
 
@@ -137,12 +140,12 @@ int HALL_OF_FAME_GetVramBanksAddr(int subScreen)
 
 void HALL_OF_FAME_InitGraphicsSystem(void)
 {
-    func_0203F8F4(HOF_HEAP_ID);
+    BG_SYS_Create(HOF_HEAP_ID);
 }
 
 void HALL_OF_FAME_ExitGraphicsSystem(void)
 {
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void HALL_OF_FAME_SetupDisplay(void)

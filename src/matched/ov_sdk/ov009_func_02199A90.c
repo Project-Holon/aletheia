@@ -1,5 +1,5 @@
 /*
- * function: func_02199A90
+ * function: SendPingPacket
  * address:  0x02199A90
  * packet:   pkt_ov009_02199A90
  * region:   ov009
@@ -16,8 +16,8 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   SendPacket     0x021992A8  arm  ov009
  *   current_time   0x0217F264  arm  ov009
- *   g_021A5A7C     0x021A5A7C  data
- *   g_021A5C60     0x021A5C60  data
+ *   gNatNegMagic     0x021A5A7C  data
+ *   gNatNegSendPingFmt     0x021A5C60  data
  */
 
 #include "../include/G_Magic6.h"
@@ -66,15 +66,15 @@ extern char *SOC_InetNtoA();
 extern void gsDebugFormat();
 extern void SendPacket();
 extern u32 current_time(void);
-extern struct Magic6 g_021A5A7C;
-extern char g_021A5C60[];
+extern struct Magic6 gNatNegMagic;
+extern char gNatNegSendPingFmt[];
 
-void func_02199A90(NATNegotiator *neg)
+void SendPingPacket(NATNegotiator *neg)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -90,7 +90,7 @@ void func_02199A90(NATNegotiator *neg)
     p.port = NN_SWAP16(neg->guessedPort);
     p.gotyourdata = neg->gotRemoteData;
     p.finished = (neg->gotRemoteData && neg->sendGotRemoteData) ? 1 : 0;
-    gsDebugFormat(7, 0, 8, g_021A5C60, neg->cookie, SOC_InetNtoA(neg->guessedIP), neg->guessedPort, neg->gotRemoteData);
+    gsDebugFormat(7, 0, 8, gNatNegSendPingFmt, neg->cookie, SOC_InetNtoA(neg->guessedIP), neg->guessedPort, neg->gotRemoteData);
     SendPacket(neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, neg->guessedIP, neg->guessedPort, &p, 0x14);
     neg->retryTime = current_time() + 700;
     neg->maxRetryCount = 7;

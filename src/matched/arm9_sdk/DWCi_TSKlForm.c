@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02061EB8 0x02061EB8 arm
+ *   NNSi_GfdAllocLnkVram 0x02061EB8 arm
  */
 
 typedef unsigned int u32;
 struct Blk;
-extern int func_02061EB8(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size, u32 alignment);
+extern int NNSi_GfdAllocLnkVram(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size, u32 alignment);
 
 int NNSi_GfdAllocBlockUnaligned(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size)
 {
-    return func_02061EB8(list, pool, pRet, size, 0);
+    return NNSi_GfdAllocLnkVram(list, pool, pRet, size, 0);
 }

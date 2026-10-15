@@ -1,5 +1,5 @@
 /*
- * function: func_0205D318
+ * function: DWCi_AC_MakeSearchList
  * address:  0x0205D318
  * packet:   pkt_0205D318
  * region:   arm9
@@ -14,10 +14,10 @@
  * symbols:
  *   DWCi_AC_GetMemPtr 0x0205C214 arm
  *   MIi_CpuClear32 0x02082A7C arm
- *   func_0205D470 0x0205D470 arm
- *   func_0205D848 0x0205D848 arm
- *   func_0205D8D4 0x0205D8D4 arm
- *   func_0205D4D8 0x0205D4D8 arm
+ *   MakeAroundList 0x0205D470 arm
+ *   MakeDifferChannelList 0x0205D848 arm
+ *   CheckDifferChannelStart 0x0205D8D4 arm
+ *   MakeStealthList 0x0205D4D8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  */
 
@@ -135,24 +135,24 @@ typedef struct {
 
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
-extern unsigned char func_0205D470(ACWORK *wk);
-extern unsigned char func_0205D848(ACWORK *wk);
-extern unsigned char func_0205D8D4(ACWORK *wk);
-extern unsigned char func_0205D4D8(ACWORK *wk);
+extern unsigned char MakeAroundList(ACWORK *wk);
+extern unsigned char MakeDifferChannelList(ACWORK *wk);
+extern unsigned char CheckDifferChannelStart(ACWORK *wk);
+extern unsigned char MakeStealthList(ACWORK *wk);
 extern int OS_IsRunOnTwl(void);
 
-int func_0205D318(int type)
+int DWCi_AC_MakeSearchList(int type)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
     switch (type) {
     case 0:
         MIi_CpuClear32(0, wk->searchList, sizeof(wk->searchList));
-        wk->searchListNum = func_0205D470(wk);
+        wk->searchListNum = MakeAroundList(wk);
         break;
     case 1:
-        wk->searchListNum = func_0205D848(wk);
-        wk->searchListNo = func_0205D8D4(wk);
+        wk->searchListNum = MakeDifferChannelList(wk);
+        wk->searchListNo = CheckDifferChannelStart(wk);
         if (wk->searchListNum == 0) {
             return 0;
         }
@@ -160,7 +160,7 @@ int func_0205D318(int type)
     case 2:
         MIi_CpuClear32(0, wk->searchList, sizeof(wk->searchList));
         wk->searchListNo = 0;
-        wk->searchListNum = func_0205D4D8(wk);
+        wk->searchListNum = MakeStealthList(wk);
         if (wk->searchListNum == 0) {
             return 0;
         }

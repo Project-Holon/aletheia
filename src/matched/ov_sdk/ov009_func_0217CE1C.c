@@ -1,5 +1,5 @@
 /*
- * function: func_0217CE1C
+ * function: gsCoreIsShutdown
  * address:  0x0217CE1C
  * packet:   pkt_ov009_0217CE1C
  * region:   ov009
@@ -23,7 +23,7 @@ typedef struct GSCoreMgr {
 
 extern void *gsiCoreGetManager(void);
 
-int func_0217CE1C(void)
+int gsCoreIsShutdown(void)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
     if (aCore->b0c != 0)

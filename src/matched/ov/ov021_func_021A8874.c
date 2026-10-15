@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   gFieldMenuBgTemplate5     0x021D8BBC  data  a4
  *   gFieldMenuBgTemplate6     0x021D8B5C  data  a4
  *   gFieldMenuBgTemplate7     0x021D8B7C  data  a4
  *   gFieldMenuScreenIds     0x021D8B44  data  a4
  *   gFieldMenuSurfaceRect     0x021D8C1C  data  a4
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040618  0x02040618  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
@@ -84,12 +84,12 @@ extern const u32 gFieldMenuScreenIds[];
 extern const Bank gFieldMenuSurfaceRect;
 
 struct Actor;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 struct BgTemplate;
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 typedef signed int     s32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -121,16 +121,16 @@ void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
     Pos pos;
     Bank bank;
 
-    func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_0203FCA0(5, (const struct BgTemplate *)gFieldMenuBgTemplate5, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)gFieldMenuBgTemplate5, 0);
     func_02040588(5, 1);
-    func_020414EC(5);
-    func_0203FCA0(6, (const struct BgTemplate *)gFieldMenuBgTemplate6, 0);
+    BG_SYS_ClearSlot(5);
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)gFieldMenuBgTemplate6, 0);
     func_02040588(6, 1);
-    func_020414EC(6);
-    func_0203FCA0(7, (const struct BgTemplate *)gFieldMenuBgTemplate7, 0);
+    BG_SYS_ClearSlot(6);
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)gFieldMenuBgTemplate7, 0);
     func_02040588(7, 1);
-    func_020414EC(7);
+    BG_SYS_ClearSlot(7);
     func_02040618(6, 3, -5);
     func_02049B68(q, 0, 4, 0, 0, p->f02);
     func_02049658(q, 2, 5, 0, 0, 0, p->f02);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6D0C
+ * function: EGG_DEMO_VIEW_OnAnimStop
  * address:  0x021F6D0C
  * packet:   pkt_021F6D0C
  * region:   ov215
@@ -20,7 +20,7 @@
 
 extern void MCSS_SetAnmStopFlag(void *p);
 
-int func_021F6D0C(char *a)
+int EGG_DEMO_VIEW_OnAnimStop(char *a)
 {
     MCSS_SetAnmStopFlag((void *)(((struct Obj14711 *)a)->f34));
     ((struct Obj14711 *)a)->f38 = 1;

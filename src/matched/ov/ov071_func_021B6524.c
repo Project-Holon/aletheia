@@ -13,15 +13,15 @@
  * Three ARM9 thunks that share a literal-pool tail-call shape.
  *
  * symbols:
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  */
 
 void func_021B6524(void)
 {
-    void func_0203F9B4(void);
-    func_0203F9B4();
+    void BG_SYS_Delete(void);
+    BG_SYS_Delete();
 }
 
 typedef unsigned short u16;

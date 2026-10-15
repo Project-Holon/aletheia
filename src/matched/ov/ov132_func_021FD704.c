@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021FD704, func_021FD744, func_021FD760
+ * function: STA_NET_SendSlot1Command, STA_NET_SetSlot1Done, STA_NET_GetSlot1Value
  * address: 0x021FD704
  * packet: pkt_ov132_021FD704
  * region: ov132
@@ -22,7 +22,7 @@ typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
-int func_021FD704(u8 *p)
+int STA_NET_SendSlot1Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct Obj23295 *)p)->f140;
     u32 id;
@@ -30,14 +30,14 @@ int func_021FD704(u8 *p)
     id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
     return GFL_NET_SendData(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
 }
-void func_021FD744(void *a, void *b, void *c, u8 *p)
+void STA_NET_SetSlot1Done(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
     ((struct Obj14135 *)p)->f170 = 1;
     q = *(u32 * *)&((struct Obj14135 *)p)->f140;
     STA_SLOT_Noop(q[1], q[8], 12);
 }
-u32 func_021FD760(void *a, u8 *p)
+u32 STA_NET_GetSlot1Value(void *a, u8 *p)
 {
     return (*(u32 **)(p + 0x140))[1];
 }

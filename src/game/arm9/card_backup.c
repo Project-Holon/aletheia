@@ -1,7 +1,7 @@
 /*
  * file:     card_backup.c
  * unit:     yes
- * function: func_020763BC, func_020763F0, func_02076540, CARDi_IdentifyBackupCore2, func_02076A20, func_02076A70, func_02076AC0, func_02076B2C, func_02076B6C, CARD_WaitBackupAsync, CARD_TryWaitBackupAsync, func_02076B98
+ * function: CARDi_OnFifoRecv, CARDi_Request, CARDi_RequestStreamCommandCore, CARDi_IdentifyBackupCore2, CARDi_IdentifyBackupCore, CARDi_BeginBackupCommand, CARDi_RequestStreamCommand, CARD_IdentifyBackup, func_02076B6C, CARD_WaitBackupAsync, CARD_TryWaitBackupAsync, CARD_CancelBackupAsync
  * address:  0x020763BC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -41,7 +41,8 @@
  *   CARDi_ExecuteOldTypeTask  0x02076170  arm
  *   CARDi_RequestStreamCommandCore  0x02076540  arm
  *   CARDi_IdentifyBackupCore  0x02076A20  arm
- *   func_02076070  0x02076070  arm
+ *   CARDi_TryWaitAsync  0x02076070  arm
+ *   CARDi_WaitAsync  0x02076050  arm
  */
 #define CARD_REQ_ERASE_SECTOR_BACKUP    11
 #define CARD_REQ_ERASE_SUBSECTOR_BACKUP 15
@@ -187,19 +188,15 @@ extern void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 extern void CARDi_RequestStreamCommandCore(CARDiCommon *p);
 extern void CARDi_IdentifyBackupCore(CARDiCommon *p);
-extern void func_02076050(void);
-extern int func_02076070(void);
-void func_020763BC(int tag, u32 data, BOOL err);
-BOOL func_020763F0(CARDiCommon *p, int req_type, int retry_count);
-void func_02076540(CARDiCommon *p);
-void func_02076A20(CARDiCommon *p);
-void func_02076A70(u32 level, void (*callback)(void *), void *arg);
-BOOL func_02076AC0(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async, int req_type, int req_retry, int req_mode);
-BOOL func_02076B2C(int type);
+extern void CARDi_WaitAsync(void);
+extern int CARDi_TryWaitAsync(void);
+void CARDi_OnFifoRecv(int tag, u32 data, BOOL err);
+BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async, int req_type, int req_retry, int req_mode);
+BOOL CARD_IdentifyBackup(int type);
 u32 CARD_GetBackupSectorSize(void);
 void CARD_WaitBackupAsync(void);
 u32 CARD_TryWaitBackupAsync(void);
-void func_02076B98(void);
+void CARD_CancelBackupAsync(void);
 extern CARDiCommon cardi_common;
 extern OSThreadInfo OSi_ThreadInfo;
 extern const char cardi_backup_assert[22];
@@ -212,7 +209,7 @@ extern const char cardi_backup_assert[22];
 /*
  * sdk:      CARDi_OnFifoRecv (libcard.TWL.HYB.a card_backup.o)
  */
-void func_020763BC(int tag, u32 data, BOOL err)
+void CARDi_OnFifoRecv(int tag, u32 data, BOOL err)
 {
 #pragma unused(data)
     if ((tag == 11) && err)
@@ -242,9 +239,9 @@ static inline OSThread *OS_GetCurrentThread(void)
 /*
  * sdk:      CARDi_Request (libcard.TWL.HYB.a card_backup.o)
  */
-BOOL func_020763F0(CARDiCommon *p, int req_type, int retry_count)
+BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count)
 {
-    if ((*(volatile u32 *)&p->flag & 2) == 0)
+    if ((p->flag & 2) == 0)
     {
         p->flag |= 2;
         while (!PXI_IsCallbackReady(11, 1))
@@ -299,7 +296,7 @@ extern u8 CARDi_backup_cache_page_buf[256] __attribute__((aligned(32)));
  *
  * sdk:      CARDi_RequestStreamCommandCore (libcard.TWL.HYB.a card_backup.o, static)
  */
-void func_02076540(CARDiCommon *p)
+void CARDi_RequestStreamCommandCore(CARDiCommon *p)
 {
     int req_type = p->req_type;
     int req_mode = p->req_mode;
@@ -536,7 +533,7 @@ static void CARDi_IdentifyBackupCore2(CARDBackupType type)
 /*
  * sdk:      CARDi_IdentifyBackupCore (libcard.TWL.HYB.a card_backup.o)
  */
-void func_02076A20(CARDiCommon *p)
+void CARDi_IdentifyBackupCore(CARDiCommon *p)
 {
     (void)CARDi_Request(p, 2, 1);
     p->cmd->src = 0;
@@ -551,7 +548,7 @@ void func_02076A20(CARDiCommon *p)
 /*
  * sdk:      CARDi_BeginBackupCommand (libcard.TWL.HYB.a card_backup.o)
  */
-void func_02076A70(u32 level, void (*callback)(void *), void *arg)
+void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *arg)
 {
     OSi_ReferSymbol(cardi_backup_assert);
     CARD_CheckEnabled();
@@ -568,7 +565,7 @@ void func_02076A70(u32 level, void (*callback)(void *), void *arg)
 /*
  * sdk:      CARDi_RequestStreamCommand (libcard.TWL.HYB.a card_backup.o)
  */
-BOOL func_02076AC0(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async,
+BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async,
                    int req_type, int req_retry, int req_mode)
 {
     CARDiCommon *p;
@@ -590,7 +587,7 @@ BOOL func_02076AC0(u32 src, u32 dst, u32 len, void (*callback)(void *), void *ar
 /*
  * sdk:      CARD_IdentifyBackup (libcard.TWL.HYB.a card_backup.o)
  */
-BOOL func_02076B2C(int type)
+BOOL CARD_IdentifyBackup(int type)
 {
     if (type == 0)
     {
@@ -610,25 +607,25 @@ u32 CARD_GetBackupSectorSize(void)
 }
 
 
-void CARD_WaitBackupAsync(void){ func_02076050(); }
+void CARD_WaitBackupAsync(void){ CARDi_WaitAsync(); }
 
 
 
 /*
  * Eight bytes of code and its own pool word: a bare tail call, the shortest
  * shape this front end emits for `void f(void) { g(); }`.  Its one
- * relocation is the pool word naming func_02076070, which has no outside
- * label, so the file only reaches EXACT once func_02076070 itself is in a
- * shard (bottom-up: it was filed as src/matched/func_02076070.c first, and
+ * relocation is the pool word naming CARDi_TryWaitAsync, which has no outside
+ * label, so the file only reaches EXACT once CARDi_TryWaitAsync itself is in a
+ * shard (bottom-up: it was filed as src/matched/CARDi_TryWaitAsync.c first, and
  * the site then resolves through the `matched` class).
  */
 u32 CARD_TryWaitBackupAsync(void)
 {
-    return func_02076070();
+    return CARDi_TryWaitAsync();
 }
 
 
-void func_02076B98(void)
+void CARD_CancelBackupAsync(void)
 {
     u32 bak_cpsr = OS_DisableInterrupts();
 

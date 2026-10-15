@@ -1,5 +1,5 @@
 /*
- * function: func_021677A4
+ * function: WcmWmcbStartDCF
  * address:  0x021677A4
  * packet:   pkt_ov009_021677A4
  * region:   ov009
@@ -56,7 +56,7 @@ extern void func_02166804(unsigned char rssi);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern void func_02166358(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
 
-void func_021677A4(void *arg)
+void WcmWmcbStartDCF(void *arg)
 {
     WCMWork *wcmw;
     WMStartDCFCallback *cb;

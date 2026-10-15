@@ -14,8 +14,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF10  0x0200BF10  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   FIELD_MSGBG_InfoMsgWinPrintStr  0x02190844  thumb  ov021
  *   GPOWER_EVENT_PrintPowerRow  0x021F556C  thumb  ov083
@@ -30,9 +30,9 @@ typedef unsigned int   u32;
 
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 struct Rec1B0;
-extern u8 func_0200BF10(struct Rec1B0 *p);
+extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
 struct MsgBank;
 struct Slot;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -53,11 +53,11 @@ void GPOWER_EVENT_PrintPowerList(char *p)
     u8 n;
     u8 t;
 
-    x = func_0200BE48(GAME_DATA_GetSaveControl(((struct Obj00815 *)p)->fC));
+    x = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00815 *)p)->fC));
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj00815 *)p)->f28), 4, (void *)(((struct Obj00815 *)p)->f34));
     FIELD_MSGBG_InfoMsgWinPrintStr((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0, ((struct Obj00815 *)p)->f34);
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj00815 *)p)->f28), 6, (void *)(((struct Obj00815 *)p)->f34));
-    c = (int)func_0200BF10(x);
+    c = (int)INTRUDE_GetMonolithLevel(x);
     if (c != 0x30) {
         GPOWER_EVENT_PrintPowerRow(p, ((struct Obj00815 *)p)->f34, c, 0, 1);
     }

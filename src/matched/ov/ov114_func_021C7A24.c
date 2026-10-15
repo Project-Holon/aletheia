@@ -11,13 +11,16 @@
  *
  *
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
+ *
+ * symbols:
+ *   strncmp  0x020949F4  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_020949F4(void);
+extern void strncmp(void);
 
 void DWCi_Ndi_strncmp(void)
 {
-    func_020949F4();
+    strncmp();
 }

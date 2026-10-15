@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_02041FB0 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -27,22 +27,22 @@ typedef struct {int m[4];} Mtx;
 extern const Template gHallOfFameBgSetup;
 struct BgTemplate;
 struct Mtx22;
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
 void HALL_OF_FAME_InitBackgrounds(void)
 {
     Template t=gHallOfFameBgSetup;
     Mtx m;
-    func_0203FCA0(3,(const struct BgTemplate *)(&t),2);func_0203FCA0(7,(const struct BgTemplate *)(&t),2);
+    BG_SYS_InitBgLayer(3,(const struct BgTemplate *)(&t),2);BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&t),2);
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&m),0,(void *)4096,(void *)4096,0);
     func_0207D59C((void *)0x04000030,&m,0,0,0,0);
     func_0207D59C((void *)0x04001030,&m,0,0,0,0);
-    func_02041EE4(3,0,160);func_02041EE4(3,3,112);
-    func_02041EE4(7,0,160);func_02041EE4(7,3,-152);
+    BG_SYS_ResetSlot(3,0,160);BG_SYS_ResetSlot(3,3,112);
+    BG_SYS_ResetSlot(7,0,160);BG_SYS_ResetSlot(7,3,-152);
     func_02041FB0(3,9,160);func_02041FB0(3,12,160);
     func_02041FB0(7,9,160);func_02041FB0(7,12,160);
     BG_SYS_SetMainPlaneVisible(8,1);BG_SYS_SetSubPlaneVisible(8,1);

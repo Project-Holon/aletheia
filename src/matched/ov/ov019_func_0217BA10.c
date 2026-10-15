@@ -15,7 +15,7 @@
  *   UNION_ONESELF_GetRegulationId 0x0217B908 thumb ov019
  *   UNION_ONESELF_GetRegulationFlag 0x0217B974 thumb ov019
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
- *   func_0200AEE8 0x0200AEE8 thumb
+ *   REGULATION_SetRuleValue 0x0200AEE8 thumb
  */
 extern int UNION_ONESELF_GetRegulationId(int);
 extern int UNION_ONESELF_GetRegulationFlag(int);
@@ -23,10 +23,10 @@ extern void POKE_REGULATION_LoadInto(int a, unsigned int b);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Reg;
-extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
+extern void REGULATION_SetRuleValue(struct Reg *p, u32 id, s32 value);
 void UNION_ONESELF_LoadRegulation(char *p, int x)
 {
     POKE_REGULATION_LoadInto(UNION_ONESELF_GetRegulationId(x), (unsigned int)(*(void **)(p + 0x352c)));
-    if (UNION_ONESELF_GetRegulationFlag(x) == 1) func_0200AEE8(*(void **)(p + 0x352c), 13, 1);
-    else func_0200AEE8(*(void **)(p + 0x352c), 13, 0);
+    if (UNION_ONESELF_GetRegulationFlag(x) == 1) REGULATION_SetRuleValue(*(void **)(p + 0x352c), 13, 1);
+    else REGULATION_SetRuleValue(*(void **)(p + 0x352c), 13, 0);
 }

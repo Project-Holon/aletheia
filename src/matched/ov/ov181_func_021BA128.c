@@ -1,5 +1,5 @@
 /*
- * function: func_021BA128
+ * function: STAFF_ROLL_UpdateLights
  * address: 0x021BA128
  * packet: pkt_ov181_021BA128
  * region: ov181
@@ -25,10 +25,10 @@
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_SetUp 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_021BA028 0x021BA028 thumb ov181
- *   func_021BA0AC 0x021BA0AC thumb ov181
- *   func_021BA000 0x021BA000 thumb ov181
- *   func_021BA2A8 0x021BA2A8 thumb ov181
+ *   STAFF_ROLL_CalcVelocity 0x021BA028 thumb ov181
+ *   STAFF_ROLL_StepPosition 0x021BA0AC thumb ov181
+ *   STAFF_ROLL_AdvanceLights 0x021BA000 thumb ov181
+ *   STAFF_ROLL_SetLightMode 0x021BA2A8 thumb ov181
  */
 typedef unsigned short u16;
 typedef struct { int x, y, z; } Vec;
@@ -38,13 +38,13 @@ extern void G3D_CAMERA_GetUp(struct Light *, Vec *);
 extern void G3D_CAMERA_SetEye(struct Light *, const Vec *);
 extern void G3D_CAMERA_SetUp(struct Light *, const Vec *);
 extern void G3D_CAMERA_Reset(struct Light *);
-extern void func_021BA028(Vec *, const Vec *, const Vec *, unsigned);
-extern void func_021BA0AC(Vec *, const Vec *, const Vec *, unsigned);
+extern void STAFF_ROLL_CalcVelocity(Vec *, const Vec *, const Vec *, unsigned);
+extern void STAFF_ROLL_StepPosition(Vec *, const Vec *, const Vec *, unsigned);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021BA000(u8 *p);
-extern void func_021BA2A8(u8 *p, u32 a);
-void func_021BA128(char *p)
+extern void STAFF_ROLL_AdvanceLights(u8 *p);
+extern void STAFF_ROLL_SetLightMode(u8 *p, u32 a);
+void STAFF_ROLL_UpdateLights(char *p)
 {
     Vec a, b, c, d, e;
     char *q;
@@ -53,10 +53,10 @@ void func_021BA128(char *p)
     if (*(u16 *)(q + 0x78) == 0) {
         *(u16 *)(q + 0x7a) = *(u16 *)(q + 0x36);
         G3D_CAMERA_GetEye(*(struct Light **)(p + 0xc), &a);
-        func_021BA028(&b, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24), *(u16 *)(q + 0x7a));
+        STAFF_ROLL_CalcVelocity(&b, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x1c) = b;
         G3D_CAMERA_GetUp(*(struct Light **)(p + 0xc), &a);
-        func_021BA028(&c, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12), *(u16 *)(q + 0x7a));
+        STAFF_ROLL_CalcVelocity(&c, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x28) = c;
     }
     if (*(u16 *)(q + 0x78) >= *(u16 *)(q + 0x7a)) {
@@ -64,12 +64,12 @@ void func_021BA128(char *p)
         *(Vec *)(q + 0x10) = *(Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12);
         *(u16 *)(q + 0x76) = *(u16 *)(q + 0x34);
         *(u16 *)(q + 0x78) = 0;
-        func_021BA000((u8 *)q);
-        if (*(u16 *)(q + 0x34) == 0xffff) func_021BA2A8((u8 *)q, 0);
+        STAFF_ROLL_AdvanceLights((u8 *)q);
+        if (*(u16 *)(q + 0x34) == 0xffff) STAFF_ROLL_SetLightMode((u8 *)q, 0);
     } else {
-        func_021BA0AC(&d, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x76) * 24), (Vec *)(q + 0x1c), *(u16 *)(q + 0x78));
+        STAFF_ROLL_StepPosition(&d, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x76) * 24), (Vec *)(q + 0x1c), *(u16 *)(q + 0x78));
         *(Vec *)(q + 4) = d;
-        func_021BA0AC(&e, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x76) * 24 + 12), (Vec *)(q + 0x28), *(u16 *)(q + 0x78));
+        STAFF_ROLL_StepPosition(&e, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x76) * 24 + 12), (Vec *)(q + 0x28), *(u16 *)(q + 0x78));
         *(Vec *)(q + 0x10) = e;
         if (*(unsigned char *)(p + 0x2d2) == 1) *(u16 *)(q + 0x78) += 4;
         else ++*(u16 *)(q + 0x78);

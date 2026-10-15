@@ -1,5 +1,5 @@
 /*
- * function: func_0207BCA0
+ * function: MTX_LookAt
  * address:  0x0207BCA0
  * packet:   pkt_0207BCA0
  * region:   arm9
@@ -40,7 +40,7 @@ extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
 
-void func_0207BCA0(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx)
+void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx)
 {
     VecFx32 vLook, vRight, vUp;
 

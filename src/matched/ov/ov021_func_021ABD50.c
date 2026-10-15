@@ -21,9 +21,9 @@
  *   FIELD_EFFECT_InitResourceTable  0x021ABEAC  thumb  ov021
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
- *   func_0204EDBC  0x0204EDBC  arm
- *   func_0204ED70  0x0204ED70  arm
- *   func_0204EDB0  0x0204EDB0  arm
+ *   BILLBOARD_SetField25  0x0204EDBC  arm
+ *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   BILLBOARD_SetField24  0x0204EDB0  arm
  *   d_021DE018     0x021DE018  data  a1
  *   d_021D8F04     0x021D8F04  data  a4
  */
@@ -46,10 +46,10 @@ extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 extern void FIELD_EFFECT_InitResourceTable(char *p);
 extern u32 FIELDMAP_GetEffectBbdAct(u8 *p);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
-extern void func_0204EDBC(u8 *dst, u8 val);
+extern void BILLBOARD_SetField25(u8 *dst, u8 val);
 struct Blk3;
-extern void func_0204ED70(u8 *dst, struct Blk3 *src);
-extern void func_0204EDB0(u8 *dst, u8 *src);
+extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
 extern char d_021DE018[];
 extern V d_021D8F04;
 
@@ -70,10 +70,10 @@ char *FIELD_EFFECT_Create(int a, int b, u16 c)
     ((struct Obj04240 *)p)->f17 = ZONEDATA_GetAreaInnerOuter((struct Sub020140BCObj *)FIELDMAP_GetAreaData((u8 *)a));
     FIELD_EFFECT_InitResourceTable(p);
     h = BILLBOARD_ACT_GetBoard((u32 *)FIELDMAP_GetEffectBbdAct((u8 *)(((struct Obj04240 *)p)->f8)));
-    func_0204EDBC((u8 *)h, 0);
+    BILLBOARD_SetField25((u8 *)h, 0);
     v = d_021D8F04;
-    func_0204ED70((u8 *)h, (struct Blk3 *)(&v));
+    BILLBOARD_SetField10((u8 *)h, (struct Blk3 *)(&v));
     z = 0;
-    func_0204EDB0((u8 *)h, &z);
+    BILLBOARD_SetField24((u8 *)h, &z);
     return p;
 }

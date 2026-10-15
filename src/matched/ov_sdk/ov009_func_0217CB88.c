@@ -1,5 +1,5 @@
 /*
- * function: func_0217CB88
+ * function: gsCoreTaskThink
  * address:  0x0217CB88
  * packet:   pkt_ov009_0217CB88
  * region:   ov009
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   gsiCoreGetManager  0x0217CA20  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_0217CECC  0x0217CECC  arm  ov009
- *   func_0217CB5C  0x0217CB5C  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
+ *   gsiCoreCancelTask  0x0217CECC  arm  ov009
+ *   gsiCoreTaskDispatchCallback  0x0217CB5C  arm  ov009
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
@@ -54,9 +54,9 @@ typedef struct GSTask {
 } GSTask;
 
 extern void *gsiCoreGetManager(void);
-extern unsigned int func_0217F264(void);
-extern void func_0217CECC(GSTask *theTask);
-extern void func_0217CB5C(GSTask *theTask, int theResult);
+extern unsigned int current_time(void);
+extern void gsiCoreCancelTask(GSTask *theTask);
+extern void gsiCoreTaskDispatchCallback(GSTask *theTask, int theResult);
 extern void gsiEnterCriticalSection(void *mutex);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
@@ -64,7 +64,7 @@ extern void func_02184324(void *array, int n);
 extern void func_0217EAE0(void *ptr);
 extern void gsiLeaveCriticalSection(void *mutex);
 
-int func_0217CB88(GSTask *theTask)
+int gsCoreTaskThink(GSTask *theTask)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
     int aResult = 0;
@@ -78,15 +78,15 @@ int func_0217CB88(GSTask *theTask)
         aResult = theTask->mThinkFunc(theTask->mTaskData);
     if (!theTask->mIsCanceled && aResult == 1) {
         if (theTask->mTimeout != 0) {
-            if (func_0217F264() - theTask->mStartTime > theTask->mTimeout) {
-                func_0217CECC(theTask);
-                func_0217CB5C(theTask, 3);
+            if (current_time() - theTask->mStartTime > theTask->mTimeout) {
+                gsiCoreCancelTask(theTask);
+                gsiCoreTaskDispatchCallback(theTask, 3);
             }
         }
     } else if (aResult != 1) {
         removeTask = 1;
         if (theTask->mIsRunning) {
-            func_0217CB5C(theTask, aResult);
+            gsiCoreTaskDispatchCallback(theTask, aResult);
             theTask->mIsRunning = 0;
         }
         if (theTask->mCleanupFunc)

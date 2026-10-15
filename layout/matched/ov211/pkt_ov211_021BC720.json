@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC720",
+   "name": "ZUKAN_SEARCH_SCREEN_HandleInput",
    "address": "0x021BC720",
    "kind": "game",
    "region": "ov211",

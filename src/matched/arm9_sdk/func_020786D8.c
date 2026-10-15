@@ -1,5 +1,5 @@
 /*
- * function: func_020786D8
+ * function: FS_ResumeArchive
  * address:  0x020786D8
  * packet:   pkt_020786D8
  * region:   arm9
@@ -40,7 +40,7 @@ static inline BOOL FS_IsArchiveSuspended(const FSArchive *arc)
     return (arc->flag & 8) ? 1 : 0;
 }
 
-BOOL func_020786D8(FSArchive *arc)
+BOOL FS_ResumeArchive(FSArchive *arc)
 {
     BOOL retval;
     FSFile *file;

@@ -12,7 +12,7 @@
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BTLV_CORE_CheckPartySlotPair 0x021E869C thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   HAND_COMMON_IsItemBoundToSpecies 0x021E8638 thumb ov093
@@ -30,7 +30,7 @@ extern int BTL_EVENT_GetVar(int);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 extern int BTLV_CORE_CheckPartySlotPair(void *a, int b);
 struct QF;
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
@@ -52,7 +52,7 @@ void HAND_WAZA_BestowGiveItem(int a, int b, int c)
         k = BTL_EVENT_GetVar(6);
         x = BTL_SERVER_FLOW_GetPokeParam((int *)b, k);
         h = (int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam((int *)b, c));
-        if (h != 0 && func_0202136C(h) == 0 && (int)BTL_POKEPARAM_GetItem(x) == 0
+        if (h != 0 && FILE_UTIL_Check136C(h) == 0 && (int)BTL_POKEPARAM_GetItem(x) == 0
             && BTLV_CORE_CheckPartySlotPair((void *)b, c) == 0 && BTLV_CORE_CheckPartySlotPair((void *)b, k) == 0
             && HAND_COMMON_IsItemBoundToSpecies(BTL_POKEPARAM_GetSpecies(x), h) == 0) {
             p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x20, c);

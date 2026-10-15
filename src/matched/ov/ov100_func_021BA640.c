@@ -11,6 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -20,6 +21,6 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void BMP_WIN_Exit(void);
-void IRCBATTLEMATCH_ExitWindowSystem(int a0) { func_0203F9B4(); BMP_WIN_Exit(); }
+void IRCBATTLEMATCH_ExitWindowSystem(int a0) { BG_SYS_Delete(); BMP_WIN_Exit(); }

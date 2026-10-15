@@ -1,5 +1,5 @@
 /*
- * function: func_021C49A4
+ * function: WF2DMAP_OBJ_GetSlot
  * address: 0x021C49A4
  * packet: pkt_ov127_021C49A4
  * region: ov127
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-int func_021C49A4(u8 *p, unsigned int i)
+int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i)
 {
     switch (i) {
     case 0: return *(s16 *)&((struct Obj00535 *)p)->f4;

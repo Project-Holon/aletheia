@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm
  */
 
-extern void func_0208C86C(void *);
-void WMi_DeleteSleepCallback(void){ func_0208C86C((void *)0x02153060); }
+extern void PM_DeletePreSleepCallback(void *);
+void WMi_DeleteSleepCallback(void){ PM_DeletePreSleepCallback((void *)0x02153060); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C8C
+ * function: POKE_SUMMARY_ACTOR_Noop
  * address: 0x021B7C8C
  * packet: pkt_ov173_021B7C8C
  * region: ov173
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/ov173/unit_021B7658.c and filed here.
  */
 
-void func_021B7C8C(void);
+void POKE_SUMMARY_ACTOR_Noop(void);
 
-void func_021B7C8C(void)
+void POKE_SUMMARY_ACTOR_Noop(void)
 {
 }

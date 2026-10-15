@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F47C
+ * function: WORDSET_CheckF47C
  *
  * "Is this string a packed nine-bit run", the predicate func_0201F4A0 tests
  * before unpacking.  A non-empty string whose first character is 0xF100 is
@@ -43,7 +43,7 @@ struct U16Vec;
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
-u32 func_0201F47C(void *s)
+u32 WORDSET_CheckF47C(void *s)
 {
     if (STRBUF_GetLength(s) != 0 && *STRBUF_GetChars(s) == 0xF100) {
         return 1;

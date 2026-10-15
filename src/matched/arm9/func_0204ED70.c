@@ -1,5 +1,5 @@
 /*
- * function: func_0204ED70
+ * function: BILLBOARD_SetField10
  * address:  0x0204ED70
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -27,7 +27,7 @@ struct Blk3 {
     u32 w[3];
 };
 
-void func_0204ED70(u8 *dst, struct Blk3 *src)
+void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src)
 {
     *(struct Blk3 *)(dst + 0x10) = *src;
 }

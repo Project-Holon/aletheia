@@ -47,6 +47,10 @@
  *   STD_CopyString  0x0208CADC  arm  arm9
  *   STD_SearchString  0x0208CC14  arm  arm9
  *   STD_CompareString  0x0208CD94  arm  arm9
+ *   FS_SeekFile  0x02078B44  arm  arm9
+ *   FS_IsAvailable  0x0207AD30  arm  arm9
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -135,14 +139,14 @@ extern s32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(s32);
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern s32 OS_IsRunOnTwl(void);
-extern int func_0207AD30(void);
+extern int FS_IsAvailable(void);
 extern void FS_Init(u32 v);
 extern void func_02084774(u32 mask, void (*fn)(void));
 extern u32 OS_EnableIrqMask(u32 mask);
 extern u32 OS_DisableIrqMask(u32 mask);
 extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
-extern void func_0208C848(void *p, u32 v);
-extern void func_0208C86C(void *p);
+extern void PMi_InsertPreSleepCallbackEx(void *p, u32 v);
+extern void PM_DeletePreSleepCallback(void *p);
 extern void OS_Terminate(void);
 extern void DSP_PowerOnCore(void);
 extern void DSP_PowerOffCore(void);
@@ -151,7 +155,7 @@ extern void DSP_ResetOffExCore(u32 v);
 extern void DSP_MaskSemaphoreCore(u32 v);
 extern void DSP_SendDataCore(u32 ch, u32 v);
 extern u16 DSP_RecvDataCore(u32 ch);
-extern s32 func_02078B44(void *file, u32 a, u32 b);
+extern s32 FS_SeekFile(void *file, u32 a, u32 b);
 extern s32 FS_ReadFile(void *file, void *buf, s32 len);
 extern void DSP_InitPipe(void);
 extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
@@ -252,7 +256,7 @@ void DSPi_MasterInterrupts(void)
 u32 DSPi_ReadProcessImage(DspProc *p, u32 a, void *buf, s32 len)
 {
     u32 ok = 0;
-    if (func_02078B44(p->file, a, 0)) {
+    if (FS_SeekFile(p->file, a, 0)) {
         s32 n = FS_ReadFile(p->file, buf, len);
         if (len == n) {
             ok = 1;
@@ -516,7 +520,7 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
     u16 en;
     u16 dis;
     vu16 v;
-    if (func_0207AD30() == 0) {
+    if (FS_IsAvailable() == 0) {
         FS_Init(-1);
     }
     DSP_InitPipe();
@@ -540,7 +544,7 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
         if (DAT_027344AC.preInit == 0) {
             DAT_027344AC.preFn = DSPi_PreSleepCallback;
             DAT_027344AC.preArg = 0;
-            func_0208C848(&DAT_027344AC.preFn, 0x3F2);
+            PMi_InsertPreSleepCallbackEx(&DAT_027344AC.preFn, 0x3F2);
             DAT_027344AC.preInit = 1;
         }
         if (OS_IsRunOnTwl() == 1) {
@@ -598,7 +602,7 @@ void DSP_QuitProcess(DspProc *p)
     }
     p->next = 0;
     OS_RestoreInterrupts(irq);
-    func_0208C86C(&DAT_027344AC.preFn);
+    PM_DeletePreSleepCallback(&DAT_027344AC.preFn);
     DAT_027344AC.preInit = 0;
 }
 

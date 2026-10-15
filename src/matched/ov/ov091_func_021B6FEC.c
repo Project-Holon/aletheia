@@ -23,7 +23,7 @@
  *   POKELIST_ShutdownBgPlane0  0x021B7034  thumb
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  */
 
 extern void NNS_GfdResetVramTransferTaskQueue(void);
@@ -32,7 +32,7 @@ extern void POKELIST_ShutdownBgPlane0(int);
 typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 void POKELIST_ShutdownDisplay(int a)
 {
@@ -47,5 +47,5 @@ void POKELIST_ShutdownDisplay(int a)
     func_020403F4(5);
     func_020403F4(4);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }

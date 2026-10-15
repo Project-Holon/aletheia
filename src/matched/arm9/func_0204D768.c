@@ -11,12 +11,12 @@
  *
  * symbols:
  *   CLACT_GetAnimCtrl  0x0204D410  arm
- *   func_02063000  0x02063000  arm
- *   func_02063018  0x02063018  arm
+ *   NNS_G2dSetCellAnimationParam  0x02063000  arm
+ *   NNS_G2dSetCellAnimationParamTagged  0x02063018  arm
  *
  * Apply one animation command record to the handle behind the cell actor's
  * +0x68 sub-object.  The opcode is the u16 at +0 of the record; 0 and 2 both
- * call func_02063000 with a different mode, 1 calls func_02063018 with the
+ * call NNS_G2dSetCellAnimationParam with a different mode, 1 calls NNS_G2dSetCellAnimationParamTagged with the
  * record's own u16 at +2 as its last argument.
  *
  * Three cases dense from zero, yet no halfword table: the compiler emits a
@@ -56,9 +56,9 @@ struct Cmd {
 struct Obj;
 struct Rec;
 extern struct Rec *CLACT_GetAnimCtrl(struct Obj *o);
-extern void func_02063000(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
 struct CellAnim;
-extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
+extern void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 
 void CLACT_ApplyAnimCommand(struct Ctl *c, const struct Cmd *cmd)
 {
@@ -66,13 +66,13 @@ void CLACT_ApplyAnimCommand(struct Ctl *c, const struct Cmd *cmd)
 
     switch (cmd->op) {
     case 0:
-        func_02063000((int)h, 1, cmd->arg1, cmd->arg2);
+        NNS_G2dSetCellAnimationParam((int)h, 1, cmd->arg1, cmd->arg2);
         break;
     case 2:
-        func_02063000((int)h, 3, cmd->arg1, cmd->arg2);
+        NNS_G2dSetCellAnimationParam((int)h, 3, cmd->arg1, cmd->arg2);
         break;
     case 1:
-        func_02063018(h, cmd->arg1, cmd->arg2, cmd->arg0);
+        NNS_G2dSetCellAnimationParamTagged(h, cmd->arg1, cmd->arg2, cmd->arg0);
         break;
     }
 }

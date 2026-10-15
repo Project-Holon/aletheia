@@ -1,5 +1,5 @@
 /*
- * function: func_02062F90
+ * function: NNS_G2dResetCellAnimation
  * address:  0x02062F90
  * packet:   pkt_02062F90
  * region:   arm9
@@ -69,7 +69,7 @@ static inline const NNSG2dAnimFrameData *GetFrameEnd_(const NNSG2dAnimSequence *
     return pSeq->pAnmFrameArray + pSeq->numFrames;
 }
 
-void func_02062F90(NNSG2dAnimController *pAnimCtrl)
+void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
 {
     if (IsForward_(pAnimCtrl)) {
         pAnimCtrl->pCurrent = GetFrameBegin_(pAnimCtrl->pAnimSequence);

@@ -1,5 +1,5 @@
 /*
- * function: func_0207CA00
+ * function: VEC_Subtract
  * address:  0x0207CA00
  * packet:   pkt_0207CA00
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct {
     fx16 x, y, z;
 } VecFx16;
 
-void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
+void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab)
 {
     ab->x = a->x - b->x;
     ab->y = a->y - b->y;

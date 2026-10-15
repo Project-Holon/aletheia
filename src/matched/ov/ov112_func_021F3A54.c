@@ -1,5 +1,5 @@
 /*
- * function: func_021F3A54
+ * function: MUSICAL_SHOT_SYS_InitGraphics
  * address: 0x021F3A54
  * packet: pkt_ov112_021F3A54
  * region: ov112
@@ -13,7 +13,7 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -36,13 +36,13 @@ extern u32 WIPE_ResetWndMask(void *win);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern char d_021F816C[],d_021F815C[],gClActorInitParam[];
-void func_021F3A54(u8 *p)
+void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
@@ -54,7 +54,7 @@ void func_021F3A54(u8 *p)
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021F816C);
-    func_0203F8F4(((struct Obj10296 *)p)->f0);
+    BG_SYS_Create(((struct Obj10296 *)p)->f0);
     BMP_WIN_Init(((struct Obj10296 *)p)->f0);
     func_0203FC28((struct DispConfig *)d_021F815C);
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((struct Obj10296 *)p)->f0);

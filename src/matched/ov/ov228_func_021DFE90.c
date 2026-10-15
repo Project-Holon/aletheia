@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE90
+ * function: SAVE_OUTSIDE_IsLoaded
  * address:  0x021DFE90
  * packet:   pkt_021DFC20
  * region:   ov228
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-u8 func_021DFE90(u8 *p)
+u8 SAVE_OUTSIDE_IsLoaded(u8 *p)
 {
     return p[0x378];
 }

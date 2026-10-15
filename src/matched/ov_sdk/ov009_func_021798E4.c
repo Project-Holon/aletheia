@@ -1,5 +1,5 @@
 /*
- * function: func_021798E4
+ * function: DWCi_Http_Resolve
  * address:  0x021798E4
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 extern unsigned long CPS_Resolve(char *name);
 
 typedef unsigned int   u32;
-u32 func_021798E4(const char *p)
+u32 DWCi_Http_Resolve(const char *p)
 {
     return CPS_Resolve((char *)(*(const int *)(p + 0x1124)));
 }

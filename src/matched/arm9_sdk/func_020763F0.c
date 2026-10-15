@@ -1,5 +1,5 @@
 /*
- * function: func_020763F0
+ * function: CARDi_Request
  * address:  0x020763F0
  * packet:   pkt_020763F0
  * region:   arm9
@@ -100,7 +100,7 @@ static inline OSThread *OS_GetCurrentThread(void)
 
 BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count);
 
-BOOL func_020763F0(CARDiCommon *p, int req_type, int retry_count)
+BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count)
 {
     if ((*(volatile u32 *)&p->flag & 2) == 0)
     {

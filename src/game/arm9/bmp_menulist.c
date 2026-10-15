@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menulist.c
  * unit:     yes
- * function: BMP_MENULIST_Create, BMP_MENULIST_Main, BMP_MENULIST_Delete, BMP_MENULIST_Redraw, BMP_MENULIST_SetColors, BMP_MENULIST_SetOverrideColors, BMP_MENULIST_GetListIndex, BMP_MENULIST_GetPos, BMP_MENULIST_GetCursorY, BMP_MENULIST_GetRowY, BMP_MENULIST_GetItemValue, BMP_MENULIST_GetAttr, BMP_MENULIST_PrintItem, BMP_MENULIST_DrawItems, BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor, BMP_MENULIST_StepCursor, BMP_MENULIST_ScrollRows, BMP_MENULIST_MoveCursor, BMP_MENULIST_NotifyCursor, BMP_MENULIST_ShiftChars4bpp, BMP_MENULIST_ShiftChars8bpp, BMP_MENULIST_ShiftWindow, BMP_MENULIST_ResetCursorTile, BMP_MENULIST_GetUserData, BMP_MENULIST_SetCancelDisabled, BMP_CURSOR_Create, BMP_CURSOR_Delete, BMP_CURSOR_Draw, BMP_CURSOR_SetTileBitmap, FILE_UTIL_OpenById, FILE_UTIL_LoadRange, func_02020E60, func_02020F84, func_02020FB4, func_02020FE4, func_02021014, func_020210C8, func_02021288, func_020212B0, func_020212E4, func_0202130C, func_02021350, func_0202136C, func_0202138C, func_020213AC
+ * function: BMP_MENULIST_Create, BMP_MENULIST_Main, BMP_MENULIST_Delete, BMP_MENULIST_Redraw, BMP_MENULIST_SetColors, BMP_MENULIST_SetOverrideColors, BMP_MENULIST_GetListIndex, BMP_MENULIST_GetPos, BMP_MENULIST_GetCursorY, BMP_MENULIST_GetRowY, BMP_MENULIST_GetItemValue, BMP_MENULIST_GetAttr, BMP_MENULIST_PrintItem, BMP_MENULIST_DrawItems, BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor, BMP_MENULIST_StepCursor, BMP_MENULIST_ScrollRows, BMP_MENULIST_MoveCursor, BMP_MENULIST_NotifyCursor, BMP_MENULIST_ShiftChars4bpp, BMP_MENULIST_ShiftChars8bpp, BMP_MENULIST_ShiftWindow, BMP_MENULIST_ResetCursorTile, BMP_MENULIST_GetUserData, BMP_MENULIST_SetCancelDisabled, BMP_CURSOR_Create, BMP_CURSOR_Delete, BMP_CURSOR_Draw, BMP_CURSOR_SetTileBitmap, FILE_UTIL_OpenById, FILE_UTIL_LoadRange, FILE_UTIL_Get, func_02020F84, func_02020FB4, FILE_UTIL_Get_0FE4, FILE_UTIL_Get_1014, func_020210C8, FILE_UTIL_Check1288, FILE_UTIL_Get_12B0, FILE_UTIL_Check12E4, FILE_UTIL_GetId, func_02021350, FILE_UTIL_Check136C, func_0202138C, func_020213AC
  * address:  0x0201FF30
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,7 +28,7 @@
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetHeight  0x020437E4  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_0204169C  0x0204169C  arm
+ *   BG_SYS_GetField16  0x0204169C  arm
  *   BMP_CURSOR_FILE_NAME     0x020A73A0  data
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_Delete  0x020437AC  arm
@@ -269,7 +269,7 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern u8 func_0204169C(int channel);
+extern u8 BG_SYS_GetField16(int channel);
 extern void STRBUF_Delete(void *res);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void PRINTSYS_PrintQue(void *printer, struct Bmp *bmp, u32 x, u32 y, void *text, u32 param);
@@ -321,24 +321,24 @@ void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget 
 void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap);
 void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId);
 void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size);
-u32 func_02020E60(u32 item, u32 which);
+u32 FILE_UTIL_Get(u32 item, u32 which);
 u32 func_02020F08(void);
 u32 func_02020F0C(void);
 u32 func_02020F10(void);
-void *func_02020F14(u32 heap);
+void *FILE_UTIL_Create_0F14(u32 heap);
 void *func_02020F20(struct ArcFile *arc, u32 item, u32 heap);
-void *func_02020F34(u32 item, u32 which, u32 heap);
+void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
 void func_02020F84(void *dst, u32 entry, u32 heap);
 void func_02020FB4(void *dst, u32 entry, u32 heap);
-u32 func_02020FE4(u32 item, u32 sel, u32 heap);
-u32 func_02021014(struct ItemRecord *record, u32 prop);
+u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap);
+u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop);
 int func_020210C8(struct ItemExt *ext, u32 prop);
-u32 func_02021288(u32 id);
-u16 func_020212B0(u16 machineId);
-u32 func_020212E4(u16 moveId);
-u32 func_0202130C(u32 machineId);
+u32 FILE_UTIL_Check1288(u32 id);
+u16 FILE_UTIL_Get_12B0(u16 machineId);
+u32 FILE_UTIL_Check12E4(u16 moveId);
+u32 FILE_UTIL_GetId(u32 machineId);
 u8 func_02021350(u16 machineId);
-u32 func_0202136C(u16 itemId);
+u32 FILE_UTIL_Check136C(u16 itemId);
 u8 func_0202138C(u16 itemId);
 u16 func_020213AC(u32 idx);
 extern const char BMP_MENULIST_FILE_NAME[];
@@ -1202,7 +1202,7 @@ void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fi
  *
  * Window-fill front end.  The window descriptor names a BG channel
  * (BMP_WIN_GetBgLayer, the +2 accessor) and carries the bitmap it draws into
- * (BMP_WIN_GetBmp, the +0xc handle).  func_0204169C says whether that
+ * (BMP_WIN_GetBmp, the +0xc handle).  BG_SYS_GetField16 says whether that
  * channel is 8bpp; the 4bpp path calls BMP_MENULIST_ShiftChars4bpp and the 8bpp path
  * BMP_MENULIST_ShiftChars8bpp, and the caller's tile offset is converted to a byte
  * offset by the depth: (t & 0x7ff) << 5 for 4bpp, (t & 0x3ff) << 6 for
@@ -1220,7 +1220,7 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
     channel = BMP_WIN_GetBgLayer(win);
     bmp = BMP_WIN_GetBmp(win);
 
-    if (func_0204169C(channel) == 0)
+    if (BG_SYS_GetField16(channel) == 0)
         BMP_MENULIST_ShiftChars4bpp(bmp, dir, start, fillColor, (u16)(tiles << 5));
     else
         BMP_MENULIST_ShiftChars8bpp(bmp, dir, start, fillColor, (u16)(tiles << 6));
@@ -1428,11 +1428,11 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
  * word-runs.md).
  *
  * This is the file that closes the item chain
- * func_02021014 <- func_02020FE4 <- func_02020F34: three separate functions
+ * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_CreateArcTool0F34: three separate functions
  * here name the item archive id 0x18 as a plain immediate
- * (func_02020F14's handle open, func_02020F34's one-shot member read) and
+ * (FILE_UTIL_Create_0F14's handle open, FILE_UTIL_CreateArcTool0F34's one-shot member read) and
  * two name the item graphics archive 0x19 (func_02020F08 answers it as a
- * constant, func_02020F34 reads members of it).  Archive ids are the
+ * constant, FILE_UTIL_CreateArcTool0F34 reads members of it).  Archive ids are the
  * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
  * 0x19 = 25 = a/0/2/5.
  *
@@ -1444,14 +1444,14 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
  *   - item_gfx_member_x (0x0209E9E8) and func_0202F170 (0x0202F170) are
  *     named only from here anywhere in the image.
  *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
- *     0x02020F7C, which is func_02020F34's own pool and therefore inside
- *     this range.  func_02020E60's copy of the same word sits at
+ *     0x02020F7C, which is FILE_UTIL_CreateArcTool0F34's own pool and therefore inside
+ *     this range.  FILE_UTIL_Get's copy of the same word sits at
  *     0x02020EF4 but is not indexed as a literal pool by disasm.py: that
  *     pool is inside the `.byte` run this unit's leaf functions live in.
- *     Splitting func_02020E60 and func_02020F34 into two files does not
+ *     Splitting FILE_UTIL_Get and FILE_UTIL_CreateArcTool0F34 into two files does not
  *     fix it either: verified separately, the split leaves
- *     func_02020E60 attested (literal 0x02020F7C, now outside its range)
- *     and func_02020F34 still not, since its only witness is its own
+ *     FILE_UTIL_Get attested (literal 0x02020F7C, now outside its range)
+ *     and FILE_UTIL_CreateArcTool0F34 still not, since its only witness is its own
  *     pool word.  `tu --suggest-split` agrees and leaves both out.
  *
  * The middle piece that --suggest-split does keep, the five leaf
@@ -1465,7 +1465,7 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
  *   python tools/match.py tu --src src/pending/unit_02020E60.c \
  *       --addr 0x02020E60 --thumb
  */
-u32 func_02020E60(u32 item, u32 which)
+u32 FILE_UTIL_Get(u32 item, u32 which)
 {
     if (item > 626) {
         item = 0;
@@ -1529,7 +1529,7 @@ u32 func_02020F10(void)
 
 
 
-void *func_02020F14(u32 heap)
+void *FILE_UTIL_Create_0F14(u32 heap)
 {
     return func_020490F4(0x18, heap);
 }
@@ -1549,7 +1549,7 @@ void *func_02020F20(struct ArcFile *arc, u32 item, u32 heap)
 
 
 
-void *func_02020F34(u32 item, u32 which, u32 heap)
+void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap)
 {
     if (item > 626) {
         item = 0;
@@ -1575,7 +1575,7 @@ void *func_02020F34(u32 item, u32 which, u32 heap)
  * One of a pair of near-identical entry points (func_02020F84 uses table 0x36,
  * func_02020FB4 table 0x35) that open a message archive, read one entry into
  * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id func_02021288
+ * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
  * accepts, which is why it is a pool word rather than a folded immediate.
  *
  * The heap argument stays in r3 across the guard because it is the fourth
@@ -1607,7 +1607,7 @@ void func_02020F84(void *dst, u32 entry, u32 heap)
  * One of a pair of near-identical entry points (func_02020F84 uses table 0x36,
  * func_02020FB4 table 0x35) that open a message archive, read one entry into
  * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id func_02021288
+ * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
  * accepts, which is why it is a pool word rather than a folded immediate.
  *
  * The heap argument stays in r3 across the guard because it is the fourth
@@ -1645,16 +1645,16 @@ void func_02020FB4(void *dst, u32 entry, u32 heap)
  * mask and derives the set bit from it with `adds r2, r3, #1`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020FE4.c \
- *       --func func_02020FE4 --addr 0x02020FE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_Get_0FE4.c \
+ *       --func FILE_UTIL_Get_0FE4 --addr 0x02020FE4 --cc 1.1p1 --thumb
  */
-u32 func_02020FE4(u32 item, u32 sel, u32 heap)
+u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap)
 {
     struct ItemRecord *record;
     u32   value;
 
-    record = func_02020F34(item, 0, (u16)((heap & 0x7FFF) | 0x8000));
-    value = func_02021014(record, sel);
+    record = FILE_UTIL_CreateArcTool0F34(item, 0, (u16)((heap & 0x7FFF) | 0x8000));
+    value = FILE_UTIL_Get_1014(record, sel);
     func_020307B0(record);
     return value;
 }
@@ -1668,12 +1668,12 @@ u32 func_02020FE4(u32 item, u32 sel, u32 heap)
  *
  * The two halves of one property-getter interface over a packed record: a
  * caller hands in a record pointer and a property id, and gets an unsigned
- * quantity back.  Ids 0..0x11 are answered by func_02021014 out of the record
+ * quantity back.  Ids 0..0x11 are answered by FILE_UTIL_Get_1014 out of the record
  * header; anything above that is delegated, for one of the two header layouts,
  * to func_020210C8 on the sub-record at +0x10, which answers ids 0x12..0x3E out
  * of a seventeen-byte bitfield block.
  *
- * The two are one file rather than two because func_02021014's call to
+ * The two are one file rather than two because FILE_UTIL_Get_1014's call to
  * func_020210C8 is the only branch to that address anywhere in the image: as
  * separate files neither can attest the other and both cap at MATCH, while in
  * one translation unit the call is `local` and needs no image evidence at all
@@ -1681,7 +1681,7 @@ u32 func_02020FE4(u32 item, u32 sel, u32 heap)
  *
  * Two shape findings, both of which cost real bytes:
  *
- *  - func_02021014's dispatch runs in r2, not in the switch value's own r1
+ *  - FILE_UTIL_Get_1014's dispatch runs in r2, not in the switch value's own r1
  *    (docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md: the
  *    index register is the switch value's register only when that register is
  *    dead across the arms).  Here it is not dead, and the reason is the
@@ -1691,7 +1691,7 @@ u32 func_02020FE4(u32 item, u32 sel, u32 heap)
  *    argument function is byte for byte right everywhere else and wrong in
  *    those nine bytes.  func_020210C8's own `subs r1, #0x12` is the independent
  *    confirmation that its second parameter is the same id.
- *  - the fall-through of func_02021014 is a two-case `switch` on the header
+ *  - the fall-through of FILE_UTIL_Get_1014 is a two-case `switch` on the header
  *    byte at +0xC, not a chain of `if`s: the switch form emits
  *    cmp/beq, cmp/beq, b-to-default, the `if` chain emits the inverted
  *    bne-over form and is two bytes shorter.
@@ -1711,7 +1711,7 @@ u32 func_02020FE4(u32 item, u32 sel, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_02021014.c \
  *       --addr 0x02021014 --thumb
  */
-u32 func_02021014(struct ItemRecord *record, u32 prop)
+u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop)
 {
     switch (prop) {
     case 0:
@@ -1871,10 +1871,10 @@ int func_020210C8(struct ItemExt *ext, u32 prop)
  * exit.md); as two separate `if` statements each window grows its own return.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021288.c \
- *       --func func_02021288 --addr 0x02021288 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_Check1288.c \
+ *       --func FILE_UTIL_Check1288 --addr 0x02021288 --cc 1.1p1 --thumb
  */
-u32 func_02021288(u32 id)
+u32 FILE_UTIL_Check1288(u32 id)
 {
     if ((id >= 0x148 && id <= 0x1A9) || (id >= 0x26A && id <= 0x26C)) {
         return 1;
@@ -1887,7 +1887,7 @@ u32 func_02021288(u32 id)
 
 
 /*
- * Halfword lookup keyed by one of the two id windows func_02021288 accepts:
+ * Halfword lookup keyed by one of the two id windows FILE_UTIL_Check1288 accepts:
  * 0x148..0x1A9 maps to entries 0..0x61 of the table at 0x0209EAA0 and
  * 0x26A..0x26C continues at 0x62..0x64, which is why the second window's
  * subtrahend is 0x208 rather than its own start.  Ids outside both windows
@@ -1906,12 +1906,12 @@ u32 func_02021288(u32 id)
  * so the `u16` parameter type is real evidence and not a spelling choice.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020212B0.c \
- *       --func func_020212B0 --addr 0x020212B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_Get_12B0.c \
+ *       --func FILE_UTIL_Get_12B0 --addr 0x020212B0 --cc 1.1p1 --thumb
  */
-u16 func_020212B0(u16 machineId)
+u16 FILE_UTIL_Get_12B0(u16 machineId)
 {
-    if (func_02021288(machineId) == 0) {
+    if (FILE_UTIL_Check1288(machineId) == 0) {
         return 0;
     }
     if (machineId >= 0x26A) {
@@ -1928,7 +1928,7 @@ u16 func_020212B0(u16 machineId)
 
 /*
  * Linear search of the six-entry tail of the same halfword table
- * func_020212B0 indexes, entries 0x5C..0x61.  The 0xB8 byte offset is kept out
+ * FILE_UTIL_Get_12B0 indexes, entries 0x5C..0x61.  The 0xB8 byte offset is kept out
  * of the `ldrh` encoding because it is past the halfword load's +62 reach
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md), so the address comes
  * out as base, plus the scaled index, plus a separate `adds r1, #0xb8`.
@@ -1937,10 +1937,10 @@ u16 func_020212B0(u16 machineId)
  * through a scratch register, which a `u32` counter does not produce.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020212E4.c \
- *       --func func_020212E4 --addr 0x020212E4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_Check12E4.c \
+ *       --func FILE_UTIL_Check12E4 --addr 0x020212E4 --cc 1.1p1 --thumb
  */
-u32 func_020212E4(u16 moveId)
+u32 FILE_UTIL_Check12E4(u16 moveId)
 {
     u8 idx;
 
@@ -1957,21 +1957,21 @@ u32 func_020212E4(u16 moveId)
 
 
 /*
- * Maps an id in one of func_02021288's two accepted windows onto a byte-wide
+ * Maps an id in one of FILE_UTIL_Check1288's two accepted windows onto a byte-wide
  * slot number, in three ranges with three different subtrahends: 0x26A.. off
  * 0x20E, 0x1A4..0x269 off 0x145, and the rest off 0x148.  Ids the window test
  * rejects answer 0xFF.
  *
  * Only two pool words: 0x26A is loaded once and 0x1A4 derived from it with
- * `subs r0, #0xc6`, the same constant-sharing func_020212B0 does.
+ * `subs r0, #0xc6`, the same constant-sharing FILE_UTIL_Get_12B0 does.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202130C.c \
- *       --func func_0202130C --addr 0x0202130C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_GetId.c \
+ *       --func FILE_UTIL_GetId --addr 0x0202130C --cc 1.1p1 --thumb
  */
-u32 func_0202130C(u32 machineId)
+u32 FILE_UTIL_GetId(u32 machineId)
 {
-    if (func_02021288(machineId) == 0) {
+    if (FILE_UTIL_Check1288(machineId) == 0) {
         return 0xFF;
     }
     if (machineId >= 0x26A) {
@@ -2005,9 +2005,9 @@ u8 func_02021350(u16 machineId)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202136C.c  *       --func func_0202136C --addr 0x0202136C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_Check136C.c  *       --func FILE_UTIL_Check136C --addr 0x0202136C --cc 1.1p1 --thumb
  */
-u32 func_0202136C(u16 itemId)
+u32 FILE_UTIL_Check136C(u16 itemId)
 {
     u32 idx;
 

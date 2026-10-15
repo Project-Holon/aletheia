@@ -17,7 +17,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BDB0  0x0200BDB0  thumb
+ *   DAYCARE_GetFromSave  0x0200BDB0  thumb
  *   SCRCMD_SODATEYA_Create  0x0215D2A4  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
@@ -34,7 +34,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BDB0(void *);
+extern void *DAYCARE_GetFromSave(void *);
 extern void *SCRCMD_SODATEYA_Create(void *a, u32 b, u32 c);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
@@ -46,7 +46,7 @@ int SCRCMD_PROC_CallDaycarePartyMenu(void *a, void *b)
     void *h = SCRCMD_WORK_GetGameSystem(b);
     void *s = GAMESYSTEM_GetFieldMap(h);
     GAME_DATA_GetMyParty(p);
-    func_0200BDB0(GAME_DATA_GetSaveControl(p));
+    DAYCARE_GetFromSave(GAME_DATA_GetSaveControl(p));
     SCRIPT_SYS_CallEvent(t, SCRCMD_SODATEYA_Create(h, (u32)s, (u32)v));
     return 1;
 }

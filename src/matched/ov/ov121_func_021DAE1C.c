@@ -21,7 +21,7 @@
  *   func_021DB3E8 0x021DB3E8 thumb ov121
  *   MYSTERY_DATA_GetCardSlotNum 0x0200A348 thumb
  *   func_021DBEE4 0x021DBEE4 thumb ov121
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021DA890 0x021DA890 thumb ov121
  *   func_020307B0 0x020307B0 arm
@@ -40,7 +40,7 @@ extern void func_021DB528(char *,int);
 extern void func_021DB3E8(char *);
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern void func_021DBEE4(u32 p);
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 extern void func_02041B6C(u32);
 extern void func_021DA890(void *);
 extern u32 func_020307B0(void *p);
@@ -69,8 +69,8 @@ void func_021DAE1C(Obj *obj)
     func_021DB3E8(p);
     for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((struct Obj01058 *)p)->fC);j++)
         func_021DBEE4((u32)(p+0x28+j*0xdc));
-    func_020414EC(4);
-    func_020414EC(6);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_ClearSlot(6);
     func_02041B6C(4);
     func_02041B6C(6);
     func_021DA890(((struct Obj01058 *)p)->fAC4);

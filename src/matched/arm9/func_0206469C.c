@@ -18,7 +18,7 @@
  *
  * PIN ../2.0/sp2: the "kept branches" tell in its CROSS-JUMP form, the same
  * one src/matched/NNS_G2dSetMCAnimationCurrentFrame.c and src/matched/NNSi_G2dRefreshCellAnimation.c carry.  The
- * image writes the kind==2 arm's `add r0, r4, #0x48` / `bl func_020640DC` tail
+ * image writes the kind==2 arm's `add r0, r4, #0x48` / `bl NNS_G2dSetSRTTranslate` tail
  * out in its own arm although the other arm's LAST call is a byte-identical
  * pair; 1.1p1 -O4,p cross-jumps the two and lands at 176 bytes against the
  * original's 184, 73 concrete bytes out (docs/notes/pkt_0206469C.c.txt, which
@@ -28,10 +28,10 @@
  * symbols:
  *   func_020629E8   0x020629E8  arm
  *   func_02062D40   0x02062D40  arm
- *   func_02062FF0   0x02062FF0  arm
- *   func_020640DC   0x020640DC  arm
- *   func_02064100   0x02064100  arm
- *   func_02064120   0x02064120  arm
+ *   NNS_G2dSetCellAnimationBank   0x02062FF0  arm
+ *   NNS_G2dSetSRTTranslate   0x020640DC  arm
+ *   NNS_G2dSetSRTRotate   0x02064100  arm
+ *   NNS_G2dSetSRTScale   0x02064120  arm
  *   NNSi_G2dSrtcInitControl   0x02064140  arm
  *   NNSi_G2dSetMCDataToMCInstanceImpl   0x020643CC  arm
  */
@@ -81,16 +81,16 @@ struct Obj0206469C {
 
 struct CellAnim;
 struct O02064140;
-extern void func_02062FF0(struct CellAnim *anim, void *bank);
+extern void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
 extern void *func_02062D40(struct CellAnim *anim);
 struct MultiCellBank;
 struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
-extern void func_020640DC(struct Srt0206469C *srt, s16 x, s16 y);
+extern void NNS_G2dSetSRTTranslate(struct Srt0206469C *srt, s16 x, s16 y);
 struct Obj02064100;
-extern void func_02064100(struct Obj02064100 *obj, u16 val);
-extern void func_02064120(struct Srt0206469C *srt, u32 sx, u32 sy);
+extern void NNS_G2dSetSRTRotate(struct Obj02064100 *obj, u16 val);
+extern void NNS_G2dSetSRTScale(struct Srt0206469C *srt, u32 sx, u32 sy);
 struct MCInstance;
 extern void NNSi_G2dSetMCDataToMCInstanceImpl(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
@@ -100,7 +100,7 @@ void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank)
     u32 k;
     u32 r;
 
-    func_02062FF0((struct CellAnim *)o, bank);
+    NNS_G2dSetCellAnimationBank((struct CellAnim *)o, bank);
     o->unk_30 = 0;
 
     if (((struct Obj16437 *)(o->unk_04))->f4 == 0) {
@@ -118,11 +118,11 @@ void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank)
     }
 
     if (k == 2) {
-        func_020640DC(&o->unk_48, p->unk_04, p->unk_06);
+        NNS_G2dSetSRTTranslate(&o->unk_48, p->unk_04, p->unk_06);
     } else {
-        func_02064120(&o->unk_48, *(u32 *)&p->unk_04, p->unk_08);
-        func_02064100((struct Obj02064100 *)(&o->unk_48), p->unk_02);
-        func_020640DC(&o->unk_48, p->unk_0c, p->unk_0e);
+        NNS_G2dSetSRTScale(&o->unk_48, *(u32 *)&p->unk_04, p->unk_08);
+        NNS_G2dSetSRTRotate((struct Obj02064100 *)(&o->unk_48), p->unk_02);
+        NNS_G2dSetSRTTranslate(&o->unk_48, p->unk_0c, p->unk_0e);
     }
 
 done:

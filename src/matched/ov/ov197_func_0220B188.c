@@ -1,5 +1,5 @@
 /*
- * function: func_0220B188
+ * function: B_BAG_MAIN_DeleteWindows
  * address:  0x0220B188
  * packet:   pkt_0220B188
  * region:   ov197
@@ -17,7 +17,7 @@ struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_0220B188(char *a)
+void B_BAG_MAIN_DeleteWindows(char *a)
 {
     unsigned int i;
 

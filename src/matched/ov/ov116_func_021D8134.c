@@ -12,7 +12,7 @@
  * see the duplicated-pool-word idiom.
  * symbols:
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
- *   d_021D8560 0x021D8560 data a4
+ *   gWifiBsubwayCodeInParam 0x021D8560 data a4
  *   d_021D8560_menu 0x021D8560 data a4
  */
 #include "../include/Obj08048.h"
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinDat; struct BmpMenu;
-extern u8 d_021D8560[];
+extern u8 gWifiBsubwayCodeInParam[];
 extern u8 d_021D8560_menu[];
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
-void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
+void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p) { *(u16 *)(gWifiBsubwayCodeInParam+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }

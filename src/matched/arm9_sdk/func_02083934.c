@@ -1,5 +1,5 @@
 /*
- * function: func_02083934
+ * function: NVRAMi_WriteAsync
  * address:  0x02083934
  * packet:   pkt_02083934
  * region:   arm9
@@ -86,7 +86,7 @@ BOOL NVRAMi_IsInitialized(void);
 BOOL NVRAMi_WriteEnable(void);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 
-NVRAMResult func_02083934(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
+NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
 {
     u32 e;
 

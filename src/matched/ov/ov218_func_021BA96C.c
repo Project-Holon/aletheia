@@ -1,5 +1,5 @@
 /*
- * function: func_021BA96C
+ * function: UN_SELECT_GRAPHIC_Task
  * address:  0x021BA96C
  * packet:   pkt_021BA96C
  * region:   ov218
@@ -12,17 +12,17 @@
  * Constructor pair, parameter arrives in r1.
  *
  * symbols:
- *   func_021BAA1C  0x021BAA1C  thumb  ov218
- *   func_021BAA88  0x021BAA88  thumb  ov218
+ *   UN_SELECT_GRAPHIC_DrawObjects  0x021BAA1C  thumb  ov218
+ *   UN_SELECT_GRAPHIC_VBlank  0x021BAA88  thumb  ov218
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BAA1C(void *);
-extern void func_021BAA88(void *);
+extern void UN_SELECT_GRAPHIC_DrawObjects(void *);
+extern void UN_SELECT_GRAPHIC_VBlank(void *);
 
-void func_021BA96C(void *unused, char *p)
+void UN_SELECT_GRAPHIC_Task(void *unused, char *p)
 {
-    func_021BAA1C(p);
-    func_021BAA88(p + 4);
+    UN_SELECT_GRAPHIC_DrawObjects(p);
+    UN_SELECT_GRAPHIC_VBlank(p + 4);
 }

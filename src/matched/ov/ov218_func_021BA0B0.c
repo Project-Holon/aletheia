@@ -11,7 +11,7 @@
  * symbols:
  *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
  *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
- *   func_021B9924 0x021B9924 thumb ov218
+ *   UN_SELECT_InitRecord 0x021B9924 thumb ov218
  *   func_021B9B78 0x021B9B78 thumb ov218
  *   func_021B9C00 0x021B9C00 thumb ov218
  *   func_021B9C88 0x021B9C88 thumb ov218
@@ -29,7 +29,7 @@ struct TaskMenu;
 struct WordSet;
 extern unsigned UI_SCENE_GetPhaseFrame(const unsigned char *p);
 extern void UI_SCENE_AdvancePhaseFrame(u8 *a);
-extern int func_021B9924(void);
+extern int UN_SELECT_InitRecord(void);
 extern void func_021B9B78(char *p, u32 id);
 extern int func_021B9C00(char *p);
 extern u32 func_021B9C88(char *p);
@@ -42,7 +42,7 @@ u32 func_021BA0B0(u8 *a, u8 *b)
 {
     switch (UI_SCENE_GetPhaseFrame(a)) {
     case 0:
-        func_021B9924();
+        UN_SELECT_InitRecord();
     tail:
         UI_SCENE_AdvancePhaseFrame(a);
         break;

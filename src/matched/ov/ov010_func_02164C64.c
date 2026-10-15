@@ -21,8 +21,8 @@
  * 0x02177BF4, which has no label.
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -31,9 +31,9 @@
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
  *   GAME_BEACON_SEARCH_PollScanResult  0x02164D6C  thumb  ov010
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   func_02030734  0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -77,8 +77,8 @@ struct Comm;
 struct Ctx;
 struct Rec44;
 struct SaveBlock;
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern u32 func_0200FB24(void);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
@@ -88,9 +88,9 @@ extern void GAME_BEACON_SendIfRequested(void);
 extern u8 *GAME_BEACON_SEARCH_PollScanResult(u8 *obj, int *arg);
 extern u32 GAME_COMM_GetNotifyFlag(void *obj);
 struct BigObj;
-extern int func_02012B70(const struct BigObj *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
+extern void *GAME_DATA_GetField114(struct SaveBlock *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern int INTRUDE_COMM_IsListedId(u16 v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -115,8 +115,8 @@ void GAME_BEACON_SEARCH_Update(void *unused, void *sys, PollWork *w)
     Handoff12 *h;
     u16 v;
 
-    field = (void *)func_02012138(sys);
-    p = func_020120F4(sys);
+    field = (void *)ICA_ANIME_GetField24(sys);
+    p = ICA_ANIME_GetField1C(sys);
     id = 0;
     if (GAME_DATA_IsSaving(p) == 1)
         return;
@@ -134,8 +134,8 @@ void GAME_BEACON_SEARCH_Update(void *unused, void *sys, PollWork *w)
     rec = (LinkRec *)GAME_BEACON_SEARCH_PollScanResult((u8 *)w, (int *)(&id));
     if (rec != 0) {
         if (rec->kind == 2) {
-            if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(field) && !func_02012B70(p)) {
-                v = func_02012AC8(func_020127A4(p));
+            if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(field) && !GAME_DATA_GetIntrudeCount(p)) {
+                v = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(p));
                 if (v != w->last) {
                     w->last = v;
                     if (INTRUDE_COMM_IsListedId(v) == 1) {

@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
- *   func_021B8BA4 0x021B8BA4 thumb ov172
- *   func_021B8B8C 0x021B8B8C thumb ov172
+ *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
+ *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
- *   func_021B8B94 0x021B8B94 thumb ov172
+ *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   func_021BDEF0 0x021BDEF0 thumb ov172
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -20,7 +20,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_021B8B68 0x021B8B68 thumb ov172
+ *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
  *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
  */
 #include "../include/Obj02215.h"
@@ -30,10 +30,10 @@ struct PrintSys;
 extern int COMM_TVT_SYS_GetLayoutMode(void *p);
 struct Cfg;
 struct Descriptor;
-extern u32 func_021B8BA4(int unused, char *base, int i);
-extern u32 func_021B8B8C(int unused, char *base, int i);
+extern u32 CTVT_COMM_IsSlotActive(int unused, char *base, int i);
+extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 extern u32 CTVT_CAMVIEW_IsWindowMoving(int unused, char *base, int i);
-extern char *func_021B8B94(int unused, char *base, int i);
+extern char *CTVT_COMM_GetSlotParam(int unused, char *base, int i);
 extern void func_021BDEF0(u8 *p, char *a, u32 b);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -42,7 +42,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern u8 func_021B8B68(int unused, char *p);
+extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 extern void COMM_TVT_SYS_PlaceSlotMarker(u8 *p, u32 v);
 void func_021BDD6C(u8 *p)
 {
@@ -58,13 +58,13 @@ void func_021BDD6C(u8 *p)
     }
     r = COMM_TVT_SYS_GetLayoutMode(p);
     for (i = found; i < 4; i++) {
-        if (func_021B8BA4((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
-        if (func_021B8B8C((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
+        if (CTVT_COMM_IsSlotActive((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
+        if (CTVT_COMM_GetSlotConnected((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
         if (CTVT_CAMVIEW_IsWindowMoving((int)p, *(char * *)&((struct Obj02215 *)p)->f1E0, i) != 0) continue;
         m = 1 << i;
         if (m & p[0x1b4]) continue;
         {
-            char *k = func_021B8B94((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i);
+            char *k = CTVT_COMM_GetSlotParam((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i);
             if (r == 1) {
                 if (i == 0) b = 2; else b = 3;
             } else {
@@ -87,7 +87,7 @@ void func_021BDD6C(u8 *p)
         found = 1;
     }
     if (found == 1) {
-        u32 v = func_021B8B68((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4);
+        u32 v = CTVT_COMM_GetMarkerSlot((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4);
         if (v != 0xff) {
             COMM_TVT_SYS_PlaceSlotMarker(p, v);
         }

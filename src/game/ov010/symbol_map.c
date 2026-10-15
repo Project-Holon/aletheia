@@ -14,10 +14,10 @@
  *
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   func_021673C4  0x021673C4  thumb  ov010
  *   func_021673A8  0x021673A8  thumb  ov010
@@ -48,7 +48,7 @@
  *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_02009470  0x02009470  thumb
- *   func_02009794  0x02009794  thumb
+ *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *   func_020095C8  0x020095C8  thumb
  *   func_0200973C  0x0200973C  thumb
  *   func_0200856C  0x0200856C  thumb
@@ -57,7 +57,7 @@
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
  *   g_Bg2ScaleState  0x02172BA4  data  ov010  a4
  *   g_Bg2ScaleStep  0x021729FC  data  ov010  a4
- *   func_0207AD58  0x0207AD58  thumb
+ *   MTX_Scale22_  0x0207AD58  thumb
  *   func_0207D59C  0x0207D59C  arm
  *   _fadd  0x0209C95C  arm
  *   _fdiv  0x0209CE10  arm
@@ -66,7 +66,7 @@
  *   _fsub  0x0209CB8C  arm
  *   _ffix  0x0209C494  arm
  *   func_02005654  0x02005654  thumb
- *   func_0207AD40 0x0207AD40 arm
+ *   MTX_Identity22_ 0x0207AD40 arm
  *   func_02017E1C  0x02017E1C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -78,12 +78,12 @@
  *   ov215_id       0x000000D7  data   a1
  *   gEggDemoViewProcData     0x021F7118  data   ov215  a4
  *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
- *   func_02012894  0x02012894  thumb
+ *   GAME_DATA_GetField168  0x02012894  thumb
  *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02009590  0x02009590  thumb
+ *   WIFI_HISTORY_GetDisplayCount  0x02009590  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
@@ -101,7 +101,7 @@
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   func_0202C794  0x0202C794  thumb
@@ -120,8 +120,8 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -135,10 +135,10 @@
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb
  *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
- *   func_0200C0E8  0x0200C0E8  thumb
- *   func_0200C224  0x0200C224  thumb
- *   func_0200C1DC  0x0200C1DC  thumb
- *   func_0200C1C4  0x0200C1C4  thumb
+ *   BEACON_GetFromSave  0x0200C0E8  thumb
+ *   BEACON_GetMode  0x0200C224  thumb
+ *   BEACON_GetThanksCount  0x0200C1DC  thumb
+ *   BEACON_GetGreetCount  0x0200C1C4  thumb
  */
 typedef unsigned char u8;
 
@@ -305,10 +305,10 @@ typedef struct ResearchReportWork {
     struct WordSet *wordSet;        /* 0x1C */
 } ResearchReportWork;
 
-extern void *func_020120F4(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *SYMBOL_SAVE_GetBlock(void *saveControl);
-extern u32 func_02012138(const struct GameSystem *gameSystem);
+extern u32 ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 extern u8 func_021673C4(u8 *saveData);
 extern u8 func_021673A8(u8 *saveData);
@@ -335,15 +335,15 @@ extern u32 PLEASURE_BOAT_GetPassengerExtra(void *eventState, u32 index, u32 inde
 extern u32 PLEASURE_BOAT_GetPassengerOccupied(void *eventState, u32 index);
 extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *task);
 extern struct SymbolMapSave *func_02009470(void *saveControl);
-extern u32 func_02009794(const struct SymbolMapSave *save, u32 index);
+extern u32 WIFI_HISTORY_IsCountryVisited(const struct SymbolMapSave *save, u32 index);
 extern u8 func_020095C8(const struct SymbolMapSave *save);
 extern struct SymbolMapSaveEntry *func_0200973C(struct SymbolMapSave *save, int index);
 extern u8 func_0200856C(const struct SymbolMapSaveEntry *entry);
 extern SaveSyncBlock *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
-extern void func_0207AD58(void *dst, int scaleX, int scaleY);
+extern void MTX_Scale22_(void *dst, int scaleX, int scaleY);
 extern void func_0207D59C(void *reg, void *matrix, int centerX, int centerY, int unusedA, int unusedB);
 extern int func_02005654(int callback, int param);
-extern void func_0207AD40(void *matrix);
+extern void MTX_Identity22_(void *matrix);
 extern void func_0200566C(void);
 extern u32   func_02017E1C(void *poke, u32 key, u32 extra);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int transitionArg);
@@ -354,11 +354,11 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int transitionA
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int transitionArg, int sel, int d, int e, u8 f, u8 g);
 extern void  GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 species);
 extern u32 ZONEDATA_GetParentZoneId(u32 zoneId);
-extern SpecialLocation *func_02012894(void *gameData);
-extern u32 func_0201296C(const struct GameData *gameData);
+extern SpecialLocation *GAME_DATA_GetField168(void *gameData);
+extern u32 GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern void *GAME_DATA_GetMiscSave(void *gameData);
 extern u8 *func_02012944(void *gameData);
-extern u8 func_02009590(void *save, u32 b, u32 c);
+extern u8 WIFI_HISTORY_GetDisplayCount(void *save, u32 b, u32 c);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int keyId, void *myStatus);
 extern void *SCRCMD_WORK_GetGameData(void *work);
@@ -374,7 +374,7 @@ extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
 extern void *GAME_EVENT_GetGameSystem(struct GameTask *task);
 extern void MISC_SAVEDATA_StoreQuadRecord(void *table, int index, void *src);
 extern void  PMSI_PARAM_Delete(void *pmsParam);
-extern void *func_0201210C(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern u32 FIELDMAP_GetWeather(u8 *fieldMap);
 extern u16 FIELDMAP_GetZoneId(u8 *fieldMap);
 extern u8 func_0202C794(void *gameSystem, u32 a1);
@@ -389,8 +389,8 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern int MSGDATA_Delete();
 extern struct InfoWindow *FIELD_MSGBG_CreateMsgWin(void *fx, struct MsgBank *msgBank, u16 x, u16 y, u16 width, u16 height);
 extern int FIELD_MSGBG_DeleteMsgWin();
-extern struct WordSet *func_0201EC64(u32 heapId);
-extern int func_0201ED04();
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern int WORDSET_DeleteStrbufED04();
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, void *myStatus);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
@@ -404,10 +404,10 @@ extern void func_020409B4(u32 index);
 extern void STRBUF_Delete(struct StrBuf *buf);
 extern int FIELD_MSGBG_ClearMsgWin();
 extern void *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
-extern void *func_0200C0E8(void *saveControlWork);
-extern u8 func_0200C224(struct ReportBlock *block);
-extern u32 func_0200C1DC(struct ReportBlock *block);
-extern u32 func_0200C1C4(struct ReportBlock *block);
+extern void *BEACON_GetFromSave(void *saveControlWork);
+extern u8 BEACON_GetMode(struct ReportBlock *block);
+extern u32 BEACON_GetThanksCount(struct ReportBlock *block);
+extern u32 BEACON_GetGreetCount(struct ReportBlock *block);
 u8 SYMBOL_MAP_FindGridIndex();
 int SYMBOL_MAP_GetCellTileId(u8 *grid, int id);
 int SYMBOL_MAP_GetNeighborCellId();
@@ -597,9 +597,9 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
     void *comm;
     SymbolMapLinkRecord *record;
 
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    comm = (void *)func_02012138(gameSystem);
+    comm = (void *)ICA_ANIME_GetField24(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         *outSymbolIndex = func_021673C4(saveData);
         *outSymbolGroup = func_021673A8(saveData);
@@ -658,9 +658,9 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     u32 page;
     u8 count;
 
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    comm = (void *)func_02012138(gameSystem);
+    comm = (void *)ICA_ANIME_GetField24(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
         record = func_02030734(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
@@ -836,7 +836,7 @@ int SYMBOL_MAP_ScrCmdGetEventStateValue(void *vm, void *work)
     u16 *out;
 
     SCRCMD_WORK_GetScriptWork(work);
-    eventState = GAME_DATA_GetEventState(func_020120F4(SCRCMD_WORK_GetGameSystem(work)));
+    eventState = GAME_DATA_GetEventState(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(work)));
     index = SCRIPT_WORK_ReadWorkValue(vm, work);
     subCommand = func_02011330(vm);
     index2 = SCRIPT_WORK_ReadWorkValue(vm, work);
@@ -882,7 +882,7 @@ int SYMBOL_MAP_ScrCmdStartRecordTask(void *vm, void *work)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(work);
     void **eventState;
     void *task;
-    eventState = (void **)GAME_DATA_GetEventState(func_020120F4(gameSystem));
+    eventState = (void **)GAME_DATA_GetEventState(ICA_ANIME_GetField1C(gameSystem));
     task = SYMBOL_MAP_CreateRecordTask(gameSystem, *eventState, SCRIPT_WORK_ReadWorkPointer(vm, work));
     if (task == 0)
         return 1;
@@ -932,10 +932,10 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     work->outPicked = (u16 *)outPicked;
     work->outKind = (u16 *)outKind;
     work->outValue = (u16 *)outValue;
-    save = func_02009470(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)));
+    save = func_02009470(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
     for (i = 1; i < 0xE9; i++) {
         flagIndex = i - 1;
-        if (func_02009794(save, i))
+        if (WIFI_HISTORY_IsCountryVisited(save, i))
             work->ownedFlags[flagIndex] = 1;
         else
             work->ownedFlags[flagIndex] = 0;
@@ -993,7 +993,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work)
 
     SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameSystem(work);
-    gameData = func_020120F4(gameData);
+    gameData = ICA_ANIME_GetField1C(gameData);
     block = GAME_DATA_GetSaveSyncBlock(gameData);
     index = (u8)func_02011330(vm);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -1011,7 +1011,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockHeader(void *vm, void *work)
 
     SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameSystem(work);
-    gameData = func_020120F4(gameData);
+    gameData = ICA_ANIME_GetField1C(gameData);
     block = GAME_DATA_GetSaveSyncBlock(gameData);
     sel = SCRIPT_WORK_ReadWorkValue(vm, work);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -1032,7 +1032,7 @@ int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work)
     unsigned short *outValue;
     unsigned short *outPicked;
     int task;
-    GAME_DATA_GetSaveSyncBlock(func_020120F4(gameSystem));
+    GAME_DATA_GetSaveSyncBlock(ICA_ANIME_GetField1C(gameSystem));
     mode = SCRIPT_WORK_ReadWorkValue(vm, work);
     outKind = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -1060,7 +1060,7 @@ void SYMBOL_MAP_UpdateBg2Scale(void)
         else
             rounded = 4096.0f * (1.0f / scale) - 0.5f;
         fixedScale = (int)rounded;
-        func_0207AD58(matrix, fixedScale, fixedScale);
+        MTX_Scale22_(matrix, fixedScale, fixedScale);
         func_0207D59C((void *)0x04000020, matrix, 0x80, 0x5c, 0, 0);
     }
 }
@@ -1079,7 +1079,7 @@ void SYMBOL_MAP_StartBg2Scale(void)
 /* Resets the BG2 matrix to identity and stops the per-frame callback. */
 void SYMBOL_MAP_StopBg2Scale(void) {
     int matrix[4];
-    func_0207AD40(matrix);
+    MTX_Identity22_(matrix);
     func_0207D59C((void *)0x04000020, matrix, 128, 92, 0, 0);
     func_0200566C();
 }
@@ -1144,7 +1144,7 @@ void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void
     work = func_020124E8(task);
     work->gameSystem = gameSystem;
     work->transitionArg = (u32)transitionArg;
-    work->gameData = func_020120F4(gameSystem);
+    work->gameData = ICA_ANIME_GetField1C(gameSystem);
     work->poke = poke;
     return task;
 }
@@ -1164,7 +1164,7 @@ u32 SYMBOL_MAP_ResolveZoneId(void *gameData, u32 zoneId)
     u32 remapped;
     int i;
     if (parentZone == 0x1A6)
-        return ZONEDATA_GetParentZoneId(func_02012894(gameData)->zoneId);
+        return ZONEDATA_GetParentZoneId(GAME_DATA_GetField168(gameData)->zoneId);
     for (i = 0; i < 2; i++) {
         if (g_ZoneRemapTable[i].source == parentZone) {
             remapped = (u16)*(u32 *)((char *)g_ZoneRemapTable + i * 8);
@@ -1185,7 +1185,7 @@ done:
  */
 int SYMBOL_MAP_CheckEventFlag(void *gameData, u32 flagId)
 {
-    void *eventWork = (void *)func_0201296C(gameData);
+    void *eventWork = (void *)GAME_DATA_GetEventWork(gameData);
     void *miscSave = GAME_DATA_GetMiscSave(gameData);
     void *myStatus = func_02012944(gameData);
     void *save;
@@ -1196,7 +1196,7 @@ int SYMBOL_MAP_CheckEventFlag(void *gameData, u32 flagId)
         return FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, 1, myStatus);
     case 0xF001:
         result = 0;
-        if (func_02009590(save, (u32)myStatus, 0) >= 1)
+        if (WIFI_HISTORY_GetDisplayCount(save, (u32)myStatus, 0) >= 1)
             result = 1;
         return result;
     }
@@ -1277,7 +1277,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), inputWork->sentenceId, sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1336,7 +1336,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    MISC_SAVEDATA_StoreQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
+                    MISC_SAVEDATA_StoreQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;
@@ -1366,7 +1366,7 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     gameData = SCRCMD_WORK_GetGameData(work);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     fieldState = FIELDMAP_GetWeather(fieldMap);
     modeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     enable = SCRIPT_WORK_ReadWorkValue(vm, work);
@@ -1475,11 +1475,11 @@ void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
  */
 void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSystem) {
     void *fieldMap;
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     MI_CpuFill8(work, 0, 32);
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
-    work->gameData = func_020120F4(gameSystem);
+    work->gameData = ICA_ANIME_GetField1C(gameSystem);
     work->fieldMap = fieldMap;
     work->fx = (void *)FIELDMAP_GetMsgBg(fieldMap);
 }
@@ -1537,14 +1537,14 @@ struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(ResearchReportWork *work)
 {
     struct WordSet *wordSet;
 
-    wordSet = func_0201EC64(work->heapId);
+    wordSet = GF_FONT_Create_EC64(work->heapId);
     work->wordSet = wordSet;
     return wordSet;
 }
 
 int EVENT_RESEARCH_RADAR_DeleteWordSet(ResearchReportWork *work)
 {
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     work->wordSet = 0;
     return 0;
 }
@@ -1589,8 +1589,8 @@ int EVENT_RESEARCH_RADAR_GetReportKind(ResearchReportWork *work)
     int result;
 
     gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
-    block = func_0200C0E8(gameDataSave);
-    result = func_0200C224(block);
+    block = BEACON_GetFromSave(gameDataSave);
+    result = BEACON_GetMode(block);
     return result;
 }
 
@@ -1602,8 +1602,8 @@ int EVENT_RESEARCH_RADAR_GetReportNumberA(ResearchReportWork *work)
     int result;
 
     gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
-    block = func_0200C0E8(gameDataSave);
-    result = func_0200C1DC(block);
+    block = BEACON_GetFromSave(gameDataSave);
+    result = BEACON_GetThanksCount(block);
     return result;
 }
 
@@ -1615,8 +1615,8 @@ int EVENT_RESEARCH_RADAR_GetReportNumberB(ResearchReportWork *work)
     int result;
 
     gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
-    block = func_0200C0E8(gameDataSave);
-    result = func_0200C1C4(block);
+    block = BEACON_GetFromSave(gameDataSave);
+    result = BEACON_GetGreetCount(block);
     return result;
 }
 

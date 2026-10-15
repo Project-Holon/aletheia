@@ -1,5 +1,5 @@
 /*
- * function: func_0205EA70
+ * function: DWCi_AC_GetPostalCode
  * address:  0x0205EA70
  * packet:   pkt_0205EA70
  * region:   arm9
@@ -23,7 +23,7 @@ extern void decodeSSID(char *ssid, unsigned char *buf);
 extern int memcmp(const void *s1, const void *s2, unsigned long n);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
-int func_0205EA70(char *ssid, unsigned char *pos)
+int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos)
 {
     int i;
     unsigned char buf[24];

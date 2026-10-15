@@ -1,5 +1,5 @@
 /*
- * function: func_0205E954
+ * function: GetNextStealthChannel
  * address:  0x0205E954
  * packet:   pkt_0205E954
  * region:   arm9
@@ -144,7 +144,7 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 
 extern u16 WCM_GetAllowedChannel(void);
 
-s8 func_0205E954(void)
+s8 GetNextStealthChannel(void)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u8 i;

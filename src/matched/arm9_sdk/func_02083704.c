@@ -1,5 +1,5 @@
 /*
- * function: func_02083704
+ * function: NVRAMi_ReadAsync
  * address:  0x02083704
  * packet:   pkt_02083704
  * region:   arm9
@@ -86,7 +86,7 @@ BOOL NVRAMi_IsInitialized(void);
 BOOL NVRAMi_ReadDataBytes(u32 address, u32 size, u8 *buf);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 
-NVRAMResult func_02083704(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
+NVRAMResult NVRAMi_ReadAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
 {
     u32 e;
 

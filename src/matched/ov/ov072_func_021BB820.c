@@ -55,17 +55,17 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_02049B40  0x02049B40  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   sTownMapGrhDispConfig     0x021BBBCC  data  a4
  *   sTownMapGrhBgTable     0x021BBC28  data  a4
@@ -87,19 +87,19 @@ extern struct Ent sTownMapGrhBgTable[];
 extern char sTownMapGrhDispConfig;
 
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
 void TOWNMAP_GRH_InitBgLayers(void *p, u16 heap)
@@ -110,12 +110,12 @@ void TOWNMAP_GRH_InitBgLayers(void *p, u16 heap)
 
     i = 0;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)(&sTownMapGrhDispConfig));
     for (; i < 7; i++) {
         id = sTownMapGrhBgTable[i].id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)(&sTownMapGrhBgTable[i].tmpl), (u8)sTownMapGrhBgTable[i].mode);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)(&sTownMapGrhBgTable[i].tmpl), (u8)sTownMapGrhBgTable[i].mode);
         func_02040588(id, 1);
     }
     h = func_020490F4(0x55, heap);
@@ -130,6 +130,6 @@ void TOWNMAP_GRH_InitBgLayers(void *p, u16 heap)
     func_020498F4(h, 0xf, 5, 0, 0, 0, heap);
     func_02049B40(0x17, 5, 0, 0x1c0, 0x20, heap);
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, heap);
-    func_02040C14((int)1, (int)0, (int)1, (int)0);
+    BG_SYS_Init((int)1, (int)0, (int)1, (int)0);
     ARC_TOOL_DeleteHandle(h);
 }

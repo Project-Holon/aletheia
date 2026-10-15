@@ -1,5 +1,5 @@
 /*
- * function: func_0207C904
+ * function: FX_GetSqrtResult
  * address:  0x0207C904
  * packet:   pkt_0207C904
  * region:   arm9
@@ -78,7 +78,7 @@ static inline s64 CP_GetDivResult64(void)
 #define reg_CP_DIV_NUMER32  (*(volatile u32 *)0x04000290)
 #define reg_CP_DIV_REM32    (*(volatile u32 *)0x040002A8)
 
-fx32 func_0207C904(void)
+fx32 FX_GetSqrtResult(void)
 {
     CP_WaitSqrt();
     return (fx32)((CP_GetSqrtResult32() + (1 << 9)) >> 10);

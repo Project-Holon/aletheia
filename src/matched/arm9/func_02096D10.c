@@ -1,5 +1,5 @@
 /*
- * function: func_02096D10
+ * function: __equals_dec
  * address:  0x02096D10
  * packet:   pkt_02096990
  * region:   arm9
@@ -41,7 +41,7 @@ typedef struct {
     u8  f05[];
 } Str;
 
-int func_02096D10(Str *a, Str *b)
+int __equals_dec(Str *a, Str *b)
 {
     Str *p;
     int i, n;

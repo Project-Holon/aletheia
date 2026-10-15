@@ -17,7 +17,7 @@
  * symbols:
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020355C4  0x020355C4  arm
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   POKELIST_SetupDisplay  0x021B6D90  thumb  ov091
  *   POKELIST_LoadGraphics  0x021B7298  thumb  ov091
  *   POKELIST_CreateFonts  0x021B71E4  thumb  ov091
@@ -45,7 +45,7 @@ typedef unsigned int u32;
 
 extern u32 POKEPARTY_GetCount(void *);
 extern u8 func_020355C4(void);
-extern u16 func_020212B0(u16 id);
+extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void POKELIST_SetupDisplay(u8 *p);
 extern void POKELIST_LoadGraphics(u8 *p);
 extern void POKELIST_CreateFonts(char *p);
@@ -123,7 +123,7 @@ int POKELIST_InitWork(u8 *p)
     }
     q = (u8 *)W(0x280);
     if (((struct Obj04352 *)q)->f34 == 6 && ((struct Obj04352 *)q)->f46 == 0)
-        *(u16 *)(W(0x280) + 0x46) = func_020212B0(((struct Obj04352 *)q)->f44);
+        *(u16 *)(W(0x280) + 0x46) = FILE_UTIL_Get_12B0(((struct Obj04352 *)q)->f44);
     POKELIST_SetupDisplay(p);
     POKELIST_LoadGraphics(p);
     POKELIST_CreateFonts((char *)p);

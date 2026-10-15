@@ -12,16 +12,16 @@
  * sdk:      DWC_NdSetAttr (libdwcnd.TWL.HYB.a dwc_nd.o)
  *
  * symbols:
- *   func_02059F38  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   DWCi_NdSetAttr  0x021C5F90  arm  ov114
  */
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern int DWCi_NdSetAttr(char *attr1, char *attr2, char *attr3);
 
 int DWC_NdSetAttr(char *attr1, char *attr2, char *attr3)
 {
-    if (func_02059F38())
+    if (DWCi_IsError())
         return 0;
     return DWCi_NdSetAttr(attr1, attr2, attr3);
 }

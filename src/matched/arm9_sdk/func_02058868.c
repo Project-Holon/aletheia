@@ -1,5 +1,5 @@
 /*
- * function: func_02058868
+ * function: DWC_BACKUPlCheckIp
  * address:  0x02058868
  * packet:   pkt_02058868
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 extern int  DWC_BACKUPlCheckAddress(u8 *address);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 
-int func_02058868(u8 *ip, u8 *mask)
+int DWC_BACKUPlCheckIp(u8 *ip, u8 *mask)
 {
     u32 ipa;
     u32 snm;

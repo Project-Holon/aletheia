@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx33.c
  * unit:     yes
- * function: func_0207ADC4, func_0207ADE8, func_0207AE24, func_0207AE38, func_0207AF00, func_0207AF1C, MTX_RotZ33_, func_0207AF50, func_0207B0A4, func_0207B388, func_0207B51C
+ * function: MTX_Identity33_, MTX_Copy33To44_, MTX_Scale33_, MTX_ScaleApply33, func_0207AF00, func_0207AF1C, MTX_RotZ33_, MTX_RotAxis33, func_0207B0A4, func_0207B388, MTX_MultVec33
  * address:  0x0207ADC4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,8 +31,8 @@ typedef union {
     fx32 a[9];
 } MtxFx33;
 
-asm void func_0207ADC4(void);
-asm void func_0207ADE8(void);
+asm void MTX_Identity33_(void);
+asm void MTX_Copy33To44_(void);
 
 /*
  * sdk:      MTX_Identity33_ (libfx.TWL.HYB.a fx_mtx33.o)
@@ -40,7 +40,7 @@ asm void func_0207ADE8(void);
  *
  * void MTX_Identity33_(MtxFx33 *pDst)
  */
-asm void func_0207ADC4(void)
+asm void MTX_Identity33_(void)
 {
     mov r2, #0x1000
     str r2, [r0, #0x20]
@@ -59,7 +59,7 @@ asm void func_0207ADC4(void)
  *
  * void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst)
  */
-asm void func_0207ADE8(void)
+asm void MTX_Copy33To44_(void)
 {
     stmfd sp!, {r4}
     mov r12, #0
@@ -80,7 +80,7 @@ asm void func_0207ADE8(void)
 
 #pragma thumb on
 
-asm void func_0207AE24(void)
+asm void MTX_Scale33_(void)
 {
     stmia r0!, {r1}
     mov r1, #0
@@ -95,7 +95,7 @@ asm void func_0207AE24(void)
 
 #pragma thumb reset
 
-void func_0207AE38(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z)
+void MTX_ScaleApply33(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z)
 {
     pDst->_00 = (fx32)(((fx64)x * pSrc->_00) >> 12);
     pDst->_01 = (fx32)(((fx64)x * pSrc->_01) >> 12);
@@ -173,15 +173,15 @@ asm void MTX_RotZ33_(void)
 void FX_InvAsync(fx32 denom);
 fx32 FX_GetDivResult(void);
 void MI_Copy36B(const void *pSrc, void *pDest);
-void func_0207AF50(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal);
+void MTX_RotAxis33(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal);
 int MTX_Inverse33(const MtxFx33 *pSrc, MtxFx33 *pDst);
 void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
-void func_0207B51C(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst);
+void MTX_MultVec33(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst);
 
 /*
  * sdk:      MTX_RotAxis33 (libfx.TWL.HYB.a fx_mtx33.o)
  */
-void func_0207AF50(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal)
+void MTX_RotAxis33(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal)
 {
     fx64 t, ss, xx, yy, zz;
     fx32 t01;
@@ -335,7 +335,7 @@ void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab)
 /*
  * sdk:      MTX_MultVec33 (libfx.TWL.HYB.a fx_mtx33.o)
  */
-void func_0207B51C(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst)
+void MTX_MultVec33(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst)
 {
     fx32 x = vec->x;
     fx32 y = vec->y;

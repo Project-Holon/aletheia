@@ -10,7 +10,7 @@
  * volatile: global pointer re-read at 0220E17C and 0220E196 before PRINTSYS_PrintStream.
  * symbols:
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -26,7 +26,7 @@ typedef struct { char *volatile global; } Context;
 struct Descriptor;
 struct Cfg;
 extern unsigned GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
-extern int func_02012FFC(unsigned);
+extern int MSG_SPEED_GetWait(unsigned);
 extern int PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -36,7 +36,7 @@ void func_0220E168(char *p)
 {
     int v;
     void *obj;
-    v = func_02012FFC(GF_FONT_SetTextColor(1,2,0));
+    v = MSG_SPEED_GetWait(GF_FONT_SetTextColor(1,2,0));
     ((struct Obj02247 *)p)->f1EB0 = PRINTSYS_PrintStream(*(unsigned *)&((struct Obj02247 *)p)->f1F68,0,0,*(unsigned *)&((struct Obj02247 *)p)->f1EA8,((struct Obj25194 *)(((Context *)p)->global))->fC,v,((struct Obj02247 *)p)->f1D4,10,((struct Obj25195 *)(((Context *)p)->global))->f10,15);
     obj = ((struct Obj02247 *)p)->f1F68;
     BMP_WIN_TransferChars(obj);

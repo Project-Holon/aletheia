@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   gMemSsea     0x021DE5E4  data
  */
 
@@ -25,7 +25,7 @@ typedef struct MemSsea {
 
 extern void MI_CpuCopy8();
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern MemSsea *gMemSsea;
 
 int func_021C7690(int val)
@@ -45,6 +45,6 @@ int func_021C7690(int val)
             break;
         buf[i] = ' ';
     }
-    v = func_020964E0((u32)buf);
+    v = atoi((u32)buf);
     return v >= val;
 }

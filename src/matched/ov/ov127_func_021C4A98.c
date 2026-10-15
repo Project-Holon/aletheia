@@ -1,5 +1,5 @@
 /*
- * function: func_021C4A98
+ * function: WF2DMAP_OBJ_AllocSlot
  * address: 0x021C4A98
  * packet: pkt_ov127_021C4A98
  * region: ov127
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  */
-char *func_021C4A98(unsigned *p)
+char *WF2DMAP_OBJ_AllocSlot(unsigned *p)
 {
  unsigned i=0;
  if (i<p[1]) { char *base=(char *)p[0];

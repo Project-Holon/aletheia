@@ -14,18 +14,18 @@
  * Extra open callee of DWCi_GPErrorCallback (0x0216C08C).
  *
  * symbols:
- *   func_0216A3B8  0x0216A3B8  arm  ov009
+ *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  *   DWCi_StopMatch  0x0216EB68  arm  ov009
- *   func_02168E50  0x02168E50  arm  ov009
+ *   DWCi_StopFriendProcess  0x02168E50  arm  ov009
  *   g_021AA878     0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
 
 extern struct DwcGlobal g_021AA878;
-extern void func_0216A3B8(int error, int errorCode);
+extern void DWCi_StopLogin(int error, int errorCode);
 extern void DWCi_StopMatch(int error, int errorCode);
-extern void func_02168E50(int error, int errorCode);
+extern void DWCi_StopFriendProcess(int error, int errorCode);
 
 static int DWCi_HandleGPError(int result)
 {
@@ -42,12 +42,12 @@ static int DWCi_HandleGPError(int result)
     switch (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24)) {
     case 1:
         errorCode += (int)0xffff11b8;
-        func_0216A3B8(dwcError, errorCode);
+        DWCi_StopLogin(dwcError, errorCode);
         break;
     case 2:
         errorCode += (int)0xffff11b8;
         if (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x94) < 1)
-            func_0216A3B8(dwcError, errorCode);
+            DWCi_StopLogin(dwcError, errorCode);
         break;
     case 4:
         errorCode += (int)0xfffec398;
@@ -57,6 +57,6 @@ static int DWCi_HandleGPError(int result)
         errorCode += (int)0xfffe9c88;
         break;
     }
-    func_02168E50(dwcError, errorCode);
+    DWCi_StopFriendProcess(dwcError, errorCode);
     return result;
 }

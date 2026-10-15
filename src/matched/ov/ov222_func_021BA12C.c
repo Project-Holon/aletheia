@@ -1,5 +1,5 @@
 /*
- * function: func_021BA12C
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact
  * address:  0x021BA12C
  * packet:   pkt_021BA12C
  * region:   ov222
@@ -24,7 +24,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BA12C(char *p)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26085 *)p)->f0));
     CLACT_ExitSystem();

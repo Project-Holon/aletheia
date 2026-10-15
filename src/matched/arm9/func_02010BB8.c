@@ -1,5 +1,5 @@
 /*
- * function: func_02010BB8
+ * function: GFL_NET_SAVE_CreateScreenWork
  * address:  0x02010BB8
  * packet:   pkt_02010BB8
  * region:   arm9
@@ -33,8 +33,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010BB8.c \
- *       --func func_02010BB8 --addr 0x02010BB8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_CreateScreenWork.c \
+ *       --func GFL_NET_SAVE_CreateScreenWork --addr 0x02010BB8 --cc 1.1p1 --thumb
  */
 #include "../include/Obj11242.h"
 
@@ -50,7 +50,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 extern void *PROCSYS_Create(int a0);
 
-int func_02010BB8(void *ctx, int a1, int a2)
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2)
 {
     u8 *p;
 

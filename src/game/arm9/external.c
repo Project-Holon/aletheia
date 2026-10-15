@@ -1,7 +1,7 @@
 /*
  * file:     external.c
  * unit:     yes
- * function: RTC_Init, func_020887F4, func_02088864, func_0208889C, func_0208890C, func_02088944, func_020889C0, RTCEXi_GetCommonCallback, func_02088A04, func_02088E5C, func_02088EC4, func_02088ED4
+ * function: RTC_Init, RTC_GetDateAsync, RTC_GetDate, RTC_GetTimeAsync, RTC_GetTime, RTC_GetDateTimeAsync, RTC_GetDateTime, RTCEXi_GetCommonCallback, func_02088A04, func_02088E5C, RtcGetResultCallback, RtcWaitBusy
  * address:  0x02088788
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -168,17 +168,12 @@ extern int OS_IsRunOnTwl(void);
 extern RTCResult RTCEXi_CommonCallback(void);
 extern void g_0215142C(void);
 void RTC_Init(void);
-RTCResult func_020887F4(RTCDate *date, RTCCallback callback, void *arg);
-RTCResult func_02088864(RTCDate *date);
-RTCResult func_0208889C(RTCTime *time, RTCCallback callback, void *arg);
-RTCResult func_0208890C(RTCTime *time);
-RTCResult func_02088944(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg);
-RTCResult func_020889C0(RTCDate *date, RTCTime *time);
+RTCResult RTC_GetDate(RTCDate *date);
+RTCResult RTC_GetTime(RTCTime *time);
+RTCResult RTC_GetDateTime(RTCDate *date, RTCTime *time);
 void *RTCEXi_GetCommonCallback(void);
 void RtcCommonCallback(int tag, u32 data, int err);
 unsigned long RtcBCD2HEX(unsigned long bcd);
-void func_02088EC4(int result);
-asm void func_02088ED4(void);
 extern RtcBss g_02151428;
 
 
@@ -210,7 +205,7 @@ void RTC_Init(void)
 /*
  * sdk:      RTC_GetDateAsync (librtc.TWL.HYB.a external.o)
  */
-RTCResult func_020887F4(RTCDate *date, RTCCallback callback, void *arg)
+RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
@@ -240,7 +235,7 @@ RTCResult func_020887F4(RTCDate *date, RTCCallback callback, void *arg)
 /*
  * sdk:      RTC_GetDate (librtc.TWL.HYB.a external.o)
  */
-RTCResult func_02088864(RTCDate *date)
+RTCResult RTC_GetDate(RTCDate *date)
 {
     g_02151428.rtcWork.commonResult = RTC_GetDateAsync(date, RtcGetResultCallback, 0);
     if (g_02151428.rtcWork.commonResult == RTC_RESULT_SUCCESS) {
@@ -254,7 +249,7 @@ RTCResult func_02088864(RTCDate *date)
 /*
  * sdk:      RTC_GetTimeAsync (librtc.TWL.HYB.a external.o)
  */
-RTCResult func_0208889C(RTCTime *time, RTCCallback callback, void *arg)
+RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
@@ -284,7 +279,7 @@ RTCResult func_0208889C(RTCTime *time, RTCCallback callback, void *arg)
 /*
  * sdk:      RTC_GetTime (catalog: RTC_GetDate) (librtc.TWL.HYB.a external.o)
  */
-RTCResult func_0208890C(RTCTime *time)
+RTCResult RTC_GetTime(RTCTime *time)
 {
     g_02151428.rtcWork.commonResult = RTC_GetTimeAsync(time, RtcGetResultCallback, 0);
     if (g_02151428.rtcWork.commonResult == RTC_RESULT_SUCCESS) {
@@ -298,7 +293,7 @@ RTCResult func_0208890C(RTCTime *time)
 /*
  * sdk:      RTC_GetDateTimeAsync (librtc.TWL.HYB.a external.o)
  */
-RTCResult func_02088944(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg)
+RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
@@ -329,7 +324,7 @@ RTCResult func_02088944(RTCDate *date, RTCTime *time, RTCCallback callback, void
 /*
  * sdk:      RTC_GetDateTime (catalog: RTC_GetAlarmParam) (librtc.TWL.HYB.a external.o)
  */
-RTCResult func_020889C0(RTCDate *date, RTCTime *time)
+RTCResult RTC_GetDateTime(RTCDate *date, RTCTime *time)
 {
     g_02151428.rtcWork.commonResult = RTC_GetDateTimeAsync(date, time, RtcGetResultCallback, 0);
     if (g_02151428.rtcWork.commonResult == RTC_RESULT_SUCCESS) {
@@ -570,7 +565,7 @@ unsigned long RtcBCD2HEX(unsigned long bcd)
 /*
  * note:     librtc external.o RtcGetResultCallback.
  */
-void func_02088EC4(int result)
+void RtcGetResultCallback(RTCResult result, void *arg)
 {
     g_02151428.rtcWork.commonResult = result;
 }
@@ -579,7 +574,7 @@ void func_02088EC4(int result)
 
 
 /* hand-written in the original: spin-wait on the lock word with the address in ip; mwccarm never picks ip for a leaf load (9 C variants tried) */
-asm void func_02088ED4(void)
+asm void RtcWaitBusy(void)
 {
     ldr ip, =g_0215142C
 loc_02088ED8:

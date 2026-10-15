@@ -47,6 +47,9 @@
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
+ *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
+ *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
  */
 
 typedef unsigned char  u8;
@@ -60,9 +63,9 @@ struct U16Vec;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 id);
 extern int GAME_DATA_PartSaveMain(char *p, int a1);
-extern void *func_0200A5F8(void *save);
-extern void func_0200A7EC(struct Big *p, u8 value);
-extern u8 *func_0200A7F8(struct Big *p);
+extern void *MUSICAL_SAVE_GetFromSave(void *save);
+extern void MUSICAL_SAVE_SetHasDistData(struct Big *p, u8 value);
+extern u8 *MUSICAL_SAVE_GetStageData(struct Big *p);
 
 extern u32 func_020307B0(void *p);
 extern void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u32 heap);
@@ -109,14 +112,14 @@ u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *p)
             MUSICAL_DIST_SAVE_Delete(p);
             return 1;
         }
-        a = func_0200A5F8(GAME_DATA_GetSaveControl(p->unk28));
-        func_0200A7EC(a, 1);
+        a = MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(p->unk28));
+        MUSICAL_SAVE_SetHasDistData(a, 1);
         c = ARC_TOOL_CreateHandleFromMemory(p->unk24, p->unk0C.unk00,
                           (u16)((p->unk00 & 0x7FFF) | 0x8000));
         d = ARC_UTIL_LoadHandleMemberWithSize(c, 1, 0, (u16)((p->unk00 & 0x7FFF) | 0x8000), &loc);
         e = MSGDATA_CreateFromMemory(d, (u16)((p->unk00 & 0x7FFF) | 0x8000));
         f = func_02045EC0(e, 0);
-        STRBUF_ToChars(f, (u16 *)func_0200A7F8(a), 0x25);
+        STRBUF_ToChars(f, (u16 *)MUSICAL_SAVE_GetStageData(a), 0x25);
         STRBUF_Delete(f);
         MSGDATA_Delete(e);
         func_020307B0(d);

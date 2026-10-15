@@ -1,5 +1,5 @@
 /*
- * function: func_02080B70
+ * function: GX_DisableBankForClearImage
  * address:  0x02080B70
  * packet:   pkt_02080B70
  * region:   arm9
@@ -84,7 +84,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern int disableBankForX_(u16 *g3bit);
 
-GXVRam func_02080B70(void)
+GXVRam GX_DisableBankForClearImage(void)
 {
     return (GXVRam)disableBankForX_(&gGXState.vramCnt_clrImg);
 }

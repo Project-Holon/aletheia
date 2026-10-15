@@ -1,5 +1,5 @@
 /*
- * function: func_02094530
+ * function: sprintf
  * address:  0x02094530
  * packet:   pkt_02094488
  * region:   arm9
@@ -16,23 +16,23 @@
  *           0x02094530 in layout/function_starts.txt and the label at
  *           0x02094534 removed.
  *
- * blocker:  callee func_020944CC has no shard entry of its own (it is parked
+ * blocker:  callee vsnprintf has no shard entry of its own (it is parked
  *           in this packet because its own `bl 0x02093BDC` site cannot be
  *           attested), so the single call site here stays wildcarded.  The C
  *           itself is byte-correct: 36 bytes, home push included.
  *
  * symbols:
- *   func_020944CC  0x020944CC  arm
+ *   vsnprintf  0x020944CC  arm
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap);
+extern u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap);
 
-u32 func_02094530(char *dst, u32 n, ...)
+u32 sprintf(char *dst, u32 n, ...)
 {
     u32 *p = (u32 *)((u32)&n & ~3u);
 
-    return func_020944CC((u8 *)dst, 0xFFFFFFFFu, (const u8 *)n, (u8 *)(p + 1));
+    return vsnprintf((u8 *)dst, 0xFFFFFFFFu, (const u8 *)n, (u8 *)(p + 1));
 }

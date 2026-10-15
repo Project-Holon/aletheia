@@ -25,7 +25,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_021DA854 0x021DA854 thumb ov121
  *   func_021D9CA4 0x021D9CA4 thumb ov121
  *   func_021D9FFC 0x021D9FFC thumb ov121
@@ -58,7 +58,7 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201F5BC 0x0201F5BC thumb
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -99,7 +99,7 @@
  *   func_021DA178 0x021DA178 thumb ov121
  *   func_021D9FF8 0x021D9FF8 thumb ov121
  *   KEY_GetTrg 0x020362DC arm
- *   func_0203F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   func_021D9750 0x021D9750 thumb ov121
  *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
  *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
@@ -134,7 +134,7 @@
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_021DA4DC 0x021DA4DC thumb ov121
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_021DA698 0x021DA698 thumb ov121
  *   func_021DA6D0 0x021DA6D0 thumb ov121
  *   func_021DA1BC 0x021DA1BC thumb ov121
@@ -166,7 +166,7 @@
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   MIi_CpuClear16 0x02082A48 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_021DF4F2 0x021DF4F2 data a2
@@ -182,7 +182,7 @@
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_SetActorPos 0x0204B528 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021DA8CC 0x021DA8CC thumb ov121
  *   func_021DA9EC 0x021DA9EC thumb ov121
@@ -213,6 +213,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../../matched/include/Obj02176.h"
 #include "../../matched/include/Obj01402.h"
@@ -339,7 +340,7 @@ extern unsigned func_021D9744(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_021DA854(void *, void *, u16);
 extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
@@ -348,7 +349,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void MYSTERY_NET_Delete(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -377,7 +378,7 @@ extern void func_02049658();
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
@@ -415,7 +416,7 @@ extern void func_021DA8C4(u32 *p);
 extern int func_021DA178(char *);
 extern unsigned func_021D9FF8(u8 *p);
 extern u32 KEY_GetTrg(void);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
 extern int MYSTERY_DATA_AddCard(void *p, void *arg);
 extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
@@ -456,7 +457,7 @@ extern void func_0204989C(int,int,int,int,int,int,int);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void *func_021DA4DC(Desc_021D8138 *,int);
-extern void func_020414EC(unsigned);
+extern void BG_SYS_ClearSlot(unsigned);
 extern void func_021DA698(u8 *p);
 extern int func_021DA6D0(unsigned char *);
 extern void *func_021DA1BC(int,Config_021D83DC *,int,int,int,void *,void *,void *,int);
@@ -487,7 +488,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
-extern u32 func_02020E60(u32 item, u32 which);
+extern u32 FILE_UTIL_Get(u32 item, u32 which);
 extern void MIi_CpuClear16(u32,void *,u32);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
@@ -497,7 +498,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void *func_021DA8CC(const char *p, u16 a, u16 b, int c, u8 d, int e, void *f, void *g, u16 heap);
 extern void func_021DA9EC(u8 *p, int a);
@@ -607,7 +608,7 @@ int func_021D6660(void *a, u32 b, u32 c)
     *(u32 *)(p + 0x39C) = PRINTSYS_QUE_Create((void *)29);
     *(void **)(p + 0x3A4) = func_02045B38(0, 2, 0x50, 29);
     *(void **)(p + 0x3A0) = func_02045B38(0, 3, 0x9E, 29);
-    *(void **)(p + 0x3A8) = func_0201EC64(29);
+    *(void **)(p + 0x3A8) = GF_FONT_Create_EC64(29);
     *(void **)(p + 0x290) = func_021DA854(p, (void *)func_021D6D80, 29);
     *(void **)(p + 0x284) = func_021D9CA4(1, 15, *(void **)(p + 0x39C), *(void **)(p + 0x398), 29);
     func_021D9FFC(*(u8 **)(p + 0x284), 10, 14);
@@ -629,7 +630,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     MYSTERY_NET_Delete(((struct Obj02176 *)p)->f3B0);
     if (((struct Obj02176 *)p)->f284) func_021D9E04(((struct Obj02176 *)p)->f284);
     func_021DA890(((struct Obj02176 *)p)->f290);
-    func_0201ED04(((struct Obj02176 *)p)->f3A8);
+    WORDSET_DeleteStrbufED04(((struct Obj02176 *)p)->f3A8);
     MSGDATA_Delete(((struct Obj02176 *)p)->f3A0);
     MSGDATA_Delete(((struct Obj02176 *)p)->f3A4);
     PRINTSYS_QUE_Delete(((struct Obj02176 *)p)->f39C);
@@ -719,8 +720,8 @@ void func_021D694C(u16 *p,int mode)
         ARC_TOOL_DeleteHandle(arc);
         func_0201F5BC(1,10,14,0,heap);
         func_0201F5BC(0,1,13,0,heap);
-        func_02040B94(1,32,0,heap);
-        func_02040B94(0,32,0,heap);
+        BG_SYS_InitRun(1,32,0,heap);
+        BG_SYS_InitRun(0,32,0,heap);
         break;
     case 1:
         arc=func_020490F4(34,heap);
@@ -1190,7 +1191,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             if(v==0) {
                 func_021D8380((char *)p);
                 if(((Flag *)(p+1152))->bit && MYSTERY_DATA_IsEventFlag(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
-                func_0203F4E4((struct RtcDate *)(&date));
+                GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 MYSTERY_DATA_AddCard(P(956),p+972);
                 MYSTERY_DATA_SetEventFlag(P(956),((struct Obj13939 *)p)->f47C);
@@ -1677,7 +1678,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
 
 
 void func_021D8380(char *p) {
- if(((struct Obj00326 *)p)->f270!=0) {func_020414EC(2);func_020409B4(2);func_02040588(2,0);func_021DA698(((struct Obj00326 *)p)->f270);*(unsigned *)&((struct Obj00326 *)p)->f270=0;}
+ if(((struct Obj00326 *)p)->f270!=0) {BG_SYS_ClearSlot(2);func_020409B4(2);func_02040588(2,0);func_021DA698(((struct Obj00326 *)p)->f270);*(unsigned *)&((struct Obj00326 *)p)->f270=0;}
 }
 
 
@@ -1930,9 +1931,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         break;
     case 2:
         arc=(u32)func_020490F4(25,heap);
-        O(12)=CLACT_RegisterPalette((void *)arc,func_02020E60((u16)D(0),2),0,448,heap);
+        O(12)=CLACT_RegisterPalette((void *)arc,FILE_UTIL_Get((u16)D(0),2),0,448,heap);
         O(20)=CLACT_RegisterCellAnim((void *)arc,1,0,heap);
-        O(16)=CLACT_RegisterCharacter((void *)arc,func_02020E60((u16)D(0),1),0,0,heap);
+        O(16)=CLACT_RegisterCharacter((void *)arc,FILE_UTIL_Get((u16)D(0),1),0,0,heap);
         ARC_TOOL_DeleteHandle((void *)arc);OH(298)=4;OH(296)=8;
         break;
     case 3:
@@ -2316,8 +2317,8 @@ void func_021D928C(u8 *p)
         }
     }
     ((struct Obj02177 *)p)->fC=((struct Obj02177 *)p)->fC+((struct Obj02177 *)p)->f10;
-    func_02041EE4(3,3,((struct Obj02177 *)p)->fC>>12);
-    func_02041EE4(7,3,((struct Obj02177 *)p)->fC>>12);
+    BG_SYS_ResetSlot(3,3,((struct Obj02177 *)p)->fC>>12);
+    BG_SYS_ResetSlot(7,3,((struct Obj02177 *)p)->fC>>12);
 }
 
 
@@ -2344,8 +2345,8 @@ void func_021D933C(u8 *p)
         else CLACT_SetActorDrawEnable(sprite,0);
     }
     ((struct Obj02178 *)p)->fC=((struct Obj02178 *)p)->fC+((struct Obj02178 *)p)->f10;
-    func_02041EE4(3,3,((struct Obj02178 *)p)->fC>>12);
-    func_02041EE4(7,3,((struct Obj02178 *)p)->fC>>12);
+    BG_SYS_ResetSlot(3,3,((struct Obj02178 *)p)->fC>>12);
+    BG_SYS_ResetSlot(7,3,((struct Obj02178 *)p)->fC>>12);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0217F7AC
+ * function: Util_RandInt
  * address:  0x0217F7AC
  * packet:   pkt_0219091C
  * region:   ov009
@@ -19,19 +19,19 @@
  * so it calls the runtime division entry at 0x0209C2B0.
  *
  * symbols:
- *   func_0217F774  0x0217F774  arm  ov009
+ *   longrand  0x0217F774  arm  ov009
  *   _u32_div_f     0x0209C2B0  arm
  */
 
-extern int func_0217F774(void);
+extern int longrand(void);
 
-unsigned int func_0217F7AC(unsigned int min, unsigned int max)
+unsigned int Util_RandInt(unsigned int min, unsigned int max)
 {
     unsigned int range = max - min;
     unsigned int r;
 
     if (range == 0)
         return min;
-    r = func_0217F774() % range;
+    r = longrand() % range;
     return r + min;
 }

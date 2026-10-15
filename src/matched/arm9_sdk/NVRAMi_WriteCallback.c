@@ -25,7 +25,7 @@
  * `seq = 4` written after the NVRAMi_SoftwareReset call on both paths.
  *
  * symbols:
- *   g_02150EA0                 0x02150EA0  data
+ *   nvramBss                 0x02150EA0  data
  *   nvramTemp                  0x02150EC0  data
  *   nvramw                     0x02150EE0  data
  *   NVRAMi_PageWrite           0x020844A8  arm
@@ -103,7 +103,7 @@ typedef struct NVRAMWork {
    section base; taking its address uses the nvramTemp symbol. */
 typedef struct NvramBss NvramBss;
 
-extern struct NvramBss g_02150EA0;
+extern struct NvramBss nvramBss;
 extern u32 nvramTemp[8];
 extern NVRAMWork nvramw;
 
@@ -183,7 +183,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
 
     case 2:
         if (!err && pxiResult == 0) {
-            if (*(u8 *)g_02150EA0.nvramTemp & 0x20) {
+            if (*(u8 *)nvramBss.nvramTemp & 0x20) {
                 if (NVRAMi_SoftwareReset() == 1) {
                     nvramw.seq = 4;
                     return;
@@ -192,7 +192,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
                 OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, (void *)4);
                 return;
             }
-            if (!(*(u8 *)g_02150EA0.nvramTemp & 0x01)) {
+            if (!(*(u8 *)nvramBss.nvramTemp & 0x01)) {
                 if (tempSize) {
                     if (NVRAMi_WriteEnable() == 1) {
                         nvramw.seq = 0;
@@ -249,7 +249,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
             return;
         }
         nvramw.seq = 2;
-        *(u8 *)g_02150EA0.nvramTemp = 1;
+        *(u8 *)nvramBss.nvramTemp = 1;
         DC_StoreRange(nvramTemp, 32);
         OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, 0);
         return;

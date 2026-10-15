@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02020E60"
+    "FILE_UTIL_Get"
    ],
    "evidence": {
     "sole-ref": [
@@ -27,7 +27,10 @@
      "self:0x0209EB6C",
      "self:0x0209EB6E"
     ]
-   }
+   },
+   "addresses": [
+    "0x02020E60"
+   ]
   },
   {
    "name": "unit_02020F08",
@@ -69,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02020F14",
+   "name": "FILE_UTIL_Create_0F14",
    "address": "0x02020F14",
    "kind": "game",
    "region": "arm9",

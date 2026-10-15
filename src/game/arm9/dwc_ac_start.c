@@ -1,6 +1,6 @@
 /*
  * file:     dwc_ac_start.c
- * function: func_0205EFF0
+ * function: DWCi_AC_Start
  * address:  0x0205EFF0
  * packet:   pkt_0205EFF0
  * region:   arm9
@@ -158,7 +158,7 @@ extern s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(void *));
 extern void DWCi_AC_SetError(int error);
 extern void DWCi_AC_CallBackWCM(void *notice);
 
-u8 func_0205EFF0(void)
+u8 DWCi_AC_Start(void)
 {
     WCMConfig config;
     int result;

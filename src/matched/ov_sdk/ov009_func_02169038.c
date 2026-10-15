@@ -1,5 +1,5 @@
 /*
- * function: func_02169038
+ * function: DWCi_GetFriendListIndex
  * address:  0x02169038
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   g_021AA860  0x021AA860  data
- *   func_02168FF0  0x02168FF0  arm  ov009
+ *   DWCi_GetProfileIDFromList  0x02168FF0  arm  ov009
  */
 
 #include "../include/G_FriendGlobal.h"
 
 extern struct FriendGlobal g_021AA860;
-extern int func_02168FF0(int index);
+extern int DWCi_GetProfileIDFromList(int index);
 
-int func_02169038(int pid)
+int DWCi_GetFriendListIndex(int pid)
 {
     int i;
 
@@ -29,7 +29,7 @@ int func_02169038(int pid)
         return -1;
     }
     for (i = 0; i < *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x14); i++) {
-        if (pid == func_02168FF0(i)) {
+        if (pid == DWCi_GetProfileIDFromList(i)) {
             return i;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_020586BC
+ * function: DWCi_BM_SetWiFiInfo
  * address:  0x020586BC
  * packet:   pkt_020586BC
  * region:   arm9
@@ -117,7 +117,7 @@ extern int  WriteSlotInfo(NCFGSlotInfo *buf, int index, void *work);
 extern int  writeDisable(void);
 extern u8 Wifi[14];
 
-int func_020586BC(DWCWiFiInfo *info, void *work)
+int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work)
 {
     MEMSWI *wk;
     int i;

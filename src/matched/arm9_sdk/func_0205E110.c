@@ -1,5 +1,5 @@
 /*
- * function: func_0205E110
+ * function: SearchAround1stLap
  * address:  0x0205E110
  * packet:   pkt_0205E110
  * region:   arm9
@@ -152,7 +152,7 @@ extern const u32 DWC_AC_SEARCH_CHANNEL[13];
 extern u8 WCM_Bssid_Any[];
 extern u8 WCM_Essid_Any[];
 
-u8 func_0205E110(ACWORK *wk)
+u8 SearchAround1stLap(ACWORK *wk)
 {
     wk->timeOut = OS_GetTick();
     wk->searchChannel = GetStartChannel(0);

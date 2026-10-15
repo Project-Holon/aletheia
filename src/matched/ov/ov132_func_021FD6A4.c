@@ -1,5 +1,5 @@
 /*
- * function: func_021FD6A4
+ * function: STA_NET_IsTransferDone
  * address: 0x021FD6A4
  * packet: pkt_ov132_021FD6A4
  * region: ov132
@@ -16,4 +16,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021FD6A4(char *p) {if(((struct Obj23290 *)(*(char * *)&((struct Obj14133 *)p)->f140))->f2C/0x3800u<((struct Obj14133 *)p)->f14C)return 1;return 0;}
+int STA_NET_IsTransferDone(char *p) {if(((struct Obj23290 *)(*(char * *)&((struct Obj14133 *)p)->f140))->f2C/0x3800u<((struct Obj14133 *)p)->f14C)return 1;return 0;}

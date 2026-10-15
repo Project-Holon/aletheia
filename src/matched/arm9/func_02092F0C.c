@@ -1,5 +1,5 @@
 /*
- * function: func_02092F0C
+ * function: double2hex
  * address:  0x02092F0C
  * packet:   pkt_020929E8
  * region:   arm9
@@ -14,7 +14,7 @@
  *           listing label sits four bytes late at 0x02092F10 (the trailing
  *           star is that 4-byte listing extent, the body is 1196 bytes with
  *           its pool).  Wants a seed at 0x02092F0C and the 0x02092F10 label
- *           removed.  Callees: func_020972F0 = __num2dec, func_020929E8 =
+ *           removed.  Callees: __dtoa = __num2dec, long2str =
  *           long2str (for the binary exponent), fabs = fabs,
  *           0x0209BAC8 = the runtime double `!=` (__dcmp_6 in
  *           layout/runtime_arm9.txt).
@@ -28,18 +28,18 @@
  *           index and base registers trade places).
  *
  * symbols:
- *   func_020929E8  0x020929E8  arm
- *   func_020972F0  0x020972F0  arm
+ *   long2str  0x020929E8  arm
+ *   __dtoa  0x020972F0  arm
  *   fabs  0x0209A504  arm
  *   _dneq          0x0209BAC8  arm
- *   s_020A8A40     0x020A8A40  data  a1
- *   s_020A8A48     0x020A8A48  data  a1
- *   s_020A8A50     0x020A8A50  data  a1
- *   s_020A8A54     0x020A8A54  data  a1
- *   s_020A8A58     0x020A8A58  data  a1
- *   s_020A8A60     0x020A8A60  data  a1
- *   s_020A8A68     0x020A8A68  data  a1
- *   s_020A8A6C     0x020A8A6C  data  a1
+ *   sMslNegInf     0x020A8A40  data  a1
+ *   sMslNegInfLower     0x020A8A48  data  a1
+ *   sMslPosInf     0x020A8A50  data  a1
+ *   sMslPosInfLower     0x020A8A54  data  a1
+ *   sMslNegNan     0x020A8A58  data  a1
+ *   sMslNegNanLower     0x020A8A60  data  a1
+ *   sMslPosNan     0x020A8A68  data  a1
+ *   sMslPosNanLower     0x020A8A6C  data  a1
  */
 typedef struct {
     unsigned char justification_options;
@@ -60,19 +60,19 @@ typedef struct {
     struct { unsigned char length; unsigned char text[34]; unsigned char unused; } sig;
 } decimal;
 
-extern unsigned char *func_020929E8(long num, unsigned char *buff, print_format format);
-extern void func_020972F0(const decform *f, double x, decimal *d);
+extern unsigned char *long2str(long num, unsigned char *buff, print_format format);
+extern void __dtoa(const decform *f, double x, decimal *d);
 extern double fabs(double x);
-extern char s_020A8A40[5]; /* "-INF" */
-extern char s_020A8A48[5]; /* "-inf" */
-extern char s_020A8A50[4]; /* "INF"  */
-extern char s_020A8A54[4]; /* "inf"  */
-extern char s_020A8A58[5]; /* "-NAN" */
-extern char s_020A8A60[5]; /* "-nan" */
-extern char s_020A8A68[4]; /* "NAN"  */
-extern char s_020A8A6C[4]; /* "nan"  */
+extern char sMslNegInf[5]; /* "-INF" */
+extern char sMslNegInfLower[5]; /* "-inf" */
+extern char sMslPosInf[4]; /* "INF"  */
+extern char sMslPosInfLower[4]; /* "inf"  */
+extern char sMslNegNan[5]; /* "-NAN" */
+extern char sMslNegNanLower[5]; /* "-nan" */
+extern char sMslPosNan[4]; /* "NAN"  */
+extern char sMslPosNanLower[4]; /* "nan"  */
 
-unsigned char *func_02092F0C(double num, unsigned char *buff, print_format format)
+unsigned char *double2hex(double num, unsigned char *buff, print_format format)
 {
     unsigned char *p;
     unsigned char *q;
@@ -96,7 +96,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
 
     form.style = 0;
     form.digits = 0x20;
-    func_020972F0(&form, num, &dec);
+    __dtoa(&form, num, &dec);
 
     switch (dec.sig.text[0]) {
     case '0':
@@ -106,30 +106,30 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
         if (dec.sgn) {
             p = buff - 5;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A40, 5);
+                __memcpy(p, sMslNegInf, 5);
             else
-                __memcpy(p, s_020A8A48, 5);
+                __memcpy(p, sMslNegInfLower, 5);
         } else {
             p = buff - 4;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A50, 4);
+                __memcpy(p, sMslPosInf, 4);
             else
-                __memcpy(p, s_020A8A54, 4);
+                __memcpy(p, sMslPosInfLower, 4);
         }
         return p;
     case 'N':
         if (dec.sgn) {
             p = buff - 5;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A58, 5);
+                __memcpy(p, sMslNegNan, 5);
             else
-                __memcpy(p, s_020A8A60, 5);
+                __memcpy(p, sMslNegNanLower, 5);
         } else {
             p = buff - 4;
             if (format.conversion_char == 'A')
-                __memcpy(p, s_020A8A68, 4);
+                __memcpy(p, sMslPosNan, 4);
             else
-                __memcpy(p, s_020A8A6C, 4);
+                __memcpy(p, sMslPosNanLower, 4);
         }
         return p;
     }
@@ -158,7 +158,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
     else
         exp = 0;
 
-    p = func_020929E8(exp, buff, exp_format);
+    p = long2str(exp, buff, exp_format);
     if (format.conversion_char == 'a')
         *--p = 'p';
     else

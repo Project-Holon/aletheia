@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_Create 0x020124F4 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -39,7 +39,7 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   IRC_APPBAR_IsBusy 0x021B727C thumb ov101
- *   func_0207CA68 0x0207CA68 arm
+ *   VEC_DotProduct 0x0207CA68 arm
  *   gIrcRankingFlickAxis 0x021B949C data a4
  *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
  *   IRC_APPBAR_Update 0x021B71E4 thumb ov101
@@ -50,16 +50,16 @@
  *   _ll_mul 0x0209C054 arm
  *   func_0207C768 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02049740 0x02049740 arm
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -74,11 +74,11 @@
  *   gIrcRankingDispConfig 0x021B94A8 data
  *   gIrcRankingBgEntries 0x021B9524 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   gIrcRankingClactSysInit 0x021B94B8 data a4
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -96,10 +96,10 @@
  *   func_020056A0 0x020056A0 thumb
  *   gIrcRankingVramConfig 0x021B94F4 data a4
  *   func_02030EAC 0x02030EAC arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_02040618 0x02040618 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02041300 0x02041300 arm
  *   BMP_Create 0x02043678 arm
@@ -129,9 +129,9 @@
  *   func_02041090 0x02041090 arm
  *   func_020413B0 0x020413B0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200A930 0x0200A930 thumb
- *   func_0200A8E4 0x0200A8E4 thumb
- *   func_0200A908 0x0200A908 thumb
+ *   IRC_RANKING_GetLastSlot 0x0200A930 thumb
+ *   IRC_RANKING_GetEntryMeetCount 0x0200A8E4 thumb
+ *   IRC_RANKING_GetEntryProfile 0x0200A908 thumb
  *   func_02030734 0x02030734 arm
  *   STRBUF_SetString 0x02045924 arm
  *   gIrcRankingFileName 0x021B9680 data a1
@@ -140,7 +140,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
  *   func_0201D42C 0x0201D42C thumb
@@ -157,6 +157,11 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
+ *   IRC_RANKING_GetEntryCount  0x0200A8AC  thumb  arm9
+ *   IRC_RANKING_GetEntry  0x0200A8C8  thumb  arm9
+ *   IRC_RANKING_GetEntryScore  0x0200A8D0  thumb  arm9
+ *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb  arm9
  */
 #include "../ov101/irc_appbar.h"
 typedef signed char s8;
@@ -424,7 +429,7 @@ typedef struct IrcRankingWork {
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *procSys, u32 size, u32 heapId);
-extern struct GameData *func_020120F4(void *param);
+extern struct GameData *ICA_ANIME_GetField1C(void *param);
 extern struct GameData *GAME_DATA_Create(u16);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -445,36 +450,36 @@ extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void MI_CpuFill8(void *, unsigned char, unsigned int);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-extern int func_0207CA68(const Vec3 *, const Vec3 *);
+extern int VEC_DotProduct(const Vec3 *, const Vec3 *);
 extern int func_0207C768(int, int);
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern unsigned int func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 flags);
 extern void func_02049B40(u32, u32, u32, u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern struct Strbuf *func_02045EC0(struct MsgBank *, u32);
-extern struct IrcRankSave *func_0200A8A0(struct SaveControl *save);
+extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
 extern void *func_02012944(struct GameData *gameData);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern void func_020409B4(u32);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct ClactSysInit *sysInit, const struct DispVramConfig *vramConfig, unsigned int heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -493,10 +498,10 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(void (*taskFunc)(void *task, void *taskWork), void *taskWork, int priority);
 extern void func_02030EAC(void *task);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern int func_0201BC3C(void);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -526,21 +531,21 @@ extern u32 func_020307B0(void *p);
 extern void func_02041090(u32 bgId, const void *src, u32 a2, u32 y, u8 width, u8 height);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern s32 func_0200A8AC(struct IrcRankSave *rank);
+extern s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern u8 func_0200A930(struct IrcRankSave *rank);
-extern struct IrcRankEntry *func_0200A8C8(struct IrcRankSave *rank, u32 index);
+extern u8 IRC_RANKING_GetLastSlot(struct IrcRankSave *rank);
+extern struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index);
 extern void STRBUF_SetString(struct Strbuf *o, const struct IrcRankEntry *src);
-extern u8 func_0200A8D0(struct IrcRankSave *rank, u32 index);
-extern u16 func_0200A8E4(struct IrcRankSave *rank, u32 index);
-extern u32 func_0200A8F8(struct IrcRankSave *rank, u32 index);
-extern void func_0200A908(struct IrcRankSave *rank, u32, u16 *, u8 *, u8 *, u8 *);
+extern u8 IRC_RANKING_GetEntryScore(struct IrcRankSave *rank, u32 index);
+extern u16 IRC_RANKING_GetEntryMeetCount(struct IrcRankSave *rank, u32 index);
+extern u32 IRC_RANKING_GetEntryGender(struct IrcRankSave *rank, u32 index);
+extern void IRC_RANKING_GetEntryProfile(struct IrcRankSave *rank, u32, u16 *, u8 *, u8 *, u8 *);
 extern u32 TOUCHPANEL_GetPointTrg(int *outX, int *outY);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void func_0207CA00(const Vec3 *, const Vec3 *, Vec3 *);
+extern void VEC_Subtract(const Vec3 *, const Vec3 *, Vec3 *);
 extern float _fflt(int);
 extern int _ffix(float);
 extern float _fadd(float, float);
@@ -649,7 +654,7 @@ int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args) {
     GFL_HEAP_CreateChildHeap(1, IRC_RANKING_HEAP_ID, 6 << 16);
     work = PROCSYS_AllocProcWork(procSys, sizeof(IrcRankingWork), IRC_RANKING_HEAP_ID);
     MI_CpuFill8(work, 0, sizeof(IrcRankingWork));
-    if (*args) work->gameData = func_020120F4(*args);
+    if (*args) work->gameData = ICA_ANIME_GetField1C(*args);
     else work->gameData = GAME_DATA_Create(1);
     work->printQue = PRINTSYS_QUE_Create(IRC_RANKING_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, IRC_RANKING_HEAP_ID);
@@ -786,7 +791,7 @@ void IRC_RANKING_SeqBrowse(IrcSeq *seq, int *step, IrcRankingWork *work) {
             IRC_RANKING_ListScrollBy(&work->list, -drag.y);
             IRC_RANKING_InertiaStop(&work->inertia);
         } else if (IRC_RANKING_InputGetFlick(&work->input, (Pair *)0, (Pair *)0, &flick, &flickFrames))
-            IRC_RANKING_InertiaStart(&work->inertia, func_0207CA68(&gIrcRankingFlickAxis, &flick), flickFrames);
+            IRC_RANKING_InertiaStart(&work->inertia, VEC_DotProduct(&gIrcRankingFlickAxis, &flick), flickFrames);
     }
     if (IRC_RANKING_InertiaIsActive(&work->inertia)) IRC_RANKING_ListScrollBy(&work->list, IRC_RANKING_InertiaStep(&work->inertia));
     if (IRC_APPBAR_GetResult(work->appBar) == 1) IRC_RANKING_SeqSetFunc(seq, IRC_RANKING_SeqFadeOut);
@@ -825,12 +830,12 @@ void IRC_RANKING_SeqScrollToLatest(IrcSeq *seq, int *step, IrcRankingWork *work)
 void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heapId) {
     int i; int paletteBlock; u32 bg; struct MsgBank *msg; struct GfFont *font; struct Strbuf *str;
     MI_CpuFill8(gfx, 0, sizeof(IrcRankingGfx));
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(&gIrcRankingDispConfig);
     for (i = 0; i < BG_COUNT; i++) {
         bg = gIrcRankingBgEntries[i].bg;
-        func_0203FCA0((u8)bg, &gIrcRankingBgEntries[i].bgTemplate, (u8)gIrcRankingBgEntries[i].type);
+        BG_SYS_InitBgLayer((u8)bg, &gIrcRankingBgEntries[i].bgTemplate, (u8)gIrcRankingBgEntries[i].type);
         func_020414AC(bg);
         func_02040588(bg, 1);
     }
@@ -844,8 +849,8 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heap
     paletteBlock = 7;
     func_02049658(gfx->arcHandle, 3, 7, 0, 0, 0, heapId);
     func_020498F4(gfx->arcHandle, 7, 7, 0, 0, 0, heapId);
-    func_02040C14(1, 0, 1, 0);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
+    BG_SYS_Init(5, 0, 1, 0);
     gfx->charRegionMain = func_02049740(gfx->arcHandle, 2, 1, 0, 0, heapId);
     gfx->charRegionSub = func_02049740(gfx->arcHandle, 2, 5, 0, 0, heapId);
     func_02049B40(0x17, 5, 0, paletteBlock << 6, 0x20, heapId);
@@ -868,12 +873,12 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heap
 void IRC_RANKING_GfxExit(IrcRankingGfx *gfx) {
     int i;
     BMP_WIN_Delete(gfx->titleWin);
-    func_0203FB44(1, (u16)gfx->charRegionMain, (u16)(gfx->charRegionMain >> 16));
-    func_0203FB44(5, (u16)gfx->charRegionSub, (u16)(gfx->charRegionSub >> 16));
+    BG_SYS_DeleteHalf(1, (u16)gfx->charRegionMain, (u16)(gfx->charRegionMain >> 16));
+    BG_SYS_DeleteHalf(5, (u16)gfx->charRegionSub, (u16)(gfx->charRegionSub >> 16));
     func_02040DA8(5, 1, 0);
     func_02040DA8(1, 1, 0);
     for (i = 0; i < BG_COUNT; i++) func_020403F4((u8)gIrcRankingBgEntries[i].bg);
-    BMP_WIN_Exit(); func_0203F9B4();
+    BMP_WIN_Exit(); BG_SYS_Delete();
     MI_CpuFill8(gfx, 0, sizeof(IrcRankingGfx));
 }
 
@@ -993,7 +998,7 @@ void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8
     list->rowCount = IRC_RANKING_DataGetCount(data);
     list->font = GF_FONT_Create(23, 0, 0, 1, heapId);
     list->msgBank = msgBank;
-    list->wordSet = func_0201EC64(heapId);
+    list->wordSet = GF_FONT_Create_EC64(heapId);
     IRC_RANKING_LoadRowScreens(list->rowScreenMain, &display->gfx, heapId);
     arc = func_020490F4(7, heapId);
     list->iconPaletteMain = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x20, heapId);
@@ -1029,7 +1034,7 @@ void IRC_RANKING_ListExit(IrcRankingList *list) {
     CLACT_ReleasePalette(list->iconPaletteMain);
     CLACT_ReleasePalette(list->iconPaletteSub);
     IRC_RANKING_ClearRowScreens(list->rowScreenMain);
-    func_0201ED04(list->wordSet);
+    WORDSET_DeleteStrbufED04(list->wordSet);
     GF_FONT_Delete(list->font);
     MI_CpuFill8(list, 0, sizeof(IrcRankingList));
 }
@@ -1307,24 +1312,24 @@ void IRC_RANKING_WriteRowScreen(u16 *screens, u32 bgId, int y, u8 style) {
 /* Builds the ranking data from the save: entries in saved order with rank (ties share a rank), row style from rank, gender and latest flag, and the Pokemon icon fields. */
 IrcRankingData *IRC_RANKING_DataCreate(struct GameData *gameData, u16 heapId) {
     struct IrcRankSave *save; u16 count; IrcRankingData *out; IrcRankingItem *item; u32 i; u8 prevScore, rank, latest;
-    save = func_0200A8A0(GAME_DATA_GetSaveControl(gameData));
-    count = func_0200A8AC(save);
+    save = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    count = IRC_RANKING_GetEntryCount(save);
     out = func_02030734(heapId, count * sizeof(IrcRankingItem) + sizeof(IrcRankingData), 0, gIrcRankingFileName, 2724);
     MI_CpuFill8(out, 0, count * sizeof(IrcRankingItem) + sizeof(IrcRankingData));
     out->count = count;
     if (count) {
-        prevScore = 128; rank = 0; latest = func_0200A930(save);
+        prevScore = 128; rank = 0; latest = IRC_RANKING_GetLastSlot(save);
         for (i = 0; i < out->count; i++) {
             item = &out->items[i];
             item->name = STRBUF_Create(8, heapId);
-            STRBUF_SetString(item->name, func_0200A8C8(save, i));
-            item->score = func_0200A8D0(save, i);
-            item->meetCount = func_0200A8E4(save, i);
+            STRBUF_SetString(item->name, IRC_RANKING_GetEntry(save, i));
+            item->score = IRC_RANKING_GetEntryScore(save, i);
+            item->meetCount = IRC_RANKING_GetEntryMeetCount(save, i);
             if (item->score < prevScore) item->rank = i + 1;
             else if (item->score == prevScore) item->rank = rank;
             {
                 u8 gender; int v;
-                gender = func_0200A8F8(save, i);
+                gender = IRC_RANKING_GetEntryGender(save, i);
                 if (latest == i) {
                     v = gender == 0;
                     item->rowStyle = 5 * (v + 1);
@@ -1339,7 +1344,7 @@ IrcRankingData *IRC_RANKING_DataCreate(struct GameData *gameData, u16 heapId) {
                     v = 0; if (gender == 0) v = 5; item->rowStyle = v + 1;
                 }
             }
-            func_0200A908(save, i, &item->species, &item->form, &item->gender, &item->isEgg);
+            IRC_RANKING_GetEntryProfile(save, i, &item->species, &item->form, &item->gender, &item->isEgg);
             prevScore = item->score; rank = item->rank;
         }
     }
@@ -1447,7 +1452,7 @@ int IRC_RANKING_InputGetFlick(IrcRankingInput *input, Pair *start, Pair *end, Ve
                 b.x = ToFixedRounded(input->current.x);
                 b.z = 0;
                 b.y = y;
-                func_0207CA00(&a, &b, delta);
+                VEC_Subtract(&a, &b, delta);
             }
             if (holdFrames)
                 *holdFrames = input->holdFrames;
@@ -1541,7 +1546,7 @@ void IRC_RANKING_PrintCentered(struct BmpWin *win, struct Strbuf *text, void *my
         y -= (u16)(func_0201D42C(text, font) >> 1);
         PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)x, (s16)y, text, font);
     } else {
-        wordSet = func_0201EC64(0x8043);
+        wordSet = GF_FONT_Create_EC64(0x8043);
         expanded = STRBUF_Create(128, 0x8043);
         func_0201F02C(wordSet, 0, myStatus);
         func_0201F250(wordSet, expanded, text);
@@ -1551,7 +1556,7 @@ void IRC_RANKING_PrintCentered(struct BmpWin *win, struct Strbuf *text, void *my
         y -= (u16)(func_0201D42C(expanded, font) >> 1);
         PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)x, (s16)y, expanded, font);
         STRBUF_Delete(expanded);
-        func_0201ED04(wordSet);
+        WORDSET_DeleteStrbufED04(wordSet);
     }
 }
 

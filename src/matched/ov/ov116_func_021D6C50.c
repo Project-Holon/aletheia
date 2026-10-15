@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C50
+ * function: WIFI_BSUBWAY_StatusCheckMessage
  * address: 0x021D6C50
  * packet: pkt_ov116_021D6C50
  * region: ov116
@@ -28,7 +28,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void STRBUF_Delete(struct U16Vec *vec);
-int func_021D6C50(u8 *p,unsigned heap) {
+int WIFI_BSUBWAY_StatusCheckMessage(u8 *p,unsigned heap) {
     int flag,ready;
     void *bank,*str;
     flag = func_0217BC90()==2;

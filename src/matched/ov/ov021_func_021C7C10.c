@@ -14,7 +14,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_TASK_Create  0x021C6C70  thumb  ov021
  *   FIELD_TASK_GetWork  0x021C6CCC  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   FIELD_TASK_UpdateCameraLerp  0x021C7C74  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -39,7 +39,7 @@ extern void *FIELDMAP_GetCamera(void *p);
 extern int FIELD_TASK_Create(int, int, int (*)(Obj *));
 typedef unsigned int   u32;
 extern u32 FIELD_TASK_GetWork(u8 *p);
-extern void func_0207CA00(Vec *, Vec *, Vec *);
+extern void VEC_Subtract(Vec *, Vec *, Vec *);
 extern int FIELD_TASK_UpdateCameraLerp(Obj *);
 
 int FIELD_TASK_CreateCameraLerp(int a, int b, const Vec *c, const Vec *d)
@@ -58,6 +58,6 @@ int FIELD_TASK_CreateCameraLerp(int a, int b, const Vec *c, const Vec *d)
     o->fA = b;
     o->fC = *c;
     o->f18 = *d;
-    func_0207CA00(&o->f18, &o->fC, &o->f24);
+    VEC_Subtract(&o->f18, &o->fC, &o->f24);
     return h;
 }

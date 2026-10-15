@@ -51,7 +51,7 @@
  *    has; an `if` / `else if` inverts the first test.
  *
  * symbols:
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   pBattleRec  0x0214616C  data
  *   BATTLE_REC_MakeHeader  0x0200B7D8  thumb
  *   BATTLE_REC_Encode  0x0200B908  thumb
@@ -65,7 +65,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 struct QRec {
     u16 unk00[0x0C];
@@ -151,7 +151,7 @@ u32 BATTLE_REC_Save(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
         r = &p->unkC4;
         BATTLE_REC_MakeHeader(h, q, r, c, d);
         q->unk28 = 0xE281;
-        q->unk40 = func_0203F1FC((const u8 *)q, 0x38);
+        q->unk40 = GF_STANDARD_SetupCalc((const u8 *)q, 0x38);
         r->unk17D8 = 0xE281;
         BATTLE_REC_SetBodyCrc(r);
         v = r->unk17DC;

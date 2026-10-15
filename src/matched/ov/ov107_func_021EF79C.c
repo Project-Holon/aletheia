@@ -25,7 +25,7 @@
  *   MB_UTIL_MSG_CreateWordSet 0x021F18D8 thumb ov107
  *   func_02008534 0x02008534 thumb
  *   MB_UTIL_MSG_SetNumberZeroPad 0x021F1918 thumb ov107
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   MB_UTIL_MSG_PrintStream 0x021F1704 thumb ov107
  *   MB_UTIL_MSG_DeleteWordSet 0x021F18EC thumb ov107
  *   MB_COMM_SYS_MainRecruit 0x021EFA14 thumb ov107
@@ -56,7 +56,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MB_COMM_SYS_StartParent(u8 *),MB_UTIL_MSG_ClearWindow(void *),MB_UTIL_MSG_SetWindowLayout(void *,int),MB_UTIL_MSG_CreateWordSet(void *);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern void MB_UTIL_MSG_SetNumberZeroPad(unsigned char *a, int b, int c, int d);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 struct Obj;
 extern void MB_UTIL_MSG_PrintStream(void *,int,int);
 extern void MB_UTIL_MSG_DeleteWordSet(void *);
@@ -96,8 +96,8 @@ int MB_COMM_SYS_MainWireless(u8 *p)
    if(p[0x28]==0)MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,2);
    else MB_UTIL_MSG_SetWindowLayout(((struct Obj00072 *)p)->f68,3);
    MB_UTIL_MSG_CreateWordSet(((struct Obj00072 *)p)->f68);MB_UTIL_MSG_SetNumberZeroPad(((struct Obj00072 *)p)->f68,0,func_02008534(q),5);
-   if(p[0x28]==0)MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,0,func_02012FFC());
-   else MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,20,func_02012FFC());
+   if(p[0x28]==0)MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,0,MSG_SPEED_GetWait());
+   else MB_UTIL_MSG_PrintStream(((struct Obj00072 *)p)->f68,20,MSG_SPEED_GetWait());
    MB_UTIL_MSG_DeleteWordSet(((struct Obj00072 *)p)->f68);p[0x24]=3;
   }break;
  case 3:MB_COMM_SYS_MainRecruit(p);break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8EA8
+ * function: STA_ACTING_UpdateCamera
  * address: 0x021F8EA8
  * packet: pkt_ov132_021F8EA8
  * region: ov132
@@ -53,7 +53,7 @@ extern void G3D_CAMERA_SetUp(void *, const Vec *);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_02040618(u32, u32, u32);
 #define FX(x) ((int)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
-void func_021F8EA8(u8 *p)
+void STA_ACTING_UpdateCamera(u8 *p)
 {
     Vec v;
     s16 target;

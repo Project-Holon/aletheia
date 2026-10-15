@@ -31,11 +31,11 @@
  *   OS_GetMacAddress         0x02087C6C  arm
  *   _FileName                0x020A7BA8  data
  *   _AssertNetStateNull      0x020A7BB4  data
- *   func_020889C0            0x020889C0  arm
+ *   RTC_GetDateTime            0x020889C0  arm
  *   func_0203F034            0x0203F034  arm
  *   func_0203F0A8            0x0203F0A8  arm
  *   _VBlankCount             0x02FFFC3C  data
- *   func_02034F84            0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal            0x02034F84  arm
  *   _AssertMacAlign          0x020A7BC8  data
  *   GFL_NET_SYSTEM_SetNoSend            0x02039578  arm
  *   GFL_NET_SYSTEM_ResetError            0x02039560  arm
@@ -69,6 +69,8 @@
  *   GFL_NET_COMMAND_Exit  0x0203A53C  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
+ *   UI_SetFlags39Global  0x0203516C  arm
+ *   UI_ClearFlags39Global  0x020351A0  arm
  */
 
 struct NetStateWork;
@@ -151,7 +153,7 @@ extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
 extern void OS_GetMacAddress(u8 *);
 
-extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
+extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 
 extern void func_0203F034(u32 seed);
 
@@ -159,13 +161,13 @@ extern u32 func_0203F0A8(void);
 
 extern void GFL_NET_STATE_Idle(void);
 
-extern void func_02034F84(u32 a);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 a);
 
 extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-extern int func_020351A0(u32 v);
+extern int UI_ClearFlags39Global(u32 v);
 
-extern void func_0203516C(u32 a);
+extern void UI_SetFlags39Global(u32 a);
 
 extern void GFL_NET_SYSTEM_SetNoSend(void);
 
@@ -630,7 +632,7 @@ void GFL_NET_STATE_InitRandom(MATHRandContext64 *context)
   u8 mac[6];
   u32 seed;
   OS_GetMacAddress(mac);
-  func_020889C0(&date, &time);
+  RTC_GetDateTime(&date, &time);
   seed = ((date.year + ((date.day * (date.month << 8)) << 16)) + (time.hour << 16)) + ((time.minute + time.second) << 24);
   seed = seed + (mac[5] + ((mac[3] << 16) + (mac[4] << 8)));
   seed = seed + _VBlankCount;
@@ -805,7 +807,7 @@ void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
 
 void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback)
 {
-    func_02034F84(4);
+    UI_SetKeepAwakeFlagsGlobal(4);
     GFL_NET_STATE_InitWork((u32)heapId);
     _pNetState->initCallback = (void (*)(u32))initCallback;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
@@ -3872,7 +3874,7 @@ void GFL_NET_STATE_WifiLogout(u32 exitCallback)
         return;
 
     session = GFL_NET_GetSession();
-    func_020351A0(1);
+    UI_ClearFlags39Global(1);
     _pNetState->exitCallback = (void (*)(void))exitCallback;
     session->ops->pollDisconnect(1, 0);
 
@@ -4011,7 +4013,7 @@ void GFL_NET_STATE_WifiStartMatch(void)
         return;
 
     GFL_NET_GetInitParam();
-    func_0203516C(1);
+    UI_SetFlags39Global(1);
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchStart, 0, 0x760);
 }
 

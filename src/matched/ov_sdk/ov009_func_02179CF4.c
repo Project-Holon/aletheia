@@ -1,5 +1,5 @@
 /*
- * function: func_02179CF4
+ * function: DWC_Http_Destroy
  * address:  0x02179CF4
  * packet:   pkt_ov009_02179CF4
  * region:   ov009
@@ -21,7 +21,7 @@ extern void func_0217A808(char *http, void *array_entry, int array_len);
 extern void func_0217A120(char *http, void *buf);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 
-void func_02179CF4(char *http)
+void DWC_Http_Destroy(char *http)
 {
     void (*free)(unsigned long, void *, long) =
         *(void (**)(unsigned long, void *, long))(http + 0x1014);

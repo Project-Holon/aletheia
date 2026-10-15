@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4BA4  0x021C4BA4  thumb
+ *   WF2DMAP_OBJ_FindAtPos  0x021C4BA4  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern u8 *func_021C4BA4(u8 *p, void *list, int n);
+extern u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n);
 
 int WF2DMAP_ACTOR_FIND_HasMatch(void *a0, void *a1, int a2)
 {
-    return func_021C4BA4(a0, a1, a2) != 0;
+    return WF2DMAP_OBJ_FindAtPos(a0, a1, a2) != 0;
 }

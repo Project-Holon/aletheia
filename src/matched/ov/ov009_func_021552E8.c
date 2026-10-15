@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02059E38  0x02059E38  arm
+ *   DWC_GetLastErrorEx  0x02059E38  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  */
 
-int func_02059E38(int *a, int *b);
+int DWC_GetLastErrorEx(int *a, int *b);
 typedef unsigned int   u32;
 void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 u32 GFL_NET_STATE_GetError(void);
@@ -24,7 +24,7 @@ int GFL_NET_DEVWIFI_GetLastErrorCode(void)
 {
     int a, b, r;
 
-    r = func_02059E38(&a, &b);
+    r = DWC_GetLastErrorEx(&a, &b);
     if (r != 0)
         GFL_NET_STATE_SetError(a, b, r, 0);
     if (r == 0)

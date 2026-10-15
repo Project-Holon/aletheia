@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC890",
+   "name": "ZUKAN_SEARCH_SCREEN_Tick",
    "address": "0x021BC890",
    "kind": "game",
    "region": "ov211",

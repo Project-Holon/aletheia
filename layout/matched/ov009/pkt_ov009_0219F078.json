@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219F078",
+   "name": "ServerBrowserSortA",
    "address": "0x0219F078",
    "kind": "sdk",
    "region": "ov009",

@@ -11,7 +11,7 @@
  * Trailing two bytes are zero alignment padding; separate component stores preserve ascending order.
  * symbols:
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   func_02048A18 0x02048A18 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  */
@@ -19,7 +19,7 @@
 
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
@@ -38,7 +38,7 @@ void func_021BF9FC(char *p)
         t.scale[0] = 4096;
         t.scale[1] = 4096;
         t.scale[2] = 4096;
-        func_0207ADC4(t.matrix);
+        MTX_Identity33_(t.matrix);
         G3D_SYSTEM_DrawObject((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5664
+ * function: WF2DMAP_OBJDRAW_ConfigureSprite
  * address:  0x021C5664
  * packet:   pkt_021C5664
  * region:   ov127
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 extern void func_021C4044(u8 *p, int a, int b, int c, int d);
 
-void func_021C5664(char *p, int a, int b)
+void WF2DMAP_OBJDRAW_ConfigureSprite(char *p, int a, int b)
 {
     func_021C4044(((struct Obj02184 *)p)->f0, ((struct Obj02184 *)p)->fB, a, 0, b);
 }

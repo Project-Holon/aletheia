@@ -15,7 +15,7 @@
  *   DWC_GetState                0x0216B994 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
  *   MI_CpuCopy8                0x02082D44 arm
- *   func_020949F4                0x020949F4 arm
+ *   strncmp                0x020949F4 arm
  *   DWCi_ProcessRecvMatchCommand                0x021702A0 arm   ov009
  *   g_021A2188                   0x021A2188 data
  * note: volatile in this file is a matching device (it forces the reload the
@@ -44,7 +44,7 @@ struct DWCstBinaryMessage {
 extern int DWC_GetState(void);
 extern int func_02175F3C(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int DWCi_ProcessRecvMatchCommand(u8 command, int srcPid, u32 srcIP, u16 srcPort, u32 *data, int len);
 extern char g_021A2188[];
 
@@ -64,7 +64,7 @@ void DWCi_QR2ClientMsgCallback(char *data, int len)
     while (offset + 0x14 <= len) {
         MI_CpuCopy8(data, &sbMsg, 0x14);
         *(volatile int *)&sbMsg.pid = sbMsg.pid;
-        if (func_020949F4((const u8 *)sbMsg.keyword, (const u8 *)g_021A2188, 4) != 0 || sbMsg.identifier != 0x5a)
+        if (strncmp((const u8 *)sbMsg.keyword, (const u8 *)g_021A2188, 4) != 0 || sbMsg.identifier != 0x5a)
             return;
         MI_CpuCopy8(data + 0x14, payload, sbMsg.size);
         boolResult = DWCi_ProcessRecvMatchCommand(sbMsg.command, sbMsg.pid, sbMsg.ip, sbMsg.port, payload, sbMsg.size >> 2);

@@ -27,7 +27,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   NAMEIN_SETUP_CreateArgs  0x0216BFD4  thumb  ov010
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -41,6 +41,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+#include "../ov010/namein_args.h"
+#include "poke_tool_param.h"
+
 struct GameEvent;
 struct GameSystem;
 struct GameData;
@@ -50,18 +53,11 @@ struct TrainerRecord;
 struct Pokeparty;
 struct PartyMon;
 
-/* Parameter block of the name entry screen (ov194 proc), as far as this file reads it. */
-typedef struct NameInParam {
-    u32 setup[7];                         /* 0x00 */
-    int cancelled;                        /* 0x1C: 1 when the player backed out */
-    u16 *name;                            /* 0x20: the entered name */
-} NameInParam;
-
 /* Work of the name entry event (0x10 bytes). */
 typedef struct NameInEventWork {
     void *gameSystem;                     /* 0x00 */
     void *fieldMap;                       /* 0x04 */
-    NameInParam *nameIn;                  /* 0x08 */
+    NameInArgs *nameIn;                  /* 0x08 */
     u32 mode;                             /* 0x0C: selects which proc starter runs */
 } NameInEventWork;
 
@@ -69,7 +65,7 @@ typedef struct NameInEventWork {
 typedef struct NicknameEventWork {
     void *gameSystem;                     /* 0x00 */
     void *fieldMap;                       /* 0x04 */
-    NameInParam *nameIn;                  /* 0x08 */
+    NameInArgs *nameIn;                  /* 0x08 */
     void *mon;                            /* 0x0C: the party member being named */
     u16 *result;                          /* 0x10: script result, 1 when a name was set */
     int mode;                             /* 0x14 */
@@ -90,14 +86,6 @@ typedef struct SubProcEventWork {
     u16 *result;                          /* 0x10 */
 } SubProcEventWork;
 
-/* Selectors of POKE_TOOL_GetPartyValue (0x02017E1C). Values and names mirror
- * the id enum in arm9/poke_tool.c; only the three this file passes are listed. */
-enum {
-    POKE_TOOL_PARAM_SPECIES = 0x05,
-    POKE_TOOL_PARAM_GENDER  = 0x6E,
-    POKE_TOOL_PARAM_FORM    = 0x6F
-};
-
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *gameData);
 struct GameEvent *func_020122C0(void *owner, void *parent, void *handler, u32 workSize);
 void *func_020124E8(struct GameEvent *event);
@@ -109,7 +97,7 @@ extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern void *func_0200C0F0(void *saveControl);
+extern void *BEACON_GetBlock(void *saveControl);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 extern int *NAMEIN_SETUP_CreateArgs(int kind, int mode, int species, int form, int maxLength, int flags, void *nameSave);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 paramId, u32 value);
@@ -117,7 +105,7 @@ extern void *GAME_DATA_GetTrainerRecord(int *gameData);
 extern u32 func_02008DF0(struct TrainerRecord *record, int recordId);
 extern int NAMEIN_SETUP_FreeArgs(int args);
 
-void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInParam *nameIn, u32 mode);
+void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode);
 int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work);
 int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode);
 int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventWork *work);
@@ -133,7 +121,7 @@ extern char ov171_id[];
 /*
  * Spawns the SCRCMD_NameInEventMain task with a four-word work area.
  */
-void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInParam *nameIn, u32 mode)
+void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode)
 {
     void *task = func_020122C0(gameSystem, 0, SCRCMD_NameInEventMain, 0x10);
     NameInEventWork *work = func_020124E8(task);
@@ -190,10 +178,10 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     work->mode = mode;
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
-    nameSave = func_0200C0F0(GAME_DATA_GetSaveControl(gameData));
+    nameSave = BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData));
     species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
     traits = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0) | (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0) << 8);
-    work->nameIn = (NameInParam *)NAMEIN_SETUP_CreateArgs(4, 1, species, traits, 0xa, 0, nameSave);
+    work->nameIn = (NameInArgs *)NAMEIN_SETUP_CreateArgs(4, 1, species, traits, 0xa, 0, nameSave);
     work->mon = mon;
     return event;
 }
@@ -201,7 +189,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
 /* Event: runs the name entry, stores the nickname unless cancelled, sets the script result. */
 int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventWork *work)
 {
-    NameInParam *nameIn;
+    NameInArgs *nameIn;
     int confirmed;
 
     switch (*state) {
@@ -211,11 +199,11 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
         break;
     case 1:
         nameIn = work->nameIn;
-        if (nameIn->cancelled != 1) {
-            POKE_TOOL_SetPartyValue(work->mon, 0x73, (u32)nameIn->name);
+        if (nameIn->canceled != 1) {
+            POKE_TOOL_SetPartyValue(work->mon, POKE_TOOL_PARAM_NICKNAME_STRBUF, (u32)nameIn->name);
         }
         confirmed = 1;
-        if (work->nameIn->cancelled == 1) {
+        if (work->nameIn->canceled == 1) {
             confirmed = 0;
         }
         *work->result = confirmed;

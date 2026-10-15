@@ -34,13 +34,13 @@
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   func_02007A18  0x02007A18  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_02045CAC  0x02045CAC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
@@ -68,20 +68,20 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045B38 0x02045B38 arm
- *   func_0200AD8C  0x0200AD8C  thumb
+ *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0200AD94  0x0200AD94  thumb
- *   func_0200ADB8 0x0200ADB8 thumb
+ *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
+ *   WORLDTRADE_SetPokemon 0x0200ADB8 thumb
  *   POKEPARTY_RemoveMember 0x0201A9C8 thumb
  *   GAME_DATA_GetBoxSave 0x02012F98 thumb
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   func_02007C34 0x02007C34 thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   DWC_GetDateTime  0x02167ED8  arm  ov009
- *   func_0200ADD8  0x0200ADD8  thumb
- *   func_0200ADD0  0x0200ADD0  thumb
+ *   WORLDTRADE_SetLastSearchId  0x0200ADD8  thumb
+ *   WORLDTRADE_SetLastTradeId  0x0200ADD0  thumb
  *   func_0200949C 0x0200949C thumb
  *   func_020094D8 0x020094D8 thumb
  *   func_02019B58  0x02019B58  thumb
@@ -93,10 +93,10 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
@@ -109,6 +109,7 @@
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "worldtrade_types.h"
 #include "../../matched/include/Obj23460.h"
@@ -144,7 +145,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -161,7 +162,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
@@ -291,13 +292,13 @@ extern u16 *STRBUF_GetChars(struct U16Vec *);
 struct Rec;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
+extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
 
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
-extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
+extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
 
-extern void func_0200ADB8(void *dest, const void *src, u32 a2);
+extern void WORLDTRADE_SetPokemon(void *dest, const void *src, u32 a2);
 
 extern void func_02007664(void *, unsigned, unsigned);
 
@@ -307,7 +308,7 @@ extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
 extern void func_02007C34(struct PerapVoice *p, void *a);
 
@@ -319,9 +320,9 @@ extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 
 extern int DWC_GetDateTime(RTCDate *date, RTCTime *time);
 
-extern void func_0200ADD8(struct RegB *p, u32 value);
+extern void WORLDTRADE_SetLastSearchId(struct RegB *p, u32 value);
 
-extern void func_0200ADD0(struct RegB *p, u32 value);
+extern void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value);
 
 extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 
@@ -369,15 +370,15 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
 extern void TCBL_Main(struct Tcbl *p);
 
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag);
 
@@ -450,18 +451,18 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
     if (p->box != 0xFF) {
         mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
         WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)func_02007A18(p->ctx->save, p->box, p->slot), (u32)mon);
-        if (flag) func_0200ADB8(p->ctx->sys, mon, p->box);
+        if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         func_02007664(p->ctx->save, p->box, p->slot);
         func_020307B0(mon);
     } else {
         mon = POKEPARTY_GetMember(p->ctx->party, p->slot);
-        if (flag) func_0200ADB8(p->ctx->sys, mon, p->box);
+        if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         POKEPARTY_RemoveMember(p->ctx->party, p->slot);
-        save = func_020120F4((const struct Ctx *)p->ctx->f40);
+        save = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
         box = GAME_DATA_GetBoxSave(save);
-        func_02007C34(box, func_02012934(save));
+        func_02007C34(box, GAME_DATA_GetMyParty(save));
     }
-    if (flag) func_0200AD94(p->ctx->sys, 1);
+    if (flag) WORLDTRADE_SetIsDeposited(p->ctx->sys, 1);
 }
 
 void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hatch)
@@ -497,7 +498,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
         slot = pos;
     }
     p->pos = slot;
-    func_0200AD94(p->ctx->sys, 0);
+    WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
 }
 
 /*
@@ -538,9 +539,9 @@ void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
     DWC_GetDateTime(&date, &time);
     v = ((u32)date.year << 24) | (((u32)date.month << 24) >> 8) | (((u32)date.day << 24) >> 16) | date.week;
     if (which == 1) {
-        func_0200ADD8(p, v);
+        WORLDTRADE_SetLastSearchId(p, v);
     } else {
-        func_0200ADD0(p, v);
+        WORLDTRADE_SetLastTradeId(p, v);
     }
 }
 
@@ -571,7 +572,7 @@ void WORLDTRADE_ADAPTER_SetPair(Work *p, u16 a, u16 b)
  */
 u32 WORLDTRADE_ADAPTER_CanProceed(Work *p)
 {
-    if (func_0200AD8C((const struct Rec0200AD8C *)p->ctx->sys) == 0) {
+    if (WORLDTRADE_GetIsDeposited((const struct Rec0200AD8C *)p->ctx->sys) == 0) {
         if (p->busy != 0) {
             return 1;
         }
@@ -592,7 +593,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     MSGDATA_Delete(bank);
     func_02019B58(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
-    if (func_0202136C((u16)func_02017E1C(mon, 6, 0)) != 0) {
+    if (FILE_UTIL_Check136C((u16)func_02017E1C(mon, 6, 0)) != 0) {
         buf = MAIL_Create((u16)id);
         func_02017E1C(mon, 0xA7, (u32)buf);
         func_02008F88(buf, STRBUF_GetChars(str));
@@ -787,7 +788,7 @@ void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d,
         PRINTSYS_PrintStreamDelete(p->stream);
         p->stream = 0;
     }
-    v = func_02012FFC();
+    v = MSG_SPEED_GetWait();
     p->stream = PRINTSYS_PrintStream(a, d, e, c, p->font, v, p->msgData, 0, 0x48, 0xF);
     p->streamWin = a;
 }
@@ -841,7 +842,7 @@ Ctx_02202974 *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
     ctx->msg = (void *)PRINTSYS_QUE_Create((void *)heap);
     ctx->bank = func_02045B38(0, 2, 0xD0, heap);
-    ctx->words = func_0201EC64(heap);
+    ctx->words = GF_FONT_Create_EC64(heap);
     return ctx;
 }
 
@@ -850,7 +851,7 @@ Ctx_02202974 *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap
  */
 void WORLDTRADE_ADAPTER_ExitMessageSystem(Ctx_02202A50 *p)
 {
-    func_0201ED04((struct WordSet *)p->words);
+    WORDSET_DeleteStrbufED04((struct WordSet *)p->words);
     MSGDATA_Delete((struct Rec *)p->bank);
     PRINTSYS_QUE_Delete((struct PrintSys *)p->print);
     GF_FONT_Delete(p->font);

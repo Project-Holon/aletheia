@@ -13,7 +13,7 @@
  *
  * symbols:
  *   ghiAppendDataToBuffer                    0x021bfcec arm  ov114
- *   func_0209477C                    0x0209477c arm
+ *   strlen                    0x0209477c arm
  *   ghiResizeBuffer                    0x021bfb90 arm  ov114
  *   func_0217D254                    0x0217d254 arm  ov009
  *   sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode                       0x021ce54c data ov114
@@ -53,7 +53,7 @@ typedef struct GHIBuffer {
 
 typedef unsigned char  u8;
 extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode[];
@@ -78,7 +78,7 @@ int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
         return ghiAppendDataToBuffer(buffer, (char *)data, dataLen);
 
     if (dataLen == 0)
-        dataLen = func_0209477C((const u8 *)data);
+        dataLen = strlen((const u8 *)data);
     if (dataLen == 0)
         return 1;
 

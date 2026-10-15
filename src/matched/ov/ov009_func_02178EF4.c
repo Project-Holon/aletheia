@@ -14,12 +14,13 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02178144  0xfunc_02178144  arm
+ *   DWC_Auth_Destroy  0x02178144  arm
+ *   DWC_Auth_Destroy  0xfunc_02178144  arm
  */
 
-extern void func_02178144(void);
+extern void DWC_Auth_Destroy(void);
 
 void DWCi_Auth_ShutdownAuthentication(void)
 {
-    func_02178144();
+    DWC_Auth_Destroy();
 }

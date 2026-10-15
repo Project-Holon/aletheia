@@ -13,7 +13,7 @@
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   ITEMMENU_CloseYesNoList  0x021BB1AC  thumb  ov070
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -53,7 +53,7 @@ struct WordSet;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void ITEMMENU_CloseYesNoList(char *p);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
 extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
 struct MsgBank;
@@ -79,7 +79,7 @@ void ITEMMENU_TaskTossConfirmInput(Obj *o)
         return;
     r = APP_TASKMENU_GetCursorPos(o->f77C);
     ITEMMENU_CloseYesNoList((char *)o);
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     if (r == 0) {
         GFL_USE_PlaySeDefaultVolume(0x647);
         ITEMMENU_RemoveSelectedItems(o, o->f7F4);

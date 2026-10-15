@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200EF78",
+   "name": "NET_DEVICE_TABLE_InitEntry",
    "address": "0x0200EF78",
    "kind": "game",
    "region": "arm9",

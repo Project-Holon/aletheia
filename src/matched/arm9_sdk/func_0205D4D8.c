@@ -1,5 +1,5 @@
 /*
- * function: func_0205D4D8
+ * function: MakeStealthList
  * address:  0x0205D4D8
  * packet:   pkt_0205D4D8
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      MakeStealthList (makelist.o)
  *
  * symbols:
- *   func_0205D588 0x0205D588 arm
+ *   MakeUserList 0x0205D588 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   g_020A80A4 0x020A80A4 data
  *   NINTENDOWFC_SSID 0x020A1628 data
@@ -132,17 +132,17 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-extern unsigned char func_0205D588(ACWORK *wk);
+extern unsigned char MakeUserList(ACWORK *wk);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern const char g_020A80A4[];
 extern const unsigned char NINTENDOWFC_SSID[11];
 
-unsigned char func_0205D4D8(ACWORK *wk)
+unsigned char MakeStealthList(ACWORK *wk)
 {
     unsigned char num;
     ACSL *list = wk->searchList;
 
-    num = func_0205D588(wk);
+    num = MakeUserList(wk);
     list += num;
     if (wk->connectType == 0 || wk->connectType == 4) {
         MI_CpuCopy8(g_020A80A4, list->ssid, 8);

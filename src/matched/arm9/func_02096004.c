@@ -1,5 +1,5 @@
 /*
- * function: func_02096004
+ * function: __strtoull
  * address:  0x02096004
  * packet:   pkt_020949F4
  * region:   arm9
@@ -9,16 +9,16 @@
  * isa:      arm
  * status:   EXACT
  *
- * MSL __strtoull: the 64-bit twin of src/matched/func_02095B3C.c (__strtoul),
- * driven by the strtoll wrapper func_020963F8.  Identical source with
+ * MSL __strtoull: the 64-bit twin of src/matched/__strtoul.c (__strtoul),
+ * driven by the strtoll wrapper strtoll.  Identical source with
  * `value`/`value_max` widened to unsigned long long and ULLONG_MAX in both
  * places; ULLONG_MAX / base goes through _ll_udiv with the int base
  * sign-extended (`asr r3, sb, #0x1f`), and the constant -1 lives in one stack
  * slot (sp+0x18) that serves both EOF and ULLONG_MAX.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096004.c \
- *       --func func_02096004 --addr 0x02096004 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__strtoull.c \
+ *       --func __strtoull --addr 0x02096004 --cc 1.1p1 --arm
  *   EXACT, 1012 bytes, 4 relocation sites, all resolved.
  *
  * symbols:
@@ -47,7 +47,7 @@ enum { start = 1, check_for_zero = 2, leading_zero = 4, need_digit = 8,
 #define fetch()        (count++, (*ReadProc)(ReadProcArg, 0, 0))
 #define unfetch(c)     (*ReadProc)(ReadProcArg, c, 1)
 
-u64 func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int),
+u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int),
                   void *ReadProcArg, int *chars_scanned, int *negative,
                   int *overflow)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_0217CD94
+ * function: gsCoreShutdown
  * address:  0x0217CD94
  * packet:   pkt_ov009_0217CD94
  * region:   ov009
@@ -18,7 +18,7 @@
  *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
  *   func_02184200                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
- *   func_0217CECC                  0x0217CECC  arm ov009
+ *   gsiCoreCancelTask                  0x0217CECC  arm ov009
  */
 
 typedef struct GSTask GSTask;
@@ -38,9 +38,9 @@ extern unsigned int func_0217F0D8(unsigned int *value);
 extern void gsiLeaveCriticalSection(void *cs);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
-extern void func_0217CECC(struct GSTask *theTask);
+extern void gsiCoreCancelTask(struct GSTask *theTask);
 
-void func_0217CD94(void)
+void gsCoreShutdown(void)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
     int i;
@@ -56,6 +56,6 @@ void func_0217CD94(void)
     aCore->shutdown = 1;
     len = func_02184200(aCore->tasks);
     for (i = 0; i < len; i++)
-        func_0217CECC(*(GSTask **)func_02184208(aCore->tasks, i));
+        gsiCoreCancelTask(*(GSTask **)func_02184208(aCore->tasks, i));
     gsiLeaveCriticalSection(&aCore->cs);
 }

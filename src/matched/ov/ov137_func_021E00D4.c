@@ -15,7 +15,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GURU2_MAIN_DeleteNameWindows 0x021E03A0 thumb ov137
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -33,7 +33,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_Exit(void);
@@ -49,7 +49,7 @@ void GURU2_MAIN_DeleteWindows(u8 *p)
     BMP_WIN_Delete(((struct Obj05432 *)s)->f10);
     GURU2_MAIN_DeleteNameWindows(p);
     MSGDATA_Delete(((struct Obj05432 *)s)->f8);
-    func_0201ED04(((struct Obj05432 *)s)->fC);
+    WORDSET_DeleteStrbufED04(((struct Obj05432 *)s)->fC);
     GF_FONT_Delete(((struct Obj05432 *)s)->f4);
     STRBUF_Delete(((struct Obj05432 *)s)->f5C);
     for(i=0;i<5;i++) STRBUF_Delete(*(void **)(p+164+i*4));

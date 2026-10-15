@@ -13,9 +13,9 @@
  *   GAME_DATA_GetSeason   0x02012984  thumb
  *   BTL_SETUP_CreateTrainerData   0x02013234  thumb
  *   POKEPARTY_Create   0x0201A920  thumb
- *   func_0202A3FC   0x0202A3FC  thumb
- *   func_0202A440   0x0202A440  thumb
- *   func_0202A4B4   0x0202A4B4  thumb
+ *   TPOKE_DATA_GetTrainerKind   0x0202A3FC  thumb
+ *   TR_TOOL_LoadTrainerInfo   0x0202A440  thumb
+ *   TR_TOOL_BuildParty   0x0202A4B4  thumb
  *   FORMCHANGE_UpdateSeasonForms   0x0216AAE4  thumb
  *
  * btl_setup.c.  The sub-block filler, and the most-called function of the
@@ -79,11 +79,11 @@ struct Out;
 struct Party;
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void *BTL_SETUP_CreateTrainerData(u32 heap);
-extern void func_0202A440(u32 id, struct Out *out, u32 heap);
-extern void func_0202A4B4(u32 a, u32 b, u32 c);
+extern void TR_TOOL_LoadTrainerInfo(u32 id, struct Out *out, u32 heap);
+extern void TR_TOOL_BuildParty(u32 a, u32 b, u32 c);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern void FORMCHANGE_UpdateSeasonForms(u32 a, u32 b, u32 c);
-extern u8 func_0202A3FC(u32 key);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 key);
 
 void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
 {
@@ -101,10 +101,10 @@ void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
     if (v == 0) {
         return;
     }
-    func_0202A440(v, (struct Out *)(*(u32 *)(base + off)), h);
-    func_0202A4B4(v, *dst, h);
+    TR_TOOL_LoadTrainerInfo(v, (struct Out *)(*(u32 *)(base + off)), h);
+    TR_TOOL_BuildParty(v, *dst, h);
     FORMCHANGE_UpdateSeasonForms((u32)a1, *dst, GAME_DATA_GetSeason((const struct BigObj *)((u32)a1)));
-    switch (func_0202A3FC(*(u32 *)(*(u32 *)(base + off) + 4))) {
+    switch (TPOKE_DATA_GetTrainerKind(*(u32 *)(*(u32 *)(base + off) + 4))) {
     case 2:
     case 3:
         ((struct Obj00155 *)o)->f1A = 0x47e;

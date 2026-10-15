@@ -1,5 +1,5 @@
 /*
- * function: func_0207B51C
+ * function: MTX_MultVec33
  * address:  0x0207B51C
  * packet:   pkt_0207B51C
  * region:   arm9
@@ -37,7 +37,7 @@ typedef union {
     fx32 a[9];
 } MtxFx33;
 
-void func_0207B51C(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst)
+void MTX_MultVec33(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst)
 {
     fx32 x = vec->x;
     fx32 y = vec->y;

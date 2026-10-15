@@ -1,7 +1,7 @@
 /*
  * file:     card_task.c
  * unit:     yes
- * function: func_02076170, func_020761E4, func_02076230, func_020762A8
+ * function: CARDi_ExecuteOldTypeTask, CARDi_OldTypeTaskThread, CARDi_WaitForTask, CARDi_EndTask
  * address:  0x02076170
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -41,16 +41,16 @@ typedef struct OSThreadQueue
     OSThread *tail;
 } OSThreadQueue;
 
-typedef struct CARDiCommandArg_02076170
+typedef struct CARDiCommandArg
 {
     int result;
-} CARDiCommandArg_02076170;
+} CARDiCommandArg;
 
 typedef struct CARDDmaInterface CARDDmaInterface;
 
 typedef struct CARDiCommon
 {
-    CARDiCommandArg_02076170 *cmd;
+    CARDiCommandArg *cmd;
     u32 flag;
     u32 priority;
     u32 flush_threshold_ic;
@@ -82,8 +82,6 @@ typedef enum CARDTarget
     CARD_TARGET_BACKUP
 } CARDTarget;
 
-typedef struct CARDiCommandArg_020762A8 CARDiCommandArg_020762A8;
-
 extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
 extern void OS_WakeupThreadDirect(OSThread *thread);
 extern void CARDi_EndTask(CARDiCommon *p);
@@ -92,10 +90,8 @@ extern void OS_SleepThread(OSThreadQueue *queue);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 extern void OS_WakeupThread(OSThreadQueue *queue);
-BOOL func_02076170(void (*task)(CARDiCommon *), BOOL async);
-void func_020761E4(void);
-BOOL func_02076230(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
-void func_020762A8(CARDiCommon *p);
+void CARDi_OldTypeTaskThread(void);
+BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
 extern CARDiCommon cardi_common;
 
 
@@ -104,7 +100,7 @@ extern CARDiCommon cardi_common;
 /*
  * sdk:      CARDi_ExecuteOldTypeTask (libcard.TWL.HYB.a card_task.o)
  */
-BOOL func_02076170(void (*task)(CARDiCommon *), BOOL async)
+BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async)
 {
     CARDiCommon *p = &cardi_common;
 
@@ -129,7 +125,7 @@ BOOL func_02076170(void (*task)(CARDiCommon *), BOOL async)
 /*
  * sdk:      CARDi_OldTypeTaskThread (libcard.TWL.HYB.a card_task.o)
  */
-void func_020761E4(void)
+void CARDi_OldTypeTaskThread(void)
 {
     CARDiCommon *p = &cardi_common;
 
@@ -155,7 +151,7 @@ void func_020761E4(void)
 /*
  * sdk:      CARDi_WaitForTask (libcard.TWL.HYB.a card_task.o)
  */
-BOOL func_02076230(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg)
+BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg)
 {
     u32 bak_psr = OS_DisableInterrupts();
 
@@ -177,7 +173,7 @@ BOOL func_02076230(CARDiCommon *p, BOOL restart, void (*callback)(void *), void 
 /*
  * sdk:      CARDi_EndTask (libcard.TWL.HYB.a card_task.o)
  */
-void func_020762A8(CARDiCommon *p)
+void CARDi_EndTask(CARDiCommon *p)
 {
     void (*const callback)(void *) = p->callback;
     void *const userdata = p->callback_arg;

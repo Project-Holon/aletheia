@@ -1,5 +1,5 @@
 /*
- * function: func_021D49C4
+ * function: POKETRADE_IRCDEMO_StepEndScene
  * address:  0x021D49C4
  * packet:   pkt_ov117_021D49C4
  * region:   ov117
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4434  0x021D4434  thumb  ov117
+ *   POKETRADE_DEMO_COMMON_ReleaseUnit  0x021D4434  thumb  ov117
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_3D_ExitParticleManager  0x021E3034  thumb  ov119
  *   POKETRADE_3D_FreeParticleResources  0x021E2F2C  thumb  ov119
@@ -24,7 +24,7 @@
  */
 #include "../include/Obj01722.h"
 
-extern void func_021D4434(void *);
+extern void POKETRADE_DEMO_COMMON_ReleaseUnit(void *);
 typedef unsigned int   u32;
 extern void POKETRADE_3D_ExitParticleManager(u32 *p, int a1);
 extern void POKETRADE_3D_FreeParticleResources(void *);
@@ -32,9 +32,9 @@ extern u32 func_020307B0(void *p);
 extern void POKETRADE_PROC_SetStep(void *, int);
 extern void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p);
 
-void func_021D49C4(void *p)
+void POKETRADE_IRCDEMO_StepEndScene(void *p)
 {
-    func_021D4434(p);
+    POKETRADE_DEMO_COMMON_ReleaseUnit(p);
     POKETRADE_3D_ExitParticleManager(((struct Obj01722 *)p)->fC, 6);
     POKETRADE_3D_FreeParticleResources(((struct Obj01722 *)p)->fC);
     func_020307B0(((struct Obj01722 *)p)->fC);

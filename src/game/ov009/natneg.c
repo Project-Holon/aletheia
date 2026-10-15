@@ -1,7 +1,7 @@
 /*
  * file:     natneg.c
  * unit:     yes
- * function: func_021990A0, func_021990D4, func_02199138, func_021991C8, func_0219922C, func_02199284, func_021992A8, func_021992FC, func_02199360, func_02199394, func_021994F0, func_021995E4, func_0219972C, func_02199A90, func_02199BE4, func_02199CE8, func_02199D1C, func_02199D60, func_02199DFC, NNCancel, func_0219A034, func_0219A054, func_0219A4A4, func_0219A52C, func_0219A620, func_0219A7AC, func_0219A968, func_0219AA08, func_0219AB8C
+ * function: GetClientUniqueID, FindNegotiatorForCookie, AddNegotiator, RemoveNegotiator, NNFreeNegotiateList, CheckMagic, SendPacket, GetLocalIP, GetLocalPort, SendReportPacket, StartReport, SendPreinitPacket, SendInitPackets, SendPingPacket, CheckNatifyStatus, NameToIp, ResolveServer, ResolveServers, NNBeginNegotiationWithSocket, NNCancel, RemoveFinishedNegotiator, NegotiateThink, NNThink, SendConnectAck, ProcessConnectPacket, ProcessPingPacket, ProcessPreinitAckPacket, ProcessInitPacket, NNProcessData
  * address:  0x021990A0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,9 +15,9 @@
  * sdk:      NameToIp (natify.o)
  *
  * symbols:
- *   func_0217F264     0x0217F264  arm  ov009
- *   func_0217F790     0x0217F790  arm  ov009
- *   func_0217F7AC     0x0217F7AC  arm  ov009
+ *   current_time     0x0217F264  arm  ov009
+ *   Util_RandSeed     0x0217F790  arm  ov009
+ *   Util_RandInt     0x0217F7AC  arm  ov009
  *   negotiateList     0x021AE698  data
  *   Matchup3Hostname  0x021AE69C  data
  *   natMappingScheme  0x021AE6A0  data
@@ -37,15 +37,15 @@
  *   func_02184324  0x02184324  arm  ov009
  *   gsDebugFormat  0x0217D254 arm
  *   ArrayFree      0x021841B0 arm
- *   g_021A5A84     0x021A5A84 data
- *   g_021A5A7C  0x021A5A7C  data
- *   func_0217ECA4  0x0217ECA4  arm  ov009
- *   func_0217EFB8  0x0217EFB8  arm  ov009
+ *   gNatNegFreeFmt     0x021A5A84 data
+ *   gNatNegMagic  0x021A5A7C  data
+ *   sendto  0x0217ECA4  arm  ov009
+ *   getlocalhost  0x0217EFB8  arm  ov009
  *   func_0217F038  0x0217F038  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
  *   strlen         0x0209477C  arm
  *   memcpy         0x02092344  arm
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *   SOC_InetNtoA   0x0215FA9C  arm  ov009
  *   SendPacket     0x021992A8  arm  ov009
  *   current_time   0x0217F264  arm  ov009
@@ -55,74 +55,74 @@
  *   DetermineNatType   0x02198E80  arm  ov009
  *   closesocket        0x0217EB2C  arm  ov009
  *   gGsAvailabilityGameName     0x021ACEFC  data
- *   g_021A5A70     0x021A5A70  data
- *   g_021AE698     0x021AE698  data
- *   g_021AE6C4     0x021AE6C4  data
- *   g_021AE6C0     0x021AE6C0  data
- *   g_021AE6BC     0x021AE6BC  data
- *   g_021AE6C8     0x021AE6C8  data
- *   g_021A5AB4     0x021A5AB4  data
- *   g_021A5AF8     0x021A5AF8  data
- *   g_021A5B30     0x021A5B30  data
- *   g_021A5B70     0x021A5B70  data
- *   g_021A5B8C     0x021A5B8C  data
- *   g_021A5BAC     0x021A5BAC  data
- *   g_021A5BE8     0x021A5BE8  data
- *   g_021A5C24     0x021A5C24  data
- *   g_021A5C60     0x021A5C60  data
- *   func_0217ED38  0x0217ED38  arm
+ *   gNatSocks     0x021A5A70  data
+ *   gNatnegGlobals     0x021AE698  data
+ *   gNatNegServer1IP     0x021AE6C4  data
+ *   gNatNegServer2IP     0x021AE6C0  data
+ *   gNatNegServer3IP     0x021AE6BC  data
+ *   gNatNegNat     0x021AE6C8  data
+ *   gNatNegSendReportFmt     0x021A5AB4  data
+ *   gNatNegReportFailFmt     0x021A5AF8  data
+ *   gNatNegReportDoneFmt     0x021A5B30  data
+ *   gNatNegPreinitFmt     0x021A5B70  data
+ *   gNatNegInitGpFmt     0x021A5B8C  data
+ *   gNatNegInitNn1Fmt     0x021A5BAC  data
+ *   gNatNegInitNn2Fmt     0x021A5BE8  data
+ *   gNatNegInitNn3Fmt     0x021A5C24  data
+ *   gNatNegSendPingFmt     0x021A5C60  data
+ *   inet_addr  0x0217ED38  arm
  *   SOC_GetHostByName  0x0215F650  arm
  *   OS_SNPrintf            0x02084F80  arm
- *   g_021A5CA8               0x021A5CA8  data
- *   g_021A5CB0               0x021A5CB0  data
- *   g_021A5CCC               0x021A5CCC  data
- *   g_021A5CE8               0x021A5CE8  data
+ *   gNatNegHostnameFmt               0x021A5CA8  data
+ *   gNatNegServer1Name               0x021A5CB0  data
+ *   gNatNegServer2Name               0x021A5CCC  data
+ *   gNatNegServer3Name               0x021A5CE8  data
  *   func_0217EB18            0x0217EB18  arm ov009
  *   gGsAvailabilityState               0x021ACEF8  data
- *   g_021A5D04               0x021A5D04  data
- *   g_021A5D44               0x021A5D44  data
- *   g_021A5D90               0x021A5D90  data
- *   g_021A5DD0               0x021A5DD0  data
- *   g_021A5E14               0x021A5E14  data
+ *   gNatNegBackendUnavailFmt               0x021A5D04  data
+ *   gNatNegResolveFailFmt               0x021A5D44  data
+ *   gNatNegAllocFailFmt               0x021A5D90  data
+ *   gNatNegSocketFailFmt               0x021A5DD0  data
+ *   gNatNegSocketFmt               0x021A5E14  data
  *   FindNegotiatorForCookie  0x021990D4  arm
- *   g_021A5E2C               0x021A5E2C  data
- *   g_021A5E5C               0x021A5E5C  data
+ *   gNatNegCancelNotFoundFmt               0x021A5E2C  data
+ *   gNatNegCancelFmt               0x021A5E5C  data
  *   func_0217EF50            0x0217EF50  arm ov009
  *   func_0217EC60            0x0217EC60  arm ov009
- *   func_0217ED54            0x0217ED54  arm ov009
- *   g_021A5E88               0x021A5E88  data
- *   g_021A5EAC               0x021A5EAC  data
- *   g_021AE7A0               0x021AE7A0  data
- *   g_021A5EE8               0x021A5EE8  data
- *   g_021A5F1C               0x021A5F1C  data
- *   g_021A5F5C               0x021A5F5C  data
- *   g_021A5FA0               0x021A5FA0  data
- *   g_021A5FE8               0x021A5FE8  data
- *   g_021A6028               0x021A6028  data
- *   g_021A606C               0x021A606C  data
- *   g_021A60B8               0x021A60B8  data
- *   g_021A60FC               0x021A60FC  data
- *   g_021A6150               0x021A6150  data
- *   g_021A61A0               0x021A61A0  data
+ *   GOAGetLastError            0x0217ED54  arm ov009
+ *   gNatNegThinkNullFmt               0x021A5E88  data
+ *   gNatNegThinkRemoveFmt               0x021A5EAC  data
+ *   gNatNegRecvBuf               0x021AE7A0  data
+ *   gNatNegRecvErrFmt               0x021A5EE8  data
+ *   gNatNegInitTimeoutFmt               0x021A5F1C  data
+ *   gNatNegResendInitFmt               0x021A5F5C  data
+ *   gNatNegNoPingFmt               0x021A5FA0  data
+ *   gNatNegPingTimeoutFmt               0x021A5FE8  data
+ *   gNatNegResendPingFmt               0x021A6028  data
+ *   gNatNegReportTimeoutFmt               0x021A606C  data
+ *   gNatNegResendReportFmt               0x021A60B8  data
+ *   gNatNegBothDoneFmt               0x021A60FC  data
+ *   gNatNegLingerDoneFmt               0x021A6150  data
+ *   gNatNegRemovePostFmt               0x021A61A0  data
  *   func_02184200            0x02184200  arm ov009
- *   g_021A61E8               0x021A61E8  data
- *   g_021A621C               0x021A621C  data
- *   g_021A6274               0x021A6274  data
- *   g_021A62CC               0x021A62CC  data
- *   g_021A6300               0x021A6300  data
- *   g_021A6330               0x021A6330  data
- *   g_021A6384               0x021A6384  data
- *   g_021A63D8               0x021A63D8  data
- *   g_021A640C               0x021A640C  data
- *   g_021A6450               0x021A6450  data
- *   g_021A6470               0x021A6470  data
- *   g_021A648C               0x021A648C  data
- *   g_021A6498               0x021A6498  data
- *   g_021A64D4               0x021A64D4  data
- *   g_021A6504               0x021A6504  data
- *   g_021A6538               0x021A6538  data
- *   g_021A657C               0x021A657C  data
- *   g_021A65BC               0x021A65BC  data
+ *   gNatNegSendConnectAckFmt               0x021A61E8  data
+ *   gNatNegConnectPacketFmt               0x021A621C  data
+ *   gNatNegAlreadyConnectedFmt               0x021A6274  data
+ *   gNatNegDeadbeatFmt               0x021A62CC  data
+ *   gNatNegConnectTimeoutFmt               0x021A6300  data
+ *   gNatNegPingPacketFmt               0x021A6330  data
+ *   gNatNegPingEarlyFmt               0x021A6384  data
+ *   gNatNegGotPingFmt               0x021A63D8  data
+ *   gNatNegConnectFinishedFmt               0x021A640C  data
+ *   gNatNegPreinitAckFmt               0x021A6450  data
+ *   gNatNegInitAckFmt               0x021A6470  data
+ *   gNatNegErtFmt               0x021A648C  data
+ *   gNatNegReportAckFmt               0x021A6498  data
+ *   gNatNegBadHeaderFmt               0x021A64D4  data
+ *   gNatNegPacketFmt               0x021A6504  data
+ *   gNatNegConnectTooSmallFmt               0x021A6538  data
+ *   gNatNegNoNegotiatorFmt               0x021A657C  data
+ *   gNatNegPacketTooSmallFmt               0x021A65BC  data
  */
 #include "../../matched/include/G_Magic6.h"
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -259,6 +259,10 @@ typedef struct NatnegGlobals {
     unsigned int natneg1IP;                          /* 0x2C */
 } NatnegGlobals;
 
+/* The resolved server IPs also exist as file-scope words (gNatNegServer1IP,
+   gNatNegServer2IP, gNatNegServer3IP); they alias natneg1IP/2IP/3IP but the debug calls load
+   them as direct symbols, so both names stay. */
+
 typedef struct NatSocks NatSocks;
 
 typedef enum NegotiateState {
@@ -266,9 +270,9 @@ typedef enum NegotiateState {
     ns_finished, ns_canceled, ns_reportsent, ns_reportack
 } NegotiateState;
 
-extern unsigned int func_0217F264(void);
-extern void func_0217F790(unsigned long seed);
-extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
+extern unsigned int current_time(void);
+extern void Util_RandSeed(unsigned long seed);
+extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern int ArrayLength(void *array);
 extern void *func_02184208(void *array, int n);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
@@ -277,120 +281,116 @@ extern void func_02184324(void *array, int n);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern SOCHostEnt *func_0217EFB8(void);
+extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+extern SOCHostEnt *getlocalhost(void);
 extern int func_0217F038(SOCInAddr *addr);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 extern int GetClientUniqueID();
 extern char *SOC_InetNtoA(unsigned int in);
-extern void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
-extern unsigned long current_time(void);
-extern char *func_02094798(char *dst, const char *src);
+static void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
+extern char *strcpy(char *dst, const char *src);
 extern void func_02199FB4(int cookie);
 extern int NatifyThink();
 extern int DetermineNatType();
 extern int closesocket(int sock);
-extern int func_0217ED38(int a);
+extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern int func_02184200(const int *p);
-int func_021990A0(void);
-NATNegotiator *func_021990D4(int cookie);
-NATNegotiator *func_02199138(void);
-void func_021991C8(NATNegotiator *neg);
+NATNegotiator *AddNegotiator(void);
+void RemoveNegotiator(NATNegotiator *neg);
 void NNFreeNegotiateList(void);
-int func_02199284(const u8 *a);
-void func_021992A8(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
-unsigned int func_021992FC(void);
-unsigned short func_02199360(int sock);
-void func_02199394(NATNegotiator *neg);
-void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
-void func_021995E4(NATNegotiator *neg);
-void func_0219972C(NATNegotiator *neg);
-void func_02199A90(NATNegotiator *neg);
-int func_02199BE4(int sock);
-unsigned int func_02199CE8(char *name);
-unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname);
-int func_02199D60(void);
-int func_02199DFC(int gamesocket, int cookie, int clientindex, void (*progresscallback)(int, void *), void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata);
+int CheckMagic(const u8 *a);
+static unsigned int GetLocalIP(void);
+static unsigned short GetLocalPort(int sock);
+void SendReportPacket(NATNegotiator *neg);
+void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
+void SendPreinitPacket(NATNegotiator *neg);
+void SendInitPackets(NATNegotiator *neg);
+void SendPingPacket(NATNegotiator *neg);
+int CheckNatifyStatus(int sock);
+unsigned int NameToIp(char *name);
+unsigned int ResolveServer(char *overrideHostname, char *defaultHostname);
+int ResolveServers(void);
+int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex, void (*progresscallback)(int, void *), void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata);
 void NNCancel(int cookie);
-void func_0219A034(int *p);
-void func_0219A054(NATNegotiator *neg);
-void func_0219A4A4(void *p);
-void func_0219A52C(NATNegotiator *neg, SOCSockAddrIn *toaddr);
-void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
-void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
-void func_0219A968(NATNegotiator *neg, NatNegPacket *p);
-void func_0219AA08(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
-void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
+void RemoveFinishedNegotiator(int *p);
+void NegotiateThink(NATNegotiator *neg);
+void NNThink(void *p);
+void SendConnectAck(NATNegotiator *neg, SOCSockAddrIn *toaddr);
+void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
+void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
+void ProcessPreinitAckPacket(NATNegotiator *neg, NatNegPacket *p);
+void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
+void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
 extern struct DArrayImplementation * negotiateList;
-extern char g_021A5A84[];
-extern struct Magic6 g_021A5A7C;
+extern char gNatNegFreeFmt[];
+extern struct Magic6 gNatNegMagic;
 extern char gGsAvailabilityGameName[];
-extern struct NatSocks g_021A5A70;
-extern NatnegGlobals g_021AE698;
-extern u32 g_021AE6C4;
-extern unsigned int g_021AE6C0;
-extern unsigned int g_021AE6BC;
-extern NAT g_021AE6C8;
-extern char g_021A5AB4[];
-extern char g_021A5AF8[];
-extern char g_021A5B30[];
-extern char g_021A5B70[];
-extern char g_021A5B8C[];
-extern char g_021A5BAC[];
-extern char g_021A5BE8[];
-extern char g_021A5C24[];
-extern char g_021A5C60[];
-extern char g_021A5CA8[];
-extern char g_021A5CB0[];
-extern char g_021A5CCC[];
-extern char g_021A5CE8[];
+extern struct NatSocks gNatSocks;
+extern NatnegGlobals gNatnegGlobals;
+extern u32 gNatNegServer1IP;
+extern unsigned int gNatNegServer2IP;
+extern unsigned int gNatNegServer3IP;
+extern NAT gNatNegNat;
+extern char gNatNegSendReportFmt[];
+extern char gNatNegReportFailFmt[];
+extern char gNatNegReportDoneFmt[];
+extern char gNatNegPreinitFmt[];
+extern char gNatNegInitGpFmt[];
+extern char gNatNegInitNn1Fmt[];
+extern char gNatNegInitNn2Fmt[];
+extern char gNatNegInitNn3Fmt[];
+extern char gNatNegSendPingFmt[];
+extern char gNatNegHostnameFmt[];
+extern char gNatNegServer1Name[];
+extern char gNatNegServer2Name[];
+extern char gNatNegServer3Name[];
 extern int gGsAvailabilityState;
-extern char g_021A5D04[];
-extern char g_021A5D44[];
-extern char g_021A5D90[];
-extern char g_021A5DD0[];
-extern char g_021A5E14[];
-extern char g_021A5E2C[];
-extern char g_021A5E5C[];
-extern char g_021A5E88[];
-extern char g_021A5EAC[];
-extern char g_021AE7A0[];
-extern char g_021A5EE8[];
-extern char g_021A5F1C[];
-extern char g_021A5F5C[];
-extern char g_021A5FA0[];
-extern char g_021A5FE8[];
-extern char g_021A6028[];
-extern char g_021A606C[];
-extern char g_021A60B8[];
-extern char g_021A60FC[];
-extern char g_021A6150[];
-extern char g_021A61A0[];
-extern char g_021A61E8[];
-extern char g_021A621C[];
-extern char g_021A6274[];
-extern char g_021A62CC[];
-extern char g_021A6300[];
-extern char g_021A6330[];
-extern char g_021A6384[];
-extern char g_021A63D8[];
-extern char g_021A640C[];
-extern char g_021A6450[];
-extern char g_021A6470[];
-extern char g_021A648C[];
-extern char g_021A6498[];
-extern char g_021A64D4[];
-extern char g_021A6504[];
-extern char g_021A6538[];
-extern char g_021A657C[];
-extern char g_021A65BC[];
+extern char gNatNegBackendUnavailFmt[];
+extern char gNatNegResolveFailFmt[];
+extern char gNatNegAllocFailFmt[];
+extern char gNatNegSocketFailFmt[];
+extern char gNatNegSocketFmt[];
+extern char gNatNegCancelNotFoundFmt[];
+extern char gNatNegCancelFmt[];
+extern char gNatNegThinkNullFmt[];
+extern char gNatNegThinkRemoveFmt[];
+extern char gNatNegRecvBuf[];
+extern char gNatNegRecvErrFmt[];
+extern char gNatNegInitTimeoutFmt[];
+extern char gNatNegResendInitFmt[];
+extern char gNatNegNoPingFmt[];
+extern char gNatNegPingTimeoutFmt[];
+extern char gNatNegResendPingFmt[];
+extern char gNatNegReportTimeoutFmt[];
+extern char gNatNegResendReportFmt[];
+extern char gNatNegBothDoneFmt[];
+extern char gNatNegLingerDoneFmt[];
+extern char gNatNegRemovePostFmt[];
+extern char gNatNegSendConnectAckFmt[];
+extern char gNatNegConnectPacketFmt[];
+extern char gNatNegAlreadyConnectedFmt[];
+extern char gNatNegDeadbeatFmt[];
+extern char gNatNegConnectTimeoutFmt[];
+extern char gNatNegPingPacketFmt[];
+extern char gNatNegPingEarlyFmt[];
+extern char gNatNegGotPingFmt[];
+extern char gNatNegConnectFinishedFmt[];
+extern char gNatNegPreinitAckFmt[];
+extern char gNatNegInitAckFmt[];
+extern char gNatNegErtFmt[];
+extern char gNatNegReportAckFmt[];
+extern char gNatNegBadHeaderFmt[];
+extern char gNatNegPacketFmt[];
+extern char gNatNegConnectTooSmallFmt[];
+extern char gNatNegNoNegotiatorFmt[];
+extern char gNatNegPacketTooSmallFmt[];
 
 
 
@@ -444,12 +444,12 @@ unsigned int matchup1ip = 0;
 
 
 
-int func_021990A0(void)
+int GetClientUniqueID(void)
 {
     if (ClientUniqueID == 0)
     {
-        func_0217F790(func_0217F264());
-        ClientUniqueID = func_0217F7AC(1, 0x7fffffff);
+        Util_RandSeed(current_time());
+        ClientUniqueID = Util_RandInt(1, 0x7fffffff);
     }
     return ClientUniqueID;
 }
@@ -457,7 +457,7 @@ int func_021990A0(void)
 
 
 
-NATNegotiator *func_021990D4(int cookie)
+NATNegotiator *FindNegotiatorForCookie(int cookie)
 {
     int i;
     NATNegotiator *neg;
@@ -478,7 +478,7 @@ NATNegotiator *func_021990D4(int cookie)
 /*
  * sdk:      AddNegotiator (natneg.o)
  */
-NATNegotiator *func_02199138(void)
+NATNegotiator *AddNegotiator(void)
 {
     NATNegotiator _neg = {0};
 
@@ -495,7 +495,7 @@ NATNegotiator *func_02199138(void)
 /*
  * sdk:      RemoveNegotiator (natneg.o)
  */
-void func_021991C8(NATNegotiator *neg)
+void RemoveNegotiator(NATNegotiator *neg)
 {
     int i;
 
@@ -515,7 +515,7 @@ void NNFreeNegotiateList(void)
 {
     if (negotiateList == 0)
         return;
-    gsDebugFormat(7, 3, 8, g_021A5A84, ArrayLength(negotiateList));
+    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength(negotiateList));
     ArrayFree(negotiateList);
     negotiateList = 0;
 }
@@ -527,9 +527,9 @@ void NNFreeNegotiateList(void)
 /*
  * Set when the six-byte test of the object at 0x021A5A7C fails.
  */
-int func_02199284(const u8 *a)
+int CheckMagic(const u8 *a)
 {
-    return func_020923F0(a, (const u8 *)((char *)&g_021A5A7C), 6) == 0;
+    return func_020923F0(a, (const u8 *)((char *)&gNatNegMagic), 6) == 0;
 }
 
 
@@ -539,19 +539,19 @@ int func_02199284(const u8 *a)
 /*
  * sdk:      SendPacket (natneg.o)
  */
-void func_021992A8(int sock, unsigned int toaddr, unsigned short toport, void *data, int len)
+static void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len)
 {
     SOCSockAddrIn saddr;
 
     saddr.family = 2;
     saddr.port = SWAP16(toport);
     saddr.addr = toaddr;
-    func_0217ECA4(sock, data, len, 0, (struct SOCSockAddr *)(&saddr), 8);
+    sendto(sock, data, len, 0, (struct SOCSockAddr *)(&saddr), 8);
 }
 
 
 
-unsigned int func_021992FC(void)
+static unsigned int GetLocalIP(void)
 {
     int num_local_ips;
     SOCHostEnt *phost;
@@ -559,7 +559,7 @@ unsigned int func_021992FC(void)
     unsigned int localip;
 
     localip = 0;
-    phost = func_0217EFB8();
+    phost = getlocalhost();
     if (!phost)
         return 0;
     for (num_local_ips = 0;; num_local_ips++) {
@@ -577,7 +577,7 @@ unsigned int func_021992FC(void)
 
 
 
-unsigned short func_02199360(int sock)
+static unsigned short GetLocalPort(int sock)
 {
 	int ret;
 	SOCSockAddrIn saddr;
@@ -594,12 +594,12 @@ unsigned short func_02199360(int sock)
 
 
 
-void func_02199394(NATNegotiator *neg)
+void SendReportPacket(NATNegotiator *neg)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -613,30 +613,30 @@ void func_02199394(NATNegotiator *neg)
     p.cookie = NN_SWAP32((u32)neg->cookie);
     p.u.report.clientindex = (u8)neg->clientIndex;
     p.u.report.negResult = neg->result == 0 ? 1 : 0;
-    p.u.report.natType = g_021A5A70.natType;
-    p.u.report.mappingScheme = g_021AE698.natMappingScheme;
+    p.u.report.natType = gNatSocks.natType;
+    p.u.report.mappingScheme = gNatnegGlobals.natMappingScheme;
     if (strlen(gGsAvailabilityGameName))
         memcpy(p.u.report.gamename, gGsAvailabilityGameName, 0x32);
-    gsDebugFormat(7, 0, 8, g_021A5AB4, neg->cookie, SOC_InetNtoA(g_021AE6C4), 27901, p.u.report.negResult);
-    SendPacket(neg->negotiateSock, g_021AE698.natneg1IP, 27901, &p, 0x49);
+    gsDebugFormat(7, 0, 8, gNatNegSendReportFmt, neg->cookie, SOC_InetNtoA(gNatNegServer1IP), 27901, p.u.report.negResult);
+    SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, &p, 0x49);
 }
 
 
 
-void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr)
+void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr)
 {
     neg->result = result;
     neg->socket = socket;
     if (remoteaddr)
         neg->remoteaddr = *(NNSockAddr *)remoteaddr;
     if (result == 1 || result == 2) {
-        gsDebugFormat(7, 3, 8, g_021A5AF8, neg->cookie);
+        gsDebugFormat(7, 3, 8, gNatNegReportFailFmt, neg->cookie);
         neg->state = 5;
         neg->completedCallback(neg->result, neg->socket, (SOCSockAddrIn *)&neg->remoteaddr, neg->userdata);
         func_02199FB4(neg->cookie);
     } else {
-        gsDebugFormat(7, 3, 8, g_021A5B30, neg->cookie);
-        func_02199394((NATNegotiator *)neg);
+        gsDebugFormat(7, 3, 8, gNatNegReportDoneFmt, neg->cookie);
+        SendReportPacket((NATNegotiator *)neg);
         neg->state = 7;
         neg->retryTime = current_time() + 500;
         neg->retryCount = 0;
@@ -650,12 +650,12 @@ void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *re
 /*
  * sdk:      SendPreinitPacket (libdwcgsnatneg.TWL.HYB.a(natneg.o))
  */
-void func_021995E4(NATNegotiator *neg)
+void SendPreinitPacket(NATNegotiator *neg)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -669,8 +669,8 @@ void func_021995E4(NATNegotiator *neg)
     p.cookie = NN_SWAP32((u32)neg->cookie);
     p.u.preinit.clientindex = (u8)neg->clientIndex;
     p.u.preinit.clientUniqueID = GetClientUniqueID();
-    gsDebugFormat(7, 0, 8, g_021A5B70, SOC_InetNtoA(g_021AE6C4), 27901);
-    SendPacket(neg->negotiateSock, g_021AE698.natneg1IP, 27901, &p, 0x12);
+    gsDebugFormat(7, 0, 8, gNatNegPreinitFmt, SOC_InetNtoA(gNatNegServer1IP), 27901);
+    SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, &p, 0x12);
     if (neg->state == 1)
     {
         neg->retryTime = current_time() + 10000;
@@ -697,7 +697,7 @@ void func_021995E4(NATNegotiator *neg)
  * their argument once per term, so GetLocalIP runs four times and
  * GetLocalPort twice, as in the object.
  */
-void func_0219972C(NATNegotiator *neg)
+void SendInitPackets(NATNegotiator *neg)
 {
     char buffer[85];
     NatNegPacket *p;
@@ -706,48 +706,48 @@ void func_0219972C(NATNegotiator *neg)
     int packetlen;
 
     p = (NatNegPacket *)buffer;
-    memcpy(p->magic, ((unsigned char *)&g_021A5A7C), 6);
+    memcpy(p->magic, ((unsigned char *)&gNatNegMagic), 6);
     p->version = 4;
     p->packettype = 0;
     p->cookie = NN_SWAP32((unsigned int)neg->cookie);
     p->u.init.clientindex = neg->clientIndex;
     p->u.init.usegameport = (neg->gameSock == -1) ? 0 : 1;
-    localip = NN_SWAP32(func_021992FC());
+    localip = NN_SWAP32(GetLocalIP());
     buffer[15] = (unsigned char)(localip >> 24);
     buffer[16] = (unsigned char)(localip >> 16);
     buffer[17] = (unsigned char)(localip >> 8);
     buffer[18] = (unsigned char)localip;
     buffer[19] = 0;
     buffer[20] = 0;
-    func_02094798(buffer + 21, gGsAvailabilityGameName);
+    strcpy(buffer + 21, gGsAvailabilityGameName);
     packetlen = strlen(gGsAvailabilityGameName) + 22;
 
     if (p->u.init.usegameport && !neg->initAckRecv[0]) {
         p->u.init.porttype = 0;
-        gsDebugFormat(7, 0, 8, g_021A5B8C, SOC_InetNtoA(g_021AE6C4), 27901);
-        SendPacket(neg->gameSock, g_021AE698.natneg1IP, 27901, p, packetlen);
+        gsDebugFormat(7, 0, 8, gNatNegInitGpFmt, SOC_InetNtoA(gNatNegServer1IP), 27901);
+        SendPacket(neg->gameSock, gNatnegGlobals.natneg1IP, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[1]) {
         p->u.init.porttype = 1;
-        gsDebugFormat(7, 0, 8, g_021A5BAC, neg->cookie, SOC_InetNtoA(g_021AE6C4), 27901);
-        SendPacket(neg->negotiateSock, g_021AE698.natneg1IP, 27901, p, packetlen);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn1Fmt, neg->cookie, SOC_InetNtoA(gNatNegServer1IP), 27901);
+        SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, p, packetlen);
     }
 
-    localport = NN_HTONS(func_02199360(p->u.init.usegameport ? neg->gameSock : neg->negotiateSock));
+    localport = NN_HTONS(GetLocalPort(p->u.init.usegameport ? neg->gameSock : neg->negotiateSock));
     buffer[19] = (unsigned char)(localport >> 8);
     buffer[20] = (unsigned char)localport;
 
     if (!neg->initAckRecv[2]) {
         p->u.init.porttype = 2;
-        gsDebugFormat(7, 0, 8, g_021A5BE8, neg->cookie, SOC_InetNtoA(g_021AE6C0), 27901);
-        SendPacket(neg->negotiateSock, g_021AE698.natneg2IP, 27901, p, packetlen);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn2Fmt, neg->cookie, SOC_InetNtoA(gNatNegServer2IP), 27901);
+        SendPacket(neg->negotiateSock, gNatnegGlobals.natneg2IP, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[3]) {
         p->u.init.porttype = 3;
-        gsDebugFormat(7, 0, 8, g_021A5C24, neg->cookie, SOC_InetNtoA(g_021AE6BC), 27901);
-        SendPacket(neg->negotiateSock, g_021AE698.natneg3IP, 27901, p, packetlen);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn3Fmt, neg->cookie, SOC_InetNtoA(gNatNegServer3IP), 27901);
+        SendPacket(neg->negotiateSock, gNatnegGlobals.natneg3IP, 27901, p, packetlen);
     }
 
     neg->state = 2;
@@ -761,12 +761,12 @@ void func_0219972C(NATNegotiator *neg)
 /*
  * sdk:      SendPingPacket (libdwcgsnatneg.TWL.HYB.a(natneg.o))
  */
-void func_02199A90(NATNegotiator *neg)
+void SendPingPacket(NATNegotiator *neg)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -782,7 +782,7 @@ void func_02199A90(NATNegotiator *neg)
     p.u.connect.port = NN_SWAP16(neg->guessedPort);
     p.u.connect.gotyourdata = neg->gotRemoteData;
     p.u.connect.finished = (neg->gotRemoteData && neg->sendGotRemoteData) ? 1 : 0;
-    gsDebugFormat(7, 0, 8, g_021A5C60, neg->cookie, SOC_InetNtoA(neg->guessedIP), neg->guessedPort, neg->gotRemoteData);
+    gsDebugFormat(7, 0, 8, gNatNegSendPingFmt, neg->cookie, SOC_InetNtoA(neg->guessedIP), neg->guessedPort, neg->gotRemoteData);
     SendPacket(neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, neg->guessedIP, neg->guessedPort, &p, 0x14);
     neg->retryTime = current_time() + 700;
     neg->maxRetryCount = 7;
@@ -794,32 +794,32 @@ void func_02199A90(NATNegotiator *neg)
 /*
  * sdk:      CheckNatifyStatus (libdwcgsnatneg.TWL.HYB.a(natneg.o))
  */
-int func_02199BE4(int sock)
+int CheckNatifyStatus(int sock)
 {
     int active = 1;
     int success;
 
     if (sock != -1)
     {
-        if (current_time() - g_021AE698.natifyStartTime < 10000)
-            active = NatifyThink(sock, &g_021AE6C8);
+        if (current_time() - gNatnegGlobals.natifyStartTime < 10000)
+            active = NatifyThink(sock, &gNatNegNat);
         else
             active = 0;
         if (active)
             goto done;
-        success = DetermineNatType(&g_021AE6C8);
-        g_021AE698.natifyCallback(success, g_021AE6C8);
-        g_021A5A70.natType = g_021AE6C8.natType;
-        g_021AE698.natMappingScheme = g_021AE6C8.mappingScheme;
-        if (g_021A5A70.mappingSock != -1)
+        success = DetermineNatType(&gNatNegNat);
+        gNatnegGlobals.natifyCallback(success, gNatNegNat);
+        gNatSocks.natType = gNatNegNat.natType;
+        gNatnegGlobals.natMappingScheme = gNatNegNat.mappingScheme;
+        if (gNatSocks.mappingSock != -1)
         {
-            closesocket(g_021A5A70.mappingSock);
-            g_021A5A70.mappingSock = -1;
+            closesocket(gNatSocks.mappingSock);
+            gNatSocks.mappingSock = -1;
         }
-        if (g_021A5A70.ertSock != -1)
+        if (gNatSocks.ertSock != -1)
         {
-            closesocket(g_021A5A70.ertSock);
-            g_021A5A70.ertSock = -1;
+            closesocket(gNatSocks.ertSock);
+            gNatSocks.ertSock = -1;
         }
     }
 done:
@@ -827,12 +827,12 @@ done:
 }
 
 
-unsigned int func_02199CE8(char *name)
+unsigned int NameToIp(char *name)
 {
     SOCHostEnt *hent;
     unsigned int ret;
 
-    ret = func_0217ED38((int)name);
+    ret = inet_addr((int)name);
     if (ret != (unsigned int)-1)
         return ret;
     hent = SOC_GetHostByName(name);
@@ -850,7 +850,7 @@ unsigned int func_02199CE8(char *name)
 /*
  * sdk:      ResolveServer (natify.o)
  */
-unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname)
+unsigned int ResolveServer(char *overrideHostname, char *defaultHostname)
 {
     char hostnameBuffer[64];
     char *hostname;
@@ -858,9 +858,9 @@ unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname)
     hostname = overrideHostname;
     if (!hostname) {
         hostname = hostnameBuffer;
-        OS_SNPrintf(hostname, 64, g_021A5CA8, gGsAvailabilityGameName, defaultHostname);
+        OS_SNPrintf(hostname, 64, gNatNegHostnameFmt, gGsAvailabilityGameName, defaultHostname);
     }
-    return func_02199CE8(hostname);
+    return NameToIp(hostname);
 }
 
 
@@ -870,15 +870,15 @@ unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname)
 /*
  * sdk:      ResolveServers (natneg.o)
  */
-int func_02199D60(void)
+int ResolveServers(void)
 {
-    if (!g_021AE698.natneg1IP)
-        g_021AE698.natneg1IP = func_02199D1C(g_021AE698.natneg1Override, g_021A5CB0);
-    if (!g_021AE698.natneg2IP)
-        g_021AE698.natneg2IP = func_02199D1C(g_021AE698.natneg2Override, g_021A5CCC);
-    if (!g_021AE698.natneg3IP)
-        g_021AE698.natneg3IP = func_02199D1C(g_021AE698.natneg3Override, g_021A5CE8);
-    if (g_021AE698.natneg1IP == 0 || g_021AE698.natneg2IP == 0 || g_021AE698.natneg3IP == 0)
+    if (!gNatnegGlobals.natneg1IP)
+        gNatnegGlobals.natneg1IP = ResolveServer(gNatnegGlobals.natneg1Override, gNatNegServer1Name);
+    if (!gNatnegGlobals.natneg2IP)
+        gNatnegGlobals.natneg2IP = ResolveServer(gNatnegGlobals.natneg2Override, gNatNegServer2Name);
+    if (!gNatnegGlobals.natneg3IP)
+        gNatnegGlobals.natneg3IP = ResolveServer(gNatnegGlobals.natneg3Override, gNatNegServer3Name);
+    if (gNatnegGlobals.natneg1IP == 0 || gNatnegGlobals.natneg2IP == 0 || gNatnegGlobals.natneg3IP == 0)
         return 0;
     return 1;
 }
@@ -890,7 +890,7 @@ int func_02199D60(void)
 /*
  * sdk:      NNBeginNegotiationWithSocket (libdwcgsnatneg.TWL.HYB.a natneg.o)
  */
-int func_02199DFC(int gamesocket, int cookie, int clientindex,
+int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
                   void (*progresscallback)(int, void *),
                   void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata)
 {
@@ -899,25 +899,25 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
     int namelen;
 
     if (gGsAvailabilityState != 1) {
-        gsDebugFormat(7, 0, 4, g_021A5D04, cookie);
+        gsDebugFormat(7, 0, 4, gNatNegBackendUnavailFmt, cookie);
         return 2;
     }
 
-    if (!func_02199D60()) {
-        gsDebugFormat(7, 0, 4, g_021A5D44, cookie);
+    if (!ResolveServers()) {
+        gsDebugFormat(7, 0, 4, gNatNegResolveFailFmt, cookie);
         return 3;
     }
 
-    neg = func_02199138();
+    neg = AddNegotiator();
     if (neg == 0) {
-        gsDebugFormat(7, 2, 1, g_021A5D90);
+        gsDebugFormat(7, 2, 1, gNatNegAllocFailFmt);
         return 1;
     }
 
     neg->negotiateSock = func_0217EB18(2, 2, 0);
     if (neg->negotiateSock == -1) {
-        gsDebugFormat(7, 0, 1, g_021A5DD0);
-        func_021991C8(neg);
+        gsDebugFormat(7, 0, 1, gNatNegSocketFailFmt);
+        RemoveNegotiator(neg);
         return 2;
     }
 
@@ -935,11 +935,11 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
     neg->retryCount = 0;
     neg->maxRetryCount = 0;
 
-    func_021995E4((NATNegotiator *)neg);
+    SendPreinitPacket((NATNegotiator *)neg);
 
     namelen = sizeof(saddr);
     func_0217ED0C(neg->negotiateSock, &saddr, &namelen);
-    gsDebugFormat(7, 0, 8, g_021A5E14, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
+    gsDebugFormat(7, 0, 8, gNatNegSocketFmt, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
 
     return 0;
 }
@@ -952,10 +952,10 @@ void NNCancel(int cookie)
     NATNegotiator *neg = FindNegotiatorForCookie(cookie);
 
     if (neg == 0) {
-        gsDebugFormat(7, 4, 4, g_021A5E2C, cookie);
+        gsDebugFormat(7, 4, 4, gNatNegCancelNotFoundFmt, cookie);
         return;
     }
-    gsDebugFormat(7, 4, 8, g_021A5E5C, cookie);
+    gsDebugFormat(7, 4, 8, gNatNegCancelFmt, cookie);
     if (neg->negotiateSock != -1) {
         closesocket(neg->negotiateSock);
         neg->negotiateSock = -1;
@@ -972,7 +972,7 @@ void NNCancel(int cookie)
 /*
  * Marks the record spent and tail calls on its second word.
  */
-void func_0219A034(int *p)
+void RemoveFinishedNegotiator(int *p)
 {
     if (p[0] == -1) {
         p[6] = -1;
@@ -994,20 +994,20 @@ void func_0219A034(int *p)
  * two reads are cast to unsigned int. The receive loop is a do/while with
  * the socket test at the bottom, inside an outer socket test.
  */
-void func_0219A054(NATNegotiator *neg)
+void NegotiateThink(NATNegotiator *neg)
 {
     SOCSockAddrIn saddr;
     int saddrlen = sizeof(SOCSockAddrIn);
     int error;
 
     if (neg == 0) {
-        gsDebugFormat(7, 4, 4, g_021A5E88);
+        gsDebugFormat(7, 4, 4, gNatNegThinkNullFmt);
         return;
     }
 
     if (neg->state == ns_canceled) {
-        gsDebugFormat(7, 2, 8, g_021A5EAC, neg->cookie);
-        func_021991C8(neg);
+        gsDebugFormat(7, 2, 8, gNatNegThinkRemoveFmt, neg->cookie);
+        RemoveNegotiator(neg);
         return;
     }
 
@@ -1015,12 +1015,12 @@ void func_0219A054(NATNegotiator *neg)
         do {
             if (!func_0217EF50(neg->negotiateSock))
                 break;
-            error = func_0217EC60(neg->negotiateSock, g_021AE7A0, 512, 0, &saddr, &saddrlen);
+            error = func_0217EC60(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
             if (error == -1) {
-                gsDebugFormat(7, 0, 8, g_021A5EE8, neg->cookie, func_0217ED54(neg->negotiateSock));
+                gsDebugFormat(7, 0, 8, gNatNegRecvErrFmt, neg->cookie, GOAGetLastError(neg->negotiateSock));
                 break;
             }
-            func_0219AB8C(g_021AE7A0, error, &saddr);
+            NNProcessData(gNatNegRecvBuf, error, &saddr);
             if (neg->state == ns_canceled)
                 break;
         } while (neg->negotiateSock != -1);
@@ -1029,63 +1029,63 @@ void func_0219A054(NATNegotiator *neg)
     if ((neg->state == ns_preinitsent || neg->state == ns_preinitack || neg->state == ns_initsent ||
          neg->state == ns_connectping) && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            gsDebugFormat(7, 0, 8, g_021A5F1C, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegInitTimeoutFmt, neg->cookie);
             if ((unsigned int)neg->state <= ns_initsent)
-                func_021994F0(neg, 2, -1, 0);
+                StartReport(neg, 2, -1, 0);
             else
-                func_021994F0(neg, 3, -1, 0);
+                StartReport(neg, 3, -1, 0);
         } else {
             neg->retryCount++;
-            gsDebugFormat(7, 0, 8, g_021A5F5C, neg->cookie, neg->retryCount);
+            gsDebugFormat(7, 0, 8, gNatNegResendInitFmt, neg->cookie, neg->retryCount);
             if ((unsigned int)neg->state <= ns_preinitack)
-                func_021995E4((NATNegotiator *)neg);
+                SendPreinitPacket((NATNegotiator *)neg);
             else if (neg->state == ns_initsent)
-                func_0219972C(neg);
+                SendInitPackets(neg);
             else
-                func_02199A90((NATNegotiator *)neg);
+                SendPingPacket((NATNegotiator *)neg);
         }
     }
 
     if (neg->state == ns_initack && current_time() > neg->retryTime) {
-        gsDebugFormat(7, 0, 8, g_021A5FA0, neg->cookie);
-        func_021994F0(neg, 1, -1, 0);
+        gsDebugFormat(7, 0, 8, gNatNegNoPingFmt, neg->cookie);
+        StartReport(neg, 1, -1, 0);
     }
 
     if (neg->state == ns_connectping && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            gsDebugFormat(7, 0, 8, g_021A5FE8, neg->cookie);
-            func_021994F0(neg, 3, -1, 0);
+            gsDebugFormat(7, 0, 8, gNatNegPingTimeoutFmt, neg->cookie);
+            StartReport(neg, 3, -1, 0);
         } else {
             neg->retryCount++;
-            gsDebugFormat(7, 0, 8, g_021A6028, neg->cookie, neg->retryCount);
-            func_02199A90((NATNegotiator *)neg);
+            gsDebugFormat(7, 0, 8, gNatNegResendPingFmt, neg->cookie, neg->retryCount);
+            SendPingPacket((NATNegotiator *)neg);
             neg->retryTime = current_time() + 700;
         }
     }
 
     if (neg->state == ns_reportsent && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            gsDebugFormat(7, 3, 8, g_021A606C, neg->cookie);
+            gsDebugFormat(7, 3, 8, gNatNegReportTimeoutFmt, neg->cookie);
             neg->state = ns_finished;
         } else {
-            func_02199394((NATNegotiator *)neg);
+            SendReportPacket((NATNegotiator *)neg);
             neg->retryCount++;
-            gsDebugFormat(7, 0, 8, g_021A60B8, neg->cookie, neg->retryCount);
+            gsDebugFormat(7, 0, 8, gNatNegResendReportFmt, neg->cookie, neg->retryCount);
             neg->retryTime = current_time() + 500;
         }
     }
 
     if (neg->state == ns_finished || neg->state == ns_reportack) {
         if (neg->sendGotRemoteData)
-            gsDebugFormat(7, 3, 8, g_021A60FC, neg->cookie);
+            gsDebugFormat(7, 3, 8, gNatNegBothDoneFmt, neg->cookie);
         else if (current_time() > neg->retryTime)
-            gsDebugFormat(7, 3, 8, g_021A6150, neg->cookie);
-        func_0219A034((int *)neg);
+            gsDebugFormat(7, 3, 8, gNatNegLingerDoneFmt, neg->cookie);
+        RemoveFinishedNegotiator((int *)neg);
     }
 
     if (neg->state == ns_canceled) {
-        gsDebugFormat(7, 2, 8, g_021A61A0, neg->cookie);
-        func_021991C8(neg);
+        gsDebugFormat(7, 2, 8, gNatNegRemovePostFmt, neg->cookie);
+        RemoveNegotiator(neg);
     }
 }
 
@@ -1097,16 +1097,16 @@ void func_0219A054(NATNegotiator *neg)
 /*
  * sdk:      NNThink (natneg.o)
  */
-void func_0219A4A4(void *p)
+void NNThink(void *p)
 {
     int i;
 
-    if (g_021AE698.natifyActive)
-        g_021AE698.natifyActive = func_02199BE4(g_021A5A70.mappingSock) && func_02199BE4(g_021A5A70.ertSock);
-    if (!g_021AE698.negotiateList)
+    if (gNatnegGlobals.natifyActive)
+        gNatnegGlobals.natifyActive = CheckNatifyStatus(gNatSocks.mappingSock) && CheckNatifyStatus(gNatSocks.ertSock);
+    if (!gNatnegGlobals.negotiateList)
         return;
-    for (i = func_02184200(g_021AE698.negotiateList) - 1; i >= 0; i--)
-        func_0219A054(func_02184208(g_021AE698.negotiateList, i));
+    for (i = func_02184200(gNatnegGlobals.negotiateList) - 1; i >= 0; i--)
+        NegotiateThink(func_02184208(gNatnegGlobals.negotiateList, i));
 }
 
 
@@ -1121,14 +1121,14 @@ void func_0219A4A4(void *p)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0219A52C.c \
- *       --func func_0219A52C --addr 0x0219A52C --region ov009 --arm --cc 1.1p1 --lang c99
+ *       --func SendConnectAck --addr 0x0219A52C --region ov009 --arm --cc 1.1p1 --lang c99
  */
-void func_0219A52C(NATNegotiator *neg, SOCSockAddrIn *toaddr)
+void SendConnectAck(NATNegotiator *neg, SOCSockAddrIn *toaddr)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -1141,7 +1141,7 @@ void func_0219A52C(NATNegotiator *neg, SOCSockAddrIn *toaddr)
     p.packettype = 6;
     p.cookie = NN_SWAP32((u32)neg->cookie);
     p.u.init.clientindex = neg->clientIndex;
-    gsDebugFormat(7, 0, 8, g_021A61E8, neg->cookie);
+    gsDebugFormat(7, 0, 8, gNatNegSendConnectAckFmt, neg->cookie);
     SendPacket(neg->negotiateSock, toaddr->addr, NN_SWAP16(toaddr->port), &p, 0x15);
 }
 
@@ -1152,30 +1152,30 @@ void func_0219A52C(NATNegotiator *neg, SOCSockAddrIn *toaddr)
 /*
  * sdk:      ProcessConnectPacket (libdwcgsnatneg.TWL.HYB.a natneg.o)
  */
-void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
+void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
     int errcode;
 
-    gsDebugFormat(7, 0, 8, g_021A621C, neg->cookie, p->u.connect.finished, SOC_InetNtoA(p->u.connect.ipaddr), NN_NTOHS(p->u.connect.port));
+    gsDebugFormat(7, 0, 8, gNatNegConnectPacketFmt, neg->cookie, p->u.connect.finished, SOC_InetNtoA(p->u.connect.ipaddr), NN_NTOHS(p->u.connect.port));
 
     if (p->u.connect.finished == 0)
-        func_0219A52C((NATNegotiator *)neg, fromaddr);
+        SendConnectAck((NATNegotiator *)neg, fromaddr);
 
     if (neg->state >= 4) {
-        gsDebugFormat(7, 0, 8, g_021A6274, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegAlreadyConnectedFmt, neg->cookie);
         return;
     }
 
     if (p->u.connect.finished != 0) {
         errcode = 4;
         if (p->u.connect.finished == 1) {
-            gsDebugFormat(7, 0, 8, g_021A62CC, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegDeadbeatFmt, neg->cookie);
             errcode = 1;
         } else if (p->u.connect.finished == 2) {
-            gsDebugFormat(7, 0, 8, g_021A6300, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegConnectTimeoutFmt, neg->cookie);
             errcode = 2;
         }
-        func_021994F0(neg, errcode, -1, 0);
+        StartReport(neg, errcode, -1, 0);
         return;
     }
 
@@ -1184,7 +1184,7 @@ void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     neg->retryCount = 0;
     neg->state = 4;
     neg->progressCallback(4, neg->userdata);
-    func_02199A90((NATNegotiator *)neg);
+    SendPingPacket((NATNegotiator *)neg);
 }
 
 
@@ -1194,17 +1194,17 @@ void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 /*
  * sdk:      ProcessPingPacket (libdwcgsnatneg.TWL.HYB.a natneg.o)
  */
-void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
+void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
-    gsDebugFormat(7, 0, 8, g_021A6330, neg->cookie, SOC_InetNtoA(fromaddr->addr),
+    gsDebugFormat(7, 0, 8, gNatNegPingPacketFmt, neg->cookie, SOC_InetNtoA(fromaddr->addr),
                   NN_NTOHS(fromaddr->port), p->u.connect.gotyourdata, p->u.connect.finished);
 
     if (neg->state < 4) {
-        gsDebugFormat(7, 0, 8, g_021A6384, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegPingEarlyFmt, neg->cookie);
         return;
     }
 
-    gsDebugFormat(7, 0, 8, g_021A63D8, SOC_InetNtoA(fromaddr->addr), NN_NTOHS(fromaddr->port),
+    gsDebugFormat(7, 0, 8, gNatNegGotPingFmt, SOC_InetNtoA(fromaddr->addr), NN_NTOHS(fromaddr->port),
                   p->u.connect.gotyourdata, p->u.connect.finished);
 
     neg->guessedIP = fromaddr->addr;
@@ -1212,11 +1212,11 @@ void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     neg->gotRemoteData = 1;
     neg->sendGotRemoteData = p->u.connect.gotyourdata ? 1 : 0;
 
-    func_02199A90((NATNegotiator *)neg);
+    SendPingPacket((NATNegotiator *)neg);
 
     if (neg->state == 4 && neg->sendGotRemoteData) {
-        gsDebugFormat(7, 0, 8, g_021A640C, neg->cookie);
-        func_021994F0(neg, 0, neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, fromaddr);
+        gsDebugFormat(7, 0, 8, gNatNegConnectFinishedFmt, neg->cookie);
+        StartReport(neg, 0, neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, fromaddr);
     }
 }
 
@@ -1225,9 +1225,9 @@ void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 /*
  * sdk:      ProcessPreinitAckPacket (natneg.o)
  */
-void func_0219A968(NATNegotiator *neg, NatNegPacket *p)
+void ProcessPreinitAckPacket(NATNegotiator *neg, NatNegPacket *p)
 {
-    gsDebugFormat(7, 0, 8, g_021A6450, p->u.init.clientindex);
+    gsDebugFormat(7, 0, 8, gNatNegPreinitAckFmt, p->u.init.clientindex);
     if (neg->state != 1) {
         neg->state = 1;
         neg->progressCallback(1, neg->userdata);
@@ -1240,7 +1240,7 @@ void func_0219A968(NATNegotiator *neg, NatNegPacket *p)
     case 1:
         return;
     case 2:
-        func_0219972C(neg);
+        SendInitPackets(neg);
         break;
     }
 }
@@ -1248,14 +1248,14 @@ void func_0219A968(NATNegotiator *neg, NatNegPacket *p)
 
 
 
-void func_0219AA08(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
+void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
     switch (p->packettype)
     {
     case 1:
         if (p->u.init.porttype > 3)
             return;
-        gsDebugFormat(7, 0, 8, g_021A6470, p->u.init.porttype);
+        gsDebugFormat(7, 0, 8, gNatNegInitAckFmt, p->u.init.porttype);
         neg->initAckRecv[p->u.init.porttype] = 1;
         if (neg->state != 2)
             return;
@@ -1271,12 +1271,12 @@ void func_0219AA08(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
         neg->progressCallback(neg->state, neg->userdata);
         break;
     case 2:
-        gsDebugFormat(7, 0, 8, g_021A648C);
+        gsDebugFormat(7, 0, 8, gNatNegErtFmt);
         p->packettype = 3;
         SendPacket(neg->negotiateSock, fromaddr->addr, (u16)NN_SWAP16(fromaddr->port), p, 0x15);
         break;
     case 14:
-        gsDebugFormat(7, 0, 8, g_021A6498, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegReportAckFmt, neg->cookie);
         neg->state = 8;
         break;
     }
@@ -1285,54 +1285,54 @@ void func_0219AA08(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 
 
 
-void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr)
+void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr)
 {
     NatNegPacket p;
     NATNegotiator *neg;
     unsigned char ptype;
 
-    if (!func_02199284((const u8 *)data)) {
-        gsDebugFormat(7, 0, 4, g_021A64D4);
+    if (!CheckMagic((const u8 *)data)) {
+        gsDebugFormat(7, 0, 4, gNatNegBadHeaderFmt);
         return;
     }
 
     ptype = ((NatNegPacket *)data)->packettype;
-    gsDebugFormat(7, 0, 8, g_021A6504, ptype, len, SOC_InetNtoA(fromaddr->addr), NN_NTOHS(fromaddr->port));
+    gsDebugFormat(7, 0, 8, gNatNegPacketFmt, ptype, len, SOC_InetNtoA(fromaddr->addr), NN_NTOHS(fromaddr->port));
 
     if (ptype == 5 || ptype == 7) {
         if (len < 20) {
-            gsDebugFormat(7, 0, 4, g_021A6538);
+            gsDebugFormat(7, 0, 4, gNatNegConnectTooSmallFmt);
             return;
         }
         memcpy(&p, data, 20);
-        neg = func_021990D4(NN_NTOHL((unsigned int)p.cookie));
+        neg = FindNegotiatorForCookie(NN_NTOHL((unsigned int)p.cookie));
         if (neg == 0) {
-            gsDebugFormat(7, 0, 4, g_021A657C, NN_NTOHL((unsigned int)p.cookie));
+            gsDebugFormat(7, 0, 4, gNatNegNoNegotiatorFmt, NN_NTOHL((unsigned int)p.cookie));
             return;
         }
         if (ptype == 5)
-            func_0219A620(neg, &p, fromaddr);
+            ProcessConnectPacket(neg, &p, fromaddr);
         else
-            func_0219A7AC(neg, &p, fromaddr);
+            ProcessPingPacket(neg, &p, fromaddr);
     } else if (ptype == 16) {
         if (len < 18)
             return;
         memcpy(&p, data, 18);
-        neg = func_021990D4(NN_NTOHL((unsigned int)p.cookie));
+        neg = FindNegotiatorForCookie(NN_NTOHL((unsigned int)p.cookie));
         if (neg == 0)
             return;
-        func_0219A968(neg, (NatNegPacket *)&p);
+        ProcessPreinitAckPacket(neg, (NatNegPacket *)&p);
     } else {
         if (len < 21) {
-            gsDebugFormat(7, 0, 4, g_021A65BC);
+            gsDebugFormat(7, 0, 4, gNatNegPacketTooSmallFmt);
             return;
         }
         memcpy(&p, data, 21);
-        neg = func_021990D4(NN_NTOHL((unsigned int)p.cookie));
+        neg = FindNegotiatorForCookie(NN_NTOHL((unsigned int)p.cookie));
         if (neg == 0) {
-            gsDebugFormat(7, 0, 4, g_021A657C, NN_NTOHL((unsigned int)p.cookie));
+            gsDebugFormat(7, 0, 4, gNatNegNoNegotiatorFmt, NN_NTOHL((unsigned int)p.cookie));
             return;
         }
-        func_0219AA08(neg, &p, fromaddr);
+        ProcessInitPacket(neg, &p, fromaddr);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02076E4C
+ * function: CARDi_ReadRomWithCPU
  * address:  0x02076E4C
  * packet:   pkt_02076E4C
  * region:   arm9
@@ -48,7 +48,7 @@ extern void CARDi_CheckPulledOutCore(u32 id);
 #define REG_MI_MCCNT1_RDY_MASK 0x00800000
 #define REG_MI_MCCNT1_START_MASK 0x80000000
 
-BOOL func_02076E4C(void *userdata, void *buffer, u32 offset, u32 length)
+BOOL CARDi_ReadRomWithCPU(void *userdata, void *buffer, u32 offset, u32 length)
 {
     BOOL retval = (BOOL)length;
     u32 cachedPage = CARDiEnableCacheInvalidationDC.cached_page;

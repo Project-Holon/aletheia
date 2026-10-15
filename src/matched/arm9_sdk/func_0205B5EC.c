@@ -1,5 +1,5 @@
 /*
- * function: func_0205B5EC
+ * function: GetConnectType
  * address:  0x0205B5EC
  * packet:   pkt_0205B5EC
  * region:   arm9
@@ -99,7 +99,7 @@ extern int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 extern unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc);
 extern int strncmp(const char *s1, const char *s2, unsigned long n);
 
-unsigned char func_0205B5EC(ACWORK *wk)
+unsigned char GetConnectType(ACWORK *wk)
 {
     WMBssDesc *bssdesc;
     int type;

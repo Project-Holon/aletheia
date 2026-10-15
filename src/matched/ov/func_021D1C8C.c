@@ -22,16 +22,16 @@
  *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_02034F84  0x02034F84  arm
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -92,7 +92,7 @@ struct Handle;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void EVENT_PERAP_RECORD_SetupWindow(u32 *w);
 extern int func_02007B50(void *);
@@ -103,7 +103,7 @@ extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
 struct Rec;
 extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 extern void FIELD_MSGBG_ClearSysWin(struct P *p);
-extern void func_02034F84(u32);
+extern void UI_SetKeepAwakeFlagsGlobal(u32);
 extern void *SND_MIC_Init(u32);
 extern void *GFL_USE_GetMainTaskList(void *);
 extern void *FIELD_MSGBG_GetSysWinBmpWin(void **p);
@@ -121,7 +121,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
 extern void SND_MIC_Exit(void);
-extern void func_02034FB8(u32);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32);
 extern void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
 extern void SND_MIC_StoreRecording(void *);
 extern int EVENT_PERAP_RECORD_HopPokeIcon(u8 *w);
@@ -129,7 +129,7 @@ extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 PM_VOICE_IsActive(u32 i);
 extern void EVENT_PERAP_RECORD_Cleanup(Work *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern int FIELD_MSGBG_DeleteSysWin(u32 a);
 extern u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
 extern int EVENT_PERAP_RECORD_ResumeMmdls(u32 a);
@@ -148,7 +148,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 1:
         w->x18 = t = (void *)FIELD_MSGBG_CreateMsgData((u32)w->x1C, 88);
         w->x20 = FIELD_MSGBG_CreateBottomSysWin(w->x1C, (u32)t);
-        w->x28 = func_0201EC64(21);
+        w->x28 = GF_FONT_Create_EC64(21);
         w->x2C = STRBUF_Create(0x400, 21);
         EVENT_PERAP_RECORD_SetupWindow((u32 *)w);
         if (func_02007B50(w->x00) == 1) {
@@ -181,7 +181,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
         break;
     case 4:
         if (FIELD_MSGBG_SysWinMain(w->x20) == 1) {
-            func_02034F84(8);
+            UI_SetKeepAwakeFlagsGlobal(8);
             a = GFL_USE_GetMainTaskList(SND_MIC_Init(21));
             w->x34 = TIME_ICON_Create(a, FIELD_MSGBG_GetSysWinBmpWin(w->x20), 15, 16, 21);
             *seq = 5;
@@ -209,7 +209,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
                 FIELD_MSGBG_ClearSysWin(w->x20);
                 FIELD_MSGBG_SysWinPrintStr(w->x20, 0, 0, (u32)w->x2C);
                 SND_MIC_Exit();
-                func_02034FB8(8);
+                UI_ClearKeepAwakeFlagsGlobal(8);
                 GAME_EVENT_CallEvent(proc, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(w->x04, 0, 30));
                 *seq = 12;
             }
@@ -219,7 +219,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
         if (w->x54 == 1) {
             SND_MIC_StoreRecording(w->x00);
             SND_MIC_Exit();
-            func_02034FB8(8);
+            UI_ClearKeepAwakeFlagsGlobal(8);
             GAME_EVENT_CallEvent(proc, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(w->x04, 0, 30));
             *seq = 8;
         }
@@ -258,7 +258,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 13:
         EVENT_PERAP_RECORD_Cleanup(w);
         STRBUF_Delete(w->x2C);
-        func_0201ED04(w->x28);
+        WORDSET_DeleteStrbufED04(w->x28);
         FIELD_MSGBG_DeleteSysWin((u32)w->x20);
         FIELD_MSGBG_DeleteMsgData(w->x18);
         *seq = 14;

@@ -19,7 +19,7 @@
  *   INTRUDE_COMM_SendProfile  0x021745F8  thumb  ov011
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EF40  0x0201EF40  thumb
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   EVENT_COMM_COMMON_GetPeerTalkStatus  0x0217F5F0  thumb
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
@@ -80,7 +80,7 @@ int INTRUDE_COMM_GetJoinStatus(char *p, u8 *q);
 int INTRUDE_COMM_SendProfile(u32 a, u32 b);
 u8 *GAME_DATA_GetMyStatus(void *p);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 int EVENT_COMM_COMMON_GetPeerTalkStatus(void *, u8);
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
@@ -126,7 +126,7 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(void *a, int *state, Ov018Work *c)
         break;
     case 2:
         func_0201F02C(c->obj.f00, 0, GAME_DATA_GetMyStatus(x));
-        func_0201EF40(c->obj.f00, 1, c->f40);
+        WORDSET_Callback_EF40(c->obj.f00, 1, c->f40);
         if (c->f50 == 1) {
             idx = d_02183998[EVENT_COMM_COMMON_GetPeerTalkStatus(v, (int)GAME_DATA_GetExitMode(x))];
             c->f4C = 1;

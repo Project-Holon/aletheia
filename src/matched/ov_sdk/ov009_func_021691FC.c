@@ -1,5 +1,5 @@
 /*
- * function: func_021691FC
+ * function: DWCi_ShutdownFriend
  * address:  0x021691FC
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-void func_021691FC(void)
+void DWCi_ShutdownFriend(void)
 {
     *(int *)(((char *)&g_021AA860) + 0xc) = 0;
 }

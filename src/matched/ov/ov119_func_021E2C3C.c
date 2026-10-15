@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 0x04000060 reread at 021E2C9C, 021E2CAA, 021E2CB6, 021E2CC0, 021E2CC8; 0x04000580 hardware store at 021E2CEC.
  * symbols:
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   ICA_ANIME_SetCameraPos 0x02011CF0 thumb
  *   ICA_ANIME_SetCameraTarget 0x02011D0C thumb
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -45,7 +45,7 @@ typedef struct {
     void *x83c;
 } Work;
 typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
-extern void func_0207ADC4(MtxFx33 *m);
+extern void MTX_Identity33_(MtxFx33 *m);
 extern void ICA_ANIME_SetCameraPos(void *a0, void *a1);
 extern void ICA_ANIME_SetCameraTarget(void *a0, void *a1);
 struct Light;
@@ -74,7 +74,7 @@ void POKETRADE_SAVE_Setup3DDrawState(Work *w, Transform *t)
     t->scale.x = 0x1000;
     t->scale.y = 0x1000;
     t->scale.z = 0x1000;
-    func_0207ADC4(&t->rot);
+    MTX_Identity33_(&t->rot);
     if (w->sub != 0) {
         if (w->sub->objA8 == 0) ICA_ANIME_SetCameraPos(w->x83c, (void *)w->sub->anim90);
         if (w->sub->objAC == 0) ICA_ANIME_SetCameraTarget(w->x83c, (void *)w->sub->anim94);

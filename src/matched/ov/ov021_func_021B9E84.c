@@ -30,7 +30,7 @@
  *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
  *   FIELD_RAIL_ProjectOnSegment  0x021BAE7C  thumb  ov021
  *   func_0207C768  0x0207C768  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   _u32_div_f     0x0209C2B0  arm
  * Addresses are Black-image addresses.
@@ -60,7 +60,7 @@ int FIELD_RAIL_GetLocationPos(void *p, Rec *r, int c);
 int FIELD_RAIL_ProjectOnSegment(int *e0, int *e1, const V *pos, V *a, int *b, V *c);
 typedef signed int     s32;
 u32 func_0207C768(u32 a, u32 b);
-int func_0207CF3C(const V *a, const V *b);
+int VEC_Distance(const V *a, const V *b);
 s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int FIELD_RAIL_LINEFUNC_Straight(int a, void *p, const V *pos, Rec *out, int arg)
@@ -99,7 +99,7 @@ int FIELD_RAIL_LINEFUNC_Straight(int a, void *p, const V *pos, Rec *out, int arg
     n.z = A.z;
     m.y = 0;
     n.y = 0;
-    dist = (int)func_0207C768((int)func_0207CF3C(&m, &n), (int)k) >> 12;
+    dist = (int)func_0207C768((int)VEC_Distance(&m, &n), (int)k) >> 12;
     FIELD_RAIL_GetLinePos(p, info[3]);
     L = info[5] << 4;
     diff = L - ((int)func_0207C768((int)B, (int)k) >> 12);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3DC
+ * function: BTL_REC_SEL_GRAPHIC_InitG3d
  * address: 0x021BB3DC
  * packet: pkt_ov214_021BB3DC
  * region: ov214
@@ -27,7 +27,7 @@ extern struct Vec3 vec1,vec2,vec3;
 extern void func_021BB0D4(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u32);
-void func_021BB3DC(u32 **out,u32 heap)
+void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021BB0D4);
     *out=G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,&vec1,&vec2,&vec3,heap);

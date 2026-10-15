@@ -22,7 +22,7 @@
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb ov170
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb ov170
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb ov170
@@ -47,7 +47,7 @@ extern void BOX2_SEQ_PrintMonName(u8 *, unsigned, int);
 extern int BOX2_SEQ_ReturnAfterClear(char *, int);
 extern void *POKEPARTY_GetMember(void *, unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
-extern unsigned func_0202136C(u16);
+extern unsigned FILE_UTIL_Check136C(u16);
 extern void BOX2_SEQ_PrintPrompt(u8 *, int, int, int);
 extern void BOX2_UI_ToggleSlotPair(char *, int);
 extern int BOX2_MAIN_GetMonAt(void ***, int, unsigned);
@@ -77,7 +77,7 @@ int BOX2_SEQ_StateMoveItemE(char *p)
                 ((struct Obj00000 *)p)->f28 = 14;
                 return BOX2_SEQ_ReturnAfterClear(p, 6);
             }
-            if (func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
+            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 BOX2_SEQ_PrintPrompt((u8 *)p, 0, 5, 24);
                 *(u8 *)(W + 0xA170) = 1;

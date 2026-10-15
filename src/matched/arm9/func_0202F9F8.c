@@ -25,7 +25,7 @@
  *   PROCSYS_PushGlobal  0x020312CC  arm
  *
  * time_icon.c.  A five-state proc driver, the net_save.c shape of
- * src/pending/func_02010AC4.c: state 0 starts overlay 0x58's proc on
+ * src/pending/GFL_NET_SAVE_Main.c: state 0 starts overlay 0x58's proc on
  * &g_02146948.f04, states 1 to 3 (re)start overlay 0xB3's proc on the
  * record, with state 2 bailing to 4 when f03 is set, and state 4 starts
  * overlay 0x58's second proc and resets to 0.

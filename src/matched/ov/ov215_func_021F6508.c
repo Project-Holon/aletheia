@@ -1,5 +1,5 @@
 /*
- * function: func_021F6508
+ * function: EGG_DEMO_GRAPHIC_VBlank
  * address:  0x021F6508
  * packet:   pkt_021F6508
  * region:   ov215
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F65B8 0x021F65B8 thumb
- *   func_021F6624 0x021F6624 thumb
+ *   EGG_DEMO_GRAPHIC_TickDisplay 0x021F65B8 thumb
+ *   EGG_DEMO_GRAPHIC_VBlankClact 0x021F6624 thumb
  */
 
-extern void func_021F65B8(void *);
-extern void func_021F6624(void *);
+extern void EGG_DEMO_GRAPHIC_TickDisplay(void *);
+extern void EGG_DEMO_GRAPHIC_VBlankClact(void *);
 
-void func_021F6508(int a, char *b)
+void EGG_DEMO_GRAPHIC_VBlank(int a, char *b)
 {
-    func_021F65B8(b);
-    func_021F6624(b + 4);
+    EGG_DEMO_GRAPHIC_TickDisplay(b);
+    EGG_DEMO_GRAPHIC_VBlankClact(b + 4);
 }

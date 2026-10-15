@@ -13,8 +13,8 @@
  * Cut from unit_0217AE20.c, union_oneself.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02012964  0x02012964  thumb
- *   func_02025C74  0x02025C74  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
+ *   CURSOR_MOVE_GetTableValue  0x02025C74  thumb
  *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
  *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
  *   gUnionCharaMmdlHeader     0x0217FFF8  data  ov019  a4
@@ -24,7 +24,7 @@
  *   func_02034714 0x02034714 arm
  *   gUnionEmptyString0 0x021807E0 data a1
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
  *   UNION_EFF_DeleteIcon  0x0217F958  thumb  ov019
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
@@ -34,11 +34,11 @@
  *   func_0200EDC4  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
  *   memcmp  0x0203EFC8  arm
- *   func_02012114 0x02012114  thumb
+ *   ICA_ANIME_Check2114 0x02012114  thumb
  *   UNION_EFF_AddAnimEffect 0x0217F93C  thumb  ov019
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   gUnionCharaActionStart  0x02180044  data  a4
  *   gUnionCharaActionMain  0x02180048  data  a4
  *   gUnionCharaActionEnd  0x0218004C  data  a4
@@ -78,9 +78,9 @@ void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
 int memcmp(const void *a, const void *b, int n);
 
-extern u32 func_02012964(const struct GameData *gameData);
+extern u32 GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
 
-extern u32 func_02025C74(u32 trainerView);
+extern u32 CURSOR_MOVE_GetTableValue(u32 trainerView);
 
 extern void FLDMMDL_InitPosRecord(void *header, u32 gridX, u32 gridZ, int gridY);
 
@@ -92,7 +92,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *mmdl, unsigned int vanish);
 
-extern void *func_0201210C(struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
 
 extern u32 FIELDMAP_GetUnionEff(void *fieldMap);
 
@@ -108,7 +108,7 @@ extern int func_0200EDC4(void *metTrainers, u32 trainerId);
 
 extern void UNION_EFF_AddIcon(char *markSys, u32 mmdl, u32 kind);
 
-extern unsigned int func_02012114(struct GameSystem *gameSystem);
+extern unsigned int ICA_ANIME_Check2114(struct GameSystem *gameSystem);
 
 extern void UNION_EFF_AddAnimEffect(int markSys, int mmdl);
 
@@ -116,7 +116,7 @@ extern void *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 
 extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 
-extern u32 func_0201283C(const struct GameData *gameData);
+extern u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
 
 extern int UNION_MSG_GetCategoryTableValue(int status);
 
@@ -239,12 +239,12 @@ int UNION_CHARA_AddMmdl(UnionRoomWork *work, struct GameData *gameData, u16 trai
     u16 beaconIndex, memberIndex;
     UnionCharaMmdlHeader header;
 
-    mmdlSys = func_02012964(gameData);
+    mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
     beaconIndex = (u16)(objId >> 8);
     memberIndex = (u16)((objId & 0xff) - 0x20);
     header = gUnionCharaMmdlHeader;
     header.f.objId = objId;
-    header.f.graphicsId = func_02025C74(trainerView);
+    header.f.graphicsId = CURSOR_MOVE_GetTableValue(trainerView);
     if (memberIndex != 0)
         header.f.moveCode = 15;
     FLDMMDL_InitPosRecord(&header, (u16)(gUnionCharaSeatPos[beaconIndex].x + gUnionCharaMemberOffset[memberIndex].x),
@@ -282,7 +282,7 @@ int UNION_CHARA_CheckTalkable(UnionRoomWork *work, u16 objId)
     return 0;
 }
 
-void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = UNION_CHARA_MakeObjId(beaconPc,slot); mmdl = FLDMMDL_SysSearchObjId((void *)func_02012964(work->parent->gameData),objId); if(mmdl == 0) func_02034714(gUnionEmptyString0,0,gUnionEmptyString0); return mmdl; }
+void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = UNION_CHARA_MakeObjId(beaconPc,slot); mmdl = FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData),objId); if(mmdl == 0) func_02034714(gUnionEmptyString0,0,gUnionEmptyString0); return mmdl; }
 
 UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionMember *member, int memberIndex, int visible, int *mmdlOut)
 {
@@ -315,7 +315,7 @@ void UNION_CHARA_DeleteSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionC
     void *fieldMap;
     void *mmdl;
 
-    fieldMap = func_0201210C(work->parent->gameSystem);
+    fieldMap = ICA_ANIME_GetField20(work->parent->gameSystem);
     mmdl = UNION_CHARA_GetMmdl(work, beaconPc, slot);
     if (fieldMap != 0 && mmdl != 0)
         UNION_EFF_DeleteIcon((char *)FIELDMAP_GetUnionEff(fieldMap), (u32)mmdl);
@@ -386,11 +386,11 @@ int UNION_CHARA_FocusRequestedMember(UnionRoomWork *work, UnionBeaconPc *beaconP
         if (memcmp(beaconPc->beacon.group.member[i].mac, work->mySituation.focusMac, 6) != 0) {
             continue;
         }
-        if (func_02012114(work->parent->gameSystem) == 1) {
-            markSys = FIELDMAP_GetUnionEff(func_0201210C(work->parent->gameSystem));
+        if (ICA_ANIME_Check2114(work->parent->gameSystem) == 1) {
+            markSys = FIELDMAP_GetUnionEff(ICA_ANIME_GetField20(work->parent->gameSystem));
             if (markSys != 0) {
                 objId = UNION_CHARA_MakeObjId(beaconPc, slot);
-                objId = (int)FLDMMDL_SysSearchObjId((void *)func_02012964(work->parent->gameData), objId);
+                objId = (int)FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData), objId);
                 if (objId != 0) {
                     UNION_EFF_AddAnimEffect(markSys, objId);
                 }
@@ -417,9 +417,9 @@ void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fiel
 
     focusPending = 0;
     metTrainers = (u32)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
-    wifiFriends = func_0201283C(gameData);
+    wifiFriends = GAME_DATA_GetField1A0(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
-    func_02012964(gameData);
+    GAME_DATA_GetOccupyInfo(gameData);
     if (memcmp(zeroMac, work->mySituation.focusMac, 6) != 0) {
         focusPending = 1;
     }
@@ -519,7 +519,7 @@ void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameDa
     int i;
 
     metTrainers = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
-    wifiFriends = func_0201283C(gameData);
+    wifiFriends = GAME_DATA_GetField1A0(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
     beaconPc = work->beaconPc;
     for (i = 0; i < UNION_BEACON_PC_MAX; i++, beaconPc++) {

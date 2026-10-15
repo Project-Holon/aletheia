@@ -20,6 +20,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
+ *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -43,7 +44,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
-extern void func_020414EC(u32 a);
+extern void BG_SYS_ClearSlot(u32 a);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
@@ -87,10 +88,10 @@ void CTVT_DRAW_Exit(u16 *a0, char *p)
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f88));
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01265 *)p)->f84, 0);
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f84));
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_020409B4(0);
     func_02040618(0, 3, 0);
-    func_020414EC(6);
+    BG_SYS_ClearSlot(6);
     func_020409B4(6);
     func_02040588(5, 1);
     *(volatile u16 *)0x04000304 |= 0x8000;

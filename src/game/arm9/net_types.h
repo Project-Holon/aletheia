@@ -90,7 +90,7 @@ typedef struct GFLNetInitializeStruct {
 } GFLNetInitializeStruct;
 
 /*
- * Per-mode device table returned by the mode lookup (func_0200F17C), 51 word
+ * Per-mode device table returned by the mode lookup (NET_DEVICE_TABLE_Select), 51 word
  * slots. The Wi-Fi device (ov009), the wireless device (ov014) and the IRC
  * device (ov015) each fill their own subset; an unused slot is null or points
  * at a constant-return stub. Slot numbers are word indices (offset / 4).

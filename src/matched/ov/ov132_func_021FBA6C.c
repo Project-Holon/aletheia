@@ -30,14 +30,14 @@
  *   PARTICLE_KillEffect  0x02051630  arm
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   d_021FDCC4 0x021FDCC4 data a4
- *   func_021F9DFC 0x021F9DFC thumb ov132
+ *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
  *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
- *   func_021F9E04 0x021F9E04 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
- *   func_021F9DD4 0x021F9DD4 thumb ov132
- *   func_021F9DDC 0x021F9DDC thumb ov132
+ *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
+ *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_021F6F04 0x021F6F04 thumb ov112
  *   _fflt 0x0209BDBC arm
@@ -58,15 +58,15 @@
  *   d_021FDC20 0x021FDC20 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_0207D658 0x0207D658 arm
- *   func_021F9730 0x021F9730 thumb ov132
- *   func_021F9768 0x021F9768 thumb ov132
+ *   STA_ACTING_RequestAction 0x021F9730 thumb ov132
+ *   STA_ACTING_GetCurrentAction 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355D8 0x020355D8 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_021F9E0C 0x021F9E0C thumb ov132
+ *   STA_ACTING_GetActorCount 0x021F9E0C thumb ov132
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
@@ -104,69 +104,69 @@
  *   func_02030EAC 0x02030EAC arm
  *   NNS_FndRemoveListObject 0x020605B4 arm
  *   _fadd 0x0209C95C arm
- *   func_0207CEE4 0x0207CEE4 arm
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_MultAdd 0x0207CEE4 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   VM_GetU32 0x0201134C thumb
  *   d_021FDD00 0x021FDD00 data ov132 a4
- *   func_021F96D0 0x021F96D0 thumb ov132
- *   func_021F9E00 0x021F9E00 thumb ov132
- *   func_021F9E08 0x021F9E08 thumb ov132
- *   func_021F9D80  0x021F9D80  thumb
- *   func_021F9AD8  0x021F9AD8  thumb
- *   func_021F9D90  0x021F9D90  thumb
+ *   STA_ACTING_PlayRankSe 0x021F96D0 thumb ov132
+ *   STA_ACTING_SetCameraPos 0x021F9E00 thumb ov132
+ *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
+ *   STA_ACTING_ShowAnim  0x021F9D80  thumb
+ *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
+ *   STA_ACTING_HideAnim  0x021F9D90  thumb
  *   func_021F80D4 0x021F80D4 thumb ov112
  *   func_021F812C 0x021F812C thumb ov112
  *   func_021F8054 0x021F8054 thumb ov112
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   func_021F80B0 0x021F80B0 thumb ov112
  *   func_021F80A0 0x021F80A0 thumb ov112
  *   func_021F80C8 0x021F80C8 thumb ov112
  *   func_021F8140 0x021F8140 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
- *   func_021F9D18 0x021F9D18 thumb ov132
- *   func_021F95CC 0x021F95CC thumb ov132
- *   func_021F9140 0x021F9140 thumb ov132
- *   func_021F91A8 0x021F91A8 thumb ov132
+ *   STA_ACTING_PositionAnim 0x021F9D18 thumb ov132
+ *   STA_ACTING_SetSelection 0x021F95CC thumb ov132
+ *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
+ *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
  *   func_021F8084 0x021F8084 thumb ov112
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_021F9E20 0x021F9E20 thumb ov132
- *   func_021F9E34 0x021F9E34 thumb ov132
- *   func_021F9E3C 0x021F9E3C thumb ov132
+ *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
+ *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
+ *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
  *   func_0209BDBC 0x0209BDBC arm
  *   func_0209C494 0x0209C494 arm
  *   func_0209CB8C 0x0209CB8C arm
  *   func_0209CE10 0x0209CE10 arm
- *   func_021F9DAC 0x021F9DAC thumb ov132
+ *   STA_ACTING_GetActObj 0x021F9DAC thumb ov132
  *   STA_ACT_OBJ_AddEntry 0x021F6B18 thumb ov112
- *   func_021F9DB8 0x021F9DB8 thumb ov132
- *   func_021F9DB0 0x021F9DB0 thumb ov132
+ *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
+ *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
  *   STA_ACT_OBJ_FreeEntry 0x021F6B80 thumb ov112
  *   func_021F6BC0 0x021F6BC0 thumb ov112
  *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
  *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
- *   func_021F9DC0 0x021F9DC0 thumb ov132
- *   func_021F9DCC 0x021F9DCC thumb ov132
- *   func_021F9DC4 0x021F9DC4 thumb ov132
+ *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
+ *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   func_021F6E78 0x021F6E78 thumb ov112
  *   func_021F6F14 0x021F6F14 thumb ov112
  *   func_021F6F1C 0x021F6F1C thumb ov112
- *   func_021F9DE8 0x021F9DE8 thumb ov132
- *   func_021F95E8 0x021F95E8 thumb ov132
+ *   STA_ACTING_SetCharSlot 0x021F9DE8 thumb ov132
+ *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
  *   func_021F6EE4 0x021F6EE4 thumb ov112
  *   func_021F6EF4 0x021F6EF4 thumb ov112
- *   func_021F9DF4 0x021F9DF4 thumb ov132
- *   func_021F93D8 0x021F93D8 thumb ov132
- *   func_021F94B0  0x021F94B0  thumb
+ *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
+ *   STA_ACTING_PrintText 0x021F93D8 thumb ov132
+ *   STA_ACTING_ClearText  0x021F94B0  thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_021F9664  0x021F9664  thumb
- *   func_021F9680  0x021F9680  thumb
- *   func_021F9690  0x021F9690  thumb
- *   func_021F969C 0x021F969C thumb ov132
- *   func_021F96B0  0x021F96B0  thumb
- *   func_021F96C4  0x021F96C4  thumb
+ *   STA_ACTING_InstallBgm  0x021F9664  thumb
+ *   STA_ACTING_StartSeq  0x021F9680  thumb
+ *   STA_ACTING_StopSeq  0x021F9690  thumb
+ *   STA_ACTING_ReplaceWaveData 0x021F969C thumb ov132
+ *   STA_ACTING_PlayBgm  0x021F96B0  thumb
+ *   STA_ACTING_StopBgm  0x021F96C4  thumb
  *   d_021FDE5C 0x021FDE5C data a4
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
@@ -181,7 +181,7 @@
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_02012124 0x02012124 thumb
+ *   ICA_ANIME_SetField30 0x02012124 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
@@ -190,18 +190,18 @@
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0200A81C 0x0200A81C thumb
+ *   MUSICAL_SAVE_GetFanPoints 0x0200A81C thumb
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
- *   func_021FD84C 0x021FD84C thumb ov132
- *   func_021FD6C8 0x021FD6C8 thumb ov132
- *   func_021FD704 0x021FD704 thumb ov132
- *   func_021FD6DC 0x021FD6DC thumb ov132
- *   func_021FD6F0 0x021FD6F0 thumb ov132
- *   func_021FD76C 0x021FD76C thumb ov132
- *   func_021FD7D4 0x021FD7D4 thumb ov132
- *   func_021FD6A4 0x021FD6A4 thumb ov132
- *   func_021FD550 0x021FD550 thumb ov132
+ *   STA_NET_SendRandomOrder 0x021FD84C thumb ov132
+ *   STA_NET_NotifyHostKind4 0x021FD6C8 thumb ov132
+ *   STA_NET_SendSlot1Command 0x021FD704 thumb ov132
+ *   STA_NET_NotifyHostKind5 0x021FD6DC thumb ov132
+ *   STA_NET_NotifyHostKind6 0x021FD6F0 thumb ov132
+ *   STA_NET_SendSlot2Command 0x021FD76C thumb ov132
+ *   STA_NET_SendSlot3Command 0x021FD7D4 thumb ov132
+ *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
+ *   STA_NET_UpdateTransferState 0x021FD550 thumb ov132
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SendData 0x0203D3F8 arm
@@ -216,6 +216,7 @@
  *   func_021FB8CC  0x021FB8CC  thumb  ov132
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  */
 
 #include "../../game/ov132/ov132_types.h"
@@ -349,14 +350,14 @@ extern void PARTICLE_DeleteSystem(u8 *p);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillEffect(void **p, void *q);
 extern void BUTTON_MAN_SetEmitterPos(void *, int);
-extern u16 func_021F9DFC(void *p);
+extern u16 STA_ACTING_GetCameraPos(void *p);
 extern unsigned func_02005728(unsigned);
 extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
-extern u16 func_021F9E04(u8 *p);
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
-extern void *func_021F9DD4(void *);
-extern void *func_021F9DDC(void *,u8);
+extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
+extern void *STA_ACTING_GetCharSystem(void *);
+extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_021F6F04(void *,char *,Vec *);
 extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
@@ -369,15 +370,15 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_0207D658(unsigned long,int,int);
-extern void func_021F9730(char *p, int value);
+extern void STA_ACTING_RequestAction(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
 extern void func_020355D8(u8);
-extern int func_021F9768(char *p);
+extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern u32 func_021F9E0C(u8 *p);
+extern u32 STA_ACTING_GetActorCount(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -409,67 +410,67 @@ extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void NNS_FndAppendListObject(void *, void *);
 extern void func_02030EAC(struct Node *n);
 extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
-extern void func_0207CEE4(int, void *, void *, void *);
-extern void func_0207C9D0(const Vec *, const Vec *, Vec *);
+extern void VEC_MultAdd(int, void *, void *, void *);
+extern void VEC_Add(const Vec *, const Vec *, Vec *);
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021F96D0(char *p);
-extern void func_021F9E00(void *, u16);
-extern void func_021F9E08(u8 *p, u16 v);
-extern void func_021F9D80(char *p);
-extern void func_021F9AD8(char *p, int mode, u8 slot);
-extern void func_021F9D90(char *p);
+extern void STA_ACTING_PlayRankSe(char *p);
+extern void STA_ACTING_SetCameraPos(void *, u16);
+extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
+extern void STA_ACTING_ShowAnim(char *p);
+extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
+extern void STA_ACTING_HideAnim(char *p);
 extern void func_021F80D4(char *, char *, int);
 extern int func_021F812C(int unused, int *p, int flag);
 extern void func_021F8054(void *unused, u32 *p, const u32 *q);
-extern void func_0207CA00(void *,void *,void *);
+extern void VEC_Subtract(void *,void *,void *);
 extern void func_021F80B0(char *, char *);
 extern void func_021F80A0(int a, u8 *p);
 extern void func_021F80C8(int, void *, u8);
 extern void func_021F8140(int a, u8 *p, int b);
 extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
-extern void func_021F9D18(char *p, unsigned i);
-extern void func_021F95CC(char *,unsigned char,int);
-extern void func_021F9140(unsigned char *,unsigned char,unsigned char);
-extern void func_021F91A8(char *p, u8 n, u8 mask);
+extern void STA_ACTING_PositionAnim(char *p, unsigned i);
+extern void STA_ACTING_SetSelection(char *,unsigned char,int);
+extern void STA_ACTING_LoadRankAnim(unsigned char *,unsigned char,unsigned char);
+extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
 extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern int func_0209C0A4();
 extern void func_021F8068(int self, char *p, u16 v);
-extern u16 func_021F9E20(char *p, u32 i);
-extern u16 func_021F9E34(char *p, u32 i);
-extern void func_021F9E3C(char *p, u32 v);
+extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
+extern u16 STA_ACTING_GetBonus(char *p, u32 i);
+extern void STA_ACTING_SetField10(char *p, u32 v);
 extern int func_0209BDBC(int a);
 extern u32 func_0209C494(u32 a);
 extern u32 func_0209CB8C(u32 a, u32 b);
 extern u32 func_0209CE10(u32 a, u32 b);
-extern void *func_021F9DAC(void *p);
+extern void *STA_ACTING_GetActObj(void *p);
 extern struct Entry *STA_ACT_OBJ_AddEntry(struct Object *,unsigned short);
-extern void func_021F9DB8(void *p, void *v, u32 i);
-extern unsigned int *func_021F9DB0(void *,unsigned char);
+extern void STA_ACTING_SetSlot(void *p, void *v, u32 i);
+extern unsigned int *STA_ACTING_GetSlot(void *,unsigned char);
 extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
 extern void func_021F6BC0(char *,unsigned int *,unsigned int);
 extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
 extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
-extern void *func_021F9DC0(void *p);
-extern void func_021F9DCC(void *p, void *v, u32 i);
-extern void *func_021F9DC4(void *,u8);
+extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void STA_ACTING_SetAnimSlot(void *p, void *v, u32 i);
+extern void *STA_ACTING_GetAnimSlot(void *,u8);
 extern u8 *func_021F6E78(u8 *p, int v);
 extern void func_021F6F14(void *a, char *p, u16 b, u8 c);
 extern void func_021F6F1C(void *a, char *p, u32 b, u32 c);
-extern void func_021F9DE8(void *,void *,u8);
-extern void func_021F95E8(char *p);
+extern void STA_ACTING_SetCharSlot(void *,void *,u8);
+extern void STA_ACTING_MarkDirty(char *p);
 extern void func_021F6EE4(void *,u8 *);
 extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
-extern void *func_021F9DF4(void *p);
-extern void func_021F93D8(u8 *,u16,u32);
-extern void func_021F94B0(u8 *p);
+extern void *STA_ACTING_GetBoard(void *p);
+extern void STA_ACTING_PrintText(u8 *,u16,u32);
+extern void STA_ACTING_ClearText(u8 *p);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern void func_021F9664(char *p, int a);
-extern void func_021F9680(char *p, int a);
-extern void func_021F9690(char *p);
-extern int func_021F969C(char *p, u32 a, u32 b, u32 d);
-extern void func_021F96B0(char *p, int a);
-extern void func_021F96C4(char *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void STA_ACTING_InstallBgm(char *p, int a);
+extern void STA_ACTING_StartSeq(char *p, int a);
+extern void STA_ACTING_StopSeq(char *p);
+extern int STA_ACTING_ReplaceWaveData(char *p, u32 a, u32 b, u32 d);
+extern void STA_ACTING_PlayBgm(char *p, int a);
+extern void STA_ACTING_StopBgm(char *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
 extern u8 *func_02012944(void *p);
@@ -484,7 +485,7 @@ extern u32 func_0200FB24(void);
 extern u32 GFL_NET_IsParentAid(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_02012124(struct Ctx *p, u32 v);
+extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void *GAME_DATA_GetSaveBlock2A(void *);
@@ -492,17 +493,17 @@ extern u32 func_020173EC(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 extern void MI_CpuFill8(void *,u8,u32);
-extern u16 func_0200A81C(struct Big *p);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern u32 func_0203F0A8(void);
-extern int func_021FD84C(u8 *p);
-extern int func_021FD6C8(u8 *p);
-extern int func_021FD704(u8 *p);
-extern int func_021FD6DC(char *);
-extern int func_021FD6F0(char *);
-extern int func_021FD76C(u8 *p);
-extern int func_021FD7D4(u8 *p);
-extern int func_021FD6A4(char *);
-extern void func_021FD550(char *);
+extern int STA_NET_SendRandomOrder(u8 *p);
+extern int STA_NET_NotifyHostKind4(u8 *p);
+extern int STA_NET_SendSlot1Command(u8 *p);
+extern int STA_NET_NotifyHostKind5(char *);
+extern int STA_NET_NotifyHostKind6(char *);
+extern int STA_NET_SendSlot2Command(u8 *p);
+extern int STA_NET_SendSlot3Command(u8 *p);
+extern int STA_NET_IsTransferDone(char *);
+extern void STA_NET_UpdateTransferState(char *);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
@@ -675,7 +676,7 @@ int func_021FBA6C(int unused, Msg *m)
     Tag tag;
     u32 x = VM_GetU32(m->f4);
     u32 y = VM_GetU32(m->f4);
-    void *h = func_021F9DA0(o->f34);
+    void *h = STA_ACTING_GetActorSystem(o->f34);
     u32 idx;
     u32 total;
     u32 base;
@@ -685,17 +686,17 @@ int func_021FBA6C(int unused, Msg *m)
     u8 i, j, k;
 
     for (i = 0; i < 4; i++) {
-        u16 v = func_021F9E34(o->f34, i) + func_021F9E20(o->f34, i);
+        u16 v = STA_ACTING_GetBonus(o->f34, i) + STA_ACTING_GetRecordScore(o->f34, i);
         if (max < v)
             max = v;
     }
     for (i = 0; i < 4; i++) {
-        u16 v = func_021F9E34(o->f34, i) + func_021F9E20(o->f34, i);
+        u16 v = STA_ACTING_GetBonus(o->f34, i) + STA_ACTING_GetRecordScore(o->f34, i);
         if (max == v)
             idx = i;
     }
     for (i = 0; i < 4; i++) {
-        func_021F8044(h, func_021F9DA4(o->f34, i), &v.x);
+        func_021F8044(h, STA_ACTING_GetActor(o->f34, i), &v.x);
         vec[i] = v.x;
         if (i == idx)
             base = v.x;
@@ -723,7 +724,7 @@ int func_021FBA6C(int unused, Msg *m)
         tag.v -= 0x1B;
         a = func_02030734(o->f0, 0x38, 0, d_021FDD00, tag.v);
         a->f30 = o;
-        a->f00 = (u32)func_021F9DA4(o->f34, k);
+        a->f00 = (u32)STA_ACTING_GetActor(o->f34, k);
         a->f04 = o->f34;
         a->f2E = 0;
         func_021F8044(h, (void *)a->f00, (u32 *)&a->f08);
@@ -740,7 +741,7 @@ int func_021FBA6C(int unused, Msg *m)
             u16 t = a->f2C;
             int rem = (u8)(t % 15) ? 1 : 0;
             b->f18 = o;
-            b->f10 = func_021F9DA4(o->f34, k);
+            b->f10 = STA_ACTING_GetActor(o->f34, k);
             b->f14 = 0x8000;
             b->f00 = o->f34;
             b->f04 = 0;
@@ -756,7 +757,7 @@ int func_021FBA6C(int unused, Msg *m)
         c->f10 = o;
         c->f00 = o->f34;
         c->f0E = 0;
-        c->f04 = func_021F9E04((u8 *)o->f34);
+        c->f04 = STA_ACTING_GetCameraTarget((u8 *)o->f34);
         f = func_0209BDBC((int)total / 4);
         f = func_0209CE10(f, 0x45800000);
         f = func_0209CB8C(f, 0x43000000);
@@ -764,7 +765,7 @@ int func_021FBA6C(int unused, Msg *m)
         c->f0C = x;
         c->f14 = func_021FADA0((char *)o, (u32)func_021FB190, (u32)c, 10);
         func_021F9E40((u8 *)o->f34, 1);
-        func_021F9E3C(o->f34, 1);
+        STA_ACTING_SetField10(o->f34, 1);
         if (y == 1) {
             m->f14 = x;
             return 1;

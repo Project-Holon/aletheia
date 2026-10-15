@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021F9DB0
+ * function: STA_ACTING_GetSlot
  * address: 0x021F9DB0
  * packet: pkt_ov132_021F9DB0
  * region: ov132
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 *func_021F9DB0(void *p,u8 i){return *(u32 **)((u8 *)p+(u32)i*4+0x58);}
+u32 *STA_ACTING_GetSlot(void *p,u8 i){return *(u32 **)((u8 *)p+(u32)i*4+0x58);}

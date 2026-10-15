@@ -14,8 +14,8 @@
  *
  * symbols:
  *   FieldLinkEventTable     0x02171504  data
- *   func_02012AC8  0x02012AC8  thumb
- *   func_02012B28  0x02012B28  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
@@ -25,8 +25,8 @@
  *   ZONEDATA_IsWeatherEnabled 0x02013C50 thumb
  *   FISHING_CheckFacingWater  0x021C5C64  thumb  ov021
  *   ZONEDATA_IsZone34   0x02013D20  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   INTRUDE_COMM_IsSessionEndPending  0x0215870C  thumb ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb ov021
  *   FIELDMAP_CheckPlayerRequest  0x02188BF8  thumb ov021
@@ -69,7 +69,7 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FLD_FACEUP_StartClose  0x021F5550  thumb  ov082
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_SOUND_SYSTEM_StartPushAndChangeTask  0x020297AC  thumb
@@ -183,8 +183,8 @@ typedef struct BeaconSearchEventWork {
     u8 mode;
 } BeaconSearchEventWork;
 
-extern unsigned short func_02012AC8(const struct PlayerWork *player);
-extern u32 func_02012B28(const struct PlayerWork *player);
+extern unsigned short GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern void *FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *fieldPlayer);
 extern void *MAP_ATTR_GetTerrainId(void *encountState);
@@ -194,8 +194,8 @@ extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
 extern u32 ZONEDATA_IsWeatherEnabled(u32 zoneId);
 extern int FISHING_CheckFacingWater(struct GameData *gameData, struct FieldMap *fieldMap, u32 *out);
 extern u32 ZONEDATA_IsZone34(u32 zoneId);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern void *func_02012138(const struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern int INTRUDE_COMM_IsSessionEndPending(void *gameComm, int frames);
 extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern u32 FIELDMAP_CheckPlayerRequest(struct FieldMap *fieldMap);
@@ -233,7 +233,7 @@ extern void SCRIPT_WORK_ResetCheckFlag(int waitState);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *gameSystem, u32 soundId, u32 mode, u32 flag);
@@ -309,8 +309,8 @@ int EVENTDATA_SYSTEM_CheckBicycleUsable(struct GameData *gameData, struct FieldM
     u8 objectCode;
     int encountEffect;
 
-    zoneId = func_02012AC8(player);
-    objectCode = func_02012B28(player);
+    zoneId = GAME_DATA_GetPlayerZoneId(player);
+    objectCode = GAME_DATA_GetPlayerObjectCode(player);
     encountEffect = MAP_ATTR_IsRoughGround(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(FIELDMAP_GetFieldPlayer(fieldMap))));
     if (objectCode == 1) {
         if (encountEffect == 0) {
@@ -333,7 +333,7 @@ int EVENTDATA_SYSTEM_CheckBicycleUsable(struct GameData *gameData, struct FieldM
 /* Field skill check: normal field zone that has weather. */
 int EVENTDATA_SYSTEM_CheckWeatherZone(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    u16 zoneId = func_02012AC8(player);
+    u16 zoneId = GAME_DATA_GetPlayerZoneId(player);
 
     if (!ZONEDATA_IsNormalFieldZone(zoneId)) {
         return 0;
@@ -347,7 +347,7 @@ int EVENTDATA_SYSTEM_CheckWeatherZone(struct GameData *gameData, struct FieldMap
 /* Field skill check: normal field zone (2-byte zero padding follows at 0x0216459A). */
 int EVENTDATA_SYSTEM_CheckNormalFieldZone(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    return ZONEDATA_IsNormalFieldZone(func_02012AC8(player));
+    return ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(player));
 }
 
 /*
@@ -356,7 +356,7 @@ int EVENTDATA_SYSTEM_CheckNormalFieldZone(struct GameData *gameData, struct Fiel
  */
 int EVENTDATA_SYSTEM_CheckFrontTileUsable(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    if (ZONEDATA_IsNormalFieldZone(func_02012AC8(player)) == 0) {
+    if (ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(player)) == 0) {
         return 0;
     }
     return FISHING_CheckFacingWater(gameData, fieldMap, 0);
@@ -365,7 +365,7 @@ int EVENTDATA_SYSTEM_CheckFrontTileUsable(struct GameData *gameData, struct Fiel
 /* Field skill check: normal field zone, except the zone of ZONEDATA_IsZone34. */
 int EVENTDATA_SYSTEM_CheckNormalFieldZoneNotZone34(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    int zoneId = func_02012AC8(player);
+    int zoneId = GAME_DATA_GetPlayerZoneId(player);
 
     if (ZONEDATA_IsZone34(zoneId) != 0) {
         return 0;
@@ -382,11 +382,11 @@ int EVENTDATA_SYSTEM_FieldLinkEnterEvent(struct GameEvent *event, int *seq, Link
     void *gameComm;
     struct FieldMap *fieldMap;
 
-    fieldMap = func_0201210C(work->gameSystem);
+    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
     FIELDMAP_GetMmdlSys(fieldMap);
     switch (*seq) {
     case 0:
-        gameComm = func_02012138(work->gameSystem);
+        gameComm = ICA_ANIME_GetField24(work->gameSystem);
         work->frameCount++;
         if (INTRUDE_COMM_IsSessionEndPending(gameComm, work->frameCount) == 1 && work->frameCount < 30) {
             break;
@@ -677,7 +677,7 @@ int FLD_FACEUP_ScrCmdPrepareField(struct ScriptVm *vm, struct ScrCmdWork *work)
 
     SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    FLD_FACEUP_ResumeLipSync(func_0201210C(gameSystem));
+    FLD_FACEUP_ResumeLipSync(ICA_ANIME_GetField20(gameSystem));
     return 0;
 }
 
@@ -697,7 +697,7 @@ int FLD_FACEUP_ScrCmdWaitEnd(struct ScriptVm *vm, struct ScrCmdWork *work)
 /* Ends the face-up scene: releases the field map part, the script state and overlay 82. */
 int FLD_FACEUP_Finish(FaceUpEndWork *work)
 {
-    FLD_FACEUP_Delete(func_0201210C(work->gameSystem));
+    FLD_FACEUP_Delete(ICA_ANIME_GetField20(work->gameSystem));
     SCRIPT_WORK_ResetCheckFlag(7);
     func_02034A5C(OVERLAY_ID_52);
     return 1;
@@ -733,8 +733,8 @@ int CALENDER_OverlaySequenceEvent(struct GameEvent *event, u32 *seq, BeaconSearc
     struct FieldMap *fieldMap;
 
     gameSystem = work->gameSystem;
-    func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
+    ICA_ANIME_GetField1C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     switch (*seq) {
     case 0:
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0));

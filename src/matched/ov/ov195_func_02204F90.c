@@ -1,5 +1,5 @@
 /*
- * function: func_02204F90
+ * function: SHINKA_DEMO_IsBgmState6
  * address:  0x02204F90
  * packet:   pkt_02204F90
  * region:   ov195
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj24949.h"
 
-int func_02204F90(int a, char *b)
+int SHINKA_DEMO_IsBgmState6(int a, char *b)
 {
     if (((struct Obj24949 *)b)->f30 == 6)
         return 1;

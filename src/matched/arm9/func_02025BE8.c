@@ -1,5 +1,5 @@
 /*
- * function: func_02025BE8
+ * function: BMP_OAM_Update5BE8
  * address:  0x02025BE8
  * packet:   pkt_02025BE8
  * region:   arm9
@@ -13,7 +13,7 @@
  * that ov219 func_02183D14 calls.
  */
 
-int func_02025BE8(void)
+int BMP_OAM_Update5BE8(void)
 {
     return 0x69;
 }

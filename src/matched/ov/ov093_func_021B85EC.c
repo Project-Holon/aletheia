@@ -13,7 +13,7 @@
  *   ov231_id       0x000000E7  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_021809D8  0x021809D8  thumb  ov231
+ *   CARD_SPI_CheckCardId  0x021809D8  thumb  ov231
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  */
 
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern u8 ov231_id[];
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
-extern int func_021809D8(void);
+extern int CARD_SPI_CheckCardId(void);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 
 int BTL_MAIN_CheckEventOverlayAllowed(u32 **p)
@@ -32,7 +32,7 @@ int BTL_MAIN_CheckEventOverlayAllowed(u32 **p)
     int r;
     if (**p <= 1) {
         func_02034AC4((int)ov231_id);
-        r = func_021809D8();
+        r = CARD_SPI_CheckCardId();
         func_02034A5C((int)ov231_id);
         if (r == 0) {
             return 0;

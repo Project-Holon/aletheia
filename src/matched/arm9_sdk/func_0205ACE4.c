@@ -1,5 +1,5 @@
 /*
- * function: func_0205ACE4
+ * function: AddList
  * address:  0x0205ACE4
  * packet:   pkt_0205ACE4
  * region:   arm9
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   strncmp 0x020949F4 arm
- *   func_0205AE6C 0x0205AE6C arm
- *   func_0205AED4 0x0205AED4 arm
+ *   SetDataListTail 0x0205AE6C arm
+ *   UpDateList 0x0205AED4 arm
  *
  * strncmp is declared pure: the object keeps bssid[0] and findListNum live
  * across the call. The BSSID compare is an inline over const void pointers.
@@ -134,15 +134,15 @@ typedef struct {
 } ACWORK;
 
 extern int strncmp(const char *s1, const char *s2, unsigned long n) __attribute__((pure));
-extern void func_0205AE6C(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
-extern void func_0205AED4(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
+extern void SetDataListTail(unsigned char type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
+extern void UpDateList(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
 
 static inline int IsBssidEqual(const void *a, const void *b)
 {
     return ((const unsigned char *)a)[0] == ((const unsigned char *)b)[0] && ((const unsigned char *)a)[1] == ((const unsigned char *)b)[1] && ((const unsigned char *)a)[2] == ((const unsigned char *)b)[2] && ((const unsigned char *)a)[3] == ((const unsigned char *)b)[3] && ((const unsigned char *)a)[4] == ((const unsigned char *)b)[4] && ((const unsigned char *)a)[5] == ((const unsigned char *)b)[5];
 }
 
-int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
+int AddList(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
 {
     int i;
     int find = -1;
@@ -155,13 +155,13 @@ int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *w
         }
     }
     if (find == -1) {
-        func_0205AE6C(type, bssdesc, channel, wk);
+        SetDataListTail(type, bssdesc, channel, wk);
         if (wk->findListNum < 10) {
             wk->findListNum++;
         }
         find = 10;
     } else {
-        func_0205AED4(find, bssdesc, channel, wk);
+        UpDateList(find, bssdesc, channel, wk);
     }
     return find;
 }

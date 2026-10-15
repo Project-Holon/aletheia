@@ -16,7 +16,7 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -41,7 +41,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0207D518(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
@@ -69,7 +69,7 @@ void func_021BAD14(void **a,char *p)
     for (i=0;i<1U;i++) {
         row=d_021BB498[i];
         layer=row[0];
-        func_0203FCA0((u8)layer,(const struct BgTemplate *)(row+1),(u8)row[9]);
+        BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate *)(row+1),(u8)row[9]);
         func_020414AC(layer);
         func_02040588(layer,row[10]);
     }

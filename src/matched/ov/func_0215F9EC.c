@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C3B8  0x0200C3B8  thumb
+ *   BEACON_SetGatePoints  0x0200C3B8  thumb
  */
 #include "../include/Obj17707.h"
 
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern int func_0200C3B8();
+extern int BEACON_SetGatePoints();
 
 int SCRCMD_NETWORK_SetupMiscSave(int a0)
 {
@@ -32,6 +32,6 @@ a0 = ((struct Obj17707 *)a0)->f4;
 loc_0215F9F4:
 a1 = 0x5a;
 a1 = a1 << 4;
-    a0 = func_0200C3B8(p, a1);
+    a0 = BEACON_SetGatePoints(p, a1);
 loc_0215F9FC:
     return a0;}

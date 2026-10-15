@@ -1,5 +1,5 @@
 /*
- * function: func_021F9690
+ * function: STA_ACTING_StopSeq
  * address: 0x021F9690
  * packet: pkt_ov132_021F9690
  * region: ov132
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj23186.h"
 extern void GFL_USE_StopSeqAndUnload(void);
-void func_021F9690(char *p){((struct Obj23186 *)p)->f28=0;GFL_USE_StopSeqAndUnload();}
+void STA_ACTING_StopSeq(char *p){((struct Obj23186 *)p)->f28=0;GFL_USE_StopSeqAndUnload();}

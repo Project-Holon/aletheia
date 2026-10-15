@@ -21,9 +21,9 @@
  *   func_021DC8B4 0x021DC8B4 thumb ov175
  *   func_021DC908 0x021DC908 thumb ov175
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200BBD8 0x0200BBD8 thumb
- *   func_0200B110 0x0200B110 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -46,13 +46,13 @@ extern int func_021D9A08(char *);
 extern u32 func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
 extern int func_021DC908(char *);
-extern void *GAME_DATA_GetSaveControl(struct Big *),*func_0200BAC8(void *);
+extern void *GAME_DATA_GetSaveControl(struct Big *),*BATTLE_BOX_GetFromSave(void *);
 typedef signed int     s32;
 typedef unsigned short u16;
 struct Obj;
 struct Reg2;
-extern void func_0200BBD8(struct Obj *p, int v);
-extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
+extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
+extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void MI_CpuFill8(void *,int,u32);
 void func_021D9344(u32 sys,int *state,char *p) {
@@ -88,8 +88,8 @@ void func_021D9344(u32 sys,int *state,char *p) {
         func_021E8738(*(int * *)&((struct Obj00781 *)p)->f2C,((struct Obj00781 *)p)->f14,40,2);
         *state=16; func_021E8AB4(sys,9); break;
     case 9:
-        func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl(**(struct Big ** *)&((struct Obj08278 *)ctx)->f8)),1);
-        func_0200B110((struct Reg2 *)(((struct Obj00781 *)p)->f108),10,4);
+        BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(struct Big ** *)&((struct Obj08278 *)ctx)->f8)),1);
+        REGULATION_Card_SetValue((struct Reg2 *)(((struct Obj00781 *)p)->f108),10,4);
         GAME_DATA_SaveStart(**(int * *)&((struct Obj08278 *)ctx)->f8); *state=10; break;
     case 10:
         r=GAME_DATA_SaveMain(**(u8 ** *)&((struct Obj08278 *)ctx)->f8);

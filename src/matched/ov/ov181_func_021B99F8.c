@@ -1,5 +1,5 @@
 /*
- * function: func_021B99F8
+ * function: STAFF_ROLL_LoadGraphics
  * address:  0x021B99F8
  * packet:   pkt_021B99F8
  * region:   ov181
@@ -29,7 +29,7 @@ extern void ARC_TOOL_DeleteHandle(u8 *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040EBC(u32 a0, u32 a1);
 
-void func_021B99F8(void)
+void STAFF_ROLL_LoadGraphics(void)
 {
     u8 *p = func_020490F4(0x1a, 0x808e);
     func_02049658(p, 0, 3, 0, 0, 1, 0x8e);

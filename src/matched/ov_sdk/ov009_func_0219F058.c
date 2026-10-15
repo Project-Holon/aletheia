@@ -1,5 +1,5 @@
 /*
- * function: func_0219F058
+ * function: ServerBrowserGetServer
  * address:  0x0219F058
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int SBServerListNth(int *p);
 
-void func_0219F058(char *p)
+void ServerBrowserGetServer(char *p)
 {
     SBServerListNth((int *)(p + 0x60));
 }

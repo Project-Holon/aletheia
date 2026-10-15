@@ -1,5 +1,5 @@
 /*
- * function: sub_020965B4
+ * function: MSL_C_LIB_ShouldRoundUp
  * address:  0x020965B4
  * packet:   pkt_020965B4
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-int sub_020965B4(u8 *p, int i)
+int MSL_C_LIB_ShouldRoundUp(u8 *p, int i)
 {
     u8 *q = p + 5 + i;
 

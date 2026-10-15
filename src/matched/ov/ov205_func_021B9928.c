@@ -13,7 +13,7 @@
  *   func_0201F7A8 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020403F4 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -31,7 +31,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_0201F7A8(void *,unsigned);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void func_020403F4(unsigned);
 typedef unsigned int   u32;
@@ -45,7 +45,7 @@ void func_021B9928(char *p)
     func_0201F7A8(((struct Obj03359 *)p)->f1C,0);
     BMP_WIN_Delete(((struct Obj03359 *)p)->f1C);
     STRBUF_Delete(((struct Obj03359 *)p)->fC);
-    func_0201ED04(((struct Obj03359 *)p)->f18);
+    WORDSET_DeleteStrbufED04(((struct Obj03359 *)p)->f18);
     MSGDATA_Delete(((struct Obj03359 *)p)->f14);
     func_020403F4(0);
     GF_FONT_Delete(((struct Obj03359 *)p)->f10);

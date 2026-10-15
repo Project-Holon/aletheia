@@ -44,7 +44,7 @@
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   G3D_UTIL_Delete  0x02047E54  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   func_02048AD0  0x02048AD0  arm
  *   func_02047828  0x02047828  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
@@ -98,8 +98,8 @@
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C234  0x0200C234  thumb
- *   func_0203F49C  0x0203F49C  arm
+ *   BEACON_GetFlag  0x0200C234  thumb
+ *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
  *   sub_02008A34  0x02008A34  thumb
  *   sub_02008ADC  0x02008ADC  thumb
  *   sub_02008A44  0x02008A44  thumb
@@ -1509,7 +1509,7 @@ extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
-extern void func_0207ADC4(MtxFx33 *m);
+extern void MTX_Identity33_(MtxFx33 *m);
 extern void func_02048AD0(struct Light *l);
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
@@ -1557,8 +1557,8 @@ extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 func_0200C234(struct Blk34 *p, u32 bit);
-extern void func_0203F49C(struct RtcDate *date, struct RtcTime *time);
+extern u32 BEACON_GetFlag(struct Blk34 *p, u32 bit);
+extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 extern void sub_02008A34(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
 extern void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value);
@@ -1749,7 +1749,7 @@ void func_021C7830(Work_021C7830 *p)
     t.trans.x = 0;
     t.trans.y = 0;
     t.trans.z = 0;
-    func_0207ADC4(&t.rot);
+    MTX_Identity33_(&t.rot);
     func_02048AD0(p->f104);
     mdl = (void *)func_02048A18(p->fF8, p->fFC);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
@@ -2299,7 +2299,7 @@ void func_021C810C(Work_021C810C *p, int a, int b)
 
     obj = GAME_DATA_GetMiscSave(p->f108->f4);
     for (i = 0; i < 8; i++) {
-        if (func_0200C234(obj, i)) {
+        if (BEACON_GetFlag(obj, i)) {
             CLACT_SetActorDrawEnable(p->f5C[i], 1);
             func_021C80E8((Work_021C80E8 *)p, i, 1);
             p->f17C[i] = 1;
@@ -2344,7 +2344,7 @@ void func_021C81C0(Work_021C81C0 *p)
     s64 sec;
     int i;
 
-    func_0203F49C((struct RtcDate *)(&date), (struct RtcTime *)(&time));
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
     sub_02008A34(p->f184, (u32)sec, (u32)(sec >> 32));
     for (i = 0; i < 8; i++) {
@@ -2373,7 +2373,7 @@ void func_021C8208(Work_021C8208 *p)
 
     saved = sub_02008A44(p->f184);
     RTC_ConvertSecondToDateTime(&date2, &time2, saved);
-    func_0203F49C((struct RtcDate *)(&date), (struct RtcTime *)(&time));
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     hours = (RTC_ConvertDateTimeToSecond(&date, &time) - saved) / 3600;
     if (hours < 0) {
         hours = 0;

@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009470, sub_0200947C, sub_0200949C, sub_020094D8,
- *           sub_02009524, sub_0200952C, sub_02009584
+ * function: WIFI_HISTORY_GetBlock, WIFI_HISTORY_InitLanguageRegion, WIFI_HISTORY_GetCountryRegionState, WIFI_HISTORY_SetCountryRegionState,
+ *           WIFI_HISTORY_GetMode, WIFI_HISTORY_PromoteVisitedStates, sub_02009584
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
@@ -30,7 +30,7 @@
  * The row term is added second, `b / 4 + (a - 1) * 16`, which is the operand
  * order of the `adds`.
  *
- * sub_020094D8 clears and sets in two separate read-modify-writes with a
+ * WIFI_HISTORY_SetCountryRegionState clears and sets in two separate read-modify-writes with a
  * `ldrb` in each, because the destination is a `u8` array element rather than
  * a bitfield.  Two spellings are load bearing there.  The mask is `0xFF ^
  * (3 << sh)` and not `~(3 << sh)`: the second gives a single `mvns`, two bytes
@@ -70,7 +70,7 @@
  * these two bytes out and nothing else moves, so this is register allocation
  * of a dead temporary and not a shape the source can state.
  *
- * sub_0200952C is the same field written as a rewrite pass: for every one of
+ * WIFI_HISTORY_PromoteVisitedStates is the same field written as a rewrite pass: for every one of
  * the 0xFF0 bytes it walks the four fields and turns every 1 into a 2, keeping
  * the byte in a register across the inner loop and storing it once.  The four
  * constants it needs are hoisted out of both loops, 3 twice because one is the
@@ -98,22 +98,22 @@ struct Sub02009470Obj {
     u8 unk348[0xFF0];
 };
 
-void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
+void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
 u8   sub_02009584(const struct Sub02009470Obj *obj);
 
-struct Sub02009470Obj *sub_02009470(void *sys)
+struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys)
 {
     return SAVE_CONTROL_GetBlock(sys, 0x1D);
 }
 
-void sub_0200947C(struct Sub02009470Obj *obj, struct Sub0200852CObj *p,
+void WIFI_HISTORY_InitLanguageRegion(struct Sub02009470Obj *obj, struct Sub0200852CObj *p,
                   u8 row, u8 col)
 {
     MYSTATUS_SetLanguageAndVersion(p, row, col);
-    sub_020094D8(obj, row, col, 3);
+    WIFI_HISTORY_SetCountryRegionState(obj, row, col, 3);
 }
 
-u32 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col)
+u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col)
 {
     if (row == 0) {
         return 0;
@@ -121,7 +121,7 @@ u32 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col)
     return (obj->unk348[col / 4 + (row - 1) * 16] >> ((col % 4) * 2)) & 3;
 }
 
-void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value)
+void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value)
 {
     u8 *p;
     int sh;
@@ -135,12 +135,12 @@ void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value)
     *p |= value << sh;
 }
 
-u8 sub_02009524(const struct Sub02009470Obj *obj)
+u8 WIFI_HISTORY_GetMode(const struct Sub02009470Obj *obj)
 {
     return obj->unk344;
 }
 
-void sub_0200952C(struct Sub02009470Obj *obj)
+void WIFI_HISTORY_PromoteVisitedStates(struct Sub02009470Obj *obj)
 {
     int i;
     int j;

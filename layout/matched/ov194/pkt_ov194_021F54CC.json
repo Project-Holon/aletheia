@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F54CC",
+   "name": "PROF_WORD_CheckDigitCount",
    "address": "0x021F54CC",
    "kind": "game",
    "region": "ov194",

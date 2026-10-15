@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BAA54",
-    "func_021BAA84",
-    "func_021BAA98",
-    "func_021BAAA4",
-    "func_021BAAB0",
-    "func_021BAABC"
+    "STAFF_ROLL_CmdShowEntry",
+    "STAFF_ROLL_CmdSetEntryMode",
+    "STAFF_ROLL_CmdStartScroll",
+    "STAFF_ROLL_CmdStopScroll",
+    "STAFF_ROLL_CmdEnd",
+    "STAFF_ROLL_CmdNop"
+   ],
+   "addresses": [
+    "0x021BAA54",
+    "0x021BAA84",
+    "0x021BAA98",
+    "0x021BAAA4",
+    "0x021BAAB0",
+    "0x021BAABC"
    ]
   }
  ]

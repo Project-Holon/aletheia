@@ -10,7 +10,7 @@
  * status:   EXACT
  * closed 2026-10-05 (recoup integrator): func_021B652C and MONOLITH_TOOL_InitPalAnm return int (their matched definitions); with void declarations the 0x30 constant was copied from r4; with the real return type the
  *   bytes are EXACT in c99 and c.
- * checks:   1 every callee's arity from its own ov071 file or a matched caller (PROCSYS_AllocProcWork/MI_CpuFill8 from ov071_021B730C, func_020056A0 from ov071_021B8EE8, func_0207D63C from ov091_021B6F28, func_0207D534/02043534/020435F4 from ov088_021B98BC); 2 no twin with the 0xF1 byte store or the 0xF8/0xFC/0x100 self-links; ov088_021B98BC gives the register block; 3 o as int, as a Wk struct, 0x30 as an int local, the byte store through s8, 0x12Cu, the 0x12C/0x130 pair as an array: no change; 4 inline setter for the byte (u8 and int parameter) no change; permuter 300 --types found nothing below 2 B; 5 ls docs/idioms re-read, none fits
+ * checks:   1 every callee's arity from its own ov071 file or a matched caller (PROCSYS_AllocProcWork/MI_CpuFill8 from ov071_021B730C, func_020056A0 from ov071_021B8EE8, func_0207D63C from ov091_021B6F28, GXx_SetMasterBrightness_/02043534/020435F4 from ov088_021B98BC); 2 no twin with the 0xF1 byte store or the 0xF8/0xFC/0x100 self-links; ov088_021B98BC gives the register block; 3 o as int, as a Wk struct, 0x30 as an int local, the byte store through s8, 0x12Cu, the 0x12C/0x130 pair as an array: no change; 4 inline setter for the byte (u8 and int parameter) no change; permuter 300 --types found nothing below 2 B; 5 ls docs/idioms re-read, none fits
  * blocker:  ARM9 func_0204363C remains unresolved at THM_CALL +0x74;
  *   no current matched ARM9 source/unit shard witness. the integrator owns this leaf.
  *   Previous 02010F7C blocker is now resolved by src/matched/arm9/GPOWER_LoadPowerTable.c
@@ -61,7 +61,7 @@
  * volatile: 0x021B612E/0x021B6142 (DISPCNT) and 0x021B613C/0x021B614A (DB_DISPCNT) re-read the register after each store
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -93,7 +93,7 @@ typedef unsigned int u32;
 
 struct S02021D50;
 struct W6844;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
@@ -123,8 +123,8 @@ int MONOLITH_TOOL_Init(struct Obj0203159C *ctx, int unused, u8 *arg)
 {
     u8 *o;
 
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;

@@ -12,7 +12,7 @@
  * sdk:      ghiPostAddFileFromMemory (libdwcgsghttp.TWL.HYB.a ghttppost.o)
  *
  * symbols:
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_02184234  0x02184234  arm  ov009
  */
@@ -35,7 +35,7 @@ typedef struct GHIPost {
     int f14;
 } GHIPost;
 
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 extern void func_0217EAE0(void *ptr);
 extern void func_02184234(void *array, void *newElem);
 
@@ -46,9 +46,9 @@ int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int buffe
     char *reportFilenameLocal;
     char *contentTypeLocal;
 
-    nameLocal = func_0217F1E0(name);
-    reportFilenameLocal = func_0217F1E0(reportFilename);
-    contentTypeLocal = func_0217F1E0(contentType);
+    nameLocal = goastrdup(name);
+    reportFilenameLocal = goastrdup(reportFilename);
+    contentTypeLocal = goastrdup(contentType);
     if (nameLocal == 0 || reportFilenameLocal == 0 || contentTypeLocal == 0) {
         func_0217EAE0(nameLocal);
         func_0217EAE0(reportFilenameLocal);

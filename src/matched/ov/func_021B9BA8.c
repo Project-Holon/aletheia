@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C49A4  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
  *
  * True when the object 0x570 bytes in is not of class 5.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021C49A4(u8 *p, unsigned int i);
+extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 
 BOOL WIFICLUBACTOR_IsCursorFree(char *p)
 {
-    if (func_021C49A4(*(void **)((struct Obj18150 *)p)->f570, 5) == 0) {
+    if (WF2DMAP_OBJ_GetSlot(*(void **)((struct Obj18150 *)p)->f570, 5) == 0) {
         return 1;
     }
 

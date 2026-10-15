@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A80
+ * function: STAFF_ROLL_ReloadGraphics
  * address: 0x021B9A80
  * packet: pkt_ov181_021B9A80
  * region: ov181
@@ -20,7 +20,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_TOOL_DeleteHandle(unsigned char *);
 extern void func_02040EBC(u32 a0, u32 a1);
-void func_021B9A80(void *unused, int mode)
+void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
 {
     unsigned char *h;
     if (mode == 1) {

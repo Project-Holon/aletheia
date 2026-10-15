@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F49C
+ * function: GF_STANDARD_CopyCachedRtc
  * address:  0x0203F49C
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -22,8 +22,8 @@
  * ip because the copies want r0-r3.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F49C.c \
- *       --func func_0203F49C --addr 0x0203F49C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_CopyCachedRtc.c \
+ *       --func GF_STANDARD_CopyCachedRtc --addr 0x0203F49C --cc 1.1p1 --arm
  */
 
 #include "../include/G_RtcDate.h"
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern struct RtcDate g_02146A0C;
 extern struct RtcTime g_02146A1C;
 
-void func_0203F49C(struct RtcDate *date, struct RtcTime *time)
+void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time)
 {
     *date = g_02146A0C;
     *time = g_02146A1C;

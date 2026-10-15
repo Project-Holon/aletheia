@@ -12,8 +12,8 @@
  * sdk:      ErrorDisconnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
- *   func_020949F4  0x020949F4  arm
+ *   strlen  0x0209477C  arm
+ *   strncmp  0x020949F4  arm
  *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   SBServerListDisconnect  0x021A02E0  arm  ov009
  *   gSBMasterHostname  0x021A821C  data
@@ -33,19 +33,19 @@ extern char *gSBMasterHostname;
 extern void *gSBNullServer;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int strlen(const u8 *s);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void SBServerListSetLastError(int *p, int v);
 extern void SBServerListDisconnect(struct SBL *slist);
 void ErrorDisconnect(struct SBL *slist)
 {
 	int len = slist->errlen;
 	char *q;
-	if (len > 0 && len > (unsigned int)func_0209477C((const u8 *)(q = gSBMasterHostname))) {
+	if (len > 0 && len > (unsigned int)strlen((const u8 *)(q = gSBMasterHostname))) {
 		char *e = gSBMasterHostname;
 		char *s = slist->errstr;
-		if (func_020949F4((const u8 *)s, (const u8 *)e, (unsigned int)func_0209477C((const u8 *)e)) == 0) {
-			SBServerListSetLastError((int *)slist, (int)(s + (unsigned int)func_0209477C((const u8 *)q)));
+		if (strncmp((const u8 *)s, (const u8 *)e, (unsigned int)strlen((const u8 *)e)) == 0) {
+			SBServerListSetLastError((int *)slist, (int)(s + (unsigned int)strlen((const u8 *)q)));
 			slist->cb(slist, 5, gSBNullServer, slist->ud);
 		}
 	}

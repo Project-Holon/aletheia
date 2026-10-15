@@ -1,7 +1,7 @@
 /*
  * file:     mystery_data.c
  * unit:     yes
- * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, MYSTERY_DATA_GetWorkSize, MYSTERY_DATA_Init, MYSTERY_DATA_IsValidGiftType, MYSTERY_DATA_CheckCardSpace, MYSTERY_DATA_CheckCardExist, MYSTERY_DATA_CloseCardGap, MYSTERY_DATA_GetCardPtr, MYSTERY_DATA_GetCard, MYSTERY_DATA_AddCard, MYSTERY_DATA_DeleteCard, MYSTERY_DATA_HasCardSpace, MYSTERY_DATA_IsCardExist, MYSTERY_DATA_IsCardReceived, MYSTERY_DATA_SetCardReceived, MYSTERY_DATA_HasAnyCard, MYSTERY_DATA_IsEventFlag, MYSTERY_DATA_SetEventFlag, MYSTERY_DATA_CheckPacketCrc, MYSTERY_DATA_SwapCards, MYSTERY_DATA_SaveStart, MYSTERY_DATA_SaveMain, MYSTERY_DATA_Create, MYSTERY_DATA_Delete, MYSTERY_DATA_GetCardSlotNum, MYSTERY_DATA_IsMainSave, MYSTERY_DATA_Load, MYSTERY_DATA_Unload, MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags, MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer, MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, WORLDTRADE_CopyPokemon, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
+ * function: WIFILIST_CountFriends, WIFILIST_GetFriendListEnd, WIFILIST_RemoveFriendSlot, WIFILIST_MoveFriendSlot, WIFILIST_CompactFriendList, WIFILIST_SetFriendLastSeen, WIFILIST_AddFriendBattleRecord, WIFILIST_MergeFriendRecord, WIFILIST_CreateExchangeToken, WIFILIST_MakeExchangeToken, WIFILIST_GetGsProfileId, WIFILIST_IsProfileValid, WIFILIST_GetFromSave, WIFILIST_FindFriendByStatus, WIFILIST_FindFriendByStatusAndOutfit, TRADE_HISTORY_GetSize, TRADE_HISTORY_Init, TRADE_HISTORY_FindPartner, TRADE_HISTORY_AddPartner, TRADE_HISTORY_GetPartnerId, TRADE_HISTORY_GetPartner, TRADE_HISTORY_HasPartner, TRADE_HISTORY_GetPartnerCount, TRADE_HISTORY_GetTradeCount, TRADE_HISTORY_IncrementTradeCount, TRADE_HISTORY_GetFromSave, MYSTERY_DATA_GetWorkSize, MYSTERY_DATA_Init, MYSTERY_DATA_IsValidGiftType, MYSTERY_DATA_CheckCardSpace, MYSTERY_DATA_CheckCardExist, MYSTERY_DATA_CloseCardGap, MYSTERY_DATA_GetCardPtr, MYSTERY_DATA_GetCard, MYSTERY_DATA_AddCard, MYSTERY_DATA_DeleteCard, MYSTERY_DATA_HasCardSpace, MYSTERY_DATA_IsCardExist, MYSTERY_DATA_IsCardReceived, MYSTERY_DATA_SetCardReceived, MYSTERY_DATA_HasAnyCard, MYSTERY_DATA_IsEventFlag, MYSTERY_DATA_SetEventFlag, MYSTERY_DATA_CheckPacketCrc, MYSTERY_DATA_SwapCards, MYSTERY_DATA_SaveStart, MYSTERY_DATA_SaveMain, MYSTERY_DATA_Create, MYSTERY_DATA_Delete, MYSTERY_DATA_GetCardSlotNum, MYSTERY_DATA_IsMainSave, MYSTERY_DATA_Load, MYSTERY_DATA_Unload, MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags, MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer, MYSTERY_DATA_DecryptBuffer, MUSICAL_SAVE_GetSize, MUSICAL_SAVE_Init, MUSICAL_SAVE_GetFromSave, MUSICAL_SAVE_InitOutfits, MUSICAL_SAVE_GetOutfits, MUSICAL_SAVE_IsShowActive, MUSICAL_SAVE_NoOp, MUSICAL_SAVE_IsPropOwned, MUSICAL_SAVE_IsPropNew, MUSICAL_SAVE_AddProp, MUSICAL_SAVE_ClearNewProps, MUSICAL_SAVE_CountOwnedProps, MUSICAL_SAVE_HasAllProps, MUSICAL_SAVE_GetProgram, MUSICAL_SAVE_GetShowCount, MUSICAL_SAVE_IncrementShowCount, MUSICAL_SAVE_GetTopRankCount, MUSICAL_SAVE_IncrementTopRankCount, MUSICAL_SAVE_GetEquippedProp, MUSICAL_SAVE_SetEquippedProp, MUSICAL_SAVE_GetSelectedProgram, MUSICAL_SAVE_SetSelectedProgram, MUSICAL_SAVE_GetScriptSetting, MUSICAL_SAVE_SetScriptSetting, MUSICAL_SAVE_GetHasDistData, MUSICAL_SAVE_SetHasDistData, MUSICAL_SAVE_GetStageData, MUSICAL_SAVE_AddFanPoints, MUSICAL_SAVE_GetFanPoints, MUSICAL_SAVE_GetFittingSetting, MUSICAL_SAVE_SetFittingSetting, MUSICAL_SHOT_GetSize, MUSICAL_SHOT_Init, MUSICAL_SHOT_GetFromSave, MUSICAL_SHOT_CopyPhoto, MUSICAL_SHOT_CopyPhotoRev, MUSICAL_SHOT_GetTitle, MUSICAL_SHOT_GetExtraData, IRC_RANKING_GetFromSave, IRC_RANKING_GetEntryCount, IRC_RANKING_GetEntry, IRC_RANKING_GetEntryScore, IRC_RANKING_GetEntryMeetCount, IRC_RANKING_GetEntryGender, IRC_RANKING_GetEntryProfile, IRC_RANKING_GetLastSlot, IRC_RANKING_FindClosestEntry, IRC_RANKING_IsEntryNew, IRC_RANKING_HasEntry, IRC_RANKING_GetDateScore, IRC_RANKING_AddEntry, IRC_RANKING_ClearNewFlags, IRC_RANKING_GetSize, IRC_RANKING_Init, IRC_RANKING_InsertEntry, IRC_RANKING_HasEntryByTrainerId, IRC_RANKING_InitEntry, IRC_RANKING_FindEntryByTrainerId, IRC_RANKING_UpdateEntryMeetCount, WORLDTRADE_GetFromSave, WORLDTRADE_GetSize, WORLDTRADE_Init, WORLDTRADE_GetIsDeposited, WORLDTRADE_SetIsDeposited, WORLDTRADE_CopyPokemon, WORLDTRADE_NoOp, WORLDTRADE_SetPokemon, WORLDTRADE_SetLastTradeId, WORLDTRADE_SetLastSearchId, WORLDTRADE_GetReturnBox, REGULATION_GetCompetitionSize, REGULATION_Create, REGULATION_Copy, REGULATION_NoOp, REGULATION_GetCupName, REGULATION_CreateCupName, REGULATION_GetRuleValue, REGULATION_SetRuleValue, REGULATION_GetVetoBit, REGULATION_GetShooterSettings, REGULATION_Card_GetCupName, REGULATION_Card_GetValue, REGULATION_Card_SetValue, REGULATION_Card_IsCrcValid, REGULATION_Card_CalcCrc, REGULATION_GetCard, REGULATION_SetCard, REGULATION_InitParty, REGULATION_GetParty, REGULATION_Party_GetValue, REGULATION_Party_SetValue
  * address:  0x02009A34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,24 +15,24 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   DWC_CreateExchangeToken 0x020599BC  arm
  *   DWC_CheckValidConsole  0x02059760  arm
  *   DWC_CheckHasProfile    0x020597C8  arm
  *   DWC_GetGsProfileId     0x020598EC  arm
  *   MI_CpuMove   0x02083194  arm
  *   func_020071CC  0x020071CC  thumb
- *   func_0203F1FC  0x0203F1FC  arm
- *   func_021DFDC0    0x021DFDC0  thumb
- *   func_021DFE00    0x021DFE00  thumb
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   SAVE_OUTSIDE_Prepare    0x021DFDC0  thumb
+ *   SAVE_OUTSIDE_WriteAsync    0x021DFE00  thumb
  *   sMysteryDataFile      0x020A71A4  data
  *   SAVE_CONTROL_HasFlashSave   0x020071EC  thumb
  *   func_02034AC4  0x02034AC4  arm
- *   func_021DFC20  0x021DFC20  thumb  ov228
- *   func_021DFE90  0x021DFE90  thumb  ov228
- *   func_021DFEAC  0x021DFEAC  thumb  ov228
+ *   SAVE_OUTSIDE_Load  0x021DFC20  thumb  ov228
+ *   SAVE_OUTSIDE_IsLoaded  0x021DFE90  thumb  ov228
+ *   SAVE_OUTSIDE_GetPayload  0x021DFEAC  thumb  ov228
  *   ov_id_E4       0x000000E4  data
- *   func_021DFDB8  0x021DFDB8  thumb  ov228
+ *   SAVE_OUTSIDE_Free  0x021DFDB8  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
  *   EVENT_FIELD_PROCLINK_InitEventdataSystem    0x02161D98  thumb  ov010
  *   EVENT_FIELD_PROCLINK_InitIdList    0x02161EEC  thumb  ov010
@@ -58,6 +58,7 @@
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_Delete  0x02045C04  arm
+ *   GF_STANDARD_SetupRtc_F540  0x0203F540  arm
  */
 
 struct SaveControl;
@@ -329,8 +330,8 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuMove(const void *src, void *dest, u32 size);
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
-extern void func_0203F4E4(struct RTCDate *date);
-extern s32  func_0203F540(struct RTCDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RTCDate *date);
+extern s32  GF_STANDARD_SetupRtc_F540(struct RTCDate *date);
 extern void DWC_CreateExchangeToken(void *userData, void *friendData);
 extern int  DWC_GetGsProfileId(void *userData, void *friendData);
 extern int  DWC_CheckValidConsole(void *userData);
@@ -344,22 +345,22 @@ extern int  sub_02008468(void);
 extern u8   MYSTATUS_GetOutfit(const struct MyStatus *status);
 extern void MYSTATUS_SetOutfit(struct MyStatus *status, u8 value);
 extern u8   MYSTATUS_GetAvatarId(const struct MyStatus *status);
-extern u16  func_0203F1FC(const void *data, u32 size);
+extern u16  GF_STANDARD_SetupCalc(const void *data, u32 size);
 extern u32  func_0203F2FC(const void *data, u32 size);
 extern void func_0203F328(void *data, u32 size, u32 key);
 extern void func_0203F37C(void *data, u32 size, u32 key);
-extern void func_021DFDC0(void *extraSave);
+extern void SAVE_OUTSIDE_Prepare(void *extraSave);
 extern int  GAME_DATA_SaveStart(struct GameData *gameData);
-extern int  func_021DFE00(void *extraSave);
+extern int  SAVE_OUTSIDE_WriteAsync(void *extraSave);
 extern int  GAME_DATA_SaveMain(struct GameData *gameData);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32  func_020307B0(void *p);
 extern int  func_02034AC4(int overlayId);
 extern void func_02034A5C(int overlayId);
-extern void *func_021DFC20(u32 heapId);
-extern u8   func_021DFE90(u8 *extraSave);
-extern void *func_021DFEAC(u8 *extraSave);
-extern void func_021DFDB8(void *extraSave);
+extern void *SAVE_OUTSIDE_Load(u32 heapId);
+extern u8   SAVE_OUTSIDE_IsLoaded(u8 *extraSave);
+extern void *SAVE_OUTSIDE_GetPayload(u8 *extraSave);
+extern void SAVE_OUTSIDE_Free(void *extraSave);
 extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *photo);
 extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *title);
 extern void EVENT_FIELD_PROCLINK_InitReturnHeader(void *extraData);
@@ -374,32 +375,32 @@ struct WifiList *WIFILIST_GetWork(struct WifiList *list);
 u32 WIFILIST_GetFriendInfoField(const struct WifiList *list, u32 i, u32 field);
 struct WifiFriendInfo *WIFILIST_GetFriendInfo(struct WifiList *list, int i);
 int WIFILIST_IsFriendDataValid(struct WifiList *list, u32 i);
-u32 sub_02009A34(struct WifiList *list);
-u32 sub_02009A54(struct WifiList *list);
-void sub_02009A74(struct WifiList *list, u32 slot);
-void sub_02009AE4(struct WifiList *list, u32 dest, u32 src);
-void sub_02009B3C(struct WifiList *list);
-void sub_02009B80(struct WifiList *list, int slot);
-void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int trades);
-void sub_02009C24(struct WifiList *list, int src, int dest);
-void sub_02009CA8(void *userData, void *friendData);
-void func_02009CB0(struct WifiList *list, void *token);
-int func_02009CC0(struct WifiList *list);
-u32 sub_02009CE4(struct WifiList *list);
-struct WifiList *sub_02009D08(struct SaveControl *save);
-int sub_02009D1C(struct WifiList *list, struct MyStatus *status, u32 *outSlot);
-int sub_02009D50(struct WifiList *list, const void *name, u32 id, u32 outfitVariant, u32 *outSlot);
-u32 sub_02009D9C(void);
-void sub_02009DA4(struct TradeHistory *history);
-int sub_02009DB8(struct TradeHistory *history, u32 id);
-void sub_02009DE8(struct TradeHistory *history, struct MyStatus *status);
-u32 sub_02009E40(struct TradeHistory *history, u32 slot);
-struct MyStatus *sub_02009E54(struct TradeHistory *history, u32 slot);
-u32 sub_02009E74(struct TradeHistory *history, u32 id);
-int sub_02009E8C(struct TradeHistory *history);
-u32 sub_02009EA8(const struct TradeHistory *history);
-void sub_02009EB0(struct TradeHistory *history);
-struct TradeHistory *func_02009EC8(struct SaveControl *save);
+u32 WIFILIST_CountFriends(struct WifiList *list);
+u32 WIFILIST_GetFriendListEnd(struct WifiList *list);
+void WIFILIST_RemoveFriendSlot(struct WifiList *list, u32 slot);
+void WIFILIST_MoveFriendSlot(struct WifiList *list, u32 dest, u32 src);
+void WIFILIST_CompactFriendList(struct WifiList *list);
+void WIFILIST_SetFriendLastSeen(struct WifiList *list, int slot);
+void WIFILIST_AddFriendBattleRecord(struct WifiList *list, int slot, int wins, int losses, int trades);
+void WIFILIST_MergeFriendRecord(struct WifiList *list, int src, int dest);
+void WIFILIST_CreateExchangeToken(void *userData, void *friendData);
+void WIFILIST_MakeExchangeToken(struct WifiList *list, void *token);
+int WIFILIST_GetGsProfileId(struct WifiList *list);
+u32 WIFILIST_IsProfileValid(struct WifiList *list);
+struct WifiList *WIFILIST_GetFromSave(struct SaveControl *save);
+int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *status, u32 *outSlot);
+int WIFILIST_FindFriendByStatusAndOutfit(struct WifiList *list, const void *name, u32 id, u32 outfitVariant, u32 *outSlot);
+u32 TRADE_HISTORY_GetSize(void);
+void TRADE_HISTORY_Init(struct TradeHistory *history);
+int TRADE_HISTORY_FindPartner(struct TradeHistory *history, u32 id);
+void TRADE_HISTORY_AddPartner(struct TradeHistory *history, struct MyStatus *status);
+u32 TRADE_HISTORY_GetPartnerId(struct TradeHistory *history, u32 slot);
+struct MyStatus *TRADE_HISTORY_GetPartner(struct TradeHistory *history, u32 slot);
+u32 TRADE_HISTORY_HasPartner(struct TradeHistory *history, u32 id);
+int TRADE_HISTORY_GetPartnerCount(struct TradeHistory *history);
+u32 TRADE_HISTORY_GetTradeCount(const struct TradeHistory *history);
+void TRADE_HISTORY_IncrementTradeCount(struct TradeHistory *history);
+struct TradeHistory *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
 u32 MYSTERY_DATA_GetWorkSize(void);
 void MYSTERY_DATA_Init(u8 *buffer);
 u32 MYSTERY_DATA_IsValidGiftType(u32 giftType);
@@ -436,99 +437,99 @@ void MYSTERY_DATA_Encrypt(struct MysteryData *data);
 void MYSTERY_DATA_Decrypt(struct MysteryData *data);
 void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType);
 void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType);
-u32 func_0200A53C(void);
-void func_0200A544(struct MusicalSave *musical);
-struct MusicalSave *func_0200A5F8(struct SaveControl *save);
-void func_0200A604(struct MusicalSave *musical);
-struct MusicalOutfit *func_0200A628(struct MusicalSave *musical);
-u32 func_0200A630(struct MusicalSave *musical);
-void func_0200A640(void);
-u32 func_0200A644(struct MusicalSave *musical, u8 prop);
-u32 func_0200A680(struct MusicalSave *musical, u8 prop);
-void func_0200A6BC(struct MusicalSave *musical, u32 prop);
-void func_0200A6F8(struct MusicalSave *musical);
-u32 func_0200A714(struct MusicalSave *musical);
-u32 func_0200A73C(struct MusicalSave *musical);
-struct MusicalProgram *func_0200A750(struct MusicalSave *musical, u32 index);
-u16 func_0200A75C(struct MusicalSave *musical);
-void func_0200A768(struct MusicalSave *musical);
-u16 func_0200A780(struct MusicalSave *musical);
-void func_0200A788(struct MusicalSave *musical);
-u8 func_0200A7A0(struct MusicalSave *musical, u32 index);
-void func_0200A7AC(struct MusicalSave *musical, u32 index, u8 prop);
-u8 func_0200A7B8(struct MusicalSave *musical);
-void func_0200A7C0(struct MusicalSave *musical, u8 value);
-u8 func_0200A7C8(struct MusicalSave *musical);
-void func_0200A7D4(struct MusicalSave *musical, u8 value);
-u8 func_0200A7E0(struct MusicalSave *musical);
-void func_0200A7EC(struct MusicalSave *musical, u8 value);
-u8 *func_0200A7F8(struct MusicalSave *musical);
-void func_0200A800(struct MusicalSave *musical, s32 delta);
-u16 func_0200A81C(struct MusicalSave *musical);
-u32 func_0200A828(struct MusicalSave *musical);
-void func_0200A834(struct MusicalSave *musical, u8 value);
-u32 func_0200A840(void);
-void func_0200A848(struct MusicalShot *shot);
-struct MusicalShot *func_0200A864(struct SaveControl *save);
-void func_0200A870(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src);
-void func_0200A884(const struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest);
-u16 *func_0200A890(struct MusicalShot *shot);
-u8 *func_0200A898(struct MusicalShot *shot);
-struct IrcRankSave *func_0200A8A0(struct SaveControl *save);
-s32 func_0200A8AC(struct IrcRankSave *rank);
-struct IrcRankEntry *func_0200A8C8(struct IrcRankSave *rank, u32 index);
-u8 func_0200A8D0(struct IrcRankSave *rank, u32 index);
-u16 func_0200A8E4(struct IrcRankSave *rank, u32 index);
-u32 func_0200A8F8(struct IrcRankSave *rank, u32 index);
-void func_0200A908(const struct IrcRankEntry *entries, u32 index, u16 *outWord, u8 *outByte, u8 *outBits, u8 *outFlag);
-u8 func_0200A930(struct IrcRankSave *rank);
-int sub_0200A940(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *today);
-int sub_0200A9A4(struct IrcRankEntry *entries, u32 trainerId);
-int sub_0200A9D4(struct IrcRankEntry *entries, u32 trainerId);
-u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today);
-u8 sub_0200AA68(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
+u32 MUSICAL_SAVE_GetSize(void);
+void MUSICAL_SAVE_Init(struct MusicalSave *musical);
+struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical);
+struct MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
+u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical);
+void MUSICAL_SAVE_NoOp(void);
+u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, u8 prop);
+u32 MUSICAL_SAVE_IsPropNew(struct MusicalSave *musical, u8 prop);
+void MUSICAL_SAVE_AddProp(struct MusicalSave *musical, u32 prop);
+void MUSICAL_SAVE_ClearNewProps(struct MusicalSave *musical);
+u32 MUSICAL_SAVE_CountOwnedProps(struct MusicalSave *musical);
+u32 MUSICAL_SAVE_HasAllProps(struct MusicalSave *musical);
+struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index);
+u16 MUSICAL_SAVE_GetShowCount(struct MusicalSave *musical);
+void MUSICAL_SAVE_IncrementShowCount(struct MusicalSave *musical);
+u16 MUSICAL_SAVE_GetTopRankCount(struct MusicalSave *musical);
+void MUSICAL_SAVE_IncrementTopRankCount(struct MusicalSave *musical);
+u8 MUSICAL_SAVE_GetEquippedProp(struct MusicalSave *musical, u32 index);
+void MUSICAL_SAVE_SetEquippedProp(struct MusicalSave *musical, u32 index, u8 prop);
+u8 MUSICAL_SAVE_GetSelectedProgram(struct MusicalSave *musical);
+void MUSICAL_SAVE_SetSelectedProgram(struct MusicalSave *musical, u8 value);
+u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *musical);
+void MUSICAL_SAVE_SetScriptSetting(struct MusicalSave *musical, u8 value);
+u8 MUSICAL_SAVE_GetHasDistData(struct MusicalSave *musical);
+void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 value);
+u8 *MUSICAL_SAVE_GetStageData(struct MusicalSave *musical);
+void MUSICAL_SAVE_AddFanPoints(struct MusicalSave *musical, s32 delta);
+u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *musical);
+u32 MUSICAL_SAVE_GetFittingSetting(struct MusicalSave *musical);
+void MUSICAL_SAVE_SetFittingSetting(struct MusicalSave *musical, u8 value);
+u32 MUSICAL_SHOT_GetSize(void);
+void MUSICAL_SHOT_Init(struct MusicalShot *shot);
+struct MusicalShot *MUSICAL_SHOT_GetFromSave(struct SaveControl *save);
+void MUSICAL_SHOT_CopyPhoto(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src);
+void MUSICAL_SHOT_CopyPhotoRev(const struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest);
+u16 *MUSICAL_SHOT_GetTitle(struct MusicalShot *shot);
+u8 *MUSICAL_SHOT_GetExtraData(struct MusicalShot *shot);
+struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
+s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank);
+struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index);
+u8 IRC_RANKING_GetEntryScore(struct IrcRankSave *rank, u32 index);
+u16 IRC_RANKING_GetEntryMeetCount(struct IrcRankSave *rank, u32 index);
+u32 IRC_RANKING_GetEntryGender(struct IrcRankSave *rank, u32 index);
+void IRC_RANKING_GetEntryProfile(const struct IrcRankEntry *entries, u32 index, u16 *outWord, u8 *outByte, u8 *outBits, u8 *outFlag);
+u8 IRC_RANKING_GetLastSlot(struct IrcRankSave *rank);
+int IRC_RANKING_FindClosestEntry(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *today);
+int IRC_RANKING_IsEntryNew(struct IrcRankEntry *entries, u32 trainerId);
+int IRC_RANKING_HasEntry(struct IrcRankEntry *entries, u32 trainerId);
+u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today);
+u8 IRC_RANKING_AddEntry(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
                 u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag);
-void sub_0200AB04(struct IrcRankEntry *entries);
-int sub_0200AB24(void);
-void func_0200AB2C(struct IrcRankSave *rank);
-u8 func_0200AB50(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entry);
-int func_0200ABE0(struct IrcRankEntry *list, int count, struct IrcRankEntry *entry);
-void sub_0200AC14(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
+void IRC_RANKING_ClearNewFlags(struct IrcRankEntry *entries);
+int IRC_RANKING_GetSize(void);
+void IRC_RANKING_Init(struct IrcRankSave *rank);
+u8 IRC_RANKING_InsertEntry(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entry);
+int IRC_RANKING_HasEntryByTrainerId(struct IrcRankEntry *list, int count, struct IrcRankEntry *entry);
+void IRC_RANKING_InitEntry(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
                   u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag);
-struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int trainerId);
-void sub_0200AD00(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry);
-struct WorldTradeData *func_0200AD6C(struct SaveControl *save);
-int func_0200AD78(void);
-void func_0200AD7C(struct WorldTradeData *trade);
-u16 func_0200AD8C(const struct WorldTradeData *trade);
-void func_0200AD94(struct WorldTradeData *trade, u16 isDeposited);
+struct IrcRankEntry *IRC_RANKING_FindEntryByTrainerId(struct IrcRankEntry *list, int count, int trainerId);
+void IRC_RANKING_UpdateEntryMeetCount(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry);
+struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save);
+int WORLDTRADE_GetSize(void);
+void WORLDTRADE_Init(struct WorldTradeData *trade);
+u16 WORLDTRADE_GetIsDeposited(const struct WorldTradeData *trade);
+void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, u16 isDeposited);
 void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
-void func_0200ADB4(void);
-void func_0200ADB8(struct WorldTradeData *trade, const void *pokemon, u32 boxPos);
-void func_0200ADD0(struct WorldTradeData *trade, u32 tradeId);
-void func_0200ADD8(struct WorldTradeData *trade, u32 searchId);
-u16 func_0200ADE0(struct WorldTradeData *trade);
-u32 func_0200ADE8(void);
-struct Regulation *func_0200ADF0(u32 heapId);
-void func_0200AE08(const struct Regulation *src, struct Regulation *dest);
-void func_0200AE14(void);
-void func_0200AE18(struct Regulation *rule, void *dest);
-void *func_0200AE3C(struct Regulation *rule, u32 heapId);
-u32 func_0200AE54(struct Regulation *rule, u32 id);
-void func_0200AEE8(struct Regulation *rule, u32 id, s32 value);
-u32 func_0200AFD4(struct Regulation *rule, u32 id, s32 bit);
-void func_0200B040(struct Regulation *rule, struct ShooterSettings *out);
-u8 *func_0200B074(struct RegulationCard *card);
-s32 func_0200B078(struct RegulationCard *card, u32 id);
-void func_0200B110(struct RegulationCard *card, u32 id, s32 value);
-u32 func_0200B1A8(struct RegulationCard *card);
-u16 func_0200B1C4(struct RegulationCard *card);
-struct RegulationCard *func_0200B1D4(struct RegulationCard *cards, u32 index);
-void func_0200B1E0(struct RegulationCard *cards, u32 index, const struct RegulationCard *src);
-void func_0200B1F8(struct RegulationParty *party);
-struct RegulationParty *func_0200B204(struct BattleCompetitionSave *competition, u32 index);
-s32 func_0200B214(struct RegulationParty *party, u32 id, u8 member);
-void func_0200B254(struct RegulationParty *party, int id, u8 member, s32 value);
+void WORLDTRADE_NoOp(void);
+void WORLDTRADE_SetPokemon(struct WorldTradeData *trade, const void *pokemon, u32 boxPos);
+void WORLDTRADE_SetLastTradeId(struct WorldTradeData *trade, u32 tradeId);
+void WORLDTRADE_SetLastSearchId(struct WorldTradeData *trade, u32 searchId);
+u16 WORLDTRADE_GetReturnBox(struct WorldTradeData *trade);
+u32 REGULATION_GetCompetitionSize(void);
+struct Regulation *REGULATION_Create(u32 heapId);
+void REGULATION_Copy(const struct Regulation *src, struct Regulation *dest);
+void REGULATION_NoOp(void);
+void REGULATION_GetCupName(struct Regulation *rule, void *dest);
+void *REGULATION_CreateCupName(struct Regulation *rule, u32 heapId);
+u32 REGULATION_GetRuleValue(struct Regulation *rule, u32 id);
+void REGULATION_SetRuleValue(struct Regulation *rule, u32 id, s32 value);
+u32 REGULATION_GetVetoBit(struct Regulation *rule, u32 id, s32 bit);
+void REGULATION_GetShooterSettings(struct Regulation *rule, struct ShooterSettings *out);
+u8 *REGULATION_Card_GetCupName(struct RegulationCard *card);
+s32 REGULATION_Card_GetValue(struct RegulationCard *card, u32 id);
+void REGULATION_Card_SetValue(struct RegulationCard *card, u32 id, s32 value);
+u32 REGULATION_Card_IsCrcValid(struct RegulationCard *card);
+u16 REGULATION_Card_CalcCrc(struct RegulationCard *card);
+struct RegulationCard *REGULATION_GetCard(struct RegulationCard *cards, u32 index);
+void REGULATION_SetCard(struct RegulationCard *cards, u32 index, const struct RegulationCard *src);
+void REGULATION_InitParty(struct RegulationParty *party);
+struct RegulationParty *REGULATION_GetParty(struct BattleCompetitionSave *competition, u32 index);
+s32 REGULATION_Party_GetValue(struct RegulationParty *party, u32 id, u8 member);
+void REGULATION_Party_SetValue(struct RegulationParty *party, int id, u8 member, s32 value);
 extern char sMysteryDataFile[];
 extern u8   ov_id_E4[];
 extern s16  FX_SinCosTable_[];
@@ -539,16 +540,16 @@ extern const char func_0200ADF0_File[];
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
+ *           WIFILIST_CompactFriendList, WIFILIST_SetFriendLastSeen, WIFILIST_AddFriendBattleRecord
  *
  * alias: wifilist.c's list maintenance.  The two parallel arrays of
  * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
  * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
  * moves both together.
  *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
+ * WIFILIST_CompactFriendList is the compaction pass and is the one worth reading.  It scans
  * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
+ * used slot after a hole it moves it down with WIFILIST_MoveFriendSlot and then sets
  * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
  * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
  * `j = i` become one `adds r5, r4, #0` reached from both, which is only
@@ -560,7 +561,7 @@ extern const char func_0200ADF0_File[];
  * constant is the loop's sentinel, the value assigned to `i`, and the value
  * compared against in the other arm.
  *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
+ * The tail of WIFILIST_RemoveFriendSlot is where the shape of the source is visible.  It
  * clears slot 31 of both arrays, and the original reaches it as base plus
  * offset in two separate adds: `list + 0x1C0` and then `+ 0x5D0`, with the
  * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
@@ -571,7 +572,7 @@ extern const char func_0200ADF0_File[];
  * stay live in callee-saved registers and the reload of `obj` from its stack
  * slot disappears.
  *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
+ * WIFILIST_SetFriendLastSeen stamps the entry with the date.  GF_STANDARD_SetField00_F4E4 fills a 0x10-byte
  * record on the stack whose first three words are year, month and day, and the
  * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
  * in front of the `strh`.
@@ -580,7 +581,7 @@ extern const char func_0200ADF0_File[];
  *   python tools/match.py tu --src src/matched/unit_02009A34.c \
  *       --addr 0x02009A34 --thumb
  */
-u32 sub_02009A34(struct WifiList *list)
+u32 WIFILIST_CountFriends(struct WifiList *list)
 {
     int i;
     u32 count = 0;
@@ -594,7 +595,7 @@ u32 sub_02009A34(struct WifiList *list)
 }
 
 
-u32 sub_02009A54(struct WifiList *list)
+u32 WIFILIST_GetFriendListEnd(struct WifiList *list)
 {
     int i;
     u32 end = 0;
@@ -608,7 +609,7 @@ u32 sub_02009A54(struct WifiList *list)
 }
 
 
-void sub_02009A74(struct WifiList *list, u32 slot)
+void WIFILIST_RemoveFriendSlot(struct WifiList *list, u32 slot)
 {
     struct WifiFriendInfo *infos;
     struct DWCFriendData *friends;
@@ -629,7 +630,7 @@ void sub_02009A74(struct WifiList *list, u32 slot)
 }
 
 
-void sub_02009AE4(struct WifiList *list, u32 dest, u32 src)
+void WIFILIST_MoveFriendSlot(struct WifiList *list, u32 dest, u32 src)
 {
     MI_CpuCopy8(&list->friendInfo[src], &list->friendInfo[dest], sizeof(list->friendInfo[0]));
     MI_CpuCopy8(&list->friendData[src], &list->friendData[dest], sizeof(list->friendData[0]));
@@ -638,7 +639,7 @@ void sub_02009AE4(struct WifiList *list, u32 dest, u32 src)
 }
 
 
-void sub_02009B3C(struct WifiList *list)
+void WIFILIST_CompactFriendList(struct WifiList *list)
 {
     int i;
     int hole = -1;
@@ -646,7 +647,7 @@ void sub_02009B3C(struct WifiList *list)
     for (i = 0; i < 0x20; i++) {
         if (WIFILIST_IsFriendDataValid(list, i) != 0) {
             if (hole != -1) {
-                sub_02009AE4(list, hole, i);
+                WIFILIST_MoveFriendSlot(list, hole, i);
                 i = -1;
                 hole = -1;
             }
@@ -659,18 +660,18 @@ void sub_02009B3C(struct WifiList *list)
 }
 
 
-void sub_02009B80(struct WifiList *list, int slot)
+void WIFILIST_SetFriendLastSeen(struct WifiList *list, int slot)
 {
     struct RTCDate date;
 
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     list->friendInfo[slot].lastYear = date.year + 2000;
     list->friendInfo[slot].lastMonth = date.month;
     list->friendInfo[slot].lastDay = date.day;
 }
 
 
-void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int trades)
+void WIFILIST_AddFriendBattleRecord(struct WifiList *list, int slot, int wins, int losses, int trades)
 {
     if (slot < 0 || slot >= 0x20) {
         return;
@@ -687,7 +688,7 @@ void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int tra
     if (list->friendInfo[slot].tradeCount > 9999) {
         list->friendInfo[slot].tradeCount = 9999;
     }
-    sub_02009B80(list, slot);
+    WIFILIST_SetFriendLastSeen(list, slot);
 }
 
 
@@ -695,13 +696,13 @@ void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int tra
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- * alias: wifilist.c.  sub_02009C24 folds one entry's three counters into
- * another's, clamping each at 9999 the way sub_02009BB8 does, and then clears
+ * alias: wifilist.c.  WIFILIST_MergeFriendRecord folds one entry's three counters into
+ * another's, clamping each at 9999 the way WIFILIST_AddFriendBattleRecord does, and then clears
  * the entry it drained.
  *
  * The cut between this range and src/matched/unit_02009CB0.c is what makes
  * both halves EXACT.  DWC_CreateExchangeToken is reached from exactly two
- * places in the image, the pool word of sub_02009CA8 at 0x02009CAC and the
+ * places in the image, the pool word of WIFILIST_CreateExchangeToken at 0x02009CAC and the
  * `blx` inside sub_02009CB0 at 0x02009CB8, and a range holding both leaves the
  * address with no witness at all.  Split, the `blx` attests this file's pool
  * word and the pool word attests that file's `blx`.  See
@@ -710,7 +711,7 @@ void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int tra
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02009C24.c  *       --addr 0x02009C24 --thumb
  */
-void sub_02009C24(struct WifiList *list, int src, int dest)
+void WIFILIST_MergeFriendRecord(struct WifiList *list, int src, int dest)
 {
     if (dest < 0 || dest >= 0x20) {
         return;
@@ -734,13 +735,13 @@ void sub_02009C24(struct WifiList *list, int src, int dest)
 }
 
 
-void sub_02009CA8(void *userData, void *friendData)
+void WIFILIST_CreateExchangeToken(void *userData, void *friendData)
 {
     DWC_CreateExchangeToken(userData, friendData);
 }
 
 
-void func_02009CB0(struct WifiList *list, void *token)
+void WIFILIST_MakeExchangeToken(struct WifiList *list, void *token)
 {
     DWC_CreateExchangeToken(WIFILIST_GetWork(list), token);
 }
@@ -752,12 +753,12 @@ void func_02009CB0(struct WifiList *list, void *token)
  * original as 36 bytes against the compiler's 34 and reports EXACT*, while
  * `tu` lays the section out and reproduces the linker's two-byte filler.
  */
-int func_02009CC0(struct WifiList *list)
+int WIFILIST_GetGsProfileId(struct WifiList *list)
 {
     u8 token[12];
     void *userData = WIFILIST_GetWork(list);
 
-    func_02009CB0(list, token);
+    WIFILIST_MakeExchangeToken(list, token);
     return DWC_GetGsProfileId(userData, token);
 }
 
@@ -766,7 +767,7 @@ int func_02009CC0(struct WifiList *list)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
+ * alias: the DWC-facing end of wifilist.c.  WIFILIST_GetFromSave is the one that names
  * the save block: it fetches block id 0x1E out of func_020071CC and hands it
  * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
  * friend list lives in block 0x1E.
@@ -793,25 +794,25 @@ int func_02009CC0(struct WifiList *list)
  *       DWC_GetGsProfileId(account, token);
  *   }
  *
- * and with sub_02009C24 they reproduce every concrete byte.  The chain that
+ * and with WIFILIST_MergeFriendRecord they reproduce every concrete byte.  The chain that
  * blocks them is two links long.  DWC_CreateExchangeToken is reached from
- * exactly two places in the image: the pool word of sub_02009CA8 at 0x02009CAC
+ * exactly two places in the image: the pool word of WIFILIST_CreateExchangeToken at 0x02009CAC
  * and the `blx` in sub_02009CB0 at 0x02009CB8.  Whichever of the two is in the
  * range, the other is its witness, so exactly one of them can be matched, and
- * src/matched/unit_02009C24.c takes sub_02009CA8 because that choice is what
+ * src/matched/unit_02009C24.c takes WIFILIST_CreateExchangeToken because that choice is what
  * lets its own pool word be attested by the `blx`.  sub_02009CB0 is then
  * unmatched, and the only branch to *it* anywhere in the image is the one in
  * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
  * anything else in the image calls either address.
  *
- * sub_02009D50 compares two call results against two parameters, and both
+ * WIFILIST_FindFriendByStatusAndOutfit compares two call results against two parameters, and both
  * comparisons only come out `cmp r0, rN` when a named local holds the result:
  * written inline, in either operand order or as one `&&` chain, the compiler
  * normalises to `cmp rN, r0` and the file is two bytes wrong.  See
  * docs/idioms/cmp-operand-order-names-the-temporary.md.
  *
- * sub_02009D50's second parameter is dead: nothing in it reads r1, and
- * sub_02009D1C still computes MYSTATUS_GetName(p) to pass there.  Leaving the
+ * WIFILIST_FindFriendByStatusAndOutfit's second parameter is dead: nothing in it reads r1, and
+ * WIFILIST_FindFriendByStatus still computes MYSTATUS_GetName(p) to pass there.  Leaving the
  * parameter out moves every argument and the function does not match, so the
  * dead argument is part of the shape.
  *
@@ -819,7 +820,7 @@ int func_02009CC0(struct WifiList *list)
  *   python tools/match.py tu --src src/matched/unit_02009C24.c \
  *       --addr 0x02009C24 --thumb
  */
-u32 sub_02009CE4(struct WifiList *list)
+u32 WIFILIST_IsProfileValid(struct WifiList *list)
 {
     void *userData = WIFILIST_GetWork(list);
 
@@ -832,7 +833,7 @@ u32 sub_02009CE4(struct WifiList *list)
 }
 
 
-struct WifiList *sub_02009D08(struct SaveControl *save)
+struct WifiList *WIFILIST_GetFromSave(struct SaveControl *save)
 {
     struct WifiList *list = func_020071CC(save, 0x1E);
 
@@ -841,17 +842,17 @@ struct WifiList *sub_02009D08(struct SaveControl *save)
 }
 
 
-int sub_02009D1C(struct WifiList *list, struct MyStatus *status,
+int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *status,
                  u32 *outSlot)
 {
     u32 id = MYSTATUS_GetId(status);
     u8 outfitVariant = MYSTATUS_GetOutfitVariant(status);
 
-    return sub_02009D50(list, MYSTATUS_GetName(status), id, outfitVariant, outSlot);
+    return WIFILIST_FindFriendByStatusAndOutfit(list, MYSTATUS_GetName(status), id, outfitVariant, outSlot);
 }
 
 
-int sub_02009D50(struct WifiList *list, const void *name, u32 id,
+int WIFILIST_FindFriendByStatusAndOutfit(struct WifiList *list, const void *name, u32 id,
                  u32 outfitVariant, u32 *outSlot)
 {
     u8 i;
@@ -892,15 +893,15 @@ int sub_02009D50(struct WifiList *list, const void *name, u32 id,
  *   python tools/match.py tu --src src/matched/unit_02009D9C.c \
  *       --addr 0x02009D9C --thumb
  */
-u32 sub_02009D9C(void)
+u32 TRADE_HISTORY_GetSize(void)
 {
     return sizeof(struct TradeHistory);
 }
 
 
-void sub_02009DA4(struct TradeHistory *history)
+void TRADE_HISTORY_Init(struct TradeHistory *history)
 {
-    MI_CpuFill8(history, 0, sub_02009D9C());
+    MI_CpuFill8(history, 0, TRADE_HISTORY_GetSize());
 }
 
 
@@ -908,7 +909,7 @@ void sub_02009DA4(struct TradeHistory *history)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
+ *           TRADE_HISTORY_HasPartner, TRADE_HISTORY_GetPartnerCount, TRADE_HISTORY_GetTradeCount, TRADE_HISTORY_IncrementTradeCount
  *
  * alias: the body of the 0xD54-byte record whose head is
  * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
@@ -918,12 +919,12 @@ void sub_02009DA4(struct TradeHistory *history)
  *   +0xD50  u32                   a use count, saturating at 99999
  *
  * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
+ * TRADE_HISTORY_AddPartner uses it for both of its block moves rather than spelling 0x20
  * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
  * copies the new object into slot 0, so slot 0 is the most recent; when the
  * object is already in the list only its +0x1C byte is refreshed.
  *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
+ * TRADE_HISTORY_FindPartner returns -1 for "not found", materialised as `movs r0, #0` and
  * `mvns r0, r0` rather than as a pool word, and every caller compares against
  * that same pair.
  *
@@ -931,7 +932,7 @@ void sub_02009DA4(struct TradeHistory *history)
  *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
  *       --addr 0x02009DB8 --thumb
  */
-int sub_02009DB8(struct TradeHistory *history, u32 id)
+int TRADE_HISTORY_FindPartner(struct TradeHistory *history, u32 id)
 {
     int i;
 
@@ -945,7 +946,7 @@ int sub_02009DB8(struct TradeHistory *history, u32 id)
 }
 
 
-void sub_02009DE8(struct TradeHistory *history, struct MyStatus *status)
+void TRADE_HISTORY_AddPartner(struct TradeHistory *history, struct MyStatus *status)
 {
     u32 id = MYSTATUS_GetId(status);
     u32 size = sub_02008468();
@@ -954,7 +955,7 @@ void sub_02009DE8(struct TradeHistory *history, struct MyStatus *status)
     if (id == 0) {
         return;
     }
-    slot = sub_02009DB8(history, id);
+    slot = TRADE_HISTORY_FindPartner(history, id);
     if (slot != -1) {
         MYSTATUS_SetOutfit(&history->partners[slot], MYSTATUS_GetOutfit(status));
         return;
@@ -964,7 +965,7 @@ void sub_02009DE8(struct TradeHistory *history, struct MyStatus *status)
 }
 
 
-u32 sub_02009E40(struct TradeHistory *history, u32 slot)
+u32 TRADE_HISTORY_GetPartnerId(struct TradeHistory *history, u32 slot)
 {
     if (slot >= 100) {
         slot = 0;
@@ -973,28 +974,28 @@ u32 sub_02009E40(struct TradeHistory *history, u32 slot)
 }
 
 
-struct MyStatus *sub_02009E54(struct TradeHistory *history, u32 slot)
+struct MyStatus *TRADE_HISTORY_GetPartner(struct TradeHistory *history, u32 slot)
 {
     if (slot >= 100) {
         return 0;
     }
-    if (sub_02009E40(history, slot) == 0) {
+    if (TRADE_HISTORY_GetPartnerId(history, slot) == 0) {
         return 0;
     }
     return &history->partners[slot];
 }
 
 
-u32 sub_02009E74(struct TradeHistory *history, u32 id)
+u32 TRADE_HISTORY_HasPartner(struct TradeHistory *history, u32 id)
 {
-    if (sub_02009DB8(history, id) != -1) {
+    if (TRADE_HISTORY_FindPartner(history, id) != -1) {
         return 1;
     }
     return 0;
 }
 
 
-int sub_02009E8C(struct TradeHistory *history)
+int TRADE_HISTORY_GetPartnerCount(struct TradeHistory *history)
 {
     int i;
 
@@ -1007,13 +1008,13 @@ int sub_02009E8C(struct TradeHistory *history)
 }
 
 
-u32 sub_02009EA8(const struct TradeHistory *history)
+u32 TRADE_HISTORY_GetTradeCount(const struct TradeHistory *history)
 {
     return history->tradeCount;
 }
 
 
-void sub_02009EB0(struct TradeHistory *history)
+void TRADE_HISTORY_IncrementTradeCount(struct TradeHistory *history)
 {
     history->tradeCount = history->tradeCount + 1;
     if (history->tradeCount > 99999) {
@@ -1024,11 +1025,11 @@ void sub_02009EB0(struct TradeHistory *history)
 
 /*
  * Save-block getter for block 0x1F, the same one-line shape as
- * func_0200AD6C (block 0x2E): a tail call through the pool with the id in
+ * WORLDTRADE_GetFromSave (block 0x2E): a tail call through the pool with the id in
  * r1. Seeded from ov120 (0x021D4A90, 0x021D4AC8), ov135 (0x02201B78) and
  * the ov175 root func_021D7E18 (0x021D827E).
  */
-struct TradeHistory *func_02009EC8(struct SaveControl *save)
+struct TradeHistory *TRADE_HISTORY_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x1f);
 }
@@ -1291,7 +1292,7 @@ int MYSTERY_DATA_CheckPacketCrc(struct MysteryGiftPacket *packet)
             spin++;
         }
     } while (spin < (int)spinLimit);
-    return packet->crc == func_0203F1FC(packet, 0x2ce);
+    return packet->crc == GF_STANDARD_SetupCalc(packet, 0x2ce);
 }
 
 
@@ -1313,7 +1314,7 @@ void MYSTERY_DATA_SwapCards(struct MysteryData *data, u32 slotA, u32 slotB)
 void MYSTERY_DATA_SaveStart(struct MysteryData *data, struct GameData *gameData)
 {
     if (MYSTERY_DATA_IsMainSave(data) == 0) {
-        func_021DFDC0(data->extraSave);
+        SAVE_OUTSIDE_Prepare(data->extraSave);
     } else {
         GAME_DATA_SaveStart(gameData);
     }
@@ -1323,7 +1324,7 @@ void MYSTERY_DATA_SaveStart(struct MysteryData *data, struct GameData *gameData)
 int MYSTERY_DATA_SaveMain(struct MysteryData *data, struct GameData *gameData)
 {
     if (MYSTERY_DATA_IsMainSave(data) == 0) {
-        if (func_021DFE00(data->extraSave) != 0)
+        if (SAVE_OUTSIDE_WriteAsync(data->extraSave) != 0)
             return 2;
         return 0;
     }
@@ -1371,10 +1372,10 @@ int MYSTERY_DATA_IsMainSave(struct MysteryData *data)
 /*
  * note:     wave 16: promoted.  0x021DFE90 and 0x021DFEAC are unlabelled
  *           ov228 leaves (a byte getter at +0x378 and `p + 0xC`), now matched
- *           in src/matched/func_021DFE90.c / func_021DFEAC.c (shard
+ *           in src/matched/SAVE_OUTSIDE_IsLoaded.c / SAVE_OUTSIDE_GetPayload.c (shard
  *           ov228/pkt_021DFC20); the ov228 hints below make both sites
- *           `matched, overlay`.  func_021DFEAC's body reads r0, so its
- *           prototype now takes the pointer func_021DFC20 returned (the
+ *           `matched, overlay`.  SAVE_OUTSIDE_GetPayload's body reads r0, so its
+ *           prototype now takes the pointer SAVE_OUTSIDE_Load returned (the
  *           callee-arity lever; same bytes, it was a live leftover before).
  * WHAT CHANGED THIS WAVE (docs/notes/pkt_0200A358.c.txt had this row at DIFF,
  * 112 bytes against 120, 91 concrete bytes out).  The note's C spelled the
@@ -1423,11 +1424,11 @@ void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int m
         return;
     }
     func_02034AC4((int)ov_id_E4);
-    work = func_021DFC20(heapId);
+    work = SAVE_OUTSIDE_Load(heapId);
     data->extraSave = work;
-    data->buffer = func_021DFEAC(work);
+    data->buffer = SAVE_OUTSIDE_GetPayload(work);
     data->saveType = 0;
-    if (func_021DFE90(data->extraSave) == 0) {
+    if (SAVE_OUTSIDE_IsLoaded(data->extraSave) == 0) {
         MI_CpuFill8(data->buffer, 0, 0x368);
         MYSTERY_DATA_Encrypt(data);
     }
@@ -1437,7 +1438,7 @@ void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int m
 /*
  * note:     wave 16: promoted.  0x021DFDB8 is an unlabelled ov228 leaf, a
  *           one-argument tail call to the ARM heap free func_020307B0, now
- *           matched in src/matched/func_021DFDB8.c (shard ov228/pkt_021DFC20);
+ *           matched in src/matched/SAVE_OUTSIDE_Free.c (shard ov228/pkt_021DFC20);
  *           the ov228 hint below makes the site `matched, overlay`.
  * Third pass, lane 1: this row was DIFF for two passes and is now byte-correct.
  * The residue was never a codegen difference.  The original's second call is
@@ -1467,7 +1468,7 @@ void MYSTERY_DATA_Unload(struct MysteryData *data)
 {
     switch (data->saveType) {
     case 0:
-        func_021DFDB8(data->extraSave);
+        SAVE_OUTSIDE_Free(data->extraSave);
         func_02034A5C((int)ov_id_E4);
         break;
     case 1:
@@ -1485,9 +1486,9 @@ void MYSTERY_DATA_Unload(struct MysteryData *data)
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
  *           MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer,
- *           MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
+ *           MYSTERY_DATA_DecryptBuffer, MUSICAL_SAVE_GetSize, MUSICAL_SAVE_Init, MUSICAL_SAVE_GetFromSave,
+ *           MUSICAL_SAVE_InitOutfits, MUSICAL_SAVE_GetOutfits, MUSICAL_SAVE_IsShowActive, MUSICAL_SAVE_NoOp,
+ *           MUSICAL_SAVE_IsPropOwned, MUSICAL_SAVE_IsPropNew, MUSICAL_SAVE_AddProp
  *
  * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
  * carry no label in the generated listing (0x0200A53C, 0x0200A628,
@@ -1675,48 +1676,48 @@ void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType)
 }
 
 
-u32 func_0200A53C(void)
+u32 MUSICAL_SAVE_GetSize(void)
 {
     return sizeof(struct MusicalSave);
 }
 
 
-void func_0200A544(struct MusicalSave *musical)
+void MUSICAL_SAVE_Init(struct MusicalSave *musical)
 {
     u8 i;
 
     MI_CpuFill8(musical, 0, sizeof(struct MusicalSave));
-    func_0200A604(musical);
+    MUSICAL_SAVE_InitOutfits(musical);
     for (i = 0; i < 10; i++) {
         musical->programs[i].state = 4;
     }
     musical->scriptSetting = 0;
     musical->hasDistData = 0;
-    func_0200A6BC(musical, 0x30);
-    func_0200A6BC(musical, 0x46);
-    func_0200A6BC(musical, 0x53);
-    func_0200A6BC(musical, 0x4B);
-    func_0200A6BC(musical, 0x00);
-    func_0200A6BC(musical, 0x01);
-    func_0200A6BC(musical, 0x0A);
-    func_0200A6BC(musical, 0x1C);
-    func_0200A6BC(musical, 0x08);
-    func_0200A6BC(musical, 0x3B);
-    func_0200A6BC(musical, 0x3F);
-    func_0200A6BC(musical, 0x42);
-    func_0200A6BC(musical, 0x10);
-    func_0200A6BC(musical, 0x59);
-    func_0200A6BC(musical, 0x4C);
+    MUSICAL_SAVE_AddProp(musical, 0x30);
+    MUSICAL_SAVE_AddProp(musical, 0x46);
+    MUSICAL_SAVE_AddProp(musical, 0x53);
+    MUSICAL_SAVE_AddProp(musical, 0x4B);
+    MUSICAL_SAVE_AddProp(musical, 0x00);
+    MUSICAL_SAVE_AddProp(musical, 0x01);
+    MUSICAL_SAVE_AddProp(musical, 0x0A);
+    MUSICAL_SAVE_AddProp(musical, 0x1C);
+    MUSICAL_SAVE_AddProp(musical, 0x08);
+    MUSICAL_SAVE_AddProp(musical, 0x3B);
+    MUSICAL_SAVE_AddProp(musical, 0x3F);
+    MUSICAL_SAVE_AddProp(musical, 0x42);
+    MUSICAL_SAVE_AddProp(musical, 0x10);
+    MUSICAL_SAVE_AddProp(musical, 0x59);
+    MUSICAL_SAVE_AddProp(musical, 0x4C);
 }
 
 
-struct MusicalSave *func_0200A5F8(struct SaveControl *save)
+struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x2A);
 }
 
 
-void func_0200A604(struct MusicalSave *musical)
+void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical)
 {
     u8 i;
 
@@ -1726,24 +1727,24 @@ void func_0200A604(struct MusicalSave *musical)
 }
 
 
-struct MusicalOutfit *func_0200A628(struct MusicalSave *musical)
+struct MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical)
 {
     return musical->outfits;
 }
 
 
-u32 func_0200A630(struct MusicalSave *musical)
+u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical)
 {
     return musical->shotState != 0;
 }
 
 
-void func_0200A640(void)
+void MUSICAL_SAVE_NoOp(void)
 {
 }
 
 
-u32 func_0200A644(struct MusicalSave *musical, u8 prop)
+u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, u8 prop)
 {
     if (prop < 100) {
         u8 shift = (s32)prop % 8;
@@ -1756,7 +1757,7 @@ u32 func_0200A644(struct MusicalSave *musical, u8 prop)
 }
 
 
-u32 func_0200A680(struct MusicalSave *musical, u8 prop)
+u32 MUSICAL_SAVE_IsPropNew(struct MusicalSave *musical, u8 prop)
 {
     if (prop < 100) {
         u8 shift = (s32)prop % 8;
@@ -1769,7 +1770,7 @@ u32 func_0200A680(struct MusicalSave *musical, u8 prop)
 }
 
 
-void func_0200A6BC(struct MusicalSave *musical, u32 prop)
+void MUSICAL_SAVE_AddProp(struct MusicalSave *musical, u32 prop)
 {
     u8 shift, byte;
 
@@ -1787,11 +1788,11 @@ void func_0200A6BC(struct MusicalSave *musical, u32 prop)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
+ *           MUSICAL_SAVE_GetShowCount, MUSICAL_SAVE_IncrementShowCount, MUSICAL_SAVE_GetTopRankCount, MUSICAL_SAVE_IncrementTopRankCount,
+ *           MUSICAL_SAVE_GetEquippedProp, MUSICAL_SAVE_SetEquippedProp, MUSICAL_SAVE_GetSelectedProgram, MUSICAL_SAVE_SetSelectedProgram,
+ *           MUSICAL_SAVE_GetScriptSetting, MUSICAL_SAVE_SetScriptSetting, MUSICAL_SAVE_GetHasDistData, MUSICAL_SAVE_SetHasDistData,
+ *           MUSICAL_SAVE_AddFanPoints, MUSICAL_SAVE_GetStageData, MUSICAL_SAVE_GetFanPoints, MUSICAL_SAVE_GetFittingSetting,
+ *           MUSICAL_SAVE_SetFittingSetting
  *
  * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
  * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
@@ -1807,12 +1808,12 @@ void func_0200A6BC(struct MusicalSave *musical, u32 prop)
  *
  * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
  * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
+ * bitmaps MUSICAL_SAVE_AddProp sets a bit in.  It is in
  * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
  * which is why it has a label here and its fourteen neighbours do not.
  *
  * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
+ * bitmap by calling MUSICAL_SAVE_IsPropOwned on every one of them, and 0x0200A73C asks
  * whether that count has reached 100, which is the same bound the three
  * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
  * the population of whatever the bitmap enumerates and this pair is its
@@ -1832,7 +1833,7 @@ void func_0200A6BC(struct MusicalSave *musical, u32 prop)
  *    compiler emits `blt` where the original has `bge` and swaps the two
  *    stores, which is four bytes and reads as a different function.
  */
-void func_0200A6F8(struct MusicalSave *musical)
+void MUSICAL_SAVE_ClearNewProps(struct MusicalSave *musical)
 {
     u8 i;
 
@@ -1842,14 +1843,14 @@ void func_0200A6F8(struct MusicalSave *musical)
 }
 
 
-u32 func_0200A714(struct MusicalSave *musical)
+u32 MUSICAL_SAVE_CountOwnedProps(struct MusicalSave *musical)
 {
     u32 count;
     s32 prop;
 
     count = 0;
     for (prop = 0; prop < 256; prop++) {
-        if (func_0200A644(musical, (u8)prop) == 1) {
+        if (MUSICAL_SAVE_IsPropOwned(musical, (u8)prop) == 1) {
             count++;
         }
     }
@@ -1857,28 +1858,28 @@ u32 func_0200A714(struct MusicalSave *musical)
 }
 
 
-u32 func_0200A73C(struct MusicalSave *musical)
+u32 MUSICAL_SAVE_HasAllProps(struct MusicalSave *musical)
 {
-    if (func_0200A714(musical) == 100) {
+    if (MUSICAL_SAVE_CountOwnedProps(musical) == 100) {
         return 1;
     }
     return 0;
 }
 
 
-struct MusicalProgram *func_0200A750(struct MusicalSave *musical, u32 index)
+struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index)
 {
     return &musical->programs[index];
 }
 
 
-u16 func_0200A75C(struct MusicalSave *musical)
+u16 MUSICAL_SAVE_GetShowCount(struct MusicalSave *musical)
 {
     return musical->showCount;
 }
 
 
-void func_0200A768(struct MusicalSave *musical)
+void MUSICAL_SAVE_IncrementShowCount(struct MusicalSave *musical)
 {
     if (musical->showCount < 0xFFFF) {
         musical->showCount++;
@@ -1886,13 +1887,13 @@ void func_0200A768(struct MusicalSave *musical)
 }
 
 
-u16 func_0200A780(struct MusicalSave *musical)
+u16 MUSICAL_SAVE_GetTopRankCount(struct MusicalSave *musical)
 {
     return musical->topRankCount;
 }
 
 
-void func_0200A788(struct MusicalSave *musical)
+void MUSICAL_SAVE_IncrementTopRankCount(struct MusicalSave *musical)
 {
     if (musical->topRankCount < 0xFFFF) {
         musical->topRankCount++;
@@ -1900,61 +1901,61 @@ void func_0200A788(struct MusicalSave *musical)
 }
 
 
-u8 func_0200A7A0(struct MusicalSave *musical, u32 index)
+u8 MUSICAL_SAVE_GetEquippedProp(struct MusicalSave *musical, u32 index)
 {
     return musical->equippedProps[index];
 }
 
 
-void func_0200A7AC(struct MusicalSave *musical, u32 index, u8 prop)
+void MUSICAL_SAVE_SetEquippedProp(struct MusicalSave *musical, u32 index, u8 prop)
 {
     musical->equippedProps[index] = prop;
 }
 
 
-u8 func_0200A7B8(struct MusicalSave *musical)
+u8 MUSICAL_SAVE_GetSelectedProgram(struct MusicalSave *musical)
 {
     return musical->selectedProgram;
 }
 
 
-void func_0200A7C0(struct MusicalSave *musical, u8 value)
+void MUSICAL_SAVE_SetSelectedProgram(struct MusicalSave *musical, u8 value)
 {
     musical->selectedProgram = value;
 }
 
 
-u8 func_0200A7C8(struct MusicalSave *musical)
+u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *musical)
 {
     return musical->scriptSetting;
 }
 
 
-void func_0200A7D4(struct MusicalSave *musical, u8 value)
+void MUSICAL_SAVE_SetScriptSetting(struct MusicalSave *musical, u8 value)
 {
     musical->scriptSetting = value;
 }
 
 
-u8 func_0200A7E0(struct MusicalSave *musical)
+u8 MUSICAL_SAVE_GetHasDistData(struct MusicalSave *musical)
 {
     return musical->hasDistData;
 }
 
 
-void func_0200A7EC(struct MusicalSave *musical, u8 value)
+void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 value)
 {
     musical->hasDistData = value;
 }
 
 
-u8 *func_0200A7F8(struct MusicalSave *musical)
+u8 *MUSICAL_SAVE_GetStageData(struct MusicalSave *musical)
 {
     return musical->stageData;
 }
 
 
-void func_0200A800(struct MusicalSave *musical, s32 delta)
+void MUSICAL_SAVE_AddFanPoints(struct MusicalSave *musical, s32 delta)
 {
     s32 points = musical->fanPoints + delta;
     if (points < 0xFFFF) {
@@ -1965,19 +1966,19 @@ void func_0200A800(struct MusicalSave *musical, s32 delta)
 }
 
 
-u16 func_0200A81C(struct MusicalSave *musical)
+u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *musical)
 {
     return musical->fanPoints;
 }
 
 
-u32 func_0200A828(struct MusicalSave *musical)
+u32 MUSICAL_SAVE_GetFittingSetting(struct MusicalSave *musical)
 {
     return musical->fittingSetting;
 }
 
 
-void func_0200A834(struct MusicalSave *musical, u8 value)
+void MUSICAL_SAVE_SetFittingSetting(struct MusicalSave *musical, u8 value)
 {
     musical->fittingSetting = value;
 }
@@ -1996,10 +1997,10 @@ void func_0200A834(struct MusicalSave *musical, u8 value)
  * and +0x1FC, so the only free choice left is how much follows the second
  * one, and 0xE0 is what makes sizeof agree with the getter.
  *
- * Near miss, and the reason this unit stops at 0x0200A848: func_0200A848, 28
+ * Near miss, and the reason this unit stops at 0x0200A848: MUSICAL_SHOT_Init, 28
  * bytes, reproduces every concrete byte and caps at MATCH.  It is
  *
- *     void func_0200A848(struct MusicalShot *shot)
+ *     void MUSICAL_SHOT_Init(struct MusicalShot *shot)
  *     {
  *         EVENT_FIELD_PROCLINK_InitEventdataSystem(&shot->photo);
  *         EVENT_FIELD_PROCLINK_InitIdList(shot->title);
@@ -2015,7 +2016,7 @@ void func_0200A834(struct MusicalSave *musical, u8 value)
  * attested and no cut helps: the only witness is the call that needs it.  It
  * closes the day disasm.py labels either address.
  */
-u32 func_0200A840(void)
+u32 MUSICAL_SHOT_GetSize(void)
 {
     return sizeof(struct MusicalShot);
 }
@@ -2027,7 +2028,7 @@ u32 func_0200A840(void)
  *           which attests the call as `matched, overlay` under the ov010
  *           hint below; 02161F00 resolves as sole-ref/code (overlay).
  */
-void func_0200A848(struct MusicalShot *shot)
+void MUSICAL_SHOT_Init(struct MusicalShot *shot)
 {
     EVENT_FIELD_PROCLINK_InitEventdataSystem((char *)&shot->photo);
     EVENT_FIELD_PROCLINK_InitIdList(shot->title);
@@ -2039,28 +2040,28 @@ void func_0200A848(struct MusicalShot *shot)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
+ *           MUSICAL_SHOT_GetExtraData, IRC_RANKING_GetFromSave, IRC_RANKING_GetEntryCount, IRC_RANKING_GetEntry,
+ *           IRC_RANKING_GetEntryScore, IRC_RANKING_GetEntryMeetCount, IRC_RANKING_GetEntryGender
  *
  * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
  * label in the generated listing.
  *
  * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
  * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
+ * offset IRC_RANKING_GetLastSlot reads that word at, so the array length and the
  * record size check against each other.  Each entry carries a packed word at
  * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
+ * at bit 7, one bit at bit 17, and one bit at bit 31 that IRC_RANKING_GetEntryCount
  * scans for to find how many entries are in use.
  *
  * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
  * two shift counts give the field's position and width directly, and where
  * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
+ * truncating pair: IRC_RANKING_GetEntryScore's `lsls #25 / lsrs #25` is the 7-bit field
  * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
  * changes two instructions.
  *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
+ * Near miss, and the reason this unit stops where it does: IRC_RANKING_GetEntryProfile at
  * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
  * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
  * and the original loads that byte exactly once, with `ldrb` into the
@@ -2075,43 +2076,43 @@ void func_0200A848(struct MusicalShot *shot)
  * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
  * of the function is right.  The next unit therefore resumes at 0x0200A930.
  */
-struct MusicalShot *func_0200A864(struct SaveControl *save)
+struct MusicalShot *MUSICAL_SHOT_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x2B);
 }
 
 
-void func_0200A870(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src)
+void MUSICAL_SHOT_CopyPhoto(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src)
 {
     MI_CpuCopy8(src, dest, sizeof(struct MusicalShotPhoto));
 }
 
 
-void func_0200A884(const struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest)
+void MUSICAL_SHOT_CopyPhotoRev(const struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct MusicalShotPhoto));
 }
 
 
-u16 *func_0200A890(struct MusicalShot *shot)
+u16 *MUSICAL_SHOT_GetTitle(struct MusicalShot *shot)
 {
     return shot->title;
 }
 
 
-u8 *func_0200A898(struct MusicalShot *shot)
+u8 *MUSICAL_SHOT_GetExtraData(struct MusicalShot *shot)
 {
     return shot->extraData;
 }
 
 
-struct IrcRankSave *func_0200A8A0(struct SaveControl *save)
+struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x2C);
 }
 
 
-s32 func_0200A8AC(struct IrcRankSave *rank)
+s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank)
 {
     s32 i;
     for (i = 0; i < 30; i++) {
@@ -2123,25 +2124,25 @@ s32 func_0200A8AC(struct IrcRankSave *rank)
 }
 
 
-struct IrcRankEntry *func_0200A8C8(struct IrcRankSave *rank, u32 index)
+struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index)
 {
     return &rank->entries[index];
 }
 
 
-u8 func_0200A8D0(struct IrcRankSave *rank, u32 index)
+u8 IRC_RANKING_GetEntryScore(struct IrcRankSave *rank, u32 index)
 {
     return rank->entries[index].score;
 }
 
 
-u16 func_0200A8E4(struct IrcRankSave *rank, u32 index)
+u16 IRC_RANKING_GetEntryMeetCount(struct IrcRankSave *rank, u32 index)
 {
     return rank->entries[index].meetCount;
 }
 
 
-u32 func_0200A8F8(struct IrcRankSave *rank, u32 index)
+u32 IRC_RANKING_GetEntryGender(struct IrcRankSave *rank, u32 index)
 {
     return rank->entries[index].gender;
 }
@@ -2151,7 +2152,7 @@ u32 func_0200A8F8(struct IrcRankSave *rank, u32 index)
  * Unlabelled Thumb leaf: reads record i (28 bytes) and writes its u16, u8
  * and two bitfields to four out pointers.
  */
-void func_0200A908(const struct IrcRankEntry *entries, u32 index, u16 *outWord, u8 *outByte, u8 *outBits, u8 *outFlag)
+void IRC_RANKING_GetEntryProfile(const struct IrcRankEntry *entries, u32 index, u16 *outWord, u8 *outByte, u8 *outBits, u8 *outFlag)
 {
     *outWord = entries[index].profileWord;
     *outByte = entries[index].profileByte;
@@ -2163,21 +2164,21 @@ void func_0200A908(const struct IrcRankEntry *entries, u32 index, u16 *outWord, 
 /*
  * Unlabelled Thumb leaf: low byte of the word at +0x348.
  */
-u8 func_0200A930(struct IrcRankSave *rank)
+u8 IRC_RANKING_GetLastSlot(struct IrcRankSave *rank)
 {
     return rank->lastSlot;
 }
 
 
-int sub_0200A940(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *today)
+int IRC_RANKING_FindClosestEntry(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *today)
 {
-    u32 count = func_0200A8AC(rank);
-    int target = func_0200AA00(month, day, today);
+    u32 count = IRC_RANKING_GetEntryCount(rank);
+    int target = IRC_RANKING_GetDateScore(month, day, today);
     int best = 0;
     u32 bestDiff = 0xffffffffu;
     u32 i;
     for (i = 0; i < count; i++) {
-        int diff = func_0200A8D0(rank, i) - target;
+        int diff = IRC_RANKING_GetEntryScore(rank, i) - target;
         if (diff < 0) {
             diff = -diff;
         }
@@ -2198,7 +2199,7 @@ int sub_0200A940(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *t
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The two helpers between func_0200A940 and func_0200AA00, both invisible
+ * The two helpers between func_0200A940 and IRC_RANKING_GetDateScore, both invisible
  * to the worklist: each saves registers but not lr and nothing branches to
  * either from outside, so disasm.py prints the pair as a single run of
  * `.word` (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
@@ -2210,7 +2211,7 @@ int sub_0200A940(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *t
  * at +0x10 set.  The first returns bit 7 of the byte at +0x1b of the
  * matching record, the second returns 1.
  */
-int sub_0200A9A4(struct IrcRankEntry *entries, u32 trainerId)
+int IRC_RANKING_IsEntryNew(struct IrcRankEntry *entries, u32 trainerId)
 {
     int i;
     for (i = 0; i < 0x1e; i++) {
@@ -2221,7 +2222,7 @@ int sub_0200A9A4(struct IrcRankEntry *entries, u32 trainerId)
 }
 
 
-int sub_0200A9D4(struct IrcRankEntry *entries, u32 trainerId)
+int IRC_RANKING_HasEntry(struct IrcRankEntry *entries, u32 trainerId)
 {
     int i;
     for (i = 0; i < 0x1e; i++) {
@@ -2235,10 +2236,10 @@ int sub_0200A9D4(struct IrcRankEntry *entries, u32 trainerId)
 /*
  * A date interpolation: copy the caller's 16-byte date record onto the
  * stack (the `ldm/stm` pair of docs/idioms/aggregate-assignment-is-ldm-stm.md),
- * take its day number with func_0203F540, overwrite the two fields at +4 and
+ * take its day number with GF_STANDARD_SetupRtc_F540, overwrite the two fields at +4 and
  * +8 with the two scalar arguments, take the day number again, and wrap the
  * difference into a year.  The tail is the fixed-point sine lookup
- * src/matched/func_0203F684.c already evidences -- the same 4096-entry signed
+ * src/matched/GF_STANDARD_Get_F684.c already evidences -- the same 4096-entry signed
  * halfword table at 0x020A1B38 indexed at `2 * i`, with 30 in place of 360 --
  * scaled to a percentage: `(sin + 0x1000) * 50 >> 12`, truncated to u8.
  *
@@ -2253,20 +2254,20 @@ int sub_0200A9D4(struct IrcRankEntry *entries, u32 trainerId)
  *    naming the FIRST day number first.  The equivalent `if (b <= a)` is two
  *    bytes wrong (cmp operands swapped and blo becomes bhi).  This is
  *    docs/idioms/cmp-operand-order-names-the-temporary.md, and it is the same
- *    lever src/matched/func_0200ABE0.c in this family already records.
+ *    lever src/matched/IRC_RANKING_HasEntryByTrainerId.c in this family already records.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0200AA00.c \
- *       --func func_0200AA00 --addr 0x0200AA00 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/IRC_RANKING_GetDateScore.c \
+ *       --func IRC_RANKING_GetDateScore --addr 0x0200AA00 --cc 1.1p1 --thumb
  */
-u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today)
+u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
 {
     struct RTCDate date = *today;
     u32 todayNum, dayNum;
-    todayNum = func_0203F540(&date);
+    todayNum = GF_STANDARD_SetupRtc_F540(&date);
     date.month = month;
     date.day = day;
-    dayNum = func_0203F540(&date);
+    dayNum = GF_STANDARD_SetupRtc_F540(&date);
     if (todayNum >= dayNum) {
         dayNum += 365;
     }
@@ -2281,15 +2282,15 @@ u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today)
  * EXACT*: the listing extent is 196 bytes because the two unlabelled leaves
  * at 0x0200AB04 and 0x0200AB24 follow without a label; they are already
  * matched separately as src/matched/unit_0200AB04.c.  This file reproduces
- * the 154 bytes of sub_0200AA68 itself.
+ * the 154 bytes of IRC_RANKING_AddEntry itself.
  *
  * The orchestrator of the family (see docs/families/mystery_data.h).  Find an
  * existing Entry with the caller's key (sub_0200ACD0), take its 10-bit
  * counter if there is one, build a fresh Entry on the stack from that counter
- * and the caller's eleven arguments (sub_0200AC14), insert it in key order
+ * and the caller's eleven arguments (IRC_RANKING_InitEntry), insert it in key order
  * (sub_0200AB50) recording the slot in the low byte of the record's flag word
  * at +0x348, and if the new entry duplicates one already present
- * (sub_0200ABE0) bump every matching entry's counter (sub_0200AD00).  It
+ * (sub_0200ABE0) bump every matching entry's counter (IRC_RANKING_UpdateEntryMeetCount).  It
  * returns the slot back out of the flag word.
  *
  * This row was the "unfilable" one of docs/notes/pkt_0200AA00.c.txt (misfiled
@@ -2304,7 +2305,7 @@ u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today)
  *
  * Three declaration-level levers, none of them a statement shape:
  *
- *  1. sub_0200AC14 takes EIGHT SEPARATE SCALAR PARAMETERS, not one 0x20-byte
+ *  1. IRC_RANKING_InitEntry takes EIGHT SEPARATE SCALAR PARAMETERS, not one 0x20-byte
  *     struct by value (see the header of src/matched/func_0200AC14.c, which
  *     this wave re-read the same way).  Passing a struct makes this caller
  *     emit an ldm/stm block copy where the original stores each field into
@@ -2328,24 +2329,24 @@ u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today)
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_0200AA68.c \
- *       --func sub_0200AA68 --addr 0x0200AA68 --cc 1.1p1 --thumb
+ *       --func IRC_RANKING_AddEntry --addr 0x0200AA68 --cc 1.1p1 --thumb
  */
-u8 sub_0200AA68(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
+u8 IRC_RANKING_AddEntry(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
                 u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag)
 {
     struct IrcRankEntry entry;
     struct IrcRankEntry *known;
     u16 meetCount = 0;
-    known = func_0200ACD0(rank->entries, 30, trainerId);
+    known = IRC_RANKING_FindEntryByTrainerId(rank->entries, 30, trainerId);
     if (known != 0) {
         meetCount = known->meetCount;
     }
-    sub_0200AC14(&entry, name, score, meetCount, gender, language, version, trainerId, profileWord, profileByte, profileBits, profileFlag);
+    IRC_RANKING_InitEntry(&entry, name, score, meetCount, gender, language, version, trainerId, profileWord, profileByte, profileBits, profileFlag);
     {
-    rank->lastSlot = func_0200AB50(rank->entries, 30, &entry);
+    rank->lastSlot = IRC_RANKING_InsertEntry(rank->entries, 30, &entry);
     }
-    if (func_0200ABE0(rank->entries, 30, &entry) != 0) {
-        sub_0200AD00(rank->entries, 30, &entry);
+    if (IRC_RANKING_HasEntryByTrainerId(rank->entries, 30, &entry) != 0) {
+        IRC_RANKING_UpdateEntryMeetCount(rank->entries, 30, &entry);
     }
     {
         u8 slot = rank->lastSlot;
@@ -2364,11 +2365,11 @@ u8 sub_0200AA68(struct IrcRankSave *rank, const void *name, u16 score, u8 gender
  *
  * The first clears bit 7 of the byte at +0x1b of each of the same 0x1e
  * records of 0x1c bytes the two helpers at 0x0200A9A4 index (that byte's
- * bit 7 is the flag sub_0200A9A4 returns); the second is a four-byte
+ * bit 7 is the flag IRC_RANKING_IsEntryNew returns); the second is a four-byte
  * constant getter for 0x34c, which Thumb spells `movs r0, #0xd3; lsls
  * r0, r0, #2`.
  */
-void sub_0200AB04(struct IrcRankEntry *entries)
+void IRC_RANKING_ClearNewFlags(struct IrcRankEntry *entries)
 {
     int i;
     for (i = 0; i < 0x1e; i++)
@@ -2376,20 +2377,20 @@ void sub_0200AB04(struct IrcRankEntry *entries)
 }
 
 
-int sub_0200AB24(void)
+int IRC_RANKING_GetSize(void)
 {
     return sizeof(struct IrcRankSave);
 }
 
 
-void func_0200AB2C(struct IrcRankSave *rank)
+void IRC_RANKING_Init(struct IrcRankSave *rank)
 {
     MI_CpuFill8(rank, 0, sizeof(struct IrcRankSave));
     rank->lastSlot = 0x7f;
 }
 
 
-u8 func_0200AB50(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entry)
+u8 IRC_RANKING_InsertEntry(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entry)
 {
     s32 i;
     s32 slot = -1;
@@ -2420,7 +2421,7 @@ u8 func_0200AB50(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entr
  * and the entry test moves.  EXACT*: the 2-byte linker filler at 0x0200AC12
  * is inside the packet but the listing extent runs to the next label.
  */
-int func_0200ABE0(struct IrcRankEntry *list, int count, struct IrcRankEntry *entry)
+int IRC_RANKING_HasEntryByTrainerId(struct IrcRankEntry *list, int count, struct IrcRankEntry *entry)
 {
     int i;
     for (i = 0; i < count; i++) {
@@ -2485,9 +2486,9 @@ int func_0200ABE0(struct IrcRankEntry *list, int count, struct IrcRankEntry *ent
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_0200AC14.c \
- *       --func sub_0200AC14 --addr 0x0200AC14 --cc 1.1p1 --thumb
+ *       --func IRC_RANKING_InitEntry --addr 0x0200AC14 --cc 1.1p1 --thumb
  */
-void sub_0200AC14(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
+void IRC_RANKING_InitEntry(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
                   u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag)
 {
     MI_CpuFill8(entry, 0, sizeof(struct IrcRankEntry));
@@ -2507,7 +2508,7 @@ void sub_0200AC14(struct IrcRankEntry *entry, const void *name, u32 score, u32 m
 }
 
 
-struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int trainerId)
+struct IrcRankEntry *IRC_RANKING_FindEntryByTrainerId(struct IrcRankEntry *list, int count, int trainerId)
 {
     int i;
     for (i = 0; i < count; i++) {
@@ -2525,7 +2526,7 @@ struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int tra
  * EXACT*: the listing extent runs to 156 bytes because the function at
  * 0x0200AD6C that follows saves nothing and therefore carries no label
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); this file
- * reproduces the 108 bytes of sub_0200AD00 itself, code and both pool words.
+ * reproduces the 108 bytes of IRC_RANKING_UpdateEntryMeetCount itself, code and both pool words.
  * The unlabelled follower at 0x0200AD6C should be seeded into
  * layout/function_starts.txt by the integrator.
  *
@@ -2549,7 +2550,7 @@ struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int tra
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md -- a 10-bit
  * unsigned BITFIELD at bit 7, not a hand-rolled mask.  Declaring the whole
  * packed word as the `struct Entry` bitfields the family header already
- * evidences (func_0200A8D0/A8E4/A8F8 in src/matched/unit_0200A864.c prove the
+ * evidences (IRC_RANKING_GetEntryScore/A8E4/A8F8 in src/matched/unit_0200A864.c prove the
  * 7/10/1 widths) takes the row from 94 concrete bytes out to 2 in one edit,
  * and also drops the lr push: the hand-written version needed a spill the
  * bitfield form does not.
@@ -2560,13 +2561,13 @@ struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int tra
  * #0x14]`, and the natural-reading `e->unk14 != ref->unk14` gives them the
  * other way round.  This is docs/idioms/cmp-operand-order-names-the-temporary.md
  * and it is the THIRD function in this family to turn on it
- * (src/matched/func_0200ABE0.c and src/matched/func_0200AA00.c are the others).
+ * (src/matched/IRC_RANKING_HasEntryByTrainerId.c and src/matched/IRC_RANKING_GetDateScore.c are the others).
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_0200AD00.c \
- *       --func sub_0200AD00 --addr 0x0200AD00 --cc 1.1p1 --thumb
+ *       --func IRC_RANKING_UpdateEntryMeetCount --addr 0x0200AD00 --cc 1.1p1 --thumb
  */
-void sub_0200AD00(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry)
+void IRC_RANKING_UpdateEntryMeetCount(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry)
 {
     int i;
     for (i = 0; i < total; i++) {
@@ -2588,10 +2589,10 @@ void sub_0200AD00(struct IrcRankEntry *list, int total, struct IrcRankEntry *ent
 
 /*
  * Save-block getter for block 0x2E, the same one-line shape as
- * func_0200A864 / func_0200A8A0 (blocks 0x2B, 0x2C) in unit_0200A864.c:
+ * MUSICAL_SHOT_GetFromSave / IRC_RANKING_GetFromSave (blocks 0x2B, 0x2C) in unit_0200A864.c:
  * a tail call through the pool with the id in r1.
  */
-struct WorldTradeData *func_0200AD6C(struct SaveControl *save)
+struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x2e);
 }
@@ -2600,16 +2601,16 @@ struct WorldTradeData *func_0200AD6C(struct SaveControl *save)
 /*
  * note:     wave 17 lane untried_small: return 0xF8 (the size of a 0xF8-byte record); listing extent runs over the unlabelled neighbours 0x0200AD7C, 0x0200AD8C, 0x0200AD94.
  */
-int func_0200AD78(void)
+int WORLDTRADE_GetSize(void)
 {
     return sizeof(struct WorldTradeData);
 }
 
 
 /*
- * note:     wave 18 lane ties_b: unlabelled follower of func_0200AD78; clears a 0xF8-byte record with MIi_CpuClearFast (tail call).
+ * note:     wave 18 lane ties_b: unlabelled follower of WORLDTRADE_GetSize; clears a 0xF8-byte record with MIi_CpuClearFast (tail call).
  */
-void func_0200AD7C(struct WorldTradeData *trade)
+void WORLDTRADE_Init(struct WorldTradeData *trade)
 {
     MIi_CpuClearFast(0, trade, sizeof(struct WorldTradeData));
 }
@@ -2618,7 +2619,7 @@ void func_0200AD7C(struct WorldTradeData *trade)
 /*
  * note:     wave 18 lane ties_b: unlabelled follower; getter of the u16 at +0xEC (extent includes two bytes of padding).
  */
-u16 func_0200AD8C(const struct WorldTradeData *trade)
+u16 WORLDTRADE_GetIsDeposited(const struct WorldTradeData *trade)
 {
     return trade->isDeposited;
 }
@@ -2627,7 +2628,7 @@ u16 func_0200AD8C(const struct WorldTradeData *trade)
 /*
  * note:     wave 18 lane ties_b: unlabelled follower; setter of the u16 at +0xEC (extent includes two bytes of padding).
  */
-void func_0200AD94(struct WorldTradeData *trade, u16 isDeposited)
+void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, u16 isDeposited)
 {
     trade->isDeposited = isDeposited;
 }
@@ -2645,7 +2646,7 @@ void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon)
  *
  * Addresses are Black-image addresses.
  */
-void func_0200ADB4(void)
+void WORLDTRADE_NoOp(void)
 {
 }
 
@@ -2654,12 +2655,12 @@ void func_0200ADB4(void)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
+ *           REGULATION_GetCompetitionSize, REGULATION_Create, REGULATION_Copy, REGULATION_NoOp,
+ *           REGULATION_GetCupName, REGULATION_CreateCupName, REGULATION_GetRuleValue, REGULATION_SetRuleValue,
+ *           REGULATION_GetVetoBit, REGULATION_GetShooterSettings, REGULATION_Card_GetCupName, REGULATION_Card_GetValue,
+ *           REGULATION_Card_SetValue, REGULATION_Card_IsCrcValid, REGULATION_Card_CalcCrc, REGULATION_GetCard,
+ *           REGULATION_SetCard, REGULATION_InitParty, REGULATION_GetParty, REGULATION_Party_GetValue,
+ *           REGULATION_Party_SetValue
  *
  * alias: the original source file is named in the image.  The constructor at
  * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
@@ -2680,7 +2681,7 @@ void func_0200ADB4(void)
  * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
  * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
  * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
+ * the three bitmaps at +0x0A, +0x5C and +0xAC that REGULATION_GetVetoBit tests a bit
  * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
  * larger record that contains this one at offset 0, over ids 1..12 and a set
  * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
@@ -2694,7 +2695,7 @@ void func_0200ADB4(void)
  *    is what reads the case list back: an entry pointing at the common exit
  *    is a case that is absent from the source, which is how ids 9, 10 and 14
  *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
+ *  - REGULATION_Card_GetValue falls off the end of its switch with no return statement,
  *    and the original's default arm is a bare `bx lr` that returns the
  *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
  *    an instruction and moves every case body.
@@ -2704,57 +2705,57 @@ void func_0200ADB4(void)
  *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
  *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
  *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
+ *    or casting, gives `lsrs` and two bytes wrong in REGULATION_Party_GetValue.
  */
-void func_0200ADB8(struct WorldTradeData *trade, const void *pokemon, u32 boxPos)
+void WORLDTRADE_SetPokemon(struct WorldTradeData *trade, const void *pokemon, u32 boxPos)
 {
     MI_CpuCopy8(pokemon, trade, func_020173EC());
 }
 
 
-void func_0200ADD0(struct WorldTradeData *trade, u32 tradeId)
+void WORLDTRADE_SetLastTradeId(struct WorldTradeData *trade, u32 tradeId)
 {
     trade->lastTradeId = tradeId;
 }
 
 
-void func_0200ADD8(struct WorldTradeData *trade, u32 searchId)
+void WORLDTRADE_SetLastSearchId(struct WorldTradeData *trade, u32 searchId)
 {
     trade->lastSearchId = searchId;
 }
 
 
-u16 func_0200ADE0(struct WorldTradeData *trade)
+u16 WORLDTRADE_GetReturnBox(struct WorldTradeData *trade)
 {
     return trade->returnBox;
 }
 
 
-u32 func_0200ADE8(void)
+u32 REGULATION_GetCompetitionSize(void)
 {
     return sizeof(struct BattleCompetitionSave);
 }
 
 
-struct Regulation *func_0200ADF0(u32 heapId)
+struct Regulation *REGULATION_Create(u32 heapId)
 {
     return func_02030734(heapId, sizeof(struct Regulation), 1, func_0200ADF0_File,
                          0x73);
 }
 
 
-void func_0200AE08(const struct Regulation *src, struct Regulation *dest)
+void REGULATION_Copy(const struct Regulation *src, struct Regulation *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Regulation));
 }
 
 
-void func_0200AE14(void)
+void REGULATION_NoOp(void)
 {
 }
 
 
-void func_0200AE18(struct Regulation *rule, void *dest)
+void REGULATION_GetCupName(struct Regulation *rule, void *dest)
 {
     struct MsgBank *bank = func_02045B38(0, 2, 0xA6, 1);
     func_02045CAC(bank, rule->cupNo, dest);
@@ -2762,15 +2763,15 @@ void func_0200AE18(struct Regulation *rule, void *dest)
 }
 
 
-void *func_0200AE3C(struct Regulation *rule, u32 heapId)
+void *REGULATION_CreateCupName(struct Regulation *rule, u32 heapId)
 {
     void *name = STRBUF_Create(0x1A, heapId);
-    func_0200AE18(rule, name);
+    REGULATION_GetCupName(rule, name);
     return name;
 }
 
 
-u32 func_0200AE54(struct Regulation *rule, u32 id)
+u32 REGULATION_GetRuleValue(struct Regulation *rule, u32 id)
 {
     u32 value = 0;
     switch (id) {
@@ -2799,7 +2800,7 @@ u32 func_0200AE54(struct Regulation *rule, u32 id)
 }
 
 
-void func_0200AEE8(struct Regulation *rule, u32 id, s32 value)
+void REGULATION_SetRuleValue(struct Regulation *rule, u32 id, s32 value)
 {
     switch (id) {
     case 0:  if (value < 7)     { rule->cupNo = value; } break;
@@ -2826,7 +2827,7 @@ void func_0200AEE8(struct Regulation *rule, u32 id, s32 value)
 }
 
 
-u32 func_0200AFD4(struct Regulation *rule, u32 id, s32 bit)
+u32 REGULATION_GetVetoBit(struct Regulation *rule, u32 id, s32 bit)
 {
     s32 byte = bit / 8;
     s32 shift = bit % 8;
@@ -2851,10 +2852,10 @@ u32 func_0200AFD4(struct Regulation *rule, u32 id, s32 bit)
 }
 
 
-void func_0200B040(struct Regulation *rule, struct ShooterSettings *out)
+void REGULATION_GetShooterSettings(struct Regulation *rule, struct ShooterSettings *out)
 {
     MI_CpuFill8(out, 0, sizeof(struct ShooterSettings));
-    out->isEnabled = func_0200AE54(rule, 13);
+    out->isEnabled = REGULATION_GetRuleValue(rule, 13);
     if (out->isEnabled >= 2) {
         out->isEnabled = 1;
     }
@@ -2862,13 +2863,13 @@ void func_0200B040(struct Regulation *rule, struct ShooterSettings *out)
 }
 
 
-u8 *func_0200B074(struct RegulationCard *card)
+u8 *REGULATION_Card_GetCupName(struct RegulationCard *card)
 {
     return card->cupName;
 }
 
 
-s32 func_0200B078(struct RegulationCard *card, u32 id)
+s32 REGULATION_Card_GetValue(struct RegulationCard *card, u32 id)
 {
     switch (id) {
     case 1:  return card->cupId;
@@ -2887,7 +2888,7 @@ s32 func_0200B078(struct RegulationCard *card, u32 id)
 }
 
 
-void func_0200B110(struct RegulationCard *card, u32 id, s32 value)
+void REGULATION_Card_SetValue(struct RegulationCard *card, u32 id, s32 value)
 {
     switch (id) {
     case 1:  card->cupId      = value; break;
@@ -2906,46 +2907,46 @@ void func_0200B110(struct RegulationCard *card, u32 id, s32 value)
 }
 
 
-u32 func_0200B1A8(struct RegulationCard *card)
+u32 REGULATION_Card_IsCrcValid(struct RegulationCard *card)
 {
-    if (card->crc == func_0200B1C4(card)) {
+    if (card->crc == REGULATION_Card_CalcCrc(card)) {
         return 1;
     }
     return 0;
 }
 
 
-u16 func_0200B1C4(struct RegulationCard *card)
+u16 REGULATION_Card_CalcCrc(struct RegulationCard *card)
 {
-    return func_0203F1FC(card, 0x15E);
+    return GF_STANDARD_SetupCalc(card, 0x15E);
 }
 
 
-struct RegulationCard *func_0200B1D4(struct RegulationCard *cards, u32 index)
+struct RegulationCard *REGULATION_GetCard(struct RegulationCard *cards, u32 index)
 {
     return &cards[index];
 }
 
 
-void func_0200B1E0(struct RegulationCard *cards, u32 index, const struct RegulationCard *src)
+void REGULATION_SetCard(struct RegulationCard *cards, u32 index, const struct RegulationCard *src)
 {
     cards[index] = *src;
 }
 
 
-void func_0200B1F8(struct RegulationParty *party)
+void REGULATION_InitParty(struct RegulationParty *party)
 {
     MI_CpuFill8(party, 0, sizeof(struct RegulationParty));
 }
 
 
-struct RegulationParty *func_0200B204(struct BattleCompetitionSave *competition, u32 index)
+struct RegulationParty *REGULATION_GetParty(struct BattleCompetitionSave *competition, u32 index)
 {
     return &competition->parties[index];
 }
 
 
-s32 func_0200B214(struct RegulationParty *party, u32 id, u8 member)
+s32 REGULATION_Party_GetValue(struct RegulationParty *party, u32 id, u8 member)
 {
     switch (id) {
     case 0: return party->monsNo[member];
@@ -2957,7 +2958,7 @@ s32 func_0200B214(struct RegulationParty *party, u32 id, u8 member)
 }
 
 
-void func_0200B254(struct RegulationParty *party, int id, u8 member, s32 value)
+void REGULATION_Party_SetValue(struct RegulationParty *party, int id, u8 member, s32 value)
 {
     switch (id) {
     case 0: party->monsNo[member] = value; break;

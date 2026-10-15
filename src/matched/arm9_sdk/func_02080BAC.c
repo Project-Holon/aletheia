@@ -9,8 +9,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   disableBankForX_  0x02080A18  arm
  */
 
 typedef unsigned short u16;
-extern int func_02080A18(u16 *g3bit);
-void func_02080BAC(int a0, int a1, int a2, int a3){ func_02080A18((u16 *)((int)0x2150E5E)); }
+extern int disableBankForX_(u16 *g3bit);
+void func_02080BAC(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E5E)); }

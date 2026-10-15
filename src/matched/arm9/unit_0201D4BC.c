@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201D4BC
+ * function: GF_FONT_SearchIndex
  *
  * Finds the index of the 0xBD06 tag whose first parameter is the caller's
  * value, counting 0xFFFE separators as it goes.  The tag's parameter is read
@@ -41,7 +41,7 @@ struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 *func_0201D688(u16 *p);
 
-u32 func_0201D4BC(void *s, u8 v)
+u32 GF_FONT_SearchIndex(void *s, u8 v)
 {
     u16 *p;
     u16 n = 0;

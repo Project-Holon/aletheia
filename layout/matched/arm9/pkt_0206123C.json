@@ -87,7 +87,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061808",
+   "name": "NNSi_GfdGetVramManagerWork",
    "address": "0x02061808",
    "kind": "game",
    "region": "arm9",
@@ -99,7 +99,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061824",
+   "name": "NNSi_GfdSetVramManagerWork",
    "address": "0x02061824",
    "kind": "game",
    "region": "arm9",
@@ -147,7 +147,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206188C",
+   "name": "NNS_GfdFuncLoadTex",
    "address": "0x0206188C",
    "kind": "game",
    "region": "arm9",
@@ -159,7 +159,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020618B8",
+   "name": "NNS_GfdFuncLoadTexPltt",
    "address": "0x020618B8",
    "kind": "game",
    "region": "arm9",

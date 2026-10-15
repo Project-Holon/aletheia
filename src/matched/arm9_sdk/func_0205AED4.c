@@ -1,5 +1,5 @@
 /*
- * function: func_0205AED4
+ * function: UpDateList
  * address:  0x0205AED4
  * packet:   pkt_0205AED4
  * region:   arm9
@@ -130,7 +130,7 @@ typedef struct {
 
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 
-void func_0205AED4(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
+void UpDateList(int no, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk)
 {
     ACFL *list = &wk->findList[no];
     WMBssDesc *bssdesc_no = &wk->bssDesc[no];

@@ -1,5 +1,5 @@
 /*
- * function: func_0205ABD4
+ * function: CompareList
  * address:  0x0205ABD4
  * packet:   pkt_0205ABD4
  * region:   arm9
@@ -135,7 +135,7 @@ typedef struct {
 extern int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 extern int strncmp(const char *s1, const char *s2, unsigned long n) __attribute__((pure));
 
-int func_0205ABD4(WMBssDesc *bssdesc, unsigned char num, ACSL *list)
+int CompareList(WMBssDesc *bssdesc, unsigned char num, ACSL *list)
 {
     int i;
     int type;

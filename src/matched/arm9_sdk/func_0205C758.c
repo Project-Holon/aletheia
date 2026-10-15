@@ -1,5 +1,5 @@
 /*
- * function: func_0205C758
+ * function: DWC_ConnectInetAsync
  * address:  0x0205C758
  * packet:   pkt_0205C758
  * region:   arm9
@@ -58,7 +58,7 @@ extern void DWCi_SetError(int error, int errorCode);
 extern void *DWC_Alloc(unsigned long name, long size);
 extern void DWC_Free(unsigned long name, void *ptr, long size);
 
-void func_0205C758(void)
+void DWC_ConnectInetAsync(void)
 {
     DWCACConfig inp;
 

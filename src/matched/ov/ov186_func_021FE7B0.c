@@ -14,7 +14,7 @@
  *
  * Unlabelled ov186 leaf hidden in a word run: loads the word its argument
  * points at.  Matched to supply the `matched` witness for the two pending
- * ov184 callers (func_021F85DC, func_021F8624).
+ * ov184 callers (BR_DOWNLOAD_StepFadeIn, BR_DOWNLOAD_StepClose).
  */
 
 int BR_FADE_GetResult(int *p)

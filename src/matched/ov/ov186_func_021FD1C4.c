@@ -177,7 +177,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201F230 0x0201F230 thumb
  *   func_0201F048 0x0201F048 thumb
- *   func_0201F094 0x0201F094 thumb
+ *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201BC3C 0x0201BC3C thumb
@@ -252,7 +252,7 @@ extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
@@ -337,7 +337,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             w=func_0200D760(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201F094(words,0,v,w);
+            WORDSET_DeleteMsgdataF094(words,0,v,w);
             func_0201F250(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);

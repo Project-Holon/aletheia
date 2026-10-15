@@ -46,7 +46,7 @@
  * not a spelling problem, which is what sent the work back to the dispatch
  * arithmetic.
  *
- * func_0200F234 is THUMB and reached by `blx`; declaring it arm makes
+ * NET_DEVICE_TABLE_Reset is THUMB and reached by `blx`; declaring it arm makes
  * match.py refuse the site outright (it checks the .thumb_func marker).
  * The gGFLNetMain store is written gGFLNetMain[2] rather than
  * *(u32 *)(0x021469E0 + 8): the constant-plus-offset form folds the +8
@@ -62,8 +62,8 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02034714  0x02034714  arm
- *   func_02034FB8  0x02034FB8  arm
- *   func_0200F234  0x0200F234  thumb
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
+ *   NET_DEVICE_TABLE_Reset  0x0200F234  thumb
  *   gGFLNetMain     0x021469E0  data
  *   str_020A7CA0   0x020A7CA0  data
  *   str_020A7CE8   0x020A7CE8  data
@@ -80,8 +80,8 @@ extern void GFL_NET_HANDLE_ExitWork(u8 *p);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32 a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02034FB8(u32 a);
-extern void func_0200F234(u32 a);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 a);
+extern void NET_DEVICE_TABLE_Reset(u32 a);
 extern struct Singleton gGFLNetMain;
 extern char str_020A7CA0[];
 extern char str_020A7CE8[];
@@ -109,7 +109,7 @@ void GFL_NET_EndSession(void)
         f(((struct Obj03452 *)s)->f34C);
 
     GFL_NET_HANDLE_ExitWork(s);
-    func_0200F234(m);
+    NET_DEVICE_TABLE_Reset(m);
     func_020307B0(s);
 
     ((u32 *)&gGFLNetMain)[2] = 0;
@@ -133,5 +133,5 @@ void GFL_NET_EndSession(void)
     }
 
     func_020306F0(a);
-    func_02034FB8(4);
+    UI_ClearKeepAwakeFlagsGlobal(4);
 }

@@ -11,7 +11,7 @@
  * extent: 021FA99A zero halfword is alignment padding before labelled 021FA99C.
  * ABI: B294 forwards an address-valued u32 payload and returns the actor in r0; ABF0 tail-forwards AC18's index despite void declaration.
  * symbols:
- *   func_021F9E0C 0x021F9E0C thumb ov132
+ *   STA_ACTING_GetActorCount 0x021F9E0C thumb ov132
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
@@ -34,7 +34,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y,index;u8 a,b;} Params;
 struct Bank;
-extern u32 func_021F9E0C(u8 *p);
+extern u32 STA_ACTING_GetActorCount(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -54,7 +54,7 @@ void func_021FA7E0(char *p)
     void *narc;
     u8 i=0;
     int format;
-    table=(u8 *)func_021F9E0C((u8 *)(*(char * *)&((struct Obj00151 *)p)->f4));
+    table=(u8 *)STA_ACTING_GetActorCount((u8 *)(*(char * *)&((struct Obj00151 *)p)->f4));
     ((struct Obj00151 *)p)->f18=CLACT_CreateUnit(5,0,((struct Obj00151 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct Obj00151 *)p)->f18);
     narc=func_020490F4(47,((struct Obj00151 *)p)->f0);

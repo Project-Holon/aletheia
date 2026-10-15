@@ -1,7 +1,7 @@
 /*
  * file:     tpoke_data.c
  * unit:     yes
- * function: func_0202A128, func_0202A170, func_0202A188, func_0202A19C, func_0202A1CC, func_0202A20C, func_0202A21C, func_0202A230, func_0202A298, func_0202A310, func_0202A3AC, func_0202A3BC, func_0202A3CC, func_0202A3D8, func_0202A3FC, func_0202A420
+ * function: TPOKE_DATA_Create, func_0202A170, TPOKE_DATA_GetRecordIndex, TPOKE_DATA_IsRecordKindTwo, TPOKE_DATA_FindEntryIndex, TPOKE_DATA_GetEntryIndex, TPOKE_DATA_GetRecordPtr, TPOKE_DATA_GetRecordField, TPOKE_DATA_FindRecord, TPOKE_DATA_ReadRecordString, TPOKE_DATA_ReadRecord, TPOKE_DATA_ReadParty, TPOKE_DATA_GetGenderValue, TPOKE_DATA_FindTrainerType, TPOKE_DATA_GetTrainerKind, TPOKE_DATA_GetTrainerGroup
  * address:  0x0202A128
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,18 +28,13 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Clear  0x0204581C  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   Data_0209FF1C  0x0209FF1C  data
- *   Table_0209FEE4  0x0209FEE4  data
- *   func_0202A3D8   0x0202A3D8  thumb
- *   func_0202A3AC  0x0202A3AC  thumb
+ *   gTpokeDataGenderValueTable  0x0209FF1C  data
+ *   gTpokeDataTrainerKindTable  0x0209FEE4  data
+ *   TPOKE_DATA_FindTrainerType   0x0202A3D8  thumb
+ *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
  *   MIi_CpuCopy16  0x02082A60  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
-#include "../../matched/include/Obj15808.h"
-#include "../../matched/include/Obj15810.h"
-#include "../../matched/include/Obj15812.h"
-
-struct Container;
 struct ArcFile;
 struct MsgBank;
 struct Rec;
@@ -57,75 +52,96 @@ typedef struct {
 
 typedef unsigned char  u8;
 
+/* One 8-byte entry of the container's entry table.  TPOKE_DATA_FindEntryIndex matches
+ * key/type/subtype and returns the entry index; the u16 at +6 indexes the
+ * container's 0x1c-byte record table. */
 struct Item {
     u16 key;
-    u16 v2;
-    u16 v3;
-    u16 pad;
+    u16 type;
+    u16 subtype;
+    u16 recordIndex;
 };
 
+/* The container p: an entry table (8-byte Item records, count entries) and a
+ * base address of 0x1c-byte records.  This merges the three Obj views the
+ * matched files used: Obj15808.f0 is entries, Obj15812.f8 is records. */
 struct Container {
-    const struct Item *items;
-    u32 pad1;
-    u32 pad2;
+    const struct Item *entries;
+    u32 pad04;
+    int records;
     u32 count;
+};
+
+/* One 0x1c-byte record of the container's record table.  Only the byte at
+ * +7 is read here (TPOKE_DATA_IsRecordKindTwo compares it with 2); the rest is unknown
+ * and recorded in open_items. */
+struct TpokeRecord {
+    u8 reserved00[7];
+    u8 battleKind;
+    u8 reserved08[0x14];
 };
 
 typedef signed int    s32;
 
+/* The 0x14-byte archive-member-0x5c record, decoded field by field.
+ * TPOKE_DATA_GetRecordField returns its fields by index (0..11).  tr_tool.c reads the
+ * same member as the trainer record. */
 typedef struct {
-    u8  b0;
-    u8  b1;
-    u8  b2;
-    u8  b3;
-    u16 w[4];
-    u32 d;
-    u8  f : 1;
-    u8  b11;
-    u16 h12;
-} Buf;
+    u8  type;
+    u8  genderClass;
+    u8  pad02;
+    u8  count;
+    u16 words[4];
+    u32 word0C;
+    u8  flag10 : 1;
+    u8  byte11;
+    u16 half12;
+} TpokeDataRecord;
 
-struct Record {
-    u16 val : 7;
-    u16 field2 : 4;
-    u16 rest : 5;
+/* One 7-bit-keyed trainer-kind table row (gTpokeDataTrainerKindTable): val is the
+ * trainer type, kind and group are the two small fields looked up from it. */
+struct TrainerKindRecord {
+    u16 trainerType : 7;
+    u16 kind : 4;
+    u16 group : 5;
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int   ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern u32 func_020307B0(void *p);
-extern u32 func_0202A1CC(const struct Container *c, u32 key, u32 v2, u32 v3);
+extern u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
 extern u32   ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void  ARC_TOOL_DeleteHandle(void *h);
-u32 func_0202A20C(u8 *p, u32 key, u32 v2, u32 v3);
-int func_0202A21C(int a0, int a1);
-u32 func_0202A230(void *a, u32 idx);
-u32 func_0202A298(u32 key, u32 want, u32 heap);
+u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype);
+int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
+u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
-void func_0202A310(int key, int want, void *dest, u32 heap);
-void func_0202A3AC(void *a0, void *a1);
-void func_0202A3BC(void *a0, void *a1);
-u8 func_0202A3CC(u32 idx);
-u8 func_0202A3D8(u32 key);
-u8 func_0202A3FC(u32 key);
-u32 func_0202A420(u32 key);
+void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap);
+void TPOKE_DATA_ReadRecord(void *a0, void *a1);
+void TPOKE_DATA_ReadParty(void *a0, void *a1);
+u8 TPOKE_DATA_GetGenderValue(u32 idx);
+u8 TPOKE_DATA_FindTrainerType(u32 key);
+u8 TPOKE_DATA_GetTrainerKind(u32 key);
+u32 TPOKE_DATA_GetTrainerGroup(u32 key);
 extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
-Tpoke *func_0202A128(int heap);
+extern int   func_0200F128(int index);
+Tpoke *TPOKE_DATA_Create(int heap);
 void TPOKE_Delete(Tpoke *tpoke);
-u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3);
-int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e);
+u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
+int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e);
 extern const char sTpokeData82[];
-extern const u8 Data_0209FF1C[];
-extern const struct Record Table_0209FEE4[];
+extern const u8 gTpokeDataGenderValueTable[];
+extern const struct TrainerKindRecord gTpokeDataTrainerKindTable[];
 
 
 
@@ -133,7 +149,7 @@ extern const struct Record Table_0209FEE4[];
 
 
 
-Tpoke *func_0202A128(int heap)
+Tpoke *TPOKE_DATA_Create(int heap)
 {
     Tpoke *p;
     u32 size;
@@ -168,14 +184,14 @@ void TPOKE_Delete(Tpoke *tpoke)
  * Returns the halfword at entry i (times 8 plus 6) of the +0 table.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202A188.c \
- *       --func func_0202A188 --addr 0x0202A188 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TPOKE_DATA_GetRecordIndex.c \
+ *       --func TPOKE_DATA_GetRecordIndex --addr 0x0202A188 --thumb --cc 1.1p1
  */
-u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3)
+u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype)
 {
-    u32 i = func_0202A20C(p, a, v2, v3);
+    u32 i = TPOKE_DATA_GetEntryIndex((u8 *)c, key, type, subtype);
 
-    return *(u16 *)(((struct Obj15808 *)p)->f0 + i * 8 + 6);
+    return *(u16 *)((u8 *)c->entries + i * 8 + 6);
 }
 
 
@@ -184,12 +200,12 @@ u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3)
 
 
 
-int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e)
+int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e)
 {
-    int i = func_0202A20C((u8 *)p, c, d, e);
-    u8 *r = (u8 *)func_0202A21C((int)p, *(u16 *)((u8 *)*p + i * 8 + 6));
+    int i = TPOKE_DATA_GetEntryIndex((u8 *)c, type, subtype, e);
+    u8 *r = (u8 *)TPOKE_DATA_GetRecordPtr(c, c->entries[i].recordIndex);
 
-    if (((struct Obj15810 *)r)->f7 == 2) {
+    if (((struct TpokeRecord *)r)->battleKind == 2) {
         return 1;
     }
     return 0;
@@ -212,24 +228,24 @@ int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e)
  * bottom of the loop.  Written with a separate base pointer the compiler caches
  * the bound and the residue is 10 bytes of register shuffling.
  *
- * Closes the blocker of src/pending/func_0202A20C.c.
+ * Closes the blocker of src/pending/TPOKE_DATA_GetEntryIndex.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202A1CC.c \
- *       --func func_0202A1CC --addr 0x0202A1CC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TPOKE_DATA_FindEntryIndex.c \
+ *       --func TPOKE_DATA_FindEntryIndex --addr 0x0202A1CC --thumb --cc 1.1p1
  */
-u32 func_0202A1CC(const struct Container *c, u32 key, u32 v2, u32 v3)
+u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype)
 {
     u32 i;
 
     for (i = 0; i < c->count; i++) {
-        if (c->items[i].key != key) {
+        if (c->entries[i].key != key) {
             continue;
         }
-        if (c->items[i].v2 != 2 && c->items[i].v2 != v2) {
+        if (c->entries[i].type != 2 && c->entries[i].type != type) {
             continue;
         }
-        if (c->items[i].v3 != v3) {
+        if (c->entries[i].subtype != subtype) {
             continue;
         }
         return i;
@@ -239,69 +255,69 @@ u32 func_0202A1CC(const struct Container *c, u32 key, u32 v2, u32 v3)
 
 
 /*
- * Returns func_0202A1CC's result, clamped to zero when negative.
+ * Returns TPOKE_DATA_FindEntryIndex's result, clamped to zero when negative.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202A20C.c \
- *       --func func_0202A20C --addr 0x0202A20C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TPOKE_DATA_GetEntryIndex.c \
+ *       --func TPOKE_DATA_GetEntryIndex --addr 0x0202A20C --thumb --cc 1.1p1
  *
  * Closed by the `matched` class: 0x0202A1CC was filed as an EXACT entry this
  * wave (pkt_0202A19C) with the struct-container spelling of the bounded scan.
  */
-u32 func_0202A20C(u8 *p, u32 key, u32 v2, u32 v3)
+u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype)
 {
-    s32 r = func_0202A1CC((const struct Container *)p, key, v2, v3);
+    s32 r = TPOKE_DATA_FindEntryIndex((const struct Container *)p, key, type, subtype);
 
     return r < 0 ? 0u : (u32)r;
 }
 
 
-int func_0202A21C(int a0, int a1){ int t0 = func_0200F128((int)(a1 + 0)); return (((struct Obj15812 *)((char *)((a0 + 0))))->f8 + (t0 * 0x1c)); }
+int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = func_0200F128((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
 
 
-u32 func_0202A230(void *a, u32 idx)
+u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
 {
-    Buf buf;
+    TpokeDataRecord rec;
     u32 r;
 
-    func_0202A3AC(a, &buf);
+    TPOKE_DATA_ReadRecord(a, &rec);
     switch (idx) {
     case 0:
-        r = buf.b0;
+        r = rec.type;
         break;
     case 1:
-        r = buf.b1;
+        r = rec.genderClass;
         break;
     case 2:
-        r = buf.b2;
+        r = rec.pad02;
         break;
     case 3:
-        r = buf.b3;
+        r = rec.count;
         break;
     case 4:
     case 5:
     case 6:
     case 7:
-        r = buf.w[idx - 4];
+        r = rec.words[idx - 4];
         break;
     case 8:
-        r = buf.d;
+        r = rec.word0C;
         break;
     case 9:
-        r = buf.f;
+        r = rec.flag10;
         break;
     case 10:
-        r = buf.b11;
+        r = rec.byte11;
         break;
     case 11:
-        r = buf.h12;
+        r = rec.half12;
         break;
     }
     return r;
 }
 
 
-u32 func_0202A298(u32 key, u32 want, u32 heap)
+u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
 {
     u16   rec[4];
     void *h;
@@ -330,7 +346,7 @@ u32 func_0202A298(u32 key, u32 want, u32 heap)
 
 
 
-void func_0202A310(int key, int want, void *dest, u32 heap)
+void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
 {
     u16   rec[4];
     void *h;
@@ -361,14 +377,14 @@ void func_0202A310(int key, int want, void *dest, u32 heap)
 
 
 
-void func_0202A3AC(void *a0, void *a1)
+void TPOKE_DATA_ReadRecord(void *a0, void *a1)
 {
     ARC_TOOL_ReadMember(a1, 0x5c, (u32)a0);
 }
 
 
 
-void func_0202A3BC(void *a0, void *a1)
+void TPOKE_DATA_ReadParty(void *a0, void *a1)
 {
     ARC_TOOL_ReadMember(a1, 0x5d, (u32)a0);
 }
@@ -376,23 +392,23 @@ void func_0202A3BC(void *a0, void *a1)
 
 
 /*
- * Blocked: Data_0209FF1C is named by this function's one pool word
+ * Blocked: gTpokeDataGenderValueTable is named by this function's one pool word
  * (0x0202A3D4) inside the compared range; `literal` has no outside site
  * and the target is neither a string nor a pointer table.  Every concrete
  * byte reproduces.
  */
-u8 func_0202A3CC(u32 idx)
+u8 TPOKE_DATA_GetGenderValue(u32 idx)
 {
-    return Data_0209FF1C[idx];
+    return gTpokeDataGenderValueTable[idx];
 }
 
 
-u8 func_0202A3D8(u32 key)
+u8 TPOKE_DATA_FindTrainerType(u32 key)
 {
     int i;
 
     for (i = 0; i < 0x1c; i++) {
-        if (key == Table_0209FEE4[i].val) {
+        if (key == gTpokeDataTrainerKindTable[i].trainerType) {
             return (u8)i;
         }
     }
@@ -400,21 +416,21 @@ u8 func_0202A3D8(u32 key)
 }
 
 
-u8 func_0202A3FC(u32 key)
+u8 TPOKE_DATA_GetTrainerKind(u32 key)
 {
-    u8 idx = func_0202A3D8(key);
+    u8 idx = TPOKE_DATA_FindTrainerType(key);
     if (idx >= 0x1c) {
         return 12;
     }
-    return (u8)Table_0209FEE4[idx].field2;
+    return (u8)gTpokeDataTrainerKindTable[idx].kind;
 }
 
 
-u32 func_0202A420(u32 key)
+u32 TPOKE_DATA_GetTrainerGroup(u32 key)
 {
-    u8 idx = func_0202A3D8(key);
+    u8 idx = TPOKE_DATA_FindTrainerType(key);
     if (idx >= 0x1c) {
         return 0x11;
     }
-    return Table_0209FEE4[idx].rest;
+    return gTpokeDataTrainerKindTable[idx].group;
 }

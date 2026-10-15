@@ -1,5 +1,5 @@
 /*
- * function: func_02076C88
+ * function: CARDi_StartRomPageTransfer
  * address:  0x02076C88
  * packet:   pkt_02076C88
  * region:   arm9
@@ -27,7 +27,7 @@ typedef int BOOL;
 extern BOOL CARDi_IsNormalMode(void);
 extern void CARDi_SetRomOp(u32 command, u32 offset);
 
-void func_02076C88(u32 offset)
+void CARDi_StartRomPageTransfer(u32 offset)
 {
     u8 op = 0xB7;
 

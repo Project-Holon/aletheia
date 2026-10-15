@@ -47,7 +47,7 @@
  *   func_02047828  0x02047828  arm
  *   EFFECT_ENCOUNT_GetSpotDistance  0x021AAA4C  thumb  ov021
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlotWithOwner  0x02028ACC  thumb
  *   sEncountVolumes     0x021D9234  data   a1
  *   sEncounterDrawSlotStatus  0x021D9254  data
@@ -55,6 +55,7 @@
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm  arm9
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm  arm9
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm  arm9
+ *   MTX_Identity33_  0x0207ADC4  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -174,7 +175,7 @@ extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step)
 extern u32 func_02047828(G3dObject *obj, u32 anmIdx, s32 *frame);
 extern int EFFECT_ENCOUNT_GetSpotDistance(EncountSys *encount, short *out);
 extern u16 func_0209C0A4(int a, int b);
-extern SoundSys *func_02012A30(const void *gameData);
+extern SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
 extern void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(SoundSys *soundSys, u32 id, u32 volume);
 
 EncountModelSet *FLDEFF_ENCOUNT_CreateKind0(FieldEffectSys *fieldEffect, int heapId);
@@ -203,7 +204,7 @@ extern EncountModelDesc sEncountModelDescs[];               /* models and animat
 extern u8 sEncountResourceIndex[];                             /* effect resource index of each start selector */
 extern const FieldEffectObjFuncs sEncountFuncs;        /* rustling-spot effect callbacks */
 extern u8 sEncountVolumes[];                             /* sound volume of each strength step */
-extern void func_0207ADC4(MtxFx33 *mtx);
+extern void MTX_Identity33_(MtxFx33 *mtx);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern G3dObjectStatus sEncounterDrawSlotStatus;                     /* draw status template of the slot object */
 
@@ -461,7 +462,7 @@ void FLDEFF_ENCOUNT_PlaySound(EncountWork *work, EncountModelSet *set)
             strength = 3;
         volume = sEncountVolumes[strength];
         seId = set->desc.seId;
-        soundSys = func_02012A30(work->encount->gameData);
+        soundSys = GAME_DATA_GetBgmInfo(work->encount->gameData);
         FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(soundSys, seId, volume);
     }
 }
@@ -474,7 +475,7 @@ void FLDEFF_ENCOUNT_DrawSlotObject(FieldEffectObj *effect, EncountWork *work)
     EncountModelSet *set = work->param.res;
 
     if (work->drawHidden == 0) {
-        func_0207ADC4(&status.rotate);
+        MTX_Identity33_(&status.rotate);
         FIELD_EFFECT_GetObjectPos(effect, &status.trans);
         G3D_SYSTEM_DrawObjectCulling(set->draw[work->param.setIndex].object, &status);
     }

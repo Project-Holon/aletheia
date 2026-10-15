@@ -17,6 +17,7 @@
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   WIH_DWC_ResumeTimers  0x02010444  thumb
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
+ *   UI_ClearFlags39Global  0x020351A0  arm
  */
 #include "../include/Obj11252.h"
 
@@ -29,7 +30,7 @@ typedef signed char s8;
 extern int  GFL_USE_IsLoaderBusy(void);
 struct Sub02007168;
 extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
-extern int func_020351A0(u32 v);
+extern int UI_ClearFlags39Global(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
 
 int GAME_DATA_SaveMain(u8 *p)
@@ -41,7 +42,7 @@ int GAME_DATA_SaveMain(u8 *p)
     }
     r = SAVE_CONTROL_MainSave((struct Sub02007168 *)(((struct Obj11252 *)p)->f0));
     if ((u32)(r - 2) <= 1) {
-        func_020351A0(2);
+        UI_ClearFlags39Global(2);
         WIH_DWC_ResumeTimers();
         ((struct Obj11252 *)p)->f1CE = 0;
     }

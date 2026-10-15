@@ -17,7 +17,7 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02028470 0x02028470 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -41,7 +41,7 @@ extern void BMP_Clear(struct CharBuf *, u8);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void func_02028470(u8 *p, u32 v);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -65,7 +65,7 @@ void func_021D5B5C(char *p, struct MsgBank *a, int b)
     if (*(u32 *)(p + 0x50) == 0) kind = 6;
     func_02028470((u8 *)(p + 0x3c), (int)kind);
     if (*(u32 *)(p + 0x38) != 0) PRINTSYS_PrintStreamDelete(*(struct Rec3 **)(p + 0x38));
-    *(u32 *)(p + 0x38) = PRINTSYS_PrintStream(w, 0, 0, *(u32 *)(p + 0x28), *(u32 *)(p + 0x24), func_02012FFC(), *(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
+    *(u32 *)(p + 0x38) = PRINTSYS_PrintStream(w, 0, 0, *(u32 *)(p + 0x28), *(u32 *)(p + 0x24), MSG_SPEED_GetWait(), *(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
     func_0201F73C((void *)w, 1, (u16)(*(u32 *)p), 12);
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);

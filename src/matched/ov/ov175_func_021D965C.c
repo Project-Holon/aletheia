@@ -14,10 +14,10 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_02012944  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200B358  0x0200B358  thumb
- *   func_0200B204  0x0200B204  thumb
- *   func_0200B074  0x0200B074  thumb
- *   func_0200B078  0x0200B078  thumb
+ *   BATTLE_COMPETITION_GetFromSave  0x0200B358  thumb
+ *   REGULATION_GetParty  0x0200B204  thumb
+ *   REGULATION_Card_GetCupName  0x0200B074  thumb
+ *   REGULATION_Card_GetValue  0x0200B078  thumb
  *   func_02008554  0x02008554  thumb
  *   BSUBWAY_SAVEDATA_GetStat  0x0200DFD8  thumb
  *   func_021E5548  0x021E5548  thumb  ov177
@@ -80,10 +80,10 @@ struct Reg2;
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200B358(void *sys);
-extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
-extern u8 *func_0200B074(struct Reg2 *p);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern void *BATTLE_COMPETITION_GetFromSave(void *sys);
+extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
+extern u8 *REGULATION_Card_GetCupName(struct Reg2 *p);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32 a, u32 b, u32 c);
 extern int func_021E5548(int *p);
@@ -104,22 +104,22 @@ void func_021D965C(struct Obj *obj)
         data = obj->f108;
         sys = (u32)func_02012944((void *)(*obj->f104->f08));
         id = func_021E5548((int *)obj->f00);
-        kind = (u32)func_0200B204(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
+        kind = (u32)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));
-        MI_CpuCopy8(func_0200B074((struct Reg2 *)data), &prof, 0x92);
-        a = func_0200B078((struct Reg2 *)data, 6);
-        b = func_0200B078((struct Reg2 *)data, 5);
-        c = func_0200B078((struct Reg2 *)data, 4);
+        MI_CpuCopy8(REGULATION_Card_GetCupName((struct Reg2 *)data), &prof, 0x92);
+        a = REGULATION_Card_GetValue((struct Reg2 *)data, 6);
+        b = REGULATION_Card_GetValue((struct Reg2 *)data, 5);
+        c = REGULATION_Card_GetValue((struct Reg2 *)data, 4);
         prof.f94 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
-        a = func_0200B078((struct Reg2 *)data, 9);
-        b = func_0200B078((struct Reg2 *)data, 8);
-        c = func_0200B078((struct Reg2 *)data, 7);
+        a = REGULATION_Card_GetValue((struct Reg2 *)data, 9);
+        b = REGULATION_Card_GetValue((struct Reg2 *)data, 8);
+        c = REGULATION_Card_GetValue((struct Reg2 *)data, 7);
         prof.f98 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
         prof.f9c = func_02008554((const struct Sub0200852CObj *)sys);
         prof.fa0 = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 0);
         a = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 1);
         prof.fa4 = a + BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 2);
-        prof.faa = func_0200B078((struct Reg2 *)data, 11);
+        prof.faa = REGULATION_Card_GetValue((struct Reg2 *)data, 11);
         if (prof.fa4 == 0 && prof.fa0 == 0)
             prof.fa0 = 1500;
         obj->f1c = (u32)func_021E5D68((char *)(&prof), 0, (void *)sys, (void *)id, (void *)obj->f04, obj->f08, (void *)obj->f10, (void *)obj->f14, (void *)obj->f18, (void *)kind, 0, 0x57);

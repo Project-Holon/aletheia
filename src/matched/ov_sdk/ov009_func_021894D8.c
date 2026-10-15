@@ -49,7 +49,7 @@
  *
  * symbols:
  *   func_0217EC90  0x0217EC90  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
  *   func_02193710  0x02193710  arm  ov009
  *   func_02189D78  0x02189D78  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
@@ -93,7 +93,7 @@
  */
 
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char *func_0217EAB0(int size);
@@ -111,7 +111,7 @@ int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
     int rcode = func_0217EC90(sock, buffer, bufferLen, 0);
 
     if (rcode == -1) {
-        rcode = func_0217ED54(sock);
+        rcode = GOAGetLastError(sock);
         if (rcode != -6 && rcode != -26 && rcode != -76) {
             if (id[0] == 'P' && id[1] == 'R')
                 return 3;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020618E4",
+   "name": "NNS_GfdFuncLoadClearImageColor",
    "address": "0x020618E4",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02061908",
+   "name": "NNS_GfdFuncLoadClearImageDepth",
    "address": "0x02061908",
    "kind": "game",
    "region": "arm9",

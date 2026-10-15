@@ -18,7 +18,7 @@
  *   func_0201D42C 0x0201D42C thumb
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -47,7 +47,7 @@ struct Bmp;
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 struct Bmp;
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -74,7 +74,7 @@ void func_021BAFC4(char *p, int idx)
         x = ((int)(W - w)) / 2;
     if (H > h)
         y = ((int)(H - h)) / 2;
-    *(u32 *)(p + 0x250) = PRINTSYS_PrintStream((u32)desc, x, y, *(u32 *)(p + 0x258), *(u32 *)(p + 0x18), func_02012FFC(),
+    *(u32 *)(p + 0x250) = PRINTSYS_PrintStream((u32)desc, x, y, *(u32 *)(p + 0x258), *(u32 *)(p + 0x18), MSG_SPEED_GetWait(),
                                          *(u32 *)(p + 0x254), 2, *(u16 *)p, 0);
     BMP_WIN_TransferChars(desc);
     BMP_WIN_MakeScreen((struct Cfg *)desc);

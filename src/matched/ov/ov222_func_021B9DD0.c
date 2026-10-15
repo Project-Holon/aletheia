@@ -10,7 +10,7 @@
  * tail: two zero alignment bytes at 021B9E42; no follower.
  * symbols:
  *   func_02040804 0x02040804 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef struct {s16 x,y;} Pt;
 extern unsigned func_02040804(unsigned);
-extern void func_02041EE4(unsigned,unsigned,unsigned);
+extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
@@ -38,7 +38,7 @@ void func_021B9DD0(char*p)
         if(v!=0){
             if(((struct Obj02560 *)p)->f44==0){
                 if(v>=2)v=2;
-                func_02041EE4(1,5,v);func_02041EE4(2,5,v);
+                BG_SYS_ResetSlot(1,5,v);BG_SYS_ResetSlot(2,5,v);
                 CLACT_GetActorSurfacePos(*(void* *)&((struct Obj02560 *)p)->f54,(struct PtS *)(&pos),0);
                 pos.y=pos.y+(s16)v;
                 CLACT_AddActorSurfacePos(*(void* *)&((struct Obj02560 *)p)->f54,(const struct Vec2 *)(&pos),0);

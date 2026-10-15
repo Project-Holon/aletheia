@@ -29,14 +29,14 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_0215F2DC  0x0215F2DC  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclConfig  0x021A1CD8  data
  *   func_0215F0C8  0x0215F0C8  arm  ov009
  *   g_021AA44C  0x021AA44C  data
  *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_InitMutex  0x02086004  arm
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   func_0215CFC0  0x0215CFC0  arm  ov009
+ *   SOCLi_CommandPacketHandler  0x0215CFC0  arm  ov009
  */
 #include "../../matched/include/G_021A1CD8.h"
 
@@ -285,7 +285,7 @@ extern void OS_InitMutex(OSMutex *mutex);
 extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
                             u32 stackSize, u32 prio);
 extern void OS_WakeupThreadDirect(OSThread *thread);
-extern void func_0215CFC0(void *arg);
+extern void SOCLi_CommandPacketHandler(void *arg);
 int SOCL_CreateSocket(struct SOCLSocketParam *param);
 int func_0215D124(void *arg);
 void *func_0215D198(void *param);
@@ -296,7 +296,7 @@ unsigned char *func_0215D3A0(unsigned char *ptr, Buf *buf, unsigned long size);
 unsigned char *func_0215D3C8(unsigned char *ptr, SOCLSocketCommandPipe *pipe, const SOCLSocketThreadParam *param);
 extern void *SOCLiConfigPtr;
 extern struct SOCLiResource SOCLi_Resource;
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern Sock *g_021AA44C;
 
 
@@ -379,7 +379,7 @@ void *func_0215D198(void *param)
 
 	size = func_0215D200(param);
 	enable = OS_DisableInterrupts();
-	socket = g_021A1CD8->alloc(size);
+	socket = gSoclConfig->alloc(size);
 	if (socket) {
 		MI_CpuFill8(socket, 0, size);
 		func_0215D2A8((Sock *)socket, (const Param_0215D2A8 *)param);
@@ -541,7 +541,7 @@ unsigned char *func_0215D3C8(unsigned char *ptr, SOCLSocketCommandPipe *pipe,
 	stack_bottom = ptr + func_0215D280((Param_0215D280 *)param);
 	OS_InitMessageQueue(&pipe->queue, (OSMessage *)ptr, param->msgCount);
 	OS_InitMutex(&pipe->mutex);
-	OS_CreateThread(&pipe->thread, func_0215CFC0, pipe, stack_bottom, param->stackSize, param->prio);
+	OS_CreateThread(&pipe->thread, SOCLi_CommandPacketHandler, pipe, stack_bottom, param->stackSize, param->prio);
 	OS_WakeupThreadDirect(&pipe->thread);
 	return stack_bottom;
 }

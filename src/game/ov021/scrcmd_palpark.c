@@ -28,9 +28,9 @@
  *   d_021F6D78     0x021F6D78  data  ov107
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200C1A4  0x0200C1A4  thumb
- *   func_0200C184  0x0200C184  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   BEACON_GetRank  0x0200C1A4  thumb
+ *   BEACON_GetBestScore  0x0200C184  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_BEACON_SEARCH_SetItemFound  0x0216530C  thumb  ov010
  *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
@@ -78,9 +78,9 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *p);
-extern u8 func_0200C1A4(struct Blk34 *p);
-extern u32 func_0200C184(struct Blk34 *p);
+extern void *BEACON_GetBlock(void *p);
+extern u8 BEACON_GetRank(struct Blk34 *p);
+extern u32 BEACON_GetBestScore(struct Blk34 *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void GAME_BEACON_SEARCH_SetItemFound(void *a0);
 extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
@@ -147,13 +147,13 @@ int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
     mode = *core->pc;
     core->pc++;
     result = SCRIPT_WORK_ReadWorkPointer(core, work);
-    saveBlock = func_0200C0F0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
+    saveBlock = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     switch (mode) {
     case 0:
-        *result = func_0200C1A4(saveBlock);
+        *result = BEACON_GetRank(saveBlock);
         break;
     case 1:
-        *result = func_0200C184(saveBlock);
+        *result = BEACON_GetBestScore(saveBlock);
         break;
     }
     return 0;

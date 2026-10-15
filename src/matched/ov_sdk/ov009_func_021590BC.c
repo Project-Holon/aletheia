@@ -12,7 +12,7 @@
  * sdk:      check_listener (libcps.TWL.HYB.a network.o)
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
@@ -41,14 +41,14 @@ struct ThreadInfo {
 	struct Thread *list;
 };
 
-extern struct ThreadInfo g_02150FEC;
+extern struct ThreadInfo gMslRefToken;
 
 struct Soc *check_listener(unsigned char *iphdr, unsigned char *tcphdr)
 {
 	struct Soc *soc;
 	struct Thread *t;
 
-	for (t = g_02150FEC.list; t != 0; t = t->next) {
+	for (t = gMslRefToken.list; t != 0; t = t->next) {
 		soc = t->soc;
 		if (soc != 0 && soc->first != 0 && soc->state == 1 &&
 		    soc->local_port == SWAP16(*(unsigned short *)(tcphdr + 2)) &&

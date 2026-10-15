@@ -1,7 +1,7 @@
 /*
  * file:     wih_dwc.c
  * unit:     yes
- * function: sub_02010158, func_020101D4, func_0201034C, WIH_DWC_Create, WIH_DWC_Delete, WIH_DWC_PauseTimers, WIH_DWC_ResumeTimers, WIH_DWC_AddBeacon, WIH_DWC_TickTimers, WIH_DWC_IsSsidInFilterList, WIH_DWC_IsOpenTaggedBeacon, WIH_DWC_IsPrivacyBeacon, WIH_DWC_PollStatus, WIH_DWC_CreateFilterBuffer, WIH_DWC_ResetFilterState, WIH_DWC_FindSlotByKey, WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy, func_02010888, func_0201088C, func_020108C4, func_02010904, func_02010934, func_0201093C, func_02010964, func_02010994, func_020109B8, func_020109E0, func_02010A04, func_02010A3C, sub_02010A5C, func_02010AC4
+ * function: GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow, WIH_DWC_PollSystem, WIH_DWC_Create, WIH_DWC_Delete, WIH_DWC_PauseTimers, WIH_DWC_ResumeTimers, WIH_DWC_AddBeacon, WIH_DWC_TickTimers, WIH_DWC_IsSsidInFilterList, WIH_DWC_IsOpenTaggedBeacon, WIH_DWC_IsPrivacyBeacon, WIH_DWC_PollStatus, WIH_DWC_CreateFilterBuffer, WIH_DWC_ResetFilterState, WIH_DWC_FindSlotByKey, WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy, GFL_NET_SAVE_SetStep, GFL_NET_SAVE_Create, GFL_NET_SAVE_CreateWithCallback, GFL_NET_SAVE_CheckFinished, GFL_NET_SAVE_Delete, GFL_NET_SAVE_StepBegin, GFL_NET_SAVE_StepWaitSaveStart, GFL_NET_SAVE_StepWaitSync72, GFL_NET_SAVE_StepDelay, GFL_NET_SAVE_StepWaitSync73, GFL_NET_SAVE_StepProgress, GFL_NET_SAVE_StepFinish, GFL_NET_SAVE_InitWork, GFL_NET_SAVE_Main
  * address:  0x02010158
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram     0x02043754  arm
- *   func_0201EC64     0x0201EC64  thumb
+ *   GF_FONT_Create_EC64     0x0201EC64  thumb
  *   GF_FONT_Create     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
  *   func_0201EFA4     0x0201EFA4  thumb
@@ -34,7 +34,7 @@
  *   STRBUF_Delete     0x02045808  arm
  *   MSGDATA_Delete     0x02045C04  arm
  *   GF_FONT_Delete     0x0201D83C  thumb
- *   func_0201ED04     0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04     0x0201ED04  thumb
  *   BMP_Delete     0x020437AC  arm
  *   gWihDwc     0x021461E0  data
  *   sWihDwcAssertArg        0x020A7240  data
@@ -53,7 +53,7 @@
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_GetScanResult  0x0203CF10  arm
- *   func_0205D01C  0x0205D01C  arm
+ *   DWC_ParseWMBssDesc  0x0205D01C  arm
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb  ov014
  *   func_0205FAA8  0x0205FAA8  arm
  *   GFL_NET_GetRunState     0x0203CD98  arm
@@ -73,7 +73,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   sub_020124F4   0x020124F4  thumb
  *   sub_02012EBC   0x02012EBC  thumb
- *   sub_02009448   0x02009448  thumb
+ *   GAME_SYNC_GetBlock   0x02009448  thumb
  *   BLOCK20_SAVEDATA_GetPending   0x020092EC  thumb
  *   ov115_id       0x00000073  data  a1
  *   ov123_id       0x0000007B  data  a1
@@ -236,7 +236,7 @@ extern u16 *G2_GetBG1ScrPtr(void);
 extern u8  *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flags);
@@ -247,7 +247,7 @@ extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font,
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(void *font);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
@@ -263,7 +263,7 @@ extern void *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_GetScanResult(u32 slot);
 extern u8   NET_WHPIPE_GetEntryKind(u8 slot);
-extern int  func_0205D01C(void *work, struct WihBssDesc *beacon, struct WihSsidInfo *out);
+extern int  DWC_ParseWMBssDesc(void *work, struct WihBssDesc *beacon, struct WihSsidInfo *out);
 extern void func_0205FAA8(u8 *filterState, u32 value);
 extern int  GFL_NET_GetRunState(void);
 extern void OS_GetMacAddress(u8 *mac);
@@ -284,7 +284,7 @@ extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 extern void *sub_020124F4(u16 heapId);
 extern struct SaveControl *sub_02012EBC(void *gameData);
-extern struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
+extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
 extern u8 BLOCK20_SAVEDATA_GetPending(const struct GameSyncData *data);
 extern void PROCSYS_PushGlobal(u32 overlayId, const void *procData, void *arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
@@ -293,9 +293,9 @@ extern int func_02034F5C(int a);
 extern int GFL_USE_UpdateSound(int a);
 extern int PM_VOICE_StopFinished(int a);
 
-u32 sub_02010158(struct NetErrInfo *info, u32 a);
-void func_020101D4(u32 messageVariant, u32 useGenericMessage);
-int func_0201034C(void);
+u32 GFL_NET_ERR_GetMessageId(struct NetErrInfo *info, u32 a);
+void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage);
+int WIH_DWC_PollSystem(void);
 struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
 void WIH_DWC_Delete(struct WihContext *context);
 void WIH_DWC_PauseTimers(void);
@@ -312,20 +312,20 @@ int WIH_DWC_FindSlotByKey(void *searchKey);
 u16 WIH_DWC_GetAlertLevel(void);
 void WIH_DWC_RequestAlertLevel(u32 level);
 void WIH_DWC_Dummy(void);
-void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task));
-struct NetSaveTask *func_0201088C(u32 heapId, u32 gameData);
-struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg);
-u32 func_02010904(struct NetSaveTask *task);
-void func_02010934(struct NetSaveTask *task);
-void func_0201093C(struct NetSaveTask *task);
-void func_02010964(struct NetSaveTask *task);
-void func_02010994(struct NetSaveTask *task);
-void func_020109B8(struct NetSaveTask *task);
-void func_020109E0(struct NetSaveTask *task);
-void func_02010A04(struct NetSaveTask *task);
-void func_02010A3C(struct NetSaveTask *task);
-int sub_02010A5C(void *proc);
-int func_02010AC4(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *work);
+void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task));
+struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData);
+struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg);
+u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task);
+void GFL_NET_SAVE_Delete(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepWaitSaveStart(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepWaitSync72(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepDelay(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepWaitSync73(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepProgress(struct NetSaveTask *task);
+void GFL_NET_SAVE_StepFinish(struct NetSaveTask *task);
+int GFL_NET_SAVE_InitWork(void *proc);
+int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *work);
 extern struct NetErrWork gNetErrWork;
 extern const u16 sNetErrMessageIdsDS[];
 extern const u16 sNetErrMessageIdsTwl[];
@@ -357,7 +357,7 @@ extern u8 gNetSaveRetryProc[];
  * 0x020109D0; the words are 0x0214617C / 0x0209DEB0 / 0x0209DED0, and the
  * case 0x3F7 arm shares case 0x3EE's block (both table slots 0x12).
  */
-u32 sub_02010158(struct NetErrInfo *info, u32 a)
+u32 GFL_NET_ERR_GetMessageId(struct NetErrInfo *info, u32 a)
 {
     u32 errorNumber;
 
@@ -395,12 +395,12 @@ u32 sub_02010158(struct NetErrInfo *info, u32 a)
  * Draws net_err.c's error window: tiles BG1's screen with a running
  * character index, clears the character block to 0x7777, builds a surface,
  * a window object and a palette, picks the message (0x40 for a1 == 1; the
- * mapped error code from sub_02010158 or the stored +0x60 code in link
+ * mapped error code from GFL_NET_ERR_GetMessageId or the stored +0x60 code in link
  * modes 1/2/6; else message 1, or 0 unless a0 == 1), prints it and frees
  * everything.  The non-link arm's message index is the same variable as the
  * constant 1 its two calls pass (idx = 1 kept unless a0 != 1).
  */
-void func_020101D4(u32 messageVariant, u32 useGenericMessage)
+void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
 {
     struct NetErrWork *errWork = &gNetErrWork;
     u16 *screen;
@@ -427,7 +427,7 @@ void func_020101D4(u32 messageVariant, u32 useGenericMessage)
     }
     MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
     bmp = BMP_CreateFromVram(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
-    wordSet = func_0201EC64(1);
+    wordSet = GF_FONT_Create_EC64(1);
     font = GF_FONT_Create(0x17, 0, 0, 0, 1);
 
     if (useGenericMessage == 1) {
@@ -443,7 +443,7 @@ void func_020101D4(u32 messageVariant, u32 useGenericMessage)
                 messageIndex = errWork->messageId;
                 errWork->fatalRaised = 0;
             } else {
-                messageIndex = sub_02010158(&errWork->errorInfo, errWork->messageId);
+                messageIndex = GFL_NET_ERR_GetMessageId(&errWork->errorInfo, errWork->messageId);
             }
         } else {
             func_0201EFA4(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
@@ -463,12 +463,12 @@ void func_020101D4(u32 messageVariant, u32 useGenericMessage)
     STRBUF_Delete(message);
     MSGDATA_Delete(msgBank);
     GF_FONT_Delete(font);
-    func_0201ED04(wordSet);
+    WORDSET_DeleteStrbufED04(wordSet);
     BMP_Delete(bmp);
 }
 
 
-int func_0201034C(void)
+int WIH_DWC_PollSystem(void)
 {
     int t0 = GFL_USE_PollPowerExit();
     int t1 = func_02034F5C(t0);
@@ -814,7 +814,7 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
  * state (0x14..0x1B, 9), then drains the 0xC0-byte record queue that
  * WIH_DWC_AddBeacon fills, arming the four countdowns at +0x318..+0x324 that
  * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
- * 0x40..0x200 from those countdowns.  func_0205D01C's third argument is a
+ * 0x40..0x200 from those countdowns.  DWC_ParseWMBssDesc's third argument is a
  * 0x40-byte out record whose first word is the switch key; the switch has
  * explicit empty arms for 7 and 9 so the 13-entry halfword table exists.
  */
@@ -835,7 +835,7 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
  * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
  * 0x40..0x200 from those countdowns.
  *
- * Two declaration facts close it: func_0205D01C's third argument is a
+ * Two declaration facts close it: DWC_ParseWMBssDesc's third argument is a
  * 0x40-byte out record whose first word is the switch key (the frame is
  * sub sp,#0x60 plus the r3 pad; an `int *` gives sub sp,#0x24), and the
  * switch has explicit empty arms for 7 and 9 so the 13-entry halfword table
@@ -881,7 +881,7 @@ u32 WIH_DWC_PollStatus(void *searchKey)
             gWihDwc.context->knownGameTimer = 600;
         } else if (WIH_DWC_IsOpenTaggedBeacon(beacon)) {
             gWihDwc.context->taggedGameTimer = 600;
-        } else if (func_0205D01C(gWihDwc.context->matchWork, beacon, &ssidInfo)) {
+        } else if (DWC_ParseWMBssDesc(gWihDwc.context->matchWork, beacon, &ssidInfo)) {
             switch (ssidInfo.kind) {
             case 0: case 1: case 2: case 3:
             case 10: case 11: case 12:
@@ -1050,8 +1050,8 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
  * at +0x312 of the object behind 0x021461E0 (0 when there is none), a raising
  * setter of the halfword at +0x314 (only upward, and only below 4; the first
  * compare is signed, the bound unsigned, so the parameter is u32 and the
- * field is compared as int), and an empty function.  func_02010888
- * (src/matched/func_02010888.c) follows.
+ * field is compared as int), and an empty function.  GFL_NET_SAVE_SetStep
+ * (src/matched/GFL_NET_SAVE_SetStep.c) follows.
  *
  * SEED REQUEST for the integrator: arm9 0x02010848 thumb, 0x02010864 thumb,
  * 0x02010884 thumb (witness: this unit).
@@ -1091,10 +1091,10 @@ void WIH_DWC_Dummy(void)
  * Stores the value at the object's +8 field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010888.c \
- *       --func func_02010888 --addr 0x02010888 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_SetStep.c \
+ *       --func GFL_NET_SAVE_SetStep --addr 0x02010888 --thumb --cc 1.1p1
  */
-void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task))
+void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task))
 {
     task->step = step;
 }
@@ -1102,11 +1102,11 @@ void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *ta
 
 /*
  * net_save.c task constructors for the 0x14-byte task object, its poll, and
- * the eight-byte tail-call stub func_02010934 (a tail call into the ARM
+ * the eight-byte tail-call stub GFL_NET_SAVE_Delete (a tail call into the ARM
  * function 0x020307B0).  Both constructors end with the same two statements:
  * the debug allocator func_02030734(heap, 0x14, 1, "net_save.c", line)
  * (0x020A725C is two bytes into the "net_save.c" string at 0x020A7258) and
- * func_02010888(p, func_0201093C).  func_02010904 calls the callback with
+ * GFL_NET_SAVE_SetStep(p, GFL_NET_SAVE_StepBegin).  GFL_NET_SAVE_CheckFinished calls the callback with
  * the object in r0, then tests func_0200FB24()'s result; that call has no
  * argument of its own (r0 still holds the callback's return value).  The
  * two `return 1` arms are written separately and the +0x08 load is re-read
@@ -1115,11 +1115,11 @@ void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *ta
 /*
  * The whole range 0x0201088C..0x0201093C: two constructors for the same
  * 0x14-byte object, its destructor-or-poll, and the eight-byte tail-call
- * stub that sits between them and func_0201093C.
+ * stub that sits between them and GFL_NET_SAVE_StepBegin.
  *
- *   func_0201088C   allocator + one stored field (+0x0C)
- *   func_020108C4   allocator + three stored fields (+0x00, +0x04, +0x0C)
- *   func_02010904   fire the +0x08 callback, then two liveness tests
+ *   GFL_NET_SAVE_Create   allocator + one stored field (+0x0C)
+ *   GFL_NET_SAVE_CreateWithCallback   allocator + three stored fields (+0x00, +0x04, +0x0C)
+ *   GFL_NET_SAVE_CheckFinished   fire the +0x08 callback, then two liveness tests
  *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word func_020307B0`
  *
  * The stub is a real function: `ov119` at 0x021E0C5C and `ov137` at
@@ -1130,16 +1130,16 @@ void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *ta
  * puts the pool word and the `bx r3` there and what makes the unit's extent
  * end at 0x0201093C.  Since then seeded as a start in
  * layout/function_starts.txt (both callers set r0 to the object at +0xEF8 /
- * their own field before the bl), so the listing labels it func_02010934.
+ * their own field before the bl), so the listing labels it GFL_NET_SAVE_Delete.
  *
  * Both constructors end with the same two statements: the SDK debug
  * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
  * two bytes into the "net_save.c" string at 0x020A7258, so the file anchor is
- * net_save.c - and then func_02010888(p, func_0201093C), which stores the
+ * net_save.c - and then GFL_NET_SAVE_SetStep(p, GFL_NET_SAVE_StepBegin), which stores the
  * callback into +0x08.  The two pool words per constructor are the file
  * string and that callback address with its Thumb bit, 0x0201093D.
  *
- * func_02010904 calls the callback with the object in r0, then tests
+ * GFL_NET_SAVE_CheckFinished calls the callback with the object in r0, then tests
  * func_0200FB24()'s result.  That call is left with no argument of its own:
  * r0 still holds whatever the callback returned, which is what the original
  * does and what a no-argument call in the source produces.  The two `return
@@ -1152,19 +1152,19 @@ void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *ta
  *   python tools/match.py tu --src src/matched/unit_0201088C.c \
  *       --addr 0x0201088C --thumb
  */
-struct NetSaveTask *func_0201088C(u32 heapId, u32 gameData)
+struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData)
 {
     struct NetSaveTask *task;
 
     task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     task->gameData = gameData;
     GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
-    func_02010888(task, func_0201093C);
+    GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepBegin);
     return task;
 }
 
 
-struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg)
+struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg)
 {
     struct NetSaveTask *task;
 
@@ -1173,12 +1173,12 @@ struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32
     task->callbackArg = callbackArg;
     task->gameData = gameData;
     GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
-    func_02010888(task, func_0201093C);
+    GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepBegin);
     return task;
 }
 
 
-u32 func_02010904(struct NetSaveTask *task)
+u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task)
 {
     if (task->step != 0)
         task->step(task);
@@ -1192,7 +1192,7 @@ u32 func_02010904(struct NetSaveTask *task)
     return 0;
 }
 
-void func_02010934(struct NetSaveTask *task)
+void GFL_NET_SAVE_Delete(struct NetSaveTask *task)
 {
     func_020307B0(task);
 }
@@ -1200,82 +1200,82 @@ void func_02010934(struct NetSaveTask *task)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201093C.c \
- *       --func func_0201093C --addr 0x0201093C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepBegin.c \
+ *       --func GFL_NET_SAVE_StepBegin --addr 0x0201093C --thumb --cc 1.1p1
  */
-void func_0201093C(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
         GAME_DATA_SaveStart(task->gameData);
-        func_02010888(task, func_02010964);
+        GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSaveStart);
     }
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010964.c \
- *       --func func_02010964 --addr 0x02010964 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepWaitSaveStart.c \
+ *       --func GFL_NET_SAVE_StepWaitSaveStart --addr 0x02010964 --thumb --cc 1.1p1
  */
-void func_02010964(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepWaitSaveStart(struct NetSaveTask *task)
 {
     if (GAME_DATA_SaveMain(task->gameData) == 1) {
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
         task->delayFrames = func_020056EC(0x3c);
-        func_02010888(task, func_02010994);
+        GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSync72);
     }
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010994.c \
- *       --func func_02010994 --addr 0x02010994 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepWaitSync72.c \
+ *       --func GFL_NET_SAVE_StepWaitSync72 --addr 0x02010994 --thumb --cc 1.1p1
  */
-void func_02010994(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepWaitSync72(struct NetSaveTask *task)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8) != 0) {
-        func_02010888(task, func_020109B8);
+        GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepDelay);
     }
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020109B8.c \
- *       --func func_020109B8 --addr 0x020109B8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepDelay.c \
+ *       --func GFL_NET_SAVE_StepDelay --addr 0x020109B8 --thumb --cc 1.1p1
  */
-void func_020109B8(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepDelay(struct NetSaveTask *task)
 {
     s32 framesLeft = task->delayFrames - 1;
 
     task->delayFrames = framesLeft;
     if (framesLeft < 0) {
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8);
-        func_02010888(task, func_020109E0);
+        GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSync73);
     }
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020109E0.c \
- *       --func func_020109E0 --addr 0x020109E0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepWaitSync73.c \
+ *       --func GFL_NET_SAVE_StepWaitSync73 --addr 0x020109E0 --thumb --cc 1.1p1
  */
-void func_020109E0(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepWaitSync73(struct NetSaveTask *task)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8) != 0) {
-        func_02010888(task, func_02010A04);
+        GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepProgress);
     }
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010A04.c \
- *       --func func_02010A04 --addr 0x02010A04 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepProgress.c \
+ *       --func GFL_NET_SAVE_StepProgress --addr 0x02010A04 --thumb --cc 1.1p1
  */
-void func_02010A04(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepProgress(struct NetSaveTask *task)
 {
     if (task->progressCallback != 0) {
         task->progressCallback(task->callbackArg);
@@ -1283,25 +1283,25 @@ void func_02010A04(struct NetSaveTask *task)
     if (GAME_DATA_SaveMain(task->gameData) == 2) {
         task->gameData = 0;
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8);
-        func_02010888(task, func_02010A3C);
+        GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepFinish);
     }
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010A3C.c \
- *       --func func_02010A3C --addr 0x02010A3C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepFinish.c \
+ *       --func GFL_NET_SAVE_StepFinish --addr 0x02010A3C --thumb --cc 1.1p1
  */
-void func_02010A3C(struct NetSaveTask *task)
+void GFL_NET_SAVE_StepFinish(struct NetSaveTask *task)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8) != 0) {
-        func_02010888(task, 0);
+        GFL_NET_SAVE_SetStep(task, 0);
     }
 }
 
 
-int sub_02010A5C(void *proc)
+int GFL_NET_SAVE_InitWork(void *proc)
 {
     struct NetSaveProcWork *work;
     void *gameData;
@@ -1312,7 +1312,7 @@ int sub_02010A5C(void *proc)
     work->heapId = 0x67;
     gameData = sub_020124F4(0x67);
     work->gameData = gameData;
-    if (BLOCK20_SAVEDATA_GetPending(sub_02009448(sub_02012EBC(gameData))) != 0) {
+    if (BLOCK20_SAVEDATA_GetPending(GAME_SYNC_GetBlock(sub_02012EBC(gameData))) != 0) {
         work->state = 1;
         work->skipFinalSave = 1;
     } else {
@@ -1338,7 +1338,7 @@ int sub_02010A5C(void *proc)
  *           resolve as `overlay_id` (id argument of PROCSYS_PushGlobal).  Two
  *           ABS32 sites are left, the overlay-resident proc pointers
  *           0x021D6338 / 0x021D654C, whose only other pool words sit in
- *           func_02010C34's pool (0x02010D84..), which disasm.py prints as
+ *           GFL_NET_SAVE_ScreenMain's pool (0x02010D84..), which disasm.py prints as
  *           Thumb code, so the literal index misses them.  Seeding those
  *           pools as .word, or a matched referrer, would close both.
  *           Seed round 10: both words are ov115 proc tables (three Thumb
@@ -1367,14 +1367,14 @@ int sub_02010A5C(void *proc)
  *           words.  With the hint the site attests as `sole-ref` in ov123.
  *
  * The net_save.c save task's per-frame step (the task record of
- * sub_02010A5C; state word at +0x1D4): case 0 starts overlay 0x73's proc
+ * GFL_NET_SAVE_InitWork; state word at +0x1D4): case 0 starts overlay 0x73's proc
  * 0x021D6338 on the record, case 1 starts overlay 0x7B's proc on +0x48
  * unless +0x1C says finished, case 2 hands off to GFL_NET_ERR_ShowScreen(0), case 3
  * restarts overlay 0x73 with proc 0x021D654C on +0x28 or ends the task.
  * Wave 13: the earlier DIFF read both small pool words as distinct symbols
  * and the size argument as 0x1A8; they are the arguments (0x73, proc, arg).
  */
-int func_02010AC4(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *work)
+int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *work)
 {
     switch (work->state) {
     case 0:

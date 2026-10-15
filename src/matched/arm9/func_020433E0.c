@@ -20,15 +20,15 @@
  *   func_02080964  0x02080964  arm
  *   func_02080978  0x02080978  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   func_02080100  0x02080100  arm
- *   func_020806B0  0x020806B0  arm
- *   func_020807BC  0x020807BC  arm
+ *   GX_SetBankForBGExtPltt  0x02080100  arm
+ *   GX_SetBankForSubBG  0x020806B0  arm
+ *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
  *   func_0207FFD0  0x0207FFD0  arm
- *   func_020801F8  0x020801F8  arm
- *   func_0208074C  0x0208074C  arm
- *   func_0208083C  0x0208083C  arm
+ *   GX_SetBankForOBJExtPltt  0x020801F8  arm
+ *   GX_SetBankForSubOBJ  0x0208074C  arm
+ *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *   func_02080294  0x02080294  arm
- *   func_0208040C  0x0208040C  arm
+ *   GX_SetBankForTexPltt  0x0208040C  arm
  *
  * bg_sys.c: apply a VRAM bank descriptor.  Disable every bank, set the ten
  * bank assignments (TwlSDK GX_SetBankFor*, 0x0207FDCC..0x0208040C), then the
@@ -80,15 +80,15 @@ extern void func_020809F0(void);   /* GX_ResetBankForSubOBJExtPltt */
 extern int func_02080964(void);
 extern void func_02080978(void);
 extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */
-extern void func_02080100(GXVRam v);   /* GX_SetBankForBGExtPltt */
-extern void func_020806B0(GXVRam v);   /* GX_SetBankForSubBG */
-extern void func_020807BC(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
+extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
+extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
+extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
 extern void func_0207FFD0(GXVRam v);   /* GX_SetBankForOBJ */
-extern void func_020801F8(GXVRam v);   /* GX_SetBankForOBJExtPltt */
-extern void func_0208074C(GXVRam v);   /* GX_SetBankForSubOBJ */
-extern void func_0208083C(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
+extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
+extern void GX_SetBankForSubOBJ(GXVRam v);   /* GX_SetBankForSubOBJ */
+extern void GX_SetBankForSubOBJExtPltt(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
 extern void func_02080294(GXVRam v);   /* GX_SetBankForTex */
-extern void func_0208040C(GXVRam v);   /* GX_SetBankForTexPltt */
+extern void GX_SetBankForTexPltt(GXVRam v);   /* GX_SetBankForTexPltt */
 
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
@@ -116,15 +116,15 @@ void BG_SYS_SetVramBanks(const struct DispVram *c)
     func_02080964();
     func_02080978();
     func_0207FDCC(c->main_bg);
-    func_02080100(c->main_bg_expltt);
-    func_020806B0(c->sub_bg);
-    func_020807BC(c->sub_bg_expltt);
+    GX_SetBankForBGExtPltt(c->main_bg_expltt);
+    GX_SetBankForSubBG(c->sub_bg);
+    GX_SetBankForSubBGExtPltt(c->sub_bg_expltt);
     func_0207FFD0(c->main_obj);
-    func_020801F8(c->main_obj_expltt);
-    func_0208074C(c->sub_obj);
-    func_0208083C(c->sub_obj_expltt);
+    GX_SetBankForOBJExtPltt(c->main_obj_expltt);
+    GX_SetBankForSubOBJ(c->sub_obj);
+    GX_SetBankForSubOBJExtPltt(c->sub_obj_expltt);
     func_02080294(c->teximage);
-    func_0208040C(c->texpltt);
+    GX_SetBankForTexPltt(c->texpltt);
     GX_SetOBJVRamModeChar(c->main_mapping);
     GXS_SetOBJVRamModeChar(c->sub_mapping);
 }

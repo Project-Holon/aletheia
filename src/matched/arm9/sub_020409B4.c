@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gUnk_02146A44  0x02146A44  data
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *
  * Indexes the 0x2c-byte entry array reached through the pointer at
  * 0x02146A44 and tail-calls the worker at 0x020409E0 with three fields of
@@ -33,11 +33,11 @@ struct Entry02146A44 {
 };
 
 extern struct Entry02146A44 *gUnk_02146A44;
-extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
+extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
 void sub_020409B4(u32 index)
 {
     struct Entry02146A44 *e = &gUnk_02146A44[index];
 
-    func_020409E0(index, (const void *)e->unk_08, e->unk_0c, e->unk_10);
+    BG_SYS_PushTileSource(index, (const void *)e->unk_08, e->unk_0c, e->unk_10);
 }

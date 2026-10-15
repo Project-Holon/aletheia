@@ -1,5 +1,5 @@
 /*
- * function: func_021D6AF0
+ * function: WIFI_BSUBWAY_SaveTrainers
  * address: 0x021D6AF0
  * packet: pkt_ov116_021D6AF0
  * region: ov116
@@ -49,7 +49,7 @@ extern int func_02167ED8(void *, void *);
 struct RecSlot;
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
-void func_021D6AF0(u8 *p, void *q) {
+void WIFI_BSUBWAY_SaveTrainers(u8 *p, void *q) {
     u32 time[3];
     u32 date[4];
     func_02167ED8(date, time);

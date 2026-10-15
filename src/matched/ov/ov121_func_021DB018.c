@@ -17,7 +17,7 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -96,7 +96,7 @@ extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void func_0201F5BC(u32, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
@@ -135,8 +135,8 @@ void func_021DB018(u8 *p, u16 heap)
     func_02049B68(arc, 5, 0, 480, 32, heap);
     func_02049B68(arc, 5, 4, 480, 32, heap);
     ARC_TOOL_DeleteHandle(arc);
-    func_02040C14(1, 0, 1, 0);
-    func_02040C14(2, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
+    BG_SYS_Init(2, 0, 1, 0);
     func_0201F5BC(0, 1, 13, 0, heap);
     arc = func_020490F4(7, heap);
     *(int *)(p + 0xBA8) = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 384, heap);

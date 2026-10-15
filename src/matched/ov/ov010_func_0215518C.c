@@ -11,11 +11,11 @@
  *
  * Rebuilds the list at +0x38: either from the party list at +0 (skipping
  * entries whose field 0x4c is set) or from a fresh six-slot list, then
- * refreshes it. func_0200BAC8 is a tail-calling wrapper whose result is
+ * refreshes it. BATTLE_BOX_GetFromSave is a tail-calling wrapper whose result is
  * used here, so this unit declares it returning a value.
  *
  * symbols:
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -41,7 +41,7 @@ struct Ctx {
     void *f4c;
 };
 
-extern void *func_0200BAC8(void *p);
+extern void *BATTLE_BOX_GetFromSave(void *p);
 struct BigObj;
 struct Party;
 struct PartyMon;
@@ -65,7 +65,7 @@ void MUSICAL_EVENT_BuildParty(int mode, struct Ctx *ctx)
     int i;
     void *list;
     void *h;
-    t = (int)func_0200BAC8(ctx->f4c);
+    t = (int)BATTLE_BOX_GetFromSave(ctx->f4c);
     if (mode == 0) {
         list = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(ctx->f00));
         for (i = 0; i < (int)POKEPARTY_GetCount(list); i++) {

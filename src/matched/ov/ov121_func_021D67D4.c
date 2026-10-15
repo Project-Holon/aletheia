@@ -26,6 +26,7 @@
  *   MYSTERY_DATA_Delete  0x0200A338  thumb  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj02176.h"
 extern void func_021D9228(void *);
@@ -38,7 +39,7 @@ struct WordSet;
 extern void MYSTERY_NET_Delete(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -59,7 +60,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     MYSTERY_NET_Delete(((struct Obj02176 *)p)->f3B0);
     if (((struct Obj02176 *)p)->f284) func_021D9E04(((struct Obj02176 *)p)->f284);
     func_021DA890(((struct Obj02176 *)p)->f290);
-    func_0201ED04(((struct Obj02176 *)p)->f3A8);
+    WORDSET_DeleteStrbufED04(((struct Obj02176 *)p)->f3A8);
     MSGDATA_Delete(((struct Obj02176 *)p)->f3A0);
     MSGDATA_Delete(((struct Obj02176 *)p)->f3A4);
     PRINTSYS_QUE_Delete(((struct Obj02176 *)p)->f39C);

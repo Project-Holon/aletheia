@@ -13,7 +13,7 @@
  * flag helper tests e[0x20] == 0 first. The offset form fixed the k/c register swap
  * and the early shift; the helper polarity fixed bne vs beq.
  * symbols:
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -66,7 +66,7 @@ struct Obj0202DC98;
 struct Obj0202DCC4;
 struct Strbuf;
 struct U16Vec;
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
@@ -100,7 +100,7 @@ void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k)
     u32 q;
     int off;
 
-    pal = (u16 *)func_0204162C(6);
+    pal = (u16 *)BG_SYS_GetBuf(6);
     off = (k * 0xE0) << 1;
     c = paletteFlag(e);
     MI_CpuCopy8(pal, (u8 *)pal + off, 0x1C0);

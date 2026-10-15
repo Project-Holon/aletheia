@@ -11,19 +11,19 @@
  *
  * symbols:
  *   VCT_SESSION_BroadcastPacket  0x021B2620  arm  ov013
- *   func_02176E90  0x02176E90  arm  ov009
+ *   DWC_SendReliable  0x02176E90  arm  ov009
  */
 
 typedef unsigned char u8;
 
 extern int VCT_SESSION_BroadcastPacket(int *o, u8 *p);
-extern int func_02176E90(int i, u8 *p, int n);
+extern int DWC_SendReliable(int i, u8 *p, int n);
 
 int VCT_SESSION_SendPacket(u8 *o, u8 *p)
 {
     if (p[4] == 0xff && p[6] == 4) {
         VCT_SESSION_BroadcastPacket((int *)o, p);
-    } else if (func_02176E90(o[4], p, 0x10) == 0) {
+    } else if (DWC_SendReliable(o[4], p, 0x10) == 0) {
         return 0;
     }
     return 1;

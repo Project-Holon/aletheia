@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  */
 
 typedef unsigned short u16;
-void func_0207D534(volatile u16 *reg, int brightness);
+void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 typedef unsigned int   u32;
 void func_020403F4(u32 i);
-void func_0203F9B4(void);
+void BG_SYS_Delete(void);
 
 void OEKAKI_ResetDisplay(void)
 {
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     func_020403F4(5);
     func_020403F4(4);
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }

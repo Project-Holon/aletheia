@@ -1,5 +1,5 @@
 /*
- * function: func_0218E6DC
+ * function: gpiProcessPeerAcceptingConnection
  * address:  0x0218E6DC
  * packet:   pkt_ov009_0218E6DC
  * region:   ov009
@@ -12,15 +12,15 @@
  * sdk:      gpiProcessPeerAcceptingConnection (libdwcgsgp.TWL.HYB.a gpipeer.o)
  *
  * symbols:
- *   func_02181010  0x02181010  arm  ov009
- *   func_02094B20  0x02094B20  arm
- *   func_020949F4  0x020949F4  arm
+ *   gsUdpEngineGetPeerState  0x02181010  arm  ov009
+ *   strstr  0x02094B20  arm
+ *   strncmp  0x020949F4  arm
  *   func_02193418  0x02193418  arm  ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   OS_SPrintf  0x02084F40  arm
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_021858A8  0x021858A8  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   func_0218946C  0x0218946C  arm  ov009
  *   func_02189A7C  0x02189A7C  arm  ov009
  *   g_021A4EB8     0x021A4EB8  data
@@ -86,22 +86,22 @@ extern char g_021A4F14[];
 extern char g_021A4EC0[];
 extern char g_021A4EEC[];
 
-extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
-extern unsigned char *func_02094B20(const unsigned char *s1, const unsigned char *s2);
-extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
+extern int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState);
+extern unsigned char *strstr(const unsigned char *s1, const unsigned char *s2);
+extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
 
-int func_0218E6DC(void **connection, GPIPeer *peer)
+int gpiProcessPeerAcceptingConnection(void **connection, GPIPeer *peer)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int aPeerState;
@@ -117,23 +117,23 @@ int func_0218E6DC(void **connection, GPIPeer *peer)
     if (peer->state != 0x68)
         return 3;
 
-    func_02181010(peer->ip, peer->port, &aPeerState);
+    gsUdpEngineGetPeerState(peer->ip, peer->port, &aPeerState);
     if (aPeerState == 3) {
         peer->state = 0x6A;
         return 0;
     }
 
-    str = (char *)func_02094B20((const unsigned char *)peer->inputBuffer.buffer, (const unsigned char *)g_021A4EB8);
+    str = (char *)strstr((const unsigned char *)peer->inputBuffer.buffer, (const unsigned char *)g_021A4EB8);
     if (str) {
         *str = '\0';
 
         str = peer->inputBuffer.buffer;
-        if (func_020949F4((const unsigned char *)str, (const unsigned char *)g_021A4E98, 6) == 0) {
+        if (strncmp((const unsigned char *)str, (const unsigned char *)g_021A4E98, 6) == 0) {
             if (!func_02193418(str, g_021A4EA0, intValue, sizeof(intValue))) {
                 peer->state = 0x6A;
                 return 0;
             }
-            pid = func_020964E0((u32)intValue);
+            pid = atoi((u32)intValue);
 
             if (!func_02193418(peer->inputBuffer.buffer, g_021A4EA8, nick, sizeof(nick))) {
                 peer->state = 0x6A;
@@ -146,9 +146,9 @@ int func_0218E6DC(void **connection, GPIPeer *peer)
             }
 
             OS_SPrintf(buffer, g_021A4F14, iconnection->password, iconnection->profileid, pid);
-            func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), sigCheck);
+            func_021858A8((unsigned char *)buffer, strlen((const u8 *)buffer), sigCheck);
 
-            if (func_020948E0(sig, sigCheck) != 0) {
+            if (strcmp(sig, sigCheck) != 0) {
                 func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EC0);
                 func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
                 func_02189A7C(connection, peer->ip, peer->port, &peer->outputBuffer, &connClosed, 1);

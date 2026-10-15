@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02009CB0
+ * function: WIFILIST_MakeExchangeToken
  * address:  0x02009CB0
  * packet:   pkt_02009CB0
  * region:   arm9
@@ -14,4 +14,4 @@
  *   DWC_CreateExchangeToken  0x020599BC  arm
  */
 
-int func_02009CB0(int a0, int a1){ int t0 = func_02009860(); int t1 = DWC_CreateExchangeToken((int)t0, (int)((a1 + 0) + 0)); return t1; }
+int WIFILIST_MakeExchangeToken(int a0, int a1){ int t0 = func_02009860(); int t1 = DWC_CreateExchangeToken((int)t0, (int)((a1 + 0) + 0)); return t1; }

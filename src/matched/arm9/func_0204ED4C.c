@@ -1,5 +1,5 @@
 /*
- * function: func_0204ED4C
+ * function: BILLBOARD_SetFlagWord
  * address:  0x0204ED4C
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -13,7 +13,7 @@
  * caller's array into +0x30, +0x32 and +0x34.
  *
  * Unlabelled in the generated listing, and it is the follower that makes
- * func_0204ED24 EXACT*: the prologue saves nothing, so `disasm.py` never
+ * BILLBOARD_Delete EXACT*: the prologue saves nothing, so `disasm.py` never
  * auto-labelled it, and the extent inferred for 0x0204ED24 runs through these
  * 36 bytes to the next label at 0x0204ED70
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Seeding
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0204ED4C(u8 *a0, short *a1)
+void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
 {
     short v2;
     short v1;

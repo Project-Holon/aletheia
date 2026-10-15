@@ -1,5 +1,5 @@
 /*
- * function: func_02083EB8
+ * function: NVRAMi_VerifyAsync
  * address:  0x02083EB8
  * packet:   pkt_02083EB8
  * region:   arm9
@@ -91,7 +91,7 @@ void DC_InvalidateRange(void *startAddr, u32 nBytes);
 BOOL NVRAMi_ReadDataBytes(u32 address, u32 size, u8 *buf);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 
-NVRAMResult func_02083EB8(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
+NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
 {
     u32 e;
 

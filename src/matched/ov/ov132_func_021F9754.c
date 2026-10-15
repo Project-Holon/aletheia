@@ -1,5 +1,5 @@
 /*
- * function: func_021F9754
+ * function: STA_ACTING_ApplyAction
  * address:  0x021F9754
  * packet:   pkt_ov132_021F9754
  * region:   ov132
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 typedef enum { ENABLED = 1 } Enabled;
-void func_021F9754(char *p, u32 i, int v)
+void STA_ACTING_ApplyAction(char *p, u32 i, int v)
 {
     Enabled one;
     one = ENABLED;

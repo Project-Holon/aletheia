@@ -12,7 +12,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021E58A4 0x021E58A4 thumb ov177
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   func_021E8A3C 0x021E8A3C thumb ov177
  *   func_0217D458 0x0217D458 thumb ov176
  *   d_0217E61C 0x0217E61C data a1
@@ -26,7 +26,7 @@ extern void MI_CpuFill8(void *,int,int);
 extern void func_021E58A4(int unused, int mode, unsigned color);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern int func_0201EC74(int,int,int);
+extern int WORDSET_Create(int,int,int);
 extern int *func_021E8A3C(int a, int b, int c);
 extern void func_0217D458(int a, int unused, char *p);
 extern const char d_0217E61C[];
@@ -39,7 +39,7 @@ Request *func_0217D398(Config *p, int heap)
     r->heap = heap;
     func_021E58A4(r->config.v[4], 3, heap);
     r->a = (int)func_02045B38(0, 2, 0xD2, heap);
-    r->b = func_0201EC74(8, 0x40, heap);
+    r->b = WORDSET_Create(8, 0x40, heap);
     r->callback = (int)func_021E8A3C((int)r, (int)func_0217D458, heap);
     return r;
 }

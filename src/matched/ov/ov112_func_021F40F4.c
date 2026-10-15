@@ -24,6 +24,8 @@
  *   func_020409B4 0x020409B4 arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj00669.h"
 typedef unsigned char u8;
@@ -45,14 +47,14 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 struct Strbuf;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -73,7 +75,7 @@ void func_021F40F4(u8 *p)
     ((struct Obj00669 *)p)->f60=GF_FONT_Create(23,0,0,0,((struct Obj00669 *)p)->f0);
     func_02049B40(23,5,0,320,32,((struct Obj00669 *)p)->f0);
     buf=STRBUF_Create(128,((struct Obj00669 *)p)->f0);
-    t=func_0201EC64(((struct Obj00669 *)p)->f0);
+    t=GF_FONT_Create_EC64(((struct Obj00669 *)p)->f0);
     f=func_02045B38(0,2,78,((struct Obj00669 *)p)->f0);
     b=func_02045EC0(f,0);
     func_0201EFA4(t,0,(*(Input * *)&((struct Obj00669 *)p)->f4)->a,2,2,1);
@@ -83,7 +85,7 @@ void func_021F40F4(u8 *p)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f54),0,0,buf,((struct Obj00669 *)p)->f5C,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
-    func_0201ED04(t);
+    WORDSET_DeleteStrbufED04(t);
     MSGDATA_Delete(f);
     buf=STRBUF_Create(37,((struct Obj00669 *)p)->f0);
     STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((struct Obj00669 *)p)->f4+356));

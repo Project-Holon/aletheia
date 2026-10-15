@@ -37,7 +37,7 @@
  * symbols:
  *   dateTimeData  0x021CAE14  data  ov172
  *   dateTimeDataFlag  0x021CADF0  data  ov172
- *   func_020889C0  0x020889C0  arm
+ *   RTC_GetDateTime  0x020889C0  arm
  *   gExifDateTimeFormat  0x021C8874  data
  *   SSPiSoftware  0x021CAE28  data
  *   STD_GetStringLength  0x0208CC78  arm
@@ -198,7 +198,7 @@ struct Adf0 {
 };
 
 void func_02082EA4(const void *src, void *dst, u32 n);
-extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
+extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 void func_0208D7E0(char *dst, const char *fmt, ...);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern int STD_GetStringLength(char *str);
@@ -293,7 +293,7 @@ void SSP_SetJpegEncoderDateTime(u8 *buf)
  */
 int SSP_GetDateTime(void *a, void *b)
 {
-    if (func_020889C0(a, b) == 0) {
+    if (RTC_GetDateTime(a, b) == 0) {
         return 1;
     }
     return 0;
@@ -309,7 +309,7 @@ int SSP_GetDateTime(void *a, void *b)
  * exifenc.o), ov172.
  *
  * Builds the RTC date/time string.  SSP_GetDateTime(&d.year, &d) forwards its two
- * pointers to func_020889C0, which fills the DateTime struct d (memory order
+ * pointers to RTC_GetDateTime, which fills the DateTime struct d (memory order
  * hour,min,sec,year,month,day); the "year" field is stored as year-2000, so the
  * formatting call adds 2000 (0x7d0).  The rendered string in the local buffer is
  * then handed to SSP_SetJpegEncoderDateTime, which copies it out to dateTimeData.

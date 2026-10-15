@@ -58,7 +58,7 @@
  *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
  *   FIELD_RAIL_WORK_GetLineKey  0x021B80D8  thumb  ov021
  *   func_0207AF1C  0x0207AF1C  thumb
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D84D4     0x021D84D4  data  ov021  a1
  *   d_021D841C     0x021D841C  data  ov021  a2
@@ -205,7 +205,7 @@ extern void FLDMMDL_SetGridNowZ(Mmdl *mmdl, int gridZ);
 extern void FIELD_RAIL_WORK_GetStepVector(RailWork *railWork, s16 *outOffset);
 extern u32 FIELD_RAIL_WORK_GetLineKey(RailWork *railWork);
 extern void func_0207AF1C(s32 *outMtx, s32 sin, s32 cos);
-extern void func_0207B51C(VecFx32 *vec, s32 *mtx, VecFx32 *outVec);
+extern void MTX_MultVec33(VecFx32 *vec, s32 *mtx, VecFx32 *outVec);
 extern void VEC_Normalize(VecFx32 *vec, VecFx32 *outVec);
 extern int FLDMMDL_MOVE_GetRailMoveRequest(Mmdl *mmdl, RailLocation *outLoc);
 extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, u32 size);
@@ -578,7 +578,7 @@ void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *outOffset)
     outOffset[1] = (s16)(((s64)cos * outOffset[1] + 0x800) >> 12);
     setVec(&offsetVec, outOffset[0], outOffset[1], outOffset[2]);
     func_0207AF1C(rotMtx, FX_SinCosTable_[sinIndex], cos);
-    func_0207B51C(&offsetVec, rotMtx, &offsetVec);
+    MTX_MultVec33(&offsetVec, rotMtx, &offsetVec);
     VEC_Normalize(&offsetVec, &offsetVec);
     setVec16(outOffset, offsetVec.x, offsetVec.y, offsetVec.z);
 }

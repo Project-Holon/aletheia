@@ -16,7 +16,7 @@
  *   CPS_SocRegister  0x0215AA5C  arm  ov009
  *   CPS_Resolve  0x0215C910  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
- *   g_021A1CD8     0x021A1CD8  data
+ *   gSoclConfig     0x021A1CD8  data
  */
 
 #include "../include/G_021A1CD8.h"
@@ -31,7 +31,7 @@ typedef struct {
     unsigned char pad5c[0xa0 - 0x5c];
 } CpsSoc;
 
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPS_SocRegister(int v);
 extern unsigned long CPS_Resolve(char *name);
@@ -43,11 +43,11 @@ unsigned long func_0215EDD0(char *hostname)
     CpsSoc soc;
     unsigned long hostip;
 
-    if (g_021A1CD8 == 0)
+    if (gSoclConfig == 0)
         return 0;
     if (hostname == 0)
         return 0;
-    buffers = g_021A1CD8->alloc(0x1708);
+    buffers = gSoclConfig->alloc(0x1708);
     if (buffers == 0)
         return 0;
     MI_CpuFill8(&soc, 0, sizeof(soc));
@@ -58,6 +58,6 @@ unsigned long func_0215EDD0(char *hostname)
     CPS_SocRegister((int)(&soc));
     hostip = CPS_Resolve(hostname);
     CPS_SocUnRegister();
-    g_021A1CD8->free(buffers);
+    gSoclConfig->free(buffers);
     return hostip;
 }

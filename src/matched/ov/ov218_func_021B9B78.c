@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -32,7 +32,7 @@ struct CharBuf;
 struct Cfg;
 struct MsgBank;
 struct WordSet;
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
@@ -46,7 +46,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
 void func_021B9B78(char *p, u32 id)
 {
-    int value = func_02012FFC();
+    int value = MSG_SPEED_GetWait();
     struct Descriptor *obj = *(struct Descriptor * *)&((struct Obj02265 *)p)->f24;
     BMP_Clear(BMP_WIN_GetBmp(obj), 15);
     GF_FONT_SetTextColor(1, 2, 15);

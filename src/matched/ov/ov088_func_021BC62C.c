@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
  *   STARTMENU_InitBgLayer  0x021BC734  thumb  ov088
  *   BMP_WIN_Init  0x02045088  arm
@@ -40,14 +40,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct GfFont;
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 typedef signed int     s32;
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void STARTMENU_InitBgLayer(const void *p, int bg);
 extern void BMP_WIN_Init(u16 heapId);
@@ -63,12 +63,12 @@ extern char d_021BD898[];
 
 void STARTMENU_ConfigPromptSetupGraphics(char *p)
 {
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BD8B8);
-    func_0203F8F4(0x39);
+    BG_SYS_Create(0x39);
     func_0203FC28((struct DispConfig *)d_021BD848);
     *(u16 *)0x04000304 = (u16)(*(u16 *)0x04000304 & ~0x8000);
     STARTMENU_InitBgLayer(d_021BD858, 3);

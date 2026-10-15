@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217CCCC  0x0217CCCC  arm  ov009
+ *   gsCoreThink  0x0217CCCC  arm  ov009
  *
  * ARM tail call: zeroes r0 and jumps to 0x0217CCCC (ov009) -- the
  *  *  "release and clear" entry of the ov009 object pair.
  */
 
-extern void func_0217CCCC(unsigned int theMS);
+extern void gsCoreThink(unsigned int theMS);
 
 void sciWsThink(void *p)
 {
-    func_0217CCCC(0);
+    gsCoreThink(0);
 }
 

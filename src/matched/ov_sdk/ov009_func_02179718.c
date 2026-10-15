@@ -1,5 +1,5 @@
 /*
- * function: func_02179718
+ * function: DWC_Http_StartThread
  * address:  0x02179718
  * packet:   pkt_ov009_02179718
  * region:   ov009
@@ -17,7 +17,7 @@
  *   OS_CreateThread        0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   g_021ACE58             0x021ACE58  data
- *   func_021799E8          0x021799E8  arm  ov009
+ *   DWCi_Http_Thread          0x021799E8  arm  ov009
  */
 
 extern int g_021ACE58;
@@ -25,9 +25,9 @@ extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
-extern void func_021799E8(void *arg);
+extern void DWCi_Http_Thread(void *arg);
 
-void func_02179718(char *http, unsigned long prio)
+void DWC_Http_StartThread(char *http, unsigned long prio)
 {
     *(int *)(http + 0x1c4c) = 0;
     OS_InitMutex(http + 0x1c34);
@@ -40,6 +40,6 @@ void func_02179718(char *http, unsigned long prio)
     if (*(int *)(http + 0x1be0) != 0 && !OS_IsThreadTerminated(http + 0x1b74)) {
         return;
     }
-    OS_CreateThread(http + 0x1b74, func_021799E8, http, http + 0x1000, 0x1000, prio);
+    OS_CreateThread(http + 0x1b74, DWCi_Http_Thread, http, http + 0x1000, 0x1000, prio);
     OS_WakeupThreadDirect(http + 0x1b74);
 }

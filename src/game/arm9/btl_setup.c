@@ -1,7 +1,7 @@
 /*
  * file:     btl_setup.c
  * unit:     yes
- * function: GAME_DATA_GetSituationWarpId, GAME_DATA_GetMapMatrix, func_0201292C, func_02012934, func_0201293C, func_02012944, func_02012950, GAME_DATA_GetBagCursor, func_02012964, func_0201296C, func_02012974, GAME_DATA_GetMusicalWork, func_02012984, GAME_DATA_SetSeason, func_02012994, GAME_DATA_SetSubscreenMode, func_020129AC, func_020129B8, func_020129C4, func_020129D0, func_020129DC, func_020129F0, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, func_02012A30, func_02012A38, func_02012A44, GAME_DATA_SetFieldMode, func_02012A54, GAME_DATA_InitPlayerWork, func_02012A90, func_02012AA0, func_02012AA4, func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4, func_02012AC8, func_02012ACC, func_02012AD0, GAME_DATA_SetPlayerDirectionType, func_02012AE4, func_02012B28, func_02012B2C, func_02012B30, func_02012B34, func_02012B38, GAME_DATA_GetEnterMode, func_02012B4C, func_02012B58, func_02012B64, func_02012B70, func_02012B78, func_02012B80, func_02012B8C, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetSaveFlag, GAME_DATA_CheckSaveFlag, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, GAME_DATA_SaveStart, GAME_DATA_SaveMain, GAME_DATA_SaveCancel, GAME_DATA_IsSaving, GAME_DATA_PartSaveStart, GAME_DATA_PartSaveMain, GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState, GAME_DATA_GetCurrentEvent, GAME_DATA_SetCurrentEvent, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, GAME_DATA_GetMiscSave, GAME_DATA_GetSaveBlock1F, GAME_DATA_GetPmsWork, GAME_DATA_GetTrainerRecord, GAME_DATA_GetSaveSyncBlock, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetSaveBlock21, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, GAME_DATA_GetSaveBlockWork, GAME_DATA_GetBoxSave, GAME_DATA_SetSymbolMapFlag, GAME_DATA_GetSymbolMapFlag, GAME_DATA_CheckPlayTime, GAME_DATA_GetPlayTime, GAME_DATA_GetSaveBlock43, GAME_DATA_GetEventWorkFromSave, func_02012FF0, func_02012FFC, func_02013020, func_02013050, func_02013080, BTL_SETUP_Create, BTL_SETUP_Delete, BTL_SETUP_Clear, BTL_SETUP_FreeSlots, BTL_SETUP_SetParty, BTL_SETUP_GetParty, BTL_SETUP_SetStatusFlag, BTL_SETUP_CheckStatusFlag, BTL_SETUP_ApplyRegulation, BTL_SETUP_InitCommFieldSituation, BTL_SETUP_InitFieldSituation, BTL_SETUP_CreateTrainerData, BTL_SETUP_DeleteTrainerData, BTL_SETUP_SetTrainer, BTL_SETUP_SetPlayerParty, BTL_SETUP_InitCommon, BTL_SETUP_SetupWild, BTL_SETUP_SetupTrainerBase, BTL_SETUP_SetupComm, BTL_SETUP_SetupDemo, BTL_SETUP_SetupTrainerSingle, BTL_SETUP_SetupTrainerDouble, BTL_SETUP_SetupTrainerTriple, BTL_SETUP_SetupTrainerRotation, BTL_SETUP_SetupTrainerTag, BTL_SETUP_SetupTrainerMulti, BTL_SETUP_SetupCommSingle, BTL_SETUP_SetupCommDouble, BTL_SETUP_SetupCommMulti, BTL_SETUP_SetupCommAiMulti, BTL_SETUP_SetupCommTriple, BTL_SETUP_SetupCommRotation, BTL_SETUP_InitWithSlots, BTL_SETUP_ClearWithSlots, BTL_SETUP_ChangeToSubway, BTL_SETUP_AllocRecordBuffer
+ * function: GAME_DATA_GetSituationWarpId, GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager, func_02012944, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo, GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason, GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType, GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnabled, GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo, GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork, GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail, GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId, GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection, GAME_DATA_SetPlayerDirectionType, GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId, GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode, GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount, GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetSaveFlag, GAME_DATA_CheckSaveFlag, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, GAME_DATA_SaveStart, GAME_DATA_SaveMain, GAME_DATA_SaveCancel, GAME_DATA_IsSaving, GAME_DATA_PartSaveStart, GAME_DATA_PartSaveMain, GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState, GAME_DATA_GetCurrentEvent, GAME_DATA_SetCurrentEvent, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, GAME_DATA_GetMiscSave, GAME_DATA_GetSaveBlock1F, GAME_DATA_GetPmsWork, GAME_DATA_GetTrainerRecord, GAME_DATA_GetSaveSyncBlock, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetSaveBlock21, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, GAME_DATA_GetSaveBlockWork, GAME_DATA_GetBoxSave, GAME_DATA_SetSymbolMapFlag, GAME_DATA_GetSymbolMapFlag, GAME_DATA_CheckPlayTime, GAME_DATA_GetPlayTime, GAME_DATA_GetSaveBlock43, GAME_DATA_GetEventWorkFromSave, MSG_SPEED_SetSaveControl, MSG_SPEED_GetWait, MSG_SPEED_GetSlowerWait, MSG_SPEED_GetFasterWait, MSG_SPEED_GetWaitForSpeed, BTL_SETUP_Create, BTL_SETUP_Delete, BTL_SETUP_Clear, BTL_SETUP_FreeSlots, BTL_SETUP_SetParty, BTL_SETUP_GetParty, BTL_SETUP_SetStatusFlag, BTL_SETUP_CheckStatusFlag, BTL_SETUP_ApplyRegulation, BTL_SETUP_InitCommFieldSituation, BTL_SETUP_InitFieldSituation, BTL_SETUP_CreateTrainerData, BTL_SETUP_DeleteTrainerData, BTL_SETUP_SetTrainer, BTL_SETUP_SetPlayerParty, BTL_SETUP_InitCommon, BTL_SETUP_SetupWild, BTL_SETUP_SetupTrainerBase, BTL_SETUP_SetupComm, BTL_SETUP_SetupDemo, BTL_SETUP_SetupTrainerSingle, BTL_SETUP_SetupTrainerDouble, BTL_SETUP_SetupTrainerTriple, BTL_SETUP_SetupTrainerRotation, BTL_SETUP_SetupTrainerTag, BTL_SETUP_SetupTrainerMulti, BTL_SETUP_SetupCommSingle, BTL_SETUP_SetupCommDouble, BTL_SETUP_SetupCommMulti, BTL_SETUP_SetupCommAiMulti, BTL_SETUP_SetupCommTriple, BTL_SETUP_SetupCommRotation, BTL_SETUP_InitWithSlots, BTL_SETUP_ClearWithSlots, BTL_SETUP_ChangeToSubway, BTL_SETUP_AllocRecordBuffer
  * address:  0x02012914
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02008850  0x02008850  thumb
- *   func_020127A4         0x020127A4  thumb
+ *   GAME_DATA_GetField114         0x020127A4  thumb
  *   sPlayerDirectionAngles  0x0209DFA8  data  a2
  *   CONFIG_GetBattleFlag  0x02008448  thumb
  *   CONFIG_SetBattleFlag  0x02008450  thumb
@@ -27,11 +27,11 @@
  *   func_020071CC  0x020071CC  thumb
  *   func_0200EEAC  0x0200EEAC  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
- *   func_0200BE6C  0x0200BE6C  thumb
+ *   INTRUDE_LoadOccupy  0x0200BE6C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
- *   func_0200A864  0x0200A864  thumb
- *   func_0200A884  0x0200A884  thumb
- *   func_0200B3C8  0x0200B3C8  thumb
+ *   MUSICAL_SHOT_GetFromSave  0x0200A864  thumb
+ *   MUSICAL_SHOT_CopyPhotoRev  0x0200A884  thumb
+ *   GIMMICK_WORK_Load  0x0200B3C8  thumb
  *   func_0200893C  0x0200893C  thumb
  *   func_02008954  0x02008954  thumb
  *   func_02009D08  0x02009D08  thumb
@@ -42,17 +42,17 @@
  *   func_0200863C  0x0200863C  thumb
  *   func_020087E8  0x020087E8  thumb
  *   func_02008860  0x02008860  thumb
- *   func_0200EE64  0x0200EE64  thumb
- *   func_0200BE54  0x0200BE54  thumb
- *   func_0200A870  0x0200A870  thumb
- *   func_0200B3B0  0x0200B3B0  thumb
+ *   NET_DEVICE_TABLE_BuildFromProducer  0x0200EE64  thumb
+ *   INTRUDE_StoreOccupy  0x0200BE54  thumb
+ *   MUSICAL_SHOT_CopyPhoto  0x0200A870  thumb
+ *   GIMMICK_WORK_Save  0x0200B3B0  thumb
  *   func_0200892C  0x0200892C  thumb
  *   func_0200894C  0x0200894C  thumb
  *   func_0200895C  0x0200895C  thumb
  *   func_0200E884  0x0200E884  thumb
  *   func_02008658  0x02008658  thumb
  *   func_020071CC  0x020071CC  thumb
- *   func_02009EC8  0x02009EC8  thumb
+ *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
  *   func_020089C0  0x020089C0  thumb
  *   func_02009448  0x02009448  thumb
  *   func_02007B44  0x02007B44  thumb
@@ -62,18 +62,18 @@
  *   CONFIG_GetTextSpeed  0x02008374  thumb
  *   sBtlSetupFileName  0x020A729C  data
  *   POKEPARTY_Copy  0x0201AC2C  thumb
- *   func_0200AE54   0x0200AE54  thumb
- *   func_0200B040   0x0200B040  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
+ *   REGULATION_GetShooterSettings   0x0200B040  thumb
  *   POKE_REGULATION_AdjustPartyLevels   0x0201A2A8  thumb
  *   POKE_REGULATION_ResetPartyNicknames   0x0201A30C  thumb
  *   POKEPARTY_Create   0x0201A920  thumb
- *   func_0202A3FC   0x0202A3FC  thumb
- *   func_0202A440   0x0202A440  thumb
- *   func_0202A4B4   0x0202A4B4  thumb
+ *   TPOKE_DATA_GetTrainerKind   0x0202A3FC  thumb
+ *   TR_TOOL_LoadTrainerInfo   0x0202A440  thumb
+ *   TR_TOOL_BuildParty   0x0202A4B4  thumb
  *   FORMCHANGE_UpdateSeasonForms   0x0216AAE4  thumb
  *   func_0200873C   0x0200873C  thumb
- *   func_0200C0E8   0x0200C0E8  thumb
- *   func_0200C258   0x0200C258  thumb
+ *   BEACON_GetFromSave   0x0200C0E8  thumb
+ *   BEACON_CountFlags   0x0200C258  thumb
  *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   ZONEDATA_CheckEventFlag   0x020142E8  thumb
  *   MI_CpuCopy8   0x02082D44  arm
@@ -101,6 +101,13 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys  0x0200C404  thumb
  *   RECENT_ID_LIST_SAVEDATA_ContainsId  0x0200C44C  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
+ *   UI_TestKeepAwakeFlagsGlobal  0x02034FE8  arm
+ *   UI_SetFlags39Global  0x0203516C  arm
+ *   UI_ClearFlags39Global  0x020351A0  arm
  */
 typedef unsigned char  u8;
 
@@ -126,7 +133,7 @@ struct NetHandle;
 struct MiscSave;
 
 extern u16 *func_02008850(struct Situation *situation);
-extern struct PlayerWork *func_020127A4(struct GameData *gd);
+extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gd);
 extern unsigned int CONFIG_GetBattleFlag(struct Config *config);
 extern void CONFIG_SetBattleFlag(struct Config *config, int on);
 extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(struct SaveControl *save);
@@ -139,11 +146,11 @@ extern void func_020088B8(struct SaveControl *save, struct PlayerWork *dest);
 extern void *func_020071CC(struct SaveControl *save, u32 blockId);
 extern void func_0200EEAC(void *occupy, void *block);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gd);
-extern void func_0200BE6C(struct SaveControl *save, u16 *dest);
+extern void INTRUDE_LoadOccupy(struct SaveControl *save, u16 *dest);
 extern struct UnionInfo *GAME_DATA_GetSecondUnionInfo(struct GameData *gd);
-extern struct UnionInfo *func_0200A864(struct SaveControl *save);
-extern void func_0200A884(const struct UnionInfo *src, struct UnionInfo *dest);
-extern void func_0200B3C8(struct SaveControl *save, const struct FieldSaveData *src);
+extern struct UnionInfo *MUSICAL_SHOT_GetFromSave(struct SaveControl *save);
+extern void MUSICAL_SHOT_CopyPhotoRev(const struct UnionInfo *src, struct UnionInfo *dest);
+extern void GIMMICK_WORK_Load(struct SaveControl *save, const struct FieldSaveData *src);
 extern void func_0200893C(const struct Situation *situation, void *dest);
 extern void func_02008954(const struct Situation *situation, u8 *out);
 extern struct FieldState *func_02009D08(struct SaveControl *save);
@@ -154,30 +161,30 @@ extern struct PlayTime *func_02008748(struct SaveControl *save);
 extern void func_0200863C(struct PlayTime *dest, const struct PlayTime *src);
 extern void func_020087E8(struct SaveControl *save, const struct PlayerWork *src);
 extern void func_02008860(struct SaveControl *save, const struct PlayerWork *src);
-extern void func_0200EE64(void *occupy, void *block);
-extern void func_0200BE54(struct SaveControl *save, const u16 *src);
-extern void func_0200A870(struct UnionInfo *dest, const struct UnionInfo *src);
-extern void func_0200B3B0(struct FieldSaveData *dest, struct SaveControl *save);
+extern void NET_DEVICE_TABLE_BuildFromProducer(void *occupy, void *block);
+extern void INTRUDE_StoreOccupy(struct SaveControl *save, const u16 *src);
+extern void MUSICAL_SHOT_CopyPhoto(struct UnionInfo *dest, const struct UnionInfo *src);
+extern void GIMMICK_WORK_Save(struct FieldSaveData *dest, struct SaveControl *save);
 extern void func_0200892C(struct Situation *situation, const void *src);
 extern void func_0200894C(struct Situation *situation, u8 value);
 extern void func_0200895C(struct Situation *situation, u8 value);
 extern void func_0200E884(void *src, struct SaveControl *save);
 extern void func_02008658(struct PlayTime *playTime);
 extern void WIH_DWC_PauseTimers(void);
-extern void func_0203516C();
+extern void UI_SetFlags39Global();
 extern int SAVE_CONTROL_StartSave(struct SaveControl *save);
 extern int  GFL_USE_IsLoaderBusy(void);
 extern u32 SAVE_CONTROL_MainSave(struct SaveControl *save);
-extern int func_020351A0(u32 v);
+extern int UI_ClearFlags39Global(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
 extern int SAVE_CONTROL_CancelSave(struct SaveControl *save);
-extern int  func_02034FE8(u32 soundId);
-extern void func_02034FB8(u32 soundId);
-extern void func_02034F84(int soundId);
+extern int  UI_TestKeepAwakeFlagsGlobal(u32 soundId);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 soundId);
+extern void UI_SetKeepAwakeFlagsGlobal(int soundId);
 extern void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *save, u32 blockId);
 extern int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *save, u32 blockId);
-extern void *func_0200C0F0(struct SaveControl *save);
-extern void *func_02009EC8(struct SaveControl *save);
+extern void *BEACON_GetBlock(struct SaveControl *save);
+extern void *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
 extern void *func_020089C0(struct SaveControl *save);
 extern void *func_02009448(struct SaveControl *save);
 extern void *func_02007B44(struct SaveControl *save);
@@ -188,27 +195,27 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *dst, int c, u32 n);
 extern u32 func_020307B0(void *p);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
-extern u32 func_0200AE54(struct Regulation *reg, u32 id);
-extern void func_0200B040(struct Regulation *reg, u8 *rules);
+extern u32 REGULATION_GetRuleValue(struct Regulation *reg, u32 id);
+extern void REGULATION_GetShooterSettings(struct Regulation *reg, u8 *rules);
 extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
 extern void POKE_REGULATION_ResetPartyNicknames(struct Regulation *reg, struct Party *party, u32 level);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void  PMSI_PARAM_ClearSentence(void *word);
 extern struct Party *POKEPARTY_Create(u16 heap);
-extern void func_0202A440(u32 trainerId, struct BattleTrainerData *tr, u16 heap);
-extern void func_0202A4B4(u32 trainerId, struct Party *party, u16 heap);
+extern void TR_TOOL_LoadTrainerInfo(u32 trainerId, struct BattleTrainerData *tr, u16 heap);
+extern void TR_TOOL_BuildParty(u32 trainerId, struct Party *party, u16 heap);
 extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gd, struct Party *party, u32 season);
-extern u8 func_0202A3FC(u32 trainerType);
-extern struct MiscSave *func_0200C0E8(struct SaveControl *save);
-extern u32 func_0200C258(struct MiscSave *misc);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerType);
+extern struct MiscSave *BEACON_GetFromSave(struct SaveControl *save);
+extern u32 BEACON_CountFlags(struct MiscSave *misc);
 extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gd);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern u32  POKEPARTY_GetCount(struct Party *party);
 extern u32 POKEPARTY_GetCapacity(struct Party *party);
 extern int func_020076D0(u32 boxManager, u32 *tray, u32 *pos);
-extern struct FieldState *func_0201283C(const struct GameData *gd);
+extern struct FieldState *GAME_DATA_GetField1A0(const struct GameData *gd);
 extern void *MYSTATUS_Create(u16 heap);
 extern u8 GFL_NET_GetHandleNetID(struct NetHandle *net);
 extern struct Config *CONFIG_Create(u16 heap);
@@ -221,59 +228,59 @@ extern const char sBtlSetupFileName[];
 
 u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd);
 u32 GAME_DATA_GetMapMatrix(const struct GameData *gd);
-void *func_0201292C(const struct GameData *gd);
-void *func_02012934(const struct GameData *gd);
-u32 func_0201293C(const struct GameData *gd);
+void *GAME_DATA_GetMyItem(const struct GameData *gd);
+void *GAME_DATA_GetMyParty(const struct GameData *gd);
+u32 GAME_DATA_GetBoxManager(const struct GameData *gd);
 struct PlayerStatus *func_02012944(struct GameData *gd);
-struct PlayerStatus *func_02012950(struct GameData *gd, u32 playerId);
+struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gd, u32 playerId);
 u32 GAME_DATA_GetBagCursor(const struct GameData *gd);
-void *func_02012964(const struct GameData *gd);
-void *func_0201296C(const struct GameData *gd);
-u32 func_02012974(const struct GameData *gd);
+void *GAME_DATA_GetOccupyInfo(const struct GameData *gd);
+void *GAME_DATA_GetEventWork(const struct GameData *gd);
+u32 GAME_DATA_GetFieldWork(const struct GameData *gd);
 u32 GAME_DATA_GetMusicalWork(const struct GameData *gd);
-u8 func_02012984(const struct GameData *gd);
+u8 GAME_DATA_GetSeason(const struct GameData *gd);
 void GAME_DATA_SetSeason(struct GameData *gd, u8 value);
-u8 func_02012994(const struct GameData *gd);
+u8 GAME_DATA_GetSubscreenMode(const struct GameData *gd);
 void GAME_DATA_SetSubscreenMode(struct GameData *gd, u8 value);
-u8 func_020129AC(const struct GameData *gd);
-void func_020129B8(struct GameData *gd, u32 value);
-u8 func_020129C4(const struct GameData *gd);
-void func_020129D0(struct GameData *gd, u8 value);
-void func_020129DC(struct GameData *gd, u8 enable);
-void func_020129F0(struct GameData *gd);
+u8 GAME_DATA_GetSubscreenType(const struct GameData *gd);
+void GAME_DATA_SetSubscreenType(struct GameData *gd, u32 value);
+u8 GAME_DATA_GetFrameRate(const struct GameData *gd);
+void GAME_DATA_SetFrameRate(struct GameData *gd, u8 value);
+void GAME_DATA_SetWalkCountEnabled(struct GameData *gd, u8 enable);
+void GAME_DATA_ResetWalkCount(struct GameData *gd);
 u8 GAME_DATA_IncWalkCount(struct GameData *gd);
 u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gd);
-u32 func_02012A30(const struct GameData *gd);
-u32 func_02012A38(const struct GameData *gd);
-u32 func_02012A44(const struct GameData *gd);
+u32 GAME_DATA_GetBgmInfo(const struct GameData *gd);
+u32 GAME_DATA_GetFieldGimmick(const struct GameData *gd);
+u32 GAME_DATA_GetFieldMode(const struct GameData *gd);
 void GAME_DATA_SetFieldMode(struct GameData *gd, u32 value);
-u32 func_02012A54(const struct GameData *gd);
+u32 GAME_DATA_GetItemUseWork(const struct GameData *gd);
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
-void func_02012A90(struct PlayerWork *player, const struct PlayerPosition *pos);
-struct PlayerPosition *func_02012AA0(struct PlayerWork *player);
-void func_02012AA4(struct PlayerWork *player, const struct RailLocationWords *rail);
-struct RailLocationWords *func_02012AB8(struct PlayerWork *player);
-void func_02012ABC(struct PlayerWork *player, u8 form);
-u8 func_02012AC0(const struct PlayerWork *player);
-struct PlayerWork *func_02012AC4(struct PlayerWork *player, u16 zoneId);
-u16 func_02012AC8(const struct PlayerWork *player);
-void func_02012ACC(struct PlayerWork *player, int direction);
-u16 func_02012AD0(const struct PlayerWork *player);
+void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, const struct PlayerPosition *pos);
+struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
+void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocationWords *rail);
+struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
+void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *player, u8 form);
+u8 GAME_DATA_GetPlayerMoveForm(const struct PlayerWork *player);
+struct PlayerWork *GAME_DATA_SetPlayerZoneId(struct PlayerWork *player, u16 zoneId);
+u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+void GAME_DATA_SetPlayerDirection(struct PlayerWork *player, int direction);
+u16 GAME_DATA_GetPlayerDirection(const struct PlayerWork *player);
 void GAME_DATA_SetPlayerDirectionType(struct PlayerWork *player, int dirId);
-u32 func_02012AE4(const struct PlayerWork *player);
-u32 func_02012B28(const struct PlayerWork *player);
-void func_02012B2C(struct PlayerWork *player, u32 code);
-void func_02012B30(struct PlayerWork *player, u16 zoneId);
-u16 func_02012B34(const struct PlayerWork *player);
-void *func_02012B38(const struct GameData *gd);
+u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *player);
+u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
+void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *player, u32 code);
+void GAME_DATA_SetPlayerPalaceZoneId(struct PlayerWork *player, u16 zoneId);
+u16 GAME_DATA_GetPlayerPalaceZoneId(const struct PlayerWork *player);
+void *GAME_DATA_GetMoveModelSys(const struct GameData *gd);
 u8 GAME_DATA_GetEnterMode(const struct GameData *gd);
-void func_02012B4C(struct GameData *gd, u8 value);
-u8 func_02012B58(const struct GameData *gd);
-void func_02012B64(struct GameData *gd, u8 value);
-int func_02012B70(const struct GameData *gd);
-struct GameData *func_02012B78(struct GameData *gd, u8 count);
-u8 func_02012B80(const struct GameData *gd);
-void func_02012B8C(struct GameData *gd, u32 value);
+void GAME_DATA_SetEnterMode(struct GameData *gd, u8 value);
+u8 GAME_DATA_GetOwnNetId(const struct GameData *gd);
+void GAME_DATA_SetOwnNetId(struct GameData *gd, u8 value);
+int GAME_DATA_GetIntrudeCount(const struct GameData *gd);
+struct GameData *GAME_DATA_SetIntrudeCount(struct GameData *gd, u8 count);
+u8 GAME_DATA_GetIntrudeId(const struct GameData *gd);
+void GAME_DATA_SetIntrudeId(struct GameData *gd, u32 value);
 u8 GAME_DATA_GetSlotFlag(const struct GameData *gd, u32 slot);
 void GAME_DATA_SetSlotFlag(struct GameData *gd, int slot, u8 value);
 u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gd);
@@ -316,11 +323,11 @@ u32 GAME_DATA_CheckPlayTime(struct GameData *gd, u32 limit);
 struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 void *GAME_DATA_GetSaveBlock43(struct GameData *gd);
 void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
-void func_02012FF0(struct SaveControl *save);
-signed char func_02012FFC(void);
-signed char func_02013020(void);
-signed char func_02013050(void);
-signed char func_02013080(u32 speed);
+void MSG_SPEED_SetSaveControl(struct SaveControl *save);
+signed char MSG_SPEED_GetWait(void);
+signed char MSG_SPEED_GetSlowerWait(void);
+signed char MSG_SPEED_GetFasterWait(void);
+signed char MSG_SPEED_GetWaitForSpeed(u32 speed);
 struct BattleSetupParam *BTL_SETUP_Create(u32 heap);
 void BTL_SETUP_Delete(struct BattleSetupParam *param);
 void BTL_SETUP_Clear(struct BattleSetupParam *param);
@@ -380,15 +387,15 @@ u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd)
 
 
 /*
- *           func_02012944, func_02012950, GAME_DATA_GetBagCursor, func_02012964,
- *           func_0201296C, func_02012974, GAME_DATA_GetMusicalWork, func_02012984,
- *           GAME_DATA_SetSeason, func_02012994, GAME_DATA_SetSubscreenMode, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, func_02012A30,
- *           func_02012A38, func_02012A44, GAME_DATA_SetFieldMode, func_02012A54,
- *           GAME_DATA_InitPlayerWork, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
+ *           func_02012944, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
+ *           GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason,
+ *           GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType,
+ *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnabled,
+ *           GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo,
+ *           GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork,
+ *           GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail,
+ *           GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId,
+ *           GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection
  *
  * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
  * label in the generated listing: the rest are leaf accessors that save no lr
@@ -407,7 +414,7 @@ u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd)
  *    constructor: its store order is the source's statement order, and the
  *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
  *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
+ *    GAME_DATA_SetPlayerRail copies whole) and a five-field view.
  *
  * GAME_DATA_IncWalkCount is a post-increment and not an assignment:
  * `return gd->walkCount++;` spends an extra `adds r1, r4, #0` copy that
@@ -432,21 +439,21 @@ u32 GAME_DATA_GetMapMatrix(const struct GameData *gd)
 
 
 
-void *func_0201292C(const struct GameData *gd)
+void *GAME_DATA_GetMyItem(const struct GameData *gd)
 {
     return gd->myItem;
 }
 
 
 
-void *func_02012934(const struct GameData *gd)
+void *GAME_DATA_GetMyParty(const struct GameData *gd)
 {
     return gd->myParty;
 }
 
 
 
-u32 func_0201293C(const struct GameData *gd)
+u32 GAME_DATA_GetBoxManager(const struct GameData *gd)
 {
     return gd->boxManager;
 }
@@ -455,12 +462,12 @@ u32 func_0201293C(const struct GameData *gd)
 
 struct PlayerStatus *func_02012944(struct GameData *gd)
 {
-    return &func_020127A4(gd)->status;
+    return &GAME_DATA_GetField114(gd)->status;
 }
 
 
 
-struct PlayerStatus *func_02012950(struct GameData *gd, u32 playerId)
+struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gd, u32 playerId)
 {
     return &gd->playerWork[playerId].status;
 }
@@ -474,21 +481,21 @@ u32 GAME_DATA_GetBagCursor(const struct GameData *gd)
 
 
 
-void *func_02012964(const struct GameData *gd)
+void *GAME_DATA_GetOccupyInfo(const struct GameData *gd)
 {
     return gd->occupyInfo;
 }
 
 
 
-void *func_0201296C(const struct GameData *gd)
+void *GAME_DATA_GetEventWork(const struct GameData *gd)
 {
     return gd->eventWork;
 }
 
 
 
-u32 func_02012974(const struct GameData *gd)
+u32 GAME_DATA_GetFieldWork(const struct GameData *gd)
 {
     return gd->fieldWork;
 }
@@ -502,7 +509,7 @@ u32 GAME_DATA_GetMusicalWork(const struct GameData *gd)
 
 
 
-u8 func_02012984(const struct GameData *gd)
+u8 GAME_DATA_GetSeason(const struct GameData *gd)
 {
     return gd->season;
 }
@@ -516,7 +523,7 @@ void GAME_DATA_SetSeason(struct GameData *gd, u8 value)
 
 
 
-u8 func_02012994(const struct GameData *gd)
+u8 GAME_DATA_GetSubscreenMode(const struct GameData *gd)
 {
     return gd->subscreenMode;
 }
@@ -530,35 +537,35 @@ void GAME_DATA_SetSubscreenMode(struct GameData *gd, u8 value)
 
 
 
-u8 func_020129AC(const struct GameData *gd)
+u8 GAME_DATA_GetSubscreenType(const struct GameData *gd)
 {
     return gd->subscreenType;
 }
 
 
 
-void func_020129B8(struct GameData *gd, u32 value)
+void GAME_DATA_SetSubscreenType(struct GameData *gd, u32 value)
 {
     gd->subscreenType = value;
 }
 
 
 
-u8 func_020129C4(const struct GameData *gd)
+u8 GAME_DATA_GetFrameRate(const struct GameData *gd)
 {
     return gd->frameRate;
 }
 
 
 
-void func_020129D0(struct GameData *gd, u8 value)
+void GAME_DATA_SetFrameRate(struct GameData *gd, u8 value)
 {
     gd->frameRate = value;
 }
 
 
 
-void func_020129DC(struct GameData *gd, u8 enable)
+void GAME_DATA_SetWalkCountEnabled(struct GameData *gd, u8 enable)
 {
     gd->walkCountEnabled = enable;
     if (enable != 0) {
@@ -568,7 +575,7 @@ void func_020129DC(struct GameData *gd, u8 enable)
 
 
 
-void func_020129F0(struct GameData *gd)
+void GAME_DATA_ResetWalkCount(struct GameData *gd)
 {
     gd->walkCount = 0;
 }
@@ -592,21 +599,21 @@ u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gd)
 
 
 
-u32 func_02012A30(const struct GameData *gd)
+u32 GAME_DATA_GetBgmInfo(const struct GameData *gd)
 {
     return gd->bgmInfo;
 }
 
 
 
-u32 func_02012A38(const struct GameData *gd)
+u32 GAME_DATA_GetFieldGimmick(const struct GameData *gd)
 {
     return gd->fieldGimmick;
 }
 
 
 
-u32 func_02012A44(const struct GameData *gd)
+u32 GAME_DATA_GetFieldMode(const struct GameData *gd)
 {
     return gd->fieldMode;
 }
@@ -620,7 +627,7 @@ void GAME_DATA_SetFieldMode(struct GameData *gd, u32 value)
 
 
 
-u32 func_02012A54(const struct GameData *gd)
+u32 GAME_DATA_GetItemUseWork(const struct GameData *gd)
 {
     return gd->itemUseWork;
 }
@@ -648,49 +655,49 @@ void GAME_DATA_InitPlayerWork(struct PlayerWork *player)
 
 
 
-void func_02012A90(struct PlayerWork *player, const struct PlayerPosition *pos)
+void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, const struct PlayerPosition *pos)
 {
     player->position = *pos;
 }
 
 
 
-struct PlayerPosition *func_02012AA0(struct PlayerWork *player)
+struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player)
 {
     return &player->position;
 }
 
 
 
-void func_02012AA4(struct PlayerWork *player, const struct RailLocationWords *rail)
+void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocationWords *rail)
 {
     player->rail.all = *rail;
 }
 
 
 
-struct RailLocationWords *func_02012AB8(struct PlayerWork *player)
+struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player)
 {
     return &player->rail.all;
 }
 
 
 
-void func_02012ABC(struct PlayerWork *player, u8 form)
+void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *player, u8 form)
 {
     player->moveForm = form;
 }
 
 
 
-u8 func_02012AC0(const struct PlayerWork *player)
+u8 GAME_DATA_GetPlayerMoveForm(const struct PlayerWork *player)
 {
     return player->moveForm;
 }
 
 
 
-struct PlayerWork *func_02012AC4(struct PlayerWork *player, u16 zoneId)
+struct PlayerWork *GAME_DATA_SetPlayerZoneId(struct PlayerWork *player, u16 zoneId)
 {
     player->zoneId = zoneId;
     return player;
@@ -698,21 +705,21 @@ struct PlayerWork *func_02012AC4(struct PlayerWork *player, u16 zoneId)
 
 
 
-u16 func_02012AC8(const struct PlayerWork *player)
+u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player)
 {
     return player->zoneId;
 }
 
 
 
-void func_02012ACC(struct PlayerWork *player, int direction)
+void GAME_DATA_SetPlayerDirection(struct PlayerWork *player, int direction)
 {
     player->direction = direction;
 }
 
 
 
-u16 func_02012AD0(const struct PlayerWork *player)
+u16 GAME_DATA_GetPlayerDirection(const struct PlayerWork *player)
 {
     return player->direction;
 }
@@ -727,16 +734,16 @@ void GAME_DATA_SetPlayerDirectionType(struct PlayerWork *player, int dirId)
 
 
 /*
- *           func_02012B34, func_02012B38, GAME_DATA_GetEnterMode, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
+ *           GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode,
+ *           GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount,
+ *           GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
  *           GAME_DATA_IsConfigFlagSet
  *
  * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
  * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * PlayerWork for func_02012AE4 .. func_02012B34 and GameData from func_02012B38 on.
+ * PlayerWork for GAME_DATA_GetPlayerDirectionType .. GAME_DATA_GetPlayerPalaceZoneId and GameData from GAME_DATA_GetMoveModelSys on.
  *
- * func_02012AE4 buckets the PlayerWork direction at +0x18 into 0, 1, 2 or 3.  The
+ * GAME_DATA_GetPlayerDirectionType buckets the PlayerWork direction at +0x18 into 0, 1, 2 or 3.  The
  * result local has to be declared **before** the field is read into its own
  * local, or the compiler puts the result in r0, keeps its scratch in r1 and
  * duplicates `bx lr` into every arm instead of branching to one
@@ -781,7 +788,7 @@ void GAME_DATA_SetPlayerDirectionType(struct PlayerWork *player, int dirId)
  *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
  *       --addr 0x02012AE4 --thumb
  */
-u32 func_02012AE4(const struct PlayerWork *player)
+u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *player)
 {
     u32 dirId = 0;
     u16 angle = player->direction;
@@ -797,35 +804,35 @@ u32 func_02012AE4(const struct PlayerWork *player)
 
 
 
-u32 func_02012B28(const struct PlayerWork *player)
+u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player)
 {
     return player->objectCode;
 }
 
 
 
-void func_02012B2C(struct PlayerWork *player, u32 code)
+void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *player, u32 code)
 {
     player->objectCode = code;
 }
 
 
 
-void func_02012B30(struct PlayerWork *player, u16 zoneId)
+void GAME_DATA_SetPlayerPalaceZoneId(struct PlayerWork *player, u16 zoneId)
 {
     player->palaceZoneId = zoneId;
 }
 
 
 
-u16 func_02012B34(const struct PlayerWork *player)
+u16 GAME_DATA_GetPlayerPalaceZoneId(const struct PlayerWork *player)
 {
     return player->palaceZoneId;
 }
 
 
 
-void *func_02012B38(const struct GameData *gd)
+void *GAME_DATA_GetMoveModelSys(const struct GameData *gd)
 {
     return gd->moveModelSys;
 }
@@ -839,35 +846,35 @@ u8 GAME_DATA_GetEnterMode(const struct GameData *gd)
 
 
 
-void func_02012B4C(struct GameData *gd, u8 value)
+void GAME_DATA_SetEnterMode(struct GameData *gd, u8 value)
 {
     gd->enterMode = value;
 }
 
 
 
-u8 func_02012B58(const struct GameData *gd)
+u8 GAME_DATA_GetOwnNetId(const struct GameData *gd)
 {
     return gd->ownNetId;
 }
 
 
 
-void func_02012B64(struct GameData *gd, u8 value)
+void GAME_DATA_SetOwnNetId(struct GameData *gd, u8 value)
 {
     gd->ownNetId = value;
 }
 
 
 
-int func_02012B70(const struct GameData *gd)
+int GAME_DATA_GetIntrudeCount(const struct GameData *gd)
 {
     return gd->intrudeCount;
 }
 
 
 
-struct GameData *func_02012B78(struct GameData *gd, u8 count)
+struct GameData *GAME_DATA_SetIntrudeCount(struct GameData *gd, u8 count)
 {
     gd->intrudeCount = count;
     return gd;
@@ -875,14 +882,14 @@ struct GameData *func_02012B78(struct GameData *gd, u8 count)
 
 
 
-u8 func_02012B80(const struct GameData *gd)
+u8 GAME_DATA_GetIntrudeId(const struct GameData *gd)
 {
     return gd->intrudeId;
 }
 
 
 
-void func_02012B8C(struct GameData *gd, u32 value)
+void GAME_DATA_SetIntrudeId(struct GameData *gd, u32 value)
 {
     gd->intrudeId = value;
 }
@@ -1019,19 +1026,19 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     if (func_020071E4(gd->saveControl) == 1) {
         return;
     }
-    player = func_020127A4(gd);
+    player = GAME_DATA_GetField114(gd);
     func_02008808(gd->saveControl, player);
     func_020088B8(gd->saveControl, player);
-    occupy = func_02012964(gd);
+    occupy = GAME_DATA_GetOccupyInfo(gd);
     func_0200EEAC(occupy, func_020071CC(gd->saveControl, 0x29));
-    func_0200BE6C(gd->saveControl, (u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
+    INTRUDE_LoadOccupy(gd->saveControl, (u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
     unionInfo = GAME_DATA_GetSecondUnionInfo(gd);
-    func_0200A884(func_0200A864(gd->saveControl), unionInfo);
-    func_0200B3C8(gd->saveControl, (const struct FieldSaveData *)gd->fieldSave);
+    MUSICAL_SHOT_CopyPhotoRev(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
+    GIMMICK_WORK_Load(gd->saveControl, (const struct FieldSaveData *)gd->fieldSave);
     situation = gd->situation;
     func_0200893C((const struct Situation *)situation, gd->moveModelSys);
     func_02008954((const struct Situation *)situation, &gd->season);
-    fieldState = func_0201283C(gd);
+    fieldState = GAME_DATA_GetField1A0(gd);
     func_020097F0(func_02009D08(gd->saveControl), fieldState);
     func_02008964((const struct Situation *)gd->situation, &gd->subscreenMode);
     func_0200E89C(gd->saveControl, gd->saveSyncBlock);
@@ -1064,19 +1071,19 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     struct FieldState *fieldState;
     struct PlayTime *savedTime;
     u32 situation;
-    player = func_020127A4(gd);
+    player = GAME_DATA_GetField114(gd);
     func_020087E8(gd->saveControl, player);
     func_02008860(gd->saveControl, player);
-    occupy = func_02012964(gd);
-    func_0200EE64(occupy, func_020071CC(gd->saveControl, 0x29));
-    func_0200BE54(gd->saveControl, (const u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
+    occupy = GAME_DATA_GetOccupyInfo(gd);
+    NET_DEVICE_TABLE_BuildFromProducer(occupy, func_020071CC(gd->saveControl, 0x29));
+    INTRUDE_StoreOccupy(gd->saveControl, (const u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
     unionInfo = GAME_DATA_GetSecondUnionInfo(gd);
-    func_0200A870(func_0200A864(gd->saveControl), unionInfo);
-    func_0200B3B0((struct FieldSaveData *)gd->fieldSave, gd->saveControl);
+    MUSICAL_SHOT_CopyPhoto(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
+    GIMMICK_WORK_Save((struct FieldSaveData *)gd->fieldSave, gd->saveControl);
     situation = gd->situation;
     func_0200892C((struct Situation *)situation, gd->moveModelSys);
     func_0200894C((struct Situation *)situation, gd->season);
-    fieldState = func_0201283C(gd);
+    fieldState = GAME_DATA_GetField1A0(gd);
     func_020097F0(fieldState, func_02009D08(gd->saveControl));
     func_0200895C((struct Situation *)gd->situation, gd->subscreenMode);
     func_0200E884(gd->saveSyncBlock, gd->saveControl);
@@ -1092,7 +1099,7 @@ int GAME_DATA_SaveStart(struct GameData *gd)
     GAME_DATA_WriteToSave(gd);
     WIH_DWC_PauseTimers();
     gd->isSaving = 1;
-    func_0203516C(2, 1);
+    UI_SetFlags39Global(2, 1);
     return SAVE_CONTROL_StartSave(gd->saveControl);
 }
 
@@ -1111,7 +1118,7 @@ int GAME_DATA_SaveMain(struct GameData *gd)
     }
     result = SAVE_CONTROL_MainSave(gd->saveControl);
     if ((u32)(result - 2) <= 1) {
-        func_020351A0(2);
+        UI_ClearFlags39Global(2);
         WIH_DWC_ResumeTimers();
         gd->isSaving = 0;
     }
@@ -1125,13 +1132,13 @@ void GAME_DATA_SaveCancel(struct GameData *gd)
     u32 soundId;
     if (gd->isSaving != 1)
         return;
-    func_020351A0(2);
+    UI_ClearFlags39Global(2);
     WIH_DWC_ResumeTimers();
     gd->isSaving = 0;
     SAVE_CONTROL_CancelSave(gd->saveControl);
     soundId = 0x80;
-    if (func_02034FE8(soundId) == 1)
-        func_02034FB8(soundId);
+    if (UI_TestKeepAwakeFlagsGlobal(soundId) == 1)
+        UI_ClearKeepAwakeFlagsGlobal(soundId);
 }
 
 
@@ -1162,11 +1169,11 @@ u8 GAME_DATA_IsSaving(const struct GameData *gd)
  */
 void GAME_DATA_PartSaveStart(struct GameData *gd, u32 blockId)
 {
-    func_02034F84(0x80);
+    UI_SetKeepAwakeFlagsGlobal(0x80);
     GAME_DATA_WriteToSave(gd);
     WIH_DWC_PauseTimers();
     gd->isSaving = 1;
-    func_0203516C(2);
+    UI_SetFlags39Global(2);
     SAVE_CONTROL_BeginExtraSaveWrite(gd->saveControl, blockId);
 }
 
@@ -1179,10 +1186,10 @@ int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId)
         return 0;
     result = SAVE_CONTROL_StepExtraSaveWrite(gd->saveControl, blockId);
     if (result == 2 || result == 3) {
-        func_020351A0(2);
+        UI_ClearFlags39Global(2);
         WIH_DWC_ResumeTimers();
         gd->isSaving = 0;
-        func_02034FB8(0x80);
+        UI_ClearKeepAwakeFlagsGlobal(0x80);
     }
     return result;
 }
@@ -1272,21 +1279,21 @@ void *GAME_DATA_GetSaveBlock3B(struct GameData *gd)
 
 void *GAME_DATA_GetMiscSave(struct GameData *gd)
 {
-    return func_0200C0F0(gd->saveControl);
+    return BEACON_GetBlock(gd->saveControl);
 }
 
 
 
 /*
  * Save-block getter through the handle's first word: tail call to
- * func_02009EC8 (block 0x1f).  Seeded from ov119 0x021E0226, 0x021E06D0,
+ * TRADE_HISTORY_GetFromSave (block 0x1f).  Seeded from ov119 0x021E0226, 0x021E06D0,
  * 0x021E080C (tree_ov170_3).
  *
  * Addresses are Black-image addresses.
  */
 void *GAME_DATA_GetSaveBlock1F(struct GameData *gd)
 {
-    return func_02009EC8(gd->saveControl);
+    return TRADE_HISTORY_GetFromSave(gd->saveControl);
 }
 
 
@@ -1468,14 +1475,14 @@ void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save)
  *   python tools/match.py tu --src src/matched/unit_02012FF0.c \
  *       --addr 0x02012FF0 --thumb
  */
-void func_02012FF0(struct SaveControl *save)
+void MSG_SPEED_SetSaveControl(struct SaveControl *save)
 {
     sMsgSpeedSaveControl = save;
 }
 
 
 
-signed char func_02012FFC(void)
+signed char MSG_SPEED_GetWait(void)
 {
     u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
     if (speed >= 5) {
@@ -1490,13 +1497,13 @@ signed char func_02012FFC(void)
  * A whole translation unit, matched as one byte range.
  *
  * The slower and faster neighbours of the configured message speed, both
- * through the clamped lookup func_02013080.
+ * through the clamped lookup MSG_SPEED_GetWaitForSpeed.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02013020.c \
  *       --addr 0x02013020 --thumb
  */
-signed char func_02013020(void)
+signed char MSG_SPEED_GetSlowerWait(void)
 {
     u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
     switch (speed) {
@@ -1510,12 +1517,12 @@ signed char func_02013020(void)
         speed = 3;
         break;
     }
-    return func_02013080(speed);
+    return MSG_SPEED_GetWaitForSpeed(speed);
 }
 
 
 
-signed char func_02013050(void)
+signed char MSG_SPEED_GetFasterWait(void)
 {
     u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
     switch (speed) {
@@ -1529,12 +1536,12 @@ signed char func_02013050(void)
         speed = 1;
         break;
     }
-    return func_02013080(speed);
+    return MSG_SPEED_GetWaitForSpeed(speed);
 }
 
 
 
-signed char func_02013080(u32 speed)
+signed char MSG_SPEED_GetWaitForSpeed(u32 speed)
 {
     if (speed >= 5) {
         speed = 4;
@@ -1672,7 +1679,7 @@ int BTL_SETUP_CheckStatusFlag(struct BattleSetupParam *param, int mask)
  * function distinguishes them.
  *
  * (3) 0x10 and 0x3C are named locals, not literals.  `movs r5, #0x10` is
- * hoisted to the prologue, before the first func_0200AE54 call, and r5 is
+ * hoisted to the prologue, before the first REGULATION_GetRuleValue call, and r5 is
  * then shifted left by 6 and by 7 to build the two flag masks; `movs r7,
  * #0x3c` is materialised once and reused as the multiplier for both timer
  * fields.  Spelling the masks as the constants 0x400 and 0x800, or the
@@ -1702,10 +1709,10 @@ void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *param, struct Regulation
     u32 bit = 0x10;
     u32 sec = 0x3c;
     int i;
-    param->limitTimeCommand = (u16)(sec * func_0200AE54(reg, 0x10));
-    param->limitTimeGame = (u16)(sec * func_0200AE54(reg, 0xf));
-    func_0200B040(reg, param->regulationRules);
-    switch (func_0200AE54(reg, 0x12)) {
+    param->limitTimeCommand = (u16)(sec * REGULATION_GetRuleValue(reg, 0x10));
+    param->limitTimeGame = (u16)(sec * REGULATION_GetRuleValue(reg, 0xf));
+    REGULATION_GetShooterSettings(reg, param->regulationRules);
+    switch (REGULATION_GetRuleValue(reg, 0x12)) {
     case 0:
         break;
     case 1:
@@ -1847,10 +1854,10 @@ void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u
     if (trainerId == 0) {
         return;
     }
-    func_0202A440(trainerId, *(struct BattleTrainerData **)(slots + off), heap);
-    func_0202A4B4(trainerId, *party, heap);
-    FORMCHANGE_UpdateSeasonForms(gd, *party, func_02012984(gd));
-    switch (func_0202A3FC((*(struct BattleTrainerData **)(slots + off))->trainerType)) {
+    TR_TOOL_LoadTrainerInfo(trainerId, *(struct BattleTrainerData **)(slots + off), heap);
+    TR_TOOL_BuildParty(trainerId, *party, heap);
+    FORMCHANGE_UpdateSeasonForms(gd, *party, GAME_DATA_GetSeason(gd));
+    switch (TPOKE_DATA_GetTrainerKind((*(struct BattleTrainerData **)(slots + off))->trainerType)) {
     case 2:
     case 3:
         param->bgmWin = 0x47e;
@@ -1877,9 +1884,9 @@ void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u
 
 void BTL_SETUP_SetPlayerParty(struct BattleSetupParam *param, struct GameData *gd, u16 heap)
 {
-    func_020127A4(gd);
+    GAME_DATA_GetField114(gd);
     param->party[0] = POKEPARTY_Create(heap);
-    POKEPARTY_Copy(func_02012934(gd), param->party[0]);
+    POKEPARTY_Copy(GAME_DATA_GetMyParty(gd), param->party[0]);
 }
 
 
@@ -1935,20 +1942,20 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
         param->regulationRules[i] = 0;
     }
     param->playerStatus[0] = func_02012944(gd);
-    param->myItem = func_0201292C(gd);
+    param->myItem = GAME_DATA_GetMyItem(gd);
     param->mapMatrix = GAME_DATA_GetMapMatrix(gd);
     param->zukanWork = ZUKAN_SAVE_GetFromGameData(gd);
     param->pmsWork = GAME_DATA_GetPmsWork(gd);
     param->trainerRecord = GAME_DATA_GetTrainerRecord(gd);
     save = GAME_DATA_GetSaveControl(gd);
-    misc = func_0200C0E8(save);
+    misc = BEACON_GetFromSave(save);
     param->config = func_0200873C(save);
-    param->badgeCount = (u8)func_0200C258(misc);
+    param->badgeCount = (u8)BEACON_CountFlags(misc);
     MI_CpuCopy8(sit, &param->fieldSituation, 0x10);
     param->bgmBattle = 0x468;
     param->bgmWin = 0x468 + 0x14;
     param->moneyRate = 1;
-    if (ZONEDATA_CheckEventFlag(func_0201296C(gd), 0x96d) != 0) {
+    if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(gd), 0x96d) != 0) {
         BTL_SETUP_SetStatusFlag(param, 2);
     }
 }
@@ -1975,11 +1982,11 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
  * both arguments, the plain (src, dst) prototype gives the same bytes.
  *
  * (2) func_020076D0 takes THREE arguments, and its first is the return
- * value of the func_0201293C call immediately above it.  The original sets
+ * value of the GAME_DATA_GetBoxManager call immediately above it.  The original sets
  * only r1 and r2 (`add r1, sp, #4; add r2, sp, #0`) and leaves r0 holding
- * what func_0201293C returned.  Declaring it with two parameters puts the
+ * what GAME_DATA_GetBoxManager returned.  Declaring it with two parameters puts the
  * two pointers in r0/r1 and is a two-byte, two-instruction miss; declaring
- * func_0201293C as returning u32 and passing that result explicitly gives
+ * GAME_DATA_GetBoxManager as returning u32 and passing that result explicitly gives
  * the original bytes with no extra `adds`, because the value is already in
  * r0 and the compiler elides the copy.
  *
@@ -2020,7 +2027,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     if (count != POKEPARTY_GetCapacity(param->party[0])) {
         return;
     }
-    box = func_0201293C(gd);
+    box = GAME_DATA_GetBoxManager(gd);
     tray = 0;
     pos = 0;
     if (func_020076D0(box, &tray, &pos) == 0) {
@@ -2481,7 +2488,7 @@ void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param)
 {
     if (param->competitor == 1) {
         param->competitor = 2;
-        if (func_0202A3FC(param->trainerData[1]->trainerType) != 0xb) {
+        if (TPOKE_DATA_GetTrainerKind(param->trainerData[1]->trainerType) != 0xb) {
             param->bgmBattle = 0x46b;
             param->bgmWin = 0x47d;
         } else {

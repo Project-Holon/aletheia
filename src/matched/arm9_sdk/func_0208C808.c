@@ -1,5 +1,5 @@
 /*
- * function: func_0208C808
+ * function: PM_PrependPreSleepCallback
  * address:  0x0208C808
  * packet:   pkt_0208C808
  * region:   arm9
@@ -19,7 +19,7 @@ extern int g_0215301C[];
 
 void PMi_InsertList(void *listp, void *info, int priority, int compare);
 
-void func_0208C808(void *info)
+void PM_PrependPreSleepCallback(void *info)
 {
     PMi_InsertList(g_0215301C, info, -255, 1);
 }

@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_02092344, func_02092364
+ * function: func_02092344, memmove
  * address:  0x02092344
  * packet:   pkt_02092120
  * region:   arm9
@@ -12,7 +12,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Byte-wise memcpy (func_02092344) and memmove (func_02092364).
+ * Byte-wise memcpy (func_02092344) and memmove (memmove).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02092344.c \
@@ -37,7 +37,7 @@ void *func_02092344(void *dest, const void *src, size_t n)
     return dest;
 }
 
-void *func_02092364(void *dest, const void *src, size_t n)
+void *memmove(void *dest, const void *src, size_t n)
 {
     if ((const unsigned char *)src >= (unsigned char *)dest) {
         unsigned char *d = (unsigned char *)dest;

@@ -15,7 +15,7 @@
  * symbols:
  *   func_020115EC  0x020115EC  thumb
  *   func_02030734 0x02030734 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   site 0x021BCB00 data a4
  *   func_020307B0 0x020307B0 arm
  *   FADE_Start 0x0204E720 arm
@@ -137,17 +137,17 @@
  *   func_0201D42C 0x0201D42C thumb
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EE60 0x0201EE60 thumb
+ *   WORDSET_Callback 0x0201EE60 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   d_021BC730 0x021BC730 data a4
  *   d_021BC710 0x021BC710 data a2
@@ -281,7 +281,7 @@ struct Item { void *text; u16 color; unsigned value; };
 
 extern int func_020115EC(int, int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 extern u32 func_020307B0(void *p);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
@@ -379,7 +379,7 @@ extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);
 extern unsigned func_0201D42C(struct StrObj *, void *);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
@@ -388,11 +388,11 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -510,7 +510,7 @@ struct Record *func_021B95B0(u32 heap,u32 count)
         p[i].scale.x=4096;
         p[i].scale.y=4096;
         p[i].scale.z=4096;
-        func_0207ADC4(p[i].matrix);
+        MTX_Identity33_(p[i].matrix);
     }
     return p;
 }
@@ -1562,7 +1562,7 @@ void func_021BAFC4(char *p, int idx)
         x = ((int)(W - w)) / 2;
     if (H > h)
         y = ((int)(H - h)) / 2;
-    *(u32 *)(p + 0x250) = PRINTSYS_PrintStream((u32)desc, x, y, *(u32 *)(p + 0x258), *(u32 *)(p + 0x18), func_02012FFC(),
+    *(u32 *)(p + 0x250) = PRINTSYS_PrintStream((u32)desc, x, y, *(u32 *)(p + 0x258), *(u32 *)(p + 0x18), MSG_SPEED_GetWait(),
                                          *(u32 *)(p + 0x254), 2, *(u16 *)p, 0);
     BMP_WIN_TransferChars(desc);
     BMP_WIN_MakeScreen((struct Cfg *)desc);
@@ -1641,13 +1641,13 @@ void func_021BB18C(char *p, int idx)
     desc = *(struct Descriptor **)(p + 0x240);
     flag = (u32 *)(p + 0x24C);
     x = 0;
-    words = func_0201EC64(*(u16 *)p);
+    words = GF_FONT_Create_EC64(*(u16 *)p);
     text = func_02045EC0(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
-    func_0201EE60(words, 1, d_021BC710[idx]);
+    WORDSET_Callback(words, 1, d_021BC710[idx]);
     func_0201F250(words, buf, text);
     STRBUF_Delete((struct U16Vec *)text);
-    func_0201ED04(words);
+    WORDSET_DeleteStrbufED04(words);
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);
     func_0201D304(buf, *(unsigned *)(p + 0x18), 0);
     height = func_0201D42C(buf, *(void **)(p + 0x18));

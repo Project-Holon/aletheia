@@ -19,7 +19,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   d_021DDA38  0x021DDA38  data  ov021  a4
  *   FIELDMAP_GetCamera  0x02188C58  thumb
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
@@ -115,7 +115,7 @@ extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void *func_02030734(u16 heapId, u32 size, u32 flag, const char *file, u32 line);
 extern u32 func_020307B0(void *mem);
-extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
 extern void FIELD_NOGRID_MAPPER_SetActive(u32 obj, u32 enable);
@@ -260,7 +260,7 @@ void FIELD_CAMERA_ANIME_SetAnglesFromPos(FieldCamera *camera)
     u16 pitch, yaw;
     FIELD_CAMERA_GetEye(camera, &pos);
     FIELD_CAMERA_GetTarget(camera, &target);
-    func_0207CA00(&pos, &target, &dir);
+    VEC_Subtract(&pos, &target, &dir);
     FIELD_CAMERA_GetVectorAngles(&dir, &pitch, &yaw, &distance);
     FIELD_CAMERA_SetDistance(camera, distance);
     FIELD_CAMERA_SetPitch(camera, pitch);
@@ -281,7 +281,7 @@ void FIELD_CAMERA_ANIME_ReadParam(FieldCamera *camera, FieldCameraParam *param)
     VecFx32 dir;
     FIELD_CAMERA_GetEye(camera, &pos);
     FIELD_CAMERA_GetTarget(camera, &target);
-    func_0207CA00(&pos, &target, &dir);
+    VEC_Subtract(&pos, &target, &dir);
     FIELD_CAMERA_GetVectorAngles(&dir, &param->pitch, &param->yaw, &param->distance);
     FIELD_CAMERA_GetTarget(camera, &param->target);
     FIELD_CAMERA_GetTargetShift(camera, &param->shift);

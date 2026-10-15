@@ -1,5 +1,5 @@
 /*
- * function: func_02025EA4
+ * function: CURSOR_MOVE_PollTouch
  * address:  0x02025EA4
  * packet:   pkt_02025D2C
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_020261C4  0x020261C4  thumb
+ *   CURSOR_MOVE_TestSkipBit  0x020261C4  thumb
  *   func_020355D8  0x020355D8  arm
- *   g_0209FB58     0x0209FB58  data
+ *   gCursorMoveTouchTag     0x0209FB58  data
  *
  * field_sound_system.c.  Scan the entry table hanging off the object for a
  * live record: each 12-byte entry's tag word (bytes 8..11) is copied into
  * the low half of a 8-byte stack scratch whose high half is preloaded from
- * the four-byte template g_0209FB58, then handed to TOUCHPANEL_HitTrg.  A hit
+ * the four-byte template gCursorMoveTouchTag, then handed to TOUCHPANEL_HitTrg.  A hit
  * that also passes the bitmap test at +0x10 commits the entry: the previous
  * slot id is shifted to +0xe, the new index becomes +0xd, an in-flight
  * request (field_4 == 1 with field_C == 1) is cancelled through the record's
@@ -34,8 +34,8 @@
  * reader of 0x0209FB58, which would supply a second pool word.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02025EA4.c \
- *       --func func_02025EA4 --addr 0x02025EA4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/CURSOR_MOVE_PollTouch.c \
+ *       --func CURSOR_MOVE_PollTouch --addr 0x02025EA4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -71,11 +71,11 @@ struct Sound {
 };
 
 extern int TOUCHPANEL_HitTrg(const void *key);
-extern int func_020261C4(const u32 *bitmap, u32 bit);
+extern int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit);
 extern void func_020355D8(u8 v);
-extern const u8 g_0209FB58[4];
+extern const u8 gCursorMoveTouchTag[4];
 
-int func_02025EA4(struct Sound *obj, int *out)
+int CURSOR_MOVE_PollTouch(struct Sound *obj, int *out)
 {
     u8 key[8];
     u16 i;
@@ -83,10 +83,10 @@ int func_02025EA4(struct Sound *obj, int *out)
     u32 *bitmap;
     struct Entry *e;
 
-    key[4] = g_0209FB58[0];
-    key[5] = g_0209FB58[1];
-    key[6] = g_0209FB58[2];
-    key[7] = g_0209FB58[3];
+    key[4] = gCursorMoveTouchTag[0];
+    key[5] = gCursorMoveTouchTag[1];
+    key[6] = gCursorMoveTouchTag[2];
+    key[7] = gCursorMoveTouchTag[3];
     res = 0;
     i = res;
     bitmap = (u32 *)((u8 *)obj + 0x10);
@@ -103,7 +103,7 @@ int func_02025EA4(struct Sound *obj, int *out)
         key[3] = e->tag[3];
         if (TOUCHPANEL_HitTrg(key) != -1) {
             res = 1;
-            if (func_020261C4(bitmap, i) == 1) {
+            if (CURSOR_MOVE_TestSkipBit(bitmap, i) == 1) {
                 obj->field_E = obj->field_D;
                 obj->field_D = (u8)i;
                 if (obj->field_4 == 1 && obj->field_C == 1) {

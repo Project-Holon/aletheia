@@ -18,7 +18,7 @@
  * arrays, zeroes the species of any member POKE_REGULATION_CheckPokemon rejects, then runs an
  * O(n^2) duplicate-species scan that zeroes the worse of each colliding pair
  * (worse = the larger form value) and decrements a running count.  If the
- * surviving count is below what func_0200AE54(ctx, 2) requires it answers 4;
+ * surviving count is below what REGULATION_GetRuleValue(ctx, 2) requires it answers 4;
  * otherwise the answer is 0 or 1 from POKE_REGULATION_FindValidOrder.
  *
  * Two layout tells pin the frame:
@@ -43,7 +43,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   POKE_REGULATION_CheckPokemon  0x02019DA4  thumb
- *   func_0200AE54  0x0200AE54  thumb
+ *   REGULATION_GetRuleValue  0x0200AE54  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
  */
 
@@ -57,7 +57,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int POKE_REGULATION_CheckPokemon(void *ctx, void *mon);
 struct Reg;
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 
 int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q)
@@ -86,7 +86,7 @@ int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q)
         }
     }
 
-    if ((int)func_0200AE54(ctx, 7) == 0 && n > 1) {
+    if ((int)REGULATION_GetRuleValue(ctx, 7) == 0 && n > 1) {
         i = 0;
         lim = n - 1;
         for (; i < lim; i++) {
@@ -103,7 +103,7 @@ int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q)
         }
     }
 
-    if (cnt < (int)func_0200AE54(ctx, 2)) {
+    if (cnt < (int)REGULATION_GetRuleValue(ctx, 2)) {
         return 4;
     }
 

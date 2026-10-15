@@ -1,5 +1,5 @@
 /*
- * function: func_020787A0
+ * function: FSi_DecrementSjisPosition
  * address:  0x020787A0
  * packet:   pkt_020787A0
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 #define STD_IsSjisLeadByte(c) ((u32)((((u8)(c)) ^ 0x20) - 0xA1) < 0x3C)
 
-int func_020787A0(const char *str, int pos)
+int FSi_DecrementSjisPosition(const char *str, int pos)
 {
     int prev = pos - 1;
 

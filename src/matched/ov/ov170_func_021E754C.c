@@ -13,11 +13,11 @@
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb ov170
  *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb ov170
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb ov170
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_SEQ_DeleteB 0x021EA750 thumb ov170
  *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb ov170
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  */
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
@@ -29,11 +29,11 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_SEQ_DeleteB(char *p);
 extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void BOX2_UI_ShowWindowB(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
@@ -46,7 +46,7 @@ int BOX2_SEQ_StateMoveItemD(unsigned char *p)
         BOX2_SEQ_SetSlotDim((char **)p, 0);
         BOX2_SEQ_SetActorAffineMode(WORK(p), 1);
         BOX2_SEQ_SetActorAnimSeq(WORK(p), 10, 2);
-        func_020260E4(*(void **)(WORK(p) + 0x70), p[0x16] - 0x1E);
+        CURSOR_MOVE_SetCurrent(*(void **)(WORK(p) + 0x70), p[0x16] - 0x1E);
         BOX2_SEQ_DeleteB((char *)p);
         STEP(p)++;
         break;
@@ -54,7 +54,7 @@ int BOX2_SEQ_StateMoveItemD(unsigned char *p)
         if (BOX2_SEQ_IsActorAnimActive(WORK(p), 10) == 1)
             break;
         BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
-        func_020260F4(*(void **)(WORK(p) + 0x70), 1);
+        CURSOR_MOVE_SetState(*(void **)(WORK(p) + 0x70), 1);
         BOX2_UI_ShowWindowB(WORK(p));
         return 0x46;
     }

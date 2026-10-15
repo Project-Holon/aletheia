@@ -20,7 +20,7 @@
  *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
  *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
  *   PRINTSYS_PrintStreamSetSpeed  0x0201CE8C  thumb  arm9
- *   func_02013080  0x02013080  thumb  arm9
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb  arm9
  *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   KEY_GetCont  0x0203630C  arm  arm9
@@ -64,7 +64,7 @@ struct Rec;
 struct Rec3;
 extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct Rec *p);
 extern void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32 v);
-extern signed char func_02013080(u32 idx);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern void PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern u32 KEY_GetCont(void);
@@ -97,7 +97,7 @@ int BTLV_SCU_UpdateMessage(struct T *p)
             if (BTL_MAIN_GetCommPos(p->owner) == 0) {
                 if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) == 0)
-                        PRINTSYS_PrintStreamSetSpeed(p->h30, func_02013080(2));
+                        PRINTSYS_PrintStreamSetSpeed(p->h30, MSG_SPEED_GetWaitForSpeed(2));
                 } else {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) != 0)
                         PRINTSYS_PrintStreamResetSpeed(p->h30);

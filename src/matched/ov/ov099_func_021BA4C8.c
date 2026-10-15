@@ -17,9 +17,9 @@
  * (seed function_starts 0x021BA520).
  *
  * symbols:
- *   func_021C57F4  0x021C57F4  thumb  ov127
- *   func_021C57D8  0x021C57D8  thumb  ov127
- *   func_021C49A4  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJDRAW_RestoreFrame  0x021C57F4  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActive  0x021C57D8  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
  *   WIFICLUBACTOR_SetPlayerState  0x021BA228  thumb  ov099
  *   WIFICLUBACTOR_ApplyActorMode  0x021BA5F0  thumb  ov099
  */
@@ -41,9 +41,9 @@ typedef struct {
     u8 fb;
 } S;
 
-extern void func_021C57F4(u8 *p);
-extern void func_021C57D8(u8 *p, int v);
-extern int func_021C49A4(u8 *p, unsigned int i);
+extern void WF2DMAP_OBJDRAW_RestoreFrame(u8 *p);
+extern void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v);
+extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 extern void WIFICLUBACTOR_SetPlayerState(void *w, u8 *s);
 extern void WIFICLUBACTOR_ApplyActorMode(void *a, char *b, u8 c);
 
@@ -54,10 +54,10 @@ int WIFICLUBACTOR_UpdateWait(W *w, S *s)
 
     s->f8 = s->f8 - 1;
     if (s->f8 <= 0) {
-        func_021C57F4(s->f4);
-        func_021C57D8(s->f4, 1);
-        a = func_021C49A4(*w->f570, 4);
-        b = func_021C49A4(s->f0, 4);
+        WF2DMAP_OBJDRAW_RestoreFrame(s->f4);
+        WF2DMAP_OBJDRAW_SetActive(s->f4, 1);
+        a = WF2DMAP_OBJ_GetSlot(*w->f570, 4);
+        b = WF2DMAP_OBJ_GetSlot(s->f0, 4);
         if (b == a) {
             WIFICLUBACTOR_SetPlayerState(w, (u8 *)s);
         } else {

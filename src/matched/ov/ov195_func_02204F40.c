@@ -1,5 +1,5 @@
 /*
- * function: func_02204F40
+ * function: SHINKA_DEMO_PopBgm
  * address:  0x02204F40
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Leaf of the func_022040E0 dependency tree: when the scene object sits in
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
  * state 5 or in state 8/9, run the cue trio and drop it into state 4.
  *
  * symbols:
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_02204F40(int a, int *p)
+void SHINKA_DEMO_PopBgm(int a, int *p)
 {
     int s = p[0xc];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02096DF0
+ * function: __less_dec
  * address:  0x02096DF0
  * packet:   pkt_02096990
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:  none -- the function has no relocation at all
  *
- * The ordering sibling of func_02096D10: same length-prefixed string object
+ * The ordering sibling of __equals_dec: same length-prefixed string object
  * (byte +5 terminator flag, s16 key at +2, byte length at +4, payload from +5)
  * but it returns 1 when a sorts before b and 0 otherwise, so the payload loop
  * is a two-sided compare instead of a single inequality.  When the common
@@ -45,7 +45,7 @@ typedef struct {
     u8  f05[];
 } Str;
 
-int func_02096DF0(Str *a, Str *b)
+int __less_dec(Str *a, Str *b)
 {
     int i, n;
     int lb, la;

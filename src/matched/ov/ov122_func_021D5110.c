@@ -1,5 +1,5 @@
 /*
- * function: func_021D5110
+ * function: INTRUDE_COMM_VIEW_OnScanResult
  * address: 0x021D5110
  * packet: pkt_ov122_021D5110
  * region: ov122
@@ -23,8 +23,8 @@
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_021D50B4 0x021D50B4 thumb ov122
- *   func_021D50DC 0x021D50DC thumb ov122
+ *   INTRUDE_COMM_VIEW_SetFoundPeerMac 0x021D50B4 thumb ov122
+ *   INTRUDE_COMM_VIEW_ClearFoundPeerMac 0x021D50DC thumb ov122
  *   FIELD_SOUND_SYSTEM_StartRingtone  0x02028A64  thumb  arm9
  *   COMM_PLAYER_SUPPORT_GetRecordFieldPtr  0x0202E930  thumb  arm9
  *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
@@ -59,7 +59,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_02041B6C(u32 bit);
-extern void func_021D50B4(char *p, u32 n);
+extern void INTRUDE_COMM_VIEW_SetFoundPeerMac(char *p, u32 n);
 extern void STRBUF_Delete(struct U16Vec *vec);
 struct BigObj;
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *);
@@ -68,8 +68,8 @@ extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void func_021D50DC(char *);
-void func_021D5110(char *p)
+extern void INTRUDE_COMM_VIEW_ClearFoundPeerMac(char *);
+void INTRUDE_COMM_VIEW_OnScanResult(char *p)
 {
     int index;
     void *record, *text;
@@ -86,7 +86,7 @@ void func_021D5110(char *p)
             BMP_WIN_MakeScreen(((struct Obj00208 *)p)->f3C);
             CLACT_SetActorDrawEnable(((struct Obj00208 *)p)->f3A0, 1);
             func_02041B6C(5);
-            func_021D50B4(p, index);
+            INTRUDE_COMM_VIEW_SetFoundPeerMac(p, index);
         }
         STRBUF_Delete(text);
         FIELD_SOUND_SYSTEM_StartRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo(((struct Obj00208 *)p)->f350));
@@ -101,7 +101,7 @@ void func_021D5110(char *p)
         CLACT_SetActorDrawEnable(((struct Obj00208 *)p)->f3A0, 0);
         BMP_Clear(BMP_WIN_GetBmp(((struct Obj00208 *)p)->f3C), 0);
         BMP_WIN_TransferChars(((struct Obj00208 *)p)->f3C);
-        func_021D50DC(p);
+        INTRUDE_COMM_VIEW_ClearFoundPeerMac(p);
         if (CLACT_GetActorAnimSeq(((struct Obj00208 *)p)->f394) == 19) {
             CLACT_SetActorAutoAnim(((struct Obj00208 *)p)->f394, 0);
             CLACT_SetActorAnimSeq(((struct Obj00208 *)p)->f394, 11);

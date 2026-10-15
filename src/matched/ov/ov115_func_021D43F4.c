@@ -14,7 +14,7 @@
  *   WIFILOGIN_COMMON_SetStateHandler 0x021D426C thumb ov115
  *   func_021D5D5C 0x021D5D5C thumb ov115
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_02009CC0 0x02009CC0 thumb
+ *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   func_021D43CC 0x021D43CC thumb ov115
@@ -22,5 +22,5 @@
 #include "../include/Obj06413.h"
 typedef unsigned char u8; typedef unsigned int u32;
 extern u32 WIPE_SYS_EndCheck(void); extern int func_021D5C70(int); extern void WIFILOGIN_COMMON_SetStateHandler(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
-extern u8 *GAME_DATA_GetMyStatus(void *); extern void *func_02009CC0(void *); extern void func_02008540(void *,void *); extern void GAME_DATA_SaveStart(u8 *); extern void func_021D43CC(u8 *);
-void func_021D43F4(u8 *p) { void *a; if(func_021D5C70(((struct Obj06413 *)p)->f38)) { a=GAME_DATA_GetMyStatus(((struct Obj06413 *)p)->f44); func_02008540(a,func_02009CC0(((struct Obj06413 *)p)->f3C)); GAME_DATA_SaveStart(*(u8 * *)&((struct Obj06413 *)p)->f44); ((struct Obj06413 *)p)->f24=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D43CC); } }
+extern u8 *GAME_DATA_GetMyStatus(void *); extern void *WIFILIST_GetGsProfileId(void *); extern void func_02008540(void *,void *); extern void GAME_DATA_SaveStart(u8 *); extern void func_021D43CC(u8 *);
+void func_021D43F4(u8 *p) { void *a; if(func_021D5C70(((struct Obj06413 *)p)->f38)) { a=GAME_DATA_GetMyStatus(((struct Obj06413 *)p)->f44); func_02008540(a,WIFILIST_GetGsProfileId(((struct Obj06413 *)p)->f3C)); GAME_DATA_SaveStart(*(u8 * *)&((struct Obj06413 *)p)->f44); ((struct Obj06413 *)p)->f24=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D43CC); } }

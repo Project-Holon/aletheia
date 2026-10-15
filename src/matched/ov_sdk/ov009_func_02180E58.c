@@ -1,5 +1,5 @@
 /*
- * function: func_02180E58
+ * function: gsUdpEngineInitialize
  * address:  0x02180E58
  * packet:   pkt_ov009_02180E58
  * region:   ov009
@@ -21,10 +21,10 @@
  *   gt2Listen                  0x02195B20  arm ov009
  *   gt2GetLocalIP                  0x02195E38  arm ov009
  *   gt2GetLocalPort                  0x02195E40  arm ov009
- *   func_0218048C                  0x0218048C  arm ov009
+ *   gsUdpSocketError                  0x0218048C  arm ov009
  *   func_02180410                  0x02180410  arm ov009
- *   func_02180BFC                  0x02180BFC  arm ov009
- *   func_02180C94                  0x02180C94  arm ov009
+ *   gsUdpUnrecognizedMsgCB                  0x02180BFC  arm ov009
+ *   gsUdpConnAttemptCB                  0x02180C94  arm ov009
  *   g_021A3B44                     0x021A3B44  data
  *   g_021A3B7C                     0x021A3B7C  data
  */
@@ -74,14 +74,14 @@ extern void gt2SetUnrecognizedMessageCallback(int *p, int v);
 extern void gt2Listen(int *p, int v);
 extern int gt2GetLocalIP(const int *p);
 extern unsigned short gt2GetLocalPort(const unsigned short *p);
-extern void func_0218048C(void);
+extern void gsUdpSocketError(void);
 extern void func_02180410(void *theMsgHandler);
-extern int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
-extern void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
+extern int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
+extern void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
 extern char g_021A3B44[];
 extern char g_021A3B7C[];
 
-int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize,
+int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize,
     void (*theAppNetworkError)(int, void *),
     void (*theAppConnected)(unsigned int, unsigned short, int, int, void *),
     void (*theAppClosed)(unsigned int, unsigned short, int, void *),
@@ -110,7 +110,7 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
 
 
     func_02198620(0, thePort, anAddr);
-    aGt2Result = func_02195AB4(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, func_0218048C);
+    aGt2Result = func_02195AB4(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, gsUdpSocketError);
     if (aGt2Result != 0) {
         func_0217D254(12, 0, 2, g_021A3B44, aGt2Result);
         return 3;
@@ -128,8 +128,8 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
         return 1;
     }
 
-    gt2SetUnrecognizedMessageCallback(aUdp->mSocket, (int)func_02180BFC);
-    gt2Listen(aUdp->mSocket, (int)func_02180C94);
+    gt2SetUnrecognizedMessageCallback(aUdp->mSocket, (int)gsUdpUnrecognizedMsgCB);
+    gt2Listen(aUdp->mSocket, (int)gsUdpConnAttemptCB);
     aUdp->mLocalAddr = gt2GetLocalIP(aUdp->mSocket);
     aUdp->mLocalPort = gt2GetLocalPort(aUdp->mSocket);
     aUdp->mAppPendingConnections = 0;

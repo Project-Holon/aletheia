@@ -1,5 +1,5 @@
 /*
- * function: func_02078EB0
+ * function: FS_LoadOverlayImage
  * address:  0x02078EB0
  * packet:   pkt_02078EB0
  * region:   arm9
@@ -70,7 +70,7 @@ extern void FS_ClearOverlayImage(FSOverlayInfo *p_ovi);
 extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern BOOL FS_CloseFile(FSFile *file);
 
-BOOL func_02078EB0(FSOverlayInfo *p_ovi)
+BOOL FS_LoadOverlayImage(FSOverlayInfo *p_ovi)
 {
     BOOL retval = 0;
     FSFile p_file[1];

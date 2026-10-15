@@ -1,5 +1,5 @@
 /*
- * function: func_0217F730
+ * function: nextlongrand
  * address:  0x0217F730
  * packet:   pkt_0219091C
  * region:   ov009
@@ -21,7 +21,7 @@
 #define RANa         16807
 #define LONGRAND_MAX 2147483647L
 
-int func_0217F730(long seed)
+int nextlongrand(long seed)
 {
     unsigned long lo, hi;
 

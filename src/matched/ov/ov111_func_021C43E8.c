@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02040588  0x02040588  arm
  *   d_021C85C8     0x021C85C8  data  a4
@@ -40,7 +40,7 @@ struct BgTemplatePair {
 };
 
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32 bgId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
@@ -60,34 +60,34 @@ void func_021C43E8(void)
     }
     {
         struct BgTemplate t = d_021C85E8;
-        func_0203FCA0(7, &t, 2);
+        BG_SYS_InitBgLayer(7, &t, 2);
         func_020414AC(7);
         func_02040588(7, 1);
     }
     {
         struct BgTemplatePair t = d_021C8668;
-        func_0203FCA0(4, &t.t[0], 0);
+        BG_SYS_InitBgLayer(4, &t.t[0], 0);
         func_020414AC(4);
         func_02040588(4, 1);
-        func_0203FCA0(5, &t.t[1], 0);
+        BG_SYS_InitBgLayer(5, &t.t[1], 0);
         func_020414AC(5);
         func_02040588(5, 1);
     }
     {
         struct BgTemplate t = d_021C8608;
-        func_0203FCA0(6, &t, 2);
+        BG_SYS_InitBgLayer(6, &t, 2);
         func_020414AC(6);
         func_02040588(6, 1);
     }
     {
         struct BgTemplate t = d_021C8628;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
         func_020414AC(2);
         func_02040588(2, 0);
     }
     {
         struct BgTemplate t = d_021C8648;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
         func_020414AC(3);
         func_02040588(3, 1);
     }

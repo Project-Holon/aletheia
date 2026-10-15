@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_0208B8B0",
+   "name": "PM_Init",
    "address": "0x0208B8B0",
    "kind": "sdk",
    "region": "arm9",

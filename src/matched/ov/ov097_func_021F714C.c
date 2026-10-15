@@ -17,7 +17,7 @@
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   VS_MULTI_LIST_MoveActorX 0x021F72DC thumb ov097
@@ -47,7 +47,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern int POKE_TOOL_GetIconPalette(void *);
 extern void CLACT_SetActorPaletteOffset(struct Obj *, u32, u32);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 extern void CLACT_SetActorAnimFrame(struct Obj *, u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void VS_MULTI_LIST_MoveActorX(unsigned p, unsigned i, int dx);
@@ -72,7 +72,7 @@ void VS_MULTI_LIST_CreateActors(struct P *p)
             CLACT_SetActorPaletteOffset(p->actors.set.a[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(p->mons[i])), 1);
             species = POKE_TOOL_GetPartyValue(p->mons[i], 6, 0);
             if (species == 0) CLACT_SetActorDrawEnable(p->actors.set.b[i], 0);
-            else if (func_0202136C(species) == 1) {
+            else if (FILE_UTIL_Check136C(species) == 1) {
                 CLACT_SetActorAnimFrame(p->actors.set.b[i], 0);
                 CLACT_SetActorAnimSeq(p->actors.set.b[i], 1);
             } else {

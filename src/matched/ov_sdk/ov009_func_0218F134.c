@@ -1,5 +1,5 @@
 /*
- * function: func_0218F134
+ * function: gpiFreeMessage
  * address:  0x0218F134
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void func_0217EAE0(void *p);
 
-void func_0218F134(void **p)
+void gpiFreeMessage(void **p)
 {
     func_0217EAE0(*p);
     *p = 0;

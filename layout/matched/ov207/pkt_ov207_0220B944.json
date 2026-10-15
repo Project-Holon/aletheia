@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220B944",
+   "name": "ZUKAN_NICKNAME_TransferPalette",
    "address": "0x0220B944",
    "kind": "game",
    "region": "ov207",

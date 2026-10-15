@@ -17,7 +17,7 @@
  *   POKETRADE_SAVE_ResetClactAndBeginEvent  0x021DFDA0  thumb  ov119
  *   func_020307B0  0x020307B0  arm
  *
- * Same body as ov118 func_021D6C78 (third copy of this module); the first
+ * Same body as ov118 POKETRADE_DEMO_MIDDLE_StepEndScene (third copy of this module); the first
  * callee is this overlay's own copy at 0x021D5694.
  *
  * Addresses are Black-image addresses.

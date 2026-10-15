@@ -14,11 +14,11 @@
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
  *   COMM_TVT_SYS_ClearAndTransferNameWindows 0x021BE1E4 thumb ov172
- *   func_021B8B8C 0x021B8B8C thumb ov172
- *   func_021B8BAC 0x021B8BAC thumb ov172
+ *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
+ *   CTVT_COMM_GetSlotReady 0x021B8BAC thumb ov172
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207ECF0 0x0207ECF0 arm
- *   func_0207E100 0x0207E100 arm
+ *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
  *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
@@ -74,11 +74,11 @@ extern u32 COMM_TVT_SYS_GetHalfRes(void *p);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 extern void COMM_TVT_SYS_ClearAndTransferNameWindows(u8 *p);
-extern u32 func_021B8B8C(int unused, char *base, int i);
-extern u8 func_021B8BAC(void *unused, char *base, int i);
+extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
+extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
-extern void *func_0207E100(void);
+extern void *G2_GetBG3ScrPtr(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
@@ -119,7 +119,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                 q->f10 = 0;
                 q->f2c++;
                 for (i = 0; i < 4; i++) {
-                    if (func_021B8B8C((int)p, (char *)base, i) == 1 && func_021B8BAC(p, (char *)base, i) == 0)
+                    if (CTVT_COMM_GetSlotConnected((int)p, (char *)base, i) == 1 && CTVT_COMM_GetSlotReady(p, (char *)base, i) == 0)
                         q->f10 |= (u8)(1 << i);
                 }
                 return;
@@ -139,7 +139,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                 q->f1c = 0;
                 COMM_TVT_SYS_ClearAndTransferNameWindows(p);
             }
-            func_02082A7C(0, func_0207E100(), 0x18000);
+            func_02082A7C(0, G2_GetBG3ScrPtr(), 0x18000);
             q->f14 = 0;
             if (q->f20 != COMM_TVT_SYS_GetHalfRes(p)) {
                 q->f20 = COMM_TVT_SYS_GetHalfRes(p);
@@ -181,7 +181,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
             bit = 1 << i;
             if (!(bit & q->f10))
                 continue;
-            if (func_021B8B8C((int)p, (char *)base, i) == 1) {
+            if (CTVT_COMM_GetSlotConnected((int)p, (char *)base, i) == 1) {
                 u32 idx = i;
                 int w;
                             int j;
@@ -194,7 +194,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                     w = 0x40;
                     h = (u16)(sub == 1 ? 0x60 : 0x30);
                 }
-                if (func_021B8BAC(p, (char *)base, i) == 1 && func_0202EB14() == 0) {
+                if (CTVT_COMM_GetSlotReady(p, (char *)base, i) == 1 && func_0202EB14() == 0) {
                     dst = (u32)(q->f4 + idx * (w * h * 2));
                     DWCi_ScreenDC_FlushRange((void *)dst, w * h * 2);
                 } else if (wide == 0) {

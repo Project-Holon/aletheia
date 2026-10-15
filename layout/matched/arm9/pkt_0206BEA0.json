@@ -201,7 +201,7 @@
    }
   },
   {
-   "name": "func_0206DF3C",
+   "name": "NNS_G3dWorldPosToScrPos",
    "address": "0x0206DF3C",
    "kind": "game",
    "region": "arm9",
@@ -213,7 +213,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206E0C4",
+   "name": "NNS_G3dScrPosToWorldLine",
    "address": "0x0206E0C4",
    "kind": "game",
    "region": "arm9",

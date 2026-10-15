@@ -1,5 +1,5 @@
 /*
- * function: func_021D6B50
+ * function: WIFI_BSUBWAY_StatusInit
  * address: 0x021D6B50
  * packet: pkt_ov116_021D6B50
  * region: ov116
@@ -16,4 +16,4 @@
 #include "../include/Obj22619.h"
 extern void MI_CpuFill8(void *,int,unsigned int);
 extern void *MYSTATUS_Create(int);
-void func_021D6B50(unsigned char *a,int b) { MI_CpuFill8(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }
+void WIFI_BSUBWAY_StatusInit(unsigned char *a,int b) { MI_CpuFill8(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }

@@ -17,21 +17,21 @@
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02020F14  0x02020F14  thumb
+ *   FILE_UTIL_Create_0F14  0x02020F14  thumb
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   func_02020F20  0x02020F20  thumb
- *   func_02021014  0x02021014  thumb
+ *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   d_021BBA79     0x021BBA79  data  ov070  a1
  *   ITEMMENU_GetRowColorKind  0x021BA1D0  thumb  ov070
  *   BMP_Clear  0x02043B5C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
  *   func_0201EF34  0x0201EF34  thumb
  *   func_0201F250  0x0201F250  thumb
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_02021350  0x02021350  thumb
- *   func_0202130C  0x0202130C  thumb
+ *   FILE_UTIL_GetId  0x0202130C  thumb
  *   ITEMMENU_IsItemRegistered  0x021B83A0  thumb  ov070
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -53,21 +53,21 @@ struct WordSet;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void *func_02020F14(u32 a);
+extern void *FILE_UTIL_Create_0F14(u32 a);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
 extern int func_02020F20(int h, int id, u16 heap);
-extern u32 func_02021014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 extern const u8 d_021BBA79[];
 extern int ITEMMENU_GetRowColorKind(int);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u16 func_020212B0(u16 id);
+extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u8 func_02021350(u16 id);
-extern u32 func_0202130C(u32 id);
+extern u32 FILE_UTIL_GetId(u32 id);
 extern int ITEMMENU_IsItemRegistered(char *p, int value);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(int);
@@ -94,7 +94,7 @@ void ITEMMENU_PrintItemList(char *p)
     if (((struct Obj01514 *)p)->f818 == ((struct Obj01514 *)p)->f814) {
         return;
     }
-    h = (int)func_02020F14(((struct Obj01514 *)p)->f544);
+    h = (int)FILE_UTIL_Create_0F14(((struct Obj01514 *)p)->f544);
     for (i = 0; i < 8; i++) {
         *(u32 *)(p + i * 4 + 0x654) = 0;
         idx = ((struct Obj01514 *)p)->f814 + i;
@@ -106,7 +106,7 @@ void ITEMMENU_PrintItemList(char *p)
             continue;
         }
         rec = func_02020F20(h, *e, ((struct Obj01514 *)p)->f544);
-        kind = func_02021014((struct Rec *)rec, 0xf);
+        kind = FILE_UTIL_Get_1014((struct Rec *)rec, 0xf);
         if (d_021BBA79[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*e) == 1) {
                 color = 0x18AD;
@@ -122,7 +122,7 @@ void ITEMMENU_PrintItemList(char *p)
         }
         BMP_Clear((struct CharBuf *)(*(u32 *)(p + i * 4 + 0x614)), 0xd);
         MSGDATA_ReadString((struct MsgBank *)(((struct Obj01514 *)p)->f51C), 0x82, (void *)(((struct Obj01514 *)p)->f524));
-        r = func_020212B0(*e);
+        r = FILE_UTIL_Get_12B0(*e);
         if (r == 0) {
             ITEMMENU_RegisterItemName((u8 *)p, 0, *e);
         } else {
@@ -138,9 +138,9 @@ void ITEMMENU_PrintItemList(char *p)
             *(u32 *)(p + i * 4 + 0x654) = 6;
         } else if (func_02021350(*e) != 0xff) {
             *(u32 *)(p + i * 4 + 0x654) = 8;
-        } else if (func_0202130C(*e) != 0xff) {
+        } else if (FILE_UTIL_GetId(*e) != 0xff) {
             *(u32 *)(p + i * 4 + 0x654) = 7;
-        } else if (func_02021014((struct Rec *)rec, 4) == 0) {
+        } else if (FILE_UTIL_Get_1014((struct Rec *)rec, 4) == 0) {
             *(u32 *)(p + i * 4 + 0x654) = 3;
         } else if (ITEMMENU_IsItemRegistered(p, *e) == 0) {
             *(u32 *)(p + i * 4 + 0x654) = 2;

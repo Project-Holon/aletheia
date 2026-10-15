@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   EFFECT_ENCOUNT_DeleteEffectObj  0x021AAFFC  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  */
@@ -35,13 +35,13 @@ typedef struct D D;
 
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 extern void EFFECT_ENCOUNT_DeleteEffectObj(D *d);
 extern void MI_CpuFill8(void *p, int v, int n);
 
 void EFFECT_ENCOUNT_ClearSpot(S *s, D *d)
 {
-    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
+    T *t = (T *)GAME_DATA_GetFieldGimmick((const struct BigObj *)s->f8);
     EFFECT_ENCOUNT_DeleteEffectObj(d);
     MI_CpuFill8(&t->sub, 0, 0x10);
 }

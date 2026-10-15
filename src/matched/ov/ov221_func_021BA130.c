@@ -1,5 +1,5 @@
 /*
- * function: func_021BA130
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera
  * address:  0x021BA130
  * packet:   pkt_ov221_021BA130
  * region:   ov221
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern int G3D_SYSTEM_Exit(int);
 
-int func_021BA130(int *p)
+int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int *p)
 {
     return G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

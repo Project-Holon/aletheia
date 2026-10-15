@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0220B550",
-    "func_0220B558"
+    "ZUKAN_TOROKU_GRAPHIC_VBlankActors",
+    "ZUKAN_TOROKU_GRAPHIC_GetWord"
+   ],
+   "addresses": [
+    "0x0220B550",
+    "0x0220B558"
    ]
   }
  ]

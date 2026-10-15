@@ -1,5 +1,5 @@
 /*
- * function: func_0205AAB0
+ * function: DWCi_AC_CheckNintendoSSID
  * address:  0x0205AAB0
  * packet:   pkt_0205AAB0
  * region:   arm9
@@ -134,7 +134,7 @@ extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern int DWCi_AC_CheckNintendoUsbAP(char *ssid);
 extern int DWCi_AC_CheckNintendoShopAP(char *ssid);
 
-int func_0205AAB0(WMBssDesc *bssdesc)
+int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 

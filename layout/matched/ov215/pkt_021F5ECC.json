@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5ECC",
+   "name": "EGG_DEMO_MAIN_UpdateBgm",
    "address": "0x021F5ECC",
    "kind": "game",
    "region": "ov215",

@@ -15,10 +15,10 @@
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   func_02048C58  0x02048C58  arm
  *   func_02048AD0  0x02048AD0  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   func_0207B388  0x0207B388  arm
- *   func_02185848  0x02185848  thumb  ov219
+ *   BEACON_DETAIL_SetupCalc  0x02185848  thumb  ov219
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,10 +34,10 @@ struct Light;
 struct LightSlot;
 extern void func_02048C58(struct LightSlot *slots);
 extern void func_02048AD0(struct Light *l);
-extern void func_0207ADC4(M33 *);
+extern void MTX_Identity33_(M33 *);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void func_0207B388(const void *, const M33 *, M33 *);
-extern void func_02185848(M33 *, char *);
+extern void BEACON_DETAIL_SetupCalc(M33 *, char *);
 
 void func_02185B74(char *p)
 {
@@ -63,11 +63,11 @@ void func_02185B74(char *p)
         func_02047964();
         G3D_SYSTEM_ApplyLookAt();
         s.a = *(V3 *)(p + 0xC2DC);
-        func_0207ADC4(&m);
+        MTX_Identity33_(&m);
         s.b = *(V3 *)(p + 0xC300);
         G3D_SYSTEM_DrawObject((void *)(*(u32 *)(p + 0xC3B8)), (struct Arg *)(&s));
         s.b = *(V3 *)(p + 0xC2E8);
-        func_02185848(&m, p + 0xC2F4);
+        BEACON_DETAIL_SetupCalc(&m, p + 0xC2F4);
         G3D_SYSTEM_DrawObject((void *)(*(u32 *)(p + 0xC3A4)), (struct Arg *)(&s));
         s2.a = *(V3 *)(p + 0xC2DC);
         s2.b = *(V3 *)(p + 0xC300);

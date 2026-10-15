@@ -1,5 +1,5 @@
 /*
- * function: func_0205AB54
+ * function: DWCi_AC_IsSupportWPA
  * address:  0x0205AB54
  * packet:   pkt_0205AB54
  * region:   arm9
@@ -33,7 +33,7 @@ extern int OS_IsRunOnTwl(void);
 extern NWMInfoElements *NWM_GetInfoElements(WCMBssDesc *bssDesc, unsigned char elementID);
 extern NWMInfoElements *NWM_GetVenderInfoElements(WCMBssDesc *bssDesc, unsigned char elementID, unsigned char *ouiType);
 
-int func_0205AB54(WCMBssDesc *bssDesc)
+int DWCi_AC_IsSupportWPA(WCMBssDesc *bssDesc)
 {
     WPATAG wpaTag;
     NWMInfoElements *elem;

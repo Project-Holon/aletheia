@@ -15,10 +15,10 @@
  *   func_02193748  0x02193748  arm   ov009
  *   func_0218946C  0x0218946C  arm   ov009
  *   func_0218949C  0x0218949C  arm   ov009
- *   func_0209477C  0x0209477C  arm
- *   func_0217F790  0x0217F790  arm   ov009
- *   func_0217F7AC  0x0217F7AC  arm   ov009
- *   func_0217FA90  0x0217FA90  arm   ov009
+ *   strlen  0x0209477C  arm
+ *   Util_RandSeed  0x0217F790  arm   ov009
+ *   Util_RandInt  0x0217F7AC  arm   ov009
+ *   B64Encode  0x0217FA90  arm   ov009
  *   g_021A4964     0x021A4964  data
  *   g_021A4970     0x021A4970  data
  *   g_021A4978     0x021A4978  data
@@ -67,10 +67,10 @@ extern void func_02193748(const char *plaintext, char *encoded);
 typedef unsigned char  u8;
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
-extern int func_0209477C(const u8 *s);
-extern void func_0217F790(unsigned long seed);
-extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern int strlen(const u8 *s);
+extern void Util_RandSeed(unsigned long seed);
+extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern char g_021A4964[];
 extern char g_021A4970[];
 extern char g_021A4978[];
@@ -114,14 +114,14 @@ int func_0218AC4C(void **connection, GPIConnectData *data)
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->uniquenick);
 
     if (data->cdkey[0] != '\0') {
-        cdkeylen = func_0209477C((const u8 *)data->cdkey);
-        func_0217F790(0x79707367);
+        cdkeylen = strlen((const u8 *)data->cdkey);
+        Util_RandSeed(0x79707367);
         for (i = 0; i < cdkeylen; i++) {
-            aRand = (char)func_0217F7AC(0, 0xFF);
+            aRand = (char)Util_RandInt(0, 0xFF);
             cdkeyxor[i] = (char)(data->cdkey[i] ^ aRand);
         }
         cdkeyxor[i] = '\0';
-        func_0217FA90(cdkeyxor, cdkeyenc, (int)cdkeylen, 1);
+        B64Encode(cdkeyxor, cdkeyenc, (int)cdkeylen, 1);
         func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4990);
         func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), cdkeyenc);
     }

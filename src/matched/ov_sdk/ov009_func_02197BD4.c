@@ -1,5 +1,5 @@
 /*
- * function: func_02197BD4
+ * function: gti2SendClosedOnSocket
  * address:  0x02197BD4
  * packet:   pkt_ov009_02197BD4
  * region:   ov009
@@ -29,7 +29,7 @@ typedef struct Sock {
 
 extern int func_02198328(Sock *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
 
-int func_02197BD4(Sock *sock, unsigned int ip, unsigned short port)
+int gti2SendClosedOnSocket(Sock *sock, unsigned int ip, unsigned short port)
 {
 	char buffer[5];
 	int pos = 0;

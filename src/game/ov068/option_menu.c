@@ -22,7 +22,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   func_02045B38  0x02045B38  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   ov067_id       0x00000043  data
@@ -49,13 +49,13 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_0201DD68  0x0201DD68  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -72,7 +72,7 @@
  *   func_02040DA8  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201D304  0x0201D304  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -159,7 +159,7 @@
  *   func_020413B0  0x020413B0  arm
  *   CLACT_ChangeActorAnimSeq  0x0204B8A0  arm
  *   gOptionMenuRowPalettes     0x021BB538  data  a1
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   GFL_USE_SetStereoOutput  0x02005C28  thumb
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb
@@ -181,7 +181,7 @@
  *   gOptionMenuSettingRowChoiceCount     0x021BB572  data  a2
  *   gOptionMenuSettingRowChoices     0x021BB574  data  a4
  *   gOptionMenuChoiceValues     0x021BB708  data  a4
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   func_0203EFC8 0x0203EFC8 arm
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
@@ -237,7 +237,7 @@ extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 type, u16 style, struct GfFont *font, struct PrintSys *printSys, u16 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct TaskList *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveData *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Config *func_0200873C(struct SaveData *saveData);
 extern void TCBL_Destroy(struct TaskList *taskList);
@@ -262,13 +262,13 @@ extern struct Task *func_020056A0(void (*fn)(struct Task *, OptionMenuScreen *),
 extern void func_02030EAC(struct Task *task);
 extern void func_0201DD68(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0203FC28(struct DispConfig *config);
-extern void func_0203FCA0(u32 bgId, const BgTemplate *layout, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *layout, u32 type);
 extern void func_020414AC(u8 id);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
+extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(u32 id, u32 heapId);
 extern u32 func_02049658(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void func_020498F4(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
@@ -283,7 +283,7 @@ extern u32 BMP_WIN_Delete(struct BmpWindow *window);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern struct StringBuf *func_02045EC0(struct MsgBank *msgBank, u32 index);
 extern u32 func_0201D304(struct StringBuf *str, struct GfFont *font, u32 a);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWindow *window);
@@ -363,7 +363,7 @@ extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, Task
 extern u32 func_02040804(u32 layer);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void CLACT_ChangeActorAnimSeq(struct ClActor *actor, u16 v);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const ClPos *delta, u32 which);
 extern void GFL_USE_SetStereoOutput(u32 a);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(TaskMenuTemplate *tmpl, struct TaskMenuRes *res);
@@ -388,7 +388,7 @@ extern int FADE_IsActive(void);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printSys);
 extern int func_020071F0(struct SaveData *saveData);
 extern void func_020419E4(void);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 
 int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args);
 int OPTION_MENU_Exit(struct Proc *proc, int *seq, void *args, OptionMenuWork *work);
@@ -522,9 +522,9 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     work->messageMenuRes = APP_TASKMENU_RES_Create(3, 9, work->font, work->printSys, 0x1c);
     work->msgBank = func_02045B38(0, 2, 0x1d, 0x1c);
     work->taskList = TCBL_Create(0x1c, 0x1c, 0x20, 0x20);
-    OPTION_MENU_InitSettings(&work->savedSettings, func_0200873C(GAME_DATA_GetSaveControl(func_020120F4(work->args->gameSystem))));
+    OPTION_MENU_InitSettings(&work->savedSettings, func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem))));
     OPTION_MENU_InitRunner(&work->runner, work, OPTION_MENU_StateFadeIn);
-    gameData = func_020120F4(work->args->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->args->gameSystem);
     OPTION_MENU_InitButtons(&work->buttons, OPTION_MENU_GetScreenSpriteUnit(&work->screen), work->font, work->printSys, work->msgBank, work->buttonMenuRes, gameData, 0x1c);
     OPTION_MENU_InitList(&work->list, 1, 2, &work->screen, &work->savedSettings, 0x1c);
     OPTION_MENU_InitInput(&work->input, 0x1c);
@@ -647,18 +647,18 @@ void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId)
     u32 layerId;
 
     MI_CpuFill8(gfx, 0, sizeof(OptionMenuGfx));
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(&gOptionMenuDispConfig);
     for (i = 0; i < 6; i++) {
         layerId = gOptionMenuBgLayers[i].layerId;
-        func_0203FCA0((u8)layerId, &gOptionMenuBgLayers[i].layout, (u8)gOptionMenuBgLayers[i].mapType);
+        BG_SYS_InitBgLayer((u8)layerId, &gOptionMenuBgLayers[i].layout, (u8)gOptionMenuBgLayers[i].mapType);
         func_020414AC(layerId);
         func_02040588(layerId, 1);
     }
     func_02040588(3, 0);
-    func_02040C14(4, 0, 1, 0);
-    func_02040C14(3, 0, 1, 0);
+    BG_SYS_Init(4, 0, 1, 0);
+    BG_SYS_Init(3, 0, 1, 0);
     arc = func_020490F4(0x1b, heapId);
     func_02049B68(arc, 1, 0, 0, 0, heapId);
     func_02049658(arc, 0xd, 0, 0, 0, 0, heapId);
@@ -700,7 +700,7 @@ void OPTION_MENU_ExitGfx(OptionMenuGfx *gfx)
         func_020403F4((u8)gOptionMenuBgLayers[i].layerId);
     }
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(gfx, 0, sizeof(OptionMenuGfx));
 }
 
@@ -1618,8 +1618,8 @@ void OPTION_MENU_ScrollList(OptionMenuList *list, int delta, int min, int max)
     } else if (v < min) {
         v = min;
     }
-    func_02041EE4((u8)list->mainLayer, 3, v + 0x14);
-    func_02041EE4((u8)list->subLayer, 3, v);
+    BG_SYS_ResetSlot((u8)list->mainLayer, 3, v + 0x14);
+    BG_SYS_ResetSlot((u8)list->subLayer, 3, v);
     t = list->scrollY - delta;
     list->scrollY = t;
     list->scrollY = t > 0x10 - min ? 0x10 - min : (t < 0x10 - max ? 0x10 - max : t);
@@ -1898,7 +1898,7 @@ int OPTION_MENU_IsChoiceSelected(const OptionSettings *settings, int choiceIndex
  */
 u32 OPTION_MENU_GetTextSpeedWait(const OptionSettings *settings)
 {
-    func_02012FFC();
+    MSG_SPEED_GetWait();
 }
 
 /* Returns the index of the setting changed since the last call and clears it. */
@@ -2044,7 +2044,7 @@ void OPTION_MENU_StateMain(OptionMenuRunner *runner, u32 *state, OptionMenuWork 
                 break;
             }
         }
-        tutorialPending = func_020071F0(GAME_DATA_GetSaveControl(func_020120F4(work->args->gameSystem)));
+        tutorialPending = func_020071F0(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
         OPTION_MENU_GetListSettings(&work->list, &settingsCurrent);
         if (settingsCurrent.values[OPTION_BUTTON_MODE] == 0 && tutorialPending != 0)
             *state = 1;

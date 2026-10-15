@@ -1,5 +1,5 @@
 /*
- * function: func_021F93D8
+ * function: STA_ACTING_PrintText
  * address: 0x021F93D8
  * packet: pkt_ov132_021F93D8
  * region: ov132
@@ -36,7 +36,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *PRINTSYS_PrintStream(void *, u32, u32, void *, void *, u32, void *, u32, u16, u32);
 struct PrintSys;
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-void func_021F93D8(u8 *p, u16 index, u32 speed)
+void STA_ACTING_PrintText(u8 *p, u16 index, u32 speed)
 {
     Zero zero;
     if (((struct Obj00832 *)p)->fD8) {

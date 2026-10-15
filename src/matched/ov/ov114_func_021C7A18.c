@@ -11,13 +11,16 @@
  *
  *
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
+ *
+ * symbols:
+ *   strlen  0x0209477C  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 
 u32 DWCi_Ndi_strlen(const u8 *a0)
 {
-    return func_0209477C(a0);
+    return strlen(a0);
 }

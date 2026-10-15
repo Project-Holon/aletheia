@@ -17,7 +17,7 @@
  *   func_0217CFD0 0x0217CFD0 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217C2EC 0x0217C2EC thumb ov176
- *   func_0200AE14 0x0200AE14 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
  *   func_0217D010 0x0217D010 thumb ov176
  *   func_0217D000 0x0217D000 thumb ov176
  *   func_021E8AB8 0x021E8AB8 thumb ov177
@@ -34,7 +34,7 @@
  *   func_0217E23C 0x0217E23C thumb ov176
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_0200B078 0x0200B078 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   func_0200E994 0x0200E994 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -47,7 +47,7 @@
  *   func_02040588 0x02040588 arm
  *   func_0217D1C8 0x0217D1C8 thumb ov176
  *   func_0217D238 0x0217D238 thumb ov176
- *   func_0200AE54 0x0200AE54 thumb
+ *   REGULATION_GetRuleValue 0x0200AE54 thumb
  */
 #include "../include/Obj00241.h"
 #include "../include/Obj24411.h"
@@ -65,7 +65,7 @@ extern int func_0217CFDC(int *p);
 extern void func_0217CFD0(int *p);
 extern void func_021E8AA0(int *,int);
 extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
-extern void * func_0200AE14(void *);
+extern void * REGULATION_NoOp(void *);
 extern void func_0217D010(u8 *,int);
 extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
@@ -82,7 +82,7 @@ extern int func_0217E1FC(int,int);
 extern int func_0217E23C(char *,void **);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern u32 func_0200E994(void *base, void *key);
 extern void GFL_USE_StopAllSe(void);
 struct Entry;
@@ -97,7 +97,7 @@ extern int func_0217E1C0(int *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0217D1C8(char *,int);
 extern int func_0217D238(u8 *);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 void func_0217C628(int *sys,u32 *state,u8 *p)
 {
     if(func_0217E078(((struct Obj00241 *)p)->fC)==1){
@@ -131,7 +131,7 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     }
     case 15:
         if(((struct Obj24412 *)(*(u8 * *)&((struct Obj00241 *)p)->f1BC))->f40==((struct Obj24413 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C0))->f40){
-            u32 a=func_0200B078(((struct Obj00241 *)p)->f38,12);
+            u32 a=REGULATION_Card_GetValue(((struct Obj00241 *)p)->f38,12);
             int b=func_0200E994(((struct Obj00241 *)p)->f34,*(u8 * *)&((struct Obj00241 *)p)->f1C0+0x20);
             ((struct Obj00241 *)p)->f1D4=(a!=0||(a==0&&b==0));
             *state=16;
@@ -162,8 +162,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 36:func_02040588(0,1);func_0217CFE8(p,38,2);*state=40;func_021E8AB4((u32)sys,37);break;
     case 37:
         if((((struct Obj00241 *)p)->f1CC)++>60){
-            void *v=func_0200AE14(((struct Obj00241 *)p)->f38);
-            ((struct Obj00241 *)p)->f1CC=0;func_0200AE54(v,19);*state=38;
+            void *v=REGULATION_NoOp(((struct Obj00241 *)p)->f38);
+            ((struct Obj00241 *)p)->f1CC=0;REGULATION_GetRuleValue(v,19);*state=38;
         }break;
     case 38:func_0217D010(p,2);break;
     case 39:func_021E8AA0(sys,(int)func_0217C2EC);break;

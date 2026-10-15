@@ -1,5 +1,5 @@
 /*
- * function: func_021B6CC0
+ * function: POKE_SUMMARY_MAIN_DrawMovesPage
  * address: 0x021B6CC0
  * packet: pkt_ov173_021B6CC0
  * region: ov173
@@ -76,7 +76,7 @@
  * abi: 6BF8 font widened to u32 because original forwards a full word without truncation; 185F4 bare return preserves the visibly loaded pointer argument and live r0 result.
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021B6BF8 0x021B6BF8 thumb ov173
+ *   POKE_SUMMARY_MAIN_PrintAligned 0x021B6BF8 thumb ov173
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -88,7 +88,7 @@
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_02017E88 0x02017E88 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021B78CC 0x021B78CC thumb ov173
+ *   POKE_SUMMARY_ACTOR_SetMoveIcon 0x021B78CC thumb ov173
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -108,7 +108,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_021B6BF8(char *,int,u32,u16,int,u8);
+extern u32 POKE_SUMMARY_MAIN_PrintAligned(char *,int,u32,u16,int,u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -120,7 +120,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 func_02017E88(void *,u32,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_021B78CC(u8 *p, u16 id, u16 i);
+extern void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -133,7 +133,7 @@ static inline void flush(void *win)
     BMP_WIN_MakeScreen(win);
     func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
-void func_021B6CC0(char *p)
+void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
 {
     u32 i;
     u16 move;
@@ -143,18 +143,18 @@ void func_021B6CC0(char *p)
     void *bank;
     void *mon;
     MSGDATA_ReadString(*(void **)(p+0x44),0x23,*(void **)(p+0x4c));
-    func_021B6BF8(p,9,*(u32 *)(p+0x60),0x3c40,2,4);
+    POKE_SUMMARY_MAIN_PrintAligned(p,9,*(u32 *)(p+0x60),0x3c40,2,4);
     MSGDATA_ReadString(*(void **)(p+0x44),0x17,*(void **)(p+0x4c));
-    func_021B6BF8(p,2,*(u32 *)(p+0x60),0x440,0,0);
+    POKE_SUMMARY_MAIN_PrintAligned(p,2,*(u32 *)(p+0x60),0x440,0,0);
     flush(*(void **)(p+0xc));
     MSGDATA_ReadString(*(void **)(p+0x44),0x18,*(void **)(p+0x4c));
-    func_021B6BF8(p,3,*(u32 *)(p+0x60),0x440,0,0);
+    POKE_SUMMARY_MAIN_PrintAligned(p,3,*(u32 *)(p+0x60),0x440,0,0);
     flush(*(void **)(p+0x10));
     temp=STRBUF_Create(256,79);
     MSGDATA_ReadString(*(void **)(p+0x44),0x27,temp);
     func_0201EEF4(*(void **)(p+0x48),0,**(void ***)p);
     func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
-    func_021B6BF8(p,13,*(u32 *)(p+0x60),0x3c40,0,4);
+    POKE_SUMMARY_MAIN_PrintAligned(p,13,*(u32 *)(p+0x60),0x3c40,0,4);
     flush(*(void **)(p+0x38));
     bank=func_02045B38(0,2,0xcb,79);
     mon=POKE_TOOL_GetBoxParam(**(void ***)p);
@@ -163,10 +163,10 @@ void func_021B6CC0(char *p)
         if(move==0) CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x124),0);
         else {
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x124),1);
-            func_021B78CC((u8 *)p,move,i);
+            POKE_SUMMARY_ACTOR_SetMoveIcon((u8 *)p,move,i);
             MSGDATA_ReadString(bank,move,*(void **)(p+0x4c));
             y=i*32;
-            func_021B6BF8(p,14,*(u32 *)(p+0x60),0x3c40,0,y);
+            POKE_SUMMARY_MAIN_PrintAligned(p,14,*(u32 *)(p+0x60),0x3c40,0,y);
             coord=y+16;
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x3c)),8,coord,*(void **)(p+0x50),*(void **)(p+0x60),0x440);
             flush(*(void **)(p+0x3c));
@@ -186,7 +186,7 @@ void func_021B6CC0(char *p)
     MSGDATA_ReadString(*(void **)(p+0x44),0x26,temp);
     func_0201EFA4(*(void **)(p+0x48),0,func_02017E88(mon,0x9e,0),3,1,1);
     func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
-    func_021B6BF8(p,15,*(u32 *)(p+0x60),0x440,1,16);
+    POKE_SUMMARY_MAIN_PrintAligned(p,15,*(u32 *)(p+0x60),0x440,1,16);
     flush(*(void **)(p+0x40));
     MSGDATA_Delete(bank);
     STRBUF_Delete(temp);

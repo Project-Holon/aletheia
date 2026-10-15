@@ -15,7 +15,7 @@
  *   MB_SEQ_SetActorVisible 0x021C66B8 thumb ov136
  *   MB_SEQ_SetButtonsEnabled 0x021C7298 thumb ov136
  *   MB_SEQ_OpenMenuKind 0x021C71BC thumb ov136
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BGWINFRM_HideFrame  0x0202CC70  thumb  arm9
  */
 #include "../include/Obj01066.h"
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct WinMgr;
 extern void MB_SEQ_ClearMailDetailText(u8 *);
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void MB_SEQ_MoveCursorToPosition(u8 *p, u32 v);
 extern void MB_SEQ_EmptyHookDetailReturn(void *);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
@@ -35,7 +35,7 @@ extern int MB_SEQ_OpenMenuKind(u8 *p, int v);
 int MB_SEQ_CloseMailDetail(u8 *p)
 {
     MB_SEQ_ClearMailDetailText(p);
-    MB_SEQ_MoveCursorToPosition(p, func_020260E0(((struct Obj23628 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f294));
+    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent(((struct Obj23628 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f294));
     MB_SEQ_EmptyHookDetailReturn(((struct Obj01066 *)p)->f8);
     BGWINFRM_HideFrame(**(void ** *)&((struct Obj01066 *)p)->f8, 10);
     MB_SEQ_SetActorVisible(((struct Obj01066 *)p)->f8, 2, 1);

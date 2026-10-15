@@ -24,7 +24,7 @@
  *   func_021DC6FC 0x021DC6FC thumb ov175
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   func_0200FA84 0x0200FA84 thumb
- *   func_0200B1A8 0x0200B1A8 thumb
+ *   REGULATION_Card_IsCrcValid 0x0200B1A8 thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E4B80 0x021E4B80 data a4
  *   d_021E2FA8 0x021E2FA8 data a4
@@ -50,7 +50,7 @@ extern void func_021DC6FC(void *p, u32 kind);
 extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern void func_0200FA84(void);
 struct Reg2;
-extern unsigned int func_0200B1A8(struct Reg2 *);
+extern unsigned int REGULATION_Card_IsCrcValid(struct Reg2 *);
 extern u32 _u32_div_f(u32,u32);
 extern u8 d_021E4B80[];
 extern char d_021E2FA8[],d_021E2FB0[],d_021E2FC4[],d_021E2EF8[];
@@ -100,7 +100,7 @@ int func_021DC338(u8 *p)
         break;
     case 5:((struct Obj00841 *)p)->f12C=6;break;
     case 6:
-        if(func_0200B1A8((struct Reg2 *)(p+0x1230))!=0) {((struct Obj00841 *)p)->f1458=0;return 1;}
+        if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x1230))!=0) {((struct Obj00841 *)p)->f1458=0;return 1;}
         ((struct Obj00841 *)p)->f1458=0;return 2;
     case 7:((struct Obj00841 *)p)->f1458=0;return 2;
     case 8:((struct Obj00841 *)p)->f1458=0;return 3;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219972C
+ * function: SendInitPackets
  * address:  0x0219972C
  * packet:   pkt_ov009_0219972C
  * region:   ov009
@@ -12,24 +12,24 @@
  * sdk:      SendInitPackets (libdwcgsnatneg.TWL.HYB.a natneg.o)
  *
  * symbols:
- *   func_021992FC  0x021992FC  arm  ov009
- *   func_02094798  0x02094798  arm
- *   func_0209477C  0x0209477C  arm
+ *   GetLocalIP  0x021992FC  arm  ov009
+ *   strcpy  0x02094798  arm
+ *   strlen  0x0209477C  arm
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021992A8  0x021992A8  arm  ov009
- *   func_02199360  0x02199360  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   g_021A5A7C     0x021A5A7C  data
+ *   SendPacket  0x021992A8  arm  ov009
+ *   GetLocalPort  0x02199360  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
+ *   gNatNegMagic     0x021A5A7C  data
  *   gGsAvailabilityGameName     0x021ACEFC  data
- *   g_021AE6C4     0x021AE6C4  data
- *   g_021A5B8C     0x021A5B8C  data
- *   g_021AE698     0x021AE698  data
- *   g_021A5BAC     0x021A5BAC  data
- *   g_021AE6C0     0x021AE6C0  data
- *   g_021A5BE8     0x021A5BE8  data
- *   g_021AE6BC     0x021AE6BC  data
- *   g_021A5C24     0x021A5C24  data
+ *   gNatNegServer1IP     0x021AE6C4  data
+ *   gNatNegInitGpFmt     0x021A5B8C  data
+ *   gNatnegGlobals     0x021AE698  data
+ *   gNatNegInitNn1Fmt     0x021A5BAC  data
+ *   gNatNegServer2IP     0x021AE6C0  data
+ *   gNatNegInitNn2Fmt     0x021A5BE8  data
+ *   gNatNegServer3IP     0x021AE6BC  data
+ *   gNatNegInitNn3Fmt     0x021A5C24  data
  *
  * localip, localport and gamename are written through buffer, not p: the
  * object addresses them from sp (buffer + 0x0F, + 0x13, + 0x15) while every
@@ -94,27 +94,27 @@ typedef struct NegotiateAnchor {
 #define NN_HTONL(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
 #define NN_HTONS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 
-extern unsigned int func_021992FC(void);
-extern char *func_02094798(char *dst, const char *src);
-extern unsigned long func_0209477C(const char *s);
+extern unsigned int GetLocalIP(void);
+extern char *strcpy(char *dst, const char *src);
+extern unsigned long strlen(const char *s);
 extern char *func_0215FA9C(unsigned int in);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
-extern void func_021992A8(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
-extern unsigned short func_02199360(int sock);
-extern unsigned int func_0217F264(void);
+extern void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
+extern unsigned short GetLocalPort(int sock);
+extern unsigned int current_time(void);
 
-extern struct Magic6 g_021A5A7C;
+extern struct Magic6 gNatNegMagic;
 extern char gGsAvailabilityGameName[];
-extern unsigned int g_021AE6C4;
-extern unsigned int g_021AE6C0;
-extern unsigned int g_021AE6BC;
-extern NegotiateAnchor g_021AE698;
-extern char g_021A5B8C[];
-extern char g_021A5BAC[];
-extern char g_021A5BE8[];
-extern char g_021A5C24[];
+extern unsigned int gNatNegServer1IP;
+extern unsigned int gNatNegServer2IP;
+extern unsigned int gNatNegServer3IP;
+extern NegotiateAnchor gNatnegGlobals;
+extern char gNatNegInitGpFmt[];
+extern char gNatNegInitNn1Fmt[];
+extern char gNatNegInitNn2Fmt[];
+extern char gNatNegInitNn3Fmt[];
 
-void func_0219972C(NATNegotiator *neg)
+void SendInitPackets(NATNegotiator *neg)
 {
     char buffer[85];
     NatNegPacket *p;
@@ -123,51 +123,51 @@ void func_0219972C(NATNegotiator *neg)
     int packetlen;
 
     p = (NatNegPacket *)buffer;
-    memcpy(p->magic, ((unsigned char *)&g_021A5A7C), 6);
+    memcpy(p->magic, ((unsigned char *)&gNatNegMagic), 6);
     p->version = 4;
     p->packettype = 0;
     p->cookie = NN_HTONL((unsigned int)neg->cookie);
     p->clientindex = neg->clientIndex;
     p->usegameport = (neg->gameSock == -1) ? 0 : 1;
-    localip = NN_HTONL(func_021992FC());
+    localip = NN_HTONL(GetLocalIP());
     buffer[15] = (unsigned char)(localip >> 24);
     buffer[16] = (unsigned char)(localip >> 16);
     buffer[17] = (unsigned char)(localip >> 8);
     buffer[18] = (unsigned char)localip;
     buffer[19] = 0;
     buffer[20] = 0;
-    func_02094798(buffer + 21, gGsAvailabilityGameName);
-    packetlen = func_0209477C(gGsAvailabilityGameName) + 22;
+    strcpy(buffer + 21, gGsAvailabilityGameName);
+    packetlen = strlen(gGsAvailabilityGameName) + 22;
 
     if (p->usegameport && !neg->initAckRecv[0]) {
         p->porttype = 0;
-        func_0217D254(7, 0, 8, g_021A5B8C, func_0215FA9C(g_021AE6C4), 27901);
-        func_021992A8(neg->gameSock, g_021AE698.matchup1ip, 27901, p, packetlen);
+        func_0217D254(7, 0, 8, gNatNegInitGpFmt, func_0215FA9C(gNatNegServer1IP), 27901);
+        SendPacket(neg->gameSock, gNatnegGlobals.matchup1ip, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[1]) {
         p->porttype = 1;
-        func_0217D254(7, 0, 8, g_021A5BAC, neg->cookie, func_0215FA9C(g_021AE6C4), 27901);
-        func_021992A8(neg->negotiateSock, g_021AE698.matchup1ip, 27901, p, packetlen);
+        func_0217D254(7, 0, 8, gNatNegInitNn1Fmt, neg->cookie, func_0215FA9C(gNatNegServer1IP), 27901);
+        SendPacket(neg->negotiateSock, gNatnegGlobals.matchup1ip, 27901, p, packetlen);
     }
 
-    localport = NN_HTONS(func_02199360(p->usegameport ? neg->gameSock : neg->negotiateSock));
+    localport = NN_HTONS(GetLocalPort(p->usegameport ? neg->gameSock : neg->negotiateSock));
     buffer[19] = (unsigned char)(localport >> 8);
     buffer[20] = (unsigned char)localport;
 
     if (!neg->initAckRecv[2]) {
         p->porttype = 2;
-        func_0217D254(7, 0, 8, g_021A5BE8, neg->cookie, func_0215FA9C(g_021AE6C0), 27901);
-        func_021992A8(neg->negotiateSock, g_021AE698.matchup2ip, 27901, p, packetlen);
+        func_0217D254(7, 0, 8, gNatNegInitNn2Fmt, neg->cookie, func_0215FA9C(gNatNegServer2IP), 27901);
+        SendPacket(neg->negotiateSock, gNatnegGlobals.matchup2ip, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[3]) {
         p->porttype = 3;
-        func_0217D254(7, 0, 8, g_021A5C24, neg->cookie, func_0215FA9C(g_021AE6BC), 27901);
-        func_021992A8(neg->negotiateSock, g_021AE698.matchup3ip, 27901, p, packetlen);
+        func_0217D254(7, 0, 8, gNatNegInitNn3Fmt, neg->cookie, func_0215FA9C(gNatNegServer3IP), 27901);
+        SendPacket(neg->negotiateSock, gNatnegGlobals.matchup3ip, 27901, p, packetlen);
     }
 
     neg->state = 2;
-    neg->retryTime = func_0217F264() + 500;
+    neg->retryTime = current_time() + 500;
     neg->maxRetryCount = 10;
 }

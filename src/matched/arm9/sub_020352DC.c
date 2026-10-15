@@ -1,5 +1,5 @@
 /*
- * function: sub_020352DC
+ * function: UI_PollPower
  * address:  0x020352DC
  * packet:   pkt_020352DC
  * region:   arm9
@@ -60,7 +60,7 @@ extern int OS_IsRunOnTwl(void);
 extern int PM_GetBattery(u32 *out);
 extern int PM_GetACAdapter(u16 *out);
 
-void sub_020352DC(void)
+void UI_PollPower(void)
 {
     u16 ac;
     u32 bat;

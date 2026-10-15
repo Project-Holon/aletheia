@@ -17,13 +17,13 @@
  *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
  *   FIELD_BUILDMODEL_GetFirstEntryNearPos  0x0218C654  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   gFkFrameSoundModelPos     0x021F4284  data  a4
  *   FIELD_BUILDMODEL_GetEntrySlotFrame  0x0218C6F4  thumb  ov021
  *   FIELD_SOUND_SYSTEM_ClaimSlot  0x02028A7C  thumb
  *   gFkFrameSoundFrame  0x021F425C  data  ov056  a4
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
  *   func_02030734  0x02030734  arm
@@ -84,7 +84,7 @@ void FIELD_FK_SOUND_ANIME_InitFrameSound(struct FieldSubproc *proc, struct Field
     man = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(fieldMap));
     work->entry = FIELD_BUILDMODEL_GetFirstEntryNearPos(man, 0, &gFkFrameSoundModelPos);
     work->man = man;
-    work->soundSys = func_02012A30(func_020120F4(FIELDMAP_GetGameSystem(fieldMap)));
+    work->soundSys = GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)));
 }
 
 
@@ -133,9 +133,9 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundA(struct FieldSubproc *proc, struct Fi
 {
     struct GameData *gameData;
 
-    gameData = func_020120F4(FIELDMAP_GetGameSystem(fieldMap));
-    work->eventWork = func_0201296C(gameData);
-    work->soundSys = func_02012A30(gameData);
+    gameData = ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap));
+    work->eventWork = GAME_DATA_GetEventWork(gameData);
+    work->soundSys = GAME_DATA_GetBgmInfo(gameData);
     work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_A);
@@ -170,9 +170,9 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct Fi
 {
     struct GameData *gameData;
 
-    gameData = func_020120F4(FIELDMAP_GetGameSystem(fieldMap));
-    work->eventWork = func_0201296C(gameData);
-    work->soundSys = func_02012A30(gameData);
+    gameData = ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap));
+    work->eventWork = GAME_DATA_GetEventWork(gameData);
+    work->soundSys = GAME_DATA_GetBgmInfo(gameData);
     work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_B);

@@ -14,16 +14,16 @@
  * symbols:
  *   CPSi_SocWrite2  0x0215B3A0  arm  ov009
  *   func_02083194  0x02083194  arm
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 extern unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2);
 extern void func_02083194(void *src, void *dst, unsigned long size);
 
 unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len)
 {
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *soc = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
     unsigned long pend;
     unsigned long n;
     unsigned long left;

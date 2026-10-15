@@ -20,7 +20,7 @@
  *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
  *   FIELD_G3DOBJ_LoopAnimeFrame  0x021C66EC  thumb  ov021
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   FLDEFF_NAMIPOKE_GetWakeScale  0x021ACBE4  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -71,7 +71,7 @@ extern int FIELD_G3DOBJ_LoopAnimeFrame(u32 *a, int idx, int v);
 struct Actor;
 struct VecFx32;
 extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *v);
-extern s32 func_0207CF3C(const V3 *a, const V3 *b);
+extern s32 VEC_Distance(const V3 *a, const V3 *b);
 extern s32 FLDEFF_NAMIPOKE_GetWakeScale(s32 d);
 
 static inline s32 FX_Mul(s32 a, s32 b)
@@ -150,7 +150,7 @@ void FLDEFF_NAMIPOKE_UpdateRail(u32 a, B *b)
                     in->p4.z = u.z;
             }
         }
-        dist = func_0207CF3C(&u, &in->p4);
+        dist = VEC_Distance(&u, &in->p4);
         if (dist >= 0x40000) {
             in->p4.x = u.x - FX_Mul(d[0], 0x40000);
             in->p4.z = u.z - FX_Mul(d[2], 0x40000);

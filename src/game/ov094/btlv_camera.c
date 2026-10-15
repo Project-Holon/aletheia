@@ -29,7 +29,7 @@
  *   G3D_CAMERA_GetUp 0x02048B30 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
  *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
  *   BTLV_EFFECT_StepScalarWithLimit 0x021F9220 thumb ov094
@@ -60,7 +60,7 @@ extern void G3D_CAMERA_GetUp(struct G3dCamera *camera, BtlvVec3 *out);
 
 extern int func_0207CFB8(int, int);
 
-extern int func_0207CBD0(BtlvVec3 *);
+extern int VEC_Mag(BtlvVec3 *);
 
 BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap);
 
@@ -324,5 +324,5 @@ void BTLV_CAMERA_SyncOrbitFromCamera(BtlvCamera *camera)
     eye.z -= target.z;
     camera->orbitPitch = func_0207CFB8(eye.y, eye.z);
     camera->orbitYaw = func_0207CFB8(eye.z, eye.x);
-    camera->orbitRadius = func_0207CBD0(&eye);
+    camera->orbitRadius = VEC_Mag(&eye);
 }

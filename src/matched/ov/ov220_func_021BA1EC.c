@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1EC
+ * function: TH_AWARD_GRAPHIC_Task
  * address:  0x021BA1EC
  * packet:   pkt_021BA1EC
  * region:   ov220
@@ -12,17 +12,17 @@
  * Constructor pair: builds the head then the tail field.
  *
  * symbols:
- *   func_021BA29C  0x021BA29C  thumb  ov220
- *   func_021BA308  0x021BA308  thumb  ov220
+ *   TH_AWARD_GRAPHIC_DrawObjects  0x021BA29C  thumb  ov220
+ *   TH_AWARD_GRAPHIC_VBlank  0x021BA308  thumb  ov220
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BA29C(void *);
-extern void func_021BA308(void *);
+extern void TH_AWARD_GRAPHIC_DrawObjects(void *);
+extern void TH_AWARD_GRAPHIC_VBlank(void *);
 
-void func_021BA1EC(void *unused, char *p)
+void TH_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
-    func_021BA29C(p);
-    func_021BA308(p + 4);
+    TH_AWARD_GRAPHIC_DrawObjects(p);
+    TH_AWARD_GRAPHIC_VBlank(p + 4);
 }

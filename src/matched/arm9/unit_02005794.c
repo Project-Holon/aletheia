@@ -15,10 +15,10 @@
  *
  * symbols:
  *   NNS_SndSetMasterVolume  0x02072788  arm
- *   func_0203508C    0x0203508C  arm
+ *   UI_SetResumeAndSuspendHooks    0x0203508C  arm
  *
  * Two twelve byte thunks that set the master volume to its two extremes, and
- * the function that hands both of them to func_0203508C as a pair of
+ * the function that hands both of them to UI_SetResumeAndSuspendHooks as a pair of
  * callbacks.  48 bytes, three sections, three literal pools.
  *
  * This range was the near miss recorded in the header of
@@ -66,7 +66,7 @@ typedef unsigned int u32;
 extern void NNS_SndSetMasterVolume(u32 volume);
 
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
-extern void func_0203508C(u32 a, u32 b, u32 c);
+extern void UI_SetResumeAndSuspendHooks(u32 a, u32 b, u32 c);
 
 void GFL_USE_MuteSound(void);
 void GFL_USE_UnmuteSound(void);
@@ -83,5 +83,5 @@ void GFL_USE_UnmuteSound(void)
 
 void GFL_USE_SetSleepVolumeHooks(void)
 {
-    func_0203508C((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
+    UI_SetResumeAndSuspendHooks((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
 }

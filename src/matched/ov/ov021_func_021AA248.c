@@ -12,7 +12,7 @@
  *
  * symbols:
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   FIELD_ENCOUNT_UpdateStepWork  0x021AA728  thumb  ov021
  *   FIELD_WFBC_IsBackPeople  0x02193920  thumb  ov021
  *   FIELD_ENCOUNT_CheckWfbcRoll  0x021AA42C  thumb  ov021
@@ -61,7 +61,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct BigObj;
 struct Out;
 struct Unit;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 extern void FIELD_ENCOUNT_UpdateStepWork(struct Pos *p, void *q);
 extern u8 FIELD_WFBC_IsBackPeople(u8 *p);
 extern int FIELD_ENCOUNT_CheckWfbcRoll(void *a, void *b);
@@ -87,7 +87,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(struct Ctx *ctx, void *b)
     void *h;
 
     q = FIELDMAP_GetFieldPlayer(ctx->f00);
-    p = (void *)func_02012A38(ctx->f08);
+    p = (void *)GAME_DATA_GetFieldGimmick(ctx->f08);
     FIELD_ENCOUNT_UpdateStepWork(p, q);
     if (FIELD_WFBC_IsBackPeople(b) == 1) {
         return 0;

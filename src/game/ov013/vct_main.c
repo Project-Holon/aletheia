@@ -12,9 +12,9 @@
  *
  * symbols:
  *   func_0208B24C  0x0208B24C  arm
- *   func_0208B8B0  0x0208B8B0  arm
- *   func_0208BEF0  0x0208BEF0  arm
- *   func_0208BF38  0x0208BF38  arm
+ *   PM_Init  0x0208B8B0  arm
+ *   PM_SetAmp  0x0208BEF0  arm
+ *   PM_SetAmpGain  0x0208BF38  arm
  *   VCT_SESSION_SetSendEnabled  0x021B0CD8  arm ov013
  *   NNS_SndInit  0x020726D0  arm
  *   NNS_SndStrmInit  0x020737C0  arm
@@ -104,9 +104,9 @@ extern VctWork *gVctWork;
 
 /* Power management and microphone driver. */
 extern void func_0208B24C(void);
-extern void func_0208B8B0(void);
-extern unsigned int func_0208BEF0(unsigned int status);
-extern unsigned int func_0208BF38(unsigned int gain);
+extern void PM_Init(void);
+extern unsigned int PM_SetAmp(unsigned int status);
+extern unsigned int PM_SetAmpGain(unsigned int gain);
 extern u32 func_0202EB0C(void);
 extern int func_0208B2BC(void *param, void (*callback)(void), void *arg);
 extern int func_0208B4C8(void *param, void (*callback)(void), void *arg);
@@ -225,9 +225,9 @@ extern s16 gVctMixScratch[];
 void VCT_MAIN_InitAudio(void)
 {
     func_0208B24C();
-    func_0208B8B0();
-    func_0208BEF0(1);
-    func_0208BF38(3);
+    PM_Init();
+    PM_SetAmp(1);
+    PM_SetAmpGain(3);
     VCT_SESSION_SetSendEnabled(1);
     NNS_SndInit();
     NNS_SndStrmInit(gVctWork->audioStream);
@@ -596,7 +596,7 @@ void VCT_MAIN_Exit(void)
     NNSi_SndStrmStopIfSetup(gVctWork->audioStream);
     NNS_SndStrmFreeChannel(gVctWork->audioStream);
     VCT_Exit();
-    func_0208BEF0(0);
+    PM_SetAmp(0);
     DWC_RAPCOMMON_Free(0, gVctWork->frameMemory, 0);
     DWC_RAPCOMMON_Free(0, gVctWork, 0);
     gVctWork = 0;

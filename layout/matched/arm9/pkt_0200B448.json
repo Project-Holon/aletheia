@@ -112,20 +112,36 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BBC8",
-    "func_0200BBD8",
-    "func_0200BBEC",
-    "func_0200BBFC",
-    "func_0200BC10",
-    "func_0200BC20",
-    "func_0200BC2C",
-    "func_0200BC4C",
-    "func_0200BC88",
-    "func_0200BCA0",
-    "func_0200BCA8",
-    "func_0200BCB8",
-    "func_0200BCD8",
-    "func_0200BCEC"
+    "BATTLE_BOX_SetLockFlags",
+    "BATTLE_BOX_ClearLockFlags",
+    "BATTLE_BOX_GetMon",
+    "BATTLE_BOX_IsLocked",
+    "DAYCARE_SetEggReady",
+    "DAYCARE_ClearEggReady",
+    "DAYCARE_GetSlotMon",
+    "DAYCARE_SetSlotMon",
+    "DAYCARE_ClearSlot",
+    "DAYCARE_GetEggReady",
+    "DAYCARE_IsSlotInUse",
+    "DAYCARE_GetInUseCount",
+    "DAYCARE_GetSlotSteps",
+    "DAYCARE_SwapSlots"
+   ],
+   "addresses": [
+    "0x0200BBC8",
+    "0x0200BBD8",
+    "0x0200BBEC",
+    "0x0200BBFC",
+    "0x0200BC10",
+    "0x0200BC20",
+    "0x0200BC2C",
+    "0x0200BC4C",
+    "0x0200BC88",
+    "0x0200BCA0",
+    "0x0200BCA8",
+    "0x0200BCB8",
+    "0x0200BCD8",
+    "0x0200BCEC"
    ]
   },
   {
@@ -140,9 +156,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BD98",
-    "func_0200BDA0",
-    "func_0200BDB0"
+    "DAYCARE_GetSize",
+    "DAYCARE_Init",
+    "DAYCARE_GetFromSave"
+   ],
+   "addresses": [
+    "0x0200BD98",
+    "0x0200BDA0",
+    "0x0200BDB0"
    ]
   },
   {
@@ -157,13 +178,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BDBC",
-    "func_0200BDC4",
-    "func_0200BDE4",
-    "func_0200BDF8",
-    "func_0200BDFC",
-    "func_0200BE00",
-    "func_0200BE24"
+    "INTRUDE_GetSize",
+    "INTRUDE_Init",
+    "INTRUDE_InitOccupy",
+    "INTRUDE_GetMissionScore",
+    "INTRUDE_GetMissionBonusScore",
+    "INTRUDE_AddMissionScore",
+    "INTRUDE_AddMissionBonusScore"
+   ],
+   "addresses": [
+    "0x0200BDBC",
+    "0x0200BDC4",
+    "0x0200BDE4",
+    "0x0200BDF8",
+    "0x0200BDFC",
+    "0x0200BE00",
+    "0x0200BE24"
    ]
   },
   {
@@ -178,9 +208,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BE48",
-    "func_0200BE54",
-    "func_0200BE6C"
+    "INTRUDE_GetFromSave",
+    "INTRUDE_StoreOccupy",
+    "INTRUDE_LoadOccupy"
+   ],
+   "addresses": [
+    "0x0200BE48",
+    "0x0200BE54",
+    "0x0200BE6C"
    ]
   },
   {
@@ -195,13 +230,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200BF08",
-    "func_0200BF10",
-    "func_0200BF18",
-    "func_0200BF54",
-    "func_0200BF70",
-    "func_0200BF78",
-    "func_0200BF94"
+    "INTRUDE_SetMonolithLevel",
+    "INTRUDE_GetMonolithLevel",
+    "INTRUDE_SetObtainedFlag",
+    "INTRUDE_GetObtainedFlags",
+    "INTRUDE_GetMissionClearCount",
+    "INTRUDE_IncrementMissionClearCount",
+    "INTRUDE_GetPlaySeconds"
+   ],
+   "addresses": [
+    "0x0200BF08",
+    "0x0200BF10",
+    "0x0200BF18",
+    "0x0200BF54",
+    "0x0200BF70",
+    "0x0200BF78",
+    "0x0200BF94"
    ]
   }
  ]

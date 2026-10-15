@@ -16,7 +16,7 @@
  *           follower in ov132; there is no byte difference.
  *
  * symbols:
- *   func_021F9DA0  0x021F9DA0  thumb  ov132
+ *   STA_ACTING_GetActorSystem  0x021F9DA0  thumb  ov132
  *   func_021FAE1C  0x021FAE1C  thumb  ov132
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_021F8068  0x021F8068  thumb  ov112
@@ -25,7 +25,7 @@
 
 typedef unsigned short u16;
 
-extern void *func_021F9DA0(char *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
 extern int func_021FAE1C(char *p, int *out);
 extern int func_0209C0A4();
 extern void func_021F8068(int self, char *p, u16 v);
@@ -33,7 +33,7 @@ extern void func_021FADF8(char *p, char *q);
 
 void func_021FBA14(int a0, int *a1)
 {
-    int r4 = (int)func_021F9DA0((char *)a1[0]);
+    int r4 = (int)STA_ACTING_GetActorSystem((char *)a1[0]);
     int local;
     if (func_021FAE1C((char *)a1, &local) == 1) {
         func_021F8068(r4, (char *)a1[6], (u16)func_0209C0A4(a1[2] << 16, 0x168));

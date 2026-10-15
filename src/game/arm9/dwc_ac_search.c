@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_search.c
  * unit:     yes
- * function: func_0205DE04, func_0205DF6C, func_0205DFA8, func_0205E110, func_0205E17C, func_0205E1D0, func_0205E29C, func_0205E444, func_0205E590, func_0205E64C, func_0205E790, func_0205E818, func_0205E8BC, func_0205E954
+ * function: DWCi_AC_SearchAP, DWCi_AC_SetStealthChannel, DWCi_AC_SearchReStart, SearchAround1stLap, SearchAround2ndLap, SearchAround, SearchDifferChannel, SearchStealth, NextSearchCheck, SearchEndCheck, CheckStartStealthSearch, GetStartChannel, GetNextAroundChannel, GetNextStealthChannel
  * address:  0x0205DE04
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -178,33 +178,20 @@ extern u8 SearchAround(ACWORK *wk);
 extern u8 SearchDifferChannel(ACWORK *wk);
 extern u8 SearchStealth(ACWORK *wk);
 extern void DWCi_AC_SetError(int error);
-extern void *func_0205C214(unsigned long name);
 extern u64 OS_GetTick(void);
 extern s32 WCM_SearchAsync(void *bssid, void *essid, u32 option);
 extern s8 GetStartChannel(int lap);
-extern int func_0205D318(int type);
+extern int DWCi_AC_MakeSearchList(int type);
 extern s8 GetNextAroundChannel(s8 now_ch);
 extern u8 NextSearchCheck(ACWORK *wk, u8 phase);
 extern s8 GetNextStealthChannel(void);
-extern int DWCi_AC_MakeSearchList(int type);
 extern u8 CheckStartStealthSearch(ACWORK *wk);
 extern u8 SearchAround2ndLap(ACWORK *wk);
 extern void DWCi_AC_SearchReStart(u8 phase);
 extern BOOL DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
 extern BOOL WCM_EndSearchAsync(void);
-u8 func_0205DE04(void);
-void func_0205DF6C(unsigned short channel);
-void func_0205DFA8(u8 phase);
-u8 func_0205E110(ACWORK *wk);
-u8 func_0205E1D0(ACWORK *wk);
-u8 func_0205E29C(ACWORK *wk);
-u8 func_0205E444(ACWORK *wk);
-u8 func_0205E590(ACWORK *wk, u8 phase);
-u8 func_0205E64C(ACWORK *wk, u8 phase);
-u8 func_0205E790(ACWORK *wk);
-s8 func_0205E818(int lap);
-s8 func_0205E8BC(s8 now_ch);
-s8 func_0205E954(void);
+u8 DWCi_AC_SearchAP(void);
+void DWCi_AC_SetStealthChannel(unsigned short channel);
 extern const u32 DWC_AC_SEARCH_CHANNEL[13];
 extern u8 WCM_Bssid_Any[];
 extern u8 WCM_Essid_Any[];
@@ -219,7 +206,7 @@ extern u8 WCM_Essid_Any[];
 /*
  * sdk:      DWCi_AC_SearchAP (search.o)
  */
-u8 func_0205DE04(void)
+u8 DWCi_AC_SearchAP(void)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u8 dwc_phase = DWCi_AC_GetPhase();
@@ -281,9 +268,9 @@ u8 func_0205DE04(void)
 /*
  * sdk:      DWCi_AC_SetStealthChannel (search.o)
  */
-void func_0205DF6C(unsigned short channel)
+void DWCi_AC_SetStealthChannel(unsigned short channel)
 {
-    ACWORK *wk = (ACWORK *)func_0205C214(0x10);
+    ACWORK *wk = (ACWORK *)DWCi_AC_GetMemPtr(0x10);
 
     if (channel > wk->maxChannel) {
         channel = wk->maxChannel;
@@ -300,7 +287,7 @@ void func_0205DF6C(unsigned short channel)
 /*
  * sdk:      DWCi_AC_SearchReStart (search.o)
  */
-void func_0205DFA8(u8 phase)
+void DWCi_AC_SearchReStart(u8 phase)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u16 mask;
@@ -338,7 +325,7 @@ void func_0205DFA8(u8 phase)
 /*
  * sdk:      SearchAround1stLap (search.o)
  */
-u8 func_0205E110(ACWORK *wk)
+u8 SearchAround1stLap(ACWORK *wk)
 {
     wk->timeOut = OS_GetTick();
     wk->searchChannel = GetStartChannel(0);
@@ -354,12 +341,12 @@ u8 func_0205E110(ACWORK *wk)
 /*
  * sdk:      SearchAround2ndLap (search.o)
  */
-static unsigned char func_0205E17C(ACWORK *wk)
+static unsigned char SearchAround2ndLap(ACWORK *wk)
 {
     wk->count = 0;
     wk->aroundCount++;
-    func_0205D318(0);
-    wk->searchChannel = func_0205E818(1);
+    DWCi_AC_MakeSearchList(0);
+    wk->searchChannel = GetStartChannel(1);
     return 3;
 }
 
@@ -371,7 +358,7 @@ static unsigned char func_0205E17C(ACWORK *wk)
 /*
  * sdk:      SearchAround (search.o)
  */
-u8 func_0205E1D0(ACWORK *wk)
+u8 SearchAround(ACWORK *wk)
 {
     u64 t = OS_GetTick() - wk->timeOut;
 
@@ -394,7 +381,7 @@ u8 func_0205E1D0(ACWORK *wk)
 /*
  * sdk:      SearchDifferChannel (search.o)
  */
-u8 func_0205E29C(ACWORK *wk)
+u8 SearchDifferChannel(ACWORK *wk)
 {
     u64 t = OS_GetTick() - wk->timeOut;
     u16 mask;
@@ -433,7 +420,7 @@ u8 func_0205E29C(ACWORK *wk)
 /*
  * sdk:      SearchStealth (search.o)
  */
-u8 func_0205E444(ACWORK *wk)
+u8 SearchStealth(ACWORK *wk)
 {
     u64 t = OS_GetTick() - wk->timeOut;
 
@@ -463,7 +450,7 @@ u8 func_0205E444(ACWORK *wk)
 /*
  * sdk:      NextSearchCheck (search.o)
  */
-u8 func_0205E590(ACWORK *wk, u8 phase)
+u8 NextSearchCheck(ACWORK *wk, u8 phase)
 {
     switch (phase) {
     case 3:
@@ -504,7 +491,7 @@ u8 func_0205E590(ACWORK *wk, u8 phase)
 /*
  * sdk:      SearchEndCheck (search.o)
  */
-u8 func_0205E64C(ACWORK *wk, u8 phase)
+u8 SearchEndCheck(ACWORK *wk, u8 phase)
 {
     u8 no;
 
@@ -559,7 +546,7 @@ u8 func_0205E64C(ACWORK *wk, u8 phase)
 /*
  * sdk:      CheckStartStealthSearch (search.o)
  */
-u8 func_0205E790(ACWORK *wk)
+u8 CheckStartStealthSearch(ACWORK *wk)
 {
     if (wk->stealthChannel != 0 && DWCi_AC_MakeSearchList(2) == 1) {
         wk->searchChannel = GetNextStealthChannel();
@@ -580,7 +567,7 @@ u8 func_0205E790(ACWORK *wk)
 /*
  * sdk:      GetStartChannel (search.o)
  */
-s8 func_0205E818(int lap)
+s8 GetStartChannel(int lap)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     int i;
@@ -612,7 +599,7 @@ s8 func_0205E818(int lap)
 /*
  * sdk:      GetNextAroundChannel (search.o)
  */
-s8 func_0205E8BC(s8 now_ch)
+s8 GetNextAroundChannel(s8 now_ch)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u16 mask;
@@ -636,7 +623,7 @@ s8 func_0205E8BC(s8 now_ch)
 /*
  * sdk:      GetNextStealthChannel (search.o)
  */
-s8 func_0205E954(void)
+s8 GetNextStealthChannel(void)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u8 i;

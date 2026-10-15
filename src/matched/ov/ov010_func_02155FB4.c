@@ -12,7 +12,7 @@
  * 2026-10-05 (D9 lane 02): callee 0x021FD948 is the ov132 setter, already matched in ov132_func_021FD938.c. Region hint ov132 added.
  *
  * symbols:
- *   func_021FD948  0x021FD948  thumb  ov132
+ *   STA_NET_SetState18Value  0x021FD948  thumb  ov132
  */
 
 typedef unsigned char u8;
@@ -30,10 +30,10 @@ typedef struct Work {
     void *f3C;          /* 0x3C */
 } Work;
 
-extern void func_021FD948(char *p, u32 value);
+extern void STA_NET_SetState18Value(char *p, u32 value);
 
 void MUSICAL_EVENT_SendLocalPerformer(Work *w)
 {
     if (w->f14 == 1)
-        func_021FD948(w->f28, (u32)w->f3C);
+        STA_NET_SetState18Value(w->f28, (u32)w->f3C);
 }

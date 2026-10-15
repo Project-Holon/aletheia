@@ -1,7 +1,7 @@
 /*
  * file:     chihou_zukan_award.c
  * unit:     yes
- * function: func_021B95A0, func_021B9748, func_021B97C4, func_021B9900, func_021B9960, func_021B9964, func_021B9AEC, func_021B9B18, func_021B9B84, func_021B9C4C, func_021B9CCC, func_021B9CEC, func_021B9D38, func_021B9DAC, func_021B9DD4
+ * function: func_021B95A0, func_021B9748, func_021B97C4, CHIHOU_ZUKAN_AWARD_LoadBgAssets, CHIHOU_ZUKAN_AWARD_Noop, CHIHOU_ZUKAN_AWARD_SetupWindows, CHIHOU_ZUKAN_AWARD_DeleteWindows, CHIHOU_ZUKAN_AWARD_FlushWindows, CHIHOU_ZUKAN_AWARD_SetupTiles, CHIHOU_ZUKAN_AWARD_CreateActor, CHIHOU_ZUKAN_AWARD_DeleteActor, CHIHOU_ZUKAN_AWARD_SetupActorPos, CHIHOU_ZUKAN_AWARD_UpdateActor, CHIHOU_ZUKAN_AWARD_IsActorIdle, CHIHOU_ZUKAN_AWARD_Setup3d
  * address:  0x021B95A0
  * region:   ov221
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021B9E78 0x021B9E78 thumb ov221
+ *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Create 0x021B9E78 thumb ov221
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
@@ -25,7 +25,7 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -43,12 +43,12 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021B9F20 0x021B9F20 thumb ov221
+ *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete 0x021B9F20 thumb ov221
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   d_021BA148 0x021BA148 data a4
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021B9F7C 0x021B9F7C thumb ov221
+ *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Update 0x021B9F7C thumb ov221
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
@@ -65,7 +65,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F02C 0x0201F02C thumb
@@ -74,7 +74,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
@@ -91,7 +91,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_021B9F90 0x021B9F90 thumb ov221
+ *   CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor 0x021B9F90 thumb ov221
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -103,7 +103,7 @@
  *   func_02040618 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02040804 0x02040804 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -184,14 +184,14 @@ typedef int BOOL;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,int,u32);
-extern void *func_021B9E78(u32,u32);
+extern void *CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern char *func_02012944(void*);
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
@@ -206,10 +206,10 @@ extern void func_02030EAC(struct Node *);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_021B9F20(char *);
+extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
-extern void func_021B9F7C(char *p);
+extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void*);
 extern int GFL_USE_PushBgm(void);
@@ -230,14 +230,14 @@ extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -252,7 +252,7 @@ extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern unsigned func_021B9F90(char *p);
+extern unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
 extern struct Obj *CLACT_CreateActor(void *,unsigned,unsigned,unsigned,const void *,unsigned short,unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);
@@ -263,7 +263,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned func_02040804(unsigned);
-extern void func_02041EE4(unsigned,unsigned,unsigned);
+extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL,int,int,int);
@@ -273,20 +273,20 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 int func_021B95A0(void *owner,void *unused,void *input);
 int func_021B9748(void *owner,void *unused1,void *unused2,char *p);
 int func_021B97C4(int unused, int *state, int unused2, unsigned char *p);
-void func_021B98FC(void);
-void func_021B9900(unsigned char *p);
-void func_021B9960(char *p);
-void func_021B9964(struct Obj *p);
-void func_021B9AEC(char *p);
-void func_021B9B18(unsigned char *p);
-int func_021B9B64(unsigned char *p);
-void func_021B9B84(char *p);
-void func_021B9C4C(unsigned char *p);
-void func_021B9CCC(char *p);
-void func_021B9CEC(char *p);
-void func_021B9D38(unsigned char *p);
-Bool func_021B9DAC(char *p);
-void func_021B9DD4(void);
+void CHIHOU_ZUKAN_AWARD_Task(void);
+void CHIHOU_ZUKAN_AWARD_LoadBgAssets(unsigned char *p);
+void CHIHOU_ZUKAN_AWARD_Noop(char *p);
+void CHIHOU_ZUKAN_AWARD_SetupWindows(struct Obj *p);
+void CHIHOU_ZUKAN_AWARD_DeleteWindows(char *p);
+void CHIHOU_ZUKAN_AWARD_FlushWindows(unsigned char *p);
+int CHIHOU_ZUKAN_AWARD_IsWindowsReady(unsigned char *p);
+void CHIHOU_ZUKAN_AWARD_SetupTiles(char *p);
+void CHIHOU_ZUKAN_AWARD_CreateActor(unsigned char *p);
+void CHIHOU_ZUKAN_AWARD_DeleteActor(char *p);
+void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p);
+void CHIHOU_ZUKAN_AWARD_UpdateActor(unsigned char *p);
+Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(char *p);
+void CHIHOU_ZUKAN_AWARD_Setup3d(void);
 extern const Row tbl_021BA148[];
 extern Assets tbl_021BA2C0[];
 extern const unsigned d_021BA148[][11];
@@ -313,12 +313,12 @@ int func_021B95A0(void *owner,void *unused,void *input)
  MI_CpuFill8(p,i,88);
  *(u16*)p=131;
  *(void**)(p+4)=input;
- *(void**)(p+8)=func_021B9E78(1,*(u16*)p);
+ *(void**)(p+8)=CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=PRINTSYS_QUE_Create((void*)*(u16*)p);
  func_0204047C(1,1);func_0204047C(2,0);
- *(void**)(p+20)=func_020056A0((u32)func_021B98FC,p,1);
- func_021B9900((u8*)p);func_021B9964((struct Obj *)p);func_021B9B84(p);func_021B9C4C((u8*)p);
+ *(void**)(p+20)=func_020056A0((u32)CHIHOU_ZUKAN_AWARD_Task,p,1);
+ CHIHOU_ZUKAN_AWARD_LoadBgAssets((u8*)p);CHIHOU_ZUKAN_AWARD_SetupWindows((struct Obj *)p);CHIHOU_ZUKAN_AWARD_SetupTiles(p);CHIHOU_ZUKAN_AWARD_CreateActor((u8*)p);
  settings=func_02012944(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
@@ -326,7 +326,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  BG_SYS_ClearSubPlanes();func_0207D518(i);BG_SYS_ClearSubBgPlanes();
  do {
   row=&tbl_021BA148[i];id=row->id;
-  func_0203FCA0((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
+  BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
   i++;
  } while((u32)i<1u);
  BG_SYS_SetSubPlaneVisible(16,1);
@@ -337,7 +337,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  func_02049B68(h,tbl_021BA2C0[selected].a,4,zero,zero,heap);
  func_02049658(h,tbl_021BA2C0[selected].b,4,zero,zero,zero,heap);
  func_020498F4(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
- ARC_TOOL_DeleteHandle(h);func_020409B4(4);func_021B9CEC((char *)p);
+ ARC_TOOL_DeleteHandle(h);func_020409B4(4);CHIHOU_ZUKAN_AWARD_SetupActorPos((char *)p);
  FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;
@@ -355,14 +355,14 @@ int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
     } while((unsigned)i<1);
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_021B9CCC(p);
-    func_021B9AEC(p);
-    func_021B9960(p);
+    CHIHOU_ZUKAN_AWARD_DeleteActor(p);
+    CHIHOU_ZUKAN_AWARD_DeleteWindows(p);
+    CHIHOU_ZUKAN_AWARD_Noop(p);
     func_02030EAC(*(struct Node * *)&((struct Obj02557 *)p)->f14);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj02557 *)p)->f10);
     PRINTSYS_QUE_Delete(((struct Obj02557 *)p)->f10);
     GF_FONT_Delete(((struct Obj02557 *)p)->fC);
-    func_021B9F20(*(char * *)&((struct Obj02557 *)p)->f8);
+    CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(*(char * *)&((struct Obj02557 *)p)->f8);
     func_020315D4((struct S020315D4 *)owner);
     func_020306F0(0x83);
     return 1;
@@ -378,7 +378,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  switch(*state) {
  case 0:
   ready=1;
-  if(func_021B9B64(p)==0) ready=0;
+  if(CHIHOU_ZUKAN_AWARD_IsWindowsReady(p)==0) ready=0;
   if(ready && ((struct Obj26065 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4==0) {
    if(GFL_USE_IsBgmFading()) ready=0;
    else {GFL_USE_SetBgmPlayerParam((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
@@ -388,7 +388,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  case 1:
   if(!FADE_IsActive()) {if(((struct Obj26066 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4!=0) *state=4;else *state=2;}
   break;
- case 2: if(func_021B9DAC((char *)p)) *state=3; break;
+ case 2: if(CHIHOU_ZUKAN_AWARD_IsActorIdle((char *)p)) *state=3; break;
  case 3:
   if(!GFL_USE_IsBgmPlaying()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
   break;
@@ -402,21 +402,21 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  case 6: return 1;
  }
  PRINTSYS_QUE_Main(*(void* *)&((struct Obj02558 *)p)->f10);
- func_021B9B18(p);
- if(*state>=1 && *state<=5) func_021B9D38(p);
- func_021B9F7C(*(void* *)&((struct Obj02558 *)p)->f8);
+ CHIHOU_ZUKAN_AWARD_FlushWindows(p);
+ if(*state>=1 && *state<=5) CHIHOU_ZUKAN_AWARD_UpdateActor(p);
+ CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(*(void* *)&((struct Obj02558 *)p)->f8);
  return 0;
 }
 
 
 
 
-void func_021B98FC(void) {}
+void CHIHOU_ZUKAN_AWARD_Task(void) {}
 
 
 
 
-void func_021B9900(unsigned char *p)
+void CHIHOU_ZUKAN_AWARD_LoadBgAssets(unsigned char *p)
 {
     void *h=func_020490F4(0xCA,((struct Obj08452 *)p)->f0);
     func_02049B68((void *)((unsigned)h),1,0,0,0x1E0,((struct Obj08452 *)p)->f0);
@@ -429,12 +429,12 @@ void func_021B9900(unsigned char *p)
 
 
 
-void func_021B9960(char *p){}
+void CHIHOU_ZUKAN_AWARD_Noop(char *p){}
 
 
 
 
-void func_021B9964(struct Obj *p)
+void CHIHOU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
 {
     u8 i;
     char *msg;
@@ -454,7 +454,7 @@ void func_021B9964(struct Obj *p)
         BMP_Clear(BMP_WIN_GetBmp(p->ptr[i]), 0);
         BMP_WIN_TransferChars(p->ptr[i]);
     }
-    ws = (u32)func_0201EC64(p->heap);
+    ws = (u32)GF_FONT_Create_EC64(p->heap);
     t = (u32)func_02045EC0(p->bank, 0);
     x = (u32)STRBUF_Create(0x20, p->heap);
     func_0201F02C((struct WordSet *)ws, 0, msg);
@@ -462,7 +462,7 @@ void func_021B9964(struct Obj *p)
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), 0, 0, x, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);
-    func_0201ED04((struct WordSet *)ws);
+    WORDSET_DeleteStrbufED04((struct WordSet *)ws);
     t = (u32)func_02045EC0(p->bank, 1);
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[3]), 0, 0, t, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)t);
@@ -475,18 +475,18 @@ void func_021B9964(struct Obj *p)
         BMP_WIN_MakeScreen(d);
         func_02041B6C(BMP_WIN_GetBgLayer(d));
     }
-    func_021B9B18((unsigned char *)p);
+    CHIHOU_ZUKAN_AWARD_FlushWindows((unsigned char *)p);
 }
 
 
 
 
-void func_021B9AEC(char *p){unsigned char i;for(i=0;i<5;i++){struct Descriptor *q=*(struct Descriptor **)((unsigned)p+i*4+28);if(q)BMP_WIN_Delete(q);}if(*(struct Rec * *)&((struct Obj02557 *)p)->f18)MSGDATA_Delete(*(struct Rec * *)&((struct Obj02557 *)p)->f18);}
+void CHIHOU_ZUKAN_AWARD_DeleteWindows(char *p){unsigned char i;for(i=0;i<5;i++){struct Descriptor *q=*(struct Descriptor **)((unsigned)p+i*4+28);if(q)BMP_WIN_Delete(q);}if(*(struct Rec * *)&((struct Obj02557 *)p)->f18)MSGDATA_Delete(*(struct Rec * *)&((struct Obj02557 *)p)->f18);}
 
 
 
 
-void func_021B9B18(unsigned char *p)
+void CHIHOU_ZUKAN_AWARD_FlushWindows(unsigned char *p)
 {
     unsigned char i;
     unsigned char *row;
@@ -506,7 +506,7 @@ void func_021B9B18(unsigned char *p)
 
 
 
-int func_021B9B64(unsigned char *p)
+int CHIHOU_ZUKAN_AWARD_IsWindowsReady(unsigned char *p)
 {
     unsigned char i;
     for(i=0;i<5;i++) if(*(int *)(p+0x30+4*i)==0) return 0;
@@ -516,7 +516,7 @@ int func_021B9B64(unsigned char *p)
 
 
 
-void func_021B9B84(char *p)
+void CHIHOU_ZUKAN_AWARD_SetupTiles(char *p)
 {
  u16 *tiles;
  u16 *buf;
@@ -544,14 +544,14 @@ void func_021B9B84(char *p)
 
 
 
-void func_021B9C4C(unsigned char *p)
+void CHIHOU_ZUKAN_AWARD_CreateActor(unsigned char *p)
 {
     void *h=func_020490F4(0xCA,((struct Obj01592 *)p)->f0);
     *(int *)&((struct Obj01592 *)p)->f4C=CLACT_RegisterPaletteEx((void *)((unsigned)h),0,0,0,0,2,((struct Obj01592 *)p)->f0);
     *(int *)&((struct Obj01592 *)p)->f48=CLACT_RegisterCharacter((void *)((unsigned)h),3,0,0,((struct Obj01592 *)p)->f0);
     *(int *)&((struct Obj01592 *)p)->f50=CLACT_RegisterCellAnim((void *)((unsigned)h),8,9,((struct Obj01592 *)p)->f0);
     ARC_TOOL_DeleteHandle(h);
-    *(struct Obj * *)&((struct Obj01592 *)p)->f54=CLACT_CreateActor((void *)func_021B9F90(((struct Obj01592 *)p)->f8),((struct Obj01592 *)p)->f48,((struct Obj01592 *)p)->f4C,((struct Obj01592 *)p)->f50,&d_021BA140,0,((struct Obj01592 *)p)->f0);
+    *(struct Obj * *)&((struct Obj01592 *)p)->f54=CLACT_CreateActor((void *)CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(((struct Obj01592 *)p)->f8),((struct Obj01592 *)p)->f48,((struct Obj01592 *)p)->f4C,((struct Obj01592 *)p)->f50,&d_021BA140,0,((struct Obj01592 *)p)->f0);
     CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01592 *)p)->f54,1);
     CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj01592 *)p)->f54,1);
 }
@@ -560,7 +560,7 @@ void func_021B9C4C(unsigned char *p)
 
 
 
-void func_021B9CCC(char *p)
+void CHIHOU_ZUKAN_AWARD_DeleteActor(char *p)
 {
     CLACT_DeleteActor(((struct Obj02557 *)p)->f54);
     CLACT_ReleaseCellAnim((u32)(((struct Obj02557 *)p)->f50));
@@ -576,7 +576,7 @@ void func_021B9CCC(char *p)
  *   initialiser, inline setter, int y temp, short x/y locals, d[0] array extern, struct pointer local, u16 local struct.
  *   Idiom: a pool word reloaded before every field access (u32 gb = (u32)&d_X, read through a cast) from the wave brief.
  */
-void func_021B9CEC(char *p)
+void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
 {
     if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
         struct Vec2 v;
@@ -592,7 +592,7 @@ void func_021B9CEC(char *p)
 }
 
 
-void func_021B9D38(unsigned char *p)
+void CHIHOU_ZUKAN_AWARD_UpdateActor(unsigned char *p)
 {
     int amount;
     if(((struct Obj26068 *)(*(unsigned char * *)&((struct Obj02558 *)p)->f4))->f4!=0) return;
@@ -601,8 +601,8 @@ void func_021B9D38(unsigned char *p)
     if(p[0x44]==0) {
         struct Vec2 pair;
         if(amount>=2) amount=2;
-        func_02041EE4(1,5,amount);
-        func_02041EE4(2,5,amount);
+        BG_SYS_ResetSlot(1,5,amount);
+        BG_SYS_ResetSlot(2,5,amount);
         CLACT_GetActorSurfacePos((struct Actor *)*(struct Obj * *)&((struct Obj02558 *)p)->f54,(struct PtS *)&pair,0);
         pair.y+=(short)amount;
         CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj02558 *)p)->f54,&pair,0);
@@ -614,7 +614,7 @@ void func_021B9D38(unsigned char *p)
 
 
 
-Bool func_021B9DAC(char *p){int flag;Bool result;if(((struct Obj26070 *)(*(char * *)&((struct Obj26069 *)p)->f4))->f4)return BOOL_TRUE;flag=1;if(func_02040804(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
+Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(char *p){int flag;Bool result;if(((struct Obj26070 *)(*(char * *)&((struct Obj26069 *)p)->f4))->f4)return BOOL_TRUE;flag=1;if(func_02040804(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
 
 
 
@@ -638,7 +638,7 @@ static inline void EdgeMarking(BOOL enable) { if(enable) REG3D=(unsigned short)(
 
 
 
-void func_021B9DD4(void)
+void CHIHOU_ZUKAN_AWARD_Setup3d(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);

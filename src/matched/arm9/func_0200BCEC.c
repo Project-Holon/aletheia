@@ -1,5 +1,5 @@
 /*
- * function: func_0200BCEC
+ * function: DAYCARE_SwapSlots
  * address:  0x0200BCEC
  * packet:   pkt_0200BCEC
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     u32 count;
 } E;
 
-void func_0200BCEC(E *e, int i, int j)
+void DAYCARE_SwapSlots(E *e, int i, int j)
 {
     E t;
 

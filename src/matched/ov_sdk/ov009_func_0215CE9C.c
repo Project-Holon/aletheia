@@ -1,5 +1,5 @@
 /*
- * function: func_0215CE9C
+ * function: SOCLi_GetCtrlPipe
  * address:  0x0215CE9C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +0xa0 of the block, falling back to +0xa4 when it is zero.
  */
 
-int func_0215CE9C(const int *p, int b)
+int SOCLi_GetCtrlPipe(const int *p, int b)
 {
     int v = p[0x28];
 

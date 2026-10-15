@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208C808",
+   "name": "PM_PrependPreSleepCallback",
    "address": "0x0208C808",
    "kind": "sdk",
    "region": "arm9",

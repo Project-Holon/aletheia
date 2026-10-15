@@ -78,7 +78,7 @@
  * 13/13 relocs.  Measured this wave and still no effect on the +1 roll: a
  * chained store `f1 = f2 = 0` (300 B / 239 concrete -- worse) and a
  * `do { f0/f1/f2 stores } while (0)` block fence (296 B / 134 -- unchanged).
- * The shared zero at +0014 is 1.1p1 global-CSE across the func_020948E0 call
+ * The shared zero at +0014 is 1.1p1 global-CSE across the strcmp call
  * into callee-saved r4; the image rematerialises `mov r2,#0` at the stores and
  * `mov r0,#0` per return.  Confirmed wall.
  *
@@ -120,11 +120,11 @@
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009
  *   DWCi_GetNewMatchKey  0x02173AD8  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   func_0205A1B0  0x0205A1B0  arm
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_0205A16C  0x0205A16C  arm
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *   DWCi_StopMatch  0x0216EB68  arm  ov009
  *   func_0219D158  0x0219D158  arm  ov009
  */
@@ -143,13 +143,13 @@ struct DWCstGameMatchKeyData {
 
 extern struct DWCstGameMatchKeyData g_021AAA40[154];
 
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern u8 DWCi_GetNewMatchKey(void);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
 extern void DWCi_StopMatch(int error, int errorCode);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern void func_0219D158(int keyid, char *key);
 
 u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
@@ -159,7 +159,7 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     if (keyString == 0 || valueSrc == 0)
         return 0;
     if (keyID >= 0x64 && g_021AAA40[keyID - 0x64].keyID != 0) {
-        if (g_021AAA40[keyID - 0x64].keyString != 0 && func_020948E0(g_021AAA40[keyID - 0x64].keyString, keyString) != 0)
+        if (g_021AAA40[keyID - 0x64].keyString != 0 && strcmp(g_021AAA40[keyID - 0x64].keyString, keyString) != 0)
             return 0;
     } else {
         keyID = DWCi_GetNewMatchKey();
@@ -172,12 +172,12 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     g_021AAA40[index].pad = 0;
     if (g_021AAA40[index].keyString != 0)
         func_0205A1B0(4, g_021AAA40[index].keyString, 0);
-    g_021AAA40[index].keyString = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
+    g_021AAA40[index].keyString = func_0205A16C(4, strlen((const u8 *)keyString) + 1);
     if (g_021AAA40[index].keyString == 0) {
         DWCi_StopMatch(9, -80001);
         return 0;
     }
-    func_02094798(g_021AAA40[index].keyString, keyString);
+    strcpy(g_021AAA40[index].keyString, keyString);
     g_021AAA40[index].value = valueSrc;
     func_0219D158(keyID, g_021AAA40[index].keyString);
     return keyID;

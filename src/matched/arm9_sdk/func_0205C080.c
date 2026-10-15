@@ -1,5 +1,5 @@
 /*
- * function: func_0205C080
+ * function: DWCi_AC_Free
  * address:  0x0205C080
  * packet:   pkt_0205C080
  * region:   arm9
@@ -136,7 +136,7 @@ static struct {
     ACWORK *acWork;
 } s_ac_work;
 
-void func_0205C080(u32 name, void *ptr, s32 size)
+void DWCi_AC_Free(u32 name, void *ptr, s32 size)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 

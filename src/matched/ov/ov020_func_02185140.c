@@ -24,9 +24,9 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_SetWarpLocation  0x020128E4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200BFA4  0x0200BFA4  thumb
+ *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   ZONEDATA_DirToExitDir  0x020142A4  thumb
@@ -55,9 +55,9 @@ void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 void GAME_DATA_SetWarpLocation(struct BigObj *p, const struct Rec1C *src);
 void *GAME_DATA_GetSaveControl(struct Big *p);
-u16 *func_0200BE48(void *sys);
+u16 *INTRUDE_GetFromSave(void *sys);
 int GAME_DATA_GetPlayTime(int p0);
-unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
+unsigned long long INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 u32 ZONEDATA_DirToExitDir(u32 idx);
@@ -87,8 +87,8 @@ void *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(void *a, int b, S3 *c, int d)
     r6 = 0;
     EVENT_MAPCHANGE_GetCurrentLocation(&w, h);
     GAME_DATA_SetWarpLocation(r4, (const struct Rec1C *)(&w));
-    q = func_0200BE48(GAME_DATA_GetSaveControl(r4));
-    func_0200BFA4(q, (void *)GAME_DATA_GetPlayTime((int)r4), 0);
+    q = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(r4));
+    INTRUDE_UpdatePlaySeconds(q, (void *)GAME_DATA_GetPlayTime((int)r4), 0);
     r7 = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(a));
     if (r7 == 0 || INTRUDE_COMM_HasUnlockFlags(r4) == 0) {
         r5 = 0;

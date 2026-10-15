@@ -20,7 +20,7 @@
  *   func_020413B0  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Create 0x021BE710 thumb
@@ -33,7 +33,7 @@
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
  *   func_02040804 0x02040804 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_021BE920 0x021BE920 thumb ov208
  *   func_021BE864 0x021BE864 thumb ov208
  *   d_021C8DFC 0x021C8DFC data a1
@@ -73,9 +73,9 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 extern void func_02030EAC(struct Node *n);
 
@@ -216,15 +216,15 @@ void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
     case 1:
         if(p->count==0) {
             if((int)func_02040804(5)<=0) {
-                func_02041EE4(5,3,0);p->state=2;
-            } else {func_02041EE4(5,5,3);p->count=0;}
+                BG_SYS_ResetSlot(5,3,0);p->state=2;
+            } else {BG_SYS_ResetSlot(5,5,3);p->count=0;}
         } else --p->count;
         break;
     case 3:
         if(p->count==0) {
             if((int)func_02040804(5)>=24) {
-                func_02041EE4(5,3,24);p->state=0;
-            } else {func_02041EE4(5,4,3);p->count=0;}
+                BG_SYS_ResetSlot(5,3,24);p->state=0;
+            } else {BG_SYS_ResetSlot(5,4,3);p->count=0;}
         } else --p->count;
         break;
     }
@@ -283,7 +283,7 @@ void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g)
 void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p)
 {
     MSGDATA_Delete((struct Rec *)p->msg);
-    func_0203FB44(5, p->tile, p->size);
+    BG_SYS_DeleteHalf(5, p->tile, p->size);
     BMP_Delete((struct Obj020437AC *)p->bmp);
     BMP_WIN_Delete((struct Descriptor *)p->window);
 }

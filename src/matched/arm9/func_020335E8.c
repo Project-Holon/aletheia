@@ -22,7 +22,7 @@
  *   func_02075E9C           0x02075E9C  arm
  *   CARDi_RequestStreamCommand 0x02076AC0  arm
  *   CARD_WaitBackupAsync           0x02076B80  arm
- *   func_02075EAC           0x02075EAC  arm
+ *   CARD_UnlockBackup           0x02075EAC  arm
  *   OS_ReleaseLockID           0x02084F10  arm
  *
  * The result of CARDi_RequestStreamCommand lands in r6 only after the
@@ -48,7 +48,7 @@ extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);
 extern int  CARD_WaitBackupAsync(void);
-extern void func_02075EAC(u16 a);
+extern void CARD_UnlockBackup(u16 a);
 extern void OS_ReleaseLockID(u16 a);
 
 int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void))
@@ -62,7 +62,7 @@ int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void))
     func_02075E9C((u16)id);
     r = CARDi_RequestStreamCommand(a0, a1, a2, 0, 0, 1, 6, 1, 0);
     r = CARD_WaitBackupAsync();
-    func_02075EAC((u16)id);
+    CARD_UnlockBackup((u16)id);
     OS_ReleaseLockID((u16)id);
     if (r == 0 && a3 != 0) {
         a3();

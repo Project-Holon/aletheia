@@ -28,7 +28,7 @@
  *   GAME_BEACON_ACCESSOR_GetNation 0x02165C58 thumb ov010
  *   func_0201F048 0x0201F048 thumb
  *   GAME_BEACON_ACCESSOR_GetArea 0x02165C5C thumb ov010
- *   func_0201F094 0x0201F094 thumb
+ *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   GAME_BEACON_ACCESSOR_GetPassCount 0x02165D40 thumb ov010
  *   GAME_BEACON_ACCESSOR_GetThanksCount 0x02165D48 thumb ov010
  *   PMS_DRAW_IsActive 0x0202DCC4 thumb
@@ -36,7 +36,7 @@
  *   GAME_BEACON_ACCESSOR_GetDetailsPms 0x02165C90 thumb ov010
  *   PMS_DRAW_Print 0x0202DC48 thumb
  *   GAME_BEACON_ACCESSOR_GetTrainerAppearance 0x02165CE8 thumb ov010
- *   func_02025C88 0x02025C88 thumb
+ *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
  *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -71,7 +71,7 @@ extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
 extern void func_0201F048(struct WordSet *,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
-extern void func_0201F094(struct WordSet *,u32,u32,u32);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *,u32,u32,u32);
 extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p);
 extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(const struct S *p);
 extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *,u32);
@@ -79,7 +79,7 @@ extern void PMS_DRAW_Clear(struct Obj0202DC98 *,int,u32);
 extern void GAME_BEACON_ACCESSOR_GetDetailsPms(const struct R *p, struct Quad *q);
 extern void PMS_DRAW_Print(u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct S *);
-extern u32 func_02025C88(u32);
+extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
 extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(void *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
@@ -116,7 +116,7 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_021BD07C((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
     func_0201F048(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
-    func_0201F094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
+    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     func_021BCEA4((u8 *)p,8);
     func_021BD07C((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
@@ -128,7 +128,7 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     PMS_DRAW_Print(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
     ((struct Obj05555 *)q)->f7C=GAME_BEACON_ACCESSOR_GetTrainerAppearance(record);
     index=slot*12;
-    POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
+    POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,CURSOR_MOVE_GetTableGroup(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
     subtype=GAME_BEACON_ACCESSOR_GetResearchTeamRank(record);
     if(subtype==0) {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
     func_021BCE7C(((struct Obj05555 *)q)->f74,(u8)(subtype+1));

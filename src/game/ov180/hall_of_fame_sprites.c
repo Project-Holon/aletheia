@@ -54,7 +54,7 @@
  *   gHallOfFameVoiceMarkTemplate 0x021B81A4 data a4
  *   HALL_OF_FAME_DeleteAllActors  0x021B7604  thumb  ov180
  *   HALL_OF_FAME_ReleaseAllResources  0x021B756C  thumb  ov180
- *   func_0204EA38 0x0204EA38 arm
+ *   DOUBLE3DDISP_GetField04 0x0204EA38 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   HALL_OF_FAME_UpdateActors 0x021B73B0 thumb ov180
  *   CLACT_CreateRenderer 0x0204B034 arm
@@ -135,7 +135,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 func_0204EA38(void);
+extern u32 DOUBLE3DDISP_GetField04(void);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern u32 func_020056EC(u32);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
@@ -351,7 +351,7 @@ void HALL_OF_FAME_DeleteMonSceneObjects(HallOfFameWork *work)
  */
 void HALL_OF_FAME_DrawMonScene(HallOfFameWork *work)
 {
-    if (func_0204EA38() == 1)
+    if (DOUBLE3DDISP_GetField04() == 1)
         BG_SYS_SetMainPlaneVisible(16, 0);
     else
         BG_SYS_SetMainPlaneVisible(16, 1);

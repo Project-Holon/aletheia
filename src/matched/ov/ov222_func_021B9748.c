@@ -1,5 +1,5 @@
 /*
- * function: func_021B9748
+ * function: ZENKOKU_ZUKAN_AWARD_Exit
  * address: 0x021B9748
  * packet: pkt_ov222_021B9748
  * region: ov222
@@ -18,7 +18,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021B9FB8 0x021B9FB8 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete 0x021B9FB8 thumb ov222
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   d_021BA1F4 0x021BA1F4 data a4
@@ -42,10 +42,10 @@ extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_021B9FB8(char*);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char*);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
-int func_021B9748(void*scene,int unused1,int unused2,char*p)
+int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p)
 {
  LayerCount i;
  i=0;
@@ -62,7 +62,7 @@ int func_021B9748(void*scene,int unused1,int unused2,char*p)
  PRINTSYS_QUE_Clear(*(void* *)&((struct Obj02559 *)p)->f10);
  PRINTSYS_QUE_Delete(*(void* *)&((struct Obj02559 *)p)->f10);
  GF_FONT_Delete(*(void* *)&((struct Obj02559 *)p)->fC);
- func_021B9FB8(*(char* *)&((struct Obj02559 *)p)->f8);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(*(char* *)&((struct Obj02559 *)p)->f8);
  func_020315D4(scene);
  func_020306F0(0x83);
  return 1;

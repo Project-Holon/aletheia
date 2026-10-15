@@ -1,5 +1,5 @@
 /*
- * function: func_0205EAFC
+ * function: DWCi_AC_CheckNintendoUsbAP
  * address:  0x0205EAFC
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -20,7 +20,7 @@ extern int memcmp(const void *s1, const void *s2, unsigned long n);
 
 extern const char g_020A8124[]; /* "NWCUSBAP", the vendor object's @16393 */
 
-int func_0205EAFC(char *ssid)
+int DWCi_AC_CheckNintendoUsbAP(char *ssid)
 {
     if (memcmp(ssid, g_020A8124, 8) == 0) {
         return 1;

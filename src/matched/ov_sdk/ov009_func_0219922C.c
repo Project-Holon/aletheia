@@ -16,7 +16,7 @@
  *   gsDebugFormat  0x0217D254 arm
  *   ArrayFree      0x021841B0 arm
  *   negotiateList  0x021AE698 data
- *   g_021A5A84     0x021A5A84 data
+ *   gNatNegFreeFmt     0x021A5A84 data
  */
 
 typedef unsigned char u8;
@@ -30,13 +30,13 @@ extern int ArrayLength(void *array);
 extern int gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern struct DArrayImplementation * negotiateList;
-extern char g_021A5A84[];
+extern char gNatNegFreeFmt[];
 
 void NNFreeNegotiateList(void)
 {
     if (negotiateList == 0)
         return;
-    gsDebugFormat(7, 3, 8, g_021A5A84, ArrayLength(negotiateList));
+    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength(negotiateList));
     ArrayFree(negotiateList);
     negotiateList = 0;
 }

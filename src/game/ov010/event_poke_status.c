@@ -41,7 +41,7 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
  *   SCRIPT_WORK_GetTrainerEntry  0x02159124  thumb  ov010
- *   func_0202A230  0x0202A230  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  */
 #include "../ov131/p_status_types.h"
 struct BigObj;
@@ -105,7 +105,7 @@ extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern int SCRIPT_SYS_GetEventScriptWork(int);
 extern char *SCRIPT_WORK_GetTrainerEntry(char *p, int i);
-extern u32 func_0202A230(void *a, u32 idx);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work);
 /*
  * Case 2 loads 0x00000083 from the pool: an absolute symbol (overlay id),
@@ -337,14 +337,14 @@ int func_0215A4A0(unsigned id) { if (id >= 5000) return 1; return 0; }
 
 int func_0215A4B4(int saveData)
 {
-    if (func_0202A230((void *)saveData, 2) == 1)
+    if (TPOKE_DATA_GetRecordField((void *)saveData, 2) == 1)
         return 1;
     return 0;
 }
 
 int func_0215A4C8(int saveData)
 {
-    return (u8)func_0202A230((void *)saveData, 2);
+    return (u8)TPOKE_DATA_GetRecordField((void *)saveData, 2);
 }
 
 /*

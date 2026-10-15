@@ -18,7 +18,7 @@
  *
  * symbols:
  *   KEY_GetCont 0x0203630C arm
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   _fflt 0x0209BDBC arm
  *   _ffix 0x0209C494 arm
  *   _fadd 0x0209C95C arm
@@ -34,7 +34,7 @@ typedef struct {
     int flags;
 } State;
 extern unsigned int KEY_GetCont(void);
-extern void func_0207CA00(const Vec *, const Vec *, Vec *);
+extern void VEC_Subtract(const Vec *, const Vec *, Vec *);
 extern float _fflt(int);
 extern int _ffix(float);
 extern float _fadd(float, float), _fsub(float, float);
@@ -67,7 +67,7 @@ int IRC_RANKING_InputGetFlick(State *p, Pair *start, Pair *end, Vec *delta, int 
                 b.x = convert(p->end.x);
                 b.z = 0;
                 b.y = y;
-                func_0207CA00(&a, &b, delta);
+                VEC_Subtract(&a, &b, delta);
             }
             if (count)
                 *count = p->count;

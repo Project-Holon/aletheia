@@ -13,23 +13,23 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02096578  0x02096578  arm
+ *   wcslen  0x02096578  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_0205A16C  0x0205A16C  arm
- *   func_02094860  0x02094860  arm
- *   func_02094B20  0x02094B20  arm
+ *   strncpy  0x02094860  arm
+ *   strstr  0x02094B20  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0217956C  0x0217956C  arm  ov009
+ *   DWC_Http_Create  0x0217956C  arm  ov009
  *   func_02178F4C  0x02178F4C  arm  ov009
  *   func_02179218  0x02179218  arm  ov009
- *   func_02179F3C  0x02179F3C  arm  ov009
- *   func_0217A044  0x0217A044  arm  ov009
- *   func_02096594  0x02096594  arm
+ *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
+ *   DWC_Http_Add_Body  0x0217A044  arm  ov009
+ *   wcscpy  0x02096594  arm
  *   func_0205A1B0  0x0205A1B0  arm
- *   func_0217967C  0x0217967C  arm  ov009
+ *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
  *   OS_GetThreadPriority  0x02085A30  arm
- *   func_02179718  0x02179718  arm  ov009
- *   func_02179CF4  0x02179CF4  arm  ov009
+ *   DWC_Http_StartThread  0x02179718  arm  ov009
+ *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   func_0217C050  0x0217C050  arm  ov009
  *   func_0217C060  0x0217C060  arm  ov009
  *   g_021ACEF0     0x021ACEF0  data ov009
@@ -43,19 +43,19 @@
  *   g_021A2800     0x021A2800  data ov009
  *   g_021A2808     0x021A2808  data ov009
  *   g_021A2810     0x021A2810  data ov009
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *   OS_IsThreadTerminated  0x0208574C  arm
- *   func_0205BDD0  0x0205BDD0  arm
+ *   DWC_AC_GetApType  0x0205BDD0  arm
  *   func_02059F54  0x02059F54  arm
- *   func_0217A484  0x0217A484  arm  ov009
+ *   DWC_Http_ParseResult  0x0217A484  arm  ov009
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
  *   g_021A27B8     0x021A27B8  data ov009
  *   g_021A2818     0x021A2818  data ov009
  *   g_021A2820     0x021A2820  data ov009
- *   g_02153FAC     0x02153FAC  data
+ *   errno     0x02153FAC  data
  *   g_021A282C     0x021A282C  data ov009
  *   g_021A2838     0x021A2838  data ov009
  *   DWC_Alloc                    0x0205A16C  arm
@@ -128,32 +128,32 @@ typedef struct DWCProfFieldNames {
     char *name[8];
 } DWCProfFieldNames;
 
-extern int func_02096578(const unsigned short *s);
+extern int wcslen(const unsigned short *s);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void *func_0205A16C(int name, unsigned long size);
-extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
-extern char *func_02094B20(const char *s1, const char *s2);
+extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+extern char *strstr(const char *s1, const char *s2);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
+extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_0217A044(char *http, char *data);
-extern unsigned short *func_02096594(unsigned short *dst, const unsigned short *src);
+extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
+extern int DWC_Http_Add_Body(char *http, char *data);
+extern unsigned short *wcscpy(unsigned short *dst, const unsigned short *src);
 extern void func_0205A1B0(int name, void *ptr, long size);
-extern int func_0217967C(char *http);
+extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(OSThread *thread);
-extern void func_02179718(char *http, unsigned long prio);
-extern void func_02179CF4(char *http);
+extern void DWC_Http_StartThread(char *http, unsigned long prio);
+extern void DWC_Http_Destroy(char *http);
 extern void *func_0217C050(unsigned long name, long size);
 extern void func_0217C060(unsigned long name, void *ptr, long size);
 extern int OS_IsThreadTerminated(OSThread *thread);
-extern unsigned char func_0205BDD0(void);
+extern unsigned char DWC_AC_GetApType(void);
 extern void func_02059F54(int error, int errorCode);
-extern int func_0217A484(DWCHttp *http, int noparsebody);
+extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
 int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
@@ -178,11 +178,11 @@ extern char g_021A27F4[];
 extern char g_021A2800[];
 extern char g_021A2808[];
 extern char g_021A2810[];
-extern OSThreadInfo g_02150FEC;
+extern OSThreadInfo gMslRefToken;
 extern const DWCProfFieldNames g_021A27B8;
 extern char g_021A2818[];
 extern char g_021A2820[];
-extern int g_02153FAC;
+extern int errno;
 extern char g_021A282C[];
 extern char g_021A2838[];
 
@@ -196,10 +196,10 @@ extern char g_021A2838[];
  *
  * All 40 relocations resolve.  The last one to close was the wide-string copy
  * at arm9 0x02096594 (PC24 at +0x2C8): the second unlabelled leaf trailing
- * func_02096508's word run, which no `label`/`literal`/`sole-ref` class could
+ * fwide's word run, which no `label`/`literal`/`sole-ref` class could
  * see because the listing has it as bare `.word`s.  Reproducing it as
- * src/matched/arm9/func_02096594.c (EXACT) gave the `matched` class the
- * witness, the same route func_02096578 already had.
+ * src/matched/arm9/wcscpy.c (EXACT) gave the `matched` class the
+ * witness, the same route wcslen already had.
  */
 int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int timeout,
                   char *result, int *badwordsnum, char *region)
@@ -217,7 +217,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
 
     totalnum_wchar = 0;
     for (i = 0; i < wordsnum; i++)
-        totalnum_wchar += func_02096578(words[i]) + 1;
+        totalnum_wchar += wcslen(words[i]) + 1;
     if (totalnum_wchar - 1 <= 0 || totalnum_wchar - 1 > 500)
         return 0;
 
@@ -235,9 +235,9 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     g_021ACEF0->result = result;
     g_021ACEF0->badwordsnum = badwordsnum;
     g_021ACEF0->wordsnum = wordsnum;
-    func_02094860((u8 *)g_021ACEF0->url, (const u8 *)g_021A2358.url, 256);
+    strncpy((u8 *)g_021ACEF0->url, (const u8 *)g_021A2358.url, 256);
     g_021ACEF0->url[256] = '\0';
-    pos = func_02094B20(g_021ACEF0->url, g_021A27D8);
+    pos = strstr(g_021ACEF0->url, g_021A27D8);
     if (pos == 0)
         goto error;
     MI_CpuCopy8(g_021A27E0, pos, 4);
@@ -253,7 +253,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     else
         httpparam.timeout = timeout;
 
-    if (func_0217956C(&g_021ACEF0->http, &httpparam) != 0)
+    if (DWC_Http_Create(&g_021ACEF0->http, &httpparam) != 0)
         goto error;
     g_021ACEF0->http_initialized = 1;
 
@@ -261,15 +261,15 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
         goto error;
     if (!func_02179218(&g_021ACEF0->http, &calinfo, g_021ACE70))
         goto error;
-    if (func_02179F3C(&g_021ACEF0->http, g_021A27E4, region, 1) != 0)
+    if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A27E4, region, 1) != 0)
         goto error;
-    if (func_02179F3C(&g_021ACEF0->http, g_021A27EC, g_021A27F4, 8) != 0)
+    if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A27EC, g_021A27F4, 8) != 0)
         goto error;
     if (reserved != 0) {
-        if (func_02179F3C(&g_021ACEF0->http, g_021A2800, reserved, 4) != 0)
+        if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A2800, reserved, 4) != 0)
             goto error;
     }
-    if (func_0217A044((char *)(&g_021ACEF0->http), g_021A2808) != 0)
+    if (DWC_Http_Add_Body((char *)(&g_021ACEF0->http), g_021A2808) != 0)
         goto error;
 
     sendstring = func_0205A16C(0, totalnum_wchar * sizeof(unsigned short));
@@ -277,22 +277,22 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
         goto error;
     wchar_index = 0;
     for (i = 0; i < wordsnum; i++) {
-        func_02096594(&sendstring[wchar_index], words[i]);
-        wchar_index += func_02096578(words[i]);
+        wcscpy(&sendstring[wchar_index], words[i]);
+        wchar_index += wcslen(words[i]);
         if (wchar_index >= totalnum_wchar - 1)
             break;
         sendstring[wchar_index++] = L'\t';
     }
 
-    if (func_02179F3C(&g_021ACEF0->http, g_021A2810, (char *)sendstring,
+    if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A2810, (char *)sendstring,
                       (totalnum_wchar - 1) * sizeof(unsigned short)) != 0)
         goto error;
     func_0205A1B0(0, sendstring, 0);
     sendstring = 0;
 
-    if (func_0217967C((char *)(&g_021ACEF0->http)) != 0)
+    if (DWC_Http_FinishHeader((char *)(&g_021ACEF0->http)) != 0)
         goto error;
-    func_02179718((char *)(&g_021ACEF0->http), OS_GetThreadPriority(g_02150FEC.current) - 1);
+    DWC_Http_StartThread((char *)(&g_021ACEF0->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
     if (g_021ACEF0->http.thread.id != 0)
         return 1;
 
@@ -301,7 +301,7 @@ error:
         func_0205A1B0(0, sendstring, 0);
     if (g_021ACEF0 != 0) {
         if (g_021ACEF0->http_initialized == 1)
-            func_02179CF4((char *)(&g_021ACEF0->http));
+            DWC_Http_Destroy((char *)(&g_021ACEF0->http));
         func_0205A1B0(0, g_021ACEF0, 0);
         g_021ACEF0 = 0;
     }
@@ -345,7 +345,7 @@ int func_0217BC90(void)
     if (g_021ACEF0 == 0 || g_021ACEF0->http.thread.id == 0)
         return 0;
     if (OS_IsThreadTerminated(&g_021ACEF0->http.thread) == 1) {
-        aptype = func_0205BDD0();
+        aptype = DWC_AC_GetApType();
         if (aptype == 0xff || aptype > 99)
             aptype = 99;
 
@@ -375,7 +375,7 @@ int func_0217BC90(void)
         return 1;
     }
 
-    func_02179CF4((char *)(&g_021ACEF0->http));
+    DWC_Http_Destroy((char *)(&g_021ACEF0->http));
     func_0205A1B0(0, g_021ACEF0, 0);
     g_021ACEF0 = 0;
     return retval;
@@ -399,7 +399,7 @@ int func_0217BDA8(void)
     int j;
     DWCHttp *DWChttp = &g_021ACEF0->http;
 
-    if (!func_0217A484(DWChttp, 0))
+    if (!DWC_Http_ParseResult(DWChttp, 0))
         goto error;
 
     strp = func_0217A728(DWChttp, g_021A2818);
@@ -409,14 +409,14 @@ int func_0217BDA8(void)
     strp = func_0217A728(DWChttp, g_021A2820);
     if (strp == 0)
         goto error;
-    httpretcode = func_020964E0((u32)strp);
-    if (g_02153FAC == 34 || httpretcode != 200)
+    httpretcode = atoi((u32)strp);
+    if (errno == 34 || httpretcode != 200)
         goto error;
 
     if (func_0217A77C(DWChttp, g_021A282C, retcode, 4) <= 0)
         goto error;
-    httpretcode = func_020964E0((u32)retcode);
-    if (g_02153FAC == 34)
+    httpretcode = atoi((u32)retcode);
+    if (errno == 34)
         goto error;
     if (httpretcode == 1 || (httpretcode >= 100 && httpretcode != 100)) {
         func_02059F54(17, -33000 - httpretcode);

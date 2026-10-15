@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0205F7C8",
+   "name": "NCFG_WriteBackupMemory",
    "address": "0x0205F7C8",
    "kind": "sdk",
    "region": "arm9",
@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_02060368",
+   "name": "NCFGi_ConvMaskAddr",
    "address": "0x02060368",
    "kind": "sdk",
    "region": "arm9",
@@ -37,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02060394",
+   "name": "NCFGi_CheckSsid",
    "address": "0x02060394",
    "kind": "sdk",
    "region": "arm9",
@@ -49,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206043C",
+   "name": "NCFGi_CheckAddress",
    "address": "0x0206043C",
    "kind": "sdk",
    "region": "arm9",

@@ -50,9 +50,9 @@
  *   BATTLE_REC_IsVersionSupported  0x0200BA38  thumb
  *   BATTLE_REC_LoadToolOverlay  0x0200BA58  thumb
  *   BATTLE_REC_UnloadToolOverlay  0x0200BA68  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   func_0200D85C  0x0200D85C  thumb
  *   func_0200D87C  0x0200D87C  thumb
  *   func_0200D884  0x0200D884  thumb
@@ -80,19 +80,19 @@
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_02011330  0x02011330  thumb
  *   VM_SetWait  0x020113D0  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012124  0x02012124  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   ICA_ANIME_SetField30  0x02012124  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_0201289C  0x0201289C  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_SetField168  0x0201289C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_02012944  0x02012944  thumb
  *   ov007_id       0x00000007  data  a1
  *   ov100_id       0x00000064  data  a1
  *   ov214_id       0x000000D6  data  a1
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
  *   BTL_SETUP_Delete  0x020130B4  thumb
@@ -255,15 +255,15 @@ extern u8 *func_02012944(void *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 struct Desc;
 struct Obj;
 struct Rec1C;
@@ -284,7 +284,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *a, struct VecFx32 *t);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void ZONEDATA_SetDirectLocation(Rec1C *out, u32 id, s16 n, u32 a, u32 b, u32 c);
-extern void func_0201289C(struct BigObj *p, const struct Rec1C *src);
+extern void GAME_DATA_SetField168(struct BigObj *p, const struct Rec1C *src);
 extern void ZONEDATA_SetEventFlag(char *a0, int a1);
 extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
@@ -308,11 +308,11 @@ extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
 extern u32 func_021CBBA0(u32 a);
 extern int BSUBWAY_SCR_UpdateStageRank(void *a, int unused, int mode);
 extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAME_DATA_GetField114(struct SaveBlock *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
-extern void *func_0200BAC8(void *p);
-extern u32 func_0200BBA8(void *a);
+extern void *BATTLE_BOX_GetFromSave(void *p);
+extern u32 BATTLE_BOX_HasMon(void *a);
 extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 extern void FLDMMDL_OnMoveBitMovePause(void *o);
 extern int FLDMMDL_GetParam(char *a0, int a1);
@@ -359,7 +359,7 @@ extern void BSUBWAY_SCR_CreatePartners(u8 *w, u8 alt);
 extern int BSUBWAY_SCR_GetRegulationNo(u32 kind);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern void *func_0200BAF4(int a0, int a1);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern int func_02019ED4(void *ctx, void *q);
 extern void BSUBWAY_SCR_LoadPartyCopy(u8 *w);
 extern int BSUBWAY_SCR_GetMemberNum(u16 kind);
@@ -394,7 +394,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_02012124(struct Ctx *p, u32 v);
+extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern u32 func_0200FB24(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 
@@ -453,15 +453,15 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
     h = SCRCMD_WORK_GetScriptWork((void *)b);
     SCRIPT_WORK_ResetFieldParam((int)h);
     x = (u32)SCRIPT_WORK_GetGameSystem(h);
-    s4c = (u32)func_020120F4((const struct Ctx *)x);
+    s4c = (u32)ICA_ANIME_GetField1C((const struct Ctx *)x);
     s48 = (u32)GAME_DATA_GetSaveControl((struct Big *)s4c);
-    s44 = func_0201296C((const struct BigObj *)s4c);
+    s44 = GAME_DATA_GetEventWork((const struct BigObj *)s4c);
     w = GAME_DATA_GetCurrentEvent((struct Big *)s4c);
     s40 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x39);
     s3c = func_0200D884((struct Blk3C *)s40, 0, 0);
     s38 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x3a);
     s34 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x3b);
-    s30 = func_0201210C((void *)x);
+    s30 = ICA_ANIME_GetField20((void *)x);
     cmd = func_02011330(a);
     p1 = SCRIPT_WORK_ReadWorkValue(a, b);
     p2 = SCRIPT_WORK_ReadWorkValue(a, b);
@@ -507,7 +507,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
             break;
         }
         ZONEDATA_SetDirectLocation(&r4, FIELDMAP_GetZoneId(s30), n, t.a, t.b, t.c);
-        func_0201289C((struct BigObj *)s4c, (const struct Rec1C *)(&r4));
+        GAME_DATA_SetField168((struct BigObj *)s4c, (const struct Rec1C *)(&r4));
         ZONEDATA_SetEventFlag((char *)s44, 0x966);
         break;
     }
@@ -629,12 +629,12 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         *dst = func_0200DB80((struct Blk1AC *)s38, p1);
         break;
     case 31:
-        *dst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct Sub0200852CObj *)((u8 *)func_020127A4((struct SaveBlock *)s4c) + 0x20)) == 0 ? 1 : 0, 0);
+        *dst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct Sub0200852CObj *)((u8 *)GAME_DATA_GetField114((struct SaveBlock *)s4c) + 0x20)) == 0 ? 1 : 0, 0);
         break;
     case 32: {
-        u32 o = (u32)func_0200BAC8((void *)s48);
+        u32 o = (u32)BATTLE_BOX_GetFromSave((void *)s48);
         *dst = 0;
-        if (func_0200BBA8((void *)o) == 1)
+        if (BATTLE_BOX_HasMon((void *)o) == 1)
             *dst = 1;
         break;
     }
@@ -700,7 +700,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         u16 i = BSUBWAY_SCR_GetTrainNo(s30);
         const Trip *e = &data_021DAE50[i];
         ZONEDATA_SetDirectLocation(&r45, data_021DADAC[i], 4, e->a, e->b, e->c);
-        func_0201289C((struct BigObj *)s4c, (const struct Rec1C *)(&r45));
+        GAME_DATA_SetField168((struct BigObj *)s4c, (const struct Rec1C *)(&r45));
         ZONEDATA_SetEventFlag((char *)s44, 0x966);
         break;
     }
@@ -771,7 +771,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         if (s3c < 9) {
             const Trip *e = &data_021DAE50[s3c];
             ZONEDATA_SetDirectLocation(&r322, data_021DADAC[s3c], 4, e->a, e->b, e->c);
-            func_0201289C((struct BigObj *)s4c, (const struct Rec1C *)(&r322));
+            GAME_DATA_SetField168((struct BigObj *)s4c, (const struct Rec1C *)(&r322));
             ZONEDATA_SetEventFlag((char *)s44, 0x966);
         }
         break;
@@ -900,7 +900,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     }
     case 335:
-        BSUBWAY_SCR_CreatePartners(w, func_02008550((const struct Sub0200852CObj *)((u8 *)func_020127A4((struct SaveBlock *)s4c) + 0x20)) == 0 ? 1 : 0);
+        BSUBWAY_SCR_CreatePartners(w, func_02008550((const struct Sub0200852CObj *)((u8 *)GAME_DATA_GetField114((struct SaveBlock *)s4c) + 0x20)) == 0 ? 1 : 0);
         break;
     case 336:
         *dst = *(u16 *)(w + p1 * 2 + 0x22);
@@ -921,10 +921,10 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         mode = func_0200D884((struct Blk3C *)s40, 10, 0);
         rules = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(s3c), 4);
         if (mode == 1) {
-            p4 = func_0200BAF4((u32)func_0200BAC8((void *)s48), 4);
+            p4 = func_0200BAF4((u32)BATTLE_BOX_GetFromSave((void *)s48), 4);
             party = p4;
         } else {
-            party = func_02012934((void *)s4c);
+            party = GAME_DATA_GetMyParty((void *)s4c);
         }
         res = func_02019ED4(rules, party);
         func_020307B0(rules);
@@ -1151,7 +1151,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         GFL_NET_ERR_RequestScreen();
         break;
     case 414:
-        func_02012124((struct Ctx *)x, 1);
+        ICA_ANIME_SetField30((struct Ctx *)x, 1);
         break;
     case 415:
         *dst = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020760B4",
+   "name": "CARDi_InitCommand",
    "address": "0x020760B4",
    "kind": "sdk",
    "region": "arm9",

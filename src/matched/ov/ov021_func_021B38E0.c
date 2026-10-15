@@ -18,10 +18,10 @@
  * symbols:
  *   SCRCMD_PROC_FLD_BuildItemListByBadges 0x021B38E0 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_02021288 0x02021288 thumb
+ *   FILE_UTIL_Check1288 0x02021288 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   SCRCMD_PROC_FLD_SetItemSlot 0x021B385C thumb ov021
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   GPOWER_ApplyShopPrice 0x0201102C thumb
  *   SCRCMD_PROC_FLD_LoadItemRows 0x021B3834 thumb ov021
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
@@ -40,10 +40,10 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02021288(u32 id);
+extern u32 FILE_UTIL_Check1288(u32 id);
 extern void *BMP_MENUWORK_Create(int, int);
 extern void SCRCMD_PROC_FLD_SetItemSlot(char *p, int idx, int mode, int val, int arg);
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
 extern u32 GPOWER_ApplyShopPrice(u32 v);
 struct Slot;
 extern u32 SCRCMD_PROC_FLD_LoadItemRows(u8 *p, int n);
@@ -70,7 +70,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(char *p, int a, int b, int c)
         idx = b + 6;
     }
     off = idx * 4;
-    if (func_02021288(**(u16 **)((char *)d_021DE1A8 + off))) {
+    if (FILE_UTIL_Check1288(**(u16 **)((char *)d_021DE1A8 + off))) {
         ((struct Obj00037 *)p)->f162 = 1;
         off = idx * 4;
     }
@@ -81,7 +81,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(char *p, int a, int b, int c)
         SCRCMD_PROC_FLD_SetItemSlot(p, k, ((struct Obj00037 *)p)->f162, v, (int)q);
         e = p + k * 8;
         ((struct Obj12843 *)e)->f20 = v;
-        ((struct Obj12843 *)e)->f24 = GPOWER_ApplyShopPrice(func_02020FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
+        ((struct Obj12843 *)e)->f24 = GPOWER_ApplyShopPrice(FILE_UTIL_Get_0FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
     }
     ((struct Obj00037 *)p)->f160 = k;
     SCRCMD_PROC_FLD_LoadItemRows((u8 *)(p + 32), ((struct Obj00037 *)p)->f160);

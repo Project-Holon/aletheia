@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
@@ -42,7 +42,7 @@
  *   PALETTE_ANIME_Stop  0x021C2A00  thumb  ov217
  *   PALETTE_ANIME_Update  0x021C29F0  thumb  ov217
  *   RESEARCH_COMMON_GetAppResource 0x021C09B4 thumb ov217
- *   func_0201296C 0x0201296C thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   RESEARCH_COMMON_GetInputFlag  0x021C09F8  thumb  ov217
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -81,15 +81,15 @@
  *   BMP_OAM_SetPalette  0x02025A54  thumb
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204162C 0x0204162C arm
- *   func_02041648  0x02041648  arm
+ *   BG_SYS_GetBuf 0x0204162C arm
+ *   BG_SYS_GetScrollX_1648  0x02041648  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021C309E 0x021C309E data a1
  *   d_021C3094 0x021C3094 data a1
  *   d_021C30D0 0x021C30D0 data a1
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_02040804  0x02040804  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
@@ -157,6 +157,8 @@
  *   FADE_IsActive  0x0204E804  arm  arm9
  *   func_02030EAC  0x02030EAC  arm
  *   func_02030734  0x02030734  arm
+ *   BG_SYS_Init  0x02040C14  arm  arm9
+ *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  */
 #include "../../matched/include/Obj00801.h"
 #include "../../matched/include/Obj25879.h"
@@ -314,7 +316,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 extern void func_0203FC28(struct DispConfig *cfg);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
@@ -382,7 +384,7 @@ extern void PALETTE_ANIME_Update(int);
 
 extern unsigned RESEARCH_COMMON_GetAppResource(void *);
 
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
@@ -408,9 +410,9 @@ extern void BMP_WIN_Init(u16);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern u32 func_020414EC();
+extern u32 BG_SYS_ClearSlot();
 
 extern void func_02040DA8(u32, u32, u32);
 
@@ -470,15 +472,15 @@ extern void BMP_OAM_SetPalette(u8 *g, u32 a);
 
 extern void func_02041B6C(u32 layer);
 
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 
-extern u32 func_02041648(u8 channel);
+extern u32 BG_SYS_GetScrollX_1648(u8 channel);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
 
 extern void BgTextLabel_SetVisible(u8 *p, int visible);
 
-extern void func_02041EE4(unsigned layer,unsigned mode,unsigned value);
+extern void BG_SYS_ResetSlot(unsigned layer,unsigned mode,unsigned value);
 
 extern u32 func_02040804(u32 layer);
 
@@ -1945,8 +1947,8 @@ void RESEARCH_LIST_ShiftTextRight(u32 object,u32 slot)
     int column;
     Index index;
     int base,destination;
-    first=(u16 *)func_0204162C(2);
-    second=(u16 *)func_0204162C(3);
+    first=(u16 *)BG_SYS_GetBuf(2);
+    second=(u16 *)BG_SYS_GetBuf(3);
     for(row=0;row<3;row++) {
         for(column=0;column<28;column++) {
             base=RESEARCH_LIST_GetRowBase(object,slot);
@@ -1975,8 +1977,8 @@ void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
     int column;
     Index index;
     int base,destination;
-    first=(u16 *)func_0204162C(2);
-    second=(u16 *)func_0204162C(3);
+    first=(u16 *)BG_SYS_GetBuf(2);
+    second=(u16 *)BG_SYS_GetBuf(3);
     for(row=2;row>=0;row--) {
         for(column=27;column>=0;column--) {
             base=RESEARCH_LIST_GetRowBase(object,slot);
@@ -2019,7 +2021,7 @@ u32 RESEARCH_LIST_GetRowBase(u32 unused, u32 v)
 int RESEARCH_LIST_GetEntryScreenX(unsigned char *p, unsigned int slot)
 {
     int t = RESEARCH_LIST_GetRowOffset((unsigned int)p, slot) << 3;
-    return t - func_02041648(2);
+    return t - BG_SYS_GetScrollX_1648(2);
 }
 
 int RESEARCH_LIST_GetEntryScreenY(unsigned char *p, unsigned char index)
@@ -2298,12 +2300,12 @@ void RESEARCH_LIST_ApplyScrollRegs(u8 *p)
     high=RESEARCH_LIST_GetScrollMax();
     if(position<low) {
         position-=24;
-        func_02041EE4(2,3,position);
-        func_02041EE4(3,3,position);
+        BG_SYS_ResetSlot(2,3,position);
+        BG_SYS_ResetSlot(3,3,position);
     } else if(high<position) {
         position-=168;
-        func_02041EE4(2,3,position);
-        func_02041EE4(3,3,position);
+        BG_SYS_ResetSlot(2,3,position);
+        BG_SYS_ResetSlot(3,3,position);
     }
 }
 
@@ -2727,7 +2729,7 @@ void RESEARCH_LIST_CountUnlockedEntries(u8 *p)
 {
     void *bitmap;
     int n;
-    bitmap = (void *)func_0201296C((const struct BigObj *)RESEARCH_LIST_GetAppResource(p));
+    bitmap = (void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_LIST_GetAppResource(p));
     n = 1;
     if (ZONEDATA_CheckEventFlag(bitmap, 240) == 1) n++;
     if (ZONEDATA_CheckEventFlag(bitmap, 241) == 1) n++;
@@ -2844,11 +2846,11 @@ void RESEARCH_LIST_InitTables(u8 *p)
 void RESEARCH_LIST_InitBackgrounds(char *p)
 {
     func_0203FC28(&d_021C30C0);
-    func_0203FCA0(6, &d_021C3110, 0);
-    func_0203FCA0(7, &d_021C3130, 0);
-    func_0203FCA0(0, &d_021C30F0, 0);
-    func_0203FCA0(2, &d_021C3150, 0);
-    func_0203FCA0(3, &d_021C3170, 0);
+    BG_SYS_InitBgLayer(6, &d_021C3110, 0);
+    BG_SYS_InitBgLayer(7, &d_021C3130, 0);
+    BG_SYS_InitBgLayer(0, &d_021C30F0, 0);
+    BG_SYS_InitBgLayer(2, &d_021C3150, 0);
+    BG_SYS_InitBgLayer(3, &d_021C3170, 0);
     func_02040588(4, 1);
     func_02040588(5, 1);
     func_02040588(6, 1);
@@ -2895,8 +2897,8 @@ void RESEARCH_LIST_DummyBg7(u8 *a0)
 
 u32 RESEARCH_LIST_UpdateBackground7(u32 a0)
 {
-    func_02040C14(7, 0, 1, 0);
-    return func_020414EC(7);
+    BG_SYS_Init(7, 0, 1, 0);
+    return BG_SYS_ClearSlot(7);
 }
 
 void RESEARCH_LIST_ShowBackground7(u32 a0)
@@ -2946,8 +2948,8 @@ void RESEARCH_LIST_DummyListBg(u8 *a0)
 
 u32 RESEARCH_LIST_UpdateBackground3(u32 a0)
 {
-    func_02040C14(3, 0, 1, 0);
-    return func_020414EC(3);
+    BG_SYS_Init(3, 0, 1, 0);
+    return BG_SYS_ClearSlot(3);
 }
 
 void RESEARCH_LIST_ShowBackground3(u32 a0)

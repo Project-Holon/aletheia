@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D7118",
+   "name": "POKETRADE_DEMO_MIDDLE_StepAddUnit",
    "address": "0x021D7118",
    "kind": "game",
    "region": "ov118",

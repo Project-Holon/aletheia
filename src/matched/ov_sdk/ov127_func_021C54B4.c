@@ -1,5 +1,5 @@
 /*
- * function: func_021C54B4
+ * function: WF2DMAP_OBJCMD_SpawnIfFreeThunk2
  * address:  0x021C54B4
  * packet:   pkt_021C54B4
  * region:   ov127
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5404  0x021C5404  thumb
+ *   WF2DMAP_OBJCMD_SpawnIfFree  0x021C5404  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern int func_021C5404(void *p, void *q, void *r, const u8 *s, void *t);
+extern int WF2DMAP_OBJCMD_SpawnIfFree(void *p, void *q, void *r, const u8 *s, void *t);
 
-void func_021C54B4(int a, int b, int c, int d, int e)
+void WF2DMAP_OBJCMD_SpawnIfFreeThunk2(int a, int b, int c, int d, int e)
 {
-    func_021C5404((void *)a, (void *)b, (void *)c, (const u8 *)d, (void *)e);
+    WF2DMAP_OBJCMD_SpawnIfFree((void *)a, (void *)b, (void *)c, (const u8 *)d, (void *)e);
 }

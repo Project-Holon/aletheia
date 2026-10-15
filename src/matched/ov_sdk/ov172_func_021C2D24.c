@@ -13,7 +13,7 @@
  * exifenc.o), ov172.
  *
  * Builds the RTC date/time string.  SSP_GetDateTime(&d.year, &d) forwards its two
- * pointers to func_020889C0, which fills the DateTime struct d (memory order
+ * pointers to RTC_GetDateTime, which fills the DateTime struct d (memory order
  * hour,min,sec,year,month,day); the "year" field is stored as year-2000, so the
  * formatting call adds 2000 (0x7d0).  The rendered string in the local buffer is
  * then handed to SSP_SetJpegEncoderDateTime, which copies it out to g_021CAE14.

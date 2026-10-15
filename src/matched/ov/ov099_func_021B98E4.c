@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Promoted by the recursive unblocker lane.  The +0008 ABS32 func_021C584C
+ * Promoted by the recursive unblocker lane.  The +0008 ABS32 WF2DMAP_OBJDRAW_SetActorValue2
  * call now resolves as `matched` against layout/matched/ov127/
  * pkt_ov127_021C584C.json (an unlabelled ov127 accessor veneer matched
  * after its own callee func_021C424C).  The region hint on the symbols line
  * breaks the 9-overlay overlap.
  *
  * symbols:
- *   func_021C584C  0x021C584C  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorValue2  0x021C584C  thumb  ov127
  */
 #include "../include/Obj22009.h"
 
@@ -27,5 +27,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021C584C(u8 *p, int a);
-void WIFICLUBACTOR_ResumeActorSprite(int a, u8 *b) { func_021C584C((u8 *)(((struct Obj22009 *)b)->f4), 1); }
+extern void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a);
+void WIFICLUBACTOR_ResumeActorSprite(int a, u8 *b) { WF2DMAP_OBJDRAW_SetActorValue2((u8 *)(((struct Obj22009 *)b)->f4), 1); }

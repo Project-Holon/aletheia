@@ -1,5 +1,5 @@
 /*
- * function: func_0217772C
+ * function: DWCi_ShutdownTransport
  * address:  0x0217772C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,17 +12,17 @@
  * Clears the word at the state object, then tail calls its initialiser.
  *
  * symbols:
- *   g_021AB180  0x021AB180  data
+ *   gDwcTransInfo  0x021AB180  data
  *   func_02176B80  0x02176B80  arm  ov009
  */
 
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 extern void func_02176B80(char *p);
 
-void func_0217772C(void)
+void DWCi_ShutdownTransport(void)
 {
-    *(int *)g_021AB180 = 0;
+    *(int *)gDwcTransInfo = 0;
 
-    func_02176B80(g_021AB180);
+    func_02176B80(gDwcTransInfo);
 }
 

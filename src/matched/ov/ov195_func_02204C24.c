@@ -1,5 +1,5 @@
 /*
- * function: func_02204C24
+ * function: SHINKA_DEMO_SetupScene
  * address:  0x02204C24
  * packet:   pkt_02204C24
  * region:   ov195
@@ -19,13 +19,13 @@
  *   func_0207D63C 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_022058F8 0x022058F8 thumb ov195
- *   func_02205A34 0x02205A34 thumb ov195
- *   func_022051FC 0x022051FC thumb ov195
- *   func_02205530 0x02205530 thumb ov195
- *   func_02205010 0x02205010 thumb ov195
- *   func_02205070 0x02205070 thumb ov195
- *   func_02205C74 0x02205C74 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Create 0x022058F8 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_SetupSubBg 0x02205A34 thumb ov195
+ *   SHINKA_DEMO_SetupWindows 0x022051FC thumb ov195
+ *   SHINKA_DEMO_CreateConfirmMenu 0x02205530 thumb ov195
+ *   SHINKA_DEMO_LoadSprites 0x02205010 thumb ov195
+ *   SHINKA_DEMO_CreateActors 0x02205070 thumb ov195
+ *   SHINKA_DEMO_VIEW_Create 0x02205C74 thumb ov195
  *   func_0220871C 0x0220871C thumb ov195
  */
 
@@ -73,16 +73,16 @@ extern void func_0207D63C(int, int, int, int, int);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern char *func_022058F8(u32 a, u32 b);
-extern void func_02205A34(void);
-extern void func_022051FC(int a, char *b);
-extern void func_02205530(int a, char *b);
-extern void func_02205010(int a, char *b);
-extern void func_02205070(int a, char *b);
-extern struct Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c);
+extern char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
+extern void SHINKA_DEMO_GRAPHIC_SetupSubBg(void);
+extern void SHINKA_DEMO_SetupWindows(int a, char *b);
+extern void SHINKA_DEMO_CreateConfirmMenu(int a, char *b);
+extern void SHINKA_DEMO_LoadSprites(int a, char *b);
+extern void SHINKA_DEMO_CreateActors(int a, char *b);
+extern struct Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
 extern struct Anim *func_0220871C(u16 heap, u32 x);
 
-void func_02204C24(App *a, Scene *s)
+void SHINKA_DEMO_SetupScene(App *a, Scene *s)
 {
     u8 i;
     u8 b;
@@ -92,17 +92,17 @@ void func_02204C24(App *a, Scene *s)
     func_02034AC4((u32)ov067_id);
     for (i = 0; i <= 7; i++)
         func_02040588(i, 0);
-    s->f04 = func_022058F8(1, s->heap);
-    func_02205A34();
+    s->f04 = SHINKA_DEMO_GRAPHIC_Create(1, s->heap);
+    SHINKA_DEMO_GRAPHIC_SetupSubBg();
     s->f08 = (u32)GF_FONT_Create(0x17, 0, 0, 0, s->heap);
     s->f0c = (void *)PRINTSYS_QUE_Create((void *)s->heap);
-    func_022051FC((int)a, (char *)s);
+    SHINKA_DEMO_SetupWindows((int)a, (char *)s);
     s->f9c = 0;
-    func_02205530((int)a, (char *)s);
-    func_02205010((int)a, (char *)s);
+    SHINKA_DEMO_CreateConfirmMenu((int)a, (char *)s);
+    SHINKA_DEMO_LoadSprites((int)a, (char *)s);
     s->f60 = 0;
     if (s->f28 == 0)
-        func_02205070((int)a, (char *)s);
+        SHINKA_DEMO_CreateActors((int)a, (char *)s);
     func_0204047C(0, 2);
     func_0204047C(2, 1);
     func_0204047C(1, 0);
@@ -118,9 +118,9 @@ void func_02204C24(App *a, Scene *s)
             a->f10 = 0;
     }
     if (s->f28 == 0)
-        s->f104 = func_02205C74(s->heap, 0, s->f10, a->f08);
+        s->f104 = SHINKA_DEMO_VIEW_Create(s->heap, 0, s->f10, a->f08);
     else
-        s->f104 = func_02205C74(s->heap, 1, s->f10, a->f08);
+        s->f104 = SHINKA_DEMO_VIEW_Create(s->heap, 1, s->f10, a->f08);
     if (s->f28 == 0)
         s->f108 = func_0220871C(s->heap, 0);
     else

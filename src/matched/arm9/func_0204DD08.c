@@ -34,6 +34,10 @@
  *
  * symbols:
  *   CLACT_IsVramTypeCompatible  0x0204D9B4  arm
+ *   GX_SetBankForOBJExtPltt  0x020801F8  arm
+ *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
+ *   GX_GetBankForOBJExtPltt  0x02080C34  arm
+ *   GX_GetBankForSubOBJExtPltt  0x02080C74  arm
  */
 
 typedef unsigned char  u8;
@@ -52,11 +56,11 @@ extern void func_020637D4(u32 *p);
 extern u32 CLACT_IsVramTypeCompatible(u32 a, u32 b);
 extern void func_02063E54(struct Surf *s, u32 size, int mode,
                          struct Ent *ent);
-extern u16 func_02080C34(void);
-extern u16 func_02080C74(void);
+extern u16 GX_GetBankForOBJExtPltt(void);
+extern u16 GX_GetBankForSubOBJExtPltt(void);
 extern void func_0208068C(void);
-extern void func_020801F8(int objExtPltt);
-extern void func_0208083C(int sub_objExtPltt);
+extern void GX_SetBankForOBJExtPltt(int objExtPltt);
+extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 
 void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel,
                   u32 size, u16 head, u16 tail)
@@ -110,16 +114,16 @@ void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel,
     }
 
     if (CLACT_IsVramTypeCompatible((u32)sel, 0)) {
-        saved = func_02080C34();
+        saved = GX_GetBankForOBJExtPltt();
         if (flag) func_0208068C();
         func_02063E54(surf, size, 1, (struct Ent *)(ents + off));
-        if (flag) func_020801F8(saved);
+        if (flag) GX_SetBankForOBJExtPltt(saved);
     }
     if (CLACT_IsVramTypeCompatible((u32)sel, 1)) {
-        saved = func_02080C74();
+        saved = GX_GetBankForSubOBJExtPltt();
         if (flag) func_0208068C();
         func_02063E54(surf, size, 2, (struct Ent *)(ents + off));
-        if (flag) func_0208083C(saved);
+        if (flag) GX_SetBankForSubOBJExtPltt(saved);
     }
 
     ((struct Ent *)((u8 *)h->ents + off))->unk_14 &= ~0x80000000;

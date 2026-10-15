@@ -1,5 +1,5 @@
 /*
- * function: func_0220B6D0
+ * function: B_PLIST_ANM_UploadTileBuffer
  * address: 0x0220B6D0
  * packet: pkt_ov198_0220B6D0
  * region: ov198
@@ -13,7 +13,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02041090 0x02041090 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0220B5AC 0x0220B5AC thumb ov198
+ *   B_PLIST_ANM_ApplyTilePalette 0x0220B5AC thumb ov198
  *   d_02211A74 0x02211A74 data a4
  *   d_02212540 0x02212540 data a4
  */
@@ -29,14 +29,14 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
-extern void func_0220B5AC(u8 *,void *,u8,u8,u8);
-void func_0220B6D0(u8 *p,u8 state,u8 flag,u8 mode)
+extern void B_PLIST_ANM_ApplyTilePalette(u8 *,void *,u8,u8,u8);
+void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
 {
     unsigned long off=state*4;
     u32 h=((const u8 *)d_02211A74)[off+3];
     u32 w=((const u8 *)d_02211A74)[off+2];
     void *buf=func_02030734((u16)((((struct Obj25126 *)(*(char * *)&((struct Obj25125 *)p)->f0))->f10&0x7FFF)|0x8000),w*h*2,0,d_02212540,0x205);
-    func_0220B5AC(p,buf,state,flag,mode);
+    B_PLIST_ANM_ApplyTilePalette(p,buf,state,flag,mode);
     func_02041090(6,(u32)buf,((const u8 *)d_02211A74)[off],((const u8 *)d_02211A74)[off+1],w,h);
     func_02041B6C(6);
     func_020307B0(buf);

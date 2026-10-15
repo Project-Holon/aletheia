@@ -24,7 +24,7 @@
  *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_FoldTally  0x0200E518  thumb
- *   func_0200A8A0  0x0200A8A0  thumb
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb
  *   func_0200AB04  0x0200AB04  thumb
  *
  * evidence: 0x0200E518 is an unlabelled ARM9 leaf ("push {r4, r5, r6, r7}",
@@ -56,7 +56,7 @@ extern void func_0200952C(struct Sub02009470Obj *obj);
 extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(int, int, int);
 extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
 extern void MISC_SAVEDATA_FoldTally(struct Tally *t);
-extern void *func_0200A8A0(void *sys);
+extern void *IRC_RANKING_GetFromSave(void *sys);
 extern void func_0200AB04(struct Rec0200AB04 *o);
 
 void FIELD_CLOCK_UpdateDays(int a, int b)
@@ -71,5 +71,5 @@ void FIELD_CLOCK_UpdateDays(int a, int b)
     func_0200952C(func_02009470((void *)x));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(a, b, 4);
     MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock((void *)x));
-    func_0200AB04(func_0200A8A0((void *)x));
+    func_0200AB04(IRC_RANKING_GetFromSave((void *)x));
 }

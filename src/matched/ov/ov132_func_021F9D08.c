@@ -1,5 +1,5 @@
 /*
- * function: func_021F9D08
+ * function: STA_ACTING_DeleteAnimHandle
  * address:  0x021F9D08
  * packet:   pkt_021F9D08
  * region:   ov132
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 extern void func_021F9F58(u8 *unused, u8 *p);
 
-void func_021F9D08(char *p)
+void STA_ACTING_DeleteAnimHandle(char *p)
 {
     func_021F9F58(((struct Obj14087 *)p)->f6C, ((struct Obj14087 *)p)->fBC);
 }

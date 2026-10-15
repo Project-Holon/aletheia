@@ -23,6 +23,12 @@
  *   FS_ReadFile  0x02078B70  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   FS_OpenFileEx  0x020789FC  arm  arm9
+ *   FS_GetFileLength  0x02078A94  arm  arm9
+ *   FS_GetFilePosition  0x02078AEC  arm  arm9
+ *   FS_SeekFile  0x02078B44  arm  arm9
+ *   FS_WriteFile  0x02078BC4  arm  arm9
+ *   FS_CreateFileFromMemory  0x0207A940  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -99,14 +105,14 @@ extern void OS_CreateThread(void *, void (*)(void *), void *, void *, u32, u32);
 extern void OS_WakeupThreadDirect(void *);
 extern BOOL OS_SendMessage(void *, void *, int);
 extern BOOL func_02085E50(void *queue, void *msg, s32 flags);
-extern BOOL func_020789FC(FSFile *file, const char *path, u32 mode);
+extern BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
 extern void FS_CloseFile(FSFile *file);
-extern u32 func_02078A94(FSFile *file);
-extern u32 func_02078AEC(FSFile *file);
-extern BOOL func_02078B44(FSFile *file, long offset, int origin);
+extern u32 FS_GetFileLength(FSFile *file);
+extern u32 FS_GetFilePosition(FSFile *file);
+extern BOOL FS_SeekFile(FSFile *file, long offset, int origin);
 extern s32 FS_ReadFile(FSFile *file, void *dst, s32 len);
-extern s32 func_02078BC4(FSFile *file, const void *src, s32 len);
-extern BOOL func_0207A940(FSFile *file, void *buf, u32 size);
+extern s32 FS_WriteFile(FSFile *file, const void *src, s32 len);
+extern BOOL FS_CreateFileFromMemory(FSFile *file, void *buf, u32 size);
 extern void DSP_SendDataCore(u32, u32);
 extern u16 DSP_GetSemaphoreCore(void);
 extern u32 DSP_RecvDataIsReadyCore(u32 ch);
@@ -184,7 +190,7 @@ void DSPi_FileIOProc(void *arg)
                 pathLen = pathLen * 2;
                 DSP_ReadPipe(&in, path, pathLen);
                 path[pathLen] = 0;
-                func_020789FC(file, (const char *)path, openMode);
+                FS_OpenFileEx(file, (const char *)path, openMode);
                 openRes = FS_IsFile(file) ? 1 : 0;
                 DSP_WritePipe(&out, &openRes, 2);
                 break;
@@ -193,7 +199,7 @@ void DSPi_FileIOProc(void *arg)
                 DSP_ReadPipe(&in, &readB, 4);
                 readA = (readA >> 16) | (readA << 16);
                 readB = ((readB >> 16) | (readB << 16)) << 1;
-                func_0207A940(file, (void *)readA, readB);
+                FS_CreateFileFromMemory(file, (void *)readA, readB);
                 memRes = FS_IsFile(file) ? 1 : 0;
                 DSP_WritePipe(&out, &memRes, 2);
                 break;
@@ -206,8 +212,8 @@ void DSPi_FileIOProc(void *arg)
                 DSP_ReadPipe(&in, &seekPos, 4);
                 DSP_ReadPipe(&in, &seekMode, 2);
                 seekPos = (seekPos >> 16) | (seekPos << 16);
-                func_02078B44(file, seekPos, seekMode);
-                seekOut = func_02078AEC(file);
+                FS_SeekFile(file, seekPos, seekMode);
+                seekOut = FS_GetFilePosition(file);
                 seekOut = (seekOut >> 16) | (seekOut << 16);
                 DSP_WritePipe(&out, &seekOut, 4);
                 break;
@@ -215,7 +221,7 @@ void DSPi_FileIOProc(void *arg)
                 DSP_ReadPipe(&in, &readLen, 2);
                 readLen = readLen << 1;
                 {
-                    u32 rest = func_02078A94(file) - func_02078AEC(file);
+                    u32 rest = FS_GetFileLength(file) - FS_GetFilePosition(file);
                     u32 t = readLen;
                     if (t > rest) {
                         t = rest;
@@ -237,7 +243,7 @@ void DSPi_FileIOProc(void *arg)
                 while (writeLen != 0) {
                     u16 n = writeLen > 0x100 ? 0x100 : writeLen;
                     DSP_ReadPipe(&in, wbuf, n);
-                    func_02078BC4(file, wbuf, n);
+                    FS_WriteFile(file, wbuf, n);
                     writeLen = writeLen - n;
                 }
                 break;

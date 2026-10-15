@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_021B8308  0x021B8308  thumb  ov071
  *   func_021B8350  0x021B8350  thumb  ov071
@@ -45,21 +45,21 @@ typedef unsigned char  u8;
 struct Obj0203159C;
 int MONOLITH_TOOL_MENU_Create(struct Obj0203159C *a, int unused, C *c)
 {
-    extern void *func_020120F4(const struct Ctx *p);
+    extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
     extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
     extern void MI_CpuFill8(void *, int, int);
-    extern u32 func_0201296C(const struct BigObj *p);
+    extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
     extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
     extern void func_021B8308(void);
     extern void func_021B8350(W *, int *);
     extern void func_021B81A0(int *a, u8 *p);
     extern void func_021B82E4(void *, int);
     extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-    void *h = func_020120F4(*(void **)c->q);
+    void *h = ICA_ANIME_GetField1C(*(void **)c->q);
     W *w = PROCSYS_AllocProcWork(a, 0x48, 0x61);
 
     MI_CpuFill8(w, 0, 0x48);
-    if (ZONEDATA_CheckEventFlag((void *)func_0201296C(h), 0x980) == 0) {
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(h), 0x980) == 0) {
         w->f32 = 2;
     } else if (c->q->f3d == 1) {
         w->f32 = 1;

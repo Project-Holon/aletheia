@@ -1,5 +1,5 @@
 /*
- * function: func_02168DA4
+ * function: DWCi_UpdateServersAsync
  * address:  0x02168DA4
  * packet:   pkt_02156B70
  * region:   ov009
@@ -22,7 +22,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-void func_02168DA4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+void DWCi_UpdateServersAsync(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     *(int *)(*(char **)(((char *)&g_021AA860) + 0x0c) + 0x2c) = a2;
     *(int *)(*(char **)(((char *)&g_021AA860) + 0x0c) + 0x30) = a3;

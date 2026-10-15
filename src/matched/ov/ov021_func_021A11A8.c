@@ -15,7 +15,7 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_020414AC  0x020414AC  arm
  *   func_0204152C  0x0204152C  arm
@@ -43,7 +43,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 struct BgTemplate;
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_0204152C(int channel, u16 val);
@@ -64,7 +64,7 @@ void FIELD_SUBSCREEN_InitMenu(u32 *p, u32 x)
     f = 0;
     if (x == 0 || x - 2 <= 4)
         f = 1;
-    func_0203FCA0(4, (const struct BgTemplate *)d_021D8708, 0);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021D8708, 0);
     func_02040588(4, 1);
     func_020414AC(4);
     func_0204152C(4, 0);

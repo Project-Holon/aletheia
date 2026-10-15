@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02091588
+ * function: abs
  * address:  0x02091588
  * packet:   pkt_020913FC
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02091588(int x){ return x < 0 ? -x : x; }
+int abs(int x){ return x < 0 ? -x : x; }

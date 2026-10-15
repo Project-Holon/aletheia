@@ -1,7 +1,7 @@
 /*
  * file:     sta_net.c
  * unit:     yes
- * function: func_021FD4F8, func_021FD52C, func_021FD550, func_021FD5E4, func_021FD634, func_021FD68C, func_021FD6A4, func_021FD6C8, func_021FD6DC, func_021FD6F0, func_021FD704, func_021FD76C, func_021FD7D4, func_021FD83C, func_021FD844, func_021FD84C, func_021FD8C4, func_021FD8D4, func_021FD8EC, func_021FD904, func_021FD908, func_021FD910, func_021FD918, func_021FD938
+ * function: STA_NET_FindRecValueByKey, STA_NET_BeginTransfer, STA_NET_UpdateTransferState, STA_NET_SendChunk, STA_NET_AdvanceChunk, STA_NET_GetChunkPtr, STA_NET_IsTransferDone, STA_NET_NotifyHostKind4, STA_NET_NotifyHostKind5, STA_NET_NotifyHostKind6, STA_NET_SendSlot1Command, STA_NET_SendSlot2Command, STA_NET_SendSlot3Command, STA_NET_GetSlot1Done, STA_NET_GetIndexedWord5E, STA_NET_SendRandomOrder, STA_NET_SendKindA, STA_NET_GetCurrentSlotValue, STA_NET_GetSlotValueByIndex, STA_NET_GetField48, STA_NET_GetField158, STA_NET_GetIndexedWord57, STA_NET_SetState6Pair, STA_NET_SetState12
  * address:  0x021FD4F8
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -71,40 +71,40 @@ extern void func_021FCE74(int unused, int kind, u32 value, u32 id);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
 extern void func_021FCDEC(int,int);
-u32 func_021FD4F8(struct Ctx *p, u8 key);
-void func_021FD52C(S *s);
-void func_021FD550(char *p);
-int func_021FD5E4(char *p,u32 i);
-void func_021FD634(int a,int b,int c,char *p);
-void *func_021FD68C(int a,char *p);
-int func_021FD6A4(char *p);
-int func_021FD6C8(u8 *p);
-int func_021FD6DC(char *p);
-int func_021FD6F0(char *p);
-int func_021FD704(u8 *p);
-void func_021FD744(void *a, void *b, void *c, u8 *p);
-u32 func_021FD760(void *a, u8 *p);
-int func_021FD76C(u8 *p);
-void func_021FD7AC(void *a, void *b, void *c, u8 *p);
-u32 func_021FD7C8(void *a, u8 *p);
-int func_021FD7D4(u8 *p);
-void func_021FD814(void *a, void *b, void *c, u8 *p);
-u32 func_021FD830(void *a, u8 *p);
-u32 func_021FD83C(char *p);
-int func_021FD844(int *p);
-int func_021FD84C(u8 *p);
-void func_021FD8C4(char *p, int a);
-u32 func_021FD8D4(char *p);
-u8 func_021FD8EC(char *p, int index);
-u32 func_021FD8F8(char *p,u32 index);
-int func_021FD904(int *p);
-u32 func_021FD908(u8 *p);
-int func_021FD910(int *p);
-void func_021FD918(char *p, u32 a, int b);
-void func_021FD938(char *p);
-void func_021FD948(char *p,u32 value);
-u32 func_021FD954(char *p);
-u32 func_021FD95C(char *p);
+u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
+void STA_NET_BeginTransfer(S *s);
+void STA_NET_UpdateTransferState(char *p);
+int STA_NET_SendChunk(char *p,u32 i);
+void STA_NET_AdvanceChunk(int a,int b,int c,char *p);
+void *STA_NET_GetChunkPtr(int a,char *p);
+int STA_NET_IsTransferDone(char *p);
+int STA_NET_NotifyHostKind4(u8 *p);
+int STA_NET_NotifyHostKind5(char *p);
+int STA_NET_NotifyHostKind6(char *p);
+int STA_NET_SendSlot1Command(u8 *p);
+void STA_NET_SetSlot1Done(void *a, void *b, void *c, u8 *p);
+u32 STA_NET_GetSlot1Value(void *a, u8 *p);
+int STA_NET_SendSlot2Command(u8 *p);
+void STA_NET_SetSlot2Done(void *a, void *b, void *c, u8 *p);
+u32 STA_NET_GetSlot2Value(void *a, u8 *p);
+int STA_NET_SendSlot3Command(u8 *p);
+void STA_NET_SetSlot3Done(void *a, void *b, void *c, u8 *p);
+u32 STA_NET_GetSlot3Value(void *a, u8 *p);
+u32 STA_NET_GetSlot1Done(char *p);
+int STA_NET_GetIndexedWord5E(int *p);
+int STA_NET_SendRandomOrder(u8 *p);
+void STA_NET_SendKindA(char *p, int a);
+u32 STA_NET_GetCurrentSlotValue(char *p);
+u8 STA_NET_GetSlotValueByIndex(char *p, int index);
+u32 STA_NET_GetSlotWordByIndex(char *p,u32 index);
+int STA_NET_GetField48(int *p);
+u32 STA_NET_GetField158(u8 *p);
+int STA_NET_GetIndexedWord57(int *p);
+void STA_NET_SetState6Pair(char *p, u32 a, int b);
+void STA_NET_SetState12(char *p);
+void STA_NET_SetState18Value(char *p,u32 value);
+u32 STA_NET_GetPairA(char *p);
+u32 STA_NET_GetPairB(char *p);
 
 
 /*
@@ -112,7 +112,7 @@ u32 func_021FD95C(char *p);
  * four 48-byte records at +0x60 for one whose id byte (+0x12) equals the key
  * and whose state word (+4) is 1; returns its word at +0x1C, else 0.
  */
-u32 func_021FD4F8(struct Ctx *p, u8 key)
+u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key)
 {
     u8 i;
 
@@ -128,7 +128,7 @@ u32 func_021FD4F8(struct Ctx *p, u8 key)
  * Unlabelled leaf hidden in a .word run; helper whose address is the
  * witness for the call in ov010 MUSICAL_DRESSUP_SYS_Main.
  */
-void func_021FD52C(S *s)
+void STA_NET_BeginTransfer(S *s)
 {
     if (s->f150 == 0) {
         s->f150 = 1;
@@ -138,7 +138,7 @@ void func_021FD52C(S *s)
     }
 }
 
-void func_021FD550(char *p)
+void STA_NET_UpdateTransferState(char *p)
 {
     if(((struct ActingHost *)p)->f150==1) {
         switch(*(u32 *)&((struct ActingHost *)p)->f17C) {
@@ -148,7 +148,7 @@ void func_021FD550(char *p)
             break;
         case 2: break;
         case 3:
-            if(func_021FD5E4(p,((struct ActingHost *)p)->f14C)==1) {
+            if(STA_NET_SendChunk(p,((struct ActingHost *)p)->f14C)==1) {
                 ((struct ActingHost *)p)->f154=1;
                 ((struct ActingHost *)p)->f17C=4;
             }
@@ -166,7 +166,7 @@ void func_021FD550(char *p)
 /*
  * followers: own leaf files 021FD634 and 021FD68C.
  */
-int func_021FD5E4(char *p,u32 i)
+int STA_NET_SendChunk(char *p,u32 i)
 {
     char *q;
     char *s;
@@ -178,7 +178,7 @@ int func_021FD5E4(char *p,u32 i)
     return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetNetHandle(0xff),0xff,0x1105,n,(u32)s,0,1,1);
 }
 
-void func_021FD634(int a,int b,int c,char *p)
+void STA_NET_AdvanceChunk(int a,int b,int c,char *p)
 {
     char *q;
     char *s;
@@ -197,38 +197,38 @@ void func_021FD634(int a,int b,int c,char *p)
     }
 }
 
-void *func_021FD68C(int a,char *p)
+void *STA_NET_GetChunkPtr(int a,char *p)
 {
     char *q;
     q=*(char * *)&((struct ActingHost *)p)->f140;
     return *(char * *)&((struct HostEntry *)q)->f10+((struct ActingHost *)p)->f14C*0x3800;
 }
 
-int func_021FD6A4(char *p) {if(((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C/0x3800u<((struct ActingHost *)p)->f14C)return 1;return 0;}
+int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C/0x3800u<((struct ActingHost *)p)->f14C)return 1;return 0;}
 
 
 /*
  * Addresses are Black-image addresses.
  */
-int func_021FD6C8(u8 *p)
+int STA_NET_NotifyHostKind4(u8 *p)
 {
     void *q = ((struct ActingHost *)p)->f140.p;
     return func_021FCEA8((int)p, 4, (u32)(((struct HostEntry *)q)->f20), 0xff);
 }
 
 
-int func_021FD6DC(char *p)
+int STA_NET_NotifyHostKind5(char *p)
 {
     return func_021FCEA8((int)p, 5, *(int *)(((struct ActingHost *)p)->f140.s + 0x24), 0xff);
 }
 
 
-int func_021FD6F0(char *p)
+int STA_NET_NotifyHostKind6(char *p)
 {
     return func_021FCEA8((int)p, 6, *(int *)(((struct ActingHost *)p)->f140.s + 0x28), 0xff);
 }
 
-int func_021FD704(u8 *p)
+int STA_NET_SendSlot1Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
@@ -237,7 +237,7 @@ int func_021FD704(u8 *p)
     return GFL_NET_SendData(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
 }
 
-void func_021FD744(void *a, void *b, void *c, u8 *p)
+void STA_NET_SetSlot1Done(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
     ((struct ActingHost *)p)->f170 = 1;
@@ -245,12 +245,12 @@ void func_021FD744(void *a, void *b, void *c, u8 *p)
     STA_SLOT_Noop(q[1], q[8], 12);
 }
 
-u32 func_021FD760(void *a, u8 *p)
+u32 STA_NET_GetSlot1Value(void *a, u8 *p)
 {
     return (*(u32 **)(p + 0x140))[1];
 }
 
-int func_021FD76C(u8 *p)
+int STA_NET_SendSlot2Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
@@ -259,7 +259,7 @@ int func_021FD76C(u8 *p)
     return GFL_NET_SendData(id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (*(u32 **)(p + 0x140))[2], 1, 0, 1);
 }
 
-void func_021FD7AC(void *a, void *b, void *c, u8 *p)
+void STA_NET_SetSlot2Done(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
     ((struct ActingHost *)p)->f174 = 1;
@@ -267,12 +267,12 @@ void func_021FD7AC(void *a, void *b, void *c, u8 *p)
     STA_SLOT_Noop(q[2], q[9], 11);
 }
 
-u32 func_021FD7C8(void *a, u8 *p)
+u32 STA_NET_GetSlot2Value(void *a, u8 *p)
 {
     return (*(u32 **)(p + 0x140))[2];
 }
 
-int func_021FD7D4(u8 *p)
+int STA_NET_SendSlot3Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
@@ -281,7 +281,7 @@ int func_021FD7D4(u8 *p)
     return GFL_NET_SendData(id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (*(u32 **)(p + 0x140))[3], 1, 0, 1);
 }
 
-void func_021FD814(void *a, void *b, void *c, u8 *p)
+void STA_NET_SetSlot3Done(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
     ((struct ActingHost *)p)->f178 = 1;
@@ -289,19 +289,19 @@ void func_021FD814(void *a, void *b, void *c, u8 *p)
     STA_SLOT_Noop(q[3], q[10], 10);
 }
 
-u32 func_021FD830(void *a, u8 *p)
+u32 STA_NET_GetSlot3Value(void *a, u8 *p)
 {
     return (*(u32 **)(p + 0x140))[3];
 }
 
-u32 func_021FD83C(char *p) {return ((struct ActingHost *)p)->f170;}
+u32 STA_NET_GetSlot1Done(char *p) {return ((struct ActingHost *)p)->f170;}
 
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns element 0x5e of the
  * argument viewed as an int array.  Matched to supply the `matched` witness
  * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionReady.
  */
-int func_021FD844(int *p)
+int STA_NET_GetIndexedWord5E(int *p)
 {
     return p[0x5e];
 }
@@ -317,7 +317,7 @@ static inline u8 random4(void)
  * padding: two zero bytes at 021FD8C2 before next labelled function.
  * lever: bind the inline random draw to u32 before the multiply-high.
  */
-int func_021FD84C(u8 *p)
+int STA_NET_SendRandomOrder(u8 *p)
 {
     u8 slots[4];
     u8 i, j, n;
@@ -337,16 +337,16 @@ int func_021FD84C(u8 *p)
 }
 
 
-void func_021FD8C4(char *p, int a)
+void STA_NET_SendKindA(char *p, int a)
 {
     func_021FCE74((int)p, 0xa, a, 0xff);
 }
 
-u32 func_021FD8D4(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
+u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
 
-u8 func_021FD8EC(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
+u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
 
-u32 func_021FD8F8(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
+u32 STA_NET_GetSlotWordByIndex(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
 
 
 /*
@@ -354,7 +354,7 @@ u32 func_021FD8F8(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
  * Matched to supply the `matched` witness for the pending ov010 caller
  * MUSICAL_EVENT_CreateLocalPerformer.
  */
-int func_021FD904(int *p)
+int STA_NET_GetField48(int *p)
 {
     return ((struct ActingHost *)p)->f48;
 }
@@ -362,7 +362,7 @@ int func_021FD904(int *p)
 /*
  * Getter: returns the word at offset 0x158.
  */
-u32 func_021FD908(u8 *p)
+u32 STA_NET_GetField158(u8 *p)
 {
  return *(u32 *)(p+0x158);
 }
@@ -372,20 +372,20 @@ u32 func_021FD908(u8 *p)
  * argument viewed as an int array.  Matched to supply the `matched` witness
  * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionFinish.
  */
-int func_021FD910(int *p)
+int STA_NET_GetIndexedWord57(int *p)
 {
     return p[0x57];
 }
 
-void func_021FD918(char *p, u32 a, int b) {func_021FCDEC((int)p,0x40);((struct ActingHost *)p)->f4C=6;((struct ActingHost *)p)->f144.s=a;((struct ActingHost *)p)->f148.s=b;}
+void STA_NET_SetState6Pair(char *p, u32 a, int b) {func_021FCDEC((int)p,0x40);((struct ActingHost *)p)->f4C=6;((struct ActingHost *)p)->f144.s=a;((struct ActingHost *)p)->f148.s=b;}
 
-void func_021FD938(char *p) {func_021FCDEC((int)p,0x42);((struct ActingHost *)p)->f4C=12;}
+void STA_NET_SetState12(char *p) {func_021FCDEC((int)p,0x42);((struct ActingHost *)p)->f4C=12;}
 
 /*
  * The larger indexed follower at 021FD964 is parked separately at DIFF.
  */
-void func_021FD948(char *p,u32 value){((struct ActingHost *)p)->f4C=18;((struct ActingHost *)p)->f120=value;}
+void STA_NET_SetState18Value(char *p,u32 value){((struct ActingHost *)p)->f4C=18;((struct ActingHost *)p)->f120=value;}
 
-u32 func_021FD954(char *p){return ((struct ActingHost *)p)->f144.u;}
+u32 STA_NET_GetPairA(char *p){return ((struct ActingHost *)p)->f144.u;}
 
-u32 func_021FD95C(char *p){return ((struct ActingHost *)p)->f148.u;}
+u32 STA_NET_GetPairB(char *p){return ((struct ActingHost *)p)->f148.u;}

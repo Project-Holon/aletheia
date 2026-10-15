@@ -15,11 +15,11 @@
  * symbols:
  *   DPW_BT_IsAsyncEnd 0x021C93D0 arm ov114
  *   DPW_BT_CancelAsync 0x021C9634 arm ov114
- *   func_021D70E4 0x021D70E4 thumb ov116
+ *   WIFI_BSUBWAY_AsyncReset 0x021D70E4 thumb ov116
  */
 
 /*
- * 2026-10-04 (wave D2 lane05): MATCH, rechecked: one relocation unresolved, DPW_BT_IsAsyncEnd (ov114 ARM, same leaf as in func_021D70EC). Blocked on a matched witness for that leaf; ov114 belongs to pengy.
+ * 2026-10-04 (wave D2 lane05): MATCH, rechecked: one relocation unresolved, DPW_BT_IsAsyncEnd (ov114 ARM, same leaf as in WIFI_BSUBWAY_PollAsync). Blocked on a matched witness for that leaf; ov114 belongs to pengy.
  */
 
 typedef unsigned char u8;
@@ -28,11 +28,11 @@ typedef short s16;
 typedef unsigned int u32;
 extern int DPW_BT_IsAsyncEnd(void);
 extern void DPW_BT_CancelAsync(void);
-extern void func_021D70E4(u8 *);
+extern void WIFI_BSUBWAY_AsyncReset(u8 *);
 void WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *p)
 {
     if (DPW_BT_IsAsyncEnd() == 0) {
         DPW_BT_CancelAsync();
-        func_021D70E4(p + 0x182c);
+        WIFI_BSUBWAY_AsyncReset(p + 0x182c);
     }
 }

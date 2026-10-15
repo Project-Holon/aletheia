@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   BOX2_SEQ_PrintMessageMsg 0x021EBA84 thumb
  *
  * Item-menu prompt for a kind; kinds 1 to 3 name the held item first.  An
@@ -20,7 +20,7 @@
 typedef unsigned int u32;
 
 struct WordSet;
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -34,15 +34,15 @@ void BOX2_SEQ_PrintPromptB(unsigned char *p, int kind, int i)
         break;
     case 1:
         msg = 0x17;
-        func_0201EF40(*(void **)(WORK(p) + 0x84), 0, *(unsigned short *)(WORK(p) + 0xA16C));
+        WORDSET_Callback_EF40(*(void **)(WORK(p) + 0x84), 0, *(unsigned short *)(WORK(p) + 0xA16C));
         break;
     case 2:
         msg = 0x18;
-        func_0201EF40(*(void **)(WORK(p) + 0x84), 0, *(unsigned short *)(WORK(p) + 0xA16C));
+        WORDSET_Callback_EF40(*(void **)(WORK(p) + 0x84), 0, *(unsigned short *)(WORK(p) + 0xA16C));
         break;
     case 3:
         msg = 0x19;
-        func_0201EF40(*(void **)(WORK(p) + 0x84), 0, *(unsigned short *)(WORK(p) + 0xA16C));
+        WORDSET_Callback_EF40(*(void **)(WORK(p) + 0x84), 0, *(unsigned short *)(WORK(p) + 0xA16C));
         break;
     case 4:
         msg = 0x16;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FD550
+ * function: STA_NET_UpdateTransferState
  * address: 0x021FD550
  * packet: pkt_ov132_021FD550
  * region: ov132
@@ -10,7 +10,7 @@
  * follower: two-byte zero alignment padding at 021FD5E2.
  * symbols:
  *   func_021FCEA8 0x021FCEA8 thumb ov132
- *   func_021FD5E4 0x021FD5E4 thumb ov132
+ *   STA_NET_SendChunk 0x021FD5E4 thumb ov132
  */
 #include "../include/Obj02196.h"
 #include "../include/Obj23286.h"
@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
-extern int func_021FD5E4(char *p, u32 i);
-void func_021FD550(char *p)
+extern int STA_NET_SendChunk(char *p, u32 i);
+void STA_NET_UpdateTransferState(char *p)
 {
     if(((struct Obj02196 *)p)->f150==1) {
         switch(*(u32 *)&((struct Obj02196 *)p)->f17C) {
@@ -29,7 +29,7 @@ void func_021FD550(char *p)
             break;
         case 2: break;
         case 3:
-            if(func_021FD5E4(p,((struct Obj02196 *)p)->f14C)==1) {
+            if(STA_NET_SendChunk(p,((struct Obj02196 *)p)->f14C)==1) {
                 ((struct Obj02196 *)p)->f154=1;
                 ((struct Obj02196 *)p)->f17C=4;
             }

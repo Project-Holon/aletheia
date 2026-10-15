@@ -12,7 +12,7 @@
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   CTRDG_IsBitID  0x0205912C  arm
- *   func_02168848  0x02168848  arm  ov009
+ *   DWC_GetFriendStatusData  0x02168848  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  */
 
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
 extern int CTRDG_IsBitID(u8 *);
-extern unsigned char func_02168848(void *p, int a, int b);
+extern unsigned char DWC_GetFriendStatusData(void *p, int a, int b);
 extern void MI_CpuFill8(u8 *, u32, u32);
 
 void DWC_RAP_PollFriendStatus(void)
@@ -32,7 +32,7 @@ void DWC_RAP_PollFriendStatus(void)
         u32 o = i * 12;
         int n;
         if (CTRDG_IsBitID(*(u8 **)(g_021A8264 + 0x100) + o) != 0) {
-            u32 r = func_02168848(*(u8 **)(g_021A8264 + 0x100) + o,
+            u32 r = DWC_GetFriendStatusData(*(u8 **)(g_021A8264 + 0x100) + o,
                                   (int)(g_021A8264 + 0x34c + i * 32), (int)(&n));
             if (n < 1) {
                 (g_021A8264 + i)[0x32c] = 0;

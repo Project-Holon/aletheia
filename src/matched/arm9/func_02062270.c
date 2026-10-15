@@ -1,5 +1,5 @@
 /*
- * function: func_02062270
+ * function: NNSi_GfdInitTexVramHeap
  * address:  0x02062270
  * packet:   pkt_02061D0C
  * region:   arm9
@@ -17,10 +17,10 @@
  *   func_02061DF0   0x02061DF0  arm
  *   NNSi_GfdInitBlockPool   0x02061DFC  arm
  *   NNSi_GfdAddBlock   0x02061E48  arm
- *   func_02061FF8   0x02061FF8  arm
+ *   NNSi_GfdMergeFreeBlockList   0x02061FF8  arm
  *
  * The layer-2 (16-byte granule) INITIALISER of docs/families/
- * cluster_02061D0C.h, run by the save hook func_02062114.  Copies the
+ * cluster_02061D0C.h, run by the save hook NNSi_GfdInitTexVramManager.  Copies the
  * four-record apportionment table at 0x020A17A8 to the stack, spreads
  * the configured extent f10 over records 0 and 2 (pass 1, into acc8) and
  * the remainder f0c - 1.5*f10 over all four (pass 2, into acc4), then
@@ -28,7 +28,7 @@
  * up to six blocks and sweeps both lists.
  *
  * THE DUPLICATE POOL WORD IS TWO SYMBOLS.  The cluster header recorded this
- * function (and func_020625D8) as unclosable: the pool holds 0x02146B94
+ * function (and NNSi_GfdInitPlttVramHeap) as unclosable: the pool holds 0x02146B94
  * twice, both live.  They are not one constant emitted twice: the copy at
  * 0x0206245C is the base every FIELD access uses (+0x0c, +0x10, +0x14,
  * +0x18, and the store of the pool head at +0x08), and the copy at
@@ -51,11 +51,11 @@
  * r7, lr} against the image's {r4, lr} -- the pool addresses are CSE'd
  * into callee-saved registers -- and splits the i == 0 || i == 2 guard
  * into two branches; 516 bytes, 398 out.  Same pin as the layer-2
- * allocator pair func_0206216C / func_020621FC.
+ * allocator pair NNS_GfdAllocTexVram / NNS_GfdFreeTexVram.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062270.c \
- *       --func func_02062270 --addr 0x02062270 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_GfdInitTexVramHeap.c \
+ *       --func NNSi_GfdInitTexVramHeap --addr 0x02062270 --arm --cc ../2.0/sp2
  */
 
 #include "../include/G_Cfg.h"
@@ -83,8 +83,8 @@ extern struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 
 struct List02061E48;
 struct Pool02061E48;
 extern u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
-extern void func_02061FF8(u32 *head, u32 *pool);
-void func_02062270(u32 a, u32 b, u32 c, u32 d)
+extern void NNSi_GfdMergeFreeBlockList(u32 *head, u32 *pool);
+void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d)
 {
     struct Rgns t;
     struct Rgn *p;
@@ -152,6 +152,6 @@ void func_02062270(u32 a, u32 b, u32 c, u32 d)
     if (t.r[1].acc4 != 0)
         NNSi_GfdAddBlock((struct List02061E48 *)(&(*(u32 *)&g_02146B94)), (struct Pool02061E48 *)(&g_02146B9C), 0x20000 + half, t.r[1].acc4);
 
-    func_02061FF8(&(*(u32 *)&g_02146B94), &g_02146B9C);
-    func_02061FF8(&g_02146B98, &g_02146B9C);
+    NNSi_GfdMergeFreeBlockList(&(*(u32 *)&g_02146B94), &g_02146B9C);
+    NNSi_GfdMergeFreeBlockList(&g_02146B98, &g_02146B9C);
 }

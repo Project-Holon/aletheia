@@ -35,16 +35,16 @@
  *   MBi_CommChangeParentState      0x021F1D0C  arm
  *   MBi_BlockHeaderEnd 0x021F3C80 arm ov107
  *   MBi_MakeParentSendBuffer 0x021F6890 arm ov107
- *   func_0208ED70  0x0208ED70  arm
+ *   WM_ReadMPData  0x0208ED70  arm
  *   func_021F2200  0x021F2200  arm  ov107
  *   MBi_MakeParentSendBuffer   0x021F6890  arm
  *   func_021F3C80   0x021F3C80  arm
  *   g_021F6E48     0x021F6E48  data
- *   func_02077EB8 0x02077EB8 arm
+ *   FS_FindArchive 0x02077EB8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02075E04 0x02075E04 arm
  *   FS_InitFile 0x020788AC arm
- *   func_02078964 0x02078964 arm
+ *   FS_OpenFileDirect 0x02078964 arm
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
  *   g_021F6E4C 0x021F6E4C data
@@ -147,15 +147,15 @@ extern void func_021F2F04(u16 aid, u16 errcode);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
 extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
-extern struct WMMpRecvData *func_0208ED70(const struct WMMpRecvHeader *header, u16 aid);
+extern struct WMMpRecvData *WM_ReadMPData(const struct WMMpRecvHeader *header, u16 aid);
 extern void func_021F2200(void *arg, unsigned short child);
 extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
 extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
-extern struct FSArchive *func_02077EB8(const char *name, int name_len);
+extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
 extern int OS_IsRunOnTwl(void);
 extern RomHeader *func_02075E04(void);
 extern void FS_InitFile(void *file);
-extern int func_02078964(void *file, void *arc, u32 top, u32 bottom, u32 id);
+extern int FS_OpenFileDirect(void *file, void *arc, u32 top, u32 bottom, u32 id);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int FS_CloseFile(void *file);
 extern void MBi_calc_sendblock(u8 file_id);
@@ -631,7 +631,7 @@ void MBi_CommParentRecvData(void *arg)
     }
     g_021F6EEC = 0;
     for (i = 1; i <= 15; i++) {
-        datap = (short unsigned int *)func_0208ED70(arg, i);
+        datap = (short unsigned int *)WM_ReadMPData(arg, i);
         if (datap != 0 && datap[0] != 0xFFFF && datap[0] != 0)
             func_021F2200(datap, i);
     }
@@ -717,11 +717,11 @@ void MBi_ReloadCache(MBiTaskInfo *p_task)
     p_list = (MBiCacheList *)p_task->param[1];
     p_info = (MBiCacheInfo *)p_task->param[0];
     length = p_info->len;
-    arc = func_02077EB8(p_list->arc_name, p_list->arc_name_len);
+    arc = FS_FindArchive(p_list->arc_name, p_list->arc_name_len);
     if (arc == 0) {
         arc = p_list->arc_pointer;
     }
-    if (OS_IsRunOnTwl() && arc == func_02077EB8(g_021F6E4C, 3)) {
+    if (OS_IsRunOnTwl() && arc == FS_FindArchive(g_021F6E4C, 3)) {
         header = func_02075E04();
         boundary_ntr = header->ntr_off + header->ntr_len;
         boundary_ltd = header->ltd_off + header->ltd_len;
@@ -732,7 +732,7 @@ void MBi_ReloadCache(MBiTaskInfo *p_task)
         }
     }
     FS_InitFile(file);
-    if (func_02078964(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
+    if (FS_OpenFileDirect(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
         if (length == FS_ReadFile((struct FSFile *)file, p_info->ptr, length)) {
             p_info->state = 2;
         }

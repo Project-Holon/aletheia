@@ -1,5 +1,5 @@
 /*
- * function: func_021F661C
+ * function: EGG_DEMO_GRAPHIC_DrawClact
  * address: 0x021F661C
  * packet: pkt_ov215_021F661C
  * region: ov215
@@ -12,4 +12,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021F661C(void *a0){CLACT_DrawSystem();}
+void EGG_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}

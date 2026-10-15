@@ -1,5 +1,5 @@
 /*
- * function: func_0207D950
+ * function: G3_MultTransMtx33
  * address:  0x0207D950
  * packet:   pkt_0207D950
  * region:   arm9
@@ -62,7 +62,7 @@ typedef union {
 
 extern void MI_Copy36B(const void *pSrc, void *pDest);
 
-void func_0207D950(const MtxFx33 *mtx, const VecFx32 *trans)
+void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans)
 {
     reg_G3X_GXFIFO = 0x19;
     MI_Copy36B(mtx, (void *)&reg_G3X_GXFIFO);

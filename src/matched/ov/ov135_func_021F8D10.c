@@ -17,6 +17,7 @@
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb  arm9
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  */
 #include "../include/Obj03294.h"
 #include "../include/Obj23401.h"
@@ -37,7 +38,7 @@ typedef unsigned short u16;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 int WORLDTRADE_ENTER_PushWifiSetup(u8 *p)
@@ -46,7 +47,7 @@ int WORLDTRADE_ENTER_PushWifiSetup(u8 *p)
     *(State * *)&((struct Obj03294 *)p)->f10DC = func_02030734(0x48, sizeof(State), 0, str_02203C34, 0x263);
     MI_CpuFill8(*(State * *)&((struct Obj03294 *)p)->f10DC, 0, sizeof(State));
     s = *(State * *)&((struct Obj03294 *)p)->f10DC;
-    s->handle = func_020120F4(((struct Obj23401 *)(*(u8 * *)&((struct Obj03294 *)p)->f0))->f40);
+    s->handle = ICA_ANIME_GetField1C(((struct Obj23401 *)(*(u8 * *)&((struct Obj03294 *)p)->f0))->f40);
     s->f4 = 0;
     s->f8 = 1;
     s->f10 = p + 0x116C;

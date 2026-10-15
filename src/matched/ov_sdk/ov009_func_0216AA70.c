@@ -1,5 +1,5 @@
 /*
- * function: func_0216AA70
+ * function: DWCi_CheckLogin
  * address:  0x0216AA70
  * packet:   pkt_02155168
  * region:   ov009
@@ -13,15 +13,15 @@
  * word.
  *
  * symbols:
- *   g_021AA874  0x021AA874  data
+ *   gDwcLoginControl  0x021AA874  data
 
  */
 
-extern char g_021AA874[];
+extern char gDwcLoginControl[];
 
-int func_0216AA70(void)
+int DWCi_CheckLogin(void)
 {
-    char *p = *(char **)g_021AA874;
+    char *p = *(char **)gDwcLoginControl;
 
     if (p != 0 && *(int *)(p + 4) == 5) return 1;
     return 0;

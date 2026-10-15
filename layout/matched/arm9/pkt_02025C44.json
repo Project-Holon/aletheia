@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02025C44",
+   "name": "BMP_OAM_Check5C44",
    "address": "0x02025C44",
    "kind": "game",
    "region": "arm9",
@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_02025CD0",
+   "name": "CURSOR_MOVE_Create",
    "address": "0x02025CD0",
    "kind": "game",
    "region": "arm9",
@@ -37,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02025D1C",
+   "name": "CURSOR_MOVE_EnableInput",
    "address": "0x02025D1C",
    "kind": "game",
    "region": "arm9",
@@ -49,7 +49,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025D24",
+   "name": "CURSOR_MOVE_SetMode",
    "address": "0x02025D24",
    "kind": "game",
    "region": "arm9",
@@ -61,7 +61,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025F60",
+   "name": "CURSOR_MOVE_GetNeighbour",
    "address": "0x02025F60",
    "kind": "game",
    "region": "arm9",
@@ -73,7 +73,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025FA4",
+   "name": "CURSOR_MOVE_StartInput",
    "address": "0x02025FA4",
    "kind": "game",
    "region": "arm9",
@@ -85,7 +85,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020260F4",
+   "name": "CURSOR_MOVE_SetState",
    "address": "0x020260F4",
    "kind": "game",
    "region": "arm9",
@@ -97,7 +97,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202616C",
+   "name": "CURSOR_MOVE_GetEntry",
    "address": "0x0202616C",
    "kind": "game",
    "region": "arm9",
@@ -109,7 +109,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02026178",
+   "name": "CURSOR_MOVE_IsWrapNeighbour",
    "address": "0x02026178",
    "kind": "game",
    "region": "arm9",
@@ -121,7 +121,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020261C4",
+   "name": "CURSOR_MOVE_TestSkipBit",
    "address": "0x020261C4",
    "kind": "game",
    "region": "arm9",
@@ -133,7 +133,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02026250",
+   "name": "CURSOR_MOVE_DeleteVecSet",
    "address": "0x02026250",
    "kind": "game",
    "region": "arm9",

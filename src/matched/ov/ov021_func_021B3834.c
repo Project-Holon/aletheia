@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02021288  0x02021288  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
  */
 #include "../include/Obj19995.h"
 
@@ -18,15 +18,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02021288(u32 id);
+extern u32 FILE_UTIL_Check1288(u32 id);
 
 u32 SCRCMD_PROC_FLD_LoadItemRows(u8 *p, int n)
 {
-    u32 r = func_02021288(((struct Obj19995 *)p)->f0);
+    u32 r = FILE_UTIL_Check1288(((struct Obj19995 *)p)->f0);
     int i;
 
     for (i = 0; i < n; i++) {
-        func_02021288(*(u16 *)(p + i * 8));
+        FILE_UTIL_Check1288(*(u16 *)(p + i * 8));
     }
     return r;
 }

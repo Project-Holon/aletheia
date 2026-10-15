@@ -1,5 +1,5 @@
 /*
- * function: func_0209477C
+ * function: strlen
  * address:  0x0209477C
  * packet:   pkt_02094488
  * region:   arm9
@@ -14,13 +14,13 @@
  * count minus one.  Self-contained, no external symbol.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209477C.c \
- *       --func func_0209477C --addr 0x0209477C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strlen.c \
+ *       --func strlen --addr 0x0209477C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 
-int func_0209477C(const u8 *s)
+int strlen(const u8 *s)
 {
     int n = -1;
 

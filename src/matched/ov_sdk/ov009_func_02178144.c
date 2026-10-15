@@ -1,5 +1,5 @@
 /*
- * function: func_02178144
+ * function: DWC_Auth_Destroy
  * address:  0x02178144
  * packet:   pkt_ov009_02178144
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      DWC_Auth_Destroy (libdwcauth.TWL.HYB.a(dwc_auth.o))
  *
  * symbols:
- *   func_02179CF4  0x02179CF4  arm
- *   g_021AB184     0x021AB184  data
+ *   DWC_Http_Destroy  0x02179CF4  arm
+ *   gDwcAuthGlobal     0x021AB184  data
  */
 
 #include "../include/G_DWCAuthGlobal.h"
@@ -33,19 +33,19 @@ struct DWCAuthCtx {
 	int abort_flag;
 };
 
-extern struct DWCAuthGlobal g_021AB184;
+extern struct DWCAuthGlobal gDwcAuthGlobal;
 
-extern void func_02179CF4(char *http);
+extern void DWC_Http_Destroy(char *http);
 
-void func_02178144(void)
+void DWC_Auth_Destroy(void)
 {
 	void (*free)(unsigned long, void *, long);
 
-	if (g_021AB184.ctx == 0)
+	if (gDwcAuthGlobal.ctx == 0)
 		return;
-	free = g_021AB184.ctx->free_fn;
-	if (g_021AB184.ctx->http != 0)
-		func_02179CF4(g_021AB184.ctx->http);
-	free(0, g_021AB184.ctx, 0);
-	g_021AB184.ctx = 0;
+	free = gDwcAuthGlobal.ctx->free_fn;
+	if (gDwcAuthGlobal.ctx->http != 0)
+		DWC_Http_Destroy(gDwcAuthGlobal.ctx->http);
+	free(0, gDwcAuthGlobal.ctx, 0);
+	gDwcAuthGlobal.ctx = 0;
 }

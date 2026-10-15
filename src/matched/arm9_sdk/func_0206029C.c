@@ -1,5 +1,5 @@
 /*
- * function: func_0206029C
+ * function: NCFGi_CheckIpInfo
  * address:  0x0206029C
  * packet:   pkt_0206029C
  * region:   arm9
@@ -47,7 +47,7 @@ extern int  NCFGi_CheckAddress(u8 *address);
 extern void NCFGi_ConvMaskAddr(int mask, u8 *buf);
 extern int  NCFGi_CheckIp(u8 *ip, u8 *mask);
 
-int func_0206029C(NCFGApInfo *info)
+int NCFGi_CheckIpInfo(NCFGApInfo *info)
 {
     u8 snm[4];
 

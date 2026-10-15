@@ -13,7 +13,7 @@
  *   gWifiClubTrainerSpritePos     0x021C37D4  data   ov099  a2
  *   WIFICLUB_DeleteTrainerActor  0x021BB42C  thumb  ov099
  *   func_02009864  0x02009864  thumb
- *   func_02025C88  0x02025C88  thumb
+ *   CURSOR_MOVE_GetTableGroup  0x02025C88  thumb
  *   POKEGRA_OpenTrainerHandle  0x0202DA04  thumb
  *   POKEGRA_RegisterTrainerCgr  0x0202DA48  thumb
  *   POKEGRA_RegisterTrainerPalette  0x0202DA18  thumb
@@ -34,7 +34,7 @@ extern void WIFICLUB_DeleteTrainerActor(void *p);
 typedef unsigned int   u32;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-extern u32 func_02025C88(u32 x);
+extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
 extern int POKEGRA_OpenTrainerHandle(int a0);
 extern void *POKEGRA_RegisterTrainerCgr(void *a, int b, int c, u16 d);
 typedef signed int     s32;
@@ -54,7 +54,7 @@ void WIFICLUB_CreateTrainerActor(char *p, int a, int b)
     if (((struct Obj00008 *)p)->f180 != 0)
         WIFICLUB_DeleteTrainerActor(p);
     r = func_02009864(((struct Obj00008 *)p)->f4, a, 8);
-    r = func_02025C88(r);
+    r = CURSOR_MOVE_GetTableGroup(r);
     o = (void *)POKEGRA_OpenTrainerHandle((u16)b);
     ((struct Obj00008 *)p)->f184 = POKEGRA_RegisterTrainerCgr(o, r, 1, b);
     ((struct Obj00008 *)p)->f188 = (void *)POKEGRA_RegisterTrainerPalette((u32)o, r, 1, 0, b);

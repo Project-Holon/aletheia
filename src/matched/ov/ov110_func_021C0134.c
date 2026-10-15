@@ -10,7 +10,7 @@
  * symbols:
  *   overlay_id 0x00000043 data a1
  *   func_02034AC4 0x02034AC4 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
 extern int func_02034AC4(s32 handle);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -44,8 +44,8 @@ extern void PMS_SELECT_GRAPHIC_Setup(u8 *);
 int PMS_SELECT_GRAPHIC_ProcInit(void *owner,int unused,void **input) {
     u8 *p;
     func_02034AC4((unsigned)overlay_id);
-    func_0207D534((void *)0x0400006c,-16);
-    func_0207D534((void *)0x0400106c,-16);
+    GXx_SetMasterBrightness_((void *)0x0400006c,-16);
+    GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     GFL_HEAP_CreateChildHeap(1,81,0x1c000);
     p=PROCSYS_AllocProcWork(owner,176,81);
     MI_CpuFill8(p,0,176);

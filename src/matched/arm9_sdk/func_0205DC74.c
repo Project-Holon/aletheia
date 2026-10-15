@@ -1,5 +1,5 @@
 /*
- * function: func_0205DC74
+ * function: DWC_AC_CleanupGetWDSInfo
  * address:  0x0205DC74
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -25,7 +25,7 @@ extern void DWC_Free(int name, void *ptr, long size);
 static DWCWDSWork *gDwcWdsWork = NULL;
 static void *wdsSysBuf = NULL;
 
-void func_0205DC74(void)
+void DWC_AC_CleanupGetWDSInfo(void)
 {
     if (wdsSysBuf != NULL) {
         DWC_Free(1, wdsSysBuf, 0);

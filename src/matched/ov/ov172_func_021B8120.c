@@ -1,5 +1,5 @@
 /*
- * function: func_021B8120
+ * function: CTVT_COMM_IsModeSupported
  * address: 0x021B8120
  * packet: pkt_ov172_021B8120
  * region: ov172
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov172/ctvt_comm_p03.c and filed here.
  */
 
-int func_021B8120(int a, int b);
+int CTVT_COMM_IsModeSupported(int a, int b);
 
-int func_021B8120(int a, int b)
+int CTVT_COMM_IsModeSupported(int a, int b)
 {
     if (b == 0x20 || b == 3) {
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0200F17C
+ * function: NET_DEVICE_TABLE_Select
  * address:  0x0200F17C
  * packet:   pkt_0200F17C
  * region:   arm9
@@ -33,7 +33,7 @@
  * and 5 share the arm at 0x0200F1FC, selectors 3 and 4 the one at
  * 0x0200F208, and 6, 1, 2 have their own (0x0200F19C, 0x0200F1C0,
  * 0x0200F1DE).  The cases below are written in that memory order, which is
- * what decides the arm layout (the sibling function func_0200F234, same
+ * what decides the arm layout (the sibling function NET_DEVICE_TABLE_Reset, same
  * packet, closes the same way).
  *
  * The arguments are absolute symbols, not numbers: every one of them arrives
@@ -51,8 +51,8 @@
  *           `overlay_id` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200F17C.c \
- *       --func func_0200F17C --addr 0x0200F17C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_Select.c \
+ *       --func NET_DEVICE_TABLE_Select --addr 0x0200F17C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -73,7 +73,7 @@ extern u8 ov_id_72[];
 extern u8 ov_id_0E[];
 extern u8 ov_id_0F[];
 
-int func_0200F17C(u32 sel)
+int NET_DEVICE_TABLE_Select(u32 sel)
 {
     switch (sel) {
     case 6:

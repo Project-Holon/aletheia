@@ -17,15 +17,15 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200B358 0x0200B358 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
  *   func_021E5440 0x021E5440 thumb ov177
  *   func_021E5548 0x021E5548 thumb ov177
  *   func_021E567C 0x021E567C thumb ov177
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   func_021D9DC8 0x021D9DC8 thumb ov175
  *   func_021E8568 0x021E8568 thumb ov177
  *   func_021E8A3C 0x021E8A3C thumb ov177
@@ -51,15 +51,15 @@ struct Big;
 struct Party;
 struct Rec160;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200B358(void *sys);
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
+extern void *BATTLE_COMPETITION_GetFromSave(void *sys);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
 extern int *func_021E5440(unsigned,int);
 extern int func_021E5548(int *);
 extern u32 *func_021E567C(int unused, int mode, int heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, unsigned short heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, unsigned short heap);
 typedef unsigned short u16;
 extern char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap);
 extern u32 func_021E8568(int,int,int,int,u32,u32,int);
@@ -76,13 +76,13 @@ int func_021D6964(void *sys,int unused,u32 *ctx)
     GFL_HEAP_CreateChildHeap(1,87,0x30000);
     p=PROCSYS_AllocProcWork(sys,0x270,87); MI_CpuFill8(p,0,0x270);
     p[0x104/4]=(u32)ctx;
-    p[0x108/4]=(u32)func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),0);
+    p[0x108/4]=(u32)REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),0);
     p[0]=(u32)func_021E5440(1,87);
     p[1]=(u32)func_021E567C(func_021E5548((int *)p[0]),0,87);
     p[2]=(u32)GF_FONT_Create(0x17,0,0,0,87);
     p[3]=(u32)GF_FONT_Create(0x17,3,0,0,87);
     p[4]=PRINTSYS_QUE_Create((void *)87); p[5]=(u32)func_02045B38(0,2,0xd2,87);
-    p[6]=(u32)func_0201EC74(8,0x40,87);
+    p[6]=(u32)WORDSET_Create(8,0x40,87);
     p[0x34/4]=(u32)func_021D9DC8(((u32 *)p[0x104/4])[0xf],(void *)(*(u32 *)ctx[2]),ctx[7],87);
     p[0x2c/4]=func_021E8568(0,15,14,10,p[4],p[2],87);
     p[0x38/4]=(u32)func_021E8A3C((int)p,(int)func_021D6BF4,87);

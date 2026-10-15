@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD80
+ * function: BEACON_DETAIL_GRA_Init
  * address: 0x021BBD80
  * packet: pkt_ov216_021BBD80
  * region: ov216
@@ -14,7 +14,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BC930 0x021BC930 thumb ov216
+ *   BEACON_DETAIL_GRA_Create 0x021BC930 thumb ov216
  *   func_021BBFEC 0x021BBFEC thumb ov216
  *   func_021BC0C8 0x021BC0C8 thumb ov216
  *   func_021BC1E4 0x021BC1E4 thumb ov216
@@ -34,7 +34,7 @@ extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *,int,int);
-extern void *func_021BC930(int,int);
+extern void *BEACON_DETAIL_GRA_Create(int,int);
 typedef unsigned char  u8;
 extern void func_021BBFEC(u8 *p);
 extern void func_021BC0C8(char *);
@@ -47,7 +47,7 @@ extern void func_021BC650(char *);
 extern void func_021BC70C(char *);
 extern void *func_021BCA38(char *p);
 extern void *func_021BC398(void *,unsigned);
-int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
+int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config)
 {
     char *p;
     func_02034AC4((int)ov067_id);
@@ -58,7 +58,7 @@ int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
     ((struct Obj00366 *)p)->f14=config;
     ((struct Obj00366 *)p)->f0=119;
     ((struct Obj00366 *)p)->f2=0x8077;
-    ((struct Obj00366 *)p)->f50=func_021BC930(0,((struct Obj00366 *)p)->f0);
+    ((struct Obj00366 *)p)->f50=BEACON_DETAIL_GRA_Create(0,((struct Obj00366 *)p)->f0);
     func_021BBFEC((u8 *)p);
     func_021BC0C8(p);
     func_021BC1E4(p,((struct Obj00366 *)p)->f0);

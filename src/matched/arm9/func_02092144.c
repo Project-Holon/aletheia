@@ -1,5 +1,5 @@
 /*
- * function: func_02092144
+ * function: MSL_C_LIB_PopCount64
  * address:  0x02092144
  * packet:   pkt_02092144
  * region:   arm9
@@ -29,15 +29,15 @@
  * compared byte for byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02092144.c \
- *       --func func_02092144 --addr 0x02092144 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_PopCount64.c \
+ *       --func MSL_C_LIB_PopCount64 --addr 0x02092144 --cc 1.1p1 --arm
  *   EXACT, 148 bytes, no relocation sites.
  */
 
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-u32 func_02092144(u64 x)
+u32 MSL_C_LIB_PopCount64(u64 x)
 {
     x = x - ((x >> 1) & 0x5555555555555555ULL);
     x = (x & 0x3333333333333333ULL) + ((x >> 2) & 0x3333333333333333ULL);

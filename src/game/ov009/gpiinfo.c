@@ -17,17 +17,17 @@
  *   g_021A4A98     0x021A4A98  data  ov009
  *   func_0219327C  0x0219327C  arm   ov009
  *   func_0219329C  0x0219329C  arm   ov009
- *   func_020949F4  0x020949F4  arm
+ *   strncmp  0x020949F4  arm
  *   func_02193710  0x02193710  arm   ov009
  *   func_02189D78  0x02189D78  arm   ov009
  *   func_02193418  0x02193418  arm   ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   func_0218FD9C  0x0218FD9C  arm   ov009
- *   func_02095B2C  0x02095B2C  arm
+ *   atof  0x02095B2C  arm
  *   func_0209B64C  0x0209B64C  arm
  *   func_0218FCD8  0x0218FCD8  arm   ov009
  *   func_0217EAE0  0x0217EAE0  arm   ov009
- *   func_0217F1E0  0x0217F1E0  arm   ov009
+ *   goastrdup  0x0217F1E0  arm   ov009
  *   func_0217EAB0  0x0217EAB0  arm   ov009
  *   func_02189DFC  0x02189DFC  arm   ov009
  *   func_0218E240  0x0218E240  arm   ov009
@@ -330,17 +330,17 @@ typedef int _GPResult;
 extern void func_02193734(int *p, int b);
 extern void func_0219327C(char *p, int b, int n);
 extern int func_0219329C(void **connection, char *input, int callErrorCallback);
-extern int func_020949F4(const char *a, const char *b, unsigned int n);
+extern int strncmp(const char *a, const char *b, unsigned int n);
 extern void func_02193710(void **connection, int errorCode, char *errorString);
 extern void func_02189D78(void **connection, int result, int fatal);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(const char *s);
+extern int atoi(const char *s);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern double func_02095B2C(const char *s);
+extern double atof(const char *s);
 extern float func_0209B64C(double d);
 extern GPIProfile *func_0218FCD8(void **connection, int id);
 extern void func_0217EAE0(void *ptr);
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 extern void *func_0217EAB0(unsigned long size);
 extern void *memset(void *dst, int c, unsigned long n);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation_s *operation, int type);
@@ -356,7 +356,6 @@ extern char *_strlwr(char *string);
 extern void gpiEncodeString(char *unencodedString, char *encodedString);
 extern int strlen(char *s);
 extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
-extern int atoi(char *s);
 extern int gpiAppendStringToBuffer(void **connection, struct GPIBuffer *outputBuffer,
                                    char *buffer);
 extern int gpiAppendIntToBuffer(void **connection, struct GPIBuffer *outputBuffer,
@@ -631,7 +630,7 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
     if (func_0219329C(connection, input, 1))
         return 4;
 
-    if (func_020949F4(input, g_021A4AA8, 4) != 0) {
+    if (strncmp(input, g_021A4AA8, 4) != 0) {
         func_02193710(connection, 1, g_021A4AB0);
         __result__ = 3;
         func_02189D78(connection, __result__, 1);
@@ -644,7 +643,7 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
         func_02189D78(connection, __result__, 1);
         return __result__;
     }
-    profileid = func_020964E0(buffer);
+    profileid = atoi(buffer);
 
     func_0218FD9C(connection, profileid, &profile);
 
@@ -670,7 +669,7 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
     if (!func_02193418(input, g_021A4B24, buffer, sizeof(buffer)))
         infoCache.icquin = -1;
     else
-        infoCache.icquin = func_020964E0(buffer);
+        infoCache.icquin = atoi(buffer);
     if (!func_02193418(input, g_021A4B30, infoCache.homepage, 76))
         infoCache.homepage[0] = '\0';
     if (!func_02193418(input, g_021A4B3C, infoCache.zipcode, sizeof(infoCache.zipcode)))
@@ -680,11 +679,11 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
     if (!func_02193418(input, g_021A4B58, buffer, sizeof(buffer)))
         infoCache.longitude = 0;
     else
-        infoCache.longitude = func_0209B64C(func_02095B2C(buffer));
+        infoCache.longitude = func_0209B64C(atof(buffer));
     if (!func_02193418(input, g_021A4B60, buffer, sizeof(buffer)))
         infoCache.latitude = 0;
     else
-        infoCache.latitude = func_0209B64C(func_02095B2C(buffer));
+        infoCache.latitude = func_0209B64C(atof(buffer));
     if (!func_02193418(input, g_021A4B68, infoCache.place, 128))
         infoCache.place[0] = '\0';
     if (!func_02193418(input, g_021A4B70, buffer, sizeof(buffer))) {
@@ -692,7 +691,7 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
         infoCache.birthmonth = 0;
         infoCache.birthyear = 0;
     } else {
-        __result__ = func_0218BB70(connection, func_020964E0(buffer), &infoCache.birthday,
+        __result__ = func_0218BB70(connection, atoi(buffer), &infoCache.birthday,
                                    &infoCache.birthmonth, &infoCache.birthyear);
         if (__result__ != 0)
             return __result__;
@@ -708,45 +707,45 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
     if (!func_02193418(input, g_021A4B84, buffer, sizeof(buffer)))
         infoCache.publicmask = 0xFFFFFFFF;
     else
-        infoCache.publicmask = func_020964E0(buffer);
+        infoCache.publicmask = atoi(buffer);
     if (!func_02193418(input, g_021A4B8C, infoCache.aimname, 51))
         infoCache.aimname[0] = '\0';
     if (!func_02193418(input, g_021A4B94, buffer, sizeof(buffer)))
         infoCache.pic = 0;
     else
-        infoCache.pic = func_020964E0(buffer);
+        infoCache.pic = atoi(buffer);
     if (!func_02193418(input, g_021A4B9C, buffer, sizeof(buffer)))
         infoCache.occupationid = 0;
     else
-        infoCache.occupationid = func_020964E0(buffer);
+        infoCache.occupationid = atoi(buffer);
     if (!func_02193418(input, g_021A4BA4, buffer, sizeof(buffer)))
         infoCache.industryid = 0;
     else
-        infoCache.industryid = func_020964E0(buffer);
+        infoCache.industryid = atoi(buffer);
     if (!func_02193418(input, g_021A4BAC, buffer, sizeof(buffer)))
         infoCache.incomeid = 0;
     else
-        infoCache.incomeid = func_020964E0(buffer);
+        infoCache.incomeid = atoi(buffer);
     if (!func_02193418(input, g_021A4BB4, buffer, sizeof(buffer)))
         infoCache.marriedid = 0;
     else
-        infoCache.marriedid = func_020964E0(buffer);
+        infoCache.marriedid = atoi(buffer);
     if (!func_02193418(input, g_021A4BBC, buffer, sizeof(buffer)))
         infoCache.childcount = 0;
     else
-        infoCache.childcount = func_020964E0(buffer);
+        infoCache.childcount = atoi(buffer);
     if (!func_02193418(input, g_021A4BC4, buffer, sizeof(buffer)))
         infoCache.interests1 = 0;
     else
-        infoCache.interests1 = func_020964E0(buffer);
+        infoCache.interests1 = atoi(buffer);
     if (!func_02193418(input, g_021A4BCC, buffer, sizeof(buffer)))
         infoCache.ownership1 = 0;
     else
-        infoCache.ownership1 = func_020964E0(buffer);
+        infoCache.ownership1 = atoi(buffer);
     if (!func_02193418(input, g_021A4BD4, buffer, sizeof(buffer)))
         infoCache.conntypeid = 0;
     else
-        infoCache.conntypeid = func_020964E0(buffer);
+        infoCache.conntypeid = atoi(buffer);
 
     if (!func_02193418(input, g_021A4BDC, buffer, sizeof(buffer))) {
         func_02193710(connection, 1, g_021A4AB0);
@@ -774,7 +773,7 @@ int func_0218BDB8(void **connection, GPIOperation_s *operation, char *input)
     if (saveSig) {
         func_0217EAE0(profile->peerSig);
         profile->peerSig = 0;
-        profile->peerSig = func_0217F1E0(buffer);
+        profile->peerSig = goastrdup(buffer);
     }
 
     if (iconnection->infoCaching)
@@ -1321,13 +1320,13 @@ int func_0218D644(void **connection, GPIProfile *profile, GPIInfoCache *cache)
     profile->cache = func_0217EAB0(sizeof(GPIInfoCache));
     if (profile->cache != 0) {
         *profile->cache = *cache;
-        profile->cache->nick = func_0217F1E0(cache->nick);
-        profile->cache->uniquenick = func_0217F1E0(cache->uniquenick);
-        profile->cache->email = func_0217F1E0(cache->email);
-        profile->cache->firstname = func_0217F1E0(cache->firstname);
-        profile->cache->lastname = func_0217F1E0(cache->lastname);
-        profile->cache->homepage = func_0217F1E0(cache->homepage);
-        profile->cache->aimname = func_0217F1E0(cache->aimname);
+        profile->cache->nick = goastrdup(cache->nick);
+        profile->cache->uniquenick = goastrdup(cache->uniquenick);
+        profile->cache->email = goastrdup(cache->email);
+        profile->cache->firstname = goastrdup(cache->firstname);
+        profile->cache->lastname = goastrdup(cache->lastname);
+        profile->cache->homepage = goastrdup(cache->homepage);
+        profile->cache->aimname = goastrdup(cache->aimname);
     }
     return profile->cache != 0;
 }

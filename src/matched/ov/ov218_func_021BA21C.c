@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA21C, func_021BA238
+ * function: func_021BA21C, UN_SELECT_Callback
  * address: 0x021BA21C
  * packet: pkt_ov218_021BA21C
  * region: ov218
@@ -27,7 +27,7 @@ int func_021BA21C(unsigned char *task, char *ctx)
     UI_SCENE_SetNextScene(task, 0);
     return 1;
 }
-void func_021BA238(void)
+void UN_SELECT_Callback(void)
 {
     int count = *(volatile unsigned short *)0x04000006;
     if (count >= 152)

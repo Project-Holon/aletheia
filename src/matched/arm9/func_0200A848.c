@@ -1,5 +1,5 @@
 /*
- * function: func_0200A848
+ * function: MUSICAL_SHOT_Init
  * address:  0x0200A848
  * packet:   pkt_0200A848
  * region:   arm9
@@ -25,7 +25,7 @@ extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *p);
 extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *p);
 extern void EVENT_FIELD_PROCLINK_InitReturnHeader(void *p);
 
-void func_0200A848(void **a0)
+void MUSICAL_SHOT_Init(void **a0)
 {
     EVENT_FIELD_PROCLINK_InitEventdataSystem((char *)a0);
     EVENT_FIELD_PROCLINK_InitIdList((u16 *)&a0[0x7a]);

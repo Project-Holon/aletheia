@@ -14,17 +14,17 @@
  * (A strlcpy-shaped helper.)
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_02092344  0x02092344  arm
  */
 
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
 int func_021803BC(char *dst, const char *src, unsigned int n)
 {
-    unsigned int len = func_0209477C((const u8 *)src);
+    unsigned int len = strlen((const u8 *)src);
 
     if (len > n - 1)
         len = n - 1;

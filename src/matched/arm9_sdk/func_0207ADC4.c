@@ -1,5 +1,5 @@
 /*
- * function: func_0207ADC4
+ * function: MTX_Identity33_
  * address:  0x0207ADC4
  * packet:   pkt_0207ADC4
  * region:   arm9
@@ -18,7 +18,7 @@
  *   (none)
  */
 
-asm void func_0207ADC4(void)
+asm void MTX_Identity33_(void)
 {
     mov r2, #0x1000
     str r2, [r0, #0x20]

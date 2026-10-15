@@ -27,7 +27,7 @@
    }
   },
   {
-   "name": "sub_02010158",
+   "name": "GFL_NET_ERR_GetMessageId",
    "address": "0x02010158",
    "kind": "game",
    "region": "arm9",
@@ -45,7 +45,7 @@
    }
   },
   {
-   "name": "func_020101D4",
+   "name": "GFL_NET_ERR_DrawWindow",
    "address": "0x020101D4",
    "kind": "game",
    "region": "arm9",
@@ -57,7 +57,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201034C",
+   "name": "WIH_DWC_PollSystem",
    "address": "0x0201034C",
    "kind": "game",
    "region": "arm9",

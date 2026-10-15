@@ -1,5 +1,5 @@
 /*
- * function: func_020805E8
+ * function: GX_SetBankForARM7
  * address:  0x020805E8
  * packet:   pkt_020805E8
  * region:   arm9
@@ -84,7 +84,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
-void func_020805E8(int arm7)
+void GX_SetBankForARM7(int arm7)
 {
     gGXState.vramCnt_lcdc = (u16)(~arm7 & (gGXState.vramCnt_lcdc | gGXState.vramCnt_arm7));
     gGXState.vramCnt_arm7 = (u16)arm7;

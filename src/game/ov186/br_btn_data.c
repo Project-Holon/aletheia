@@ -22,12 +22,12 @@
  *   d_022007F0 0x022007F0 data a4
  *   d_02200D28 0x02200D28 data a1
  *   d_02200D38 0x02200D38 data a1
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  */
 #include "br_types.h"
 
@@ -47,7 +47,7 @@ extern u32 func_020307B0(void *p);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-extern struct WordSet *func_0201EC64(unsigned int heapId);
+extern struct WordSet *GF_FONT_Create_EC64(unsigned int heapId);
 
 extern void func_0201EE0C(struct WordSet *p, unsigned int i, const void *src, unsigned int n, unsigned int f, unsigned int c);
 
@@ -57,7 +57,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 void *BR_BTN_DATA_Create(int *configPtr, int heapId);
 
@@ -154,12 +154,12 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
     if(kind>=1 && kind<=4){index=kind-1;hasWordSet=1;}
     if(hasWordSet){
         if((*wordSetSrc)[index]!=0){
-            wordSet=func_0201EC64((unsigned short)((heapId&0x7fff)|0x8000));
+            wordSet=GF_FONT_Create_EC64((unsigned short)((heapId&0x7fff)|0x8000));
             func_0201EE0C(wordSet,0,(const void *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
             src=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
             func_0201F250(wordSet,result,src);
-            func_0201ED04(wordSet);
+            WORDSET_DeleteStrbufED04(wordSet);
             STRBUF_Delete(src);
         }else{
             result=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));

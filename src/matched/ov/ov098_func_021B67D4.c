@@ -10,14 +10,14 @@
  * prototype: 02008374's three unused legacy trailing inputs omitted: full getter reads only r0, no forwarding; caller supplies no new values.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02045B38 0x02045B38 arm
  *   CONFIG_GetTextSpeed 0x02008374 thumb
- *   func_02013080 0x02013080 thumb
+ *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02041300 0x02041300 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
@@ -43,14 +43,14 @@ struct Cfg;
 extern const char gPdcMsgSrcName[];
 extern const struct BgTemplate gPdcMsgBgTemplate;
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern u32 CONFIG_GetTextSpeed(int);
-extern signed char func_02013080(u32);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32);
 extern struct U16Vec *STRBUF_Create(u32, u32);
-extern struct WordSet *func_0201EC64(u32);
+extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
@@ -65,16 +65,16 @@ u8 *PDC_MSG_Create(void *a, void *b, void *c, u32 heap)
     u8 *p;
     u32 idx;
     p = func_02030734(heap, 0x48, 1, gPdcMsgSrcName, 0x82);
-    func_0203FCA0(1, &gPdcMsgBgTemplate, 0);
+    BG_SYS_InitBgLayer(1, &gPdcMsgBgTemplate, 0);
     ((struct Obj01704 *)p)->f44 = heap;
     ((struct Obj01704 *)p)->f28 = c;
     *(struct MsgBank * *)&((struct Obj01704 *)p)->f20 = func_02045B38(0, 2, 0x56, ((struct Obj01704 *)p)->f44);
     ((struct Obj01704 *)p)->f24 = a;
-    ((struct Obj01704 *)p)->f34 = func_02013080(CONFIG_GetTextSpeed((int)b));
+    ((struct Obj01704 *)p)->f34 = MSG_SPEED_GetWaitForSpeed(CONFIG_GetTextSpeed((int)b));
     *(struct U16Vec * *)&((struct Obj01704 *)p)->f2C = STRBUF_Create(0x100, heap);
-    *(struct WordSet * *)&((struct Obj01704 *)p)->f30 = func_0201EC64(heap);
+    *(struct WordSet * *)&((struct Obj01704 *)p)->f30 = GF_FONT_Create_EC64(heap);
     func_02041300(1, 0, 0, 0, 32, 32, 17);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     idx = func_020496E4(11, 89, 1, 0, 0, ((struct Obj01704 *)p)->f44);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 11, 90, ((struct Obj01704 *)p)->f44, 0, 32, 0, 0);
     *(u32 *)&((struct Obj01704 *)p)->f1C = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);

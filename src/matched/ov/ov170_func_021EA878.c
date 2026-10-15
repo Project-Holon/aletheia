@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202614C 0x0202614C thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_SetSkipBit 0x0202614C thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_SEQ_DrawFrameList 0x021EB988 thumb
  *   d_021EF8FC 0x021EF8FC data a1
  *   d_021EF8F4 0x021EF8F4 data a1
@@ -26,8 +26,8 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Sound;
-extern void func_0202614C(struct Sound *obj, u32 idx);
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_SetSkipBit(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void BOX2_SEQ_DrawFrameList(Obj *p, const void *e, unsigned n);
 extern const unsigned char d_021EF8FC[];
 extern const unsigned char d_021EF8F4[];
@@ -38,15 +38,15 @@ void BOX2_SEQ_SetActorAnim(Obj *p, int v)
 {
     if (v != 0) {
         if (p->b16 < 0x1E)
-            func_0202614C(OBJ(p), 0x24);
+            CURSOR_MOVE_SetSkipBit(OBJ(p), 0x24);
         else
-            func_0202614C(OBJ(p), 9);
+            CURSOR_MOVE_SetSkipBit(OBJ(p), 9);
         BOX2_SEQ_DrawFrameList(p, d_021EF8FC, 3);
     } else {
         if (p->b16 < 0x1E)
-            func_02026124(OBJ(p), 0x24);
+            CURSOR_MOVE_ClearSkipBit(OBJ(p), 0x24);
         else
-            func_02026124(OBJ(p), 9);
+            CURSOR_MOVE_ClearSkipBit(OBJ(p), 9);
         BOX2_SEQ_DrawFrameList(p, d_021EF8F4, 2);
     }
 }

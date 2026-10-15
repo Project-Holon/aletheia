@@ -19,7 +19,7 @@
  *   strlen           0x0209477c arm
  *   ghiResizeBuffer  0x021bfb90 arm  ov114
  *   memcpy           0x02092344 arm
- *   func_0209477C                    0x0209477c arm
+ *   strlen                    0x0209477c arm
  *   func_0217D254                    0x0217d254 arm  ov009
  *   sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode                       0x021ce54c data ov114
  *   ghiAppendDataToBuffer  0x021BFCEC arm ov114
@@ -36,10 +36,7 @@
 
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void gsifree(void *ptr);
-extern void *memset(void *dst, int c, unsigned int n);
-extern unsigned int strlen(const char *);
 extern void *memcpy(void *, const void *, unsigned int);
-extern int func_0209477C(const u8 *s);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
@@ -62,6 +59,8 @@ extern char sGhttpLineEndBuffer[];
 extern char sGhttpIntFormatBuffer[];
 
 
+extern unsigned int strlen(const char *);
+extern void *memset(void *dst, int c, unsigned int n);
 int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement)
 {
     int newSize;
@@ -202,7 +201,7 @@ int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
         return ghiAppendDataToBuffer(buffer, (char *)data, dataLen);
 
     if (dataLen == 0)
-        dataLen = func_0209477C((const u8 *)data);
+        dataLen = strlen((const char *)data);
     if (dataLen == 0)
         return 1;
 

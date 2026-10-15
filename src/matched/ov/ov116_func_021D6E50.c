@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E50
+ * function: WIFI_BSUBWAY_StartHttpRequest
  * address: 0x021D6E50
  * packet: pkt_ov116_021D6E50
  * region: ov116
@@ -14,8 +14,8 @@
  *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
  *   NHTTP_RAP_CreatePostRequest 0x021B98F8 thumb ov114
  *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
- *   func_021D7258 0x021D7258 thumb ov116
- *   func_021D6E3C 0x021D6E3C thumb ov116
+ *   WIFI_BSUBWAY_ResetUpload 0x021D7258 thumb ov116
+ *   WIFI_BSUBWAY_OnHttpError 0x021D6E3C thumb ov116
  */
 #include "../include/Obj04470.h"
 typedef unsigned char u8;
@@ -29,15 +29,15 @@ extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
 extern void NHTTP_RAP_AppendPostData(u8 *p, int a, int n);
 extern int NHTTP_RAP_CreatePostRequest(u8 *p);
 extern int NHTTP_RAP_StartConnection(u8 *);
-extern void func_021D7258(u8 *);
-extern void func_021D6E3C(unsigned char *a);
-void func_021D6E50(u8 *p,u8 *q,int a,int b) {
+extern void WIFI_BSUBWAY_ResetUpload(u8 *);
+extern void WIFI_BSUBWAY_OnHttpError(unsigned char *a);
+void WIFI_BSUBWAY_StartHttpRequest(u8 *p,u8 *q,int a,int b) {
     *(u8 * *)&((struct Obj04470 *)p)->f168=NHTTP_RAP_Create(b,func_0200853C(((struct Obj04470 *)p)->f218),a);
-    DWC_RAP_SetErrorCallback((int)func_021D6E3C,(int)p);
+    DWC_RAP_SetErrorCallback((int)WIFI_BSUBWAY_OnHttpError,(int)p);
     NHTTP_RAP_AllocPostData(*(u8 * *)&((struct Obj04470 *)p)->f168,b,180,4);
     NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj04470 *)p)->f168,(int)(p+0x70),180);
     ((struct Obj04470 *)p)->f16C=3;
     NHTTP_RAP_CreatePostRequest(*(u8 * *)&((struct Obj04470 *)p)->f168);
     NHTTP_RAP_StartConnection(*(u8 * *)&((struct Obj04470 *)p)->f168);
-    func_021D7258(q);
+    WIFI_BSUBWAY_ResetUpload(q);
 }

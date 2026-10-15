@@ -33,7 +33,7 @@
  *   BTLV_EFFECT_Exit 0x021F7808 thumb ov094
  *   BTLV_INPUT_Delete 0x022021F4 thumb ov094
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -42,13 +42,13 @@
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gPdcDispVram 0x021B6DF4 data a4
  *   gPdcDispConfig 0x021B6DB0 data a4
  *   gPdcClactInit 0x021B6DD8 data a4
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   BTLV_EFFECT_SetPokeSpriteKey  0x021F7EE8  thumb  ov094
@@ -77,7 +77,7 @@
  *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   PDC_GetGameData 0x021B613C thumb ov098
  *   PDC_GetMon 0x021B6140 thumb ov098
  *   PDC_GetScene 0x021B6144 thumb ov098
@@ -142,7 +142,7 @@ extern void TCBL_Destroy(struct Tcbl *tcbl);
 extern void BTLV_EFFECT_Exit(void);
 extern void BTLV_INPUT_Delete(struct PdcMenu *menu);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
@@ -151,10 +151,10 @@ extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
 extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
-extern void func_0204044C(u32);
+extern void BG_SYS_SetLowBit(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void CLACT_ExitSystem(void);
 extern void G3D_SYSTEM_Exit(void);
 extern void BTLV_EFFECT_SetPokeSpriteKey(struct PokemonParam *mon, int key);
@@ -179,7 +179,7 @@ extern int FADE_IsActive(void);
 extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 
 extern struct GameData *PDC_GetGameData(struct PdcArgs *args);
 extern struct PokemonParam *PDC_GetMon(struct PdcArgs *args);
@@ -276,7 +276,7 @@ void PDC_MAIN_SetStep(struct PdcSys *sys, PdcStep step) { sys->state = 0; sys->s
 
 void PDC_MAIN_InitGraphics(u16 heapId)
 {
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0201DD60();
     BG_SYS_SetVramBanks(&gPdcDispVram);
@@ -292,13 +292,13 @@ void PDC_MAIN_InitGraphics(u16 heapId)
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
     CLACT_InitSystem(&gPdcClactInit, (u32)&gPdcDispVram, heapId);
-    func_0204044C(1);
+    BG_SYS_SetLowBit(1);
     BG_SYS_SetMainPlaneVisible(16, 1);
 }
 
 void PDC_MAIN_ExitGraphics(void)
 {
-    BMP_WIN_Exit(); func_0203F9B4(); CLACT_ExitSystem(); G3D_SYSTEM_Exit();
+    BMP_WIN_Exit(); BG_SYS_Delete(); CLACT_ExitSystem(); G3D_SYSTEM_Exit();
 }
 
 /* Step 1: opening message, fade in, first message. */
@@ -491,4 +491,4 @@ int PDC_MAIN_StepDeclined(struct PdcSys *sys)
     return 0;
 }
 
-void PDC_MAIN_StartFadeIn(int speed) { if (func_0207D55C(MASTER_BRIGHT_MAIN) <= 0) FADE_Start(3,16,0,speed); else FADE_Start(12,16,0,speed); }
+void PDC_MAIN_StartFadeIn(int speed) { if (GXx_GetMasterBrightness_(MASTER_BRIGHT_MAIN) <= 0) FADE_Start(3,16,0,speed); else FADE_Start(12,16,0,speed); }

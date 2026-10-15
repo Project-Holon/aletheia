@@ -12,7 +12,7 @@
  * symbols:
  *   d_021A1C8C  0x021A1C8C  data  ov009  a1
  *   DWC_RAPCOMMON_CreateHeap  0x02157048  thumb  ov009
- *   func_02059F6C  0x02059F6C  arm
+ *   DWC_InitForProduction  0x02059F6C  arm
  *   DWC_RAPCOMMON_DestroyHeap  0x021570B8  thumb  ov009
  *   DWC_RAPCOMMON_Alloc  0x02156F5C  thumb  ov009
  *   DWC_RAPCOMMON_Free  0x02156FDC  thumb  ov009
@@ -29,7 +29,7 @@ typedef struct {
 extern struct Obj *_pRapHeap;
 extern char d_021A1C8C[];
 extern void DWC_RAPCOMMON_CreateHeap(u32 a, u32 b);
-extern int func_02059F6C(void *a, u32 b, void *c, void *d);
+extern int DWC_InitForProduction(void *a, u32 b, void *c, void *d);
 extern void DWC_RAPCOMMON_DestroyHeap(void);
 extern u32 DWC_RAPCOMMON_Alloc(u32 a, u32 b, u32 c);
 extern void DWC_RAPCOMMON_Free(u32 a, void *p, int b);
@@ -37,7 +37,7 @@ int DWC_RAPCOMMON_RunDwcInit(u16 a)
 {
     int r;
     DWC_RAPCOMMON_CreateHeap(a, 0x40000);
-    r = func_02059F6C(d_021A1C8C, 0x4952414A, DWC_RAPCOMMON_Alloc, DWC_RAPCOMMON_Free);
+    r = DWC_InitForProduction(d_021A1C8C, 0x4952414A, DWC_RAPCOMMON_Alloc, DWC_RAPCOMMON_Free);
     DWC_RAPCOMMON_DestroyHeap();
     return r;
 }

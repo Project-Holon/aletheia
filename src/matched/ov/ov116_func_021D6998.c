@@ -1,5 +1,5 @@
 /*
- * function: func_021D6998
+ * function: WIFI_BSUBWAY_ClearTrainers
  * address: 0x021D6998
  * packet: pkt_ov116_021D6998
  * region: ov116
@@ -12,4 +12,4 @@
  *   MI_CpuFill8 0x02082BCC arm
  */
 extern void MI_CpuFill8(void *,int,unsigned int);
-void func_021D6998(void *a) { MI_CpuFill8(a,0,0xa9c); }
+void WIFI_BSUBWAY_ClearTrainers(void *a) { MI_CpuFill8(a,0,0xa9c); }

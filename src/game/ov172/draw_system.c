@@ -24,7 +24,7 @@
  *   _ffix 0x0209C494 arm
  *   gDrawBrushes 0x021C4E84 data a4
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0207E008  0x0207E008  arm
+ *   G2_GetBG2ScrPtr  0x0207E008  arm
  *   DRAW_SYSTEM_SetQueueIndex 0x021B6EA8 thumb ov172
  *   DRAW_SYSTEM_PushStroke 0x021B6E88 thumb ov172
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
@@ -89,7 +89,7 @@ extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
 extern void MI_CpuCopy8(void *a, void *b, int c);
-extern void *func_0207E008(void);
+extern void *G2_GetBG2ScrPtr(void);
 extern const char d_021C71D0[];
 extern const DrawBrush gDrawBrushes[];
 
@@ -242,7 +242,7 @@ void DRAW_SYSTEM_SetQueueIndex(DrawCanvas *canvas, u16 index)
 /* Returns the plane the strokes are drawn into. */
 void *DRAW_SYSTEM_GetPlane(void)
 {
-    return func_0207E008();
+    return G2_GetBG2ScrPtr();
 }
 
 /* Returns stroke entry i. */

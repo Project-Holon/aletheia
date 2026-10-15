@@ -52,8 +52,8 @@
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   sTownMapGrhFileName     0x021BBD6C  data  ov072  a1
  *   sTownMapGrhVramBanks     0x021BBBDC  data  ov072
  *   sTownMapGrhBgTable 0x021BBC28 data a4
@@ -63,22 +63,22 @@
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   func_0201DD60  0x0201DD60  thumb
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_02049B40  0x02049B40  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   sTownMapGrhDispConfig     0x021BBBCC  data  a4
  *   func_02040DA8  0x02040DA8  arm
  *   func_020414AC  0x020414AC  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020419E4  0x020419E4  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -143,29 +143,29 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
-extern void func_0207CA00(const TownMapVec *a, const TownMapVec *b, TownMapVec *out);
-extern int func_0207CBD0(const TownMapVec *v);
+extern void VEC_Subtract(const TownMapVec *a, const TownMapVec *b, TownMapVec *out);
+extern int VEC_Mag(const TownMapVec *v);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
 extern void func_0204363C(u32 a);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void func_0201DD60(void);
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 extern void func_0203FC28(struct DispConfig *config);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *templ, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *templ, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B68(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern u32 func_02049658(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void func_020498F4(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020414AC(u8 a);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const TownMapClactInit *init, const struct DispVram *banks, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -338,8 +338,8 @@ void TOWNMAP_GRH_UpdateTouch(TownMapTouch *touch)
             touch->cur.x = touchX << 12;
             touch->cur.y = touchY << 12;
             touch->cur.z = 0;
-            func_0207CA00(&touch->cur, &touch->prev, &touch->delta);
-            if (func_0207CBD0(&touch->delta) >= 0x1000) {
+            VEC_Subtract(&touch->cur, &touch->prev, &touch->delta);
+            if (VEC_Mag(&touch->delta) >= 0x1000) {
                 touch->dragged = 1;
             }
         } else {
@@ -453,12 +453,12 @@ void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId)
 
     i = 0;
     MI_CpuFill8(&gfx->bgReady, 0, sizeof(gfx->bgReady));
-    func_0203F8F4(heapId);
+    BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(&sTownMapGrhDispConfig);
     for (; i < TOWNMAP_GRH_BG_COUNT; i++) {
         bgId = sTownMapGrhBgTable[i].bgId;
-        func_0203FCA0((u8)bgId, (const struct BgTemplate *)&sTownMapGrhBgTable[i].templ, (u8)sTownMapGrhBgTable[i].mode);
+        BG_SYS_InitBgLayer((u8)bgId, (const struct BgTemplate *)&sTownMapGrhBgTable[i].templ, (u8)sTownMapGrhBgTable[i].mode);
         func_02040588(bgId, 1);
     }
     arc = func_020490F4(0x55, heapId);
@@ -473,7 +473,7 @@ void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId)
     func_020498F4(arc, 0xf, 5, 0, 0, 0, heapId);
     func_02049B40(0x17, 5, 0, 0x1c0, 0x20, heapId);
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, heapId);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -489,7 +489,7 @@ void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx)
         func_020403F4((u8)bgId);
     }
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(&gfx->bgReady, 0, sizeof(gfx->bgReady));
 }
 

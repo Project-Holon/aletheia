@@ -1,7 +1,7 @@
 /*
  * file:     wcm_wmif.c
  * unit:     yes
- * function: func_02166880, func_021669B8, func_02166A24, func_02166B2C, func_02166BD8, func_02166C44, func_02166D2C, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, func_021671C0, WcmWmcbEndScan, WcmWmcbConnect, func_021676E4, func_021677A4, func_021678AC, func_021679C0, func_02167CB4, func_02167DE0, func_02167E20
+ * function: WCMi_WmifStartupAsync, func_021669B8, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, func_02166BD8, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, func_021679C0, func_02167CB4, func_02167DE0, WcmWmcbSetDCFDataAsync
  * address:  0x02166880
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   WM_SetIndCallback    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   func_021665CC    0x021665CC  arm  ov009
- *   func_0208F224    0x0208F224  arm
+ *   WM_Enable    0x0208F224  arm
  *   func_02166EB0    0x02166EB0  arm  ov009
  *   func_02166F24    0x02166F24  arm  ov009
  *   WCMi_GetSystemWork               0x021657c8 arm
@@ -30,21 +30,21 @@
  *   func_02167CB4    0x02167CB4  arm  ov009
  *   DC_InvalidateRange 0x020862B8  arm
  *   WM_StartScanEx   0x0208F698  arm
- *   func_021671C0    0x021671C0  arm  ov009
+ *   WcmWmcbScanEx    0x021671C0  arm  ov009
  *   WM_SetLifeTime  0x02090DEC  arm
  *   WM_EndDCF                        0x0208ffdc arm
  *   WcmWmcbEndDCF                    0x021678ac arm
  *   WMi_GetStatusAddress  0x0208E9C8  arm
  *   WM_Finish  0x0208E2B8  arm
- *   func_0208F2A0  0x0208F2A0  arm
- *   func_0208F328  0x0208F328  arm
+ *   WM_Disable  0x0208F2A0  arm
+ *   WM_PowerOff  0x0208F328  arm
  *   WM_Reset  0x0208F400  arm
  *   func_021679C0  0x021679C0  arm  ov009
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
- *   func_0208FF0C  0x0208FF0C  arm
+ *   WM_SetDCFData  0x0208FF0C  arm
  *   OS_SleepThread  0x020857B0  arm
  *   func_02167DE0  0x02167DE0  arm  ov009
- *   func_02167E20  0x02167E20  arm  ov009
+ *   WcmWmcbSetDCFDataAsync  0x02167E20  arm  ov009
  *   WM_GetAllowedChannel            0x0208ee60 arm
  *   WM_Reset                         0x0208f400 arm
  *   WCMi_Notify                      0x021659b4 arm
@@ -72,10 +72,10 @@
  *   func_02166804    0x02166804  arm  ov009
  *   func_02166358    0x02166358  arm  ov009
  *   WM_Disconnect    0x0208F938  arm
- *   func_021676E4    0x021676E4  arm  ov009
+ *   WcmWmcbDisconnect    0x021676E4  arm  ov009
  *   WCM_UpdateOption    0x021656D0  arm  ov009
  *   WCMi_GetNextScanChannel    0x02165918  arm  ov009
- *   func_0208EFC4    0x0208EFC4  arm
+ *   WM_GetDispersionScanPeriod    0x0208EFC4  arm
  *   MI_CpuCopy8      0x02082D44  arm
  *   g_021A1988       0x021A1988  data  ov009
  *   g_021A1990       0x021A1990  data  ov009
@@ -172,7 +172,7 @@ extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
 extern long WM_SetIndCallback(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern void func_021665CC(unsigned char *macAddress);
-extern int func_0208F224(char *path);
+extern int WM_Enable(char *path);
 extern int WM_PowerOff(void (*callback)(void *));
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
@@ -180,15 +180,13 @@ extern long WM_SetLifeTime(void (*callback)(void *), unsigned short tableNumber,
 extern int WM_EndDCF(void (*callback)(void *));
 extern WMStatus *WMi_GetStatusAddress(void);
 extern long WM_Finish(void);
-extern long func_0208F2A0(void (*callback)(void *));
-extern long func_0208F328(void (*callback)(void *));
+extern long WM_Disable(void (*callback)(void *));
 extern long WM_Reset(void (*callback)(void *));
 extern WCMCpsifWork *WCMi_GetCpsifWork(void);
-extern long func_0208FF0C(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
+extern long WM_SetDCFData(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
 extern void OS_SleepThread(void *queue);
 extern unsigned short WM_GetAllowedChannel(void);
 extern long WM_PowerOn(void (*callback)(void *));
-extern long WM_Disable(void (*callback)(void *));
 extern long WM_SetBeaconIndication(void (*callback)(void *), unsigned short flag);
 extern long WM_SetWEPKeyEx(void (*callback)(void *), unsigned short wepmode,
                            unsigned short wepkeyid, unsigned char *wepkey);
@@ -207,7 +205,7 @@ extern void func_02166804(unsigned char rssi);
 extern void func_02166358(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
 extern long WM_Disconnect(void (*callback)(void *), unsigned long arg);
 extern unsigned long WCM_UpdateOption(unsigned long option);
-extern unsigned short func_0208EFC4(void);
+extern unsigned short WM_GetDispersionScanPeriod(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void WCMi_ResetKeepAliveAlarm(void);
 extern void OS_WakeupThread(void *queue);
@@ -218,29 +216,29 @@ extern unsigned char g_021A1990[];
 static void WcmWmReset(void);
 static void WcmWmcbIndication(void *arg);
 static void WcmWmcbCommon(void *arg);
-static void func_021671C0(void *arg);
+static void WcmWmcbScanEx(void *arg);
 static void WcmWmcbEndScan(void *arg);
 static void WcmWmcbConnect(void *arg);
 static void WcmWmcbReset(void *arg);
 static void WcmWmcbSetDCFData(void *arg);
-static void func_02167E20(void *arg);
-long func_02166880(void);
+static void WcmWmcbSetDCFDataAsync(void *arg);
+long WCMi_WmifStartupAsync(void);
 long WCMi_WmifCleanupAsync(void);
-long func_02166A24(void *bssid, void *essid, unsigned long option);
-long func_02166B2C(void);
+long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
+long WCMi_WmifConnectAsync(void);
 long WCMi_WmifDisconnectAsync(void);
-long func_02166C44(void);
-long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
+long WCMi_WmifTerminateAsync(void);
+long WCMi_WmifSetDCFData(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
 unsigned short WCMi_WmifGetAllowedChannel(void);
-void func_021676E4(void *arg);
-void func_021677A4(void *arg);
-void func_021678AC(void *arg);
+void WcmWmcbDisconnect(void *arg);
+void WcmWmcbStartDCF(void *arg);
+void WcmWmcbEndDCF(void *arg);
 void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option);
 
 /*
  * sdk:      WCMi_WmifStartupAsync (libwcm.TWL.HYB.a wmif.o)
  */
-long func_02166880(void)
+long WCMi_WmifStartupAsync(void)
 {
     unsigned char macAddress[6];
     WCMWork *wcmw;
@@ -270,7 +268,7 @@ long func_02166880(void)
     }
     OS_GetMacAddress(macAddress);
     func_021665CC(macAddress);
-    wmResult = func_0208F224((char *)WcmWmcbCommon);
+    wmResult = WM_Enable((char *)WcmWmcbCommon);
     switch (wmResult) {
     case 2:
         WCMi_SetPhase(2);
@@ -312,7 +310,7 @@ long WCMi_WmifCleanupAsync(void)
 /*
  * sdk:      WCMi_WmifBeginSearchAsync (libwcm.TWL.HYB.a wmif.o)
  */
-long func_02166A24(void *bssid, void *essid, unsigned long option)
+long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option)
 {
     WCMWork *wcmw;
     long wmResult;
@@ -333,7 +331,7 @@ long func_02166A24(void *bssid, void *essid, unsigned long option)
     }
     DC_InvalidateRange(wcmw->scanParam.scanBuf, wcmw->scanParam.scanBufSize);
     wcmw->notifyCount++;
-    wmResult = WM_StartScanEx(func_021671C0, &wcmw->scanParam);
+    wmResult = WM_StartScanEx(WcmWmcbScanEx, &wcmw->scanParam);
     switch (wmResult) {
     case 2:
         WCMi_SetPhase(5);
@@ -349,7 +347,7 @@ long func_02166A24(void *bssid, void *essid, unsigned long option)
     return 3;
 }
 
-long func_02166B2C(void)
+long WCMi_WmifConnectAsync(void)
 {
     WCMWork *wcmw;
     long wmResult;
@@ -380,7 +378,7 @@ long WCMi_WmifDisconnectAsync(void)
     int wmResult;
 
     wcmw = WCMi_GetSystemWork();
-    wmResult = WM_EndDCF(func_021678AC);
+    wmResult = WM_EndDCF(WcmWmcbEndDCF);
     switch (wmResult) {
     case 2:
         WCMi_SetPhase(0xa);
@@ -401,7 +399,7 @@ long WCMi_WmifDisconnectAsync(void)
  *
  * Terminates the WM link by walking the WM state down: finish, disable, power off or reset, then maps the result to a WCM result.
  */
-long func_02166C44(void)
+long WCMi_WmifTerminateAsync(void)
 {
     WCMWork *wcmw;
     long wmResult;
@@ -420,10 +418,10 @@ long func_02166C44(void)
         }
         break;
     case 1:
-        wmResult = func_0208F2A0(WcmWmcbCommon);
+        wmResult = WM_Disable(WcmWmcbCommon);
         break;
     case 2:
-        wmResult = func_0208F328(WcmWmcbCommon);
+        wmResult = WM_PowerOff(WcmWmcbCommon);
         break;
     default:
         wcmw->resetting = 1;
@@ -450,17 +448,17 @@ long func_02166C44(void)
  *
  * Sends a DCF frame through WM; with a callback the send is asynchronous, otherwise the caller sleeps until the completion callback.
  */
-long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long))
+long WCMi_WmifSetDCFData(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long))
 {
     WCMCpsifWork *wcmiw;
     long wmResult;
 
     wcmiw = WCMi_GetCpsifWork();
     if (callback == 0) {
-        wmResult = func_0208FF0C(WcmWmcbSetDCFData, dstAddr, buf, len);
+        wmResult = WM_SetDCFData(WcmWmcbSetDCFData, dstAddr, buf, len);
     } else {
         wcmiw->sendCallback = callback;
-        wmResult = func_0208FF0C(func_02167E20, dstAddr, buf, len);
+        wmResult = WM_SetDCFData(WcmWmcbSetDCFDataAsync, dstAddr, buf, len);
     }
     switch (wmResult) {
     case 0:
@@ -636,7 +634,7 @@ static inline unsigned long clz32(unsigned long x)
     return x;
 }
 
-static void func_021671C0(void *arg)
+static void WcmWmcbScanEx(void *arg)
 {
     unsigned long channels;
     WCMWork *wcmw;
@@ -674,7 +672,7 @@ static void func_021671C0(void *arg)
                 (1 << WCMi_GetNextScanChannel(32 - clz32(cb->channelList))) >> 1;
             DC_StoreRange(wcmw->scanParam.scanBuf, wcmw->scanParam.scanBufSize);
             wcmw->notifyCount++;
-            wmResult = WM_StartScanEx(func_021671C0, &wcmw->scanParam);
+            wmResult = WM_StartScanEx(WcmWmcbScanEx, &wcmw->scanParam);
             break;
         case 7:
             wmResult = WM_EndScan(WcmWmcbEndScan);
@@ -770,7 +768,7 @@ static void WcmWmcbConnect(void *arg)
             }
             if (cb->aid >= 1 && cb->aid <= 0x7d7) {
                 wcmw->aid = cb->aid;
-                wmResult = WM_StartDCF(func_021677A4, wcmw->recvBuf, 0x620);
+                wmResult = WM_StartDCF(WcmWmcbStartDCF, wcmw->recvBuf, 0x620);
                 switch (wmResult) {
                 case 2:
                     return;
@@ -825,7 +823,7 @@ static void WcmWmcbConnect(void *arg)
         return;
 }
 
-void func_021676E4(void *arg)
+void WcmWmcbDisconnect(void *arg)
 {
     WCMWork *wcmw;
 
@@ -858,7 +856,7 @@ void func_021676E4(void *arg)
 /*
  * sdk:      WcmWmcbStartDCF (libwcm.TWL.HYB.a wmif.o)
  */
-void func_021677A4(void *arg)
+void WcmWmcbStartDCF(void *arg)
 {
     WCMWork *wcmw;
     WMStartDCFCallback *cb;
@@ -895,7 +893,7 @@ void func_021677A4(void *arg)
 /*
  * sdk:      WcmWmcbEndDCF (libwcm.TWL.HYB.a wmif.o)
  */
-void func_021678AC(void *arg)
+void WcmWmcbEndDCF(void *arg)
 {
     WCMWork *wcmw;
     long wmResult;
@@ -910,7 +908,7 @@ void func_021678AC(void *arg)
             WcmWmReset();
             return;
         }
-        wmResult = WM_Disconnect(func_021676E4, 0);
+        wmResult = WM_Disconnect(WcmWmcbDisconnect, 0);
         switch (wmResult) {
         case 2:
             return;
@@ -1035,7 +1033,7 @@ void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long opt
     wcmw->scanParam.channelList = (1 << WCMi_GetNextScanChannel(0)) >> 1;
     t = wcmw->maxScanTime;
     if (t == 0) {
-        t = func_0208EFC4();
+        t = WM_GetDispersionScanPeriod();
     }
     wcmw->scanParam.maxChannelTime = t;
     wcmw->scanParam.scanType = (wcmw->option & 0x300000) == 0x300000 ? 0 : 1;
@@ -1088,7 +1086,7 @@ static void WcmWmcbSetDCFData(void *arg)
  * if/else and the guard-after-default spellings all give `mvnne` (100 B).
  * Outer `switch (cb->apiid)` and the DWARF `cb` local as in the vendor.
  */
-static void func_02167E20(void *arg)
+static void WcmWmcbSetDCFDataAsync(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     WCMCpsifWork *wcmiw = WCMi_GetCpsifWork();

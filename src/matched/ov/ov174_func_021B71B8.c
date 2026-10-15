@@ -1,5 +1,5 @@
 /*
- * function: func_021B71B8
+ * function: LOCAL_TVT_CHARA_DrawLabel
  * address: 0x021B71B8
  * packet: pkt_ov174_021B71B8
  * region: ov174
@@ -19,11 +19,11 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201F02C 0x0201F02C thumb
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
@@ -49,14 +49,14 @@ extern void func_020409B4(u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 *GAME_DATA_GetMyStatus(void *);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
-void func_021B71B8(u8 *p,u8 *q)
+void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
 {
     void *s;
     void *dst;
@@ -71,11 +71,11 @@ void func_021B71B8(u8 *p,u8 *q)
     if(q[2]==0 || q[2]==5){
         dst=STRBUF_Create(128,*(u16 *)p);
         save=GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(p+0x30)+4));
-        ws=func_0201EC64(*(u16 *)p);
+        ws=GF_FONT_Create_EC64(*(u16 *)p);
         func_0201F02C(ws,0,save);
         func_0201F250(ws,dst,s);
         STRBUF_Delete(s);
-        func_0201ED04(ws);
+        WORDSET_DeleteStrbufED04(ws);
         s=dst;
     }
     q[7]=func_0201D304(s,*(u32 *)(p+0x60),0);

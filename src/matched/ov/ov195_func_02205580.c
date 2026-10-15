@@ -1,5 +1,5 @@
 /*
- * function: func_02205580
+ * function: SHINKA_DEMO_DeleteConfirmMenu
  * address: 0x02205580
  * packet: pkt_ov195_02205580
  * region: ov195
@@ -21,4 +21,4 @@ extern void YESNO_MENU_Delete(u8 *);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_02205580(void *unused,char *p) {YESNO_MENU_Delete(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f98));MSGDATA_Delete(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}
+void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *p) {YESNO_MENU_Delete(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f98));MSGDATA_Delete(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}

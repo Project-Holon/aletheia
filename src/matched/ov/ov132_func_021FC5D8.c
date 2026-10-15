@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9690  0x021F9690  thumb
+ *   STA_ACTING_StopSeq  0x021F9690  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23266.h"
 
-extern void func_021F9690(char *p);
+extern void STA_ACTING_StopSeq(char *p);
 
 int func_021FC5D8(int a, char **pp)
 {
-    func_021F9690(((struct Obj23266 *)(*pp))->f34);
+    STA_ACTING_StopSeq(((struct Obj23266 *)(*pp))->f34);
     return 0;
 }

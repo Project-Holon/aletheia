@@ -56,7 +56,7 @@
  *   FIELD_G3D_MAP_GetPlacement  0x02169444  thumb  ov010
  *   FIELD_G3D_MAP_ClearPlacement  0x0216940C  thumb
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   func_0207AF1C  0x0207AF1C  thumb
  *   FX_SinCosTable_     0x020A1B38  data   a2
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
@@ -294,7 +294,7 @@ extern void FIELD_G3D_MAP_SetPlacement(u8 *base, u8 *src, u32 idx);
 extern u32 *FIELD_G3D_MAP_GetPlacement(u8 *base, u32 idx);
 extern void FIELD_G3D_MAP_ClearPlacement(void *o, u32 i);
 extern void FIELD_G3D_MAP_GetPos(int o, BuildModelVec *v);
-extern void func_0207C9D0(void *, void *, void *);
+extern void VEC_Add(void *, void *, void *);
 extern void func_0207AF1C(void *m, int a, int b);
 void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 int GFL_USE_GetSeSlot(u32 a0);
@@ -1292,7 +1292,7 @@ BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(BuildModelMan *man, Buil
         if (kind != 0 && kind != FIELD_BUILDMODEL_GetEntryAnimKind(man, entry))
             continue;
         FIELD_G3D_MAP_GetPos((int)entry->object, &pos);
-        func_0207C9D0(&entry->instance->pos, &pos, &pos);
+        VEC_Add(&entry->instance->pos, &pos, &pos);
         if (BuildModelRect_Contains(rect, pos.x, pos.z) == 1) {
             list[n] = entry;
             n++;
@@ -1338,7 +1338,7 @@ void FIELD_BUILDMODEL_GetEntryWorldPos(BuildModelEntry *entry, void *out)
 {
     BuildModelVec pos;
     FIELD_G3D_MAP_GetPos((int)entry->object, &pos);
-    func_0207C9D0(&entry->instance->pos, &pos, out);
+    VEC_Add(&entry->instance->pos, &pos, out);
 }
 
 int FIELD_BUILDMODEL_GetEntrySlotFrame(BuildModelMan *man, BuildModelEntry *entry, int id)
@@ -1365,9 +1365,9 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildMo
     facing = instance->facing >> 4;
     func_0207AF1C(node->matrix, FX_SinCosTable_[facing * 2], FX_SinCosTable_[facing * 2 + 1]);
     FIELD_G3D_MAP_GetPos((int)entry->object, &node->pos);
-    func_0207C9D0(&node->pos, &instance->pos, &node->pos);
+    VEC_Add(&node->pos, &instance->pos, &node->pos);
     FIELD_G3D_MAPPER_GetOriginOffset(man->fieldMap, &fieldOffset);
-    func_0207C9D0(&node->pos, &fieldOffset, &node->pos);
+    VEC_Add(&node->pos, &fieldOffset, &node->pos);
     node->scaleX = 0x1000;
     node->scaleY = 0x1000;
     node->scaleZ = 0x1000;

@@ -12,7 +12,7 @@
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  *   BOX2_UI_SetMiniIconVisible 0x021EE008 thumb ov170
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb ov170
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_ResetEntryB 0x021EA858 thumb ov170
@@ -32,7 +32,7 @@ extern void BOX2_SEQ_SetCursorDraw(char **,int);
 extern void BOX2_UI_SetMiniIconVisible(char *p, int a, int b);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_MAIN_ResetBoxView(char *);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int BOX2_SEQ_ResetEntryB(char *p, int a);
@@ -54,7 +54,7 @@ int BOX2_SEQ_StateSummaryClose(u8 *p)
         BOX2_SEQ_SetCursorDraw((char **)p,0);
         BOX2_UI_SetMiniIconVisible((char *)p,0,0);
         BOX2_UI_DeleteSlotObjects((char *)p,0,0,1);
-        if(func_020260E0(*(void **)(W(p)+0x70))>=30) BOX2_MAIN_ResetBoxView((char *)p);
+        if(CURSOR_MOVE_GetCurrent(*(void **)(W(p)+0x70))>=30) BOX2_MAIN_ResetBoxView((char *)p);
         (*(int *)(W(p)+0xA194))++;
         GFL_USE_PlaySeDefaultVolume(0x669);
         return BOX2_SEQ_ResetEntryB((char *)p,22);
@@ -65,7 +65,7 @@ int BOX2_SEQ_StateSummaryClose(u8 *p)
             (*(int *)(W(p)+0xA194))++;
             return BOX2_SEQ_SetSeqThird((char *)p,(int)BOX2_MAIN_IsWindowBusy,22);
         }
-        n=func_020260E0(*(void **)(W(p)+0x70));
+        n=CURSOR_MOVE_GetCurrent(*(void **)(W(p)+0x70));
         if(n>=30) n=0;
         BOX2_UI_MoveCursor((char **)p,3,n);
         BOX2_SEQ_SetCursorFrame((char *)p,6);

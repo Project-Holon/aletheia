@@ -1,5 +1,5 @@
 /*
- * function: func_0217EFB8
+ * function: getlocalhost
  * address:  0x0217EFB8
  * packet:   pkt_ov009_0217EFB8
  * region:   ov009
@@ -38,7 +38,7 @@ extern unsigned long func_0215EF48(void);
 extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 extern char g_021A37BC[];
 
-struct SOCHostEnt *func_0217EFB8(void)
+struct SOCHostEnt *getlocalhost(void)
 {
     static char *aliases_0[2];
     static struct SOCHostEnt localhost;

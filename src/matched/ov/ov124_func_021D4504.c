@@ -13,7 +13,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  */
 #include "../include/Obj00991.h"
 typedef unsigned char u8;
@@ -24,5 +24,5 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void func_020403F4(u32);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
-void CG_HELP_ExitDisplay(char *p) {CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00991 *)p)->f4C);CLACT_ExitSystem();func_020403F4(4);func_020403F4(5);func_020403F4(6);func_020403F4(7);BMP_WIN_Exit();func_0203F9B4();}
+extern void BG_SYS_Delete(void);
+void CG_HELP_ExitDisplay(char *p) {CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00991 *)p)->f4C);CLACT_ExitSystem();func_020403F4(4);func_020403F4(5);func_020403F4(6);func_020403F4(7);BMP_WIN_Exit();BG_SYS_Delete();}

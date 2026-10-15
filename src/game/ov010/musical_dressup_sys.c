@@ -83,7 +83,7 @@
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
  *   func_021F685C  0x021F685C  thumb  ov112
  *   func_021F68BC  0x021F68BC  thumb  ov112
- *   func_021FD904  0x021FD904  thumb  ov132
+ *   STA_NET_GetField48  0x021FD904  thumb  ov132
  *   func_021FC848  0x021FC848  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
@@ -93,17 +93,17 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
- *   func_0200A7C8  0x0200A7C8  thumb
+ *   MUSICAL_SAVE_GetScriptSetting  0x0200A7C8  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
- *   func_0200A81C  0x0200A81C  thumb
+ *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
  *   func_02005728  0x02005728  thumb
- *   func_021FD908  0x021FD908  thumb  ov132
- *   func_021FD918  0x021FD918  thumb  ov132
- *   func_021FD8D4  0x021FD8D4  thumb  ov132
- *   func_021FD8EC  0x021FD8EC  thumb  ov132
+ *   STA_NET_GetField158  0x021FD908  thumb  ov132
+ *   STA_NET_SetState6Pair  0x021FD918  thumb  ov132
+ *   STA_NET_GetCurrentSlotValue  0x021FD8D4  thumb  ov132
+ *   STA_NET_GetSlotValueByIndex  0x021FD8EC  thumb  ov132
  *   func_021FCE28  0x021FCE28  thumb  ov132
- *   func_021FD83C  0x021FD83C  thumb  ov132
+ *   STA_NET_GetSlot1Done  0x021FD83C  thumb  ov132
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_02008530  0x02008530  thumb
@@ -114,34 +114,34 @@
  *   MUSICAL_STAGE_SYS_ProcTable     0x02172748  data
  *   d_021F8360     0x021F8360  data
  *   func_021F675C  0x021F675C  thumb
- *   func_021FD938  0x021FD938  thumb  ov132
+ *   STA_NET_SetState12  0x021FD938  thumb  ov132
  *   func_021F6888  0x021F6888  thumb
- *   func_021FD948  0x021FD948  thumb  ov132
- *   func_021FD4F8  0x021FD4F8  thumb  ov132
+ *   STA_NET_SetState18Value  0x021FD948  thumb  ov132
+ *   STA_NET_FindRecValueByKey  0x021FD4F8  thumb  ov132
  *   BR_UTIL_EffectIdle  0x021FD964  thumb  ov186
  *   func_021F4F14  0x021F4F14  thumb  ov112
  *   func_021F5140  0x021F5140  thumb  ov112
  *   func_021F4F40  0x021F4F40  thumb  ov112
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_0200A5F8  0x0200A5F8  thumb
+ *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
  *   sMusicalEventFileName  0x02172714  data
- *   func_0200A768  0x0200A768  thumb
- *   func_0200A788  0x0200A788  thumb
- *   func_0200A7C0  0x0200A7C0  thumb
- *   func_0200A800  0x0200A800  thumb
- *   func_0200A7AC  0x0200A7AC  thumb
+ *   MUSICAL_SAVE_IncrementShowCount  0x0200A768  thumb
+ *   MUSICAL_SAVE_IncrementTopRankCount  0x0200A788  thumb
+ *   MUSICAL_SAVE_SetSelectedProgram  0x0200A7C0  thumb
+ *   MUSICAL_SAVE_AddFanPoints  0x0200A800  thumb
+ *   MUSICAL_SAVE_SetEquippedProp  0x0200A7AC  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   func_02008DAC  0x02008DAC  thumb
- *   func_0200A750  0x0200A750  thumb
- *   func_021FD8F8  0x021FD8F8  thumb  ov132
- *   func_0200A644  0x0200A644  thumb
+ *   MUSICAL_SAVE_GetProgram  0x0200A750  thumb
+ *   STA_NET_GetSlotWordByIndex  0x021FD8F8  thumb  ov132
+ *   MUSICAL_SAVE_IsPropOwned  0x0200A644  thumb
  *   d_0216FF14  0x0216FF14  data
  *   d_0216FF28  0x0216FF28  data
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
@@ -162,8 +162,8 @@
  *   func_021FCE44  0x021FCE44  thumb  ov132
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EF14  0x0201EF14  thumb
- *   func_021FD954  0x021FD954  thumb  ov132
- *   func_021FD95C  0x021FD95C  thumb  ov132
+ *   STA_NET_GetPairA  0x021FD954  thumb  ov132
+ *   STA_NET_GetPairB  0x021FD95C  thumb  ov132
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   sMusicalDressupSysFileName  0x02172730  data
  *   ov133_id  0x00000085  data
@@ -171,11 +171,11 @@
  *   func_021B6100  0x021B6100  thumb ov133
  *   func_021B63BC  0x021B63BC  thumb  ov133
  *   func_021B6294  0x021B6294  thumb ov133
- *   func_021FD52C  0x021FD52C  thumb ov132
+ *   STA_NET_BeginTransfer  0x021FD52C  thumb ov132
  *   ov112_id       0x00000070  data
- *   func_021F8480  0x021F8480  thumb ov132
- *   func_021F879C  0x021F879C  thumb
- *   func_021F8640  0x021F8640  thumb
+ *   STA_ACTING_Create  0x021F8480  thumb ov132
+ *   STA_ACTING_Update  0x021F879C  thumb
+ *   STA_ACTING_Delete  0x021F8640  thumb
  *   sMusicalStageSysFileName  0x02172754  data
  *   func_021F67E0  0x021F67E0  thumb  ov112
  *   _s32_div_f  0x0209C0A4  arm
@@ -634,20 +634,20 @@ extern void GAME_BEACON_SEARCH_SetNamedEvent(void *strbuf);
 extern void STRBUF_Delete(void *strbuf);
 extern void *GAME_DATA_GetSaveBlock2A(void *gameData);
 extern void *func_021F685C(u32 heapId);
-extern int func_021FD904(void *session);
-extern u8 func_0200A7C8(struct MusicalSave *save);
+extern int STA_NET_GetField48(void *session);
+extern u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *save);
 extern void func_021F68BC(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 extern void *POKE_TOOL_Dummy(void *mon);
 extern void func_021FC848(void *session, void *myStatus, void *monData, void *gameComm, void *musicalSystem, u16 heapId);
-extern u16 func_0200A81C(struct MusicalSave *save);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *save);
 extern u32 func_02005728(u32 n);
-extern u32 func_021FD908(void *session);
-extern void func_021FD918(void *session, u32 lo, u32 hi);
-extern u32 func_021FD8D4(void *session);
-extern u8 func_021FD8EC(void *session, int index);
+extern u32 STA_NET_GetField158(void *session);
+extern void STA_NET_SetState6Pair(void *session, u32 lo, u32 hi);
+extern u32 STA_NET_GetCurrentSlotValue(void *session);
+extern u8 STA_NET_GetSlotValueByIndex(void *session, int index);
 extern void *func_021FCE28(void *session, u32 index);
-extern u32 func_021FD83C(void *session);
+extern u32 STA_NET_GetSlot1Done(void *session);
 extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 extern void MISC_SAVEDATA_InsertRecentValue(void *list, u32 id);
 extern u32 func_02008530(const void *myStatus);
@@ -655,33 +655,33 @@ extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_02030B50(void *p);
 extern void func_020306F0(u32 heapId);
 extern void *func_021F675C(void *mon, int heapId);
-extern void func_021FD938(void *session);
+extern void STA_NET_SetState12(void *session);
 extern int func_021F6888(void *musicalSystem);
-extern void func_021FD948(void *session, void *performer);
-extern MusicalPerformer *func_021FD4F8(void *session, u8 slot);
+extern void STA_NET_SetState18Value(void *session, void *performer);
+extern MusicalPerformer *STA_NET_FindRecValueByKey(void *session, u8 slot);
 extern u32 BR_UTIL_EffectIdle(void *session, u32 player, u32 index);
 extern void *func_021F4F14(int heapId);
 extern unsigned char func_021F5140(void *table, int propId);
 extern void func_021F4F40(void **table);
-extern void func_0203F4E4(RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
 extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(void *msgData, u32 index);
 extern void MSGDATA_Delete(void *msgData);
-extern void *func_0200A5F8(void *saveControl);
-extern void func_0200A768(struct MusicalSave *save);
-extern void func_0200A788(struct MusicalSave *save);
-extern void func_0200A7C0(struct MusicalSave *save, u8 value);
-extern void func_0200A800(struct MusicalSave *save, s32 delta);
-extern void func_0200A7AC(struct MusicalSave *save, u32 index, u8 value);
+extern void *MUSICAL_SAVE_GetFromSave(void *saveControl);
+extern void MUSICAL_SAVE_IncrementShowCount(struct MusicalSave *save);
+extern void MUSICAL_SAVE_IncrementTopRankCount(struct MusicalSave *save);
+extern void MUSICAL_SAVE_SetSelectedProgram(struct MusicalSave *save, u8 value);
+extern void MUSICAL_SAVE_AddFanPoints(struct MusicalSave *save, s32 delta);
+extern void MUSICAL_SAVE_SetEquippedProp(struct MusicalSave *save, u32 index, u8 value);
 extern u16 *GAME_DATA_GetMyPlayerWork(void *gameData);
 extern void NATSUKI_Calc(void *mon, int a1, int a2, int a3);
 extern u32 func_02008DF0(void *trainerRecord, int id);
 extern u32 func_02008DAC(void *trainerRecord, int id, u32 delta);
-extern struct MusicalProgram *func_0200A750(struct MusicalSave *save, u32 index);
-extern u16 *func_021FD8F8(void *session, u32 index);
-extern u32 func_0200A644(struct MusicalSave *save, u8 prop);
+extern struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *save, u32 index);
+extern u16 *STA_NET_GetSlotWordByIndex(void *session, u32 index);
+extern u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *save, u8 prop);
 extern void *GAME_DATA_GetBgmInfo(void *gameData);
 extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *gameSys, u32 a, u32 b);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *gameSys);
@@ -697,17 +697,17 @@ extern void func_0201EE0C(void *wordSet, u32 slot, const void *str, u32 n, u32 f
 extern void *func_021FCE44(void *session, u32 index);
 extern void func_0201EEF4(void *wordSet, u32 slot, void *mon);
 extern void func_0201EF14(void *wordSet, u32 slot, void *mon);
-extern u32 func_021FD954(void *session);
-extern u32 func_021FD95C(void *session);
+extern u32 STA_NET_GetPairA(void *session);
+extern u32 STA_NET_GetPairB(void *session);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void func_020315D4(void *proc);
 extern void *func_021B6100(void *param, int heapId);
 extern int func_021B63BC(void *ui);
 extern void func_021B6294(void *ui);
-extern void func_021FD52C(void *session);
-extern void *func_021F8480(void *input, int heapId);
-extern int func_021F879C(void *ui);
-extern void func_021F8640(void *ui);
+extern void STA_NET_BeginTransfer(void *session);
+extern void *STA_ACTING_Create(void *input, int heapId);
+extern int STA_ACTING_Update(void *ui);
+extern void STA_ACTING_Delete(void *ui);
 extern MusicalPerformer *func_021F67E0(u16 monsNo, u8 form, u8 c, u8 d, u32 personality, u16 heapId);
 extern u32 func_0203F0A8(void);
 extern int _s32_div_f(int dividend, int divisor);
@@ -1223,14 +1223,14 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->result = 0;
     work->save = GAME_DATA_GetSaveBlock2A(gameData);
     work->musicalSystem = func_021F685C(4);
-    if (work->linkMode == 0 || func_021FD904(work->link->session) == 1)
-        func_021F68BC(work->musicalSystem, work->saveControl, work->gameData, func_0200A7C8(work->save), 0x2C);
+    if (work->linkMode == 0 || STA_NET_GetField48(work->link->session) == 1)
+        func_021F68BC(work->musicalSystem, work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
         func_021FC848(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_Dummy(work->ownMon), work->gameComm, work->musicalSystem, 4);
     } else {
-        u16 maxLevel = func_0200A81C(work->save);
+        u16 maxLevel = MUSICAL_SAVE_GetFanPoints(work->save);
         u8 i;
         u8 j;
         u8 k;
@@ -1263,22 +1263,22 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
     MUSICAL_EVENT_CheckNetError(work);
     switch (work->state) {
     case MUSICAL_EVENT_STATE_LINK_WAIT_PEERS:
-        if (func_021FD908(work->link->session) == 1) {
+        if (STA_NET_GetField158(work->link->session) == 1) {
             u32 packedBonus = 0;
             u32 packedPicks = 0;
             void *list;
             u8 i;
 
-            if (func_021FD904(work->link->session) == 1) {
-                work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, func_0200A81C(work->save));
+            if (STA_NET_GetField48(work->link->session) == 1) {
+                work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, MUSICAL_SAVE_GetFanPoints(work->save));
                 packedBonus = MUSICAL_PROGRAM_PackBonus(work->program);
                 packedPicks = MUSICAL_PROGRAM_PackPicks(work->program);
             }
-            func_021FD918(work->link->session, packedBonus, packedPicks);
+            STA_NET_SetState6Pair(work->link->session, packedBonus, packedPicks);
             work->state = MUSICAL_EVENT_STATE_LINK_WAIT_START;
             list = MISC_SAVEDATA_GetBlock44(work->saveControl);
             for (i = 0; i < 4; i++) {
-                if (func_021FD8D4(work->link->session) != func_021FD8EC(work->link->session, i)) {
+                if (STA_NET_GetCurrentSlotValue(work->link->session) != STA_NET_GetSlotValueByIndex(work->link->session, i)) {
                     void *peerStatus = func_021FCE28(work->link->session, i);
                     if (peerStatus != 0)
                         MISC_SAVEDATA_InsertRecentValue(list, func_02008530(peerStatus));
@@ -1289,13 +1289,13 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
         }
         break;
     case MUSICAL_EVENT_STATE_LINK_WAIT_START:
-        if (func_021FD83C(work->link->session) == 1) {
+        if (STA_NET_GetSlot1Done(work->link->session) == 1) {
             u8 i;
 
             work->state = MUSICAL_EVENT_STATE_SPAWN_MARKER;
             for (i = 0; i < 4; i++)
-                work->playerSlot[i] = func_021FD8EC(work->link->session, i);
-            work->localSlot = func_021FD8D4(work->link->session);
+                work->playerSlot[i] = STA_NET_GetSlotValueByIndex(work->link->session, i);
+            work->localSlot = STA_NET_GetCurrentSlotValue(work->link->session);
             MUSICAL_EVENT_ReceiveShowProgram(work);
         } else if (work->aborted == 1) {
             work->state = MUSICAL_EVENT_STATE_ABORT_NET;
@@ -1439,8 +1439,8 @@ void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work)
 {
     work->localPerformer = func_021F675C(work->ownMon, 4);
     if (work->linkMode != 0) {
-        func_021FD904(work->link->session);
-        func_021FD938(work->link->session);
+        STA_NET_GetField48(work->link->session);
+        STA_NET_SetState12(work->link->session);
     }
 }
 
@@ -1491,7 +1491,7 @@ MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work)
 void MUSICAL_EVENT_SendLocalPerformer(MusicalEventWork *work)
 {
     if (work->linkMode == 1)
-        func_021FD948(work->session, work->localPerformer);
+        STA_NET_SetState18Value(work->session, work->localPerformer);
 }
 
 /*
@@ -1516,7 +1516,7 @@ void MUSICAL_EVENT_CreateStage(MusicalEventWork *work)
     } else {
         npc = 0;
         for (i = 0; i < 4; i++) {
-            peer = func_021FD4F8(work->session, work->playerSlot[i]);
+            peer = STA_NET_FindRecValueByKey(work->session, work->playerSlot[i]);
             if (peer != 0) {
                 MUSICAL_STAGE_SYS_SetRemotePerformer(work->stage, work->playerSlot[i], peer);
             } else {
@@ -1598,7 +1598,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
     work->result->state = 0;
     work->result->session = work->session;
     record = work->result->record;
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     record->programId = MUSICAL_PROGRAM_GetBaseProgramId(work->program);
     record->year = date.year;
     record->month = date.month;
@@ -1659,7 +1659,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
         }
     }
     work->result->ready = 1;
-    work->result->save = func_0200A5F8(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSys)));
+    work->result->save = MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSys)));
     for (k = 0; k < 4; k++) {
         sortScore[k] = work->stage->performers[k]->totalScore;
         work->rankOrder[k] = k;
@@ -1699,11 +1699,11 @@ void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
 
     localScore = MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
     topScore = MUSICAL_EVENT_GetScoreCapped(work, work->rankOrder[0]);
-    func_0200A768(work->save);
+    MUSICAL_SAVE_IncrementShowCount(work->save);
     if (localScore == topScore && localScore != 0)
-        func_0200A788(work->save);
-    func_0200A7C0(work->save, localScore);
-    func_0200A800(work->save, localScore);
+        MUSICAL_SAVE_IncrementTopRankCount(work->save);
+    MUSICAL_SAVE_SetSelectedProgram(work->save, localScore);
+    MUSICAL_SAVE_AddFanPoints(work->save, localScore);
     {
         u8 count[4] = {0, 0, 0, 0};
 
@@ -1714,7 +1714,7 @@ void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
                 count[(u8)(u32)func_021F5140(propTable, (u16)performer->equips[j].propId)]++;
         }
         for (j = 0; j < 4; j++)
-            func_0200A7AC(work->save, j, count[j]);
+            MUSICAL_SAVE_SetEquippedProp(work->save, j, count[j]);
     }
     func_021F4F40(propTable);
     zoneId = *GAME_DATA_GetMyPlayerWork(work->gameData);
@@ -1763,17 +1763,17 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
     candidates = func_02030734(4, 0x28, 1, sMusicalEventFileName, 0x3F9);
     scoreSum = 0;
     for (i = 0; i < 10; i++) {
-        program = func_0200A750(work->save, i);
+        program = MUSICAL_SAVE_GetProgram(work->save, i);
         program->state = 4;
         program->hasProp = 0;
         program->prop = 0;
     }
     if (work->linkMode == 0) {
-        scoreSum = func_0200A81C(work->save) + MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
+        scoreSum = MUSICAL_SAVE_GetFanPoints(work->save) + MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
     } else {
         for (j = 0; j < 4; j++) {
-            peerValue = func_021FD8F8(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, j));
-            if (func_021FD4F8(work->session, j) != 0) {
+            peerValue = STA_NET_GetSlotWordByIndex(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, j));
+            if (STA_NET_FindRecValueByKey(work->session, j) != 0) {
                 scoreSum += *peerValue;
                 scoreSum += MUSICAL_EVENT_GetScoreCapped(work, j);
             }
@@ -1790,7 +1790,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
         candidateCount = 0;
         for (j = 0, row = d_0216FF28[propRow]; j < 0x28; j++) {
             value = row[j];
-            if (func_0200A644(work->save, value) == 0) {
+            if (MUSICAL_SAVE_IsPropOwned(work->save, value) == 0) {
                 candidates[candidateCount] = value;
                 candidateCount++;
             }
@@ -1808,7 +1808,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
         }
     }
     for (i = 0; i < level; i++) {
-        program = func_0200A750(work->save, shuffle[i]);
+        program = MUSICAL_SAVE_GetProgram(work->save, shuffle[i]);
         chance = MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
         program->state = category;
         if ((u8)func_02005728(100) < chance && candidateCount != 0) {
@@ -2181,8 +2181,8 @@ void MUSICAL_EVENT_ReceiveShowProgram(MusicalEventWork *work)
     u32 packedBonus;
     u32 packedPicks;
 
-    packedBonus = func_021FD954(work->session);
-    packedPicks = func_021FD95C(work->session);
+    packedBonus = STA_NET_GetPairA(work->session);
+    packedPicks = STA_NET_GetPairB(work->session);
     if (work->program == 0)
         work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, 0);
     MUSICAL_PROGRAM_UnpackBonus(work->program, packedBonus);
@@ -2254,8 +2254,8 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
         work->ui = func_021B6100(work->paramCopy, 0x2d);
         *state = 1;
         if (work->param->session != 0) {
-            if (func_021FD904(work->param->session) == 1)
-                func_021FD52C(work->param->session);
+            if (STA_NET_GetField48(work->param->session) == 1)
+                STA_NET_BeginTransfer(work->param->session);
         }
         break;
     case 1: {
@@ -2283,7 +2283,7 @@ MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *pe
 
     param = func_02030734(heapId, 12, 0, sMusicalDressupSysFileName, 0xa7);
     param->session = (void *)zero;
-    param->save = func_0200A5F8(saveControl);
+    param->save = MUSICAL_SAVE_GetFromSave(saveControl);
     param->performer = performer;
     return param;
 }
@@ -2374,15 +2374,15 @@ int MUSICAL_STAGE_SYS_Main(void *proc, int *state, int unused, MusicalStageWork 
 {
     switch (*state) {
     case 0:
-        work->ui = func_021F8480(work->stage, 0x2e);
+        work->ui = STA_ACTING_Create(work->stage, 0x2e);
         *state = 1;
         break;
     case 1:
-        if (func_021F879C(work->ui) == 1)
+        if (STA_ACTING_Update(work->ui) == 1)
             *state = 2;
         break;
     case 2:
-        func_021F8640(work->ui);
+        STA_ACTING_Delete(work->ui);
         return 1;
     }
     return 0;

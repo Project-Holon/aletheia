@@ -14,11 +14,11 @@
  * Field skill usability mask (guess).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02028748  0x02028748  thumb
- *   func_02012B28  0x02012B28  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   d_021714DC     0x021714DC  data
  */
 
@@ -41,11 +41,11 @@ typedef struct FieldSkillUseFlags {
 
 typedef int (*SkillCheckHandler)(struct GameData *gameData, void *fieldMap, struct PlayerWork *player);
 
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct PlayerWork *func_020127A4(struct GameData *gameData);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_02028748(FieldSkillUseFlags *flags, int skillIndex, int usable);
-extern u32 func_02012B28(const struct PlayerWork *player);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 void func_02164480(FieldSkillUseFlags *flags, struct GameSystem *gameSystem, void *fieldMap);
 int func_021644C4(int skillIndex, struct GameSystem *gameSystem, void *fieldMap);
 extern SkillCheckHandler d_021714DC[];
@@ -55,11 +55,11 @@ void func_02164480(FieldSkillUseFlags *flags, struct GameSystem *gameSystem, voi
     struct PlayerWork *player;
     int i;
 
-    player = func_020127A4(func_020120F4(gameSystem));
+    player = GAME_DATA_GetField114(ICA_ANIME_GetField1C(gameSystem));
     MI_CpuFill8(flags, 0, sizeof(FieldSkillUseFlags));
     for (i = 0; i < 10; i++)
         func_02028748(flags, i, func_021644C4(i, gameSystem, fieldMap));
-    flags->playerObjCode = func_02012B28(player);
+    flags->playerObjCode = GAME_DATA_GetPlayerObjectCode(player);
 }
 
 /*
@@ -72,8 +72,8 @@ int func_021644C4(int skillIndex, struct GameSystem *gameSystem, void *fieldMap)
     struct PlayerWork *player;
     SkillCheckHandler handler;
 
-    gameData = func_020120F4(gameSystem);
-    player = func_020127A4(gameData);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    player = GAME_DATA_GetField114(gameData);
     handler = d_021714DC[skillIndex];
     if (handler == 0)
         return 1;

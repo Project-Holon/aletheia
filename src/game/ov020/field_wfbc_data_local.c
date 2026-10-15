@@ -103,7 +103,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
@@ -118,7 +118,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_020127D0  0x020127D0  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
@@ -132,7 +132,7 @@
  *   EVENT_FIELD_PROCLINK_ApplyReturnEntry  0x02161F90  thumb  ov010
  *   FIELD_WFBC_RemovePeople  0x02193B20  thumb  ov021
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
@@ -158,9 +158,9 @@
  *   func_0204047C 0x0204047C arm
  *   func_020414AC 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   EL_SCOREBOARD_VramBankConfig     0x02187E58  data  ov020
  *   EL_SCOREBOARD_DispConfig     0x02187E28  data  ov020
  *   EL_SCOREBOARD_BgTemplate     0x02187E38  data  ov020
@@ -169,7 +169,7 @@
  *   func_02062A4C  0x02062A4C  arm
  *   func_02040B1C  0x02040B1C  arm
  *   func_02062B30  0x02062B30  arm
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -178,7 +178,7 @@
  *   _ffix          0x0209C494  arm
  *   func_0207D658  0x0207D658  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_0209BE04  0x0209BE04  arm
  *   func_0209CE10  0x0209CE10  arm
  *   func_0209C77C  0x0209C77C  arm
@@ -280,7 +280,7 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldSystem);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void *GAME_DATA_GetMyParty(const struct GameData *p);
 u32 POKEPARTY_GetCount(void *a);
-void func_0203F4E4(struct RtcDate *date);
+void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 void *POKEPARTY_GetMember(void *a, u32 i);
 u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern unsigned char FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
@@ -295,7 +295,7 @@ void *INTRUDE_COMM_GetReturnSlots(void *eventWork);
 struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
 void *func_020124E8(struct GameEvent *p);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-struct WordSet *func_0201EC64(u32 heap);
+struct WordSet *GF_FONT_Create_EC64(u32 heap);
 WfbcData *func_020127D0(struct GameData *gameData, u32 index);
 void FLDMMDL_GetPos(const struct Mmdl *mmdl, struct VecFx32 *out);
 int EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(void *returnList);
@@ -309,7 +309,7 @@ void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *returnList, WfbcData *ownData, WfbcData *cityData, void *playerBlock, u16 personIndex, u16 heapId);
 int FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 personIndex);
 void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
-u32 func_0201ED04(struct WordSet *p);
+u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern struct FieldMsgHandle *FIELD_MSGBG_AddTalkWin(int msgBgSys, int speed, int *playerPos, struct Strbuf *message, u32 c, u32 d);
@@ -1294,7 +1294,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     f2 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     n = POKEPARTY_GetCount(b);
     key = FIELD_WFBC_DATA_LOCAL_ReadValue((const WfbcDailyState *)(w));
-    func_0203F4E4((struct RtcDate *)d);
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)d);
     *f0 = 0;
     *f1 = 0;
     *f2 = 0xFFFF;
@@ -1392,7 +1392,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     work->msgBuf = STRBUF_Create(0x100, heapId);
     work->tmpBuf = STRBUF_Create(0x100, heapId);
     work->msgData = func_02045B38(0, 3, 0x142, heapId);
-    work->wordSet = func_0201EC64(heapId);
+    work->wordSet = GF_FONT_Create_EC64(heapId);
     work->msgBgSys = msgBgSys;
     work->returnList = returnList;
     work->firstTalk = 1;
@@ -1524,7 +1524,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
         STRBUF_Delete(talk->msgBuf);
         STRBUF_Delete(talk->tmpBuf);
         MSGDATA_Delete(talk->msgData);
-        func_0201ED04(talk->wordSet);
+        WORDSET_DeleteStrbufED04(talk->wordSet);
         return 1;
     }
     return 0;

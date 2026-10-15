@@ -15,7 +15,7 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   WIFICLUBACTOR_QueueActorMove  0x021BA5B4  thumb  ov099
- *   func_021C57D8  0x021C57D8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActive  0x021C57D8  thumb  ov127
  *   WIFICLUBACTOR_UpdateIdleWander  0x021BA538  thumb  ov099
  *   WIFICLUBACTOR_NoOpAnim  0x021BA2D0  thumb  ov099
  */
@@ -39,7 +39,7 @@ typedef struct {
 
 extern u32 func_020056EC(u32 x);
 extern void WIFICLUBACTOR_QueueActorMove(void *a, int b, u8 **p);
-extern void func_021C57D8(u8 *p, int v);
+extern void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v);
 extern int WIFICLUBACTOR_UpdateIdleWander(void *w, S *s);
 extern void WIFICLUBACTOR_NoOpAnim(void);
 
@@ -53,5 +53,5 @@ void WIFICLUBACTOR_SetIdleState(void *w, S *s)
     s->f8 = func_020056EC(n) + (n >> 2);
     s->fc = 3;
     WIFICLUBACTOR_QueueActorMove(w, 0, (u8 **)s);
-    func_021C57D8(s->f4, 1);
+    WF2DMAP_OBJDRAW_SetActive(s->f4, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8FF4
+ * function: ZUKAN_ResumeProc211
  * address: 0x021C8FF4
  * packet: pkt_ov212_021C8FF4
  * region: ov212
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-int func_021C8FF4(u8 *p) {
+int ZUKAN_ResumeProc211(u8 *p) {
     int result;
     switch (((struct Obj25654 *)(*(u8 * *)&((struct Obj08417 *)p)->f28))->f8) {
     case 0:

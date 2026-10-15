@@ -1,5 +1,5 @@
 /*
- * function: func_021B6994
+ * function: LOCAL_TVT_SYS_DeleteTextWindow
  * address: 0x021B6994
  * packet: pkt_ov174_021B6994
  * region: ov174
@@ -16,7 +16,7 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_021B7350 0x021B7350 thumb ov174
+ *   LOCAL_TVT_CHARA_ShowWindow 0x021B7350 thumb ov174
  */
 #include "../include/Obj02218.h"
 typedef unsigned char u8;
@@ -33,8 +33,8 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_021B7350(int,int *);
-void func_021B6994(u8 *p)
+extern void LOCAL_TVT_CHARA_ShowWindow(int,int *);
+void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
 {
  void *tmp; u8 i;
  if(((struct Obj02218 *)p)->f5C){
@@ -44,5 +44,5 @@ void func_021B6994(u8 *p)
  }
  if(((struct Obj02218 *)p)->f64){PRINTSYS_PrintStreamDelete(((struct Obj02218 *)p)->f64);((struct Obj02218 *)p)->f64=0;}
  if(((struct Obj02218 *)p)->f70){STRBUF_Delete(((struct Obj02218 *)p)->f70);((struct Obj02218 *)p)->f70=0;}
- for(i=0;i<((struct Obj02218 *)p)->f8;i++) if(*(int **)(p+28+i*4)) func_021B7350((int)p,*(int **)(p+28+i*4));
+ for(i=0;i<((struct Obj02218 *)p)->f8;i++) if(*(int **)(p+28+i*4)) LOCAL_TVT_CHARA_ShowWindow((int)p,*(int **)(p+28+i*4));
 }

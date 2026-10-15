@@ -1,5 +1,5 @@
 /*
- * function: func_02075DA0
+ * function: CARD_IsEnabled
  * address:  0x02075DA0
  * packet:   pkt_02075DA0
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   s_data_0215019C  0x0215019C  data
+ *   sCardEnabled  0x0215019C  data
  */
 
-extern void *s_data_0215019C;
+extern void *sCardEnabled;
 
-void *func_02075DA0(void)
+void *CARD_IsEnabled(void)
 {
-    return s_data_0215019C;
+    return sCardEnabled;
 }

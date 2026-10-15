@@ -17,7 +17,7 @@
  * symbols:
  *   func_02167FA8 0x02167FA8 arm ov009
  *   func_02168040 0x02168040 arm ov009
- *   func_02059E38 0x02059E38 arm
+ *   DWC_GetLastErrorEx 0x02059E38 arm
  *   GDS_SOCKET_Lock 0x021D7CAC arm ov125
  *   GDS_SOCKET_Unlock 0x021D7CC0 arm ov125
  *   GDS_SOCKET_Sleep 0x021D8438 arm ov125
@@ -31,7 +31,7 @@ typedef struct { u8 b[301]; } Sav;
 typedef struct { int w[0x138 / 4]; } Blob;
 extern int func_02167FA8(char *svl, void *result);
 extern int func_02168040(void);
-extern int func_02059E38(int *, int *);
+extern int DWC_GetLastErrorEx(int *, int *);
 extern void GDS_SOCKET_Lock(void);
 extern void GDS_SOCKET_Unlock(void);
 extern void GDS_SOCKET_Sleep(int);
@@ -62,7 +62,7 @@ int GDS_SOCKET_WaitToken(void)
             return 1;
         }
         if (r == 4) {
-            func_02059E38(&a, &b);
+            DWC_GetLastErrorEx(&a, &b);
             D(0x250) = 0xE;
             return 0;
         }

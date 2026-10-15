@@ -1,5 +1,5 @@
 /*
- * function: func_0205CC20
+ * function: DWC_CleanupInet
  * address:  0x0205CC20
  * packet:   pkt_0205CC20
  * region:   arm9
@@ -48,7 +48,7 @@ extern void DWC_AC_CleanupGetWDSInfo(void);
 extern int DWC_AC_Destroy(void);
 extern void OS_Sleep(unsigned long msec);
 
-void func_0205CC20(void)
+void DWC_CleanupInet(void)
 {
     int state;
 

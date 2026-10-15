@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021B6394 POWCNT; 021B63C2,021B63D0,021B63D8 DISP3DCNT; 021B63F0 BG0CNT.
  * symbols:
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -18,7 +18,7 @@
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gPdcDispVram 0x021B6DF4 data a4
  *   gPdcDispConfig 0x021B6DB0 data a4
@@ -32,7 +32,7 @@ struct Cfg;
 extern const struct DispVram gPdcDispVram;
 extern struct DispConfig gPdcDispConfig;
 extern const struct Cfg gPdcClactInit;
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
@@ -41,7 +41,7 @@ extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
 extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
-extern void func_0204044C(u32);
+extern void BG_SYS_SetLowBit(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 #define BLDCNT (*(volatile u16 *)0x04000050)
 #define SBLDCNT (*(volatile u16 *)0x04001050)
@@ -50,7 +50,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 #define BG0CNT (*(volatile u16 *)0x04000008)
 void PDC_MAIN_InitGraphics(u16 heap)
 {
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     GF_FONT_ResetTextColor();
     BG_SYS_SetVramBanks(&gPdcDispVram);
@@ -66,6 +66,6 @@ void PDC_MAIN_InitGraphics(u16 heap)
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
     CLACT_InitSystem(&gPdcClactInit, (u32)&gPdcDispVram, heap);
-    func_0204044C(1);
+    BG_SYS_SetLowBit(1);
     BG_SYS_SetMainPlaneVisible(16, 1);
 }

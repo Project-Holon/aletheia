@@ -25,7 +25,7 @@
  *
  * VERSION SENSITIVITY: 650 is a species id and 0xAB / 6 / 9 / 0x96 / 0x98 are
  * party-record ids; both are content numbering and should be re-read for a
- * White build.  0x35 is the value func_02020FE4 returns for one particular
+ * White build.  0x35 is the value FILE_UTIL_Get_0FE4 returns for one particular
  * kind and is content numbering too.
  *
  * Verified with
@@ -37,7 +37,7 @@
  *   ZONEDATA_GetPlaceNameId   0x02013E4C  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue   0x02017E40  thumb
- *   func_02020FE4   0x02020FE4  thumb
+ *   FILE_UTIL_Get_0FE4   0x02020FE4  thumb
  *   GPOWER_ApplyFriendshipBonus   0x02011014  thumb
  *   _s32_div_f      0x0209C0A4  arm
  */
@@ -50,7 +50,7 @@ typedef signed char    s8;
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
 extern int GPOWER_ApplyFriendshipBonus(int a0);
 
 void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
@@ -68,7 +68,7 @@ void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
     if (species == 0 || species == 650) {
         return;
     }
-    kind = (u8)func_02020FE4((void *)((u16)POKE_TOOL_GetPartyValue(mon, 6, idx)), 1, a3);
+    kind = (u8)FILE_UTIL_Get_0FE4((void *)((u16)POKE_TOOL_GetPartyValue(mon, 6, idx)), 1, a3);
     cur = POKE_TOOL_GetPartyValue(mon, 9, idx);
 
     if (cur >= 100) {

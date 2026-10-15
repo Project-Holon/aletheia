@@ -16,7 +16,7 @@
  * replaced by the stored word itself.
  *
  * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * func_0201D5C4 is the 0xF000 marker, func_0201D5CC says whether the tag is a
+ * func_0201D5C4 is the 0xF000 marker, GF_FONT_CheckD5CC says whether the tag is a
  * word reference, func_0201D670 reads parameter 0 (the word index),
  * func_0201D60C writes a new tag, and func_0201D688 steps the cursor past a
  * tag.  The word table hangs off the object at +8 and its entries are 0xC
@@ -58,6 +58,7 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
+ *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
  */
 
 typedef unsigned char  u8;
@@ -83,7 +84,7 @@ extern u16  STRBUF_GetEosChar(void);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 extern u32   func_0201D5C4(void);
-extern u32   func_0201D5CC(const u16 *p);
+extern u32   GF_FONT_CheckD5CC(const u16 *p);
 extern void  func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 extern u32   func_0201D670(const u16 *p, u32 i);
 extern u16  *func_0201D688(u16 *p);
@@ -105,7 +106,7 @@ void func_0201F250(struct WordSet *ws, void *dst, void *src)
     marker = func_0201D5C4();
     while (p[0] != term) {
         if (p[0] == marker) {
-            if (func_0201D5CC(p) != 0) {
+            if (GF_FONT_CheckD5CC(p) != 0) {
                 i = func_0201D670(p, 0);
                 e = &ws->unk08[i];
                 if (e->unk04 != 0) {

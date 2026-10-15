@@ -16,7 +16,7 @@
  *   func_021BDBC4 0x021BDBC4 thumb ov172
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
- *   func_021B7BA8 0x021B7BA8 thumb ov172
+ *   CTVT_COMM_Create 0x021B7BA8 thumb ov172
  *   CTVT_TALK_Create 0x021B8C3C thumb ov172
  *   CTVT_DRAW_Create 0x021BA280 thumb ov172
  *   func_021BBA6C 0x021BBA6C thumb ov172
@@ -25,8 +25,8 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_0202EB14 0x0202EB14 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_021B80DC 0x021B80DC thumb ov172
- *   func_021B80EC 0x021B80EC thumb ov172
+ *   CTVT_COMM_SetRequestedMode 0x021B80DC thumb ov172
+ *   CTVT_COMM_SetConnectMac 0x021B80EC thumb ov172
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   FIELD_SOUND_SYSTEM_StopRingtone 0x02028A70 thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -48,7 +48,7 @@ extern void func_021BD844(u8 *p);
 extern void func_021BDBC4(u8 *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
-extern char *func_021B7BA8(void *p, u16 heap);
+extern char *CTVT_COMM_Create(void *p, u16 heap);
 extern char *CTVT_TALK_Create(char *unused, u16 heap);
 extern u32 CTVT_DRAW_Create(char *, u16);
 extern void *func_021BBA6C(int unused, void *p);
@@ -57,8 +57,8 @@ extern void func_021BD5AC(int, char *);
 extern u32 func_020056A0(void (*)(int, char *), char *, int);
 extern int func_0202EB14(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void func_021B80DC(int unused, char *p, u32 v);
-extern void func_021B80EC(int unused, char *p, const u8 *src);
+extern void CTVT_COMM_SetRequestedMode(int unused, char *p, u32 v);
+extern void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src);
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
@@ -83,7 +83,7 @@ void func_021BD1AC(char *self)
     func_021BDBC4((u8 *)self);
     W(0x1d4) = (u32)APP_TASKMENU_RES_Create(4, 7, W(0x1c8), W(0x1d0), H(0));
     W(0x1e0) = (u32)CTVT_CAMVIEW_Create(self, H(0));
-    W(0x1e4) = (u32)func_021B7BA8(self, H(0));
+    W(0x1e4) = (u32)CTVT_COMM_Create(self, H(0));
     W(0x1e8) = (u32)CTVT_TALK_Create(self, H(0));
     W(0x1ec) = CTVT_DRAW_Create(self, H(0));
     W(0x1f0) = (u32)func_021BBA6C((int)self, (void *)H(0));
@@ -110,21 +110,21 @@ void func_021BD1AC(char *self)
     GFL_NET_RestartWithDefaultTimeout(0, H(0));
     switch (*(u32 *)(W(0x1f8) + 4)) {
     case 0:
-        func_021B80DC((int)self, (char *)W(0x1e4), 3);
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 3);
         W(0xc) = 1;
         break;
     case 1:
-        func_021B80DC((int)self, (char *)W(0x1e4), 2);
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 2);
         W(0xc) = 2;
         break;
     case 2:
-        func_021B80DC((int)self, (char *)W(0x1e4), 4);
-        func_021B80EC((int)self, (char *)W(0x1e4), (const u8 *)(W(0x1f8) + 8));
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 4);
+        CTVT_COMM_SetConnectMac((int)self, (char *)W(0x1e4), (const u8 *)(W(0x1f8) + 8));
         W(0xc) = 2;
         FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)(*(u32 *)W(0x1f8))));
         break;
     case 3:
-        func_021B80DC((int)self, (char *)W(0x1e4), 5);
+        CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 5);
         W(0xc) = 2;
         break;
     }

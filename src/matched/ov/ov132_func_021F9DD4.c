@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021F9DD4
+ * function: STA_ACTING_GetCharSystem
  * address: 0x021F9DD4
  * packet: pkt_ov132_021F9DD4
  * region: ov132
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F9DD4(void *p){return ((struct Obj23215 *)p)->f90;}
+void *STA_ACTING_GetCharSystem(void *p){return ((struct Obj23215 *)p)->f90;}

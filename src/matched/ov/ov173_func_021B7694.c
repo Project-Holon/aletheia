@@ -1,5 +1,5 @@
 /*
- * function: func_021B7694
+ * function: POKE_SUMMARY_ACTOR_DeleteSystem
  * address: 0x021B7694
  * packet: pkt_ov173_021B7694
  * region: ov173
@@ -23,4 +23,4 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021B7694(u8 *p) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(*(struct Obj **)(p+i*4+260));CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00362 *)p)->f100);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct Obj00362 *)p)->f13C);}
+void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(*(struct Obj **)(p+i*4+260));CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00362 *)p)->f100);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct Obj00362 *)p)->f13C);}

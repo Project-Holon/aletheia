@@ -1,5 +1,5 @@
 /*
- * function: func_02197930
+ * function: gti2SendAppUnreliable
  * address:  0x02197930
  * packet:   pkt_ov009_02197930
  * region:   ov009
@@ -46,7 +46,7 @@ extern void gti2BufferWriteData();
 extern void gti2BufferShorten();
 extern u8 g_021A5948[];
 
-int func_02197930(GTI2Connection *connection, u8 *message, int len)
+int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
 {
     u8 *start;
     int totalLen;

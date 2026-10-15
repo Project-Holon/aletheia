@@ -1,5 +1,5 @@
 /*
- * function: func_0216A6F4
+ * function: DWCi_RemoteLogin
  * address:  0x0216A6F4
  * packet:   pkt_ov009_0216A6F4
  * region:   ov009
@@ -20,10 +20,10 @@
  *   DWCi_Acc_CreateTempLoginId  0x02059588  arm
  *   OS_GetTick     0x020870D0  arm
  *   DWCi_Acc_SetPlayerId  0x020590F0  arm
- *   func_02178D14  0x02178D14  arm  ov009
+ *   DWCi_Auth_StartAuthentication  0x02178D14  arm  ov009
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
- *   g_021AA874     0x021AA874  data
+ *   gDwcLoginControl     0x021AA874  data
  */
 
 typedef unsigned char u8;
@@ -57,7 +57,7 @@ typedef struct {
     char gsbrcd[9];
 } LoginControl;
 
-extern LoginControl *g_021AA874;
+extern LoginControl *gDwcLoginControl;
 
 extern int func_020596C8(UserData *userdata);
 struct DWCstAccLoginId;
@@ -68,28 +68,28 @@ extern int DWCi_Acc_CheckConsoleUserId(struct DWCstAccLoginId *loginid);
 extern void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid);
 extern u64 OS_GetTick(void);
 extern void DWCi_Acc_SetPlayerId(int *p, int v);
-extern int func_02178D14(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
+extern int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
 extern void *func_0205A16C(u32, long);
 extern void func_0205A1B0(u32, void *, long);
 
-int func_0216A6F4(void)
+int DWCi_RemoteLogin(void)
 {
     u64 userid;
 
-    if (func_020596C8(g_021AA874->userdata)) {
-        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)g_021AA874->userdata->loginId, g_021AA874->userdata->gamecode, g_021AA874->username);
-        userid = func_02059084(g_021AA874->userdata->loginId);
+    if (func_020596C8(gDwcLoginControl->userdata)) {
+        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)gDwcLoginControl->userdata->loginId, gDwcLoginControl->userdata->gamecode, gDwcLoginControl->username);
+        userid = func_02059084(gDwcLoginControl->userdata->loginId);
     } else {
-        if (!DWCi_Acc_IsValidLoginId(&g_021AA874->loginId)) {
-            if (DWCi_Acc_CheckConsoleUserId((struct DWCstAccLoginId *)(&g_021AA874->userdata->consoleId)))
-                g_021AA874->loginId = g_021AA874->userdata->consoleId;
+        if (!DWCi_Acc_IsValidLoginId(&gDwcLoginControl->loginId)) {
+            if (DWCi_Acc_CheckConsoleUserId((struct DWCstAccLoginId *)(&gDwcLoginControl->userdata->consoleId)))
+                gDwcLoginControl->loginId = gDwcLoginControl->userdata->consoleId;
             else
-                DWCi_Acc_CreateTempLoginId((struct DWCstAccLoginId *)(&g_021AA874->loginId));
+                DWCi_Acc_CreateTempLoginId((struct DWCstAccLoginId *)(&gDwcLoginControl->loginId));
         } else {
-            DWCi_Acc_SetPlayerId((int *)(&g_021AA874->loginId), (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
+            DWCi_Acc_SetPlayerId((int *)(&gDwcLoginControl->loginId), (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
         }
-        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&g_021AA874->loginId), g_021AA874->gamecode, g_021AA874->username);
+        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&gDwcLoginControl->loginId), gDwcLoginControl->gamecode, gDwcLoginControl->username);
         userid = 0;
     }
-    return func_02178D14(g_021AA874->ingamesn, g_021AA874->gsbrcd, userid, func_0205A16C, func_0205A1B0);
+    return DWCi_Auth_StartAuthentication(gDwcLoginControl->ingamesn, gDwcLoginControl->gsbrcd, userid, func_0205A16C, func_0205A1B0);
 }

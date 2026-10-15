@@ -1,5 +1,5 @@
 /*
- * function: func_021BA094
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact
  * address:  0x021BA094
  * packet:   pkt_ov221_021BA094
  * region:   ov221
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * This address is also matched as func_021BA094 in ov217; the ov221 copy is a
+ * This address is also matched as CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact in ov217; the ov221 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
@@ -27,7 +27,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BA094(char *p)
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26073 *)p)->f0));
     CLACT_ExitSystem();

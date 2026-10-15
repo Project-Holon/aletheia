@@ -1,5 +1,5 @@
 /*
- * function: func_021D7060
+ * function: WIFI_BSUBWAY_StartUploadPlayer
  * address: 0x021D7060
  * packet: pkt_ov116_021D7060
  * region: ov116
@@ -10,7 +10,7 @@
  * extent: two zero padding bytes after the epilogue.
  * symbols:
  *   DPW_BT_UploadPlayerAsync 0x021C9530 arm ov114
- *   func_021D70E4 0x021D70E4 thumb ov116
+ *   WIFI_BSUBWAY_AsyncReset 0x021D70E4 thumb ov116
  *   BSUBWAY_SAVEDATA_GetTrainersTagA 0x0200DE94 thumb
  *   BSUBWAY_SAVEDATA_GetTrainersTagB 0x0200DEA0 thumb
  */
@@ -23,12 +23,12 @@ extern u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct RecSlot *p);
 extern u8 func_0200DCFC(struct Blk1AC *p);
 typedef unsigned int   u32;
 extern void DPW_BT_UploadPlayerAsync(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
-extern void func_021D70E4(u8 *);
-void func_021D7060(u8 *p, u8 *q) {
+extern void WIFI_BSUBWAY_AsyncReset(u8 *);
+void WIFI_BSUBWAY_StartUploadPlayer(u8 *p, u8 *q) {
     int a, b, c;
     a = BSUBWAY_SAVEDATA_GetTrainersTagA(((struct Obj10339 *)p)->f160);
     b = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct Obj10339 *)p)->f160);
     c = func_0200DCFC(((struct Obj10339 *)p)->f164);
     DPW_BT_UploadPlayerAsync((u8)a,(u8)b,(u8)c,p+0x70,p+0x16e,(int)0x80);
-    func_021D70E4(q);
+    WIFI_BSUBWAY_AsyncReset(q);
 }

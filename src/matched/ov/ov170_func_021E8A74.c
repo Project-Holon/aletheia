@@ -21,7 +21,7 @@
  *   BOX2_UI_CloseListPack 0x021EF534 thumb
  *   BOX2_SEQ_PrintIndexedMessage 0x021EBC28 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   d_021EF9C8 0x021EF9C8 data
  *   d_021EF93C 0x021EF93C data
  *   d_021EF964 0x021EF964 data
@@ -51,7 +51,7 @@ extern void BOX2_SEQ_PrintIndexedMessage(unsigned char *p, int kind, int i);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
 typedef unsigned int   u32;
 struct Sound;
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern const unsigned char d_021EF9C8[];
 extern const unsigned char d_021EF93C[];
 extern const unsigned char d_021EF964[];
@@ -124,7 +124,7 @@ int BOX2_SEQ_StateMoveMenuC(unsigned char *p)
         }
         if (flag == 1) {
             BOX2_UI_MoveCursor((char **)p, 0xB, 1);
-            func_02026124(LIST(p), 0);
+            CURSOR_MOVE_ClearSkipBit(LIST(p), 0);
         } else {
             BOX2_UI_MoveCursor((char **)p, 0xB, 0);
         }

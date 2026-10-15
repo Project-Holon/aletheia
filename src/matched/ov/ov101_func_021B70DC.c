@@ -14,7 +14,7 @@
  * MI_CpuFill8 0x02082BCC arm
  * IRC_APPBAR_LoadResources 0x021B732C thumb ov101
  * APP_TASKMENU_RES_Create 0x02027F60 thumb
- * func_020416D4 0x020416D4 arm
+ * BG_SYS_Get 0x020416D4 arm
  * IRC_APPBAR_CreateActor 0x021B739C thumb ov101
  * func_02045B38 0x02045B38 arm
  * func_02045EC0 0x02045EC0 arm
@@ -38,7 +38,7 @@ struct R;
 struct Rec;
 struct U16Vec;
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern u8 func_020416D4(u32);
+extern u8 BG_SYS_Get(u32);
 extern void IRC_APPBAR_CreateActor(unsigned *p, unsigned b, int c, unsigned d, u8 e, u16 f);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -64,7 +64,7 @@ void *IRC_APPBAR_Create(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources((int *)p,first,choice,extra,x,y,heap);
     ((struct Obj03227 *)p)->f4=APP_TASKMENU_RES_Create(layer,x,c,d,heap);
-    IRC_APPBAR_CreateActor((unsigned int *)p,b,a,side,func_020416D4(layer),heap);
+    IRC_APPBAR_CreateActor((unsigned int *)p,b,a,side,BG_SYS_Get(layer),heap);
     bank=func_02045B38(0,2,49,heap);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;

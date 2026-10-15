@@ -1,5 +1,5 @@
 /*
- * function: func_02077084
+ * function: CARDi_DmaReadDone
  * address:  0x02077084
  * packet:   pkt_02077084
  * region:   arm9
@@ -75,7 +75,7 @@ extern void CARDi_CheckPulledOutCore(u32 id);
 extern void CARDi_RefreshRom(u32 warn_mask);
 extern void CARDi_EndTask(CARDiCommon *p);
 
-void func_02077084(void)
+void CARDi_DmaReadDone(void)
 {
     CARDi_CheckPulledOutCore(CARDi_ReadRomIDCore());
     CARDi_RefreshRom(8);

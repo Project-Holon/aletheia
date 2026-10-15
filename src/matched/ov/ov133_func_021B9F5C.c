@@ -17,7 +17,7 @@
  * assignment is superseded.
  *
  * symbols:
- *   func_020416D4 0x020416D4 arm
+ *   BG_SYS_Get 0x020416D4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   func_0203F0A8 0x0203F0A8 arm
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef short s16;
 typedef struct { s16 x, y; } Pos;
-extern u8 func_020416D4(u32);
+extern u8 BG_SYS_Get(u32);
 extern void CLACT_SetActorBgPriority(void *, u32);
 struct Actor;
 struct Obj;
@@ -61,7 +61,7 @@ void func_021B9F5C(u8 *p)
     d = 0x18b8;
     for (i = 0; i < 8; i++) {
         q = p + i * 4;
-        CLACT_SetActorBgPriority(((struct Obj06502 *)q)->f1890, func_020416D4(4));
+        CLACT_SetActorBgPriority(((struct Obj06502 *)q)->f1890, BG_SYS_Get(4));
         CLACT_SetActorObjMode(((struct Obj06502 *)q)->f1890, 0);
         t = p + i;
         if (*(u8 *)((u32)p+(u32)i+(u32)d) == 0) {

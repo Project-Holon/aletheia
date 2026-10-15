@@ -17,10 +17,10 @@
  * PROCSYS_AllocProcWork 0x0203159C arm
  * MI_CpuFill8 0x02082BCC arm
  * func_02040588 0x02040588 arm
- * func_021BB178 0x021BB178 thumb ov214
+ * BTL_REC_SEL_GRAPHIC_Create 0x021BB178 thumb ov214
  * GF_FONT_Create 0x0201D7EC thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
- * func_0201292C 0x0201292C thumb
+ * GAME_DATA_GetMyItem 0x0201292C thumb
  * func_02007F68 0x02007F68 thumb
  * func_020056A0 0x020056A0 thumb
  * func_021B9F18 0x021B9F18 thumb ov214
@@ -61,13 +61,13 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040EBC(u32,u32);
 extern void FADE_Start(u32,int,int,int);
-extern char *func_021BB178(u32,u32);
+extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
 struct BigObj;
 struct GfFont;
 struct MsgBank;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_020056A0(void(*)(void*),void*,u32);
 extern void func_021B9F18(void *unused, char *p);
@@ -98,13 +98,13 @@ int func_021B95A0(void *manager,char *state,char * const obj)
     MI_CpuFill8(p,0,0x2f0);
     ((struct Obj00182 *)p)->f0=0x75;
     for(i=0;i<=7;i++)func_02040588(i,0);
-    *(void* *)&((struct Obj00182 *)p)->f4=func_021BB178(1,((struct Obj00182 *)p)->f0);
+    *(void* *)&((struct Obj00182 *)p)->f4=BTL_REC_SEL_GRAPHIC_Create(1,((struct Obj00182 *)p)->f0);
     *(void* *)&((struct Obj00182 *)p)->f8=GF_FONT_Create(23,0,0,0,((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->fC=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->f10=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->f14=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->f18=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
-    ((struct Obj00182 *)p)->f50=func_02007F68(func_0201292C(*(void* *)&((struct Obj06705 *)obj)->f0),0x1d1,1,((struct Obj00182 *)p)->f0);
+    ((struct Obj00182 *)p)->f50=func_02007F68(GAME_DATA_GetMyItem(*(void* *)&((struct Obj06705 *)obj)->f0),0x1d1,1,((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->f54=0;
     ((struct Obj00182 *)p)->f4C=func_020056A0((void (*)(void *))func_021B9F18,p,1);
     *(void* *)&((struct Obj00182 *)p)->f58=func_02045B38(0,2,19,((struct Obj00182 *)p)->f0);

@@ -12,8 +12,8 @@
  *   (`(*(struct H **)(p + 0x6C))->tbl[*pa].arr[a9].f2` and `.f4`), not through e1/e2 pointer locals.
  *   The CSE of the two full expressions colours pa in r2, so its load can move above the 0x4AC store.
  * symbols:
- *   func_0207D760 0x0207D760 arm
- *   func_0207D888 0x0207D888 arm
+ *   G3i_OrthoW_ 0x0207D760 arm
+ *   G3_RotZ 0x0207D888 arm
  *   FX_SinCosTable_ 0x020A1B38 data a4
  */
 typedef unsigned char u8;
@@ -34,8 +34,8 @@ struct S {
 };
 
 extern s16 FX_SinCosTable_[];
-extern void func_0207D760(int a, int b, int c, int d, int e, int f, int g, int h, int i);
-extern void func_0207D888(int a, int b);
+extern void G3i_OrthoW_(int a, int b, int c, int d, int e, int f, int g, int h, int i);
+extern void G3_RotZ(int a, int b);
 
 static inline void G3_TexPlttBase(u32 addr, int fmt)
 {
@@ -84,7 +84,7 @@ void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, stru
     u32 t1;
 
     if (flag != 0) {
-        func_0207D760(0x60000, 0xFFFA1000, 0xFFF81000, 0x80000, 0x1000, 0x3E8000, 0x1000, 1, 0);
+        G3i_OrthoW_(0x60000, 0xFFFA1000, 0xFFF81000, 0x80000, 0x1000, 0x3E8000, 0x1000, 1, 0);
         *(volatile u32 *)0x04000440 = 2;
     }
     *(volatile u32 *)0x04000450 = 0x1D;
@@ -97,9 +97,9 @@ void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, stru
     } else if ((mode & 1) != 0) {
         ang = (u16)(0x10000 - *(u16 *)(p + 0xFC));
     }
-    func_0207D888(-FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
+    G3_RotZ(-FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
     G3_Translate(x, y, *pz);
-    func_0207D888(-FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2], FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2 + 1]);
+    G3_RotZ(-FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2], FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2 + 1]);
     if (mode == 0) {
         G3_Scale(s->f4, s->f8, 0x1000);
         G3_Translate(a1, a2, 0);

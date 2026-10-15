@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA1CC",
+   "name": "TH_AWARD_GRAPHIC_Update",
    "address": "0x021BA1CC",
    "kind": "game",
    "region": "ov220",

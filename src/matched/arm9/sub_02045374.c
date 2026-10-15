@@ -13,13 +13,13 @@
  * symbols:
  *   g_02146A50     0x02146A50  data
  *   str_020A7E70   0x020A7E70  data
- *   func_02041680  0x02041680  arm
+ *   BG_SYS_GetType  0x02041680  arm
  *   func_02030734  0x02030734  arm
  *   func_020410D0  0x020410D0  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Fill a rectangle of the screen described by the configuration block with
- * a run of consecutive tile numbers.  func_02041680 says whether the layer
+ * a run of consecutive tile numbers.  BG_SYS_GetType says whether the layer
  * is 8bpp (answer 1, one byte per cell) or 16bpp (two bytes per cell, each
  * carrying the palette number from +9 in its top nibble); either way a
  * scratch buffer of w*h cells is allocated from the heap named by the word
@@ -59,7 +59,7 @@ struct Cfg {
 extern u16 *g_02146A50;
 extern const char str_020A7E70[];
 
-extern u8 func_02041680(int channel);
+extern u8 BG_SYS_GetType(int channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern u32 func_020307B0(void *p);
@@ -72,7 +72,7 @@ void BMP_WIN_MakeScreen(struct Cfg *cfg)
     void *cells;
     s32 i;
 
-    if (func_02041680(cfg->unk_02) != 1) {
+    if (BG_SYS_GetType(cfg->unk_02) != 1) {
         u16 *p = func_02030734((u16)((*g_02146A50 & 0x7fff) | 0x8000),
                                count * 2, 0, str_020A7E70, 0x133);
 

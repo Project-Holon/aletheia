@@ -34,6 +34,7 @@
  *   gSpeciesNameBank   0x020A7370  data
  *   gNameBuf   0x021462F0  data
  *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   WORDSET_CheckF448  0x0201F448  thumb
  */
 
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ struct BlockA {
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_0201F448(const u16 *a, const u16 *b);
+extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
 
 extern void *gSpeciesNameBank;
 extern u16   gNameBuf[];
@@ -62,7 +63,7 @@ u32 func_02019ABC(struct Mon *p)
     void *c = func_02019C38(p, p->unk00, 2);
 
     MSGDATA_ReadUnits(gSpeciesNameBank, a->species, gNameBuf, 0x20);
-    if (func_0201F448(gNameBuf, c) == 0) {
+    if (WORDSET_CheckF448(gNameBuf, c) == 0) {
         r = 1;
     }
     return r;

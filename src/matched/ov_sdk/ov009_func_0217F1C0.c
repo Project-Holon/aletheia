@@ -1,5 +1,5 @@
 /*
- * function: func_0217F1C0
+ * function: gsiCancelResolvingHostname
  * address:  0x0217F1C0
  * packet:   pkt_ov009_0217F150
  * region:   ov009
@@ -15,7 +15,7 @@
 
 extern void func_0217EAE0(void *p);
 
-void func_0217F1C0(void *p)
+void gsiCancelResolvingHostname(void *p)
 {
     func_0217EAE0(p);
 }

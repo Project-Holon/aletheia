@@ -10,7 +10,7 @@
  * tail: 022028C6..022028C8 zero alignment padding.
  * symbols:
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  */
 #include "../include/Obj04532.h"
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 struct Rec3;
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
 void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
 {
@@ -27,7 +27,7 @@ void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d,
         PRINTSYS_PrintStreamDelete(((struct Obj04532 *)p)->f10);
         ((struct Obj04532 *)p)->f10 = 0;
     }
-    v = func_02012FFC();
+    v = MSG_SPEED_GetWait();
     ((struct Obj04532 *)p)->f10 = PRINTSYS_PrintStream(a, d, e, c, ((struct Obj04532 *)p)->f0, v, ((struct Obj04532 *)p)->f4, 0, 0x48, 0xF);
     ((struct Obj04532 *)p)->f14 = a;
 }

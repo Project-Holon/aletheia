@@ -1,5 +1,5 @@
 /*
- * function: func_021C58F8
+ * function: WF2DMAP_OBJDRAW_GetFrameValue
  * address:  0x021C58F8
  * packet:   pkt_021C58F8
  * region:   ov127
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_021C4268  0x021C4268  thumb
- *   d_021C60B6     0x021C60B6  data  a1
+ *   sWf2dmapSlotValues     0x021C60B6  data  a1
  *
  * Addresses are Black-image addresses.
  */
 
 extern int func_021C4268(char *);
-extern unsigned char d_021C60B6[];
+extern unsigned char sWf2dmapSlotValues[];
 
-int func_021C58F8(char *p, int b)
+int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b)
 {
     if (func_021C4268(p) == 2)
         return 0;
-    return d_021C60B6[b];
+    return sWf2dmapSlotValues[b];
 }

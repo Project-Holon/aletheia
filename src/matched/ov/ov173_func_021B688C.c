@@ -1,5 +1,5 @@
 /*
- * function: func_021B688C
+ * function: POKE_SUMMARY_MAIN_DeleteText
  * address: 0x021B688C
  * packet: pkt_ov173_021B688C
  * region: ov173
@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj06565.h"
@@ -21,6 +21,6 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021B688C(char *p) { MSGDATA_Delete(((struct Obj06565 *)p)->f44); func_0201ED04(((struct Obj06565 *)p)->f48); STRBUF_Delete(((struct Obj06565 *)p)->f4C); STRBUF_Delete(((struct Obj06565 *)p)->f50); STRBUF_Delete(((struct Obj06565 *)p)->f54); }
+void POKE_SUMMARY_MAIN_DeleteText(char *p) { MSGDATA_Delete(((struct Obj06565 *)p)->f44); WORDSET_DeleteStrbufED04(((struct Obj06565 *)p)->f48); STRBUF_Delete(((struct Obj06565 *)p)->f4C); STRBUF_Delete(((struct Obj06565 *)p)->f50); STRBUF_Delete(((struct Obj06565 *)p)->f54); }

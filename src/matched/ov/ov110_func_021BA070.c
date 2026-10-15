@@ -25,8 +25,8 @@
  *   gPmsInputBgTemplate7 0x021C3634 data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02040588 0x02040588 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
@@ -49,9 +49,9 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 struct GfFont;
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
@@ -61,16 +61,16 @@ void PMS_INPUT_VIEW_InitDisplay(u8 *p) {
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)gPmsInputVramBanks);
     func_0203FC28((struct DispConfig *)gPmsInputDispConfig);
-    func_0203FCA0(0,(const struct BgTemplate *)gPmsInputBgTemplate0,0);
-    func_0203FCA0(1,(const struct BgTemplate *)gPmsInputBgTemplate1,0);
-    func_0203FCA0(2,(const struct BgTemplate *)gPmsInputBgTemplate2,0);
-    func_0203FCA0(3,(const struct BgTemplate *)gPmsInputBgTemplate3,0);
-    func_0203FCA0(4,(const struct BgTemplate *)gPmsInputBgTemplate4,0);
-    func_0203FCA0(5,(const struct BgTemplate *)gPmsInputBgTemplate5,0);
-    func_0203FCA0(6,(const struct BgTemplate *)gPmsInputBgTemplate6,0);
-    func_0203FCA0(7,(const struct BgTemplate *)gPmsInputBgTemplate7,0);
+    BG_SYS_InitBgLayer(0,(const struct BgTemplate *)gPmsInputBgTemplate0,0);
+    BG_SYS_InitBgLayer(1,(const struct BgTemplate *)gPmsInputBgTemplate1,0);
+    BG_SYS_InitBgLayer(2,(const struct BgTemplate *)gPmsInputBgTemplate2,0);
+    BG_SYS_InitBgLayer(3,(const struct BgTemplate *)gPmsInputBgTemplate3,0);
+    BG_SYS_InitBgLayer(4,(const struct BgTemplate *)gPmsInputBgTemplate4,0);
+    BG_SYS_InitBgLayer(5,(const struct BgTemplate *)gPmsInputBgTemplate5,0);
+    BG_SYS_InitBgLayer(6,(const struct BgTemplate *)gPmsInputBgTemplate6,0);
+    BG_SYS_InitBgLayer(7,(const struct BgTemplate *)gPmsInputBgTemplate7,0);
     for(i=0;i<=7;++i) {
-        func_020414EC((u8)i);
+        BG_SYS_ClearSlot((u8)i);
         func_02040588((u8)i,1);
     }
     ((struct Obj13769 *)q)->f80=GF_FONT_Create(23,0,0,0,42);

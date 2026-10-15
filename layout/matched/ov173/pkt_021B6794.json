@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6794",
+   "name": "POKE_SUMMARY_MAIN_DeleteMsgWindow",
    "address": "0x021B6794",
    "kind": "game",
    "region": "ov173",

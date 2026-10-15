@@ -1,5 +1,5 @@
 /*
- * function: func_02088ED4
+ * function: RtcWaitBusy
  * address:  0x02088ED4
  * packet:   pkt_02088ED4
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void g_0215142C(void);
 
-asm void func_02088ED4(void)
+asm void RtcWaitBusy(void)
 {
     ldr ip, =g_0215142C
 loc_02088ED8:

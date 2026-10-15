@@ -1,5 +1,5 @@
 /*
- * function: func_020966B0
+ * function: __ull2dec
  * address:  0x020966B0
  * packet:   pkt_020949F4
  * region:   arm9
@@ -29,8 +29,8 @@
  * does.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020966B0.c \
- *       --func func_020966B0 --addr 0x020966B0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__ull2dec.c \
+ *       --func __ull2dec --addr 0x020966B0 --cc 1.1p1 --arm
  *   EXACT, 196 bytes, 2 relocation sites, all resolved.
  *
  * symbols:
@@ -53,7 +53,7 @@ typedef struct decimal {
     } sig;
 } decimal;
 
-void func_020966B0(decimal *result, u64 val)
+void __ull2dec(decimal *result, u64 val)
 {
     result->sign = 0;
     result->sig.length = 0;

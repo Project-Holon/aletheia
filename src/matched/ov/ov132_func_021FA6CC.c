@@ -14,8 +14,8 @@
  *   table 0x021FDC20 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_0207D658 0x0207D658 arm
- *   func_021F9730 0x021F9730 thumb ov132
- *   func_021F9768 0x021F9768 thumb ov132
+ *   STA_ACTING_RequestAction 0x021F9730 thumb ov132
+ *   STA_ACTING_GetCurrentAction 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -37,12 +37,12 @@ struct Obj;
 struct Actor;
 struct Vec2;
 extern void func_0207D658(unsigned long,int,int);
-extern void func_021F9730(char *p, int value);
+extern void STA_ACTING_RequestAction(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_020355D8(u8);
-extern int func_021F9768(char *p);
+extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 void func_021FA6CC(char *p)
@@ -56,8 +56,8 @@ void func_021FA6CC(char *p)
         hit=TOUCHPANEL_HitTrg(&key);
         func_0207D658(0x04001050,16,0);
         if(hit!=-1 && *(u16 *)(p+0x48+hit*2)!=255 && *(int *)(p+0x40+hit*4)==0) {
-            if(hit==0) func_021F9730(((struct Obj00914 *)p)->f4,7);
-            else func_021F9730(((struct Obj00914 *)p)->f4,8);
+            if(hit==0) STA_ACTING_RequestAction(((struct Obj00914 *)p)->f4,7);
+            else STA_ACTING_RequestAction(((struct Obj00914 *)p)->f4,8);
             func_0207D658(0x04001050,16,-8);
             one=FLAG_ONE;
             zero=FLAG_ZERO;
@@ -74,7 +74,7 @@ void func_021FA6CC(char *p)
         }
     }
     if(((struct Obj00914 *)p)->f14!=2) {
-        if(func_021F9768(((struct Obj00914 *)p)->f4)==0) {
+        if(STA_ACTING_GetCurrentAction(((struct Obj00914 *)p)->f4)==0) {
             if(((struct Obj00914 *)p)->f10==0) {
                 ((struct Obj00914 *)p)->fC=1;
                 CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct Obj00914 *)p)->f14*4),0);

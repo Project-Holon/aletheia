@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC7C
+ * function: COMM_BTL_DEMO_GRAPHIC_Draw3d
  * address: 0x021BAC7C
  * packet: pkt_ov213_021BAC7C
  * region: ov213
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BAE50 0x021BAE50 thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_DrawG3d 0x021BAE50 thumb ov213
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_021BAE50(int *);
-void func_021BAC7C(char *p) { func_021BAE50((int *)(p+8)); }
+extern void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *);
+void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3d((int *)(p+8)); }

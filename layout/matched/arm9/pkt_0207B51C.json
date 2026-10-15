@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207B51C",
+   "name": "MTX_MultVec33",
    "address": "0x0207B51C",
    "kind": "sdk",
    "region": "arm9",

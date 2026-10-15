@@ -1,5 +1,5 @@
 /*
- * function: func_0205A724
+ * function: WDS_GetApInfoAll
  * address:  0x0205A724
  * packet:   pkt_0205A724
  * region:   arm9
@@ -81,7 +81,7 @@ typedef struct WDSBriefApInfo {
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int WDS_GetApInfoByIndex(int index, WDSBriefApInfo *briefapinfo);
 
-int func_0205A724(WDSBriefApInfo *briefapinfo)
+int WDS_GetApInfoAll(WDSBriefApInfo *briefapinfo)
 {
     int index;
 

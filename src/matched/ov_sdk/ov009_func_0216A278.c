@@ -1,5 +1,5 @@
 /*
- * function: func_0216A278
+ * function: DWCi_LoginAsync
  * address:  0x0216A278
  * packet:   pkt_ov009_0216A278
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      DWCi_LoginAsync (libdwcmatch.TWL.HYB.a(dwc_login.o))
  *
  * symbols:
- *   func_0216A6F4  0x0216A6F4  arm  ov009
- *   g_021AA874  0x021AA874  data
+ *   DWCi_RemoteLogin  0x0216A6F4  arm  ov009
+ *   gDwcLoginControl  0x021AA874  data
  */
 
 typedef struct LoginCnt {
@@ -27,15 +27,15 @@ typedef struct LoginCnt {
 	char partnerChallenge[0x100];
 } LoginCnt;
 
-extern LoginCnt *g_021AA874;
+extern LoginCnt *gDwcLoginControl;
 
-extern int func_0216A6F4(void);
+extern int DWCi_RemoteLogin(void);
 
-int func_0216A278(void)
+int DWCi_LoginAsync(void)
 {
-	if (!func_0216A6F4())
+	if (!DWCi_RemoteLogin())
 		return 0;
-	g_021AA874->state = 1;
-	g_021AA874->a30 = 0;
+	gDwcLoginControl->state = 1;
+	gDwcLoginControl->a30 = 0;
 	return 1;
 }

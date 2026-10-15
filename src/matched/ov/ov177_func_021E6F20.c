@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200B214 0x0200B214 thumb
+ *   REGULATION_Party_GetValue 0x0200B214 thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   CLACT_RegisterCharacter  0x0204A6C8  arm  arm9
@@ -49,7 +49,7 @@ extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16
 typedef signed int     s32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct Rec1E;
-extern s32 func_0200B214(struct Rec1E *p, u32 id, u8 n);
+extern s32 REGULATION_Party_GetValue(struct Rec1E *p, u32 id, u8 n);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -76,9 +76,9 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
     w->pal = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), w->layer, (u16)(w->palSlot << 5), (heap & 0x7fff) | 0x8000);
     w->cell = (void *)CLACT_RegisterCellAnim(h, func_0201BC40(), func_0201BCB4(), heap);
     for (i = 0; i < 6; i++) {
-        species = func_0200B214(rec, 0, i);
-        form = func_0200B214(rec, 1, i);
-        gender = func_0200B214(rec, 3, i);
+        species = REGULATION_Party_GetValue(rec, 0, i);
+        form = REGULATION_Party_GetValue(rec, 1, i);
+        gender = REGULATION_Party_GetValue(rec, 3, i);
         w->chr[i] = (void *)CLACT_RegisterCharacter(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
     ARC_TOOL_DeleteHandle(h);
@@ -93,10 +93,10 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
     req.flag = 1;
     req.a = 1;
     for (i = 0; i < 6; i++) {
-        species = func_0200B214(rec, 0, i);
-        form = func_0200B214(rec, 1, i);
-        gender = func_0200B214(rec, 3, i);
-        shown = func_0200B214(rec, 2, i);
+        species = REGULATION_Party_GetValue(rec, 0, i);
+        form = REGULATION_Party_GetValue(rec, 1, i);
+        gender = REGULATION_Party_GetValue(rec, 3, i);
+        shown = REGULATION_Party_GetValue(rec, 2, i);
         if (species != 0) {
             req.x = (i << 5) + 0x120;
             w->objs[i] = CLACT_CreateActor(owner, (unsigned int)w->chr[i], (unsigned int)w->pal, (unsigned int)w->cell, &req, w->layer, heap);

@@ -14,7 +14,7 @@
  *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
  *   FIELD_RAIL_WORK_GetLineKey  0x021B80D8  thumb  ov021
  *   func_0207AF1C  0x0207AF1C  thumb
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D84D4     0x021D84D4  data  ov021  a1
  *   d_021D841C     0x021D841C  data  ov021  a2
@@ -53,7 +53,7 @@ extern void *FLDMMDL_RAIL_GetRailWork(void *a);
 extern void FIELD_RAIL_WORK_GetStepVector(struct Sub *o, s16 *out);
 extern u32 FIELD_RAIL_WORK_GetLineKey(u8 *p);
 extern void func_0207AF1C();
-extern void func_0207B51C();
+extern void MTX_MultVec33();
 extern void VEC_Normalize();
 
 void FLDMMDL_RAIL_GetDrawOffsetByDir(u32 o, u32 idx, s16 *v)
@@ -73,7 +73,7 @@ void FLDMMDL_RAIL_GetDrawOffsetByDir(u32 o, u32 idx, s16 *v)
     v[1] = (s16)(((s64)c * v[1] + 0x800) >> 12);
     setv(&vec, v[0], v[1], v[2]);
     func_0207AF1C(m, FX_SinCosTable_[k], c);
-    func_0207B51C(&vec, m, &vec);
+    MTX_MultVec33(&vec, m, &vec);
     VEC_Normalize(&vec, &vec);
     setw(v, vec.x, vec.y, vec.z);
 }

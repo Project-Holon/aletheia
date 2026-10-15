@@ -1,5 +1,5 @@
 /*
- * function: func_022052E8
+ * function: SHINKA_DEMO_DeleteWindows
  * address: 0x022052E8
  * packet: pkt_ov195_022052E8
  * region: ov195
@@ -13,7 +13,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj02240.h"
@@ -28,9 +28,9 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 struct Rec;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_022052E8(int task, int *p)
+void SHINKA_DEMO_DeleteWindows(int task, int *p)
 {
     APP_KEYCURSOR_Delete(((struct Obj02240 *)p)->f84);
     if (((struct Obj02240 *)p)->f64) PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj02240 *)p)->f64));
@@ -38,7 +38,7 @@ void func_022052E8(int task, int *p)
     if (((struct Obj02240 *)p)->f80) STRBUF_Delete((struct U16Vec *)(((struct Obj02240 *)p)->f80));
     MSGDATA_Delete(((struct Obj02240 *)p)->f78);
     MSGDATA_Delete(((struct Obj02240 *)p)->f7C);
-    func_0203FB44(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
+    BG_SYS_DeleteHalf(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj02240 *)p)->f6C));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj02240 *)p)->f70));
 }

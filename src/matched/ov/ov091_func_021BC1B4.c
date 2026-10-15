@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  */
-extern unsigned int func_02020FE4(void *,unsigned int,unsigned int);
-int PLIST_MENU_ItemRestoresHp(unsigned short *p,void *id) { if(func_02020FE4(id,27,*p)) return 1; return 0; }
+extern unsigned int FILE_UTIL_Get_0FE4(void *,unsigned int,unsigned int);
+int PLIST_MENU_ItemRestoresHp(unsigned short *p,void *id) { if(FILE_UTIL_Get_0FE4(id,27,*p)) return 1; return 0; }

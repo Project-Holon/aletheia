@@ -22,7 +22,7 @@
  *   ZUKAN_DETAIL_COMMON_SetBrightnessNone 0x021BC508 thumb ov208
  *   ZUKAN_DETAIL_COMMON_CreatePaletteAnim 0x021BC560 thumb ov208
  *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
- *   func_02012984 0x02012984 thumb
+ *   GAME_DATA_GetSeason 0x02012984 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020490F4 0x020490F4 arm
@@ -43,7 +43,7 @@ extern int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *);
 extern int ZUKAN_DETAIL_COMMON_GetFont(int *p);
 extern int func_02034AC4(int);
 extern void MI_CpuFill8(void *,int,u32);
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
 extern void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *,char *,int);
 extern void ZUKAN_DETAIL_AREA_CreatePrintQueues(u16 *,char *,int);
@@ -75,7 +75,7 @@ u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,int key)
     ((struct Obj00510 *)p)->f6C=0;
     ((struct Obj00510 *)p)->f70=0;
     ((struct Obj00510 *)p)->f74=0;
-    p[0x78]=func_02012984((const struct BigObj *)save);
+    p[0x78]=GAME_DATA_GetSeason((const struct BigObj *)save);
     p[0x79]=0xff;
     ((struct Obj00510 *)p)->f84=0;
     ((struct Obj00510 *)p)->f88=1;

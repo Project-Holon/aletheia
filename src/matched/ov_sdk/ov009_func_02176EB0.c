@@ -1,5 +1,5 @@
 /*
- * function: func_02176EB0
+ * function: DWCi_SendReliable
  * address:  0x02176EB0
  * packet:   pkt_ov009_02176EB0
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      DWCi_SendReliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
  *
  * symbols:
- *   func_02177770  0x02177770  arm  ov009
+ *   DWCs_GetTransConnection  0x02177770  arm  ov009
  *   func_02176DFC  0x02176DFC  arm  ov009
- *   func_021771B0  0x021771B0  arm  ov009
- *   func_021777C0  0x021777C0  arm  ov009
- *   func_02177E64  0x02177E64  arm  ov009
- *   g_021AB180  0x021AB180  data
+ *   DWCs_EncodeHeader  0x021771B0  arm  ov009
+ *   DWCs_Send  0x021777C0  arm  ov009
+ *   DWCs_GetOutgoingBufferFreeSize  0x02177E64  arm  ov009
+ *   gDwcTransInfo  0x021AB180  data
  */
 
 #include "../include/G_TransInfo.h"
@@ -60,36 +60,36 @@ typedef struct {
     unsigned long connKeepAliveTime;
 } TransInfo;
 
-extern int func_02177770(int i);
+extern int DWCs_GetTransConnection(int i);
 extern int func_02176DFC(int aid, int type);
-extern void func_021771B0(TransHeader *header, unsigned short type, int size);
-extern void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int reliable);
-extern int func_02177E64(unsigned char aid);
-extern struct TransInfo *g_021AB180;
+extern void DWCs_EncodeHeader(TransHeader *header, unsigned short type, int size);
+extern void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable);
+extern int DWCs_GetOutgoingBufferFreeSize(unsigned char aid);
+extern struct TransInfo *gDwcTransInfo;
 
-int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size)
+int DWCi_SendReliable(unsigned short type, unsigned char aid, void *buffer, int size)
 {
     int freeSpace;
     int sendSize;
     TransHeader header;
     TransConn *transConnection;
 
-    transConnection = (TransConn *)func_02177770(aid);
+    transConnection = (TransConn *)DWCs_GetTransConnection(aid);
     if (!func_02176DFC((unsigned char)aid, (unsigned short)type))
         return 0;
     transConnection->sendState = 1;
     transConnection->sendBuffer = buffer;
     transConnection->sendingSize = 0;
     transConnection->requestSendSize = size;
-    func_021771B0(&header, type, size);
-    func_021777C0(aid, (unsigned char *)&header, 8, 1);
-    sendSize = g_021AB180->sendSplitMax;
+    DWCs_EncodeHeader(&header, type, size);
+    DWCs_Send(aid, (unsigned char *)&header, 8, 1);
+    sendSize = gDwcTransInfo->sendSplitMax;
     if (size <= sendSize)
         sendSize = size;
-    freeSpace = func_02177E64(aid);
+    freeSpace = DWCs_GetOutgoingBufferFreeSize(aid);
     if (sendSize > freeSpace)
         return 1;
-    func_021777C0(aid, buffer, sendSize, 1);
+    DWCs_Send(aid, buffer, sendSize, 1);
     transConnection->sendingSize += sendSize;
     freeSpace = transConnection->requestSendSize;
     if (transConnection->sendingSize == freeSpace) {
@@ -97,8 +97,8 @@ int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size
         transConnection->sendBuffer = 0;
         transConnection->sendingSize = 0;
         transConnection->requestSendSize = 0;
-        if (g_021AB180->sendCallback && type == 1)
-            g_021AB180->sendCallback(freeSpace, aid, g_021AB180->sendCallbackParam);
+        if (gDwcTransInfo->sendCallback && type == 1)
+            gDwcTransInfo->sendCallback(freeSpace, aid, gDwcTransInfo->sendCallbackParam);
     }
     return 1;
 }

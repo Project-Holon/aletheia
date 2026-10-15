@@ -1,5 +1,5 @@
 /*
- * function: func_0219F024
+ * function: ServerBrowserState
  * address:  0x0219F024
  * packet:   pkt_02155168
  * region:   ov009
@@ -16,7 +16,7 @@
 
  */
 
-int func_0219F024(char *p)
+int ServerBrowserState(char *p)
 {
     int v;
 

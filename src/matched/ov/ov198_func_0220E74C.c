@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_0220AFC4 0x0220AFC4 thumb ov196
+ *   B_APP_TOOL_DeleteActors 0x0220AFC4 thumb ov196
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 struct Bank;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_0220AFC4(u8 *p);
+extern void B_APP_TOOL_DeleteActors(u8 *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
@@ -30,7 +30,7 @@ void func_0220E74C(char *p)
 {
     unsigned i;
     for(i=0;i<41;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x1ebc));
-    func_0220AFC4(((struct Obj14559 *)p)->f2188);
+    B_APP_TOOL_DeleteActors(((struct Obj14559 *)p)->f2188);
     for(i=0;i<26;i++) CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+0x24a4)));
     for(i=0;i<6;i++) CLACT_ReleasePalette((u32)(*(void **)(p+i*4+0x250c)));
     for(i=0;i<6;i++) CLACT_ReleaseCellAnim((u32)(*(void **)(p+i*4+0x2524)));

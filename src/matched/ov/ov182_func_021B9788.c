@@ -1,5 +1,5 @@
 /*
- * function: func_021B9788
+ * function: THE_END_GRAPHIC_LoadGraphics
  * address: 0x021B9788
  * packet: pkt_ov182_021B9788
  * region: ov182
@@ -32,7 +32,7 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(unsigned char *);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021B9788(unsigned short *p)
+void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
 {
     unsigned char *q = func_020490F4(0xdc, *p);
     func_02049B68(q, 2, 0, 0, 0, *p);

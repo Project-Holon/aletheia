@@ -14,7 +14,7 @@
  * symbols:
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   gsXmlWriterGetDataLength  0x02181E20  arm  ov009
  *
  * The callee gsXmlWriterGetDataLength (ov009, 8 bytes, gsXmlWriterGetDataLength) was the last
@@ -42,7 +42,7 @@ typedef struct GHIConnection {
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *, int);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int gsXmlWriterGetDataLength(void *);
 
 int ghiPostGetNoFilesContentLength(GHIConnection *connection)
@@ -61,7 +61,7 @@ int ghiPostGetNoFilesContentLength(GHIConnection *connection)
     for (i = 0; i < num; i++) {
         data = func_02184208(post->data, i);
         if (data->type == 0)
-            { total += func_0209477C((const u8 *)data->f4); total += data->fC; total += data->f14 * 2; total += 1; }
+            { total += strlen((const u8 *)data->f4); total += data->fC; total += data->f14 * 2; total += 1; }
         else if (data->type == 3)
             total += gsXmlWriterGetDataLength(data->f8);
     }

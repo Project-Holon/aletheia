@@ -21,8 +21,8 @@
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
  *   func_0207AF38 0x0207AF38 thumb
- *   func_0207B51C 0x0207B51C arm
- *   func_0207CA00 0x0207CA00 arm
+ *   MTX_MultVec33 0x0207B51C arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -47,8 +47,8 @@ extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(u8 *, u8 *, u32);
 extern void func_0207AF38(Mtx *, int, int);
-extern void func_0207B51C(const Vec *, const Mtx *, Vec *);
-extern void func_0207CA00(const Vec *, const Vec *, Vec *);
+extern void MTX_MultVec33(const Vec *, const Mtx *, Vec *);
+extern void VEC_Subtract(const Vec *, const Vec *, Vec *);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 
 #define E (*(u8 **)(q + off + 0x84))
@@ -95,15 +95,15 @@ void func_021F732C(u8 *self, u8 *q)
                     func_021F545C(*(u8 **)(q + 0x58));
                     z = *(int *)(t + 0x1C);
                     func_0207AF38(&mtx, -table[(ang0 >> 4) * 2], table[(ang0 >> 4) * 2 + 1]);
-                    func_0207B51C((Vec *)(t + 0x10), &mtx, &v1);
+                    MTX_MultVec33((Vec *)(t + 0x10), &mtx, &v1);
                     if (neg == 1) {
                         ang2 = (u16)(0x10000 - ang2);
                     }
                     if (func_021F4B30(E) == 0 && neg == 1) {
                         z = -z;
                     }
-                    func_0207B51C((Vec *)(t + 0x28), &mtx, &v2);
-                    func_0207CA00((Vec *)(t + 0x28), &v2, &v2);
+                    MTX_MultVec33((Vec *)(t + 0x28), &mtx, &v2);
+                    VEC_Subtract((Vec *)(t + 0x28), &v2, &v2);
                     h = *(u16 *)(self + 0x434);
                     v3.x = *(int *)(t + 4) + v1.x + 0x80000 + FXR(h);
                     v3.y = *(int *)(t + 8) + v1.y + 0x60000;

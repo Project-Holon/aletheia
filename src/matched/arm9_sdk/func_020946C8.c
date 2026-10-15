@@ -1,5 +1,5 @@
 /*
- * function: func_020946C8
+ * function: srand
  * address:  0x020946C8
  * packet:   pkt_02094488
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8A78     0x020A8A78  data
+ *   MslRandSeed     0x020A8A78  data
  */
 
 typedef unsigned int u32;
 
-extern u32 g_020A8A78;
+extern u32 MslRandSeed;
 
-void func_020946C8(u32 v)
+void srand(u32 v)
 {
-    g_020A8A78 = v;
+    MslRandSeed = v;
 }

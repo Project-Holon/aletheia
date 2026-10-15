@@ -18,7 +18,7 @@
  *   func_0215D2A8  0x0215D2A8  arm  ov009
  *   func_0215F2DC  0x0215F2DC  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A1CD8  0x021A1CD8  data
+ *   gSoclConfig  0x021A1CD8  data
  */
 
 #include "../include/G_021A1CD8.h"
@@ -29,7 +29,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned char *func_0215D2A8(void *socket, void *param);
 extern void func_0215F2DC(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct G_021A1CD8 *g_021A1CD8;
+extern struct G_021A1CD8 *gSoclConfig;
 
 void *func_0215D198(void *param)
 {
@@ -39,7 +39,7 @@ void *func_0215D198(void *param)
 
 	size = func_0215D200(param);
 	enable = OS_DisableInterrupts();
-	socket = g_021A1CD8->alloc(size);
+	socket = gSoclConfig->alloc(size);
 	if (socket) {
 		MI_CpuFill8(socket, 0, size);
 		func_0215D2A8(socket, param);

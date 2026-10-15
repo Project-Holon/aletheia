@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020949F4  0x020949F4  arm
- *   func_02094A60  0x02094A60  arm
- *   func_02094A28  0x02094A28  arm
- *   func_020964E0  0x020964E0  arm
- *   func_0217F1E0  0x0217F1E0  arm   ov009
+ *   strncmp  0x020949F4  arm
+ *   strcspn  0x02094A60  arm
+ *   strchr  0x02094A28  arm
+ *   atoi  0x020964E0  arm
+ *   goastrdup  0x0217F1E0  arm   ov009
  *   sGhttpHttp2     0x021CEFDC  data
  *   sGhttpHttps3     0x021CEFE4  data
  *   sGhttpUrlServerTerminators     0x021CEFF0  data
@@ -31,20 +31,20 @@
  *   sGhttpEncryptionEngineSetForUnsecured     0x021CF050  data
  *   sGhttpInitializingSslEngine     0x021CF090  data
  *   sGhttpFailedToInitializeSslEngine     0x021CF0AC  data
- *   func_0217ED38  0x0217ED38  arm   ov009
- *   func_0217F150  0x0217F150  arm   ov009
+ *   inet_addr  0x0217ED38  arm   ov009
+ *   gsiStartResolvingHostname  0x0217F150  arm   ov009
  *   sGhttpHostLookup     0x021CF0D0  data  ov114
  *   sGhttpThreadCreationFailed     0x021CF0E0  data  ov114
  *   gGhttpProxyServer     0x021D3B2C  data  ov114
- *   func_0217F1CC  0x0217F1CC  arm   ov009
+ *   gsiGetResolvedIP  0x0217F1CC  arm   ov009
  *   sGhttpErrorResolvingHostname     0x021CF0F8  data  ov114
  *   sGhttpDnsLookupComplete     0x021CF114  data  ov114
  *   func_0217EB18  0x0217EB18  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_0217EE50  0x0217EE50  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
+ *   SetSockBlocking  0x0217EE50  arm  ov009
  *   func_0217EF00  0x0217EF00  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
- *   func_0217ED64  0x0217ED64  arm  ov009
+ *   GSISocketSelect  0x0217ED64  arm  ov009
  *   sGhttpConnecting     0x021CF12C  data
  *   gGhttpThrottleBufferSize     0x021CE5B0  data
  *   gGhttpProxyPort     0x021D3B28  data
@@ -57,7 +57,7 @@
  *   ghiAppendHeaderToBuffer  0x021BFF7C  arm  ov114
  *   ghiAppendCharToBuffer  0x021C0004  arm  ov114
  *   ghiAppendIntToBuffer  0x021C00C0  arm  ov114
- *   func_02094B20  0x02094B20  arm
+ *   strstr  0x02094B20  arm
  *   OS_SPrintf  0x02084F40  arm
  *   ghiPostGetContentType  0x021C25C8  arm  ov114
  *   ghiEncryptDataToBuffer  0x021BFDEC  arm  ov114
@@ -118,7 +118,7 @@
  *   sGhttpContentLength2                      0x021cf2e4 data
  *   sGhttpMaxContentLength                      0x021ce0b8 data
  *   sGhttpTransferEncodingChunked                      0x021cf2f4 data
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   sGhttpReceivingFile     0x021CF310  data
  *   sGhttpReceiveFileIdleTimeout     0x021CF320  data
@@ -137,24 +137,21 @@ typedef struct {
     u32 addr;
 } SOCSockAddrIn;
 
-extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
-extern int func_02094A60(const u8 *s, const u8 *reject);
-extern char *func_02094A28(const char *, int);
-extern int func_020964E0(u32 a0);
-extern char *func_0217F1E0(char *);
+extern int strcspn(const u8 *s, const u8 *reject);
+extern char *goastrdup(char *);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
 extern void SocketStartUp();
 extern int ghttpSetRequestEncryptionEngine(int, int);
-extern int func_0217ED38(int a);
-extern int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle);
-extern int func_0217F1CC(int *p);
+extern int inet_addr(int a);
+extern int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
+extern int gsiGetResolvedIP(int *p);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern int func_0217ED54(int socket);
-extern int func_0217EE50(int sock, int isblocking);
+extern int GOAGetLastError(int socket);
+extern int SetSockBlocking(int sock, int isblocking);
 extern int func_0217EF00(int sock, int size);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
+extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int ghiSendBufferedData(struct GHIConnection *connection);
 extern void ghiResetBuffer(GHIBuffer *buffer);
 extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
@@ -163,7 +160,6 @@ extern int ghiDecryptReceivedData(struct GHIConnection *connection);
 extern int ghiAppendHeaderToBuffer(GHIBuffer *buffer, const char *name, const char *value);
 extern int ghiAppendCharToBuffer(GHIBuffer *buffer, int ch);
 extern int ghiAppendIntToBuffer(GHIBuffer *buffer, int i);
-extern char *func_02094B20(const char *s, const char *find);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern char *ghiPostGetContentType(GHIConnection *connection);
 extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
@@ -173,16 +169,9 @@ extern void ghiCallPostCallback(GHIConnection *);
 extern int STD_TSScanf(char *src, char *fmt, ...);
 extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern void func_0217EAE0(void *);
-extern int strncmp(const char *p1, const char *p2, unsigned long n);
-extern char *strstr(const char *haystack, const char *needle);
-extern unsigned long strlen(const char *p);
 extern void *gsimalloc(unsigned long size);
-extern void *memmove(void *dst, const void *src, unsigned long n);
-extern char *goastrdup(char *src);
-extern int atoi(const char *p);
 extern int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len);
-extern int GOAGetLastError(int socket);
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern void *func_0217EAB0(unsigned long size);
 GHTTPBool ghiParseURL(GHIConnection *connection);
 void ghiDoSocketInit(GHIConnection *connection);
@@ -262,6 +251,12 @@ extern char sGhttpReceiveFileIdleTimeout[];
 
 
 
+extern unsigned long strlen(const char *p);
+extern int strncmp(const char *s1, const char *s2, unsigned int n);
+extern char *strchr(const char *, int);
+extern char *strstr(const char *s, const char *find);
+extern int atoi(const char *s);
+extern void *memmove(void *dst, const void *src, unsigned long n);
 /*
  * sdk:      ghiParseURL (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  */
@@ -278,26 +273,26 @@ GHTTPBool ghiParseURL(GHIConnection *connection)
     URL = connection->URL;
     if (URL == 0)
         return GHTTPFalse;
-    if (func_020949F4((const unsigned char *)URL, (const unsigned char *)sGhttpHttp2, 7) == 0) {
+    if (strncmp((const char *)URL, (const char *)sGhttpHttp2, 7) == 0) {
         connection->protocol = 0;
         URL += 7;
-    } else if (func_020949F4((const unsigned char *)URL, (const unsigned char *)sGhttpHttps3, 8) == 0) {
+    } else if (strncmp((const char *)URL, (const char *)sGhttpHttps3, 8) == 0) {
         connection->protocol = 1;
         URL += 8;
     } else {
         return GHTTPFalse;
     }
-    nIndex = func_02094A60((const u8 *)URL, (const u8 *)sGhttpUrlServerTerminators);
+    nIndex = strcspn((const u8 *)URL, (const u8 *)sGhttpUrlServerTerminators);
     tempChar = URL[nIndex];
     URL[nIndex] = 0;
-    connection->serverAddress = func_0217F1E0(URL);
+    connection->serverAddress = goastrdup(URL);
     if (connection->serverAddress == 0)
         return GHTTPFalse;
     URL[nIndex] = tempChar;
     URL += nIndex;
     if (*URL == ':') {
         URL++;
-        connection->serverPort = (unsigned short)func_020964E0((u32)URL);
+        connection->serverPort = (unsigned short)atoi((const char *)URL);
         if (connection->serverPort == 0)
             return GHTTPFalse;
         while (*++URL != 0 && *URL != '/')
@@ -309,9 +304,9 @@ GHTTPBool ghiParseURL(GHIConnection *connection)
     }
     if (*URL == 0)
         URL = sGhttpRootPath;
-    path = func_0217F1E0(URL);
+    path = goastrdup(URL);
     connection->requestPath = path;
-    while ((p = func_02094A28(path, ' ')) != 0) {
+    while ((p = strchr(path, ' ')) != 0) {
         *p = '+';
         path = connection->requestPath;
     }
@@ -383,9 +378,9 @@ void ghiDoHostLookup(GHIConnection *connection)
         if (server == 0)
             server = connection->serverAddress;
     }
-    connection->serverIP = func_0217ED38((int)server);
+    connection->serverIP = inet_addr((int)server);
     if (connection->serverIP == (unsigned int)-1) {
-        if (func_0217F150(server, (struct GSIResolveHostnameInfo **)(&connection->handle)) == -1) {
+        if (gsiStartResolvingHostname(server, (struct GSIResolveHostnameInfo **)(&connection->handle)) == -1) {
             func_0217D254(8, (char *)3, 1, sGhttpThreadCreationFailed);
             connection->handle = 0;
             connection->completed = 1;
@@ -411,7 +406,7 @@ void ghiDoHostLookup(GHIConnection *connection)
  */
 void ghiDoLookupPending(GHIConnection *connection)
 {
-    connection->serverIP = func_0217F1CC(connection->handle);
+    connection->serverIP = gsiGetResolvedIP(connection->handle);
     if (connection->serverIP == (unsigned int)-1) {
         func_0217D254(8, (char *)3, 1, sGhttpErrorResolvingHostname);
         connection->handle = 0;
@@ -454,14 +449,14 @@ void ghiDoConnecting(GHIConnection *connection)
         {
             connection->completed = 1;
             connection->result = 5;
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
             return;
         }
-        if (!func_0217EE50(connection->socket, 0))
+        if (!SetSockBlocking(connection->socket, 0))
         {
             connection->completed = 1;
             connection->result = 5;
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
             return;
         }
         if (connection->throttle)
@@ -495,7 +490,7 @@ void ghiDoConnecting(GHIConnection *connection)
         rcode = func_0217EC08(connection->socket, &address, sizeof(address));
         if (rcode == -1)
         {
-            socketError = func_0217ED54(connection->socket);
+            socketError = GOAGetLastError(connection->socket);
             if (socketError != -6 && socketError != -26 && socketError != -76)
             {
                 connection->completed = 1;
@@ -506,13 +501,13 @@ void ghiDoConnecting(GHIConnection *connection)
         }
     }
 
-    rcode = func_0217ED64(connection->socket, 0, &writeFlag, &exceptFlag);
+    rcode = GSISocketSelect(connection->socket, 0, &writeFlag, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag))
     {
         connection->completed = 1;
         connection->result = 6;
         if (rcode == -1)
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
         else
             connection->socketError = 0;
         return;
@@ -659,7 +654,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
             ghiAppendDataToBuffer(writeBuffer, sGhttpLineEndProcess, 2);
         }
 
-        if (connection->sendHeaders == 0 || func_02094B20(connection->sendHeaders, sGhttpUserAgent) == 0)
+        if (connection->sendHeaders == 0 || strstr(connection->sendHeaders, sGhttpUserAgent) == 0)
             ghiAppendHeaderToBuffer(writeBuffer, sGhttpUserAgent, sGhttpGamespyhttp);
 
         if (connection->persistConnection)
@@ -722,7 +717,7 @@ void ghiDoPosting(GHIConnection *connection)
     if (result == 0) {
         readFlag = 0;
         ghiPostCleanupState(connection);
-        rcode = func_0217ED64(connection->socket, &readFlag, 0, 0);
+        rcode = GSISocketSelect(connection->socket, &readFlag, 0, 0);
         if (rcode != 1)
             return;
         if (readFlag == 0)
@@ -757,12 +752,12 @@ void ghiDoWaiting(GHIConnection *connection)
     int exceptFlag;
 
     func_0217D254(8, (char *)3, 16, sGhttpWaiting);
-    rcode = func_0217ED64(connection->socket, &readFlag, 0, &exceptFlag);
+    rcode = GSISocketSelect(connection->socket, &readFlag, 0, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag)) {
         connection->completed = 1;
         connection->result = 5;
         if (rcode == -1)
-            connection->socketError = func_0217ED54(connection->socket);
+            connection->socketError = GOAGetLastError(connection->socket);
         else
             connection->socketError = 0;
         return;
@@ -849,7 +844,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
         }
     }
 
-    endOfStatus = func_02094B20(connection->recvBuffer.data, sGhttpLineEndProcess);
+    endOfStatus = strstr(connection->recvBuffer.data, sGhttpLineEndProcess);
     if (endOfStatus != 0)
     {
         *endOfStatus = '\0';
@@ -878,7 +873,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
     {
         connection->completed = 1;
         connection->result = 7;
-        connection->socketError = func_0217ED54(connection->socket);
+        connection->socketError = GOAGetLastError(connection->socket);
     }
 }
 
@@ -962,7 +957,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
         {
             if (connection->chunkReadingState == 0)
             {
-                endOfHeader = func_02094A28(data, '\n');
+                endOfHeader = strchr(data, '\n');
                 if (endOfHeader != 0)
                 {
                     ghiAppendToChunkHeaderBuffer(connection, data, endOfHeader - data);
@@ -1009,7 +1004,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
             }
             else if (connection->chunkReadingState == 2)
             {
-                endOfFooter = func_02094A28(data, '\n');
+                endOfFooter = strchr(data, '\n');
                 if (endOfFooter == 0)
                     return 1;
                 endOfFooter++;
@@ -1259,7 +1254,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
     char *buffer;
     int decryptedLen;
 
-    startTime = func_0217F264();
+    startTime = current_time();
     runningTime = 0;
     bufferLen = 0;
 
@@ -1282,12 +1277,12 @@ void ghiDoReceivingFile(GHIConnection *connection)
             ghiFreeTempBuffer(buffer);
             if (connection->receiveFileIdleTime == 0)
             {
-                connection->receiveFileIdleTime = func_0217F264();
+                connection->receiveFileIdleTime = current_time();
                 return;
             }
-            if (func_0217F264() - connection->receiveFileIdleTime < 30000)
+            if (current_time() - connection->receiveFileIdleTime < 30000)
                 return;
-            func_0217D254(8, 0, 1, sGhttpReceiveFileIdleTimeout, func_0217F264() - connection->receiveFileIdleTime);
+            func_0217D254(8, 0, 1, sGhttpReceiveFileIdleTimeout, current_time() - connection->receiveFileIdleTime);
             connection->receiveFileIdleTime = 0;
             connection->completed = 1;
             connection->result = 0x13;
@@ -1343,7 +1338,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
             }
         }
 
-        runningTime = func_0217F264() - startTime;
+        runningTime = current_time() - startTime;
     }
 
     ghiFreeTempBuffer(buffer);

@@ -1,5 +1,5 @@
 /*
- * function: func_022059A0
+ * function: SHINKA_DEMO_GRAPHIC_Destroy
  * address: 0x022059A0
  * packet: pkt_ov195_022059A0
  * region: ov195
@@ -10,9 +10,9 @@
  * volatile: hardware 04000050/04001050 writes and 04000000/04001000 read/write at 022059C2-022059DC.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_02205C48 0x02205C48 thumb ov195
- *   func_02205BAC 0x02205BAC thumb ov195
- *   func_02205B24 0x02205B24 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Exit3d 0x02205C48 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_ExitClact 0x02205BAC thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_ReleaseMainBg 0x02205B24 thumb ov195
  *   func_0201DD68 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
@@ -20,19 +20,19 @@
 #include "../include/Obj24952.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_02205C48(int *);
-extern void func_02205BAC(char *);
-extern void func_02205B24(void *);
+extern void SHINKA_DEMO_GRAPHIC_Exit3d(int *);
+extern void SHINKA_DEMO_GRAPHIC_ExitClact(char *);
+extern void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *);
 extern void func_0201DD68(void);
 extern void MI_CpuFill8(void *, int, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_022059A0(char *p)
+void SHINKA_DEMO_GRAPHIC_Destroy(char *p)
 {
     func_02030EAC(((struct Obj24952 *)p)->fC);
-    func_02205C48((int *)(p + 8));
-    func_02205BAC(p + 4);
-    func_02205B24(p);
+    SHINKA_DEMO_GRAPHIC_Exit3d((int *)(p + 8));
+    SHINKA_DEMO_GRAPHIC_ExitClact(p + 4);
+    SHINKA_DEMO_GRAPHIC_ReleaseMainBg(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;

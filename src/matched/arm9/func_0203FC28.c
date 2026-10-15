@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   func_0207D518  0x0207D518  arm
  *   BG_SYS_ClearMainBgPlanes  0x0204349C  arm
  *   BG_SYS_ClearSubBgPlanes  0x02043558  arm
@@ -39,14 +39,14 @@ struct DispConfig {
     u32 unk_0c;
 };
 
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 a);
 extern void BG_SYS_ClearMainBgPlanes(void);
 extern void BG_SYS_ClearSubBgPlanes(void);
 
 void func_0203FC28(struct DispConfig *cfg)
 {
-    func_0207D4B0(cfg->unk_00, cfg->unk_04, cfg->unk_0c);
+    GX_SetGraphicsMode(cfg->unk_00, cfg->unk_04, cfg->unk_0c);
     func_0207D518(cfg->unk_08);
     REG_DISPCNT &= ~0x38000000;
     REG_DISPCNT &= ~0x07000000;

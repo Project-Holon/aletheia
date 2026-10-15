@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
@@ -23,8 +23,8 @@
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb  ov011
  *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb  ov011
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
- *   func_02012138  0x02012138  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -34,7 +34,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
@@ -47,23 +47,23 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   func_02030734  0x02030734  arm
- *   func_020120F8  0x020120F8  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   func_020307B0  0x020307B0  arm
  *   GAME_DATA_GetIntrudeIdByte            0x0215841C  thumb  ov010
  *   func_02034714            0x02034714  arm
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
- *   func_02012950  0x02012950  thumb
+ *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
@@ -71,7 +71,7 @@
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
  *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
  *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   FIELD_MSGBG_SysWinPrintStr  0x02190EB8  thumb  ov021
  *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
@@ -86,7 +86,7 @@
  *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
  *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
  *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
- *   func_02012B80  0x02012B80  thumb
+ *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
  *   INTRUDE_COMM_ClearSessionEntries  0x021757A8  thumb  ov011
  *   INTRUDE_FIELD_InitStartParam  0x0217BF1C  thumb  ov018
  *   FIELD_MSGBG_CreateBottomMsgWin  0x021907A8  thumb  ov021
@@ -100,8 +100,8 @@
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb  ov011
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BE48 0x0200BE48 thumb
- *   func_0200BF10 0x0200BF10 thumb
+ *   INTRUDE_GetFromSave 0x0200BE48 thumb
+ *   INTRUDE_GetMonolithLevel 0x0200BF10 thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
@@ -132,13 +132,13 @@
  *   INTRUDE_COMM_HasResultReward  0x02175E90  thumb  ov011
  *   INTRUDE_COMM_GetPartnerTallyValid  0x021756A4  thumb  ov011
  *   INTRUDE_COMM_GetResultCount  0x02175DE4  thumb  ov011
- *   func_0200BE24  0x0200BE24  thumb
- *   func_0200BE00  0x0200BE00  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   INTRUDE_AddMissionBonusScore  0x0200BE24  thumb
+ *   INTRUDE_AddMissionScore  0x0200BE00  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02007FB8  0x02007FB8  thumb
  *   func_0200823C  0x0200823C  thumb
  *   func_02007E50  0x02007E50  thumb
- *   func_0200BF78  0x0200BF78  thumb
+ *   INTRUDE_IncrementMissionClearCount  0x0200BF78  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   sEmptyTextResult   0x02183B48  data   ov018  a1
  *   GAME_EVENT_Change 0x0201232C thumb
@@ -196,13 +196,13 @@
  *   sTalkedGreetingTargetMsgIds     0x0218398E  data   a2
  *   func_020084F8  0x020084F8  thumb
  *   INTRUDE_COMM_SendProfile  0x021745F8  thumb  ov011
- *   func_0201EF40  0x0201EF40  thumb
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   sOfferAnswerMsgIds     0x02183998  data  a2
  *   INTRUDE_COMM_IsValidProfileCode 0x021756D0 thumb ov011
  *   sItemSaleMsgIds     0x021839E0  data  a2
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C274  0x0200C274  thumb
- *   func_0200C29C  0x0200C29C  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_SubPoints  0x0200C29C  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   sItemPurchaseMsgIds     0x021839A4  data  a2
  *   INTRUDE_SUBDISP_MainRequestAnswerSeq  0x0217C914  thumb  ov018
@@ -359,7 +359,7 @@ typedef struct EventCommItemSaleWork {
 } EventCommItemSaleWork;
 
 extern void MI_CpuFill8(void *dest, int value, int size);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 extern void FLDMMDL_SetAcmd(struct FldMmdl *mmdl, int acmd);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int FLDMMDL_EndAcmd(struct FldMmdl *mmdl);
@@ -368,8 +368,8 @@ extern u32 KEY_GetTrg(void);
 extern int INTRUDE_COMM_SendAnswer(int netId, int seq);
 extern void INTRUDE_COMM_NextRequestToken(IntrudeCommSys *sys);
 extern int INTRUDE_COMM_SendReply(IntrudeCommSys *sys, int netId, int requestActive, int seq);
-extern struct GameComm *func_02012138(struct GameSystem *gameSystem);
-extern u8 func_02012B58(struct GameData *gameData);
+extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
+extern u8 GAME_DATA_GetOwnNetId(struct GameData *gameData);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
 extern void *func_020124E8(struct GameEvent *event);
@@ -379,7 +379,7 @@ extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
 u32 func_0200FB24(void);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
 int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern void *FIELD_MSGBG_CreateMsgData(void *fieldMsgbg, u32 arcDatId);
@@ -392,23 +392,23 @@ extern void FIELD_MSGBG_DeleteSysWin(void *printer);
 extern u32 MSGDATA_Delete(void *msgData);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void *func_020120F8(struct GameSystem *gameSystem);
-extern u16 func_02012AC8(void *playerWork);
+extern void *ICA_ANIME_GetField114(struct GameSystem *gameSystem);
+extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
 extern u32 func_020307B0(void *memory);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern int INTRUDE_COMM_HasResult(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *strbuf);
-extern unsigned int func_0201ED04(void *wordSet);
+extern unsigned int WORDSET_DeleteStrbufED04(void *wordSet);
 extern void *func_02012944(struct GameData *gameData);
 extern u8 func_02008550(void *myStatus);
 extern void *func_02045EC0(void *msgData, u32 msgId);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
-extern void *func_02012950(struct GameData *gameData, u32 netId);
+extern void *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern void func_0201F02C(void *wordSet, u32 index, void *myStatus);
 extern void func_02045CAC(void *msgData, u32 msgId, void *dest);
 extern void func_0201F250(void *wordSet, void *dest, void *src);
@@ -416,7 +416,7 @@ int GFL_NET_GetNegotiationNum(void);
 extern void *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, int netId);
 void INTRUDE_COMM_SetWordSetRequest(IntrudeMemberRecord *record, IntrudeMemberName *name, void *wordSet, u16 heapId);
 extern IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
-extern struct WordSet *func_0201EC74(u32 count, u32 length, u16 heapId);
+extern struct WordSet *WORDSET_Create(u32 count, u32 length, u16 heapId);
 extern void FIELD_MSGBG_DeleteMsgData(void *msgData);
 extern void FIELD_MSGBG_SysWinPrintStr(void *printer, u32 x, u16 y, void *text);
 extern void FIELD_MSGBG_ClearSysWin(void *printer);
@@ -430,7 +430,7 @@ extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern void *SCRCMD_WORK_GetScriptWork(struct ScriptWork *scriptWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
 extern void SCRIPT_SYS_CallEvent(void *scriptSys, struct GameEvent *event);
-extern u8 func_02012B80(struct GameData *gameData);
+extern u8 GAME_DATA_GetIntrudeId(struct GameData *gameData);
 extern void INTRUDE_COMM_ClearSessionEntries(IntrudeSession *session);
 extern void INTRUDE_FIELD_InitStartParam(IntrudeRemoteRecord *startParam);
 extern void *FIELD_MSGBG_CreateBottomMsgWin(void *fieldMsgbg, void *msgData);
@@ -444,8 +444,8 @@ extern struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *g
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
 extern u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *sys, IntrudeSession *session);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *func_0200BE48(void *saveControl);
-extern u8 func_0200BF10(void *battleRec);
+extern void *INTRUDE_GetFromSave(void *saveControl);
+extern u8 INTRUDE_GetMonolithLevel(void *battleRec);
 extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern void FLDMMDL_SysPauseMove(void *mmdlSys);
 extern u32 *FLDMMDL_SysResumeMove(void *mmdlSys);
@@ -472,13 +472,13 @@ u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 int INTRUDE_COMM_HasResultReward(IntrudeCommSys *sys, IntrudeSession *session);
 u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *sys);
 int INTRUDE_COMM_GetResultCount(IntrudeCommSys *sys, IntrudeSession *session);
-void func_0200BE24(void *battleRec, s32 count);
-void func_0200BE00(void *battleRec, s32 count);
-void *func_0201292C(struct GameData *gameData);
+void INTRUDE_AddMissionBonusScore(void *battleRec, s32 count);
+void INTRUDE_AddMissionScore(void *battleRec, s32 count);
+void *GAME_DATA_GetMyItem(struct GameData *gameData);
 u32 func_02007FB8(void *myItem, u16 itemId, u16 heapId);
 u32 func_0200823C(u32 itemId);
 u32 func_02007E50(void *myItem, u16 itemId, u16 count, u16 heapId);
-u32 func_0200BF78(void *record);
+u32 INTRUDE_IncrementMissionClearCount(void *record);
 void func_0201EFA4(void *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, int workSize);
 int INTRUDE_CMD_SendProposal(IntrudeCommSys *sys, IntrudeSession *session);
@@ -500,11 +500,11 @@ void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 int SCRIPT_WORK_SetParams(void *scriptWork, int param0, int param1, int param2, u16 param3);
 extern u32 func_020084F8(void *myStatus, void *dest, u32 size);
 int INTRUDE_COMM_SendProfile(u32 netId, void *name);
-void func_0201EF40(void *wordSet, u32 index, u32 itemId);
+void WORDSET_Callback_EF40(void *wordSet, u32 index, u32 itemId);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 itemId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 func_0200C274(void *miscSave);
-extern u32 func_0200C29C(void *miscSave, u32 amount);
+extern u32 BEACON_GetPoints(void *miscSave);
+extern u32 BEACON_SubPoints(void *miscSave, u32 amount);
 extern u32 func_02007E3C(void *myItem, u16 itemId, u16 count, u16 heapId);
 extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *answerSeq);
 struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
@@ -682,9 +682,9 @@ void EVENT_COMM_COMMON_InitMsgBox(EventCommMsgBox *msgBox, struct GameSystem *ga
 {
     void *fieldMsgbg;
 
-    fieldMsgbg = FIELDMAP_GetMsgBg(func_0201210C(gameSystem));
+    fieldMsgbg = FIELDMAP_GetMsgBg(ICA_ANIME_GetField20(gameSystem));
     if (msgBox->wordSet == 0) {
-        msgBox->wordSet = func_0201EC74(6, 0x20, 4);
+        msgBox->wordSet = WORDSET_Create(6, 0x20, 4);
         msgBox->text = STRBUF_Create(0x1F0, 4);
         msgBox->templateText = STRBUF_Create(0x1D0, 4);
         msgBox->msgData = FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x44);
@@ -712,7 +712,7 @@ void EVENT_COMM_COMMON_ExitMsgBox(EventCommMsgBox *msgBox)
         FIELD_MSGBG_DeleteMsgData(msgBox->msgDataC);
         STRBUF_Delete(msgBox->templateText);
         STRBUF_Delete(msgBox->text);
-        func_0201ED04(msgBox->wordSet);
+        WORDSET_DeleteStrbufED04(msgBox->wordSet);
         msgBox->wordSet = 0;
     }
 }
@@ -838,7 +838,7 @@ void EVENT_COMM_COMMON_DeleteChoice(EventCommMsgBox *msgBox)
 
 void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *gameSystem)
 {
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) func_02034714(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     msgBox->choiceHandle = FIELD_MSGBG_CreateYesNoMenu(msgBox->fieldMsgbg, 0);
 }
@@ -855,7 +855,7 @@ int EVENT_COMM_COMMON_PollChoice(EventCommMsgBox *msgBox)
 
 void EVENT_COMM_COMMON_SetupListWindowB(EventCommMsgBox *msgBox, struct GameSystem *gameSystem, int x, int y, int width, int height)
 {
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     if (msgBox->listWindowB != 0) {
         func_02034714(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     }
@@ -918,7 +918,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
     struct GameData *gameData;
 
     gameData = GAME_COMM_GetGameData(sys->gameComm);
-    if (netId == func_02012B58(gameData)) {
+    if (netId == GAME_DATA_GetOwnNetId(gameData)) {
         peer = &sys->localPeer;
     } else {
         peer = &sys->peers[netId];
@@ -926,7 +926,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
     objCode = peer->objCode;
     switch (objCode) {
     case 0:
-        if (func_02008550(func_02012950(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
+        if (func_02008550(GAME_DATA_GetPlayerStatusById(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
             return 3;
         }
         return 4;
@@ -979,9 +979,9 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
     int alone;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameData = func_020120F4(gameSystem);
-    gameComm = func_02012138(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     alone = 0;
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0 && *seq > 0 && *seq < 5) {
@@ -993,7 +993,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         void *text;
         void *templateText;
 
-        if (func_0200FB24() != 0 || (sys == 0 && func_02012B80(gameData) != func_02012B58(gameData))) {
+        if (func_0200FB24() != 0 || (sys == 0 && GAME_DATA_GetIntrudeId(gameData) != GAME_DATA_GetOwnNetId(gameData))) {
             *seq = 7;
             break;
         }
@@ -1004,9 +1004,9 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         fieldMsgbg = FIELDMAP_GetMsgBg(fieldMap);
         work->msgData = FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x2D);
         work->window = FIELD_MSGBG_CreateBottomMsgWin(fieldMsgbg, work->msgData);
-        work->wordSet = func_0201EC64(4);
+        work->wordSet = GF_FONT_Create_EC64(4);
         GFL_USE_PlaySeDefaultVolume(0x547);
-        if (sys == 0 || GAME_DATA_GetIntrudeIdByte(gameData) == func_02012B58(gameData)) {
+        if (sys == 0 || GAME_DATA_GetIntrudeIdByte(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
             FIELD_MSGBG_MsgWinPrintMsg(work->window, 0, 0, 0x49);
             alone = 1;
         } else {
@@ -1057,7 +1057,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         break;
     case 6:
         if (KEY_GetTrg() & 0xF3) {
-            func_0201ED04(work->wordSet);
+            WORDSET_DeleteStrbufED04(work->wordSet);
             FIELD_MSGBG_DeleteMsgWin(work->window);
             MSGDATA_Delete(work->msgData);
             (*seq)++;
@@ -1081,7 +1081,7 @@ int EVENT_COMM_COMMON_CmdGetObjCode(ScriptVm *vm, struct ScriptWork *scriptWork)
     IntrudeCommSys *sys;
     int unused;
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(SCRCMD_WORK_GetGameSystem(scriptWork)));
     if (sys == 0 || sys->localPeer.objCode == 0) {
         *result = 0;
     } else {
@@ -1099,7 +1099,7 @@ int EVENT_COMM_COMMON_CmdCheckMissionInfoPending(ScriptVm *vm, struct ScriptWork
     int value;
 
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(SCRCMD_WORK_GetGameSystem(scriptWork)));
     if (sys != 0 && sys->infoShown == 0 && INTRUDE_COMM_IsSessionAccepted(&sys->session) == 1) {
         value = 1;
     } else {
@@ -1139,7 +1139,7 @@ int EVENT_COMM_COMMON_MissionInfoEventMain(struct GameEvent *event, int *seq, vo
     struct GameEvent *next;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (sys == 0 && *seq < 3) {
         *seq = 3;
     }
@@ -1165,7 +1165,7 @@ int EVENT_COMM_COMMON_MissionInfoEventMain(struct GameEvent *event, int *seq, vo
         }
         break;
     case 2:
-        next = INTRUDE_FIELD_CreateOfferInfoEvent(gameSystem, func_0201210C(gameSystem), sys, 0x15);
+        next = INTRUDE_FIELD_CreateOfferInfoEvent(gameSystem, ICA_ANIME_GetField20(gameSystem), sys, 0x15);
         EVENT_COMM_COMMON_FreeMissionInfoWork(msgBox);
         GAME_EVENT_ChangeEvent(event, next);
         return 0;
@@ -1202,14 +1202,14 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
     struct GameEvent *next;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
         if (sys == 0) {
-            func_02012B58(gameData);
+            GAME_DATA_GetOwnNetId(gameData);
         } else {
             INTRUDE_COMM_GetRequesterNetId(sys, &sys->session);
         }
@@ -1221,7 +1221,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
         (*seq)++;
         break;
     case 1:
-        if (ZONEDATA_IsZone117(func_02012AC8(func_020120F8(gameSystem))) == 1) {
+        if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem))) == 1) {
             GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateMissionInfoEvent(gameSystem));
         }
         (*seq)++;
@@ -1250,12 +1250,12 @@ int EVENT_COMM_COMMON_CmdGetIntrudeDistance(ScriptVm *vm, struct ScriptWork *scr
 
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
-    func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
-    if (GAME_DATA_GetIntrudeIdByte(gameData) == func_02012B58(gameData)) {
+    ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    if (GAME_DATA_GetIntrudeIdByte(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
         *result = 0;
     } else {
-        distance = GAME_DATA_GetIntrudeIdByte(gameData) - func_02012B58(gameData);
+        distance = GAME_DATA_GetIntrudeIdByte(gameData) - GAME_DATA_GetOwnNetId(gameData);
         if (distance < 0) {
             distance += 3;
         }
@@ -1271,7 +1271,7 @@ int EVENT_COMM_COMMON_CmdCheckBattleRecState(ScriptVm *vm, struct ScriptWork *sc
     u16 *result;
     int value;
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    if (func_0200BF10(func_0200BE48(GAME_DATA_GetSaveControl(func_020120F4(SCRCMD_WORK_GetGameSystem(scriptWork))))) != 0x30) {
+    if (INTRUDE_GetMonolithLevel(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(scriptWork))))) != 0x30) {
         value = 1;
     } else {
         value = 0;
@@ -1305,7 +1305,7 @@ int EVENT_COMM_COMMON_TalkStartEventMain(struct GameEvent *event, int *seq, void
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         if (sys == 0) {
@@ -1361,7 +1361,7 @@ int EVENT_COMM_COMMON_TalkedStartEventMain(struct GameEvent *event, int *seq, vo
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         if (sys == 0) {
@@ -1408,7 +1408,7 @@ void EVENT_COMM_COMMON_InitCommonWork(struct GameSystem *gameSystem, IntrudeComm
     work->fieldMap = fieldMap;
     work->peerSlot = (u8)netId;
     work->msgIndex = EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (u8)netId);
-    MYSTATUS_Copy(GAME_DATA_GetMyStatusByNetId(func_020120F4(gameSystem), partnerNetId), work->myStatus);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatusByNetId(ICA_ANIME_GetField1C(gameSystem), partnerNetId), work->myStatus);
     if (INTRUDE_COMM_IsSessionActive(&sys->session) == 1) {
         MI_CpuCopy8(INTRUDE_COMM_GetActiveSessionRequest(&sys->session), &work->member, 0x34);
     }
@@ -1446,7 +1446,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
     void *copy;
     int requestKind;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -1568,8 +1568,8 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
     int failed;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -1585,7 +1585,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
     case 0:
         INTRUDE_COMM_ClearRequestResult(sys);
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(work->common.fieldMap));
-        func_0201F02C(work->common.msgBox.wordSet, 0, func_02012950(gameData, sys->requestTarget));
+        func_0201F02C(work->common.msgBox.wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, sys->requestTarget));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, 1);
         (*seq)++;
         break;
@@ -1781,7 +1781,7 @@ int EVENT_COMM_COMMON_GetTalkType(EventCommCommonWork *work, IntrudeCommSys *sys
     int requestKind;
     int talkType;
 
-    myNetId = (int)func_02012B58(func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap)));
+    myNetId = (int)GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap)));
     requestKind = INTRUDE_COMM_GetRequestKind(&sys->session);
     talkType = EVENT_COMM_COMMON_GetTalkCase(work, sys, myNetId);
     if (talkType >= 3) {
@@ -1803,7 +1803,7 @@ int EVENT_COMM_COMMON_GetTalkType(EventCommCommonWork *work, IntrudeCommSys *sys
 
 struct GameEvent *EVENT_COMM_COMMON_CreateMissionResultEvent(struct GameSystem *gameSystem, int showResult)
 {
-    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    struct FieldMap *fieldMap = ICA_ANIME_GetField20(gameSystem);
     struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_MissionResultEventMain, sizeof(EventCommMissionResultWork));
     EventCommMissionResultWork *work = func_020124E8(event);
 
@@ -1832,9 +1832,9 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
     u32 reward;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
-    func_0201210C(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     switch (*seq) {
     case 0:
         sys = 0;
@@ -1864,8 +1864,8 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             work->missionPoint = result->record.head.pointIndex;
             work->hasReward = INTRUDE_COMM_HasResultReward(sys, &sys->session);
             work->rewardCount = INTRUDE_COMM_GetResultCount(sys, &sys->session);
-            func_0200BE24(battleRec, work->tallyCountB);
-            func_0200BE00(battleRec, work->tallyCountA);
+            INTRUDE_AddMissionBonusScore(battleRec, work->tallyCountB);
+            INTRUDE_AddMissionScore(battleRec, work->tallyCountA);
             (*seq)++;
             break;
         }
@@ -1901,14 +1901,14 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
     case 4:
         if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
-            myItem = func_0201292C(gameData);
+            myItem = GAME_DATA_GetMyItem(gameData);
             count = func_02007FB8(myItem, 0x23F, work->heapId);
             reward = work->rewardCount;
             if (func_0200823C(0x23F) < count + reward) {
                 reward = func_0200823C(0x23F) - count;
             }
             func_02007E50(myItem, 0x23F, reward, work->heapId);
-            func_0200BF78(func_0200BE48(GAME_DATA_GetSaveControl(gameData)));
+            INTRUDE_IncrementMissionClearCount(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData)));
             func_0201EFA4(work->msgBox.wordSet, 0, work->rewardCount, 3, 0, 1);
             EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 0x18);
             (*seq)++;
@@ -1977,13 +1977,13 @@ int EVENT_COMM_COMMON_TalkMsgEventMain(struct GameEvent *event, int *seq, void *
 {
     EventCommCommonWork *work = wk;
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
-    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
-        func_0201F02C(work->msgBox.wordSet, 0, func_02012950(gameData, work->peerSlot));
+        func_0201F02C(work->msgBox.wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, work->peerSlot));
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkMsgIds[work->msgIndex]);
         *seq = *seq + 1;
         break;
@@ -2031,7 +2031,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (sys == 0 && *seq <= 1) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -2057,7 +2057,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
         break;
     case 2:
         func_0201F02C(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        func_0201F02C(work->common.msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->common.msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sMissionAchieveMsgIdsA[work->common.msgIndex]);
         (*seq)++;
@@ -2108,11 +2108,11 @@ int EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain(struct GameEvent *event, in
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
-        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerGiftAsTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2150,11 +2150,11 @@ int EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain(struct GameEvent *event, 
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
-        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkedPowerGiftAsTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2198,11 +2198,11 @@ int EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain(struct GameEvent *event, in
     EventCommGPowerParam param;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        func_0201F02C(work->common.msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->common.msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         work->msgIndex = work->common.msgIndex;
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerGiftTargetMsgIds[work->msgIndex]);
@@ -2257,11 +2257,11 @@ int EVENT_COMM_COMMON_TalkPowerShareTargetEventMain(struct GameEvent *event, int
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
-        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerShareTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2302,11 +2302,11 @@ int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(struct GameEvent *event, i
     EventCommGPowerParam param;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
-        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerShareAsTargetMsgIds[work->msgIndex]);
         (*seq)++;
@@ -2351,7 +2351,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (sys == 0 && *seq <= 1) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -2377,7 +2377,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
         break;
     case 2:
         func_0201F02C(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        func_0201F02C(work->common.msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->common.msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerShareAchieveMsgIdsA[work->common.msgIndex]);
         (*seq)++;
@@ -2423,11 +2423,11 @@ int EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain(struct GameEvent *event, i
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
-        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         func_0201F184(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkedPowerShareTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2480,7 +2480,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
     struct GameEvent *next;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -2638,7 +2638,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -2731,7 +2731,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
         break;
     case 11:
         if (INTRUDE_COMM_SendReply(sys, sys->requestTarget, 2, sys->sentRequestSeq) == 1) {
-            INTRUDE_COMM_PickEntryForKind(GAME_DATA_GetLastBattleRecSlot(func_020120F4(gameSystem)), 0);
+            INTRUDE_COMM_PickEntryForKind(GAME_DATA_GetLastBattleRecSlot(ICA_ANIME_GetField1C(gameSystem)), 0);
             *seq = 12;
         }
         break;
@@ -2810,7 +2810,7 @@ int EVENT_COMM_COMMON_TalkSearchTargetEventMain(struct GameEvent *event, int *se
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -2854,7 +2854,7 @@ int EVENT_COMM_COMMON_TalkSearchAsTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -2897,7 +2897,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(struct GameEvent *event, int
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
@@ -2942,7 +2942,7 @@ int EVENT_COMM_COMMON_TalkedSearchTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -2988,7 +2988,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
     int joinStatus;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (sys == 0 && *seq <= 2 && *seq < 6) {
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, 4);
         *seq = 6;
@@ -3065,7 +3065,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gam
     struct GameEvent *event;
     EventCommSupportMsgWork *work;
 
-    pmsWork = GAME_DATA_GetPmsWork(func_020120F4(gameSystem));
+    pmsWork = GAME_DATA_GetPmsWork(ICA_ANIME_GetField1C(gameSystem));
     event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
     work = func_020124E8(event);
     work->myStatus = MYSTATUS_Create(heapId);
@@ -3124,7 +3124,7 @@ int EVENT_COMM_COMMON_TalkGreetingTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3163,7 +3163,7 @@ int EVENT_COMM_COMMON_TalkGreetingAsTargetEventMain(struct GameEvent *event, int
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3205,7 +3205,7 @@ int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(struct GameEvent *event, i
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3247,7 +3247,7 @@ int EVENT_COMM_COMMON_TalkedGreetingTargetEventMain(struct GameEvent *event, int
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3289,7 +3289,7 @@ int EVENT_COMM_COMMON_OfferEventMain(struct GameEvent *event, int *seq, void *wk
     struct FieldMap *fieldMap;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     switch (*seq) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -3315,7 +3315,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferAnswerEvent(struct GameSystem *ga
     struct GameData *gameData;
     IntrudeParamPair *param;
 
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     param = &offer->head.param;
     myStatus = func_02012944(gameData);
     event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
@@ -3343,9 +3343,9 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(struct GameEvent *event, int *seq, vo
     int msgId;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
-    func_0201210C(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->msgBox) == 0) {
@@ -3371,9 +3371,9 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(struct GameEvent *event, int *seq, vo
         break;
     case 2:
         func_0201F02C(work->msgBox.wordSet, 0, func_02012944(gameData));
-        func_0201EF40(work->msgBox.wordSet, 1, work->itemId);
+        WORDSET_Callback_EF40(work->msgBox.wordSet, 1, work->itemId);
         if (work->joinStatus == 1) {
-            msgId = sOfferAnswerMsgIds[EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (int)func_02012B58(gameData))];
+            msgId = sOfferAnswerMsgIds[EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (int)GAME_DATA_GetOwnNetId(gameData))];
             work->accepted = 1;
         } else {
             msgId = 5;
@@ -3436,7 +3436,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
     IntrudeParamPair *sale;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (sys == 0 && *seq <= 4) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -3452,9 +3452,9 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
     case 0:
         func_0201F02C(work->common.msgBox.wordSet, 0, work->common.myStatus);
         sale = &work->common.member.head.param;
-        func_0201EF40(work->common.msgBox.wordSet, 1, sale->x);
+        WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
         func_0201EFA4(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
-        func_0201F02C(work->common.msgBox.wordSet, 3, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->common.msgBox.wordSet, 3, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemSaleMsgIds[0][work->common.msgIndex]);
         (*seq)++;
         break;
@@ -3565,8 +3565,8 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     int answer;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameData = func_020120F4(gameSystem);
-    gameComm = func_02012138(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     sale = &work->common.member.head.param;
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
@@ -3583,9 +3583,9 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     switch (*seq) {
     case 0:
         func_0201F02C(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        func_0201EF40(work->common.msgBox.wordSet, 1, sale->x);
+        WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
         func_0201EFA4(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
-        func_0201F02C(work->common.msgBox.wordSet, 3, func_02012944(func_020120F4(gameSystem)));
+        func_0201F02C(work->common.msgBox.wordSet, 3, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[0][work->common.msgIndex]);
         (*seq)++;
         break;
@@ -3607,10 +3607,10 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         switch (answer) {
         case 0:
             EVENT_COMM_COMMON_DeleteChoice(&work->common.msgBox);
-            if (sale->y > func_0200C274(GAME_DATA_GetMiscSave(gameData))) {
+            if (sale->y > BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData))) {
                 refused = 1;
                 *seq = 5;
-            } else if (func_02007E3C(func_0201292C(gameData), sale->x, 1, 0x15) == 0) {
+            } else if (func_02007E3C(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15) == 0) {
                 refused = 1;
                 *seq = 6;
             } else {
@@ -3629,8 +3629,8 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         break;
     case 4:
         if (INTRUDE_COMM_SendReply(sys, sys->requestTarget, 7, sys->sentRequestSeq) == 1) {
-            func_0200C29C(GAME_DATA_GetMiscSave(gameData), sale->y);
-            func_02007E50(func_0201292C(gameData), sale->x, 1, 0x15);
+            BEACON_SubPoints(GAME_DATA_GetMiscSave(gameData), sale->y);
+            func_02007E50(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15);
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[5][work->common.msgIndex]);
             *seq = 8;
         }

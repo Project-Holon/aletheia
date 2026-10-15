@@ -1,7 +1,7 @@
 /*
  * file:     poke_summary_actor.c
  * unit:     yes
- * function: func_021B7658, func_021B7694, func_021B76C8, func_021B78A0, func_021B78CC, func_021B7908, func_021B7968, func_021B79E0, func_021B7A00, func_021B7ADC, func_021B7B60, func_021B7B8C, func_021B7C00, func_021B7C44, func_021B7C7C, func_021B7C8C, func_021B7C90, func_021B7DA0, func_021B7EB0, func_021B7F50, func_021B7F64, func_021B7FD0, func_021B8040, func_021B80A4, func_021B80C4, func_021B80EC, func_021B8110, func_021B815C, func_021B817C, func_021B81B0
+ * function: POKE_SUMMARY_ACTOR_InitSystem, POKE_SUMMARY_ACTOR_DeleteSystem, POKE_SUMMARY_ACTOR_RegisterResources, POKE_SUMMARY_ACTOR_TransferCharacter, POKE_SUMMARY_ACTOR_SetMoveIcon, POKE_SUMMARY_ACTOR_FlushPendingTransfers, POKE_SUMMARY_ACTOR_LayoutMoveActors, POKE_SUMMARY_ACTOR_SetMoveAnim, POKE_SUMMARY_ACTOR_CreateActors, POKE_SUMMARY_ACTOR_PositionMonActor, POKE_SUMMARY_ACTOR_StartWipe, POKE_SUMMARY_ACTOR_StartProc, POKE_SUMMARY_ACTOR_StartNetRestart, POKE_SUMMARY_ACTOR_CreateSound, POKE_SUMMARY_ACTOR_UpdateSound, POKE_SUMMARY_ACTOR_Noop, POKE_SUMMARY_ACTOR_SelectRow, POKE_SUMMARY_ACTOR_HandleCursorInput, POKE_SUMMARY_ACTOR_ToggleTaskMenu, POKE_SUMMARY_ACTOR_IsTaskMenuOpen, POKE_SUMMARY_ACTOR_UpdateScrollArrows, POKE_SUMMARY_ACTOR_SetScrollAnim, POKE_SUMMARY_ACTOR_SetIdleAnim, POKE_SUMMARY_ACTOR_OpenDecideWin, POKE_SUMMARY_ACTOR_ConfirmDecide, POKE_SUMMARY_ACTOR_ConfirmDecideById, POKE_SUMMARY_ACTOR_WaitDecide, POKE_SUMMARY_ACTOR_ShowTextKind2, POKE_SUMMARY_ACTOR_ShowTextKind1Or4, POKE_SUMMARY_ACTOR_SetSubBrightness
  * address:  0x021B7658
  * region:   ov173
  * compiler: dsi/1.1p1
@@ -60,31 +60,31 @@
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   k_83 0x00000083 data a1
- *   func_021B6460 0x021B6460 thumb ov173
- *   func_021B7438 0x021B7438 thumb ov173
- *   func_020120F4 0x020120F4 thumb
+ *   POKE_SUMMARY_MAIN_ExitScreen 0x021B6460 thumb ov173
+ *   POKE_SUMMARY_MAIN_GetRecordWord 0x021B7438 thumb ov173
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAMESYSTEM_CallProc 0x020120B4 thumb
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
- *   func_021B63AC  0x021B63AC  thumb  ov173
+ *   POKE_SUMMARY_MAIN_InitScreen  0x021B63AC  thumb  ov173
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_02025CD0 0x02025CD0 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   d_021B83A8 0x021B83A8 data a4
  *   d_021B81DC 0x021B81DC data a4
- *   func_02025D14  0x02025D14  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020260E4 0x020260E4 thumb
- *   func_021B71C4 0x021B71C4 thumb ov173
- *   func_021B70D8 0x021B70D8 thumb ov173
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
+ *   POKE_SUMMARY_MAIN_DrawMoveDetail 0x021B71C4 thumb ov173
+ *   POKE_SUMMARY_MAIN_RedrawMoveList 0x021B70D8 thumb ov173
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
- *   func_0202614C 0x0202614C thumb
+ *   CURSOR_MOVE_SetSkipBit 0x0202614C thumb
  *   func_020409B4 0x020409B4 arm
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
- *   func_021B7460  0x021B7460  thumb  ov173
- *   func_021B7568 0x021B7568 thumb ov173
+ *   POKE_SUMMARY_MAIN_StartTextStream  0x021B7460  thumb  ov173
+ *   POKE_SUMMARY_MAIN_CountFreeMoves 0x021B7568 thumb ov173
  *   func_0207D658  0x0207D658  arm
  */
 #include "../../matched/include/Obj00362.h"
@@ -186,59 +186,59 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern void func_021B6460(char *);
-extern u16 func_021B7438(char **);
-extern void *func_020120F4(const struct Ctx *p);
+extern void POKE_SUMMARY_MAIN_ExitScreen(char *);
+extern u16 POKE_SUMMARY_MAIN_GetRecordWord(char **);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void func_021B63AC(u8 *p);
+extern void POKE_SUMMARY_MAIN_InitScreen(u8 *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern struct Struct_02025CD0 *func_02025CD0(u32,u32,u32,u32,u8,u16);
-extern void func_02026124(struct Sound *,u32);
-extern u32 func_02025D14(void *a0);
-extern void func_021B71C4(char *,int);
+extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *,u32);
+extern u32 CURSOR_MOVE_Delete(void *a0);
+extern void POKE_SUMMARY_MAIN_DrawMoveDetail(char *,int);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-extern void func_021B70D8(char *);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void POKE_SUMMARY_MAIN_RedrawMoveList(char *);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
-extern void func_0202614C(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_SetSkipBit(struct Sound *obj, u32 idx);
 extern void func_020409B4(u32);
 extern void APP_TASKMENU_WIN_SetDecide(char *,int);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_021B7460(char *p, u32 v);
-extern u8 func_021B7568(void ***p);
+extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 v);
+extern u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-void func_021B7658(u8 *p, void *a1);
-void func_021B7694(u8 *p);
-void func_021B76C8(char *p,void *other);
-void func_021B78A0(u32 a,int b,u32 c,u32 d,u16 heap);
-void func_021B78CC(u8 *p, u16 id, u16 i);
-void func_021B7908(char *p);
-void func_021B7968(char *p);
-void func_021B79E0(u8 *p, u16 id);
-void func_021B7A00(char *p,void *arg);
-void func_021B7ADC(unsigned char *p, u32 idx, int unused);
-int func_021B7B60(u8 *p);
-int func_021B7B8C(char *p);
-int func_021B7C00(void *p);
-void func_021B7C44(u8 *p);
-int func_021B7C7C(int *p);
-void func_021B7C8C(void);
-void func_021B7C90(char *p,int row,int old);
-void func_021B7DA0(char *p,int i);
-void func_021B7EB0(char *p, int flag);
-int func_021B7F50(char *p);
-void func_021B7F64(char *p);
-void func_021B7FD0(u8 *p,int direction);
-void func_021B8040(u8 *p);
-int func_021B80A4(char *p, u16 v);
-int func_021B80C4(u8 *p,u16 n);
-int func_021B80EC(char *p,unsigned short id);
-int func_021B8110(u8 *p);
-int func_021B815C(char *p);
-int func_021B817C(char *p);
-void func_021B81B0(int a);
+void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *a1);
+void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p);
+void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other);
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap);
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
+void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *p);
+void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *p);
+void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *p, u16 id);
+void POKE_SUMMARY_ACTOR_CreateActors(char *p,void *arg);
+void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *p, u32 idx, int unused);
+int POKE_SUMMARY_ACTOR_StartWipe(u8 *p);
+int POKE_SUMMARY_ACTOR_StartProc(char *p);
+int POKE_SUMMARY_ACTOR_StartNetRestart(void *p);
+void POKE_SUMMARY_ACTOR_CreateSound(u8 *p);
+int POKE_SUMMARY_ACTOR_UpdateSound(int *p);
+void POKE_SUMMARY_ACTOR_Noop(void);
+void POKE_SUMMARY_ACTOR_SelectRow(char *p,int row,int old);
+void POKE_SUMMARY_ACTOR_HandleCursorInput(char *p,int i);
+void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag);
+int POKE_SUMMARY_ACTOR_IsTaskMenuOpen(char *p);
+void POKE_SUMMARY_ACTOR_UpdateScrollArrows(char *p);
+void POKE_SUMMARY_ACTOR_SetScrollAnim(u8 *p,int direction);
+void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *p);
+int POKE_SUMMARY_ACTOR_OpenDecideWin(char *p, u16 v);
+int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *p,u16 n);
+int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *p,unsigned short id);
+int POKE_SUMMARY_ACTOR_WaitDecide(u8 *p);
+int POKE_SUMMARY_ACTOR_ShowTextKind2(char *p);
+int POKE_SUMMARY_ACTOR_ShowTextKind1Or4(char *p);
+void POKE_SUMMARY_ACTOR_SetSubBrightness(int a);
 extern const struct Cfg d_021B820C;
 extern u8 d_021B8250[];
 extern const Row d_021B85E0[];
@@ -250,17 +250,17 @@ extern const u8 d_021B83A8[];
 
 
 
-void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
+void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
 
 
 
 
-void func_021B7694(u8 *p) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(*(struct Obj **)(p+i*4+260));CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00362 *)p)->f100);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct Obj00362 *)p)->f13C);}
+void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(*(struct Obj **)(p+i*4+260));CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00362 *)p)->f100);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct Obj00362 *)p)->f13C);}
 
 
 
 
-void func_021B76C8(char *p,void *other)
+void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other)
 {
     void *bank;
     u32 i;
@@ -299,22 +299,22 @@ void func_021B76C8(char *p,void *other)
 
 
 
-void func_021B78A0(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);func_020307B0(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);func_020307B0(raw);}
 
 
 
 
-void func_021B78CC(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}
 
 
 
 
-void func_021B7908(char *p)
+void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *p)
 {
     int i;
     for (i = 0; i < 8; i++) {
         if (*(u32 *)(p + i * 8 + 0x144) != 0) {
-            func_021B78A0((u32)(((struct Obj24181 *)p)->f13C), (int)(*(void **)(p + i * 4 + 0x80)), func_020275F8((u8)*(u32 *)(p + i * 8 + 0x140)), 0, 0x4f);
+            POKE_SUMMARY_ACTOR_TransferCharacter((u32)(((struct Obj24181 *)p)->f13C), (int)(*(void **)(p + i * 4 + 0x80)), func_020275F8((u8)*(u32 *)(p + i * 8 + 0x140)), 0, 0x4f);
             *(u32 *)(p + i * 8 + 0x144) = 0;
         }
     }
@@ -323,7 +323,7 @@ void func_021B7908(char *p)
 
 
 
-void func_021B7968(char *p)
+void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *p)
 {
     u16 rect[2];
     u32 off;
@@ -347,7 +347,7 @@ void func_021B7968(char *p)
 
 
 
-void func_021B79E0(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,WAZA_TOOL_GetParam(id,2));}
+void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,WAZA_TOOL_GetParam(id,2));}
 
 
 
@@ -355,12 +355,12 @@ void func_021B79E0(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((str
 /*
  * abi: B294 returns the Obj pointer stored and used by this caller.
  */
-void func_021B7A00(char *p,void *arg)
+void POKE_SUMMARY_ACTOR_CreateActors(char *p,void *arg)
 {
     u32 i;
     Position pos;
-    func_021B7658((u8 *)p,arg);
-    func_021B76C8(p,arg);
+    POKE_SUMMARY_ACTOR_InitSystem((u8 *)p,arg);
+    POKE_SUMMARY_ACTOR_RegisterResources(p,arg);
     ((struct Obj00180 *)p)->f13C=func_020490F4(func_020275E4(),79);
     for(i=0;i<14;i++) {
         pos.x=d_021B85E0[i].x;
@@ -381,7 +381,7 @@ void func_021B7A00(char *p,void *arg)
 
 
 
-void func_021B7ADC(unsigned char *p, u32 idx, int unused)
+void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *p, u32 idx, int unused)
 {
     u16 local[2];
 
@@ -406,25 +406,25 @@ void func_021B7ADC(unsigned char *p, u32 idx, int unused)
 
 
 
-int func_021B7B60(u8 *p) {WIPE_SYS_Start(0,0,0,0,6,1,79);((struct Obj24186 *)p)->f1B0=11;return 0;}
+int POKE_SUMMARY_ACTOR_StartWipe(u8 *p) {WIPE_SYS_Start(0,0,0,0,6,1,79);((struct Obj24186 *)p)->f1B0=11;return 0;}
 
 
 
 
-int func_021B7B8C(char *p)
+int POKE_SUMMARY_ACTOR_StartProc(char *p)
 {
     char *q;
     u32 zero;
-    func_021B6460(p);
+    POKE_SUMMARY_MAIN_ExitScreen(p);
     q = *(char * *)&((struct Obj02217 *)p)->f0;
     ((struct Obj02217 *)p)->f180 = ((struct Obj10670 *)q)->f0;
     ((struct Obj02217 *)p)->f184 = ((struct Obj10670 *)q)->f8;
-    ((struct Obj02217 *)p)->f188 = func_020120F4(((struct Obj10670 *)q)->fC);
+    ((struct Obj02217 *)p)->f188 = ICA_ANIME_GetField1C(((struct Obj10670 *)q)->fC);
     zero = 0;
     ((struct Obj02217 *)p)->f18C = zero;
     ((struct Obj02217 *)p)->f18F = zero;
     ((struct Obj02217 *)p)->f18E = 1;
-    ((struct Obj02217 *)p)->f194 = func_021B7438((char **)p);
+    ((struct Obj02217 *)p)->f194 = POKE_SUMMARY_MAIN_GetRecordWord((char **)p);
     ((struct Obj02217 *)p)->f18D = 2;
     ((struct Obj02217 *)p)->f190 = zero;
     ((struct Obj02217 *)p)->f198 = zero;
@@ -436,12 +436,12 @@ int func_021B7B8C(char *p)
 
 
 
-int func_021B7C00(void *p)
+int POKE_SUMMARY_ACTOR_StartNetRestart(void *p)
 {
     unsigned char v;
 
-    func_021B63AC(p);
-    func_021B7ADC(p, (unsigned char)(*(unsigned short *)(((struct Obj06566 *)p)->f0 + 0x14)), 3);
+    POKE_SUMMARY_MAIN_InitScreen(p);
+    POKE_SUMMARY_ACTOR_PositionMonActor(p, (unsigned char)(*(unsigned short *)(((struct Obj06566 *)p)->f0 + 0x14)), 3);
     GFL_NET_RestartWithDefaultTimeout(1, 0x4f);
     v = ((struct Obj06566 *)p)->f192;
     if (v == 0) {
@@ -457,26 +457,26 @@ int func_021B7C00(void *p)
 
 
 
-void func_021B7C44(u8 *p) {struct Struct_02025CD0 *q;q=func_02025CD0((u32)d_021B83A8,(u32)d_021B81DC,(u32)p,1,0,79);*(struct Struct_02025CD0 * *)&((struct Obj00180 *)p)->f1C8=q;func_02026124((struct Sound *)q,8);func_021B7F64((char *)p);}
+void POKE_SUMMARY_ACTOR_CreateSound(u8 *p) {struct Struct_02025CD0 *q;q=CURSOR_MOVE_Create((u32)d_021B83A8,(u32)d_021B81DC,(u32)p,1,0,79);*(struct Struct_02025CD0 * *)&((struct Obj00180 *)p)->f1C8=q;CURSOR_MOVE_ClearSkipBit((struct Sound *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)p);}
 
 
 
 
 /*
- *   func_02025D14 (0x02025D14) stays wildcarded because the target is an
+ *   CURSOR_MOVE_Delete (0x02025D14) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  */
-int func_021B7C7C(int *p)
+int POKE_SUMMARY_ACTOR_UpdateSound(int *p)
 {
-    return func_02025D14((void *)(((struct Obj24188 *)p)->f1C8));
+    return CURSOR_MOVE_Delete((void *)(((struct Obj24188 *)p)->f1C8));
 }
 
 
 
-void func_021B7C8C(void)
+void POKE_SUMMARY_ACTOR_Noop(void)
 {
 }
 
@@ -484,41 +484,41 @@ void func_021B7C8C(void)
 
 
 
-void func_021B7C90(char *p,int row,int old)
+void POKE_SUMMARY_ACTOR_SelectRow(char *p,int row,int old)
 {
     
-    func_021B7EB0(p,0);
+    POKE_SUMMARY_ACTOR_ToggleTaskMenu(p,0);
     if(row<=3) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         *(u16 *)(S(p)+0x14)=row;
-        if(*(u16 *)(S(p)+0x16)+*(u16 *)(S(p)+0x14)<*(u8 *)(p+0x1B8)) func_021B71C4(p,func_021B7438((char **)p));
-        else func_021B71C4(p,-2);
+        if(*(u16 *)(S(p)+0x16)+*(u16 *)(S(p)+0x14)<*(u8 *)(p+0x1B8)) POKE_SUMMARY_MAIN_DrawMoveDetail(p,POKE_SUMMARY_MAIN_GetRecordWord((char **)p));
+        else POKE_SUMMARY_MAIN_DrawMoveDetail(p,-2);
     } else if(row==6) {
         if(old==3 && *(u16 *)(S(p)+0x16)+4<*(u8 *)(p+0x1B8)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_020260E4(*(void **)(p+0x1C8),row=3);
+            CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),row=3);
             (*(u16 *)(S(p)+0x16))++;
-            func_021B70D8(p);
-            func_021B71C4(p,func_021B7438((char **)p));
-            func_021B7F64(p);
-            func_021B7FD0((u8 *)p,1);
+            POKE_SUMMARY_MAIN_RedrawMoveList(p);
+            POKE_SUMMARY_MAIN_DrawMoveDetail(p,POKE_SUMMARY_MAIN_GetRecordWord((char **)p));
+            POKE_SUMMARY_ACTOR_UpdateScrollArrows(p);
+            POKE_SUMMARY_ACTOR_SetScrollAnim((u8 *)p,1);
         } else if(old==0) {
             if(*(u16 *)(S(p)+0x16)!=0) {
                 GFL_USE_PlaySeDefaultVolume(0x54C);
                 (*(u16 *)(S(p)+0x16))--;
-                func_021B70D8(p);
-                func_021B71C4(p,func_021B7438((char **)p));
-                func_021B7F64(p);
-                func_021B7FD0((u8 *)p,-1);
+                POKE_SUMMARY_MAIN_RedrawMoveList(p);
+                POKE_SUMMARY_MAIN_DrawMoveDetail(p,POKE_SUMMARY_MAIN_GetRecordWord((char **)p));
+                POKE_SUMMARY_ACTOR_UpdateScrollArrows(p);
+                POKE_SUMMARY_ACTOR_SetScrollAnim((u8 *)p,-1);
             }
             row=0;
-            func_020260E4(*(void **)(p+0x1C8),0);
+            CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),0);
         } else {
             row=3;
-            func_020260E4(*(void **)(p+0x1C8),3);
+            CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),3);
         }
     } else GFL_USE_PlaySeDefaultVolume(0x54C);
-    func_021B7ADC((u8 *)p,(u8)row,3);
+    POKE_SUMMARY_ACTOR_PositionMonActor((u8 *)p,(u8)row,3);
 }
 
 
@@ -527,56 +527,56 @@ void func_021B7C90(char *p,int row,int old)
 
 /*
  *   one --thumb, no region: EXACT, 10 bytes, blocker260E4.log.
- *   void func_020260E4(unsigned char *p,unsigned value) {
+ *   void CURSOR_MOVE_SetCurrent(unsigned char *p,unsigned value) {
  *       p[13]=value; p[14]=255; p[15]=255;
  *   }
  */
-void func_021B7DA0(char *p,int i)
+void POKE_SUMMARY_ACTOR_HandleCursorInput(char *p,int i)
 {
     if(i<=3) {
         *(u16 *)(S(p)+0x14)=i;
         if(*(u16 *)(S(p)+0x16)+*(u16 *)(S(p)+0x14)<*(u8 *)(p+0x1B8)) {
-            func_021B7EB0(p,1);
-            func_021B71C4(p,func_021B7438((char **)p));
+            POKE_SUMMARY_ACTOR_ToggleTaskMenu(p,1);
+            POKE_SUMMARY_MAIN_DrawMoveDetail(p,POKE_SUMMARY_MAIN_GetRecordWord((char **)p));
         } else {
-            func_021B7EB0(p,0);
-            func_021B71C4(p,-2);
+            POKE_SUMMARY_ACTOR_ToggleTaskMenu(p,0);
+            POKE_SUMMARY_MAIN_DrawMoveDetail(p,-2);
         }
     } else if(i==4) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         i=*(u16 *)(S(p)+0x14);
         (*(u16 *)(S(p)+0x16))++;
-        func_021B71C4(p,func_021B7438((char **)p));
-        func_021B70D8(p);
-        func_021B7EB0(p,0);
-        func_021B7F64(p);
-        func_021B7FD0((u8 *)p,1);
-        func_020260E4(*(void **)(p+0x1C8),i);
+        POKE_SUMMARY_MAIN_DrawMoveDetail(p,POKE_SUMMARY_MAIN_GetRecordWord((char **)p));
+        POKE_SUMMARY_MAIN_RedrawMoveList(p);
+        POKE_SUMMARY_ACTOR_ToggleTaskMenu(p,0);
+        POKE_SUMMARY_ACTOR_UpdateScrollArrows(p);
+        POKE_SUMMARY_ACTOR_SetScrollAnim((u8 *)p,1);
+        CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),i);
     } else if(i==5) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         i=*(u16 *)(S(p)+0x14);
         (*(u16 *)(S(p)+0x16))--;
-        func_021B71C4(p,func_021B7438((char **)p));
-        func_021B70D8(p);
-        func_021B7EB0(p,0);
-        func_021B7F64(p);
-        func_021B7FD0((u8 *)p,-1);
-        func_020260E4(*(void **)(p+0x1C8),i);
+        POKE_SUMMARY_MAIN_DrawMoveDetail(p,POKE_SUMMARY_MAIN_GetRecordWord((char **)p));
+        POKE_SUMMARY_MAIN_RedrawMoveList(p);
+        POKE_SUMMARY_ACTOR_ToggleTaskMenu(p,0);
+        POKE_SUMMARY_ACTOR_UpdateScrollArrows(p);
+        POKE_SUMMARY_ACTOR_SetScrollAnim((u8 *)p,-1);
+        CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),i);
     } else if(i==6) {
         if(*(u16 *)(p+0x1CC)!=6) {
             i=*(u16 *)(S(p)+0x14);
-            func_020260E4(*(void **)(p+0x1C8),i);
+            CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),i);
         }
     } else if(i==7) {
         i=*(u16 *)(S(p)+0x14);
-        func_020260E4(*(void **)(p+0x1C8),i);
+        CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),i);
     } else if(i==8) {
         if(*(u16 *)(p+0x1CC)!=6) {
             i=*(u16 *)(S(p)+0x14);
-            func_020260E4(*(void **)(p+0x1C8),i);
+            CURSOR_MOVE_SetCurrent(*(void **)(p+0x1C8),i);
         }
     }
-    func_021B7ADC((u8 *)p,(u8)i,3);
+    POKE_SUMMARY_ACTOR_PositionMonActor((u8 *)p,(u8)i,3);
 }
 
 
@@ -584,15 +584,15 @@ void func_021B7DA0(char *p,int i)
 
 
 /*
- * extent: padding at 0x021B7F4E; separate follower func_021B7F50 at 0x021B7F50.
+ * extent: padding at 0x021B7F4E; separate follower POKE_SUMMARY_ACTOR_IsTaskMenuOpen at 0x021B7F50.
  */
-void func_021B7EB0(char *p, int flag)
+void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag)
 {
     if (flag == 1) {
         if (*(u32 *)&((struct Obj00362 *)p)->f220 == 0) {
             *(u32 *)&((struct Obj00362 *)p)->f220 = APP_TASKMENU_WIN_Create(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1e4), 13, 21, 9, 0x4f);
             *(u32 *)&((struct Obj00362 *)p)->f224 = APP_TASKMENU_WIN_Create(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1f0), 22, 21, 9, 0x4f);
-            func_0202614C(((struct Obj00362 *)p)->f1C8, 8);
+            CURSOR_MOVE_SetSkipBit(((struct Obj00362 *)p)->f1C8, 8);
             ((struct Obj00362 *)p)->f1CE = 1;
             return;
         }
@@ -604,7 +604,7 @@ void func_021B7EB0(char *p, int flag)
             *(u32 *)&((struct Obj00362 *)p)->f220 = 0;
             *(u32 *)&((struct Obj00362 *)p)->f224 = 0;
         }
-        func_02026124(((struct Obj00362 *)p)->f1C8, 8);
+        CURSOR_MOVE_ClearSkipBit(((struct Obj00362 *)p)->f1C8, 8);
         ((struct Obj00362 *)p)->f1CE = 0;
     }
 }
@@ -613,7 +613,7 @@ void func_021B7EB0(char *p, int flag)
 
 
 
-int func_021B7F50(char *p)
+int POKE_SUMMARY_ACTOR_IsTaskMenuOpen(char *p)
 {
     if (((struct Obj24189 *)p)->f220 != 0)
         return 1;
@@ -624,22 +624,22 @@ int func_021B7F50(char *p)
 
 
 
-void func_021B7F64(char *p)
+void POKE_SUMMARY_ACTOR_UpdateScrollArrows(char *p)
 {
     if (((struct Obj00180 *)p)->f1B8 < 4) {
-        func_02026124(((struct Obj00180 *)p)->f1C8, 4);
-        func_02026124(((struct Obj00180 *)p)->f1C8, 5);
+        CURSOR_MOVE_ClearSkipBit(((struct Obj00180 *)p)->f1C8, 4);
+        CURSOR_MOVE_ClearSkipBit(((struct Obj00180 *)p)->f1C8, 5);
         return;
     }
     if (((struct Obj24190 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f16 == 0)
-        func_02026124(((struct Obj00180 *)p)->f1C8, 5);
+        CURSOR_MOVE_ClearSkipBit(((struct Obj00180 *)p)->f1C8, 5);
     else
-        func_0202614C(((struct Obj00180 *)p)->f1C8, 5);
+        CURSOR_MOVE_SetSkipBit(((struct Obj00180 *)p)->f1C8, 5);
     if (((struct Obj24191 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f16 + 4 >= ((struct Obj00180 *)p)->f1B8) {
-        func_02026124(((struct Obj00180 *)p)->f1C8, 4);
+        CURSOR_MOVE_ClearSkipBit(((struct Obj00180 *)p)->f1C8, 4);
         return;
     } else {
-        func_0202614C(((struct Obj00180 *)p)->f1C8, 4);
+        CURSOR_MOVE_SetSkipBit(((struct Obj00180 *)p)->f1C8, 4);
         return;
     }
 }
@@ -648,7 +648,7 @@ void func_021B7F64(char *p)
 
 
 
-void func_021B7FD0(u8 *p,int direction)
+void POKE_SUMMARY_ACTOR_SetScrollAnim(u8 *p,int direction)
 {
     CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f108,0);
     CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f104,0);
@@ -666,7 +666,7 @@ void func_021B7FD0(u8 *p,int direction)
 
 
 
-void func_021B8040(u8 *p)
+void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *p)
 {
     if(((struct Obj00180 *)p)->f1B8<=4) {
         CLACT_SetActorAnimSeq(((struct Obj00180 *)p)->f108,17);
@@ -688,7 +688,7 @@ void func_021B8040(u8 *p)
 
 
 
-int func_021B80A4(char *p, u16 v)
+int POKE_SUMMARY_ACTOR_OpenDecideWin(char *p, u16 v)
 {
     char *q = p + 0x1d0;
 
@@ -702,17 +702,17 @@ int func_021B80A4(char *p, u16 v)
 
 
 
-int func_021B80C4(u8 *p,u16 n) {u8 *q;q=p+464;((struct Obj08266 *)q)->fA=1;((struct Obj08266 *)q)->f6=0;((struct Obj08266 *)q)->f8=n;APP_TASKMENU_WIN_SetDecide(*(char **)(p+((struct Obj08266 *)q)->f6*4+544),1);return 13;}
+int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *p,u16 n) {u8 *q;q=p+464;((struct Obj08266 *)q)->fA=1;((struct Obj08266 *)q)->f6=0;((struct Obj08266 *)q)->f8=n;APP_TASKMENU_WIN_SetDecide(*(char **)(p+((struct Obj08266 *)q)->f6*4+544),1);return 13;}
 
 
 
 
-int func_021B80EC(char *p,unsigned short id) {unsigned short *q=(unsigned short *)(p+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide(*(char **)((unsigned)p+q[3]*4+0x220),1);return 13;}
+int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *p,unsigned short id) {unsigned short *q=(unsigned short *)(p+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide(*(char **)((unsigned)p+q[3]*4+0x220),1);return 13;}
 
 
 
 
-int func_021B8110(u8 *p)
+int POKE_SUMMARY_ACTOR_WaitDecide(u8 *p)
 {
     u8 *s;
     s=p+464;
@@ -720,7 +720,7 @@ int func_021B8110(u8 *p)
         if(CLACT_IsActorAnimActive(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
     } else if(((struct Obj05452 *)s)->fA==1) {
         if(APP_TASKMENU_WIN_IsFinish(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
-            func_021B7EB0((char *)p,0);
+            POKE_SUMMARY_ACTOR_ToggleTaskMenu((char *)p,0);
             return ((struct Obj05452 *)s)->f8;
         }
     }
@@ -731,9 +731,9 @@ int func_021B8110(u8 *p)
 
 
 
-int func_021B815C(char *p)
+int POKE_SUMMARY_ACTOR_ShowTextKind2(char *p)
 {
-    func_021B7460(p, 2);
+    POKE_SUMMARY_MAIN_StartTextStream(p, 2);
     ((struct Obj14319 *)p)->f1BA = 1;
     *(u32 *)(p + 0x1ba - 0xa) = 3;
     return 2;
@@ -742,10 +742,10 @@ int func_021B815C(char *p)
 
 
 
-int func_021B817C(char *p) {unsigned char flag;if(func_021B7568((void ***)p)<4) {func_021B7460(p,1);flag=0;} else {func_021B7460(p,4);flag=2;}((struct Obj14320 *)p)->f1BA=flag;*(unsigned *)(p+0x1ba-10)=3;return 2;}
+int POKE_SUMMARY_ACTOR_ShowTextKind1Or4(char *p) {unsigned char flag;if(POKE_SUMMARY_MAIN_CountFreeMoves((void ***)p)<4) {POKE_SUMMARY_MAIN_StartTextStream(p,1);flag=0;} else {POKE_SUMMARY_MAIN_StartTextStream(p,4);flag=2;}((struct Obj14320 *)p)->f1BA=flag;*(unsigned *)(p+0x1ba-10)=3;return 2;}
 
 
-void func_021B81B0(int a)
+void POKE_SUMMARY_ACTOR_SetSubBrightness(int a)
 {
     volatile unsigned short *p = (volatile unsigned short *)0x04001050;
 

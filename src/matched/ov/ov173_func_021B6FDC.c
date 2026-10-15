@@ -1,5 +1,5 @@
 /*
- * function: func_021B6FDC
+ * function: POKE_SUMMARY_MAIN_DrawMoveRow
  * address: 0x021B6FDC
  * packet: pkt_ov173_021B6FDC
  * region: ov173
@@ -42,7 +42,7 @@ static inline void flush(void *win)
     BMP_WIN_MakeScreen(win);
     func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
-void func_021B6FDC(char *p,u8 first,u8 row)
+void POKE_SUMMARY_MAIN_DrawMoveRow(char *p,u8 first,u8 row)
 {
     int y;
     int index;

@@ -1,5 +1,5 @@
 /*
- * function: func_02168724
+ * function: DWC_GetFriendStatusSC
  * address:  0x02168724
  * packet:   pkt_ov009_02168724
  * region:   ov009
@@ -12,13 +12,13 @@
  * sdk:      DWC_GetFriendStatusSC (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
  * symbols:
- *   func_0216980C  0x0216980C  arm  ov009
+ *   DWCi_GetFriendBuddyStatus  0x0216980C  arm  ov009
  *   func_021684CC  0x021684CC  arm  ov009
  *   strtoul        0x02095EAC  arm
  *   strcpy         0x02094798  arm
  *   DWCi_IsLockedBuddyStatus  0x02176984  arm  ov009
- *   g_021A2004     0x021A2004  data
- *   g_021A2008     0x021A2008  data
+ *   gDwcFriendMaxEntryKey     0x021A2004  data
+ *   gDwcFriendNumEntryKey     0x021A2008  data
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -35,31 +35,31 @@ typedef struct {
     int quietModeFlags;
 } GPBuddyStatus;
 
-extern char g_021A2004[];
-extern char g_021A2008[];
-extern int func_0216980C(void *friendData, GPBuddyStatus *status);
+extern char gDwcFriendMaxEntryKey[];
+extern char gDwcFriendNumEntryKey[];
+extern int DWCi_GetFriendBuddyStatus(void *friendData, GPBuddyStatus *status);
 extern int func_021684CC(char *key, char *value, char *string, char separator);
 extern unsigned long strtoul(const char *s, char **end, int base);
 extern int DWCi_IsLockedBuddyStatus(GPBuddyStatus *status);
 
-u8 func_02168724(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString)
+u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString)
 {
     u8 state;
     GPBuddyStatus status;
     int len;
     char valueStr[4];
 
-    if (func_0216980C(friendData, &status)) {
+    if (DWCi_GetFriendBuddyStatus(friendData, &status)) {
         if (status.status == 6) {
             if (maxEntry) {
-                len = func_021684CC(g_021A2004, valueStr, status.statusString, '/');
+                len = func_021684CC(gDwcFriendMaxEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
                     *maxEntry = strtoul(valueStr, 0, 10);
                 else
                     *maxEntry = 0;
             }
             if (numEntry) {
-                len = func_021684CC(g_021A2008, valueStr, status.statusString, '/');
+                len = func_021684CC(gDwcFriendNumEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
                     *numEntry = strtoul(valueStr, 0, 10);
                 else

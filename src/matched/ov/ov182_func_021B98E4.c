@@ -1,5 +1,5 @@
 /*
- * function: func_021B98E4
+ * function: THE_END_GRAPHIC_Create
  * address: 0x021B98E4
  * packet: pkt_ov182_021B98E4
  * region: ov182
@@ -18,11 +18,11 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021B9A10 0x021B9A10 thumb ov182
- *   func_021B9AB4 0x021B9AB4 thumb ov182
- *   func_021B9B20 0x021B9B20 thumb ov182
+ *   THE_END_GRAPHIC_InitWindows 0x021B9A10 thumb ov182
+ *   THE_END_GRAPHIC_InitActors 0x021B9AB4 thumb ov182
+ *   THE_END_GRAPHIC_InitCamera 0x021B9B20 thumb ov182
  *   func_020056A0 0x020056A0 thumb
- *   func_021B99FC 0x021B99FC thumb ov182
+ *   THE_END_GRAPHIC_VBlankTask 0x021B99FC thumb ov182
  *   d_021B9CE0 0x021B9CE0 data a1
  *   d_021B9C48 0x021B9C48 data a4
  */
@@ -41,12 +41,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021B9A10(void *, int);
-extern void func_021B9AB4(int *, int, int);
-extern void func_021B9B20(int *p, u16 heap);
-extern void func_021B99FC(int, char *);
+extern void THE_END_GRAPHIC_InitWindows(void *, int);
+extern void THE_END_GRAPHIC_InitActors(int *, int, int);
+extern void THE_END_GRAPHIC_InitCamera(int *p, u16 heap);
+extern void THE_END_GRAPHIC_VBlankTask(int, char *);
 extern void *func_020056A0(void (*)(int, char *), void *, int);
-char *func_021B98E4(int a, u16 heap)
+char *THE_END_GRAPHIC_Create(int a, u16 heap)
 {
     char *p;
     p = func_02030734(heap, 0x10, 0, d_021B9CE0, 0x1cc);
@@ -62,9 +62,9 @@ char *func_021B98E4(int a, u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021B9A10(p, heap);
-    func_021B9AB4((int *)(p + 4), (int)d_021B9C48, heap);
-    func_021B9B20((int *)(p + 8), heap);
-    ((struct Obj24514 *)p)->fC = func_020056A0(func_021B99FC, p, 0);
+    THE_END_GRAPHIC_InitWindows(p, heap);
+    THE_END_GRAPHIC_InitActors((int *)(p + 4), (int)d_021B9C48, heap);
+    THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
+    ((struct Obj24514 *)p)->fC = func_020056A0(THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
 }

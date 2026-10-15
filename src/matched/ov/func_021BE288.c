@@ -15,7 +15,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   func_0200B3AC  0x0200B3AC  thumb
+ *   GIMMICK_WORK_GetId  0x0200B3AC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -28,14 +28,14 @@ typedef signed int     s32;
 struct Big;
 struct Ctx;
 struct Rec94;
-extern s32 func_0200B3AC(struct Rec94 *p);
+extern s32 GIMMICK_WORK_GetId(struct Rec94 *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 extern void *FIELDMAP_GetGameSystem(void *p);
 
 int FIELD_GIMMICK_IsGimmickId(u8 *a, int b)
 {
-if (b == func_0200B3AC((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))))) {
+if (b == GIMMICK_WORK_GetId((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))))) {
     return 1;
 }
 return 0;

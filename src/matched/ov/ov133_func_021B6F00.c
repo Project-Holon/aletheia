@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200A644 0x0200A644 thumb
- *   func_0200A680 0x0200A680 thumb
- *   func_0200A628 0x0200A628 thumb
+ *   MUSICAL_SAVE_IsPropOwned 0x0200A644 thumb
+ *   MUSICAL_SAVE_IsPropNew 0x0200A680 thumb
+ *   MUSICAL_SAVE_GetOutfits 0x0200A628 thumb
  *   func_021F48C0 0x021F48C0 thumb ov112
  *   func_021F4F10 0x021F4F10 thumb ov112
  *   func_021F4B3C 0x021F4B3C thumb ov112
@@ -55,8 +55,8 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct Vec { int x, y, z; } Vec;
 struct Big;
-extern u32 func_0200A644(struct Big *p, u8 index);
-extern u32 func_0200A680(struct Big *p, u8 index);
+extern u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index);
+extern u32 MUSICAL_SAVE_IsPropNew(struct Big *p, u8 index);
 typedef signed int     s32;
 struct Board;
 struct Desc;
@@ -64,7 +64,7 @@ struct Layer;
 struct Object;
 struct Tagged;
 struct Vec3;
-extern u8 *func_0200A628(struct Big *p);
+extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
 extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
 extern u32 func_021F4F10(u8 *p);
 extern void *func_021F4B3C(int type);
@@ -126,10 +126,10 @@ void func_021B6F00(u8 *p)
     *(u16 *)(p + 0xa8) = 0;
     zero = 0;
     for (i = 0; i < 250; i++) {
-        if (func_0200A644(*(void **)(*(u8 **)(p + 4) + 8), i) == 1) {
+        if (MUSICAL_SAVE_IsPropOwned(*(void **)(*(u8 **)(p + 4) + 8), i) == 1) {
             *(u16 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xac) = i;
             *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xb8) = zero;
-            if (func_0200A680(*(void **)(*(u8 **)(p + 4) + 8), i) == 1)
+            if (MUSICAL_SAVE_IsPropNew(*(void **)(*(u8 **)(p + 4) + 8), i) == 1)
                 *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
             else
                 *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = zero;
@@ -211,7 +211,7 @@ void func_021B6F00(u8 *p)
     }
 
     *(u16 *)(p + 0x94) = 0;
-    e = func_0200A628(*(void **)(*(u8 **)(p + 4) + 8));
+    e = MUSICAL_SAVE_GetOutfits(*(void **)(*(u8 **)(p + 4) + 8));
     for (k = 0; k < 8; k++) {
         if (e[k * 6] != 10)
             func_021B7368(p, *(u16 *)(e + k * 6 + 2));

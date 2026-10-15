@@ -1,5 +1,5 @@
 /*
- * function: func_021B9924
+ * function: UN_SELECT_InitRecord
  * address:  0x021B9924
  * packet:   pkt_ov218_021B9924
  * region:   ov218
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
 
-int func_021B9924(void)
+int UN_SELECT_InitRecord(void)
 {
     BRIGHTNESS_ChangeReset(1);
     return BRIGHTNESS_ChangeRequest(8, -8, 0, 0x3c, 1);

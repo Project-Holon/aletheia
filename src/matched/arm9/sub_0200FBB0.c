@@ -17,7 +17,7 @@
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   WIH_GetSysState  0x02178E4C  thumb
  *   GFL_NET_RequestDisconnect  0x0203CFA0  arm
- *   func_0201034C  0x0201034C  thumb
+ *   WIH_DWC_PollSystem  0x0201034C  thumb
  *   OS_WaitIrq  0x0208459C  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *
@@ -53,7 +53,7 @@ extern int GFL_NET_Exit(int a0);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern u32  WIH_GetSysState(void);
 extern void GFL_NET_RequestDisconnect(void);
-extern int func_0201034C(void);
+extern int WIH_DWC_PollSystem(void);
 extern void OS_WaitIrq(int clear, u32 irqFlags);
 extern int GFL_NET_IsSessionNull(void);
 
@@ -79,7 +79,7 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
                 }
             }
             GFL_NET_RequestDisconnect();
-            func_0201034C();
+            WIH_DWC_PollSystem();
             OS_WaitIrq(flag, flag);
             if (GFL_NET_IsSessionNull() == 0) {
                 continue;

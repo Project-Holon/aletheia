@@ -31,7 +31,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
  *   POKETRADE_3D_AddPokemonMcssFlipped  0x021E36A8  thumb  ov119
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
@@ -86,8 +86,8 @@
  *   POKETRADE_2D_CreateBoxIconActors 0x021E467C thumb ov119
  *   POKETRADE_2D_LoadMainGfxAndMessageWindow 0x021E3F74 thumb ov119
  *   func_02030734 0x02030734 arm
- *   func_0201293C 0x0201293C thumb
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetBoxManager 0x0201293C thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKETRADE_2D_DeleteAllOfferIconActors 0x021E64B8 thumb ov119
  *   POKETRADE_NEGO_ResetMarkers 0x021DF8E0 thumb ov119
  *   POKETRADE_2D_DeleteBoxWindows 0x021E4570 thumb ov119
@@ -207,7 +207,7 @@
  *   POKETRADE_2D_SetOfferIconsVisible 0x021E6308 thumb ov119
  *   POKETRADE_2D_LoadMonPalette 0x021E6F0C thumb ov119
  *   func_02041300 0x02041300 arm
- *   g_021E7844      0x021E7844  data  ov119
+ *   gPokeTradeNegoTable25      0x021E7844  data  ov119
  *   d_021E7794 0x021E7794 data a4
  *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
  *   POKETRADE_PROC_StepResetForNewRound 0x021DACE4 thumb ov119
@@ -228,30 +228,14 @@
  *   POKETRADE_SAVE_DrawPartnerOfferCard 0x021E272C thumb ov119
  */
 #include "pokemontrade_types.h"
-#include "../../matched/include/Obj22746.h"
-#include "../../matched/include/Obj22747.h"
 
 
 
 
 
-typedef struct {
-    int a;
-    int b;
-} Pair_021DD68C;
+typedef struct { int a, b; } IntPair;
 
-typedef struct { int a,b; } Pair_021DD90C;
-
-typedef struct { int a,b; } Pair_021DDAD4;
-
-typedef struct { int a,b; } Pair_021DC2B0;
-
-typedef struct { int a,b,c; } Triple_021DBB6C;
-
-typedef struct {
-    int a;
-    int b;
-} Pair_021DE3E8;
+typedef struct { int a, b, c; } IntTriple;
 
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 
@@ -369,9 +353,9 @@ extern void POKETRADE_2D_LoadMainGfxAndMessageWindow(void *);
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 
-extern unsigned int func_0201293C(const void *);
+extern unsigned int GAME_DATA_GetBoxManager(const void *);
 
-extern void *func_02012934(void *p);
+extern void *GAME_DATA_GetMyParty(void *p);
 
 extern void POKETRADE_2D_DeleteAllOfferIconActors(void *);
 
@@ -595,19 +579,19 @@ extern void POKETRADE_NEGO_StepOpenDeclineMenu(void *);
 
 extern const char d_021E80E0[];
 
-extern const Pair_021DD68C d_021E7704;
+extern const IntPair d_021E7704;
 
-extern const Pair_021DD90C d_021E76FC;
+extern const IntPair d_021E76FC;
 
-extern const Pair_021DDAD4 d_021E76F4;
+extern const IntPair d_021E76F4;
 
-extern const Pair_021DC2B0 d_021E76E4;
+extern const IntPair d_021E76E4;
 
 extern const char d_021E80C4[];
 
-extern const Triple_021DBB6C d_021E770C;
+extern const IntTriple d_021E770C;
 
-extern const Pair_021DE3E8 d_021E76DC;
+extern const IntPair d_021E76DC;
 
 void POKETRADE_NEGO_FreeOfferMons(char *p)
 {
@@ -668,9 +652,9 @@ void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b)
 int POKETRADE_NEGO_CanConfirmOffers(char *p)
 {
     int a, b, n;
-    a = func_0201293C((const struct BigObj *)(*(int *)&((TradeWork *)p)->f82C));
+    a = GAME_DATA_GetBoxManager((const struct BigObj *)(*(int *)&((TradeWork *)p)->f82C));
     b = POKETRADE_NEGO_CountOwnOffers(p);
-    n = POKEPARTY_GetCount(func_02012934(((TradeWork *)p)->f82C));
+    n = POKEPARTY_GetCount(GAME_DATA_GetMyParty(((TradeWork *)p)->f82C));
     n += func_02007984((void *)a);
     if (n == 2 && b >= 1) return 1;
     if (n > 2 && b >= 2) return 1;
@@ -804,8 +788,8 @@ int POKETRADE_NEGO_AddSelectedAsOffer(char *p,int a,int b)
 
 void POKETRADE_NEGO_DrawPlayerNames(char *p)
 {
-    Pair_021DD68C t;
-    Pair_021DD68C u;
+    IntPair t;
+    IntPair u;
     void *h;
     int q;
     void *h2;
@@ -869,7 +853,7 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
  */
 void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p,int i,int msg,int force)
 {
-    Pair_021DD90C t=d_021E76FC;
+    IntPair t=d_021E76FC;
     int w;
     int *items;
     if(force==0) {
@@ -920,7 +904,7 @@ void POKETRADE_NEGO_StepQuitMenuChoice(void *p)
 
 void POKETRADE_NEGO_StepOpenQuitMenu(char *p)
 {
-    Pair_021DDAD4 t=d_021E76F4;
+    IntPair t=d_021E76F4;
     POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),2);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepQuitMenuChoice);
@@ -1023,7 +1007,7 @@ void POKETRADE_NEGO_StepConfirmMenuChoice(unsigned char *p)
 void POKETRADE_NEGO_StepOpenConfirmMenu(char *p)
 {
     if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
-        Pair_021DC2B0 t=d_021E76E4;
+        IntPair t=d_021E76E4;
         POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),2);
         BG_SYS_SetMainVisiblePlanes(31);
         TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
@@ -1288,7 +1272,7 @@ void POKETRADE_NEGO_StepOfferActionChoice(char *p)
 
 void POKETRADE_NEGO_StepOpenOfferActionMenu(char *p)
 {
-    Triple_021DBB6C t=d_021E770C;
+    IntTriple t=d_021E770C;
     POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),3);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOfferActionChoice);
@@ -1417,7 +1401,7 @@ void POKETRADE_NEGO_StepDeclineMenuChoice(char *p)
 
 void POKETRADE_NEGO_StepOpenDeclineMenu(void *p)
 {
-    Pair_021DE3E8 t;
+    IntPair t;
     if (POKETRADE_SAVE_IsMessagePrintDone(p) != 0) {
         t = d_021E76DC;
         POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 12);
@@ -1425,16 +1409,6 @@ void POKETRADE_NEGO_StepOpenDeclineMenu(void *p)
     }
 }
 
-typedef struct S_021DEA24 S_021DEA24;
-
-
-
-
-
-
-typedef struct { int a, b; } Pair_021DF490;
-
-typedef struct { int a, b; } Pair_021DF59C;
 
 
 
@@ -1442,24 +1416,26 @@ typedef struct { int a, b; } Pair_021DF59C;
 
 
 
-typedef struct {
-    u32 a;
-    u32 b;
-} Pair_021DFA60;
 
-typedef struct {
-    Pair_021DFA60 t[25];
-} Table_021DEA24;
 
-typedef struct { int id; int key; } Ent_021DFA98;
 
-typedef struct { Ent_021DFA98 e[22]; } Tbl;
 
-typedef struct { int fn; int id; } Ent_021DFAD0;
 
-typedef struct { Ent_021DFAD0 e[2]; } T2;
 
-typedef struct { Ent_021DFAD0 e[6]; } T6;
+
+typedef struct { u32 a, b; } U32Pair;
+
+typedef struct { U32Pair t[25]; } U32PairTable25;
+
+typedef struct { int id; int key; } IdKeyEnt;
+
+typedef struct { IdKeyEnt e[22]; } IdKeyTable22;
+
+typedef struct { int fn; int id; } FnIdEnt;
+
+typedef struct { FnIdEnt e[2]; } FnIdTable2;
+
+typedef struct { FnIdEnt e[6]; } FnIdTable6;
 
 extern void func_0207D658(u32,int,int);
 
@@ -1487,7 +1463,7 @@ extern void NHTTP_RAP_FreePostData(u8 *);
 
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 
 extern void *MAIL_Create(int);
 
@@ -1663,13 +1639,13 @@ void POKETRADE_2D_DeleteBoxWindows(char *p);
 
 void POKETRADE_2D_DeleteAllBoxIcons(char *p);
 
-extern const Pair_021DF490 d_021E76D4;
+extern const IntPair d_021E76D4;
 
-extern const Pair_021DF59C d_021E76EC;
+extern const IntPair d_021E76EC;
 
-extern const Table_021DEA24 g_021E7844;
+extern const U32PairTable25 gPokeTradeNegoTable25;
 
-extern const Tbl d_021E7794;
+extern const IdKeyTable22 d_021E7794;
 
 
 /*
@@ -1870,7 +1846,7 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                             bank=func_02045B38(0,2,81,((TradeWork *)p)->heapId);
                             text=func_02045EC0(bank,15);
                             MSGDATA_Delete(bank);
-                            if(func_0202136C(value)) {
+                            if(FILE_UTIL_Check136C(value)) {
                                 name=MAIL_Create(*heap);
                                 func_02017E1C(mon,167,(u32)name);
                                 func_02008F88(name,STRBUF_GetChars(text));
@@ -1921,7 +1897,7 @@ void POKETRADE_NEGO_StepStartMonCheck(char *p) {
  int n=0;
  int i;
  DWC_RAPCOMMON_CreateSubHeapUnlimited(13,0x10000,((TradeWork *)p)->heapId);
- *(u8 * *)&((TradeWork *)p)->f0=NHTTP_RAP_Create(((TradeWork *)p)->heapId,func_0200853C((*(void * *)&((TradeWork *)p)->f830)),((struct Obj22746 *)(((TradeWork *)p)->f8))->f24);
+ *(u8 * *)&((TradeWork *)p)->f0=NHTTP_RAP_Create(((TradeWork *)p)->heapId,func_0200853C((*(void * *)&((TradeWork *)p)->f830)),((TradeWork *)p)->request->httpParam);
  DWC_RAP_SetErrorCallback((int)POKETRADE_NEGO_AbortHttpRequest,(int)p);
  for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid(((TradeWork *)p)->offerMon[1][i])) n++;
  NHTTP_RAP_AllocPostData(*(u8 * *)&((TradeWork *)p)->f0,((TradeWork *)p)->heapId,func_020173EC()*n,2);
@@ -1978,7 +1954,7 @@ void POKETRADE_NEGO_StepResolveFinalAgree(char *p)
         return;
     }
     if (*(unsigned char *)(p + a + 0x11E0) == 4 && *(unsigned char *)(p + b + 0x11E0) == 4) {
-        ((struct Obj22747 *)(((TradeWork *)p)->f8))->f8 = 3;
+        ((TradeWork *)p)->request->state = 3;
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepBeginWipeOut);
         return;
     }
@@ -2051,7 +2027,7 @@ void POKETRADE_NEGO_StepFinalAgreeMenuChoice(void *p)
 
 void POKETRADE_NEGO_StepOpenFinalAgreeMenu(void *p)
 {
-    Pair_021DF490 t;
+    IntPair t;
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
         t = d_021E76D4;
         POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 0xc);
@@ -2093,7 +2069,7 @@ void POKETRADE_NEGO_StepCancelMenuChoice(void *p)
 
 void POKETRADE_NEGO_StepOpenCancelMenu(void *p)
 {
-    Pair_021DF59C t;
+    IntPair t;
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
         t = d_021E76EC;
         POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 0xc);
@@ -2309,10 +2285,10 @@ int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind)
 
 void POKETRADE_NEGO_PlaySeByKeyA(u32 key)
 {
-    Table_021DEA24 local;
+    U32PairTable25 local;
     unsigned int i;
 
-    local = g_021E7844;
+    local = gPokeTradeNegoTable25;
     for (i = 0; i < 25; i++)
         if (key == local.t[i].b)
             GFL_USE_PlaySeDefaultVolume(local.t[i].a);
@@ -2320,7 +2296,7 @@ void POKETRADE_NEGO_PlaySeByKeyA(u32 key)
 
 void POKETRADE_NEGO_PlaySeByKeyB(int key)
 {
-    Tbl t = d_021E7794;
+    IdKeyTable22 t = d_021E7794;
     unsigned i;
     for (i = 0; i < 22; i++) {
         if (key == t.e[i].key) {
@@ -2343,8 +2319,8 @@ void POKETRADE_NEGO_PlaySeByKeyB(int key)
  */
 void POKETRADE_NEGO_PlaySeByEvent(int a0, u8 *a1)
 {
-    T2 t1 = *(T2 *)0x021E7754;
-    T6 t2 = *(T6 *)0x021E7764;
+    FnIdTable2 t1 = *(FnIdTable2 *)0x021E7754;
+    FnIdTable6 t2 = *(FnIdTable6 *)0x021E7764;
     unsigned int i;
 
     if (a1[0x11EF] != 0)

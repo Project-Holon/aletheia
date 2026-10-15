@@ -34,20 +34,20 @@
  *
  * symbols:
  *   func_021F675C  0x021F675C  thumb
- *   func_021FD904  0x021FD904  thumb
- *   func_021FD938  0x021FD938  thumb  ov132
+ *   STA_NET_GetField48  0x021FD904  thumb
+ *   STA_NET_SetState12  0x021FD938  thumb  ov132
  */
 #include "../include/Obj05850.h"
 
 extern int func_021F675C(int, int);
-extern void func_021FD904(int);
-extern void func_021FD938(char *p);
+extern void STA_NET_GetField48(int);
+extern void STA_NET_SetState12(char *p);
 
 void MUSICAL_EVENT_CreateLocalPerformer(int *p)
 {
     ((struct Obj05850 *)p)->f3C = func_021F675C(((struct Obj05850 *)p)->f18, 4);
     if (((struct Obj05850 *)p)->f14 != 0) {
-        func_021FD904(*(int *)(((struct Obj05850 *)p)->f8 + 4));
-        func_021FD938((char *)(*(int *)(((struct Obj05850 *)p)->f8 + 4)));
+        STA_NET_GetField48(*(int *)(((struct Obj05850 *)p)->f8 + 4));
+        STA_NET_SetState12((char *)(*(int *)(((struct Obj05850 *)p)->f8 + 4)));
     }
 }

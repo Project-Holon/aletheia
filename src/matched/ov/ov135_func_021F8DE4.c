@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   WORLDTRADE_ENTER_StateAbortConnect 0x021F8F5C thumb ov135
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, u32, u32);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void PROCSYS_Push(void *, u32, void *, void *);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 WORLDTRADE_ENTER_StateAbortConnect(u8 *p);
@@ -47,7 +47,7 @@ int WORLDTRADE_ENTER_PushWifiError(u8 *p)
     *(Req * *)&((struct Obj04527 *)p)->f10DC = func_02030734(72, 28, 0, str_02203C34, 689);
     MI_CpuFill8(*(Req * *)&((struct Obj04527 *)p)->f10DC, 0, 28);
     r = *(Req * *)&((struct Obj04527 *)p)->f10DC;
-    r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)&((struct Obj04527 *)p)->f0))->f40);
+    r->save = ICA_ANIME_GetField1C(((struct Obj23403 *)(*(u8 * *)&((struct Obj04527 *)p)->f0))->f40);
     r->zero = 0;
     r->enabled = 1;
     r->callback = (void (*)(void))WORLDTRADE_ENTER_StateAbortConnect;

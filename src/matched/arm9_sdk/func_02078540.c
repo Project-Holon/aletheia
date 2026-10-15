@@ -1,5 +1,5 @@
 /*
- * function: func_02078540
+ * function: FS_MountArchive
  * address:  0x02078540
  * packet:   pkt_02078540
  * region:   arm9
@@ -59,7 +59,7 @@ struct FSArchive
 extern void FS_InitFile(FSFile *file);
 extern int FSi_InvokeCommand(FSFile *file, u32 command);
 
-BOOL func_02078540(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl)
+BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl)
 {
     FSFile tmp[1];
 

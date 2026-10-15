@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6B5C",
-    "func_021B6B8C",
-    "func_021B6B94"
+    "LOCAL_TVT_SYS_OnSelect",
+    "LOCAL_TVT_SYS_ResetTimer",
+    "LOCAL_TVT_SYS_TickTimer"
+   ],
+   "addresses": [
+    "0x021B6B5C",
+    "0x021B6B8C",
+    "0x021B6B94"
    ]
   }
  ]

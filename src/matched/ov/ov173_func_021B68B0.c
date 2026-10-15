@@ -1,5 +1,5 @@
 /*
- * function: func_021B68B0
+ * function: POKE_SUMMARY_MAIN_WaitWipe
  * address:  0x021B68B0
  * packet:   pkt_021B68B0
  * region:   ov173
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021B68B0(int *p)
+int POKE_SUMMARY_MAIN_WaitWipe(int *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj24152 *)p)->f1B0;

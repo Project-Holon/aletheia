@@ -20,7 +20,7 @@
 typedef struct DWCstAccFlag DWCstAccFlag;
 typedef union DWCstAccFriendData DWCstAccFriendData;
 
-extern unsigned long func_0205911C(DWCstAccFlag *userdata);
+extern unsigned long DWCi_Acc_GetFlag_DataType(DWCstAccFlag *userdata);
 extern unsigned long func_02059108(DWCstAccFlag *userdata);
 extern void func_020591D8(DWCstAccFlag *userdata, unsigned long flags);
 
@@ -28,7 +28,7 @@ void DWCi_SetBuddyFriendData(DWCstAccFriendData *frienddata)
 {
     unsigned long flags;
 
-    if (func_0205911C((DWCstAccFlag *)frienddata) == 3) {
+    if (DWCi_Acc_GetFlag_DataType((DWCstAccFlag *)frienddata) == 3) {
         flags = func_02059108((DWCstAccFlag *)frienddata) | 4;
         func_020591D8((DWCstAccFlag *)frienddata, flags);
     }

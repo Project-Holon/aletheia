@@ -1,5 +1,5 @@
 /*
- * function: func_021FD908
+ * function: STA_NET_GetField158
  * address: 0x021FD908
  * packet: pkt_ov132_021FD908
  * region: ov132
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021FD908(u8 *p)
+u32 STA_NET_GetField158(u8 *p)
 {
  return *(u32 *)(p+0x158);
 }

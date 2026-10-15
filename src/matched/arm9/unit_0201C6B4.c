@@ -17,15 +17,17 @@
  *   PRINTSYS_SetJobColor  0x0201C8A4  thumb
  *   PRINTSYS_RunJob  0x0201C8BC  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
+ *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
  *
  * Three queries on the printsys.c ring object.  PRINTSYS_QUE_IsFinished reports the ring
  * empty, PRINTSYS_QUE_Clear resets it, and PRINTSYS_QUE_IsExistTarget walks it looking for a record
  * whose +0x14 field is the caller's pointer.
  *
- * PRINTSYS_QUE_IsExistTarget is where func_0201D7C4's arity was recovered.  The walk reads `q`
+ * PRINTSYS_QUE_IsExistTarget is where GF_FONT_UpdatePrintsy's arity was recovered.  The walk reads `q`
  * back out of the call's result and the original keeps `q` in r1 across the
  * loop, spending an `adds r1, r0, #0` to get it there; every source shape that
- * declares func_0201D7C4 with one parameter puts `q` in r0 instead and is eight
+ * declares GF_FONT_UpdatePrintsy with one parameter puts `q` in r0 instead and is eight
  * bytes wrong with identical control flow.  r1 is the callee's second argument
  * register and `q` is already in it at the call, so the register choice is the
  * only evidence in the image that the call passes two arguments.  See
@@ -36,7 +38,7 @@
  * emits both tests and nothing merges them.
  *
  * Left open at 0x0201C6FC: PRINTSYS_PrintQue, PRINTSYS_PrintQueColor and PRINTSYS_SubmitJob reproduce
- * every concrete byte and cap at MATCH, because func_0201D6D8's only caller in
+ * every concrete byte and cap at MATCH, because GF_FONT_CopyStrbufD6D8's only caller in
  * the image is the one inside PRINTSYS_SubmitJob; they are parked in
  * src/pending/unit_0201C6FC.c.
  *
@@ -92,10 +94,10 @@ extern struct Scratch _PrintJobWork;
 struct Rec2;
 struct Ring;
 extern int GFL_NET_GetNegotiationNum(void);
-extern void *func_0201D7C4(struct PrintSys *p, void *q);
+extern void *GF_FONT_UpdatePrintsy(struct PrintSys *p, void *q);
 extern u32   func_0201D6B8(void *s);
 extern u32 func_0201D6C4(const struct Ring *p);
-extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
+extern void  GF_FONT_CopyStrbufD6D8(struct PrintSys *p, void *a, void *b);
 
 extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
 extern void PRINTSYS_SetJobColor(struct Rec2 *p, u16 v);
@@ -120,7 +122,7 @@ u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v)
             if (q->unk14 == v) {
                 return 1;
             }
-            q = func_0201D7C4(p, q);
+            q = GF_FONT_UpdatePrintsy(p, q);
         }
     }
     return 0;

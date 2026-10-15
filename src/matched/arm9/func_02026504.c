@@ -18,7 +18,7 @@
  *   func_02008500  0x02008500  thumb
  *   func_02008550  0x02008550  thumb
  *
- * Push one entry onto the six-slot ring buffer that func_020261E4 built at
+ * Push one entry onto the six-slot ring buffer that CURSOR_MOVE_CreateVecSet built at
  * +0x3c of the sprite object (0xc bytes per slot, write cursor at +0x85,
  * fill count at +0x84).  Each of the two handle arguments is resolved
  * against the owner's current id: equal to it means the "self" handle

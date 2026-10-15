@@ -12,12 +12,12 @@
  * sdk:      CPS_TcpConnect (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   CPSi_SslConnect  0x02162968  arm  ov009
  *   CPSi_TcpConnectRaw  0x0215ABB0  arm  ov009
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 struct CPSSoc;
 struct Soc;
 extern unsigned long CPSi_SslConnect(struct CPSSoc *soc);
@@ -25,7 +25,7 @@ extern unsigned long CPSi_TcpConnectRaw(struct Soc *soc);
 
 unsigned long CPS_TcpConnect(void)
 {
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    char *soc = *(char **)(*(char **)(gMslRefToken + 4) + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 9) != 0)

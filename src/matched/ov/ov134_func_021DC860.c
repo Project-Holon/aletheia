@@ -1,5 +1,5 @@
 /*
- * function: func_021DC860
+ * function: NET_PARTY_COMMAND_GetEntry
  * address: 0x021DC860
  * packet: pkt_ov134_021DC860
  * region: ov134
@@ -18,7 +18,7 @@ typedef struct {
     int tbl[1];
 } Tbl;
 
-int func_021DC860(int i, Tbl *p)
+int NET_PARTY_COMMAND_GetEntry(int i, Tbl *p)
 {
     return p->tbl[i];
 }

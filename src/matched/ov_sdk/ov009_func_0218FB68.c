@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_0219329C  0x0219329c  arm   ov009
- *   func_020949F4  0x020949f4  arm
+ *   strncmp  0x020949f4  arm
  *   func_02193710  0x02193710  arm   ov009
  *   func_02189D78  0x02189d78  arm   ov009
  *   func_02193418  0x02193418  arm   ov009
- *   func_020964E0  0x020964e0  arm
+ *   atoi  0x020964e0  arm
  *   func_0217EAB0  0x0217eab0  arm   ov009
  *   func_02193734  0x02193734  arm   ov009
  *   func_02189DFC  0x02189dfc  arm   ov009
@@ -48,12 +48,12 @@ typedef struct {
 struct GPIOperation;
 extern int func_0219329C(int *connection, const char *input, int fatal);
 typedef unsigned char  u8;
-extern int func_020949F4(const u8 *s1, const u8 *s2, unsigned int n);
+extern int strncmp(const u8 *s1, const u8 *s2, unsigned int n);
 typedef unsigned int   u32;
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
@@ -73,7 +73,7 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
 
     if (func_0219329C((int *)connection, input, 1))
         return 4;
-    if (func_020949F4((const u8 *)input, (const u8 *)g_021A51D0, 5) != 0) {
+    if (strncmp((const u8 *)input, (const u8 *)g_021A51D0, 5) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
         func_02189D78((int *)connection, __result__, 1);
@@ -85,7 +85,7 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
         func_02189D78((int *)connection, __result__, 1);
         return __result__;
     }
-    pid = func_020964E0((u32)buffer);
+    pid = atoi((u32)buffer);
     callback = operation->callback;
     if (callback.callback != 0) {
         arg = (GPNewProfileResponseArg *)func_0217EAB0(sizeof(GPNewProfileResponseArg));

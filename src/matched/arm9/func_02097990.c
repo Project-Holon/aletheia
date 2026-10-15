@@ -1,5 +1,5 @@
 /*
- * function: func_02097990
+ * function: scalbn
  * address:  0x02097990
  * packet:   pkt_02097990
  * region:   arm9
@@ -18,7 +18,7 @@
 extern double frexp(double x, int *eptr);
 extern double ldexp(double x, int n);
 
-double func_02097990(double x, int n)
+double scalbn(double x, int n)
 {
     int t;
     double v = frexp(x, &t);

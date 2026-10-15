@@ -1,5 +1,5 @@
 /*
- * function: func_0217CECC
+ * function: gsiCoreCancelTask
  * address:  0x0217CECC
  * packet:   pkt_ov009_0217CECC
  * region:   ov009
@@ -35,7 +35,7 @@ extern void *gsiCoreGetManager(void);
 extern void gsiEnterCriticalSection(void *cs);
 extern void gsiLeaveCriticalSection(void *cs);
 
-void func_0217CECC(GSTask *theTask)
+void gsiCoreCancelTask(GSTask *theTask)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
     gsiEnterCriticalSection(&aCore->cs);

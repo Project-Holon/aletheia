@@ -1,5 +1,5 @@
 /*
- * function: func_02094A60
+ * function: strcspn
  * address:  0x02094A60
  * packet:   pkt_020949F4
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * strcspn, in the MSL string module this pseudo-family is made of
- * (func_020949F4 strncmp, func_02094A28 strchr, func_02094B20 strstr).
+ * (strncmp strncmp, strchr strchr, strstr strstr).
  * Builds a 32-byte bitmap of the reject set on the stack, then scans the
  * subject until a member is hit, returning the index of that byte.
  *
  * TWO SPELLINGS ARE LOAD-BEARING, and both were missed by the two earlier
- * lanes recorded in docs/notes/func_02094A60.c.txt and
+ * lanes recorded in docs/notes/strcspn.c.txt and
  * docs/notes/pkt_02094A60.c.txt, which between them left this at
  * DIFF / 188 bytes against 192 / 124 concrete bytes out:
  *
@@ -39,15 +39,15 @@
  *    counter costs a separate `cmp`/`bgt` in place of `subs`/`bne`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02094A60.c \
- *       --func func_02094A60 --addr 0x02094A60 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/strcspn.c \
+ *       --func strcspn --addr 0x02094A60 --cc 1.1p1 --arm
  *   EXACT, 192 bytes, no relocation sites.
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_02094A60(const u8 *s, const u8 *reject)
+int strcspn(const u8 *s, const u8 *reject)
 {
     u8 map[32];
     u32 i = 8;

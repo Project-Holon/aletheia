@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201F250 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -27,7 +27,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -41,7 +41,7 @@ void func_0220B78C(u8 *p, u32 idx)
     u8 sel = *(u8 *)(p + 0x533);
     u8 *row = p + sel * 0x90;
     void *w;
-    func_0201EF40(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
+    WORDSET_Callback_EF40(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
     func_0201F250(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
     BMP_Clear(BMP_WIN_GetBmp(win), 0);
     w = *(void **)(p + 0x18);

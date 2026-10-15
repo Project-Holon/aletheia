@@ -1,5 +1,5 @@
 /*
- * function: func_0215CD3C
+ * function: SOCLi_StartupCommandPacketQueue
  * address:  0x0215CD3C
  * packet:   pkt_02156B70
  * region:   ov009
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021A1CD8   0x021A1CD8  data
+ *   gSoclConfig   0x021A1CD8  data
  *   g_021AA484   0x021AA484  data
- *   g_021AA480   0x021AA480  data
+ *   gSoclCmdQueue   0x021AA480  data
  *   OS_InitMessageQueue  0x02085D94  arm
- *   func_0215CE7C  0x0215CE7C  arm  ov009
+ *   SOCLi_FreeCommandPacket  0x0215CE7C  arm  ov009
  *
  * Allocate one block for `n` records: the first region is the word-aligned
  * n*4 pointer array and the second the word-aligned 0x2c-byte records, both
  * sized through the allocator hook at +0x18 of the object the global points
- * at.  Each record is initialised (func_0215CE7C) into the second region and
+ * at.  Each record is initialised (SOCLi_FreeCommandPacket) into the second region and
  * the block is published at 0x021AA480.  Returns -1 when allocation fails.
  */
 
 typedef void *(*Alloc1)(int);
 
-extern char g_021A1CD8[];
+extern char gSoclConfig[];
 extern char g_021AA484[];
-extern char g_021AA480[];
+extern char gSoclCmdQueue[];
 typedef signed int     s32;
 struct OSMessageQueue;
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
-extern void func_0215CE7C(void *ptr);
+extern void SOCLi_FreeCommandPacket(void *ptr);
 
-int func_0215CD3C(int n)
+int SOCLi_StartupCommandPacketQueue(int n)
 {
     char *base;
     char *p;
@@ -44,7 +44,7 @@ int func_0215CD3C(int n)
     size = (n * 0x2c + 3) & ~3;
     off = (n * 4 + 3) & ~3;
 
-    base = (char *)(*(Alloc1 *)(*(char **)g_021A1CD8 + 0x18))(size + off);
+    base = (char *)(*(Alloc1 *)(*(char **)gSoclConfig + 0x18))(size + off);
     if (base == 0)
         return -1;
 
@@ -52,10 +52,10 @@ int func_0215CD3C(int n)
 
     p = base + off;
     for (i = n; i > 0; i--) {
-        func_0215CE7C(p);
+        SOCLi_FreeCommandPacket(p);
         p += 0x2c;
     }
 
-    *(char **)g_021AA480 = base;
+    *(char **)gSoclCmdQueue = base;
     return 0;
 }

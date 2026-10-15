@@ -14,7 +14,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
- *   func_02013080  0x02013080  thumb
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -36,7 +36,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern signed char func_02013080(u32 idx);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern int PRINTSYS_PrintStream(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u32 a7,
                           u32 a8, u16 a9, u16 a10);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -51,7 +51,7 @@ void STARTMENU_SaveEraseStartMessage(int *p, u32 mode)
     MSGDATA_ReadString((struct MsgBank *)p[2], mode, (void *)p[4]);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p[7])), 15);
     func_0201F73C((void *)p[7], 2, 1, 14);
-    p[5] = PRINTSYS_PrintStream(p[7], 0, 0, p[4], p[1], func_02013080(0), p[6], 10, 0x81, 15);
+    p[5] = PRINTSYS_PrintStream(p[7], 0, 0, p[4], p[1], MSG_SPEED_GetWaitForSpeed(0), p[6], 10, 0x81, 15);
     p[10] = 0;
     t = p[7];
     BMP_WIN_TransferChars((struct Descriptor *)t);

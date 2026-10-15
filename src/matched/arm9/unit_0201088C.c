@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0201088C
+ * function: GFL_NET_SAVE_Create
  * address:  0x0201088C
  * packet:   pkt_0201088C
  * region:   arm9
@@ -12,8 +12,8 @@
  *
  * symbols:
  *   sNetSaveFile       0x020A725C  data
- *   func_0201093C     0x0201093C  thumb
- *   func_02010888     0x02010888  thumb
+ *   GFL_NET_SAVE_StepBegin     0x0201093C  thumb
+ *   GFL_NET_SAVE_SetStep     0x02010888  thumb
  *   func_02030734     0x02030734  arm
  *   GFL_NET_HANDLE_GetCurrentHandle     0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange     0x02039C68  arm
@@ -23,11 +23,11 @@
  *
  * The whole range 0x0201088C..0x0201093C: two constructors for the same
  * 0x14-byte object, its destructor-or-poll, and the eight-byte tail-call
- * stub that sits between them and func_0201093C.
+ * stub that sits between them and GFL_NET_SAVE_StepBegin.
  *
- *   func_0201088C   allocator + one stored field (+0x0C)
- *   func_020108C4   allocator + three stored fields (+0x00, +0x04, +0x0C)
- *   func_02010904   fire the +0x08 callback, then two liveness tests
+ *   GFL_NET_SAVE_Create   allocator + one stored field (+0x0C)
+ *   GFL_NET_SAVE_CreateWithCallback   allocator + three stored fields (+0x00, +0x04, +0x0C)
+ *   GFL_NET_SAVE_CheckFinished   fire the +0x08 callback, then two liveness tests
  *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word func_020307B0`
  *
  * The stub is a real function: `ov119` at 0x021E0C5C and `ov137` at
@@ -38,16 +38,16 @@
  * puts the pool word and the `bx r3` there and what makes the unit's extent
  * end at 0x0201093C.  Since then seeded as a start in
  * layout/function_starts.txt (both callers set r0 to the object at +0xEF8 /
- * their own field before the bl), so the listing labels it func_02010934.
+ * their own field before the bl), so the listing labels it GFL_NET_SAVE_Delete.
  *
  * Both constructors end with the same two statements: the SDK debug
  * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
  * two bytes into the "net_save.c" string at 0x020A7258, so the file anchor is
- * net_save.c - and then func_02010888(p, func_0201093C), which stores the
+ * net_save.c - and then GFL_NET_SAVE_SetStep(p, GFL_NET_SAVE_StepBegin), which stores the
  * callback into +0x08.  The two pool words per constructor are the file
  * string and that callback address with its Thumb bit, 0x0201093D.
  *
- * func_02010904 calls the callback with the object in r0, then tests
+ * GFL_NET_SAVE_CheckFinished calls the callback with the object in r0, then tests
  * func_0200FB24()'s result.  That call is left with no argument of its own:
  * r0 still holds whatever the callback returned, which is what the original
  * does and what a no-argument call in the source produces.  The two `return
@@ -79,24 +79,24 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *ctx, u32 id, u32 size);
-extern void func_02010888(u8 *p, u32 v);
-extern void func_0201093C(u8 *p);
+extern void GFL_NET_SAVE_SetStep(u8 *p, u32 v);
+extern void GFL_NET_SAVE_StepBegin(u8 *p);
 extern u32 func_020307B0(void *p);
 extern u32  func_0200FB24(void);
 extern void GAME_DATA_SaveCancel(char *p);
 
-void *func_0201088C(u32 heap, u32 a1)
+void *GFL_NET_SAVE_Create(u32 heap, u32 a1)
 {
     struct Sub0201088CObj *p;
 
     p = func_02030734(heap, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     p->f0c = a1;
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
-    func_02010888((u8 *)p, (u32)func_0201093C);
+    GFL_NET_SAVE_SetStep((u8 *)p, (u32)GFL_NET_SAVE_StepBegin);
     return p;
 }
 
-void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
+void *GFL_NET_SAVE_CreateWithCallback(u32 heap, u32 a1, u32 a2, u32 a3)
 {
     struct Sub0201088CObj *p;
 
@@ -105,11 +105,11 @@ void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
     p->f4 = a3;
     p->f0c = a1;
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
-    func_02010888((u8 *)p, (u32)func_0201093C);
+    GFL_NET_SAVE_SetStep((u8 *)p, (u32)GFL_NET_SAVE_StepBegin);
     return p;
 }
 
-u32 func_02010904(struct Sub0201088CObj *p)
+u32 GFL_NET_SAVE_CheckFinished(struct Sub0201088CObj *p)
 {
     if (p->f8 != 0)
         p->f8(p);
@@ -123,7 +123,7 @@ u32 func_02010904(struct Sub0201088CObj *p)
     return 0;
 }
 
-void func_02010934(struct Sub0201088CObj *p)
+void GFL_NET_SAVE_Delete(struct Sub0201088CObj *p)
 {
     func_020307B0(p);
 }

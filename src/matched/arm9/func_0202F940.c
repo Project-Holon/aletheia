@@ -21,8 +21,8 @@
  *
  *
  * symbols:
- *   func_0207DFB4    0x0207DFB4  arm
- *   func_0207E24C    0x0207E24C  arm
+ *   G2_GetBG1ScrPtr    0x0207DFB4  arm
+ *   G2_GetBG1CharPtr    0x0207E24C  arm
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram    0x02043754  arm
  *   GF_FONT_Create    0x0201D7EC  thumb
@@ -40,8 +40,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void *func_0207DFB4(void);
-extern u32  func_0207E24C(void);
+extern void *G2_GetBG1ScrPtr(void);
+extern u32  G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear16(u32 v, u32 dst, u32 n);
 typedef signed short   s16;
 struct Bmp;
@@ -71,7 +71,7 @@ void func_0202F940(u32 a0)
     u32 o3;
     u32 h;
 
-    p = (u16 *)func_0207DFB4();
+    p = (u16 *)G2_GetBG1ScrPtr();
     v = 0x20;
     for (j = 4; j < 0x14; j++) {
         for (i = 1; i < 0x1f; i++) {
@@ -79,8 +79,8 @@ void func_0202F940(u32 a0)
             v = v + 1;
         }
     }
-    MIi_CpuClear16(0x7777, func_0207E24C() + 0x400, 0x3C00);
-    o1 = (u32)BMP_CreateFromVram((void *)(func_0207E24C() + 0x400), 0x1e, 0x10, 0x20, 7);
+    MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3C00);
+    o1 = (u32)BMP_CreateFromVram((void *)(G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
     o2 = (u32)GF_FONT_Create(0x17, 0, 0, 0, 7);
     o3 = (u32)func_02045B38(0, 2, 2, 7);
     h = (u32)func_02045EC0((struct MsgBank *)o3, a0);

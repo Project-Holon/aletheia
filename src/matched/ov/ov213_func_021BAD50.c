@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD50
+ * function: COMM_BTL_DEMO_GRAPHIC_TickDisplay
  * address: 0x021BAD50
  * packet: pkt_ov213_021BAD50
  * region: ov213
@@ -11,4 +11,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void);
-void func_021BAD50(void *a0){func_020419E4();}
+void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0){func_020419E4();}

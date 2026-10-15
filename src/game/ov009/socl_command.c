@@ -1,7 +1,7 @@
 /*
  * file:     socl_command.c
  * unit:     yes
- * function: func_0215CD3C, func_0215CDD0, func_0215CE14, func_0215CE3C, func_0215CE7C, func_0215CE9C, func_0215CEB0, func_0215CEFC, func_0215CF14, func_0215CF88, func_0215CF98, func_0215CFA8, func_0215CFC0
+ * function: SOCLi_StartupCommandPacketQueue, SOCLi_CleanupCommandPacketQueue, func_0215CE14, func_0215CE3C, SOCLi_FreeCommandPacket, SOCLi_GetCtrlPipe, SOCLi_SendCommandPacket, SOCLi_SendCommandPacketToCtrlPipe, SOCLi_ExecCommandPacket, SOCLi_ExecCommandPacketInRecvPipe, SOCLi_ExecCommandPacketInSendPipe, SOCLi_ExecCommandPacketInCtrlPipe, SOCLi_CommandPacketHandler
  * address:  0x0215CD3C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021A1CD8   0x021A1CD8  data
+ *   gSoclConfig   0x021A1CD8  data
  *   g_021AA484   0x021AA484  data
- *   g_021AA480   0x021AA480  data
+ *   gSoclCmdQueue   0x021AA480  data
  *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_ReceiveMessage           0x02085e50 arm
  *   SOCLiCommandPacketQueue    0x021aa484 data
@@ -27,18 +27,7 @@
  *   OS_EnableScheduler  0x02085B60  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
-#include "../../matched/include/G_021A1CD8.h"
-#include "../../matched/include/G_Cmd.h"
-
-struct OSMessageQueue;
-struct SOCLSocket;
-struct SOCLiCommandPacket {
-    int (*handler)(void *);
-    struct SOCLSocket *socket;
-    long field8;
-    signed char fieldC;
-    signed char fieldD;
-};
+#include "socl_command_types.h"
 
 typedef signed int     s32;
 
@@ -48,25 +37,6 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct {
-	unsigned char pad0[0x20];
-} MsgQueue;
-
-typedef struct Command Command;
-
-typedef struct {
-	unsigned char pad0[0xa8];
-	long result;
-} Reply;
-
-struct Command {
-	long (*exec)(Command *);
-	Reply *reply;
-	void *response_queue;
-	unsigned char pad2;
-	signed char flag_block;
-};
-
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, long flags);
 extern int func_02085DBC(struct OSMessageQueue *mq, void *msg, long flags);
@@ -75,51 +45,51 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_DisableScheduler(void);
 extern unsigned long OS_EnableScheduler(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-int func_0215CD3C(int n);
-int func_0215CDD0(void);
+int SOCLi_StartupCommandPacketQueue(int n);
+int SOCLi_CleanupCommandPacketQueue(void);
 struct SOCLiCommandPacket *SOCLi_AllocCommandPacket(long flag);
 struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
-void func_0215CE7C(void *ptr);
-int func_0215CE9C(const int *p, int b);
-int func_0215CEB0(int a0, char *a1);
-void func_0215CEFC(int a, int b);
-int func_0215CF14(void *pipe, Command *command);
-void func_0215CF88(const int *p, Command *command);
-void func_0215CF98(const int *p, Command *command);
-void func_0215CFA8(int a, int b);
-void func_0215CFC0(void *arg);
-extern struct G_021A1CD8 *g_021A1CD8;
+void SOCLi_FreeCommandPacket(void *ptr);
+int SOCLi_GetCtrlPipe(const int *p, int b);
+int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet);
+void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
+int SOCLi_ExecCommandPacket(void *pipe, struct SOCLiCommandPacket *command);
+void SOCLi_ExecCommandPacketInRecvPipe(const int *p, struct SOCLiCommandPacket *command);
+void SOCLi_ExecCommandPacketInSendPipe(const int *p, struct SOCLiCommandPacket *command);
+void SOCLi_ExecCommandPacketInCtrlPipe(int a, int b);
+void SOCLi_CommandPacketHandler(void *arg);
+extern SoclConfig *gSoclConfig;
 extern struct OSMessageQueue SOCLiCommandPacketQueue;
-extern struct Cmd g_021AA480;
+extern SoclCmdQueue gSoclCmdQueue;
 
 
 
 
 
-int func_0215CD3C(int n)
+int SOCLi_StartupCommandPacketQueue(int packetCount)
 {
-    char *base;
-    char *p;
-    int off;
-    int size;
+    char *pool;
+    char *packet;
+    int queueOffset;
+    int packetBytes;
     int i;
 
-    size = (n * 0x2c + 3) & ~3;
-    off = (n * 4 + 3) & ~3;
+    packetBytes = (packetCount * 0x2c + 3) & ~3;
+    queueOffset = (packetCount * 4 + 3) & ~3;
 
-    base = (char *)g_021A1CD8->alloc(size + off);
-    if (base == 0)
+    pool = (char *)gSoclConfig->alloc(packetBytes + queueOffset);
+    if (pool == 0)
         return -1;
 
-    OS_InitMessageQueue(&SOCLiCommandPacketQueue, (void **)base, n);
+    OS_InitMessageQueue(&SOCLiCommandPacketQueue, (void **)pool, packetCount);
 
-    p = base + off;
-    for (i = n; i > 0; i--) {
-        func_0215CE7C(p);
-        p += 0x2c;
+    packet = pool + queueOffset;
+    for (i = packetCount; i > 0; i--) {
+        SOCLi_FreeCommandPacket(packet);
+        packet += 0x2c;
     }
 
-    g_021AA480.packets = base;
+    gSoclCmdQueue.packets = pool;
     return 0;
 }
 
@@ -131,12 +101,12 @@ int func_0215CD3C(int n)
 /*
  * sdk:      SOCLi_CleanupCommandPacketQueue (libsoc.TWL.HYB.a(socl_command.o))
  */
-int func_0215CDD0(void)
+int SOCLi_CleanupCommandPacketQueue(void)
 {
-	if (g_021AA480.b < g_021AA480.a)
+	if (gSoclCmdQueue.queueRead < gSoclCmdQueue.queueWrite)
 		return -1;
-	g_021A1CD8->free(g_021AA480.packets);
-	g_021AA480.packets = 0;
+	gSoclConfig->free(gSoclCmdQueue.packets);
+	gSoclCmdQueue.packets = 0;
 	return 0;
 }
 
@@ -165,18 +135,18 @@ struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
     struct SOCLiCommandPacket *cp = SOCLi_AllocCommandPacket(flag);
 
     if (cp != 0) {
-        cp->handler = handler;
-        cp->socket = socket;
-        cp->field8 = 0;
-        cp->fieldC = *(signed char *)((char *)socket + 0xaf);
-        cp->fieldD = (signed char)flag;
+        cp->exec = handler;
+        cp->target.socket = socket;
+        cp->response_queue = 0;
+        cp->pipeIndex = *(signed char *)((char *)socket + 0xaf);
+        cp->blockFlag = (signed char)flag;
     }
     return cp;
 }
 
 
 
-void func_0215CE7C(void *ptr)
+void SOCLi_FreeCommandPacket(void *ptr)
 {
     if (ptr != 0) {
         func_02085DBC(&SOCLiCommandPacketQueue, ptr, 0);
@@ -187,7 +157,7 @@ void func_0215CE7C(void *ptr)
 /*
  * Word at +0xa0 of the block, falling back to +0xa4 when it is zero.
  */
-int func_0215CE9C(const int *p, int b)
+int SOCLi_GetCtrlPipe(const int *p, int b)
 {
     int v = p[0x28];
 
@@ -204,19 +174,19 @@ int func_0215CE9C(const int *p, int b)
  * (defaulting to 1 for a null object); on a zero result runs a teardown and
  * returns -0x29, otherwise 0.
  */
-int func_0215CEB0(int a0, char *a1)
+int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet)
 {
-    int r2;
-    int r4;
+    int blocking;
+    int sent;
 
-    if (a1 == 0 || (a1[0xd] & 1))
-        r2 = 1;
+    if (packet == 0 || (packet->blockFlag & 1))
+        blocking = 1;
     else
-        r2 = 0;
-    r4 = func_02085DBC((struct OSMessageQueue *)a0, a1, r2);
-    if (r4 == 0)
-        func_0215CE7C(a1);
-    return r4 ? 0 : -0x2A;
+        blocking = 0;
+    sent = func_02085DBC((struct OSMessageQueue *)queue, packet, blocking);
+    if (sent == 0)
+        SOCLi_FreeCommandPacket(packet);
+    return sent ? 0 : -0x2A;
 }
 
 
@@ -225,11 +195,11 @@ int func_0215CEB0(int a0, char *a1)
 /*
  * Passes the second argument on to both calls.
  */
-void func_0215CEFC(int a, int b)
+void SOCLi_SendCommandPacketToCtrlPipe(int socket, int packet)
 {
-    int v = func_0215CE9C((const int *)a, b);
+    int v = SOCLi_GetCtrlPipe((const int *)socket, packet);
 
-    func_0215CEB0(v, (char *)b);
+    SOCLi_SendCommandPacket(v, (struct SOCLiCommandPacket *)packet);
 }
 
 
@@ -238,20 +208,20 @@ void func_0215CEFC(int a, int b)
 /*
  * sdk:      SOCLi_ExecCommandPacket (libsoc.TWL.HYB.a(socl_command.o))
  */
-int func_0215CF14(void *pipe, Command *command)
+int SOCLi_ExecCommandPacket(void *pipe, struct SOCLiCommandPacket *command)
 {
 	long result;
 	void *response;
-	MsgQueue response_queue;
+	OSMessageQueue response_queue;
 
-	if (command->flag_block == 1) {
+	if (command->blockFlag == 1) {
 		OS_InitMessageQueue((struct OSMessageQueue *)(&response_queue), &response, 1);
 		command->response_queue = &response_queue;
-		func_0215CEB0((int)pipe, (char *)command);
+		SOCLi_SendCommandPacket((int)pipe, command);
 		OS_ReceiveMessage((struct OSMessageQueue *)&response_queue, (void **)&result, 1);
 	} else {
 		command->response_queue = 0;
-		result = func_0215CEB0((int)pipe, (char *)command);
+		result = SOCLi_SendCommandPacket((int)pipe, command);
 	}
 	return result;
 }
@@ -262,9 +232,9 @@ int func_0215CF14(void *pipe, Command *command)
 /*
  * Tail call on the word at +0xa0 of the object.
  */
-void func_0215CF88(const int *p, Command *command)
+void SOCLi_ExecCommandPacketInRecvPipe(const int *p, struct SOCLiCommandPacket *command)
 {
-    func_0215CF14((void *)p[0x28], command);
+    SOCLi_ExecCommandPacket((void *)p[0x28], command);
 }
 
 
@@ -273,19 +243,19 @@ void func_0215CF88(const int *p, Command *command)
 /*
  * Tail call on the word at +0xa4 of the object.
  */
-void func_0215CF98(const int *p, Command *command)
+void SOCLi_ExecCommandPacketInSendPipe(const int *p, struct SOCLiCommandPacket *command)
 {
-    func_0215CF14((void *)p[0x29], command);
+    SOCLi_ExecCommandPacket((void *)p[0x29], command);
 }
 
 
 
 
-void func_0215CFA8(int a, int b)
+void SOCLi_ExecCommandPacketInCtrlPipe(int socket, int packet)
 {
-    int v = func_0215CE9C((const int *)a, b);
+    int v = SOCLi_GetCtrlPipe((const int *)socket, packet);
 
-    func_0215CF14((void *)v, (Command *)b);
+    SOCLi_ExecCommandPacket((void *)v, (struct SOCLiCommandPacket *)packet);
 }
 
 
@@ -294,10 +264,10 @@ void func_0215CFA8(int a, int b)
 /*
  * sdk:      SOCLi_CommandPacketHandler (libsoc.TWL.HYB.a(socl_command.o))
  */
-void func_0215CFC0(void *arg)
+void SOCLi_CommandPacketHandler(void *arg)
 {
 	void *cpipe;
-	Command *command;
+	struct SOCLiCommandPacket *command;
 	unsigned long enable;
 	long result;
 
@@ -311,13 +281,13 @@ void func_0215CFC0(void *arg)
 		enable = OS_DisableInterrupts();
 		OS_DisableScheduler();
 		OS_ReceiveMessage((struct OSMessageQueue *)cpipe, 0, 0);
-		if (command->reply != 0) {
-			command->reply->result = result;
+		if (command->target.reply != 0) {
+			command->target.reply->result = result;
 		}
 		if (command->response_queue != 0) {
 			func_02085DBC((struct OSMessageQueue *)command->response_queue, (void *)result, 0);
 		}
-		func_0215CE7C(command);
+		SOCLi_FreeCommandPacket(command);
 		OS_EnableScheduler();
 		OS_RestoreInterrupts(enable);
 	}

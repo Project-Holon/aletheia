@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE98
+ * function: SAVE_OUTSIDE_IsCorrupt
  * address:  0x021DFE98
  * packet:   pkt_021DFC20
  * region:   ov228
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_021DFE98(u8 *p)
+int SAVE_OUTSIDE_IsCorrupt(u8 *p)
 {
     if (((struct Obj26327 *)p)->f374 == 3)
         return 1;

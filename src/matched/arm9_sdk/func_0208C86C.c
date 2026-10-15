@@ -1,5 +1,5 @@
 /*
- * function: func_0208C86C
+ * function: PM_DeletePreSleepCallback
  * address:  0x0208C86C
  * packet:   pkt_0208C86C
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208C788 0x0208C788 arm
+ *   PMi_DeleteList 0x0208C788 arm
  *   g_0215301C 0x0215301C data
  */
 
 struct PMiGenCallbackInfo;
 typedef struct PMiGenCallbackInfo PMGenCallbackInfo;
-extern void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
+extern void PMi_DeleteList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
 extern int g_0215301C[];
 
-void func_0208C86C(PMGenCallbackInfo *info)
+void PM_DeletePreSleepCallback(PMGenCallbackInfo *info)
 {
-    func_0208C788((PMGenCallbackInfo **)g_0215301C, info);
+    PMi_DeleteList((PMGenCallbackInfo **)g_0215301C, info);
 }

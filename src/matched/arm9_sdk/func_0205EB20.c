@@ -1,5 +1,5 @@
 /*
- * function: func_0205EB20
+ * function: DWCi_AC_GetNintendoUSBWepKey
  * address:  0x0205EB20
  * packet:   pkt_0205EB20
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern void makeUsbWepKey(unsigned char *seed, unsigned char *wepkey);
 
-void func_0205EB20(char *ssid, unsigned char *wep)
+void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep)
 {
     makeUsbWepKey((unsigned char *)ssid + 12, wep);
 }

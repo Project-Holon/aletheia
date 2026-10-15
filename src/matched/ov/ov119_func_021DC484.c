@@ -10,14 +10,14 @@
  * symbols:
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  */
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 void POKETRADE_PROC_ExitDisplay(void *a0)
 {
     CLACT_ExitSystem();
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }

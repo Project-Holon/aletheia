@@ -1,5 +1,5 @@
 /*
- * function: func_02061FF8
+ * function: NNSi_GfdMergeFreeBlockList
  * address:  0x02061FF8
  * packet:   pkt_02061EB8
  * region:   arm9
@@ -28,7 +28,7 @@ typedef struct Node02061FF8 {
     struct Node02061FF8 *f0c;
 } Node02061FF8;
 
-void func_02061FF8(void *pp, int arg)
+void NNSi_GfdMergeFreeBlockList(void *pp, int arg)
 {
     Node02061FF8 *n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;
 

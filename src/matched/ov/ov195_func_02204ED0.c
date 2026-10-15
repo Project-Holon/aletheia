@@ -1,5 +1,5 @@
 /*
- * function: func_02204ED0
+ * function: SHINKA_DEMO_PlayEvolutionBgm
  * address:  0x02204ED0
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf of the func_022040E0 dependency tree: when the scene object sits in
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
  * state word +0x30 == 0, play cue 0x3f2 and move it to state 2.
  *
  * symbols:
@@ -17,7 +17,7 @@
  */
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
-void func_02204ED0(int a, int *p)
+void SHINKA_DEMO_PlayEvolutionBgm(int a, int *p)
 {
     if (p[0xc] == 0) {
         GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);

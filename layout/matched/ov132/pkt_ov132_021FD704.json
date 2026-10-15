@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FD704",
-    "func_021FD744",
-    "func_021FD760"
+    "STA_NET_SendSlot1Command",
+    "STA_NET_SetSlot1Done",
+    "STA_NET_GetSlot1Value"
+   ],
+   "addresses": [
+    "0x021FD704",
+    "0x021FD744",
+    "0x021FD760"
    ]
   }
  ]

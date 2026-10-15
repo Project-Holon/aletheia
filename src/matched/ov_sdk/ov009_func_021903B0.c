@@ -17,11 +17,11 @@
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_02193710  0x02193710  arm  ov009
  *   func_02189D78  0x02189D78  arm  ov009
- *   func_0217EE50  0x0217EE50  arm  ov009
+ *   SetSockBlocking  0x0217EE50  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
+ *   GOAGetLastError  0x0217ED54  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   g_021A5280     0x021A5280  data
  *   g_021A5290     0x021A5290  data
  *   g_021A52B8     0x021A52B8  data
@@ -84,11 +84,11 @@ extern void func_02193734(int *p, int b);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
-extern int func_0217EE50(int sock, int isblocking);
+extern int SetSockBlocking(int sock, int isblocking);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217ED54(int sock);
-extern unsigned int func_0217F264(void);
+extern int GOAGetLastError(int sock);
+extern unsigned int current_time(void);
 
 int func_021903B0(void **connection, GPIOperation *operation)
 {
@@ -113,7 +113,7 @@ int func_021903B0(void **connection, GPIOperation *operation)
         return 3;
     }
 
-    if (!func_0217EE50(data->sock, 0)) {
+    if (!SetSockBlocking(data->sock, 0)) {
         func_02193710((int *)connection, 5, (int)g_021A52B8);
         func_02189D78((int *)connection, 3, 1);
         return 3;
@@ -136,7 +136,7 @@ int func_021903B0(void **connection, GPIOperation *operation)
         rcode = func_0217EC08(data->sock, &address, sizeof(address));
     }
     if (rcode == -1) {
-        error = func_0217ED54(data->sock);
+        error = GOAGetLastError(data->sock);
         if (error != -6 && error != -26 && error != -76) {
             func_02193710((int *)connection, 5, (int)g_021A531C);
             func_02189D78((int *)connection, 3, 1);
@@ -145,6 +145,6 @@ int func_021903B0(void **connection, GPIOperation *operation)
     }
 
     operation->state = 1;
-    data->searchStartTime = func_0217F264();
+    data->searchStartTime = current_time();
     return 0;
 }

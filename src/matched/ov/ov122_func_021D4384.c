@@ -1,5 +1,5 @@
 /*
- * function: func_021D4384
+ * function: INTRUDE_COMM_VIEW_BuildRowList
  * address: 0x021D4384
  * packet: pkt_ov122_021D4384
  * region: ov122
@@ -52,7 +52,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BUTTON_MAN_Delete(void *);
 extern void func_02041B6C(u32);
-void func_021D4384(int count, int *values, Object *p, Row *rows, const int *xs, const int *ys)
+void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, Object *p, Row *rows, const int *xs, const int *ys)
 {
     int i, x, y;
     p->f348 = count;

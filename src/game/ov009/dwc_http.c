@@ -1,7 +1,7 @@
 /*
  * file:     dwc_http.c
  * unit:     yes
- * function: func_0217956C, func_0217967C, func_02179718, func_021797D4, func_02179814, func_0217988C, func_021798E4, func_021798F8, func_021799E8, func_02179CF4, func_02179DA0, func_02179E60, func_02179F3C, func_0217A044, func_0217A0C8, func_0217A0D4, func_0217A120, func_0217A15C, func_0217A1FC, func_0217A344, func_0217A484, func_0217A728, func_0217A77C, func_0217A7C8, func_0217A808
+ * function: DWC_Http_Create, DWC_Http_FinishHeader, DWC_Http_StartThread, func_021797D4, func_02179814, func_0217988C, DWCi_Http_Resolve, DWCi_Http_CheckHeaderReceived, DWCi_Http_Thread, DWC_Http_Destroy, DWCi_Http_WriteBasicHeader, DWC_Http_Add_HeaderItem, DWC_Http_Add_PostBase64Item, DWC_Http_Add_Body, func_0217A0C8, func_0217A0D4, func_0217A120, DWCi_Http_ReallocBuffer, DWCi_Http_SetHostinfo, DWCi_Http_AddResult, DWC_Http_ParseResult, func_0217A728, func_0217A77C, func_0217A7C8, func_0217A808
  * address:  0x0217956C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,8 +15,8 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_0217A0D4  0x0217A0D4  arm  ov009
- *   func_02094B20  0x02094B20  arm
- *   func_0209477C  0x0209477C  arm
+ *   strstr  0x02094B20  arm
+ *   strlen  0x0209477C  arm
  *   OS_SNPrintf  0x02084F80  arm
  *   g_021A25C0     0x021A25C0  data
  *   g_021A25CC     0x021A25CC  data
@@ -36,7 +36,7 @@
  *   MI_CpuFill8      0x02082bcc  arm
  *   CPS_SocRegister  0x0215aa5c  arm
  *   CPS_Resolve  0x0215C910  arm
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   g_021A25F0     0x021A25F0  data
  *   g_021A2604     0x021A2604  data
  *   func_0217988C  0x0217988C  arm  ov009
@@ -67,20 +67,20 @@
  *   func_0217A120  0x0217A120  arm  ov009
  *   g_021A2608     0x021A2608  data
  *   g_021A265C     0x021A265C  data
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   g_021A267C     0x021A267C  data
- *   func_02059B40  0x02059B40  arm
+ *   DWC_Base64Encode  0x02059B40  arm
  *   g_021A2688     0x021A2688  data ov009
  *   g_021A268C     0x021A268C  data ov009
  *   g_021A2694     0x021A2694  data
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02094860  0x02094860  arm
+ *   strncpy  0x02094860  arm
  *   g_021A2698     0x021A2698  data ov009
  *   g_021A26A0     0x021A26A0  data ov009
  *   g_021A26AC     0x021A26AC  data ov009
  *   g_021A26B0     0x021A26B0  data ov009
- *   func_02094798  0x02094798  arm
- *   func_020949F4  0x020949F4  arm
+ *   strcpy  0x02094798  arm
+ *   strncmp  0x020949F4  arm
  *   g_021A26B4     0x021A26B4  data ov009
  *   g_021A26B8     0x021A26B8  data ov009
  *   g_021A26C4     0x021A26C4  data ov009
@@ -92,22 +92,14 @@
  *   DWC_Base64Decode    0x02059cbc  arm
  *   strcpy              0x02094798  arm
  */
+#include "dwc_http_types.h"
+
 typedef struct DWCHttpBuffer {
     char *buffer;
     char *write_index;
     char *buffer_tail;
     unsigned long length;
 } DWCHttpBuffer;
-
-typedef struct DWCHttpParam {
-    char *url;
-    int action;
-    unsigned long len_recvbuf;
-    void *(*alloc)(unsigned long name, long size);
-    void (*free)(unsigned long name, void *ptr, long size);
-    int ignoreca;
-    int timeout;
-} DWCHttpParam;
 
 typedef struct DWCHttp_0217956C {
     unsigned char stack[0x1000];
@@ -239,8 +231,6 @@ typedef struct {
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0217A0D4(DWCHttp_0217956C *http, DWCHttpBuffer *buf, unsigned long size);
-extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
-extern int func_0209477C(const u8 *s);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
@@ -253,7 +243,6 @@ extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void OS_Sleep(unsigned long msec);
 extern void CPS_SocRegister(void *soc);
 extern unsigned long CPS_Resolve(char *name);
-extern int func_020964E0(u32 a0);
 extern void func_0217988C(DWCHttp_021798E4 *http);
 extern void CPS_SocUse(void);
 extern void CPS_SetRootCa(int a, int b);
@@ -276,32 +265,26 @@ extern void CPS_TcpClose(void);
 extern int func_0217A0C8(int result);
 extern void func_0217A808(char *http, void *array_entry, int array_len);
 extern void func_0217A120(char *http, void *buf);
-extern void *func_02092364(void *dst, const void *src, unsigned long n);
-extern int func_02059B40(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
-extern u8 *func_02094860(u8 *dest, const u8 *src, unsigned int n);
-extern char *func_02094798(char *dst, const char *src);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
-extern int strcmp(const char *s1, const char *s2);
-extern unsigned long strlen(const char *s);
-extern int DWC_Base64Decode(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
+extern int DWC_Base64Encode(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
 extern char *strcpy(char *dst, const char *src);
-int func_0217956C(DWCHttp_0217956C *http, DWCHttpParam *param);
-int func_0217967C(char *http);
-void func_02179718(char *http, unsigned long prio);
+extern int DWC_Base64Decode(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
+int DWC_Http_Create(DWCHttp_0217956C *http, DWCHttpParam *param);
+int DWC_Http_FinishHeader(char *http);
+void DWC_Http_StartThread(char *http, unsigned long prio);
 void DWC_Http_Abort(char *http);
-u32 func_021798E4(const char *p);
-int func_021798F8(char *http);
-void func_021799E8(void *arg);
-void func_02179CF4(char *http);
-int func_02179DA0(char *http);
-int func_02179E60(char *http, char *label, char *data);
-int func_02179F3C(DWCHttp_0217956C *http, char *label, char *data, unsigned long data_len);
-int func_0217A044(char *http, char *data);
+u32 DWCi_Http_Resolve(const char *p);
+int DWCi_Http_CheckHeaderReceived(char *http);
+void DWCi_Http_Thread(void *arg);
+void DWC_Http_Destroy(char *http);
+int DWCi_Http_WriteBasicHeader(char *http);
+int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
+int DWC_Http_Add_PostBase64Item(DWCHttp_0217956C *http, char *label, char *data, unsigned long data_len);
+int DWC_Http_Add_Body(char *http, char *data);
 int DWCi_Http_CPSCallback(int result);
-int func_0217A15C(char *http, Buf *buf, int size);
-int func_0217A1FC(DWCHttp_0217A044 *http, char *url);
-int func_0217A344(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, char *label, char *value);
-int func_0217A484(DWCHttp_0217A484 *http, int noparsebody);
+int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size);
+int DWCi_Http_SetHostinfo(DWCHttp_0217A044 *http, char *url);
+int DWCi_Http_AddResult(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, char *label, char *value);
+int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody);
 char *DWC_Http_GetResult(char *http, char *label);
 int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned long buffer_len);
 int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len);
@@ -338,10 +321,17 @@ extern const char g_021A26D0[];
 
 
 
+extern int strlen(const char *s);
+extern int strncmp(const char *s1, const char *s2, u32 n);
+extern int strcmp(const char *s1, const char *s2);
+extern const char *strncpy(const char *dest, const char *src, unsigned int n);
+extern const char *strstr(const char *s1, const char *s2);
+extern int atoi(u32 a0);
+extern void *memmove(void *dst, const void *src, unsigned long n);
 /*
  * sdk:      DWC_Http_Create (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int func_0217956C(DWCHttp_0217956C *http, DWCHttpParam *param)
+int DWC_Http_Create(DWCHttp_0217956C *http, DWCHttpParam *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
@@ -364,11 +354,11 @@ int func_0217956C(DWCHttp_0217956C *http, DWCHttpParam *param)
         http->error = 1;
         return 1;
     }
-    if (!func_0217A1FC((DWCHttp_0217A044 *)((DWCHttp_0217956C *)http), param->url)) {
+    if (!DWCi_Http_SetHostinfo((DWCHttp_0217A044 *)((DWCHttp_0217956C *)http), param->url)) {
         http->error = 1;
         return 1;
     }
-    http->error = func_02179DA0((char *)http);
+    http->error = DWCi_Http_WriteBasicHeader((char *)http);
     if (http->error == 0)
         http->initflag = 0xff;
     return http->error;
@@ -383,18 +373,18 @@ int func_0217956C(DWCHttp_0217956C *http, DWCHttpParam *param)
 /*
  * sdk:      DWC_Http_FinishHeader (dwc_http.o)
  */
-int func_0217967C(char *http)
+int DWC_Http_FinishHeader(char *http)
 {
     char str_contentlen[8];
     int contentlen;
 
-    if (func_02179E60(http, g_021A25C0, g_021A25CC)) {
+    if (DWC_Http_Add_HeaderItem(http, g_021A25C0, g_021A25CC)) {
         return 1;
     }
-    contentlen = func_0209477C(func_02094B20((const u8 *)(*(char **)(http + 0x1a34)), (const u8 *)g_021A25D4) + 4);
+    contentlen = strlen(strstr((const char *)(*(char **)(http + 0x1a34)), (const char *)g_021A25D4) + 4);
     if (contentlen != 0) {
         OS_SNPrintf(str_contentlen, 7, g_021A25DC, contentlen);
-        if (func_02179E60(http, g_021A25E0, str_contentlen)) {
+        if (DWC_Http_Add_HeaderItem(http, g_021A25E0, str_contentlen)) {
             return 1;
         }
     }
@@ -410,7 +400,7 @@ int func_0217967C(char *http)
 /*
  * sdk:      DWC_Http_StartThread (dwc_http.o)
  */
-void func_02179718(char *http, unsigned long prio)
+void DWC_Http_StartThread(char *http, unsigned long prio)
 {
     *(int *)(http + 0x1c4c) = 0;
     OS_InitMutex(http + 0x1c34);
@@ -423,7 +413,7 @@ void func_02179718(char *http, unsigned long prio)
     if (*(int *)(http + 0x1be0) != 0 && !OS_IsThreadTerminated(http + 0x1b74)) {
         return;
     }
-    OS_CreateThread(http + 0x1b74, func_021799E8, http, http + 0x1000, 0x1000, prio);
+    OS_CreateThread(http + 0x1b74, DWCi_Http_Thread, http, http + 0x1000, 0x1000, prio);
     OS_WakeupThreadDirect(http + 0x1b74);
 }
 
@@ -489,7 +479,7 @@ static void DWCi_Http_InitCpsSocket(char *http)
 /*
  * Tail call on the word at +0x1124 of the object.
  */
-u32 func_021798E4(const char *p)
+u32 DWCi_Http_Resolve(const char *p)
 {
     return CPS_Resolve((char *)(*(const int *)(p + 0x1124)));
 }
@@ -503,7 +493,7 @@ u32 func_021798E4(const char *p)
 /*
  * sdk:      DWCi_Http_CheckHeaderReceived (dwc_http.o)
  */
-int func_021798F8(char *http)
+int DWCi_Http_CheckHeaderReceived(char *http)
 {
     char content_temp;
     char *content_end;
@@ -514,23 +504,23 @@ int func_021798F8(char *http)
 
     hdr = *(char **)(http + 0x1a44);
     rep = (Buf *)(http + 0x1a44);
-    if (func_02094B20((const unsigned char *)hdr, (const unsigned char *)g_021A25D4) == 0) {
+    if (strstr((const char *)hdr, (const char *)g_021A25D4) == 0) {
         return 0;
     }
-    endof_header = (char *)(func_02094B20((const unsigned char *)hdr, (const unsigned char *)g_021A25D4) + 4);
+    endof_header = (char *)(strstr((const char *)hdr, (const char *)g_021A25D4) + 4);
     OS_LockMutex(http + 0x1a54);
     *(int *)(http + 0x1a70) = rep->cur - endof_header;
     OS_UnlockMutex(http + 0x1a54);
-    content_length = (char *)func_02094B20((const unsigned char *)rep->base, (const unsigned char *)g_021A25F0);
+    content_length = (char *)strstr((const char *)rep->base, (const char *)g_021A25F0);
     if (content_length == 0) {
         return 1;
     }
-    content_length += func_0209477C((const u8 *)g_021A25F0);
-    content_end = (char *)func_02094B20((const unsigned char *)content_length, (const unsigned char *)g_021A2604);
+    content_length += strlen((const char *)g_021A25F0);
+    content_end = (char *)strstr((const char *)content_length, (const char *)g_021A2604);
     content_temp = *content_end;
     *content_end = 0;
     OS_LockMutex(http + 0x1a54);
-    *(int *)(http + 0x1a6c) = func_020964E0((u32)content_length);
+    *(int *)(http + 0x1a6c) = atoi((u32)content_length);
     OS_UnlockMutex(http + 0x1a54);
     *content_end = content_temp;
     return 1;
@@ -545,7 +535,7 @@ int func_021798F8(char *http)
 /*
  * sdk:      DWCi_Http_Thread (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-void func_021799E8(void *arg)
+void DWCi_Http_Thread(void *arg)
 {
     DWCHttp_021798E4 *http = (DWCHttp_021798E4 *)arg;
     CPSSoc *soc = &http->soc;
@@ -566,7 +556,7 @@ void func_021799E8(void *arg)
         timeout = 60000;
 
     func_0217988C((DWCHttp_021798E4 *)http);
-    ip = func_021798E4((const char *)http);
+    ip = DWCi_Http_Resolve((const char *)http);
     if (ip == 0) {
         http->error = 2;
         return;
@@ -593,7 +583,7 @@ void func_021799E8(void *arg)
     }
 
     s = (unsigned char *)http->req.buffer;
-    len = CPS_SocWrite(s, func_0209477C((const u8 *)s));
+    len = CPS_SocWrite(s, strlen((const char *)s));
     if (len <= 0) {
         http->error = 5;
         goto fail;
@@ -631,7 +621,7 @@ void func_021799E8(void *arg)
                 http->receivedbody_len += copy_length;
                 func_02086078(&http->content_len_mutex);
             } else {
-                header_received = func_021798F8((char *)http);
+                header_received = DWCi_Http_CheckHeaderReceived((char *)http);
             }
             if (len > copy_length) {
                 CPS_SocConsume(len);
@@ -674,7 +664,7 @@ fail:
 /*
  * sdk:      DWC_Http_Destroy (dwc_http.o)
  */
-void func_02179CF4(char *http)
+void DWC_Http_Destroy(char *http)
 {
     void (*free)(unsigned long, void *, long) =
         *(void (**)(unsigned long, void *, long))(http + 0x1014);
@@ -704,7 +694,7 @@ void func_02179CF4(char *http)
 /*
  * sdk:      DWCi_Http_WriteBasicHeader (dwc_http.o)
  */
-int func_02179DA0(char *http)
+int DWCi_Http_WriteBasicHeader(char *http)
 {
     char *format;
     Buf *req;
@@ -716,8 +706,8 @@ int func_02179DA0(char *http)
     } else {
         format = g_021A265C;
     }
-    result_len = func_0209477C((const u8 *)(*(char **)(http + 0x1124))) +
-                 (func_0209477C((const u8 *)format) - 4 + func_0209477C((const u8 *)(*(char **)(http + 0x1128))));
+    result_len = strlen((const char *)(*(char **)(http + 0x1124))) +
+                 (strlen((const char *)format) - 4 + strlen((const char *)(*(char **)(http + 0x1128))));
     if (func_0217A0D4((DWCHttp_0217956C *)http, (DWCHttpBuffer *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
         return 1;
     }
@@ -734,7 +724,7 @@ int func_02179DA0(char *http)
 /*
  * sdk:      DWC_Http_Add_HeaderItem (dwc_http.o)
  */
-int func_02179E60(char *http, char *label, char *data)
+int DWC_Http_Add_HeaderItem(char *http, char *label, char *data)
 {
     Buf *temp_buffer;
     int buf_remain;
@@ -743,17 +733,17 @@ int func_02179E60(char *http, char *label, char *data)
     char *temp_index;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = func_0209477C((const u8 *)data) +
-                 (func_0209477C((const u8 *)g_021A267C) - 4 + func_0209477C((const u8 *)label));
+    result_len = strlen((const char *)data) +
+                 (strlen((const char *)g_021A267C) - 4 + strlen((const char *)label));
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len + 1 > buf_remain) {
-        if (func_0217A15C(http, temp_buffer, result_len - buf_remain + 1) == 0) {
+        if (DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1) == 0) {
             return 1;
         }
     }
-    temp_index = (char *)func_02094B20((const u8 *)temp_buffer->base, (const u8 *)g_021A25D4) + 2;
+    temp_index = (char *)strstr((const char *)temp_buffer->base, (const char *)g_021A25D4) + 2;
     temp = *temp_index;
-    func_02092364(temp_index + result_len, temp_index, func_0209477C((const u8 *)temp_index) + 1);
+    memmove(temp_index + result_len, temp_index, strlen((const char *)temp_index) + 1);
     temp_index[OS_SNPrintf(temp_index, result_len + 1, g_021A267C, label, data)] = temp;
     temp_buffer->cur += result_len;
     return 0;
@@ -765,7 +755,7 @@ int func_02179E60(char *http, char *label, char *data)
 /*
  * sdk:      DWC_Http_Add_PostBase64Item (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int func_02179F3C(DWCHttp_0217956C *http, char *label, char *data, unsigned long data_len)
+int DWC_Http_Add_PostBase64Item(DWCHttp_0217956C *http, char *label, char *data, unsigned long data_len)
 {
     int result_len;
     int result_base64;
@@ -781,11 +771,11 @@ int func_02179F3C(DWCHttp_0217956C *http, char *label, char *data, unsigned long
 
     http->num_postitem++;
 
-    result_base64 = func_02059B40(data, data_len, 0, 0);
-    result_len = result_base64 + (func_0209477C((const u8 *)format) - 2 + func_0209477C((const u8 *)label));
+    result_base64 = DWC_Base64Encode(data, data_len, 0, 0);
+    result_len = result_base64 + (strlen((const char *)format) - 2 + strlen((const char *)label));
     buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     if (result_len > buf_remain) {
-        if (!func_0217A15C((char *)http, (Buf *)temp_buffer, result_len - buf_remain + 1))
+        if (!DWCi_Http_ReallocBuffer((char *)http, (Buf *)temp_buffer, result_len - buf_remain + 1))
             return 1;
         buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     }
@@ -793,7 +783,7 @@ int func_02179F3C(DWCHttp_0217956C *http, char *label, char *data, unsigned long
     result_len = OS_SNPrintf(temp_buffer->write_index, buf_remain, format, label);
     temp_buffer->write_index += result_len;
 
-    result_len = func_02059B40(data, data_len, temp_buffer->write_index,
+    result_len = DWC_Base64Encode(data, data_len, temp_buffer->write_index,
                                temp_buffer->buffer_tail - temp_buffer->write_index - 1);
     if (result_len < 0)
         return 1;
@@ -811,7 +801,7 @@ int func_02179F3C(DWCHttp_0217956C *http, char *label, char *data, unsigned long
 /*
  * sdk:      DWC_Http_Add_Body (dwc_http.o)
  */
-int func_0217A044(char *http, char *data)
+int DWC_Http_Add_Body(char *http, char *data)
 {
     int result_len;
     int buf_remain;
@@ -819,10 +809,10 @@ int func_0217A044(char *http, char *data)
     Buf *temp_buffer;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = func_0209477C((const u8 *)data);
+    result_len = strlen((const char *)data);
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len > buf_remain) {
-        if (func_0217A15C(http, temp_buffer, result_len - buf_remain + 1) == 0) {
+        if (DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1) == 0) {
             return 1;
         }
         buf_remain = temp_buffer->end - temp_buffer->cur;
@@ -896,7 +886,7 @@ static void DWCi_Http_FreeBuffer(char *http, char *buf)
 /*
  * sdk:      DWCi_Http_ReallocBuffer (dwc_http.o)
  */
-int func_0217A15C(char *http, Buf *buf, int size)
+int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size)
 {
     void *(*alloc)(unsigned long, long);
     void (*free)(unsigned long, void *, long);
@@ -927,23 +917,23 @@ int func_0217A15C(char *http, Buf *buf, int size)
 
 
 
-int func_0217A1FC(DWCHttp_0217A044 *http, char *url)
+int DWCi_Http_SetHostinfo(DWCHttp_0217A044 *http, char *url)
 {
     char *temp;
     char *portnum = 0;
 
-    if ((unsigned long)func_0209477C((const u8 *)url) >= 256)
+    if ((unsigned long)strlen((const char *)url) >= 256)
         return 0;
-    func_02094860((u8 *)http->url, (const u8 *)url, 256);
-    if ((unsigned long)func_0209477C((const u8 *)url) != (unsigned long)func_0209477C((const u8 *)http->url))
+    strncpy((const char *)http->url, (const char *)url, 256);
+    if ((unsigned long)strlen((const char *)url) != (unsigned long)strlen((const char *)http->url))
         return 0;
 
-    if ((char *)func_02094B20((const u8 *)http->url, (const u8 *)g_021A2698) != 0) {
+    if ((char *)strstr((const char *)http->url, (const char *)g_021A2698) != 0) {
         http->hostname = &http->url[7];
         http->ssl_enabled = 0;
         http->port = 80;
     } else {
-        temp = (char *)func_02094B20((const u8 *)http->url, (const u8 *)g_021A26A0);
+        temp = (char *)strstr((const char *)http->url, (const char *)g_021A26A0);
         if (temp == 0)
             return 0;
         http->hostname = temp + 8;
@@ -951,12 +941,12 @@ int func_0217A1FC(DWCHttp_0217A044 *http, char *url)
         http->port = 443;
     }
 
-    temp = (char *)func_02094B20((const u8 *)http->hostname, (const u8 *)g_021A26AC);
+    temp = (char *)strstr((const char *)http->hostname, (const char *)g_021A26AC);
     if (temp != 0) {
         *temp = 0;
         portnum = temp + 1;
     }
-    temp = (char *)func_02094B20((const u8 *)http->hostname, (const u8 *)g_021A26B0);
+    temp = (char *)strstr((const char *)http->hostname, (const char *)g_021A26B0);
     if (temp != 0) {
         *temp = 0;
         http->filepath = temp + 1;
@@ -964,7 +954,7 @@ int func_0217A1FC(DWCHttp_0217A044 *http, char *url)
         http->filepath = 0;
     }
     if (portnum != 0)
-        http->port = func_020964E0((u32)portnum);
+        http->port = atoi((u32)portnum);
     return 1;
 }
 
@@ -974,7 +964,7 @@ int func_0217A1FC(DWCHttp_0217A044 *http, char *url)
 /*
  * sdk:      DWCi_Http_AddResult (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int func_0217A344(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, char *label, char *value)
+int DWCi_Http_AddResult(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, char *label, char *value)
 {
     void *(*alloc)(unsigned long, long) = http->param.alloc;
     void (*free)(unsigned long, void *, long) = http->param.free;
@@ -982,12 +972,12 @@ int func_0217A344(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, c
     if (result->index > result->len)
         return 0;
 
-    result->entry[result->index].label = alloc(0, func_0209477C((const u8 *)label) + 1);
+    result->entry[result->index].label = alloc(0, strlen((const char *)label) + 1);
     if (result->entry[result->index].label != 0) {
-        result->entry[result->index].value = alloc(0, func_0209477C((const u8 *)value) + 1);
+        result->entry[result->index].value = alloc(0, strlen((const char *)value) + 1);
         if (result->entry[result->index].value != 0) {
-            func_02094798(result->entry[result->index].label, label);
-            func_02094798(result->entry[result->index].value, value);
+            strcpy(result->entry[result->index].label, label);
+            strcpy(result->entry[result->index].value, value);
             result->index++;
             return 1;
         }
@@ -1009,7 +999,7 @@ int func_0217A344(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, c
 /*
  * sdk:      DWC_Http_ParseResult (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int func_0217A484(DWCHttp_0217A484 *http, int noparsebody)
+int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody)
 {
     char *buffer;
     char *p_char1;
@@ -1029,76 +1019,76 @@ int func_0217A484(DWCHttp_0217A484 *http, int noparsebody)
     MI_CpuFill8(http->labelvalue, 0, sizeof(http->labelvalue));
 
     buffer = http->rep.buffer;
-    httpbody_top = (char *)func_02094B20((const unsigned char *)buffer, (const unsigned char *)g_021A25D4);
+    httpbody_top = (char *)strstr((const char *)buffer, (const char *)g_021A25D4);
     if (httpbody_top == 0)
         return 0;
-    httpbody_end = httpbody_top + 4 + func_0209477C((const u8 *)(httpbody_top + 4));
+    httpbody_end = httpbody_top + 4 + strlen((const char *)(httpbody_top + 4));
 
-    p_char1 = (char *)func_02094B20((const unsigned char *)buffer, (const unsigned char *)g_021A26B4);
+    p_char1 = (char *)strstr((const char *)buffer, (const char *)g_021A26B4);
     if (p_char1 == 0)
         return 0;
     temp = p_char1[4];
     p_char1[4] = 0;
-    if (func_0217A344((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, g_021A26B8, p_char1 + 1) != 1) {
+    if (DWCi_Http_AddResult((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, g_021A26B8, p_char1 + 1) != 1) {
         p_char1[4] = temp;
         return 0;
     }
     p_char1[4] = temp;
 
-    if (noparsebody == 1 || func_020949F4((const u8 *)(p_char1 + 1), (const u8 *)g_021A26C4, 3) != 0)
+    if (noparsebody == 1 || strncmp((const char *)(p_char1 + 1), (const char *)g_021A26C4, 3) != 0)
         return 1;
 
-    index = (char *)func_02094B20((const unsigned char *)(p_char1 + 5), (const unsigned char *)g_021A2604);
+    index = (char *)strstr((const char *)(p_char1 + 5), (const char *)g_021A2604);
     if (index == 0)
         return 0;
     index += 2;
 
     while (*index != '\r' && *(index + 1) != '\n') {
-        p_char1 = (char *)func_02094B20((const unsigned char *)index, (const unsigned char *)g_021A26C8);
+        p_char1 = (char *)strstr((const char *)index, (const char *)g_021A26C8);
         if (p_char1 == 0)
             break;
         p_char1_temp = *p_char1;
         value = p_char1 + 2;
         *p_char1 = 0;
-        p_char2 = (char *)func_02094B20((const unsigned char *)value, (const unsigned char *)g_021A2604);
+        p_char2 = (char *)strstr((const char *)value, (const char *)g_021A2604);
         if (p_char2 == 0) {
             *p_char1 = p_char1_temp;
             break;
         }
         p_char2_temp = *p_char2;
         *p_char2 = 0;
-        if (func_0217A344((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, index, value) != 1) {
+        if (DWCi_Http_AddResult((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, index, value) != 1) {
             *p_char1 = p_char1_temp;
             *p_char2 = p_char2_temp;
             return 0;
         }
-        index = value + func_0209477C((const u8 *)value) + 2;
+        index = value + strlen((const char *)value) + 2;
         *p_char1 = p_char1_temp;
         *p_char2 = p_char2_temp;
     }
 
     index = httpbody_top + 4;
     while (index < httpbody_end) {
-        buffer = (char *)func_02094B20((const unsigned char *)index, (const unsigned char *)g_021A26CC);
+        buffer = (char *)strstr((const char *)index, (const char *)g_021A26CC);
         if (buffer == 0)
             break;
         p_char1_temp = *buffer;
         p_char1 = buffer + 1;
         *buffer = 0;
-        p_char2 = (char *)func_02094B20((const unsigned char *)p_char1, (const unsigned char *)g_021A26D0);
+        p_char2 = (char *)strstr((const char *)p_char1, (const char *)g_021A26D0);
         if (p_char2 == 0)
-            p_char2 = (char *)func_02094B20((const unsigned char *)p_char1, (const unsigned char *)g_021A2604);
+            p_char2 = (char *)strstr((const char *)p_char1, (const char *)g_021A2604);
         if (p_char2 != 0) {
             p_char2_temp = *p_char2;
             *p_char2 = 0;
         }
-        if (func_0217A344((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, index, p_char1) != 1) {
+        if (DWCi_Http_AddResult((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, index, p_char1) != 1) {
             *buffer = p_char1_temp;
             if (p_char2 != 0)
                 *p_char2 = p_char2_temp;
             return 0;
         }
-        index = p_char1 + func_0209477C((const u8 *)p_char1) + 1;
+        index = p_char1 + strlen((const char *)p_char1) + 1;
         *buffer = p_char1_temp;
         if (p_char2 != 0)
             *p_char2 = p_char2_temp;

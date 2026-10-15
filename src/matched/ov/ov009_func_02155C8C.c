@@ -12,7 +12,7 @@
  * symbols:
  *   _pRapWork     0x021A8264  data  ov009  a4
  *   d_021A1C5C     0x021A1C5C  data  ov009  a1
- *   func_02177270  0x02177270  arm
+ *   DWC_SetRecvTimeoutTime  0x02177270  arm
  *   DWC_GetMyAID  0x0216B838  arm
  *   DWC_GetAIDBitmap  0x0216B908  arm
  *   func_02034714  0x02034714  arm
@@ -30,7 +30,7 @@ typedef struct {
 
 extern G *_pRapWork;
 extern char d_021A1C5C[];
-int func_02177270(u8 a, int b);
+int DWC_SetRecvTimeoutTime(u8 a, int b);
 typedef unsigned int   u32;
 unsigned char DWC_GetMyAID(void);
 int DWC_GetAIDBitmap(void);
@@ -42,16 +42,16 @@ void DWC_RAP_SetupRecvTimeouts(void)
     int i, j;
 
     for (i = 0; i < 2; i++)
-        func_02177270(i, 0);
+        DWC_SetRecvTimeoutTime(i, 0);
     if (DWC_GetMyAID() == 0) {
         for (j = 0; j < _pRapWork->n; j++) {
             if (j != DWC_GetMyAID() && (DWC_GetAIDBitmap() & (1 << j)) != 0) {
-                if (func_02177270(j, 10000) == 0)
+                if (DWC_SetRecvTimeoutTime(j, 10000) == 0)
                     func_02034714(d_021A1C5C, 0, d_021A1C5C);
             }
         }
     } else {
-        if (func_02177270(0, 10000) == 0)
+        if (DWC_SetRecvTimeoutTime(0, 10000) == 0)
             func_02034714(d_021A1C5C, 0, d_021A1C5C);
     }
     _pRapWork->flag = 1;

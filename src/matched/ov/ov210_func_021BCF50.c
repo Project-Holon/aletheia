@@ -13,7 +13,7 @@
  *   d_021C0894  0x021C0894  data  a4
  *   func_021BED68  0x021BED68  thumb  ov210
  *   func_021BE3D4  0x021BE3D4  thumb  ov210
- *   func_021C93E4  0x021C93E4  thumb  ov212
+ *   ZUKAN_TickCounter  0x021C93E4  thumb  ov212
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj08413.h"
@@ -28,7 +28,7 @@ typedef u32 (*StateFn)(u8 *);
 extern StateFn d_021C0894[];
 extern void func_021BED68(int p);
 extern void func_021BE3D4(u8 *p);
-extern void func_021C93E4(u32 a, u32 b, u32 *counter);
+extern void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 
 u32 func_021BCF50(u8 *p)
 {
@@ -41,6 +41,6 @@ u32 func_021BCF50(u8 *p)
     }
     func_021BED68((int)p);
     func_021BE3D4(p);
-    func_021C93E4(2, 6, (u32 *)(p + 0x2c4));
+    ZUKAN_TickCounter(2, 6, (u32 *)(p + 0x2c4));
     return 1;
 }

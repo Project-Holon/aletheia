@@ -15,7 +15,7 @@
  *   DWCi_EncodeBinaryMsgCommand  0x021700C8  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02198620  0x02198620  arm  ov009
- *   func_0219EF08  0x0219EF08  arm  ov009
+ *   ServerBrowserSendMessageToServerA  0x0219EF08  arm  ov009
  */
 
 typedef struct {
@@ -38,7 +38,7 @@ struct ServerBrowser;
 extern void DWCi_EncodeBinaryMsgCommand(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
 extern int func_02175F3C(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_0219EF08(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
+extern int ServerBrowserSendMessageToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
 
 int DWCi_SendSBMsgCommand(unsigned char command, unsigned int ip, unsigned short port, const unsigned int *data, int len)
 {
@@ -48,7 +48,7 @@ int DWCi_SendSBMsgCommand(unsigned char command, unsigned int ip, unsigned short
 
     DWCi_EncodeBinaryMsgCommand((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
     for (i = 0; i < 1; i++) {
-        res = func_0219EF08(*(void **)(func_02175F3C() + 0x5e0), func_02198620(ip, 0, 0), port, (char *)(&ctrl), ctrl.len + 0x14);
+        res = ServerBrowserSendMessageToServerA(*(void **)(func_02175F3C() + 0x5e0), func_02198620(ip, 0, 0), port, (char *)(&ctrl), ctrl.len + 0x14);
         if (res == 0) {
             return res;
         }

@@ -33,13 +33,13 @@
  *   FIELD_MSGBG_ReleaseSysFrame  0x02190378  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
  *   func_020403F4  0x020403F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_02062B30  0x02062B30  arm
  *   func_02062A98  0x02062A98  arm
  *   func_02040B1C  0x02040B1C  arm
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  *   func_02040E78  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
  *   func_0204047C  0x0204047C  arm
@@ -49,7 +49,7 @@
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   func_020414AC  0x020414AC  arm
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
- *   func_020416D4 0x020416D4 arm
+ *   BG_SYS_Get 0x020416D4 arm
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
@@ -126,13 +126,13 @@ extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern int FIELD_MSGBG_ReleaseSysFrame(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
 extern void func_020403F4(u32 bgId);
-extern void func_0203FCA0(u32 bgId, const FaceupBgTemplate *bgTemplate, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const FaceupBgTemplate *bgTemplate, u32 type);
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern s32 func_02062A4C(void *file, UnpackedCharData **out);
 extern int func_02062B30(void *file, UnpackedScreenData **out);
 extern s32 func_02062A98(void *file, UnpackedPaletteData **out);
 extern void func_02040B1C(int bgId, const void *src, u32 size, u32 tileOffset);
-extern void func_020409E0(u32 bgId, const void *src, u32 size, u32 mapOffset);
+extern void BG_SYS_PushTileSource(u32 bgId, const void *src, u32 size, u32 mapOffset);
 extern void func_02040E78(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 func_020307B0(void *work);
 extern void func_0204047C(int bgId, unsigned short priority);
@@ -141,7 +141,7 @@ extern void func_02030EAC(void *tcb);
 extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 extern void func_020414AC(int bgId);
 extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
-extern u8 func_020416D4(u32 bgId);
+extern u8 BG_SYS_Get(u32 bgId);
 u32 BG_SYS_GetMainVisiblePlanes(void);
 void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern int SCRIPT_WORK_CheckFlag(int flagId);
@@ -289,7 +289,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     else
         func_020403F4(2);
     bgTemplate = gFldFaceupBgTemplate;
-    func_0203FCA0(2, &bgTemplate, 0);
+    BG_SYS_InitBgLayer(2, &bgTemplate, 0);
     if (work->faceType == 0) {
         faceCharIndex = 4;
         faceScreenIndex = 8;
@@ -309,7 +309,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceScreenIndex, FACEUP_BG_HEAP_ID);
     func_02062B30(file, &faceScreen);
-    func_020409E0(2, faceScreen->data, faceScreen->size, 0);
+    BG_SYS_PushTileSource(2, faceScreen->data, faceScreen->size, 0);
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, facePaletteIndex, FACEUP_BG_HEAP_ID);
     func_02062A98(file, &facePalette);
@@ -321,7 +321,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 11, FACEUP_BG_HEAP_ID);
     func_02062B30(file, &partsScreen);
-    func_020409E0(3, partsScreen->data, partsScreen->size, 0);
+    BG_SYS_PushTileSource(3, partsScreen->data, partsScreen->size, 0);
     func_020307B0(file);
     func_0204047C(0, 3);
     func_0204047C(1, 0);
@@ -447,7 +447,7 @@ void FLD_FACEUP_SaveBgPriorities(FaceupWork *work)
     int bgId;
 
     for (bgId = 0; bgId < 4; bgId++)
-        work->savedBgPriority[bgId] = func_020416D4((u8)bgId);
+        work->savedBgPriority[bgId] = BG_SYS_Get((u8)bgId);
 }
 
 
@@ -544,14 +544,14 @@ void FLD_FACEUP_VBlankUpload(void *tcb, FaceupWork *work)
     FaceupAnim *mouth;
 
     if (blink->uploadPending != 0) {
-        func_020409E0(3, blink->tiles[0], 0xC, 0x10D);
-        func_020409E0(3, blink->tiles[1], 0xC, 0x12D);
+        BG_SYS_PushTileSource(3, blink->tiles[0], 0xC, 0x10D);
+        BG_SYS_PushTileSource(3, blink->tiles[1], 0xC, 0x12D);
         blink->uploadPending = 0;
     }
     mouth = &work->mouth;
     if (mouth->uploadPending != 0) {
-        func_020409E0(3, mouth->tiles[0], 8, 0x16E);
-        func_020409E0(3, mouth->tiles[1], 8, 0x18E);
+        BG_SYS_PushTileSource(3, mouth->tiles[0], 8, 0x16E);
+        BG_SYS_PushTileSource(3, mouth->tiles[1], 8, 0x18E);
         mouth->uploadPending = 0;
     }
 }

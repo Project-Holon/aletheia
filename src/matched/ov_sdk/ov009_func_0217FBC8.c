@@ -1,5 +1,5 @@
 /*
- * function: func_0217FBC8
+ * function: B64DecodeLen
  * address:  0x0217FBC8
  * packet:   pkt_ov009_0217FBC8
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      B64DecodeLen (gsplatformutil.o)
  *
  * symbols:
- *   g_021A1A02                     0x021A1A02  data
- *   g_021A19FF                     0x021A19FF  data
- *   g_021A19FC                     0x021A19FC  data
+ *   gGsB64CharsAlt                     0x021A1A02  data
+ *   gGsB64CharsUrl                     0x021A19FF  data
+ *   gGsB64CharsDefault                     0x021A19FC  data
  */
 
-extern char g_021A1A02[3];
-extern char g_021A19FF[3];
-extern char g_021A19FC[3];
+extern char gGsB64CharsAlt[3];
+extern char gGsB64CharsUrl[3];
+extern char gGsB64CharsDefault[3];
 
-int func_0217FBC8(char *input, int encodingType)
+int B64DecodeLen(char *input, int encodingType)
 {
     char *encoding;
     char *holdin = input;
@@ -29,13 +29,13 @@ int func_0217FBC8(char *input, int encodingType)
 
     switch (encodingType) {
     case 1:
-        encoding = g_021A1A02;
+        encoding = gGsB64CharsAlt;
         break;
     case 2:
-        encoding = g_021A19FF;
+        encoding = gGsB64CharsUrl;
         break;
     default:
-        encoding = g_021A19FC;
+        encoding = gGsB64CharsDefault;
         break;
     }
     while (*input != 0) {

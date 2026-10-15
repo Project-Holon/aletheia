@@ -16,7 +16,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -40,7 +40,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Blit  0x020439A0  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb
@@ -51,15 +51,15 @@
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_GetLength  0x020458F8  arm
- *   func_02012B38  0x02012B38  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   func_020414C4  0x020414C4  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   gFieldPlaceNameFileName     0x021DE354  data  a4
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_02008998  0x02008998  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -89,6 +89,10 @@
  *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
  *   CLACT_SetUnitRenderer  0x0204B258  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   BG_SYS_CreateRun  0x0203FA08  arm  arm9
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -128,7 +132,7 @@ struct FieldMsgContext;
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern u32 func_020307B0(void *p);
 extern GfFont *FIELD_MSGBG_GetFont(struct FieldMsgContext *msgContext);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020403F4(u32 bgId);
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
@@ -142,8 +146,8 @@ extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(ArcFile *arc, u32 member, void *dst);
 extern s32 func_02062A98(NitroFileHeader *file, void **out);
 extern void func_02040E78(u32 bgId, void *src, u32 size, u32 offset);
-extern u32 func_0203FA08(u32 bgId, u32 size, u32 top);
-extern void func_0203FB44(u32 bgId, u32 offset, u32 size);
+extern u32 BG_SYS_CreateRun(u32 bgId, u32 size, u32 top);
+extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern ClactRenderer *CLACT_CreateRenderer(const u8 *initParam, u32 count, u32 heapId);
@@ -162,7 +166,7 @@ extern BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, ClactUnit *unit);
 extern void BMP_OAM_DeleteSys(BmpOamSys *sys);
 extern void BMP_Blit(Bmp *dst, Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 w, u32 h, u32 key);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern unsigned int func_02012138(const GameSystem *gameSystem);
+extern unsigned int ICA_ANIME_GetField24(const GameSystem *gameSystem);
 extern int INTRUDE_COMM_GetWorkIfRunning(int gameComm);
 extern int GAME_DATA_GetIntrudeIdByte(GameData *gameData);
 extern int GAME_DATA_GetMyStatusByNetId(GameData *gameData, int netId);
@@ -173,19 +177,19 @@ extern void func_0201F158(WordSet *wordSet, u32 index, u32 value);
 extern void func_0201F250(WordSet *wordSet, Strbuf *dst, Strbuf *src);
 extern void STRBUF_Delete(Strbuf *strbuf);
 extern u16 STRBUF_GetLength(Strbuf *strbuf);
-extern void *func_02012B38(const GameData *gameData);
-extern u8 func_02012B58(const GameData *gameData);
+extern void *GAME_DATA_GetMoveModelSys(const GameData *gameData);
+extern u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
 extern unsigned int FIELD_STATUS_GetMapMode(void *fieldStatus);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern void func_020414C4(u32 bgId);
-extern void func_020414EC(u32 bgId);
+extern void BG_SYS_ClearSlot(u32 bgId);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern void *func_020120F4(const GameSystem *gameSystem);
-extern WordSet *func_0201EC64(u32 heapId);
+extern void *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
+extern WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern BmpWin *BMP_WIN_Create(u32 bgId, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_0201ED04(WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(WordSet *wordSet);
 extern u32 MSGDATA_Delete(MsgData *msgData);
 extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
 extern void *GAME_DATA_GetSaveControl(GameData *gameData);
@@ -324,7 +328,7 @@ FieldPlaceName *FIELD_PLACE_NAME_Create(GameSystem *gameSystem, u32 heapId, stru
     FIELD_PLACE_NAME_SetClactUnitRenderer(placeName, 0);
     FIELD_PLACE_NAME_CreateBmpOamSys(placeName);
     FIELD_PLACE_NAME_CreateLetters(placeName);
-    func_0203FCA0(FIELD_PLACE_NAME_BG_LAYER, (const struct BgTemplate *)FIELD_PLACE_NAME_BG_TEMPLATE_ADDR, 0);
+    BG_SYS_InitBgLayer(FIELD_PLACE_NAME_BG_LAYER, (const struct BgTemplate *)FIELD_PLACE_NAME_BG_TEMPLATE_ADDR, 0);
     FIELD_PLACE_NAME_LoadPaletteFile(placeName);
     FIELD_PLACE_NAME_AllocBgChars(placeName);
     FIELD_PLACE_NAME_CreateBmpWin(placeName);
@@ -516,14 +520,14 @@ void FIELD_PLACE_NAME_TransferPalette(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_AllocBgChars(FieldPlaceName *placeName)
 {
     if (placeName->bgCharOffset == FIELD_PLACE_NAME_NO_CHAR_OFFSET) {
-        placeName->bgCharOffset = func_0203FA08(FIELD_PLACE_NAME_BG_LAYER, 0x20, 0);
+        placeName->bgCharOffset = BG_SYS_CreateRun(FIELD_PLACE_NAME_BG_LAYER, 0x20, 0);
     }
 }
 
 void FIELD_PLACE_NAME_FreeBgChars(FieldPlaceName *placeName)
 {
     if (placeName->bgCharOffset != FIELD_PLACE_NAME_NO_CHAR_OFFSET) {
-        func_0203FB44(FIELD_PLACE_NAME_BG_LAYER, placeName->bgCharOffset, 0x20);
+        BG_SYS_DeleteHalf(FIELD_PLACE_NAME_BG_LAYER, placeName->bgCharOffset, 0x20);
         placeName->bgCharOffset = FIELD_PLACE_NAME_NO_CHAR_OFFSET;
     }
 }
@@ -805,7 +809,7 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
         return;
     }
     if (FIELD_PLACE_NAME_UsesIntrudeTemplate(placeName, zoneId) != 0) {
-        INTRUDE_COMM_GetWorkIfRunning((int)func_02012138(placeName->gameSystem));
+        INTRUDE_COMM_GetWorkIfRunning((int)ICA_ANIME_GetField24(placeName->gameSystem));
         myStatus = GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
         template = func_02045EC0(placeName->msgData, 3);
         func_02045CAC(placeName->msgData, placeNameId, placeName->message);
@@ -830,9 +834,9 @@ int FIELD_PLACE_NAME_UsesIntrudeTemplate(FieldPlaceName *placeName, int zoneId)
     void *fieldStatus;
     int ownNetId;
 
-    intrudeId = INTRUDE_COMM_GetWorkIfRunning((int)func_02012138(placeName->gameSystem));
-    fieldStatus = func_02012B38(placeName->gameData);
-    ownNetId = func_02012B58(placeName->gameData);
+    intrudeId = INTRUDE_COMM_GetWorkIfRunning((int)ICA_ANIME_GetField24(placeName->gameSystem));
+    fieldStatus = GAME_DATA_GetMoveModelSys(placeName->gameData);
+    ownNetId = GAME_DATA_GetOwnNetId(placeName->gameData);
     if (intrudeId != 0) {
         intrudeId = GAME_DATA_GetIntrudeIdByte(placeName->gameData);
         if (FIELD_STATUS_GetMapMode(fieldStatus) == 1) {
@@ -917,7 +921,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         break;
     case 1:
         func_020414C4(FIELD_PLACE_NAME_BG_LAYER);
-        func_020414EC(FIELD_PLACE_NAME_BG_LAYER);
+        BG_SYS_ClearSlot(FIELD_PLACE_NAME_BG_LAYER);
         FIELD_PLACE_NAME_TransferPalette(placeName);
         FIELD_PLACE_NAME_IncrementStep(placeName);
         break;
@@ -1094,7 +1098,7 @@ void FIELD_PLACE_NAME_InitWork(FieldPlaceName *placeName, GameSystem *gameSystem
 {
     MI_CpuFill8(placeName, 0, 0x154);
     placeName->gameSystem = gameSystem;
-    placeName->gameData = func_020120F4(gameSystem);
+    placeName->gameData = ICA_ANIME_GetField1C(gameSystem);
     placeName->bgCharOffset = -1;
     placeName->forceShowRequested = 0;
     placeName->zoneChangeRequested = 0;
@@ -1109,7 +1113,7 @@ void FIELD_PLACE_NAME_FreeWork(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName)
 {
-    placeName->wordSet = func_0201EC64(FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->wordSet = GF_FONT_Create_EC64(FIELD_PLACE_NAME_GetHeapId(placeName));
 }
 
 void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName)
@@ -1131,7 +1135,7 @@ void FIELD_PLACE_NAME_CreateBmpWin(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_DeleteWordSet(FieldPlaceName *placeName)
 {
     if (placeName->wordSet != 0) {
-        func_0201ED04(placeName->wordSet);
+        WORDSET_DeleteStrbufED04(placeName->wordSet);
         placeName->wordSet = 0;
     }
 }
@@ -1220,13 +1224,13 @@ void FIELD_PLACE_NAME_IncrementStep(FieldPlaceName *placeName)
 /* Reads the player's current zone from the save data. */
 void FIELD_PLACE_NAME_LoadZoneFromSave(FieldPlaceName *placeName)
 {
-    placeName->zoneId = func_02008998(func_02008854(GAME_DATA_GetSaveControl(func_020120F4(placeName->gameSystem))));
+    placeName->zoneId = func_02008998(func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(placeName->gameSystem))));
 }
 
 /* Writes the banner's current zone back to the save data. */
 int FIELD_PLACE_NAME_SaveZoneToSave(FieldPlaceName *placeName)
 {
-    return func_020089A0((u32)func_02008854(GAME_DATA_GetSaveControl(func_020120F4(placeName->gameSystem))), placeName->zoneId);
+    return func_020089A0((u32)func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(placeName->gameSystem))), placeName->zoneId);
 }
 
 u16 FIELD_PLACE_NAME_GetZoneId(FieldPlaceName *placeName)

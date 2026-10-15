@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E6C
+ * function: POKETRADE_DEMO_MIDDLE_UpdateEmitterA
  * address:  0x021D6E6C
  * packet:   pkt_ov118_021D6E6C
  * region:   ov118
@@ -32,7 +32,7 @@ struct Rec12;
 extern unsigned int ICA_ANIME_GetTranslate(struct IcaAnime *, struct Rec12 *);
 extern void BUTTON_MAN_SetEmitterPos(void *, Vec *);
 
-void func_021D6E6C(void *obj, int on)
+void POKETRADE_DEMO_MIDDLE_UpdateEmitterA(void *obj, int on)
 {
     s32 buf[3];
     Vec *v;

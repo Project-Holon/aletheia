@@ -1,5 +1,5 @@
 /*
- * function: func_021B7004
+ * function: LOCAL_TVT_CHARA_SetupActors
  * address: 0x021B7004
  * packet: pkt_ov174_021B7004
  * region: ov174
@@ -11,8 +11,8 @@
  * prototype: 0204B294 leaves its forwarder's result in r0, captured at
  *   021B712A and 021B715A; the returned object pointer is stored as a word.
  * symbols:
- *   func_021B7180 0x021B7180 thumb ov174
- *   func_021B71A0 0x021B71A0 thumb ov174
+ *   LOCAL_TVT_CHARA_LoadPalette 0x021B7180 thumb ov174
+ *   LOCAL_TVT_CHARA_CopyTiles 0x021B71A0 thumb ov174
  *   func_020307B0 0x020307B0 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -30,8 +30,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short x, y; u16 id; u8 a, b; } Request;
 extern const u8 d_021B7481[];
-extern void func_021B7180(char *p, char *q, int id);
-extern void func_021B71A0(int, int *, int, int, int);
+extern void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id);
+extern void LOCAL_TVT_CHARA_CopyTiles(int, int *, int, int, int);
 extern u32 func_020307B0(void *p);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
@@ -42,18 +42,18 @@ struct Actor;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_StopActorAnim(struct Actor *a);
-void func_021B7004(u8 *p, u8 *q)
+void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
 {
     int step;
     int base;
     Request req;
     if (((struct Obj01422 *)p)->f8 == 2) { step = 0x6000; base = 0; }
     else { step = 0x3000; base = 0x1c00; }
-    func_021B7180((char *)p, (char *)q, (d_021B7481 + 4)[q[2] * 3]);
-    func_021B71A0((int)p, (int *)q, base, step * q[0] + 0x10000, step);
+    LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, (d_021B7481 + 4)[q[2] * 3]);
+    LOCAL_TVT_CHARA_CopyTiles((int)p, (int *)q, base, step * q[0] + 0x10000, step);
     func_020307B0(((struct Obj00476 *)q)->f10);
-    func_021B7180((char *)p, (char *)q, d_021B7481[q[3] * 2] + ((struct Obj01422 *)p)->f10 * 2);
-    func_021B71A0((int)p, (int *)q, base, step * q[0] + 0x28000, step);
+    LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, d_021B7481[q[3] * 2] + ((struct Obj01422 *)p)->f10 * 2);
+    LOCAL_TVT_CHARA_CopyTiles((int)p, (int *)q, base, step * q[0] + 0x28000, step);
     func_020307B0(((struct Obj00476 *)q)->f10);
     *(int *)&((struct Obj00476 *)q)->f1C = CLACT_RegisterPaletteCompressed(((struct Obj01422 *)p)->f18, (d_021B7481 + 5)[q[2] * 3], 0, (u16)((q[0] * 2 + 4) << 5), ((struct Obj01422 *)p)->f0);
     *(int *)&((struct Obj00476 *)q)->f20 = CLACT_RegisterCharacter(((struct Obj01422 *)p)->f18, (d_021B7481 + 5)[q[2] * 3] + 1, 0, 0, ((struct Obj01422 *)p)->f0);

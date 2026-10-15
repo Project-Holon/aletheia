@@ -1,5 +1,5 @@
 /*
- * function: func_0202A4B4
+ * function: TR_TOOL_BuildParty
  * address:  0x0202A4B4
  * packet:   pkt_0202A4B4
  * region:   arm9
@@ -16,9 +16,9 @@
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   func_0202A3AC  0x0202A3AC  thumb
- *   func_0202A3BC  0x0202A3BC  thumb
- *   func_0202A3CC  0x0202A3CC  thumb
+ *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
+ *   TPOKE_DATA_ReadParty  0x0202A3BC  thumb
+ *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
  *   func_0202A994  0x0202A994  thumb
  *   func_0202A9F4  0x0202A9F4  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
@@ -78,16 +78,16 @@ struct PartyMon;
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32   POKE_TOOL_GetPartyParamSize(void);
-extern void func_0202A3AC(void *a0, void *a1);
-extern void func_0202A3BC(void *a0, void *a1);
-extern u8    func_0202A3CC(u32 cls);
+extern void TPOKE_DATA_ReadRecord(void *a0, void *a1);
+extern void TPOKE_DATA_ReadParty(void *a0, void *a1);
+extern u8    TPOKE_DATA_GetGenderValue(u32 cls);
 extern void  func_0202A994(u32 species, u32 form, int abil, u32 *gender, u16 heap);
 extern void  func_0202A9F4(u32 id, void *mon, u32 form, u32 abil);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 val);
 extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
 
-void func_0202A4B4(u32 trid, void *party, u16 heap)
+void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
 {
     u32 gender;
     TrData *td;
@@ -105,9 +105,9 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
     td = func_02030734(h, 0x14, 0, g_020A76DC, 387);
     tp = func_02030734(h, 0x6C, 0, g_020A76DC, 388);
     mon = func_02030734(h, POKE_TOOL_GetPartyParamSize(), 0, g_020A76DC, 389);
-    func_0202A3AC((void *)trid, td);
-    func_0202A3BC((void *)trid, tp);
-    if (func_0202A3CC(td->cls) == 1) {
+    TPOKE_DATA_ReadRecord((void *)trid, td);
+    TPOKE_DATA_ReadParty((void *)trid, tp);
+    if (TPOKE_DATA_GetGenderValue(td->cls) == 1) {
         gender = 0x78;
     } else {
         gender = 0x88;

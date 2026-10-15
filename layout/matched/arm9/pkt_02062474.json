@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02062474",
+   "name": "NNSi_GfdInitPlttVramManager",
    "address": "0x02062474",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020624C8",
+   "name": "NNS_GfdAllocPlttVram",
    "address": "0x020624C8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062594",
+   "name": "NNS_GfdFreePlttVram",
    "address": "0x02062594",
    "kind": "game",
    "region": "arm9",

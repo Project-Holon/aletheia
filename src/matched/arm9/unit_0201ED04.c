@@ -10,10 +10,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201ED04, func_0201ED50, func_0201ED64, func_0201ED84,
- *           func_0201EDD0, func_0201EE0C, func_0201EE60, func_0201EE84,
- *           func_0201EEA4, func_0201EEC4, func_0201EED4, func_0201EEF4,
- *           func_0201EF14, func_0201EF34, func_0201EF40, func_0201EF4C,
+ * function: WORDSET_DeleteStrbufED04, WORDSET_Init, func_0201ED64, func_0201ED84,
+ *           func_0201EDD0, func_0201EE0C, WORDSET_Callback, func_0201EE84,
+ *           func_0201EEA4, WORDSET_Callback_EEC4, func_0201EED4, func_0201EEF4,
+ *           func_0201EF14, func_0201EF34, WORDSET_Callback_EF40, WORDSET_Callback_EF4C,
  *           func_0201EF5C, func_0201EF6C, func_0201EF8C, func_0201EF98,
  *           func_0201EFA4, func_0201EFC8
  *
@@ -49,12 +49,12 @@
  * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md is the same
  * effect on the reading side).
  *
- * func_0201ED50 is the tag clear and takes a `struct Tag *`, not a
+ * WORDSET_Init is the tag clear and takes a `struct Tag *`, not a
  * `struct Entry *`: func_0201EE0C calls it on a bare stack local, which is
  * what fixes the parameter type.  The two are the same address for an entry,
  * so the distinction is only visible at that one call site.
  *
- * func_0201EE60 reaches a file-scope pointer at 0x020A7370.  Exactly two
+ * WORDSET_Callback reaches a file-scope pointer at 0x020A7370.  Exactly two
  * literal pools in the image hold that address, this function's and
  * func_0201F344's in src/matched/unit_0201F0F8.c, so each file is the other's
  * `literal` witness and the two may not be merged into one range.
@@ -121,17 +121,17 @@ struct WordSet {
     void *buf;
 };
 
-extern void func_0201ED50(struct Tag *t);
+extern void WORDSET_Init(struct Tag *t);
 extern void func_0201ED84(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
 extern void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
-extern void func_0201EEC4(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
 
-u32 func_0201ED04(struct WordSet *p)
+u32 WORDSET_DeleteStrbufED04(struct WordSet *p)
 {
     u32 i;
 
@@ -151,7 +151,7 @@ u32 func_0201ED04(struct WordSet *p)
     return func_020307B0(p);
 }
 
-void func_0201ED50(struct Tag *t)
+void WORDSET_Init(struct Tag *t)
 {
     MI_CpuFill8(t, 0, 5);
     t->unk04 = 0;
@@ -159,7 +159,7 @@ void func_0201ED50(struct Tag *t)
 
 void func_0201ED64(struct WordSet *p, u32 i)
 {
-    func_0201ED50(&p->entries[i].tag);
+    WORDSET_Init(&p->entries[i].tag);
     STRBUF_Clear(p->entries[i].str);
 }
 
@@ -170,7 +170,7 @@ void func_0201ED84(struct WordSet *p, u32 i, const void *src,
         if (tag != 0) {
             p->entries[i].tag = *tag;
         } else {
-            func_0201ED50(&p->entries[i].tag);
+            WORDSET_Init(&p->entries[i].tag);
         }
         STRBUF_Copy(p->entries[i].str, (struct U16Vec *)src);
     }
@@ -191,13 +191,13 @@ void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 
 {
     struct Tag tag;
 
-    func_0201ED50(&tag);
+    WORDSET_Init(&tag);
     tag.unk03 = n;
     tag.unk03b = (f == 0);
     func_0201ED84(p, i, src, &tag);
 }
 
-void func_0201EE60(struct WordSet *p, u32 i, u16 v)
+void WORDSET_Callback(struct WordSet *p, u32 i, u16 v)
 {
     func_02045CAC(gSpeciesNameBank, v, p->buf);
     func_0201ED84(p, i, p->buf, 0);
@@ -205,22 +205,22 @@ void func_0201EE60(struct WordSet *p, u32 i, u16 v)
 
 void func_0201EE84(struct WordSet *p, u32 i, void *mon)
 {
-    func_0201EE60(p, i, func_02017E1C(mon, 5, 0));
+    WORDSET_Callback(p, i, func_02017E1C(mon, 5, 0));
 }
 
 void func_0201EEA4(struct WordSet *p, u32 i, void *mon)
 {
-    func_0201EE60(p, i, func_02017E88(mon, 5, 0));
+    WORDSET_Callback(p, i, func_02017E88(mon, 5, 0));
 }
 
-void func_0201EEC4(struct WordSet *p, u32 i, u32 v)
+void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v)
 {
     func_0201EDD0(p, i, 0x119, v);
 }
 
 void func_0201EED4(struct WordSet *p, u32 i, void *mon)
 {
-    func_0201EEC4(p, i, (u16)func_02017E1C(mon, 5, 0));
+    WORDSET_Callback_EEC4(p, i, (u16)func_02017E1C(mon, 5, 0));
 }
 
 void func_0201EEF4(struct WordSet *p, u32 i, void *mon)
@@ -240,12 +240,12 @@ void func_0201EF34(struct WordSet *p, u32 i, u32 v)
     func_0201EDD0(p, i, 0xCB, v);
 }
 
-void func_0201EF40(struct WordSet *p, u32 i, u32 v)
+void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v)
 {
     func_0201EDD0(p, i, 0x36, v);
 }
 
-void func_0201EF4C(struct WordSet *p, u32 i, u32 v)
+void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v)
 {
     func_0201EDD0(p, i, 0x117, v);
 }
@@ -262,10 +262,10 @@ void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b)
         return;
     }
     if (b != 0) {
-        func_0201EF4C(p, i, v);
+        WORDSET_Callback_EF4C(p, i, v);
         return;
     }
-    func_0201EF40(p, i, v);
+    WORDSET_Callback_EF40(p, i, v);
 }
 
 void func_0201EF8C(struct WordSet *p, u32 i, u32 v)

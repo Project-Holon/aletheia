@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BADBC",
-    "func_021BADC4"
+    "COMM_BTL_DEMO_GRAPHIC_VBlankClact",
+    "COMM_BTL_DEMO_GRAPHIC_GetClactBank"
+   ],
+   "addresses": [
+    "0x021BADBC",
+    "0x021BADC4"
    ]
   }
  ]

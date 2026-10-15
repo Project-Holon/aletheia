@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_020414C4 0x020414C4 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  */
 
 typedef unsigned char u8;
 extern void func_020414C4(u8 idx);
-extern void func_020414EC(unsigned int i);
+extern void BG_SYS_ClearSlot(unsigned int i);
 
 void func_020414AC(u8 idx)
 {
     func_020414C4(idx);
-    func_020414EC(idx);
+    BG_SYS_ClearSlot(idx);
 }

@@ -28,7 +28,7 @@
  * spelling moved it (about forty recorded in the note), which is the
  * front-end signature.  Under dsi/1.2 (and 1.2p1, 1.2p2, 1.3) the same C
  * is 340 bytes, 0 mismatches; 1.1 is 16 out, ../2.0/sp2 352 bytes.  The
- * neighbours func_0203F034, func_0203F1FC and func_0203F258 are 1.1p1.
+ * neighbours func_0203F034, GF_STANDARD_SetupCalc and func_0203F258 are 1.1p1.
  */
 typedef unsigned int u32;
 struct MtState {

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260F0 0x020260F0 thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   BOX2_UI_DeleteSound 0x021EE3CC thumb
- *   func_02025CD0 0x02025CD0 thumb
- *   func_02025D1C 0x02025D1C thumb
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
+ *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb
  *   d_021F02F0 0x021F02F0 data
@@ -27,23 +27,23 @@ typedef struct { unsigned a; unsigned b; } Pair;
 typedef unsigned int   u32;
 struct Sound;
 struct Struct_02025D1C;
-extern u32 func_020260F0(struct Sound *obj);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void BOX2_UI_DeleteSound(int *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
-extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
-extern void func_02025D1C(struct Struct_02025D1C *obj);
+extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
+extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj);
 extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern const Pair d_021F02F0[];
 
 void BOX2_UI_MoveCursor(char **p, int idx, int v)
 {
-    int r = func_020260F0(((struct Obj24031 *)(p[11]))->f70);
+    int r = CURSOR_MOVE_GetState(((struct Obj24031 *)(p[11]))->f70);
     BOX2_UI_DeleteSound((int *)p);
-    ((struct Obj24032 *)(p[11]))->f70 = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
-    func_02025D1C(((struct Obj24033 *)(p[11]))->f70);
+    ((struct Obj24032 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
+    CURSOR_MOVE_EnableInput(((struct Obj24033 *)(p[11]))->f70);
     BOX2_UI_UpdateCursor((char *)p, v);
     BOX2_SEQ_SetCursorDraw(p, r);
     ((struct Obj24034 *)(p[11]))->fA168 = v;

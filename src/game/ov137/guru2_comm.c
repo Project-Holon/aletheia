@@ -72,15 +72,15 @@ extern u32 func_02080D24(int);
 
 extern void GURU2_RECEIPT_SetStateFromChild(char *p, int command, int player);
 
-extern void GURU2_MAIN_StoreSlotAssignment(char *p, unsigned short *q);
+extern void GURU2_MAIN_StoreSlotAssignment(struct Guru2Game *p, unsigned short *q);
 
-extern void GURU2_MAIN_SyncPlayerCount(char *p, int a1);
+extern void GURU2_MAIN_SyncPlayerCount(struct Guru2Game *p, int a1);
 
-extern void GURU2_MAIN_SetPlayerInput(int *p, int a);
+extern void GURU2_MAIN_SetPlayerInput(struct Guru2Game *p, int a);
 
-extern void GURU2_MAIN_StoreRoundResult(void *,void *);
+extern void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p,void *q);
 
-extern void GURU2_MAIN_StoreAngles(unsigned char *p, u16 *q);
+extern void GURU2_MAIN_StoreAngles(struct Guru2Game *p, u16 *q);
 
 extern void GURU2_MAIN_SetPlayerSelectedSlot(int *p, int a, int b);
 

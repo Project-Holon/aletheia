@@ -1,5 +1,5 @@
 /*
- * function: func_021F669C
+ * function: EGG_DEMO_GRAPHIC_DeleteG3d
  * address:  0x021F669C
  * packet:   pkt_021F669C
  * region:   ov215
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 
-void func_021F669C(int *p)
+void EGG_DEMO_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

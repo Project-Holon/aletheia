@@ -61,9 +61,9 @@
  * func_021BA4E8 0x021BA4E8 thumb ov214
  * func_021BAF64 0x021BAF64 thumb ov214
  * PRINTSYS_QUE_Main 0x0201C4E4 thumb
- * func_021BB27C 0x021BB27C thumb ov214
- * func_021BB290 0x021BB290 thumb ov214
- * func_021BB29C 0x021BB29C thumb ov214
+ * BTL_REC_SEL_GRAPHIC_Draw 0x021BB27C thumb ov214
+ * BTL_REC_SEL_GRAPHIC_Draw3d 0x021BB290 thumb ov214
+ * BTL_REC_SEL_GRAPHIC_DrawEnd 0x021BB29C thumb ov214
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -116,7 +116,7 @@ extern void func_021BA45C(void*,char*);
 extern void func_021BA4E8(void *unused, struct S *p);
 extern void func_021BAF64(void *unused, struct S *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void func_021BB27C(u8*),func_021BB290(u8*),func_021BB29C(char*);
+extern void BTL_REC_SEL_GRAPHIC_Draw(u8*),BTL_REC_SEL_GRAPHIC_Draw3d(u8*),BTL_REC_SEL_GRAPHIC_DrawEnd(char*);
 int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
 {
     void *owner,*record;
@@ -264,6 +264,6 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
     }
     func_021BA058((int)obj,p);func_021BA45C((void*)obj,p);func_021BA4E8((void*)obj,(struct S *)p);func_021BAF64((void*)obj,(struct S *)p);
     PRINTSYS_QUE_Main((void*)(*(u32*)(p+0xc)));PRINTSYS_QUE_Main((void*)(*(u32*)(p+0x10)));PRINTSYS_QUE_Main((void*)(*(u32*)(p+0x14)));PRINTSYS_QUE_Main((void*)(*(u32*)(p+0x18)));
-    func_021BB27C((u8*)(*(u32*)(p+4)));func_021BB290((u8*)(*(u32*)(p+4)));func_021BB29C((char*)(*(u32*)(p+4)));
+    BTL_REC_SEL_GRAPHIC_Draw((u8*)(*(u32*)(p+4)));BTL_REC_SEL_GRAPHIC_Draw3d((u8*)(*(u32*)(p+4)));BTL_REC_SEL_GRAPHIC_DrawEnd((char*)(*(u32*)(p+4)));
     return 0;
 }

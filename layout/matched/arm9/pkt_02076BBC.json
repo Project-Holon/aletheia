@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02076BBC",
+   "name": "CARDi_SetRomOp",
    "address": "0x02076BBC",
    "kind": "sdk",
    "region": "arm9",

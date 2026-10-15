@@ -13,14 +13,15 @@
  *
  * symbols:
  *   SOC_Shutdown  0x0215F638  arm
+ *   CheckRcode  0x0217EB00  arm
 
  */
 
 extern int SOC_Shutdown(int s, int how);
-extern int func_0217EB00(int a, int b);
+extern int CheckRcode(int a, int b);
 
 int func_0217EB9C(int sock, int how)
 {
-    return func_0217EB00(SOC_Shutdown(sock, how), -1);
+    return CheckRcode(SOC_Shutdown(sock, how), -1);
 }
 

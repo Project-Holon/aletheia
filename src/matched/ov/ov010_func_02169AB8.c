@@ -38,11 +38,11 @@
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
@@ -150,13 +150,13 @@ extern int GAME_DATA_SaveStart(int a0);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void TIME_ICON_Delete(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern u32 KEY_GetTrg(void);
 
@@ -264,12 +264,12 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             GFL_USE_PlaySeDefaultVolume(0x558);
             REPORT_EVENT_StopSaveEffect((int)w);
             REPORT_EVENT_EndAvatarAnim((int)w);
-            ws = func_0201EC64(w->f10);
+            ws = GF_FONT_Create_EC64(w->f10);
             str = func_02045EC0(w->f18->f04, 5);
             func_0201F02C(ws, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->f04)));
             func_0201F250(ws, w->f18->f18, str);
             STRBUF_Delete(str);
-            func_0201ED04(ws);
+            WORDSET_DeleteStrbufED04(ws);
             REPORT_EVENT_StartPrintStream(w);
             TIME_ICON_Delete(w->f18->f44);
             *state = 0xB;

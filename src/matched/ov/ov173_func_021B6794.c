@@ -1,5 +1,5 @@
 /*
- * function: func_021B6794
+ * function: POKE_SUMMARY_MAIN_DeleteMsgWindow
  * address:  0x021B6794
  * packet:   pkt_021B6794
  * region:   ov173
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-int func_021B6794(int *p)
+int POKE_SUMMARY_MAIN_DeleteMsgWindow(int *p)
 {
     return func_020307B0((void *)(((struct Obj24150 *)p)->f1C0));
 }

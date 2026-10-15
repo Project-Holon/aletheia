@@ -1,5 +1,5 @@
 /*
- * function: func_021B891C
+ * function: CTVT_COMM_SendVoiceData
  * address: 0x021B891C
  * packet: pkt_ov172_021B891C
  * region: ov172
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
-int func_021B891C(void *a, char *q, u16 *p)
+int CTVT_COMM_SendVoiceData(void *a, char *q, u16 *p)
 {
     u32 entry;
     int r;

@@ -41,6 +41,7 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
+ *   BG_SYS_Create  0x0203F8F4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ typedef struct { u32 w[4]; } Tbl16;
 extern u8 d_021BBBE0[];
 extern u8 d_021BBA8C[];
 extern const Tbl16 d_021BBAB0;
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 struct Bank;
@@ -128,7 +129,7 @@ void ITEMMENU_SetupGraphics(u8 *p)
     u32 i;
 
     *(volatile u16 *)0x04000050 = 0;
-    func_0203F8F4(*(u16 *)(p + 0x544));
+    BG_SYS_Create(*(u16 *)(p + 0x544));
     BMP_WIN_Init(*(u16 *)(p + 0x544));
     GF_FONT_ResetTextColor();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BBBE0);

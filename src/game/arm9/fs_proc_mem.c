@@ -1,7 +1,7 @@
 /*
  * file:     fs_proc_mem.c
  * unit:     yes
- * function: FS_GetFileImageTop, FSi_MemArchiveProc, func_0207A890, func_0207A940
+ * function: FS_GetFileImageTop, FSi_MemArchiveProc, FSi_InitMemArchive, FS_CreateFileFromMemory
  * address:  0x0207A7BC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02078530 0x02078530 arm
+ *   FS_GetArchiveName 0x02078530 arm
  *   func_0208CC78 0x0208CC78 arm
  *   func_0208D7E0 0x0208D7E0 arm
  *   OS_DisableInterrupts  0x02087988  arm
@@ -48,9 +48,9 @@ typedef struct FSArchive
 typedef struct FSDirEntryOut
 {
     u32 id;
-    unsigned short unk4;
-    unsigned short unk6;
-    u32 unk8;
+    unsigned short attr;
+    unsigned short reserved;
+    u32 size;
     u32 is_directory;
     u32 name_len;
     char name[1];
@@ -68,7 +68,7 @@ struct FSFile
     u32 skip_string;
 };
 
-extern char *func_02078530(FSArchive *arc);
+extern char *FS_GetArchiveName(FSArchive *arc);
 extern u32 func_0208CC78(const char *s);
 extern int func_0208D7E0(char *dst, const char *fmt, const char *s);
 extern u32 OS_DisableInterrupts(void);
@@ -82,8 +82,8 @@ extern void OS_Terminate(void);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 u32 FS_GetFileImageTop(FSFile *file);
 int FSi_MemArchiveProc(FSFile *p_file, u32 cmd);
-void func_0207A890(void);
-BOOL func_0207A940(FSFile *p_file, void *buf, u32 size);
+void FSi_InitMemArchive(void);
+BOOL FS_CreateFileFromMemory(FSFile *p_file, void *buf, u32 size);
 extern BOOL fsi_mem_init;
 extern FSArchive fsi_arc_mem;
 
@@ -108,15 +108,15 @@ int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
             entry->is_directory = 0;
             return 1;
         }
-        name = func_02078530(arc);
+        name = FS_GetArchiveName(arc);
         entry->name_len = func_0208CC78(name) + 1;
         entry->is_directory = 1;
         if (p_file->skip_string == 0) {
             func_0208D7E0(entry->name, "%s:", name);
             entry->id = p_file->id;
-            entry->unk4 = 0;
-            entry->unk6 = 0;
-            entry->unk8 = 0;
+            entry->attr = 0;
+            entry->reserved = 0;
+            entry->size = 0;
         }
         p_file->cur_arc = arc->next;
         return 0;
@@ -141,7 +141,7 @@ static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
 /*
  * sdk:      FSi_InitMemArchive (libfs.TWL.HYB.a fs_proc_mem.o)
  */
-void func_0207A890(void)
+void FSi_InitMemArchive(void)
 {
     u32 bak_cpsr = OS_DisableInterrupts();
 
@@ -162,8 +162,8 @@ void func_0207A890(void)
 /*
  * sdk:      FS_CreateFileFromMemory (libfs.TWL.HYB.a fs_proc_mem.o)
  */
-BOOL func_0207A940(FSFile *p_file, void *buf, u32 size)
+BOOL FS_CreateFileFromMemory(FSFile *p_file, void *buf, u32 size)
 {
-    func_0207A890();
+    FSi_InitMemArchive();
     return FS_OpenFileDirect(p_file, &fsi_arc_mem, (u32)buf, (u32)buf + size, 0);
 }

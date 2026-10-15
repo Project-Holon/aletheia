@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02034F84 0x02034F84 arm
+ *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   OS_Terminate 0x02088234 arm
  *   OS_EnableIrqMask 0x02084968 arm
@@ -45,7 +45,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02034F84(int);
+extern void UI_SetKeepAwakeFlagsGlobal(int);
 extern int OS_IsRunOnTwl(void);
 extern void OS_Terminate(void);
 extern void OS_EnableIrqMask(int);
@@ -100,7 +100,7 @@ char *CTVT_CAMERA_Create(int id)
     ((struct Obj00917 *)p)->f24 = z;
     ((struct Obj00917 *)p)->f3C = z;
     ((struct Obj00917 *)p)->f40 = z;
-    func_02034F84(0x40);
+    UI_SetKeepAwakeFlagsGlobal(0x40);
     if (OS_IsRunOnTwl() == 1) {
         r = func_021B62A8();
         if (r == 0) r = func_021B62B0(3);

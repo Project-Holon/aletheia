@@ -1,5 +1,5 @@
 /*
- * function: func_021F6600
+ * function: EGG_DEMO_GRAPHIC_DeleteClact
  * address: 0x021F6600
  * packet: pkt_ov215_021F6600
  * region: ov215
@@ -20,4 +20,4 @@ typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,unsigned);
-void func_021F6600(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteClact(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}

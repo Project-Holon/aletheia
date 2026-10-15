@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4AC
+ * function: STAFF_ROLL_PrintText
  * address: 0x021BA4AC
  * packet: pkt_ov181_021BA4AC
  * region: ov181
@@ -22,7 +22,7 @@ struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *, short, short, void *, void *, unsigned short);
 extern const unsigned short d_021BAB40[];
-void func_021BA4AC(char *p, unsigned char *q, void *s, int y)
+void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
 {
     int x;
     unsigned w;

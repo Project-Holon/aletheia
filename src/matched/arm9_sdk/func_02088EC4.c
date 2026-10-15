@@ -1,5 +1,5 @@
 /*
- * function: func_02088EC4
+ * function: RtcGetResultCallback
  * address:  0x02088EC4
  * packet:   pkt_02088EC4
  * region:   arm9
@@ -16,7 +16,7 @@
 
 extern int g_02151428[];
 
-void func_02088EC4(int result)
+void RtcGetResultCallback(int result)
 {
     g_02151428[9] = result;
 }

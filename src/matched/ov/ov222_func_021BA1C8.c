@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1C8
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera
  * address:  0x021BA1C8
  * packet:   pkt_021BA1C8
  * region:   ov222
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(u32 x);
 
-void func_021BA1C8(u32 *p)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

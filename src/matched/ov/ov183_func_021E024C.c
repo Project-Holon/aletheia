@@ -10,7 +10,7 @@
  * trailing: two zero alignment bytes at 0x021E02F6
  * symbols:
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
- *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Sub0200852CObj;
 extern void BR_UTIL_MainListMenu(char *p);
-extern int BR_UTIL_GetListMenuField48(char *p);
+extern int BR_UTIL_GetListMenuHitId(char *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern void BR_UTIL_StartEffect(int, int, int *);
@@ -38,7 +38,7 @@ int func_021E024C(char *p, char *q)
     int selected, pressed;
     unsigned int x, y;
     BR_UTIL_MainListMenu(((struct Obj00277 *)p)->f18);
-    selected = BR_UTIL_GetListMenuField48(((struct Obj00277 *)p)->f18);
+    selected = BR_UTIL_GetListMenuHitId(((struct Obj00277 *)p)->f18);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
     pressed &= BR_BTN_HitTestWithSound((unsigned int *)(((struct Obj00277 *)p)->fC), x, y);
     if (selected != -1) {

@@ -1,7 +1,7 @@
 /*
  * file:     comm_btl_demo_graphic.c
  * unit:     yes
- * function: func_021BAB64, func_021BAC0C, func_021BAC68, func_021BAC7C, func_021BAC88, func_021BAC94, func_021BACA0, func_021BACB4, func_021BAD14, func_021BAD4C, func_021BAD50, func_021BAD58, func_021BAD98, func_021BADB4, func_021BADBC, func_021BADC8, func_021BAE40, func_021BAE50
+ * function: COMM_BTL_DEMO_GRAPHIC_Create, COMM_BTL_DEMO_GRAPHIC_Delete, COMM_BTL_DEMO_GRAPHIC_Draw, COMM_BTL_DEMO_GRAPHIC_Draw3d, COMM_BTL_DEMO_GRAPHIC_DrawEnd, COMM_BTL_DEMO_GRAPHIC_GetCamera, COMM_BTL_DEMO_GRAPHIC_VBlank, COMM_BTL_DEMO_GRAPHIC_InitBg, COMM_BTL_DEMO_GRAPHIC_DeleteBg, COMM_BTL_DEMO_GRAPHIC_Noop, COMM_BTL_DEMO_GRAPHIC_TickDisplay, COMM_BTL_DEMO_GRAPHIC_InitClact, COMM_BTL_DEMO_GRAPHIC_DeleteClact, COMM_BTL_DEMO_GRAPHIC_DrawClact, COMM_BTL_DEMO_GRAPHIC_VBlankClact, COMM_BTL_DEMO_GRAPHIC_InitG3d, COMM_BTL_DEMO_GRAPHIC_DeleteG3d, COMM_BTL_DEMO_GRAPHIC_DrawG3d, COMM_BTL_DEMO_GRAPHIC_DrawG3dEnd
  * address:  0x021BAB64
  * region:   ov213
  * compiler: dsi/1.1p1
@@ -11,6 +11,8 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * leaf: parent-cleared sole ov213 blocker of COMM_BTL_DEMO_GRAPHIC_DrawEnd; eight-byte tail stub.
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -28,18 +30,17 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_021BAE64 0x021BAE64 thumb ov213
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BB17C 0x021BB17C data a4
  *   d_021BB1F8 0x021BB1F8 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -63,6 +64,7 @@
  *   func_02047964  0x02047964  arm
  *   func_02048AD0    0x02048AD0  arm
  *   G3D_SYSTEM_ApplyLookAt    0x020479D8  arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 #include "../../matched/include/Obj25714.h"
 #include "../../matched/include/Obj25715.h"
@@ -98,16 +100,15 @@ extern void *func_020056A0(void *callback,void *ctx,int priority);
 extern void func_02030EAC(struct Node *);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
-extern void func_021BAE64(void *);
-extern void func_0203F8F4(unsigned);
+extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -126,25 +127,27 @@ extern void G3D_SYSTEM_Exit(int);
 extern void func_02047964(void);
 extern void func_02048AD0(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
-void *func_021BAB64(unsigned mode,unsigned heap);
-void func_021BAC0C(unsigned char *p);
-void func_021BAC68(char *p);
-void func_021BAC7C(char *p);
-void func_021BAC88(char *p);
-u32 func_021BAC94(char *p);
-void func_021BACA0(void *unused,char *p);
-void func_021BACB4(void *p, unsigned heap);
-void func_021BAD14(void *p);
-void func_021BAD4C(void *a0);
-void func_021BAD50(void *a0);
-void func_021BAD58(void **out, int a, int b);
-void func_021BAD98(void *p);
-void func_021BADB4(void *a0);
-void func_021BADBC(void *a0);
-void *func_021BADC4(void **p);
-void func_021BADC8(u32 **p,unsigned heap);
-void func_021BAE40(int *p);
-void func_021BAE50(int *p);
+extern void G3D_SYSTEM_DrawEnd(void);
+void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap);
+void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p);
+void COMM_BTL_DEMO_GRAPHIC_Draw(char *p);
+void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p);
+void COMM_BTL_DEMO_GRAPHIC_DrawEnd(char *p);
+u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p);
+void COMM_BTL_DEMO_GRAPHIC_VBlank(void *unused,char *p);
+void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap);
+void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p);
+void COMM_BTL_DEMO_GRAPHIC_Noop(void *a0);
+void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0);
+void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b);
+void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p);
+void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *a0);
+void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *a0);
+void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p);
+void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap);
+void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p);
+void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *p);
+void COMM_BTL_DEMO_GRAPHIC_DrawG3dEnd(void *unused);
 extern char d_021BB33C[];
 extern const struct DispVram d_021BB1C8;
 extern const unsigned d_021BB1F8[][11];
@@ -154,7 +157,8 @@ extern const Vec3 d_021BB158;
 extern Vec3 d_021BB164,d_021BB170;
 extern const unsigned char d_020A1EB8[];
 
-void *func_021BAB64(unsigned mode,unsigned heap)
+
+void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
     p=func_02030734(heap,16,0,d_021BB33C,0x1B4);
@@ -170,19 +174,20 @@ void *func_021BAB64(unsigned mode,unsigned heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021BACB4(p,heap);
-    func_021BAD58((void **)(p+4),(int)&d_021BB1C8,heap);
-    func_021BADC8((unsigned **)(p+8),heap);
-    ((struct Obj25714 *)p)->fC=func_020056A0((void *)func_021BACA0,p,0);
+    COMM_BTL_DEMO_GRAPHIC_InitBg(p,heap);
+    COMM_BTL_DEMO_GRAPHIC_InitClact((void **)(p+4),(int)&d_021BB1C8,heap);
+    COMM_BTL_DEMO_GRAPHIC_InitG3d((unsigned **)(p+8),heap);
+    ((struct Obj25714 *)p)->fC=func_020056A0((void *)COMM_BTL_DEMO_GRAPHIC_VBlank,p,0);
     return p;
 }
 
-void func_021BAC0C(unsigned char *p)
+
+void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p)
 {
     func_02030EAC(*(struct Node * *)&((struct Obj25715 *)p)->fC);
-    func_021BAE40((int *)(p + 8));
-    func_021BAD98(p + 4);
-    func_021BAD14(p);
+    COMM_BTL_DEMO_GRAPHIC_DeleteG3d((int *)(p + 8));
+    COMM_BTL_DEMO_GRAPHIC_DeleteClact(p + 4);
+    COMM_BTL_DEMO_GRAPHIC_DeleteBg(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -192,48 +197,58 @@ void func_021BAC0C(unsigned char *p)
     func_020307B0(p);
 }
 
+
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  * Preserve the pointer explicitly loaded before the no-op/global helper call.
  */
-void func_021BAC68(char *p) { func_021BADB4(p+4); func_021BAD4C(p); }
+void COMM_BTL_DEMO_GRAPHIC_Draw(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawClact(p+4); COMM_BTL_DEMO_GRAPHIC_Noop(p); }
 
-void func_021BAC7C(char *p) { func_021BAE50((int *)(p+8)); }
 
-void func_021BAC88(char *p) { func_021BAE64(p+8); }
+void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3d((int *)(p+8)); }
 
-u32 func_021BAC94(char *p) { return (u32)func_021BADC4((void **)((u32 *)(p+4))); }
 
-void func_021BACA0(void *unused,char *p) { func_021BAD50(p); func_021BADBC(p+4); }
+void COMM_BTL_DEMO_GRAPHIC_DrawEnd(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3dEnd(p+8); }
 
-void func_021BACB4(void *p, unsigned heap)
+
+u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p) { return (u32)COMM_BTL_DEMO_GRAPHIC_GetClactBank((void **)((u32 *)(p+4))); }
+
+
+void COMM_BTL_DEMO_GRAPHIC_VBlank(void *unused,char *p) { COMM_BTL_DEMO_GRAPHIC_TickDisplay(p); COMM_BTL_DEMO_GRAPHIC_VBlankClact(p+4); }
+
+
+void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap)
 {
     const unsigned *row;
     unsigned i, layer;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&d_021BB17C);
     for (i = 0; i < 6; i++) {
         row = d_021BB1F8[i];
         layer = row[0];
-        func_0203FCA0((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
+        BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
         func_020414AC(layer);
         func_02040588(layer, row[10]);
     }
 }
 
-void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
+
+void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+
 
 /*
  * Tail: two zero alignment bytes at 021BAD4E.
  */
-void func_021BAD4C(void *a0){}
-
-void func_021BAD50(void *a0){func_020419E4();}
+void COMM_BTL_DEMO_GRAPHIC_Noop(void *a0){}
 
 
-void func_021BAD58(void **out, int a, int b)
+void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0){func_020419E4();}
+
+
+
+void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((const struct Cfg *)(&d_021BB18C), a, b);
@@ -243,22 +258,27 @@ void func_021BAD58(void **out, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
+
 /*
  * Tail: two zero alignment bytes at 021BADB2.
  */
-void func_021BAD98(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
-void func_021BADB4(void *a0){CLACT_DrawSystem();}
 
-void func_021BADBC(void *a0){CLACT_VBlankSystem();}
+void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
 
-void *func_021BADC4(void **p){return *p;}
+
+void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
+
+
+void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p){return *p;}
+
 
 /*
  * lever: const ROM table orders signed halfword loads and pool entries.
  * width: both heap externs widened: 021BADD6/021BAE1C store full r1.
  */
-void func_021BADC8(u32 **p,unsigned heap)
+void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap)
 {
     Vec3 copy;
     G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021BAABC);
@@ -267,15 +287,19 @@ void func_021BADC8(u32 **p,unsigned heap)
 }
 
 
-void func_021BAE40(int *p)
+
+void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
 
 
-void func_021BAE50(int *p)
+
+void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *p)
 {
     func_02047964();
     func_02048AD0((struct Light *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }
+
+void COMM_BTL_DEMO_GRAPHIC_DrawG3dEnd(void *unused) { G3D_SYSTEM_DrawEnd(); }

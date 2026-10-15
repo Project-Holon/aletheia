@@ -1,5 +1,5 @@
 /*
- * function: func_02080100
+ * function: GX_SetBankForBGExtPltt
  * address:  0x02080100
  * packet:   pkt_02080100
  * region:   arm9
@@ -85,7 +85,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
-void func_02080100(int bgExtPltt)
+void GX_SetBankForBGExtPltt(int bgExtPltt)
 {
     gGXState.vramCnt_lcdc = (u16)(~bgExtPltt & (gGXState.vramCnt_lcdc | gGXState.vramCnt_bgExtPltt));
     gGXState.vramCnt_bgExtPltt = (u16)bgExtPltt;

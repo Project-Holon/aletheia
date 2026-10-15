@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020792B8  0x020792B8  arm
+ *   FS_UnloadOverlay  0x020792B8  arm
  *
  * Forwards `p`'s first field to an extern with a constant 0, then clears
  * `p`'s second field regardless of what the call returns.
  *
- * func_020792B8 is called from exactly this one site in the whole ROM, so
+ * FS_UnloadOverlay is called from exactly this one site in the whole ROM, so
  * the relocation has no `label` witness; it resolves on class `matched`
- * against src/matched/func_020792B8.c, which is EXACT since
+ * against src/matched/FS_UnloadOverlay.c, which is EXACT since
  * src/matched/unit_02079164.c attested its own callee.
  *
  * Verified with:
@@ -32,10 +32,10 @@ struct Obj02034A3C {
     u32 unk04;
 };
 
-extern int func_020792B8(u32 a, u32 b);
+extern int FS_UnloadOverlay(u32 a, u32 b);
 
 void GF_OVERLAY_ReleaseSlot(struct Obj02034A3C *p)
 {
-    func_020792B8(0, p->unk00);
+    FS_UnloadOverlay(0, p->unk00);
     p->unk04 = 0;
 }

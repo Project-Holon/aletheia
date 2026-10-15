@@ -1,5 +1,5 @@
 /*
- * function: func_0207608C
+ * function: CARDi_InitResourceLock
  * address:  0x0207608C
  * packet:   pkt_0207608C
  * region:   arm9
@@ -76,7 +76,7 @@ static inline void OS_InitThreadQueue(OSThreadQueue *queue)
     queue->head = queue->tail = (OSThread *)0;
 }
 
-void func_0207608C(void)
+void CARDi_InitResourceLock(void)
 {
     CARDiCommon *p = (CARDiCommon *)&cardi_common;
 

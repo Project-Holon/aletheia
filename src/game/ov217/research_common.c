@@ -14,7 +14,7 @@
  *
  * symbols:
  *   RESEARCH_COMMON_SetInputFlag 0x021C09FC thumb ov217
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
  *   RESEARCH_COMMON_Create  0x021C097C  thumb  ov217
  *   RESEARCH_COMMON_Destroy  0x021C099C  thumb  ov217
@@ -108,7 +108,7 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 slot);
 extern void CLACT_ReleasePalette(u32 resId);
 extern void MI_CpuFill8(void *dst, int val, u32 n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(const struct Ctx *ctx);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *ctx);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u32 CLACT_ExitSystem(u32 a);
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
@@ -311,7 +311,7 @@ void RESEARCH_COMMON_Init(struct ResearchCommon *common, const struct Ctx *ctx, 
 {
     common->heapId = heapId;
     common->ctx = ctx;
-    common->appResource = func_020120F4(ctx);
+    common->appResource = ICA_ANIME_GetField1C(ctx);
     RESEARCH_COMMON_InitClact(common);
     RESEARCH_COMMON_RegisterResources(common);
     RESEARCH_COMMON_CreateClactUnit(common);

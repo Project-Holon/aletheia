@@ -1,5 +1,5 @@
 /*
- * function: func_021F86EC
+ * function: BR_DOWNLOAD_DownloadTask
  * address: 0x021F86EC
  * packet: pkt_ov184_021F86EC
  * region: ov184
@@ -10,8 +10,8 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021F89D0 0x021F89D0 thumb ov184
- *   func_021F88E0 0x021F88E0 thumb ov184
+ *   BR_DOWNLOAD_ResetSlots 0x021F89D0 thumb ov184
+ *   BR_DOWNLOAD_End3d 0x021F88E0 thumb ov184
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
@@ -39,8 +39,8 @@ typedef struct Pair {int x,y;} Pair;
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 typedef unsigned int   u32;
-extern void func_021F89D0(int *a, char *p);
-extern void func_021F88E0(char *,char *);
+extern void BR_DOWNLOAD_ResetSlots(int *a, char *p);
+extern void BR_DOWNLOAD_End3d(char *,char *);
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void BR_UTIL_StartEffect(int,int,Pair *);
@@ -53,7 +53,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int BR_UTIL_ClearTaskStep(int *a);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
-void func_021F86EC(int *task,unsigned *state,char *p)
+void BR_DOWNLOAD_DownloadTask(int *task,unsigned *state,char *p)
 {
     Pair initial;
     Cfg cfg;
@@ -63,8 +63,8 @@ void func_021F86EC(int *task,unsigned *state,char *p)
     case 0:BR_FADE_Start(**(int * *)&((struct Obj00548 *)p)->f30,4,3,1);*state=1;break;
     case 1:if(BR_FADE_GetResult(**(int ** *)&((struct Obj00548 *)p)->f30)) *state=2;break;
     case 2:
-        func_021F89D0((int *)p,*(char * *)&((struct Obj00548 *)p)->f30);
-        func_021F88E0(p,*(char * *)&((struct Obj00548 *)p)->f30);
+        BR_DOWNLOAD_ResetSlots((int *)p,*(char * *)&((struct Obj00548 *)p)->f30);
+        BR_DOWNLOAD_End3d(p,*(char * *)&((struct Obj00548 *)p)->f30);
         ((struct Obj00548 *)p)->f10=BR_UTIL_CreateTextWin(((struct Obj24704 *)(*(char * *)&((struct Obj00548 *)p)->f30))->fC,(void *)(((struct Obj00548 *)p)->f20),((struct Obj00548 *)p)->f24);
         BR_UTIL_SetWindowText(((struct Obj00548 *)p)->f10,(char *)(((struct Obj24705 *)(*(char * *)&((struct Obj00548 *)p)->f30))->fC),(void *)0x145);
         initial.x=0x80;initial.y=0x60;

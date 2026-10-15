@@ -21,10 +21,10 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_0207D534  0x0207D534  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_02049B40  0x02049B40  arm
@@ -35,7 +35,7 @@
  *   FADE_IsActive  0x0204E804  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021BD944     0x021BD944  data  a4
  *   d_021BD8F4     0x021BD8F4  data  a4
  *   d_021BD904     0x021BD904  data  a4
@@ -76,10 +76,10 @@ struct BgTemplate;
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -90,7 +90,7 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
 extern void func_020409B4(u32 layer);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern const u8 d_021BD944[];
 extern const u8 d_021BD8F4[];
@@ -110,17 +110,17 @@ int STARTMENU_LogoScreenMain(int a0, int a1, int *mode, St *st)
         GX_SetVisibleWnd(0);
         GXS_SetVisibleWnd(0);
         BG_SYS_SetVramBanks((const struct DispVram *)d_021BD944);
-        func_0203F8F4(0x16);
+        BG_SYS_Create(0x16);
         func_0203FC28((struct DispConfig *)d_021BD8F4);
-        func_0203FCA0(1, (const struct BgTemplate *)d_021BD904, 0);
-        func_0203FCA0(5, (const struct BgTemplate *)d_021BD924, 0);
+        BG_SYS_InitBgLayer(1, (const struct BgTemplate *)d_021BD904, 0);
+        BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021BD924, 0);
         if (*mode == 1) {
-            func_0207D534((volatile u16 *)0x0400006C, -16);
-            func_0207D534((volatile u16 *)0x0400106C, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
             st->state = 7;
         } else {
-            func_0207D534((volatile u16 *)0x0400006C, 16);
-            func_0207D534((volatile u16 *)0x0400106C, 16);
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 16);
+            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 16);
             st->state = 1;
         }
         break;
@@ -206,7 +206,7 @@ int STARTMENU_LogoScreenMain(int a0, int a1, int *mode, St *st)
             st->state = 0xd;
         break;
     case 13:
-        func_0203F9B4();
+        BG_SYS_Delete();
         return 1;
     }
     return 0;

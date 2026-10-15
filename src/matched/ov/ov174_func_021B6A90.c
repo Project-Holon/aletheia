@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A90
+ * function: LOCAL_TVT_SYS_RunStep
  * address:  0x021B6A90
  * packet:   pkt_ov174_021B6A90
  * region:   ov174
@@ -31,7 +31,7 @@ typedef struct Ent {
 
 extern const Ent g_021B7398[];
 
-void func_021B6A90(Obj *o)
+void LOCAL_TVT_SYS_RunStep(Obj *o)
 {
     unsigned int cur = o->steps[o->stepIdx * 4];
 

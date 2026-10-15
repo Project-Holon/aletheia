@@ -35,7 +35,7 @@
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
  *   BOX2_UI_GetCloseButtonHit 0x021EF1B4 thumb
  *   BOX2_MAIN_StopSeq 0x021DD16C thumb
@@ -49,7 +49,7 @@
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
  *   BOX2_UI_GetPageButtonHit 0x021EF248 thumb
  *   BOX2_UI_SlideBarIn 0x021EF3D8 thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  */
 
 typedef struct {
@@ -77,7 +77,7 @@ extern const unsigned char d_021EF7B4[];
 extern void BOX2_UI_ToggleSlotPair(char *w, int a);
 extern int BOX2_UI_GetPageButtonHit(void);
 extern void BOX2_UI_SlideBarIn(struct WinMgr *mgr);
-extern unsigned func_0202136C(unsigned short v);
+extern unsigned FILE_UTIL_Check136C(unsigned short v);
 extern int BOX2_MAIN_CompareSlots(unsigned char *p, unsigned a, unsigned b);
 extern void BOX2_MAIN_PlaceMonSceneFromBox(int a, int b, int c, int d);
 extern int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
@@ -90,7 +90,7 @@ extern int BOX2_UI_GetPartySlotPoint(int a, int b);
 extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 extern int BOX2_UI_GetCloseButtonHit(void);
 extern void BOX2_MAIN_StopSeq(unsigned char *p, int dir);
@@ -158,7 +158,7 @@ int BOX2_SEQ_StateMachineMove(unsigned char *p)
                 b->state = 7;
             } else {
                 BOX2_MAIN_PlaceMonSceneFromBox((int)p, first, r, 1);
-                if (r == p[0x16] && (func_0202136C(CNT(p)) == 0 || first == p[0x16]))
+                if (r == p[0x16] && (FILE_UTIL_Check136C(CNT(p)) == 0 || first == p[0x16]))
                     BOX2_UI_CloseListPack(MGR(p));
                 b->state = 8;
             }
@@ -172,8 +172,8 @@ int BOX2_SEQ_StateMachineMove(unsigned char *p)
             BOX2_SEQ_SetSlotActors((char *)p, 0x81, 1);
             GFL_USE_PlaySeDefaultVolume(0x669);
             BOX2_UI_MoveCursor((char **)p, 6, p[0x16]);
-            func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
-            func_02026124(*(void **)(WORK(p) + 0x70), 0x28);
+            CURSOR_MOVE_ClearSkipBit(*(void **)(WORK(p) + 0x70), 0x27);
+            CURSOR_MOVE_ClearSkipBit(*(void **)(WORK(p) + 0x70), 0x28);
             BOX2_SEQ_SetActorDrawEnable(WORK(p), 4, 0);
             BOX2_UI_DeleteSlotObjects((char *)p, 2, 1, 1);
             p[0x1E] = 1;

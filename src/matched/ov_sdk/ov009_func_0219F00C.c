@@ -1,5 +1,5 @@
 /*
- * function: func_0219F00C
+ * function: ServerBrowserClear
  * address:  0x0219F00C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,17 +12,17 @@
  * Calls the two block helpers sixty bytes apart.
  *
  * symbols:
- *   func_0219EFF0  0x0219EFF0  arm  ov009
+ *   ServerBrowserHalt  0x0219EFF0  arm  ov009
  *   SBServerListClear  0x0219F830  arm  ov009
  */
 
-extern void func_0219EFF0(char *p);
+extern void ServerBrowserHalt(char *p);
 struct SBL;
 extern void SBServerListClear(struct SBL *slist);
 
-void func_0219F00C(char *p)
+void ServerBrowserClear(char *p)
 {
-    func_0219EFF0(p);
+    ServerBrowserHalt(p);
     SBServerListClear((struct SBL *)(p + 0x60));
 }
 

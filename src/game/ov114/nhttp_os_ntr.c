@@ -20,7 +20,7 @@
  *   OS_WakeupThreadDirect 0x02085868 arm
  *   NHTTPi_CommThreadProc 0x021B9C60 arm ov114
  *   OS_Terminate 0x02088234 arm
- *   g_02150FEC 0x02150FEC data
+ *   gMslRefToken 0x02150FEC data
  *   NHTTPi_CommThreadProcMain  0x021BE4D4  arm  ov114
  *   OS_JoinThread  0x02085710  arm  arm9
  */
@@ -49,7 +49,7 @@ void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread);
 extern void NHTTPi_CommThreadProcMain(void);
-extern OSInfo g_02150FEC;
+extern OSInfo gMslRefToken;
 
 
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p)
@@ -89,7 +89,7 @@ void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p)
 void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread)
 {
     int *commThread_p = (int *)threadInfo_p->commThread;
-    int *currentThread_p = g_02150FEC.current;
+    int *currentThread_p = gMslRefToken.current;
 
     if (currentThread_p) {
         if ((isCommThread == 0 && currentThread_p != commThread_p) || (isCommThread != 0 && currentThread_p == commThread_p)) {

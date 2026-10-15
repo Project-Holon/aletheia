@@ -19,10 +19,10 @@
  *   func_02030734  0x02030734  arm
  *   gFieldMenuFileName     0x021DDF94  data  ov021  a1
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_020120F8  0x020120F8  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_0201296C  0x0201296C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   func_02012944  0x02012944  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_020355C4  0x020355C4  arm
@@ -37,7 +37,7 @@
  *   func_02040588  0x02040588  arm
  *   FIELD_MENU_UpdateSelection  0x021A90E0  thumb  ov021
  *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
- *   func_020129C4  0x020129C4  thumb
+ *   GAME_DATA_GetFrameRate  0x020129C4  thumb
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
@@ -70,15 +70,15 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_SetSurfacePos  0x0204B09C  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_02041EE4  0x02041EE4  arm
- *   func_0207D534  0x0207D534  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   gFieldMenuBgTemplate5     0x021D8BBC  data  a4
  *   gFieldMenuBgTemplate6     0x021D8B5C  data  a4
  *   gFieldMenuBgTemplate7     0x021D8B7C  data  a4
  *   gFieldMenuScreenIds     0x021D8B44  data  a4
  *   gFieldMenuSurfaceRect     0x021D8C1C  data  a4
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -100,7 +100,7 @@
  *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   ZONEDATA_IsZone34  0x02013D20  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   gFieldMenuLayouts  0x021D8D24  data  a4
  *   func_02045B38  0x02045B38  arm
@@ -116,7 +116,7 @@
  *   gFieldMenuWindowPos     0x021D8B18  data  ov021  a1
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_0203F684  0x0203F684  arm
+ *   GF_STANDARD_Get_F684  0x0203F684  arm
  *   func_0207E5D0  0x0207E5D0  arm
  *   gFieldMenuCursorMoves     0x021D8C4C  data  ov021  a1
  *   gFieldMenuSlotCol     0x021D8B26  data  ov021  a1
@@ -348,10 +348,10 @@ struct BigObj;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
-extern void *func_020120F4(void *gameSystem);
-extern void *func_020120F8(void *gameSystem);
-extern u16 func_02012AC8(void *playerWork);
-extern void *func_0201296C(void *gameData);
+extern void *ICA_ANIME_GetField1C(void *gameSystem);
+extern void *ICA_ANIME_GetField114(void *gameSystem);
+extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
+extern void *GAME_DATA_GetEventWork(void *gameData);
 extern void *func_02012944(void *gameData);
 extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
 extern u8 func_020355C4(void);
@@ -360,7 +360,7 @@ extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *func_020490F4(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 func_02040588(u8 layer, u8 visible);
-extern u8 func_020129C4(void *gameData);
+extern u8 GAME_DATA_GetFrameRate(void *gameData);
 extern void CLACT_SetActorDrawEnable(void *actor, u32 drawEnable);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_ResumeField(void *parent, u32 heapId);
@@ -386,10 +386,10 @@ extern void FIELD_SUBSCREEN_SetPanelResult(void *parent, int mode);
 extern u32 PRINTSYS_QUE_Main(void *printQue);
 extern void CLACT_SetSurfacePos(void *surface, int a, FieldMenuScreenPos *offset);
 extern void CLACT_GetActorSurfacePos(void *actor, FieldMenuScreenPos *out, u16 space);
-extern void func_02041EE4(u32 layer, u32 type, u32 value);
-extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void func_020414EC(u32 layer);
+extern void BG_SYS_ResetSlot(u32 layer, u32 type, u32 value);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
+extern void BG_SYS_ClearSlot(u32 layer);
 extern void func_02049B68(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void func_02049658(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void func_020498F4(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
@@ -411,7 +411,7 @@ extern void CLACT_SetActorBgPriority(void *actor, int value);
 extern u32 ZONEDATA_IsZone1A6(u32 zoneId);
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
 extern u32 ZONEDATA_IsZone34(u16 zoneId);
-extern int func_02012B70(void *gameData);
+extern int GAME_DATA_GetIntrudeCount(void *gameData);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
@@ -422,7 +422,7 @@ extern void *func_02045EC0(void *msgBank, u32 index);
 extern u8 func_02008550(const void *myStatus);
 extern void STRBUF_Delete(void *strbuf);
 extern u32 MSGDATA_Delete(void *msgBank);
-extern short func_0203F684(unsigned short x);
+extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
@@ -502,14 +502,14 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
 
     menu = func_02030734(heapId, 0x138, 0, gFieldMenuFileName, 0x134);
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     menu->heapId = heapId;
     menu->subHeapId = subHeapId;
     menu->fieldMap = fieldMap;
     menu->parent = parent;
     menu->state = FIELD_MENU_STATE_WAIT_PRINT;
-    menu->zoneId = func_02012AC8(func_020120F8(gameSystem));
-    menu->eventWork = func_0201296C(gameData);
+    menu->zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
+    menu->eventWork = GAME_DATA_GetEventWork(gameData);
     menu->myStatus = func_02012944(gameData);
     menu->mapInfo = FIELDMAP_GetMsgBg(fieldMap);
     menu->cursorCol = 0;
@@ -534,7 +534,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
         FIELD_MENU_UpdateSelection(menu);
         FIELD_MENU_SetScrolledOut(menu);
     } else {
-        FIELD_MENU_SelectButton(menu, func_020129C4(gameData));
+        FIELD_MENU_SelectButton(menu, GAME_DATA_GetFrameRate(gameData));
         menu->cursorDirty = 1;
         if (menu->keyCursorActive != 0) {
             CLACT_SetActorDrawEnable(menu->cursorActor, 1);
@@ -735,8 +735,8 @@ void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu)
 void FIELD_MENU_ApplyBgScroll(FieldMenu *menu)
 {
     if (menu->scrollDirty == 1) {
-        func_02041EE4(5, 3, -menu->scrollY);
-        func_02041EE4(6, 3, -FIELD_MENU_LAYER6_OFFSET - menu->scrollY);
+        BG_SYS_ResetSlot(5, 3, -menu->scrollY);
+        BG_SYS_ResetSlot(6, 3, -FIELD_MENU_LAYER6_OFFSET - menu->scrollY);
         menu->scrollDirty = 0;
     }
 }
@@ -752,16 +752,16 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     FieldMenuActorPos pos;
     FieldMenuSurfaceRect surfaceRect;
 
-    func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_0203FCA0(5, &gFieldMenuBgTemplate5, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
+    BG_SYS_InitBgLayer(5, &gFieldMenuBgTemplate5, 0);
     func_02040588(5, 1);
-    func_020414EC(5);
-    func_0203FCA0(6, &gFieldMenuBgTemplate6, 0);
+    BG_SYS_ClearSlot(5);
+    BG_SYS_InitBgLayer(6, &gFieldMenuBgTemplate6, 0);
     func_02040588(6, 1);
-    func_020414EC(6);
-    func_0203FCA0(7, &gFieldMenuBgTemplate7, 0);
+    BG_SYS_ClearSlot(6);
+    BG_SYS_InitBgLayer(7, &gFieldMenuBgTemplate7, 0);
     func_02040588(7, 1);
-    func_020414EC(7);
+    BG_SYS_ClearSlot(7);
     func_02040618(6, 3, -FIELD_MENU_LAYER6_OFFSET);
     func_02049B68(arcHandle, 0, 4, 0, 0, menu->subHeapId);
     func_02049658(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
@@ -821,7 +821,7 @@ u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId)
         layoutType = 1;
     } else if (ZONEDATA_IsZone34(zoneId)) {
         layoutType = 4;
-    } else if (func_02012B70(gameData)) {
+    } else if (GAME_DATA_GetIntrudeCount(gameData)) {
         layoutType = 5;
     } else if (!ZONEDATA_CheckEventFlag(eventWork, 0x961)) {
         layoutType = 3;
@@ -920,7 +920,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
 /* Task proc: cycles two palette colors of the menu with a sine of the phase counter. */
 void FIELD_MENU_ColorTask(void *taskHandle, FieldMenu *menu)
 {
-    s32 wave = func_0203F684((u16)menu->colorPhase) + 0x1000;
+    s32 wave = GF_STANDARD_Get_F684((u16)menu->colorPhase) + 0x1000;
     u16 colors[2];
 
     colors[1] = (wave * 8 / 0x2000 + 9) | ((0x1F << 10) | ((wave * 5 / 0x2000 + 0x12) << 5));

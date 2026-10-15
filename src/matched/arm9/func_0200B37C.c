@@ -1,5 +1,5 @@
 /*
- * function: func_0200B37C
+ * function: GIMMICK_WORK_Reset
  * address:  0x0200B37C
  * packet:   pkt_0200B37C
  * region:   arm9
@@ -15,7 +15,7 @@ struct Struct_0200B37C {
     int entries[32];
 };
 
-void func_0200B37C(struct Struct_0200B37C *p)
+void GIMMICK_WORK_Reset(struct Struct_0200B37C *p)
 {
     int i;
     p->header = -1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0208EFC4
+ * function: WM_GetDispersionScanPeriod
  * address:  0x0208EFC4
  * packet:   pkt_0208EFC4
  * region:   arm9
@@ -57,7 +57,7 @@ typedef struct WMArm9Buf {
 
 extern void OS_GetMacAddress(u8 *macAddress);
 
-u16 func_0208EFC4(void)
+u16 WM_GetDispersionScanPeriod(void)
 {
     u8 mac[6];
     u16 ret;

@@ -12,15 +12,15 @@
  * sdk:      DWC_ScInitialize (libdwcsc.TWL.HYB.a dwc_sc.o)
  *
  * symbols:
- *   func_0217CA40  0x0217CA40  arm  ov009
+ *   gsCoreInitialize  0x0217CA40  arm  ov009
  *   DWCi_ScSetUseSSL  0x021DF734  arm  ov175
- *   func_0216AA9C  0x0216AA9C  arm  ov009
+ *   DWCi_GetAuthInfo  0x0216AA9C  arm  ov009
  *   wsLoginRemoteAuth  0x021E2510  arm  ov175
  *   DWCi_ScPrintf  0x021DF4A4  arm  ov175
  *   DWCi_ScGetRequestErrorCode  0x021DF644  arm  ov175
  *   func_02059F54  0x02059F54  arm
  *   OS_Sleep  0x02085A38  arm
- *   func_0217CCCC  0x0217CCCC  arm  ov009
+ *   gsCoreThink  0x0217CCCC  arm  ov009
  *   func_02059E18  0x02059E18  arm
  *   scInitialize  0x021DF9D8  arm  ov175
  *   DWCi_DWCScResultToDWCError  0x021DF5E4  arm  ov175
@@ -30,15 +30,15 @@
  *   g_021E4D0C  0x021E4D0C  data
  */
 
-extern void func_0217CA40(void);
+extern void gsCoreInitialize(void);
 extern void DWCi_ScSetUseSSL(int ssl_type);
-extern int func_0216AA9C(char **authToken, char **partnerChallenge);
+extern int DWCi_GetAuthInfo(char **authToken, char **partnerChallenge);
 extern int wsLoginRemoteAuth(int partnerCode, int namespaceId, char *authtoken, char *partnerChallenge, void *userCallback, void *userData);
 extern void DWCi_ScPrintf(int line, char *fmt, ...);
 extern int DWCi_ScGetRequestErrorCode(int process, int error);
 extern void func_02059F54(int error, int errorCode);
 extern void OS_Sleep(unsigned long msec);
-extern void func_0217CCCC(unsigned int theMS);
+extern void gsCoreThink(unsigned int theMS);
 extern int func_02059E18(int *errorCode);
 typedef unsigned int   u32;
 extern int scInitialize(u32 *p, u32 *out);
@@ -55,9 +55,9 @@ int DWC_ScInitialize(int theGameId, int ssl_type)
     char *authToken;
     char *partnerChallenge;
 
-    func_0217CA40();
+    gsCoreInitialize();
     DWCi_ScSetUseSSL(ssl_type);
-    func_0216AA9C(&authToken, &partnerChallenge);
+    DWCi_GetAuthInfo(&authToken, &partnerChallenge);
     gDwcScControl = 0;
     result = wsLoginRemoteAuth(0, theGameId, authToken, partnerChallenge,
                            (void (*)(int, void *, void *))DWCi_ScLoginCallback, 0);
@@ -68,7 +68,7 @@ int DWC_ScInitialize(int theGameId, int ssl_type)
     }
     while (gDwcScControl == 0) {
         OS_Sleep(10);
-        func_0217CCCC(0);
+        gsCoreThink(0);
     }
     if (func_02059E18(0) != 0)
         return 7;

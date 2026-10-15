@@ -25,8 +25,8 @@
  *   MUSICAL_EVENT_SetPokemonNameWord  0x02156AD4  thumb  ov010
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
- *   func_0200A7A0  0x0200A7A0  thumb
- *   func_0200A7F8  0x0200A7F8  thumb
+ *   MUSICAL_SAVE_GetEquippedProp  0x0200A7A0  thumb
+ *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
@@ -60,8 +60,8 @@ extern void MUSICAL_EVENT_SetPlayerNameWord(struct Work *w, u8 j, void *ws, u32 
 extern void MUSICAL_EVENT_SetPokemonNameWord(struct Work *w, u8 j, void *ws, u32 slot);
 extern void *GAME_DATA_GetSaveBlock2A(void *h);
 extern int GAME_DATA_GetExternalWork(char *base);
-extern u8 func_0200A7A0(struct Big *p, u32 index);
-extern u8 *func_0200A7F8(struct Big *p);
+extern u8 MUSICAL_SAVE_GetEquippedProp(struct Big *p, u32 index);
+extern u8 *MUSICAL_SAVE_GetStageData(struct Big *p);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -95,7 +95,7 @@ int SCRCMD_MUSICAL_BufferString(Ctx *c, void *vm)
         void *sv = GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(vm));
 
         str = STRBUF_Create(0x26, heap);
-        STRBUF_SetStringN(str, (const u16 *)func_0200A7F8(sv), 0x26);
+        STRBUF_SetStringN(str, (const u16 *)MUSICAL_SAVE_GetStageData(sv), 0x26);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         break;
@@ -146,7 +146,7 @@ int SCRCMD_MUSICAL_BufferString(Ctx *c, void *vm)
 
         for (i = 0; i < 4; i++) {
             idx[i] = i;
-            val[i] = func_0200A7A0(sv, i);
+            val[i] = MUSICAL_SAVE_GetEquippedProp(sv, i);
         }
         for (i = 1; i < 4; i++) {
             for (j = 0; j < 4 - i; j++) {

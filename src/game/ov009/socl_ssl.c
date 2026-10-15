@@ -15,7 +15,7 @@
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
- *   func_0215CF88  0x0215CF88  arm  ov009
+ *   SOCLi_ExecCommandPacketInRecvPipe  0x0215CF88  arm  ov009
  *   OS_LockMutex  0x02086028  arm
  *   CPS_SetSsl  0x02162E94  arm  ov009
  *   func_02086078  0x02086078  arm
@@ -55,7 +55,7 @@ typedef struct {
 
 extern int func_0215F3D0(Sock_0215FC80 *socket);
 extern void *func_0215CE3C(int (*handler)(void *), void *socket, long flag);
-extern int func_0215CF88(void *socket, void *command);
+extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
 extern void OS_LockMutex(void *mutex);
 extern void CPS_SetSsl(int mode);
 extern void func_02086078(void *mutex);
@@ -113,7 +113,7 @@ int func_0215FD00(void *socket, void *con)
 		return -33;
 	}
 	command[4] = (int)con;
-	return func_0215CF88(socket, command);
+	return SOCLi_ExecCommandPacketInRecvPipe(socket, command);
 }
 
 

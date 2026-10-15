@@ -27,7 +27,7 @@
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   WORLDTRADE_ENTER_ClearListRange 0x021F8990 thumb ov135
@@ -67,12 +67,12 @@
  *   func_021D5C70 0x021D5C70 thumb ov115
  *   func_021C8658 0x021C8658 arm ov114
  *   DWC_ShutdownFriendsMatch 0x0216AD50 arm ov009
- *   func_0205CC20 0x0205CC20 arm
+ *   DWC_CleanupInet 0x0205CC20 arm
  *   WORLDTRADE_ADAPTER_StartPrintStream 0x02202878 thumb ov135
  *   WORLDTRADE_ADAPTER_StrObjThunk 0x022026C4 thumb ov135
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   tbl_022031EC   0x022031EC  data
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   data_02203200  0x02203200  data
  *   data_02203206  0x02203206  data
  *   data_0220322A  0x0220322A  data
@@ -87,6 +87,7 @@
  *   WORLDTRADE_INPUT_PrintCentered  0x021F9218  thumb
  *   WORLDTRADE_INPUT_PrintStringPlain  0x021F90A0  thumb
  *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
+ *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  */
 #include "worldtrade_types.h"
 #include "../../matched/include/Obj23396.h"
@@ -105,7 +106,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -157,7 +158,7 @@ extern int func_02168124(void);
 
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 
-extern int func_02009CC0(void *a0);
+extern int WIFILIST_GetGsProfileId(void *a0);
 
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 
@@ -197,7 +198,7 @@ extern int func_021D5C70(u8 *p);
 
 extern void DWC_ShutdownFriendsMatch(void);
 
-extern void func_0205CC20(void);
+extern void DWC_CleanupInet(void);
 
 extern void func_0201F73C(void *, int, int, int);
 
@@ -211,7 +212,7 @@ extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 
 void WORLDTRADE_ENTER_ClearFlags(Work *p,u32 n);
@@ -458,7 +459,7 @@ int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
     u32 id;
     u64 key;
     handle = func_02009860(p->ctx->wifiList);
-    func_02008540(p->ctx->f1C, func_02009CC0(p->ctx->wifiList));
+    func_02008540(p->ctx->f1C, WIFILIST_GetGsProfileId(p->ctx->wifiList));
     id = func_0200853C(p->ctx->f1C);
     key = DWC_CreateFriendKey(handle);
     DPW_TR_Init(id, (u32)key, (u32)(key >> 32), 0);
@@ -617,7 +618,7 @@ int WORLDTRADE_ENTER_PushWifiSetup(Work *p)
     p->saveArgs = func_02030734(0x48, sizeof(NetSaveProcArgs), 0, str_02203C34, 0x263);
     MI_CpuFill8(p->saveArgs, 0, sizeof(NetSaveProcArgs));
     args = p->saveArgs;
-    args->handle = func_020120F4(p->ctx->f40);
+    args->handle = ICA_ANIME_GetField1C(p->ctx->f40);
     args->mode = 0;
     args->enabled = 1;
     args->buf = p->netBuf;
@@ -655,7 +656,7 @@ int WORLDTRADE_ENTER_PushWifiError(Work *p)
     p->netArgs = func_02030734(72, sizeof(NetProcArgs), 0, str_02203C34, 689);
     MI_CpuFill8(p->netArgs, 0, sizeof(NetProcArgs));
     args = p->netArgs;
-    args->save = func_020120F4(p->ctx->f40);
+    args->save = ICA_ANIME_GetField1C(p->ctx->f40);
     args->zero = 0;
     args->enabled = 1;
     args->callback = WORLDTRADE_ENTER_StateAbortConnect;
@@ -797,7 +798,7 @@ int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
     case 3:
         func_021C8658();
         DWC_ShutdownFriendsMatch();
-        func_0205CC20();
+        DWC_CleanupInet();
         (p->fF88)++;
         break;
     default:
@@ -897,7 +898,7 @@ void ov135_func_021F9260(Menu *p, u32 mode)
 {
     int i;
 
-    func_02040C14(p->layer, 0, 1, 0);
+    BG_SYS_Init(p->layer, 0, 1, 0);
     switch (mode) {
     case 4:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);

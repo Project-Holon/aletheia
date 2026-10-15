@@ -1,5 +1,5 @@
 /*
- * function: func_021B99E8
+ * function: THE_END_GRAPHIC_Update
  * address:  0x021B99E8
  * packet:   pkt_ov182_021B99E8
  * region:   ov182
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9B10  0x021B9B10  thumb  ov182
- *   func_021B9AA8  0x021B9AA8  thumb  ov182
+ *   THE_END_GRAPHIC_DrawActors  0x021B9B10  thumb  ov182
+ *   THE_END_GRAPHIC_Dummy2  0x021B9AA8  thumb  ov182
  */
 
-extern void func_021B9B10(void *);
-extern void func_021B9AA8(void *);
+extern void THE_END_GRAPHIC_DrawActors(void *);
+extern void THE_END_GRAPHIC_Dummy2(void *);
 
-void func_021B99E8(char *p)
+void THE_END_GRAPHIC_Update(char *p)
 {
-    func_021B9B10(p + 4);
-    func_021B9AA8(p);
+    THE_END_GRAPHIC_DrawActors(p + 4);
+    THE_END_GRAPHIC_Dummy2(p);
 }

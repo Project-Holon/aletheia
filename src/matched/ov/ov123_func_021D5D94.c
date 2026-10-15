@@ -17,7 +17,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -46,7 +46,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 struct Bank;
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GX_DispOn(void);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -69,7 +69,7 @@ u8 *GSYNC_DISP_Init(u32 heap)
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0); BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
-    func_0203F8F4(((struct Obj04498 *)p)->f43C4);
+    BG_SYS_Create(((struct Obj04498 *)p)->f43C4);
     CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)gGsyncDispClactParam,((struct Obj04498 *)p)->f43C4);
     ((struct Obj04498 *)p)->fC=CLACT_CreateUnit(40,0,((struct Obj04498 *)p)->f43C4);
     BG_SYS_SetVramBanks((const struct DispVram *)gGsyncDispClactParam); func_0203FC28((struct DispConfig *)gGsyncDispDisplayConfig);

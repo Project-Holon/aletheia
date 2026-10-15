@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02076360",
+   "name": "CARDi_DCInvalidateSmart",
    "address": "0x02076360",
    "kind": "sdk",
    "region": "arm9",

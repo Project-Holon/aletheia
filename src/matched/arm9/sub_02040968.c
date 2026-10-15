@@ -1,5 +1,5 @@
 ﻿/*
- * function: sub_02040968
+ * function: BG_SYS_SetupMemory
  * address:  0x02040968
  * packet:   pkt_02040618
  * region:   arm9
@@ -40,8 +40,8 @@
  * remainder rather than at the `size == 0` test.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02040968.c \
- *       --func sub_02040968 --addr 0x02040968 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetupMemory.c \
+ *       --func BG_SYS_SetupMemory --addr 0x02040968 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ extern void MI_UncompressLZ8(void *dest, const void *src, u32 size);
 extern void MIi_CpuCopy32(void *dest, const void *src, u32 size);
 extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
 
-void sub_02040968(void *dest, const void *src, u32 size)
+void BG_SYS_SetupMemory(void *dest, const void *src, u32 size)
 {
     if (size == 0) {
         MI_UncompressLZ8(dest, src, size);

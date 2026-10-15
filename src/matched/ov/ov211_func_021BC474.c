@@ -1,5 +1,5 @@
 /*
- * function: func_021BC474
+ * function: ZUKAN_SEARCH_SCREEN_LoadGraphics
  * address: 0x021BC474
  * packet: pkt_ov211_021BC474
  * region: ov211
@@ -26,7 +26,7 @@ extern void palette(void *,u32,u32,u32,u32,u16);
 extern void screen(void *,u32,u32,u32,u32,u32,u16);
 extern void tiles(void *,u32,u32,u32,u32,u32,u16);
 extern void close(void *);
-void func_021BC474(struct Object *p)
+void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct Object *p)
 {
     void *arc;
     arc=open(159,0x807E);

@@ -24,10 +24,10 @@
  *   sFileNetWhPipe 0x02179780  data   a1
  *   func_02030734  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_0208F1B4  0x0208F1B4  arm
+ *   WM_GetNextTgid  0x0208F1B4  arm
  *   WIH_Initialize  0x021790E4  thumb  ov014
  *   WIH_SetGgid  0x02178E1C  thumb  ov014
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -78,10 +78,10 @@ extern int WM_GetLinkLevel(void);
 int DWCi_MOV_WH_GetLastError(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_NET_GetInitParam(void);
-extern u16 func_0208F1B4(void);
+extern u16 WM_GetNextTgid(void);
 extern int WIH_Initialize(u32 heap, int a, int b);
 extern void WIH_SetGgid(u32 v);
-u16 func_0203F1FC(const u8 *src, u32 len);
+u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
 void MI_CpuCopy8(const void *src, void *dst, int size);
 extern void MI_CpuFill8(void *, u32, u32);
@@ -324,7 +324,7 @@ int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
     work->userData = userData;
     work->shutdownRequest = 0;
     work->startedFlag = 0;
-    work->tgid = func_0208F1B4();
+    work->tgid = WM_GetNextTgid();
     return 1;
 }
 
@@ -367,7 +367,7 @@ int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry)
         return 0;
     if (beacon->reserved != 0)
         return 0;
-    if (beacon->checksum != func_0203F1FC((u8 *)beacon + 2, 0x6e))
+    if (beacon->checksum != GF_STANDARD_SetupCalc((u8 *)beacon + 2, 0x6e))
         return 0;
     if (beacon->ggid != ggid)
         return 0;
@@ -432,7 +432,7 @@ int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags)
         return 0;
     if ((flags & WHPIPE_CHECK_RESERVED) && beacon->reserved != 0)
         return 0;
-    if ((flags & WHPIPE_CHECK_CHECKSUM) && beacon->checksum != func_0203F1FC((u8 *)beacon + 2, 0x6e))
+    if ((flags & WHPIPE_CHECK_CHECKSUM) && beacon->checksum != GF_STANDARD_SetupCalc((u8 *)beacon + 2, 0x6e))
         return 0;
     if ((flags & WHPIPE_CHECK_GGID) && beacon->ggid != ggid)
         return 0;
@@ -942,7 +942,7 @@ void NET_WHPIPE_TaskConnectParent(WhPipeWork *work)
         else
             channel = work->channel;
         if (net->bRenewTgid != 0)
-            work->tgid = func_0208F1B4();
+            work->tgid = WM_GetNextTgid();
         NET_WHPIPE_PublishBeacon();
         WIH_ParentConnect(connectModeTable[net->bMPMode], work->tgid, channel, net->maxConnectNum - 1);
         NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
@@ -972,7 +972,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
     WhPipeWork *work = g_pWhPipeWork;
     WhPipeNetInit *net = GFL_NET_GetInitParam();
     if (work != 0 && net != 0) {
-        ((WhPipeBeacon *)buf)->checksum = func_0203F1FC(buf + 2, len - 2);
+        ((WhPipeBeacon *)buf)->checksum = GF_STANDARD_SetupCalc(buf + 2, len - 2);
         DWCi_ScreenDC_FlushRange(buf, len);
         if (WIH_GetSysState() == 1) {
             func_02178E28(buf, (u16)len);

@@ -1,5 +1,5 @@
 /*
- * function: func_0205E8BC
+ * function: GetNextAroundChannel
  * address:  0x0205E8BC
  * packet:   pkt_0205E8BC
  * region:   arm9
@@ -144,7 +144,7 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 
 extern u16 WCM_GetAllowedChannel(void);
 
-s8 func_0205E8BC(s8 now_ch)
+s8 GetNextAroundChannel(s8 now_ch)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u16 mask;

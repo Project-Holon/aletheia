@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 struct Ctx;
 struct Desc;
 struct Obj;
-void *func_0201210C(const struct Ctx *p);
+void *ICA_ANIME_GetField20(const struct Ctx *p);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void MI_CpuFill8(void *p, int v, int n);
@@ -35,7 +35,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void);
 
 void *EVENT_COMM_COMMON_CreateMissionResultEvent(void *p, int a)
 {
-    void *v = func_0201210C(p);
+    void *v = ICA_ANIME_GetField20(p);
     void *r = func_020122C0(p, 0, EVENT_COMM_COMMON_MissionResultEventMain, 0x138);
     u16 *q = func_020124E8(r);
 

@@ -19,7 +19,7 @@
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   func_02008550  0x02008550  thumb
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
@@ -64,7 +64,7 @@ typedef struct Obj {
 
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
-extern void func_0207ADC4(Mtx33 *m);
+extern void MTX_Identity33_(Mtx33 *m);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
@@ -93,7 +93,7 @@ void FIELD_FK_DEMO_InitModel(Obj *o, void *a1, int a2, int a3, int idx)
     o->scale.x = 0x1000;
     o->scale.y = 0x1000;
     o->scale.z = 0x1000;
-    func_0207ADC4(&o->rot);
+    MTX_Identity33_(&o->rot);
     if (func_02008550((const struct Sub0200852CObj *)a2) == 0) {
         k = idx * 6;
         o->res0 = G3D_SYSTEM_CreateResourceArcHandle((u32)h, k + 3);

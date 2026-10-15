@@ -11,18 +11,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0,
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
+ * function: WORLDTRADE_SetPokemon, WORLDTRADE_SetLastTradeId, WORLDTRADE_SetLastSearchId, WORLDTRADE_GetReturnBox,
+ *           REGULATION_GetCompetitionSize, REGULATION_Create, REGULATION_Copy, REGULATION_NoOp,
+ *           REGULATION_GetCupName, REGULATION_CreateCupName, REGULATION_GetRuleValue, REGULATION_SetRuleValue,
+ *           REGULATION_GetVetoBit, REGULATION_GetShooterSettings, REGULATION_Card_GetCupName, REGULATION_Card_GetValue,
+ *           REGULATION_Card_SetValue, REGULATION_Card_IsCrcValid, REGULATION_Card_CalcCrc, REGULATION_GetCard,
+ *           REGULATION_SetCard, REGULATION_InitParty, REGULATION_GetParty, REGULATION_Party_GetValue,
+ *           REGULATION_Party_SetValue
  *
  * symbols:
  *   func_0200ADF0_File  0x020A71B4  data
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_Delete  0x02045C04  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *
  * alias: the original source file is named in the image.  The constructor at
  * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
@@ -43,7 +44,7 @@
  * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
  * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
  * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
+ * the three bitmaps at +0x0A, +0x5C and +0xAC that REGULATION_GetVetoBit tests a bit
  * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
  * larger record that contains this one at offset 0, over ids 1..12 and a set
  * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
@@ -57,7 +58,7 @@
  *    is what reads the case list back: an entry pointing at the common exit
  *    is a case that is absent from the source, which is how ids 9, 10 and 14
  *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
+ *  - REGULATION_Card_GetValue falls off the end of its switch with no return statement,
  *    and the original's default arm is a bare `bx lr` that returns the
  *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
  *    an instruction and moves every case body.
@@ -67,7 +68,7 @@
  *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
  *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
  *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
+ *    or casting, gives `lsrs` and two bytes wrong in REGULATION_Party_GetValue.
  */
 #include "../include/Obj17006.h"
 
@@ -88,7 +89,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern const char func_0200ADF0_File[];
 
@@ -126,49 +127,49 @@ struct RegB {
     u32 unkF4;
 };
 
-void func_0200AE18(struct Reg *p, void *dest);
+void REGULATION_GetCupName(struct Reg *p, void *dest);
 
-void func_0200ADB8(void *dest, const void *src, u32 a2)
+void WORLDTRADE_SetPokemon(void *dest, const void *src, u32 a2)
 {
     MI_CpuCopy8(src, dest, func_020173EC());
 }
 
-void func_0200ADD0(struct RegB *p, u32 value)
+void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value)
 {
     p->unkF0 = value;
 }
 
-void func_0200ADD8(struct RegB *p, u32 value)
+void WORLDTRADE_SetLastSearchId(struct RegB *p, u32 value)
 {
     p->unkF4 = value;
 }
 
-u16 func_0200ADE0(struct RegB *p)
+u16 WORLDTRADE_GetReturnBox(struct RegB *p)
 {
     return p->unkEE;
 }
 
-u32 func_0200ADE8(void)
+u32 REGULATION_GetCompetitionSize(void)
 {
     return 0x2FC;
 }
 
-struct Reg *func_0200ADF0(u32 heap)
+struct Reg *REGULATION_Create(u32 heap)
 {
     return func_02030734(heap, sizeof(struct Reg), 1, func_0200ADF0_File,
                          0x73);
 }
 
-void func_0200AE08(const struct Reg *src, struct Reg *dest)
+void REGULATION_Copy(const struct Reg *src, struct Reg *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Reg));
 }
 
-void func_0200AE14(void)
+void REGULATION_NoOp(void)
 {
 }
 
-void func_0200AE18(struct Reg *p, void *dest)
+void REGULATION_GetCupName(struct Reg *p, void *dest)
 {
     void *g = func_02045B38(0, 2, 0xA6, 1);
 
@@ -176,15 +177,15 @@ void func_0200AE18(struct Reg *p, void *dest)
     MSGDATA_Delete(g);
 }
 
-void *func_0200AE3C(struct Reg *p, u32 heap)
+void *REGULATION_CreateCupName(struct Reg *p, u32 heap)
 {
     void *dest = STRBUF_Create(0x1A, heap);
 
-    func_0200AE18(p, dest);
+    REGULATION_GetCupName(p, dest);
     return dest;
 }
 
-u32 func_0200AE54(struct Reg *p, u32 id)
+u32 REGULATION_GetRuleValue(struct Reg *p, u32 id)
 {
     u32 v = 0;
 
@@ -213,7 +214,7 @@ u32 func_0200AE54(struct Reg *p, u32 id)
     return v;
 }
 
-void func_0200AEE8(struct Reg *p, u32 id, s32 value)
+void REGULATION_SetRuleValue(struct Reg *p, u32 id, s32 value)
 {
     switch (id) {
     case 0:  if (value < 7)     { p->unk00 = value; } break;
@@ -239,7 +240,7 @@ void func_0200AEE8(struct Reg *p, u32 id, s32 value)
     }
 }
 
-u32 func_0200AFD4(struct Reg *p, u32 id, s32 n)
+u32 REGULATION_GetVetoBit(struct Reg *p, u32 id, s32 n)
 {
     s32 byte = n / 8;
     s32 bit  = n % 8;
@@ -269,10 +270,10 @@ struct RegAC {
     u8 unk7;
 };
 
-void func_0200B040(struct Reg *p, struct RegAC *out)
+void REGULATION_GetShooterSettings(struct Reg *p, struct RegAC *out)
 {
     MI_CpuFill8(out, 0, sizeof(struct RegAC));
-    out->unk7 = func_0200AE54(p, 13);
+    out->unk7 = REGULATION_GetRuleValue(p, 13);
     if (out->unk7 >= 2) {
         out->unk7 = 1;
     }
@@ -297,12 +298,12 @@ struct Reg2 {
     u16 unk15E;
 };
 
-u8 *func_0200B074(struct Reg2 *p)
+u8 *REGULATION_Card_GetCupName(struct Reg2 *p)
 {
     return p->unkC0;
 }
 
-s32 func_0200B078(struct Reg2 *p, u32 id)
+s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id)
 {
     switch (id) {
     case 1:  return p->unkBC;
@@ -320,7 +321,7 @@ s32 func_0200B078(struct Reg2 *p, u32 id)
     }
 }
 
-void func_0200B110(struct Reg2 *p, u32 id, s32 value)
+void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value)
 {
     switch (id) {
     case 1:  p->unkBC  = value; break;
@@ -355,42 +356,42 @@ struct RecBig {
     struct Rec1E unk2C0[1];
 };
 
-u16 func_0200B1C4(struct Reg2 *p);
+u16 REGULATION_Card_CalcCrc(struct Reg2 *p);
 
-u32 func_0200B1A8(struct Reg2 *p)
+u32 REGULATION_Card_IsCrcValid(struct Reg2 *p)
 {
-    if (p->unk15E == func_0200B1C4(p)) {
+    if (p->unk15E == REGULATION_Card_CalcCrc(p)) {
         return 1;
     }
     return 0;
 }
 
-u16 func_0200B1C4(struct Reg2 *p)
+u16 REGULATION_Card_CalcCrc(struct Reg2 *p)
 {
-    return func_0203F1FC((const u8 *)p, 0x15E);
+    return GF_STANDARD_SetupCalc((const u8 *)p, 0x15E);
 }
 
-struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index)
+struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index)
 {
     return &arr[index];
 }
 
-void func_0200B1E0(struct Rec160 *arr, u32 index, const struct Rec160 *src)
+void REGULATION_SetCard(struct Rec160 *arr, u32 index, const struct Rec160 *src)
 {
     arr[index] = *src;
 }
 
-void func_0200B1F8(struct Rec1E *p)
+void REGULATION_InitParty(struct Rec1E *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec1E));
 }
 
-struct Rec1E *func_0200B204(struct RecBig *p, u32 index)
+struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index)
 {
     return &p->unk2C0[index];
 }
 
-s32 func_0200B214(struct Rec1E *p, u32 id, u8 n)
+s32 REGULATION_Party_GetValue(struct Rec1E *p, u32 id, u8 n)
 {
     switch (id) {
     case 0: return p->unk00[n];
@@ -401,7 +402,7 @@ s32 func_0200B214(struct Rec1E *p, u32 id, u8 n)
     return 0;
 }
 
-void func_0200B254(struct Rec1E *p, int id, u8 n, s32 value)
+void REGULATION_Party_SetValue(struct Rec1E *p, int id, u8 n, s32 value)
 {
     switch (id) {
     case 0: p->unk00[n] = value; break;

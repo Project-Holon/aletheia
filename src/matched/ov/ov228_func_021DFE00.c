@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE00
+ * function: SAVE_OUTSIDE_WriteAsync
  * address:  0x021DFE00
  * packet:   pkt_021DFE00
  * region:   ov228
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32, void *, u32);
 extern int BACKUP_SYSTEM_CheckFlashAsync(u16, u16 *);
 
-int func_021DFE00(u8 *p)
+int SAVE_OUTSIDE_WriteAsync(u8 *p)
 {
     u16 v;
 

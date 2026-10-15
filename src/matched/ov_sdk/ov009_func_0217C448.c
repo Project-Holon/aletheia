@@ -12,16 +12,16 @@
  * sdk:      DWCi_Svl_ParseHttp (libdwcauth.TWL.HYB.a dwc_svl.o)
  *
  * symbols:
- *   func_0217A484  0x0217A484  arm  ov009
+ *   DWC_Http_ParseResult  0x0217A484  arm  ov009
  *   func_02059F54  0x02059F54  arm
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
  *   g_021ACEF4     0x021ACEF4  data ov009
  *   g_021A2874     0x021A2874  data ov009
  *   g_021A287C     0x021A287C  data ov009
- *   g_02153FAC     0x02153FAC  data
+ *   errno     0x02153FAC  data
  *   g_021A2888     0x021A2888  data ov009
  *   g_021A2894     0x021A2894  data ov009
  *   g_021A289C     0x021A289C  data ov009
@@ -45,18 +45,18 @@ typedef struct DWCSvlIntWorkarea {
     DWCSvlResult *result;
 } DWCSvlIntWorkarea;
 
-extern int func_0217A484(DWCHttp *http, int noparsebody);
+extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern void func_02059F54(int error, int errorCode);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 
 extern DWCSvlIntWorkarea *g_021ACEF4;
 extern char g_021A2874[];
 extern char g_021A287C[];
-extern int g_02153FAC;
+extern int errno;
 extern char g_021A2888[];
 extern char g_021A2894[];
 extern char g_021A289C[];
@@ -69,7 +69,7 @@ int func_0217C448(void)
     char retcode[4];
     DWCHttp *DWChttp = &g_021ACEF4->http;
 
-    if (!func_0217A484(DWChttp, 0)) {
+    if (!DWC_Http_ParseResult(DWChttp, 0)) {
         func_02059F54(15, -25101);
         return 0;
     }
@@ -83,8 +83,8 @@ int func_0217C448(void)
         func_02059F54(15, -25101);
         return 0;
     }
-    httpretcode = func_020964E0((u32)strp);
-    if (g_02153FAC == 34) {
+    httpretcode = atoi((u32)strp);
+    if (errno == 34) {
         func_02059F54(15, -25101);
         return 0;
     }
@@ -97,8 +97,8 @@ int func_0217C448(void)
         func_02059F54(15, -25101);
         return 0;
     }
-    httpretcode = func_020964E0((u32)retcode);
-    if (g_02153FAC == 34) {
+    httpretcode = atoi((u32)retcode);
+    if (errno == 34) {
         func_02059F54(15, -25101);
         return 0;
     }

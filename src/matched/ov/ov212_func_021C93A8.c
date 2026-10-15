@@ -1,5 +1,5 @@
 /*
- * function: func_021C93A8
+ * function: ZUKAN_StartWipeIn
  * address: 0x021C93A8
  * packet: pkt_ov212_021C93A8
  * region: ov212
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-void func_021C93A8(u32 heap) { WIPE_SYS_Start(0,1,1,0,6,1,heap); }
+void ZUKAN_StartWipeIn(u32 heap) { WIPE_SYS_Start(0,1,1,0,6,1,heap); }

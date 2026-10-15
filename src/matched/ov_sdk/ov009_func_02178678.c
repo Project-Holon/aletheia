@@ -1,5 +1,5 @@
 /*
- * function: func_02178678
+ * function: DWCi_Auth_ParseHttp
  * address:  0x02178678
  * packet:   pkt_ov009_02178678
  * region:   ov009
@@ -12,13 +12,13 @@
  * sdk:      DWCi_Auth_ParseHttp (libdwcauth.TWL.HYB.a dwc_auth.o)
  *
  * symbols:
- *   func_0217A484  0x0217A484  arm  ov009
- *   func_02178814  0x02178814  arm  ov009
- *   func_02058DD0  0x02058DD0  arm
- *   func_02058E20  0x02058E20  arm
- *   func_02058D88  0x02058D88  arm
- *   g_021AB184  0x021AB184  data  ov009
- *   g_021AB190  0x021AB190  data  ov009
+ *   DWC_Http_ParseResult  0x0217A484  arm  ov009
+ *   DWCi_Auth_FillResult  0x02178814  arm  ov009
+ *   DWCi_AUTH_UpDateWiFiID  0x02058DD0  arm
+ *   DWCi_AUTH_RemakeWiFiID  0x02058E20  arm
+ *   DWCi_AUTH_MakeWiFiID  0x02058D88  arm
+ *   gDwcAuthGlobal  0x021AB184  data  ov009
+ *   gDwcWiFiInfo  0x021AB190  data  ov009
  */
 
 #include "../include/G_DWCWFCUtil.h"
@@ -46,66 +46,66 @@ typedef struct DWCAuth
 typedef struct DWCWFCUtil DWCWFCUtil;
 
 struct DWCHttp;
-extern int func_0217A484(struct DWCHttp *http, int noparsebody);
-extern int func_02178814(void);
+extern int DWC_Http_ParseResult(struct DWCHttp *http, int noparsebody);
+extern int DWCi_Auth_FillResult(void);
 struct tagDWCWiFiInfo;
-extern int func_02058DD0(struct tagDWCWiFiInfo *wifiinfo, void *work);
-extern int func_02058E20(struct tagDWCWiFiInfo *wifiinfo);
-extern int func_02058D88(void *work);
+extern int DWCi_AUTH_UpDateWiFiID(struct tagDWCWiFiInfo *wifiinfo, void *work);
+extern int DWCi_AUTH_RemakeWiFiID(struct tagDWCWiFiInfo *wifiinfo);
+extern int DWCi_AUTH_MakeWiFiID(void *work);
 
-extern struct DWCWFCUtil g_021AB184;
-extern char g_021AB190[];
+extern struct DWCWFCUtil gDwcAuthGlobal;
+extern char gDwcWiFiInfo[];
 
-int func_02178678(void)
+int DWCi_Auth_ParseHttp(void)
 {
-    void *(*alloc)(unsigned long, long) = ((DWCAuth *)g_021AB184.auth)->param.alloc;
-    void (*free)(unsigned long, void *, long) = ((DWCAuth *)g_021AB184.auth)->param.free;
+    void *(*alloc)(unsigned long, long) = ((DWCAuth *)gDwcAuthGlobal.auth)->param.alloc;
+    void (*free)(unsigned long, void *, long) = ((DWCAuth *)gDwcAuthGlobal.auth)->param.free;
     unsigned char *bmwork;
 
-    if (func_0217A484(((DWCAuth *)g_021AB184.auth)->http, 0) != 1)
+    if (DWC_Http_ParseResult(((DWCAuth *)gDwcAuthGlobal.auth)->http, 0) != 1)
     {
-        ((DWCAuth *)g_021AB184.auth)->error = 20100;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20100;
         return 14;
     }
-    if (func_02178814() != 0)
+    if (DWCi_Auth_FillResult() != 0)
         return 14;
 
-    if (((DWCAuth *)g_021AB184.auth)->error < 20100)
+    if (((DWCAuth *)gDwcAuthGlobal.auth)->error < 20100)
     {
-        if (((DWCAuth *)g_021AB184.auth)->error == 20002)
+        if (((DWCAuth *)gDwcAuthGlobal.auth)->error == 20002)
         {
             bmwork = (unsigned char *)alloc(0, 0x101f);
             if (bmwork == 0)
             {
-                ((DWCAuth *)g_021AB184.auth)->error = 20100;
+                ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20100;
                 return 2;
             }
-            if (func_02058DD0((struct tagDWCWiFiInfo *)g_021AB190, (void *)(((unsigned long)bmwork + 31) & ~31)) != 1)
+            if (DWCi_AUTH_UpDateWiFiID((struct tagDWCWiFiInfo *)gDwcWiFiInfo, (void *)(((unsigned long)bmwork + 31) & ~31)) != 1)
             {
                 free(0, bmwork, 0);
-                ((DWCAuth *)g_021AB184.auth)->error = 20100;
+                ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20100;
                 return 15;
             }
             free(0, bmwork, 0);
         }
         return 21;
     }
-    switch (((DWCAuth *)g_021AB184.auth)->error)
+    switch (((DWCAuth *)gDwcAuthGlobal.auth)->error)
     {
     case 20104:
-        func_02058E20((struct tagDWCWiFiInfo *)g_021AB190);
-        ((DWCAuth *)g_021AB184.auth)->error = 20104;
+        DWCi_AUTH_RemakeWiFiID((struct tagDWCWiFiInfo *)gDwcWiFiInfo);
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20104;
         return 16;
     case 20108:
         bmwork = (unsigned char *)alloc(0, 0x1000);
         if (bmwork == 0)
         {
-            ((DWCAuth *)g_021AB184.auth)->error = 20108;
+            ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20108;
             return 17;
         }
-        func_02058D88((void *)(((unsigned long)bmwork + 31) & ~31));
+        DWCi_AUTH_MakeWiFiID((void *)(((unsigned long)bmwork + 31) & ~31));
         free(0, bmwork, 0);
-        ((DWCAuth *)g_021AB184.auth)->error = 20108;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20108;
         return 17;
     default:
         return 18;

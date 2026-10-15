@@ -10,7 +10,7 @@
  * symbols:
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb ov170
  *   BOX2_UI_ShowWindowA 0x021EF670 thumb ov170
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
@@ -41,6 +41,7 @@
  *   BOX2_UI_OpenBar  0x021EF3A0  thumb
  *   BOX2_UI_IsTopBarClosed  0x021EF480  thumb
  *   BOX2_UI_OpenListPack  0x021EF57C  thumb
+ *   CURSOR_MOVE_SetState  0x020260F4  thumb  arm9
  */
 struct WinMgr;
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
@@ -48,8 +49,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
-extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
@@ -92,12 +93,12 @@ int BOX2_SEQ_StateMenuItems(unsigned char *p)
     BOX2_SEQ_ShowWindowObject(WORK(p), 0x18);
     BOX2_MAIN_RefreshCursorBox((char *)p);
     if (p[0x16] < 0x1e) {
-        func_020260E4(OBJ(p), p[0x16]);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16]);
         BOX2_UI_SetCursorPos((char **)p, p[0x16]);
         BOX2_UI_ShowWindowA(WORK(p));
         r = 0x39;
     } else {
-        func_020260E4(OBJ(p), p[0x16] - 0x1e);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16] - 0x1e);
         BOX2_UI_SetCursorPos((char **)p, p[0x16] - 0x1e);
         BOX2_UI_ShowWindowB(WORK(p));
         r = 0x46;

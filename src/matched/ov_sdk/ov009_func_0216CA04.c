@@ -14,13 +14,13 @@
  * notes:    closed by DWC_Free's hidden third argument (size 0), see the w4 note.
  *
  * symbols:
- *   func_020948E0                0x020948E0 arm
+ *   strcmp                0x020948E0 arm
  *   DWCi_GetNewMatchKey                0x02173AD8 arm   ov009
  *   func_0205A1B0                0x0205A1B0 arm
- *   func_0209477C                0x0209477C arm
+ *   strlen                0x0209477C arm
  *   func_0205A16C                0x0205A16C arm
  *   DWCi_StopMatch                0x0216EB68 arm   ov009
- *   func_02094798                0x02094798 arm
+ *   strcpy                0x02094798 arm
  *   func_0219D158                0x0219D158 arm   ov009
  *   g_021AAA40                   0x021AAA40 data
  *   g_021AAA44                   0x021AAA44 data
@@ -146,13 +146,13 @@ extern struct DWCstGameMatchKeyData g_021AAA40[154];
 #define KEYSTR(i) (g_021AAA40[i].keyString)
 #define KEYVAL(i) (g_021AAA40[i].value)
 
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern u8 DWCi_GetNewMatchKey(void);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
 extern void DWCi_StopMatch(int error, int errorCode);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern void func_0219D158(int keyid, char *key);
 
 u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
@@ -162,7 +162,7 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     if (keyString == 0 || valueSrc == 0)
         return 0;
     if (keyID >= 0x64 && KEYID(keyID - 0x64) != 0) {
-        if (KEYSTR(keyID - 0x64) != 0 && func_020948E0(KEYSTR(keyID - 0x64), keyString) != 0)
+        if (KEYSTR(keyID - 0x64) != 0 && strcmp(KEYSTR(keyID - 0x64), keyString) != 0)
             return 0;
     } else {
         keyID = DWCi_GetNewMatchKey();
@@ -175,12 +175,12 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     KEYF2(index) = 0;
     if (KEYSTR(index) != 0)
         func_0205A1B0(4, KEYSTR(index), 0);
-    KEYSTR(index) = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
+    KEYSTR(index) = func_0205A16C(4, strlen((const u8 *)keyString) + 1);
     if (KEYSTR(index) == 0) {
         DWCi_StopMatch(9, -80001);
         return 0;
     }
-    func_02094798(KEYSTR(index), keyString);
+    strcpy(KEYSTR(index), keyString);
     KEYVAL(index) = valueSrc;
     func_0219D158(keyID, KEYSTR(index));
     return keyID;

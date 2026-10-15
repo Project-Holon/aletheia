@@ -17,9 +17,9 @@
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   func_021DC194  0x021DC194  thumb  ov175
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
- *   func_02009CC0  0x02009CC0  thumb
- *   func_0200B078  0x0200B078  thumb
- *   func_0200B1C4  0x0200B1C4  thumb
+ *   WIFILIST_GetGsProfileId  0x02009CC0  thumb
+ *   REGULATION_Card_GetValue  0x0200B078  thumb
+ *   REGULATION_Card_CalcCrc  0x0200B1C4  thumb
  *
  * Fills a profile record from the save data reached through +0x104: name, a 0x38 record, three words of the +0x34 block, the +0x34 id, a derived word and two values of the +0x108 block.
  *
@@ -53,9 +53,9 @@ extern void *func_0200E6E8(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_021DC194(char *obj);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
-extern int func_02009CC0(void *a0);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
-extern u16 func_0200B1C4(struct Reg2 *p);
+extern int WIFILIST_GetGsProfileId(void *a0);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
+extern u16 REGULATION_Card_CalcCrc(struct Reg2 *p);
 
 void func_021D9A9C(char *dst, char *obj)
 {
@@ -71,8 +71,8 @@ void func_021D9A9C(char *dst, char *obj)
         ((struct Obj01067 *)dst)->f34 = s->blk[4];
     }
     ((struct Obj01067 *)dst)->f4C = func_021DC194((char *)(*(u32 *)&((struct Obj00013 *)obj)->f34));
-    ((struct Obj01067 *)dst)->f48 = func_02009CC0((void *)GAME_DATA_GetWifiList((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
+    ((struct Obj01067 *)dst)->f48 = WIFILIST_GetGsProfileId((void *)GAME_DATA_GetWifiList((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
     h = ((struct Obj00013 *)obj)->f108;
-    ((struct Obj01067 *)dst)->f40 = func_0200B078((struct Reg2 *)h, 2);
-    ((struct Obj01067 *)dst)->f50 = func_0200B1C4((struct Reg2 *)h);
+    ((struct Obj01067 *)dst)->f40 = REGULATION_Card_GetValue((struct Reg2 *)h, 2);
+    ((struct Obj01067 *)dst)->f50 = REGULATION_Card_CalcCrc((struct Reg2 *)h);
 }

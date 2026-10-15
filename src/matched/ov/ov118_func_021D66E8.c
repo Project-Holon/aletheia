@@ -18,7 +18,7 @@
  * Teardown of the three sub-buffers at +0x8a8/+0x88c/+0x8bc (their base
  * 0x8a8 is the single pool word) plus the +0xb0 pointer hung off the +0xc
  * record; every slot clears to zero. Non-SDK deps are the matched ov118
- * func_021D66E8 callers' targets; this is the first callee of func_021D6C78.
+ * func_021D66E8 callers' targets; this is the first callee of POKETRADE_DEMO_MIDDLE_StepEndScene.
  *
  * Addresses are Black-image addresses.
  */

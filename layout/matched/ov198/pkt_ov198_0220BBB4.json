@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220BBB4",
+   "name": "B_PLIST_ANM_CountActiveRecords",
    "address": "0x0220BBB4",
    "kind": "game",
    "region": "ov198",

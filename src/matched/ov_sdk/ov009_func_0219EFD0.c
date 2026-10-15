@@ -1,5 +1,5 @@
 /*
- * function: func_0219EFD0
+ * function: ServerBrowserThink
  * address:  0x0219EFD0
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,18 +12,18 @@
  * Releases the object and the block 0x60 bytes in.
  *
  * symbols:
- *   func_0219A4A4  0x0219A4A4  arm  ov009
+ *   NNThink  0x0219A4A4  arm  ov009
  *   SBQueryEngineThink  0x0219DE88  arm  ov009
  *   SBListThink  0x021A1928  arm  ov009
  */
 
-extern void func_0219A4A4(void *p);
+extern void NNThink(void *p);
 extern void SBQueryEngineThink(void *p);
 extern int SBListThink(int *p);
 
-int func_0219EFD0(char *p)
+int ServerBrowserThink(char *p)
 {
-    func_0219A4A4(p);
+    NNThink(p);
     SBQueryEngineThink(p);
     return SBListThink((int *)(p + 0x60));
 }

@@ -17,6 +17,8 @@
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   OS_GetMacAddress  0x02087C6C  arm  arm9
  *   OS_Terminate  0x02088234  arm  arm9
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,8 +42,8 @@ extern void func_020862D4(u32, u32);
 extern void PM_DeletePostExitCallback(u32);
 extern void MI_CpuFill8(u32, u32, u32);
 extern void OS_GetMacAddress(u8 *);
-extern void func_0208C848(u32 *, u32);
-extern void func_0208C86C(u32 *);
+extern void PMi_InsertPreSleepCallbackEx(u32 *, u32);
+extern void PM_DeletePreSleepCallback(u32 *);
 extern void OS_Terminate(void);
 extern u32 data_027341A4[];
 extern u32 DAT_027341a8[];
@@ -193,12 +195,12 @@ u16 NWM_GetDispersionScanPeriod(u32 a0) {
 void NWMi_RegisterSleepCallback(void) {
     data_027341A4[5] = (u32)NwmSleepCallback;
     data_027341A4[6] = 0;
-    func_0208C848(data_027341B8, 0xFFFF);
+    PMi_InsertPreSleepCallbackEx(data_027341B8, 0xFFFF);
 }
 
 void NWMi_DeleteSleepCallback(void)
 {
-    func_0208C86C(data_027341B8);
+    PM_DeletePreSleepCallback(data_027341B8);
 }
 
 /* Tail stub: forwards to OS_Terminate. */

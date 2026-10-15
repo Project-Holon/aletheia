@@ -16,7 +16,7 @@
  *   WCM_EndSearchAsync 0x02165204 arm
  *   WCM_DisconnectAsync 0x02165478 arm
  *   WCM_TerminateAsync 0x02165560 arm
- *   func_0205C2E4 0x0205C2E4 arm
+ *   DWCi_AC_SetError 0x0205C2E4 arm
  */
 
 extern int func_021656A0(void);
@@ -25,7 +25,7 @@ extern void WCM_CleanupAsync(void);
 extern void WCM_EndSearchAsync(void);
 extern void WCM_DisconnectAsync(void);
 extern void WCM_TerminateAsync(void);
-extern void func_0205C2E4(int error);
+extern void DWCi_AC_SetError(int error);
 
 int DisConnectAP(void)
 {
@@ -48,7 +48,7 @@ int DisConnectAP(void)
         WCM_TerminateAsync();
         break;
     case 11:
-        func_0205C2E4(0);
+        DWCi_AC_SetError(0);
         return -1;
     }
     return 0;

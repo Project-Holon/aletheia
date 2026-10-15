@@ -12,8 +12,8 @@
  * symbols:
  *   BOX2_UI_GetExitButtonPoint 0x021EF1D4 thumb
  *   BOX2_SEQ_CreateC 0x021EA808 thumb
- *   func_020260F4 0x020260F4 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_MAIN_SelectBox 0x021DD1C4 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
@@ -25,7 +25,7 @@
  *   BOX2_SEQ_GotoBox2MainWithSlot 0x021E954C thumb
  *   BOX2_SEQ_SetState 0x021E8FE0 thumb
  *   BOX2_SEQ_SetSeqSecond 0x021E8FD0 thumb
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *
  * List input for the box menu: a touch pick stores the slot and leaves,
  * otherwise the list result selects a page, a jump, or a cancel.
@@ -37,9 +37,9 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
-extern int func_02025DE8(struct Sound *obj);
-extern u8 func_020260E0(struct Sound *obj);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_MAIN_SelectBox(char *p, int a);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
@@ -66,10 +66,10 @@ int BOX2_SEQ_StatePmVoiceMenu(unsigned char *p)
         *(unsigned *)(WORK(p) + 0xA184) = y;
         STATE(p) = 0x61;
         BOX2_SEQ_CreateC((char *)p);
-        func_020260F4(LIST(p), 0);
+        CURSOR_MOVE_SetState(LIST(p), 0);
         return 0xF;
     }
-    r = func_02025DE8(LIST(p));
+    r = CURSOR_MOVE_PollRepeatInput(LIST(p));
     switch (r) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -101,14 +101,14 @@ int BOX2_SEQ_StatePmVoiceMenu(unsigned char *p)
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_SetSeqSecond((char *)p, BOX2_SEQ_SetState((char *)p, 0x61));
     case (unsigned)-8:
-        if (func_020260E0(LIST(p)) == 1) {
+        if (CURSOR_MOVE_GetCurrent(LIST(p)) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_SelectBox((char *)p, -1);
             return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxRight, 0x61);
         }
         break;
     case (unsigned)-7:
-        if (func_020260E0(LIST(p)) == 4) {
+        if (CURSOR_MOVE_GetCurrent(LIST(p)) == 4) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_SelectBox((char *)p, 1);
             return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxLeft, 0x61);

@@ -1,5 +1,5 @@
 /*
- * function: func_020889C0
+ * function: RTC_GetDateTime
  * address:  0x020889C0
  * packet:   pkt_020889C0
  * region:   arm9
@@ -67,7 +67,7 @@ RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callbac
 void RtcWaitBusy(void);
 void RtcGetResultCallback(RTCResult result, void *arg);
 
-RTCResult func_020889C0(RTCDate *date, RTCTime *time)
+RTCResult RTC_GetDateTime(RTCDate *date, RTCTime *time)
 {
     rtcWork.commonResult = RTC_GetDateTimeAsync(date, time, RtcGetResultCallback, 0);
     if (rtcWork.commonResult == RTC_RESULT_SUCCESS) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02035040
+ * function: UI_SetWakeHookGlobal
  * address:  0x02035040
  * packet:   pkt_02035040
  * region:   arm9
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   gUiState    0x021469BC  data
- *   func_02035034 0x02035034 arm
+ *   UI_SetWakeHook 0x02035034 arm
  *
- * Wrapper: calls func_02035034 with the object gUiState points at as the first argument.
+ * Wrapper: calls UI_SetWakeHook with the object gUiState points at as the first argument.
  */
 
 typedef unsigned int u32;
 
 extern char *gUiState;
-extern void func_02035034(char *o, u32 a, u32 b);
+extern void UI_SetWakeHook(char *o, u32 a, u32 b);
 
-void func_02035040(u32 a, u32 b)
+void UI_SetWakeHookGlobal(u32 a, u32 b)
 {
-    func_02035034(gUiState, a, b);
+    UI_SetWakeHook(gUiState, a, b);
 }

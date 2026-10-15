@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02020F14 0x02020F14 thumb
+ *   FILE_UTIL_Create_0F14 0x02020F14 thumb
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   VM_Create 0x0201121C thumb
@@ -87,7 +87,7 @@
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   func_02020F20  0x02020F20  thumb
- *   func_02021014  0x02021014  thumb
+ *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   gTrAiScriptCache 0x0218A7C0 data a4
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
@@ -103,7 +103,7 @@ extern SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *p, int i);
 typedef struct { u8 id[4]; u8 ref[4]; void *obj[4]; } TrAiScriptCache;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u16 heap);
-extern void *func_02020F14(u16 heap);
+extern void *FILE_UTIL_Create_0F14(u16 heap);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
@@ -173,7 +173,7 @@ extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(void *p, u32 i);
 extern int WAZA_TOOL_GetParam(int, int);
 extern int WAZA_TOOL_GetFlag(int, int);
 extern void *func_02020F20(void *, int, u16);
-extern u32 func_02021014(void *p, u32 sel);
+extern u32 FILE_UTIL_Get_1014(void *p, u32 sel);
 extern void *ARC_TOOL_LoadHandleMember(void *arc, u32 member, u32 heap);
 ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scriptMask, u16 heapId);
 int TR_AI_Think(ScriptVm *vm);
@@ -349,7 +349,7 @@ ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scr
     ai->cmdReturn = 1;
     ai->fullMask = scriptMask;
     ai->scriptArchive = func_020490F4(0xAB, heapId);
-    ai->itemArchive = func_02020F14(heapId);
+    ai->itemArchive = FILE_UTIL_Create_0F14(heapId);
     ai->battleMain = battleMain;
     ai->serverFlow = (void *)serverFlow;
     ai->sideTable = (void *)sideTable;
@@ -2255,7 +2255,7 @@ int TR_AI_GetItemField(TrAiWork *ai, int itemId, int field) {
     int value;
     heapId = ai->heapId;
     itemData = func_02020F20(ai->itemArchive, itemId, heapId);
-    value = func_02021014(itemData, field);
+    value = FILE_UTIL_Get_1014(itemData, field);
     func_020307B0(itemData);
     return value;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02204DC4
+ * function: SHINKA_DEMO_StartBgm
  * address:  0x02204DC4
  * packet:   pkt_02204DC4
  * region:   ov195
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void GFL_USE_FadeOutBgm(u32);
 
-void func_02204DC4(u8 *p, u8 *q)
+void SHINKA_DEMO_StartBgm(u8 *p, u8 *q)
 {
     if (((struct Obj24942 *)p)->fC != 0) {
         GFL_USE_FadeOutBgm(0x1e);

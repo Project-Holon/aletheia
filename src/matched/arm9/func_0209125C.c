@@ -1,5 +1,5 @@
 /*
- * function: func_0209125C
+ * function: MSL_C_LIB_TwlCall5
  * address:  0x0209125C
  * packet:   pkt_020911D8
  * region:   arm9
@@ -20,8 +20,8 @@
  * ARM-side callee, which is why the frame carries one extra word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0209125C.c \
- *       --func func_0209125C --addr 0x0209125C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall5.c \
+ *       --func MSL_C_LIB_TwlCall5 --addr 0x0209125C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ extern int OSi_IsRunOnTwl(void);
 extern void OS_Terminate(void);
 extern void func_02091284(u32 a, u32 b, u32 c, u32 d, u32 e);
 
-void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
+void MSL_C_LIB_TwlCall5(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();

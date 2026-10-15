@@ -29,7 +29,7 @@
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   _AssertAlways     0x020A7A50  data
  *   _AssertNotMpMode   0x020A7A54  data
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
@@ -60,11 +60,11 @@
  *   g_020A7B78     0x020A7B78  data
  *   g_020A7BA8     0x020A7BA8  data
  *   g_020A7BB4     0x020A7BB4  data
- *   func_020889C0     0x020889C0  arm
+ *   RTC_GetDateTime     0x020889C0  arm
  *   func_0203F034     0x0203F034  arm
  *   func_0203F0A8     0x0203F0A8  arm
  *   g_02FFFC3C        0x02FFFC3C  data
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   s_020A7BA8     0x020A7BA8  data
  *   s_020A7BC8     0x020A7BC8  data
  *   GFL_NET_SYSTEM_SetNoSend  0x02039578  arm
@@ -159,7 +159,7 @@ extern int  GFL_NET_SYSTEM_IsError(void);
 
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
@@ -2111,7 +2111,7 @@ u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length)
     if (_pNetSys->recvRing[netId].state == 0 && (packet[4] & 2))
         return 0;
 
-    checksum = func_0203F1FC(packet + 2, length - 2);
+    checksum = GF_STANDARD_SetupCalc(packet + 2, length - 2);
     if (packet[0] != (u8)checksum || ((checksum & 0xFF00) >> 8) != packet[1])
         return 0;
     if (_pNetSys->recvSeq[netId] != 0 &&
@@ -2716,7 +2716,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
         if (flags & 2)
             return 0;
     }
-    checksum = func_0203F1FC(&packet->size, length - 2);
+    checksum = GF_STANDARD_SetupCalc(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
         errorInfo = GFL_NET_STATE_GetError();
@@ -2802,7 +2802,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
         if (flags & 2)
             return 0;
     }
-    checksum = func_0203F1FC(&packet->size, length - 2);
+    checksum = GF_STANDARD_SetupCalc(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
         errorInfo = GFL_NET_STATE_GetError();
@@ -3025,7 +3025,7 @@ body:
     header->size = (u8)dataSize;
     header->seq = seq;
 
-    checksum = func_0203F1FC(&header->size, packetSize - 2);
+    checksum = GF_STANDARD_SetupCalc(&header->size, packetSize - 2);
     header->checksumLow = (u8)checksum;
     header->checksumHigh = (u8)((checksum & 0xff00) >> 8);
 

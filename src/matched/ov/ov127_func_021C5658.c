@@ -1,5 +1,5 @@
 /*
- * function: func_021C5658
+ * function: WF2DMAP_OBJDRAW_DeleteSprite
  * address: 0x021C5658
  * packet: pkt_ov127_021C5658
  * region: ov127
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021C4010(u8 *p);
-void func_021C5658(void *p) { func_021C4010(((struct Obj23044 *)p)->f0); }
+void WF2DMAP_OBJDRAW_DeleteSprite(void *p) { func_021C4010(((struct Obj23044 *)p)->f0); }

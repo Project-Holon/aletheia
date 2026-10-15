@@ -24,11 +24,11 @@
  *   WIFICLUBACTOR_NoOpInit  0x021B9E04  thumb  ov099
  *   WIFICLUBACTOR_GetMapSize  0x021BA810  thumb  ov099
  *   WIFICLUB_GetMessageIdByIndex  0x021BA81C  thumb  ov099
- *   func_021C47A0  0x021C47A0  thumb  ov127
- *   func_021C4800  0x021C4800  thumb  ov127
- *   func_021C4880  0x021C4880  thumb  ov127
+ *   WF2DMAP_MAP_CreateGrid  0x021C47A0  thumb  ov127
+ *   WF2DMAP_MAP_CopyEntries  0x021C4800  thumb  ov127
+ *   WF2DMAP_OBJ_CreateList  0x021C4880  thumb  ov127
  *   WIFICLUBACTOR_InitSpriteManager  0x021B9D30  thumb  ov099
- *   func_021C59D0  0x021C59D0  thumb  ov127
+ *   WF2DMAP_OBJDRAW_ClearPos  0x021C59D0  thumb  ov127
  *   WIFICLUBACTOR_InitLayer  0x021B9D6C  thumb  ov099
  *   WIFICLUBACTOR_LoadPalette  0x021B9E0C  thumb  ov099
  *   WIFICLUBACTOR_InitBlink  0x021BA60C  thumb  ov099
@@ -43,11 +43,11 @@ extern void WIFICLUBACTOR_InitSprites(void *a, u32 b, u32 c);
 extern void WIFICLUBACTOR_NoOpInit(void *a, int heap);
 extern WH WIFICLUBACTOR_GetMapSize(int i);
 extern u32 WIFICLUB_GetMessageIdByIndex(int i);
-extern void *func_021C47A0(u32 w, u32 h, u32 heap);
-extern void func_021C4800(u8 *p, void *out);
-extern void *func_021C4880(u32 count, u32 heap);
+extern void *WF2DMAP_MAP_CreateGrid(u32 w, u32 h, u32 heap);
+extern void WF2DMAP_MAP_CopyEntries(u8 *p, void *out);
+extern void *WF2DMAP_OBJ_CreateList(u32 count, u32 heap);
 extern void WIFICLUBACTOR_InitSpriteManager(u8 *p, void *q, u32 heap);
-extern void func_021C59D0(void *p);
+extern void WF2DMAP_OBJDRAW_ClearPos(void *p);
 extern int WIFICLUBACTOR_InitLayer(char *p, u32 heap, u32 x, u32 n);
 extern void WIFICLUBACTOR_LoadPalette(void *a, u32 b, u32 c, u32 d);
 extern void WIFICLUBACTOR_InitBlink(char *a, char *p, u32 unused, u32 arc);
@@ -65,11 +65,11 @@ void WIFICLUBACTOR_Init(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a
     WIFICLUBACTOR_InitSprites(p + 0x14, heap, x2);
     WIFICLUBACTOR_NoOpInit(*(void **)(p + 0x10), heap);
     t = WIFICLUBACTOR_GetMapSize(n);
-    *(void **)(p + 0x588) = func_021C47A0(t.w, t.h, heap);
-    func_021C4800(*(void **)(p + 0x588), (void *)WIFICLUB_GetMessageIdByIndex(n));
-    *(void **)(p + 0x58C) = func_021C4880(0x30, heap);
+    *(void **)(p + 0x588) = WF2DMAP_MAP_CreateGrid(t.w, t.h, heap);
+    WF2DMAP_MAP_CopyEntries(*(void **)(p + 0x588), (void *)WIFICLUB_GetMessageIdByIndex(n));
+    *(void **)(p + 0x58C) = WF2DMAP_OBJ_CreateList(0x30, heap);
     WIFICLUBACTOR_InitSpriteManager((u8 *)p, (void *)x3, heap);
-    func_021C59D0(p + 0x594);
+    WF2DMAP_OBJDRAW_ClearPos(p + 0x594);
     WIFICLUBACTOR_InitLayer(p, heap, x2, n);
     WIFICLUBACTOR_LoadPalette(*(void **)(p + 0x10), heap, x2, a5);
     WIFICLUBACTOR_InitBlink(p, p + 0x574, x2, a5);

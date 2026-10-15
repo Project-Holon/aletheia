@@ -23,17 +23,17 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -85,7 +85,7 @@
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   func_0201F31C  0x0201F31C  thumb
  *   func_0201F048  0x0201F048  thumb
- *   func_0201F094  0x0201F094  thumb
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   tbl_02203608 0x02203608 data a1
  *   tbl_022035FC 0x022035FC data a1
  *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
@@ -120,13 +120,13 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -211,7 +211,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -235,7 +235,7 @@ extern void func_0201F7A8(void *p, unsigned kind);
 
 extern void WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
-extern int func_0207D55C(vu16 *reg);
+extern int GXx_GetMasterBrightness_(vu16 *reg);
 
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 
@@ -250,7 +250,7 @@ extern void func_0201F31C(struct WordSet *p);
 
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -363,7 +363,7 @@ int WORLDTRADE_LIST_Init(Work *p)
 {
     WORLDTRADE_LIST_CreateStrings(p);
     WORLDTRADE_LIST_SetupBgPlanes(-32 - p->scroll);
-    if (func_0207D55C((vu16 *)0x0400106C) == 0) {
+    if (GXx_GetMasterBrightness_((vu16 *)0x0400106C) == 0) {
         WORLDTRADE_TITLE_ScrollBg(p, -32 - p->scroll, 1);
     } else {
         WORLDTRADE_TITLE_ScrollBg(p, -32 - p->scroll, 0);
@@ -386,9 +386,9 @@ int WORLDTRADE_LIST_Init(Work *p)
     *(vu16 *)0x04000304 |= 0x8000;
     GFL_NET_RestartWithDefaultTimeout(1, 0x48);
     if (p->kind == 0x11) {
-        if (func_0207D55C((vu16 *)0x0400006C) == -16 && func_0207D55C((vu16 *)0x0400106C) != -16) {
+        if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) == -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) != -16) {
             WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
-        } else if (func_0207D55C((vu16 *)0x0400006C) != -16 && func_0207D55C((vu16 *)0x0400106C) == -16) {
+        } else if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) != -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) == -16) {
             WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, 0x48);
         } else {
             WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);
@@ -444,17 +444,17 @@ void WORLDTRADE_LIST_SetupBgPlanes(int y)
     {
         struct BgTemplate t = g_02203628;
 
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_020414EC(2);
+    BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
     {
         struct BgTemplate t = g_02203648;
 
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
-    func_02040B94(2, 0x20, 0, 0x48);
+    BG_SYS_InitRun(2, 0x20, 0, 0x48);
     BG_SYS_SetMainPlaneVisible(8, 0);
 }
 
@@ -463,8 +463,8 @@ void WORLDTRADE_LIST_SetupBgPlanes(int y)
  */
 void WORLDTRADE_LIST_ExitBgPlanes(void)
 {
-    sub_020403F4(1);
-    sub_020403F4(2);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(2);
 }
 
 /*
@@ -578,7 +578,7 @@ void WORLDTRADE_LIST_CreateStrings(Work *p)
         func_0201F048(p->words, 8, e->lang);
     }
     if (e->ver != 0) {
-        func_0201F094(p->words, 9, e->lang, e->ver);
+        WORDSET_DeleteMsgdataF094(p->words, 9, e->lang, e->ver);
     }
     p->name0 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->bank, 0x58, 0x48);
     p->name1 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->bank, 0x59, 0x48);

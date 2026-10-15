@@ -12,10 +12,10 @@
  * symbols:
  *   func_021F545C 0x021F545C thumb ov112
  *   func_021F5464 0x021F5464 thumb ov112
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   func_0207AF38 0x0207AF38 thumb
- *   func_0207B51C 0x0207B51C arm
- *   func_0207CA00 0x0207CA00 arm
+ *   MTX_MultVec33 0x0207B51C arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   func_021F5350 0x021F5350 thumb ov112
  *   func_021F5368 0x021F5368 thumb ov112
  *   func_021F535C 0x021F535C thumb ov112
@@ -34,10 +34,10 @@ typedef struct { int m[9]; } Mtx;
 extern s16 table[];
 extern u8 *func_021F545C(u8 *);
 extern char *func_021F5464(char *);
-extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
+extern void VEC_Add(const Vec *,const Vec *,Vec *);
 extern void func_0207AF38(Mtx *,int,int);
-extern void func_0207B51C(const Vec *,const Mtx *,Vec *);
-extern void func_0207CA00(const Vec *,const Vec *,Vec *);
+extern void MTX_MultVec33(const Vec *,const Mtx *,Vec *);
+extern void VEC_Subtract(const Vec *,const Vec *,Vec *);
 extern void func_021F5350(int *p, int *q);
 extern void func_021F5368(int *,u16);
 extern void func_021F535C(int *p, int *q);
@@ -54,13 +54,13 @@ void func_021F7204(u8 *p,u8 *q)
     int angle;
     a=(Vec *)func_021F545C(*(u8 * *)&((struct Obj00904 *)q)->f58);
     b=(Vec *)func_021F5464(*(char * *)&((struct Obj00904 *)q)->f58);
-    func_0207C9D0((Vec *)(q+24),(Vec *)(q+48),&pos);
+    VEC_Add((Vec *)(q+24),(Vec *)(q+48),&pos);
     angle=((struct Obj00904 *)q)->f48;
     delta.x=0;
     delta.y=b->y;
     func_0207AF38(&matrix,-table[(angle>>4)*2],table[(angle>>4)*2+1]);
-    func_0207B51C(&delta,&matrix,(Vec *)(q+60));
-    func_0207CA00(&delta,(Vec *)(q+60),(Vec *)(q+60));
+    MTX_MultVec33(&delta,&matrix,(Vec *)(q+60));
+    VEC_Subtract(&delta,(Vec *)(q+60),(Vec *)(q+60));
     pos.x=(pos.x-a->x-((struct Obj00904 *)q)->f3C)/16;
     pos.y=(0xc0000-(pos.y-a->y+((struct Obj00904 *)q)->f40))/16;
     func_021F5350(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&pos));

@@ -22,8 +22,8 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02019ED4  0x02019ED4  thumb
  *   POKE_REGULATION_CheckParty  0x0201A090  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -48,8 +48,8 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_02019ED4(void *ctx, void *q);
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
-extern void *func_0200BAC8(void *);
-extern u32 func_0200BBA8(void *a);
+extern void *BATTLE_BOX_GetFromSave(void *);
+extern u32 BATTLE_BOX_HasMon(void *a);
 extern void *func_0200BAF4(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
@@ -77,8 +77,8 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *sys, int flag, void *rules, u
     } else {
         r1 = POKE_REGULATION_CheckParty(rules, party, &mask);
     }
-    q = func_0200BAC8(GAME_DATA_GetSaveControl(w));
-    if (func_0200BBA8(q) == 1) {
+    q = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(w));
+    if (BATTLE_BOX_HasMon(q) == 1) {
         mask = 0;
         w = func_0200BAF4((int)q, k);
         if (flag) {

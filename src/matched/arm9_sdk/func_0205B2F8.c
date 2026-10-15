@@ -1,5 +1,5 @@
 /*
- * function: func_0205B2F8
+ * function: CloseSocket
  * address:  0x0205B2F8
  * packet:   pkt_0205B2F8
  * region:   arm9
@@ -21,7 +21,7 @@ extern int SOCL_CalmDown(void);
 extern int SOC_Cleanup(void);
 extern void *SOCLiConfigPtr;
 
-int func_0205B2F8(void)
+int CloseSocket(void)
 {
     int result;
 

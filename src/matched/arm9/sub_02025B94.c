@@ -1,5 +1,5 @@
 /*
- * function: func_02025B94
+ * function: BMP_OAM_Get
  * address:  0x02025B94
  * packet:   pkt_02025774
  * region:   arm9
@@ -24,7 +24,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02025B94.c \
- *       --func func_02025B94 --addr 0x02025B94 --cc 1.1p1 --thumb
+ *       --func BMP_OAM_Get --addr 0x02025B94 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 extern u32 func_02025B3C(u32 key);
 extern u32 func_02025BA0(u32 idx);
 
-u32 func_02025B94(u32 a)
+u32 BMP_OAM_Get(u32 a)
 {
     return func_02025BA0(func_02025B3C(a));
 }

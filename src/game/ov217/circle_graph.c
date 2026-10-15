@@ -47,17 +47,17 @@
  *   d_02148B98  0x02148B98  data  a4
  *   d_02148BCC  0x02148BCC  data  a4
  *   d_02148B54  0x02148B54  data  a4
- *   func_0207D7C4  0x0207D7C4  arm
- *   func_0207D760  0x0207D760  arm
+ *   G3i_LookAt_  0x0207D7C4  arm
+ *   G3i_OrthoW_  0x0207D760  arm
  *   NNS_G3dGlbInit  0x0206A700  arm
- *   func_0207BCA0  0x0207BCA0  arm
+ *   MTX_LookAt  0x0207BCA0  arm
  *   func_0207C554  0x0207C554  arm
  *   NNS_G3dGlbFlush  0x0206A854  arm
  *   RingQueue_Reset  0x021C0E5C  thumb  ov217
- *   func_0207CA30 0x0207CA30 arm
+ *   VEC_Fx16Add 0x0207CA30 arm
  *   cos 0x0209A390 arm
  *   sin 0x0209AA08 arm
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  */
 #include "circle_graph.h"
 
@@ -92,23 +92,23 @@ extern u32 func_020307B0(void *mem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 /* SDK: G3i_LookAt_ */
-extern void func_0207D7C4(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int flag, int unused);
+extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int flag, int unused);
 /* SDK: G3i_OrthoW_ */
-extern void func_0207D760(int top, int bottom, int left, int right, int near, int far, int scaleW, int flag, int unused);
+extern void G3i_OrthoW_(int top, int bottom, int left, int right, int near, int far, int scaleW, int flag, int unused);
 /* SDK: NNS_G3dGlbInit */
 extern void NNS_G3dGlbInit(void);
 /* SDK: MTX_LookAt */
-extern void func_0207BCA0(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, void *out);
+extern void MTX_LookAt(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, void *out);
 /* SDK: MTX_OrthoW */
 extern void func_0207C554(int top, int bottom, int left, int right, int near, int far, int scaleW, void *out);
 /* SDK: NNS_G3dGlbFlush */
 extern void NNS_G3dGlbFlush(void);
 /* SDK: VEC_Fx16Add */
-extern void func_0207CA30(const s16 *a, const s16 *b, s16 *out);
+extern void VEC_Fx16Add(const s16 *a, const s16 *b, s16 *out);
 extern double cos(double);
 extern double sin(double);
 /* SDK: NNS_G3dWorldPosToScrPos */
-extern void func_0206DF3C(const VecFx32 *pos, s32 *px, s32 *py);
+extern void NNS_G3dWorldPosToScrPos(const VecFx32 *pos, s32 *px, s32 *py);
 
 extern const char d_021C4064[];
 extern VecFx32 d_02148D8C;              /* camera eye */
@@ -412,13 +412,13 @@ void CircleGraph_SetupCamera(struct CircleGraph *graph)
     target.x = 0;
     target.y = 0;
     target.z = 0;
-    func_0207D7C4(&eye, &up, &target, 1, 0);
-    func_0207D760(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, 1, 0);
+    G3i_LookAt_(&eye, &up, &target, 1, 0);
+    G3i_OrthoW_(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, 1, 0);
     NNS_G3dGlbInit();
     d_02148D8C = eye;
     d_02148D98 = up;
     d_02148DA4 = target;
-    func_0207BCA0(&eye, &up, &target, &d_02148B98);
+    MTX_LookAt(&eye, &up, &target, &d_02148B98);
     d_02148BCC.flag &= ~0xE8;
     func_0207C554(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, &d_02148B54);
     d_02148BCC.flag &= ~0x50;
@@ -690,10 +690,10 @@ void CircleGraph_BuildVertices(struct CircleGraph *graph)
             at->vertices[0].z = arc.z;
             at->vertices[0].polygonId = i;
             at->vertices[1].color = rimColor;
-            func_0207CA30((s16 *)&arc.x, &graph->circle[j].x, &graph->vertices[k + 1].x);
+            VEC_Fx16Add((s16 *)&arc.x, &graph->circle[j].x, &graph->vertices[k + 1].x);
             at->vertices[1].polygonId = i;
             at->vertices[2].color = rimColor;
-            func_0207CA30((s16 *)&arc.x, &graph->circle[(j + 1) % 100].x, &graph->vertices[k + 2].x);
+            VEC_Fx16Add((s16 *)&arc.x, &graph->circle[(j + 1) % 100].x, &graph->vertices[k + 2].x);
             at->vertices[2].polygonId = i;
             k += 3;
         }
@@ -929,5 +929,5 @@ void CircleGraph_ProjectToScreen(const struct CircleGraphPosition *position, s32
     v.x = FX32_CONST(FX_FX32_TO_F32(position->x));
     v.y = FX32_CONST(FX_FX32_TO_F32(position->y));
     v.z = FX32_CONST(FX_FX32_TO_F32(position->z));
-    func_0206DF3C(&v, px, py);
+    NNS_G3dWorldPosToScrPos(&v, px, py);
 }

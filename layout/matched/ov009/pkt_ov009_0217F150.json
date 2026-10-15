@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F150",
+   "name": "gsiStartResolvingHostname",
    "address": "0x0217F150",
    "kind": "sdk",
    "region": "ov009",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_0217F1C0",
+   "name": "gsiCancelResolvingHostname",
    "address": "0x0217F1C0",
    "kind": "sdk",
    "region": "ov009",

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020948E0                0x020948E0  arm
+ *   strcmp                0x020948E0  arm
 */
 
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 
 int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
 {
-    return func_020948E0(*elem1, *elem2);
+    return strcmp(*elem1, *elem2);
 }

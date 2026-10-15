@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   gSysState      0x0214693C  data
  */
 
@@ -42,14 +42,14 @@ struct Sys {
 extern struct Sys *gSysState;
 
 struct RtcTime;
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 
 void INFOWIN_UpdateClock(void)
 {
     struct Cfg cfg;
     u32 v;
 
-    func_0203F4CC((struct RtcTime *)(&cfg));
+    GF_STANDARD_SetField00((struct RtcTime *)(&cfg));
     v = cfg.c & 1;
 
     if (cfg.a != gSysState->field_1D) {

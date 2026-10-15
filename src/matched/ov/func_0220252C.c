@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb  arm9
  *
 
  * 1 only when the query is clear and the u16 at +0x32 is set.
@@ -22,11 +23,11 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 struct Rec0200AD8C;
-extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
+extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
 
 u32 WORLDTRADE_ADAPTER_CanProceed(u8 *p)
 {
-    if (func_0200AD8C((const struct Rec0200AD8C *)(*(u32 *)(((struct Obj12247 *)p)->f0))) == 0) {
+    if (WORLDTRADE_GetIsDeposited((const struct Rec0200AD8C *)(*(u32 *)(((struct Obj12247 *)p)->f0))) == 0) {
         if (((struct Obj12247 *)p)->f32 != 0) {
             return 1;
         }

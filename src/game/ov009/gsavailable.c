@@ -14,17 +14,17 @@
  *           HandlePacket, GSIAvailableCheckThink)
  *
  * symbols:
- *   func_0217ED38  0x0217ED38  arm ov009
+ *   inet_addr  0x0217ED38  arm ov009
  *   SOC_GetHostByName  0x0215F650  arm ov009
- *   func_0217ECA4  0x0217ECA4  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
+ *   sendto  0x0217ECA4  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   g_021ACF7C     0x021ACF7C  data
  *   func_021803BC  0x021803BC  arm ov009
  *   SocketStartUp  0x0217F25C  arm ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_0217C690  0x0217C690  arm ov009
  *   func_0217EB18  0x0217EB18  arm ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_02092344  0x02092344  arm
  *   func_0217C704  0x0217C704  arm ov009
  *   gGsAvailabilityGameName     0x021ACEFC  data
@@ -35,7 +35,7 @@
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  *   func_0217C848  0x0217C848  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   gGsAvailabilityState     0x021ACEF8  data
  */
 typedef unsigned char  u8;
@@ -68,23 +68,23 @@ typedef struct {
 
 struct SOCSockAddr;
 
-extern int func_0217ED38(int a);
+extern int inet_addr(int a);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern unsigned int func_0217F264(void);
+extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+extern unsigned int current_time(void);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern void SocketStartUp(void);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 extern void func_0217C704(void);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
 extern int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern char gGsAvailabilityGameName[];
 extern char g_021ACF3C[];
 extern char g_021A36E8[];
@@ -100,7 +100,7 @@ int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
     struct SOCHostEnt *host;
     saddr->family = 2;
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
-    saddr->addr = func_0217ED38((int)hostname);
+    saddr->addr = inet_addr((int)hostname);
     if (saddr->addr == 0xFFFFFFFF) {
         host = SOC_GetHostByName(hostname);
         if (host == 0) return 0;
@@ -114,8 +114,8 @@ int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
  */
 void func_0217C704(void)
 {
-    func_0217ECA4(g_021ACF7C.sock, g_021ACF7C.packet, g_021ACF7C.packetLen, 0, (struct SOCSockAddr *)&g_021ACF7C.address, 8);
-    g_021ACF7C.sendTime = func_0217F264();
+    sendto(g_021ACF7C.sock, g_021ACF7C.packet, g_021ACF7C.packetLen, 0, (struct SOCSockAddr *)&g_021ACF7C.address, 8);
+    g_021ACF7C.sendTime = current_time();
 }
 
 /*
@@ -142,7 +142,7 @@ void func_0217C750(char *gamename)
     if (g_021ACF7C.sock == -1)
         return;
     g_021ACF7C.packet[0] = 9;
-    len = func_0209477C((const u8 *)gamename);
+    len = strlen((const u8 *)gamename);
     func_02092344(g_021ACF7C.packet + 5, gamename, len + 1);
     g_021ACF7C.packetLen = len + 6;
     func_0217C704();
@@ -188,7 +188,7 @@ int func_0217C900(void)
     if (func_0217EF50(g_021ACF7C.sock)) {
         rcode = func_0217EC60(g_021ACF7C.sock, packet, 64, 0, &address, &len);
         if (func_0217C848(packet, rcode, &address, &disabledservices) == 0) {
-            func_0217EB2C(g_021ACF7C.sock);
+            closesocket(g_021ACF7C.sock);
             if (disabledservices & 1) {
                 gGsAvailabilityState = 2;
                 return 2;
@@ -201,9 +201,9 @@ int func_0217C900(void)
             }
         }
     }
-    if (func_0217F264() > g_021ACF7C.sendTime + 2000) {
+    if (current_time() > g_021ACF7C.sendTime + 2000) {
         if (g_021ACF7C.retryCount == 1) {
-            func_0217EB2C(g_021ACF7C.sock);
+            closesocket(g_021ACF7C.sock);
             gGsAvailabilityState = 1;
             return 1;
         }

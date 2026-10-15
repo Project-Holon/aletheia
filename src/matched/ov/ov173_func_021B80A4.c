@@ -1,5 +1,5 @@
 /*
- * function: func_021B80A4
+ * function: POKE_SUMMARY_ACTOR_OpenDecideWin
  * address:  0x021B80A4
  * packet:   pkt_021B80A4
  * region:   ov173
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-int func_021B80A4(char *p, u16 v)
+int POKE_SUMMARY_ACTOR_OpenDecideWin(char *p, u16 v)
 {
     char *q = p + 0x1d0;
 

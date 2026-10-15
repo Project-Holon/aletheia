@@ -14,6 +14,8 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
+ *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
@@ -98,7 +100,7 @@
  *   func_020275E8 0x020275E8 thumb
  *   func_020275F8 0x020275F8 thumb
  *   d_0220A4EC 0x0220A4EC data ov094 a4
- *   func_0207AD58  0x0207AD58  thumb
+ *   MTX_Scale22_  0x0207AD58  thumb
  *   func_02040820  0x02040820  arm
  *   d_0220A46C     0x0220A46C  data  ov094  a4
  *   d_0220A53C  0x0220A53C  data  a4
@@ -116,10 +118,10 @@
  *   d_0220A4AC  0x0220A4AC  data
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_0220A7FC     0x0220A7FC  data
@@ -174,6 +176,8 @@
  *   BTLV_EFFECT_ResetIntroState 0x021F8AC0 thumb ov094
  *   BTLV_MCSS_TakeSpriteRefreshedFlag 0x022005C4 thumb ov094
  *   FX_ModS32  0x0207C994  arm  arm9
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
+ *   GXx_GetMasterBrightness_  0x0207D55C  arm  arm9
  */
 #include "../../matched/include/Obj21770.h"
 #include "../../matched/include/Obj21781.h"
@@ -707,13 +711,13 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern int INFOWIN_Exit(void);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void func_0204152C(int channel, u16 val);
 
 extern void func_020403F4(u32 i);
 
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
@@ -765,7 +769,7 @@ extern u32 func_020275E8(void);
 
 extern u32 func_020275F8(u32);
 
-extern void func_0207AD58(void *dst, int a, int b);
+extern void MTX_Scale22_(void *dst, int a, int b);
 
 extern void func_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e);
 
@@ -781,7 +785,7 @@ extern int FX_ModS32(int n, int d);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 
@@ -805,7 +809,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
@@ -1352,7 +1356,7 @@ void BTLV_INPUT_InitBgLayers(BtlvInput *input)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        func_0203FCA0((u8)(i + 4), (const struct BgTemplate *)(&d_0220A8BC[i]), (u8)d_0220A8BC[i].f20);
+        BG_SYS_InitBgLayer((u8)(i + 4), (const struct BgTemplate *)(&d_0220A8BC[i]), (u8)d_0220A8BC[i].f20);
         func_0204152C((u8)(i + 4), (int)0x3ff);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)input, i + 4, 0, 0, 2, 2, 2, 2);
     }
@@ -1398,7 +1402,7 @@ void BTLV_INPUT_StartScreenFadeTask(BtlvInput *input)
 {
     BtlvInput **q;
     q = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x50c);
-    if (func_0207D55C((volatile u16 *)0x0400106c) <= 0)
+    if (GXx_GetMasterBrightness_((volatile u16 *)0x0400106c) <= 0)
         FADE_Start(2, 0x10, 0, 0);
     else
         FADE_Start(8, 0x10, 0, 0);
@@ -2388,7 +2392,7 @@ void BTLV_INPUT_BgScrollTaskMain(void *a0, void *arg)
         o->scroll = o->scroll - 2;
     else if (o->step < 0)
         o->scroll = o->scroll + 2;
-    func_0207AD58(m, o->cur, o->cur);
+    MTX_Scale22_(m, o->cur, o->cur);
     func_02040820(7, 0, 0x80, (u32)m, 0x100, 0x100);
     func_02040820(7, 3, o->scroll, (u32)m, 0x100, 0x100);
     if (o->cur == o->goal)
@@ -2984,7 +2988,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
     str1 = STRBUF_Create(0x10, input->heap);
     m0 = func_02045EC0(input->msgData, 0);
     m1 = func_02045EC0(input->msgData, 1);
-    font = (int)func_0201EC64(input->heap);
+    font = (int)GF_FONT_Create_EC64(input->heap);
     str2 = STRBUF_Create(0x10, input->heap);
     m2 = func_02045EC0(input->msgData, 2);
     CLACT_SetUnitDrawEnable(input->unitWaza, 0);
@@ -3034,7 +3038,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
     if (input->battleType == 2) {
         input->enabled[i + 1] = 1;
     }
-    func_0201ED04((struct WordSet *)font);
+    WORDSET_DeleteStrbufED04((struct WordSet *)font);
     STRBUF_Delete(str1);
     STRBUF_Delete(m1);
     STRBUF_Delete(m0);
@@ -3066,7 +3070,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const Info_v3E30 *
     k = (input->battleType == 2) ? 1 : 0;
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     v = STRBUF_Create(12, (u16)((input->heap & 0x7fff) | 0x8000));
-    h = (int)func_0201EC64((u16)((input->heap & 0x7fff) | 0x8000));
+    h = (int)GF_FONT_Create_EC64((u16)((input->heap & 0x7fff) | 0x8000));
     GF_FONT_SetTextColor(1, 2, 0);
     for (i = 0; i < n; i++) {
         if (p->e[i].show != 0) {
@@ -3081,7 +3085,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const Info_v3E30 *
     }
     input->enabled[i] = 1;
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    func_0201ED04((struct WordSet *)h);
+    WORDSET_DeleteStrbufED04((struct WordSet *)h);
     STRBUF_Delete(v);
     idx = (p->b48 - 2) / 2;
     input->flags2.targetGroup = p->b49;
@@ -3173,7 +3177,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b)
     void *w;
     void *extra;
     u8 c[3];
-    h = (int)func_0201EC64(input->heap);
+    h = (int)GF_FONT_Create_EC64(input->heap);
     v = STRBUF_Create(8, input->heap);
     w = func_02045EC0(input->msgData, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -3191,7 +3195,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b)
     PRINTSYS_Print((void *)(input->bmpA), 0x7c, 8, extra, (void *)(input->font));
     STRBUF_Delete(extra);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    func_0201ED04((struct WordSet *)h);
+    WORDSET_DeleteStrbufED04((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
     PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), (u16 *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), 1, 0x70, 0x20);
@@ -3534,7 +3538,7 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     CLACT_SetActorAnimSeq(input->backActor, 0x14);
     str = STRBUF_Create(0x10, input->heap);
     msg = func_02045EC0(input->msgData, 0);
-    font = (int)func_0201EC64(input->heap);
+    font = (int)GF_FONT_Create_EC64(input->heap);
     bmp = BMP_Create(0xe, 4, 0x20, input->heap);
     BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -3554,7 +3558,7 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     }
     STRBUF_Delete(str);
     STRBUF_Delete(msg);
-    func_0201ED04((struct WordSet *)font);
+    WORDSET_DeleteStrbufED04((struct WordSet *)font);
     BMP_Delete(bmp);
 }
 
@@ -3845,7 +3849,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
 
     if (BTLV_EFFECT_IsRecordEnabledInComm() == 0)
         return;
-    h = (int)func_0201EC64(input->heap);
+    h = (int)GF_FONT_Create_EC64(input->heap);
     v = STRBUF_Create(6, input->heap);
     w = func_02045EC0(input->msgData, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -3855,7 +3859,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &v18, &v14);
     PRINTSYS_Print((void *)(input->bmpB), 12 - v18 / 2, 0, v, (void *)(input->font));
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    func_0201ED04((struct WordSet *)h);
+    WORDSET_DeleteStrbufED04((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
 }

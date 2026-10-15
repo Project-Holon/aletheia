@@ -1,5 +1,5 @@
 /*
- * function: func_02076360
+ * function: CARDi_DCInvalidateSmart
  * address:  0x02076360
  * packet:   pkt_02076360
  * region:   arm9
@@ -26,7 +26,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void DC_WaitWriteBufferEmpty(void);
 
-void func_02076360(void *buffer, u32 length, u32 threshold)
+void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold)
 {
     if (length >= threshold)
     {

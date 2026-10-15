@@ -1,5 +1,5 @@
 /*
- * function: func_021F6AB8
+ * function: EGG_DEMO_VIEW_InitMcss
  * address: 0x021F6AB8
  * packet: pkt_ov215_021F6AB8
  * region: ov215
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 extern void *MCSS_Init(u32 id, void *heap);
 extern void MCSS_SetTextureTransAdrs(void *, unsigned int);
 extern void MCSS_SetOrthoMode(void *);
-void func_021F6AB8(char *p)
+void EGG_DEMO_VIEW_InitMcss(char *p)
 {
     *(void **)(p + 0x30) = MCSS_Init(1, (void *)(*(unsigned short *)p));
     MCSS_SetTextureTransAdrs(*(void **)(p + 0x30), 3 << 16);

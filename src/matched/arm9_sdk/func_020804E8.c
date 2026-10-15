@@ -1,5 +1,5 @@
 /*
- * function: func_020804E8
+ * function: GX_SetBankForClearImage
  * address:  0x020804E8
  * packet:   pkt_020804E8
  * region:   arm9
@@ -85,7 +85,7 @@ typedef enum {
 extern struct GX_State gGXState;
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
-void func_020804E8(int clrImg)
+void GX_SetBankForClearImage(int clrImg)
 {
     gGXState.vramCnt_lcdc = (u16)(~clrImg & (gGXState.vramCnt_lcdc | gGXState.vramCnt_clrImg));
     gGXState.vramCnt_clrImg = (u16)clrImg;

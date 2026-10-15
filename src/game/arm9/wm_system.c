@@ -46,6 +46,7 @@
  *   PMi_InsertPreSleepCallbackEx   0x0208C848  arm
  *   OS_IsAvailableWireless           0x02087dc4 arm
  *   OS_IsForceDisableWireless        0x02087e84 arm
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm
  */
 typedef unsigned long u32;
 
@@ -260,7 +261,7 @@ extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void PMi_InsertPreSleepCallbackEx(PMGenCallbackInfo *info, int priority);
-extern void func_0208C86C(void *);
+extern void PM_DeletePreSleepCallback(void *);
 extern BOOL OS_IsAvailableWireless(void);
 extern BOOL OS_IsForceDisableWireless(void);
 WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo);
@@ -968,7 +969,7 @@ void WMi_RegisterSleepCallback(void)
 
 
 
-void WMi_DeleteSleepCallback(void){ func_0208C86C((void *)0x02153060); }
+void WMi_DeleteSleepCallback(void){ PM_DeletePreSleepCallback((void *)0x02153060); }
 
 
 

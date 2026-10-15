@@ -37,9 +37,9 @@
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
  *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200C33C  0x0200C33C  thumb
- *   func_0200C364  0x0200C364  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   BEACON_GetRecentId  0x0200C33C  thumb
+ *   BEACON_AddRecentValue  0x0200C364  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  */
 #include "../include/Obj00747.h"
@@ -69,10 +69,10 @@ extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(void *p, u8 id);
 extern u32 MISC_SAVEDATA_IsTallyFull(u8 *p, u32 a, u32 count);
 extern void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v);
 extern void MISC_SAVEDATA_AddTallyValue(u8 *a0, u32 a1, u32 a2, int a3);
-extern void *func_0200C0F0(void *p);
+extern void *BEACON_GetBlock(void *p);
 struct Blk34;
-extern int func_0200C33C(struct Blk34 *p, u32 i);
-extern void func_0200C364(struct Blk34 *p, u8 i, int v);
+extern int BEACON_GetRecentId(struct Blk34 *p, u32 i);
+extern void BEACON_AddRecentValue(struct Blk34 *p, u8 i, int v);
 extern void  MI_CpuFill8(void *d, int v, u32 n);
 
 static inline u32 calc(struct Req *r, int id)
@@ -126,14 +126,14 @@ void GAME_BEACON_AddLog(u8 *base, struct Req *r)
 
     sys = GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0);
     bag2 = SYMBOL_SAVE_GetBitBlock(sys);
-    tbl = func_0200C0F0(sys);
+    tbl = BEACON_GetBlock(sys);
     for (i = 0; i < 3; i++) {
-        id = func_0200C33C(tbl, (u8)i);
+        id = BEACON_GetRecentId(tbl, (u8)i);
         if (id != 0xff) {
             for (j = 0; j < 3; j++) {
                 if (id == MISC_SAVEDATA_GetStatusByte(bag2, j)) {
                     if (calc(r, id) != 0)
-                        func_0200C364(tbl, i, 1);
+                        BEACON_AddRecentValue(tbl, i, 1);
                 }
             }
         }

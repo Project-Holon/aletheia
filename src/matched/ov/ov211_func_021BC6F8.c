@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6F8
+ * function: ZUKAN_SEARCH_SCREEN_WaitWipe
  * address: 0x021BC6F8
  * packet: pkt_ov211_021BC6F8
  * region: ov211
@@ -12,4 +12,4 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 extern unsigned WIPE_SYS_EndCheck(void);
-int func_021BC6F8(void){if(WIPE_SYS_EndCheck()==1)return 4;return 2;}
+int ZUKAN_SEARCH_SCREEN_WaitWipe(void){if(WIPE_SYS_EndCheck()==1)return 4;return 2;}

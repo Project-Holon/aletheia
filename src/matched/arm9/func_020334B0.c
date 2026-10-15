@@ -18,7 +18,7 @@
  * (not r3 like BACKUP_SYSTEM_WriteFlashAsync), which is what fixes the arity at three.
  * Unlabelled in the listing (it saves no lr), so it is invisible to
  * `sole-ref/code` until this entry exists; it is the witness that
- * unblocks the thumb caller func_021DFE00.
+ * unblocks the thumb caller SAVE_OUTSIDE_WriteAsync.
  */
 
 extern void FLASH_ACCESS_PollWrite(int, int, int);

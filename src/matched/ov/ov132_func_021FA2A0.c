@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F9E04 0x021F9E04 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
- *   func_021F9DD4 0x021F9DD4 thumb ov132
- *   func_021F9DDC 0x021F9DDC thumb ov132
+ *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
+ *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_021F6F04 0x021F6F04 thumb ov112
  *   func_021FA3A8 0x021FA3A8 thumb ov132
@@ -31,11 +31,11 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
-extern u16 func_021F9E04(u8 *p);
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
-extern void *func_021F9DD4(void *);
-extern void *func_021F9DDC(void *,u8);
+extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
+extern void *STA_ACTING_GetCharSystem(void *);
+extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_021F6F04(void *,void *,Vec *);
 extern void func_021FA3A8(char *,u8 *,unsigned);
@@ -55,14 +55,14 @@ void func_021FA2A0(char *p,u8 *rec)
             else if(rec[6]<6) func_021FA3A8(p,rec,1);
             else func_021FA3A8(p,rec,0);
         } else {
-            func_021F9E04(((struct Obj04514 *)p)->f1E8);
+            STA_ACTING_GetCameraTarget(((struct Obj04514 *)p)->f1E8);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
-                a=func_021F9DA0(((struct Obj04514 *)p)->f1E8);
-                func_021F8044(a,func_021F9DA4(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
+                a=STA_ACTING_GetActorSystem(((struct Obj04514 *)p)->f1E8);
+                func_021F8044(a,STA_ACTING_GetActor(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
             } else {
-                b=func_021F9DD4(((struct Obj04514 *)p)->f1E8);
-                func_021F6F04(b,func_021F9DDC(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);
+                b=STA_ACTING_GetCharSystem(((struct Obj04514 *)p)->f1E8);
+                func_021F6F04(b,STA_ACTING_GetCharSlot(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);
             }
             delta=(float)v.x/4096.f-(float)(u32)x;
             if(delta < -64) func_021FA3A8(p,rec,0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C34
+ * function: CTVT_COMM_GetVoiceStatePending
  * address: 0x021B8C34
  * packet: pkt_ov172_021B8C34
  * region: ov172
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_021B8C34(void *ctx, u8 *rec)
+u32 CTVT_COMM_GetVoiceStatePending(void *ctx, u8 *rec)
 {
     return *(u32 *)(rec + 0x3C8);
 }

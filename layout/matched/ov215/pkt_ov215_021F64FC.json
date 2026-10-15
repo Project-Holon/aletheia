@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F64FC",
+   "name": "EGG_DEMO_GRAPHIC_GetClactBank2",
    "address": "0x021F64FC",
    "kind": "game",
    "region": "ov215",

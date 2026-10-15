@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F9DA0 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   func_021FAEE8 0x021FAEE8 thumb ov132
  *   func_021F8084 0x021F8084 thumb ov112
  *   func_021FADF8 0x021FADF8 thumb ov132
@@ -20,7 +20,7 @@
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
-extern void *func_021F9DA0(char *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
 extern int func_021FAEE8(char *p);
 extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern void func_021FADF8(char *p, char *q);
@@ -28,7 +28,7 @@ extern const s16 FX_SinCosTable_[];
 void func_021FB8CC(int unused, char *p)
 {
     void *ctx;
-    ctx = func_021F9DA0(((struct Obj03823 *)p)->f0);
+    ctx = STA_ACTING_GetActorSystem(((struct Obj03823 *)p)->f0);
     if (func_021FAEE8(p) == 2) {
         Vec zero = { 0, 0, 0 };
         func_021F8084(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&zero));

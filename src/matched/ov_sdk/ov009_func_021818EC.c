@@ -1,5 +1,5 @@
 /*
- * function: func_021818EC
+ * function: gsUdpEngineGetPeerOutBufferFreeSpace
  * address:  0x021818EC
  * packet:   pkt_ov009_021818EC
  * region:   ov009
@@ -52,7 +52,7 @@ extern int func_02195E50(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A3B9C[];
 
-int func_021818EC(unsigned int theIp, unsigned short thePort)
+int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short thePort)
 {
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aRemotePeer;

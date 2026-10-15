@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_SetMiniIconVisible 0x021EE008 thumb ov170
  *   BOX2_UI_DeleteSlotIcon 0x021EDF5C thumb ov170
  *   BOX2_UI_AddSlotIcon 0x021EDD38 thumb ov170
@@ -18,7 +18,7 @@
 typedef struct { unsigned char pad[0xE]; unsigned short fE; } Blk;
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_UI_SetMiniIconVisible(char *, int, int);
 extern void BOX2_UI_DeleteSlotIcon(unsigned char *p);
 extern void BOX2_UI_AddSlotIcon(char *, int);
@@ -26,7 +26,7 @@ int BOX2_SEQ_OpenBoxRight(char *p)
 {
     Blk *b = (Blk *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(((struct Obj23884 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70);
+        unsigned r = CURSOR_MOVE_GetCurrent(((struct Obj23884 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70);
         if (r >= 1 && r <= 4)
             BOX2_UI_SetMiniIconVisible(p, r - 1, 1);
         else

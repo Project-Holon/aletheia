@@ -17,7 +17,7 @@
  * symbols:
  *   func_020409B4  0x020409B4  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   PLIST_PLATE_IsEgg  0x021BB468  thumb  ov091
  *   PLIST_MESSAGE_OpenWindow  0x021BB714  thumb  ov091
  *   PLIST_MESSAGE_PrintText  0x021BB7E8  thumb  ov091
@@ -38,7 +38,7 @@ typedef unsigned int u32;
 
 extern void func_020409B4(u32 index);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 extern int PLIST_PLATE_IsEgg(int unused, int *p);
 extern void PLIST_MESSAGE_OpenWindow(void *a, u32 *s, u32 k);
 extern void PLIST_MESSAGE_PrintText(u8 *a, u32 *s, u32 x);
@@ -70,7 +70,7 @@ void POKELIST_OpenContextMenu(u8 *p)
             buf[0] = 0;
             buf[4] = 6;
             buf[5] = 0x10;
-            if (func_0202136C(POKE_TOOL_GetPartyValue((void *)W(0x38), 6, 0)) == 1) {
+            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue((void *)W(0x38), 6, 0)) == 1) {
                 buf[3] = 5;
             }
         }

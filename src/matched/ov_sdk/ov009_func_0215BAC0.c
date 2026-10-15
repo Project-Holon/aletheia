@@ -18,7 +18,7 @@
  *   OS_CancelAlarm  0x020873F8  arm
  *   func_0208738C  0x0208738C  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  *   g_021A82FC     0x021A82FC  data
  *   dacktimer_alarmhandler  0x0215BBF0  arm  ov009
  */
@@ -52,7 +52,7 @@ extern void OS_CancelAlarm(void *alarm);
 extern void func_0208738C(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void dacktimer_alarmhandler(void *arg);
-extern struct ThreadInfo g_02150FEC;
+extern struct ThreadInfo gMslRefToken;
 extern unsigned char g_021A82FC[];
 
 void dacktimer_reschedule(void)
@@ -66,7 +66,7 @@ void dacktimer_reschedule(void)
 
 	enabled = OS_DisableInterrupts();
 	tick = (unsigned long)func_020870D0();
-	for (t = g_02150FEC.list; t != 0; t = t->next) {
+	for (t = gMslRefToken.list; t != 0; t = t->next) {
 		soc = t->soc;
 		if (soc != 0 && soc->first != 0 && soc->state == 4 && soc->ack_pending != 0) {
 			diff = tick - soc->tick_acked;

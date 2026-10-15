@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A14
+ * function: CTVT_COMM_SendStrokeQueue
  * address: 0x021B8A14
  * packet: pkt_ov172_021B8A14
  * region: ov172
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
-u32 func_021B8A14(int unused, char *q)
+u32 CTVT_COMM_SendStrokeQueue(int unused, char *q)
 {
     u32 entry, result;
     u8 available, write, read;

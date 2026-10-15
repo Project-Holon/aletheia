@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B94
+ * function: CTVT_COMM_GetSlotParam
  * address:  0x021B8B94
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-char *func_021B8B94(int unused, char *base, int i)
+char *CTVT_COMM_GetSlotParam(int unused, char *base, int i)
 {
     return base + 0x80 + (i << 6);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02034F74",
+   "name": "UI_SetKeepAwakeFlags",
    "address": "0x02034F74",
    "kind": "game",
    "region": "arm9",

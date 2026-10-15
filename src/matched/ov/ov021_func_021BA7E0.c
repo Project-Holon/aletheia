@@ -14,7 +14,7 @@
  *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
  *   FIELD_RAIL_GetFocusPos  0x021B79D4  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
@@ -35,7 +35,7 @@ u32 FIELD_RAIL_GetFieldCamera(u8 *p);
 void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
 void FIELD_CAMERA_StopTargetTrace(u8 *p);
 void FIELD_RAIL_GetFocusPos(void **o, void *out);
-void func_0207CA00(const V *a, const V *b, V *c);
+void VEC_Subtract(const V *a, const V *b, V *c);
 void VEC_Normalize(const V *a, V *b);
 void FIELD_CAMERA_SetTarget(u32 a, V *v);
 void FIELD_CAMERA_SetEyeRaw(u32 a, V *v);
@@ -65,7 +65,7 @@ void FIELD_RAIL_CAMERA_SetOrbit(u32 p, u16 ang, int r, V *pos)
     c.y = 0;
     FIELD_RAIL_GetFocusPos((void **)p, &d);
     d.y = 0;
-    func_0207CA00(&d, &c, &d);
+    VEC_Subtract(&d, &c, &d);
     VEC_Normalize(&d, &n);
     i = (ang >> 4) * 2;
     out.y = FX_MUL(FX_SinCosTable_[i], r);

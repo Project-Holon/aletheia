@@ -1,5 +1,5 @@
 /*
- * function: func_02062594
+ * function: NNS_GfdFreePlttVram
  * address:  0x02062594
  * packet:   pkt_02062474
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Ask the 'KNBA'-tagged accessor whether a packed id is live: the low
  * halfword and the high halfword of the argument are each scaled by 8 (the
- * record stride) and handed to func_0206207C along with the two words at
+ * record stride) and handed to NNSi_GfdFreeLnkVram along with the two words at
  * 0x02146BB0 and 0x02146BB4.  The answer is inverted - `moveq r0, #1;
  * movne r0, #0` - so the function is true exactly when the probe came back 0.
  *
@@ -29,11 +29,11 @@
  * symbols:
  *   g_02146BB0     0x02146BB0  data
  *   g_02146BB4     0x02146BB4  data
- *   func_0206207C  0x0206207C  arm
+ *   NNSi_GfdFreeLnkVram  0x0206207C  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062594.c \
- *       --func func_02062594 --addr 0x02062594 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_GfdFreePlttVram.c \
+ *       --func NNS_GfdFreePlttVram --addr 0x02062594 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Hdr02062474.h"
@@ -42,12 +42,12 @@ typedef unsigned int u32;
 
 extern struct Hdr02062474 g_02146BB0;
 extern u32 g_02146BB4[];
-extern int func_0206207C(void *headp, void *freep, int a2, int a3);
+extern int NNSi_GfdFreeLnkVram(void *headp, void *freep, int a2, int a3);
 
-int func_02062594(u32 id)
+int NNS_GfdFreePlttVram(u32 id)
 {
     u32 lo = (id & 0xFFFFu) << 3;
     u32 hi = ((id & 0xFFFF0000u) >> 16) << 3;
 
-    return func_0206207C(((u32 *)&g_02146BB0), g_02146BB4, lo, hi) == 0;
+    return NNSi_GfdFreeLnkVram(((u32 *)&g_02146BB0), g_02146BB4, lo, hi) == 0;
 }

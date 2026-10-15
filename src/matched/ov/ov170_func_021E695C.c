@@ -23,7 +23,7 @@
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb ov170
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb ov170
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb ov170
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
  *   BOX2_UI_ShowWindowA 0x021EF670 thumb ov170
@@ -53,7 +53,7 @@ extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern void BOX2_SEQ_SetWindow9(u8 *, int, int);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_UI_MoveCursor(char **, int, int);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern void BOX2_UI_ShowWindowA(char *);
@@ -82,7 +82,7 @@ int BOX2_SEQ_StateCloseItem(u8 *p)
         BOX2_SEQ_SetWindow9(p, 14, 1);
         BOX2_UI_DeleteSlotObjects((char *)p, 0, 0, 1);
         if (p[30] == 0) {
-            index = func_020260E0(((struct Obj23910 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
+            index = CURSOR_MOVE_GetCurrent(((struct Obj23910 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
             if (index >= 36)
                 index = 0;
             else if (index >= 30)
@@ -92,7 +92,7 @@ int BOX2_SEQ_StateCloseItem(u8 *p)
             BOX2_UI_ShowWindowA(*(char * *)&((struct Obj00000 *)p)->f2C);
             return 57;
         } else {
-            index = func_020260E0(((struct Obj23911 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
+            index = CURSOR_MOVE_GetCurrent(((struct Obj23911 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
             selection = 0;
             if (index < 36 && index >= 30)
                 selection = index - 30;

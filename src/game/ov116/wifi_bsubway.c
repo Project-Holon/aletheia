@@ -1,7 +1,7 @@
 /*
  * file:     wifi_bsubway.c
  * unit:     yes
- * function: func_021D6660, func_021D6710, func_021D6918, func_021D696C, func_021D6998, func_021D69A8, func_021D69C0, func_021D69EC, func_021D6A10, func_021D6A40, func_021D6A44, func_021D6A48, func_021D6A4C, func_021D6A5C, func_021D6AF0, func_021D6B30, func_021D6B50, func_021D6B70, func_021D6B88, func_021D6C50, func_021D6CBC, func_021D6D18, func_021D6D40, func_021D6E3C, func_021D6E50, func_021D6EC4, func_021D7010, func_021D7038, func_021D7060, func_021D70B0, func_021D70D8, func_021D70E4, func_021D70EC, func_021D7158, func_021D7184, func_021D7200, func_021D724C, func_021D7250, func_021D7258, func_021D7260, func_021D7278
+ * function: WIFI_BSUBWAY_Create, WIFI_BSUBWAY_Step, WIFI_BSUBWAY_Delete, WIFI_BSUBWAY_IsTransferReady, WIFI_BSUBWAY_ClearTrainers, WIFI_BSUBWAY_StartRoomRequest, WIFI_BSUBWAY_FinishRoomRequest, WIFI_BSUBWAY_StartPlayerDownload, WIFI_BSUBWAY_FinishPlayerDownload, WIFI_BSUBWAY_GetRoomNumber, WIFI_BSUBWAY_GetPlayerIndex, WIFI_BSUBWAY_GetDownloadResult, WIFI_BSUBWAY_GetTransferState, WIFI_BSUBWAY_NormalizeTrainers, WIFI_BSUBWAY_SaveTrainers, WIFI_BSUBWAY_SaveHistory, WIFI_BSUBWAY_StatusInit, WIFI_BSUBWAY_StatusDelete, WIFI_BSUBWAY_StatusSetMessage, WIFI_BSUBWAY_StatusCheckMessage, WIFI_BSUBWAY_StartProfileUpload, WIFI_BSUBWAY_FinishProfileUpload, WIFI_BSUBWAY_BuildProfile, WIFI_BSUBWAY_OnHttpError, WIFI_BSUBWAY_StartHttpRequest, WIFI_BSUBWAY_PollHttpRequest, WIFI_BSUBWAY_ReadRecordUnits, WIFI_BSUBWAY_AbortHttpRequest, WIFI_BSUBWAY_StartUploadPlayer, WIFI_BSUBWAY_IsUploadDone, WIFI_BSUBWAY_AsyncInit, WIFI_BSUBWAY_AsyncReset, WIFI_BSUBWAY_PollAsync, WIFI_BSUBWAY_AsyncHasError, WIFI_BSUBWAY_GetErrorState, WIFI_BSUBWAY_CheckFatalError, WIFI_BSUBWAY_SetDownloadResult, WIFI_BSUBWAY_SetHttpError, WIFI_BSUBWAY_ResetUpload, WIFI_BSUBWAY_TickUploadTimeout, WIFI_BSUBWAY_OpenCodeIn
  * address:  0x021D6660
  * region:   ov116
  * compiler: dsi/1.1p1
@@ -50,8 +50,8 @@
  *   DPW_BT_DownloadPlayerAsync 0x021C94A0 arm ov114
  *   func_02025C1C 0x02025C1C thumb
  *   func_02025C30 0x02025C30 thumb
- *   func_02025CB0 0x02025CB0 thumb
- *   func_02025C88 0x02025C88 thumb
+ *   CURSOR_MOVE_FindTableGroupIndex 0x02025CB0 thumb
+ *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_0200DD28 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
@@ -73,7 +73,7 @@
  *   DPW_BT_SetProfileAsync 0x021C9744 arm ov114
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   func_020084F4 0x020084F4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
@@ -114,8 +114,8 @@
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   CODEIN_PARAM_Create 0x0202E4EC thumb
  *   GAMESYSTEM_CallProc 0x020120B4 thumb
- *   d_021D8560 0x021D8560 data ov116 a4
- *   d_021D8568 0x021D8568 data ov116 a4
+ *   gWifiBsubwayCodeInParam 0x021D8560 data ov116 a4
+ *   gWifiBsubwayCodeInParamEx 0x021D8568 data ov116 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   ov129_id 0x81 data
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
@@ -126,38 +126,10 @@
  *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  */
-#include "../../matched/include/Obj00671.h"
-#include "../../matched/include/Obj22612.h"
-#include "../../matched/include/Obj22613.h"
-#include "../../matched/include/Obj22614.h"
-#include "../../matched/include/Obj13858.h"
-#include "../../matched/include/Obj22615.h"
-#include "../../matched/include/Obj13859.h"
-#include "../../matched/include/Obj10337.h"
-#include "../../matched/include/Obj13860.h"
-#include "../../matched/include/Obj22616.h"
-#include "../../matched/include/Obj22617.h"
-#include "../../matched/include/Obj22618.h"
-#include "../../matched/include/Obj13861.h"
-#include "../../matched/include/Obj22619.h"
-#include "../../matched/include/Obj10338.h"
-#include "../../matched/include/Obj04469.h"
-#include "../../matched/include/Obj13862.h"
-#include "../../matched/include/Obj22621.h"
-#include "../../matched/include/Obj13863.h"
-#include "../../matched/include/Obj04470.h"
-#include "../../matched/include/Obj01925.h"
-#include "../../matched/include/Obj08046.h"
-#include "../../matched/include/Obj10339.h"
-#include "../../matched/include/Obj13864.h"
-#include "../../matched/include/Obj08047.h"
-#include "../../matched/include/Obj06416.h"
-#include "../../matched/include/Obj22622.h"
-#include "../../matched/include/Obj06417.h"
-#include "../../matched/include/Obj13865.h"
-#include "../../matched/include/Obj13866.h"
-#include "../../matched/include/Obj22623.h"
+
+#include "ov116_types.h"
 
 struct Big;
 struct BigObj;
@@ -178,42 +150,34 @@ struct IcaAnime;
 struct Param;
 typedef unsigned char u8;
 
-typedef signed int     s32_021D6660;
 
 typedef unsigned int   u32;
 
 typedef unsigned short u16;
 
-typedef signed int     s32_021D6710;
 
 typedef short s16;
 
 typedef signed char s8;
 
-typedef int s32_021D6A48;
 
 typedef struct { u8 a : 1, b : 1, c : 6; } Bits;
 
 struct Record { unsigned short id:11; unsigned short rest:5; };
 
-typedef int s32_021D70D8;
 
-typedef int s32_021D70E4;
 
-typedef int s32_021D724C;
 
-typedef int s32_021D7250;
 
-typedef int s32_021D7258;
 
-extern int func_02034AC4(s32_021D6660 handle);
+extern int func_02034AC4(int handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
@@ -226,17 +190,17 @@ extern void GFL_USE_FadeInBgmFull(unsigned);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(u8 *);
 extern void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *,u32);
-extern void FADE_Start(u32 a, s32_021D6710 b, s32_021D6710 c, s32_021D6710 d);
+extern void FADE_Start(u32 a, int b, int c, int d);
 extern void WIFI_BSUBWAY_GRAPHIC_InitBt(u8 *);
 extern int WIFI_BSUBWAY_GRAPHIC_GetSaveState(u8 *),FADE_IsActive(void),WIFI_BSUBWAY_GRAPHIC_PollBt(u8 *),WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *,u32);
 extern void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p);
-extern int func_021D6C50(u8 *,unsigned),func_021D6D18(u8 *,u8 *),WIFI_BSUBWAY_GRAPHIC_DispatchTable(u8 *,int),WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *);
-extern void func_021D6CBC(u8 *,void *,u8 *),WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *),WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *),WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *);
+extern int WIFI_BSUBWAY_StatusCheckMessage(u8 *,unsigned),WIFI_BSUBWAY_FinishProfileUpload(u8 *,u8 *),WIFI_BSUBWAY_GRAPHIC_DispatchTable(u8 *,int),WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *);
+extern void WIFI_BSUBWAY_StartProfileUpload(u8 *,void *,u8 *),WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *),WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *),WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *);
 extern int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(u8 *);
-extern void func_021D7038(u8 *),DPW_BT_Main(void),WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *);
+extern void WIFI_BSUBWAY_AbortHttpRequest(u8 *),DPW_BT_Main(void),WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_Noop(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
@@ -250,8 +214,8 @@ extern void DPW_BT_GetRoomNumAsync(unsigned x);
 extern void DPW_BT_DownloadPlayerAsync(unsigned x, unsigned y, unsigned z);
 extern u32 func_02025C1C(u32,u32,u32);
 extern u32 func_02025C30(u32,u32,u32);
-extern u32 func_02025CB0(u32);
-extern u32 func_02025C88(u32);
+extern u32 CURSOR_MOVE_FindTableGroupIndex(u32);
+extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int func_02167ED8(void *, void *);
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
@@ -311,118 +275,118 @@ extern void DPW_BT_CancelAsync(void);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
-int func_021D6660(void *ctx,int unused,u8 *q);
-int func_021D6710(void *a,int *state,int b,u8 *p);
-int func_021D6918(void *p, int a, int b, u8 *q);
-int func_021D696C(unsigned char *a,int b);
-void func_021D6998(void *a);
-void func_021D69A8(unsigned char *a,unsigned char *b,unsigned short c);
-int func_021D69C0(unsigned char *a,unsigned char *b);
-void func_021D69EC(unsigned char *a,unsigned char *b,unsigned short c);
-int func_021D6A10(unsigned char *a,unsigned char *b);
-u16 func_021D6A40(u8 *p);
-u16 func_021D6A44(u8 *p);
-u16 func_021D6A48(u8 *p);
-int func_021D6A4C(unsigned char *p);
-void func_021D6A5C(u8 *p);
-void func_021D6AF0(u8 *p, void *q);
-void func_021D6B30(unsigned char *a,void *b);
-void func_021D6B50(unsigned char *a,int b);
-void func_021D6B70(unsigned char *a);
-void func_021D6B88(u8 *p, void *save, int id);
-int func_021D6C50(u8 *p,unsigned heap);
-void func_021D6CBC(u8 *p,void *q,u8 *r);
-int func_021D6D18(unsigned char *a,unsigned char *b);
-void func_021D6D40(u8 *p, void *save, void *idx);
-void func_021D6E3C(unsigned char *a);
-void func_021D6E50(u8 *p,u8 *q,int a,int b);
-int func_021D6EC4(u8 *p, u8 *q, int flag);
-void func_021D7010(unsigned int a,unsigned int b);
-void func_021D7038(u8 *p);
-void func_021D7060(u8 *p, u8 *q);
-int func_021D70B0(void *unused, u8 *p);
-void func_021D70D8(void *p);
-void func_021D70E4(u8 *p);
-int func_021D70EC(u8 *p,int *q);
-int func_021D7158(u8 *p);
-int func_021D7184(int *p);
-int func_021D7200(int *p);
-void func_021D724C(u8 *p, u32 v);
-void func_021D7250(u8 *p, u32 v);
-void func_021D7258(u8 *p);
-void func_021D7260(u8 *p);
-void func_021D7278(u8 *p,int a);
+int WIFI_BSUBWAY_Create(void *ctx,int unused,u8 *q);
+int WIFI_BSUBWAY_Step(void *a,int *state,int b,u8 *p);
+int WIFI_BSUBWAY_Delete(void *p, int a, int b, u8 *q);
+int WIFI_BSUBWAY_IsTransferReady(unsigned char *a,int b);
+void WIFI_BSUBWAY_ClearTrainers(void *a);
+void WIFI_BSUBWAY_StartRoomRequest(unsigned char *a,unsigned char *b,unsigned short c);
+int WIFI_BSUBWAY_FinishRoomRequest(unsigned char *a,unsigned char *b);
+void WIFI_BSUBWAY_StartPlayerDownload(unsigned char *a,unsigned char *b,unsigned short c);
+int WIFI_BSUBWAY_FinishPlayerDownload(unsigned char *a,unsigned char *b);
+u16 WIFI_BSUBWAY_GetRoomNumber(u8 *p);
+u16 WIFI_BSUBWAY_GetPlayerIndex(u8 *p);
+u16 WIFI_BSUBWAY_GetDownloadResult(u8 *p);
+int WIFI_BSUBWAY_GetTransferState(unsigned char *p);
+void WIFI_BSUBWAY_NormalizeTrainers(u8 *p);
+void WIFI_BSUBWAY_SaveTrainers(u8 *p, void *q);
+void WIFI_BSUBWAY_SaveHistory(unsigned char *a,void *b);
+void WIFI_BSUBWAY_StatusInit(unsigned char *a,int b);
+void WIFI_BSUBWAY_StatusDelete(unsigned char *a);
+void WIFI_BSUBWAY_StatusSetMessage(u8 *p, void *save, int id);
+int WIFI_BSUBWAY_StatusCheckMessage(u8 *p,unsigned heap);
+void WIFI_BSUBWAY_StartProfileUpload(u8 *p,void *q,u8 *r);
+int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *a,unsigned char *b);
+void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx);
+void WIFI_BSUBWAY_OnHttpError(unsigned char *a);
+void WIFI_BSUBWAY_StartHttpRequest(u8 *p,u8 *q,int a,int b);
+int WIFI_BSUBWAY_PollHttpRequest(u8 *p, u8 *q, int flag);
+void WIFI_BSUBWAY_ReadRecordUnits(unsigned int a,unsigned int b);
+void WIFI_BSUBWAY_AbortHttpRequest(u8 *p);
+void WIFI_BSUBWAY_StartUploadPlayer(u8 *p, u8 *q);
+int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
+void WIFI_BSUBWAY_AsyncInit(void *p);
+void WIFI_BSUBWAY_AsyncReset(u8 *p);
+int WIFI_BSUBWAY_PollAsync(u8 *p,int *q);
+int WIFI_BSUBWAY_AsyncHasError(u8 *p);
+int WIFI_BSUBWAY_GetErrorState(int *p);
+int WIFI_BSUBWAY_CheckFatalError(int *p);
+void WIFI_BSUBWAY_SetDownloadResult(u8 *p, u32 v);
+void WIFI_BSUBWAY_SetHttpError(u8 *p, u32 v);
+void WIFI_BSUBWAY_ResetUpload(u8 *p);
+void WIFI_BSUBWAY_TickUploadTimeout(u8 *p);
+void WIFI_BSUBWAY_OpenCodeIn(u8 *p,int a);
 extern u8 ov_id[];
 extern u8 GAME_VERSION_Code, GAME_LANGUAGE_Code;
 extern struct MsgData *D_020A7370;
-extern u32 d_021D8560[],d_021D8568[],d_021DA62C[];
+extern u32 gWifiBsubwayCodeInParam[],gWifiBsubwayCodeInParamEx[],d_021DA62C[];
 extern u8 ov129_id[];
 
-int func_021D6660(void *ctx,int unused,u8 *q) {
-    u8 *p;
-    void *save;
-    func_02034AC4((s32_021D6660)ov_id);
+int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent) {
+    u8 *work;
+    void *saveControl;
+    func_02034AC4((int)ov_id);
     GFL_HEAP_CreateChildHeap(1,125,0x18000);
-    p=PROCSYS_AllocProcWork(ctx,0x185c,125);
-    MI_CpuFill8(p,0,0x185c);
-    *(u8 **)p=q;
-    *(int *)(q+8)=1;
-    save=func_020120F4(*(void **)(*(u8 **)p+4));
-    q=GAME_DATA_GetSaveControl(save);
-    *(void **)(p+0x1844)=save;
-    *(int *)(p+0x1848)=(int)func_02008B08(q);
-    *(int *)(p+0x184c)=func_0201283C(save);
-    *(int *)(p+0x1850)=(int)func_02012944(save);
-    *(int *)(p+0x1854)=(int)GAME_DATA_GetSaveBlock3B(save);
-    *(int *)(p+0x1858)=(int)GAME_DATA_GetSaveBlock3A(save);
-    func_021D6998(p+0xb74);
-    func_021D6B50(p+0x1610,125);
-    func_021D70D8(p+0x182c);
+    work=PROCSYS_AllocProcWork(task,0x185c,125);
+    MI_CpuFill8(work,0,0x185c);
+    *(u8 **)work=parent;
+    *(int *)(parent+8)=1;
+    saveControl=ICA_ANIME_GetField1C(*(void **)(*(u8 **)work+4));
+    parent=GAME_DATA_GetSaveControl(saveControl);
+    *(void **)(work+0x1844)=saveControl;
+    *(int *)(work+0x1848)=(int)func_02008B08(parent);
+    *(int *)(work+0x184c)=GAME_DATA_GetField1A0(saveControl);
+    *(int *)(work+0x1850)=(int)func_02012944(saveControl);
+    *(int *)(work+0x1854)=(int)GAME_DATA_GetSaveBlock3B(saveControl);
+    *(int *)(work+0x1858)=(int)GAME_DATA_GetSaveBlock3A(saveControl);
+    WIFI_BSUBWAY_ClearTrainers(work+0xb74);
+    WIFI_BSUBWAY_StatusInit(work+0x1610,125);
+    WIFI_BSUBWAY_AsyncInit(work+0x182c);
     return 1;
 }
 
-int func_021D6710(void *a,int *state,int b,u8 *p)
+int WIFI_BSUBWAY_Step(void *unusedA,int *state,int unusedB,u8 *work)
 {
-    int v;
-    if(func_021D696C(p,*state)!=0) {
-        if(func_021D7158(p+0x182c)!=0 || func_0200FB24()!=0) *state=20;
+    int result;
+    if(WIFI_BSUBWAY_IsTransferReady(work,*state)!=0) {
+        if(WIFI_BSUBWAY_AsyncHasError(work+0x182c)!=0 || func_0200FB24()!=0) *state=20;
     }
     switch(*state) {
     case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
     case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
-    case 2: WIFI_BSUBWAY_GRAPHIC_StartSaveProc(p); ++*state; break;
-    case 3: if(WIFI_BSUBWAY_GRAPHIC_GetSaveState(p)==0) ++*state; else { ((struct Obj22612 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; *state=17; } break;
-    case 4: WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,125); FADE_Start(3,16,0,1); ++*state; break;
+    case 2: WIFI_BSUBWAY_GRAPHIC_StartSaveProc(work); ++*state; break;
+    case 3: if(WIFI_BSUBWAY_GRAPHIC_GetSaveState(work)==0) ++*state; else { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; *state=17; } break;
+    case 4: WIFI_BSUBWAY_GRAPHIC_CreateWindow(work+4,125); FADE_Start(3,16,0,1); ++*state; break;
     case 5: if(FADE_IsActive()==0) ++*state; break;
-    case 6: WIFI_BSUBWAY_GRAPHIC_InitBt(p); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++*state; break;
-    case 7: if(WIFI_BSUBWAY_GRAPHIC_PollBt(p)!=0) ++*state; break;
-    case 8: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++*state; break;
-    case 9: func_021D6B88(p+0x1610,((struct Obj00671 *)p)->f1844,125); ++*state; break;
-    case 10: if(func_021D6C50(p+0x1610,125)!=0) ++*state; break;
-    case 11: func_021D6CBC(p+0x1610,((struct Obj00671 *)p)->f1844,p+0x182c); ++*state; break;
-    case 12: if(func_021D6D18(p+0x1610,p+0x182c)!=0) ++*state; break;
-    case 13: v=WIFI_BSUBWAY_GRAPHIC_DispatchTable(p,125); if(v==1) { ((struct Obj22613 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=0; ++*state; } else if(v==2) { ((struct Obj22614 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; ++*state; } break;
-    case 14: WIFI_BSUBWAY_GRAPHIC_CancelBt(p); FADE_Start(3,0,16,1); ++*state; break;
-    case 15: if(WIFI_BSUBWAY_GRAPHIC_EndBt(p)!=0 && FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(p+4); ++*state; } break;
-    case 16: if(GFL_NET_ERR_ShowScreen(0)==0) WIFI_BSUBWAY_GRAPHIC_StartRetryProc(p); ++*state; break;
+    case 6: WIFI_BSUBWAY_GRAPHIC_InitBt(work); WIFI_BSUBWAY_GRAPHIC_PrintMessage(work+4,26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(work+4); ++*state; break;
+    case 7: if(WIFI_BSUBWAY_GRAPHIC_PollBt(work)!=0) ++*state; break;
+    case 8: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(work+4)!=0) ++*state; break;
+    case 9: WIFI_BSUBWAY_StatusSetMessage(work+0x1610,((struct WifiBsubwayWork *)work)->saveControl,125); ++*state; break;
+    case 10: if(WIFI_BSUBWAY_StatusCheckMessage(work+0x1610,125)!=0) ++*state; break;
+    case 11: WIFI_BSUBWAY_StartProfileUpload(work+0x1610,((struct WifiBsubwayWork *)work)->saveControl,work+0x182c); ++*state; break;
+    case 12: if(WIFI_BSUBWAY_FinishProfileUpload(work+0x1610,work+0x182c)!=0) ++*state; break;
+    case 13: result=WIFI_BSUBWAY_GRAPHIC_DispatchTable(work,125); if(result==1) { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=0; ++*state; } else if(result==2) { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; ++*state; } break;
+    case 14: WIFI_BSUBWAY_GRAPHIC_CancelBt(work); FADE_Start(3,0,16,1); ++*state; break;
+    case 15: if(WIFI_BSUBWAY_GRAPHIC_EndBt(work)!=0 && FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(work+4); ++*state; } break;
+    case 16: if(GFL_NET_ERR_ShowScreen(0)==0) WIFI_BSUBWAY_GRAPHIC_StartRetryProc(work); ++*state; break;
     case 17: GFL_USE_FadeOutBgm(6); ++*state; break;
     case 18: if(GFL_USE_IsBgmFading()==0) ++*state; break;
     case 19: return 1;
-    case 20: if(WIFI_BSUBWAY_GRAPHIC_CheckNetError(p)!=0) *state=21; else *state=14; func_021D7038(p+0x1610); break;
-    case 21: if(WIFI_BSUBWAY_GRAPHIC_IsPrintDone(p)!=0) *state=14; break;
+    case 20: if(WIFI_BSUBWAY_GRAPHIC_CheckNetError(work)!=0) *state=21; else *state=14; WIFI_BSUBWAY_AbortHttpRequest(work+0x1610); break;
+    case 21: if(WIFI_BSUBWAY_GRAPHIC_IsPrintDone(work)!=0) *state=14; break;
     }
-    if(((struct Obj00671 *)p)->fB68!=0) DPW_BT_Main();
-    WIFI_BSUBWAY_GRAPHIC_UpdateText(p+4);
+    if(((struct WifiBsubwayWork *)work)->dpwActive!=0) DPW_BT_Main();
+    WIFI_BSUBWAY_GRAPHIC_UpdateText(work+4);
     return 0;
 }
 
-int func_021D6918(void *p, int a, int b, u8 *q) {
-    WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(q);
-    WIFI_BSUBWAY_GRAPHIC_Noop(q);
-    WIFI_BSUBWAY_GRAPHIC_NoopRetry(q);
-    func_021D6B70(q + 0x1610);
-    WIFI_BSUBWAY_GRAPHIC_DeleteWindow(q + 4);
-    func_020315D4(p);
+int WIFI_BSUBWAY_Delete(void *unusedA, int unusedB, int unusedC, u8 *work) {
+    WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(work);
+    WIFI_BSUBWAY_GRAPHIC_Noop(work);
+    WIFI_BSUBWAY_GRAPHIC_NoopRetry(work);
+    WIFI_BSUBWAY_StatusDelete(work + 0x1610);
+    WIFI_BSUBWAY_GRAPHIC_DeleteWindow(work + 4);
+    func_020315D4(unusedA);
     func_020306F0(125);
     func_02034A5C((int)ov_id);
     GFL_USE_PopBgm();
@@ -431,112 +395,112 @@ int func_021D6918(void *p, int a, int b, u8 *q) {
     return 1;
 }
 
-int func_021D696C(unsigned char *a,int b) { if(b<=13 && FADE_IsActive()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }
+int WIFI_BSUBWAY_IsTransferReady(unsigned char *work,int state) { if(state<=13 && FADE_IsActive()==0 && ((struct WifiBsubwayWork *)work)->dpwActive!=0 && ((struct WifiBsubwayWork *)work)->dpwDone==0) return 1; return 0; }
 
-void func_021D6998(void *a) { MI_CpuFill8(a,0,0xa9c); }
+void WIFI_BSUBWAY_ClearTrainers(void *trainers) { MI_CpuFill8(trainers,0,0xa9c); }
 
 /*
  * Two bytes zero alignment padding follow the compiled function.
  */
-void func_021D69A8(unsigned char *a,unsigned char *b,unsigned short c) { ((struct Obj22615 *)a)->f8=c; DPW_BT_GetRoomNumAsync((unsigned char)c); func_021D70E4(b); }
+void WIFI_BSUBWAY_StartRoomRequest(unsigned char *trainers,unsigned char *async,unsigned short roomNumber) { ((struct WifiBsubwayTrainers *)trainers)->roomNumber=roomNumber; DPW_BT_GetRoomNumAsync((unsigned char)roomNumber); WIFI_BSUBWAY_AsyncReset(async); }
 
-int func_021D69C0(unsigned char *a,unsigned char *b) { int result; if(func_021D70EC(b,&result) && func_021D7158(b)==0) { ((struct Obj13859 *)a)->fC=result; ((struct Obj13859 *)a)->f0=1; return 1; } return 0; }
+int WIFI_BSUBWAY_FinishRoomRequest(unsigned char *trainers,unsigned char *async) { int result; if(WIFI_BSUBWAY_PollAsync(async,&result) && WIFI_BSUBWAY_AsyncHasError(async)==0) { ((struct WifiBsubwayTrainers *)trainers)->downloadResult=result; ((struct WifiBsubwayTrainers *)trainers)->roomReady=1; return 1; } return 0; }
 
-void func_021D69EC(unsigned char *a,unsigned char *b,unsigned short c) { ((struct Obj10337 *)a)->fA=c; DPW_BT_DownloadPlayerAsync((unsigned char)(((struct Obj10337 *)a)->f8),(unsigned char)(((struct Obj10337 *)a)->fA),(unsigned int)(a+14)); func_021D70E4(b); }
+void WIFI_BSUBWAY_StartPlayerDownload(unsigned char *trainers,unsigned char *async,unsigned short playerIndex) { ((struct WifiBsubwayTrainers *)trainers)->playerIndex=playerIndex; DPW_BT_DownloadPlayerAsync((unsigned char)(((struct WifiBsubwayTrainers *)trainers)->roomNumber),(unsigned char)(((struct WifiBsubwayTrainers *)trainers)->playerIndex),(unsigned int)(trainers+14)); WIFI_BSUBWAY_AsyncReset(async); }
 
 /*
  * Remaining extent: existing matched accessor files at 021D6A40 and 021D6A44.
  */
-int func_021D6A10(unsigned char *a,unsigned char *b) { int result; if(((struct Obj13860 *)a)->f4) return 1; if(func_021D70EC(b,&result) && func_021D7158(b)==0) { ((struct Obj13860 *)a)->f4=1; return 1; } return 0; }
+int WIFI_BSUBWAY_FinishPlayerDownload(unsigned char *trainers,unsigned char *async) { int result; if(((struct WifiBsubwayTrainers *)trainers)->playerReady) return 1; if(WIFI_BSUBWAY_PollAsync(async,&result) && WIFI_BSUBWAY_AsyncHasError(async)==0) { ((struct WifiBsubwayTrainers *)trainers)->playerReady=1; return 1; } return 0; }
 
 /*
  * leaf: blocks WIFI_BSUBWAY_GRAPHIC_StepWithInput.
  */
-u16 func_021D6A40(u8 *p) { return ((struct Obj22616 *)p)->f8; }
+u16 WIFI_BSUBWAY_GetRoomNumber(u8 *trainers) { return ((struct WifiBsubwayTrainers *)trainers)->roomNumber; }
 
-u16 func_021D6A44(u8 *p) { return ((struct Obj22617 *)p)->fA; }
+u16 WIFI_BSUBWAY_GetPlayerIndex(u8 *trainers) { return ((struct WifiBsubwayTrainers *)trainers)->playerIndex; }
 
 
-u16 func_021D6A48(u8 *p) { return ((struct Obj22618 *)p)->fC; }
+u16 WIFI_BSUBWAY_GetDownloadResult(u8 *trainers) { return ((struct WifiBsubwayTrainers *)trainers)->downloadResult; }
 
-int func_021D6A4C(unsigned char *p)
+int WIFI_BSUBWAY_GetTransferState(unsigned char *trainers)
 {
-    if (*(unsigned short *)(p + 12) < 100) {
+    if (*(unsigned short *)(trainers + 12) < 100) {
         return 2;
     }
     return 3;
 }
 
-void func_021D6A5C(u8 *p) {
+void WIFI_BSUBWAY_NormalizeTrainers(u8 *trainers) {
     int i,j;
-    u8 *q,*r;
-    q=p+14;
-    r=p+0x69e;
+    u8 *records,*history;
+    records=trainers+14;
+    history=trainers+0x69e;
     for(i=0;i<7;i++) {
         j=i*240;
-        q[j+0xc6]=func_02025C1C(q[j+0xc6],q[j+0xc7],q[j+0xc5]);
-        q[j+0xc7]=func_02025C30(q[j+0xc6],q[j+0xc7],q[j+0xc5]);
-        q[j+0xd5]=func_02025C88(func_02025CB0(q[j+0xd5]));
+        records[j+0xc6]=func_02025C1C(records[j+0xc6],records[j+0xc7],records[j+0xc5]);
+        records[j+0xc7]=func_02025C30(records[j+0xc6],records[j+0xc7],records[j+0xc5]);
+        records[j+0xd5]=CURSOR_MOVE_GetTableGroup(CURSOR_MOVE_FindTableGroupIndex(records[j+0xd5]));
     }
     for(i=0;i<30;i++) {
-        q=r+i*34;
-        q[18]=func_02025C1C(q[18],q[19],q[17]);
-        q[19]=func_02025C30(q[18],q[19],q[17]);
+        records=history+i*34;
+        records[18]=func_02025C1C(records[18],records[19],records[17]);
+        records[19]=func_02025C30(records[18],records[19],records[17]);
     }
 }
 
-void func_021D6AF0(u8 *p, void *q) {
+void WIFI_BSUBWAY_SaveTrainers(u8 *trainers, void *save) {
     u32 time[3];
     u32 date[4];
     func_02167ED8(date, time);
-    BSUBWAY_SAVEDATA_SetTrainers(q, p + 14, *(u16 *)(p + 8), *(u16 *)(p + 10));
-    func_0200DD28(q, *(u16 *)(p + 8), *(u16 *)(p + 10), date);
+    BSUBWAY_SAVEDATA_SetTrainers(save, trainers + 14, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10));
+    func_0200DD28(save, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10), date);
 }
 
-void func_021D6B30(unsigned char *a,void *b) { BSUBWAY_SAVEDATA_SetHistory(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }
+void WIFI_BSUBWAY_SaveHistory(unsigned char *trainers,void *save) { BSUBWAY_SAVEDATA_SetHistory(save,trainers+0x69e,((struct WifiBsubwayTrainers *)trainers)->roomNumber,((struct WifiBsubwayTrainers *)trainers)->playerIndex); }
 
-void func_021D6B50(unsigned char *a,int b) { MI_CpuFill8(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }
+void WIFI_BSUBWAY_StatusInit(unsigned char *status,int heapId) { MI_CpuFill8(status,0,0x21c); ((struct WifiBsubwayStatus *)status)->mystatus=MYSTATUS_Create(heapId); }
 
-void func_021D6B70(unsigned char *a) { if(((struct Obj10338 *)a)->f218) { func_020307B0(((struct Obj10338 *)a)->f218); ((struct Obj10338 *)a)->f218=0; } }
+void WIFI_BSUBWAY_StatusDelete(unsigned char *status) { if(((struct WifiBsubwayStatus *)status)->mystatus) { func_020307B0(((struct WifiBsubwayStatus *)status)->mystatus); ((struct WifiBsubwayStatus *)status)->mystatus=0; } }
 
 /*
  * extent: two zero alignment bytes at 021D6C4E follow the epilogue.
  * evidence: 0217BC44's full ov009 ARM wrapper forwards r0-r3 and
  * three full-word stack arguments to 0217B828; this caller supplies all7.
  */
-void func_021D6B88(u8 *p, void *save, int id)
+void WIFI_BSUBWAY_StatusSetMessage(u8 *status, void *saveControl, int msgId)
 {
-    void *str;
+    void *msg;
     u16 *chars;
     u32 i;
-    MYSTATUS_Copy(func_02012944(save), ((struct Obj04469 *)p)->f218);
-    str = func_02008510(((struct Obj04469 *)p)->f218, id);
-    MI_CpuFill8(p + 0x1f0, 0, 40);
-    ((struct Obj04469 *)p)->f214 = id;
-    chars = STRBUF_GetChars(str);
-    for (i = 0; i < STRBUF_GetLength(str) + 1u; i++) {
-        u16 c = chars[i];
-        if (c == STRBUF_GetEosChar()) ((u16 *)(p + 0x1f0))[i] = 0;
-        else ((u16 *)(p + 0x1f0))[i] = c;
+    MYSTATUS_Copy(func_02012944(saveControl), ((struct WifiBsubwayStatus *)status)->mystatus);
+    msg = func_02008510(((struct WifiBsubwayStatus *)status)->mystatus, msgId);
+    MI_CpuFill8(status + 0x1f0, 0, 40);
+    ((struct WifiBsubwayStatus *)status)->msgId = msgId;
+    chars = STRBUF_GetChars(msg);
+    for (i = 0; i < STRBUF_GetLength(msg) + 1u; i++) {
+        u16 ch = chars[i];
+        if (ch == STRBUF_GetEosChar()) ((u16 *)(status + 0x1f0))[i] = 0;
+        else ((u16 *)(status + 0x1f0))[i] = ch;
     }
-    ((struct Obj04469 *)p)->f208 = p + 0x1f0;
-    ((struct Obj04469 *)p)->f210 = 0;
-    func_0217BC44((short unsigned int **)(p + 0x208), 1, 0, 0, (char *)(p + 0x20c), (int *)(p + 0x210), 128);
-    STRBUF_Delete(str);
+    ((struct WifiBsubwayStatus *)status)->wordList = status + 0x1f0;
+    ((struct WifiBsubwayStatus *)status)->badWordCount = 0;
+    func_0217BC44((short unsigned int **)(status + 0x208), 1, 0, 0, (char *)(status + 0x20c), (int *)(status + 0x210), 128);
+    STRBUF_Delete(msg);
 }
 
-int func_021D6C50(u8 *p,unsigned heap) {
-    int flag,ready;
-    void *bank,*str;
-    flag = func_0217BC90()==2;
-    if(flag) ready = ((struct Obj13862 *)p)->f210>0;
-    if(flag==0) return 0;
-    if(flag==1 && ready==1) {
-        bank = func_02045B38(0,2,0x51,heap);
-        str = func_02045EC0(bank,15);
-        MSGDATA_Delete(bank);
-        func_020084E4((u16 *)((struct Obj13862 *)p)->f218,str);
-        STRBUF_Delete(str);
+int WIFI_BSUBWAY_StatusCheckMessage(u8 *status,unsigned heapId) {
+    int pollResult,hasBadWords;
+    void *msgBank,*msg;
+    pollResult = func_0217BC90()==2;
+    if(pollResult) hasBadWords = ((struct WifiBsubwayStatus *)status)->badWordCount>0;
+    if(pollResult==0) return 0;
+    if(pollResult==1 && hasBadWords==1) {
+        msgBank = func_02045B38(0,2,0x51,heapId);
+        msg = func_02045EC0(msgBank,15);
+        MSGDATA_Delete(msgBank);
+        func_020084E4((u16 *)((struct WifiBsubwayStatus *)status)->mystatus,msg);
+        STRBUF_Delete(msg);
         return 2;
     }
     return 1;
@@ -548,21 +512,21 @@ int func_021D6C50(u8 *p,unsigned heap) {
  *   extern int func_020071CC(void *,int);
  *   int GAME_DATA_GetSaveBlock3B(void **p) { return func_020071CC(*p,59); }
  */
-void func_021D6CBC(u8 *p,void *q,u8 *r) {
-    int a,b,c;
-    GAME_DATA_GetSaveControl(q);
-    a = (int)GAME_DATA_GetSaveBlock3B(q);
-    b = (int)GAME_DATA_GetSaveBlock3A(q);
-    c = *(int *)(p+0x218);
-    NHTTP_RAP_InitTrainerInfo(p+4,c);
-    DPW_BT_SetProfileAsync(p+4,(unsigned int)(p+0x68));
-    func_021D70E4(r);
-    func_021D6D40(p+0x70,q,(void *)c);
-    *(int *)(p+0x160)=a;
-    *(int *)(p+0x164)=b;
+void WIFI_BSUBWAY_StartProfileUpload(u8 *status,void *saveControl,u8 *async) {
+    int saveBlockB,saveBlockA,recordCount;
+    GAME_DATA_GetSaveControl(saveControl);
+    saveBlockB = (int)GAME_DATA_GetSaveBlock3B(saveControl);
+    saveBlockA = (int)GAME_DATA_GetSaveBlock3A(saveControl);
+    recordCount = *(int *)(status+0x218);
+    NHTTP_RAP_InitTrainerInfo(status+4,recordCount);
+    DPW_BT_SetProfileAsync(status+4,(unsigned int)(status+0x68));
+    WIFI_BSUBWAY_AsyncReset(async);
+    WIFI_BSUBWAY_BuildProfile(status+0x70,saveControl,(void *)recordCount);
+    *(int *)(status+0x160)=saveBlockB;
+    *(int *)(status+0x164)=saveBlockA;
 }
 
-int func_021D6D18(unsigned char *a,unsigned char *b) { int result; if(func_021D70EC(b,&result) && func_021D7158(b)==0) { ((struct Obj22621 *)a)->f0=1; return 1; } return 0; }
+int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *status,unsigned char *async) { int result; if(WIFI_BSUBWAY_PollAsync(async,&result) && WIFI_BSUBWAY_AsyncHasError(async)==0) { ((struct WifiBsubwayStatus *)status)->ready=1; return 1; } return 0; }
 
 /*
  * singleton tu --suggest-split returns MATCH252, no viable partition.
@@ -579,42 +543,42 @@ int func_021D6D18(unsigned char *a,unsigned char *b) { int result; if(func_021D7
  * 4 redundant-bitfield/result-truncation idioms; 5 fresh full idiom ls
  * and full 6C50/6A5C/6E50 neighbours. Iteration2, no stop exhaustion.
  */
-void func_021D6D40(u8 *p, void *save, void *idx)
+void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *trainer)
 {
-    void *profile, *n, *object;
+    void *profile, *saveBlockA, *saveData;
     int i;
-    profile = GAME_DATA_GetSaveControl(save);
+    profile = GAME_DATA_GetSaveControl(saveControl);
     func_02009470(profile);
-    func_0201283C(save);
-    n = GAME_DATA_GetSaveBlock3A(save);
-    object = func_0200E6F0((u32)profile);
-    MI_CpuFill8(p, 0, 240);
-    MI_CpuCopy8(func_020084F4(idx), p + 0xb4, 16);
-    *(u32 *)(p + 0xc8) = func_02008530(idx);
-    p[0xc4] = GAME_VERSION_Code;
-    p[0xc5] = GAME_LANGUAGE_Code;
-    p[0xc6] = func_0200856C(idx);
-    p[0xc7] = func_02008570(idx);
-    ((Bits *)(p + 0xd4))->b = (u8)(u32)func_02008550(idx);
-    p[0xd5] = func_02008554(idx);
-    p[0xd5] = func_02025C88(p[0xd5]);
-    for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(object, i + 1, (struct Rec0200E6FC *)(p + 0xd6 + i * 8));
-    MISC_SAVEDATA_CopyQuadRecord(object, 4, (struct Rec0200E6FC *)(p + 0xcc));
-    *(u16 *)(p + 0xee) = func_0200DCF8(n);
-    func_0200DC74(n, 1, p);
+    GAME_DATA_GetField1A0(saveControl);
+    saveBlockA = GAME_DATA_GetSaveBlock3A(saveControl);
+    saveData = func_0200E6F0((u32)profile);
+    MI_CpuFill8(profileRecord, 0, 240);
+    MI_CpuCopy8(func_020084F4(trainer), profileRecord + 0xb4, 16);
+    *(u32 *)(profileRecord + 0xc8) = func_02008530(trainer);
+    profileRecord[0xc4] = GAME_VERSION_Code;
+    profileRecord[0xc5] = GAME_LANGUAGE_Code;
+    profileRecord[0xc6] = func_0200856C(trainer);
+    profileRecord[0xc7] = func_02008570(trainer);
+    ((Bits *)(profileRecord + 0xd4))->b = (u8)(u32)func_02008550(trainer);
+    profileRecord[0xd5] = func_02008554(trainer);
+    profileRecord[0xd5] = CURSOR_MOVE_GetTableGroup(profileRecord[0xd5]);
+    for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(saveData, i + 1, (struct Rec0200E6FC *)(profileRecord + 0xd6 + i * 8));
+    MISC_SAVEDATA_CopyQuadRecord(saveData, 4, (struct Rec0200E6FC *)(profileRecord + 0xcc));
+    *(u16 *)(profileRecord + 0xee) = func_0200DCF8(saveBlockA);
+    func_0200DC74(saveBlockA, 1, profileRecord);
 }
 
-void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) NHTTP_RAP_DeleteConnection(((struct Obj13863 *)a)->f168); }
+void WIFI_BSUBWAY_OnHttpError(unsigned char *status) { if(((struct WifiBsubwayStatus *)status)->http) NHTTP_RAP_DeleteConnection(((struct WifiBsubwayStatus *)status)->http); }
 
-void func_021D6E50(u8 *p,u8 *q,int a,int b) {
-    *(u8 * *)&((struct Obj04470 *)p)->f168=NHTTP_RAP_Create(b,func_0200853C(((struct Obj04470 *)p)->f218),a);
-    DWC_RAP_SetErrorCallback((int)func_021D6E3C,(int)p);
-    NHTTP_RAP_AllocPostData(*(u8 * *)&((struct Obj04470 *)p)->f168,b,180,4);
-    NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj04470 *)p)->f168,(int)(p+0x70),180);
-    ((struct Obj04470 *)p)->f16C=3;
-    NHTTP_RAP_CreatePostRequest(*(u8 * *)&((struct Obj04470 *)p)->f168);
-    NHTTP_RAP_StartConnection(*(u8 * *)&((struct Obj04470 *)p)->f168);
-    func_021D7258(q);
+void WIFI_BSUBWAY_StartHttpRequest(u8 *status,u8 *async,int unusedA,int heapId) {
+    *(u8 * *)&((struct WifiBsubwayStatus *)status)->http=NHTTP_RAP_Create(heapId,func_0200853C(((struct WifiBsubwayStatus *)status)->mystatus),unusedA);
+    DWC_RAP_SetErrorCallback((int)WIFI_BSUBWAY_OnHttpError,(int)status);
+    NHTTP_RAP_AllocPostData(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http,heapId,180,4);
+    NHTTP_RAP_AppendPostData(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http,(int)(status+0x70),180);
+    ((struct WifiBsubwayStatus *)status)->recordCount=3;
+    NHTTP_RAP_CreatePostRequest(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+    NHTTP_RAP_StartConnection(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+    WIFI_BSUBWAY_ResetUpload(async);
 }
 
 /*
@@ -623,85 +587,85 @@ void func_021D6E50(u8 *p,u8 *q,int a,int b) {
  * declared pointer/index inputs; 99F4 reconstructs a full32-bit value.
  * Original keeps field loads and repeated per-call object reloads.
  */
-int func_021D6EC4(u8 *p, u8 *q, int flag)
+int WIFI_BSUBWAY_PollHttpRequest(u8 *status, u8 *async, int quiet)
 {
     int result = 0;
-    int code, status, all, i;
-    u8 *x;
-    code = NHTTP_RAP_GetResultCode(*(u8 * *)&((struct Obj01925 *)p)->f168);
-    status = NHTTP_RAP_PollConnection(*(u8 * *)&((struct Obj01925 *)p)->f168);
-    if (code != 200 && status == 0) {
-        func_021D7250(q, code);
-        NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
+    int httpCode, pollResult, allOk, i;
+    u8 *recvBuf;
+    httpCode = NHTTP_RAP_GetResultCode(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+    pollResult = NHTTP_RAP_PollConnection(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+    if (httpCode != 200 && pollResult == 0) {
+        WIFI_BSUBWAY_SetHttpError(async, httpCode);
+        NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        *(u8 * *)&((struct WifiBsubwayStatus *)status)->http = 0;
         DWC_RAP_SetErrorCallback(0, 0);
         return 2;
     }
-    if (status != 0) {
-        func_021D7260(q);
+    if (pollResult != 0) {
+        WIFI_BSUBWAY_TickUploadTimeout(async);
     } else {
-        x = NHTTP_RAP_GetRecvBuffer(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        if (NHTTP_RAP_RecordList_GetCount(x) == 0) {
-            all = 1;
-            MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(x, ((struct Obj01925 *)p)->f16C), p + 0x16e, 128);
-            for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
-                if (NHTTP_RAP_RecordList_GetValue((u32)x, i) != 0) {
-                    all = 0;
-                    if (flag != 0) func_021D724C(q, 1);
-                    else func_021D7010((unsigned int)p, i);
+        recvBuf = NHTTP_RAP_GetRecvBuffer(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        if (NHTTP_RAP_RecordList_GetCount(recvBuf) == 0) {
+            allOk = 1;
+            MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(recvBuf, ((struct WifiBsubwayStatus *)status)->recordCount), status + 0x16e, 128);
+            for (i = 0; i < ((struct WifiBsubwayStatus *)status)->recordCount; i++) {
+                if (NHTTP_RAP_RecordList_GetValue((u32)recvBuf, i) != 0) {
+                    allOk = 0;
+                    if (quiet != 0) WIFI_BSUBWAY_SetDownloadResult(async, 1);
+                    else WIFI_BSUBWAY_ReadRecordUnits((unsigned int)status, i);
                 }
             }
-            if (all != 0) result = 1;
+            if (allOk != 0) result = 1;
             else result = 2;
         } else {
-            if (flag != 0) func_021D724C(q, 2);
+            if (quiet != 0) WIFI_BSUBWAY_SetDownloadResult(async, 2);
             result = 2;
-            for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
-                if (NHTTP_RAP_RecordList_GetValue((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
+            for (i = 0; i < ((struct WifiBsubwayStatus *)status)->recordCount; i++) {
+                if (NHTTP_RAP_RecordList_GetValue((u32)recvBuf, i) != 0) WIFI_BSUBWAY_ReadRecordUnits((unsigned int)status, i);
             }
         }
-        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        *(u8 * *)&((struct WifiBsubwayStatus *)status)->http = 0;
         DWC_RAP_SetErrorCallback(0, 0);
     }
     return result;
 }
 
-void func_021D7010(unsigned int a,unsigned int b) { unsigned int p; p=a+0x70+b*0x3c; MSGDATA_ReadUnits(D_020A7370,((struct Record *)p)->id,(unsigned short *)(p+0x22),11); }
+void WIFI_BSUBWAY_ReadRecordUnits(unsigned int status,unsigned int index) { unsigned int record; record=status+0x70+index*0x3c; MSGDATA_ReadUnits(D_020A7370,((struct Record *)record)->id,(unsigned short *)(record+0x22),11); }
 
-void func_021D7038(u8 *p)
+void WIFI_BSUBWAY_AbortHttpRequest(u8 *status)
 {
-    if (*(u8 * *)&((struct Obj08046 *)p)->f168) {
+    if (*(u8 * *)&((struct WifiBsubwayStatus *)status)->http) {
         DWC_RAP_SetErrorCallback(0, 0);
-        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj08046 *)p)->f168);
-        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj08046 *)p)->f168);
-        *(u8 * *)&((struct Obj08046 *)p)->f168 = 0;
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http);
+        *(u8 * *)&((struct WifiBsubwayStatus *)status)->http = 0;
     }
 }
 
-void func_021D7060(u8 *p, u8 *q) {
-    int a, b, c;
-    a = BSUBWAY_SAVEDATA_GetTrainersTagA(((struct Obj10339 *)p)->f160);
-    b = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct Obj10339 *)p)->f160);
-    c = func_0200DCFC(((struct Obj10339 *)p)->f164);
-    DPW_BT_UploadPlayerAsync((u8)a,(u8)b,(u8)c,p+0x70,p+0x16e,(int)0x80);
-    func_021D70E4(q);
+void WIFI_BSUBWAY_StartUploadPlayer(u8 *status, u8 *async) {
+    int tagA, tagB, tagC;
+    tagA = BSUBWAY_SAVEDATA_GetTrainersTagA(((struct WifiBsubwayStatus *)status)->saveBlockB);
+    tagB = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct WifiBsubwayStatus *)status)->saveBlockB);
+    tagC = func_0200DCFC(((struct WifiBsubwayStatus *)status)->saveBlockA);
+    DPW_BT_UploadPlayerAsync((u8)tagA,(u8)tagB,(u8)tagC,status+0x70,status+0x16e,(int)0x80);
+    WIFI_BSUBWAY_AsyncReset(async);
 }
 
-int func_021D70B0(void *unused, u8 *p)
+int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *async)
 {
     int result;
-    if (func_021D70EC(p, &result) && func_021D7158(p) == 0) return 1;
+    if (WIFI_BSUBWAY_PollAsync(async, &result) && WIFI_BSUBWAY_AsyncHasError(async) == 0) return 1;
     return 0;
 }
 
-void func_021D70D8(void *p) { MI_CpuFill8(p, 0, 0x14); }
+void WIFI_BSUBWAY_AsyncInit(void *async) { MI_CpuFill8(async, 0, 0x14); }
 
 
-void func_021D70E4(u8 *p) { ((struct Obj13864 *)p)->f8 = 0; ((struct Obj13864 *)p)->fA = 0; }
+void WIFI_BSUBWAY_AsyncReset(u8 *async) { ((struct WifiBsubwayAsync *)async)->timedOut = 0; ((struct WifiBsubwayAsync *)async)->ticks = 0; }
 
 /*
  * 2026-10-05 (wD4 lane19): still MATCH. Blocked by ov114 ARM 0x021C93D0 and 0x021C940C (pengy overlay, no witness).
@@ -712,23 +676,23 @@ void func_021D70E4(u8 *p) { ((struct Obj13864 *)p)->f8 = 0; ((struct Obj13864 *)
  * 2026-10-05 (wD8 lane09): re-run, still MATCH. Open relocations: DPW_BT_IsAsyncEnd and DPW_BT_GetAsyncResult (ov114
  *   ARM, SDK-side, no witness). Nothing source-side to change.
  */
-int func_021D70EC(u8 *p,int *q) {
+int WIFI_BSUBWAY_PollAsync(u8 *async,int *outResult) {
     int done=0;
     if(DPW_BT_IsAsyncEnd()==0) {
-        (*(s16 *)(p+10))++;
-        if(*(s16 *)(p+10)==3600) {
+        (*(s16 *)(async+10))++;
+        if(*(s16 *)(async+10)==3600) {
             DPW_BT_CancelAsync();
-            *(s16 *)(p+8)=1;
+            *(s16 *)(async+8)=1;
         }
     } else {
         int result=DPW_BT_GetAsyncResult();
         done=1;
         switch(result) {
         case -7: case -6: case -4: case -3: case -2: case -1:
-            *(int *)p=result; break;
+            *(int *)async=result; break;
         case -5: GFL_NET_ERR_ShowScreen(1); break;
         default:
-            if(result>=0) *q=result;
+            if(result>=0) *outResult=result;
             else GFL_NET_ERR_ShowScreen(1);
             break;
         }
@@ -736,77 +700,77 @@ int func_021D70EC(u8 *p,int *q) {
     return done;
 }
 
-int func_021D7158(u8 *p)
+int WIFI_BSUBWAY_AsyncHasError(u8 *async)
 {
-    if (((struct Obj08047 *)p)->f0 < 0) return 1;
-    if (((struct Obj08047 *)p)->f4 != 0) return 1;
-    if (((struct Obj08047 *)p)->fC != 0) return 1;
-    if (((struct Obj08047 *)p)->f8 != 0) return 1;
+    if (((struct WifiBsubwayAsync *)async)->result < 0) return 1;
+    if (((struct WifiBsubwayAsync *)async)->flag != 0) return 1;
+    if (((struct WifiBsubwayAsync *)async)->state != 0) return 1;
+    if (((struct WifiBsubwayAsync *)async)->timedOut != 0) return 1;
     return 0;
 }
 
-int func_021D7184(int *p) {
-    int result=0;
-    if(p[0]<0) {
-        switch(p[0]) {
-        case -2: result=16; break;
-        case -6: result=17; break;
-        case -1: result=15; break;
-        case -7: result=19; break;
-        case -4: result=18; break;
-        case -3: result=20; break;
-        default: result=22; break;
+int WIFI_BSUBWAY_GetErrorState(int *async) {
+    int state=0;
+    if(async[0]<0) {
+        switch(async[0]) {
+        case -2: state=16; break;
+        case -6: state=17; break;
+        case -1: state=15; break;
+        case -7: state=19; break;
+        case -4: state=18; break;
+        case -3: state=20; break;
+        default: state=22; break;
         }
     } else {
-        switch(p[1]) {
-        case 1: result=13; break;
-        case 2: result=14; break;
+        switch(async[1]) {
+        case 1: state=13; break;
+        case 2: state=14; break;
         case 0:
-            switch(p[3]) {
-            case 1: result=23; break;
-            case 2: result=23; break;
-            case 0: if(((struct Obj06416 *)p)->f8!=0) result=16; break;
+            switch(async[3]) {
+            case 1: state=23; break;
+            case 2: state=23; break;
+            case 0: if(((struct WifiBsubwayAsync *)async)->timedOut!=0) state=16; break;
             }
             break;
         }
     }
-    return result;
+    return state;
 }
 
-int func_021D7200(int *p) {
-    int v;
-    if(p[3]==3) {
-        switch(p[4]) {
-        case 200: case 400: v=65; break;
-        case 401: v=66; break;
-        case 408: v=68; break;
-        default: v=67; break;
+int WIFI_BSUBWAY_CheckFatalError(int *async) {
+    int errorId;
+    if(async[3]==3) {
+        switch(async[4]) {
+        case 200: case 400: errorId=65; break;
+        case 401: errorId=66; break;
+        case 408: errorId=68; break;
+        default: errorId=67; break;
         }
-        GFL_NET_ERR_RaiseFatal(v);
+        GFL_NET_ERR_RaiseFatal(errorId);
         return 1;
     }
     return 0;
 }
 
 
-void func_021D724C(u8 *p, u32 v) { ((struct Obj22622 *)p)->fC = v; }
+void WIFI_BSUBWAY_SetDownloadResult(u8 *async, u32 state) { ((struct WifiBsubwayAsync *)async)->state = state; }
 
 
-void func_021D7250(u8 *p, u32 v) { ((struct Obj06417 *)p)->fC = 3; ((struct Obj06417 *)p)->f10 = v; }
+void WIFI_BSUBWAY_SetHttpError(u8 *async, u32 httpCode) { ((struct WifiBsubwayAsync *)async)->state = 3; ((struct WifiBsubwayAsync *)async)->httpCode = httpCode; }
 
 
-void func_021D7258(u8 *p) { ((struct Obj13865 *)p)->f8 = 0; ((struct Obj13865 *)p)->fA = 0; }
+void WIFI_BSUBWAY_ResetUpload(u8 *async) { ((struct WifiBsubwayAsync *)async)->timedOut = 0; ((struct WifiBsubwayAsync *)async)->ticks = 0; }
 
-void func_021D7260(u8 *p)
+void WIFI_BSUBWAY_TickUploadTimeout(u8 *async)
 {
-    (((struct Obj06417 *)p)->fA)++;
-    if (((struct Obj06417 *)p)->fA == 3600) ((struct Obj06417 *)p)->f8 = 1;
+    (((struct WifiBsubwayAsync *)async)->ticks)++;
+    if (((struct WifiBsubwayAsync *)async)->ticks == 3600) ((struct WifiBsubwayAsync *)async)->timedOut = 1;
 }
 
-void func_021D7278(u8 *p,int a) {
-    void *obj;
-    d_021D8560[2]=(u32)func_021D6A4C(p+0xb74);
-    obj=CODEIN_PARAM_Create(a,1,func_021D6A48(p+0xb74),3,d_021D8568);
-    ((struct Obj13866 *)p)->f1840=obj;
-    GAMESYSTEM_CallProc(((struct Obj22623 *)(*(u8 * *)&((struct Obj13866 *)p)->f0))->f4,(u32)ov129_id,d_021DA62C,obj);
+void WIFI_BSUBWAY_OpenCodeIn(u8 *work,int heapId) {
+    void *codeInParam;
+    gWifiBsubwayCodeInParam[2]=(u32)WIFI_BSUBWAY_GetTransferState(work+0xb74);
+    codeInParam=CODEIN_PARAM_Create(heapId,1,WIFI_BSUBWAY_GetDownloadResult(work+0xb74),3,gWifiBsubwayCodeInParamEx);
+    ((struct WifiBsubwayWork *)work)->codeInParam=codeInParam;
+    GAMESYSTEM_CallProc(((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->proc,(u32)ov129_id,d_021DA62C,codeInParam);
 }

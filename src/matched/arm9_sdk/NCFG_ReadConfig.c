@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0205FFC4 0x0205FFC4 arm
+ *   readAllSlots 0x0205FFC4 arm
  */
 
 typedef unsigned int u32;
 typedef struct NCFGConfig NCFGConfig;
-extern int func_0205FFC4(NCFGConfig *config);
+extern int readAllSlots(NCFGConfig *config);
 
 u32 NCFG_ReadConfig(NCFGConfig *config)
 {
-    return func_0205FFC4(config) ? 0 : 0xFFFFFFFF;
+    return readAllSlots(config) ? 0 : 0xFFFFFFFF;
 }

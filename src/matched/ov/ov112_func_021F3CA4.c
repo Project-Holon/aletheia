@@ -1,5 +1,5 @@
 /*
- * function: func_021F3CA4
+ * function: MUSICAL_SHOT_SYS_Init3D
  * address:  0x021F3CA4
  * packet:   pkt_ov112_021F3CA4
  * region:   ov112
@@ -20,14 +20,14 @@
  *   d_021F81C4, d_021F8274, d_021F8214) resolve without the overlay token.
  * symbols:
  *   G3D_SYSTEM_Init  0x02046440  arm
- *   func_0204044C  0x0204044C  arm
+ *   BG_SYS_SetLowBit  0x0204044C  arm
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_0207DCF8  0x0207DCF8  arm
- *   func_0204EBD4  0x0204EBD4  arm
- *   func_0204ED70  0x0204ED70  arm
- *   func_021F3EAC  0x021F3EAC  thumb  ov112
+ *   BILLBOARD_Create  0x0204EBD4  arm
+ *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   MUSICAL_SHOT_SYS_LoadBg  0x021F3EAC  thumb  ov112
  *   func_02040618  0x02040618  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
@@ -58,16 +58,16 @@ typedef struct { u32 w[7]; } T28;
 typedef struct { u32 w[3]; } T12;
 
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
-extern void func_0204044C(u32 mode);
+extern void BG_SYS_SetLowBit(u32 mode);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, int);
 struct Blk3;
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(const void *a);
-extern void *func_0204EBD4(u8 *src, void *heap);
-extern void func_0204ED70(u8 *dst, struct Blk3 *src);
-extern void func_021F3EAC(const void *a, u32 b, u32 c);
+extern void *BILLBOARD_Create(u8 *src, void *heap);
+extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+extern void MUSICAL_SHOT_SYS_LoadBg(const void *a, u32 b, u32 c);
 extern void func_02040618(u32, u32, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
@@ -102,7 +102,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, int effect)
     *(volatile u16 *)0x0400004A = (u16)tmp;
 }
 
-void func_021F3CA4(char *p)
+void MUSICAL_SHOT_SYS_Init3D(char *p)
 {
     void *h;
     void *cam;
@@ -111,7 +111,7 @@ void func_021F3CA4(char *p)
     T12 *pb;
 
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, *(u16 *)p, 0);
-    func_0204044C(3);
+    BG_SYS_SetLowBit(3);
     G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     cam = G3D_CAMERA_Create(2, 0xC000, 0, 0, 0x10000, 0x1000, 0x3E8000, 0,
                         d_021F81AC, d_021F81B8, d_021F81A0, *(u16 *)p);
@@ -125,12 +125,12 @@ void func_021F3CA4(char *p)
     a = d_021F8274;
     b = d_021F8258;
     pb = &b;
-    h = func_0204EBD4((u8 *)(&a), (void *)(*(u16 *)p));
+    h = BILLBOARD_Create((u8 *)(&a), (void *)(*(u16 *)p));
     *(void **)(p + 0x1C) = h;
-    func_0204ED70(h, (struct Blk3 *)pb);
-    func_021F3EAC(d_021F8214, 1, 0);
-    func_021F3EAC(d_021F81D4, 2, 0);
-    func_021F3EAC(d_021F81F4, 3, 0);
+    BILLBOARD_SetField10(h, (struct Blk3 *)pb);
+    MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
+    MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
+    MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);
     func_02040618(2, 3, 0xE0);
     h = func_020490F4(0x2F, *(u16 *)p);
     ARC_UTIL_UploadPaletteFromHandle(h, 3, 0, 0, 0, 0x20, *(u16 *)p);

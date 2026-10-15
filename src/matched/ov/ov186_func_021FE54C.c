@@ -15,13 +15,13 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   _ll_mul 0x0209C054 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   func_0207C768 0x0207C768 arm
  */
 #include "../include/Obj02904.h"
 typedef unsigned int u32;
 typedef struct {long x,y,z;} VecFx32;
-extern long func_0207CBD0(const VecFx32 *);
+extern long VEC_Mag(const VecFx32 *);
 extern u32 func_0207C768(u32,u32);
 static inline int roundFixed(int x)
 {
@@ -37,7 +37,7 @@ int BR_UTIL_StepFollow(char *p,int *out)
     delta.x=roundFixed((*(int **)p)[0])-((struct Obj02904 *)p)->f4;
     delta.y=roundFixed((*(int **)p)[1])-((struct Obj02904 *)p)->f8;
     delta.z=0;
-    length=func_0207CBD0(&delta);
+    length=VEC_Mag(&delta);
     if(length) {
         x=func_0207C768((int)(((long long)delta.x* ((struct Obj02904 *)p)->f10+2048)>>12),length);
         y=func_0207C768((int)(((long long)delta.y* ((struct Obj02904 *)p)->f10+2048)>>12),length);

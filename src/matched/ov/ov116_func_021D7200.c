@@ -1,5 +1,5 @@
 /*
- * function: func_021D7200
+ * function: WIFI_BSUBWAY_CheckFatalError
  * address: 0x021D7200
  * packet: pkt_ov116_021D7200
  * region: ov116
@@ -22,7 +22,7 @@
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  */
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
-int func_021D7200(int *p) {
+int WIFI_BSUBWAY_CheckFatalError(int *p) {
     int v;
     if(p[3]==3) {
         switch(p[4]) {

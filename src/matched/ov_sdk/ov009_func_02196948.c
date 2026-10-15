@@ -1,5 +1,5 @@
 /*
- * function: func_02196948
+ * function: gti2HandleReliableMessage
  * address:  0x02196948
  * packet:   pkt_ov009_02196948
  * region:   ov009
@@ -12,14 +12,14 @@
  * sdk:      gti2HandleReliableMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
  *
  * symbols:
- *   func_02195F5C  0x02195F5C  arm  ov009
+ *   gti2ConnectionCommunicationError  0x02195F5C  arm  ov009
  *   func_02195E80  0x02195E80  arm  ov009
- *   func_02195F9C  0x02195F9C  arm  ov009
+ *   gti2HandleESN  0x02195F9C  arm  ov009
  *   func_02196920  0x02196920  arm  ov009
- *   func_02196558  0x02196558  arm  ov009
- *   func_021968A0  0x021968A0  arm  ov009
- *   func_02195EB4  0x02195EB4  arm  ov009
- *   func_0219666C  0x0219666C  arm  ov009
+ *   gti2DeliverReliableMessage  0x02196558  arm  ov009
+ *   gti2DeliverHoldMessages  0x021968A0  arm  ov009
+ *   gti2SNDiff  0x02195EB4  arm  ov009
+ *   gti2BufferIncomingMessage  0x0219666C  arm  ov009
  *   func_02195F70  0x02195F70  arm  ov009
  */
 
@@ -80,19 +80,19 @@ struct GTI2Socket {
     int protocolOffset;                                  /* 0x44 */
 };
 
-extern int func_02195F5C(struct GTI2Connection *connection);
+extern int gti2ConnectionCommunicationError(struct GTI2Connection *connection);
 extern unsigned short func_02195E80(unsigned char *buffer, int pos);
 struct Conn;
-extern int func_02195F9C(struct Conn *connection, unsigned short ESN);
+extern int gti2HandleESN(struct Conn *connection, unsigned short ESN);
 extern void func_02196920(struct GTI2Connection *connection);
-extern int func_02196558(struct GTI2Connection *connection, int type, unsigned char *message, int len);
-extern int func_021968A0(struct Conn *c);
-extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
-extern int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN,
+extern int gti2DeliverReliableMessage(struct GTI2Connection *connection, int type, unsigned char *message, int len);
+extern int gti2DeliverHoldMessages(struct Conn *c);
+extern int gti2SNDiff(unsigned short SN1, unsigned short SN2);
+extern int gti2BufferIncomingMessage(struct GTI2Connection *connection, int type, unsigned short SN,
                          unsigned char *message, int len, int *overflow);
 extern int func_02195F70(struct GTI2Connection *connection);
 
-int func_02196948(struct GTI2Connection *connection, int type, unsigned char *message, int len)
+int gti2HandleReliableMessage(struct GTI2Connection *connection, int type, unsigned char *message, int len)
 {
     unsigned short SN;
     unsigned short ESN;
@@ -101,7 +101,7 @@ int func_02196948(struct GTI2Connection *connection, int type, unsigned char *me
 
     headerLength = connection->socket->protocolOffset + 7;
     if (len < headerLength)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
 
     SN = func_02195E80(message + connection->socket->protocolOffset, 3);
     ESN = func_02195E80(message + connection->socket->protocolOffset, 5);
@@ -116,24 +116,24 @@ int func_02196948(struct GTI2Connection *connection, int type, unsigned char *me
         len -= headerLength;
     }
 
-    if (!func_02195F9C((struct Conn *)connection, ESN))
+    if (!gti2HandleESN((struct Conn *)connection, ESN))
         return 0;
 
     if (SN == connection->expectedSerialNumber) {
         func_02196920(connection);
-        if (!func_02196558(connection, type, message, len))
+        if (!gti2DeliverReliableMessage(connection, type, message, len))
             return 0;
-        if (!func_021968A0((struct Conn *)connection))
+        if (!gti2DeliverHoldMessages((struct Conn *)connection))
             return 0;
         return 1;
     }
 
-    if (func_02195EB4(SN, connection->expectedSerialNumber) < 0) {
+    if (gti2SNDiff(SN, connection->expectedSerialNumber) < 0) {
         func_02196920(connection);
         return 1;
     }
 
-    if (!func_0219666C(connection, type, SN, message, len, &overflow))
+    if (!gti2BufferIncomingMessage(connection, type, SN, message, len, &overflow))
         return 0;
     if (overflow) {
         if (!func_02195F70(connection))

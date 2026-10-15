@@ -12,6 +12,9 @@
  * symbols:
  *   NNSi_G2dRequestCellTransferState  0x02066ABC  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
+ *   NNS_G2dSetSRTTranslate  0x020640DC  arm
+ *   NNS_G2dSetSRTRotate  0x02064100  arm
+ *   NNS_G2dSetSRTScale  0x02064120  arm
  */
 #include "../include/Obj00260.h"
 #include "../include/Obj03025.h"
@@ -24,11 +27,11 @@ struct CellDataBank;
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
-extern void func_020640DC(char *p, int a, int b);
-extern void func_02064120(char *p, int a, int b);
+extern void NNS_G2dSetSRTTranslate(char *p, int a, int b);
+extern void NNS_G2dSetSRTScale(char *p, int a, int b);
 typedef unsigned short u16;
 struct Obj02064100;
-extern void func_02064100(struct Obj02064100 *obj, u16 val);
+extern void NNS_G2dSetSRTRotate(struct Obj02064100 *obj, u16 val);
 extern int NNSi_G2dRequestCellTransferState(int a0, int a1, int a2);
 
 void NNSi_G2dRefreshCellAnimation(char *self)
@@ -51,12 +54,12 @@ void NNSi_G2dRefreshCellAnimation(char *self)
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x3c, *(short *)&((struct Obj03025 *)p)->f4, *(short *)(p + 6));
+        NNS_G2dSetSRTTranslate(self + 0x3c, *(short *)&((struct Obj03025 *)p)->f4, *(short *)(p + 6));
         break;
     default:
-        func_02064120(self + 0x3c, ((struct Obj03025 *)p)->f4, ((struct Obj03025 *)p)->f8);
-        func_02064100((struct Obj02064100 *)(self + 0x3c), ((struct Obj03025 *)p)->f2);
-        func_020640DC(self + 0x3c, ((struct Obj03025 *)p)->fC, ((struct Obj03025 *)p)->fE);
+        NNS_G2dSetSRTScale(self + 0x3c, ((struct Obj03025 *)p)->f4, ((struct Obj03025 *)p)->f8);
+        NNS_G2dSetSRTRotate((struct Obj02064100 *)(self + 0x3c), ((struct Obj03025 *)p)->f2);
+        NNS_G2dSetSRTTranslate(self + 0x3c, ((struct Obj03025 *)p)->fC, ((struct Obj03025 *)p)->fE);
         break;
     }
     q = ((struct Obj16427 *)o)->fC;

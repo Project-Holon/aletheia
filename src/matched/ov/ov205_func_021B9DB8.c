@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DB8
+ * function: SAVE_SCREEN_PrintText
  * address: 0x021B9DB8
  * packet: pkt_ov205_021B9DB8
  * region: ov205
@@ -45,7 +45,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021B9DB8(char *p,u32 index,s16 x,s16 y)
+void SAVE_SCREEN_PrintText(char *p,u32 index,s16 x,s16 y)
 {
     struct U16Vec *a,*b;
     a=STRBUF_Create(0x400,*(u16 *)p);

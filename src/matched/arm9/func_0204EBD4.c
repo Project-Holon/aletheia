@@ -1,5 +1,5 @@
 /*
- * function: func_0204EBD4
+ * function: BILLBOARD_Create
  * address:  0x0204EBD4
  * packet:   pkt_0204EBD4
  * region:   arm9
@@ -57,7 +57,7 @@ struct BigElem { u32 f00; u32 f04; u32 f08; u32 f0c; u32 f10; u32 f14; u32 f18; 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char sBillboard[];
 
-void *func_0204EBD4(u8 *src, void *heap)
+void *BILLBOARD_Create(u8 *src, void *heap)
 {
     struct Board *h;
     const char *file;

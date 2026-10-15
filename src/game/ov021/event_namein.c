@@ -20,21 +20,21 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetItemUseWork  0x02012A54  thumb
  *   func_02008550  0x02008550  thumb
- *   func_0200C1F4  0x0200C1F4  thumb
- *   func_0200C20C  0x0200C20C  thumb
+ *   BEACON_GetGreetMessage  0x0200C1F4  thumb
+ *   BEACON_GetThanksMessage  0x0200C20C  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   gNameInMaxLength     0x021DB44C  data  a1
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   abs_id_C2      0x000000C2  data
  *   gNameInProcData     0x021F5580  data  ov194  a4
- *   func_0200C1F8  0x0200C1F8  thumb
+ *   BEACON_SetGreetMessage  0x0200C1F8  thumb
  *   GAME_BEACON_UpdateGreeting  0x02027198  thumb
- *   func_0200C210  0x0200C210  thumb
+ *   BEACON_SetThanksMessage  0x0200C210  thumb
  *   BEACON_STATUS_GetMessage  0x020275C4  thumb
  *   STRBUF_Copy  0x02045838  arm
  *   GAME_BEACON_SEARCH_SetFreeText  0x02165844  thumb  ov010
@@ -83,18 +83,18 @@ extern struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *p);
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetItemUseWork(const struct GameData *p);
 extern u8 func_02008550(const struct MyStatus *obj);
-extern u16 *func_0200C1F4(struct NameSave *p);
-extern u16 *func_0200C20C(struct NameSave *p);
+extern u16 *BEACON_GetGreetMessage(struct NameSave *p);
+extern u16 *BEACON_GetThanksMessage(struct NameSave *p);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
-extern void func_0200C1F8(struct NameSave *p, const u16 *src);
+extern void BEACON_SetGreetMessage(struct NameSave *p, const u16 *src);
 extern void GAME_BEACON_UpdateGreeting(void);
-extern void func_0200C210(struct NameSave *p, const u16 *src);
+extern void BEACON_SetThanksMessage(struct NameSave *p, const u16 *src);
 extern int BEACON_STATUS_GetMessage(void *p);
 extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 extern void GAME_BEACON_SEARCH_SetFreeText(void *v);
@@ -125,7 +125,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     work->resultVar = resultVar;
     work->mode = mode;
     work->param.heapId = 4;
-    work->nameSave = func_0200C0F0(GAME_DATA_GetSaveControl(work->gameData));
+    work->nameSave = BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     work->myStatus = GAME_DATA_GetMyStatus(work->gameData);
     work->beaconSave = GAME_DATA_GetItemUseWork(work->gameData);
     work->param.mode = mode;
@@ -135,10 +135,10 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     work->param.name = (struct Strbuf *)STRBUF_Create(work->param.maxLength + 1, work->param.heapId);
     switch (mode) {
     case 5:
-        STRBUF_SetString(work->param.name, func_0200C1F4(work->nameSave));
+        STRBUF_SetString(work->param.name, BEACON_GetGreetMessage(work->nameSave));
         break;
     case 6:
-        STRBUF_SetString(work->param.name, func_0200C20C(work->nameSave));
+        STRBUF_SetString(work->param.name, BEACON_GetThanksMessage(work->nameSave));
         break;
     case 7:
         break;
@@ -183,11 +183,11 @@ void EVENT_NAMEIN_StoreResult(NameInEvent *work, NameInParam *param)
         return;
     switch (work->mode) {
     case 5:
-        func_0200C1F8(work->nameSave, (const u16 *)param->name);
+        BEACON_SetGreetMessage(work->nameSave, (const u16 *)param->name);
         GAME_BEACON_UpdateGreeting();
         return;
     case 6:
-        func_0200C210(work->nameSave, (const u16 *)param->name);
+        BEACON_SetThanksMessage(work->nameSave, (const u16 *)param->name);
         return;
     case 7:
         STRBUF_Copy((struct Strbuf *)BEACON_STATUS_GetMessage(work->beaconSave), (struct Strbuf *)work->param.name);

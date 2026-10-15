@@ -1,5 +1,5 @@
 /*
- * function: func_021D4240
+ * function: POKETRADE_DEMO_COMMON_StepFade
  * address:  0x021D4240
  * packet:   pkt_ov117_021D4240
  * region:   ov117
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_021D4240(s8 *fade)
+void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
 {
     s32 value;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0205EC7C
+ * function: makeUsbWepKey
  * address:  0x0205EC7C
  * packet:   pkt_0205EC7C
  * region:   arm9
@@ -26,7 +26,7 @@ extern const unsigned char g_020A1668[13];
 extern const unsigned char g_020A1675[16];
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
-void func_0205EC7C(unsigned char *seed, unsigned char *wepkey)
+void makeUsbWepKey(unsigned char *seed, unsigned char *wepkey)
 {
     int i;
     unsigned char keytemp[13];

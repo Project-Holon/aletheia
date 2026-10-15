@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   func_02211970 0x02211970 thumb ov198
- *   func_0220B760 0x0220B760 thumb ov198
+ *   B_PLIST_ANM_StartPaletteAnim 0x0220B760 thumb ov198
  *   func_02211958 0x02211958 thumb ov198
  *   func_022110D4 0x022110D4 thumb ov198
  */
@@ -21,9 +21,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sound;
-extern int func_02025DE8(struct Sound *);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *,u32);
+extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
 extern u32 func_02210F1C(u8 *p);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 extern u32 func_02211958(u8 **);
@@ -34,7 +34,7 @@ int func_0220FDD4(u8 *p)
     int row;
     if(PALANM_GetFadeRequestBits(*(const char * *)&((struct Obj14565 *)p)->f1D8)!=0)return 30;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj14565 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj14565 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3:
         if((*(u8 **)p)[0x4B]!=sel){
@@ -48,11 +48,11 @@ int func_0220FDD4(u8 *p)
         break;
     case 4:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         return 31;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         return 31;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

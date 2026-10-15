@@ -12,14 +12,14 @@
  * Clears the word the object at +0xa4 points to, when it is there.
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 
 void CPS_SocRelease(void)
 {
-    char *p = *(char **)(g_02150FEC + 4);
+    char *p = *(char **)(gMslRefToken + 4);
     int *q = *(int **)(p + 0xa4);
 
     if (q) {

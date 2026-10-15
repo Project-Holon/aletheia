@@ -1,5 +1,5 @@
 /*
- * function: func_02034FA0
+ * function: UI_ClearKeepAwakeFlags
  * address:  0x02034FA0
  * packet:   pkt_02034FA0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_02034FA0(unsigned char *p, unsigned char flags)
+void UI_ClearKeepAwakeFlags(unsigned char *p, unsigned char flags)
 {
     p[0x38] &= (unsigned char)~flags;
 }

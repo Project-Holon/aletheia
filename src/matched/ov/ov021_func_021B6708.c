@@ -21,7 +21,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   func_02008FEC  0x02008FEC  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
@@ -63,7 +63,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Check136C(u16 v);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *MAIL_Create(int a0);
 extern int MAIL_FindEmptySlot(void *obj, int v);
@@ -105,7 +105,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(u32 a, int idx)
     mon = func_02030734(heap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)sScrcmdPokemonFldFileName, 0x4c7);
     sz = POKE_TOOL_GetPartyParamSize();
     MI_CpuCopy8(POKEPARTY_GetMember(party, idx), mon, sz);
-    if (func_0202136C(POKE_TOOL_GetPartyValue(mon, 6, 0)) == 1) {
+    if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(mon, 6, 0)) == 1) {
         o = func_02008FEC(sv);
         buf = MAIL_Create(SCRCMD_WORK_GetHeapId((void *)a));
         i = MAIL_FindEmptySlot(o, 0);

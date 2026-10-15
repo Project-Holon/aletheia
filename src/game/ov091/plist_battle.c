@@ -19,7 +19,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02045EC0  0x02045EC0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -45,9 +45,9 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
@@ -113,7 +113,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_02041B6C(u32 bit);
 extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 extern u32 func_020307B0(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -140,9 +140,9 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int GFL_USE_IsAnySeBusy(void);
@@ -297,7 +297,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     cell->itemMarkActor = (u32)CLACT_CreateActor(work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], &markParam, 1, work->heapId);
     if (heldItem != 0) {
         CLACT_SetActorDrawEnable((struct Obj *)cell->itemMarkActor, 1);
-        if (func_0202136C(heldItem) == 1) CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 1);
+        if (FILE_UTIL_Check136C(heldItem) == 1) CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 1);
         else CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 0);
     } else CLACT_SetActorDrawEnable((struct Obj *)cell->itemMarkActor, 0);
     sex = func_02017E1C(mon, PLIST_MON_SEX, 0);
@@ -314,10 +314,10 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     xShift = xOffset;
     cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, 6, 1, 14, 1);
     if (isEgg == 0) {
-        wordSet = (u32)func_0201EC64(work->heapId);
+        wordSet = (u32)GF_FONT_Create_EC64(work->heapId);
         func_0201EFA4((struct WordSet *)wordSet, 0, level, 3, 0, 1);
         POKELIST_PrintExpandedTextSub(work, cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
-        func_0201ED04((struct WordSet *)wordSet);
+        WORDSET_DeleteStrbufED04((struct WordSet *)wordSet);
     }
     cell->active = 1;
     return cell;
@@ -421,7 +421,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
         minute = (u8)(timer / 60);
         second = (u8)(timer % 60);
         buf = STRBUF_Create(32, work->heapId);
-        words = func_0201EC64(work->heapId);
+        words = GF_FONT_Create_EC64(work->heapId);
         if (minute == 0) {
             text = func_02045EC0(work->msgBank, 175);
             func_0201EFA4(words, 1, second, 2, 1, 1);
@@ -434,7 +434,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
         func_0201F250(words, buf, text);
         width = func_0201D304((struct StrObj *)buf, (u32)work->fontMain, 0);
         PRINTSYS_PrintQueColor(work->printSys, (u32)BMP_WIN_GetBmp(work->timerValueWindow), (s16)(36 - width), 4, (u32)buf, (u32)work->fontMain, 0x3c40);
-        func_0201ED04(words);
+        WORDSET_DeleteStrbufED04(words);
         STRBUF_Delete(buf);
         STRBUF_Delete(text);
         work->timerValuePrinting = 1;

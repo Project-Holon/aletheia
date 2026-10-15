@@ -1,5 +1,5 @@
 /*
- * function: func_021F94F8
+ * function: STA_ACTING_UpdateSelection
  * address: 0x021F94F8
  * packet: pkt_ov132_021F94F8
  * region: ov132
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 extern void func_021FA558(char *, int, int);
 extern void func_021FA56C(char *, u8);
-void func_021F94F8(char *p)
+void STA_ACTING_UpdateSelection(char *p)
 {
     u8 count, i, j, selected, index;
     if (*(int *)(p + 0xEC) != 1) return;

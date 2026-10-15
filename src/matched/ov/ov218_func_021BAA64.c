@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA64
+ * function: UN_SELECT_GRAPHIC_DeleteClact
  * address:  0x021BAA64
  * packet:   pkt_021BAA64
  * region:   ov218
@@ -24,7 +24,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BAA64(char *p)
+void UN_SELECT_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26051 *)p)->f0));
     CLACT_ExitSystem();

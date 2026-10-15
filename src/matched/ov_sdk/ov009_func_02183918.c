@@ -15,8 +15,8 @@
  *   ArrayLength           0x02184200 arm ov009
  *   ArrayNth              0x02184208 arm ov009
  *   gsiXmlUtilTagMatches  0x02183D98 arm ov009
- *   func_0217F8B4         0x0217F8B4 arm ov009
- *   func_0217FBC8         0x0217FBC8 arm ov009
+ *   B64Decode         0x0217F8B4 arm ov009
+ *   B64DecodeLen         0x0217FBC8 arm ov009
  */
 
 struct GSIXmlStreamReader
@@ -41,8 +41,8 @@ struct GSIXmlElement
 extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
 extern int gsiXmlUtilTagMatches(char *matchtag, void *xmlstr);
-extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
-extern int func_0217FBC8(char *input, int encodingType);
+extern void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
+extern int B64DecodeLen(char *input, int encodingType);
 
 int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut)
 {
@@ -64,14 +64,14 @@ int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *va
                 if (searchValueElem->value == 0)
                     *lenOut = 0;
                 else
-                    func_0217F8B4(searchValueElem->value, (char *)valueOut, searchValueElem->valueLen, lenOut, 0);
+                    B64Decode(searchValueElem->value, (char *)valueOut, searchValueElem->valueLen, lenOut, 0);
             }
             else
             {
                 if (searchValueElem->value == 0)
                     *lenOut = 0;
                 else
-                    *lenOut = func_0217FBC8(searchValueElem->value, 0);
+                    *lenOut = B64DecodeLen(searchValueElem->value, 0);
             }
             return 1;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6A84
+ * function: EGG_DEMO_VIEW_IsFadeDone
  * address: 0x021F6A84
  * packet: pkt_ov215_021F6A84
  * region: ov215
@@ -15,4 +15,4 @@
 #include "../include/Obj25758.h"
 
 extern int MCSS_CheckPaletteFade(void *);
-int func_021F6A84(char *p){if(MCSS_CheckPaletteFade(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFadeDone(char *p){if(MCSS_CheckPaletteFade(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}

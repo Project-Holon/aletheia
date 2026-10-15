@@ -25,18 +25,18 @@
  *   func_020409B4  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositionsLower 0x021FFD74 thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B40 0x02049B40 arm
  *   WORLDTRADE_TITLE_LoadMainBgSwap 0x02200AB4 thumb ov135
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
@@ -47,8 +47,8 @@
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_0200ADB4  0x0200ADB4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   func_02017E1C  0x02017E1C  thumb
@@ -110,15 +110,15 @@
  *   func_0217BC90 0x0217BC90 arm ov009
  *   func_02045B38 0x02045B38 arm
  *   func_02008DF0  0x02008DF0  thumb
- *   func_0200ADE0  0x0200ADE0  thumb
+ *   WORLDTRADE_GetReturnBox  0x0200ADE0  thumb
  *   DPW_TR_TradeAsync 0x021C8C68 arm ov114
- *   func_0200AD8C  0x0200AD8C  thumb
+ *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0200AD94  0x0200AD94  thumb
+ *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   WORLDTRADE_DEMO_ReadMyStatus 0x021F72C4 thumb ov135
- *   func_02009EC8 0x02009EC8 thumb
+ *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  *   func_02009DE8 0x02009DE8 thumb
  *   memset 0x02082BCC arm
  *   MYSTATUS_Copy 0x02008494 thumb
@@ -176,19 +176,19 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -247,7 +247,7 @@ typedef struct {
     u8 tail;
 } Record;
 
-extern void *func_0200ADB4(void *);
+extern void *WORLDTRADE_NoOp(void *);
 
 extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
@@ -257,7 +257,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void WORLDTRADE_SetNextState(void *p, u32 a, u32 b);
 
@@ -271,7 +271,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
-extern int func_0207D55C(vu16 *reg);
+extern int GXx_GetMasterBrightness_(vu16 *reg);
 
 
 extern int DPW_TR_IsAsyncEnd();
@@ -350,7 +350,7 @@ extern void DPW_TR_GetUploadResultAsync(u8 *p);
 
 extern void DPW_TR_DownloadAsync(u8 *p);
 
-extern u16 func_0200ADE0(struct RegB *p);
+extern u16 WORLDTRADE_GetReturnBox(struct RegB *p);
 
 extern void DPW_TR_UploadFinishAsync(u8 *p);
 
@@ -360,11 +360,11 @@ extern void DPW_TR_TradeFinishAsync(u8 *p);
 
 extern void DPW_TR_ReturnAsync(u8 *p);
 
-extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
+extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
 
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
-extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
+extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
 
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 
@@ -372,7 +372,7 @@ extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 
 extern void *WORLDTRADE_DEMO_ReadMyStatus(void *);
 
-extern void *func_02009EC8(void *);
+extern void *TRADE_HISTORY_GetFromSave(void *);
 
 extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 
@@ -576,7 +576,7 @@ void WORLDTRADE_SERVER_CallStateHandler(u8 *p)
     g_02203E94[*(u32 *)(p + 0x28)](p);
 }
 
-int WORLDTRADE_SERVER_Exit(Work *p) { if(func_0207D55C((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows((u8 *)p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_ClearBusyFlag(p); return 0; }
+int WORLDTRADE_SERVER_Exit(Work *p) { if(GXx_GetMasterBrightness_((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows((u8 *)p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_ClearBusyFlag(p); return 0; }
 
 /*
  * Three-layer bring-up with all three layers 020414EC'd, tilemap clears for
@@ -591,32 +591,32 @@ void WORLDTRADE_SERVER_SetupBgPlanes(void)
     BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate t = g_02203A14;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
-    func_020414EC(0);
+    BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
         struct BgTemplate t = g_02203A54;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
-    func_020414EC(1);
+    BG_SYS_ClearSlot(1);
     func_02040588(1, 1);
     {
         struct BgTemplate t = g_02203A34;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_020414EC(2);
+    BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
-    func_02040B94(0, 0x20, 0, 0x48);
-    func_02040B94(1, 0x20, 0, 0x48);
+    BG_SYS_InitRun(0, 0x20, 0, 0x48);
+    BG_SYS_InitRun(1, 0x20, 0, 0x48);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
 }
 
 void WORLDTRADE_SERVER_ExitBgPlanes(void)
 {
-    sub_020403F4(2);
-    sub_020403F4(1);
-    sub_020403F4(0);
+    BG_SYS_Delete_03F4(2);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(0);
 }
 
 void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
@@ -1079,8 +1079,8 @@ int WORLDTRADE_SERVER_WaitDownload(Work *p)
             if (v != 0) {
                 p->state = 0x1c;
             } else {
-                WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, func_0200ADB4(*(void **)((*(unsigned int *)&p->ctx))),
-                              func_0200ADE0((struct RegB *)(*(u32 *)((*(unsigned int *)&p->ctx)))), v);
+                WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, WORLDTRADE_NoOp(*(void **)((*(unsigned int *)&p->ctx))),
+                              WORLDTRADE_GetReturnBox((struct RegB *)(*(u32 *)((*(unsigned int *)&p->ctx)))), v);
                 p->state = 0x22;
             }
             break;
@@ -1325,14 +1325,14 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
             break;
         case -3:
             p->busy = 0;
-            if (func_0200AD8C(p->ctx->sys) != 0) {
+            if (WORLDTRADE_GetIsDeposited(p->ctx->sys) != 0) {
                 mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
                 WORLDTRADE_CopyPokemon(p->ctx->sys, mon);
                 func_0201EEF4(p->words, 0, mon);
                 p->mode = 2;
                 p->state_i = 0x26;
-                WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)mon, func_0200ADE0(p->ctx->sys), 0);
-                func_0200AD94(p->ctx->sys, 0);
+                WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)mon, WORLDTRADE_GetReturnBox(p->ctx->sys), 0);
+                WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
                 func_020307B0(mon);
             } else {
                 WORLDTRADE_SERVER_ShowResultByMode(p);
@@ -1340,13 +1340,13 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
             break;
         case -4:
             p->busy = 0;
-            if (func_0200AD8C(p->ctx->sys) != 0) {
+            if (WORLDTRADE_GetIsDeposited(p->ctx->sys) != 0) {
                 mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
                 WORLDTRADE_CopyPokemon(p->ctx->sys, mon);
                 func_0201EEF4(p->words, 0, mon);
                 p->mode = 3;
                 p->state_i = 0x26;
-                func_0200AD94(p->ctx->sys, 0);
+                WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
                 func_020307B0(mon);
             }
             break;
@@ -1489,7 +1489,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, WorldtradeAdapterOb
     func_02008DF0(((struct Obj23452 *)(*(u8 * *)(void **)&p->ctx))->f24, 0x10);
     MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(((struct Obj23453 *)(*(u8 * *)(void **)&p->ctx))->f3C), r->f10C);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
-    func_02009DE8(func_02009EC8(((struct Obj23454 *)(*(u8 * *)(void **)&p->ctx))->f3C), copy);
+    func_02009DE8(TRADE_HISTORY_GetFromSave(((struct Obj23454 *)(*(u8 * *)(void **)&p->ctx))->f3C), copy);
     func_020307B0(copy);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     memset(&rec, 0, sizeof(rec));
@@ -1579,10 +1579,10 @@ int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(Work *p)
 
 int WORLDTRADE_SERVER_StateFinishTrade(Work *p)
 {
-    WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)((u8 *)p + 0xe4), func_0200ADE0(**(void ** *)(void **)&p->ctx), p->f207);
+    WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)((u8 *)p + 0xe4), WORLDTRADE_GetReturnBox(**(void ** *)(void **)&p->ctx), p->f207);
     WORLDTRADE_ADAPTER_RegisterLanguageVersion(p->ctx->status, (u8 *)p + 0xe4);
     WORLDTRADE_SERVER_RecordTradeResult(p, (u8 *)p + 0xe4, (WorldtradeAdapterObj5 *)((u8 *)p + 0xe4), 0);
-    func_0200AD94(**(void ** *)(void **)&p->ctx, 0);
+    WORLDTRADE_SetIsDeposited(**(void ** *)(void **)&p->ctx, 0);
     p->state = 0x22;
     WORLDTRADE_ADAPTER_SetPair(p, 0x17, 0xf);
     return 2;
@@ -1883,7 +1883,7 @@ int WORLDTRADE_SERVER_StateOpenSavePrompt(Work *p)
  */
 int WORLDTRADE_SERVER_StartSave(Work *p)
 {
-    GAME_DATA_SaveStart((int)func_020120F4((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart((int)ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x23;
     (*(unsigned int *)&p->cnt) = func_020056EC(0x3c) + 2;
     return 2;
@@ -1900,7 +1900,7 @@ int WORLDTRADE_SERVER_StateCountdown(Work *p)
 
 int WORLDTRADE_SERVER_WaitSave(Work *p)
 {
-    if (GAME_DATA_SaveMain(func_020120F4((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
+    if (GAME_DATA_SaveMain(ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
         p->state = p->fE0C;
     }
     return 2;
@@ -1911,7 +1911,7 @@ int WORLDTRADE_SERVER_WaitSave(Work *p)
  */
 int WORLDTRADE_SERVER_StateSaveGame(Work *p)
 {
-    if (GAME_DATA_SaveMain(func_020120F4((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
+    if (GAME_DATA_SaveMain(ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
         p->state = p->fE0E;
         WORLDTRADE_DeleteTimeIcon(p);
     }
@@ -1923,14 +1923,14 @@ int WORLDTRADE_SERVER_StateSaveGame(Work *p)
  */
 int WORLDTRADE_SERVER_StartSaveB(Work *p)
 {
-    GAME_DATA_SaveStart((int)func_020120F4((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart((int)ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x27;
     return 2;
 }
 
 int WORLDTRADE_SERVER_WaitSaveB(Work *p)
 {
-    if (GAME_DATA_SaveMain(func_020120F4((const struct Ctx *)(p->ctx->f40))) == 2) {
+    if (GAME_DATA_SaveMain(ICA_ANIME_GetField1C((const struct Ctx *)(p->ctx->f40))) == 2) {
         WORLDTRADE_SetStateAndReturn(p, 1, 0);
         WORLDTRADE_DeleteTimeIcon(p);
         WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)(p->bank), (*(unsigned int *)&p->mode), 1, 0xF0F);
@@ -1946,7 +1946,7 @@ int WORLDTRADE_SERVER_StateStartWipeOutRestore(Work *p)
 {
     WORLDTRADE_DeleteTimeIcon(p);
     if (p->eb4 == 1) {
-        if (func_0207D55C((u16 *)0x0400106C) == -16)
+        if (GXx_GetMasterBrightness_((u16 *)0x0400106C) == -16)
             WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, 0x48);
         else
             WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);

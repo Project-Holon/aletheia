@@ -14,8 +14,8 @@
  *   BACKUP_SYSTEM_GetBlockArea  0x020332FC  arm
  *   SAVEDATA_GetBlockSize  0x02033BAC  arm
  *   func_02033BF0  0x02033BF0  arm
- *   func_02034F84  0x02034F84  arm
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *
  * savedata.c.  Walks every record of the save table and reports two running
  * totals through the caller's two out-parameters: the nominal size of every
@@ -56,8 +56,8 @@ extern u32 BACKUP_SYSTEM_GetBlockArea(struct Obj020332FC *p, u32 idx);
 struct Obj02033BF0;
 extern u32 SAVEDATA_GetBlockSize(u8 *p, u32 i);
 extern u32 func_02033BF0(struct Obj02033BF0 *p);
-extern void func_02034F84(u32 bit);
-extern void func_02034FB8(u32 bit);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 bit);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 bit);
 
 void BACKUP_SYSTEM_CalcDiffSize(struct SaveBackup *p, u32 *total, u32 *nominal)
 {
@@ -70,7 +70,7 @@ void BACKUP_SYSTEM_CalcDiffSize(struct SaveBackup *p, u32 *total, u32 *nominal)
     u32 r;
 
     i = 0;
-    func_02034F84(1);
+    UI_SetKeepAwakeFlagsGlobal(1);
 
     *total = 0;
     *nominal = 0;
@@ -95,5 +95,5 @@ void BACKUP_SYSTEM_CalcDiffSize(struct SaveBackup *p, u32 *total, u32 *nominal)
         i++;
     } while (i < func_02033BF0((struct Obj02033BF0 *)p->unk2C));
 
-    func_02034FB8(1);
+    UI_ClearKeepAwakeFlagsGlobal(1);
 }

@@ -11,6 +11,7 @@
  *
  * symbols:
  *   gDwcGdbEntity  0x021E5334  data
+ *   DWCi_IsError  0x02059F38  arm  arm9
  *
  * Return 4 once 0x02059F38 says the block is live, else the queued count at
  * +8.
@@ -23,12 +24,12 @@
 
 typedef unsigned long u32;
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern u32 gDwcGdbEntity[];
 
 int DWC_GdbGetState(void)
 {
-    if (func_02059F38())
+    if (DWCi_IsError())
         return 4;
     return gDwcGdbEntity[2];
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0200ABE0
+ * function: IRC_RANKING_HasEntryByTrainerId
  * address:  0x0200ABE0
  * packet:   pkt_0200A940
  * region:   arm9
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_0200ABE0(u8 *a0, int n, u8 *b)
+int IRC_RANKING_HasEntryByTrainerId(u8 *a0, int n, u8 *b)
 {
     int i;
 

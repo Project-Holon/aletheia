@@ -14,7 +14,7 @@
  * symbols:
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   func_0217C448          0x0217C448  arm  ov009
- *   func_02179CF4          0x02179CF4  arm  ov009
+ *   DWC_Http_Destroy          0x02179CF4  arm  ov009
  *   DWCi_SetError          0x02059F54  arm
  *   g_021ACEF4             0x021ACEF4  data
  */
@@ -28,7 +28,7 @@ typedef struct {
 extern struct Svl *g_021ACEF4;
 extern int OS_IsThreadTerminated(void *thread);
 extern int func_0217C448(void);
-extern void func_02179CF4(char *http);
+extern void DWC_Http_Destroy(char *http);
 extern void DWCi_SetError(int error, int code);
 
 int func_0217C384(void)
@@ -43,16 +43,16 @@ int func_0217C384(void)
         switch (*(int *)((char *)g_021ACEF4 + 0x1028)) {
         case 8:
             if (func_0217C448() == 0) {
-                func_02179CF4((char *)g_021ACEF4 + 8);
+                DWC_Http_Destroy((char *)g_021ACEF4 + 8);
                 return 4;
             }
-            func_02179CF4((char *)g_021ACEF4 + 8);
+            DWC_Http_Destroy((char *)g_021ACEF4 + 8);
             return 3;
         case 7:
-            func_02179CF4((char *)g_021ACEF4 + 8);
+            DWC_Http_Destroy((char *)g_021ACEF4 + 8);
             return 5;
         default:
-            func_02179CF4((char *)g_021ACEF4 + 8);
+            DWC_Http_Destroy((char *)g_021ACEF4 + 8);
             DWCi_SetError(0x10, -24101);
             return 4;
         }

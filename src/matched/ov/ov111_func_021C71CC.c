@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_02030EAC  0x02030EAC  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -86,7 +86,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *p);
@@ -99,7 +99,7 @@ void func_021C71CC(Work *p)
         STRBUF_Delete(p->f2C[i]);
     }
     STRBUF_Delete(p->f28);
-    func_0201ED04(p->f24);
+    WORDSET_DeleteStrbufED04(p->f24);
     MSGDATA_Delete(p->f20);
     func_02030EAC(p->fF4);
     ARC_TOOL_DeleteHandle(p->f0);

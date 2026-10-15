@@ -1,5 +1,5 @@
 /*
- * function: func_0208C7E0
+ * function: PMi_ExecuteList
  * address:  0x0208C7E0
  * packet:   pkt_0208C7E0
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct PMGenCallbackInfo {
     struct PMGenCallbackInfo *next;
 } PMGenCallbackInfo;
 
-void func_0208C7E0(PMGenCallbackInfo *listp)
+void PMi_ExecuteList(PMGenCallbackInfo *listp)
 {
     while (listp) {
         (listp->callback)(listp->arg);

@@ -12,9 +12,9 @@
  * sdk:      DWC_SVLGetTokenAsync (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  *
  * symbols:
- *   func_02058FB4  0x02058FB4  arm
+ *   DWC_Auth_GetId  0x02058FB4  arm
  *   func_0217C070  0x0217C070  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_0217C144  0x0217C144  arm  ov009
  *   func_0217C104  0x0217C104  arm  ov009
  *   DWC_Alloc      0x0205A16C  arm
@@ -27,10 +27,10 @@ typedef struct AuthId {
     int f10;
 } AuthId;
 
-extern void func_02058FB4(AuthId *id);
+extern void DWC_Auth_GetId(AuthId *id);
 extern int func_0217C070(void *alloc, void *free);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 struct DWCSvlResult;
 extern int func_0217C144(char *svc, struct DWCSvlResult *result);
 extern void func_0217C104(void);
@@ -43,12 +43,12 @@ int func_02167FA8(char *svl, void *result)
     AuthId id;
     int flag;
 
-    func_02058FB4(&id);
+    DWC_Auth_GetId(&id);
     if (id.f10 == 0)
         return 0;
     if (func_0217C070(DWC_Alloc, DWC_Free) == 0)
         return 0;
-    if (func_0209477C((const u8 *)svl) == 0)
+    if (strlen((const u8 *)svl) == 0)
         flag = func_0217C144(g_021A1F6C, result);
     else
         flag = func_0217C144(svl, result);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7568
+ * function: POKE_SUMMARY_MAIN_CountFreeMoves
  * address: 0x021B7568
  * packet: pkt_ov173_021B7568
  * region: ov173
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-u8 func_021B7568(void ***p) {u8 i;for(i=0;i<4;i++)if(!POKE_TOOL_GetPartyValue(**p,i+54,0))break;return i;}
+u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p) {u8 i;for(i=0;i<4;i++)if(!POKE_TOOL_GetPartyValue(**p,i+54,0))break;return i;}

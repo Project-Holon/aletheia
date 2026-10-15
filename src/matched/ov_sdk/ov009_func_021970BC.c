@@ -1,5 +1,5 @@
 /*
- * function: func_021970BC
+ * function: gti2HandleConnectionReset
  * address:  0x021970BC
  * packet:   pkt_ov009_021970BC
  * region:   ov009
@@ -41,7 +41,7 @@ extern int gti2DumpCallback();
 extern u32 current_time(void);
 extern int gti2ConnectionError();
 
-int func_021970BC(GTI2Socket *socket, u32 ip, u16 port)
+int gti2HandleConnectionReset(GTI2Socket *socket, u32 ip, u16 port)
 {
     GTI2Connection *connection;
 

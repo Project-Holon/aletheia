@@ -1,5 +1,5 @@
 /*
- * function: func_02080A18
+ * function: disableBankForX_
  * address:  0x02080A18
  * packet:   pkt_02080A18
  * region:   arm9
@@ -82,7 +82,7 @@ typedef enum {
 extern u16 GXi_VRamLockId;
 extern void OSi_UnlockVram(u16 bank, u16 lockId);
 
-int func_02080A18(u16 *g3bit)
+int disableBankForX_(u16 *g3bit)
 {
     int rval = *g3bit;
 

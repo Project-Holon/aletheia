@@ -10,8 +10,8 @@
  * lever: separate x+=48 and remainder assignments restore numerator register setup.
  * volatile: hardware writes 021E3A5C,021E3A60 to 040004C8/040004CC
  * symbols:
- *   func_0207DA8C 0x0207DA8C arm
- *   func_0207D7C4 0x0207D7C4 arm
+ *   G3X_Reset 0x0207DA8C arm
+ *   G3i_LookAt_ 0x0207D7C4 arm
  *   POKETRADE_PROC_GetStoredBoxIndex 0x021D8A18 thumb ov119
  *   POKETRADE_3D_DrawCubeFace 0x021E3910 thumb ov119
  *   _u32_div_f 0x0209C2B0 arm
@@ -29,8 +29,8 @@ typedef unsigned long u32;
 typedef long fx32;
 typedef struct { fx32 x,y,z; } VecFx32;
 typedef struct { fx32 a[12]; } MtxFx43;
-extern void func_0207DA8C(void);
-extern void func_0207D7C4(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxFx43 *);
+extern void G3X_Reset(void);
+extern void G3i_LookAt_(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxFx43 *);
 extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 extern void POKETRADE_3D_DrawCubeFace(int,int,u16,int);
 extern const VecFx32 d_021E815C,d_021E79AC,d_021E8150;
@@ -42,8 +42,8 @@ void POKETRADE_3D_DrawRotatingCube(const u8 *p)
     int x;
     unsigned delta;
     u16 angle;
-    func_0207DA8C();
-    func_0207D7C4(&d_021E815C,&d_021E79AC,&d_021E8150,1,0);
+    G3X_Reset();
+    G3i_LookAt_(&d_021E815C,&d_021E79AC,&d_021E8150,1,0);
     *(volatile u32 *)0x040004c8=0x2d8b6127;
     *(volatile u32 *)0x040004cc=0x7fff;
     stage=POKETRADE_PROC_GetStoredBoxIndex((u8 *)p);

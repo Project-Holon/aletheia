@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02075ED4 0x02075ED4 arm
+ *   CARDi_LockResource 0x02075ED4 arm
  */
 
 typedef signed int     s32;
-extern void func_02075ED4(s32 owner, int target);
+extern void CARDi_LockResource(s32 owner, int target);
 asm void CARD_LockBackup(void)
 {
-    ldr ip, =func_02075ED4
+    ldr ip, =CARDi_LockResource
     mov r1, #2
     bx ip
 }

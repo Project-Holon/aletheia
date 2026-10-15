@@ -27,8 +27,8 @@
  *
  * symbols:
  *   Table_0209F724   0x0209F724  data
- *   func_0201EC64    0x0201EC64  thumb
- *   func_0201ED04    0x0201ED04  thumb
+ *   GF_FONT_Create_EC64    0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
  *   func_0201EFC8    0x0201EFC8  thumb
  *   func_0201EFFC    0x0201EFFC  thumb
  *   func_0201F250    0x0201F250  thumb
@@ -49,8 +49,8 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_0201ED04(struct WordSet *p);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -68,7 +68,7 @@ void *sub_02024368(u16 *slots, u32 heap, int count)
     void *k;
     int i;
 
-    obj = func_0201EC64((u16)heap);
+    obj = GF_FONT_Create_EC64((u16)heap);
     for (i = 0; i < count; i++) {
         u16 v = slots[i + 2];
 
@@ -88,6 +88,6 @@ void *sub_02024368(u16 *slots, u32 heap, int count)
     func_0201F250(obj, buf, k);
     STRBUF_Delete(k);
     MSGDATA_Delete(slot);
-    func_0201ED04(obj);
+    WORDSET_DeleteStrbufED04(obj);
     return buf;
 }

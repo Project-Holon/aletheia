@@ -63,7 +63,7 @@
  *   OS_Sleep  0x02085A38  arm
  *   func_02167FA8 0x02167FA8 arm ov009
  *   func_02168040 0x02168040 arm ov009
- *   func_02059E38 0x02059E38 arm
+ *   DWC_GetLastErrorEx 0x02059E38 arm
  *   sGdsSvlService 0x021D8D30 data a4
  *   GDS_SOCKET_Start  0x021D7770  arm
  *   GDS_SOCKET_Reset  0x021D770C  arm ov125
@@ -85,6 +85,7 @@
  *   GDS_SOCKET_Alloc 0x021D7C7C arm ov125
  *   STD_CopyString 0x0208CADC arm
  *   GDS_SOCKET_Free  0x021D7C90  arm  ov125
+ *   strcpy  0x02094798  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -111,7 +112,7 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), int arg, void *s
 extern void OS_WakeupThreadDirect(void *thread);
 extern SOCHostEnt *SOC_GetHostByName(const char *name);
 extern char *SOC_InetNtoA(SOCInAddr addr);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern int SOC_Socket(int family, int type, int protocol);
 extern unsigned long CPS_Resolve(char *name);
 extern int SOCL_EnableSsl(int socket, CPSSslConnection *con);
@@ -294,10 +295,10 @@ int GDS_SOCKET_ResolveHost(const char *name, char *out) {
  if (!GDS_SOCKET_IsDottedQuad(name)) {
   host=SOC_GetHostByName(name);
   if (host) {
-   func_02094798(out, SOC_InetNtoA(*(SOCInAddr *)host->addrList[0]));
+   strcpy(out, SOC_InetNtoA(*(SOCInAddr *)host->addrList[0]));
   } else return 0;
  } else {
-  func_02094798(out,name);
+  strcpy(out,name);
  }
  return 1;
 }

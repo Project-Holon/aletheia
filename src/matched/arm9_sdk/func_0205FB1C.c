@@ -1,5 +1,5 @@
 /*
- * function: func_0205FB1C
+ * function: NCFG_CheckConfigEx
  * address:  0x0205FB1C
  * packet:   pkt_0205FB1C
  * region:   arm9
@@ -111,7 +111,7 @@ extern int  readAllSlots(NCFGConfig *config);
 extern int  readAllExSlots(NCFGConfigEx *configEx);
 extern s32  checkConfigEx(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
 
-s32 func_0205FB1C(void *work)
+s32 NCFG_CheckConfigEx(void *work)
 {
     MEMCHECKEX *wk;
 

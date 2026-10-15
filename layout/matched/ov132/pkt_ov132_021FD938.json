@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FD938",
-    "func_021FD948",
-    "func_021FD954",
-    "func_021FD95C"
+    "STA_NET_SetState12",
+    "STA_NET_SetState18Value",
+    "STA_NET_GetPairA",
+    "STA_NET_GetPairB"
+   ],
+   "addresses": [
+    "0x021FD938",
+    "0x021FD948",
+    "0x021FD954",
+    "0x021FD95C"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: sub_0201D33C
+ * function: GF_FONT_InitCallerSuppliedArray
  * address:  0x0201D33C
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -20,8 +20,8 @@
  * address is taken.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201D33C.c
- *       --func sub_0201D33C --addr 0x0201D33C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_InitCallerSuppliedArray.c
+ *       --func GF_FONT_InitCallerSuppliedArray --addr 0x0201D33C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
 
-u32 sub_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
+u32 GF_FONT_InitCallerSuppliedArray(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
 {
     u16 *p;
     u32 i;

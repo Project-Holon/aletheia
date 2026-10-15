@@ -12,16 +12,16 @@
  * sdk:      CPS_SocUse (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   MI_CpuFill8  0x02082BCC  arm
  */
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 
 void CPS_SocUse(void)
 {
-    char *cur = *(char **)(g_02150FEC + 4);
+    char *cur = *(char **)(gMslRefToken + 4);
     char *soc = *(char **)(cur + 0xa4);
 
     if (soc == 0)

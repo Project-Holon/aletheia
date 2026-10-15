@@ -40,7 +40,7 @@
  *   d_021DA6DC     0x021DA6DC  data  a4
  *   d_020A1EB8     0x020A1EB8  data  a4
  *   G3D_UTIL_AddUnit  0x02047E88  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   func_02048AD0  0x02048AD0  arm
  *   func_020489F4  0x020489F4  arm
  *   func_02048A00  0x02048A00  arm
@@ -50,8 +50,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   d_021DA7F4     0x021DA7F4  data  ov021  a4
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017EAC  0x02017EAC  thumb
@@ -60,7 +60,7 @@
  *   func_02034A5C  0x02034A5C  arm
  *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -141,13 +141,13 @@
  *   d_021DE43C     0x021DE43C  data  ov021  a4
  *   d_021DE448     0x021DE448  data  ov021  a4
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_0201F4A0  0x0201F4A0  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201D304  0x0201D304  thumb
@@ -165,6 +165,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   NNS_G3dGetResDataByName  0x0206E62C  arm  arm9
+ *   BG_SYS_Get  0x020416D4  arm  arm9
  */
 #include "fld3d_ci_types.h"
 
@@ -202,7 +203,7 @@ extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, 
 extern u32 G3D_CAMERA_Delete(void *camera);
 extern void G3D_UTIL_Delete(void *gfxUnits);
 extern u32 G3D_UTIL_AddUnit(u32, u32);
-extern u32 func_0207ADC4(u32);
+extern u32 MTX_Identity33_(u32);
 void func_02048AD0(void *camera);
 u32 func_020489F4(void *gfxUnits, int index);
 u32 func_02048A00(void *gfxUnits, int index);
@@ -211,8 +212,8 @@ void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 u32 GFL_HEAP_GetAllocatableSize(int a);
 extern void *func_020122C0(void *gameSystem, void *parent, void *func, u32 workSize);
 extern void *func_020124E8(void *event);
-void *func_020120F4(const void *p);
-void *func_02012934(const void *p);
+void *ICA_ANIME_GetField1C(const void *p);
+void *GAME_DATA_GetMyParty(const void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 u32 func_02017E1C(void *p, u32 id, u32 v);
 u32 func_02017EAC(void *p);
@@ -220,7 +221,7 @@ int func_02034AC4(signed int id);
 void func_02034A5C(int id);
 int *ENCEFF_GetScreenTexParam(int a);
 extern void *GAME_EVENT_GetGameSystem(void *event);
-extern void *func_0201210C(const void *p);
+extern void *ICA_ANIME_GetField20(const void *p);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 extern void FLDMMDL_SysPauseMove(void *o);
 extern void GAME_EVENT_CallEvent(void *event, void *child);
@@ -261,7 +262,7 @@ int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void func_0208068C(u32 a);
 extern void func_02030EAC(void *n);
-extern u8 func_020416D4(u32 layer);
+extern u8 BG_SYS_Get(u32 layer);
 u32 func_02043658(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void *func_020124F0(void *event);
@@ -297,13 +298,13 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 extern int func_0208CC78(const char *s);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201EC64(u32 heap);
+extern void *GF_FONT_Create_EC64(u32 heap);
 extern void *STRBUF_Create(u32 size, u16 heap);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void func_0201F02C(void *wordSet, u32 index, void *playerStatus);
 extern void func_0201F250(void *ws, void *dst, void *src);
 extern void STRBUF_Delete(void *vec);
-extern u32 func_0201ED04(void *p);
+extern u32 WORDSET_DeleteStrbufED04(void *p);
 extern void func_0201F4A0(void *dst, void *src);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201D304(void *s, u32 a, u32 b);
@@ -557,7 +558,7 @@ int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, Fld3dCiResource **resourceTable)
     ci->status.scale.x = (1 << 12);
     ci->status.scale.y = (1 << 12);
     ci->status.scale.z = (1 << 12);
-    func_0207ADC4((u32)&ci->status.rotate);
+    MTX_Identity33_((u32)&ci->status.rotate);
     ci->status.trans.x = 0;
     ci->status.trans.y = 0;
     ci->status.trans.z = 0;
@@ -639,7 +640,7 @@ void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int party
     int personality;
     int attr4C;
 
-    mon = (int)POKEPARTY_GetMember(func_02012934(func_020120F4(gameSystem)), partyPos);
+    mon = (int)POKEPARTY_GetMember(GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(gameSystem)), partyPos);
     species = func_02017E1C((void *)mon, 5, 0);
     form = func_02017E1C((void *)mon, 0x6f, 0);
     attr6E = func_02017E1C((void *)mon, 0x6e, 0);
@@ -702,7 +703,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
 
     ci = work->ci;
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     switch (*state) {
     case 0:
         if (work->hideFieldObjects)
@@ -1138,7 +1139,7 @@ void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci)
 {
     int i;
     for (i = 0; i < 4; i++)
-        ci->savedLayerPriority[i] = func_020416D4((u8)i);
+        ci->savedLayerPriority[i] = BG_SYS_Get((u8)i);
 }
 
 void FLD3D_CI_SaveVisiblePlanes(Fld3dCi *ci)
@@ -1169,7 +1170,7 @@ int FLD3D_CI_PokemonExtraTask(void *event, int *state)
 
     parentWork = func_020124E8(func_020124F0(event));
     ci = parentWork->ci;
-    func_0201210C(GAME_EVENT_GetGameSystem(event));
+    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FLD3D_CI_LoadPokemonIconTexture(ci);
@@ -1299,7 +1300,7 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
 /* Fade task: fades the screen out. */
 int FLD3D_CI_FadeOutTask(void *event, int *state)
 {
-    func_0201210C(GAME_EVENT_GetGameSystem(event));
+    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, -1);
@@ -1318,7 +1319,7 @@ int FLD3D_CI_FadeOutTask(void *event, int *state)
  */
 int FLD3D_CI_FadeInTask(void *event, int *state)
 {
-    func_0201210C(GAME_EVENT_GetGameSystem(event));
+    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(4, 0x10, 0, -1);
@@ -1334,7 +1335,7 @@ int FLD3D_CI_FadeInTask(void *event, int *state)
 
 int FLD3D_CI_FadeInAltTask(void *event, u32 *state)
 {
-    func_0201210C(GAME_EVENT_GetGameSystem(event));
+    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     switch (state[0]) {
     case 0:
         FADE_Start(3, 0x10, 0, 0);
@@ -1438,9 +1439,9 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
 
     parentWork = func_020124E8(func_020124F0(event));
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    playerStatus = func_02012944(func_020120F4(gameSystem));
+    playerStatus = func_02012944(ICA_ANIME_GetField1C(gameSystem));
     ci = parentWork->ci;
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     icon = &ci->arg.icon;
     switch (*state) {
     case 0:
@@ -1565,13 +1566,13 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     heapId = ci->heapId;
     msgBank = func_02045B38(0, 2, 0xb0, heapId);
     if (msgId == 0) {
-        wordSet = func_0201EC64((u16)((heapId & 0x7FFF) | 0x8000));
+        wordSet = GF_FONT_Create_EC64((u16)((heapId & 0x7FFF) | 0x8000));
         text = STRBUF_Create(8, (heapId & 0x7FFF) | 0x8000);
         rawMsg = func_02045EC0(msgBank, msgId);
         func_0201F02C(wordSet, 0, playerStatus);
         func_0201F250(wordSet, text, rawMsg);
         STRBUF_Delete(rawMsg);
-        func_0201ED04(wordSet);
+        WORDSET_DeleteStrbufED04(wordSet);
     } else {
         rawMsg = func_02045EC0(msgBank, msgId);
         text = STRBUF_Create(0x10, (heapId & 0x7FFF) | 0x8000);

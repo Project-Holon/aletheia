@@ -1,5 +1,5 @@
 /*
- * function: func_0203FA08
+ * function: BG_SYS_CreateRun
  * address:  0x0203FA08
  * packet:   pkt_0203FA08
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146A44    0x02146A44  data
- *   func_020416B8 0x020416B8  arm
+ *   BG_SYS_GetField17 0x020416B8  arm
  *   func_02033CC0 0x02033CC0  arm
  *   func_02033F64 0x02033F64  arm
  *   _u32_div_f    0x0209C2B0  arm
@@ -31,15 +31,15 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8 *g_02146A44;
-extern u8 func_020416B8(int channel);
+extern u8 BG_SYS_GetField17(int channel);
 typedef signed int     s32;
 struct AreaMan;
 extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
 extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
 
-u32 func_0203FA08(u32 layer, u32 size, u32 top)
+u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
 {
-    int t = func_020416B8(layer & 0xff);
+    int t = BG_SYS_GetField17(layer & 0xff);
     u8 *g = g_02146A44;
     u32 d1 = *(u32 *)(g + 0x170 + layer * 4) / t;
     u32 d2 = *(u32 *)(g + 0x1b0 + layer * 4) / t;

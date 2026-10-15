@@ -31,6 +31,7 @@
  *   gGsyncStateAssertTag 0x021DABA4 data a1
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb  arm9
  */
 #include "../include/Obj01059.h"
 #include "../include/Obj03799.h"
@@ -53,7 +54,7 @@ extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 struct Sub02009210Obj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern u32 func_0201293C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
@@ -82,7 +83,7 @@ int GSYNC_STATE_ProcInit(void *a,int b,char *q)
         ((struct Obj01059 *)p)->f2C=((struct Obj03799 *)q)->f4;
         ((struct Obj01059 *)p)->f28=GAME_DATA_GetSaveControl(((struct Obj03799 *)q)->f4);
         value=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03799 *)q)->f4));
-        ((struct Obj01059 *)p)->f24=func_0201293C(((struct Obj03799 *)q)->f4);
+        ((struct Obj01059 *)p)->f24=GAME_DATA_GetBoxManager(((struct Obj03799 *)q)->f4);
         ((struct Obj01059 *)p)->f48=((struct Obj03799 *)q)->f1D0;
         ((struct Obj01059 *)p)->f4C=((struct Obj03799 *)q)->f1D2;
         ((struct Obj01059 *)p)->fAC=func_020092EC((const struct Sub02009210Obj *)func_02009448(((struct Obj01059 *)p)->f28));

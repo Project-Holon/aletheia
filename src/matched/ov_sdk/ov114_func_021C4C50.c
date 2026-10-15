@@ -12,7 +12,7 @@
  * sdk:      ghiProcessIncomingFileData (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_02094A28  0x02094A28  arm
+ *   strchr  0x02094A28  arm
  *   ghiAppendToChunkHeaderBuffer  0x021C4C00  arm  ov114
  *   ghiParseChunkSize  0x021C4BD8  arm  ov114
  *   func_0217D254  0x0217D254  arm  ov009
@@ -37,7 +37,7 @@ typedef struct GHIConnection {
     int chunkReadingState;         /* 0x150 */
 } GHIConnection;
 
-extern char *func_02094A28(const char *s, int c);
+extern char *strchr(const char *s, int c);
 extern void ghiAppendToChunkHeaderBuffer(GHIConnection *connection, char *data, int len);
 extern int ghiParseChunkSize(GHIConnection *connection);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
@@ -60,7 +60,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
         {
             if (connection->chunkReadingState == 0)
             {
-                endOfHeader = func_02094A28(data, '\n');
+                endOfHeader = strchr(data, '\n');
                 if (endOfHeader != 0)
                 {
                     ghiAppendToChunkHeaderBuffer(connection, data, endOfHeader - data);
@@ -107,7 +107,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
             }
             else if (connection->chunkReadingState == 2)
             {
-                endOfFooter = func_02094A28(data, '\n');
+                endOfFooter = strchr(data, '\n');
                 if (endOfFooter == 0)
                     return 1;
                 endOfFooter++;

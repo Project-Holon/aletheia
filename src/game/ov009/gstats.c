@@ -23,7 +23,7 @@
  *
  * symbols:
  *   func_0217EB9C 0x0217EB9C  arm
- *   func_0217EB2C 0x0217EB2C  arm
+ *   closesocket 0x0217EB2C  arm
  *   ClosePendingCallbacks 0x02194614  arm
  *   func_0217EAE0 0x0217EAE0  arm
  *   gGstatsSocket   0x021A57C8  data
@@ -32,10 +32,10 @@
  *   func_0217EAC8  0x0217eac8  arm   ov009
  *   func_0217EC4C  0x0217ec4c  arm   ov009
  *   ProcessInBuffer  0x02194494  arm   ov009
- *   func_02092364  0x02092364  arm
- *   func_020948B0 0x020948B0  arm
- *   func_02094B20 0x02094B20  arm
- *   func_0209477C 0x0209477C  arm
+ *   memmove  0x02092364  arm
+ *   strcat 0x020948B0  arm
+ *   strstr 0x02094B20  arm
+ *   strlen 0x0209477C  arm
  *   gGstatsKeyBackslash   0x021A5894  data
  *   gGstatsValueBuffers   0x021AE21C  data
  *   gGstatsEmptyString  0x021A5890  data
@@ -44,7 +44,7 @@
  *   func_02184200 0x02184200  arm
  *   func_02184208 0x02184208  arm
  *   value_for_key_safe 0x02193FD0  arm
- *   func_020964E0 0x020964E0  arm
+ *   atoi 0x020964E0  arm
  *   gGstatsKeyPauthr   0x021A5898  data
  *   gGstatsKeyLid   0x021A58A0  data
  *   gGstatsKeyErrmsg   0x021A58A4  data
@@ -56,7 +56,7 @@
  *   gGstatsKeyData   0x021A58CC  data
  *   gGstatsEmptyString   0x021A5890  data
  *   gGstatsKeySetpdr   0x021A58D4  data
- *   func_020949F4 0x020949F4  arm
+ *   strncmp 0x020949F4  arm
  *   gGstatsKeySecPauthr   0x021A58DC  data
  *   gGstatsKeySecGetpidr   0x021A58E8  data
  *   gGstatsKeySecGetpdr   0x021A58F4  data
@@ -112,19 +112,19 @@ typedef struct {
 } serverreq_t;
 
 extern int func_0217EB9C(int sock, int how);
-extern int func_0217EB2C(int sock);
+extern int closesocket(int sock);
 extern void func_0217EAE0(void *ptr);
 extern void *func_0217EAC8(void *ptr, unsigned long size);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217EF50(int sock);
-extern void *func_02092364(void *dest, const void *src, unsigned int n);
-extern u8 *func_020948B0(u8 *dest, const u8 *src);
-extern char *func_02094B20(const char *s, const char *sub);
-extern int func_0209477C(const u8 *s);
+extern void *memmove(void *dest, const void *src, unsigned int n);
+extern u8 *strcat(u8 *dest, const u8 *src);
+extern char *strstr(const char *s, const char *sub);
+extern int strlen(const u8 *s);
 extern int func_02184200(const int *p);
 extern int *func_02184208(void *array, int n);
-extern int func_020964E0(u32 a0);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int atoi(u32 a0);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void func_0218437C(int a, int b);
 extern void func_021841B0(void *array);
 extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
@@ -401,15 +401,15 @@ int ProcessInBuffer(char *buff, int len)
 void ProcessStatement(char *buff, int len)
 {
     buff[len] = 0;
-    if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecPauthr, 8) == 0)
+    if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecPauthr, 8) == 0)
         ProcessPlayerAuth(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
+    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
         ProcessGetPid(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
+    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
         ProcessGetPid(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecGetpdr, 8) == 0)
+    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecGetpdr, 8) == 0)
         ProcessGetData(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecSetpdr, 8) == 0)
+    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecSetpdr, 8) == 0)
         ProcessSetData(buff, len);
 }
 
@@ -424,10 +424,10 @@ void ProcessSetData(char *buf, int len)
     int modified;
     int reqindex;
 
-    success = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeySetpdr));
-    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPid));
-    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
-    modified = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    success = atoi((u32)value_for_key_safe(buf, gGstatsKeySetpdr));
+    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPid));
+    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    modified = atoi((u32)value_for_key_safe(buf, gGstatsKeyMod));
     reqindex = FindRequest(2, lid, pid);
     if (reqindex == -1)
         return;
@@ -447,15 +447,15 @@ void ProcessGetData(char *buf, int len)
     long modified;
     char *data;
 
-    success = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyGetpdr));
-    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
-    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPid));
-    modified = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    success = atoi((u32)value_for_key_safe(buf, gGstatsKeyGetpdr));
+    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPid));
+    modified = atoi((u32)value_for_key_safe(buf, gGstatsKeyMod));
     reqindex = FindRequest(1, lid, pid);
     if (reqindex == -1)
         return;
-    length = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLength));
-    data = func_02094B20(buf, gGstatsKeyData);
+    length = atoi((u32)value_for_key_safe(buf, gGstatsKeyLength));
+    data = strstr(buf, gGstatsKeyData);
     if (data == 0) {
         data = gGstatsEmptyString;
         length = 0;
@@ -473,8 +473,8 @@ void ProcessGetPid(char *buf, int len)
     int pid;
     int reqindex;
 
-    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyGetpidr));
-    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyGetpidr));
+    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
     reqindex = FindRequest(3, lid, 0);
     if (reqindex == -1)
         return;
@@ -492,8 +492,8 @@ void ProcessPlayerAuth(char *buf, int len)
     int pid;
     int lid;
 
-    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPauthr));
-    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPauthr));
+    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
     errmsg = value_for_key_safe(buf, gGstatsKeyErrmsg);
     reqindex = FindRequest(0, lid, 0);
     if (reqindex == -1)
@@ -561,7 +561,7 @@ char *value_for_key_safe(char *s, char *key)
  *
  * value_for_key. The keyspec initializer is the vendor template @13818 at 0x021A1A64
  * (template class, overlay scope). strcat 0x020948B0 attests as matched through
- * unit_02094860, whose functions list names func_020948B0 since 2026-09-29 (w4_nm).
+ * unit_02094860, whose functions list names strcat since 2026-09-29 (w4_nm).
  */
 char *value_for_key(char *s, char *key)
 {
@@ -571,12 +571,12 @@ char *value_for_key(char *s, char *key)
     char *value;
 
     gGstatsConn.bufIndex ^= 1;
-    func_020948B0((u8 *)keyspec, (const u8 *)key);
-    func_020948B0((u8 *)keyspec, (const u8 *)gGstatsKeyBackslash);
-    pos = func_02094B20(s, keyspec);
+    strcat((u8 *)keyspec, (const u8 *)key);
+    strcat((u8 *)keyspec, (const u8 *)gGstatsKeyBackslash);
+    pos = strstr(s, keyspec);
     if (pos == 0)
         return 0;
-    pos += func_0209477C((const u8 *)keyspec);
+    pos += strlen((const u8 *)keyspec);
     value = gGstatsValueBuffers + gGstatsConn.bufIndex * 256;
     pos2 = value;
     while (*pos != 0 && *pos != 0x5c)
@@ -640,7 +640,7 @@ int PersistThink(void)
         if (processed == gGstatsConn.inLen) {
             gGstatsConn.inLen = 0;
         } else {
-            func_02092364(gGstatsConn.inBuff, gGstatsConn.inBuff + processed, gGstatsConn.inLen - processed);
+            memmove(gGstatsConn.inBuff, gGstatsConn.inBuff + processed, gGstatsConn.inLen - processed);
             gGstatsConn.inLen -= processed;
         }
     }
@@ -664,7 +664,7 @@ void CloseStatsConnection(void)
 {
     if (gGstatsSocket.sock != -1) {
         func_0217EB9C(gGstatsSocket.sock, 2);
-        func_0217EB2C(gGstatsSocket.sock);
+        closesocket(gGstatsSocket.sock);
     }
     gGstatsSocket.sock = -1;
     ClosePendingCallbacks();

@@ -15,7 +15,7 @@
  *
  * symbols:
  *   FLASH_ACCESS_CancelWrite  0x0203386C  arm
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   unk_02146994   0x02146994  data
  *
  * savedata.c.  The same completion path as BACKUP_SYSTEM_EndSave but for the
@@ -61,11 +61,11 @@ struct SaveMain {
 extern struct SaveMain *unk_02146994;
 
 extern void FLASH_ACCESS_CancelWrite(u32 x);
-extern void func_02034FB8(u32 bit);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 bit);
 
 void BACKUP_SYSTEM_CancelSaveSeq(struct SaveBackup *p)
 {
     p->unk28 = p->unk10;
     FLASH_ACCESS_CancelWrite(unk_02146994->unk20C);
-    func_02034FB8(1);
+    UI_ClearKeepAwakeFlagsGlobal(1);
 }

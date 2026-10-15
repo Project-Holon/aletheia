@@ -13,7 +13,7 @@
  *   func_020307B0  0x020307B0  arm
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_SetCurrentEvent  0x02012EE4  thumb
  */
 #include "../include/Obj05093.h"
@@ -26,7 +26,7 @@ extern u32 func_020307B0(void *p);
 struct Ctx;
 extern int BTL_SETUP_Delete(int a0);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern char *GAME_DATA_SetCurrentEvent(char *base, int v);
 
 void BSUBWAY_SCR_DeleteWork(u32 a, u8 *p)
@@ -43,5 +43,5 @@ void BSUBWAY_SCR_DeleteWork(u32 a, u8 *p)
         MI_CpuFill8(p, 0, 0x7EC);
         func_020307B0(p);
     }
-    GAME_DATA_SetCurrentEvent(func_020120F4((const struct Ctx *)a), 0);
+    GAME_DATA_SetCurrentEvent(ICA_ANIME_GetField1C((const struct Ctx *)a), 0);
 }

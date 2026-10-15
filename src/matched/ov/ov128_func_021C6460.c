@@ -15,7 +15,7 @@
  *   func_02009A1C 0x02009A1C thumb
  *   func_021CA014 0x021CA014 thumb ov128
  *   func_02059354 0x02059354 arm
- *   func_0200F43C 0x0200F43C thumb
+ *   GFL_NET_ERR_FindFriendByKey 0x0200F43C thumb
  *   func_020099C8 0x020099C8 thumb
  *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   func_02009A00 0x02009A00 thumb
@@ -37,7 +37,7 @@ extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata)
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u64 func_021CA014(void *,int *);
 extern int func_02059354(void *,u32,u32);
-extern int func_0200F43C(void *,u32,u32,int *);
+extern int GFL_NET_ERR_FindFriendByKey(void *,u32,u32,int *);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void DWC_CreateFriendKeyToken(void *,u32,u32);
 extern void func_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
@@ -55,7 +55,7 @@ int func_021C6460(char *p,void *q,u32 arg)
             id=func_021CA014(q,&valid);
             if(valid==1 && id!=old) {
             if(func_02059354(func_02009860(v),(u32)id,(u32)(id>>32))==0) return 1;
-            if(func_0200F43C(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
+            if(GFL_NET_ERR_FindFriendByKey(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
             DWC_CreateFriendKeyToken(func_020099C8(v,i),(u32)id,(u32)(id>>32));
             func_02009A00(v,i,(void *)arg);
             func_02009918(v,i,9,2);

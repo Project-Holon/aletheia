@@ -1,5 +1,5 @@
 /*
- * function: func_02078A94
+ * function: FS_GetFileLength
  * address:  0x02078A94
  * packet:   pkt_02078A94
  * region:   arm9
@@ -53,7 +53,7 @@ typedef struct FSArgumentForGetFileLength
 
 extern BOOL FSi_GetFileLengthIfProc(FSFile *file, u32 *length);
 
-u32 func_02078A94(FSFile *file)
+u32 FS_GetFileLength(FSFile *file)
 {
     u32 retval = 0;
     FSArgumentForGetFileLength arg[1];

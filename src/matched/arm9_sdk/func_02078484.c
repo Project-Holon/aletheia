@@ -1,5 +1,5 @@
 /*
- * function: func_02078484
+ * function: FS_ReleaseArchiveName
  * address:  0x02078484
  * packet:   pkt_02078484
  * region:   arm9
@@ -49,7 +49,7 @@ extern void OS_Terminate(void);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 
-void func_02078484(FSArchive *p_arc)
+void FS_ReleaseArchiveName(FSArchive *p_arc)
 {
     if (p_arc == fsi_archive_state.list)
     {

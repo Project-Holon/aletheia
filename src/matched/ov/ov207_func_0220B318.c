@@ -1,5 +1,5 @@
 /*
- * function: func_0220B318
+ * function: ZUKAN_TOROKU_GRAPHIC_CreateDisplay
  * address: 0x0220B318
  * packet: pkt_ov207_0220B318
  * region: ov207
@@ -18,9 +18,9 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_0220B448 0x0220B448 thumb ov207
- *   func_0220B4EC 0x0220B4EC thumb ov207
- *   func_0220B434 0x0220B434 thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_InitBg 0x0220B448 thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_InitActors 0x0220B4EC thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_VBlank 0x0220B434 thumb ov207
  *   d_0220BC20 0x0220BC20 data a1
  *   d_0220BAE8 0x0220BAE8 data a4
  */
@@ -39,11 +39,11 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_0220B448(void *,int);
-extern void func_0220B4EC(unsigned char *p, int a, int b);
-extern void func_0220B434(void *unused, u8 *p);
+extern void ZUKAN_TOROKU_GRAPHIC_InitBg(void *,int);
+extern void ZUKAN_TOROKU_GRAPHIC_InitActors(unsigned char *p, int a, int b);
+extern void ZUKAN_TOROKU_GRAPHIC_VBlank(void *unused, u8 *p);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
-void *func_0220B318(int a,int heap)
+void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
 {
     unsigned *p=func_02030734(heap,16,0,d_0220BC20,455);
     MI_CpuFill8(p,0,16);
@@ -58,8 +58,8 @@ void *func_0220B318(int a,int heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_0220B448(p,heap);
-    func_0220B4EC((unsigned char *)(p+1),(int)d_0220BAE8,heap);
-    p[3]=(unsigned)func_020056A0((void (*)(void *, void *))func_0220B434,p,0);
+    ZUKAN_TOROKU_GRAPHIC_InitBg(p,heap);
+    ZUKAN_TOROKU_GRAPHIC_InitActors((unsigned char *)(p+1),(int)d_0220BAE8,heap);
+    p[3]=(unsigned)func_020056A0((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank,p,0);
     return p;
 }

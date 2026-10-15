@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA310",
+   "name": "TH_AWARD_GRAPHIC_GetValue",
    "address": "0x021BA310",
    "kind": "game",
    "region": "ov220",

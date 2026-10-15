@@ -1,5 +1,5 @@
 /*
- * function: func_021F5ECC
+ * function: EGG_DEMO_MAIN_UpdateBgm
  * address:  0x021F5ECC
  * packet:   pkt_021F5ECC
  * region:   ov215
@@ -16,7 +16,7 @@
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_StepBgmLoad  0x020063B4  thumb
- *   func_021F5FEC  0x021F5FEC  thumb ov215
+ *   EGG_DEMO_MAIN_PopBgm  0x021F5FEC  thumb ov215
  */
 #include "../include/Obj04634.h"
 
@@ -29,9 +29,9 @@ extern int  GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PushBgm(void);
 extern int  GFL_USE_IsBgmPlaying(void);
 extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
-extern void func_021F5FEC(void *, void *);
+extern void EGG_DEMO_MAIN_PopBgm(void *, void *);
 
-void func_021F5ECC(u8 *p, u8 *q)
+void EGG_DEMO_MAIN_UpdateBgm(u8 *p, u8 *q)
 {
     switch (((struct Obj04634 *)q)->f18) {
     case 0:
@@ -59,7 +59,7 @@ void func_021F5ECC(u8 *p, u8 *q)
         break;
     case 6:
         if (GFL_USE_IsBgmPlaying() == 0) {
-            func_021F5FEC(p, q);
+            EGG_DEMO_MAIN_PopBgm(p, q);
             ((struct Obj04634 *)q)->f18 = 4;
         }
         break;

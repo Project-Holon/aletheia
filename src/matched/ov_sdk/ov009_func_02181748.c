@@ -1,5 +1,5 @@
 /*
- * function: func_02181748
+ * function: gsUdpEngineRemoveMsgHandler
  * address:  0x02181748
  * packet:   pkt_ov009_02181748
  * region:   ov009
@@ -45,7 +45,7 @@ extern void *memcpy(void *dst, const void *src, unsigned long n);
 extern char g_021A3B9C[];
 extern char g_021A3CE4[];
 
-int func_02181748(char *theHeader)
+int gsUdpEngineRemoveMsgHandler(char *theHeader)
 {
     int index;
     GSUdpMsgHandler aHandler;

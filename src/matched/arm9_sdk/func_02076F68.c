@@ -1,5 +1,5 @@
 /*
- * function: func_02076F68
+ * function: CARDi_DmaReadPageCallback
  * address:  0x02076F68
  * packet:   pkt_02076F68
  * region:   arm9
@@ -98,7 +98,7 @@ extern u32 OS_ResetRequestIrqMask(u32 intr);
 extern u32 CARDi_ReadRomIDCore(void);
 extern void CARDi_CheckPulledOutCore(u32 id);
 
-void func_02076F68(void)
+void CARDi_DmaReadPageCallback(void)
 {
     CARDTransferInfo *const info = cardi_rom_base.transfer_info;
 

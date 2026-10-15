@@ -39,15 +39,15 @@
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   func_02019C90  0x02019C90  thumb
- *   func_0202A3FC 0x0202A3FC thumb
+ *   TPOKE_DATA_GetTrainerKind 0x0202A3FC thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_0202A230 0x0202A230 thumb
+ *   TPOKE_DATA_GetRecordField 0x0202A230 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   WAZA_TOOL_GetParam   0x0201BD28  thumb
@@ -112,13 +112,13 @@ u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
 
 u32 func_02019C90(u16 species, u16 form, u32 paramId);
 
-extern u8 func_0202A3FC(u32 trainerId);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerId);
 
 extern u32 POKEPARTY_GetCount(struct Party *party);
 
 extern void *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 func_0202A230(u32 trainerId, u32 paramIndex);
+extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 paramIndex);
 
 extern u32 func_02017E1C(void *mon, u32 valueId, u32 arg);
 
@@ -126,7 +126,7 @@ u8 BTL_SLOT_GetCount(struct BtlParty *party);
 
 extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlParty *party, u32 index);
 
-extern u32 func_02020FE4(void *mon, u32 paramId, u32 heapId);
+extern u32 FILE_UTIL_Get_0FE4(void *mon, u32 paramId, u32 heapId);
 
 extern u32 BTL_MAIN_GetRule(void *main);
 
@@ -652,10 +652,10 @@ u8 BTL_CALC_GetScanStartIndex(u32 rule, u8 startIndex)
 }
 
 /* Trainer table category 2 (guess: gym leader). */
-int BTL_CALC_IsGymLeaderTrainer(u32 trainerId) { if(func_0202A3FC(trainerId)==2) return 1; return 0; }
+int BTL_CALC_IsGymLeaderTrainer(u32 trainerId) { if(TPOKE_DATA_GetTrainerKind(trainerId)==2) return 1; return 0; }
 
 /* Trainer table category 3 (guess: Elite Four). */
-int BTL_CALC_IsEliteFourTrainer(u32 trainerId) { if(func_0202A3FC(trainerId)==3) return 1; return 0; }
+int BTL_CALC_IsEliteFourTrainer(u32 trainerId) { if(TPOKE_DATA_GetTrainerKind(trainerId)==3) return 1; return 0; }
 
 /* A boss trainer: category 2 or 3, or trainer 89. */
 int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(trainerId)) return 1; if(BTL_CALC_IsEliteFourTrainer(trainerId)) return 1; return trainerId==89; }
@@ -664,7 +664,7 @@ int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(train
 u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[3],setup->party[3]); } return money; }
 
 /* Prize money of one trainer: money rate * level of the last party member * 4. */
-u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=func_0202A230(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
+u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=TPOKE_DATA_GetRecordField(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
 
 /* Money lost on defeat: badge table value * highest party level * 4. */
 u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party)
@@ -690,7 +690,7 @@ void BTL_CALC_SetHeapId(u32 heapId) { gBtlCalcWork.heapId=heapId; }
 void BTL_CALC_NoOp(void) { }
 
 /* Reads one parameter of an item (the item id is passed as a pointer-sized value) with the stored heap id. */
-u32 BTL_CALC_GetItemParam(void *itemId,u32 paramId) { return func_02020FE4(itemId,paramId,gBtlCalcWork.heapId); }
+u32 BTL_CALC_GetItemParam(void *itemId,u32 paramId) { return FILE_UTIL_Get_0FE4(itemId,paramId,gBtlCalcWork.heapId); }
 
 /* Packs six Pokemon ids (5 bits each) into one word. */
 u32 BTL_CALC_PackPokeIds(const u8 *pokeIds) { u32 packed=0; u32 index; for(index=0;index<6;index++) packed|=(pokeIds[index]&31)<<(index*5); return packed; }

@@ -12,7 +12,7 @@
  *   literal 1 stayed in r4 for the stack store, r1, r2 and the return (4 B differ); with int the
  *   constants are rematerialised as in the original. The other callees stay void as in their matched files.
  * symbols:
- *   func_0200ADB4 0x0200ADB4 thumb
+ *   WORLDTRADE_NoOp 0x0200ADB4 thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   func_020084F4 0x020084F4 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void *func_0200ADB4(void *);
+extern void *WORLDTRADE_NoOp(void *);
 extern void *POKE_TOOL_Dummy(void *);
 extern void *func_020084F4(void *);
 extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
@@ -51,7 +51,7 @@ int WORLDTRADE_DETAIL_Init(u8 *p)
 {
     void *mon;
     int index;
-    mon=func_0200ADB4(*(void **)(*(u8 **)p));
+    mon=WORLDTRADE_NoOp(*(void **)(*(u8 **)p));
     WORLDTRADE_DETAIL_CreateStrings((char *)p);
     WORLDTRADE_DETAIL_SetupBgPlanes();
     WORLDTRADE_TITLE_ScrollBg(p,0,0);

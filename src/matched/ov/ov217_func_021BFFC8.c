@@ -10,8 +10,8 @@
  * data: pool 021C0068 contains 6c 36 1c 02; contested ov217 hint removed per canonical rule, data a4 resolves sole-ref.
  * symbols:
  *   func_0203FC28 0x0203FC28 arm
- *   func_0204044C 0x0204044C arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   sub_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
@@ -29,19 +29,19 @@ struct BgTemplate { u32 a,b,c,d; unsigned char e,f,g,h; u32 i; unsigned char j,k
 extern struct DispConfig d_021C366C;
 extern const struct BgTemplate d_021C36D8,d_021C36F8,d_021C3718,d_021C3738;
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0204044C(u32);
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_SetLowBit(u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32 *, u32, u32, int, int);
 extern void BMP_WIN_Init(u16);
 void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p)
 {
     func_0203FC28(&d_021C366C);
-    func_0204044C(2);
-    func_0203FCA0(6, &d_021C36D8, 0);
-    func_0203FCA0(7, &d_021C3738, 0);
-    func_0203FCA0(2, &d_021C36F8, 0);
-    func_0203FCA0(3, &d_021C3718, 0);
+    BG_SYS_SetLowBit(2);
+    BG_SYS_InitBgLayer(6, &d_021C36D8, 0);
+    BG_SYS_InitBgLayer(7, &d_021C3738, 0);
+    BG_SYS_InitBgLayer(2, &d_021C36F8, 0);
+    BG_SYS_InitBgLayer(3, &d_021C3718, 0);
     sub_02040588(4, 1);
     sub_02040588(5, 1);
     sub_02040588(6, 1);

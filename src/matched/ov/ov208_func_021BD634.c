@@ -45,7 +45,7 @@
 
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020416D4  0x020416D4  arm
+ *   BG_SYS_Get  0x020416D4  arm
  *   ZKND_TBAR_GetResourceSlot  0x021BD56C  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -103,7 +103,7 @@ struct Ov208ActObj {
 };
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u8   func_020416D4(u32 layer);
+extern u8   BG_SYS_Get(u32 layer);
 struct Obj;
 extern int ZKND_TBAR_GetResourceSlot(int *p, int i);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
@@ -126,7 +126,7 @@ void ZKND_TBAR_CreateButton(struct Ov208ActObj *p, u32 owner, const int *res, st
     p->f4 = 1;
     p->f34 = 0;
     MI_CpuFill8(&pos, 0, 8);
-    pos.b7 = func_020416D4((u8)res[3]);
+    pos.b7 = BG_SYS_Get((u8)res[3]);
     pos.x = desc->x;
     pos.y = desc->y;
     if (desc->f0 >= 7) {

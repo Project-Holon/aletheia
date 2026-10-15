@@ -12,20 +12,20 @@
  *   func_021E5548 0x021E5548 thumb ov177
  *   func_021E7E3C 0x021E7E3C thumb ov177
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
  */
 #include "../include/Obj00013.h"
 #include "../include/Obj24305.h"
 extern int func_021E5548(int *);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *);
+extern void *BATTLE_BOX_GetFromSave(void *);
 extern void *func_021E7E3C(void *, int, int, int, int, int, int);
 void func_021D9874(char *ctx)
 {
     int window;
     if (((struct Obj00013 *)ctx)->f24 == 0) {
         window = func_021E5548(*(int * *)&((struct Obj00013 *)ctx)->f0);
-        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
+        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
     }
 }

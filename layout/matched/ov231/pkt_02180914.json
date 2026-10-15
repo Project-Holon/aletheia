@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02180914",
+   "name": "CARD_SPI_SetControl",
    "address": "0x02180914",
    "kind": "game",
    "region": "ov231",

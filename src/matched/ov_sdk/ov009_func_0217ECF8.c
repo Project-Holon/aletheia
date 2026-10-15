@@ -1,5 +1,5 @@
 /*
- * function: func_0217ECF8
+ * function: setsockopt
  * address:  0x0217ECF8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Tail call with the constant pair (0, -1).
  *
  * symbols:
- *   func_0217EB00  0x0217EB00  arm
+ *   CheckRcode  0x0217EB00  arm
  */
 
-extern int func_0217EB00(int a, int b);
+extern int CheckRcode(int a, int b);
 
-void func_0217ECF8(void)
+void setsockopt(void)
 {
-    func_0217EB00(0, -1);
+    CheckRcode(0, -1);
 }
 

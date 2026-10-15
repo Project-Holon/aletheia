@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BOX2_MAIN_UpdateBoxSlots 0x021DD530 thumb
- *   func_020260E0 0x020260E0 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb
  *   BOX2_SEQ_Delete 0x021EA1E8 thumb
@@ -39,8 +39,8 @@ struct WinMgr;
 extern void BOX2_MAIN_UpdateBoxSlots(unsigned char *p);
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern void BOX2_SEQ_Delete(char *p);
@@ -76,9 +76,9 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *p)
     p[0x18] = 0;
     p[0x17] = 0xFF;
     if (MODE(p) == 0) {
-        sel = func_020260E0(OBJ(p));
+        sel = CURSOR_MOVE_GetCurrent(OBJ(p));
     } else {
-        func_020260E4(OBJ(p), p[0x16]);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16]);
         BOX2_UI_SetCursorPos((char **)p, p[0x16]);
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         sel = p[0x16];
@@ -103,7 +103,7 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *p)
         }
     } else if (BOX2_UI_IsTopBarOpen(MGR(p)) == 1) {
         if (STATE(p) == 0x15) {
-            sel = func_020260E0(OBJ(p));
+            sel = CURSOR_MOVE_GetCurrent(OBJ(p));
             if (sel > 0x20)
                 sel = p[0x16];
             BOX2_UI_MoveCursor((char **)p, 6, sel);

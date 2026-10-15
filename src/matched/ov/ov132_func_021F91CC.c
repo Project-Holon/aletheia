@@ -1,5 +1,5 @@
 /*
- * function: func_021F91CC
+ * function: STA_ACTING_FadePalette
  * address: 0x021F91CC
  * packet: pkt_ov132_021F91CC
  * region: ov132
@@ -38,7 +38,7 @@ typedef struct {
 } Fade;
 extern const s16 FX_SinCosTable_[];
 extern int func_02061CA4(void *, u32, u32, int);
-void func_021F91CC(Fade *p)
+void STA_ACTING_FadePalette(Fade *p)
 {
     u8 i;
     int factor;

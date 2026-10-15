@@ -1,5 +1,5 @@
 /*
- * function: func_021F92CC
+ * function: STA_ACTING_CreateText
  * address: 0x021F92CC
  * packet: pkt_ov132_021F92CC
  * region: ov132
@@ -38,7 +38,7 @@ extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *);
-void func_021F92CC(u8 *p)
+void STA_ACTING_CreateText(u8 *p)
 {
     int zero;
     ((struct Obj01257 *)p)->fD0=BMP_WIN_Create(1,4,20,24,4,15,1);

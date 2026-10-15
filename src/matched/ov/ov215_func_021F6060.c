@@ -1,5 +1,5 @@
 /*
- * function: func_021F6060
+ * function: EGG_DEMO_MENU_Create
  * address: 0x021F6060
  * packet: pkt_ov215_021F6060
  * region: ov215
@@ -40,7 +40,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void func_02041B6C(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021F6060(int unused,char *p)
+void EGG_DEMO_MENU_Create(int unused,char *p)
 {
     func_02049B40(23,5,0,32,32,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f5C=BMP_WIN_Create(1,0,0,1,1,1,0);

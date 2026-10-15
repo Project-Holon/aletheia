@@ -1,5 +1,5 @@
 /*
- * function: func_0218F350
+ * function: gpiPeerAddMessage
  * address:  0x0218F350
  * packet:   pkt_ov009_0218F350
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      gpiPeerAddMessage (libdwcgsgp.TWL.HYB.a gpipeer.o)
  *
  * symbols:
- *   func_0209477C  0x0209477c  arm
+ *   strlen  0x0209477c  arm
  *   func_0218946C  0x0218946c  arm   ov009
  *   func_0218949C  0x0218949c  arm   ov009
  *   func_021893C8  0x021893c8  arm   ov009
@@ -43,7 +43,7 @@ typedef struct {
 } GPIPeer;
 
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
 extern int func_021893C8(int *connection, int *buffer, int src, int n);
@@ -54,7 +54,7 @@ extern char g_021A4FC4[];
 extern char g_021A4FC8[];
 extern char g_021A4FD0[];
 
-int func_0218F350(void **connection, GPIPeer *peer, int type, char *message)
+int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message)
 {
     int len;
 
@@ -62,7 +62,7 @@ int func_0218F350(void **connection, GPIPeer *peer, int type, char *message)
         return 3;
     if (message == 0)
         return 3;
-    len = func_0209477C((const u8 *)message);
+    len = strlen((const u8 *)message);
     {
         GPIMessage gpiMessage = {0};
         gpiMessage.type = type;

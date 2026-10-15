@@ -14,12 +14,12 @@
  * symbols:
  *   func_0215ED60  0x0215ED60  arm  ov009
  *   OS_Sleep  0x02085A38  arm
- *   func_0215CDD0  0x0215CDD0  arm  ov009
+ *   SOCLi_CleanupCommandPacketQueue  0x0215CDD0  arm  ov009
  *   func_0215EC90  0x0215EC90  arm  ov009
  *   func_0215F0D4  0x0215F0D4  arm  ov009
  *   g_021AA444     0x021AA444  data
  *   g_021A82BC     0x021A82BC  data
- *   g_021A1CD8     0x021A1CD8  data
+ *   gSoclConfig     0x021A1CD8  data
  *   g_021AA450     0x021AA450  data
  */
 
@@ -39,12 +39,12 @@ typedef struct {
 
 extern int func_0215ED60(void);
 extern void OS_Sleep(unsigned long msec);
-extern int func_0215CDD0(void);
+extern int SOCLi_CleanupCommandPacketQueue(void);
 extern void func_0215EC90(void);
 extern void func_0215F0D4(void);
 extern unsigned long g_021AA444;
 extern unsigned long g_021A82BC;
-extern SOCConfig *g_021A1CD8;
+extern SOCConfig *gSoclConfig;
 extern struct CPSConfig g_021AA450;
 
 int func_0215EBF0(void)
@@ -59,13 +59,13 @@ int func_0215EBF0(void)
 		OS_Sleep(100);
 		result = func_0215ED60();
 	}
-	result = func_0215CDD0();
+	result = SOCLi_CleanupCommandPacketQueue();
 	if (result >= 0) {
 		func_0215EC90();
-		if (g_021A1CD8->flag28 == 0) {
-			g_021A1CD8->func1c(g_021AA450.field1c);
+		if (gSoclConfig->flag28 == 0) {
+			gSoclConfig->func1c(g_021AA450.field1c);
 		}
-		g_021A1CD8 = 0;
+		gSoclConfig = 0;
 		func_0215F0D4();
 	}
 	return result;

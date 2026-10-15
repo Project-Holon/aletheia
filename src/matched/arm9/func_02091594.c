@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02091594
+ * function: MSL_C_LIB_NopBufferHookA
  * address:  0x02091594
  * packet:   pkt_02091594
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_02091594(int a, void *b){ }
+void MSL_C_LIB_NopBufferHookA(int a, void *b){ }

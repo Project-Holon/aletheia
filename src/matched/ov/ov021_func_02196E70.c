@@ -16,8 +16,8 @@
  *   IRCBATTLEMENU_SeqSetupKindMenu  0x02196A60  thumb  ov021
  *   IRCBATTLEMENU_SeqSetupPartyMenu  0x02196E04  thumb  ov021
  *   IRCBATTLEMENU_SeqStartFadeOut  0x02196804  thumb  ov021
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -33,15 +33,15 @@ extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
 extern void IRCBATTLEMENU_SeqSetupKindMenu(u8 *p);
 extern void IRCBATTLEMENU_SeqSetupPartyMenu(u8 *p);
 extern void IRCBATTLEMENU_SeqStartFadeOut(u8 *p);
-extern void *func_0200BAC8(void *p);
-extern u32 func_0200BBA8(void *a);
+extern void *BATTLE_BOX_GetFromSave(void *p);
+extern u32 BATTLE_BOX_HasMon(void *a);
 
 void IRCBATTLEMENU_HookRuleMenuPressed(u8 *p)
 {
     if (((struct Obj12633 *)p)->f8 == 0xC) {
         IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqSetupKindMenu, 0x558);
     } else {
-        if (func_0200BBA8(func_0200BAC8(((struct Obj19636 *)(*(u8 * *)&((struct Obj12633 *)p)->f2E4))->f4C)) != 0) {
+        if (BATTLE_BOX_HasMon(BATTLE_BOX_GetFromSave(((struct Obj19636 *)(*(u8 * *)&((struct Obj12633 *)p)->f2E4))->f4C)) != 0) {
             IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqSetupPartyMenu, 0x55D);
         } else {
             IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqStartFadeOut, 0x560);

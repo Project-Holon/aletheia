@@ -33,7 +33,7 @@
  *   COMM_TVT_SYS_GetClactUnit 0x021BE024 thumb ov172
  *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
- *   func_021B8B68 0x021B8B68 thumb ov172
+ *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
  *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
  *   CTVT_MIC_IsCaptureDone 0x021BA270 thumb ov172
  */
@@ -63,7 +63,7 @@ extern u32 COMM_TVT_SYS_GetResId(void *p, int i);
 extern u32 COMM_TVT_SYS_GetClactUnit(void *p);
 extern u32 COMM_TVT_SYS_GetViewSwapped(void *p);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
-extern u8 func_021B8B68(int unused, char *p);
+extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 extern void COMM_TVT_SYS_PlaceSlotMarker(void *a, u32 b);
 extern int CTVT_MIC_IsCaptureDone(void *p);
 
@@ -127,7 +127,7 @@ void CTVT_TALK_Init(void *a, char *p)
     *(u32 *)(p + 0x8C) = 0;
     *(u8 *)(p + 0xC) = 0;
     {
-        u32 r = (u8)func_021B8B68((int)a, (char *)COMM_TVT_SYS_GetComm(a));
+        u32 r = (u8)CTVT_COMM_GetMarkerSlot((int)a, (char *)COMM_TVT_SYS_GetComm(a));
         if (r != 0xFF) {
             COMM_TVT_SYS_PlaceSlotMarker(a, r);
             *(u32 *)(p + 0xA4) = 2;

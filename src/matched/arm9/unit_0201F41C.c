@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F41C, func_0201F448
+ * function: func_0201F41C, WORDSET_CheckF448
  *
  * Two wide-string helpers.  func_0201F41C is a bounded copy that always
- * terminates the destination; func_0201F448 is an equality test.  Both read
+ * terminates the destination; WORDSET_CheckF448 is an equality test.  Both read
  * the terminator character from STRBUF_GetEosChar rather than from a constant,
  * and both hold it in a named local, which is what puts the call result in
  * the left slot of func_0201F41C's `cmp r0, r1`
@@ -54,7 +54,7 @@ void func_0201F41C(const u16 *src, u16 *dst, u32 n)
     *(dst + n - 1) = eos;
 }
 
-u32 func_0201F448(const u16 *a, const u16 *b)
+u32 WORDSET_CheckF448(const u16 *a, const u16 *b)
 {
     u16 eos = STRBUF_GetEosChar();
 

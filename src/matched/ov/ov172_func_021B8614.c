@@ -1,5 +1,5 @@
 /*
- * function: func_021B8614
+ * function: CTVT_COMM_ClearPeerSlot
  * address:  0x021B8614
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B8614(int unused, int unused2, void *p)
+void CTVT_COMM_ClearPeerSlot(int unused, int unused2, void *p)
 {
     ((struct Obj04551 *)p)->fC = 0;
     ((struct Obj04551 *)p)->f0 = 0;

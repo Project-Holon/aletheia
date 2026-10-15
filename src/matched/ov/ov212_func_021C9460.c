@@ -1,5 +1,5 @@
 /*
- * function: func_021C9460
+ * function: ZUKAN_SEARCH_ENGINE_ReleaseWork
  * address:  0x021C9460
  * packet:   pkt_ov212_021C9460
  * region:   ov212
@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021C9460(int a0)
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0)
 {
     func_020307B0((void *)a0);
 }

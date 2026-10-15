@@ -50,6 +50,8 @@
  *   GAME_BEACON_Create  0x020266E0  thumb
  *   PROCSYS_PushGlobal  0x020312CC  arm
  *   GFL_NET_SetupHeaps  0x0203CB34  arm
+ *   CONFIG_InitKeyControlTable  0x020082DC  thumb
+ *   MSG_SPEED_SetSaveControl  0x02012FF0  thumb
  */
 
 typedef unsigned char u8;
@@ -70,7 +72,7 @@ extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 struct Flags02008414;
 extern u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p);
-extern void func_02012FF0(void *val);
+extern void MSG_SPEED_SetSaveControl(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
 extern void SAVEDATA_SetFailHook(u32 a0);
@@ -79,7 +81,7 @@ extern void POKE_TOOL_InitSystem(u32 heap);
 extern void GFL_USE_InitSound(void);
 extern void PM_VOICE_Init(u16 a0, u32 a1, u32 a2);
 extern void GFL_USE_ApplySoundModeFromConfig(void *obj);
-extern void func_020082DC(void);
+extern void CONFIG_InitKeyControlTable(void);
 extern void GAME_BEACON_Create(u32 a0);
 extern void GPOWER_Init(void);
 
@@ -102,7 +104,7 @@ void GFL_USE_InitGameSystems(void)
     PROCSYS_PushGlobal(v - 0xD, (u32)(void *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
     CONFIG_ApplyAppliedFlag((const struct Flags02008414 *)func_0200873C(func_020070A4()));
-    func_02012FF0(func_020070A4());
+    MSG_SPEED_SetSaveControl(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
     SAVEDATA_SetFailHook((u32)&func_0200FB6C);
@@ -111,7 +113,7 @@ void GFL_USE_InitGameSystems(void)
     GFL_USE_InitSound();
     PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
     GFL_USE_ApplySoundModeFromConfig(func_0200873C(func_020070A4()));
-    func_020082DC();
+    CONFIG_InitKeyControlTable();
     GAME_BEACON_Create(1);
     GPOWER_Init();
 }

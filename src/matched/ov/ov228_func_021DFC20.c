@@ -1,5 +1,5 @@
 /*
- * function: func_021DFC20
+ * function: SAVE_OUTSIDE_Load
  * address:  0x021DFC20
  * packet:   pkt_021DFC20
  * region:   ov228
@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   BACKUP_SYSTEM_ReadFlash  0x020334CC  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021DFF60     0x021DFF60  data a1
  *   MI_CpuCopy8  0x02082D44  arm  arm9
@@ -31,12 +31,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
 extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
 extern u32 func_020307B0(void *p);
 extern const char d_021DFF60[];
 
-void *func_021DFC20(u32 heap)
+void *SAVE_OUTSIDE_Load(u32 heap)
 {
     u8 *buf[2];
     int ok[2];
@@ -60,7 +60,7 @@ void *func_021DFC20(u32 heap)
         if(ok[i]==1){
             p=buf[i];
             if(((struct Obj14811 *)p)->f0!=0xA10F49AE)ok[i]=0;
-            else if(((struct Obj14811 *)p)->f8!=func_0203F1FC(p+12,0x368))bad[i]=1;
+            else if(((struct Obj14811 *)p)->f8!=GF_STANDARD_SetupCalc(p+12,0x368))bad[i]=1;
         }
     }
     obj[0x378]=0;

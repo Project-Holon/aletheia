@@ -1,5 +1,5 @@
 /*
- * function: func_0205A938
+ * function: DWCi_AC_GetBeacon
  * address:  0x0205A938
  * packet:   pkt_0205A938
  * region:   arm9
@@ -15,10 +15,10 @@
  *   DWCi_AC_GetMemPtr 0x0205C214 arm
  *   DWCi_AC_GetPhase 0x0205C2C4 arm
  *   DWCi_AC_SetStealthChannel 0x0205DF6C arm
- *   func_0205ABD4 0x0205ABD4 arm
- *   func_0205AC50 0x0205AC50 arm
- *   func_0205ACE4 0x0205ACE4 arm
- *   func_0205AF5C 0x0205AF5C arm
+ *   CompareList 0x0205ABD4 arm
+ *   CompareListDiff 0x0205AC50 arm
+ *   AddList 0x0205ACE4 arm
+ *   SortList 0x0205AF5C arm
  */
 
 typedef struct {
@@ -142,12 +142,12 @@ typedef struct {
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern unsigned char DWCi_AC_GetPhase(void);
 extern void DWCi_AC_SetStealthChannel(unsigned short channel);
-extern int func_0205ABD4(WMBssDesc *bssdesc, unsigned char num, ACSL *list);
-extern int func_0205AC50(WMBssDesc *bssdesc, ACWORK *wk);
-extern int func_0205ACE4(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
-extern void func_0205AF5C(int no, ACWORK *wk);
+extern int CompareList(WMBssDesc *bssdesc, unsigned char num, ACSL *list);
+extern int CompareListDiff(WMBssDesc *bssdesc, ACWORK *wk);
+extern int AddList(int type, WMBssDesc *bssdesc, unsigned char channel, ACWORK *wk);
+extern void SortList(int no, ACWORK *wk);
 
-void func_0205A938(WMBssDesc *bssdesc)
+void DWCi_AC_GetBeacon(WMBssDesc *bssdesc)
 {
     int ap_type = -1;
     unsigned char channel;
@@ -163,21 +163,21 @@ void func_0205A938(WMBssDesc *bssdesc)
             DWCi_AC_SetStealthChannel(bssdesc->channel);
         } else if (bssdesc->ssidLength == 1 && bssdesc->ssid[0] == 0x20) {
             DWCi_AC_SetStealthChannel(bssdesc->channel);
-            ap_type = func_0205ABD4(bssdesc, wk->searchListNum, wk->searchList);
+            ap_type = CompareList(bssdesc, wk->searchListNum, wk->searchList);
         } else {
-            ap_type = func_0205ABD4(bssdesc, wk->searchListNum, wk->searchList);
+            ap_type = CompareList(bssdesc, wk->searchListNum, wk->searchList);
         }
         break;
     case 4:
         channel = wk->bssDesc[wk->searchListNo].channel - 1;
-        ap_type = func_0205AC50(bssdesc, wk);
+        ap_type = CompareListDiff(bssdesc, wk);
         if (ap_type >= 0) {
             wk->findList[wk->searchListNo].find = 1;
         }
         break;
     case 5:
         channel = wk->searchChannel;
-        ap_type = func_0205ABD4(bssdesc, 1, &wk->searchList[wk->searchListNo]);
+        ap_type = CompareList(bssdesc, 1, &wk->searchList[wk->searchListNo]);
         if (ap_type >= 0) {
             wk->searchList[wk->searchListNo].find = 1;
         }
@@ -186,7 +186,7 @@ void func_0205A938(WMBssDesc *bssdesc)
         return;
     }
     if (ap_type >= 0) {
-        no = func_0205ACE4(ap_type, bssdesc, channel, wk);
-        func_0205AF5C(no, wk);
+        no = AddList(ap_type, bssdesc, channel, wk);
+        SortList(no, wk);
     }
 }

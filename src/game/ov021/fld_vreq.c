@@ -20,7 +20,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_021DE6C8     0x021DE6C8  data  ov021  a4
  *   sFldVReqBlendFuncs     0x021DE6AC  data  ov021  a4
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_0207D658  0x0207D658  arm
  *   func_0207D67C  0x0207D67C  arm
@@ -63,7 +63,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern u32 func_02040588(u32 which, u32 enable);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_0207D67C(u32 reg, int a, int b, int c, int d, int e);
@@ -126,11 +126,11 @@ void FLD_VREQ_VBlank(FldVReq *vreq)
         }
     }
     if (vreq->mainBrightReq != 0) {
-        func_0207D534((volatile u16 *)_REG_MAIN_MASTER_BRIGHT, vreq->mainBright);
+        GXx_SetMasterBrightness_((volatile u16 *)_REG_MAIN_MASTER_BRIGHT, vreq->mainBright);
         vreq->mainBrightReq = 0;
     }
     if (vreq->subBrightReq != 0) {
-        func_0207D534((volatile u16 *)_REG_SUB_MASTER_BRIGHT, vreq->subBright);
+        GXx_SetMasterBrightness_((volatile u16 *)_REG_SUB_MASTER_BRIGHT, vreq->subBright);
         vreq->subBrightReq = 0;
     }
 }

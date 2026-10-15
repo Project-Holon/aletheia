@@ -16,9 +16,9 @@
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_020816B8  0x020816B8  arm
- *   func_020949F4  0x020949F4  arm
+ *   strncmp  0x020949F4  arm
  *   b64size  0x021C9858  arm  ov114
- *   func_0217FA90  0x0217FA90  arm  ov009
+ *   B64Encode  0x0217FA90  arm  ov009
  *   gDwcEncSession  0x021CF7AC  data
  *   @16077  0x021CE1B8  data
  */
@@ -52,10 +52,10 @@ typedef struct {
 
 extern void *func_0205A16C(int name, u32 size);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern u32 b64size(u32 len);
 extern void func_020816B8(void *digest, void *data, u32 len);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern struct Session gDwcEncSession;
 typedef struct { char c[20]; } Key20;
 
@@ -73,7 +73,7 @@ int DWCi_EncSessionValidateResponse(char *buf, int len)
     if (tmpbuf == 0)
         return 0;
     *(Key20 *)tmpbuf = *(Key20 *)gDwcEncSession.secretkey;
-    func_0217FA90(buf, (char *)(tmpbuf + 20), len - 40u, 2);
+    B64Encode(buf, (char *)(tmpbuf + 20), len - 40u, 2);
     {
         Key20 *d = (Key20 *)(tmpbuf + 20 + b64size(len - 40u));
         *d = *(Key20 *)gDwcEncSession.secretkey;
@@ -85,7 +85,7 @@ int DWCi_EncSessionValidateResponse(char *buf, int len)
         hashhex[i * 2 + 1] = hextbl[hash[i] & 15];
     }
     hashhex[40] = '\0';
-    if (func_020949F4((const u8 *)(&buf[len - 40]), (const u8 *)hashhex, 40) != 0)
+    if (strncmp((const u8 *)(&buf[len - 40]), (const u8 *)hashhex, 40) != 0)
         return 0;
     gDwcEncSession.decodedbuf = buf;
     gDwcEncSession.decodedbuflen = len - 40u;

@@ -15,8 +15,8 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
@@ -25,7 +25,7 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
- *   func_02012934   0x02012934  thumb
+ *   GAME_DATA_GetMyParty   0x02012934  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
@@ -44,9 +44,9 @@
  *   SHORTCUT_MENU_RequestClose  0x021C536C  thumb  ov021
  *   SHORTCUT_MENU_IsWaitingInput  0x021C5380  thumb  ov021
  *   SHORTCUT_MENU_GetResult  0x021C5394  thumb  ov021
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B28  0x02012B28  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   func_02028754  0x02028754  thumb
  *   RECENT_ID_LIST_SAVEDATA_GetIdAt  0x0200C464  thumb
  *   func_02040588  0x02040588  arm
@@ -195,8 +195,8 @@ typedef struct ShortcutProcTask {
 
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern void SCRIPT_WORK_SetParams(void *msgWindow, int messageIndex, int a, int b, u16 c);
 extern int func_020307B0();
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
@@ -205,7 +205,7 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTemplate, void *work);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
-extern void *func_02012934(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -223,9 +223,9 @@ extern void SHORTCUT_MENU_Start(void *commObj);
 extern void SHORTCUT_MENU_RequestClose(void *commObj);
 extern int SHORTCUT_MENU_IsWaitingInput(void *commObj);
 extern u32 SHORTCUT_MENU_GetResult(void *commObj, u32 *result);
-extern void *func_020127A4(const struct GameData *gameData);
-extern u32 func_02012B28(const void *eventWork);
-extern int func_02012B70(const struct GameData *gameData);
+extern void *GAME_DATA_GetField114(const struct GameData *gameData);
+extern u32 GAME_DATA_GetPlayerObjectCode(const void *eventWork);
+extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u32 func_02028754(const ShortcutAvailMask *mask, u32 bit);
 extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const ShortcutList *list, u32 slot);
 extern int func_02040588();
@@ -276,7 +276,7 @@ extern ShortcutProc d_021712CC[];
  */
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem)
 {
-    if (RECENT_ID_LIST_SAVEDATA_CountIds(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)))) != 0)
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)))) != 0)
         return 1;
 
     return 0;
@@ -294,7 +294,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     struct GameEvent *event;
     ShortcutMenuWork *work;
 
-    shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)));
+    shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
     if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 1) {
         event = func_020122C0(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
     } else {
@@ -373,7 +373,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
 
             hasAvailBit = EVENT_SHORTCUT_MENU_GetAvailBit(code, &availBit, &isUnknownId);
             launchEvent = EVENT_SHORTCUT_MENU_ResolveShortcut(work->link, code);
-            if (isUnknownId == 0 && func_02012B70(func_020120F4(work->gameSystem)) == 1) {
+            if (isUnknownId == 0 && GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(work->gameSystem)) == 1) {
                 blocked = 1;
             } else if (hasAvailBit == 1) {
                 func_02164480(&avail, work->gameSystem, work->fieldMap);
@@ -461,7 +461,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
                 void *message;
 
                 if (nextEvent == 0) {
-                    if (func_02012B28(func_020127A4(func_020120F4(work->gameSystem))) == 1)
+                    if (GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetField114(ICA_ANIME_GetField1C(work->gameSystem))) == 1)
                         message = EVENT_SHORTCUT_MENU_OpenMessage(work->gameSystem, 1);
                     else
                         message = EVENT_SHORTCUT_MENU_OpenMessage(work->gameSystem, 0);
@@ -515,12 +515,12 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
 
     switch (*seq) {
     case 0:
-        shortcutId = RECENT_ID_LIST_SAVEDATA_GetIdAt(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(work->gameSystem))), 0);
+        shortcutId = RECENT_ID_LIST_SAVEDATA_GetIdAt(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->gameSystem))), 0);
         blocked = 0;
         result = EVENT_SHORTCUT_MENU_ResolveShortcut(work->link, shortcutId);
         noEligibleMon = 0;
         hasAvailBit = EVENT_SHORTCUT_MENU_GetAvailBit(shortcutId, &availBit, &isUnknownId);
-        if (isUnknownId == 0 && func_02012B70(func_020120F4(work->gameSystem)) == 1) {
+        if (isUnknownId == 0 && GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(work->gameSystem)) == 1) {
             blocked = 1;
         } else if (hasAvailBit == 1) {
             func_02164480(&avail, work->gameSystem, work->fieldMap);
@@ -577,7 +577,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         func_020307B0(work->link);
         work->link = 0;
         if (nextIndex == 0) {
-            if (func_02012B28(func_020127A4(func_020120F4(work->gameSystem))) == 1)
+            if (GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetField114(ICA_ANIME_GetField1C(work->gameSystem))) == 1)
                 child = EVENT_SHORTCUT_MENU_OpenMessage(work->gameSystem, 1);
             else
                 child = EVENT_SHORTCUT_MENU_OpenMessage(work->gameSystem, 0);
@@ -761,7 +761,7 @@ void EVENT_SHORTCUT_MENU_OpenLink(int mode, ShortcutMenuWork *work)
         fieldComm = FIELDMAP_GetMsgBg(work->fieldMap);
         if (fieldComm != 0)
             FIELD_MSGBG_ReleaseBg(fieldComm);
-        gameData = func_020120F4(work->gameSystem);
+        gameData = ICA_ANIME_GetField1C(work->gameSystem);
         work->commObj = SHORTCUT_MENU_Create(gameData, mode, GAME_DATA_GetRtcWork(gameData), 0x50, 0x15);
     }
 }
@@ -811,7 +811,7 @@ int EVENT_SHORTCUT_MENU_ResumeLinkHook(ShortcutLink *link, ShortcutMenuWork *wor
 {
     ShortcutList *shortcuts;
 
-    shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(work->gameSystem)));
+    shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->gameSystem)));
     switch (work->commCloseState) {
     case 0:
         if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 0) {
@@ -870,7 +870,7 @@ int EVENT_SHORTCUT_MENU_CheckPartyRibbon(ShortcutMenuWork *work)
     void *mon;
     int i;
 
-    party = func_02012934(func_020120F4(work->gameSystem));
+    party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->gameSystem));
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         mon = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(mon, 0xA9, 0) != 0 && POKE_TOOL_HasRibbonData(mon) != 0)
@@ -981,7 +981,7 @@ int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, u32 *seq, Shortcu
         *seq = 9;
         break;
     case 9:
-        task->link->fieldMap = func_0201210C(task->link->gameSystem);
+        task->link->fieldMap = ICA_ANIME_GetField20(task->link->gameSystem);
         FIELDMAP_SetBgMode();
         FIELDMAP_ResetBgAffineShowMsg(task->link->fieldMap);
         *seq = 10;

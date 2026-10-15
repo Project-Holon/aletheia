@@ -1,5 +1,5 @@
 /*
- * function: func_021B6BA0
+ * function: POKE_SUMMARY_MAIN_StartWipe
  * address: 0x021B6BA0
  * packet: pkt_ov173_021B6BA0
  * region: ov173
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-int func_021B6BA0(char *p) { WIPE_SYS_Start(0,0,0,0,6,1,79); ((struct Obj24159 *)p)->f1B0=9; return 0; }
+int POKE_SUMMARY_MAIN_StartWipe(char *p) { WIPE_SYS_Start(0,0,0,0,6,1,79); ((struct Obj24159 *)p)->f1B0=9; return 0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F7C
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_Update
  * address:  0x021B9F7C
  * packet:   pkt_021B9F7C
  * region:   ov221
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA0B0  0x021BA0B0  thumb  ov221
- *   func_021BA048  0x021BA048  thumb  ov221
+ *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw  0x021BA0B0  thumb  ov221
+ *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop  0x021BA048  thumb  ov221
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BA0B0(void *);
-extern void func_021BA048(void *);
+extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *);
+extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *);
 
-void func_021B9F7C(char *p)
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p)
 {
-    func_021BA0B0(p + 4);
-    func_021BA048(p);
+    CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(p + 4);
+    CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(p);
 }

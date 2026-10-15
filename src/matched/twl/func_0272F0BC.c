@@ -15,6 +15,8 @@
  *   data_02732E34 0x02732E34 data twl
  *   CARDi_CompareHash  0x0272EC38  arm
  *   OS_Terminate  0x02088234  arm  arm9
+ *   MSL_C_LIB_TwlCall1  0x020911D8  thumb  arm9
+ *   MSL_C_LIB_TwlCall3  0x02091200  thumb  arm9
  *
  * Built with IRO common-subexpression elimination off for this function
  * (#pragma opt_common_subs off ... reset). With CSE on, m + i * 20 in the
@@ -69,8 +71,8 @@ struct Obj {
 
 extern void OS_Terminate(void);
 extern void func_02082A7C(u32 v, void *dst, u32 n);
-extern void func_020911D8(void *ctx);
-extern void func_02091200(void *ctx, void *data, u32 len);
+extern void MSL_C_LIB_TwlCall1(void *ctx);
+extern void MSL_C_LIB_TwlCall3(void *ctx, void *data, u32 len);
 extern void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
 extern u8 data_0272EB9C[];
 extern u8 data_02732E98[], data_02732E34[];
@@ -123,10 +125,10 @@ void CARD_InitRomHashContext(struct Obj *obj, const struct Hdr *hdr, u32 base, u
         ipad[i] = data_0272EB9C[i] ^ 0x36;
         opad[i] = data_0272EB9C[i] ^ 0x5c;
     }
-    func_020911D8(data_02732E98);
-    func_020911D8(data_02732E34);
-    func_02091200(data_02732E98, ipad, 0x40);
-    func_02091200(data_02732E34, opad, 0x40);
+    MSL_C_LIB_TwlCall1(data_02732E98);
+    MSL_C_LIB_TwlCall1(data_02732E34);
+    MSL_C_LIB_TwlCall3(data_02732E98, ipad, 0x40);
+    MSL_C_LIB_TwlCall3(data_02732E34, opad, 0x40);
     obj->f34(obj->f30, obj->hash, obj->f18, obj->f1c);
     CARDi_CompareHash(hdr->digest, obj->hash, obj->f1c);
     {

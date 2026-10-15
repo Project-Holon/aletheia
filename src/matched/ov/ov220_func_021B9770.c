@@ -1,5 +1,5 @@
 /*
- * function: func_021B9770
+ * function: TH_AWARD_Exit
  * address: 0x021B9770
  * packet: pkt_ov220_021B9770
  * region: ov220
@@ -20,7 +20,7 @@
  *   func_021B9C70 0x021B9C70 thumb ov220
  *   func_021B9B20 0x021B9B20 thumb ov220
  *   func_021B99D8 0x021B99D8 thumb ov220
- *   func_021BA178 0x021BA178 thumb ov220
+ *   TH_AWARD_GRAPHIC_Delete 0x021BA178 thumb ov220
  *   d_021BA370 0x021BA370 data a4
  */
 #include "../include/Obj01297.h"
@@ -42,8 +42,8 @@ extern void func_021B9FF0(u8 *p);
 extern void func_021B9C70(unsigned char *p);
 extern void func_021B9B20(void *);
 extern void func_021B99D8(void *);
-extern void func_021BA178(unsigned char *p);
-int func_021B9770(void *state,int unused1,int unused2,char *p)
+extern void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
+int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p)
 {
     int i;
     for(i=0;i<1u;i++) func_020403F4((u8)d_021BA370[i].first);
@@ -57,7 +57,7 @@ int func_021B9770(void *state,int unused1,int unused2,char *p)
     PRINTSYS_QUE_Clear(((struct Obj01297 *)p)->f10);
     PRINTSYS_QUE_Delete(((struct Obj01297 *)p)->f10);
     GF_FONT_Delete(((struct Obj01297 *)p)->fC);
-    func_021BA178(((struct Obj01297 *)p)->f8);
+    TH_AWARD_GRAPHIC_Delete(((struct Obj01297 *)p)->f8);
     func_020315D4(state);
     func_020306F0(131);
     return 1;

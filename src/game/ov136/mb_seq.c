@@ -34,11 +34,11 @@
  *   func_02008FC0 0x02008FC0 thumb
  *   func_02008FC8 0x02008FC8 thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
- *   func_0203F8F4 0x0203F8F4 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020056A0 0x020056A0 thumb
@@ -85,9 +85,9 @@
  *   d_021C77C4 0x021C77C4 data a1
  *   func_0203FC28 0x0203FC28 arm
  *   func_0204363C 0x0204363C arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   g_77F4 0x021C77F4 data
  *   g_7804 0x021C7804 data
  *   func_020403F4 0x020403F4 arm
@@ -146,8 +146,8 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_Delete 0x0202CA0C thumb
- *   func_0201EC64 0x0201EC64 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
  *   func_02009050 0x02009050 thumb
@@ -222,8 +222,8 @@
  *   d_021C7D78 0x021C7D78 data a4
  *   d_021C7D7C 0x021C7D7C data a4
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   func_02025DE8 0x02025DE8 thumb
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   MB_SEQ_SetActorAnim 0x021C66A0 thumb
  *   MB_SEQ_IsXPressed 0x021C7738 thumb
  *   MB_SEQ_SetActorVisible 0x021C66B8 thumb
@@ -254,11 +254,11 @@
  *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb ov136
  *   MAILTOOL_DeleteArgs 0x021C3E24 thumb ov136
  *   d_021C7E2C 0x021C7E2C data a4
- *   func_02025CD0 0x02025CD0 thumb
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   d_021C7E40 0x021C7E40 data a4
  *   d_021C7E1C 0x021C7E1C data a4
- *   func_02025D14  0x02025D14  thumb
- *   func_0202616C  0x0202616C  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
+ *   CURSOR_MOVE_GetEntry  0x0202616C  thumb
  *   MB_SEQ_SetActorPosition 0x021C66CC thumb
  *   d_021C7E14 0x021C7E14 data a4
  *   BGWINFRM_GetPos  0x0202CF98  thumb  arm9
@@ -389,15 +389,15 @@ extern struct PmsData *func_02008FC8(struct Mail *mail, u32 index);
 
 extern void STRBUF_Delete(struct Strbuf *vec);
 
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void TCBL_Destroy(struct Tcbl *p);
 
@@ -490,11 +490,11 @@ extern void func_0203FC28(struct DispConfig *);
 
 extern void func_0204363C(u32);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void func_020403F4(u32 bgId);
 
@@ -619,22 +619,22 @@ void MAILVIEW_InitBgs(struct MailEditProc *proc)
     func_0204363C(0);
     {
         struct BgSet s = g_7804;
-        func_0203FCA0(0, &s.t[0], 0);
-        func_0203FCA0(1, &s.t[1], 0);
-        func_0203FCA0(2, &s.t[2], 0);
-        func_0203FCA0(3, &s.t[3], 0);
-        func_0203FCA0(4, &s.t[4], 0);
+        BG_SYS_InitBgLayer(0, &s.t[0], 0);
+        BG_SYS_InitBgLayer(1, &s.t[1], 0);
+        BG_SYS_InitBgLayer(2, &s.t[2], 0);
+        BG_SYS_InitBgLayer(3, &s.t[3], 0);
+        BG_SYS_InitBgLayer(4, &s.t[4], 0);
     }
-    func_020414EC(0);
-    func_020414EC(1);
-    func_020414EC(2);
-    func_020414EC(3);
-    func_020414EC(4);
-    func_02040B94(0, 0x20, 0, (u16)(proc->heapId));
-    func_02040B94(1, 0x20, 0, (u16)(proc->heapId));
-    func_02040B94(2, 0x20, 0, (u16)(proc->heapId));
-    func_02040B94(3, 0x20, 0, (u16)(proc->heapId));
-    func_02040B94(4, 0x20, 0, (u16)(proc->heapId));
+    BG_SYS_ClearSlot(0);
+    BG_SYS_ClearSlot(1);
+    BG_SYS_ClearSlot(2);
+    BG_SYS_ClearSlot(3);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_InitRun(0, 0x20, 0, (u16)(proc->heapId));
+    BG_SYS_InitRun(1, 0x20, 0, (u16)(proc->heapId));
+    BG_SYS_InitRun(2, 0x20, 0, (u16)(proc->heapId));
+    BG_SYS_InitRun(3, 0x20, 0, (u16)(proc->heapId));
+    BG_SYS_InitRun(4, 0x20, 0, (u16)(proc->heapId));
 }
 
 void MAILVIEW_FreeBgs(struct MailEditProc *proc)
@@ -878,9 +878,9 @@ extern void BGWINFRM_PutFrame(struct BgWinFrm *mgr, u32 idx, s8 x, s8 y);
 
 extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 
@@ -936,53 +936,53 @@ extern const struct MailBoxMenuDef g_78B0[];
 
 void MB_SEQ_InitBgs(struct MailBoxProc *p)
 {
-    func_0203F8F4(0x66);
+    BG_SYS_Create(0x66);
     {
         struct DispConfig d = g_7910;
         func_0203FC28(&d);
     }
     {
         struct BgTemplate t = g_79E0;
-        func_0203FCA0(4, &t, 0);
-        func_020414EC(4);
-        func_02040B94(4, 0x20, 0, 0x66);
+        BG_SYS_InitBgLayer(4, &t, 0);
+        BG_SYS_ClearSlot(4);
+        BG_SYS_InitRun(4, 0x20, 0, 0x66);
     }
     {
         struct BgTemplate t = g_79A0;
-        func_0203FCA0(5, &t, 0);
-        func_020414EC(5);
-        func_02040B94(5, 0x20, 0, 0x66);
+        BG_SYS_InitBgLayer(5, &t, 0);
+        BG_SYS_ClearSlot(5);
+        BG_SYS_InitRun(5, 0x20, 0, 0x66);
     }
     {
         struct BgTemplate t = g_79C0;
-        func_0203FCA0(6, &t, 0);
-        func_020414EC(6);
-        func_02040B94(6, 0x20, 0, 0x66);
+        BG_SYS_InitBgLayer(6, &t, 0);
+        BG_SYS_ClearSlot(6);
+        BG_SYS_InitRun(6, 0x20, 0, 0x66);
     }
     {
         struct BgTemplate t = g_7980;
-        func_0203FCA0(7, &t, 0);
+        BG_SYS_InitBgLayer(7, &t, 0);
     }
     {
         struct BgTemplate t = g_7960;
-        func_0203FCA0(0, &t, 0);
-        func_020414EC(0);
-        func_02040B94(0, 0x20, 0, 0x66);
+        BG_SYS_InitBgLayer(0, &t, 0);
+        BG_SYS_ClearSlot(0);
+        BG_SYS_InitRun(0, 0x20, 0, 0x66);
     }
     {
         struct BgTemplate t = g_7940;
-        func_0203FCA0(1, &t, 0);
-        func_020414EC(1);
-        func_02040B94(1, 0x20, 0, 0x66);
+        BG_SYS_InitBgLayer(1, &t, 0);
+        BG_SYS_ClearSlot(1);
+        BG_SYS_InitRun(1, 0x20, 0, 0x66);
     }
     {
         struct BgTemplate t = g_7A00;
-        func_0203FCA0(2, &t, 0);
-        func_020414EC(2);
+        BG_SYS_InitBgLayer(2, &t, 0);
+        BG_SYS_ClearSlot(2);
     }
     {
         struct BgTemplate t = g_7920;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
     }
     BG_SYS_SetMainPlaneVisible(1, 1);
     BG_SYS_SetMainPlaneVisible(2, 1);
@@ -1006,7 +1006,7 @@ void MB_SEQ_FreeBgs(struct MailBoxProc *p)
     func_020403F4(6);
     func_020403F4(5);
     func_020403F4(4);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void MB_SEQ_LoadFrameCharData(struct MailBoxProc *p)
@@ -1060,14 +1060,14 @@ void MB_SEQ_DeleteFrames(struct MailBoxProc *p)
 void MB_SEQ_CreateMessageResources(struct MailBoxView *view)
 {
     view->msgData = func_02045B38(0, 2, 0x3b, 0x66);
-    view->wordSet = func_0201EC64(0x66);
+    view->wordSet = GF_FONT_Create_EC64(0x66);
     view->msgBuf = STRBUF_Create(0x400, 0x66);
 }
 
 void MB_SEQ_DeleteMessageResources(struct MailBoxView *view)
 {
     STRBUF_Delete(view->msgBuf);
-    func_0201ED04(view->wordSet);
+    WORDSET_DeleteStrbufED04(view->wordSet);
     MSGDATA_Delete(view->msgData);
 }
 
@@ -1561,7 +1561,7 @@ void MB_SEQ_StartMessagePrint(struct MailBoxProc *p)
     struct Bmp *bmp;
     bmp = BMP_WIN_GetBmp(win);
     BMP_Clear(bmp, 0xf);
-    p->view->printStream = PRINTSYS_PrintStream(win, 0, 0, p->view->msgBuf, p->font, func_02012FFC(), p->view->tcbl, 0, 0x66, 0xf);
+    p->view->printStream = PRINTSYS_PrintStream(win, 0, 0, p->view->msgBuf, p->font, MSG_SPEED_GetWait(), p->view->tcbl, 0, 0x66, 0xf);
 }
 
 void MB_SEQ_PrintDetailMessage(struct MailBoxProc *p)
@@ -1898,9 +1898,9 @@ extern unsigned int PROCSYS_Main(void *p);
 
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *p);
 
-extern int func_02025DE8(struct TouchSelect *select);
+extern int CURSOR_MOVE_PollRepeatInput(struct TouchSelect *select);
 
-extern u8 func_020260E0(struct TouchSelect *select);
+extern u8 CURSOR_MOVE_GetCurrent(struct TouchSelect *select);
 
 int MB_SEQ_IsXPressed(void);
 
@@ -1944,11 +1944,11 @@ extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern struct TouchSelect *func_02025CD0(const struct TouchRect *rects, const u8 *keyTable, void *owner, u32 a3, u8 a4, u16 heapId);
+extern struct TouchSelect *CURSOR_MOVE_Create(const struct TouchRect *rects, const u8 *keyTable, void *owner, u32 a3, u8 a4, u16 heapId);
 
-extern u32 func_02025D14(struct TouchSelect *select);
+extern u32 CURSOR_MOVE_Delete(struct TouchSelect *select);
 
-extern u8 *func_0202616C(struct TouchSelect *select, u32 index);
+extern u8 *CURSOR_MOVE_GetEntry(struct TouchSelect *select, u32 index);
 
 int MB_SEQ_StateInit(struct MailBoxProc *p);
 
@@ -2245,7 +2245,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
         p->nextState = 10;
         return 0x19;
     }
-    hit = func_02025DE8(p->view->select);
+    hit = CURSOR_MOVE_PollRepeatInput(p->view->select);
     switch (hit) {
     case 0:
     case 1:
@@ -2271,7 +2271,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
         p->nextState = 10;
         return 0x18;
     case (u32)-5:
-        func_020260E0(p->view->select);
+        CURSOR_MOVE_GetCurrent(p->view->select);
         if (p->page != p->view->lastPage) {
             p->page += 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -2279,7 +2279,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
         }
         break;
     case (u32)-6:
-        func_020260E0(p->view->select);
+        CURSOR_MOVE_GetCurrent(p->view->select);
         if (p->page != 0) {
             p->page -= 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -2395,7 +2395,7 @@ int MB_SEQ_StateDetail(struct MailBoxProc *p)
 int MB_SEQ_CloseMailDetail(struct MailBoxProc *p)
 {
     MB_SEQ_ClearMailDetailText(p);
-    MB_SEQ_MoveCursorToPosition(p, func_020260E0(p->view->select));
+    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent(p->view->select));
     MB_SEQ_EmptyHookDetailReturn(p->view);
     BGWINFRM_HideFrame(p->view->frames, 10);
     MB_SEQ_SetActorVisible(p->view, 2, 1);
@@ -2479,7 +2479,7 @@ int MB_SEQ_CancelDetail(struct MailBoxProc *p)
 {
     MB_SEQ_HideMessageWindow(p);
     BGWINFRM_HideFrame(p->view->frames, 10);
-    MB_SEQ_MoveCursorToPosition(p, func_020260E0(p->view->select));
+    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent(p->view->select));
     MB_SEQ_SetActorVisible(p->view, 2, 1);
     MB_SEQ_SetButtonsEnabled(p->view, 0);
     return 9;
@@ -2607,8 +2607,8 @@ void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p)
     if (p->view->closingWord.word[0] != 0) {
         PMS_DRAW_Clear(p->view->pmsDraw, (u8)i, (int)0);
     }
-    func_020414EC(4);
-    func_020414EC(5);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_ClearSlot(5);
 }
 
 /*
@@ -2767,13 +2767,13 @@ void MB_SEQ_CreateTouchSelect(struct MailBoxProc *p)
     } else {
         column = p->selectedColumn;
     }
-    p->view->select = func_02025CD0(d_021C7E40, d_021C7E1C, p, 1, column, 102);
+    p->view->select = CURSOR_MOVE_Create(d_021C7E40, d_021C7E1C, p, 1, column, 102);
     MB_SEQ_MoveCursorToPosition(p, column);
 }
 
 void MB_SEQ_DeleteTouchSelect(struct MailBoxProc *p)
 {
-    func_02025D14(p->view->select);
+    CURSOR_MOVE_Delete(p->view->select);
 }
 
 void MB_SEQ_EmptyStubA(void)
@@ -2796,7 +2796,7 @@ void MB_SEQ_MoveCursorB(struct MailBoxProc *p, u32 position)
 
 void MB_SEQ_MoveCursorToPosition(struct MailBoxProc *p, u32 position)
 {
-    u8 *xy = func_0202616C(p->view->select, position);
+    u8 *xy = CURSOR_MOVE_GetEntry(p->view->select, position);
     MB_SEQ_SetActorPosition(p->view, 2, xy[0], xy[1]);
     if (position == 10) {
         MB_SEQ_SetActorAnim(p->view, 2, 4);

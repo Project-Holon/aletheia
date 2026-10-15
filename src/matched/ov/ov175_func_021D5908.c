@@ -37,7 +37,7 @@
  *   STRBUF_ToChars 0x02045A38 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02025BEC 0x02025BEC thumb
+ *   BMP_OAM_Check5BEC 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   func_021D67BC 0x021D67BC thumb ov175
@@ -87,7 +87,7 @@ extern void *func_02045EC0(struct MsgBank *, u32);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
+extern unsigned int BMP_OAM_Check5BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern int func_021D67BC(char *, u16);
@@ -191,7 +191,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
             if ((u8)data[0x1c] >= 16) {
                 if ((u8)data[0x1d] == 0) data[0x1c] = 0; else data[0x1c] = 8;
             }
-            if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
+            if (!BMP_OAM_Check5BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) PMSI_PARAM_InitSentence(data + 0x38, 1);

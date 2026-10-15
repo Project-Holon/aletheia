@@ -12,14 +12,14 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  */
 #include "../include/Obj06484.h"
@@ -39,14 +39,14 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void P_STA_OAM_TransferBitmap(u8 *p);
 void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
 {
@@ -64,7 +64,7 @@ void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
     MI_CpuCopy8(pixels,source,0x660);
     text=func_02045EC0(((struct Obj10517 *)p)->f50,record[5]+160);
     buffer=STRBUF_Create(32,((struct Obj10516 *)a)->f0);
-    object=func_0201EC64(((struct Obj10516 *)a)->f0);
+    object=GF_FONT_Create_EC64(((struct Obj10516 *)a)->f0);
     func_0201EFA4(object,0,record[6],2,2,1);
     func_0201F250(object,buffer,text);
     GF_FONT_SetTextColor(1,2,0);
@@ -72,6 +72,6 @@ void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
     GF_FONT_SetDefaultTextColor();
     STRBUF_Delete(text);
     STRBUF_Delete(buffer);
-    func_0201ED04(object);
+    WORDSET_DeleteStrbufED04(object);
     P_STA_OAM_TransferBitmap(((struct Obj06484 *)entry)->f10);
 }

@@ -33,7 +33,7 @@
  * 0x02034AAC inside this function is 0x02034A3C's only reference anywhere
  * in the image.  It resolves on class `matched` now that
  * src/matched/GF_OVERLAY_ReleaseSlot.c is EXACT, which in turn waited on
- * src/matched/func_020792B8.c and src/matched/unit_02079164.c.
+ * src/matched/FS_UnloadOverlay.c and src/matched/unit_02079164.c.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GF_OVERLAY_Unload.c \

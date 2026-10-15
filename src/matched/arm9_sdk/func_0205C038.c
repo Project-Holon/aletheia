@@ -1,5 +1,5 @@
 /*
- * function: func_0205C038
+ * function: DWCi_AC_Alloc
  * address:  0x0205C038
  * packet:   pkt_0205C038
  * region:   arm9
@@ -125,7 +125,7 @@ typedef struct tagACWORK {
 
 extern void *DWCi_AC_GetMemPtr(u32 name);
 
-void *func_0205C038(u32 name, s32 size)
+void *DWCi_AC_Alloc(u32 name, s32 size)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 

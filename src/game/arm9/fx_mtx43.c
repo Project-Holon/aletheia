@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx43.c
  * unit:     yes
- * function: func_0207B598, func_0207B5C0, MTX_Scale43_, func_0207B60C, func_0207B640, MTX_RotAxis43, func_0207B67C, func_0207B9F0, MTX_MultVec43, func_0207BCA0
+ * function: MTX_Identity43_, MTX_Copy43To44_, MTX_Scale43_, MTX_ScaleApply43, MTX_RotY43_, MTX_RotAxis43, func_0207B67C, func_0207B9F0, MTX_MultVec43, MTX_LookAt
  * address:  0x0207B598
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -11,6 +11,9 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   MTX_RotAxis33  0x0207AF50  arm
  */
 typedef long fx32;
 typedef long long fx64;
@@ -37,14 +40,14 @@ typedef union {
     fx32 a[9];
 } MtxFx33;
 
-asm void func_0207B598(void);
-asm void func_0207B5C0(void);
+asm void MTX_Identity43_(void);
+asm void MTX_Copy43To44_(void);
 
 /*
  * sdk:      MTX_Identity43_ (libfx.TWL.HYB.a fx_mtx43.o)
  * asm:      fixed-register stm with writeback (stmia r0!, {r2, r3}); no C spelling.
  */
-asm void func_0207B598(void)
+asm void MTX_Identity43_(void)
 {
     mov r2, #0x1000
     mov r3, #0
@@ -62,7 +65,7 @@ asm void func_0207B598(void)
  * sdk:      MTX_Copy43To44_ (libfx.TWL.HYB.a fx_mtx43.o)
  * asm:      fixed-register ldm/stm block copy with writeback (ldmia r0!, stmia r1!); no C spelling.
  */
-asm void func_0207B5C0(void)
+asm void MTX_Copy43To44_(void)
 {
     stmfd sp!, {r4}
     mov r12, #0
@@ -100,7 +103,7 @@ asm void MTX_Scale43_(void)
 
 extern void MTX_ScaleApply33(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
 
-void func_0207B60C(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z)
+void MTX_ScaleApply43(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z)
 {
     MTX_ScaleApply33((const MtxFx33 *)pSrc, (MtxFx33 *)pDst, x, y, z);
     pDst->_30 = pSrc->_30;
@@ -110,7 +113,7 @@ void func_0207B60C(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z)
 
 #pragma thumb on
 
-asm void func_0207B640(void)
+asm void MTX_RotY43_(void)
 {
     str r1, [r0, #0x18]
     mov r3, #0
@@ -129,7 +132,7 @@ asm void func_0207B640(void)
 
 #pragma thumb reset
 
-extern void func_0207AF50(void *m, void *v);
+extern void MTX_RotAxis33(void *m, void *v);
 void FX_InvAsync(fx32 denom);
 fx32 FX_GetDivResult(void);
 void MI_Copy48B(const void *pSrc, void *pDest);
@@ -140,11 +143,11 @@ void MTX_RotAxis43(void *m, void *v);
 int MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
 void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
 void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
-void func_0207BCA0(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
+void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 
 void MTX_RotAxis43(void *m, void *v)
 {
-    func_0207AF50(m, v);
+    MTX_RotAxis33(m, v);
     *(unsigned int *)((char *)m + 0x24) = 0;
     *(unsigned int *)((char *)m + 0x28) = 0;
     *(unsigned int *)((char *)m + 0x2c) = 0;
@@ -298,7 +301,7 @@ void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst)
 /*
  * sdk:      MTX_LookAt (libfx.TWL.HYB.a fx_mtx43.o)
  */
-void func_0207BCA0(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx)
+void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx)
 {
     VecFx32 vLook, vRight, vUp;
 

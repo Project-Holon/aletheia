@@ -24,7 +24,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BE48 0x0200BE48 thumb
+ *   INTRUDE_GetFromSave 0x0200BE48 thumb
  *   DOWSING_CreateSearch 0x021EFEC0 thumb ov033
  *   func_0207D63C 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -53,7 +53,7 @@ extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern void *DOWSING_CreateSearch(u32, u32, u32);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
@@ -96,7 +96,7 @@ void *DOWSING_Create(u32 heap, u32 heap2, u32 a, u32 b)
     ((struct Obj00618 *)p)->fCC = 1;
     s = (u32)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)(((struct Obj00618 *)p)->f8)));
     v = GAME_DATA_GetEventWork((const struct BigObj *)s);
-    ((struct Obj00618 *)p)->fD0 = DOWSING_CreateSearch(((struct Obj00618 *)p)->f0, v, (u32)func_0200BE48(GAME_DATA_GetSaveControl((struct Big *)s)));
+    ((struct Obj00618 *)p)->fD0 = DOWSING_CreateSearch(((struct Obj00618 *)p)->f0, v, (u32)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)s)));
     func_0207D63C(0x04001050, 0x10, 0x18, 1, 7);
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00618 *)p)->f0);
     return p;

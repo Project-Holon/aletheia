@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02092120",
+   "name": "rewind",
    "address": "0x02092120",
    "kind": "game",
    "region": "arm9",
@@ -31,11 +31,15 @@
    "status": "EXACT",
    "functions": [
     "func_02092344",
-    "func_02092364"
+    "memmove"
+   ],
+   "addresses": [
+    "0x02092344",
+    "0x02092364"
    ]
   },
   {
-   "name": "func_020924DC",
+   "name": "parse_format",
    "address": "0x020924DC",
    "kind": "game",
    "region": "arm9",

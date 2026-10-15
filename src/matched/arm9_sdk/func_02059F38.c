@@ -1,5 +1,5 @@
 /*
- * function: func_02059F38
+ * function: DWCi_IsError
  * address:  0x02059F38
  * packet:   pkt_02059F38
  * region:   arm9
@@ -23,7 +23,7 @@
 
 extern struct DWCErrorInfo g_02146AA4;
 
-int func_02059F38(void)
+int DWCi_IsError(void)
 {
     return (*(int *)&g_02146AA4) != 0;
 }

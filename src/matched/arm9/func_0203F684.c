@@ -1,5 +1,5 @@
 /*
- * function: func_0203F684
+ * function: GF_STANDARD_Get_F684
  * address:  0x0203F684
  * packet:   pkt_0203F540
  * region:   arm9
@@ -42,7 +42,7 @@ typedef int   s32;
 
 extern s16 FX_SinCosTable_[];
 
-short func_0203F684(unsigned short x)
+short GF_STANDARD_Get_F684(unsigned short x)
 {
     return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
 }

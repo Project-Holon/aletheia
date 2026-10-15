@@ -83,8 +83,8 @@
  *   KEY_GetCont 0x0203630C arm
  *   G3D_SYSTEM_GetObjectAnime 0x02047790 arm
  *   G3D_SYSTEM_GetAnimeObj 0x02047674 arm
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   SCRIPT_SYS_CallScriptEvent 0x02158780 thumb ov010
  *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
  *   FLDMMDL_SetStatusBitVanish 0x0216DAC8 thumb
@@ -98,7 +98,7 @@
  *   _ll_mul  0x0209C054  arm
  *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
  *   FIELD_GIMMICK_CART_LANES_SampleJointTranslation 0x021F48C0 thumb ov039
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  * note (2026-10-05, wave D5 lane 13): EXACT. The byte array at +0x21EC is a struct
  * field indexed by k (`p->cnt[k]`), not a pointer q = a1 + k; the CSE temp a1 + k then
  * takes the slot below n, as in the original.
@@ -771,8 +771,8 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, vo
     priority = 0;
     FIELD_GIMMICK_CART_LANES_SampleJointTranslation((const u8 *)animObj->resAnm, 0, frame, &samplePos);
     FIELD_GIMMICK_CART_LANES_SampleJointTranslation((const u8 *)animObj->resAnm, 0, nextFrame, &sampleNextPos);
-    func_0207CA00(&samplePos, &sampleNextPos, &step);
-    distance = func_0207CBD0(&step);
+    VEC_Subtract(&samplePos, &sampleNextPos, &step);
+    distance = VEC_Mag(&step);
     if (distance >= 0x20000) {
         priority = 0x7f;
     } else if (distance >= 0x18000) {
@@ -1103,10 +1103,10 @@ void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, FieldGi
         FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)lane, (u16)animeIndex);
         frame = FIELD_GIMMICK_CART_LANES_GetAnimeFrame(expObj, lane, animeIndex);
         FIELD_GIMMICK_CART_LANES_SampleJointTranslation((const u8 *)G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(cartObj, animeIndex))->resAnm, 0, frame, &cartPos);
-        func_0207C9D0(&cartPos, &sLaneRideOffsets[laneIdx], &cartPos);
+        VEC_Add(&cartPos, &sLaneRideOffsets[laneIdx], &cartPos);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
-        func_0207CA00(&cartPos, &playerPos, &offset);
-        distance = func_0207CBD0(&offset);
+        VEC_Subtract(&cartPos, &playerPos, &offset);
+        distance = VEC_Mag(&offset);
         if (nearestDistance > distance || first) {
             nearestDistance = distance;
             nearestLane = lane;
@@ -1135,8 +1135,8 @@ void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, FieldGi
         volume = 0;
         FIELD_GIMMICK_CART_LANES_SampleJointTranslation((const u8 *)animObj->resAnm, 0, frame, &samplePos);
         FIELD_GIMMICK_CART_LANES_SampleJointTranslation((const u8 *)animObj->resAnm, 0, nextFrame, &sampleNextPos);
-        func_0207CA00(&samplePos, &sampleNextPos, &step);
-        distance = func_0207CBD0(&step);
+        VEC_Subtract(&samplePos, &sampleNextPos, &step);
+        distance = VEC_Mag(&step);
         if (distance >= 0x20000)
             volume = 0x7F;
         else if (distance >= 0x18000)

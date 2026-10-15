@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u32  BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -47,7 +47,7 @@ void ov135_func_021F9260(struct Ov135Menu *p, u32 mode)
 {
     int i;
 
-    func_02040C14(p->layer, 0, 1, 0);
+    BG_SYS_Init(p->layer, 0, 1, 0);
     switch (mode) {
     case 4:
         p->win[14] = BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);

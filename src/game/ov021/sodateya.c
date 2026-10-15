@@ -17,15 +17,15 @@
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  *   sSodateyaHasMoveSlotIds     0x021DA8D8  data  ov021  a4
- *   func_0200BCA8  0x0200BCA8  thumb
- *   func_0200BCEC  0x0200BCEC  thumb
+ *   DAYCARE_IsSlotInUse  0x0200BCA8  thumb
+ *   DAYCARE_SwapSlots  0x0200BCEC  thumb
  *   func_02019C90  0x02019C90  thumb
- *   func_0200BCB8  0x0200BCB8  thumb
+ *   DAYCARE_GetInUseCount  0x0200BCB8  thumb
  *   SODATEYA_GetCompatibility  0x021C34C4  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
- *   func_0200BC2C  0x0200BC2C  thumb
+ *   DAYCARE_GetSlotMon  0x0200BC2C  thumb
  *   GAME_DATA_GetBoxSave  0x02012F98  thumb
  *   func_02007C34  0x02007C34  thumb
  *   MI_CpuFill8  0x02082BCC  arm
@@ -43,7 +43,7 @@
  *   func_020307B0  0x020307B0  arm
  *   sSodateyaEggMoveSlotIds     0x021DA908  data  ov021  a4
  *   sSodateyaSharedMoveSlotIds     0x021DA8F8  data  ov021  a4
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   sSodateyaTmMoveSlotIds     0x021DA8E8  data  ov021  a4
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -57,29 +57,29 @@
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   sSodateyaEggIvIds     0x021DA948  data  ov021  a4
- *   func_02021288  0x02021288  thumb
- *   func_0202130C  0x0202130C  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_GetId  0x0202130C  thumb
  *   func_02030734  0x02030734  arm
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   d_021DE458     0x021DE458  data  ov021
- *   func_0200BC4C  0x0200BC4C  thumb
+ *   DAYCARE_SetSlotMon  0x0200BC4C  thumb
  *   POKEPARTY_RemoveMember  0x0201A9C8  thumb
  *   SODATEYA_SyncPartyAfterDeposit  0x021C38DC  thumb  ov021
- *   func_0200BCD8  0x0200BCD8  thumb
+ *   DAYCARE_GetSlotSteps  0x0200BCD8  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_0200BC88  0x0200BC88  thumb
+ *   DAYCARE_ClearSlot  0x0200BC88  thumb
  *   SODATEYA_CompactSlots  0x021C36B0  thumb  ov021
  *   POKE_TOOL_Create  0x020173F0  thumb
- *   func_0200BCA0  0x0200BCA0  thumb
+ *   DAYCARE_GetEggReady  0x0200BCA0  thumb
  *   GAME_BEACON_SEARCH_SetSymbolMapEnter  0x0216556C  thumb  ov010
  *   SODATEYA_CreateEggMon  0x021C3898  thumb  ov021
- *   func_0200BC20  0x0200BC20  thumb
- *   func_02012984  0x02012984  thumb
+ *   DAYCARE_ClearEggReady  0x0200BC20  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FORMCHANGE_UpdateSeasonForms  0x0216AAE4  thumb  ov010
- *   func_0200BD48  0x0200BD48  thumb
+ *   DAYCARE_AddSteps  0x0200BD48  thumb
  *   SODATEYA_UpdateStepCounter  0x021C385C  thumb  ov021
- *   func_0200BC10  0x0200BC10  thumb
+ *   DAYCARE_SetEggReady  0x0200BC10  thumb
  *   POKE_TOOL_CalcLevelFromExp  0x0201850C  thumb
  *   SODATEYA_CalcCompatibility  0x021C36EC  thumb  ov021
  *   func_02018584  0x02018584  thumb
@@ -95,6 +95,7 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb  arm9
  *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb  arm9
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb  arm9
  */
 #include "../arm9/billboard_act_types.h"
 
@@ -219,15 +220,15 @@ typedef struct LearnsetEntry {
 } LearnsetEntry;
 
 extern u32 func_02017E1C(const struct Pokemon *mon, u32 dataId, u32 arg);
-extern int func_0200BCA8(void *dayCare, int slot);
-extern void func_0200BCEC(void *dayCare, int slot, int newSlot);
+extern int DAYCARE_IsSlotInUse(void *dayCare, int slot);
+extern void DAYCARE_SwapSlots(void *dayCare, int slot, int newSlot);
 extern u32 func_02019C90(u16 species, u16 form, u32 groupField);
-extern int func_0200BCB8(void *dayCare);
+extern int DAYCARE_GetInUseCount(void *dayCare);
 extern u32 func_02005728(u32 range);
 extern struct FieldMap *FIELDMAP_GetGameSystem(struct FieldMap *p);
-extern void *func_020120F4(const void *p);
+extern void *ICA_ANIME_GetField1C(const void *p);
 extern struct MyStatus *func_02012944(void *p);
-extern struct Pokemon *func_0200BC2C(void *dayCare, int slot);
+extern struct Pokemon *DAYCARE_GetSlotMon(void *dayCare, int slot);
 extern u32 func_02007C34(void *p, void *party);
 extern void *GAME_DATA_GetBoxSave(void *p);
 extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
@@ -239,7 +240,7 @@ extern u32 func_02017ED8(u32 otId, u32 personalRnd);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
 extern u32 func_020307B0(void *p);
-extern u16 func_020212B0(u16 item);
+extern u16 FILE_UTIL_Get_12B0(u16 item);
 extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long otId, u32 power, unsigned long long personalRnd);
 extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 dataId, u32 value);
 extern void func_02018A00(struct Pokemon *mon, u32 species, u32 form);
@@ -250,8 +251,8 @@ extern void func_0202F190(struct Pokemon *mon, u32 a1, struct MyStatus *status, 
 extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern void POKE_TOOL_HealFull(struct Pokemon *mon);
-extern u32 func_02021288(u32 item);
-extern u32 func_0202130C(u32 item);
+extern u32 FILE_UTIL_Check1288(u32 item);
+extern u32 FILE_UTIL_GetId(u32 item);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive, u32 member, u32 mode, u32 *sizeOut);
 extern void *gSpeciesNameBank;
 
@@ -310,26 +311,26 @@ extern const MoveSlotIdTable sSodateyaSharedMoveSlotIds;
 extern MoveSlotIdTable sSodateyaTmMoveSlotIds;
 extern const StatTable sSodateyaEggIvIds;
 extern void *func_02030734(u32, u32, int, const char *, u16);
-void *func_02012934(const void *p);
+void *GAME_DATA_GetMyParty(const void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void func_0200BC4C(void *dayCare, s32 slot, const void *mon);
+extern void DAYCARE_SetSlotMon(void *dayCare, s32 slot, const void *mon);
 extern u32 POKEPARTY_RemoveMember(void *p, s32 idx);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
-extern u32 func_0200BCD8(void *dayCare, u32 slot);
+extern u32 DAYCARE_GetSlotSteps(void *dayCare, u32 slot);
 extern u32 POKEPARTY_Add(void *p, const void *src);
-extern void func_0200BC88(void *dayCare, s32 slot);
+extern void DAYCARE_ClearSlot(void *dayCare, s32 slot);
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
 extern u32 ZUKAN_SAVE_IsCaught(void *p, u16 id);
 extern void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
 extern void *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
-extern int func_0200BCA0(void *dayCare);
+extern int DAYCARE_GetEggReady(void *dayCare);
 extern void GAME_BEACON_SEARCH_SetSymbolMapEnter(void);
-extern void func_0200BC20(void *dayCare);
-extern u8 func_02012984(const void *p);
+extern void DAYCARE_ClearEggReady(void *dayCare);
+extern u8 GAME_DATA_GetSeason(const void *p);
 extern void FORMCHANGE_UpdateSeasonForms(void *sys, void *party, int season);
-extern void func_0200BD48(void *dayCare, int steps);
-extern void func_0200BC10(void *dayCare);
-extern u32 func_0201296C(const void *p);
+extern void DAYCARE_AddSteps(void *dayCare, int steps);
+extern void DAYCARE_SetEggReady(void *dayCare);
+extern u32 GAME_DATA_GetEventWork(const void *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
@@ -385,12 +386,12 @@ void SODATEYA_Delete(void *work)
 /* Deposits the party member at partyPos in the day care when there is room. */
 void SODATEYA_DepositPokemon(SodateyaWork *work, void *party, u32 partyPos)
 {
-    int count = func_0200BCB8(work->dayCare);
+    int count = DAYCARE_GetInUseCount(work->dayCare);
     u32 mon = (u32)POKEPARTY_GetMember(party, partyPos);
     if (count < 2) {
         SODATEYA_PrepareDeposit((void *)mon);
         SODATEYA_RevertShaymin((void *)mon);
-        func_0200BC4C(work->dayCare, count, (void *)mon);
+        DAYCARE_SetSlotMon(work->dayCare, count, (void *)mon);
         POKEPARTY_RemoveMember(party, partyPos);
         SODATEYA_SyncPartyAfterDeposit(work->fieldMap, party);
     }
@@ -415,12 +416,12 @@ void SODATEYA_RevertShaymin(void *mon)
 void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
 {
     u32 mon;
-    if (func_0200BCA8(work->dayCare, slot) == 1) {
-        mon = (u32)func_0200BC2C(work->dayCare, slot);
-        SODATEYA_GrantExp((void *)mon, func_0200BCD8(work->dayCare, slot));
+    if (DAYCARE_IsSlotInUse(work->dayCare, slot) == 1) {
+        mon = (u32)DAYCARE_GetSlotMon(work->dayCare, slot);
+        SODATEYA_GrantExp((void *)mon, DAYCARE_GetSlotSteps(work->dayCare, slot));
         SODATEYA_ReturnHeldItem(work, (void *)mon);
         POKEPARTY_Add(party, (void *)mon);
-        func_0200BC88(work->dayCare, slot);
+        DAYCARE_ClearSlot(work->dayCare, slot);
         SODATEYA_CompactSlots(work->dayCare);
     }
 }
@@ -430,7 +431,7 @@ void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
  */
 void SODATEYA_ReturnHeldItem(SodateyaWork *work, void *mon)
 {
-    void *bag = ZUKAN_SAVE_GetFromGameData(func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap)));
+    void *bag = ZUKAN_SAVE_GetFromGameData(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap)));
     if (ZUKAN_SAVE_IsCaught(bag, func_02017E1C(mon, 5, 0)) == 0)
         ZUKAN_SAVE_RegisterCaught(bag, mon);
 }
@@ -440,15 +441,15 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
 {
     u32 egg = (u32)POKE_TOOL_Create(1, 1, 1, work->heapId);
     u32 gameData;
-    if (func_0200BCA0(work->dayCare) == 1) {
+    if (DAYCARE_GetEggReady(work->dayCare) == 1) {
         GAME_BEACON_SEARCH_SetSymbolMapEnter();
         SODATEYA_ClearEggFlag(work->fieldMap);
         SODATEYA_CreateEggMon(work, (struct Pokemon *)egg);
         POKEPARTY_Add(party, (void *)egg);
-        func_0200BC20(work->dayCare);
+        DAYCARE_ClearEggReady(work->dayCare);
         func_020307B0((void *)egg);
-        gameData = (u32)func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap));
-        FORMCHANGE_UpdateSeasonForms((void *)gameData, party, func_02012984((void *)gameData));
+        gameData = (u32)ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap));
+        FORMCHANGE_UpdateSeasonForms((void *)gameData, party, GAME_DATA_GetSeason((void *)gameData));
     }
 }
 
@@ -457,8 +458,8 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
  */
 void SODATEYA_DeclineEgg(SodateyaWork *work)
 {
-    if (func_0200BCA0(work->dayCare) == 1) {
-        func_0200BC20(work->dayCare);
+    if (DAYCARE_GetEggReady(work->dayCare) == 1) {
+        DAYCARE_ClearEggReady(work->dayCare);
         SODATEYA_ClearEggFlag(work->fieldMap);
     }
 }
@@ -466,9 +467,9 @@ void SODATEYA_DeclineEgg(SodateyaWork *work)
 /* Advances the step counter by one; 1 when an egg was produced. */
 int SODATEYA_AddStep(SodateyaWork *work)
 {
-    func_0200BD48(work->dayCare, 1);
+    DAYCARE_AddSteps(work->dayCare, 1);
     if (SODATEYA_UpdateStepCounter(work) == 1) {
-        func_0200BC10(work->dayCare);
+        DAYCARE_SetEggReady(work->dayCare);
         SODATEYA_SetEggFlag(work->fieldMap);
         return 1;
     }
@@ -480,9 +481,9 @@ int SODATEYA_AddStep(SodateyaWork *work)
  */
 void SODATEYA_SetEggFlag(void *fieldMap)
 {
-    void *gameData = func_020120F4(FIELDMAP_GetGameSystem(fieldMap));
-    void *eventWork = (void *)func_0201296C(gameData);
-    void *party = func_02012934(gameData);
+    void *gameData = ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap));
+    void *eventWork = (void *)GAME_DATA_GetEventWork(gameData);
+    void *party = GAME_DATA_GetMyParty(gameData);
     if ((int)POKEPARTY_GetCount(party) < (int)POKEPARTY_GetCapacity(party))
         *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, 0x4139)) = 1;
 }
@@ -492,7 +493,7 @@ void SODATEYA_SetEggFlag(void *fieldMap)
  */
 void SODATEYA_ClearEggFlag(void *fieldMap)
 {
-    *((u16 *)ZONEDATA_GetEventWorkAddress(func_0201296C(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), 0x4139)) = 0;
+    *((u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), 0x4139)) = 0;
 }
 
 /*
@@ -503,13 +504,13 @@ void SODATEYA_ClearEggFlag(void *fieldMap)
  */
 int SODATEYA_HasEgg(void *work)
 {
-    return func_0200BCA0(((SodateyaWork *)work)->dayCare);
+    return DAYCARE_GetEggReady(((SodateyaWork *)work)->dayCare);
 }
 
 /* Number of pokemon in the day care. */
 int SODATEYA_GetPokemonCount(SodateyaWork *work)
 {
-    return (u8)func_0200BCB8(work->dayCare);
+    return (u8)DAYCARE_GetInUseCount(work->dayCare);
 }
 
 /* Level the pokemon of slot has reached from the experience it gained. */
@@ -519,14 +520,14 @@ int SODATEYA_GetCurrentLevel(SodateyaWork *work, u32 slot)
     u32 form;
     u32 exp;
     u32 species;
-    if (func_0200BCA8(work->dayCare, slot) != 1)
+    if (DAYCARE_IsSlotInUse(work->dayCare, slot) != 1)
         return 1;
-    mon = (u32)func_0200BC2C(work->dayCare, slot);
+    mon = (u32)DAYCARE_GetSlotMon(work->dayCare, slot);
     species = func_02017E1C((void *)mon, 5, 0);
     form = func_02017E1C((void *)mon, 0x6F, 0);
     exp = func_02017E1C((void *)mon, 8, 0);
     func_02017E1C((void *)mon, 0x9E, 0);
-    return POKE_TOOL_CalcLevelFromExp(species, form, SODATEYA_AddExpSaturated(exp, func_0200BCD8(work->dayCare, slot)));
+    return POKE_TOOL_CalcLevelFromExp(species, form, SODATEYA_AddExpSaturated(exp, DAYCARE_GetSlotSteps(work->dayCare, slot)));
 }
 
 /*
@@ -534,7 +535,7 @@ int SODATEYA_GetCurrentLevel(SodateyaWork *work, u32 slot)
  */
 int SODATEYA_GetLevelsGained(SodateyaWork *work, int slot)
 {
-    int level = func_02017E1C((void *)func_0200BC2C(work->dayCare, slot), 0x9E, 0);
+    int level = func_02017E1C((void *)DAYCARE_GetSlotMon(work->dayCare, slot), 0x9E, 0);
     return SODATEYA_GetCurrentLevel(work, slot) - level;
 }
 
@@ -550,17 +551,17 @@ int SODATEYA_GetWithdrawCost(SodateyaWork *work, int slot)
 u8 SODATEYA_GetCompatibility(SodateyaWork *work)
 {
     void *first;
-    if (func_0200BCB8(work->dayCare) < 2)
+    if (DAYCARE_GetInUseCount(work->dayCare) < 2)
         return 0;
-    first = func_0200BC2C(work->dayCare, 0);
-    return SODATEYA_CalcCompatibility(first, func_0200BC2C(work->dayCare, 1));
+    first = DAYCARE_GetSlotMon(work->dayCare, 0);
+    return SODATEYA_CalcCompatibility(first, DAYCARE_GetSlotMon(work->dayCare, 1));
 }
 
 /* Pokemon in day care slot. */
 void *SODATEYA_GetPokemon(SodateyaWork *work, u32 slot)
 {
-    func_0200BCA8(work->dayCare, slot);
-    return func_0200BC2C(work->dayCare, slot);
+    DAYCARE_IsSlotInUse(work->dayCare, slot);
+    return DAYCARE_GetSlotMon(work->dayCare, slot);
 }
 
 /*
@@ -671,11 +672,11 @@ void SODATEYA_CompactSlots(void *dayCare)
     int i, j;
 
     for (i = 0; i < DAYCARE_SLOT_COUNT; i++) {
-        if (func_0200BCA8(dayCare, i) == 1)
+        if (DAYCARE_IsSlotInUse(dayCare, i) == 1)
             continue;
         for (j = i + 1; j < DAYCARE_SLOT_COUNT; j++) {
-            if (func_0200BCA8(dayCare, j) == 1)
-                func_0200BCEC(dayCare, j, j - 1);
+            if (DAYCARE_IsSlotInUse(dayCare, j) == 1)
+                DAYCARE_SwapSlots(dayCare, j, j - 1);
         }
     }
 }
@@ -759,7 +760,7 @@ int SODATEYA_UpdateStepCounter(SodateyaWork *work)
     work->stepCount = oldCount + STEPS_PER_EGG_CHECK;
     if (oldCount > 0xFF) {
         work->stepCount = 0;
-        if (func_0200BCB8(work->dayCare) >= 2) {
+        if (DAYCARE_GetInUseCount(work->dayCare) >= 2) {
             u32 roll = func_02005728(0x640);
             if (roll < SODATEYA_GetCompatibility(work))
                 return 1;
@@ -771,9 +772,9 @@ int SODATEYA_UpdateStepCounter(SodateyaWork *work)
 /* Builds the egg Pokemon from the two Pokemon in the day care. */
 void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
 {
-    struct MyStatus *myStatus = func_02012944(func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap)));
-    struct Pokemon *father = func_0200BC2C(work->dayCare, 0);
-    struct Pokemon *mother = func_0200BC2C(work->dayCare, 1);
+    struct MyStatus *myStatus = func_02012944(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap)));
+    struct Pokemon *father = DAYCARE_GetSlotMon(work->dayCare, 0);
+    struct Pokemon *mother = DAYCARE_GetSlotMon(work->dayCare, 1);
 
     SODATEYA_BuildEgg(work->heapId, myStatus, SODATEYA_EGG_MET_PLACE, father, mother, eggMon);
 }
@@ -783,7 +784,7 @@ void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
  */
 int SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party)
 {
-    return func_02007C34(GAME_DATA_GetBoxSave(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), party);
+    return func_02007C34(GAME_DATA_GetBoxSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), party);
 }
 
 /*
@@ -1399,7 +1400,7 @@ void SODATEYA_AddTmMoves(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
         int tmItem;
 
         for (tmItem = TM_ITEM_FIRST; tmItem <= TM_ITEM_LAST; tmItem++) {
-            if (move == func_020212B0(tmItem)) {
+            if (move == FILE_UTIL_Get_12B0(tmItem)) {
                 if (SODATEYA_CanLearnTm(heapId, (u16)egg->species, (u16)egg->form, (u16)tmItem)) {
                     SODATEYA_AddMove(egg, move);
                     break;
@@ -1502,10 +1503,10 @@ int SODATEYA_CanLearnTm(u32 heapId, u32 species, u32 form, u32 tmItem)
 
     if (species >= SPECIES_COUNT)
         return 0;
-    if (func_02021288(tmItem) == 0)
+    if (FILE_UTIL_Check1288(tmItem) == 0)
         return 0;
     personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
-    tmIndex = func_0202130C(tmItem);
+    tmIndex = FILE_UTIL_GetId(tmItem);
     if (tmIndex < 0x20) {
         mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x27);
     } else if (tmIndex < 0x40) {

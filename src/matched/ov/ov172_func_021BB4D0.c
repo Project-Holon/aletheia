@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
@@ -26,7 +26,7 @@ struct Obj;
 struct PtS { s16 x, y; };
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *);
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -41,7 +41,7 @@ void CTVT_DRAW_SlidePanel(void *unused, u8 *q)
         else if ((u8)q[4] > (u8)q[5]) { q[5] += 24; changed = 1; }
     }
     if (changed == 1) {
-        func_02041EE4(0, 3, 24 - (u8)q[5]);
+        BG_SYS_ResetSlot(0, 3, 24 - (u8)q[5]);
         for (i = 0; i < 6; i++) {
             u8 *element = q + i * 4;
             CLACT_GetActorSurfacePos(*(struct Actor * *)&((struct Obj14307 *)element)->f58, (struct PtS *)pos, 0);

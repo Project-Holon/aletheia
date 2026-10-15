@@ -18,7 +18,7 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -47,7 +47,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -76,7 +76,7 @@ void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode)
         ((struct Obj00525 *)w)->f160 = 1;
     } else {
         ((struct Obj00525 *)w)->f16C = PRINTSYS_PrintStream(((struct Obj00525 *)w)->f11C, 0, 0, ((struct Obj00525 *)w)->f30,
-                                              ((struct Obj00525 *)w)->fC, func_02012FFC(),
+                                              ((struct Obj00525 *)w)->fC, MSG_SPEED_GetWait(),
                                               ((struct Obj00525 *)w)->f170, 1, 0x28, 0xF0F);
     }
     p = ((struct Obj00525 *)w)->f11C;

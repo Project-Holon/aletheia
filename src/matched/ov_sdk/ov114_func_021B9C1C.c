@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_Terminate 0x02088234 arm
- *   g_02150FEC 0x02150FEC data
+ *   gMslRefToken 0x02150FEC data
  */
 
 typedef struct {
@@ -26,13 +26,13 @@ typedef struct {
     int *current;
 } OSInfo;
 
-extern OSInfo g_02150FEC;
+extern OSInfo gMslRefToken;
 extern void OS_Terminate(void);
 
 void NHTTPi_CheckCurrentThread(ThreadInfo *threadInfo_p, int is)
 {
     int *commThread_p = &threadInfo_p->commThread;
-    int *cur = g_02150FEC.current;
+    int *cur = gMslRefToken.current;
 
     if (cur) {
         if ((is == 0 && cur != commThread_p) || (is != 0 && cur == commThread_p)) {

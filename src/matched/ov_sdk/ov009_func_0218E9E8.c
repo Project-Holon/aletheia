@@ -1,5 +1,5 @@
 /*
- * function: func_0218E9E8
+ * function: gpiProcessPeerConnected
  * address:  0x0218E9E8
  * packet:   pkt_ov009_0218E9E8
  * region:   ov009
@@ -13,19 +13,19 @@
  *
  * symbols:
  *   func_02189A7C  0x02189A7C  arm  ov009
- *   func_0218E91C  0x0218E91C  arm  ov009
+ *   gpiPeerSendMessages  0x0218E91C  arm  ov009
  *   func_02184098  0x02184098  arm  ov009
  *   func_02189BE4  0x02189BE4  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_02193734  0x02193734  arm  ov009
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_02189DFC  0x02189DFC  arm  ov009
  *   func_021889A0  0x021889A0  arm  ov009
  *   func_02188B0C  0x02188B0C  arm  ov009
  *   func_02188BA0  0x02188BA0  arm  ov009
  *   func_02192FD0  0x02192FD0  arm  ov009
  *   func_02189D28  0x02189D28  arm  ov009
- *   func_02181010  0x02181010  arm  ov009
+ *   gsUdpEngineGetPeerState  0x02181010  arm  ov009
  *   g_021A4F1C     0x021A4F1C  data
  *   g_021A4F2C     0x021A4F2C  data
  */
@@ -115,21 +115,21 @@ extern char g_021A4F2C[];
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
 struct GPIPeer;
-extern int func_0218E91C(void **connection, struct GPIPeer *peer);
+extern int gpiPeerSendMessages(void **connection, struct GPIPeer *peer);
 extern long func_02184098(long *timer);
 extern int func_02189BE4(void **connection, GPIBuffer *inputBuffer, char **message, int *type, int *plen);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, void *operation, int type);
 extern int func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, void *op);
 extern int func_02188B0C(void **connection, struct GPIPeer *peer);
 extern int func_02188BA0(void **connection, struct GPIPeer *peer, char *buffer);
 extern void func_02192FD0(void **connection, void *peer, int unused, char *headers, char *buffer, int len);
 extern int func_02189D28(void **connection, GPIBuffer *buffer);
-extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
+extern int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState);
 
-int func_0218E9E8(void **connection, GPIPeer *peer)
+int gpiProcessPeerConnected(void **connection, GPIPeer *peer)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int aPeerState;
@@ -153,7 +153,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
 
     if (!peer->outputBuffer.len) {
         {
-            int __result__ = func_0218E91C(connection, (struct GPIPeer *)peer);
+            int __result__ = gpiPeerSendMessages(connection, (struct GPIPeer *)peer);
             if (__result__ != 0)
                 return __result__;
         }
@@ -183,7 +183,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
                         return 1;
                     }
                     arg->profile = peer->profile;
-                    arg->message = func_0217F1E0(buffer);
+                    arg->message = goastrdup(buffer);
                     arg->date = func_02184098(0);
                     {
                         int __result__ = func_02189DFC(connection, callback, arg, 0, 2);
@@ -203,7 +203,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
                         return 1;
                     }
                     arg->profile = peer->profile;
-                    arg->message = func_0217F1E0(buffer);
+                    arg->message = goastrdup(buffer);
                     arg->date = func_02184098(0);
                     {
                         int __result__ = func_02189DFC(connection, callback, arg, 0, 2);
@@ -253,7 +253,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
         }
     } while (buffer);
 
-    func_02181010(peer->ip, peer->port, &aPeerState);
+    gsUdpEngineGetPeerState(peer->ip, peer->port, &aPeerState);
     if (aPeerState == 3)
         peer->state = 0x6A;
 

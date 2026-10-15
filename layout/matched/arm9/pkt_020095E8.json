@@ -18,18 +18,32 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020095C8",
-    "sub_020095E8",
-    "sub_020095FC",
-    "sub_0200960C",
-    "sub_02009618",
-    "sub_02009628",
-    "sub_02009634",
-    "sub_02009698",
-    "sub_0200973C",
-    "sub_0200974C",
-    "sub_02009750",
+    "WIFI_HISTORY_GetFirstFreeEntry",
+    "WIFI_HISTORY_IncrementVisitedCountryCount",
+    "WIFI_HISTORY_SetRatingLevel",
+    "WIFI_HISTORY_GetRatingLevel",
+    "WIFI_HISTORY_SetGreetingSet",
+    "WIFI_HISTORY_GetGreetingSet",
+    "WIFI_HISTORY_GetEntryField",
+    "WIFI_HISTORY_SetEntryField",
+    "WIFI_HISTORY_GetEntry",
+    "WIFI_HISTORY_Dummy",
+    "WIFI_HISTORY_MarkCountryVisited",
     "sub_02009794"
+   ],
+   "addresses": [
+    "0x020095C8",
+    "0x020095E8",
+    "0x020095FC",
+    "0x0200960C",
+    "0x02009618",
+    "0x02009628",
+    "0x02009634",
+    "0x02009698",
+    "0x0200973C",
+    "0x0200974C",
+    "0x02009750",
+    "0x02009794"
    ]
   },
   {
@@ -112,13 +126,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009A34",
-    "sub_02009A54",
-    "sub_02009A74",
-    "sub_02009AE4",
-    "sub_02009B3C",
-    "sub_02009B80",
-    "sub_02009BB8"
+    "WIFILIST_CountFriends",
+    "WIFILIST_GetFriendListEnd",
+    "WIFILIST_RemoveFriendSlot",
+    "WIFILIST_MoveFriendSlot",
+    "WIFILIST_CompactFriendList",
+    "WIFILIST_SetFriendLastSeen",
+    "WIFILIST_AddFriendBattleRecord"
+   ],
+   "addresses": [
+    "0x02009A34",
+    "0x02009A54",
+    "0x02009A74",
+    "0x02009AE4",
+    "0x02009B3C",
+    "0x02009B80",
+    "0x02009BB8"
    ]
   },
   {
@@ -133,8 +156,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009C24",
-    "sub_02009CA8"
+    "WIFILIST_MergeFriendRecord",
+    "WIFILIST_CreateExchangeToken"
+   ],
+   "addresses": [
+    "0x02009C24",
+    "0x02009CA8"
    ]
   },
   {
@@ -149,10 +176,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009CE4",
-    "sub_02009D08",
-    "sub_02009D1C",
-    "sub_02009D50"
+    "WIFILIST_IsProfileValid",
+    "WIFILIST_GetFromSave",
+    "WIFILIST_FindFriendByStatus",
+    "WIFILIST_FindFriendByStatusAndOutfit"
+   ],
+   "addresses": [
+    "0x02009CE4",
+    "0x02009D08",
+    "0x02009D1C",
+    "0x02009D50"
    ]
   },
   {
@@ -167,8 +200,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009D9C",
-    "sub_02009DA4"
+    "TRADE_HISTORY_GetSize",
+    "TRADE_HISTORY_Init"
+   ],
+   "addresses": [
+    "0x02009D9C",
+    "0x02009DA4"
    ]
   }
  ]

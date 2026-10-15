@@ -20,7 +20,7 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F048  0x0201F048  thumb
- *   func_0201F094  0x0201F094  thumb
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   UNION_MSG_SetGreetingWordFlag  0x0217EFE0  thumb  ov019
  *   d_021807F8     0x021807F8  data  a1
  */
@@ -77,7 +77,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void UNION_MSG_SetGreetingWordFlag(int a, unsigned int n);
 extern const char d_021807F8[];
 
@@ -133,7 +133,7 @@ void UNION_MSG_RegisterPartnerWords(Self *self)
     if (sub->rec != 0 && sub->rec->f26 != 0) {
         func_0201F048(self->win2804, 3, sub->rec->f26);
         if (sub->rec->f27 != 0)
-            func_0201F094(self->win2804, 4, sub->rec->f26, sub->rec->f27);
+            WORDSET_DeleteMsgdataF094(self->win2804, 4, sub->rec->f26, sub->rec->f27);
     }
     UNION_MSG_SetGreetingWordFlag(self->sys->f8, kind);
 }

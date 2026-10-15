@@ -26,9 +26,9 @@
  *   FIELD_RAIL_SETTING_GetLinePos  0x021B8848  thumb  ov021
  *   FIELD_RAIL_SETTING_GetLineFunc  0x021B88B8  thumb  ov021
  *   FIELD_RAIL_IntersectSegmentPlane  0x021B9828  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CAE8  0x0207CAE8  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   gRailUpAxis     0x021D9A00  data   a4
  *   FIELD_RAIL_CLOSED_Contains  0x021B94C0  thumb ov021
  *   FIELD_RAIL_CLOSED_Add  0x021B9478  thumb ov021
@@ -81,8 +81,8 @@
  *   VEC_Add          0x0207C9D0  arm
  *   BUTTON_MAN_ScaleVec    0x020520A4  arm
  *   FX_SinCosTable_       0x020A1B38  data   a2
- *   func_0207CBD0  0x0207CBD0  arm
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_Mag  0x0207CBD0  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   FIELD_RAIL_WORK_GetSpot  0x021B82F4  thumb  ov021
  *   FIELD_RAIL_WORK_GetLineOffset  0x021B82F8  thumb  ov021
  *   FIELD_RAIL_WORK_GetLineEndOffset  0x021B82FC  thumb  ov021
@@ -94,7 +94,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D9A54     0x021D9A54  data  ov021  a4
  *   FIELD_RAIL_WORK_GetLinePos  0x021B835C  thumb  ov021
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   d_021D9A60     0x021D9A60  data  a4
  *   FIELD_RAIL_GetPoint  0x021B8224  thumb  ov021
  *   FIELD_RAIL_GetLine  0x021B8230  thumb  ov021
@@ -106,7 +106,7 @@
  *   _u32_div_f     0x0209C2B0  arm
  *   FIELD_RAIL_GetProbeWork  0x021B824C  thumb  ov021
  *   FIELD_RAIL_WORK_GetWidthLimit  0x021B8304  thumb  ov021
- *   func_0207CA68  0x0207CA68  arm
+ *   VEC_DotProduct  0x0207CA68  arm
  *   FIELD_RAIL_GetFocusWork  0x021B8220  thumb  ov021
  *   FIELD_RAIL_WORK_GetCamera  0x021B830C  thumb  ov021
  *   FIELD_RAIL_GetFocusPos  0x021B79D4  thumb  ov021
@@ -124,7 +124,7 @@
  *   FIELD_RAIL_WORK_GetMode  0x021B82F0  thumb  ov021
  *   func_0207CFB8  0x0207CFB8  arm
  *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
- *   func_0207CC30  0x0207CC30  arm
+ *   VEC_Fx16Mag  0x0207CC30  arm
  *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   VEC_Distance      0x0207CF3C  arm
@@ -333,9 +333,9 @@ extern const VecFx32 gRailUpAxis;
 extern const u8 gRailStepSizes[];
 
 extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *dst);
-extern void func_0207CEE4(int scale, VecFx32 *a, VecFx32 *b, VecFx32 *c);
+extern void VEC_MultAdd(int scale, VecFx32 *a, VecFx32 *b, VecFx32 *c);
 extern int func_0207CFB8(int a, int b);
-extern int func_0207CC30(s16 *v);
+extern int VEC_Fx16Mag(s16 *v);
 extern fx32 VEC_Mag(const VecFx32 *v);
 extern fx32 FX_Div(fx32 numer, fx32 denom);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
@@ -2222,7 +2222,7 @@ void FIELD_RAIL_SlerpVec(VecFx32 *out, VecFx32 *from, VecFx32 *to, int t)
     lengthFrom = VEC_Mag(from);
     lengthTo = VEC_Mag(to);
     lengthDiff = lengthTo - lengthFrom;
-    func_0207CEE4(lengthFrom + (int)(((s64)lengthDiff * t + 0x800) >> 12), out, &origin, out);
+    VEC_MultAdd(lengthFrom + (int)(((s64)lengthDiff * t + 0x800) >> 12), out, &origin, out);
 }
 
 void FIELD_RAIL_LINEPOS_Straight(RailWork *work, VecFx32 *outPos)
@@ -2243,13 +2243,13 @@ void FIELD_RAIL_LINEPOS_Straight(RailWork *work, VecFx32 *outPos)
     endPoint = FIELD_RAIL_WORK_GetEndPoint(work);
     startPos = &startPoint->pos;
     VEC_Subtract(&endPoint->pos, startPos, &delta);
-    func_0207CEE4(progress, &delta, startPos, outPos);
+    VEC_MultAdd(progress, &delta, startPos, outPos);
     up = d_021D9A54;
     widthOffset = FIELD_RAIL_WORK_GetWidthOffsetRaw(work);
     unitScale = FIELD_RAIL_WORK_GetUnitScale(work);
     VEC_CrossProduct(&delta, &up, &side);
     VEC_Normalize(&side, &side);
-    func_0207CEE4((int)(((s64)(widthOffset << 12) * unitScale + 0x800) >> 12), &side, outPos, outPos);
+    VEC_MultAdd((int)(((s64)(widthOffset << 12) * unitScale + 0x800) >> 12), &side, outPos, outPos);
 }
 
 void FIELD_RAIL_LINEPOS_ArcFlat(RailWork *work, VecFx32 *outPos)
@@ -2299,9 +2299,9 @@ void FIELD_RAIL_LINEPOS_ArcFlat(RailWork *work, VecFx32 *outPos)
     VEC_Normalize(&axis, &radial);
     VEC_CrossProduct(&radial, &dir, &side);
     if (side.y < 0) {
-        func_0207CEE4(-offset, &radial, outPos, outPos);
+        VEC_MultAdd(-offset, &radial, outPos, outPos);
     } else {
-        func_0207CEE4(offset, &radial, outPos, outPos);
+        VEC_MultAdd(offset, &radial, outPos, outPos);
     }
 }
 
@@ -2350,9 +2350,9 @@ void FIELD_RAIL_LINEPOS_Arc(RailWork *work, VecFx32 *outPos)
     VEC_Normalize(&axis, &radial);
     VEC_CrossProduct(&radial, &dir, &side);
     if (side.y < 0) {
-        func_0207CEE4(-offset, &radial, outPos, outPos);
+        VEC_MultAdd(-offset, &radial, outPos, outPos);
     } else {
-        func_0207CEE4(offset, &radial, outPos, outPos);
+        VEC_MultAdd(offset, &radial, outPos, outPos);
     }
 }
 
@@ -2916,7 +2916,7 @@ void FIELD_RAIL_CAMERA_FollowHeadingSlope(RailManager *manager)
     stepVec[0] = stepVec[3];
     stepVec[2] = stepVec[5];
     stepVec[1] = 0;
-    slope = func_0207CFB8(-stepVec[4], func_0207CC30(stepVec));
+    slope = func_0207CFB8(-stepVec[4], VEC_Fx16Mag(stepVec));
     FIELD_CAMERA_SetPitch(fieldCamera, slope + camera->param[1]);
     FIELD_CAMERA_SetDistance(fieldCamera, camera->param[2]);
     FIELD_CAMERA_SetYaw(fieldCamera, (u16)(heading + camera->param[0]));

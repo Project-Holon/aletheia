@@ -1,5 +1,5 @@
 /*
- * function: func_021DC888
+ * function: NET_PARTY_COMMAND_Init
  * address: 0x021DC888
  * packet: pkt_ov134_021DC888
  * region: ov134
@@ -12,9 +12,9 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
- *   func_021DCB48 0x021DCB48 thumb ov134
- *   func_021DCC48 0x021DCC48 thumb ov134
- *   tbl_021DCC9C 0x021DCC9C data a4
+ *   NET_PARTY_COMMAND_BuildPartyList 0x021DCB48 thumb ov134
+ *   NET_PARTY_COMMAND_BuildStatusParam 0x021DCC48 thumb ov134
+ *   sNetPartyCommandTable 0x021DCC9C data a4
  *   g_02FFFC3C 0x02FFFC3C data a4
  */
 #include "../include/Obj05411.h"
@@ -27,11 +27,11 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
 extern void *PROCSYS_Create(int a0);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void func_021DCB48(const Args *, void *, void *);
-extern void func_021DCC48(u8 *p, void *unused, u8 *out);
-extern const u32 tbl_021DCC9C[];
+extern void NET_PARTY_COMMAND_BuildPartyList(const Args *, void *, void *);
+extern void NET_PARTY_COMMAND_BuildStatusParam(u8 *p, void *unused, u8 *out);
+extern const u32 sNetPartyCommandTable[];
 extern u32 g_02FFFC3C;
-int func_021DC888(void *ctx, int unused, const Args *args)
+int NET_PARTY_COMMAND_Init(void *ctx, int unused, const Args *args)
 {
     u8 *p;
     p = PROCSYS_AllocProcWork(ctx, 0x100, 4);
@@ -39,9 +39,9 @@ int func_021DC888(void *ctx, int unused, const Args *args)
     *(Args *)(p + 0xd0) = *args;
     ((struct Obj05411 *)p)->fFC = 4;
     ((struct Obj05411 *)p)->fCC = PROCSYS_Create(((struct Obj05411 *)p)->fFC);
-    GFL_NET_COMMAND_AddCommandTable(0x2f00, (u32)tbl_021DCC9C, 1, (u32)p);
-    func_021DCB48(args, p, p + 4);
-    func_021DCC48((u8 *)args, p, p + 0x9c);
+    GFL_NET_COMMAND_AddCommandTable(0x2f00, (u32)sNetPartyCommandTable, 1, (u32)p);
+    NET_PARTY_COMMAND_BuildPartyList(args, p, p + 4);
+    NET_PARTY_COMMAND_BuildStatusParam((u8 *)args, p, p + 0x9c);
     p[0xc4] = 0;
     ((struct Obj05411 *)p)->fC8 = g_02FFFC3C;
     ((struct Obj05411 *)p)->f0 = 0;

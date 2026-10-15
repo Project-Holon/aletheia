@@ -17,7 +17,7 @@
  *   SCRIPT_WORK_GetMsgBuffer  0x02158F78  thumb  ov010
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
- *   func_0202A310  0x0202A310  thumb
+ *   TPOKE_DATA_ReadRecordString  0x0202A310  thumb
  *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
@@ -57,7 +57,7 @@ typedef unsigned char  u8;
 extern u32 SCRIPT_WORK_GetMsgBuffer(u8 *p);
 extern int SCRIPT_WORK_CheckFlag(int);
 extern u16 SCRCMD_WORK_GetHeapId(void *a0);
-extern void func_0202A310(int key, int want, void *dest, u32 heap);
+extern void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap);
 extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Q;
@@ -96,7 +96,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(void *a, int b)
     if (SCRIPT_WORK_CheckFlag(2) != 0) {
         return 1;
     }
-    func_0202A310(k0, k1, (void *)m, SCRCMD_WORK_GetHeapId((void *)b));
+    TPOKE_DATA_ReadRecordString(k0, k1, (void *)m, SCRCMD_WORK_GetHeapId((void *)b));
     if (FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), k2) == 0) {
         k2 = 0xff;
     }

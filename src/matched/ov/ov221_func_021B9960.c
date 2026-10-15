@@ -1,5 +1,5 @@
 /*
- * function: func_021B9960
+ * function: CHIHOU_ZUKAN_AWARD_Noop
  * address: 0x021B9960
  * packet: pkt_ov221_021B9960
  * region: ov221
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021B9960(char *p){}
+void CHIHOU_ZUKAN_AWARD_Noop(char *p){}

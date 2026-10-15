@@ -1,7 +1,7 @@
 /*
  * file:     gt2message.c
  * unit:     yes
- * function: gti2UShortFromBuffer, func_02195EA0, func_02195EB4, gti2ConnectionError, func_02195F5C, gti2ConnectionMemoryError, func_02195F9C, func_02196098, func_02196118, func_021961C8, func_02196268, func_02196348, gti2HandleAccept, gti2HandleReject, gti2HandleClose, func_02196558, gti2IncomingBufferMessageCompare, func_0219666C, func_0219681C, func_021968A0, gti2SetPendingAck, func_02196948, gti2HandleAck, func_02196B48, gti2HandlePing, func_02196C34, func_02196CC8, func_02196D00, func_02196DC4, func_021970BC, func_021971BC, gti2ReceiveMessages, gti2StoreOutgoingReliableMessageInfo, gti2BeginReliableMessage, gti2EndReliableMessage, gti2SendAppReliable, func_021975FC, func_02197678, func_02197700, gti2SendAccept, gti2SendReject, gti2SendClose, gti2SendKeepAlive, func_02197930, gti2SendAck, func_02197AD8, gti2SendPong, func_02197BB8, func_02197BD4, func_02197C5C, func_02197CE0
+ * function: gti2UShortFromBuffer, gti2UShortToBuffer, gti2SNDiff, gti2ConnectionError, gti2ConnectionCommunicationError, gti2ConnectionMemoryError, gti2HandleESN, gti2HandleAppUnreliable, gti2HandleAppReliable, gti2HandleClientChallenge, gti2HandleServerChallenge, gti2HandleClientResponse, gti2HandleAccept, gti2HandleReject, gti2HandleClose, gti2DeliverReliableMessage, gti2IncomingBufferMessageCompare, gti2BufferIncomingMessage, gti2RemoveHoldMessage, gti2DeliverHoldMessages, gti2SetPendingAck, gti2HandleReliableMessage, gti2HandleAck, gti2HandleNack, gti2HandlePing, gti2HandlePong, gti2HandleClosed, gti2HandleUnreliableMessage, gti2HandleMessage, gti2HandleConnectionReset, gti2HandleHostUnreachable, gti2ReceiveMessages, gti2StoreOutgoingReliableMessageInfo, gti2BeginReliableMessage, gti2EndReliableMessage, gti2SendAppReliable, gti2SendClientChallenge, gti2SendServerChallenge, gti2SendClientResponse, gti2SendAccept, gti2SendReject, gti2SendClose, gti2SendKeepAlive, gti2SendAppUnreliable, gti2SendAck, gti2SendNack, gti2SendPong, gti2SendClosed, gti2SendClosedOnSocket, gti2ResendMessage, gti2Send
  * address:  0x02195E80
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -42,14 +42,14 @@
  *   func_02195E80                      0x02195E80  arm ov009
  *   func_02196920                      0x02196920  arm ov009
  *   func_02195F70                      0x02195F70  arm ov009
- *   func_02197C5C                      0x02197C5C  arm ov009
+ *   gti2ResendMessage                      0x02197C5C  arm ov009
  *   func_02197BA4 0x02197BA4 arm
  *   func_020923F0  0x020923F0  arm
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   func_021951E8  0x021951E8  arm  ov009
- *   g_021A5940  0x021A5940  data
+ *   gGti2TimeKey  0x021A5940  data
  *   func_02196AF8  0x02196AF8  arm  ov009
- *   func_02196CC8  0x02196CC8  arm  ov009
+ *   gti2HandleClosed  0x02196CC8  arm  ov009
  *   func_02197D5C  0x02197D5C  arm  ov009
  *   func_02195408  0x02195408  arm  ov009
  *   func_021954F4  0x021954F4  arm  ov009
@@ -70,7 +70,7 @@
  *   gti2BufferWriteData                 0x02194E2C  arm  ov009
  *   gti2BufferWriteByte                 0x02194DE4  arm  ov009
  *   gti2BufferWriteUShort               0x02194DFC  arm  ov009
- *   d_021A5948                          0x021A5948  data ov009
+ *   gGti2PacketMagic                          0x021A5948  data ov009
  *   ArrayNth               0x02184208 arm
  *   gti2ConnectionSendData 0x02195750 arm
  *   func_02197458  0x02197458  arm  ov009
@@ -130,7 +130,7 @@ struct SOCSockAddrIn {
 extern void gti2ConnectionClosed(GTI2Connection *connection);
 extern int gti2ConnectedCallback(GTI2Connection *connection, int result, unsigned char *message, int len);
 extern int gti2ClosedCallback(GTI2Connection *connection, int reason);
-extern int gti2SendClosed(GTI2Connection *connection);
+extern int gti2SendClosed(int *connection);
 extern int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
 extern int gti2CheckResponse();
 extern u32 current_time(void);
@@ -146,14 +146,13 @@ extern unsigned char *func_02194B74(unsigned char *buffer);
 extern int func_02194D74(unsigned char *response1, unsigned char *response2);
 extern int func_02195340(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 extern int func_021950B4(GTI2Connection *c, unsigned char *msg, int len, int reliable);
-extern int func_02197C5C(GTI2Connection *c, GTI2OutgoingBufferMessage *message);
+extern int gti2ResendMessage(GTI2Connection *c, GTI2OutgoingBufferMessage *message);
 extern void func_0217EAE0(void *ptr);
 extern int func_02197BA4(GTI2Connection *connection, unsigned char *message, int len);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern unsigned int func_0217F264(void);
 extern int func_021951E8(GTI2Connection *c, int latency);
 extern int func_02196AF8(GTI2Connection *c, unsigned char *msg, int len);
-extern int func_02196CC8(GTI2Connection *c);
+extern int gti2HandleClosed(GTI2Connection *c);
 extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int func_02195408(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
@@ -188,64 +187,58 @@ extern int gti2ConnectionSendData(GTI2Connection *connection,
                                   unsigned char *message, int len);
 extern int func_02197458(GTI2Connection *c, int type, int len, int *overflow);
 extern int func_0219754C(GTI2Connection *c);
-extern int memcmp();
 extern void gti2BufferShorten();
-extern void gti2UShortToBuffer(unsigned char *buffer, int pos, unsigned short s);
+extern void gti2UShortToBuffer(char *buffer, int pos, int s);
 extern int func_02195750(GTI2Connection *c, unsigned char *message, int len);
 extern int func_02198328(GTI2Socket *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
 extern void func_02197594(int a, int b, int c);
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos);
-void func_02195EA0(char *p, int i, int v);
-s16 func_02195EB4(unsigned short a, unsigned short b);
+s16 gti2SNDiff(unsigned short a, unsigned short b);
 int gti2ConnectionError(GTI2Connection *connection, GT2Result result, GT2CloseReason reason);
-int func_02195F5C(GTI2Connection *connection);
+int gti2ConnectionCommunicationError(GTI2Connection *connection);
 int gti2ConnectionMemoryError(GTI2Connection *connection);
-int func_02195F9C(GTI2Connection *connection, unsigned short ESN);
-int func_02196098(GTI2Connection *c, unsigned char *msg, int len);
-int func_02196118(GTI2Connection *c, unsigned char *message, int len);
-int func_021961C8(GTI2Connection *c, unsigned char *message, int len);
-int func_02196268(GTI2Connection *connection, unsigned char *message, int len);
-int func_02196348(GTI2Connection *connection, unsigned char *message, int len);
+int gti2HandleESN(GTI2Connection *connection, unsigned short ESN);
+int gti2HandleAppUnreliable(GTI2Connection *c, unsigned char *msg, int len);
+int gti2HandleAppReliable(GTI2Connection *c, unsigned char *message, int len);
+int gti2HandleClientChallenge(GTI2Connection *c, unsigned char *message, int len);
+int gti2HandleServerChallenge(GTI2Connection *connection, unsigned char *message, int len);
+int gti2HandleClientResponse(GTI2Connection *connection, unsigned char *message, int len);
 int gti2HandleAccept(GTI2Connection *connection);
 int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len);
 int gti2HandleClose(GTI2Connection *connection);
-int func_02196558(GTI2Connection *connection, int type, unsigned char *message, int len);
+int gti2DeliverReliableMessage(GTI2Connection *connection, int type, unsigned char *message, int len);
 int gti2IncomingBufferMessageCompare(void *elem1, void *elem2);
-int func_0219666C(GTI2Connection *connection, int type, unsigned short SN, unsigned char *message, int len, int *overflow);
-void func_0219681C(GTI2Connection *c, struct GTI2IncomingBufferMessage *message, int index);
-int func_021968A0(GTI2Connection *c);
+int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned short SN, unsigned char *message, int len, int *overflow);
+void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *message, int index);
+int gti2DeliverHoldMessages(GTI2Connection *c);
 void gti2SetPendingAck(GTI2Connection *connection);
-int func_02196948(GTI2Connection *connection, int type, unsigned char *message, int len);
+int gti2HandleReliableMessage(GTI2Connection *connection, int type, unsigned char *message, int len);
 int gti2HandleAck(GTI2Connection *connection, unsigned char *message, int len);
-int func_02196B48(GTI2Connection *connection, unsigned char *message, int len);
+int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len);
 int gti2HandlePing(GTI2Connection *connection, unsigned char *message, int len);
-int func_02196C34(GTI2Connection *c, unsigned char *message, int len);
-int func_02196D00(GTI2Connection *c, int type, unsigned char *message, int len);
-int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned int ip, unsigned short port);
-int func_021970BC(GTI2Socket *socket, u32 ip, u16 port);
-int func_021971BC(GTI2Socket *sock, unsigned int ip, unsigned short port, int send);
+int gti2HandlePong(GTI2Connection *c, unsigned char *message, int len);
+int gti2HandleUnreliableMessage(GTI2Connection *c, int type, unsigned char *message, int len);
 int gti2ReceiveMessages(GTI2Socket *socket);
 int gti2SendAppReliable(GTI2Connection * connection, unsigned char * message, int len);
 int gti2SendClientChallenge(GTI2Connection * connection, char * challenge);
-int func_02197678(GTI2Connection *c, char *response, char *challenge);
-int func_02197700(GTI2Connection *c, char *response, char *message, int len);
+int gti2SendServerChallenge(GTI2Connection *c, char *response, char *challenge);
+int gti2SendClientResponse(GTI2Connection *c, char *response, char *message, int len);
 int gti2SendAccept(GTI2Connection *connection);
 int gti2SendReject(GTI2Connection *connection, unsigned char *message, int len);
 int gti2SendClose(GTI2Connection *connection);
 int gti2SendKeepAlive(GTI2Connection *connection);
-int func_02197930(GTI2Connection *connection, u8 *message, int len);
+int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len);
 int gti2SendAck(GTI2Connection *connection);
-int func_02197AD8(GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax);
+int gti2SendNack(GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax);
 int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len);
-int func_02197BB8(int *p);
-int func_02197BD4(GTI2Socket *sock, unsigned int ip, unsigned short port);
-int gti2ResendMessage(GTI2Connection *connection, GTI2OutgoingBufferMessage *message);
-void func_02197CE0(int a, int b, int c, int d);
-extern unsigned char g_021A5940[];
+int gti2SendClosedOnSocket(GTI2Socket *sock, unsigned int ip, unsigned short port);
+void gti2Send(int a, int b, int c, int d);
+extern unsigned char gGti2TimeKey[];
 extern const char g_021A5948[];
-extern unsigned char d_021A5948[];
+extern unsigned char gGti2PacketMagic[];
 
 
+extern int memcmp();
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos)
 {
     unsigned short s;
@@ -258,7 +251,7 @@ unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos)
 /*
  * Stores a word big-endian at p[i].
  */
-void func_02195EA0(char *p, int i, int v)
+void gti2UShortToBuffer(char *p, int i, int v)
 {
     p[i] = (char)(v >> 8);
     p[i + 1] = (char)v;
@@ -269,7 +262,7 @@ void func_02195EA0(char *p, int i, int v)
 /*
  * Halfword difference, sign extended.
  */
-s16 func_02195EB4(unsigned short a, unsigned short b)
+s16 gti2SNDiff(unsigned short a, unsigned short b)
 {
     return (s16)(a - b);
 }
@@ -310,7 +303,7 @@ ret1:
 /*
  * Tail call with the constant argument pair (7, 2).
  */
-int func_02195F5C(GTI2Connection *connection)
+int gti2ConnectionCommunicationError(GTI2Connection *connection)
 {
     return gti2ConnectionError(connection, 7, 2);
 }
@@ -319,7 +312,7 @@ int func_02195F5C(GTI2Connection *connection)
 
 int gti2ConnectionMemoryError(GTI2Connection *connection)
 {
-    if (gti2SendClosed(connection) == 0)
+    if (gti2SendClosed((int *)connection) == 0)
         return 0;
     return gti2ConnectionError(connection, 1, 4);
 }
@@ -327,9 +320,9 @@ int gti2ConnectionMemoryError(GTI2Connection *connection)
 
 
 /*
- * sdk:      func_02195F9C (libdwcgsgt2.TWL.HYB.a(gt2message.o))
+ * sdk:      gti2HandleESN (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02195F9C(GTI2Connection *connection, unsigned short ESN)
+int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 {
 	int len;
 	int i;
@@ -341,7 +334,7 @@ int func_02195F9C(GTI2Connection *connection, unsigned short ESN)
 		return 1;
 	for (i = 0; i < len; i++) {
 		message = func_02184208(connection->outgoingBufferMessages, i);
-		if (func_02195EB4(message->SN, ESN) >= 0)
+		if (gti2SNDiff(message->SN, ESN) >= 0)
 			break;
 	}
 	if (i == 0)
@@ -370,7 +363,7 @@ int func_02195F9C(GTI2Connection *connection, unsigned short ESN)
 /*
  * sdk:      gti2HandleAppUnreliable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196098(GTI2Connection *c, unsigned char *msg, int len)
+int gti2HandleAppUnreliable(GTI2Connection *c, unsigned char *msg, int len)
 {
 	int ret;
 
@@ -393,14 +386,14 @@ int func_02196098(GTI2Connection *c, unsigned char *msg, int len)
 
 
 /*
- * sdk:      func_02196118 (libdwcgsgt2.TWL.HYB.a(gt2message.o))
+ * sdk:      gti2HandleAppReliable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196118(GTI2Connection *c, unsigned char *message, int len)
+int gti2HandleAppReliable(GTI2Connection *c, unsigned char *message, int len)
 {
 	int ret;
 
 	if (c->state != 5 && c->state != 6) {
-		if (!func_02195F5C(c))
+		if (!gti2ConnectionCommunicationError(c))
 			return 0;
 	} else if (func_02184200(c->receiveFilters)) {
 		ret = 1;
@@ -418,27 +411,27 @@ int func_02196118(GTI2Connection *c, unsigned char *message, int len)
 
 
 /*
- * sdk:      func_021961C8 (libdwcgsgt2.TWL.HYB.a(gt2message.o))
+ * sdk:      gti2HandleClientChallenge (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_021961C8(GTI2Connection *c, unsigned char *message, int len)
+int gti2HandleClientChallenge(GTI2Connection *c, unsigned char *message, int len)
 {
 	char response[32];
 	char challenge[32];
 
 	if (c->state != 2) {
-		if (func_02195F5C(c))
+		if (gti2ConnectionCommunicationError(c))
 			return 1;
 		return 0;
 	}
 	if (len < 0x20) {
-		if (func_02195F5C(c))
+		if (gti2ConnectionCommunicationError(c))
 			return 1;
 		return 0;
 	}
 	func_02194C6C((unsigned char *)response, message);
 	func_02194B74((unsigned char *)challenge);
 	func_02194C6C((unsigned char *)c->response, (unsigned char *)challenge);
-	if (!func_02197678(c, response, challenge))
+	if (!gti2SendServerChallenge(c, response, challenge))
 		return 0;
 	c->state = 3;
 	return 1;
@@ -449,29 +442,29 @@ int func_021961C8(GTI2Connection *c, unsigned char *message, int len)
 
 
 /*
- * sdk:      func_02196268 (libdwcgsgt2.TWL.HYB.a(gt2message.o))
+ * sdk:      gti2HandleServerChallenge (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196268(GTI2Connection *connection, unsigned char *message, int len)
+int gti2HandleServerChallenge(GTI2Connection *connection, unsigned char *message, int len)
 {
 	char response[32];
 
 	if (connection->state != 0) {
-		if (func_02195F5C(connection))
+		if (gti2ConnectionCommunicationError(connection))
 			return 1;
 		return 0;
 	}
 	if (len < 0x40) {
-		if (func_02195F5C(connection))
+		if (gti2ConnectionCommunicationError(connection))
 			return 1;
 		return 0;
 	}
 	if (!func_02194D74(message, (unsigned char *)connection->response)) {
-		if (func_02195F5C(connection))
+		if (gti2ConnectionCommunicationError(connection))
 			return 1;
 		return 0;
 	}
 	func_02194C6C((unsigned char *)response, message + 0x20);
-	if (!func_02197700(connection, response, connection->initialMessage, connection->initialMessageLen))
+	if (!gti2SendClientResponse(connection, response, connection->initialMessage, connection->initialMessageLen))
 		return 0;
 	if (connection->initialMessage != 0) {
 		func_0217EAE0(connection->initialMessage);
@@ -486,21 +479,21 @@ int func_02196268(GTI2Connection *connection, unsigned char *message, int len)
 
 
 /*
- * sdk:      func_02196348 (libdwcgsgt2.TWL.HYB.a(gt2message.o))
+ * sdk:      gti2HandleClientResponse (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196348(GTI2Connection *connection, unsigned char *message, int len)
+int gti2HandleClientResponse(GTI2Connection *connection, unsigned char *message, int len)
 {
     int latency;
 
     if (connection->state != 3)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
     if (len < 32)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
     if (!gti2CheckResponse(message, connection->response))
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
     if (connection->socket->connectAttemptCallback == 0)
     {
-        if (!gti2SendClosed(connection))
+        if (!gti2SendClosed((int *)connection))
             return 0;
         gti2ConnectionClosed(connection);
         return 1;
@@ -515,7 +508,7 @@ int func_02196348(GTI2Connection *connection, unsigned char *message, int len)
 int gti2HandleAccept(GTI2Connection *connection)
 {
     if (connection->state != 1)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
     connection->state = 5;
     return gti2ConnectedCallback(connection, 0, 0, 0) != 0;
 }
@@ -525,9 +518,9 @@ int gti2HandleAccept(GTI2Connection *connection)
 int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len)
 {
     if (connection->state != 1)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
     gti2ConnectionClosed(connection);
-    if (!gti2SendClosed(connection))
+    if (!gti2SendClosed((int *)connection))
         return 0;
     if (gti2ConnectedCallback(connection, 2, message, len))
         return 1;
@@ -538,7 +531,7 @@ int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len
 
 int gti2HandleClose(GTI2Connection *connection)
 {
-    if (!gti2SendClosed(connection))
+    if (!gti2SendClosed((int *)connection))
         return 0;
     if (!gti2ConnectionError(connection, GT2Rejected,
                              (connection->state == 6) ? GT2LocalClose : GT2RemoteClose))
@@ -548,27 +541,27 @@ int gti2HandleClose(GTI2Connection *connection)
 
 
 
-int func_02196558(GTI2Connection *connection, int type, unsigned char *message, int len)
+int gti2DeliverReliableMessage(GTI2Connection *connection, int type, unsigned char *message, int len)
 {
     connection->expectedSerialNumber++;
     if (type == 0)
     {
-        if (!func_02196118(connection, message, len))
+        if (!gti2HandleAppReliable(connection, message, len))
             return 0;
     }
     else if (type == 1)
     {
-        if (!func_021961C8(connection, message, len))
+        if (!gti2HandleClientChallenge(connection, message, len))
             return 0;
     }
     else if (type == 2)
     {
-        if (!func_02196268(connection, message, len))
+        if (!gti2HandleServerChallenge(connection, message, len))
             return 0;
     }
     else if (type == 3)
     {
-        if (!func_02196348(connection, message, len))
+        if (!gti2HandleClientResponse(connection, message, len))
             return 0;
     }
     else if (type == 4)
@@ -593,7 +586,7 @@ int func_02196558(GTI2Connection *connection, int type, unsigned char *message, 
 
 int gti2IncomingBufferMessageCompare(void *elem1, void *elem2)
 {
-    return func_02195EB4(((struct GTI2IncomingBufferMessage *)elem1)->serialNumber, ((struct GTI2IncomingBufferMessage *)elem2)->serialNumber);
+    return gti2SNDiff(((struct GTI2IncomingBufferMessage *)elem1)->serialNumber, ((struct GTI2IncomingBufferMessage *)elem2)->serialNumber);
 }
 
 
@@ -601,7 +594,7 @@ int gti2IncomingBufferMessageCompare(void *elem1, void *elem2)
 /*
  * sdk:      gti2BufferIncomingMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
  */
-int func_0219666C(GTI2Connection *connection, int type, unsigned short SN,
+int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned short SN,
                   unsigned char *message, int len, int *overflow)
 {
     struct GTI2IncomingBufferMessage messageInfo;
@@ -619,7 +612,7 @@ int func_0219666C(GTI2Connection *connection, int type, unsigned short SN,
             *overflow = 0;
             return 1;
         }
-        if (func_02195EB4(bufferedMessage->serialNumber, SN) > 0)
+        if (gti2SNDiff(bufferedMessage->serialNumber, SN) > 0)
             break;
     }
 
@@ -642,15 +635,15 @@ int func_0219666C(GTI2Connection *connection, int type, unsigned short SN,
     func_02194E2C(&connection->incomingBuffer, message, len);
 
     if (num == 0) {
-        if (!func_02197AD8(connection, connection->expectedSerialNumber, (unsigned short)(SN - 1)))
+        if (!gti2SendNack(connection, connection->expectedSerialNumber, (unsigned short)(SN - 1)))
             return 0;
     } else {
         msg = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, num);
         if (msg->serialNumber == SN) {
             prev = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, num - 1);
-            diff = (unsigned short)func_02195EB4(SN, prev->serialNumber);
+            diff = (unsigned short)gti2SNDiff(SN, prev->serialNumber);
             if (diff > 1) {
-                if (!func_02197AD8(connection, (unsigned short)(prev->serialNumber + 1), (unsigned short)(SN - 1)))
+                if (!gti2SendNack(connection, (unsigned short)(prev->serialNumber + 1), (unsigned short)(SN - 1)))
                     return 0;
             }
         }
@@ -668,7 +661,7 @@ int func_0219666C(GTI2Connection *connection, int type, unsigned short SN,
 /*
  * sdk:      gti2RemoveHoldMessage (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-void func_0219681C(GTI2Connection *c, struct GTI2IncomingBufferMessage *message, int index)
+void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *message, int index)
 {
 	int moveAfter;
 	int shortenBy;
@@ -701,7 +694,7 @@ void func_0219681C(GTI2Connection *c, struct GTI2IncomingBufferMessage *message,
 /*
  * sdk:      gti2DeliverHoldMessages (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_021968A0(GTI2Connection *c)
+int gti2DeliverHoldMessages(GTI2Connection *c)
 {
 	int i;
 	struct GTI2IncomingBufferMessage *m;
@@ -710,9 +703,9 @@ again:
 	for (i = func_02184200(c->incomingBufferMessages) - 1; i >= 0; i--) {
 		m = (struct GTI2IncomingBufferMessage *)func_02184208(c->incomingBufferMessages, i);
 		if (m->serialNumber == c->expectedSerialNumber) {
-			if (!func_02196558(c, m->type, c->incomingBuffer.buffer + m->start, m->len))
+			if (!gti2DeliverReliableMessage(c, m->type, c->incomingBuffer.buffer + m->start, m->len))
 				return 0;
-			func_0219681C(c, m, i);
+			gti2RemoveHoldMessage(c, m, i);
 			goto again;
 		}
 	}
@@ -738,7 +731,7 @@ void gti2SetPendingAck(GTI2Connection *connection)
 /*
  * sdk:      gti2HandleReliableMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
  */
-int func_02196948(GTI2Connection *connection, int type, unsigned char *message, int len)
+int gti2HandleReliableMessage(GTI2Connection *connection, int type, unsigned char *message, int len)
 {
     unsigned short SN;
     unsigned short ESN;
@@ -747,7 +740,7 @@ int func_02196948(GTI2Connection *connection, int type, unsigned char *message, 
 
     headerLength = connection->socket->protocolOffset + 7;
     if (len < headerLength)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
 
     SN = gti2UShortFromBuffer(message + connection->socket->protocolOffset, 3);
     ESN = gti2UShortFromBuffer(message + connection->socket->protocolOffset, 5);
@@ -762,24 +755,24 @@ int func_02196948(GTI2Connection *connection, int type, unsigned char *message, 
         len -= headerLength;
     }
 
-    if (!func_02195F9C(connection, ESN))
+    if (!gti2HandleESN(connection, ESN))
         return 0;
 
     if (SN == connection->expectedSerialNumber) {
         gti2SetPendingAck(connection);
-        if (!func_02196558(connection, type, message, len))
+        if (!gti2DeliverReliableMessage(connection, type, message, len))
             return 0;
-        if (!func_021968A0(connection))
+        if (!gti2DeliverHoldMessages(connection))
             return 0;
         return 1;
     }
 
-    if (func_02195EB4(SN, connection->expectedSerialNumber) < 0) {
+    if (gti2SNDiff(SN, connection->expectedSerialNumber) < 0) {
         gti2SetPendingAck(connection);
         return 1;
     }
 
-    if (!func_0219666C(connection, type, SN, message, len, &overflow))
+    if (!gti2BufferIncomingMessage(connection, type, SN, message, len, &overflow))
         return 0;
     if (overflow) {
         if (!gti2ConnectionMemoryError(connection))
@@ -796,9 +789,9 @@ int gti2HandleAck(GTI2Connection *connection, unsigned char *message, int len)
     unsigned short ESN;
 
     if (len != 2)
-        return func_02195F5C(connection) != 0;
+        return gti2ConnectionCommunicationError(connection) != 0;
     ESN = gti2UShortFromBuffer(message, 0);
-    return func_02195F9C(connection, ESN) != 0;
+    return gti2HandleESN(connection, ESN) != 0;
 }
 
 
@@ -807,7 +800,7 @@ int gti2HandleAck(GTI2Connection *connection, unsigned char *message, int len)
 /*
  * sdk:      gti2HandleNack (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196B48(GTI2Connection *connection, unsigned char *message, int len)
+int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len)
 {
 	unsigned short SNMin;
 	unsigned short SNMax;
@@ -821,18 +814,18 @@ int func_02196B48(GTI2Connection *connection, unsigned char *message, int len)
 	else if (len == 4)
 		SNMax = gti2UShortFromBuffer(message, 2);
 	else {
-		if (func_02195F5C(connection))
+		if (gti2ConnectionCommunicationError(connection))
 			return 1;
 		return 0;
 	}
 	num = func_02184200(connection->outgoingBufferMessages);
 	for (i = 0; i < num; i++) {
 		messageInfo = func_02184208(connection->outgoingBufferMessages, i);
-		if (func_02195EB4(messageInfo->SN, SNMin) < 0)
+		if (gti2SNDiff(messageInfo->SN, SNMin) < 0)
 			continue;
-		if (func_02195EB4(messageInfo->SN, SNMax) > 0)
+		if (gti2SNDiff(messageInfo->SN, SNMax) > 0)
 			continue;
-		if (!func_02197C5C(connection, messageInfo))
+		if (!gti2ResendMessage(connection, messageInfo))
 			return 0;
 	}
 	return 1;
@@ -858,7 +851,7 @@ int gti2HandlePing(GTI2Connection *connection, unsigned char *message, int len)
 /*
  * sdk:      gti2HandlePong (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196C34(GTI2Connection *c, unsigned char *message, int len)
+int gti2HandlePong(GTI2Connection *c, unsigned char *message, int len)
 {
 	unsigned int startTime;
 	unsigned char *d;
@@ -867,14 +860,14 @@ int func_02196C34(GTI2Connection *c, unsigned char *message, int len)
 		return 1;
 	if (len != 8)
 		return 1;
-	if (func_020923F0(message, g_021A5940, 4))
+	if (func_020923F0(message, gGti2TimeKey, 4))
 		return 1;
 	d = (unsigned char *)&startTime;
 	d[0] = message[4];
 	d[1] = message[5];
 	d[2] = message[6];
 	d[3] = message[7];
-	if (!func_021951E8((GTI2Connection *)c, func_0217F264() - startTime))
+	if (!func_021951E8((GTI2Connection *)c, current_time() - startTime))
 		return 0;
 	return 1;
 }
@@ -918,7 +911,7 @@ static GT2Bool gti2HandleClosed(GTI2Connection *connection)
 /*
  * sdk:      gti2HandleUnreliableMessage (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02196D00(GTI2Connection *c, int type, unsigned char *message, int len)
+int gti2HandleUnreliableMessage(GTI2Connection *c, int type, unsigned char *message, int len)
 {
 	int headerLength;
 	unsigned char *dataStart;
@@ -931,16 +924,16 @@ int func_02196D00(GTI2Connection *c, int type, unsigned char *message, int len)
 		if (!func_02196AF8((GTI2Connection *)c, dataStart, dataLen))
 			return 0;
 	} else if (type == 0x65) {
-		if (!func_02196B48((GTI2Connection *)c, dataStart, dataLen))
+		if (!gti2HandleNack((GTI2Connection *)c, dataStart, dataLen))
 			return 0;
 	} else if (type == 0x66) {
 		if (!gti2HandlePing(c, message, len))
 			return 0;
 	} else if (type == 0x67) {
-		if (!func_02196C34((GTI2Connection *)c, dataStart, dataLen))
+		if (!gti2HandlePong((GTI2Connection *)c, dataStart, dataLen))
 			return 0;
 	} else if (type == 0x68) {
-		if (!func_02196CC8((GTI2Connection *)c))
+		if (!gti2HandleClosed((GTI2Connection *)c))
 			return 0;
 	}
 	return 1;
@@ -961,7 +954,7 @@ int func_02196D00(GTI2Connection *c, int type, unsigned char *message, int len)
 /*
  * sdk:      gti2HandleMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
  */
-int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned int ip, unsigned short port)
+int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsigned int ip, unsigned short port)
 {
     GTI2Connection *connection;
     int magicString;
@@ -991,7 +984,7 @@ int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned 
 
         if (!magicString || actualMessage[2] != 1) {
             if (!magicString || actualMessage[2] != 0x68) {
-                if (!func_02197BD4((GTI2Socket *)socket, ip, port))
+                if (!gti2SendClosedOnSocket((GTI2Socket *)socket, ip, port))
                     return 0;
             }
             return 1;
@@ -1001,7 +994,7 @@ int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned 
         result = func_021955C0(socket, &connection, ip, port);
         if (result != 0) {
             if (result != 5) {
-                if (!func_02197BD4((GTI2Socket *)socket, ip, port))
+                if (!gti2SendClosedOnSocket((GTI2Socket *)socket, ip, port))
                     return 0;
             }
             return 1;
@@ -1010,7 +1003,7 @@ int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned 
 
     if (connection->state == 7) {
         if (!magicString || actualMessage[2] != 0x68) {
-            if (!func_02197BB8((int *)connection))
+            if (!gti2SendClosed((int *)connection))
                 return 0;
         }
         return 1;
@@ -1030,7 +1023,7 @@ int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned 
             if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
                 return 0;
         } else {
-            if (!func_02196098((GTI2Connection *)connection, message, len))
+            if (!gti2HandleAppUnreliable((GTI2Connection *)connection, message, len))
                 return 0;
         }
         return 1;
@@ -1038,8 +1031,8 @@ int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned 
 
     type = actualMessage[2];
     if (type < 8)
-        return func_02196948(connection, type, message, len) != 0;
-    if (!func_02196D00((GTI2Connection *)((GTI2Connection *)connection), type, message, len))
+        return gti2HandleReliableMessage(connection, type, message, len) != 0;
+    if (!gti2HandleUnreliableMessage((GTI2Connection *)((GTI2Connection *)connection), type, message, len))
         return 0;
     return 1;
 }
@@ -1058,7 +1051,7 @@ int func_02196DC4(GTI2Socket *socket, unsigned char *message, int len, unsigned 
 /*
  * sdk:      gti2HandleConnectionReset (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_021970BC(GTI2Socket *socket, u32 ip, u16 port)
+int gti2HandleConnectionReset(GTI2Socket *socket, u32 ip, u16 port)
 {
     GTI2Connection *connection;
 
@@ -1099,7 +1092,7 @@ int func_021970BC(GTI2Socket *socket, u32 ip, u16 port)
 /*
  * sdk:      gti2HandleHostUnreachable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_021971BC(GTI2Socket *sock, unsigned int ip, unsigned short port, int send)
+int gti2HandleHostUnreachable(GTI2Socket *sock, unsigned int ip, unsigned short port, int send)
 {
 	GTI2Connection *c;
 
@@ -1220,7 +1213,7 @@ static int gti2BeginReliableMessage(GTI2Connection *connection,
         gti2BufferWriteData(&connection->outgoingBuffer,
                             (unsigned char *)&vdpDataLength,
                             connection->socket->protocolOffset);
-    gti2BufferWriteData(&connection->outgoingBuffer, d_021A5948, 2);
+    gti2BufferWriteData(&connection->outgoingBuffer, gGti2PacketMagic, 2);
     gti2BufferWriteByte(&connection->outgoingBuffer, (unsigned char)type);
     gti2BufferWriteUShort(&connection->outgoingBuffer, connection->serialNumber++);
     gti2BufferWriteUShort(&connection->outgoingBuffer, connection->expectedSerialNumber);
@@ -1306,7 +1299,7 @@ int gti2SendClientChallenge(GTI2Connection * connection, char * challenge)
 /*
  * sdk:      gti2SendServerChallenge (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02197678(GTI2Connection *c, char *response, char *challenge)
+int gti2SendServerChallenge(GTI2Connection *c, char *response, char *challenge)
 {
 	int overflow;
 
@@ -1329,7 +1322,7 @@ int func_02197678(GTI2Connection *c, char *response, char *challenge)
 
 
 
-int func_02197700(GTI2Connection *c, char *response, char *message, int len)
+int gti2SendClientResponse(GTI2Connection *c, char *response, char *message, int len)
 {
 	int overflow;
 
@@ -1424,13 +1417,13 @@ int gti2SendKeepAlive(GTI2Connection *connection)
 
 
 
-int func_02197930(GTI2Connection *connection, u8 *message, int len)
+int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
 {
     u8 *start;
     int totalLen;
     int freeSpace;
 
-    if (len < 2 || memcmp(message + connection->socket->protocolOffset, d_021A5948, 2) != 0)
+    if (len < 2 || memcmp(message + connection->socket->protocolOffset, gGti2PacketMagic, 2) != 0)
     {
         if (!gti2ConnectionSendData(connection, message, len))
             return 0;
@@ -1443,7 +1436,7 @@ int func_02197930(GTI2Connection *connection, u8 *message, int len)
     start = connection->outgoingBuffer.buffer + connection->outgoingBuffer.len;
     if (connection->socket->protocolType == 2)
         gti2BufferWriteData(&connection->outgoingBuffer, message, 2);
-    gti2BufferWriteData(&connection->outgoingBuffer, d_021A5948, 2);
+    gti2BufferWriteData(&connection->outgoingBuffer, gGti2PacketMagic, 2);
     gti2BufferWriteData(&connection->outgoingBuffer, message + connection->socket->protocolOffset, len - connection->socket->protocolOffset);
     if (!gti2ConnectionSendData(connection, start, totalLen))
         return 0;
@@ -1477,7 +1470,7 @@ int gti2SendAck(GTI2Connection *connection)
         pos += 2;
     }
     {
-        unsigned char *s = d_021A5948;
+        unsigned char *s = gGti2PacketMagic;
         unsigned char *d = (unsigned char *)buffer + pos;
         d[0] = s[0];
         d[1] = s[1];
@@ -1485,7 +1478,7 @@ int gti2SendAck(GTI2Connection *connection)
     }
     buffer[pos] = 100;
     pos += 1;
-    gti2UShortToBuffer((unsigned char *)buffer, pos, connection->expectedSerialNumber);
+    gti2UShortToBuffer((char *)buffer, pos, connection->expectedSerialNumber);
     pos += 2;
     if (gti2ConnectionSendData(connection, (unsigned char *)buffer, pos))
     {
@@ -1505,7 +1498,7 @@ int gti2SendAck(GTI2Connection *connection)
 /*
  * sdk:      gti2SendNack (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
-int func_02197AD8(GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax)
+int gti2SendNack(GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax)
 {
 	char buffer[9];
 	int pos = 0;
@@ -1520,10 +1513,10 @@ int func_02197AD8(GTI2Connection *connection, unsigned short SNMin, unsigned sho
 	pos += 2;
 	buffer[pos] = 0x65;
 	pos++;
-	func_02195EA0(buffer, pos, SNMin);
+	gti2UShortToBuffer(buffer, pos, SNMin);
 	pos += 2;
 	if (SNMin != SNMax) {
-		func_02195EA0(buffer, pos, SNMax);
+		gti2UShortToBuffer(buffer, pos, SNMax);
 		pos += 2;
 	}
 	if (!func_02195750(connection, (unsigned char *)buffer, pos))
@@ -1551,9 +1544,9 @@ int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len)
 /*
  * Tail call on three fields of the object.
  */
-int func_02197BB8(int *p)
+int gti2SendClosed(int *p)
 {
-    return func_02197BD4((GTI2Socket *)p[2], p[0], *(unsigned short *)((char *)p + 4));
+    return gti2SendClosedOnSocket((GTI2Socket *)p[2], p[0], *(unsigned short *)((char *)p + 4));
 }
 
 
@@ -1567,7 +1560,7 @@ int func_02197BB8(int *p)
  * ldrb/strb pairs with the object's register roles); the magic source is the
  * string literal "\xFE\xFE", the vendor template @14988 at 0x021A5948.
  */
-int func_02197BD4(GTI2Socket *sock, unsigned int ip, unsigned short port)
+int gti2SendClosedOnSocket(GTI2Socket *sock, unsigned int ip, unsigned short port)
 {
 	char buffer[5];
 	int pos = 0;
@@ -1593,7 +1586,7 @@ int func_02197BD4(GTI2Socket *sock, unsigned int ip, unsigned short port)
 int gti2ResendMessage(GTI2Connection *connection,
                       GTI2OutgoingBufferMessage *message)
 {
-    gti2UShortToBuffer(connection->outgoingBuffer.buffer,
+    gti2UShortToBuffer((char *)connection->outgoingBuffer.buffer,
                        message->offset + connection->socket->protocolOffset + 5,
                        connection->expectedSerialNumber);
     if (gti2ConnectionSendData(connection,
@@ -1613,11 +1606,11 @@ int gti2ResendMessage(GTI2Connection *connection,
 /*
  * Dispatches on the fourth argument.
  */
-void func_02197CE0(int a, int b, int c, int d)
+void gti2Send(int a, int b, int c, int d)
 {
     if (d != 0) {
         func_02197594(a, b, c);
     } else {
-        func_02197930((GTI2Connection *)a, (u8 *)b, c);
+        gti2SendAppUnreliable((GTI2Connection *)a, (u8 *)b, c);
     }
 }

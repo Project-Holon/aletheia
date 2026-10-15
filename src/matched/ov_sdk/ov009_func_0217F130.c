@@ -1,5 +1,5 @@
 /*
- * function: func_0217F130
+ * function: gsiInt64ToString
  * address:  0x0217F130
  * packet:   pkt_ov009_0217F130
  * region:   ov009
@@ -13,13 +13,13 @@
  *
  * symbols:
  *   OS_SPrintf                  0x02084F40  arm
- *   g_021A3834                     0x021A3834  data
+ *   gGsInt64Format                     0x021A3834  data
  */
 
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern char g_021A3834[];
+extern char gGsInt64Format[];
 
-void func_0217F130(char *theNumberStr, long long theNumber)
+void gsiInt64ToString(char *theNumberStr, long long theNumber)
 {
-    OS_SPrintf(theNumberStr, g_021A3834, theNumber);
+    OS_SPrintf(theNumberStr, gGsInt64Format, theNumber);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0207DD4C
+ * function: G3X_InitTable
  * address:  0x0207DD4C
  * packet:   pkt_0207DD4C
  * region:   arm9
@@ -86,7 +86,7 @@ extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 
 #define reg_G3_SHININESS (*(vu32 *)0x040004D0)
 
-void func_0207DD4C(void)
+void G3X_InitTable(void)
 {
     int i;
 

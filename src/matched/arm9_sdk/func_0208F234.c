@@ -1,5 +1,5 @@
 /*
- * function: func_0208F234
+ * function: WMi_EnableEx
  * address:  0x0208F234
  * packet:   pkt_0208F234
  * region:   arm9
@@ -65,7 +65,7 @@ extern void WMi_RegisterSleepCallback(void);
 extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F234(WMCallbackFunc callback, u32 miscFlags)
+WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags)
 {
     WMErrCode result;
     WMArm9Buf *p;

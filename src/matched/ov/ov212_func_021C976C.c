@@ -1,5 +1,5 @@
 /*
- * function: func_021C976C
+ * function: ZUKAN_SEARCH_ENGINE_LoadSpeciesIds
  * address: 0x021C976C
  * packet: pkt_ov212_021C976C
  * region: ov212
@@ -22,7 +22,7 @@ extern void release(void *);
 extern void *load(int,int,int,int,u32 *);
 extern u16 *names(int,u16 *);
 extern const char site[];
-u32 func_021C976C(u32 mode,int heap,u16 **out)
+u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out)
 {
     u16 *result;
     u16 *map;

@@ -11,7 +11,7 @@
  *   WORLDTRADE_UpdateTaskMenuList 0x021F4E30 thumb ov135
  *   WORLDTRADE_CloseTaskMenuList 0x021F4E64 thumb ov135
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_0200ADB4 0x0200ADB4 thumb
+ *   WORLDTRADE_NoOp 0x0200ADB4 thumb
  *   WORLDTRADE_BOX_IsSpeciesFlagged 0x021F6DE8 thumb ov135
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   WORLDTRADE_DETAIL_PrintMessage 0x021FC810 thumb ov135
@@ -24,7 +24,7 @@
 extern unsigned int WORLDTRADE_UpdateTaskMenuList(unsigned char *p);
 extern void WORLDTRADE_CloseTaskMenuList(unsigned char *p);
 extern unsigned int BMP_MENUWORK_Delete(void *p);
-extern void *func_0200ADB4(void *);
+extern void *WORLDTRADE_NoOp(void *);
 extern int WORLDTRADE_BOX_IsSpeciesFlagged(unsigned int handle);
 typedef unsigned int   u32;
 extern u32 POKEPARTY_GetCount(void *p);
@@ -41,7 +41,7 @@ int WORLDTRADE_DETAIL_StateMenuInput(char *p)
     if (r == 1) {
         WORLDTRADE_CloseTaskMenuList((unsigned char *)p);
         BMP_MENUWORK_Delete(((struct Obj00045 *)p)->fDE8);
-        q = func_0200ADB4(**(void ** *)&((struct Obj00045 *)p)->f0);
+        q = WORLDTRADE_NoOp(**(void ** *)&((struct Obj00045 *)p)->f0);
         if (WORLDTRADE_BOX_IsSpeciesFlagged((unsigned int)q) && POKEPARTY_GetCount(((struct Obj23409 *)(*(char * *)&((struct Obj00045 *)p)->f0))->f8) == 6) {
             WORLDTRADE_DETAIL_PrintMessage((u8 *)p, 0x2a, 1, 0, 0xf0f, q);
             WORLDTRADE_SetNextState((u8 *)p, 3, 1);

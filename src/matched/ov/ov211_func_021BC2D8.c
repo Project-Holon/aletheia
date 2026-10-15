@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2D8
+ * function: ZUKAN_SEARCH_SCREEN_VBlank
  * address: 0x021BC2D8
  * packet: pkt_ov211_021BC2D8
  * region: ov211
@@ -14,4 +14,4 @@
  * lever: the linker region symbol cast to unsigned keeps base and 0x3FF8 as separate pooled values; literal 02FE3FF8 was 24 bytes, 14 mismatches.
  */
 extern void func_020419E4(void);extern unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
-void func_021BC2D8(void){func_020419E4();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
+void ZUKAN_SEARCH_SCREEN_VBlank(void){func_020419E4();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}

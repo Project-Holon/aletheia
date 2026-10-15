@@ -37,6 +37,8 @@
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -130,14 +132,14 @@ extern void func_02087974(void);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
-extern void func_0208C848(u32*, u32);
+extern void PMi_InsertPreSleepCallbackEx(u32*, u32);
 extern void PMi_InsertPostExitCallbackEx(u32*, u32);
 extern void func_02084774(u32, TwlFn);
 extern void OS_EnableIrqMask(u32);
 extern void OS_InitMessageQueue(u32*, u32*, u32);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
 extern void OS_WakeupThreadDirect(u32*);
-extern void func_0208C86C(u32*);
+extern void PM_DeletePreSleepCallback(u32*);
 extern void PM_DeletePostExitCallback(u32*);
 extern void OS_DisableIrqMask(u32);
 extern void OS_KillThread(u32*, u32);
@@ -566,7 +568,7 @@ u32 CAMERA_InitCore(void) {
     CAMERA_ClearBufferCore();
     data_02732FC8.f30 = CameraStandbyCallback;
     data_02732FC8.f34 = 0;
-    func_0208C848(data_02732FF8, 0x3FC);
+    PMi_InsertPreSleepCallbackEx(data_02732FF8, 0x3FC);
     data_02732FC8.f40 = CameraStandbyCallback;
     data_02732FC8.f44 = 0;
     PMi_InsertPostExitCallbackEx(data_02733008, 0x3FC);
@@ -615,7 +617,7 @@ u32 CAMERA_InitCore(void) {
 void CAMERA_EndCore(void) {
     if (data_02732FC0[0] == 0) return;
     data_02732FC0[0] = 0;
-    func_0208C86C(data_02732FF8);
+    PM_DeletePreSleepCallback(data_02732FF8);
     PM_DeletePostExitCallback(data_02733008);
     CAMERA_I2CActivateCore(0);
     CAMERA_ResetCore();

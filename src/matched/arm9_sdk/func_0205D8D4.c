@@ -1,5 +1,5 @@
 /*
- * function: func_0205D8D4
+ * function: CheckDifferChannelStart
  * address:  0x0205D8D4
  * packet:   pkt_0205D8D4
  * region:   arm9
@@ -127,7 +127,7 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-unsigned char func_0205D8D4(ACWORK *wk)
+unsigned char CheckDifferChannelStart(ACWORK *wk)
 {
     unsigned char i;
     unsigned char no = 0;

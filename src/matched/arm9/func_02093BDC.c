@@ -1,5 +1,5 @@
 /*
- * function: func_02093BDC
+ * function: __pformatter
  * address:  0x02093BDC
  * packet:   pkt_020929E8
  * region:   arm9
@@ -24,18 +24,18 @@
  *           ("") -- the NARROW empty string is at 0x020A8A74, not 0x70.
  *
  * symbols:
- *   func_020922CC  0x020922CC  arm
- *   func_020923C4  0x020923C4  arm
- *   func_020924DC  0x020924DC  arm
- *   func_020929E8  0x020929E8  arm
- *   func_02092C38  0x02092C38  arm
- *   func_02092F0C  0x02092F0C  arm
- *   func_020934CC  0x020934CC  arm
- *   func_0209477C  0x0209477C  arm
- *   func_02094750  0x02094750  arm
- *   func_02094A28  0x02094A28  arm
- *   s_020A8A70     0x020A8A70  data  a2
- *   s_020A8A74     0x020A8A74  data  a1
+ *   MSL_C_LIB_WideToNarrow  0x020922CC  arm
+ *   memchr  0x020923C4  arm
+ *   parse_format  0x020924DC  arm
+ *   long2str  0x020929E8  arm
+ *   longlong2str  0x02092C38  arm
+ *   double2hex  0x02092F0C  arm
+ *   float2str  0x020934CC  arm
+ *   strlen  0x0209477C  arm
+ *   MSL_C_LIB_CallExitHook  0x02094750  arm
+ *   strchr  0x02094A28  arm
+ *   sMslWideEmpty     0x020A8A70  data  a2
+ *   sMslNarrowEmpty     0x020A8A74  data  a1
  */
 typedef unsigned long size_t;
 typedef long ptrdiff_t;
@@ -57,23 +57,23 @@ typedef struct {
     int precision;
 } print_format;
 
-extern uchar *func_02094A28(const uchar *s, int c);                 /* strchr */
+extern uchar *strchr(const uchar *s, int c);                 /* strchr */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);                       /* strlen */
-extern const uchar *func_020924DC(const uchar *s, va_list *arg, print_format *f); /* parse_format */
-extern uchar *func_020929E8(long num, uchar *buff, print_format format);           /* long2str */
-extern uchar *func_02092C38(long long num, uchar *buff, print_format format);      /* longlong2str */
-extern uchar *func_020934CC(double num, uchar *buff, print_format format);         /* float2str */
-extern uchar *func_02092F0C(double num, uchar *buff, print_format format);         /* double2hex */
-extern void func_02094750(u32 a, u32 b, u32 c);               /* constraint violation */
-extern u32 func_020922CC(u8 *dst, const u16 *src, u32 max);               /* wcstombs */
-extern u8 *func_020923C4(u8 *s, u32 c, u32 n);                       /* memchr */
-extern wchar_t s_020A8A70[];  /* L"" */
-extern uchar s_020A8A74[];     /* ""  */
+extern int strlen(const u8 *s);                       /* strlen */
+extern const uchar *parse_format(const uchar *s, va_list *arg, print_format *f); /* parse_format */
+extern uchar *long2str(long num, uchar *buff, print_format format);           /* long2str */
+extern uchar *longlong2str(long long num, uchar *buff, print_format format);      /* longlong2str */
+extern uchar *float2str(double num, uchar *buff, print_format format);         /* float2str */
+extern uchar *double2hex(double num, uchar *buff, print_format format);         /* double2hex */
+extern void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c);               /* constraint violation */
+extern u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);               /* wcstombs */
+extern u8 *memchr(u8 *s, u32 c, u32 n);                       /* memchr */
+extern wchar_t sMslWideEmpty[];  /* L"" */
+extern uchar sMslNarrowEmpty[];     /* ""  */
 
-int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg,
+int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg,
                   const uchar *format_str, va_list arg, int is_secure)
 {
     int num_chars, chars_written, field_width;
@@ -92,8 +92,8 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
     chars_written = 0;
 
     while (*format_ptr) {
-        if (!(curr_format = func_02094A28(format_ptr, '%'))) {
-            num_chars = func_0209477C(format_ptr);
+        if (!(curr_format = strchr(format_ptr, '%'))) {
+            num_chars = strlen(format_ptr);
             chars_written += num_chars;
             if (num_chars && !(*WriteProc)(WriteProcArg, format_ptr, num_chars))
                 return -1;
@@ -106,7 +106,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
             return -1;
 
         format_ptr = curr_format;
-        format_ptr = func_020924DC(format_ptr, &arg, &format);
+        format_ptr = parse_format(format_ptr, &arg, &format);
 
         switch (format.conversion_char) {
         case 'd':
@@ -130,10 +130,10 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_num = (signed char)long_num;
 
             if (format.argument_options == 4 || format.argument_options == 6) {
-                if (!(buff_ptr = func_02092C38(long_long_num, buff + 512, format)))
+                if (!(buff_ptr = longlong2str(long_long_num, buff + 512, format)))
                     goto conversion_error;
             } else {
-                if (!(buff_ptr = func_020929E8(long_num, buff + 512, format)))
+                if (!(buff_ptr = long2str(long_num, buff + 512, format)))
                     goto conversion_error;
             }
             num_chars = buff + 512 - 1 - buff_ptr;
@@ -162,10 +162,10 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_num = (unsigned char)long_num;
 
             if (format.argument_options == 4 || format.argument_options == 6) {
-                if (!(buff_ptr = func_02092C38(long_long_num, buff + 512, format)))
+                if (!(buff_ptr = longlong2str(long_long_num, buff + 512, format)))
                     goto conversion_error;
             } else {
-                if (!(buff_ptr = func_020929E8(long_num, buff + 512, format)))
+                if (!(buff_ptr = long2str(long_num, buff + 512, format)))
                     goto conversion_error;
             }
             num_chars = buff + 512 - 1 - buff_ptr;
@@ -181,7 +181,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_double_num = va_arg(arg, long double);
             else
                 long_double_num = va_arg(arg, double);
-            if (!(buff_ptr = func_020934CC(long_double_num, buff + 512, format)))
+            if (!(buff_ptr = float2str(long_double_num, buff + 512, format)))
                 goto conversion_error;
             num_chars = buff + 512 - 1 - buff_ptr;
             break;
@@ -192,7 +192,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                 long_double_num = va_arg(arg, long double);
             else
                 long_double_num = va_arg(arg, double);
-            if (!(buff_ptr = func_02092F0C(long_double_num, buff + 512, format)))
+            if (!(buff_ptr = double2hex(long_double_num, buff + 512, format)))
                 goto conversion_error;
             num_chars = buff + 512 - 1 - buff_ptr;
             break;
@@ -201,23 +201,23 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
             if (format.argument_options == 5) {
                 wchar_t *wcs_ptr = va_arg(arg, wchar_t *);
                 if (is_secure && wcs_ptr == 0) {
-                    func_02094750(0, 0, -1);
+                    MSL_C_LIB_CallExitHook(0, 0, -1);
                     return -1;
                 }
                 if (wcs_ptr == 0)
-                    wcs_ptr = s_020A8A70;
-                if ((num_chars = func_020922CC(buff, wcs_ptr, sizeof(buff))) < 0)
+                    wcs_ptr = sMslWideEmpty;
+                if ((num_chars = MSL_C_LIB_WideToNarrow(buff, wcs_ptr, sizeof(buff))) < 0)
                     goto conversion_error;
                 buff_ptr = &buff[0];
             } else
                 buff_ptr = va_arg(arg, uchar *);
 
             if (is_secure && buff_ptr == 0) {
-                func_02094750(0, 0, -1);
+                MSL_C_LIB_CallExitHook(0, 0, -1);
                 return -1;
             }
             if (buff_ptr == 0)
-                buff_ptr = s_020A8A74;
+                buff_ptr = sMslNarrowEmpty;
 
             if (format.alternate_form) {
                 num_chars = (unsigned char)*buff_ptr++;
@@ -225,16 +225,16 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
                     num_chars = format.precision;
             } else if (format.precision_specified) {
                 num_chars = format.precision;
-                if ((string_end = (uchar *)func_020923C4(buff_ptr, 0, num_chars)) != 0)
+                if ((string_end = (uchar *)memchr(buff_ptr, 0, num_chars)) != 0)
                     num_chars = string_end - buff_ptr;
             } else
-                num_chars = func_0209477C(buff_ptr);
+                num_chars = strlen(buff_ptr);
             break;
 
         case 'n':
             buff_ptr = va_arg(arg, uchar *);
             if (is_secure) {
-                func_02094750(0, 0, -1);
+                MSL_C_LIB_CallExitHook(0, 0, -1);
                 return -1;
             }
             switch (format.argument_options) {
@@ -263,7 +263,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
         case 0xFF:
         default:
         conversion_error:
-            num_chars = func_0209477C(curr_format);
+            num_chars = strlen(curr_format);
             chars_written += num_chars;
             if (num_chars && !(*WriteProc)(WriteProcArg, curr_format, num_chars))
                 return -1;

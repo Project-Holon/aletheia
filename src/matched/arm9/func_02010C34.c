@@ -1,5 +1,5 @@
 /*
- * function: func_02010C34
+ * function: GFL_NET_SAVE_ScreenMain
  * address:  0x02010C34
  * packet:   pkt_02010BB8
  * region:   arm9
@@ -12,12 +12,12 @@
  *           the overlay ids 0x73 / 0xBB (ov115_id, ov187_id) now resolve as
  *           `overlay_id` (id argument of PROCSYS_Push), and 0x0220B294
  *           resolves.  Two ABS32 sites are left, the overlay-resident procs
- *           0x021D6338 / 0x021D654C.  Both ALSO sit in func_02010AC4's pool
+ *           0x021D6338 / 0x021D654C.  Both ALSO sit in GFL_NET_SAVE_Main's pool
  *           (0x02010B84..0x02010B94), which would attest them as `literal`,
  *           but disasm.py prints both functions' pools as Thumb
  *           instructions, so the pool-word index never sees them.
  *           Integrator: seed these pools as .word and both sites here (and
- *           both in func_02010AC4) resolve.
+ *           both in GFL_NET_SAVE_Main) resolve.
  *           Seed round 10: both words are ov115 proc tables (three Thumb
  *           function pointers each, 0x021D6338 -> func_021D4BFC/4CE4/4D10,
  *           0x021D654C -> func_021D603C/6104/60D4), loaded with overlay id
@@ -41,9 +41,9 @@
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0205D074  0x0205D074  arm
+ *   DWC_UpdateConnection  0x0205D074  arm
  *
- * net_save.c's save-SCREEN task step (record of func_02010BB8; *seq is the
+ * net_save.c's save-SCREEN task step (record of GFL_NET_SAVE_CreateScreenWork; *seq is the
  * step, ctx the record): polls the save proc's status (PROCSYS_Main),
  * drops to GFL_NET_ERR_ShowScreen(0) on states 0/2, then walks eight steps that start
  * overlay 0x73's save procs and overlay 0xBB's proc on the +0x180 request
@@ -67,9 +67,9 @@ extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void MI_CpuFill8(void *dst, u8 v, u32 size);
-extern int func_0205D074(void);
+extern int DWC_UpdateConnection(void);
 
-int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
+int GFL_NET_SAVE_ScreenMain(u32 a0, u32 *seq, u32 a2, u8 *ctx)
 {
     int st;
     int flag;
@@ -149,7 +149,7 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
         return 1;
     }
     if (((struct Obj00645 *)ctx)->f4 == 1) {
-        func_0205D074();
+        DWC_UpdateConnection();
     }
     return 0;
 }

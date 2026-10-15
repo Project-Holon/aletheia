@@ -22,7 +22,7 @@
  *   sub_020607B8   0x020607B8  arm
  *   sub_020607E8   0x020607E8  arm
  *   sub_02060B6C   0x02060B6C  arm
- *   func_02091588  0x02091588  arm
+ *   abs  0x02091588  arm
  */
 #include "nns_fnd_types.h"
 #include "../../matched/include/Obj06998.h"
@@ -194,7 +194,7 @@ extern void *sub_02060790(int *p, int *node);
 extern void *sub_020607E8(int *p, int v);
 extern void *sub_020607B8(int *p, void *node, int *a);
 extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
-extern s32 func_02091588(s32 x);
+extern s32 abs(s32 x);
 void NNS_FndInitList(int p0, int p1);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
 void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object);
@@ -1277,7 +1277,7 @@ int NNSi_FndGetListTotalSize(int *p)
  * Largest-free-space search over the allocator's block list hanging off the
  * heap object at +0x24.  Each node is {u32, u32 size, u32, Node *next} with
  * its payload at +0x10; the size passed in is first folded through
- * func_02091588 (abs), so it doubles as the alignment: the aligned start of
+ * abs (abs), so it doubles as the alignment: the aligned start of
  * the candidate payload is (size - 1 + payload) & ~(size - 1), and what is
  * left between that start and the node's end (payload + size) is the space
  * on offer.  The winning node is the one with the most space, ties going to
@@ -1318,7 +1318,7 @@ int NNSi_FndGetListTotalSize(int *p)
  */
 s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x)
 {
-    s32 size = func_02091588(x);
+    s32 size = abs(x);
     u32 best = 0;
     u32 ofs = -1;
     struct HeapBlock *blk = heap->head;

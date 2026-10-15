@@ -1,5 +1,5 @@
 /*
- * function: sub_0203524C
+ * function: UI_RunSleepHook
  * address:  0x0203524C
  * packet:   pkt_02035224
  * region:   arm9
@@ -15,7 +15,7 @@
  * the null test, so the null check cannot be folded into the call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203524C.c \n *       --func sub_0203524C --addr 0x0203524C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunSleepHook.c \n *       --func UI_RunSleepHook --addr 0x0203524C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ struct UiCtx {
     u8      armed;
 };
 
-void sub_0203524C(struct UiCtx *p)
+void UI_RunSleepHook(struct UiCtx *p)
 {
     if (p->on_14 != 0) {
         p->on_14(p->arg_28);

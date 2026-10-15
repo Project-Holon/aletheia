@@ -1,5 +1,5 @@
 /*
- * function: func_02205B64
+ * function: SHINKA_DEMO_GRAPHIC_UpdateSubBg
  * address: 0x02205B64
  * packet: pkt_ov195_02205B64
  * region: ov195
@@ -13,4 +13,4 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void func_020419E4(void);
-void func_02205B64(void *a0){func_020419E4();}
+void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0){func_020419E4();}

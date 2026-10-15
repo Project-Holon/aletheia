@@ -1,5 +1,5 @@
 /*
- * function: func_022054E8
+ * function: SHINKA_DEMO_SetupMessageBox
  * address:  0x022054E8
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Leaf of the func_022040E0 dependency tree: either build the +0x6c render
+ * Leaf of the SHINKA_DEMO_Main dependency tree: either build the +0x6c render
  * node from the +0x74 id (and flush the +0x104/+0x108 stage), or arm the
  * +0x88 transition word with 2.
  *
@@ -36,7 +36,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
-void func_022054E8(int a, int *p, int flag)
+void SHINKA_DEMO_SetupMessageBox(int a, int *p, int flag)
 {
     if (flag != 0) {
         int *q;

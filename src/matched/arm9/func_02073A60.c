@@ -11,6 +11,8 @@
  *
  * symbols:
  *   SND_StartTimer  0x020894B4  arm
+ *   PM_PrependPreSleepCallback  0x0208C808  arm
+ *   PM_AppendPostSleepCallback  0x0208C828  arm
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -31,12 +33,12 @@ struct A {
 };
 
 extern void SND_StartTimer(u32, u32, u32, u32);
-extern void func_0208C808(void *);
-extern void func_0208C828(void *);
+extern void PM_PrependPreSleepCallback(void *);
+extern void PM_AppendPostSleepCallback(void *);
 void NNS_SndStrmStart(struct A *a) {
     SND_StartTimer(a->f4c, 0, 1u << a->f48, 0);
     if (a->u.f.b1) return;
-    func_0208C808((u8 *)a + 8);
-    func_0208C828((u8 *)a + 0x18);
+    PM_PrependPreSleepCallback((u8 *)a + 8);
+    PM_AppendPostSleepCallback((u8 *)a + 0x18);
     a->u.w |= 2u;
 }

@@ -12,7 +12,7 @@
  * sdk:      GetLocalIP (natify.o)
  *
  * symbols:
- *   func_0217EFB8  0x0217EFB8  arm  ov009
+ *   getlocalhost  0x0217EFB8  arm  ov009
  *   func_0217F038  0x0217F038  arm  ov009
  */
 
@@ -25,7 +25,7 @@ typedef struct SOCHostEnt {
     SOCInAddr **addrList;
 } SOCHostEnt;
 
-extern SOCHostEnt *func_0217EFB8(void);
+extern SOCHostEnt *getlocalhost(void);
 extern int func_0217F038(SOCInAddr *addr);
 
 unsigned int func_021988F4(void)
@@ -36,7 +36,7 @@ unsigned int func_021988F4(void)
     unsigned int localip;
 
     localip = 0;
-    phost = func_0217EFB8();
+    phost = getlocalhost();
     if (!phost)
         return 0;
     for (num_local_ips = 0;; num_local_ips++) {

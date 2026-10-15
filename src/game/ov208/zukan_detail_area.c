@@ -19,7 +19,7 @@
  *   func_020413B0  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
@@ -29,7 +29,7 @@
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
  *   func_02040804 0x02040804 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -50,7 +50,7 @@
  *   func_02049990  0x02049990  arm
  *   MI_CpuFill8 0x02082BCC arm
  *   ZUKAN_DETAIL_AREA_SetHeapId 0x021BF784 thumb ov208
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020403F4 0x020403F4 arm
@@ -100,14 +100,14 @@
  *   ZUKAN_DETAIL_COMMON_GetFont 0x021BC3AC thumb ov208
  *   ZUKAN_DETAIL_COMMON_CreatePaletteAnim 0x021BC560 thumb ov208
  *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
- *   func_02012984 0x02012984 thumb
+ *   GAME_DATA_GetSeason 0x02012984 thumb
  *   ov072_id 0x00000048 data a1
  *   ZUKAN_DETAIL_COMMON_FreeBgPalette 0x021BC97C thumb ov208
  *   ZUKAN_DETAIL_COMMON_DeletePaletteAnim 0x021BC61C thumb ov208
  *   TOWNMAP_GRH_FreeTownInfo 0x021BBB34 thumb ov072
  *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
  *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   data_021C85C0  0x021C85C0  data
  *   data_021C8618  0x021C8618  data
  *   ov208_func_021C0134  0x021C0134  thumb  ov208
@@ -164,8 +164,8 @@
  *   func_0201BCEC  0x0201BCEC  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   SYMBOL_MAP_ResolveZoneId  0x02166C7C  thumb
  *   TOWNMAP_GRH_FindRecordIndex  0x021BBB48  thumb  ov072
  *   func_021C0C14  0x021C0C14  thumb  ov208
@@ -175,8 +175,8 @@
  *   BUTTON_MAN_SegmentSphereTest 0x02051F34 arm
  *   func_020355C4 0x020355C4 arm
  *   KEY_GetCont 0x0203630C arm
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   BUTTON_MAN_ScaleVec 0x020520A4 arm
  *   ov208_func_021C1920  0x021C1920  thumb  ov208
@@ -185,11 +185,11 @@
  *   ov208_func_021C20C0  0x021C20C0  thumb  ov208
  *   ov208_func_021C21D0  0x021C21D0  thumb  ov208
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_021C0740  0x021C0740  thumb  ov208
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
@@ -247,9 +247,9 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 extern void func_02030EAC(struct Node *n);
 
@@ -417,7 +417,7 @@ typedef enum { ONE = 1 } One;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void func_0203FCA0(u8 bgId, const struct BgTemplate *tmpl, u8 type);
+extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
 
 extern void func_020414AC(u8);
 
@@ -517,7 +517,7 @@ extern void ZUKAN_SAVE_GetViewGenderAndForm(void *, u32, u32 *, u32 *, u32 *, u1
 
 extern int ZUKAN_DETAIL_COMMON_GetFont(int *p);
 
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
 extern int TOWNMAP_GRH_LoadTownInfo(int);
 
@@ -533,7 +533,7 @@ extern void *ov208_func_021BC3B4(int key);
 
 extern void *ov208_func_021BC3B8(int key);
 
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
 extern void ov208_func_021C0134(u16 *heap, u8 *p, int key);
 
@@ -623,9 +623,9 @@ extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 is
 
 extern u32  POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAME_DATA_GetField114(struct SaveBlock *p);
 
-extern u16  func_02012AC8(const struct Rec44 *a);
+extern u16  GAME_DATA_GetPlayerZoneId(const struct Rec44 *a);
 
 extern u32  SYMBOL_MAP_ResolveZoneId(int a, u32 b);
 
@@ -643,9 +643,9 @@ extern u8 func_020355C4(void);
 
 extern unsigned int KEY_GetCont(void);
 
-extern void func_0207CA00(struct Vec_021C1450 *a, struct Vec_021C1450 *b, struct Vec_021C1450 *out);
+extern void VEC_Subtract(struct Vec_021C1450 *a, struct Vec_021C1450 *b, struct Vec_021C1450 *out);
 
-extern int func_0207CBD0(struct Vec_021C1450 *v);
+extern int VEC_Mag(struct Vec_021C1450 *v);
 
 extern void VEC_Normalize(struct Vec_021C1450 *src, struct Vec_021C1450 *dst);
 
@@ -663,15 +663,15 @@ extern void ov208_func_021C21D0(u16 *heap, u8 *p, int key);
 
 extern void func_021BDBAC(void *s, u32 on);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 
@@ -910,7 +910,7 @@ u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,int key)
     ((struct Obj00510 *)p)->f6C=0;
     ((struct Obj00510 *)p)->f70=0;
     ((struct Obj00510 *)p)->f74=0;
-    p[0x78]=func_02012984((const struct BigObj *)save);
+    p[0x78]=GAME_DATA_GetSeason((const struct BigObj *)save);
     p[0x79]=0xff;
     ((struct Obj00510 *)p)->f84=0;
     ((struct Obj00510 *)p)->f88=1;
@@ -978,10 +978,10 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
     switch (*seq) {
     case 0:
         *seq = 1;
-        func_0207D4B0(1, 5, 0);
+        GX_SetGraphicsMode(1, 5, 0);
         for (j = 0; j < 2; j++) {
             func_020403F4((u8)data_021C85C0[j].bg);
-            func_0203FCA0(data_021C85C0[j].bg, &data_021C85C0[j].tmpl, data_021C85C0[j].type);
+            BG_SYS_InitBgLayer(data_021C85C0[j].bg, &data_021C85C0[j].tmpl, data_021C85C0[j].type);
             func_020414AC(data_021C85C0[j].bg);
             func_02040588(data_021C85C0[j].bg, data_021C85C0[j].on);
         }
@@ -1095,10 +1095,10 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         break;
     case 9:
         ZUKAN_DETAIL_AREA_NoOpLoad(heap, p, key);
-        func_0207D4B0(1, 0, 0);
+        GX_SetGraphicsMode(1, 0, 0);
         for (k = 0; k < 2; k++) {
             func_020403F4((u8)data_021C8618[k].bg);
-            func_0203FCA0(data_021C8618[k].bg, &data_021C8618[k].tmpl, data_021C8618[k].type);
+            BG_SYS_InitBgLayer(data_021C8618[k].bg, &data_021C8618[k].tmpl, data_021C8618[k].type);
             func_020414AC(data_021C8618[k].bg);
             func_02040588(data_021C8618[k].bg, data_021C8618[k].on);
         }
@@ -1538,7 +1538,7 @@ void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, int key)
 void ZUKAN_DETAIL_AREA_ApplySubScreenScroll(void *unused, u8 *p, void *a2)
 {
     u32 v = ((struct Obj25499 *)p)->f68;
-    func_0203FB44(7, (u16)v, (u16)(v >> 16));
+    BG_SYS_DeleteHalf(7, (u16)v, (u16)(v >> 16));
 }
 
 void ZUKAN_DETAIL_AREA_UpdateScroll(int a, int b, int c)
@@ -1556,20 +1556,20 @@ void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
         break;
     case 1:
         if ((int)func_02040804((int)7) >= 0x40) {
-            func_02041EE4(7, 3, 0x40);
+            BG_SYS_ResetSlot(7, 3, 0x40);
             ((struct Obj02346 *)p)->f70 = 2;
         } else {
-            func_02041EE4(7, 4, 8);
-            func_02041EE4(6, 4, 8);
+            BG_SYS_ResetSlot(7, 4, 8);
+            BG_SYS_ResetSlot(6, 4, 8);
         }
         break;
     case 3:
         if ((int)func_02040804((int)7) <= 0) {
-            func_02041EE4(7, 3, 0);
+            BG_SYS_ResetSlot(7, 3, 0);
             ((struct Obj02346 *)p)->f70 = 0;
         } else {
-            func_02041EE4(7, 5, 8);
-            func_02041EE4(6, 5, 8);
+            BG_SYS_ResetSlot(7, 5, 8);
+            BG_SYS_ResetSlot(6, 5, 8);
         }
         break;
     }
@@ -1701,7 +1701,7 @@ u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key)
     u8 r;
 
     a = ov208_func_021BC3A4(key);
-    m = func_02012AC8((const struct Rec44 *)func_020127A4((struct SaveBlock *)a));
+    m = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAME_DATA_GetField114((struct SaveBlock *)a));
     r = 0xff;
     v = TOWNMAP_GRH_FindRecordIndex(((struct Obj25500 *)p)->f3C8, SYMBOL_MAP_ResolveZoneId(a, m));
     if (v != 0xffff)
@@ -2042,10 +2042,10 @@ void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
             b.x = FX(pt.c.x);
             b.y = FX(pt.c.y);
             b.z = 0;
-            func_0207CA00(&a, &b, &d);
-            if (func_0207CBD0(&d) < 0x1BB6)
+            VEC_Subtract(&a, &b, &d);
+            if (VEC_Mag(&d) < 0x1BB6)
                 near = 1;
-            if (func_0207CBD0(&d) > 0x1000) {
+            if (VEC_Mag(&d) > 0x1000) {
                 VEC_Normalize(&d, &d);
                 BUTTON_MAN_ScaleVec((const struct Vec3 *)(&d), 0x1000, (struct Vec3 *)(&d));
             }
@@ -2275,13 +2275,13 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     W(0x24) = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)W(0x34));
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0);
-    win = func_0201EC64(*heap);
+    win = GF_FONT_Create_EC64(*heap);
     str = func_02045EC0((struct MsgBank *)W(0xc), 0xbd);
     buf = STRBUF_Create(0x40, *heap);
-    func_0201EE60(win, 0, id);
+    WORDSET_Callback(win, 0, id);
     func_0201F250(win, buf, str);
     STRBUF_Delete(str);
-    func_0201ED04(win);
+    WORDSET_DeleteStrbufED04(win);
     PRINTSYS_PrintQueColor((void *)W(0x34), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, W(4), 0x3c40);
     STRBUF_Delete(buf);
     W(0x24) = 1;

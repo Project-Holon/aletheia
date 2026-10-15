@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020929E8",
+   "name": "long2str",
    "address": "0x020929E8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02092C38",
+   "name": "longlong2str",
    "address": "0x02092C38",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02092F0C",
+   "name": "double2hex",
    "address": "0x02092F0C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020933B8",
+   "name": "round_decimal",
    "address": "0x020933B8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020934CC",
+   "name": "float2str",
    "address": "0x020934CC",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02093BDC",
+   "name": "__pformatter",
    "address": "0x02093BDC",
    "kind": "game",
    "region": "arm9",
@@ -85,7 +85,7 @@
    }
   },
   {
-   "name": "func_0209455C",
+   "name": "qsort",
    "address": "0x0209455C",
    "kind": "game",
    "region": "arm9",

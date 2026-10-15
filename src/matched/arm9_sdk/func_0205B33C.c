@@ -1,5 +1,5 @@
 /*
- * function: func_0205B33C
+ * function: DWCi_AC_ConnectAP
  * address:  0x0205B33C
  * packet:   pkt_0205B33C
  * region:   arm9
@@ -14,18 +14,18 @@
  * symbols:
  *   DWCi_AC_GetPhase 0x0205C2C4 arm
  *   DWCi_AC_GetMemPtr 0x0205C214 arm
- *   func_0205B37C 0x0205B37C arm
- *   func_0205B488 0x0205B488 arm
+ *   ConnectStart 0x0205B37C arm
+ *   ConnectAP 0x0205B488 arm
  */
 
 typedef struct ACWORK ACWORK;
 
 extern unsigned char DWCi_AC_GetPhase(void);
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern unsigned char func_0205B37C(ACWORK *wk);
-extern unsigned char func_0205B488(ACWORK *wk);
+extern unsigned char ConnectStart(ACWORK *wk);
+extern unsigned char ConnectAP(ACWORK *wk);
 
-unsigned char func_0205B33C(void)
+unsigned char DWCi_AC_ConnectAP(void)
 {
     ACWORK *wk;
     unsigned char phase;
@@ -34,10 +34,10 @@ unsigned char func_0205B33C(void)
     wk = DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
     case 7:
-        phase = func_0205B37C(wk);
+        phase = ConnectStart(wk);
         break;
     case 8:
-        phase = func_0205B488(wk);
+        phase = ConnectAP(wk);
         break;
     }
     return phase;

@@ -18,7 +18,7 @@
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   func_02040588 0x02040588 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000043 data
@@ -40,7 +40,7 @@ extern void CLACT_ExitSystem(void);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(unsigned int);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
 void PDWACC_DISP_Exit(u8 *p)
@@ -65,7 +65,7 @@ void PDWACC_DISP_Exit(u8 *p)
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5,0);
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020307B0(p);
     func_02034A5C((int)ov_id);
 }

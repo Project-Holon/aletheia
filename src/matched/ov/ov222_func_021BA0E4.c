@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0E4
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects
  * address: 0x021BA0E4
  * packet: pkt_ov222_021BA0E4
  * region: ov222
@@ -12,4 +12,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void);
-void func_021BA0E4(void *p) { func_020419E4(); }
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p) { func_020419E4(); }

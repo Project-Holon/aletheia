@@ -14,7 +14,7 @@
  * symbols:
  *   func_0218DA40  0x0218DA40  arm   ov009
  *   func_021889A0  0x021889A0  arm   ov009
- *   func_020948E0  0x020948E0  arm  
+ *   strcmp  0x020948E0  arm  
  *   func_0217EAE0  0x0217EAE0  arm   ov009
  *   g_021A4468     0x021A4468  data  ov009
  */
@@ -27,7 +27,7 @@ typedef struct GPIPeer {
 extern int func_0218DA40(void **connection, char **buffer);
 extern int func_021889A0(void **connection, int profileid, int type, char *message,
                          int sendOption, void *peerOp);
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 extern void func_0217EAE0(void *ptr);
 extern char g_021A4468[];
 
@@ -44,7 +44,7 @@ int func_02188B0C(void **connection, GPIPeer *peer)
         return result;
     {
         char *m = message;
-        if (func_020948E0(m, g_021A4468) != 0)
+        if (strcmp(m, g_021A4468) != 0)
             func_0217EAE0(m);
     }
     return 0;

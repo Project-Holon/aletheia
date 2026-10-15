@@ -13,10 +13,10 @@
  *
  * symbols:
  *   OS_SNPrintf  0x02084F80  arm
- *   func_0209477C  0x0209477C  arm
- *   func_02179F3C  0x02179F3C  arm  ov009
- *   func_02096578  0x02096578  arm
- *   func_02179E60  0x02179E60  arm  ov009
+ *   strlen  0x0209477C  arm
+ *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
+ *   wcslen  0x02096578  arm
+ *   DWC_Http_Add_HeaderItem  0x02179E60  arm  ov009
  *   g_021A24E0     0x021A24E0  data ov009
  *   g_021A24EC     0x021A24EC  data ov009
  *   g_021A24F4     0x021A24F4  data ov009
@@ -57,11 +57,11 @@ typedef struct DWCCalInfo {
 
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
-extern int func_02179F3C(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
+extern int strlen(const u8 *s);
+extern int DWC_Http_Add_PostBase64Item(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
 typedef unsigned short u16;
-extern int func_02096578(const u16 *s);
-extern int func_02179E60(char *http, char *label, char *data);
+extern int wcslen(const u16 *s);
+extern int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
 
 extern const char g_021A24E0[];
 extern const char g_021A24EC[];
@@ -87,41 +87,41 @@ int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
     char buf[33];
 
     OS_SNPrintf(buf, sizeof(buf), g_021A24E0, 5, 3);
-    if (func_02179F3C(http, (char *)g_021A24EC, buf, func_0209477C((const u8 *)buf)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24EC, buf, strlen((const u8 *)buf)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A24F4, calinfo->userid, func_0209477C((const u8 *)calinfo->userid)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24F4, calinfo->userid, strlen((const u8 *)calinfo->userid)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A24FC, calinfo->passwd, func_0209477C((const u8 *)calinfo->passwd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24FC, calinfo->passwd, strlen((const u8 *)calinfo->passwd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2504, calinfo->bssid, func_0209477C((const u8 *)calinfo->bssid)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2504, calinfo->bssid, strlen((const u8 *)calinfo->bssid)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A250C, calinfo->apinfo, func_0209477C((const u8 *)calinfo->apinfo)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A250C, calinfo->apinfo, strlen((const u8 *)calinfo->apinfo)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2514, calinfo->gamecd, func_0209477C((const u8 *)calinfo->gamecd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2514, calinfo->gamecd, strlen((const u8 *)calinfo->gamecd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A251C, calinfo->makercd, func_0209477C((const u8 *)calinfo->makercd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A251C, calinfo->makercd, strlen((const u8 *)calinfo->makercd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2524, calinfo->unitcd, func_0209477C((const u8 *)calinfo->unitcd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2524, calinfo->unitcd, strlen((const u8 *)calinfo->unitcd)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A252C, calinfo->macadr, func_0209477C((const u8 *)calinfo->macadr)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A252C, calinfo->macadr, strlen((const u8 *)calinfo->macadr)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2534, calinfo->lang, func_0209477C((const u8 *)calinfo->lang)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2534, calinfo->lang, strlen((const u8 *)calinfo->lang)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A253C, calinfo->birth, func_0209477C((const u8 *)calinfo->birth)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A253C, calinfo->birth, strlen((const u8 *)calinfo->birth)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A2544, calinfo->devtime, func_0209477C((const u8 *)calinfo->devtime)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2544, calinfo->devtime, strlen((const u8 *)calinfo->devtime)) != 0)
         return 0;
-    if (func_02179F3C(http, (char *)g_021A254C, (char *)calinfo->devname, func_02096578(calinfo->devname) * 2) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A254C, (char *)calinfo->devname, wcslen(calinfo->devname) * 2) != 0)
         return 0;
     if (allowessid == 1) {
-        if (func_02179F3C(http, (char *)g_021A2554, calinfo->ssid, func_0209477C((const u8 *)calinfo->ssid)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2554, calinfo->ssid, strlen((const u8 *)calinfo->ssid)) != 0)
             return 0;
     }
 
     OS_SNPrintf(buf, sizeof(buf), g_021A255C, 5, 3);
-    if (func_02179E60((char *)http, (char *)g_021A2574, buf) != 0)
+    if (DWC_Http_Add_HeaderItem((char *)http, (char *)g_021A2574, buf) != 0)
         return 0;
-    if (func_02179E60((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)
+    if (DWC_Http_Add_HeaderItem((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)
         return 0;
     return 1;
 }

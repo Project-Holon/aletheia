@@ -1,5 +1,5 @@
 /*
- * function: func_021C5834
+ * function: WF2DMAP_OBJDRAW_GetActorValue
  * address:  0x021C5834
  * packet:   pkt_ov127_021C5834
  * region:   ov127
@@ -19,7 +19,7 @@
 
 extern int func_021C425C(char *p);
 
-int func_021C5834(char *p)
+int WF2DMAP_OBJDRAW_GetActorValue(char *p)
 {
     return func_021C425C(((struct Obj23049 *)p)->f4);
 }

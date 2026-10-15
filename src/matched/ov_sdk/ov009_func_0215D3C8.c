@@ -35,7 +35,7 @@
  *   OS_InitMutex  0x02086004  arm
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   func_0215CFC0  0x0215CFC0  arm  ov009
+ *   SOCLi_CommandPacketHandler  0x0215CFC0  arm  ov009
  */
 
 typedef unsigned long long u64;
@@ -159,7 +159,7 @@ extern void OS_InitMutex(OSMutex *mutex);
 extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
                             u32 stackSize, u32 prio);
 extern void OS_WakeupThreadDirect(OSThread *thread);
-extern void func_0215CFC0(void *arg);
+extern void SOCLi_CommandPacketHandler(void *arg);
 
 unsigned char *func_0215D3C8(unsigned char *ptr, SOCLSocketCommandPipe *pipe,
                              const SOCLSocketThreadParam *param)
@@ -169,7 +169,7 @@ unsigned char *func_0215D3C8(unsigned char *ptr, SOCLSocketCommandPipe *pipe,
 	stack_bottom = ptr + func_0215D280(param);
 	OS_InitMessageQueue(&pipe->queue, (OSMessage *)ptr, param->msgCount);
 	OS_InitMutex(&pipe->mutex);
-	OS_CreateThread(&pipe->thread, func_0215CFC0, pipe, stack_bottom, param->stackSize, param->prio);
+	OS_CreateThread(&pipe->thread, SOCLi_CommandPacketHandler, pipe, stack_bottom, param->stackSize, param->prio);
 	OS_WakeupThreadDirect(&pipe->thread);
 	return stack_bottom;
 }

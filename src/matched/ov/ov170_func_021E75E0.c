@@ -17,9 +17,9 @@
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
- *   func_020260E0 0x020260E0 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_MoveCursorBetweenIcons 0x021EEF74 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
  *   BOX2_MAIN_ClearCursorBox 0x021DF0BC thumb
@@ -77,7 +77,7 @@ extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 typedef unsigned char  u8;
 struct Sound;
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_MAIN_ResetBoxView(char *p);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
@@ -86,7 +86,7 @@ extern int BOX2_SEQ_GotoRightPanelA(char *p, int a, int n);
 extern int BOX2_SEQ_GotoRightPanelB(char *p, int a, int n);
 extern int BOX2_SEQ_GotoBox2Main(char *p, int a, int b);
 extern int BOX2_SEQ_GotoBox2MainWithSlot(Obj *p, int id, int lo, int arg);
-extern u8 func_020260E0(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
 extern int BOX2_SEQ_SetState(char *p, int v);
 extern int BOX2_SEQ_SetSeqSecond(char *p, int a);
@@ -118,13 +118,13 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)p);
-        func_020260E4(OBJ(p), 0x1E);
+        CURSOR_MOVE_SetCurrent(OBJ(p), 0x1E);
         BOX2_UI_SetCursorPos((char **)p, 0x1E);
         return BOX2_SEQ_GotoRightPanelA((char *)p, 0, 0x4B);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)p);
-        func_020260E4(OBJ(p), 0x1E);
+        CURSOR_MOVE_SetCurrent(OBJ(p), 0x1E);
         BOX2_UI_SetCursorPos((char **)p, 0x1E);
         return BOX2_SEQ_GotoRightPanelB((char *)p, 0, 0x4B);
     case 0x21:
@@ -140,19 +140,19 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
-        BOX2_UI_MoveCursorBetweenIcons(p->work, k, func_020260E0(OBJ(p)));
-        func_020260E4(OBJ(p), k);
+        BOX2_UI_MoveCursorBetweenIcons(p->work, k, CURSOR_MOVE_GetCurrent(OBJ(p)));
+        CURSOR_MOVE_SetCurrent(OBJ(p), k);
         return BOX2_SEQ_GotoBox2Main((char *)p, 5, 0x4E);
     }
     case -6:
-        if (func_020260E0(OBJ(p)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent(OBJ(p)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)p);
             return BOX2_SEQ_GotoRightPanelA((char *)p, 0, 0x4B);
         }
         break;
     case -5:
-        if (func_020260E0(OBJ(p)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent(OBJ(p)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)p);
             return BOX2_SEQ_GotoRightPanelB((char *)p, 0, 0x4B);
@@ -162,7 +162,7 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = func_020260E0(OBJ(p));
+        unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
         if (v < 0x1E)
             BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
         else if (v != 0x22 && v != 0x23)
@@ -174,8 +174,8 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen(MGR(p)) == 1) {
             unsigned char k = p->b16;
-            BOX2_UI_MoveCursorBetweenIcons(p->work, k, func_020260E0(OBJ(p)));
-            func_020260E4(OBJ(p), k);
+            BOX2_UI_MoveCursorBetweenIcons(p->work, k, CURSOR_MOVE_GetCurrent(OBJ(p)));
+            CURSOR_MOVE_SetCurrent(OBJ(p), k);
             return BOX2_SEQ_GotoBox2Main((char *)p, 5, 0x4E);
         }
         p->top->h28 = 0;
@@ -193,7 +193,7 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
             BOX2_SEQ_DrawFrameList(p, d_021EF8EC, 2);
             BOX2_MAIN_ChangeBoxFormPreserve((char *)p, r);
             BOX2_SEQ_RefreshCursorSlot((char *)p);
-            func_020260E4(OBJ(p), 0x22);
+            CURSOR_MOVE_SetCurrent(OBJ(p), 0x22);
             if (BOX2_UI_IsListOpen(MGR(p)) == 1)
                 return BOX2_SEQ_StatePushSlot((char *)p);
             BOX2_UI_MoveCursorBetweenIcons(p->work, 0x22, r);

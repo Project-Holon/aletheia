@@ -65,6 +65,8 @@
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
+ *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -113,7 +115,7 @@ extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void CAMERA_StopCaptureCore(void);
 extern void CAMERA_ClearBufferCore(void);
-extern void func_0208C848(u32*, u32);
+extern void PMi_InsertPreSleepCallbackEx(u32*, u32);
 extern void PMi_InsertPostExitCallbackEx(u32*, u32);
 extern void CAMERA_SetVsyncInterruptCore(u32);
 extern void CAMERA_SetBufferErrorInterruptCore(u32);
@@ -123,7 +125,7 @@ extern void OS_EnableIrqMask(u32);
 extern void OS_InitMessageQueue(u32*, u32*, u32);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
 extern void OS_WakeupThreadDirect(u32*);
-extern void func_0208C86C(u32*);
+extern void PM_DeletePreSleepCallback(u32*);
 extern void PM_DeletePostExitCallback(u32*);
 extern u32 CAMERA_I2CActivateCore(u32 a0);
 extern void OS_DisableIrqMask(u32);

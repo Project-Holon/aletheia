@@ -17,18 +17,18 @@
  *   d_021A8264_obj 0x021A8264  data  ov009  a4
  *   d_021A1C6C     0x021A1C6C  data  ov009  a1
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_0205C6AC  0x0205C6AC  arm
- *   func_0205C758  0x0205C758  arm
- *   func_0205C88C  0x0205C88C  arm
- *   func_0205CA20  0x0205CA20  arm
- *   func_0205C8E0  0x0205C8E0  arm
+ *   DWC_InitInetEx  0x0205C6AC  arm
+ *   DWC_ConnectInetAsync  0x0205C758  arm
+ *   DWC_CheckInet  0x0205C88C  arm
+ *   DWC_GetInetStatus  0x0205CA20  arm
+ *   DWC_ProcessInet  0x0205C8E0  arm
  *   DWC_InitFriendsMatch  0x0216AB20  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   DWC_LoginAsync  0x0216B0E0  arm
  *   DWC_ProcessFriendsMatch  0x0216AE88  arm
  *   DWC_UpdateServersAsync  0x0216B1E0  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
- *   func_02168994  0x02168994  arm
+ *   DWC_SetBuddyFriendCallback  0x02168994  arm
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   DWC_RAP_HandleError  0x02155F58  thumb  ov009
  *   DWC_RAP_OnLogin  0x02155B98  thumb  ov009
@@ -71,11 +71,11 @@ extern G *_pRapWork;
 extern char d_021A8264_obj[];
 extern char d_021A1C6C[];
 void *GFL_NET_GetInitParam(void);
-void func_0205C6AC(void *p, u16 a, u16 b, u16 c);
-void func_0205C758(void);
-int func_0205C88C(void);
-int func_0205CA20(void);
-void func_0205C8E0(void);
+void DWC_InitInetEx(void *p, u16 a, u16 b, u16 c);
+void DWC_ConnectInetAsync(void);
+int DWC_CheckInet(void);
+int DWC_GetInetStatus(void);
+void DWC_ProcessInet(void);
 void DWC_InitFriendsMatch(void *a, int b, char *c, int d, int e, void *f, int g);
 typedef signed int     s32;
 struct OSOwnerInfo;
@@ -84,7 +84,7 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
 void DWC_ProcessFriendsMatch(void);
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 void GFL_NET_STATE_SetError(int a, unsigned int b, unsigned int c, unsigned int d);
-int func_02168994(void (*callback)(int, void *), void *param);
+int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param);
 void DWC_RAP_SetState(int v);
 int DWC_RAP_HandleError(void);
 void DWC_RAP_OnLogin(int a);
@@ -103,18 +103,18 @@ int DWC_RAP_StepLogin(void)
     switch (_pRapWork->state) {
     case 0:
         GFL_NET_GetInitParam();
-        func_0205C6AC(_pRapWork->x10C, 2, 1, 0x14);
-        func_0205C758();
+        DWC_InitInetEx(_pRapWork->x10C, 2, 1, 0x14);
+        DWC_ConnectInetAsync();
         DWC_RAP_SetState(1);
         _pRapWork->w76C = 0;
     case 1:
-        if (func_0205C88C() != 0) {
-            if (func_0205CA20() == 4)
+        if (DWC_CheckInet() != 0) {
+            if (DWC_GetInetStatus() == 4)
                 DWC_RAP_SetState(2);
             else
                 DWC_RAP_SetState(14);
         } else {
-            func_0205C8E0();
+            DWC_ProcessInet();
             break;
         }
     case 2:
@@ -142,7 +142,7 @@ int DWC_RAP_StepLogin(void)
                               d_021A8264_obj) == 0) {
                 GFL_NET_STATE_SetError(0, 0, 0, 0x3EE);
             } else {
-                func_02168994((void (*)(int,  void *))DWC_RAP_OnBuddyFriendNop, 0);
+                DWC_SetBuddyFriendCallback((void (*)(int,  void *))DWC_RAP_OnBuddyFriendNop, 0);
                 DWC_ProcessFriendsMatch();
             }
         }

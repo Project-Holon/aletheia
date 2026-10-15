@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
  *   GSYNC_MENU_StatePrintConfirmMessage 0x021D4FB8 thumb ov123
  *   GSYNC_MENU_StateSetupButtons 0x021D4A04 thumb ov123
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void GSYNC_MENU_ChangeState(char *, void *, int);
 extern void GSYNC_MENU_StatePrintConfirmMessage(char *p);
@@ -35,7 +35,7 @@ void GSYNC_MENU_StateWaitMenuSelect(char *p)
         if (!APP_TASKMENU_GetCursorPos(((struct Obj00273 *)p)->f238)) {
             GSYNC_MENU_ChangeState(p, GSYNC_MENU_StatePrintConfirmMessage, 0x1b6);
         } else {
-            func_020414EC(5);
+            BG_SYS_ClearSlot(5);
             ((struct Obj00273 *)p)->f8 = 0;
             GSYNC_MENU_ChangeState(p, GSYNC_MENU_StateSetupButtons, 0x1bb);
         }

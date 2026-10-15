@@ -12,7 +12,7 @@
  * sdk:      DWCi_Ndi_getApInfo (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_0205CD24  0x0205CD24  arm
+ *   DWC_GetApInfo  0x0205CD24  arm
  *   DWCi_Ndi_intToStr  0x021C7A68  arm  ov114
  *   DWCi_Ndi_memcpy  0x021C7A44  arm  ov114
  *   DWCi_Ndi_encodeBASE64  0x021C60C8  arm  ov114
@@ -31,7 +31,7 @@ typedef struct {
 	char bssid[9];
 } ApInfo;
 
-extern int func_0205CD24(ApInfo *apinfo);
+extern int DWC_GetApInfo(ApInfo *apinfo);
 typedef unsigned int   u32;
 extern void DWCi_Ndi_intToStr(char *p, u32 n);
 extern void DWCi_Ndi_memcpy(void *dst, void *src, int size);
@@ -42,7 +42,7 @@ extern ApInfo gDwciNdApInfo;
 int DWCi_Ndi_getApInfo(char *apinfo)
 {
 	B13 strAp = sDwciNdEmptyMacAddress;
-	if (func_0205CD24(&gDwciNdApInfo)) {
+	if (DWC_GetApInfo(&gDwciNdApInfo)) {
 		if (gDwciNdApInfo.type >= 0 && gDwciNdApInfo.type < 10)
 			strAp.b[1] = gDwciNdApInfo.type + '0';
 		else if (gDwciNdApInfo.type >= 10 && gDwciNdApInfo.type < 100)

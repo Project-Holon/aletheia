@@ -1,5 +1,5 @@
 /*
- * function: func_021B75BC
+ * function: POKE_SUMMARY_MAIN_SetFlagReturn8
  * address: 0x021B75BC
  * packet: pkt_ov173_021B75BC
  * region: ov173
@@ -14,4 +14,4 @@
 
 typedef unsigned char u8;
 
-int func_021B75BC(u8 **pp) { (*pp)[0x1a] = 1; return 8; }
+int POKE_SUMMARY_MAIN_SetFlagReturn8(u8 **pp) { (*pp)[0x1a] = 1; return 8; }

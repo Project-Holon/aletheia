@@ -1,5 +1,5 @@
 /*
- * function: func_0208F398
+ * function: WMi_InitializeEx
  * address:  0x0208F398
  * packet:   pkt_0208F398
  * region:   arm9
@@ -65,7 +65,7 @@ extern void WMi_RegisterSleepCallback(void);
 extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags)
+WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags)
 {
     WMErrCode result;
     WMArm9Buf *p;

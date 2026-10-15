@@ -1,5 +1,5 @@
 /*
- * function: func_020948E0
+ * function: strcmp
  * address:  0x020948E0
  * packet:   pkt_02094750
  * region:   arm9
@@ -17,7 +17,7 @@
  * byte-by-byte epilogue at the word that carries the terminator.  A misaligned
  * pair, and a word mismatch, both enter that epilogue directly.
  *
- * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/func_020948E0.c.txt records
+ * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/strcmp.c.txt records
  * this as a 28-of-276-byte near miss "solely in register allocation between
  * r2, r4 and lr" (and that note's own source did not compile: it says
  * `(const u32 *)p2` for `s2`).  Two separate things were wrong, and both are
@@ -46,15 +46,15 @@
  * compiles the loop body two instructions long.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020948E0.c \
- *       --func func_020948E0 --addr 0x020948E0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/strcmp.c \
+ *       --func strcmp --addr 0x020948E0 --cc 1.1p1 --arm
  */
 #include "../include/Obj00079.h"
 #include "../include/Obj02480.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-int func_020948E0(const char *s1, const char *s2)
+int strcmp(const char *s1, const char *s2)
 {
     int diff;
     u32 align;

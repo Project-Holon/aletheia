@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4790 0x021C4790 thumb ov127
+ *   WF2DMAP_MAP_IsEmpty 0x021C4790 thumb ov127
  *   func_021C41BC 0x021C41BC thumb ov127
  *   func_021C4330 0x021C4330 thumb ov127
  *   func_021C4010 0x021C4010 thumb ov127
@@ -18,7 +18,7 @@
 #include "../include/Obj05371.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021C4790(char *p);
+extern int WF2DMAP_MAP_IsEmpty(char *p);
 extern void func_021C41BC(u8 *p);
 extern void func_021C4330(char *p, int a1);
 extern void func_021C4010(u8 *p);
@@ -28,7 +28,7 @@ void func_021C3F80(u8 *p)
 {
     u32 i;
     for (i = 0; i < ((struct Obj05371 *)p)->fC; i++) {
-        if (!func_021C4790((char *)(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24)))
+        if (!WF2DMAP_MAP_IsEmpty((char *)(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24)))
             func_021C41BC(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24);
     }
     func_021C4330((char *)p, 0);

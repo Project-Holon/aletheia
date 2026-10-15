@@ -1,5 +1,5 @@
 /*
- * function: func_020774A0
+ * function: CARD_SetPulledOutCallback
  * address:  0x020774A0
  * packet:   pkt_020774A0
  * region:   arm9
@@ -19,7 +19,7 @@
 
 extern struct CARDPulledOutState CARDiSlotResetCount;
 
-void func_020774A0(int (*callback)(void))
+void CARD_SetPulledOutCallback(int (*callback)(void))
 {
     CARDiSlotResetCount.callback = callback;
 }

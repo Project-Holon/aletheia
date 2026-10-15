@@ -17,10 +17,10 @@
  *   BACKUP_SYSTEM_Load   0x02031AE0  arm
  *   BACKUP_SYSTEM_ClearWork   0x020319C0  arm
  *   func_02034714   0x02034714  arm
- *   func_021DFC20   0x021DFC20  thumb  ov228
- *   func_021DFE90   0x021DFE90  thumb  ov228
- *   func_021DFE98   0x021DFE98  thumb  ov228
- *   func_021DFDB8   0x021DFDB8  thumb  ov228
+ *   SAVE_OUTSIDE_Load   0x021DFC20  thumb  ov228
+ *   SAVE_OUTSIDE_IsLoaded   0x021DFE90  thumb  ov228
+ *   SAVE_OUTSIDE_IsCorrupt   0x021DFE98  thumb  ov228
+ *   SAVE_OUTSIDE_Free   0x021DFDB8  thumb  ov228
  *   SYSTEM_DATA_IsActive    0x02008754  thumb
  *   SYSTEM_DATA_IsMarked    0x02008784  thumb
  *   sub_0200725C    0x0200725C  thumb
@@ -51,8 +51,8 @@
  *
  * WAVE 16 (docs/notes/SAVE_CONTROL_Create.c.txt had it at 118 out and
  * MATCH-capped).  The cap went with the ov228 leaves matched this wave
- * (src/matched/func_021DFDB8.c, func_021DFE90.c, func_021DFE98.c; plus the
- * labelled func_021DFC20), carried by the ov228 hints above; func_021DFE90
+ * (src/matched/SAVE_OUTSIDE_Free.c, SAVE_OUTSIDE_IsLoaded.c, SAVE_OUTSIDE_IsCorrupt.c; plus the
+ * labelled SAVE_OUTSIDE_Load), carried by the ov228 hints above; SAVE_OUTSIDE_IsLoaded
  * takes the overlay work pointer (its body reads r0).  The bytes closed in
  * three steps: a fresh body with the switch value `r` tested as
  * (u32)(r - 1) <= 1 before SYSTEM_DATA_IsActive (167 out, size exact); an ENUM loop
@@ -80,10 +80,10 @@ extern u32 BACKUP_SYSTEM_Create(void *a, void *b);
 extern int BACKUP_SYSTEM_Load(struct State *o, u32 a1);
 extern void BACKUP_SYSTEM_ClearWork(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_021DFC20(u32 heap);
-extern u8 func_021DFE90(u8 *p);
-extern int func_021DFE98(u8 *p);
-extern void func_021DFDB8(void *p);
+extern void *SAVE_OUTSIDE_Load(u32 heap);
+extern u8 SAVE_OUTSIDE_IsLoaded(u8 *p);
+extern int SAVE_OUTSIDE_IsCorrupt(u8 *p);
+extern void SAVE_OUTSIDE_Free(void *p);
 extern u8 SYSTEM_DATA_IsActive(void *sys);
 extern int SYSTEM_DATA_IsMarked(void *sys, u32 index);
 struct Ctrl;
@@ -112,10 +112,10 @@ struct SaveCtrl *SAVE_CONTROL_Create(int heap)
     u32 *flags;
 
     func_02034AC4((int)ov228_id);
-    ov = func_021DFC20(heap);
-    mode = func_021DFE90(ov);
-    sub = func_021DFE98(ov);
-    func_021DFDB8(ov);
+    ov = SAVE_OUTSIDE_Load(heap);
+    mode = SAVE_OUTSIDE_IsLoaded(ov);
+    sub = SAVE_OUTSIDE_IsCorrupt(ov);
+    SAVE_OUTSIDE_Free(ov);
     func_02034A5C((int)ov228_id);
     c = (struct SaveCtrl *)func_02030734(heap, 0x38, 1, sub_02006F20_File, 0x58);
     sub_02006F20_Ptr = c;

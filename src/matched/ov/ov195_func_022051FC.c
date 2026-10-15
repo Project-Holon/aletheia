@@ -1,5 +1,5 @@
 /*
- * function: func_022051FC
+ * function: SHINKA_DEMO_SetupWindows
  * address:  0x022051FC
  * packet:   pkt_022051FC
  * region:   ov195
@@ -51,7 +51,7 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern u32 func_02028590(int, int, int, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_022051FC(int a, char *b)
+void SHINKA_DEMO_SetupWindows(int a, char *b)
 {
     u32 p;
 

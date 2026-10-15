@@ -51,7 +51,7 @@
  *   func_0200873C  0x0200873C  thumb
  *   func_02007AA4  0x02007AA4  thumb
  *   WIFILIST_Create  0x020097C4  thumb
- *   func_0200BDE4  0x0200BDE4  thumb
+ *   INTRUDE_InitOccupy  0x0200BDE4  thumb
  *   EVENT_FIELD_PROCLINK_InitEventdataSystem  0x02161D98  thumb  ov010
  *   func_0200857C  0x0200857C  thumb
  *   func_020071E4  0x020071E4  thumb
@@ -140,7 +140,7 @@ extern void *func_02008254(u32 heap);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 *func_02007AA4(u32 heap, u32 value);
 extern void *WIFILIST_Create(int a0);
-extern void func_0200BDE4(struct Rec1B0 *p);
+extern void INTRUDE_InitOccupy(struct Rec1B0 *p);
 extern void  EVENT_FIELD_PROCLINK_InitEventdataSystem(char *p);
 extern void *func_0200857C(u32 heap);
 extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
@@ -195,7 +195,7 @@ void *GAME_DATA_Create(u16 heap)
     ((struct Obj00054 *)p)->f1A0 = (u32)WIFILIST_Create(heap);
 
     for (i = 0; i < 4; i++) {
-        func_0200BDE4((struct Rec1B0 *)(p + 0x1D4 + i * 0x10));
+        INTRUDE_InitOccupy((struct Rec1B0 *)(p + 0x1D4 + i * 0x10));
     }
 
     for (i = 0; i < 2; i++) {

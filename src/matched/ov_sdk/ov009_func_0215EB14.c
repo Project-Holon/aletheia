@@ -17,7 +17,7 @@
  *   OS_DisableScheduler  0x02085B30  arm
  *   func_02085E50  0x02085E50  arm
  *   func_02085DBC  0x02085DBC  arm
- *   func_0215CE7C  0x0215CE7C  arm  ov009
+ *   SOCLi_FreeCommandPacket  0x0215CE7C  arm  ov009
  *   OS_EnableScheduler  0x02085B60  arm
  *   OS_RescheduleThread  0x020858BC  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -33,7 +33,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_DisableScheduler(void);
 extern int func_02085E50(void *mq, void **msg, long flags);
 extern int func_02085DBC(void *mq, void *msg, long flags);
-extern void func_0215CE7C(void *ptr);
+extern void SOCLi_FreeCommandPacket(void *ptr);
 extern unsigned long OS_EnableScheduler(void);
 extern void OS_RescheduleThread(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -54,7 +54,7 @@ void func_0215EB14(unsigned char *pipe)
 			if (command->reply != 0) {
 				func_02085DBC(command->reply, (void *)-11, 0);
 			}
-			func_0215CE7C(command);
+			SOCLi_FreeCommandPacket(command);
 		}
 	}
 	OS_EnableScheduler();

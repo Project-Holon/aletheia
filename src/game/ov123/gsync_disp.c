@@ -13,10 +13,10 @@
  * Cut from gsync_state.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02041300 0x02041300 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -42,7 +42,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_0204363C 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -59,7 +59,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   ov067_id 0x00000043 data
  *   func_02034AC4 0x02034AC4 arm
  *   gGsyncDispAllocSource 0x021DAB68 data a1
@@ -94,7 +94,7 @@
  *   CLACT_GetActorScale 0x0204B5C0 arm
  *   func_020056EC 0x020056EC thumb
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   func_02062A98 0x02062A98 arm
  *   func_02062A4C 0x02062A4C arm
  *   func_02019D30 0x02019D30 thumb
@@ -110,13 +110,13 @@ struct ArcFile;
 
 struct NitroFileHeader;
 
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void func_020409B4(u32);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 
@@ -168,7 +168,7 @@ extern void func_0204363C(u32 swap);
 
 extern void GX_DispOn(void);
 
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
@@ -204,7 +204,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern void CLACT_ExitSystem(void);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern int func_02034AC4(int);
 
@@ -242,7 +242,7 @@ extern u32 func_020056EC(u32 range);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
-extern u32 func_02020E60(u16, int);
+extern u32 FILE_UTIL_Get(u16, int);
 
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
@@ -378,7 +378,7 @@ u8 *GSYNC_DISP_Init(u32 heap)
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0); func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
-    func_0203F8F4(p->heapId);
+    BG_SYS_Create(p->heapId);
     CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)gGsyncDispClactParam,p->heapId);
     p->clactUnit=CLACT_CreateUnit(40,0,p->heapId);
     BG_SYS_SetVramBanks((const struct DispVram *)gGsyncDispClactParam); func_0203FC28((struct DispConfig *)gGsyncDispDisplayConfig);
@@ -408,22 +408,22 @@ void GSYNC_DISP_Exit(GsyncDispWork *p)
     CLACT_ExitSystem();
     func_02040DA8(1,1,0); func_02040DA8(6,1,0);
     func_020403F4(5); func_020403F4(4);
-    func_02040588(5,0); func_0203F9B4(); func_020307B0(p);
+    func_02040588(5,0); BG_SYS_Delete(); func_020307B0(p);
     func_02034A5C((int)ov_id);
 }
 
 void GSYNC_DISP_InitBgLayers(GsyncDispWork *p)
 {
     struct BgTemplate b[7];
-    b[6]=gGsyncDispBgTemplates[0]; func_0203FCA0(0, &b[6], 0); func_02040588(0,1); func_020409B4(0);
-    b[5]=gGsyncDispBgTemplates[1]; func_0203FCA0(1, &b[5], 0); func_02040588(1,1); func_020409B4(1);
-    b[4]=gGsyncDispBgTemplates[2]; func_0203FCA0(3, &b[4], 0); func_02040588(3,1); func_020409B4(3);
-    b[3]=gGsyncDispBgTemplates[3]; func_0203FCA0(4, &b[3], 0); func_02040588(4,1); func_020409B4(4);
-    b[2]=gGsyncDispBgTemplates[4]; func_0203FCA0(5, &b[2], 0);
-    func_02040C14(5,0,1,0); func_02041300(5,0,0,0,32,32,17); func_02040588(5,1); func_020409B4(5);
-    b[1]=gGsyncDispBgTemplates[5]; func_0203FCA0(6, &b[1], 0); func_02040588(6,1);
-    func_02040C14(6,0,1,0); func_02041300(6,0,0,0,32,32,17); func_020409B4(6);
-    b[0]=gGsyncDispBgTemplates[6]; func_0203FCA0(7, &b[0], 0); func_02040588(7,1); func_020409B4(7);
+    b[6]=gGsyncDispBgTemplates[0]; BG_SYS_InitBgLayer(0, &b[6], 0); func_02040588(0,1); func_020409B4(0);
+    b[5]=gGsyncDispBgTemplates[1]; BG_SYS_InitBgLayer(1, &b[5], 0); func_02040588(1,1); func_020409B4(1);
+    b[4]=gGsyncDispBgTemplates[2]; BG_SYS_InitBgLayer(3, &b[4], 0); func_02040588(3,1); func_020409B4(3);
+    b[3]=gGsyncDispBgTemplates[3]; BG_SYS_InitBgLayer(4, &b[3], 0); func_02040588(4,1); func_020409B4(4);
+    b[2]=gGsyncDispBgTemplates[4]; BG_SYS_InitBgLayer(5, &b[2], 0);
+    BG_SYS_Init(5,0,1,0); func_02041300(5,0,0,0,32,32,17); func_02040588(5,1); func_020409B4(5);
+    b[1]=gGsyncDispBgTemplates[5]; BG_SYS_InitBgLayer(6, &b[1], 0); func_02040588(6,1);
+    BG_SYS_Init(6,0,1,0); func_02041300(6,0,0,0,32,32,17); func_020409B4(6);
+    b[0]=gGsyncDispBgTemplates[6]; BG_SYS_InitBgLayer(7, &b[0], 0); func_02040588(7,1); func_020409B4(7);
 }
 
 void GSYNC_DISP_VBlankTask(void *a, GsyncDispWork *p)
@@ -770,11 +770,11 @@ void GSYNC_DISP_LoadIconResources(GsyncDispWork *p)
     for (i = 0; i < 20; i++) {
         species = p->particles[i].species;
         if (species) {
-            buf = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,2),p->heapId);
+            buf = ARC_TOOL_LoadHandleMember(h,FILE_UTIL_Get(species,2),p->heapId);
             func_02062A98(buf,(void **)(&palOut));
             MI_CpuCopy8(((GsyncPaletteData *)palOut)->rawData,p->iconRecords[i].palette,32);
             func_020307B0(buf);
-            buf2 = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,1),p->heapId);
+            buf2 = ARC_TOOL_LoadHandleMember(h,FILE_UTIL_Get(species,1),p->heapId);
             func_02062A4C(buf2,(void **)(&gfxOut));
             MI_CpuCopy8(((GsyncGfxData *)gfxOut)->rawData,p->iconRecords[i].paletteData,512);
             func_020307B0(buf2);
@@ -840,8 +840,8 @@ void GSYNC_DISP_CreateBackdropActors(GsyncDispWork *p)
     struct ActorSpawnPos pt;
     void *h;
     h=func_020490F4(25,p->heapId);
-    p->resources.byKind.palettes[5]=(void *)CLACT_RegisterPaletteEx(h,func_02020E60(1,2),0,256,0,1,p->heapId);
-    p->resources.byKind.characters[6]=(void *)CLACT_RegisterCharacter(h,func_02020E60(1,1),0,0,p->heapId);
+    p->resources.byKind.palettes[5]=(void *)CLACT_RegisterPaletteEx(h,FILE_UTIL_Get(1,2),0,256,0,1,p->heapId);
+    p->resources.byKind.characters[6]=(void *)CLACT_RegisterCharacter(h,FILE_UTIL_Get(1,1),0,0,p->heapId);
     p->resources.byKind.cellAnims[6]=(void *)CLACT_RegisterCellAnim(h,1,0,p->heapId);
     ARC_TOOL_DeleteHandle(h);
     pt.x=156; pt.y=28; pt.z=0; pt.mode=0; pt.space=2;

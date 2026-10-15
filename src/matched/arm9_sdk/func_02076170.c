@@ -1,5 +1,5 @@
 /*
- * function: func_02076170
+ * function: CARDi_ExecuteOldTypeTask
  * address:  0x02076170
  * packet:   pkt_02076170
  * region:   arm9
@@ -71,7 +71,7 @@ extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
 extern void OS_WakeupThreadDirect(OSThread *thread);
 extern void CARDi_EndTask(CARDiCommon *p);
 
-BOOL func_02076170(void (*task)(CARDiCommon *), BOOL async)
+BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async)
 {
     CARDiCommon *p = &cardi_common;
 

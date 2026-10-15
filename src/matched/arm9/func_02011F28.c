@@ -11,7 +11,7 @@
  * symbols:
  *   PROCSYS_Create  0x02031324  arm
  *   GAME_DATA_Create  0x020124F4  thumb
- *   func_020261E4  0x020261E4  thumb
+ *   CURSOR_MOVE_CreateVecSet  0x020261E4  thumb
  *   ISS_SYS_Create  0x0202B4BC  thumb
  *   GAMESYSTEM_RegisterSleepCallback  0x02012248  thumb
  *   GAMESYSTEM_RegisterSleepCheck  0x020122A4  thumb
@@ -23,7 +23,7 @@
  * object from it, clear +0x32 and bit 0 of +0x33, then reset and start.
  *
  * The note's 8-byte r0/r1 "tie" (docs/notes/pkt_02011F28.c.txt) was a
- * misread arity: func_020261E4 takes TWO arguments (its own matched file
+ * misread arity: CURSOR_MOVE_CreateVecSet takes TWO arguments (its own matched file
  * reads r1), and the second is the table just stored at +0x1c, passed as
  * `p->f1c` -- which the compiler forwards from the register, hence the
  * `adds r1, r0, #0` the image has before the id reload.  Written as a
@@ -58,7 +58,7 @@ struct IcaAnime {
 
 extern void *PROCSYS_Create(int a0);
 extern void *GAME_DATA_Create(u16 id);
-extern void *func_020261E4(unsigned int id, void *res);
+extern void *CURSOR_MOVE_CreateVecSet(unsigned int id, void *res);
 struct SaveBlock;
 extern void *ISS_SYS_Create(struct SaveBlock *a, unsigned int id);
 extern void  GAMESYSTEM_RegisterSleepCallback(struct IcaAnime *p);
@@ -76,7 +76,7 @@ void GAMESYSTEM_Init(struct IcaAnime *p, u16 id, u32 a2)
     p->f18 = 0;
     p->f1c = GAME_DATA_Create(p->f00);
     p->f20 = 0;
-    p->f24 = func_020261E4(p->f00, p->f1c);
+    p->f24 = CURSOR_MOVE_CreateVecSet(p->f00, p->f1c);
     p->f28 = 0;
     p->f2c = ISS_SYS_Create(p->f1c, id);
     p->f32 = 0;

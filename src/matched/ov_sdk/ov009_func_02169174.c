@@ -1,5 +1,5 @@
 /*
- * function: func_02169174
+ * function: DWCi_CallBuddyFriendCallback
  * address:  0x02169174
  * packet:   pkt_ov009_02169174
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_CallBuddyFriendCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
  * symbols:
- *   func_0216870C  0x0216870C  arm  ov009
+ *   DWC_GetFriendStatus  0x0216870C  arm  ov009
  *   g_021AA860  0x021AA860  data
  */
 
@@ -32,8 +32,8 @@ struct Work {
 };
 extern struct FriendGlobal g_021AA860;
 typedef unsigned char  u8;
-extern u8 func_0216870C(int a, int b);
-void func_02169174(int index)
+extern u8 DWC_GetFriendStatus(int a, int b);
+void DWCi_CallBuddyFriendCallback(int index)
 {
 	struct { char pad[0x108]; char s[0x10c]; } status;
 	unsigned char st;
@@ -41,6 +41,6 @@ void func_02169174(int index)
 		g_021AA860.ctl->cb44(index, g_021AA860.ctl->arg48);
 	if (g_021AA860.ctl->cb34 == 0)
 		return;
-	st = func_0216870C((int)(&g_021AA860.ctl->friends[index]), (int)status.s);
+	st = DWC_GetFriendStatus((int)(&g_021AA860.ctl->friends[index]), (int)status.s);
 	g_021AA860.ctl->cb34(index, st, status.s, g_021AA860.ctl->arg38);
 }

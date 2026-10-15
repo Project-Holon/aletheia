@@ -16,7 +16,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   gCpsSslSessionCache     0x021AA664  data
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  */
 
 struct CPSSslSession {
@@ -56,7 +56,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_WakeupThreadDirect(struct _OSThread *thread);
 extern struct CPSSslSession gCpsSslSessionCache[4];
-extern struct OSiThreadInfo g_02150FEC;
+extern struct OSiThreadInfo gMslRefToken;
 
 void CPSi_SslPeriodical(unsigned long now)
 {
@@ -73,7 +73,7 @@ void CPSi_SslPeriodical(unsigned long now)
     }
     OS_RestoreInterrupts(enabled);
 
-    for (t = g_02150FEC.list; t != 0; t = t->next) {
+    for (t = gMslRefToken.list; t != 0; t = t->next) {
         soc = (struct _CPSSoc *)t->specific[0];
         if (soc && soc->thread && soc->ssl && soc->state == 4 &&
             ((struct _CPSSslConnection *)soc->con)->state < 8 &&

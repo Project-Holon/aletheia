@@ -14,10 +14,10 @@
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   g_022034AC  0x022034AC  data  ov135
  *   g_022034DC  0x022034DC  data  ov135
  *   g_022034BC  0x022034BC  data  ov135
@@ -61,10 +61,10 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 extern void func_02041570(int channel, u16 val);
@@ -84,21 +84,21 @@ void WORLDTRADE_DETAIL_SetupBgPlanes(void)
     BG_SYS_SetSubPlaneVisible(0x16, 1);
     {
         struct BgTemplate t = g_022034DC;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_020414EC(2);
+    BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
     {
         struct BgTemplate t = g_022034BC;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
         struct BgTemplate t = g_022034FC;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
     }
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_02040588(3, 1);
-    func_02040B94(2, 0x20, 0, 0x48);
-    func_02040B94(3, 0x20, 0, 0x48);
+    BG_SYS_InitRun(2, 0x20, 0, 0x48);
+    BG_SYS_InitRun(3, 0x20, 0, 0x48);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0205A148
+ * function: DWCi_GetAllocateSize
  * address:  0x0205A148
  * packet:   pkt_0205A148
  * region:   arm9
@@ -20,7 +20,7 @@ typedef struct {
 } _tagDWCiAllocHeader;
 extern void *DWCi_GetAllocateHeader(char *p);
 
-unsigned long func_0205A148(char *ptr)
+unsigned long DWCi_GetAllocateSize(char *ptr)
 {
     _tagDWCiAllocHeader *header = DWCi_GetAllocateHeader(ptr);
     return header->size;

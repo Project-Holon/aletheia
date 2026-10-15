@@ -22,7 +22,7 @@
  *   FIELD_MSGBG_CreatePlainWin  0x02191558  thumb  ov021
  *   POKE_REGULATION_CreateText  0x0201A4D4  thumb
  *   UNION_MSG_RegisterPartnerWords  0x0217EE90  thumb  ov019
- *   func_0200AE3C  0x0200AE3C  thumb
+ *   REGULATION_CreateCupName  0x0200AE3C  thumb
  *   FIELD_MSGBG_PlainWinPrintStr  0x02191648  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_PlainWinPrintMsg  0x0219161C  thumb  ov021
@@ -60,7 +60,7 @@ extern void  func_02034714(const char *a, u32 b, const char *c);
 extern struct R *FIELD_MSGBG_CreatePlainWin(struct Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g);
 extern u8 *POKE_REGULATION_CreateText(u8 *a0, u32 a1, u16 a2, u32 a3);
 extern void  UNION_MSG_RegisterPartnerWords(Self *self);
-extern void *func_0200AE3C(struct Reg *p, u32 heap);
+extern void *REGULATION_CreateCupName(struct Reg *p, u32 heap);
 extern void FIELD_MSGBG_PlainWinPrintStr(struct R *r, int b, int c, u32 d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void FIELD_MSGBG_PlainWinPrintMsg(struct R *r, int b, int c, u32 d);
@@ -89,7 +89,7 @@ void UNION_MSG_SetupRegulationWindow(Self *self, u32 a1, u32 mask, int mode, int
     UNION_MSG_RegisterPartnerWords(self);
 
     if (msg == 0) {
-        s = func_0200AE3C(self->f352C, 0x41);
+        s = REGULATION_CreateCupName(self->f352C, 0x41);
         FIELD_MSGBG_PlainWinPrintStr(self->f2818, 0, 0, (u32)s);
         STRBUF_Delete(s);
     } else {

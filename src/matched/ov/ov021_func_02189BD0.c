@@ -63,7 +63,7 @@
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   FIELD_EVENT_CHECK_GetFrontTileMessage  0x0218B56C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   INTRUDE_FindOfferSlotAt  0x021CFAC0  thumb
  *   INTRUDE_StartOfferEvent  0x021CFC14  thumb
@@ -181,7 +181,7 @@ extern u32 EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(void *p, void *q, int *pos
 extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern u16 FIELD_EVENT_CHECK_GetFrontTileMessage(struct FieldCtx *p, u8 *pos);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern int INTRUDE_FindOfferSlotAt(u8 *base, int a, int b, int c, int d);
 extern void *INTRUDE_StartOfferEvent(void *a, void *unused, void *c);
@@ -329,7 +329,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
         x = xyz[0] >> 12;
         y = xyz[1] >> 12;
         z = xyz[2] >> 12;
-        map = func_0200BE48(GAME_DATA_GetSaveControl(in.f8));
+        map = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(in.f8));
         msg = (u32)INTRUDE_FindOfferSlotAt(map, (u16)FIELDMAP_GetZoneId((u8 *)pos), (s16)(x / 16), (s16)(y / 16), (s16)(z / 16));
         if (msg != 0xFF)
             return (int)INTRUDE_StartOfferEvent(sys, (void *)in.f0, (void *)msg);

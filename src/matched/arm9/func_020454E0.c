@@ -11,13 +11,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02041680  0x02041680  arm
+ *   BG_SYS_GetType  0x02041680  arm
  *   func_02041300  0x02041300  arm
  *
  * The eight-piece frame around a window: base tile + 0..7 drawn at the
  * corners and edges one cell outside the on-screen extent (+7/+8), with the
  * palette nibble in the top of each cell unless the layer is 8bpp
- * (func_02041680 answers 1).
+ * (BG_SYS_GetType answers 1).
  *
  * Closed in wave 15 from a 2-byte residue (`mov r6, r2` against `mov r4,
  * r2`, the image gives pal and the palette bits one register).  Two facts,
@@ -47,12 +47,12 @@ struct Cfg {
     u16 unk_0a;
 };
 
-extern u8 func_02041680(int channel);
+extern u8 BG_SYS_GetType(int channel);
 extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 
 void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal)
 {
-    if (func_02041680(cfg->unk_02) != 1) {
+    if (BG_SYS_GetType(cfg->unk_02) != 1) {
         pal &= 0xf;
         pal <<= 12;
     } else {

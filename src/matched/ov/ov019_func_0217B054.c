@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   UNION_CHARA_GetMmdl  0x0217AFB0  thumb  ov019
  *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
  *   UNION_EFF_DeleteIcon  0x0217F958  thumb  ov019
@@ -19,7 +19,7 @@
  */
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void *UNION_CHARA_GetMmdl(void **a, u8 *b, u8 *c);
@@ -33,7 +33,7 @@ void UNION_CHARA_DeleteSlot(void **a, int b, void *c)
     void *h;
     void *r;
 
-    h = func_0201210C(((void **)a[0])[3]);
+    h = ICA_ANIME_GetField20(((void **)a[0])[3]);
     r = UNION_CHARA_GetMmdl(a, (u8 *)b, c);
     if (h != 0 && r != 0)
         UNION_EFF_DeleteIcon((char *)FIELDMAP_GetUnionEff(h), (u32)r);

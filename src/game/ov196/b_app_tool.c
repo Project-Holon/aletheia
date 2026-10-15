@@ -1,7 +1,7 @@
 /*
  * file:     b_app_tool.c
  * unit:     yes
- * function: func_0220AF40, func_0220AF64, func_0220AF6C, func_0220AFC4, func_0220AFDC, func_0220B000, func_0220B07C, func_0220B094
+ * function: B_APP_TOOL_Create, B_APP_TOOL_Delete, B_APP_TOOL_CreateActors, B_APP_TOOL_DeleteActors, B_APP_TOOL_SetActorsVisible, B_APP_TOOL_LayoutActors, B_APP_TOOL_ShowWindow, B_APP_TOOL_ShowWindows, B_APP_TOOL_Update
  * address:  0x0220AF40
  * region:   ov196
  * compiler: dsi/1.1p1
@@ -11,6 +11,8 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * extent: intended code is 66 bytes; the handed tail is zero alignment and b_sap_ptool.c string data, not follower code.
  *
  * symbols:
  *   sub_02030734 0x02030734 arm
@@ -23,8 +25,12 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   sub_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../../matched/include/Obj14539.h"
 #include "../../matched/include/Obj24987.h"
@@ -34,6 +40,7 @@ struct Obj;
 struct Vec2;
 struct Descriptor;
 struct Cfg;
+struct PrintSys;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -52,6 +59,8 @@ typedef struct {u16 x,y;} Pos_0220B000;
 
 typedef short s16_0220B07C;
 
+typedef struct {int handle;unsigned char active;unsigned char pad[3];} Entry;
+
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern int CLACT_CreateActor(int, int, int, int, void *, int, u16);
@@ -62,28 +71,36 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void sub_02041B6C(u32);
-u8 *func_0220AF40(u16 v);
-void func_0220AF64(void *p);
-void func_0220AF6C(char *p, int a, int b, int c, int d);
-void func_0220AFC4(u8 *p);
-void func_0220AFDC(char *p, void *v);
-void func_0220B000(int *p, u8 *q);
-void func_0220B07C(void **p);
-void func_0220B094(char *p, unsigned char *q);
+extern void BG_SYS_SetFlagField06(u32);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+u8 *B_APP_TOOL_Create(u16 v);
+void B_APP_TOOL_Delete(void *p);
+void B_APP_TOOL_CreateActors(char *p, int a, int b, int c, int d);
+void B_APP_TOOL_DeleteActors(u8 *p);
+void B_APP_TOOL_SetActorsVisible(char *p, void *v);
+void B_APP_TOOL_LayoutActors(int *p, u8 *q);
+void B_APP_TOOL_ShowWindow(void **p);
+void B_APP_TOOL_ShowWindows(char *p, unsigned char *q);
+void B_APP_TOOL_Update(Entry *p,int b,unsigned n);
 extern const char d_0220B100[];
 
-u8 *func_0220AF40(u16 v) { u8 *p; p=sub_02030734(v,24,0,d_0220B100,43); ((struct Obj14539 *)p)->f10=v; ((struct Obj14539 *)p)->f14=1; return p; }
+
+u8 *B_APP_TOOL_Create(u16 v) { u8 *p; p=sub_02030734(v,24,0,d_0220B100,43); ((struct Obj14539 *)p)->f10=v; ((struct Obj14539 *)p)->f14=1; return p; }
+
 
 /*
  * leaf: parent-cleared sole blocker of ov197 func_0220D3B0; eight-byte tail stub.
  */
-void func_0220AF64(void *p)
+void B_APP_TOOL_Delete(void *p)
 {
     func_020307B0(p);
 }
 
-void func_0220AF6C(char *p, int a, int b, int c, int d)
+
+void B_APP_TOOL_CreateActors(char *p, int a, int b, int c, int d)
 {
     Pos_0220AF6C pos;
     unsigned i;
@@ -97,10 +114,11 @@ void func_0220AF6C(char *p, int a, int b, int c, int d)
 }
 
 
+
 /*
  * Addresses are Black-image addresses.
  */
-void func_0220AFC4(u8 *p)
+void B_APP_TOOL_DeleteActors(u8 *p)
 {
     u32 i;
 
@@ -110,7 +128,8 @@ void func_0220AFC4(u8 *p)
 }
 
 
-void func_0220AFDC(char *p, void *v)
+
+void B_APP_TOOL_SetActorsVisible(char *p, void *v)
 {
     if (((struct Obj14540 *)p)->f14 != v)
     {
@@ -123,7 +142,8 @@ void func_0220AFDC(char *p, void *v)
     }
 }
 
-void func_0220B000(int *p, u8 *q)
+
+void B_APP_TOOL_LayoutActors(int *p, u8 *q)
 {
     Pos_0220B000 pos;
     u8 h=q[3]/2;
@@ -134,20 +154,34 @@ void func_0220B000(int *p, u8 *q)
     pos.x=q[0]+w;pos.y=q[1]+h;CLACT_AddActorSurfacePos((struct Obj *)p[3],(const struct Vec2 *)(&pos),1);
 }
 
+
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-void func_0220B07C(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); sub_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
+void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
 
 
-void func_0220B094(char *p, unsigned char *q)
+
+void B_APP_TOOL_ShowWindows(char *p, unsigned char *q)
 {
     int i = 0;
     for (;;) {
         unsigned char c = q[i];
         if (c == 0xff)
             break;
-        func_0220B07C((void **)(p + (c << 3)));
+        B_APP_TOOL_ShowWindow((void **)(p + (c << 3)));
         i++;
+    }
+}
+
+void B_APP_TOOL_Update(Entry *p,int b,unsigned n)
+{
+    unsigned i;
+    PRINTSYS_QUE_Main((struct PrintSys *)b);
+    for(i=0;i<n;i++) {
+        if(p[i].active && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)b,(void *)((int)BMP_WIN_GetBmp((struct Descriptor *)p[i].handle)))==0) {
+            BMP_WIN_TransferChars((struct Descriptor *)p[i].handle);
+            p[i].active=0;
+        }
     }
 }

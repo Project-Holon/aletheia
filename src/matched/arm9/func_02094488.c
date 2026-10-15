@@ -1,5 +1,5 @@
 /*
- * function: func_02094488
+ * function: MSL_C_LIB_SprintfWriteProc
  * address:  0x02094488
  * packet:   pkt_02094488
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
-u32 func_02094488(u8 *p, const void *src, u32 n)
+u32 MSL_C_LIB_SprintfWriteProc(u8 *p, const void *src, u32 n)
 {
     u32 pos = ((struct Obj07071 *)p)->f8;
     u32 cap = ((struct Obj07071 *)p)->f4;

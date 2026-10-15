@@ -1,5 +1,5 @@
 /*
- * function: func_0207DE88
+ * function: G3X_SetDisp1DotDepth
  * address:  0x0207DE88
  * packet:   pkt_0207DE88
  * region:   arm9
@@ -54,7 +54,7 @@ typedef union {
 #define REG_CLIPMTX_RESULT_0_ADDR 0x04000640
 #define REG_VECMTX_RESULT_0_ADDR  0x04000680
 
-void func_0207DE88(fx32 w)
+void G3X_SetDisp1DotDepth(fx32 w)
 {
     reg_G3X_DISP_1DOT_DEPTH = (u16)((w >> 9) & 0x7fff);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0205F648
+ * function: NCFGi_InitBackupMemory
  * address:  0x0205F648
  * packet:   pkt_0205F648
  * region:   arm9
@@ -47,7 +47,7 @@ extern struct NCFGBackupBss FormatVersionNumber;
 extern u8 nvramBuf[32];
 extern u8 nvramBuf2[32];
 
-s32 func_0205F648(void)
+s32 NCFGi_InitBackupMemory(void)
 {
     s32 result;
 

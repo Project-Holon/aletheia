@@ -12,14 +12,15 @@
  * Calls the module setter on the value with the sentinel -1.
  *
  * symbols:
+ *   CheckRcode  0x0217EB00  arm
 
  */
 
 extern int func_0215F590(void);
-extern int func_0217EB00(int a, int b);
+extern int CheckRcode(int a, int b);
 
 int func_0217EC90(int sock, char *buffer, int bufferLen, int flags)
 {
-    return func_0217EB00(func_0215F590(), -1);
+    return CheckRcode(func_0215F590(), -1);
 }
 

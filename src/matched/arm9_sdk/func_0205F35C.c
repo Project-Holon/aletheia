@@ -21,12 +21,12 @@ typedef struct tagACWORK {
     unsigned char connectApType;
 } tagACWORK;
 
-extern void func_0205C31C(unsigned char type);
-extern void func_0205C3B0(unsigned char type);
+extern void DWCi_AC_SetApType(unsigned char type);
+extern void DWCi_AC_CopyExSetting(unsigned char type);
 
 static unsigned char func_0205F35C(tagACWORK *wk)
 {
-    func_0205C31C(wk->connectApType);
-    func_0205C3B0(wk->connectApType);
+    DWCi_AC_SetApType(wk->connectApType);
+    DWCi_AC_CopyExSetting(wk->connectApType);
     return 0x10;
 }

@@ -12,7 +12,7 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   WIFICLUBACTOR_RemoveNetCommands 0x021BA7F8 thumb ov099
- *   func_0200AE08 0x0200AE08 thumb
+ *   REGULATION_Copy 0x0200AE08 thumb
  *   func_020307B0 0x020307B0 arm
  *   WIFICLUB_DeleteMenuAndIcons 0x021BC0C4 thumb ov099
  *   WIFICLUB_ExitScreen 0x021BDF7C thumb ov099
@@ -33,7 +33,7 @@ struct S020315D4;
 extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_NET_GetRunState(void);
 extern void WIFICLUBACTOR_RemoveNetCommands(char *);
-extern void func_0200AE08(const struct Reg *src, struct Reg *dest);
+extern void REGULATION_Copy(const struct Reg *src, struct Reg *dest);
 extern u32 func_020307B0(void *p);
 extern void WIFICLUB_DeleteMenuAndIcons(char *);
 extern void WIFICLUB_ExitScreen(char *);
@@ -49,7 +49,7 @@ int WIFICLUB_ProcExit(void *task, int unused, char *output, char *p)
     if (GFL_NET_GetRunState()) WIFICLUBACTOR_RemoveNetCommands(p);
     ((struct Obj06360 *)output)->f49 = ((struct Obj03736 *)p)->f135C;
     if (((struct Obj03736 *)p)->f1348) {
-        func_0200AE08(((struct Obj03736 *)p)->f1348, ((struct Obj06360 *)output)->f1C);
+        REGULATION_Copy(((struct Obj03736 *)p)->f1348, ((struct Obj06360 *)output)->f1C);
         func_020307B0(((struct Obj03736 *)p)->f1348);
         ((struct Obj03736 *)p)->f1348 = 0;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0203FCA0
+ * function: BG_SYS_InitBgLayer
  * address:  0x0203FCA0
  * packet:   pkt_0203FCA0
  * region:   arm9
@@ -25,7 +25,7 @@
  * types (GXBGScrSizeText, GXBGColorMode, GXBGScrBase, GXBGCharBase,
  * GXBGExtPltt, GXBGAreaOver).  The same inlines with int parameters give
  * 1860 bytes, 1171 out (the type-0 store cross-jumped into the shared tail);
- * see docs/notes/func_0203FCA0.c.txt for the earlier record.
+ * see docs/notes/BG_SYS_InitBgLayer.c.txt for the earlier record.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -270,7 +270,7 @@ static inline void G2S_BG3Mosaic(BOOL enable)
         REG16(REG_BG3CNT_B) &= ~0x40;
     }
 }
-void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
+void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 {
     u32 ss = func_02042218(tmpl->unk_10, type);
 

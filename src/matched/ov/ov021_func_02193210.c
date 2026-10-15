@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012FFC  0x02012FFC  thumb  arm9
- *   func_02013080  0x02013080  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern signed char func_02013080(u32 idx);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
+extern signed char MSG_SPEED_GetWait(void);
 
 u32 FIELD_MSGBG_KeyWaitGetCharWait(u8 *p)
 {
     if (*p != 0)
-        return func_02013080(1);
-    return func_02012FFC();
+        return MSG_SPEED_GetWaitForSpeed(1);
+    return MSG_SPEED_GetWait();
 }

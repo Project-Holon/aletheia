@@ -1,5 +1,5 @@
 /*
- * function: func_021F9E18
+ * function: STA_ACTING_GetSelection
  * address: 0x021F9E18
  * packet: pkt_ov132_021F9E18
  * region: ov132
@@ -11,4 +11,4 @@
  */
 #include "../include/Obj23221.h"
 typedef unsigned char u8;
-int func_021F9E18(char *p) { return ((struct Obj23221 *)p)->f11C; }
+int STA_ACTING_GetSelection(char *p) { return ((struct Obj23221 *)p)->f11C; }

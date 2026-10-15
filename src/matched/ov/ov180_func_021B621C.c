@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
-extern void func_0203F9B4(void);
-void HALL_OF_FAME_ExitGraphicsSystem(void) { func_0203F9B4(); }
+extern void BG_SYS_Delete(void);
+void HALL_OF_FAME_ExitGraphicsSystem(void) { BG_SYS_Delete(); }

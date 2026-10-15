@@ -12,8 +12,8 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   func_0220B120 0x0220B120 thumb ov198
- *   func_0220B3B4 0x0220B3B4 thumb ov198
+ *   B_PLIST_ANM_CopyMonSpriteTiles 0x0220B120 thumb ov198
+ *   B_PLIST_ANM_CopySubSpriteTiles 0x0220B3B4 thumb ov198
  *   func_020307B0 0x020307B0 arm
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -37,8 +37,8 @@ struct PalAnmSlot;
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
-extern void func_0220B120(char *,u16 *);
-extern void func_0220B3B4(char *,u16 *);
+extern void B_PLIST_ANM_CopyMonSpriteTiles(char *,u16 *);
+extern void B_PLIST_ANM_CopySubSpriteTiles(char *,u16 *);
 extern u32 func_020307B0(void *p);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -53,10 +53,10 @@ void func_02210608(char *p)
     char *data;
     ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,((struct Obj25248 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,16,1,(void **)&data,((struct Obj25249 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
-    func_0220B120(p,(u16 *)(data+12));
+    B_PLIST_ANM_CopyMonSpriteTiles(p,(u16 *)(data+12));
     func_020307B0(handle);
     handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,17,1,(void **)&data,((struct Obj25250 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
-    func_0220B3B4(p,(u16 *)(data+12));
+    B_PLIST_ANM_CopySubSpriteTiles(p,(u16 *)(data+12));
     func_020307B0(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,100,19,((struct Obj25251 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);

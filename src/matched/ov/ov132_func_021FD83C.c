@@ -1,5 +1,5 @@
 /*
- * function: func_021FD83C
+ * function: STA_NET_GetSlot1Done
  * address: 0x021FD83C
  * packet: pkt_ov132_021FD83C
  * region: ov132
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021FD83C(char *p) {return ((struct Obj23298 *)p)->f170;}
+u32 STA_NET_GetSlot1Done(char *p) {return ((struct Obj23298 *)p)->f170;}

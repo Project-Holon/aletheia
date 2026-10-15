@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02080D24  0x02080D24  arm
  *   EVENT_COMM_COMMON_GetMissionState  0x0217F5A0  thumb  ov018
@@ -37,8 +37,8 @@ typedef struct {
 
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B58(const struct BigObj *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void MI_CpuFill8(void *, int, int);
 extern int func_02080D24(unsigned int x);
 extern int EVENT_COMM_COMMON_GetMissionState(char *);
@@ -54,13 +54,13 @@ void INTRUDE_SUBDISP_UpdateTownState(char *p, char *q)
     int i;
 
     o = (O *)(p + 0xd8);
-    h = (int)func_020120F4((const struct Ctx *)(*(int *)&((struct Obj00399 *)p)->f0));
+    h = (int)ICA_ANIME_GetField1C((const struct Ctx *)(*(int *)&((struct Obj00399 *)p)->f0));
     if (q == 0) {
         MI_CpuFill8(p + 0xd8, 0, 0x14);
         *(p + 0x11e) = 1;
         return;
     }
-    n = func_02012B58((const struct BigObj *)h);
+    n = GAME_DATA_GetOwnNetId((const struct BigObj *)h);
     o->a = ((Bf *)(q + 0x86))->lo;
     o->b = ((struct Obj12492 *)q)->f8FB;
     o->c = func_02080D24(o->b);

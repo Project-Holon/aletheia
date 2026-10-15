@@ -16,7 +16,7 @@
  *   WORLDTRADE_BOX_CreateWindows 0x021F57EC thumb ov135
  *   WORLDTRADE_BOX_CreateActors 0x021F5420 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_BOX_LoadBoxIcons 0x021F68A4 thumb ov135
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -32,7 +32,7 @@ extern void WORLDTRADE_BOX_LoadBgGraphics(u8 *);
 extern void WORLDTRADE_BOX_CreateWindows(u8 *);
 extern void WORLDTRADE_BOX_CreateActors(u8 *);
 extern void WORLDTRADE_SUBLCD_SetSlotActorPositions(char *p);
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern void WORLDTRADE_BOX_LoadBoxIcons(u8 *, int);
 extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
@@ -46,7 +46,7 @@ int WORLDTRADE_BOX_Init(u8 *p)
     WORLDTRADE_BOX_CreateWindows(p);
     WORLDTRADE_BOX_CreateActors(p);
     WORLDTRADE_SUBLCD_SetSlotActorPositions((char *)p);
-    if (func_0207D55C((u16 *)0x0400106c) == 0) {
+    if (GXx_GetMasterBrightness_((u16 *)0x0400106c) == 0) {
         WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
     } else {
         WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);

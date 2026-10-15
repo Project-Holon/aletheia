@@ -1,5 +1,5 @@
 /*
- * function: func_02168AD4
+ * function: DWCi_FriendProcess
  * address:  0x02168AD4
  * packet:   pkt_ov009_02168AD4
  * region:   ov009
@@ -81,7 +81,7 @@ static int s_bInPersistThink = 0;
 static int s_bNeedCloseStatsConnection = 0;
 static FriendList *stpFriendCnt = 0;
 
-void func_02168AD4(void)
+void DWCi_FriendProcess(void)
 {
     int gpResult;
     int i;

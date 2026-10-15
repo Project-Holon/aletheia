@@ -11,8 +11,8 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
@@ -32,8 +32,8 @@ struct BgTemplate;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_02082A7C(u32,void *,u32);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_SetLcdSwap(u32);
@@ -48,17 +48,17 @@ void func_021D8804(void)
     func_02082A7C(0,(void *)0x06400000,0x40000);
     func_02082A7C(0,(void *)0x06600000,0x20000);
     main=d_021DA638;
-    func_0203FCA0(1,(const struct BgTemplate *)(&main.rows[0]),0);
-    func_0203FCA0(2,(const struct BgTemplate *)(&main.rows[1]),0);
-    func_0203FCA0(3,(const struct BgTemplate *)(&main.rows[2]),0);
-    func_020414EC(1); func_020414EC(2); func_020414EC(3);
+    BG_SYS_InitBgLayer(1,(const struct BgTemplate *)(&main.rows[0]),0);
+    BG_SYS_InitBgLayer(2,(const struct BgTemplate *)(&main.rows[1]),0);
+    BG_SYS_InitBgLayer(3,(const struct BgTemplate *)(&main.rows[2]),0);
+    BG_SYS_ClearSlot(1); BG_SYS_ClearSlot(2); BG_SYS_ClearSlot(3);
     BG_SYS_SetMainPlaneVisible(1,0); BG_SYS_SetMainPlaneVisible(2,1); BG_SYS_SetMainPlaneVisible(4,0); BG_SYS_SetMainPlaneVisible(8,0);
     sub=d_021DA698;
-    func_0203FCA0(4,(const struct BgTemplate *)(&sub.rows[0]),0);
-    func_0203FCA0(5,(const struct BgTemplate *)(&sub.rows[1]),0);
-    func_0203FCA0(6,(const struct BgTemplate *)(&sub.rows[2]),0);
-    func_0203FCA0(7,(const struct BgTemplate *)(&sub.rows[3]),0);
-    func_020414EC(4); func_020414EC(5); func_020414EC(6); func_020414EC(7);
+    BG_SYS_InitBgLayer(4,(const struct BgTemplate *)(&sub.rows[0]),0);
+    BG_SYS_InitBgLayer(5,(const struct BgTemplate *)(&sub.rows[1]),0);
+    BG_SYS_InitBgLayer(6,(const struct BgTemplate *)(&sub.rows[2]),0);
+    BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&sub.rows[3]),0);
+    BG_SYS_ClearSlot(4); BG_SYS_ClearSlot(5); BG_SYS_ClearSlot(6); BG_SYS_ClearSlot(7);
     BG_SYS_SetSubPlaneVisible(1,1); BG_SYS_SetSubPlaneVisible(2,1); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
     BG_SYS_SetLcdSwap(0);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);

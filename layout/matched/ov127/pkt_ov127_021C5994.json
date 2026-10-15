@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C5994",
-    "func_021C59D0"
+    "WF2DMAP_OBJDRAW_SetPosFromOwner",
+    "WF2DMAP_OBJDRAW_ClearPos"
+   ],
+   "addresses": [
+    "0x021C5994",
+    "0x021C59D0"
    ]
   }
  ]

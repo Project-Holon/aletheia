@@ -1,5 +1,5 @@
 /*
- * function: func_0209138C
+ * function: MSL_C_LIB_AllocAllFromHeap
  * address:  0x0209138C
  * packet:   pkt_020911D8
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
 
-void *func_0209138C(u32 heap)
+void *MSL_C_LIB_AllocAllFromHeap(u32 heap)
 {
     return OS_AllocFromHeap(0, (u32)-1, heap);
 }

@@ -18,12 +18,12 @@
  * the ABS32 site resolves via `matched`.  Verified EXACT.
  *
  * symbols:
- *   func_020964F4  0x020964F4  arm
+ *   atoll  0x020964F4  arm
  */
 
-extern long long func_020964F4(unsigned int a0);
+extern long long atoll(unsigned int a0);
 
 long long gsiStringToInt64(unsigned int a0)
 {
-    return func_020964F4(a0);
+    return atoll(a0);
 }

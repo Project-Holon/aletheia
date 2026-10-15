@@ -1,5 +1,5 @@
 /*
- * function: func_02083644
+ * function: NVRAMi_Init
  * address:  0x02083644
  * packet:   pkt_02083644
  * region:   arm9
@@ -108,7 +108,7 @@ static inline void OS_InitThreadQueue(OSThreadQueue *queue)
     queue->head = queue->tail = 0;
 }
 
-void func_02083644(void)
+void NVRAMi_Init(void)
 {
     u32 e;
 

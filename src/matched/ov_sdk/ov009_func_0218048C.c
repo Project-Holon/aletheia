@@ -1,5 +1,5 @@
 /*
- * function: func_0218048C
+ * function: gsUdpSocketError
  * address:  0x0218048C
  * packet:   pkt_ov009_0218048C
  * region:   ov009
@@ -47,7 +47,7 @@ extern void *func_02184208(void *array, int n);
 
 extern char g_021A3868[];
 
-void func_0218048C(void)
+void gsUdpSocketError(void)
 {
     int i;
     int len;

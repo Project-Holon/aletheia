@@ -1,5 +1,5 @@
 /*
- * function: func_02205BC8
+ * function: SHINKA_DEMO_GRAPHIC_DrawClact
  * address: 0x02205BC8
  * packet: pkt_ov195_02205BC8
  * region: ov195
@@ -13,4 +13,4 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void CLACT_DrawSystem(void);
-void func_02205BC8(void *a0){CLACT_DrawSystem();}
+void SHINKA_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}

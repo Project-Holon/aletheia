@@ -1,5 +1,5 @@
 /*
- * function: func_02060368
+ * function: NCFGi_ConvMaskAddr
  * address:  0x02060368
  * packet:   pkt_0205F7C8
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-void func_02060368(int mask, unsigned char *buf)
+void NCFGi_ConvMaskAddr(int mask, unsigned char *buf)
 {
     int i;
     unsigned long snm;

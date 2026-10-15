@@ -29,17 +29,17 @@
  *   func_021FCEA8 0x021FCEA8 thumb ov132
  *   func_021FD14C 0x021FD14C thumb ov132
  *   func_021FD22C 0x021FD22C thumb ov132
- *   func_021FD84C 0x021FD84C thumb ov132
- *   func_021FD6C8 0x021FD6C8 thumb ov132
- *   func_021FD704 0x021FD704 thumb ov132
- *   func_021FD6DC 0x021FD6DC thumb ov132
- *   func_021FD6F0 0x021FD6F0 thumb ov132
- *   func_021FD76C 0x021FD76C thumb ov132
- *   func_021FD7D4 0x021FD7D4 thumb ov132
- *   func_021FD6A4 0x021FD6A4 thumb ov132
+ *   STA_NET_SendRandomOrder 0x021FD84C thumb ov132
+ *   STA_NET_NotifyHostKind4 0x021FD6C8 thumb ov132
+ *   STA_NET_SendSlot1Command 0x021FD704 thumb ov132
+ *   STA_NET_NotifyHostKind5 0x021FD6DC thumb ov132
+ *   STA_NET_NotifyHostKind6 0x021FD6F0 thumb ov132
+ *   STA_NET_SendSlot2Command 0x021FD76C thumb ov132
+ *   STA_NET_SendSlot3Command 0x021FD7D4 thumb ov132
+ *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
  *   func_021FD350 0x021FD350 thumb ov132
  *   func_021FD400 0x021FD400 thumb ov132
- *   func_021FD550 0x021FD550 thumb ov132
+ *   STA_NET_UpdateTransferState 0x021FD550 thumb ov132
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -65,17 +65,17 @@ extern int func_021FCE00(char *, int);
 extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 extern int func_021FD14C(char *);
 extern int func_021FD22C(char *);
-extern int func_021FD84C(u8 *p);
-extern int func_021FD6C8(u8 *p);
-extern int func_021FD704(u8 *p);
-extern int func_021FD6DC(char *);
-extern int func_021FD6F0(char *);
-extern int func_021FD76C(u8 *p);
-extern int func_021FD7D4(u8 *p);
-extern int func_021FD6A4(char *);
+extern int STA_NET_SendRandomOrder(u8 *p);
+extern int STA_NET_NotifyHostKind4(u8 *p);
+extern int STA_NET_SendSlot1Command(u8 *p);
+extern int STA_NET_NotifyHostKind5(char *);
+extern int STA_NET_NotifyHostKind6(char *);
+extern int STA_NET_SendSlot2Command(u8 *p);
+extern int STA_NET_SendSlot3Command(u8 *p);
+extern int STA_NET_IsTransferDone(char *);
 extern int func_021FD350(char *p, char *src);
 extern int func_021FD400(const char *p);
-extern void func_021FD550(char *);
+extern void STA_NET_UpdateTransferState(char *);
 static inline u32 random_below(u32 n)
 {
     u32 draw;
@@ -113,7 +113,7 @@ void func_021FCAA8(char *p)
         }
         break;
     case 3:
-        if (func_021FD84C((u8 *)p) == 1) *(int *)(p + 0x4c) = 4;
+        if (STA_NET_SendRandomOrder((u8 *)p) == 1) *(int *)(p + 0x4c) = 4;
         break;
     case 4:
         cnt = 0;
@@ -134,32 +134,32 @@ void func_021FCAA8(char *p)
         if (func_021FCEA8((int)p, 9, *(u32 *)(p + 0x148), 0xff) == 1) *(int *)(p + 0x4c) = 9;
         break;
     case 9:
-        if (func_021FD6C8((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xa;
+        if (STA_NET_NotifyHostKind4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xa;
         break;
     case 10:
-        if (*(int *)(p + 0x164) == 1 && func_021FD704((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xb;
+        if (*(int *)(p + 0x164) == 1 && STA_NET_SendSlot1Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xb;
         break;
     case 12:
         if (func_021FCE00(p, 0x42) == 1) {
             if (*(int *)(p + 0x48) == 1) {
-                if (func_021FD6DC(p) == 1) *(int *)(p + 0x4c) = 0xd;
+                if (STA_NET_NotifyHostKind5(p) == 1) *(int *)(p + 0x4c) = 0xd;
             } else *(int *)(p + 0x4c) = 0x11;
         }
         break;
     case 13:
-        if (*(int *)(p + 0x168) == 1 && func_021FD6F0(p) == 1) *(int *)(p + 0x4c) = 0xe;
+        if (*(int *)(p + 0x168) == 1 && STA_NET_NotifyHostKind6(p) == 1) *(int *)(p + 0x4c) = 0xe;
         break;
     case 14:
-        if (*(int *)(p + 0x16c) == 1 && func_021FD76C((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xf;
+        if (*(int *)(p + 0x16c) == 1 && STA_NET_SendSlot2Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xf;
         break;
     case 15:
-        if (*(int *)(p + 0x174) == 1 && func_021FD7D4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0x10;
+        if (*(int *)(p + 0x174) == 1 && STA_NET_SendSlot3Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0x10;
         break;
     case 16:
         *(int *)(p + 0x4c) = 0x11;
         break;
     case 17:
-        if (*(int *)(p + 0x178) == 1) func_021FD6A4(p);
+        if (*(int *)(p + 0x178) == 1) STA_NET_IsTransferDone(p);
         break;
     case 18:
         if (func_021FD350(p, (char *)(*(u32 *)(p + 0x120))) == 1) {
@@ -218,5 +218,5 @@ void func_021FCAA8(char *p)
         }
         if (ok == 1) *(int *)(p + 0x188) = 0;
     }
-    func_021FD550(p);
+    STA_NET_UpdateTransferState(p);
 }

@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
- *   func_0200A750  0x0200A750  thumb
+ *   MUSICAL_SAVE_GetProgram  0x0200A750  thumb
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveBlock2A(void *);
 struct Big;
 struct BigSub4;
-extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
+extern struct BigSub4 *MUSICAL_SAVE_GetProgram(struct Big *p, u32 index);
 
 int SCRCMD_MUSICAL_GetProgramInfo(Cur *a, void *b)
 {
@@ -50,7 +50,7 @@ int SCRCMD_MUSICAL_GetProgramInfo(Cur *a, void *b)
     k = *a->f14;
     a->f14++;
     out = SCRIPT_WORK_ReadWorkPointer(a, b);
-    r = (Rec *)func_0200A750(GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(b)), (u8)f);
+    r = (Rec *)MUSICAL_SAVE_GetProgram(GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(b)), (u8)f);
     switch (k) {
     case 0:
         switch (r->b0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_0204EA64
+ * function: DOUBLE3DDISP_Delete
  * address:  0x0204EA64
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   g_02146A80      0x02146A80  data
- *   func_0204EB68   0x0204EB68  arm
- *   func_0204EAD4   0x0204EAD4  arm
+ *   DOUBLE3DDISP_SetupGraphics_EB68   0x0204EB68  arm
+ *   DOUBLE3DDISP_SetupGraphics   0x0204EAD4  arm
  *
  * The cell-actor system's shutdown step: it bails out while the power-control
  * halfword at 0x04000304 is non-zero, then tears the system down one way or
@@ -41,10 +41,10 @@ typedef unsigned int   u32;
 
 extern struct Double3Ddisp *g_02146A80;
 
-extern void func_0204EB68(void);
-extern void func_0204EAD4(void);
+extern void DOUBLE3DDISP_SetupGraphics_EB68(void);
+extern void DOUBLE3DDISP_SetupGraphics(void);
 
-void func_0204EA64(void)
+void DOUBLE3DDISP_Delete(void)
 {
     if (*(volatile u16 *)0x04000606 != 0) {
         return;
@@ -53,9 +53,9 @@ void func_0204EA64(void)
         return;
     }
     if (*(u32 *)(((u8 *)g_02146A80) + 4) != 0) {
-        func_0204EB68();
+        DOUBLE3DDISP_SetupGraphics_EB68();
     } else {
-        func_0204EAD4();
+        DOUBLE3DDISP_SetupGraphics();
     }
     *(u32 *)(((u8 *)g_02146A80) + 8) = 0;
     *(u32 *)(((u8 *)g_02146A80) + 4) = (*(u32 *)(((u8 *)g_02146A80) + 4) == 0) ? 1 : 0;

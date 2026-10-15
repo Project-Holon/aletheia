@@ -1,5 +1,5 @@
 /*
- * function: func_02204F24
+ * function: SHINKA_DEMO_PushBgm
  * address:  0x02204F24
  * packet:   pkt_02204F24
  * region:   ov195
@@ -18,7 +18,7 @@
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 
-void func_02204F24(int a, int *b)
+void SHINKA_DEMO_PushBgm(int a, int *b)
 {
     if (((struct Obj08346 *)b)->f30 == 4) {
         GFL_USE_SetBgmPlayerParam((void *)1);

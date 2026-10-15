@@ -1,5 +1,5 @@
 /*
- * function: func_0205A7CC
+ * function: WDS_DecryptWMBssDesc
  * address:  0x0205A7CC
  * packet:   pkt_0205A7CC
  * region:   arm9
@@ -100,7 +100,7 @@ extern void CRYPTO_RC4Encrypt(CRYPTORC4Context *context, const void *in, unsigne
 extern void MATHi_CRC16UpdateRev(MATHCRC16Table *table, unsigned short *context, const void *input, unsigned long length);
 extern unsigned short MATH_CalcCRC16(MATHCRC16Table *table, const void *data, unsigned long dataLength);
 
-int func_0205A7CC(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable,
+int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable,
                   const WMBssDesc *bssDesc, WDSApInfo *apinfo)
 {
     unsigned char rc4key[8];

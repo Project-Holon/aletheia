@@ -11,7 +11,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
- *   func_0200F5EC 0x0200F5EC thumb
+ *   GFL_NET_ERR_InsertFriend 0x0200F5EC thumb
  */
 #include "../include/Obj10215.h"
 #include "../include/Obj22070.h"
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Rec44;
 struct Sub24;
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
-extern int func_0200F5EC(void *a0, void *a1, void *a2, void *a3);
+extern int GFL_NET_ERR_InsertFriend(void *a0, void *a1, void *a2, void *a3);
 void IRCBATTLEMATCH_RecvTrainerInfoHandler(int a,int b,int c,int d,int e)
 {
  int p = ((struct Obj10215 *)d)->f244;
@@ -31,7 +31,7 @@ void IRCBATTLEMATCH_RecvTrainerInfoHandler(int a,int b,int c,int d,int e)
  if (e == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
   if (a != GFL_NET_SYSTEM_GetCurrentAid()) {
    int r = (int)GAME_DATA_GetPlayerStatus((struct Sub24 *)q,a);
-   ((struct Obj10215 *)d)->fC90 = func_0200F5EC((void *)q,(void *)r,(void *)c,(void *)(((struct Obj10215 *)d)->f278));
+   ((struct Obj10215 *)d)->fC90 = GFL_NET_ERR_InsertFriend((void *)q,(void *)r,(void *)c,(void *)(((struct Obj10215 *)d)->f278));
   }
  }
 }

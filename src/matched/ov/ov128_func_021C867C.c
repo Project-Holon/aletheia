@@ -20,6 +20,7 @@
  *   func_021CA3E8 0x021CA3E8 thumb ov128
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 #include "../include/Obj00329.h"
 #include "../include/Obj03811.h"
@@ -39,7 +40,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,int,int,void *,void *,void *,void *,int,u16,int);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -60,7 +61,7 @@ void func_021C867C(u8 *p, u8 *a, int n, int heap)
     text=STRBUF_Create(128,heap);
     MSGDATA_ReadString(((struct Obj00329 *)a)->f4,n,text);
     func_0201F250(((struct Obj00329 *)a)->f0,((struct Obj03811 *)p)->f110,text);
-    ((struct Obj00329 *)a)->f2C=PRINTSYS_PrintStream(((struct Obj03811 *)p)->f108,0,0,((struct Obj03811 *)p)->f110,((struct Obj00329 *)a)->f17C,(void *)func_02012FFC(),((struct Obj00329 *)a)->f28,10,((struct Obj00329 *)a)->f180,0);
+    ((struct Obj00329 *)a)->f2C=PRINTSYS_PrintStream(((struct Obj03811 *)p)->f108,0,0,((struct Obj03811 *)p)->f110,((struct Obj00329 *)a)->f17C,(void *)MSG_SPEED_GetWait(),((struct Obj00329 *)a)->f28,10,((struct Obj00329 *)a)->f180,0);
     func_0201F73C(((struct Obj03811 *)p)->f108,2,70,11);
     q=((struct Obj03811 *)p)->f108;
     BMP_WIN_TransferChars(q);

@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   site 0x021BCB00 data a4
  */
 typedef unsigned int u32;
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 struct Record { u16 id,pad; u32 translation[3],scale[3],matrix[9],flag; };
 extern const char site[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_0207ADC4(void *);
+extern void MTX_Identity33_(void *);
 struct Record *func_021B95B0(u32 heap,u32 count)
 {
     struct Record *p;
@@ -31,7 +31,7 @@ struct Record *func_021B95B0(u32 heap,u32 count)
         p[i].scale[0]=4096;
         p[i].scale[1]=4096;
         p[i].scale[2]=4096;
-        func_0207ADC4(p[i].matrix);
+        MTX_Identity33_(p[i].matrix);
     }
     return p;
 }

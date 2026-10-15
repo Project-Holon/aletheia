@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02735B20  0x02735B20  data
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ typedef struct {
     OSThread *current;
 } ThreadInfoLike;
 extern SysLockLike g_02735B20;
-extern ThreadInfoLike g_02150FEC;
+extern ThreadInfoLike gMslRefToken;
 extern int OS_DisableInterrupts(void);
 extern int OS_RestoreInterrupts(int);
 extern void OS_SleepThread(void *queue);

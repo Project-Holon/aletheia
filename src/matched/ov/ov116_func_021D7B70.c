@@ -21,7 +21,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_Create 0x0203101C arm
@@ -50,7 +50,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
@@ -70,7 +70,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, u32 heap)
     BMP_WIN_TransferChars(P(0x97c));
     func_02041B6C(1);
     P(0x990) = func_02045B38(0, 2, 206, heap);
-    P(0x994) = func_0201EC64(heap);
+    P(0x994) = GF_FONT_Create_EC64(heap);
     P(0x998) = GF_FONT_Create(23, 0, 0, 0, heap);
     P(0x99c) = STRBUF_Create(128, heap);
     P(0x9a0) = STRBUF_Create(128, heap);

@@ -32,16 +32,16 @@
  *   NNS_G3dGlbGetWVMtx  0x0206ADBC  arm
  *   NNS_G3dGlbGetInvWVMtx  0x0206ADF4  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
- *   func_0207B5C0  0x0207B5C0  arm
+ *   MTX_Copy43To44_  0x0207B5C0  arm
  *   func_0207BE14  0x0207BE14  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   MIi_CpuSend32  0x02082AA8  arm
  *   gBillboardYCmd     0x020A8370  data
  *   gEvpCache     0x0214A1B4  data
  *   gTexImageParamCmd     0x020A82B8  data
  *   gPrjMapTexMtx     0x020A82E8  data
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CAE8  0x0207CAE8  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_0207D918  0x0207D918  arm
  *   func_0207D934  0x0207D934  arm
@@ -77,7 +77,7 @@ extern void MIi_CpuClearFast(u32 value, void *pDst, u32 size);
 extern void func_02082A7C(u32 value, void *pDst, u32 size);
 extern void func_020834A8(void *pDst);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void func_0207CAE8(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
+extern void VEC_CrossProduct(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
 extern void func_0207D918(const MtxFx43 *pMtx);
 extern void func_0207D934(const MtxFx33 *pMtx);
 extern int  G3X_GetVectorMtx(MtxFx33 *pMtx);
@@ -857,19 +857,19 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *pRS, u32 opt)
                 ;
             if (NNS_G3dGlb.flag & 1) {
                 MtxFx44 tmp;
-                func_0207B5C0((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
+                MTX_Copy43To44_((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
             } else if (NNS_G3dGlb.flag & 2) {
                 MtxFx44 tmp;
-                func_0207B5C0(&NNS_G3dGlb.cameraMtx, &tmp);
+                MTX_Copy43To44_(&NNS_G3dGlb.cameraMtx, &tmp);
                 func_0207BE14(&m, &tmp, &m);
             }
             trans->x = m.m[3][0];
             trans->y = m.m[3][1];
             trans->z = m.m[3][2];
-            scale->x = func_0207CBD0((VecFx32 *)&m.m[0][0]);
-            scale->y = func_0207CBD0((VecFx32 *)&m.m[1][0]);
-            scale->z = func_0207CBD0((VecFx32 *)&m.m[2][0]);
+            scale->x = VEC_Mag((VecFx32 *)&m.m[0][0]);
+            scale->y = VEC_Mag((VecFx32 *)&m.m[1][0]);
+            scale->z = VEC_Mag((VecFx32 *)&m.m[2][0]);
 
             if (NNS_G3dGlb.flag & 1) {
                 GXFIFO = 0x00171012;
@@ -957,19 +957,19 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *pRS, u32 opt)
                 ;
             if (NNS_G3dGlb.flag & 1) {
                 MtxFx44 tmp;
-                func_0207B5C0((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
+                MTX_Copy43To44_((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
             } else if (NNS_G3dGlb.flag & 2) {
                 MtxFx44 tmp;
-                func_0207B5C0(&NNS_G3dGlb.cameraMtx, &tmp);
+                MTX_Copy43To44_(&NNS_G3dGlb.cameraMtx, &tmp);
                 func_0207BE14(&m, &tmp, &m);
             }
             trans->x = m.m[3][0];
             trans->y = m.m[3][1];
             trans->z = m.m[3][2];
-            scale->x = func_0207CBD0((VecFx32 *)&m.m[0][0]);
-            scale->y = func_0207CBD0((VecFx32 *)&m.m[1][0]);
-            scale->z = func_0207CBD0((VecFx32 *)&m.m[2][0]);
+            scale->x = VEC_Mag((VecFx32 *)&m.m[0][0]);
+            scale->y = VEC_Mag((VecFx32 *)&m.m[1][0]);
+            scale->z = VEC_Mag((VecFx32 *)&m.m[2][0]);
 
             mtx->m[1][2] = m.m[1][2];
             mtx->m[1][1] = m.m[1][1];
@@ -979,7 +979,7 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *pRS, u32 opt)
             mtx->m[0][0] = m.m[1][1];
             VEC_Normalize((VecFx32 *)&mtx->m[0][0], (VecFx32 *)&mtx->m[0][0]);
             VEC_Normalize((VecFx32 *)&mtx->m[1][0], (VecFx32 *)&mtx->m[1][0]);
-            func_0207CAE8((VecFx32 *)&mtx->m[0][0], (VecFx32 *)&mtx->m[1][0], (VecFx32 *)&mtx->m[2][0]);
+            VEC_CrossProduct((VecFx32 *)&mtx->m[0][0], (VecFx32 *)&mtx->m[1][0], (VecFx32 *)&mtx->m[2][0]);
 
             if (NNS_G3dGlb.flag & 1) {
                 GXFIFO = 0x00171012;

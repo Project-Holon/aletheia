@@ -1,5 +1,5 @@
 /*
- * function: func_0216A1F4
+ * function: DWCi_LoginInit
  * address:  0x0216A1F4
  * packet:   pkt_ov009_0216A1F4
  * region:   ov009
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02178F30  0x02178F30  arm  ov009
- *   g_021AA874  0x021AA874  data
+ *   DWCi_Auth_IsConsoleUserIdAuthentic  0x02178F30  arm  ov009
+ *   gDwcLoginControl  0x021AA874  data
  */
 
 typedef struct LoginCnt {
@@ -33,23 +33,23 @@ typedef struct LoginCnt {
 	char partnerChallenge[0x100];
 } LoginCnt;
 
-extern LoginCnt *g_021AA874;
+extern LoginCnt *gDwcLoginControl;
 
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_02178F30(void);
+extern int DWCi_Auth_IsConsoleUserIdAuthentic(void);
 
-void func_0216A1F4(LoginCnt *logcnt, void *userdata, void **pGpObj, int productID, unsigned long gamecode, unsigned short *playerName, void *callback, void *param)
+void DWCi_LoginInit(LoginCnt *logcnt, void *userdata, void **pGpObj, int productID, unsigned long gamecode, unsigned short *playerName, void *callback, void *param)
 {
-	g_021AA874 = logcnt;
-	MI_CpuFill8(g_021AA874, 0, 0x260);
-	g_021AA874->connection = pGpObj;
-	g_021AA874->state = 0;
-	g_021AA874->productID = productID;
-	g_021AA874->gamecode = gamecode;
-	g_021AA874->playerName = playerName;
-	g_021AA874->callback = callback;
-	g_021AA874->param = param;
-	g_021AA874->userdata = userdata;
-	func_02178F30();
+	gDwcLoginControl = logcnt;
+	MI_CpuFill8(gDwcLoginControl, 0, 0x260);
+	gDwcLoginControl->connection = pGpObj;
+	gDwcLoginControl->state = 0;
+	gDwcLoginControl->productID = productID;
+	gDwcLoginControl->gamecode = gamecode;
+	gDwcLoginControl->playerName = playerName;
+	gDwcLoginControl->callback = callback;
+	gDwcLoginControl->param = param;
+	gDwcLoginControl->userdata = userdata;
+	DWCi_Auth_IsConsoleUserIdAuthentic();
 }

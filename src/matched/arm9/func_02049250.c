@@ -13,7 +13,7 @@
  * symbols:
  *   func_02030734      0x02030734  arm
  *   func_02034734      0x02034734  arm
- *   func_02078B44      0x02078B44  arm
+ *   FS_SeekFile      0x02078B44  arm
  *   FS_ReadFile      0x02078B70  arm
  *   arc_tool_file 0x020A7EE0  data
  *   arc_tool_msg_member_bounds  0x020A7F18  data
@@ -65,7 +65,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 typedef signed int     s32;
 struct FSFile;
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap)
@@ -78,9 +78,9 @@ void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap)
                       arc->count, member);
     }
 
-    func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + member * 8, 0);
+    FS_SeekFile((struct FSFile *)arc, arc->fatOffset + 0xc + member * 8, 0);
     FS_ReadFile((struct FSFile *)arc, range, 8);
-    func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
+    FS_SeekFile((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
 
     buf = func_02030734(heap, range[1] - range[0], 0, arc_tool_file, 619);
     if (buf != 0) {

@@ -45,8 +45,8 @@
  *   BTL_MAIN_StoreResultStats 0x021BA878 thumb ov093
  *   BTL_MAIN_WriteBackResults 0x021BA2E4 thumb ov093
  *   BTL_REC_IsChannelDone 0x021EE894 thumb ov093
- *   func_0207D55C 0x0207D55C arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -150,11 +150,11 @@
  *   BTLV_CORE_Update 0x021E908C thumb ov093
  *   BTL_SERVER_GetFinalData 0x021BABDC thumb ov093
  *   BTL_CLIENT_MarkCommandIssued 0x021CD914 thumb ov093
- *   func_02013080 0x02013080 thumb
+ *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   ov231_id 0x000000E7 data
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021809D8 0x021809D8 thumb ov231
+ *   CARD_SPI_CheckCardId 0x021809D8 thumb ov231
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
  *   ZUKAN_SAVE_CountCaughtNational 0x0200CF28 thumb
@@ -176,7 +176,7 @@
  *   func_02007E50 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C274  0x0200C274  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
@@ -314,8 +314,8 @@ extern int BTL_REC_IsChannelDone(void *reader, u8 client);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern int func_0207D55C(volatile u16 *reg);
-extern void func_0207D534(volatile u16 *reg, int level);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int level);
 extern void BTL_FIELD_Delete(struct BtlField *field);
 extern u32 func_020307B0(void *p);
 extern void BTL_NET_FreeRelayPacket(void *p);
@@ -413,10 +413,10 @@ extern void BTL_CLIENT_GetCursor(struct BtlClient *client, void *buf);
 extern void BTLV_CORE_Update(struct BtlvCore *viewCore);
 extern void BTL_SERVER_GetFinalData(struct BtlServer *server, void *buf);
 extern void BTL_CLIENT_MarkCommandIssued(struct BtlClient *client);
-extern signed char func_02013080(u32 idx);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
-extern int func_021809D8(void);
+extern int CARD_SPI_CheckCardId(void);
 extern u16 BTL_POKEPARAM_GetSpecies(void *mon);
 extern int ZUKAN_SAVE_IsCaught(void *,unsigned int);
 extern u16 ZUKAN_SAVE_CountCaughtNational(void *zukanWork);
@@ -442,7 +442,7 @@ extern int func_02007F1C(void *,u32,int,u16);
 extern int func_02007E50(void *,u32,int,u16);
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 func_0200C274(struct Blk34 *p);
+extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
 extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
@@ -892,10 +892,10 @@ int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct Btl
     case 0:
         if (!main->flags.keepBgm) GFL_USE_FadeOutBgm(30);
         main->fadeLevel = 0;
-        if (func_0207D55C((volatile u16 *)REG_MASTER_BRIGHT_A) != 0) {
+        if (GXx_GetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A) != 0) {
             main->fadeLevel = -16;
-            func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, -16);
-            func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, -16);
             *step += 2;
         } else *step += 1;
         break;
@@ -904,10 +904,10 @@ int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct Btl
         level = main->fadeLevel;
         if (level > -16) {
             main->fadeLevel = level - 1;
-            if (func_0207D55C((volatile u16 *)REG_MASTER_BRIGHT_A) > (level = main->fadeLevel))
-                func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, level);
-            if (func_0207D55C((volatile u16 *)REG_MASTER_BRIGHT_B) > (level = main->fadeLevel))
-                func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, level);
+            if (GXx_GetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A) > (level = main->fadeLevel))
+                GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, level);
+            if (GXx_GetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B) > (level = main->fadeLevel))
+                GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, level);
         } else *step += 1;
         break;
     }
@@ -2123,7 +2123,7 @@ int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main)
 
 
 
-int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main) { return func_02013080(main->textSpeed); }
+int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main) { return MSG_SPEED_GetWaitForSpeed(main->textSpeed); }
 
 
 
@@ -2135,7 +2135,7 @@ int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
     int r;
     if (main->setup->competitor <= 1) {
         func_02034AC4((int)ov231_id);
-        r = func_021809D8();
+        r = CARD_SPI_CheckCardId();
         func_02034A5C((int)ov231_id);
         if (r == 0) {
             return 0;
@@ -3425,7 +3425,7 @@ u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main)
     penalty = 0;
     if (main->flags.penaltyDone == 0) {
         if (main->setup->competitor <= 1) {
-            maxLoss = func_0200C274(GAME_DATA_GetMiscSave(main->setup->gameData));
+            maxLoss = BEACON_GetPoints(GAME_DATA_GetMiscSave(main->setup->gameData));
             loss = BTL_CALC_CalcDefeatMoneyLoss(main->setup->badgeCount, BTL_SIDE_GetSlotOfClientThunk(&main->sides[1], main->ownClientId));
             if (loss > maxLoss)
                 loss = maxLoss;

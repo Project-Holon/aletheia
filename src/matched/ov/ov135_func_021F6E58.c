@@ -14,8 +14,8 @@
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0200ADB4  0x0200ADB4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_DEMO_ReadMyStatus  0x021F72C4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   func_02019CE0  0x02019CE0  thumb
@@ -92,8 +92,8 @@ struct RecDC;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0200ADB4(void *sys);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *WORLDTRADE_NoOp(void *sys);
 extern void *WORLDTRADE_DEMO_ReadMyStatus(void *e);
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
@@ -110,11 +110,11 @@ int WORLDTRADE_DEMO_Init(Work *p)
     MI_CpuFill8(p->req, 0, 0x44);
     d = p->req;
     p->saveMon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
-    d->f30 = func_020120F4(p->ctx->f40);
+    d->f30 = ICA_ANIME_GetField1C(p->ctx->f40);
     d->f3C = p->ctx->f1C;
     switch (p->kind) {
     case 7:
-        d->f38 = d->f34 = func_0200ADB4(p->ctx->sys);
+        d->f38 = d->f34 = WORLDTRADE_NoOp(p->ctx->sys);
         d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(p->mon);
         tmpl = d_021E75FC;
         break;
@@ -122,7 +122,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         if (p->f207 != 0) {
             d->f38 = p->mon;
         } else {
-            d->f38 = func_0200ADB4(p->ctx->sys);
+            d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
         }
         d->f34 = d->f38;
         d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(p->mon);
@@ -132,7 +132,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         if (p->f207 != 0) {
             d->f38 = p->mon;
         } else {
-            d->f38 = func_0200ADB4(p->ctx->sys);
+            d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
         }
         WORLDTRADE_CopyPokemon(p->ctx->sys, p->saveMon);
         d->f34 = p->saveMon;

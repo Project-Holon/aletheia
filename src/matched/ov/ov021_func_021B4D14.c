@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BB58  0x0200BB58  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
+ *   BATTLE_BOX_StoreParty  0x0200BB58  thumb
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -37,8 +37,8 @@ typedef struct {
 
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *p);
-extern void func_0200BB58(u8 *a0, u8 *a1);
+extern void *BATTLE_BOX_GetFromSave(void *p);
+extern void BATTLE_BOX_StoreParty(u8 *a0, u8 *a1);
 extern u32 func_020307B0(void *p);
 
 void SCRCMD_PROC_FLD_FinishOv170Event(volatile Work *w)
@@ -48,7 +48,7 @@ void SCRCMD_PROC_FLD_FinishOv170Event(volatile Work *w)
     Sub *s;
 
     if (w->s->f24 == 4) {
-        func_0200BB58(func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)w->a)), (u8 *)w->s->f8);
+        BATTLE_BOX_StoreParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)w->a)), (u8 *)w->s->f8);
     }
     s = w->s;
     if (s->f24 == 4) {

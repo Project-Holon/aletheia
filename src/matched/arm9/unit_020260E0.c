@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020260E0
+ * function: CURSOR_MOVE_GetCurrent
  * address:  0x020260E0
  * packet:   pkt_020260E0
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * field_sound_system.c accessors following src/matched/func_02026010.c:
+ * field_sound_system.c accessors following src/matched/CURSOR_MOVE_MoveCursor.c:
  * read the current cursor entry, set it (clearing the two trailing
  * cached indices to 0xff), and read field_4.  All leaves; calls nothing.
  */
@@ -39,19 +39,19 @@ struct Sound {
     void *ctx;
 };
 
-u8 func_020260E0(struct Sound *obj)
+u8 CURSOR_MOVE_GetCurrent(struct Sound *obj)
 {
     return obj->field_D;
 }
 
-void func_020260E4(struct Sound *obj, u8 sel)
+void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel)
 {
     obj->field_D = sel;
     obj->field_E = 0xff;
     obj->field_F = 0xff;
 }
 
-u32 func_020260F0(struct Sound *obj)
+u32 CURSOR_MOVE_GetState(struct Sound *obj)
 {
     return obj->field_4;
 }

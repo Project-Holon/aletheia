@@ -1,5 +1,5 @@
 /*
- * function: func_0220BBB4
+ * function: B_PLIST_ANM_CountActiveRecords
  * address: 0x0220BBB4
  * packet: pkt_ov198_0220BBB4
  * region: ov198
@@ -7,14 +7,14 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * leaf: sole unresolved blocker of func_0220B848.
+ * leaf: sole unresolved blocker of B_PLIST_ANM_UpdateByMode.
  */
 #include "../include/Obj25128.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u8 low:7,high:1;} Bits;
-u8 func_0220BBB4(u8 *p)
+u8 B_PLIST_ANM_CountActiveRecords(u8 *p)
 {
  u16 i,count=0;
  for(i=0;i<6;i++){

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6A48
+ * function: WIFI_BSUBWAY_GetDownloadResult
  * address:  0x021D6A48
  * packet:   pkt_ov116_021D6A48
  * region:   ov116
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u16 func_021D6A48(u8 *p) { return ((struct Obj22618 *)p)->fC; }
+u16 WIFI_BSUBWAY_GetDownloadResult(u8 *p) { return ((struct Obj22618 *)p)->fC; }

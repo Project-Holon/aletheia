@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   SND_MIC_Init 0x02006CBC thumb
- *   func_02034F84 0x02034F84 arm
+ *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   SND_MIC_IsLimitReached 0x02006D94 thumb
  *   d_02184A20 0x02184A20 data a1
@@ -27,14 +27,14 @@ typedef unsigned int u32;
 extern char d_02184A20[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void SND_MIC_Init(u16 heap);
-extern void func_02034F84(u32 v);
+extern void UI_SetKeepAwakeFlagsGlobal(u32 v);
 extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u32 SND_MIC_IsLimitReached(void);
 void func_02184398(u8 *p, int heap, u32 b, u32 c)
 {
     u8 *buf;
     SND_MIC_Init(heap);
-    func_02034F84(8);
+    UI_SetKeepAwakeFlagsGlobal(8);
     buf = func_02030734((u16)heap, 0x120, 0, d_02184A20, 0x603);
     MI_CpuFill8(buf, 0, 0x120);
     *(u8 **)(p + 0x1c) = buf;

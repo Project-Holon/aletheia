@@ -1,5 +1,5 @@
 /*
- * function: func_02096508
+ * function: fwide
  * address:  0x02096508
  * packet:   pkt_02095AA4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * note:     the trailing star is the two unlabelled leaves that follow in the
- *           word run -- func_02096578 (0x02096578) and func_02096594
+ *           word run -- wcslen (0x02096578) and wcscpy
  *           (0x02096594), both matched in this window -- so the listing extent
  *           runs to 0x020965B4.  Wants seeds for both addresses in
  *           layout/function_starts.txt.
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_02096508(u8 *p, int v)
+int fwide(u8 *p, int v)
 {
     u32 f;
 

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200C0F0 0x0200C0F0 thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
  *   func_02030734 0x02030734 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0200785C 0x0200785C thumb
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Big;
 struct U16Vec;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0200785C(void *save, unsigned box, void *dest);
@@ -40,7 +40,7 @@ int BOX2_MAIN_PushNameScene(char *p)
 {
     int value;
     Request *r;
-    value = (int)func_0200C0F0(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
+    value = (int)BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
     r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
     func_0200785C((*(void ***)p)[1], ((struct Obj10650 *)p)->f14, r->text);

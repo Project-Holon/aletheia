@@ -10,20 +10,20 @@
  * blocker: ARM9 0203F5FC has no outside code witness; verified scratch-only EXACT.
  *   typedef unsigned short u16;
  *   extern const short FX_SinCosTable_[];
- *   int func_0203F5FC(u16 angle) {
+ *   int GF_STANDARD_Get_F5FC(u16 angle) {
  *       if (angle >= 360) return 0;
  *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
  *   symbols: FX_SinCosTable_ 0x020A1B38 data a2
  * symbols:
  *   GURU2_MAIN_AddAngleWrapped 0x021E15DC thumb ov137
- *   func_0203F5FC 0x0203F5FC arm
+ *   GF_STANDARD_Get_F5FC 0x0203F5FC arm
  *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned short u16;
 extern void GURU2_MAIN_AddAngleWrapped(int *, int);
 typedef unsigned int   u32;
-extern int func_0203F5FC(u32 x);
+extern int GF_STANDARD_Get_F5FC(u32 x);
 extern void MI_CpuFill8(void *, int, unsigned);
 void GURU2_MAIN_UpdateWobbleEffect(int *p)
 {
@@ -38,7 +38,7 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p)
         p[3] = 0x14000;
         p[1]++;
     case 1:
-        amount = func_0203F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
+        amount = GF_STANDARD_Get_F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
         q[13] = 0;
         GURU2_MAIN_AddAngleWrapped(q + 13, amount);
         old = p[4];

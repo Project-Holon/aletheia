@@ -17,7 +17,7 @@
  *   func_020414AC  0x020414AC  arm
  *   func_0204047C  0x0204047C  arm
  *   ov208_func_021BDCA4  0x021BDCA4  thumb  ov208
- *   func_0207D4B0  0x0207D4B0  arm
+ *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ov208_func_021BCF58  0x021BCF58  thumb  ov208
  *   ZUKAN_DETAIL_FORM_InitModelSystem  0x021C4F78  thumb  ov208
  *   ZUKAN_DETAIL_FORM_CreateTextWindows  0x021C48CC  thumb  ov208
@@ -86,7 +86,7 @@ extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_020414AC(u32 bgId);
 extern void func_0204047C(int idx, unsigned short val);
 extern void ov208_func_021BDCA4(void *s, u8 v);
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void ov208_func_021BCF58(void *s, int x);
 extern void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, u8 *p, int key);
@@ -180,7 +180,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         func_0204047C(4, 3);
         func_0204047C(7, 2);
         ov208_func_021BDCA4(scene, 2);
-        func_0207D4B0(1, 0, 1);
+        GX_SetGraphicsMode(1, 0, 1);
         ov208_func_021BCF58(res, *heap);
         ZUKAN_DETAIL_FORM_InitModelSystem(heap, p, key);
         ZUKAN_DETAIL_FORM_CreateTextWindows(heap, p, key);
@@ -314,7 +314,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
             ov208_func_021C51A0(p + 0xc + i * 0x44, W(8));
         ov208_func_021C4FDC(heap, p, key);
         ov208_func_021BCF6C(res);
-        func_0207D4B0(1, 0, 0);
+        GX_SetGraphicsMode(1, 0, 0);
         return 1;
     }
     if (W(8) != 0) {

@@ -11,9 +11,9 @@
  *
  * symbols:
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_0204047C  0x0204047C  arm
  *   func_020414AC  0x020414AC  arm
  *   EL_SCOREBOARD_VramBankConfig     0x02187E58  data  ov020
@@ -33,18 +33,18 @@ struct BgTemplate;
 struct DispConfig;
 struct DispVram;
 void BG_SYS_SetVramBanks(const struct DispVram *c);
-void func_0203F8F4(u16 heapId);
+void BG_SYS_Create(u16 heapId);
 void func_0203FC28(struct DispConfig *cfg);
-void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 void func_0204047C(int idx, unsigned short val);
 void func_020414AC(int a);
 
 void EL_SCOREBOARD_SetupStandaloneDisplay(char *o)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)EL_SCOREBOARD_VramBankConfig);
-    func_0203F8F4(((struct Obj19478 *)o)->f8);
+    BG_SYS_Create(((struct Obj19478 *)o)->f8);
     func_0203FC28((struct DispConfig *)EL_SCOREBOARD_DispConfig);
-    func_0203FCA0(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
     func_0204047C(0, 1);
     func_0204047C(3, 0);
     func_0204047C(1, 3);

@@ -29,12 +29,12 @@ typedef struct tagACWORK {
     NCFGSlotInfo userInfo[3];
 } tagACWORK;
 
-extern void *func_0205C214(unsigned long name);
+extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 
 void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info)
 {
-    tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
+    tagACWORK *wk = (tagACWORK *)DWCi_AC_GetMemPtr(0x10);
 
     MIi_CpuCopy32(info, &wk->userInfo[no], sizeof(NCFGApInfo));
 }

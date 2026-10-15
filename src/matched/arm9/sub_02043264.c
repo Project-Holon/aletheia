@@ -1,5 +1,5 @@
 /*
- * function: sub_02043264
+ * function: BG_SYS_Apply
  * address:  0x02043264
  * packet:   pkt_02042B24
  * region:   arm9
@@ -31,7 +31,7 @@ struct Obj {
     u32 unk_20;
 };
 
-void sub_02043264(struct Obj *p, u32 op, u32 value)
+void BG_SYS_Apply(struct Obj *p, u32 op, u32 value)
 {
     switch (op) {
     case 0:

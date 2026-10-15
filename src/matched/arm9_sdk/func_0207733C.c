@@ -1,5 +1,5 @@
 /*
- * function: func_0207733C
+ * function: CARDi_InitRom
  * address:  0x0207733C
  * packet:   pkt_0207733C
  * region:   arm9
@@ -56,7 +56,7 @@ extern void OS_ReleaseLockID(u16 lockID);
 extern BOOL OS_IsRunOnTwl(void);
 extern void CARDi_InitRomHash(void);
 
-void func_0207733C(void)
+void CARDi_InitRom(void)
 {
     cardi_rom_base.read_func = CARDi_ReadRomWithCPU;
     if ((OS_GetBootType() == 1) && (CARD_GetOwnRomHeader()->rom_size != 0))

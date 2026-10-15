@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA554 0x021BA554 thumb ov218
+ *   UN_SELECT_Check 0x021BA554 thumb ov218
  *   FRAME_LIST_GetScrollBarTop 0x021B8AB8 thumb ov067
  *   func_021BA680 0x021BA680 thumb ov218
  *   FRAME_LIST_GetSelectedIndex 0x021B93A4 thumb ov067
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021BA554(const char *p, int delta);
+extern void UN_SELECT_Check(const char *p, int delta);
 extern int FRAME_LIST_GetScrollBarTop(u8 *);
 extern void func_021BA680(char *p, int v);
 extern int FRAME_LIST_GetSelectedIndex(char *);
@@ -30,7 +30,7 @@ void func_021B9D10(u8 *p,int delta)
 {
     int selected;
     s16 y;
-    func_021BA554((const char *)p,(int)(0u-(u32)delta));
+    UN_SELECT_Check((const char *)p,(int)(0u-(u32)delta));
     y=FRAME_LIST_GetScrollBarTop(*(u8 * *)&((struct Obj03959 *)p)->f2C);
     func_021BA680((char *)p,y);
     selected=FRAME_LIST_GetSelectedIndex(*(char * *)&((struct Obj03959 *)p)->f2C);

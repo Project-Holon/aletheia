@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A98
+ * function: CTVT_COMM_PushStrokes
  * address: 0x021B8A98
  * packet: pkt_ov172_021B8A98
  * region: ov172
@@ -24,7 +24,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void DRAW_SYSTEM_PushStroke(char *p, void *q);
 
-void func_021B8A98(int a, u32 b, char *list, char *q)
+void CTVT_COMM_PushStrokes(int a, u32 b, char *list, char *q)
 {
     char *p;
     u8 n, i;

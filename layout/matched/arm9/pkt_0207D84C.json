@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207D84C",
+   "name": "G3_RotY",
    "address": "0x0207D84C",
    "kind": "sdk",
    "region": "arm9",

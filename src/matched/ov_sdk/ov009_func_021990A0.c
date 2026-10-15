@@ -1,5 +1,5 @@
 /*
- * function: func_021990A0
+ * function: GetClientUniqueID
  * address:  0x021990A0
  * packet:   pkt_ov009_021990A0
  * region:   ov009
@@ -24,9 +24,9 @@
  *   vendor's. An extern struct at the anchor instead reloads the field after the store.
  *
  * symbols:
- *   func_0217F264     0x0217F264  arm  ov009
- *   func_0217F790     0x0217F790  arm  ov009
- *   func_0217F7AC     0x0217F7AC  arm  ov009
+ *   current_time     0x0217F264  arm  ov009
+ *   Util_RandSeed     0x0217F790  arm  ov009
+ *   Util_RandInt     0x0217F7AC  arm  ov009
  *   negotiateList     0x021AE698  data
  *   Matchup3Hostname  0x021AE69C  data
  *   natMappingScheme  0x021AE6A0  data
@@ -46,9 +46,9 @@ typedef struct DArrayImplementation *DArray;
 struct _NAT;
 typedef enum { NAT_MAPPING_UNKNOWN } NatMappingScheme;
 
-extern unsigned int func_0217F264(void);
-extern void func_0217F790(unsigned long seed);
-extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
+extern unsigned int current_time(void);
+extern void Util_RandSeed(unsigned long seed);
+extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 
 unsigned int matchup2ip = 0;
 unsigned int matchup3ip = 0;
@@ -63,12 +63,12 @@ char *Matchup3Hostname = 0;
 DArray negotiateList = 0;
 unsigned int matchup1ip = 0;
 
-int func_021990A0(void)
+int GetClientUniqueID(void)
 {
     if (ClientUniqueID == 0)
     {
-        func_0217F790(func_0217F264());
-        ClientUniqueID = func_0217F7AC(1, 0x7fffffff);
+        Util_RandSeed(current_time());
+        ClientUniqueID = Util_RandInt(1, 0x7fffffff);
     }
     return ClientUniqueID;
 }

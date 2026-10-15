@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_02030734  0x02030734  arm
- *   func_0200ADF0  0x0200ADF0  thumb
+ *   REGULATION_Create  0x0200ADF0  thumb
  *   sUnionCommFile   0x02175600  data  ov012  a1
  *   func_020307B0 0x020307B0 arm
  *   func_020306F0 0x020306F0 arm
@@ -52,9 +52,9 @@
  *   func_02008530  0x02008530  thumb
  *   func_0200856C  0x0200856C  thumb
  *   func_02008570  0x02008570  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_02009CB0  0x02009CB0  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
  *   UNION_APP_IsClosed  0x021840C8  thumb  ov022
  *   UNION_APP_Delete  0x02183BE0  thumb  ov022
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
@@ -75,7 +75,7 @@ extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern struct Regulation *func_0200ADF0(u32 heapId);
+extern struct Regulation *REGULATION_Create(u32 heapId);
 
 extern u32 func_020307B0(void *memory);
 
@@ -145,11 +145,11 @@ extern u8 func_0200856C(const struct MyStatus *status);
 
 extern u8 func_02008570(const struct MyStatus *status);
 
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 
-extern struct WifiList *func_0201283C(struct GameData *gameData);
+extern struct WifiList *GAME_DATA_GetField1A0(struct GameData *gameData);
 
-extern int func_02009CB0(struct WifiList *wifiList, u8 *friendKey);
+extern int WIFILIST_MakeExchangeToken(struct WifiList *wifiList, u8 *friendKey);
 
 extern int UNION_APP_IsClosed(struct UnionAppWork *app);
 
@@ -265,7 +265,7 @@ UnionRoomWork *UNION_COMM_Create(UnionParentWork *parent)
     UNION_COMM_InitSituation(work);
     work->mySituation.chatUpdated = 1;
     UNION_COMM_InitChatLog(&work->chatLog);
-    work->regulation = func_0200ADF0(UNION_HEAP_ID);
+    work->regulation = REGULATION_Create(UNION_HEAP_ID);
     work->fieldActive = 1;
     return work;
 }
@@ -613,7 +613,7 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->nation = func_0200856C(work->parent->myStatus);
     beacon->area = func_02008570(work->parent->myStatus);
     beacon->group = situation->connect.group;
-    func_02009CB0(func_0201283C(func_020120F4(work->parent->gameSystem)), beacon->friendKey);
+    WIFILIST_MakeExchangeToken(GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->parent->gameSystem)), beacon->friendKey);
     if (work->app != 0)
         beacon->appActive = UNION_APP_IsClosed(work->app);
     else

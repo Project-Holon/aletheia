@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B90
+ * function: WF2DMAP_OBJ_SetDestPos
  * address:  0x021C4B90
  * packet:   pkt_021C4B90
  * region:   ov127
@@ -20,7 +20,7 @@ struct pair {
     u16 b;
 };
 
-void func_021C4B90(char *p, struct pair v)
+void WF2DMAP_OBJ_SetDestPos(char *p, struct pair v)
 {
     ((struct Obj00535 *)p)->f8 = v.a;
     ((struct Obj00535 *)p)->fA = v.b;

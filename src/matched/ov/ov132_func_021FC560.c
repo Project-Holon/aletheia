@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F94B0  0x021F94B0  thumb
+ *   STA_ACTING_ClearText  0x021F94B0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021F94B0(u8 *p);
+extern void STA_ACTING_ClearText(u8 *p);
 
 int func_021FC560(void *a, void **pp)
 {
-    func_021F94B0(((struct Obj23262 *)((u8 *)*pp))->f34);
+    STA_ACTING_ClearText(((struct Obj23262 *)((u8 *)*pp))->f34);
     return 0;
 }

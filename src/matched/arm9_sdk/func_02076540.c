@@ -1,5 +1,5 @@
 /*
- * function: func_02076540
+ * function: CARDi_RequestStreamCommandCore
  * address:  0x02076540
  * packet:   pkt_02076540
  * region:   arm9
@@ -126,7 +126,7 @@ extern void DC_FlushRange(const void *startAddr, u32 nBytes);
 extern void DC_WaitWriteBufferEmpty(void);
 extern BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count);
 
-void func_02076540(CARDiCommon *p)
+void CARDi_RequestStreamCommandCore(CARDiCommon *p)
 {
     int req_type = p->req_type;
     int req_mode = p->req_mode;

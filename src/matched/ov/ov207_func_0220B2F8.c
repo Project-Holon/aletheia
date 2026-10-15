@@ -1,5 +1,5 @@
 /*
- * function: func_0220B2F8
+ * function: ZUKAN_TOROKU_GRAPHIC_ClearTask
  * address:  0x0220B2F8
  * packet:   pkt_0220B2F8
  * region:   ov207
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_0220B2F8(int unused, char *p)
+void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, char *p)
 {
     if (((struct Obj14641 *)p)->f2C != 0)
     {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B79E0
+ * function: POKE_SUMMARY_ACTOR_SetMoveAnim
  * address: 0x021B79E0
  * packet: pkt_ov173_021B79E0
  * region: ov173
@@ -20,4 +20,4 @@ struct Obj;
 /* The original forwards the full entry r1 without halfword truncation. */
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-void func_021B79E0(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,WAZA_TOOL_GetParam(id,2));}
+void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,WAZA_TOOL_GetParam(id,2));}

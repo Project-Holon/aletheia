@@ -15,7 +15,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  */
 #include "../include/Obj02111.h"
 
@@ -27,7 +27,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 void C_GEAR_DeleteActors(char *p)
 {
@@ -62,5 +62,5 @@ void C_GEAR_DeleteActors(char *p)
     CLACT_ReleaseCharacter(((struct Obj02111 *)p)->f2C);
     CLACT_ReleasePalette(((struct Obj02111 *)p)->f28);
     v = ((struct Obj02111 *)p)->f14;
-    func_0203FB44((int)6, (unsigned short)v, (unsigned short)(v >> 16));
+    BG_SYS_DeleteHalf((int)6, (unsigned short)v, (unsigned short)(v >> 16));
 }

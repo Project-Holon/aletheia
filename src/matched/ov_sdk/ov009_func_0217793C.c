@@ -18,7 +18,7 @@
  *   DWCs_RecvDataHeader     0x02177C1C arm
  *   DWCs_RecvDataBody       0x02177CE4 arm
  *   DWCs_RecvSystemDataBody 0x02177DCC arm
- *   g_021AB180              0x021AB180 data
+ *   gDwcTransInfo              0x021AB180 data
  */
 
 extern unsigned char DWCi_GetConnectionAID(void *connection);
@@ -28,9 +28,9 @@ extern unsigned short DWCs_DecodeHeader(void *message);
 extern void DWCs_RecvDataHeader(unsigned char aid, void *message, int size);
 extern void DWCs_RecvDataBody(unsigned char aid, void *message, int size);
 extern void DWCs_RecvSystemDataBody(unsigned char aid, void *message, int size);
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 
-#define sTransInfo (*(char **)g_021AB180)
+#define sTransInfo (*(char **)gDwcTransInfo)
 
 void DWCs_HandleReliableMessage(void *connection, unsigned char *message, int size)
 {

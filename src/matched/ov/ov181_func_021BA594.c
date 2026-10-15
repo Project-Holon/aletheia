@@ -1,5 +1,5 @@
 /*
- * function: func_021BA594
+ * function: STAFF_ROLL_PrintEntry
  * address: 0x021BA594
  * packet: pkt_ov181_021BA594
  * region: ov181
@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
- *   func_021BA4AC 0x021BA4AC thumb ov181
+ *   STAFF_ROLL_PrintText 0x021BA4AC thumb ov181
  */
 #include "../include/Obj01071.h"
 #include "../include/Obj08305.h"
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void func_021BA4AC(char *, unsigned char *, void *, int);
-void func_021BA594(char *p, unsigned char *q)
+extern void STAFF_ROLL_PrintText(char *, unsigned char *, void *, int);
+void STAFF_ROLL_PrintEntry(char *p, unsigned char *q)
 {
     void *s;
     int y;
@@ -29,5 +29,5 @@ void func_021BA594(char *p, unsigned char *q)
         y = ((struct Obj01071 *)q)->f4 - 0x100;
         ((struct Obj08305 *)p)->f2CF |= 2;
     }
-    func_021BA4AC(p, q, s, y);
+    STAFF_ROLL_PrintText(p, q, s, y);
 }

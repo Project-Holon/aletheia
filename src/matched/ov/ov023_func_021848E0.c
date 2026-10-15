@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   gOekakiDispConfig     0x02186B3C  data  ov023  a4
  *   gOekakiBgTemplate0     0x02186BCC  data  ov023  a4
  *   gOekakiBgTemplate1     0x02186B6C  data  ov023  a4
@@ -34,12 +34,12 @@ extern const B32 gOekakiBgTemplate5;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 struct BgTemplate;
-extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
+extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 typedef unsigned int   u32;
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 void OEKAKI_SetupBgs(void)
 {
@@ -54,25 +54,25 @@ void OEKAKI_SetupBgs(void)
     func_0203FC28((struct DispConfig *)(&t));
 
     t0 = gOekakiBgTemplate0;
-    func_0203FCA0(0, (const struct BgTemplate *)(&t0), 0);
-    func_020414EC(0);
+    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&t0), 0);
+    BG_SYS_ClearSlot(0);
 
     t1 = gOekakiBgTemplate1;
-    func_0203FCA0(1, (const struct BgTemplate *)(&t1), 0);
-    func_020414EC(1);
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&t1), 0);
+    BG_SYS_ClearSlot(1);
 
     t2 = gOekakiBgTemplate2;
-    func_0203FCA0(2, (const struct BgTemplate *)(&t2), 0);
+    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&t2), 0);
 
     t4 = gOekakiBgTemplate4;
-    func_0203FCA0(4, (const struct BgTemplate *)(&t4), 0);
-    func_020414EC(4);
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&t4), 0);
+    BG_SYS_ClearSlot(4);
 
     t5 = gOekakiBgTemplate5;
-    func_0203FCA0(5, (const struct BgTemplate *)(&t5), 0);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&t5), 0);
 
-    func_02040B94(0, 0x20, 0, 0x28);
-    func_02040B94(4, 0x20, 0, 0x28);
-    func_02040B94(1, 0x20, 0, 0x28);
-    func_02040B94(5, 0x20, 0, 0x28);
+    BG_SYS_InitRun(0, 0x20, 0, 0x28);
+    BG_SYS_InitRun(4, 0x20, 0, 0x28);
+    BG_SYS_InitRun(1, 0x20, 0, 0x28);
+    BG_SYS_InitRun(5, 0x20, 0, 0x28);
 }

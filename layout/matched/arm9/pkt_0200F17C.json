@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200F17C",
+   "name": "NET_DEVICE_TABLE_Select",
    "address": "0x0200F17C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200F234",
+   "name": "NET_DEVICE_TABLE_Reset",
    "address": "0x0200F234",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200F2D4",
+   "name": "GFL_NET_ERR_PollNetState",
    "address": "0x0200F2D4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200F300",
+   "name": "GFL_NET_ERR_IsWifiGameKind",
    "address": "0x0200F300",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0200F34C",
+   "name": "GFL_NET_ERR_CompareFriend",
    "address": "0x0200F34C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200F698",
+   "name": "GFL_NET_ERR_SetBgmTrackVolume",
    "address": "0x0200F698",
    "kind": "game",
    "region": "arm9",

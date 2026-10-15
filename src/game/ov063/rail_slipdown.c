@@ -40,11 +40,11 @@
  *   FIELD_NOGRID_MAPPER_GetAttribute 0x021BB3C4 thumb ov021
  *   MAP_ATTR_GetFlags 0x021AB0F8 thumb ov021
  *   FIELD_RAIL_GetLocationPos 0x021B7D38 thumb ov021
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   func_0207C768 0x0207C768 arm
- *   func_0207D14C 0x0207D14C arm
+ *   FX_Modf 0x0207D14C arm
  *   FIELD_CAMERA_EndDelay 0x0218F0A8 thumb ov021
  *   FIELD_CAMERA_IsDelayEnabled 0x0218F0E8 thumb ov021
  *   FIELD_CAMERA_StopTargetTrace 0x0218EC54 thumb ov021
@@ -109,11 +109,11 @@ extern int FIELD_RAIL_GetLocationWidthGrid(struct RailManager *railMan, RailLoca
 extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, RailLocation *location);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern void FIELD_RAIL_GetLocationPos(struct RailManager *railMan, RailLocation *location, VecFx32 *outPos);
-extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern int func_0207CBD0(const VecFx32 *v);
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern int VEC_Mag(const VecFx32 *v);
 extern void VEC_Normalize(VecFx32 *in, VecFx32 *out);
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0207D14C(int value, int *out);
+extern int FX_Modf(int value, int *out);
 extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
@@ -234,12 +234,12 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
             return;
         }
         FIELD_RAIL_GetLocationPos(railMan, &slipdown->landing, &slipdown->end);
-        func_0207CA00(&slipdown->end, &slipdown->start, &slope);
-        length = func_0207CBD0(&slope);
+        VEC_Subtract(&slipdown->end, &slipdown->start, &slope);
+        length = VEC_Mag(&slope);
         VEC_Normalize(&slope, &slope);
         setDir16(&slipdown->dir, slope.x, slope.y, slope.z);
         length = func_0207C768(length, 0x8000);
-        if (func_0207D14C(length, &length) == 0) slipdown->count = length>>12;
+        if (FX_Modf(length, &length) == 0) slipdown->count = length>>12;
         else slipdown->count = (length>>12) + 1;
         slipdown->step = 0;
         if (slipdown->player != 0) {
@@ -261,8 +261,8 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
         FIELD_CAMERA_SetMode(slipdown->camera, 2);
         FIELD_CAMERA_GetEyeRaw(slipdown->camera, &slipdown->eyeDelta);
         FIELD_CAMERA_GetTargetRaw(slipdown->camera, &slipdown->targetDelta);
-        func_0207CA00(&slipdown->eyeDelta, &slipdown->eyeStart, &slipdown->eyeDelta);
-        func_0207CA00(&slipdown->targetDelta, &slipdown->targetStart, &slipdown->targetDelta);
+        VEC_Subtract(&slipdown->eyeDelta, &slipdown->eyeStart, &slipdown->eyeDelta);
+        VEC_Subtract(&slipdown->targetDelta, &slipdown->targetStart, &slipdown->targetDelta);
         FIELD_NOGRID_MAPPER_SetActive(slipdown->nogridMapper, 0);
         FIELD_CAMERA_EnterMode(slipdown->camera, 2);
         FIELD_CAMERA_StopTargetTrace(slipdown->camera);

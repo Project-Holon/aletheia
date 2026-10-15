@@ -1,5 +1,5 @@
 /*
- * function: func_021B69F8
+ * function: POKE_SUMMARY_MAIN_UpdateText
  * address: 0x021B69F8
  * packet: pkt_ov173_021B69F8
  * region: ov173
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  *
- * 2026-10-05: TOUCHPANEL_GetTrg is declared int here (as in ov173 func_021B68C8): the listing tests r0 after it,
+ * 2026-10-05: TOUCHPANEL_GetTrg is declared int here (as in ov173 POKE_SUMMARY_MAIN_HandleInput): the listing tests r0 after it,
  * but its matched arm9 definition is void (tail call of TOUCHPANEL_GetTrgSys, which returns a value).
  *
  * symbols:
@@ -38,7 +38,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void PRINTSYS_PrintStreamReleasePause(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
-int func_021B69F8(char *p)
+int POKE_SUMMARY_MAIN_UpdateText(char *p)
 {
     u32 r = PRINTSYS_PrintStreamGetState(*(void **)(p + 0x6c));
     APP_KEYCURSOR_Update(*(void **)(p + 0x21c), *(void **)(p + 0x6c), *(void **)(p + 0x20));

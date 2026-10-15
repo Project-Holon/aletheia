@@ -1,5 +1,5 @@
 /*
- * function: func_021B6BC4
+ * function: LOCAL_TVT_SYS_ProcInit
  * address: 0x021B6BC4
  * packet: pkt_ov174_021B6BC4
  * region: ov174
@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   GAME_DATA_Create 0x020124F4 thumb
  *   KEY_GetCont 0x0203630C arm
- *   func_021B6100 0x021B6100 thumb ov174
+ *   LOCAL_TVT_SYS_Create 0x021B6100 thumb ov174
  *   d_021B74AC 0x021B74AC data
  */
 #include "../include/Obj01167.h"
@@ -27,9 +27,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *GAME_DATA_Create(u16);
 extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
-extern void func_021B6100(u8 *p);
+extern void LOCAL_TVT_SYS_Create(u8 *p);
 extern char d_021B74AC[];
-int func_021B6BC4(void *ctx,int unused,char *arg)
+int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,0x55,0x40000);
@@ -42,6 +42,6 @@ int func_021B6BC4(void *ctx,int unused,char *arg)
     }
     ((struct Obj01167 *)p)->f0=0x55;
     *(char * *)&((struct Obj01167 *)p)->f30=arg;
-    func_021B6100((u8 *)p);
+    LOCAL_TVT_SYS_Create((u8 *)p);
     return 1;
 }

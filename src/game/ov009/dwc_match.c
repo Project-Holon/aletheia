@@ -34,19 +34,19 @@
  *   DWCi_IsError      0x02059F38 arm
  *   DWC_GetState      0x0216B994 arm
  *   g_021AAA40     0x021AAA40  data  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   func_0205A1B0  0x0205A1B0  arm
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_0205A16C  0x0205A16C  arm
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *   func_0219D158  0x0219D158  arm  ov009
  *   g_021AAA44                   0x021AAA44 data
  *   g_021AAA41                   0x021AAA41 data
  *   g_021AAA42                   0x021AAA42 data
  *   g_021AAA48                   0x021AAA48 data
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02059F38  0x02059F38  arm
- *   func_0219F058  0x0219F058  arm  ov009
+ *   DWCi_IsError  0x02059F38  arm
+ *   ServerBrowserGetServer  0x0219F058  arm  ov009
  *   func_0219E120  0x0219E120  arm  ov009
  *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
  *   DWC_GetMyAID  0x0216B838  arm  ov009
@@ -64,7 +64,7 @@
  *   DWC_Free                0x0205A1B0  arm
  *   DWC_Alloc               0x0205A16C  arm
  *   MI_CpuCopy8             0x02082D44  arm
- *   func_0219EC74           0x0219EC74  arm  ov009
+ *   ServerBrowserNewA           0x0219EC74  arm  ov009
  *   g_021AAA20              0x021AAA20  data
  *   g_021A2044              0x021A2044  data
  *   func_02175F84  0x02175F84  arm  ov009
@@ -113,8 +113,8 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   qr2_parse_queryA   0x0219C7C0  arm  ov009
  *   func_020923F0   0x020923F0  arm
- *   func_0219AB8C   0x0219AB8C  arm  ov009
- *   g_021A5A7C      0x021A5A7C  data
+ *   NNProcessData   0x0219AB8C  arm  ov009
+ *   gNatNegMagic      0x021A5A7C  data
  *   gt2Reject                        0x02195B38 arm
  *   strtoul                          0x02095EAC arm
  *   DWCi_GT2GetConnectionListIdx     0x0216BB6C arm
@@ -132,9 +132,9 @@
  *   gt2Connect                       0x02195B44 arm
  *   DWCi_HandleGT2Error              0x02173FB4 arm
  *   strlen         0x0209477C  arm
- *   func_02059CBC  0x02059CBC  arm
+ *   DWC_Base64Decode  0x02059CBC  arm
  *   DWCi_SetError  0x02059F54  arm
- *   func_02169038  0x02169038  arm  ov009
+ *   DWCi_GetFriendListIndex  0x02169038  arm  ov009
  *   DWCi_IsFullMesh                        0x0217695C arm
  *   DWCi_ProcessMatchSynPacketSub_FullMesh 0x0216F008 arm
  *   DWCi_ProcessMatchSynPacketSub_Hybrid   0x0216EC84 arm
@@ -153,16 +153,16 @@
  *   d_021A208C  0x021A208C  data
  *   func_02168454  0x02168454  arm  ov009
  *   func_0216848C  0x0216848C  arm  ov009
- *   func_021690D0  0x021690D0  arm  ov009
+ *   DWCi_SetGPStatus  0x021690D0  arm  ov009
  *   DWCi_SetMatchCnt         0x02175F1C arm
  *   DWCi_ClearGameMatchKeys  0x02173B18 arm
  *   DWCi_GetHostStatus            0x02175FB8  arm  ov009
  *   DWCi_NodeInfoList_Clear       0x0217601C  arm  ov009
- *   func_0219ED4C  0x0219ED4C  arm  ov009
+ *   ServerBrowserFree  0x0219ED4C  arm  ov009
  *   func_02176B34  0x02176B34  arm  ov009
  *   func_021685CC  0x021685CC  arm  ov009
- *   func_0219F00C  0x0219F00C  arm  ov009
- *   func_0219EED4  0x0219EED4  arm  ov009
+ *   ServerBrowserClear  0x0219F00C  arm  ov009
+ *   ServerBrowserLimitUpdateA  0x0219EED4  arm  ov009
  *   stGameMatchKeys          0x021AAA40  data
  *   d_021A2090     0x021A2090  data
  *   d_021A209C     0x021A209C  data
@@ -184,15 +184,15 @@
  *   IsPrivateAddr                    0x0216FBB8 arm
  *   DWCi_DoNatNegotiationAsync       0x0216FE34 arm
  *   func_02198620  0x02198620  arm  ov009
- *   func_0219EF60  0x0219EF60  arm  ov009
- *   func_02199DFC  0x02199DFC  arm  ov009
+ *   ServerBrowserSendNatNegotiateCookieToServerA  0x0219EF60  arm  ov009
+ *   NNBeginNegotiationWithSocket  0x02199DFC  arm  ov009
  *   func_02174FE8  0x02174FE8  arm  ov009
  *   DWCi_GetGT2ConnectionByProfileID  0x0216BBDC  arm  ov009
- *   func_02177848  0x02177848  arm  ov009
+ *   DWCi_SendUnreliable  0x02177848  arm  ov009
  *   func_021861A8  0x021861A8  arm  ov009
  *   DWC_Base64Encode  0x02059B40  arm
  *   MIi_CpuCopy32  0x02082A90  arm
- *   func_0219EF08  0x0219EF08  arm  ov009
+ *   ServerBrowserSendMessageToServerA  0x0219EF08  arm  ov009
  *   d_021A2190  0x021A2190  data
  *   d_021A2198  0x021A2198  data
  *   d_021A21A0  0x021A21A0  data
@@ -248,10 +248,10 @@
  *   DWCi_SendCancelMatchSynCommand   0x02173614 arm
  *   DWCi_CloseShutdownClientSC       0x02172EAC arm
  *   d_021AAA40     0x021AAA40  data
- *   func_02168FF0  0x02168FF0  arm  ov009
+ *   DWCi_GetProfileIDFromList  0x02168FF0  arm  ov009
  *   g_021A21A4     0x021A21A4  data
  *   g_021A21B0     0x021A21B0  data
- *   func_0216A3B8  0x0216A3B8  arm  ov009
+ *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  *   DWCi_SBPrintServerData                     0x0217478C arm ov009
  *   ServerBrowserCount                         0x0219F068 arm ov009
  *   ServerBrowserGetServer                     0x0219F058 arm ov009
@@ -270,10 +270,10 @@
  *   DWCi_CancelReservation                     0x02171F68 arm ov009
  *   DWCi_ConnectToGameServerAsync              0x0216D27C arm ov009
  *   @24369         0x021A2188  data
- *   func_0219F068  0x0219F068  arm  ov009
- *   func_0219EFA8  0x0219EFA8  arm  ov009
+ *   ServerBrowserCount  0x0219F068  arm  ov009
+ *   ServerBrowserRemoveServer  0x0219EFA8  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
- *   func_0219F078  0x0219F078  arm  ov009
+ *   ServerBrowserSortA  0x0219F078  arm  ov009
  *   g_021A19C0     0x021A19C0 data
  *   g_021A21BC     0x021A21BC data
  *   func_0219B628  0x0219B628 arm   ov009
@@ -282,12 +282,12 @@
  *   func_0216FC34  0x0216FC34  arm  ov009
  *   DWCi_ProcessRecvMatchCommand    0x021702A0 arm
  *   MI_CpuCopy8                0x02082D44 arm
- *   func_020949F4                0x020949F4 arm
+ *   strncmp                0x020949F4 arm
  *   g_021A2188                   0x021A2188 data
  *   DWCi_HandleNNResult              0x02173f54 arm
  *   DWCi_ProcessNNFailure            0x021753d8 arm
  *   DWC_GetNumConnectionHost 0x0216B804 arm
- *   func_02177748  0x02177748  arm  ov009
+ *   DWCi_ResetLastSomeDataRecvTimeByAid  0x02177748  arm  ov009
  *   func_021684CC  0x021684CC  arm
  *   sub_02095EAC   0x02095EAC  arm
  *   g_021A21C8     0x021A21C8  data
@@ -306,6 +306,8 @@
 #include "../../matched/include/G_MatchAnchorA.h"
 #include "../../matched/include/G_Magic6.h"
 #include "dwc_match_ctl_types.h"
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
+extern int strcmp(const char *s1, const char *s2);
 
 #define KEYID(i)  (g_021AAA40[i].keyID)
 #define KEYF1(i)  (g_021AAA40[i].isStr)
@@ -364,13 +366,10 @@ enum E { E_OK, E_A, E_B, E_C, E_D, E_E, E_NET };
 /* callees */
 extern int DWCi_IsError(void);
 extern int DWC_GetState(void);
-extern int func_020948E0(const char *s1, const char *s2);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern int func_0209477C(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern void func_0219D158(int keyid, char *key);
-extern int func_02059F38(void);
 extern int DWC_GetAIDBitmap(void);
 extern unsigned char DWC_GetMyAID(void);
 extern int func_0216F388(int flag);
@@ -434,23 +433,23 @@ extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern int gt2Connect(void *socket, void **connection, char *remoteAddress, unsigned char *message, int len, int timeout, void *callbacks, int blocking);
 extern int DWCi_HandleGT2Error(int result);
-extern int func_02059CBC(const char *src, int srclen, void *dst, int dstlen);
+extern int DWC_Base64Decode(const char *src, int srclen, void *dst, int dstlen);
 extern void DWCi_SetError(int error, int errorCode);
-extern int func_02169038(int pid);
+extern int DWCi_GetFriendListIndex(int pid);
 extern int DWCi_IsFullMesh(void);
 extern void DWCi_ProcessMatchSynPacketSub_FullMesh(unsigned char aid, unsigned short type, unsigned char *data);
 extern void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data);
 extern unsigned int DWCi_GetMathRand32(unsigned int max);
 extern void DWCi_SendTypeMatchAck(void);
 extern void func_0219B490(void *qrec);
-extern void *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
+extern void *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
 extern void qr2_think(qr2_implementation_s *qr2Obj);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned int size);
-extern struct SBServer *func_0219F058(struct SBServer *sb, int index);
+extern struct SBServer *ServerBrowserGetServer(struct SBServer *sb, int index);
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern void qr2_shutdown(qr2_implementation_s *qrec);
 extern void qr2_parse_queryA(qr2_implementation_s *qr2, unsigned char *message, int len, SOCSockAddrIn *saddr);
-extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
+extern void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
 extern int DWCi_NodeInfoList_InsertToTop(DWCstNodeInfo *newNode);
 extern void gt2Think(void *socket);
 extern int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key, int ispublic, int natnegotiate, void *server_key_callback, void *player_key_callback, void *team_key_callback, void *key_list_callback, void *playerteam_count_callback, void *adderror_callback, void *userdata);
@@ -461,36 +460,34 @@ extern unsigned long long func_020870D0(void);
 extern void func_02172BB8(int level);
 extern int func_02168454(const char *key, const char *value, char *string, char sep);
 extern int func_0216848C(const char *key, const char *value, char *string, char sep);
-extern int func_021690D0(int status, const char *statusString, const char *locString);
+extern int DWCi_SetGPStatus(int status, const char *statusString, const char *locString);
 void DWCi_SetMatchCnt(DWCstMatchControl *a);
 extern void DWCi_ClearGameMatchKeys(void);
 extern int DWCi_GetHostStatus(void);
 extern void DWCi_NodeInfoList_Clear(void);
-extern void func_0219ED4C(struct ServerBrowser *sb);
 extern void func_02176B34(void);
 extern u32 func_021685CC(u32 max);
-extern void func_0219F00C(void *p);
-extern int func_0219EED4(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
+extern void ServerBrowserClear(void *p);
+extern int ServerBrowserLimitUpdateA(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
 extern u32 ServerBrowserGetMyPublicIPAddr(void * sb);
 extern long SOC_GetHostID(void);
 extern int IsPrivateAddr(u32 addr);
 int DWCi_DoNatNegotiationAsync(DWCstNNInfo *nnInfo);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_0219EF60(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
-extern int func_02199DFC(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
+extern int ServerBrowserSendNatNegotiateCookieToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
+extern int NNBeginNegotiationWithSocket(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
 extern void func_02174FE8(void);
-extern int func_02177848(unsigned char from, unsigned char to, const void *data, int size, int flag);
+extern int DWCi_SendUnreliable(unsigned char from, unsigned char to, const void *data, int size, int flag);
 extern int func_021861A8(void *conn, int pid);
 extern int DWC_Base64Encode(const void *src, int srclen, char *dst, int dstlen);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
-extern int func_0219EF08(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
+extern int ServerBrowserSendMessageToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
 extern int func_021864CC(void **connection, int profile, char *message);
 extern u8 DWCi_CheckResvCommand(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType,
                                 int connectGroupID, u32 topologyType,
                                 u8 *newClientUserData, int meshReserve);
 int DWCi_ProcessResvOK(int profileID);
 extern struct DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForProfileID(int profileID);
-extern int DWCi_GetFriendListIndex(int profileID);
 extern char *DWCi_GetResvDenyReasonString(u8 denyReason);
 extern int DWCi_HandleNNError(int error);
 extern int gpIsBuddy(void *connection, int profile);
@@ -521,7 +518,6 @@ int DWCi_NodeInfo_IsValid(const DWCstNodeInfo *p);
 extern void DWCi_NodeInfo_Clear(DWCstNodeInfo *node);
 extern int DWCi_GPSetServerStatus(int matchType);
 extern int DWCi_HandleGPError(int result);
-extern void ServerBrowserClear(void *sb);
 extern void DWCi_PostProcessConnectionSYNFinishFullmesh(void);
 extern int DWCi_NodeInfoList_Append(DWCstNodeInfo *newNode);
 extern DWCstNodeInfo * DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
@@ -535,11 +531,10 @@ extern int DWCi_SendReliable(u16 type, u8 aid, void * buffer, int size);
 int DWCi_ServerSynTimeoutExec(void);
 extern int func_021720D8(int id);
 extern int DWCi_SendCancelMatchSynCommand(int profileID, u8 command);
-extern int func_02168FF0(int idx);
-extern void func_0216A3B8(int dwcError, int errorCode);
+extern int DWCi_GetProfileIDFromList(int idx);
+extern void DWCi_StopLogin(int dwcError, int errorCode);
 extern void DWCi_SBPrintServerData(void *server);
 extern int ServerBrowserCount(void *sb);
-extern void *ServerBrowserGetServer(void *sb, int index);
 extern void ServerBrowserRemoveServer(void *sb, void *server);
 extern u32 SBServerGetPublicInetAddress(void *server);
 extern unsigned short SBServerGetPublicQueryPort(void *server);
@@ -554,21 +549,17 @@ void DWCi_ConnectToGameServerAsync_InterChange(void);
 extern int DWCi_CancelReservation(int pid);
 extern void DWCi_ConnectToGameServerAsync(int topology, int serverPid,
     void *a, void *b, void *c, void *d, void *e, void *f, void *g);
-extern int func_0219F068(void *sb);
-extern void func_0219EFA8(struct ServerBrowser *sb, struct SBServer *server);
 extern void func_0219E084(void *server, char *keyname, int value);
-extern void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
+extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 extern int func_0219B628(void *outbuf, int value);
 extern int func_0219B660(void *outbuf, char *value);
 extern int qr2_keybuffer_add(char *p, int v);
 extern int func_0216FC34(int type, int cookie, void *param);
 extern int DWCi_ProcessRecvMatchCommand(unsigned char command, int srcPid,
     unsigned int srcIP, unsigned short srcPort, unsigned int *data, int len);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int DWCi_HandleNNResult(int result);
 extern int DWCi_ProcessNNFailure(int ignoreError);
 extern void DWC_GetNumConnectionHost(void);
-extern void func_02177748(int aid);
 extern int func_021684CC(char *key, char *value, char *string, char separator);
 extern u32 sub_02095EAC(u32 a0, u32 *a1, u32 mode);
 int DWC_CancelMatch(void);
@@ -665,7 +656,7 @@ void DWCi_NNFreeNegotiateList(void);
 extern DWCstGameMatchKeyData g_021AAA40[154];
 extern struct NNThinkGlobal g_021AAA20;
 extern struct MatchAnchorA s_anybodyServerSearchRatio;
-extern struct Magic6 g_021A5A7C;
+extern struct Magic6 gNatNegMagic;
 extern char g_021A2044[];
 extern char g_021A204C[];
 extern char g_021A2058[];
@@ -814,7 +805,7 @@ int DWC_IsValidCancelMatch(void)
  * 13/13 relocs.  Measured this wave and still no effect on the +1 roll: a
  * chained store `f1 = f2 = 0` (300 B / 239 concrete -- worse) and a
  * `do { f0/f1/f2 stores } while (0)` block fence (296 B / 134 -- unchanged).
- * The shared zero at +0014 is 1.1p1 global-CSE across the func_020948E0 call
+ * The shared zero at +0014 is 1.1p1 global-CSE across the strcmp call
  * into callee-saved r4; the image rematerialises `mov r2,#0` at the stores and
  * `mov r0,#0` per return.  Confirmed wall.
  *
@@ -860,7 +851,7 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     if (keyString == 0 || valueSrc == 0)
         return 0;
     if (keyID >= 0x64 && g_021AAA40[keyID - 0x64].keyID != 0) {
-        if (g_021AAA40[keyID - 0x64].keyString != 0 && func_020948E0(g_021AAA40[keyID - 0x64].keyString, keyString) != 0)
+        if (g_021AAA40[keyID - 0x64].keyString != 0 && strcmp(g_021AAA40[keyID - 0x64].keyString, keyString) != 0)
             return 0;
     } else {
         keyID = DWCi_GetNewMatchKey();
@@ -873,12 +864,12 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     g_021AAA40[index].pad = 0;
     if (g_021AAA40[index].keyString != 0)
         func_0205A1B0(4, g_021AAA40[index].keyString, 0);
-    g_021AAA40[index].keyString = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
+    g_021AAA40[index].keyString = func_0205A16C(4, strlen((const char *)keyString) + 1);
     if (g_021AAA40[index].keyString == 0) {
         DWCi_StopMatch(9, -80001);
         return 0;
     }
-    func_02094798(g_021AAA40[index].keyString, keyString);
+    strcpy(g_021AAA40[index].keyString, keyString);
     g_021AAA40[index].value = valueSrc;
     func_0219D158(keyID, g_021AAA40[index].keyString);
     return keyID;
@@ -994,7 +985,7 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     if (keyString == 0 || valueSrc == 0)
         return 0;
     if (keyID >= 0x64 && KEYID(keyID - 0x64) != 0) {
-        if (KEYSTR(keyID - 0x64) != 0 && func_020948E0(KEYSTR(keyID - 0x64), keyString) != 0)
+        if (KEYSTR(keyID - 0x64) != 0 && strcmp(KEYSTR(keyID - 0x64), keyString) != 0)
             return 0;
     } else {
         keyID = DWCi_GetNewMatchKey();
@@ -1007,12 +998,12 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     KEYF2(index) = 0;
     if (KEYSTR(index) != 0)
         func_0205A1B0(4, KEYSTR(index), 0);
-    KEYSTR(index) = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
+    KEYSTR(index) = func_0205A16C(4, strlen((const char *)keyString) + 1);
     if (KEYSTR(index) == 0) {
         DWCi_StopMatch(9, -80001);
         return 0;
     }
-    func_02094798(KEYSTR(index), keyString);
+    strcpy(KEYSTR(index), keyString);
     KEYVAL(index) = valueSrc;
     func_0219D158(keyID, KEYSTR(index));
     return keyID;
@@ -1026,10 +1017,10 @@ int DWC_GetMatchIntValue(int index, char *key, int idefault)
 {
     struct SBServer *server;
 
-    if (DWCi_GetMatchCnt() == 0 || func_02059F38() != 0) {
+    if (DWCi_GetMatchCnt() == 0 || DWCi_IsError() != 0) {
         return idefault;
     }
-    server = func_0219F058(DWCi_GetMatchCnt()->sbObj, index);
+    server = ServerBrowserGetServer(DWCi_GetMatchCnt()->sbObj, index);
     if (server != 0) {
         idefault = func_0219E120(server, key, idefault);
     }
@@ -1167,7 +1158,7 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
         g_021AAA20.addFilter = 0;
     }
     if (addFilter != 0) {
-        addFilterLenMax = 0x1ff - DWCi_GetDefaultMatchFilter(filter, -1, 32, 3, 3) - func_0209477C((const u8 *)g_021A2044);
+        addFilterLenMax = 0x1ff - DWCi_GetDefaultMatchFilter(filter, -1, 32, 3, 3) - strlen((const char *)g_021A2044);
         g_021AAA20.addFilter = DWC_Alloc(4, addFilterLenMax);
         if (g_021AAA20.addFilter == 0) {
             DWCi_StopMatch(9, -80001);
@@ -1185,7 +1176,7 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
     DWCi_SetConnectionAttemptParam(attemptCallback, connectionUserData, attemptParam);
     DWCi_SetMatchStatus(0x16);
     if (DWCi_GetMatchCnt()->sbObj == 0) {
-        DWCi_GetMatchCnt()->sbObj = func_0219EC74(DWCi_GetMatchCnt()->gameName, DWCi_GetMatchCnt()->gameName, DWCi_GetMatchCnt()->secretKey, 0, 20, 1, 0, DWCi_SBCallback, 0);
+        DWCi_GetMatchCnt()->sbObj = ServerBrowserNewA(DWCi_GetMatchCnt()->gameName, DWCi_GetMatchCnt()->gameName, DWCi_GetMatchCnt()->secretKey, 0, 20, 1, 0, DWCi_SBCallback, 0);
     }
     if (DWCi_GetMatchCnt()->sbObj == 0) {
         if (DWCi_HandleSBError(5))
@@ -1221,7 +1212,7 @@ void DWCi_SetupGameServer(int topology, u8 numEntry, void *matchedCallback, void
     }
     DWCi_GetMatchCnt()->groupID = func_02175530();
     if (DWCi_GetMatchCnt()->sbObj == 0) {
-        DWCi_GetMatchCnt()->sbObj = func_0219EC74(DWCi_GetMatchCnt()->gameName,
+        DWCi_GetMatchCnt()->sbObj = ServerBrowserNewA(DWCi_GetMatchCnt()->gameName,
                                                   DWCi_GetMatchCnt()->gameName,
                                                   DWCi_GetMatchCnt()->secretKey, 0, 0x14, 1, 0,
                                                   DWCi_SBCallback, 0);
@@ -1270,7 +1261,7 @@ void func_0216D27C(int topology, int serverPid, void *matchedCallback, void *mat
     if (DWCi_GetMatchCnt()->connectGroupID == 0)
         DWCi_SetMatchStatus(0x16);
     if (DWCi_GetMatchCnt()->sbObj == 0) {
-        DWCi_GetMatchCnt()->sbObj = func_0219EC74(
+        DWCi_GetMatchCnt()->sbObj = ServerBrowserNewA(
             DWCi_GetMatchCnt()->gameName,
             DWCi_GetMatchCnt()->gameName,
             DWCi_GetMatchCnt()->secretKey, 0, 0x14, 1, 0, DWCi_SBCallback, 0);
@@ -1677,8 +1668,8 @@ int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned sh
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
         if (DWCi_GetMatchCnt()->qr2Obj != 0)
             qr2_parse_queryA(DWCi_GetMatchCnt()->qr2Obj, message, len, &saddr);
-    } else if (func_020923F0(message, (const u8 *)((char *)&g_021A5A7C), 6) == 0) {
-        func_0219AB8C((char *)message, len, &saddr);
+    } else if (func_020923F0(message, (const u8 *)((char *)&gNatNegMagic), 6) == 0) {
+        NNProcessData((char *)message, len, &saddr);
     } else {
         return 0;
     }
@@ -1852,7 +1843,7 @@ extern void func_0216EAB8(int unused, int profileID, char *message)
     if (msgLen - 1 == 0) {
         dataLen = 0;
     } else {
-        int len = func_02059CBC(message + 1, msgLen - 1, data, 512);
+        int len = DWC_Base64Decode(message + 1, msgLen - 1, data, 512);
 
         if (len == -1)
             return;
@@ -1896,7 +1887,7 @@ void DWCi_StopMatch(int error, int errorCode)
     }
     (DWCi_GetMatchCnt()->matchedCallback)(
         error, 0, self, DWCi_GetMatchCnt()->qr2MatchType == 2,
-        func_02169038(DWCi_GetMatchCnt()->peerProfileID), DWCi_GetMatchCnt()->matchedParam);
+        DWCi_GetFriendListIndex(DWCi_GetMatchCnt()->peerProfileID), DWCi_GetMatchCnt()->matchedParam);
     DWCi_CloseMatch();
 }
 
@@ -2165,7 +2156,7 @@ int DWCi_GPSetServerStatus(int status)
     func_0216848C(d_021A2088, value, str, '/');
     OS_SNPrintf(value, 12, d_021A207C, DWCi_IsServerLocked() ? 1 : 0);
     func_0216848C(d_021A208C, value, str, '/');
-    return func_021690D0(status, str, 0);
+    return DWCi_SetGPStatus(status, str, 0);
 }
 
 
@@ -2299,7 +2290,7 @@ void DWCi_CloseMatch(void)
         if (*(int *)(((char *)&g_021AAA20) + 0x14) != 0) {
             *(int *)(((char *)&g_021AAA20) + 0x10) = 1;
         } else {
-            func_0219ED4C(*(void **)((char *)DWCi_GetMatchCnt() + 0x5e0));
+            ServerBrowserFree(*(void **)((char *)DWCi_GetMatchCnt() + 0x5e0));
             *(void **)((char *)DWCi_GetMatchCnt() + 0x5e0) = 0;
         }
     }
@@ -2410,10 +2401,10 @@ static SBError DWCi_SBUpdateAsync(int profileID)
         break;
     }
 
-    func_0219F00C(DWCi_GetMatchCnt()->sbObj);
+    ServerBrowserClear(DWCi_GetMatchCnt()->sbObj);
     n = E0;
     do {
-        sbError = func_0219EED4(DWCi_GetMatchCnt()->sbObj, sbBlock, SBFalse, basicFields, numBasicFields, filter, DWCi_GetMatchCnt()->state == 0x16 ? 1 : 6);
+        sbError = ServerBrowserLimitUpdateA(DWCi_GetMatchCnt()->sbObj, sbBlock, SBFalse, basicFields, numBasicFields, filter, DWCi_GetMatchCnt()->state == 0x16 ? 1 : 6);
         if (sbError == 0 || sbError != 2)
             break;
         n++;
@@ -2440,7 +2431,7 @@ int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEnt
         OS_SNPrintf(tempFilter, 511, g_021A209C, g_021A20E0, hostState);
     OS_SNPrintf(filter, 511, g_021A2108, g_021A2164, 90, g_021A20A4, profileID, numEntry, numEntry,
                   g_021A2170, matchType, g_021A217C, 0, tempFilter);
-    return func_0209477C((const u8 *)filter);
+    return strlen((const char *)filter);
 }
 
 
@@ -2547,12 +2538,12 @@ int DWCi_DoNatNegotiationAsync(DWCstNNInfo *nnInfo)
     int sbError;
 
     if (nnInfo->clientindex == 0) {
-        sbError = func_0219EF60((struct ServerBrowser *)(*(int *)((char *)DWCi_GetMatchCnt() + 0x5e0)), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
+        sbError = ServerBrowserSendNatNegotiateCookieToServerA((struct ServerBrowser *)(*(int *)((char *)DWCi_GetMatchCnt() + 0x5e0)), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
         if (DWCi_HandleSBError(sbError))
             return 2;
     }
     for (i = 0; i < 1; i++) {
-        nnError = func_02199DFC(gt2GetSocketSOCKET((void *)(**(int **)((char *)DWCi_GetMatchCnt() + 4))), nnInfo->cookie, nnInfo->clientindex, DWCi_NNProgressCallback, func_02174FE8, nnInfo);
+        nnError = NNBeginNegotiationWithSocket(gt2GetSocketSOCKET((void *)(**(int **)((char *)DWCi_GetMatchCnt() + 4))), nnInfo->cookie, nnInfo->clientindex, DWCi_NNProgressCallback, func_02174FE8, nnInfo);
         if (nnError == 0)
             return nnError;
         if (nnError != 3)
@@ -2594,7 +2585,7 @@ int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsig
     if (DWCi_CanSendMatchCommandDirect(command, pid) != 0) {
         node = (unsigned char *)DWCi_NodeInfoList_GetNodeInfoForProfileID(pid);
         DWCi_EncodeBinaryMsgCommand((struct DWCstBinaryMessage *)(&ctrl), command, (unsigned int *)data, len);
-        func_02177848(DWC_GetMyAID(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
+        DWCi_SendUnreliable(DWC_GetMyAID(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
         result = 0;
     } else if (func_021861A8(*(void **)DWCi_GetMatchCnt(), pid) != 0) {
         n = 0;
@@ -2664,7 +2655,7 @@ int DWCi_SendSBMsgCommand(unsigned char command, unsigned int ip, unsigned short
 
     DWCi_EncodeBinaryMsgCommand((struct DWCstBinaryMessage *)(&ctrl), command, (unsigned int *)data, len);
     for (i = 0; i < 1; i++) {
-        res = func_0219EF08(*(void **)((char *)DWCi_GetMatchCnt() + 0x5e0), func_02198620(ip, 0, 0), port, (char *)(&ctrl), ctrl.len + 0x14);
+        res = ServerBrowserSendMessageToServerA(*(void **)((char *)DWCi_GetMatchCnt() + 0x5e0), func_02198620(ip, 0, 0), port, (char *)(&ctrl), ctrl.len + 0x14);
         if (res == 0) {
             return res;
         }
@@ -2691,7 +2682,7 @@ int DWCi_SendGPBuddyMsgCommand(void *conn, unsigned char command, int pid, const
     p[len] = 0;
     p += len;
     if (data != 0) {
-        len = func_0209477C((const u8 *)data);
+        len = strlen((const char *)data);
         MI_CpuCopy8(data, p, len);
         p[len] = 0;
     }
@@ -4061,7 +4052,7 @@ void DWCi_FinishCancelMatch(void)
     {
         char *m = (char *)DWCi_GetMatchCnt();
 
-        (*(int (**)(int, int, int, int, int, int))(m + 0x770))(0, 1, b, a, func_02169038(*(int *)((char *)DWCi_GetMatchCnt() + 0x680)), *(int *)((char *)DWCi_GetMatchCnt() + 0x774));
+        (*(int (**)(int, int, int, int, int, int))(m + 0x770))(0, 1, b, a, DWCi_GetFriendListIndex(*(int *)((char *)DWCi_GetMatchCnt() + 0x680)), *(int *)((char *)DWCi_GetMatchCnt() + 0x774));
     }
     *(unsigned char *)((char *)DWCi_GetMatchCnt() + 0x62a) = 0;
 }
@@ -4662,7 +4653,7 @@ int DWCi_IsFriendByIdxList(int profileID)
     if (*(int *)((char *)DWCi_GetMatchCnt() + 0x68c) == 0)
         return 0;
     for (i = 0; i < *(int *)((char *)DWCi_GetMatchCnt() + 0x6d4); i++) {
-        id = func_02168FF0(*(unsigned char *)((char *)DWCi_GetMatchCnt() + i + 0x694));
+        id = DWCi_GetProfileIDFromList(*(unsigned char *)((char *)DWCi_GetMatchCnt() + i + 0x694));
         if (id > 0 && id == profileID)
             return 1;
     }
@@ -4839,7 +4830,7 @@ int DWCi_HandleQR2Error(int error)
     }
     switch (DWC_GetState()) {
     case 2:
-        func_0216A3B8(dwcError, errorCode - 64000);
+        DWCi_StopLogin(dwcError, errorCode - 64000);
         break;
     case 4:
         DWCi_StopMatch(dwcError, errorCode - 84000);
@@ -5161,13 +5152,13 @@ static int DWCi_EvaluateServers(int sort)
     int i;
     void *server;
 
-    for (i = 0; i < func_0219F068(DWCi_GetMatchCnt()->sbObj); i++) {
-        server = func_0219F058(DWCi_GetMatchCnt()->sbObj, i);
+    for (i = 0; i < ServerBrowserCount(DWCi_GetMatchCnt()->sbObj); i++) {
+        server = ServerBrowserGetServer(DWCi_GetMatchCnt()->sbObj, i);
         if (DWCi_GetMatchCnt()->qr2MatchTypeExt == 0) {
             profileID = func_0219E120(server, d_021A20A4, 0);
             localDelete = 0;
             if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID)) {
-                func_0219EFA8(DWCi_GetMatchCnt()->sbObj, server);
+                ServerBrowserRemoveServer(DWCi_GetMatchCnt()->sbObj, server);
                 i--;
                 localDelete = 1;
             }
@@ -5181,7 +5172,7 @@ static int DWCi_EvaluateServers(int sort)
                     eval = 0x7fffff;
                 func_0219E084(server, g_021A21BC, (eval << 8) | func_021685CC(0x100));
             } else {
-                func_0219EFA8(DWCi_GetMatchCnt()->sbObj, server);
+                ServerBrowserRemoveServer(DWCi_GetMatchCnt()->sbObj, server);
                 deleteFlag = 1;
                 i--;
             }
@@ -5189,9 +5180,9 @@ static int DWCi_EvaluateServers(int sort)
             func_0219E084(server, g_021A21BC, func_021685CC(0x80));
         }
     }
-    if (sort && func_0219F068(DWCi_GetMatchCnt()->sbObj))
-        func_0219F078(DWCi_GetMatchCnt()->sbObj, 0, g_021A21BC, 0);
-    if (deleteFlag && func_0219F068(DWCi_GetMatchCnt()->sbObj) == 0)
+    if (sort && ServerBrowserCount(DWCi_GetMatchCnt()->sbObj))
+        ServerBrowserSortA(DWCi_GetMatchCnt()->sbObj, 0, g_021A21BC, 0);
+    if (deleteFlag && ServerBrowserCount(DWCi_GetMatchCnt()->sbObj) == 0)
         return 0;
     return 1;
 }
@@ -5212,19 +5203,19 @@ void DWCi_RandomizeServers(void)
 
     maxEval = 0;
     sum = 0;
-    if (func_0219F068(DWCi_GetMatchCnt()->sbObj) <= 1)
+    if (ServerBrowserCount(DWCi_GetMatchCnt()->sbObj) <= 1)
         return;
-    for (i = 0; i < func_0219F068(DWCi_GetMatchCnt()->sbObj); i++) {
-        server = func_0219F058(DWCi_GetMatchCnt()->sbObj, i);
+    for (i = 0; i < ServerBrowserCount(DWCi_GetMatchCnt()->sbObj); i++) {
+        server = ServerBrowserGetServer(DWCi_GetMatchCnt()->sbObj, i);
         tmpEval = func_0219E120(server, g_021A21BC, -1);
         if (tmpEval > maxEval)
             maxEval = tmpEval;
         sum += g_021A19C0[i];
     }
     rand = func_021685CC(100);
-    for (i = 0; i < func_0219F068(DWCi_GetMatchCnt()->sbObj); i++) {
+    for (i = 0; i < ServerBrowserCount(DWCi_GetMatchCnt()->sbObj); i++) {
         unsigned int prev;
-        if (i == func_0219F068(DWCi_GetMatchCnt()->sbObj) - 1)
+        if (i == ServerBrowserCount(DWCi_GetMatchCnt()->sbObj) - 1)
             break;
         prev = (i > 0) ? eval[i - 1] : 0;
         tmpEval = g_021A19C0[i] * 100 / sum;
@@ -5235,9 +5226,9 @@ void DWCi_RandomizeServers(void)
     }
     if (maxEval < 0x7fffffff)
         maxEval++;
-    server = func_0219F058(DWCi_GetMatchCnt()->sbObj, i);
+    server = ServerBrowserGetServer(DWCi_GetMatchCnt()->sbObj, i);
     func_0219E084(server, g_021A21BC, maxEval);
-    func_0219F078(DWCi_GetMatchCnt()->sbObj, 0, g_021A21BC, 0);
+    ServerBrowserSortA(DWCi_GetMatchCnt()->sbObj, 0, g_021A21BC, 0);
 }
 
 
@@ -5440,7 +5431,7 @@ void DWCi_QR2ClientMsgCallback(char *data, int len)
     while (offset + 0x14 <= len) {
         MI_CpuCopy8(data, &sbMsg, 0x14);
         *(volatile int *)&sbMsg.profileID = sbMsg.profileID;
-        if (func_020949F4((const u8 *)sbMsg.identifier, (const u8 *)g_021A2188, 4) != 0 || sbMsg.version != 0x5a)
+        if (strncmp((const u8 *)sbMsg.identifier, (const u8 *)g_021A2188, 4) != 0 || sbMsg.version != 0x5a)
             return;
         MI_CpuCopy8(data + 0x14, payload, sbMsg.size);
         boolResult = DWCi_ProcessRecvMatchCommand(sbMsg.command, sbMsg.profileID, sbMsg.qr2IP, sbMsg.qr2Port, payload, sbMsg.size >> 2);
@@ -5693,7 +5684,7 @@ void DWCi_ConnectToGameServerAsync_InterChange(void)
 
     MC->qr2MatchType = 3;
     if (MC->sbObj == 0) {
-        MC->sbObj = func_0219EC74(MC->gameName, MC->gameName,
+        MC->sbObj = ServerBrowserNewA(MC->gameName, MC->gameName,
                                               MC->secretKey, 0, 20, 1, 0,
                                               DWCi_SBCallback, 0);
     }
@@ -5829,7 +5820,7 @@ int DWCi_StartMatch(void)
     int sbError;
 
     if (DWCi_GetMatchCnt()->sbObj != 0)
-        func_0219F00C(DWCi_GetMatchCnt()->sbObj);
+        ServerBrowserClear(DWCi_GetMatchCnt()->sbObj);
     if (DWCi_GetMatchCnt()->connectGroupID != 0) {
         DWCi_SetMatchStatus(0xc);
     } else if (DWCi_GetMatchCnt()->qr2MatchTypeExt == 0) {
@@ -6038,7 +6029,7 @@ void DWCi_ResetLastSomeDataRecvTimeByAidAll(void)
     int i;
 
     for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
-        func_02177748(DWCi_NodeInfoList_GetNodeInfoForIndex(i)->aid);
+        DWCi_ResetLastSomeDataRecvTimeByAid(DWCi_NodeInfoList_GetNodeInfoForIndex(i)->aid);
     }
 }
 

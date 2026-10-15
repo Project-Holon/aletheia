@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  */
@@ -32,7 +32,7 @@ typedef struct {
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -47,5 +47,5 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(S *s, int a, int b, u8 d, u32 c, u8 e
     s->e = e;
     s->f = f;
     s->g = g;
-    s->h = (u8)(int)func_02008550((const struct Sub0200852CObj *)((int)func_02012944(func_020120F4((const struct Ctx *)a))));
+    s->h = (u8)(int)func_02008550((const struct Sub0200852CObj *)((int)func_02012944(ICA_ANIME_GetField1C((const struct Ctx *)a))));
 }

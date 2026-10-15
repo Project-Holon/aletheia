@@ -1,5 +1,5 @@
 /*
- * function: func_02059008
+ * function: DWC_Auth_CheckWiFiIDNeedCreate
  * address:  0x02059008
  * packet:   pkt_02059008
  * region:   arm9
@@ -30,7 +30,7 @@ typedef struct tagDWCWiFiInfo {
 
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
 
-int func_02059008(void)
+int DWC_Auth_CheckWiFiIDNeedCreate(void)
 {
     DWCWiFiInfo wifiinfo;
 

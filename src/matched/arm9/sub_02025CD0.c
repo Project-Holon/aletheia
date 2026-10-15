@@ -1,5 +1,5 @@
 /*
- * function: func_02025CD0
+ * function: CURSOR_MOVE_Create
  * address:  0x02025CD0
  * packet:   pkt_02025C44
  * region:   arm9
@@ -35,7 +35,7 @@ struct Struct_02025CD0 {
     u32 field_1C;
 };
 
-struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId)
+struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId)
 {
     struct Struct_02025CD0 *p = (struct Struct_02025CD0 *)sub_02030734(heapId, 0x20, 0, str_020A74A0, 0x6a);
 

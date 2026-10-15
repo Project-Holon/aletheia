@@ -18,7 +18,7 @@
  *   func_021D9854 0x021D9854 thumb ov175
  *   func_021D97A4 0x021D97A4 thumb ov175
  *   func_021D99F4 0x021D99F4 thumb ov175
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -47,7 +47,7 @@ extern void func_021D98B8(char *);
 extern void func_021D9854(char *);
 extern void func_021D97A4(char *);
 extern void func_021D99F4(char *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -66,7 +66,7 @@ int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
     func_021E8628((char *)(((u32 *)p)[11]));
     if(((u32 *)p)[13]) func_021D9EA0((u8 *)(((u32 *)p)[13]));
     func_021D98B8(p); func_021D9854(p); func_021D97A4(p); func_021D99F4(p);
-    func_0201ED04((struct WordSet *)(((u32 *)p)[6])); MSGDATA_Delete((struct Rec *)(((u32 *)p)[5]));
+    WORDSET_DeleteStrbufED04((struct WordSet *)(((u32 *)p)[6])); MSGDATA_Delete((struct Rec *)(((u32 *)p)[5]));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((u32 *)p)[4])); GF_FONT_Delete((void *)(((u32 *)p)[3])); GF_FONT_Delete((void *)(((u32 *)p)[2]));
     func_021E5868(((u32 *)p)[1]); func_021E54E0((char *)(((u32 *)p)[0]));
     func_020315D4((struct S020315D4 *)sys); func_020306F0(87);

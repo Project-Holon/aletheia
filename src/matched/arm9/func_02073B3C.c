@@ -42,7 +42,7 @@
  *
  * symbols:
  *   SND_StopTimer  0x020894DC  arm
- *   func_0208C86C  0x0208C86C  arm
+ *   PM_DeletePreSleepCallback  0x0208C86C  arm
  *   func_0208C884  0x0208C884  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
@@ -71,7 +71,7 @@ struct Obj {
 };
 
 extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
-extern void func_0208C86C(void *p);
+extern void PM_DeletePreSleepCallback(void *p);
 extern void func_0208C884(void *p);
 extern u32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 a);
@@ -85,7 +85,7 @@ void NNS_SndStrmStop(struct Obj *o)
         u32 saved;
 
         SND_StopTimer(o->f4c, 0, 1u << o->f48, 0);
-        func_0208C86C(&o->f08);
+        PM_DeletePreSleepCallback(&o->f08);
         func_0208C884(&o->f18);
         o->b1 = 0;
         saved = SND_GetCurrentCommandTag();

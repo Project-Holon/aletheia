@@ -1,5 +1,5 @@
 /*
- * function: func_0207D534
+ * function: GXx_SetMasterBrightness_
  * address:  0x0207D534
  * packet:   pkt_0207D534
  * region:   arm9
@@ -25,7 +25,7 @@ typedef volatile u32 vu32;
 
 #define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
 
-void func_0207D534(vu16 *reg, int brightness)
+void GXx_SetMasterBrightness_(vu16 *reg, int brightness)
 {
     if (brightness == 0) {
         *reg = 0;

@@ -1,7 +1,7 @@
 /*
  * file:     dwc_transport.c
  * unit:     yes
- * function: func_02176DEC, func_02176DFC, func_02176E90, func_02176EB0, func_02176FD4, func_02177044, func_021770EC, func_02177138, func_02177160, func_02177188, func_021771B0, func_021771E0, func_0217721C, func_02177270, func_021772B8, func_021772DC, func_021772F8, func_02177340, func_02177398, func_021773D8, func_021776A0, func_0217772C, func_02177748, func_02177770, func_02177788, func_021777A4, func_021777C0, func_02177848, func_0217793C, func_02177A4C, func_02177C1C, func_02177CE4, DWCs_RecvSystemDataBody, func_02177E64, func_02177E88
+ * function: func_02176DEC, func_02176DFC, DWC_SendReliable, DWCi_SendReliable, DWC_SendReliableBitmap, DWC_SendUnreliable, DWC_SetRecvBuffer, DWC_SetUserSendCallback, DWC_SetUserRecvCallback, DWC_SetUserRecvTimeoutCallback, DWCs_EncodeHeader, DWCs_DecodeHeader, DWCs_GetRequiredHeaderSize, DWC_SetRecvTimeoutTime, DWC_SetConnectionKeepAliveTime, DWC_GetConnectionKeepAliveTime, DWCi_InitTransport, DWCi_RecvCallback, DWCi_PingCallback, DWCi_TransportProcess, DWCi_ClearTransConnection, DWCi_ShutdownTransport, DWCi_ResetLastSomeDataRecvTimeByAid, DWCs_GetTransConnection, DWCs_GetSendState, DWCs_GetRecvState, DWCs_Send, DWCi_SendUnreliable, DWCs_HandleReliableMessage, DWCs_HandleUnreliableMessage, DWCs_RecvDataHeader, DWCs_RecvDataBody, DWCs_RecvSystemDataBody, DWCs_GetOutgoingBufferFreeSize, DWCs_UpdateConnectionKeepAliveTime
  * address:  0x02176DEC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,25 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02059F38          0x02059F38  arm
+ *   DWCi_IsError          0x02059F38  arm
  *   DWC_IsValidAID         0x0216B94C  arm  ov009
  *   DWCi_IsValidAID        0x0216BC3C  arm  ov009
- *   func_02177788          0x02177788  arm  ov009
+ *   DWCs_GetSendState          0x02177788  arm  ov009
  *   DWCs_GetOutgoingBufferFreeSize  0x02177E64  arm  ov009
  *   DWCs_GetRequiredHeaderSize      0x0217721C  arm  ov009
  *   func_02176BE4          0x02176BE4  arm  ov009
- *   func_02177770  0x02177770  arm  ov009
- *   func_021771B0  0x021771B0  arm  ov009
- *   func_021777C0  0x021777C0  arm  ov009
- *   func_02177E64  0x02177E64  arm  ov009
- *   g_021AB180  0x021AB180  data
+ *   DWCs_GetTransConnection  0x02177770  arm  ov009
+ *   DWCs_EncodeHeader  0x021771B0  arm  ov009
+ *   DWCs_Send  0x021777C0  arm  ov009
+ *   DWCs_GetOutgoingBufferFreeSize  0x02177E64  arm  ov009
+ *   gDwcTransInfo  0x021AB180  data
  *   DWC_GetMyAID                   0x0216B838  arm ov009
  *   DWC_GetMyAID   0x0216B838  arm ov009
  *   DWCi_SendUnreliable  0x02177848  arm  ov009
  *   DWCs_GetTransConnection  0x02177770 arm
  *   DWCs_GetRecvState        0x021777A4 arm
  *   strncpy      0x02094860 arm
- *   g_021A2344   0x021A2344 data
+ *   gDwcTransHeaderMagic   0x021A2344 data
  *   MI_CpuCopy8  0x02082D44 arm
  *   memcmp       0x020923F0 arm
  *   DWCi_NodeInfoList_GetCount  0x0217603C arm
@@ -63,10 +63,10 @@
  *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C arm
  *   DWC_Alloc                              0x0205A16C arm
  *   DWC_Free                               0x0205A1B0 arm
- *   g_021A2348                             0x021A2348 data
+ *   gDwcTransForwardMagic                             0x021A2348 data
  *   strncmp                                     0x020949F4 arm
  *   DWCi_HandleGT2UnreliableMatchCommandMessage 0x02174E10 arm
- *   g_021A234C                                  0x021A234C data
+ *   gDwcTransMatchMagic                                  0x021A234C data
  *   DWCi_ProcessMatchSynPacket  0x0216EC4C arm
  *   gt2GetOutgoingBufferFreeSpace     0x02195E50 arm
  */
@@ -113,7 +113,7 @@ typedef struct TransInfo {
     unsigned long connKeepAliveTime;
 } TransInfo;
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern int DWC_IsValidAID(int aid);
 extern int DWCi_IsValidAID(int aid);
 extern void strncpy(char *dst, const char *src, int n);
@@ -147,46 +147,46 @@ extern int strncmp(const char *a, const char *b, unsigned int n);
 extern void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len);
 extern void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data);
 extern int gt2GetOutgoingBufferFreeSpace(void *connection);
-extern TransInfo *g_021AB180;
-extern char g_021A2344[];
-extern char g_021A2348[];
-extern char g_021A234C[];
+extern TransInfo *gDwcTransInfo;
+extern char gDwcTransHeaderMagic[];
+extern char gDwcTransForwardMagic[];
+extern char gDwcTransMatchMagic[];
 
 int func_02176DEC(unsigned char a);
 int func_02176DFC(unsigned char aid, unsigned short type);
-int func_02176E90(unsigned char aid, void *buffer, int size);
-int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size);
-unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
-int func_02177044(unsigned char aid, void *buffer, int size);
+int DWC_SendReliable(unsigned char aid, void *buffer, int size);
+int DWCi_SendReliable(unsigned short type, unsigned char aid, void *buffer, int size);
+unsigned long DWC_SendReliableBitmap(unsigned long bitmap, void *buffer, int size);
+int DWC_SendUnreliable(unsigned char aid, void *buffer, int size);
 int DWC_SetRecvBuffer(unsigned char aid, void *recvBuffer, int size);
-int func_02177138(void (*cb)(int, unsigned char, void *), void *param);
-int func_02177160(void (*cb)(unsigned char, unsigned char *, int, void *), void *param);
-int func_02177188(void (*cb)(unsigned char, void *), void *param);
-void func_021771B0(TransHeader *header, unsigned short type, int size);
-unsigned short func_021771E0(void *message);
-long func_0217721C(unsigned short type);
+int DWC_SetUserSendCallback(void (*cb)(int, unsigned char, void *), void *param);
+int DWC_SetUserRecvCallback(void (*cb)(unsigned char, unsigned char *, int, void *), void *param);
+int DWC_SetUserRecvTimeoutCallback(void (*cb)(unsigned char, void *), void *param);
+void DWCs_EncodeHeader(TransHeader *header, unsigned short type, int size);
+unsigned short DWCs_DecodeHeader(void *message);
+long DWCs_GetRequiredHeaderSize(unsigned short type);
 int DWC_SetRecvTimeoutTime(unsigned char aid, unsigned long time);
-int func_021772B8(unsigned long v);
-unsigned long func_021772DC(void);
+int DWC_SetConnectionKeepAliveTime(unsigned long v);
+unsigned long DWC_GetConnectionKeepAliveTime(void);
 void DWCi_InitTransport(TransInfo *info);
 void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable);
 void DWCi_PingCallback(void *connection, int latency);
 void DWCi_TransportProcess(void);
-void func_021776A0(int i);
-void func_0217772C(void);
-void func_02177748(int aid);
-TransConn *func_02177770(int i);
-unsigned char func_02177788(int i);
-unsigned char func_021777A4(int i);
-void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int reliable);
-void func_02177848(unsigned char aidFrom, unsigned char aidTo, unsigned char *buffer, int size, int fromDWC_SendUnreliable);
-void func_0217793C(void *connection, unsigned char *message, int size);
-void func_02177A4C(void *connection, void *message, int size);
-void func_02177C1C(unsigned char aid, void *message, int size);
-void func_02177CE4(unsigned char aid, void *message, int size);
+void DWCi_ClearTransConnection(int i);
+void DWCi_ShutdownTransport(void);
+void DWCi_ResetLastSomeDataRecvTimeByAid(int aid);
+TransConn *DWCs_GetTransConnection(int i);
+unsigned char DWCs_GetSendState(int i);
+unsigned char DWCs_GetRecvState(int i);
+void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable);
+void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned char *buffer, int size, int fromDWC_SendUnreliable);
+void DWCs_HandleReliableMessage(void *connection, unsigned char *message, int size);
+void DWCs_HandleUnreliableMessage(void *connection, void *message, int size);
+void DWCs_RecvDataHeader(unsigned char aid, void *message, int size);
+void DWCs_RecvDataBody(unsigned char aid, void *message, int size);
 void DWCs_RecvSystemDataBody(unsigned char aid, void *message, int size);
-int func_02177E64(unsigned char aid);
-void func_02177E88(void *connection);
+int DWCs_GetOutgoingBufferFreeSize(unsigned char aid);
+void DWCs_UpdateConnectionKeepAliveTime(void *connection);
 
 /*
  * Tail call that supplies the second argument 1.
@@ -203,14 +203,14 @@ int func_02176DFC(unsigned char aid, unsigned short type)
 {
     long freeSpace;
 
-    if (func_02059F38() != 0 || (type == 1 && DWC_IsValidAID(aid) == 0))
+    if (DWCi_IsError() != 0 || (type == 1 && DWC_IsValidAID(aid) == 0))
         return 0;
     if (DWCi_IsValidAID(aid) == 0)
         return 0;
-    if (func_02177788(aid) == 1)
+    if (DWCs_GetSendState(aid) == 1)
         return 0;
-    freeSpace = func_02177E64(aid);
-    if (freeSpace < func_0217721C(type))
+    freeSpace = DWCs_GetOutgoingBufferFreeSize(aid);
+    if (freeSpace < DWCs_GetRequiredHeaderSize(type))
         return 0;
     return func_02176BE4() != 0;
 }
@@ -218,34 +218,34 @@ int func_02176DFC(unsigned char aid, unsigned short type)
 /*
  * sdk:      DWC_SendReliable
  */
-int func_02176E90(unsigned char aid, void *buffer, int size)
+int DWC_SendReliable(unsigned char aid, void *buffer, int size)
 {
-    return func_02176EB0(1, aid, buffer, size);
+    return DWCi_SendReliable(1, aid, buffer, size);
 }
 
-int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size)
+int DWCi_SendReliable(unsigned short type, unsigned char aid, void *buffer, int size)
 {
     int freeSpace;
     int sendSize;
     TransHeader header;
     TransConn *transConnection;
 
-    transConnection = func_02177770(aid);
+    transConnection = DWCs_GetTransConnection(aid);
     if (!func_02176DFC(aid, type))
         return 0;
     transConnection->sendState = 1;
     transConnection->sendBuffer = buffer;
     transConnection->sendingSize = 0;
     transConnection->requestSendSize = size;
-    func_021771B0(&header, type, size);
-    func_021777C0(aid, (unsigned char *)&header, 8, 1);
-    sendSize = g_021AB180->sendSplitMax;
+    DWCs_EncodeHeader(&header, type, size);
+    DWCs_Send(aid, (unsigned char *)&header, 8, 1);
+    sendSize = gDwcTransInfo->sendSplitMax;
     if (size <= sendSize)
         sendSize = size;
-    freeSpace = func_02177E64(aid);
+    freeSpace = DWCs_GetOutgoingBufferFreeSize(aid);
     if (sendSize > freeSpace)
         return 1;
-    func_021777C0(aid, buffer, sendSize, 1);
+    DWCs_Send(aid, buffer, sendSize, 1);
     transConnection->sendingSize += sendSize;
     freeSpace = transConnection->requestSendSize;
     if (transConnection->sendingSize == freeSpace) {
@@ -253,8 +253,8 @@ int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size
         transConnection->sendBuffer = 0;
         transConnection->sendingSize = 0;
         transConnection->requestSendSize = 0;
-        if (g_021AB180->sendCallback && type == 1)
-            g_021AB180->sendCallback(freeSpace, aid, g_021AB180->sendCallbackParam);
+        if (gDwcTransInfo->sendCallback && type == 1)
+            gDwcTransInfo->sendCallback(freeSpace, aid, gDwcTransInfo->sendCallbackParam);
     }
     return 1;
 }
@@ -267,7 +267,7 @@ int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size
  * registers (r7 for the zero case, r8 for the shift); the statement form with
  * a later `if (aid == 0) aidbit = 1;` shared one register.
  */
-unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size)
+unsigned long DWC_SendReliableBitmap(unsigned long bitmap, void *buffer, int size)
 {
     unsigned long aidbit;
     unsigned char aid;
@@ -278,7 +278,7 @@ unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size)
             continue;
         if (aid == DWC_GetMyAID())
             continue;
-        if (func_02176E90(aid, buffer, size) == 0)
+        if (DWC_SendReliable(aid, buffer, size) == 0)
             bitmap &= ~aidbit;
     }
     return bitmap;
@@ -287,25 +287,25 @@ unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size)
 /*
  * sdk:      DWC_SendUnreliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
  */
-int func_02177044(unsigned char aid, void *buffer, int size)
+int DWC_SendUnreliable(unsigned char aid, void *buffer, int size)
 {
-    if (func_02059F38() != 0)
+    if (DWCi_IsError() != 0)
         return 0;
     if (DWC_IsValidAID(aid) == 0)
         return 0;
     if (size > 0x5B6)
         return 0;
-    func_02177848(DWC_GetMyAID(), aid, buffer, size, 1);
-    if (g_021AB180->sendCallback != 0)
-        g_021AB180->sendCallback(size, aid, g_021AB180->sendCallbackParam);
+    DWCi_SendUnreliable(DWC_GetMyAID(), aid, buffer, size, 1);
+    if (gDwcTransInfo->sendCallback != 0)
+        gDwcTransInfo->sendCallback(size, aid, gDwcTransInfo->sendCallbackParam);
     return 1;
 }
 
 int DWC_SetRecvBuffer(unsigned char aid, void *recvBuffer, int size)
 {
-    TransConn *connection = func_02177770(aid);
+    TransConn *connection = DWCs_GetTransConnection(aid);
 
-    if (func_021777A4(aid) == 2)
+    if (DWCs_GetRecvState(aid) == 2)
         return 0;
     connection->recvBuffer = recvBuffer;
     connection->recvBufferSize = size;
@@ -315,57 +315,57 @@ int DWC_SetRecvBuffer(unsigned char aid, void *recvBuffer, int size)
     return 1;
 }
 
-int func_02177138(void (*cb)(int, unsigned char, void *), void *param)
+int DWC_SetUserSendCallback(void (*cb)(int, unsigned char, void *), void *param)
 {
-    TransInfo *p = g_021AB180;
+    TransInfo *p = gDwcTransInfo;
 
     if (p == 0)
         return 0;
     p->sendCallback = cb;
-    g_021AB180->sendCallbackParam = param;
+    gDwcTransInfo->sendCallbackParam = param;
     return 1;
 }
 
-int func_02177160(void (*cb)(unsigned char, unsigned char *, int, void *), void *param)
+int DWC_SetUserRecvCallback(void (*cb)(unsigned char, unsigned char *, int, void *), void *param)
 {
-    TransInfo *p = g_021AB180;
+    TransInfo *p = gDwcTransInfo;
 
     if (p == 0)
         return 0;
     p->recvCallback = cb;
-    g_021AB180->recvCallbackParam = param;
+    gDwcTransInfo->recvCallbackParam = param;
     return 1;
 }
 
-int func_02177188(void (*cb)(unsigned char, void *), void *param)
+int DWC_SetUserRecvTimeoutCallback(void (*cb)(unsigned char, void *), void *param)
 {
-    TransInfo *p = g_021AB180;
+    TransInfo *p = gDwcTransInfo;
 
     if (p == 0)
         return 0;
     p->recvTimeoutCallback = cb;
-    g_021AB180->recvTimeoutCallbackParam = param;
+    gDwcTransInfo->recvTimeoutCallbackParam = param;
     return 1;
 }
 
-void func_021771B0(TransHeader *header, unsigned short type, int size)
+void DWCs_EncodeHeader(TransHeader *header, unsigned short type, int size)
 {
-    strncpy(header->magicStrings, g_021A2344, 2);
+    strncpy(header->magicStrings, gDwcTransHeaderMagic, 2);
     header->type = type;
     header->size = size;
 }
 
-unsigned short func_021771E0(void *message)
+unsigned short DWCs_DecodeHeader(void *message)
 {
     TransHeader header;
 
     MI_CpuCopy8(message, &header, 8);
-    if (memcmp(header.magicStrings, g_021A2344, 2) == 0)
+    if (memcmp(header.magicStrings, gDwcTransHeaderMagic, 2) == 0)
         return header.type;
     return 0;
 }
 
-long func_0217721C(unsigned short type)
+long DWCs_GetRequiredHeaderSize(unsigned short type)
 {
     int clientCount;
 
@@ -386,17 +386,17 @@ int DWC_SetRecvTimeoutTime(unsigned char aid, unsigned long time)
 {
     unsigned long long tick;
 
-    if (g_021AB180 == 0)
+    if (gDwcTransInfo == 0)
         return 0;
-    g_021AB180->connections[aid].recvTimeoutTime = time;
+    gDwcTransInfo->connections[aid].recvTimeoutTime = time;
     tick = OS_GetTick();
-    g_021AB180->connections[aid].previousRecvTick = tick;
+    gDwcTransInfo->connections[aid].previousRecvTick = tick;
     return 1;
 }
 
-int func_021772B8(unsigned long v)
+int DWC_SetConnectionKeepAliveTime(unsigned long v)
 {
-    TransInfo *p = g_021AB180;
+    TransInfo *p = gDwcTransInfo;
 
     if (p == 0 || v == 0) {
         return 0;
@@ -405,41 +405,41 @@ int func_021772B8(unsigned long v)
     return 1;
 }
 
-unsigned long func_021772DC(void)
+unsigned long DWC_GetConnectionKeepAliveTime(void)
 {
-    TransInfo *p = g_021AB180;
+    TransInfo *p = gDwcTransInfo;
 
     return p != 0 ? p->connKeepAliveTime : 0;
 }
 
 void DWCi_InitTransport(TransInfo *info)
 {
-    g_021AB180 = info;
+    gDwcTransInfo = info;
     MI_CpuFill8(info, 0, 0x728);
-    g_021AB180->sendSplitMax = 0x5b9;
-    func_021772B8(0x4e20);
+    gDwcTransInfo->sendSplitMax = 0x5b9;
+    DWC_SetConnectionKeepAliveTime(0x4e20);
     DWCi_InitReliableQueue();
 }
 
 void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable)
 {
-    if (g_021AB180 == 0 || message == 0 || size == 0)
+    if (gDwcTransInfo == 0 || message == 0 || size == 0)
         return;
-    func_02177E88(connection);
+    DWCs_UpdateConnectionKeepAliveTime(connection);
     if (reliable)
-        func_0217793C(connection, message, size);
+        DWCs_HandleReliableMessage(connection, message, size);
     else
-        func_02177A4C(connection, message, size);
+        DWCs_HandleUnreliableMessage(connection, message, size);
 }
 
 void DWCi_PingCallback(void *connection, int latency)
 {
     unsigned char aid;
 
-    if (g_021AB180->pingCallback == 0)
+    if (gDwcTransInfo->pingCallback == 0)
         return;
     aid = DWCi_GetConnectionAID(connection);
-    g_021AB180->pingCallback(latency, aid, g_021AB180->pingCallbackParam);
+    gDwcTransInfo->pingCallback(latency, aid, gDwcTransInfo->pingCallbackParam);
 }
 
 void DWCi_TransportProcess(void)
@@ -457,17 +457,17 @@ void DWCi_TransportProcess(void)
     long restSize;
     long freeSpace;
 
-    if (g_021AB180 == 0)
+    if (gDwcTransInfo == 0)
         return;
     hostCount = DWC_GetAIDList(&aidList);
     tick = OS_GetTick();
-    timeoutTime = func_021772DC();
+    timeoutTime = DWC_GetConnectionKeepAliveTime();
     if (DWC_IsServerMyself() || (DWCi_IsServerChanging() && DWCi_IsBackupMine())) {
         for (i = 0; i < hostCount; i++) {
             aid = aidList[i];
             if (aid == DWC_GetMyAID())
                 continue;
-            transConnection = func_02177770(aid);
+            transConnection = DWCs_GetTransConnection(aid);
             if ((u32)(((tick - transConnection->lastSomeDataRecvTick) << 6) / 0x82ea) > timeoutTime) {
                 DWCi_CloseConnectionHard(aid);
                 DWCi_SendServerPolling(1);
@@ -476,7 +476,7 @@ void DWCi_TransportProcess(void)
     } else {
         aid = DWCi_GetServerOrSubServerAID();
         if (aid != 0xff && aid != DWC_GetMyAID()) {
-            transConnection = func_02177770(aid);
+            transConnection = DWCs_GetTransConnection(aid);
             if ((u32)(((tick - transConnection->lastSomeDataRecvTick) << 6) / 0x82ea) > timeoutTime)
                 DWCi_CloseConnectionHard(aid);
         }
@@ -486,28 +486,28 @@ void DWCi_TransportProcess(void)
         DWCi_ProcessReliableQueue();
         if (DWC_IsValidAID(aid2)) {
             tick = OS_GetTick();
-            transConnection = func_02177770(aid2);
-            if (g_021AB180->recvTimeoutCallback != 0 && transConnection->recvTimeoutTime != 0) {
+            transConnection = DWCs_GetTransConnection(aid2);
+            if (gDwcTransInfo->recvTimeoutCallback != 0 && transConnection->recvTimeoutTime != 0) {
                 if ((u32)(((tick - transConnection->previousRecvTick) << 6) / 0x82ea) >
                     transConnection->recvTimeoutTime) {
-                    g_021AB180->recvTimeoutCallback(aid2, g_021AB180->recvTimeoutCallbackParam);
+                    gDwcTransInfo->recvTimeoutCallback(aid2, gDwcTransInfo->recvTimeoutCallbackParam);
                     transConnection->previousRecvTick = tick;
                 }
             }
         }
         if (aid2 == DWC_GetMyAID())
             continue;
-        if (func_02177788(aid2) != 1)
+        if (DWCs_GetSendState(aid2) != 1)
             continue;
-        conn2 = func_02177770(aid2);
-        sendSize = g_021AB180->sendSplitMax;
+        conn2 = DWCs_GetTransConnection(aid2);
+        sendSize = gDwcTransInfo->sendSplitMax;
         restSize = conn2->requestSendSize - conn2->sendingSize;
         if (restSize <= sendSize)
             sendSize = restSize;
-        freeSpace = func_02177E64(aid2);
+        freeSpace = DWCs_GetOutgoingBufferFreeSize(aid2);
         if (freeSpace < sendSize)
             continue;
-        func_021777C0(aid2, conn2->sendBuffer + conn2->sendingSize, sendSize, 1);
+        DWCs_Send(aid2, conn2->sendBuffer + conn2->sendingSize, sendSize, 1);
         conn2->sendingSize += sendSize;
         if (conn2->sendingSize == conn2->requestSendSize) {
             long total = conn2->requestSendSize;
@@ -515,8 +515,8 @@ void DWCi_TransportProcess(void)
             conn2->sendBuffer = 0;
             conn2->sendingSize = 0;
             conn2->requestSendSize = 0;
-            if (g_021AB180->sendCallback != 0)
-                g_021AB180->sendCallback(total, aid2, g_021AB180->sendCallbackParam);
+            if (gDwcTransInfo->sendCallback != 0)
+                gDwcTransInfo->sendCallback(total, aid2, gDwcTransInfo->sendCallbackParam);
         }
     }
 }
@@ -525,58 +525,58 @@ void DWCi_TransportProcess(void)
  * Zeroes the live fields of element `i` of the 0x38-byte array reached
  * through the global pointer at 0x021AB180.  A null array is a no-op.
  */
-void func_021776A0(int i)
+void DWCi_ClearTransConnection(int i)
 {
-    if (g_021AB180 == 0)
+    if (gDwcTransInfo == 0)
         return;
-    g_021AB180->connections[i].sendingSize = 0;
-    g_021AB180->connections[i].recvingSize = 0;
-    g_021AB180->connections[i].requestSendSize = 0;
-    g_021AB180->connections[i].requestRecvSize = 0;
-    g_021AB180->connections[i].sendState = 0;
-    g_021AB180->connections[i].recvBuffer = 0;
-    g_021AB180->connections[i].recvBufferSize = 0;
-    g_021AB180->connections[i].recvState = 0;
-    g_021AB180->connections[i].lastRecvType = 0;
+    gDwcTransInfo->connections[i].sendingSize = 0;
+    gDwcTransInfo->connections[i].recvingSize = 0;
+    gDwcTransInfo->connections[i].requestSendSize = 0;
+    gDwcTransInfo->connections[i].requestRecvSize = 0;
+    gDwcTransInfo->connections[i].sendState = 0;
+    gDwcTransInfo->connections[i].recvBuffer = 0;
+    gDwcTransInfo->connections[i].recvBufferSize = 0;
+    gDwcTransInfo->connections[i].recvState = 0;
+    gDwcTransInfo->connections[i].lastRecvType = 0;
 }
 
 /*
  * Clears the state pointer, then tail calls its initialiser.
  */
-void func_0217772C(void)
+void DWCi_ShutdownTransport(void)
 {
-    g_021AB180 = 0;
-    func_02176B80(&g_021AB180);
+    gDwcTransInfo = 0;
+    func_02176B80(&gDwcTransInfo);
 }
 
 /*
  * DWCi_ResetLastSomeDataRecvTimeByAid: stamps the current tick into the aid's transport record.
  */
-void func_02177748(int aid)
+void DWCi_ResetLastSomeDataRecvTimeByAid(int aid)
 {
     unsigned long long t = OS_GetTick();
-    func_02177770(aid)->lastSomeDataRecvTick = t;
+    DWCs_GetTransConnection(aid)->lastSomeDataRecvTick = t;
 }
 
-TransConn *func_02177770(int i)
+TransConn *DWCs_GetTransConnection(int i)
 {
-    return &g_021AB180->connections[i];
+    return &gDwcTransInfo->connections[i];
 }
 
-unsigned char func_02177788(int i)
+unsigned char DWCs_GetSendState(int i)
 {
-    return g_021AB180->connections[i].sendState;
+    return gDwcTransInfo->connections[i].sendState;
 }
 
-unsigned char func_021777A4(int i)
+unsigned char DWCs_GetRecvState(int i)
 {
-    return g_021AB180->connections[i].recvState;
+    return gDwcTransInfo->connections[i].recvState;
 }
 
 /*
  * sdk:      DWCs_Send (libdwcmatch.TWL.HYB.a dwc_transport.o)
  */
-void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int reliable)
+void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable)
 {
     void *connection;
     int res;
@@ -596,7 +596,7 @@ void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int relia
     gt2Send(connection, buffer, size, reliable);
 }
 
-void func_02177848(unsigned char aidFrom, unsigned char aidTo, unsigned char *buffer,
+void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned char *buffer,
     int size, int fromDWC_SendUnreliable)
 {
     void *connection;
@@ -617,7 +617,7 @@ void func_02177848(unsigned char aidFrom, unsigned char aidTo, unsigned char *bu
         sendBuf = DWC_Alloc(4, size + 8);
         if (sendBuf == 0)
             return;
-        strncpy((char *)sendBuf, g_021A2348, 3);
+        strncpy((char *)sendBuf, gDwcTransForwardMagic, 3);
         sendBuf[3] = aidFrom;
         *(unsigned long *)(sendBuf + 4) = 1 << aidTo;
         MI_CpuCopy8(buffer, sendBuf + 8, size);
@@ -630,7 +630,7 @@ void func_02177848(unsigned char aidFrom, unsigned char aidTo, unsigned char *bu
     }
 }
 
-void func_0217793C(void *connection, unsigned char *message, int size)
+void DWCs_HandleReliableMessage(void *connection, unsigned char *message, int size)
 {
     unsigned short type;
     unsigned char aid;
@@ -640,26 +640,26 @@ void func_0217793C(void *connection, unsigned char *message, int size)
         DWCi_SetError(6, 0xfffe8298);
         return;
     }
-    switch (func_021777A4(aid)) {
+    switch (DWCs_GetRecvState(aid)) {
     case 0:
-        type = func_021771E0(message);
+        type = DWCs_DecodeHeader(message);
         if (type < 2 || type >= 5)
             return;
-        func_02177C1C(aid, message, size);
+        DWCs_RecvDataHeader(aid, message, size);
         return;
     case 1:
-        func_02177C1C(aid, message, size);
+        DWCs_RecvDataHeader(aid, message, size);
         return;
     case 2:
-        func_02177CE4(aid, message, size);
+        DWCs_RecvDataBody(aid, message, size);
         return;
     case 3:
         DWCs_RecvSystemDataBody(aid, message, size);
         return;
     case 4:
-        g_021AB180->connections[aid].recvState = 1;
-        g_021AB180->connections[aid].recvingSize = 0;
-        g_021AB180->connections[aid].requestRecvSize = 0;
+        gDwcTransInfo->connections[aid].recvState = 1;
+        gDwcTransInfo->connections[aid].recvingSize = 0;
+        gDwcTransInfo->connections[aid].requestRecvSize = 0;
         return;
     default:
         DWCi_SetError(6, 0xfffe82b6);
@@ -667,7 +667,7 @@ void func_0217793C(void *connection, unsigned char *message, int size)
     }
 }
 
-void func_02177A4C(void *connection, void *message, int size)
+void DWCs_HandleUnreliableMessage(void *connection, void *message, int size)
 {
     unsigned char aidFrom;
     unsigned char aid;
@@ -684,11 +684,11 @@ void func_02177A4C(void *connection, void *message, int size)
         DWCi_SetError(6, 0xfffe8298);
         return;
     }
-    if (size >= 0x14u && strncmp(message, g_021A234C, 4) == 0) {
+    if (size >= 0x14u && strncmp(message, gDwcTransMatchMagic, 4) == 0) {
         DWCi_HandleGT2UnreliableMatchCommandMessage(message, size);
         return;
     }
-    if (size >= 8 && memcmp(message, g_021A2348, 3) == 0)
+    if (size >= 8 && memcmp(message, gDwcTransForwardMagic, 3) == 0)
         headerAvailable = 1;
     if (headerAvailable == 1) {
         aidFrom = ((unsigned char *)message)[3];
@@ -704,7 +704,7 @@ void func_02177A4C(void *connection, void *message, int size)
                     if (tempAid == DWC_GetMyAID())
                         toMeAvailable = 1;
                     else
-                        func_02177848(aidFrom, tempAid, message, size, 0);
+                        DWCi_SendUnreliable(aidFrom, tempAid, message, size, 0);
                 }
             }
         }
@@ -715,29 +715,29 @@ void func_02177A4C(void *connection, void *message, int size)
         message = (char *)message + 8;
         size -= 8;
     }
-    transConnection = &g_021AB180->connections[aidFrom];
+    transConnection = &gDwcTransInfo->connections[aidFrom];
     if (transConnection->recvBuffer == 0)
         return;
     if (transConnection->recvBufferSize < size)
         return;
-    if (g_021AB180->recvCallback != 0) {
-        g_021AB180->recvCallback(aidFrom, message, size, g_021AB180->recvCallbackParam);
+    if (gDwcTransInfo->recvCallback != 0) {
+        gDwcTransInfo->recvCallback(aidFrom, message, size, gDwcTransInfo->recvCallbackParam);
     }
-    if (g_021AB180->recvTimeoutCallback != 0 && transConnection->recvTimeoutTime != 0) {
+    if (gDwcTransInfo->recvTimeoutCallback != 0 && transConnection->recvTimeoutTime != 0) {
         unsigned long long tick = OS_GetTick();
         transConnection->previousRecvTick = tick;
     }
 }
 
-void func_02177C1C(unsigned char aid, void *message, int size)
+void DWCs_RecvDataHeader(unsigned char aid, void *message, int size)
 {
     TransHeader header;
     TransConn *connection;
     unsigned short type;
 
-    connection = &g_021AB180->connections[aid];
-    connection->lastRecvState = func_021777A4(aid);
-    type = func_021771E0(message);
+    connection = &gDwcTransInfo->connections[aid];
+    connection->lastRecvState = DWCs_GetRecvState(aid);
+    type = DWCs_DecodeHeader(message);
     switch (type) {
     case 1:
         if (size != 8)
@@ -764,13 +764,13 @@ void func_02177C1C(unsigned char aid, void *message, int size)
     connection->lastRecvType = type;
 }
 
-void func_02177CE4(unsigned char aid, void *message, int size)
+void DWCs_RecvDataBody(unsigned char aid, void *message, int size)
 {
     TransConn *connection;
     int totalSize;
 
-    connection = &g_021AB180->connections[aid];
-    if (func_021777A4(aid) == 2) {
+    connection = &gDwcTransInfo->connections[aid];
+    if (DWCs_GetRecvState(aid) == 2) {
         if (connection->recvingSize + size > connection->recvBufferSize) {
             DWCi_SetError(6, 0xfffe82ac);
             return;
@@ -783,12 +783,12 @@ void func_02177CE4(unsigned char aid, void *message, int size)
         connection->recvState = 1;
         connection->recvingSize = 0;
         connection->requestRecvSize = 0;
-        if (g_021AB180->recvCallback != 0) {
-            g_021AB180->recvCallback(aid, connection->recvBuffer, totalSize,
-                g_021AB180->recvCallbackParam);
+        if (gDwcTransInfo->recvCallback != 0) {
+            gDwcTransInfo->recvCallback(aid, connection->recvBuffer, totalSize,
+                gDwcTransInfo->recvCallbackParam);
         }
     }
-    if (g_021AB180->recvTimeoutCallback != 0 && connection->recvTimeoutTime != 0) {
+    if (gDwcTransInfo->recvTimeoutCallback != 0 && connection->recvTimeoutTime != 0) {
         unsigned long long tick = OS_GetTick();
         connection->previousRecvTick = tick;
     }
@@ -799,7 +799,7 @@ void DWCs_RecvSystemDataBody(unsigned char aid, void *message, int size)
     TransConn *transConnection;
     void *alignedMessage;
 
-    transConnection = func_02177770(aid);
+    transConnection = DWCs_GetTransConnection(aid);
     transConnection->recvState = transConnection->lastRecvState;
     switch (transConnection->lastRecvType) {
     case 2:
@@ -817,7 +817,7 @@ void DWCs_RecvSystemDataBody(unsigned char aid, void *message, int size)
     }
 }
 
-int func_02177E64(unsigned char aid)
+int DWCs_GetOutgoingBufferFreeSize(unsigned char aid)
 {
     int free = gt2GetOutgoingBufferFreeSpace(DWCi_GetGT2Connection(aid));
 
@@ -827,7 +827,7 @@ int func_02177E64(unsigned char aid)
     return free;
 }
 
-void func_02177E88(void *connection)
+void DWCs_UpdateConnectionKeepAliveTime(void *connection)
 {
     unsigned char aid = DWCi_GetConnectionAID(connection);
     unsigned long long tick;
@@ -837,5 +837,5 @@ void func_02177E88(void *connection)
     if (aid == DWC_GetMyAID())
         return;
     tick = OS_GetTick();
-    func_02177770(aid)->lastSomeDataRecvTick = tick;
+    DWCs_GetTransConnection(aid)->lastSomeDataRecvTick = tick;
 }

@@ -28,8 +28,8 @@
  *   BILLBOARD_ReleaseImageVram  0x0204F214  arm
  *   FLDMMDL_SysGetHeapId  0x0216D4F8  thumb  ov010
  *   FLDMMDL_SysSetBlActCont  0x0216D51C  thumb  ov010
- *   func_0204ED70  0x0204ED70  arm
- *   func_0204EDB0  0x0204EDB0  arm
+ *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   BILLBOARD_SetField24  0x0204EDB0  arm
  *   sBlactFileName     0x021DDD70  data  a1
  *   sBlactBoardScale     0x021D8058  data  a4
  *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
@@ -78,8 +78,8 @@ extern int BILLBOARD_ACT_DeleteSlot(struct BbActSys *sys, int slotIndex);
 extern void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int imageId);
 extern u32 FLDMMDL_SysGetHeapId(MmdlSys *sys);
 extern void FLDMMDL_SysSetBlActCont(MmdlSys *sys, BlactSys *cont);
-extern void func_0204ED70(struct BbBoard *board, VecFx32 *scale);
-extern void func_0204EDB0(struct BbBoard *board, u8 *polyIdBase);
+extern void BILLBOARD_SetField10(struct BbBoard *board, VecFx32 *scale);
+extern void BILLBOARD_SetField24(struct BbBoard *board, u8 *polyIdBase);
 extern BlactSys *FLDMMDL_SysGetBlActCont(MmdlSys *sys);
 extern u32 func_020307B0(void *p);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
@@ -212,9 +212,9 @@ void FLDMMDL_BLACT_Init(MmdlSys *mmdlSys, struct BbActSys *bbdActSys, u32 resMax
     FLDMMDL_BLACT_CreateCodeChange(cont);
     board = BILLBOARD_ACT_GetBoard(bbdActSys);
     scale = sBlactBoardScale;
-    func_0204ED70(board, &scale);
+    BILLBOARD_SetField10(board, &scale);
     polyIdBase = 0;
-    func_0204EDB0(board, &polyIdBase);
+    BILLBOARD_SetField24(board, &polyIdBase);
 }
 
 void FLDMMDL_BLACT_Exit(MmdlSys *mmdlSys)

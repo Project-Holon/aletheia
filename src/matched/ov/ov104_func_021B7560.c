@@ -14,7 +14,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   IRC_RHYTHM_InitScreen 0x021B78EC thumb ov104
  *   IRC_RHYTHM_InitTextSystem 0x021B7D28 thumb ov104
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   IRC_RHYTHM_InitMessageWindow 0x021B7DF0 thumb ov104
  *   func_0201F73C 0x0201F73C thumb
  *   IRC_RHYTHM_InitPulse 0x021B8E90 thumb ov104
@@ -51,7 +51,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
 extern void MI_CpuFill8(void *,int,int);
 extern void IRC_RHYTHM_InitScreen(u8 *,int);
 extern void IRC_RHYTHM_InitTextSystem(unsigned *p, int mode, u16 heap);
-extern u32 func_02012138(const struct Ctx *);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *);
 extern void IRC_RHYTHM_InitMessageWindow(u8 *,u32,u32,u8,u8,u8,u8,u16);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void IRC_RHYTHM_InitPulse(int *p, int a1);
@@ -84,7 +84,7 @@ int IRC_RHYTHM_Init(struct Obj0203159C *obj,void *state,u8 *context) {
  CTX(p)=context;
  IRC_RHYTHM_InitScreen(p,0x38);
  IRC_RHYTHM_InitTextSystem((unsigned int *)(p+0xbc),0,(u32)0x38);
- if(*(void **)CTX(p)) func_02012138(*(struct Ctx **)CTX(p));
+ if(*(void **)CTX(p)) ICA_ANIME_GetField24(*(struct Ctx **)CTX(p));
  IRC_RHYTHM_InitMessageWindow(p+0xcc,5,1,18,30,5,8,0x38);
  func_0201F73C(((struct Obj07986 *)p)->fCC,0,(u16)(((struct Obj07986 *)p)->f0),6);
  IRC_RHYTHM_InitPulse((int *)(p+0x7cc),0x38);

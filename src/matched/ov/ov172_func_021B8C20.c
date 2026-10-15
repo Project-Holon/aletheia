@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C20
+ * function: CTVT_COMM_IsSlotTimerDone
  * address:  0x021B8C20
  * packet:   pkt_ov172_021B8C20
  * region:   ov172
@@ -13,7 +13,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021B8C20(void *c, u8 *x)
+u32 CTVT_COMM_IsSlotTimerDone(void *c, u8 *x)
 {
     if (*(u16 *)(x + 0x3d0) == 0)
         return 1;

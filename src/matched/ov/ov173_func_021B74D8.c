@@ -1,5 +1,5 @@
 /*
- * function: func_021B74D8
+ * function: POKE_SUMMARY_MAIN_ClearWindow
  * address:  0x021B74D8
  * packet:   pkt_021B74D8
  * region:   ov173
@@ -25,7 +25,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021B74D8(char *p)
+void POKE_SUMMARY_MAIN_ClearWindow(char *p)
 {
     u32 x;
 

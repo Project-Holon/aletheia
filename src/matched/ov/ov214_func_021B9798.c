@@ -19,7 +19,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021BB220 0x021BB220 thumb ov214
+ *   BTL_REC_SEL_GRAPHIC_Delete 0x021BB220 thumb ov214
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -43,7 +43,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_021BB220(char *p);
+extern void BTL_REC_SEL_GRAPHIC_Delete(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -67,7 +67,7 @@ int func_021B9798(void *owner,int unused,int state,char *p)
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00636 *)p)->fC));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00636 *)p)->fC));
     GF_FONT_Delete(((struct Obj00636 *)p)->f8);
-    func_021BB220(*(char * *)&((struct Obj00636 *)p)->f4);
+    BTL_REC_SEL_GRAPHIC_Delete(*(char * *)&((struct Obj00636 *)p)->f4);
     func_020315D4(owner);
     func_020306F0(117);
     func_02034A5C((int)ov067_id);

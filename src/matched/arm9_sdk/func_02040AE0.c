@@ -11,14 +11,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02040AF0  0x02040AF0  arm
+ *   BG_SYS_DecodeTileSource  0x02040AF0  arm
  *
- * A four-instruction forwarder that binds the tile offset of func_02040AF0
+ * A four-instruction forwarder that binds the tile offset of BG_SYS_DecodeTileSource
  * to zero.  It has no label in the listing: the prologue saves nothing, so
  * disasm.py's rule does not see it and the whole function reads as part of
- * func_020409E0's literal pool
+ * BG_SYS_PushTileSource's literal pool
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  This is
- * also why func_020409E0 verifies EXACT*, its inferred extent running on
+ * also why BG_SYS_PushTileSource verifies EXACT*, its inferred extent running on
  * to 0x02040AF0; 0x02040AE0 wants seeding into
  * layout/function_starts.txt.
  *
@@ -34,9 +34,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
+extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
 void func_02040AE0(u32 index, const void *src, u32 mode)
 {
-    func_02040AF0(index, src, mode, 0);
+    BG_SYS_DecodeTileSource(index, src, mode, 0);
 }

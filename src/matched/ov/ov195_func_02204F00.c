@@ -1,5 +1,5 @@
 /*
- * function: func_02204F00
+ * function: SHINKA_DEMO_StartEvolutionBgm
  * address:  0x02204F00
  * packet:   pkt_02204F00
  * region:   ov195
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
 
-void func_02204F00(int unused, char *p)
+void SHINKA_DEMO_StartEvolutionBgm(int unused, char *p)
 {
     if (((struct Obj10816 *)p)->f30 == 0)
     {

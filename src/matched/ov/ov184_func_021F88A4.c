@@ -1,5 +1,5 @@
 /*
- * function: func_021F88A4
+ * function: BR_DOWNLOAD_Begin3d
  * address:  0x021F88A4
  * packet:   pkt_021F88A4
  * region:   ov184
@@ -14,7 +14,7 @@
  *   BR_RES_ApplyBgSet  0x021FBDA4  thumb  ov186
  *   BR_RES_ReleaseUiPalette  0x021FC1F8  thumb  ov186
  *   BR_GRAPHIC_Begin3d  0x021FC610  thumb  ov186
- *   func_021F3AF0  0x021F3AF0  thumb  ov112
+ *   MUSICAL_SHOT_SYS_CreateScene  0x021F3AF0  thumb  ov112
  */
 #include "../include/Obj06618.h"
 #include "../include/Obj08319.h"
@@ -26,9 +26,9 @@ extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_RES_ReleaseUiPalette(int *p, int i);
 extern void BR_GRAPHIC_Begin3d(u32 a, u16 b);
 typedef unsigned char  u8;
-extern u8 *func_021F3AF0(u8 *src, u16 heap);
+extern u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap);
 
-void func_021F88A4(char *p, char *q)
+void BR_DOWNLOAD_Begin3d(char *p, char *q)
 {
     if (((struct Obj06618 *)p)->f0 != 0)
         return;
@@ -36,5 +36,5 @@ void func_021F88A4(char *p, char *q)
     BR_RES_ApplyBgSet(((struct Obj08319 *)q)->fC, 0);
     BR_RES_ReleaseUiPalette((int *)(((struct Obj08319 *)q)->fC), 0);
     BR_GRAPHIC_Begin3d(((struct Obj08319 *)q)->f8, ((struct Obj06618 *)p)->f24);
-    ((struct Obj06618 *)p)->f0 = (unsigned int)func_021F3AF0((u8 *)(((struct Obj06618 *)p)->f28), ((struct Obj06618 *)p)->f24);
+    ((struct Obj06618 *)p)->f0 = (unsigned int)MUSICAL_SHOT_SYS_CreateScene((u8 *)(((struct Obj06618 *)p)->f28), ((struct Obj06618 *)p)->f24);
 }

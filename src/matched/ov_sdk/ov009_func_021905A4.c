@@ -17,7 +17,7 @@
  *
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02193734  0x02193734  arm  ov009
  *   g_021A5280     0x021A5280  data ov009
  */
@@ -47,7 +47,7 @@ typedef struct {
 
 extern void *func_0217EAB0(int size);
 typedef unsigned int   u32;
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern void func_02193734(int *p, int b);
 extern char g_021A5280[];
 
@@ -59,7 +59,7 @@ int func_021905A4(int connection, GPISearchData **out, int type)
         func_02193734((int *)connection, (int)g_021A5280);
         return 1;
     }
-    func_020923B0(data, 0, 0x1a0);
+    MSL_C_LIB_MemsetPtr(data, 0, 0x1a0);
     data->type = type;
     data->sock = -1;
     data->inputBuffer.data = 0;

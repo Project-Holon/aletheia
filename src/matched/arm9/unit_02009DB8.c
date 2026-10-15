@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54,
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
+ * function: TRADE_HISTORY_FindPartner, TRADE_HISTORY_AddPartner, TRADE_HISTORY_GetPartnerId, TRADE_HISTORY_GetPartner,
+ *           TRADE_HISTORY_HasPartner, TRADE_HISTORY_GetPartnerCount, TRADE_HISTORY_GetTradeCount, TRADE_HISTORY_IncrementTradeCount
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
@@ -30,12 +30,12 @@
  *   +0xD50  u32                   a use count, saturating at 99999
  *
  * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
+ * TRADE_HISTORY_AddPartner uses it for both of its block moves rather than spelling 0x20
  * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
  * copies the new object into slot 0, so slot 0 is the most recent; when the
  * object is already in the list only its +0x1C byte is refreshed.
  *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
+ * TRADE_HISTORY_FindPartner returns -1 for "not found", materialised as `movs r0, #0` and
  * `mvns r0, r0` rather than as a pool word, and every caller compares against
  * that same pair.
  *
@@ -69,10 +69,10 @@ struct Sub02009D9CObj {
     u32 unkD50;
 };
 
-int sub_02009DB8(struct Sub02009D9CObj *obj, u32 id);
-u32 sub_02009E40(struct Sub02009D9CObj *obj, u32 i);
+int TRADE_HISTORY_FindPartner(struct Sub02009D9CObj *obj, u32 id);
+u32 TRADE_HISTORY_GetPartnerId(struct Sub02009D9CObj *obj, u32 i);
 
-int sub_02009DB8(struct Sub02009D9CObj *obj, u32 id)
+int TRADE_HISTORY_FindPartner(struct Sub02009D9CObj *obj, u32 id)
 {
     int i;
 
@@ -85,7 +85,7 @@ int sub_02009DB8(struct Sub02009D9CObj *obj, u32 id)
     return -1;
 }
 
-void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p)
+void TRADE_HISTORY_AddPartner(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p)
 {
     u32 id = MYSTATUS_GetId(p);
     u32 size = sub_02008468();
@@ -94,7 +94,7 @@ void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p)
     if (id == 0) {
         return;
     }
-    i = sub_02009DB8(obj, id);
+    i = TRADE_HISTORY_FindPartner(obj, id);
     if (i != -1) {
         MYSTATUS_SetOutfit(&obj->unk000[i], MYSTATUS_GetOutfit(p));
         return;
@@ -103,7 +103,7 @@ void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p)
     MI_CpuCopy8(p, obj->unk000, size);
 }
 
-u32 sub_02009E40(struct Sub02009D9CObj *obj, u32 i)
+u32 TRADE_HISTORY_GetPartnerId(struct Sub02009D9CObj *obj, u32 i)
 {
     if (i >= 100) {
         i = 0;
@@ -111,26 +111,26 @@ u32 sub_02009E40(struct Sub02009D9CObj *obj, u32 i)
     return MYSTATUS_GetId(&obj->unk000[i]);
 }
 
-struct Sub0200852CObj *sub_02009E54(struct Sub02009D9CObj *obj, u32 i)
+struct Sub0200852CObj *TRADE_HISTORY_GetPartner(struct Sub02009D9CObj *obj, u32 i)
 {
     if (i >= 100) {
         return 0;
     }
-    if (sub_02009E40(obj, i) == 0) {
+    if (TRADE_HISTORY_GetPartnerId(obj, i) == 0) {
         return 0;
     }
     return &obj->unk000[i];
 }
 
-u32 sub_02009E74(struct Sub02009D9CObj *obj, u32 id)
+u32 TRADE_HISTORY_HasPartner(struct Sub02009D9CObj *obj, u32 id)
 {
-    if (sub_02009DB8(obj, id) != -1) {
+    if (TRADE_HISTORY_FindPartner(obj, id) != -1) {
         return 1;
     }
     return 0;
 }
 
-int sub_02009E8C(struct Sub02009D9CObj *obj)
+int TRADE_HISTORY_GetPartnerCount(struct Sub02009D9CObj *obj)
 {
     int i;
 
@@ -142,12 +142,12 @@ int sub_02009E8C(struct Sub02009D9CObj *obj)
     return i;
 }
 
-u32 sub_02009EA8(const struct Sub02009D9CObj *obj)
+u32 TRADE_HISTORY_GetTradeCount(const struct Sub02009D9CObj *obj)
 {
     return obj->unkD50;
 }
 
-void sub_02009EB0(struct Sub02009D9CObj *obj)
+void TRADE_HISTORY_IncrementTradeCount(struct Sub02009D9CObj *obj)
 {
     obj->unkD50 = obj->unkD50 + 1;
     if (obj->unkD50 > 99999) {

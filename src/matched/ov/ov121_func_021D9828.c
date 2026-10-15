@@ -12,7 +12,7 @@
  * symbols:
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   d_021DF634 0x021DF634 data a4
  */
@@ -22,12 +22,12 @@ typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } Entry;
 extern const Entry d_021DF634[];
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *,int,u32);
 void func_021D9828(void *p) {
     u32 i=0;
     do { func_020403F4((u8)d_021DF634[i].id); ++i; } while(i<7);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p,0,4);
 }

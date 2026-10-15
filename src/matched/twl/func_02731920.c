@@ -1,5 +1,5 @@
 /*
- * function: func_02731920
+ * function: SHA1_HMAC_Calc
  * address:  0x02731920
  * packet:   twl_sys
  * region:   twl
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02731774  0x02731774  arm  twl
- *   func_0273184C  0x0273184C  arm  twl
- *   func_02731868  0x02731868  arm  twl
+ *   SHA1_HMAC_Start  0x02731774  arm  twl
+ *   SHA1_HMAC_UpdateData  0x0273184C  arm  twl
+ *   SHA1_HMAC_Finish  0x02731868  arm  twl
  */
 
 /* HMAC-SHA1 one-shot over the BIOS SHA1 calls. The object 0x02731754..
@@ -29,11 +29,11 @@ typedef struct HmacCtx {
     u32 keyLen;
 } HmacCtx;
 
-void func_02731774(HmacCtx *ctx, const void *key, u32 key_len);
-void func_0273184C(void *a, const void *b, u32 c);
-void func_02731868(HmacCtx *ctx, u8 *digest);
+void SHA1_HMAC_Start(HmacCtx *ctx, const void *key, u32 key_len);
+void SHA1_HMAC_UpdateData(void *a, const void *b, u32 c);
+void SHA1_HMAC_Finish(HmacCtx *ctx, u8 *digest);
 
-void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len)
+void SHA1_HMAC_Calc(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len)
 {
     HmacCtx ctx;
 
@@ -46,7 +46,7 @@ void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, 
     if (key_len != 0 && key == 0) {
         return;
     }
-    func_02731774(&ctx, key, key_len);
-    func_0273184C(&ctx, data, data_len);
-    func_02731868(&ctx, digest);
+    SHA1_HMAC_Start(&ctx, key, key_len);
+    SHA1_HMAC_UpdateData(&ctx, data, data_len);
+    SHA1_HMAC_Finish(&ctx, digest);
 }

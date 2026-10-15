@@ -15,8 +15,8 @@
  *
  * symbols:
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   PROCSYS_Main  0x02031330  arm
@@ -52,27 +52,27 @@
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
- *   func_0200C274  0x0200C274  thumb
- *   func_0200C234  0x0200C234  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_GetFlag  0x0200C234  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
  *   func_02008A0C  0x02008A0C  thumb
  *   func_02008A28  0x02008A28  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
- *   func_0200C1DC  0x0200C1DC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   BEACON_GetThanksCount  0x0200C1DC  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
- *   func_0200BF54  0x0200BF54  thumb
+ *   INTRUDE_GetObtainedFlags  0x0200BF54  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GPOWER_FreePowerTable  0x02010F8C  thumb
- *   func_0200C184  0x0200C184  thumb
+ *   BEACON_GetBestScore  0x0200C184  thumb
  *   func_02008EA0  0x02008EA0  thumb
  *   func_02008E78  0x02008E78  thumb
  *   func_0200921C  0x0200921C  thumb
  *   func_020090E0  0x020090E0  thumb
- *   func_0200BF94  0x0200BF94  thumb
- *   func_0201296C  0x0201296C  thumb
+ *   INTRUDE_GetPlaySeconds  0x0200BF94  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
  *   func_020089D0  0x020089D0  thumb
@@ -86,16 +86,16 @@
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   ZUKAN_SAVE_IsNationalCaughtComplete  0x0200D298  thumb
  *   func_0200DBA0  0x0200DBA0  thumb
- *   func_0200A73C  0x0200A73C  thumb
- *   func_0200BDF8  0x0200BDF8  thumb
- *   func_0200BDFC  0x0200BDFC  thumb
+ *   MUSICAL_SAVE_HasAllProps  0x0200A73C  thumb
+ *   INTRUDE_GetMissionScore  0x0200BDF8  thumb
+ *   INTRUDE_GetMissionBonusScore  0x0200BDFC  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SP_POKE_GIMMICK_UpdatePairB  0x021F385C  thumb  ov059
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent  0x021F38BC  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   func_0200B3A4 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  */
 
 struct ZukanSave;
@@ -208,8 +208,8 @@ typedef struct EditWork {
 } EditWork;
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern void *func_020120F4(const struct GameSystem *p);
-extern void *func_0201210C(const struct GameSystem *p);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
+extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern unsigned int PROCSYS_Main(void *p);
@@ -247,27 +247,27 @@ extern int func_020084BC(const u16 *values);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern u32 func_02008530(const struct MyStatus *obj);
-extern u32 func_0200C274(struct BadgeSave *p);
-extern u32 func_0200C234(struct BadgeSave *p, u32 bit);
+extern u32 BEACON_GetPoints(struct BadgeSave *p);
+extern u32 BEACON_GetFlag(struct BadgeSave *p, u32 bit);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u16 func_02008A0C(const struct TrainerCardSignature *obj);
 extern u8 func_02008A28(const struct TrainerCardSignature *obj);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct BeaconRecord *src, int idx, struct BeaconRecord *dst);
-extern u32 func_0200C1DC(struct BadgeSave *p);
-extern u16 *func_0200BE48(void *gameSystem);
+extern u32 BEACON_GetThanksCount(struct BadgeSave *p);
+extern u16 *INTRUDE_GetFromSave(void *gameSystem);
 extern void *GPOWER_LoadPowerTable(u32 heapId);
-extern void func_0200BF54(struct BattleRecSave *p, u8 *dest, u32 n);
+extern void INTRUDE_GetObtainedFlags(struct BattleRecSave *p, u8 *dest, u32 n);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
 extern void GPOWER_FreePowerTable(void *p);
-extern u32 func_0200C184(struct BadgeSave *p);
+extern u32 BEACON_GetBestScore(struct BadgeSave *p);
 extern u32 func_02008EA0(struct RecordBlock *obj);
 extern u8 func_02008E78(struct RecordBlock *obj);
 extern struct GameClearSave *func_0200921C(void *p);
 extern u8 func_020090E0(const struct GameClearSave *obj);
-extern unsigned long long func_0200BF94(struct BattleRecSave *p);
-extern u32 func_0201296C(const struct BtlSetup *p);
+extern unsigned long long INTRUDE_GetPlaySeconds(struct BattleRecSave *p);
+extern u32 GAME_DATA_GetEventWork(const struct BtlSetup *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *p, u32 heapId);
 extern int func_020089D0(const struct TrainerCardSignature *obj);
@@ -281,16 +281,16 @@ extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *GAME_DATA_GetSaveBlock2A(void *save);
 extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *p);
 extern u32 func_0200DBA0(struct FlagSave *p, s32 i, u32 op);
-extern u32 func_0200A73C(struct PlayerSave *p);
-extern u16 func_0200BDF8(struct BattleRecSave *p);
-extern u16 func_0200BDFC(struct BattleRecSave *p);
+extern u32 MUSICAL_SAVE_HasAllProps(struct PlayerSave *p);
+extern u16 INTRUDE_GetMissionScore(struct BattleRecSave *p);
+extern u16 INTRUDE_GetMissionBonusScore(struct BattleRecSave *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void SP_POKE_GIMMICK_UpdatePairB(void *);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent();
 extern int SCRIPT_SYS_CallEvent();
 extern u8 *GAME_DATA_GetFieldSave(struct PlayerSave *p);
-extern s32 *func_0200B3A4(struct RecordFlags *p, u32 b);
+extern s32 *GIMMICK_WORK_GetWork(struct RecordFlags *p, u32 b);
 int TRCARD_SYS_StateStartEditProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work);
 int TRCARD_SYS_StateStartBadgeProc(TrainerCardWork *work);
@@ -661,11 +661,11 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     out->starCount = (u32)TRCARD_SYS_CountStars(save);
     out->outfitVariant = (u32)func_02008550(myStatus);
     out->trainerId = func_02008530(myStatus);
-    out->badgeCount = func_0200C274(badges);
+    out->badgeCount = BEACON_GetPoints(badges);
     out->badgeMask = 0;
     out->formatVersion = 0x15;
     for (badgeIndex = 0, badgeBit = 1; badgeIndex < 8; badgeIndex++) {
-        if (func_0200C234(badges, badgeIndex) == 1)
+        if (BEACON_GetFlag(badges, badgeIndex) == 1)
             out->badgeMask |= badgeBit;
         badgeBit <<= 1;
     }
@@ -712,21 +712,21 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     out->recordSum4 = TRCARD_SYS_SumCappedRecords(records, 4, 999999999);
     out->recordSum5 = TRCARD_SYS_SumCappedRecords(records, 5, 999999999);
     out->recordSum6 = TRCARD_SYS_SumCappedRecords(records, 6, 999999999);
-    out->badgeTotal = func_0200C1DC(badges);
+    out->badgeTotal = BEACON_GetThanksCount(badges);
     out->recordSum7 = TRCARD_SYS_SumCappedRecords(records, 7, 9999);
 
-    battleRec = func_0200BE48(playerSave);
+    battleRec = INTRUDE_GetFromSave(playerSave);
     scratch = GPOWER_LoadPowerTable(heap);
-    func_0200BF54(battleRec, work, 2);
+    INTRUDE_GetObtainedFlags(battleRec, work, 2);
     out->visitedSpotCount = TOWN_MAP_SPOT_CountVisited(scratch, GAME_DATA_GetLastBattleRecSlot(save), work);
     GPOWER_FreePowerTable(scratch);
 
     out->recordSum8 = TRCARD_SYS_SumCappedRecords(records, 8, 9999);
-    out->badgeExtraCount = func_0200C184(badges);
+    out->badgeExtraCount = BEACON_GetBestScore(badges);
     out->recordTopValue = func_02008EA0(records);
     out->recordTopFlag = (u32)func_02008E78(records);
     out->isGameCleared = (u32)func_020090E0((const struct GameClearSave *)func_0200921C(save));
-    if (func_0200BF94((struct BattleRecSave *)func_0200BE48(playerSave)) != 0)
+    if (INTRUDE_GetPlaySeconds((struct BattleRecSave *)INTRUDE_GetFromSave(playerSave)) != 0)
         out->hasBattleRecord = 1;
     if (out->recordSum8 != 0)
         out->hasRecordSum8 = 1;
@@ -734,7 +734,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
         out->hasRecordFlag78 = 1;
     if (func_02008DFC(records, (u16)0x79))
         out->hasRecordFlag79 = 1;
-    if (ZONEDATA_CheckEventFlag((void *)func_0201296C(save), 2402) == 1)
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save), 2402) == 1)
         out->hasEventFlag2402 = 1;
     else
         out->hasEventFlag2402 = 0;
@@ -801,15 +801,15 @@ int TRCARD_SYS_CountStars(void *save)
     a = GAME_DATA_GetSaveBlock3A(save);
     b = GAME_DATA_GetSaveBlock2A(save);
     c = GAME_DATA_GetLastBattleRecSlot(save);
-    if (ZONEDATA_CheckEventFlag((void *)func_0201296C(save), 0x960))
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save), 0x960))
         n++;
     if (ZUKAN_SAVE_IsNationalCaughtComplete(ZUKAN_SAVE_GetFromGameData(save)))
         n++;
     if (func_0200DBA0(a, 7, 0) && func_0200DBA0(a, 8, 0))
         n++;
-    if (func_0200A73C(b))
+    if (MUSICAL_SAVE_HasAllProps(b))
         n++;
-    if (func_0200BDF8(c) >= 30 && func_0200BDFC(c) >= 30)
+    if (INTRUDE_GetMissionScore(c) >= 30 && INTRUDE_GetMissionBonusScore(c) >= 30)
         n++;
     return n;
 }
@@ -836,7 +836,7 @@ int TRCARD_SYS_ScrCmdSetRecordFlag36(void *unused, void *scriptCtx)
  */
 int TRCARD_SYS_ScrCmdStartFieldProc(void *unused, void *scriptCtx)
 {
-    SP_POKE_GIMMICK_UpdatePairB(func_0201210C(SCRCMD_WORK_GetGameSystem(scriptCtx)));
+    SP_POKE_GIMMICK_UpdatePairB(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(scriptCtx)));
     return 0;
 }
 
@@ -866,5 +866,5 @@ int TRCARD_SYS_ScrCmdRunScriptTask(void *unused, void *scriptCtx)
  */
 void TRCARD_SYS_SetRecordFlag36(void *gameSystem)
 {
-    *func_0200B3A4((struct RecordFlags *)GAME_DATA_GetFieldSave(func_020120F4(gameSystem)), 0x36) = 1;
+    *GIMMICK_WORK_GetWork((struct RecordFlags *)GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(gameSystem)), 0x36) = 1;
 }

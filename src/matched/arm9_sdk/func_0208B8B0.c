@@ -1,5 +1,5 @@
 /*
- * function: func_0208B8B0
+ * function: PM_Init
  * address:  0x0208B8B0
  * packet:   pkt_02087AE4
  * region:   arm9
@@ -32,8 +32,8 @@
  * witness is not a relocation at all.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0208B8B0.c \
- *       --func func_0208B8B0 --addr 0x0208B8B0 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/PM_Init.c \
+ *       --func PM_Init --addr 0x0208B8B0 --arm --cc 1.1p1
  */
 typedef unsigned char u8; typedef unsigned short u16;
 typedef unsigned int  u32; typedef volatile u32 vu32; typedef int BOOL;
@@ -46,7 +46,7 @@ extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL
 extern void SVC_WaitByLoop(int count);
 extern void PMi_CommonCallback(int tag, u32 data, BOOL err);
 static inline u32 OS_GetVBlankCount(void) { return *(vu32 *)0x02FFFC3C; }
-void func_0208B8B0(void)
+void PM_Init(void)
 {
     if (s_02153000.f00) return;
     s_02153000.f00 = 1;

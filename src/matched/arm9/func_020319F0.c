@@ -13,13 +13,13 @@
  *   str_020A7848   0x020A7848  data
  *   svsys     0x02146994  data
  *   func_02030734  0x02030734  arm
- *   func_02034F84  0x02034F84  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   BACKUP_SYSTEM_EraseFooter  0x02033200  arm
  *   func_02082A7C  0x02082A7C  arm
  *   FLASH_ACCESS_Write  0x020335AC  arm
  *   func_020307B0  0x020307B0  arm
  *   BACKUP_SYSTEM_ClearWork  0x020319C0  arm
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *
  * Erase the whole backup device in 0x1000-byte pages.  A 0x1000-byte scratch
  * page is allocated on the heap named by the u16 second argument (the
@@ -73,14 +73,14 @@ extern const char str_020A7848[];
 extern struct SaveMain *svsys;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02034F84(u32 a);
+extern void  UI_SetKeepAwakeFlagsGlobal(u32 a);
 struct SaveBackup;
 extern u32 BACKUP_SYSTEM_EraseFooter(struct SaveBackup *p, u32 id);
 extern void  func_02082A7C(u32 v, void *p, u32 n);
 extern u32 FLASH_ACCESS_Write(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_020307B0(void *p);
 extern void BACKUP_SYSTEM_ClearWork(u8 *p);
-extern void func_02034FB8(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 
 int BACKUP_SYSTEM_Erase(struct Job *job, u32 heap)
 {
@@ -91,7 +91,7 @@ int BACKUP_SYSTEM_Erase(struct Job *job, u32 heap)
     page = func_02030734((u16)heap, 0x1000, 0, str_020A7848, 0x1e8);
 
     one = 1;
-    func_02034F84(one);
+    UI_SetKeepAwakeFlagsGlobal(one);
     BACKUP_SYSTEM_EraseFooter((struct SaveBackup *)job, one);
     if (job->f00 != job->f04)
         BACKUP_SYSTEM_EraseFooter((struct SaveBackup *)job, 2);
@@ -104,6 +104,6 @@ int BACKUP_SYSTEM_Erase(struct Job *job, u32 heap)
     func_020307B0(page);
     BACKUP_SYSTEM_ClearWork((u8 *)job);
     job->f1c = 0;
-    func_02034FB8(1);
+    UI_ClearKeepAwakeFlagsGlobal(1);
     return 1;
 }

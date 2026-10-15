@@ -26,11 +26,11 @@
  *   CTVT_MIC_GetReadyBytes 0x021BA15C thumb ov172
  *   CTVT_TALK_DrawWaveform 0x021B9E5C thumb ov172
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
- *   func_021B8C34 0x021B8C34 thumb ov172
- *   func_021B8B74 0x021B8B74 thumb ov172
+ *   CTVT_COMM_GetVoiceStatePending 0x021B8C34 thumb ov172
+ *   CTVT_COMM_IsPostBusy 0x021B8B74 thumb ov172
  *   CTVT_MIC_EncodeAdpcm 0x021BA174 thumb ov172
- *   func_021B891C 0x021B891C thumb ov172
- *   func_021B8740 0x021B8740 thumb ov172
+ *   CTVT_COMM_SendVoiceData 0x021B891C thumb ov172
+ *   CTVT_COMM_SendCommand 0x021B8740 thumb ov172
  *   COMM_TVT_SYS_GetTalkStatus 0x021BDFEC thumb ov172
  *   CTVT_MIC_GetPlayState 0x021BA244 thumb ov172
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -82,11 +82,11 @@ extern u32 CTVT_MIC_GetReadyBytes(u32 *p);
 typedef short s16;
 extern void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
 extern u32 COMM_TVT_SYS_GetComm(void *ctx);
-extern u32 func_021B8C34(void *ctx, u8 *rec);
-extern int func_021B8B74(void *ctx, u8 *rec);
+extern u32 CTVT_COMM_GetVoiceStatePending(void *ctx, u8 *rec);
+extern int CTVT_COMM_IsPostBusy(void *ctx, u8 *rec);
 extern int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n);
-extern int func_021B891C(void *a, char *q, u16 *p);
-extern u32 func_021B8740(int a, int b, u8 c, u32 d);
+extern int CTVT_COMM_SendVoiceData(void *a, char *q, u16 *p);
+extern u32 CTVT_COMM_SendCommand(int a, int b, u8 c, u32 d);
 extern int COMM_TVT_SYS_GetTalkStatus(void *ctx);
 extern u32 CTVT_MIC_GetPlayState(void *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -130,9 +130,9 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
         CTVT_TALK_DrawWaveform((int)ctx, (char *)st, (s16 *)(v + off), 9, pos, 0xC000);
     case 2:
         id = COMM_TVT_SYS_GetComm(ctx);
-        if (func_021B8C34(ctx, (u8 *)id) != 1)
+        if (CTVT_COMM_GetVoiceStatePending(ctx, (u8 *)id) != 1)
             break;
-        busy = func_021B8B74(ctx, (u8 *)id);
+        busy = CTVT_COMM_IsPostBusy(ctx, (u8 *)id);
         pos = CTVT_MIC_GetReadyBytes(st->f10);
         if (st->f14 == 0 && busy == 0) {
             if (pos >= (u32)(st->b18 + 1) << 11 || st->sub == 2) {
@@ -146,7 +146,7 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
             }
         }
         if (st->f14 == 1) {
-            if (func_021B891C(ctx, (char *)id, (u16 *)st->f20) == 1) {
+            if (CTVT_COMM_SendVoiceData(ctx, (char *)id, (u16 *)st->f20) == 1) {
                 st->b18++;
                 st->f14 = 0;
                 if (st->f20->b4 == 1) {
@@ -158,9 +158,9 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
         break;
     case 3:
         id = COMM_TVT_SYS_GetComm(ctx);
-        if (func_021B8B74(ctx, (u8 *)id) != 0)
+        if (CTVT_COMM_IsPostBusy(ctx, (u8 *)id) != 0)
             break;
-        if (func_021B8740((int)ctx, id, 7, 0) == 1) {
+        if (CTVT_COMM_SendCommand((int)ctx, id, 7, 0) == 1) {
             st->sub = 4;
             BMP_Clear(BMP_WIN_GetBmp(st->f2c), 0);
             BMP_WIN_TransferChars(st->f2c);
@@ -181,7 +181,7 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
     case 5:
         id = COMM_TVT_SYS_GetComm(ctx);
         if (CTVT_MIC_GetPlayState((void *)COMM_TVT_SYS_GetTalkStatus(ctx)) == 0) {
-            if (func_021B8740((int)ctx, id, 8, 0) == 1)
+            if (CTVT_COMM_SendCommand((int)ctx, id, 8, 0) == 1)
                 st->state = 5;
         }
         break;

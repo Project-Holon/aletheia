@@ -24,7 +24,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
  *   MUSICAL_EVENT_AllocTitleString  0x02156914  thumb  ov010
  *   STRBUF_ToChars  0x02045A38  arm
@@ -40,7 +40,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200A5F8  0x0200A5F8  thumb
+ *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
  *   sMusicalEventFileName  0x02172714  data
  */
 
@@ -136,7 +136,7 @@ struct RtcDate {
 };
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 struct Big;
 struct Ctx;
 struct MsgBank;
@@ -157,7 +157,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A5F8(void *p);
+extern void *MUSICAL_SAVE_GetFromSave(void *p);
 
 extern const char sMusicalEventFileName[];
 
@@ -186,7 +186,7 @@ void MUSICAL_EVENT_CreateShowRecord(Work *w)
     w->f34->f04 = 0;
     w->f34->f10 = w->f28;
     d = w->f34->f08;
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     d->a = MUSICAL_PROGRAM_GetBaseProgramId(w->f38);
     d->b = date.year;
     d->c = date.month;
@@ -247,7 +247,7 @@ void MUSICAL_EVENT_CreateShowRecord(Work *w)
         }
     }
     w->f34->f00 = 1;
-    w->f34->f0c = func_0200A5F8(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(w->f00)));
+    w->f34->f0c = MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(w->f00)));
     for (a = 0; a < 4; a++) {
         tmp[a] = w->party->members[a]->total;
         w->f48[a] = a;

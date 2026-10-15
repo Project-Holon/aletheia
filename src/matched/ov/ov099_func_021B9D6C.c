@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_021C289C     0x021C289C  data  a1
- *   func_021C59F4  0x021C59F4  thumb  ov127
+ *   WF2DMAP_SCRDRAW_CreateBitmapDesc  0x021C59F4  thumb  ov127
  */
 typedef unsigned char u8;
 
@@ -29,12 +29,12 @@ typedef struct {
 } Obj;
 
 extern Tab d_021C289C;
-extern int func_021C59F4(void *a, void *b, Tab *t, int x);
+extern int WF2DMAP_SCRDRAW_CreateBitmapDesc(void *a, void *b, Tab *t, int x);
 
 void WIFICLUBACTOR_InitLayer(Obj *o, int x, int unused, int c)
 {
     Tab t = d_021C289C;
 
     t.b[9] += (u8)c;
-    o->f598 = func_021C59F4(o->f18, o->f10, &t, x);
+    o->f598 = WF2DMAP_SCRDRAW_CreateBitmapDesc(o->f18, o->f10, &t, x);
 }

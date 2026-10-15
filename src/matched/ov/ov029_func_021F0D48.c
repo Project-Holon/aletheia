@@ -17,20 +17,20 @@
  * to 02189A48, whose ov021 body reads the full word at +0x144. No value lost.
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0207D55C 0x0207D55C arm
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetSubscreenBusy 0x02189A48 thumb ov021
  */
 extern unsigned int WIPE_SYS_EndCheck(void);
 typedef unsigned short u16;
 struct Ctx;
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetSubscreenBusy(char *p);
 int C_GEAR_IsIdleForInput(char *p)
 {
     if (!WIPE_SYS_EndCheck()) return 0;
-    if (func_0207D55C((unsigned short *)0x0400106c)) return 0;
+    if (GXx_GetMasterBrightness_((unsigned short *)0x0400106c)) return 0;
     if (!FIELDMAP_GetSubscreenBusy((char *)GAMESYSTEM_GetFieldMap(*(void **)(p + 0x1c)))) return 1;
     return 0;
 }

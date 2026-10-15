@@ -1,7 +1,7 @@
 /*
  * file:     shinka_demo.c
  * unit:     yes
- * function: func_02203FA0, func_02204098, func_022040E0, func_02204C24, func_02204D5C, func_02204DC4, func_02204DDC, func_02204DE0, func_02204EA0, func_02204EB0, func_02204ED0, func_02204EF0, func_02204F00, func_02204F24, func_02204F40, func_02204F68, func_02204F78, func_02204F90, func_02204FA0, func_02204FC4, func_02204FD4, func_02204FF8, func_02205010, func_0220506C, func_02205070, func_02205100, func_02205138, func_02205168, func_022051A8, func_022051FC, func_022052E8, func_02205340, func_02205360, func_02205384, func_022053E8, func_0220546C, func_0220549C, func_022054E8, func_02205530, func_02205580, func_022055BC, func_02205620, func_022056E8, func_02205844, func_02205854
+ * function: SHINKA_DEMO_Create, SHINKA_DEMO_Destroy, SHINKA_DEMO_Main, SHINKA_DEMO_SetupScene, SHINKA_DEMO_DeleteScene, SHINKA_DEMO_StartBgm, SHINKA_DEMO_Noop, SHINKA_DEMO_UpdateBgm, SHINKA_DEMO_IsBgmState1, SHINKA_DEMO_RestoreBgm, SHINKA_DEMO_PlayEvolutionBgm, SHINKA_DEMO_IsBgmState2, SHINKA_DEMO_StartEvolutionBgm, SHINKA_DEMO_PushBgm, SHINKA_DEMO_PopBgm, SHINKA_DEMO_IsBgmState4, SHINKA_DEMO_FadeOutBgm, SHINKA_DEMO_IsBgmState6, SHINKA_DEMO_StartResultBgm, SHINKA_DEMO_IsBgmState7Or8, SHINKA_DEMO_PlayResultBgm, SHINKA_DEMO_StopBgm, SHINKA_DEMO_LoadSprites, SHINKA_DEMO_Noop2, SHINKA_DEMO_CreateActors, SHINKA_DEMO_DeleteActors, SHINKA_DEMO_ResetActorAnims, SHINKA_DEMO_AreActorAnimsDone, SHINKA_DEMO_MainTask, SHINKA_DEMO_SetupWindows, SHINKA_DEMO_DeleteWindows, SHINKA_DEMO_UpdateWindows, SHINKA_DEMO_PrintStreamCallback, SHINKA_DEMO_PrintText, SHINKA_DEMO_AdvanceText, SHINKA_DEMO_IsConfirmPressed, SHINKA_DEMO_ClearText, SHINKA_DEMO_SetupMessageBox, SHINKA_DEMO_CreateConfirmMenu, SHINKA_DEMO_DeleteConfirmMenu, SHINKA_DEMO_SetMenuText, SHINKA_DEMO_BuildString, SHINKA_DEMO_AddEvolvedPokemon, SHINKA_DEMO_ClearPartyValue, SHINKA_DEMO_Setup3d
  * address:  0x02203FA0
  * region:   ov195
  * compiler: dsi/1.1p1
@@ -75,13 +75,13 @@
  *   ov196_id 0x000000C4 data a1
  *   ov198_id 0x000000C6 data a1
  *   func_0220F3E8 0x0220F3E8 thumb ov198
- *   func_022059FC 0x022059FC thumb ov195
- *   func_02205A10 0x02205A10 thumb ov195
- *   func_02205A1C 0x02205A1C thumb ov195
- *   func_02205A28 0x02205A28 thumb ov195
- *   func_02205A34 0x02205A34 thumb ov195
- *   func_02205A84 0x02205A84 thumb ov195
- *   func_02205D50 0x02205D50 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Draw 0x022059FC thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Update 0x02205A10 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_DrawEnd 0x02205A1C thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_GetCamera 0x02205A28 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_SetupSubBg 0x02205A34 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_ReleaseSubBg 0x02205A84 thumb ov195
+ *   SHINKA_DEMO_VIEW_Main 0x02205D50 thumb ov195
  *   func_0220602C 0x0220602C thumb ov195
  *   func_02206044 0x02206044 thumb ov195
  *   func_0220604C 0x0220604C thumb ov195
@@ -108,15 +108,15 @@
  *   func_0207D63C 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_022058F8 0x022058F8 thumb ov195
- *   func_02205C74 0x02205C74 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_Create 0x022058F8 thumb ov195
+ *   SHINKA_DEMO_VIEW_Create 0x02205C74 thumb ov195
  *   func_0220871C 0x0220871C thumb ov195
  *   func_02208770  0x02208770  thumb
- *   func_02205D28  0x02205D28  thumb
+ *   SHINKA_DEMO_VIEW_Destroy  0x02205D28  thumb
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_022059A0  0x022059A0  thumb
+ *   SHINKA_DEMO_GRAPHIC_Destroy  0x022059A0  thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -164,28 +164,28 @@
  *   TCBL_Destroy 0x02031140 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStreamCallBack 0x0201CD10 thumb
  *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201EE84 0x0201EE84 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   gSpeciesNameBank 0x020A7370 data a4
- *   func_0201292C 0x0201292C thumb
+ *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   POKEPARTY_GetCapacity 0x0201AA14 thumb
  *   func_02007F68 0x02007F68 thumb
  *   func_02007F1C 0x02007F1C thumb
@@ -382,14 +382,14 @@ extern void YESNO_MENU_Close(struct S *s);
 extern void YESNO_MENU_Update(struct S *p);
 extern int YESNO_MENU_GetAnswer(struct S *p);
 extern void func_0220F3E8(u8 *);
-extern void func_022059FC(char *a);
-extern void func_02205A10(char *a);
-extern void func_02205A1C(char *a);
-extern void func_02205A34();
-extern void func_02205A84(int a0);
-extern void func_02205D50(char *p);
+extern void SHINKA_DEMO_GRAPHIC_Draw(char *a);
+extern void SHINKA_DEMO_GRAPHIC_Update(char *a);
+extern void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a);
+extern void SHINKA_DEMO_GRAPHIC_SetupSubBg();
+extern void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0);
+extern void SHINKA_DEMO_VIEW_Main(char *p);
 extern void func_0220602C(struct Owner *o);
-extern int func_02205A28(char *a);
+extern int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
 extern void func_02206044(int *p);
 extern void func_02206050(int *p);
 extern void func_0220605C(int *p);
@@ -414,15 +414,15 @@ extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern char *func_022058F8(u32 a, u32 b);
-extern struct Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c);
+extern char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
+extern struct Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
 extern struct Anim *func_0220871C(u16 heap, u32 x);
 extern void func_02208770(char *a);
-extern void func_02205D28(char *p);
+extern void SHINKA_DEMO_VIEW_Destroy(char *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_022059A0(char *p);
+extern void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -468,12 +468,12 @@ extern int APP_KEYCURSOR_Delete(int);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern int GFL_USE_IsAnySeBusy(void);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
@@ -483,14 +483,14 @@ extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
@@ -504,51 +504,51 @@ extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app);
-int func_02204098(struct S020315D4 *a, int unused, int b, int *p);
-int func_022040E0(int unused0,int unused1,char *a,char *s);
-void func_02204C24(App *a, Scene *s);
-void func_02204D5C(int a, int *p);
-void func_02204DC4(u8 *p, u8 *q);
-void func_02204DDC(int a0, int *a1);
-void func_02204DE0(char *a, char *b);
-int func_02204EA0(int a, int *p);
-void func_02204EB0(char *a, char *b);
-void func_02204ED0(int a, int *p);
-int func_02204EF0(int a, int *p);
-void func_02204F00(int unused, char *p);
-void func_02204F24(int a, int *b);
-void func_02204F40(int a, int *p);
-int func_02204F68(int a, int *p);
-void func_02204F78(int a, char *b);
-int func_02204F90(int a, char *b);
-void func_02204FA0(int a, int *p);
-int func_02204FC4(int a, int *p);
-void func_02204FD4(int a, int *p);
-void func_02204FF8(int a, char *b);
-void func_02205010(int a, char *b);
-void func_0220506C(int a0, int *a1);
-void func_02205070(int a, char *b);
-void func_02205100(void *unused,char *p);
-void func_02205138(int a, int *p);
-int func_02205168(int a, int *p);
-void func_022051A8(int task, char *p);
-void func_022051FC(int a, char *b);
-void func_022052E8(int task, int *p);
-void func_02205340(int a, char *b);
-int func_02205360(int a);
-void func_02205384(char *a, u32 b, u32 c, u32 d, u32 k0, u32 v0, u32 k1, u32 v1);
-int func_022053E8(char *a);
-int func_0220546C(char *s);
-void func_0220549C(char *a, int b);
-void func_022054E8(int a, int *p, int flag);
-void func_02205530(int a, char *b);
-void func_02205580(void *unused,char *p);
-void func_022055BC(char *a, u32 a1, u32 a2, u32 k0, u32 v0, u32 k1, u32 v1, u32 b1, u32 b2, u32 m0, u32 w0, u32 m1, u32 w1);
-u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1);
-void func_022056E8(u32 *a, char *b);
-void func_02205844(int a, char *b);
-void func_02205854(void);
+int SHINKA_DEMO_Create(struct Obj0203159C *owner,int unused,u8 *app);
+int SHINKA_DEMO_Destroy(struct S020315D4 *a, int unused, int b, int *p);
+int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s);
+void SHINKA_DEMO_SetupScene(App *a, Scene *s);
+void SHINKA_DEMO_DeleteScene(int a, int *p);
+void SHINKA_DEMO_StartBgm(u8 *p, u8 *q);
+void SHINKA_DEMO_Noop(int a0, int *a1);
+void SHINKA_DEMO_UpdateBgm(char *a, char *b);
+int SHINKA_DEMO_IsBgmState1(int a, int *p);
+void SHINKA_DEMO_RestoreBgm(char *a, char *b);
+void SHINKA_DEMO_PlayEvolutionBgm(int a, int *p);
+int SHINKA_DEMO_IsBgmState2(int a, int *p);
+void SHINKA_DEMO_StartEvolutionBgm(int unused, char *p);
+void SHINKA_DEMO_PushBgm(int a, int *b);
+void SHINKA_DEMO_PopBgm(int a, int *p);
+int SHINKA_DEMO_IsBgmState4(int a, int *p);
+void SHINKA_DEMO_FadeOutBgm(int a, char *b);
+int SHINKA_DEMO_IsBgmState6(int a, char *b);
+void SHINKA_DEMO_StartResultBgm(int a, int *p);
+int SHINKA_DEMO_IsBgmState7Or8(int a, int *p);
+void SHINKA_DEMO_PlayResultBgm(int a, int *p);
+void SHINKA_DEMO_StopBgm(int a, char *b);
+void SHINKA_DEMO_LoadSprites(int a, char *b);
+void SHINKA_DEMO_Noop2(int a0, int *a1);
+void SHINKA_DEMO_CreateActors(int a, char *b);
+void SHINKA_DEMO_DeleteActors(void *unused,char *p);
+void SHINKA_DEMO_ResetActorAnims(int a, int *p);
+int SHINKA_DEMO_AreActorAnimsDone(int a, int *p);
+void SHINKA_DEMO_MainTask(int task, char *p);
+void SHINKA_DEMO_SetupWindows(int a, char *b);
+void SHINKA_DEMO_DeleteWindows(int task, int *p);
+void SHINKA_DEMO_UpdateWindows(int a, char *b);
+int SHINKA_DEMO_PrintStreamCallback(int a);
+void SHINKA_DEMO_PrintText(char *a, u32 b, u32 c, u32 d, u32 k0, u32 v0, u32 k1, u32 v1);
+int SHINKA_DEMO_AdvanceText(char *a);
+int SHINKA_DEMO_IsConfirmPressed(char *s);
+void SHINKA_DEMO_ClearText(char *a, int b);
+void SHINKA_DEMO_SetupMessageBox(int a, int *p, int flag);
+void SHINKA_DEMO_CreateConfirmMenu(int a, char *b);
+void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *p);
+void SHINKA_DEMO_SetMenuText(char *a, u32 a1, u32 a2, u32 k0, u32 v0, u32 k1, u32 v1, u32 b1, u32 b2, u32 m0, u32 w0, u32 m1, u32 w1);
+u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1);
+void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b);
+void SHINKA_DEMO_ClearPartyValue(int a, char *b);
+void SHINKA_DEMO_Setup3d(void);
 extern const char d_02208F40[];
 extern u8 gPokeStatusProcData[];
 extern const char ov131_id[];
@@ -566,7 +566,7 @@ extern u8 d_02208CCC[];
  * ABI: 0203159C and 02031324 own files return void; caller consumes r0.
  * ABI: 02031324 also receives the heap in r0, preserved in this extern.
  */
-int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
+int SHINKA_DEMO_Create(struct Obj0203159C *owner,int unused,u8 *app)
 {
     char *p;
     sub_0203064C(1,0x94,0x10000);
@@ -586,14 +586,14 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->fAC=0;
     ((struct Obj00734 *)p)->f100=sub_02030734(((struct Obj00734 *)p)->f0,0x28,1,d_02208F40,0x242);
     FADE_Start(3,16,16,-16);
-    func_02204DC4(app,(u8 *)p);
-    ((struct Obj00734 *)p)->f38=GFL_USE_AddMainTask((u32)func_022051A8,(u32)p,1);
+    SHINKA_DEMO_StartBgm(app,(u8 *)p);
+    ((struct Obj00734 *)p)->f38=GFL_USE_AddMainTask((u32)SHINKA_DEMO_MainTask,(u32)p,1);
     ((struct Obj00734 *)p)->f10C=0;
     ((struct Obj00734 *)p)->f110=0;
     ((struct Obj00734 *)p)->f114=0;
     ((struct Obj00734 *)p)->f118=0;
     ((struct Obj00734 *)p)->f11C=(unsigned int)PROCSYS_Create(((struct Obj00734 *)p)->f0);
-    func_02204C24((App *)((struct App *)app), (Scene *)((struct Scene *)p));
+    SHINKA_DEMO_SetupScene((App *)((struct App *)app), (Scene *)((struct Scene *)p));
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00734 *)p)->f0);
     return 1;
 }
@@ -604,12 +604,12 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
 /*
  * Padding: two zero bytes at 0x022040DE, then a function prologue.
  */
-int func_02204098(struct S020315D4 *a, int unused, int b, int *p)
+int SHINKA_DEMO_Destroy(struct S020315D4 *a, int unused, int b, int *p)
 {
-    func_02204D5C(b, p);
+    SHINKA_DEMO_DeleteScene(b, p);
     PROCSYS_Delete(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);
     sub_02030EAC(*(struct Node * *)&((struct Obj08345 *)p)->f38);
-    func_02204DDC(b, p);
+    SHINKA_DEMO_Noop(b, p);
     sub_020307B0(((struct Obj08345 *)p)->f100);
     STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08345 *)p)->f14);
     PROCSYS_FreeProcWork(a);
@@ -620,11 +620,11 @@ int func_02204098(struct S020315D4 *a, int unused, int b, int *p)
 
 
 /*
- * note: 2026-10-05 wave P23 closed EXACT*. Case 34 also calls func_02204FD4(a,s) after func_02205384 (same as case 18), so the tails cross-jump into case 18's copy; case 39 reads W(0x90) into a local once for both func_022055BC arguments (ldr before the s+0x1c add). Older 5-byte DIFF came from those two points.
+ * note: 2026-10-05 wave P23 closed EXACT*. Case 34 also calls SHINKA_DEMO_PlayResultBgm(a,s) after SHINKA_DEMO_PrintText (same as case 18), so the tails cross-jump into case 18's copy; case 39 reads W(0x90) into a local once for both SHINKA_DEMO_SetMenuText arguments (ldr before the s+0x1c add). Older 5-byte DIFF came from those two points.
  * checks: 1 fresh own callee definitions and same-overlay callers confirm arities; unit355C4 setteru8 widened tou32 because caller sends only0/1 without truncation; caller-loaded forwarder args and272A4 wide-r1 payload preserved; 2 matched03FA0/05384/055BC/056E8 and loader twins read; 3 u16 keys (only bit2 used) regresses699, a/s writable so no const; 4 Boolean call/inline-wrapper and flag-ternary idioms read; 5 fresh unfiltered idioms and04DE0/04FC4/math neighbours.
  * extent: 02204B66 and 02204BB2 are internal shared tails; true end 02204C24 (2884B).
  */
-int func_022040E0(int unused0,int unused1,char *a,char *s)
+int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
 {
     u32 tick,keys,result;
     u8 *q;
@@ -632,46 +632,46 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
     tick=PROCSYS_Main(P(0x11c));if(tick==1)return 0;
     switch(W(0x28)){
     case 0:if(W(0x2c)==0){W(0x28)=1;FADE_Start(3,16,0,-16);}else W(0x2c)--;break;
-    case 1:if(!FADE_IsActive()){W(0x28)=2;func_02205138((int)a,(int *)s);}break;
-    case 2:if(!func_02204EA0((int)a,(int *)s)&&func_02205168((int)a,(int *)s)){if(W(0x8c))W(0x28)=4;else{W(0x28)=3;func_022054E8((int)a,(int *)s,1);}}break;
+    case 1:if(!FADE_IsActive()){W(0x28)=2;SHINKA_DEMO_ResetActorAnims((int)a,(int *)s);}break;
+    case 2:if(!SHINKA_DEMO_IsBgmState1((int)a,(int *)s)&&SHINKA_DEMO_AreActorAnimsDone((int)a,(int *)s)){if(W(0x8c))W(0x28)=4;else{W(0x28)=3;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}}break;
     case 3:W(0x88)=1;W(0x28)=4;break;
-    case 4:func_02205384(s,W(0x78),0,0,2,W(0x10),4,0);W(0x28)=5;break;
-    case 5:if(func_022053E8(s)&&func_0220546C(s)){func_022054E8((int)a,(int *)s,0);W(0x28)=6;func_02206044(P(0x104));}break;
-    case 6:if(func_0220604C(P(0x104))){W(0x28)=7;func_02204ED0((int)a,(int *)s);}break;
-    case 7:if(!func_02204EF0((int)a,(int *)s)){W(0x28)=8;func_02206050(P(0x104));func_0220882C(P(0x108));GFL_USE_PlaySeDefaultVolume(0x7dc);W(0x10c)=1;W(0x2c)=0;}break;
+    case 4:SHINKA_DEMO_PrintText(s,W(0x78),0,0,2,W(0x10),4,0);W(0x28)=5;break;
+    case 5:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s)){SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,0);W(0x28)=6;func_02206044(P(0x104));}break;
+    case 6:if(func_0220604C(P(0x104))){W(0x28)=7;SHINKA_DEMO_PlayEvolutionBgm((int)a,(int *)s);}break;
+    case 7:if(!SHINKA_DEMO_IsBgmState2((int)a,(int *)s)){W(0x28)=8;func_02206050(P(0x104));func_0220882C(P(0x108));GFL_USE_PlaySeDefaultVolume(0x7dc);W(0x10c)=1;W(0x2c)=0;}break;
     case 8:
         keys=KEY_GetTrg();
         if(func_0220606C(P(0x104))){if(W(0x24))W(0x28)=13;else W(0x28)=9;break;}
-        if(func_02206070(P(0x104)))func_02204F00((int)a,s);
-        if(func_02206074(P(0x104)))func_02204F24((int)a,(int *)s);
+        if(func_02206070(P(0x104)))SHINKA_DEMO_StartEvolutionBgm((int)a,s);
+        if(func_02206074(P(0x104)))SHINKA_DEMO_PushBgm((int)a,(int *)s);
         if(func_02206058(P(0x104))){func_02208844(P(0x108));if(!W(0x110)){GFL_USE_PlaySeDefaultVolume(0x7df);W(0x10c)=0;W(0x110)=1;}}
         if(func_02208850(P(0x108)))func_0220605C(P(0x104));
         if(func_02208860(P(0x108))){func_02206064(P(0x104));if(!W(0x114)){if(!W(0x24))W(0x10c)=1;W(0x114)=1;}}
         if(W(0x10c)){
-            if(!W(0x118)&&W(0x2c)>=90){if(func_02204F68((int)a,(int *)s)){GFL_USE_PlaySeDefaultVolume(0x7dd);W(0x118)=1;}}
+            if(!W(0x118)&&W(0x2c)>=90){if(SHINKA_DEMO_IsBgmState4((int)a,(int *)s)){GFL_USE_PlaySeDefaultVolume(0x7dd);W(0x118)=1;}}
             else if(W(0x2c)==0x212||W(0x2c)==0x249||W(0x2c)==0x280||W(0x2c)==0x2b7)GFL_USE_PlaySeDefaultVolume(0x7de);
             else if(W(0x2c)==0x2e4)GFL_USE_PlaySeDefaultVolume(0x7e0);
             W(0x2c)++;
         }
-        if(A(0x10)&&func_02204F68((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&func_02206078(P(0x104))){W(0x24)=1;func_020355D8(0);func_02208814(P(0x108));}break;
+        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&func_02206078(P(0x104))){W(0x24)=1;func_020355D8(0);func_02208814(P(0x108));}break;
     case 9:
         POKE_TOOL_ChangeSpecies(P(0x10),AH(8));
         if(A(0)){v=ZUKAN_SAVE_GetFromGameData((void *)A(0));ZUKAN_SAVE_RegisterSeen(v,P(0x10));ZUKAN_SAVE_RegisterCaught(v,P(0x10));}
-        func_02204FA0((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{func_022054E8((int)a,(int *)s,1);W(0x28)=10;}break;
+        SHINKA_DEMO_StartResultBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
-    case 11:func_02205384(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
-    case 12:if(func_022053E8(s)&&!func_02204FC4((int)a,(int *)s)&&func_0220546C(s)){GAME_BEACON_SetPokeEvolution((u16)func_02017E1C(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
-    case 13:if(W(0x24))func_02204FF8((int)a,s);else func_02204F40((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{func_022054E8((int)a,(int *)s,1);W(0x28)=14;}break;
+    case 11:SHINKA_DEMO_PrintText(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
+    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)func_02017E1C(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
+    case 13:if(W(0x24))SHINKA_DEMO_StopBgm((int)a,s);else SHINKA_DEMO_PopBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=14;}break;
     case 14:W(0x88)=1;W(0x28)=15;break;
-    case 15:func_02205384(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
-    case 16:if(func_022053E8(s)&&func_0220546C(s))W(0x28)=42;break;
-    case 17:switch(AB(11)){case 14:func_022056E8((u32 *)a,s);break;case 6:case 19:case 20:func_02205844((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
+    case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
+    case 16:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s))W(0x28)=42;break;
+    case 17:switch(AB(11)){case 14:SHINKA_DEMO_AddEvolvedPokemon((u32 *)a,s);break;case 6:case 19:case 20:SHINKA_DEMO_ClearPartyValue((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
     case 18:
         H(0x1c)=POKE_TOOL_GetLevelUpMove(P(0x10),(u32 *)(s+0x20),H(0));
-        if(!H(0x1c))W(0x28)=42;else if(H(0x1c)!=0xfffe){if(H(0x1c)&0x8000){H(0x1c)&=0x7fff;W(0x28)=20;}else{W(0x28)=19;func_02205384(s,W(0x7c),3,0,2,W(0x10),3,(u32)(s+0x1c));func_02204FD4((int)a,(int *)s);}}break;
-    case 19:if(func_022053E8(s)&&func_0220546C(s))W(0x28)=18;break;
-    case 20:W(0x28)=21;func_02205384(s,W(0x7c),4,0,2,W(0x10),3,(u32)(s+0x1c));break;
-    case 21:if(func_022053E8(s)){W(0x28)=22;func_022055BC(s,W(0x90),2,4,0,4,0,W(0x90),3,4,0,4,0);YESNO_MENU_Start(P(0x9c),W(0x94),W(0x98));}break;
+        if(!H(0x1c))W(0x28)=42;else if(H(0x1c)!=0xfffe){if(H(0x1c)&0x8000){H(0x1c)&=0x7fff;W(0x28)=20;}else{W(0x28)=19;SHINKA_DEMO_PrintText(s,W(0x7c),3,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}}break;
+    case 19:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s))W(0x28)=18;break;
+    case 20:W(0x28)=21;SHINKA_DEMO_PrintText(s,W(0x7c),4,0,2,W(0x10),3,(u32)(s+0x1c));break;
+    case 21:if(SHINKA_DEMO_AdvanceText(s)){W(0x28)=22;SHINKA_DEMO_SetMenuText(s,W(0x90),2,4,0,4,0,W(0x90),3,4,0,4,0);YESNO_MENU_Start(P(0x9c),W(0x94),W(0x98));}break;
     case 22:
         result=YESNO_MENU_GetAnswer(P(0x9c));if(result==2)break;
         if(result==1){if(A(0xc)){W(0x28)=23;FADE_Start(3,0,16,0);}else{W(0x28)=27;FADE_Start(2,0,16,0);}}
@@ -679,19 +679,19 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         YESNO_MENU_Close(P(0x9c));break;
     case 23:
         if(FADE_IsActive())break;
-        func_02204D5C((int)a,(int *)s);W(0x28)=24;
+        SHINKA_DEMO_DeleteScene((int)a,(int *)s);W(0x28)=24;
         v=GAME_DATA_GetSaveControl((void *)A(0));
         ((u8 *)P(0x100))[0xc]=1;*(u32 *)((char *)P(0x100)+8)=A(0);*(u32 *)((char *)P(0x100)+0x24)=0;*(u32 *)P(0x100)=A(4);
         *(void **)((char *)P(0x100)+4)=func_0200873C(v);((u8 *)P(0x100))[0xe]=POKEPARTY_GetCount((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
         func_02034AC4((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
-    case 25:func_02034A5C((int)ov131_id);W(0x28)=26;func_02204C24((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
+    case 25:func_02034A5C((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
         if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=func_02017E1C(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
         if(FADE_IsActive())break;
-        W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;func_02205A84((int)P(4));B(0xac)=func_020355C4()==0;
+        W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((int)P(4));B(0xac)=func_020355C4()==0;
         P(0xa4)=func_02030734(H(0),func_02030CB0(8),0,(char *)d_02208F40,0x548);
         MI_CpuFill8(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
         PALANM_AllocSlotBuffers(P(0xa8),1,0x1e0,H(0));PALANM_AllocSlotBuffers(P(0xa8),3,0x1e0,H(0));
@@ -701,34 +701,34 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
     case 29:
         if(FADE_IsActive())break;
         W(0x28)=30;func_02034A5C((int)ov196_id);func_02034A5C((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));func_02030DA4(P(0xa0));func_020307B0(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
-        func_02205A34(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,func_02205A28(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
+        SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=func_02017E1C(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
         func_020355D8(B(0xac)?0:1);break;
-    case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;func_022054E8((int)a,(int *)s,1);}break;
+    case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 32:W(0x88)=1;W(0x28)=33;break;
-    case 33:func_02205384(s,W(0x7c),5,(u32)func_02205360,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;
-    case 34:if(func_022053E8(s)){func_020181F4(P(0x10),H(0x1c),B(0x1a));W(0x28)=35;func_02205384(s,W(0x7c),6,0,2,W(0x10),3,(u32)(s+0x1c));func_02204FD4((int)a,(int *)s);}break;
-    case 35:if(func_022053E8(s))W(0x28)=18;break;
-    case 36:if(W(0x8c))W(0x28)=38;else{W(0x28)=37;func_022054E8((int)a,(int *)s,1);}break;
+    case 33:SHINKA_DEMO_PrintText(s,W(0x7c),5,(u32)SHINKA_DEMO_PrintStreamCallback,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;
+    case 34:if(SHINKA_DEMO_AdvanceText(s)){func_020181F4(P(0x10),H(0x1c),B(0x1a));W(0x28)=35;SHINKA_DEMO_PrintText(s,W(0x7c),6,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}break;
+    case 35:if(SHINKA_DEMO_AdvanceText(s))W(0x28)=18;break;
+    case 36:if(W(0x8c))W(0x28)=38;else{W(0x28)=37;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 37:W(0x88)=1;W(0x28)=38;break;
-    case 38:func_02205384(s,W(0x7c),7,0,4,0,3,(u32)(s+0x1c));W(0x28)=39;break;
-    case 39:if(func_022053E8(s)){W(0x28)=40;{u32 w=W(0x90);func_022055BC(s,w,4,3,(u32)(s+0x1c),4,0,w,5,3,(u32)(s+0x1c),4,0);}YESNO_MENU_Start(P(0x9c),W(0x94),W(0x98));}break;
+    case 38:SHINKA_DEMO_PrintText(s,W(0x7c),7,0,4,0,3,(u32)(s+0x1c));W(0x28)=39;break;
+    case 39:if(SHINKA_DEMO_AdvanceText(s)){W(0x28)=40;{u32 w=W(0x90);SHINKA_DEMO_SetMenuText(s,w,4,3,(u32)(s+0x1c),4,0,w,5,3,(u32)(s+0x1c),4,0);}YESNO_MENU_Start(P(0x9c),W(0x94),W(0x98));}break;
     case 40:
         result=YESNO_MENU_GetAnswer(P(0x9c));if(result==2)break;
-        if(result==1){W(0x28)=41;func_02205384(s,W(0x7c),8,0,2,W(0x10),3,(u32)(s+0x1c));}else if(!result)W(0x28)=20;
+        if(result==1){W(0x28)=41;SHINKA_DEMO_PrintText(s,W(0x7c),8,0,2,W(0x10),3,(u32)(s+0x1c));}else if(!result)W(0x28)=20;
         YESNO_MENU_Close(P(0x9c));break;
-    case 41:if(func_022053E8(s))W(0x28)=18;break;
-    case 42:if(W(0x24)){FADE_Start(3,0,16,2);W(0x28)=43;}else if(func_02204F68((int)a,(int *)s)){func_02204F78((int)a,s);FADE_Start(3,0,16,2);W(0x28)=43;}break;
-    case 43:if(!func_02204F90((int)a,s)){W(0x28)=44;func_02204EB0(a,s);}break;
+    case 41:if(SHINKA_DEMO_AdvanceText(s))W(0x28)=18;break;
+    case 42:if(W(0x24)){FADE_Start(3,0,16,2);W(0x28)=43;}else if(SHINKA_DEMO_IsBgmState4((int)a,(int *)s)){SHINKA_DEMO_FadeOutBgm((int)a,s);FADE_Start(3,0,16,2);W(0x28)=43;}break;
+    case 43:if(!SHINKA_DEMO_IsBgmState6((int)a,s)){W(0x28)=44;SHINKA_DEMO_RestoreBgm(a,s);}break;
     case 44:if(!FADE_IsActive()){W(0x28)=45;return 1;}break;
     case 45:return 1;
     }
-    func_02204DE0(a,s);
+    SHINKA_DEMO_UpdateBgm(a,s);
     if(W(0x28)!=24&&W(0x28)!=25){
         if(P(0x9c))YESNO_MENU_Update(P(0x9c));
-        func_02205340((int)a,s);PRINTSYS_QUE_Main(P(0xc));func_02205D50(P(0x104));func_0220878C(P(0x108));func_022059FC(P(4));func_02205A10(P(4));func_02208804(P(0x108));func_0220602C(P(0x104));func_02205A1C(P(4));
+        SHINKA_DEMO_UpdateWindows((int)a,s);PRINTSYS_QUE_Main(P(0xc));SHINKA_DEMO_VIEW_Main(P(0x104));func_0220878C(P(0x108));SHINKA_DEMO_GRAPHIC_Draw(P(4));SHINKA_DEMO_GRAPHIC_Update(P(4));func_02208804(P(0x108));func_0220602C(P(0x104));SHINKA_DEMO_GRAPHIC_DrawEnd(P(4));
     }
     return 0;
 }
@@ -740,7 +740,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
 
 
 
-void func_02204C24(App *a, Scene *s)
+void SHINKA_DEMO_SetupScene(App *a, Scene *s)
 {
     u8 i;
     u8 b;
@@ -750,17 +750,17 @@ void func_02204C24(App *a, Scene *s)
     func_02034AC4((u32)ov067_id);
     for (i = 0; i <= 7; i++)
         func_02040588(i, 0);
-    s->f04 = func_022058F8(1, s->heap);
-    func_02205A34();
+    s->f04 = SHINKA_DEMO_GRAPHIC_Create(1, s->heap);
+    SHINKA_DEMO_GRAPHIC_SetupSubBg();
     s->f08 = (u32)GF_FONT_Create(0x17, 0, 0, 0, s->heap);
     s->f0c = (void *)PRINTSYS_QUE_Create((void *)s->heap);
-    func_022051FC((int)a, (char *)s);
+    SHINKA_DEMO_SetupWindows((int)a, (char *)s);
     s->f9c = 0;
-    func_02205530((int)a, (char *)s);
-    func_02205010((int)a, (char *)s);
+    SHINKA_DEMO_CreateConfirmMenu((int)a, (char *)s);
+    SHINKA_DEMO_LoadSprites((int)a, (char *)s);
     s->f60 = 0;
     if (s->f28 == 0)
-        func_02205070((int)a, (char *)s);
+        SHINKA_DEMO_CreateActors((int)a, (char *)s);
     func_0204047C(0, 2);
     func_0204047C(2, 1);
     func_0204047C(1, 0);
@@ -776,9 +776,9 @@ void func_02204C24(App *a, Scene *s)
             a->f10 = 0;
     }
     if (s->f28 == 0)
-        s->f104 = func_02205C74(s->heap, 0, s->f10, a->f08);
+        s->f104 = SHINKA_DEMO_VIEW_Create(s->heap, 0, s->f10, a->f08);
     else
-        s->f104 = func_02205C74(s->heap, 1, s->f10, a->f08);
+        s->f104 = SHINKA_DEMO_VIEW_Create(s->heap, 1, s->f10, a->f08);
     if (s->f28 == 0)
         s->f108 = func_0220871C(s->heap, 0);
     else
@@ -794,24 +794,24 @@ void func_02204C24(App *a, Scene *s)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: the scene object's teardown.
+ * Leaf of the SHINKA_DEMO_Main dependency tree: the scene object's teardown.
  * It releases the two +0x104/+0x108 sub-objects, tears the controller links
  * down, then frees the +0x0c/+0x08/+0x04 allocations and drops the 0x43 /
  * 0x68 pools.
  */
-void func_02204D5C(int a, int *p)
+void SHINKA_DEMO_DeleteScene(int a, int *p)
 {
     func_02208770((char *)p[0x42]);
-    func_02205D28((char *)p[0x41]);
-    func_02205100((void *)a, (char *)p);
-    func_0220506C(a, p);
-    func_02205580((void *)a, (char *)p);
-    func_022052E8(a, p);
+    SHINKA_DEMO_VIEW_Destroy((char *)p[0x41]);
+    SHINKA_DEMO_DeleteActors((void *)a, (char *)p);
+    SHINKA_DEMO_Noop2(a, p);
+    SHINKA_DEMO_DeleteConfirmMenu((void *)a, (char *)p);
+    SHINKA_DEMO_DeleteWindows(a, p);
     PRINTSYS_QUE_Clear((struct PrintSys *)p[3]);
     PRINTSYS_QUE_Delete((struct PrintSys *)p[3]);
     GF_FONT_Delete((void *)p[2]);
-    func_02205A84(p[1]);
-    func_022059A0((char *)p[1]);
+    SHINKA_DEMO_GRAPHIC_ReleaseSubBg(p[1]);
+    SHINKA_DEMO_GRAPHIC_Destroy((char *)p[1]);
     func_02034A5C((int)ov067_id);
     func_020306F0(0x68);
 }
@@ -826,7 +826,7 @@ void func_02204D5C(int a, int *p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_02204DC4(u8 *p, u8 *q)
+void SHINKA_DEMO_StartBgm(u8 *p, u8 *q)
 {
     if (((struct Obj24942 *)p)->fC != 0) {
         GFL_USE_FadeOutBgm(0x1e);
@@ -840,7 +840,7 @@ void func_02204DC4(u8 *p, u8 *q)
 
 
 
-void func_02204DDC(int a0, int *a1) {}
+void SHINKA_DEMO_Noop(int a0, int *a1) {}
 
 
 
@@ -849,7 +849,7 @@ void func_02204DDC(int a0, int *a1) {}
 
 
 
-void func_02204DE0(char *a, char *b)
+void SHINKA_DEMO_UpdateBgm(char *a, char *b)
 {
     switch (((struct Obj03902 *)b)->f30) {
     case 0:
@@ -886,11 +886,11 @@ void func_02204DE0(char *a, char *b)
         break;
     case 8:
         if (GFL_USE_IsBgmPlaying() == 0)
-            func_02204F40((int)a, (int *)b);
+            SHINKA_DEMO_PopBgm((int)a, (int *)b);
         break;
     case 9:
         if (GFL_USE_IsBgmPlaying() == 0)
-            func_02204F40((int)a, (int *)b);
+            SHINKA_DEMO_PopBgm((int)a, (int *)b);
         break;
     }
 }
@@ -902,11 +902,11 @@ void func_02204DE0(char *a, char *b)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: true when the scene object's
+ * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 1.  Unlabelled in the listing (a leaf that saves no
  * lr), so region-qualified.
  */
-int func_02204EA0(int a, int *p)
+int SHINKA_DEMO_IsBgmState1(int a, int *p)
 {
     return p[0xc] == 1;
 }
@@ -918,7 +918,7 @@ int func_02204EA0(int a, int *p)
 
 
 
-void func_02204EB0(char *a, char *b)
+void SHINKA_DEMO_RestoreBgm(char *a, char *b)
 {
     if (((struct Obj24946 *)b)->f30 == 0 && ((struct Obj14523 *)a)->fC != 0) {
         GFL_USE_PopBgm();
@@ -935,10 +935,10 @@ void func_02204EB0(char *a, char *b)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: when the scene object sits in
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
  * state word +0x30 == 0, play cue 0x3f2 and move it to state 2.
  */
-void func_02204ED0(int a, int *p)
+void SHINKA_DEMO_PlayEvolutionBgm(int a, int *p)
 {
     if (p[0xc] == 0) {
         GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
@@ -952,11 +952,11 @@ void func_02204ED0(int a, int *p)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: true when the scene object's
+ * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 2.  Unlabelled in the listing (a leaf that saves no
  * lr), so region-qualified.
  */
-int func_02204EF0(int a, int *p)
+int SHINKA_DEMO_IsBgmState2(int a, int *p)
 {
     return p[0xc] == 2;
 }
@@ -967,7 +967,7 @@ int func_02204EF0(int a, int *p)
 
 
 
-void func_02204F00(int unused, char *p)
+void SHINKA_DEMO_StartEvolutionBgm(int unused, char *p)
 {
     if (((struct Obj10816 *)p)->f30 == 0)
     {
@@ -983,7 +983,7 @@ void func_02204F00(int unused, char *p)
 
 
 
-void func_02204F24(int a, int *b)
+void SHINKA_DEMO_PushBgm(int a, int *b)
 {
     if (((struct Obj08346 *)b)->f30 == 4) {
         GFL_USE_SetBgmPlayerParam((void *)1);
@@ -999,10 +999,10 @@ void func_02204F24(int a, int *b)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: when the scene object sits in
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
  * state 5 or in state 8/9, run the cue trio and drop it into state 4.
  */
-void func_02204F40(int a, int *p)
+void SHINKA_DEMO_PopBgm(int a, int *p)
 {
     int s = p[0xc];
 
@@ -1020,11 +1020,11 @@ void func_02204F40(int a, int *p)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: true when the scene object's
+ * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 4.  Unlabelled in the listing (a leaf that saves no
  * lr), so region-qualified.
  */
-int func_02204F68(int a, int *p)
+int SHINKA_DEMO_IsBgmState4(int a, int *p)
 {
     return p[0xc] == 4;
 }
@@ -1035,7 +1035,7 @@ int func_02204F68(int a, int *p)
 
 
 
-void func_02204F78(int a, char *b)
+void SHINKA_DEMO_FadeOutBgm(int a, char *b)
 {
     if (((struct Obj14525 *)b)->f30 == 4) {
         GFL_USE_FadeOutBgm(0x3c);
@@ -1049,7 +1049,7 @@ void func_02204F78(int a, char *b)
 
 
 
-int func_02204F90(int a, char *b)
+int SHINKA_DEMO_IsBgmState6(int a, char *b)
 {
     if (((struct Obj24949 *)b)->f30 == 6)
         return 1;
@@ -1063,11 +1063,11 @@ int func_02204F90(int a, char *b)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: when the scene object sits in
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
  * state word +0x30 == 5, clear word +0x34, arm a 1-flag timer on it and move
  * to state 7.
  */
-void func_02204FA0(int a, int *p)
+void SHINKA_DEMO_StartResultBgm(int a, int *p)
 {
     if (p[0xc] == 5) {
         p[0xd] = 0;
@@ -1082,10 +1082,10 @@ void func_02204FA0(int a, int *p)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: true when the scene object's
+ * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 7 or 8.
  */
-int func_02204FC4(int a, int *p)
+int SHINKA_DEMO_IsBgmState7Or8(int a, int *p)
 {
     return p[0xc] == 7 || p[0xc] == 8;
 }
@@ -1097,14 +1097,14 @@ int func_02204FC4(int a, int *p)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: when the scene object sits in
- * state word +0x30 == 4, hand it to func_02204F24 and play cue 0x515, then
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
+ * state word +0x30 == 4, hand it to SHINKA_DEMO_PushBgm and play cue 0x515, then
  * park it in state 9.  First argument is forwarded untouched.
  */
-void func_02204FD4(int a, int *p)
+void SHINKA_DEMO_PlayResultBgm(int a, int *p)
 {
     if (p[0xc] == 4) {
-        func_02204F24(a, p);
+        SHINKA_DEMO_PushBgm(a, p);
         GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         p[0xc] = 9;
     }
@@ -1116,7 +1116,7 @@ void func_02204FD4(int a, int *p)
 
 
 
-void func_02204FF8(int a, char *b)
+void SHINKA_DEMO_StopBgm(int a, char *b)
 {
     if (((struct Obj14527 *)b)->f30 == 5) {
         GFL_USE_PopBgm();
@@ -1130,7 +1130,7 @@ void func_02204FF8(int a, char *b)
 
 
 
-void func_02205010(int a, char *b)
+void SHINKA_DEMO_LoadSprites(int a, char *b)
 {
     void *h = func_020490F4(0xb6, ((struct Obj08347 *)b)->f2);
 
@@ -1145,14 +1145,14 @@ void func_02205010(int a, char *b)
 
 
 
-void func_0220506C(int a0, int *a1) {}
+void SHINKA_DEMO_Noop2(int a0, int *a1) {}
 
 
 
 
 
 
-void func_02205070(int a, char *b)
+void SHINKA_DEMO_CreateActors(int a, char *b)
 {
     void *h;
     u8 i;
@@ -1166,7 +1166,7 @@ void func_02205070(int a, char *b)
     ARC_TOOL_DeleteHandle(h);
     for (z = i; i < 6; i++) {
         char *e = b + i * 4;
-        ((struct Obj14528 *)e)->f48 = (u32)CLACT_CreateActor((void *)func_02205A28((char *)(((struct Obj01971 *)b)->f4)), ((struct Obj01971 *)b)->f3C, ((struct Obj01971 *)b)->f40,
+        ((struct Obj14528 *)e)->f48 = (u32)CLACT_CreateActor((void *)SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Obj01971 *)b)->f4)), ((struct Obj01971 *)b)->f3C, ((struct Obj01971 *)b)->f40,
                                            ((struct Obj01971 *)b)->f44, d_02208C4C + i * 8, z, ((struct Obj01971 *)b)->f2);
         CLACT_SetActorAutoAnim((struct Obj *)((struct Obj14528 *)e)->f48, z);
     }
@@ -1177,7 +1177,7 @@ void func_02205070(int a, char *b)
 
 
 
-void func_02205100(void *unused,char *p) {u8 i;if(((struct Obj04593 *)p)->f60){for(i=0;i<6;i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Obj04593 *)p)->f44);CLACT_ReleaseCharacter(((struct Obj04593 *)p)->f3C);CLACT_ReleasePalette(((struct Obj04593 *)p)->f40);((struct Obj04593 *)p)->f60=0;}}
+void SHINKA_DEMO_DeleteActors(void *unused,char *p) {u8 i;if(((struct Obj04593 *)p)->f60){for(i=0;i<6;i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Obj04593 *)p)->f44);CLACT_ReleaseCharacter(((struct Obj04593 *)p)->f3C);CLACT_ReleasePalette(((struct Obj04593 *)p)->f40);((struct Obj04593 *)p)->f60=0;}}
 
 
 
@@ -1185,10 +1185,10 @@ void func_02205100(void *unused,char *p) {u8 i;if(((struct Obj04593 *)p)->f60){f
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: when the scene object has the
+ * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object has the
  * +0x60 pointer set, tear down the six +0x48 handles.
  */
-void func_02205138(int a, int *p)
+void SHINKA_DEMO_ResetActorAnims(int a, int *p)
 {
     unsigned char i;
 
@@ -1206,11 +1206,11 @@ void func_02205138(int a, int *p)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: probe all six +0x48 handles;
- * if every one is idle, hand the scene object to func_02205100.  A missing
+ * Leaf of the SHINKA_DEMO_Main dependency tree: probe all six +0x48 handles;
+ * if every one is idle, hand the scene object to SHINKA_DEMO_DeleteActors.  A missing
  * +0x60 pointer reports success without probing.
  */
-int func_02205168(int a, int *p)
+int SHINKA_DEMO_AreActorAnimsDone(int a, int *p)
 {
     unsigned char i;
 
@@ -1224,7 +1224,7 @@ int func_02205168(int a, int *p)
             }
         }
         if (ok)
-            func_02205100((void *)a, (char *)p);
+            SHINKA_DEMO_DeleteActors((void *)a, (char *)p);
         return ok;
     }
     return 1;
@@ -1237,7 +1237,7 @@ int func_02205168(int a, int *p)
 /*
  * extent: 82 code bytes followed by two zero alignment bytes at 0x022051FA.
  */
-void func_022051A8(int task, char *p)
+void SHINKA_DEMO_MainTask(int task, char *p)
 {
     switch (((struct Obj04594 *)p)->f88) {
     case 1:
@@ -1260,7 +1260,7 @@ void func_022051A8(int task, char *p)
 
 
 
-void func_022051FC(int a, char *b)
+void SHINKA_DEMO_SetupWindows(int a, char *b)
 {
     u32 p;
 
@@ -1291,7 +1291,7 @@ void func_022051FC(int a, char *b)
 
 
 
-void func_022052E8(int task, int *p)
+void SHINKA_DEMO_DeleteWindows(int task, int *p)
 {
     APP_KEYCURSOR_Delete(((struct Obj02240 *)p)->f84);
     if (((struct Obj02240 *)p)->f64) PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj02240 *)p)->f64));
@@ -1299,7 +1299,7 @@ void func_022052E8(int task, int *p)
     if (((struct Obj02240 *)p)->f80) STRBUF_Delete((struct U16Vec *)(((struct Obj02240 *)p)->f80));
     MSGDATA_Delete(((struct Obj02240 *)p)->f78);
     MSGDATA_Delete(((struct Obj02240 *)p)->f7C);
-    func_0203FB44(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
+    BG_SYS_DeleteHalf(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj02240 *)p)->f6C));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj02240 *)p)->f70));
 }
@@ -1309,7 +1309,7 @@ void func_022052E8(int task, int *p)
 
 
 
-void func_02205340(int a, char *b)
+void SHINKA_DEMO_UpdateWindows(int a, char *b)
 {
     TCBL_Main((struct Tcbl *)(((struct Obj06642 *)b)->f68));
     if (((struct Obj06642 *)b)->f64 != 0)
@@ -1321,7 +1321,7 @@ void func_02205340(int a, char *b)
 
 
 
-int func_02205360(int a)
+int SHINKA_DEMO_PrintStreamCallback(int a)
 {
     switch (a) {
     case 3:
@@ -1337,12 +1337,12 @@ int func_02205360(int a)
 
 
 
-void func_02205384(char *a, u32 b, u32 c, u32 d, u32 k0, u32 v0, u32 k1, u32 v1)
+void SHINKA_DEMO_PrintText(char *a, u32 b, u32 c, u32 d, u32 k0, u32 v0, u32 k1, u32 v1)
 {
-    func_0220549C(a, 0xf);
-    *(u32 *)&((struct Obj01429 *)a)->f80 = func_02205620(((struct Obj01429 *)a)->f2, b, c, k0, v0, k1, v1);
+    SHINKA_DEMO_ClearText(a, 0xf);
+    *(u32 *)&((struct Obj01429 *)a)->f80 = SHINKA_DEMO_BuildString(((struct Obj01429 *)a)->f2, b, c, k0, v0, k1, v1);
     *(u32 *)&((struct Obj01429 *)a)->f64 = (u32)PRINTSYS_PrintStreamCallBack(*(u32 *)&((struct Obj01429 *)a)->f6C, 0, 0, *(u32 *)&((struct Obj01429 *)a)->f80, ((struct Obj01429 *)a)->f8,
-                                       func_02012FFC(), ((struct Obj01429 *)a)->f68, 2, ((struct Obj01429 *)a)->f2, 0xf, d);
+                                       MSG_SPEED_GetWait(), ((struct Obj01429 *)a)->f68, 2, ((struct Obj01429 *)a)->f2, 0xf, d);
 }
 
 
@@ -1356,7 +1356,7 @@ void func_02205384(char *a, u32 b, u32 c, u32 d, u32 k0, u32 v0, u32 k1, u32 v1)
  * original pointer r4 / result r5 split and the shared return. See
  * docs/idioms/a-ternary-constant-call-argument-takes-the-opposite-branch-polarity.md.
  */
-int func_022053E8(char *a)
+int SHINKA_DEMO_AdvanceText(char *a)
 {
     int r = 0;
 
@@ -1392,13 +1392,13 @@ int func_022053E8(char *a)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: a confirm gate.  True once the
+ * Leaf of the SHINKA_DEMO_Main dependency tree: a confirm gate.  True once the
  * action key is held (KEY_GetTrg & 3) or the touch probe fires; it hands
  * the pressed/released flag to func_020355D8.  The two arms must be separate
  * call statements, not a selected value: only then does mwccarm tail-merge
  * them with the original's `beq`-to-true orientation.
  */
-int func_0220546C(char *s)
+int SHINKA_DEMO_IsConfirmPressed(char *s)
 {
     if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
         if ((KEY_GetTrg() & 3) != 0)
@@ -1413,7 +1413,7 @@ int func_0220546C(char *s)
 
 
 
-void func_0220549C(char *a, int b)
+void SHINKA_DEMO_ClearText(char *a, int b)
 {
     int p;
 
@@ -1435,11 +1435,11 @@ void func_0220549C(char *a, int b)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: either build the +0x6c render
+ * Leaf of the SHINKA_DEMO_Main dependency tree: either build the +0x6c render
  * node from the +0x74 id (and flush the +0x104/+0x108 stage), or arm the
  * +0x88 transition word with 2.
  */
-void func_022054E8(int a, int *p, int flag)
+void SHINKA_DEMO_SetupMessageBox(int a, int *p, int flag)
 {
     if (flag != 0) {
         int *q;
@@ -1459,10 +1459,10 @@ void func_022054E8(int a, int *p, int flag)
 
 
 
-void func_02205530(int a, char *b)
+void SHINKA_DEMO_CreateConfirmMenu(int a, char *b)
 {
     ((struct Obj03344 *)b)->f90 = (u32)func_02045B38(0, 2, 0xe9, ((struct Obj03344 *)b)->f2);
-    ((struct Obj03344 *)b)->f9C = (u32)YESNO_MENU_Create(((struct Obj03344 *)b)->f2, 5, 0, 1, 0, func_02205A28((char *)(((struct Obj03344 *)b)->f4)),
+    ((struct Obj03344 *)b)->f9C = (u32)YESNO_MENU_Create(((struct Obj03344 *)b)->f2, 5, 0, 1, 0, SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Obj03344 *)b)->f4)),
                                        ((struct Obj03344 *)b)->f8, ((struct Obj03344 *)b)->fC, 0);
     ((struct Obj03344 *)b)->f94 = 0;
     ((struct Obj03344 *)b)->f98 = 0;
@@ -1470,26 +1470,26 @@ void func_02205530(int a, char *b)
 
 
 
-void func_02205580(void *unused,char *p) {YESNO_MENU_Delete(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f98));MSGDATA_Delete(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}
+void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *p) {YESNO_MENU_Delete(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f98));MSGDATA_Delete(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}
 
 
 
 
-void func_022055BC(char *a, u32 a1, u32 a2, u32 k0, u32 v0, u32 k1, u32 v1,
+void SHINKA_DEMO_SetMenuText(char *a, u32 a1, u32 a2, u32 k0, u32 v0, u32 k1, u32 v1,
                    u32 b1, u32 b2, u32 m0, u32 w0, u32 m1, u32 w1)
 {
     if (((struct Obj03903 *)a)->f94 != 0)
         STRBUF_Delete((struct U16Vec *)(((struct Obj03903 *)a)->f94));
     if (((struct Obj03903 *)a)->f98 != 0)
         STRBUF_Delete((struct U16Vec *)(((struct Obj03903 *)a)->f98));
-    ((struct Obj03903 *)a)->f94 = func_02205620(((struct Obj03903 *)a)->f2, a1, a2, k0, v0, k1, v1);
-    ((struct Obj03903 *)a)->f98 = func_02205620(((struct Obj03903 *)a)->f2, b1, b2, m0, w0, m1, w1);
+    ((struct Obj03903 *)a)->f94 = SHINKA_DEMO_BuildString(((struct Obj03903 *)a)->f2, a1, a2, k0, v0, k1, v1);
+    ((struct Obj03903 *)a)->f98 = SHINKA_DEMO_BuildString(((struct Obj03903 *)a)->f2, b1, b2, m0, w0, m1, w1);
 }
 
 
 
 
-u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
+u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
 {
     Param p[2];
     u32 src, w, r, i;
@@ -1499,7 +1499,7 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
         r = (u32)func_02045EC0((struct MsgBank *)a, b);
     } else {
         src = (u32)func_02045EC0((struct MsgBank *)a, b);
-        w = (u32)func_0201EC64(heap);
+        w = (u32)GF_FONT_Create_EC64(heap);
         p[0].kind = k0;
         p[0].val = v0;
         p[1].kind = k1;
@@ -1523,7 +1523,7 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
         r = (u32)STRBUF_Create(0x100, heap);
         func_0201F250((struct WordSet *)w, (void *)r, (void *)src);
         STRBUF_Delete((struct U16Vec *)src);
-        func_0201ED04((struct WordSet *)w);
+        WORDSET_DeleteStrbufED04((struct WordSet *)w);
     }
     return r;
 }
@@ -1531,13 +1531,13 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
 
 
 
-void func_022056E8(u32 *a, char *b)
+void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
 {
     void *save;
     u32 p, q, v;
     int i;
 
-    save = func_0201292C((const struct BigObj *)a[0]);
+    save = GAME_DATA_GetMyItem((const struct BigObj *)a[0]);
     if ((int)POKEPARTY_GetCount((void *)a[1]) >= (int)POKEPARTY_GetCapacity((void *)a[1]))
         return;
     if (func_02007F68(save, 4, 1, ((struct Obj06644 *)b)->f0) == 0)
@@ -1576,7 +1576,7 @@ void func_022056E8(u32 *a, char *b)
 
 
 
-void func_02205844(int a, char *b)
+void SHINKA_DEMO_ClearPartyValue(int a, char *b)
 {
     POKE_TOOL_SetPartyValue((void *)(((struct Obj24950 *)b)->f10), 6, 0);
 }
@@ -1584,7 +1584,7 @@ void func_02205844(int a, char *b)
 
 
 
-void func_02205854(void)
+void SHINKA_DEMO_Setup3d(void)
 {
     u32 i;
 

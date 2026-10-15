@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note: 2026-10-05 wave P14 C10: EXACT first compile. Callees all void except func_020351A0 (int, result unused); no older draft existed.
+ * note: 2026-10-05 wave P14 C10: EXACT first compile. Callees all void except UI_ClearFlags39Global (int, result unused); no older draft existed.
  * symbols:
  * PRINTSYS_QUE_Clear 0x0201C6EC thumb
  * PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -21,7 +21,7 @@
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * func_020315D4 0x020315D4 arm
  * func_020306F0 0x020306F0 arm
- * func_020351A0 0x020351A0 arm
+ * UI_ClearFlags39Global 0x020351A0 arm
  * GURU2_MAIN_DeleteBounceEffectTask 0x021E0E1C thumb ov137
  * GURU2_MAIN_DeleteSettleEffectTask 0x021E0F54 thumb ov137
  * GURU2_MAIN_DeleteWobbleEffectTask 0x021E1080 thumb ov137
@@ -50,7 +50,7 @@ extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
-extern int func_020351A0(u32);
+extern int UI_ClearFlags39Global(u32);
 extern void GURU2_MAIN_DeleteBounceEffectTask(u8 *);
 extern void GURU2_MAIN_DeleteSettleEffectTask(u8 *);
 extern void GURU2_MAIN_DeleteWobbleEffectTask(u8 *);
@@ -84,6 +84,6 @@ int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p)
     ARC_TOOL_DeleteHandle(*(void **)(p + 0xD58));
     func_020315D4(a);
     func_020306F0(0x72);
-    func_020351A0(8);
+    UI_ClearFlags39Global(8);
     return 1;
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F184  0x0201F184  thumb
@@ -27,7 +27,7 @@ typedef signed int     s32;
 struct Big;
 struct WordSet;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
@@ -39,7 +39,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftFlagMessage(void *a, u32 *b, void *c)
     u32 x;
 
     t = SCRCMD_WORK_GetGameData(c);
-    func_0200BE48(GAME_DATA_GetSaveControl(t));
+    INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(t));
     r = GAME_DATA_GetMyStatus(t);
     x = *b;
     func_0201F02C(a, 0, r);

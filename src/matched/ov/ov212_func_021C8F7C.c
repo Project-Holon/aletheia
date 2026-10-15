@@ -1,5 +1,5 @@
 /*
- * function: func_021C8F7C
+ * function: ZUKAN_FreeIdList
  * address: 0x021C8F7C
  * packet: pkt_ov212_021C8F7C
  * region: ov212
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021C8F7C(u8 *p)
+void ZUKAN_FreeIdList(u8 *p)
 {
     if (((struct Obj08416 *)p)->fC != 0) {
         func_020307B0(((struct Obj08416 *)p)->fC);

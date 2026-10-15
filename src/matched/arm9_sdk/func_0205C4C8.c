@@ -1,5 +1,5 @@
 /*
- * function: func_0205C4C8
+ * function: DWCi_ConvConnectAPType
  * address:  0x0205C4C8
  * packet:   pkt_0205C4C8
  * region:   arm9
@@ -19,7 +19,7 @@ typedef long s32;
 typedef unsigned long long u64;
 typedef int BOOL;
 
-u8 func_0205C4C8(u8 type)
+u8 DWCi_ConvConnectAPType(u8 type)
 {
     if (type >= 0x12) return (u8)(type - 0xf);
     if (type >= 0xf) return (u8)(type - 5);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *
  * savedata.c.  The completion callback of a backup write: on result 3 the
  * generation counter is rolled back to the one the write carried, on any
@@ -46,7 +46,7 @@ struct SaveBackup {
     u32 unk144;
 };
 
-extern void func_02034FB8(u32 bit);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 bit);
 
 void BACKUP_SYSTEM_EndSave(struct SaveBackup *p, u32 result, u32 flag)
 {
@@ -57,6 +57,6 @@ void BACKUP_SYSTEM_EndSave(struct SaveBackup *p, u32 result, u32 flag)
     }
 
     if (flag == 1) {
-        func_02034FB8(1);
+        UI_ClearKeepAwakeFlagsGlobal(1);
     }
 }

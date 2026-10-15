@@ -1,5 +1,5 @@
 /*
- * function: func_0217A044
+ * function: DWC_Http_Add_Body
  * address:  0x0217A044
  * packet:   pkt_ov009_0217A044
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      DWC_Http_Add_Body (dwc_http.o)
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
- *   func_0217A15C  0x0217A15C  arm  ov009
+ *   strlen  0x0209477C  arm
+ *   DWCi_Http_ReallocBuffer  0x0217A15C  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
  *   g_021A2694     0x021A2694  data
  */
@@ -25,11 +25,11 @@ typedef struct {
 } Buf;
 extern char g_021A2694[];
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
-extern int func_0217A15C(char *http, Buf *buf, int size);
+extern int strlen(const u8 *s);
+extern int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
-int func_0217A044(char *http, char *data)
+int DWC_Http_Add_Body(char *http, char *data)
 {
     int result_len;
     int buf_remain;
@@ -37,10 +37,10 @@ int func_0217A044(char *http, char *data)
     Buf *temp_buffer;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = func_0209477C((const u8 *)data);
+    result_len = strlen((const u8 *)data);
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len > buf_remain) {
-        if (func_0217A15C(http, temp_buffer, result_len - buf_remain + 1) == 0) {
+        if (DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1) == 0) {
             return 1;
         }
         buf_remain = temp_buffer->end - temp_buffer->cur;

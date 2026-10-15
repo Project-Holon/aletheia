@@ -40,7 +40,7 @@
  *
  * func_0200D868 truncates its value to `u16` before extracting the bit, which
  * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
+ * casts at the use, the same shape as BATTLE_BOX_SetLockFlags in
  * src/matched/unit_0200BBC8.c.
  *
  * func_0200D9E8 adds three deltas into three counters, each guarded against

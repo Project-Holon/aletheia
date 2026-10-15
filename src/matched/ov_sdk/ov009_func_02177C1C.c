@@ -14,13 +14,13 @@
  *   DWCs_GetRecvState  0x021777A4 arm
  *   DWCs_DecodeHeader  0x021771E0 arm
  *   MI_CpuCopy8        0x02082D44 arm
- *   g_021AB180         0x021AB180 data
+ *   gDwcTransInfo         0x021AB180 data
  */
 
 extern int DWCs_GetRecvState(unsigned char aid);
 extern unsigned short DWCs_DecodeHeader(void *message);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 
 struct DWCstTransportHeader {
     unsigned long size;
@@ -34,7 +34,7 @@ void DWCs_RecvDataHeader(unsigned char aid, void *message, int size)
     char *connection;
     unsigned short type;
 
-    connection = *(char **)g_021AB180 + aid * 0x38;
+    connection = *(char **)gDwcTransInfo + aid * 0x38;
     *(char *)(connection + 0x1e) = DWCs_GetRecvState(aid);
     type = DWCs_DecodeHeader(message);
     switch (type) {

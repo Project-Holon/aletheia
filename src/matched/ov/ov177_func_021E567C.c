@@ -24,7 +24,7 @@
  *   func_02049F78 0x02049F78 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_02040618 0x02040618 arm
  *   func_021E58A4 0x021E58A4 thumb ov177
@@ -47,7 +47,7 @@ extern u32 CLACT_RegisterCellAnim(void *, u32, u32, u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_021E58A4(int unused, int mode, unsigned color);
@@ -89,7 +89,7 @@ u32 *func_021E567C(int unused, int mode, int heap)
     m = 5;
     func_02049B40(l, m, 0, 0x1e0, 0x20, c);
     func_02049B40(l, m, 4, 0x1e0, 0x20, c);
-    func_02040C14(0, 0, 1, 0);
+    BG_SYS_Init(0, 0, 1, 0);
     func_0201F5BC(0, 1, 0xd, 0, c);
     func_0201F5BC(0, 0xa, 0xe, 0, c);
     func_02040618(2, 0, -256);

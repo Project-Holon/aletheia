@@ -1,5 +1,5 @@
 /*
- * function: func_02090D98
+ * function: WM_SetBeaconIndication
  * address:  0x02090D98
  * packet:   pkt_02090D98
  * region:   arm9
@@ -62,7 +62,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_02090D98(WMCallbackFunc callback, u16 flag)
+WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag)
 {
     WMErrCode result;
 

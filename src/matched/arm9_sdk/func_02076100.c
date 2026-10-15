@@ -1,5 +1,5 @@
 /*
- * function: func_02076100
+ * function: CARDi_NotifyEvent
  * address:  0x02076100
  * packet:   pkt_02076100
  * region:   arm9
@@ -31,7 +31,7 @@ extern struct
 } cardi_hook_state;
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
-void func_02076100(u32 event, void *arg)
+void CARDi_NotifyEvent(u32 event, void *arg)
 {
     u32 bak = OS_DisableInterrupts();
     CARDHookContext **pp = &CARDiHookChain;

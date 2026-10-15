@@ -1,5 +1,5 @@
 /*
- * function: func_02077C78
+ * function: FSi_ExecuteAsyncCommand
  * address:  0x02077C78
  * packet:   pkt_02077C78
  * region:   arm9
@@ -54,7 +54,7 @@ extern u32 OS_RestoreInterrupts(u32 state);
 extern int FSi_InvokeCommand(FSFile *file, u32 command);
 extern FSFile *FSi_NextCommand(FSArchive *arc, BOOL owner);
 
-void func_02077C78(FSFile *file)
+void FSi_ExecuteAsyncCommand(FSFile *file)
 {
     FSArchive *const arc = file->arc;
 

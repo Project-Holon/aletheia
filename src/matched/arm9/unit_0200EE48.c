@@ -10,13 +10,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200EE48, sub_0200EE50
+ * function: NET_DEVICE_TABLE_GetSize, NET_DEVICE_TABLE_Clear
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *
- * alias: sub_0200EE48 returns the constant 0x1400 (5 << 10), the size of
- * some fixed buffer; sub_0200EE50 zero-fills that many bytes at the given
+ * alias: NET_DEVICE_TABLE_GetSize returns the constant 0x1400 (5 << 10), the size of
+ * some fixed buffer; NET_DEVICE_TABLE_Clear zero-fills that many bytes at the given
  * pointer.
  *
  * Verified with:
@@ -29,12 +29,12 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-u32 sub_0200EE48(void)
+u32 NET_DEVICE_TABLE_GetSize(void)
 {
     return 5 << 10;
 }
 
-void sub_0200EE50(void *dest)
+void NET_DEVICE_TABLE_Clear(void *dest)
 {
-    MI_CpuFill8(dest, 0, sub_0200EE48());
+    MI_CpuFill8(dest, 0, NET_DEVICE_TABLE_GetSize());
 }

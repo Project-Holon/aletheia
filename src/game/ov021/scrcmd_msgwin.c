@@ -76,7 +76,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C274  0x0200C274  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELDMAP_SetInfoWindow  0x02188D4C  thumb  ov021
@@ -90,7 +90,7 @@
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   VEC_CrossProduct  0x0207CAE8  arm
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   sBalloonUpVec     0x021D9390  data
  *   sBalloonOffsetTable     0x021D939C  data
@@ -116,7 +116,7 @@
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   func_0202A310  0x0202A310  thumb
+ *   TPOKE_DATA_ReadRecordString  0x0202A310  thumb
  *   FIELD_MSGBG_PlainWinMain  0x021916E0  thumb  ov021
  *   FIELD_MSGBG_ClearPlainWin  0x021915EC  thumb  ov021
  *   FIELD_MSGBG_CreatePlainWin  0x02191558  thumb  ov021
@@ -300,7 +300,7 @@ extern FieldMsgWin *FIELDMAP_GetInfoWindow(FieldMap *fieldMap);
 extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MoneyData *GAME_DATA_GetMiscSave(GameData *gameData);
-extern u32 func_0200C274(MoneyData *moneyData);
+extern u32 BEACON_GetPoints(MoneyData *moneyData);
 extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
 extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
 extern void FIELDMAP_SetInfoWindow(FieldMap *fieldMap, FieldMsgWin *msgWin);
@@ -314,7 +314,7 @@ extern void G3D_CAMERA_GetEye(G3dCamera *camera, VecFx32 *out);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void VEC_Normalize(const VecFx32 *vec, VecFx32 *out);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void func_0206DF3C(VecFx32 *pos, u32 *x, u32 *z);
+extern void NNS_G3dWorldPosToScrPos(VecFx32 *pos, u32 *x, u32 *z);
 extern void func_02048B0C(G3dCamera *camera, VecFx32 *out);
 extern void MTX_LookAt(VecFx32 *eye, VecFx32 *up, VecFx32 *target, MtxFx43 *out);
 extern void MI_Copy36B(MtxFx43 *src, MtxFx33 *dest);
@@ -337,7 +337,7 @@ extern void SCRCMD_WORK_SetWindowKind(ScrcmdWork *cmdWork, u8 windowKind);
 extern u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin);
 extern Mmdl *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
 extern u8 MYSTATUS_GetOutfitVariant(const PlayerStatus *myStatus);
-extern void func_0202A310(int key1, int key2, Strbuf *dest, u32 heapId);
+extern void TPOKE_DATA_ReadRecordString(int key1, int key2, Strbuf *dest, u32 heapId);
 extern u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin);
 extern void FIELD_MSGBG_ClearPlainWin(FieldPlainWin *plainWin);
 extern FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, MsgData *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height);
@@ -845,7 +845,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    money = func_0200C274(GAME_DATA_GetMiscSave(gameData));
+    money = BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData));
     if (oldWin != 0)
         FIELD_MSGBG_DeleteMsgWin(oldWin);
     moneyWin = FIELD_MSGBG_CreateMsgWin(msgBg, msgData, (u16)(x - 9), (u16)y, 9, 2);
@@ -884,7 +884,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    func_0201EFA4(wordSet, 2, func_0200C274(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
+    func_0201EFA4(wordSet, 2, BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
     MSGDATA_ReadString(msgData, 1, tempBuffer);
     func_0201F250(wordSet, str, tempBuffer);
     FIELD_MSGBG_ClearMsgWin(moneyWin);
@@ -941,7 +941,7 @@ void SCRCMD_MSGWIN_CalcBalloonOffset(const VecFx32 *mmdlPos, VecFx32 *out, G3dCa
     pos.x += shift.x;
     pos.y += shift.y;
     pos.z += shift.z;
-    func_0206DF3C(&pos, &tileX, &tileZ);
+    NNS_G3dWorldPosToScrPos(&pos, &tileX, &tileZ);
     chunkX = tileX >> 3;
     if (chunkX < 10) {
         column = 0;
@@ -1325,7 +1325,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_TALK_WIN) != 0) {
         return 1;
     }
-    func_0202A310(key1, key2, msgBuffer, SCRCMD_WORK_GetHeapId(cmdWork));
+    TPOKE_DATA_ReadRecordString(key1, key2, msgBuffer, SCRCMD_WORK_GetHeapId(cmdWork));
     if (FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId) == 0) {
         objId = 0xff;
     }

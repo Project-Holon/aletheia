@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BA78, func_0200BA80
+ * function: BATTLE_BOX_GetSize, BATTLE_BOX_Init
  *
  * 80 bytes, 0x0200BA78..0x0200BAC8, 2 functions, one of which carries a
  * label in the generated listing.
@@ -21,15 +21,15 @@
  * agree, which is what pins the entry size: 6 * 0x88 is 0x330.
  *
  * The entry is declared as an array of words rather than of bytes, because
- * func_0200BAD4 in src/matched/unit_0200BAD4.c copies one with an eight-byte
+ * BATTLE_BOX_SetMon in src/matched/unit_0200BAD4.c copies one with an eight-byte
  * stepped `ldm`/`stm` loop; a one-aligned declaration gives a byte loop
  * instead.  See docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
  *
- * The range stops at 0x0200BAC8 because of func_0200BAC8, an eight-byte tail
+ * The range stops at 0x0200BAC8 because of BATTLE_BOX_GetFromSave, an eight-byte tail
  * call whose pool word names 0x020271CC and which nothing else in the image
  * branches to or holds a pointer to, so the `label` and `literal` classes are
  * both empty and no cut helps.  It is now matched on its own, as are the
- * other two: src/matched/arm9/func_0200BAC8.c, BATTLE_REC_LoadToolOverlay.c and
+ * other two: src/matched/arm9/BATTLE_BOX_GetFromSave.c, BATTLE_REC_LoadToolOverlay.c and
  * BATTLE_REC_UnloadToolOverlay.c. *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
@@ -47,6 +47,8 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  */
 
 typedef unsigned char  u8;
@@ -62,7 +64,7 @@ struct MsgBank;
 struct Party;
 struct PartyMon;
 struct Rec;
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -83,7 +85,7 @@ extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void *func_0200BBEC(void *a, u32 b, u32 c);
+extern void *BATTLE_BOX_GetMon(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];
 
@@ -127,12 +129,12 @@ struct Rec35C {
     u8 unk344[0x18];
 };
 
-u32 func_0200BA78(void)
+u32 BATTLE_BOX_GetSize(void)
 {
     return sizeof(struct Rec35C);
 }
 
-void func_0200BA80(struct Rec35C *p)
+void BATTLE_BOX_Init(struct Rec35C *p)
 {
     u32 i;
     void *h;

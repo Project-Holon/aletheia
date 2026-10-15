@@ -32,7 +32,7 @@
  *   ICA_ANIME_CreateFull  0x020114D0  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
- *   func_02011610  0x02011610  thumb
+ *   ICA_ANIME_Get  0x02011610  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -69,9 +69,9 @@
  *   func_02014910  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012934  0x02012934  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
@@ -90,7 +90,7 @@
  *   func_02045CAC  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
- *   func_02012964  0x02012964  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   SCRCMD_MSGWIN_GetBalloonOffset  0x021B09D8  thumb
  *   SCRCMD_MSGWIN_GetBalloonTailParams  0x021B09EC  thumb
@@ -139,7 +139,7 @@
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   func_0200B3A4 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
@@ -340,7 +340,7 @@ extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void *ICA_ANIME_CreateFull(u32 heap, u32 a1, u32 a2);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern void GFL_USE_PlaySeInSlot(void *arg, int i);
-extern u32 func_02011610(struct IcaAnime *anim, VecFx32 *out);
+extern u32 ICA_ANIME_Get(struct IcaAnime *anim, VecFx32 *out);
 extern void *FIELDMAP_GetExpObj(FieldMap *fieldMap);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *p, int a, int b);
 extern void *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -376,9 +376,9 @@ extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, Fie
 extern GameEvent *func_02014910(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern GameData *func_020120F4(GameSystem *gameSystem);
-extern FieldMap *func_0201210C(GameSystem *gameSystem);
-extern void *func_02012934(GameData *gameData);
+extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
+extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
+extern void *GAME_DATA_GetMyParty(GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
@@ -397,7 +397,7 @@ extern MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
 extern void func_02045CAC(MsgBank *bank, u32 index, Strbuf *dest);
 extern u32 MSGDATA_Delete(MsgBank *bank);
 extern Strbuf *PMSI_PARAM_ToString(const u16 *chars, unsigned int heap);
-extern void *func_02012964(GameData *gameData);
+extern void *GAME_DATA_GetOccupyInfo(GameData *gameData);
 extern u32 FIELD_CAMERA_GetG3dCamera(void *camera);
 extern void SCRCMD_MSGWIN_GetBalloonOffset(VecFx32 *pos, VecFx32 *offset, u32 mapKind, void *camera, void *dir);
 extern void SCRCMD_MSGWIN_GetBalloonTailParams(int dir, int *kind, int *flags);
@@ -438,7 +438,7 @@ extern void *func_020071CC(void *saveControl, u32 id);
 extern void *BSUBWAY_SAVEDATA_AllocHistoryCopy(void *bsubwaySave, u32 heap);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(void *scriptWork);
 extern void *GAME_DATA_GetFieldSave(GameData *gameData);
-extern s32 *func_0200B3A4(void *fieldSave, u32 b);
+extern s32 *GIMMICK_WORK_GetWork(void *fieldSave, u32 b);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern Mmdl *FLDMMDL_SysSearchObjId(void *occupyInfo, u32 id);
 extern void *FLDMMDL_SysSearchPlayer(void *occupyInfo);
@@ -615,7 +615,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
         (*state)++;
         break;
     case 3:
-        func_02011610(work->anim, &cur);
+        ICA_ANIME_Get(work->anim, &cur);
         FLD_EXP_OBJ_GetModelStatus(FIELDMAP_GetExpObj(fieldMap), 0, 0)->y = cur.y;
         playerObj = FIELDMAP_GetFieldPlayer(fieldMap);
         FIELD_PLAYER_GetPos(playerObj, &v);
@@ -696,7 +696,7 @@ void *NAMEIN_SETUP_SyncObjHeightToAnim(LandEventWork *work)
     VecFx32 animPos;
     VecFx32 *mapPos;
 
-    func_02011610(work->anim, &animPos);
+    ICA_ANIME_Get(work->anim, &animPos);
     mapPos = FLD_EXP_OBJ_GetModelStatus(FIELDMAP_GetExpObj(work->fieldMap), 0, 0);
     mapPos->y = animPos.y;
 
@@ -927,8 +927,8 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     u32 screenMode;
     u32 selectMode;
 
-    gameData = func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     event = func_020122C0(gameSystem, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
@@ -937,7 +937,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     work->pickedSlotOut = &ctx->pickResult;
     work->pickedSubOut = &ctx->pickResultSub;
     if (useOwnParty == 0)
-        party = func_02012934(gameData);
+        party = GAME_DATA_GetMyParty(gameData);
     else
         party = ctx->party;
     screenMode = 0x14;
@@ -1121,8 +1121,8 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     void *camera;
     u16 msgIndex;
 
-    gameData = func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
     event = func_020122C0(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
     work = func_020124E8(event);
@@ -1139,7 +1139,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     } else {
         work->name = PMSI_PARAM_ToString((u16 *)((u32)records + 0xA0 + recordIndex * 0x120), 4);
     }
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(func_02012964(gameData), work->npcId), &work->pos);
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), work->npcId), &work->pos);
     camera = FIELDMAP_GetCamera(fieldMap);
     SCRCMD_MSGWIN_GetBalloonOffset(&work->pos, &offset, FIELD_CAMERA_GetG3dCamera(camera), camera, (void *)dir);
     work->pos.x += offset.x;
@@ -1168,7 +1168,7 @@ int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScre
     void *history;
     switch (*state) {
     case 0:
-        work->gameData = func_020120F4(work->gameSystem);
+        work->gameData = ICA_ANIME_GetField1C(work->gameSystem);
         history = GAME_DATA_GetSaveBlock3B(work->gameData);
         work->historyTagA = BSUBWAY_SAVEDATA_GetHistoryTagA(history);
         work->historyTagB = BSUBWAY_SAVEDATA_GetHistoryTagB(history);
@@ -1193,7 +1193,7 @@ GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
     GameEvent *event;
     HistoryScreenWork *work;
 
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     event = func_020122C0(gameSystem, 0, (void *)NAMEIN_SETUP_RunHistoryScreenEvent, 0x14);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
@@ -1298,7 +1298,7 @@ int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *wo
     switch (*state) {
     case 0:
         param = &work->param;
-        param->gameData = func_020120F4(gameSystem);
+        param->gameData = ICA_ANIME_GetField1C(gameSystem);
         param->transitionInfo = work->transitionInfo;
         param->extra = work->extra;
         GAMESYSTEM_CallProc(gameSystem, ~0, d_02172548, param);
@@ -1480,13 +1480,13 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     HistoryEntry *entries;
     int dir;
 
-    gameData = func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
     event = func_020122C0(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonWaitEvent, 0x1C);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
-    occupyInfo = func_02012964(gameData);
+    occupyInfo = GAME_DATA_GetOccupyInfo(gameData);
     mmdlSys = FLDMMDL_SysSearchPlayer(occupyInfo);
     FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(occupyInfo, npcId), &work->pos);
     dir = SCRCMD_MSGWIN_GetBalloonSide(mmdlSys, &work->pos);
@@ -1528,5 +1528,5 @@ int NAMEIN_SETUP_ScrCmdSetFieldSaveFlag(void *scriptCtx, void *scriptWork)
  */
 void NAMEIN_SETUP_SetFieldSaveFlag(GameSystem *gameSystem)
 {
-    *func_0200B3A4(GAME_DATA_GetFieldSave(func_020120F4(gameSystem)), 0x34) = 1;
+    *GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(gameSystem)), 0x34) = 1;
 }

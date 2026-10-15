@@ -1,5 +1,5 @@
 /*
- * function: func_02199DFC
+ * function: NNBeginNegotiationWithSocket
  * address:  0x02199DFC
  * packet:   pkt_ov009_02199DFC
  * region:   ov009
@@ -13,18 +13,18 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_02199D60  0x02199D60  arm  ov009
- *   func_02199138  0x02199138  arm  ov009
+ *   ResolveServers  0x02199D60  arm  ov009
+ *   AddNegotiator  0x02199138  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
- *   func_021991C8  0x021991C8  arm  ov009
- *   func_021995E4  0x021995E4  arm  ov009
+ *   RemoveNegotiator  0x021991C8  arm  ov009
+ *   SendPreinitPacket  0x021995E4  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
  *   gGsAvailabilityState     0x021ACEF8  data
- *   g_021A5D04     0x021A5D04  data
- *   g_021A5D44     0x021A5D44  data
- *   g_021A5D90     0x021A5D90  data
- *   g_021A5DD0     0x021A5DD0  data
- *   g_021A5E14     0x021A5E14  data
+ *   gNatNegBackendUnavailFmt     0x021A5D04  data
+ *   gNatNegResolveFailFmt     0x021A5D44  data
+ *   gNatNegAllocFailFmt     0x021A5D90  data
+ *   gNatNegSocketFailFmt     0x021A5DD0  data
+ *   gNatNegSocketFmt     0x021A5E14  data
  */
 
 typedef struct SOCSockAddrIn {
@@ -55,22 +55,22 @@ typedef struct _NATNegotiator {
 } NATNegotiator;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02199D60(void);
-extern NATNegotiator *func_02199138(void);
+extern int ResolveServers(void);
+extern NATNegotiator *AddNegotiator(void);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern void func_021991C8(NATNegotiator *neg);
+extern void RemoveNegotiator(NATNegotiator *neg);
 struct NATNegotiator;
-extern void func_021995E4(struct NATNegotiator *neg);
+extern void SendPreinitPacket(struct NATNegotiator *neg);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 
 extern int gGsAvailabilityState;
-extern char g_021A5D04[];
-extern char g_021A5D44[];
-extern char g_021A5D90[];
-extern char g_021A5DD0[];
-extern char g_021A5E14[];
+extern char gNatNegBackendUnavailFmt[];
+extern char gNatNegResolveFailFmt[];
+extern char gNatNegAllocFailFmt[];
+extern char gNatNegSocketFailFmt[];
+extern char gNatNegSocketFmt[];
 
-int func_02199DFC(int gamesocket, int cookie, int clientindex,
+int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
                   void (*progresscallback)(int, void *),
                   void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata)
 {
@@ -79,25 +79,25 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
     int namelen;
 
     if (gGsAvailabilityState != 1) {
-        func_0217D254(7, 0, 4, g_021A5D04, cookie);
+        func_0217D254(7, 0, 4, gNatNegBackendUnavailFmt, cookie);
         return 2;
     }
 
-    if (!func_02199D60()) {
-        func_0217D254(7, 0, 4, g_021A5D44, cookie);
+    if (!ResolveServers()) {
+        func_0217D254(7, 0, 4, gNatNegResolveFailFmt, cookie);
         return 3;
     }
 
-    neg = func_02199138();
+    neg = AddNegotiator();
     if (neg == 0) {
-        func_0217D254(7, (char *)2, 1, g_021A5D90);
+        func_0217D254(7, (char *)2, 1, gNatNegAllocFailFmt);
         return 1;
     }
 
     neg->negotiateSock = func_0217EB18(2, 2, 0);
     if (neg->negotiateSock == -1) {
-        func_0217D254(7, 0, 1, g_021A5DD0);
-        func_021991C8(neg);
+        func_0217D254(7, 0, 1, gNatNegSocketFailFmt);
+        RemoveNegotiator(neg);
         return 2;
     }
 
@@ -115,11 +115,11 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
     neg->retryCount = 0;
     neg->maxRetryCount = 0;
 
-    func_021995E4((struct NATNegotiator *)neg);
+    SendPreinitPacket((struct NATNegotiator *)neg);
 
     namelen = sizeof(saddr);
     func_0217ED0C(neg->negotiateSock, &saddr, &namelen);
-    func_0217D254(7, 0, 8, g_021A5E14, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
+    func_0217D254(7, 0, 8, gNatNegSocketFmt, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
 
     return 0;
 }

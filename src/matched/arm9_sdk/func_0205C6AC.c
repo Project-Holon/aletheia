@@ -1,5 +1,5 @@
 /*
- * function: func_0205C6AC
+ * function: DWC_InitInetEx
  * address:  0x0205C6AC
  * packet:   pkt_0205C6AC
  * region:   arm9
@@ -45,7 +45,7 @@ extern struct INETBSS g_02146AD4;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPS_SetSslHandshakePriority(unsigned short priority);
 
-void func_0205C6AC(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority)
+void DWC_InitInetEx(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority)
 {
     if (g_02146AD4.stpInetCntl != 0) {
         return;

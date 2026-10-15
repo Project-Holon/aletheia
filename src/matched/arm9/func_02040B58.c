@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203FA08  0x0203FA08  arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
  *   func_02042508  0x02042508  arm
  *
  * Reserve a run of tiles for slot `index`, then upload into it and hand the
@@ -31,12 +31,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_0203FA08(u32 index, u32 size, u32 flag);
+extern u32 BG_SYS_CreateRun(u32 index, u32 size, u32 flag);
 extern void func_02042508(u32 index, const u32 *src, u32 mode, u32 size);
 
 u32 func_02040B58(u32 index, const void *src, u32 size)
 {
-    u32 tile = func_0203FA08(index, size, 0);
+    u32 tile = BG_SYS_CreateRun(index, size, 0);
 
     func_02042508((u8)index, src, size, tile * 32);
     return tile;

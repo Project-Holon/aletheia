@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two bytes of zero alignment padding after the return.
  * symbols:
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_020409B4 0x020409B4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -18,7 +18,7 @@
 #include "../include/Obj08099.h"
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Point;
-extern void func_020414EC(unsigned);
+extern void BG_SYS_ClearSlot(unsigned);
 extern void func_020409B4(unsigned);
 typedef unsigned int   u32;
 struct Obj;
@@ -28,7 +28,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 void MYSTERY_ALBUM_HideScreen(char *p)
 {
     Point pt;
-    func_020414EC(4);
+    BG_SYS_ClearSlot(4);
     func_020409B4(4);
     CLACT_SetActorDrawEnable(((struct Obj08099 *)p)->f1C,0);
     pt.x=184;

@@ -14,7 +14,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -34,7 +34,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(u32,int,int,u32,u32,u32,u32,int,u16,int);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -45,7 +45,7 @@ void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p,u32 a) {
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
  BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)I(0x97c))),15);
  GF_FONT_SetTextColor(1,2,15);
- I(0x9a4)=(u32)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
+ I(0x9a4)=(u32)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),MSG_SPEED_GetWait(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
  func_0201F73C((void *)I(0x97c),1,(u16)I(0x984),13);
  BMP_WIN_TransferChars((struct Descriptor *)I(0x97c));
 }

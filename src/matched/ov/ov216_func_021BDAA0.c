@@ -11,7 +11,7 @@
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BDAD8 0x021BDAD8 thumb ov216
+ *   BEACON_DETAIL_GRA_PrintWaitTask 0x021BDAD8 thumb ov216
  */
 #include "../include/Obj25797.h"
 typedef unsigned char u8;
@@ -24,11 +24,11 @@ typedef struct Work{int arg;u8 *owner;int *counter;} Work;
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *,TcblFunc,u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void func_021BDAD8(int,int **);
+extern void BEACON_DETAIL_GRA_PrintWaitTask(int,int **);
 void func_021BDAA0(u8 *p,int arg,int *counter)
 {
     Work *work;
-    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)func_021BDAD8,12,0));
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)BEACON_DETAIL_GRA_PrintWaitTask,12,0));
     MI_CpuFill8(work,0,12);
     work->owner=p;
     work->arg=arg;

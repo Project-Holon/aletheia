@@ -22,7 +22,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  *   func_02045EC0  0x02045EC0  arm
@@ -36,7 +36,7 @@
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   COMM_ENTRY_EndNetCommands  0x021CF17C  thumb  ov021
  *   gCommEntryMsgTable  0x021DB498  data
@@ -469,7 +469,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
 extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
@@ -481,7 +481,7 @@ extern u32 GFL_NET_GetUserArg(void);
 extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
 extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
-extern u32 func_0201ED04(struct WordSet *ws);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartByNetType(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
@@ -631,7 +631,7 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
 
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     menu = func_02030734(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, 0x179);
-    menu->wordSet = func_0201EC64(heapId);
+    menu->wordSet = GF_FONT_Create_EC64(heapId);
     menu->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x1e);
     menu->sysWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, menu->msgData);
     menu->msgStr = STRBUF_Create(0x64, heapId);
@@ -683,7 +683,7 @@ u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu)
     STRBUF_Delete(menu->msgStr);
     FIELD_MSGBG_DeleteSysWin(menu->sysWin);
     FIELD_MSGBG_DeleteMsgData(menu->msgData);
-    func_0201ED04(menu->wordSet);
+    WORDSET_DeleteStrbufED04(menu->wordSet);
     if (GFL_NET_GetRunState() == 1) {
         COMM_ENTRY_EndNetCommands();
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_020840F8
+ * function: NVRAMi_Verify
  * address:  0x020840F8
  * packet:   pkt_020840F8
  * region:   arm9
@@ -118,7 +118,7 @@ void OS_Terminate(void);
 void NVRAMi_SyncCallback(NVRAMResult result, void *arg);
 NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 
-NVRAMResult func_020840F8(u32 address, u32 size, void *pData)
+NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData)
 {
     NVRAMResult result;
     OSMessageQueue msgQ;

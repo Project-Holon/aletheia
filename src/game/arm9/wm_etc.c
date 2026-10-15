@@ -1,7 +1,7 @@
 /*
  * file:     wm_etc.c
  * unit:     yes
- * function: func_02090BC4, func_02090C40, WM_SetGameInfo, func_02090D98, WM_SetLifeTime, func_02090E50, WMi_CheckInitializedAfterMeasure
+ * function: WM_SetWEPKey, WM_SetWEPKeyEx, WM_SetGameInfo, WM_SetBeaconIndication, WM_SetLifeTime, WM_MeasureChannel, WMi_CheckInitializedAfterMeasure
  * address:  0x02090BC4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -86,12 +86,12 @@ extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
-WMErrCode func_02090BC4(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey);
-WMErrCode func_02090C40(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, const u8 *wepkey);
+WMErrCode WM_SetWEPKey(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey);
+WMErrCode WM_SetWEPKeyEx(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, const u8 *wepkey);
 WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
-WMErrCode func_02090D98(WMCallbackFunc callback, u16 flag);
+WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag);
 WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
-WMErrCode func_02090E50(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
+WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
 extern void func_0208E4CC(void);
 void WMi_CheckInitializedAfterMeasure(void);
 extern u32 g_02153B00[32];
@@ -101,7 +101,7 @@ extern u32 g_02153B00[32];
  * sdk:      WM_SetWEPKey (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_02090BC4(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
+WMErrCode WM_SetWEPKey(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
 {
     WMErrCode result;
 
@@ -133,7 +133,7 @@ WMErrCode func_02090BC4(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
  * sdk:      WM_SetWEPKeyEx (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_02090C40(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, const u8 *wepkey)
+WMErrCode WM_SetWEPKeyEx(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, const u8 *wepkey)
 {
     WMErrCode result;
 
@@ -200,7 +200,7 @@ WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 u
  * sdk:      WM_SetBeaconIndication (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_02090D98(WMCallbackFunc callback, u16 flag)
+WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag)
 {
     WMErrCode result;
 
@@ -248,7 +248,7 @@ WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTi
  * sdk:      WM_MeasureChannel (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_02090E50(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime)
+WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime)
 {
     WMErrCode result;
     WMMeasureChannelReq Req;

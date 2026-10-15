@@ -22,8 +22,8 @@
  *   func_02030734 0x02030734 arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0200ADB4  0x0200ADB4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   PROCSYS_Push  0x02031348  arm
@@ -33,7 +33,7 @@
  *   d_021E75FC     0x021E75FC  data  ov119
  *   ov119_id       0x00000077  data
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
@@ -82,7 +82,7 @@ extern void func_02034A5C(s32 handle);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
@@ -90,7 +90,7 @@ extern void *POKE_TOOL_GetBoxParam(void *a);
 
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
 
-extern void *func_0200ADB4(void *sys);
+extern void *WORLDTRADE_NoOp(void *sys);
 
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 
@@ -98,7 +98,7 @@ extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 
@@ -176,11 +176,11 @@ int WORLDTRADE_DEMO_Init(Work *p)
     MI_CpuFill8(p->req, 0, 0x44);
     d = p->req;
     p->fEA4 = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
-    d->f30 = func_020120F4(p->ctx->f40);
+    d->f30 = ICA_ANIME_GetField1C(p->ctx->f40);
     d->f3C = p->ctx->f1C_u;
     switch (p->kind) {
     case 7:
-        d->f38 = d->f34 = func_0200ADB4(p->ctx->sys);
+        d->f38 = d->f34 = WORLDTRADE_NoOp(p->ctx->sys);
         d->f40 = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
         tmpl = d_021E75FC;
         break;
@@ -188,7 +188,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         if (p->f207 != 0) {
             d->f38 = p->ent;
         } else {
-            d->f38 = func_0200ADB4(p->ctx->sys);
+            d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
         }
         d->f34 = d->f38;
         d->f40 = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
@@ -198,7 +198,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         if (p->f207 != 0) {
             d->f38 = p->ent;
         } else {
-            d->f38 = func_0200ADB4(p->ctx->sys);
+            d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
         }
         WORLDTRADE_CopyPokemon(p->ctx->sys, p->fEA4);
         d->f34 = p->fEA4;
@@ -249,7 +249,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             u32 r;
 
             func_02017E1C(e, 6, 0);
-            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->fEA4, func_02012984(func_020120F4((const struct Ctx *)p->ctx->f40)), &out, 0x48);
+            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->fEA4, GAME_DATA_GetSeason(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40)), &out, 0x48);
             if (r != 0) {
                 Req *w;
 
@@ -260,7 +260,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0xEB);
                 MI_CpuFill8(p->req, 0, 0x14);
                 w = p->req;
-                w->f0 = func_020120F4((const struct Ctx *)p->ctx->f40);
+                w->f0 = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
                 w->list = POKEPARTY_Create(0x48);
                 POKEPARTY_Add(w->list, (const struct PartyMon *)e);
                 w->f8 = r;
@@ -288,7 +288,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 r = 0;
                 if (p->f12F8 != 0) {
                     p->f12F8 = 0;
-                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, func_02012984(func_020120F4((const struct Ctx *)p->ctx->f40)), &out, 0x48);
+                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, GAME_DATA_GetSeason(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40)), &out, 0x48);
                 }
                 if (r != 0) {
                     Req *w;
@@ -300,7 +300,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                     p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0x130);
                     MI_CpuFill8(p->req, 0, 0x14);
                     w = p->req;
-                    w->f0 = func_020120F4((const struct Ctx *)p->ctx->f40);
+                    w->f0 = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
                     w->list = POKEPARTY_Create(0x48);
                     POKEPARTY_Add(w->list, (const struct PartyMon *)e);
                     w->f8 = r;

@@ -1,5 +1,5 @@
 /*
- * function: func_02060094
+ * function: writeAllSlots
  * address:  0x02060094
  * packet:   pkt_02060094
  * region:   arm9
@@ -89,7 +89,7 @@ typedef struct MATHCRC16Table {
 extern u16 MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength);
 extern s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
 
-int func_02060094(NCFGConfig *config, MATHCRC16Table *tbl)
+int writeAllSlots(NCFGConfig *config, MATHCRC16Table *tbl)
 {
     int result = 1;
     int i;

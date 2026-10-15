@@ -336,7 +336,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B80E4",
+   "name": "CTVT_COMM_GetNetMode",
    "address": "0x021B80E4",
    "kind": "game",
    "region": "ov172",
@@ -348,7 +348,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8108",
+   "name": "CTVT_COMM_IsNetReady",
    "address": "0x021B8108",
    "kind": "game",
    "region": "ov172",
@@ -360,7 +360,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8614",
+   "name": "CTVT_COMM_ClearPeerSlot",
    "address": "0x021B8614",
    "kind": "game",
    "region": "ov172",
@@ -372,7 +372,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8B34",
+   "name": "CTVT_COMM_SetTimingSync",
    "address": "0x021B8B34",
    "kind": "game",
    "region": "ov172",
@@ -384,7 +384,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8B48",
+   "name": "CTVT_COMM_IsTimingSync",
    "address": "0x021B8B48",
    "kind": "game",
    "region": "ov172",
@@ -396,7 +396,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8B5C",
+   "name": "CTVT_COMM_GetHandleNetId",
    "address": "0x021B8B5C",
    "kind": "game",
    "region": "ov172",
@@ -408,7 +408,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8B68",
+   "name": "CTVT_COMM_GetMarkerSlot",
    "address": "0x021B8B68",
    "kind": "game",
    "region": "ov172",
@@ -420,7 +420,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8B84",
+   "name": "CTVT_COMM_GetVoiceRecord",
    "address": "0x021B8B84",
    "kind": "game",
    "region": "ov172",
@@ -432,7 +432,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8B8C",
+   "name": "CTVT_COMM_GetSlotConnected",
    "address": "0x021B8B8C",
    "kind": "game",
    "region": "ov172",
@@ -444,7 +444,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8B94",
+   "name": "CTVT_COMM_GetSlotParam",
    "address": "0x021B8B94",
    "kind": "game",
    "region": "ov172",
@@ -456,7 +456,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8B9C",
+   "name": "CTVT_COMM_GetPeerStatus",
    "address": "0x021B8B9C",
    "kind": "game",
    "region": "ov172",
@@ -468,7 +468,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8BA4",
+   "name": "CTVT_COMM_IsSlotActive",
    "address": "0x021B8BA4",
    "kind": "game",
    "region": "ov172",
@@ -480,7 +480,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8BAC",
+   "name": "CTVT_COMM_GetSlotReady",
    "address": "0x021B8BAC",
    "kind": "game",
    "region": "ov172",
@@ -492,7 +492,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8BFC",
+   "name": "CTVT_COMM_AdvanceWriteCursor",
    "address": "0x021B8BFC",
    "kind": "game",
    "region": "ov172",

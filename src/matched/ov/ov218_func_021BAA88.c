@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA88, func_021BAA90
+ * function: UN_SELECT_GRAPHIC_VBlank, UN_SELECT_GRAPHIC_GetValue
  * address: 0x021BAA88
  * packet: pkt_ov218_021BAA88
  * region: ov218
@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021BAA88(void *p){CLACT_VBlankSystem();}
-u32 func_021BAA90(u32 *p){return *p;}
+void UN_SELECT_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
+u32 UN_SELECT_GRAPHIC_GetValue(u32 *p){return *p;}

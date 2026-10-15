@@ -13,13 +13,13 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021542B8     0x021542B8  data
+ *   gOverlayEndCallbacks     0x021542B8  data
  *
  * 0x02079164..0x02079264: the callback-flush worker and its one-line
  * wrapper.
  *
  * FS_EndOverlay repeatedly detaches, inside the 0x02087988/0x0208799C
- * critical section, every node of the global list g_021542B8 whose
+ * critical section, every node of the global list gOverlayEndCallbacks whose
  * callback argument (+8) falls in the descriptor's byte range, or whose
  * callback function (+4) does when the argument is null, then runs the
  * detached callbacks with interrupts restored and starts over.  The
@@ -31,7 +31,7 @@
  * 0x02079258 is 0x02079164's only reference in the whole image, so as two
  * separate files neither can attest the other and both cap at MATCH; in
  * one unit that call site is class `local` and the range is EXACT, which
- * in turn attests 0x02079254 for src/matched/func_020792B8.c.
+ * in turn attests 0x02079254 for src/matched/FS_UnloadOverlay.c.
  *
  * Three things the byte match pinned down, in the order they cost time:
  *
@@ -71,7 +71,7 @@ struct Iter020792B8 {
     u32 pad[7];
 };
 
-extern struct Node *g_021542B8;
+extern struct Node *gOverlayEndCallbacks;
 
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 e);
@@ -99,7 +99,7 @@ void FS_EndOverlay(struct Iter020792B8 *it)
 
         e = OS_DisableInterrupts();
 
-        list = ((struct Node02079164 *)g_021542B8);
+        list = ((struct Node02079164 *)gOverlayEndCallbacks);
         prev = 0;
         cur = list;
         while (cur != 0) {
@@ -113,7 +113,7 @@ void FS_EndOverlay(struct Iter020792B8 *it)
                     head = cur;
                 }
                 if (list == cur) {
-                    g_021542B8 = (struct Node *)(next);
+                    gOverlayEndCallbacks = (struct Node *)(next);
                     list = next;
                 }
                 cur->next = 0;

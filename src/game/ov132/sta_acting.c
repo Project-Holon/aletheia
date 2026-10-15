@@ -1,7 +1,7 @@
 /*
  * file:     sta_acting.c
  * unit:     yes
- * function: func_021F8480, func_021F8640, func_021F879C, func_021F899C, func_021F8BD4, func_021F8D88, func_021F8DA0, func_021F8DC4, func_021F8E58, func_021F8E88, func_021F8EA8, func_021F90E0, func_021F9140, func_021F91A8, func_021F91CC, func_021F92CC, func_021F9374, func_021F93D8, func_021F94B0, func_021F94F8, func_021F95CC, func_021F95E8, func_021F95F0, func_021F9664, func_021F9680, func_021F9690, func_021F969C, func_021F96B0, func_021F96C4, func_021F96D0, func_021F9730, func_021F9754, func_021F9768, func_021F9774, func_021F9794, func_021F99F4, func_021F9A48, func_021F9AD8, func_021F9CF4, func_021F9D08, func_021F9D18, func_021F9D80, func_021F9D90, func_021F9DA0, func_021F9DA4, func_021F9DAC, func_021F9DB0, func_021F9DB8, func_021F9DC0, func_021F9DC4, func_021F9DCC, func_021F9DD4, func_021F9DDC, func_021F9DE8, func_021F9DF4, func_021F9DFC, func_021F9E00, func_021F9E04, func_021F9E08, func_021F9E0C, func_021F9E18, func_021F9E20, func_021F9E34, func_021F9E3C, func_021F9E20, func_021F9E34, func_021F9E3C
+ * function: STA_ACTING_Create, STA_ACTING_Delete, STA_ACTING_Update, STA_ACTING_InitDisplay, STA_ACTING_UploadPalettes, STA_ACTING_SetBaseProgram, STA_ACTING_SetupBg, STA_ACTING_CreateActors, STA_ACTING_CreateActObj, STA_ACTING_CreateActorSys, STA_ACTING_UpdateCamera, STA_ACTING_LoadCharAnims, STA_ACTING_LoadRankAnim, STA_ACTING_LoadAnimMember, STA_ACTING_FadePalette, STA_ACTING_CreateText, STA_ACTING_UpdateText, STA_ACTING_PrintText, STA_ACTING_ClearText, STA_ACTING_UpdateSelection, STA_ACTING_SetSelection, STA_ACTING_MarkDirty, STA_ACTING_RankScores, STA_ACTING_InstallBgm, STA_ACTING_StartSeq, STA_ACTING_StopSeq, STA_ACTING_ReplaceWaveData, STA_ACTING_PlayBgm, STA_ACTING_StopBgm, STA_ACTING_PlayRankSe, STA_ACTING_RequestAction, STA_ACTING_ApplyAction, STA_ACTING_GetCurrentAction, STA_ACTING_GetActionByIndex, STA_ACTING_ProcessRecords, STA_ACTING_AddScore, STA_ACTING_TickActionTimers, STA_ACTING_ScheduleActions, STA_ACTING_CreateAnimHandle, STA_ACTING_DeleteAnimHandle, STA_ACTING_PositionAnim, STA_ACTING_ShowAnim, STA_ACTING_HideAnim, STA_ACTING_GetActorSystem, STA_ACTING_GetActor, STA_ACTING_GetActObj, STA_ACTING_GetSlot, STA_ACTING_SetSlot, STA_ACTING_GetAnimHandle, STA_ACTING_GetAnimSlot, STA_ACTING_SetAnimSlot, STA_ACTING_GetCharSystem, STA_ACTING_GetCharSlot, STA_ACTING_SetCharSlot, STA_ACTING_GetBoard, STA_ACTING_GetCameraPos, STA_ACTING_SetCameraPos, STA_ACTING_GetCameraTarget, STA_ACTING_SetCameraTarget, STA_ACTING_GetActorCount, STA_ACTING_GetSelection, STA_ACTING_GetRecordScore, STA_ACTING_GetBonus, STA_ACTING_SetField10, STA_ACTING_GetRecordScore, STA_ACTING_GetBonus, STA_ACTING_SetField10
  * address:  0x021F8480
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021FD8D4 0x021FD8D4 thumb ov132
+ *   STA_NET_GetCurrentSlotValue 0x021FD8D4 thumb ov132
  *   func_020490F4 0x020490F4 arm
  *   func_021F6BD8 0x021F6BD8 thumb ov112
  *   func_021F9FEC 0x021F9FEC thumb ov132
@@ -27,7 +27,7 @@
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_USE_StopSeqAndUnload 0x02006504 thumb
  *   GFL_USE_ClearPreloadedBgmBuffers 0x02006518 thumb
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021FAB58 0x021FAB58 thumb ov132
  *   STRBUF_Delete 0x02045808 arm
@@ -47,12 +47,12 @@
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_0204ED24 0x0204ED24 arm
+ *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02030EAC 0x02030EAC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
@@ -90,18 +90,18 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
- *   func_0204EBD4 0x0204EBD4 arm
- *   func_0204ED70 0x0204ED70 arm
+ *   BILLBOARD_Create 0x0204EBD4 arm
+ *   BILLBOARD_SetField10 0x0204ED70 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -130,7 +130,7 @@
  *   func_021F6F24 0x021F6F24 thumb ov112
  *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
  *   func_021F6FB0  0x021F6FB0  thumb  ov112
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_021F5164 0x021F5164 thumb ov112
  *   func_021F5438 0x021F5438 thumb ov112
@@ -192,7 +192,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021F7A80 0x021F7A80 thumb ov112
- *   func_021FD8C4 0x021FD8C4 thumb ov132
+ *   STA_NET_SendKindA 0x021FD8C4 thumb ov132
  *   func_021F79A8 0x021F79A8 thumb ov112
  *   func_02005728 0x02005728 thumb
  *   STA_SLOT_GetCurrentKey 0x021FD9FC thumb ov132
@@ -303,7 +303,7 @@ typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
 
 extern void *func_02030734(u32_021F8480 heapId, u32_021F8480 size, int clear, const char *site, u16 tag);
 extern void *func_020056A0(void (*)(void),void *,u32_021F8480);
-extern u32_021F8480 func_021FD8D4(char *p);
+extern u32_021F8480 STA_NET_GetCurrentSlotValue(char *p);
 extern void *func_020490F4(u32_021F8480 id, u32_021F8480 heap);
 extern void *func_021F6BD8(u16,void *);
 extern char *func_021F9FEC(u32_021F8480,void *,u32_021F8480);
@@ -313,7 +313,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32_021F8480,u32_021F8480);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_StopSeqAndUnload(void);
 extern void GFL_USE_ClearPreloadedBgmBuffers(void);
-extern void func_0207D534(volatile u16 *,int);
+extern void GXx_SetMasterBrightness_(volatile u16 *,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021FAB58(char *);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -333,12 +333,12 @@ extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *p);
 extern void CLACT_ExitSystem(void);
-extern void func_0204ED24(void *);
+extern void BILLBOARD_Delete(void *);
 extern u32_021F8640 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern void func_020403F4(u32_021F8640);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32_021F8640 func_020307B0(void *p);
@@ -376,18 +376,18 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32_021F899C,u32_021F899C);
 extern u32_021F899C WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void G3D_SYSTEM_Init(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u16,u16,void (*)(void));
-extern void func_0204044C(u32_021F899C);
+extern void BG_SYS_SetLowBit(u32_021F899C);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32_021F899C,u32_021F899C);
 extern void *G3D_CAMERA_Create(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,const Vec3 *,const Vec3 *,const Vec3 *,u16);
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DCF8(const void *);
-extern void *func_0204EBD4(u8 *src, void *heap);
-extern void func_0204ED70(u8 *dst, struct Blk3 *src);
+extern void *BILLBOARD_Create(u8 *src, void *heap);
+extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32_021F899C arg, u32_021F899C heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32_021F8BD4 a1, u32_021F8BD4 a2, u32_021F8BD4 a3, u32_021F8BD4 a4, u32_021F8BD4 a5, u16 a6);
 extern u32_021F8BD4 func_02049658(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
@@ -398,7 +398,7 @@ extern void func_020409B4(u32_021F8BD4);
 extern u8 *func_021F6F24(u32_021F8BD4 heap, u32_021F8BD4 v);
 extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
 extern void func_021F6FB0(void *, int);
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void func_020414AC(u32);
 extern void *func_021F5164(u32);
 extern void func_021F5438(void **p, int b);
@@ -448,7 +448,7 @@ extern int GFL_USE_ReplaceWaveData(u32, u32, u32, u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021F7A80(char *,char *);
-extern int func_021FD8C4(void *, int);
+extern int STA_NET_SendKindA(void *, int);
 extern void func_021F79A8(char *, char *, int);
 extern u32 func_02005728(u32);
 extern int STA_SLOT_GetCurrentKey(char *p);
@@ -466,68 +466,68 @@ extern void func_021F9F58(u8 *unused, u8 *p);
 extern void func_021F9F74(char *, unsigned, const int *);
 extern void func_021FAAB8(char *p, unsigned flag);
 extern u32 func_021F4F10(u8 *);
-u8 *func_021F8480(u8 *input, int heap);
-void func_021F8640(char *p);
-int func_021F879C(u8 *p);
-void func_021F8994(void);
-void func_021F899C(u8 *p);
-void func_021F8BD4(u8 *p);
-void func_021F8D88(u8 *p, u32 a1);
-void func_021F8DA0(const struct BgTemplate *p,u32 id,u32 type);
-void func_021F8DC4(u8 *p);
-void func_021F8E58(char *p);
-void func_021F8E88(char *p);
-void func_021F8EA8(u8 *p);
-void func_021F90E0(u8 *p);
-void func_021F9140(u8 *p, u8 n, u8 i);
-void func_021F91A8(char *p, u8 n, u8 mask);
-void func_021F91CC(Fade *p);
-void func_021F92CC(u8 *p);
-void func_021F9374(u8 *p);
-void func_021F93D8(u8 *p, u16 index, u32 speed);
-void func_021F94B0(u8 *p);
-void func_021F94F8(char *p);
-void func_021F95CC(char *p, u8 v, int c);
-void func_021F95E8(char *p);
-void func_021F95F0(u8 *p);
-void func_021F9664(char *p, int a);
-void func_021F9680(char *p, int a);
-void func_021F9690(char *p);
-int func_021F969C(char *p, u32 a, u32 b, u32 d);
-void func_021F96B0(char *p, int a);
-void func_021F96C4(char *p);
-void func_021F96D0(char *p);
-void func_021F9730(char *p,int value);
-void func_021F9754(char *p, u32 i, int v);
-int func_021F9768(char *p);
-int func_021F9774(char *p,u32 i);
-void func_021F9794(char *p);
-int func_021F99F4(char *p, unsigned i, unsigned j);
-void func_021F9A48(char *p);
-void func_021F9AD8(char *p, int mode, u8 slot);
-void func_021F9CF4(char *p);
-void func_021F9D08(char *p);
-void func_021F9D18(char *p, unsigned i);
-void func_021F9D80(char *p);
-void func_021F9D90(char *p);
-void *func_021F9DA0(char *p);
-void *func_021F9DA4(char *p,u32 i);
-void *func_021F9DAC(void *p);
-u32 *func_021F9DB0(void *p,u8 i);
-void func_021F9DB8(void *p,void *v,u32 i);
-void *func_021F9DC0(void *p);
-void *func_021F9DC4(void *p,u8 i);
-void func_021F9DCC(void *p,void *v,u32 i);
-void *func_021F9DD4(void *p);
-void *func_021F9DDC(void *p,u8 i);
-void func_021F9DE8(void *p,void *v,u8 i);
-void *func_021F9DF4(void *p);
-u16 func_021F9DFC(void *p);
-void func_021F9E00(void *p,u16 v);
-u16 func_021F9E04(u8 *p);
-void func_021F9E08(u8 *p,u16 v);
-u32 func_021F9E0C(u8 *p);
-int func_021F9E18(char *p);
+u8 *STA_ACTING_Create(u8 *input, int heap);
+void STA_ACTING_Delete(char *p);
+int STA_ACTING_Update(u8 *p);
+void STA_ACTING_VBlankCallback(void);
+void STA_ACTING_InitDisplay(u8 *p);
+void STA_ACTING_UploadPalettes(u8 *p);
+void STA_ACTING_SetBaseProgram(u8 *p, u32 a1);
+void STA_ACTING_SetupBg(const struct BgTemplate *p,u32 id,u32 type);
+void STA_ACTING_CreateActors(u8 *p);
+void STA_ACTING_CreateActObj(char *p);
+void STA_ACTING_CreateActorSys(char *p);
+void STA_ACTING_UpdateCamera(u8 *p);
+void STA_ACTING_LoadCharAnims(u8 *p);
+void STA_ACTING_LoadRankAnim(u8 *p, u8 n, u8 i);
+void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
+void STA_ACTING_FadePalette(Fade *p);
+void STA_ACTING_CreateText(u8 *p);
+void STA_ACTING_UpdateText(u8 *p);
+void STA_ACTING_PrintText(u8 *p, u16 index, u32 speed);
+void STA_ACTING_ClearText(u8 *p);
+void STA_ACTING_UpdateSelection(char *p);
+void STA_ACTING_SetSelection(char *p, u8 v, int c);
+void STA_ACTING_MarkDirty(char *p);
+void STA_ACTING_RankScores(u8 *p);
+void STA_ACTING_InstallBgm(char *p, int a);
+void STA_ACTING_StartSeq(char *p, int a);
+void STA_ACTING_StopSeq(char *p);
+int STA_ACTING_ReplaceWaveData(char *p, u32 a, u32 b, u32 d);
+void STA_ACTING_PlayBgm(char *p, int a);
+void STA_ACTING_StopBgm(char *p);
+void STA_ACTING_PlayRankSe(char *p);
+void STA_ACTING_RequestAction(char *p,int value);
+void STA_ACTING_ApplyAction(char *p, u32 i, int v);
+int STA_ACTING_GetCurrentAction(char *p);
+int STA_ACTING_GetActionByIndex(char *p,u32 i);
+void STA_ACTING_ProcessRecords(char *p);
+int STA_ACTING_AddScore(char *p, unsigned i, unsigned j);
+void STA_ACTING_TickActionTimers(char *p);
+void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
+void STA_ACTING_CreateAnimHandle(char *p);
+void STA_ACTING_DeleteAnimHandle(char *p);
+void STA_ACTING_PositionAnim(char *p, unsigned i);
+void STA_ACTING_ShowAnim(char *p);
+void STA_ACTING_HideAnim(char *p);
+void *STA_ACTING_GetActorSystem(char *p);
+void *STA_ACTING_GetActor(char *p,u32 i);
+void *STA_ACTING_GetActObj(void *p);
+u32 *STA_ACTING_GetSlot(void *p,u8 i);
+void STA_ACTING_SetSlot(void *p,void *v,u32 i);
+void *STA_ACTING_GetAnimHandle(void *p);
+void *STA_ACTING_GetAnimSlot(void *p,u8 i);
+void STA_ACTING_SetAnimSlot(void *p,void *v,u32 i);
+void *STA_ACTING_GetCharSystem(void *p);
+void *STA_ACTING_GetCharSlot(void *p,u8 i);
+void STA_ACTING_SetCharSlot(void *p,void *v,u8 i);
+void *STA_ACTING_GetBoard(void *p);
+u16 STA_ACTING_GetCameraPos(void *p);
+void STA_ACTING_SetCameraPos(void *p,u16 v);
+u16 STA_ACTING_GetCameraTarget(u8 *p);
+void STA_ACTING_SetCameraTarget(u8 *p,u16 v);
+u32 STA_ACTING_GetActorCount(u8 *p);
+int STA_ACTING_GetSelection(char *p);
 extern const char d_021FDCA0[];
 extern u32_021F8480 g_02FFFC3C;
 extern u32_021F879C d_02FFFC3C;
@@ -553,7 +553,7 @@ extern const s16_021F8DC4 FX_SinCosTable_[];
 
 
 
-u8 *func_021F8480(u8 *input, int heap)
+u8 *STA_ACTING_Create(u8 *input, int heap)
 {
     u8 *p;
     u8 i;
@@ -574,15 +574,15 @@ u8 *func_021F8480(u8 *input, int heap)
     *(u32_021F8480 *)(p+0x24)=0;
     *(u32_021F8480 *)(p+0x28)=0;
     *(u32_021F8480 *)(p+0x2c)=0;
-    *(void **)(p+0x20)=func_020056A0(func_021F8994,p,64);
+    *(void **)(p+0x20)=func_020056A0(STA_ACTING_VBlankCallback,p,64);
     if(**(u32_021F8480 **)(p+0x30)==0){
         for(;i<4;i++){
             if(**(u32_021F8480 **)(*(u8 **)(p+0x30)+4+i*4)==0){p[0xa]=i;break;}
         }
         if(i==4)p[0xa]=1;
-    }else p[0xa]=func_021FD8D4((void *)**(u32_021F8480 **)(p+0x30));
+    }else p[0xa]=STA_NET_GetCurrentSlotValue((void *)**(u32_021F8480 **)(p+0x30));
     for(i=0;i<4;i++)p[0xf7+i]=0;
-    func_021F95F0(p);
+    STA_ACTING_RankScores(p);
     *(u32_021F8480 *)(p+0xec)=1;
     p[0xf0]=4;
     p[0xf1]=4;
@@ -598,19 +598,19 @@ u8 *func_021F8480(u8 *input, int heap)
         *(u32_021F8480 *)(p+0x140+i*8)=0;
     }
     *(void **)(p+0x18)=func_020490F4(47,*(u16 *)p);
-    func_021F899C(p);
-    func_021F8BD4(p);
-    func_021F92CC(p);
-    func_021F8DC4(p);
-    func_021F8E58((char *)p);
-    func_021F8E88((char *)p);
+    STA_ACTING_InitDisplay(p);
+    STA_ACTING_UploadPalettes(p);
+    STA_ACTING_CreateText(p);
+    STA_ACTING_CreateActors(p);
+    STA_ACTING_CreateActObj((char *)p);
+    STA_ACTING_CreateActorSys((char *)p);
     *(void **)(p+0x90)=func_021F6BD8(*(u16 *)p,p);
     *(void **)(p+0xb8)=func_021F9FEC(*(u16 *)p,p,*(u32_021F8480 *)(p+0x30));
     *(void **)(p+0xa4)=func_021FA5B0(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
     *(void **)(p+0xb0)=func_021FAAF4(*(u16 *)p,p);
-    func_021F9CF4((char *)p);
+    STA_ACTING_CreateAnimHandle((char *)p);
     GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
-    func_021F8D88(p,0);
+    STA_ACTING_SetBaseProgram(p,0);
     *(u32_021F8480 *)(p+0x1dc)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x14);
     *(u32_021F8480 *)(p+0x1e0)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x18);
     *(u32_021F8480 *)(p+0x1e4)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x1c);
@@ -623,16 +623,16 @@ u8 *func_021F8480(u8 *input, int heap)
 /*
  * volatile: hardware display register 0x04000000 read at 0x021F868C.
  */
-void func_021F8640(char *p)
+void STA_ACTING_Delete(char *p)
 {
     if(((struct ActingScene *)p)->f2C.u==1)GFL_USE_CancelChangeAndStopBgm();
     if(((struct ActingScene *)p)->f28.u==1)GFL_USE_StopSeqAndUnload();
     if(((struct ActingScene *)p)->f24.u==1)GFL_USE_ClearPreloadedBgmBuffers();
-    func_0207D534((volatile u16 *)0x0400006c,-16);
-    func_0207D534((volatile u16 *)0x0400106c,-16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,-16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
     *(volatile u32_021F8640 *)0x04000000 &= 0xffff1fff;
-    func_021F9D08(p);
+    STA_ACTING_DeleteAnimHandle(p);
     func_021FAB58(((struct ActingScene *)p)->fB0);
     if(((struct ActingScene *)p)->fE0.p!=0)STRBUF_Delete(((struct ActingScene *)p)->fE0.p);
     PRINTSYS_QUE_Clear(((struct ActingScene *)p)->fE8.p);
@@ -651,7 +651,7 @@ void func_021F8640(char *p)
     func_021F51B0((int)(((struct ActingScene *)p)->f34));
     func_021F4948(((struct ActingScene *)p)->f38);
     CLACT_ExitSystem();
-    func_0204ED24(((struct ActingScene *)p)->fAC.p);
+    BILLBOARD_Delete(((struct ActingScene *)p)->fAC.p);
     G3D_CAMERA_Delete(((struct ActingScene *)p)->fA8);
     G3D_SYSTEM_Exit();
     func_020403F4(0);
@@ -661,7 +661,7 @@ void func_021F8640(char *p)
     func_020403F4(5);
     func_020403F4(7);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_02030EAC(((struct ActingScene *)p)->f20);
     ARC_TOOL_DeleteHandle(((struct ActingScene *)p)->f18.p);
     func_020307B0(p);
@@ -673,7 +673,7 @@ void func_021F8640(char *p)
  * extent: lead followed by 021F8994 tail-call stub.
  * note: 021F6E74 retains the explicitly loaded pointer despite own void prototype.
  */
-int func_021F879C(u8 *p)
+int STA_ACTING_Update(u8 *p)
 {
     u32_021F879C tick;
     tick=d_02FFFC3C;
@@ -707,7 +707,7 @@ int func_021F879C(u8 *p)
     case 5:
         if(((struct ActingScene *)p)->f164==0) {
             ((struct ActingScene *)p)->fB4.u=((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->f30))->f18))->fC;
-            func_021F90E0(p);
+            STA_ACTING_LoadCharAnims(p);
             ((struct ActingScene *)p)->f1C=6;
         }
         break;
@@ -723,20 +723,20 @@ int func_021F879C(u8 *p)
             ((struct ActingScene *)p)->f1C=4;
         break;
     }
-    func_021F8EA8(p);
+    STA_ACTING_UpdateCamera(p);
     func_021FA6CC((char *)(*(u8 * *)&((struct ActingScene *)p)->fA4));
-    func_021F9794((char *)p);
+    STA_ACTING_ProcessRecords((char *)p);
     if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct ActingScene *)p)->fB0));
     func_021F6F64(*(u8 * *)&((struct ActingScene *)p)->f3C);
     func_021F7160(*(u8 * *)&((struct ActingScene *)p)->f40);
     STA_ACT_OBJ_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->f54));
     func_021F9ECC(*(u8 * *)&((struct ActingScene *)p)->f6C);
-    func_021F9374(p);
+    STA_ACTING_UpdateText(p);
     func_021F51E8(*(u8 * *)&((struct ActingScene *)p)->f34);
     func_021F6CB0((char *)(*(u8 * *)&((struct ActingScene *)p)->f90));
-    func_021F94F8((char *)p);
+    STA_ACTING_UpdateSelection((char *)p);
     func_021FA064((char *)(*(u8 * *)&((struct ActingScene *)p)->fB8));
-    func_021F91CC((Fade *)p);
+    STA_ACTING_FadePalette((Fade *)p);
     func_02047964(); G3D_SYSTEM_ApplyLookAt();
     func_021F6E74(*(u8 * *)&((struct ActingScene *)p)->f90);
     func_021F75A0(*(u8 * *)&((struct ActingScene *)p)->f40);
@@ -756,7 +756,7 @@ int func_021F879C(u8 *p)
 
 
 
-void func_021F8994(void) { CLACT_VBlankSystem(); }
+void STA_ACTING_VBlankCallback(void) { CLACT_VBlankSystem(); }
 
 
 
@@ -796,7 +796,7 @@ static inline void G2_SetWndOutsidePlane(int wnd,BOOL effect) { u32_021F899C tmp
 
 
 
-void func_021F899C(u8 *p)
+void STA_ACTING_InitDisplay(u8 *p)
 {
     Blob28 big;
     Vec3 small;
@@ -807,18 +807,18 @@ void func_021F899C(u8 *p)
     WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
     GX_SetDispSelect(SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021FDBA0);
-    func_0203F8F4(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
+    BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021FDAA0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDB40,1,0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDB60,2,0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDB80,3,0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDAC0,5,0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDAE0,6,0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDB00,4,0);
-    func_021F8DA0((const struct BgTemplate *)d_021FDB20,7,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB40,1,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB60,2,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB80,3,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDAC0,5,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDAE0,6,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB00,4,0);
+    STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB20,7,0);
     func_02040588(0,1);
     G3D_SYSTEM_Init(0,2,0,4,0,*(u16 *)p,0);
-    func_0204044C(3);
+    BG_SYS_SetLowBit(3);
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
     light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
     *(void **)(p+0xA8)=light;
@@ -828,9 +828,9 @@ void func_021F899C(u8 *p)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
     small=d_021FDBD4;
-    board=func_0204EBD4((u8 *)(&big),(void *)(u32_021F899C)*(u16 *)p);
+    board=BILLBOARD_Create((u8 *)(&big),(void *)(u32_021F899C)*(u16 *)p);
     *(void **)(p+0xAC)=board;
-    func_0204ED70(board,(struct Blk3 *)(&small));
+    BILLBOARD_SetField10(board,(struct Blk3 *)(&small));
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32_021F899C)d_021FDBA0,*(u16 *)p);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D63C((void *)0x04000050,8,1,0,10);
@@ -841,7 +841,7 @@ void func_021F899C(u8 *p)
 
 
 
-void func_021F8BD4(u8 *p)
+void STA_ACTING_UploadPalettes(u8 *p)
 {
     u16 palette[16];
     u8 i=0;
@@ -885,7 +885,7 @@ void func_021F8BD4(u8 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_021F8D88(u8 *p, u32 a1)
+void STA_ACTING_SetBaseProgram(u8 *p, u32 a1)
 {
     int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct ActingPartA *)((u8 *)((struct ActingScene *)p)->f30))->f14);
     func_021F6FB0(((struct ActingScene *)p)->f3C, v);
@@ -895,13 +895,13 @@ void func_021F8D88(u8 *p, u32 a1)
 
 
 
-void func_021F8DA0(const struct BgTemplate *p,u32 id,u32 type) { func_0203FCA0(id,p,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }
+void STA_ACTING_SetupBg(const struct BgTemplate *p,u32 id,u32 type) { BG_SYS_InitBgLayer(id,p,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }
 
 
 
 
 
-void func_021F8DC4(u8 *p)
+void STA_ACTING_CreateActors(u8 *p)
 {
     struct Vec pos;
     u8 i;
@@ -922,13 +922,13 @@ void func_021F8DC4(u8 *p)
 
 
 
-void func_021F8E58(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((u32)p+i*4+0x58)=0;*(Object * *)&((struct ActingScene *)p)->f54=STA_ACT_OBJ_Create(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->fAC.p);}
+void STA_ACTING_CreateActObj(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((u32)p+i*4+0x58)=0;*(Object * *)&((struct ActingScene *)p)->f54=STA_ACT_OBJ_Create(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->fAC.p);}
 
 
 
 
 
-void func_021F8E88(char *p){int i;*(char * *)&((struct ActingScene *)p)->f6C=func_021F9E50(((struct ActingScene *)p)->f0);for(i=0;i<8;i++)*(int *)((u32)p+i*4+0x70)=0;}
+void STA_ACTING_CreateActorSys(char *p){int i;*(char * *)&((struct ActingScene *)p)->f6C=func_021F9E50(((struct ActingScene *)p)->f0);for(i=0;i<8;i++)*(int *)((u32)p+i*4+0x70)=0;}
 
 
 
@@ -939,7 +939,7 @@ void func_021F8E88(char *p){int i;*(char * *)&((struct ActingScene *)p)->f6C=fun
  *   void func_02048AFC(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
  *   void func_02048B44(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
  */
-void func_021F8EA8(u8 *p)
+void STA_ACTING_UpdateCamera(u8 *p)
 {
     Vec v;
     s16_021F8DC4 target;
@@ -997,7 +997,7 @@ void func_021F8EA8(u8 *p)
 
 
 
-void func_021F90E0(u8 *p)
+void STA_ACTING_LoadCharAnims(u8 *p)
 {
     u8 i;
     u32 *table;
@@ -1016,7 +1016,7 @@ void func_021F90E0(u8 *p)
 
 
 
-void func_021F9140(u8 *p, u8 n, u8 i)
+void STA_ACTING_LoadRankAnim(u8 *p, u8 n, u8 i)
 {
     void *table;
     u16 score;
@@ -1035,7 +1035,7 @@ void func_021F9140(u8 *p, u8 n, u8 i)
 
 
 
-void func_021F91A8(char *p, u8 n, u8 mask){void *table;table=ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->f18.u),n+0x4b,0,((struct ActingScene *)p)->f0);func_021FAD0C(((struct ActingScene *)p)->fB0,table,0,mask);}
+void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask){void *table;table=ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->f18.u),n+0x4b,0,((struct ActingScene *)p)->f0);func_021FAD0C(((struct ActingScene *)p)->fB0,table,0,mask);}
 
 
 
@@ -1053,7 +1053,7 @@ void func_021F91A8(char *p, u8 n, u8 mask){void *table;table=ARC_UTIL_LoadHandle
  * arm (the else arm then recomputes the sum, as the image does); `u8 i` declared before
  * `int factor`. final push 2026-10-05 G9L6.
  */
-void func_021F91CC(Fade *p)
+void STA_ACTING_FadePalette(Fade *p)
 {
     u8 i;
     int factor;
@@ -1077,7 +1077,7 @@ void func_021F91CC(Fade *p)
 
 
 
-void func_021F92CC(u8 *p)
+void STA_ACTING_CreateText(u8 *p)
 {
     int zero;
     ((struct ActingScene *)p)->fD0.u=BMP_WIN_Create(1,4,20,24,4,15,1);
@@ -1098,7 +1098,7 @@ void func_021F92CC(u8 *p)
 
 
 
-void func_021F9374(u8 *p)
+void STA_ACTING_UpdateText(u8 *p)
 {
     TCBL_Main(((struct ActingScene *)p)->fCC.p);
     if (((struct ActingScene *)p)->fD8.p && PRINTSYS_PrintStreamGetState(((struct ActingScene *)p)->fD8.p) == 2) {
@@ -1120,7 +1120,7 @@ void func_021F9374(u8 *p)
 /*
  * abi: 0201CCE4 forwards the pointer result of matched 0201CD10; the caller stores it at d8.
  */
-void func_021F93D8(u8 *p, u16 index, u32 speed)
+void STA_ACTING_PrintText(u8 *p, u16 index, u32 speed)
 {
     Zero zero;
     if (((struct ActingScene *)p)->fD8.p) {
@@ -1150,7 +1150,7 @@ void func_021F93D8(u8 *p, u16 index, u32 speed)
 
 
 
-void func_021F94B0(u8 *p)
+void STA_ACTING_ClearText(u8 *p)
 {
     if (((struct ActingScene *)p)->fD8.p) {
         PRINTSYS_PrintStreamDelete(((struct ActingScene *)p)->fD8.p);
@@ -1167,7 +1167,7 @@ void func_021F94B0(u8 *p)
 
 
 
-void func_021F94F8(char *p)
+void STA_ACTING_UpdateSelection(char *p)
 {
     u8 count, i, j, selected, index;
     if (*(int *)(p + 0xEC) != 1) return;
@@ -1212,7 +1212,7 @@ void func_021F94F8(char *p)
  * arm); writing it inside the else made the compiler emit two epilogues.
  * See docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md.
  */
-void func_021F95CC(char *p, u8 v, int c)
+void STA_ACTING_SetSelection(char *p, u8 v, int c)
 {
     if (c == 1) {
         ((struct ActingScene *)p)->fF0 = v;
@@ -1225,12 +1225,12 @@ void func_021F95CC(char *p, u8 v, int c)
 
 
 
-void func_021F95E8(char *p){((struct ActingScene *)p)->fEC=1;}
+void STA_ACTING_MarkDirty(char *p){((struct ActingScene *)p)->fEC=1;}
 
 
 
 
-void func_021F95F0(u8 *p)
+void STA_ACTING_RankScores(u8 *p)
 {
     u8 i, j;
     u16 score;
@@ -1252,7 +1252,7 @@ void func_021F95F0(u8 *p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021F9664(char *p, int a)
+void STA_ACTING_InstallBgm(char *p, int a)
 {
     ((struct ActingScene *)p)->f24.s = 1;
     GFL_USE_InstallBgmBuffers(((struct ActingScene *)p)->f1DC, ((struct ActingScene *)p)->f1E0, a);
@@ -1262,7 +1262,7 @@ void func_021F9664(char *p, int a)
 
 
 
-void func_021F9680(char *p, int a)
+void STA_ACTING_StartSeq(char *p, int a)
 {
     ((struct ActingScene *)p)->f28.s = 1;
     GFL_USE_StartSeq(a);
@@ -1271,7 +1271,7 @@ void func_021F9680(char *p, int a)
 
 
 
-void func_021F9690(char *p){((struct ActingScene *)p)->f28.s=0;GFL_USE_StopSeqAndUnload();}
+void STA_ACTING_StopSeq(char *p){((struct ActingScene *)p)->f28.s=0;GFL_USE_StopSeqAndUnload();}
 
 
 
@@ -1283,7 +1283,7 @@ void func_021F9690(char *p){((struct ActingScene *)p)->f28.s=0;GFL_USE_StopSeqAn
  *
  * Addresses are Black-image addresses.
  */
-int func_021F969C(char *p, u32 a, u32 b, u32 d)
+int STA_ACTING_ReplaceWaveData(char *p, u32 a, u32 b, u32 d)
 {
     return GFL_USE_ReplaceWaveData(a, b, ((struct ActingScene *)p)->f1E4, d);
 }
@@ -1292,7 +1292,7 @@ int func_021F969C(char *p, u32 a, u32 b, u32 d)
 
 
 
-void func_021F96B0(char *p, int a)
+void STA_ACTING_PlayBgm(char *p, int a)
 {
     ((struct ActingScene *)p)->f2C.s = 1;
     GFL_USE_CancelChangeAndPlayBgm(a, 0xffff);
@@ -1301,12 +1301,12 @@ void func_021F96B0(char *p, int a)
 
 
 
-void func_021F96C4(char *p){((struct ActingScene *)p)->f2C.s=0;GFL_USE_CancelChangeAndStopBgm();}
+void STA_ACTING_StopBgm(char *p){((struct ActingScene *)p)->f2C.s=0;GFL_USE_CancelChangeAndStopBgm();}
 
 
 
 
-void func_021F96D0(char *p)
+void STA_ACTING_PlayRankSe(char *p)
 {
     u8 i;
     u8 min = 255;
@@ -1322,11 +1322,11 @@ void func_021F96D0(char *p)
 
 
 
-void func_021F9730(char *p,int value){if(!**(int * *)&((struct ActingScene *)p)->f30)func_021F9754(p,((struct ActingScene *)p)->fA,value);else{((struct ActingScene *)p)->f15C=1;((struct ActingScene *)p)->f160=value;}}
+void STA_ACTING_RequestAction(char *p,int value){if(!**(int * *)&((struct ActingScene *)p)->f30)STA_ACTING_ApplyAction(p,((struct ActingScene *)p)->fA,value);else{((struct ActingScene *)p)->f15C=1;((struct ActingScene *)p)->f160=value;}}
 
 
 
-void func_021F9754(char *p, u32 i, int v)
+void STA_ACTING_ApplyAction(char *p, u32 i, int v)
 {
     Enabled one;
     one = ENABLED;
@@ -1337,18 +1337,18 @@ void func_021F9754(char *p, u32 i, int v)
 
 
 
-int func_021F9768(char *p){return func_021F9774(p,((struct ActingScene *)p)->fA);}
+int STA_ACTING_GetCurrentAction(char *p){return STA_ACTING_GetActionByIndex(p,((struct ActingScene *)p)->fA);}
 
 
 
-int func_021F9774(char *p,u32 i){if(func_021F7A80(*(char * *)&((struct ActingScene *)p)->f40,*(char **)((u32)p+i*4+0x44))==1)return 1;return *(int *)((u32)p+0xfc+i*4);}
+int STA_ACTING_GetActionByIndex(char *p,u32 i){if(func_021F7A80(*(char * *)&((struct ActingScene *)p)->f40,*(char **)((u32)p+i*4+0x44))==1)return 1;return *(int *)((u32)p+0xfc+i*4);}
 
 
 
 /*
  * lever: slots[count] = i; count++; keeps the byte store before the increment; if/else field stores preserve the shared flag-store block.
  */
-void func_021F9794(char *p)
+void STA_ACTING_ProcessRecords(char *p)
 {
     u8 count = 0;
     u8 slots[4];
@@ -1356,9 +1356,9 @@ void func_021F9794(char *p)
     int action;
     int index;
     int result;
-    func_021F9A48(p);
+    STA_ACTING_TickActionTimers(p);
     if (**(void ** *)&((struct ActingScene *)p)->f30 && ((struct ActingScene *)p)->f15C == 1) {
-        if (func_021FD8C4(**(void ** *)&((struct ActingScene *)p)->f30, (u8)((struct ActingScene *)p)->f160) == 1)
+        if (STA_NET_SendKindA(**(void ** *)&((struct ActingScene *)p)->f30, (u8)((struct ActingScene *)p)->f160) == 1)
             ((struct ActingScene *)p)->f15C = 0;
     }
     if (!**(void ** *)&((struct ActingScene *)p)->f30) {
@@ -1370,7 +1370,7 @@ void func_021F9794(char *p)
                 *(int *)(p + i * 4 + 0xFC) = 0;
                 if (*(int *)(p + i * 4 + 0x10C) == 7) *(int *)(p + i * 8 + 0x13C) = 1;
                 else if (*(int *)(p + i * 4 + 0x10C) == 8) *(int *)(p + i * 8 + 0x140) = 1;
-                func_021F9AD8(p, 2, i);
+                STA_ACTING_ScheduleActions(p, 2, i);
             }
         }
         if (count != 0) {
@@ -1399,7 +1399,7 @@ void func_021F9794(char *p)
                 STA_SLOT_ResetStateByKey(**(void ** *)&((struct ActingScene *)p)->f30, i);
                 if (action == 7) *(int *)(p + i * 8 + 0x13C) = 1;
                 else if (action == 8) *(int *)(p + i * 8 + 0x140) = 1;
-                func_021F9AD8(p, 2, i);
+                STA_ACTING_ScheduleActions(p, 2, i);
             }
         }
     }
@@ -1411,11 +1411,11 @@ void func_021F9794(char *p)
         ((struct ActingScene *)p)->f11E = 0;
         if (((struct ActingScene *)p)->f120 == 1) {
             if (!**(void ** *)&((struct ActingScene *)p)->f30) {
-                result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
+                result = STA_ACTING_AddScore(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
                 *(int *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + ((struct ActingScene *)p)->f11C * 4 + 4) + ((struct ActingScene *)p)->f11D * 4 + 0x54) = 1;
                 GFL_USE_PlaySeDefaultVolume(result);
             } else if (GFL_NET_IsParentAid() == 1) {
-                result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
+                result = STA_ACTING_AddScore(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
                 if (result == 1580) STA_SLOT_PushRecord(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 1);
                 else STA_SLOT_PushRecord(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 2);
             }
@@ -1427,20 +1427,20 @@ void func_021F9794(char *p)
 
 
 
-int func_021F99F4(char *p, unsigned i, unsigned j)
+int STA_ACTING_AddScore(char *p, unsigned i, unsigned j)
 {
     u16 v;
     u8 old;
-    v = MUSICAL_PROGRAM_GetCategoryShare((int)(((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->f30))->f14), (u8)(int)func_021F5140((void *)func_021F9E0C((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + j * 6 + 0x14))));
+    v = MUSICAL_PROGRAM_GetCategoryShare((int)(((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->f30))->f14), (u8)(int)func_021F5140((void *)STA_ACTING_GetActorCount((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + j * 6 + 0x14))));
     old = *(u8 *)(p + 0xf7 + i);
     *(u8 *)(p + 0xf7 + i) = old + v;
-    func_021F95F0((u8 *)p);
+    STA_ACTING_RankScores((u8 *)p);
     return (unsigned)v >= 7 ? 1579 : 1580;
 }
 
 
 
-void func_021F9A48(char *p)
+void STA_ACTING_TickActionTimers(char *p)
 {
     u8 i;
     if (**(void ** *)&((struct ActingScene *)p)->f30 != 0 && GFL_NET_IsParentAid() != 1) return;
@@ -1448,7 +1448,7 @@ void func_021F9A48(char *p)
         if (*(u16 *)(p + i * 2 + 0x124) != 0) {
             *(u16 *)(p + i * 2 + 0x124) -= 1;
             if (*(u16 *)(p + i * 2 + 0x124) == 0) {
-                if (**(void ** *)&((struct ActingScene *)p)->f30 == 0) func_021F9754(p, i, *(int *)(p + i * 4 + 0x12c));
+                if (**(void ** *)&((struct ActingScene *)p)->f30 == 0) STA_ACTING_ApplyAction(p, i, *(int *)(p + i * 4 + 0x12c));
                 else STA_SLOT_SetValueByKey(**(void ** *)&((struct ActingScene *)p)->f30, i, *(int *)(p + i * 4 + 0x12c));
             }
         }
@@ -1470,7 +1470,7 @@ static inline u32 random_below(u32 n)
  * lever: The final random choice is a ternary; an if/else shares the earlier action-seven assignment and leaves 36 bytes different.
  * ABI: The matched 0203D378 body returns u32(void); the preceding guard loads r0 without an argument to that call.
  */
-void func_021F9AD8(char *p, int mode, u8 slot)
+void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot)
 {
     u8 i;
     if (**(void ** *)&((struct ActingScene *)p)->f30 && GFL_NET_IsParentAid() != 1) return;
@@ -1479,7 +1479,7 @@ void func_021F9AD8(char *p, int mode, u8 slot)
         char *record = *(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4);
         Action action;
         int value;
-        if (((struct ActingRecord *)record)->f0 != 2 || func_021F9774(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
+        if (((struct ActingRecord *)record)->f0 != 2 || STA_ACTING_GetActionByIndex(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
         if (((struct ActingRecord *)record)->f3E != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
         if (((struct ActingRecord *)record)->f44 != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
         if (!eligible[0] && !eligible[1]) continue;
@@ -1520,7 +1520,7 @@ void func_021F9AD8(char *p, int mode, u8 slot)
 
 
 
-void func_021F9CF4(char *p)
+void STA_ACTING_CreateAnimHandle(char *p)
 {
     ((struct ActingScene *)p)->fBC = func_021F9EDC(((struct ActingScene *)p)->f6C, 0x36);
 }
@@ -1528,14 +1528,14 @@ void func_021F9CF4(char *p)
 
 
 
-void func_021F9D08(char *p)
+void STA_ACTING_DeleteAnimHandle(char *p)
 {
     func_021F9F58(((struct ActingScene *)p)->f6C, ((struct ActingScene *)p)->fBC);
 }
 
 
 
-void func_021F9D18(char *p, unsigned i)
+void STA_ACTING_PositionAnim(char *p, unsigned i)
 {
     Vec v;
     u8 j;
@@ -1550,92 +1550,92 @@ void func_021F9D18(char *p, unsigned i)
 
 
 
-void func_021F9D80(char *p)
+void STA_ACTING_ShowAnim(char *p)
 {
     func_021FAAB8(((struct ActingScene *)p)->fA4, 1);
 }
 
 
 
-void func_021F9D90(char *p){func_021FAAB8(((struct ActingScene *)p)->fA4,0);}
+void STA_ACTING_HideAnim(char *p){func_021FAAB8(((struct ActingScene *)p)->fA4,0);}
 
 
 
-void *func_021F9DA0(char *p){return ((struct ActingScene *)p)->f40;}
+void *STA_ACTING_GetActorSystem(char *p){return ((struct ActingScene *)p)->f40;}
 
 
 
-void *func_021F9DA4(char *p,u32 i){return *(void **)((u32)p+4*i+0x44);}
+void *STA_ACTING_GetActor(char *p,u32 i){return *(void **)((u32)p+4*i+0x44);}
 
 
 
-void *func_021F9DAC(void *p){return ((struct ActingScene *)p)->f54;}
+void *STA_ACTING_GetActObj(void *p){return ((struct ActingScene *)p)->f54;}
 
 
 
-u32 *func_021F9DB0(void *p,u8 i){return *(u32 **)((u8 *)p+(u32)i*4+0x58);}
+u32 *STA_ACTING_GetSlot(void *p,u8 i){return *(u32 **)((u8 *)p+(u32)i*4+0x58);}
 
 
 
-void func_021F9DB8(void *p,void *v,u32 i){*(void **)((u8 *)p+i*4+0x58)=v;}
+void STA_ACTING_SetSlot(void *p,void *v,u32 i){*(void **)((u8 *)p+i*4+0x58)=v;}
 
 
 
-void *func_021F9DC0(void *p){return ((struct ActingScene *)p)->f6C;}
+void *STA_ACTING_GetAnimHandle(void *p){return ((struct ActingScene *)p)->f6C;}
 
 
 
-void *func_021F9DC4(void *p,u8 i){return *(void **)((u8 *)p+(u32)i*4+0x70);}
+void *STA_ACTING_GetAnimSlot(void *p,u8 i){return *(void **)((u8 *)p+(u32)i*4+0x70);}
 
 
 
-void func_021F9DCC(void *p,void *v,u32 i){*(void **)((u8 *)p+i*4+0x70)=v;}
+void STA_ACTING_SetAnimSlot(void *p,void *v,u32 i){*(void **)((u8 *)p+i*4+0x70)=v;}
 
 
 
-void *func_021F9DD4(void *p){return ((struct ActingScene *)p)->f90;}
+void *STA_ACTING_GetCharSystem(void *p){return ((struct ActingScene *)p)->f90;}
 
 
 
-void *func_021F9DDC(void *p,u8 i){return *(void **)((u8 *)p+(u32)i*4+0x94);}
+void *STA_ACTING_GetCharSlot(void *p,u8 i){return *(void **)((u8 *)p+(u32)i*4+0x94);}
 
 
 
-void func_021F9DE8(void *p,void *v,u8 i){*(void **)((u8 *)p+(u32)i*4+0x94)=v;}
+void STA_ACTING_SetCharSlot(void *p,void *v,u8 i){*(void **)((u8 *)p+(u32)i*4+0x94)=v;}
 
 
 
-void *func_021F9DF4(void *p){return ((struct ActingScene *)p)->fB8;}
+void *STA_ACTING_GetBoard(void *p){return ((struct ActingScene *)p)->fB8;}
 
 
 
-u16 func_021F9DFC(void *p){return ((struct ActingScene *)p)->f8;}
+u16 STA_ACTING_GetCameraPos(void *p){return ((struct ActingScene *)p)->f8;}
 
 
 
-void func_021F9E00(void *p,u16 v){((struct ActingScene *)p)->f8=v;}
+void STA_ACTING_SetCameraPos(void *p,u16 v){((struct ActingScene *)p)->f8=v;}
 
 
 
-u16 func_021F9E04(u8 *p) { return ((struct ActingScene *)p)->f4; }
+u16 STA_ACTING_GetCameraTarget(u8 *p) { return ((struct ActingScene *)p)->f4; }
 
 
 
-void func_021F9E08(u8 *p,u16 v) { ((struct ActingScene *)p)->f6=v; }
+void STA_ACTING_SetCameraTarget(u8 *p,u16 v) { ((struct ActingScene *)p)->f6=v; }
 
 
 
-u32 func_021F9E0C(u8 *p) { return func_021F4F10(*(u8 * *)&((struct ActingScene *)p)->f38); }
+u32 STA_ACTING_GetActorCount(u8 *p) { return func_021F4F10(*(u8 * *)&((struct ActingScene *)p)->f38); }
 
 
 
 /*
  * note: unlabelled getter witnessing ov112 021F6CE0.
  */
-int func_021F9E18(char *p) { return ((struct ActingScene *)p)->f11C; }
+int STA_ACTING_GetSelection(char *p) { return ((struct ActingScene *)p)->f11C; }
 
-unsigned char func_021F9E20(char *p, unsigned int i) { return *(unsigned short *)(((char **)(*(char **)(p + 0x30) + i * 4))[1] + 0x4A); }
+unsigned char STA_ACTING_GetRecordScore(char *p, unsigned int i) { return *(unsigned short *)(((char **)(*(char **)(p + 0x30) + i * 4))[1] + 0x4A); }
 
-unsigned char func_021F9E34(char *p, unsigned int i) { return *(unsigned char *)(p + i + 0xF7); }
+unsigned char STA_ACTING_GetBonus(char *p, unsigned int i) { return *(unsigned char *)(p + i + 0xF7); }
 
-void func_021F9E3C(char *p, unsigned int v) { *(unsigned int *)(p + 0x10) = v; }
+void STA_ACTING_SetField10(char *p, unsigned int v) { *(unsigned int *)(p + 0x10) = v; }

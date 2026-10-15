@@ -26,11 +26,11 @@
  *   VM_GetU16  0x02011330  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   func_0201EF40  0x0201EF40  thumb
- *   func_0201EF4C  0x0201EF4C  thumb
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
  *   func_0201EF5C  0x0201EF5C  thumb
- *   func_0201EE60  0x0201EE60  thumb
- *   func_0201EEC4  0x0201EEC4  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_Callback_EEC4  0x0201EEC4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0201EE84  0x0201EE84  thumb
@@ -38,12 +38,12 @@
  *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
  *   SODATEYA_GetPokemon  0x021C34F8  thumb  ov021
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F0F8  0x0201F0F8  thumb
- *   func_0201F124  0x0201F124  thumb
+ *   WORDSET_Set  0x0201F0F8  thumb
+ *   WORDSET_Callback_F124  0x0201F124  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200C1DC  0x0200C1DC  thumb
- *   func_0200C1C4  0x0200C1C4  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   BEACON_GetThanksCount  0x0200C1DC  thumb
+ *   BEACON_GetGreetCount  0x0200C1C4  thumb
  *   GAMESYSTEM_GetEvent  0x02012104  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
@@ -65,6 +65,7 @@
  *   EVENT_MAPCHANGE_CreateRailWarpEventWithTransition  0x02184DE8  thumb  ov020
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb  arm9
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/script_work_types.h"
@@ -107,14 +108,14 @@ extern u16 VM_GetU16(ScriptVm *vm);
 extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern void func_0201F02C(WordSet *wordSet, u32 slot, PlayerStatus *myStatus);
-extern void func_0201EF40(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201EF4C(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_Callback_EF40(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_Callback_EF4C(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void func_0201EF5C(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern u32 func_020212B0(u32 value);
+extern u32 FILE_UTIL_Get_12B0(u32 value);
 extern void func_0201EF34(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void func_0201F020(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201EE60(WordSet *wordSet, u32 slot, u16 speciesId);
-extern void func_0201EEC4(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_Callback(WordSet *wordSet, u32 slot, u16 speciesId);
+extern void WORDSET_Callback_EEC4(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void func_0201F14C(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern Party *GAME_DATA_GetMyParty(GameData *gameData);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
@@ -130,12 +131,12 @@ extern void func_0201F048(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void func_0201F198(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void func_0201F1B0(WordSet *wordSet, u32 slot, u8 entryIndex);
 extern void func_0201F184(WordSet *wordSet, u32 slot, s32 entryIndex);
-extern void func_0201F0F8(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201F124(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_Set(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_Callback_F124(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
-extern BeaconSave *func_0200C0F0(SaveControl *saveControl);
-extern u32 func_0200C1DC(BeaconSave *beacon);
-extern u32 func_0200C1C4(BeaconSave *beacon);
+extern BeaconSave *BEACON_GetBlock(SaveControl *saveControl);
+extern u32 BEACON_GetThanksCount(BeaconSave *beacon);
+extern u32 BEACON_GetGreetCount(BeaconSave *beacon);
 extern GameEvent *GAMESYSTEM_GetEvent(GameSystem *gameSystem);
 extern void GAME_EVENT_CallEvent(GameEvent *parentEvent, GameEvent *childEvent);
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed);
@@ -228,8 +229,8 @@ int SCRCMD_BufferEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegisterF
     return 0;
 }
 
-int SCRCMD_BufferItemName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, func_0201EF40); }
-int SCRCMD_BufferItemNameAlt(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, func_0201EF4C); }
+int SCRCMD_BufferItemName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, WORDSET_Callback_EF40); }
+int SCRCMD_BufferItemNameAlt(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, WORDSET_Callback_EF4C); }
 
 /*
  * Script command: register an entry (slot byte, entry value, count value,
@@ -250,9 +251,9 @@ void SCRCMD_BufferItemNameWithCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (count > 1) {
         func_0201EF5C(wordSet, slot, entry);
     } else if (useAltList != 0) {
-        func_0201EF4C(wordSet, slot, entry);
+        WORDSET_Callback_EF4C(wordSet, slot, entry);
     } else {
-        func_0201EF40(wordSet, slot, entry);
+        WORDSET_Callback_EF40(wordSet, slot, entry);
     }
 }
 
@@ -262,7 +263,7 @@ int SCRCMD_BufferConvertedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201EF34(wordSet, slot, func_020212B0(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    func_0201EF34(wordSet, slot, FILE_UTIL_Get_12B0(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 0;
 }
 
@@ -294,8 +295,8 @@ int SCRCMD_BufferSpeciesNameCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetReg
     return 0;
 }
 
-int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, (WordSetRegisterFn)func_0201EE60); }
-int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, func_0201EEC4); }
+int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, (WordSetRegisterFn)WORDSET_Callback); }
+int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, WORDSET_Callback_EEC4); }
 
 int SCRCMD_BufferShortEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
@@ -439,8 +440,8 @@ int SCRCMD_BufferByteEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegis
     return 0;
 }
 
-int SCRCMD_BufferMapEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, func_0201F0F8); }
-int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, func_0201F124); }
+int SCRCMD_BufferMapEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_Set); }
+int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_Callback_F124); }
 
 /* Script command: register the beacon save thanks count as a 9-digit number (slot byte). */
 int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
@@ -450,10 +451,10 @@ int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet;
     int slot;
 
-    beacon = func_0200C0F0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    func_0201EFA4(wordSet, slot, func_0200C1DC(beacon), 9, 1, 1);
+    func_0201EFA4(wordSet, slot, BEACON_GetThanksCount(beacon), 9, 1, 1);
     return 0;
 }
 
@@ -465,10 +466,10 @@ int SCRCMD_BufferBeaconGreetCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet;
     int slot;
 
-    beacon = func_0200C0F0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    func_0201EFA4(wordSet, slot, func_0200C1C4(beacon), 9, 1, 1);
+    func_0201EFA4(wordSet, slot, BEACON_GetGreetCount(beacon), 9, 1, 1);
     return 0;
 }
 

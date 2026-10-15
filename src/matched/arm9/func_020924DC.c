@@ -1,5 +1,5 @@
 /*
- * function: func_020924DC
+ * function: parse_format
  * address:  0x020924DC
  * packet:   pkt_02092120
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * note:     MSL printf.c `parse_format`, the conversion-spec scanner that
- *           __pformatter (func_02093BDC) calls once per '%'.  Written from
+ *           __pformatter (__pformatter) calls once per '%'.  Written from
  *           the Metrowerks source shape: `int c` and `int flag_found`, the
  *           flag loop as for(;;){flag_found = 1; switch; if (flag_found)
  *           c = *++s; else break;}, the length modifiers as a second switch
@@ -44,7 +44,7 @@ typedef struct {
     int precision;
 } print_format;
 
-const uchar *func_020924DC(const uchar *format_string, va_list *arg, print_format *format)
+const uchar *parse_format(const uchar *format_string, va_list *arg, print_format *format)
 {
     print_format f;
     const uchar *s = format_string;

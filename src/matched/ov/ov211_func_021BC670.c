@@ -1,5 +1,5 @@
 /*
- * function: func_021BC670
+ * function: ZUKAN_SEARCH_SCREEN_Init
  * address: 0x021BC670
  * packet: pkt_ov211_021BC670
  * region: ov211
@@ -13,32 +13,32 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
- *   func_021BC2B0 0x021BC2B0 thumb ov211
- *   func_021BC318 0x021BC318 thumb ov211
- *   func_021BC474 0x021BC474 thumb ov211
- *   func_021BC5B0 0x021BC5B0 thumb ov211
+ *   ZUKAN_SEARCH_SCREEN_SetupVram 0x021BC2B0 thumb ov211
+ *   ZUKAN_SEARCH_SCREEN_InitBg 0x021BC318 thumb ov211
+ *   ZUKAN_SEARCH_SCREEN_LoadGraphics 0x021BC474 thumb ov211
+ *   ZUKAN_SEARCH_SCREEN_LoadSaveGraphics 0x021BC5B0 thumb ov211
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_021BC2F4 0x021BC2F4 thumb ov211
- *   func_021C93A8 0x021C93A8 thumb ov212
+ *   ZUKAN_SEARCH_SCREEN_RegisterVBlank 0x021BC2F4 thumb ov211
+ *   ZUKAN_StartWipeIn 0x021C93A8 thumb ov212
  */
 extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 struct Object;
-extern void func_021BC2B0(void);
-extern void func_021BC318(void);
-extern void func_021BC474(struct Object *p);
-extern void func_021BC5B0(char *);
+extern void ZUKAN_SEARCH_SCREEN_SetupVram(void);
+extern void ZUKAN_SEARCH_SCREEN_InitBg(void);
+extern void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct Object *p);
+extern void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
-extern void func_021BC2F4(unsigned char *p);
-extern void func_021C93A8(unsigned);
-int func_021BC670(char *p)
+extern void ZUKAN_SEARCH_SCREEN_RegisterVBlank(unsigned char *p);
+extern void ZUKAN_StartWipeIn(unsigned);
+int ZUKAN_SEARCH_SCREEN_Init(char *p)
 {
     BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
-    BG_SYS_SetLcdSwap(0);func_021BC2B0();func_021BC318();
-    func_021BC474((struct Object *)p);func_021BC5B0(p);
+    BG_SYS_SetLcdSwap(0);ZUKAN_SEARCH_SCREEN_SetupVram();ZUKAN_SEARCH_SCREEN_InitBg();
+    ZUKAN_SEARCH_SCREEN_LoadGraphics((struct Object *)p);ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(p);
     GFL_NET_RestartWithDefaultTimeout(1,126);BG_SYS_SetSubPlaneVisible(16,1);
-    func_021BC2F4((unsigned char *)p);func_021C93A8(126);
+    ZUKAN_SEARCH_SCREEN_RegisterVBlank((unsigned char *)p);ZUKAN_StartWipeIn(126);
     return 2;
 }

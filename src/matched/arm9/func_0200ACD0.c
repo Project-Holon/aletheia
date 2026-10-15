@@ -1,5 +1,5 @@
 /*
- * function: func_0200ACD0
+ * function: IRC_RANKING_FindEntryByTrainerId
  * address:  0x0200ACD0
  * packet:   pkt_0200A940
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj11231.h"
 
-char *func_0200ACD0(char *base, int count, int target)
+char *IRC_RANKING_FindEntryByTrainerId(char *base, int count, int target)
 {
     int i;
     for (i = 0; i < count; i++) {

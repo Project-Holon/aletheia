@@ -12,7 +12,7 @@
  * sdk:      ghiEncryptorSetTwlRootCA (libdwcgsghttp.TWL.HYB.a(ghttpencryption.o))
  *
  * symbols:
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   func_0217D254  0x0217D254  arm   ov009
  *   func_02184144  0x02184144  arm   ov009
  *   ghiGetServerAddressFromUrl  0x021C1020  arm   ov114
@@ -37,7 +37,7 @@ typedef struct GHTTPCertificateInfo {
     int refCount;
 } GHTTPCertificateInfo;
 
-extern int func_020948E0(const char *, const char *);
+extern int strcmp(const char *, const char *);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int, int, void (*)(void *));
 extern char *ghiGetServerAddressFromUrl(char *);
@@ -61,7 +61,7 @@ int ghiEncryptorSetTwlRootCA(char *url, void *theRootCAList)
     int pos;
     GHTTPCertificateInfo *certInfoToUpdate;
 
-    if (url == 0 || theRootCAList == 0 || func_020948E0(url, sGhttpEmptyString) == 0) {
+    if (url == 0 || theRootCAList == 0 || strcmp(url, sGhttpEmptyString) == 0) {
         func_0217D254(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSetTwlRootCA, 0x345, url, theRootCAList);
         return 0;
     }

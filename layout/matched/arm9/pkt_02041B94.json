@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02041EE4",
+   "name": "BG_SYS_ResetSlot",
    "address": "0x02041EE4",
    "kind": "game",
    "region": "arm9",

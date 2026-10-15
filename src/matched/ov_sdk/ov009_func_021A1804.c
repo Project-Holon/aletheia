@@ -19,8 +19,8 @@
  *   func_0219E9D8  0x0219E9D8  arm  ov009
  *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   SBServerListAppendServer  0x0219F638  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_0217EB2C  0x0217EB2C  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
+ *   closesocket  0x0217EB2C  arm  ov009
  *   gSBNullServer  0x021AEB00  data
  */
 
@@ -50,8 +50,8 @@ extern struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigne
 extern int func_0219E9D8(int v);
 extern void SBServerSetFlags(unsigned char *p, unsigned char v);
 extern void SBServerListAppendServer(struct SBServerList *slist, struct SBServer *server);
-extern unsigned int func_0217F264(void);
-extern int func_0217EB2C(int sock);
+extern unsigned int current_time(void);
+extern int closesocket(int sock);
 extern SBServer *gSBNullServer;
 
 int ProcessLanData(SBServerList *slist)
@@ -77,8 +77,8 @@ int ProcessLanData(SBServerList *slist)
         SBServerSetFlags((unsigned char *)server, 0x11);
         SBServerListAppendServer(slist, server);
     }
-    if (func_0217F264() - slist->lanstarttime > 2000) {
-        func_0217EB2C(slist->slsocket);
+    if (current_time() - slist->lanstarttime > 2000) {
+        closesocket(slist->slsocket);
         slist->slsocket = -1;
         slist->state = 1;
         slist->ListCallback(slist, 3, gSBNullServer, slist->instance);

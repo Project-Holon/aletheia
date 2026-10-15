@@ -1,5 +1,5 @@
 /*
- * function: func_02025D1C
+ * function: CURSOR_MOVE_EnableInput
  * address:  0x02025D1C
  * packet:   pkt_02025C44
  * region:   arm9
@@ -17,7 +17,7 @@ struct Struct_02025D1C {
     u8 field_C;
 };
 
-void func_02025D1C(struct Struct_02025D1C *obj)
+void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj)
 {
     obj->field_C = 1;
 }

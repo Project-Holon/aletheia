@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02078530 0x02078530 arm
+ *   FS_GetArchiveName 0x02078530 arm
  *   func_0208CC78 0x0208CC78 arm
  *   func_0208D7E0 0x0208D7E0 arm
  *   @12205        0x020A84AC data
@@ -44,7 +44,7 @@ struct FSFile
     FSDirEntryOut *entry;
     u32 skip_string;
 };
-extern char *func_02078530(FSArchive *arc);
+extern char *FS_GetArchiveName(FSArchive *arc);
 extern u32 func_0208CC78(const char *s);
 extern int func_0208D7E0(char *dst, const char *fmt, const char *s);
 
@@ -62,7 +62,7 @@ int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
             entry->is_directory = 0;
             return 1;
         }
-        name = func_02078530(arc);
+        name = FS_GetArchiveName(arc);
         entry->name_len = func_0208CC78(name) + 1;
         entry->is_directory = 1;
         if (p_file->skip_string == 0) {

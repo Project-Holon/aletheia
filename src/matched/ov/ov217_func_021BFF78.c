@@ -11,21 +11,21 @@
  * data: pool 021BFFC4 contains 5c 36 1c 02; contested ov217 hint removed per canonical rule, data a4 resolves sole-ref.
  * volatile: hardware stores 021BFF88/8C/90/94; 04000060 re-read at 021BFF96 and 021BFFA4.
  * symbols:
- *   func_0207D988 0x0207D988 arm
- *   func_0207DB1C 0x0207DB1C arm
+ *   G3X_Init 0x0207D988 arm
+ *   G3X_InitMtxStack 0x0207DB1C arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   d_021C365C 0x021C365C data a4
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_0207D988(void);
-extern void func_0207DB1C(void);
+extern void G3X_Init(void);
+extern void G3X_InitMtxStack(void);
 extern void func_0207DCF8(const void *);
 extern const u16 d_021C365C[];
 void RESEARCH_GRAPH_InitScreen(void)
 {
-    func_0207D988();
-    func_0207DB1C();
+    G3X_Init();
+    G3X_InitMtxStack();
     *(volatile u32 *)0x04000440 = 0;
     *(volatile u32 *)0x04000454 = 0;
     *(volatile u32 *)0x04000440 = 2;

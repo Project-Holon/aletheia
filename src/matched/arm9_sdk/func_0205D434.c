@@ -1,5 +1,5 @@
 /*
- * function: func_0205D434
+ * function: DWCi_AC_GetSearchListNum
  * address:  0x0205D434
  * packet:   pkt_0205D434
  * region:   arm9
@@ -129,7 +129,7 @@ typedef struct {
 
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 
-unsigned char func_0205D434(void)
+unsigned char DWCi_AC_GetSearchListNum(void)
 {
     unsigned char num;
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);

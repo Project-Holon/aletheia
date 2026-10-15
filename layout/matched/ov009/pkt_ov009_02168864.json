@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02168864",
+   "name": "DWC_GetFriendStatusDataSC",
    "address": "0x02168864",
    "kind": "sdk",
    "region": "ov009",

@@ -188,7 +188,7 @@ int EVENT_FIELD_PROCLINK_IsReturnEntryValid(ProcLinkEntry *entry)
 
 /*
  * Fills ten halfwords with 0xFFFF.  A leaf with no lr-saving prologue,
- * called only from arm9 (func_0200A848), so the listing emits it as data.
+ * called only from arm9 (MUSICAL_SHOT_Init), so the listing emits it as data.
  */
 void EVENT_FIELD_PROCLINK_InitIdList(u16 *buf)
 {

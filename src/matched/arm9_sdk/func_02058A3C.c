@@ -1,5 +1,5 @@
 /*
- * function: func_02058A3C
+ * function: DWCi_Util_WiFiId_scrambleUid
  * address:  0x02058A3C
  * packet:   pkt_02058A3C
  * region:   arm9
@@ -32,7 +32,7 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern const u8 DWCi_util_wifiid_ttable[16];
 extern const u8 DWCi_util_wifiid_exctable[8];
 
-u64 func_02058A3C(u16 rand, u32 mac, u8 vend, u8 mainunit)
+u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit)
 {
     UNI64 uni64;
     u8 uidtemp[8];

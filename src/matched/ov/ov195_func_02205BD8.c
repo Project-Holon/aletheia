@@ -1,5 +1,5 @@
 /*
- * function: func_02205BD8
+ * function: SHINKA_DEMO_GRAPHIC_GetCameraId
  * address:  0x02205BD8
  * packet:   pkt_02205BD8
  * region:   ov195
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_02205BD8(int *p)
+int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p)
 {
     return *p;
 }

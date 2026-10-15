@@ -13,41 +13,42 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020949F4  0x020949F4  arm
- *   func_020964E0  0x020964E0  arm
- *   func_02094B20  0x02094B20  arm
+ *   strncmp  0x020949F4  arm
+ *   atoi  0x020964E0  arm
+ *   strstr  0x02094B20  arm
  *   func_02189D78  0x02189D78  arm  ov009
  *   g_021A5718     0x021A5718  data
  *   g_021A5720     0x021A5720  data
  *   g_021A5728     0x021A5728  data
  *   g_021A5734     0x021A5734  data
- *   func_0209477C  0x0209477C  arm
- *   func_0217ED64  0x0217ED64  arm  ov009
+ *   strlen  0x0209477C  arm
+ *   GSISocketSelect  0x0217ED64  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
  *   g_021A573C     0x021A573C  data
  *   g_021A5750     0x021A5750  data
  *   g_021A5788     0x021A5788  data
  *   g_021A57A0     0x021A57A0  data
  *   g_021A57B8     0x021A57B8  data
- *   func_0217F790  0x0217F790  arm  ov009
- *   func_0217F7AC  0x0217F7AC  arm  ov009
- *   func_0217FA90  0x0217FA90  arm  ov009
+ *   Util_RandSeed  0x0217F790  arm  ov009
+ *   Util_RandInt  0x0217F7AC  arm  ov009
+ *   B64Encode  0x0217FA90  arm  ov009
+ *   strncpy  0x02094860  arm  arm9
  */
 typedef unsigned int   u32;
 
 typedef unsigned char  u8;
 
-extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
-extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
-extern int func_020964E0(u32 a0);
-extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
+extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
+extern int atoi(u32 a0);
+extern u8 *strstr(const u8 *s1, const u8 *s2);
 extern int func_02189D78(int *connection, int a1, int a2);
-extern int func_0209477C(const u8 *s);
-extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
+extern int strlen(const u8 *s);
+extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217F790(unsigned int v);
-extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
-extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
+extern void Util_RandSeed(unsigned int v);
+extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
+extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 void func_0219327C(char *p, int b, int n);
 int func_0219329C(int *connection, const char *input, int fatal);
 int func_02193378(char *command, char *key, int *index, char *value, int len);
@@ -73,7 +74,7 @@ extern char g_021A57B8[];
  */
 void func_0219327C(char *p, int b, int n)
 {
-    func_02094860((u8 *)p, (const u8 *)b, n);
+    strncpy((u8 *)p, (const u8 *)b, n);
     *(char *)(p + n - 1) = 0;
 }
 
@@ -88,7 +89,7 @@ void func_0219327C(char *p, int b, int n)
  * the ov009 lane's in-flight pkt_0219091C.
  *
  * Layout note that closed the old DIFF: the `\fatal\` branch's third
- * argument is written as a *double* boolean -- `int b = func_02094B20(...)
+ * argument is written as a *double* boolean -- `int b = strstr(...)
  * != 0;` then `func_02189D78(connection, 4, b != 0);`.  `_Bool` is not a
  * keyword in this C99 front end (CCERR), and folding the two tests into one
  * loses four instructions (12 bytes).
@@ -104,14 +105,14 @@ int func_0219329C(int *connection, const char *input, int fatal)
     char value[0x10];
     int *ic = (int *)*connection;
 
-    if (func_020949F4((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
+    if (strncmp((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
         goto fail;
     if (func_02193418(input, g_021A5720, value, 0x10))
-        ic[0x5b8 / 4] = func_020964E0((u32)value);
+        ic[0x5b8 / 4] = atoi((u32)value);
     if (!func_02193418(input, g_021A5728, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
-        int b = func_02094B20((const u8 *)input, (const u8 *)g_021A5734) != 0;
+        int b = strstr((const u8 *)input, (const u8 *)g_021A5734) != 0;
         func_02189D78(connection, 4, b != 0);
     }
     return 1;
@@ -132,14 +133,14 @@ int func_02193378(char *command, char *key, int *index, char *value, int len)
 
     command += *index;
     delimiter = key[0];
-    start = (char *)func_02094B20((const unsigned char *)command, (const unsigned char *)key);
+    start = (char *)strstr((const unsigned char *)command, (const unsigned char *)key);
     if (start == 0)
         return 0;
-    start += func_0209477C((const u8 *)key);
+    start += strlen((const u8 *)key);
     for (i = 0; i < len - 1 && (c = start[i]) != 0 && c != delimiter; i++)
         value[i] = c;
     value[i] = 0;
-    *index += (start - command) + func_0209477C((const u8 *)value);
+    *index += (start - command) + strlen((const u8 *)value);
     return 1;
 }
 
@@ -162,10 +163,10 @@ int func_02193418(const char *command, const char *key, char *value, int valueLe
     char keychar = key[0];
     char c;
 
-    p = (char *)func_02094B20((const u8 *)command, (const u8 *)key);
+    p = (char *)strstr((const u8 *)command, (const u8 *)key);
     if (p == 0)
         return 0;
-    p += func_0209477C((const u8 *)key);
+    p += strlen((const u8 *)key);
     i = 0;
     while ((i < valueLen - 1) && ((c = p[i]) != '\0') && (c != keychar)) {
         value[i] = c;
@@ -177,7 +178,7 @@ int func_02193418(const char *command, const char *key, char *value, int valueLe
 
 
 /*
- * gpiCheckSocketConnect: probe the socket with func_0217ED64.  -1 means the
+ * gpiCheckSocketConnect: probe the socket with GSISocketSelect.  -1 means the
  * select failed, a non-positive return leaves the state at 0, and otherwise
  * the two out-parameters decide between accepted (state 4) and rejected
  * (state 3).
@@ -189,7 +190,7 @@ int func_02193488(int *connection, int sock, int *state)
 
     e[1] = 0;
     e[0] = 0;
-    r = func_0217ED64(sock, 0, &e[1], &e[0]);
+    r = GSISocketSelect(sock, 0, &e[1], &e[0]);
     if (r == -1) {
         func_0217D254(1, 0, 1, (const char *)((int)g_021A573C));
         func_02193710(connection, 5, (int)g_021A5750);
@@ -296,7 +297,7 @@ void func_02193734(int *p, int b)
 /*
  * gpiEncodeString: seed the shared RNG with the constant 0x79707367 ("gspy"),
  * XOR each plaintext byte with a random byte, then hand the temporary to
- * func_0217FA90 with mode 1.
+ * B64Encode with mode 1.
  */
 void func_02193748(const char *plaintext, char *encoded)
 {
@@ -304,10 +305,10 @@ void func_02193748(const char *plaintext, char *encoded)
     unsigned int i;
     unsigned int len;
 
-    len = func_0209477C((const u8 *)plaintext);
-    func_0217F790(0x79707367);
+    len = strlen((const u8 *)plaintext);
+    Util_RandSeed(0x79707367);
     for (i = 0; i < len; i++)
-        temp[i] = plaintext[i] ^ (char)func_0217F7AC(0, 0xff);
+        temp[i] = plaintext[i] ^ (char)Util_RandInt(0, 0xff);
     temp[i] = 0;
-    func_0217FA90(temp, encoded, len, 1);
+    B64Encode(temp, encoded, len, 1);
 }

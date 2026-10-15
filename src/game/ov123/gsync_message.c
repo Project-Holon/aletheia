@@ -35,14 +35,14 @@
  *   func_02045B38 0x02045B38 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0201F5DC 0x0201F5DC thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_Init 0x02045088 arm
@@ -64,6 +64,8 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PDWACC_MESSAGE_FormatNumber 0x021D97CC thumb ov123
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_common_types.h"
@@ -114,7 +116,7 @@ extern u32 func_020307B0(void *p);
 
 extern void *func_0201F5DC(void *, u32, u32, u32);
 
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 extern u32 MSGDATA_Delete(void *rec);
 
@@ -128,7 +130,7 @@ extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 
@@ -164,9 +166,9 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern void BMP_WIN_Exit(void);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void func_02028470(u8 *p, u32 v);
 
@@ -229,7 +231,7 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     GsyncMessageWork *work;
     work = (GsyncMessageWork *)func_02030734(heap, sizeof(GsyncMessageWork), 1, d_021DAA30, 0x96);
     work->heap = heap;
-    work->wordSet = func_0201EC64(work->heap);
+    work->wordSet = GF_FONT_Create_EC64(work->heap);
     BMP_WIN_Init(work->heap);
     func_0201DD60();
     work->tcbl = TCBL_Create(work->heap, work->heap, 2, 0);
@@ -270,12 +272,12 @@ void GSYNC_MESSAGE_ExitSystem(GsyncMessageWork *work)
             BMP_WIN_Delete(work->windows[i]);
     }
     high = work->bg5Frame >> 16;
-    func_0203FB44((int)5, (u16)(work->bg5Frame), (u16)high);
+    BG_SYS_DeleteHalf((int)5, (u16)(work->bg5Frame), (u16)high);
     high = work->bg6Frame >> 16;
-    func_0203FB44((int)6, (u16)(work->bg6Frame), (u16)high);
+    BG_SYS_DeleteHalf((int)6, (u16)(work->bg6Frame), (u16)high);
     GSYNC_MESSAGE_DeleteButtonManager(work);
     APP_KEYCURSOR_Delete((int)(work->keyCursor));
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     func_0201DD68();
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
@@ -301,7 +303,7 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
     if (instant) {
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     } else {
-        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (void *)((int)func_02012FFC()), work->tcbl, (int)2, work->heap, 15);
+        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
         func_02028470(work->streamWait, (int)6);
     }
     func_0201F73C(win, 1, (u16)(work->bg5Frame), 12);

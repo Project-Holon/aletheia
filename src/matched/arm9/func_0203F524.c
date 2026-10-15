@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F524
+ * function: GF_STANDARD_SetupRtc
  * address:  0x0203F524
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -22,8 +22,8 @@
  * unlabelled leaf because nothing is pushed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F524.c \
- *       --func func_0203F524 --addr 0x0203F524 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_SetupRtc.c \
+ *       --func GF_STANDARD_SetupRtc --addr 0x0203F524 --cc 1.1p1 --arm
  */
 
 #include "../include/G_RtcDate.h"
@@ -38,7 +38,7 @@ struct RTCDate;
 struct RTCTime;
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 
-void func_0203F524(void)
+void GF_STANDARD_SetupRtc(void)
 {
     RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }

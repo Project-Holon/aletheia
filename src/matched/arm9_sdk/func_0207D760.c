@@ -1,5 +1,5 @@
 /*
- * function: func_0207D760
+ * function: G3i_OrthoW_
  * address:  0x0207D760
  * packet:   pkt_0207D760
  * region:   arm9
@@ -64,7 +64,7 @@ typedef union {
 extern void MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void G3_LoadMtx44(const MtxFx44 *m);
 
-void func_0207D760(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
+void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
 {
     MtxFx44 tmp[1];
 

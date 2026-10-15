@@ -1,5 +1,5 @@
 /*
- * function: func_02026010
+ * function: CURSOR_MOVE_MoveCursor
  * address:  0x02026010
  * packet:   pkt_02026010
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * field_sound_system.c.  Moves the cursor from the current entry to the
- * one func_02025F60 names for `dir`, skipping entries whose bit is clear
+ * one CURSOR_MOVE_GetNeighbour names for `dir`, skipping entries whose bit is clear
  * in the object's 32-bit-word skip bitmap, then notifies the owner.
  *
  * symbols:
  *   func_020355D8  0x020355D8  arm
- *   func_02025F60  0x02025F60  thumb
- *   func_02026178  0x02026178  thumb
+ *   CURSOR_MOVE_GetNeighbour  0x02025F60  thumb
+ *   CURSOR_MOVE_IsWrapNeighbour  0x02026178  thumb
  */
 
 typedef unsigned char  u8;
@@ -50,10 +50,10 @@ struct Sound {
 };
 
 extern void func_020355D8(u8 v);
-extern u32 func_02025F60(const u8 *ptr, u32 idx, u32 type);
-extern int func_02026178(const u8 *ptr, u32 type);
+extern u32 CURSOR_MOVE_GetNeighbour(const u8 *ptr, u32 idx, u32 type);
+extern int CURSOR_MOVE_IsWrapNeighbour(const u8 *ptr, u32 type);
 
-int func_02026010(struct Sound *obj, u32 dir, int sel)
+int CURSOR_MOVE_MoveCursor(struct Sound *obj, u32 dir, int sel)
 {
     int direct;
     u32 n;
@@ -72,7 +72,7 @@ int func_02026010(struct Sound *obj, u32 dir, int sel)
 loop:
     if ((obj->bits[(u32)sel >> 5] & (1 << (sel % 32))) == 0) {
         direct = 0;
-        n = (u8)(func_02025F60((const u8 *)obj->entries, sel, dir) & 0x7f);
+        n = (u8)(CURSOR_MOVE_GetNeighbour((const u8 *)obj->entries, sel, dir) & 0x7f);
         if (n == (u32)sel || n == obj->field_D) {
             sel = obj->field_D;
         } else {
@@ -82,7 +82,7 @@ loop:
     }
 
     if (obj->field_D != sel) {
-        if (func_02026178((const u8 *)(&obj->entries[sel]), dir) == 1 && direct) {
+        if (CURSOR_MOVE_IsWrapNeighbour((const u8 *)(&obj->entries[sel]), dir) == 1 && direct) {
             obj->field_F = obj->field_D;
         } else {
             obj->field_F = 0xff;

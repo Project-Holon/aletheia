@@ -1,5 +1,5 @@
 /*
- * function: func_0207B60C
+ * function: MTX_ScaleApply43
  * address:  0x0207B60C
  * packet:   pkt_0207B60C
  * region:   arm9
@@ -41,7 +41,7 @@ typedef union {
 
 extern void MTX_ScaleApply33(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
 
-void func_0207B60C(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z)
+void MTX_ScaleApply43(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z)
 {
     MTX_ScaleApply33((const MtxFx33 *)pSrc, (MtxFx33 *)pDst, x, y, z);
     pDst->_30 = pSrc->_30;

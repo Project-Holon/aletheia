@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216AA9C",
+   "name": "DWCi_GetAuthInfo",
    "address": "0x0216AA9C",
    "kind": "sdk",
    "region": "ov009",

@@ -15,7 +15,7 @@
  *   func_02030734  0x02030734  arm
  *   func_0207AF1C  0x0207AF1C  thumb
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb  ov010
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FIELD_G3D_MAPPER_GetOriginOffset  0x0218DC5C  thumb  ov021
  *   FIELD_BUILDMODEL_InitAnimSet  0x0218BFB4  thumb  ov021
  *   FIELD_BUILDMODEL_AddNode  0x0218BA70  thumb  ov021
@@ -37,7 +37,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_0207AF1C(void *m, int a, int b);
 struct V3;
 extern void FIELD_G3D_MAP_GetPos(u8 *src, struct V3 *dst);
-extern void func_0207C9D0(void *a, void *b, void *c);
+extern void VEC_Add(void *a, void *b, void *c);
 extern void FIELD_G3D_MAPPER_GetOriginOffset(u32 a, void *b);
 extern void FIELD_BUILDMODEL_InitAnimSet(u8 *a, u32 *out, u32 *st);
 extern void FIELD_BUILDMODEL_AddNode(u8 *owner, u8 *node);
@@ -59,9 +59,9 @@ u8 *FIELD_BUILDMODEL_CreateNodeFromEntry(u8 *owner, u32 *obj)
     k = ((struct Obj12576 *)def)->f10 >> 4;
     func_0207AF1C(p + 0x3C, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
     FIELD_G3D_MAP_GetPos((u8 *)obj[0], (struct V3 *)(p + 0x24));
-    func_0207C9D0(p + 0x24, def + 4, p + 0x24);
+    VEC_Add(p + 0x24, def + 4, p + 0x24);
     FIELD_G3D_MAPPER_GetOriginOffset(((struct Obj04199 *)owner)->f4, tmp);
-    func_0207C9D0(p + 0x24, tmp, p + 0x24);
+    VEC_Add(p + 0x24, tmp, p + 0x24);
     ((struct Obj04200 *)p)->f30 = 0x1000;
     ((struct Obj04200 *)p)->f34 = 0x1000;
     ((struct Obj04200 *)p)->f38 = 0x1000;

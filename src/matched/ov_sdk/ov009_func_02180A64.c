@@ -1,5 +1,5 @@
 /*
- * function: func_02180A64
+ * function: gsUdpReceivedRoutingCB
  * address:  0x02180A64
  * packet:   pkt_ov009_02180A64
  * region:   ov009
@@ -84,7 +84,7 @@ extern char g_021A3A30[];
 extern char g_021A39EC[];
 extern char g_021A3A14[];
 
-void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
+void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
 {
     GSUdpEngineObject *aUdp;
     GSUdpMsgHandler aHandler;

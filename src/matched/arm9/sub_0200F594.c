@@ -1,5 +1,5 @@
 /*
- * function: sub_0200F594
+ * function: GFL_NET_ERR_StoreFriendRecord
  * address:  0x0200F594
  * packet:   pkt_0200F38C
  * region:   arm9
@@ -15,7 +15,7 @@
  *   MYSTATUS_GetOutfit   0x02008554  thumb
  *   WIFILIST_SetFriendInfoField   0x02009918  thumb
  *   WIFILIST_GetDwcFriendData   0x020099C8  thumb
- *   sub_0200F520   0x0200F520  thumb
+ *   GFL_NET_ERR_StoreFriendProfile   0x0200F520  thumb
  *   sub_0201283C   0x0201283C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  */
@@ -29,11 +29,11 @@ extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern void WIFILIST_SetFriendInfoField(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 struct BigObj;
-extern void sub_0200F520(void *obj, void *src, int i, int sel, int flag);
+extern void GFL_NET_ERR_StoreFriendProfile(void *obj, void *src, int i, int sel, int flag);
 extern u32 sub_0201283C(const struct BigObj *p);
 extern void  MI_CpuCopy8(void *dst, const void *src, unsigned n);
 
-void sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4, int mode)
+void GFL_NET_ERR_StoreFriendRecord(void *a0, void *a1, void *a2, int a3, void *a4, int mode)
 {
     void *obj = (void *)sub_0201283C(a0);
     void *src = WIFILIST_GetDwcFriendData(obj, a3);
@@ -42,9 +42,9 @@ void sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4, int mode)
         MI_CpuCopy8(a2, src, 0xc);
     }
     if (mode == 0) {
-        sub_0200F520(obj, a1, a3, (int)a4, 1);
+        GFL_NET_ERR_StoreFriendProfile(obj, a1, a3, (int)a4, 1);
     } else if (mode == 1) {
-        sub_0200F520(obj, a1, a3, (int)a4, 0);
+        GFL_NET_ERR_StoreFriendProfile(obj, a1, a3, (int)a4, 0);
     }
     WIFILIST_SetFriendInfoField(obj, a3, 8, MYSTATUS_GetOutfit(a1));
 }

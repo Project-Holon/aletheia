@@ -20,7 +20,7 @@
  * symbols:
  *   func_02008FC8 0x02008FC8 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   PMS_DRAW_Clear  0x0202DC9C  thumb  arm9
  */
 #include "../include/Obj01066.h"
@@ -36,7 +36,7 @@ struct Sub02008F80Obj;
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 void MB_SEQ_ClearMailDetailText(u8 *p)
 {
     int i;
@@ -48,6 +48,6 @@ void MB_SEQ_ClearMailDetailText(u8 *p)
     if (((struct Obj23644 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f364 != 0) {
         PMS_DRAW_Clear(((struct Obj23645 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, (u8)i, (int)0);
     }
-    func_020414EC(4);
-    func_020414EC(5);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_ClearSlot(5);
 }

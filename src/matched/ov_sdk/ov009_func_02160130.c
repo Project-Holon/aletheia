@@ -14,7 +14,7 @@
  * sdk:      get_rootCA (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  */
 
 typedef struct {
@@ -27,7 +27,7 @@ typedef struct {
 	int rootCaNum;
 } Con;
 
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 
 CaInfo *get_rootCA(Con *con, char *dn)
 {
@@ -38,7 +38,7 @@ CaInfo *get_rootCA(Con *con, char *dn)
 		list = con->rootCa;
 		do {
 			CaInfo *ca = list[i];
-			if (func_020948E0(ca->name, dn) == 0) {
+			if (strcmp(ca->name, dn) == 0) {
 				return ca;
 			}
 			i++;

@@ -20,8 +20,8 @@
  *   func_02092344  0x02092344  arm
  *   func_020816B8  0x020816B8  arm
  *   strlen  0x0209477C  arm
- *   func_02094860  0x02094860  arm
- *   func_020949F4  0x020949F4  arm
+ *   strncpy  0x02094860  arm
+ *   strncmp  0x020949F4  arm
  *   func_0205A29C  0x0205A29C  arm
  *   DWCi_EncSetError  0x021CA06C  arm  ov114
  *   DWCi_EncSessionValidateResponse  0x021C99D0  arm  ov114
@@ -62,8 +62,8 @@ typedef struct { char c[20]; } Key20;
 extern void *func_02092344();
 extern void func_020816B8(void *digest, void *data, u32 len);
 extern unsigned long strlen(const char *s);
-extern char *func_02094860();
-extern int func_020949F4();
+extern char *strncpy();
+extern int strncmp();
 extern void DWCi_EncSetError(void);
 extern void func_0205A29C(void *ptr);
 extern int DWCi_EncSessionValidateResponse(char *buf, int len);
@@ -93,7 +93,7 @@ void DWCi_EncSessionCompleteCallback(char *buf, int len, int result)
                     gDwcEncSession.hash[i * 2 + 1] = hextbl[hash[i] & 15];
                 }
                 gDwcEncSession.hash[-strlen(sDwcEncSessionHash)] = '&';
-                func_02094860(gDwcEncSession.lastHash, gDwcEncSession.hash, 41);
+                strncpy(gDwcEncSession.lastHash, gDwcEncSession.hash, 41);
                 gDwcEncSession.state = 6;
             } else {
                 DWCi_EncSetError();
@@ -101,7 +101,7 @@ void DWCi_EncSessionCompleteCallback(char *buf, int len, int result)
             func_0205A29C(buf);
             break;
         case 7:
-            if (func_020949F4(buf, sDwcEncSessionError, strlen(sDwcEncSessionError)) == 0) {
+            if (strncmp(buf, sDwcEncSessionError, strlen(sDwcEncSessionError)) == 0) {
                 func_0205A29C(buf);
                 DWCi_EncSetError();
                 return;

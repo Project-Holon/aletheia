@@ -16,9 +16,9 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0203FA08  0x0203FA08  arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
  *   func_02049658  0x02049658  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
@@ -31,9 +31,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_0203FA08(u32 a, u32 b, u32 c);
+extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *p, u32 a, u32 b, void **out, u16 d);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern u32 func_020307B0(void *p);
@@ -50,10 +50,10 @@ void UNION_SUBDISP_LoadFrameBg(u32 *p)
     int i;
 
     h = func_020490F4(0x53, 0x15);
-    r = func_0203FA08(5, 0x80, 1);
+    r = BG_SYS_CreateRun(5, 0x80, 1);
     p[1] = r;
     func_02049658(h, 0x1C, 5, r, 0x80, 0, 0x15);
-    pal = (u16 *)func_0204162C(5);
+    pal = (u16 *)BG_SYS_GetBuf(5);
     res = ARC_UTIL_LoadPaletteDataFromHandle(h, 0x1D, 0, (void **)&out, 0x15);
     MI_CpuCopy8((u16 *)(out + 0xC) + 0x2A0, pal + 0x2A0, 0xC0);
     func_020307B0(res);

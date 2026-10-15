@@ -1,5 +1,5 @@
 /*
- * function: func_021D48D8
+ * function: INTRUDE_COMM_VIEW_CreateResources
  * address: 0x021D48D8
  * packet: pkt_ov122_021D48D8
  * region: ov122
@@ -25,8 +25,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
- *   func_021D4644 0x021D4644 thumb ov122
- *   func_021D46CC 0x021D46CC thumb ov122
+ *   INTRUDE_COMM_VIEW_BrightenPalette 0x021D4644 thumb ov122
+ *   INTRUDE_COMM_VIEW_CreateActors 0x021D46CC thumb ov122
  *   data_021D5870 0x021D5870 data a2
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  */
@@ -48,7 +48,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u16 data_021D5870[];
-extern void func_021D4644(u16 *, const u16 *, int);
+extern void INTRUDE_COMM_VIEW_BrightenPalette(u16 *, const u16 *, int);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -58,8 +58,8 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(u32);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
-extern void func_021D46CC(char *);
-void func_021D48D8(char *p)
+extern void INTRUDE_COMM_VIEW_CreateActors(char *);
+void INTRUDE_COMM_VIEW_CreateResources(char *p)
 {
     u32 arc;
     void *resource;
@@ -76,7 +76,7 @@ void func_021D48D8(char *p)
     resource = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc, 1, (u32)&palette, ((struct Obj00073 *)p)->fC);
     MI_CpuCopy8(((struct Obj13963 *)palette)->fC, p + 0x12c, 0xe0);
     MI_CpuCopy8(((struct Obj13963 *)palette)->fC, p + 0x20c, 0xe0);
-    func_021D4644((u16 *)(p + 0x20c), data_021D5870, 7);
+    INTRUDE_COMM_VIEW_BrightenPalette((u16 *)(p + 0x20c), data_021D5870, 7);
     func_020307B0(resource);
     ((struct Obj00073 *)p)->f60 = func_02049740((void *)arc, 4, 4, 0, 0, ((struct Obj00073 *)p)->fC);
     ARC_UTIL_UploadBgPaletteAddFromHandle((void *)arc, 9, 4, 0, (u16)(((struct Obj00073 *)p)->f60), 0, 0, ((struct Obj00073 *)p)->fC);
@@ -87,5 +87,5 @@ void func_021D48D8(char *p)
     ARC_TOOL_DeleteHandle(arc);
     ((struct Obj00073 *)p)->f5C = func_0201F5DC((void *)5, 11, 0, ((struct Obj00073 *)p)->fC);
     func_02049B40(23, 5, 4, 384, 32, ((struct Obj00073 *)p)->fC);
-    func_021D46CC(p);
+    INTRUDE_COMM_VIEW_CreateActors(p);
 }

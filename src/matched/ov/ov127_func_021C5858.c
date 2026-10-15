@@ -1,5 +1,5 @@
 /*
- * function: func_021C5858
+ * function: WF2DMAP_OBJDRAW_GetActorValue2
  * address:  0x021C5858
  * packet:   pkt_ov127_021C5858
  * region:   ov127
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled accessor veneer after func_021C584C (`ldr r0,[r0,#4]; ldr r3,=
+ * Unlabelled accessor veneer after WF2DMAP_OBJDRAW_SetActorValue2 (`ldr r0,[r0,#4]; ldr r3,=
  * func_021C4224; bx r3`).  Blocker of ov099 func_021B989C.
  *
  * symbols:
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern int func_021C4224(u8 *p);
 
-int func_021C5858(u8 *p)
+int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
 {
     return func_021C4224(((struct Obj23052 *)p)->f4);
 }

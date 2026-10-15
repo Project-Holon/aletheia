@@ -1,5 +1,5 @@
 /*
- * function: func_02168F18
+ * function: DWCi_GPRecvBuddyAuthCallback
  * address:  0x02168F18
  * packet:   pkt_ov009_02168F18
  * region:   ov009
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   func_02185BD8  0x02185BD8  arm
- *   func_02169E18  0x02169E18  arm
+ *   DWCi_GPGetInfoCallback_RecvAuthMessage  0x02169E18  arm
  */
 
 extern int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
                          void (*callback)(void **, void *, void *), void *param);
-extern void func_02169E18(void *arg);
+extern void DWCi_GPGetInfoCallback_RecvAuthMessage(void *arg);
 
-int func_02168F18(void **connection, int *arg)
+int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg)
 {
-    func_02185BD8(connection, *arg, 0, 0, (void (*)(void **, void *, void *))func_02169E18, 0);
+    func_02185BD8(connection, *arg, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
     return 1;
 }

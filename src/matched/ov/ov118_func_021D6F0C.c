@@ -1,5 +1,5 @@
 /*
- * function: func_021D6F0C
+ * function: POKETRADE_DEMO_MIDDLE_SetupEmitterB
  * address:  0x021D6F0C
  * packet:   pkt_021D6F0C
  * region:   ov118
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D6ECC  0x021D6ECC  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_UpdateEmitterB  0x021D6ECC  thumb  ov118
  *   BUTTON_MAN_SetCallback  0x02051A24  arm  arm9
  *   BUTTON_MAN_SetUserData  0x02051A2C  arm  arm9
  *
@@ -26,10 +26,10 @@ typedef unsigned int   u32;
 extern u32 func_02051774(void);
 extern void BUTTON_MAN_SetUserData(void *p, int v);
 extern void BUTTON_MAN_SetCallback(void *p, int v);
-extern void func_021D6ECC(void *obj, int on);
+extern void POKETRADE_DEMO_MIDDLE_UpdateEmitterB(void *obj, int on);
 
-void func_021D6F0C(void *p)
+void POKETRADE_DEMO_MIDDLE_SetupEmitterB(void *p)
 {
     BUTTON_MAN_SetUserData(p, func_02051774());
-    BUTTON_MAN_SetCallback(p, (int)func_021D6ECC);
+    BUTTON_MAN_SetCallback(p, (int)POKETRADE_DEMO_MIDDLE_UpdateEmitterB);
 }

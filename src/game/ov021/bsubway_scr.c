@@ -14,8 +14,8 @@
  * bsubway_scr.c __FILE__ anchors at 0x021C9934 and 0x021CA4C0; 0x021C9924 is called only from 0x021CA57C.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   func_02011330  0x02011330  thumb
@@ -42,7 +42,7 @@
  *   func_0200DAC4  0x0200DAC4  thumb
  *   func_0200D914  0x0200D914  thumb
  *   func_0200D884  0x0200D884  thumb
- *   func_020127A4  0x020127A4  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
  *   func_0200DA54  0x0200DA54  thumb
  *   func_0200DB80  0x0200DB80  thumb
  *   BTL_SETUP_Delete  0x020130B4  thumb
@@ -63,9 +63,9 @@
  *   func_0200DC0C  0x0200DC0C  thumb
  *   func_0200DBFC  0x0200DBFC  thumb
  *   data_021DACD0  0x021DACD0  data
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_0200DC94  0x0200DC94  thumb
  *   func_0200DC50  0x0200DC50  thumb
@@ -83,7 +83,7 @@
  *   BATTLE_REC_IsVersionSupported  0x0200BA38  thumb
  *   BATTLE_REC_LoadToolOverlay  0x0200BA58  thumb
  *   BATTLE_REC_UnloadToolOverlay  0x0200BA68  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
+ *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   func_0200D87C  0x0200D87C  thumb
  *   func_0200D9E8  0x0200D9E8  thumb
  *   func_0200DA28  0x0200DA28  thumb
@@ -100,14 +100,14 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   VM_SetWait  0x020113D0  thumb
- *   func_02012124  0x02012124  thumb
+ *   ICA_ANIME_SetField30  0x02012124  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
- *   func_0201289C  0x0201289C  thumb
+ *   GAME_DATA_SetField168  0x0201289C  thumb
  *   ov007_id       0x00000007  data  a1
  *   ov100_id       0x00000064  data  a1
  *   ov214_id       0x000000D6  data  a1
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_SetDirectLocation  0x02014184  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
@@ -180,7 +180,7 @@
  *   d_021DAEBC     0x021DAEBC  data  a2
  *   d_021DADF8     0x021DADF8  data  a4
  *   data_021DAEBC  0x021DAEBC  data
- *   func_0200B6E0  0x0200B6E0  thumb
+ *   BATTLE_REC_BeginSave  0x0200B6E0  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
@@ -316,8 +316,8 @@ typedef struct TrainerNoRange {
 
 
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void *func_0201210C(const struct GameSystem *p);
-extern void *func_020120F4(const struct GameSystem *p);
+extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern u16 func_02011330(struct ScriptStream *s);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
@@ -342,7 +342,7 @@ extern u32 func_0200DB44(struct BsubwayScoreData *p, u32 i);
 extern u16 func_0200DAC4(struct BsubwayScoreData *p, u32 i);
 extern void func_0200D914(struct BsubwayPlayData *p, u32 id, const void *src);
 extern u32 func_0200D884(struct BsubwayPlayData *p, u32 id, void *out);
-extern void *func_020127A4(void *p);
+extern void *GAME_DATA_GetField114(void *p);
 extern u16 func_0200DA54(struct BsubwayPlayData *p);
 extern u16 func_0200DB80(struct BsubwayScoreData *p, u32 i);
 extern int BTL_SETUP_Delete(int a0);
@@ -361,16 +361,16 @@ extern u32 func_0200DBA0(struct BsubwayScoreData *p, s32 i, u32 op);
 extern void func_0200DBF0(struct BsubwayScoreData *p);
 extern u8 func_0200DC0C(struct BsubwayScoreData *p, u32 kind);
 extern void func_0200DBFC(struct BsubwayScoreData *p);
-extern void *func_0200BAC8(void *p);
+extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *func_0200BAF4(int a0, int a1);
-extern void *func_02012934(const struct GameData *p);
+extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern int func_0209C0A4(int a, int b);
 extern void func_0200DC94(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
 extern void func_0200DC50(struct BsubwayScoreData *p, u32 which, const void *src);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
 extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
-extern u32 func_0201296C(const struct GameData *p);
+extern u32 GAME_DATA_GetEventWork(const struct GameData *p);
 extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 extern void SCRIPT_SYS_CallEvent(void *h, void *task);
 extern void OS_ResetSystem(u32 a);
@@ -378,7 +378,7 @@ extern u32 func_0200D87C(struct BsubwayPlayData *p);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void ZONEDATA_SetDirectLocation(ReturnLocation *out, u32 id, s16 n, u32 a, u32 b, u32 c);
-extern void func_0201289C(struct GameData *p, const struct ReturnLocation *src);
+extern void GAME_DATA_SetField168(struct GameData *p, const struct ReturnLocation *src);
 extern void ZONEDATA_SetEventFlag(char *a0, int a1);
 extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
 extern u32 FIELD_PLAYER_GetSex(u8 *p);
@@ -393,7 +393,7 @@ extern void FLDEFF_BTRAIN_SetHidden(void *o, u32 v);
 extern void FLDMMDL_InitPosition(void *a, int *p, int b);
 extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
-extern u32 func_0200BBA8(void *a);
+extern u32 BATTLE_BOX_HasMon(void *a);
 extern void FLDMMDL_OnMoveBitMovePause(void *o);
 extern int FLDMMDL_GetParam(char *a0, int a1);
 extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
@@ -437,7 +437,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void MISC_SAVEDATA_InsertRecentValue(struct GdsProfileSave *l, u32 val);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_02012124(struct GameSystem *p, u32 v);
+extern void ICA_ANIME_SetField30(struct GameSystem *p, u32 v);
 extern u32 func_0200FB24(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern int BSUBWAY_COMM_SendData(BsubwayScrWork *work);
@@ -461,7 +461,7 @@ extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct WifiRecordEntry *e);
 extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
 extern int FLDMMDL_SetParam(int a0, int a1, int a2);
 extern void FLDMMDL_SetEventId(void *h, u16 v);
-extern u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
+extern u32 BATTLE_REC_BeginSave(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
@@ -570,7 +570,7 @@ extern const TrainerNoRange d_021DB3F4[];
  */
 int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem)
 {
-    return (int)GAME_DATA_SetCurrentEvent(func_020120F4(gameSystem), 0);
+    return (int)GAME_DATA_SetCurrentEvent(ICA_ANIME_GetField1C(gameSystem), 0);
 }
 
 
@@ -590,7 +590,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     u16 round;
     u8 saveByte;
 
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     myStatus = func_02012944(gameData);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     work = func_02030734(4, 0x7EC, 1, d_021DE58C, 0x5f);
@@ -627,7 +627,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
             work->stateBits.partnerNo = (u8)func_0200D884(work->playData, 9, 0);
             func_0200D884(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
             trainerBase = 0x12f;
-            if (func_02008550((const struct MyStatus *)((u8 *)func_020127A4(gameData) + 0x20)) != 0)
+            if (func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114(gameData) + 0x20)) != 0)
                 trainerBase -= 3;
             i = work->stateBits.partnerNo;
             BSUBWAY_SCR_CreatePartnerMons(work, &work->partners[i], trainerBase + i, func_0200D884(work->playData, 7, 0), &work->partnerDraws[i], work->heapId);
@@ -660,7 +660,7 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
         MI_CpuFill8(work, 0, 0x7EC);
         func_020307B0(work);
     }
-    GAME_DATA_SetCurrentEvent(func_020120F4(gameSystem), 0);
+    GAME_DATA_SetCurrentEvent(ICA_ANIME_GetField1C(gameSystem), 0);
 }
 
 
@@ -779,7 +779,7 @@ void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work)
  */
 u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem)
 {
-    u32 saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)func_020120F4(gameSystem));
+    u32 saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)ICA_ANIME_GetField1C(gameSystem));
     u32 playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
     u32 scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
     u8 playMode = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
@@ -1130,7 +1130,7 @@ void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
 {
     if (work->partyCopy != 0)
         func_020307B0(work->partyCopy);
-    work->partyCopy = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(work->gameData)), 4);
+    work->partyCopy = func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)), 4);
 }
 
 
@@ -1146,7 +1146,7 @@ void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
 void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work)
 {
     if (func_0200D884(work->playData, 10, 0) == 0)
-        return func_02012934(work->gameData);
+        return GAME_DATA_GetMyParty(work->gameData);
     return work->partyCopy;
 }
 
@@ -1418,7 +1418,7 @@ int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
 
     SCRIPT_WORK_ResetFieldParam((int)scriptWork);
     gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
-    BSUBWAY_SCR_DeleteWork((GameSystem *)gameSystem, GAME_DATA_GetCurrentEvent(func_020120F4((const struct GameSystem *)gameSystem)));
+    BSUBWAY_SCR_DeleteWork((GameSystem *)gameSystem, GAME_DATA_GetCurrentEvent(ICA_ANIME_GetField1C((const struct GameSystem *)gameSystem)));
     return 0;
 }
 
@@ -1490,15 +1490,15 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
     SCRIPT_WORK_ResetFieldParam((int)scriptWork);
     gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
-    gameData = (u32)func_020120F4((const struct GameSystem *)gameSystem);
+    gameData = (u32)ICA_ANIME_GetField1C((const struct GameSystem *)gameSystem);
     saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)gameData);
-    eventFlags = func_0201296C((const struct GameData *)gameData);
+    eventFlags = GAME_DATA_GetEventWork((const struct GameData *)gameData);
     work = GAME_DATA_GetCurrentEvent((struct GameData *)gameData);
     playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
     playMode = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
     scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
     wifiData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3b);
-    fieldMap = func_0201210C((void *)gameSystem);
+    fieldMap = ICA_ANIME_GetField20((void *)gameSystem);
     cmd = func_02011330(scriptCtx);
     arg1 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
     arg2 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
@@ -1544,7 +1544,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
             break;
         }
         ZONEDATA_SetDirectLocation(&playerLocation, FIELDMAP_GetZoneId(fieldMap), dirCode, playerPos.x, playerPos.y, playerPos.z);
-        func_0201289C((struct GameData *)gameData, (const struct ReturnLocation *)(&playerLocation));
+        GAME_DATA_SetField168((struct GameData *)gameData, (const struct ReturnLocation *)(&playerLocation));
         ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
         break;
     }
@@ -1666,12 +1666,12 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = func_0200DB80((struct BsubwayScoreData *)scoreData, arg1);
         break;
     case BSUBWAY_SCR_CMD_GET_PARTNER_LOOK:
-        *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct MyStatus *)((u8 *)func_020127A4((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
+        *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_REC_SAVED: {
-        u32 recordSys = (u32)func_0200BAC8((void *)saveControl);
+        u32 recordSys = (u32)BATTLE_BOX_GetFromSave((void *)saveControl);
         *resultDst = 0;
-        if (func_0200BBA8((void *)recordSys) == 1)
+        if (BATTLE_BOX_HasMon((void *)recordSys) == 1)
             *resultDst = 1;
         break;
     }
@@ -1737,7 +1737,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         u16 tableIndex = BSUBWAY_SCR_GetTrainNo(fieldMap);
         const VecFx32 *pos = &data_021DAE50[tableIndex];
         ZONEDATA_SetDirectLocation(&tableLocation, data_021DADAC[tableIndex], 4, pos->x, pos->y, pos->z);
-        func_0201289C((struct GameData *)gameData, (const struct ReturnLocation *)(&tableLocation));
+        GAME_DATA_SetField168((struct GameData *)gameData, (const struct ReturnLocation *)(&tableLocation));
         ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
         break;
     }
@@ -1808,7 +1808,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         if (playMode < 9) {
             const VecFx32 *pos = &data_021DAE50[playMode];
             ZONEDATA_SetDirectLocation(&modeLocation, data_021DADAC[playMode], 4, pos->x, pos->y, pos->z);
-            func_0201289C((struct GameData *)gameData, (const struct ReturnLocation *)(&modeLocation));
+            GAME_DATA_SetField168((struct GameData *)gameData, (const struct ReturnLocation *)(&modeLocation));
             ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
         }
         break;
@@ -1937,7 +1937,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_CREATE_PARTNERS:
-        BSUBWAY_SCR_CreatePartners(work, func_02008550((const struct MyStatus *)((u8 *)func_020127A4((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
+        BSUBWAY_SCR_CreatePartners(work, func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_MONS_NO:
         *resultDst = work->memberMonsNo[arg1];
@@ -1958,10 +1958,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         partySource = func_0200D884((struct BsubwayPlayData *)playData, 10, 0);
         regulation = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(playMode), 4);
         if (partySource == 1) {
-            recordParty = func_0200BAF4((u32)func_0200BAC8((void *)saveControl), 4);
+            recordParty = func_0200BAF4((u32)BATTLE_BOX_GetFromSave((void *)saveControl), 4);
             checkedParty = recordParty;
         } else {
-            checkedParty = func_02012934((void *)gameData);
+            checkedParty = GAME_DATA_GetMyParty((void *)gameData);
         }
         checkResult = func_02019ED4(regulation, checkedParty);
         func_020307B0(regulation);
@@ -2188,7 +2188,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         GFL_NET_ERR_RequestScreen();
         break;
     case BSUBWAY_SCR_CMD_SET_SYSTEM_MODE:
-        func_02012124((struct GameSystem *)gameSystem, 1);
+        ICA_ANIME_SetField30((struct GameSystem *)gameSystem, 1);
         break;
     case BSUBWAY_SCR_CMD_IS_SYSTEM_FLAG_SET:
         *resultDst = 0;
@@ -2220,7 +2220,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
  */
 int func_021CB6DC(void *task, void *script)
 {
-    if (BSUBWAY_COMM_SendData(GAME_DATA_GetCurrentEvent(func_020120F4(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(script))))) == 1)
+    if (BSUBWAY_COMM_SendData(GAME_DATA_GetCurrentEvent(ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(script))))) == 1)
         return 1;
     return 0;
 }
@@ -2237,7 +2237,7 @@ int func_021CB700(u32 unused, u32 script)
     u16 *resultDst;
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
-    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    gameData = ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptWork));
     work = GAME_DATA_GetCurrentEvent(gameData);
     resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, work->resultWorkId);
     if (func_0200FB24() != 0) {
@@ -2265,9 +2265,9 @@ int func_021CB754(u32 unused, u32 script)
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
     SCRIPT_WORK_ResetFieldParam((int)scriptWork);
-    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    gameData = ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptWork));
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    func_0201296C(gameData);
+    GAME_DATA_GetEventWork(gameData);
     work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
     func_0200D884(func_020071CC(saveControl, 0x39), 0, 0);
@@ -2306,9 +2306,9 @@ int func_021CB7E8(u32 unused, u32 script)
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
     SCRIPT_WORK_ResetFieldParam((int)scriptWork);
-    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    gameData = ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptWork));
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    func_0201296C(gameData);
+    GAME_DATA_GetEventWork(gameData);
     work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
     func_0200D884(func_020071CC(saveControl, 0x39), 0, 0);
@@ -2342,7 +2342,7 @@ int func_021CB86C(u32 unused, u32 script)
     u16 *resultDst;
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
-    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    gameData = ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptWork));
     work = GAME_DATA_GetCurrentEvent(gameData);
     resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, work->resultWorkId);
     if (BSUBWAY_COMM_IsRecvEnd(work, resultDst) == 1)
@@ -2426,7 +2426,7 @@ int func_021CB934(void *task, int *state, ScreenTaskWork *taskWork)
         (*state)++;
     case 1:
         if (SCRCMD_WORK_CountDownWait(taskWork->script) == 1) {
-            taskWork->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg(func_0201210C(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
+            taskWork->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
             (*state)++;
         }
         break;
@@ -2634,7 +2634,7 @@ int func_021CBC14(u32 unused, u32 script)
     int number;
     int messageResult;
 
-    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork((void *)script)));
+    gameData = ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork((void *)script)));
     work = GAME_DATA_GetCurrentEvent(gameData);
     messageId = 20;
     number = work->msgNumber;
@@ -2656,7 +2656,7 @@ int func_021CBC14(u32 unused, u32 script)
     }
     if (number > 9999)
         number = 9999;
-    messageResult = func_0200B6E0(gameData, 4, messageId, number, 0, &work->msgState, &work->msgSubState);
+    messageResult = BATTLE_REC_BeginSave(gameData, 4, messageId, number, 0, &work->msgState, &work->msgSubState);
     if (messageResult == 2 || messageResult == 3)
         return 1;
     return 0;

@@ -12,7 +12,7 @@
  * Twin of FIELD_CAMERA_PrepareTargetMode with mode 0 and the other matrix pair.
  *
  * symbols:
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   FIELD_CAMERA_SetAnglesFromVector  0x0218E674  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -21,7 +21,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_0207CA00(void *a, void *b, void *c);
+extern void VEC_Subtract(void *a, void *b, void *c);
 typedef unsigned int   u32;
 extern void FIELD_CAMERA_SetAnglesFromVector(u8 *a, u32 b);
 
@@ -33,7 +33,7 @@ void FIELD_CAMERA_PrepareEyeMode(u8 *a)
         ((struct Obj01848 *)a)->f7A = ((struct Obj01848 *)a)->f7A + 0x8000;
         ((struct Obj01848 *)a)->f78 = ((struct Obj01848 *)a)->f78 + 0x8000;
     } else {
-        func_0207CA00(a + 0x48, a + 0x3C, tmp);
+        VEC_Subtract(a + 0x48, a + 0x3C, tmp);
         FIELD_CAMERA_SetAnglesFromVector(a, (u32)tmp);
     }
 }

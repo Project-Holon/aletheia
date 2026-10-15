@@ -16,10 +16,10 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -90,10 +90,10 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -171,7 +171,7 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
         t = FIELDMAP_GetMsgBg(o->f0);
         o->f8 = FIELD_MSGBG_CreateMsgData(t, 0x2D);
         o->fc = FIELD_MSGBG_CreateBottomMsgWin(t, o->f8);
-        o->f10 = func_0201EC64(4);
+        o->f10 = GF_FONT_Create_EC64(4);
         if (p->slot == GAME_DATA_GetExitMode(ctx)) {
             if (o->f16 == 1)
                 FIELD_MSGBG_MsgWinPrintMsg(o->fc, 0, 0, 0x4F);
@@ -206,7 +206,7 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
         if (o->fc != 0) {
             FIELD_MSGBG_DeleteMsgWin((void *)o->fc);
             MSGDATA_Delete((struct Rec *)o->f8);
-            func_0201ED04(o->f10);
+            WORDSET_DeleteStrbufED04(o->f10);
         }
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(o->f0));
         return 1;

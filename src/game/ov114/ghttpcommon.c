@@ -16,12 +16,12 @@
  *   ghiResizeBuffer  0x021bfb90  arm   ov114
  *   func_0217D254  0x0217d254  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   sGhttpGhidecryptreceiveddataReadPastTheEnd     0x021ce5b4  data  ov114
- *   func_0217F264                    0x0217f264 arm  ov009
+ *   current_time                    0x0217f264 arm  ov009
  *   ghiEncryptorSslReceiveFunc                    0x021c1c80 arm  ov114
  *   func_0217EC4C                    0x0217ec4c arm  ov009
- *   func_0217ED54                    0x0217ed54 arm  ov009
+ *   GOAGetLastError                    0x0217ed54 arm  ov009
  *   gGhttpThrottle                       0x021ce5ac data
  *   sGhttpReceivedBytes                       0x021ce60c data
  *   ghiEncryptorSslSendFunc  0x021c1c78  arm  ov114
@@ -39,14 +39,13 @@
 extern int ghiResizeBuffer(GHIBuffer *, int);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiResetBuffer(GHIBuffer *);
-extern void *func_02092364(void *, const void *, unsigned int);
-extern unsigned int func_0217F264(void);
+extern void *memmove(void *, const void *, unsigned int);
+extern unsigned int current_time(void);
 extern int ghiEncryptorSslReceiveFunc(GHIConnection *connection, GHIEncryptor *encryptor, char *buffer, int *bufferLen);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
-extern int func_0217ED54(int sock);
+extern int GOAGetLastError(int sock);
 extern int ghiEncryptorSslSendFunc(GHIConnection *connection, GHIEncryptor *encryptor, char *buffer, int bufferLen, int *bytesSent);
 extern int send(int, char *, int, int);
-extern int GOAGetLastError(int);
 extern int ghiEncryptDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 extern int ghiSendBufferedData(GHIConnection *connection);
 extern int ghiDoSend(GHIConnection *connection, char *buffer, int len);
@@ -100,7 +99,7 @@ int ghiDecryptReceivedData(GHIConnection *connection)
         if (bytesToKeep == 0) {
             ghiResetBuffer(&connection->decodeBuffer);
         } else {
-            func_02092364(connection->decodeBuffer.data, connection->decodeBuffer.data + connection->decodeBuffer.pos, bytesToKeep);
+            memmove(connection->decodeBuffer.data, connection->decodeBuffer.data + connection->decodeBuffer.pos, bytesToKeep);
             connection->decodeBuffer.pos = 0;
             connection->decodeBuffer.len = bytesToKeep;
         }
@@ -121,7 +120,7 @@ int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen)
     len = *bufferLen - 1;
 
     if (connection->throttle) {
-        unsigned int now = func_0217F264();
+        unsigned int now = current_time();
         if (now < connection->lastThrottleRecv + gGhttpThrottle.timeDelay)
             return 1;
         connection->lastThrottleRecv = now;
@@ -148,7 +147,7 @@ int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen)
     } else {
         rcode = func_0217EC4C(connection->socket, buffer, len, 0);
         if (rcode == -1) {
-            socketError = func_0217ED54(connection->socket);
+            socketError = GOAGetLastError(connection->socket);
             if (socketError == -56) {
                 connection->connectionClosed = 1;
                 return 2;

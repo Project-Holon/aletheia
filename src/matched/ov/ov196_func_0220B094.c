@@ -1,5 +1,5 @@
 /*
- * function: func_0220B094
+ * function: B_APP_TOOL_ShowWindows
  * address:  0x0220B094
  * packet:   pkt_0220B094
  * region:   ov196
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220B07C  0x0220B07C  thumb  ov196
+ *   B_APP_TOOL_ShowWindow  0x0220B07C  thumb  ov196
  */
-extern void func_0220B07C(void **p);
+extern void B_APP_TOOL_ShowWindow(void **p);
 
-void func_0220B094(char *p, unsigned char *q)
+void B_APP_TOOL_ShowWindows(char *p, unsigned char *q)
 {
     int i = 0;
     for (;;) {
         unsigned char c = q[i];
         if (c == 0xff)
             break;
-        func_0220B07C((void **)(p + (c << 3)));
+        B_APP_TOOL_ShowWindow((void **)(p + (c << 3)));
         i++;
     }
 }

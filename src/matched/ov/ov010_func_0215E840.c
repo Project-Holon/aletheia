@@ -34,15 +34,15 @@
  *   MOVE_POKEMON_IsInSkillArea  0x0215F118  thumb  ov010
  *   ZONEDATA_IsFlyEnabled  0x02013C40  thumb
  *   ZONEDATA_IsWeatherEnabled  0x02013C50  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B38  0x02012B38  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
  *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb
  *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   ZONEDATA_IsRawZoneF6  0x0201400C  thumb
  *   ZONEDATA_IsRawZoneF7  0x02014018  thumb
  *   ZONEDATA_IsNormalFieldZone  0x02013E04  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   d_021711EC     0x021711EC  data
  *   d_021711F4     0x021711F4  data
  */
@@ -100,15 +100,15 @@ extern int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 extern int MOVE_POKEMON_IsInSkillArea(const Area *a, u16 x, u16 z, u32 flag, void *field);
 extern u32 ZONEDATA_IsFlyEnabled(u32 id);
 extern u32 ZONEDATA_IsWeatherEnabled(u32 id);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012B38(const struct BigObj *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u16 FIELD_STATUS_GetMapEffectMask(struct Sub02014444Obj *o);
 extern int FIELD_GetPlayerAreaZoneId(void *field, u16 *out);
 extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern u32 ZONEDATA_IsRawZoneF6(u32 id);
 extern u32 ZONEDATA_IsRawZoneF7(u32 id);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
-extern int func_02012B70(const struct BigObj *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 
 extern const Area d_021711EC;
 extern const Area d_021711F4;
@@ -158,7 +158,7 @@ void MOVE_POKEMON_InitSkillInfo(void *field, Info *out)
     }
     if (ZONEDATA_IsWeatherEnabled(out->id) == 1)
         out->flags |= 0x80;
-    if (FIELD_STATUS_GetMapEffectMask(func_02012B38(func_020120F4((const struct Ctx *)out->f08))) & 1)
+    if (FIELD_STATUS_GetMapEffectMask(GAME_DATA_GetMoveModelSys(ICA_ANIME_GetField1C((const struct Ctx *)out->f08))) & 1)
         out->flags |= 0x20;
     if (FIELD_GetPlayerAreaZoneId(field, &v) == 1)
         out->flags |= 0x400;
@@ -175,6 +175,6 @@ void MOVE_POKEMON_InitSkillInfo(void *field, Info *out)
         out->flags |= 0x100;
         out->flags |= 0x200;
     }
-    if (func_02012B70(func_020120F4((const struct Ctx *)out->f08)) == 1)
+    if (GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C((const struct Ctx *)out->f08)) == 1)
         out->flags = 0;
 }

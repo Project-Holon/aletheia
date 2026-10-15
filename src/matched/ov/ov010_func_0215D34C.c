@@ -42,7 +42,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
@@ -51,11 +51,11 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MUSICAL_EVENT_Create  0x02155A98  thumb  ov010
  *   SCRIPT_SYS_SetNextEventFromWork  0x0215898C  thumb  ov010
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_02011290  0x02011290  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_02030734  0x02030734  arm
- *   func_0200A640  0x0200A640  thumb
+ *   MUSICAL_SAVE_NoOp  0x0200A640  thumb
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRCMD_MUSICAL_TaskStartMusical  0x0215DE58  thumb  ov010
@@ -99,7 +99,7 @@ struct BigObj;
 struct Desc;
 struct Obj;
 struct ScriptVm;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern u16 SCRIPT_WORK_ReadWorkValue(Ctx *c, void *vm);
 extern int GAME_DATA_GetExternalWork(char *base);
@@ -109,11 +109,11 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 struct Link;
 extern void *MUSICAL_EVENT_Create(void *a, void *b, u8 c, u32 d, struct Link *link);
 extern void SCRIPT_SYS_SetNextEventFromWork(void *a, void *task);
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern void *GAME_DATA_GetSaveBlock2A(void *sys);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0200A640(void *sv);
+extern void *MUSICAL_SAVE_NoOp(void *sv);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void SCRIPT_SYS_CallEvent(void *a, void *task);
 extern u32 SCRCMD_MUSICAL_TaskStartMusical(void *task, u32 *state, void *work);
@@ -134,7 +134,7 @@ int SCRCMD_MUSICAL_StartMusical(Ctx *c, void *vm)
     a = SCRCMD_WORK_GetScriptWork(vm);
     evt = SCRCMD_WORK_GetGameSystem(vm);
     sys = SCRCMD_WORK_GetGameData(vm);
-    proc = func_0201210C(evt);
+    proc = ICA_ANIME_GetField20(evt);
     SCRIPT_WORK_ResetFieldParam((int)a);
     arg = SCRIPT_WORK_ReadWorkValue(c, vm);
     mode = *c->pc;
@@ -153,7 +153,7 @@ int SCRCMD_MUSICAL_StartMusical(Ctx *c, void *vm)
         s->link = link;
         s->mode = d;
         SCRIPT_SYS_SetNextEventFromWork(a, task);
-        func_02012A30(sys);
+        GAME_DATA_GetBgmInfo(sys);
         func_02011290((struct ScriptVm *)c);
         return 1;
     } else {
@@ -163,7 +163,7 @@ int SCRCMD_MUSICAL_StartMusical(Ctx *c, void *vm)
         box = func_02030734(4, sizeof(Box), 1, d_02172914, 0xA9);
         box->args = func_02030734(4, 0x14, 1, d_02172914, 0xAA);
         box->args->f00 = 0;
-        box->args->f08 = func_0200A640(sv);
+        box->args->f08 = MUSICAL_SAVE_NoOp(sv);
         box->args->f04 = 1;
         SCRIPT_SYS_CallEvent(a, FIELD_STATUS_CreateSubProcCallbackEvent(evt, (int)proc, (u32)ov112_id, (int)d_021F8360, (int)box->args, (int)SCRCMD_MUSICAL_FreeProcArgs, (int)box));
         return 1;

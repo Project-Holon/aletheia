@@ -1,5 +1,5 @@
 /*
- * function: func_021F3BF0
+ * function: MUSICAL_SHOT_SYS_DeleteScene
  * address: 0x021F3BF0
  * packet: pkt_ov112_021F3BF0
  * region: ov112
@@ -14,7 +14,7 @@
  *   func_021F7120 0x021F7120 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
- *   func_021F3ED0 0x021F3ED0 thumb ov112
+ *   MUSICAL_SHOT_SYS_Exit3D 0x021F3ED0 thumb ov112
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
@@ -28,11 +28,11 @@ struct Descriptor;
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *);
-extern void func_021F3ED0(u8 *);
+extern void MUSICAL_SHOT_SYS_Exit3D(u8 *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_020307B0(void *p);
-void func_021F3BF0(u8 *p)
+void MUSICAL_SHOT_SYS_DeleteScene(u8 *p)
 {
     u8 i;
     func_021F6C7C((char *)(((struct Obj03246 *)p)->f40));
@@ -44,7 +44,7 @@ void func_021F3BF0(u8 *p)
     BMP_WIN_Delete(((struct Obj03246 *)p)->f54);
     GF_FONT_Delete(((struct Obj03246 *)p)->f60);
     GF_FONT_Delete(((struct Obj03246 *)p)->f5C);
-    func_021F3ED0(p);
+    MUSICAL_SHOT_SYS_Exit3D(p);
     for(i=0;i<4;i++) func_020307B0(*(void **)(p+i*4+8));
     func_020307B0(p);
 }

@@ -15,7 +15,7 @@
  * Address of the module state object.
  *
  * symbols:
- *   func_0209477C                  0x0209477C  arm
+ *   strlen                  0x0209477C  arm
  *   func_0217EAB0                  0x0217EAB0  arm ov009
  *   func_02092344  0x02092344  arm
  *   g_021AD188  0x021AD188  data
@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void *func_0217EAB0(unsigned long size);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 int func_021800CC(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
@@ -140,7 +140,7 @@ unsigned short *func_021802C8(char *theUTF8String)
 {
     if (theUTF8String == 0)
         return 0;
-    return func_021802EC(theUTF8String, func_0209477C((const u8 *)theUTF8String));
+    return func_021802EC(theUTF8String, strlen((const u8 *)theUTF8String));
 }
 
 
@@ -205,7 +205,7 @@ int func_02180334(const unsigned char *src, int size, u16 *out, int max)
  */
 int func_021803BC(char *dst, const char *src, unsigned int n)
 {
-    unsigned int len = func_0209477C((const u8 *)src);
+    unsigned int len = strlen((const u8 *)src);
 
     if (len > n - 1)
         len = n - 1;

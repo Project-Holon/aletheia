@@ -19,13 +19,13 @@
  *   func_02092344  0x02092344  arm
  *   func_02194B74  0x02194B74  arm  ov009
  *   func_02194C6C  0x02194C6C  arm  ov009
- *   func_021975FC  0x021975FC  arm  ov009
+ *   gti2SendClientChallenge  0x021975FC  arm  ov009
  *   gti2SendAccept  0x02197784 arm
  *   gti2MessageCheck  0x02198808 arm
  *   gti2SendReject    0x021977E8 arm
  *   gti2SocketSend  0x02198328 arm
  *   current_time    0x0217F264 arm
- *   func_02197BB8  0x02197BB8  arm  ov009
+ *   gti2SendClosed  0x02197BB8  arm  ov009
  *   func_0219500C  0x0219500C  arm  ov009
  *   ArrayLength       0x02184200 arm
  *   ArrayNth          0x02184208 arm
@@ -103,7 +103,7 @@ extern void *func_0217EAB0(unsigned long size);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 extern unsigned char *func_02194B74(unsigned char *buf);
 extern unsigned char *func_02194C6C(unsigned char *buf, unsigned char *challenge);
-extern int func_021975FC(struct GTI2Connection *c, char *challenge);
+extern int gti2SendClientChallenge(struct GTI2Connection *c, char *challenge);
 extern int gti2SendAccept(struct GTI2Connection *connection);
 extern void gti2MessageCheck(unsigned char **message, int *len);
 extern int gti2SendReject(struct GTI2Connection *connection,
@@ -198,7 +198,7 @@ int func_021955F0(struct GTI2Connection *c, unsigned char *message, int len, str
 		c->callbacks = *callbacks;
 	func_02194B74((unsigned char *)challenge);
 	func_02194C6C(c->response, (unsigned char *)challenge);
-	func_021975FC(c, challenge);
+	gti2SendClientChallenge(c, challenge);
 	c->state = 0;
 	return 0;
 }

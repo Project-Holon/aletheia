@@ -14,7 +14,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -63,7 +63,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -80,7 +80,7 @@ void REPORT_EVENT_StartPrintStream(Work *w)
     func_0201F73C(w->f18->f08, 2, 1, 13);
     r = w->f18;
     a = FIELD_MSGBG_GetFont(w->f0C);
-    w->f18->f10 = PRINTSYS_PrintStream(r->f08, 0, 0, r->f18, a, func_02012FFC(), r->f00, 10, w->f10, 15);
+    w->f18->f10 = PRINTSYS_PrintStream(r->f08, 0, 0, r->f18, a, MSG_SPEED_GetWait(), r->f00, 10, w->f10, 15);
     w->f18->f20 = 0;
     p = w->f18->f08;
     BMP_WIN_TransferChars(p);

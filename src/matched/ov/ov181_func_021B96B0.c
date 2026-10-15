@@ -1,5 +1,5 @@
 /*
- * function: func_021B96B0
+ * function: STAFF_ROLL_CheckWipeDone
  * address:  0x021B96B0
  * packet:   pkt_021B96B0
  * region:   ov181
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021B96B0(char *p)
+int STAFF_ROLL_CheckWipeDone(char *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj24499 *)p)->f2F0;

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_SetState  0x0216BC84  arm  ov009
- *   func_0216909C  0x0216909C  arm  ov009
+ *   DWCi_InitGPProcessCount  0x0216909C  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
 
@@ -39,14 +39,14 @@ typedef struct DwcGlobal DwcGlobal;
 extern struct DwcGlobal g_021AA878;
 
 extern void DWCi_SetState(int state);
-extern void func_0216909C(void);
+extern void DWCi_InitGPProcessCount(void);
 
 void DWCi_LoginCallback(int error, int profileID)
 {
 	if (error == 0) {
 		((DwcState *)g_021AA878.st)->profileID = profileID;
 		DWCi_SetState(3);
-		func_0216909C();
+		DWCi_InitGPProcessCount();
 	} else {
 		DWCi_SetState(0);
 	}

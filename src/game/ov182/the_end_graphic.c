@@ -1,7 +1,7 @@
 /*
  * file:     the_end_graphic.c
  * unit:     yes
- * function: func_021B95A0, func_021B964C, func_021B96BC, func_021B9784, func_021B9788, func_021B9810, func_021B9814, func_021B9840, func_021B98E4, func_021B998C, func_021B99E8, func_021B99FC, func_021B9A10, func_021B9A70, func_021B9AA8, func_021B9AAC, func_021B9AB4, func_021B9AF4, func_021B9B10, func_021B9B18, func_021B9B20
+ * function: THE_END_GRAPHIC_Init, THE_END_GRAPHIC_Exit, THE_END_GRAPHIC_Main, THE_END_GRAPHIC_DummyTask, THE_END_GRAPHIC_LoadGraphics, THE_END_GRAPHIC_Dummy, THE_END_GRAPHIC_StartFade, THE_END_GRAPHIC_Setup3d, THE_END_GRAPHIC_Create, THE_END_GRAPHIC_Delete, THE_END_GRAPHIC_Update, THE_END_GRAPHIC_VBlankTask, THE_END_GRAPHIC_InitWindows, THE_END_GRAPHIC_ExitWindows, THE_END_GRAPHIC_Dummy2, THE_END_GRAPHIC_RefreshDisplay, THE_END_GRAPHIC_InitActors, THE_END_GRAPHIC_DeleteActors, THE_END_GRAPHIC_DrawActors, THE_END_GRAPHIC_VBlankActors, THE_END_GRAPHIC_InitCamera, THE_END_GRAPHIC_DeleteCamera
  * address:  0x021B95A0
  * region:   ov182
  * compiler: dsi/1.1p1
@@ -59,18 +59,17 @@
  *   func_0201DD60 0x0201DD60 thumb
  *   d_021B9CE0 0x021B9CE0 data a1
  *   d_021B9C48 0x021B9C48 data a4
- *   func_021B9B8C 0x021B9B8C thumb ov182
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   d_021B9BFC 0x021B9BFC data a4
  *   d_021B9C78 0x021B9C78 data a4
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   d_021B9C0C      0x021B9C0C  data
  *   CLACT_InitSystem   0x0204A48C  arm
@@ -87,6 +86,8 @@
  *   d_021B9BE4 0x021B9BE4 data a4
  *   d_021B9BD8 0x021B9BD8 data a4
  *   d_021B9BF0 0x021B9BF0 data a4
+ *   G3D_CAMERA_Delete   0x02048AC4  arm
+ *   G3D_SYSTEM_Exit   0x02046788  arm
  */
 #include "../../matched/include/Obj03328.h"
 #include "../../matched/include/Obj06593.h"
@@ -162,13 +163,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021B9B8C(unsigned *);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
-extern void func_0203F8F4(int);
+extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
@@ -181,27 +181,30 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(int,int,int,int,u16,u16,void *);
 extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const void *,const void *,const void *,u16);
-int func_021B95A0(void *task, int b, int c);
-int func_021B964C(void *task, int b, int c, char *p);
-int func_021B96BC(void *a, unsigned *state, void *c, char *p);
-void func_021B9784(void);
-void func_021B9788(unsigned short *p);
-void func_021B9810(void *p);
-void func_021B9814(void *a, void *b, void *c);
-void func_021B9840(void);
-char *func_021B98E4(int a, u16 heap);
-void func_021B998C(char *p);
-void func_021B99E8(char *p);
-void func_021B99FC(int a0, char *p);
-void func_021B9A10(void *p, int heap);
-void func_021B9A70(void *p);
-void func_021B9AA8(void *p);
-void func_021B9AAC(void *a0);
-void func_021B9AB4(int *p, int b, int c);
-void func_021B9AF4(void *p);
-void func_021B9B10(void *a0);
-void func_021B9B18(void *a0);
-void func_021B9B20(int *p,u16 heap);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
+int THE_END_GRAPHIC_Init(void *task, int b, int c);
+int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p);
+int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p);
+void THE_END_GRAPHIC_DummyTask(void);
+void THE_END_GRAPHIC_LoadGraphics(unsigned short *p);
+void THE_END_GRAPHIC_Dummy(void *p);
+void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c);
+void THE_END_GRAPHIC_Setup3d(void);
+char *THE_END_GRAPHIC_Create(int a, u16 heap);
+void THE_END_GRAPHIC_Delete(char *p);
+void THE_END_GRAPHIC_Update(char *p);
+void THE_END_GRAPHIC_VBlankTask(int a0, char *p);
+void THE_END_GRAPHIC_InitWindows(void *p, int heap);
+void THE_END_GRAPHIC_ExitWindows(void *p);
+void THE_END_GRAPHIC_Dummy2(void *p);
+void THE_END_GRAPHIC_RefreshDisplay(void *a0);
+void THE_END_GRAPHIC_InitActors(int *p, int b, int c);
+void THE_END_GRAPHIC_DeleteActors(void *p);
+void THE_END_GRAPHIC_DrawActors(void *a0);
+void THE_END_GRAPHIC_VBlankActors(void *a0);
+void THE_END_GRAPHIC_InitCamera(int *p,u16 heap);
+void THE_END_GRAPHIC_DeleteCamera(unsigned int *p);
 extern const u16 d_021B9B9C;
 extern const Record d_021B9BAC[1];
 extern const u32 d_021B9C28[][2];
@@ -219,7 +222,8 @@ extern const int d_021B9BE4[],d_021B9BD8[],d_021B9BF0[];
 
 
 
-int func_021B95A0(void *task, int b, int c)
+
+int THE_END_GRAPHIC_Init(void *task, int b, int c)
 {
     u16 value[1];
     char *p;
@@ -231,18 +235,19 @@ int func_021B95A0(void *task, int b, int c)
     MI_CpuFill8(p, 0, 0x1c);
     ((struct Obj03328 *)p)->f0 = 0x88;
     ((struct Obj03328 *)p)->f10 = c;
-    ((struct Obj03328 *)p)->f4 = func_021B98E4(1, ((struct Obj03328 *)p)->f0);
+    ((struct Obj03328 *)p)->f4 = THE_END_GRAPHIC_Create(1, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->f8 = GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->fC = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj03328 *)p)->f0));
     func_0204047C(1, 1);
     func_0204047C(2, 0);
-    ((struct Obj03328 *)p)->f14 = func_020056A0(func_021B9784, p, 1);
-    func_021B9788((u16 *)p);
+    ((struct Obj03328 *)p)->f14 = func_020056A0(THE_END_GRAPHIC_DummyTask, p, 1);
+    THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
         func_0207E468(vp, 0, 2);
-    func_021B9814((void *)0x10, 0, 0);
+    THE_END_GRAPHIC_StartFade((void *)0x10, 0, 0);
     return 1;
 }
+
 
 
 
@@ -253,19 +258,19 @@ int func_021B95A0(void *task, int b, int c)
 /*
  * volatile: hardware 04001050 and 04001000 read/write at 021B966C-021B967A.
  */
-int func_021B964C(void *task, int b, int c, char *p)
+int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
 {
     int i;
     for (i = 0; i < sizeof(d_021B9BAC) / sizeof(d_021B9BAC[0]); i++)
         func_020403F4((u8)d_021B9BAC[i].id);
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04001000 &= ~0xe000;
-    func_021B9810(p);
+    THE_END_GRAPHIC_Dummy(p);
     func_02030EAC(((struct Obj06593 *)p)->f14);
     PRINTSYS_QUE_Clear(((struct Obj06593 *)p)->fC);
     PRINTSYS_QUE_Delete(((struct Obj06593 *)p)->fC);
     GF_FONT_Delete(((struct Obj06593 *)p)->f8);
-    func_021B998C(((struct Obj06593 *)p)->f4);
+    THE_END_GRAPHIC_Delete(((struct Obj06593 *)p)->f4);
     func_020315D4(task);
     func_020306F0(0x88);
     return 1;
@@ -277,7 +282,8 @@ int func_021B964C(void *task, int b, int c, char *p)
 
 
 
-int func_021B96BC(void *a, unsigned *state, void *c, char *p)
+
+int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
 {
     int ready;
     switch (*state) {
@@ -290,13 +296,13 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
         if (++((struct Obj06594 *)p)->f18 > 0x384) ready = 1;
         if (ready) {
             *state = 3;
-            func_021B9814(0, (void *)0x10, 0);
+            THE_END_GRAPHIC_StartFade(0, (void *)0x10, 0);
         }
         break;
     case 3:
         if (!FADE_IsActive()) {
-            func_021B9788((u16 *)p);
-            func_021B9814((void *)0x10, 0, 0);
+            THE_END_GRAPHIC_LoadGraphics((u16 *)p);
+            THE_END_GRAPHIC_StartFade((void *)0x10, 0, 0);
             *state = 4;
         }
         break;
@@ -309,7 +315,7 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
     case 5:
         if ((KEY_GetTrg() & 0xb) || ++((struct Obj06594 *)p)->f18 > 0x384) {
             *state = 6;
-            func_021B9814(0, (void *)0x10, 0);
+            THE_END_GRAPHIC_StartFade(0, (void *)0x10, 0);
         }
         break;
     case 6:
@@ -318,7 +324,7 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
     case 7: return 1;
     }
     PRINTSYS_QUE_Main(((struct Obj06594 *)p)->fC);
-    func_021B99E8(*(char * *)&((struct Obj06594 *)p)->f4);
+    THE_END_GRAPHIC_Update(*(char * *)&((struct Obj06594 *)p)->f4);
     return 0;
 }
 
@@ -328,7 +334,8 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
 
 
 
-void func_021B9784(void)
+
+void THE_END_GRAPHIC_DummyTask(void)
 {
 }
 
@@ -338,7 +345,8 @@ void func_021B9784(void)
 
 
 
-void func_021B9788(unsigned short *p)
+
+void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
 {
     unsigned char *q = func_020490F4(0xdc, *p);
     func_02049B68(q, 2, 0, 0, 0, *p);
@@ -358,7 +366,8 @@ void func_021B9788(unsigned short *p)
 
 
 
-void func_021B9810(void *p){}
+
+void THE_END_GRAPHIC_Dummy(void *p){}
 
 
 
@@ -367,7 +376,8 @@ void func_021B9810(void *p){}
 
 
 
-void func_021B9814(void *a, void *b, void *c)
+
+void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c)
 {
     if (GPOWER_GetSpecialPowerId() == 0x15)
         FADE_Start(3, (s32)a, (s32)b, (s32)c);
@@ -381,10 +391,11 @@ void func_021B9814(void *a, void *b, void *c)
 
 
 
+
 /*
  * volatile: hardware 04000008/04000060 read/write 021B984E-021B988C, 04000580 write 021B98AA.
  */
-void func_021B9840(void)
+void THE_END_GRAPHIC_Setup3d(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);
@@ -408,7 +419,8 @@ void func_021B9840(void)
 
 
 
-char *func_021B98E4(int a, u16 heap)
+
+char *THE_END_GRAPHIC_Create(int a, u16 heap)
 {
     char *p;
     p = func_02030734(heap, 0x10, 0, d_021B9CE0, 0x1cc);
@@ -424,12 +436,13 @@ char *func_021B98E4(int a, u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021B9A10(p, heap);
-    func_021B9AB4((int *)(p + 4), (int)d_021B9C48, heap);
-    func_021B9B20((int *)(p + 8), heap);
-    ((struct Obj24514 *)p)->fC = func_020056A0((void ( *)(void))func_021B99FC, p, 0);
+    THE_END_GRAPHIC_InitWindows(p, heap);
+    THE_END_GRAPHIC_InitActors((int *)(p + 4), (int)d_021B9C48, heap);
+    THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
+    ((struct Obj24514 *)p)->fC = func_020056A0((void ( *)(void))THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
 }
+
 
 
 
@@ -440,12 +453,12 @@ char *func_021B98E4(int a, u16 heap)
 /*
  * volatile: Hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 read/write at 0x021B99B2..0x021B99C8.
  */
-void func_021B998C(char *p)
+void THE_END_GRAPHIC_Delete(char *p)
 {
     func_02030EAC(((struct Obj24515 *)p)->fC);
-    func_021B9B8C((unsigned *)(p + 8));
-    func_021B9AF4(p + 4);
-    func_021B9A70(p);
+    THE_END_GRAPHIC_DeleteCamera((unsigned *)(p + 8));
+    THE_END_GRAPHIC_DeleteActors(p + 4);
+    THE_END_GRAPHIC_ExitWindows(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -461,10 +474,11 @@ void func_021B998C(char *p)
 
 
 
-void func_021B99E8(char *p)
+
+void THE_END_GRAPHIC_Update(char *p)
 {
-    func_021B9B10(p + 4);
-    func_021B9AA8(p);
+    THE_END_GRAPHIC_DrawActors(p + 4);
+    THE_END_GRAPHIC_Dummy2(p);
 }
 
 
@@ -473,10 +487,11 @@ void func_021B99E8(char *p)
 
 
 
-void func_021B99FC(int a0, char *p)
+
+void THE_END_GRAPHIC_VBlankTask(int a0, char *p)
 {
-    func_021B9AAC(p);
-    func_021B9B18(p + 4);
+    THE_END_GRAPHIC_RefreshDisplay(p);
+    THE_END_GRAPHIC_VBlankActors(p + 4);
 }
 
 
@@ -484,19 +499,20 @@ void func_021B99FC(int a0, char *p)
 
 
 
-void func_021B9A10(void *p, int heap)
+
+void THE_END_GRAPHIC_InitWindows(void *p, int heap)
 {
     unsigned i = 0;
     const Record_021B9A10 *r;
     unsigned id;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021B9BFC);
     for (; i < 2; i++) {
         r = &d_021B9C78[i];
         id = r->id;
-        func_0203FCA0((unsigned char)id, (const struct BgTemplate *)r->v, (unsigned char)r->a);
+        BG_SYS_InitBgLayer((unsigned char)id, (const struct BgTemplate *)r->v, (unsigned char)r->a);
         func_020414AC(id);
         func_02040588(id, r->b);
     }
@@ -507,24 +523,28 @@ void func_021B9A10(void *p, int heap)
 
 
 
-void func_021B9A70(void *p){u32 i;for(i=0;i<2;i++)func_020403F4((u8)d_021B9C78[i].id);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
+
+void THE_END_GRAPHIC_ExitWindows(void *p){u32 i;for(i=0;i<2;i++)func_020403F4((u8)d_021B9C78[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 
 
 
 
 
-void func_021B9AA8(void *p){}
+
+void THE_END_GRAPHIC_Dummy2(void *p){}
 
 
 
 
-void func_021B9AAC(void *a0) { func_020419E4(); }
+
+void THE_END_GRAPHIC_RefreshDisplay(void *a0) { func_020419E4(); }
 
 
 
 
-void func_021B9AB4(int *p, int b, int c)
+
+void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 {
     MI_CpuFill8((void *)((int)p), 0, 4);
     CLACT_InitSystem((const struct Cfg *)d_021B9C0C, b, c);
@@ -536,7 +556,8 @@ void func_021B9AB4(int *p, int b, int c)
 
 
 
-void func_021B9AF4(void *p)
+
+void THE_END_GRAPHIC_DeleteActors(void *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj24516 *)p)->f0));
     CLACT_ExitSystem();
@@ -544,14 +565,24 @@ void func_021B9AF4(void *p)
 }
 
 
-void func_021B9B10(void *a0) { CLACT_DrawSystem(); }
+
+void THE_END_GRAPHIC_DrawActors(void *a0) { CLACT_DrawSystem(); }
 
 
-void func_021B9B18(void *a0) { CLACT_VBlankSystem(); }
+
+void THE_END_GRAPHIC_VBlankActors(void *a0) { CLACT_VBlankSystem(); }
 
 
-void func_021B9B20(int *p,u16 heap)
+
+void THE_END_GRAPHIC_InitCamera(int *p,u16 heap)
 {
-    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021B9840);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,THE_END_GRAPHIC_Setup3d);
     *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,d_021B9BE4,d_021B9BD8,d_021B9BF0,heap);
+}
+
+
+void THE_END_GRAPHIC_DeleteCamera(unsigned int *p)
+{
+    G3D_CAMERA_Delete((void *)(*p));
+    G3D_SYSTEM_Exit();
 }

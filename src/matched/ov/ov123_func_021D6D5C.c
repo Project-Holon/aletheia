@@ -16,6 +16,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   FILE_UTIL_Get  0x02020E60  arm  arm9
  */
 #include "../include/Obj01544.h"
 typedef unsigned char u8;
@@ -25,7 +26,7 @@ typedef unsigned int u32;
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
-extern u32 func_02020E60(u32 item, u32 which);
+extern u32 FILE_UTIL_Get(u32 item, u32 which);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -39,8 +40,8 @@ void GSYNC_DISP_CreateBackdropActors(u8 *p)
     struct Point pt;
     void *h;
     h=func_020490F4(25,((struct Obj01544 *)p)->f43C4);
-    ((struct Obj01544 *)p)->f34=(void *)CLACT_RegisterPaletteEx(h,func_02020E60(1,2),0,256,0,1,((struct Obj01544 *)p)->f43C4);
-    ((struct Obj01544 *)p)->f50=(void *)CLACT_RegisterCharacter(h,func_02020E60(1,1),0,0,((struct Obj01544 *)p)->f43C4);
+    ((struct Obj01544 *)p)->f34=(void *)CLACT_RegisterPaletteEx(h,FILE_UTIL_Get(1,2),0,256,0,1,((struct Obj01544 *)p)->f43C4);
+    ((struct Obj01544 *)p)->f50=(void *)CLACT_RegisterCharacter(h,FILE_UTIL_Get(1,1),0,0,((struct Obj01544 *)p)->f43C4);
     ((struct Obj01544 *)p)->f6C=(void *)CLACT_RegisterCellAnim(h,1,0,((struct Obj01544 *)p)->f43C4);
     ARC_TOOL_DeleteHandle(h);
     pt.x=156; pt.y=28; pt.f4=0; pt.f6=0; pt.f7=2;

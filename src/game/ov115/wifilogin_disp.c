@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
  *   func_020099C8 0x020099C8 thumb
  *   func_02009C24 0x02009C24 thumb
@@ -26,7 +26,7 @@
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
  *   func_02012944 0x02012944 thumb
- *   func_02009CC0 0x02009CC0 thumb
+ *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   OS_IsRunOnTwl 0x02085D3C arm
@@ -45,14 +45,14 @@
  *   func_0200FBA0 0x0200FBA0 thumb
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  *   func_0200FA84 0x0200FA84 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
- *   func_0200B358 0x0200B358 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BBD8 0x0200BBD8 thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200B110 0x0200B110 thumb
+ *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
  *   func_02009800 0x02009800 thumb
- *   func_0200B078 0x0200B078 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_0202EB4C 0x0202EB4C thumb
  *   DWC_CheckHasProfile 0x020597C8 arm
@@ -75,7 +75,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0204363C 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   d_021D6614 0x021D6614 data a1
@@ -84,12 +84,12 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_02040588 0x02040588 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   sub_02040588 0x02040588 arm
  *   sub_020409B4 0x020409B4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02041300 0x02041300 arm
  *   data_021D6364 0x021D6364 data a4
  *   data_021D64C4 0x021D64C4 data a4
@@ -153,7 +153,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_0201F5DC 0x0201F5DC thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
@@ -162,9 +162,9 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -180,7 +180,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02028470 0x02028470 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -371,7 +371,7 @@ typedef struct { u8 a, b, c, d; u16 e; } Record;
 
 typedef enum { FALSE, TRUE } BOOL;
 
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
@@ -384,7 +384,7 @@ extern unsigned char DWC_RAP_IsUserDataChanged(void);
 extern int GAME_DATA_SaveMain(u8 *);
 extern void DWC_RAP_ClearUserDataChanged(int);
 extern u8 *func_02012944(void *);
-extern void *func_02009CC0(void *);
+extern void *WIFILIST_GetGsProfileId(void *);
 extern void func_02008540(void *,void *);
 extern void GAME_DATA_SaveStart(u8 *);
 extern int OS_IsRunOnTwl(void);
@@ -400,14 +400,14 @@ extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void func_0200FA84(void);
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern void *func_0200B358(void *);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void func_0200BBD8(struct Obj *p, int v);
-extern void *func_0200BAC8(void *);
-extern void func_0200B110(struct Reg2 *p, u32 id, s32_021D42A8 value);
+extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
+extern void *BATTLE_BOX_GetFromSave(void *);
+extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32_021D42A8 value);
 extern void func_02009800(void *p);
-extern s32_021D42A8 func_0200B078(struct Reg2 *p, u32 id);
+extern s32_021D42A8 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern int func_0202EB44(u8 *);
 extern u32 func_0202EB4C(void);
 extern int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
@@ -429,18 +429,18 @@ extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0204363C(u32);
 extern void GX_DispOn(void);
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02030EAC(struct Node *n);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern u32 func_020307B0(void *p);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void sub_020409B4(u8);
-extern void func_02040C14(u32,u32,u32,u32);
+extern void BG_SYS_Init(u32,u32,u32,u32);
 extern void func_02041300(u8,int,int,int,u8,u8,u8);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
@@ -487,7 +487,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32);
+extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 extern void *func_0201F5DC(void *,u32,u32,u32);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
@@ -495,9 +495,9 @@ extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void TIME_ICON_Delete(u8 *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -513,7 +513,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void func_02028470(u8 *p, u32 v);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -657,7 +657,7 @@ extern const Record d_021D6544;
 
 
 
-void func_021D42A8(u8 *p) { func_02009860((struct Sub020097BCObj *)func_0201283C(((struct Obj22582 *)p)->f44)); }
+void func_021D42A8(u8 *p) { func_02009860((struct Sub020097BCObj *)GAME_DATA_GetField1A0(((struct Obj22582 *)p)->f44)); }
 
 
 
@@ -671,7 +671,7 @@ void func_021D42A8(u8 *p) { func_02009860((struct Sub020097BCObj *)func_0201283C
 
 
 
-void func_021D42B8(u8 *p) { func_020099C8((void *)func_0201283C(((struct Obj22583 *)p)->f44),0); }
+void func_021D42B8(u8 *p) { func_020099C8((void *)GAME_DATA_GetField1A0(((struct Obj22583 *)p)->f44),0); }
 
 
 
@@ -688,7 +688,7 @@ void func_021D42B8(u8 *p) { func_020099C8((void *)func_0201283C(((struct Obj2258
 /*
  * extent: Two zero bytes of alignment padding follow the return.
  */
-void func_021D42C8(int a,int b,u8 *p) { func_02009C24((void *)func_0201283C(((struct Obj22584 *)p)->f44),a,b); }
+void func_021D42C8(int a,int b,u8 *p) { func_02009C24((void *)GAME_DATA_GetField1A0(((struct Obj22584 *)p)->f44),a,b); }
 
 
 
@@ -771,7 +771,7 @@ void func_021D43CC(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=GAME_DATA
 
 
 
-void func_021D43F4(u8 *p) { void *a; if(func_021D5C70((u8 *)(((struct Obj06413 *)p)->f38))) { a=func_02012944(((struct Obj06413 *)p)->f44); func_02008540(a,func_02009CC0(((struct Obj06413 *)p)->f3C)); GAME_DATA_SaveStart(*(u8 * *)&((struct Obj06413 *)p)->f44); ((struct Obj06413 *)p)->f24=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D43CC); } }
+void func_021D43F4(u8 *p) { void *a; if(func_021D5C70((u8 *)(((struct Obj06413 *)p)->f38))) { a=func_02012944(((struct Obj06413 *)p)->f44); func_02008540(a,WIFILIST_GetGsProfileId(((struct Obj06413 *)p)->f3C)); GAME_DATA_SaveStart(*(u8 * *)&((struct Obj06413 *)p)->f44); ((struct Obj06413 *)p)->f24=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D43CC); } }
 
 
 
@@ -897,7 +897,7 @@ void func_021D46CC(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int
 
 
 void func_021D4708(u8 *p) {
- void *v; if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl((void *)W(0x44))),1); func_0200B110(v,10,5); *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C); } func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
+ void *v; if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { v=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)W(0x44))),0); BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((void *)W(0x44))),1); REGULATION_Card_SetValue(v,10,5); *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C); } func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
 }
 
 
@@ -928,7 +928,7 @@ void func_021D4798(u8 *p) { ((struct Obj10330 *)p)->f30=func_021D5D5C(*(u8 * *)&
 
 
 void func_021D47C4(u8 *p) {
- int x; void *v; u32 y; if(func_021D5E6C((u8 *)W(0x30))) { x=func_021D5EA8((u8 *)W(0x30)); func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!x) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); x=func_0200B078(v,2); y=func_0200B078(v,10); if(x && y>=1 && y<=4) { func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5ED8((u8 *)W(0x38),38); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4798); } else { *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C); } }
+ int x; void *v; u32 y; if(func_021D5E6C((u8 *)W(0x30))) { x=func_021D5EA8((u8 *)W(0x30)); func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!x) { v=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)W(0x44))),0); x=REGULATION_Card_GetValue(v,2); y=REGULATION_Card_GetValue(v,10); if(x && y>=1 && y<=4) { func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5ED8((u8 *)W(0x38),38); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4798); } else { *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C); } }
 }
 
 
@@ -1172,7 +1172,7 @@ int func_021D4BFC(void *ctx,int unused,u8 *q)
     ((struct Obj01719 *)p)->f34=func_021D4D38(((struct Obj01719 *)p)->fC,((struct Obj04465 *)q)->f4,((struct Obj04465 *)q)->f8);
     ((struct Obj01719 *)p)->f38=func_021D5984(((struct Obj01719 *)p)->fC,232,((struct Obj04465 *)q)->f8);
     ((struct Obj01719 *)p)->f2C=GAME_DATA_GetSaveControl(((struct Obj04465 *)q)->f0);
-    ((struct Obj01719 *)p)->f3C=func_0201283C(((struct Obj04465 *)q)->f0);
+    ((struct Obj01719 *)p)->f3C=GAME_DATA_GetField1A0(((struct Obj04465 *)q)->f0);
     WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj01719 *)p)->fC);
     *(u8 * *)&((struct Obj01719 *)p)->f40=q;
     if(GFL_NET_GetRunState()) {
@@ -1236,7 +1236,7 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     func_0204363C(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
-    func_0203F8F4(((struct Obj00198 *)p)->fC);
+    BG_SYS_Create(((struct Obj00198 *)p)->fC);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021D65E4);
     func_0203FC28((struct DispConfig *)d_021D65D4);
     switch (((struct Obj00198 *)p)->f8) {
@@ -1290,7 +1290,7 @@ void func_021D4E04(u8 *p) {
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5, 0);
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020307B0(p);
 }
 
@@ -1310,28 +1310,28 @@ void func_021D4E58(u32 unused,unsigned long base)
     unsigned long layer1,layer2,layer3;
     u32 tmp;
     a=data_021D6364;
-    func_0203FCA0((u8)base,&a,0);
+    BG_SYS_InitBgLayer((u8)base,&a,0);
     sub_02040588(base,1);
     tmp=(u32)base+1;
     sub_020409B4(base);
     layer1=tmp;
     b=data_021D64C4;
-    func_0203FCA0((u8)layer1,&b,0);
+    BG_SYS_InitBgLayer((u8)layer1,&b,0);
     sub_02040588(layer1,1);
-    func_02040C14(layer1,0,1,0);
+    BG_SYS_Init(layer1,0,1,0);
     func_02041300(layer1,0,0,0,32,32,17);
     sub_020409B4(layer1);
     layer2=(u32)base+2;
     c=data_021D64A4;
-    func_0203FCA0((u8)layer2,&c,0);
+    BG_SYS_InitBgLayer((u8)layer2,&c,0);
     sub_02040588(layer2,1);
     func_02041300(layer2,0,0,0,32,32,17);
     sub_020409B4(layer2);
     layer3=(u32)base+3;
     d=data_021D6484;
-    func_0203FCA0((u8)layer3,&d,0);
+    BG_SYS_InitBgLayer((u8)layer3,&d,0);
     sub_02040588(layer3,1);
-    func_02040C14(layer3,0,1,0);
+    BG_SYS_Init(layer3,0,1,0);
     func_02041300(layer3,0,0,0,32,32,17);
     sub_020409B4(layer3);
 }
@@ -1355,24 +1355,24 @@ void func_021D4FA4(void *unused, unsigned long base)
     BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;
     t0 = d_021D6464;
-    func_0203FCA0((u8)base, &t0, 0);
+    BG_SYS_InitBgLayer((u8)base, &t0, 0);
     sub_02040588(base, 1);
     sub_020409B4(base);
     id1 = base + 1;
     t1 = d_021D6444;
-    func_0203FCA0((u8)id1, &t1, 0);
+    BG_SYS_InitBgLayer((u8)id1, &t1, 0);
     sub_02040588(id1, 1);
     sub_020409B4(id1);
     id2 = base + 2;
     t2 = d_021D6424;
-    func_0203FCA0((u8)id2, &t2, 0);
+    BG_SYS_InitBgLayer((u8)id2, &t2, 0);
     sub_02040588(id2, 1);
     sub_020409B4(id2);
     id3 = base + 3;
     t3 = d_021D6524;
-    func_0203FCA0((u8)id3, &t3, 0);
+    BG_SYS_InitBgLayer((u8)id3, &t3, 0);
     sub_02040588(id3, 1);
-    func_02040C14(id3, 0, 1, 0);
+    BG_SYS_Init(id3, 0, 1, 0);
     func_02041300(id3, 0, 0, 0, 32, 32, 17);
     sub_020409B4(id3);
 }
@@ -1392,28 +1392,28 @@ void func_021D50BC(void *unused, unsigned long base)
     BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;
     t0 = d_021D63E4;
-    func_0203FCA0((u8)base, &t0, 0);
+    BG_SYS_InitBgLayer((u8)base, &t0, 0);
     sub_02040588(base, 1);
     sub_020409B4(base);
     id1 = base + 1;
     t1 = d_021D63C4;
-    func_0203FCA0((u8)id1, &t1, 0);
+    BG_SYS_InitBgLayer((u8)id1, &t1, 0);
     sub_02040588(id1, 1);
-    func_02040C14(id1, 0, 1, 0);
+    BG_SYS_Init(id1, 0, 1, 0);
     func_02041300(id1, 0, 0, 0, 32, 32, 17);
     sub_020409B4(id1);
     id2 = base + 2;
     t2 = d_021D63A4;
-    func_0203FCA0((u8)id2, &t2, 0);
+    BG_SYS_InitBgLayer((u8)id2, &t2, 0);
     sub_02040588(id2, 1);
-    func_02040C14(id2, 0, 1, 0);
+    BG_SYS_Init(id2, 0, 1, 0);
     func_02041300(id2, 0, 0, 0, 32, 32, 17);
     sub_020409B4(id2);
     id3 = base + 3;
     t3 = d_021D6384;
-    func_0203FCA0((u8)id3, &t3, 0);
+    BG_SYS_InitBgLayer((u8)id3, &t3, 0);
     sub_02040588(id3, 1);
-    func_02040C14(id3, 0, 1, 0);
+    BG_SYS_Init(id3, 0, 1, 0);
     func_02041300(id3, 0, 0, 0, 32, 32, 17);
     sub_020409B4(id3);
 }
@@ -1433,24 +1433,24 @@ void func_021D5214(void *unused, unsigned long base)
     BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;
     t0 = d_021D6404;
-    func_0203FCA0((u8)base, &t0, 0);
+    BG_SYS_InitBgLayer((u8)base, &t0, 0);
     sub_02040588(base, 1);
     sub_020409B4(base);
     id1 = base + 1;
     t1 = d_021D6344;
-    func_0203FCA0((u8)id1, &t1, 0);
+    BG_SYS_InitBgLayer((u8)id1, &t1, 0);
     sub_02040588(id1, 1);
-    func_02040C14(id1, 0, 1, 0);
+    BG_SYS_Init(id1, 0, 1, 0);
     func_02041300(id1, 0, 0, 0, 32, 32, 17);
     sub_020409B4(id1);
     id2 = base + 2;
     t2 = d_021D64E4;
-    func_0203FCA0((u8)id2, &t2, 0);
+    BG_SYS_InitBgLayer((u8)id2, &t2, 0);
     sub_02040588(id2, 1);
     sub_020409B4(id2);
     id3 = base + 3;
     t3 = d_021D6504;
-    func_0203FCA0((u8)id3, &t3, 0);
+    BG_SYS_InitBgLayer((u8)id3, &t3, 0);
     sub_02040588(id3, 1);
     sub_020409B4(id3);
 }
@@ -1746,7 +1746,7 @@ u8 *func_021D5984(u32 heap, u32 bank, u32 mode)
     *(struct U16Vec * *)&((struct Obj00531 *)p)->f28 = STRBUF_Create(400, ((struct Obj00531 *)p)->f4C);
     *(struct GfFont * *)&((struct Obj00531 *)p)->f24 = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00531 *)p)->f4C);
     *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = MSGDATA_CreateFromArchive(0, 2, (u16)bank, ((struct Obj00531 *)p)->f4C);
-    *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = func_0201EC64(((struct Obj00531 *)p)->f4C);
+    *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = GF_FONT_Create_EC64(((struct Obj00531 *)p)->f4C);
     *(struct R * *)&((struct Obj00531 *)p)->f70 = APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct Obj00531 *)p)->f24, ((struct Obj00531 *)p)->f48, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f0 = func_0201F5DC((void *)func_021D5FA0(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f4 = func_0201F5DC((void *)func_021D5FC4(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
@@ -1780,11 +1780,11 @@ void func_021D5A9C(u8 *p) {
     if (((struct Obj00724 *)p)->f38) { PRINTSYS_PrintStreamDelete(((struct Obj00724 *)p)->f38); ((struct Obj00724 *)p)->f38=0; }
     func_021D5D3C(p);
     n=((struct Obj00724 *)p)->f0;
-    func_0203FB44(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_DeleteHalf(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     n=((struct Obj00724 *)p)->f4;
-    func_0203FB44(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_DeleteHalf(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     func_0201DD68();
-    func_0201ED04(((struct Obj00724 *)p)->f20);
+    WORDSET_DeleteStrbufED04(((struct Obj00724 *)p)->f20);
     MSGDATA_Delete(((struct Obj00724 *)p)->f1C);
     GF_FONT_Delete(((struct Obj00724 *)p)->f24);
     STRBUF_Delete(((struct Obj00724 *)p)->f28);
@@ -1837,7 +1837,7 @@ void func_021D5B5C(char *p, struct MsgBank *a, int b)
     if (*(u32 *)(p + 0x50) == 0) kind = 6;
     func_02028470((u8 *)(p + 0x3c), (int)kind);
     if (*(u32 *)(p + 0x38) != 0) PRINTSYS_PrintStreamDelete(*(struct Rec3 **)(p + 0x38));
-    *(u32 *)(p + 0x38) = PRINTSYS_PrintStream(w, 0, 0, *(u32 *)(p + 0x28), *(u32 *)(p + 0x24), func_02012FFC(), *(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
+    *(u32 *)(p + 0x38) = PRINTSYS_PrintStream(w, 0, 0, *(u32 *)(p + 0x28), *(u32 *)(p + 0x24), MSG_SPEED_GetWait(), *(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
     func_0201F73C((void *)w, 1, (u16)(*(u32 *)p), 12);
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);

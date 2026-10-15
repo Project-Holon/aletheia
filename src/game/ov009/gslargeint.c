@@ -26,15 +26,15 @@
  *   gsiLargeIntInverseMod            0x0217E7C4 arm
  *   gsLargeIntSquareMod              0x0217DE94 arm
  *   gsiLargeIntMultM                 0x0217E504 arm
- *   func_0209477C                  0x0209477C  arm
+ *   strlen                  0x0209477C  arm
  *   func_0208CF34                  0x0208CF34  arm
  *   g_021A3728                     0x021A3728  data
  *   g_021A3720                     0x021A3720  data
  *   gsLargeIntReverseBytes           0x0217e934 arm
  *   GSMD5Update                      0x0218497c arm
- *   func_020913D0  0x020913D0  arm
+ *   MSL_C_LIB_AllocFromHeap  0x020913D0  arm
  *   func_020913E8  0x020913E8  arm
- *   func_020913FC  0x020913FC  arm
+ *   MSL_C_LIB_ReallocResource  0x020913FC  arm
  */
 #include "../../matched/include/G_GSLintTimer.h"
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -67,7 +67,6 @@ extern void *func_02092344(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);
-extern int func_0209477C(const u8 *s);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
 int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
@@ -84,9 +83,9 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 extern struct GSLintTimer gTimers[9];
 extern char g_021A3728[];
 extern char g_021A3720[];
-extern void *func_020913D0(unsigned long heap);
+extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);
 extern void func_020913E8(void *p);
-extern void *func_020913FC(unsigned long a0, unsigned long a1);
+extern void *MSL_C_LIB_ReallocResource(unsigned long a0, unsigned long a1);
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
 void *gsiMemoryRealloc(unsigned long block, unsigned long size);
@@ -821,7 +820,7 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
     int byteIndex = 0;
     unsigned int n;
 
-    len = func_0209477C((const u8 *)hexstream);
+    len = strlen((const char *)hexstream);
     if (len == 0) {
         lint->mLength = 0;
         lint->mData[0] = 0;
@@ -924,7 +923,7 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint)
 
 void *gsiMemoryMalloc(unsigned long size)
 {
-    return func_020913D0(size);
+    return MSL_C_LIB_AllocFromHeap(size);
 }
 
 void gsiMemoryFree(void *p)
@@ -934,5 +933,5 @@ void gsiMemoryFree(void *p)
 
 void *gsiMemoryRealloc(unsigned long block, unsigned long size)
 {
-    return func_020913FC(block, size);
+    return MSL_C_LIB_ReallocResource(block, size);
 }

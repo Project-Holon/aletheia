@@ -26,7 +26,7 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0207D63C 0x0207D63C arm
@@ -45,8 +45,8 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_020414AC 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
@@ -81,7 +81,7 @@
  *   gCgHelpTouchRects 0x021D4BE4 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
- *   func_02012204 0x02012204 thumb
+ *   ICA_ANIME_GetUnk330 0x02012204 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02030734 0x02030734 arm
@@ -236,7 +236,7 @@ extern void BG_SYS_ResetSubDisplay(void), BG_SYS_ClearMainPlanes(void), BG_SYS_C
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16), BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16), BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -247,8 +247,8 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void func_020403F4(u32);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_Delete(void);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
@@ -296,7 +296,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void APP_TASKMENU_WIN_SetDecide(CgHelpWork *work, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 func_02012204(const struct Ctx *p);
+extern u32 ICA_ANIME_GetUnk330(const struct Ctx *p);
 extern void PRINTSYS_PrintQueColor(void *printQue, void *bmp, u32 x, u32 y, void *text, void *font, u16 color);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_02061CA4(void *, u32, u32, int);
@@ -462,7 +462,7 @@ void CG_HELP_InitDisplay(CgHelpWork *work)
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)gCgHelpVramBanks);
-    func_0203F8F4(work->heapId);
+    BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     func_0203FC28((struct DispConfig *)gCgHelpDispConfig);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer4, 4, 0);
@@ -489,7 +489,7 @@ void CG_HELP_ExitDisplay(CgHelpWork *work)
     func_020403F4(6);
     func_020403F4(7);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -497,7 +497,7 @@ void CG_HELP_ExitDisplay(CgHelpWork *work)
 /* 020414AC's legacy asm prototype says void, but its body forwards entry r0. */
 void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int type)
 {
-    func_0203FCA0(layer, bgTemplate, type);
+    BG_SYS_InitBgLayer(layer, bgTemplate, type);
     func_02040588(layer, 1);
     func_020414AC(layer);
     func_020409B4(layer);
@@ -634,7 +634,7 @@ void CG_HELP_HandleTouchInput(CgHelpWork *work)
         GFL_USE_PlaySeDefaultVolume(0x551);
         break;
     }
-    if (func_02012204(work->args->inputCtx) == 1) {
+    if (ICA_ANIME_GetUnk330(work->args->inputCtx) == 1) {
         APP_TASKMENU_WIN_SetDecide(work->closeButton,1);
         work->phase = 2;
     }

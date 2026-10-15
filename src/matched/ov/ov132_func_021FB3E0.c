@@ -16,12 +16,12 @@
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_021F8054 0x021F8054 thumb ov112
  *   func_02030734 0x02030734 arm
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   func_021FADA0 0x021FADA0 thumb ov132
  *   func_021FB528 0x021FB528 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
@@ -34,12 +34,12 @@ typedef struct {int x,y,z;} Vec;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FB1F4(char *,int);
-extern void *func_021F9DA0(char *);
-extern void *func_021F9DA4(char *,u32);
+extern void *STA_ACTING_GetActorSystem(char *);
+extern void *STA_ACTING_GetActor(char *,u32);
 extern void func_021F8044(void *,u32 *,u32 *);
 extern void func_021F8054(void *,u32 *,const u32 *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_0207CA00(const void *,const void *,void *);
+extern void VEC_Subtract(const void *,const void *,void *);
 extern void *func_021FADA0(char *,u32,u32,u32);
 extern void func_021FB528(int,char *);
 extern const char d_021FDD00[];
@@ -67,10 +67,10 @@ int func_021FB3E0(int unused,char *p)
     void *ctx;
     char *q,*target;
     u32 pos[3];
-    ctx=func_021F9DA0(*(void **)(owner+52));
+    ctx=STA_ACTING_GetActorSystem(*(void **)(owner+52));
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
-            target=func_021F9DA4(*(void **)(owner+52),i);
+            target=STA_ACTING_GetActor(*(void **)(owner+52),i);
             if (rate==0) {
                 func_021F8044(ctx,(u32 *)target,pos);
                 pos[0]+=x;pos[1]+=y;pos[2]+=z;

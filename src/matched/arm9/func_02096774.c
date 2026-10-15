@@ -1,5 +1,5 @@
 /*
- * function: func_02096774
+ * function: __timesdec
  * address:  0x02096774
  * packet:   pkt_020949F4
  * region:   arm9
@@ -15,18 +15,18 @@
  * output digit with the (j, k, l, t) window clamp, `% 10` / `/ 10` on an
  * unsigned long accumulator, exponents added as shorts, the leading carry
  * digit, a copy-out bounded at 32, and the round-half-even tail with its
- * `goto round` into __round_up (func_02096620).  Earlier lanes' hand bodies
+ * `goto round` into __round_up (MSL_C_LIB_IncrementDigits).  Earlier lanes' hand bodies
  * sat at a one-register rotation of the callee-saved set; the original
  * declarations (in particular `ep = ip` as its own local and the per-column
  * block-scoped j/k/l/t) are what fix the allocation.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096774.c \
- *       --func func_02096774 --addr 0x02096774 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__timesdec.c \
+ *       --func __timesdec --addr 0x02096774 --cc 1.1p1 --arm
  *   EXACT, 384 bytes, 1 relocation site, resolved.
  *
  * symbols:
- *   func_02096620  0x02096620  arm
+ *   MSL_C_LIB_IncrementDigits  0x02096620  arm
  */
 typedef unsigned char u8;
 typedef signed short s16;
@@ -42,9 +42,9 @@ typedef struct decimal {
     } sig;
 } decimal;
 
-extern void func_02096620(u8 *p, int idx);
+extern void MSL_C_LIB_IncrementDigits(u8 *p, int idx);
 
-void func_02096774(decimal *result, const decimal *x, const decimal *y)
+void __timesdec(decimal *result, const decimal *x, const decimal *y)
 {
     unsigned long accumulator = 0;
     u8 mantissa[64];
@@ -105,6 +105,6 @@ void func_02096774(decimal *result, const decimal *x, const decimal *y)
                 return;
         }
     round:
-        func_02096620((u8 *)result, result->sig.length);
+        MSL_C_LIB_IncrementDigits((u8 *)result, result->sig.length);
     }
 }

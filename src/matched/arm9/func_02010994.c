@@ -1,5 +1,5 @@
 /*
- * function: func_02010994
+ * function: GFL_NET_SAVE_StepWaitSync72
  * address:  0x02010994
  * packet:   pkt_0201058C
  * region:   arm9
@@ -10,12 +10,14 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010994.c \
- *       --func func_02010994 --addr 0x02010994 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepWaitSync72.c \
+ *       --func GFL_NET_SAVE_StepWaitSync72 --addr 0x02010994 --thumb --cc 1.1p1
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
+ *   GFL_NET_SAVE_SetStep  0x02010888  thumb
+ *   GFL_NET_SAVE_StepDelay  0x020109B8  thumb
  */
 
 typedef unsigned char u8;
@@ -25,12 +27,12 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
-extern void func_02010888(u8 *p, u32 v);
-extern void func_020109B8(u8 *p);
+extern void GFL_NET_SAVE_SetStep(u8 *p, u32 v);
+extern void GFL_NET_SAVE_StepDelay(u8 *p);
 
-void func_02010994(u8 *p)
+void GFL_NET_SAVE_StepWaitSync72(u8 *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8) != 0) {
-        func_02010888(p, (u32)func_020109B8);
+        GFL_NET_SAVE_SetStep(p, (u32)GFL_NET_SAVE_StepDelay);
     }
 }

@@ -8,8 +8,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CBD0  0x0207CBD0  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_Mag  0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *
@@ -19,8 +19,8 @@
 typedef struct Vec { int x, y, z; } Vec;
 typedef struct Range { unsigned long lo, hi; int min, max; Vec dir; } Range;
 
-extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
-extern int func_0207CBD0(const Vec *v);
+extern void VEC_Subtract(const Vec *a, const Vec *b, Vec *out);
+extern int VEC_Mag(const Vec *v);
 extern void VEC_Normalize(const Vec *v, Vec *out);
 extern unsigned long func_0207CFB8(int x, int z);
 
@@ -34,9 +34,9 @@ int FLD_SCENEAREA_LOADER_CheckSector(void *self, const Range *r, Vec *ref)
     unsigned long ang;
 
     VecSet(&a, r->dir.x, r->dir.y, r->dir.z);
-    func_0207CA00(ref, &a, &out);
+    VEC_Subtract(ref, &a, &out);
     out.y = 0;
-    d = func_0207CBD0(&out);
+    d = VEC_Mag(&out);
     VEC_Normalize(&out, &out);
     ang = func_0207CFB8(out.x, out.z);
     if (r->min <= d && r->max > d) {

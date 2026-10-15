@@ -1,5 +1,5 @@
 /*
- * function: func_0205DCDC
+ * function: WDS_StartScan_CB
  * address:  0x0205DCDC
  * packet:   pkt_0205DCDC
  * region:   arm9
@@ -62,7 +62,7 @@ static struct {
     int gAppstate;
 } s_nspot;
 
-void func_0205DCDC(void)
+void WDS_StartScan_CB(void)
 {
     s_nspot.gAppstate = 4;
 }

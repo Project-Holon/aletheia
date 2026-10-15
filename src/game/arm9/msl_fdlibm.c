@@ -23,14 +23,16 @@
  *   _dflt        0x0209B750  arm
  *   _deq         0x0209BA3C  arm
  *   _dgeq        0x0209B7CC  arm
- *   func_02097990  0x02097990  arm
+ *   scalbn  0x02097990  arm
  *   init_jk      0x020A64A8  data
  *   PIo2         0x020A64B8  data
  *   _dgr  0x0209B864  arm
- *   func_020921F4  0x020921F4  arm
- *   func_020979BC  0x020979BC  arm
- *   g_020A60DC  0x020A60DC  data
+ *   __fpclassifyd  0x020921F4  arm
+ *   __ieee754_pow  0x020979BC  arm
+ *   __tolower_map  0x020A60DC  data
  *   func_02091C40  0x02091C40  arm
+ *   __ieee754_rem_pio2  0x02098B44  arm
+ *   __kernel_cos  0x02099224  arm
  */
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
@@ -46,16 +48,16 @@ typedef unsigned int u32;
 
 typedef unsigned char u8;
 
-extern double func_02097990(double x, int n);
+extern double scalbn(double x, int n);
 extern double func_0209B2E8(double x, double y);
 extern double func_0209AC04(double x, double y);
 extern double func_0209AF34(double x, double y);
 extern int func_0209C508(double x);
-extern double func_02099224(double x, double y);
+extern double __kernel_cos(double x, double y);
 extern double __kernel_sin(double x, double y, int iy);
-extern int func_02098B44(double x, double *y);
-extern int func_020921F4(double x);
-extern double func_020979BC(double x, double y);
+extern int __ieee754_rem_pio2(double x, double *y);
+extern int __fpclassifyd(double x);
+extern double __ieee754_pow(double x, double y);
 extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
 int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
 double copysign(double x, double y);
@@ -74,7 +76,7 @@ asm void __dmul(void);
 asm void _d2f(void);
 extern const int init_jk[];
 extern const double PIo2[];
-extern const u8 g_020A60DC[];
+extern const u8 __tolower_map[];
 
 
 
@@ -113,7 +115,7 @@ recompute:
 	    z     =  q[j-1]+fw;
 	}
 
-	z  = func_02097990(z,q0);
+	z  = scalbn(z,q0);
 	z -= 8.0*func_0209A524(z*0.125);
 	n  = (int) z;
 	z -= (double)n;
@@ -146,7 +148,7 @@ recompute:
 	    }
 	    if(ih==2) {
 		z = one - z;
-		if(carry!=0) z -= func_02097990(one,q0);
+		if(carry!=0) z -= scalbn(one,q0);
 	    }
 	}
 
@@ -170,7 +172,7 @@ recompute:
 	    jz -= 1; q0 -= 24;
 	    while(iq[jz]==0) { jz--; q0-=24;}
 	} else {
-	    z = func_02097990(z,-q0);
+	    z = scalbn(z,-q0);
 	    if(z>=two24) {
 		fw = (double)((int)(twon24*z));
 		iq[jz] = (int)(z-two24*fw);
@@ -179,7 +181,7 @@ recompute:
 	    } else iq[jz] = (int) z ;
 	}
 
-	fw = func_02097990(one,q0);
+	fw = scalbn(one,q0);
 	for(i=jz;i>=0;i--) {
 	    q[i] = fw*(double)iq[i]; fw*=twon24;
 	}
@@ -304,9 +306,9 @@ double copysign(double x, double y)
  * table entry `__dadd_dsub` at 0x0209AF34 is its subtract entry).
  *
  * Callees by address:
- *   func_02099224  __kernel_cos(double, double)
+ *   __kernel_cos  __kernel_cos(double, double)
  *   __kernel_sin  __kernel_sin(double, double, int)
- *   func_02098B44  __ieee754_rem_pio2(double, double *)
+ *   __ieee754_rem_pio2  __ieee754_rem_pio2(double, double *)
  */
 double func_0209A390(double x)
 {
@@ -317,20 +319,20 @@ double func_0209A390(double x)
 
     ix = HI(x) & 0x7fffffff;
     if (ix <= 0x3fe921fb)
-        return func_02099224(x, z);
+        return __kernel_cos(x, z);
     else if (ix >= 0x7ff00000)
         return x - x;
     else
     {
-        n = func_02098B44(x, y);
+        n = __ieee754_rem_pio2(x, y);
         switch (n & 3)
         {
         case 0:
-            return func_02099224(y[0], y[1]);
+            return __kernel_cos(y[0], y[1]);
         case 1:
             return -__kernel_sin(y[0], y[1], 1);
         case 2:
-            return -func_02099224(y[0], y[1]);
+            return -__kernel_cos(y[0], y[1]);
         default:
             return __kernel_sin(y[0], y[1], 1);
         }
@@ -513,7 +515,7 @@ double ldexp(double x, int n)
 {
     i32 k, hx, lx;
 
-    if (func_020921F4(x) <= 2 || x == 0.0)
+    if (__fpclassifyd(x) <= 2 || x == 0.0)
         return x;
 
     hx = HI(x);
@@ -565,8 +567,8 @@ double ldexp(double x, int n)
  *
  * Callees by address:
  *   __kernel_sin  __kernel_sin(double, double, int)
- *   func_02099224  __kernel_cos(double, double)
- *   func_02098B44  __ieee754_rem_pio2(double, double *)
+ *   __kernel_cos  __kernel_cos(double, double)
+ *   __ieee754_rem_pio2  __ieee754_rem_pio2(double, double *)
  *   func_0209AF34  __dsub(double, double)
  */
 double sin(double x)
@@ -583,17 +585,17 @@ double sin(double x)
         return x - x;
     else
     {
-        n = func_02098B44(x, y);
+        n = __ieee754_rem_pio2(x, y);
         switch (n & 3)
         {
         case 0:
             return __kernel_sin(y[0], y[1], 1);
         case 1:
-            return func_02099224(y[0], y[1]);
+            return __kernel_cos(y[0], y[1]);
         case 2:
             return -__kernel_sin(y[0], y[1], 1);
         default:
-            return -func_02099224(y[0], y[1]);
+            return -__kernel_cos(y[0], y[1]);
         }
     }
 }
@@ -601,7 +603,7 @@ double sin(double x)
 
 double pow(double x, double y)
 {
-    return func_020979BC(x, y);
+    return __ieee754_pow(x, y);
 }
 
 
@@ -623,7 +625,7 @@ double pow(double x, double y)
  */
 int stricmp(const u8 *s1, const u8 *s2)
 {
-    const u8 *tab = g_020A60DC;
+    const u8 *tab = __tolower_map;
     int c1;
     u8 m1;
     int c2;

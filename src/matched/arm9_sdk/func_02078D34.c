@@ -1,5 +1,5 @@
 /*
- * function: func_02078D34
+ * function: FS_LoadOverlayInfo
  * address:  0x02078D34
  * packet:   pkt_02078D34
  * region:   arm9
@@ -110,7 +110,7 @@ extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
 
-BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id)
+BOOL FS_LoadOverlayInfo(FSOverlayInfo *p_ovi, u32 target, u32 id)
 {
     BOOL retval = 0;
     const u32 pos = id * 32;

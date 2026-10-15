@@ -10,8 +10,8 @@
  * follower: two-byte zero alignment padding at 021FC53A.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F9DD4 0x021F9DD4 thumb ov132
- *   func_021F9DDC 0x021F9DDC thumb ov132
+ *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
+ *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   func_021F6F14 0x021F6F14 thumb ov112
  */
 #include "../include/Obj14121.h"
@@ -20,8 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void *func_021F9DD4(void *);
-extern void *func_021F9DDC(void *,u8);
+extern void *STA_ACTING_GetCharSystem(void *);
+extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void func_021F6F14(void *a, char *p, u16 b, u8 c);
 int func_021FC4CC(int a,char **p)
 {
@@ -34,8 +34,8 @@ int func_021FC4CC(int a,char **p)
     x=VM_GetU32((struct Cursor *)p[1]);
     y=VM_GetU32((struct Cursor *)p[1]);
     z=VM_GetU32((struct Cursor *)p[1]);
-    r=func_021F9DD4(((struct Obj14121 *)q)->f34);
-    s=func_021F9DDC(((struct Obj14121 *)q)->f34,v);
+    r=STA_ACTING_GetCharSystem(((struct Obj14121 *)q)->f34);
+    s=STA_ACTING_GetCharSlot(((struct Obj14121 *)q)->f34,v);
     func_021F6F14(r,s,(u8)w|((u8)x<<5)|((u8)y<<10),z);
     return 0;
 }

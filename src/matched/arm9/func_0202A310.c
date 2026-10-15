@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202A310
+ * function: TPOKE_DATA_ReadRecordString
  * address:  0x0202A310
  * packet:   pkt_0202A298
  * region:   arm9
@@ -39,7 +39,7 @@ extern void  ARC_TOOL_DeleteHandle(void *h);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Clear(struct U16Vec *vec);
 
-void func_0202A310(int key, int want, void *dest, u32 heap)
+void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
 {
     u16   rec[4];
     void *h;

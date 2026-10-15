@@ -210,9 +210,9 @@ extern struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, u16 anm
 extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx, fx32 *frame);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern fx32 func_0207CBD0(const VecFx32 *v);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern fx32 VEC_Mag(const VecFx32 *v);
 
 /* Functions of the overlay. */
 u8 FIELD_GIMMICK_CART_LANES_FindDockAt(int x, int z);

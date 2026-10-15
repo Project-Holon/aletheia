@@ -21,7 +21,6 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c)
 {
     unsigned short t[2];

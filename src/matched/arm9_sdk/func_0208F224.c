@@ -1,5 +1,5 @@
 /*
- * function: func_0208F224
+ * function: WM_Enable
  * address:  0x0208F224
  * packet:   pkt_0208F224
  * region:   arm9
@@ -13,11 +13,12 @@
  *
  * symbols:
  *   FATFSi_FormatDriveEx  0x0208F234  arm
+ *   WMi_EnableEx  0x0208F234  arm
  */
 
-extern int func_0208F234(char *path, int formatMedia);
+extern int WMi_EnableEx(char *path, int formatMedia);
 
-int func_0208F224(char *path)
+int WM_Enable(char *path)
 {
-    return func_0208F234(path, 0);
+    return WMi_EnableEx(path, 0);
 }

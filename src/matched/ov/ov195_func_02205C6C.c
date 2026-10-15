@@ -1,5 +1,5 @@
 /*
- * function: func_02205C6C
+ * function: SHINKA_DEMO_GRAPHIC_Draw3dEnd
  * address:  0x02205C6C
  * packet:   pkt_02205C6C
  * region:   ov195
@@ -15,7 +15,7 @@
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-void func_02205C6C(void *p)
+void SHINKA_DEMO_GRAPHIC_Draw3dEnd(void *p)
 {
     G3D_SYSTEM_DrawEnd();
 }

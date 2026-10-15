@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F4E4   0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4   0x0203F4E4  arm
  *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
  *   func_0202F358   0x0202F358  thumb
  *
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct RtcDate;
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 extern void func_0202F358(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 
@@ -34,7 +34,7 @@ void func_0202F30C(void *a0, u32 a1, u32 a2)
 {
     u32 buf[4];
 
-    func_0203F4E4((struct RtcDate *)buf);
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)buf);
 
     if (ZONEDATA_IsRawZoneGroup4CTo69((u16)a1) == 1)
         func_0202F358(a0, 0x753E, buf[0], buf[1], buf[2], a2);

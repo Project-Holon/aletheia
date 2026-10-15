@@ -15,13 +15,13 @@
  *   store. The k/off locals and the enum type of earlier drafts are gone.
  *
  * symbols:
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EE60 0x0201EE60 thumb
+ *   WORDSET_Callback 0x0201EE60 thumb
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201D304 0x0201D304 thumb
@@ -46,13 +46,13 @@ struct U16Vec;
 struct Bmp;
 struct CharBuf;
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);
@@ -74,13 +74,13 @@ void func_021BB18C(char *p, int idx)
     desc = *(struct Descriptor **)(p + 0x240);
     flag = (u32 *)(p + 0x24C);
     x = 0;
-    words = func_0201EC64(*(u16 *)p);
+    words = GF_FONT_Create_EC64(*(u16 *)p);
     text = func_02045EC0(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
-    func_0201EE60(words, 1, d_021BC710[idx]);
+    WORDSET_Callback(words, 1, d_021BC710[idx]);
     func_0201F250(words, buf, text);
     STRBUF_Delete((struct U16Vec *)text);
-    func_0201ED04(words);
+    WORDSET_DeleteStrbufED04(words);
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);
     func_0201D304(buf, *(unsigned *)(p + 0x18), 0);
     height = func_0201D42C(buf, *(void **)(p + 0x18));

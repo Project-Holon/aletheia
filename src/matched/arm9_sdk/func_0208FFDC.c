@@ -1,5 +1,5 @@
 /*
- * function: func_0208FFDC
+ * function: WM_EndDCF
  * address:  0x0208FFDC
  * packet:   pkt_0208FFDC
  * region:   arm9
@@ -72,7 +72,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208FFDC(WMCallbackFunc callback)
+WMErrCode WM_EndDCF(WMCallbackFunc callback)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

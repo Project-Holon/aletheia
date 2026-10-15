@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FD0
+ * function: POKE_SUMMARY_ACTOR_SetScrollAnim
  * address: 0x021B7FD0
  * packet: pkt_ov173_021B7FD0
  * region: ov173
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-void func_021B7FD0(u8 *p,int direction)
+void POKE_SUMMARY_ACTOR_SetScrollAnim(u8 *p,int direction)
 {
     CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f108,0);
     CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f104,0);

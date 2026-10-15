@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 
 typedef struct {
@@ -17,12 +20,12 @@ typedef struct {
 
 struct WordSet;
 typedef unsigned int   u32;
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 void FIELD_PLACE_NAME_DeleteWordSet(Obj *p)
 {
     if (p->f8 != 0) {
-        func_0201ED04(p->f8);
+        WORDSET_DeleteStrbufED04(p->f8);
         p->f8 = 0;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F62CC
+ * function: EGG_DEMO_MENU_ProcessDialog
  * address: 0x021F62CC
  * packet: pkt_ov215_021F62CC
  * region: ov215
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned BMP_MENU_ProcessYesNo(u8 *);
-void func_021F62CC(void *unused, char *p)
+void EGG_DEMO_MENU_ProcessDialog(void *unused, char *p)
 {
     unsigned result;
     int flag;

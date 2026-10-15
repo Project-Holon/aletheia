@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02077568",
+   "name": "CARDi_SendtoPxi",
    "address": "0x02077568",
    "kind": "sdk",
    "region": "arm9",

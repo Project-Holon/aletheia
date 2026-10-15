@@ -1,5 +1,5 @@
 /*
- * function: func_02177788
+ * function: DWCs_GetSendState
  * address:  0x02177788
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Byte at +0x1c of the record the index selects.
  *
  * symbols:
- *   g_021AB180  0x021AB180  data
+ *   gDwcTransInfo  0x021AB180  data
  */
 
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 
-unsigned char func_02177788(int i)
+unsigned char DWCs_GetSendState(int i)
 {
-    return *(unsigned char *)(*(char **)g_021AB180 + i * 0x38 + 0x1c);
+    return *(unsigned char *)(*(char **)gDwcTransInfo + i * 0x38 + 0x1c);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5238
+ * function: WF2DMAP_OBJCMD_StepAdvanceSnap
  * address: 0x021C5238
  * packet: pkt_ov127_021C5238
  * region: ov127
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C5300 0x021C5300 thumb ov127
- *   func_021C4AC4 0x021C4AC4 thumb ov127
- *   func_021C4B90 0x021C4B90 thumb ov127
+ *   WF2DMAP_OBJCMD_AdvanceTimer 0x021C5300 thumb ov127
+ *   WF2DMAP_OBJ_GetPos 0x021C4AC4 thumb ov127
+ *   WF2DMAP_OBJ_SetDestPos 0x021C4B90 thumb ov127
  */
 typedef unsigned short u16;
 typedef struct { u16 x, y; } Pos;
 typedef unsigned char  u8;
-extern int func_021C5300(u8 *p);
-extern Pos func_021C4AC4(void *);
-extern void func_021C4B90(void *, Pos);
-int func_021C5238(void *p)
+extern int WF2DMAP_OBJCMD_AdvanceTimer(u8 *p);
+extern Pos WF2DMAP_OBJ_GetPos(void *);
+extern void WF2DMAP_OBJ_SetDestPos(void *, Pos);
+int WF2DMAP_OBJCMD_StepAdvanceSnap(void *p)
 {
-    int r = func_021C5300(p);
+    int r = WF2DMAP_OBJCMD_AdvanceTimer(p);
     if (r == 1) {
-        Pos v = func_021C4AC4(p);
-        func_021C4B90(p, v);
+        Pos v = WF2DMAP_OBJ_GetPos(p);
+        WF2DMAP_OBJ_SetDestPos(p, v);
     }
     return r;
 }

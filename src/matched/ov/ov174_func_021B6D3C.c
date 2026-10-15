@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B6D3C,func_021B6F24
+ * function: LOCAL_TVT_CHARA_Update,LOCAL_TVT_CHARA_SetActive
  * address: 0x021B6D3C
  * packet: pkt_ov174_021B6D3C
  * region: ov174
@@ -11,8 +11,8 @@
  * status: EXACT
  * extent: trailing store-and-return follower 021B6F24 included in this unit; 021B6F2A..021B6F2C is alignment padding.
  * symbols:
- *   func_021B7180 0x021B7180 thumb ov174
- *   func_021B71A0 0x021B71A0 thumb ov174
+ *   LOCAL_TVT_CHARA_LoadPalette 0x021B7180 thumb ov174
+ *   LOCAL_TVT_CHARA_CopyTiles 0x021B71A0 thumb ov174
  *   func_020307B0 0x020307B0 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -30,8 +30,8 @@
 #include "../include/Obj24206.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021B7180(char *p, char *q, int id);
-extern void func_021B71A0(int,int *,int,int,int);
+extern void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id);
+extern void LOCAL_TVT_CHARA_CopyTiles(int,int *,int,int,int);
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 struct Descriptor;
@@ -47,7 +47,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 struct Obj;
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern const u8 d_021B7485[],d_021B7481[];
-void func_021B6D3C(u8 *p,u8 *q)
+void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
 {
     unsigned size;
     unsigned pal;
@@ -59,12 +59,12 @@ void func_021B6D3C(u8 *p,u8 *q)
     switch(((struct Obj00185 *)q)->f8) {
     case 1:
         q[1]=0;
-        func_021B7180((char *)p,(char *)q,q[4]+d_021B7485[q[2]*3]);
+        LOCAL_TVT_CHARA_LoadPalette((char *)p,(char *)q,q[4]+d_021B7485[q[2]*3]);
         ((struct Obj00185 *)q)->f8=2;
         break;
     case 2:
         step=q[1]*0x3000u;
-        func_021B71A0((int)p,(int *)q,base+step,pal+(step+(size*q[0]+0x10000)),0x3000);
+        LOCAL_TVT_CHARA_CopyTiles((int)p,(int *)q,base+step,pal+(step+(size*q[0]+0x10000)),0x3000);
         q[1]++;
         if(q[1]*0x3000u>=size) {
             ((struct Obj00185 *)q)->f8=3;
@@ -74,12 +74,12 @@ void func_021B6D3C(u8 *p,u8 *q)
         break;
     case 3:
         q[1]=0;
-        func_021B7180((char *)p,(char *)q,(q[5]+d_021B7481[q[3]*2])+(((struct Obj00152 *)p)->f10*2));
+        LOCAL_TVT_CHARA_LoadPalette((char *)p,(char *)q,(q[5]+d_021B7481[q[3]*2])+(((struct Obj00152 *)p)->f10*2));
         ((struct Obj00185 *)q)->f8=4;
         break;
     case 4:
         step=q[1]*0x3000u;
-        func_021B71A0((int)p,(int *)q,base+step,pal+(step+(size*q[0]+0x28000)),0x3000);
+        LOCAL_TVT_CHARA_CopyTiles((int)p,(int *)q,base+step,pal+(step+(size*q[0]+0x28000)),0x3000);
         q[1]++;
         if(q[1]*0x3000u>=size) {
             ((struct Obj00185 *)q)->f8=5;
@@ -114,7 +114,7 @@ void func_021B6D3C(u8 *p,u8 *q)
     }
     if(((struct Obj00185 *)q)->f38!=0) (((struct Obj00185 *)q)->f38)--;
 }
-void func_021B6F24(u8 *unused,u8 *q,int unused2)
+void LOCAL_TVT_CHARA_SetActive(u8 *unused,u8 *q,int unused2)
 {
     ((struct Obj24206 *)q)->f8=1;
 }

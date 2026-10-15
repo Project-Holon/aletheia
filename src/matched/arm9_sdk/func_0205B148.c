@@ -1,5 +1,5 @@
 /*
- * function: func_0205B148
+ * function: DWCi_AC_CallBackWCM
  * address:  0x0205B148
  * packet:   pkt_0205B148
  * region:   arm9
@@ -35,7 +35,7 @@ typedef struct ACWORK {
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
 
-void func_0205B148(WCMNotice *notice)
+void DWCi_AC_CallBackWCM(WCMNotice *notice)
 {
     ACWORK *wk;
 

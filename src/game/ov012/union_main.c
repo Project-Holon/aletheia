@@ -23,10 +23,10 @@
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   UNION_APP_Delete  0x02183BE0  thumb  ov022
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   func_02034714  0x02034714  arm
  *   func_02012944  0x02012944  thumb
@@ -36,13 +36,13 @@
  *   sUnionMainFile     0x02175614  data   ov012  a1
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   func_0201212C  0x0201212C  thumb
+ *   ICA_ANIME_GetField30  0x0201212C  thumb
  *   GAME_EVENT_IsRunning  0x020123C4  thumb
  *   UNION_ONESELF_RunPlayCategory  0x0217B840  thumb  ov019
  *   UNION_CHARA_ProcessBeaconUpdates  0x0217B75C  thumb  ov019
  *   UNION_CHARA_Main  0x0217B264  thumb  ov019
- *   func_02012114 0x02012114 thumb
- *   func_0201210C 0x0201210C thumb
+ *   ICA_ANIME_Check2114 0x02012114 thumb
+ *   ICA_ANIME_GetField20 0x0201210C thumb
  *   FIELDMAP_IsReady 0x02188BE8 thumb ov021
  *   FIELDMAP_CTRL_GRID_SetBusy  0x021A2E44  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -54,7 +54,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   GFL_NET_SendData  0x0203D3F8  arm
@@ -201,13 +201,13 @@ extern void MI_CpuFill8(void *dst, int value, int size);
 
 extern void OS_GetMacAddress(void *mac);
 
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 
 extern void UNION_APP_Delete(struct UnionAppWork *app);
 
 extern void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
 
-extern struct GameComm *func_02012138(struct GameSystem *gameSystem);
+extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 
 extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 
@@ -223,7 +223,7 @@ extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
 
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 
-extern u8 func_0201212C(struct GameSystem *gameSystem);
+extern u8 ICA_ANIME_GetField30(struct GameSystem *gameSystem);
 
 extern int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
 
@@ -233,9 +233,9 @@ extern void UNION_CHARA_ProcessBeaconUpdates(UnionRoomWork *work);
 
 extern void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
 
-extern u32 func_02012114(struct GameSystem *gameSystem);
+extern u32 ICA_ANIME_Check2114(struct GameSystem *gameSystem);
 
-extern void *func_0201210C(struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
 
 extern int FIELDMAP_IsReady(void *fieldMap);
 
@@ -257,7 +257,7 @@ extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, con
 
 extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 
-extern struct MyStatus *func_02012950(struct GameData *gameData, u32 index);
+extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 index);
 
 extern void MYSTATUS_Copy(const void *src, struct MyStatus *dst);
 
@@ -422,8 +422,8 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     struct GameData *gameData;
     UnionParentWork *parent;
 
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     if (GAME_COMM_GetKind(gameComm) != 0) {
         func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
@@ -448,7 +448,7 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
     if (work == 0) {
         func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
-    if (func_0201212C(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
+    if (ICA_ANIME_GetField30(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
         return;
     }
     if (GAME_EVENT_IsRunning(work->parent->gameSystem) == 1) {
@@ -478,8 +478,8 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
 
 int UNION_MAIN_IsFieldReady(UnionRoomWork *work)
 {
-    if (work->fieldActive == 1 && func_02012114(work->parent->gameSystem) == 1
-        && FIELDMAP_IsReady(func_0201210C(work->parent->gameSystem)) == 1)
+    if (work->fieldActive == 1 && ICA_ANIME_Check2114(work->parent->gameSystem) == 1
+        && FIELDMAP_IsReady(ICA_ANIME_GetField20(work->parent->gameSystem)) == 1)
         return 1;
     return 0;
 }
@@ -494,7 +494,7 @@ void UNION_MAIN_FieldCreateCallback(void *gameSystem, UnionRoomWork *work, void 
         FIELDMAP_CTRL_GRID_SetBusy(fieldMap, 1);
     }
     if (ZONEDATA_IsZone1A6(FIELDMAP_GetZoneId(fieldMap)) == 1) {
-        UNION_CHARA_RefreshParentMarks(work, func_020120F4(work->parent->gameSystem), fieldMap);
+        UNION_CHARA_RefreshParentMarks(work, ICA_ANIME_GetField1C(work->parent->gameSystem), fieldMap);
     }
     if (colosseum != 0 && colosseum->startFlag == 1) {
         COMM_PLAYER_Resume(colosseum->commPlayer);
@@ -539,7 +539,7 @@ u8 UNION_MAIN_GetAppealNo(UnionRoomWork *work)
 
 int UNION_MAIN_IsIdle(struct GameSystem *gameSystem)
 {
-    UnionRoomWork *work = GAME_COMM_GetWork(func_02012138(gameSystem));
+    UnionRoomWork *work = GAME_COMM_GetWork(ICA_ANIME_GetField24(gameSystem));
     if (work == 0) return 0;
     if ((work->mySituation.playCategory == 0
          || work->mySituation.playCategory == UNION_PLAY_CATEGORY_COLOSSEUM)
@@ -615,7 +615,7 @@ int UNION_COMMAND_SendPartnerMode(int mode)
 
 void UNION_COMMAND_RecvMyStatus(u32 netId, int size, const void *data, UnionRoomWork *work)
 {
-    MYSTATUS_Copy(data, func_02012950(work->parent->gameData, netId));
+    MYSTATUS_Copy(data, GAME_DATA_GetPlayerStatusById(work->parent->gameData, netId));
     work->mySituation.connect.myStatusRecvBits |= (u8)(1 << netId);
 }
 
@@ -655,7 +655,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
     struct GameData *gameData;
     u32 macBuffer[2];
     colosseum = work->colosseum;
-    gameData = func_020120F4(work->parent->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->parent->gameSystem);
     if (colosseum == 0 || colosseum->commPlayer == 0 || colosseum->entryMenu == 0) {
         func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;

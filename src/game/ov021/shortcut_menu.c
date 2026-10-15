@@ -17,9 +17,9 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
- *   func_02040C14  0x02040C14  arm
+ *   BG_SYS_Init  0x02040C14  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
@@ -249,9 +249,9 @@ typedef struct BbActRec {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern u32 MI_CpuFill8(void *p, int v, int n);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(int);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -369,9 +369,9 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     menu->resultKind = 0;
     menu->resultValue = 25;
     menu->savedState = savedState;
-    func_0203FCA0(1, (const struct BgTemplate *)gShortcutMenuBgTemplate, 0);
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)gShortcutMenuBgTemplate, 0);
     func_020414AC(1);
-    func_02040C14(1, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
     menu->actorBank = CLACT_CreateUnit(8, 0, heapId);
     tileBase = 0x80;
     resArchive = func_020490F4(0x80, heapId);

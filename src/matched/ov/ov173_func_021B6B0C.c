@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B0C
+ * function: POKE_SUMMARY_MAIN_ApplyMove
  * address: 0x021B6B0C
  * packet: pkt_ov173_021B6B0C
  * region: ov173
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7438 0x021B7438 thumb ov173
+ *   POKE_SUMMARY_MAIN_GetRecordWord 0x021B7438 thumb ov173
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  */
@@ -17,20 +17,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021B7438(char **);
+extern u16 POKE_SUMMARY_MAIN_GetRecordWord(char **);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
-int func_021B6B0C(char **p)
+int POKE_SUMMARY_MAIN_ApplyMove(char **p)
 {
     char *q;
     u32 zero;
     q = *p;
-    POKE_TOOL_SetPartyValue(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x36, func_021B7438(p));
+    POKE_TOOL_SetPartyValue(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x36, POKE_SUMMARY_MAIN_GetRecordWord(p));
     q = *p;
     zero = 0;
     POKE_TOOL_SetPartyValue(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3e, 0);
     q = *p;
-    POKE_TOOL_SetPartyValue(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3a, WAZA_TOOL_GetMaxPP(func_021B7438(p), 0));
+    POKE_TOOL_SetPartyValue(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3a, WAZA_TOOL_GetMaxPP(POKE_SUMMARY_MAIN_GetRecordWord(p), 0));
     ((struct Obj24157 *)(*p))->f1A = zero;
     return 8;
 }

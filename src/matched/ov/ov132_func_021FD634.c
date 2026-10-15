@@ -1,5 +1,5 @@
 /*
- * function: func_021FD634
+ * function: STA_NET_AdvanceChunk
  * address: 0x021FD634
  * packet: pkt_ov132_021FD634
  * region: ov132
@@ -13,7 +13,7 @@
 #include "../include/Obj10567.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021FD634(int a,int b,int c,char *p)
+void STA_NET_AdvanceChunk(int a,int b,int c,char *p)
 {
     char *q;
     char *s;

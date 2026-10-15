@@ -55,7 +55,7 @@
  *   MI_UncompressLZ8  0x020834C0  arm
  *   sArchiveTable2  0x021DBFE0  data
  *   DWCi_QUElPushBack  0x021D546C  arm  ov016
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_020923F0  0x020923F0  arm
  */
 #define DWCi_HEAPlFree(p) DWCi_HEAPlFree_((void **)&(p))
@@ -118,7 +118,7 @@ extern void *DWCi_QUElPopBack(void *queue);
 extern u32 FS_GetLength(FSFile *a0);
 extern void MI_UncompressLZ8(void *src, void *dst);
 extern void DWCi_QUElPushBack(void *que, void *elem);
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 void DWCi_ARClInit(void);
 void DWCi_ARClEnd(void);
@@ -282,8 +282,8 @@ static int cmpBack(char *str0, char *str1, int n)
 	int len0;
 	int len1;
 	int rs;
-	len0 = func_0209477C((const u8 *)str0);
-	len1 = func_0209477C((const u8 *)str1);
+	len0 = strlen((const u8 *)str0);
+	len1 = strlen((const u8 *)str1);
 	if (len0 < n || len1 < n)
 		return 0;
 	rs = func_020923F0((const u8 *)(str0 + (len0 - n)), (const u8 *)(str1 + (len1 - n)), n);

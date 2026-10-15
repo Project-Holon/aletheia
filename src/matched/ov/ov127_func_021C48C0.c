@@ -1,5 +1,5 @@
 /*
- * function: func_021C48C0
+ * function: WF2DMAP_OBJ_DeleteList
  * address:  0x021C48C0
  * packet:   pkt_021C48C0
  * region:   ov127
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C48C0(u8 *p)
+void WF2DMAP_OBJ_DeleteList(u8 *p)
 {
     func_020307B0(((struct Obj23036 *)p)->f0);
     func_020307B0(p);

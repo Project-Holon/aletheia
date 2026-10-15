@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -30,7 +30,7 @@
  *   g_07B4 0x021C07B4 data
  *   g_0794 0x021C0794 data
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
@@ -42,7 +42,7 @@
  *   func_02027624 0x02027624 thumb
  *   func_0202762C 0x0202762C thumb
  *   func_020413B0 0x020413B0 arm
- *   func_0204162C 0x0204162C arm
+ *   BG_SYS_GetBuf 0x0204162C arm
  *   func_02049B40 0x02049B40 arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -54,12 +54,12 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   BLINK_PALANM_Create 0x0202E940 thumb
@@ -76,20 +76,20 @@
  *   d_021C0E80 0x021C0E80 data a4
  *   func_02041090 0x02041090 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   BGWINFRM_StartMove 0x0202CD64 thumb
  *   d_021C072E  0x021C072E  data  a2
  *   d_021C0720  0x021C0720  data  a1
  *   d_021C0894  0x021C0894  data  a4
- *   func_021C93E4  0x021C93E4  thumb  ov212
+ *   ZUKAN_TickCounter  0x021C93E4  thumb  ov212
  *   func_02034AC4  0x02034AC4  arm
  *   ov067_id  0x00000043  data
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0204363C  0x0204363C  arm
- *   func_0207D534  0x0207D534  arm
+ *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_021BC3D4  0x021BC3D4  thumb  ov210
@@ -101,13 +101,13 @@
  *   func_02034A5C 0x02034A5C arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   func_021C9380  0x021C9380  thumb  ov212
+ *   ZUKAN_InitQuery  0x021C9380  thumb  ov212
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   func_021C9428  0x021C9428  thumb  ov212
- *   func_021C9460  0x021C9460  thumb  ov212
- *   func_021C9468  0x021C9468  thumb  ov212
+ *   ZUKAN_SEARCH_ENGINE_Create  0x021C9428  thumb  ov212
+ *   ZUKAN_SEARCH_ENGINE_ReleaseWork  0x021C9460  thumb  ov212
+ *   ZUKAN_SEARCH_ENGINE_Filter  0x021C9468  thumb  ov212
  *   func_020355C4 0x020355C4 arm
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   func_021C0234 0x021C0234 thumb ov210
  *   FRAME_LIST_UpdateInit 0x021B7A64 thumb ov067
  *   FRAME_LIST_Update  0x021B7AB0  thumb  ov067
@@ -163,7 +163,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_021C940C 0x021C940C thumb ov212
+ *   ZUKAN_CreateActor 0x021C940C thumb ov212
  *   data_021C09AC 0x021C09AC data
  *   data_021C0978 0x021C0978 data
  *   data_021C0960 0x021C0960 data
@@ -172,16 +172,16 @@
  *   FRAME_LIST_ClampToScrollBar 0x021B8AE4 thumb ov067
  *   FRAME_LIST_GetCursor  0x021B93B0  thumb ov067
  *   FRAME_LIST_CanScrollDown  0x021B93C0  thumb ov067
- *   func_02025CD0 0x02025CD0 thumb
- *   func_02025D1C 0x02025D1C thumb
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
+ *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   d_021C0B60 0x021C0B60 data a4
  *   d_021C0B14 0x021C0B14 data a4
- *   func_02025D14 0x02025D14 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_Delete 0x02025D14 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
- *   func_020260E0 0x020260E0 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -190,6 +190,7 @@
  *   d_021C0B24 0x021C0B24 data a4
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
+ *   CURSOR_MOVE_GetEntry  0x0202616C  thumb  arm9
  */
 #include "../../matched/include/Obj03370.h"
 #include "../../matched/include/Obj00085.h"
@@ -381,15 +382,15 @@ struct Obj021BF0DC {
 
 typedef enum Y { YMin = -2147483647, YMax = 2147483647 } Y;
 
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32);
 extern void func_02041B6C(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void func_020403F4(u32 a);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -402,7 +403,7 @@ extern u32 func_02027628(void);
 extern u32 func_02027624(void);
 extern u32 func_0202762C(void);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *PALANM_Create(unsigned);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *,unsigned,unsigned,unsigned);
@@ -414,12 +415,12 @@ extern int PALANM_RequestFade(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
 extern void func_0207D63C(u32 reg, u32 a, u32 b, u32 c, u32 d);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32);
-extern struct WordSet *func_0201EC64(u32);
+extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
@@ -436,16 +437,16 @@ extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern int GAME_DATA_CheckSaveFlag(int, int);
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-extern void func_021C93E4(u32 a, u32 b, u32 *counter);
+extern void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 extern int func_02034AC4(s32 handle);
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void func_0204363C(u32 a);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_021BC3D4(void);
@@ -457,13 +458,13 @@ extern u32 func_021BC2AC(u8 *p);
 extern void func_02034A5C(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern s32 BLINK_PALANM_Update(struct Row *p);
-extern void func_021C9380(struct Blk37 *p, u8 *out);
+extern void ZUKAN_InitQuery(struct Blk37 *p, u8 *out);
 extern void GFL_USE_StopAllSe(void);
-extern int func_021C9428(int, int, int);
-extern void func_021C9460(int);
-extern int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out);
+extern int ZUKAN_SEARCH_ENGINE_Create(int, int, int);
+extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
+extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 extern u8 func_020355C4(void);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021C0234(char *ctx);
 extern int FRAME_LIST_UpdateInit(struct S *p);
 extern int FRAME_LIST_Update(struct S *p);
@@ -519,21 +520,21 @@ extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern int FRAME_LIST_ClampToScrollBar(struct S *, unsigned int);
 extern int FRAME_LIST_GetCursor(char *p);
 extern int FRAME_LIST_CanScrollDown(char *p);
-extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
-extern void func_02025D1C(struct Struct_02025D1C *obj);
-extern void func_02025D14(void);
-extern void *func_0202616C(void **obj, unsigned int idx);
-extern int func_02025DE8(struct Sound *obj);
+extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
+extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj);
+extern void CURSOR_MOVE_Delete(void);
+extern void *CURSOR_MOVE_GetEntry(void **obj, unsigned int idx);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern unsigned KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
-extern u8 func_020260E0(struct Sound *obj);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
@@ -726,49 +727,49 @@ extern const unsigned d_021C0B24[];
 
 void func_021BC3F0(void)
 {
-    func_0203F8F4(0x7B);
+    BG_SYS_Create(0x7B);
     {
         struct DispConfig d = g_0784;
         func_0203FC28(&d);
     }
     {
         struct BgTemplate t = g_0814;
-        func_0203FCA0(0, &t, 0);
+        BG_SYS_InitBgLayer(0, &t, 0);
     }
     {
         struct BgTemplate t = g_07F4;
-        func_0203FCA0(1, &t, 0);
-        func_020414EC(1);
+        BG_SYS_InitBgLayer(1, &t, 0);
+        BG_SYS_ClearSlot(1);
         func_02041B6C(1);
     }
     {
         struct BgTemplate t = g_0854;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
     {
         struct BgTemplate t = g_0874;
-        func_0203FCA0(3, &t, 0);
-        func_020414EC(3);
+        BG_SYS_InitBgLayer(3, &t, 0);
+        BG_SYS_ClearSlot(3);
         func_02041B6C(3);
     }
     {
         struct BgTemplate t = g_0834;
-        func_0203FCA0(4, &t, 0);
+        BG_SYS_InitBgLayer(4, &t, 0);
     }
     {
         struct BgTemplate t = g_07D4;
-        func_0203FCA0(5, &t, 0);
-        func_020414EC(5);
+        BG_SYS_InitBgLayer(5, &t, 0);
+        BG_SYS_ClearSlot(5);
         func_02041B6C(5);
     }
     {
         struct BgTemplate t = g_07B4;
-        func_0203FCA0(6, &t, 0);
+        BG_SYS_InitBgLayer(6, &t, 0);
     }
     {
         struct BgTemplate t = g_0794;
-        func_0203FCA0(7, &t, 0);
-        func_020414EC(7);
+        BG_SYS_InitBgLayer(7, &t, 0);
+        BG_SYS_ClearSlot(7);
         func_02041B6C(7);
     }
     BG_SYS_SetMainPlaneVisible(0xF, 1);
@@ -790,7 +791,7 @@ void func_021BC578(u32 a0)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 
@@ -856,7 +857,7 @@ void func_021BC5DC(void)
     func_020413B0(0, 0, 0x15, 0x20, 3, 0xE);
     func_02041B6C(0);
     ARC_TOOL_DeleteHandle(h);
-    scr = (u8 *)func_0204162C(0);
+    scr = (u8 *)BG_SYS_GetBuf(0);
     for (i = 0; i < 0x60; i++) {
         ((u16 *)scr)[i + 0x2A0] += (u16)base;
     }
@@ -983,7 +984,7 @@ void func_021BC940(char *p)
 {
     *(struct MsgBank * *)&((struct Obj06693 *)p)->f1D0 = func_02045B38(0, 2, 277, 123);
     *(struct GfFont * *)&((struct Obj06693 *)p)->f1CC = GF_FONT_Create(23, 0, 0, 0, 123);
-    *(struct WordSet * *)&((struct Obj06693 *)p)->f1D4 = func_0201EC64(123);
+    *(struct WordSet * *)&((struct Obj06693 *)p)->f1D4 = GF_FONT_Create_EC64(123);
     ((struct Obj06693 *)p)->f1DC = PRINTSYS_QUE_Create((void *)123);
     *(struct U16Vec * *)&((struct Obj06693 *)p)->f1D8 = STRBUF_Create(128, 123);
 }
@@ -997,7 +998,7 @@ u32 func_021BC99C(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
-    func_0201ED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
+    WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
     GF_FONT_Delete((void *)(((struct Obj00085 *)p)->f1CC));
     return MSGDATA_Delete((struct Rec *)(((struct Obj00085 *)p)->f1D0));
 }
@@ -1032,7 +1033,7 @@ u32 func_021BCA10(u8 *p)
 
 void func_021BCA20(char *p)
 {
-    u32 base = func_0204162C(0);
+    u32 base = BG_SYS_GetBuf(0);
     *(struct WinMgr * *)&((struct Obj10914 *)p)->f20 = BGWINFRM_Create(2, 1, 123);
     BGWINFRM_AddFrame(*(struct WinMgr * *)&((struct Obj10914 *)p)->f20, 0, 0, 32, 3);
     BGWINFRM_SetFrameData(*(struct WinMgr * *)&((struct Obj10914 *)p)->f20, 0, (void *)(base + 0x540));
@@ -1208,16 +1209,16 @@ void func_021BCD30(u8 *p)
 void func_021BCD3C(u8 *p)
 {
     p[0x2b8] = 2;
-    func_020414EC(1);
-    func_020414EC(3);
-    func_020414EC(5);
+    BG_SYS_ClearSlot(1);
+    BG_SYS_ClearSlot(3);
+    BG_SYS_ClearSlot(5);
     func_02041B6C(1);
     func_02041B6C(3);
     func_02041B6C(5);
     func_02041300(0, 0, 0, 0, 32, 21, 0);
     func_02041B6C(0);
-    func_02041EE4(1, 3, 0);
-    func_02041EE4(5, 3, 0);
+    BG_SYS_ResetSlot(1, 3, 0);
+    BG_SYS_ResetSlot(5, 3, 0);
 }
 
 
@@ -1232,8 +1233,8 @@ void func_021BCDA4(char *p)
 {
     unsigned int i;
     short x, y;
-    func_02041EE4(4, 3, 48);
-    func_02041EE4(7, 3, 48);
+    BG_SYS_ResetSlot(4, 3, 48);
+    BG_SYS_ResetSlot(7, 3, 48);
     BGWINFRM_PutFrame(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20, 0, 0, 27);
     BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20);
     for (i = 2; i <= 4; i++) {
@@ -1272,8 +1273,8 @@ int func_021BCE58(char *p)
     int magnitude;
     if (((struct Obj00085 *)p)->f2C8 == 0) return 0;
     BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj00085 *)p)->f20);
-    func_02041EE4(4, 4, ((struct Obj00085 *)p)->f2CA);
-    func_02041EE4(7, 4, ((struct Obj00085 *)p)->f2CA);
+    BG_SYS_ResetSlot(4, 4, ((struct Obj00085 *)p)->f2CA);
+    BG_SYS_ResetSlot(7, 4, ((struct Obj00085 *)p)->f2CA);
     for (i = 2; i <= 4; i++) {
         func_021BEE58(p, i, &x, &y, 0);
         y += ((struct Obj00085 *)p)->f2CA;
@@ -1399,7 +1400,7 @@ u32 func_021BCF50(u8 *p)
     }
     func_021BED68((int)p);
     func_021BE3D4(p);
-    func_021C93E4(2, 6, (u32 *)(p + 0x2c4));
+    ZUKAN_TickCounter(2, 6, (u32 *)(p + 0x2c4));
     return 1;
 }
 
@@ -1423,8 +1424,8 @@ u32 func_021BCF8C(u8 *p)
     *(volatile u16 *)&((struct Obj25596 *)rb)->f0 = z;
     func_0204363C(0);
     m = -16;
-    func_0207D534((volatile u16 *)(ra + 0x1c), m);
-    func_0207D534((volatile u16 *)(rb + 0x1c), m);
+    GXx_SetMasterBrightness_((volatile u16 *)(ra + 0x1c), m);
+    GXx_SetMasterBrightness_((volatile u16 *)(rb + 0x1c), m);
     if (ZUKAN_SAVE_GetViewMode((struct Blk37 *)(((struct Obj25597 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f4)) == 1) {
         ((struct Obj25599 *)(*(u8 * *)&((struct Obj25598 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = z;
     } else {
@@ -1470,8 +1471,8 @@ int func_021BD064(char *p)
     func_021BED54((int)p);
     func_021BE3B4(p);
     func_021BC578(func_021BC99C((u8 *)p));
-    func_0207D534((void *)0x0400006c, -16);
-    func_0207D534((void *)0x0400106c, -16);
+    GXx_SetMasterBrightness_((void *)0x0400006c, -16);
+    GXx_SetMasterBrightness_((void *)0x0400106c, -16);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     BG_SYS_SetMainVisiblePlanes(0);
@@ -1507,8 +1508,8 @@ int func_021BD118(u8 *p)
     func_021BCD30(p);
     if (p[0x2b9] == 255) {
         func_021BFEAC((char *)p, 0);
-        func_0207D534((void *)0x0400006c, 0);
-        func_0207D534((void *)0x0400106c, 0);
+        GXx_SetMasterBrightness_((void *)0x0400006c, 0);
+        GXx_SetMasterBrightness_((void *)0x0400106c, 0);
         func_021BCE0C((char *)p, -8);
         func_021BC82C((char *)p, 16, 0);
         return 4;
@@ -1604,7 +1605,7 @@ u32 func_021BD388(u8 *p)
 {
     u32 *ctx = *(u32 * *)&((struct Obj00222 *)p)->f0;
 
-    func_021C9380((struct Blk37 *)ctx[1], (u8 *)ctx[2]);
+    ZUKAN_InitQuery((struct Blk37 *)ctx[1], (u8 *)ctx[2]);
     func_021BE564(p);
     func_021BEDF0((int)p, 7, 0);
     return 4;
@@ -1618,15 +1619,15 @@ u32 func_021BD388(u8 *p)
 /*
  * 2026-10-05 (wD5 lane14): EXACT. func_021BFE84 takes the state byte as a
  *   second argument (its matched body uses n); the r1 load was that argument.
- * 2026-10-05 (wD4 lane16): re-read; still the single r1/r0 load at the 0x79 test after func_021C9460. No change tried that moved it (callee arity cannot explain it: the load is after the call).
+ * 2026-10-05 (wD4 lane16): re-read; still the single r1/r0 load at the 0x79 test after ZUKAN_SEARCH_ENGINE_ReleaseWork. No change tried that moved it (callee arity cannot explain it: the load is after the call).
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (2 bytes: ldrb r1/cmp r1,#0x79 in the image, r0 in ours). Also tried the 0x79 test through a u32 local and p[0x2BB]++ for the tail; no change. Lesson from func_021BE010 (same overlay): a callee that takes the byte as a second argument with r0 untouched explains an r1 load, but no call here does.
  *
  * 2026-10-02 (wave C2 lane 03): re-checked, still the same two bytes at
  * 0x021BD448: the image loads the 0x2bb byte into r1 before `cmp #0x79`.
- * The path into this compare falls through from `func_021C9460(p[0x2cc])`;
+ * The path into this compare falls through from `ZUKAN_SEARCH_ENGINE_ReleaseWork(p[0x2cc])`;
  * no later call takes the byte as a second argument (checked
  * 021BED04, 021BED10, 021BFE84).  Next idea: look at the callers' use of
- * func_021C9460 with a second argument.
+ * ZUKAN_SEARCH_ENGINE_ReleaseWork with a second argument.
  *
  * Re-verified 2026-09-27 (DIFF fixer lane): size-exact, 2 concrete bytes.
  * The three func_021C94xx symbols were wrongly hinted ov210; they live in
@@ -1635,7 +1636,7 @@ u32 func_021BD388(u8 *p)
  * bytes are the image's `ldrb r1,[r4,r5] / cmp r1,#0x79` versus the compile's
  * `ldrb r0,... / cmp r0,#0x79` (the dead argument register is reused for the
  * load) -- the same allocator tell as HALL_OF_FAME_DeleteMonSprite/func_021BEA54.  The last
- * site, func_021C9460, is a Thumb-shaped linker stub (`ldr r3,[pc,#0];
+ * site, ZUKAN_SEARCH_ENGINE_ReleaseWork, is a Thumb-shaped linker stub (`ldr r3,[pc,#0];
  * bx r3; .word 0x020307B0`) that disasm emits as an unlabelled .word run, so
  * the `veneer` class cannot attest it; only the ARM stub shape attests
  * (docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md).
@@ -1663,17 +1664,17 @@ int func_021BD3AC(unsigned char *p)
     if (p[0x2BB] == 1) {
         func_021BCF38(p);
         *(int *)(p + 0x2CC) =
-            func_021C9428(*(int *)(*(int *)p + 4), *(int *)(*(int *)p + 8), 0x807B);
+            ZUKAN_SEARCH_ENGINE_Create(*(int *)(*(int *)p + 4), *(int *)(*(int *)p + 8), 0x807B);
         *(int *)(p + 0x2D0) = 0;
     }
     if (p[0x2BB] >= 2) {
         if (*(int *)(p + 0x2D0) == 0) {
-            r = func_021C9468((struct Search *)(*(int *)(p + 0x2CC)), 0x69, &v, (u16 **)(&w));
+            r = ZUKAN_SEARCH_ENGINE_Filter((struct Search *)(*(int *)(p + 0x2CC)), 0x69, &v, (u16 **)(&w));
             *(int *)(p + 0x2D0) = r;
             if (r == 1) {
                 *(unsigned short *)(*(int *)p + 0x14) = v;
                 *(int *)(*(int *)p + 0x10) = w;
-                func_021C9460(*(int *)(p + 0x2CC));
+                ZUKAN_SEARCH_ENGINE_ReleaseWork(*(int *)(p + 0x2CC));
             }
         }
     }
@@ -1711,9 +1712,9 @@ int func_021BD4AC(u8 *p)
         func_021BCCA8((char *)p);
         func_021BE7E4(p);
         if (func_020355C4() == 1)
-            func_020260F4(((struct Obj03936 *)p)->f2B0, 0);
+            CURSOR_MOVE_SetState(((struct Obj03936 *)p)->f2B0, 0);
         else
-            func_020260F4(((struct Obj03936 *)p)->f2B0, 1);
+            CURSOR_MOVE_SetState(((struct Obj03936 *)p)->f2B0, 1);
         func_021BCF0C(p);
         return 4;
     }
@@ -3347,7 +3348,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t0.a = p->a[t0.a];
         t0.b = p->b[t0.b];
         t0.c = p->c[t0.c];
-        p->objs[i] = func_021C940C((u32)p->set, (const u8 *)(&t0), 0x7B);
+        p->objs[i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t0), 0x7B);
     }
 
     if (GAME_DATA_CheckSaveFlag((int)(*p->sys), 0x10) == 1)
@@ -3377,7 +3378,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.b = p->b[t.b];
         t.c = p->c[t.c];
         t.id = i;
-        p->objs[15 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
+        p->objs[15 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 15, 0);
 
         t = tb;
@@ -3385,10 +3386,10 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.b = p->b[t.b];
         t.c = p->c[t.c];
         t.id = i;
-        p->objs[29 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
+        p->objs[29 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 29, 0);
         func_021BEE14((char *)p, (int)i + 29, 1);
-        p->objs[43 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
+        p->objs[43 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 43, 0);
         CLACT_SetActorObjMode(p->objs[43 + i], 2);
     }
@@ -3890,12 +3891,12 @@ void func_021BFE84(int p, int n)
 void func_021BFEAC(char *ctx, int index)
 {
     if (func_020355C4() == 1) {
-        ((struct Obj10923 *)ctx)->f2B0 = func_02025CD0((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 0, index, 123);
+        ((struct Obj10923 *)ctx)->f2B0 = CURSOR_MOVE_Create((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 0, index, 123);
     } else {
-        ((struct Obj10923 *)ctx)->f2B0 = func_02025CD0((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 1, index, 123);
+        ((struct Obj10923 *)ctx)->f2B0 = CURSOR_MOVE_Create((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 1, index, 123);
         func_021BFF30((int)ctx, index, 3);
     }
-    func_02025D1C(((struct Obj10923 *)ctx)->f2B0);
+    CURSOR_MOVE_EnableInput(((struct Obj10923 *)ctx)->f2B0);
 }
 
 
@@ -3906,7 +3907,7 @@ void func_021BFF18(int p)
     int *q = (int *)p;
 
     if (q[0xac] != 0) {
-        func_02025D14();
+        CURSOR_MOVE_Delete();
         q[0xac] = 0;
     }
 }
@@ -3915,7 +3916,7 @@ void func_021BFF18(int p)
 
 
 /*
- * note:     func_0202616C takes (record, a); passing a as the second argument keeps r1 live,
+ * note:     CURSOR_MOVE_GetEntry takes (record, a); passing a as the second argument keeps r1 live,
  *           so the 0x2B0 offset lands in r2.
  */
 void func_021BFF30(int p, unsigned int a, unsigned int b)
@@ -3925,7 +3926,7 @@ void func_021BFF30(int p, unsigned int a, unsigned int b)
 
     if (a > 6)
         return;
-    t = (u8 *)func_0202616C((void **)q[0xac], a);
+    t = (u8 *)CURSOR_MOVE_GetEntry((void **)q[0xac], a);
     func_020413B0(0, t[0], t[1], t[2], t[3], (u8)b);
     func_02041B6C(0);
 }
@@ -3936,7 +3937,7 @@ void func_021BFF30(int p, unsigned int a, unsigned int b)
 u32 func_021BFF68(int p)
 {
     int *q = (int *)p;
-    int r = func_02025DE8((struct Sound *)q[0xac]);
+    int r = CURSOR_MOVE_PollRepeatInput((struct Sound *)q[0xac]);
     unsigned k;
 
     if (r != -1)
@@ -3949,14 +3950,14 @@ u32 func_021BFF68(int p)
     k = KEY_GetTrg();
     if (k & 0x800) {
         if (func_020355C4() == 1)
-            func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         return 7;
     }
     k = KEY_GetTrg();
     if (k & 8) {
         if (func_020355C4() == 1)
-            func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         func_021C003C(p, 5);
         return 5;
@@ -3964,14 +3965,14 @@ u32 func_021BFF68(int p)
     k = KEY_GetTrg();
     if (k & 4) {
         if (func_020355C4() == 1)
-            func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         func_021C003C(p, 6);
         return 6;
     }
     if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         func_020355D8(0);
-        func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
+        CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
         return -4;
     }
     return r;
@@ -3984,9 +3985,9 @@ void func_021C003C(int p, unsigned b)
 {
     int *q = (int *)p;
 
-    func_021BFF30(p, func_020260E0((struct Sound *)q[0xac]), 1);
+    func_021BFF30(p, CURSOR_MOVE_GetCurrent((struct Sound *)q[0xac]), 1);
     func_021BFF30(p, b, 3);
-    func_020260E4((struct Sound *)q[0xac], (unsigned char)b);
+    CURSOR_MOVE_SetCurrent((struct Sound *)q[0xac], (unsigned char)b);
 }
 
 
@@ -4028,7 +4029,7 @@ void func_021C00D8(int p, unsigned a, unsigned b)
 {
     func_021BFF30(p, b, 1);
     if (a == 7)
-        func_020260E4((struct Sound *)(((int *)p)[0xac]), (unsigned char)b);
+        CURSOR_MOVE_SetCurrent((struct Sound *)(((int *)p)[0xac]), (unsigned char)b);
 }
 
 

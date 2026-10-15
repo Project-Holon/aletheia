@@ -13,8 +13,8 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   PROCSYS_Create  0x02031324  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
@@ -43,11 +43,11 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *PROCSYS_Create(int heap);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 struct BigObj;
 struct Party;
 struct PartyMon;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void POKE_TOOL_HealParty(void *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern struct Party *POKEPARTY_Create(u32 heap);
@@ -69,7 +69,7 @@ int INTRUDE_COMM_PartyProcInit(struct Obj0203159C *a0, int a1, Arg *arg)
     w = PROCSYS_AllocProcWork(a0, 0x100, 4);
     MI_CpuFill8(w, 0, 0x100);
     ((struct Obj07335 *)w)->fF4 = PROCSYS_Create(4);
-    list = func_02012934(func_020120F4((const struct Ctx *)arg->w0));
+    list = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C((const struct Ctx *)arg->w0));
     POKE_TOOL_HealParty(list);
     n = POKEPARTY_GetCount(list);
     ((struct Obj07335 *)w)->fF8 = POKEPARTY_Create(4);

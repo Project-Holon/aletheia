@@ -1,5 +1,5 @@
 /*
- * function: sub_020351BC
+ * function: UI_TestFlags39
  * address:  0x020351BC
  * packet:   pkt_02035080
  * region:   arm9
@@ -15,8 +15,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020351BC.c \
- *       --func sub_020351BC --addr 0x020351BC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_TestFlags39.c \
+ *       --func UI_TestFlags39 --addr 0x020351BC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ struct Obj0203515C {
     u8 unk39;
 };
 
-u32 sub_020351BC(struct Obj0203515C *p, u32 mask)
+u32 UI_TestFlags39(struct Obj0203515C *p, u32 mask)
 {
     return (p->unk39 & mask) != 0;
 }

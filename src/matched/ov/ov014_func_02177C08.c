@@ -12,14 +12,14 @@
  * sdk:      WIH_HasBeaconBeenSent (libdwcaccount.TWL.HYB.thumb.a(dwc_account.o))
  *
  * symbols:
- *   DWCi_Acc_GetFlag_DataType  0x02179614  thumb  ov014
+ *   WIH_GetBeaconSendCount  0x02179614  thumb  ov014
  */
 
-extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
+extern unsigned short WIH_GetBeaconSendCount(void);
 
 int WIH_HasBeaconBeenSent(void *frienddata)
 {
-    if (DWCi_Acc_GetFlag_DataType(frienddata))
+    if (WIH_GetBeaconSendCount())
         return 1;
     return 0;
 }

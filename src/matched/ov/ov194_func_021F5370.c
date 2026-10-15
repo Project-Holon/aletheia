@@ -1,5 +1,5 @@
 /*
- * function: func_021F5370
+ * function: PROF_WORD_FindMatch
  * address: 0x021F5370
  * packet: pkt_ov194_021F5370
  * region: ov194
@@ -9,7 +9,7 @@
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
  *   func_0203F37C 0x0203F37C arm
  *   func_020307B0 0x020307B0 arm
- *   func_021F546C 0x021F546C thumb ov194
+ *   PROF_WORD_CompareChunks 0x021F546C thumb ov194
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -17,8 +17,8 @@ extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int ARC_UTIL_LoadMemberWithSize(int,int,int,int,u32 *);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 extern u32 func_020307B0(void *p);
-extern int func_021F546C(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
-int func_021F5370(const u32 *cache,const void *input,u16 heap)
+extern int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
+int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
 {
     u16 buf[32]={0};
     u32 size;
@@ -38,7 +38,7 @@ int func_021F5370(const u32 *cache,const void *input,u16 heap)
             data=ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,&size);
             func_0203F37C((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
-        { u32 currentHeap=heap; result=func_021F546C(buf,i,currentHeap,(const u16 *)data,size); }
+        { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }
         if(cache==0) func_020307B0((void *)data);
         if(result==1) break;
     }

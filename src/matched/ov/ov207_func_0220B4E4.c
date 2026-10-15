@@ -1,5 +1,5 @@
 /*
- * function: func_0220B4E4
+ * function: ZUKAN_TOROKU_GRAPHIC_ResetDisplay
  * address: 0x0220B4E4
  * packet: pkt_ov207_0220B4E4
  * region: ov207
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020419E4(void);
-void func_0220B4E4(void*p){func_020419E4();}
+void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(void*p){func_020419E4();}

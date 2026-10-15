@@ -1,5 +1,5 @@
 /*
- * function: func_021D70E4
+ * function: WIFI_BSUBWAY_AsyncReset
  * address:  0x021D70E4
  * packet:   pkt_ov116_021D70E4
  * region:   ov116
@@ -20,4 +20,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D70E4(u8 *p) { ((struct Obj13864 *)p)->f8 = 0; ((struct Obj13864 *)p)->fA = 0; }
+void WIFI_BSUBWAY_AsyncReset(u8 *p) { ((struct Obj13864 *)p)->f8 = 0; ((struct Obj13864 *)p)->fA = 0; }

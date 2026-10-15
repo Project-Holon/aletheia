@@ -12,7 +12,7 @@
  * sdk:      DWC_Svl_Cleanup (dwc_svl.o)
  *
  * symbols:
- *   func_02179CF4  0x02179CF4  arm  ov009
+ *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   g_021ACEF4     0x021ACEF4  data
  */
 
@@ -23,14 +23,14 @@ typedef struct {
     void (*free)(unsigned long, void *, long);
 } Svl;
 extern struct Svl *g_021ACEF4;
-extern void func_02179CF4(char *http);
+extern void DWC_Http_Destroy(char *http);
 
 void func_0217C104(void)
 {
     if (g_021ACEF4 == 0) {
         return;
     }
-    func_02179CF4((char *)g_021ACEF4 + 8);
+    DWC_Http_Destroy((char *)g_021ACEF4 + 8);
     g_021ACEF4->free(0, g_021ACEF4, 0);
     g_021ACEF4 = 0;
 }

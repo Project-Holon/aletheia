@@ -1,5 +1,5 @@
 /*
- * function: func_0207AF50
+ * function: MTX_RotAxis33
  * address:  0x0207AF50
  * packet:   pkt_0207AF50
  * region:   arm9
@@ -36,7 +36,7 @@ typedef union {
     fx32 m[3][3];
     fx32 a[9];
 } MtxFx33;
-void func_0207AF50(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal)
+void MTX_RotAxis33(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal)
 {
     fx64 t, ss, xx, yy, zz;
     fx32 t01;

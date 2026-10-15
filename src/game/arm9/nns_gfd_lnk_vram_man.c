@@ -1,7 +1,7 @@
 /*
  * file:     nns_gfd_lnk_vram_man.c
  * unit:     yes
- * function: func_02061EB8, func_02061FF8, func_0206207C, func_0206210C, func_02062114, func_0206216C, func_020621FC, func_02062270, func_0206246C, func_02062474, func_020624C8, func_02062594, func_020625D8
+ * function: NNSi_GfdAllocLnkVram, NNSi_GfdMergeFreeBlockList, NNSi_GfdFreeLnkVram, NNSi_GfdSizeToGranuleTex, NNSi_GfdInitTexVramManager, NNS_GfdAllocTexVram, NNS_GfdFreeTexVram, NNSi_GfdInitTexVramHeap, NNSi_GfdSizeToGranulePltt, NNSi_GfdInitPlttVramManager, NNS_GfdAllocPlttVram, NNS_GfdFreePlttVram, NNSi_GfdInitPlttVramHeap
  * address:  0x02061EB8
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -37,8 +37,6 @@
  *   g_02146BB4      0x02146BB4  data
  *   g_02146BB0_blk  0x02146BB0  data
  */
-#include "../../matched/include/Obj03022.h"
-#include "../../matched/include/Obj03466.h"
 
 struct Node;
 struct Range;
@@ -112,19 +110,19 @@ extern u32 func_02061EA4(u32 a, u32 b, u32 *out, u32 size);
 extern void func_02061DF0(u32 *head);
 extern struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 count);
 extern u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
-BOOL func_02061EB8(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
-void func_02061FF8(u32 *pp, u32 *arg);
-int func_0206207C(void *headp, void *freep, int a2, int a3);
-int func_0206210C(int v);
-void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e);
-u32 func_0206216C(u32 size, u32 flag);
-u32 func_020621FC(u32 h);
-void func_02062270(u32 a, u32 b, u32 c, u32 d);
-int func_0206246C(int v);
-void func_02062474(u32 a, u32 b, u32 c, u32 d);
-u32 func_020624C8(u32 size, u32 flag);
-int func_02062594(u32 id);
-void func_020625D8(void);
+BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
+void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
+int NNSi_GfdFreeLnkVram(void *headp, void *freep, int a2, int a3);
+int NNSi_GfdSizeToGranuleTex(int v);
+void NNSi_GfdInitTexVramManager(u32 a, u32 b, u32 c, u32 d, u32 e);
+u32 NNS_GfdAllocTexVram(u32 size, u32 flag);
+u32 NNS_GfdFreeTexVram(u32 h);
+void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d);
+int NNSi_GfdSizeToGranulePltt(int v);
+void NNSi_GfdInitPlttVramManager(u32 a, u32 b, u32 c, u32 d);
+u32 NNS_GfdAllocPlttVram(u32 size, u32 flag);
+int NNS_GfdFreePlttVram(u32 id);
+void NNSi_GfdInitPlttVramHeap(void);
 extern struct Cfg g_02146B94;
 extern struct Cfg g_02146B94_blk;
 extern u32 g_02146B98;
@@ -215,11 +213,11 @@ static inline void RemoveBlock_(Blk **list, Blk *b)
  *     over the 24 orders; this is the only EXACT one).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02061EB8.c \
- *       --func func_02061EB8 --addr 0x02061EB8 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_GfdAllocLnkVram.c \
+ *       --func NNSi_GfdAllocLnkVram --addr 0x02061EB8 --arm --cc ../2.0/sp2
  *   EXACT, 320 bytes, no relocations (sp2p2 EXACT too, 1.1p1 312 DIFF).
  */
-BOOL func_02061EB8(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment)
+BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment)
 {
     u32 aligned;
     u32 need;
@@ -276,9 +274,9 @@ fail:
 
 
 
-void func_02061FF8(u32 *pp, u32 *arg)
+void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg)
 {
-    Node02061FF8 *n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;
+    Node02061FF8 *n = *(Node02061FF8 **)pp;
 
     while (n != 0) {
         u32 buf[2];
@@ -287,7 +285,7 @@ void func_02061FF8(u32 *pp, u32 *arg)
         if (NNSi_GfdMergeAdjacentFreeBlocks(pp, arg, (struct Range *)buf) != 0) {
             n->f00 = buf[0];
             n->f04 = buf[1] - buf[0];
-            n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;
+            n = *(Node02061FF8 **)pp;
         } else {
             n = n->f0c;
         }
@@ -301,7 +299,7 @@ void func_02061FF8(u32 *pp, u32 *arg)
 
 
 
-int func_0206207C(void *headp, void *freep, int a2, int a3)
+int NNSi_GfdFreeLnkVram(void *headp, void *freep, int a2, int a3)
 {
     u32 buf[2];
     Node0206207C *x;
@@ -309,9 +307,9 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
     buf[0] = a2;
     buf[1] = a2 + a3;
     NNSi_GfdMergeAdjacentFreeBlocks(headp, freep, (struct Range *)buf);
-    x = *(Node0206207C * *)&((struct Obj03466 *)freep)->f0;
+    x = *(Node0206207C **)freep;
     if (x != 0) {
-        *(Node0206207C * *)&((struct Obj03466 *)freep)->f0 = x->f0c;
+        *(Node0206207C **)freep = x->f0c;
     }
     if (x == 0) {
         return 0;
@@ -320,12 +318,12 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
     x->f04 = buf[1] - buf[0];
     x->f08 = 0;
     x->f0c = 0;
-    if (*(Node0206207C * *)&((struct Obj03022 *)headp)->f0 != 0) {
-        (*(Node0206207C * *)&((struct Obj03022 *)headp)->f0)->f08 = x;
+    if (*(Node0206207C **)headp != 0) {
+        (*(Node0206207C **)headp)->f08 = x;
     }
-    x->f0c = *(Node0206207C * *)&((struct Obj03022 *)headp)->f0;
+    x->f0c = *(Node0206207C **)headp;
     x->f08 = 0;
-    *(Node0206207C * *)&((struct Obj03022 *)headp)->f0 = x;
+    *(Node0206207C **)headp = x;
     return 1;
 }
 
@@ -335,7 +333,7 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
 
 
 
-int func_0206210C(int v){ return v << 4; }
+int NNSi_GfdSizeToGranuleTex(int v){ return v << 4; }
 
 
 
@@ -357,13 +355,13 @@ extern void (*NNS_GfdDefaultFuncFreeTexVram)(void);
 
 /*
  * Closed 2026-09-22 (wave 7, pseudo-family pkt_02061D0C).  The two sites that
- * blocked it are both resolved now: func_0206216C was filed EXACT this lane
- * (../2.0/sp2) and the PC24 to func_02062270 carries on sole-ref/code, the
+ * blocked it are both resolved now: NNS_GfdAllocTexVram was filed EXACT this lane
+ * (../2.0/sp2) and the PC24 to NNSi_GfdInitTexVramHeap carries on sole-ref/code, the
  * class widened 2026-09-21.  The two callback globals 0x020A8140 / 0x020A8144
  * were simply missing from the symbols: block and resolve as literal x20 each.
  *
  * Register-argument save hook: park r0-r3 in the 0x02146B94 block, run the
- * real body func_02062270 (which is handed the same four values), and when
+ * real body NNSi_GfdInitTexVramHeap (which is handed the same four values), and when
  * the fifth (stack) argument is non-zero also install the two callbacks in
  * the clact.c handler slots 0x020A8140 / 0x020A8144.
  *
@@ -372,18 +370,18 @@ extern void (*NNS_GfdDefaultFuncFreeTexVram)(void);
  * The fifth argument is read at [sp, #8], the caller's first stack slot, past
  * the 8-byte {r3, lr} frame.
  */
-void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e)
+void NNSi_GfdInitTexVramManager(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     g_02146B94.f0c = a;
     g_02146B94.f10 = b;
     g_02146B94.f14 = c;
     g_02146B94.f18 = d;
 
-    func_02062270(a, b, c, d);
+    NNSi_GfdInitTexVramHeap(a, b, c, d);
 
     if (e != 0) {
-        NNS_GfdDefaultFuncAllocTexVram = (void (*)(void))func_0206216C;
-        NNS_GfdDefaultFuncFreeTexVram = (void (*)(void))func_020621FC;
+        NNS_GfdDefaultFuncAllocTexVram = (void (*)(void))NNS_GfdAllocTexVram;
+        NNS_GfdDefaultFuncFreeTexVram = (void (*)(void))NNS_GfdFreeTexVram;
     }
 }
 
@@ -395,21 +393,21 @@ void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e)
 
 
 /*
- * The heap-handle builder that pairs with the validator func_020621FC.
+ * The heap-handle builder that pairs with the validator NNS_GfdFreeTexVram.
  * Round the request up to sixteen (0x10 for zero), refuse 0x7FFF0 and above,
  * ask func_02061EA4 for the block through the 0x02146B9x heap pair the flag
  * selects, and pack the answer: bits 3..18 of the returned address in the low
  * half, size/16 in bits 16..30, the caller's flag in bit 31.
  *
  * Two spelling details are load-bearing:
- *   - ../2.0/sp2, not dsi/1.1p1, exactly as its sibling func_020624C8: on
+ *   - ../2.0/sp2, not dsi/1.1p1, exactly as its sibling NNS_GfdAllocPlttVram: on
  *     1.1p1 the same C does not reproduce the two-arm call shape.
  *   - the packed handle is written size-high FIRST,
  *     `((n >> 4) << 16) | ((local << 13) >> 16) | (flag << 31)`; the other
  *     order swaps r0 and r1 through the final four instructions, the
  *     accumulator naming its second operand.
  */
-u32 func_0206216C(u32 size, u32 flag)
+u32 NNS_GfdAllocTexVram(u32 size, u32 flag)
 {
     u32 n = (size == 0) ? 0x10 : (size + 0xf) & ~0xf;
     u32 local, r;
@@ -428,7 +426,7 @@ u32 func_0206216C(u32 size, u32 flag)
 
 
 
-u32 func_020621FC(u32 h)
+u32 NNS_GfdFreeTexVram(u32 h)
 {
     u32 a2 = (h << 16) >> 13;
     u32 a3 = ((h & 0x7fff0000) >> 16) << 4;
@@ -437,9 +435,9 @@ u32 func_020621FC(u32 h)
 
     if (a3 != 0) {
         if (flag != 0) {
-            r = func_0206207C((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), a2, a3);
+            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), a2, a3);
         } else {
-            r = func_0206207C((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), a2, a3);
+            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), a2, a3);
         }
         if (r != 0) return 0;
         return 1;
@@ -454,7 +452,7 @@ u32 func_020621FC(u32 h)
 
 /*
  * The layer-2 (16-byte granule) INITIALISER of docs/families/
- * cluster_02061D0C.h, run by the save hook func_02062114.  Copies the
+ * cluster_02061D0C.h, run by the save hook NNSi_GfdInitTexVramManager.  Copies the
  * four-record apportionment table at 0x020A17A8 to the stack, spreads
  * the configured extent f10 over records 0 and 2 (pass 1, into acc8) and
  * the remainder f0c - 1.5*f10 over all four (pass 2, into acc4), then
@@ -462,7 +460,7 @@ u32 func_020621FC(u32 h)
  * up to six blocks and sweeps both lists.
  *
  * THE DUPLICATE POOL WORD IS TWO SYMBOLS.  The cluster header recorded this
- * function (and func_020625D8) as unclosable: the pool holds 0x02146B94
+ * function (and NNSi_GfdInitPlttVramHeap) as unclosable: the pool holds 0x02146B94
  * twice, both live.  They are not one constant emitted twice: the copy at
  * 0x0206245C is the base every FIELD access uses (+0x0c, +0x10, +0x14,
  * +0x18, and the store of the pool head at +0x08), and the copy at
@@ -485,13 +483,13 @@ u32 func_020621FC(u32 h)
  * r7, lr} against the image's {r4, lr} -- the pool addresses are CSE'd
  * into callee-saved registers -- and splits the i == 0 || i == 2 guard
  * into two branches; 516 bytes, 398 out.  Same pin as the layer-2
- * allocator pair func_0206216C / func_020621FC.
+ * allocator pair NNS_GfdAllocTexVram / NNS_GfdFreeTexVram.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062270.c \
- *       --func func_02062270 --addr 0x02062270 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_GfdInitTexVramHeap.c \
+ *       --func NNSi_GfdInitTexVramHeap --addr 0x02062270 --arm --cc ../2.0/sp2
  */
-void func_02062270(u32 a, u32 b, u32 c, u32 d)
+void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d)
 {
     struct Rgns t;
     struct Rgn *p;
@@ -559,8 +557,8 @@ void func_02062270(u32 a, u32 b, u32 c, u32 d)
     if (t.r[1].acc4 != 0)
         NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x20000 + half, t.r[1].acc4);
 
-    func_02061FF8(&g_02146B94.head_a, &g_02146B9C);
-    func_02061FF8(&g_02146B98, &g_02146B9C);
+    NNSi_GfdMergeFreeBlockList(&g_02146B94.head_a, &g_02146B9C);
+    NNSi_GfdMergeFreeBlockList(&g_02146B98, &g_02146B9C);
 }
 
 
@@ -568,7 +566,7 @@ void func_02062270(u32 a, u32 b, u32 c, u32 d)
 
 
 
-int func_0206246C(int v){ return v << 4; }
+int NNSi_GfdSizeToGranulePltt(int v){ return v << 4; }
 
 
 
@@ -585,17 +583,17 @@ int func_0206246C(int v){ return v << 4; }
  * apply.  Every other site of this file resolves: 0x02146BB0 `literal x20`,
  * 0x020A8148 `literal x15`, 0x02062594 `label x5` and 0x020A814C `literal x15`.
  */
-void func_02062474(u32 a, u32 b, u32 c, u32 d)
+void NNSi_GfdInitPlttVramManager(u32 a, u32 b, u32 c, u32 d)
 {
     g_02146BB0.f08 = a;
     g_02146BB0.f0c = b;
     g_02146BB0.f10 = c;
-    func_020625D8();
+    NNSi_GfdInitPlttVramHeap();
     if (d == 0) {
         return;
     }
-    NNS_GfdDefaultFuncAllocPlttVram = (u32)func_020624C8;
-    NNS_GfdDefaultFuncFreePlttVram = (u32)func_02062594;
+    NNS_GfdDefaultFuncAllocPlttVram = (u32)NNS_GfdAllocPlttVram;
+    NNS_GfdDefaultFuncFreePlttVram = (u32)NNS_GfdFreePlttVram;
 }
 
 
@@ -603,13 +601,13 @@ void func_02062474(u32 a, u32 b, u32 c, u32 d)
 
 
 /*
- * Promote-first callee of src/pending/func_02062474.c (parks lane 2).
+ * Promote-first callee of src/pending/NNSi_GfdInitPlttVramManager.c (parks lane 2).
  * Allocate `size` bytes rounded up to eight from the sub-64K heap pair at
  * 0x02146BB0/0x02146BB4 and return a packed handle:
  * (address >> 3) | ((size >> 3) << 16).  Size 0 asks for eight bytes, a
  * request at or past 0x7FFF8 is refused, and the flag argument picks the
  * 8-byte-flag heap or the 0x10-byte-flag one; on the latter a block that
- * would cross 0x10000 is handed back to func_0206207C and refused.
+ * would cross 0x10000 is handed back to NNSi_GfdFreeLnkVram and refused.
  *
  * Three spelling details are load-bearing and were each measured:
  *   - the 2.0 front end, not dsi/1.1p1: on 1.1p1 this same C keeps the two
@@ -626,11 +624,11 @@ void func_02062474(u32 a, u32 b, u32 c, u32 d)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020624C8.c \
- *       --func func_020624C8 --addr 0x020624C8 --cc ../2.0/sp2 --arm \
+ *   python tools/match.py one --src src/matched/NNS_GfdAllocPlttVram.c \
+ *       --func NNS_GfdAllocPlttVram --addr 0x020624C8 --cc ../2.0/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-u32 func_020624C8(u32 size, u32 flag)
+u32 NNS_GfdAllocPlttVram(u32 size, u32 flag)
 {
     u32 addr;
     u32 r;
@@ -644,13 +642,13 @@ u32 func_020624C8(u32 size, u32 flag)
     if (size >= 0x7FFF8)
         return 0;
     if (flag != 0) {
-        r = func_02061EB8((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 8);
+        r = NNSi_GfdAllocLnkVram((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 8);
         if (addr + size > 0x10000) {
-            func_0206207C(&g_02146BB0, &g_02146BB4, addr, size);
+            NNSi_GfdFreeLnkVram(&g_02146BB0, &g_02146BB4, addr, size);
             return 0;
         }
     } else {
-        r = func_02061EB8((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 0x10);
+        r = NNSi_GfdAllocLnkVram((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 0x10);
     }
     if (r == 0)
         return 0;
@@ -659,18 +657,18 @@ u32 func_020624C8(u32 size, u32 flag)
 
 
 
-int func_02062594(u32 id)
+int NNS_GfdFreePlttVram(u32 id)
 {
     u32 lo = (id & 0xFFFFu) << 3;
     u32 hi = ((id & 0xFFFF0000u) >> 16) << 3;
 
-    return func_0206207C(&g_02146BB0, &g_02146BB4, lo, hi) == 0;
+    return NNSi_GfdFreeLnkVram(&g_02146BB0, &g_02146BB4, lo, hi) == 0;
 }
 
-void func_020625D8(void)
+void NNSi_GfdInitPlttVramHeap(void)
 {
     g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
     func_02061DF0(&g_02146BB0.head);
     NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
-    func_02061FF8(&g_02146BB0.head, &g_02146BB4);
+    NNSi_GfdMergeFreeBlockList(&g_02146BB0.head, &g_02146BB4);
 }

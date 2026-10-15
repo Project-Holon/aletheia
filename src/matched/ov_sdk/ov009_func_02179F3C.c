@@ -1,5 +1,5 @@
 /*
- * function: func_02179F3C
+ * function: DWC_Http_Add_PostBase64Item
  * address:  0x02179F3C
  * packet:   pkt_ov009_02179F3C
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      DWC_Http_Add_PostBase64Item (libdwcauth.TWL.HYB.a dwc_http.o)
  *
  * symbols:
- *   func_02059B40  0x02059B40  arm
- *   func_0209477C  0x0209477C  arm
- *   func_0217A15C  0x0217A15C  arm  ov009
+ *   DWC_Base64Encode  0x02059B40  arm
+ *   strlen  0x0209477C  arm
+ *   DWCi_Http_ReallocBuffer  0x0217A15C  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
  *   g_021A2688     0x021A2688  data ov009
  *   g_021A268C     0x021A268C  data ov009
@@ -34,16 +34,16 @@ typedef struct DWCHttp {
     DWCHttpBuffer rep;
 } DWCHttp;
 
-extern int func_02059B40(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
+extern int DWC_Base64Encode(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
-extern int func_0217A15C(DWCHttp *http, DWCHttpBuffer *buf, int size);
+extern int strlen(const u8 *s);
+extern int DWCi_Http_ReallocBuffer(DWCHttp *http, DWCHttpBuffer *buf, int size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
 extern const char g_021A2688[];
 extern const char g_021A268C[];
 
-int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len)
+int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len)
 {
     int result_len;
     int result_base64;
@@ -59,11 +59,11 @@ int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len
 
     http->num_postitem++;
 
-    result_base64 = func_02059B40(data, data_len, 0, 0);
-    result_len = result_base64 + (func_0209477C((const u8 *)format) - 2 + func_0209477C((const u8 *)label));
+    result_base64 = DWC_Base64Encode(data, data_len, 0, 0);
+    result_len = result_base64 + (strlen((const u8 *)format) - 2 + strlen((const u8 *)label));
     buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     if (result_len > buf_remain) {
-        if (!func_0217A15C(http, temp_buffer, result_len - buf_remain + 1))
+        if (!DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1))
             return 1;
         buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     }
@@ -71,7 +71,7 @@ int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len
     result_len = OS_SNPrintf(temp_buffer->write_index, buf_remain, format, label);
     temp_buffer->write_index += result_len;
 
-    result_len = func_02059B40(data, data_len, temp_buffer->write_index,
+    result_len = DWC_Base64Encode(data, data_len, temp_buffer->write_index,
                                temp_buffer->buffer_tail - temp_buffer->write_index - 1);
     if (result_len < 0)
         return 1;

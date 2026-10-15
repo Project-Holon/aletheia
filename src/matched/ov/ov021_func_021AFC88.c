@@ -13,9 +13,9 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   func_0200C1C4  0x0200C1C4  thumb
+ *   BEACON_GetGreetCount  0x0200C1C4  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  */
 
@@ -32,10 +32,10 @@ typedef unsigned int   u32;
 struct Big;
 struct Blk34;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 struct WordSet;
 extern void *SCRIPT_WORK_GetWordSet(void *p);
-extern u32 func_0200C1C4(struct Blk34 *p);
+extern u32 BEACON_GetGreetCount(struct Blk34 *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 int SCRCMD_BufferBeaconGreetCount(Ctx *a0, int a1)
@@ -46,11 +46,11 @@ int SCRCMD_BufferBeaconGreetCount(Ctx *a0, int a1)
     u8 *p;
     int b;
 
-    h = func_0200C0F0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((void *)a1)));
+    h = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((void *)a1)));
     r = (int)SCRIPT_WORK_GetWordSet(t);
     p = a0->cur;
     b = *p;
     a0->cur = p + 1;
-    func_0201EFA4((struct WordSet *)r, b, func_0200C1C4(h), 9, 1, 1);
+    func_0201EFA4((struct WordSet *)r, b, BEACON_GetGreetCount(h), 9, 1, 1);
     return 0;
 }

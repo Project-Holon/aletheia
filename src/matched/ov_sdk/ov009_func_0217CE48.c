@@ -1,5 +1,5 @@
 /*
- * function: func_0217CE48
+ * function: gsiCoreExecuteTask
  * address:  0x0217CE48
  * packet:   pkt_ov009_0217CE48
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gsiCoreGetManager                  0x0217CA20  arm ov009
- *   func_0217F264                  0x0217F264  arm ov009
+ *   current_time                  0x0217F264  arm ov009
  *   gsiEnterCriticalSection                  0x0217F108  arm ov009
  *   func_02184234                  0x02184234  arm ov009
  *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
@@ -39,19 +39,19 @@ typedef struct GSTask {
 } GSTask;
 
 extern void *gsiCoreGetManager(void);
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern void gsiEnterCriticalSection(void *cs);
 extern void func_02184234(void *array, void *elem);
 extern void gsiLeaveCriticalSection(void *cs);
 
-void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
+void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
     theTask->f1c = 1;
     theTask->f10 = 1;
     theTask->f14 = 1;
     theTask->timeout = theTimeoutMs;
-    theTask->startTime = func_0217F264();
+    theTask->startTime = current_time();
     if (theTask->cb24 != 0)
         theTask->cb24(theTask->obj20);
     gsiEnterCriticalSection(&aCore->cs);

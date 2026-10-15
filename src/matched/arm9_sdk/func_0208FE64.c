@@ -1,5 +1,5 @@
 /*
- * function: func_0208FE64
+ * function: WM_StartDCF
  * address:  0x0208FE64
  * packet:   pkt_0208FE64
  * region:   arm9
@@ -73,7 +73,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208FE64(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u16 recvBufSize)
+WMErrCode WM_StartDCF(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u16 recvBufSize)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

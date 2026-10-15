@@ -1,5 +1,5 @@
 /*
- * function: func_021F8D88
+ * function: STA_ACTING_SetBaseProgram
  * address:  0x021F8D88
  * packet:   pkt_021F8D88
  * region:   ov132
@@ -31,7 +31,7 @@ typedef signed int     s32;
 extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
 extern void func_021F6FB0(void *, int);
 
-void func_021F8D88(u8 *p, u32 a1)
+void STA_ACTING_SetBaseProgram(u8 *p, u32 a1)
 {
     int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
     func_021F6FB0(((struct Obj14083 *)p)->f3C, v);

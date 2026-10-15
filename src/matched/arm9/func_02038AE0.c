@@ -16,7 +16,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   GFL_NET_QUEUE_IsEmpty  0x020366A8  arm
  *   GFL_NET_QUEUE_FillSendBuffer  0x02036A50  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  */
 
 typedef unsigned char u8;
@@ -73,7 +73,7 @@ struct Buf
 };
 
 extern int GFL_NET_QUEUE_FillSendBuffer(u32 list, u16 *info);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 s32 GFL_NET_SYSTEM_BuildSendPacket(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
 {
@@ -128,7 +128,7 @@ body:
     h->f02 = (u8)n;
     h->f05 = a3;
 
-    v = func_0203F1FC(&h->f02, len - 2);
+    v = GF_STANDARD_SetupCalc(&h->f02, len - 2);
     h->f00 = (u8)v;
     h->f01 = (u8)((v & 0xff00) >> 8);
 

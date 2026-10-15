@@ -1,5 +1,5 @@
 /*
- * function: func_021D6660
+ * function: WIFI_BSUBWAY_Create
  * address: 0x021D6660
  * packet: pkt_ov116_021D6660
  * region: ov116
@@ -23,10 +23,12 @@
  *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_02008B08 0x02008B08 thumb
- *   func_021D6998 0x021D6998 thumb ov116
- *   func_021D6B50 0x021D6B50 thumb ov116
- *   func_021D70D8 0x021D70D8 thumb ov116
+ *   WIFI_BSUBWAY_ClearTrainers 0x021D6998 thumb ov116
+ *   WIFI_BSUBWAY_StatusInit 0x021D6B50 thumb ov116
+ *   WIFI_BSUBWAY_AsyncInit 0x021D70D8 thumb ov116
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
  */
 typedef unsigned char u8;
 extern u8 ov_id[];
@@ -41,17 +43,17 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
-extern void func_021D6998(void *);
-extern void func_021D6B50(unsigned char *a, int b);
-extern void func_021D70D8(void *);
-int func_021D6660(void *ctx,int unused,u8 *q) {
+extern void WIFI_BSUBWAY_ClearTrainers(void *);
+extern void WIFI_BSUBWAY_StatusInit(unsigned char *a, int b);
+extern void WIFI_BSUBWAY_AsyncInit(void *);
+int WIFI_BSUBWAY_Create(void *ctx,int unused,u8 *q) {
     u8 *p;
     void *save;
     func_02034AC4((s32)ov_id);
@@ -60,16 +62,16 @@ int func_021D6660(void *ctx,int unused,u8 *q) {
     MI_CpuFill8(p,0,0x185c);
     *(u8 **)p=q;
     *(int *)(q+8)=1;
-    save=func_020120F4(*(void **)(*(u8 **)p+4));
+    save=ICA_ANIME_GetField1C(*(void **)(*(u8 **)p+4));
     q=GAME_DATA_GetSaveControl(save);
     *(void **)(p+0x1844)=save;
     *(int *)(p+0x1848)=(int)func_02008B08(q);
-    *(int *)(p+0x184c)=func_0201283C(save);
+    *(int *)(p+0x184c)=GAME_DATA_GetField1A0(save);
     *(int *)(p+0x1850)=(int)func_02012944(save);
     *(int *)(p+0x1854)=(int)GAME_DATA_GetSaveBlock3B(save);
     *(int *)(p+0x1858)=(int)GAME_DATA_GetSaveBlock3A(save);
-    func_021D6998(p+0xb74);
-    func_021D6B50(p+0x1610,125);
-    func_021D70D8(p+0x182c);
+    WIFI_BSUBWAY_ClearTrainers(p+0xb74);
+    WIFI_BSUBWAY_StatusInit(p+0x1610,125);
+    WIFI_BSUBWAY_AsyncInit(p+0x182c);
     return 1;
 }

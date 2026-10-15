@@ -16,9 +16,9 @@
  *   func_0215F404  0x0215F404  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0215F3D0  0x0215F3D0  arm  ov009
- *   func_0215CEB0  0x0215CEB0  arm  ov009
+ *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
- *   func_0215CEFC  0x0215CEFC  arm  ov009
+ *   SOCLi_SendCommandPacketToCtrlPipe  0x0215CEFC  arm  ov009
  *   g_021AA4AC     0x021AA4AC  data
  *   func_0215E980  0x0215E980  arm  ov009
  */
@@ -45,9 +45,9 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0215F404(int b);
 extern int func_0215F3D0(struct SOCLSocket *socket);
-extern int func_0215CEB0(int a0, char *a1);
+extern int SOCLi_SendCommandPacket(int a0, char *a1);
 extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
-extern void func_0215CEFC(int a, int b);
+extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
 extern int func_0215E980(void *arg);
 
 int func_0215E84C(int s)
@@ -92,12 +92,12 @@ int func_0215E84C(int s)
 		if (mode == 0) {
 			g_021AA4AC.b--;
 		} else {
-			func_0215CEB0((int)socket->send_pipe, 0);
+			SOCLi_SendCommandPacket((int)socket->send_pipe, 0);
 			g_021AA4AC.a--;
 		}
 	}
 	command = func_0215CE3C(func_0215E980, socket, 1);
 	command->field8 = result;
-	func_0215CEFC((int)socket, (int)command);
+	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02078AEC",
+   "name": "FS_GetFilePosition",
    "address": "0x02078AEC",
    "kind": "sdk",
    "region": "arm9",

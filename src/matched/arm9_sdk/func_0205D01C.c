@@ -1,5 +1,5 @@
 /*
- * function: func_0205D01C
+ * function: DWC_ParseWMBssDesc
  * address:  0x0205D01C
  * packet:   pkt_0205D01C
  * region:   arm9
@@ -36,7 +36,7 @@ typedef struct {
 extern int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo);
 extern int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 
-int func_0205D01C(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
+int DWC_ParseWMBssDesc(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
 {
     if (work == 0 || bssdesc == 0 || apinfo == 0) {
         return 0;

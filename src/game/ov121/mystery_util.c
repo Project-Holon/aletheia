@@ -33,14 +33,14 @@
  *   PARTICLE_InitManager 0x02050B80 arm
  *   d_021DF598 0x021DF598 data a4
  *   PARTICLE_ExitManager 0x02050ED4 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   d_021DF634 0x021DF634 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -125,7 +125,7 @@
  *   d_021DF890 0x021DF890 data a4
  *   MYSTERY_ALBUM_Delete 0x021DD980 thumb ov121
  *   MYSTERY_DATA_GetCardSlotNum 0x0200A348 thumb
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   MYSTERY_ALBUM_ResetIntro 0x021DDF84 thumb ov121
  *   MYSTERY_ALBUM_HideScreen 0x021DE0DC thumb ov121
  *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
@@ -134,7 +134,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -159,7 +159,7 @@
  *   MYSTERY_DATA_IsCardExist  0x0200A0E4  thumb
  *   MYSTERY_DATA_GetCard  0x0200A000  thumb
  *   MYSTERY_DATA_SwapCards  0x0200A254  thumb
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
@@ -229,6 +229,7 @@
  *   TIME_ICON_Create  0x0202EE30  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  */
 #include "../../matched/include/Obj13944.h"
 #include "../../matched/include/Obj22873.h"
@@ -624,13 +625,13 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0203FC28(const void *cfg);
 extern void PARTICLE_InitManager(u32 heap);
 extern void PARTICLE_ExitManager(void);
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
-extern void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const void *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const void *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -687,7 +688,7 @@ extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void PRINTSYS_PrintQue(void *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void *func_02028590(u32,u32,u32,u32);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,u32,u32,u32,u32,int, void *,u32,u16,u16);
 extern void func_0201F73C(void *, int, int, int);
 extern void *BMP_MENUWORK_Create(u32,u32);
@@ -725,7 +726,7 @@ extern u32 MYSTERY_DATA_IsCardExist(void *p, u32 a);
 extern int MYSTERY_DATA_GetCard(void *p, int idx, void *buf);
 extern void MYSTERY_ALBUM_RequestSetup(void *p, u32 b);
 extern void MYSTERY_ALBUM_Delete(void *);
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 extern void MYSTERY_ALBUM_ResetIntro(void *);
 extern void MYSTERY_ALBUM_HideScreen(void *p);
 extern void MYSTERY_ALBUM_StepIntro(void *p);
@@ -734,7 +735,7 @@ extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void func_0201F5BC(u32, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
@@ -757,7 +758,7 @@ extern void CLACT_GetActorSurfacePos(void *actor, void *out, u16 space);
 extern void MYSTERY_DATA_DeleteCard(void *list, u32 idx);
 extern void MYSTERY_DATA_SwapCards(void *, u32, u32);
 extern void PRINTSYS_Print(void *,s16,s16, void *, void *);
-extern u32 func_02020E60(u16,u32);
+extern u32 FILE_UTIL_Get(u16,u32);
 extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern int func_0201BC40(void);
@@ -1093,13 +1094,13 @@ void func_021D97C8(void *p, u32 a)
     u32 id;
     i = 0;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(a);
+    BG_SYS_Create(a);
     BMP_WIN_Init(a);
     func_0203FC28((const struct DispConfig *)&d_021DF598);
     do {
         e = &d_021DF634[i];
         id = e->id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)e->config, (u8)e->a);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)e->config, (u8)e->a);
         func_020414AC((u8)id);
         func_02040588((u8)id, (u8)e->b);
         ++i;
@@ -1119,7 +1120,7 @@ void func_021D9828(void *p) {
     u32 i=0;
     do { func_020403F4((u8)d_021DF634[i].id); ++i; } while(i<7);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p,0,4);
 }
 
@@ -1672,7 +1673,7 @@ void func_021D9F24(u8 *p,int mode)
     case 1:
         func_02028470(p+0x34,2);
         ((struct Obj00236 *)p)->f30=func_02028590(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
-        ((struct Obj00236 *)p)->f8=PRINTSYS_PrintStream(((struct Obj00236 *)p)->f10,0,0,*(u32 *)&((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4,func_02012FFC(),((struct Obj00236 *)p)->fC,0,((struct Obj00236 *)p)->f1A,((struct Obj00236 *)p)->f18);
+        ((struct Obj00236 *)p)->f8=PRINTSYS_PrintStream(((struct Obj00236 *)p)->f10,0,0,*(u32 *)&((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4,MSG_SPEED_GetWait(),((struct Obj00236 *)p)->fC,0,((struct Obj00236 *)p)->f1A,((struct Obj00236 *)p)->f18);
         ((struct Obj00236 *)p)->f28=1;
         break;
     }
@@ -2457,8 +2458,8 @@ void func_021DAE1C(Obj_021DAE1C *obj)
     func_021DB3E8(p);
     for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((struct Obj01058 *)p)->fC);j++)
         func_021DBEE4((u32)(p+0x28+j*0xdc));
-    func_020414EC(4);
-    func_020414EC(6);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_ClearSlot(6);
     func_02041B6C(4);
     func_02041B6C(6);
     func_021DA890(((struct Obj01058 *)p)->fAC4);
@@ -2627,8 +2628,8 @@ void func_021DB018(u8 *p, u16 heap)
     func_02049B68(arc, 5, 0, 480, 32, heap);
     func_02049B68(arc, 5, 4, 480, 32, heap);
     ARC_TOOL_DeleteHandle(arc);
-    func_02040C14(1, 0, 1, 0);
-    func_02040C14(2, 0, 1, 0);
+    BG_SYS_Init(1, 0, 1, 0);
+    BG_SYS_Init(2, 0, 1, 0);
     func_0201F5BC(0, 1, 13, 0, heap);
     arc = func_020490F4(7, heap);
     *(int *)(p + 0xBA8) = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 384, heap);
@@ -3209,9 +3210,9 @@ void *func_021DBF10(void *p,u16 heap) { switch(func_021DC024(p)) { case 1:return
 
 
 /*
- * prototype: func_02020E60 item is u16 here, matching caller truncation before the call.
+ * prototype: FILE_UTIL_Get item is u16 here, matching caller truncation before the call.
  */
-u32 func_021DBF40(void *p) { switch(func_021DC024(p)) { case 1:return func_0201BC3C(); case 2:return func_02020E60(*(u32 *)func_021DC02C(p),2); default:return 3; } }
+u32 func_021DBF40(void *p) { switch(func_021DC024(p)) { case 1:return func_0201BC3C(); case 2:return FILE_UTIL_Get(*(u32 *)func_021DC02C(p),2); default:return 3; } }
 
 
 
@@ -3230,7 +3231,7 @@ int func_021DBF9C(void *p)
         return POKE_TOOL_CalcGraphicIndex(((struct Obj06452 *)q)->f1A,((struct Obj06452 *)q)->f1C,((struct Obj06452 *)q)->f35,((struct Obj06452 *)q)->f5C);
     case 2:
         q=func_021DC02C(p);
-        return func_02020E60((u16)((struct Obj06452 *)q)->f0,1);
+        return FILE_UTIL_Get((u16)((struct Obj06452 *)q)->f0,1);
     default: return 12;
     }
 }

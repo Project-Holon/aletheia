@@ -27,7 +27,7 @@
  *   MIi_CpuCopy16 0x02082A60 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02040588 0x02040588 arm
- *   func_020774A0 0x020774A0 arm
+ *   CARD_SetPulledOutCallback 0x020774A0 arm
  *   MB_COMM_SYS_ShowTextPlane 0x021F05DC thumb ov107
  *   d_021F6E0C 0x021F6E0C data a4
  *   ov014_id 0x0000000E data
@@ -76,7 +76,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void MIi_CpuCopy16(const void *, void *, int);
 extern int func_02034AC4(s32 handle);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020774A0(int (*callback)(void));
+extern void CARD_SetPulledOutCallback(int (*callback)(void));
 extern int MB_COMM_SYS_ShowTextPlane(void);
 
 void MB_COMM_SYS_BuildGameStrings(u8 *p)
@@ -147,5 +147,5 @@ void MB_COMM_SYS_BuildGameStrings(u8 *p)
         func_02040588(5, 1);
         func_02040588(4, 1);
     }
-    func_020774A0(MB_COMM_SYS_ShowTextPlane);
+    CARD_SetPulledOutCallback(MB_COMM_SYS_ShowTextPlane);
 }

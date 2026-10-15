@@ -28,15 +28,15 @@
  *   func_02080964  0x02080964  arm
  *   func_02080978  0x02080978  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   func_02080100  0x02080100  arm
- *   func_020806B0  0x020806B0  arm
- *   func_020807BC  0x020807BC  arm
+ *   GX_SetBankForBGExtPltt  0x02080100  arm
+ *   GX_SetBankForSubBG  0x020806B0  arm
+ *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
  *   func_0207FFD0  0x0207FFD0  arm
- *   func_020801F8  0x020801F8  arm
- *   func_0208074C  0x0208074C  arm
- *   func_0208083C  0x0208083C  arm
+ *   GX_SetBankForOBJExtPltt  0x020801F8  arm
+ *   GX_SetBankForSubOBJ  0x0208074C  arm
+ *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *   func_02080294  0x02080294  arm
- *   func_0208040C  0x0208040C  arm
+ *   GX_SetBankForTexPltt  0x0208040C  arm
  *   gVisiblePlanes  0x02146A48  data
  *   GX_DispOn  0x0207D46C  arm
  *   func_02030734  0x02030734  arm
@@ -49,13 +49,13 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   sBmpWinHeapRecord     0x02146A50  data
  *   bmpWin_File   0x020A7E70  data
- *   func_0204169C  0x0204169C  arm
- *   func_0203FA08  0x0203FA08  arm
- *   func_0203FAF0  0x0203FAF0  arm
+ *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
+ *   BG_SYS_CheckFAF0  0x0203FAF0  arm
  *   sub_0203FB44  0x0203FB44  arm
  *   sub_020416B8  0x020416B8  arm
  *   sub_02040B1C  0x02040B1C  arm
- *   func_02041680  0x02041680  arm
+ *   BG_SYS_GetType  0x02041680  arm
  *   func_020410D0  0x020410D0  arm
  *   func_02041300  0x02041300  arm
  *   sStrbufStatics  0x020A7E7C  data
@@ -196,13 +196,13 @@ extern s32 func_02062A4C(void *resource, struct CharData **out);
 extern void  OS_Terminate(void);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u8 func_0204169C(int channel);
-extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
-extern u32 func_0203FAF0(u32 layer, u32 offset, u32 units);
+extern u8 BG_SYS_GetField16(int channel);
+extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
+extern u32 BG_SYS_CheckFAF0(u32 layer, u32 offset, u32 units);
 extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
 extern u8 sub_020416B8(int channel);
 extern void sub_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern u8 func_02041680(int channel);
+extern u8 BG_SYS_GetType(int channel);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
@@ -335,15 +335,15 @@ extern void func_020809F0(void);   /* GX_ResetBankForSubOBJExtPltt */
 extern int func_02080964(void);
 extern void func_02080978(void);
 extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */
-extern void func_02080100(GXVRam v);   /* GX_SetBankForBGExtPltt */
-extern void func_020806B0(GXVRam v);   /* GX_SetBankForSubBG */
-extern void func_020807BC(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
+extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
+extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
+extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
 extern void func_0207FFD0(GXVRam v);   /* GX_SetBankForOBJ */
-extern void func_020801F8(GXVRam v);   /* GX_SetBankForOBJExtPltt */
-extern void func_0208074C(GXVRam v);   /* GX_SetBankForSubOBJ */
-extern void func_0208083C(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
+extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
+extern void GX_SetBankForSubOBJ(GXVRam v);   /* GX_SetBankForSubOBJ */
+extern void GX_SetBankForSubOBJExtPltt(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
 extern void func_02080294(GXVRam v);   /* GX_SetBankForTex */
-extern void func_0208040C(GXVRam v);   /* GX_SetBankForTexPltt */
+extern void GX_SetBankForTexPltt(GXVRam v);   /* GX_SetBankForTexPltt */
 
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
@@ -384,15 +384,15 @@ void BG_SYS_SetVramBanks(const struct DispVram *banks)
     func_02080964();
     func_02080978();
     func_0207FDCC(banks->main_bg);
-    func_02080100(banks->main_bg_expltt);
-    func_020806B0(banks->sub_bg);
-    func_020807BC(banks->sub_bg_expltt);
+    GX_SetBankForBGExtPltt(banks->main_bg_expltt);
+    GX_SetBankForSubBG(banks->sub_bg);
+    GX_SetBankForSubBGExtPltt(banks->sub_bg_expltt);
     func_0207FFD0(banks->main_obj);
-    func_020801F8(banks->main_obj_expltt);
-    func_0208074C(banks->sub_obj);
-    func_0208083C(banks->sub_obj_expltt);
+    GX_SetBankForOBJExtPltt(banks->main_obj_expltt);
+    GX_SetBankForSubOBJ(banks->sub_obj);
+    GX_SetBankForSubOBJExtPltt(banks->sub_obj_expltt);
     func_02080294(banks->teximage);
-    func_0208040C(banks->texpltt);
+    GX_SetBankForTexPltt(banks->texpltt);
     GX_SetOBJVRamModeChar(banks->main_mapping);
     GXS_SetOBJVRamModeChar(banks->sub_mapping);
 }
@@ -1801,14 +1801,14 @@ void BMP_WIN_Exit(void)
 
 /*
  * Set up a BG layer whose character data is placed at a VRAM offset chosen
- * by the allocator.  func_0204169C says whether the layer is 8bpp; that
+ * by the allocator.  BG_SYS_GetField16 says whether the layer is 8bpp; that
  * decides both the flag handed to BMP_WIN_Alloc and whether a cell costs one
  * or two units, and the unit count is scaled by 32 to bytes before
- * func_0203FA08 is asked for room.  A returned -1 (not 0) is the allocator's
+ * BG_SYS_CreateRun is asked for room.  A returned -1 (not 0) is the allocator's
  * failure answer, and the function reports failure as 0.
  *
  * BMP_WIN_CreateAt, the next function, is the same routine for the case where
- * the caller already knows the offset: it calls func_0203FAF0 to reserve
+ * the caller already knows the offset: it calls BG_SYS_CheckFAF0 to reserve
  * that exact offset instead, passes a count rather than a byte size, and
  * forwards the caller's offset straight through as BMP_WIN_Alloc's seventh
  * argument.
@@ -1823,7 +1823,7 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
     u32 charCount;
     s32 offset;
 
-    if (func_0204169C(bgLayer) == 0) {
+    if (BG_SYS_GetField16(bgLayer) == 0) {
         is8bpp = 0;
         charCount = width * height;
     } else {
@@ -1831,7 +1831,7 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
         charCount = width * height * 2;
     }
 
-    offset = func_0203FA08(bgLayer, charCount * 32, allocDir);
+    offset = BG_SYS_CreateRun(bgLayer, charCount * 32, allocDir);
     if (offset == -1)
         return 0;
 
@@ -1841,10 +1841,10 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
 
 
 /*
- * closed:   blocker func_0203FAF0 is now a manifest entry (matched class)
+ * closed:   blocker BG_SYS_CheckFAF0 is now a manifest entry (matched class)
  *
  * Every concrete byte is right; the file is capped at MATCH by one
- * relocation site, the bl to func_0203FAF0 at +0x44.  Blocking evidence
+ * relocation site, the bl to BG_SYS_CheckFAF0 at +0x44.  Blocking evidence
  * class: none available.  0x0203FAF0 has exactly one witness image wide and
  * it is the call inside this very function (--suggest-split reports "the
  * whole range as one file is NOT viable", best partition 0 pieces), so no
@@ -1853,7 +1853,7 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
  * of it turns up in another packet.
  *
  * The fixed-offset twin of BMP_WIN_Create: the caller already knows where the
- * layer's character data goes, so func_0203FAF0 is asked to reserve that
+ * layer's character data goes, so BG_SYS_CheckFAF0 is asked to reserve that
  * offset (answering 0 on failure, not -1), the cell count is passed in units
  * rather than scaled to bytes, and the caller's own offset is what reaches
  * BMP_WIN_Alloc as the seventh argument.
@@ -1871,7 +1871,7 @@ struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 he
     u8 is8bpp;
     u32 charCount;
 
-    if (func_0204169C(bgLayer) == 0) {
+    if (BG_SYS_GetField16(bgLayer) == 0) {
         is8bpp = 0;
         charCount = width * height;
     } else {
@@ -1879,7 +1879,7 @@ struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 he
         charCount = width * height * 2;
     }
 
-    if (func_0203FAF0(bgLayer, charOffset, charCount) == 0)
+    if (BG_SYS_CheckFAF0(bgLayer, charOffset, charCount) == 0)
         return 0;
 
     return BMP_WIN_Alloc(bgLayer, posX, posY, width, height, palette, charOffset, is8bpp);
@@ -2042,7 +2042,7 @@ void BMP_WIN_TransferChars(struct BmpWin *win)
 
 /*
  * Fill a rectangle of the screen described by the configuration block with
- * a run of consecutive tile numbers.  func_02041680 says whether the layer
+ * a run of consecutive tile numbers.  BG_SYS_GetType says whether the layer
  * is 8bpp (answer 1, one byte per cell) or 16bpp (two bytes per cell, each
  * carrying the palette number from +9 in its top nibble); either way a
  * scratch buffer of w*h cells is allocated from the heap named by the word
@@ -2068,7 +2068,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
     void *cells;
     s32 index;
 
-    if (func_02041680(win->bgLayer) != 1) {
+    if (BG_SYS_GetType(win->bgLayer) != 1) {
         u16 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
                                charCount * 2, 0, bmpWin_File, 0x133);
 
@@ -2099,7 +2099,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
  * The eight-piece frame around a window: base tile + 0..7 drawn at the
  * corners and edges one cell outside the on-screen extent (+7/+8), with the
  * palette nibble in the top of each cell unless the layer is 8bpp
- * (func_02041680 answers 1).
+ * (BG_SYS_GetType answers 1).
  *
  * Closed in wave 15 from a 2-byte residue (`mov r6, r2` against `mov r4,
  * r2`, the image gives pal and the palette bits one register).  Two facts,
@@ -2114,7 +2114,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
  */
 void BMP_WIN_DrawFrame(struct BmpWin *win, u16 baseTile, u32 palette)
 {
-    if (func_02041680(win->bgLayer) != 1) {
+    if (BG_SYS_GetType(win->bgLayer) != 1) {
         palette &= 0xf;
         palette <<= 12;
     } else {

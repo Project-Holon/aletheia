@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   GSYNC_MENU_PrintMessageNoStream 0x021D4FAC thumb ov123
  *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
  *   GSYNC_MENU_PrintMessage 0x021D4EF0 thumb ov123
@@ -35,7 +35,7 @@ extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void GSYNC_MENU_PrintMessageNoStream(char *);
 extern void GSYNC_MENU_ChangeState(char *,void *,int);
@@ -60,7 +60,7 @@ void GSYNC_MENU_StateConfirmSelect(char *p)
                 GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateSaveStart,0x519);
             }
         } else {
-            func_020414EC(5);
+            BG_SYS_ClearSlot(5);
             ((struct Obj00273 *)p)->f8=0;
             GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateSetupButtons,0x51f);
             GSYNC_MENU_SetPaletteFade(p,0);

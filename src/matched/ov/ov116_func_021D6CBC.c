@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CBC
+ * function: WIFI_BSUBWAY_StartProfileUpload
  * address: 0x021D6CBC
  * packet: pkt_ov116_021D6CBC
  * region: ov116
@@ -19,8 +19,8 @@
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   NHTTP_RAP_InitTrainerInfo 0x021B9B00 thumb ov114
  *   DPW_BT_SetProfileAsync 0x021C9744 arm ov114
- *   func_021D70E4 0x021D70E4 thumb ov116
- *   func_021D6D40 0x021D6D40 thumb ov116
+ *   WIFI_BSUBWAY_AsyncReset 0x021D70E4 thumb ov116
+ *   WIFI_BSUBWAY_BuildProfile 0x021D6D40 thumb ov116
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  */
 typedef unsigned char u8;
@@ -30,9 +30,9 @@ extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void NHTTP_RAP_InitTrainerInfo(u8 *,int);
 extern void DPW_BT_SetProfileAsync(unsigned char *p, unsigned x);
-extern void func_021D70E4(u8 *);
-extern void func_021D6D40(u8 *p, void *save, void *idx);
-void func_021D6CBC(u8 *p,void *q,u8 *r) {
+extern void WIFI_BSUBWAY_AsyncReset(u8 *);
+extern void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx);
+void WIFI_BSUBWAY_StartProfileUpload(u8 *p,void *q,u8 *r) {
     int a,b,c;
     GAME_DATA_GetSaveControl(q);
     a = (int)GAME_DATA_GetSaveBlock3B(q);
@@ -40,8 +40,8 @@ void func_021D6CBC(u8 *p,void *q,u8 *r) {
     c = *(int *)(p+0x218);
     NHTTP_RAP_InitTrainerInfo(p+4,c);
     DPW_BT_SetProfileAsync(p+4,(unsigned int)(p+0x68));
-    func_021D70E4(r);
-    func_021D6D40(p+0x70,q,(void *)c);
+    WIFI_BSUBWAY_AsyncReset(r);
+    WIFI_BSUBWAY_BuildProfile(p+0x70,q,(void *)c);
     *(int *)(p+0x160)=a;
     *(int *)(p+0x164)=b;
 }

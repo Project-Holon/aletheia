@@ -13,7 +13,7 @@
  * symbols:
  *   ov093_id 0x0000005D data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200B358 0x0200B358 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -26,10 +26,10 @@
  *   BTL_SETUP_SetupCommTriple 0x02013864 thumb
  *   BTL_SETUP_SetupCommRotation 0x02013894 thumb
  *   POKE_REGULATION_Load 0x0201A354 thumb
- *   func_0200AE14 0x0200AE14 thumb
- *   func_0200AE54 0x0200AE54 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
- *   func_0200B078 0x0200B078 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
+ *   REGULATION_GetRuleValue 0x0200AE54 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   BTL_SETUP_SetParty 0x02013128 thumb
  *   BTL_SETUP_ApplyRegulation 0x02013160 thumb
  *   BTL_SETUP_AllocRecordBuffer 0x02013980 thumb
@@ -46,7 +46,7 @@ struct Big;
 struct Rec160;
 extern const char ov093_id[];
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200B358(void *);
+extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern void BATTLE_REC_ClearWork(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, unsigned);
@@ -63,10 +63,10 @@ extern void BTL_SETUP_SetupCommDouble(void *, void *, int, int, u32);
 extern void BTL_SETUP_SetupCommTriple(void *, void *, int, int, u32);
 extern void BTL_SETUP_SetupCommRotation(void *, void *, int, int, u32);
 extern void *POKE_REGULATION_Load(int, int);
-extern void *func_0200AE14(void *);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern void *REGULATION_NoOp(void *);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern void BTL_SETUP_SetParty(void *, void *, int);
 extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2);
 extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
@@ -97,7 +97,7 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     int id;
     int a;
     int flag = 0;
-    sys = func_0200B358(GAME_DATA_GetSaveControl(p->f4));
+    sys = BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->f4));
     out = func_02030734(heap, 0x10, 0, d_02213D04, 0x3e0);
     MI_CpuFill8(out, 0, 0x10);
     out->f0 = p->f4;
@@ -135,8 +135,8 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
         v = POKE_REGULATION_Load(id, heap);
         flag = 1;
     } else if (p->f1c == 0) {
-        v = func_0200AE14(func_0200B1D4(sys, 0));
-        switch (func_0200AE54(v, 0x15)) {
+        v = REGULATION_NoOp(REGULATION_GetCard(sys, 0));
+        switch (REGULATION_GetRuleValue(v, 0x15)) {
         case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
@@ -144,8 +144,8 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
         default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else if (p->f1c == 1) {
-        v = func_0200AE14(func_0200B1D4(sys, 1));
-        switch (func_0200AE54(v, 0x15)) {
+        v = REGULATION_NoOp(REGULATION_GetCard(sys, 1));
+        switch (REGULATION_GetRuleValue(v, 0x15)) {
         case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
@@ -158,8 +158,8 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     if (p->f1c == 3) a = p->f8 + 0x17;
     else if (p->f1c == 2) a = p->f8 + 0x1c;
     else {
-        int x = func_0200AE54(v, 0xd);
-        int y = func_0200AE54(v, 0x15);
+        int x = REGULATION_GetRuleValue(v, 0xd);
+        int y = REGULATION_GetRuleValue(v, 0x15);
         if (x >= 2) x = 1;
         a = y * 2 + 0x21 + x;
     }
@@ -168,9 +168,9 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
         out->f4->f18 = 0x490;
         out->f4->f1a = 0x47d;
     } else if (p->f1c == 0) {
-        void *e = func_0200B1D4(sys, 0);
-        int m = func_0200B078(e, 0xb);
-        int r = func_0200AE54(func_0200AE14(e), 0x12);
+        void *e = REGULATION_GetCard(sys, 0);
+        int m = REGULATION_Card_GetValue(e, 0xb);
+        int r = REGULATION_GetRuleValue(REGULATION_NoOp(e), 0x12);
         if (m == 1) { out->f4->f18 = 0x48d; out->f4->f1a = 0x480; }
         else { out->f4->f18 = 0x46b; out->f4->f1a = 0x47d; }
         if ((u32)(r - 2) <= 1) {
@@ -179,9 +179,9 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
             out->f8->f50 = 1;
         }
     } else if (p->f1c == 1) {
-        void *e = func_0200B1D4(sys, 1);
-        int m = func_0200B078(e, 0xb);
-        int r = func_0200AE54(func_0200AE14(e), 0x12);
+        void *e = REGULATION_GetCard(sys, 1);
+        int m = REGULATION_Card_GetValue(e, 0xb);
+        int r = REGULATION_GetRuleValue(REGULATION_NoOp(e), 0x12);
         if (m == 1) { out->f4->f18 = 0x48d; out->f4->f1a = 0x480; }
         else { out->f4->f18 = 0x46b; out->f4->f1a = 0x47d; }
         if ((u32)(r - 2) <= 1) {

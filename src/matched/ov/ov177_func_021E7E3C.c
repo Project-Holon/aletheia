@@ -33,6 +33,8 @@
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *
  * The temporary heap id is formed twice: once through an inline that
  * rewrites its own parameter (the image copies heap before the and), held
@@ -101,7 +103,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern void *CLACT_CreateActor(void *, void *, void *, void *, const Request *, unsigned short, unsigned);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void *func_0201EC64(u16);
+extern void *GF_FONT_Create_EC64(u16);
 extern void *STRBUF_Create(unsigned capacity, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -117,7 +119,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 struct Actor; struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -184,7 +186,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
             }
         }
     }
-    fmt = func_0201EC64((u16)((heap & 0x7FFF) | 0x8000));
+    fmt = GF_FONT_Create_EC64((u16)((heap & 0x7FFF) | 0x8000));
     buf = STRBUF_Create(0x80, (u16)((heap & 0x7FFF) | 0x8000));
     sLevel = func_02045EC0(msg, 0x63);
     sMale = func_02045EC0(msg, 0x64);
@@ -218,7 +220,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     STRBUF_Delete(sMale);
     STRBUF_Delete(sLevel);
     STRBUF_Delete(buf);
-    func_0201ED04(fmt);
+    WORDSET_DeleteStrbufED04(fmt);
     for (i = 0; i < 14; i++) {
         if (work->spr[i] != 0) {
             CLACT_GetActorSurfacePos(work->spr[i], (struct PtS *)&pos, 0);

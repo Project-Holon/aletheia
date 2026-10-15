@@ -70,6 +70,9 @@
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   MI_CpuFill8  0x02082BCC  arm
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -265,12 +268,12 @@ extern void ARC_TOOL_DeleteHandle(struct ArcHandle *handle);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *handle, u32 member, u32 offset, u32 size, void *dst);
 extern void *FILE_UTIL_LoadRange(u32 arcId, u32 heapId, u32 offset, u32 size);
 extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
-extern struct FieldSoundSystem *func_02012A30(struct GameData *gameData);
+extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
 extern void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
-extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
@@ -286,7 +289,7 @@ void ZONEDATA_Exit(void);
 void ZONEDATA_SetChangeZoneEnable(u32 index, u8 on);
 u16 ZONEDATA_GetChangedZoneId(u32 key);
 struct ZoneHeader *ZONEDATA_GetHeader(u32 id);
-u32 sub_02013B10(u32 id, const u16 *table, int count);
+u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count);
 u32 ZONEDATA_GetAreaId(u32 id);
 u32 ZONEDATA_GetMatrixId(u32 id);
 u32 ZONEDATA_GetMapType(u32 id);
@@ -611,7 +614,7 @@ u16 ZONEDATA_GetChangedZoneId(u32 key)
  * alias: the record-cache accessor every function in unit_02013BA8.c,
  * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
  * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and ZONEDATA_GetMatrixId point at.
+ * declarations of ZONEDATA_IsChangedZoneInTable and ZONEDATA_GetMatrixId point at.
  *
  * ZONEDATA_GetChangedZoneId, the id remapper this file calls, is immediately before it
  * and is a documented near miss (see below); it is only reached here as an
@@ -674,7 +677,7 @@ struct ZoneHeader *ZONEDATA_GetHeader(u32 id)
 
 
 
-u32 sub_02013B10(u32 id, const u16 *table, int count)
+u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count)
 {
     u32 rid = ZONEDATA_GetChangedZoneId(id);
     int i;
@@ -939,11 +942,11 @@ u32 ZONEDATA_GetBgmId(u32 id, u32 which)
  *
  * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
  * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
+ * sub_02013C70 tail calls ZONEDATA_IsChangedZoneInTable (defined in the neighbouring packet)
  * through a pool word, and also holds a pointer to sub_02013C70_Table
  * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
  * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
+ * range: the other five images of the ZONEDATA_IsChangedZoneInTable pointer are themselves
  * unlabelled leaf thunks (data words, not literal pools, in the same
  * function's neighbourhood further down this file), sub_02013C9C's only
  * caller anywhere is sub_02013C80 one function above it, and neither table
@@ -1057,7 +1060,7 @@ u32 ZONEDATA_IsPalaceEnabled(u32 id)
  */
 int ZONEDATA_IsRailMap(u32 zoneId)
 {
-    return sub_02013B10(zoneId, _RailMapZoneTable, 0xb);
+    return ZONEDATA_IsChangedZoneInTable(zoneId, _RailMapZoneTable, 0xb);
 }
 
 
@@ -1269,7 +1272,7 @@ int ZONEDATA_IsZoneGroup118To13C(u32 key)
  *
  * Near miss: 0x02013DD0 to 0x02013DF0 (32 bytes, two more unlabelled leaves)
  * immediately follows and is not in this file.  Both tail call
- * sub_02013B10 (defined in the neighbouring packet) through a pool word
+ * ZONEDATA_IsChangedZoneInTable (defined in the neighbouring packet) through a pool word
  * over a different fixed table (0x0209DFC0 count 4, 0x0209DFEC count 9),
  * the same shape as sub_02013C70 in unit_02013C10.c, and for the same
  * reason: every other place either pointer or table address appears in the
@@ -1320,7 +1323,7 @@ u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id)
  */
 int ZONEDATA_IsZoneInTableDFC0(int a0)
 {
-    return sub_02013B10(a0, d_0209DFC0, 4);
+    return ZONEDATA_IsChangedZoneInTable(a0, d_0209DFC0, 4);
 }
 
 
@@ -1340,7 +1343,7 @@ int ZONEDATA_IsZoneInTableDFC0(int a0)
  */
 int ZONEDATA_IsZoneInTableDFEC(u16 a0)
 {
-    return sub_02013B10(a0, d_0209DFEC, 9);
+    return ZONEDATA_IsChangedZoneInTable(a0, d_0209DFEC, 9);
 }
 
 
@@ -1728,13 +1731,13 @@ int ZONEDATA_GetSecondSpecialKind(u16 key)
  * offset 0x1e halfword (unit_02013ED8.c has the high one).
  *
  * ZONEDATA_IsZoneInTableDFDC, ZONEDATA_IsZoneInTableDFB8 and ZONEDATA_IsZoneInTableDFD2 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
+ * ZONEDATA_IsChangedZoneInTable (unit_02013AD0.c) against three small { key; value } tables
  * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
  * tail call as a pool word and `bx` even to a function outside the unit
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
  * with no prologue, invisible to disasm.py's prologue sweep and printed
  * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
+ * words that hold ZONEDATA_IsChangedZoneInTable's own address are wildcarded (`literal`
  * class, attested by the same address in unit_02013AD0.c's callers); the
  * table addresses themselves need no attestation, since they are ordinary
  * immediate constants passed by value, not relocated pointers into this
@@ -1767,7 +1770,7 @@ u8 ZONEDATA_GetExpObjSetId(u32 id)
 
 u32 ZONEDATA_IsZoneInTableDFDC(u32 id)
 {
-    return sub_02013B10(id, d_0209DFDC, 8);
+    return ZONEDATA_IsChangedZoneInTable(id, d_0209DFDC, 8);
 }
 
 
@@ -1781,7 +1784,7 @@ u32 ZONEDATA_IsZoneInTableDFDC(u32 id)
 
 u32 ZONEDATA_IsZoneInTableDFB8(u32 id)
 {
-    return sub_02013B10(id, d_0209DFB8, 4);
+    return ZONEDATA_IsChangedZoneInTable(id, d_0209DFB8, 4);
 }
 
 
@@ -1823,7 +1826,7 @@ u32 ZONEDATA_IsRawZoneF7(u32 id)
 
 u32 ZONEDATA_IsZoneInTableDFD2(u32 id)
 {
-    return sub_02013B10(id, d_0209DFD2, 5);
+    return ZONEDATA_IsChangedZoneInTable(id, d_0209DFD2, 5);
 }
 
 
@@ -2929,7 +2932,7 @@ int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work)
     struct FieldMap *fieldMap = wk->fieldMap;
     struct FieldSoundSystem *fieldSound;
 
-    fieldSound = func_02012A30(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
     switch (*seq) {
     case 0:
         FIELDMAP_RequestClose(fieldMap);
@@ -2963,7 +2966,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSyst
 
     wk->gameSystem = gameSystem;
     wk->fieldMap = fieldMap;
-    wk->gameData = func_020120F4(gameSystem);
+    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
     wk->notifyClose = 1;
     return event;
 }
@@ -3010,7 +3013,7 @@ int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, v
     struct GameSystem *gameSystem = wk->gameSystem;
     struct FieldMap *fieldMap = wk->fieldMap;
 
-    func_02012A30(wk->gameData);
+    GAME_DATA_GetBgmInfo(wk->gameData);
     switch (*seq) {
     case 0:
         FIELDMAP_RequestClose(fieldMap);
@@ -3041,7 +3044,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSyste
 
     wk->gameSystem = gameSystem;
     wk->fieldMap = fieldMap;
-    wk->gameData = func_020120F4(gameSystem);
+    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
     wk->notifyClose = 0;
     return event;
 }
@@ -3090,7 +3093,7 @@ int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work)
         }
         break;
     case 1:
-        if (FIELDMAP_IsReady(func_0201210C(gameSystem)) != 0) {
+        if (FIELDMAP_IsReady(ICA_ANIME_GetField20(gameSystem)) != 0) {
             *seq = *seq + 1;
         }
         break;
@@ -3124,7 +3127,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSyste
 
     wk->gameSystem = gameSystem;
     wk->unused04 = 0;
-    wk->gameData = func_020120F4(gameSystem);
+    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
     SCRCMD_NETWORK_LoadOv020();
     return event;
 }
@@ -3139,7 +3142,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *g
 
     wk->gameSystem = gameSystem;
     wk->unused04 = 0;
-    wk->gameData = func_020120F4(gameSystem);
+    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
     return event;
 }
 

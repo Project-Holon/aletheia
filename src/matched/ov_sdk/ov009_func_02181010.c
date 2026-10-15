@@ -1,5 +1,5 @@
 /*
- * function: func_02181010
+ * function: gsUdpEngineGetPeerState
  * address:  0x02181010
  * packet:   pkt_ov009_02181010
  * region:   ov009
@@ -52,7 +52,7 @@ extern int func_02195E00(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A3B9C[];
 
-int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState)
+int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState)
 {
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aPeer;

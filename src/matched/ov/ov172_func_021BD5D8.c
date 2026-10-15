@@ -17,12 +17,12 @@
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_021BD820  0x021BD820  thumb  ov172
- *   func_0207E008  0x0207E008  arm
- *   func_0207E100  0x0207E100  arm
+ *   G2_GetBG2ScrPtr  0x0207E008  arm
+ *   G2_GetBG3ScrPtr  0x0207E100  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02040588  0x02040588  arm
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -57,12 +57,12 @@ struct Cfg;
 struct DispVram;
 extern u32 WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type);
-extern void *func_0207E008(void);
-extern void *func_0207E100(void);
+extern void *G2_GetBG2ScrPtr(void);
+extern void *G2_GetBG3ScrPtr(void);
 extern void MI_CpuFill8(void *p, int c, u32 n);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -124,7 +124,7 @@ void func_021BD5D8(u8 *p)
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C7120);
-    func_0203F8F4(*(u16 *)p);
+    BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021C7050);
     func_021BD820((const struct BgTemplate *)d_021C70A0, 0, 0);
@@ -136,8 +136,8 @@ void func_021BD5D8(u8 *p)
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & 0x43) | 0x4484;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & 0x43) | 0x4A84;
     size = 0x18000;
-    MI_CpuFill8(func_0207E008(), 0, size);
-    MI_CpuFill8((void *)func_0207E100(), 0, size);
+    MI_CpuFill8(G2_GetBG2ScrPtr(), 0, size);
+    MI_CpuFill8((void *)G2_GetBG3ScrPtr(), 0, size);
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & ~3) | 1;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & ~3) | 2;
     func_02040588(2, 1);

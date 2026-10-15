@@ -14,7 +14,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   func_0200B3AC  0x0200B3AC  thumb
+ *   GIMMICK_WORK_GetId  0x0200B3AC  thumb
  *   func_02034A5C  0x02034A5C  arm
  *   gFieldGimmickExitFuncs     0x021D9BE0  data  ov021  a4
  *   gFieldGimmickOverlayIds     0x021D9D98  data  ov021  a4
@@ -28,7 +28,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 func_0200B3AC(struct Rec94 *p);
+extern s32 GIMMICK_WORK_GetId(struct Rec94 *p);
 extern void func_02034A5C(int handle);
 
 extern void (*gFieldGimmickExitFuncs[])(void *);
@@ -38,7 +38,7 @@ void FIELD_GIMMICK_Exit(void *arg)
 {
     int i;
 
-    i = func_0200B3AC((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(arg))));
+    i = GIMMICK_WORK_GetId((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(arg))));
     if (i != -1) {
         if (gFieldGimmickExitFuncs[i] != 0) {
             gFieldGimmickExitFuncs[i](arg);

@@ -39,7 +39,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0200AEE8  0x0200AEE8  thumb
+ *   REGULATION_SetRuleValue  0x0200AEE8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
@@ -57,18 +57,18 @@
  *   BTL_SETUP_SetParty 0x02013128 thumb
  *   GFL_USE_SetPlayerVolumes 0x02005CBC thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   FIELD_STATUS_CreateFieldCloseEvent 0x020144DC thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb
  *   FIELD_STATUS_CreateFieldOpenEvent 0x020145CC thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_0201283C 0x0201283C thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   BTL_SETUP_Delete 0x020130B4 thumb
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
@@ -105,7 +105,7 @@
  *   POKEPARTY_Create   0x0201A920  thumb
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
  *   GFL_USE_GetBgmNo   0x02005C44  thumb
- *   func_0200ADF0   0x0200ADF0  thumb
+ *   REGULATION_Create   0x0200ADF0  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GFL_USE_SetSleepVolumeHooks  0x020057AC  thumb  arm9
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
@@ -155,7 +155,7 @@ typedef struct Pair {
 } Pair;
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void func_0200AEE8(struct Reg *regulation, u32 id, s32_021542C0 value);
+extern void REGULATION_SetRuleValue(struct Reg *regulation, u32 id, s32_021542C0 value);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
 extern void BTL_SETUP_SetupCommDouble(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
@@ -175,7 +175,7 @@ extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
 extern void PM_VOICE_SetMasterVolume(u8 volume);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
-extern void *func_02012138(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetKind(void *gameComm);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
@@ -185,7 +185,7 @@ extern int GFL_NET_IsSessionNull(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u16 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
@@ -194,7 +194,7 @@ extern void PROCSYS_Push(void *task, u32 overlayId, u32 procData, u32 param);
 extern u32 PROCSYS_Main(void *task);
 extern void func_0203133C(void *task);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern u32 func_0201283C(const struct GameData *gameData);
+extern u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
 extern u32 func_02009A34(void *battleRecord);
 extern int func_02034AC4(int overlayId);
 extern void func_02034A5C(int overlayId);
@@ -209,7 +209,7 @@ extern int GFL_NET_GetRunState(void);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern void *func_02012950(void *gameData, u32 index);
+extern void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 index);
 extern void func_02009BB8(void *battleRecord, int ruleIndex, int win, int lose, int draw);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
@@ -220,7 +220,7 @@ void *func_020124E8(struct GameEvent *event);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *POKEPARTY_Create(u32 heapId);
 void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-void *func_0200ADF0(u32 heapId);
+void *REGULATION_Create(u32 heapId);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
@@ -250,9 +250,9 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     useAltRule = work->session->useAltRule;
     if (useAltRule)
-        func_0200AEE8(work->session->regulation, 0xd, 1);
+        REGULATION_SetRuleValue(work->session->regulation, 0xd, 1);
     else
-        func_0200AEE8(work->session->regulation, 0xd, 0);
+        REGULATION_SetRuleValue(work->session->regulation, 0xd, 0);
 
     switch (menuIndex) {
     case 8:
@@ -426,7 +426,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         ++*seq;
         break;
     case 1:
-        if (!GAME_COMM_GetKind(func_02012138(gameSystem))) {
+        if (!GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem))) {
             work->reserved10 = 0;
             GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, work->fieldMap));
             ++*seq;
@@ -463,7 +463,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         work->login.useSaveData = 0;
         break;
     case 9:
-        work->login.gameData = func_020120F4(gameSystem);
+        work->login.gameData = ICA_ANIME_GetField1C(gameSystem);
         work->login.loginOption = 1;
         work->login.loginType = 0;
         work->login.messageId = 10;
@@ -478,12 +478,12 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         if (PROCSYS_Main(work->loginTask)) { GFL_NET_ERR_ShowScreen(0); return 0; }
         func_0203133C(work->loginTask);
         if (!work->login.result) {
-            if (!func_02009A34((void *)func_0201283C(work->paramGameData))) *seq = 30;
+            if (!func_02009A34((void *)GAME_DATA_GetField1A0(work->paramGameData))) *seq = 30;
             else { *seq = 11; GFL_USE_FadeOutBgm(6); }
         } else { GFL_USE_FadeOutBgm(6); *seq = 25; }
         break;
     case 30:
-        work->confirm.gameData = func_020120F4(gameSystem);
+        work->confirm.gameData = ICA_ANIME_GetField1C(gameSystem);
         work->confirm.loginOption = 1;
         work->confirm.loginType = 0;
         work->confirm.messageId = 1;
@@ -516,7 +516,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         func_02034A5C((int)ov099_id);
         break;
     case 13:
-        EVENT_WIFICLUB_BuildBattleEntry(work, (void *)func_020120F4(gameSystem), step);
+        EVENT_WIFICLUB_BuildBattleEntry(work, (void *)ICA_ANIME_GetField1C(gameSystem), step);
         work->battleSetup = BTL_SETUP_Create(4);
         EVENT_WIFICLUB_SetupBattle(work, work->session->menuChoice);
         GAME_EVENT_CallProc(work->event, (u32)ov134_id, (u32)d_021DCCA4, (u32)&work->battleEntry);
@@ -532,7 +532,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
                 *seq = 9;
             }
         } else {
-            EVENT_WIFICLUB_SetBattleParty(work, (void *)func_020120F4(gameSystem), step);
+            EVENT_WIFICLUB_SetBattleParty(work, (void *)ICA_ANIME_GetField1C(gameSystem), step);
             func_02034AC4((int)ov093_id);
             GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
             GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 100, 10);
@@ -552,22 +552,22 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         if (!GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
             for (i = 0; i < 2; i++) {
                 offset = i << 4;
-                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = func_02012950(func_020120F4(gameSystem), i);
+                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = GAME_DATA_GetPlayerStatusById(ICA_ANIME_GetField1C(gameSystem), i);
                 ((WifiClubEventWork *)((u32)work + offset))->sides[0].party = work->session->party[i];
             }
         } else {
             order = d_02154C2C;
             for (i = 0; i < 2; i++) {
                 offset = ((u8 *)&order)[i] << 4;
-                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = func_02012950(func_020120F4(gameSystem), i);
+                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = GAME_DATA_GetPlayerStatusById(ICA_ANIME_GetField1C(gameSystem), i);
                 ((WifiClubEventWork *)((u32)work + offset))->sides[0].party = work->session->party[i];
             }
         }
-        work->startParam.gameData = func_020120F4(work->gameSystem);
+        work->startParam.gameData = ICA_ANIME_GetField1C(work->gameSystem);
         work->startParam.battleSetup = work->battleSetup;
         work->startParam.sides = work->sides;
         work->startParam.enabled = 1;
-        work->trainerRecord = GAME_DATA_GetTrainerRecord(func_020120F4(work->gameSystem));
+        work->trainerRecord = GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(work->gameSystem));
         func_02034A5C((int)ov093_id);
         GAME_EVENT_CallProc(work->event, (u32)ov008_id, (u32)d_0215513C, (u32)&work->startParam);
         ++*seq;
@@ -575,9 +575,9 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 17:
         if (!GFL_NET_GetRunState()) goto cleanup;
         if (work->matchOutcome == 0)
-            func_02009BB8((void *)func_0201283C(func_020120F4(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
+            func_02009BB8((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
         else if (work->matchOutcome == 1)
-            func_02009BB8((void *)func_0201283C(func_020120F4(work->gameSystem)), work->session->ruleId - 1, 0, 1, 0);
+            func_02009BB8((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)), work->session->ruleId - 1, 0, 1, 0);
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         *seq = 11;
         break;
@@ -587,7 +587,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         ++*seq;
         break;
     case 19:
-        work->tradeParam.gameData = func_020120F4(gameSystem);
+        work->tradeParam.gameData = ICA_ANIME_GetField1C(gameSystem);
         GAME_EVENT_CallProc(work->event, (u32)ov119_id, (u32)d_021E75C0, (u32)&work->tradeParam);
         ++*seq;
         break;
@@ -604,7 +604,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 21:
         request = func_02030734(4, 0x14, 0, d_02154C80, 0x24b);
-        request->gameData = func_020120F4(work->gameSystem);
+        request->gameData = ICA_ANIME_GetField1C(work->gameSystem);
         request->party = work->tradeParam.party;
         request->partyIndex = work->tradeParam.partyIndex;
         request->reserved = 0;
@@ -625,7 +625,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         }
         break;
     case 23:
-        work->viewParam.gameData = func_020120F4(gameSystem);
+        work->viewParam.gameData = ICA_ANIME_GetField1C(gameSystem);
         work->viewParam.mode = 3;
         GAME_EVENT_CallProc(work->event, (u32)ov172_id, (u32)d_021C7240, (u32)&work->viewParam);
         ++*seq;
@@ -677,8 +677,8 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
     WifiClubEventWork *work;
     WifiClubSession *session;
 
-    if (GAME_COMM_GetKind(func_02012138(gameSystem)))
-        GAME_COMM_RequestExitNoCallback(func_02012138(gameSystem));
+    if (GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem)))
+        GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(gameSystem));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -686,19 +686,19 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
     work->hideFieldObjects = hideFieldObjects;
     work->session = func_02030734(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
     work->session->scratchBuffer = func_02030734(0x8004, 0x20, 1, d_02154C80, 0x2b1);
-    work->session->gameData = func_020120F4(work->gameSystem);
+    work->session->gameData = ICA_ANIME_GetField1C(work->gameSystem);
     work->session->saveControl = GAME_DATA_GetSaveControl(work->session->gameData);
     work->session->rulesLoaded = 1;
     work->session->rematch = 0;
     work->paramGameData = work->session->gameData;
-    work->battleRecord = func_0201283C(work->paramGameData);
+    work->battleRecord = GAME_DATA_GetField1A0(work->paramGameData);
     work->session->menuChoice = 0;
     work->tradeParam.party = work->battleParty = POKEPARTY_Create(0x8004);
     work->self = work;
     work->savedBgmNo = GFL_USE_GetBgmNo();
     work->session->party[0] = POKEPARTY_Create(0x8001);
     work->session->party[1] = POKEPARTY_Create(0x8001);
-    work->session->regulation = func_0200ADF0(0x8001);
+    work->session->regulation = REGULATION_Create(0x8001);
     work->session->isActive = 1;
 }
 

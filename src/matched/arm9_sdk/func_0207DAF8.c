@@ -1,5 +1,5 @@
 /*
- * function: func_0207DAF8
+ * function: G3X_ClearFifo
  * address:  0x0207DAF8
  * packet:   pkt_0207DAF8
  * region:   arm9
@@ -56,7 +56,7 @@ typedef union {
 
 extern void GXi_NopClearFifo128_(void *pDest);
 
-void func_0207DAF8(void)
+void G3X_ClearFifo(void)
 {
     GXi_NopClearFifo128_((void *)&reg_G3X_GXFIFO);
     while (reg_G3X_GXSTAT & 0x08000000) {

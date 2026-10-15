@@ -17,7 +17,7 @@
  *   func_02164230  0x02164230  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02163F7C  0x02163F7C  arm  ov009
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   func_021641C4  0x021641C4  arm  ov009
  *   func_021640B8  0x021640B8  arm  ov009
  */
@@ -27,7 +27,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02164358(unsigned short *c, unsigned short *a, int digits);
 extern void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 extern void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
-extern void *func_02092364(void *dst, const void *src, unsigned long n);
+extern void *memmove(void *dst, const void *src, unsigned long n);
 extern int func_021641C4(unsigned short *a, unsigned short *b, int digits);
 extern void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 
@@ -44,7 +44,7 @@ static void func_0216497C(unsigned short *c, unsigned short *a, unsigned short *
     MI_CpuFill8(m + rdigits, 0, (digits - rdigits) * 2);
     func_02164230(m2, m, n, digits);
     func_02163F7C(c, c, m2, digits);
-    func_02092364(c, c + rdigits, (digits - rdigits) * 2);
+    memmove(c, c + rdigits, (digits - rdigits) * 2);
     MI_CpuFill8(c + digits - rdigits, 0, rdigits * 2);
     switch (func_021641C4(c, n, digits)) {
     case 0:

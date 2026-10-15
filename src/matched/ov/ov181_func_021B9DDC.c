@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DDC
+ * function: STAFF_ROLL_FlushWindows
  * address: 0x021B9DDC
  * packet: pkt_ov181_021B9DDC
  * region: ov181
@@ -14,4 +14,4 @@
 #include "../include/Obj06587.h"
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021B9DDC(char *p){if(((struct Obj06587 *)p)->f2CC&1)BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06587 *)p)->f2BC);if(((struct Obj06587 *)p)->f2CC&2)BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06587 *)p)->f2C4);((struct Obj06587 *)p)->f2CC=0;}
+void STAFF_ROLL_FlushWindows(char *p){if(((struct Obj06587 *)p)->f2CC&1)BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06587 *)p)->f2BC);if(((struct Obj06587 *)p)->f2CC&2)BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06587 *)p)->f2C4);((struct Obj06587 *)p)->f2CC=0;}

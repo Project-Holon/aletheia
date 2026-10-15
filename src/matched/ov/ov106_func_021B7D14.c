@@ -27,17 +27,17 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02049740 0x02049740 arm
  *   func_02049B40 0x02049B40 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -71,21 +71,21 @@ struct StrObj;
 extern struct DispConfig gIrcRankingDispConfig;
 extern BgEntry gIrcRankingBgEntries[];
 extern void MI_CpuFill8(void *, int, u32);
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *);
 struct Cfg;
 struct CharBuf;
 struct Rec;
 struct U16Vec;
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern unsigned int func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 flags);
 extern void func_02049B40(u32, u32, u32, u32, u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -106,12 +106,12 @@ extern void func_020409B4(u32);
 void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  int i; int k; u32 bg; struct MsgBank *msg; struct GfFont *font; struct StrObj *str;
  MI_CpuFill8(p, 0, 0x10);
- func_0203F8F4(heap);
+ BG_SYS_Create(heap);
  BMP_WIN_Init(heap);
  func_0203FC28(&gIrcRankingDispConfig);
  for (i = 0; i < 8; i++) {
   bg = gIrcRankingBgEntries[i].bg;
-  func_0203FCA0((u8)bg, &gIrcRankingBgEntries[i].t, (u8)gIrcRankingBgEntries[i].type);
+  BG_SYS_InitBgLayer((u8)bg, &gIrcRankingBgEntries[i].t, (u8)gIrcRankingBgEntries[i].type);
   func_020414AC(bg);
   func_02040588(bg, 1);
  }
@@ -125,8 +125,8 @@ void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  k = 7;
  func_02049658((void *)p[0], 3, 7, 0, 0, 0, heap);
  func_020498F4((void *)p[0], 7, 7, 0, 0, 0, heap);
- func_02040C14(1, 0, 1, 0);
- func_02040C14(5, 0, 1, 0);
+ BG_SYS_Init(1, 0, 1, 0);
+ BG_SYS_Init(5, 0, 1, 0);
  p[1] = func_02049740((void *)p[0], 2, 1, 0, 0, heap);
  p[2] = func_02049740((void *)p[0], 2, 5, 0, 0, heap);
  func_02049B40(0x17, 5, 0, k << 6, 0x20, heap);

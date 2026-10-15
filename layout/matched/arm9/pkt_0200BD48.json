@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200BD48",
+   "name": "DAYCARE_AddSteps",
    "address": "0x0200BD48",
    "kind": "game",
    "region": "arm9",

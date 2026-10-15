@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020616CC",
+   "name": "NNS_GfdAllocVram",
    "address": "0x020616CC",
    "kind": "game",
    "region": "arm9",

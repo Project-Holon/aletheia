@@ -1,5 +1,5 @@
 /*
- * function: func_021D46CC
+ * function: INTRUDE_COMM_VIEW_CreateActors
  * address: 0x021D46CC
  * packet: pkt_ov122_021D46CC
  * region: ov122
@@ -40,7 +40,7 @@ struct Actor;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-void func_021D46CC(char *p)
+void INTRUDE_COMM_VIEW_CreateActors(char *p)
 {
     Triple x = data_021D5708;
     Triple y = data_021D5704;

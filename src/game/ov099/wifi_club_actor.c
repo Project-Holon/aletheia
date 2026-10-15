@@ -15,43 +15,43 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   WIFICLUB_GetMessageIdByIndex  0x021BA81C  thumb  ov099
- *   func_021C47A0  0x021C47A0  thumb  ov127
- *   func_021C4800  0x021C4800  thumb  ov127
- *   func_021C4880  0x021C4880  thumb  ov127
- *   func_021C59D0  0x021C59D0  thumb  ov127
+ *   WF2DMAP_MAP_CreateGrid  0x021C47A0  thumb  ov127
+ *   WF2DMAP_MAP_CopyEntries  0x021C4800  thumb  ov127
+ *   WF2DMAP_OBJ_CreateList  0x021C4880  thumb  ov127
+ *   WF2DMAP_OBJDRAW_ClearPos  0x021C59D0  thumb  ov127
  *   WF2DMAP_CMDQ_CreateStore  0x021C5EEC  thumb  ov127
  *   WF2DMAP_CMDQ_DeleteStore  0x021C5F30  thumb  ov127
- *   func_021C48C0  0x021C48C0  thumb  ov127
- *   func_021C47E4  0x021C47E4  thumb  ov127
- *   func_021C48E8  0x021C48E8  thumb  ov127
- *   func_021C5994  0x021C5994  thumb  ov127
- *   func_021C5A60  0x021C5A60  thumb  ov127
- *   func_021C571C  0x021C571C  thumb  ov127
+ *   WF2DMAP_OBJ_DeleteList  0x021C48C0  thumb  ov127
+ *   WF2DMAP_MAP_DeleteGrid  0x021C47E4  thumb  ov127
+ *   WF2DMAP_OBJ_UpdateList  0x021C48E8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetPosFromOwner  0x021C5994  thumb  ov127
+ *   WF2DMAP_SCRDRAW_UpdatePosition  0x021C5A60  thumb  ov127
+ *   WF2DMAP_OBJDRAW_UpdateAllActors  0x021C571C  thumb  ov127
  *   KEY_GetCont  0x0203630C  arm
  *   KEY_GetTrg  0x020362DC  arm
- *   func_021C49A4  0x021C49A4  thumb  ov127
- *   func_021C4AC4  0x021C4AC4  thumb  ov127
- *   func_021C4864  0x021C4864  thumb  ov127
- *   func_021C5858  0x021C5858  thumb  ov127
- *   func_021C584C  0x021C584C  thumb  ov127
- *   func_021C57D8  0x021C57D8  thumb  ov127
- *   func_021C57DC  0x021C57DC  thumb  ov127
- *   func_021C4948  0x021C4948  thumb  ov127
- *   func_021C5704  0x021C5704  thumb  ov127
- *   func_021C4A8C  0x021C4A8C  thumb  ov127
- *   func_021C5864  0x021C5864  thumb  ov127
- *   func_021C5814  0x021C5814  thumb  ov127
- *   func_021C4A54  0x021C4A54  thumb  ov127
- *   func_021C48D4  0x021C48D4  thumb  ov127
- *   func_021C5370  0x021C5370  thumb  ov127
+ *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
+ *   WF2DMAP_OBJ_GetPos  0x021C4AC4  thumb  ov127
+ *   WF2DMAP_MAP_GetCellValue  0x021C4864  thumb  ov127
+ *   WF2DMAP_OBJDRAW_GetActorValue2  0x021C5858  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorValue2  0x021C584C  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActive  0x021C57D8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetFrameDefault  0x021C57DC  thumb  ov127
+ *   WF2DMAP_OBJ_Clear  0x021C4948  thumb  ov127
+ *   WF2DMAP_OBJDRAW_RemoveActor  0x021C5704  thumb  ov127
+ *   WF2DMAP_OBJ_GetTableByte  0x021C4A8C  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetFrameZero  0x021C5864  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorPos  0x021C5814  thumb  ov127
+ *   WF2DMAP_OBJ_OffsetPos  0x021C4A54  thumb  ov127
+ *   WF2DMAP_OBJ_DispatchById  0x021C48D4  thumb  ov127
+ *   WF2DMAP_OBJCMD_Dispatch  0x021C5370  thumb  ov127
  *   WF2DMAP_CMDQ_Pop  0x021C5F80  thumb  ov127
- *   func_021C4BA4  0x021C4BA4  thumb  ov127
- *   func_021C5590 0x021C5590 thumb ov127
- *   func_021C5664 0x021C5664 thumb ov127
- *   func_021C5608  0x021C5608  thumb  ov127
+ *   WF2DMAP_OBJ_FindAtPos  0x021C4BA4  thumb  ov127
+ *   WF2DMAP_OBJDRAW_CreateAnimSeq 0x021C5590 thumb ov127
+ *   WF2DMAP_OBJDRAW_ConfigureSprite 0x021C5664 thumb ov127
+ *   WF2DMAP_OBJDRAW_DeleteAnimSeq  0x021C5608  thumb  ov127
  *   d_021C289C     0x021C289C  data  a1
- *   func_021C59F4  0x021C59F4  thumb  ov127
- *   func_021C5A4C  0x021C5A4C  thumb  ov127
+ *   WF2DMAP_SCRDRAW_CreateBitmapDesc  0x021C59F4  thumb  ov127
+ *   WF2DMAP_SCRDRAW_DeleteBitmapDesc  0x021C5A4C  thumb  ov127
  *   func_02049B40  0x02049B40  arm
  *   func_02040EBC  0x02040EBC  arm
  *   func_02049624  0x02049624  arm
@@ -67,18 +67,18 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_021C47F8  0x021C47F8  thumb  ov127
- *   func_021C47FC  0x021C47FC  thumb  ov127
- *   func_021C5680 0x021C5680 thumb ov127
- *   func_021C5840 0x021C5840 thumb ov127
- *   func_021C4918 0x021C4918 thumb ov127
+ *   WF2DMAP_MAP_GetWidth  0x021C47F8  thumb  ov127
+ *   WF2DMAP_MAP_GetHeight  0x021C47FC  thumb  ov127
+ *   WF2DMAP_OBJDRAW_AddActor 0x021C5680 thumb ov127
+ *   WF2DMAP_OBJDRAW_SetActorValue 0x021C5840 thumb ov127
+ *   WF2DMAP_OBJ_Create 0x021C4918 thumb ov127
  *   func_020056EC  0x020056EC  thumb
- *   func_021C57E8  0x021C57E8  thumb  ov127
- *   func_021C5834  0x021C5834  thumb  ov127
- *   func_0203F5FC  0x0203F5FC  arm
+ *   WF2DMAP_OBJDRAW_RefreshActor  0x021C57E8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_GetActorValue  0x021C5834  thumb  ov127
+ *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
  *   _ll_mul        0x0209C054  arm
- *   func_021C5898  0x021C5898  thumb  ov127
- *   func_021C57F4  0x021C57F4  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorPos2  0x021C5898  thumb  ov127
+ *   WF2DMAP_OBJDRAW_RestoreFrame  0x021C57F4  thumb  ov127
  *   WF2DMAP_CMDQ_Push  0x021C5F44  thumb  ov127
  *   func_02049F34 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
@@ -118,54 +118,54 @@ typedef struct {
 } PaletteStep;
 
 extern u32 WIFICLUB_GetMessageIdByIndex(int mapIndex);
-extern void *func_021C47A0(u32 width, u32 height, u32 heapId);
-extern void func_021C4800(u8 *tileMap, void *mapData);
-extern void *func_021C4880(u32 count, u32 heapId);
-extern void func_021C59D0(void *layerState);
+extern void *WF2DMAP_MAP_CreateGrid(u32 width, u32 height, u32 heapId);
+extern void WF2DMAP_MAP_CopyEntries(u8 *tileMap, void *mapData);
+extern void *WF2DMAP_OBJ_CreateList(u32 count, u32 heapId);
+extern void WF2DMAP_OBJDRAW_ClearPos(void *layerState);
 extern void *WF2DMAP_CMDQ_CreateStore(int count, int heapId);
 extern void WF2DMAP_CMDQ_DeleteStore(u8 *cmdQueue);
-extern void func_021C48C0(u8 *entityMgr);
-extern void func_021C47E4(u8 *tileMap);
-extern void func_021C48E8(u8 *entityMgr);
-extern void func_021C5994(void *layerState, void *entity);
-extern void func_021C5A60(void *layer, void *layerState);
-extern void func_021C571C(u8 *spriteMgr);
-extern int func_021C49A4(u8 *entity, unsigned int index);
-extern TilePos func_021C4AC4(void *entity);
-extern u32 func_021C4864(u8 *tileMap, u16 x, u16 y);
-extern int func_021C5858(u8 *sprite);
-extern void func_021C584C(u8 *sprite, int value);
-extern void func_021C57D8(u8 *sprite, int value);
-extern void func_021C57DC(u8 *sprite);
-extern void func_021C5704(u8 *sprite);
-extern void func_021C4948(void *entity);
-extern unsigned char func_021C4A8C(int direction);
-extern void func_021C5864(u8 *sprite, int value);
-extern void func_021C5814(void *sprite, TilePos pos);
-extern TilePos func_021C4A54(TilePos pos, int direction);
+extern void WF2DMAP_OBJ_DeleteList(u8 *entityMgr);
+extern void WF2DMAP_MAP_DeleteGrid(u8 *tileMap);
+extern void WF2DMAP_OBJ_UpdateList(u8 *entityMgr);
+extern void WF2DMAP_OBJDRAW_SetPosFromOwner(void *layerState, void *entity);
+extern void WF2DMAP_SCRDRAW_UpdatePosition(void *layer, void *layerState);
+extern void WF2DMAP_OBJDRAW_UpdateAllActors(u8 *spriteMgr);
+extern int WF2DMAP_OBJ_GetSlot(u8 *entity, unsigned int index);
+extern TilePos WF2DMAP_OBJ_GetPos(void *entity);
+extern u32 WF2DMAP_MAP_GetCellValue(u8 *tileMap, u16 x, u16 y);
+extern int WF2DMAP_OBJDRAW_GetActorValue2(u8 *sprite);
+extern void WF2DMAP_OBJDRAW_SetActorValue2(u8 *sprite, int value);
+extern void WF2DMAP_OBJDRAW_SetActive(u8 *sprite, int value);
+extern void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *sprite);
+extern void WF2DMAP_OBJDRAW_RemoveActor(u8 *sprite);
+extern void WF2DMAP_OBJ_Clear(void *entity);
+extern unsigned char WF2DMAP_OBJ_GetTableByte(int direction);
+extern void WF2DMAP_OBJDRAW_SetFrameZero(u8 *sprite, int value);
+extern void WF2DMAP_OBJDRAW_SetActorPos(void *sprite, TilePos pos);
+extern TilePos WF2DMAP_OBJ_OffsetPos(TilePos pos, int direction);
 extern int WF2DMAP_CMDQ_Pop(void *cmdQueue, int *out);
-extern int func_021C5370(void *tileMap, void *entityMgr, const u8 *desc, int *out);
-extern void func_021C48D4(void *entityMgr, u8 *entry);
-extern u8 *func_021C4BA4(u8 *key, void *entityMgr, int direction);
-extern void *func_021C5590(void *, void *, u32, void *, int, u32, u32);
-extern void func_021C5664(char *, int, int);
-extern void func_021C5608(u8 *spriteMgr);
-extern void *func_021C59F4(void *a, void *b, LayerParams *params, int x);
-extern void func_021C5A4C(u8 *layer);
+extern int WF2DMAP_OBJCMD_Dispatch(void *tileMap, void *entityMgr, const u8 *desc, int *out);
+extern void WF2DMAP_OBJ_DispatchById(void *entityMgr, u8 *entry);
+extern u8 *WF2DMAP_OBJ_FindAtPos(u8 *key, void *entityMgr, int direction);
+extern void *WF2DMAP_OBJDRAW_CreateAnimSeq(void *, void *, u32, void *, int, u32, u32);
+extern void WF2DMAP_OBJDRAW_ConfigureSprite(char *, int, int);
+extern void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *spriteMgr);
+extern void *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *a, void *b, LayerParams *params, int x);
+extern void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *layer);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040EBC(u32 a, u32 b);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
-extern u16 func_021C47F8(u16 *tileMap);
-extern u16 func_021C47FC(u16 *tileMap);
-extern u8 *func_021C5680(u8 *, void *, int, u32);
-extern void func_021C5840(char *, int);
-extern void *func_021C4918(void *, EntitySpawnParams *);
+extern u16 WF2DMAP_MAP_GetWidth(u16 *tileMap);
+extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
+extern u8 *WF2DMAP_OBJDRAW_AddActor(u8 *, void *, int, u32);
+extern void WF2DMAP_OBJDRAW_SetActorValue(char *, int);
+extern void *WF2DMAP_OBJ_Create(void *, EntitySpawnParams *);
 extern u32 func_020056EC(u32 range);
-extern void func_021C57E8(char *sprite);
-extern int func_021C5834(char *sprite);
-extern int func_0203F5FC(u32 angle);
-extern void func_021C5898(void *sprite, TilePos pos);
-extern void func_021C57F4(u8 *sprite);
+extern void WF2DMAP_OBJDRAW_RefreshActor(char *sprite);
+extern int WF2DMAP_OBJDRAW_GetActorValue(char *sprite);
+extern int GF_STANDARD_Get_F5FC(u32 angle);
+extern void WF2DMAP_OBJDRAW_SetActorPos2(void *sprite, TilePos pos);
+extern void WF2DMAP_OBJDRAW_RestoreFrame(u8 *sprite);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -308,11 +308,11 @@ void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 
     WIFICLUBACTOR_InitSprites(&sys->sprites, heapId, clactResArc);
     WIFICLUBACTOR_NoOpInit(sys->reserved10, heapId);
     size = WIFICLUBACTOR_GetMapSize(mapIndex);
-    sys->tileMap = func_021C47A0(size.w, size.h, heapId);
-    func_021C4800(sys->tileMap, (void *)WIFICLUB_GetMessageIdByIndex(mapIndex));
-    sys->entityMgr = func_021C4880(0x30, heapId);
+    sys->tileMap = WF2DMAP_MAP_CreateGrid(size.w, size.h, heapId);
+    WF2DMAP_MAP_CopyEntries(sys->tileMap, (void *)WIFICLUB_GetMessageIdByIndex(mapIndex));
+    sys->entityMgr = WF2DMAP_OBJ_CreateList(0x30, heapId);
     WIFICLUBACTOR_InitSpriteManager(sys, (void *)spriteArc, heapId);
-    func_021C59D0(&sys->layerState);
+    WF2DMAP_OBJDRAW_ClearPos(&sys->layerState);
     WIFICLUBACTOR_InitLayer(sys, heapId, clactResArc, mapIndex);
     WIFICLUBACTOR_LoadPalette(sys->reserved10, heapId, clactResArc, paletteArc);
     WIFICLUBACTOR_InitBlink(sys, &sys->blink, clactResArc, paletteArc);
@@ -328,8 +328,8 @@ void WIFICLUBACTOR_Exit(WifiClubActorSys *sys)
     WIFICLUBACTOR_ExitBlink((int)sys, &sys->blink);
     WIFICLUBACTOR_FreeAllActors(sys);
     WIFICLUBACTOR_ExitSpriteManager(sys);
-    func_021C48C0(sys->entityMgr);
-    func_021C47E4(sys->tileMap);
+    WF2DMAP_OBJ_DeleteList(sys->entityMgr);
+    WF2DMAP_MAP_DeleteGrid(sys->tileMap);
     WIFICLUBACTOR_ExitSprites(&sys->sprites);
     WIFICLUBACTOR_NoOpExit((int)sys->reserved10);
     MI_CpuFill8(sys, 0, 0x5a0);
@@ -345,12 +345,12 @@ int WIFICLUBACTOR_IsReady(WifiClubActorSys *sys)
 u32 WIFICLUBACTOR_Update(WifiClubActorSys *sys)
 {
     if (OS_VBLANK_COUNT & 1) {
-        func_021C48E8(sys->entityMgr);
+        WF2DMAP_OBJ_UpdateList(sys->entityMgr);
         WIFICLUBACTOR_UpdateActors(sys);
         WIFICLUBACTOR_ProcessSpawnCommands(sys);
-        func_021C5994(&sys->layerState, sys->selected->entity);
-        func_021C5A60(sys->layer, &sys->layerState);
-        func_021C571C(sys->spriteMgr);
+        WF2DMAP_OBJDRAW_SetPosFromOwner(&sys->layerState, sys->selected->entity);
+        WF2DMAP_SCRDRAW_UpdatePosition(sys->layer, &sys->layerState);
+        WF2DMAP_OBJDRAW_UpdateAllActors(sys->spriteMgr);
         WIFICLUBACTOR_AnimateActors(sys);
         WIFICLUBACTOR_HideCursor(sys);
     }
@@ -378,12 +378,12 @@ int WIFICLUBACTOR_UpdatePickRequest(WifiClubActorSys *sys, WifiClubActor *actor)
     int direction;
     WifiClubActor *target;
 
-    direction = func_021C49A4(actor->entity, 6);
+    direction = WF2DMAP_OBJ_GetSlot(actor->entity, 6);
     if (KEY_GetTrg() & 1) {
         target = WIFICLUBACTOR_FindActorFacing(sys, actor, direction);
         if (target != 0) {
             if (WIFICLUBACTOR_IsPickable(target) == 1)
-                pickResult = func_021C49A4(target->entity, 4);
+                pickResult = WF2DMAP_OBJ_GetSlot(target->entity, 4);
             else
                 pickResult = 0;
         } else
@@ -413,29 +413,29 @@ u8 WIFICLUBACTOR_GetPickResult(WifiClubActorSys *sys)
 
 int WIFICLUBACTOR_GetCursorTileAttr(WifiClubActorSys *sys)
 {
-    TilePos pos = func_021C4AC4(sys->selected->entity);
-    return func_021C4864(sys->tileMap, pos.x / 16, pos.y / 16);
+    TilePos pos = WF2DMAP_OBJ_GetPos(sys->selected->entity);
+    return WF2DMAP_MAP_GetCellValue(sys->tileMap, pos.x / 16, pos.y / 16);
 }
 
 
 int WIFICLUBACTOR_GetCursorTileBelowAttr(WifiClubActorSys *sys)
 {
-    TilePos pos = func_021C4AC4(sys->selected->entity);
-    return func_021C4864(sys->tileMap, pos.x / 16, pos.y / 16 + 1);
+    TilePos pos = WF2DMAP_OBJ_GetPos(sys->selected->entity);
+    return WF2DMAP_MAP_GetCellValue(sys->tileMap, pos.x / 16, pos.y / 16 + 1);
 }
 
 
 void WIFICLUBACTOR_ShowMarkerAtActor(void *sys, WifiClubActor *actor)
 {
-    TilePos pos = func_021C4AC4(actor->entity);
-    WIFICLUBACTOR_ShowMarker(sys, pos, func_021C5858(actor->sprite) - 2);
-    func_021C584C(actor->sprite, 0);
+    TilePos pos = WF2DMAP_OBJ_GetPos(actor->entity);
+    WIFICLUBACTOR_ShowMarker(sys, pos, WF2DMAP_OBJDRAW_GetActorValue2(actor->sprite) - 2);
+    WF2DMAP_OBJDRAW_SetActorValue2(actor->sprite, 0);
 }
 
 
 void WIFICLUBACTOR_ResumeActorSprite(int unused, WifiClubActor *actor)
 {
-    func_021C584C(actor->sprite, 1);
+    WF2DMAP_OBJDRAW_SetActorValue2(actor->sprite, 1);
 }
 
 
@@ -468,8 +468,8 @@ WifiClubActor *WIFICLUBACTOR_SpawnCursorActor(WifiClubActorSys *sys, int graphic
     WIFICLUBACTOR_SpawnEntity(sys, &actor->entity, (short *)xy, 0, graphic, 0, 0);
     WIFICLUBACTOR_SetPlayerState(sys, actor);
     WIFICLUBACTOR_AttachSprite(sys, actor, 1);
-    func_021C5994(&sys->layerState, sys->selected->entity);
-    func_021C5A60(sys->layer, &sys->layerState);
+    WF2DMAP_OBJDRAW_SetPosFromOwner(&sys->layerState, sys->selected->entity);
+    WF2DMAP_SCRDRAW_UpdatePosition(sys->layer, &sys->layerState);
     return actor;
 }
 
@@ -483,7 +483,7 @@ void *WIFICLUBACTOR_SpawnSlotActor(WifiClubActorSys *sys, int graphic, int slotP
     actor = WIFICLUBACTOR_FindFreeActor(sys);
     WIFICLUBACTOR_FindSlotTile(sys, (u16 *)&spawn, slotPlusOne - 1);
     if (sys->selected != 0) {
-        cursor = func_021C4AC4(sys->selected->entity);
+        cursor = WF2DMAP_OBJ_GetPos(sys->selected->entity);
         if (cursor.x == spawn.x && cursor.y == spawn.y)
             return 0;
     }
@@ -496,34 +496,34 @@ void *WIFICLUBACTOR_SpawnSlotActor(WifiClubActorSys *sys, int graphic, int slotP
 
 void WIFICLUBACTOR_StartDespawn(void *sys, WifiClubActor *actor)
 {
-    func_021C49A4(actor->entity, 6);
+    WF2DMAP_OBJ_GetSlot(actor->entity, 6);
     actor->updateFn = WIFICLUBACTOR_UpdateDespawn;
     actor->counter.timer = 0;
     actor->animFn = WIFICLUBACTOR_AnimateWalkBob;
     actor->state = 2;
-    func_021C57D8(actor->sprite, 0);
-    func_021C57DC(actor->sprite);
+    WF2DMAP_OBJDRAW_SetActive(actor->sprite, 0);
+    WF2DMAP_OBJDRAW_SetFrameDefault(actor->sprite);
     WIFICLUBACTOR_QueueActorMove(sys, 4, actor);
 }
 
 
 void WIFICLUBACTOR_FreeActor(WifiClubActor *actor)
 {
-    func_021C5704(actor->sprite);
-    func_021C4948(actor->entity);
+    WF2DMAP_OBJDRAW_RemoveActor(actor->sprite);
+    WF2DMAP_OBJ_Clear(actor->entity);
     MI_CpuFill8(actor, 0, sizeof(WifiClubActor));
 }
 
 
 u8 WIFICLUBACTOR_GetActorId(WifiClubActor *actor)
 {
-    return (u8)func_021C49A4(actor->entity, 4);
+    return (u8)WF2DMAP_OBJ_GetSlot(actor->entity, 4);
 }
 
 
 unsigned char WIFICLUBACTOR_GetActorFacing(WifiClubActor *actor)
 {
-    return func_021C4A8C(func_021C49A4(actor->entity, 6));
+    return WF2DMAP_OBJ_GetTableByte(WF2DMAP_OBJ_GetSlot(actor->entity, 6));
 }
 
 
@@ -535,12 +535,12 @@ void WIFICLUBACTOR_StartTurn(void *sys, WifiClubActor *actor, int direction)
     actor->updateFn = WIFICLUBACTOR_UpdateNone;
     actor->prevState = actor->state;
     actor->state = 5;
-    WIFICLUBACTOR_QueueMoveCommand(sys, 0, direction, func_021C49A4(actor->entity, 4));
-    func_021C57D8(actor->sprite, 0);
-    func_021C5864(actor->sprite, direction);
-    pos.x = func_021C49A4(actor->entity, 0);
-    pos.y = func_021C49A4(actor->entity, 1);
-    func_021C5814(actor->sprite, pos);
+    WIFICLUBACTOR_QueueMoveCommand(sys, 0, direction, WF2DMAP_OBJ_GetSlot(actor->entity, 4));
+    WF2DMAP_OBJDRAW_SetActive(actor->sprite, 0);
+    WF2DMAP_OBJDRAW_SetFrameZero(actor->sprite, direction);
+    pos.x = WF2DMAP_OBJ_GetSlot(actor->entity, 0);
+    pos.y = WF2DMAP_OBJ_GetSlot(actor->entity, 1);
+    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
 }
 
 
@@ -551,7 +551,7 @@ void WIFICLUBACTOR_RestoreActorUpdate(void *sys, WifiClubActor *actor)
             actor->updateFn = actor->prevUpdateFn;
             actor->prevUpdateFn = 0;
             actor->state = actor->prevState;
-            func_021C57D8(actor->sprite, 1);
+            WF2DMAP_OBJDRAW_SetActive(actor->sprite, 1);
         }
     }
 }
@@ -604,7 +604,7 @@ void WIFICLUBACTOR_FreeAllActors(WifiClubActorSys *sys)
 
 BOOL WIFICLUBACTOR_IsCursorFree(WifiClubActorSys *sys)
 {
-    if (func_021C49A4(sys->selected->entity, 5) == 0) {
+    if (WF2DMAP_OBJ_GetSlot(sys->selected->entity, 5) == 0) {
         return 1;
     }
     return 0;
@@ -618,10 +618,10 @@ int WIFICLUBACTOR_IsFacingEntrance(WifiClubActorSys *sys)
     int direction;
     int attr;
 
-    pos = func_021C4AC4(sys->selected->entity);
-    direction = func_021C49A4(sys->selected->entity, 6);
-    front = func_021C4A54(pos, direction);
-    attr = func_021C4864(sys->tileMap, front.x / 16, front.y / 16);
+    pos = WF2DMAP_OBJ_GetPos(sys->selected->entity);
+    direction = WF2DMAP_OBJ_GetSlot(sys->selected->entity, 6);
+    front = WF2DMAP_OBJ_OffsetPos(pos, direction);
+    attr = WF2DMAP_MAP_GetCellValue(sys->tileMap, front.x / 16, front.y / 16);
     if (direction == 0 && attr == 2)
         return 1;
     return 0;
@@ -634,8 +634,8 @@ void WIFICLUBACTOR_ProcessSpawnCommands(WifiClubActorSys *sys)
     int spawned[2];
 
     while (WF2DMAP_CMDQ_Pop(sys->cmdQueue, &command) == 1) {
-        if (func_021C5370(sys->tileMap, sys->entityMgr, (const u8 *)&command, spawned) == 1)
-            func_021C48D4(sys->entityMgr, (u8 *)spawned);
+        if (WF2DMAP_OBJCMD_Dispatch(sys->tileMap, sys->entityMgr, (const u8 *)&command, spawned) == 1)
+            WF2DMAP_OBJ_DispatchById(sys->entityMgr, (u8 *)spawned);
     }
 }
 
@@ -665,7 +665,7 @@ void WIFICLUBACTOR_AnimateActors(WifiClubActorSys *sys)
 
 void *WIFICLUBACTOR_FindActorFacing(WifiClubActorSys *sys, WifiClubActor *actor, int direction)
 {
-    void *found = func_021C4BA4((u8 *)actor->entity, sys->entityMgr, direction);
+    void *found = WF2DMAP_OBJ_FindAtPos((u8 *)actor->entity, sys->entityMgr, direction);
     int i;
     if (found != 0) {
         for (i = 0; i < 0x30; i++) {
@@ -681,15 +681,15 @@ void *WIFICLUBACTOR_FindActorFacing(WifiClubActorSys *sys, WifiClubActor *actor,
 void WIFICLUBACTOR_InitSpriteManager(WifiClubActorSys *sys, void *spriteArc, u32 heapId)
 {
     void *spriteMgr;
-    spriteMgr = func_021C5590(sys->sprites.clactSys, 0, 48, spriteArc, 0, 0, heapId);
+    spriteMgr = WF2DMAP_OBJDRAW_CreateAnimSeq(sys->sprites.clactSys, 0, 48, spriteArc, 0, 0, heapId);
     sys->spriteMgr = spriteMgr;
-    func_021C5664(spriteMgr, 2, heapId);
+    WF2DMAP_OBJDRAW_ConfigureSprite(spriteMgr, 2, heapId);
 }
 
 
 void WIFICLUBACTOR_ExitSpriteManager(WifiClubActorSys *sys)
 {
-    func_021C5608(sys->spriteMgr);
+    WF2DMAP_OBJDRAW_DeleteAnimSeq(sys->spriteMgr);
 }
 
 
@@ -697,13 +697,13 @@ void WIFICLUBACTOR_InitLayer(WifiClubActorSys *sys, int heapId, int unused, int 
 {
     LayerParams params = d_021C289C;
     params.b[9] += (u8)mapIndex;
-    sys->layer = func_021C59F4(sys->sprites.gfxArchive, sys->reserved10, &params, heapId);
+    sys->layer = WF2DMAP_SCRDRAW_CreateBitmapDesc(sys->sprites.gfxArchive, sys->reserved10, &params, heapId);
 }
 
 
 void WIFICLUBACTOR_ExitLayer(WifiClubActorSys *sys)
 {
-    func_021C5A4C(sys->layer);
+    WF2DMAP_SCRDRAW_DeleteBitmapDesc(sys->layer);
 }
 
 
@@ -852,9 +852,9 @@ int WIFICLUBACTOR_IsCursorOnExit(WifiClubActorSys *sys)
     int direction;
     if (sys->selected == 0)
         return 0;
-    pos = func_021C4AC4(sys->selected->entity);
-    direction = func_021C49A4(sys->selected->entity, 6);
-    if (func_021C4864(sys->tileMap, pos.x / 16, pos.y / 16) == 15 && direction == 1)
+    pos = WF2DMAP_OBJ_GetPos(sys->selected->entity);
+    direction = WF2DMAP_OBJ_GetSlot(sys->selected->entity, 6);
+    if (WF2DMAP_MAP_GetCellValue(sys->tileMap, pos.x / 16, pos.y / 16) == 15 && direction == 1)
         return 1;
     return 0;
 }
@@ -865,13 +865,13 @@ void WIFICLUBACTOR_FindSlotTile(WifiClubActorSys *sys, u16 *out, u32 slot)
     u32 y, height, x, width;
     u32 row = slot >> 3;
     u32 column = slot & 7;
-    width = func_021C47F8(sys->tileMap);
-    height = func_021C47FC(sys->tileMap);
+    width = WF2DMAP_MAP_GetWidth(sys->tileMap);
+    height = WF2DMAP_MAP_GetHeight(sys->tileMap);
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             /* pointer-typed compares: only this form orders the cmp operands as the image does */
-            if ((void *)func_021C4864(sys->tileMap, x, y) == (void *)(column + 7)
-                && (void *)func_021C4864(sys->tileMap, x, y + 1) == (void *)(row + 3)) {
+            if ((void *)WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y) == (void *)(column + 7)
+                && (void *)WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y + 1) == (void *)(row + 3)) {
                 out[0] = x << 4;
                 out[1] = y << 4;
                 return;
@@ -887,11 +887,11 @@ void WIFICLUBACTOR_FindCursorStartTile(WifiClubActorSys *sys, u16 *out)
     u32 height;
     u32 x;
     u32 width;
-    width = func_021C47F8(sys->tileMap);
-    height = func_021C47FC(sys->tileMap);
+    width = WF2DMAP_MAP_GetWidth(sys->tileMap);
+    height = WF2DMAP_MAP_GetHeight(sys->tileMap);
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
-            if (func_021C4864(sys->tileMap, x, y) == 0xf) {
+            if (WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y) == 0xf) {
                 out[0] = x * 16;
                 out[1] = y * 16;
                 return;
@@ -918,11 +918,11 @@ WifiClubActor *WIFICLUBACTOR_FindFreeActor(WifiClubActorSys *sys)
 
 void WIFICLUBACTOR_AttachSprite(WifiClubActorSys *sys, WifiClubActor *actor, int visible)
 {
-    actor->sprite = func_021C5680(sys->spriteMgr, actor->entity, visible, (u32)sys->heapId);
+    actor->sprite = WF2DMAP_OBJDRAW_AddActor(sys->spriteMgr, actor->entity, visible, (u32)sys->heapId);
     if (visible == 0) {
-        func_021C57D8(actor->sprite, 0);
-        func_021C57DC(actor->sprite);
-        func_021C5840(actor->sprite, 0);
+        WF2DMAP_OBJDRAW_SetActive(actor->sprite, 0);
+        WF2DMAP_OBJDRAW_SetFrameDefault(actor->sprite);
+        WF2DMAP_OBJDRAW_SetActorValue(actor->sprite, 0);
     }
 }
 
@@ -936,7 +936,7 @@ void WIFICLUBACTOR_SpawnEntity(WifiClubActorSys *sys, void **out, short *xy, int
     params.kind = kind;
     params.flag = flag;
     params.graphic = graphic;
-    *out = func_021C4918(sys->entityMgr, &params);
+    *out = WF2DMAP_OBJ_Create(sys->entityMgr, &params);
 }
 
 
@@ -984,7 +984,7 @@ void WIFICLUBACTOR_SetIdleState(void *sys, WifiClubActor *actor)
     actor->counter.timer = func_020056EC(n) + (n >> 2);
     actor->state = 3;
     WIFICLUBACTOR_QueueActorMove(sys, 0, actor);
-    func_021C57D8(actor->sprite, 1);
+    WF2DMAP_OBJDRAW_SetActive(actor->sprite, 1);
 }
 
 
@@ -995,7 +995,7 @@ void WIFICLUBACTOR_SetBounceState(void *sys, WifiClubActor *actor)
     actor->counter.timer = 28;
     actor->state = 4;
     WIFICLUBACTOR_QueueActorMove(sys, 4, actor);
-    func_021C57D8(actor->sprite, 0);
+    WF2DMAP_OBJDRAW_SetActive(actor->sprite, 0);
 }
 
 
@@ -1008,16 +1008,16 @@ void WIFICLUBACTOR_AnimateWalkBob(void *sys, WifiClubActor *actor)
 {
     TilePos pos;
     TilePos base;
-    func_021C57E8(actor->sprite);
-    if (func_021C5834(actor->sprite) == 0) {
-        func_021C5840(actor->sprite, 1);
+    WF2DMAP_OBJDRAW_RefreshActor(actor->sprite);
+    if (WF2DMAP_OBJDRAW_GetActorValue(actor->sprite) == 0) {
+        WF2DMAP_OBJDRAW_SetActorValue(actor->sprite, 1);
     }
-    pos.x = func_021C49A4(actor->entity, 0);
-    pos.y = func_021C49A4(actor->entity, 1);
+    pos.x = WF2DMAP_OBJ_GetSlot(actor->entity, 0);
+    pos.y = WF2DMAP_OBJ_GetSlot(actor->entity, 1);
     base = pos;
-    pos.y = pos.y + (s16)((int)(((long long)func_0203F5FC(actor->counter.phase) * -786432 + 0x800) >> 12) >> 12);
-    func_021C5814(actor->sprite, pos);
-    func_021C5898(actor->sprite, base);
+    pos.y = pos.y + (s16)((int)(((long long)GF_STANDARD_Get_F5FC(actor->counter.phase) * -786432 + 0x800) >> 12) >> 12);
+    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
+    WF2DMAP_OBJDRAW_SetActorPos2(actor->sprite, base);
 }
 
 
@@ -1026,16 +1026,16 @@ void WIFICLUBACTOR_AnimateBounce(void *sys, WifiClubActor *actor)
     TilePos pos;
     TilePos base;
     int t;
-    pos.x = func_021C49A4(actor->entity, 0);
-    pos.y = func_021C49A4(actor->entity, 1);
+    pos.x = WF2DMAP_OBJ_GetSlot(actor->entity, 0);
+    pos.y = WF2DMAP_OBJ_GetSlot(actor->entity, 1);
     base = pos;
     t = (s16)(actor->counter.timer - 16);
     if (t > 0) {
-        pos.y = pos.y - (s16)((int)(((long long)func_0203F5FC((u16)(180 * (s16)(t % 6) / 6)) * 16384 + 0x800) >> 12) >> 12);
+        pos.y = pos.y - (s16)((int)(((long long)GF_STANDARD_Get_F5FC((u16)(180 * (s16)(t % 6) / 6)) * 16384 + 0x800) >> 12) >> 12);
     }
-    func_021C5814(actor->sprite, pos);
-    func_021C5898(actor->sprite, base);
-    func_021C5864(actor->sprite, 1);
+    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
+    WF2DMAP_OBJDRAW_SetActorPos2(actor->sprite, base);
+    WF2DMAP_OBJDRAW_SetFrameZero(actor->sprite, 1);
 }
 
 
@@ -1046,9 +1046,9 @@ int WIFICLUBACTOR_UpdatePlayer(WifiClubActorSys *sys, WifiClubActor *actor)
     int speed;
     int keys;
 
-    direction = func_021C49A4(actor->entity, 6);
-    actorId = func_021C49A4(actor->entity, 4);
-    if (func_021C49A4(actor->entity, 5) != 0) {
+    direction = WF2DMAP_OBJ_GetSlot(actor->entity, 6);
+    actorId = WF2DMAP_OBJ_GetSlot(actor->entity, 4);
+    if (WF2DMAP_OBJ_GetSlot(actor->entity, 5) != 0) {
         return 0;
     }
     if (sys->mode == 1) {
@@ -1094,10 +1094,10 @@ int WIFICLUBACTOR_UpdateWait(WifiClubActorSys *sys, WifiClubActor *actor)
     int actorId;
     actor->counter.timer = actor->counter.timer - 1;
     if (actor->counter.timer <= 0) {
-        func_021C57F4(actor->sprite);
-        func_021C57D8(actor->sprite, 1);
-        selectedId = func_021C49A4(sys->selected->entity, 4);
-        actorId = func_021C49A4(actor->entity, 4);
+        WF2DMAP_OBJDRAW_RestoreFrame(actor->sprite);
+        WF2DMAP_OBJDRAW_SetActive(actor->sprite, 1);
+        selectedId = WF2DMAP_OBJ_GetSlot(sys->selected->entity, 4);
+        actorId = WF2DMAP_OBJ_GetSlot(actor->entity, 4);
         if (actorId == selectedId) {
             WIFICLUBACTOR_SetPlayerState(sys, actor);
         } else {
@@ -1125,7 +1125,7 @@ int WIFICLUBACTOR_UpdateIdleWander(void *sys, WifiClubActor *actor)
     if (actor->counter.timer <= 0) {
         actor->counter.timer = func_020056EC(0x400) + 0x100;
         direction = func_020056EC(4);
-        WIFICLUBACTOR_QueueMoveCommand(sys, 0, direction, func_021C49A4(actor->entity, 4));
+        WIFICLUBACTOR_QueueMoveCommand(sys, 0, direction, WF2DMAP_OBJ_GetSlot(actor->entity, 4));
     }
     return 0;
 }
@@ -1165,8 +1165,8 @@ void WIFICLUBACTOR_QueueMoveCommand(WifiClubActorSys *sys, int action, int direc
 
 void WIFICLUBACTOR_QueueActorMove(void *sys, int action, WifiClubActor *actor)
 {
-    int direction = func_021C49A4(actor->entity, 6);
-    int actorId = func_021C49A4(actor->entity, 4);
+    int direction = WF2DMAP_OBJ_GetSlot(actor->entity, 6);
+    int actorId = WF2DMAP_OBJ_GetSlot(actor->entity, 4);
     WIFICLUBACTOR_QueueMoveCommand(sys, action, direction, actorId);
 }
 

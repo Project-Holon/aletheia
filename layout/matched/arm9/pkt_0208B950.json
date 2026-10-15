@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208B950",
+   "name": "PMi_CommonCallback",
    "address": "0x0208B950",
    "kind": "sdk",
    "region": "arm9",

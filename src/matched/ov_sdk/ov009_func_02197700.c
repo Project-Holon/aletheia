@@ -1,5 +1,5 @@
 /*
- * function: func_02197700
+ * function: gti2SendClientResponse
  * address:  0x02197700
  * packet:   pkt_ov009_02197700
  * region:   ov009
@@ -33,7 +33,7 @@ extern int func_02197458(Conn *c, int type, int len, int *overflow);
 extern void func_02194E2C(void *buffer, unsigned char *data, int len);
 extern int func_0219754C(Conn *c);
 
-int func_02197700(Conn *c, char *response, char *message, int len)
+int gti2SendClientResponse(Conn *c, char *response, char *message, int len)
 {
 	int overflow;
 

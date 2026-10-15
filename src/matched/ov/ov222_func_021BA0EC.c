@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0EC
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact
  * address:  0x021BA0EC
  * packet:   pkt_021BA0EC
  * region:   ov222
@@ -31,7 +31,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021BA0EC(unsigned char *p, int a, int b)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BA290, a, b);

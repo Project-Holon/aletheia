@@ -11,9 +11,9 @@
  * extent: Two bytes of zero alignment padding follow the 54-byte body.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F9DAC 0x021F9DAC thumb ov132
- *   func_021F9DB0 0x021F9DB0 thumb ov132
- *   func_021F9DB8 0x021F9DB8 thumb ov132
+ *   STA_ACTING_GetActObj 0x021F9DAC thumb ov132
+ *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
+ *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
  *   STA_ACT_OBJ_FreeEntry 0x021F6B80 thumb ov112
  *   func_021F6BC0 0x021F6BC0 thumb ov112
  */
@@ -21,10 +21,10 @@
 #include "../include/Obj14113.h"
 struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *);
-extern void *func_021F9DAC(void *);
-extern unsigned int *func_021F9DB0(void *,unsigned char);
+extern void *STA_ACTING_GetActObj(void *);
+extern unsigned int *STA_ACTING_GetSlot(void *,unsigned char);
 typedef unsigned int   u32;
-extern void func_021F9DB8(void *p, void *v, u32 i);
+extern void STA_ACTING_SetSlot(void *p, void *v, u32 i);
 extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
 extern void func_021F6BC0(char *,unsigned int *,unsigned int);
-int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14113 *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct Obj14113 *)p)->f4);ctx=func_021F9DAC(((struct Obj10556 *)obj)->f34);STA_ACT_OBJ_FreeEntry(ctx,func_021F9DB0(((struct Obj10556 *)obj)->f34,n));func_021F9DB8(((struct Obj10556 *)obj)->f34,0,(unsigned char)n);return 0; }
+int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14113 *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct Obj14113 *)p)->f4);ctx=STA_ACTING_GetActObj(((struct Obj10556 *)obj)->f34);STA_ACT_OBJ_FreeEntry(ctx,STA_ACTING_GetSlot(((struct Obj10556 *)obj)->f34,n));STA_ACTING_SetSlot(((struct Obj10556 *)obj)->f34,0,(unsigned char)n);return 0; }

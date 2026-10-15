@@ -25,8 +25,8 @@
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BE48 0x0200BE48 thumb
- *   func_0200BF08 0x0200BF08 thumb
+ *   INTRUDE_GetFromSave 0x0200BE48 thumb
+ *   INTRUDE_SetMonolithLevel 0x0200BF08 thumb
  *   GAME_DATA_GetExitMode 0x02012B58 thumb
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   INTRUDE_COMM_GetWorkIfRunning 0x02158344 thumb ov010
@@ -126,9 +126,9 @@ extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 struct Rec1B0;
-extern void func_0200BF08(struct Rec1B0 *p, u32 v);
+extern void INTRUDE_SetMonolithLevel(struct Rec1B0 *p, u32 v);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern void GAME_COMM_PushPairMessage(u32,u32,u32);
 extern int MONOLITH_TOOL_IsBlinking(void *);
@@ -231,7 +231,7 @@ write10:
     case 15:
         if (TOUCHPANEL_GetTrg()!=0 || (KEY_GetTrg()&3)) {
             MONOLITH_TOOL_LIST_HideMessage((char *)o);
-            func_0200BF08((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
+            INTRUDE_SetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
             GAME_COMM_PushPairMessage(save,GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);

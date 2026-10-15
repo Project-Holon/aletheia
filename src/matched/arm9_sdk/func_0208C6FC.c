@@ -1,5 +1,5 @@
 /*
- * function: func_0208C6FC
+ * function: PMi_InsertList
  * address:  0x0208C6FC
  * packet:   pkt_0208C6FC
  * region:   arm9
@@ -26,7 +26,7 @@ typedef struct PMiGenCallbackInfo {
 unsigned long OS_DisableInterrupts(void);
 unsigned long OS_RestoreInterrupts(unsigned long state);
 
-void func_0208C6FC(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method)
+void PMi_InsertList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method)
 {
     PMiGenCallbackInfo *p;
     PMiGenCallbackInfo *pre;

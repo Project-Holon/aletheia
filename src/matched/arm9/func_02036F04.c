@@ -9,6 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GX_GetBankForOBJ  0x02080C24  arm
+ *   GX_GetBankForSubOBJ  0x02080C64  arm
  */
 
-int GFL_NET_WM_ICON_GetCharOffset(int a0){ int t0, t1; if ((unsigned int)(a0) == (unsigned int)(1)) { t0 = func_02080C24(); } else { t1 = func_02080C64(); }  return 0; }
+int GFL_NET_WM_ICON_GetCharOffset(int a0){ int t0, t1; if ((unsigned int)(a0) == (unsigned int)(1)) { t0 = GX_GetBankForOBJ(); } else { t1 = GX_GetBankForSubOBJ(); }  return 0; }

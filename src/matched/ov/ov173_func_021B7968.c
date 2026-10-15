@@ -1,5 +1,5 @@
 /*
- * function: func_021B7968
+ * function: POKE_SUMMARY_ACTOR_LayoutMoveActors
  * address: 0x021B7968
  * packet: pkt_ov173_021B7968
  * region: ov173
@@ -33,7 +33,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 WAZA_TOOL_GetParam(u16, u32);
-void func_021B7968(char *p)
+void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *p)
 {
     u16 rect[2];
     u32 off;

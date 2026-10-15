@@ -1,5 +1,5 @@
 /*
- * function: func_02078BC4
+ * function: FS_WriteFile
  * address:  0x02078BC4
  * packet:   pkt_02078BC4
  * region:   arm9
@@ -51,7 +51,7 @@ typedef struct FSArgumentForWriteFile
     s32 length;
 } FSArgumentForWriteFile;
 
-s32 func_02078BC4(FSFile *file, void *buffer, s32 length)
+s32 FS_WriteFile(FSFile *file, void *buffer, s32 length)
 {
     FSArgumentForWriteFile arg[1];
 

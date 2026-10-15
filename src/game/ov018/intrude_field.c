@@ -13,18 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_02012950  0x02012950  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
+ *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   INTRUDE_COMM_UpdatePlayerObjects  0x02175004  thumb  ov011
  *   INTRUDE_COMM_GetPlayerObjCode  0x02175598  thumb  ov011
  *   COMM_PLAYER_Update  0x02167590  thumb  ov010
@@ -59,10 +59,10 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_02012944  0x02012944  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -76,14 +76,14 @@
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb
  *   func_021BC5A0  0x021BC5A0  thumb
- *   func_020120F8  0x020120F8  thumb
+ *   ICA_ANIME_GetField114  0x020120F8  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
  *   INTRUDE_FIELD_gSymbolMarkerPos     0x02182B90  data   a4
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   GAME_DATA_GetPlayerWork  0x02012798  thumb
- *   func_02012A90  0x02012A90  thumb
+ *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb
@@ -101,14 +101,14 @@
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
- *   func_02012204  0x02012204  thumb
+ *   ICA_ANIME_GetUnk330  0x02012204  thumb
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GAME_COMM_RequestExit  0x0202640C  thumb
  *   func_02030734  0x02030734  arm
  *   GAME_COMM_Start  0x020263D8  thumb
  *   INTRUDE_FIELD_gStartParamFile     0x02183AE0  data   a1
- *   func_02012AE4  0x02012AE4  thumb
+ *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   INTRUDE_COMM_HasResultReward  0x02175E90  thumb  ov011
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   INTRUDE_COMM_AdjustAllRemotePositions  0x02175274  thumb  ov011
@@ -120,7 +120,7 @@
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   MAP_MATRIX_Delete  0x02159BBC  thumb
  *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
- *   func_02012114  0x02012114  thumb
+ *   ICA_ANIME_Check2114  0x02012114  thumb
  *   func_02008550  0x02008550  thumb
  *   FIELD_PLAYER_SetObjCode  0x021A3220  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
@@ -142,11 +142,11 @@
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   INTRUDE_COMM_IsRequestFromSelf 0x02176258 thumb ov011
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   func_02012B80  0x02012B80  thumb
+ *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
  *   INTRUDE_FIELD_gListedZoneCount 0x021700A4 data a4
  *   INTRUDE_FIELD_gListedZones 0x02170128 data a2
  *   INTRUDE_FIELD_gMarkerMmdlHeader     0x021835D4  data   a4
- *   func_0202A188  0x0202A188  thumb
+ *   TPOKE_DATA_GetRecordIndex  0x0202A188  thumb
  *   INTRUDE_FIELD_gSymbolMonMoveParams     0x0218360C  data   a4
  *   INTRUDE_FIELD_gSymbolMonMmdlHeader     0x0218362C  data   a4
  *   FLDMMDL_GetParam 0x0216D63C thumb ov010
@@ -165,7 +165,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
- *   func_0202A128  0x0202A128  thumb
+ *   TPOKE_DATA_Create  0x0202A128  thumb
  *   func_0202A170  0x0202A170  thumb
  *   func_02005728  0x02005728  thumb
  *   INTRUDE_FIELD_gSymbolMonOffsetsHome     0x02183678  data  a4
@@ -371,28 +371,28 @@ typedef struct OfferEventWork {
 } OfferEventWork;
 
 /* GAMESYSTEM, GAME_DATA, GAME_COMM and GAME_EVENT access */
-extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct PlayerWork *func_020120F8(const struct GameSystem *gameSystem);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern u32 func_02012114(const struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct PlayerWork *ICA_ANIME_GetField114(const struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern u32 ICA_ANIME_Check2114(const struct GameSystem *gameSystem);
 extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
-extern struct PlayerWork *func_020127A4(struct GameData *gameData);
-extern u16 func_02012AC8(const struct PlayerWork *playerWork);
-extern u32 func_02012AE4(const struct PlayerWork *playerWork);
+extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
+extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 zoneId);
 extern u32 func_0200FB24(void);
-extern int func_02012B70(const struct GameData *gameData);
-extern u8 func_02012B58(const struct GameData *gameData);
-extern u8 func_02012B80(const struct GameData *gameData);
-extern struct PlayerStatus *func_02012950(struct GameData *gameData, u32 index);
+extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
+extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
+extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
+extern struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 index);
 extern struct PlayerStatus *func_02012944(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
-extern void func_02012A90(struct PlayerWork *playerWork, const VecFx32 *pos);
-extern u32 func_02012204(const struct GameSystem *gameSystem);
+extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const VecFx32 *pos);
+extern u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSystem);
 extern int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
 extern u32 GAME_COMM_IsTransition(struct GameComm *gameComm);
@@ -421,10 +421,10 @@ extern struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 a1, u3
 /* MyStatus, Pokemon and message helpers */
 extern u8 func_02008530(const struct PlayerStatus *status);
 extern u8 func_02008550(const struct PlayerStatus *status);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
 extern void func_0201F250(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct STRBUF *func_02045EC0(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct STRBUF *strbuf);
@@ -438,9 +438,9 @@ extern void func_02018A00(void *mon, u32 species, u32 form);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
 extern u16 POKE_TOOL_AddMove(void *mon, u16 move);
 extern void POKE_TOOL_PushMove(void *mon, int move);
-extern struct TpokeData *func_0202A128(int heapId);
+extern struct TpokeData *TPOKE_DATA_Create(int heapId);
 extern void func_0202A170(struct TpokeData *tpoke);
-extern u32 func_0202A188(struct TpokeData *tpoke, u32 species, u32 sex, u32 form);
+extern u32 TPOKE_DATA_GetRecordIndex(struct TpokeData *tpoke, u32 species, u32 sex, u32 form);
 /* COMM_PLAYER, FLDMMDL and symbol map */
 extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, struct CommPlayerWork *commPlayer);
 extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *commPlayer, int index);
@@ -607,21 +607,21 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
     int i;
     int objCode;
 
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     work = GAME_COMM_GetWork(gameComm);
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     if (GAME_DATA_IsSaving(gameData) == 1)
         return;
     INTRUDE_FIELD_UpdateCommState(fieldMap, gameSystem, gameComm, player);
     if (GAME_COMM_GetKind(gameComm) != 2 || work == 0)
         return;
-    zoneId = func_02012AC8(func_020127A4(gameData));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
     if (work->specialZoneEntered == 0 && ZONEDATA_IsZone117(zoneId) == 1)
         work->specialZoneEntered = 1;
     INTRUDE_FIELD_AddAreaMaps(fieldMap, gameSystem, work);
     if (work->step != 7 || func_0200FB24() != 0)
         return;
-    if (func_02012B70(gameData) == 0) {
+    if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
         if (work->zoneCheck == 0) {
             if (INTRUDE_FIELD_IsListedZone(work->localPeer.zoneId) == 1)
                 work->zoneCheck = 1;
@@ -631,16 +631,16 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
         if (work->zoneCheck == 2)
             return;
     }
-    ownId = func_02012B58(gameData);
+    ownId = GAME_DATA_GetOwnNetId(gameData);
     INTRUDE_COMM_UpdatePlayerObjects(work);
     COMM_PLAYER_Update(gameSystem, work->commPlayer);
     for (i = 0; i < 3; i++) {
         if (i == ownId || !(work->peerMask & (1 << i)))
             continue;
         if (COMM_PLAYER_CheckOccupy(work->commPlayer, i) == 0) {
-            func_02012950(gameData, i);
-            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], func_02012950(gameData, i));
-            if (work->peers[i].objCode != 0 || func_02012B70(gameData) != 0)
+            GAME_DATA_GetPlayerStatusById(gameData, i);
+            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], GAME_DATA_GetPlayerStatusById(gameData, i));
+            if (work->peers[i].objCode != 0 || GAME_DATA_GetIntrudeCount(gameData) != 0)
                 COMM_PLAYER_Add(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
             COMM_PLAYER_SetPackage(work->commPlayer, i, &work->peers[i].package);
@@ -807,8 +807,8 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
     PlayerLook look;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = func_02012138(gameSystem);
-    gameData = func_020120F4(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     intrudeWork = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
@@ -845,15 +845,15 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
         work->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x2D);
         work->msgWin = FIELD_MSGBG_CreateBottomMsgWin(msgBg, work->msgData);
-        work->wordSet = func_0201EC64(4);
-        if (intrudeWork->localPeer.intrudeId == func_02012B58(gameData)) {
+        work->wordSet = GF_FONT_Create_EC64(4);
+        if (intrudeWork->localPeer.intrudeId == GAME_DATA_GetOwnNetId(gameData)) {
             if (work->sessionBusy == 1)
                 FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4F);
             else
                 FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4E);
         } else {
             nameText = STRBUF_Create(0x100, 0x15);
-            func_0201F02C(work->wordSet, 0, func_02012950(gameData, intrudeWork->localPeer.intrudeId));
+            func_0201F02C(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, intrudeWork->localPeer.intrudeId));
             if (work->sessionBusy == 1)
                 template = func_02045EC0(work->msgData, 0x50);
             else
@@ -880,7 +880,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         if (work->msgWin != 0) {
             FIELD_MSGBG_DeleteMsgWin(work->msgWin);
             MSGDATA_Delete(work->msgData);
-            func_0201ED04(work->wordSet);
+            WORDSET_DeleteStrbufED04(work->wordSet);
         }
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         return 1;
@@ -897,8 +897,8 @@ int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *
     VecFx32 playerPos;
     VecFx32 markerPos;
 
-    zoneId = func_02012AC8(func_020120F8(gameSystem));
-    work = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
+    work = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (ZONEDATA_IsZone117(zoneId) == 0)
         return 0;
     FIELD_PLAYER_GetPos(player, &playerPos);
@@ -927,7 +927,7 @@ struct GameEvent *INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *gameSystem, st
     int areaCount;
     int offsetInArea;
 
-    work = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    work = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     edgeDir = 9;
     x = *posX;
     areaCount = 1;
@@ -972,12 +972,12 @@ struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSy
  * Byte-correct (528 of 528 bytes).  Sole blocker: the THM_CALL at +0x13C to
  * 0x02012798, an unlabelled arm9 leaf that disasm.py prints as .word data in
  * pool_02012794 (asm/arm9/main.s), after the pop at 0x02012790 and before
- * func_020127A4; no listing labels it and this call is its only witness, so
+ * GAME_DATA_GetField114; no listing labels it and this call is its only witness, so
  * every class refuses it.  Verified EXACT at 0x02012798 (arm9, thumb, 10 B):
  *
  *     u8 *GAME_DATA_GetPlayerWork(u8 *p, int i) { return p + 4 + i * 0x44; }
  *
- * It is the player work indexer that belongs beside func_02012950 in
+ * It is the player work indexer that belongs beside GAME_DATA_GetPlayerStatusById in
  * src/matched/arm9/unit_02012924.c; once it is labelled or matched this file
  * should verify EXACT unchanged.  The 12-byte scratch is a cast u8 buffer
  * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md):
@@ -997,8 +997,8 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
     Mmdl *playerMmdl;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = func_0201210C(gameSystem);
-    gameComm = func_02012138(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     switch (*seq) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -1045,13 +1045,13 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
             break;
         if (GAME_COMM_GetKind(gameComm) == 2)
             break;
-        gameData = func_020120F4(gameSystem);
+        gameData = ICA_ANIME_GetField1C(gameSystem);
         zeroPosView = (VecFx32 *)zeroPos;
         zeroPosView->x = 0;
         zeroPosView->y = 0;
         zeroPosView->z = 0;
         for (i = 0; i < 3; i++)
-            func_02012A90(GAME_DATA_GetPlayerWork(gameData, i), zeroPosView);
+            GAME_DATA_SetPlayerPosition(GAME_DATA_GetPlayerWork(gameData, i), zeroPosView);
         *seq += 1;
         break;
     case 6:
@@ -1061,7 +1061,7 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
         *seq += 1;
         break;
     case 7:
-        fieldMap = func_0201210C(gameSystem);
+        fieldMap = ICA_ANIME_GetField20(gameSystem);
         if (FIELDMAP_IsReady(fieldMap) != 1)
             break;
         if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(fieldMap)) == 0) {
@@ -1121,8 +1121,8 @@ int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork
     struct FieldMsgBg *msgBg;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = func_0201210C(gameSystem);
-    func_02012138(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    ICA_ANIME_GetField24(gameSystem);
     switch (*seq) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -1140,7 +1140,7 @@ int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork
         }
         break;
     case 2:
-        fieldMap = func_0201210C(gameSystem);
+        fieldMap = ICA_ANIME_GetField20(gameSystem);
         if (FIELDMAP_IsReady(fieldMap) == 1) {
             if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(fieldMap)) == 0) {
                 INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, fieldMap, 0, 0, 0);
@@ -1194,11 +1194,11 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
-    if (func_02012204(gameSystem) == 1)
+    if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
     if (GAMESYSTEM_IsEventActive(gameSystem) == 1)
         return;
-    if (ZONEDATA_IsZone117(func_02012AC8(func_020127A4(func_020120F4(gameSystem)))) == 0)
+    if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(ICA_ANIME_GetField1C(gameSystem)))) == 0)
         return;
     FIELD_PLAYER_GetPos(player, &playerPos);
     switch (GAME_COMM_GetKind(gameComm)) {
@@ -1233,10 +1233,10 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
     struct GameComm *gameComm;
     IntrudeStartParam *param;
 
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     if (func_0200FB24() != 0)
         return;
-    if (func_02012204(gameSystem) == 1)
+    if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
@@ -1260,12 +1260,12 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
     struct PlayerWork *playerWork;
     struct GameComm *gameComm;
 
-    playerWork = func_020120F8(gameSystem);
-    zoneId = func_02012AC8(playerWork);
-    func_02012AE4(playerWork);
-    gameComm = func_02012138(gameSystem);
+    playerWork = ICA_ANIME_GetField114(gameSystem);
+    zoneId = GAME_DATA_GetPlayerZoneId(playerWork);
+    GAME_DATA_GetPlayerDirectionType(playerWork);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     wrapped = 0;
-    func_020120F4(gameSystem);
+    ICA_ANIME_GetField1C(gameSystem);
     if ((int)GAME_COMM_GetKind(gameComm) != 2)
         return;
     if (work == 0)
@@ -1372,16 +1372,16 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
     struct FieldPlayer *player;
     int gender;
     struct PlayerStatus *myStatus;
-    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     VecFx32 drawOffset = { 0, 0, 0 };
 
-    if (func_02012114(gameSystem) == 0)
+    if (ICA_ANIME_Check2114(gameSystem) == 0)
         return;
-    myStatus = func_02012944(func_020120F4(gameSystem));
+    myStatus = func_02012944(ICA_ANIME_GetField1C(gameSystem));
     gender = func_02008550(myStatus);
     if (work != 0) {
         if (objCode == 0xFFFF) {
-            if (work->localPeer.intrudeId == func_02012B58(gameData))
+            if (work->localPeer.intrudeId == GAME_DATA_GetOwnNetId(gameData))
                 objCode = 0;
         }
         if (objCode == 0) {
@@ -1401,7 +1401,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
         if (gender)
             playerForm = 4;
     }
-    player = FIELDMAP_GetFieldPlayer(func_0201210C(gameSystem));
+    player = FIELDMAP_GetFieldPlayer(ICA_ANIME_GetField20(gameSystem));
     FIELD_PLAYER_SetObjCode(player, (u16)playerForm);
     FLDMMDL_SetDrawOffset(FIELD_PLAYER_GetMmdl(player), &drawOffset);
     if (objCode == 0)
@@ -1428,7 +1428,7 @@ int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommS
         goto fail;
     if (INTRUDE_COMM_GetJoinStatus(work, &work->session) != 0)
         goto fail;
-    zoneId = func_02012AC8(func_020120F8(gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
     FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(player), &playerGrid);
     offerIndex = offer->head.param.x;
     if (zoneId != gIntrudeOfferZoneIds[offerIndex])
@@ -1534,14 +1534,14 @@ int INTRUDE_FIELD_IsCommAllowed(struct GameSystem *gameSystem, int zoneId)
     struct GameComm *gameComm;
     IntrudeCommSys *work;
 
-    gameData = func_020120F4(gameSystem);
-    gameComm = func_02012138(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     work = INTRUDE_COMM_GetWorkIfRunning(gameComm);
-    if (func_02012B70(gameData) == 0)
+    if (GAME_DATA_GetIntrudeCount(gameData) == 0)
         return 0;
     if (work != 0)
         return 0;
-    if (func_02012204(gameSystem) == 1)
+    if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return 1;
     if (ZONEDATA_IsZone117(zoneId) == 1) {
         if (GAME_COMM_GetCounter(gameComm) != 0)
@@ -1577,9 +1577,9 @@ u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
     struct PlayerStatus *status;
 
     gameData = GAME_COMM_GetGameData(gameComm);
-    if (func_02012B70(gameData) == 0) {
+    if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
         status = func_02012944(gameData);
-    } else if (func_02012B80(gameData) == func_02012B58(gameData)) {
+    } else if (GAME_DATA_GetIntrudeId(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
         status = func_02012944(gameData);
     } else {
         hostWork = 0;
@@ -1590,7 +1590,7 @@ u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
         } else if (ZONEDATA_IsZone117(hostWork->localPeer.zoneId) == 1) {
             status = func_02012944(gameData);
         } else {
-            status = func_02012950(gameData, func_02012B80(gameData));
+            status = GAME_DATA_GetPlayerStatusById(gameData, GAME_DATA_GetIntrudeId(gameData));
         }
     }
     return func_02008550(status);
@@ -1659,7 +1659,7 @@ void INTRUDE_FIELD_AddSymbolMonMmdl(const SymbolSpawnContext *spawn, const Symbo
     zoneId = FIELDMAP_GetZoneId(spawn->fieldMap);
     header = INTRUDE_FIELD_gSymbolMonMmdlHeader;
     header.objId = objId;
-    header.objCode = func_0202A188(spawn->tpoke, (u16)entry->species, (u16)entry->sex, (u16)entry->form);
+    header.objCode = TPOKE_DATA_GetRecordIndex(spawn->tpoke, (u16)entry->species, (u16)entry->sex, (u16)entry->form);
     header.moveCode = moveParam->moveCode;
     header.moveLimitX = moveParam->moveLimitX;
     header.moveLimitZ = moveParam->moveLimitZ;
@@ -1740,7 +1740,7 @@ void INTRUDE_FIELD_SpawnSymbolMons(struct FieldMap *fieldMap, int objIdBase, Sym
     else
         offsets = INTRUDE_FIELD_gSymbolMonOffsetsOther;
 
-    spawn.tpoke = func_0202A128(FIELDMAP_GetHeapId(fieldMap));
+    spawn.tpoke = TPOKE_DATA_Create(FIELDMAP_GetHeapId(fieldMap));
     spawn.fieldMap = fieldMap;
     spawn.objIdBase = objIdBase;
     playerMmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
@@ -1774,7 +1774,7 @@ struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSyst
     struct GameEvent *event;
 
     offer = INTRUDE_COMM_GetActiveSessionRequest(&work->session);
-    func_020120F4(gameSystem);
+    ICA_ANIME_GetField1C(gameSystem);
     event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventOfferInfo, sizeof(OfferEventWork));
     eventWork = func_020124E8(event);
     MI_CpuFill8(eventWork, 0, sizeof(OfferEventWork));
@@ -1799,7 +1799,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
     u8 ownId;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    intrudeWork = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
+    intrudeWork = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
     if (intrudeWork == 0 && *seq == 0)
         *seq = 8;
 
@@ -1831,7 +1831,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         (*seq)++;
         break;
     case 4:
-        ownId = (int)func_02012B58(func_020120F4(gameSystem));
+        ownId = (int)GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(gameSystem));
         INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, work->fieldMap, work->record.head.ids[ownId], work->record.head.grades[ownId], ((IntrudeNetIdMask *)&work->record.head.reserved08)->netIds & (1 << ownId));
         (*seq)++;
         break;
@@ -1908,7 +1908,7 @@ int INTRUDE_FIELD_StepPlayerSpin(PlayerSpinWork *spin, IntrudeCommSys *work)
                 if (spin->switched == 0) {
                     spin->stepFrames--;
                     if (spin->stepFrames <= 1) {
-                        func_020120F4(spin->gameSystem);
+                        ICA_ANIME_GetField1C(spin->gameSystem);
                         INTRUDE_FIELD_ChangePlayerLook(work, spin->gameSystem, spin->objCode, spin->kind, spin->flag);
                         spin->switched++;
                     }

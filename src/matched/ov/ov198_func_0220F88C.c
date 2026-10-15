@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   func_02211958 0x02211958 thumb ov198
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   func_02211970 0x02211970 thumb ov198
- *   func_0220B760 0x0220B760 thumb ov198
+ *   B_PLIST_ANM_StartPaletteAnim 0x0220B760 thumb ov198
  *   func_02210E20 0x02210E20 thumb ov198
  *   func_02210ED4 0x02210ED4 thumb ov198
  *   func_022110D4 0x022110D4 thumb ov198
@@ -24,9 +24,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Sound;
 extern u32 func_02211958(u8 **);
-extern int func_02025DE8(struct Sound *);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *,u32);
+extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
 extern int func_02210E20(u8 *);
 extern u8 func_02210ED4(u8 *);
 extern int func_022110D4(u8 *,int);
@@ -37,11 +37,11 @@ int func_0220F88C(u8 *p)
     u32 sel;
     u8 *q;
     if(func_02211958((u8 **)p)==1) return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03907 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj03907 *)p)->f2184);
     switch(sel) {
     case 0:
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,7);
+        B_PLIST_ANM_StartPaletteAnim(p,7);
         if(func_02210E20(p)==1) {
             q=*(u8 * *)&((struct Obj03907 *)p)->f0;
             if(q[31]!=2) {
@@ -55,20 +55,20 @@ int func_0220F88C(u8 *p)
     case 1:
         if(func_02210ED4(p)==1) break;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,8);
+        B_PLIST_ANM_StartPaletteAnim(p,8);
         ((struct Obj03907 *)p)->f217C=13;return 29;
     case 2:
         if(func_02210ED4(p)==1) break;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,10);
+        B_PLIST_ANM_StartPaletteAnim(p,10);
         ((struct Obj03907 *)p)->f217C=14;return 29;
     case 3:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj03907 *)p)->f217C=11;return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj03907 *)p)->f217C=11;return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);break;

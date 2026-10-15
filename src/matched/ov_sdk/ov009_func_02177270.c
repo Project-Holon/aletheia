@@ -12,20 +12,20 @@
  * sdk:      DWC_SetRecvTimeoutTime (libdwcmatch.TWL.HYB.a dwc_transport.o)
  * symbols:
  *   OS_GetTick   0x020870D0 arm
- *   g_021AB180   0x021AB180 data
+ *   gDwcTransInfo   0x021AB180 data
  */
 
 extern unsigned long long OS_GetTick(void);
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 
 int DWC_SetRecvTimeoutTime(unsigned char aid, unsigned long time)
 {
     unsigned long long tick;
 
-    if (*(char **)g_021AB180 == 0)
+    if (*(char **)gDwcTransInfo == 0)
         return 0;
-    *(unsigned long *)(*(char **)g_021AB180 + aid * 0x38 + 0x2c) = time;
+    *(unsigned long *)(*(char **)gDwcTransInfo + aid * 0x38 + 0x2c) = time;
     tick = OS_GetTick();
-    *(unsigned long long *)(*(char **)g_021AB180 + aid * 0x38 + 0x24) = tick;
+    *(unsigned long long *)(*(char **)gDwcTransInfo + aid * 0x38 + 0x24) = tick;
     return 1;
 }

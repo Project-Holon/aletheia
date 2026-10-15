@@ -1,7 +1,7 @@
 /*
  * file:     ncfg_info.c
  * unit:     yes
- * function: func_0205FAA8, func_0205FAC0, func_0205FB1C, func_0205FB8C, func_0205FDAC, func_0205FF6C, func_0205FF98, func_0205FFC4, func_02060040, func_02060094, func_02060140
+ * function: func_0205FAA8, NCFG_CheckConfig, NCFG_CheckConfigEx, checkConfig, checkConfigEx, initPage, initPageEx, readAllSlots, readAllExSlots, writeAllSlots, writeAllExSlots
  * address:  0x0205FAA8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -135,21 +135,13 @@ extern int  writeAllExSlots(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
 extern s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
 extern s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
 u32 NCFG_ReadConfig(NCFGConfig *config);
-s32 func_0205FAC0(void *work);
-s32 func_0205FB1C(void *work);
-s32 func_0205FB8C(NCFGConfig *config, MATHCRC16Table *tbl);
-s32 func_0205FDAC(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
-void func_0205FF6C(NCFGConfig *config, int page);
-void func_0205FF98(NCFGConfigEx *config, int page);
-int func_0205FFC4(NCFGConfig *config);
-int func_02060040(NCFGConfigEx *configEx);
-int func_02060094(NCFGConfig *config, MATHCRC16Table *tbl);
-int func_02060140(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
+s32 NCFG_CheckConfig(void *work);
+s32 NCFG_CheckConfigEx(void *work);
 
 
 u32 NCFG_ReadConfig(NCFGConfig *config)
 {
-    return func_0205FFC4(config) ? 0 : 0xFFFFFFFF;
+    return readAllSlots(config) ? 0 : 0xFFFFFFFF;
 }
 
 
@@ -163,7 +155,7 @@ u32 NCFG_ReadConfig(NCFGConfig *config)
 /*
  * sdk:      NCFG_CheckConfig (libncfg.TWL.HYB.a info.o)
  */
-s32 func_0205FAC0(void *work)
+s32 NCFG_CheckConfig(void *work)
 {
     MEMCHECK *wk;
 
@@ -188,7 +180,7 @@ s32 func_0205FAC0(void *work)
 /*
  * sdk:      NCFG_CheckConfigEx (libncfg.TWL.HYB.a info.o)
  */
-s32 func_0205FB1C(void *work)
+s32 NCFG_CheckConfigEx(void *work)
 {
     MEMCHECKEX *wk;
 
@@ -208,7 +200,7 @@ s32 func_0205FB1C(void *work)
 /*
  * sdk:      checkConfig (libncfg.TWL.HYB.a info.o)
  */
-s32 func_0205FB8C(NCFGConfig *config, MATHCRC16Table *tbl)
+s32 checkConfig(NCFGConfig *config, MATHCRC16Table *tbl)
 {
     int c[4];
     int i;
@@ -274,7 +266,7 @@ s32 func_0205FB8C(NCFGConfig *config, MATHCRC16Table *tbl)
 /*
  * sdk:      checkConfigEx (libncfg.TWL.HYB.a info.o)
  */
-s32 func_0205FDAC(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
+s32 checkConfigEx(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
 {
     u8  state;
     u8  prevState;
@@ -333,7 +325,7 @@ s32 func_0205FDAC(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
 /*
  * sdk:      initPage (libncfg.TWL.HYB.a info.o)
  */
-void func_0205FF6C(NCFGConfig *config, int page)
+void initPage(NCFGConfig *config, int page)
 {
     MIi_CpuClear16(0, &config->slot[page], sizeof(NCFGSlotInfo));
     config->slot[page].ap.setType = 0xFF;
@@ -343,7 +335,7 @@ void func_0205FF6C(NCFGConfig *config, int page)
 /*
  * sdk:      initPageEx (libncfg.TWL.HYB.a info.o)
  */
-void func_0205FF98(NCFGConfigEx *config, int page)
+void initPageEx(NCFGConfigEx *config, int page)
 {
     MIi_CpuClear16(0, &config->slotEx[page], sizeof(NCFGSlotInfoEx));
     config->slotEx[page].ap.setType = 0xFF;
@@ -353,7 +345,7 @@ void func_0205FF98(NCFGConfigEx *config, int page)
 /*
  * sdk:      readAllSlots (libncfg.TWL.HYB.a info.o)
  */
-int func_0205FFC4(NCFGConfig *config)
+int readAllSlots(NCFGConfig *config)
 {
     int result = 1;
     int i;
@@ -368,7 +360,7 @@ int func_0205FFC4(NCFGConfig *config)
 /*
  * sdk:      readAllExSlots (libncfg.TWL.HYB.a info.o)
  */
-int func_02060040(NCFGConfigEx *configEx)
+int readAllExSlots(NCFGConfigEx *configEx)
 {
     int result = 1;
     int i;
@@ -383,7 +375,7 @@ int func_02060040(NCFGConfigEx *configEx)
 /*
  * sdk:      writeAllSlots (libncfg.TWL.HYB.a info.o)
  */
-int func_02060094(NCFGConfig *config, MATHCRC16Table *tbl)
+int writeAllSlots(NCFGConfig *config, MATHCRC16Table *tbl)
 {
     int result = 1;
     int i;
@@ -400,7 +392,7 @@ int func_02060094(NCFGConfig *config, MATHCRC16Table *tbl)
 /*
  * sdk:      writeAllExSlots (libncfg.TWL.HYB.a info.o)
  */
-int func_02060140(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
+int writeAllExSlots(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
 {
     int result = 1;
     int i;

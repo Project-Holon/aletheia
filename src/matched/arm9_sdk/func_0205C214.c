@@ -1,5 +1,5 @@
 /*
- * function: func_0205C214
+ * function: DWCi_AC_GetMemPtr
  * address:  0x0205C214
  * packet:   pkt_0205C214
  * region:   arm9
@@ -136,7 +136,7 @@ static struct {
     ACWORK *acWork;
 } s_ac_work;
 
-void *func_0205C214(u32 name)
+void *DWCi_AC_GetMemPtr(u32 name)
 {
     if (name & 1) return s_ac_work.acHold;
     if (name & 2) return s_ac_work.wcmBuffer;

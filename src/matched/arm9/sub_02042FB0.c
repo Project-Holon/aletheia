@@ -16,7 +16,7 @@
  *
  * Poke one tile entry into the screen buffer of table slot `idx`.  The
  * table is the 0x2c-byte-per-slot array hanging off the singleton pointer
- * at 0x02146A44 (the same one sub_020403F4 tears down): +8 is the screen
+ * at 0x02146A44 (the same one BG_SYS_Delete_03F4 tears down): +8 is the screen
  * buffer and +0x1d the screen-size code that tells func_02040EE0 how to
  * fold (x, y) into a linear index.  A slot with no buffer is skipped.
  *

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   G3D_SYSTEM_GetLookAt  0x02046AFC  arm
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   _ll_mul        0x0209C054  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Arg;
 extern void G3D_SYSTEM_GetLookAt(u8 *dst);
-extern void func_0207CA00(V *, V *, V *);
+extern void VEC_Subtract(V *, V *, V *);
 extern void VEC_Normalize(V *, V *);
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
 extern void func_02082B60(M43 *, M *);
@@ -65,7 +65,7 @@ void FLD_WIPE_3DOBJ_Draw(Obj *p, int b, int c)
     }
     G3D_SYSTEM_GetLookAt((u8 *)(&cam));
     srt.t = cam.pos;
-    func_0207CA00(&cam.up, &cam.pos, &v);
+    VEC_Subtract(&cam.up, &cam.pos, &v);
     VEC_Normalize(&v, &v);
     y = v.y;
     if (y <= 0) {

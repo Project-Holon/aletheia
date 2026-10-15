@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02092264",
+   "name": "MSL_C_LIB_MbrToWc",
    "address": "0x02092264",
    "kind": "game",
    "region": "arm9",

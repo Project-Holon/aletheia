@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021EF7FC 0x021EF7FC data
@@ -58,11 +58,11 @@ struct BgTemplate {
     u32 unk_1c;
 };
 
-extern void func_0203F8F4(u16 heap);
+extern void BG_SYS_Create(u16 heap);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
@@ -86,29 +86,29 @@ void BOX2_MAIN_InitBgSys(u8 *a0)
     struct BgTemplate t5;
     struct BgTemplate t6;
 
-    func_0203F8F4(0x4C);
+    BG_SYS_Create(0x4C);
     c = d_021EF7FC;
     func_0203FC28(&c);
     t0 = d_021EF82C;
-    func_0203FCA0(0, &t0, 0);
+    BG_SYS_InitBgLayer(0, &t0, 0);
     t1 = d_021EF8CC;
-    func_0203FCA0(1, &t1, 0);
-    func_020414EC(1);
-    func_02040B94(1, 0x20, 0, 0x4C);
+    BG_SYS_InitBgLayer(1, &t1, 0);
+    BG_SYS_ClearSlot(1);
+    BG_SYS_InitRun(1, 0x20, 0, 0x4C);
     t2 = d_021EF86C;
-    func_0203FCA0(2, &t2, 0);
+    BG_SYS_InitBgLayer(2, &t2, 0);
     t3 = d_021EF88C;
-    func_0203FCA0(3, &t3, 0);
+    BG_SYS_InitBgLayer(3, &t3, 0);
     t4 = d_021EF80C;
-    func_0203FCA0(4, &t4, 0);
-    func_020414EC(4);
-    func_02040B94(4, 0x20, 0, 0x4C);
+    BG_SYS_InitBgLayer(4, &t4, 0);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_InitRun(4, 0x20, 0, 0x4C);
     t5 = d_021EF8AC;
-    func_0203FCA0(5, &t5, 0);
+    BG_SYS_InitBgLayer(5, &t5, 0);
     t6 = d_021EF84C;
-    func_0203FCA0(6, &t6, 0);
-    func_020414EC(6);
-    func_02040B94(6, 0x20, 0, 0x4C);
+    BG_SYS_InitBgLayer(6, &t6, 0);
+    BG_SYS_ClearSlot(6);
+    BG_SYS_InitRun(6, 0x20, 0, 0x4C);
     BG_SYS_SetMainPlaneVisible(0xF, 1);
     BG_SYS_SetSubPlaneVisible(7, 1);
 }

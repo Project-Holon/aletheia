@@ -1,5 +1,5 @@
 /*
- * function: func_021D5004
+ * function: INTRUDE_COMM_VIEW_InitStatusText
  * address: 0x021D5004
  * packet: pkt_ov122_021D5004
  * region: ov122
@@ -80,4 +80,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);extern void MSGDATA_ReadString(void *,int,void *);extern void STRBUF_Delete(void *);
-void func_021D5004(char *p) {void *t;t=STRBUF_Create(100,*(u16 *)(p+12));*(void **)(p+0x328)=t;MSGDATA_ReadString(*(void **)(p+0x44),9,t);*(u16 *)(p+0x32c)=0x39e3;*(u32 *)(p+0x330)=1;STRBUF_Delete(*(void **)(p+0x328));}
+void INTRUDE_COMM_VIEW_InitStatusText(char *p) {void *t;t=STRBUF_Create(100,*(u16 *)(p+12));*(void **)(p+0x328)=t;MSGDATA_ReadString(*(void **)(p+0x44),9,t);*(u16 *)(p+0x32c)=0x39e3;*(u32 *)(p+0x330)=1;STRBUF_Delete(*(void **)(p+0x328));}

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8640
+ * function: STA_ACTING_Delete
  * address: 0x021F8640
  * packet: pkt_ov132_021F8640
  * region: ov132
@@ -13,9 +13,9 @@
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_USE_StopSeqAndUnload 0x02006504 thumb
  *   GFL_USE_ClearPreloadedBgmBuffers 0x02006518 thumb
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_021F9D08 0x021F9D08 thumb ov132
+ *   STA_ACTING_DeleteAnimHandle 0x021F9D08 thumb ov132
  *   func_021FAB58 0x021FAB58 thumb ov132
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -34,12 +34,12 @@
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_0204ED24 0x0204ED24 arm
+ *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02030EAC 0x02030EAC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
@@ -50,9 +50,9 @@ typedef unsigned short u16;
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_StopSeqAndUnload(void);
 extern void GFL_USE_ClearPreloadedBgmBuffers(void);
-extern void func_0207D534(volatile u16 *,int);
+extern void GXx_SetMasterBrightness_(volatile u16 *,int);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void func_021F9D08(char *);
+extern void STA_ACTING_DeleteAnimHandle(char *);
 extern void func_021FAB58(char *);
 typedef unsigned char  u8;
 struct Descriptor;
@@ -78,25 +78,25 @@ extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *p);
 extern void CLACT_ExitSystem(void);
-extern void func_0204ED24(void *);
+extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern void func_020403F4(u32);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020307B0(void *p);
-void func_021F8640(char *p)
+void STA_ACTING_Delete(char *p)
 {
     if(((struct Obj00675 *)p)->f2C==1)GFL_USE_CancelChangeAndStopBgm();
     if(((struct Obj00675 *)p)->f28==1)GFL_USE_StopSeqAndUnload();
     if(((struct Obj00675 *)p)->f24==1)GFL_USE_ClearPreloadedBgmBuffers();
-    func_0207D534((volatile u16 *)0x0400006c,-16);
-    func_0207D534((volatile u16 *)0x0400106c,-16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,-16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
     *(volatile u32 *)0x04000000 &= 0xffff1fff;
-    func_021F9D08(p);
+    STA_ACTING_DeleteAnimHandle(p);
     func_021FAB58(((struct Obj00675 *)p)->fB0);
     if(((struct Obj00675 *)p)->fE0!=0)STRBUF_Delete(((struct Obj00675 *)p)->fE0);
     PRINTSYS_QUE_Clear(((struct Obj00675 *)p)->fE8);
@@ -115,7 +115,7 @@ void func_021F8640(char *p)
     func_021F51B0((int)(((struct Obj00675 *)p)->f34));
     func_021F4948(((struct Obj00675 *)p)->f38);
     CLACT_ExitSystem();
-    func_0204ED24(((struct Obj00675 *)p)->fAC);
+    BILLBOARD_Delete(((struct Obj00675 *)p)->fAC);
     G3D_CAMERA_Delete(((struct Obj00675 *)p)->fA8);
     G3D_SYSTEM_Exit();
     func_020403F4(0);
@@ -125,7 +125,7 @@ void func_021F8640(char *p)
     func_020403F4(5);
     func_020403F4(7);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_02030EAC(((struct Obj00675 *)p)->f20);
     ARC_TOOL_DeleteHandle(((struct Obj00675 *)p)->f18);
     func_020307B0(p);

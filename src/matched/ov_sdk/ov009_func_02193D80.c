@@ -17,7 +17,7 @@
  *   func_0217EC4C  0x0217ec4c  arm   ov009
  *   CloseStatsConnection  0x02193d00  arm   ov009
  *   ProcessInBuffer  0x02194494  arm   ov009
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   gGstatsSocket     0x021a57c8  data
  *   gGstatsConn     0x021adfe0  data
  */
@@ -44,7 +44,7 @@ extern void *func_0217EAC8(void *ptr, unsigned long size);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern void CloseStatsConnection(void);
 extern int ProcessInBuffer(char *buff, int len);
-extern void *func_02092364(void *dest, const void *src, unsigned int n);
+extern void *memmove(void *dest, const void *src, unsigned int n);
 extern struct StatsSocket gGstatsSocket;
 extern struct StatsConn gGstatsConn;
 
@@ -83,7 +83,7 @@ int PersistThink(void)
         if (processed == gGstatsConn.inLen) {
             gGstatsConn.inLen = 0;
         } else {
-            func_02092364(gGstatsConn.inBuff, gGstatsConn.inBuff + processed, gGstatsConn.inLen - processed);
+            memmove(gGstatsConn.inBuff, gGstatsConn.inBuff + processed, gGstatsConn.inLen - processed);
             gGstatsConn.inLen -= processed;
         }
     }

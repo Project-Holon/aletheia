@@ -1,5 +1,5 @@
 /*
- * function: func_0202A128
+ * function: TPOKE_DATA_Create
  * address:  0x0202A128
  * packet:   pkt_0202A128
  * region:   arm9
@@ -30,7 +30,7 @@ typedef struct {
     u32   count;
 } Tpoke;
 
-Tpoke *func_0202A128(int heap)
+Tpoke *TPOKE_DATA_Create(int heap)
 {
     Tpoke *p;
     u32 size;

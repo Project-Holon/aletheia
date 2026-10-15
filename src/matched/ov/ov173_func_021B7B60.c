@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B60
+ * function: POKE_SUMMARY_ACTOR_StartWipe
  * address: 0x021B7B60
  * packet: pkt_ov173_021B7B60
  * region: ov173
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-int func_021B7B60(u8 *p) {WIPE_SYS_Start(0,0,0,0,6,1,79);((struct Obj24186 *)p)->f1B0=11;return 0;}
+int POKE_SUMMARY_ACTOR_StartWipe(u8 *p) {WIPE_SYS_Start(0,0,0,0,6,1,79);((struct Obj24186 *)p)->f1B0=11;return 0;}

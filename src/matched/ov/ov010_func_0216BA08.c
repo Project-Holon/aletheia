@@ -10,27 +10,27 @@
  * status: EXACT*
  * extent: two-byte zero alignment padding at 0216BA3E follows.
  * symbols:
- *   func_0200C0E8 0x0200C0E8 thumb
- *   func_0200C32C 0x0200C32C thumb
- *   func_0200C34C 0x0200C34C thumb
+ *   BEACON_GetFromSave 0x0200C0E8 thumb
+ *   BEACON_GetEntryCount 0x0200C32C thumb
+ *   BEACON_GetRecentValue 0x0200C34C thumb
  *   SCRCMD_RESEARCH_GetMissionTargetCount 0x0216BB80 thumb ov010
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0200C0E8(void *);
+extern void *BEACON_GetFromSave(void *);
 struct Blk34;
-extern u8 func_0200C32C(struct Blk34 *p);
-extern u16 func_0200C34C(struct Blk34 *p, u32 i);
+extern u8 BEACON_GetEntryCount(struct Blk34 *p);
+extern u16 BEACON_GetRecentValue(struct Blk34 *p, u32 i);
 extern int SCRCMD_RESEARCH_GetMissionTargetCount(int);
 int SCRCMD_RESEARCH_AreAllTargetValuesRecorded(void *p)
 {
     void *q;
     int i, n;
-    q = func_0200C0E8(p);
-    n = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(func_0200C32C(q));
+    q = BEACON_GetFromSave(p);
+    n = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(BEACON_GetEntryCount(q));
     for (i = 0; i < n; i++) {
-        if (func_0200C34C(q, (u8)i) == 0) return 0;
+        if (BEACON_GetRecentValue(q, (u8)i) == 0) return 0;
     }
     return 1;
 }

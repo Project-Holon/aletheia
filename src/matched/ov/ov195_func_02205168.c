@@ -1,5 +1,5 @@
 /*
- * function: func_02205168
+ * function: SHINKA_DEMO_AreActorAnimsDone
  * address:  0x02205168
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf of the func_022040E0 dependency tree: probe all six +0x48 handles;
- * if every one is idle, hand the scene object to func_02205100.  A missing
+ * Leaf of the SHINKA_DEMO_Main dependency tree: probe all six +0x48 handles;
+ * if every one is idle, hand the scene object to SHINKA_DEMO_DeleteActors.  A missing
  * +0x60 pointer reports success without probing.
  *
  * symbols:
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
- *   func_02205100  0x02205100  thumb
+ *   SHINKA_DEMO_DeleteActors  0x02205100  thumb
  */
 typedef unsigned int   u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_02205100(void *unused, char *p);
+extern void SHINKA_DEMO_DeleteActors(void *unused, char *p);
 
-int func_02205168(int a, int *p)
+int SHINKA_DEMO_AreActorAnimsDone(int a, int *p)
 {
     unsigned char i;
 
@@ -36,7 +36,7 @@ int func_02205168(int a, int *p)
             }
         }
         if (ok)
-            func_02205100((void *)a, (char *)p);
+            SHINKA_DEMO_DeleteActors((void *)a, (char *)p);
         return ok;
     }
     return 1;

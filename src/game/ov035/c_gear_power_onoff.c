@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_0201214C 0x0201214C thumb
  *   func_020307B0 0x020307B0 arm
@@ -34,11 +34,11 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_02040588 0x02040588 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_020409B4 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_02012944 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02049B68 0x02049B68 arm
@@ -50,8 +50,8 @@
  *   sBgTemplate5    0x021F05C8 data ov035 a4
  *   sBgTemplate4    0x021F05E8 data ov035 a4
  *   sBgTemplate6    0x021F0608 data ov035 a4
- *   func_0203FB44 0x0203FB44 arm
- *   sub_020403F4  0x020403F4 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_Delete_03F4  0x020403F4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_02049B40 0x02049B40 arm
@@ -83,7 +83,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02012204 0x02012204 thumb
+ *   ICA_ANIME_GetUnk330 0x02012204 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
@@ -137,7 +137,7 @@ typedef struct CGearPowerOnOffTable {
 } CGearPowerOnOffTable;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02012138(const void *gameSystem);
+extern void *ICA_ANIME_GetField24(const void *gameSystem);
 extern int func_0202EB44(void);
 extern u32 func_0201214C(const void *gameSystem);
 extern u32 func_020307B0(void *p);
@@ -155,11 +155,11 @@ extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void func_020409B4(u32 layer);
 extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
-extern struct GameData *func_020120F4(const void *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern void func_02049B68(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
@@ -167,8 +167,8 @@ extern u32 func_02049740(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, 
 extern void func_02049990(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_Delete_03F4(u32 i);
 extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern u32 APP_TASKMENU_RES_Delete(void *taskMenuRes);
 extern void func_02049B40(int, int, int, int, int, int);
@@ -199,7 +199,7 @@ extern u8 APP_TASKMENU_GetCursorPos(void *taskMenu);
 extern u32 APP_TASKMENU_IsFinish(void *taskMenu);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02012204(const void *gameSystem);
+extern u32 ICA_ANIME_GetUnk330(const void *gameSystem);
 extern u32 GAME_COMM_GetKind(void *beacon);
 extern void GAME_COMM_RequestExitNoCallback(void *beacon);
 extern void GAMESYSTEM_SetAlwaysNetFlag(void *gameSystem, unsigned int v);
@@ -242,7 +242,7 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
 {
     CGearPowerOnOffWork *work = func_02030734(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
     work->gameSystem = gameSystem;
-    work->beacon = func_02012138(gameSystem);
+    work->beacon = ICA_ANIME_GetField24(gameSystem);
     work->subscreen = subscreen;
     work->heapId = heapId;
     C_GEAR_POWER_ONOFF_InitScreen(work, heapId);
@@ -296,20 +296,20 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
 
     for (i = 4; i <= 7; i++)
         func_02040588((u8)i, 0);
-    func_0203FCA0(6, &sBgTemplate6, 0);
-    func_020414EC(6);
+    BG_SYS_InitBgLayer(6, &sBgTemplate6, 0);
+    BG_SYS_ClearSlot(6);
     func_020409B4(6);
     func_02040588((u8)6, 1);
-    func_0203FCA0(5, &sBgTemplate5, 0);
-    func_020414EC(5);
+    BG_SYS_InitBgLayer(5, &sBgTemplate5, 0);
+    BG_SYS_ClearSlot(5);
     func_020409B4(5);
     func_02040588((u8)5, 1);
-    func_0203FCA0(4, &sBgTemplate4, 0);
-    func_020414EC(4);
+    BG_SYS_InitBgLayer(4, &sBgTemplate4, 0);
+    BG_SYS_ClearSlot(4);
     func_020409B4(4);
     func_02040588((u8)4, 1);
     arc = func_020490F4(0x1E, heapId);
-    i = func_02008550(func_02012944(func_020120F4(work->gameSystem)));
+    i = func_02008550(func_02012944(ICA_ANIME_GetField1C(work->gameSystem)));
     func_02049B68(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
     charAlloc = func_02049740(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;
@@ -324,10 +324,10 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
 void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
 {
     unsigned int charAlloc = work->bgCharAlloc;
-    func_0203FB44(6, (unsigned short)charAlloc, (unsigned short)(charAlloc >> 16));
-    sub_020403F4(6);
-    sub_020403F4(5);
-    sub_020403F4(4);
+    BG_SYS_DeleteHalf(6, (unsigned short)charAlloc, (unsigned short)(charAlloc >> 16));
+    BG_SYS_Delete_03F4(6);
+    BG_SYS_Delete_03F4(5);
+    BG_SYS_Delete_03F4(4);
     func_02040588(6, 0);
     func_02040588(5, 0);
     func_02040588(4, 0);
@@ -524,11 +524,11 @@ int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work)
         (work->step)++;
         break;
     case 4:
-        if (TOUCHPANEL_GetTrg() != 0 || func_02012204(work->gameSystem) != 0)
+        if (TOUCHPANEL_GetTrg() != 0 || ICA_ANIME_GetUnk330(work->gameSystem) != 0)
             (work->step)++;
         break;
     case 5:
-        if (func_02012204(work->gameSystem) != 0) {
+        if (ICA_ANIME_GetUnk330(work->gameSystem) != 0) {
             if (GAME_COMM_GetKind(work->beacon))
                 GAME_COMM_RequestExitNoCallback(work->beacon);
             work->step = 6;
@@ -564,8 +564,8 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
             (work->step)++;
         break;
     case 2:
-        if (C_GEAR_POWER_ONOFF_IsMenuDecided(work) != 0 || func_02012204(work->gameSystem) == 1) {
-            if (C_GEAR_POWER_ONOFF_GetMenuResult(work) == 0 || func_02012204(work->gameSystem) == 1) {
+        if (C_GEAR_POWER_ONOFF_IsMenuDecided(work) != 0 || ICA_ANIME_GetUnk330(work->gameSystem) == 1) {
+            if (C_GEAR_POWER_ONOFF_GetMenuResult(work) == 0 || ICA_ANIME_GetUnk330(work->gameSystem) == 1) {
                 if (GAME_COMM_GetKind(work->beacon))
                     GAME_COMM_RequestExitNoCallback(work->beacon);
                 closeComm = 1;

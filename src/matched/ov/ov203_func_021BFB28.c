@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB28
+ * function: DEMO3D_EXP_C_CRUISER_DeleteActorGfx
  * address:  0x021BFB28
  * packet:   pkt_021BFB28
  * region:   ov203
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFB28 0x021BFB28 thumb
+ *   DEMO3D_EXP_C_CRUISER_DeleteActorGfx 0x021BFB28 thumb
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb
  *   func_020307B0 0x020307B0 arm
  */
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 #pragma thumb on
 
-void func_021BFB28(char *arg0)
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(char *arg0)
 {
     char *ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
     UI_SCENE_FreeActorGfx(ptr + 4);

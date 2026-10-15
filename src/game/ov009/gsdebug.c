@@ -20,7 +20,7 @@
  *   g_021AD000     0x021AD000  data
  *   g_021AD008     0x021AD008  data
  *   g_021AD020     0x021AD020  data
- *   func_020923B0                  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   OS_SPrintf                  0x02084F40  arm
  *   g_020A61DC                     0x020A61DC  data
  *   g_021A3710                     0x021A3710  data
@@ -38,7 +38,7 @@ extern void func_0218402C(char *format, char *args);
 extern void gsiInitializeCriticalSection(void *mutex);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
-extern void *func_020923B0(void *p, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 void func_0217D188(int a, int b, int c, int d, int e);
 void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args);
@@ -128,7 +128,7 @@ void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
     char *aTextOutStream = theOutStream + 41;
     unsigned int aWriteBit = theInLen & 1;
 
-    func_020923B0(theOutStream, ' ', 64);
+    MSL_C_LIB_MemsetPtr(theOutStream, ' ', 64);
     while (theInLen--) {
         unsigned char aChar = (unsigned char)(*theInStream++);
 

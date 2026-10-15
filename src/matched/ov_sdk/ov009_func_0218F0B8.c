@@ -1,5 +1,5 @@
 /*
- * function: func_0218F0B8
+ * function: gpiGetPeerByProfile
  * address:  0x0218F0B8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-char *func_0218F0B8(void **p, int v)
+char *gpiGetPeerByProfile(void **p, int v)
 {
     char *q = *(char **)(*(char **)p + 0x5d8);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F2C
+ * function: LOCAL_TVT_CHARA_IsDone
  * address:  0x021B6F2C
  * packet:   pkt_021B6F2C
  * region:   ov174
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021B6F2C(int unused, char *p)
+int LOCAL_TVT_CHARA_IsDone(int unused, char *p)
 {
     return ((struct Obj24207 *)p)->f8 == 5;
 }

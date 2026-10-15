@@ -22,26 +22,26 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0202D034 0x0202D034 thumb
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
- *   func_0220AF6C 0x0220AF6C thumb ov196
- *   func_0220AFDC 0x0220AFDC thumb ov196
+ *   B_APP_TOOL_CreateActors 0x0220AF6C thumb ov196
+ *   B_APP_TOOL_SetActorsVisible 0x0220AFDC thumb ov196
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02030734 0x02030734 arm
  *   func_02030DA8 0x02030DA8 arm
  *   d_02212550 0x02212550 data a1
  *   TCBL_Main 0x020310C4 arm
- *   func_0220B7AC 0x0220B7AC thumb ov198
+ *   B_PLIST_ANM_StepPaletteAnim 0x0220B7AC thumb ov198
  *   func_0220E22C 0x0220E22C thumb ov198
  *   d_0221221C 0x0221221C data a4
  *   d_04001050 0x04001050 data a2
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   TCBL_Create 0x0203101C arm
- *   func_0220AF40 0x0220AF40 thumb ov196
- *   func_0220B848 0x0220B848 thumb ov198
- *   func_0220BB94 0x0220BB94 thumb ov198
+ *   B_APP_TOOL_Create 0x0220AF40 thumb ov196
+ *   B_PLIST_ANM_UpdateByMode 0x0220B848 thumb ov198
+ *   B_PLIST_ANM_CopyPaletteSlot 0x0220BB94 thumb ov198
  *   func_0220E2B4 0x0220E2B4 thumb ov198
  *   func_0220EA68 0x0220EA68 thumb ov198
- *   func_0220BC24 0x0220BC24 thumb ov198
+ *   B_PLIST_ANM_CreateTileWindows 0x0220BC24 thumb ov198
  *   func_0220BE2C 0x0220BE2C thumb ov198
  *   func_0220E25C 0x0220E25C thumb ov198
  *   PALANM_RequestFade 0x0202173C thumb
@@ -49,12 +49,12 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
- *   func_0220B760 0x0220B760 thumb ov198
+ *   B_PLIST_ANM_StartPaletteAnim 0x0220B760 thumb ov198
  *   func_0220E13C 0x0220E13C thumb ov198
  *   func_0220E1D4 0x0220E1D4 thumb ov198
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   func_02045CAC 0x02045CAC arm
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   func_0220D6AC  0x0220D6AC  thumb  ov198
  *   KEY_GetCont  0x0203630C  arm
  *   KEY_GetTrg  0x020362DC  arm
@@ -68,14 +68,14 @@
  *   func_0220E74C 0x0220E74C thumb ov198
  *   func_0220BE04 0x0220BE04 thumb ov198
  *   TCBL_Destroy 0x02031140 arm
- *   func_0220AF64 0x0220AF64 thumb ov196
+ *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
  *   sub_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  *   func_0203FC6C 0x0203FC6C arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
- *   sub_02041B6C 0x02041B6C arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_02212144 0x02212144 data a4
  *   d_02212174 0x02212174 data a4
@@ -87,8 +87,8 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   func_02049EF4 0x02049EF4 arm
- *   func_0220B120 0x0220B120 thumb ov198
- *   func_0220B3B4 0x0220B3B4 thumb ov198
+ *   B_PLIST_ANM_CopyMonSpriteTiles 0x0220B120 thumb ov198
+ *   B_PLIST_ANM_CopySubSpriteTiles 0x0220B3B4 thumb ov198
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PALANM_GetDefaultWork 0x02021728 thumb
@@ -97,12 +97,12 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_02017E1C 0x02017E1C thumb
@@ -131,19 +131,19 @@
  *   d_02212138 0x02212138 data a4
  *   func_0220C688 0x0220C688 thumb
  *   func_0220E27C 0x0220E27C thumb
- *   func_0204162C 0x0204162C arm
+ *   BG_SYS_GetBuf 0x0204162C arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   data_02212550 0x02212550 data ov198
- *   func_0220BBF0 0x0220BBF0 thumb ov198
+ *   B_PLIST_ANM_UpdateSelectedTile 0x0220BBF0 thumb ov198
  *   func_0220C67C 0x0220C67C thumb ov198
- *   func_02025CD0 0x02025CD0 thumb
- *   func_02025D1C 0x02025D1C thumb
- *   func_02025D24 0x02025D24 thumb
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
+ *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
+ *   CURSOR_MOVE_SetMode 0x02025D24 thumb
  *   d_022122D4 0x022122D4 data a4
  *   d_022122A0 0x022122A0 data a4
- *   func_02025D14  0x02025D14  thumb
- *   func_0202616C  0x0202616C  thumb
- *   func_0220B000  0x0220B000  thumb  ov196
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
+ *   CURSOR_MOVE_GetEntry  0x0202616C  thumb
+ *   B_APP_TOOL_LayoutActors  0x0220B000  thumb  ov196
  *   BGWINFRM_Create  0x0202C9B4  thumb  arm9
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb  arm9
  *   BGWINFRM_SetFrameData  0x0202CAC4  thumb  arm9
@@ -378,23 +378,23 @@ extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(void *, int);
 extern int func_0202D034(unsigned,unsigned);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
-extern void func_0220AF6C(char *,int,int,int,int);
-extern unsigned func_0220AFDC();
+extern void B_APP_TOOL_CreateActors(char *,int,int,int,int);
+extern unsigned B_APP_TOOL_SetActorsVisible();
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_0220B7AC(u8 *);
+extern void B_PLIST_ANM_StepPaletteAnim(u8 *);
 extern void func_0220E22C(u8 *);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u8 *func_0220AF40(u16 v);
-extern void func_0220B848(u8 *,u32);
-extern void func_0220BB94(u8 *,u32);
+extern u8 *B_APP_TOOL_Create(u16 v);
+extern void B_PLIST_ANM_UpdateByMode(u8 *,u32);
+extern void B_PLIST_ANM_CopyPaletteSlot(u8 *,u32);
 extern void func_0220E2B4(char *);
 extern void func_0220EA68(char *,u32);
-extern void func_0220BC24(u8 *);
+extern void B_PLIST_ANM_CreateTileWindows(u8 *);
 extern int func_0220BE2C(char *,int);
 extern void func_0220E25C(u8 *);
 extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
@@ -402,12 +402,12 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PALANM_GetFadeRequestBits(const char *);
-extern void func_0220B760(u8 *,u32);
+extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
 extern void func_0220E13C(u8 *);
 extern void func_0220E1D4(u8 *);
-extern u32 func_02020FE4(void *,u32,u32);
+extern u32 FILE_UTIL_Get_0FE4(void *,u32,u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern int func_02025DE8(struct Sound *);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
 extern void func_0220D6AC(u8 *);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
@@ -423,21 +423,21 @@ extern void BGWINFRM_Delete(struct WinMgr *obj);
 extern void func_0220E74C(char *);
 extern void func_0220BE04(u8 *p);
 extern void TCBL_Destroy(struct S02031140 *);
-extern void func_0220AF64(void *);
+extern void B_APP_TOOL_Delete(void *);
 extern void sub_02030EAC(struct Node *);
 extern u32 func_020307B0(void *p);
 extern void func_0203FC6C(const struct BgVramReq *,u32);
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
-extern void func_020414EC(u32);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void sub_02041B6C(u32);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_ClearSlot(u32);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_SetFlagField06(u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_020403F4(u32 i);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_02049EF4(void *,u32,u32,void **,u16);
-extern void func_0220B120(char *,u16 *);
-extern void func_0220B3B4(char *,u16 *);
+extern void B_PLIST_ANM_CopyMonSpriteTiles(char *,u16 *);
+extern void B_PLIST_ANM_CopySubSpriteTiles(char *,u16 *);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int PALANM_GetDefaultWork(char *,int);
@@ -446,12 +446,12 @@ extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 func_02017E1C(void *,u32,u32);
@@ -477,7 +477,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0202F72C(void *,u16,u16);
 extern void func_0220C688(char *p);
 extern void func_0220E27C(u8 *p);
-extern u32_022113B8 func_0204162C(int channel);
+extern u32_022113B8 BG_SYS_GetBuf(int channel);
 extern void MIi_CpuCopy16(const void *, void *, unsigned);
 extern struct WinMgr *BGWINFRM_Create(u32_02211420 a0, u32_02211420 a1, u32_02211420 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32_02211420 idx, u32_02211420 a, u32_02211420 b, u32_02211420 c);
@@ -487,15 +487,15 @@ extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32_02211420 idx, s8 dx, s8 dy, u8 frames);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32_02211420 idx, s8 *x, s8 *y);
 extern u32_02211420 BGWINFRM_IsMoving(struct WinMgr *mgr, u32_02211420 idx);
-extern void func_0220BBF0(u8 *);
+extern void B_PLIST_ANM_UpdateSelectedTile(u8 *);
 extern void func_0220C67C(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32_02211970);
-extern struct Struct_02025CD0 *func_02025CD0(u32_02211998,u32_02211998,u32_02211998,u32_02211998,u8,u16);
-extern void func_02025D1C(struct Struct_02025D1C *);
-extern void func_02025D24(struct Struct_02025D24 *);
-extern u32_022119E8 func_02025D14(void *a0);
-extern void *func_0202616C(void **obj, u32_02211A24 idx);
-extern void func_0220B000(int *p, u8 *q);
+extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32_02211998,u32_02211998,u32_02211998,u32_02211998,u8,u16);
+extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *);
+extern void CURSOR_MOVE_SetMode(struct Struct_02025D24 *);
+extern u32_022119E8 CURSOR_MOVE_Delete(void *a0);
+extern void *CURSOR_MOVE_GetEntry(void **obj, u32_02211A24 idx);
+extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
 void func_0220F060(u8 *p);
 void func_0220F138(void *a, int b);
 int func_0220F158(char *p);
@@ -700,7 +700,7 @@ void func_0220F1A4(u8 *p)
 
 
 
-void func_0220F1F4(u8 *p) { func_0220AF6C(*(char * *)&((struct Obj00172 *)p)->f2188,*(int *)&((struct Obj00172 *)p)->f1EB8,((struct Obj00172 *)p)->f2504,((struct Obj00172 *)p)->f251C,((struct Obj00172 *)p)->f2534);func_0220AFDC(*(char * *)&((struct Obj00172 *)p)->f2188,0); }
+void func_0220F1F4(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&((struct Obj00172 *)p)->f2188,*(int *)&((struct Obj00172 *)p)->f1EB8,((struct Obj00172 *)p)->f2504,((struct Obj00172 *)p)->f251C,((struct Obj00172 *)p)->f2534);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00172 *)p)->f2188,0); }
 
 
 
@@ -792,7 +792,7 @@ void func_0220F478(void *task,u8 *p)
     if (((struct Obj01006 *)p)->f2178==33 && func_02210420(task,(char *)p)==1) return;
     TCBL_Main(((struct Obj01006 *)p)->f1D4);
     func_0220F1A4(p);
-    func_0220B7AC(p);
+    B_PLIST_ANM_StepPaletteAnim(p);
     func_0220E22C(p);
 }
 
@@ -805,20 +805,20 @@ void func_0220F478(void *task,u8 *p)
 int func_0220F4E0(u8 *p)
 {
     d_04001050[0]=0;
-    func_0207D534((u16 *)((u32)d_04001050+28),-16);
+    GXx_SetMasterBrightness_((u16 *)((u32)d_04001050+28),-16);
     ((struct Obj00633 *)p)->f1D4=TCBL_Create(((struct Obj25226 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,((struct Obj25227 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,1,4);
     if((*(u8 **)p)[31]==4) p[0x2180]=6;
     else if((*(u8 **)p)[31]==5) p[0x2180]=4;
     else p[0x2180]=0;
-    ((struct Obj00633 *)p)->f2188=func_0220AF40(((struct Obj25228 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10);
+    ((struct Obj00633 *)p)->f2188=B_APP_TOOL_Create(((struct Obj25228 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10);
     func_02211034(p);func_0221099C(p);func_022104EC(p);func_02210608((char *)p);func_02210710((char *)p);
-    func_02210D4C(p,p[0x2180]);func_0220B848(p,p[0x2180]);func_0220BB94(p,p[0x2180]);
+    func_02210D4C(p,p[0x2180]);B_PLIST_ANM_UpdateByMode(p,p[0x2180]);B_PLIST_ANM_CopyPaletteSlot(p,p[0x2180]);
     func_0220E2B4((char *)p);
     if((*(u8 **)p)[31]==5) func_0220F060(p);
-    func_0220EA68((char *)p,p[0x2180]);func_0220BC24(p);func_0220BE2C((char *)p,p[0x2180]);func_0220E25C(p);
+    func_0220EA68((char *)p,p[0x2180]);B_PLIST_ANM_CreateTileWindows(p);func_0220BE2C((char *)p,p[0x2180]);func_0220E25C(p);
     if(**(u8 * *)&((struct Obj25229 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f44==1) *(u32 *)&((struct Obj00633 *)p)->f218C=1;
     else *(u32 *)&((struct Obj00633 *)p)->f218C=0;
-    func_0220AFDC((char *)(*(u8 * *)&((struct Obj00633 *)p)->f2188),((struct Obj00633 *)p)->f218C);
+    B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&((struct Obj00633 *)p)->f2188),((struct Obj00633 *)p)->f218C);
     if(p[0x2180]==0) {
         if(func_02210F04((u32)p,func_022110D4(p,0))==1) (*(u8 **)p)[32]=1;
         func_02211998(p,p[0x2180],(*(u8 **)p)[32]);
@@ -862,13 +862,13 @@ int func_0220F6C0(u8 *p)
                 }
             } else if((*(u8 **)p)[31]!=1) {
                 func_02211970((u8 **)p,1362);
-                func_0220B760(p,6);
+                B_PLIST_ANM_StartPaletteAnim(p,6);
                 func_02211944((u8 **)p);
                 return 31;
             }
         } else {
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,(*(u8 **)p)[32]);
+            B_PLIST_ANM_StartPaletteAnim(p,(*(u8 **)p)[32]);
             if((*(u8 **)p)[31]==3) return func_0220F7C4(p);
             ((struct Obj04601 *)p)->f217C=12;
             return 29;
@@ -899,8 +899,8 @@ int func_0220F7C4(u8 *p)
         func_02211944((u8 **)p);
         return 23;
     }
-    if (func_02020FE4((void *)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
-        func_02020FE4((void *)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
+    if (FILE_UTIL_Get_0FE4((void *)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
+        FILE_UTIL_Get_0FE4((void *)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
         *(u32 *)(p+0x217c) = 18;
         return 29;
     }
@@ -916,11 +916,11 @@ int func_0220F88C(u8 *p)
     u32 sel;
     u8 *q;
     if(func_02211958((u8 **)p)==1) return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03907 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj03907 *)p)->f2184);
     switch(sel) {
     case 0:
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,7);
+        B_PLIST_ANM_StartPaletteAnim(p,7);
         if(func_02210E20(p)==1) {
             q=*(u8 * *)&((struct Obj03907 *)p)->f0;
             if(q[31]!=2) {
@@ -934,20 +934,20 @@ int func_0220F88C(u8 *p)
     case 1:
         if(func_02210ED4(p)==1) break;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,8);
+        B_PLIST_ANM_StartPaletteAnim(p,8);
         ((struct Obj03907 *)p)->f217C=13;return 29;
     case 2:
         if(func_02210ED4(p)==1) break;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,10);
+        B_PLIST_ANM_StartPaletteAnim(p,10);
         ((struct Obj03907 *)p)->f217C=14;return 29;
     case 3:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj03907 *)p)->f217C=11;return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj03907 *)p)->f217C=11;return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);break;
@@ -965,14 +965,14 @@ int func_0220F9F8(u8 *p)
     u32 sel;
     u8 next;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03908 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj03908 *)p)->f2184);
     switch(sel){
     case 0:
         next=func_02210B30(p,(*(u8 **)p)[0x20],-1);
         if(next!=255){
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,12);
+            B_PLIST_ANM_StartPaletteAnim(p,12);
             ((struct Obj03908 *)p)->f217C=20;
             return 29;
         }
@@ -982,25 +982,25 @@ int func_0220F9F8(u8 *p)
         if(next!=255){
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,13);
+            B_PLIST_ANM_StartPaletteAnim(p,13);
             ((struct Obj03908 *)p)->f217C=20;
             return 29;
         }
         break;
     case 2:
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,11);
+        B_PLIST_ANM_StartPaletteAnim(p,11);
         ((struct Obj03908 *)p)->f217C=14;
         return 29;
     case 3:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         p[0x2190]=1;
         ((struct Obj03908 *)p)->f217C=12;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         p[0x2190]=1;
         ((struct Obj03908 *)p)->f217C=12;
         return 29;
@@ -1025,13 +1025,13 @@ int func_0220FB44(u8 *p)
     int row;
     u8 next;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03349 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj03349 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3:
         row=(u32)p+func_022110D4(p,(*(u8 **)p)[0x20])*0x4C;
         if(*(u16 *)(row+sel*8+0x30)!=0){
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,(u8)(sel+14));
+            B_PLIST_ANM_StartPaletteAnim(p,(u8)(sel+14));
             (*(u8 **)p)[0x4B]=sel;
             ((struct Obj03349 *)p)->f217C=15;
             return 29;
@@ -1042,7 +1042,7 @@ int func_0220FB44(u8 *p)
         if(next!=255){
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,(u8)12);
+            B_PLIST_ANM_StartPaletteAnim(p,(u8)12);
             ((struct Obj03349 *)p)->f217C=20;
             return 29;
         }
@@ -1052,25 +1052,25 @@ int func_0220FB44(u8 *p)
         if(next!=255){
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,(u8)13);
+            B_PLIST_ANM_StartPaletteAnim(p,(u8)13);
             ((struct Obj03349 *)p)->f217C=20;
             return 29;
         }
         break;
     case 6:
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,(u8)9);
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)9);
         ((struct Obj03349 *)p)->f217C=13;
         return 29;
     case 7:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,(u8)6);
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
         p[0x2190]=2;
         ((struct Obj03349 *)p)->f217C=12;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,(u8)6);
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
         p[0x2190]=2;
         ((struct Obj03349 *)p)->f217C=12;
         return 29;
@@ -1091,7 +1091,7 @@ int func_0220FCE0(u8 *p)
     u32 sel;
     int row;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj10850 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj10850 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3:
         if((*(u8 **)p)[0x4B]!=sel){
@@ -1105,12 +1105,12 @@ int func_0220FCE0(u8 *p)
         break;
     case 4:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj10850 *)p)->f217C=14;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj10850 *)p)->f217C=14;
         return 29;
     case (u32)-3: case (u32)-4:
@@ -1131,7 +1131,7 @@ int func_0220FDD4(u8 *p)
     int row;
     if(PALANM_GetFadeRequestBits(*(const char * *)&((struct Obj14565 *)p)->f1D8)!=0)return 30;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj14565 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj14565 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3:
         if((*(u8 **)p)[0x4B]!=sel){
@@ -1145,11 +1145,11 @@ int func_0220FDD4(u8 *p)
         break;
     case 4:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         return 31;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         return 31;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);
@@ -1168,25 +1168,25 @@ int func_0220FED0(u8 *p)
     u32 sel;
     u8 value;
     if(PALANM_GetFadeRequestBits(*(const char * *)&((struct Obj08361 *)p)->f1D8)!=0)return 25;
-    sel=func_02025DE8(*(struct Sound * *)&((struct Obj08361 *)p)->f2184);
+    sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj08361 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3: case 4:
         value=sel;
         (*(u8 **)p)[0x4B]=value;
         p[0x2191]=value;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,(u8)(sel+22));
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)(sel+22));
         ((struct Obj08361 *)p)->f217C=17;
         return 29;
     case 5:
         func_02211970((u8 **)p,1362);
         (*(u8 **)p)[0x4B]=4;
-        func_0220B760(p,(u8)6);
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
         return 31;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         (*(u8 **)p)[0x4B]=4;
-        func_0220B760(p,(u8)6);
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
         return 31;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);
@@ -1202,23 +1202,23 @@ int func_0220FED0(u8 *p)
 
 int func_0220FFCC(u8 *p)
 {
-    u32 sel=func_02025DE8(*(struct Sound * *)&((struct Obj04602 *)p)->f2184);
+    u32 sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj04602 *)p)->f2184);
     switch(sel){
     case 0:
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,27);
+        B_PLIST_ANM_StartPaletteAnim(p,27);
         if(func_02210F1C(p)==0)((struct Obj04602 *)p)->f217C=31;
         else ((struct Obj04602 *)p)->f217C=27;
         return 29;
     case 1:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         p[0x2192]=0;
         ((struct Obj04602 *)p)->f217C=16;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         p[0x2192]=0;
         ((struct Obj04602 *)p)->f217C=16;
         return 29;
@@ -1252,11 +1252,11 @@ u32 func_022100A0(u8 *p)
 /*
  * lever: bounded permuter expanded row use, cast the row/column sum to u32,
  *   and captured the byte selection in tmp before calling func_022110D4.
- * Caller truncates the selection+18 argument to u8 before func_0220B760.
+ * Caller truncates the selection+18 argument to u8 before B_PLIST_ANM_StartPaletteAnim.
  */
 int func_022100BC(u8 *p)
 {
-    u32 selection=func_02025DE8(*(struct Sound * *)&((struct Obj10851 *)p)->f2184);
+    u32 selection=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj10851 *)p)->f2184);
     u8 tmp;
     switch(selection) {
     case 0: case 1: case 2: case 3: {
@@ -1269,17 +1269,17 @@ int func_022100BC(u8 *p)
         (*(u8 **)p)[0x4b]=selection;
         (*(u8 **)p)[0x48]=idx;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,(u8)(selection+18));
+        B_PLIST_ANM_StartPaletteAnim(p,(u8)(selection+18));
         return 31;
     }
     case 4:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj10851 *)p)->f217C=11;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        B_PLIST_ANM_StartPaletteAnim(p,6);
         ((struct Obj10851 *)p)->f217C=11;
         return 29;
     case (u32)-3: case (u32)-4:
@@ -1396,7 +1396,7 @@ u32 func_02210248(u32 a)
 
 
 
-int func_0221025C(u8 *p) { func_0220EA68((char *)p,p[0x2180]);func_0220BE2C((char *)p,p[0x2180]);func_0220B848(p,p[0x2180]);func_02210BFC(p,p[0x2180]);if(p[0x2180]==2)return 5;return 6; }
+int func_0221025C(u8 *p) { func_0220EA68((char *)p,p[0x2180]);func_0220BE2C((char *)p,p[0x2180]);B_PLIST_ANM_UpdateByMode(p,p[0x2180]);func_02210BFC(p,p[0x2180]);if(p[0x2180]==2)return 5;return 6; }
 
 
 
@@ -1522,7 +1522,7 @@ int func_02210420(struct Node *task,char *p)
         func_022105E4();
         TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01006 *)p)->f1D4);
         func_022119E8((u8 *)p);
-        func_0220AF64(((struct Obj01006 *)p)->f2188);
+        B_APP_TOOL_Delete(((struct Obj01006 *)p)->f2188);
         if(((struct Obj01006 *)p)->f218C==1) **(u8 * *)&((struct Obj25241 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f44=1;
         else **(u8 * *)&((struct Obj25243 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f44=0;
     }
@@ -1541,19 +1541,19 @@ void func_022104EC(u8 *p)
     struct BgTemplate cfg7,cfg6,cfg5,cfg4;
     func_0203FC6C(&req,1);
     cfg7=d_02212174;
-    func_0203FCA0(7,&cfg7,0);
+    BG_SYS_InitBgLayer(7,&cfg7,0);
     cfg6=d_022121B4;
-    func_0203FCA0(6,&cfg6,0);
+    BG_SYS_InitBgLayer(6,&cfg6,0);
     cfg5=d_02212154;
-    func_0203FCA0(5,&cfg5,0);
-    func_020414EC(5);
+    BG_SYS_InitBgLayer(5,&cfg5,0);
+    BG_SYS_ClearSlot(5);
     cfg4=d_02212194;
-    func_0203FCA0(4,&cfg4,0);
-    func_020414EC(4);
-    func_02040B94(5,32,0,((struct Obj25245 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
-    func_02040B94(4,32,0,((struct Obj25246 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
-    sub_02041B6C(5);
-    sub_02041B6C(4);
+    BG_SYS_InitBgLayer(4,&cfg4,0);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_InitRun(5,32,0,((struct Obj25245 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
+    BG_SYS_InitRun(4,32,0,((struct Obj25246 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
+    BG_SYS_SetFlagField06(5);
+    BG_SYS_SetFlagField06(4);
     BG_SYS_SetSubPlaneVisible(15,1);
 }
 
@@ -1580,10 +1580,10 @@ void func_02210608(char *p)
     char *data;
     ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,((struct Obj25248 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     handle=func_02049EF4(owner,16,1,(void **)&data,((struct Obj25249 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
-    func_0220B120(p,(u16 *)(data+12));
+    B_PLIST_ANM_CopyMonSpriteTiles(p,(u16 *)(data+12));
     func_020307B0(handle);
     handle=func_02049EF4(owner,17,1,(void **)&data,((struct Obj25250 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
-    func_0220B3B4(p,(u16 *)(data+12));
+    B_PLIST_ANM_CopySubSpriteTiles(p,(u16 *)(data+12));
     func_020307B0(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,100,19,((struct Obj25251 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
@@ -1600,7 +1600,7 @@ void func_02210710(char *p)
 {
     ((struct Obj02916 *)p)->f1EA0=func_02045B38(0,2,0x12,((struct Obj25254 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
     ((struct Obj02916 *)p)->f1E9C=GF_FONT_Create(0x17,3,0,0,((struct Obj25255 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
-    ((struct Obj02916 *)p)->f1EA4=func_0201EC64(((struct Obj25256 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
+    ((struct Obj02916 *)p)->f1EA4=GF_FONT_Create_EC64(((struct Obj25256 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
     ((struct Obj02916 *)p)->f1EAC=PRINTSYS_QUE_CreateEx(0x800,((struct Obj25257 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
     ((struct Obj02916 *)p)->f1EA8=STRBUF_Create(0x200,((struct Obj25258 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
 }
@@ -1608,7 +1608,7 @@ void func_02210710(char *p)
 
 
 
-void func_02210774(u8 *p) { MSGDATA_Delete(*(struct Rec * *)&((struct Obj06656 *)p)->f1EA0);GF_FONT_Delete(((struct Obj06656 *)p)->f1E9C);func_0201ED04(*(struct WordSet * *)&((struct Obj06656 *)p)->f1EA4);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj06656 *)p)->f1EAC);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj06656 *)p)->f1EA8); }
+void func_02210774(u8 *p) { MSGDATA_Delete(*(struct Rec * *)&((struct Obj06656 *)p)->f1EA0);GF_FONT_Delete(((struct Obj06656 *)p)->f1E9C);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj06656 *)p)->f1EA4);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj06656 *)p)->f1EAC);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj06656 *)p)->f1EA8); }
 
 
 
@@ -1710,7 +1710,7 @@ void func_0221099C(u8 *p)
 
 int func_02210A4C(u8 *p)
 {
-    u32 sel=func_02025DE8(*(struct Sound * *)&((struct Obj25266 *)p)->f2184);
+    u32 sel=CURSOR_MOVE_PollRepeatInput(*(struct Sound * *)&((struct Obj25266 *)p)->f2184);
     switch(sel) {
     case 0: case 1: case 2: case 3: case 4: case 5:
         if(func_02210B00(p,sel)) {
@@ -1826,8 +1826,8 @@ int func_02210C88(u8 *p,unsigned mode)
             func_02210BFC(p,mode);
             func_0220EA68((char *)p,mode);
             func_02210FCC(p,mode);
-            func_0220B848(p,mode);
-            func_0220BB94(p,mode);
+            B_PLIST_ANM_UpdateByMode(p,mode);
+            B_PLIST_ANM_CopyPaletteSlot(p,mode);
             p[0x2180]=mode;
             ((State *)p)->step=0;
             return 1;
@@ -2186,7 +2186,7 @@ int func_022112AC(u8 *p)
     if (func_02210A4C(p) == 1) {
         if ((*(u8 **)p)[0x20] == 6) {
             func_02211970((u8 **)p, 0x552);
-            func_0220B760(p, 6);
+            B_PLIST_ANM_StartPaletteAnim(p, 6);
             (*(u8 **)p)[0x20] = p[0x2498];
             ((struct Obj02536 *)p)->f217C = 0xc;
             return 0x1d;
@@ -2237,7 +2237,7 @@ void func_0221139C(u8 *a, u8 *b, unsigned int c)
 void func_022113B8(u8 *dst, unsigned bg, unsigned which)
 {
     u8 xy[2];
-    u8 *src = (u8 *)func_0204162C(bg);
+    u8 *src = (u8 *)BG_SYS_GetBuf(bg);
     u8 i;
     func_0221139C(&xy[1], &xy[0], which);
     for (i = 0; i < 6; i++) {
@@ -2374,7 +2374,7 @@ int func_02211810(u8 *p)
 {
     if (func_02211420(p) == 0) {
         if (func_0221189C(p) == 0) return 31;
-        func_0220BBF0(p);
+        B_PLIST_ANM_UpdateSelectedTile(p);
         func_0220C67C((char *)p);
         func_0220E27C(p);
         return 3;
@@ -2492,11 +2492,11 @@ void func_02211998(u8 *p,u32_02211998 index,u32_02211998 b)
 {
     Offset offset=task_offset;
     struct Struct_02025CD0 *result;
-    result=func_02025CD0(d_022122D4[index],(u32_02211998)d_022122A0,(u32_02211998)p,*(u32_02211998 *)(p+offset),b,((struct Obj25289 *)(*(u8 * *)&((struct Obj10855 *)p)->f0))->f10);
+    result=CURSOR_MOVE_Create(d_022122D4[index],(u32_02211998)d_022122A0,(u32_02211998)p,*(u32_02211998 *)(p+offset),b,((struct Obj25289 *)(*(u8 * *)&((struct Obj10855 *)p)->f0))->f10);
     *(struct Struct_02025CD0 **)(p+(offset-8))=result;
-    func_02025D1C((struct Struct_02025D1C *)result);
+    CURSOR_MOVE_EnableInput((struct Struct_02025D1C *)result);
     offset-=8;
-    func_02025D24(*(struct Struct_02025D24 **)(p+offset));
+    CURSOR_MOVE_SetMode(*(struct Struct_02025D24 **)(p+offset));
     func_02211A24(p,b);
 }
 
@@ -2505,7 +2505,7 @@ void func_02211998(u8 *p,u32_02211998 index,u32_02211998 b)
 
 u32_022119E8 func_022119E8(u8 *p)
 {
-    return func_02025D14((void *)(((struct Obj25290 *)p)->f2184));
+    return CURSOR_MOVE_Delete((void *)(((struct Obj25290 *)p)->f2184));
 }
 
 
@@ -2530,7 +2530,7 @@ u32_02211A10 func_02211A10(u8 *p, u32_02211A10 v)
 
     *(u32_02211A10 *)(p + i) = v;
     i -= 4;
-    return func_0220AFDC(*(u32_02211A10 *)(p + i), v);
+    return B_APP_TOOL_SetActorsVisible(*(u32_02211A10 *)(p + i), v);
 }
 
 
@@ -2538,9 +2538,9 @@ u32_02211A10 func_02211A10(u8 *p, u32_02211A10 v)
 
 void func_02211A24(u8 *p, u32_02211A24 idx)
 {
-    void *t = func_0202616C(*(void ** *)&((struct Obj10855 *)p)->f2184, idx);
+    void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct Obj10855 *)p)->f2184, idx);
 
-    func_0220B000((int *)(((struct Obj10855 *)p)->f2188), (u8 *)((u32_02211A24)t));
+    B_APP_TOOL_LayoutActors((int *)(((struct Obj10855 *)p)->f2188), (u8 *)((u32_02211A24)t));
 }
 
 

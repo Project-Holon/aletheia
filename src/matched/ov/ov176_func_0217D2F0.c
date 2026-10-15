@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * blocker:  byte-correct, but the calls to func_0200BAC8 and POKE_REGULATION_GetDataSize
+ * blocker:  byte-correct, but the calls to BATTLE_BOX_GetFromSave and POKE_REGULATION_GetDataSize
  *           have no witness outside this range. Both are unlabelled Thumb
  *           leaf code in arm9 that disasm.py emitted as `.word` runs
  *           (0200BAC8 is inside a `0x21314B01` word block, 0201A918 inside a
@@ -25,12 +25,12 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_0200E918  0x0200E918  thumb
- *   func_0200B078  0x0200B078  thumb
+ *   REGULATION_Card_GetValue  0x0200B078  thumb
  *   ov067_id       0x00000043  data
  */
 #include "../include/Obj06578.h"
@@ -49,12 +49,12 @@ extern void OS_GetMacAddress(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E6E8(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void *func_0200BAC8(void *p);
+extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_020307B0(void *p);
 extern u8 func_0200E918(const u8 *base, u32 idx);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 
 void func_0217D2F0(u8 *p, u8 *q)
 {
@@ -67,13 +67,13 @@ void func_0217D2F0(u8 *p, u8 *q)
     MI_CpuCopy8(x, p, MYSTATUS_GetSize());
     OS_GetMacAddress(p + 0x20);
     MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
-    a = (u32)func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
+    a = (u32)func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
     MI_CpuCopy8(a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
     ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
     ((struct Obj06578 *)p)->f2C = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 2);
     ((struct Obj06578 *)p)->f30 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 0);
-    ((struct Obj06578 *)p)->f40 = func_0200B078((struct Reg2 *)(((struct Obj06579 *)q)->f38), 2);
+    ((struct Obj06578 *)p)->f40 = REGULATION_Card_GetValue((struct Reg2 *)(((struct Obj06579 *)q)->f38), 2);
 }
 
 

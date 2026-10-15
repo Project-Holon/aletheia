@@ -1,5 +1,5 @@
 /*
- * function: func_021D4664
+ * function: POKETRADE_IRCDEMO_StepStartPlayback
  * address:  0x021D4664
  * packet:   pkt_ov117_021D4664
  * region:   ov117
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4240  0x021D4240  thumb  ov117
+ *   POKETRADE_DEMO_COMMON_StepFade  0x021D4240  thumb  ov117
  *   POKETRADE_MCSS_SlideUpdate  0x021DFC68  thumb  ov119
- *   func_021D4480  0x021D4480  thumb  ov117
+ *   POKETRADE_DEMO_COMMON_PassThrough  0x021D4480  thumb  ov117
  *   POKETRADE_2D_ScheduleMainPlaneVisible  0x021E71F0  thumb  ov119
  *   POKETRADE_2D_ScheduleSubPlaneVisible  0x021E7208  thumb  ov119
  *   POKETRADE_2D_DeleteAllOfferIconActors  0x021E64B8  thumb  ov119
  *   POKETRADE_2D_DeleteAllBoxIcons  0x021E4888  thumb  ov119
  *   POKETRADE_SAVE_DeleteOfferListWindows  0x021E2680  thumb  ov119
- *   func_021D4484  0x021D4484  thumb  ov117
+ *   POKETRADE_DEMO_COMMON_SetFrame  0x021D4484  thumb  ov117
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -32,7 +32,7 @@
  *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
- *   func_021D48F0  0x021D48F0  thumb  ov117
+ *   POKETRADE_IRCDEMO_StepMessage  0x021D48F0  thumb  ov117
  *   d_021D5220     0x021D5220  data
  *   d_021D53D0     0x021D53D0  data
  *   d_021D5600     0x021D5600  data
@@ -51,15 +51,15 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_021D4240(s8 *fade);
+extern void POKETRADE_DEMO_COMMON_StepFade(s8 *fade);
 extern void POKETRADE_MCSS_SlideUpdate(void *p, int a1);
-extern int func_021D4480(int);
+extern int POKETRADE_DEMO_COMMON_PassThrough(int);
 extern void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a);
 extern void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
 extern void POKETRADE_2D_DeleteAllOfferIconActors(void *p);
 extern void POKETRADE_2D_DeleteAllBoxIcons(char *p);
 extern void POKETRADE_SAVE_DeleteOfferListWindows(char *p);
-extern void func_021D4484(u8 *p, u32 v);
+extern void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v);
 extern int POKETRADE_PROC_IsHostSide(void *);
 extern void *POKETRADE_PROC_GetSideMon(void *, int);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
@@ -73,7 +73,7 @@ extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, i
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void func_021D48F0(u8 *p);
+extern void POKETRADE_IRCDEMO_StepMessage(u8 *p);
 extern const u8 d_021D5220[];
 extern const u8 d_021D53D0[];
 extern u8 d_021D5600[];
@@ -83,7 +83,7 @@ extern u8 d_021D5600[];
 #define HEAP (*(u16 *)(p + 0x5F4))
 #define SLOT0 (*(u32 *)(p + 0x85C))
 
-void func_021D4664(u8 *p)
+void POKETRADE_IRCDEMO_StepStartPlayback(u8 *p)
 {
     void *mon;
     u32 a;
@@ -92,16 +92,16 @@ void func_021D4664(u8 *p)
     Vec v2;
     u32 buf;
 
-    func_021D4240(*(s8 * *)&((struct Obj05323 *)p)->f818);
+    POKETRADE_DEMO_COMMON_StepFade(*(s8 * *)&((struct Obj05323 *)p)->f818);
     POKETRADE_MCSS_SlideUpdate((void *)(((struct Obj05323 *)p)->f85C), (int)p);
     POKETRADE_MCSS_SlideUpdate((void *)(((struct Obj05323 *)p)->f860), (int)p);
-    if (FRAME > func_021D4480(0x2A)) {
+    if (FRAME > POKETRADE_DEMO_COMMON_PassThrough(0x2A)) {
         POKETRADE_2D_ScheduleMainPlaneVisible(p, 0x11);
         POKETRADE_2D_ScheduleSubPlaneVisible(p, 0);
         POKETRADE_2D_DeleteAllOfferIconActors(p);
         POKETRADE_2D_DeleteAllBoxIcons((char *)p);
         POKETRADE_SAVE_DeleteOfferListWindows((char *)p);
-        func_021D4484(p, 0);
+        POKETRADE_DEMO_COMMON_SetFrame(p, 0);
         mon = POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p));
         POKE_TOOL_GetPartyValue(mon, 7, 0);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
@@ -134,6 +134,6 @@ void func_021D4664(u8 *p)
                 SLOT0 = (u32)POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x28, &v2, (void *)d_021D53D0, HEAP);
             }
         }
-        POKETRADE_PROC_SetStep(p, (int)func_021D48F0);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_IRCDEMO_StepMessage);
     }
 }

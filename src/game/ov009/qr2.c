@@ -92,7 +92,7 @@
  *   gGsAvailabilityGameName             0x021ACEFC  data
  *   memcmp                 0x020923F0  arm
  *   NNProcessData          0x0219AB8C  arm  ov009
- *   g_021A5A7C             0x021A5A7C  data
+ *   gNatNegMagic             0x021A5A7C  data
  *   g_021A7874             0x021A7874  data
  *   g_021A788C             0x021A788C  data
  *   g_021A78B4             0x021A78B4  data
@@ -247,7 +247,7 @@ extern char *g_021A7C90[];
 extern char g_021A7858[];
 extern int gGsAvailabilityState;
 extern char gGsAvailabilityGameName[];
-extern struct Magic6 g_021A5A7C;
+extern struct Magic6 gNatNegMagic;
 extern char g_021A7874[];
 extern char g_021A788C[];
 extern char g_021A78B4[];
@@ -1182,7 +1182,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len, SOCSockA
         }
         return;
     }
-    if (len >= 6 && memcmp(query, ((unsigned char *)&g_021A5A7C), 6) == 0) {
+    if (len >= 6 && memcmp(query, ((unsigned char *)&gNatNegMagic), 6) == 0) {
         gsDebugFormat(3, 0, 8, g_021A78F0);
         NNProcessData(query, len, (SOCSockAddrIn *)sender);
         return;

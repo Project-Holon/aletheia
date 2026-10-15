@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CC4
+ * function: POKETRADE_DEMO_MIDDLE_CreateOfferSlide
  * address:  0x021D6CC4
  * packet:   pkt_ov118_021D6CC4
  * region:   ov118
@@ -51,7 +51,7 @@ extern const u32 d_021D8470[];
 extern const u32 d_021D8880[];
 extern const u32 d_021D8398[];
 
-void func_021D6CC4(void *a0, int a1)
+void POKETRADE_DEMO_MIDDLE_CreateOfferSlide(void *a0, int a1)
 {
     void *x;
     u32 buf[3];

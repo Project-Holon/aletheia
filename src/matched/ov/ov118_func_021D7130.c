@@ -18,12 +18,12 @@
  *   func_021D6734  0x021D6734  thumb  ov118
  *   func_021D6600  0x021D6600  thumb  ov118
  *   func_021D667C  0x021D667C  thumb  ov118
- *   func_021D6C78  0x021D6C78  thumb  ov118
- *   func_021D6CA8  0x021D6CA8  thumb  ov118
- *   func_021D6CC4  0x021D6CC4  thumb  ov118
- *   func_021D6E04  0x021D6E04  thumb  ov118
- *   func_021D6EAC  0x021D6EAC  thumb  ov118
- *   func_021D6F0C  0x021D6F0C  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_StepEndScene  0x021D6C78  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_DeleteSlide  0x021D6CA8  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_CreateOfferSlide  0x021D6CC4  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_ResetMonSlide  0x021D6E04  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_SetupEmitterA  0x021D6EAC  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_SetupEmitterB  0x021D6F0C  thumb  ov118
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
  *   MCSS_SetPaletteFade  0x02015F50  thumb
@@ -75,12 +75,12 @@ typedef struct {
 extern int func_021D6734(int);
 extern void func_021D6600(void *);
 extern void func_021D667C(void *);
-extern void func_021D6C78(void *);
-extern void func_021D6CA8(void *p, int a1);
-extern void func_021D6CC4(void *a0, int a1);
-extern void func_021D6E04(void *p, int idx);
-extern void func_021D6EAC(void *);
-extern void func_021D6F0C(void *);
+extern void POKETRADE_DEMO_MIDDLE_StepEndScene(void *);
+extern void POKETRADE_DEMO_MIDDLE_DeleteSlide(void *p, int a1);
+extern void POKETRADE_DEMO_MIDDLE_CreateOfferSlide(void *a0, int a1);
+extern void POKETRADE_DEMO_MIDDLE_ResetMonSlide(void *p, int idx);
+extern void POKETRADE_DEMO_MIDDLE_SetupEmitterA(void *);
+extern void POKETRADE_DEMO_MIDDLE_SetupEmitterB(void *);
 extern int POKETRADE_PROC_IsHostSide(void *);
 extern void *POKETRADE_PROC_GetSideMon(void *, int);
 struct McssFade;
@@ -172,13 +172,13 @@ void POKETRADE_DEMO_MIDDLE_UpdateScene(u8 *p)
         PARTICLE_StartEffectWithCallback((int *)WORK[7], 3, 0, (int)p);
     }
     if (FRAME == func_021D6734(0x9A)) {
-        PARTICLE_StartEffectWithCallback((int *)WORK[4], 4, (int)func_021D6EAC, (int)p);
+        PARTICLE_StartEffectWithCallback((int *)WORK[4], 4, (int)POKETRADE_DEMO_MIDDLE_SetupEmitterA, (int)p);
     }
     if (FRAME == func_021D6734(0x152)) {
         PARTICLE_StartEffectWithCallback((int *)WORK[5], 5, 0, (int)p);
     }
     if (FRAME == func_021D6734(0x2BC)) {
-        PARTICLE_StartEffectWithCallback((int *)WORK[6], 6, (int)func_021D6F0C, (int)p);
+        PARTICLE_StartEffectWithCallback((int *)WORK[6], 6, (int)POKETRADE_DEMO_MIDDLE_SetupEmitterB, (int)p);
     }
     if (FRAME == func_021D6734(0x47F)) {
         func_021D6600(p);
@@ -337,8 +337,8 @@ void POKETRADE_DEMO_MIDDLE_UpdateScene(u8 *p)
         if (POKETRADE_PROC_IsHostSide(p) != 0) {
             b2 = 2;
         }
-        func_021D6CA8(p, 0);
-        func_021D6CA8(p, 1);
+        POKETRADE_DEMO_MIDDLE_DeleteSlide(p, 0);
+        POKETRADE_DEMO_MIDDLE_DeleteSlide(p, 1);
         v7.x = 0x3C000;
         v7.y = 0x64000;
         v7.z = -0xA000;
@@ -364,14 +364,14 @@ void POKETRADE_DEMO_MIDDLE_UpdateScene(u8 *p)
     r = t.v[k];
     if (FRAME == func_021D6734(0x48E)) {
         if (*(u8 *)(p + 0x11EE) == 0) {
-            func_021D6E04(p, k);
-            func_021D6CC4(p, k);
+            POKETRADE_DEMO_MIDDLE_ResetMonSlide(p, k);
+            POKETRADE_DEMO_MIDDLE_CreateOfferSlide(p, k);
             MCSS_SetPaletteFade((struct McssFade *)OBJ(k), 0x10, 0x10, 0, 0x7FFF);
         } else {
-            func_021D6E04(p, k);
+            POKETRADE_DEMO_MIDDLE_ResetMonSlide(p, k);
             MCSS_SetVanishFlag((void *)OBJ(k));
-            func_021D6E04(p, r);
-            func_021D6CC4(p, k);
+            POKETRADE_DEMO_MIDDLE_ResetMonSlide(p, r);
+            POKETRADE_DEMO_MIDDLE_CreateOfferSlide(p, k);
             MCSS_SetPaletteFade((struct McssFade *)OBJ(r), 0x10, 0x10, 0, 0x7FFF);
         }
     }
@@ -405,10 +405,10 @@ void POKETRADE_DEMO_MIDDLE_UpdateScene(u8 *p)
         WIPE_SYS_Start(0, 1, 1, 0x7FFF, func_021D6734(0x1E), 1, HEAP);
     }
     if (FRAME == func_021D6734(0x4C1)) {
-        func_021D6CA8(p, 0);
-        func_021D6CA8(p, 1);
+        POKETRADE_DEMO_MIDDLE_DeleteSlide(p, 0);
+        POKETRADE_DEMO_MIDDLE_DeleteSlide(p, 1);
         POKETRADE_3D_RemoveCurrentUnit(p);
-        POKETRADE_PROC_SetStep(p, (int)func_021D6C78);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepEndScene);
     }
     POKETRADE_MCSS_SlideUpdate((void *)SLOT0, (int)p);
     POKETRADE_MCSS_SlideUpdate((void *)SLOT1, (int)p);

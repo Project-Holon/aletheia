@@ -1,5 +1,5 @@
 /*
- * function: func_021C58B8
+ * function: WF2DMAP_OBJDRAW_IsActorFree
  * address:  0x021C58B8
  * packet:   pkt_021C58B8
  * region:   ov127
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C58B8(char *p)
+int WF2DMAP_OBJDRAW_IsActorFree(char *p)
 {
     return ((struct Obj23054 *)p)->f4 == 0;
 }

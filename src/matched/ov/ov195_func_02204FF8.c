@@ -1,5 +1,5 @@
 /*
- * function: func_02204FF8
+ * function: SHINKA_DEMO_StopBgm
  * address:  0x02204FF8
  * packet:   pkt_02204FF8
  * region:   ov195
@@ -18,7 +18,7 @@
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-void func_02204FF8(int a, char *b)
+void SHINKA_DEMO_StopBgm(int a, char *b)
 {
     if (((struct Obj14527 *)b)->f30 == 5) {
         GFL_USE_PopBgm();

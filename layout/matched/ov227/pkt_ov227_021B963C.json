@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B963C",
+   "name": "EVENT_PDC_RETURN_Step",
    "address": "0x021B963C",
    "kind": "game",
    "region": "ov227",

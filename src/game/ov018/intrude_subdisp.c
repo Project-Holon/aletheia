@@ -14,8 +14,8 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012964  0x02012964  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -45,9 +45,9 @@
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
  *   INTRUDE_FIELD_GetZoneAnchor 0x0217BED4 thumb ov018
  *   EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset 0x02185588 thumb ov020
- *   func_02012138  0x02012138  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_02012B8C  0x02012B8C  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
+ *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
  *   func_020122C0  0x020122C0  thumb
@@ -55,15 +55,15 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
- *   func_02012204  0x02012204  thumb
+ *   ICA_ANIME_GetUnk330  0x02012204  thumb
  *   INTRUDE_FIELD_SetSingleAreaMode  0x0217C094  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02012114  0x02012114  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_Check2114  0x02012114  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
@@ -79,15 +79,15 @@
  *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb  ov021
  *   INTRUDE_FIELD_InitPlayerSpin  0x0217C658  thumb  ov018
  *   INTRUDE_FIELD_StepPlayerSpin  0x0217C688  thumb  ov018
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
- *   func_0201212C  0x0201212C  thumb
+ *   ICA_ANIME_GetField30  0x0201212C  thumb
  *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb  ov021
  *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   GAME_COMM_ClearPlayerStatus  0x020264F4  thumb
  *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb  ov020
- *   func_02012B70  0x02012B70  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   EVENT_MAPCHANGE_CreateIntrudeWarpEvent  0x02185140  thumb  ov020
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
@@ -106,14 +106,14 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_020120F8  0x020120F8  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   str_02183B14   0x02183B14  data  a1
  *   func_02030EAC  0x02030EAC  arm
  *   MIi_CpuClear16  0x02082A48  arm
  *   func_020307B0  0x020307B0  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOff  0x02037190  arm
- *   func_0201283C            0x0201283C  thumb
+ *   GAME_DATA_GetField1A0            0x0201283C  thumb
  *   WIH_DWC_PollStatus            0x0201058C  thumb
  *   TCBL_Main            0x020310C4  arm
  *   PRINTSYS_QUE_Main            0x0201C4E4  thumb
@@ -142,7 +142,7 @@
  *   BMP_OAM_CreateSys  0x02025538  thumb
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -150,13 +150,13 @@
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   BMP_OAM_DeleteSys  0x02025588  thumb
  *   CLACT_DeleteRenderer  0x0204B084  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
- *   func_0203FCA0            0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer            0x0203FCA0  arm
  *   MIi_CpuClear32           0x02082A7C  arm
  *   func_02049658            0x02049658  arm
  *   func_020498F4            0x020498F4  arm
@@ -216,7 +216,7 @@
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_02012950  0x02012950  thumb
+ *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
@@ -229,7 +229,7 @@
  *   INTRUDE_COMM_SetWordSetMemberName  0x021762C0  thumb  ov011
  *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
  *   FIELD_PALACE_SYS_IsZoneFlagSet  0x021D3554  thumb  ov021
- *   func_020127AC 0x020127AC thumb
+ *   GAME_DATA_GetField1D4 0x020127AC thumb
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
@@ -307,8 +307,8 @@ struct BgTemplate {
     u32 bgType;             /* 0x1C */
 };
 extern void MI_CpuFill8(void *, int, int);
-extern void *func_020120F4(const void *p);
-extern u32 func_02012964(const void *p);
+extern void *ICA_ANIME_GetField1C(const void *p);
+extern u32 GAME_DATA_GetOccupyInfo(const void *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(void *p);
 extern u16 FIELDMAP_GetZoneId(void *);
@@ -336,9 +336,9 @@ extern void INTRUDE_COMM_NextRequestToken(void *);
 extern int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
 extern int INTRUDE_FIELD_GetZoneAnchor(int, void *);
 extern void *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(void *owner, u16 id, const void *pos);
-extern unsigned int func_02012138(const void *p);
-extern u8 func_02012B58(const void *p);
-extern void func_02012B8C(void *p, unsigned int v);
+extern unsigned int ICA_ANIME_GetField24(const void *p);
+extern u8 GAME_DATA_GetOwnNetId(const void *p);
+extern void GAME_DATA_SetIntrudeId(void *p, unsigned int v);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
 extern void INTRUDE_COMM_SetIntrudeId(void *o, u32 v);
 struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
@@ -346,15 +346,15 @@ void *func_020124E8(void *p);
 u32 GAME_COMM_GetKind(void *obj);
 u32 GAME_COMM_GetWork(void *obj);
 u32 GAME_COMM_GetLastKind(void *obj);
-u32 func_02012204(const void *p);
+u32 ICA_ANIME_GetUnk330(const void *p);
 void INTRUDE_FIELD_SetSingleAreaMode(void *);
 void *GAME_EVENT_GetGameSystem(void *p);
 void GAME_EVENT_CallEvent(void *evt, void *out);
 u32 func_0200FB24(void);
 u32 GAME_COMM_IsTransition(void *obj);
 void GAME_COMM_RequestExitNoCallback(void *p);
-u32 func_02012114(const void *p);
-void *func_0201210C(const void *p);
+u32 ICA_ANIME_Check2114(const void *p);
+void *ICA_ANIME_GetField20(const void *p);
 int FIELDMAP_IsReady(void *);
 u32 FIELDMAP_GetMsgBg(void *p);
 int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
@@ -370,15 +370,15 @@ u32 MSGDATA_Delete(void *rec);
 int FIELD_PLAYER_CheckFormModel(void *p);
 void INTRUDE_FIELD_InitPlayerSpin(void *, void *, void *, int, int, int);
 int INTRUDE_FIELD_StepPlayerSpin(void *, int);
-u32 func_0201296C(const void *p);
+u32 GAME_DATA_GetEventWork(const void *p);
 u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
-u8 func_0201212C(const void *p);
+u8 ICA_ANIME_GetField30(const void *p);
 int EVENT_COMM_ERROR_Create(void *, void *);
 void GAME_COMM_ClearCounter(void *);
 void GAME_COMM_ClearPlayerStatus(void *p);
 void *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(void *a);
-extern int func_02012B70(const void *p);
+extern int GAME_DATA_GetIntrudeCount(const void *p);
 extern void *EVENT_MAPCHANGE_CreateIntrudeWarpEvent();
 extern IntrudeZoneInfo *INTRUDE_FIELD_FindZonePos(int zoneId);
 extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const void *q, u16 s, int t);
@@ -397,13 +397,13 @@ void ARC_TOOL_DeleteHandle(void *bg);
 void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 struct TcbTask *func_020056A0(void (*cb)(void *, void *), void *arg, int pri);
-u8 *func_020120F8(const void *p);
-u16 func_02012AC8(const void *p);
+u8 *ICA_ANIME_GetField114(const void *p);
+u16 GAME_DATA_GetPlayerZoneId(const void *p);
 extern void func_02030EAC(void *n);
 extern void MIi_CpuClear16();
 extern u32 func_020307B0(void *p);
 extern void GFL_NET_WM_ICON_EasyObjWindowOff();
-u32 func_0201283C(const void *p);
+u32 GAME_DATA_GetField1A0(const void *p);
 u32 WIH_DWC_PollStatus(void *key);
 void TCBL_Main(void *p);
 u32 PRINTSYS_QUE_Main(void *ps);
@@ -431,20 +431,20 @@ extern void CLACT_SetUnitRenderer(void *bank, void *p);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *vec);
 extern void PRINTSYS_QUE_Clear(void *p);
 extern void PRINTSYS_QUE_Delete(void *p);
-extern unsigned int func_0201ED04(void *p);
+extern unsigned int WORDSET_DeleteStrbufED04(void *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(void *p);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void CLACT_DeleteRenderer(struct ClactRenderer *);
 extern u32 CLACT_DeleteUnit(void *bank);
-void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
+void BG_SYS_InitBgLayer(u32 bgId, const void *tmpl, u32 type);
 void MIi_CpuClear32(u32 data, void *dest, u32 size);
 u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -491,7 +491,7 @@ extern unsigned int CLACT_GetActorDrawEnable(void *p);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
 void BMP_Clear(void *buf, u8 value);
-void *func_02012950(void *gameData, u32 slot);
+void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 slot);
 void func_0201F02C(void *p, u32 i, void *a);
 void func_02045CAC(void *bank, u32 index, void *dest);
 void func_0201F250(void *ws, void *dst, void *src);
@@ -504,7 +504,7 @@ int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
 void INTRUDE_COMM_SetWordSetMemberName(void *win, u32 slot, void *src, u16 heap);
 void INTRUDE_COMM_SetWordSetRequest();
 int FIELD_PALACE_SYS_IsZoneFlagSet(void *arg0, int arg1);
-extern void *func_020127AC(void *p, u32 idx);
+extern void *GAME_DATA_GetField1D4(void *p, u32 idx);
 extern u32 TOUCHPANEL_GetPointTrg(void *outA, void *outB);
 extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
 extern int ZONEDATA_IsZoneInTableDFC0(int a0);
@@ -635,7 +635,7 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void
     r->shownStep = r->stepFrames;
     r->copyIndex = idx;
     if (place != 0) {
-        sys = func_02012964(func_020120F4(a1));
+        sys = GAME_DATA_GetOccupyInfo(ICA_ANIME_GetField1C(a1));
         obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a2));
         zone = FIELDMAP_GetZoneId(a2);
         d_02183AF0.objCode = FLDMMDL_GetObjCode(obj);
@@ -784,13 +784,13 @@ void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0)
     void *gameData;
     IntrudeCommSys *sys;
 
-    gameComm = (void *)func_02012138((void *)a0);
-    gameData = func_020120F4((void *)a0);
+    gameComm = (void *)ICA_ANIME_GetField24((void *)a0);
+    gameData = ICA_ANIME_GetField1C((void *)a0);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys != 0) {
-        INTRUDE_COMM_SetIntrudeId(sys, func_02012B58(gameData));
+        INTRUDE_COMM_SetIntrudeId(sys, GAME_DATA_GetOwnNetId(gameData));
     } else {
-        func_02012B8C(gameData, func_02012B58(gameData));
+        GAME_DATA_SetIntrudeId(gameData, GAME_DATA_GetOwnNetId(gameData));
     }
     return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)a0);
 }
@@ -803,7 +803,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
     IntrudeDisconnectWork *work;
     unsigned char *x;
 
-    sys = (void *)func_02012138(a);
+    sys = (void *)ICA_ANIME_GetField24(a);
     ret = (int)func_020122C0(a, 0, INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
     work = func_020124E8((void *)ret);
     work->cause = b;
@@ -814,7 +814,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
             x[0x8F8] |= 0x80;
         }
     }
-    if (func_02012204(a) == 1) {
+    if (ICA_ANIME_GetUnk330(a) == 1) {
         if (GAME_COMM_GetLastKind(sys) == 1) {
             work->alone = 1;
         }
@@ -838,8 +838,8 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
     int r;
 
     x = GAME_EVENT_GetGameSystem(a);
-    s2 = func_020120F4(x);
-    s1 = (void *)func_02012138(x);
+    s2 = ICA_ANIME_GetField1C(x);
+    s1 = (void *)ICA_ANIME_GetField24(x);
     switch (*seq) {
     case 0:
         GAME_EVENT_CallEvent(a, INTRUDE_SUBDISP_CreateReturnPalaceEvent((int)x));
@@ -865,11 +865,11 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         }
         break;
     case 3:
-        if (func_02012114(x) != 1) {
+        if (ICA_ANIME_Check2114(x) != 1) {
             break;
         }
         flag = 0;
-        y = func_0201210C(x);
+        y = ICA_ANIME_GetField20(x);
         if (FIELDMAP_IsReady(y) != 1) {
             break;
         }
@@ -937,7 +937,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         }
         break;
     case 7:
-        y = func_0201210C(x);
+        y = ICA_ANIME_GetField20(x);
         if (FIELDMAP_IsReady(y) == 1) {
             if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(y)) == 0) {
                 INTRUDE_FIELD_InitPlayerSpin(&work->copyRecord, x, y, 0, 0, 0);
@@ -957,7 +957,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         }
         break;
     case 9:
-        if ((int)ZONEDATA_CheckEventFlag((void *)func_0201296C(s2), 0x980) == 0) {
+        if ((int)ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(s2), 0x980) == 0) {
             r = (int)GAME_COMM_GetCounter(s1);
             v = 0;
             switch (r) {
@@ -979,15 +979,15 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         *seq = 10;
         break;
     case 10:
-        if ((func_02012B58(s2) != 0 || (int)func_02012204(x) == 1) && func_0201212C(x) == 1) {
-            GAME_EVENT_CallEvent(a, (void *)EVENT_COMM_ERROR_Create(x, func_0201210C(x)));
+        if ((GAME_DATA_GetOwnNetId(s2) != 0 || (int)ICA_ANIME_GetUnk330(x) == 1) && ICA_ANIME_GetField30(x) == 1) {
+            GAME_EVENT_CallEvent(a, (void *)EVENT_COMM_ERROR_Create(x, ICA_ANIME_GetField20(x)));
         }
         (*seq)++;
         break;
     case 11:
         GAME_COMM_ClearCounter(s1);
         GAME_COMM_ClearPlayerStatus(s1);
-        if (func_02012B58(s2) != 0 || (int)func_02012204(x) == 1) {
+        if (GAME_DATA_GetOwnNetId(s2) != 0 || (int)ICA_ANIME_GetUnk330(x) == 1) {
             GAME_EVENT_CallEvent(a, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(x));
         }
         (*seq)++;
@@ -1025,12 +1025,12 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3)
     void *c;
     VecFx32 v;
 
-    gameComm = (void *)func_02012138(a0);
-    c = func_020120F4((void *)a0);
+    gameComm = (void *)ICA_ANIME_GetField24(a0);
+    c = ICA_ANIME_GetField1C((void *)a0);
     INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (INTRUDE_FIELD_GetZoneAnchor(a2, &v) == 0)
         return 0;
-    if (func_02012B70(c) == 0 && a2 == 0x117)
+    if (GAME_DATA_GetIntrudeCount(c) == 0 && a2 == 0x117)
         return EVENT_MAPCHANGE_CreateIntrudeWarpEvent(a0, a2, &v, a3);
     return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(a0, a2, &v);
 }
@@ -1043,7 +1043,7 @@ void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2)
     VecFx32 v;
     u16 s;
 
-    p = (u8 *)INTRUDE_COMM_GetWorkIfRunning((void *)func_02012138(a0));
+    p = (u8 *)INTRUDE_COMM_GetWorkIfRunning((void *)ICA_ANIME_GetField24(a0));
     if (p == 0 || !(p[0x8FB] & (1 << a2)))
         return 0;
     q = INTRUDE_FIELD_FindZonePos(*(u16 *)(p + a2 * 0x1C + 0xA0));
@@ -1098,8 +1098,8 @@ int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *p)
     void *sys;
     void *obj;
     sys = SCRCMD_WORK_GetGameSystem(p);
-    obj = func_0201210C(sys);
-    func_02012138(sys);
+    obj = ICA_ANIME_GetField20(sys);
+    ICA_ANIME_GetField24(sys);
     INTRUDE_FIELD_AddAreaMmdls((int)obj);
     return 0;
 }
@@ -1113,9 +1113,9 @@ int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1)
     int v;
 
     w = SCRCMD_WORK_GetGameSystem((void *)a1);
-    func_020120F4(w);
-    c = func_0201210C((void *)w);
-    h = func_02012138(w);
+    ICA_ANIME_GetField1C(w);
+    c = ICA_ANIME_GetField20((void *)w);
+    h = ICA_ANIME_GetField24(w);
     v = 0;
     if (GAME_COMM_GetKind((void *)h) == 2)
         v = GAME_COMM_GetWork((void *)h);
@@ -1142,7 +1142,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     void *target;
     u32 tmp;
 
-    gameComm = (void *)func_02012138(gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(gameSystem);
     work = func_02030734(0x70, 0x170, 1, str_02183B14, 0x240);
     work->gameSystem = gameSystem;
     work->lastBgPalette = 0xFF;
@@ -1177,7 +1177,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
     work->vblankTask = func_020056A0(INTRUDE_SUBDISP_VBlankTask, work, 10);
-    zoneId = func_02012AC8(func_020120F8(work->gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem));
     target = INTRUDE_SUBDISP_GetTargetPlayerData(work);
     INTRUDE_SUBDISP_PrintTitle(work, zoneId);
     INTRUDE_SUBDISP_UpdateTownActors(work, target);
@@ -1217,17 +1217,17 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
     int v;
     void *printQue;
 
-    gameComm = (void *)func_02012138(work->gameSystem);
-    gameData = func_020120F4(work->gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
-    zoneId = func_02012AC8(func_020120F8(work->gameSystem));
-    WIH_DWC_PollStatus((void *)func_0201283C(gameData));
+    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem));
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(gameData));
     GFL_NET_WM_ICON_EasyObjWindowOn();
     if (sys == 0 || (sys != 0 && sys->flagBit7 == 0)) {
         INTRUDE_SUBDISP_UpdateTownState(work, sys);
     }
     if (work->lastPeerCount < work->town.peerCount) {
-        if (func_02012B70(gameData) == 1) {
+        if (GAME_DATA_GetIntrudeCount(gameData) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x699);
         }
         work->lastPeerCount = work->town.peerCount;
@@ -1280,7 +1280,7 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
             break;
         case 1:
             if (INTRUDE_COMM_GetUnionInfoReceived(sys) == 1) {
-                FIELDMAP_GetSubscreen(func_0201210C(work->gameSystem));
+                FIELDMAP_GetSubscreen(ICA_ANIME_GetField20(work->gameSystem));
                 work->targetZone = 0x126;
                 work->selectionKind = 1;
                 work->warpPending = 0;
@@ -1303,15 +1303,15 @@ void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work)
     int flag;
     void *target;
 
-    gameComm = (void *)func_02012138(work->gameSystem);
-    gameData = func_020120F4(work->gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
-    zoneId = func_02012AC8(func_020120F8(work->gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem));
     flag = 0;
     target = INTRUDE_SUBDISP_GetTargetPlayerData(work);
     if (sys != 0 && INTRUDE_COMM_HasResult(&sys->session) == 0) {
         flag = 1;
-    } else if (sys == 0 && func_02012B70(gameData) == 1 && GAME_COMM_GetKind(gameComm) != 2
+    } else if (sys == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1 && GAME_COMM_GetKind(gameComm) != 2
                && GAME_COMM_GetCounter(gameComm) == 0 && ZONEDATA_IsZone117(zoneId) == 1) {
         flag = 1;
     }
@@ -1347,14 +1347,14 @@ void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int para
     void *fieldMap;
     void *event;
 
-    gameComm = (void *)func_02012138(work->gameSystem);
-    gameData = func_020120F4(work->gameSystem);
-    fieldMap = func_0201210C(work->gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
     event = 0;
     if (touched == 0 || fieldMap == 0) {
         return 0;
     }
-    if (work->noIntrude == 1 || (func_02012B70(gameData) == 0 && INTRUDE_COMM_GetWorkIfRunning(gameComm) == 0)) {
+    if (work->noIntrude == 1 || (GAME_DATA_GetIntrudeCount(gameData) == 0 && INTRUDE_COMM_GetWorkIfRunning(gameComm) == 0)) {
         GFL_USE_PlaySeDefaultVolume(0x551);
         INTRUDE_SUBDISP_StartButtonBlink(work);
         return INTRUDE_SUBDISP_CreateBrightFadeEvent(work->gameSystem, (int)fieldMap, param);
@@ -1409,7 +1409,7 @@ void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work)
     work->bmpOamSys = BMP_OAM_CreateSys(0x70, work->clactUnit);
     work->tcbl = TCBL_Create(0x70, 0x70, 4, 0x20);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x70);
-    work->wordSet = func_0201EC64(0x70);
+    work->wordSet = GF_FONT_Create_EC64(0x70);
     work->printQue = PRINTSYS_QUE_Create(0x70);
     work->msgData = func_02045B38(0, 2, 0x2D, 0x70);
     work->msgDataDetail = func_02045B38(0, 2, 0x42, 0x70);
@@ -1428,7 +1428,7 @@ void INTRUDE_SUBDISP_SystemExit(IntrudeSubdispWork *work)
     MSGDATA_Delete(work->msgDataDetail);
     PRINTSYS_QUE_Clear(work->printQue);
     PRINTSYS_QUE_Delete(work->printQue);
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     GF_FONT_Delete(work->font);
     TCBL_Destroy(work->tcbl);
     BMP_OAM_DeleteSys(work->bmpOamSys);
@@ -1444,8 +1444,8 @@ void INTRUDE_SUBDISP_BgSetup(IntrudeSubdispWork *work, void *bg)
     void *res;
 
     layer = 6;
-    func_0203FCA0(6, &d_0218370C, 0);
-    func_0203FCA0(7, &d_0218372C, 0);
+    BG_SYS_InitBgLayer(6, &d_0218370C, 0);
+    BG_SYS_InitBgLayer(7, &d_0218372C, 0);
     MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
@@ -1626,12 +1626,12 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
     void *gameData;
 
     param = d_021836D4;
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     if (func_02008550(func_02012944(gameData)) == 1) {
         param.anim = 3;
     }
     work->actors[15] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-    CLACT_SetActorPaletteOffset(work->actors[15], (u8)(func_02012B58(gameData) + 1), 1);
+    CLACT_SetActorPaletteOffset(work->actors[15], (u8)(GAME_DATA_GetOwnNetId(gameData) + 1), 1);
     CLACT_SetActorDrawEnable(work->actors[15], 0);
     CLACT_SetActorAutoAnim(work->actors[15], 1);
 }
@@ -1671,7 +1671,7 @@ void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
     IntrudeSubdispBmpOamTmpl copy;
     IntrudeSubdispBmpOamTmpl tmpl;
 
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     work->actors[16] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, d_021836AA, 0, 0x70);
     CLACT_SetActorDrawEnable(work->actors[16], 0);
     tmpl = d_021836F4;
@@ -1686,7 +1686,7 @@ void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
         PRINTSYS_PrintQueColor(work->printQue, work->buttonBitmaps[i], 0, 0, str, work->font, 0x3c40);
         STRBUF_Delete(str);
     }
-    if (work->noIntrude == 0 && func_02012B70(gameData) == 0) {
+    if (work->noIntrude == 0 && GAME_DATA_GetIntrudeCount(gameData) == 0) {
         CLACT_SetActorDrawEnable(work->actors[16], 1);
         BMP_OAM_SetEnabled(work->buttonOams[1], 1);
     }
@@ -1711,13 +1711,13 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
     int index;
     struct ClactActor *actor;
 
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     if (INTRUDE_SUBDISP_IsAlone(work) == 1) {
         for (i = 0; i <= 7; i++) {
             CLACT_SetActorDrawEnable(work->actors[i], 0);
         }
         CLACT_SetActorDrawEnable(work->actors[8], 0);
-    } else if (work->town.homeSlot == func_02012B58(gameData) || func_02012B70(gameData) == 0) {
+    } else if (work->town.homeSlot == GAME_DATA_GetOwnNetId(gameData) || GAME_DATA_GetIntrudeCount(gameData) == 0) {
         for (i = 0; i <= 7; i++) {
             CLACT_SetActorDrawEnable(work->actors[i], 0);
         }
@@ -1797,7 +1797,7 @@ void INTRUDE_SUBDISP_UpdatePlayerMarkActors(IntrudeSubdispWork *work, void *targ
     int j;
     IntrudeSubdispMarkLayout layout;
 
-    func_020120F4(work->gameSystem);
+    ICA_ANIME_GetField1C(work->gameSystem);
     s = layout.slot;
     s[0] = 0;
     s[1] = 0;
@@ -1860,20 +1860,20 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
     struct ClactActor *icon;
     IntrudeSubdispPosPair pair;
 
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     cur = work->town.homeSlot;
     INTRUDE_SUBDISP_UpdateTownMarkPalette(work);
     for (i = 0; i < 3; i++) {
         town = 0;
         prev = work->peerTowns[i].town;
         prevZone = work->peerTowns[i].zoneId;
-        if (i != func_02012B58(gameData)) {
+        if (i != GAME_DATA_GetOwnNetId(gameData)) {
             work->peerTowns[i].town = 0;
             work->peerTowns[i].zoneId = 0x1ab;
         }
         mark = work->actors[12 + i];
         icon = work->actors[17 + i];
-        if (i == func_02012B58(gameData)) {
+        if (i == GAME_DATA_GetOwnNetId(gameData)) {
             CLACT_SetActorDrawEnable(mark, 0);
             CLACT_SetActorDrawEnable(icon, 0);
             continue;
@@ -1994,7 +1994,7 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target,
     int v;
     struct ClactActor *actor;
 
-    idx = func_02012B58(func_020120F4(work->gameSystem));
+    idx = GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(work->gameSystem));
     sel = 0xFF;
     if (ZONEDATA_IsZone117(zoneId) == 1) {
         pos.x = d_021836A4[idx][0] + 0x80;
@@ -2038,8 +2038,8 @@ void INTRUDE_SUBDISP_UpdateButtonActors(IntrudeSubdispWork *work, void *target)
 {
     void *gameData;
 
-    gameData = func_020120F4(work->gameSystem);
-    if (work->town.busyFlag == 0 && func_02012B70(gameData) == 1) {
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    if (work->town.busyFlag == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1) {
         switch (work->town.sessionState) {
         case 0:
         case 1:
@@ -2062,7 +2062,7 @@ void INTRUDE_SUBDISP_UpdateInfoIcon(IntrudeSubdispWork *work, void *target)
     int digit;
     u8 *tiles;
 
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     if (INTRUDE_SUBDISP_IsInfoActive(work) == 0) {
         if (CLACT_GetActorDrawEnable(work->actors[20]) == 1) {
             CLACT_SetActorDrawEnable(work->actors[20], 0);
@@ -2102,13 +2102,13 @@ void INTRUDE_SUBDISP_PrintTitle(IntrudeSubdispWork *work, int zoneId)
     int mode;
     int v;
 
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     if (PRINTSYS_QUE_IsExistTarget(work->printQue, BMP_WIN_GetBmp(work->titleWin)) == 1) {
         return;
     }
-    if (func_02012B70(gameData) == 1) {
+    if (GAME_DATA_GetIntrudeCount(gameData) == 1) {
         v = work->town.homeSlot;
-        if (v == func_02012B58(gameData)) {
+        if (v == GAME_DATA_GetOwnNetId(gameData)) {
             mode = 2;
             anim = 0x43;
         } else {
@@ -2128,7 +2128,7 @@ void INTRUDE_SUBDISP_PrintTitle(IntrudeSubdispWork *work, int zoneId)
         return;
     }
     if (mode >= 3 && mode <= 6) {
-        func_0201F02C(work->wordSet, 0, func_02012950(gameData, work->town.homeSlot));
+        func_0201F02C(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, work->town.homeSlot));
     }
     func_02045CAC(work->msgData, anim, work->strbufMsg);
     func_0201F250(work->wordSet, work->strbufTitle, work->strbufMsg);
@@ -2157,8 +2157,8 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
     IntrudeSubdispMsgReq req;
     VecFx32 pos;
 
-    gameComm = (void *)func_02012138(work->gameSystem);
-    gameData = func_020120F4(work->gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     done = 0;
     if (work->msgTimer > 0) {
         work->msgTimer--;
@@ -2170,7 +2170,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
     }
     prev = work->msgState;
     work->msgState = 0;
-    cur = func_02012B58(gameData);
+    cur = GAME_DATA_GetOwnNetId(gameData);
     if (sys != 0 && GFL_NET_GetNegotiationNum() <= 1) {
         n = sys->foundCount;
         if (n != 0) {
@@ -2194,7 +2194,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
         func_02045CAC(work->msgData, 0x35, work->strbufText);
         done = 1;
     }
-    if (done == 0 && func_02012B70(gameData) == 0) {
+    if (done == 0 && GAME_DATA_GetIntrudeCount(gameData) == 0) {
         town = work->peerTowns[cur].town;
         if (town != 0) {
             for (i = 0; i < 3; i++) {
@@ -2234,7 +2234,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             IntrudeZoneInfo *peerTown;
             void *fieldMap;
 
-            fieldMap = func_0201210C(work->gameSystem);
+            fieldMap = ICA_ANIME_GetField20(work->gameSystem);
             peer = &sys->peers[work->town.selection->peerIndex];
             FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &pos);
             INTRUDE_COMM_SetWordSetMemberName(work->wordSet, 0, work->town.selection->words, 0x70);
@@ -2275,7 +2275,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
                 }
             }
         }
-        if (done == 0 && func_02012B70(gameData) == 1) {
+        if (done == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1) {
             work->msgState = 0;
             switch (work->town.sessionState) {
             case 1:
@@ -2320,7 +2320,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             done = 1;
         }
     }
-    if (done == 0 && func_02012B70(gameData) == 1 && ZONEDATA_IsZone117(zoneId) == 0 && ZONEDATA_IsZoneGroup118To120(zoneId) == 0
+    if (done == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1 && ZONEDATA_IsZone117(zoneId) == 0 && ZONEDATA_IsZoneGroup118To120(zoneId) == 0
         && FIELD_PALACE_SYS_IsZoneFlagSet(gameData, zoneId) == 0) {
         func_02045CAC(work->msgData, 0x30, work->strbufText);
         done = 1;
@@ -2338,18 +2338,18 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
 
 /*
  * extent: two zero padding bytes at 0x0217EC06.
- * interface: GAME_DATA_GetLastBattleRecSlot tail-forwards func_020127AC's pointer result.
+ * interface: GAME_DATA_GetLastBattleRecSlot tail-forwards GAME_DATA_GetField1D4's pointer result.
  */
 void *INTRUDE_SUBDISP_GetTargetPlayerData(IntrudeSubdispWork *work)
 {
     void *gameData;
     int i;
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     i = work->town.homeSlot;
-    if (i == func_02012B58(gameData) || i == 0x80) {
+    if (i == GAME_DATA_GetOwnNetId(gameData) || i == 0x80) {
         return GAME_DATA_GetLastBattleRecSlot(gameData);
     } else {
-        return func_020127AC(gameData, i);
+        return GAME_DATA_GetField1D4(gameData, i);
     }
 }
 
@@ -2413,13 +2413,13 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     const IntrudeTownEntry *entry;
     IntrudeZoneInfo *town;
 
-    fieldObj = FIELDMAP_GetSubscreen(func_0201210C(work->gameSystem));
-    func_02012138(work->gameSystem);
-    gameData = func_020120F4(work->gameSystem);
+    fieldObj = FIELDMAP_GetSubscreen(ICA_ANIME_GetField20(work->gameSystem));
+    ICA_ANIME_GetField24(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     if (work->selectionKind != 0 || work->warpPending == 1 || !TOUCHPANEL_GetPointTrg(&touchX, &touchY) || FIELD_SUBSCREEN_GetPanelResult(fieldObj) != 0) {
         return;
     }
-    sel = func_02012B58(gameData);
+    sel = GAME_DATA_GetOwnNetId(gameData);
     for (i = 0; i < 3; i++) {
         if (i == sel) {
             continue;
@@ -2450,7 +2450,7 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     if (INTRUDE_SUBDISP_IsAlone(work) == 1) {
         return;
     }
-    if (work->town.homeSlot != func_02012B58(gameData)) {
+    if (work->town.homeSlot != GAME_DATA_GetOwnNetId(gameData)) {
         for (i = 0; i < 8; i++) {
             entry = &d_02176AA0[i];
             INTRUDE_SUBDISP_SetTouchRect(entry->x, entry->y, 0x10, 0x10, &rect);
@@ -2477,7 +2477,7 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
             return;
         }
     }
-    if (work->town.homeSlot != func_02012B58(gameData)) {
+    if (work->town.homeSlot != GAME_DATA_GetOwnNetId(gameData)) {
         INTRUDE_SUBDISP_SetTouchRect(0x80, 0x5C, 0x10, 0x10, &rect);
         if (INTRUDE_SUBDISP_IsInTouchRect(touchX, touchY, &rect) == 1) {
             if (ZONEDATA_IsZone117(zoneId) == 1) {
@@ -2533,8 +2533,8 @@ void INTRUDE_SUBDISP_ReloadBgScreens(IntrudeSubdispWork *work)
  */
 void INTRUDE_SUBDISP_UpdateBgPalette(IntrudeSubdispWork *work, IntrudeCommSys *sys)
 {
-    func_020120F4(work->gameSystem);
-    func_02012138(work->gameSystem);
+    ICA_ANIME_GetField1C(work->gameSystem);
+    ICA_ANIME_GetField24(work->gameSystem);
     if (work->town.homeSlot != work->lastBgPalette) INTRUDE_SUBDISP_SetBgPalette(work, work->town.homeSlot);
 }
 
@@ -2563,9 +2563,9 @@ void INTRUDE_SUBDISP_InitTownState(IntrudeSubdispWork *work, IntrudeCommSys *sys
     IntrudeSubdispTownState *state;
     void *gameData;
     state = &work->town;
-    gameData = func_020120F4(work->gameSystem);
+    gameData = ICA_ANIME_GetField1C(work->gameSystem);
     if (sys == 0) {
-        state->homeSlot = func_02012B58(gameData);
+        state->homeSlot = GAME_DATA_GetOwnNetId(gameData);
         state->peerMask = 1 << state->homeSlot;
         state->peerCount = 1;
         state->specialZone = 0;
@@ -2585,13 +2585,13 @@ void INTRUDE_SUBDISP_UpdateTownState(IntrudeSubdispWork *work, IntrudeCommSys *s
     int i;
 
     state = &work->town;
-    gameData = (int)func_020120F4(work->gameSystem);
+    gameData = (int)ICA_ANIME_GetField1C(work->gameSystem);
     if (sys == 0) {
         MI_CpuFill8(&work->town, 0, 0x14);
         work->lastPeerCount = 1;
         return;
     }
-    n = func_02012B58((void *)gameData);
+    n = GAME_DATA_GetOwnNetId((void *)gameData);
     state->homeSlot = sys->localPeer.intrudeId;
     state->peerMask = sys->peerMask;
     state->peerCount = func_02080D24(state->peerMask);
@@ -2682,7 +2682,7 @@ void INTRUDE_SUBDISP_UpdateButtonBlink(IntrudeSubdispWork *work)
  */
 int INTRUDE_SUBDISP_IsInfoActive(IntrudeSubdispWork *work)
 {
-    if (func_02012B70(func_020120F4(work->gameSystem)) == 1) {
+    if (GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(work->gameSystem)) == 1) {
         switch (work->town.sessionState) {
         case 2: case 3: case 4: return 1;
         }
@@ -2714,7 +2714,7 @@ void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode)
  */
 int INTRUDE_SUBDISP_IsAlone(IntrudeSubdispWork *work)
 {
-    void *gameData = func_020120F4(work->gameSystem);
-    if (work->town.selection == 0 && func_02012B58(gameData) == 0 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) return 1;
+    void *gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    if (work->town.selection == 0 && GAME_DATA_GetOwnNetId(gameData) == 0 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) return 1;
     return 0;
 }

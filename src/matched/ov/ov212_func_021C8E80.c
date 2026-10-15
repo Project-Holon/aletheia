@@ -1,5 +1,5 @@
 /*
- * function: func_021C8E80
+ * function: ZUKAN_Create
  * address: 0x021C8E80
  * packet: pkt_ov212_021C8E80
  * region: ov212
@@ -16,9 +16,9 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
- *   func_021C9288 0x021C9288 thumb ov212
- *   func_021C92EC 0x021C92EC thumb ov212
- *   func_021C9380 0x021C9380 thumb ov212
+ *   ZUKAN_LoadListAndSelection 0x021C9288 thumb ov212
+ *   ZUKAN_FixLastViewedSpecies 0x021C92EC thumb ov212
+ *   ZUKAN_InitQuery 0x021C9380 thumb ov212
  */
 #include "../include/Obj00635.h"
 #include "../include/Obj25642.h"
@@ -36,10 +36,10 @@ extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
 extern void MI_CpuFill8(void *,unsigned char,unsigned);
 extern void *PROCSYS_Create(int);
-extern u16 func_021C9288(struct Blk37 *,u16 **,unsigned);
-extern void func_021C92EC(void *p, u16 *ids, unsigned count);
-extern void func_021C9380(struct Blk37 *,unsigned char *);
-int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
+extern u16 ZUKAN_LoadListAndSelection(struct Blk37 *,u16 **,unsigned);
+extern void ZUKAN_FixLastViewedSpecies(void *p, u16 *ids, unsigned count);
+extern void ZUKAN_InitQuery(struct Blk37 *,unsigned char *);
+int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,105,0x8000);
@@ -47,10 +47,10 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
     MI_CpuFill8(p,0,44);
     ((struct Obj00635 *)p)->f0=ctx;
     ((struct Obj00635 *)p)->f4=PROCSYS_Create(105);
-    ((struct Obj00635 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);
+    ((struct Obj00635 *)p)->f10=ZUKAN_LoadListAndSelection(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);
     ((struct Obj00635 *)p)->f12=0;
-    func_021C92EC(*(struct Blk37 * *)&((struct Obj25643 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,*(u16 * *)&((struct Obj00635 *)p)->fC,((struct Obj00635 *)p)->f10);
-    func_021C9380(*(struct Blk37 * *)&((struct Obj25644 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(unsigned char *)(p+20));
+    ZUKAN_FixLastViewedSpecies(*(struct Blk37 * *)&((struct Obj25643 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,*(u16 * *)&((struct Obj00635 *)p)->fC,((struct Obj00635 *)p)->f10);
+    ZUKAN_InitQuery(*(struct Blk37 * *)&((struct Obj25644 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(unsigned char *)(p+20));
     if(((struct Obj25645 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==0){((struct Obj00635 *)p)->f1C=1;}
     else if(((struct Obj25646 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==1){((struct Obj00635 *)p)->f1C=3;}
     else if(((struct Obj25647 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==2){((struct Obj00635 *)p)->f1C=5;((struct Obj00635 *)p)->f24=1;}

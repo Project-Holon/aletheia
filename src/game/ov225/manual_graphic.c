@@ -59,10 +59,10 @@
  *   vram 0x021BBE1C data ov225
  *   func_020307B0 0x020307B0 arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   config 0x021BBDF0 data ov225
@@ -78,6 +78,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
 #include "../../matched/include/Obj04649.h"
 #include "../../matched/include/Obj00100.h"
@@ -173,15 +174,15 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern u32 func_020307B0(void *p);
 extern void func_0201DD68(void);
-extern void func_0203F8F4(u32);
+extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
@@ -430,13 +431,13 @@ void func_021B9A28(void *p, u32 heap)
 {
     u32 i = 0;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)config);
     for (; i < 4; i++) {
         struct Record *r = &table[i];
         u32 id = r->id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
         func_020414AC(id);
         func_02040588(id, r->visible);
     }
@@ -446,7 +447,7 @@ void func_021B9A88(void *p) {
     u32 i;
     for (i=0; i<4; i++) func_020403F4((u8)(*(const u32 *)(d_021BBE4C+i*44)));
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p,0,4);
 }
 

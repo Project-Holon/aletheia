@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02096ED0",
+   "name": "__minus_dec",
    "address": "0x02096ED0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02097170",
+   "name": "__num2dec",
    "address": "0x02097170",
    "kind": "game",
    "region": "arm9",

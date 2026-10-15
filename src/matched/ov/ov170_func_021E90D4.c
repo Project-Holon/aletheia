@@ -14,7 +14,7 @@
  *   BOX2_MAIN_ResetMovers 0x021DE728 thumb ov170
  *   BOX2_SEQ_ResetActorAffine 0x021EC94C thumb ov170
  *   func_020355C4 0x020355C4 arm
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  */
 extern void BOX2_SEQ_SetSlotDim(char **p, int v);
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
 extern u8 func_020355C4(void);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 #define WORK(p) (*(char **)((p) + 0x2C))
 int BOX2_SEQ_StateUseItemWait(unsigned char *p)
@@ -37,9 +37,9 @@ int BOX2_SEQ_StateUseItemWait(unsigned char *p)
     BOX2_MAIN_ResetMovers(p);
     BOX2_SEQ_ResetActorAffine(*(char **)(WORK(p) + 0xA190));
     if (func_020355C4() == 1) {
-        func_020260F4(*(void **)(WORK(p) + 0x70), 0);
+        CURSOR_MOVE_SetState(*(void **)(WORK(p) + 0x70), 0);
     } else {
-        func_020260F4(*(void **)(WORK(p) + 0x70), 1);
+        CURSOR_MOVE_SetState(*(void **)(WORK(p) + 0x70), 1);
         BOX2_SEQ_SetCursorDraw((char **)p, 0);
     }
     return 0x5A;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC86C
+ * function: NET_PARTY_COMMAND_IsHandleFor
  * address: 0x021DC86C
  * packet: pkt_ov134_021DC86C
  * region: ov134
@@ -20,4 +20,4 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-void func_021DC86C(u32 value,u32 a,u32 b,u32 c,void *expected) { if(expected==GFL_NET_HANDLE_GetCurrentHandle()) { if(value!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) return; } }
+void NET_PARTY_COMMAND_IsHandleFor(u32 value,u32 a,u32 b,u32 c,void *expected) { if(expected==GFL_NET_HANDLE_GetCurrentHandle()) { if(value!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) return; } }

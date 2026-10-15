@@ -72,6 +72,7 @@ struct Desc;
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+#include "poke_tool_param.h"
 
 /* One in-game trade record (archive 0xA5, 0x6C bytes per trade). */
 typedef struct FldTradeData {
@@ -251,17 +252,17 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
 
     personalRnd = POKE_TOOL_AdjustPersonalRnd(data->otId, data->species, data->formNo, data->gender, 0, 0);
     POKE_TOOL_SetupPartyParamEx(mon, data->species, data->level, data->otId, 0xFFFFFFFF, personalRnd);
-    POKE_TOOL_SetPartyValue(mon, 0x6F, data->formNo);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_FORM, data->formNo);
     FLD_TRADE_DumpPokemonParams((int)mon);
     str = (u32)FLD_TRADE_GetMessageString(heapId, data->nicknameMsgId);
-    POKE_TOOL_SetPartyValue(mon, 0x73, str);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_NICKNAME_STRBUF, str);
     STRBUF_Delete((struct U16Vec *)str);
-    POKE_TOOL_SetPartyValue(mon, 0x46, data->iv[0]);
-    POKE_TOOL_SetPartyValue(mon, 0x47, data->iv[1]);
-    POKE_TOOL_SetPartyValue(mon, 0x48, data->iv[2]);
-    POKE_TOOL_SetPartyValue(mon, 0x49, data->iv[3]);
-    POKE_TOOL_SetPartyValue(mon, 0x4A, data->iv[4]);
-    POKE_TOOL_SetPartyValue(mon, 0x4B, data->iv[5]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_HP, data->iv[0]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_ATTACK, data->iv[1]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_DEFENSE, data->iv[2]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SPEED, data->iv[3]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SP_ATTACK, data->iv[4]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SP_DEFENSE, data->iv[5]);
     personal = (u32)POKE_PERSONAL_Create((u16)data->species, (u16)data->formNo, heapId);
     ability[0] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1A);
     ability[1] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1B);
@@ -277,19 +278,19 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
         ability[0] = ability[2];
         break;
     }
-    POKE_TOOL_SetPartyValue(mon, 0xA, ability[0]);
-    POKE_TOOL_SetPartyValue(mon, 0x70, data->nature);
-    POKE_TOOL_SetPartyValue(mon, 0x13, data->contest[0]);
-    POKE_TOOL_SetPartyValue(mon, 0x14, data->contest[1]);
-    POKE_TOOL_SetPartyValue(mon, 0x15, data->contest[2]);
-    POKE_TOOL_SetPartyValue(mon, 0x16, data->contest[3]);
-    POKE_TOOL_SetPartyValue(mon, 0x17, data->contest[4]);
-    POKE_TOOL_SetPartyValue(mon, 0x6, data->heldItem);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_ABILITY, ability[0]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_NATURE, data->nature);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_COOL, data->contest[0]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_BEAUTY, data->contest[1]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_CUTE, data->contest[2]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_SMART, data->contest[3]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_TOUGH, data->contest[4]);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_HELD_ITEM, data->heldItem);
     str = (u32)FLD_TRADE_GetMessageString(heapId, data->otNameMsgId);
-    POKE_TOOL_SetPartyValue(mon, 0x8D, str);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_OT_NAME_STRBUF, str);
     STRBUF_Delete((struct U16Vec *)str);
-    POKE_TOOL_SetPartyValue(mon, 0x9A, data->otGender);
-    POKE_TOOL_SetPartyValue(mon, 0xC, data->language);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_OT_GENDER, data->otGender);
+    POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_LANGUAGE, data->language);
     func_0202F190(mon, 1, (u32)GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
     FLD_TRADE_DumpPokemonParams((int)mon);
     POKE_TOOL_RecalcParam(mon);
@@ -301,39 +302,39 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
  */
 void FLD_TRADE_DumpPokemonParams(int mon)
 {
-    POKE_TOOL_GetPartyValue((void *)mon, 0, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x6f, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 7, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 8, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 9, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0xa, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x6e, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x70, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0xb, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0xc, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0xd, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0xe, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0xf, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x10, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x11, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x12, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x13, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x14, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x15, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x16, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x17, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x18, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x46, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x47, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x48, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x49, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x4a, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x4b, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x9a, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x9e, 0);
-    POKE_TOOL_GetPartyValue((void *)mon, 0x95, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_PERSONALITY, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_SPECIES, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_FORM, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_OT_ID, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EXP, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_FRIENDSHIP, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_ABILITY, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_GENDER, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_NATURE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_MARKINGS, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_LANGUAGE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EV_HP, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EV_ATTACK, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EV_DEFENSE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EV_SPEED, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EV_SP_ATTACK, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EV_SP_DEFENSE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_CONTEST_COOL, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_CONTEST_BEAUTY, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_CONTEST_CUTE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_CONTEST_SMART, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_CONTEST_TOUGH, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_CONTEST_SHEEN, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_IV_HP, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_IV_ATTACK, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_IV_DEFENSE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_IV_SPEED, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_IV_SP_ATTACK, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_IV_SP_DEFENSE, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_OT_GENDER, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_LEVEL, 0);
+    POKE_TOOL_GetPartyValue((void *)mon, POKE_TOOL_PARAM_EGG_LOCATION, 0);
 }
 
 /* Debug dump of a trade record; empty in the release build. */

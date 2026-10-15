@@ -1,5 +1,5 @@
 /*
- * function: func_021B6760
+ * function: LOCAL_TVT_SYS_CreateTextResources
  * address:  0x021B6760
  * packet:   pkt_021B6760
  * region:   ov174
@@ -42,7 +42,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern u32 func_02028590(int a, int b, int c, u32 d);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
-void func_021B6760(u8 *p)
+void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
 {
     ((struct Obj00918 *)p)->f60 = (u32)GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj00918 *)p)->f0);
     ((struct Obj00918 *)p)->f68 = (u32)func_02045B38(0, 2, 0xc6, ((struct Obj00918 *)p)->f0);

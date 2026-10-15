@@ -1,5 +1,5 @@
 /*
- * function: func_021B75FC
+ * function: POKE_SUMMARY_ANIM_ShowTextKind8
  * address:  0x021B75FC
  * packet:   pkt_021B75FC
  * region:   ov173
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7460  0x021B7460  thumb  ov173
+ *   POKE_SUMMARY_MAIN_StartTextStream  0x021B7460  thumb  ov173
  */
 #include "../include/Obj14317.h"
 
 typedef unsigned int   u32;
-extern void func_021B7460(char *p, u32 kind);
+extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind);
 
-int func_021B75FC(int *p)
+int POKE_SUMMARY_ANIM_ShowTextKind8(int *p)
 {
-    func_021B7460((char *)p, 8);
+    POKE_SUMMARY_MAIN_StartTextStream((char *)p, 8);
     ((struct Obj14317 *)p)->f1B0 = 8;
     *(unsigned char *)(((struct Obj14317 *)p)->f0 + 0x1a) = 1;
     return 2;

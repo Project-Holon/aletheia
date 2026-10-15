@@ -1,5 +1,5 @@
 /*
- * function: func_02205360
+ * function: SHINKA_DEMO_PrintStreamCallback
  * address:  0x02205360
  * packet:   pkt_02205360
  * region:   ov195
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_IsAnySeBusy(void);
 
-int func_02205360(int a)
+int SHINKA_DEMO_PrintStreamCallback(int a)
 {
     switch (a) {
     case 3:

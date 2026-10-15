@@ -1,5 +1,5 @@
 /*
- * function: func_021B7364
+ * function: LOCAL_TVT_CHARA_SetState
  * address:  0x021B7364
  * packet:   pkt_021B7364
  * region:   ov174
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021B7364(char *p, int v)
+void LOCAL_TVT_CHARA_SetState(char *p, int v)
 {
     if (((struct Obj10674 *)p)->f34 == 1 && v == 0)
         ((struct Obj10674 *)p)->f38 = 0x46;

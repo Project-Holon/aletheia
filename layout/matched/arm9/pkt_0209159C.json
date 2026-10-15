@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0209159C",
+   "name": "__prep_buffer",
    "address": "0x0209159C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020915C4",
+   "name": "__load_buffer",
    "address": "0x020915C4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02091650",
+   "name": "__flush_buffer",
    "address": "0x02091650",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02091AE8",
+   "name": "fclose",
    "address": "0x02091AE8",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_0205DFA8
+ * function: DWCi_AC_SearchReStart
  * address:  0x0205DFA8
  * packet:   pkt_0205DFA8
  * region:   arm9
@@ -153,7 +153,7 @@ extern const u32 DWC_AC_SEARCH_CHANNEL[13];
 extern u8 WCM_Bssid_Any[];
 extern u8 WCM_Essid_Any[];
 
-void func_0205DFA8(u8 phase)
+void DWCi_AC_SearchReStart(u8 phase)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u16 mask;

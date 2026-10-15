@@ -27,7 +27,7 @@
    ]
   },
   {
-   "name": "func_020792B8",
+   "name": "FS_UnloadOverlay",
    "address": "0x020792B8",
    "kind": "sdk",
    "region": "arm9",

@@ -24,7 +24,7 @@
  *   FSi_OnRomReadDone                0x0207a9c8 arm
  *   CARD_LockRom 0x02075E10 arm
  *   CARD_UnlockRom 0x02075E80 arm
- *   g_02150DA0 0x02150DA0 data
+ *   fsi_default_dma_no 0x02150DA0 data
  *   CARD_Init  0x02075CAC  arm
  *   OS_GetLockID  0x02084EB8  arm
  *   FS_InitArchive  0x02078360  arm
@@ -44,7 +44,7 @@
  *   FS_ResumeArchive  0x020786D8  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   FS_LoadArchiveTables   0x0207A5C8  arm
- *   d_02150DA8      0x02150DA8  data  a4
+ *   fsi_arc_rom      0x02150DA8  data  a4
  *   FS_OpenFileDirect  0x02078964  arm
  */
 #define FS_COMMAND_READFILE        0
@@ -268,11 +268,11 @@ typedef struct FSiRomState
     s32 card_lock_id;
 } FSiRomState;
 
-extern char *func_02078530(FSArchive *arc);
+extern char *FS_GetArchiveName(FSArchive *arc);
 extern int STD_CompareString(const char *str1, const char *str2);
 extern int OS_IsRunOnTwl(void);
-extern void *func_020774B0(void);
-extern void func_02078734(FSArchive *arc, FSResult ret);
+extern void *CARD_IsPulledOut(void);
+extern void FS_NotifyArchiveAsyncEnd(FSArchive *arc, FSResult ret);
 extern void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len,
                           void (*callback)(void *), void *arg, int is_async);
 extern void CARD_LockRom(u16 lock_id);
@@ -322,7 +322,7 @@ int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset)
 {
     int result = 0;
 
-    if (STD_CompareString(func_02078530(arc), fsi_str_rom) == 0 && !OS_IsRunOnTwl()) {
+    if (STD_CompareString(FS_GetArchiveName(arc), fsi_str_rom) == 0 && !OS_IsRunOnTwl()) {
         CARDRomHeader *header = CARD_GetOwnRomHeader();
         if (offset >= (u32)header->twl_ltd_area_rom_offset * 0x80000) {
             result = 1;
@@ -337,7 +337,7 @@ int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset)
  */
 static void FSi_OnRomReadDone(void *arg)
 {
-    func_02078734((FSArchive *)arg, func_020774B0() ? FS_RESULT_ERROR : FS_RESULT_SUCCESS);
+    FS_NotifyArchiveAsyncEnd((FSArchive *)arg, CARD_IsPulledOut() ? FS_RESULT_ERROR : FS_RESULT_SUCCESS);
 }
 
 

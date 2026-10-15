@@ -1,5 +1,5 @@
 /*
- * function: func_02178814
+ * function: DWCi_Auth_FillResult
  * address:  0x02178814
  * packet:   pkt_ov009_02178814
  * region:   ov009
@@ -14,13 +14,13 @@
  * symbols:
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
- *   func_020964E0  0x020964E0  arm
+ *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
- *   func_02095F40  0x02095F40  arm
- *   func_0209477C  0x0209477C  arm
+ *   strtol  0x02095F40  arm
+ *   strlen  0x0209477C  arm
  *   func_0217A7C8  0x0217A7C8  arm  ov009
- *   g_021AB184     0x021AB184  data ov009
- *   g_02153FAC     0x02153FAC  data
+ *   gDwcAuthGlobal     0x021AB184  data ov009
+ *   errno     0x02153FAC  data
  *   g_021A2394     0x021A2394  data ov009
  *   g_021A239C     0x021A239C  data ov009
  *   g_021A23A8     0x021A23A8  data ov009
@@ -55,15 +55,15 @@ extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
-extern s32 func_02095F40(u32 a0, u32 *a1, u32 a2);
+extern s32 strtol(u32 a0, u32 *a1, u32 a2);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
 
-extern struct DWCWFCUtil g_021AB184;
-extern int g_02153FAC;
+extern struct DWCWFCUtil gDwcAuthGlobal;
+extern int errno;
 extern char g_021A2394[];
 extern char g_021A239C[];
 extern char g_021A23A8[];
@@ -73,53 +73,53 @@ extern char g_021A23C4[];
 extern char g_021A23D0[];
 extern char g_021A23DC[];
 
-int func_02178814(void)
+int DWCi_Auth_FillResult(void)
 {
     char *endptr;
     int returncode;
 
     endptr = 0;
-    endptr = func_0217A728(((DWCAuth *)g_021AB184.auth)->http, g_021A2394);
+    endptr = func_0217A728(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A2394);
     if (endptr != 0)
         func_02168250(endptr);
 
     endptr = 0;
-    g_02153FAC = 0;
-    returncode = func_020964E0((u32)func_0217A728(((DWCAuth *)g_021AB184.auth)->http, g_021A239C));
-    if (g_02153FAC == 0x22) {
-        ((DWCAuth *)g_021AB184.auth)->error = 20101;
+    errno = 0;
+    returncode = atoi((u32)func_0217A728(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A239C));
+    if (errno == 0x22) {
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20101;
         return 12;
     }
     if (returncode != 200) {
-        ((DWCAuth *)g_021AB184.auth)->error = returncode + 23000;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = returncode + 23000;
         return 18;
     }
-    if (func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23A8, ((DWCAuth *)g_021AB184.auth)->retcode, 4) <= 0) {
-        ((DWCAuth *)g_021AB184.auth)->error = 20101;
+    if (func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23A8, ((DWCAuth *)gDwcAuthGlobal.auth)->retcode, 4) <= 0) {
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20101;
         return 14;
     }
-    returncode = func_02095F40((u32)((DWCAuth *)g_021AB184.auth)->retcode, (u32 *)(&endptr), 10);
-    if (endptr != ((DWCAuth *)g_021AB184.auth)->retcode + func_0209477C((const u8 *)((DWCAuth *)g_021AB184.auth)->retcode)) {
-        ((DWCAuth *)g_021AB184.auth)->error = 20101;
+    returncode = strtol((u32)((DWCAuth *)gDwcAuthGlobal.auth)->retcode, (u32 *)(&endptr), 10);
+    if (endptr != ((DWCAuth *)gDwcAuthGlobal.auth)->retcode + strlen((const u8 *)((DWCAuth *)gDwcAuthGlobal.auth)->retcode)) {
+        ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20101;
         return 12;
     }
-    ((DWCAuth *)g_021AB184.auth)->error = returncode + 20000;
+    ((DWCAuth *)gDwcAuthGlobal.auth)->error = returncode + 20000;
     if (returncode < 100) {
-        ((DWCAuth *)g_021AB184.auth)->f1052[0] = 0;
-        ((DWCAuth *)g_021AB184.auth)->f101f[0] = 0;
-        ((DWCAuth *)g_021AB184.auth)->f117f[0] = 0;
-        ((DWCAuth *)g_021AB184.auth)->f1010[0] = 0;
-        ((DWCAuth *)g_021AB184.auth)->f1188[0] = 0;
-        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23B4, ((DWCAuth *)g_021AB184.auth)->f1052, 0x12d);
-        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23BC, ((DWCAuth *)g_021AB184.auth)->f101f, 0x33);
-        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23C4, ((DWCAuth *)g_021AB184.auth)->f117f, 9);
-        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23D0, ((DWCAuth *)g_021AB184.auth)->f1010, 0xf);
-        func_0217A7C8(((DWCAuth *)g_021AB184.auth)->http, g_021A23DC, ((DWCAuth *)g_021AB184.auth)->f1188, 0x41);
-        ((DWCAuth *)g_021AB184.auth)->f11b3 = 0;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->f1052[0] = 0;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->f101f[0] = 0;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->f117f[0] = 0;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->f1010[0] = 0;
+        ((DWCAuth *)gDwcAuthGlobal.auth)->f1188[0] = 0;
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23B4, ((DWCAuth *)gDwcAuthGlobal.auth)->f1052, 0x12d);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23BC, ((DWCAuth *)gDwcAuthGlobal.auth)->f101f, 0x33);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23C4, ((DWCAuth *)gDwcAuthGlobal.auth)->f117f, 9);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23D0, ((DWCAuth *)gDwcAuthGlobal.auth)->f1010, 0xf);
+        func_0217A7C8(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23DC, ((DWCAuth *)gDwcAuthGlobal.auth)->f1188, 0x41);
+        ((DWCAuth *)gDwcAuthGlobal.auth)->f11b3 = 0;
         if (returncode != 40)
-            g_021AB184.state = 1;
+            gDwcAuthGlobal.state = 1;
         else
-            g_021AB184.state = 2;
+            gDwcAuthGlobal.state = 2;
     }
     return 0;
 }

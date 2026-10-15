@@ -36,7 +36,7 @@
  *   INTRUDE_COMM_GetMemberNameNetId  0x02175FB4  thumb  ov011
  *   INTRUDE_COMM_GetMemberEntry  0x0215840C  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb  ov011
  *   SCRCMD_PROC_StartOverlayProc  0x0215C63C  thumb  ov010
  *   sAllocSiteScrcmdProc     0x021728F0  data  a1
@@ -92,7 +92,7 @@ extern u8 GAME_DATA_GetIntrudeIdByte(void *p);
 extern int INTRUDE_COMM_GetMemberNameNetId(u8 *p);
 extern Name20 *INTRUDE_COMM_GetMemberEntry(LinkState *s, int idx);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct Out *o);
 extern void SCRCMD_PROC_StartOverlayProc(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char sAllocSiteScrcmdProc[];
@@ -122,7 +122,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *c, void *vm)
         w->profile = *(Profile16 *)((u8 *)st + 0x914);
         w->remote = 1;
     } else {
-        func_0200BE48(GAME_DATA_GetSaveControl(q));
+        INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(q));
         INTRUDE_COMM_BuildLocalProfile(q, (struct Out *)(&w->profile));
         idx = 0;
         w->remote = 0;

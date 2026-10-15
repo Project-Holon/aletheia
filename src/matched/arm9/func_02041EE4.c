@@ -1,5 +1,5 @@
 /*
- * function: func_02041EE4
+ * function: BG_SYS_ResetSlot
  * address:  0x02041EE4
  * packet:   pkt_02041B94
  * region:   arm9
@@ -28,8 +28,8 @@
  * shift is done in int width first.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02041EE4.c \
- *       --func func_02041EE4 --addr 0x02041EE4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ResetSlot.c \
+ *       --func BG_SYS_ResetSlot --addr 0x02041EE4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ extern struct Mod02041EE4 *g_02146A44;
 struct Obj;
 extern void func_02042360(struct Obj *p, u32 op, u32 value);
 
-void func_02041EE4(u32 index, u32 a, u32 b)
+void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
 {
     func_02042360((struct Obj *)(&g_02146A44->slots[index]), a, b);
     g_02146A44->live |= (u16)(1 << index);

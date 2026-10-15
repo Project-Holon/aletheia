@@ -13,7 +13,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   FLDEFF_GYOE_RotateByCamera  0x021BB7B4  thumb  ov021
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  */
 
 typedef struct Vec {
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 void *FIELDMAP_GetCamera(void *p);
 u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 void FLDEFF_GYOE_RotateByCamera(int a, int b, int c);
-void func_0207C9D0(Vec *a, Vec *b, Vec *c);
+void VEC_Add(Vec *a, Vec *b, Vec *c);
 
 void FLDEFF_GYOE_StepAnimation(int *o, Vec *out)
 {
@@ -60,5 +60,5 @@ void FLDEFF_GYOE_StepAnimation(int *o, Vec *out)
         w = v;
     }
     FLDEFF_GYOE_RotateByCamera(r3, (int)(&w), (int)(&w));
-    func_0207C9D0(&w, out, out);
+    VEC_Add(&w, out, out);
 }

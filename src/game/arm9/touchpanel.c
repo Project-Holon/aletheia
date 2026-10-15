@@ -14,8 +14,8 @@
  * Split from net_state.c at 0x02035750 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   sub_02035224                     0x02035224  arm
- *   sub_0203521C                     0x0203521C  arm
+ *   UI_GetContext                     0x02035224  arm
+ *   UI_GetPointerValue                     0x0203521C  arm
  *   func_02030734                    0x02030734  arm
  *   func_020307B0                    0x020307B0  arm
  *   func_02034714                    0x02034714  arm
@@ -233,8 +233,8 @@ typedef struct {
     u32 palette;
 } WmIconArcData;
 
-extern UiCtx *sub_02035224(void);
-extern KeyWork *sub_0203521C(UiCtx *ui);
+extern UiCtx *UI_GetContext(void);
+extern KeyWork *UI_GetPointerValue(UiCtx *ui);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern void func_02034714(const char *file, u32 line, const char *expr);
@@ -554,7 +554,7 @@ void TOUCHPANEL_MainSys(UiCtx *ui)
 
 void TOUCHPANEL_Main(void)
 {
-    TOUCHPANEL_MainSys(sub_02035224());
+    TOUCHPANEL_MainSys(UI_GetContext());
 }
 
 /* Inside a circle entry: strictly closer than the radius. */
@@ -614,7 +614,7 @@ int TOUCHPANEL_HitContSys(UiCtx *ui, const TouchHitTable *tbl)
 
 int TOUCHPANEL_HitCont(const TouchHitTable *tbl)
 {
-    return TOUCHPANEL_HitContSys(sub_02035224(), tbl);
+    return TOUCHPANEL_HitContSys(UI_GetContext(), tbl);
 }
 
 int TOUCHPANEL_HitTrgSys(UiCtx *ui, const TouchHitTable *tbl)
@@ -633,7 +633,7 @@ int TOUCHPANEL_HitTrgSys(UiCtx *ui, const TouchHitTable *tbl)
 
 int TOUCHPANEL_HitTrg(const TouchHitTable *tbl)
 {
-    return TOUCHPANEL_HitTrgSys(sub_02035224(), tbl);
+    return TOUCHPANEL_HitTrgSys(UI_GetContext(), tbl);
 }
 
 int TOUCHPANEL_GetContSys(UiCtx *ui)
@@ -644,7 +644,7 @@ int TOUCHPANEL_GetContSys(UiCtx *ui)
 
 int TOUCHPANEL_GetCont(void)
 {
-    return TOUCHPANEL_GetContSys(sub_02035224());
+    return TOUCHPANEL_GetContSys(UI_GetContext());
 }
 
 u16 TOUCHPANEL_GetTrgSys(UiCtx *ui)
@@ -655,7 +655,7 @@ u16 TOUCHPANEL_GetTrgSys(UiCtx *ui)
 
 int TOUCHPANEL_GetTrg(void)
 {
-    return TOUCHPANEL_GetTrgSys(sub_02035224());
+    return TOUCHPANEL_GetTrgSys(UI_GetContext());
 }
 
 u32 TOUCHPANEL_GetPointContSys(UiCtx *ui, u32 *x, u32 *y)
@@ -671,7 +671,7 @@ u32 TOUCHPANEL_GetPointContSys(UiCtx *ui, u32 *x, u32 *y)
 
 u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y)
 {
-    return TOUCHPANEL_GetPointContSys(sub_02035224(), x, y);
+    return TOUCHPANEL_GetPointContSys(UI_GetContext(), x, y);
 }
 
 u32 TOUCHPANEL_GetPointTrgSys(UiCtx *ui, u32 *x, u32 *y)
@@ -687,7 +687,7 @@ u32 TOUCHPANEL_GetPointTrgSys(UiCtx *ui, u32 *x, u32 *y)
 
 u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y)
 {
-    return TOUCHPANEL_GetPointTrgSys(sub_02035224(), x, y);
+    return TOUCHPANEL_GetPointTrgSys(UI_GetContext(), x, y);
 }
 
 u32 TOUCHPANEL_HitPoint(const TouchHitTable *tbl, u32 x, u32 y)
@@ -721,7 +721,7 @@ void TOUCHPANEL_AutoSamplingRestartSys(UiCtx *ui)
 
 void TOUCHPANEL_AutoSamplingRestart(void)
 {
-    TOUCHPANEL_AutoSamplingRestartSys(sub_02035224());
+    TOUCHPANEL_AutoSamplingRestartSys(UI_GetContext());
 }
 
 void TOUCHPANEL_AutoSamplingStopSys(UiCtx *ui)
@@ -736,7 +736,7 @@ void TOUCHPANEL_AutoSamplingStopSys(UiCtx *ui)
 
 void TOUCHPANEL_AutoSamplingStop(void)
 {
-    TOUCHPANEL_AutoSamplingStopSys(sub_02035224());
+    TOUCHPANEL_AutoSamplingStopSys(UI_GetContext());
 }
 
 /* Starts auto sampling into the work buffer; 1 when it started, else 2. */
@@ -829,7 +829,7 @@ static inline u16 KEY_PadRead(void)
  */
 void KEY_MainSys(UiCtx *ui)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
     u16 pad;
 
     if (KEY_PadDetectFold()) {
@@ -874,7 +874,7 @@ void KEY_MainSys(UiCtx *ui)
 
 void KEY_Main(void)
 {
-    KEY_MainSys(sub_02035224());
+    KEY_MainSys(UI_GetContext());
 }
 
 /* KEY_CONV_SWAP: the two keys trade places. */
@@ -937,7 +937,7 @@ void KEY_ApplyControlMode(KeyWork *key)
 
 void KEY_SetRepeatSpeedSys(UiCtx *ui, int speed, int wait)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     key->repeatSpeed = speed;
     key->repeatWait = wait;
@@ -945,24 +945,24 @@ void KEY_SetRepeatSpeedSys(UiCtx *ui, int speed, int wait)
 
 void KEY_SetRepeatSpeed(int speed, int wait)
 {
-    KEY_SetRepeatSpeedSys(sub_02035224(), speed, wait);
+    KEY_SetRepeatSpeedSys(UI_GetContext(), speed, wait);
 }
 
 void KEY_SetControlModeTableSys(UiCtx *ui, const KeyConvEntry *table)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     key->controlModeTable = table;
 }
 
 void KEY_SetControlModeTable(const KeyConvEntry *table)
 {
-    KEY_SetControlModeTableSys(sub_02035224(), table);
+    KEY_SetControlModeTableSys(UI_GetContext(), table);
 }
 
 u32 KEY_GetTrgSys(UiCtx *ui)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     if (ui->frameRate == UI_FRAMERATE_30) {
         return key->trg30;
@@ -972,12 +972,12 @@ u32 KEY_GetTrgSys(UiCtx *ui)
 
 u32 KEY_GetTrg(void)
 {
-    return KEY_GetTrgSys(sub_02035224());
+    return KEY_GetTrgSys(UI_GetContext());
 }
 
 u32 KEY_GetContSys(UiCtx *ui)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     if (ui->frameRate == UI_FRAMERATE_30) {
         return key->cont30;
@@ -987,12 +987,12 @@ u32 KEY_GetContSys(UiCtx *ui)
 
 u32 KEY_GetCont(void)
 {
-    return KEY_GetContSys(sub_02035224());
+    return KEY_GetContSys(UI_GetContext());
 }
 
 u32 KEY_GetRepeatSys(UiCtx *ui)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     if (ui->frameRate == UI_FRAMERATE_30) {
         return key->repeat30;
@@ -1002,12 +1002,12 @@ u32 KEY_GetRepeatSys(UiCtx *ui)
 
 u32 KEY_GetRepeat(void)
 {
-    return KEY_GetRepeatSys(sub_02035224());
+    return KEY_GetRepeatSys(UI_GetContext());
 }
 
 void KEY_GetRepeatSpeedSys(UiCtx *ui, u32 *speed, u32 *wait)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     *speed = key->repeatSpeed;
     *wait = key->repeatWait;
@@ -1015,12 +1015,12 @@ void KEY_GetRepeatSpeedSys(UiCtx *ui, u32 *speed, u32 *wait)
 
 void KEY_GetRepeatSpeed(u32 *speed, u32 *wait)
 {
-    KEY_GetRepeatSpeedSys(sub_02035224(), speed, wait);
+    KEY_GetRepeatSpeedSys(UI_GetContext(), speed, wait);
 }
 
 void KEY_ClearFrameRateWork(UiCtx *ui)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     key->cont30 = 0;
     key->trg30 = 0;
@@ -1032,7 +1032,7 @@ void KEY_ClearFrameRateWork(UiCtx *ui)
 
 void KEY_SetTrg(UiCtx *ui, int trg, int trg30)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     key->trg30 = trg30;
     key->trg = trg;
@@ -1040,7 +1040,7 @@ void KEY_SetTrg(UiCtx *ui, int trg, int trg30)
 
 void KEY_SetCont(UiCtx *ui, int cont, int cont30)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     key->cont30 = cont30;
     key->cont = cont;
@@ -1048,7 +1048,7 @@ void KEY_SetCont(UiCtx *ui, int cont, int cont30)
 
 void KEY_SetRepeat(UiCtx *ui, int repeat, int repeat30)
 {
-    KeyWork *key = sub_0203521C(ui);
+    KeyWork *key = UI_GetPointerValue(ui);
 
     key->repeat30 = repeat30;
     key->repeat = repeat;

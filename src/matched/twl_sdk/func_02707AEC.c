@@ -11,6 +11,7 @@
  *
  * symbols:
  *   g_02735B20  0x02735B20  data
+ *   gMslRefToken  0x02150FEC  data  arm9
  */
 
 typedef unsigned int u32;
@@ -29,7 +30,7 @@ typedef struct {
     OSThread *current;
 } ThreadInfoLike;
 extern SysLockLike g_02735B20;
-extern ThreadInfoLike g_02150FEC;
+extern ThreadInfoLike gMslRefToken;
 
 void AESi_InitLock(void)
 {

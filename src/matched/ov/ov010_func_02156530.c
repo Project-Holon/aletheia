@@ -24,14 +24,14 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0200A750  0x0200A750  thumb
- *   func_0200A81C  0x0200A81C  thumb
+ *   MUSICAL_SAVE_GetProgram  0x0200A750  thumb
+ *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
  *   MUSICAL_EVENT_GetScoreCapped  0x02156934  thumb  ov010
  *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
- *   func_021FD8F8  0x021FD8F8  thumb  ov132
- *   func_021FD4F8  0x021FD4F8  thumb  ov132
+ *   STA_NET_GetSlotWordByIndex  0x021FD8F8  thumb  ov132
+ *   STA_NET_FindRecValueByKey  0x021FD4F8  thumb  ov132
  *   MUSICAL_PROGRAM_GetPropRow  0x0215736C  thumb  ov010
- *   func_0200A644  0x0200A644  thumb
+ *   MUSICAL_SAVE_IsPropOwned  0x0200A644  thumb
  *   MUSICAL_PROGRAM_GetBestCategory  0x021572C0  thumb  ov010
  *   func_02005728  0x02005728  thumb
  *   func_020307B0  0x020307B0  arm
@@ -91,14 +91,14 @@ struct Big;
 struct BigSub4;
 struct Ctx;
 struct Deal;
-extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
-extern u16 func_0200A81C(struct Big *p);
+extern struct BigSub4 *MUSICAL_SAVE_GetProgram(struct Big *p, u32 index);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern u8 MUSICAL_EVENT_GetScoreCapped(Work *w, u8 idx);
 extern int MUSICAL_EVENT_GetPlayerOfSlot(int a0, u8 a1);
-extern u32 func_021FD8F8(char *p, u32 index);
-extern u32 func_021FD4F8(struct Ctx *p, u8 key);
+extern u32 STA_NET_GetSlotWordByIndex(char *p, u32 index);
+extern u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
 extern int MUSICAL_PROGRAM_GetPropRow(int a0);
-extern u32 func_0200A644(struct Big *p, u8 index);
+extern u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index);
 extern u8 MUSICAL_PROGRAM_GetBestCategory(struct Deal *d);
 extern u32 func_02005728(u32 range);
 extern u32 func_020307B0(void *p);
@@ -129,17 +129,17 @@ void MUSICAL_EVENT_RollProgramRewards(Work *w)
     buf = func_02030734(4, 0x28, 1, sMusicalEventFileName, 0x3F9);
     sum = 0;
     for (i = 0; i < 10; i++) {
-        e = (Slot *)func_0200A750(w->f40, i);
+        e = (Slot *)MUSICAL_SAVE_GetProgram(w->f40, i);
         e->f00 = 4;
         e->f01 = 0;
         e->f02 = 0;
     }
     if (w->f14 == 0) {
-        sum = func_0200A81C(w->f40) + MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
+        sum = MUSICAL_SAVE_GetFanPoints(w->f40) + MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
     } else {
         for (j = 0; j < 4; j++) {
-            pv = (u16 *)func_021FD8F8(w->f28, MUSICAL_EVENT_GetPlayerOfSlot((int)w, j));
-            if (func_021FD4F8(w->f28, j) != 0) {
+            pv = (u16 *)STA_NET_GetSlotWordByIndex(w->f28, MUSICAL_EVENT_GetPlayerOfSlot((int)w, j));
+            if (STA_NET_FindRecValueByKey(w->f28, j) != 0) {
                 sum += *pv;
                 sum += MUSICAL_EVENT_GetScoreCapped(w, j);
             }
@@ -156,7 +156,7 @@ void MUSICAL_EVENT_RollProgramRewards(Work *w)
         n = 0;
         for (j = 0, row = d_0216FF28[r]; j < 0x28; j++) {
             v = row[j];
-            if (func_0200A644(w->f40, v) == 0) {
+            if (MUSICAL_SAVE_IsPropOwned(w->f40, v) == 0) {
                 buf[n] = v;
                 n++;
             }
@@ -174,7 +174,7 @@ void MUSICAL_EVENT_RollProgramRewards(Work *w)
         }
     }
     for (i = 0; i < lvl; i++) {
-        e = (Slot *)func_0200A750(w->f40, order[i]);
+        e = (Slot *)MUSICAL_SAVE_GetProgram(w->f40, order[i]);
         c = MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
         e->f00 = q;
         if ((u8)func_02005728(100) < c && n != 0) {

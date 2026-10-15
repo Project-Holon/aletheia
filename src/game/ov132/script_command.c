@@ -30,14 +30,14 @@
  *   PARTICLE_KillEffect  0x02051630  arm
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   d_021FDCC4 0x021FDCC4 data a4
- *   func_021F9DFC 0x021F9DFC thumb ov132
+ *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
  *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
- *   func_021F9E04 0x021F9E04 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
- *   func_021F9DD4 0x021F9DD4 thumb ov132
- *   func_021F9DDC 0x021F9DDC thumb ov132
+ *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
+ *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_021F6F04 0x021F6F04 thumb ov112
  *   _fflt 0x0209BDBC arm
@@ -58,15 +58,15 @@
  *   d_021FDC20 0x021FDC20 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_0207D658 0x0207D658 arm
- *   func_021F9730 0x021F9730 thumb ov132
- *   func_021F9768 0x021F9768 thumb ov132
+ *   STA_ACTING_RequestAction 0x021F9730 thumb ov132
+ *   STA_ACTING_GetCurrentAction 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355D8 0x020355D8 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_021F9E0C 0x021F9E0C thumb ov132
+ *   STA_ACTING_GetActorCount 0x021F9E0C thumb ov132
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
@@ -104,70 +104,70 @@
  *   func_02030EAC 0x02030EAC arm
  *   NNS_FndRemoveListObject 0x020605B4 arm
  *   _fadd 0x0209C95C arm
- *   func_0207CEE4 0x0207CEE4 arm
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_MultAdd 0x0207CEE4 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   VM_GetU32 0x0201134C thumb
  *   d_021FDD00 0x021FDD00 data ov132 a4
- *   func_021F96D0 0x021F96D0 thumb ov132
- *   func_021F9E00 0x021F9E00 thumb ov132
- *   func_021F9E08 0x021F9E08 thumb ov132
- *   func_021F9D80  0x021F9D80  thumb
- *   func_021F9AD8  0x021F9AD8  thumb
- *   func_021F9D90  0x021F9D90  thumb
+ *   STA_ACTING_PlayRankSe 0x021F96D0 thumb ov132
+ *   STA_ACTING_SetCameraPos 0x021F9E00 thumb ov132
+ *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
+ *   STA_ACTING_ShowAnim  0x021F9D80  thumb
+ *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
+ *   STA_ACTING_HideAnim  0x021F9D90  thumb
  *   func_021F80D4 0x021F80D4 thumb ov112
  *   func_021F812C 0x021F812C thumb ov112
  *   func_021F8054 0x021F8054 thumb ov112
- *   func_0207CA00 0x0207CA00 arm
+ *   VEC_Subtract 0x0207CA00 arm
  *   func_021F80B0 0x021F80B0 thumb ov112
  *   func_021F80A0 0x021F80A0 thumb ov112
  *   func_021F80C8 0x021F80C8 thumb ov112
  *   func_021F8140 0x021F8140 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
- *   func_021F9D18 0x021F9D18 thumb ov132
- *   func_021F95CC 0x021F95CC thumb ov132
- *   func_021F9140 0x021F9140 thumb ov132
- *   func_021F91A8 0x021F91A8 thumb ov132
+ *   STA_ACTING_PositionAnim 0x021F9D18 thumb ov132
+ *   STA_ACTING_SetSelection 0x021F95CC thumb ov132
+ *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
+ *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
  *   func_021F8084 0x021F8084 thumb ov112
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_021F8068  0x021F8068  thumb  ov112
- *   func_021F9E20 0x021F9E20 thumb ov132
- *   func_021F9E34 0x021F9E34 thumb ov132
- *   func_021F9E3C 0x021F9E3C thumb ov132
+ *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
+ *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
+ *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
  *   func_0209BDBC 0x0209BDBC arm
  *   func_0209C494 0x0209C494 arm
  *   func_0209CB8C 0x0209CB8C arm
  *   func_0209CE10 0x0209CE10 arm
- *   func_021F9DAC 0x021F9DAC thumb ov132
+ *   STA_ACTING_GetActObj 0x021F9DAC thumb ov132
  *   STA_ACT_OBJ_AddEntry 0x021F6B18 thumb ov112
- *   func_021F9DB8 0x021F9DB8 thumb ov132
- *   func_021F9DB0 0x021F9DB0 thumb ov132
+ *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
+ *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
  *   STA_ACT_OBJ_FreeEntry 0x021F6B80 thumb ov112
  *   func_021F6BC0 0x021F6BC0 thumb ov112
  *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
  *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
- *   func_021F9DC0 0x021F9DC0 thumb ov132
- *   func_021F9DCC 0x021F9DCC thumb ov132
- *   func_021F9DC4 0x021F9DC4 thumb ov132
+ *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
+ *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   func_021F6E78 0x021F6E78 thumb ov112
  *   func_021F6F14 0x021F6F14 thumb ov112
  *   func_021F6F1C 0x021F6F1C thumb ov112
- *   func_021F9DE8 0x021F9DE8 thumb ov132
- *   func_021F95E8 0x021F95E8 thumb ov132
+ *   STA_ACTING_SetCharSlot 0x021F9DE8 thumb ov132
+ *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
  *   func_021F6EE4 0x021F6EE4 thumb ov112
  *   func_021F6EF4 0x021F6EF4 thumb ov112
- *   func_021F9DF4 0x021F9DF4 thumb ov132
- *   func_021F93D8 0x021F93D8 thumb ov132
- *   func_021F94B0  0x021F94B0  thumb
+ *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
+ *   STA_ACTING_PrintText 0x021F93D8 thumb ov132
+ *   STA_ACTING_ClearText  0x021F94B0  thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_021F9664  0x021F9664  thumb
- *   func_021F9680  0x021F9680  thumb
- *   func_021F9690  0x021F9690  thumb
- *   func_021F969C 0x021F969C thumb ov132
- *   func_021F96B0  0x021F96B0  thumb
- *   func_021F96C4  0x021F96C4  thumb
+ *   STA_ACTING_InstallBgm  0x021F9664  thumb
+ *   STA_ACTING_StartSeq  0x021F9680  thumb
+ *   STA_ACTING_StopSeq  0x021F9690  thumb
+ *   STA_ACTING_ReplaceWaveData 0x021F969C thumb ov132
+ *   STA_ACTING_PlayBgm  0x021F96B0  thumb
+ *   STA_ACTING_StopBgm  0x021F96C4  thumb
  *   d_021FDE5C 0x021FDE5C data a4
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
@@ -182,7 +182,7 @@
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_02012124 0x02012124 thumb
+ *   ICA_ANIME_SetField30 0x02012124 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
@@ -191,18 +191,18 @@
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0200A81C 0x0200A81C thumb
+ *   MUSICAL_SAVE_GetFanPoints 0x0200A81C thumb
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
- *   func_021FD84C 0x021FD84C thumb ov132
- *   func_021FD6C8 0x021FD6C8 thumb ov132
- *   func_021FD704 0x021FD704 thumb ov132
- *   func_021FD6DC 0x021FD6DC thumb ov132
- *   func_021FD6F0 0x021FD6F0 thumb ov132
- *   func_021FD76C 0x021FD76C thumb ov132
- *   func_021FD7D4 0x021FD7D4 thumb ov132
- *   func_021FD6A4 0x021FD6A4 thumb ov132
- *   func_021FD550 0x021FD550 thumb ov132
+ *   STA_NET_SendRandomOrder 0x021FD84C thumb ov132
+ *   STA_NET_NotifyHostKind4 0x021FD6C8 thumb ov132
+ *   STA_NET_SendSlot1Command 0x021FD704 thumb ov132
+ *   STA_NET_NotifyHostKind5 0x021FD6DC thumb ov132
+ *   STA_NET_NotifyHostKind6 0x021FD6F0 thumb ov132
+ *   STA_NET_SendSlot2Command 0x021FD76C thumb ov132
+ *   STA_NET_SendSlot3Command 0x021FD7D4 thumb ov132
+ *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
+ *   STA_NET_UpdateTransferState 0x021FD550 thumb ov132
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SendData 0x0203D3F8 arm
@@ -212,6 +212,7 @@
  *   func_020084BC 0x020084BC thumb
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  */
 #include "ov132_types.h"
 
@@ -344,14 +345,14 @@ extern void PARTICLE_DeleteSystem(u8 *p);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillEffect(void **p, void *q);
 extern void BUTTON_MAN_SetEmitterPos(void *, int);
-extern u16 func_021F9DFC(void *p);
+extern u16 STA_ACTING_GetCameraPos(void *p);
 extern unsigned func_02005728(unsigned);
 extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
-extern u16 func_021F9E04(u8 *p);
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
-extern void *func_021F9DD4(void *);
-extern void *func_021F9DDC(void *,u8);
+extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
+extern void *STA_ACTING_GetCharSystem(void *);
+extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_021F6F04(void *,char *,Vec *);
 extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
@@ -364,15 +365,15 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_0207D658(unsigned long,int,int);
-extern void func_021F9730(char *p, int value);
+extern void STA_ACTING_RequestAction(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
 extern void func_020355D8(u8);
-extern int func_021F9768(char *p);
+extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern u32 func_021F9E0C(u8 *p);
+extern u32 STA_ACTING_GetActorCount(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -404,67 +405,67 @@ extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void NNS_FndAppendListObject(void *, void *);
 extern void func_02030EAC(struct Node *n);
 extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
-extern void func_0207CEE4(int, void *, void *, void *);
-extern void func_0207C9D0(const Vec *, const Vec *, Vec *);
+extern void VEC_MultAdd(int, void *, void *, void *);
+extern void VEC_Add(const Vec *, const Vec *, Vec *);
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021F96D0(char *p);
-extern void func_021F9E00(void *, u16);
-extern void func_021F9E08(u8 *p, u16 v);
-extern void func_021F9D80(char *p);
-extern void func_021F9AD8(char *p, int mode, u8 slot);
-extern void func_021F9D90(char *p);
+extern void STA_ACTING_PlayRankSe(char *p);
+extern void STA_ACTING_SetCameraPos(void *, u16);
+extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
+extern void STA_ACTING_ShowAnim(char *p);
+extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
+extern void STA_ACTING_HideAnim(char *p);
 extern void func_021F80D4(char *, char *, int);
 extern int func_021F812C(int unused, int *p, int flag);
 extern void func_021F8054(void *unused, u32 *p, const u32 *q);
-extern void func_0207CA00(void *,void *,void *);
+extern void VEC_Subtract(void *,void *,void *);
 extern void func_021F80B0(char *, char *);
 extern void func_021F80A0(int a, u8 *p);
 extern void func_021F80C8(int, void *, u8);
 extern void func_021F8140(int a, u8 *p, int b);
 extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
-extern void func_021F9D18(char *p, unsigned i);
-extern void func_021F95CC(char *,unsigned char,int);
-extern void func_021F9140(unsigned char *,unsigned char,unsigned char);
-extern void func_021F91A8(char *p, u8 n, u8 mask);
+extern void STA_ACTING_PositionAnim(char *p, unsigned i);
+extern void STA_ACTING_SetSelection(char *,unsigned char,int);
+extern void STA_ACTING_LoadRankAnim(unsigned char *,unsigned char,unsigned char);
+extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
 extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern int func_0209C0A4();
 extern void func_021F8068(int self, char *p, u16 v);
-extern u16 func_021F9E20(char *p, u32 i);
-extern u16 func_021F9E34(char *p, u32 i);
-extern void func_021F9E3C(char *p, u32 v);
+extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
+extern u16 STA_ACTING_GetBonus(char *p, u32 i);
+extern void STA_ACTING_SetField10(char *p, u32 v);
 extern int func_0209BDBC(int a);
 extern u32 func_0209C494(u32 a);
 extern u32 func_0209CB8C(u32 a, u32 b);
 extern u32 func_0209CE10(u32 a, u32 b);
-extern void *func_021F9DAC(void *p);
+extern void *STA_ACTING_GetActObj(void *p);
 extern struct Entry *STA_ACT_OBJ_AddEntry(struct Object *,unsigned short);
-extern void func_021F9DB8(void *p, void *v, u32 i);
-extern unsigned int *func_021F9DB0(void *,unsigned char);
+extern void STA_ACTING_SetSlot(void *p, void *v, u32 i);
+extern unsigned int *STA_ACTING_GetSlot(void *,unsigned char);
 extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
 extern void func_021F6BC0(char *,unsigned int *,unsigned int);
 extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
 extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
-extern void *func_021F9DC0(void *p);
-extern void func_021F9DCC(void *p, void *v, u32 i);
-extern void *func_021F9DC4(void *,u8);
+extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void STA_ACTING_SetAnimSlot(void *p, void *v, u32 i);
+extern void *STA_ACTING_GetAnimSlot(void *,u8);
 extern u8 *func_021F6E78(u8 *p, int v);
 extern void func_021F6F14(void *a, char *p, u16 b, u8 c);
 extern void func_021F6F1C(void *a, char *p, u32 b, u32 c);
-extern void func_021F9DE8(void *,void *,u8);
-extern void func_021F95E8(char *p);
+extern void STA_ACTING_SetCharSlot(void *,void *,u8);
+extern void STA_ACTING_MarkDirty(char *p);
 extern void func_021F6EE4(void *,u8 *);
 extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
-extern void *func_021F9DF4(void *p);
-extern void func_021F93D8(u8 *,u16,u32);
-extern void func_021F94B0(u8 *p);
+extern void *STA_ACTING_GetBoard(void *p);
+extern void STA_ACTING_PrintText(u8 *,u16,u32);
+extern void STA_ACTING_ClearText(u8 *p);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern void func_021F9664(char *p, int a);
-extern void func_021F9680(char *p, int a);
-extern void func_021F9690(char *p);
-extern int func_021F969C(char *p, u32 a, u32 b, u32 d);
-extern void func_021F96B0(char *p, int a);
-extern void func_021F96C4(char *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void STA_ACTING_InstallBgm(char *p, int a);
+extern void STA_ACTING_StartSeq(char *p, int a);
+extern void STA_ACTING_StopSeq(char *p);
+extern int STA_ACTING_ReplaceWaveData(char *p, u32 a, u32 b, u32 d);
+extern void STA_ACTING_PlayBgm(char *p, int a);
+extern void STA_ACTING_StopBgm(char *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
 extern u8 *func_02012944(void *p);
@@ -479,7 +480,7 @@ extern u32 func_0200FB24(void);
 extern u32 GFL_NET_IsParentAid(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_02012124(struct Ctx *p, u32 v);
+extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void *GAME_DATA_GetSaveBlock2A(void *);
@@ -487,17 +488,17 @@ extern u32 func_020173EC(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 extern void MI_CpuFill8(void *,u8,u32);
-extern u16 func_0200A81C(struct Big *p);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern u32 func_0203F0A8(void);
-extern int func_021FD84C(u8 *p);
-extern int func_021FD6C8(u8 *p);
-extern int func_021FD704(u8 *p);
-extern int func_021FD6DC(char *);
-extern int func_021FD6F0(char *);
-extern int func_021FD76C(u8 *p);
-extern int func_021FD7D4(u8 *p);
-extern int func_021FD6A4(char *);
-extern void func_021FD550(char *);
+extern int STA_NET_SendRandomOrder(u8 *p);
+extern int STA_NET_NotifyHostKind4(u8 *p);
+extern int STA_NET_SendSlot1Command(u8 *p);
+extern int STA_NET_NotifyHostKind5(char *);
+extern int STA_NET_NotifyHostKind6(char *);
+extern int STA_NET_SendSlot2Command(u8 *p);
+extern int STA_NET_SendSlot3Command(u8 *p);
+extern int STA_NET_IsTransferDone(char *);
+extern void STA_NET_UpdateTransferState(char *);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
@@ -879,7 +880,7 @@ void func_021FA04C(u8 *p)
 void func_021FA064(char *p)
 {
     u8 i;
-    if (func_021F9DFC(((struct ScriptOwner *)p)->f1E8) == 0) {
+    if (STA_ACTING_GetCameraPos(((struct ScriptOwner *)p)->f1E8) == 0) {
         if (func_02005728(10) == 0) {
             for (i = 0; i < 3; i++) {
                 u8 a = func_02005728(4);
@@ -1052,14 +1053,14 @@ void func_021FA2A0(char *p,u8 *rec)
             else if(rec[6]<6) func_021FA3A8(p,rec,1);
             else func_021FA3A8(p,rec,0);
         } else {
-            func_021F9E04(((struct ScriptOwner *)p)->f1E8);
+            STA_ACTING_GetCameraTarget(((struct ScriptOwner *)p)->f1E8);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
-                a=func_021F9DA0(((struct ScriptOwner *)p)->f1E8);
-                func_021F8044(a,func_021F9DA4(((struct ScriptOwner *)p)->f1E8,rec[0]),(u32 *)(&v));
+                a=STA_ACTING_GetActorSystem(((struct ScriptOwner *)p)->f1E8);
+                func_021F8044(a,STA_ACTING_GetActor(((struct ScriptOwner *)p)->f1E8,rec[0]),(u32 *)(&v));
             } else {
-                b=func_021F9DD4(((struct ScriptOwner *)p)->f1E8);
-                func_021F6F04(b,(char *)func_021F9DDC(((struct ScriptOwner *)p)->f1E8,((struct ScriptOwner *)p)->f1FC),&v);
+                b=STA_ACTING_GetCharSystem(((struct ScriptOwner *)p)->f1E8);
+                func_021F6F04(b,(char *)STA_ACTING_GetCharSlot(((struct ScriptOwner *)p)->f1E8,((struct ScriptOwner *)p)->f1FC),&v);
             }
             delta=(float)v.x/4096.f-(float)(u32)x;
             if(delta < -64) func_021FA3A8(p,rec,0);
@@ -1308,8 +1309,8 @@ void func_021FA6CC(char *p)
         hit=TOUCHPANEL_HitTrg(&key);
         func_0207D658(0x04001050,16,0);
         if(hit!=-1 && *(u16 *)(p+0x48+hit*2)!=255 && *(int *)(p+0x40+hit*4)==0) {
-            if(hit==0) func_021F9730(((struct TaskObj *)p)->f4,7);
-            else func_021F9730(((struct TaskObj *)p)->f4,8);
+            if(hit==0) STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,7);
+            else STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,8);
             func_0207D658(0x04001050,16,-8);
             one=FLAG_ONE;
             zero=FLAG_ZERO;
@@ -1326,7 +1327,7 @@ void func_021FA6CC(char *p)
         }
     }
     if(((struct TaskObj *)p)->f14!=2) {
-        if(func_021F9768(((struct TaskObj *)p)->f4)==0) {
+        if(STA_ACTING_GetCurrentAction(((struct TaskObj *)p)->f4)==0) {
             if(((struct TaskObj *)p)->f10==0) {
                 ((struct TaskObj *)p)->fC.s=1;
                 CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct TaskObj *)p)->f14*4),0);
@@ -1361,7 +1362,7 @@ void func_021FA7E0(char *p)
     void *narc;
     u8 i=0;
     int format;
-    table=(u8 *)func_021F9E0C((u8 *)(*(char * *)&((struct TaskObj *)p)->f4));
+    table=(u8 *)STA_ACTING_GetActorCount((u8 *)(*(char * *)&((struct TaskObj *)p)->f4));
     ((struct TaskObj *)p)->f18=CLACT_CreateUnit(5,0,((struct TaskObj *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct TaskObj *)p)->f18);
     narc=func_020490F4(47,((struct TaskObj *)p)->f0);
@@ -1750,7 +1751,7 @@ int func_021FAE4C(char *p, int *out)
     }
     if (((struct ScriptOwner *)p)->f2A != 0) v = (int)(0.5f + (float)(((struct ScriptOwner *)p)->f2A << 12));
     else v = (int)((float)(((struct ScriptOwner *)p)->f2A << 12) - 0.5f);
-    func_0207CEE4(v, p + 0x1c, p + 4, out);
+    VEC_MultAdd(v, p + 0x1c, p + 4, out);
     return 0;
 }
 
@@ -1768,8 +1769,8 @@ int func_021FAE4C(char *p, int *out)
 int func_021FAEA8(char *p, void *out)
 {
     int v[3];
-    func_021F8044(func_021F9DA0(((struct Obj06489 *)p)->f0), (u32 *)(((struct Obj06489 *)p)->f4), (u32 *)v);
-    func_0207C9D0((const Vec *)v, (const Vec *)(p + 8), (Vec *)out);
+    func_021F8044(STA_ACTING_GetActorSystem(((struct Obj06489 *)p)->f0), (u32 *)(((struct Obj06489 *)p)->f4), (u32 *)v);
+    VEC_Add((const Vec *)v, (const Vec *)(p + 8), (Vec *)out);
     (((struct Obj06489 *)p)->f16)++;
     if (((struct Obj06489 *)p)->f16 >= ((struct Obj06489 *)p)->f14) return 1;
     return 0;
@@ -1912,7 +1913,7 @@ int func_021FAF70(void *unused, char *ctx)
     *(char * *)&((struct ScriptTask *)p)->f10 = owner;
     ((struct ScriptTask *)p)->f0 = ((struct ScriptOwner *)owner)->f34;
     ((struct ScriptTask *)p)->fE = 0;
-    ((struct ScriptTask *)p)->f4.s = func_021F9DFC(((struct ScriptOwner *)owner)->f34);
+    ((struct ScriptTask *)p)->f4.s = STA_ACTING_GetCameraPos(((struct ScriptOwner *)owner)->f34);
     ((struct ScriptTask *)p)->f8.s = 224;
     delta = 224 - ((struct ScriptTask *)p)->f4.s;
     if (delta < 0) delta = -delta;
@@ -1945,13 +1946,13 @@ int func_021FAFDC(void *unused, char *ctx)
     *(char * *)&((struct ScriptTask *)p)->f10 = owner;
     ((struct ScriptTask *)p)->f0 = ((struct ScriptOwner *)owner)->f34;
     ((struct ScriptTask *)p)->fE = 0;
-    ((struct ScriptTask *)p)->f4.s = func_021F9DFC(((struct ScriptOwner *)owner)->f34);
+    ((struct ScriptTask *)p)->f4.s = STA_ACTING_GetCameraPos(((struct ScriptOwner *)owner)->f34);
     ((struct ScriptTask *)p)->f8.s = 0;
     delta = ((struct ScriptTask *)p)->f8.s - ((struct ScriptTask *)p)->f4.s;
     if (delta < 0) delta = -delta;
     ((struct ScriptTask *)p)->fC = delta / 2;
     ((struct ScriptTask *)p)->f14 = func_021FADA0(owner, (u32)func_021FB0DC, (u32)p, 10);
-    func_021F96D0(((struct ScriptOwner *)owner)->f34);
+    STA_ACTING_PlayRankSe(((struct ScriptOwner *)owner)->f34);
     if (wait == 1) {
         ((struct ScriptCtx *)ctx)->f14 = ((struct ScriptTask *)p)->fC;
         return 1;
@@ -1979,13 +1980,13 @@ int func_021FB050(void *unused, char *ctx)
     target = VM_GetU32(((struct ScriptCtx *)ctx)->f4.p);
     wait = VM_GetU32(((struct ScriptCtx *)ctx)->f4.p);
     if (time == 0) {
-        func_021F9E00(((struct ScriptOwner *)owner)->f34, target);
+        STA_ACTING_SetCameraPos(((struct ScriptOwner *)owner)->f34, target);
     } else {
         p = func_02030734(((struct ScriptOwner *)owner)->f0, 0x18, 0, d_021FDD00, 0x1e9);
         *(char * *)&((struct ScriptTask *)p)->f10 = owner;
         ((struct ScriptTask *)p)->f0 = ((struct ScriptOwner *)owner)->f34;
         ((struct ScriptTask *)p)->fE = 0;
-        ((struct ScriptTask *)p)->f4.s = func_021F9DFC(((struct ScriptOwner *)owner)->f34);
+        ((struct ScriptTask *)p)->f4.s = STA_ACTING_GetCameraPos(((struct ScriptOwner *)owner)->f34);
         ((struct ScriptTask *)p)->f8.s = target;
         ((struct ScriptTask *)p)->fC = time;
         ((struct ScriptTask *)p)->f14 = func_021FADA0(owner, (u32)func_021FB0DC, (u32)p, 10);
@@ -2009,7 +2010,7 @@ void func_021FB0DC(void *unused, char *p)
 {
     int v;
     int done = func_021FAE1C(p, &v);
-    func_021F9E00(((struct ScriptTask *)p)->f0, v);
+    STA_ACTING_SetCameraPos(((struct ScriptTask *)p)->f0, v);
     if (done == 1) func_021FADF8(*(char * *)&((struct ScriptTask *)p)->f10, *(char * *)&((struct ScriptTask *)p)->f14);
 }
 
@@ -2033,13 +2034,13 @@ int func_021FB104(void *unused, char *ctx)
     target = VM_GetU32(((struct ScriptCtx *)ctx)->f4.p);
     wait = VM_GetU32(((struct ScriptCtx *)ctx)->f4.p);
     if (time == 0) {
-        func_021F9E08(((struct ScriptOwner *)owner)->f34, target);
+        STA_ACTING_SetCameraTarget(((struct ScriptOwner *)owner)->f34, target);
     } else {
         p = func_02030734(((struct ScriptOwner *)owner)->f0, 0x18, 0, d_021FDD00, 0x225);
         *(char * *)&((struct ScriptTask *)p)->f10 = owner;
         ((struct ScriptTask *)p)->f0 = ((struct ScriptOwner *)owner)->f34;
         ((struct ScriptTask *)p)->fE = 0;
-        ((struct ScriptTask *)p)->f4.s = func_021F9E04(((struct ScriptOwner *)owner)->f34);
+        ((struct ScriptTask *)p)->f4.s = STA_ACTING_GetCameraTarget(((struct ScriptOwner *)owner)->f34);
         ((struct ScriptTask *)p)->f8.s = target;
         ((struct ScriptTask *)p)->fC = time;
         ((struct ScriptTask *)p)->f14 = func_021FADA0(owner, (u32)func_021FB190, (u32)p, 10);
@@ -2063,7 +2064,7 @@ void func_021FB190(void *unused, char *p)
 {
     int v;
     int done = func_021FAE1C(p, &v);
-    func_021F9E08(((struct ScriptTask *)p)->f0, v);
+    STA_ACTING_SetCameraTarget(((struct ScriptTask *)p)->f0, v);
     if (done == 1) {
         func_021F9E40(((struct ScriptTask *)p)->f0, 0);
         func_021FADF8(*(char * *)&((struct ScriptTask *)p)->f10, *(char * *)&((struct ScriptTask *)p)->f14);
@@ -2093,8 +2094,8 @@ int func_021FB1CC(int a, char **pp)
 {
     char *p = *pp;
 
-    func_021F9D80(((struct ScriptOwner *)p)->f34);
-    func_021F9AD8(((struct ScriptOwner *)p)->f34, 0, 0);
+    STA_ACTING_ShowAnim(((struct ScriptOwner *)p)->f34);
+    STA_ACTING_ScheduleActions(((struct ScriptOwner *)p)->f34, 0, 0);
     return 0;
 }
 
@@ -2109,7 +2110,7 @@ int func_021FB1CC(int a, char **pp)
 
 int func_021FB1E4(void *a, void **pp)
 {
-    func_021F9D90(((struct ScriptOwner *)((u8 *)*pp))->f34);
+    STA_ACTING_HideAnim(((struct ScriptOwner *)((u8 *)*pp))->f34);
     return 0;
 }
 
@@ -2147,10 +2148,10 @@ int func_021FB208(int unused, char *p)
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
     value = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80D4(ctx, func_021F9DA4(((struct ScriptOwner *)obj)->f34, i), value);
+            func_021F80D4(ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i), value);
         }
     }
     return 0;
@@ -2177,12 +2178,12 @@ int func_021FB258(int unused, char *p)
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
     value = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
             char *slot;
             int flag;
-            slot = func_021F9DA4(((struct ScriptOwner *)obj)->f34, i);
+            slot = STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i);
             flag = 0;
             if (value != 0) flag = 1;
             func_021F812C((int)ctx, (int *)slot, flag);
@@ -2215,10 +2216,10 @@ int func_021FB2B0(int unused,char *p)
     y=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     z=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     wait=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx=func_021F9DA0(((struct ScriptOwner *)owner)->f34);
+    ctx=STA_ACTING_GetActorSystem(((struct ScriptOwner *)owner)->f34);
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
-            target=func_021F9DA4(((struct ScriptOwner *)owner)->f34,i);
+            target=STA_ACTING_GetActor(((struct ScriptOwner *)owner)->f34,i);
             if (rate==0) {
                 pos.x=x;pos.y=y;pos.z=z;
                 func_021F8054(ctx,(u32 *)target,(const u32 *)(&pos));
@@ -2231,7 +2232,7 @@ int func_021FB2B0(int unused,char *p)
                 func_021F8044(ctx,(u32 *)target,(u32 *)(q+8));
                 ((struct Obj02192 *)q)->f14=x;((struct Obj02192 *)q)->f18=y;((struct Obj02192 *)q)->f1C=z;
                 ((struct Obj02192 *)q)->f2C=rate;
-                func_0207CA00(q+20,q+8,delta);
+                VEC_Subtract(q+20,q+8,delta);
                 ((struct Obj02192 *)q)->f20=delta[0]/(int)rate;
                 ((struct Obj02192 *)q)->f24=delta[1]/(int)rate;
                 ((struct Obj02192 *)q)->f28=delta[2]/(int)rate;
@@ -2300,10 +2301,10 @@ int func_021FB3E0(int unused,char *p)
     void *ctx;
     char *q,*target;
     u32 pos[3];
-    ctx=func_021F9DA0(*(void **)(owner+52));
+    ctx=STA_ACTING_GetActorSystem(*(void **)(owner+52));
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
-            target=func_021F9DA4(*(void **)(owner+52),i);
+            target=STA_ACTING_GetActor(*(void **)(owner+52),i);
             if (rate==0) {
                 func_021F8044(ctx,(u32 *)target,pos);
                 pos[0]+=x;pos[1]+=y;pos[2]+=z;
@@ -2350,7 +2351,7 @@ int func_021FB3E0(int unused,char *p)
 /*
  * lever: Void callback return omits the extra zero result instruction.
  */
-void func_021FB528(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=func_021F9DA0(((struct Obj06492 *)p)->f4); result=func_021FAE4C(p+4,pos); func_021F8054(ctx,*(unsigned int * *)&((struct Obj06492 *)p)->f0,(unsigned int *)pos); if(result==1)func_021FADF8(((struct Obj06492 *)p)->f30,((struct Obj06492 *)p)->f34); }
+void func_021FB528(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetActorSystem(((struct Obj06492 *)p)->f4); result=func_021FAE4C(p+4,pos); func_021F8054(ctx,*(unsigned int * *)&((struct Obj06492 *)p)->f0,(unsigned int *)pos); if(result==1)func_021FADF8(((struct Obj06492 *)p)->f30,((struct Obj06492 *)p)->f34); }
 
 
 
@@ -2368,10 +2369,10 @@ int func_021FB55C(int unused, char *p)
     u8 i;
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80B0(ctx, func_021F9DA4(((struct ScriptOwner *)obj)->f34, i));
+            func_021F80B0(ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i));
         }
     }
     return 0;
@@ -2393,10 +2394,10 @@ int func_021FB5A4(int unused, char *p)
     u8 i;
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80A0((int)ctx, func_021F9DA4(((struct ScriptOwner *)obj)->f34, i));
+            func_021F80A0((int)ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i));
         }
     }
     return 0;
@@ -2423,10 +2424,10 @@ int func_021FB5EC(int unused, char *p)
     obj = *(char **)p;
     mask = func_021FB1F4(p, VM_GetU32(*(void **)(p + 4)));
     value = VM_GetU32(*(void **)(p + 4));
-    ctx = func_021F9DA0(*(char **)(obj + 0x34));
+    ctx = STA_ACTING_GetActorSystem(*(char **)(obj + 0x34));
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80C8((int)ctx, func_021F9DA4(*(char **)(obj + 0x34), i), value);
+            func_021F80C8((int)ctx, STA_ACTING_GetActor(*(char **)(obj + 0x34), i), value);
         }
     }
     return 0;
@@ -2449,10 +2450,10 @@ int func_021FB640(int unused, char *p)
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
     value = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F8140((int)ctx, func_021F9DA4(((struct ScriptOwner *)obj)->f34, i), value != 0);
+            func_021F8140((int)ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i), value != 0);
         }
     }
     return 0;
@@ -2475,10 +2476,10 @@ int func_021FB698(int unused, char *p)
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
     value = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            STA_ACT_LIGHT_SetElemValue((int)ctx, func_021F9DA4(((struct ScriptOwner *)obj)->f34, i), value != 0);
+            STA_ACT_LIGHT_SetElemValue((int)ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i), value != 0);
         }
     }
     return 0;
@@ -2499,11 +2500,11 @@ int func_021FB6F0(int unused, char *p)
     u8 i;
     obj = *(char * *)&((struct ScriptCtx *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct ScriptCtx *)p)->f4.p));
-    ctx = func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F9DA4(((struct ScriptOwner *)obj)->f34, i);
-            func_021F9D18(((struct ScriptOwner *)obj)->f34, i);
+            STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i);
+            STA_ACTING_PositionAnim(((struct ScriptOwner *)obj)->f34, i);
         }
     }
     return 0;
@@ -2519,7 +2520,7 @@ int func_021FB6F0(int unused, char *p)
 /*
  * extent: Two bytes of zero alignment padding follow the 58-byte body.
  */
-int func_021FB738(int unused,char *p) { char *obj; int mask; unsigned char i; obj=*(char * *)&((struct ScriptCtx *)p)->f0; mask=func_021FB1F4(p,VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4)); for(i=0;i<4;i++)if((1<<i)&mask)func_021F95CC(*(char * *)&((struct ScriptOwner *)obj)->f34,i,1); return 0; }
+int func_021FB738(int unused,char *p) { char *obj; int mask; unsigned char i; obj=*(char * *)&((struct ScriptCtx *)p)->f0; mask=func_021FB1F4(p,VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4)); for(i=0;i<4;i++)if((1<<i)&mask)STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->f34,i,1); return 0; }
 
 
 
@@ -2528,7 +2529,7 @@ int func_021FB738(int unused,char *p) { char *obj; int mask; unsigned char i; ob
 
 
 
-int func_021FB774(int unused,char *p) { char *obj; obj=*(char * *)&((struct ScriptCtx *)p)->f0; func_021F95CC(*(char * *)&((struct ScriptOwner *)obj)->f34,0,0);func_021F95CC(*(char * *)&((struct ScriptOwner *)obj)->f34,1,0);func_021F95CC(*(char * *)&((struct ScriptOwner *)obj)->f34,2,0);func_021F95CC(*(char * *)&((struct ScriptOwner *)obj)->f34,3,0);return 0; }
+int func_021FB774(int unused,char *p) { char *obj; obj=*(char * *)&((struct ScriptCtx *)p)->f0; STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->f34,0,0);STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->f34,1,0);STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->f34,2,0);STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->f34,3,0);return 0; }
 
 
 
@@ -2541,7 +2542,7 @@ int func_021FB774(int unused,char *p) { char *obj; obj=*(char * *)&((struct Scri
  * prototype: Original caller narrows both 021F9140 arguments to bytes,
  * overriding its own source's wider parameters; 021F9AD8 index is byte too.
  */
-int func_021FB7A4(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct ScriptCtx *)p)->f0;index=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);func_021F9140(*(unsigned char * *)&((struct ScriptOwner *)obj)->f34,n,index);func_021F9AD8(*(char * *)&((struct ScriptOwner *)obj)->f34,1,index);return 0; }
+int func_021FB7A4(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct ScriptCtx *)p)->f0;index=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);STA_ACTING_LoadRankAnim(*(unsigned char * *)&((struct ScriptOwner *)obj)->f34,n,index);STA_ACTING_ScheduleActions(*(char * *)&((struct ScriptOwner *)obj)->f34,1,index);return 0; }
 
 
 
@@ -2550,7 +2551,7 @@ int func_021FB7A4(int unused,char *p) { char *obj; unsigned int index,n; obj=*(c
 
 
 
-int func_021FB7D8(int unused,char *p) { char *obj; int mask; unsigned int n; obj=*(char * *)&((struct ScriptCtx *)p)->f0;mask=func_021FB1F4(p,VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4));n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);func_021F91A8((char *)(*(unsigned char * *)&((struct ScriptOwner *)obj)->f34),n,mask);return 0; }
+int func_021FB7D8(int unused,char *p) { char *obj; int mask; unsigned int n; obj=*(char * *)&((struct ScriptCtx *)p)->f0;mask=func_021FB1F4(p,VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4));n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);STA_ACTING_LoadAnimMember((char *)(*(unsigned char * *)&((struct ScriptOwner *)obj)->f34),n,mask);return 0; }
 
 
 
@@ -2573,12 +2574,12 @@ int func_021FB808(int unused, char *p)
     count = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     amplitude = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     wait = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    func_021F9DA0(((struct ScriptOwner *)obj)->f34);
+    STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
             data = func_02030734(((struct ScriptOwner *)obj)->f0, 0x20, 0, d_021FDD00, 0x443);
             data->owner = obj;
-            data->slot = func_021F9DA4(((struct ScriptOwner *)obj)->f34, i);
+            data->slot = STA_ACTING_GetActor(((struct ScriptOwner *)obj)->f34, i);
             data->amplitude = amplitude;
             data->context = ((struct ScriptOwner *)obj)->f34;
             data->tick = 0;
@@ -2606,7 +2607,7 @@ int func_021FB808(int unused, char *p)
 void func_021FB8CC(int unused, char *p)
 {
     void *ctx;
-    ctx = func_021F9DA0(((struct ScriptSlot *)p)->f0);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptSlot *)p)->f0);
     if (func_021FAEE8(p) == 2) {
         Vec zero = { 0, 0, 0 };
         func_021F8084(ctx, ((struct ScriptSlot *)p)->f10, (const u32 *)(&zero));
@@ -2642,12 +2643,12 @@ int func_021FB948(int unused,char *p)
     start=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     delta=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     wait=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    func_021F9DA0(((struct ScriptOwner *)owner)->f34);
+    STA_ACTING_GetActorSystem(((struct ScriptOwner *)owner)->f34);
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
             q=func_02030734(((struct ScriptOwner *)owner)->f0,36,0,d_021FDD00,0x493);
             *(char * *)&((struct ScriptTask *)q)->f1C=owner;
-            ((struct ScriptTask *)q)->f18.p=func_021F9DA4(((struct ScriptOwner *)owner)->f34,i);
+            ((struct ScriptTask *)q)->f18.p=STA_ACTING_GetActor(((struct ScriptOwner *)owner)->f34,i);
             ((struct ScriptTask *)q)->f0=((struct ScriptOwner *)owner)->f34;
             ((struct ScriptTask *)q)->f4.u=start;
             ((struct ScriptTask *)q)->f8.u=start+delta;
@@ -2677,7 +2678,7 @@ int func_021FB948(int unused,char *p)
  */
 void func_021FBA14(int a0, int *a1)
 {
-    int r4 = (int)func_021F9DA0((char *)a1[0]);
+    int r4 = (int)STA_ACTING_GetActorSystem((char *)a1[0]);
     int local;
     if (func_021FAE1C((char *)a1, &local) == 1) {
         func_021F8068(r4, (char *)a1[6], (u16)func_0209C0A4(a1[2] << 16, 0x168));
@@ -2699,7 +2700,7 @@ int func_021FBA6C(int unused, Msg *m)
     Tag tag;
     u32 x = VM_GetU32(m->f4);
     u32 y = VM_GetU32(m->f4);
-    void *h = func_021F9DA0(o->f34);
+    void *h = STA_ACTING_GetActorSystem(o->f34);
     u32 idx;
     u32 total;
     u32 base;
@@ -2709,17 +2710,17 @@ int func_021FBA6C(int unused, Msg *m)
     u8 i, j, k;
 
     for (i = 0; i < 4; i++) {
-        u16 v = func_021F9E34(o->f34, i) + func_021F9E20(o->f34, i);
+        u16 v = STA_ACTING_GetBonus(o->f34, i) + STA_ACTING_GetRecordScore(o->f34, i);
         if (max < v)
             max = v;
     }
     for (i = 0; i < 4; i++) {
-        u16 v = func_021F9E34(o->f34, i) + func_021F9E20(o->f34, i);
+        u16 v = STA_ACTING_GetBonus(o->f34, i) + STA_ACTING_GetRecordScore(o->f34, i);
         if (max == v)
             idx = i;
     }
     for (i = 0; i < 4; i++) {
-        func_021F8044(h, func_021F9DA4(o->f34, i), &v.x);
+        func_021F8044(h, STA_ACTING_GetActor(o->f34, i), &v.x);
         vec[i] = v.x;
         if (i == idx)
             base = v.x;
@@ -2747,7 +2748,7 @@ int func_021FBA6C(int unused, Msg *m)
         tag.v -= 0x1B;
         a = func_02030734(o->f0, 0x38, 0, d_021FDD00, tag.v);
         a->f30 = o;
-        a->f00 = (u32)func_021F9DA4(o->f34, k);
+        a->f00 = (u32)STA_ACTING_GetActor(o->f34, k);
         a->f04 = o->f34;
         a->f2E = 0;
         func_021F8044(h, (void *)a->f00, (u32 *)&a->f08);
@@ -2764,7 +2765,7 @@ int func_021FBA6C(int unused, Msg *m)
             u16 t = a->f2C;
             int rem = (u8)(t % 15) ? 1 : 0;
             b->f18 = o;
-            b->f10 = func_021F9DA4(o->f34, k);
+            b->f10 = STA_ACTING_GetActor(o->f34, k);
             b->f14 = 0x8000;
             b->f00 = o->f34;
             b->f04 = 0;
@@ -2780,7 +2781,7 @@ int func_021FBA6C(int unused, Msg *m)
         c->f10 = o;
         c->f00 = o->f34;
         c->f0E = 0;
-        c->f04 = func_021F9E04((u8 *)o->f34);
+        c->f04 = STA_ACTING_GetCameraTarget((u8 *)o->f34);
         f = func_0209BDBC((int)total / 4);
         f = func_0209CE10(f, 0x45800000);
         f = func_0209CB8C(f, 0x43000000);
@@ -2788,7 +2789,7 @@ int func_021FBA6C(int unused, Msg *m)
         c->f0C = x;
         c->f14 = func_021FADA0((char *)o, (u32)func_021FB190, (u32)c, 10);
         func_021F9E40((u8 *)o->f34, 1);
-        func_021F9E3C(o->f34, 1);
+        STA_ACTING_SetField10(o->f34, 1);
         if (y == 1) {
             m->f14 = x;
             return 1;
@@ -2830,7 +2831,7 @@ int func_021FBD78(int unused, char *p)
  * prototype: 021F6B18's own source reads r0 only; this caller additionally
  * supplies r1 as a narrowed halfword, retained as an unused second input.
  */
-int func_021FBDCC(int unused,char *p) { char *obj; unsigned int a,b; struct Entry *entry;obj=*(char * *)&((struct ScriptCtx *)p)->f0;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);entry=STA_ACT_OBJ_AddEntry(func_021F9DAC(((struct ScriptOwner *)obj)->f34),b);func_021F9DB8(((struct ScriptOwner *)obj)->f34,entry,(unsigned char)a);return 0; }
+int func_021FBDCC(int unused,char *p) { char *obj; unsigned int a,b; struct Entry *entry;obj=*(char * *)&((struct ScriptCtx *)p)->f0;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);entry=STA_ACT_OBJ_AddEntry(STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->f34),b);STA_ACTING_SetSlot(((struct ScriptOwner *)obj)->f34,entry,(unsigned char)a);return 0; }
 
 
 
@@ -2842,7 +2843,7 @@ int func_021FBDCC(int unused,char *p) { char *obj; unsigned int a,b; struct Entr
 /*
  * extent: Two bytes of zero alignment padding follow the 54-byte body.
  */
-int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);ctx=func_021F9DAC(((struct ScriptOwner *)obj)->f34);STA_ACT_OBJ_FreeEntry(ctx,func_021F9DB0(((struct ScriptOwner *)obj)->f34,n));func_021F9DB8(((struct ScriptOwner *)obj)->f34,0,(unsigned char)n);return 0; }
+int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->f34);STA_ACT_OBJ_FreeEntry(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->f34,n));STA_ACTING_SetSlot(((struct ScriptOwner *)obj)->f34,0,(unsigned char)n);return 0; }
 
 
 
@@ -2851,7 +2852,7 @@ int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; ob
 
 
 
-int func_021FBE38(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);ctx=func_021F9DAC(((struct ScriptOwner *)obj)->f34);func_021F6BC0(ctx,func_021F9DB0(((struct ScriptOwner *)obj)->f34,n),1);return 0; }
+int func_021FBE38(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->f34);func_021F6BC0(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->f34,n),1);return 0; }
 
 
 
@@ -2860,7 +2861,7 @@ int func_021FBE38(int unused,char *p) { char *obj; unsigned int n; void *ctx; ob
 
 
 
-int func_021FBE64(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);ctx=func_021F9DAC(((struct ScriptOwner *)obj)->f34);func_021F6BC0(ctx,func_021F9DB0(((struct ScriptOwner *)obj)->f34,n),0);return 0; }
+int func_021FBE64(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->f34);func_021F6BC0(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->f34,n),0);return 0; }
 
 
 
@@ -2883,8 +2884,8 @@ int func_021FBE90(int unused,char *p)
     c=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     d=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     e=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx=func_021F9DAC(((struct ScriptOwner *)owner)->f34);
-    target=func_021F9DB0(((struct ScriptOwner *)owner)->f34,a);
+    ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)owner)->f34);
+    target=STA_ACTING_GetSlot(((struct ScriptOwner *)owner)->f34,a);
     if (b==0) {
         pos[0]=c;pos[1]=d;pos[2]=e;
         STA_ACT_OBJ_SetEntryTarget(ctx,target,pos);
@@ -2897,7 +2898,7 @@ int func_021FBE90(int unused,char *p)
         STA_ACT_OBJ_GetEntryTarget(ctx,target,(u32 *)(q+8));
         ((struct Obj02192 *)q)->f14=c;((struct Obj02192 *)q)->f18=d;((struct Obj02192 *)q)->f1C=e;
         ((struct Obj02192 *)q)->f2C=b;
-        func_0207CA00(q+20,q+8,delta);
+        VEC_Subtract(q+20,q+8,delta);
         ((struct Obj02192 *)q)->f20=delta[0]/(int)b;
         ((struct Obj02192 *)q)->f24=delta[1]/(int)b;
         ((struct Obj02192 *)q)->f28=delta[2]/(int)b;
@@ -2913,7 +2914,7 @@ int func_021FBE90(int unused,char *p)
 
 
 
-void func_021FBF74(int unused,char *p) { int pos[3]; void *ctx; int result;ctx=func_021F9DAC(((struct Obj06492 *)p)->f4);result=func_021FAE4C(p+4,pos);STA_ACT_OBJ_SetEntryTarget(ctx,*(unsigned int * *)&((struct Obj06492 *)p)->f0,(unsigned int *)pos);if(result==1)func_021FADF8(((struct Obj06492 *)p)->f30,((struct Obj06492 *)p)->f34);}
+void func_021FBF74(int unused,char *p) { int pos[3]; void *ctx; int result;ctx=STA_ACTING_GetActObj(((struct Obj06492 *)p)->f4);result=func_021FAE4C(p+4,pos);STA_ACT_OBJ_SetEntryTarget(ctx,*(unsigned int * *)&((struct Obj06492 *)p)->f0,(unsigned int *)pos);if(result==1)func_021FADF8(((struct Obj06492 *)p)->f30,((struct Obj06492 *)p)->f34);}
 
 
 
@@ -2926,7 +2927,7 @@ void func_021FBF74(int unused,char *p) { int pos[3]; void *ctx; int result;ctx=f
  * prototype: Own 021F9EDC source takes u16; original caller passes the
  * full word b+0x33 without truncation, so the extern parameter is widened.
  */
-int func_021FBFA8(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct ScriptCtx *)p)->f0;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);entry=func_021F9EDC(func_021F9DC0(((struct ScriptOwner *)obj)->f34),b+0x33);func_021F9DCC(((struct ScriptOwner *)obj)->f34,entry,(unsigned char)a);return 0; }
+int func_021FBFA8(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct ScriptCtx *)p)->f0;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4);entry=func_021F9EDC(STA_ACTING_GetAnimHandle(((struct ScriptOwner *)obj)->f34),b+0x33);STA_ACTING_SetAnimSlot(((struct ScriptOwner *)obj)->f34,entry,(unsigned char)a);return 0; }
 
 
 
@@ -2935,7 +2936,7 @@ int func_021FBFA8(int unused,char *p) { char *obj; unsigned int a,b; char *entry
 
 
 
-int func_021FBFDC(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); ctx=func_021F9DC0(((struct ScriptOwner *)o)->f34); func_021F9F58(ctx,func_021F9DC4(((struct ScriptOwner *)o)->f34,a)); func_021F9DCC(((struct ScriptOwner *)o)->f34,0,(u8)a); return 0; }
+int func_021FBFDC(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); ctx=STA_ACTING_GetAnimHandle(((struct ScriptOwner *)o)->f34); func_021F9F58(ctx,STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->f34,a)); STA_ACTING_SetAnimSlot(((struct ScriptOwner *)o)->f34,0,(u8)a); return 0; }
 
 
 
@@ -2956,7 +2957,7 @@ int func_021FC014(int unused, char *p)
     c = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     d = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     e = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    target = func_021F9DC4(((struct ScriptOwner *)obj)->f34, (u8)a);
+    target = STA_ACTING_GetAnimSlot(((struct ScriptOwner *)obj)->f34, (u8)a);
     vec.x = c / 16;
     vec.y = (0xC0000 - d) / 16;
     vec.z = e;
@@ -2971,7 +2972,7 @@ int func_021FC014(int unused, char *p)
 
 
 
-int func_021FC080(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); func_021F9FB4(func_021F9DC4(((struct ScriptOwner *)o)->f34,a),(u16)b); return 0; }
+int func_021FC080(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); func_021F9FB4(STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->f34,a),(u16)b); return 0; }
 
 
 
@@ -2996,7 +2997,7 @@ int func_021FC0AC(int unused,char *p)
     h=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     i=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     j=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    target=func_021F9DC4(((struct ScriptOwner *)owner)->f34,a);
+    target=STA_ACTING_GetAnimSlot(((struct ScriptOwner *)owner)->f34,a);
     q=func_02030734(((struct ScriptOwner *)owner)->f0,56,0,d_021FDD00,0x691);
     *(char * *)&((struct Obj01741 *)q)->f30=owner;
     ((struct Obj01741 *)q)->f10=target;
@@ -3054,12 +3055,12 @@ int func_021FC1D4(int a,char **p)
     q=p[0];
     x=VM_GetU32((struct Cursor *)p[1]);
     y=VM_GetU32((struct Cursor *)p[1]);
-    r=func_021F9DD4(((struct ScriptOwner *)q)->f34);
+    r=STA_ACTING_GetCharSystem(((struct ScriptOwner *)q)->f34);
     s=func_021F6E78(r,1);
     func_021F6F14(r,s,0x3ff,0x10);
     func_021F6F1C(r,s,y,0);
-    func_021F9DE8(((struct ScriptOwner *)q)->f34,s,x);
-    func_021F95E8(((struct ScriptOwner *)q)->f34);
+    STA_ACTING_SetCharSlot(((struct ScriptOwner *)q)->f34,s,x);
+    STA_ACTING_MarkDirty(((struct ScriptOwner *)q)->f34);
     return 0;
 }
 
@@ -3070,7 +3071,7 @@ int func_021FC1D4(int a,char **p)
 
 
 
-int func_021FC22C(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); ctx=func_021F9DD4(((struct ScriptOwner *)o)->f34); func_021F6EE4(ctx,func_021F9DDC(((struct ScriptOwner *)o)->f34,a)); func_021F9DE8(((struct ScriptOwner *)o)->f34,0,a); func_021F95E8(((struct ScriptOwner *)o)->f34); return 0; }
+int func_021FC22C(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); ctx=STA_ACTING_GetCharSystem(((struct ScriptOwner *)o)->f34); func_021F6EE4(ctx,STA_ACTING_GetCharSlot(((struct ScriptOwner *)o)->f34,a)); STA_ACTING_SetCharSlot(((struct ScriptOwner *)o)->f34,0,a); STA_ACTING_MarkDirty(((struct ScriptOwner *)o)->f34); return 0; }
 
 
 
@@ -3093,8 +3094,8 @@ int func_021FC268(int unused,char *p)
     c=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     d=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
     e=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    ctx=func_021F9DD4(((struct ScriptOwner *)owner)->f34);
-    target=func_021F9DDC(((struct ScriptOwner *)owner)->f34,a);
+    ctx=STA_ACTING_GetCharSystem(((struct ScriptOwner *)owner)->f34);
+    target=STA_ACTING_GetCharSlot(((struct ScriptOwner *)owner)->f34,a);
     if (b==0) {
         pos.x=c;pos.y=d;pos.z=e;
         func_021F6EF4(ctx,target,(const u32 *)(&pos));
@@ -3107,7 +3108,7 @@ int func_021FC268(int unused,char *p)
         func_021F6F04(ctx,target,(Vec *)(q+8));
         ((struct Obj02192 *)q)->f14=c;((struct Obj02192 *)q)->f18=d;((struct Obj02192 *)q)->f1C=e;
         ((struct Obj02192 *)q)->f2C=b;
-        func_0207CA00(q+20,q+8,delta);
+        VEC_Subtract(q+20,q+8,delta);
         ((struct Obj02192 *)q)->f20=delta[0]/(int)b;
         ((struct Obj02192 *)q)->f24=delta[1]/(int)b;
         ((struct Obj02192 *)q)->f28=delta[2]/(int)b;
@@ -3123,7 +3124,7 @@ int func_021FC268(int unused,char *p)
 
 
 
-void func_021FC34C(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=func_021F9DD4(((struct Obj06492 *)p)->f4); result=func_021FAE4C(p+4,pos); func_021F6EF4(ctx,*(u32 * *)&((struct Obj06492 *)p)->f0,(u32 *)pos); if(result==1) func_021FADF8(*(char * *)&((struct Obj06492 *)p)->f30,*(char * *)&((struct Obj06492 *)p)->f34); }
+void func_021FC34C(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct Obj06492 *)p)->f4); result=func_021FAE4C(p+4,pos); func_021F6EF4(ctx,*(u32 * *)&((struct Obj06492 *)p)->f0,(u32 *)pos); if(result==1) func_021FADF8(*(char * *)&((struct Obj06492 *)p)->f30,*(char * *)&((struct Obj06492 *)p)->f34); }
 
 
 
@@ -3147,20 +3148,20 @@ int func_021FC380(int unused,char *p)
  d=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
  e=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
  f=VM_GetU32(((struct ScriptCtx *)p)->f4.p);
- ctx=func_021F9DD4(((struct ScriptOwner *)owner)->f34);
- target=func_021F9DDC(((struct ScriptOwner *)owner)->f34,a);
- scene=func_021F9DA0(((struct ScriptOwner *)owner)->f34);
+ ctx=STA_ACTING_GetCharSystem(((struct ScriptOwner *)owner)->f34);
+ target=STA_ACTING_GetCharSlot(((struct ScriptOwner *)owner)->f34,a);
+ scene=STA_ACTING_GetActorSystem(((struct ScriptOwner *)owner)->f34);
  duration=c;
  for(i=0;i<4;i++) {
-  obj=func_021F9DA4(((struct ScriptOwner *)owner)->f34,i);
+  obj=STA_ACTING_GetActor(((struct ScriptOwner *)owner)->f34,i);
   if(b&(1<<i)) {
    if(c==0) {
     func_021F8044(scene,obj,(u32 *)(&pos));
     delta.x=d;delta.y=e;delta.z=f;
-    func_0207C9D0(&pos,&delta,&pos);
+    VEC_Add(&pos,&delta,&pos);
     func_021F6EF4(ctx,target,(const u32 *)(&pos));
    } else {
-    func_021F9DF4(((struct ScriptOwner *)owner)->f34);
+    STA_ACTING_GetBoard(((struct ScriptOwner *)owner)->f34);
     q=func_02030734(((struct ScriptOwner *)owner)->f0,0x30,0,d_021FDD00,0x74D);
     *(char * *)&((struct Obj02487 *)q)->f28=owner;
     ((struct Obj02487 *)q)->f0=i;
@@ -3184,7 +3185,7 @@ int func_021FC380(int unused,char *p)
 
 
 
-void func_021FC490(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=func_021F9DD4(((struct Obj06492 *)p)->f8); func_021F9DF4(((struct Obj06492 *)p)->f8); result=func_021FAEA8(p+8,pos); func_021F6EF4(ctx,*(u32 * *)&((struct Obj06492 *)p)->f4,(u32 *)pos); if(result==1) func_021FADF8(*(char * *)&((struct Obj06492 *)p)->f28,*(char * *)&((struct Obj06492 *)p)->f2C); }
+void func_021FC490(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct Obj06492 *)p)->f8); STA_ACTING_GetBoard(((struct Obj06492 *)p)->f8); result=func_021FAEA8(p+8,pos); func_021F6EF4(ctx,*(u32 * *)&((struct Obj06492 *)p)->f4,(u32 *)pos); if(result==1) func_021FADF8(*(char * *)&((struct Obj06492 *)p)->f28,*(char * *)&((struct Obj06492 *)p)->f2C); }
 
 
 
@@ -3207,8 +3208,8 @@ int func_021FC4CC(int a,char **p)
     x=VM_GetU32((struct Cursor *)p[1]);
     y=VM_GetU32((struct Cursor *)p[1]);
     z=VM_GetU32((struct Cursor *)p[1]);
-    r=func_021F9DD4(((struct ScriptOwner *)q)->f34);
-    s=func_021F9DDC(((struct ScriptOwner *)q)->f34,v);
+    r=STA_ACTING_GetCharSystem(((struct ScriptOwner *)q)->f34);
+    s=STA_ACTING_GetCharSlot(((struct ScriptOwner *)q)->f34,v);
     func_021F6F14(r,s,(u8)w|((u8)x<<5)|((u8)y<<10),z);
     return 0;
 }
@@ -3220,7 +3221,7 @@ int func_021FC4CC(int a,char **p)
 
 
 
-int func_021FC53C(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); func_021F93D8(*(u8 * *)&((struct ScriptOwner *)o)->f34,a,b); return 0; }
+int func_021FC53C(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); STA_ACTING_PrintText(*(u8 * *)&((struct ScriptOwner *)o)->f34,a,b); return 0; }
 
 
 
@@ -3231,7 +3232,7 @@ int func_021FC53C(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct
 
 int func_021FC560(void *a, void **pp)
 {
-    func_021F94B0(((struct ScriptOwner *)((u8 *)*pp))->f34);
+    STA_ACTING_ClearText(((struct ScriptOwner *)((u8 *)*pp))->f34);
     return 0;
 }
 
@@ -3255,7 +3256,7 @@ int func_021FC5A0(int a, char **pp)
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct ScriptCtx *)pp)->f4.s));
 
-    func_021F9664(((struct ScriptOwner *)p)->f34, (unsigned short)x);
+    STA_ACTING_InstallBgm(((struct ScriptOwner *)p)->f34, (unsigned short)x);
     return 0;
 }
 
@@ -3271,7 +3272,7 @@ int func_021FC5BC(int a, char **pp)
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct ScriptCtx *)pp)->f4.s));
 
-    func_021F9680(((struct ScriptOwner *)p)->f34, (unsigned short)x);
+    STA_ACTING_StartSeq(((struct ScriptOwner *)p)->f34, (unsigned short)x);
     return 0;
 }
 
@@ -3284,7 +3285,7 @@ int func_021FC5BC(int a, char **pp)
 
 int func_021FC5D8(int a, char **pp)
 {
-    func_021F9690(((struct ScriptOwner *)(*pp))->f34);
+    STA_ACTING_StopSeq(((struct ScriptOwner *)(*pp))->f34);
     return 0;
 }
 
@@ -3294,7 +3295,7 @@ int func_021FC5D8(int a, char **pp)
 
 
 
-int func_021FC5E8(int unused,char *p) { char *o; u32 a,b,c; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); c=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); func_021F969C(*(char * *)&((struct ScriptOwner *)o)->f34,(u16)a,(u16)b,(u16)c); return 0; }
+int func_021FC5E8(int unused,char *p) { char *o; u32 a,b,c; o=*(char * *)&((struct ScriptCtx *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); c=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->f4); STA_ACTING_ReplaceWaveData(*(char * *)&((struct ScriptOwner *)o)->f34,(u16)a,(u16)b,(u16)c); return 0; }
 
 
 
@@ -3308,7 +3309,7 @@ int func_021FC61C(int a, char **pp)
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct ScriptCtx *)pp)->f4.s));
 
-    func_021F96B0(((struct ScriptOwner *)p)->f34, x);
+    STA_ACTING_PlayBgm(((struct ScriptOwner *)p)->f34, x);
     return 0;
 }
 
@@ -3321,7 +3322,7 @@ int func_021FC61C(int a, char **pp)
 
 int func_021FC634(int a, char **pp)
 {
-    func_021F96C4(((struct ScriptOwner *)(*pp))->f34);
+    STA_ACTING_StopBgm(((struct ScriptOwner *)(*pp))->f34);
     return 0;
 }
 
@@ -3337,7 +3338,7 @@ void func_021FC644(int a, void *b, void *c, int d)
     p = func_02030734(4, 0x1ac, 1, d_021FDE5C, 0x14c);
     ((struct ActingHost *)p)->fC = d;
     ((struct ActingHost *)p)->f54 = b;
-    ((struct ActingHost *)p)->f58 = func_020120F4(b);
+    ((struct ActingHost *)p)->f58 = ICA_ANIME_GetField1C(b);
     ((struct ActingHost *)p)->f50 = c;
     ((struct ActingHost *)p)->f4 = 0;
     ((struct ActingHost *)p)->f8 = 0;
@@ -3403,7 +3404,7 @@ int func_021FC6EC(int *state,u8 *p)
   if(func_0200FB24()!=0) *state=10;
   break;
  case 10:
-  if(func_0200FB24()!=0) func_02012124(*(struct Ctx * *)&((struct ActingHost *)p)->f54,1);
+  if(func_0200FB24()!=0) ICA_ANIME_SetField30(*(struct Ctx * *)&((struct ActingHost *)p)->f54,1);
   GFL_NET_Exit(0);return 1;
  }
  return 0;
@@ -3491,7 +3492,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   P(row,0x88)=P(row,0x8C)+4+MYSTATUS_GetSize();
   for(j=0;j<2;j++) row[0x73+j]=0xFF;
  }
- ((struct ActingHost *)p)->f12C=func_0200A81C(data);
+ ((struct ActingHost *)p)->f12C=MUSICAL_SAVE_GetFanPoints(data);
  ((struct ActingHost *)p)->f130=a;((struct ActingHost *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
  P(p,0x128)=func_02030734(((struct ActingHost *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
@@ -3600,7 +3601,7 @@ void func_021FCAA8(char *p)
         }
         break;
     case 3:
-        if (func_021FD84C((u8 *)p) == 1) *(int *)(p + 0x4c) = 4;
+        if (STA_NET_SendRandomOrder((u8 *)p) == 1) *(int *)(p + 0x4c) = 4;
         break;
     case 4:
         cnt = 0;
@@ -3621,32 +3622,32 @@ void func_021FCAA8(char *p)
         if (func_021FCEA8((int)p, 9, *(u32 *)(p + 0x148), 0xff) == 1) *(int *)(p + 0x4c) = 9;
         break;
     case 9:
-        if (func_021FD6C8((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xa;
+        if (STA_NET_NotifyHostKind4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xa;
         break;
     case 10:
-        if (*(int *)(p + 0x164) == 1 && func_021FD704((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xb;
+        if (*(int *)(p + 0x164) == 1 && STA_NET_SendSlot1Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xb;
         break;
     case 12:
         if (func_021FCE00(p, 0x42) == 1) {
             if (*(int *)(p + 0x48) == 1) {
-                if (func_021FD6DC(p) == 1) *(int *)(p + 0x4c) = 0xd;
+                if (STA_NET_NotifyHostKind5(p) == 1) *(int *)(p + 0x4c) = 0xd;
             } else *(int *)(p + 0x4c) = 0x11;
         }
         break;
     case 13:
-        if (*(int *)(p + 0x168) == 1 && func_021FD6F0(p) == 1) *(int *)(p + 0x4c) = 0xe;
+        if (*(int *)(p + 0x168) == 1 && STA_NET_NotifyHostKind6(p) == 1) *(int *)(p + 0x4c) = 0xe;
         break;
     case 14:
-        if (*(int *)(p + 0x16c) == 1 && func_021FD76C((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xf;
+        if (*(int *)(p + 0x16c) == 1 && STA_NET_SendSlot2Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xf;
         break;
     case 15:
-        if (*(int *)(p + 0x174) == 1 && func_021FD7D4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0x10;
+        if (*(int *)(p + 0x174) == 1 && STA_NET_SendSlot3Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0x10;
         break;
     case 16:
         *(int *)(p + 0x4c) = 0x11;
         break;
     case 17:
-        if (*(int *)(p + 0x178) == 1) func_021FD6A4(p);
+        if (*(int *)(p + 0x178) == 1) STA_NET_IsTransferDone(p);
         break;
     case 18:
         if (func_021FD350(p, (char *)(*(u32 *)(p + 0x120))) == 1) {
@@ -3705,7 +3706,7 @@ void func_021FCAA8(char *p)
         }
         if (ok == 1) *(int *)(p + 0x188) = 0;
     }
-    func_021FD550(p);
+    STA_NET_UpdateTransferState(p);
 }
 
 

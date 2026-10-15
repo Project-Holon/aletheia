@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0209149C",
+   "name": "MSL_C_LIB_FlushAllGated",
    "address": "0x0209149C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02091524",
+   "name": "MSL_C_LIB_FlushAll",
    "address": "0x02091524",
    "kind": "game",
    "region": "arm9",

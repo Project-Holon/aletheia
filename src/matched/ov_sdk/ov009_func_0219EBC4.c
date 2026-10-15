@@ -1,5 +1,5 @@
 /*
- * function: func_0219EBC4
+ * function: EngineCallback
  * address:  0x0219EBC4
  * packet:   pkt_ov009_0219EBC4
  * region:   ov009
@@ -28,7 +28,7 @@ struct ServerBrowser {
     void *instance;
 };
 
-void func_0219EBC4(int unused, unsigned int reason, struct SBServer *server, void *inst)
+void EngineCallback(int unused, unsigned int reason, struct SBServer *server, void *inst)
 {
     struct ServerBrowser *sb = inst;
 

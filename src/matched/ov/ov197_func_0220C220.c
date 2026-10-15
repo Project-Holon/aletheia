@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_02020F08 0x02020F08 thumb
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   func_02049B40 0x02049B40 arm
  */
 #include "../include/Obj01075.h"
 #include "../include/Obj10833.h"
 extern unsigned func_02020F08(void);
-extern unsigned func_02020E60(unsigned,unsigned);
+extern unsigned FILE_UTIL_Get(unsigned,unsigned);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 void func_0220C220(char *p,unsigned item,unsigned slot)
 {
@@ -23,9 +23,9 @@ void func_0220C220(char *p,unsigned item,unsigned slot)
     unsigned archive;
     if(((struct Obj10833 *)q)->f8==1) {
         archive=func_02020F08();
-        func_02049B40(archive,func_02020E60(item,4),5,slot*32,32,((struct Obj10833 *)q)->fC);
+        func_02049B40(archive,FILE_UTIL_Get(item,4),5,slot*32,32,((struct Obj10833 *)q)->fC);
     } else {
         archive=func_02020F08();
-        func_02049B40(archive,func_02020E60(item,2),5,slot*32,32,((struct Obj10833 *)q)->fC);
+        func_02049B40(archive,FILE_UTIL_Get(item,2),5,slot*32,32,((struct Obj10833 *)q)->fC);
     }
 }

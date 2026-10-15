@@ -1,5 +1,5 @@
 /*
- * function: func_021BB178
+ * function: BTL_REC_SEL_GRAPHIC_Create
  * address: 0x021BB178
  * packet: pkt_ov214_021BB178
  * region: ov214
@@ -19,10 +19,10 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021BB2C8 0x021BB2C8 thumb ov214
- *   func_021BB36C 0x021BB36C thumb ov214
- *   func_021BB3DC 0x021BB3DC thumb ov214
- *   func_021BB2B4 0x021BB2B4 thumb ov214
+ *   BTL_REC_SEL_GRAPHIC_InitBg 0x021BB2C8 thumb ov214
+ *   BTL_REC_SEL_GRAPHIC_InitClact 0x021BB36C thumb ov214
+ *   BTL_REC_SEL_GRAPHIC_InitG3d 0x021BB3DC thumb ov214
+ *   BTL_REC_SEL_GRAPHIC_VBlank 0x021BB2B4 thumb ov214
  *   func_020056A0 0x020056A0 thumb
  *   site 0x021BB668 data ov214
  *   config 0x021BB588 data ov214
@@ -42,13 +42,13 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021BB2C8(void *,u32);
-extern void func_021BB36C(unsigned char *,int,int);
-extern void func_021BB3DC(u32 **,u32);
+extern void BTL_REC_SEL_GRAPHIC_InitBg(void *,u32);
+extern void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *,int,int);
+extern void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **,u32);
 typedef unsigned char  u8;
-extern void func_021BB2B4(void *unused, u8 *p);
+extern void BTL_REC_SEL_GRAPHIC_VBlank(void *unused, u8 *p);
 extern u32 func_020056A0(void (*)(void *),void *,u32);
-char *func_021BB178(u32 a,u32 heap)
+char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
 {
     char *p=func_02030734(heap,16,0,site,458);
     MI_CpuFill8(p,0,16);
@@ -63,9 +63,9 @@ char *func_021BB178(u32 a,u32 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021BB2C8(p,heap);
-    func_021BB36C((unsigned char *)p+4,(int)config,heap);
-    func_021BB3DC((u32 **)(p+8),heap);
-    ((struct Obj25730 *)p)->fC=func_020056A0((void (*)(void *))func_021BB2B4,p,0);
+    BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
+    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(int)config,heap);
+    BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
+    ((struct Obj25730 *)p)->fC=func_020056A0((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,0);
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9918
+ * function: ZUKAN_SEARCH_ENGINE_FinalTest
  * address: 0x021C9918
  * packet: pkt_ov212_021C9918
  * region: ov212
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u8 func_021C9918(const u8 *t, const u16 *u, u32 s, u32 f)
+u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *t, const u16 *u, u32 s, u32 f)
 {
     u16 n;
     n = 0;

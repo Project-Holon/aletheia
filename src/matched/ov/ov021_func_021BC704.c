@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm  arm9
  */
 
 typedef struct {
@@ -16,12 +19,12 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 void FIELD_PLACE_NAME_FreeBgChars(Obj *p)
 {
     if (p->f28 != -1) {
-        func_0203FB44(3, p->f28, 0x20);
+        BG_SYS_DeleteHalf(3, p->f28, 0x20);
         p->f28 = -1;
     }
 }

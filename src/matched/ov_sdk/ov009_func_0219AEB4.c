@@ -14,11 +14,11 @@
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0217F264  0x0217F264  arm  ov009
- *   func_020946C8  0x020946C8  arm
+ *   current_time  0x0217F264  arm  ov009
+ *   srand  0x020946C8  arm
  *   func_021803BC  0x021803BC  arm  ov009
  *   func_02094694  0x02094694  arm
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0219B6CC  0x0219B6CC  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_0219B73C  0x0219B73C  arm  ov009
@@ -97,12 +97,12 @@ extern char g_021A7408[];
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_0217EAB0(unsigned long size);
-extern unsigned int func_0217F264(void);
-extern void func_020946C8(unsigned int seed);
+extern unsigned int current_time(void);
+extern void srand(unsigned int seed);
 struct SOCHostEnt;
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern int func_02094694(void);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern void func_0219B6CC(void);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0219B73C(char *host, int port, struct SOCSockAddrIn *saddr, struct SOCHostEnt **savehent);
@@ -131,7 +131,7 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
         *qrec = (qr2_implementation_s *)func_0217EAB0(sizeof(qr2_implementation_s));
         cr = *qrec;
     }
-    func_020946C8(func_0217F264());
+    srand(current_time());
     func_021803BC(cr->gamename, gamename, sizeof(cr->gamename));
     func_021803BC(cr->secret_key, secret_key, sizeof(cr->secret_key));
     cr->qport = boundport;
@@ -166,7 +166,7 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
         cr->client_message_keys[i] = -1;
     cr->cur_message_key = 0;
 
-    func_020923B0(cr->ipverify, 0, sizeof(cr->ipverify));
+    MSL_C_LIB_MemsetPtr(cr->ipverify, 0, sizeof(cr->ipverify));
 
     func_0219B6CC();
 

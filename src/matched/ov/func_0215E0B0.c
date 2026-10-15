@@ -16,7 +16,7 @@
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   MUSICAL_EVENT_CheckNetError  0x02156BAC  thumb  ov010
  *   MUSICAL_EVENT_IsAborted  0x02156BCC  thumb  ov010
- *   func_021FD844  0x021FD844  thumb
+ *   STA_NET_GetIndexedWord5E  0x021FD844  thumb
  */
 #include "../include/Obj00005.h"
 
@@ -29,7 +29,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern int GAME_DATA_GetExternalWork(char *base);
 extern int MUSICAL_EVENT_CheckNetError();
 extern u32 MUSICAL_EVENT_IsAborted(void *p);
-extern int func_021FD844();
+extern int STA_NET_GetIndexedWord5E();
 
 int SCRCMD_MUSICAL_WaitSessionReady(int a0, int a1)
 {
@@ -59,7 +59,7 @@ a0 = 1;
     return a0;
 loc_0215E0DA:
 a0 = *(int *)&((struct Obj00005 *)t4)->f4;
-    a0 = func_021FD844(a0);
+    a0 = STA_NET_GetIndexedWord5E(a0);
 loc_0215E0E0:
     if (a0 != 1) goto loc_0215E0E8;
 loc_0215E0E4:

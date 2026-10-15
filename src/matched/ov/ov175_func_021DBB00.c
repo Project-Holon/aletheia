@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203F028 0x0203F028 arm
+ *   GF_STANDARD_CompareString 0x0203F028 arm
  *   d_021E2F70 0x021E2F70 data a4
  */
 #include "../include/Obj14343.h"
-extern int func_0203F028(const char *, const char *);
+extern int GF_STANDARD_CompareString(const char *, const char *);
 extern const char d_021E2F70[];
 void func_021DBB00(int count, char **rows, int *out, int width)
 {
@@ -21,7 +21,7 @@ void func_021DBB00(int count, char **rows, int *out, int width)
     for (i = 0; i < count; i++) {
         for (j = 0; j < width; j++) {
             record = rows[i] + j * 16;
-            if (func_0203F028(*(char * *)&((struct Obj14343 *)record)->f0, d_021E2F70) == 0)
+            if (GF_STANDARD_CompareString(*(char * *)&((struct Obj14343 *)record)->f0, d_021E2F70) == 0)
                 *out = ((struct Obj14343 *)record)->f8;
         }
     }

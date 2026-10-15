@@ -12,9 +12,9 @@
  *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb
  *   func_0203FC28 0x0203FC28 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   g_77F4 0x021C77F4 data
  *   g_7804 0x021C7804 data
  */
@@ -28,10 +28,10 @@ extern const struct BgSet g_7804;
 extern void MAILVIEW_SetVramBanks(void);
 extern void func_0203FC28(struct DispConfig *);
 extern void BG_SYS_SetLcdSwap(u32);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32);
 typedef unsigned char  u8;
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 void MAILVIEW_InitBgs(u32 *p)
 {
@@ -43,20 +43,20 @@ void MAILVIEW_InitBgs(u32 *p)
     BG_SYS_SetLcdSwap(0);
     {
         struct BgSet s = g_7804;
-        func_0203FCA0(0, &s.t[0], 0);
-        func_0203FCA0(1, &s.t[1], 0);
-        func_0203FCA0(2, &s.t[2], 0);
-        func_0203FCA0(3, &s.t[3], 0);
-        func_0203FCA0(4, &s.t[4], 0);
+        BG_SYS_InitBgLayer(0, &s.t[0], 0);
+        BG_SYS_InitBgLayer(1, &s.t[1], 0);
+        BG_SYS_InitBgLayer(2, &s.t[2], 0);
+        BG_SYS_InitBgLayer(3, &s.t[3], 0);
+        BG_SYS_InitBgLayer(4, &s.t[4], 0);
     }
-    func_020414EC(0);
-    func_020414EC(1);
-    func_020414EC(2);
-    func_020414EC(3);
-    func_020414EC(4);
-    func_02040B94(0, 0x20, 0, (u16)(*p));
-    func_02040B94(1, 0x20, 0, (u16)(*p));
-    func_02040B94(2, 0x20, 0, (u16)(*p));
-    func_02040B94(3, 0x20, 0, (u16)(*p));
-    func_02040B94(4, 0x20, 0, (u16)(*p));
+    BG_SYS_ClearSlot(0);
+    BG_SYS_ClearSlot(1);
+    BG_SYS_ClearSlot(2);
+    BG_SYS_ClearSlot(3);
+    BG_SYS_ClearSlot(4);
+    BG_SYS_InitRun(0, 0x20, 0, (u16)(*p));
+    BG_SYS_InitRun(1, 0x20, 0, (u16)(*p));
+    BG_SYS_InitRun(2, 0x20, 0, (u16)(*p));
+    BG_SYS_InitRun(3, 0x20, 0, (u16)(*p));
+    BG_SYS_InitRun(4, 0x20, 0, (u16)(*p));
 }

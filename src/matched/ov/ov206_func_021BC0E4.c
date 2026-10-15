@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0E4
+ * function: ZUKAN_INFO_GetFormFlag
  * address:  0x021BC0E4
  * packet:   pkt_021BC0E4
  * region:   ov206
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021BC0E4(u32 a, u32 b)
+u32 ZUKAN_INFO_GetFormFlag(u32 a, u32 b)
 {
     if (a == 0x1E7 && b == 1)
         return 0;

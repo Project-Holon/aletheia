@@ -1,5 +1,5 @@
 /*
- * function: func_0205BF1C
+ * function: DWC_AC_SetSpecifyAp
  * address:  0x0205BF1C
  * packet:   pkt_0205BF1C
  * region:   arm9
@@ -128,7 +128,7 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-void func_0205BF1C(void *ssid, void *wep, int wepMode)
+void DWC_AC_SetSpecifyAp(void *ssid, void *wep, int wepMode)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     int i;

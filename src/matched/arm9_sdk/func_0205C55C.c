@@ -1,5 +1,5 @@
 /*
- * function: func_0205C55C
+ * function: CheckDuplicate
  * address:  0x0205C55C
  * packet:   pkt_0205C55C
  * region:   arm9
@@ -139,7 +139,7 @@ static struct {
 
 extern int strncmp(const char *s1, const char *s2, u32 n);
 
-BOOL func_0205C55C(void)
+BOOL CheckDuplicate(void)
 {
     u8 i;
     u8 *ssid1;

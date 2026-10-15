@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0200AA00 0x0200AA00 thumb
+ *   IRC_RANKING_GetDateScore 0x0200AA00 thumb
  */
-struct Date { unsigned a,b,c,d; }; extern unsigned char func_0200AA00(unsigned,unsigned,struct Date *);
-unsigned char IRC_COMPATIBLE_CalcBirthdayScore(unsigned char *p,unsigned x) { struct Date d; d.a=(unsigned char)(x>>24); d.b=(unsigned char)(x>>16); d.c=(unsigned char)(x>>8); d.d=(unsigned char)x; return func_0200AA00(p[4],p[5],&d); }
+struct Date { unsigned a,b,c,d; }; extern unsigned char IRC_RANKING_GetDateScore(unsigned,unsigned,struct Date *);
+unsigned char IRC_COMPATIBLE_CalcBirthdayScore(unsigned char *p,unsigned x) { struct Date d; d.a=(unsigned char)(x>>24); d.b=(unsigned char)(x>>16); d.c=(unsigned char)(x>>8); d.d=(unsigned char)x; return IRC_RANKING_GetDateScore(p[4],p[5],&d); }

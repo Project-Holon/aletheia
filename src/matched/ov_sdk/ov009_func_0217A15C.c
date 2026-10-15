@@ -1,5 +1,5 @@
 /*
- * function: func_0217A15C
+ * function: DWCi_Http_ReallocBuffer
  * address:  0x0217A15C
  * packet:   pkt_ov009_0217A15C
  * region:   ov009
@@ -23,7 +23,7 @@ typedef struct {
 } Buf;
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
-int func_0217A15C(char *http, Buf *buf, int size)
+int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size)
 {
     void *(*alloc)(unsigned long, long);
     void (*free)(unsigned long, void *, long);

@@ -1,5 +1,5 @@
 /*
- * function: func_02077568
+ * function: CARDi_SendtoPxi
  * address:  0x02077568
  * packet:   pkt_02077568
  * region:   arm9
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern u32  PXI_SendWordByFifo(u32, u32, u32);
 extern void SVC_WaitByLoop(u32);
 
-void func_02077568(u32 a, u32 b)
+void CARDi_SendtoPxi(u32 a, u32 b)
 {
     u32 n = 0xe;
     u32 z = 0;

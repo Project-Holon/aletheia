@@ -12,11 +12,11 @@
  * sdk:      MBi_ReloadCache (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:
- *   func_02077EB8 0x02077EB8 arm
+ *   FS_FindArchive 0x02077EB8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02075E04 0x02075E04 arm
  *   FS_InitFile 0x020788AC arm
- *   func_02078964 0x02078964 arm
+ *   FS_OpenFileDirect 0x02078964 arm
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
  *   g_021F6E4C 0x021F6E4C data
@@ -61,11 +61,11 @@ typedef struct {
 extern char g_021F6E4C[];
 
 struct FSArchive;
-extern struct FSArchive *func_02077EB8(const char *name, int name_len);
+extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
 extern int OS_IsRunOnTwl(void);
 extern RomHeader *func_02075E04(void);
 extern void FS_InitFile(void *file);
-extern int func_02078964(void *file, void *arc, u32 top, u32 bottom, u32 id);
+extern int FS_OpenFileDirect(void *file, void *arc, u32 top, u32 bottom, u32 id);
 typedef signed int     s32;
 struct FSFile;
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
@@ -85,11 +85,11 @@ void MBi_ReloadCache(TaskInfo *p_task)
     p_list = (CacheList *)p_task->param[1];
     p_info = (CacheInfo *)p_task->param[0];
     length = p_info->len;
-    arc = func_02077EB8(p_list->arc_name, p_list->arc_name_len);
+    arc = FS_FindArchive(p_list->arc_name, p_list->arc_name_len);
     if (arc == 0) {
         arc = p_list->arc_pointer;
     }
-    if (OS_IsRunOnTwl() && arc == func_02077EB8(g_021F6E4C, 3)) {
+    if (OS_IsRunOnTwl() && arc == FS_FindArchive(g_021F6E4C, 3)) {
         header = func_02075E04();
         boundary_ntr = header->ntr_off + header->ntr_len;
         boundary_ltd = header->ltd_off + header->ltd_len;
@@ -100,7 +100,7 @@ void MBi_ReloadCache(TaskInfo *p_task)
         }
     }
     FS_InitFile(file);
-    if (func_02078964(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
+    if (FS_OpenFileDirect(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
         if (length == FS_ReadFile((struct FSFile *)file, p_info->ptr, length)) {
             p_info->state = 2;
         }

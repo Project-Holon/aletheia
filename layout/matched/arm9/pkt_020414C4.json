@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020414EC",
+   "name": "BG_SYS_ClearSlot",
    "address": "0x020414EC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02041B6C",
+   "name": "BG_SYS_SetFlagField06",
    "address": "0x02041B6C",
    "kind": "game",
    "region": "arm9",

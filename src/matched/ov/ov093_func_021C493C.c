@@ -12,7 +12,7 @@
  *  func_021C4A24 0x021C4A24 thumb ov093
  *  func_021C4A34 0x021C4A34 thumb ov093
  *  func_021C4A44 0x021C4A44 thumb ov093
- *  func_021C4A54 0x021C4A54 thumb ov093
+ *  WF2DMAP_OBJ_OffsetPos 0x021C4A54 thumb ov093
  *  BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *  BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *  BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
@@ -31,7 +31,7 @@ typedef struct { u32 value; } Word;
 extern u32 func_021C4A24(u8 *);
 extern u8 *func_021C4A34(u8 *, u32);
 extern u8 *func_021C4A44(u32);
-extern void func_021C4A54(u8 *, u8 *, Word, u32, u8 *);
+extern void WF2DMAP_OBJ_OffsetPos(u8 *, u8 *, Word, u32, u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *, int);
 extern int BTL_POKEPARAM_IsFainted(void *p);
@@ -68,7 +68,7 @@ int BTL_SERVER_FLOW_ProcTurnCheckSickness(u8 *p, u8 *a)
             if (BTL_POKEPARAM_IsFainted(m) == 0) {
                 if (BTL_POKEPARAM_TickSickCont(m, (u32)q, (union Slot *)(&y), (int *)(&x))) {
                     s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 9719);
-                    func_021C4A54(m, q, y, x, p);
+                    WF2DMAP_OBJ_OffsetPos(m, q, y, x, p);
                     BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, 9721);
                 }
             }

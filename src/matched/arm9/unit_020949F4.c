@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020949F4
+ * function: strncmp
  * address:  0x020949F4
  * packet:   pkt_02094798
  * region:   arm9
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_020949F4(const u8 *s1, const u8 *s2, u32 n)
+int strncmp(const u8 *s1, const u8 *s2, u32 n)
 {
     if (n != 0) {
         do {
@@ -38,7 +38,7 @@ int func_020949F4(const u8 *s1, const u8 *s2, u32 n)
     return 0;
 }
 
-u8 *func_02094A28(const u8 *s, int c)
+u8 *strchr(const u8 *s, int c)
 {
     u8 ch = (u8)c;
     u8 val = *s++;

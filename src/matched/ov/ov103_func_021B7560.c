@@ -17,7 +17,7 @@
  * IRC_COMPATIBLE_TOUCH_TEST_InitExchange 0x021B8AF4 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_InitScene 0x021B787C thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_InitText 0x021B7F7C thumb ov103
- * func_02012138 0x02012138 thumb
+ * ICA_ANIME_GetField24 0x02012138 thumb
  * IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow 0x021B800C thumb ov103
  * func_0201F73C 0x0201F73C thumb
  * IRC_COMPATIBLE_TOUCH_TEST_InitWindow 0x021B8074 thumb ov103
@@ -48,7 +48,7 @@ struct Ctx;
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitExchange(u8 *p, void *q);
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitScene(u8 *,int);
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitText(u32 *p, int skip, u32 heap);
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 struct Rec;
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(struct Rec *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -79,7 +79,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *owner,int unused,void *arg)
     IRC_COMPATIBLE_TOUCH_TEST_InitExchange(p+0x75c,((struct Obj22170 *)(*(u8 * *)&((struct Obj03740 *)p)->fB0C))->f4);
     IRC_COMPATIBLE_TOUCH_TEST_InitScene(p,55);
     IRC_COMPATIBLE_TOUCH_TEST_InitText((u32 *)(p+0x174),0,55);
-    if(**(void ** *)&((struct Obj03740 *)p)->fB0C) func_02012138(**(void ** *)&((struct Obj03740 *)p)->fB0C);
+    if(**(void ** *)&((struct Obj03740 *)p)->fB0C) ICA_ANIME_GetField24(**(void ** *)&((struct Obj03740 *)p)->fB0C);
     IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow((struct Rec *)(p+0x184),5,1,18,30,5,8,55);
     func_0201F73C(((struct Obj03740 *)p)->f184,0,(u16)(((struct Obj03740 *)p)->f0),6);
     IRC_COMPATIBLE_TOUCH_TEST_InitWindow(p+0x748,7,6,3,20,5,8,1,1,55);

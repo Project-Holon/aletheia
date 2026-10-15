@@ -21,15 +21,15 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   POKELIST_PrintTextMain 0x021B9C1C thumb ov091
  *   POKE_TOOL_CalcLevel 0x02018430 thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   POKELIST_PrintExpandedTextSub 0x021B9D58 thumb ov091
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   d_021BED48 0x021BED48 data ov091 a1
  */
 #include "../include/Obj02771.h"
@@ -54,15 +54,15 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p,u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 extern void POKELIST_PrintTextMain(u8 *p, u32 win, u32 id, int x, s16 y, u16 color);
 extern u32 POKE_TOOL_CalcLevel(void *p);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void POKELIST_PrintExpandedTextSub(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern const char d_021BED48[];
 #define P(k) (*(u32 *)(p+(k)))
 u32 *PLIST_BATTLE_CreateMiniCell(u8 *p,void *mon,s16 x,u16 y)
@@ -101,7 +101,7 @@ u32 *PLIST_BATTLE_CreateMiniCell(u8 *p,void *mon,s16 x,u16 y)
     s[5]=(u32)CLACT_CreateActor((void *)P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,((struct Obj02771 *)p)->f0);
     if(gender!=0) {
         CLACT_SetActorDrawEnable((struct Obj *)s[5],1);
-        if(func_0202136C(gender)==1) CLACT_SetActorAnimSeq((struct Obj *)s[5],1);
+        if(FILE_UTIL_Check136C(gender)==1) CLACT_SetActorAnimSeq((struct Obj *)s[5],1);
         else CLACT_SetActorAnimSeq((struct Obj *)s[5],0);
     } else CLACT_SetActorDrawEnable((struct Obj *)s[5],0);
     special=POKE_TOOL_GetPartyValue(mon,0x6e,0);
@@ -118,10 +118,10 @@ u32 *PLIST_BATTLE_CreateMiniCell(u8 *p,void *mon,s16 x,u16 y)
     z=rem;
     s[2]=BMP_WIN_Create(4,(u8)gx,(u8)gy+3,6,1,14,1);
     if(egg==0) {
-        text=(u32)func_0201EC64(((struct Obj02771 *)p)->f0);
+        text=(u32)GF_FONT_Create_EC64(((struct Obj02771 *)p)->f0);
         func_0201EFA4((struct WordSet *)text,0,level,3,0,1);
         POKELIST_PrintExpandedTextSub(p,s[2],(void *)text,2,z,0,0x3c40);
-        func_0201ED04((struct WordSet *)text);
+        WORDSET_DeleteStrbufED04((struct WordSet *)text);
     }
     s[0]=1;
     return s;

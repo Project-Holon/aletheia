@@ -1,5 +1,5 @@
 /*
- * function: func_0217CF24
+ * function: gsiCoreCreateTask
  * address:  0x0217CF24
  * packet:   pkt_ov009_0217CF24
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217EAB0                  0x0217EAB0  arm ov009
- *   func_020923B0                  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  */
 
 typedef struct GSTask {
@@ -23,14 +23,14 @@ typedef struct GSTask {
 } GSTask;
 
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *p, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 
-GSTask *func_0217CF24(void)
+GSTask *gsiCoreCreateTask(void)
 {
     GSTask *aTask = (GSTask *)func_0217EAB0(sizeof(GSTask));
     if (aTask == 0)
         return 0;
-    func_020923B0(aTask, 0, sizeof(GSTask));
+    MSL_C_LIB_MemsetPtr(aTask, 0, sizeof(GSTask));
     aTask->b0c = 1;
     return aTask;
 }

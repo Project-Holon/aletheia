@@ -17,7 +17,7 @@
  *   STARTMENU_DrawRowFrame  0x021BB798  thumb  ov088
  *   STARTMENU_SetRowActorY  0x021BB5E0  thumb  ov088
  *   STARTMENU_PaintRowPalette  0x021BB810  thumb  ov088
- *   func_0200C308  0x0200C308  thumb
+ *   BEACON_GetSlotState  0x0200C308  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   gStartMenuRowInfo     0x021BD5EC  data  a4
  */
@@ -41,7 +41,7 @@ extern void STARTMENU_SetRowActorY(char *p, u32 idx, s16 y);
 struct Blk34;
 struct Obj;
 extern void STARTMENU_PaintRowPalette(void *p, u8 row, int y, int pal);
-extern u8 func_0200C308(struct Blk34 *p, u32 i);
+extern u8 BEACON_GetSlotState(struct Blk34 *p, u32 i);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void STARTMENU_LayoutRows(char *p)
@@ -67,17 +67,17 @@ void STARTMENU_LayoutRows(char *p)
             STARTMENU_SetRowActorY(p, 5, y * 8 + gStartMenuRowInfo[v].f2 * 8 / 2);
             obj = ((struct Obj00014 *)p)->f30;
         } else if (v == 3) {
-            if (func_0200C308(((struct Obj00014 *)p)->f8, 1) != 1)
+            if (BEACON_GetSlotState(((struct Obj00014 *)p)->f8, 1) != 1)
                 goto next;
             STARTMENU_SetRowActorY(p, 2, y * 8 + gStartMenuRowInfo[(u8)(p + i)[0x120]].f2 * 8 / 2);
             obj = ((struct Obj00014 *)p)->f24;
         } else if (v == 4) {
-            if (func_0200C308(((struct Obj00014 *)p)->f8, 2) != 1)
+            if (BEACON_GetSlotState(((struct Obj00014 *)p)->f8, 2) != 1)
                 goto next;
             STARTMENU_SetRowActorY(p, 3, y * 8 + gStartMenuRowInfo[(u8)(p + i)[0x120]].f2 * 8 / 2);
             obj = ((struct Obj00014 *)p)->f28;
         } else if (v == 7) {
-            if (func_0200C308(((struct Obj00014 *)p)->f8, 3) != 1)
+            if (BEACON_GetSlotState(((struct Obj00014 *)p)->f8, 3) != 1)
                 goto next;
             STARTMENU_SetRowActorY(p, 4, y * 8 + gStartMenuRowInfo[(u8)(p + i)[0x120]].f2 * 8 / 2);
             obj = ((struct Obj00014 *)p)->f2C;

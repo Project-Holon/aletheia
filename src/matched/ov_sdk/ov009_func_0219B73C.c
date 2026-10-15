@@ -12,8 +12,8 @@
  * sdk:      get_sockaddrin (TwlDWC/libdwcgsqr2.TWL.HYB.a(qr2.o))
  *
  * symbols:
- *   func_0217ED38  0x0217ED38  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   inet_addr  0x0217ED38  arm  ov009
+ *   strcmp  0x020948E0  arm
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   g_021A768C     0x021A768C  data
  *
@@ -46,8 +46,8 @@ typedef struct SOCSockAddrIn {
 } SOCSockAddrIn;
 
 extern char g_021A768C[];
-extern int func_0217ED38(int a);
-extern int func_020948E0(const char *a, const char *b);
+extern int inet_addr(int a);
+extern int strcmp(const char *a, const char *b);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern void *memset(void *s, int c, unsigned long n);
 
@@ -66,11 +66,11 @@ int func_0219B73C(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **saveh
     saddr->family = 2;
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
     if (host)
-        saddr->addr = func_0217ED38((int)host);
+        saddr->addr = inet_addr((int)host);
     else
         saddr->addr = 0;
     if (saddr->addr == 0xFFFFFFFF) {
-        if (func_020948E0(host, g_021A768C) != 0) {
+        if (strcmp(host, g_021A768C) != 0) {
             hent = SOC_GetHostByName(host);
             if (!hent)
                 return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02079264
+ * function: FS_LoadOverlay
  * address:  0x02079264
  * packet:   pkt_02079264
  * region:   arm9
@@ -30,7 +30,7 @@ extern BOOL FS_LoadOverlayInfo(FSOverlayInfo *p_ovi, int target, u32 id);
 extern BOOL FS_LoadOverlayImage(FSOverlayInfo *p_ovi);
 extern void FS_StartOverlay(FSOverlayInfo *p_ovi);
 
-BOOL func_02079264(int target, u32 id)
+BOOL FS_LoadOverlay(int target, u32 id)
 {
     BOOL retval = 0;
     FSOverlayInfo ovi;

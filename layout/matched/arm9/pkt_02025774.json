@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02025B94",
+   "name": "BMP_OAM_Get",
    "address": "0x02025B94",
    "kind": "game",
    "region": "arm9",
@@ -98,9 +98,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02025BEC",
+    "BMP_OAM_Check5BEC",
     "sub_02025C1C",
     "sub_02025C30"
+   ],
+   "addresses": [
+    "0x02025BEC",
+    "0x02025C1C",
+    "0x02025C30"
    ]
   }
  ]

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02088864  0x02088864  arm
+ *   RTC_GetDate  0x02088864  arm
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  */
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct RTCDate;
-extern int func_02088864(struct RTCDate *date);
+extern int RTC_GetDate(struct RTCDate *date);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
 extern struct T gElboardLayout;
 
@@ -31,7 +31,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(int *p)
     struct { u16 a; int b, c, d, e, f, g; } s;
     int buf[4];
 
-    func_02088864((struct RTCDate *)buf);
+    RTC_GetDate((struct RTCDate *)buf);
     switch (buf[3]) {
     case 0: s.f = *(int *)(p[7] + 0x44); break;
     case 1: s.f = *(int *)(p[7] + 0x38); break;

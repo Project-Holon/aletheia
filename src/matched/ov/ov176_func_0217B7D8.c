@@ -13,9 +13,9 @@
  * abi: E88B0 height widened from its narrow body spelling because original stores the full computed register into the outgoing slot.
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200B358 0x0200B358 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0200B1D4 0x0200B1D4 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
  *   func_021E88B0 0x021E88B0 thumb ov177
  */
 #include "../include/Obj01762.h"
@@ -32,15 +32,15 @@ typedef struct {
 } Menu;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200B358(void *);
+extern void *BATTLE_COMPETITION_GetFromSave(void *);
 struct Rec160;
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
 extern void MI_CpuFill8(void *,int,u32);
 extern void *func_021E88B0(Menu *,u8,u8,u8,u32,int);
 static inline void selected(Menu *rec,void *base,int index)
 {
     char *mon;
-    mon=(char *)func_0200B1D4(base,index);
+    mon=(char *)REGULATION_GetCard(base,index);
     rec->option0=7;
     rec->option1=5;
     if((u8)(s8)(((struct Obj24405 *)mon)->f15B-1)<=1) rec->f14=13;
@@ -57,7 +57,7 @@ void func_0217B7D8(int *p, int index)
     int layout;
     u8 x,y,width;
     u32 height;
-    base=func_0200B358((void *)GAME_DATA_GetSaveControl(((struct Obj01762 *)p)->f30));
+    base=BATTLE_COMPETITION_GetFromSave((void *)GAME_DATA_GetSaveControl(((struct Obj01762 *)p)->f30));
     MI_CpuFill8(&rec,0,48);
     rec.f00=((struct Obj01762 *)p)->f20;
     rec.f04=((struct Obj01762 *)p)->f1C;

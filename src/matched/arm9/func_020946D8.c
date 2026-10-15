@@ -1,5 +1,5 @@
 /*
- * function: func_020946D8
+ * function: MSL_C_LIB_StrReadProc
  * address:  0x020946D8
  * packet:   pkt_02094488
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_020946D8(u32 *p, u32 a1, u32 a2)
+int MSL_C_LIB_StrReadProc(u32 *p, u32 a1, u32 a2)
 {
     switch (a2) {
     case 0: {

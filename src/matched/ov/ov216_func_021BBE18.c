@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE18
+ * function: BEACON_DETAIL_GRA_Exit
  * address: 0x021BBE18
  * packet: pkt_ov216_021BBE18
  * region: ov216
@@ -15,7 +15,7 @@
  *   func_021BC6FC 0x021BC6FC thumb ov216
  *   func_021BC378 0x021BC378 thumb ov216
  *   func_021BC178 0x021BC178 thumb ov216
- *   func_021BC0B4 0x021BC0B4 thumb ov216
+ *   BEACON_DETAIL_GRA_Delete 0x021BC0B4 thumb ov216
  *   func_021BC9D0 0x021BC9D0 thumb ov216
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -33,12 +33,12 @@ extern void func_021BC56C(char *);
 extern unsigned func_021BC6FC(unsigned *);
 extern void func_021BC378(char *);
 extern void func_021BC178(char *);
-extern void func_021BC0B4(char *);
+extern void BEACON_DETAIL_GRA_Delete(char *);
 extern void func_021BC9D0(unsigned *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int);
-int func_021BBE18(struct S020315D4 *heap,int unused1,int unused2,char *p)
+int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *p)
 {
     func_021BC3D4(((struct Obj01437 *)p)->f124);
     func_021BC8A8(p);
@@ -47,7 +47,7 @@ int func_021BBE18(struct S020315D4 *heap,int unused1,int unused2,char *p)
     func_021BC6FC((unsigned *)p);
     func_021BC378(p);
     func_021BC178(p);
-    func_021BC0B4(p);
+    BEACON_DETAIL_GRA_Delete(p);
     func_021BC9D0(*(unsigned * *)&((struct Obj01437 *)p)->f50);
     func_020315D4(heap);
     func_020306F0(119);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FD6DC
+ * function: STA_NET_NotifyHostKind5
  * address:  0x021FD6DC
  * packet:   pkt_021FD6DC
  * region:   ov132
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
-int func_021FD6DC(char *p)
+int STA_NET_NotifyHostKind5(char *p)
 {
     return func_021FCEA8((int)p, 5, *(int *)(((struct Obj23293 *)p)->f140 + 0x24), 0xff);
 }

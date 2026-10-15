@@ -1,5 +1,5 @@
 /*
- * function: func_021C5878
+ * function: WF2DMAP_OBJDRAW_GetDepth
  * address: 0x021C5878
  * packet: pkt_ov127_021C5878
  * region: ov127
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_021C5878(int a,int b) { if(b==1) return 250-a/4; else return 251-a/4; }
+int WF2DMAP_OBJDRAW_GetDepth(int a,int b) { if(b==1) return 250-a/4; else return 251-a/4; }

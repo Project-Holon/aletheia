@@ -1,5 +1,5 @@
 /*
- * function: func_02205AAC
+ * function: SHINKA_DEMO_GRAPHIC_VBlank
  * address:  0x02205AAC
  * packet:   pkt_02205AAC
  * region:   ov195
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02205B64 0x02205B64 thumb
- *   func_02205BD0 0x02205BD0 thumb
+ *   SHINKA_DEMO_GRAPHIC_UpdateSubBg 0x02205B64 thumb
+ *   SHINKA_DEMO_GRAPHIC_VBlankClact 0x02205BD0 thumb
  */
 
-extern void func_02205B64(void *);
-extern void func_02205BD0(void *);
+extern void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *);
+extern void SHINKA_DEMO_GRAPHIC_VBlankClact(void *);
 
-void func_02205AAC(int a, char *b)
+void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b)
 {
-    func_02205B64(b);
-    func_02205BD0(b + 4);
+    SHINKA_DEMO_GRAPHIC_UpdateSubBg(b);
+    SHINKA_DEMO_GRAPHIC_VBlankClact(b + 4);
 }

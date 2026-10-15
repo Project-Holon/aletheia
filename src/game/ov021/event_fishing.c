@@ -18,7 +18,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   abs_id_C2      0x000000C2  data
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -113,7 +113,7 @@ extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
@@ -205,7 +205,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     MI_CpuFill8(work, 0, sizeof(FishingWork));
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
-    work->gameData = func_020120F4(gameSystem);
+    work->gameData = ICA_ANIME_GetField1C(gameSystem);
     work->encount = (void *)FIELDMAP_GetEncount((u8 *)work->fieldMap);
     work->trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
     work->mmdlSys = FIELDMAP_GetMmdlSys((u8 *)work->fieldMap);

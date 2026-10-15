@@ -54,7 +54,7 @@
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
  *   BUTTON_MAN_ScaleVec  0x020520A4  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
@@ -65,9 +65,9 @@
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
  *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   FLDEFF_IWAKUDAKI_Start  0x021ADD7C  thumb  ov021
  *   gFieldFlashFileName  0x021DE4FC  data  ov021  a4
  *   func_02030734  0x02030734  arm
@@ -97,7 +97,7 @@
  *   func_0206E40C  0x0206E40C  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
  *   func_02011330  0x02011330  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
@@ -110,7 +110,7 @@
  *   gFld3dCiIdTable     0x021DAAE2  data  a2
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
@@ -465,7 +465,7 @@ extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *pos);
 extern void FIELD_PLAYER_SetPos(FieldPlayer *player, VecFx32 *pos);
 extern int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *out);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
 extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
@@ -475,9 +475,9 @@ extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
 extern void FLDMMDL_SetPos(Mmdl *mmdl, VecFx32 *pos);
 extern void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out);
 extern void FIELD_CAMERA_SetTargetShift(FieldCamera *camera, VecFx32 *v);
-extern void func_0207CA00(VecFx32 *a, VecFx32 *b, VecFx32 *out);
+extern void VEC_Subtract(VecFx32 *a, VecFx32 *b, VecFx32 *out);
 extern void FIELD_CAMERA_SetTarget(FieldCamera *camera, VecFx32 *v);
-extern void func_0207CEE4(int t, VecFx32 *a, VecFx32 *b, VecFx32 *out);
+extern void VEC_MultAdd(int t, VecFx32 *a, VecFx32 *b, VecFx32 *out);
 extern void FLDEFF_IWAKUDAKI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -502,7 +502,7 @@ extern void func_0206E574(void *mdl, int a, int b);
 extern void func_0206E40C(void *mdl, int a, int b);
 extern void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *work);
-extern FieldMap *func_0201210C(GameSystem *gameSystem);
+extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
 extern Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap);
 extern u16 func_02011330(ScriptVm *vm);
 extern ScriptSystem *SCRCMD_WORK_GetScriptWork(ScrCmdWork *work);
@@ -513,7 +513,7 @@ extern GameEvent *FLD3D_CI_StartPartyMemberSequence(GameSystem *gameSystem, Fld3
 extern GameEvent *FLD3D_CI_StartMessageSequence(GameSystem *gameSystem, Fld3dCi *ci, unsigned int value);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
 extern void *func_020124E8(GameEvent *event);
-extern void *func_020120F4(GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern MyStatus *func_02012944(void *gameData);
 extern u8 func_02008550(const MyStatus *myStatus);
 extern void ZONEDATA_SetZoneStartLocation(ZoneStartLocation *location, int zoneId);
@@ -1034,7 +1034,7 @@ int FIELD_TASK_UpdatePlayerPosTween(PosTween *tween)
         t = FX_F32_TO_FX32((f32)tween->frame / (f32)tween->frames);
         BUTTON_MAN_ScaleVec(&tween->from, FX32_ONE - t, &fromPart);
         BUTTON_MAN_ScaleVec(&tween->to, t, &toPart);
-        func_0207C9D0(&fromPart, &toPart, &pos);
+        VEC_Add(&fromPart, &toPart, &pos);
         FIELD_PLAYER_SetPos(player, &pos);
         FLDMMDL_MOVE_UpdateHeight(mmdl);
         if (tween->frames <= tween->frame)
@@ -1233,7 +1233,7 @@ int FIELD_TASK_UpdateMmdlPosOffsetTween(MmdlOffsetTween *tween)
         } else if (tween->reverse == 1) {
             FIELD_TASK_CalcOffsetByProgress(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
-        func_0207C9D0(&offset, &tween->startPos, &offset);
+        VEC_Add(&offset, &tween->startPos, &offset);
         FLDMMDL_SetPos(mmdl, &offset);
         if (tween->frames <= tween->frame) {
             return 1;
@@ -1278,7 +1278,7 @@ int FIELD_TASK_UpdateCameraTargetTween(PosTween *tween)
         t = FX_F32_TO_FX32((f32)tween->frame / (f32)tween->frames);
         BUTTON_MAN_ScaleVec(&tween->from, FX32_ONE - t, &fromPart);
         BUTTON_MAN_ScaleVec(&tween->to, t, &toPart);
-        func_0207C9D0(&fromPart, &toPart, &pos);
+        VEC_Add(&fromPart, &toPart, &pos);
         FIELD_CAMERA_SetTargetShift(camera, &pos);
         if (tween->frames <= tween->frame)
             return 1;
@@ -1303,7 +1303,7 @@ FieldTask *FIELD_TASK_CreateCameraLerp(FieldMap *fieldMap, int frames, const Vec
     lerp->frames = frames;
     lerp->start = *start;
     lerp->end = *end;
-    func_0207CA00(&lerp->end, &lerp->start, &lerp->delta);
+    VEC_Subtract(&lerp->end, &lerp->start, &lerp->delta);
     return task;
 }
 
@@ -1328,7 +1328,7 @@ int FIELD_TASK_UpdateCameraLerp(CameraLerpTask *task)
         } else {
             t = (int)(4096.0f * progress - 0.5f);
         }
-        func_0207CEE4(t, &task->delta, &task->start, &pos);
+        VEC_MultAdd(t, &task->delta, &task->start, &pos);
         FIELD_CAMERA_SetTarget(camera, &pos);
         if (task->frames <= task->frame) {
             FIELD_CAMERA_SetMode(camera, task->savedFlag);
@@ -1611,7 +1611,7 @@ void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha)
     }
     G3D_SYSTEM_GetLookAt(&lookAt);
     status.trans = lookAt.camPos;
-    func_0207CA00(&lookAt.target, &lookAt.camPos, &viewDir);
+    VEC_Subtract(&lookAt.target, &lookAt.camPos, &viewDir);
     VEC_Normalize(&viewDir, &viewDir);
     viewY = viewDir.y;
     if (viewY <= 0) {
@@ -1639,7 +1639,7 @@ int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
     ciId = func_02011330(vm);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
@@ -1658,7 +1658,7 @@ int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
     ciId = SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartPartyMemberSequence(gameSystem, ci, (unsigned char)ciId);
@@ -1677,7 +1677,7 @@ int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
     value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartMessageSequence(gameSystem, ci, value);
@@ -1699,7 +1699,7 @@ int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work)
     unsigned short ciId;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
     value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     found = 0;
     for (i = 0; i < 17; i++) {
@@ -1730,7 +1730,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
-    if (func_02008550(func_02012944(func_020120F4(gameSystem))) == 0) {
+    if (func_02008550(func_02012944(ICA_ANIME_GetField1C(gameSystem))) == 0) {
         work->cutInIdBefore = 11;
         cutInIdAfter = 12;
     } else {
@@ -1758,7 +1758,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     VecFx32 playerPos1;
     VecFx32 playerPos2;
     CameraAnimFlags flags;
-    fieldMap = func_0201210C(work->gameSystem);
+    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
     camera = FIELDMAP_GetCamera(fieldMap);
     ci = FIELDMAP_GetFld3dCi(fieldMap);
     bg = FIELDMAP_GetNogridMapper(fieldMap);
@@ -1893,7 +1893,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
 /* Fades the screen out, then ends. */
 int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq)
 {
-    func_0201210C(GAME_EVENT_GetGameSystem(event));
+    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     switch (*seq) {
     case 0:
         FADE_Start(3, 0x10, 0, 0);

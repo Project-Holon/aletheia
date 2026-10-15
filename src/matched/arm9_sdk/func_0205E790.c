@@ -1,5 +1,5 @@
 /*
- * function: func_0205E790
+ * function: CheckStartStealthSearch
  * address:  0x0205E790
  * packet:   pkt_0205E790
  * region:   arm9
@@ -148,7 +148,7 @@ extern s8 GetNextStealthChannel(void);
 extern u8 NextSearchCheck(ACWORK *wk, u8 phase);
 extern u8 SearchAround2ndLap(ACWORK *wk);
 
-u8 func_0205E790(ACWORK *wk)
+u8 CheckStartStealthSearch(ACWORK *wk)
 {
     if (wk->stealthChannel != 0 && DWCi_AC_MakeSearchList(2) == 1) {
         wk->searchChannel = GetNextStealthChannel();

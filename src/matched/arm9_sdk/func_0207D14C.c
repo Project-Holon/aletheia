@@ -1,5 +1,5 @@
 /*
- * function: func_0207D14C
+ * function: FX_Modf
  * address:  0x0207D14C
  * packet:   pkt_0207D14C
  * region:   arm9
@@ -19,7 +19,7 @@ typedef long fx32;
 typedef short fx16;
 typedef unsigned short u16;
 
-fx32 func_0207D14C(fx32 x, fx32 *iPtr)
+fx32 FX_Modf(fx32 x, fx32 *iPtr)
 {
     if (x >= 0) {
         *iPtr = x & 0x7ffff000;

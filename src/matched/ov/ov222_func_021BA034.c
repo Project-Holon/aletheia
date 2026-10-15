@@ -1,5 +1,5 @@
 /*
- * function: func_021BA034
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task
  * address:  0x021BA034
  * packet:   pkt_021BA034
  * region:   ov222
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA0E4  0x021BA0E4  thumb  ov222
- *   func_021BA150  0x021BA150  thumb  ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects  0x021BA0E4  thumb  ov222
+ *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank  0x021BA150  thumb  ov222
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BA0E4(void *);
-extern void func_021BA150(void *);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(void *);
 
-void func_021BA034(void *unused, char *p)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
-    func_021BA0E4(p);
-    func_021BA150(p + 4);
+    ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(p);
+    ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(p + 4);
 }

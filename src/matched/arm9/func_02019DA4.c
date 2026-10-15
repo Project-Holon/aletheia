@@ -11,8 +11,8 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
- *   func_0200AE54   0x0200AE54  thumb
- *   func_0200AFD4   0x0200AFD4  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
+ *   REGULATION_GetVetoBit   0x0200AFD4  thumb
  *
  * A stat comparison against a threshold picked by selector 4 of the first
  * argument: selector 5 (one over the limit) and 6 (under it) are both
@@ -31,8 +31,8 @@ typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 typedef signed int     s32;
 struct Reg;
-extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
+extern u32 REGULATION_GetVetoBit(struct Reg *p, u32 id, s32 n);
 
 int POKE_REGULATION_CheckPokemon(void *a0, void *a1)
 {
@@ -46,8 +46,8 @@ int POKE_REGULATION_CheckPokemon(void *a0, void *a1)
     if (a0 == 0)
         return 1;
 
-    m = func_0200AE54(a0, 4);
-    s = func_0200AE54(a0, 5);
+    m = REGULATION_GetRuleValue(a0, 4);
+    s = REGULATION_GetRuleValue(a0, 5);
     t = POKE_TOOL_GetPartyValue(a1, 0x9E, 0);
 
     switch (s) {
@@ -64,9 +64,9 @@ int POKE_REGULATION_CheckPokemon(void *a0, void *a1)
     r = 0;
     if (POKE_TOOL_GetPartyValue(a1, 0x4C, 0) != 0)
         return 0x20;
-    if (func_0200AFD4(a0, 9, v5) != 0)
+    if (REGULATION_GetVetoBit(a0, 9, v5) != 0)
         return 4;
-    if (func_0200AFD4(a0, 0xA, v6) != 0)
+    if (REGULATION_GetVetoBit(a0, 0xA, v6) != 0)
         r = 0x40;
     return r;
 }

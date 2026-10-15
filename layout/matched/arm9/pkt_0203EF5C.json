@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F1FC",
+   "name": "GF_STANDARD_SetupCalc",
    "address": "0x0203F1FC",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F3B4",
+   "name": "GF_STANDARD_Reset",
    "address": "0x0203F3B4",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F42C",
+   "name": "GF_STANDARD_Task",
    "address": "0x0203F42C",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F46C",
+   "name": "GF_STANDARD_GetRtc",
    "address": "0x0203F46C",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F49C",
+   "name": "GF_STANDARD_CopyCachedRtc",
    "address": "0x0203F49C",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F4CC",
+   "name": "GF_STANDARD_SetField00",
    "address": "0x0203F4CC",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F4E4",
+   "name": "GF_STANDARD_SetField00_F4E4",
    "address": "0x0203F4E4",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F524",
+   "name": "GF_STANDARD_SetupRtc",
    "address": "0x0203F524",
    "kind": "game",
    "region": "arm9",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F8F4",
+   "name": "BG_SYS_Create",
    "address": "0x0203F8F4",
    "kind": "game",
    "region": "arm9",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F9B4",
+   "name": "BG_SYS_Delete",
    "address": "0x0203F9B4",
    "kind": "game",
    "region": "arm9",

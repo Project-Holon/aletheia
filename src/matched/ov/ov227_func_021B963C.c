@@ -1,5 +1,5 @@
 /*
- * function: func_021B963C
+ * function: EVENT_PDC_RETURN_Step
  * address:  0x021B963C
  * packet:   pkt_ov227_021B963C
  * region:   ov227
@@ -20,7 +20,7 @@
  *   func_020076D0  0x020076D0  thumb
  *   func_02008500  0x02008500  thumb
  *   func_02008DF0  0x02008DF0  thumb
- *   func_0200C0F0  0x0200C0F0  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
@@ -125,7 +125,7 @@ extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C0F0(void *sys);
+extern void *BEACON_GetBlock(void *sys);
 extern int *NAMEIN_SETUP_CreateCaptureArgs(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
 extern int NAMEIN_SETUP_IsCanceled(int *p);
 extern void NAMEIN_SETUP_CopyName(int *p, int a1);
@@ -134,7 +134,7 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 POKE_TOOL_Dummy(u32 a);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 
-u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
+u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, Ctx *c, G *g)
 {
     u32 r, x30, x20, x24, x1c, x28, x18, h, r7;
     int x2c, fl, ok;
@@ -203,7 +203,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             ok = 1;
         }
         if (ok) {
-            g->f00 = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)g->f30, (u32)c->f2, (u32)0xa, (u32)0, (u32)g->f28, (u32)r7, (u32)g->f2c, (u32)func_0200C0F0(GAME_DATA_GetSaveControl((struct Big *)c->f0)));
+            g->f00 = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)g->f30, (u32)c->f2, (u32)0xa, (u32)0, (u32)g->f28, (u32)r7, (u32)g->f2c, (u32)BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)c->f0)));
             PROCSYS_Push(g->f34, (u32)ov194_id, 0x021F5580, (void *)g->f00);
             (*state)++;
             break;

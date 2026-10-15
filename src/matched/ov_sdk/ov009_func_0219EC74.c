@@ -1,5 +1,5 @@
 /*
- * function: func_0219EC74
+ * function: ServerBrowserNewA
  * address:  0x0219EC74
  * packet:   pkt_ov009_0219EC74
  * region:   ov009
@@ -16,7 +16,7 @@
  *   SBServerListInit  0x0219F9A8  arm  ov009
  *   SBQueryEngineInit  0x0219D864  arm  ov009
  *   func_0219E9F4  0x0219E9F4  arm  ov009
- *   func_0219EBC4  0x0219EBC4  arm  ov009
+ *   EngineCallback  0x0219EBC4  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
  */
 
@@ -42,10 +42,10 @@ extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, in
                           void *callback, void *instance);
 struct SBServerList;
 extern void func_0219E9F4(struct SBServerList *serverlist, int reason, struct SBServer *server, void *instance);
-extern void func_0219EBC4(int unused, unsigned int reason, struct SBServer *server, void *inst);
+extern void EngineCallback(int unused, unsigned int reason, struct SBServer *server, void *inst);
 extern int gGsAvailabilityState;
 
-struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey,
+struct ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                                     int queryFromVersion, int maxConcUpdates, int queryVersion,
                                     int lanBrowse, BrowserCB callback, void *instance)
 {
@@ -62,6 +62,6 @@ struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamen
     sb->dontUpdate = 0;
     SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, func_0219E9F4, sb);
-    SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, func_0219EBC4, sb);
+    SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, EngineCallback, sb);
     return sb;
 }

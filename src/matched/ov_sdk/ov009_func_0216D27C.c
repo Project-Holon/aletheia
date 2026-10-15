@@ -20,7 +20,7 @@
  *   DWCi_SetConnectionAttemptParam  0x02175560  arm  ov009
  *   func_02175F84  0x02175F84  arm  ov009
  *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
- *   func_0219EC74  0x0219EC74  arm  ov009
+ *   ServerBrowserNewA  0x0219EC74  arm  ov009
  *   DWCi_HandleSBError  0x02173D9C  arm  ov009
  *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
  *   func_02173D28  0x02173D28  arm  ov009
@@ -62,7 +62,7 @@ extern int DWCi_NodeInfoList_InsertToTop(struct node_s *newNode);
 extern void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern void func_02175F84(int a0);
 extern void DWCi_SetMatchStatus(int a0);
-extern int func_0219EC74(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+extern int ServerBrowserNewA(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 extern int DWCi_HandleSBError(int a0);
 extern int DWCi_GPSetServerStatus(int status);
 extern int func_02173D28(void);
@@ -110,7 +110,7 @@ void func_0216D27C(int topology, int serverPid, void *matchedCallback, void *mat
     if (*(int *)(func_02175F3C() + 0x798) == 0)
         DWCi_SetMatchStatus(0x16);
     if (*(int *)(func_02175F3C() + 0x5e0) == 0) {
-        *(int *)(func_02175F3C() + 0x5e0) = func_0219EC74(
+        *(int *)(func_02175F3C() + 0x5e0) = ServerBrowserNewA(
             *(int *)(func_02175F3C() + 0x684),
             *(int *)(func_02175F3C() + 0x684),
             *(int *)(func_02175F3C() + 0x688), 0, 0x14, 1, 0, 0x02174058, 0);

@@ -12,7 +12,7 @@
  * sdk:      ghiPostFileDiskStateDoPosting (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  *
  * symbols:
- *   func_020916D4  0x020916D4  arm
+ *   fread  0x020916D4  arm
  *   ghiTrySendThenBuffer  0x021C07B8  arm   ov114
  */
 
@@ -39,7 +39,7 @@ typedef struct GHIConnection {
 
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
+extern s32 fread(void *a0, u32 a1, u32 a2, u32 a3);
 extern int ghiTrySendThenBuffer(GHIConnection *, char *, int);
 
 int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection)
@@ -49,7 +49,7 @@ int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection
     int result;
 
     do {
-        len = func_020916D4(buffer, 1, 4096, (u32)state->file);
+        len = fread(buffer, 1, 4096, (u32)state->file);
         if (len <= 0) {
             connection->state = 14;
             connection->completed = 1;

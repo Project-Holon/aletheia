@@ -1,5 +1,5 @@
 /*
- * function: func_0205A8FC
+ * function: WDS_IsAvailableForAutoConnect
  * address:  0x0205A8FC
  * packet:   pkt_0205A8FC
  * region:   arm9
@@ -61,7 +61,7 @@ extern WDSWork *gWdsWork;
 
 extern int IsValidApnum(unsigned char *apnum);
 
-int func_0205A8FC(WDSApInfo *apinfo)
+int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo)
 {
     if ((apinfo->infoflag & 2) && IsValidApnum(apinfo->apnum) && apinfo->encryptflag <= 3) {
         return 1;

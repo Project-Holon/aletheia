@@ -1,5 +1,5 @@
 /*
- * function: func_0219A034
+ * function: RemoveFinishedNegotiator
  * address:  0x0219A034
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void func_02199FB4(int v);
 
-void func_0219A034(int *p)
+void RemoveFinishedNegotiator(int *p)
 {
     if (p[0] == -1) {
         p[6] = -1;

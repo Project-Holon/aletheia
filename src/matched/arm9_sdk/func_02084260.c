@@ -1,5 +1,5 @@
 /*
- * function: func_02084260
+ * function: NVRAMi_SyncCallback
  * address:  0x02084260
  * packet:   pkt_02084260
  * region:   arm9
@@ -21,7 +21,7 @@ struct OSMessageQueue;
 int OS_SendMessage(struct OSMessageQueue *mq, void *msg, long flags);
 void OS_Terminate(void);
 
-void func_02084260(int result, void *arg)
+void NVRAMi_SyncCallback(int result, void *arg)
 {
     if (!OS_SendMessage((struct OSMessageQueue *)arg, (void *)result, 0)) {
         OS_Terminate();

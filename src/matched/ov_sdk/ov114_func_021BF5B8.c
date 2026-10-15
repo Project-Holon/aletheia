@@ -11,6 +11,7 @@
  *
  * symbols:
  *   ghttpThink  0x021C2270  arm  ov114
+ *   DWCi_IsError  0x02059F38  arm  arm9
  *
  * Starts the 0x021C22xx job when the engine is idle; 0 when it is busy.
  *
@@ -21,12 +22,12 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern void ghttpThink(void);
 
 int DWC_ProcessGHTTP(void)
 {
-    if (func_02059F38() != 0)
+    if (DWCi_IsError() != 0)
         return 0;
     ghttpThink();
     return 1;

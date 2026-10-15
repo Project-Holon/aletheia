@@ -1,5 +1,5 @@
 /*
- * function: func_0205C600
+ * function: CheckEULA
  * address:  0x0205C600
  * packet:   pkt_0205C600
  * region:   arm9
@@ -141,7 +141,7 @@ extern BOOL OS_IsAgreeEULA(void);
 extern u8 OS_GetAgreedEULAVersion(void);
 extern u8 OS_GetROMHeaderEULAVersion(void);
 
-BOOL func_0205C600(void)
+BOOL CheckEULA(void)
 {
     if (OS_IsRunOnTwl()) {
         if (s_ac_work.acWork->wontExecuteEULACheck ||

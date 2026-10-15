@@ -11,19 +11,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204169C  0x0204169C  arm
- *   func_0203FA08  0x0203FA08  arm
+ *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
  *   BMP_WIN_Alloc   0x02045210  arm
  *
  * Set up a BG layer whose character data is placed at a VRAM offset chosen
- * by the allocator.  func_0204169C says whether the layer is 8bpp; that
+ * by the allocator.  BG_SYS_GetField16 says whether the layer is 8bpp; that
  * decides both the flag handed to BMP_WIN_Alloc and whether a cell costs one
  * or two units, and the unit count is scaled by 32 to bytes before
- * func_0203FA08 is asked for room.  A returned -1 (not 0) is the allocator's
+ * BG_SYS_CreateRun is asked for room.  A returned -1 (not 0) is the allocator's
  * failure answer, and the function reports failure as 0.
  *
  * BMP_WIN_CreateAt, the next function, is the same routine for the case where
- * the caller already knows the offset: it calls func_0203FAF0 to reserve
+ * the caller already knows the offset: it calls BG_SYS_CheckFAF0 to reserve
  * that exact offset instead, passes a count rather than a byte size, and
  * forwards the caller's offset straight through as BMP_WIN_Alloc's seventh
  * argument.
@@ -37,8 +37,8 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8 func_0204169C(int channel);
-extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
+extern u8 BG_SYS_GetField16(int channel);
+extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 extern u32 BMP_WIN_Alloc(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
                         u32 offset, u32 is8bpp);
 
@@ -48,7 +48,7 @@ u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot)
     u32 units;
     s32 offset;
 
-    if (func_0204169C(layer) == 0) {
+    if (BG_SYS_GetField16(layer) == 0) {
         is8bpp = 0;
         units = tiles * c;
     } else {
@@ -56,7 +56,7 @@ u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot)
         units = tiles * c * 2;
     }
 
-    offset = func_0203FA08(layer, units * 32, slot);
+    offset = BG_SYS_CreateRun(layer, units * 32, slot);
     if (offset == -1)
         return 0;
 

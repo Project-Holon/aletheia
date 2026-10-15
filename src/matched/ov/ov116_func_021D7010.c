@@ -1,5 +1,5 @@
 /*
- * function: func_021D7010
+ * function: WIFI_BSUBWAY_ReadRecordUnits
  * address: 0x021D7010
  * packet: pkt_ov116_021D7010
  * region: ov116
@@ -16,4 +16,4 @@ struct MsgData;
 struct Record { unsigned short id:11; unsigned short rest:5; };
 extern struct MsgData *D_020A7370;
 extern void MSGDATA_ReadUnits(struct MsgData *,unsigned int,unsigned short *,unsigned int);
-void func_021D7010(unsigned int a,unsigned int b) { unsigned int p; p=a+0x70+b*0x3c; MSGDATA_ReadUnits(D_020A7370,((struct Record *)p)->id,(unsigned short *)(p+0x22),11); }
+void WIFI_BSUBWAY_ReadRecordUnits(unsigned int a,unsigned int b) { unsigned int p; p=a+0x70+b*0x3c; MSGDATA_ReadUnits(D_020A7370,((struct Record *)p)->id,(unsigned short *)(p+0x22),11); }

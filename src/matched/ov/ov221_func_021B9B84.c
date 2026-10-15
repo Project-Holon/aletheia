@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B84
+ * function: CHIHOU_ZUKAN_AWARD_SetupTiles
  * address: 0x021B9B84
  * packet: pkt_ov221_021B9B84
  * region: ov221
@@ -36,7 +36,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern void func_020409B4(u32);
-void func_021B9B84(char *p)
+void CHIHOU_ZUKAN_AWARD_SetupTiles(char *p)
 {
  u16 *tiles;
  u16 *buf;

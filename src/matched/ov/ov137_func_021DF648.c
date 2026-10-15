@@ -10,32 +10,32 @@
  * blocker: 0x02010934 Thumb sole-ref/matched unavailable for interior unit member.
  * blocker: Verified EXACT with one in S30/blocker10934-r1.log:
  *   extern void func_020307B0(void *);
- *   void func_02010934(void *p) { func_020307B0(p); }
+ *   void GFL_NET_SAVE_Delete(void *p) { func_020307B0(p); }
  *   symbols: func_020307B0 0x020307B0 arm
  * tail: 021DF6A2..021DF6A4 is two zero alignment bytes.
  * symbols:
- *   func_02010904 0x02010904 thumb
+ *   GFL_NET_SAVE_CheckFinished 0x02010904 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
- *   func_02010934 0x02010934 thumb
+ *   GFL_NET_SAVE_Delete 0x02010934 thumb
  */
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Sub0201088CObj;
-extern u32 func_02010904(struct Sub0201088CObj *p);
+extern u32 GFL_NET_SAVE_CheckFinished(struct Sub0201088CObj *p);
 extern unsigned func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void WIPE_SetBrightnessFadeOut(unsigned, unsigned);
 extern void TIME_ICON_Delete(u8 *p);
-extern void func_02010934(struct Sub0201088CObj *p);
+extern void GFL_NET_SAVE_Delete(struct Sub0201088CObj *p);
 int GURU2_MAIN_StateWaitSaveDone(u8 *p)
 {
     int ready;
-    ready = func_02010904(*(void **)(p + 3488));
+    ready = GFL_NET_SAVE_CheckFinished(*(void **)(p + 3488));
     if (func_0200FB24()) {
         func_0200FBB0();
         GFL_NET_ERR_ShowScreen(1);
@@ -46,7 +46,7 @@ int GURU2_MAIN_StateWaitSaveDone(u8 *p)
     if (ready) {
         TIME_ICON_Delete(*(void **)(p + 3496));
         *(void **)(p + 3496) = 0;
-        func_02010934(*(void **)(p + 3488));
+        GFL_NET_SAVE_Delete(*(void **)(p + 3488));
         *(int *)p = 47;
     }
     return 0;

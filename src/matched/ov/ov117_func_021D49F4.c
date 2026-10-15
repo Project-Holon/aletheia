@@ -1,5 +1,5 @@
 /*
- * function: func_021D49F4
+ * function: POKETRADE_IRCDEMO_SetMonSlide
  * address:  0x021D49F4
  * packet:   pkt_ov117_021D49F4
  * region:   ov117
@@ -40,7 +40,7 @@ extern void MCSS_SetAnmStopFlag(void *);
 extern void MCSS_SetScale(void *p, u32 *src);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 
-void func_021D49F4(void *obj, void *p)
+void POKETRADE_IRCDEMO_SetMonSlide(void *obj, void *p)
 {
     Vec v;
     MCSS_SetAlpha(obj, 0x1f);

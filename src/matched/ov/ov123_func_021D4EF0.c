@@ -12,7 +12,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_0201F73C 0x0201F73C thumb
@@ -32,7 +32,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -49,7 +49,7 @@ void GSYNC_MENU_PrintMessage(char *p, int n, int flag)
     GF_FONT_SetTextColor(1, 2, 15);
     if (flag) {
         void *value;
-        value = (void *)func_02012FFC();
+        value = (void *)MSG_SPEED_GetWait();
         ((struct Obj02473 *)p)->f228 = PRINTSYS_PrintStream(obj, 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30, value, ((struct Obj02473 *)p)->f230, 2, ((struct Obj02473 *)p)->fC, 15);
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(obj), 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30);

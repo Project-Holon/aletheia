@@ -12,18 +12,18 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   SND_MIC_Exit  0x02006D44  thumb
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  */
 #include "../include/Obj23822.h"
 
 extern unsigned int func_020307B0(void *p);
 extern void SND_MIC_Exit(void);
 typedef unsigned int   u32;
-extern void func_02034FB8(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 
 void func_02184408(int *p)
 {
     func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
     SND_MIC_Exit();
-    func_02034FB8(8);
+    UI_ClearKeepAwakeFlagsGlobal(8);
 }

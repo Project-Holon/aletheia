@@ -27,9 +27,9 @@
  *   d_021F31BC     0x021F31BC  data  ov029  a2
  *   d_021F31AB     0x021F31AB  data  ov029  a1
  *   d_021F31B0     0x021F31B0  data  ov029  a1
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   INTRUDE_COMM_GetRequestState  0x02158630  thumb  ov010
  *   _s32_div_f     0x0209C0A4  arm
@@ -48,8 +48,8 @@
  *   d_021F32B3 0x021F32B3 data a1
  *   d_021F3344     0x021F3344  data  a4
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0207D55C 0x0207D55C arm
- *   func_0201210C 0x0201210C thumb
+ *   GXx_GetMasterBrightness_ 0x0207D55C arm
+ *   ICA_ANIME_GetField20 0x0201210C thumb
  *   FIELDMAP_GetSubscreenBusy 0x02189A48 thumb ov021
  *   PALANM_GetDefaultWork  0x02021728  thumb
  *   PALANM_GetTransWork  0x02021730  thumb
@@ -65,7 +65,7 @@
  *   d_021F31D4     0x021F31D4  data  a2
  *   d_021F348C     0x021F348C  data  a4
  *   d_021F3334     0x021F3334  data  a4
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   d_021F3354     0x021F3354  data  a4
  *   func_020091AC  0x020091AC  thumb
  *   d_021F332C     0x021F332C  data  a4
@@ -73,7 +73,7 @@
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E468  0x0207E468  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0203FA08  0x0203FA08  arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
  *   func_02049658  0x02049658  arm
  *   func_02049990  0x02049990  arm
  *   d_021F31E0     0x021F31E0  data  a4
@@ -86,7 +86,7 @@
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
  *   func_02040588  0x02040588  arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02041300  0x02041300  arm
  *   d_021F338C     0x021F338C  data  ov029  a4
@@ -96,7 +96,7 @@
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_020090E8  0x020090E8  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
@@ -130,7 +130,7 @@
  *   func_020403F4  0x020403F4  arm
  *   UI_GetPowerState 0x0203568C arm
  *   d_021F3520 0x021F3520 data a1
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
@@ -138,7 +138,7 @@
  *   func_02030734  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
  *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
@@ -159,8 +159,8 @@
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  *   func_020056A0  0x020056A0  thumb
- *   func_02035010  0x02035010  arm
- *   func_02035040  0x02035040  arm
+ *   UI_SetSleepHookGlobal  0x02035010  arm
+ *   UI_SetWakeHookGlobal  0x02035040  arm
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb  ov010
  *   INTRUDE_COMM_SetCompleted  0x02158614  thumb  ov010
@@ -169,7 +169,7 @@
  *   PALANM_Delete  0x02021540  thumb
  *   func_02030DA4  0x02030DA4  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_02028A70  0x02028A70  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020056EC  0x020056EC  thumb
@@ -254,9 +254,9 @@ extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern u16 CLACT_GetActorAnimSeqCount(struct Actor *p);
 extern u32 CLACT_GetActorAnimFrame(struct Actor *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void *func_02012138(const struct GameSystem *gameSystem);
-extern void *func_020120F4(const struct GameSystem *p);
-extern void *func_0201283C(const void *gameData);
+extern void *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
+extern void *GAME_DATA_GetField1A0(const void *gameData);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int INTRUDE_COMM_GetRequestState(void *eventWork);
 extern void PALANM_CopyToSlot(struct PalAnm *slots, const void *src, u32 idx, u32 off, u16 size);
@@ -264,8 +264,8 @@ extern void MI_CpuFill8(void *, int, int);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(unsigned int index);
 extern unsigned int WIPE_SYS_EndCheck(void);
-extern int func_0207D55C(volatile u16 *reg);
-extern void *func_0201210C(const struct GameSystem *p);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
+extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
 extern int FIELDMAP_GetSubscreenBusy(void *gameData);
 extern char *PALANM_GetDefaultWork(struct PalAnm *palAnm, int bank);
 extern char *PALANM_GetTransWork(struct PalAnm *palAnm, int bank);
@@ -274,13 +274,13 @@ extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 mask, u16 color, s16 step, u8 startLevel, u8 endLevel, u16 tint, struct FadeCtx *fadeCtx);
 extern void PALANM_ForceStopFade(struct PalAnm *o);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnm *palAnm);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void func_020091AC(struct HexMap *obj, int row, int col, int kind, int marked, int flagged);
 extern void *func_02049F78(void *archive, u32 member, CGearFileInfo **outFile, u32 heapId);
 extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
-extern u32 func_0203FA08(u32 a, u32 b, u32 c);
+extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
@@ -289,7 +289,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int 
 extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_0207D63C(u32, int, int, int, int);
@@ -297,7 +297,7 @@ extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020090E8(struct HexMap *obj, u8 value);
 extern void CLACT_SetActorAnimIndex(struct Actor *actor, int index);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
@@ -324,7 +324,7 @@ extern void CLACT_DeleteRenderer(struct ActorResources *resources);
 extern u32 CLACT_DeleteUnit(struct ActorSystem *bank);
 extern void func_020403F4(u32 i);
 extern int UI_GetPowerState(void);
-extern void func_0203F4CC(RtcTime *time);
+extern void GF_STANDARD_SetField00(RtcTime *time);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const CGearPos *delta, u32 which);
 extern void CLACT_SetActorDrawPriority(struct Actor *node, u32 val);
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
@@ -333,7 +333,7 @@ extern void C_GEAR_TickTabFrame(CGearWork *work);
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern struct SaveCtrl *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveCtrl *sv, u32 id, u8 heap, void *buf, u32 size);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern struct HexMap *func_02009210(void *saveSys);
 extern u16 func_0200910C(const struct HexMap *obj);
 extern u32 MUSICAL_DIST_SAVE_IsFooterSet(const u8 *bgData);
@@ -353,8 +353,8 @@ extern void PALANM_SetAutoTransfer(struct PalAnm *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnm *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *slots, u32 bank, u32 off, u32 size);
 extern struct VBlankTask *func_020056A0(void (*callback)(void *, CGearWork *), CGearWork *work, int priority);
-extern void func_02035010(void (*callback)(CGearWork *), CGearWork *work);
-extern void func_02035040(void (*callback)(CGearWork *), CGearWork *work);
+extern void UI_SetSleepHookGlobal(void (*callback)(CGearWork *), CGearWork *work);
+extern void UI_SetWakeHookGlobal(void (*callback)(CGearWork *), CGearWork *work);
 extern void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx);
 extern int GAMESYSTEM_IsEventActive(const struct GameSystem *gameSystem);
 extern void C_GEAR_SetPowerState(CGearWork *work, int powerOn);
@@ -367,7 +367,7 @@ extern void PALANM_FreeSlotBuffers(struct PalAnm *slots, u32 idx);
 extern u32 PALANM_Delete(struct PalAnm *palAnm);
 extern void func_02030DA4(struct FadeCtx *ctx);
 extern void func_02030EAC(struct VBlankTask *task);
-extern struct SoundSys *func_02012A30(const void *gameData);
+extern struct SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
 extern void func_02028A70(struct SoundSys *sys);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 func_020056EC(u32 range);
@@ -941,7 +941,7 @@ void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPrio
     u32 padKeys;
     int cycleIdx;
 
-    eventWork = func_02012138(work->gameSystem);
+    eventWork = ICA_ANIME_GetField24(work->gameSystem);
     keyGroups = 0;
     keysHeld = 1;
     kind1 = 1;
@@ -951,7 +951,7 @@ void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPrio
     if (resetPriorities != 0) {
         kind4 = kind1 = kind2 = kind3 = 0;
     }
-    padKeys = WIH_DWC_PollStatus(func_0201283C(func_020120F4(work->gameSystem)));
+    padKeys = WIH_DWC_PollStatus(GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)));
     linkMode = INTRUDE_COMM_GetRequestState(eventWork);
     if (modeEnabled != 0) {
         if (linkMode == 3) {
@@ -1613,8 +1613,8 @@ void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY)
 int C_GEAR_IsIdleForInput(CGearWork *work)
 {
     if (!WIPE_SYS_EndCheck()) return 0;
-    if (func_0207D55C(&REG_DB_MASTER_BRIGHT)) return 0;
-    if (!FIELDMAP_GetSubscreenBusy(func_0201210C(work->gameSystem))) return 1;
+    if (GXx_GetMasterBrightness_(&REG_DB_MASTER_BRIGHT)) return 0;
+    if (!FIELDMAP_GetSubscreenBusy(ICA_ANIME_GetField20(work->gameSystem))) return 1;
     return 0;
 }
 
@@ -1937,7 +1937,7 @@ void C_GEAR_DrawTile(CGearWork *work, int col, int row, int kind)
     int mapCol, mapRow, mapRowIdx, palRow, palette, i, mapColIdx, j;
     u16 *tilemap;
 
-    tilemap = (u16 *)func_0204162C(4);
+    tilemap = (u16 *)BG_SYS_GetBuf(4);
     C_GEAR_TileToScreen(col, row, &mapCol, &mapRow);
     palRow = d_021F31D4[kind];
     palette = C_GEAR_GetTilePalette(work, palRow, col, row);
@@ -2070,7 +2070,7 @@ u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
         func_020307B0(handle);
     }
     charSize = 0x5000;
-    charBase = func_0203FA08(6, charSize, 0);
+    charBase = BG_SYS_CreateRun(6, charSize, 0);
     work->bgCharBlock = (u16)charBase | (charSize << 16);
     func_02049658(work->archive, d_021F32E0[skin][theme], 6, charBase, 0, 0, 0x70);
     return func_02049990(work->archive, 2, 6, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
@@ -2147,7 +2147,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     }
     {
         struct BgTemplate t = d_021F338C;
-        func_0203FCA0(6, &t, 0);
+        BG_SYS_InitBgLayer(6, &t, 0);
         func_02040588(6, 1);
         func_0204047C(6, 3);
         func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
@@ -2155,7 +2155,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     }
     {
         struct BgTemplate t = d_021F33AC;
-        func_0203FCA0(5, &t, 0);
+        BG_SYS_InitBgLayer(5, &t, 0);
         func_02040588(5, 1);
         func_0204047C(5, 1);
         func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
@@ -2163,7 +2163,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     }
     {
         struct BgTemplate t = d_021F336C;
-        func_0203FCA0(4, &t, 0);
+        BG_SYS_InitBgLayer(4, &t, 0);
         func_02040588(4, 1);
         func_0204047C(4, 2);
         func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
@@ -2257,7 +2257,7 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
     case 5:
         GFL_USE_PlaySeDefaultVolume(0x628);
         bgChar = work->bgCharBlock;
-        func_0203FB44(6, (u16)bgChar, (u16)(bgChar >> 16));
+        BG_SYS_DeleteHalf(6, (u16)bgChar, (u16)(bgChar >> 16));
         work->skinIndex++;
         work->skinIndex = work->skinIndex % 5;
         func_020090E8(work->hexMap, work->skinIndex);
@@ -2614,7 +2614,7 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
 {
     int z;
 
-    work->colorTheme = func_02008550(func_02012944(func_020120F4(work->gameSystem)));
+    work->colorTheme = func_02008550(func_02012944(ICA_ANIME_GetField1C(work->gameSystem)));
     work->skinIndex = func_020090F0(work->hexMap);
     z = 0;
     work->spriteSystem = CLACT_CreateUnit(0x44, 0, work->heapId);
@@ -2672,7 +2672,7 @@ void C_GEAR_DeleteActors(CGearWork *work)
     CLACT_ReleaseCharacter(work->spriteCharRes);
     CLACT_ReleasePalette(work->spritePlttRes);
     v = work->bgCharBlock;
-    func_0203FB44(6, (unsigned short)v, (unsigned short)(v >> 16));
+    BG_SYS_DeleteHalf(6, (unsigned short)v, (unsigned short)(v >> 16));
 }
 
 
@@ -2735,7 +2735,7 @@ void C_GEAR_UpdateClock(CGearWork *work)
     struct Actor *actor;
     int digit;
 
-    func_0203F4CC(&time);
+    GF_STANDARD_SetField00(&time);
     CLACT_SetActorDrawEnable(work->hudActors[0], 0);
 
     actor = work->hudActors[1];
@@ -3004,9 +3004,9 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
 
     result = 0;
     buf = func_02030734(0x70, 0x3000, 0, d_021F3554, 0x104E);
-    saveSys = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
+    saveSys = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveSys, 4, 0x70, buf, 0x3000) == 1) {
-        crc = func_0203F1FC(buf, 0x2600);
+        crc = GF_STANDARD_SetupCalc(buf, 0x2600);
         savedCrc = func_0200910C(func_02009210(saveSys));
         charBase = (u16)work->bgCharBlock;
         if (crc == savedCrc && MUSICAL_DIST_SAVE_IsFooterSet(buf) != 0) {
@@ -3016,7 +3016,7 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
             }
             func_02040E78(6, buf + 0x1FE0, 0x20, 0x140);
             func_02040AE0(5, buf + 0x2000, 0x600);
-            pal = (u16 *)func_0204162C(5);
+            pal = (u16 *)BG_SYS_GetBuf(5);
             for (i = 0; i < 0x600 / 2; i++) {
                 pal[i] += (u16)charBase;
             }
@@ -3076,7 +3076,7 @@ void C_GEAR_TransferPalettesTask(void *task, CGearWork *work)
 
 
 /*
- * 2026-10-05 (wave D5 lane 02): arm9 func_02035010/func_02035040 and their setters func_02035004/func_02035034 are now filed in src/matched/arm9/; the wrappers show MATCH only until the labels exist. Re-run after the integrator labels them.
+ * 2026-10-05 (wave D5 lane 02): arm9 UI_SetSleepHookGlobal/UI_SetWakeHookGlobal and their setters UI_SetSleepHook/UI_SetWakeHook are now filed in src/matched/arm9/; the wrappers show MATCH only until the labels exist. Re-run after the integrator labels them.
  * 2026-10-04 (wD2 lane 09): bytes are identical; 3 of 41 relocations open.
  * Filed leaf C_GEAR_OnCommEvent as matched ov029_func_021F24FC.c (EXACT).
  * Open: ABS32 +01C0 to 021F24FC (witness index not yet regenerated),
@@ -3085,16 +3085,16 @@ void C_GEAR_TransferPalettesTask(void *task, CGearWork *work)
  *
  * Byte-correct.  Blocked by two unlabelled ARM9 leaves (the integrator's), so the
  * overlay leaf 0x021F24FC is not filed either:
- *   +0128 func_02035010 (arm): verified MATCH with `one --arm`, capped
+ *   +0128 UI_SetSleepHookGlobal (arm): verified MATCH with `one --arm`, capped
  *     only by its own unlabelled tail-call target 0x02035004
  *     (str r1,[r0,#0x14]; str r2,[r0,#0x28]; bx lr):
  *       extern void *d_021469BC;
- *       void func_02035010(void *cb, void *arg)
- *       { func_02035004(d_021469BC, cb, arg); }
- *   +0130 func_02035040 (arm): the same wrapper over 0x02035034
+ *       void UI_SetSleepHookGlobal(void *cb, void *arg)
+ *       { UI_SetSleepHook(d_021469BC, cb, arg); }
+ *   +0130 UI_SetWakeHookGlobal (arm): the same wrapper over 0x02035034
  *     (str r1,[r0,#0x10]; str r2,[r0,#0x28]; bx lr), MATCH likewise:
- *       void func_02035040(void *cb, void *arg)
- *       { func_02035034(d_021469BC, cb, arg); }
+ *       void UI_SetWakeHookGlobal(void *cb, void *arg)
+ *       { UI_SetWakeHook(d_021469BC, cb, arg); }
  *   +01C0 ABS32 C_GEAR_OnCommEvent (ov029): unlabelled leaf
  *     `void C_GEAR_OnCommEvent(CGearWork *work) { work->commEvent = 2; }` (ldr r1,=0x451;
  *     movs r2,#2; strb r2,[r0,r1]; bx lr).
@@ -3145,8 +3145,8 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     C_GEAR_TintPalettes(work, work->commEnabled);
     PALANM_TransferPalettes(work->palAnm);
     work->palTransferTask = func_020056A0(C_GEAR_TransferPalettesTask, work, 1);
-    func_02035010(C_GEAR_OnCommDisconnect, work);
-    func_02035040(C_GEAR_OnCommEvent, work);
+    UI_SetSleepHookGlobal(C_GEAR_OnCommDisconnect, work);
+    UI_SetWakeHookGlobal(C_GEAR_OnCommEvent, work);
     C_GEAR_CreateFadeFx(work, &work->fadeFx);
     C_GEAR_UpdateBeaconColors(work);
     C_GEAR_UpdateClock(work);
@@ -3160,7 +3160,7 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     }
     if (work->fadeCtx != 0)
         func_02030D28(work->fadeCtx);
-    eventWork = func_02012138(gameSystem);
+    eventWork = ICA_ANIME_GetField24(gameSystem);
     if (eventWork != 0 && INTRUDE_COMM_GetVisitProgress(eventWork) == 2)
         INTRUDE_COMM_SetCompleted(eventWork);
 }
@@ -3172,15 +3172,15 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
 
 void C_GEAR_Cleanup(CGearWork *work)
 {
-    void *r = func_02012138(work->gameSystem);
+    void *r = ICA_ANIME_GetField24(work->gameSystem);
 
     if (r != 0) {
         if (INTRUDE_COMM_GetVisitProgress(r) == 2)
             INTRUDE_COMM_SetCompleted(r);
     }
     C_GEAR_DeleteFadeFx(&work->fadeFx);
-    func_02035010(0, 0);
-    func_02035040(0, 0);
+    UI_SetSleepHookGlobal(0, 0);
+    UI_SetWakeHookGlobal(0, 0);
     GFL_NET_RestartNoTimeout();
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
     PALANM_FreeSlotBuffers(work->palAnm, 3);
@@ -3190,7 +3190,7 @@ void C_GEAR_Cleanup(CGearWork *work)
     func_020307B0(work->fadeMem);
     func_02030EAC(work->palTransferTask);
     if (work->lastCommand != 5) {
-        func_02028A70(func_02012A30(func_020120F4(work->gameSystem)));
+        func_02028A70(GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(work->gameSystem)));
     }
     ARC_TOOL_DeleteHandle(work->archive);
     C_GEAR_FreeGraphics(work);
@@ -3254,7 +3254,7 @@ void C_GEAR_Update(CGearWork *work, u8 powerOn)
 
     C_GEAR_SetPowerState(work, powerOn);
     if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
-        linkMode = INTRUDE_COMM_GetRequestState(func_02012138(work->gameSystem));
+        linkMode = INTRUDE_COMM_GetRequestState(ICA_ANIME_GetField24(work->gameSystem));
         if (linkMode == 3) {
             if (work->callTabShown == 0) {
                 C_GEAR_SetTabMode(work, 1, 0);
@@ -3267,8 +3267,8 @@ void C_GEAR_Update(CGearWork *work, u8 powerOn)
             }
         }
         if (linkMode == 0) {
-            padKeys = WIH_DWC_PollStatus(func_0201283C(func_020120F4(work->gameSystem)));
-            soundSys = func_02012A30(func_020120F4(work->gameSystem));
+            padKeys = WIH_DWC_PollStatus(GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)));
+            soundSys = GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(work->gameSystem));
             if (padKeys & 8) {
                 if (work->ringtoneActive == 0) {
                     work->ringtoneActive = 1;
@@ -3351,8 +3351,8 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
     struct GameEvent *event = 0;
     void *handlerData;
 
-    func_02012138(work->gameSystem);
-    handlerData = func_0201210C(work->gameSystem);
+    ICA_ANIME_GetField24(work->gameSystem);
+    handlerData = ICA_ANIME_GetField20(work->gameSystem);
     if (enabled == 0 || handlerData == 0)
         return 0;
 
@@ -3714,7 +3714,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
 
     work = req->work;
     done = 0;
-    fieldMap = func_0201210C(work->gameSystem);
+    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
     switch (req->kind) {
     case 1:
     case 5:
@@ -3751,7 +3751,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         break;
     case 12:
         args = func_02030734(4, 8, 1, d_021F3554, 0x14B7);
-        args->playerData = (u8 *)func_02012944(func_020120F4(work->gameSystem));
+        args->playerData = (u8 *)func_02012944(ICA_ANIME_GetField1C(work->gameSystem));
         args->gameSystem = work->gameSystem;
         next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (u32)abs_id_124, d_021D4D40, args, 0, args);
         break;

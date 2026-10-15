@@ -13,13 +13,13 @@
  *
  * symbols:
  *   DWC_GetState  0x0216B994  arm  ov009
- *   func_0216A3B8  0x0216A3B8  arm  ov009
+ *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  *   DWCi_StopMatch  0x0216EB68  arm  ov009
  *   DWCi_SetError  0x02059F54  arm
  */
 
 extern int DWC_GetState(void);
-extern void func_0216A3B8(int dwcError, int errorCode);
+extern void DWCi_StopLogin(int dwcError, int errorCode);
 extern void DWCi_StopMatch(int dwcError, int errorCode);
 extern void DWCi_SetError(int dwcError, int errorCode);
 
@@ -54,7 +54,7 @@ int DWCi_HandleQR2Error(int error)
     }
     switch (DWC_GetState()) {
     case 2:
-        func_0216A3B8(dwcError, errorCode - 64000);
+        DWCi_StopLogin(dwcError, errorCode - 64000);
         break;
     case 4:
         DWCi_StopMatch(dwcError, errorCode - 84000);

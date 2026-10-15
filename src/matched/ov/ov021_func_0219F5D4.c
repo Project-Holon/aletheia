@@ -13,10 +13,10 @@
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   G3D_CAMERA_GetTarget  0x02048B0C  arm
  *   G3D_CAMERA_GetUp  0x02048B30  arm
- *   func_0207BCA0  0x0207BCA0  arm
+ *   MTX_LookAt  0x0207BCA0  arm
  *   func_02082B60  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
- *   func_0207B51C  0x0207B51C  arm
+ *   MTX_MultVec33  0x0207B51C  arm
  * Addresses are Black-image addresses.
  */
 
@@ -25,10 +25,10 @@ typedef signed int   s32;
 extern void G3D_CAMERA_GetEye(u32, s32 *);
 extern void G3D_CAMERA_GetTarget(u32, s32 *);
 extern void G3D_CAMERA_GetUp(u32, s32 *);
-extern void func_0207BCA0(s32 *, s32 *, s32 *, s32 *);
+extern void MTX_LookAt(s32 *, s32 *, s32 *, s32 *);
 extern void func_02082B60(s32 *, s32 *);
 extern void func_0207B0A4(s32 *, s32 *);
-extern void func_0207B51C(s32 *, s32 *, s32 *);
+extern void MTX_MultVec33(s32 *, s32 *, s32 *);
 
 void FLDMMDL_DRAW_RotateByCamera(u32 a, s32 *b, s32 *c)
 {
@@ -40,8 +40,8 @@ void FLDMMDL_DRAW_RotateByCamera(u32 a, s32 *b, s32 *c)
     G3D_CAMERA_GetEye(a, v1);
     G3D_CAMERA_GetTarget(a, v2);
     G3D_CAMERA_GetUp(a, v3);
-    func_0207BCA0(v1, v2, v3, m4);
+    MTX_LookAt(v1, v2, v3, m4);
     func_02082B60(m4, m3);
     func_0207B0A4(m3, m3);
-    func_0207B51C(b, m3, c);
+    MTX_MultVec33(b, m3, c);
 }

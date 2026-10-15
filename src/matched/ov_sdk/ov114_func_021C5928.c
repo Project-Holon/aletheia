@@ -12,7 +12,7 @@
  * sdk:      DWC_NdInitAsync (libdwcnd.TWL.HYB.a(dwc_nd.o))
  *
  * symbols:
- *   func_02059F38  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   OS_InitMutex  0x02086004  arm
  *   OS_LockMutex  0x02086028  arm
  *   DWCi_NdSetError  0x021C659C  arm  ov114
@@ -43,7 +43,7 @@ typedef struct NdParam {
 
 typedef struct NdState NdState;
 
-extern int func_02059F38(void);
+extern int DWCi_IsError(void);
 extern void OS_InitMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
 extern void DWCi_NdSetError(int err, int servererror);
@@ -64,7 +64,7 @@ extern char sDwcNdServiceLocatorPort[];
 
 int DWC_NdInitAsync(void (*callback)(int, int, int), char *gamecd, char *passwd)
 {
-    if (func_02059F38())
+    if (DWCi_IsError())
         return 0;
     OS_InitMutex(gDwcNdMutex);
     OS_LockMutex(gDwcNdMutex);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6EE4
+ * function: EGG_DEMO_VIEW_MainParticles
  * address: 0x021F6EE4
  * packet: pkt_ov215_021F6EE4
  * region: ov215
@@ -14,4 +14,4 @@
  */
 
 extern void PARTICLE_Main(void);
-void func_021F6EE4(char *p){PARTICLE_Main();}
+void EGG_DEMO_VIEW_MainParticles(char *p){PARTICLE_Main();}

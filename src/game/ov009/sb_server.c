@@ -39,8 +39,8 @@
  *   g_021A8154            0x021A8154  data
  *   TableLookup                    0x0218482C  arm ov009
  *   strlen                         0x0209477C  arm
- *   func_020948E0  0x020948E0  arm
- *   func_020964E0  0x020964E0  arm
+ *   strcmp  0x020948E0  arm
+ *   atoi  0x020964E0  arm
  *   g_021A8158  0x021A8158  data
  *   g_020A61DC  0x020A61DC  data
  *   SBServerGetStringValueA  0x0219E0C0  arm
@@ -55,7 +55,7 @@
  *   g_021A8164  0x021A8164  data
  *   NTSLengthSB  0x0219F978  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   g_021A816C  0x021A816C  data
  *   g_021A8178  0x021A8178  data
  *   g_021A81AC  0x021A81AC  data
@@ -102,18 +102,13 @@ extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
                           char *theTokenStr, ...);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern void *TableLookup(struct HashImplementation *table, void *elemKey);
-extern int func_020948E0(const char *a, const char *b);
-extern int func_020964E0(u32 a0);
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname,
                                      char *def);
 extern double atof(char *s);
-extern int strcmp(char *a, char *b);
 extern char *func_0219E2D4(char *instr, char delim);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern int NTSLengthSB(char *buf, int len);
-extern unsigned int func_0209477C(const char *s);
-extern int strnicmp(const char *s1, const char *s2, unsigned int n);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern void SBReleaseStr(SBServerList *slist, char *str);
@@ -174,6 +169,9 @@ extern unsigned char __lower_mapC[];
 
 
 
+extern int strcmp(const char *a, const char *b);
+extern int atoi(u32 a0);
+extern int strnicmp(const char *s1, const char *s2, unsigned int n);
 int RefStringHash(void *elem, int numbuckets)
 {
     return StringHash(*(char **)elem, numbuckets);
@@ -302,14 +300,14 @@ int func_0219E120(SBServer *server, char *key, int idefault)
 
     if (server == 0)
         return idefault;
-    if (func_020948E0(key, g_021A8158) == 0)
+    if (strcmp(key, g_021A8158) == 0)
         return SBServerGetPing(server);
     s = func_0219E0C0((SBServer *)server, key, 0);
     if (s == 0)
         return idefault;
     if (!isdigit(*(unsigned char *)(*s != 0x2d ? s : s + 1)))
         return idefault;
-    return func_020964E0((u32)s);
+    return atoi((u32)s);
 }
 
 
@@ -521,7 +519,7 @@ void func_0219E3CC(SBServer *server, char *data, int len)
                 func_0219E01C(server, tempkey, data);
                 data += dlen;
                 len -= dlen;
-                k += func_0209477C(k) + 1;
+                k += strlen(k) + 1;
             }
         }
     }
@@ -552,7 +550,7 @@ void func_0219E5B8(SBServer *server, char *data, int len)
     k = data;
     data += dlen;
     len -= dlen;
-    if (strnicmp(g_021A816C, k, func_0209477C(g_021A816C)) != 0)
+    if (strnicmp(g_021A816C, k, strlen(g_021A816C)) != 0)
         return;
 
     if (len < 1)

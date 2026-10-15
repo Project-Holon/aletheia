@@ -1,5 +1,5 @@
 /*
- * function: func_0205EA44
+ * function: DWCi_AC_GetNintendoShopWepKey
  * address:  0x0205EA44
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -16,13 +16,13 @@
  *   makeShopWepKey                   0x0205ec2c arm
  */
 
-extern void func_0205EB30(char *ssid, unsigned char *buf);
+extern void decodeSSID(char *ssid, unsigned char *buf);
 extern void func_0205EC2C(unsigned char *seed, unsigned char *wepkey);
 
-void func_0205EA44(char *ssid, unsigned char *wep)
+void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep)
 {
     unsigned char buf[24];
 
-    func_0205EB30(ssid, buf);
+    decodeSSID(ssid, buf);
     func_0205EC2C(buf, wep);
 }

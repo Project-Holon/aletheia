@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207C788",
+   "name": "FX_InvFx64c",
    "address": "0x0207C788",
    "kind": "sdk",
    "region": "arm9",

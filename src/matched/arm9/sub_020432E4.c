@@ -10,7 +10,7 @@
  *
  * status:   EXACT
  *
- * The companion of sub_02043264: the same set / add / subtract triple, but
+ * The companion of BG_SYS_Apply: the same set / add / subtract triple, but
  * on the two 32-bit registers at +0x24 and +0x28 and for opcodes 9..14.
  * The table is rebased with a leading `sub r1, r1, #9`, so no empty low
  * arms are needed here.

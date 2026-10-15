@@ -1,5 +1,5 @@
 /*
- * function: func_021780A8
+ * function: DWC_Auth_Abort
  * address:  0x021780A8
  * packet:   pkt_ov009_021780A8
  * region:   ov009
@@ -17,7 +17,7 @@
  *   func_021797D4  0x021797D4  arm  ov009
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_JoinThread  0x02085710  arm
- *   g_021AB184     0x021AB184  data
+ *   gDwcAuthGlobal     0x021AB184  data
  */
 
 #include "../include/G_DWCAuthGlobal.h"
@@ -37,7 +37,7 @@ struct DWCAuthCtx {
 	int abort_flag;
 };
 
-extern struct DWCAuthGlobal g_021AB184;
+extern struct DWCAuthGlobal gDwcAuthGlobal;
 
 extern void OS_LockMutex(void *mutex);
 extern void func_02086078(void *mutex);
@@ -45,18 +45,18 @@ extern void func_021797D4(void *http);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_JoinThread(void *thread);
 
-void func_021780A8(void)
+void DWC_Auth_Abort(void)
 {
-	if (g_021AB184.ctx == 0)
+	if (gDwcAuthGlobal.ctx == 0)
 		return;
-	OS_LockMutex(&g_021AB184.ctx->mutex);
-	g_021AB184.ctx->abort_flag = 1;
-	func_02086078(&g_021AB184.ctx->mutex);
-	if (g_021AB184.ctx->http != 0)
-		func_021797D4(g_021AB184.ctx->http);
-	if (g_021AB184.ctx->started == 0)
+	OS_LockMutex(&gDwcAuthGlobal.ctx->mutex);
+	gDwcAuthGlobal.ctx->abort_flag = 1;
+	func_02086078(&gDwcAuthGlobal.ctx->mutex);
+	if (gDwcAuthGlobal.ctx->http != 0)
+		func_021797D4(gDwcAuthGlobal.ctx->http);
+	if (gDwcAuthGlobal.ctx->started == 0)
 		return;
-	if (OS_IsThreadTerminated(g_021AB184.ctx->thread) != 0)
+	if (OS_IsThreadTerminated(gDwcAuthGlobal.ctx->thread) != 0)
 		return;
-	OS_JoinThread(g_021AB184.ctx->thread);
+	OS_JoinThread(gDwcAuthGlobal.ctx->thread);
 }

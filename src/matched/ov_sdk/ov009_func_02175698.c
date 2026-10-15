@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0219EC74  0x0219EC74  arm  ov009
+ *   ServerBrowserNewA  0x0219EC74  arm  ov009
  *   DWCi_HandleSBError  0x02173D9C  arm  ov009
  *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   func_021719D0  0x021719D0  arm  ov009
@@ -34,7 +34,7 @@ typedef struct MatchCnt {
 } MatchCnt;
 
 extern int func_02175F3C(void);
-extern int func_0219EC74(int a, int b, int c, int d, int e, int f, int g, void (*cb)(void), int h);
+extern int ServerBrowserNewA(int a, int b, int c, int d, int e, int f, int g, void (*cb)(void), int h);
 extern int DWCi_HandleSBError(int err);
 extern void DWCi_SetMatchStatus(int status);
 extern int func_021719D0(int a, int b);
@@ -47,7 +47,7 @@ void DWCi_ConnectToGameServerAsync_InterChange(void)
 
     ((MatchCnt *)func_02175F3C())->f14 = 3;
     if (((MatchCnt *)func_02175F3C())->f5E0 == 0) {
-        ((MatchCnt *)func_02175F3C())->f5E0 = func_0219EC74(((MatchCnt *)func_02175F3C())->f684, ((MatchCnt *)func_02175F3C())->f684,
+        ((MatchCnt *)func_02175F3C())->f5E0 = ServerBrowserNewA(((MatchCnt *)func_02175F3C())->f684, ((MatchCnt *)func_02175F3C())->f684,
                                               ((MatchCnt *)func_02175F3C())->f688, 0, 20, 1, 0,
                                               (void (*)(void))DWCi_SBCallback, 0);
     }

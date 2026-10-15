@@ -1,5 +1,5 @@
 /*
- * function: func_0220AFDC
+ * function: B_APP_TOOL_SetActorsVisible
  * address:  0x0220AFDC
  * packet:   pkt_0220AFDC
  * region:   ov196
@@ -17,7 +17,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
-void func_0220AFDC(char *p, void *v)
+void B_APP_TOOL_SetActorsVisible(char *p, void *v)
 {
     if (((struct Obj14540 *)p)->f14 != v)
     {

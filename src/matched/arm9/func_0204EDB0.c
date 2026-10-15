@@ -1,5 +1,5 @@
 /*
- * function: func_0204EDB0
+ * function: BILLBOARD_SetField24
  * address:  0x0204EDB0
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -23,7 +23,7 @@
 
 typedef unsigned char u8;
 
-void func_0204EDB0(u8 *dst, u8 *src)
+void BILLBOARD_SetField24(u8 *dst, u8 *src)
 {
     ((struct Obj16116 *)dst)->f24 = *src;
 }

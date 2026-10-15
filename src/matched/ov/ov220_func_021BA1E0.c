@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1E0
+ * function: TH_AWARD_GRAPHIC_GetActor
  * address: 0x021BA1E0
  * packet: pkt_ov220_021BA1E0
  * region: ov220
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA310 0x021BA310 thumb ov220
+ *   TH_AWARD_GRAPHIC_GetValue 0x021BA310 thumb ov220
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021BA310(u32*);
-u32 func_021BA1E0(u8*p){return func_021BA310((u32*)(p+4));}
+extern u32 TH_AWARD_GRAPHIC_GetValue(u32*);
+u32 TH_AWARD_GRAPHIC_GetActor(u8*p){return TH_AWARD_GRAPHIC_GetValue((u32*)(p+4));}

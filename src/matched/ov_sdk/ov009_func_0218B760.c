@@ -16,9 +16,9 @@
  *   func_0218949C  0x0218949C  arm   ov009
  *   func_0218998C  0x0218998C  arm   ov009
  *   func_0217EB9C  0x0217EB9C  arm   ov009
- *   func_0217EB2C  0x0217EB2C  arm   ov009
- *   func_02180E48  0x02180E48  arm   ov009
- *   func_02181748  0x02181748  arm   ov009
+ *   closesocket  0x0217EB2C  arm   ov009
+ *   gsUdpEngineIsInitialized  0x02180E48  arm   ov009
+ *   gsUdpEngineRemoveMsgHandler  0x02181748  arm   ov009
  *   func_02181828  0x02181828  arm   ov009
  *   func_02181874  0x02181874  arm   ov009
  *   func_02181530  0x02181530  arm   ov009
@@ -70,9 +70,9 @@ extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
 extern int func_0218998C(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 extern int func_0217EB9C(int sock, int how);
-extern int func_0217EB2C(int sock);
-extern int func_02180E48(void);
-extern int func_02181748(char *theHeader);
+extern int closesocket(int sock);
+extern int gsUdpEngineIsInitialized(void);
+extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
 extern int func_02181828(void);
 extern int func_02181874(void);
 extern int func_02181530(void);
@@ -105,7 +105,7 @@ void func_0218B760(void **connection, int tellServer)
         func_0218998C(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {
             func_0217EB9C(iconnection->cmSocket, 2);
-            func_0217EB2C(iconnection->cmSocket);
+            closesocket(iconnection->cmSocket);
             iconnection->cmSocket = -1;
         }
         iconnection->connectState = 4;
@@ -113,8 +113,8 @@ void func_0218B760(void **connection, int tellServer)
         iconnection->profileid = 0;
     }
 
-    if (func_02180E48()) {
-        func_02181748(iconnection->mHeader);
+    if (gsUdpEngineIsInitialized()) {
+        gsUdpEngineRemoveMsgHandler(iconnection->mHeader);
         if (func_02181828() && func_02181874())
             func_02181530();
     }

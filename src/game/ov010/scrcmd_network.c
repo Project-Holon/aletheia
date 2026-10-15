@@ -17,14 +17,14 @@
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
  *   FIELDMAP_CheckCommExit  0x02189734  thumb
  *   func_020307B0  0x020307B0  arm
@@ -46,7 +46,7 @@
  *   SCRIPT_WORK_GetReturnFlag  0x0215911C  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   func_02012844  0x02012844  thumb
+ *   GAME_DATA_GetField158  0x02012844  thumb
  *   func_0215A480  0x0215A480  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcEventId  0x02162788  thumb  ov010
  *   func_0215A490  0x0215A490  thumb  ov010
@@ -80,20 +80,20 @@
  *   d_021B9E54     0x021B9E54  data  ov205
  *   d_021B9BA0     0x021B9BA0  data  ov182
  *   MOVE_POKEMON_SpawnPendingEntries  0x0215E580  thumb  ov010
- *   func_02012934   0x02012934  thumb
+ *   GAME_DATA_GetMyParty   0x02012934  thumb
  *   GAME_DATA_GetPlayTime   0x02012FCC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C3B8  0x0200C3B8  thumb
+ *   BEACON_SetGatePoints  0x0200C3B8  thumb
  *   func_02034AC4 0x02034AC4 arm
  *   EVENT_MAPCHANGE_CreateByMode 0x02183B6C thumb ov020
  *   EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent      0x0218571C  thumb  ov020
  *   abs_id_14      0x00000014  data
  *   GF_OVERLAY_Load   0x02034AC4  arm
  *   GF_OVERLAY_Unload   0x02034A5C  arm
- *   func_020129B8  0x020129B8  thumb
+ *   GAME_DATA_SetSubscreenType  0x020129B8  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
@@ -131,7 +131,7 @@
  *   MOVE_POKEMON_CreateSkillEvent  0x0215EA38  thumb  ov010
  *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_020129D0  0x020129D0  thumb
+ *   GAME_DATA_SetFrameRate  0x020129D0  thumb
  *   SCRCMD_NETWORK_sRecordKindByFrameRate     0x021712AC  data
  *   FIELD_SUBSCREEN_SetMenuSelectedButton   0x021A12BC  thumb
  */
@@ -352,9 +352,9 @@ extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *chi
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
 extern void GAME_EVENT_Change(struct GameEvent *event, EventTaskFn taskFn, u32 workSize);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const void *procData, void *procArg);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
-extern struct GameComm *func_02012138(struct GameSystem *gameSystem);
+extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
+extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 commBlocked);
 extern u32 func_0201214C(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 alwaysNet);
@@ -363,15 +363,15 @@ extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, co
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
-extern struct PokeParty *func_02012934(struct GameData *gameData);
+extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
 extern int GAME_DATA_GetPlayTime(struct GameData *gameData);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern struct EventDataSystem *func_02012844(struct GameData *gameData);
-extern struct EventWork *func_0201296C(struct GameData *gameData);
+extern struct EventDataSystem *GAME_DATA_GetField158(struct GameData *gameData);
+extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetSituationWarpId(struct GameData *gameData);
 extern void *GAME_DATA_GetEventState(struct GameData *gameData);
-extern void func_020129B8(struct GameData *gameData, u32 subscreenType);
-extern void func_020129D0(struct GameData *gameData, u8 frameRate);
+extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 subscreenType);
+extern void GAME_DATA_SetFrameRate(struct GameData *gameData, u8 frameRate);
 
 /* game comm, config, misc */
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
@@ -381,7 +381,7 @@ extern int FIELDMAP_CheckCommExit(struct GameComm *gameComm);
 extern int func_0202EB44(void);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
 extern int CONFIG_GetAppliedFlag(struct Config *config);
-extern int func_0200C3B8(struct MiscSave *miscSave, int value);
+extern int BEACON_SetGatePoints(struct MiscSave *miscSave, int value);
 extern u32 GPOWER_GetSpecialPowerId(void);
 
 /* heap, archive, random, overlays, memory */
@@ -510,10 +510,10 @@ int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
     struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
-    struct GameComm *gameComm = func_02012138(gameSystem);
+    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
     CommWaitWork *waitWork;
 
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     waitWork = *SCRIPT_WORK_GetUserWorkPtr(scriptCtl);
     switch (FIELDMAP_CheckCommExit(gameComm)) {
     case 0:
@@ -572,7 +572,7 @@ int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScriptWork *scriptWor
     struct GameComm *gameComm;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     switch (GAME_COMM_GetKind(gameComm)) {
     case 1:
     case 2:
@@ -666,7 +666,7 @@ int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScriptWork *scri
     struct EventDataSystem *eventData;
     u16 eventKey;
 
-    eventData = func_02012844(SCRCMD_WORK_GetGameData(scriptWork));
+    eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     eventKey = table[(u16)SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB)].eventKey;
     EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlot, func_0215A480(eventKey));
@@ -686,7 +686,7 @@ int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScriptWork *
     struct EventDataSystem *eventData;
     u16 index;
 
-    eventData = func_02012844(SCRCMD_WORK_GetGameData(scriptWork));
+    eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     index = SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB);
     EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotA, func_0215A480(table[index].eventKey));
@@ -705,7 +705,7 @@ int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScriptWork *scr
     u32 row0 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     u32 row1 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     u32 row2 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
-    struct EventDataSystem *eventData = func_02012844(SCRCMD_WORK_GetGameData(scriptWork));
+    struct EventDataSystem *eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
     NpcTableRow *table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
 
     EVENTDATA_SYSTEM_SetNpcObjCode(eventData, slot0, table[row0].objCode);
@@ -726,7 +726,7 @@ int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScriptWork *scrip
     NpcTableRow *table;
 
     scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
-    eventWork = func_0201296C(func_020120F4(SCRIPT_WORK_GetGameSystem(scriptCtl)));
+    eventWork = GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptCtl)));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     for (i = 0; i < NPC_TABLE_ROW_COUNT; i++)
         func_0215A500(eventWork, table[i].eventKey);
@@ -854,7 +854,7 @@ int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *wo
 
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem)
 {
-    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     struct GameEvent *event = func_020122C0(gameSystem, 0, SCRCMD_NETWORK_CommProcEventMain, sizeof(CommProcEventWork));
     CommProcEventWork *work = func_020124E8(event);
 
@@ -886,8 +886,8 @@ int SCRCMD_NETWORK_CommBattleEventMain(struct GameEvent *event, u32 *seq, void *
     struct FieldMap *fieldMap;
 
     GAME_DATA_GetSaveControl(work->gameData);
-    fieldMap = func_0201210C(work->gameSystem);
-    gameComm = func_02012138(work->gameSystem);
+    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
+    gameComm = ICA_ANIME_GetField24(work->gameSystem);
     switch (work->step) {
     case COMM_BATTLE_STEP_PREPARE:
         if (work->mode == 1)
@@ -963,7 +963,7 @@ int SCRCMD_NETWORK_CommBattleEventMain(struct GameEvent *event, u32 *seq, void *
 
 struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSystem, int mode)
 {
-    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     struct GameEvent *event = func_020122C0(gameSystem, 0, SCRCMD_NETWORK_CommBattleEventMain, 0x7C);
     CommBattleWork *work = func_020124E8(event);
 
@@ -985,7 +985,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSy
 /* Caches the party, status and play time of the game data for the ov180 proc. */
 void SCRCMD_NETWORK_InitCommBattleOv180Param(CommBattleWork *work)
 {
-    work->ov180Param.myParty = func_02012934(work->gameData);
+    work->ov180Param.myParty = GAME_DATA_GetMyParty(work->gameData);
     work->ov180Param.myStatus = func_02012944(work->gameData);
     work->ov180Param.playTime = GAME_DATA_GetPlayTime(work->gameData);
 }
@@ -1079,7 +1079,7 @@ int SCRCMD_NETWORK_SetupMiscSave(CommBattleWork *work)
 {
     struct MiscSave *miscSave = GAME_DATA_GetMiscSave(work->gameData);
 
-    return func_0200C3B8(miscSave, 0x5a0);
+    return BEACON_SetGatePoints(miscSave, 0x5a0);
 }
 
 
@@ -1158,9 +1158,9 @@ int SCRCMD_NETWORK_WifiProcEventMain(struct GameEvent *event, u32 *seq, void *wo
 {
     WifiProcWork *work = workArg;
     struct GameSystem *gameSystem = work->gameSystem;
-    struct GameComm *gameComm = func_02012138(gameSystem);
-    struct GameData *gameData = func_020120F4(gameSystem);
-    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct FieldMap *fieldMap = ICA_ANIME_GetField20(gameSystem);
 
     switch (*seq) {
     case 0:
@@ -1183,7 +1183,7 @@ int SCRCMD_NETWORK_WifiProcEventMain(struct GameEvent *event, u32 *seq, void *wo
         switch (work->entryKind) {
         case 0:
             if (INTRUDE_COMM_GetWorkIfRunning(gameComm) && work->exitKind == 2)
-                func_020129B8(gameData, 3);
+                GAME_DATA_SetSubscreenType(gameData, 3);
             *seq = 6;
             break;
         case 1:
@@ -1261,7 +1261,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSyst
         GAME_EVENT_Change(event, SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     }
     work = func_020124E8(event);
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     work->gameData = gameData;
     work->saveControl = GAME_DATA_GetSaveControl(gameData);
     work->gameSystem = gameSystem;
@@ -1345,9 +1345,9 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(work->fieldMap)) == 1) {
             moveModelSys = FIELDMAP_GetMmdlSys(work->fieldMap);
-            gameData = func_020120F4(GAME_EVENT_GetGameSystem(event));
+            gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event));
             FLDMMDL_SysPauseMove(moveModelSys);
-            func_020129D0(gameData, 1);
+            GAME_DATA_SetFrameRate(gameData, 1);
             FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(work->fieldMap), 1);
             work->state = 1;
         }
@@ -1363,9 +1363,9 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
         }
         break;
     case 2:
-        gameData = func_020120F4(GAME_EVENT_GetGameSystem(event));
+        gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event));
         frameRate = FIELD_SUBSCREEN_GetMenuSelectedButton(FIELDMAP_GetSubscreen(work->fieldMap));
-        func_020129D0(gameData, frameRate);
+        GAME_DATA_SetFrameRate(gameData, frameRate);
         work->frameRate = FIELD_SUBSCREEN_GetMenuSelectedButton(FIELDMAP_GetSubscreen(work->fieldMap));
         work->request.kind = SCRCMD_NETWORK_GetRecordKindByFrameRate(frameRate);
         work->state = 5;
@@ -1379,7 +1379,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
         return 1;
     case 4:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
-        MOVE_POKEMON_InitSkillInfo(func_0201210C(work->gameSystem), &info);
+        MOVE_POKEMON_InitSkillInfo(ICA_ANIME_GetField20(work->gameSystem), &info);
         MOVE_POKEMON_InitSkillTarget(&target, work->request.partySlot, work->request.next, work->request.targetParam);
         skillEvent = MOVE_POKEMON_CreateSkillEvent(work->request.next, &target, &info);
         if (skillEvent == 0)
@@ -1450,19 +1450,19 @@ int SCRCMD_NETWORK_RecordLinkOnClose(ShortcutRequest *request, RecordLinkWork *w
 
 int SCRCMD_NETWORK_RecordLinkOnFinish(ShortcutRequest *request, RecordLinkWork *work)
 {
-    struct GameData *gameData = func_020120F4(work->gameSystem);
+    struct GameData *gameData = ICA_ANIME_GetField1C(work->gameSystem);
 
     switch (request->result) {
     case 4:
-        func_020129B8(gameData, 6);
+        GAME_DATA_SetSubscreenType(gameData, 6);
         break;
     case 0:
-        func_020129B8(gameData, 1);
+        GAME_DATA_SetSubscreenType(gameData, 1);
         break;
     case 1:
     case 2:
     case 3:
-        func_020129B8(gameData, (u8)work->linkMode);
+        GAME_DATA_SetSubscreenType(gameData, (u8)work->linkMode);
         break;
     default:
         break;

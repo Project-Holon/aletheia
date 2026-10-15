@@ -1,5 +1,5 @@
 /*
- * function: func_021B622C
+ * function: LOCAL_TVT_SYS_Main
  * address: 0x021B622C
  * packet: pkt_ov174_021B622C
  * region: ov174
@@ -13,11 +13,11 @@
  * symbols:
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_021B6A90 0x021B6A90 thumb ov174
- *   func_021B6F2C 0x021B6F2C thumb ov174
- *   func_021B6F24 0x021B6F24 thumb ov174
- *   func_021B6D3C 0x021B6D3C thumb ov174
- *   func_021B687C 0x021B687C thumb ov174
+ *   LOCAL_TVT_SYS_RunStep 0x021B6A90 thumb ov174
+ *   LOCAL_TVT_CHARA_IsDone 0x021B6F2C thumb ov174
+ *   LOCAL_TVT_CHARA_SetActive 0x021B6F24 thumb ov174
+ *   LOCAL_TVT_CHARA_Update 0x021B6D3C thumb ov174
+ *   LOCAL_TVT_SYS_UpdateText 0x021B687C thumb ov174
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 #include "../include/Obj00152.h"
@@ -38,13 +38,13 @@ static inline void G2_SetBG3Control256x16Affine(GXBGScrSize256x16Pltt size,GXBGA
 }
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_021B6A90(u8 *);
-extern int func_021B6F2C(int,char *);
-extern void func_021B6F24(u8 *,u8 *,int);
-extern void func_021B6D3C(u8 *,u8 *);
-extern void func_021B687C(u8 *);
+extern void LOCAL_TVT_SYS_RunStep(u8 *);
+extern int LOCAL_TVT_CHARA_IsDone(int,char *);
+extern void LOCAL_TVT_CHARA_SetActive(u8 *,u8 *,int);
+extern void LOCAL_TVT_CHARA_Update(u8 *,u8 *);
+extern void LOCAL_TVT_SYS_UpdateText(u8 *);
 extern void CLACT_DrawSystem(void);
-int func_021B622C(u8 *p)
+int LOCAL_TVT_SYS_Main(u8 *p)
 {
     GXBGCharBase a,b;
     unsigned state;
@@ -65,7 +65,7 @@ int func_021B622C(u8 *p)
         if(WIPE_SYS_EndCheck()==1) return 1;
         break;
     case 4:
-        func_021B6A90(p);
+        LOCAL_TVT_SYS_RunStep(p);
         break;
     }
     if(p[14]<20) p[14]++;
@@ -77,7 +77,7 @@ int func_021B622C(u8 *p)
         ((struct Obj00152 *)p)->f14=0;
         p[14]=0;
     }
-    if(*(char * *)&((struct Obj00152 *)p)->f2C!=0 && func_021B6F2C((int)p,*(char * *)&((struct Obj00152 *)p)->f2C)==1)
+    if(*(char * *)&((struct Obj00152 *)p)->f2C!=0 && LOCAL_TVT_CHARA_IsDone((int)p,*(char * *)&((struct Obj00152 *)p)->f2C)==1)
         *(char * *)&((struct Obj00152 *)p)->f2C=0;
     if(*(int *)&((struct Obj00152 *)p)->f2C==0) {
         state=*(unsigned *)&((struct Obj00152 *)p)->f14;
@@ -86,7 +86,7 @@ int func_021B622C(u8 *p)
             u32 index=(u8)state*4;
             u32 table=(u32)p+28;
             if(*(u8 **)(table+index)!=0) {
-                func_021B6F24(p,*(u8 **)(table+index),p[13]);
+                LOCAL_TVT_CHARA_SetActive(p,*(u8 **)(table+index),p[13]);
                 *(u8 * *)&((struct Obj00152 *)p)->f2C=*(u8 **)(table+index);
                 if(((struct Obj00152 *)p)->f8==2 && ((struct Obj00152 *)p)->f14==1) ((struct Obj00152 *)p)->f14=4;
                 else (((struct Obj00152 *)p)->f14)++;
@@ -96,9 +96,9 @@ int func_021B622C(u8 *p)
         }
     }
     for(i=0;i<((struct Obj00152 *)p)->f8;i++) {
-        if(*(u8 **)(p+28+i*4)!=0) func_021B6D3C(p,*(u8 **)(p+28+i*4));
+        if(*(u8 **)(p+28+i*4)!=0) LOCAL_TVT_CHARA_Update(p,*(u8 **)(p+28+i*4));
     }
-    func_021B687C(p);
+    LOCAL_TVT_SYS_UpdateText(p);
     CLACT_DrawSystem();
     return 0;
 }

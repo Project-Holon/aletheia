@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_0217ED64  0x0217ED64  arm   ov009
- *   func_0217ED54  0x0217ED54  arm   ov009
+ *   GSISocketSelect  0x0217ED64  arm   ov009
+ *   GOAGetLastError  0x0217ED54  arm   ov009
  *   ghiCallProgressCallback  0x021C02C8  arm   ov114
  *   sGhttpWaiting     0x021CF204  data  ov114
  */
@@ -32,8 +32,8 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0217ED64(int, int *, int *, int *);
-extern int func_0217ED54(int sock);
+extern int GSISocketSelect(int, int *, int *, int *);
+extern int GOAGetLastError(int sock);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
 extern char sGhttpWaiting[];
 
@@ -44,12 +44,12 @@ void ghiDoWaiting(GHIConnection *connection)
     int exceptFlag;
 
     func_0217D254(8, (char *)3, 16, sGhttpWaiting);
-    rcode = func_0217ED64(connection->f50, &readFlag, 0, &exceptFlag);
+    rcode = GSISocketSelect(connection->f50, &readFlag, 0, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag)) {
         connection->f124 = 1;
         connection->f40 = 5;
         if (rcode == -1)
-            connection->f54 = func_0217ED54(connection->f50);
+            connection->f54 = GOAGetLastError(connection->f50);
         else
             connection->f54 = 0;
         return;

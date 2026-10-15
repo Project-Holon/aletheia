@@ -1,5 +1,5 @@
 /*
- * function: sub_0200AD00
+ * function: IRC_RANKING_UpdateEntryMeetCount
  * address:  0x0200AD00
  * packet:   pkt_0200AD00
  * region:   arm9
@@ -16,7 +16,7 @@
  * EXACT*: the listing extent runs to 156 bytes because the function at
  * 0x0200AD6C that follows saves nothing and therefore carries no label
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); this file
- * reproduces the 108 bytes of sub_0200AD00 itself, code and both pool words.
+ * reproduces the 108 bytes of IRC_RANKING_UpdateEntryMeetCount itself, code and both pool words.
  * The unlabelled follower at 0x0200AD6C should be seeded into
  * layout/function_starts.txt by the integrator.
  *
@@ -40,7 +40,7 @@
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md -- a 10-bit
  * unsigned BITFIELD at bit 7, not a hand-rolled mask.  Declaring the whole
  * packed word as the `struct Entry` bitfields the family header already
- * evidences (func_0200A8D0/A8E4/A8F8 in src/matched/unit_0200A864.c prove the
+ * evidences (IRC_RANKING_GetEntryScore/A8E4/A8F8 in src/matched/unit_0200A864.c prove the
  * 7/10/1 widths) takes the row from 94 concrete bytes out to 2 in one edit,
  * and also drops the lr push: the hand-written version needed a spill the
  * bitfield form does not.
@@ -51,11 +51,11 @@
  * #0x14]`, and the natural-reading `e->unk14 != ref->unk14` gives them the
  * other way round.  This is docs/idioms/cmp-operand-order-names-the-temporary.md
  * and it is the THIRD function in this family to turn on it
- * (src/matched/func_0200ABE0.c and src/matched/func_0200AA00.c are the others).
+ * (src/matched/IRC_RANKING_HasEntryByTrainerId.c and src/matched/IRC_RANKING_GetDateScore.c are the others).
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_0200AD00.c \
- *       --func sub_0200AD00 --addr 0x0200AD00 --cc 1.1p1 --thumb
+ *       --func IRC_RANKING_UpdateEntryMeetCount --addr 0x0200AD00 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -72,7 +72,7 @@ struct Entry {
     u8  f1B_7 : 1;
 };
 
-void sub_0200AD00(struct Entry *base, int n, struct Entry *ref)
+void IRC_RANKING_UpdateEntryMeetCount(struct Entry *base, int n, struct Entry *ref)
 {
     int i;
 

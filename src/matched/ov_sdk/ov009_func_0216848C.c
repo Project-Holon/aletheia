@@ -12,18 +12,18 @@
  * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length.
  *
  * symbols:
- *   func_02094A28  0x02094A28  arm
+ *   strchr  0x02094A28  arm
  *   func_02168454  0x02168454  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  */
 
-extern char *func_02094A28(const char *s, int c);
+extern char *strchr(const char *s, int c);
 extern int func_02168454(const char *key, const char *value, char *string, char sep);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 
 int func_0216848C(const char *key, const char *value, char *string, char sep)
 {
-    func_02168454(key, value, func_02094A28(string, 0), sep);
-    return func_0209477C((const u8 *)string);
+    func_02168454(key, value, strchr(string, 0), sep);
+    return strlen((const u8 *)string);
 }

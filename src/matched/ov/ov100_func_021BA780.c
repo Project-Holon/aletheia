@@ -12,7 +12,7 @@
  *   but the original explicitly supplies it, so the caller retains it.
  * symbols:
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   IRCBATTLEMATCH_InitWindowSystem 0x021BA624 thumb ov100
  *   IRCBATTLEMATCH_SetupDisplay 0x021BA028 thumb ov100
  *   STRBUF_Create 0x020457B0 arm
@@ -66,7 +66,7 @@ extern void IRCBATTLEMATCH_LoadActorResources(char *);
 extern void IRCBATTLEMATCH_CreateActor(int,int,int,int,int);
 extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
 struct WordSet;
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -93,7 +93,7 @@ void IRCBATTLEMATCH_InitScreen(char *p) {
  void *resource;
  int i;
  GF_FONT_SetDefaultTextColor();
- ((struct Obj00178 *)p)->f28C=(int)func_0201EC74(11,200,((struct Obj00178 *)p)->f278);
+ ((struct Obj00178 *)p)->f28C=(int)WORDSET_Create(11,200,((struct Obj00178 *)p)->f278);
  IRCBATTLEMATCH_InitWindowSystem((unsigned int)p);IRCBATTLEMATCH_SetupDisplay(p);
  ((struct Obj00178 *)p)->f298=(int)STRBUF_Create(200,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f294=(int)STRBUF_Create(200,((struct Obj00178 *)p)->f278);

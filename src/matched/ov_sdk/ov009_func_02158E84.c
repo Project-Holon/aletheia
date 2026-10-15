@@ -16,7 +16,7 @@
  *   MI_CpuCopy               0x02082EA4  arm
  *   OS_WakeupThreadDirect    0x02085868  arm
  *   OS_RestoreInterrupts     0x0208799C  arm
- *   g_02150FEC               0x02150FEC  data
+ *   gMslRefToken               0x02150FEC  data
  */
 
 struct _OSThread;
@@ -39,7 +39,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void OS_WakeupThreadDirect(struct _OSThread *thread);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int g_02150FEC;
+extern int gMslRefToken;
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 
@@ -50,7 +50,7 @@ void process_icmp_reply(unsigned char *iphdr, unsigned char *icmpdata, unsigned 
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
-	for (t = *(struct _OSThread **)((char *)&g_02150FEC + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
+	for (t = *(struct _OSThread **)((char *)&gMslRefToken + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
 		soc = *(struct _CPSSoc **)((char *)t + 0xa4);
 		if (soc != 0 && soc->thread != 0 && soc->state == 0xb &&
 		    *(unsigned short *)(icmpdata + 4) == (unsigned short)(unsigned long)soc->thread &&

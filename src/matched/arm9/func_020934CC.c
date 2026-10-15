@@ -1,5 +1,5 @@
 /*
- * function: func_020934CC
+ * function: float2str
  * address:  0x020934CC
  * packet:   pkt_020929E8
  * region:   arm9
@@ -13,27 +13,27 @@
  *           0x020934CC is the home-area push {r0,r1,r2,r3}; the listing
  *           label sits four bytes late at 0x020934D0.  Wants a seed at
  *           0x020934CC and the 0x020934D0 label removed.  Callees:
- *           func_020972F0 = __num2dec, func_020933B8 = round_decimal,
+ *           __dtoa = __num2dec, round_decimal = round_decimal,
  *           0x0209B9A0 = the runtime double `<` (__dcmp_4).  isupper() is
  *           an INLINE FUNCTION over __ctype_map, not a macro: as a macro
  *           its 0 arm is CSE'd with the 0.0 argument of `num < 0` and kept
  *           in r4 across the call (8 bytes short).  The inf/nan strcpy's
  *           are mwcc's __memcpy intrinsic from non-const char[N] externs
- *           (see func_02092F0C.c).  radix_marker is the constant '.'.
+ *           (see double2hex.c).  radix_marker is the constant '.'.
  *
  * symbols:
- *   func_020933B8  0x020933B8  arm
- *   func_020972F0  0x020972F0  arm
+ *   round_decimal  0x020933B8  arm
+ *   __dtoa  0x020972F0  arm
  *   _dls           0x0209B9A0  arm
  *   __ctype_map    0x020A61DC  data  a2
- *   s_020A8A40     0x020A8A40  data  a1
- *   s_020A8A48     0x020A8A48  data  a1
- *   s_020A8A50     0x020A8A50  data  a1
- *   s_020A8A54     0x020A8A54  data  a1
- *   s_020A8A58     0x020A8A58  data  a1
- *   s_020A8A60     0x020A8A60  data  a1
- *   s_020A8A68     0x020A8A68  data  a1
- *   s_020A8A6C     0x020A8A6C  data  a1
+ *   sMslNegInf     0x020A8A40  data  a1
+ *   sMslNegInfLower     0x020A8A48  data  a1
+ *   sMslPosInf     0x020A8A50  data  a1
+ *   sMslPosInfLower     0x020A8A54  data  a1
+ *   sMslNegNan     0x020A8A58  data  a1
+ *   sMslNegNanLower     0x020A8A60  data  a1
+ *   sMslPosNan     0x020A8A68  data  a1
+ *   sMslPosNanLower     0x020A8A6C  data  a1
  */
 typedef struct {
     unsigned char justification_options;
@@ -56,22 +56,22 @@ typedef struct {
 
 typedef struct { char c[5]; } Str5;
 typedef struct { char c[4]; } Str4;
-extern char s_020A8A40[5]; /* "-INF" */
-extern char s_020A8A48[5]; /* "-inf" */
-extern char s_020A8A50[4]; /* "INF"  */
-extern char s_020A8A54[4]; /* "inf"  */
-extern char s_020A8A58[5]; /* "-NAN" */
-extern char s_020A8A60[5]; /* "-nan" */
-extern char s_020A8A68[4]; /* "NAN"  */
-extern char s_020A8A6C[4]; /* "nan"  */
+extern char sMslNegInf[5]; /* "-INF" */
+extern char sMslNegInfLower[5]; /* "-inf" */
+extern char sMslPosInf[4]; /* "INF"  */
+extern char sMslPosInfLower[4]; /* "inf"  */
+extern char sMslNegNan[5]; /* "-NAN" */
+extern char sMslNegNanLower[5]; /* "-nan" */
+extern char sMslPosNan[4]; /* "NAN"  */
+extern char sMslPosNanLower[4]; /* "nan"  */
 
 extern const unsigned short __ctype_map[];
 static inline int isupper(int c) { return ((c < 0 || c >= 0x80) ? 0 : (__ctype_map[c] & 0x200)); }
 
-extern void func_020972F0(const decform *f, double x, decimal *d);
-extern void func_020933B8(decimal *d, int digits);
+extern void __dtoa(const decform *f, double x, decimal *d);
+extern void round_decimal(decimal *d, int digits);
 
-unsigned char *func_020934CC(double num, unsigned char *buff, print_format format)
+unsigned char *float2str(double num, unsigned char *buff, print_format format)
 {
     decimal dec;
     decform form;
@@ -85,7 +85,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
 
     form.style = 0;
     form.digits = 0x20;
-    func_020972F0(&form, num, &dec);
+    __dtoa(&form, num, &dec);
 
     p = dec.sig.text + dec.sig.length;
     while (dec.sig.length > 1 && *--p == '0') {
@@ -101,30 +101,30 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
         if (num < 0) {
             p = buff - 5;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A40, 5);
+                __memcpy(p, sMslNegInf, 5);
             else
-                __memcpy(p, s_020A8A48, 5);
+                __memcpy(p, sMslNegInfLower, 5);
         } else {
             p = buff - 4;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A50, 4);
+                __memcpy(p, sMslPosInf, 4);
             else
-                __memcpy(p, s_020A8A54, 4);
+                __memcpy(p, sMslPosInfLower, 4);
         }
         return p;
     case 'N':
         if (dec.sgn) {
             p = buff - 5;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A58, 5);
+                __memcpy(p, sMslNegNan, 5);
             else
-                __memcpy(p, s_020A8A60, 5);
+                __memcpy(p, sMslNegNanLower, 5);
         } else {
             p = buff - 4;
             if (isupper(format.conversion_char))
-                __memcpy(p, s_020A8A68, 4);
+                __memcpy(p, sMslPosNan, 4);
             else
-                __memcpy(p, s_020A8A6C, 4);
+                __memcpy(p, sMslPosNanLower, 4);
         }
         return p;
     }
@@ -138,7 +138,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
     case 'g':
     case 'G':
         if (dec.sig.length > format.precision)
-            func_020933B8(&dec, format.precision);
+            round_decimal(&dec, format.precision);
 
         if (dec.exp < -4 || dec.exp >= format.precision) {
             if (format.alternate_form)
@@ -165,7 +165,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
     case 'E':
     e_format:
         if (dec.sig.length > format.precision + 1)
-            func_020933B8(&dec, format.precision + 1);
+            round_decimal(&dec, format.precision + 1);
 
         n = dec.exp;
         sign = '+';
@@ -212,7 +212,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
             frac_digits = 0;
 
         if (frac_digits > format.precision) {
-            func_020933B8(&dec, dec.sig.length - (frac_digits - format.precision));
+            round_decimal(&dec, dec.sig.length - (frac_digits - format.precision));
             if ((frac_digits = -dec.exp + dec.sig.length - 1) < 0)
                 frac_digits = 0;
         }

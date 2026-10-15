@@ -18,7 +18,7 @@
  * symbols:
  *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb  ov021
  *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
+ *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   _ll_mul        0x0209C054  arm
  *   FX_SinCosTable_   0x020A1B38  data  a2
@@ -38,7 +38,7 @@ typedef struct Vec { s32 x, y, z; } Vec;
 
 extern u32 FLD_SCENEAREA_GetCamera(u8 *p);
 extern void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
-extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
+extern void VEC_Subtract(const Vec *a, const Vec *b, Vec *out);
 extern void VEC_Normalize(const Vec *v, Vec *out);
 extern void FIELD_CAMERA_SetTarget(u32 a, Vec *v);
 extern void FIELD_CAMERA_SetEyeRaw(u32 a, Vec *v);
@@ -70,7 +70,7 @@ void FLD_SCENEAREA_LOADER_ApplySectorCamera(u32 a0, const u8 *p, const Vec *q)
     a.y = 0;
     b = *q;
     b.y = 0;
-    func_0207CA00(&b, &a, &b);
+    VEC_Subtract(&b, &a, &b);
     VEC_Normalize(&b, &n);
     t0 = FX_SinCosTable_[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2];
     a.y = y;

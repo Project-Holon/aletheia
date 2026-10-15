@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02197700",
+   "name": "gti2SendClientResponse",
    "address": "0x02197700",
    "kind": "sdk",
    "region": "ov009",

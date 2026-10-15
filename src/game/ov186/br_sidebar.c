@@ -43,7 +43,7 @@
  *   gBrSidebarAssertString 0x02200D88 data a4
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
- *   func_0203F684 0x0203F684 arm
+ *   GF_STANDARD_Get_F684 0x0203F684 arm
  *   CLACT_GetActorScaleAxis 0x0204B5E4 arm
  */
 #include "br_types.h"
@@ -78,7 +78,7 @@ extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 spa
 
 extern s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis);
 
-extern s16 func_0203F684(u16);
+extern s16 GF_STANDARD_Get_F684(u16);
 
 extern u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which);
 
@@ -318,7 +318,7 @@ void BR_SIDEBAR_UpdateBounce(struct BrSidebarSlot *slot)
             slot->state=3;
             slot->counter=0;
         }else{
-            slot->posFixed+=-direction*func_0203F684(slot->angle*65535/360);
+            slot->posFixed+=-direction*GF_STANDARD_Get_F684(slot->angle*65535/360);
             slot->angle+=32;
             slot->angle%=360;
             CLACT_SetActorSurfacePosAxis(slot->actor,slot->posFixed>>12,(u16)(slot->config.space),0);
@@ -374,7 +374,7 @@ void BR_SIDEBAR_UpdateWobble(struct BrSidebarSlot *slot)
     case 1:
         direction=-1;
         if(slot->config.reverse!=0)direction=1;
-        position=slot->posFixed+-(signed char)direction*(func_0203F684((u16)(slot->angle*65535/360))*3);
+        position=slot->posFixed+-(signed char)direction*(GF_STANDARD_Get_F684((u16)(slot->angle*65535/360))*3);
         slot->angle+=slot->config.phaseStep;
         slot->angle%=360;
         CLACT_SetActorSurfacePosAxis(slot->actor,position>>12,(u16)(slot->config.space),0);

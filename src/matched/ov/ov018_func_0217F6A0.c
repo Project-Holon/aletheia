@@ -22,7 +22,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomMsgWin  0x021907A8  thumb  ov021
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
@@ -40,7 +40,7 @@
  *   INTRUDE_FIELD_GetStartKind  0x0217BF28  thumb  ov018
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   MSGDATA_Delete  0x02045C04  arm
  */
@@ -78,7 +78,7 @@ void INTRUDE_FIELD_InitStartParam(void *p);
 u32 FIELDMAP_GetMsgBg(u8 *p);
 int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 int FIELD_MSGBG_CreateBottomMsgWin(void *a0, int a1);
-struct WordSet *func_0201EC64(u32 heap);
+struct WordSet *GF_FONT_Create_EC64(u32 heap);
 void GFL_USE_PlaySeDefaultVolume(u32 a);
 u8 GAME_DATA_GetIntrudeIdByte(void *p);
 int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
@@ -96,7 +96,7 @@ int INTRUDE_COMM_SendReady(int a, int b);
 u8 INTRUDE_FIELD_GetStartKind(u8 *p);
 int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
 u32 KEY_GetTrg(void);
-u32 func_0201ED04(struct WordSet *p);
+u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 int FIELD_MSGBG_DeleteMsgWin(void *a);
 u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -135,7 +135,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         g = (void *)FIELDMAP_GetMsgBg(t);
         c->f0 = FIELD_MSGBG_CreateMsgData((int)g, 0x2D);
         c->f4 = FIELD_MSGBG_CreateBottomMsgWin(g, c->f0);
-        c->f8 = (int)func_0201EC64(4);
+        c->f8 = (int)GF_FONT_Create_EC64(4);
         GFL_USE_PlaySeDefaultVolume(0x547);
         if (w == 0 || GAME_DATA_GetIntrudeIdByte(s) == GAME_DATA_GetExitMode(s)) {
             FIELD_MSGBG_MsgWinPrintMsg(c->f4, 0, 0, 0x49);
@@ -188,7 +188,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         break;
     case 6:
         if (KEY_GetTrg() & 0xF3) {
-            func_0201ED04((struct WordSet *)c->f8);
+            WORDSET_DeleteStrbufED04((struct WordSet *)c->f8);
             FIELD_MSGBG_DeleteMsgWin((void *)c->f4);
             MSGDATA_Delete((struct Rec *)c->f0);
             (*state)++;

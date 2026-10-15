@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_scrdraw.c
  * unit:     yes
- * function: func_021C59DC, func_021C59E4, func_021C59EC, func_021C59F4, func_021C5A4C, func_021C5A60, func_021C5AAC, func_021C5B0C, func_021C5B98, func_021C5C8C, func_021C5E14, func_021C5E2C
+ * function: WF2DMAP_SCRDRAW_SetPoint, WF2DMAP_SCRDRAW_GetPointY, WF2DMAP_SCRDRAW_GetPointX, WF2DMAP_SCRDRAW_CreateBitmapDesc, WF2DMAP_SCRDRAW_DeleteBitmapDesc, WF2DMAP_SCRDRAW_UpdatePosition, WF2DMAP_SCRDRAW_LoadPalette, WF2DMAP_SCRDRAW_SetScroll, WF2DMAP_SCRDRAW_DrawTilesClipped, WF2DMAP_SCRDRAW_DrawTilesWrapped, WF2DMAP_SCRDRAW_GetMode, WF2DMAP_SCRDRAW_GetTileSource
  * address:  0x021C59DC
  * region:   ov127
  * compiler: dsi/1.1p1
@@ -15,21 +15,18 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
- *   d_021C6144 0x021C6144 data a1
+ *   sWf2dmapScrdrawFileName 0x021C6144 data a1
  *   func_020307B0  0x020307B0  arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
- *   d_021C60C4 0x021C60C4 data a4
+ *   sWf2dmapPaletteDesc 0x021C60C4 data a4
  *   func_020403F4 0x020403F4 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_02041300 0x02041300 arm
  *   func_020410D0 0x020410D0 arm
  */
-#include "../../matched/include/Obj23060.h"
-#include "../../matched/include/Obj02840.h"
-#include "../../matched/include/Obj14033.h"
 
 typedef signed short s16;
 
@@ -39,63 +36,101 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct { void *f0; u32 f4; void *f8; u32 fC, f10, f14, f18; } Obj;
-
 typedef signed int     s32;
 
-typedef struct { u32 a[4]; u8 b[12]; u32 c; } Descriptor;
-
 typedef signed char s8;
+
+/* Screen point; this file stores the y coordinate first (see SetPoint). */
+typedef struct Wf2dmapPoint {
+    s16 y;                  /* 0x00 */
+    s16 x;                  /* 0x02 */
+} Wf2dmapPoint;
+
+/* Bitmap (2D char) resource descriptor built by CreateBitmapDesc (0x1C bytes). */
+typedef struct Wf2dmapBitmapDesc {
+    void *src;              /* 0x00: tile data */
+    u32 count;              /* 0x04: byte count */
+    void *palette;          /* 0x08: palette data loaded from the archive */
+    u32 paletteOut;         /* 0x0C: archive loader output */
+    u32 type;               /* 0x10: resource byte 0 */
+    u32 resourceId;         /* 0x14: resource byte 1 */
+    u32 pad_18;             /* 0x18: never read in this file */
+} Wf2dmapBitmapDesc;
+
+/* Resource record copied from sWf2dmapPaletteDesc before LoadPalette fills it. */
+typedef struct Wf2dmapResourceDesc {
+    u32 words[4];           /* 0x00 */
+    u8 bytes[12];           /* 0x10 */
+    u32 tail;               /* 0x1C */
+} Wf2dmapResourceDesc;
+
+/* Pixel size header of a 2D char resource; the tile data follows at +12. */
+typedef struct Wf2dmapCharSize {
+    u16 widthPx;            /* 0x00 */
+    u16 heightPx;           /* 0x02 */
+} Wf2dmapCharSize;
+
+/* Screen surface the scroll drawer works on. */
+typedef struct Wf2dmapSurface {
+    void *owner;            /* 0x00: CLACT owner */
+    void *surface;          /* 0x04: passed to the tile drawer */
+    u8 pad_8[4];            /* 0x08 */
+    void *size;             /* 0x0C: Wf2dmapCharSize of the surface */
+    int flag;               /* 0x10: 0 = sub screen, else main screen at y+192 */
+    int layer;              /* 0x14: layer passed to the tile drawer */
+    u16 tileX;              /* 0x18: last drawn tile column */
+    u16 tileY;              /* 0x1A: last drawn tile row */
+} Wf2dmapSurface;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_020307B0(void *p);
 extern void CLACT_SetSurfacePos(void *,int,void *);
 extern void func_020403F4(u32 i);
-extern void func_0203FCA0(u8,void *,int);
+extern void BG_SYS_InitBgLayer(u8,void *,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041B6C(u32 bit);
-extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void func_02041300(u8,int,int,int,u8,u8,u8);
 extern void func_020410D0(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
-void func_021C59DC(s16 *p, s16 a, s16 b);
-int func_021C59E4(const s16 *p);
-int func_021C59EC(const s16 *p);
-Obj *func_021C59F4(void *p, u32 n, const u8 *q, u32 heap);
-void func_021C5A4C(u8 *p);
-void func_021C5A60(char *p,void *q);
-void func_021C5AAC(void *unused, u32 id, u8 *p);
-void func_021C5B0C(char *p,int x,int y);
-void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y);
-void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height);
-int func_021C5E14(unsigned int a, unsigned int b);
-char *func_021C5E2C(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out);
-extern const char d_021C6144[];
-extern const Descriptor d_021C60C4;
+void WF2DMAP_SCRDRAW_SetPoint(Wf2dmapPoint *p, s16 y, s16 x);
+int WF2DMAP_SCRDRAW_GetPointY(const Wf2dmapPoint *p);
+int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p);
+Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const u8 *res, u32 heap);
+void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *desc);
+void WF2DMAP_SCRDRAW_UpdatePosition(char *surface,void *point);
+void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res);
+void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y);
+void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,unsigned int charRes,s16 x,s16 y);
+void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *surface, u8 layer, u8 x, u8 y, u8 w, u8 h, void *tiles, u8 sx, u8 sy, int width, int height);
+int WF2DMAP_SCRDRAW_GetMode(unsigned int width, unsigned int height);
+char *WF2DMAP_SCRDRAW_GetTileSource(char *tiles, u8 x, u8 y, unsigned mode, int w, int h, u16 *out);
+extern const char sWf2dmapScrdrawFileName[];
+extern const Wf2dmapResourceDesc sWf2dmapPaletteDesc;
 
-void func_021C59DC(s16 *p, s16 a, s16 b) { p[0]=a; p[1]=b; }
+void WF2DMAP_SCRDRAW_SetPoint(Wf2dmapPoint *p, s16 y, s16 x) { p->y=y; p->x=x; }
 
-int func_021C59E4(const s16 *p) { return p[0]; }
+int WF2DMAP_SCRDRAW_GetPointY(const Wf2dmapPoint *p) { return p->y; }
 
-int func_021C59EC(const s16 *p) { return p[1]; }
+int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p) { return p->x; }
 
-Obj *func_021C59F4(void *p, u32 n, const u8 *q, u32 heap)
+Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const u8 *res, u32 heap)
 {
-    Obj *o = func_02030734((u16)heap, 28, 1, d_021C6144, 104);
-    o->f0 = p;
-    o->f4 = n;
-    o->f10 = q[0];
-    o->f14 = q[1];
-    func_021C5AAC((void *)n, q[1], (u8 *)q);
-    o->f8 = ARC_UTIL_LoadPaletteDataFromArchive(q[8], q[9], q[10], (u32)(&o->fC), heap);
-    return o;
+    Wf2dmapBitmapDesc *desc = func_02030734((u16)heap, 28, 1, sWf2dmapScrdrawFileName, 104);
+    desc->src = src;
+    desc->count = count;
+    desc->type = res[0];
+    desc->resourceId = res[1];
+    WF2DMAP_SCRDRAW_LoadPalette((void *)count, res[1], (u8 *)res);
+    desc->palette = ARC_UTIL_LoadPaletteDataFromArchive(res[8], res[9], res[10], (u32)(&desc->paletteOut), heap);
+    return desc;
 }
 
 
-void func_021C5A4C(u8 *p)
+void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *desc)
 {
-    func_020307B0(((struct Obj23060 *)p)->f8);
-    func_020307B0(p);
+    func_020307B0(((Wf2dmapBitmapDesc *)desc)->palette);
+    func_020307B0(desc);
 }
 
 /*
@@ -108,51 +143,51 @@ void func_021C5A4C(u8 *p)
  *       it[index].x=x<<12; p=&it[index]; p->y=y<<12;
  *   }
  */
-void func_021C5A60(char *p,void *q)
+void WF2DMAP_SCRDRAW_UpdatePosition(char *surface,void *point)
 {
     int y,x;
     struct { s16 x,y; } pos;
-    y=func_021C59E4(q);
-    x=func_021C59EC(q);
+    y=WF2DMAP_SCRDRAW_GetPointY(point);
+    x=WF2DMAP_SCRDRAW_GetPointX(point);
     pos.x=x;
     pos.y=y;
-    if(*(int *)(p+16)==0) CLACT_SetSurfacePos(*(void **)p,0,&pos);
-    else { pos.y+=192; CLACT_SetSurfacePos(*(void **)p,1,&pos); }
-    func_021C5B0C(p,x,y);
+    if(((Wf2dmapSurface *)surface)->flag==0) CLACT_SetSurfacePos(((Wf2dmapSurface *)surface)->owner,0,&pos);
+    else { pos.y+=192; CLACT_SetSurfacePos(((Wf2dmapSurface *)surface)->owner,1,&pos); }
+    WF2DMAP_SCRDRAW_SetScroll(surface,x,y);
 }
 
-void func_021C5AAC(void *unused, u32 id, u8 *p)
+void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res)
 {
-    Descriptor d;
-    d=d_021C60C4;
-    d.b[1]=p[2]; d.b[2]=p[3]; d.b[3]=p[4];
-    d.b[8]=p[5]; d.b[9]=p[6]; d.b[10]=0; d.c=p[7];
+    Wf2dmapResourceDesc desc;
+    desc=sWf2dmapPaletteDesc;
+    desc.bytes[1]=res[2]; desc.bytes[2]=res[3]; desc.bytes[3]=res[4];
+    desc.bytes[8]=res[5]; desc.bytes[9]=res[6]; desc.bytes[10]=0; desc.tail=res[7];
     func_020403F4((u8)id);
-    func_0203FCA0(id,&d,0);
+    BG_SYS_InitBgLayer(id,&desc,0);
     func_02040588(id,1);
 }
 
-void func_021C5B0C(char *p,int x,int y)
+void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y)
 {
     s16 tx,ty,rx,ry;
     tx=x/8; ty=y/8; rx=x%8; ry=y%8;
-    if(tx!=((struct Obj02840 *)p)->f18||ty!=((struct Obj02840 *)p)->f1A) {
-        ((struct Obj02840 *)p)->f1A=ty; ((struct Obj02840 *)p)->f18=tx;
-        func_021C5B98(((struct Obj02840 *)p)->f4,((struct Obj02840 *)p)->f14,(unsigned int)(((struct Obj02840 *)p)->fC),-tx,-ty);
-        func_02041B6C((u8)(((struct Obj02840 *)p)->f14));
+    if(tx!=((Wf2dmapSurface *)surface)->tileX||ty!=((Wf2dmapSurface *)surface)->tileY) {
+        ((Wf2dmapSurface *)surface)->tileY=ty; ((Wf2dmapSurface *)surface)->tileX=tx;
+        WF2DMAP_SCRDRAW_DrawTilesClipped(((Wf2dmapSurface *)surface)->surface,((Wf2dmapSurface *)surface)->layer,(unsigned int)(((Wf2dmapSurface *)surface)->size),-tx,-ty);
+        func_02041B6C((u8)(((Wf2dmapSurface *)surface)->layer));
     }
-    func_02041EE4((u8)(((struct Obj02840 *)p)->f14),(int)0,(int)rx);
-    func_02041EE4((u8)(((struct Obj02840 *)p)->f14),(int)3,(int)ry);
+    BG_SYS_ResetSlot((u8)(((Wf2dmapSurface *)surface)->layer),(int)0,(int)rx);
+    BG_SYS_ResetSlot((u8)(((Wf2dmapSurface *)surface)->layer),(int)3,(int)ry);
 }
 
 /*
- * extent: Two bytes of zero alignment padding precede func_021C5C8C.
+ * extent: Two bytes of zero alignment padding precede WF2DMAP_SCRDRAW_DrawTilesWrapped.
  * lever: Integer address q spills; a pointer q consumes the clipping register.
  */
-void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
+void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,unsigned int charRes,s16 x,s16 y)
 {
-    s16 width=((struct Obj14033 *)q)->f0/8;
-    s16 height=((struct Obj14033 *)q)->f2/8;
+    s16 width=((Wf2dmapCharSize *)charRes)->widthPx/8;
+    s16 height=((Wf2dmapCharSize *)charRes)->heightPx/8;
     s16 sx,sy,w,h;
     if(x<0) sx=-x; else sx=0;
     if(y<0) sy=-y; else sy=0;
@@ -163,26 +198,26 @@ void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
     if(width<sx+w) w-= (s16)(sx+w-width);
     if(height<sy+h) h-= (s16)(sy+h-height);
     func_02041300(layer,0,0,0,33,25,17);
-    q+=12;
-    func_021C5C8C(p,layer,x,y,w,h,(void *)q,sx,sy,(u8)width,(u8)height);
+    charRes+=12;
+    WF2DMAP_SCRDRAW_DrawTilesWrapped(surface,layer,x,y,w,h,(void *)charRes,sx,sy,(u8)width,(u8)height);
 }
 
 /*
  * note 2026-10-05 wD4 lane03: EXACT. Keys: width/height are int params (word prologue copy, raw in call 1);
  *   func_020410D0 declared (u8 x5, void *, u8, u8, u32, u32) in this unit, so out[] (s16) is cast (u8) in call 2;
  *   mode is unsigned (int mode coalesced with the call temp and took the lowest slot); ox/oy are int;
- *   sy/y advance by (u8)n (the listing truncates n before both adds); u8 params for tx/ty in func_021C5E2C.
+ *   sy/y advance by (u8)n (the listing truncates n before both adds); u8 params for tx/ty in GetTileSource.
  */
-void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height)
+void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *surface, u8 layer, u8 x, u8 y, u8 w, u8 h, void *tiles, u8 sx, u8 sy, int width, int height)
 {
     s16 out[2];
     int ox, oy;
     s8 hh, n;
     unsigned mode;
     s8 ccx, ww, cs, cx, m, tx, ty, cw, ccs;
-    mode = func_021C5E14(width, height);
+    mode = WF2DMAP_SCRDRAW_GetMode(width, height);
     if (mode == 0) {
-        func_020410D0(layer, x, y, w, h, q, sx, sy, width, height);
+        func_020410D0(layer, x, y, w, h, tiles, sx, sy, width, height);
         return;
     }
     hh = h;
@@ -214,7 +249,7 @@ void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8
             }
             tx = ccs / 32;
             func_020410D0(layer, ccx, y, m, n,
-                func_021C5E2C(q, tx, ty, mode, width, height, (u16 *)out),
+                WF2DMAP_SCRDRAW_GetTileSource(tiles, tx, ty, mode, width, height, (u16 *)out),
                 ox, oy, (u8)out[0], (u8)out[1]);
             ccs = ccs + m;
             ccx = ccx + m;
@@ -225,41 +260,41 @@ void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8
 }
 
 
-int func_021C5E14(unsigned int a, unsigned int b)
+int WF2DMAP_SCRDRAW_GetMode(unsigned int width, unsigned int height)
 {
     int r;
 
-    if (a <= 0x20) {
+    if (width <= 0x20) {
         r = 0;
-        if (b > 0x20)
+        if (height > 0x20)
             r = 2;
     } else {
         r = 1;
-        if (b > 0x20)
+        if (height > 0x20)
             r = 3;
     }
     return r;
 }
 
-char *func_021C5E2C(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out)
+char *WF2DMAP_SCRDRAW_GetTileSource(char *tiles, u8 x, u8 y, unsigned mode, int w, int h, u16 *out)
 {
     u16 offset;
     switch(mode) {
-    case 0: out[0]=w; out[1]=h; return p;
+    case 0: out[0]=w; out[1]=h; return tiles;
     case 1:
         out[0]=(x+1)*32<=w?32:w-x*32;
         out[1]=h;
-        return p+(s16)(h*64)*x;
+        return tiles+(s16)(h*64)*x;
     case 2:
         out[0]=w;
         out[1]=(y+1)*32<=h?32:h-y*32;
-        return p+(s16)(w*64)*y;
+        return tiles+(s16)(w*64)*y;
     case 3:
         out[0]=(x+1)*32<=w?32:w-x*32;
         out[1]=(y+1)*32<=h?32:h-y*32;
         if(y==0) { offset=0; if(x!=0) offset+=2048; }
         else { offset=(u16)(w*64); if(x!=0) offset+=(u16)(h*64); }
-        return p+offset;
+        return tiles+offset;
     }
     return 0;
 }

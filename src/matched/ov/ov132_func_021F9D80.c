@@ -1,5 +1,5 @@
 /*
- * function: func_021F9D80
+ * function: STA_ACTING_ShowAnim
  * address:  0x021F9D80
  * packet:   pkt_021F9D80
  * region:   ov132
@@ -18,7 +18,7 @@
 
 extern void func_021FAAB8(char *p, unsigned flag);
 
-void func_021F9D80(char *p)
+void STA_ACTING_ShowAnim(char *p)
 {
     func_021FAAB8(((struct Obj23210 *)p)->fA4, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020933B8
+ * function: round_decimal
  * address:  0x020933B8
  * packet:   pkt_020929E8
  * region:   arm9
@@ -49,8 +49,8 @@
  * layout/function_starts.txt.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020933B8.c \
- *       --func func_020933B8 --addr 0x020933B8 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/round_decimal.c \
+ *       --func round_decimal --addr 0x020933B8 --arm --cc 1.1p1
  *   EXACT*, 276 bytes, no relocation sites.
  */
 
@@ -67,7 +67,7 @@ typedef struct {
     u8  str[1];
 } Ctr;
 
-void func_020933B8(Ctr *b, s32 idx)
+void round_decimal(Ctr *b, s32 idx)
 {
     u8 *p;
     u8 *q;

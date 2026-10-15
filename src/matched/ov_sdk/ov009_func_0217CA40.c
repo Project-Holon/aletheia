@@ -1,5 +1,5 @@
 /*
- * function: func_0217CA40
+ * function: gsCoreInitialize
  * address:  0x0217CA40
  * packet:   pkt_ov009_0217CA40
  * region:   ov009
@@ -17,12 +17,12 @@
  *   msleep  0x0217F2BC  arm  ov009
  *   func_0217F0B4  0x0217F0B4  arm  ov009
  *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
- *   func_020912A8  0x020912A8  arm
+ *   MSL_C_LIB_LockRegisterDestructor  0x020912A8  arm
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   ghttpStartup  0x021C1FF8  arm  ov114
- *   func_0217CA2C  0x0217CA2C  arm  ov009
+ *   gsiCoreAtExitShutdown  0x0217CA2C  arm  ov009
  */
 
 typedef unsigned char u8;
@@ -41,14 +41,14 @@ extern void *gsiCoreGetManager(void);
 extern void msleep(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
 extern void gsiInitializeCriticalSection(void *mutex);
-extern u32 func_020912A8(u32 a0);
+extern u32 MSL_C_LIB_LockRegisterDestructor(u32 a0);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ghttpStartup(void);
-extern void func_0217CA2C(void);
+extern void gsiCoreAtExitShutdown(void);
 
-void func_0217CA40(void)
+void gsCoreInitialize(void)
 {
     GSCoreMgr *aCore = gsiCoreGetManager();
 
@@ -57,7 +57,7 @@ void func_0217CA40(void)
     if (func_0217F0B4(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             gsiInitializeCriticalSection(aCore->mQueueCrit);
-            func_020912A8((u32)func_0217CA2C);
+            MSL_C_LIB_LockRegisterDestructor((u32)gsiCoreAtExitShutdown);
             aCore->mIsStaticInitComplete = 1;
         }
         gsiEnterCriticalSection(aCore->mQueueCrit);

@@ -22,10 +22,10 @@
  *   func_02007210  0x02007210  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_021DFC20  0x021DFC20  thumb  ov228
- *   func_021DFE90  0x021DFE90  thumb  ov228
- *   func_021DFEB0  0x021DFEB0  thumb  ov228
- *   func_021DFDB8  0x021DFDB8  thumb  ov228
+ *   SAVE_OUTSIDE_Load  0x021DFC20  thumb  ov228
+ *   SAVE_OUTSIDE_IsLoaded  0x021DFE90  thumb  ov228
+ *   SAVE_OUTSIDE_CopyPayload  0x021DFEB0  thumb  ov228
+ *   SAVE_OUTSIDE_Free  0x021DFDB8  thumb  ov228
  *   GAMESYSTEM_SetupInitWork  0x02011EEC  thumb
  *   NAMEIN_SETUP_FreeArgs  0x0216C0C0  thumb  ov010
  *   func_020315D4  0x020315D4  arm
@@ -60,10 +60,10 @@ extern void func_0203133C(struct S020314B8 *p);
 extern u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
-extern void *func_021DFC20(u32 heap);
-extern u8 func_021DFE90(u8 *p);
-extern void func_021DFEB0(char *p, void *ctrl);
-extern void func_021DFDB8(void *);
+extern void *SAVE_OUTSIDE_Load(u32 heap);
+extern u8 SAVE_OUTSIDE_IsLoaded(u8 *p);
+extern void SAVE_OUTSIDE_CopyPayload(char *p, void *ctrl);
+extern void SAVE_OUTSIDE_Free(void *);
 extern void *GAMESYSTEM_SetupInitWork(u32 a0, u16 a1, struct Rec12 *a2, int a3);
 extern int NAMEIN_SETUP_FreeArgs(int);
 struct S020315D4;
@@ -86,10 +86,10 @@ int STARTMENU_NewGameIntroEnd(int a, int b, int c, char *t)
     func_0203133C((struct S020314B8 *)((struct Obj03676 *)t)->f30);
     if (func_02007210(r4) == 1) {
         func_02034AC4((int)ov228_id);
-        r6 = func_021DFC20(1);
-        if (func_021DFE90(r6) == 1)
-            func_021DFEB0(r6, r4);
-        func_021DFDB8(r6);
+        r6 = SAVE_OUTSIDE_Load(1);
+        if (SAVE_OUTSIDE_IsLoaded(r6) == 1)
+            SAVE_OUTSIDE_CopyPayload(r6, r4);
+        SAVE_OUTSIDE_Free(r6);
         func_02034A5C((int)ov228_id);
     }
     r4 = GAMESYSTEM_SetupInitWork(0, 0, &z, 0);

@@ -1,7 +1,7 @@
 /*
  * file:     wm_mp.c
  * unit:     yes
- * function: func_0208FA28, func_0208FBA8, func_0208FC4C, WM_SetMPDataToPortEx, WM_EndMP
+ * function: func_0208FA28, WM_StartMPEx, WM_StartMP, WM_SetMPDataToPortEx, WM_EndMP
  * address:  0x0208FA28
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -147,8 +147,8 @@ extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...);
 WMErrCode WMi_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, WMMPTmpParam *tmpParam);
-WMErrCode func_0208FBA8(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError);
-WMErrCode func_0208FC4C(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq);
+WMErrCode WM_StartMPEx(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError);
+WMErrCode WM_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq);
 WMErrCode WM_SetMPDataToPortEx(WMCallbackFunc callback, void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
 WMErrCode WM_EndMP(WMCallbackFunc callback);
 
@@ -228,7 +228,7 @@ WMErrCode WMi_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u1
  * sdk:      WM_StartMPEx (libwm.TWL.HYB.a(wm_mp.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208FBA8(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError)
+WMErrCode WM_StartMPEx(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError)
 {
     WMMPTmpParam tmpParam;
 
@@ -253,7 +253,7 @@ WMErrCode func_0208FBA8(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, 
  * sdk:      WM_StartMP (libwm.TWL.HYB.a(wm_mp.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208FC4C(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq)
+WMErrCode WM_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq)
 {
     WMMPTmpParam tmpParam;
 

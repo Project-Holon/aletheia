@@ -20,9 +20,9 @@
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200BFA4  0x0200BFA4  thumb
+ *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
@@ -52,9 +52,9 @@ int ZONEDATA_IsZoneInTableDFC0(int v);
 struct t;
 void ZONEDATA_SetZoneStartLocation(struct t *p, int id);
 void *GAME_DATA_GetSaveControl(struct Big *p);
-u16 *func_0200BE48(void *p);
+u16 *INTRUDE_GetFromSave(void *p);
 int GAME_DATA_GetPlayTime(int p0);
-u64 func_0200BFA4(u8 *p, void *x, u32 n);
+u64 INTRUDE_UpdatePlaySeconds(u8 *p, void *x, u32 n);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 u32 GAME_COMM_GetCounter(void *p);
 u32 GAME_COMM_GetKind(void *obj);
@@ -77,8 +77,8 @@ static inline void *finish(void *a, void *r4, void *r6, void *ret)
 {
     u16 *t;
     void *h;
-    t = func_0200BE48(GAME_DATA_GetSaveControl(r4));
-    func_0200BFA4((u8 *)t, (void *)GAME_DATA_GetPlayTime((int)r4), 1);
+    t = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(r4));
+    INTRUDE_UpdatePlaySeconds((u8 *)t, (void *)GAME_DATA_GetPlayTime((int)r4), 1);
     h = (void *)GAMESYSTEM_GetGameComm(a);
     GAME_COMM_GetCounter(h);
     if (GAME_COMM_GetKind(h) == 0)

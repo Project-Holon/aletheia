@@ -1,7 +1,7 @@
 /*
  * file:     wm_standard.c
  * unit:     yes
- * function: func_0208F224, func_0208F234, func_0208F2A0, func_0208F2E4, func_0208F328, WM_Initialize, WM_InitializeForListening, func_0208F398, WM_Reset, WM_End, WM_SetParentParameter, func_0208F578, func_0208F5C8, WM_StartParent, func_0208F654, WM_StartScanEx, func_0208F808, WM_StartConnectEx, WM_Disconnect
+ * function: WM_Enable, WMi_EnableEx, WM_Disable, WM_PowerOn, WM_PowerOff, WM_Initialize, WM_InitializeForListening, WMi_InitializeEx, WM_Reset, WM_End, WM_SetParentParameter, WmCheckParentParameter, WMi_StartParentEx, WM_StartParent, WM_EndParent, WM_StartScanEx, WM_EndScan, WM_StartConnectEx, WM_Disconnect
  * address:  0x0208F224
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -166,23 +166,21 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-int func_0208F224(WMCallbackFunc callback);
-WMErrCode func_0208F234(WMCallbackFunc callback, u32 miscFlags);
-WMErrCode func_0208F2A0(WMCallbackFunc callback);
-WMErrCode func_0208F2E4(WMCallbackFunc callback);
-WMErrCode func_0208F328(WMCallbackFunc callback);
+int WM_Enable(WMCallbackFunc callback);
+WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags);
+WMErrCode WM_Disable(WMCallbackFunc callback);
+WMErrCode WM_PowerOn(WMCallbackFunc callback);
+WMErrCode WM_PowerOff(WMCallbackFunc callback);
 WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo);
 WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink);
-WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
 WMErrCode WM_Reset(WMCallbackFunc callback);
 WMErrCode WM_End(WMCallbackFunc callback);
 WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf);
-BOOL func_0208F578(WMParentParam *param);
-WMErrCode func_0208F5C8(WMCallbackFunc callback, BOOL powerSave);
+WMErrCode WMi_StartParentEx(WMCallbackFunc callback, BOOL powerSave);
 int WM_StartParent(unsigned char aid);
-WMErrCode func_0208F654(WMCallbackFunc callback);
+WMErrCode WM_EndParent(WMCallbackFunc callback);
 WMErrCode WM_StartScanEx(WMCallbackFunc callback, const WMScanExParam *param);
-WMErrCode func_0208F808(WMCallbackFunc callback);
+WMErrCode WM_EndScan(WMCallbackFunc callback);
 WMErrCode WM_StartConnectEx(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode);
 WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid);
 
@@ -190,9 +188,9 @@ WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid);
 /*
  * sdk:      FATFS_FormatDrive (libfatfs.TWL.HYB.a fatfs_api.o)
  */
-int func_0208F224(WMCallbackFunc callback)
+int WM_Enable(WMCallbackFunc callback)
 {
-    return func_0208F234(callback, 0);
+    return WMi_EnableEx(callback, 0);
 }
 
 
@@ -203,7 +201,7 @@ int func_0208F224(WMCallbackFunc callback)
  * sdk:      WMi_EnableEx (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F234(WMCallbackFunc callback, u32 miscFlags)
+WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags)
 {
     WMErrCode result;
     WMArm9Buf *p;
@@ -232,7 +230,7 @@ WMErrCode func_0208F234(WMCallbackFunc callback, u32 miscFlags)
  * sdk:      WM_Disable (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F2A0(WMCallbackFunc callback)
+WMErrCode WM_Disable(WMCallbackFunc callback)
 {
     WMErrCode result;
 
@@ -258,7 +256,7 @@ WMErrCode func_0208F2A0(WMCallbackFunc callback)
  * sdk:      WM_PowerOn (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F2E4(WMCallbackFunc callback)
+WMErrCode WM_PowerOn(WMCallbackFunc callback)
 {
     WMErrCode result;
 
@@ -283,7 +281,7 @@ WMErrCode func_0208F2E4(WMCallbackFunc callback)
  * sdk:      WM_PowerOff (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F328(WMCallbackFunc callback)
+WMErrCode WM_PowerOff(WMCallbackFunc callback)
 {
     WMErrCode result;
 
@@ -305,7 +303,7 @@ WMErrCode func_0208F328(WMCallbackFunc callback)
 
 WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo)
 {
-    return func_0208F398(wmSysBuf, callback, dmaNo, 0);
+    return WMi_InitializeEx(wmSysBuf, callback, dmaNo, 0);
 }
 
 
@@ -334,7 +332,7 @@ WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16
  * sdk:      WMi_InitializeEx (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags)
+WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags)
 {
     WMErrCode result;
     WMArm9Buf *p;
@@ -458,7 +456,7 @@ WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  *           static in the object (local symbol WmCheckParentParameter)
  */
-BOOL func_0208F578(WMParentParam *param)
+BOOL WmCheckParentParameter(WMParentParam *param)
 {
     if (param->userGameInfoLength > 0x70) {
         return 0;
@@ -479,7 +477,7 @@ BOOL func_0208F578(WMParentParam *param)
  * sdk:      WMi_StartParentEx (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F5C8(WMCallbackFunc callback, BOOL powerSave)
+WMErrCode WMi_StartParentEx(WMCallbackFunc callback, BOOL powerSave)
 {
     WMErrCode result;
     WMArm9Buf *w9b;
@@ -525,7 +523,7 @@ int WM_StartParent(unsigned char aid)
  * sdk:      WM_EndParent (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F654(WMCallbackFunc callback)
+WMErrCode WM_EndParent(WMCallbackFunc callback)
 {
     WMErrCode result;
 
@@ -614,7 +612,7 @@ WMErrCode WM_StartScanEx(WMCallbackFunc callback, const WMScanExParam *param)
  * sdk:      WM_EndScan (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F808(WMCallbackFunc callback)
+WMErrCode WM_EndScan(WMCallbackFunc callback)
 {
     WMErrCode result;
 

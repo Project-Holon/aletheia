@@ -44,6 +44,9 @@
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
+ *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
+ *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
+ *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
  */
 struct SaveWork;
 struct SaveBlockCtrl;
@@ -137,9 +140,9 @@ extern void func_020072A4(struct SaveBlockCtrl *save_ctrl, u32 block_id);
 extern u32 func_020307B0(void *mem);
 extern void GAME_DATA_PartSaveStart(u8 *game_sys, u32 block_id);
 extern int GAME_DATA_PartSaveMain(char *game_sys, int block_id);
-extern void *func_0200A5F8(void *save);
-extern void func_0200A7EC(struct SaveWork *profile, u8 value);
-extern u8 *func_0200A7F8(struct SaveWork *profile);
+extern void *MUSICAL_SAVE_GetFromSave(void *save);
+extern void MUSICAL_SAVE_SetHasDistData(struct SaveWork *profile, u8 value);
+extern u8 *MUSICAL_SAVE_GetStageData(struct SaveWork *profile);
 extern void *ARC_TOOL_CreateHandleFromMemory(void *data, u32 size, u32 heap_id);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int file_id, int decompress, u32 heap_id, u32 *out_size);
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heap_id);
@@ -394,14 +397,14 @@ u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist)
             MUSICAL_DIST_SAVE_Delete(dist);
             return 1;
         }
-        profile = func_0200A5F8(GAME_DATA_GetSaveControl(dist->game_sys));
-        func_0200A7EC(profile, 1);
+        profile = MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(dist->game_sys));
+        MUSICAL_SAVE_SetHasDistData(profile, 1);
         narc = ARC_TOOL_CreateHandleFromMemory(dist->payload, dist->header.payload_size,
                              (u16)((dist->heap_id & 0x7FFF) | 0x8000));
         msg_file = ARC_UTIL_LoadHandleMemberWithSize(narc, 1, 0, (u16)((dist->heap_id & 0x7FFF) | 0x8000), &out_size);
         msg_bank = MSGDATA_CreateFromMemory(msg_file, (u16)((dist->heap_id & 0x7FFF) | 0x8000));
         msg_str = func_02045EC0(msg_bank, 0);
-        STRBUF_ToChars(msg_str, (u16 *)func_0200A7F8(profile), 0x25);
+        STRBUF_ToChars(msg_str, (u16 *)MUSICAL_SAVE_GetStageData(profile), 0x25);
         STRBUF_Delete(msg_str);
         MSGDATA_Delete(msg_bank);
         func_020307B0(msg_file);

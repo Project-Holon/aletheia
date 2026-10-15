@@ -1,5 +1,5 @@
 /*
- * function: func_0204044C
+ * function: BG_SYS_SetLowBit
  * address:  0x0204044C
  * packet:   pkt_0204044C
  * region:   arm9
@@ -18,8 +18,8 @@
  * word at the end of this function.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204044C.c \
- *       --func func_0204044C --addr 0x0204044C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetLowBit.c \
+ *       --func BG_SYS_SetLowBit --addr 0x0204044C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-void func_0204044C(u32 mode)
+void BG_SYS_SetLowBit(u32 mode)
 {
     BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile u16 *)0x04000008 =

@@ -1,5 +1,5 @@
 /*
- * function: func_021F95CC
+ * function: STA_ACTING_SetSelection
  * address:  0x021F95CC
  * packet:   pkt_021F95CC
  * region:   ov132
@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021F95CC(char *p, u8 v, int c)
+void STA_ACTING_SetSelection(char *p, u8 v, int c)
 {
     if (c == 1) {
         ((struct Obj10532 *)p)->fF0 = v;

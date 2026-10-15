@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sFldeffIwakudakiFileName  0x021DE10C  data
@@ -112,7 +112,7 @@ typedef struct GridPos {
 
 typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const GridPos *targetPos);
 
-extern void func_0207ADC4(MtxFx33 *mtx);
+extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
@@ -276,7 +276,7 @@ void FLDEFF_IWAKUDAKI_Draw(FieldEffectObj *effect, IwakudakiWork *work)
 {
     G3dObjectStatus status = sIwakudakiDrawStatus;
 
-    func_0207ADC4(&status.rotate);
+    MTX_Identity33_(&status.rotate);
     FIELD_EFFECT_GetObjectPos(effect, &status.trans);
     G3D_SYSTEM_DrawObjectCulling(work->object, &status);
 }

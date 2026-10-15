@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207E24C    0x0207E24C  arm
+ *   G2_GetBG1CharPtr    0x0207E24C  arm
  *   func_02082A7C    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   func_02062A4C    0x02062A4C  arm
@@ -18,7 +18,7 @@
  *   MIi_CpuCopy16    0x02082A60  arm
  *   func_020307B0    0x020307B0  arm
  *   func_02062B30    0x02062B30  arm
- *   func_0207DFB4    0x0207DFB4  arm
+ *   G2_GetBG1ScrPtr    0x0207DFB4  arm
  *   func_02062AD4    0x02062AD4  arm
  *   func_02062A98    0x02062A98  arm
  *
@@ -26,7 +26,7 @@
  * probe it (func_02062A4C / 02062B30 / 02062A98 with a stack out-pointer), and
  * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
  * fill it back through MIi_CpuCopy16 with the current frame-tick from the
- * getter (func_0207E24C / func_0207DFB4).  The handle is released with
+ * getter (G2_GetBG1CharPtr / G2_GetBG1ScrPtr).  The handle is released with
  * func_020307B0 after each block.
  *
  * The idiom that makes this EXACT: the word each block reads twice (p[4],
@@ -53,7 +53,7 @@ typedef unsigned int u32;
 
 typedef signed int     s32;
 struct NitroFileHeader;
-extern void *func_0207E24C(void);
+extern void *G2_GetBG1CharPtr(void);
 extern void func_02082A7C(u32 a, u32 b, u32 c);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
@@ -61,7 +61,7 @@ extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
 extern void MIi_CpuCopy16(u32 a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
 extern int func_02062B30(void *file, void **out);
-extern void *func_0207DFB4(void);
+extern void *G2_GetBG1ScrPtr(void);
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
@@ -75,17 +75,17 @@ void func_0202F870(void)
     u32 v1;
     u32 v2;
 
-    func_02082A7C(0, (u32)func_0207E24C(), 0x4000);
+    func_02082A7C(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     h = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (func_02062A4C((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
         DWCi_ScreenDC_FlushRange(p1[5], p1[4]);
-        MIi_CpuCopy16(p1[5], (u32)func_0207E24C(), v1 = p1[4]);
+        MIi_CpuCopy16(p1[5], (u32)G2_GetBG1CharPtr(), v1 = p1[4]);
     }
     func_020307B0((void *)h);
     h = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (func_02062B30((void *)h, (void **)(&p2)) != 0) {
         DWCi_ScreenDC_FlushRange((u32)p2 + 0xc, p2[2]);
-        MIi_CpuCopy16((u32)p2 + 0xc, (u32)func_0207DFB4(), v2 = p2[2]);
+        MIi_CpuCopy16((u32)p2 + 0xc, (u32)G2_GetBG1ScrPtr(), v2 = p2[2]);
     }
     func_020307B0((void *)h);
     h = ARC_UTIL_LoadMember(0x16, 0, 0, 7);

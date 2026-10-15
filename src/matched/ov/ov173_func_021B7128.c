@@ -1,5 +1,5 @@
 /*
- * function: func_021B7128
+ * function: POKE_SUMMARY_MAIN_BuildMoveList
  * address: 0x021B7128
  * packet: pkt_ov173_021B7128
  * region: ov173
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6FB4 0x021B6FB4 thumb ov173
- *   func_021B70D8 0x021B70D8 thumb ov173
+ *   POKE_SUMMARY_MAIN_CountMoves 0x021B6FB4 thumb ov173
+ *   POKE_SUMMARY_MAIN_RedrawMoveList 0x021B70D8 thumb ov173
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   func_02045B38 0x02045B38 arm
@@ -23,20 +23,20 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct ScanContext;
 struct Slot;
-extern u32 func_021B6FB4(struct ScanContext *p);
-extern void func_021B70D8(char *);
+extern u32 POKE_SUMMARY_MAIN_CountMoves(struct ScanContext *p);
+extern void POKE_SUMMARY_MAIN_RedrawMoveList(char *);
 extern void *BMP_MENUWORK_Create(u32, u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B7128(char *p)
+void POKE_SUMMARY_MAIN_BuildMoveList(char *p)
 {
     u32 i;
     u16 move;
     void *bank;
-    ((struct Obj00180 *)p)->f1B8 = func_021B6FB4((struct ScanContext *)p);
+    ((struct Obj00180 *)p)->f1B8 = POKE_SUMMARY_MAIN_CountMoves((struct ScanContext *)p);
     ((struct Obj00180 *)p)->f58 = BMP_MENUWORK_Create(((struct Obj00180 *)p)->f1B8, 0x4f);
     i = 0;
     bank = func_02045B38(0, 2, 0xcb, 0x4f);
@@ -52,5 +52,5 @@ void func_021B7128(char *p)
     MSGDATA_Delete(bank);
     ((struct Obj00180 *)p)->f1BB = 0;
     ((struct Obj00180 *)p)->f1BC = ((struct Obj24164 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f14;
-    func_021B70D8(p);
+    POKE_SUMMARY_MAIN_RedrawMoveList(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0208EC34
+ * function: WM_GetMPSendBufferSize
  * address:  0x0208EC34
  * packet:   pkt_0208EC34
  * region:   arm9
@@ -69,7 +69,7 @@ extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 
-int func_0208EC34(void)
+int WM_GetMPSendBufferSize(void)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

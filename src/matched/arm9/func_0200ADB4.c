@@ -1,5 +1,5 @@
 /*
- * function: func_0200ADB4
+ * function: WORLDTRADE_NoOp
  * address:  0x0200ADB4
  * packet:   pkt_0200ADB4
  * region:   arm9
@@ -14,6 +14,6 @@
  * Addresses are Black-image addresses.
  */
 
-void func_0200ADB4(void)
+void WORLDTRADE_NoOp(void)
 {
 }

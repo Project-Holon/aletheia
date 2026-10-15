@@ -1,5 +1,5 @@
 /*
- * function: func_02180924
+ * function: CARD_SPI_ExchangeByte
  * address:  0x02180924
  * packet:   pkt_ov231_02180924
  * region:   ov231
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020870D0  0x020870D0  arm
- *   func_02180904  0x02180904  thumb  ov231
+ *   CARD_SPI_WaitNotBusy  0x02180904  thumb  ov231
  *   _ull_mul  0x0209C054  arm
  *   _ll_udiv  0x0209C00C  arm
  */
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long long u64;
 extern u64 func_020870D0(void);
-extern void func_02180904(void);
+extern void CARD_SPI_WaitNotBusy(void);
 
-u8 func_02180924(char *p)
+u8 CARD_SPI_ExchangeByte(char *p)
 {
     u64 start;
     volatile u16 v;
@@ -31,7 +31,7 @@ u8 func_02180924(char *p)
         ;
     *(volatile u16 *)0x040001A2 = **(u8 **)(p + 4);
     *(u8 **)(p + 4) += 1;
-    func_02180904();
+    CARD_SPI_WaitNotBusy();
     v = *(volatile u16 *)0x040001A2;
     return v;
 }

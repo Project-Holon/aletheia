@@ -1,7 +1,7 @@
 /*
  * file:     br_util.c
  * unit:     yes
- * function: BR_UTIL_Create, BR_UTIL_Delete, BR_UTIL_SetTextFromMessage, BR_UTIL_SetTextFromBuffer, BR_UTIL_FlushText, BR_UTIL_SetTextLayout, BR_UTIL_AlignText, BR_UTIL_CreateListMenu, BR_UTIL_DeleteListMenu, BR_UTIL_MainListMenu, BR_UTIL_ListMenuIsScrollable, BR_UTIL_GetListMenuField48, BR_UTIL_SetListItemBitmap, BR_UTIL_GetListItemBitmap, BR_UTIL_GetListMenuField, BR_UTIL_RefreshList, BR_UTIL_DrawListRows, BR_UTIL_PollScrollDrag, BR_UTIL_BlitRows, BR_UTIL_ScrollRows, BR_UTIL_ScrollWithCursor, BR_UTIL_NeedsScroll, BR_UTIL_HasMultipleRows, BR_UTIL_HandleRowTouch, BR_UTIL_UpdateRowSelection, BR_UTIL_CreateTextWin, BR_UTIL_DeleteTextWin, BR_UTIL_SetWindowText, BR_UTIL_SetWindowTextBuf, BR_UTIL_FlushWindow, BR_UTIL_CreateProfileScreen, BR_UTIL_DeleteProfileScreen, BR_UTIL_MainProfileScreen, BR_UTIL_CreateTask, BR_UTIL_DeleteTask, BR_UTIL_RunTask, BR_UTIL_IsTaskIdle, BR_UTIL_SetTaskStep, BR_UTIL_ClearTaskStep, BR_UTIL_IsTaskStep, BR_UTIL_CreateHandles, BR_UTIL_DeleteHandles, BR_UTIL_RunHandles, BR_UTIL_StartEffect, BR_UTIL_IsEffectDone, BR_UTIL_SetHandlesAnimSeq, BR_UTIL_EffectIdle, BR_UTIL_EffectSpiral, BR_UTIL_EffectFollow12, BR_UTIL_EffectFollow6, BR_UTIL_EffectFlyIn, BR_UTIL_EffectFlyInSlow, BR_UTIL_EffectNoop, BR_UTIL_EffectToTarget, BR_UTIL_EffectToPoint, BR_UTIL_InitOrbit, BR_UTIL_StepOrbit, BR_UTIL_InitSpiral, BR_UTIL_StepSpiral, BR_UTIL_InitLine, BR_UTIL_StepLine, BR_UTIL_Init, BR_UTIL_StepFollow
+ * function: BR_UTIL_Create, BR_UTIL_Delete, BR_UTIL_SetTextFromMessage, BR_UTIL_SetTextFromBuffer, BR_UTIL_FlushText, BR_UTIL_SetTextLayout, BR_UTIL_AlignText, BR_UTIL_CreateListMenu, BR_UTIL_DeleteListMenu, BR_UTIL_MainListMenu, BR_UTIL_ListMenuIsScrollable, BR_UTIL_GetListMenuHitId, BR_UTIL_SetListItemBitmap, BR_UTIL_GetListItemBitmap, BR_UTIL_GetListMenuField, BR_UTIL_RefreshList, BR_UTIL_DrawListRows, BR_UTIL_PollScrollDrag, BR_UTIL_BlitRows, BR_UTIL_ScrollRows, BR_UTIL_ScrollWithCursor, BR_UTIL_NeedsScroll, BR_UTIL_HasMultipleRows, BR_UTIL_HandleRowTouch, BR_UTIL_UpdateRowSelection, BR_UTIL_CreateTextWin, BR_UTIL_DeleteTextWin, BR_UTIL_SetWindowText, BR_UTIL_SetWindowTextBuf, BR_UTIL_FlushWindow, BR_UTIL_CreateProfileScreen, BR_UTIL_DeleteProfileScreen, BR_UTIL_MainProfileScreen, BR_UTIL_CreateTask, BR_UTIL_DeleteTask, BR_UTIL_RunTask, BR_UTIL_IsTaskIdle, BR_UTIL_SetTaskStep, BR_UTIL_ClearTaskStep, BR_UTIL_IsTaskStep, BR_UTIL_CreateHandles, BR_UTIL_DeleteHandles, BR_UTIL_RunHandles, BR_UTIL_StartEffect, BR_UTIL_IsEffectDone, BR_UTIL_SetHandlesAnimSeq, BR_UTIL_EffectIdle, BR_UTIL_EffectSpiral, BR_UTIL_EffectFollow12, BR_UTIL_EffectFollow6, BR_UTIL_EffectFlyIn, BR_UTIL_EffectFlyInSlow, BR_UTIL_EffectNoop, BR_UTIL_EffectToTarget, BR_UTIL_EffectToPoint, BR_UTIL_InitOrbit, BR_UTIL_StepOrbit, BR_UTIL_InitSpiral, BR_UTIL_StepSpiral, BR_UTIL_InitLine, BR_UTIL_StepLine, BR_UTIL_Init, BR_UTIL_StepFollow
  * address:  0x021FC6A4
  * region:   ov186
  * compiler: dsi/1.1p1
@@ -107,7 +107,7 @@
  *   func_0200D820 0x0200D820 thumb
  *   func_0201F230 0x0201F230 thumb
  *   func_0201F048 0x0201F048 thumb
- *   func_0201F094 0x0201F094 thumb
+ *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
@@ -124,10 +124,10 @@
  *   d_02200AE8 0x02200AE8 data a4
  *   d_02200AD8 0x02200AD8 data a4
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   func_0207C768 0x0207C768 arm
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
- *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
  *   BR_UTIL_FlushText 0x021FC830 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
@@ -137,24 +137,7 @@
  *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  */
-#include "../../matched/include/Obj02901.h"
-#include "../../matched/include/Obj10791.h"
-#include "../../matched/include/Obj02902.h"
-#include "../../matched/include/Obj02903.h"
-#include "../../matched/include/Obj05502.h"
-#include "../../matched/include/Obj10792.h"
 #include "../../matched/include/Obj01571.h"
-#include "../../matched/include/Obj00048.h"
-#include "../../matched/include/Obj24838.h"
-#include "../../matched/include/Obj24839.h"
-#include "../../matched/include/Obj08332.h"
-#include "../../matched/include/Obj05503.h"
-#include "../../matched/include/Obj01283.h"
-#include "../../matched/include/Obj14466.h"
-#include "../../matched/include/Obj24840.h"
-#include "../../matched/include/Obj05504.h"
-#include "../../matched/include/Obj08333.h"
-#include "../../matched/include/Obj24841.h"
 #include "../../matched/include/Obj14467.h"
 #include "../../matched/include/Obj10793.h"
 #include "../../matched/include/Obj24845.h"
@@ -225,7 +208,22 @@ typedef struct {Item *list;u32 count;u8 x,y,width,height,palette,bg,spacing,pad;
 
 typedef struct {u8 top,bottom,left,right;} Area;
 
-typedef struct {Config cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u8 pad46[7],scroll,pad4e[2];void (*methods[3])(void);Area areas[10];u8 pad84[8];void *bitmaps[];} BrUtilListMenu;
+typedef struct {Config cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u16 pad46;int hitId;signed char dragDir;u8 scroll,pad4e[2];void (*methods[3])(void);Area areas[10];int dragActive;u16 dragY;u8 pad8A[2];void *bitmaps[];} BrUtilListMenu;
+
+/* One text window: window descriptor, owner, string buffer and layout, 0x24 bytes. */
+typedef struct {
+    void *bmp;         /* 0x00 window descriptor */
+    u8 dirty;          /* 0x04 nonzero while the window holds unwritten text */
+    u8 pad5[3];
+    void *owner;       /* 0x08 print owner */
+    void *window;      /* 0x0C window descriptor copy */
+    void *strbuf;      /* 0x10 string buffer */
+    u16 clearColor;    /* 0x14 colour the window is cleared with */
+    u16 plane;         /* 0x16 bg plane the window is built on */
+    int alignMode;     /* 0x18 BR_UTIL_AlignText mode */
+    int layoutA;       /* 0x1C */
+    int layoutB;       /* 0x20 */
+} BrUtilTextWin;
 
 typedef struct {char pad[0x8C];int bitmap[1];} BrUtilListView;
 
@@ -367,7 +365,7 @@ extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
 
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 
 extern void *func_020490F4(u32,u16);
 
@@ -397,7 +395,7 @@ extern void CLACT_SetActorAnimSeq(struct Actor *,u16);
 
 extern void CLACT_AddActorSurfacePos(void *,const ShortPair *,u16);
 
-extern long func_0207CBD0(const VecFx32 *);
+extern long VEC_Mag(const VecFx32 *);
 
 extern u32 func_0207C768(u32,u32);
 
@@ -423,7 +421,7 @@ void BR_UTIL_MainListMenu(char *p);
 
 int BR_UTIL_ListMenuIsScrollable(char *p);
 
-int BR_UTIL_GetListMenuField48(char *p);
+int BR_UTIL_GetListMenuHitId(char *p);
 
 void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
 
@@ -555,33 +553,33 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
     void *bmp;
     p=func_02030734(heap,0x24,0,d_02200D5C,0x5f);
     MI_CpuFill8(p,0,0x24);
-    ((struct Obj02901 *)p)->f14=0;
-    ((struct Obj02901 *)p)->f8=owner;
-    ((struct Obj02901 *)p)->f16=plane;
-    ((struct Obj02901 *)p)->f10=STRBUF_Create(0xff,heap);
+    ((BrUtilTextWin *)p)->clearColor=0;
+    ((BrUtilTextWin *)p)->owner=owner;
+    ((BrUtilTextWin *)p)->plane=plane;
+    ((BrUtilTextWin *)p)->strbuf=STRBUF_Create(0xff,heap);
     bmp=(void *)BMP_WIN_Create((unsigned char)plane,a,b,c,d,e,1);
-    ((struct Obj02901 *)p)->fC=bmp;
-    ((struct Obj02901 *)p)->f0=bmp;
+    ((BrUtilTextWin *)p)->window=bmp;
+    ((BrUtilTextWin *)p)->bmp=bmp;
     p[4]=0;
-    BMP_Clear(BMP_WIN_GetBmp(bmp),((struct Obj02901 *)p)->f14);
-    bmp=((struct Obj02901 *)p)->fC;
+    BMP_Clear(BMP_WIN_GetBmp(bmp),((BrUtilTextWin *)p)->clearColor);
+    bmp=((BrUtilTextWin *)p)->window;
     BMP_WIN_TransferChars(bmp);
     BMP_WIN_MakeScreen(bmp);
     func_020409B4(BMP_WIN_GetBgLayer(bmp));
     return p;
 }
 
-void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((struct Obj10791 *)p)->fC);BMP_WIN_Delete(*(void* *)&((struct Obj10791 *)p)->fC);STRBUF_Delete(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}
+void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((BrUtilTextWin *)p)->window);BMP_WIN_Delete(*(void* *)&((BrUtilTextWin *)p)->window);STRBUF_Delete(*(void* *)&((BrUtilTextWin *)p)->strbuf);func_020307B0(p);}
 
 void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned short value)
 {
     Pair xy;
     void *owner;
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj02902 *)p)->fC),((struct Obj02902 *)p)->f14);
-    func_02045CAC(a,(u32)b,((struct Obj02902 *)p)->f10);
-    BR_UTIL_AlignText(((struct Obj02902 *)p)->f18, (Pair *)(p+28), BMP_WIN_GetBmp(((struct Obj02902 *)p)->fC), ((struct Obj02902 *)p)->f10, font, (Pair *)&xy);
-    owner=((struct Obj02902 *)p)->f8;
-    PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((struct Obj02902 *)p)->f0),(short)xy.x,(short)xy.y,(u32)(((struct Obj02902 *)p)->f10),(u32)font,value);
+    BMP_Clear(BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window),((BrUtilTextWin *)p)->clearColor);
+    func_02045CAC(a,(u32)b,((BrUtilTextWin *)p)->strbuf);
+    BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (Pair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (Pair *)&xy);
+    owner=((BrUtilTextWin *)p)->owner;
+    PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((BrUtilTextWin *)p)->bmp),(short)xy.x,(short)xy.y,(u32)(((BrUtilTextWin *)p)->strbuf),(u32)font,value);
     p[4]=1;
 }
 
@@ -589,17 +587,17 @@ void BR_UTIL_SetTextFromBuffer(char *p,void *text,void *font,unsigned short valu
 {
     Pair xy;
     void *owner;
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj02903 *)p)->fC),((struct Obj02903 *)p)->f14);
-    STRBUF_Copy(((struct Obj02903 *)p)->f10,text);
-    BR_UTIL_AlignText(((struct Obj02903 *)p)->f18, (Pair *)(p+28), BMP_WIN_GetBmp(((struct Obj02903 *)p)->fC), ((struct Obj02903 *)p)->f10, font, (Pair *)&xy);
-    owner=((struct Obj02903 *)p)->f8;
-    PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((struct Obj02903 *)p)->f0),(short)xy.x,(short)xy.y,(u32)(((struct Obj02903 *)p)->f10),(u32)font,value);
+    BMP_Clear(BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window),((BrUtilTextWin *)p)->clearColor);
+    STRBUF_Copy(((BrUtilTextWin *)p)->strbuf,text);
+    BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (Pair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (Pair *)&xy);
+    owner=((BrUtilTextWin *)p)->owner;
+    PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((BrUtilTextWin *)p)->bmp),(short)xy.x,(short)xy.y,(u32)(((BrUtilTextWin *)p)->strbuf),(u32)font,value);
     p[4]=1;
 }
 
-int BR_UTIL_FlushText(u8*p){void*owner=*(void* *)&((struct Obj05502 *)p)->f8;if(p[4]){if(!PRINTSYS_QUE_IsExistTarget(owner,BMP_WIN_GetBmp(*(void* *)&((struct Obj05502 *)p)->f0))){BMP_WIN_TransferChars(*(void* *)&((struct Obj05502 *)p)->f0);p[4]=0;}}if(!p[4])return 1;return 0;}
+int BR_UTIL_FlushText(u8*p){void*owner=*(void* *)&((BrUtilTextWin *)p)->owner;if(p[4]){if(!PRINTSYS_QUE_IsExistTarget(owner,BMP_WIN_GetBmp(*(void* *)&((BrUtilTextWin *)p)->bmp))){BMP_WIN_TransferChars(*(void* *)&((BrUtilTextWin *)p)->bmp);p[4]=0;}}if(!p[4])return 1;return 0;}
 
-void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c){((struct Obj10792 *)p)->f18=c;((struct Obj10792 *)p)->f1C=a;((struct Obj10792 *)p)->f20=b;}
+void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c){((BrUtilTextWin *)p)->alignMode=c;((BrUtilTextWin *)p)->layoutA=a;((BrUtilTextWin *)p)->layoutB=b;}
 
 /*
  * extent: two zero alignment bytes follow the 86-byte function.
@@ -737,17 +735,17 @@ void BR_UTIL_DeleteListMenu(char *p)
 void BR_UTIL_MainListMenu(char *p)
 {
     if(BR_UTIL_ListMenuIsScrollable(p)) {
-        ((struct Obj00048 *)p)->f4C=BR_UTIL_PollScrollDrag(p);
-        if(((struct Obj00048 *)p)->f4C) {
-            if(((int (*)(char *,int))*(int *)(p+0x50))(p,((struct Obj00048 *)p)->f4C)) {
+        ((BrUtilListMenu *)p)->dragDir=BR_UTIL_PollScrollDrag(p);
+        if(((BrUtilListMenu *)p)->dragDir) {
+            if(((int (*)(char *,int))*(int *)(p+0x50))(p,((BrUtilListMenu *)p)->dragDir)) {
                 if(GFL_USE_IsSeqPlaying(0x6FE)==0) GFL_USE_PlaySeDefaultVolume(0x6FE);
-                BR_UTIL_DrawListRows(p,((struct Obj00048 *)p)->f42);
+                BR_UTIL_DrawListRows(p,((BrUtilListMenu *)p)->start);
             }
-            if(((struct Obj00048 *)p)->f4D) {
-                if(((struct Obj00048 *)p)->f42==0) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f28,0);
-                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f28,1);
-                if(((struct Obj00048 *)p)->f4==((struct Obj00048 *)p)->f42+((struct Obj00048 *)p)->f44) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f2C,0);
-                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f2C,1);
+            if(((BrUtilListMenu *)p)->scroll) {
+                if(((BrUtilListMenu *)p)->start==0) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[0],0);
+                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[0],1);
+                if(((BrUtilListMenu *)p)->cfg.count==((BrUtilListMenu *)p)->start+((BrUtilListMenu *)p)->visible) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[1],0);
+                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[1],1);
             }
         }
     }
@@ -759,9 +757,9 @@ int BR_UTIL_ListMenuIsScrollable(char *p){return (*(int(**)(char *))(p+0x54))(p)
 /*
  * leaf: S27 parent clearance; ov183 callers DFFB0 and E024C sole blocker.
  */
-int BR_UTIL_GetListMenuField48(char *p)
+int BR_UTIL_GetListMenuHitId(char *p)
 {
-    return ((struct Obj24838 *)p)->f48;
+    return ((BrUtilListMenu *)p)->hitId;
 }
 
 void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v)
@@ -773,7 +771,7 @@ void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v)
 
 u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
-    if(i>=((struct Obj24839 *)p)->f4)func_02034714(d_02200D68,0,d_02200D68);
+    if(i>=((BrUtilListMenu *)p)->cfg.count)func_02034714(d_02200D68,0,d_02200D68);
     return *(u32 *)((u32)p+i*4+0x8c);
 }
 
@@ -783,30 +781,30 @@ u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 int BR_UTIL_GetListMenuField(char *p,unsigned field)
 {
     switch(field) {
-    case 0:return ((struct Obj08332 *)p)->f40;
-    case 1:return ((struct Obj08332 *)p)->f42;
-    case 2:return ((struct Obj08332 *)p)->f4C;
-    case 3:return ((struct Obj08332 *)p)->f4;
+    case 0:return ((BrUtilListMenu *)p)->index;
+    case 1:return ((BrUtilListMenu *)p)->start;
+    case 2:return ((BrUtilListMenu *)p)->dragDir;
+    case 3:return ((BrUtilListMenu *)p)->cfg.count;
     default:func_02034714(d_02200D68,0,d_02200D68);return 0;
     }
 }
 
 void BR_UTIL_RefreshList(char *p)
 {
-    BR_UTIL_DrawListRows(p,((struct Obj00048 *)p)->f42);
+    BR_UTIL_DrawListRows(p,((BrUtilListMenu *)p)->start);
 }
 
 void BR_UTIL_DrawListRows(char *p,int start)
 {
     int i,height;
-    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38)),0);
-    for(i=start;i<start+((struct Obj00048 *)p)->f44;i++) {
-        if((unsigned)i<((struct Obj00048 *)p)->f4 && ((BrUtilListView *)p)->bitmap[i]) {
-            height=((struct Obj00048 *)p)->fE;
-            BR_UTIL_BlitRows(((BrUtilListView *)p)->bitmap[i],(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38),0,0,0,(i-start)*height,((struct Obj00048 *)p)->fA,height);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((BrUtilListMenu *)p)->descriptor)),0);
+    for(i=start;i<start+((BrUtilListMenu *)p)->visible;i++) {
+        if((unsigned)i<((BrUtilListMenu *)p)->cfg.count && ((BrUtilListView *)p)->bitmap[i]) {
+            height=((BrUtilListMenu *)p)->cfg.spacing;
+            BR_UTIL_BlitRows(((BrUtilListView *)p)->bitmap[i],(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((BrUtilListMenu *)p)->descriptor),0,0,0,(i-start)*height,((BrUtilListMenu *)p)->cfg.width,height);
         }
     }
-    BMP_WIN_TransferChars((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38);
+    BMP_WIN_TransferChars((struct Descriptor *)*(int *)&((BrUtilListMenu *)p)->descriptor);
 }
 
 int BR_UTIL_PollScrollDrag(char *p)
@@ -816,16 +814,16 @@ int BR_UTIL_PollScrollDrag(char *p)
     int delta,absolute;
     if(TOUCHPANEL_HitCont(d_02200AF0)!=-1) {
         TOUCHPANEL_GetPointCont((u32 *)(&x),(u32 *)(&y));
-        if(((struct Obj00048 *)p)->f84==0) {((struct Obj00048 *)p)->f84=1;((struct Obj00048 *)p)->f88=y;}
+        if(((BrUtilListMenu *)p)->dragActive==0) {((BrUtilListMenu *)p)->dragActive=1;((BrUtilListMenu *)p)->dragY=y;}
         else {
-            delta=y-((struct Obj00048 *)p)->f88;
+            delta=y-((BrUtilListMenu *)p)->dragY;
             if(delta<0) absolute=-delta;else absolute=delta;
             if(absolute>8) {
                 if(delta<0) direction=-1;else direction=1;
-                ((struct Obj00048 *)p)->f88=y;
+                ((BrUtilListMenu *)p)->dragY=y;
             }
         }
-    } else if(((struct Obj00048 *)p)->f84) ((struct Obj00048 *)p)->f84=0;
+    } else if(((BrUtilListMenu *)p)->dragActive) ((BrUtilListMenu *)p)->dragActive=0;
     return direction;
 }
 
@@ -848,12 +846,12 @@ void BR_UTIL_BlitRows(int dest,int src,int dx,int dy,unsigned short sx,unsigned 
  */
 int BR_UTIL_ScrollRows(char *p,int change)
 {
-    if(((struct Obj05503 *)p)->f42!=0 && change==-1) {
-        ((struct Obj05503 *)p)->f42+=(unsigned short)change;
+    if(((BrUtilListMenu *)p)->start!=0 && change==-1) {
+        ((BrUtilListMenu *)p)->start+=(unsigned short)change;
         return 1;
     }
-    if(((struct Obj05503 *)p)->f42+((struct Obj05503 *)p)->f44<((struct Obj05503 *)p)->f4 && change==1) {
-        ((struct Obj05503 *)p)->f42+=(unsigned short)change;
+    if(((BrUtilListMenu *)p)->start+((BrUtilListMenu *)p)->visible<((BrUtilListMenu *)p)->cfg.count && change==1) {
+        ((BrUtilListMenu *)p)->start+=(unsigned short)change;
         return 1;
     }
     return 0;
@@ -865,29 +863,29 @@ int BR_UTIL_ScrollRows(char *p,int change)
 int BR_UTIL_ScrollWithCursor(char *p,int step)
 {
     int count,changed,half;
-    count=((struct Obj01283 *)p)->f44;
+    count=((BrUtilListMenu *)p)->visible;
     changed=0;
     half=(count-1)/2+(count-1)%2;
     if(step>0) {
-        if(half==((struct Obj01283 *)p)->f40 && (u32)(((struct Obj01283 *)p)->f42+count)<((struct Obj01283 *)p)->f4) {
-            ((struct Obj01283 *)p)->f42+=(u16)step;changed=1;
-        } else if((u32)(((struct Obj01283 *)p)->f42+((struct Obj01283 *)p)->f40)<((struct Obj01283 *)p)->f4-1) {
-            ((struct Obj01283 *)p)->f40+=(u16)step;changed=1;
+        if(half==((BrUtilListMenu *)p)->index && (u32)(((BrUtilListMenu *)p)->start+count)<((BrUtilListMenu *)p)->cfg.count) {
+            ((BrUtilListMenu *)p)->start+=(u16)step;changed=1;
+        } else if((u32)(((BrUtilListMenu *)p)->start+((BrUtilListMenu *)p)->index)<((BrUtilListMenu *)p)->cfg.count-1) {
+            ((BrUtilListMenu *)p)->index+=(u16)step;changed=1;
         }
     } else if(step<0) {
-        if(half==((struct Obj01283 *)p)->f40 && ((struct Obj01283 *)p)->f42) {
-            ((struct Obj01283 *)p)->f42+=(u16)step;changed=1;
-        } else if(((struct Obj01283 *)p)->f40) {
-            ((struct Obj01283 *)p)->f40+=(u16)step;changed=1;
+        if(half==((BrUtilListMenu *)p)->index && ((BrUtilListMenu *)p)->start) {
+            ((BrUtilListMenu *)p)->start+=(u16)step;changed=1;
+        } else if(((BrUtilListMenu *)p)->index) {
+            ((BrUtilListMenu *)p)->index+=(u16)step;changed=1;
         }
     }
-    if(changed && ((struct Obj01283 *)p)->f1C) BR_UTIL_StartEffect((char *)((struct Obj01283 *)p)->f1C,5,&d_02200B0C[((struct Obj01283 *)p)->f40]);
+    if(changed && ((BrUtilListMenu *)p)->cfg.cursor) BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.cursor,5,&d_02200B0C[((BrUtilListMenu *)p)->index]);
     return changed;
 }
 
-int BR_UTIL_NeedsScroll(char *p) { return ((struct Obj14466 *)p)->f4>=((struct Obj14466 *)p)->f44; }
+int BR_UTIL_NeedsScroll(char *p) { return ((BrUtilListMenu *)p)->cfg.count>=((BrUtilListMenu *)p)->visible; }
 
-int BR_UTIL_HasMultipleRows(char *p) { return ((struct Obj24840 *)p)->f4>1; }
+int BR_UTIL_HasMultipleRows(char *p) { return ((BrUtilListMenu *)p)->cfg.count>1; }
 
 /*
  * extent: accessor at 021FD110 filed separately, then two zero alignment bytes.
@@ -897,15 +895,15 @@ void BR_UTIL_HandleRowTouch(char *p)
     int x,y;
     Pair pair;
     int result;
-    ((struct Obj05504 *)p)->f48=-1;
+    ((BrUtilListMenu *)p)->hitId=-1;
     result=TOUCHPANEL_HitTrg(p+0x5C);
     if(result!=-1) {
-        if(((struct Obj05504 *)p)->f20) {
+        if(((BrUtilListMenu *)p)->cfg.other) {
             TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
-            BR_UTIL_StartEffect((char *)((struct Obj05504 *)p)->f20, 1, (const Pair *)&pair);
+            BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.other, 1, (const Pair *)&pair);
         }
         GFL_USE_PlaySeDefaultVolume(0x703);
-        ((struct Obj05504 *)p)->f48=((int *)(((struct Obj05504 *)p)->f0+(result+((struct Obj05504 *)p)->f42)*8))[1];
+        ((BrUtilListMenu *)p)->hitId=((int *)((int)((BrUtilListMenu *)p)->cfg.list+(result+((BrUtilListMenu *)p)->start)*8))[1];
     }
 }
 
@@ -914,7 +912,7 @@ void BR_UTIL_HandleRowTouch(char *p)
  */
 void BR_UTIL_UpdateRowSelection(char *p)
 {
-    ((struct Obj08333 *)p)->f48=((int *)(((struct Obj08333 *)p)->f0+(((struct Obj08333 *)p)->f40+((struct Obj08333 *)p)->f42)*8))[1];
+    ((BrUtilListMenu *)p)->hitId=((int *)((int)((BrUtilListMenu *)p)->cfg.list+(((BrUtilListMenu *)p)->index+((BrUtilListMenu *)p)->start)*8))[1];
 }
 
 void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap)
@@ -922,7 +920,7 @@ void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap)
     u8 *p;
     BR_RES_LoadBgGraphics((void *)a,2,heap);
     p=BR_UTIL_Create(0,1,19,30,4,2,owner,heap);
-    ((struct Obj02901 *)p)->f14=12;
+    ((BrUtilTextWin *)p)->clearColor=12;
     return p;
 }
 
@@ -1295,7 +1293,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             w=func_0200D760(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201F094(words,0,v,w);
+            WORDSET_DeleteMsgdataF094(words,0,v,w);
             func_0201F250(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
@@ -1403,7 +1401,7 @@ int BR_UTIL_MainProfileScreen(u8 *p)
     int result=1;
     int i;
     for(i=0;i<7;i++)if(*(void **)((u32)p+(u32)i*4)!=0)result &=BR_UTIL_FlushText(*(void **)((u32)p+(u32)i*4));
-    PMS_DRAW_Main(*(u8 * *)&((struct Obj24841 *)p)->f20);
+    PMS_DRAW_Main(*(u8 * *)&((BrUtilListMenu *)p)->cfg.other);
     return result;
 }
 
@@ -1957,7 +1955,7 @@ int BR_UTIL_StepFollow(char *p,int *out)
     delta.x=roundFixed((*(int **)p)[0])-((struct Obj02904 *)p)->f4;
     delta.y=roundFixed((*(int **)p)[1])-((struct Obj02904 *)p)->f8;
     delta.z=0;
-    length=func_0207CBD0(&delta);
+    length=VEC_Mag(&delta);
     if(length) {
         x=func_0207C768((int)(((long long)delta.x* ((struct Obj02904 *)p)->f10+2048)>>12),length);
         y=func_0207C768((int)(((long long)delta.y* ((struct Obj02904 *)p)->f10+2048)>>12),length);

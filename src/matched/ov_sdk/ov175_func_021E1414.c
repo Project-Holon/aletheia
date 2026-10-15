@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217CE1C  0x0217CE1C  arm  ov009
- *   func_0217CCCC  0x0217CCCC  arm  ov009
+ *   gsCoreIsShutdown  0x0217CE1C  arm  ov009
+ *   gsCoreThink  0x0217CCCC  arm  ov009
  *   DWC_ProcessGHTTP  0x021BF5B8  arm  ov114
  *
  * Runs the ov009 status query 0x0217CE1C; unless it reports 2 it releases
@@ -19,14 +19,14 @@
  *  *  0x021BF5B8 (ov114) step.
  */
 
-extern int  func_0217CE1C(void);
-extern void func_0217CCCC(unsigned int theMS);
+extern int  gsCoreIsShutdown(void);
+extern void gsCoreThink(unsigned int theMS);
 extern int DWC_ProcessGHTTP(void);
 
 void DWC_GdbProcess(void)
 {
-    if (func_0217CE1C() != 2)
-        func_0217CCCC(0);
+    if (gsCoreIsShutdown() != 2)
+        gsCoreThink(0);
     DWC_ProcessGHTTP();
 }
 

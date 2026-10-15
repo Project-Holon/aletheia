@@ -15,7 +15,7 @@
  *   ghiResizeBuffer  0x021bfb90  arm   ov114
  *   func_0217D254  0x0217d254  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
- *   func_02092364  0x02092364  arm
+ *   memmove  0x02092364  arm
  *   sGhttpGhidecryptreceiveddataReadPastTheEnd     0x021ce5b4  data  ov114
  */
 
@@ -49,7 +49,7 @@ typedef struct GHIConnection {
 extern int ghiResizeBuffer(GHIBuffer *, int);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiResetBuffer(GHIBuffer *);
-extern void *func_02092364(void *, const void *, unsigned int);
+extern void *memmove(void *, const void *, unsigned int);
 extern char sGhttpGhidecryptreceiveddataReadPastTheEnd[];
 
 int ghiDecryptReceivedData(GHIConnection *connection)
@@ -90,7 +90,7 @@ int ghiDecryptReceivedData(GHIConnection *connection)
         if (bytesToKeep == 0) {
             ghiResetBuffer(&connection->recvBuffer);
         } else {
-            func_02092364(connection->recvBuffer.data, connection->recvBuffer.data + connection->recvBuffer.pos, bytesToKeep);
+            memmove(connection->recvBuffer.data, connection->recvBuffer.data + connection->recvBuffer.pos, bytesToKeep);
             connection->recvBuffer.pos = 0;
             connection->recvBuffer.len = bytesToKeep;
         }

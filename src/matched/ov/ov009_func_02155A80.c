@@ -13,7 +13,7 @@
  *   _pRapWork     0x021A8264  data  ov009  a4
  *   MI_CpuCopy8  0x02082D44  arm
  *   DWC_GetAIDBitmap  0x0216B908  arm
- *   func_02176FD4  0x02176FD4  arm
+ *   DWC_SendReliableBitmap  0x02176FD4  arm
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ typedef struct {
 extern G *_pRapWork;
 void MI_CpuCopy8(void *src, void *dst, int n);
 int DWC_GetAIDBitmap(void);
-unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
+unsigned long DWC_SendReliableBitmap(unsigned long bitmap, void *buffer, int size);
 
 int DWC_RAP_SendPacket(void *src, int len, int c)
 {
@@ -49,7 +49,7 @@ int DWC_RAP_SendPacket(void *src, int len, int c)
     MI_CpuCopy8(src, (char *)_pRapWork + 4, len);
     _pRapWork->busy = 1;
     r = (u16)DWC_GetAIDBitmap();
-    if (r != func_02176FD4(r, _pRapWork, len + 4)) {
+    if (r != DWC_SendReliableBitmap(r, _pRapWork, len + 4)) {
         _pRapWork->busy = 0;
         return 0;
     }

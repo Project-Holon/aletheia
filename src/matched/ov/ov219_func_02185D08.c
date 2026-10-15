@@ -1,5 +1,5 @@
 /*
- * function: func_02185D08
+ * function: BEACON_DETAIL_WrapAngle
  * address: 0x02185D08
  * packet: pkt_ov219_02185D08
  * region: ov219
@@ -12,7 +12,7 @@ static inline int absolute(int a)
 {
     return a<0?-a:a;
 }
-void func_02185D08(int *p)
+void BEACON_DETAIL_WrapAngle(int *p)
 {
     if(p[0]>=0) p[0]%=65535;
     else p[0]+=(absolute(p[0])/65535+1)*65535;

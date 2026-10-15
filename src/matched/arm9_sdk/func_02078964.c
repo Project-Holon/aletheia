@@ -1,5 +1,5 @@
 /*
- * function: func_02078964
+ * function: FS_OpenFileDirect
  * address:  0x02078964
  * packet:   pkt_02078964
  * region:   arm9
@@ -39,7 +39,7 @@ typedef struct FSArgumentForOpenFileDirect
 
 extern BOOL FSi_SendCommand(FSFile *file, u32 command, BOOL blocking);
 
-BOOL func_02078964(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id)
+BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id)
 {
     BOOL retval;
     FSArgumentForOpenFileDirect arg[1];

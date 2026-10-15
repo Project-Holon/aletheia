@@ -1,5 +1,5 @@
 /*
- * function: func_021C4818
+ * function: WF2DMAP_MAP_GetCell
  * address: 0x021C4818
  * packet: pkt_ov127_021C4818
  * region: ov127
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C600C 0x021C600C data a4
+ *   sWf2dmapEmptyCell 0x021C600C data a4
  */
 #include "../include/Obj08123.h"
 typedef unsigned char u8;
@@ -17,10 +17,10 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef union { u32 raw; struct { u32 flag:1; u32 value:31; } bits; } Cell;
-extern Cell d_021C600C;
-Cell func_021C4818(u8 *p, u32 x, u32 y)
+extern Cell sWf2dmapEmptyCell;
+Cell WF2DMAP_MAP_GetCell(u8 *p, u32 x, u32 y)
 {
- Cell r = d_021C600C;
+ Cell r = sWf2dmapEmptyCell;
  if (((struct Obj08123 *)p)->f0 > x && ((struct Obj08123 *)p)->f2 > y) r=*(Cell *)(((struct Obj08123 *)p)->f4 + (x + ((struct Obj08123 *)p)->f0*y)*4);
  return r;
 }

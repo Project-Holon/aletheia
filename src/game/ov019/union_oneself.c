@@ -25,20 +25,20 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   UNION_COMM_SetSituationParam 0x021734A8  thumb  ov012
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   GAME_COMM_GetWork 0x02026474 thumb
  *   UNION_MAIN_CreateSubEvent 0x0217413C thumb ov012
  *   gUnionOneselfActionStart  0x02180074  data  a4
  *   gUnionOneselfActionMain  0x02180078  data  a4
  *   gUnionOneselfActionEnd  0x0218007C  data  a4
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200BBA8 0x0200BBA8 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   BATTLE_BOX_HasMon 0x0200BBA8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
  *   func_020307B0 0x020307B0 arm
  *   gUnionEmptyString1 0x021807E4 data a1
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
- *   func_0200AEE8 0x0200AEE8 thumb
- *   func_02012934 0x02012934 thumb
+ *   REGULATION_SetRuleValue 0x0200AEE8 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   FIELDMAP_CTRL_GRID_SetBusy 0x021A2E44 thumb ov021
  *   func_0200FB24 0x0200FB24 thumb
@@ -54,7 +54,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   UNION_ONESELF_IsPlayerAtReceptionSpot  0x0217F7E4  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
- *   func_02012124  0x02012124  thumb
+ *   ICA_ANIME_SetField30  0x02012124  thumb
  *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  *   UNION_COMM_ReleaseWorks  0x02173420  thumb  ov012
  *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
@@ -243,15 +243,15 @@ extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 
 extern void UNION_COMM_SetSituationParam(void *unisys, u32 commandId, u32 value);
 
-extern unsigned int func_02012138(struct GameSystem *gameSystem);
+extern unsigned int ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 
 extern u32 GAME_COMM_GetWork(void *gameComm);
 
 extern int UNION_MAIN_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
 
-extern void *func_0200BAC8(void *saveData);
+extern void *BATTLE_BOX_GetFromSave(void *saveData);
 
-extern u32 func_0200BBA8(void *object);
+extern u32 BATTLE_BOX_HasMon(void *object);
 
 extern void *func_0200BAF4(int battleTeam, int heapId);
 
@@ -259,9 +259,9 @@ extern u32 func_020307B0(void *block);
 
 extern void POKE_REGULATION_LoadInto(int regulationId, struct Regulation *regulation);
 
-extern void func_0200AEE8(struct Regulation *regulation, u32 id, s32 value);
+extern void REGULATION_SetRuleValue(struct Regulation *regulation, u32 id, s32 value);
 
-extern void *func_02012934(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 
 extern int POKE_REGULATION_CheckParty(struct Regulation *regulation, void *party, unsigned int *violationMask);
 
@@ -293,7 +293,7 @@ extern int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 fieldMap);
 
 u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
 
-extern void func_02012124(struct GameSystem *gameSystem, u32 state);
+extern void ICA_ANIME_SetField30(struct GameSystem *gameSystem, u32 state);
 
 void UNION_COMM_RequestShutdown(void *unisys);
 
@@ -365,7 +365,7 @@ int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap
     UnionRoomWork *work;
     UnionSubEvent *subEvent;
     int result;
-    work = (UnionRoomWork *)GAME_COMM_GetWork((void *)func_02012138(gameSystem));
+    work = (UnionRoomWork *)GAME_COMM_GetWork((void *)ICA_ANIME_GetField24(gameSystem));
     result = 0;
     subEvent = &work->subEvent;
     if (subEvent->id != 0 && subEvent->active == 0) result = UNION_MAIN_CreateSubEvent(gameSystem, fieldMap, work);
@@ -482,8 +482,8 @@ int UNION_ONESELF_IsBattleStatus(unsigned int status)
 void *UNION_ONESELF_CreateBattleTeamParty(UnionRoomWork *work)
 {
     void *battleTeam;
-    battleTeam = func_0200BAC8(GAME_DATA_GetSaveControl(work->parent->gameData));
-    if (func_0200BBA8(battleTeam) == 0) return 0;
+    battleTeam = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->parent->gameData));
+    if (BATTLE_BOX_HasMon(battleTeam) == 0) return 0;
     return func_0200BAF4((int)battleTeam, UNION_HEAP_ID);
 }
 
@@ -500,15 +500,15 @@ void UNION_ONESELF_DeleteParty(void *party)
 void UNION_ONESELF_LoadRegulation(UnionRoomWork *work, int status)
 {
     POKE_REGULATION_LoadInto(UNION_ONESELF_GetRegulationId(status), work->regulation);
-    if (UNION_ONESELF_GetRegulationFlag(status) == 1) func_0200AEE8(work->regulation, 13, 1);
-    else func_0200AEE8(work->regulation, 13, 0);
+    if (UNION_ONESELF_GetRegulationFlag(status) == 1) REGULATION_SetRuleValue(work->regulation, 13, 1);
+    else REGULATION_SetRuleValue(work->regulation, 13, 0);
 }
 
 int UNION_ONESELF_CheckMyParty(UnionRoomWork *work, unsigned int *violationMask)
 {
     void *party;
     *violationMask = 0;
-    party = func_02012934(work->parent->gameData);
+    party = GAME_DATA_GetMyParty(work->parent->gameData);
     return POKE_REGULATION_CheckParty(work->regulation, party, violationMask);
 }
 
@@ -659,7 +659,7 @@ int UNION_ONESELF_ErrorMain(UnionRoomWork *work, UnionMySituation *situation, vo
         break;
     case 2:
         if (func_0200FB24() != 0) {
-            func_02012124(work->parent->gameSystem, 1);
+            ICA_ANIME_SetField30(work->parent->gameSystem, 1);
             return 0;
         }
         UNION_COMM_RequestShutdown(work);
@@ -814,7 +814,6 @@ extern int UNION_COMMAND_SendMyStatus(void *unisys);
 
 extern unsigned int func_02080D24(int bits);
 
-void *GAME_DATA_GetMyParty(const void *gameData);
 
 void *GAMESYSTEM_GetGameData(const void *gameSystem);
 
@@ -2817,7 +2816,7 @@ int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituati
         situation->subState = 0;
         (*seq)++;
     case 1:
-        if (func_0200BBA8(func_0200BAC8(GAME_DATA_GetSaveControl(unisys->parent->gameData))) == 1) {
+        if (BATTLE_BOX_HasMon(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(unisys->parent->gameData))) == 1) {
             (*seq)++;
         } else {
             colosseum->partySource = 0;

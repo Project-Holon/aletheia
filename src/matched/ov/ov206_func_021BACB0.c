@@ -14,9 +14,9 @@
  *   func_021BAF7C 0x021BAF7C thumb
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   d_021BC110 0x021BC110 data a2
  *   d_021BC11C 0x021BC11C data a2
  */
@@ -31,9 +31,9 @@ typedef unsigned int   u32;
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 #define H(o) (*(unsigned short *)(p + (o)))
 #define W(o) (*(int *)(p + (o)))
@@ -67,14 +67,14 @@ void func_021BACB0(char *p, int idx)
         func_020307B0(tab);
     }
     if (c != 0x3e7) {
-        h = (int)func_0201EC64(H(0));
+        h = (int)GF_FONT_Create_EC64(H(0));
         if (idx == 0) {
             func_0201EFA4((struct WordSet *)h, 0, c, 3, 2, 0);
         } else {
             func_0201EFA4((struct WordSet *)h, 0, c, 3, 2, 1);
         }
         func_021BA960(H(0), W(0x70), (void *)W(0x2c), W(0x28), W(0x270), 8, 5, 0x440, 0, h);
-        func_0201ED04((struct WordSet *)h);
+        WORDSET_DeleteStrbufED04((struct WordSet *)h);
     } else {
         func_021BA960(H(0), W(0x70), (void *)W(0x2c), W(0x28), W(0x274), 8, 5, 0x440, 0, 0);
     }

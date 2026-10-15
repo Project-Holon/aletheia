@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F8F4  0x0203F8F4  arm
+ *   BG_SYS_Create  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
- *   func_02040B94  0x02040B94  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
  *   gVsMultiListDispConfig     0x021F75F8  data  ov097  a4
  *   gVsMultiListBg0Template     0x021F7688  data  ov097  a4
  *   gVsMultiListBg1Template     0x021F7668  data  ov097  a4
@@ -41,13 +41,13 @@ extern const Bg gVsMultiListBg0Template;
 extern const Bg gVsMultiListBg1Template;
 extern const Bg gVsMultiListBg2Template;
 
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 void VS_MULTI_LIST_InitBgs(void)
 {
@@ -55,15 +55,15 @@ void VS_MULTI_LIST_InitBgs(void)
     Bg b0;
     Bg b1;
     Bg b2;
-    func_0203F8F4(0x71);
+    BG_SYS_Create(0x71);
     a = gVsMultiListDispConfig;
     func_0203FC28((struct DispConfig *)(&a));
     b0 = gVsMultiListBg0Template;
-    func_0203FCA0(0, (const struct BgTemplate *)(&b0), 0);
-    func_020414EC(0);
-    func_02040B94(0, 0x20, 0, 0x71);
+    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b0), 0);
+    BG_SYS_ClearSlot(0);
+    BG_SYS_InitRun(0, 0x20, 0, 0x71);
     b1 = gVsMultiListBg1Template;
-    func_0203FCA0(1, (const struct BgTemplate *)(&b1), 0);
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b1), 0);
     b2 = gVsMultiListBg2Template;
-    func_0203FCA0(2, (const struct BgTemplate *)(&b2), 0);
+    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&b2), 0);
 }

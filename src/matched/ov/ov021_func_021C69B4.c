@@ -19,7 +19,7 @@
  *   G3D_SYSTEM_CreateAnime  0x02047564  arm
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   MIi_CpuClear32  0x02082A7C  arm
  */
 
@@ -52,7 +52,7 @@ extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G
 extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 struct G3dSys;
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern void func_0207ADC4(void *p);
+extern void MTX_Identity33_(void *p);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 void FIELD_G3DOBJ_CreateObject(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
 {
@@ -85,7 +85,7 @@ void FIELD_G3DOBJ_CreateObject(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *po
         e->f14 = 0x1000;
         e->f18 = 0x1000;
         e->f1C = 0x1000;
-        func_0207ADC4(e->f20);
+        MTX_Identity33_(e->f20);
     }
     e->k = 1;
 }

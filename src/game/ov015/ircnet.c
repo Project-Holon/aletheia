@@ -21,8 +21,8 @@
  *   func_02034714  0x02034714  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0203F1FC  0x0203F1FC  arm
- *   func_0208F1B4  0x0208F1B4  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   WM_GetNextTgid  0x0208F1B4  arm
  *   func_020056EC  0x020056EC  thumb
  *   GFL_NET_HANDLE_RemoveHandle  0x0203A338  arm
  *   _u32_div_f  0x0209C2B0  arm
@@ -51,8 +51,8 @@ extern GFLNetSession *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void MI_CpuFill8(void *p, int v, u32 n);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern u16 func_0208F1B4(void);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 WM_GetNextTgid(void);
 extern u32 func_020056EC(u32 x);
 extern void GFL_NET_HANDLE_RemoveHandle(u32 netId);
 extern void IRC_Init(u8 unitId);
@@ -238,7 +238,7 @@ void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b)
     gIrcNetWork.packet.seq = b;
     if (dst != 0)
         MI_CpuCopy8(dst, gIrcNetWork.packet.payload, 0xA6);
-    gIrcNetWork.packet.checksum = func_0203F1FC(&gIrcNetWork.packet.type, n + 12);
+    gIrcNetWork.packet.checksum = GF_STANDARD_SetupCalc(&gIrcNetWork.packet.type, n + 12);
     IRC_Send((u8 *)&gIrcNetWork.packet, (u8)(n + 14), a);
 }
 
@@ -246,7 +246,7 @@ void IRCNET_InitWork(u32 a, u8 b)
 {
     MI_CpuFill8(&gIrcNetWork, 0, 0xE8);
     gIrcNetWork.timeoutLimit = a;
-    gIrcNetWork.randomByte = func_0208F1B4();
+    gIrcNetWork.randomByte = WM_GetNextTgid();
     IRC_Init(3);
     func_0217A584((void (*)(void))IRCNET_OnRecv);
     gIrcNetWork.packet.senderId = func_020056EC(0);
@@ -343,7 +343,7 @@ int IRCNET_IsReceiver(void)
 
 /*
  * Receive handler for one packet: rejects a length of 0 or over 0xB4 (the over-length case also
- * reports through func_02034714), checks the checksum against func_0203F1FC over the rest, filters
+ * reports through func_02034714), checks the checksum against GF_STANDARD_SetupCalc over the rest, filters
  * on the group id (through the optional hook), tracks the two session ids, then hands the payload
  * to the receive callback once per new sequence number.
  */
@@ -363,7 +363,7 @@ void IRCNET_OnRecv(u8 *rawPacket, u32 len, u32 type)
         func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     if (!(len != 0 && len <= 0xB4))
         return;
-    if (pkt->checksum != func_0203F1FC(rawPacket + 2, len - 2))
+    if (pkt->checksum != GF_STANDARD_SetupCalc(rawPacket + 2, len - 2))
         return;
     filter = gIrcNetWork.filter;
     if (filter != 0) {

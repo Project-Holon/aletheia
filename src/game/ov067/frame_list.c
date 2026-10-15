@@ -44,7 +44,7 @@
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   func_02041EE4  0x02041EE4  arm
+ *   BG_SYS_ResetSlot  0x02041EE4  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
@@ -99,7 +99,7 @@ extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anim, u8 *src, u32 fir
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printer);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anim);
-extern void func_02041EE4(u32 layer, u32 axis, u32 offset);
+extern void BG_SYS_ResetSlot(u32 layer, u32 axis, u32 offset);
 extern int TOUCHPANEL_HitTrg(const void *hitRects);
 extern unsigned int KEY_GetCont(void);
 extern int _s32_div_f(int numerator, int denominator);
@@ -376,7 +376,7 @@ void FRAME_LIST_Redraw(FrameList *list, int play)
     s16 item;
     s8 rowY;
 
-    func_02041EE4(list->params.bgLayer, 3, 0);
+    BG_SYS_ResetSlot(list->params.bgLayer, 3, 0);
     list->pixelOffset = 0;
     item = list->scrollPos;
     rowY = list->params.firstRow;
@@ -398,7 +398,7 @@ void FRAME_LIST_Redraw(FrameList *list, int play)
     list->ringSizeA = list->ringA;
     if (list->params.bgLayerB == 0xff)
         return;
-    func_02041EE4(list->params.bgLayerB, 3, 0);
+    BG_SYS_ResetSlot(list->params.bgLayerB, 3, 0);
     rowY = list->params.firstRow + 0x18 - list->params.rowHeight;
     item = list->scrollPos - 1;
     for (;;) {
@@ -891,8 +891,8 @@ int FRAME_LIST_StepScroll(FrameList *list)
         }
     }
     list->pixelOffset = list->pixelOffset+list->scrollSpeed;
-    func_02041EE4(list->params.bgLayer, 3, list->pixelOffset);
-    if (list->params.bgLayerB != 255) func_02041EE4(list->params.bgLayerB, 3, list->pixelOffset);
+    BG_SYS_ResetSlot(list->params.bgLayer, 3, list->pixelOffset);
+    if (list->params.bgLayerB != 255) BG_SYS_ResetSlot(list->params.bgLayerB, 3, list->pixelOffset);
     list->params.ops->onScroll(list->params.userData, list->scrollSpeed);
     list->stepFramesLeft--;
     return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC93C
+ * function: NET_PARTY_COMMAND_Main
  * address: 0x021DC93C
  * packet: pkt_ov134_021DC93C
  * region: ov134
@@ -57,7 +57,7 @@ extern int GFL_NET_GetRunState(void);
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
 extern const u32 gPartyListProcData[], gPokeStatusProcData[];
 extern const char ov91_id[], ov131_id[];
-int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
+int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *q, u8 *p)
 {
     u32 frame;
     u8 elapsed;

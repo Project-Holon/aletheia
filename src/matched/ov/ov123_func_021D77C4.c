@@ -12,7 +12,7 @@
  *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
  *   GSYNC_STATE_StateErrorMessage 0x021D6FF0 thumb ov123
  *   GSYNC_STATE_StateMusicalSaveApply 0x021D7798 thumb ov123
- *   func_0203F1FC 0x0203F1FC arm
+ *   GF_STANDARD_SetupCalc 0x0203F1FC arm
  *   MUSICAL_DIST_SAVE_CreateFromData  0x0200C5C8  thumb  arm9
  */
 #include "../include/Obj02837.h"
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int GSYNC_DOWNLOAD_NoteFinished(char *p);
 typedef unsigned int   u32;
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 struct MusicalDist;
 extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const void *src, u32 size, u32 heap);
 extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
@@ -39,7 +39,7 @@ void GSYNC_STATE_StateMusicalSaveCreate(int a,int n)
         GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateErrorMessage,0x39d);
         return;
     }
-    checksum=func_0203F1FC(p,n);
+    checksum=GF_STANDARD_SetupCalc(p,n);
     if(checksum!=*(u16 *)(p+h*2)) {
         ((struct Obj02837 *)a)->f80=0xfff0;
         GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateErrorMessage,0x3a3);

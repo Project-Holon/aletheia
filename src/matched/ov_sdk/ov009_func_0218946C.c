@@ -14,14 +14,14 @@
  *
  * symbols:
  *   func_021893C8  0x021893C8  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  */
 
 extern int func_021893C8(int *connection, int *buffer, int src, int n);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 
 int func_0218946C(int *connection, int *buffer, const char *string)
 {
-    return func_021893C8(connection, buffer, (int)string, func_0209477C((const u8 *)string));
+    return func_021893C8(connection, buffer, (int)string, strlen((const u8 *)string));
 }

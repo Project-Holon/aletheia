@@ -1,5 +1,5 @@
 /*
- * function: func_021F96B0
+ * function: STA_ACTING_PlayBgm
  * address:  0x021F96B0
  * packet:   pkt_021F96B0
  * region:   ov132
@@ -18,7 +18,7 @@
 
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
-void func_021F96B0(char *p, int a)
+void STA_ACTING_PlayBgm(char *p, int a)
 {
     ((struct Obj23188 *)p)->f2C = 1;
     GFL_USE_CancelChangeAndPlayBgm(a, 0xffff);

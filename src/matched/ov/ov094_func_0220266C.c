@@ -18,6 +18,7 @@
  *   BTLV_INPUT_WaitFadeTaskEnd  0x02204A70  thumb  ov094
  *   d_0220AEB0  0x0220AEB0  data  a4
  *   FADE_Start  0x0204E720  arm  arm9
+ *   GXx_GetMasterBrightness_  0x0207D55C  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,7 +31,7 @@ typedef struct Obj {
     u16 heap;
 } Obj;
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern int func_0207D55C(volatile u16 *reg);
+extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 typedef signed int     s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void BTLV_INPUT_LoadScreenResources(char *p);
@@ -44,7 +45,7 @@ void BTLV_INPUT_StartScreenFadeTask(Obj *p)
 {
     Obj **q;
     q = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x50c);
-    if (func_0207D55C((volatile u16 *)0x0400106c) <= 0)
+    if (GXx_GetMasterBrightness_((volatile u16 *)0x0400106c) <= 0)
         FADE_Start(2, 0x10, 0, 0);
     else
         FADE_Start(8, 0x10, 0, 0);

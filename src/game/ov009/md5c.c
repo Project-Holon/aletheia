@@ -20,6 +20,7 @@
  *   GSMD5Init    0x02184938 arm ov009
  *   GSMD5Final   0x02184A34 arm ov009
  *   GSMD5Print   0x02185854 arm ov009
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm  arm9
  */
 #define S11 7
 #define S12 12
@@ -77,7 +78,7 @@ typedef unsigned int u32;
 extern void GSMD5Transform(unsigned int * state, unsigned char * block);
 extern void Encode(unsigned char * output, unsigned int * input, unsigned int len);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern void GSMD5Init(struct GSMD5_CTX * context);
 extern void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
 extern void GSMD5Print(unsigned char * digest, char * output);
@@ -295,7 +296,7 @@ void *GSMD5_memcpy(void *dest, const void *src, unsigned int n)
 
 void *GSMD5_memset(void *p, int c, u32 n)
 {
-    return func_020923B0(p, c, n);
+    return MSL_C_LIB_MemsetPtr(p, c, n);
 }
 
 

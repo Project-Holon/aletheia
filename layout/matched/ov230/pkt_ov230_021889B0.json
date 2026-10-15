@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021889B0",
+   "name": "LOADER_ENTRY_Start",
    "address": "0x021889B0",
    "kind": "game",
    "region": "ov230",

@@ -25,7 +25,7 @@
  *   func_021B9784 0x021B9784 thumb ov133
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
- *   func_021FD6A4 0x021FD6A4 thumb ov132
+ *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
  *   func_021B9F5C 0x021B9F5C thumb ov133
  *   func_021B8C6C 0x021B8C6C thumb ov133
  *   func_021F51E8 0x021F51E8 thumb ov112
@@ -36,7 +36,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_0204152C 0x0204152C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_021B9C90 0x021B9C90 thumb ov133
@@ -82,7 +82,7 @@ struct Lights;
 struct O;
 struct PrintSys;
 extern int func_021FCE00(char *p, int id);
-extern int func_021FD6A4(char *p);
+extern int STA_NET_IsTransferDone(char *p);
 extern void func_021B9F5C(u8 *);
 extern void func_021B8C6C(struct O *p);
 extern void func_021F51E8(u8 *);
@@ -90,7 +90,7 @@ extern void func_021F51F4(void **p);
 extern void func_021F4990(void *);
 extern void CLACT_DrawSystem(void),func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void func_0204152C(int,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void func_021B9C90(u8 *),func_0201F73C(void *,int,int,int),func_021BA0C8(u8 *,u8);
@@ -110,8 +110,8 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 static inline void brightness(u8 *value)
 {
-    func_02041EE4(6,0,128-*value);
-    func_02041EE4(5,0,*value-128);
+    BG_SYS_ResetSlot(6,0,128-*value);
+    BG_SYS_ResetSlot(5,0,*value-128);
 }
 int func_021B63BC(Context *p)
 {
@@ -159,7 +159,7 @@ int func_021B63BC(Context *p)
         if(func_021FCE00(*(void **)P(4),69)==1) W(0x0c)=5;
         break;
     case 5:
-        if(func_021FD6A4(*(void **)P(4))==1) {
+        if(STA_NET_IsTransferDone(*(void **)P(4))==1) {
             WIPE_SYS_Start(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
         }
         break;
@@ -170,7 +170,7 @@ int func_021B63BC(Context *p)
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
-        func_02041EE4(3,1,1); func_02041EE4(3,5,1);
+        BG_SYS_ResetSlot(3,1,1); BG_SYS_ResetSlot(3,5,1);
     }
     if(p->mode==0) {
         if(p->brightness<128) { p->brightness+=8; brightness(&p->brightness); }

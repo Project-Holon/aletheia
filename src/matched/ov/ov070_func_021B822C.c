@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021014  0x02021014  thumb
- *   func_0202136C  0x0202136C  thumb
+ *   FILE_UTIL_Get_1014  0x02021014  thumb
+ *   FILE_UTIL_Check136C  0x0202136C  thumb
  */
 
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ typedef struct Obj {
 } Obj;
 
 struct Rec;
-extern u32 func_02021014(struct Rec *p, u32 sel);
-extern u32 func_0202136C(u16 v);
+extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_Check136C(u16 v);
 
 void ITEMMENU_CheckItemFilter(Obj *o, void *rec, u16 *p, u8 *out)
 {
-    if (func_02021014(rec, 6) != 0) {
-        if (func_0202136C(*p) == 1)
+    if (FILE_UTIL_Get_1014(rec, 6) != 0) {
+        if (FILE_UTIL_Check136C(*p) == 1)
             *out = 2;
         else if (*p == 0x1C2 && o->f1C == 1)
             *out = 1;

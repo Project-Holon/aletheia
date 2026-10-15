@@ -1,5 +1,5 @@
 /*
- * function: func_021F89D0
+ * function: BR_DOWNLOAD_ResetSlots
  * address:  0x021F89D0
  * packet:   pkt_021F89D0
  * region:   ov184
@@ -28,7 +28,7 @@ extern void BR_RES_ReleaseSprite(int, int);
 extern void BR_RES_ApplyBgSet(int, int);
 extern void BR_BTN_DeleteObject(int);
 
-void func_021F89D0(int *a, char *p)
+void BR_DOWNLOAD_ResetSlots(int *a, char *p)
 {
     int i;
     if (a[1] != 0) {

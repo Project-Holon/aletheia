@@ -34,7 +34,7 @@
  *   DWCs_GetSendState                0x02177788  arm
  *   DWCs_GetOutgoingBufferFreeSize   0x02177e64  arm
  *   DWCs_Send                        0x021777c0  arm
- *   g_021AB180                       0x021ab180  data
+ *   gDwcTransInfo                       0x021ab180  data
  */
 
 typedef unsigned char u8;
@@ -91,9 +91,9 @@ extern int DWC_IsValidAID(unsigned char aid);
 extern int DWCs_GetSendState(unsigned char aid);
 extern int DWCs_GetOutgoingBufferFreeSize(unsigned char aid);
 extern void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable);
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 
-#define sTransInfo (*(struct DWCstTransportInfo **)g_021AB180)
+#define sTransInfo (*(struct DWCstTransportInfo **)gDwcTransInfo)
 
 void DWCi_TransportProcess(void)
 {

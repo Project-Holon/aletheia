@@ -28,8 +28,8 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetCont 0x0203630C arm
- *   func_0207CA00 0x0207CA00 arm
- *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Subtract 0x0207CA00 arm
+ *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   BUTTON_MAN_ScaleVec 0x020520A4 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -60,8 +60,8 @@ extern u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused, char *p, int unused2, 
 extern u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, int key, u8 x, u8 y);
 extern void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key);
-extern void func_0207CA00(struct Vec *a, struct Vec *b, struct Vec *out);
-extern int func_0207CBD0(struct Vec *v);
+extern void VEC_Subtract(struct Vec *a, struct Vec *b, struct Vec *out);
+extern int VEC_Mag(struct Vec *v);
 extern void VEC_Normalize(struct Vec *src, struct Vec *dst);
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
@@ -135,10 +135,10 @@ void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
             b.x = FX(pt.c.x);
             b.y = FX(pt.c.y);
             b.z = 0;
-            func_0207CA00(&a, &b, &d);
-            if (func_0207CBD0(&d) < 0x1BB6)
+            VEC_Subtract(&a, &b, &d);
+            if (VEC_Mag(&d) < 0x1BB6)
                 near = 1;
-            if (func_0207CBD0(&d) > 0x1000) {
+            if (VEC_Mag(&d) > 0x1000) {
                 VEC_Normalize(&d, &d);
                 BUTTON_MAN_ScaleVec((const struct Vec3 *)(&d), 0x1000, (struct Vec3 *)(&d));
             }

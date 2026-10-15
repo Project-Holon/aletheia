@@ -1,5 +1,5 @@
 /*
- * function: func_02041FF4
+ * function: BG_SYS_Check1FF4
  * address:  0x02041FF4
  * packet:   pkt_02041FF4
  * region:   arm9
@@ -13,7 +13,7 @@
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
  *   func_02040EE0  0x02040EE0  arm
- *   func_020415B4  0x020415B4  arm
+ *   BG_SYS_GetGraphics  0x020415B4  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02043130  0x02043130  arm
@@ -62,12 +62,12 @@ struct BgSys
 extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
 extern u16 func_02040EE0(int x, int y, u32 code);
-extern u32 func_020415B4(u32 channel);
+extern u32 BG_SYS_GetGraphics(u32 channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void func_02043130(u16 flags, u8 *buf, u32 page);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
-u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)
+u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
 {
   u8 px;
   u8 py;
@@ -80,7 +80,7 @@ u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)
   if (g_02146A44->slots[layer].tiles == 0)
     return 0;
   key = func_02040EE0((u8) (x >> 3), (u8) (y >> 3), g_02146A44->slots[layer].unk_1d);
-  chr = (u8 *)func_020415B4(layer);
+  chr = (u8 *)BG_SYS_GetGraphics(layer);
   px = x & 7;
   py = y & 7;
   if (g_02146A44->slots[layer].flag_1e == 0)

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0218A1D0  0x0218A1D0  arm   ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_021858A8  0x021858A8  arm   ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_0218FF98  0x0218FF98  arm   ov009
@@ -93,7 +93,7 @@ typedef struct GPIConnection {
 
 extern void func_0218A1D0(char *buffer, int numChars);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0218FF98(void **connection, char *nick, char *email, GPIProfile **profile);
@@ -142,7 +142,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
         passphrase = data->partnerchallenge;
     else
         passphrase = iconnection->password;
-    func_021858A8((unsigned char *)passphrase, func_0209477C((const u8 *)passphrase), data->passwordHash);
+    func_021858A8((unsigned char *)passphrase, strlen((const u8 *)passphrase), data->passwordHash);
 
     if (iconnection->partnerID != 0)
         OS_SPrintf(partnerBuffer, g_021A483C, iconnection->partnerID);
@@ -161,7 +161,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
 
     OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                   data->userChallenge, data->serverChallenge, data->passwordHash);
-    func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), response);
+    func_021858A8((unsigned char *)buffer, strlen((const u8 *)buffer), response);
 
     if (iconnection->infoCaching) {
         func_0218FF98(connection, iconnection->nick, iconnection->email, &profile);

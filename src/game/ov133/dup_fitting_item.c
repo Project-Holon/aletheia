@@ -18,13 +18,13 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   _s32_div_f 0x0209C0A4 arm
- *   func_0200A828 0x0200A828 thumb
- *   func_0200A834 0x0200A834 thumb
+ *   MUSICAL_SAVE_GetFittingSetting 0x0200A828 thumb
+ *   MUSICAL_SAVE_SetFittingSetting 0x0200A834 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
  *   func_020355D8 0x020355D8 arm
- *   func_0200A6F8 0x0200A6F8 thumb
+ *   MUSICAL_SAVE_ClearNewProps 0x0200A6F8 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -36,12 +36,12 @@
  *   func_021F5330 0x021F5330 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_02030EAC 0x02030EAC arm
- *   func_0204ED24 0x0204ED24 arm
+ *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -49,7 +49,7 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
- *   func_021FD6A4 0x021FD6A4 thumb ov132
+ *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
  *   func_021F51E8 0x021F51E8 thumb ov112
  *   func_021F51F4 0x021F51F4 thumb ov112
  *   func_021F4990 0x021F4990 thumb ov112
@@ -58,7 +58,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_0204152C 0x0204152C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
@@ -95,10 +95,10 @@
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetLowBit 0x0204044C arm
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -106,7 +106,7 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_0204EBD4 0x0204EBD4 arm
+ *   BILLBOARD_Create 0x0204EBD4 arm
  *   d_021BA518 0x021BA518 data a4
  *   d_021BA3F4 0x021BA3F4 data a4
  *   d_021BA40C 0x021BA40C data a4
@@ -132,7 +132,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_021F5164 0x021F5164 thumb ov112
  *   func_021F5438 0x021F5438 thumb ov112
@@ -140,9 +140,9 @@
  *   func_021F5204 0x021F5204 thumb ov112
  *   func_021F545C 0x021F545C thumb ov112
  *   func_021F5350 0x021F5350 thumb ov112
- *   func_0200A644 0x0200A644 thumb
- *   func_0200A680 0x0200A680 thumb
- *   func_0200A628 0x0200A628 thumb
+ *   MUSICAL_SAVE_IsPropOwned 0x0200A644 thumb
+ *   MUSICAL_SAVE_IsPropNew 0x0200A680 thumb
+ *   MUSICAL_SAVE_GetOutfits 0x0200A628 thumb
  *   func_021F48C0 0x021F48C0 thumb ov112
  *   func_021F4B3C 0x021F4B3C thumb ov112
  *   func_021F4B4C 0x021F4B4C thumb ov112
@@ -212,11 +212,11 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BA594 0x021BA594 data ov133 a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_0207CFB8 0x0207CFB8 arm
- *   func_0200A604 0x0200A604 thumb
+ *   MUSICAL_SAVE_InitOutfits 0x0200A604 thumb
  *   func_020413B0 0x020413B0 arm
  *   a1 0x021BA558 data a4
  *   b1 0x021BA560 data a4
@@ -242,7 +242,7 @@
  *   func_0201EE0C 0x0201EE0C thumb
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   func_020416D4 0x020416D4 arm
+ *   BG_SYS_Get 0x020416D4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -463,12 +463,12 @@ typedef struct { int x, y; } Offset;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020056A0(void *,void *,int);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_0200A828(struct Big *p);
-extern void func_0200A834(struct Big *p, u8 value);
+extern u32 MUSICAL_SAVE_GetFittingSetting(struct Big *p);
+extern void MUSICAL_SAVE_SetFittingSetting(struct Big *p, u8 value);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void func_020355D8(u8);
-extern void func_0200A6F8(struct Big *);
+extern void MUSICAL_SAVE_ClearNewProps(struct Big *);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleasePalette(u32);
@@ -480,12 +480,12 @@ extern void CLACT_ExitSystem(void);
 extern void func_021F5330(int,int);
 extern void func_021F51B0(int a);
 extern void func_02030EAC(struct Node *);
-extern void func_0204ED24(void *);
+extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern void func_020403F4(u32);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern u32 func_020307B0(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -493,13 +493,13 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);
-extern int func_021FD6A4(char *p);
+extern int STA_NET_IsTransferDone(char *p);
 extern void func_021F51E8(u8 *);
 extern void func_021F51F4(void **p);
 extern void func_021F4990(void *);
 extern void CLACT_DrawSystem(void),func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
-extern void func_02041EE4(u32,u32,u32);
+extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void func_0204152C(int,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void func_0204047C(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
@@ -532,16 +532,16 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,VecU *,VecU *,VecU *,u16);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(void *);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0204044C(u32);
+extern void BG_SYS_SetLowBit(u32);
 extern void func_02040588(unsigned int, unsigned int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void *func_0204EBD4(u8 *,void *);
+extern void *BILLBOARD_Create(u8 *,void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -552,7 +552,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned int);
 extern void *func_021F5164(u32 heap);
 extern void func_021F5438(void **p, int b);
@@ -560,9 +560,9 @@ extern void func_021F5444(u8 *, int);
 extern u8 *func_021F5204(u8 *, void *, int);
 extern u8 *func_021F545C(u8 *p);
 extern void func_021F5350(int *p, int *q);
-extern u32 func_0200A644(struct Big *p, u8 index);
-extern u32 func_0200A680(struct Big *p, u8 index);
-extern u8 *func_0200A628(struct Big *p);
+extern u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index);
+extern u32 MUSICAL_SAVE_IsPropNew(struct Big *p, u8 index);
+extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
 extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
 extern void *func_021F4B3C(int type);
 extern void func_021F4B4C(struct Tagged *a0);
@@ -609,12 +609,12 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern int FX_Sqrt(int);
 extern int FX_Atan2Idx(int, int);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int func_021BA324(u8 *, int, int);
 extern u16 func_0207CFB8(long,long);
-extern void func_0200A604(struct Big *p);
+extern void MUSICAL_SAVE_InitOutfits(struct Big *p);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int _s32_div_f(int,int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -636,7 +636,7 @@ extern u8 func_021F5158(void *, int);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern u8 func_020416D4(u32);
+extern u8 BG_SYS_Get(u32);
 extern void CLACT_SetActorBgPriority(void *, u32);
 extern u32 func_0203F0A8(void);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -818,8 +818,8 @@ u8 *func_021B6100(u8 *parent, int heap)
     *(u32 *)(p + 0x98) = 1;
     *(u32 *)(p + 0x9c) = 0;
     *(u32 *)(p + 0xa0) = *(u16 *)(p + 0x182c) % 0x1249 + 0x10000;
-    if (func_0200A828((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8))) == 0) {
-        func_0200A834((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8)), 1);
+    if (MUSICAL_SAVE_GetFittingSetting((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8))) == 0) {
+        MUSICAL_SAVE_SetFittingSetting((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8)), 1);
         *(u32 *)(p + 0x1840) = 1;
     } else {
         *(u32 *)(p + 0x1840) = 0;
@@ -837,7 +837,7 @@ void func_021B6294(char *p)
 {
     u8 i;
     func_020355D8(1);
-    func_0200A6F8(*(struct Big * *)&((struct Obj23308 *)(*(char * *)&((struct Obj01941 *)p)->f4))->f8);
+    MUSICAL_SAVE_ClearNewProps(*(struct Big * *)&((struct Obj23308 *)(*(char * *)&((struct Obj01941 *)p)->f4))->f8);
     GFL_USE_CancelChangeAndStopBgm();
     func_021B9BD0((unsigned char *)p);
     func_021B9F24((unsigned char *)p);
@@ -854,13 +854,13 @@ void func_021B6294(char *p)
     func_021F5330(*(int *)&((struct Obj01941 *)p)->f187C,((struct Obj01941 *)p)->f1880);
     func_021F51B0(((struct Obj01941 *)p)->f187C);
     func_02030EAC(*(struct Node * *)&((struct Obj01941 *)p)->f8);
-    func_0204ED24(((struct Obj01941 *)p)->f188C);
+    BILLBOARD_Delete(((struct Obj01941 *)p)->f188C);
     G3D_CAMERA_Delete(((struct Obj01941 *)p)->f1888);
     G3D_SYSTEM_Exit();
     func_020403F4(0);func_020403F4(1);func_020403F4(2);func_020403F4(3);
     func_020403F4(4);func_020403F4(6);func_020403F4(5);func_020403F4(7);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020307B0(p);
 }
 
@@ -870,8 +870,8 @@ void func_021B6294(char *p)
 
 static inline void brightness(u8 *value)
 {
-    func_02041EE4(6,0,128-*value);
-    func_02041EE4(5,0,*value-128);
+    BG_SYS_ResetSlot(6,0,128-*value);
+    BG_SYS_ResetSlot(5,0,*value-128);
 }
 
 
@@ -924,7 +924,7 @@ int func_021B63BC(Context *p)
         if(func_021FCE00(*(void **)P(4),69)==1) W(0x0c)=5;
         break;
     case 5:
-        if(func_021FD6A4(*(void **)P(4))==1) {
+        if(STA_NET_IsTransferDone(*(void **)P(4))==1) {
             WIPE_SYS_Start(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
         }
         break;
@@ -935,7 +935,7 @@ int func_021B63BC(Context *p)
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
-        func_02041EE4(3,1,1); func_02041EE4(3,5,1);
+        BG_SYS_ResetSlot(3,1,1); BG_SYS_ResetSlot(3,5,1);
     }
     if(p->mode==0) {
         if(p->brightness<128) { p->brightness+=8; brightness(&p->brightness); }
@@ -1078,8 +1078,8 @@ void func_021B69AC(u8 *p)
     func_0207DCF8(d_021BA418);
     *(volatile u16 *)0x04000060 &= 0xcfdf;
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
-    func_0203F8F4(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((struct DispConfig *)d_021BA428); func_0204044C(1);
+    BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
+    func_0203FC28((struct DispConfig *)d_021BA428); BG_SYS_SetLowBit(1);
     func_021B6E4C(d_021BA438,1); func_021B6E4C(d_021BA458,2);
     func_021B6E4C(d_021BA478,3); func_021B6E4C(d_021BA4F8,7);
     func_021B6E4C(d_021BA498,4); func_021B6E4C(d_021BA4B8,5); func_021B6E4C(d_021BA4D8,6);
@@ -1092,7 +1092,7 @@ void func_021B69AC(u8 *p)
     *(void **)(p+0x1848) = CLACT_CreateUnit(24,0,*(u16 *)p);
     CLACT_SetUnitDefaultRenderer(*(void **)(p+0x1848));
     board = d_021BA5C4;
-    *(void **)(p+0x188c) = func_0204EBD4((u8 *)&board,(void *)*(u16 *)p);
+    *(void **)(p+0x188c) = BILLBOARD_Create((u8 *)&board,(void *)*(u16 *)p);
 }
 
 
@@ -1154,8 +1154,8 @@ void func_021B6BA4(u8 *p)
     func_020498F4(g, 0xf, 6, 0, 0, 0, H);
     func_020498F4(g, 0xe, 5, 0, 0, 0, H);
     func_020498F4(g, 0xd, 7, 0, 0, 0, H);
-    func_02041EE4(6, 0, 128);
-    func_02041EE4(5, 0, -128);
+    BG_SYS_ResetSlot(6, 0, 128);
+    BG_SYS_ResetSlot(5, 0, -128);
     *(struct Obj **)(p + 0x1858) = (struct Obj *)CLACT_RegisterPalette(g, 2, 0, 0, H);
     *(struct Obj **)(p + 0x1864) = (struct Obj *)CLACT_RegisterCharacter(g, 8, 0, 0, H);
     *(struct Obj **)(p + 0x1870) = (struct Obj *)CLACT_RegisterCellAnim(g, 0x14, 0x18, H);
@@ -1187,7 +1187,7 @@ void func_021B6BA4(u8 *p)
 
 
 
-void func_021B6E4C(const void *t,unsigned int id) {func_0203FCA0(id,t,0);func_02040588(id,1);func_020414AC(id);func_020409B4(id);}
+void func_021B6E4C(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);func_02040588(id,1);func_020414AC(id);func_020409B4(id);}
 
 
 
@@ -1254,10 +1254,10 @@ void func_021B6F00(u8 *p)
     *(u16 *)(p + 0xa8) = 0;
     zero = 0;
     for (i = 0; i < 250; i++) {
-        if (func_0200A644(*(void **)(*(u8 **)(p + 4) + 8), i) == 1) {
+        if (MUSICAL_SAVE_IsPropOwned(*(void **)(*(u8 **)(p + 4) + 8), i) == 1) {
             *(u16 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xac) = i;
             *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xb8) = zero;
-            if (func_0200A680(*(void **)(*(u8 **)(p + 4) + 8), i) == 1)
+            if (MUSICAL_SAVE_IsPropNew(*(void **)(*(u8 **)(p + 4) + 8), i) == 1)
                 *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
             else
                 *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = zero;
@@ -1339,7 +1339,7 @@ void func_021B6F00(u8 *p)
     }
 
     *(u16 *)(p + 0x94) = 0;
-    e = func_0200A628(*(void **)(*(u8 **)(p + 4) + 8));
+    e = MUSICAL_SAVE_GetOutfits(*(void **)(*(u8 **)(p + 4) + 8));
     for (k = 0; k < 8; k++) {
         if (e[k * 6] != 10)
             func_021B7368(p, *(u16 *)(e + k * 6 + 2));
@@ -2726,10 +2726,10 @@ int func_021B940C(u8 *p)
         ((struct Obj00004 *)p)->f10 = 192;
         GFL_USE_PlaySeDefaultVolume(1962);
         func_021B94C0(p);
-        obj = func_0201EC64(((struct Obj00004 *)p)->f0);
+        obj = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
         func_0201EEF4(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
         func_021B9C08(p, 0, obj);
-        func_0201ED04(obj);
+        WORDSET_DeleteStrbufED04(obj);
         func_021BA098(p);
         break;
     case -1:
@@ -2847,10 +2847,10 @@ void func_021B95AC(u8 *p)
 
 void func_021B96D8(char *p)
 {
-    u8 *sv = func_0200A628(*(void **)(*(char **)(p + 4) + 8));
+    u8 *sv = MUSICAL_SAVE_GetOutfits(*(void **)(*(char **)(p + 4) + 8));
     void *t;
     u8 i = 0;
-    func_0200A604(*(void **)(*(char **)(p + 4) + 8));
+    MUSICAL_SAVE_InitOutfits(*(void **)(*(char **)(p + 4) + 8));
     t = func_021BA184(*(char **)(p + 0x1824));
     while (t != 0 && i < 8) {
         u32 idx = (u16)func_021BA258(t);
@@ -3015,7 +3015,7 @@ void func_021B9C08(u8 *p, unsigned int index, void *object)
 }
 
 
-void func_021B9C90(unsigned char *p) {void *r=func_0201EC64(((struct Obj00004 *)p)->f0);func_0201EEF4(r,0,((struct Obj23325 *)(*(unsigned char * *)&((struct Obj23324 *)(*(unsigned char * *)&((struct Obj00004 *)p)->f4))->f4))->f4);func_021B9C08(p,0,r);func_0201ED04(r);}
+void func_021B9C90(unsigned char *p) {void *r=GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);func_0201EEF4(r,0,((struct Obj23325 *)(*(unsigned char * *)&((struct Obj23324 *)(*(unsigned char * *)&((struct Obj00004 *)p)->f4))->f4))->f4);func_021B9C08(p,0,r);WORDSET_DeleteStrbufED04(r);}
 
 
 void func_021B9CBC(u8 *p, u8 *entry)
@@ -3023,7 +3023,7 @@ void func_021B9CBC(u8 *p, u8 *entry)
     void *manager = (void *)func_021F4F10(*(u8 * *)&((struct Obj00004 *)p)->f1884);
     u8 *data = (u8 *)func_021BA20C(entry);
     int index = func_021F5158(manager, ((struct Obj14153 *)data)->f0);
-    void *obj = func_0201EC64(((struct Obj00004 *)p)->f0);
+    void *obj = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
     void *a = func_02045EC0(((struct Obj00004 *)p)->f18DC, ((struct Obj14153 *)data)->f0 + 3);
     void *b = func_02045EC0(((struct Obj00004 *)p)->f18E0, index + 16);
     func_0201EE0C(obj, 0, a, 0, 1, 2);
@@ -3031,7 +3031,7 @@ void func_021B9CBC(u8 *p, u8 *entry)
     func_021B9C08(p, 3, obj);
     STRBUF_Delete(b);
     STRBUF_Delete(a);
-    func_0201ED04(obj);
+    WORDSET_DeleteStrbufED04(obj);
 }
 
 
@@ -3055,12 +3055,12 @@ void func_021B9D54(u8 *p, int state)
     case 6:
     case 7: index = 0x16; break;
     }
-    w = func_0201EC64(((struct Obj00004 *)p)->f0);
+    w = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
     str = func_02045EC0(((struct Obj00004 *)p)->f18E0, index);
     func_0201EE0C(w, 0, str, 0, 1, 2);
     func_021B9C08(p, 4, w);
     STRBUF_Delete(str);
-    func_0201ED04(w);
+    WORDSET_DeleteStrbufED04(w);
 }
 
 
@@ -3123,7 +3123,7 @@ void func_021B9F5C(u8 *p)
     d = 0x18b8;
     for (i = 0; i < 8; i++) {
         q = p + i * 4;
-        CLACT_SetActorBgPriority(((struct Obj06502 *)q)->f1890, func_020416D4(4));
+        CLACT_SetActorBgPriority(((struct Obj06502 *)q)->f1890, BG_SYS_Get(4));
         CLACT_SetActorObjMode(((struct Obj06502 *)q)->f1890, 0);
         t = p + i;
         if (*(u8 *)((u32)p+(u32)i+(u32)d) == 0) {

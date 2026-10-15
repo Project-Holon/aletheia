@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0200C104  0x0200C104  thumb
+ *   BEACON_GetInputFlag  0x0200C104  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_021F4AE4  0x021F4AE4  thumb  ov194
  *   func_021F4BEC  0x021F4BEC  thumb  ov194
  *   BMP_OAM_CreateSys  0x02025538  thumb
@@ -38,14 +38,14 @@
  *   func_021F3008  0x021F3008  thumb  ov194
  *   func_021F3CD0  0x021F3CD0  thumb  ov194
  *   func_021F3EB0  0x021F3EB0  thumb  ov194
- *   func_021F5304  0x021F5304  thumb  ov194
+ *   PROF_WORD_Create  0x021F5304  thumb  ov194
  *   func_021F3DE0  0x021F3DE0  thumb  ov194
  *   func_021F3E18  0x021F3E18  thumb  ov194
  *   func_021F3D70  0x021F3D70  thumb  ov194
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   SAVE_CONTROL_INTR_Resume  0x021BD374  thumb  ov088
- *   func_021F5354 0x021F5354 thumb ov194
+ *   PROF_WORD_Delete 0x021F5354 thumb ov194
  *   func_021F3ED0 0x021F3ED0 thumb ov194
  *   func_021F3D54 0x021F3D54 thumb ov194
  *   func_021F31B8 0x021F31B8 thumb ov194
@@ -59,7 +59,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   BMP_OAM_DeleteSys 0x02025588 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -74,7 +74,7 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_02040DA8 0x02040DA8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -131,14 +131,14 @@ typedef struct Rect_021F1BFC {int left,top,right,bottom;} Rect_021F1BFC;
 
 struct Vec2 { s16 x, y; };
 
-extern u8 func_0200C104(struct Blk34 *p, u32 i);
+extern u8 BEACON_GetInputFlag(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern unsigned char *func_021F4AE4(unsigned swap, unsigned short heap);
 extern unsigned func_021F4BEC(unsigned char *p);
 extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
@@ -156,14 +156,14 @@ extern void func_021F1E28(u8 *p, u32 a, u32 b, u32 c, u32 d, u8 *e, u32 f);
 extern void func_021F3008(u8 *p, int mode, void *font, void *window, void *data, void *palette, u32 heap);
 extern void func_021F3CD0(u8 *p, int a, int b, int c, int d, u16 e);
 extern void func_021F3EB0(char *p, int v);
-extern u32 func_021F5304(u16 heap);
+extern u32 PROF_WORD_Create(u16 heap);
 extern void func_021F3DE0(char *, int, u32, u32, u16);
 extern void func_021F3E18(char *, int, void *);
 extern void func_021F3D70(char *, int);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void SAVE_CONTROL_INTR_Resume(unsigned char *p);
-extern void func_021F5354(u8 *);
+extern void PROF_WORD_Delete(u8 *);
 extern void func_021F3ED0(u8 *);
 extern void func_021F3D54(u8 *);
 extern void func_021F31B8(u8 *);
@@ -174,7 +174,7 @@ extern void func_021F4608(void *p);
 extern void func_021F42A0(u8 *);
 extern void BMP_OAM_DeleteSys(void *);
 extern void func_021F4B84(unsigned char *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -192,7 +192,7 @@ extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsig
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02040C14(unsigned,unsigned,unsigned,unsigned);
+extern void BG_SYS_Init(unsigned,unsigned,unsigned,unsigned);
 extern void func_0201F5BC(unsigned,unsigned,unsigned,unsigned,u16);
 extern int func_02040DA8(int, int, int);
 extern int CLACT_RegisterPalette(void *,unsigned,unsigned,unsigned,u16);
@@ -240,7 +240,7 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
 
     mode = 0;
     if (*(u32 *)(args + 0x28) != 0) {
-        mode = func_0200C104((struct Blk34 *)(*(u32 *)(args + 0x28)), *(u32 *)args);
+        mode = BEACON_GetInputFlag((struct Blk34 *)(*(u32 *)(args + 0x28)), *(u32 *)args);
         if (mode >= 5) {
             mode = 0;
         }
@@ -252,7 +252,7 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
     *(u32 *)(w + 0x2b0) = (u32)GF_FONT_Create(0x17, 0, 1, 0, 0x1e);
     *(u32 *)(w + 0x2b4) = (u32)PRINTSYS_QUE_CreateEx(0x1000, 0x1e);
     *(u32 *)(w + 0x2b8) = (u32)func_02045B38(1, 2, 0x51, 0x1e);
-    *(u32 *)(w + 0x2bc) = (u32)func_0201EC64(0x1e);
+    *(u32 *)(w + 0x2bc) = (u32)GF_FONT_Create_EC64(0x1e);
     *(u32 *)w = (u32)func_021F4AE4(0, 0x1e);
     *(u32 *)(w + 0x2c0) = (u32)BMP_OAM_CreateSys(0x1e, (void *)func_021F4BEC((unsigned char *)(*(u32 *)w)));
     func_021F1780((int)(w + 0x64), 0x1e);
@@ -275,7 +275,7 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
     func_021F3008(w + 0xfc, mode, *(void **)(w + 0x2b0), *(void **)(w + 0x2b4), *(void **)(w + 0x22c), w + 4, 0x1e);
     func_021F3CD0(w + 0x230, *(u32 *)(w + 0x2b0), *(u32 *)(w + 0x2b8), *(u32 *)(w + 0x2b4), *(u32 *)(w + 0x2bc), 0x1e);
     func_021F3EB0((char *)(w + 0x254), 0x1e);
-    *(u32 *)(w + 0x2cc) = func_021F5304(0x1e);
+    *(u32 *)(w + 0x2cc) = PROF_WORD_Create(0x1e);
     if (*(u32 *)args == 1) {
         if (*(u32 *)(args + 8) == 0) {
             func_021F3DE0((char *)(w + 0x230), *(u32 *)args, *(u16 *)(args + 4), *(u16 *)(args + 6), 0x1e);
@@ -299,7 +299,7 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
 
 int func_021F168C(void *a,u32 b,u32 c,u8 *d)
 {
-    func_021F5354(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
+    PROF_WORD_Delete(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
     func_021F3ED0(d+596);
     func_021F3D54(d+560);
     func_021F31B8(d+252);
@@ -312,7 +312,7 @@ int func_021F168C(void *a,u32 b,u32 c,u8 *d)
     func_021F1878(d+100);
     BMP_OAM_DeleteSys(((struct Obj02908 *)d)->f2C0);
     func_021F4B84(((struct Obj02908 *)d)->f0);
-    func_0201ED04(((struct Obj02908 *)d)->f2BC);
+    WORDSET_DeleteStrbufED04(((struct Obj02908 *)d)->f2BC);
     MSGDATA_Delete(((struct Obj02908 *)d)->f2B8);
     PRINTSYS_QUE_Clear(((struct Obj02908 *)d)->f2B4);
     PRINTSYS_QUE_Delete(((struct Obj02908 *)d)->f2B4);
@@ -350,7 +350,7 @@ void func_021F1780(int unused,u16 heap)
     p=func_020490F4(23,heap);
     func_02049B68(p,6,4,480,32,heap);
     ARC_TOOL_DeleteHandle(p);
-    func_02040C14(4,0,1,0);
+    BG_SYS_Init(4,0,1,0);
     func_0201F5BC(4,1,14,0,heap);
 }
 

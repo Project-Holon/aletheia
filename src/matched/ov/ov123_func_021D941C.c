@@ -11,7 +11,7 @@
  * symbols:
  *   PDWACC_MESSAGE_DeleteButtonManager 0x021D92B8 thumb ov123
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -23,6 +23,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj00534.h"
 typedef unsigned char u8;
@@ -38,12 +39,12 @@ struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -56,18 +57,18 @@ void PDWACC_MESSAGE_ExitSystem(u8 *p)
 {
     u32 a;
     int i;
-    func_0203FB44(1,(u16)(((struct Obj00534 *)p)->f0),(u16)(((struct Obj00534 *)p)->f0>>16));
+    BG_SYS_DeleteHalf(1,(u16)(((struct Obj00534 *)p)->f0),(u16)(((struct Obj00534 *)p)->f0>>16));
     a=((struct Obj00534 *)p)->f8>>16;
-    func_0203FB44(5,(u16)(((struct Obj00534 *)p)->f8),(u16)a);
+    BG_SYS_DeleteHalf(5,(u16)(((struct Obj00534 *)p)->f8),(u16)a);
     a=((struct Obj00534 *)p)->f4>>16;
-    func_0203FB44(6,(u16)(((struct Obj00534 *)p)->f4),(u16)a);
+    BG_SYS_DeleteHalf(6,(u16)(((struct Obj00534 *)p)->f4),(u16)a);
     PDWACC_MESSAGE_DeleteButtonManager(p);
     func_0201DD68();
     MSGDATA_Delete(((struct Obj00534 *)p)->f20);
     GF_FONT_Delete(((struct Obj00534 *)p)->f28);
     STRBUF_Delete(((struct Obj00534 *)p)->f2C);
     STRBUF_Delete(((struct Obj00534 *)p)->f30);
-    func_0201ED04(((struct Obj00534 *)p)->f24);
+    WORDSET_DeleteStrbufED04(((struct Obj00534 *)p)->f24);
     APP_TASKMENU_RES_Delete(((struct Obj00534 *)p)->fAC);
     PRINTSYS_QUE_Clear(((struct Obj00534 *)p)->f8C);
     PRINTSYS_QUE_Delete(((struct Obj00534 *)p)->f8C);

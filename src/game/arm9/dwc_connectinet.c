@@ -1,7 +1,7 @@
 /*
  * file:     dwc_connectinet.c
  * unit:     yes
- * function: func_0205C6AC, func_0205C710, func_0205C758, func_0205C81C, func_0205C88C, func_0205C8E0, func_0205CA20, func_0205CC20, func_0205CCAC, DWC_GetLinkLevel, func_0205CCE4, func_0205CD24, func_0205CE84, DWC_GetCheckNintendoZoneWorkSize, func_0205CF30, DWC_GetParseWMBssDescWorkSize, func_0205D01C, func_0205D074
+ * function: DWC_InitInetEx, DWC_SetRwinSize, DWC_ConnectInetAsync, DWC_DebugConnectInetExAsync, DWC_CheckInet, DWC_ProcessInet, DWC_GetInetStatus, DWC_CleanupInet, DWCi_CheckDisconnected, DWC_GetLinkLevel, DWCi_DivideFullApinfo, DWC_GetApInfo, DWC_CheckWiFiStation, DWC_GetCheckNintendoZoneWorkSize, DWC_CheckNintendoZone, DWC_GetParseWMBssDescWorkSize, DWC_ParseWMBssDesc, DWC_UpdateConnection
  * address:  0x0205C6AC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -192,26 +192,21 @@ extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *cr
 extern int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
 extern void func_0205CF24(void);
 extern int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo);
-extern int DWC_CheckNintendoZone(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo);
+extern int DWC_CheckNintendoZone(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo);
 extern void DWC_ProcessInet(void);
-void func_0205C6AC(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority);
-void func_0205C710(long size);
-void func_0205C758(void);
-void func_0205C81C(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
-int func_0205C88C(void);
-void func_0205C8E0(void);
-int func_0205CA20(void);
-void func_0205CC20(void);
-int func_0205CCAC(void);
+void DWC_InitInetEx(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority);
+void DWC_SetRwinSize(long size);
+void DWC_DebugConnectInetExAsync(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
+int DWC_CheckInet(void);
+void DWC_CleanupInet(void);
+int DWCi_CheckDisconnected(void);
 int DWC_GetLinkLevel(void);
-void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo);
-int func_0205CD24(DWCApInfo *apinfo);
-int func_0205CE84(void *ssid, unsigned short len, DWCApInfo *apinfo);
+void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo);
+int DWC_GetApInfo(DWCApInfo *apinfo);
 unsigned long DWC_GetCheckNintendoZoneWorkSize(void);
-int func_0205CF30(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo);
 void DWC_GetParseWMBssDescWorkSize(void);
-int func_0205D01C(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo);
-int func_0205D074(void);
+int DWC_ParseWMBssDesc(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo);
+int DWC_UpdateConnection(void);
 extern INETBSS g_02146AD4;
 
 
@@ -225,7 +220,7 @@ extern INETBSS g_02146AD4;
  * The DWARF prototype lists three parameters, but ssl_priority is read from r3:
  * the second argument slot (r2) is an unused parameter.
  */
-void func_0205C6AC(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority)
+void DWC_InitInetEx(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority)
 {
     if (g_02146AD4.stpInetCntl != 0) {
         return;
@@ -250,7 +245,7 @@ void func_0205C6AC(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned sh
 /*
  * sdk:      DWC_SetRwinSize (dwc_connectinet.o)
  */
-void func_0205C710(long size)
+void DWC_SetRwinSize(long size)
 {
     if (g_02146AD4.stpInetCntl == 0) {
         return;
@@ -271,7 +266,7 @@ void func_0205C710(long size)
 /*
  * sdk:      DWC_ConnectInetAsync (dwc_connectinet.o)
  */
-void func_0205C758(void)
+void DWC_ConnectInetAsync(void)
 {
     DWCACConfig inp;
 
@@ -303,7 +298,7 @@ void func_0205C758(void)
 /*
  * sdk:      DWC_DebugConnectInetExAsync (dwc_connectinet.o)
  */
-void func_0205C81C(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType)
+void DWC_DebugConnectInetExAsync(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType)
 {
     DWC_ConnectInetAsync();
     if (g_02146AD4.stpInetCntl != 0) {
@@ -322,7 +317,7 @@ void func_0205C81C(void *ssid, void *wep, int wepMode, unsigned short mtu, char 
 /*
  * sdk:      DWC_CheckInet (dwc_connectinet.o)
  */
-int func_0205C88C(void)
+int DWC_CheckInet(void)
 {
     if (g_02146AD4.stpInetCntl == 0) {
         return 0;
@@ -341,7 +336,7 @@ int func_0205C88C(void)
 /*
  * sdk:      DWC_ProcessInet (dwc_connectinet.o)
  */
-void func_0205C8E0(void)
+void DWC_ProcessInet(void)
 {
     if (g_02146AD4.stpInetCntl == 0) {
         return;
@@ -353,7 +348,7 @@ void func_0205C8E0(void)
         return;
     case 2:
         DWC_AC_CleanupGetWDSInfo();
-        func_0205C81C(g_02146AD4.stpInetCntl->nspotInfo.ssid, g_02146AD4.stpInetCntl->nspotInfo.wep,
+        DWC_DebugConnectInetExAsync(g_02146AD4.stpInetCntl->nspotInfo.ssid, g_02146AD4.stpInetCntl->nspotInfo.wep,
                       g_02146AD4.stpInetCntl->nspotInfo.wepMode, g_02146AD4.stpInetCntl->nspotInfo.mtu,
                       g_02146AD4.stpInetCntl->nspotInfo.apSpotInfo, 8);
         DWCi_AC_InvalidatePriorityWPA();
@@ -384,7 +379,7 @@ void func_0205C8E0(void)
 /*
  * sdk:      DWC_GetInetStatus (dwc_connectinet.o)
  */
-int func_0205CA20(void)
+int DWC_GetInetStatus(void)
 {
     int state;
     int result;
@@ -403,7 +398,7 @@ int func_0205CA20(void)
     case 2:
         return 2;
     case 3:
-        func_0205C8E0();
+        DWC_ProcessInet();
         DWCi_SetError(5, g_02146AD4.stateOld);
         g_02146AD4.stpInetCntl->state = 7;
         g_02146AD4.stpInetCntl->processWDSstate = 4;
@@ -444,11 +439,11 @@ int func_0205CA20(void)
             wontExecuteEULACheck_Temp = g_02146AD4.stpInetCntl->wontExecuteEULACheck;
             rwin_Temp = g_02146AD4.stpInetCntl->rwin;
             g_02146AD4.stateOld = state;
-            func_0205CC20();
-            func_0205C6AC(cntl, dmaNoTemp, 1, (unsigned short)ssl_priority_Temp);
+            DWC_CleanupInet();
+            DWC_InitInetEx(cntl, dmaNoTemp, 1, (unsigned short)ssl_priority_Temp);
             g_02146AD4.stpInetCntl->wontExecuteEULACheck = wontExecuteEULACheck_Temp;
             if (rwin_Temp != 0) {
-                func_0205C710(rwin_Temp);
+                DWC_SetRwinSize(rwin_Temp);
             }
             DWC_AC_StartupGetWDSInfo(&g_02146AD4.stpInetCntl->nspotInfo, dmaNoTemp);
             g_02146AD4.stpInetCntl->processWDSstate = 1;
@@ -471,7 +466,7 @@ int func_0205CA20(void)
 /*
  * sdk:      DWC_CleanupInet (dwc_connectinet.o)
  */
-void func_0205CC20(void)
+void DWC_CleanupInet(void)
 {
     int state;
 
@@ -504,7 +499,7 @@ void func_0205CC20(void)
 /*
  * sdk:      DWCi_CheckDisconnected (dwc_connectinet.o)
  */
-int func_0205CCAC(void)
+int DWCi_CheckDisconnected(void)
 {
     if (g_02146AD4.stpInetCntl != 0 && g_02146AD4.stpInetCntl->state == 6) {
         return 1;
@@ -526,7 +521,7 @@ int DWC_GetLinkLevel(void)
 /*
  * sdk:      DWCi_DivideFullApinfo (dwc_connectinet.o)
  */
-void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo)
+void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo)
 {
     int isdigit = 0;
 
@@ -545,7 +540,7 @@ void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo)
 /*
  * sdk:      DWC_GetApInfo (dwc_connectinet.o)
  */
-int func_0205CD24(DWCApInfo *apinfo)
+int DWC_GetApInfo(DWCApInfo *apinfo)
 {
     unsigned short essidlen;
     unsigned char apSpotInfo[10];
@@ -583,7 +578,7 @@ int func_0205CD24(DWCApInfo *apinfo)
     }
     OS_RestoreInterrupts(preirq);
     if (DWC_AC_GetApSpotInfo(apSpotInfo)) {
-        func_0205CCE4((char *)apSpotInfo, apinfo);
+        DWCi_DivideFullApinfo((char *)apSpotInfo, apinfo);
     } else {
         apinfo->area = 0xff;
     }
@@ -598,7 +593,7 @@ int func_0205CD24(DWCApInfo *apinfo)
 /*
  * sdk:      DWC_CheckWiFiStation (dwc_connectinet.o)
  */
-int func_0205CE84(void *ssid, unsigned short len, DWCApInfo *apinfo)
+int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo)
 {
     unsigned char apSpotInfo[10];
 
@@ -612,7 +607,7 @@ int func_0205CE84(void *ssid, unsigned short len, DWCApInfo *apinfo)
         }
         if (DWCi_AC_GetPostalCode(ssid, apSpotInfo)) {
             apinfo->aptype = 4;
-            func_0205CCE4((char *)apSpotInfo, apinfo);
+            DWCi_DivideFullApinfo((char *)apSpotInfo, apinfo);
             return 1;
         }
     }
@@ -631,7 +626,7 @@ unsigned long DWC_GetCheckNintendoZoneWorkSize(void)
 /*
  * sdk:      DWC_CheckNintendoZone (dwc_connectinet.o)
  */
-int func_0205CF30(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo)
+int DWC_CheckNintendoZone(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo)
 {
     DWCCheckNintendoZoneWork *pwork;
 
@@ -649,7 +644,7 @@ int func_0205CF30(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo)
             && WDS_IsAvailableForAutoConnect(&pwork->apinfo)) {
             if (apinfo != 0) {
                 apinfo->aptype = 8;
-                func_0205CCE4(pwork->apinfo.fullapinfo, apinfo);
+                DWCi_DivideFullApinfo(pwork->apinfo.fullapinfo, apinfo);
             }
             return 1;
         }
@@ -667,7 +662,7 @@ void DWC_GetParseWMBssDescWorkSize(void)
 /*
  * sdk:      DWC_ParseWMBssDesc (dwc_connectinet.o)
  */
-int func_0205D01C(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo)
+int DWC_ParseWMBssDesc(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo)
 {
     if (work == 0 || bssdesc == 0 || apinfo == 0) {
         return 0;
@@ -675,7 +670,7 @@ int func_0205D01C(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo)
     if (DWC_CheckWiFiStation(bssdesc->ssid, bssdesc->ssidLength, apinfo)) {
         return 1;
     }
-    return DWC_CheckNintendoZone(work, bssdesc, apinfo) ? 1 : 0;
+    return DWC_CheckNintendoZone(work, (WMBssDesc_0205CCE4 *)bssdesc, apinfo) ? 1 : 0;
 }
 
 
@@ -683,12 +678,12 @@ int func_0205D01C(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo)
 /*
  * sdk:      DWC_UpdateConnection (dwc_connectinet.o)
  */
-int func_0205D074(void)
+int DWC_UpdateConnection(void)
 {
     unsigned char aptype;
 
     DWC_ProcessInet();
-    if (func_0205CCAC()) {
+    if (DWCi_CheckDisconnected()) {
         aptype = DWC_AC_GetApType();
         if (aptype == 0xff || aptype > 99) {
             aptype = 99;

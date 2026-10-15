@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   SCRCMD_WORK_DeleteCommon  0x0215A554  thumb  ov010
  *   func_020307B0  0x020307B0  arm
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201ED04();
+extern int WORDSET_DeleteStrbufED04();
 extern int STRBUF_Delete();
 extern int SCRCMD_WORK_DeleteCommon();
 extern int func_020307B0();
@@ -36,7 +36,7 @@ a0 = 0;
 a0 = ((struct Obj00105 *)t4)->f2C;
     if (a0 == 0) goto loc_02158F2A;
 loc_02158F26:
-    a0 = func_0201ED04(a0);
+    a0 = WORDSET_DeleteStrbufED04(a0);
 loc_02158F2A:
 a0 = ((struct Obj00105 *)t4)->f30;
     if (a0 == 0) goto loc_02158F34;

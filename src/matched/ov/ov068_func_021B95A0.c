@@ -25,7 +25,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   func_02045B38  0x02045B38  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   OPTION_MENU_InitSettings  0x021BAF5C  thumb  ov068
@@ -89,7 +89,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void OPTION_MENU_InitSettings(u8 *p, short unsigned int *a);
@@ -121,9 +121,9 @@ int OPTION_MENU_Init(void *proc, int *seq, Args *args)
     w->x264 = (u32)APP_TASKMENU_RES_Create(3, 9, w->font, w->x258, 0x1c);
     w->msg = (u32)func_02045B38(0, 2, 0x1d, 0x1c);
     w->x268 = (u32)TCBL_Create(0x1c, 0x1c, 0x20, 0x20);
-    OPTION_MENU_InitSettings(w->x248, (short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)w->args->x4))));
+    OPTION_MENU_InitSettings(w->x248, (short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C((const struct Ctx *)w->args->x4))));
     OPTION_MENU_InitRunner(w->xD4, (int)w, (int)OPTION_MENU_StateFadeIn);
-    t = (u32)func_020120F4((const struct Ctx *)w->args->x4);
+    t = (u32)ICA_ANIME_GetField1C((const struct Ctx *)w->args->x4);
     OPTION_MENU_InitButtons(w->x104, OPTION_MENU_GetScreenSpriteUnit(w), w->font, w->x258, w->msg, w->x260, t, 0x1c);
     OPTION_MENU_InitList(w->x148, 1, 2, w, w->x248, 0x1c);
     OPTION_MENU_InitInput(w->xE4, 0x1c);

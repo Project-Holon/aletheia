@@ -1,5 +1,5 @@
 /*
- * function: func_0201D768
+ * function: GF_FONT_Copy
  * address:  0x0201D768
  * packet:   pkt_0201D6D8
  * region:   arm9
@@ -14,7 +14,7 @@
  *
  * printsys.c: append `len` bytes to the byte ring at +0x18 in `unit`-sized
  * copies, wrapping the head back to 0 at ring->size, and return the address
- * the first copy landed at.  The three callers are func_0201D6D8's.
+ * the first copy landed at.  The three callers are GF_FONT_CopyStrbufD6D8's.
  *
  * Rewritten from the start in wave 20 (lane printsys_fresh; 63 bytes out for
  * the inherited source).  What closed it: the head advance is the compound
@@ -32,8 +32,8 @@
  * static inline accessor RingData(ring), so the plain form is kept.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201D768.c \
- *       --func func_0201D768 --addr 0x0201D768 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_Copy.c \
+ *       --func GF_FONT_Copy --addr 0x0201D768 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ struct Ring {
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void *func_0201D768(struct Ring *ring, const u8 *src, u16 len, u16 unit)
+void *GF_FONT_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit)
 {
     u16 start;
     u8 *buf;

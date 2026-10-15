@@ -1,5 +1,5 @@
 /*
- * function: func_0202A1CC
+ * function: TPOKE_DATA_FindEntryIndex
  * address:  0x0202A1CC
  * packet:   pkt_0202A19C
  * region:   arm9
@@ -19,11 +19,11 @@
  * bottom of the loop.  Written with a separate base pointer the compiler caches
  * the bound and the residue is 10 bytes of register shuffling.
  *
- * Closes the blocker of src/pending/func_0202A20C.c.
+ * Closes the blocker of src/pending/TPOKE_DATA_GetEntryIndex.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202A1CC.c \
- *       --func func_0202A1CC --addr 0x0202A1CC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TPOKE_DATA_FindEntryIndex.c \
+ *       --func TPOKE_DATA_FindEntryIndex --addr 0x0202A1CC --thumb --cc 1.1p1
  */
 
 typedef unsigned short u16;
@@ -43,7 +43,7 @@ struct Container {
     u32 count;
 };
 
-u32 func_0202A1CC(const struct Container *c, u32 key, u32 v2, u32 v3)
+u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 v2, u32 v3)
 {
     u32 i;
 

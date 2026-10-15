@@ -23,15 +23,15 @@
  *   OS_GetTick            0x020870D0  arm
  *   MI_CpuCopy8           0x02082D44  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02088864  0x02088864  arm
- *   func_0208890C  0x0208890C  arm
+ *   RTC_GetDate  0x02088864  arm
+ *   RTC_GetTime  0x0208890C  arm
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   OS_GetThreadPriority  0x02085A30  arm
  *   OS_SetThreadPriority  0x02085988  arm
  *   gCpsSslConfig  0x021A1D40  data
  *   OS_SetThreadPriority  0x02085988  arm
  *   OSi_ThreadInfo        0x02150FEC  data
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   cert_item_len  0x0216017C  arm  ov009
  *   strlen         0x0209477C  arm
  *   memcmp         0x020923F0  arm
@@ -115,7 +115,7 @@
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   id_string        0x020050F0  data
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   g_02150FEC     0x02150FEC  data
+ *   gMslRefToken     0x02150FEC  data
  */
 #include "cps_ssl_types.h"
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
@@ -127,12 +127,12 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned long long func_020870D0(void);
 extern unsigned long long OS_GetTick(void);
-extern int func_02088864(struct RTCDate *date);
-extern int func_0208890C(struct RTCTime *time);
+extern int RTC_GetDate(struct RTCDate *date);
+extern int RTC_GetTime(struct RTCTime *time);
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void *OS_GetThreadPriority(OSThread *p);
 extern int OS_SetThreadPriority(void *thread, unsigned long prio);
-extern int func_020948E0(const char *s1, const char *s2);
+extern int strcmp(const char *s1, const char *s2);
 static int cert_item_len(unsigned char **ps);
 static void make_dn(char *d, char *s, int len);
 static unsigned long parse_time(unsigned char *s, int type);
@@ -147,7 +147,6 @@ extern void func_021634F0(void *ctx, unsigned char *digest);
 extern void func_02163C9C(void *ctx);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_02163DA8(void *ctx, unsigned char *digest);
-extern int RTC_GetDate(RTCDate *date);
 static int auth_cert(CPSSslConnection *con);
 static int compare_fqdn(char *name, char *pat);
 static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
@@ -361,8 +360,8 @@ unsigned long date2sec(void)
 	RTCDate date;
 	RTCTime time;
 
-	func_02088864((struct RTCDate *)(&date));
-	func_0208890C((struct RTCTime *)(&time));
+	RTC_GetDate((struct RTCDate *)(&date));
+	RTC_GetTime((struct RTCTime *)(&time));
 	sec = RTC_ConvertDateTimeToSecond((struct RTCDate *)(&date), (struct RTCTime *)(&time));
 	return sec + 946684800;
 }
@@ -442,7 +441,7 @@ SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn)
 		list = con->rootCa;
 		do {
 			SOCLCaInfo *ca = list[i];
-			if (func_020948E0(ca->dn, dn) == 0) {
+			if (strcmp(ca->dn, dn) == 0) {
 				return ca;
 			}
 			i++;

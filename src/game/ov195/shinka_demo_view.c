@@ -1,7 +1,7 @@
 /*
  * file:     shinka_demo_view.c
  * unit:     yes
- * function: func_022058F8, func_022059A0, func_022059FC, func_02205A10, func_02205A1C, func_02205A28, func_02205A34, func_02205A84, func_02205AAC, func_02205AC0, func_02205B24, func_02205B60, func_02205B64, func_02205B6C, func_02205BAC, func_02205BC8, func_02205BD0, func_02205BD8, func_02205BDC, func_02205C48, func_02205C58, func_02205C6C, func_02205C74, func_02205D28, func_02205D50, func_0220602C, func_02206044, func_0220604C, func_02206050, func_02206058, func_0220605C, func_02206064, func_0220606C, func_02206070, func_02206074, func_02206078, func_0220609C, func_022060BC, func_022060C8, func_02206108, func_0220623C, func_02206264, func_02206274, func_022063AC, func_022063E0, func_022065C8, func_02206604, func_02206664, func_0220672C, func_0220673C, func_02206750, func_02206768, func_022067B0, func_022067BC, func_022067FC, func_0220682C, func_0220685C, func_02206A3C, func_02206A5C, func_02206E2C, func_02207510, func_022076A0, func_02207868, func_022081A4, func_0220826C, func_0220827C, func_022082DC, func_022083CC, func_022083DC, func_022083EC, func_02208410, func_02208420, func_02208430, func_02208478, func_02208514, func_0220851C, func_02208570, func_022086BC, func_022086C8, func_02208714, func_0220871C, func_02208770, func_0220878C, func_02208804, func_02208814, func_0220882C, func_02208844, func_02208850, func_02208860, func_0220887C, func_02208994, func_022089A4, func_02208A24, func_02208A2C, func_02208A38, func_02208A48, func_02208A54, func_02208A6C, func_02208A78, func_02208AB0, func_02208B54, func_02208B6C, func_02208C10, func_02208C18, func_02208C28, func_02208C30
+ * function: SHINKA_DEMO_GRAPHIC_Create, SHINKA_DEMO_GRAPHIC_Destroy, SHINKA_DEMO_GRAPHIC_Draw, SHINKA_DEMO_GRAPHIC_Update, SHINKA_DEMO_GRAPHIC_DrawEnd, SHINKA_DEMO_GRAPHIC_GetCamera, SHINKA_DEMO_GRAPHIC_SetupSubBg, SHINKA_DEMO_GRAPHIC_ReleaseSubBg, SHINKA_DEMO_GRAPHIC_VBlank, SHINKA_DEMO_GRAPHIC_SetupMainBg, SHINKA_DEMO_GRAPHIC_ReleaseMainBg, SHINKA_DEMO_GRAPHIC_Noop, SHINKA_DEMO_GRAPHIC_UpdateSubBg, SHINKA_DEMO_GRAPHIC_InitClact, SHINKA_DEMO_GRAPHIC_ExitClact, SHINKA_DEMO_GRAPHIC_DrawClact, SHINKA_DEMO_GRAPHIC_VBlankClact, SHINKA_DEMO_GRAPHIC_GetCameraId, SHINKA_DEMO_GRAPHIC_Init3d, SHINKA_DEMO_GRAPHIC_Exit3d, SHINKA_DEMO_GRAPHIC_Update3d, SHINKA_DEMO_GRAPHIC_Draw3dEnd, SHINKA_DEMO_VIEW_Create, SHINKA_DEMO_VIEW_Destroy, SHINKA_DEMO_VIEW_Main, func_0220602C, func_02206044, func_0220604C, func_02206050, func_02206058, func_0220605C, func_02206064, func_0220606C, func_02206070, func_02206074, func_02206078, func_0220609C, func_022060BC, func_022060C8, func_02206108, func_0220623C, func_02206264, func_02206274, func_022063AC, func_022063E0, func_022065C8, func_02206604, func_02206664, func_0220672C, func_0220673C, func_02206750, func_02206768, func_022067B0, func_022067BC, func_022067FC, func_0220682C, func_0220685C, func_02206A3C, func_02206A5C, func_02206E2C, func_02207510, func_022076A0, func_02207868, func_022081A4, func_0220826C, func_0220827C, func_022082DC, func_022083CC, func_022083DC, func_022083EC, func_02208410, func_02208420, func_02208430, func_02208478, func_02208514, func_0220851C, func_02208570, func_022086BC, func_022086C8, func_02208714, func_0220871C, func_02208770, func_0220878C, func_02208804, func_02208814, func_0220882C, func_02208844, func_02208850, func_02208860, func_0220887C, func_02208994, func_022089A4, func_02208A24, func_02208A2C, func_02208A38, func_02208A48, func_02208A54, func_02208A6C, func_02208A78, func_02208AB0, func_02208B54, func_02208B6C, func_02208C10, func_02208C18, func_02208C28, func_02208C30
  * address:  0x022058F8
  * region:   ov195
  * compiler: dsi/1.1p1
@@ -31,15 +31,15 @@
  *   d_02208CA0 0x02208CA0 data a4
  *   d_02208D1C 0x02208D1C data a4
  *   func_0203FC6C 0x0203FC6C arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -54,7 +54,7 @@
  *   d_02208C88 0x02208C88 data a4
  *   d_02208C7C 0x02208C7C data a4
  *   d_02208C94 0x02208C94 data a4
- *   func_02205854 0x02205854 thumb ov195
+ *   SHINKA_DEMO_Setup3d 0x02205854 thumb ov195
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
@@ -112,7 +112,7 @@
  *   d_02148BCC 0x02148BCC data
  *   G3D_SYSTEM_GetProjection 0x020467EC arm
  *   G3D_SYSTEM_GetLookAt 0x02046AFC arm
- *   func_0207ADC4 0x0207ADC4 arm
+ *   MTX_Identity33_ 0x0207ADC4 arm
  *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
  *   func_02082B60 0x02082B60 arm
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
@@ -135,9 +135,9 @@
  *   _ll_mul 0x0209C054 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   func_0207C768 0x0207C768 arm
- *   func_0207B640 0x0207B640 thumb
+ *   MTX_RotY43_ 0x0207B640 thumb
  *   MTX_MultVec43 0x0207BC08 arm
- *   func_0207C7E8 0x0207C7E8 arm
+ *   FX_InvSqrt 0x0207C7E8 arm
  *   d_02208E4C 0x02208E4C data
  *   d_02208E38 0x02208E38 data
  *   d_02208F7C 0x02208F7C data
@@ -569,15 +569,15 @@ extern void func_02030EAC(struct Node *n);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 extern void func_020403F4(u32 i);
-extern void func_0203F8F4(void *);
+extern void BG_SYS_Create(void *);
 extern void BMP_WIN_Init(void *);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -588,7 +588,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(int);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_02205854(void);
+extern void SHINKA_DEMO_Setup3d(void);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, void *, void *);
 extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -632,7 +632,7 @@ extern u8 POKE_TOOL_GetGender(void *p);
 extern u32 func_02017EAC(void *p);
 extern void G3D_SYSTEM_GetProjection(int p0);
 extern void G3D_SYSTEM_GetLookAt(u8 *dst);
-extern void func_0207ADC4(MtxFx33 *m);
+extern void MTX_Identity33_(MtxFx33 *m);
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
@@ -653,9 +653,9 @@ extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern int FX_Sqrt(int);
 extern u32 func_0207C768(u32 a, u32 b);
-extern void func_0207B640(Matrix *,fx32_02207868,fx32_02207868);
+extern void MTX_RotY43_(Matrix *,fx32_02207868,fx32_02207868);
 extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
-extern fx32_02207868 func_0207C7E8(fx32_02207868);
+extern fx32_02207868 FX_InvSqrt(fx32_02207868);
 extern int func_02208C30(Anim_02208C28 *p);
 extern void PARTICLE_InitManager(u32 heap);
 extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
@@ -679,31 +679,31 @@ extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame)
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
-char *func_022058F8(u32 a, u32 b);
-void func_022059A0(char *p);
-void func_022059FC(char *a);
-void func_02205A10(char *a);
-void func_02205A1C(char *a);
-int func_02205A28(char *a);
-void func_02205A34(void);
-void func_02205A84(int a0);
-void func_02205AAC(int a, char *b);
-void func_02205AC0(void *a, void *b);
-void func_02205B24(void *p);
-void func_02205B60(void *a0);
-void func_02205B64(void *a0);
-void func_02205B6C(unsigned char *p, int a, u32 b);
-void func_02205BAC(char *a);
-void func_02205BC8(void *a0);
-void func_02205BD0(void *a0);
-int func_02205BD8(int *p);
-void func_02205BDC(u32 *a, void *b);
-void func_02205C48(int *p);
-void func_02205C58(char *a);
-void func_02205C6C(void *p);
-Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c);
-void func_02205D28(char *p);
-void func_02205D50(char *p);
+char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
+void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
+void SHINKA_DEMO_GRAPHIC_Draw(char *a);
+void SHINKA_DEMO_GRAPHIC_Update(char *a);
+void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a);
+int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
+void SHINKA_DEMO_GRAPHIC_SetupSubBg(void);
+void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0);
+void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b);
+void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b);
+void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p);
+void SHINKA_DEMO_GRAPHIC_Noop(void *a0);
+void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0);
+void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
+void SHINKA_DEMO_GRAPHIC_ExitClact(char *a);
+void SHINKA_DEMO_GRAPHIC_DrawClact(void *a0);
+void SHINKA_DEMO_GRAPHIC_VBlankClact(void *a0);
+int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p);
+void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b);
+void SHINKA_DEMO_GRAPHIC_Exit3d(int *p);
+void SHINKA_DEMO_GRAPHIC_Update3d(char *a);
+void SHINKA_DEMO_GRAPHIC_Draw3dEnd(void *p);
+Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
+void SHINKA_DEMO_VIEW_Destroy(char *p);
+void SHINKA_DEMO_VIEW_Main(char *p);
 void func_0220602C(Owner *o);
 void func_02206044(int *p);
 int func_0220604C(int *p);
@@ -813,7 +813,7 @@ extern char d_02208EC0[];
 
 
 
-char *func_022058F8(u32 a, u32 b)
+char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
 {
     char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
@@ -829,10 +829,10 @@ char *func_022058F8(u32 a, u32 b)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_ResetTextColor();
-    func_02205AC0(p, (void *)b);
-    func_02205B6C((unsigned char *)(p + 4), (int)d_02208CEC, b);
-    func_02205BDC((u32 *)(p + 8), (void *)b);
-    ((struct Obj24951 *)p)->fC = func_020056A0(func_02205AAC, p, 0);
+    SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)b);
+    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, b);
+    SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)b);
+    ((struct Obj24951 *)p)->fC = func_020056A0(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
     return p;
 }
 
@@ -844,12 +844,12 @@ char *func_022058F8(u32 a, u32 b)
 /*
  * volatile: hardware 04000050/04001050 writes and 04000000/04001000 read/write at 022059C2-022059DC.
  */
-void func_022059A0(char *p)
+void SHINKA_DEMO_GRAPHIC_Destroy(char *p)
 {
     func_02030EAC(((struct Obj24952 *)p)->fC);
-    func_02205C48((int *)(p + 8));
-    func_02205BAC(p + 4);
-    func_02205B24(p);
+    SHINKA_DEMO_GRAPHIC_Exit3d((int *)(p + 8));
+    SHINKA_DEMO_GRAPHIC_ExitClact(p + 4);
+    SHINKA_DEMO_GRAPHIC_ReleaseMainBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -865,10 +865,10 @@ void func_022059A0(char *p)
 
 
 
-void func_022059FC(char *a)
+void SHINKA_DEMO_GRAPHIC_Draw(char *a)
 {
-    func_02205BC8(a + 4);
-    func_02205B60(a);
+    SHINKA_DEMO_GRAPHIC_DrawClact(a + 4);
+    SHINKA_DEMO_GRAPHIC_Noop(a);
 }
 
 
@@ -877,9 +877,9 @@ void func_022059FC(char *a)
 
 
 
-void func_02205A10(char *a)
+void SHINKA_DEMO_GRAPHIC_Update(char *a)
 {
-    func_02205C58(a + 8);
+    SHINKA_DEMO_GRAPHIC_Update3d(a + 8);
 }
 
 
@@ -888,9 +888,9 @@ void func_02205A10(char *a)
 
 
 
-void func_02205A1C(char *a)
+void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a)
 {
-    func_02205C6C(a + 8);
+    SHINKA_DEMO_GRAPHIC_Draw3dEnd(a + 8);
 }
 
 
@@ -899,9 +899,9 @@ void func_02205A1C(char *a)
 
 
 
-int func_02205A28(char *a)
+int SHINKA_DEMO_GRAPHIC_GetCamera(char *a)
 {
-    return func_02205BD8((int *)(a + 4));
+    return SHINKA_DEMO_GRAPHIC_GetCameraId((int *)(a + 4));
 }
 
 
@@ -914,7 +914,7 @@ int func_02205A28(char *a)
  * and the element address separate values, so `adds r6, r7, r0` is emitted
  * inside the guarded block instead of hoisted above the `cmp`.
  */
-void func_02205A34(void)
+void SHINKA_DEMO_GRAPHIC_SetupSubBg(void)
 {
     u32 i;
 
@@ -923,7 +923,7 @@ void func_02205A34(void)
         u32 v = d_02208D1C[(int)i].id;
         if (v >= 4) {
             Entry *e = &d_02208D1C[i];
-            func_0203FCA0((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
+            BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             func_020414AC(v);
             func_02040588(v, e->mode);
         }
@@ -935,7 +935,7 @@ void func_02205A34(void)
 
 
 
-void func_02205A84(int a0)
+void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0)
 {
     unsigned int i;
     for (i = 0; i < 6; i++)
@@ -953,10 +953,10 @@ void func_02205A84(int a0)
 
 
 
-void func_02205AAC(int a, char *b)
+void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b)
 {
-    func_02205B64(b);
-    func_02205BD0(b + 4);
+    SHINKA_DEMO_GRAPHIC_UpdateSubBg(b);
+    SHINKA_DEMO_GRAPHIC_VBlankClact(b + 4);
 }
 
 
@@ -974,22 +974,22 @@ void func_02205AAC(int a, char *b)
 
 
 /*
- * Twin of func_02205A34: the `(int)i` cast on the id read keeps the element
+ * Twin of SHINKA_DEMO_GRAPHIC_SetupSubBg: the `(int)i` cast on the id read keeps the element
  * address from being hoisted above the guard.
  */
-void func_02205AC0(void *a, void *b)
+void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b)
 {
     u32 i;
 
     MI_CpuFill8(a, 0, 4);
-    func_0203F8F4(b);
+    BG_SYS_Create(b);
     BMP_WIN_Init(b);
     func_0203FC28((struct DispConfig *)d_02208CA0);
     for (i = 0; i < 6; i++) {
         u32 v = d_02208D1C[(int)i].id;
         if (v <= 3) {
             Entry *e = &d_02208D1C[i];
-            func_0203FCA0((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
+            BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             func_020414AC(v);
             func_02040588(v, e->mode);
         }
@@ -1003,7 +1003,7 @@ void func_02205AC0(void *a, void *b)
 
 
 
-void func_02205B24(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)func_020403F4((u8)id);}BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
+void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)func_020403F4((u8)id);}BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 
 
@@ -1016,7 +1016,7 @@ void func_02205B24(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(i
 /*
  * extent: two trailing bytes of zero alignment padding.
  */
-void func_02205B60(void *a0) {}
+void SHINKA_DEMO_GRAPHIC_Noop(void *a0) {}
 
 
 
@@ -1025,7 +1025,7 @@ void func_02205B60(void *a0) {}
 
 
 
-void func_02205B64(void *a0){func_020419E4();}
+void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0){func_020419E4();}
 
 
 
@@ -1035,7 +1035,7 @@ void func_02205B64(void *a0){func_020419E4();}
 
 
 
-void func_02205B6C(unsigned char *p, int a, u32 b)
+void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x02208CB0, a, b);
@@ -1053,7 +1053,7 @@ void func_02205B6C(unsigned char *p, int a, u32 b)
 
 
 
-void func_02205BAC(char *a)
+void SHINKA_DEMO_GRAPHIC_ExitClact(char *a)
 {
     CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj24953 *)a)->f0)));
     MI_CpuFill8(a, 0, 4);
@@ -1066,7 +1066,7 @@ void func_02205BAC(char *a)
 
 
 
-void func_02205BC8(void *a0){CLACT_DrawSystem();}
+void SHINKA_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
 
 
 
@@ -1075,7 +1075,7 @@ void func_02205BC8(void *a0){CLACT_DrawSystem();}
 
 
 
-void func_02205BD0(void *a0){CLACT_VBlankSystem();}
+void SHINKA_DEMO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
 
 
 
@@ -1084,7 +1084,7 @@ void func_02205BD0(void *a0){CLACT_VBlankSystem();}
 
 
 
-int func_02205BD8(int *p)
+int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p)
 {
     return *p;
 }
@@ -1097,9 +1097,9 @@ int func_02205BD8(int *p)
 
 
 
-void func_02205BDC(u32 *a, void *b)
+void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b)
 {
-    G3D_SYSTEM_Init(0, 2, 0, 1, 0, b, func_02205854);
+    G3D_SYSTEM_Init(0, 2, 0, 1, 0, b, SHINKA_DEMO_Setup3d);
     *a = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                        d_02208C88, d_02208C7C, d_02208C94, b);
 }
@@ -1112,7 +1112,7 @@ void func_02205BDC(u32 *a, void *b)
 
 
 
-void func_02205C48(int *p)
+void SHINKA_DEMO_GRAPHIC_Exit3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
@@ -1125,7 +1125,7 @@ void func_02205C48(int *p)
 
 
 
-void func_02205C58(char *a)
+void SHINKA_DEMO_GRAPHIC_Update3d(char *a)
 {
     func_02047964();
     G3D_CAMERA_Reset((struct Light *)((struct Obj24957 *)a)->f0);
@@ -1140,7 +1140,7 @@ void func_02205C58(char *a)
 
 
 
-void func_02205C6C(void *p)
+void SHINKA_DEMO_GRAPHIC_Draw3dEnd(void *p)
 {
     G3D_SYSTEM_DrawEnd();
 }
@@ -1153,7 +1153,7 @@ void func_02205C6C(void *p)
 
 
 
-Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c)
+Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
 {
     Owner *o = func_02030734(heap, 0x60, 1, d_02208F68, 0x201);
 
@@ -1198,7 +1198,7 @@ Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c)
 
 
 
-void func_02205D28(char *p){func_022065C8(p);func_0220623C((Owner *)((Owner *)p));func_022060BC(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}
+void SHINKA_DEMO_VIEW_Destroy(char *p){func_022065C8(p);func_0220623C((Owner *)((Owner *)p));func_022060BC(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}
 
 
 
@@ -1207,7 +1207,7 @@ void func_02205D28(char *p){func_022065C8(p);func_0220623C((Owner *)((Owner *)p)
 
 
 
-void func_02205D50(char *p)
+void SHINKA_DEMO_VIEW_Main(char *p)
 {
     switch(W(0x14)) {
     case 0:
@@ -1323,7 +1323,7 @@ void func_0220602C(Owner *o)
 
 /*
  * Setter for the +0x1c flag word of the ov195 scene object driven by
- * func_022040E0.  Unlabelled in the listing (a leaf that saves no lr, so it
+ * SHINKA_DEMO_Main.  Unlabelled in the listing (a leaf that saves no lr, so it
  * prints inside a .word run); region-qualified because ov094 overlaps.
  */
 void func_02206044(int *p)
@@ -1450,7 +1450,7 @@ int func_02206074(int *p)
 
 
 /*
- * Leaf of the func_022040E0 dependency tree: on a positive func_0220673C
+ * Leaf of the SHINKA_DEMO_Main dependency tree: on a positive func_0220673C
  * probe it sets the +0x40 word and the +0x14 state word of the scene object
  * and notifies func_02206750; returns 1, else 0.
  */
@@ -1819,7 +1819,7 @@ void func_02206664(Owner *o)
         MtxFx33 rot;
         VecFx32 trans = {0, 0, 0};
 
-        func_0207ADC4(&rot);
+        MTX_Identity33_(&rot);
         NNS_G3dGlbBaseTrans(&trans);
         func_02082B60(&rot, &d_02148BCC.baseRot);
         d_02148BCC.flag &= ~0xa4;
@@ -2458,7 +2458,7 @@ void func_02207868(char *p,u16 heap)
         for(i=0;i<18;i++)for(j=0;j<18;j++){
             char *q=p+0x74+i*0x900+j*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            func_0207B640(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            MTX_RotY43_(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source1.x=Q(0x50);source1.y=0;source1.z=0;
             MTX_MultVec43(&source1,&m1,&goal);goal.y=Q(0x54);
             if(Q(0x64)==0){
@@ -2478,7 +2478,7 @@ void func_02207868(char *p,u16 heap)
                         smallH=0;smallV=0;if(horiz<0x11ac)smallH=1;else if(vert<0x11ac)smallV=1;
                         if(smallH){Q(0x68)=Q(0x58);Q(0x70)=Q(0x60);}
                         else{
-                            inv=func_0207C7E8(horiz);
+                            inv=FX_InvSqrt(horiz);
                             Q(0x68)=add(add(Q(0x68),mul(sub(Q(0x68),Q(0x74)),409)),mul(mul(dx,inv),3584));
                             Q(0x70)=add(add(Q(0x70),mul(sub(Q(0x70),Q(0x7c)),409)),mul(mul(dz,inv),3584));
                         }
@@ -2497,7 +2497,7 @@ void func_02207868(char *p,u16 heap)
         for(i=0;i<18;i++)for(j=0;j<18;j++){
             char *q=p+0x74+i*0x900+j*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            func_0207B640(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            MTX_RotY43_(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source2.x=Q(0x50);source2.y=0;source2.z=0;
             MTX_MultVec43(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
         }
@@ -2523,19 +2523,19 @@ void func_02207868(char *p,u16 heap)
             if(Q(0x64)==2){
                 if(first3||second3){Q(0x30)=0;Q(0x64)=3;if(first3)first3=0;else second3=0;}
                 else{
-                    func_0207B640(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    MTX_RotY43_(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source3.x=Q(0x50);source3.y=0;source3.z=0;
                     MTX_MultVec43(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
                 }
                 done3=0;
             }else if(Q(0x64)==3){
                 if(Q(0x30)==0){
-                    func_0207B640(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    MTX_RotY43_(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source4.x=Q(0x50);source4.y=0;source4.z=0;
                     MTX_MultVec43(&source4,&m4,&V(0x68));Q(0x6c)=Q(0x54);
                     vx=sub(Q(0x68),Q(0x74));vy=sub(Q(0x6c),Q(0x78));vz=sub(Q(0x70),Q(0x7c));
                     horiz1=mul(vx,vx)+mul(vz,vz);vert1=(int)(((long long)vy*vy+2048)>>12);
-                    if(horiz1>4096){inv=func_0207C7E8(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}
+                    if(horiz1>4096){inv=FX_InvSqrt(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}
                     else{nx=vx;nz=vz;}
                     if(vert1>4096)ny=vy>=0?4096:-4096;
                     else ny=vy;
@@ -2545,7 +2545,7 @@ void func_02207868(char *p,u16 heap)
                     horiz2=mul(dx,dx)+mul(dz,dz);vert2=(int)(((long long)dy*dy+2048)>>12);
                     if(horiz2<0x11ac&&vert2<0x11ac){Q(0x68)=Q(0x34);Q(0x70)=Q(0x3c);Q(0x6c)=Q(0x38);Q(0x30)=0;Q(0x64)=4;}
                     else{
-                        if(horiz2>4096){inv=func_0207C7E8(horiz2);dx=mul(dx,inv);dz=mul(dz,inv);}
+                        if(horiz2>4096){inv=FX_InvSqrt(horiz2);dx=mul(dx,inv);dz=mul(dz,inv);}
                         if(vert2>4096)dy=dy>=0?4096:-4096;
                         Q(0x68)=add(Q(0x68),dx);Q(0x6c)=add(Q(0x6c),dy);Q(0x70)=add(Q(0x70),dz);
                     }
@@ -2943,7 +2943,7 @@ Node *func_022086C8(u16 heap, u16 n)
         p[i].sx = 0x1000;
         p[i].sy = 0x1000;
         p[i].sz = 0x1000;
-        func_0207ADC4((MtxFx33 *)p[i].mtx);
+        MTX_Identity33_((MtxFx33 *)p[i].mtx);
     }
     return p;
 }

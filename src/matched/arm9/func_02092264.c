@@ -1,5 +1,5 @@
 /*
- * function: func_02092264
+ * function: MSL_C_LIB_MbrToWc
  * address:  0x02092264
  * packet:   pkt_02092264
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     2026-10-12 lane HF0: hidden function filed.
  * symbols:
  */
-int func_02092264(unsigned short *pwc, const unsigned char *s, unsigned int n)
+int MSL_C_LIB_MbrToWc(unsigned short *pwc, const unsigned char *s, unsigned int n)
 {
     if (s == 0) {
         return 0;

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F6A98,func_021F6AA4
+ * function: EGG_DEMO_VIEW_ResetAnimState,EGG_DEMO_VIEW_IsFinished
  * address: 0x021F6A98
  * packet: pkt_ov215_021F6A98
  * region: ov215
@@ -13,5 +13,5 @@
  */
 #include "../include/Obj14710.h"
 #include "../include/Obj25759.h"
-void func_021F6A98(char *p){((struct Obj14710 *)p)->fC=6;((struct Obj14710 *)p)->f18=0;}
-int func_021F6AA4(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}
+void EGG_DEMO_VIEW_ResetAnimState(char *p){((struct Obj14710 *)p)->fC=6;((struct Obj14710 *)p)->f18=0;}
+int EGG_DEMO_VIEW_IsFinished(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}

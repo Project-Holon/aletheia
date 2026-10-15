@@ -1,5 +1,5 @@
 /*
- * function: func_021889B0
+ * function: LOADER_ENTRY_Start
  * address:  0x021889B0
  * packet:   pkt_ov230_021889B0
  * region:   ov230
@@ -19,12 +19,12 @@
  *           wave 82 lane R3's write set, so not filed). Best C so far is
  *           scratchpad/retry-pass-20261004/w82/R3/leaf_ov230_02188A48.c.txt:
  *           DIFF 113 B, 248/256. Levers found: the pool word 0x021899A0 is
- *           ov230's bss start (a symbol, d_021899A0, also pooled at
+ *           ov230's bss start (a symbol, gLoaderDecryptBssStart, also pooled at
  *           0x02188BCC/0x02188C5C), not a constant (as a constant it folds
  *           with -0x1600); computing p = t[0]-0x1600 before size splits the
  *           ldm into ldr [t,#4]; ldr [t]. Residue: case 1/3's tail
  *           (str r1,[p]; bic key) cross-jumps into default's identical tail
- *           (-8 B), and p/size/key/d_021899A0 sit in r4/r6/r7/r8 instead of
+ *           (-8 B), and p/size/key/gLoaderDecryptBssStart sit in r4/r6/r7/r8 instead of
  *           r8/r4/r6/r7. Permuter (300, --types) found nothing valid.
  * note:     position-independent entry: r0 = pc + 4 (0x021889BC, the
  *           descriptor table that follows the code), always nonzero, so the
@@ -43,15 +43,15 @@
  * that decoder is promoted to src/matched or 0x02188A48 gets a label. No other residue.
  *
  * symbols:
- *   func_02188A48  0x02188A48  arm  ov230
+ *   LOADER_DECRYPT_DecodeBlocks  0x02188A48  arm  ov230
  */
 
-extern void func_02188A48(void);
+extern void LOADER_DECRYPT_DecodeBlocks(void);
 
 /* hand-written in the original: position-independent entry reading pc (orr r0, pc, #0), followed by a data table */
-asm void func_021889B0(void)
+asm void LOADER_ENTRY_Start(void)
 {
     orr     r0, pc, #0
     adds    r0, r0, #4
-    bne     func_02188A48
+    bne     LOADER_DECRYPT_DecodeBlocks
 }

@@ -29,7 +29,7 @@
  *   g_02148D4C   0x02148D4C  data
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
  *   NNS_G3dGlbGetInvProjectionMtx  0x0206AD20  arm
- *   func_0207B5C0  0x0207B5C0  arm
+ *   MTX_Copy43To44_  0x0207B5C0  arm
  *   func_0207BE14  0x0207BE14  arm
  *
  * Verified with:
@@ -44,7 +44,7 @@ extern char g_02148D4C[];
 
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
 extern u32 *NNS_G3dGlbGetInvProjectionMtx(void);
-extern void  func_0207B5C0(void *a, void *buf);
+extern void  MTX_Copy43To44_(void *a, void *buf);
 extern void  func_0207BE14(void *a, void *buf, void *c);
 
 void *NNS_G3dGlbGetInvVPMtx(void)
@@ -56,7 +56,7 @@ void *NNS_G3dGlbGetInvVPMtx(void)
     if ((g_renderState[0x3f] & 0x40) == 0) {
         a = NNS_G3dGlbGetInvCameraMtx();
         b = NNS_G3dGlbGetInvProjectionMtx();
-        func_0207B5C0(a, buf);
+        MTX_Copy43To44_(a, buf);
         func_0207BE14(b, buf, g_02148D4C);
         g_renderState[0x3f] |= 0x40;
     }

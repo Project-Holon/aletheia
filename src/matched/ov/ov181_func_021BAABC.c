@@ -1,5 +1,5 @@
 /*
- * function: func_021BAABC
+ * function: STAFF_ROLL_CmdNop
  * address: 0x021BAABC
  * packet: pkt_ov181_021BAABC
  * region: ov181
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021BAABC(void) {return 1;}
+int STAFF_ROLL_CmdNop(void) {return 1;}

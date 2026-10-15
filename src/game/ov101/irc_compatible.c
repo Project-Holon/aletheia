@@ -17,7 +17,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_020307B0 0x020307B0 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -33,12 +33,12 @@
  *   IRC_COMPATIBLE_StepTable 0x021B74B8 data a4
  *   PROCSYS_Push 0x02031348 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200A8A0 0x0200A8A0 thumb
+ *   IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200A9D4 0x0200A9D4 thumb
  *   func_020084F4 0x020084F4 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_0200AA00 0x0200AA00 thumb
+ *   IRC_RANKING_GetDateScore 0x0200AA00 thumb
  *   COMPATIBLE_IRC_SYS_Create 0x021B6100 thumb ov101
  *   COMPATIBLE_IRC_SYS_Delete 0x021B6148 thumb ov101
  *   COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
@@ -110,7 +110,7 @@ extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u1
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u32 func_020307B0(void *mem);
 extern u32 GFL_NET_IsParentAid(void);
-extern void *func_020120F4(const struct GameSystem *gameSystem);
+extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
@@ -124,12 +124,12 @@ extern unsigned int PROCSYS_Main(void *queue);
 extern void func_0203133C(void *queue);
 extern void PROCSYS_Push(void *queue, int taskProc, int priority, void *args);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *func_0200A8A0(void *saveBlock);
+extern void *IRC_RANKING_GetFromSave(void *saveBlock);
 extern u32 func_02008530(const u8 *myStatus);
 extern int func_0200A9D4(void *saveBlock, u32 nameKey);
 extern u16 *func_020084F4(void *myStatus);
 extern u16 STRBUF_GetEosChar(void);
-extern unsigned char func_0200AA00(unsigned month, unsigned day, struct DateBytes *date);
+extern unsigned char IRC_RANKING_GetDateScore(unsigned month, unsigned day, struct DateBytes *date);
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
 void COMPATIBLE_IRC_SYS_Delete(void *view);
 void COMPATIBLE_IRC_SYS_BuildProfile(void *gameSystem, IrcCompatibleProfile *out);
@@ -184,7 +184,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     work->partnerProfile = func_02030734(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
     MI_CpuFill8(work->partnerProfile, 0, 44);
     IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
-    if (work->param->gameSystem) gameData = (int)func_020120F4(work->param->gameSystem);
+    if (work->param->gameSystem) gameData = (int)ICA_ANIME_GetField1C(work->param->gameSystem);
     work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
@@ -504,9 +504,9 @@ void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
  * MI_CpuFill8 0x02082BCC arm
- * func_020120F4 0x020120F4 thumb
+ * ICA_ANIME_GetField1C 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
- * func_0200A8A0 0x0200A8A0 thumb
+ * IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  * func_02008530 0x02008530 thumb
  * func_0200A9D4 0x0200A9D4 thumb
  * COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
@@ -530,8 +530,8 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
     if(work->firstTestScore && work->secondTestScore) {
         partnerName=work->partnerProfile->myStatus;
         /* the first call below discards its result; kept as in the original code */
-        func_020120F4(work->param->gameSystem);
-        saveBlock=func_0200A8A0(GAME_DATA_GetSaveControl(func_020120F4(work->param->gameSystem)));
+        ICA_ANIME_GetField1C(work->param->gameSystem);
+        saveBlock=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->param->gameSystem)));
         if(func_0200A9D4(saveBlock,func_02008530(partnerName))==0) isNewPartner=1;
         useBonus=0;
         if(work->secondTestBonus && isNewPartner) useBonus=1;
@@ -638,4 +638,4 @@ unsigned IRC_COMPATIBLE_FindHighestSetBit(unsigned bits, unsigned width) { unsig
 
 
 
-unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate) { struct DateBytes date; date.year=(unsigned char)(packedDate>>24); date.month=(unsigned char)(packedDate>>16); date.day=(unsigned char)(packedDate>>8); date.weekday=(unsigned char)packedDate; return func_0200AA00(profile->birthMonth,profile->birthDay,&date); }
+unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate) { struct DateBytes date; date.year=(unsigned char)(packedDate>>24); date.month=(unsigned char)(packedDate>>16); date.day=(unsigned char)(packedDate>>8); date.weekday=(unsigned char)packedDate; return IRC_RANKING_GetDateScore(profile->birthMonth,profile->birthDay,&date); }

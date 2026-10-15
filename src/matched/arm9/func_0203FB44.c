@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203FB44
+ * function: BG_SYS_DeleteHalf
  * address:  0x0203FB44
  * packet:   pkt_0203FA08
  * region:   arm9
@@ -31,8 +31,8 @@
  * docs/idioms/reassigning-a-parameter-keeps-its-register.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203FB44.c \
- *       --func func_0203FB44 --addr 0x0203FB44 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DeleteHalf.c \
+ *       --func BG_SYS_DeleteHalf --addr 0x0203FB44 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -52,7 +52,7 @@ struct AreaMan;
 extern u8 sub_020416B8(int channel);
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-void func_0203FB44(u32 layer, u32 offset, u32 size)
+void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size)
 {
     u32           unit = sub_020416B8((u8)layer);
     struct BgSys *p    = g_02146A44;

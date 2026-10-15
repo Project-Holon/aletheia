@@ -10,9 +10,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200A9A4, sub_0200A9D4
+ * function: IRC_RANKING_IsEntryNew, IRC_RANKING_HasEntry
  *
- * The two helpers between func_0200A940 and func_0200AA00, both invisible
+ * The two helpers between func_0200A940 and IRC_RANKING_GetDateScore, both invisible
  * to the worklist: each saves registers but not lr and nothing branches to
  * either from outside, so disasm.py prints the pair as a single run of
  * `.word` (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
@@ -36,7 +36,7 @@ struct T0200A9A4 {
     u8  f1b;
 };
 
-int sub_0200A9A4(struct T0200A9A4 *o, u32 v)
+int IRC_RANKING_IsEntryNew(struct T0200A9A4 *o, u32 v)
 {
     int i;
 
@@ -47,7 +47,7 @@ int sub_0200A9A4(struct T0200A9A4 *o, u32 v)
     return 0;
 }
 
-int sub_0200A9D4(struct T0200A9A4 *o, u32 v)
+int IRC_RANKING_HasEntry(struct T0200A9A4 *o, u32 v)
 {
     int i;
 

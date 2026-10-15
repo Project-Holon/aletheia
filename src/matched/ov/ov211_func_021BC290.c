@@ -1,5 +1,5 @@
 /*
- * function: func_021BC290
+ * function: ZUKAN_SEARCH_PROC_Update
  * address: 0x021BC290
  * packet: pkt_ov211_021BC290
  * region: ov211
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj14684.h"
 extern unsigned char d_021BC8D8[];
-int func_021BC290(unsigned char *p){((struct Obj14684 *)p)->fC=(*(unsigned (**)(unsigned char *))(d_021BC8D8+*(unsigned *)(p+12)*4))(p);return ((struct Obj14684 *)p)->fC!=6;}
+int ZUKAN_SEARCH_PROC_Update(unsigned char *p){((struct Obj14684 *)p)->fC=(*(unsigned (**)(unsigned char *))(d_021BC8D8+*(unsigned *)(p+12)*4))(p);return ((struct Obj14684 *)p)->fC!=6;}

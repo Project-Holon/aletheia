@@ -41,9 +41,9 @@
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   func_020413B0  0x020413B0  arm
@@ -68,9 +68,9 @@
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_02020F34 0x02020F34 thumb
- *   func_02021014 0x02021014 thumb
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
+ *   FILE_UTIL_Get_1014 0x02021014 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_02019CF8 0x02019CF8 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
@@ -146,7 +146,7 @@ struct Bank;
 #define TIMER_PALETTE_DST ((void *)0x05000440)
 
 #define MENU_APPEND(v) do { menu->ids[menu->count] = (v); menu->count++; } while (0)
-#define ITEM_PARAM(k) func_02021014(itemData, (k))
+#define ITEM_PARAM(k) FILE_UTIL_Get_1014(itemData, (k))
 #define ITEM_DONE(k) {func_020307B0(itemData);return(k);}
 #define DESC ((struct Descriptor *)work->descriptor)
 
@@ -178,9 +178,9 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern void BMP_FillRect(void *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -202,9 +202,9 @@ extern void APP_TASKMENU_WIN_Delete(void *win);
 extern void APP_TASKMENU_WIN_Update(void *win);
 extern void APP_TASKMENU_WIN_SetActive(void *win, u32 a);
 void APP_TASKMENU_WIN_SetDecide(void *win, int v);
-extern void *func_02020F34(u32 item, u32 which, u32 heap);
-extern u32 func_02021014(void *itemData, u32 param);
-extern unsigned int func_02020FE4(u32 itemId, unsigned int param, unsigned int heapId);
+extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
+extern u32 FILE_UTIL_Get_1014(void *itemData, u32 param);
+extern unsigned int FILE_UTIL_Get_0FE4(u32 itemId, unsigned int param, unsigned int heapId);
 extern u32 POKEPARTY_GetCount(void *party);
 extern unsigned int func_02019CF8(unsigned int item);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
@@ -511,7 +511,7 @@ void PLIST_MENU_ButtonWinSetDecide(void *win, int value)
  */
 int PLIST_MENU_GetItemUseKind(int itemId)
 {
-    void *itemData = func_02020F34(itemId, 0, 23);
+    void *itemData = FILE_UTIL_CreateArcTool0F34(itemId, 0, 23);
     int statusMask;
     int amount;
     if (ITEM_PARAM(14) != 1) ITEM_DONE(29);
@@ -569,7 +569,7 @@ int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int itemId)
     case 26: return 1;
     case 27: return 1;
     case 28:
-        if (func_02020FE4(itemId, 39, work->heapId))
+        if (FILE_UTIL_Get_0FE4(itemId, 39, work->heapId))
             return 1;
         break;
     }
@@ -578,7 +578,7 @@ int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int itemId)
 
 int PLIST_MENU_ItemRestoresHp(PokelistWork *work, u32 itemId)
 {
-    if (func_02020FE4(itemId, 27, work->heapId))
+    if (FILE_UTIL_Get_0FE4(itemId, 27, work->heapId))
         return 1;
     return 0;
 }
@@ -803,11 +803,11 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             msg = func_02045EC0(work->msgBank, i + 0x95); y = i << 4;
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
             STRBUF_Delete(msg);
-            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = func_0201EC64(work->heapId);
+            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = GF_FONT_Create_EC64(work->heapId);
             func_0201EFA4(wordSet, 0, delta, 3, 0, 1); func_0201F250(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
-            STRBUF_Delete(msg); STRBUF_Delete(numStr); func_0201ED04(wordSet);
+            STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
         }
         for (j = 0; j < 6; j++) {
             x = flag == 1 ? 72 : 80;
@@ -832,11 +832,11 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         BMP_FillRect(BMP_WIN_GetBmp(DESC), 0x50, 0, 0x20, 0x60, 15);
         for (i = 0; i < 6; i++) {
             delta = func_02017E1C((void *)work->selectedMon, gPlistStatParamIds[i], 0);
-            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = func_0201EC64(work->heapId);
+            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = GF_FONT_Create_EC64(work->heapId);
             func_0201EFA4(wordSet, 0, delta, 3, 0, 1); func_0201F250(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
-            STRBUF_Delete(msg); STRBUF_Delete(numStr); func_0201ED04(wordSet);
+            STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
         }
         work->inputStage = 4; break;
     }

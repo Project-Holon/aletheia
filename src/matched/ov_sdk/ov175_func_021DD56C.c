@@ -6,12 +6,12 @@
  * status:   EXACT
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  */
 typedef unsigned int u32;
 
 void *func_0217EAB0(int size);
-void func_020923B0(void *dst, int c, int n);
+void MSL_C_LIB_MemsetPtr(void *dst, int c, int n);
 
 int *sakeiInitRequest(int *ctx, int a1, int a2, int a3, int a4)
 {
@@ -31,7 +31,7 @@ int *sakeiInitRequest(int *ctx, int a1, int a2, int a3, int a4)
         ctx[0x12] = 2;
         return 0;
     }
-    func_020923B0(p, 0, 0x24);
+    MSL_C_LIB_MemsetPtr(p, 0, 0x24);
     p[0] = (int)ctx;
     p[1] = a1;
     p[2] = a2;

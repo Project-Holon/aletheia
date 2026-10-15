@@ -1,5 +1,5 @@
 /*
- * function: func_0219A620
+ * function: ProcessConnectPacket
  * address:  0x0219A620
  * packet:   pkt_ov009_0219A620
  * region:   ov009
@@ -14,13 +14,13 @@
  * symbols:
  *   func_0215FA9C  0x0215FA9C  arm   ov009
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_0219A52C  0x0219A52C  arm   ov009
- *   func_021994F0  0x021994F0  arm   ov009
- *   func_02199A90  0x02199A90  arm   ov009
- *   g_021A621C     0x021A621C  data
- *   g_021A6274     0x021A6274  data
- *   g_021A62CC     0x021A62CC  data
- *   g_021A6300     0x021A6300  data
+ *   SendConnectAck  0x0219A52C  arm   ov009
+ *   StartReport  0x021994F0  arm   ov009
+ *   SendPingPacket  0x02199A90  arm   ov009
+ *   gNatNegConnectPacketFmt     0x021A621C  data
+ *   gNatNegAlreadyConnectedFmt     0x021A6274  data
+ *   gNatNegDeadbeatFmt     0x021A62CC  data
+ *   gNatNegConnectTimeoutFmt     0x021A6300  data
  */
 
 typedef struct SOCSockAddrIn {
@@ -66,39 +66,39 @@ typedef struct _NatNegPacket {
 extern char *func_0215FA9C(unsigned int in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 struct NATNegotiator;
-extern void func_0219A52C(struct NATNegotiator *neg, struct SOCSockAddrIn *toaddr);
-extern void func_02199A90(struct NATNegotiator *neg);
-extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
+extern void SendConnectAck(struct NATNegotiator *neg, struct SOCSockAddrIn *toaddr);
+extern void SendPingPacket(struct NATNegotiator *neg);
+extern void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
 
-extern char g_021A621C[];
-extern char g_021A6274[];
-extern char g_021A62CC[];
-extern char g_021A6300[];
+extern char gNatNegConnectPacketFmt[];
+extern char gNatNegAlreadyConnectedFmt[];
+extern char gNatNegDeadbeatFmt[];
+extern char gNatNegConnectTimeoutFmt[];
 
-void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
+void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
     int errcode;
 
-    func_0217D254(7, 0, 8, g_021A621C, neg->cookie, p->finished, func_0215FA9C(p->ipaddr), NN_NTOHS(p->port));
+    func_0217D254(7, 0, 8, gNatNegConnectPacketFmt, neg->cookie, p->finished, func_0215FA9C(p->ipaddr), NN_NTOHS(p->port));
 
     if (p->finished == 0)
-        func_0219A52C((struct NATNegotiator *)neg, fromaddr);
+        SendConnectAck((struct NATNegotiator *)neg, fromaddr);
 
     if (neg->state >= 4) {
-        func_0217D254(7, 0, 8, g_021A6274, neg->cookie);
+        func_0217D254(7, 0, 8, gNatNegAlreadyConnectedFmt, neg->cookie);
         return;
     }
 
     if (p->finished != 0) {
         errcode = 4;
         if (p->finished == 1) {
-            func_0217D254(7, 0, 8, g_021A62CC, neg->cookie);
+            func_0217D254(7, 0, 8, gNatNegDeadbeatFmt, neg->cookie);
             errcode = 1;
         } else if (p->finished == 2) {
-            func_0217D254(7, 0, 8, g_021A6300, neg->cookie);
+            func_0217D254(7, 0, 8, gNatNegConnectTimeoutFmt, neg->cookie);
             errcode = 2;
         }
-        func_021994F0(neg, errcode, -1, 0);
+        StartReport(neg, errcode, -1, 0);
         return;
     }
 
@@ -107,5 +107,5 @@ void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     neg->retryCount = 0;
     neg->state = 4;
     neg->progressCallback(4, neg->userdata);
-    func_02199A90((struct NATNegotiator *)neg);
+    SendPingPacket((struct NATNegotiator *)neg);
 }

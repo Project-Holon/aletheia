@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200A840
+ * function: MUSICAL_SHOT_GetSize
  *
  * 8 bytes, 0x0200A840..0x0200A848, one function, which carries no label in
  * the generated listing: it is the three-instruction size getter that opens
@@ -22,10 +22,10 @@
  * and +0x1FC, so the only free choice left is how much follows the second
  * one, and 0xE0 is what makes sizeof agree with the getter.
  *
- * Near miss, and the reason this unit stops at 0x0200A848: func_0200A848, 28
+ * Near miss, and the reason this unit stops at 0x0200A848: MUSICAL_SHOT_Init, 28
  * bytes, reproduces every concrete byte and caps at MATCH.  It is
  *
- *     void func_0200A848(struct Rec2DC *p)
+ *     void MUSICAL_SHOT_Init(struct Rec2DC *p)
  *     {
  *         EVENT_FIELD_PROCLINK_InitEventdataSystem(p);
  *         EVENT_FIELD_PROCLINK_InitIdList(p->unk1E8);
@@ -51,7 +51,7 @@ struct Rec2DC {
     u8 unk1FC[0xE0];
 };
 
-u32 func_0200A840(void)
+u32 MUSICAL_SHOT_GetSize(void)
 {
     return sizeof(struct Rec2DC);
 }

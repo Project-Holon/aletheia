@@ -19,16 +19,16 @@
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
  *   PLEASURE_BOAT_Update  0x021C868C  thumb
  *   EVENT_TRAINER_EYE_Check  0x021AE0CC  thumb
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   FIELD_PLAYER_TryPushBoulder  0x021A2F20  thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   INTRUDE_FIELD_IsCommAllowed  0x0217BFD8  thumb  ov018
  *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb  ov018
  *   GAME_COMM_GetKind  0x02026454  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   INTRUDE_FIELD_IsStartRequested  0x0217C070  thumb  ov018
  *   INTRUDE_FIELD_CreateNoticeEvent  0x0217B810  thumb  ov018
  *   INTRUDE_COMM_ConsumeAreaNoticeSeen  0x0217689C  thumb  ov011
@@ -49,7 +49,7 @@
  *   EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk  0x02162A54  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   INTRUDE_FindOfferSlotAt  0x021CFAC0  thumb
  *   INTRUDE_StartOfferEvent  0x021CFC14  thumb
@@ -61,13 +61,13 @@
  *   EVENT_SHORTCUT_MENU_HasShortcuts  0x0215FF34  thumb  ov010
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb
  *   EVENT_SHORTCUT_MENU_Create  0x0215FF54  thumb  ov010
- *   func_0201212C  0x0201212C  thumb
+ *   ICA_ANIME_GetField30  0x0201212C  thumb
  *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb
  *   SCRCMD_NETWORK_CreateBattleRecordLinkEvent  0x0215FC40  thumb  ov010
  *   FIELD_SUBSCREEN_CheckModeRequest  0x021A0EB0  thumb
  *   INTRUDE_FIELD_CreateTileEvent  0x0217B410  thumb  ov018
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
  *   EFFECT_ENCOUNT_UpdateOccupiedSpot  0x021AA8F8  thumb  ov021
  *   EFFECT_ENCOUNT_Reset  0x021AA8EC  thumb  ov021
@@ -97,18 +97,18 @@
  *   EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden  0x02162A5C  thumb  ov010
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012844  0x02012844  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAME_DATA_GetField158  0x02012844  thumb
  *   FIELD_PLAYER_UpdateStepPhase  0x021A2FE4  thumb
  *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb
  *   FIELD_PLAYER_GetStepPhase  0x021A308C  thumb
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
- *   func_02012B38  0x02012B38  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetProcAction  0x02014478  thumb
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   FIELD_PLAYER_GetGridMoveState  0x021A3584  thumb
  *   FIELD_SUBSCREEN_GetCGear  0x021A1358  thumb  ov021
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_02028A70  0x02028A70  thumb
  *   C_GEAR_IsLastCommandKind5  0x021F2AB8  thumb  ov029
  *   C_GEAR_StopRingtone  0x021F2AD4  thumb  ov029
@@ -130,7 +130,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
  *   func_02008970  0x02008970  thumb
  *   func_0200896C  0x0200896C  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb
  *   SODATEYA_AddStep  0x021C3378  thumb
  *   func_02008978  0x02008978  thumb
@@ -157,7 +157,7 @@
  *   EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate  0x02185410  thumb  ov020
  *   EVENT_MAPCHANGE_CreateExitWarpEvent  0x02185360  thumb  ov020
  *   ZONEDATA_SetExitLocation  0x02014110  thumb
- *   func_02012878  0x02012878  thumb
+ *   GAME_DATA_SetField164  0x02012878  thumb
  *   EVENTDATA_SYSTEM_SearchConnectIdByGridPos  0x02162564  thumb  ov010
  *   EVENTDATA_SYSTEM_IsConnectExitDir  0x021626B8  thumb  ov010
  *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
@@ -228,6 +228,7 @@
 #include "fldmmdl_rail_types.h"
 
 typedef unsigned int u32;
+#include "poke_tool_param.h"
 typedef signed int s32;
 
 struct GameEvent;
@@ -392,16 +393,16 @@ struct TileMessage {
 extern u32 *GAME_DATA_GetEventState(void *p);
 extern int PLEASURE_BOAT_Update(int a, char *b);
 extern int EVENT_TRAINER_EYE_Check(int a);
-extern u32 func_0201296C(const void *p);
+extern u32 GAME_DATA_GetEventWork(const void *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern int FIELD_PLAYER_TryPushBoulder(u32 *p, int a, int b, int c);
-extern u32 func_02012138(const void *p);
+extern u32 ICA_ANIME_GetField24(const void *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *FIELD_PLAYER_GetMmdl(u8 *);
 extern int INTRUDE_FIELD_IsCommAllowed(const void *a, int b);
 extern int INTRUDE_SUBDISP_CreateDisconnectEvent(void *sys, int v);
 extern u32 GAME_COMM_GetKind(void *obj);
-extern int func_02012B70(const void *p);
+extern int GAME_DATA_GetIntrudeCount(const void *p);
 extern int INTRUDE_FIELD_IsStartRequested(u8 *p);
 extern void *INTRUDE_FIELD_CreateNoticeEvent(void *a, FieldMap *fieldMap);
 extern int INTRUDE_COMM_ConsumeAreaNoticeSeen(u8 *ctx, int arg);
@@ -422,7 +423,7 @@ extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u32 EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(void *p, void *q, int *pos, u32 d);
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern void *GAME_DATA_GetSaveControl(void *p);
-extern u16 *func_0200BE48(void *sys);
+extern u16 *INTRUDE_GetFromSave(void *sys);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
 extern int INTRUDE_FindOfferSlotAt(u8 *base, int a, int b, int c, int d);
 extern void *INTRUDE_StartOfferEvent(void *a, u16 heapId, void *c);
@@ -434,13 +435,13 @@ extern u32 FIELDMAP_GetSubscreen(FieldMap *fieldMap);
 extern int EVENT_SHORTCUT_MENU_HasShortcuts(void *sys);
 extern int FIELD_SUBSCREEN_IsIdle(u32 a);
 extern struct GameEvent *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2);
-extern u8 func_0201212C(const void *p);
+extern u8 ICA_ANIME_GetField30(const void *p);
 extern int EVENT_COMM_ERROR_Create(void *sys, FieldMap *fieldMap);
 extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
 extern struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(int a0, int a1, u16 a2);
 extern int FIELD_SUBSCREEN_CheckModeRequest(u32 *p, u32 a);
 extern int INTRUDE_FIELD_CreateTileEvent(int a0, int a1, void *player);
-extern void *func_0201210C(const void *p);
+extern void *ICA_ANIME_GetField20(const void *p);
 extern u32 FIELDMAP_GetEncount(FieldMap *fieldMap);
 extern void EFFECT_ENCOUNT_UpdateOccupiedSpot(void);
 extern void EFFECT_ENCOUNT_Reset(u8 *p);
@@ -471,20 +472,20 @@ extern u16 EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(void *set, void *flags, 
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern u32 MI_CpuFill8(void *, int, u32);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void *func_020120F4(const void *p);
-extern u32 func_02012844(const void *p);
+extern void *ICA_ANIME_GetField1C(const void *p);
+extern u32 GAME_DATA_GetField158(const void *p);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern void FIELD_PLAYER_UpdateStepPhase(u32 *p);
 extern u32 FIELD_PLAYER_GetStepKind(u8 *p);
 extern u32 FIELD_PLAYER_GetStepPhase(u8 *p);
 extern void *FLDMMDL_GetPosPtr(void *p);
-extern void *func_02012B38(const void *p);
+extern void *GAME_DATA_GetMoveModelSys(const void *p);
 extern u16 FIELD_STATUS_GetProcAction(void *o);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
 extern int FIELD_PLAYER_GetGridMoveState(void *v);
 extern u32 FIELD_SUBSCREEN_GetCGear(u32 *p);
-extern u32 func_02012A30(const void *p);
+extern u32 GAME_DATA_GetBgmInfo(const void *p);
 extern void func_02028A70(void *sys);
 extern int C_GEAR_IsLastCommandKind5(char *p);
 extern void C_GEAR_StopRingtone(u8 *p);
@@ -512,7 +513,7 @@ extern void *func_02008854(void *sys);
 extern void func_02008970(const void *obj, u32 *out);
 extern void func_0200896C(void *obj, u32 value);
 extern u32 GPOWER_ApplyHatchRate(u32 v);
-extern void *func_02012934(const void *p);
+extern void *GAME_DATA_GetMyParty(const void *p);
 extern void *FIELDMAP_GetSodateya(FieldMap *fieldMap);
 extern int SODATEYA_AddStep(void **p);
 extern u16 func_02008978(const void *obj);
@@ -539,7 +540,7 @@ extern u8 EVENTDATA_SYSTEM_GetConnectExitType(u8 *p);
 extern void *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(void *p, int u, int a, int b);
 extern void *EVENT_MAPCHANGE_CreateExitWarpEvent(void *p, int u, int a, int b);
 extern void ZONEDATA_SetExitLocation(void *p, u16 a, s16 b, u16 c, u16 d, u32 e, u32 f, u32 g);
-extern void func_02012878(void *p, const void *src);
+extern void GAME_DATA_SetField164(void *p, const void *src);
 extern int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(void *eventData, VecFx32 *pos);
 int EVENTDATA_SYSTEM_IsConnectExitDir(char *a0, int a1);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
@@ -730,19 +731,19 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         return result;
 
     blockFlags = 0;
-    if ((int)ZONEDATA_CheckEventFlag((void *)func_0201296C(input.gameData), (u32)0x964) == 1)
+    if ((int)ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(input.gameData), (u32)0x964) == 1)
         blockFlags |= 1;
     result = FIELD_PLAYER_TryPushBoulder(input.player, input.keyTrg, input.keyCont, blockFlags);
     if (result != 0)
         return result;
 
-    gameComm = (void *)func_02012138(gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(gameSystem);
     commWork = (void *)INTRUDE_COMM_GetWorkIfRunning((int)gameComm);
     playerMmdl = FIELD_PLAYER_GetMmdl(input.player);
     if (INTRUDE_FIELD_IsCommAllowed((const void *)gameSystem, input.zoneId) == 1)
         return INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0);
     if ((int)GAME_COMM_GetKind(gameComm) == 2 && commWork != 0) {
-        if (func_02012B70(input.gameData) == 1 && INTRUDE_FIELD_IsStartRequested(commWork) == 1)
+        if (GAME_DATA_GetIntrudeCount(input.gameData) == 1 && INTRUDE_FIELD_IsStartRequested(commWork) == 1)
             return (int)INTRUDE_FIELD_CreateNoticeEvent(gameSystem, fieldMap);
         if (INTRUDE_COMM_ConsumeAreaNoticeSeen(commWork, input.zoneId) == 1)
             return (int)FIELD_INTRUDE_EVENT_StartSymbolEntry((int)gameSystem, 9, (u32)GAME_DATA_GetSymbolMapFlag(input.gameData));
@@ -784,7 +785,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
                 return func_0219F01C((u32)gameSystem, (u32)fieldMap, eventId, (u32)mmdl, frontMmdl, input.heapId);
             }
         }
-        scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(input.eventData, (void *)func_0201296C(input.gameData), frontPos, facing);
+        scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), frontPos, facing);
         if (scriptId != 0xFFFF)
             return (int)SCRIPT_SYS_CreateScriptEventSimple((int)gameSystem, scriptId, 0, input.heapId);
         scriptId = FIELD_EVENT_CHECK_GetFrontTileMessage(&input, fieldMap);
@@ -793,14 +794,14 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         gridX = frontPos[0] >> 12;
         gridY = frontPos[1] >> 12;
         gridZ = frontPos[2] >> 12;
-        mapper = func_0200BE48(GAME_DATA_GetSaveControl(input.gameData));
+        mapper = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(input.gameData));
         scriptId = (u32)INTRUDE_FindOfferSlotAt(mapper, (u16)FIELDMAP_GetZoneId(fieldMap), (s16)(gridX / 16), (s16)(gridY / 16), (s16)(gridZ / 16));
         if (scriptId != 0xFF)
             return (int)INTRUDE_StartOfferEvent(gameSystem, input.heapId, (void *)scriptId);
         if (FIELD_GetPlayerAreaZoneId(fieldMap, &areaZoneId) == 1)
             return (int)SCRIPT_SYS_CreateScriptEventSimple((int)gameSystem, 0x271B, 0, input.heapId);
         if (ZONEDATA_IsZoneInTableDFB8(input.zoneId)) {
-            scriptId = EVENTDATA_SYSTEM_GetAutoPosEventScriptId(input.eventData, (void *)func_0201296C(input.gameData), (int)frontPos);
+            scriptId = EVENTDATA_SYSTEM_GetAutoPosEventScriptId(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), (int)frontPos);
             if (scriptId != 0xFFFF)
                 return (int)SCRIPT_SYS_CreateScriptEventSimple((int)gameSystem, scriptId, 0, input.heapId);
         }
@@ -828,7 +829,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
                 return result;
         }
     }
-    if (func_0201212C(gameSystem) == 1 && WIPE_SYS_EndCheck() && input.inputEnabled)
+    if (ICA_ANIME_GetField30(gameSystem) == 1 && WIPE_SYS_EndCheck() && input.inputEnabled)
         return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
     if (input.xPressed && WIPE_SYS_EndCheck()) {
         if ((int)FIELD_SUBSCREEN_GetMode((void *)FIELDMAP_GetSubscreen(fieldMap)) == 6)
@@ -861,7 +862,7 @@ int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap)
     FieldMap *curFieldMap;
     void *encount;
 
-    curFieldMap = func_0201210C(gameSystem);
+    curFieldMap = ICA_ANIME_GetField20(gameSystem);
     encount = (void *)FIELDMAP_GetEncount(curFieldMap);
     EFFECT_ENCOUNT_UpdateOccupiedSpot();
     result = FIELD_EVENT_CHECK_CheckGridEvents(gameSystem, fieldMap, &resetEncount, &menuRequest);
@@ -889,7 +890,7 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
     u32 eventId;
     void *playerMmdl;
 
-    gameComm = (void *)func_02012138(gameSystem);
+    gameComm = (void *)ICA_ANIME_GetField24(gameSystem);
     commWork = (void *)GAME_COMM_GetWork(gameComm);
     FIELD_EVENT_CHECK_InitInput(&input, gameSystem, fieldMap);
     if (commWork == 0) {
@@ -924,7 +925,7 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
             }
         }
     }
-    if (func_0201212C(gameSystem) == 1 && WIPE_SYS_EndCheck() != 0)
+    if (ICA_ANIME_GetField30(gameSystem) == 1 && WIPE_SYS_EndCheck() != 0)
         return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
     if (UNION_MAIN_IsIdle(gameSystem) == 0)
         return 0;
@@ -939,7 +940,7 @@ int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap)
     FieldMap *curFieldMap;
     int result = FIELD_EVENT_CHECK_CheckRailEvents(gameSystem, fieldMap);
     if (result != 0) {
-        curFieldMap = func_0201210C(gameSystem);
+        curFieldMap = ICA_ANIME_GetField20(gameSystem);
         FIELD_PLACE_NAME_Cancel((u8 *)FIELDMAP_GetPlaceName(curFieldMap));
         if (FIELDMAP_GetZoneEffectWork(curFieldMap) != 0)
             FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume();
@@ -969,7 +970,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
         FIELD_EVENT_CHECK_AddStepRecord(input.gameData);
     if (input.walkStepDone) {
         void *playerMmdlNow = FIELD_PLAYER_GetMmdl(input.player);
-        void *eventWork = (void *)func_0201296C(input.gameData);
+        void *eventWork = (void *)GAME_DATA_GetEventWork(input.gameData);
 
         FLDMMDL_RAIL_GetNextLocation(playerMmdlNow, &nextLocation);
         scriptId = EVENTDATA_SYSTEM_GetRailPosEventScriptId(input.eventData, eventWork, &nextLocation);
@@ -1000,7 +1001,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
                 return func_0219F01C((u32)gameSystem, (u32)fieldMap, eventId, (u32)mmdl, frontMmdl, input.heapId);
             }
         }
-        eventWork = (void *)func_0201296C(input.gameData);
+        eventWork = (void *)GAME_DATA_GetEventWork(input.gameData);
         dirDisp = FLDMMDL_GetDirDisp(playerMmdl);
         locationCopy = frontLocation;
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(input.eventData, eventWork, &locationCopy, dirDisp);
@@ -1024,7 +1025,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
                 return result;
         }
     }
-    if (func_0201212C(gameSystem) == 1 && WIPE_SYS_EndCheck() && input.inputEnabled)
+    if (ICA_ANIME_GetField30(gameSystem) == 1 && WIPE_SYS_EndCheck() && input.inputEnabled)
         return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
     if (input.xPressed && WIPE_SYS_EndCheck()) {
         if (FIELD_SUBSCREEN_GetMode((void *)FIELDMAP_GetSubscreen(fieldMap)) == 6)
@@ -1068,8 +1069,8 @@ void FIELD_EVENT_CHECK_InitInput(FieldEventInput *input, void *gameSystem, Field
     MI_CpuFill8(input, 0, 0x40);
     input->heapId = FIELDMAP_GetHeapId(fieldMap);
     input->gameSystem = gameSystem;
-    input->gameData = func_020120F4(gameSystem);
-    input->eventData = (void *)func_02012844(input->gameData);
+    input->gameData = ICA_ANIME_GetField1C(gameSystem);
+    input->eventData = (void *)GAME_DATA_GetField158(input->gameData);
     input->zoneId = FIELDMAP_GetZoneId(fieldMap);
     input->keyTrg = KEY_GetTrg();
     input->keyCont = KEY_GetCont();
@@ -1090,7 +1091,7 @@ void FIELD_EVENT_CHECK_InitInput(FieldEventInput *input, void *gameSystem, Field
     playerMmdl = FIELD_PLAYER_GetMmdl(input->player);
     input->facingDir = FLDMMDL_GetDirDisp(playerMmdl);
     input->playerPos = (VecFx32 *)FLDMMDL_GetPosPtr(playerMmdl);
-    input->pendingScriptId = FIELD_STATUS_GetProcAction(func_02012B38(input->gameData));
+    input->pendingScriptId = FIELD_STATUS_GetProcAction(GAME_DATA_GetMoveModelSys(input->gameData));
     input->tileAttr = FIELD_PLAYER_GetNowAttribute(input->player);
 
     if (input->moveState == 3 || input->moveState == 0) {
@@ -1131,11 +1132,11 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
 
     subscreenProc = (void *)FIELD_SUBSCREEN_GetCGear((u32 *)FIELDMAP_GetSubscreen(fieldMap));
     if (subscreenProc == 0) {
-        func_02028A70((void *)func_02012A30(func_020120F4(gameSystem)));
+        func_02028A70((void *)GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(gameSystem)));
         return;
     }
     if (C_GEAR_IsLastCommandKind5(subscreenProc) == 0) {
-        func_02028A70((void *)func_02012A30(func_020120F4(gameSystem)));
+        func_02028A70((void *)GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(gameSystem)));
         C_GEAR_StopRingtone(subscreenProc);
     }
 }
@@ -1156,7 +1157,7 @@ int FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input)
     int r;
 
     if (input->pendingScriptId != 0) {
-        FIELD_STATUS_SetProcAction(func_02012B38(input->gameData), 0);
+        FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(input->gameData), 0);
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)input->gameSystem, input->pendingScriptId, 0, input->heapId);
     }
     r = (int)SCRIPT_SYS_CreateSceneChangeEvent(input->gameSystem, input->heapId);
@@ -1186,8 +1187,8 @@ int FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input)
  */
 int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
 {
-    FieldMap *curFieldMap = func_0201210C(input->gameSystem);
-    void *eventWork = (void *)func_0201296C(input->gameData);
+    FieldMap *curFieldMap = ICA_ANIME_GetField20(input->gameSystem);
+    void *eventWork = (void *)GAME_DATA_GetEventWork(input->gameData);
     u32 playerPos[3];
     u32 scriptId;
 
@@ -1281,7 +1282,7 @@ void *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSyste
  */
 int FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input)
 {
-    FieldMap *curFieldMap = func_0201210C(input->gameSystem);
+    FieldMap *curFieldMap = ICA_ANIME_GetField20(input->gameSystem);
     void *player = FIELDMAP_GetFieldPlayer(curFieldMap);
     int playerPos[3];
     PosEvent *posEvent;
@@ -1294,7 +1295,7 @@ int FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input)
     FIELD_PLAYER_GetPos(player, (VecFx32 *)playerPos);
     if (MAP_ATTR_IsNoInteract(MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(curFieldMap), playerPos))) != 1)
         return 0;
-    posEvent = (PosEvent *)EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(input->eventData, (void *)func_0201296C(input->gameData), playerPos, 9);
+    posEvent = (PosEvent *)EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(input->eventData, (void *)GAME_DATA_GetEventWork(input->gameData), playerPos, 9);
     if (posEvent == 0)
         return 0;
     if (posEvent->posType != 0)
@@ -1328,7 +1329,7 @@ int FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, FieldMap *fieldMap
 
     FIELDMAP_GetHeapId(fieldMap);
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
-    gameData = func_020120F4(gameSystem);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
     if (input->walkStepDone || input->tileChanged) {
         result = FIELD_EVENT_CHECK_CheckStepEncount(fieldMap, gameSystem, gameData);
         if (result != 0)
@@ -1386,7 +1387,7 @@ void FIELD_EVENT_CHECK_DecrementEggCycles(void *party)
             u32 newCycles = 0;
             if (eggCycles >= decrement)
                 newCycles = eggCycles - decrement;
-            POKE_TOOL_SetPartyValue(member, 9, newCycles);
+            POKE_TOOL_SetPartyValue(member, POKE_TOOL_PARAM_FRIENDSHIP, newCycles);
         }
     }
 }
@@ -1440,7 +1441,7 @@ int FIELD_EVENT_CHECK_IsEggReadyToHatch(void *party)
 int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
     u16 heapId = FIELDMAP_GetHeapId(fieldMap);
-    void *party = func_02012934(gameData);
+    void *party = GAME_DATA_GetMyParty(gameData);
 
     SODATEYA_AddStep(FIELDMAP_GetSodateya(fieldMap));
     FIELD_EVENT_CHECK_UpdateEggStepCounter(gameData, party);
@@ -1467,7 +1468,7 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
     }
     func_02008980(walkSave, walkCount);
     if (counterWrapped) {
-        void *party = func_02012934(gameData);
+        void *party = GAME_DATA_GetMyParty(gameData);
         int zoneId;
         int heapId;
         int memberCount;
@@ -1489,7 +1490,7 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
  */
 int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap, u16 zoneId)
 {
-    void *stepSave = func_02008854(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)));
+    void *stepSave = func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
     int result = 0;
 
     if (ZONEDATA_IsZoneInTableDFB8(zoneId)) {
@@ -1599,14 +1600,14 @@ int FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldM
 
 /*
  * Builds a 0x1C byte rectangle record with ZONEDATA_SetExitLocation from the object's
- * map value, an id and three words, and hands it to func_02012878.
+ * map value, an id and three words, and hands it to GAME_DATA_SetField164.
  */
 void FIELD_EVENT_CHECK_SetEntranceFromGridConnect(FieldEventInput *input, int connectId, VecFx32 *pos)
 {
     u8 location[0x1C];
 
     ZONEDATA_SetExitLocation(location, FIELDMAP_GetZoneId(input->fieldMap), connectId, 0, 0, pos->x, pos->y, pos->z);
-    func_02012878(input->gameData, (const void *)location);
+    GAME_DATA_SetField164(input->gameData, (const void *)location);
 }
 
 
@@ -1813,7 +1814,7 @@ void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(FieldEventInput *input, int co
     u8 locationRec[0x1C];
 
     ZONEDATA_SetExitRailLocation(locationRec, FIELDMAP_GetZoneId(input->fieldMap), (s16)connectId, 0, 0, location->railIndex, location->lineGrid, location->widthGrid);
-    func_02012878(input->gameData, (const void *)locationRec);
+    GAME_DATA_SetField164(input->gameData, (const void *)locationRec);
 }
 
 
@@ -1960,7 +1961,7 @@ u16 FIELD_EVENT_CHECK_GetFrontTileMessage(FieldEventInput *input, FieldMap *fiel
     u16 aheadBehavior;
     u32 index;
 
-    if (func_02012B70(input->gameData) == 1)
+    if (GAME_DATA_GetIntrudeCount(input->gameData) == 1)
         return 0xFFFF;
     tileAttrHere = FIELD_PLAYER_GetNowAttribute(input->player);
     tileAttrAhead = FIELD_PLAYER_GetFrontAttribute(input->player, input->facingDir);
@@ -1969,7 +1970,7 @@ u16 FIELD_EVENT_CHECK_GetFrontTileMessage(FieldEventInput *input, FieldMap *fiel
         if ((input->facingDir == data_021D3CE8[index].dir || data_021D3CE8[index].dir == 9) && data_021D3CE8[index].test(aheadBehavior))
             return data_021D3CE8[index].scriptId;
     }
-    if (!ZONEDATA_IsNormalFieldZone(input->zoneId) || func_02012B70(input->gameData) == 1)
+    if (!ZONEDATA_IsNormalFieldZone(input->zoneId) || GAME_DATA_GetIntrudeCount(input->gameData) == 1)
         return 0xFFFF;
     if (FIELD_PLAYER_CheckEncountAttr(input->player, tileAttrHere, tileAttrAhead) && FIELD_EVENT_CHECK_FindPartyMemberWithMove(input->gameData, 0x39) != 6)
         return 0x2712;
@@ -1990,7 +1991,7 @@ int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *gameData, u32 move)
     void *party;
     int index;
 
-    party = func_02012934(gameData);
+    party = GAME_DATA_GetMyParty(gameData);
     memberCount = POKEPARTY_GetCount(party);
 
     for (index = 0; index < memberCount; index++) {
@@ -2014,7 +2015,7 @@ int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem)
     int index;
     int aliveCount;
 
-    party = func_02012934(func_020120F4(gameSystem));
+    party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(gameSystem));
     memberCount = POKEPARTY_GetCount(party);
     index = 0;
     aliveCount = 0;

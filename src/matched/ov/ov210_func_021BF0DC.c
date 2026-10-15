@@ -13,7 +13,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_021C940C 0x021C940C thumb ov212
+ *   ZUKAN_CreateActor 0x021C940C thumb ov212
  *   func_021BEDB8 0x021BEDB8 thumb ov210
  *   func_021BEDF0 0x021BEDF0 thumb ov210
  *   func_021BEE14 0x021BEE14 thumb ov210
@@ -52,7 +52,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
-extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 extern void func_021BEDB8(int p, int i, int v);
 extern void func_021BEDF0(int p, int i, int v);
 extern void func_021BEE14(char *p, int idx, int flag);
@@ -77,7 +77,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t0.a = p->a[t0.a];
         t0.b = p->b[t0.b];
         t0.c = p->c[t0.c];
-        p->objs[i] = func_021C940C((u32)p->set, (const u8 *)(&t0), 0x7B);
+        p->objs[i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t0), 0x7B);
     }
 
     if (GAME_DATA_CheckSaveFlag((int)(*p->sys), 0x10) == 1)
@@ -107,7 +107,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.b = p->b[t.b];
         t.c = p->c[t.c];
         t.id = i;
-        p->objs[15 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
+        p->objs[15 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 15, 0);
 
         t = tb;
@@ -115,10 +115,10 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.b = p->b[t.b];
         t.c = p->c[t.c];
         t.id = i;
-        p->objs[29 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
+        p->objs[29 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 29, 0);
         func_021BEE14((char *)p, (int)i + 29, 1);
-        p->objs[43 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
+        p->objs[43 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 43, 0);
         CLACT_SetActorObjMode(p->objs[43 + i], 2);
     }

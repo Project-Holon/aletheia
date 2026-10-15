@@ -1,5 +1,5 @@
 /*
- * function: func_021D6918
+ * function: POKETRADE_DEMO_MIDDLE_StepStartPlayback
  * address:  0x021D6918
  * packet:   pkt_ov118_021D6918
  * region:   ov118
@@ -32,7 +32,7 @@
  *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
- *   func_021D6BA4  0x021D6BA4  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_StepMessage  0x021D6BA4  thumb  ov118
  *   d_021D82C0     0x021D82C0  data
  *   d_021D8470     0x021D8470  data
  *   d_021D8880     0x021D8880  data
@@ -73,7 +73,7 @@ extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, i
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void func_021D6BA4(u8 *p);
+extern void POKETRADE_DEMO_MIDDLE_StepMessage(u8 *p);
 extern const u8 d_021D82C0[];
 extern const u8 d_021D8470[];
 extern u8 d_021D8880[];
@@ -83,7 +83,7 @@ extern u8 d_021D8880[];
 #define HEAP (*(u16 *)(p + 0x5F4))
 #define SLOT0 (*(u32 *)(p + 0x85C))
 
-void func_021D6918(u8 *p)
+void POKETRADE_DEMO_MIDDLE_StepStartPlayback(u8 *p)
 {
     void *mon;
     u32 a;
@@ -134,6 +134,6 @@ void func_021D6918(u8 *p)
                 SLOT0 = (u32)POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x28, &v2, (void *)d_021D8470, HEAP);
             }
         }
-        POKETRADE_PROC_SetStep(p, (int)func_021D6BA4);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepMessage);
     }
 }

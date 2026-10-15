@@ -1,5 +1,5 @@
 /*
- * function: func_0218F7B8
+ * function: gpiPeerAcceptedCallback
  * address:  0x0218F7B8
  * packet:   pkt_ov009_0218F7B8
  * region:   ov009
@@ -35,7 +35,7 @@ extern char g_021A50BC[];
 extern char g_021A50E4[];
 extern char g_021A5110[];
 
-void func_0218F7B8(unsigned int ip, unsigned short port, int unused, int rejected, void *userData)
+void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, int rejected, void *userData)
 {
     struct SOCInAddr anAddr;
     struct GPIPeer *aPeer;

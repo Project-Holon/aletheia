@@ -16,8 +16,8 @@
  *   func_02175F3C   0x02175F3C  arm  ov009
  *   qr2_parse_queryA   0x0219C7C0  arm  ov009
  *   func_020923F0   0x020923F0  arm
- *   func_0219AB8C   0x0219AB8C  arm  ov009
- *   g_021A5A7C      0x021A5A7C  data
+ *   NNProcessData   0x0219AB8C  arm  ov009
+ *   gNatNegMagic      0x021A5A7C  data
  */
 
 #include "../include/G_Magic6.h"
@@ -40,8 +40,8 @@ extern void qr2_parse_queryA(void *qr2, unsigned char *message, int len, SockAdd
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 struct SOCSockAddrIn;
-extern void func_0219AB8C(char *data, int len, struct SOCSockAddrIn *fromaddr);
-extern struct Magic6 g_021A5A7C;
+extern void NNProcessData(char *data, int len, struct SOCSockAddrIn *fromaddr);
+extern struct Magic6 gNatNegMagic;
 
 int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len)
 {
@@ -57,8 +57,8 @@ int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned sh
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
         if (((MatchCnt *)func_02175F3C())->f10 != 0)
             qr2_parse_queryA(((MatchCnt *)func_02175F3C())->f10, message, len, &saddr);
-    } else if (func_020923F0(message, (const u8 *)((char *)&g_021A5A7C), 6) == 0) {
-        func_0219AB8C((char *)message, len, (struct SOCSockAddrIn *)(&saddr));
+    } else if (func_020923F0(message, (const u8 *)((char *)&gNatNegMagic), 6) == 0) {
+        NNProcessData((char *)message, len, (struct SOCSockAddrIn *)(&saddr));
     } else {
         return 0;
     }

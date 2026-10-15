@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009448, sub_02009454, sub_0200945C
+ * function: GAME_SYNC_GetBlock, GAME_SYNC_GetBlockSize, GAME_SYNC_ClearBlock
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock    0x020071CC  thumb
@@ -21,10 +21,10 @@
  * the size and a constructor that clears it and does nothing else.  Three
  * functions, forty bytes, and not one of them carries a label.
  *
- * sub_02009454 is `ldr r0, [pc, #0]; bx lr` over its own pool word: 0x1338 is
+ * GAME_SYNC_GetBlockSize is `ldr r0, [pc, #0]; bx lr` over its own pool word: 0x1338 is
  * past every Thumb immediate and past `movs` plus one `lsls`, so the constant
- * costs a word.  sub_0200945C loads the same constant into its own pool rather
- * than calling sub_02009454, so the source spells the size out in both, which
+ * costs a word.  GAME_SYNC_ClearBlock loads the same constant into its own pool rather
+ * than calling GAME_SYNC_GetBlockSize, so the source spells the size out in both, which
  * is what `sizeof` does.
  *
  * `MI_CpuClear32` is the SDK header's inline wrapper over MIi_CpuClear32 with
@@ -55,17 +55,17 @@ struct Sub02009448Obj {
     u8 unk0000[0x1338];
 };
 
-struct Sub02009448Obj *sub_02009448(void *sys)
+struct Sub02009448Obj *GAME_SYNC_GetBlock(void *sys)
 {
     return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
-u32 sub_02009454(void)
+u32 GAME_SYNC_GetBlockSize(void)
 {
     return sizeof(struct Sub02009448Obj);
 }
 
-void sub_0200945C(struct Sub02009448Obj *obj)
+void GAME_SYNC_ClearBlock(struct Sub02009448Obj *obj)
 {
     MI_CpuClear32(obj, sizeof(struct Sub02009448Obj));
 }

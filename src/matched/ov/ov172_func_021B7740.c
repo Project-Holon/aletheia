@@ -12,7 +12,7 @@
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
  *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
- *   func_021B8BA4 0x021B8BA4 thumb ov172
+ *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
  *   CTVT_CAMVIEW_SetWindowLayout 0x021B796C thumb ov172
  */
 #include "../include/Obj00415.h"
@@ -21,7 +21,7 @@ extern unsigned int COMM_TVT_SYS_GetComm(void *);
 extern int COMM_TVT_SYS_IsNetIdle(void);
 typedef unsigned int   u32;
 extern u32 COMM_TVT_SYS_GetSelfSlot(void *p);
-extern unsigned int func_021B8BA4(int, char *, int);
+extern unsigned int CTVT_COMM_IsSlotActive(int, char *, int);
 extern void CTVT_CAMVIEW_SetWindowLayout(void *, char *, int);
 void CTVT_CAMVIEW_StartLayoutChange(void *p, char *q, int a, int b)
 {
@@ -36,7 +36,7 @@ void CTVT_CAMVIEW_StartLayoutChange(void *p, char *q, int a, int b)
     if (COMM_TVT_SYS_IsNetIdle() == 0)
         ((struct Obj00415 *)q)->f10 |= (u8)(1 << COMM_TVT_SYS_GetSelfSlot(p));
     for (i = 0; i < 4; i++) {
-        if (func_021B8BA4((int)p, base, i) == 1)
+        if (CTVT_COMM_IsSlotActive((int)p, base, i) == 1)
             CTVT_CAMVIEW_SetWindowLayout(p, q, i);
     }
 }

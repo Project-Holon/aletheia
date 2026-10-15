@@ -11,8 +11,8 @@
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
- *   func_021F9DA0 0x021F9DA0 thumb ov132
- *   func_021F9DA4 0x021F9DA4 thumb ov132
+ *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
+ *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   func_021F80A0 0x021F80A0 thumb ov112
  */
 #include "../include/Obj14105.h"
@@ -22,8 +22,8 @@ struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *p);
 extern int func_021FB1F4(char *, int);
 typedef unsigned int   u32;
-extern void *func_021F9DA0(char *p);
-extern void *func_021F9DA4(char *p, u32 i);
+extern void *STA_ACTING_GetActorSystem(char *p);
+extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void func_021F80A0(int a, u8 *p);
 int func_021FB5A4(int unused, char *p)
 {
@@ -33,10 +33,10 @@ int func_021FB5A4(int unused, char *p)
     u8 i;
     obj = *(char * *)&((struct Obj14105 *)p)->f0;
     mask = func_021FB1F4(p, VM_GetU32(((struct Obj14105 *)p)->f4));
-    ctx = func_021F9DA0(((struct Obj14106 *)obj)->f34);
+    ctx = STA_ACTING_GetActorSystem(((struct Obj14106 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80A0((int)ctx, func_021F9DA4(((struct Obj14106 *)obj)->f34, i));
+            func_021F80A0((int)ctx, STA_ACTING_GetActor(((struct Obj14106 *)obj)->f34, i));
         }
     }
     return 0;

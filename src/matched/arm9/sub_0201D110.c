@@ -1,5 +1,5 @@
 /*
- * function: sub_0201D110
+ * function: GF_FONT_Apply
  * address:  0x0201D110
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013020  0x02013020  thumb
- *   func_02013050  0x02013050  thumb
+ *   MSG_SPEED_GetSlowerWait  0x02013020  thumb
+ *   MSG_SPEED_GetFasterWait  0x02013050  thumb
  *   PRINTSYS_SplitWait   0x0201CDF4  thumb
  *   BMP_Clear  0x02043B5C  arm
  *
  * Applies the 0xF000 control block the text record's cursor is parked on
- * and steps the cursor past it (struct Rec as in func_0201CEE0.c).  The
+ * and steps the cursor past it (struct Rec as in GF_FONT_Task.c).  The
  * block's kind (low byte of its second halfword) is a dense 0..9 switch:
  * 0/1 pause for a key (mode 0 or 1) and home the pen, 2 sets the wait,
  * 3/4/9 set the per-glyph delay pair at +0x1a/+0x1b (9 through the
- * speed setting func_02013020 / func_02013050 and PRINTSYS_SplitWait), 5/6/7
+ * speed setting MSG_SPEED_GetSlowerWait / MSG_SPEED_GetFasterWait and PRINTSYS_SplitWait), 5/6/7
  * set the callback argument, 8 clears the window.  A pause also skips a
  * 0xFFFE that directly follows the block.
  *
@@ -89,8 +89,8 @@ struct Rec {
     struct PrintCtx ctx; /* 0x34 */
 };
 
-extern signed char func_02013020(void);
-extern signed char func_02013050(void);
+extern signed char MSG_SPEED_GetSlowerWait(void);
+extern signed char MSG_SPEED_GetFasterWait(void);
 extern void PRINTSYS_SplitWait(s32 v, u8 *out);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -135,7 +135,7 @@ static inline void SetMode(struct Rec *r, u32 m)
     r->mode = m;
 }
 
-void sub_0201D110(struct Rec *p)
+void GF_FONT_Apply(struct Rec *p)
 {
     u32 skip;
     u8 buf[2];
@@ -179,10 +179,10 @@ void sub_0201D110(struct Rec *p)
             buf[1] = p->f19;
             break;
         case 1:
-            PRINTSYS_SplitWait(func_02013020(), buf);
+            PRINTSYS_SplitWait(MSG_SPEED_GetSlowerWait(), buf);
             break;
         case 2:
-            PRINTSYS_SplitWait(func_02013050(), buf);
+            PRINTSYS_SplitWait(MSG_SPEED_GetFasterWait(), buf);
             break;
         }
         p->f1a = buf[0];

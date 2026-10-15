@@ -13,7 +13,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   POKETRADE_2D_DeleteCursorActor 0x021E7058 thumb ov119
- *   func_021E6FC8 0x021E6FC8 thumb ov119
+ *   POKETRADE_2D_OnCursorAnimDone 0x021E6FC8 thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
@@ -28,7 +28,7 @@ struct Actor;
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void POKETRADE_2D_DeleteCursorActor(void *);
-extern void func_021E6FC8(char *p);
+extern void POKETRADE_2D_OnCursorAnimDone(char *p);
 void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
     Callback cb;
     Create c;
@@ -38,6 +38,6 @@ void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00001 *)p)->fF24,1);
     CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00001 *)p)->fF24,1);
     p[0x11f5]=0;
-    cb.v=0;cb.p=p;cb.fn=(void (*)(void *))func_021E6FC8;
+    cb.v=0;cb.p=p;cb.fn=(void (*)(void *))POKETRADE_2D_OnCursorAnimDone;
     CLACT_ApplyActorAnimCommand((struct Actor *)(((struct Obj00001 *)p)->fF24),(const struct Cmd *)(&cb));
 }

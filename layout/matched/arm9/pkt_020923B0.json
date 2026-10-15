@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020923B0",
-    "func_020923C4",
+    "MSL_C_LIB_MemsetPtr",
+    "memchr",
     "func_020923F0"
+   ],
+   "addresses": [
+    "0x020923B0",
+    "0x020923C4",
+    "0x020923F0"
    ]
   }
  ]

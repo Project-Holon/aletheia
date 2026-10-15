@@ -15,7 +15,7 @@
  *
  * Flush the eight tile slots of the 0x2c-byte table behind 0x02146A44 whose
  * dirty bit is set in the u16 at +6: each selected slot re-uploads its tile
- * buffer at the same argument triple func_020409E0 uses (index, tiles,
+ * buffer at the same argument triple BG_SYS_PushTileSource uses (index, tiles,
  * unk_10 * 2, unk_0c).  The global is re-read once per arm because the call
  * may write it.
  *

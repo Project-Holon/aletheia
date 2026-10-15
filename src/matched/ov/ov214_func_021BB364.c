@@ -1,5 +1,5 @@
 /*
- * function: func_021BB364
+ * function: BTL_REC_SEL_GRAPHIC_TickDisplay
  * address: 0x021BB364
  * packet: pkt_ov214_021BB364
  * region: ov214
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020419E4(void);
-void func_021BB364(void) { func_020419E4(); }
+void BTL_REC_SEL_GRAPHIC_TickDisplay(void) { func_020419E4(); }

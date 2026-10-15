@@ -1,5 +1,5 @@
 /*
- * function: func_021B8084
+ * function: CTVT_COMM_StopSession
  * address:  0x021B8084
  * packet:   pkt_021B6868
  * region:   ov172
@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern int GFL_NET_Exit(int a);
 
-void func_021B8084(void *a, char *q)
+void CTVT_COMM_StopSession(void *a, char *q)
 {
     if (((struct Obj03853 *)q)->f4 <= 1) {
         if (((struct Obj03853 *)q)->f174 == 5) {

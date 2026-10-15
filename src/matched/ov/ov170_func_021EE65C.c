@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020260E0 0x020260E0 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
@@ -27,10 +27,10 @@ typedef unsigned int u32;
 struct WinMgr;
 typedef unsigned char  u8;
 struct Sound;
-extern u8 func_020260E0(struct Sound *obj);
-extern int func_02025DE8(struct Sound *obj);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
@@ -42,11 +42,11 @@ extern void BOX2_MAIN_PlayCursorSound(char *p);
 
 unsigned BOX2_UI_UpdateCursorInputC(char *p)
 {
-    unsigned char sel = func_020260E0(OBJ(p));
-    unsigned r = func_02025DE8(OBJ(p));
+    unsigned char sel = CURSOR_MOVE_GetCurrent(OBJ(p));
+    unsigned r = CURSOR_MOVE_PollRepeatInput(OBJ(p));
     if (BOX2_UI_IsListOpen(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
         if (r >= 0x24 && r <= 0x29) {
-            func_020260E4(OBJ(p), sel);
+            CURSOR_MOVE_SetCurrent(OBJ(p), sel);
             BOX2_UI_UpdateCursor(p, sel);
             return -1;
         }
@@ -59,11 +59,11 @@ unsigned BOX2_UI_UpdateCursorInputC(char *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4(OBJ(p), sel);
+            CURSOR_MOVE_SetCurrent(OBJ(p), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        func_020260E4(OBJ(p), sel);
+        CURSOR_MOVE_SetCurrent(OBJ(p), sel);
         BOX2_UI_UpdateCursor(p, sel);
         return -1;
     }

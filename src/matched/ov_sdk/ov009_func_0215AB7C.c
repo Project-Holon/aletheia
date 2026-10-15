@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
 */
 
 struct CpsRoot
@@ -18,9 +18,9 @@ struct CpsRoot
 	int prev;
 	char *current;
 };
-extern struct CpsRoot g_02150FEC;
+extern struct CpsRoot gMslRefToken;
 
 void CPS_SocDup(char *dst)
 {
-	*(int *)(dst + 0xa4) = *(int *)(g_02150FEC.current + 0xa4);
+	*(int *)(dst + 0xa4) = *(int *)(gMslRefToken.current + 0xa4);
 }

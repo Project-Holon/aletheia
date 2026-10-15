@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE50
+ * function: COMM_BTL_DEMO_GRAPHIC_DrawG3d
  * address:  0x021BAE50
  * packet:   pkt_021BAE50
  * region:   ov213
@@ -19,7 +19,7 @@ struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-void func_021BAE50(int *p)
+void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *p)
 {
     G3D_SYSTEM_DrawStart(p);
     G3D_CAMERA_Reset((struct Light *)(*p));

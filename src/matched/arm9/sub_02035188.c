@@ -1,5 +1,5 @@
 /*
- * function: sub_02035188
+ * function: UI_ClearFlags39
  * address:  0x02035188
  * packet:   pkt_02035080
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * The clear half of the set/clear pair on the flag byte at +0x39. No lr
- * push, so disasm.py never labels it. Twin of sub_0203515C (set).
+ * push, so disasm.py never labels it. Twin of UI_SetFlags39 (set).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02035188.c \
- *       --func sub_02035188 --addr 0x02035188 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_ClearFlags39.c \
+ *       --func UI_ClearFlags39 --addr 0x02035188 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ struct Obj0203515C {
     u8 unk39;
 };
 
-void sub_02035188(struct Obj0203515C *p, u8 mask)
+void UI_ClearFlags39(struct Obj0203515C *p, u8 mask)
 {
     p->unk39 &= ~mask;
 }

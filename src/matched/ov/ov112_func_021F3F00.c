@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F00
+ * function: MUSICAL_SHOT_SYS_InitActors
  * address: 0x021F3F00
  * packet: pkt_ov112_021F3F00
  * region: ov112
@@ -77,7 +77,7 @@ extern u32 func_021F40D0(void *p, u32 i, u16 c);
 extern void func_021F8054(void *unused, u32 *p, const u32 *q);
 extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
-void func_021F3F00(Context *p)
+void MUSICAL_SHOT_SYS_InitActors(Context *p)
 {
   u32 offset;
   Vec pos = d_021F8240;

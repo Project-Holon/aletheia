@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB48
+ * function: NET_PARTY_COMMAND_BuildPartyList
  * address: 0x021DCB48
  * packet: pkt_ov134_021DCB48
  * region: ov134
@@ -48,7 +48,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_02034AC4(int);
 extern void PLIST_COMM_Start(u8 *);
 extern const char ov90_id[];
-void func_021DCB48(Args *p, void *unused, Output *out)
+void NET_PARTY_COMMAND_BuildPartyList(Args *p, void *unused, Output *out)
 {
     u8 *a;
     void *b;

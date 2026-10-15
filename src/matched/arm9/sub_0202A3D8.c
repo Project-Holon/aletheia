@@ -1,5 +1,5 @@
 /*
- * function: func_0202A3D8
+ * function: TPOKE_DATA_FindTrainerType
  * address:  0x0202A3D8
  * packet:   pkt_0202A230
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   Table_0209FEE4  0x0209FEE4  data
+ *   gTpokeDataTrainerKindTable  0x0209FEE4  data
  */
 
 typedef unsigned char u8;
@@ -22,14 +22,14 @@ struct Record {
     u16 rest : 9;
 };
 
-extern const struct Record Table_0209FEE4[];
+extern const struct Record gTpokeDataTrainerKindTable[];
 
-u8 func_0202A3D8(u32 key)
+u8 TPOKE_DATA_FindTrainerType(u32 key)
 {
     int i;
 
     for (i = 0; i < 0x1c; i++) {
-        if (key == Table_0209FEE4[i].val) {
+        if (key == gTpokeDataTrainerKindTable[i].val) {
             return (u8)i;
         }
     }

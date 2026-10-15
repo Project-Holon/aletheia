@@ -44,7 +44,7 @@
  *   d_0220ADA8  0x0220ADA8  data  a4
  *   d_0220ADD8  0x0220ADD8  data  a4
  *   d_0220AE20  0x0220AE20  data  a4
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   VM_SetWait 0x020113D0 thumb
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   PARTICLE_CreateSystem 0x02050C30 arm
@@ -69,7 +69,7 @@
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
  *   func_0207D63C  0x0207D63C  arm
- *   func_0206DF3C  0x0206DF3C  arm
+ *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
@@ -93,11 +93,11 @@
  *   func_02051774 0x02051774 arm
  *   BUTTON_MAN_SetUserData 0x02051A2C arm
  *   BUTTON_MAN_SetCallback 0x02051A24 arm
- *   func_0207CF3C 0x0207CF3C arm
+ *   VEC_Distance 0x0207CF3C arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_0207CA68 0x0207CA68 arm
+ *   VEC_DotProduct 0x0207CA68 arm
  *   FX_AcosIdx 0x0207D184 arm
- *   func_0207CAE8 0x0207CAE8 arm
+ *   VEC_CrossProduct 0x0207CAE8 arm
  *   MTX_RotAxis43 0x0207B65C arm
  *   MTX_MultVec43 0x0207BC08 arm
  *   BUTTON_MAN_SetRow2 0x020519C4 arm
@@ -324,7 +324,7 @@ extern void PM_VOICE_StopSlot(u32 i);
 
 extern u32 VM_GetU32(struct ScriptVm *p);
 
-extern void func_0207C9D0(BtlvEffVmVec *a, BtlvEffVmVec *b, BtlvEffVmVec *c);
+extern void VEC_Add(BtlvEffVmVec *a, BtlvEffVmVec *b, BtlvEffVmVec *c);
 
 extern void VM_SetWait(struct ScriptVm *vm, int val);
 
@@ -358,7 +358,7 @@ extern void BTLV_BG_StartScroll(int a, int b, int c, int d, int e, int f, int g,
 
 extern void func_0207D63C(int reg, int a, int b, int c, int d);
 
-extern int func_0206DF3C(const BtlvEffVmVec *world, int *px, int *py);
+extern int NNS_G3dWorldPosToScrPos(const BtlvEffVmVec *world, int *px, int *py);
 
 extern void BTLV_GAUGE_PlaceSlot(BtlvGaugeWork *work, int slotIdx, BtlvGaugePoint *offset);
 
@@ -404,15 +404,15 @@ extern void BUTTON_MAN_SetUserData(struct Obj3D *p, int v);
 
 extern void BUTTON_MAN_SetCallback(struct Obj3D *p, int v);
 
-extern int func_0207CF3C(const BtlvEffVmVec *a, const BtlvEffVmVec *b);
+extern int VEC_Distance(const BtlvEffVmVec *a, const BtlvEffVmVec *b);
 
 extern void VEC_Normalize(const BtlvEffVmVec *a, BtlvEffVmVec *b);
 
-extern int func_0207CA68(const BtlvEffVmVec *a, const BtlvEffVmVec *b);
+extern int VEC_DotProduct(const BtlvEffVmVec *a, const BtlvEffVmVec *b);
 
 extern u16 FX_AcosIdx(int a);
 
-extern void func_0207CAE8(const BtlvEffVmVec *a, const BtlvEffVmVec *b, BtlvEffVmVec *c);
+extern void VEC_CrossProduct(const BtlvEffVmVec *a, const BtlvEffVmVec *b, BtlvEffVmVec *c);
 
 extern void MTX_RotAxis43(void *m, const BtlvEffVmVec *axis, int s, int c);
 
@@ -1546,8 +1546,8 @@ int BTLV_EFFVM_CmdMoveCameraTo(struct ScriptVm *vm, BtlvEffVmWork *work)
         break;
     case 2:
         BTLV_CAMERA_GetEyeAndUp(BTLV_EFFECT_GetCamera(), &curEye, &curTarget);
-        func_0207C9D0(&curEye, &eye, &eye);
-        func_0207C9D0(&curTarget, &target, &target);
+        VEC_Add(&curEye, &eye, &eye);
+        VEC_Add(&curTarget, &target, &target);
         BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
         break;
     }
@@ -2575,7 +2575,7 @@ int BTLV_EFFVM_CmdLoadClactAtPoke(struct ScriptVm *vm, BtlvEffVmWork *work)
     BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &pos, battlerPos);
     pos.x += dx;
     pos.y += dy;
-    func_0206DF3C(&pos, &screenX, &screenY);
+    NNS_G3dWorldPosToScrPos(&pos, &screenX, &screenY);
     work->resources[slot] =
         BTLV_CLACT_LoadActorSimple(BTLV_EFFECT_GetClact(), 0x5f, firstFile, screenX, screenY, scaleX, scaleY);
     return work->result;
@@ -3086,7 +3086,7 @@ int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work)
     BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &pos, battlerPos);
     pos.x += dx;
     pos.y += dy;
-    func_0206DF3C(&pos, &screenX, &screenY);
+    NNS_G3dWorldPosToScrPos(&pos, &screenX, &screenY);
     typeIdx = PALANM_GetPairedCodeForFirst(work->params.typeCode);
     typeIdx = (typeIdx == 0 || typeIdx > 0x19) ? 4 : typeIdx;
     typeIdx = (typeIdx == 0x19) ? 0x11 : typeIdx;
@@ -4025,7 +4025,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         }
         if (motion->phaseStepA == 0)
             motion->phaseStepA = 1;
-        motion->halfDistance = func_0207CF3C((const BtlvEffVmVec *)&srcPos, (const BtlvEffVmVec *)&dstPos) / 2;
+        motion->halfDistance = VEC_Distance((const BtlvEffVmVec *)&srcPos, (const BtlvEffVmVec *)&dstPos) / 2;
         if (req->motionKind == 1 || req->motionKind == 4)
             motion->amplitude = 0;
         else
@@ -4048,8 +4048,8 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         refAxis.x = 0x1000;
         refAxis.y = 0;
         refAxis.z = 0;
-        angle = FX_AcosIdx(func_0207CA68((const BtlvEffVmVec *)&refAxis, (const BtlvEffVmVec *)&travelDir));
-        func_0207CAE8((const BtlvEffVmVec *)&refAxis, (const BtlvEffVmVec *)&travelDir, &rotAxis);
+        angle = FX_AcosIdx(VEC_DotProduct((const BtlvEffVmVec *)&refAxis, (const BtlvEffVmVec *)&travelDir));
+        VEC_CrossProduct((const BtlvEffVmVec *)&refAxis, (const BtlvEffVmVec *)&travelDir, &rotAxis);
         VEC_Normalize((const BtlvEffVmVec *)&rotAxis, &rotAxis);
         MTX_RotAxis43(motion, (const BtlvEffVmVec *)&rotAxis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
         motion->pos.x = srcPos.x;
@@ -4072,8 +4072,8 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         fromDirXZ.z = emitterDir.dir.z;
         VEC_Normalize((const BtlvEffVmVec *)&fromDirXZ, &fromDirXZ);
         VEC_Normalize((const BtlvEffVmVec *)&toDirXZ, &toDirXZ);
-        angle = FX_AcosIdx(func_0207CA68((const BtlvEffVmVec *)&fromDirXZ, (const BtlvEffVmVec *)&toDirXZ));
-        func_0207CAE8((const BtlvEffVmVec *)&fromDirXZ, (const BtlvEffVmVec *)&toDirXZ, &turnAxis);
+        angle = FX_AcosIdx(VEC_DotProduct((const BtlvEffVmVec *)&fromDirXZ, (const BtlvEffVmVec *)&toDirXZ));
+        VEC_CrossProduct((const BtlvEffVmVec *)&fromDirXZ, (const BtlvEffVmVec *)&toDirXZ, &turnAxis);
         VEC_Normalize((const BtlvEffVmVec *)&turnAxis, &turnAxis);
         MTX_RotAxis43(&turnMatrix, (const BtlvEffVmVec *)&turnAxis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
         fromDirXZ.x = emitterDir.dir.x;

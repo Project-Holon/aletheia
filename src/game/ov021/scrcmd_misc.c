@@ -14,7 +14,7 @@
  * Split from field_palace_sys.c at 0x021D14C4 (no __FILE__ anchor between field_saveanime.c and event_game_manual.c; script command handlers).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -67,9 +67,9 @@
  *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
  *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
  *   gMmdlIcaReleaseMoveBitTable     0x021DD5E0  data    ov021  a4
- *   func_02011610  0x02011610  thumb
- *   func_02011638  0x02011638  thumb
- *   func_0207C9D0  0x0207C9D0  arm
+ *   ICA_ANIME_Get  0x02011610  thumb
+ *   ICA_ANIME_Check1638  0x02011638  thumb
+ *   VEC_Add  0x0207C9D0  arm
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
@@ -88,7 +88,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02007B44  0x02007B44  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   PM_VOICE_Play  0x02006984  thumb
@@ -101,16 +101,16 @@
  *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_0201EC64  0x0201EC64  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   func_02029620  0x02029620  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_02034F84  0x02034F84  arm
- *   func_02034FB8  0x02034FB8  arm
+ *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   func_02045EC0  0x02045EC0  arm
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
@@ -126,7 +126,7 @@
  *   FIELD_MSGBG_GetSysWinBmpWin  0x02190F9C  thumb  ov021
  *   sub_020056BC   0x020056BC  thumb
  *   sub_02006BD0   0x02006BD0  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -188,7 +188,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
- *   func_02012844  0x02012844  thumb
+ *   GAME_DATA_GetField158  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -198,7 +198,7 @@
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
- *   func_0201296C  0x0201296C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   EVENTDATA_SYSTEM_SearchAutoPosEvent  0x02162890  thumb  ov010
  *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb  ov020
@@ -222,14 +222,14 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0201EE60  0x0201EE60  thumb
- *   func_0203F4CC  0x0203F4CC  arm
+ *   WORDSET_Callback  0x0201EE60  thumb
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   gGreetingCounterTable     0x021DD774  data  ov021
  *   func_0201EFA4  0x0201EFA4  thumb
  *   gGreetingMiscMessageIds     0x021DD718  data  a4
- *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200C234  0x0200C234  thumb
+ *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   BEACON_GetFlag  0x0200C234  thumb
  *   gGreetingRandomMessageIds     0x021DD738  data  ov021  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
@@ -406,7 +406,7 @@ typedef struct CameraShakeWork {
 
 #define NRM(i) ((NormComp *)gTileNormalTable)[i]
 
-extern GameData *func_020120F4(const GameSystem *gameSystem);
+extern GameData *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
 extern PlayerStatus *func_02012944(GameData *gameData);
 extern u8 func_02008550(const PlayerStatus *status);
 extern void ARC_TOOL_DeleteHandle(void *handle);
@@ -455,9 +455,9 @@ extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir);
 extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
-extern u32 func_02011610(IcaAnime *anime, VecFx32 *trans);
-extern u32 func_02011638(IcaAnime *anime, VecFx32 *rot);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+extern u32 ICA_ANIME_Get(IcaAnime *anime, VecFx32 *trans);
+extern u32 ICA_ANIME_Check1638(IcaAnime *anime, VecFx32 *rot);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 extern void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
 extern void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
 extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *scriptWork);
@@ -475,12 +475,12 @@ extern void SCRIPT_WORK_ResetCheckFlag(int flagId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern PerapVoice *func_02007B44(SaveControl *save);
-extern Party *func_02012934(GameData *gameData);
+extern Party *GAME_DATA_GetMyParty(GameData *gameData);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
 extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, MsgData *msgData);
-extern WordSet *func_0201EC64(u16 heapId);
+extern WordSet *GF_FONT_Create_EC64(u16 heapId);
 extern int func_02007B50(PerapVoice *perapVoice);
 extern void FIELD_MSGBG_SysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
 extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
@@ -488,7 +488,7 @@ extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorP
 extern int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
 extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
-extern void func_02034F84(u8 flags);
+extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
 extern u32 SND_MIC_Init(u32 heapId);
 extern TcbList *sub_020056BC(u32 mic);
 extern BmpWin *FIELD_MSGBG_GetSysWinBmpWin(FieldSysWin *sysWin);
@@ -504,16 +504,16 @@ extern void func_0201EEF4(WordSet *words, u32 slot, PokemonParam *mon);
 extern void func_0201F250(WordSet *words, Strbuf *dst, Strbuf *src);
 extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
 extern void SND_MIC_Exit(void);
-extern void func_02034FB8(u8 flags);
+extern void UI_ClearKeepAwakeFlagsGlobal(u8 flags);
 extern GameEvent *func_02029620(GameSystem *gameSystem, u32 a, u32 b);
 extern void SND_MIC_StoreRecording(PerapVoice *perapVoice);
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, void *perapVoiceSave);
 extern u32 sub_02006BD0(u32 slot);
-extern u32 func_0201ED04(WordSet *words);
+extern u32 WORDSET_DeleteStrbufED04(WordSet *words);
 extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
 extern u32 FIELD_MSGBG_DeleteMsgData(MsgData *msgData);
-extern FieldMap *func_0201210C(const GameSystem *gameSystem);
+extern FieldMap *ICA_ANIME_GetField20(const GameSystem *gameSystem);
 extern void FLDMMDL_SysPauseMove(MmdlSys *sys);
 extern void FLDMMDL_SysResumeMove(MmdlSys *sys);
 extern Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
@@ -570,7 +570,7 @@ extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 isEgg, u32 gender
 extern u32 KEY_GetTrg(void);
 extern void *GAME_DATA_GetMiscSave(GameData *gameData);
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int slot, PlayerStatus *status);
-extern EventDataSystem *func_02012844(const GameData *gameData);
+extern EventDataSystem *GAME_DATA_GetField158(const GameData *gameData);
 extern MmdlHeader *EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system);
 extern u16 EVENTDATA_SYSTEM_GetNpcCount(EventDataSystem *system);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
@@ -580,7 +580,7 @@ extern void FLDMMDL_LoadObjCodeParam(const MmdlSys *sys, u32 objCode, MmdlObjCod
 extern void FIELD_PLAYER_GetNowGridPos(struct FieldPlayer *player, u16 *gridX, u16 *gridY, u16 *gridZ);
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void FIELD_PLAYER_SetNogridLocation(struct FieldPlayer *player, RailLocation *out);
-extern void *func_0201296C(const GameData *gameData);
+extern void *GAME_DATA_GetEventWork(const GameData *gameData);
 extern void *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, void *eventWork, VecFx32 *pos);
 extern WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int fileId, int heapId);
 extern WfbcPosition *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(WfbcNpcData *npcData, int cityType, unsigned int heapId);
@@ -604,12 +604,12 @@ extern u32 func_02008DFC(TrainerRecord *record, int index);
 extern void func_0201F02C(WordSet *words, u32 slot, PlayerStatus *status);
 extern u32 POKEPARTY_GetCount(Party *party);
 extern u32 func_02017E1C(PokemonParam *pp, u32 paramId, u32 arg);
-extern void func_0201EE60(WordSet *words, u32 slot, u16 speciesId);
-extern void func_0203F4CC(RtcTime *time);
+extern void WORDSET_Callback(WordSet *words, u32 slot, u16 speciesId);
+extern void GF_STANDARD_SetField00(RtcTime *time);
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern void func_0201EFA4(WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
-extern BeaconSave *func_0200C0F0(SaveControl *save);
-extern int func_0200C234(BeaconSave *beacon);
+extern BeaconSave *BEACON_GetBlock(SaveControl *save);
+extern int BEACON_GetFlag(BeaconSave *beacon);
 extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern void FIELD_CAMERA_EndDelay(FieldCamera *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera);
@@ -983,9 +983,9 @@ void SCRCMD_MMDL_ICA_ApplyFrame(IcaAnime *icaAnime, Mmdl *mmdl, VecFx32 *offset)
     VecFx32 pos;
     VecFx32 rotation;
 
-    func_02011610(icaAnime, &pos);
-    func_02011638(icaAnime, &rotation);
-    func_0207C9D0(&pos, offset, &pos);
+    ICA_ANIME_Get(icaAnime, &pos);
+    ICA_ANIME_Check1638(icaAnime, &rotation);
+    VEC_Add(&pos, offset, &pos);
     FLDMMDL_SetPos(mmdl, (MmdlVec *)&pos);
     if (rotation.y == 0) {
         FLDMMDL_SetDirAll(mmdl, 1);
@@ -1147,11 +1147,11 @@ GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap,
     work = func_020124E8(task);
     MI_CpuFill8(work, 0, sizeof(PerapRecordWork));
     work->gameSystem = gameSystem;
-    work->gameData = func_020120F4(gameSystem);
+    work->gameData = ICA_ANIME_GetField1C(gameSystem);
     work->perapVoice = func_02007B44(GAME_DATA_GetSaveControl(work->gameData));
     work->fieldMap = fieldMap;
     work->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
-    work->partyMon = POKEPARTY_GetMember(func_02012934(work->gameData), partySlot);
+    work->partyMon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(work->gameData), partySlot);
     work->msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
     work->partySlot = partySlot;
     work->recordDone = 0;
@@ -1178,7 +1178,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 1:
         work->msgData = msgData = FIELD_MSGBG_CreateMsgData(work->msgBg, 88);
         work->sysWin = FIELD_MSGBG_CreateBottomSysWin(work->msgBg, msgData);
-        work->wordSet = func_0201EC64(21);
+        work->wordSet = GF_FONT_Create_EC64(21);
         work->msgBuf = STRBUF_Create(0x400, 21);
         EVENT_PERAP_RECORD_SetupWindow(work);
         if (func_02007B50(work->perapVoice) == 1) {
@@ -1211,7 +1211,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
         break;
     case 4:
         if (FIELD_MSGBG_SysWinMain(work->sysWin) == 1) {
-            func_02034F84(8);
+            UI_SetKeepAwakeFlagsGlobal(8);
             taskList = sub_020056BC(SND_MIC_Init(21));
             work->timeIcon = TIME_ICON_Create(taskList, FIELD_MSGBG_GetSysWinBmpWin(work->sysWin), 15, 16, 21);
             *seq = 5;
@@ -1239,7 +1239,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
                 FIELD_MSGBG_ClearSysWin(work->sysWin);
                 FIELD_MSGBG_SysWinPrintStr(work->sysWin, 0, 0, work->msgBuf);
                 SND_MIC_Exit();
-                func_02034FB8(8);
+                UI_ClearKeepAwakeFlagsGlobal(8);
                 GAME_EVENT_CallEvent(event, func_02029620(work->gameSystem, 0, 30));
                 *seq = 12;
             }
@@ -1249,7 +1249,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
         if (work->recordDone == 1) {
             SND_MIC_StoreRecording(work->perapVoice);
             SND_MIC_Exit();
-            func_02034FB8(8);
+            UI_ClearKeepAwakeFlagsGlobal(8);
             GAME_EVENT_CallEvent(event, func_02029620(work->gameSystem, 0, 30));
             *seq = 8;
         }
@@ -1288,7 +1288,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 13:
         EVENT_PERAP_RECORD_Cleanup(work);
         STRBUF_Delete(work->msgBuf);
-        func_0201ED04(work->wordSet);
+        WORDSET_DeleteStrbufED04(work->wordSet);
         FIELD_MSGBG_DeleteSysWin(work->sysWin);
         FIELD_MSGBG_DeleteMsgData(work->msgData);
         *seq = 14;
@@ -1313,12 +1313,12 @@ void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done)
 
 void EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work)
 {
-    FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(func_0201210C(work->gameSystem)));
+    FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)));
 }
 
 void EVENT_PERAP_RECORD_ResumeMmdls(PerapRecordWork *work)
 {
-    FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(func_0201210C(work->gameSystem)));
+    FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)));
 }
 
 void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work)
@@ -1457,7 +1457,7 @@ int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 soundId)
  */
 GameEvent *SCRCMD_ShowStepMilestoneMessage(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    u16 steps = func_02008990(func_02008854(GAME_DATA_GetSaveControl(func_020120F4(gameSystem))));
+    u16 steps = func_02008990(func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
     u32 i;
 
     for (i = 0; i < 5; i++) {
@@ -1621,7 +1621,7 @@ int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     struct ScriptWork *scriptWork;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     isEgg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1711,7 +1711,7 @@ u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    gameData = func_020120F4(SCRCMD_WORK_GetGameSystem(cmdWork));
+    gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
     miscSave = GAME_DATA_GetMiscSave(gameData);
     *resultVar = FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, slot, func_02012944(gameData));
     return 0;
@@ -1756,11 +1756,11 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem)
     void *eventWork;
     Mmdl *playerMmdl;
 
-    gameData = func_020120F4(gameSystem);
-    eventData = func_02012844(gameData);
+    gameData = ICA_ANIME_GetField1C(gameSystem);
+    eventData = GAME_DATA_GetField158(gameData);
     list = EVENTDATA_SYSTEM_GetNpcHeaders(eventData);
     n = EVENTDATA_SYSTEM_GetNpcCount(eventData);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     zoneId = FIELDMAP_GetZoneId(fieldMap);
@@ -1796,7 +1796,7 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem)
     }
     if (FIELDMAP_GetMoveKind(fieldMap) == 0) {
         playerMmdl = FIELD_PLAYER_GetMmdl(player);
-        eventWork = func_0201296C(gameData);
+        eventWork = GAME_DATA_GetEventWork(gameData);
         FLDMMDL_GetPos(playerMmdl, (MmdlVec *)&playerPos);
         if (EVENTDATA_SYSTEM_SearchAutoPosEvent(eventData, eventWork, &playerPos)) {
             return 0;
@@ -1835,7 +1835,7 @@ GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem)
     GameEvent *task = func_020122C0(gameSystem, 0, FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
     SubscreenAnimWork *work = func_020124E8(task);
 
-    work->fieldMap = func_0201210C(gameSystem);
+    work->fieldMap = ICA_ANIME_GetField20(gameSystem);
     work->subscreen = FIELDMAP_GetSubscreen(work->fieldMap);
     return task;
 }
@@ -1900,7 +1900,7 @@ int SCRCMD_AddTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 counterId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 delta = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_02008DAC(func_02008C58(GAME_DATA_GetSaveControl(func_020120F4(gameSystem))), counterId, delta);
+    func_02008DAC(func_02008C58(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId, delta);
     return 0;
 }
 
@@ -1910,7 +1910,7 @@ int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 counterId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = func_02008DFC(func_02008C58(GAME_DATA_GetSaveControl(func_020120F4(gameSystem))), counterId);
+    *resultVar = func_02008DFC(func_02008C58(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId);
     return 0;
 }
 
@@ -1933,22 +1933,22 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 idA, idB;
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    gameData = func_020120F4(SCRCMD_WORK_GetGameSystem(cmdWork));
+    gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
     status = func_02012944(gameData);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     fixedMessage = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     func_0201F02C(wordSet, 0, status);
-    party = func_02012934(gameData);
+    party = GAME_DATA_GetMyParty(gameData);
     partyCount = POKEPARTY_GetCount(party);
     for (i = 0; i < partyCount; i++) {
         mon = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(mon, 0x4C, 0) == 0) {
-            func_0201EE60(wordSet, 3, func_02017E1C(mon, 5, 0));
+            WORDSET_Callback(wordSet, 3, func_02017E1C(mon, 5, 0));
             break;
         }
     }
-    func_0203F4CC(&time);
+    GF_STANDARD_SetField00(&time);
     if (time.minute < 10) {
         base = 0;
         msgIndex = func_020056EC(0x1D);
@@ -2002,11 +2002,11 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
 u32 SCRCMD_GREETING_AdjustMessageIdByMisc(GameData *gameData, int messageId)
 {
     u32 v = messageId;
-    BeaconSave *beacon = func_0200C0F0(GAME_DATA_GetSaveControl(gameData));
+    BeaconSave *beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData));
 
     for (messageId = 0; messageId < 8; messageId++) {
         if (v == gGreetingMiscMessageIds[messageId]) {
-            if (func_0200C234(beacon)) {
+            if (BEACON_GetFlag(beacon)) {
                 return v;
             } else {
                 u32 rolled = func_020056EC(0xc);
@@ -2056,7 +2056,7 @@ int FIELD_CAMERA_ShakeTask(GameEvent *event, int *state)
     int swingScale;
 
     done = 0;
-    fieldMap = func_0201210C(GAME_EVENT_GetGameSystem(event));
+    fieldMap = ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     shake = func_020124E8(event);
     camera = FIELDMAP_GetCamera(fieldMap);
 
@@ -2137,7 +2137,7 @@ u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    func_0201210C(gameSystem);
+    ICA_ANIME_GetField20(gameSystem);
     removeObjId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     addObjId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     FLDMMDL_GetPos(FLDMMDL_SysSearchObjId((MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork), removeObjId), (MmdlVec *)&pos);
@@ -2156,9 +2156,9 @@ u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
  * call to FLD_EXP_OBJ_RemoveUnit, which is void (src/matched/ov/ov021_func_021BE418.c,
  * EXACT), so it returns no value for the `t == 0` test; and it hands its
  * argument straight to FIELDMAP_GetExpObj and FIELDMAP_FreeCommonWork, the type that
- * func_0201210C returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the
- * sibling SCRCMD_StartArcEffect feeds to func_0201210C. ov064's function applies
- * func_0201210C to its argument and returns func_020122C0(arg, 0, cb, 0), a
+ * ICA_ANIME_GetField20 returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the
+ * sibling SCRCMD_StartArcEffect feeds to ICA_ANIME_GetField20. ov064's function applies
+ * ICA_ANIME_GetField20 to its argument and returns func_020122C0(arg, 0, cb, 0), a
  * task, which is what SCRIPT_SYS_CallEvent(x, t) receives here and in the same-shape
  * siblings SCRCMD_WaitArcEffectEnd (ov064-only FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent) and SCRCMD_WaitArcEffectPeak
  * (FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent, ov064). SCRCMD_StartArcEffect and SCRCMD_ShowArcModelAt also call ov064.
@@ -2193,7 +2193,7 @@ u32 SCRCMD_StartArcEffect(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = func_0201210C(gameSystem);
+    fieldMap = ICA_ANIME_GetField20(gameSystem);
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     tileX = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     tileY = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);

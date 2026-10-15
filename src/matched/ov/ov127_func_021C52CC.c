@@ -1,5 +1,5 @@
 /*
- * function: func_021C52CC
+ * function: WF2DMAP_OBJCMD_OffsetPos
  * address: 0x021C52CC
  * packet: pkt_ov127_021C52CC
  * region: ov127
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4A54 0x021C4A54 thumb ov127
+ *   WF2DMAP_OBJ_OffsetPos 0x021C4A54 thumb ov127
  */
 typedef unsigned short u16;
 struct pair { u16 a,b; };
-extern struct pair func_021C4A54(struct pair,int);
-struct pair func_021C52CC(struct pair p,int i)
+extern struct pair WF2DMAP_OBJ_OffsetPos(struct pair,int);
+struct pair WF2DMAP_OBJCMD_OffsetPos(struct pair p,int i)
 {
- return func_021C4A54(p,i);
+ return WF2DMAP_OBJ_OffsetPos(p,i);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA94C
+ * function: UN_SELECT_GRAPHIC_Update
  * address:  0x021BA94C
  * packet:   pkt_021BA94C
  * region:   ov218
@@ -12,17 +12,17 @@
  * Destructor pair: tears down the tail field then the head.
  *
  * symbols:
- *   func_021BAA80  0x021BAA80  thumb  ov218
- *   func_021BAA18  0x021BAA18  thumb  ov218
+ *   UN_SELECT_GRAPHIC_Draw  0x021BAA80  thumb  ov218
+ *   UN_SELECT_GRAPHIC_Noop  0x021BAA18  thumb  ov218
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BAA80(void *);
-extern void func_021BAA18(void *);
+extern void UN_SELECT_GRAPHIC_Draw(void *);
+extern void UN_SELECT_GRAPHIC_Noop(void *);
 
-void func_021BA94C(char *p)
+void UN_SELECT_GRAPHIC_Update(char *p)
 {
-    func_021BAA80(p + 4);
-    func_021BAA18(p);
+    UN_SELECT_GRAPHIC_Draw(p + 4);
+    UN_SELECT_GRAPHIC_Noop(p);
 }

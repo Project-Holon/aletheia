@@ -70,12 +70,12 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -122,6 +122,8 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
+ *   WORDSET_Create  0x0201EC74  thumb  arm9
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
  */
 #include "ov120_types.h"
 #include "../../matched/include/Obj05353.h"
@@ -287,7 +289,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_0201F5DC(void *,u32,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
@@ -296,13 +298,13 @@ extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void PMS_DRAW_Main(u8 *p);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -335,7 +337,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 func_02025C1C(u32,u32,u32);
 extern u32 func_02025C30(u32,u32,u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
-extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -936,7 +938,7 @@ char *func_021D7724(u32 heap,u32 n)
     ((struct GtsnegoMsgCtx *)p)->f20=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->fC8);
     ((struct GtsnegoMsgCtx *)p)->f14=GF_FONT_Create(23,0,0,0,((struct GtsnegoMsgCtx *)p)->fC8);
     ((struct GtsnegoMsgCtx *)p)->fC=func_02045B38(0,2,(u16)n,(u16)(((struct GtsnegoMsgCtx *)p)->fC8));
-    ((struct GtsnegoMsgCtx *)p)->f10=func_0201EC74(6,64,((struct GtsnegoMsgCtx *)p)->fC8);
+    ((struct GtsnegoMsgCtx *)p)->f10=WORDSET_Create(6,64,((struct GtsnegoMsgCtx *)p)->fC8);
     ((struct GtsnegoMsgCtx *)p)->fC0=APP_TASKMENU_RES_Create(5,9,*(u32 *)&((struct GtsnegoMsgCtx *)p)->f14,*(u32 *)&((struct GtsnegoMsgCtx *)p)->fA4,((struct GtsnegoMsgCtx *)p)->fC8);
     *(void * *)&((struct GtsnegoMsgCtx *)p)->f4=func_0201F5DC((void *)1,12,0,((struct GtsnegoMsgCtx *)p)->fC8);
     *(void * *)&((struct GtsnegoMsgCtx *)p)->f0=func_0201F5DC((void *)6,12,0,((struct GtsnegoMsgCtx *)p)->fC8);
@@ -970,9 +972,9 @@ void func_021D7898(char *p)
     int i;
     u32 t;
     t=((struct GtsnegoMsgCtx *)p)->f4;
-    func_0203FB44(1,(u16)t,decode(t));
+    BG_SYS_DeleteHalf(1,(u16)t,decode(t));
     t=((struct GtsnegoMsgCtx *)p)->f0;
-    func_0203FB44(6,(u16)t,decode(t));
+    BG_SYS_DeleteHalf(6,(u16)t,decode(t));
     func_021D7710((u8 *)p);
     func_0201DD68();
     MSGDATA_Delete(((struct GtsnegoMsgCtx *)p)->fC);
@@ -982,7 +984,7 @@ void func_021D7898(char *p)
     STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->f20);
     func_021D846C((u8 *)p);
     if(((struct GtsnegoMsgCtx *)p)->f9C) {PRINTSYS_PrintStreamDelete(((struct GtsnegoMsgCtx *)p)->f9C);((struct GtsnegoMsgCtx *)p)->f9C=0;}
-    func_0201ED04(((struct GtsnegoMsgCtx *)p)->f10);
+    WORDSET_DeleteStrbufED04(((struct GtsnegoMsgCtx *)p)->f10);
     if(((struct GtsnegoMsgCtx *)p)->fC4) {APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)p)->fC4);((struct GtsnegoMsgCtx *)p)->fC4=0;}
     APP_TASKMENU_RES_Delete(((struct GtsnegoMsgCtx *)p)->fC0);
     TCBL_Destroy(((struct GtsnegoMsgCtx *)p)->fA0);
@@ -1215,10 +1217,10 @@ void func_021D7FD0(char *p,void *r)
     if(a==c && b==d) {
         func_0201F048(((struct GtsnegoMsgCtx *)p)->f10,0,func_0200856C(r));
         a=func_0200856C(r);
-        func_0201F094(((struct GtsnegoMsgCtx *)p)->f10,1,a,func_02008570(r));
+        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)p)->f10,1,a,func_02008570(r));
     } else {
         func_0201F048(((struct GtsnegoMsgCtx *)p)->f10,0,0);
-        func_0201F094(((struct GtsnegoMsgCtx *)p)->f10,1,0,0);
+        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)p)->f10,1,0,0);
     }
     func_02045CAC(((struct GtsnegoMsgCtx *)p)->fC,34,((struct GtsnegoMsgCtx *)p)->f20);
     func_0201F250(((struct GtsnegoMsgCtx *)p)->f10,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f20);

@@ -1,5 +1,5 @@
 /*
- * function: func_02094B8C
+ * function: __strtold
  * address:  0x02094B8C
  * packet:   pkt_02094B8C
  * region:   arm9
@@ -36,8 +36,8 @@
  *   __upper_map    0x020A615C  data  a1
  *   __float_huge   0x020A8814  data
  *   __double_huge  0x020A881C  data  a4
- *   func_0209739C  0x0209739C  arm
- *   func_02091374  0x02091374  arm
+ *   __dec2num  0x0209739C  arm
+ *   nan  0x02091374  arm
  *   _fsub          0x0209CB8C  arm
  *   _f2d           0x0209BD38  arm
  *   _dsub          0x0209AF34  arm
@@ -70,8 +70,8 @@ typedef struct { unsigned char c[9]; } model9;
 typedef struct { unsigned char c[5]; } model5;
 extern const model9 s_infinity;
 extern const model5 s_nan;
-extern double func_0209739C(const decimal *d);      /* __dec2num */
-extern double func_02091374(const char *tagp);      /* nan */
+extern double __dec2num(const decimal *d);      /* __dec2num */
+extern double nan(const char *tagp);      /* nan */
 
 #define isdigit(c)  (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x8))
 #define isalpha(c)  (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x1))
@@ -124,7 +124,7 @@ enum hex_scan_states {
 #define fetch()    (count++, (*ReadProc)(ReadProcArg, 0, 0))
 #define unfetch(c) (*ReadProc)(ReadProcArg, c, 1)
 
-double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg,
+double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg,
                      int *chars_scanned, int *overflow)
 {
     int scan_state = start;
@@ -241,9 +241,9 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
                 }
                 nan_arg[j] = '\0';
                 if (sig_negative)
-                    result = -func_02091374(nan_arg);
+                    result = -nan(nan_arg);
                 else
-                    result = func_02091374(nan_arg);
+                    result = nan(nan_arg);
                 *chars_scanned = spaces + i + j + sign_detected;
                 return result;
             }
@@ -574,7 +574,7 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
                 return sig_negative ? -HUGE_VAL : HUGE_VAL;
         }
         d.exp = (short)exp_value;
-        result = func_0209739C(&d);
+        result = __dec2num(&d);
         if (result != 0.0 && result < 2.2250738585072014e-308)
         {
             *overflow = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217F264
+ * function: current_time
  * address:  0x0217F264
  * packet:   pkt_0219091C
  * region:   ov009
@@ -22,7 +22,7 @@
 extern unsigned long long OS_GetTick(void);
 extern unsigned long long _ll_udiv(unsigned long long a, unsigned long long b);
 
-unsigned int func_0217F264(void)
+unsigned int current_time(void)
 {
     unsigned long long t = OS_GetTick();
 

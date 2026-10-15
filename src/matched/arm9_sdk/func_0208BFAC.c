@@ -1,5 +1,5 @@
 /*
- * function: func_0208BFAC
+ * function: PM_GetBatteryLevel
  * address:  0x0208BFAC
  * packet:   pkt_0208BFAC
  * region:   arm9
@@ -18,7 +18,7 @@
 int OS_IsRunOnTwl(void);
 unsigned int PMi_GetACAdapterCore(void *buf);
 
-unsigned int func_0208BFAC(void *isConnectedBuf)
+unsigned int PM_GetBatteryLevel(void *isConnectedBuf)
 {
     if (OS_IsRunOnTwl()) {
         return PMi_GetACAdapterCore(isConnectedBuf);

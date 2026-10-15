@@ -28,7 +28,7 @@
  *   func_020315D4 0x020315D4 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_02040588 0x02040588 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -63,7 +63,7 @@
  *   PMS_SELECT_GRAPHIC_IsPrintDone 0x021C022C thumb ov110
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -71,7 +71,7 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_020419E4 0x020419E4 arm
@@ -89,7 +89,7 @@
  *   func_020403F4 0x020403F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -114,7 +114,7 @@
  *   func_02049740 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   func_02049EF4 0x02049EF4 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020410D0 0x020410D0 arm
  *   gPmsSelectGraphicBlinkColors 0x021C39E0 data a4
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
@@ -198,7 +198,7 @@ extern char ov067_id[];
 extern const u8 overlay_id[];
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(unsigned heapId, unsigned size, int zero, const char *file, u16 line);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void MI_CpuFill8(void *dst, int value, unsigned size);
 extern int func_02034AC4(int handle);
 extern void func_02034A5C(int handle);
@@ -251,11 +251,11 @@ extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern short CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-extern void func_0203F8F4(u16 heapId);
-extern void func_0203F9B4(void);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_Create(u16 heapId);
+extern void BG_SYS_Delete(void);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_0203FC28(const void *config);
-extern void func_0203FCA0(u32 bgId, const void *bgTemplate, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
 extern void func_020403F4(u32 bgId);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
@@ -409,8 +409,8 @@ int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelect
 {
     struct PmsSelectGraphic *p;
     func_02034AC4((unsigned)overlay_id);
-    func_0207D534((void *)REG_MASTER_BRIGHT_A_ADDR, -16);
-    func_0207D534((void *)REG_MASTER_BRIGHT_B_ADDR, -16);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_A_ADDR, -16);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_B_ADDR, -16);
     GFL_HEAP_CreateChildHeap(1, PMS_SELECT_GRAPHIC_HEAP_ID, 0x1c000);
     p = PROCSYS_AllocProcWork(owner, sizeof(struct PmsSelectGraphic), PMS_SELECT_GRAPHIC_HEAP_ID);
     MI_CpuFill8(p, 0, sizeof(struct PmsSelectGraphic));
@@ -657,7 +657,7 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
 void PMS_SELECT_GRAPHIC_DeleteBg(struct PmsSelectGraphicBg *bg)
 {
     BMP_WIN_Delete(bg->titleWindow);
-    func_0203FB44(3, (u16)bg->tileRange, (u16)(bg->tileRange >> 16));
+    BG_SYS_DeleteHalf(3, (u16)bg->tileRange, (u16)(bg->tileRange >> 16));
     func_020307B0(bg->screenMem);
 }
 
@@ -1308,13 +1308,13 @@ void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 he
     const struct PmsSelectGraphicBgRow *row;
     unsigned id;
     MI_CpuFill8(scene, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(gPmsSelectGraphicDispConfig);
     for (i = 0; i < 6; i++) {
         row = &gPmsSelectGraphicBgRows[i];
         id = row->id;
-        func_0203FCA0((u8)id, row->bg, (u8)row->pal);
+        BG_SYS_InitBgLayer((u8)id, row->bg, (u8)row->pal);
         func_020414AC(id);
         func_02040588(id, row->value);
     }
@@ -1331,7 +1331,7 @@ void PMS_SELECT_GRAPHIC_ExitSceneBgs(struct PmsSelectGraphicScene *scene)
     base = gPmsSelectGraphicBgRows;
     for (i = 0; i < 6; i++) func_020403F4((u8)base[i].id);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(scene, 0, 4);
 }
 

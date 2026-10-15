@@ -12,7 +12,7 @@
  *   to u32 keeps the size but moves the text spill before outgoing stores.
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -20,7 +20,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   POKELIST_ForceSelectionEnd 0x021BA4F8 thumb ov091
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -45,7 +45,7 @@ struct PrintSys;
 struct Cfg;
 extern s16 FX_SinCosTable_[];
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern struct WordSet *func_0201EC64(u32);
+extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
@@ -53,7 +53,7 @@ extern void BMP_Clear(struct CharBuf *,u8);
 extern void func_0201F250(struct WordSet *,void *,void *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *);
 extern void POKELIST_ForceSelectionEnd(u8 *);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *,void *);
@@ -88,7 +88,7 @@ void PLIST_BATTLE_UpdateTimer(u8 *p)
         minute=(u8)(timer/60);
         second=(u8)(timer%60);
         buf=STRBUF_Create(32,H(0));
-        words=func_0201EC64(H(0));
+        words=GF_FONT_Create_EC64(H(0));
         if(minute==0) {
             text=func_02045EC0(P(0x134),175);
             func_0201EFA4(words,1,second,2,1,1);
@@ -101,7 +101,7 @@ void PLIST_BATTLE_UpdateTimer(u8 *p)
         func_0201F250(words,buf,text);
         width=func_0201D304((struct StrObj *)buf,W(0x138),0);
         PRINTSYS_PrintQueColor(P(0x140),(u32)BMP_WIN_GetBmp(P(0x200)),(s16)(36-width),4,(u32)buf,W(0x138),0x3c40);
-        func_0201ED04(words);
+        WORDSET_DeleteStrbufED04(words);
         STRBUF_Delete(buf);
         STRBUF_Delete(text);
         W(0x208)=1;

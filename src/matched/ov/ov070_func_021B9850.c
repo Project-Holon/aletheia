@@ -21,7 +21,7 @@
  *   ITEMMENU_SetMoveTypeIconsVisible  0x021B97E8  thumb  ov070
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_020212B0  0x020212B0  thumb
+ *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
  *   func_0201F250  0x0201F250  thumb
@@ -30,7 +30,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02021350  0x02021350  thumb
- *   func_0202130C  0x0202130C  thumb
+ *   FILE_UTIL_GetId  0x0202130C  thumb
  *   func_0201EF34  0x0201EF34  thumb
  *   ITEMMENU_PrintMoveInfoText  0x021BAB04  thumb  ov070
  *   func_02020FB4  0x02020FB4  thumb
@@ -55,7 +55,7 @@ struct CharBuf;
 struct MsgBank;
 struct WordSet;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u16 func_020212B0(u16 id);
+extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -64,7 +64,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02021350(u16 id);
-extern u32 func_0202130C(u32 id);
+extern u32 FILE_UTIL_GetId(u32 id);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void ITEMMENU_PrintMoveInfoText(u8 *p, int x);
 extern void func_02020FB4(void *dst, u32 entry, u32 heap);
@@ -93,7 +93,7 @@ void ITEMMENU_DrawMoveInfo(char *p)
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f73C)), 0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00002 *)p)->f744)), 0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f74C)), 0);
-    kind = func_020212B0(*e);
+    kind = FILE_UTIL_Get_12B0(*e);
     if (kind == 0) {
         MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x86, (void *)(((struct Obj00002 *)p)->f524));
         ITEMMENU_RegisterItemName((u8 *)p, 0, *e);
@@ -112,7 +112,7 @@ void ITEMMENU_DrawMoveInfo(char *p)
         n = func_02021350(*e);
         if (n == 0xFF) {
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x45, (void *)(((struct Obj00002 *)p)->f524));
-            func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, func_0202130C(*e) + 1, 2, 2, 1);
+            func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, FILE_UTIL_GetId(*e) + 1, 2, 2, 1);
         } else {
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x47, (void *)(((struct Obj00002 *)p)->f524));
             func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, n + 1, 2, 2, 1);

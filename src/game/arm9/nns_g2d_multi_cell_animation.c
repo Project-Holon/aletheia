@@ -44,18 +44,18 @@
  *   func_02062F38  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  *   func_02066890  0x02066890  arm
- *   func_02062FF0   0x02062FF0  arm
+ *   NNS_G2dSetCellAnimationBank   0x02062FF0  arm
  *   func_02062D4C  0x02062D4C  arm
  *   func_02062F00  0x02062F00  arm
- *   func_02062F90  0x02062F90  arm
+ *   NNS_G2dResetCellAnimation  0x02062F90  arm
  *   _u32_div_f          0x0209C2B0  arm
  *   func_020627D8       0x020627D8  arm
- *   func_02063030       0x02063030  arm
- *   func_020640DC       0x020640DC  arm
+ *   NNS_G2dIsCellAnimationBoundingBox       0x02063030  arm
+ *   NNS_G2dSetSRTTranslate       0x020640DC  arm
  *   func_020629E8  0x020629E8  arm
  *   func_02062D40   0x02062D40  arm
- *   func_02064100   0x02064100  arm
- *   func_02064120   0x02064120  arm
+ *   NNS_G2dSetSRTRotate   0x02064100  arm
+ *   NNS_G2dSetSRTScale   0x02064120  arm
  *   NNS_G2dSetCellAnimationSpeed  0x020643C4  arm
  */
 struct AnimBank;
@@ -188,12 +188,12 @@ extern NodeRec *func_02062D40(AnimCtrl *pAnimCtrl);
 extern BOOL func_02062D4C(AnimCtrl *pAnimCtrl, fx32 frames);
 extern BOOL func_02062F00(AnimCtrl *pAnimCtrl, u32 frameIdx);
 extern int func_02062F38(AnimCtrl *pAnimCtrl);
-extern void func_02062F90(AnimCtrl *pAnimCtrl);
-extern void func_02062FF0(AnimCtrl *pAnimCtrl, const AnimSequenceData *pAnimSeq);
-extern BOOL func_02063030(AnimCtrl *pAnimCtrl);
-extern void func_020640DC(SRTControl *pSrtCtrl, s16 x, s16 y);
-extern void func_02064100(SRTControl *pSrtCtrl, u16 rotZ);
-extern void func_02064120(SRTControl *pSrtCtrl, fx32 scaleX, fx32 scaleY);
+extern void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
+extern void NNS_G2dSetCellAnimationBank(AnimCtrl *pAnimCtrl, const AnimSequenceData *pAnimSeq);
+extern BOOL NNS_G2dIsCellAnimationBoundingBox(AnimCtrl *pAnimCtrl);
+extern void NNS_G2dSetSRTTranslate(SRTControl *pSrtCtrl, s16 x, s16 y);
+extern void NNS_G2dSetSRTRotate(SRTControl *pSrtCtrl, u16 rotZ);
+extern void NNS_G2dSetSRTScale(SRTControl *pSrtCtrl, fx32 scaleX, fx32 scaleY);
 extern void NNSi_G2dSrtcInitControl(SRTControl *pSrtCtrl, u32 mode);
 extern void *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);
 extern void func_02066890(u32 stateIdx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -278,12 +278,12 @@ void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim)
     case 0:
         break;
     case 2:
-        func_020640DC(&pCellAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
+        NNS_G2dSetSRTTranslate(&pCellAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
         break;
     default:
-        func_02064120(&pCellAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        func_02064100(&pCellAnim->srtCtrl, pNodeRec->rotZ);
-        func_020640DC(&pCellAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
+        NNS_G2dSetSRTScale(&pCellAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate(&pCellAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTTranslate(&pCellAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
         break;
     }
 
@@ -380,7 +380,7 @@ void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSeque
 
 void NNS_G2dSetCellAnimationSequence(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq)
 {
-    func_02062FF0(&pCellAnim->animCtrl, pAnimSeq);
+    NNS_G2dSetCellAnimationBank(&pCellAnim->animCtrl, pAnimSeq);
     NNSi_G2dRefreshCellAnimation(pCellAnim);
 }
 
@@ -432,7 +432,7 @@ void NNS_G2dSetCellAnimationCurrentFrame(CellAnim *pCellAnim, u32 frameIdx)
  */
 void NNS_G2dRestartCellAnimation(CellAnim *pCellAnim)
 {
-    func_02062F90(&pCellAnim->animCtrl);
+    NNS_G2dResetCellAnimation(&pCellAnim->animCtrl);
     pCellAnim->animCtrl.bActive = 1;
     NNSi_G2dRefreshCellAnimation(pCellAnim);
 }
@@ -497,7 +497,7 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
     if (GetPlayMode(pNodeData) == 1) {
         const u32 animSeqLength = CalcTotal(pAnimSeq);
 
-        if (func_02063030(&pCellAnim->animCtrl)) {
+        if (NNS_G2dIsCellAnimationBoundingBox(&pCellAnim->animCtrl)) {
             const u32 frameToMove = (mcTotalFrame % animSeqLength);
             NNS_G2dTickCellAnimation(pCellAnim, (fx32)(frameToMove << 12));
         } else {
@@ -519,8 +519,8 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
  * { NNSG2dCellAnimation, bInited } array; otherwise a 0x28-byte node array
  * whose pContent is the cell animation.  Callees: func_020627D8
  * GetAnimSequenceByIdx, func_0206434C SetCellAnimationSequence,
- * func_02063030 IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
- * func_020640DC SrtcSetTrans.
+ * NNS_G2dIsCellAnimationBoundingBox IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
+ * NNS_G2dSetSRTTranslate SrtcSetTrans.
  *
  * Closed in wave 12 by writing the library's own shape: ONE u16 counter at
  * function scope shared by all three loops, the per-node work as the
@@ -566,7 +566,7 @@ void NNSi_G2dSetMCDataToMCInstanceImpl(MCInstance *pMCInst, const MultiCellData 
             SetNodeDataToCellAnim_(pCellAnim, pNodeData, pMCInst->pAnimDataBank, mcTotalFrame);
 
             pNodeArray[i].bVisible = 1;
-            func_020640DC(&pNodeArray[i].srtCtrl, pNodeData->posX, pNodeData->posY);
+            NNS_G2dSetSRTTranslate(&pNodeArray[i].srtCtrl, pNodeData->posX, pNodeData->posY);
         }
     }
 }
@@ -616,7 +616,7 @@ u16 NNS_G2dGetMCBankNumCellAnimRequired(MultiCellBank *pBank)
  *
  * PIN ../2.0/sp2: the "kept branches" tell in its CROSS-JUMP form, the same
  * one src/matched/NNS_G2dSetMCAnimationCurrentFrame.c and src/matched/NNSi_G2dRefreshCellAnimation.c carry.  The
- * image writes the kind==2 arm's `add r0, r4, #0x48` / `bl func_020640DC` tail
+ * image writes the kind==2 arm's `add r0, r4, #0x48` / `bl NNS_G2dSetSRTTranslate` tail
  * out in its own arm although the other arm's LAST call is a byte-identical
  * pair; 1.1p1 -O4,p cross-jumps the two and lands at 176 bytes against the
  * original's 184, 73 concrete bytes out (docs/notes/pkt_0206469C.c.txt, which
@@ -629,7 +629,7 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
     u32 kind;
     u32 pMultiCellData;
 
-    func_02062FF0(&pMCAnim->animCtrl, pAnimSeq);
+    NNS_G2dSetCellAnimationBank(&pMCAnim->animCtrl, pAnimSeq);
     pMCAnim->totalFrames = 0;
 
     if (pMCAnim->animCtrl.pActiveCurrent->frames == 0) {
@@ -647,11 +647,11 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
     }
 
     if (kind == 2) {
-        func_020640DC(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
+        NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
     } else {
-        func_02064120(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        func_02064100(&pMCAnim->srtCtrl, pNodeRec->rotZ);
-        func_020640DC(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
+        NNS_G2dSetSRTScale(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate(&pMCAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
     }
 
 done:
@@ -829,7 +829,7 @@ void NNSi_G2dTickMCInstance(MCInstance *pMCInst, fx32 frames)
  *
  * PIN ../2.0/sp2, inherited from the sibling src/matched/NNS_G2dSetMCAnimationCurrentFrame.c: the
  * same case-2 cross-jump.  1.1p1 -O4,p shares case 2's
- * `add r0, r4, #0x48` / `bl func_020640DC` tail with the default arm's
+ * `add r0, r4, #0x48` / `bl NNS_G2dSetSRTTranslate` tail with the default arm's
  * identical pair at 0x02064A88/0x02064A8C and lands at 220 bytes against the
  * original's 224 (docs/notes/pkt_02064934.NNS_G2dTickMCAnimation.c.txt).
  *
@@ -873,12 +873,12 @@ void NNS_G2dTickMCAnimation(MultiCellAnim *pMCAnim, fx32 frames)
     case 0:
         break;
     case 2:
-        func_020640DC(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
+        NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
         break;
     default:
-        func_02064120(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        func_02064100(&pMCAnim->srtCtrl, pNodeRec->rotZ);
-        func_020640DC(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
+        NNS_G2dSetSRTScale(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate(&pMCAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
         break;
     }
     NNSi_G2dSetMCDataToMCInstanceImpl(&pMCAnim->mc, (const MultiCellData *)pMultiCellData, pMCAnim->totalFrames);
@@ -894,9 +894,9 @@ miss:
 /*
  * PIN ../2.0/sp2: the "kept branches" tell.  The image writes the case-2
  * call tail out in its own arm -- `add r0, r4, #0x48` (0x02064B20) /
- * `bl func_020640DC` (0x02064B24) / `b 0x02064B54` (0x02064B28) -- although
+ * `bl NNS_G2dSetSRTTranslate` (0x02064B24) / `b 0x02064B54` (0x02064B28) -- although
  * the default arm ends in a byte-identical `add r0, r4, #0x48` /
- * `bl func_020640DC` pair at 0x02064B4C/0x02064B50.  1.1p1 -O4,p cross-jumps
+ * `bl NNS_G2dSetSRTTranslate` pair at 0x02064B4C/0x02064B50.  1.1p1 -O4,p cross-jumps
  * the two, branching case 2 into the default arm's pair and giving 172 bytes
  * against the original's 180, 64 concrete bytes out.  Two independent lanes
  * measured a dozen spellings (switch arm order, if-chain, goto tail, named
@@ -926,12 +926,12 @@ void NNS_G2dSetMCAnimationCurrentFrame(MultiCellAnim *pMCAnim, u32 frameIdx)
     case 0:
         break;
     case 2:
-        func_020640DC(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
+        NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
         break;
     default:
-        func_02064120(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        func_02064100(&pMCAnim->srtCtrl, pNodeRec->rotZ);
-        func_020640DC(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
+        NNS_G2dSetSRTScale(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate(&pMCAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
         break;
     }
     NNSi_G2dSetMCDataToMCInstanceImpl(&pMCAnim->mc, (const MultiCellData *)pMultiCellData, pMCAnim->totalFrames);

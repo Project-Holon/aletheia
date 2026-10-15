@@ -1,5 +1,5 @@
 /*
- * function: func_021BC930
+ * function: BEACON_DETAIL_GRA_Create
  * address: 0x021BC930
  * packet: pkt_ov216_021BC930
  * region: ov216
@@ -20,7 +20,7 @@
  *   func_0201DD60 0x0201DD60 thumb
  *   func_021BCA58 0x021BCA58 thumb ov216
  *   func_021BCAFC 0x021BCAFC thumb ov216
- *   func_021BCA44 0x021BCA44 thumb ov216
+ *   BEACON_DETAIL_GRA_Task 0x021BCA44 thumb ov216
  *   d_021BDDC0 0x021BDDC0 data a1
  *   d_021BDBD8 0x021BDBD8 data a4
  */
@@ -40,9 +40,9 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void func_021BCA58(void *,int);
 extern void func_021BCAFC(void **p, void *a, int heap);
-extern void func_021BCA44(void *unused, char *p);
+extern void BEACON_DETAIL_GRA_Task(void *unused, char *p);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
-void *func_021BC930(int a,int heap)
+void *BEACON_DETAIL_GRA_Create(int a,int heap)
 {
     unsigned *p=func_02030734(heap,16,0,d_021BDDC0,317);
     MI_CpuFill8(p,0,16);
@@ -59,6 +59,6 @@ void *func_021BC930(int a,int heap)
     func_0201DD60();
     func_021BCA58(p,heap);
     func_021BCAFC((void **)(p+1),d_021BDBD8,heap);
-    p[3]=(unsigned)func_020056A0((void (*)(void *, void *))func_021BCA44,p,0);
+    p[3]=(unsigned)func_020056A0((void (*)(void *, void *))BEACON_DETAIL_GRA_Task,p,0);
     return p;
 }

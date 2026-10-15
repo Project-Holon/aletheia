@@ -1,5 +1,5 @@
 /*
- * function: func_0205DE04
+ * function: DWCi_AC_SearchAP
  * address:  0x0205DE04
  * packet:   pkt_0205DE04
  * region:   arm9
@@ -159,7 +159,7 @@ extern u8 SearchDifferChannel(ACWORK *wk);
 extern u8 SearchStealth(ACWORK *wk);
 extern void DWCi_AC_SetError(int error);
 
-u8 func_0205DE04(void)
+u8 DWCi_AC_SearchAP(void)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     u8 dwc_phase = DWCi_AC_GetPhase();

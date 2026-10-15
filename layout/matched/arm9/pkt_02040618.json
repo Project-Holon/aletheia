@@ -30,8 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020407E8",
-    "sub_02040804"
+    "BG_SYS_GetScrollX",
+    "BG_SYS_GetScrollY"
+   ],
+   "addresses": [
+    "0x020407E8",
+    "0x02040804"
    ]
   },
   {
@@ -59,7 +63,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02040968",
+   "name": "BG_SYS_SetupMemory",
    "address": "0x02040968",
    "kind": "game",
    "region": "arm9",

@@ -18,17 +18,17 @@
  *   d_021DA6D0 0x021DA6D0 data a4
  *   d_021DA6F0 0x021DA6F0 data a4
  *   d_021DA710 0x021DA710 data a4
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   func_0204047C 0x0204047C arm
  *   func_02040588 0x02040588 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02041300 0x02041300 arm
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   CLACT_ResetActorAnimCommand 0x0204BA10 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -76,13 +76,13 @@
  *   d_021DA640 0x021DA640 data a4
  *   d_021DA648 0x021DA648 data a4
  *   func_02040DA8 0x02040DA8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -109,7 +109,7 @@
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041570 0x02041570 arm
@@ -120,9 +120,9 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   GX_DispOn 0x0207D46C arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -139,7 +139,7 @@
  *   d_021DA680 0x021DA680 data a4
  *   d_021DA658 0x021DA658 data a4
  *   d_021DAA20 0x021DAA20 data a1
- *   func_02012204 0x02012204 thumb
+ *   ICA_ANIME_GetUnk330 0x02012204 thumb
  *   TCBL_Main 0x020310C4 arm
  *   func_02040618 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -152,7 +152,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
@@ -191,7 +191,7 @@ struct Triple { u8 v[3]; };
 
 struct DispConfigWords { u32 words[4]; };
 
-extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void func_020414AC(u32);
 
@@ -201,7 +201,7 @@ extern void func_0204047C(int, u16);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040C14(u32, u32, u32, u32);
+extern void BG_SYS_Init(u32, u32, u32, u32);
 
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 
@@ -213,7 +213,7 @@ extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 
 extern int GFL_NET_GetRunState(void);
 
-extern void *func_02012138(void *gameSystem);
+extern void *ICA_ANIME_GetField24(void *gameSystem);
 
 extern void GAME_COMM_RequestExitNoCallback(void *gameComm);
 
@@ -221,7 +221,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
@@ -305,7 +305,7 @@ extern void *BUTTON_MAN_Create(const void *rects, void (*callback)(int, int, voi
 
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 extern void func_020403F4(u32 i);
 
@@ -369,7 +369,7 @@ extern void PRINTSYS_PrintStreamShortWait(void *p, s32 v);
 
 extern int TOUCHPANEL_GetCont(void);
 
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int textSpeed, void *tcbl, int, u16 heapId, int);
 
@@ -395,11 +395,11 @@ extern void MI_CpuFill8(void *,u8,u32);
 
 extern void func_0204363C(u32 swap);
 
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 extern void GX_DispOn(void);
 
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 
 extern void BMP_WIN_Init(u16);
 
@@ -449,7 +449,7 @@ extern void CLACT_DrawSystem(void);
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
-extern u32 func_02012204(const struct Ctx *p);
+extern u32 ICA_ANIME_GetUnk330(const struct Ctx *p);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
@@ -479,7 +479,7 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void func_020315D4(struct S020315D4 *p);
 
@@ -561,27 +561,27 @@ void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work)
 {
     struct BgTemplate b[5];
     b[4] = d_021DA690;
-    func_0203FCA0(0, &b[4], 0);
+    BG_SYS_InitBgLayer(0, &b[4], 0);
     func_020414AC(0);
     func_020409B4(0);
     func_0204047C(0, 0);
     func_02040588(0, 1);
     b[3] = d_021DA6B0;
-    func_0203FCA0(4, &b[3], 0);
+    BG_SYS_InitBgLayer(4, &b[3], 0);
     func_02040588(4, 1);
     func_020409B4(4);
     b[2] = d_021DA6D0;
-    func_0203FCA0(5, &b[2], 0);
-    func_02040C14(5, 0, 1, 0);
+    BG_SYS_InitBgLayer(5, &b[2], 0);
+    BG_SYS_Init(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 32, 32, 17);
     func_020409B4(5);
     func_02040588(5, 1);
     b[1] = d_021DA6F0;
-    func_0203FCA0(6, &b[1], 0);
+    BG_SYS_InitBgLayer(6, &b[1], 0);
     func_02040588(6, 1);
     func_020409B4(6);
     b[0] = d_021DA710;
-    func_0203FCA0(7, &b[0], 0);
+    BG_SYS_InitBgLayer(7, &b[0], 0);
     func_02040588(7, 1);
     func_020409B4(7);
 }
@@ -627,7 +627,7 @@ void GSYNC_MENU_StateStartFadeOut(GsyncMenuWork *work)
     case GSYNC_MENU_EXIT_BUTTON_0:
     case GSYNC_MENU_EXIT_BUTTON_1:
         if (GFL_NET_GetRunState())
-            GAME_COMM_RequestExitNoCallback(func_02012138(work->gameSystem));
+            GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(work->gameSystem));
         break;
     }
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitFadeOut, 0x1aa);
@@ -639,7 +639,7 @@ void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work)
         if (!APP_TASKMENU_GetCursorPos(work->taskMenu)) {
             GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, 0x1b6);
         } else {
-            func_020414EC(5);
+            BG_SYS_ClearSlot(5);
             work->exitMode = GSYNC_MENU_EXIT_NONE;
             GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x1bb);
         }
@@ -847,7 +847,7 @@ void GSYNC_MENU_FreeResources(GsyncMenuWork *work)
     func_0201DD68();
     GSYNC_MENU_DeleteButtonWindows(work);
     func_02040DA8(5, 1, 0);
-    func_0203FB44((int)5, (u16)(work->bgFrame), (u16)(work->bgFrame >> 16));
+    BG_SYS_DeleteHalf((int)5, (u16)(work->bgFrame), (u16)(work->bgFrame >> 16));
     func_020403F4(5);
     func_020403F4(4);
     MSGDATA_Delete(work->msgBank);
@@ -863,7 +863,7 @@ void GSYNC_MENU_StateWaitFadeOut(GsyncMenuWork *work)
         switch (work->exitMode) {
         case GSYNC_MENU_EXIT_BUTTON_0:
         case GSYNC_MENU_EXIT_BUTTON_1:
-            if (GAME_COMM_GetKind(func_02012138(work->gameSystem)) == 0)
+            if (GAME_COMM_GetKind(ICA_ANIME_GetField24(work->gameSystem)) == 0)
                 GSYNC_MENU_ChangeState(work, 0, 0x345);
             break;
         default:
@@ -1073,7 +1073,7 @@ void GSYNC_MENU_PrintMessage(GsyncMenuWork *work, int lineCount, int stream)
     GF_FONT_SetTextColor(1, 2, 15);
     if (stream) {
         int textSpeed;
-        textSpeed = func_02012FFC();
+        textSpeed = MSG_SPEED_GetWait();
         work->printStream = PRINTSYS_PrintStream(win, 0, 0, work->msgBuf, work->font, textSpeed, work->tcbl, 2, work->heapId, 15);
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
@@ -1132,7 +1132,7 @@ void GSYNC_MENU_StateConfirmSelect(GsyncMenuWork *work)
                 GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveStart, 0x519);
             }
         } else {
-            func_020414EC(5);
+            BG_SYS_ClearSlot(5);
             work->exitMode = GSYNC_MENU_EXIT_NONE;
             GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x51f);
             GSYNC_MENU_SetPaletteFade(work, 0);
@@ -1180,11 +1180,11 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->gameSystem = param->gameSystem;
     func_0204363C(1);
     if (param->fadeFromWhite) bright = 16; else bright = -16;
-    func_0207D534((void *)0x0400006c, bright);
-    func_0207D534((void *)0x0400106c, bright);
+    GXx_SetMasterBrightness_((void *)0x0400006c, bright);
+    GXx_SetMasterBrightness_((void *)0x0400106c, bright);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
-    func_0203F8F4(work->heapId);
+    BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     func_0201DD60();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA9F0);
@@ -1238,7 +1238,7 @@ int GSYNC_MENU_ProcMain(int a, int b, int c, GsyncMenuWork *work)
     --work->bgScrollY;
     CLACT_DrawSystem();
     if (!work->exiting) GAMESYSTEM_TryStartAutoComm(work->gameSystem);
-    if (WIPE_SYS_EndCheck() && func_02012204(work->gameSystem)) {
+    if (WIPE_SYS_EndCheck() && ICA_ANIME_GetUnk330(work->gameSystem)) {
         work->exitMode = GSYNC_MENU_EXIT_NONE;
         result = 1;
         WIPE_SetBrightnessFadeOut(0, 0);
@@ -1282,7 +1282,7 @@ int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWor
     TCBL_Destroy(work->tcbl);
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020315D4(proc);
     func_020306F0(31);
     return 1;

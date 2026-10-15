@@ -14,7 +14,7 @@
  *
  * symbols:
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -54,14 +54,14 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02080D24 0x02080D24 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_0200F5EC 0x0200F5EC thumb
+ *   GFL_NET_ERR_InsertFriend 0x0200F5EC thumb
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_0203EFC8 0x0203EFC8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -78,7 +78,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   OS_GetMacAddress 0x02087C6C arm
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_02009CA8 0x02009CA8 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
@@ -96,10 +96,10 @@
  *   func_0203FC28 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02041300 0x02041300 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   gIrcBattleMatchVramBanks 0x021BB6F0 data a4
  *   gIrcBattleMatchDispConfig 0x021BB6B0 data a4
@@ -126,7 +126,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -139,7 +139,7 @@
  *   gIrcBattleMatchMsgWaitingMode10 0x021BB66C data a4
  *   gIrcBattleMatchMsgWaitingMode11 0x021BB6A0 data a4
  *   gIrcBattleMatchMsgWaitingDefault 0x021BB698 data a4
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02049B68 0x02049B68 arm
@@ -162,7 +162,7 @@
  *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
  *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
  *   func_02040DA8 0x02040DA8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -199,6 +199,7 @@
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
 struct Chan02021FD8;
 struct PalAnmSlot;
@@ -393,14 +394,14 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned char func_02080D24(unsigned x);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern int func_0200F5EC(void *a0, void *a1, void *a2, void *a3);
+extern int GFL_NET_ERR_InsertFriend(void *a0, void *a1, void *a2, void *a3);
 extern unsigned GFL_NET_IsParentAid(void);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern int TOUCHPANEL_GetTrg(void);
@@ -415,7 +416,7 @@ extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void OS_GetMacAddress(void *);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void func_02009CA8(void *account, void *out);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int MYSTATUS_GetSize(void);
@@ -431,10 +432,10 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_0203FCA0(u32 bgId, const BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *tmpl, u32 type);
 extern void func_02041300(int,int,int,int,u8,u8,u8);
 extern void func_020409B4(u32 index);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void CLACT_VBlankSystem(void);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -453,12 +454,12 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void BMP_WIN_Exit(void);
 extern void CLACT_DeleteActor(struct Obj *);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -479,7 +480,7 @@ extern void GFL_NET_IRC_WIRELESS_SetSessionParam(int (*isCompatible)(int, int));
 extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
 extern void GFL_NET_SetGameKindOverride(int);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -509,7 +510,7 @@ extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void APP_TASKMENU_WIN_Delete(u8 *win);
-extern void func_0201ED04(struct WordSet *wordSet);
+extern void WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void func_02030EAC(struct Node *task);
 extern u32 CLACT_DeleteUnit(struct Bank *unit);
 extern void CLACT_ExitSystem(void);
@@ -749,7 +750,7 @@ void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatch
  int record;
  int saveData;
  if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
-  record=(int)func_02012950((struct Sub24 *)work->param->gameData,aid);
+  record=(int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)work->param->gameData,aid);
   MYSTATUS_Copy((void *)data,(void *)record);
   saveData=(int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
  MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)saveData,func_02008530((const struct Sub0200852CObj *)record));
@@ -769,8 +770,8 @@ void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,int data,IrcBattleMa
  void *records = work->param->gameData;
  if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
   if (aid != GFL_NET_SYSTEM_GetCurrentAid()) {
-   int record = (int)func_02012950((struct Sub24 *)records,aid);
-   work->regulationResult = func_0200F5EC(records,(void *)record,(void *)data,(void *)(work->heapId));
+   int record = (int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)records,aid);
+   work->regulationResult = GFL_NET_ERR_InsertFriend(records,(void *)record,(void *)data,(void *)(work->heapId));
   }
  }
 }
@@ -926,7 +927,7 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
  int syncId=12;
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7b,syncId)!=0) {
   if(work->mode==7) {
-   func_02009CA8((void *)func_0201283C((const struct BigObj *)work->param->gameData),trainerInfo);
+   func_02009CA8((void *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData),trainerInfo);
    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc03,syncId,(u32)trainerInfo)!=0) {
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x79,syncId);
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMacAddress);
@@ -1066,12 +1067,12 @@ void IRCBATTLEMATCH_OnChangeoverResult(IrcBattleMatchWork *work,int role) {
 void IRCBATTLEMATCH_SetupDisplay(IrcBattleMatchWork *work) {
  BG_SYS_SetVramBanks((const struct DispVram *)gIrcBattleMatchVramBanks);func_0203FC28((struct DispConfig *)gIrcBattleMatchDispConfig);
  BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
- {BgTemplate bg=gIrcBattleMatchBgTemplate0;func_0203FCA0(0,&bg,0);func_02041300(0,0,0,0,32,32,17);func_020409B4(0);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate1;func_0203FCA0(1,&bg,0);func_02041300(1,0,0,0,32,32,17);func_020409B4(1);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate4;func_0203FCA0(4,&bg,0);func_02041300(4,0,0,0,32,32,17);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate5;func_0203FCA0(5,&bg,0);func_02041300(5,0,0,0,32,32,17);func_020409B4(5);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate6;func_0203FCA0(6,&bg,0);func_02040C14(6,0,1,0);func_02041300(6,0,0,0,32,32,17);func_020409B4(6);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate7;func_0203FCA0(7,&bg,0);func_02041300(7,0,0,0,32,32,17);func_020409B4(7);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&bg,0);func_02041300(0,0,0,0,32,32,17);func_020409B4(0);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&bg,0);func_02041300(1,0,0,0,32,32,17);func_020409B4(1);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate4;BG_SYS_InitBgLayer(4,&bg,0);func_02041300(4,0,0,0,32,32,17);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&bg,0);func_02041300(5,0,0,0,32,32,17);func_020409B4(5);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&bg,0);BG_SYS_Init(6,0,1,0);func_02041300(6,0,0,0,32,32,17);func_020409B4(6);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&bg,0);func_02041300(7,0,0,0,32,32,17);func_020409B4(7);}
 }
 
 void IRCBATTLEMATCH_VBlankTask(void) { CLACT_VBlankSystem(); }
@@ -1151,7 +1152,7 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->infoWin)),255);
  func_02045CAC(work->msgData,msgId,work->tempStr);
- func_0201EFA4(work->wordSet,0,func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)work->param->gameData)),2,1,1);
+ func_0201EFA4(work->wordSet,0,func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
  func_0201EFA4(work->wordSet,1,32,2,1,1);
  func_0201F250(work->wordSet,work->msgStr,work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,work->msgStr,work->font);
@@ -1185,12 +1186,12 @@ void IRCBATTLEMATCH_FreeMessageWindows(IrcBattleMatchWork *work)
 
 void IRCBATTLEMATCH_InitWindowSystem(IrcBattleMatchWork *work)
 {
- func_0203F8F4(work->heapId);
+ BG_SYS_Create(work->heapId);
  BMP_WIN_Init(work->heapId);
  func_0201DD60();
 }
 
-void IRCBATTLEMATCH_ExitWindowSystem(IrcBattleMatchWork *work) { func_0203F9B4(); BMP_WIN_Exit(); }
+void IRCBATTLEMATCH_ExitWindowSystem(IrcBattleMatchWork *work) { BG_SYS_Delete(); BMP_WIN_Exit(); }
 
 void IRCBATTLEMATCH_DeleteActor(IrcBattleMatchWork *work,unsigned slot)
 {
@@ -1203,7 +1204,7 @@ void IRCBATTLEMATCH_DeleteActor(IrcBattleMatchWork *work,unsigned slot)
 void IRCBATTLEMATCH_PrintWaitingMessage(IrcBattleMatchWork *work) {
  if(work->partnerLeft==1) {MessageRef message=gIrcBattleMatchMsgPartnerLeft;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
  if(work->mode==7) {
-  if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)work->param->gameData))==32) {MessageRef message=gIrcBattleMatchMsgWaitingMode7Full;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
+  if(func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {MessageRef message=gIrcBattleMatchMsgWaitingMode7Full;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
   else {MessageRef message=gIrcBattleMatchMsgWaitingMode7;IRCBATTLEMATCH_PrintMainMessage(&message,work);IRCBATTLEMATCH_PrintPlayerMessage(0x22,work);return;}
  }
  if(work->mode==6) {MessageRef message=gIrcBattleMatchMsgWaitingMode6;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
@@ -1220,7 +1221,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  void *resource;
  int i;
  func_0201DD68();
- work->wordSet=func_0201EC74(11,200,work->heapId);
+ work->wordSet=WORDSET_Create(11,200,work->heapId);
  IRCBATTLEMATCH_InitWindowSystem(work);IRCBATTLEMATCH_SetupDisplay(work);
  work->msgStr=STRBUF_Create(200,work->heapId);
  work->tempStr=STRBUF_Create(200,work->heapId);
@@ -1261,7 +1262,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_StepWaitFadeIn(IrcBattleMatchWork *work) {
  if(FADE_IsActive()!=0) {
   if(work->mode==7) {
-   if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)work->param->gameData))==32) {
+   if(func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepCountdownThenExit);
     work->timer=180;
     return;
@@ -1364,7 +1365,7 @@ void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
  {
   unsigned int windowPalette=work->windowPalette;
   unsigned int paletteHigh=windowPalette>>16;
-  func_0203FB44(5,(unsigned short)windowPalette,(unsigned short)paletteHigh);
+  BG_SYS_DeleteHalf(5,(unsigned short)windowPalette,(unsigned short)paletteHigh);
  }
  func_020403F4(5);
  MSGDATA_Delete((struct Rec *)work->msgData);
@@ -1739,7 +1740,7 @@ int IRCBATTLEMATCH_ProcExit(struct Proc *proc, int b, int c, IrcBattleMatchWork 
     if(work->buttonMan) BUTTON_MAN_Delete(work->buttonMan);
     func_020307B0(work->paletteBackup);
     work->buttonMan=0;
-    func_0201ED04(work->wordSet);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     IRCBATTLEMATCH_ExitScreen(work);
     func_02030EAC(work->vblankTask);
     CLACT_DeleteUnit(work->clactUnit);

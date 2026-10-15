@@ -95,6 +95,91 @@ typedef struct CtvtWork {
 
 typedef char CtvtWorkSizeCheck[(sizeof(CtvtWork) == 0x1FC) ? 1 : -1];
 
+/* Connection flags of the comm record (+0x2D). */
+typedef struct CtvtCommFlags {
+    u8 netIdle : 1;             /* bit 0: the wireless stack reports idle */
+    u8 nameMatchActive : 1;     /* bit 1: the peer name probe is running */
+    u8 rest : 6;
+} CtvtCommFlags;
+
+/* One member slot of the comm record, stride 0x40 (ctvt_comm.c). */
+typedef struct CtvtPeerSlot {
+    u32 active;                 /* +0x00: 1: the slot is connected */
+    u32 connected;              /* +0x04: 1: the connect reply was sent */
+    u32 reported;               /* +0x08: 1: the slot was reported to the menu */
+    u32 isSelf;                 /* +0x0C: 1: this slot is the local player */
+    u32 hit;                    /* +0x10: 1: the slot was touched */
+    u8 postIndex;               /* +0x14: post work index, 0xFF = none */
+    u8 pad15[3];
+    u32 state;                  /* +0x18: receive post state */
+    u8 peerParam[8];            /* +0x1C: peer parameter copied to the menu */
+    u8 pad24[0x18];             /* +0x24: unused middle of the slot */
+    u8 readyFlag;               /* +0x3C: per slot flag read by the camera view */
+    u8 pad3D[3];                /* +0x3D: unused tail of the slot */
+} CtvtPeerSlot;
+
+/* A received comm message (ctvt_comm.c CTVT_COMM_HandleMessage). */
+typedef struct CtvtCommMsg {
+    u32 value;                  /* +0x00: payload word */
+    u8 command;                 /* +0x04: message id */
+} CtvtCommMsg;
+
+/* Network side of the video chat overlay (ctvt_comm.c). Size 0x3E0. */
+typedef struct CtvtComm {
+    u32 state;                  /* +0x00: 1 once the session started */
+    u8 memberCount;             /* +0x04: connected member count */
+    u8 pad05[3];
+    u32 netState;               /* +0x08: network state machine state */
+    u8 myStatus[0x20];          /* +0x0C: local MYSTATUS copy */
+    u8 prevMemberCount;         /* +0x2C: member count at the last change */
+    CtvtCommFlags flags;        /* +0x2D: connect flags */
+    u8 peerName[18];            /* +0x2E: three six byte peer name records */
+    u8 peerStatus[0x20];        /* +0x40: peer status block sent with 0x2003 */
+    u8 netIdle;                 /* +0x60: the wireless stack reports idle */
+    u8 pad61[3];
+    CtvtPeerSlot peers[4];      /* +0x64: one slot per member, stride 0x40 */
+    void *postWork[3];          /* +0x164: post work buffers */
+    u8 postWorkMask;            /* +0x170: bit per used post work buffer */
+    u8 pad171[3];
+    u32 netMode;                /* +0x174: negotiated network mode */
+    u32 requestedMode;          /* +0x178: requested network mode */
+    u8 connectMac[6];           /* +0x17C: parent MAC address for the connect */
+    u8 sendMask;                /* +0x182: peers with a pending frame send */
+    u8 voiceMask;               /* +0x183: peers that sent a voice packet */
+    u32 sendBusy;               /* +0x184: 1: a frame send is in flight */
+    void *jpegWork;             /* +0x188: JPEG encoder work buffer */
+    void *frameBuf;             /* +0x18C: camera frame buffer */
+    void *jpegOut;              /* +0x190: JPEG output buffer */
+    u32 postBusy;               /* +0x194: 1: a post receive is in flight */
+    u32 playPending;            /* +0x198: 1: a voice sample was received */
+    u16 playLength;             /* +0x19C: received sample length */
+    u8 pad19E[2];
+    s32 playFreq;               /* +0x1A0: received sample frequency */
+    void *voiceRec;             /* +0x1A4: 0x208 byte voice record */
+    char *decodeBuf;            /* +0x1A8: 0xC800 byte ADPCM decode buffer */
+    u8 writeCursor;             /* +0x1AC: slot buffer write cursor, mod 0x40 */
+    u8 readCursor;              /* +0x1AD: slot buffer read cursor, mod 0x40 */
+    u8 slotBuf[0x200];          /* +0x1AE: 0x40 slots of eight bytes */
+    u8 markerSlot;              /* +0x3AE: slot of the placed marker, 0xFF none */
+    u8 pad3AF[1];
+    u32 markerDirty;            /* +0x3B0: 1: a slot hit state changed */
+    u32 statusDirty;            /* +0x3B4: 1: the peer status must be sent */
+    u32 memberDirty;            /* +0x3B8: 1: the member count must be sent */
+    u32 halfResSync;            /* +0x3BC: half resolution value to send */
+    u32 strokeSendPending;      /* +0x3C0: 1: strokes must be sent */
+    u32 cmd4Pending;            /* +0x3C4: 1: message 4 must be sent */
+    u32 voiceStatePending;      /* +0x3C8: 1: message 5 was received */
+    u32 cmd5Pending;            /* +0x3CC: 1: message 5 must be sent */
+    u16 slotTimer;              /* +0x3D0: countdown after a slot change */
+    u8 pad3D2[2];
+    u32 slotMarkerDirty;        /* +0x3D4: 1: the slot marker must be sent */
+    u8 currentSlot;             /* +0x3D8: slot of the last hit, 0xFF none */
+    u8 pad3D9[3];
+    void *work;                 /* +0x3DC: back pointer to CtvtWork */
+} CtvtComm;
+
+typedef char CtvtCommSizeCheck[(sizeof(CtvtComm) == 0x3E0) ? 1 : -1];
+
 /* Drawing board screen ("Draw"): record of the pen tool screen. Size 0x98. */
 typedef struct CtvtDrawScene {
     s32 state;

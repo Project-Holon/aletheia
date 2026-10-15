@@ -1,5 +1,5 @@
 /*
- * function: func_021F95F0
+ * function: STA_ACTING_RankScores
  * address: 0x021F95F0
  * packet: pkt_ov132_021F95F0
  * region: ov132
@@ -10,7 +10,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_021F95F0(u8 *p)
+void STA_ACTING_RankScores(u8 *p)
 {
     u8 i, j;
     u16 score;

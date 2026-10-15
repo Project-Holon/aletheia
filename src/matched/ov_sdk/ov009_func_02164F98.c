@@ -16,7 +16,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   WcmConfigure  0x021657D8  arm  ov009
  *   WM_GetAllowedChannel  0x0208EE60  arm
- *   func_02166880  0x02166880  arm  ov009
+ *   WCMi_WmifStartupAsync  0x02166880  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifStartupAsync  0x0273199C  arm  twl
  *   g_021AA7D4  0x021AA7D4  data ov009
@@ -40,7 +40,7 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 struct WCMConfig;
 extern void WcmConfigure(struct WCMConfig *config, void (*notify)(void *));
 extern unsigned short WM_GetAllowedChannel(void);
-extern long func_02166880(void);
+extern long WCMi_WmifStartupAsync(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifStartupAsync(void);
 
@@ -73,7 +73,7 @@ long WCM_StartupAsync(void *config, void (*notify)(void *))
     }
     switch (((WCMWork *)g_021AA7D4.work)->deviceId) {
     case 1:
-        wcmResult = func_02166880();
+        wcmResult = WCMi_WmifStartupAsync();
         break;
     case 2:
         if (OS_IsRunOnTwl()) {

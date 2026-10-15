@@ -1,5 +1,5 @@
 /*
- * function: func_021C47FC
+ * function: WF2DMAP_MAP_GetHeight
  * address:  0x021C47FC
  * packet:   pkt_ov127_021C47FC
  * region:   ov127
@@ -14,7 +14,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021C47FC(u16 *p)
+u16 WF2DMAP_MAP_GetHeight(u16 *p)
 {
     return p[1];
 }

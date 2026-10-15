@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203F49C  0x0203F49C  arm
+ *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
  *   sub_02008A34  0x02008A34  thumb
  *   sub_02008ADC  0x02008ADC  thumb
  *
@@ -84,7 +84,7 @@ typedef struct { u32 hour, minute, second; } RTCTime;
 
 struct RtcDate;
 struct RtcTime;
-extern void func_0203F49C(struct RtcDate *date, struct RtcTime *time);
+extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 struct Sub020089A8Obj;
 extern void sub_02008A34(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
@@ -97,7 +97,7 @@ void func_021C81C0(Work *p)
     s64 sec;
     int i;
 
-    func_0203F49C((struct RtcDate *)(&date), (struct RtcTime *)(&time));
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
     sub_02008A34(p->f184, (u32)sec, (u32)(sec >> 32));
     for (i = 0; i < 8; i++) {

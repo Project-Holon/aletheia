@@ -12,7 +12,7 @@
  * 1 when the ARM9 predicate is zero.
  *
  * symbols:
- *   func_020889C0  0x020889C0  arm
+ *   RTC_GetDateTime  0x020889C0  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed int     s32;
 
 struct RTCDate;
 struct RTCTime;
-extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
+extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 
 int SSP_GetDateTime(void *a, void *b)
 {
-    if (func_020889C0(a, b) == 0) {
+    if (RTC_GetDateTime(a, b) == 0) {
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F95E8
+ * function: STA_ACTING_MarkDirty
  * address: 0x021F95E8
  * packet: pkt_ov132_021F95E8
  * region: ov132
@@ -10,4 +10,4 @@
  * symbols:
  */
 #include "../include/Obj23184.h"
-void func_021F95E8(char *p){((struct Obj23184 *)p)->fEC=1;}
+void STA_ACTING_MarkDirty(char *p){((struct Obj23184 *)p)->fEC=1;}

@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformsocket.c
  * unit:     yes
- * function: func_0217EB00, func_0217EB18, func_0217EB2C, func_0217EB40, func_0217EB9C, func_0217EBB0, func_0217EC08, func_0217EC4C, recvfrom, func_0217EC90, func_0217ECA4, func_0217ECF8, func_0217ED0C, func_0217ED38, func_0217ED54, func_0217ED64, func_0217EE50, func_0217EF00, func_0217EF50, func_0217EF84, func_0217EFB8, func_0217F038
+ * function: CheckRcode, func_0217EB18, closesocket, func_0217EB40, func_0217EB9C, func_0217EBB0, func_0217EC08, func_0217EC4C, recvfrom, func_0217EC90, sendto, setsockopt, func_0217ED0C, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, func_0217EF50, func_0217EF84, getlocalhost, func_0217F038
  * address:  0x0217EB00
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -35,10 +35,10 @@
  *   func_0215EF48                  0x0215EF48  arm ov009
  *   SOC_U32to4U8                  0x0215FBAC  arm ov009
  *   g_021A37BC                     0x021A37BC  data
- *   _ZZ13func_0217EFB8vE9aliases_0 0x021AD0F4  data
- *   _ZZ13func_0217EFB8vE9localhost_0 0x021AD0FC  data
- *   _ZZ13func_0217EFB8vE5ips_2_1   0x021AD10C  data
- *   _ZZ13func_0217EFB8vE8ipPtrs_1_2 0x021AD120  data
+ *   _ZZ12getlocalhostvE9aliases_0 0x021AD0F4  data
+ *   _ZZ12getlocalhostvE9localhost_0 0x021AD0FC  data
+ *   _ZZ12getlocalhostvE5ips_2_1   0x021AD10C  data
+ *   _ZZ12getlocalhostvE8ipPtrs_1_2 0x021AD120  data
  *   SOC_Shutdown  0x0215F638  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -90,12 +90,11 @@ extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 /*
  * Stores a negative argument at +0x4 of the module state object and returns the second.
  */
-int func_0217EB00(int a, int b);
 /*
  * Calls the module setter on the value with the sentinel -1.
  */
 int func_0217EB18(int pf, int type, int protocol);
-int func_0217EB2C(int sock);
+int closesocket(int sock);
 int closesocketsure(int sock, int *notInCloseSocket);
 int func_0217EB9C(int sock, int how);
 int bind(int sock, const struct SOCSockAddr * addr, int len);
@@ -103,32 +102,30 @@ int connect(int sock, const struct SOCSockAddr * addr, int len);
 int func_0217EC4C(int sock, char *buffer, int len, int flags);
 int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr, int * fromlen);
 int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
-int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 /*
  * Tail call with the constant pair (0, -1).
  */
-void func_0217ECF8(void);
 int getsockname(int sock, struct SOCSockAddr * addr, int * len);
 /*
  * The word the call fills in, or -1.
  */
-int func_0217ED38(int a);
+int inet_addr(int a);
 /*
  * The word at +4 of the module state block.
  */
-int func_0217ED54(int sock);
-int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
+int GOAGetLastError(int sock);
 /*
  * SetSockBlocking: read the socket's fcntl flags (SOC_Fcntl cmd 3), set or * clear the non-blocking bit (4), write them back (cmd 4), and log the * outcome through gsDebugFormat. Returns 1 on success, 0 on failure. * * EXACT*: the inferred extent ran four bytes long into the unlabelled * follower at 0x0217EF00 (a leaf whose prologue saves r0-r3, not lr, so * disasm.py does not trace it); seed that start to make the extent exact.
  */
-int func_0217EE50(int sock, int isblocking);
+int SetSockBlocking(int sock, int isblocking);
 int SetReceiveBufferSize(int sock, int size);
 int CanReceiveOnSocket(int sock);
 int CanSendOnSocket(int sock);
 /*
  * sdk: getlocalhost (gsplatformsocket) * * note: function-local statics, declared in the order aliases_0, localhost, * ips_2, ipPtrs_1 (they reach r4 as one base). The first literal (+0x6C) is * relocated against `.bss`+0 by 1.1p1; the four static symbols: lines place * that section and agree on one base.
  */
-struct SOCHostEnt *func_0217EFB8(void);
+struct SOCHostEnt *getlocalhost(void);
 int IsPrivateIP(struct SOCInAddr * addr);
 extern char g_021AD0F4[];
 extern char g_021A3740[];
@@ -140,13 +137,13 @@ extern char g_021A37BC[];
 
 
 
-int func_0217EB00(int a, int b)
+int CheckRcode(int rcode, int fallback)
 {
-    if (a < 0) {
-        *(int *)(g_021AD0F4 + 0x4) = a;
-        return b;
+    if (rcode < 0) {
+        *(int *)(g_021AD0F4 + 0x4) = rcode;
+        return fallback;
     }
-    return a;
+    return rcode;
 }
 
 
@@ -154,15 +151,15 @@ int func_0217EB00(int a, int b)
 
 int func_0217EB18(int pf, int type, int protocol)
 {
-    return func_0217EB00(func_0215F428(), -1);
+    return CheckRcode(func_0215F428(), -1);
 }
 
 
 
 
-int func_0217EB2C(int sock)
+int closesocket(int sock)
 {
-    return func_0217EB00(SOC_Close(sock), -1);
+    return CheckRcode(SOC_Close(sock), -1);
 }
 
 
@@ -189,7 +186,7 @@ int closesocketsure(int sock, int *notInCloseSocket)
 
 int func_0217EB9C(int sock, int how)
 {
-    return func_0217EB00(SOC_Shutdown(sock, how), -1);
+    return CheckRcode(SOC_Shutdown(sock, how), -1);
 }
 
 
@@ -226,7 +223,7 @@ int connect(int sock, const struct SOCSockAddr * addr, int len)
 
 int func_0217EC4C(int sock, char *buffer, int len, int flags)
 {
-    return func_0217EB00(func_0215F4DC(), -1);
+    return CheckRcode(func_0215F4DC(), -1);
 }
 
 
@@ -247,7 +244,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
 
 int func_0217EC90(int sock, char *buffer, int bufferLen, int flags)
 {
-    return func_0217EB00(func_0215F590(), -1);
+    return CheckRcode(func_0215F590(), -1);
 }
 
 
@@ -259,7 +256,7 @@ int func_0217EC90(int sock, char *buffer, int bufferLen, int flags)
  * with the string.h prototype, so mwccarm inlines it as the two-byte loop with the
  * object's source/dest registers (the struct assignment swapped them).
  */
-int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen)
+int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen)
 {
     struct SOCSockAddr remoteAddr;
     int rcode;
@@ -267,15 +264,15 @@ int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *a
     memcpy(&remoteAddr, addr, sizeof(remoteAddr));
     remoteAddr.len = tolen;
     rcode = func_0215F5B4(sock, buf, len, flags, &remoteAddr);
-    return func_0217EB00(rcode, -1);
+    return CheckRcode(rcode, -1);
 }
 
 
 
 
-void func_0217ECF8(void)
+int setsockopt(int s, int level, int optname, void *optval, int optlen)
 {
-    func_0217EB00(0, -1);
+    CheckRcode(0, -1);
 }
 
 
@@ -293,11 +290,11 @@ int getsockname(int sock, struct SOCSockAddr * addr, int * len)
 
 
 
-int func_0217ED38(int a)
+int inet_addr(int addrString)
 {
     int v;
 
-    if (SOC_InetAtoN((char *)a, (long unsigned int *)(&v)) == 0) {
+    if (SOC_InetAtoN((char *)addrString, (long unsigned int *)(&v)) == 0) {
         return -1;
     }
 
@@ -306,14 +303,14 @@ int func_0217ED38(int a)
 
 
 
-int func_0217ED54(int sock)
+int GOAGetLastError(int sock)
 {
     return *(int *)(g_021AD0F4 + 4);
 }
 
 
 
-int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag)
+int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag)
 {
     GSPollFd pfd;
     int result;
@@ -362,7 +359,7 @@ int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theEx
  * follower at 0x0217EF00 (a leaf whose prologue saves r0-r3, not lr, so
  * disasm.py does not trace it); seed that start to make the extent exact.
  */
-int func_0217EE50(int sock, int isblocking)
+int SetSockBlocking(int sock, int isblocking)
 {
     int val;
     int rcode;
@@ -423,7 +420,7 @@ int CanSendOnSocket(int sock)
  * relocated against `.bss`+0 by 1.1p1; the four static symbols: lines place
  * that section and agree on one base.
  */
-struct SOCHostEnt *func_0217EFB8(void)
+struct SOCHostEnt *getlocalhost(void)
 {
     static char *aliases_0[2];
     static struct SOCHostEnt localhost;

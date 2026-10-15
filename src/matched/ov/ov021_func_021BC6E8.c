@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BG_SYS_CreateRun  0x0203FA08  arm  arm9
  */
 
 typedef struct {
@@ -16,11 +19,11 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
+extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 
 void FIELD_PLACE_NAME_AllocBgChars(Obj *p)
 {
     if (p->f28 == -1) {
-        p->f28 = func_0203FA08(3, 0x20, 0);
+        p->f28 = BG_SYS_CreateRun(3, 0x20, 0);
     }
 }

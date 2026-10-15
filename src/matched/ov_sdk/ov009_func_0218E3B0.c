@@ -1,5 +1,5 @@
 /*
- * function: func_0218E3B0
+ * function: gpiProcessPeerInitiatingConnection
  * address:  0x0218E3B0
  * packet:   pkt_ov009_0218E3B0
  * region:   ov009
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_0218F248  0x0218F248  arm  ov009
- *   func_02181010  0x02181010  arm  ov009
+ *   gpiPeerStartConnect  0x0218F248  arm  ov009
+ *   gsUdpEngineGetPeerState  0x02181010  arm  ov009
  *   func_0218FD9C  0x0218FD9C  arm  ov009
  *   func_02193734  0x02193734  arm  ov009
  *   func_0218946C  0x0218946C  arm  ov009
@@ -22,8 +22,8 @@
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_02190140  0x02190140  arm  ov009
  *   func_0218FF24  0x0218FF24  arm  ov009
- *   func_02094B20  0x02094B20  arm
- *   func_020949F4  0x020949F4  arm
+ *   strstr  0x02094B20  arm
+ *   strncmp  0x020949F4  arm
  *   func_0218F1E0  0x0218F1E0  arm  ov009
  *   func_02189A7C  0x02189A7C  arm  ov009
  *   g_021A4E50     0x021A4E50  data
@@ -113,8 +113,8 @@ extern char g_021A4EEC[];
 extern char g_021A4EF4[];
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0218F248(void **connection, GPIPeer *peer);
-extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
+extern int gpiPeerStartConnect(void **connection, GPIPeer *peer);
+extern int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern void func_02193734(int *p, int b);
 typedef unsigned int   u32;
@@ -124,13 +124,13 @@ extern int func_0218949C(int *connection, int *buffer, int value);
 extern void func_0217EAE0(void *ptr);
 extern int func_02190140(char *p);
 extern void func_0218FF24(const int *p, void *profile);
-extern char *func_02094B20(const char *s1, const char *s2);
-extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern char *strstr(const char *s1, const char *s2);
+extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int func_0218F1E0(void **connection, GPIPeer *peer);
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
 
-int func_0218E3B0(void **connection, GPIPeer *peer)
+int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     char *str = 0;
@@ -152,14 +152,14 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
     case 0x66:
         func_0217D254(1, (char *)3, 0x1F, g_021A4E50, peer->profile);
         {
-            int __result__ = func_0218F248(connection, peer);
+            int __result__ = gpiPeerStartConnect(connection, peer);
             if (__result__ != 0)
                 return __result__;
         }
         break;
 
     case 0x67:
-        func_02181010(peer->ip, peer->port, &aPeerState);
+        gsUdpEngineGetPeerState(peer->ip, peer->port, &aPeerState);
         if (aPeerState == 1) {
             GPIPeer *pcurr;
             int freePeerSig = 1;
@@ -196,11 +196,11 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
 
     case 0x68:
         if (peer->inputBuffer.buffer)
-            str = func_02094B20(peer->inputBuffer.buffer, g_021A4EB8);
+            str = strstr(peer->inputBuffer.buffer, g_021A4EB8);
         if (str) {
             *str = 0;
             str = peer->inputBuffer.buffer;
-            if (!func_020949F4((const u8 *)str, (const u8 *)g_021A4EC0, 7)) {
+            if (!strncmp((const u8 *)str, (const u8 *)g_021A4EC0, 7)) {
                 peer->nackCount++;
                 if (peer->nackCount > 1) {
                     func_02193734((int *)connection, (int)g_021A4EC8);
@@ -211,7 +211,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
                     if (__result__ != 0)
                         return __result__;
                 }
-            } else if (func_020949F4((const u8 *)str, (const u8 *)g_021A4EEC, 6)) {
+            } else if (strncmp((const u8 *)str, (const u8 *)g_021A4EEC, 6)) {
                 func_02193734((int *)connection, (int)g_021A4EF4);
                 return 3;
             }

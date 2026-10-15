@@ -1,5 +1,5 @@
 /*
- * function: func_020603BC
+ * function: NCFGi_CheckIp
  * address:  0x020603BC
  * packet:   pkt_020603BC
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 extern int  NCFGi_CheckAddress(u8 *address);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 
-int func_020603BC(u8 *ip, u8 *mask)
+int NCFGi_CheckIp(u8 *ip, u8 *mask)
 {
     u32 ipa;
     u32 snm;

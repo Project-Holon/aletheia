@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E3C
+ * function: WIFI_BSUBWAY_OnHttpError
  * address: 0x021D6E3C
  * packet: pkt_ov116_021D6E3C
  * region: ov116
@@ -14,4 +14,4 @@
  */
 #include "../include/Obj13863.h"
 extern void NHTTP_RAP_DeleteConnection(unsigned char *);
-void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) NHTTP_RAP_DeleteConnection(((struct Obj13863 *)a)->f168); }
+void WIFI_BSUBWAY_OnHttpError(unsigned char *a) { if(((struct Obj13863 *)a)->f168) NHTTP_RAP_DeleteConnection(((struct Obj13863 *)a)->f168); }

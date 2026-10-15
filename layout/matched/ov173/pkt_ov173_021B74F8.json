@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B74F8",
+   "name": "POKE_SUMMARY_MAIN_SoundStateCallback",
    "address": "0x021B74F8",
    "kind": "game",
    "region": "ov173",

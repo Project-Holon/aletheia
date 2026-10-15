@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E14
+ * function: STAFF_ROLL_Init3d
  * address: 0x021B9E14
  * packet: pkt_ov181_021B9E14
  * region: ov181
@@ -23,8 +23,8 @@
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_0204044C 0x0204044C arm
- *   func_021B9F9C 0x021B9F9C thumb ov181
+ *   BG_SYS_SetLowBit 0x0204044C arm
+ *   STAFF_ROLL_InitLights 0x021B9F9C thumb ov181
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   func_0207D658 0x0207D658 arm
  *   d_021BAB50 0x021BAB50 data a4
@@ -50,8 +50,8 @@ extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *,u32);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u16);
 extern void G3D_CAMERA_Reset(struct Light *);
-extern void func_0204044C(u32);
-extern void func_021B9F9C(u8 *p);
+extern void BG_SYS_SetLowBit(u32);
+extern void STAFF_ROLL_InitLights(u8 *p);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void func_0207D658(u32,int,int);
 extern const struct Setup d_021BAB50;
@@ -65,7 +65,7 @@ static inline void AntiAlias(int enable) {
     else tmp&=~0x10;
     *(volatile u16 *)0x04000060=(u16)tmp;
 }
-void func_021B9E14(char *p) {
+void STAFF_ROLL_Init3d(char *p) {
     Vec3 v;
     u32 i;
     G3D_SYSTEM_Init(0,2,0,2,4096,142,0);
@@ -81,8 +81,8 @@ void func_021B9E14(char *p) {
         0,4096,0x400000,0,&d_021BACE4,&v,&d_021BACF0,142);
     G3D_CAMERA_Reset(*(struct Light **)(p+0xc));
     AntiAlias(1);
-    func_0204044C(2);
-    func_021B9F9C((u8 *)(p+0x28));
+    BG_SYS_SetLowBit(2);
+    STAFF_ROLL_InitLights((u8 *)(p+0x28));
     BG_SYS_SetMainPlaneVisible(1,0);
     func_0207D658(0x04000050,1,-16);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8110",
+   "name": "POKE_SUMMARY_ACTOR_WaitDecide",
    "address": "0x021B8110",
    "kind": "game",
    "region": "ov173",

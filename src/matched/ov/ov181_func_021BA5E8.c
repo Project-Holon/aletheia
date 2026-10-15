@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5E8
+ * function: STAFF_ROLL_StepFadeIn
  * address: 0x021BA5E8
  * packet: pkt_ov181_021BA5E8
  * region: ov181
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
 extern void func_0207D63C(unsigned, int, int, int, int);
-int func_021BA5E8(char *p)
+int STAFF_ROLL_StepFadeIn(char *p)
 {
     int a, b;
     switch (((struct Obj01274 *)p)->f2CE) {

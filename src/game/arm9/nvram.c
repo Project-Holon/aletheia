@@ -1,7 +1,7 @@
 /*
  * file:     nvram.c
  * unit:     yes
- * function: func_02083644, func_02083704, func_020837B8, func_02083844, func_02083934, func_020839E8, func_02083DC8, func_02083EB8, func_02083FA0, func_020840F8, func_020841E8, func_02084204, func_02084260, func_02084288, func_020842A0, func_020842D8, func_02084304, func_02084330, func_020843B4, func_020844A8, func_02084570
+ * function: NVRAMi_Init, NVRAMi_ReadAsync, func_020837B8, NVRAMi_Read, NVRAMi_WriteAsync, func_020839E8, NVRAMi_Write, NVRAMi_VerifyAsync, func_02083FA0, NVRAMi_Verify, func_020841E8, func_02084204, NVRAMi_SyncCallback, func_02084288, func_020842A0, func_020842D8, func_02084304, func_02084330, func_020843B4, func_020844A8, func_02084570
  * address:  0x02083644
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@
  *   OS_Terminate                   0x02088234  arm
  *   NVRAMi_SyncCallback            0x02084260  arm
  *   OSi_ThreadInfo                 0x02150FEC  data
- *   g_02150EA0                 0x02150EA0  data
+ *   nvramBss                 0x02150EA0  data
  *   nvramTemp                  0x02150EC0  data
  *   OS_GetTick                 0x020870D0  arm
  *   OS_SetAlarm                0x0208738C  arm
@@ -98,7 +98,7 @@ typedef enum NVRAMLock {
 
 typedef void (*NVRAMCallback)(NVRAMResult result, void *arg);
 
-typedef struct NVRAMWork_02083644 {
+typedef struct NVRAMWork {
     NVRAMLock lock;
     NVRAMCallback callback;
     void *callbackArg;
@@ -107,7 +107,7 @@ typedef struct NVRAMWork_02083644 {
     u32 seq;
     volatile u32 arg[3];
     OSThreadQueue queue;
-} NVRAMWork_02083644;
+} NVRAMWork;
 
 typedef void *OSMessage;
 
@@ -134,17 +134,6 @@ typedef struct NvramBss {
     u8 pad04[0x1C];
     u8 nvramTemp[32];
 } NvramBss;
-
-typedef struct NVRAMWork_02083EB8 {
-    NVRAMLock lock;
-    NVRAMCallback callback;
-    void *callbackArg;
-    OSAlarm alarm;
-    OSTick tick;
-    u32 seq;
-    u32 arg[3];
-    OSThreadQueue queue;
-} NVRAMWork_02083EB8;
 
 u32 OS_DisableInterrupts(void);
 u32 OS_RestoreInterrupts(u32 state);
@@ -173,19 +162,15 @@ NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback 
 NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 int OS_SendMessage(struct OSMessageQueue *mq, void *msg, long flags);
 extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
-void func_02083644(void);
-NVRAMResult func_02083704(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
+void NVRAMi_Init(void);
 void NVRAMi_ReadCallback(u32 data, BOOL err);
-NVRAMResult func_02083844(u32 address, u32 size, void *pData);
-NVRAMResult func_02083934(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
+NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData);
 void NVRAMi_WriteCallback(u32 data, BOOL err);
-NVRAMResult func_02083DC8(u32 address, u32 size, void *pData);
-NVRAMResult func_02083EB8(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
+NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData);
 void NVRAMi_VerifyCallback(u32 data, BOOL err);
-NVRAMResult func_020840F8(u32 address, u32 size, void *pData);
+NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData);
 BOOL NVRAMi_IsInitialized(void);
 void NVRAMi_Callback(int tag, u32 data, BOOL err);
-void func_02084260(int result, void *arg);
 void NVRAMi_AlarmHandler(void *arg);
 BOOL NVRAMi_VerifyDataArray(u8 *data0, u8 *data1, u32 size);
 BOOL NVRAMi_WriteEnable(void);
@@ -194,9 +179,9 @@ BOOL NVRAMi_ReadStatusRegister(u8 *pData);
 BOOL NVRAMi_ReadDataBytes(u32 address, u32 size, u8 *pData);
 BOOL NVRAMi_PageWrite(u32 address, u16 size, u8 *pData);
 BOOL NVRAMi_SoftwareReset(void);
-extern NVRAMWork_02083644 nvramw;
+extern NVRAMWork nvramw;
 extern OSThreadInfo OSi_ThreadInfo;
-extern NvramBss g_02150EA0;
+extern NvramBss nvramBss;
 extern u8 nvramTemp[32];
 
 
@@ -213,16 +198,16 @@ static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 /*
  * sdk:      NVRAMi_Init (libnvram.TWL.HYB.a nvram.o)
  */
-void func_02083644(void)
+void NVRAMi_Init(void)
 {
     u32 e;
 
     e = OS_DisableInterrupts();
-    if (g_02150EA0.nvramInitialized) {
+    if (nvramBss.nvramInitialized) {
         (void)OS_RestoreInterrupts(e);
         return;
     }
-    g_02150EA0.nvramInitialized = 1;
+    nvramBss.nvramInitialized = 1;
     (void)OS_RestoreInterrupts(e);
 
     PXI_Init();
@@ -240,7 +225,7 @@ void func_02083644(void)
     }
     OS_CreateAlarm(&nvramw.alarm);
     OS_InitThreadQueue(&nvramw.queue);
-    g_02150EA0.nvramInitialized = 2;
+    nvramBss.nvramInitialized = 2;
 }
 
 
@@ -249,7 +234,7 @@ void func_02083644(void)
 /*
  * sdk:      NVRAMi_ReadAsync (libnvram.TWL.HYB.a nvram.o)
  */
-NVRAMResult func_02083704(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
+NVRAMResult NVRAMi_ReadAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
 {
     u32 e;
 
@@ -322,7 +307,7 @@ void NVRAMi_ReadCallback(u32 data, BOOL err)
 /*
  * sdk:      NVRAMi_Read (libnvram.TWL.HYB.a nvram.o)
  */
-NVRAMResult func_02083844(u32 address, u32 size, void *pData)
+NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData)
 {
     NVRAMResult result;
     OSMessageQueue msgQ;
@@ -360,7 +345,7 @@ NVRAMResult func_02083844(u32 address, u32 size, void *pData)
 /*
  * sdk:      NVRAMi_WriteAsync (libnvram.TWL.HYB.a nvram.o)
  */
-NVRAMResult func_02083934(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
+NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
 {
     u32 e;
 
@@ -461,7 +446,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
 
     case 2:
         if (!err && pxiResult == 0) {
-            if (g_02150EA0.nvramTemp[0] & 0x20) {
+            if (nvramBss.nvramTemp[0] & 0x20) {
                 if (NVRAMi_SoftwareReset() == 1) {
                     nvramw.seq = 4;
                     return;
@@ -470,7 +455,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
                 OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, (void *)4);
                 return;
             }
-            if (!(g_02150EA0.nvramTemp[0] & 0x01)) {
+            if (!(nvramBss.nvramTemp[0] & 0x01)) {
                 if (tempSize) {
                     if (NVRAMi_WriteEnable() == 1) {
                         nvramw.seq = 0;
@@ -527,7 +512,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
             return;
         }
         nvramw.seq = 2;
-        g_02150EA0.nvramTemp[0] = 1;
+        nvramBss.nvramTemp[0] = 1;
         DC_StoreRange(nvramTemp, 32);
         OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, 0);
         return;
@@ -553,7 +538,7 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
  * the 240-byte nvram.o symbol of that name; the three sync wrappers
  * share one DWARF shape.
  */
-NVRAMResult func_02083DC8(u32 address, u32 size, void *pData)
+NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData)
 {
     NVRAMResult result;
     OSMessageQueue msgQ;
@@ -591,7 +576,7 @@ NVRAMResult func_02083DC8(u32 address, u32 size, void *pData)
 /*
  * sdk:      NVRAMi_VerifyAsync (libnvram.TWL.HYB.a nvram.o)
  */
-NVRAMResult func_02083EB8(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
+NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg)
 {
     u32 e;
 
@@ -700,7 +685,7 @@ void NVRAMi_VerifyCallback(u32 data, BOOL err)
  * the 240-byte nvram.o symbol of that name; the three sync wrappers
  * share one DWARF shape.
  */
-NVRAMResult func_020840F8(u32 address, u32 size, void *pData)
+NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData)
 {
     NVRAMResult result;
     OSMessageQueue msgQ;
@@ -737,7 +722,7 @@ NVRAMResult func_020840F8(u32 address, u32 size, void *pData)
 
 BOOL NVRAMi_IsInitialized(void)
 {
-    return g_02150EA0.nvramInitialized == 2;
+    return nvramBss.nvramInitialized == 2;
 }
 
 
@@ -764,7 +749,7 @@ void NVRAMi_Callback(int tag, u32 data, BOOL err)
 /*
  * sdk:      NVRAMi_SyncCallback (libnvram.TWL.HYB.a nvram.o)
  */
-void func_02084260(int result, void *arg)
+void NVRAMi_SyncCallback(NVRAMResult result, void *arg)
 {
     if (!OS_SendMessage((struct OSMessageQueue *)arg, (void *)result, 0)) {
         OS_Terminate();

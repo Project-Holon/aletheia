@@ -42,11 +42,11 @@
  *   OS_InitThread  0x02085264  arm
  *   OS_InitReset  0x02087B78  arm
  *   GFL_USE_CtrdgDummyInit  0x02005438  thumb
- *   func_02075CAC  0x02075CAC  arm
+ *   CARD_Init  0x02075CAC  arm
  *   func_02082198  0x02082198  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   SCFG_Init  0x0208C960  arm
- *   func_0208B8B0  0x0208B8B0  arm
+ *   PM_Init  0x0208B8B0  arm
  *   OSi_InitPrevTitleId  0x020883D4  arm
  */
 extern void PXI_Init(void);
@@ -62,11 +62,11 @@ extern void OSi_InitVramExclusive(void);
 extern void OS_InitThread(void);
 extern void OS_InitReset(void);
 extern void GFL_USE_CtrdgDummyInit(void);
-extern void func_02075CAC(void);
+extern void CARD_Init(void);
 extern void func_02082198(void);
 extern int  OS_IsRunOnTwl(void);
 extern void SCFG_Init(void);
-extern void func_0208B8B0(void);
+extern void PM_Init(void);
 extern void OSi_InitPrevTitleId(void);
 asm void OSi_WaitVCount0(void);
 void OS_Init(void);
@@ -108,11 +108,11 @@ void OSi_InitCommon(void)
     OS_InitThread();
     OS_InitReset();
     GFL_USE_CtrdgDummyInit();
-    func_02075CAC();
+    CARD_Init();
     func_02082198();
     if (OS_IsRunOnTwl() == 1)
         SCFG_Init();
-    func_0208B8B0();
+    PM_Init();
     OSi_WaitVCount0();
     if (OS_IsRunOnTwl() != 1)
         return;

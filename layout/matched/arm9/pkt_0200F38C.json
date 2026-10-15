@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200F38C",
+   "name": "GFL_NET_ERR_SearchFriendSlot",
    "address": "0x0200F38C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200F4E4",
+   "name": "GFL_NET_ERR_UpdateFriendRecord",
    "address": "0x0200F4E4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200F520",
+   "name": "GFL_NET_ERR_StoreFriendProfile",
    "address": "0x0200F520",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0200F594",
+   "name": "GFL_NET_ERR_StoreFriendRecord",
    "address": "0x0200F594",
    "kind": "game",
    "region": "arm9",

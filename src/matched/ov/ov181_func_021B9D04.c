@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D04
+ * function: STAFF_ROLL_LoadRows
  * address:  0x021B9D04
  * packet:   pkt_ov181_021B9D04
  * region:   ov181
@@ -11,16 +11,16 @@
  *
  * symbols:
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_021B9B98  0x021B9B98  thumb  ov181
+ *   STAFF_ROLL_BuildRowList  0x021B9B98  thumb  ov181
  */
 #include "../include/Obj24503.h"
 
 typedef unsigned int   u32;
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern void func_021B9B98(char *);
+extern void STAFF_ROLL_BuildRowList(char *);
 
-void func_021B9D04(char *p)
+void STAFF_ROLL_LoadRows(char *p)
 {
     ((struct Obj24503 *)p)->f2D4 = (int)ARC_TOOL_LoadMember(0xdc, 1, 0x8e);
-    func_021B9B98(p);
+    STAFF_ROLL_BuildRowList(p);
 }

@@ -32,7 +32,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201EC74 0x0201EC74 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
  *   func_021E8568 0x021E8568 thumb ov177
  *   func_021E8A3C 0x021E8A3C thumb ov177
  *   func_021E7D20 0x021E7D20 thumb ov177
@@ -40,7 +40,7 @@
  *   func_021E7DF0 0x021E7DF0 thumb ov177
  *   func_021E8A78 0x021E8A78 thumb ov177
  *   func_021E8628 0x021E8628 thumb ov177
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -73,7 +73,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_ToChars 0x02045A38 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02025BEC 0x02025BEC thumb
+ *   BMP_OAM_Check5BEC 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -82,7 +82,7 @@
  *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
  *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
- *   func_02009EC8 0x02009EC8 thumb
+ *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  *   func_021E8AC0 0x021E8AC0 thumb ov177
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
@@ -110,8 +110,8 @@
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_0200E6E8 0x0200E6E8 thumb
  *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
- *   func_0201283C 0x0201283C thumb
- *   func_02009CC0 0x02009CC0 thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  *   func_020173EC 0x020173EC thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
@@ -123,25 +123,25 @@
  *   func_0200FB24                0x0200FB24  thumb
  *   GFL_NET_GetRunState                0x0203CD98  arm
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
- *   func_0200B358 0x0200B358 thumb
- *   func_0200B1D4 0x0200B1D4 thumb
+ *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
+ *   REGULATION_GetCard 0x0200B1D4 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_021E84F8 0x021E84F8 thumb ov177
  *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
- *   func_0200AE14 0x0200AE14 thumb
+ *   REGULATION_NoOp 0x0200AE14 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
- *   func_0200BAC8 0x0200BAC8 thumb
- *   func_0200B204 0x0200B204 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
+ *   REGULATION_GetParty 0x0200B204 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
- *   func_0200BBC8 0x0200BBC8 thumb
- *   func_0200B110 0x0200B110 thumb
- *   func_0200B2A4 0x0200B2A4 thumb
- *   func_0200B078 0x0200B078 thumb
- *   func_0200B1A8 0x0200B1A8 thumb
- *   func_0200BBFC 0x0200BBFC thumb
- *   func_0200BBD8 0x0200BBD8 thumb
- *   func_0200B1F8 0x0200B1F8 thumb
+ *   BATTLE_BOX_SetLockFlags 0x0200BBC8 thumb
+ *   REGULATION_Card_SetValue 0x0200B110 thumb
+ *   REGULATION_BuildParty 0x0200B2A4 thumb
+ *   REGULATION_Card_GetValue 0x0200B078 thumb
+ *   REGULATION_Card_IsCrcValid 0x0200B1A8 thumb
+ *   BATTLE_BOX_IsLocked 0x0200BBFC thumb
+ *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
+ *   REGULATION_InitParty 0x0200B1F8 thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   BUTTON_MAN_ConvertUcs2ToSjis  0x02052274  arm
@@ -150,7 +150,7 @@
  *   RTC_ConvertSecondToDateTime 0x020891E0 arm
  *   RTC_ConvertDateToDay 0x02088F58 arm
  *   func_0200FA84 0x0200FA84 thumb
- *   func_0200B074  0x0200B074  thumb
+ *   REGULATION_Card_GetCupName  0x0200B074  thumb
  *   func_021E5D68  0x021E5D68  thumb  ov177
  *   func_021E7E3C 0x021E7E3C thumb ov177
  *   func_021E82BC  0x021E82BC  thumb  ov177
@@ -159,7 +159,7 @@
  *   func_021E88B0 0x021E88B0 thumb ov177
  *   POKEPARTY_Init 0x0201A948 thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_0200B1C4  0x0200B1C4  thumb
+ *   REGULATION_Card_CalcCrc  0x0200B1C4  thumb
  *   func_020185F0  0x020185F0  thumb
  *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
  *   func_0203EFC8  0x0203EFC8  arm
@@ -231,7 +231,7 @@
  *   DWC_ScReportAddIntValue 0x021DF3E8 arm ov175
  *   DWC_ScReportAddByteValue  0x021DF3E8  arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   g_021E2EF8  0x021E2EF8  data
  *   d_021E2DF4     0x021E2DF4  data
  *   d_021E2DEC     0x021E2DEC  data
@@ -249,7 +249,7 @@
  *   d_021E2F38 0x021E2F38 data a4
  *   d_021E2F4C 0x021E2F4C data a4
  *   d_021E2F60 0x021E2F60 data a4
- *   func_0203F028  0x0203F028  arm
+ *   GF_STANDARD_CompareString  0x0203F028  arm
  *   d_021E2F70     0x021E2F70  data
  *   d_021E2F7C 0x021E2F7C data a4
  *   d_021E2F8C 0x021E2F8C data a4
@@ -1043,7 +1043,7 @@ extern u32 *func_021E567C(int unused, int mode, int heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, unsigned short heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, unsigned short heap);
 extern void *func_021E8568(unsigned, unsigned, unsigned, unsigned, void *, void *, unsigned);
 extern int *func_021E8A3C(int, int, int);
 extern void **func_021E7D20(void *, void *, unsigned);
@@ -1051,7 +1051,7 @@ extern void func_021E7E0C(void **, int);
 extern void func_021E7DF0(int *p);
 extern void func_021E8A78(void *p);
 extern void func_021E8628(char *p);
-extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -1084,7 +1084,7 @@ extern u16 STRBUF_GetEosChar(void);
 extern void *func_02045EC0(struct MsgBank *, u32_021D4B3C);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
 extern void STRBUF_Delete(struct U16Vec *);
-extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
+extern unsigned int BMP_OAM_Check5BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
@@ -1093,7 +1093,7 @@ extern void func_021E8AA8(int);
 extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
 extern void DWC_RAPCOMMON_SetHeapTag(int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
-extern void *func_02009EC8(void *sys);
+extern void *TRADE_HISTORY_GetFromSave(void *sys);
 extern void func_021E8AC0(int, int);
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32_021D51BC);
@@ -1119,8 +1119,8 @@ extern int func_021E8A00(u32_021D65DC p);
 extern int MYSTATUS_GetSize(void);
 extern void *func_0200E6E8(u32_021D6698 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern u32_021D6698 func_0201283C(const struct BigObj *p);
-extern int func_02009CC0(void *a0);
+extern u32_021D6698 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern int WIFILIST_GetGsProfileId(void *a0);
 extern u32_021D67BC func_020173EC(void);
 extern u32_021D67BC POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32_021D67BC idx);
@@ -1132,32 +1132,32 @@ extern u32_021D6854 KEY_GetTrg(void);
 extern u32_021D6854 func_0200FB24(void);
 extern int GFL_NET_GetRunState(void);
 extern void DWC_CloseAllConnectionsHard(void);
-extern void *func_0200B358(void *sys);
-extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32_021D6964 index);
+extern void *BATTLE_COMPETITION_GetFromSave(void *sys);
+extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32_021D6964 index);
 extern struct Party *POKEPARTY_Create(u32_021D6964 heap);
 extern u32 func_020307B0(void *p);
 extern int func_021E84F8(char *p, void *q);
 extern u32 POKEPARTY_GetBattleReadyCount(void *p);
-extern int func_0200AE14();
+extern int REGULATION_NoOp();
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
-extern void * func_0200BAC8(void *);
-extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
+extern void * BATTLE_BOX_GetFromSave(void *);
+extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
 extern void *func_0200BAF4(int a0, int a1);
-extern void func_0200BBC8(void *p, u32 v);
-extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-extern void func_0200B2A4(int,int);
-extern s32 func_0200B078(struct Reg2 *p, u32 id);
-extern u32 func_0200B1A8(struct Reg2 *p);
-extern u32 func_0200BBFC(void *p, u32 mask);
-extern void func_0200BBD8(void *p, int v);
-extern void func_0200B1F8(struct Rec1E *);
+extern void BATTLE_BOX_SetLockFlags(void *p, u32 v);
+extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
+extern void REGULATION_BuildParty(int,int);
+extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
+extern u32 REGULATION_Card_IsCrcValid(struct Reg2 *p);
+extern u32 BATTLE_BOX_IsLocked(void *p, u32 mask);
+extern void BATTLE_BOX_ClearLockFlags(void *p, int v);
+extern void REGULATION_InitParty(struct Rec1E *);
 extern void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32_021D7E18 n);
 extern int func_02167ED8(void *date, void *time);
 extern void func_0200FA84(void);
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *,struct RTCTime *,s64);
 extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
-extern u8 *func_0200B074(struct Reg2 *p);
+extern u8 *REGULATION_Card_GetCupName(struct Reg2 *p);
 extern char *func_021E5D68(char *info, u32_021D965C a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 extern void POKETRADE_2D_DeleteMarkingIcon(void *p);
 extern void func_021E5F24(u32_021D97E4 a, u32_021D97E4 b, u32_021D97E4 c, u32_021D97E4 d, u32_021D97E4 e, u32_021D97E4 f);
@@ -1168,7 +1168,7 @@ extern int func_021E8420(Work *);
 extern u32_021D98E4 func_021E88B0(Desc_021D76D4 *, int, unsigned char, int, int, int);
 extern void *POKEPARTY_Init(void *);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern u16 func_0200B1C4(struct Reg2 *p);
+extern u16 REGULATION_Card_CalcCrc(struct Reg2 *p);
 extern u8 *func_020185F0(u32_021D9BC4 entry);
 extern u32_021D9BC4 POKE_TOOL_GetBoxParamSize(void);
 extern int func_0203EFC8(const u8 *a, const u8 *b, u32_021D9BC4 n);
@@ -1233,7 +1233,7 @@ extern int func_021DF420(int,int,int);
 extern int DWC_ScReportAddIntValue(int,int,int);
 extern int DWC_ScReportAddByteValue(u32_021DB218 report, u16 keyId, s8 value);
 extern u32_021DB258 GFL_NET_GetHandleNetID(struct Link *p);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32_021DB294 i);
+extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32_021DB294 i);
 extern int DWC_GdbInitialize(u32_021DB478 gameId, u32_021DB478 user, int ssl);
 extern int DWC_GdbGetMyRecordsAsync(const char *table, void *fields, int nfields, void *cb, void *param);
 extern int DWC_GdbGetRecordsAsync(const char *table, int *ids, int nids, void *fields, int nfields, void *cb, void *param);
@@ -1242,7 +1242,7 @@ extern int DWC_GdbGetState(void);
 extern int DWC_GdbGetAsyncResult(void);
 extern int DWC_GdbCancelRequest(void);
 extern void DWC_GdbShutdown(void);
-extern int func_0203F028(const char *s1, const char *s2);
+extern int GF_STANDARD_CompareString(const char *s1, const char *s2);
 extern int DWC_GdbUpdateRecordAsync(char *,int,void *,int);
 extern int DWC_GdbCreateRecordAsync(char *,void *,int,int *);
 extern u32_021DC1A0 GFL_NET_SendData(u32_021DC1A0 a, u32_021DC1A0 b, u32_021DC1A0 c, u32_021DC1A0 d, u32_021DC1A0 e, u32_021DC1A0 f, u32_021DC1A0 g, u32_021DC1A0 h);
@@ -1600,7 +1600,7 @@ int func_021D4318(void *sys, int *state, u32 *ctx)
     p[2] = (u32)GF_FONT_Create(23, 0, 0, 0, 87);
     p[3] = PRINTSYS_QUE_Create((void *)87);
     p[4] = (u32)func_02045B38(0, 2, 210, 87);
-    p[5] = (u32)func_0201EC74(8, 64, 87);
+    p[5] = (u32)WORDSET_Create(8, 64, 87);
     p[12] = (u32)func_021D9DC8(((u32 *)p[16])[15], (void *)(((u32 *)ctx[2])[0]), ctx[7], 87);
     p[9] = (u32)func_021E8568(0, 15, 14, 10, (void *)p[3], (void *)p[2], 87);
     p[13] = (u32)func_021E8A3C((int)p, (int)func_021D458C, 87);
@@ -1635,7 +1635,7 @@ int func_021D4448(int sys,int unused,int unused2,int *p)
     func_021D644C((char *)p);
     func_021D639C((char *)p);
     func_021D65C8((char *)p);
-    func_0201ED04((struct WordSet *)p[5]);
+    WORDSET_DeleteStrbufED04((struct WordSet *)p[5]);
     MSGDATA_Delete((void *)p[4]);
     PRINTSYS_QUE_Delete((struct PrintSys *)p[3]);
     GF_FONT_Delete((void *)p[2]);
@@ -2009,11 +2009,11 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
                 if ((u8)data[0x1d] == 0) data[0x1c] = 0; else data[0x1c] = 8;
                 fixed++;
             }
-            if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
+            if (!BMP_OAM_Check5BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0; fixed++;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) { PMSI_PARAM_InitSentence(data + 0x38, 1); fixed++; }
-            if (fixed == 0) func_02009EC8(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
+            if (fixed == 0) TRADE_HISTORY_GetFromSave(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
             TIMEOUT = 0; *state = 5;
         }
         timed = 1; break;
@@ -2937,7 +2937,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
             if ((u8)data[0x1c] >= 16) {
                 if ((u8)data[0x1d] == 0) data[0x1c] = 0; else data[0x1c] = 8;
             }
-            if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
+            if (!BMP_OAM_Check5BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) PMSI_PARAM_InitSentence(data + 0x38, 1);
@@ -3815,7 +3815,7 @@ void func_021D6698(u32_021D6698 *p,u32_021D6698 *q)
         ctx=(u32_021D6698 *)q[16];
         p[11]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32_021D6698 *)ctx[2])[1],2);
     }
-    p[18]=func_02009CC0((void *)func_0201283C((const struct BigObj *)save));
+    p[18]=WIFILIST_GetGsProfileId((void *)GAME_DATA_GetField1A0((const struct BigObj *)save));
 }
 
 
@@ -4023,13 +4023,13 @@ int func_021D6964(void *sys,int unused,u32_021D6964 *ctx)
     GFL_HEAP_CreateChildHeap(1,87,0x30000);
     p=PROCSYS_AllocProcWork(sys,0x270,87); MI_CpuFill8(p,0,0x270);
     p[0x104/4]=(u32_021D6964)ctx;
-    p[0x108/4]=(u32_021D6964)func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*(u32_021D6964 *)ctx[2]))),0);
+    p[0x108/4]=(u32_021D6964)REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*(u32_021D6964 *)ctx[2]))),0);
     p[0]=(u32_021D6964)func_021E5440(1,87);
     p[1]=(u32_021D6964)(u32_021D6964 *)func_021E567C(func_021E5548((int *)p[0]),0,87);
     p[2]=(u32_021D6964)GF_FONT_Create(0x17,0,0,0,87);
     p[3]=(u32_021D6964)GF_FONT_Create(0x17,3,0,0,87);
     p[4]=PRINTSYS_QUE_Create((void *)87); p[5]=(u32_021D6964)func_02045B38(0,2,0xd2,87);
-    p[6]=(u32_021D6964)func_0201EC74(8,0x40,87);
+    p[6]=(u32_021D6964)WORDSET_Create(8,0x40,87);
     p[0x34/4]=(u32_021D6964)func_021D9DC8(((u32_021D6964 *)p[0x104/4])[0xf],(void *)(*(u32_021D6964 *)ctx[2]),ctx[7],87);
     p[0x2c/4]=(u32_021D6964)func_021E8568(0, 15, 14, 10, (void *)p[4], (void *)p[2], 87);
     p[0x38/4]=(u32_021D6964)func_021E8A3C((int)p,(int)func_021D6BF4,87);
@@ -4054,7 +4054,7 @@ int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
     func_021E8628((char *)(((u32 *)p)[11]));
     if(((u32 *)p)[13]) func_021D9EA0((u8 *)(((u32 *)p)[13]));
     func_021D98B8(p); func_021D9854(p); func_021D97A4(p); func_021D99F4(p);
-    func_0201ED04((struct WordSet *)(((u32 *)p)[6])); MSGDATA_Delete((struct Rec *)(((u32 *)p)[5]));
+    WORDSET_DeleteStrbufED04((struct WordSet *)(((u32 *)p)[6])); MSGDATA_Delete((struct Rec *)(((u32 *)p)[5]));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((u32 *)p)[4])); GF_FONT_Delete((void *)(((u32 *)p)[3])); GF_FONT_Delete((void *)(((u32 *)p)[2]));
     func_021E5868(((u32 *)p)[1]); func_021E54E0((char *)(((u32 *)p)[0]));
     func_020315D4((struct S020315D4 *)sys); func_020306F0(87);
@@ -4185,8 +4185,8 @@ void func_021D6DB8(int *sys,int *state,char *p)
         if(r!=0) switch(func_021D9F04(H,(void *)1,0)) {case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}
         break;
     case 3:
-        if(((unsigned char *)CTX[12])[5]==func_0200B078((struct Reg2 *)aux,10)) *state=4;
-        else if(func_0200B078((struct Reg2 *)aux,10)==4 || func_0200B078((struct Reg2 *)aux,10)==5) *state=7;
+        if(((unsigned char *)CTX[12])[5]==REGULATION_Card_GetValue((struct Reg2 *)aux,10)) *state=4;
+        else if(REGULATION_Card_GetValue((struct Reg2 *)aux,10)==4 || REGULATION_Card_GetValue((struct Reg2 *)aux,10)==5) *state=7;
         else *state=4;
         break;
     case 4:
@@ -4195,8 +4195,8 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 5:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
     case 6:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
     case 7: {
-        MI_CpuFill8(&request7,0,8); request7.b=func_0200B078((struct Reg2 *)aux,10); request7.id=func_021DD020(H);
-        ((unsigned char *)CTX[12])[5]=func_0200B078((struct Reg2 *)aux,10);
+        MI_CpuFill8(&request7,0,8); request7.b=REGULATION_Card_GetValue((struct Reg2 *)aux,10); request7.id=func_021DD020(H);
+        ((unsigned char *)CTX[12])[5]=REGULATION_Card_GetValue((struct Reg2 *)aux,10);
         func_021DC8B4((u8 *)H, (const W *)&request7, 87);*state=8;break;
     }
     case 8:
@@ -4210,10 +4210,10 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 12:func_021DC2F4(H,*(u32 *)ctx[12]);*state=13;break;
     case 13:
         r=func_021DC338((u8 *)H);
-        if(r==1){func_021DC66C(H,p+0x10c);if(func_0200B1A8((struct Reg2 *)(p+0x10c)))*state=14;else *state=15;}
+        if(r==1){func_021DC66C(H,p+0x10c);if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x10c)))*state=14;else *state=15;}
         else if(r==2)*state=15;
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
-    case 15:if(func_0200B078((struct Reg2 *)aux,2)==0)*state=18;else *state=16;break;
+    case 15:if(REGULATION_Card_GetValue((struct Reg2 *)aux,2)==0)*state=18;else *state=16;break;
     case 16:
         r=func_021D9F04(H,(void *)1,0);
         switch(r){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;case 0:func_021D9A1C(p,func_021D9090);*state=17;break;}break;
@@ -4223,13 +4223,13 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 18:func_021E8738((int *)W(0x2c),W(0x14),0x3b,1);func_021E8AB4((u32)sys,55);*state=56;break;
     case 14:
         b=((unsigned char *)ctx[12])[5];if(b==0)*state=19;else if(b==1)*state=53;else if(b==2)*state=54;else *state=55;break;
-    case 19:if(func_0200B078((struct Reg2 *)aux,2)==0)*state=42;else *state=20;break;
+    case 19:if(REGULATION_Card_GetValue((struct Reg2 *)aux,2)==0)*state=42;else *state=20;break;
     case 20:
         func_021D965C((struct Obj_021D8EC8 *)((struct Obj *)p));
-        if(func_0200BBFC(func_0200BAC8((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
+        if(BATTLE_BOX_IsLocked(BATTLE_BOX_GetFromSave((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
         *state=21;break;
     case 21:if(func_021D97B8(p))*state=22;break;
-    case 22:if(func_0200BBFC(func_0200BAC8((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))*state=23;else *state=29;break;
+    case 22:if(BATTLE_BOX_IsLocked(BATTLE_BOX_GetFromSave((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))*state=23;else *state=29;break;
     case 23:func_021E8738((int *)W(0x2c),W(0x14),0x3d,1);func_021E8AB4((u32)sys,24);*state=56;break;
     case 24:func_021D98E4((u32_021D98E4 *)p, 0);*state=25;break;
     case 25:r=func_021D9A08(p);if(r!=-1){func_021D99F4(p);switch(r){case 0:*state=35;break;case 1:*state=26;break;}}break;
@@ -4258,12 +4258,12 @@ void func_021D6DB8(int *sys,int *state,char *p)
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
     case 42:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,43);*state=56;break;
     case 43:
-        saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
-        item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
+        saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]));box=BATTLE_BOX_GetFromSave((void *)saved);
+        item=(u32)REGULATION_GetParty((struct RecBig *)BATTLE_COMPETITION_GetFromSave((void *)saved),0);
         MI_CpuCopy8(p+0x10c,(void *)W(0x108),0x160);
-        func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
+        BATTLE_BOX_ClearLockFlags(box,1);REGULATION_Card_SetValue((struct Reg2 *)W(0x108),10,1);
         BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
-        func_0200B1F8((struct Rec1E *)item);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=44;break;
+        REGULATION_InitParty((struct Rec1E *)item);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=44;break;
     case 44:r=GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;
     case 45:func_021E8738((int *)W(0x2c),W(0x14),0x40,1);func_021E8AB4((u32)sys,55);*state=56;break;
     case 46:func_021E8738((int *)W(0x2c),W(0x14),0x5a,2);func_021E8AB4((u32)sys,47);*state=56;break;
@@ -4315,7 +4315,7 @@ void func_021D76D4(u32_021D76D4 sys,int *state,char *p)
     case 12:
         rec=(char *)ctx[5]; func_021D9A50(rec,p);
         if(POKEPARTY_GetBattleReadyCount(rec+0xd4)==0) *state=14;
-        else {out=0; if(POKE_REGULATION_CheckParty((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
+        else {out=0; if(POKE_REGULATION_CheckParty((void *)REGULATION_NoOp(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
         break;
     case 13: func_021E8738((int *)W(0x2c),W(0x14),0x49,1); func_021E8AB4(sys,29); *state=30; break;
     case 14: func_021E8738((int *)W(0x2c),W(0x14),0x61,1); func_021E8AB4(sys,29); *state=30; break;
@@ -4341,10 +4341,10 @@ void func_021D76D4(u32_021D76D4 sys,int *state,char *p)
         if(r!=0) switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;
     case 22:
-        saved=(u32_021D76D4)GAME_DATA_GetSaveControl((struct Big *)(*(u32_021D76D4 *)ctx[2])); box=func_0200BAC8((void *)saved);
-        tmp=(u32_021D76D4)func_0200B204(func_0200B358((void *)saved),0);
-        saved=(u32_021D76D4)func_0200BAF4((int)box,0x8056); func_0200BBC8(box, 1);
-        func_0200B110((struct Reg2 *)W(0x108),10,2); func_0200B2A4(tmp,saved); func_020307B0((void *)saved);
+        saved=(u32_021D76D4)GAME_DATA_GetSaveControl((struct Big *)(*(u32_021D76D4 *)ctx[2])); box=BATTLE_BOX_GetFromSave((void *)saved);
+        tmp=(u32_021D76D4)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave((void *)saved),0);
+        saved=(u32_021D76D4)func_0200BAF4((int)box,0x8056); BATTLE_BOX_SetLockFlags(box, 1);
+        REGULATION_Card_SetValue((struct Reg2 *)W(0x108),10,2); REGULATION_BuildParty(tmp,saved); func_020307B0((void *)saved);
         *state=23; break;
     case 23: GAME_DATA_SaveStart(*(u32_021D76D4 *)ctx[2]); *state=24; break;
     case 24: r=GAME_DATA_SaveMain((unsigned char *)*(u32_021D76D4 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
@@ -4596,7 +4596,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         MI_CpuFill8(&buf, 0, sizeof(buf));
         buf.a = obj->f104->f34->f10;
         buf.b = obj->f104->f34->f04;
-        buf.c = func_0200B078((struct Reg2 *)i, 2);
+        buf.c = REGULATION_Card_GetValue((struct Reg2 *)i, 2);
         buf.d = obj->f104->f34->f08 + obj->f104->f34->f0c;
         func_021DA0D4(obj->f34, 0, 0, w18->f08[1], (int *)(&buf));
         obj->fe4 = 0;
@@ -4671,7 +4671,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
                 r[0x1c] = r[0x1d] == 0 ? 0 : 8;
                 bad++;
             }
-            if (func_02025BEC(r[0x18], r[0x19], r[0x1a]) == 0) {
+            if (BMP_OAM_Check5BEC(r[0x18], r[0x19], r[0x1a]) == 0) {
                 r[0x18] = 0;
                 r[0x19] = 0;
                 bad++;
@@ -4681,7 +4681,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
                 bad++;
             }
             if (bad == 0)
-                func_02009EC8(GAME_DATA_GetSaveControl((struct Big *)(*w18->f08)));
+                TRADE_HISTORY_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*w18->f08)));
             *state = 0xf;
         }
         flag = 1;
@@ -4697,7 +4697,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         break;
     case 0x10:
         mask = 0;
-        if (POKE_REGULATION_CheckParty((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, (u32_021D76D4 *)&mask) == 0) {
+        if (POKE_REGULATION_CheckParty((void *)REGULATION_NoOp(obj->f108), w18->f18 + 0xd4, (u32_021D76D4 *)&mask) == 0) {
             *state = 0x11;
         } else {
             obj->fe4++;
@@ -5380,12 +5380,12 @@ void func_021D9090(u32_021D9090 sys,int *state,char *p)
         if(!GFL_NET_GetRunState())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
         if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime));
-        startDate.year=func_0200B078(reg,4);
-        startDate.month=func_0200B078(reg,5);
-        startDate.day=func_0200B078(reg,6);startDate.week=0;
-        endDate.year=func_0200B078(reg,7);
-        endDate.month=func_0200B078(reg,8);
-        endDate.day=func_0200B078(reg,9);endDate.week=0;
+        startDate.year=REGULATION_Card_GetValue(reg,4);
+        startDate.month=REGULATION_Card_GetValue(reg,5);
+        startDate.day=REGULATION_Card_GetValue(reg,6);startDate.week=0;
+        endDate.year=REGULATION_Card_GetValue(reg,7);
+        endDate.month=REGULATION_Card_GetValue(reg,8);
+        endDate.day=REGULATION_Card_GetValue(reg,9);endDate.week=0;
         startDay=RTC_ConvertDateToDay(&startDate);
         endDay=RTC_ConvertDateToDay(&endDate);
         nowDay=RTC_ConvertDateToDay(&nowDate);
@@ -5401,13 +5401,13 @@ void func_021D9090(u32_021D9090 sys,int *state,char *p)
         else *state=13;break;
     case 5:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,40,2);
         *state=14;func_021E8AB4(sys,6);break;
-    case 6:box=func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
-        ((struct Obj00728 *)p)->f26C=func_0200BBFC(box, 1);
-        func_0200BBD8(box, 1);
-        func_0200B110(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
+    case 6:box=BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
+        ((struct Obj00728 *)p)->f26C=BATTLE_BOX_IsLocked(box, 1);
+        BATTLE_BOX_ClearLockFlags(box, 1);
+        REGULATION_Card_SetValue(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
         GAME_DATA_SaveStart(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
     case 7:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
-    case 8:func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
+    case 8:BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
     case 9:func_021D97E4(p,1);
         func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);
@@ -5465,8 +5465,8 @@ void func_021D9344(u32_021D9344 sys,int *state,char *p) {
         func_021E8738(*(int * *)&((struct Obj00781 *)p)->f2C,((struct Obj00781 *)p)->f14,40,2);
         *state=16; func_021E8AB4(sys,9); break;
     case 9:
-        func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl(**(struct Big ** *)&((struct Obj08278 *)ctx)->f8)), 1);
-        func_0200B110((struct Reg2 *)(((struct Obj00781 *)p)->f108),10,4);
+        BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(struct Big ** *)&((struct Obj08278 *)ctx)->f8)), 1);
+        REGULATION_Card_SetValue((struct Reg2 *)(((struct Obj00781 *)p)->f108),10,4);
         GAME_DATA_SaveStart(**(int * *)&((struct Obj08278 *)ctx)->f8); *state=10; break;
     case 10:
         r=GAME_DATA_SaveMain(**(u8 ** *)&((struct Obj08278 *)ctx)->f8);
@@ -5562,22 +5562,22 @@ void func_021D965C(struct Obj_021D8EC8 *obj)
         data = obj->f108;
         sys = (u32_021D965C)func_02012944((void *)(*obj->f104->f08));
         id = func_021E5548((int *)obj->f00);
-        kind = (u32_021D965C)func_0200B204(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
+        kind = (u32_021D965C)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));
-        MI_CpuCopy8(func_0200B074((struct Reg2 *)data), &prof, 0x92);
-        a = func_0200B078((struct Reg2 *)data, 6);
-        b = func_0200B078((struct Reg2 *)data, 5);
-        c = func_0200B078((struct Reg2 *)data, 4);
+        MI_CpuCopy8(REGULATION_Card_GetCupName((struct Reg2 *)data), &prof, 0x92);
+        a = REGULATION_Card_GetValue((struct Reg2 *)data, 6);
+        b = REGULATION_Card_GetValue((struct Reg2 *)data, 5);
+        c = REGULATION_Card_GetValue((struct Reg2 *)data, 4);
         prof.f94 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
-        a = func_0200B078((struct Reg2 *)data, 9);
-        b = func_0200B078((struct Reg2 *)data, 8);
-        c = func_0200B078((struct Reg2 *)data, 7);
+        a = REGULATION_Card_GetValue((struct Reg2 *)data, 9);
+        b = REGULATION_Card_GetValue((struct Reg2 *)data, 8);
+        c = REGULATION_Card_GetValue((struct Reg2 *)data, 7);
         prof.f98 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
         prof.f9c = func_02008554((const struct Sub0200852CObj *)sys);
         prof.fa0 = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 0);
         a = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 1);
         prof.fa4 = a + BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 2);
-        prof.faa = func_0200B078((struct Reg2 *)data, 11);
+        prof.faa = REGULATION_Card_GetValue((struct Reg2 *)data, 11);
         if (prof.fa4 == 0 && prof.fa0 == 0)
             prof.fa0 = 1500;
         obj->f1c = (u32_021D965C)func_021E5D68((char *)(&prof), 0, (void *)sys, (void *)id, (void *)obj->f04, obj->f08, (void *)obj->f10, (void *)obj->f14, (void *)obj->f18, (void *)kind, 0, 0x57);
@@ -5680,7 +5680,7 @@ void func_021D9804(u32_021D9804 *obj, u32_021D9804 arg)
     if (obj[8] == 0) {
         u32_021D9804 base = func_021E5548((int *)obj[0]);
         obj[8] = func_021E7520(arg, base, obj[1], obj[2], obj[4], obj[5], obj[6], 0, 1,
-                               func_0200B078((struct Reg2 *)obj[0x42], 0xb), 0x57);
+                               REGULATION_Card_GetValue((struct Reg2 *)obj[0x42], 0xb), 0x57);
     }
 }
 
@@ -5728,7 +5728,7 @@ void func_021D9874(char *ctx)
     int window;
     if (((struct Obj00013 *)ctx)->f24 == 0) {
         window = func_021E5548(*(int * *)&((struct Obj00013 *)ctx)->f0);
-        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
+        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
     }
 }
 
@@ -5883,7 +5883,7 @@ void func_021D9A50(char *dest, char *ctx)
 {
     void *records;
     MI_CpuFill8(dest, 0, 212);
-    records = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
+    records = func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
     MI_CpuCopy8(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
     func_020307B0(records);
     ((struct Obj24310 *)dest)->f44 = 100;
@@ -5914,10 +5914,10 @@ void func_021D9A9C(char *dst, char *obj)
         ((struct Obj01067 *)dst)->f34 = s->blk[4];
     }
     ((struct Obj01067 *)dst)->f4C = func_021DC194((char *)(*(u32_021D9A9C *)&((struct Obj00013 *)obj)->f34));
-    ((struct Obj01067 *)dst)->f48 = func_02009CC0((void *)func_0201283C((const struct BigObj *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav)));
+    ((struct Obj01067 *)dst)->f48 = WIFILIST_GetGsProfileId((void *)GAME_DATA_GetField1A0((const struct BigObj *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav)));
     h = ((struct Obj00013 *)obj)->f108;
-    ((struct Obj01067 *)dst)->f40 = func_0200B078((struct Reg2 *)h, 2);
-    ((struct Obj01067 *)dst)->f50 = func_0200B1C4((struct Reg2 *)h);
+    ((struct Obj01067 *)dst)->f40 = REGULATION_Card_GetValue((struct Reg2 *)h, 2);
+    ((struct Obj01067 *)dst)->f50 = REGULATION_Card_CalcCrc((struct Reg2 *)h);
 }
 
 
@@ -6117,7 +6117,7 @@ char *func_021D9DC8(u32_021D9DC8 a, void *save, u32_021D9DC8 b, u16 heap) {
     char *p;
     p = func_02030734(heap, 0x149c, 0, d_021E2EE0, 0x2b0);
     MI_CpuFill8(p, 0, 0x149c);
-    *(u32_021D9DC8 *)(p + 4) = func_0201283C(save);
+    *(u32_021D9DC8 *)(p + 4) = GAME_DATA_GetField1A0(save);
     *(u32_021D9DC8 *)p = func_02009860();
     *(void **)(p + 0xc) = (void *)func_0200853C((const struct Sub0200852CObj *)func_02012944(save));
     *(void **)(p + 8) = save;
@@ -7377,7 +7377,7 @@ void func_021DB258(int index,int unused,const void *src,u8 *p,int owner) { if(ow
 void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
 {
     void *record;
-    record = func_02012950(((struct Obj14339 *)ctx)->f8, index);
+    record = GAME_DATA_GetPlayerStatusById(((struct Obj14339 *)ctx)->f8, index);
     MI_CpuCopy8(dest, record, MYSTATUS_GetSize());
     if (owner == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
         if (index != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())))
@@ -7714,7 +7714,7 @@ void func_021DB72C(int count, struct Field_021DADAC **recs, char *obj)
     for (i = 0; i < count; i++) {
         for (j = 0; j < ((struct Obj06574 *)obj)->f198; j++) {
             f = &recs[i][j];
-            if (func_0203F028(f->name, d_021E2F70) == 0)
+            if (GF_STANDARD_CompareString(f->name, d_021E2F70) == 0)
                 **(u32_021DB72C * *)&((struct Obj06574 *)obj)->f1464 = f->value;
         }
     }
@@ -7732,27 +7732,27 @@ void func_021DB7C0(int count,struct Field_021DB7C0 **fields,char *p,int n) {
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(!func_0203F028(f->name,(const char *)func_021DD044(9))) ((struct Obj00922 *)p)->f40=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(10))) ((struct Obj00922 *)p)->f3C=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(12))) ((struct Obj00922 *)p)->f28=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(11))) ((struct Obj00922 *)p)->f24=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(13))) ((struct Obj00922 *)p)->f30=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(14))) ((struct Obj00922 *)p)->f2C=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(15))) ((struct Obj00922 *)p)->f48=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(16))) ((struct Obj00922 *)p)->f44=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(17))) ((struct Obj00922 *)p)->f38=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(18))) ((struct Obj00922 *)p)->f34=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(19))) ((struct Obj00922 *)p)->fC=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(20))) ((struct Obj00922 *)p)->f0=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(21))) ((struct Obj00922 *)p)->f4=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(22))) ((struct Obj00922 *)p)->f10=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(23))) ((struct Obj00922 *)p)->f8=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(3))) ((struct Obj00922 *)p)->f20=f->value;
-            else if(!func_0203F028(f->name,(const char *)func_021DD044(24))) ((struct Obj00922 *)p)->f18=f->value;
-            else if(!func_0203F028(f->name,d_021E2F4C)) ((struct Obj00922 *)p)->f4C=f->value;
-            else if(!func_0203F028(f->name,d_021E2F60)) ((struct Obj00922 *)p)->f50=f->value;
-            else if(!func_0203F028(f->name,d_021E2F7C)) ((struct Obj00922 *)p)->f54=f->value;
-            else if(!func_0203F028(f->name,d_021E2F70)) ((struct Obj00922 *)p)->f58=f->value;
+            if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(9))) ((struct Obj00922 *)p)->f40=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(10))) ((struct Obj00922 *)p)->f3C=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(12))) ((struct Obj00922 *)p)->f28=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(11))) ((struct Obj00922 *)p)->f24=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(13))) ((struct Obj00922 *)p)->f30=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(14))) ((struct Obj00922 *)p)->f2C=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(15))) ((struct Obj00922 *)p)->f48=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(16))) ((struct Obj00922 *)p)->f44=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(17))) ((struct Obj00922 *)p)->f38=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(18))) ((struct Obj00922 *)p)->f34=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(19))) ((struct Obj00922 *)p)->fC=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(20))) ((struct Obj00922 *)p)->f0=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(21))) ((struct Obj00922 *)p)->f4=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(22))) ((struct Obj00922 *)p)->f10=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(23))) ((struct Obj00922 *)p)->f8=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(3))) ((struct Obj00922 *)p)->f20=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(24))) ((struct Obj00922 *)p)->f18=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F4C)) ((struct Obj00922 *)p)->f4C=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F60)) ((struct Obj00922 *)p)->f50=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F7C)) ((struct Obj00922 *)p)->f54=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F70)) ((struct Obj00922 *)p)->f58=f->value;
         }
     }
 }
@@ -7770,13 +7770,13 @@ void func_021DBA00(int count,struct Field_021DBA00 **fields,u8 *p,int n)
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(func_0203F028(f->name,(const char *)func_021DD044(0x25))==0) ((struct Obj05461 *)p)->f8=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x26))==0) ((struct Obj05461 *)p)->fC=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x24))==0) ((struct Obj05461 *)p)->f10=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x28))==0) ((struct Obj05461 *)p)->f4=f->payload.value;
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x27))==0) ((struct Obj05461 *)p)->f0=f->payload.value;
-            else if(func_0203F028(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
-            else if(func_0203F028(f->name,d_021E2F8C)==0) {
+            if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x25))==0) ((struct Obj05461 *)p)->f8=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x26))==0) ((struct Obj05461 *)p)->fC=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x24))==0) ((struct Obj05461 *)p)->f10=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x28))==0) ((struct Obj05461 *)p)->f4=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)func_021DD044(0x27))==0) ((struct Obj05461 *)p)->f0=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,d_021E2F8C)==0) {
                 const struct Blob *blob=&f->payload.blob;
                 MI_CpuCopy8(blob->data,p+24,blob->size);
             }
@@ -7797,7 +7797,7 @@ void func_021DBB00(int count, char **rows, int *out, int width)
     for (i = 0; i < count; i++) {
         for (j = 0; j < width; j++) {
             record = rows[i] + j * 16;
-            if (func_0203F028(*(char * *)&((struct Obj14343 *)record)->f0, d_021E2F70) == 0)
+            if (GF_STANDARD_CompareString(*(char * *)&((struct Obj14343 *)record)->f0, d_021E2F70) == 0)
                 *out = ((struct Obj14343 *)record)->f8;
         }
     }
@@ -7814,7 +7814,7 @@ void func_021DBB54(int count,struct Field_021DBB54 **recs,void *dst,int nfields)
     for(i=0;i<count;i++){
         for(j=0;j<nfields;j++){
             f=&recs[i][j];
-            if(func_0203F028(f->name,d_021E2F8C)==0)
+            if(GF_STANDARD_CompareString(f->name,d_021E2F8C)==0)
                 MI_CpuCopy8(f->value,dst,f->size);
         }
     }
@@ -7830,7 +7830,7 @@ void func_021DBBAC(int count,struct Field **recs,void *dst,int nfields)
     for(i=0;i<count;i++){
         for(j=0;j<nfields;j++){
             f=&recs[i][j];
-            if(func_0203F028(f->name,d_021E2F38)==0)
+            if(GF_STANDARD_CompareString(f->name,d_021E2F38)==0)
                 MI_CpuCopy8(f->value,dst,f->size);
         }
     }
@@ -8252,7 +8252,7 @@ int func_021DC338(u8 *p)
         break;
     case 5:((struct Obj00841 *)p)->f12C=6;break;
     case 6:
-        if(func_0200B1A8((struct Reg2 *)(p+0x1230))!=0) {((struct Obj00841 *)p)->f1458=0;return 1;}
+        if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x1230))!=0) {((struct Obj00841 *)p)->f1458=0;return 1;}
         ((struct Obj00841 *)p)->f1458=0;return 2;
     case 7:((struct Obj00841 *)p)->f1458=0;return 2;
     case 8:((struct Obj00841 *)p)->f1458=0;return 3;
@@ -9031,7 +9031,7 @@ void func_021DD008(char *p, int flag)
  */
 u32_021DD020 func_021DD020(char *obj)
 {
-    return func_02009CC0((void *)(((struct Obj24397 *)obj)->f4));
+    return WIFILIST_GetGsProfileId((void *)(((struct Obj24397 *)obj)->f4));
 }
 
 

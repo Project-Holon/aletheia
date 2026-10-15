@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sEncounterDrawSlotStatus     0x021D9254  data  a4
@@ -23,7 +23,7 @@ typedef struct T { int w[15]; } T;
 
 extern T sEncounterDrawSlotStatus;
 
-extern void func_0207ADC4(int *m);
+extern void MTX_Identity33_(int *m);
 extern void FIELD_EFFECT_GetObjectPos(int a, T *t);
 struct Arg;
 extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
@@ -34,7 +34,7 @@ void FLDEFF_ENCOUNT_DrawSlotObject(int a, u8 *b)
     int c = ((struct Obj09607 *)b)->f8;
 
     if (b[3] == 0) {
-        func_0207ADC4(&t.w[6]);
+        MTX_Identity33_(&t.w[6]);
         FIELD_EFFECT_GetObjectPos(a, &t);
         G3D_SYSTEM_DrawObjectCulling((void *)(*(int *)(c + b[0x1c] * 0x18 + 0x28)), (struct Arg *)(&t));
     }

@@ -16,13 +16,13 @@
  *   _send_tcp  0x02158714  arm  ov009
  *   get_targetip  0x021578C8  arm  ov009
  *   send_arprequest  0x02157E54  arm  ov009
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   g_021A86A4  0x021A86A4  data
  */
 
 #include "../include/G_021A86A4.h"
 
-extern char g_02150FEC[];
+extern char gMslRefToken[];
 extern struct G_021A86A4 g_021A86A4;
 extern unsigned long no_need_inq(unsigned long ip);
 typedef unsigned int   u32;
@@ -34,7 +34,7 @@ extern void send_arprequest(unsigned long ip);
 
 void _tcp_send_handshake(char *soc, unsigned char flag)
 {
-    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || *(char **)(g_02150FEC + 4) != ((char *)&g_021A86A4)) {
+    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || *(char **)(gMslRefToken + 4) != ((char *)&g_021A86A4)) {
         _send_tcp(0, 0, (struct _CPSSoc *)soc, flag);
     } else {
         send_arprequest(get_targetip(*(unsigned long *)(soc + 0x1c)));

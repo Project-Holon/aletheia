@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BAA54, func_021BAA84, func_021BAA98, func_021BAAA4, func_021BAAB0, func_021BAABC
+ * function: STAFF_ROLL_CmdShowEntry, STAFF_ROLL_CmdSetEntryMode, STAFF_ROLL_CmdStartScroll, STAFF_ROLL_CmdStopScroll, STAFF_ROLL_CmdEnd, STAFF_ROLL_CmdNop
  * address: 0x021BAA54
  * packet: pkt_ov181_021BAA54
  * region: ov181
@@ -9,47 +9,47 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA594 0x021BA594 thumb ov181
+ *   STAFF_ROLL_PrintEntry 0x021BA594 thumb ov181
  */
 #include "../include/Obj10725.h"
 #include "../include/Obj14414.h"
 #include "../include/Obj24511.h"
 #include "../include/Obj24512.h"
 #include "../include/Obj24513.h"
-extern void func_021BA594(char *, unsigned char *);
-int func_021BAA54(char *p, unsigned char *q)
+extern void STAFF_ROLL_PrintEntry(char *, unsigned char *);
+int STAFF_ROLL_CmdShowEntry(char *p, unsigned char *q)
 {
     if (((struct Obj10725 *)p)->f2EC == 0) {
         ((struct Obj10725 *)p)->f2CD = q[7];
         ((struct Obj10725 *)p)->f2EC = 2;
     }
-    func_021BA594(p, q);
+    STAFF_ROLL_PrintEntry(p, q);
     if (q[0x16] != 1)
         return 1;
     return 0;
 }
-int func_021BAA84(char *p, unsigned char *q)
+int STAFF_ROLL_CmdSetEntryMode(char *p, unsigned char *q)
 {
     ((struct Obj14414 *)p)->f2CD = q[7];
     ((struct Obj14414 *)p)->f2EC = 3;
     return 1;
 }
-int func_021BAA98(char *p)
+int STAFF_ROLL_CmdStartScroll(char *p)
 {
     ((struct Obj24511 *)p)->f2E0 = 1;
     return 0;
 }
-int func_021BAAA4(char *p)
+int STAFF_ROLL_CmdStopScroll(char *p)
 {
     ((struct Obj24512 *)p)->f2E0 = 0;
     return 0;
 }
-int func_021BAAB0(char *p)
+int STAFF_ROLL_CmdEnd(char *p)
 {
     ((struct Obj24513 *)p)->f2EC = 5;
     return 1;
 }
-int func_021BAABC(void)
+int STAFF_ROLL_CmdNop(void)
 {
     return 1;
 }

@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 24)) to func_0201ED04.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 24)) to WORDSET_DeleteStrbufED04.
  *
  * symbols:
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,10 +24,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct WordSet;
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 void RESEARCH_GRAPH_DeleteWordSet(u8 *a0)
 {
-    func_0201ED04((struct WordSet *)((u32)(((struct Obj25954 *)a0)->f18)));
+    WORDSET_DeleteStrbufED04((struct WordSet *)((u32)(((struct Obj25954 *)a0)->f18)));
 }
 

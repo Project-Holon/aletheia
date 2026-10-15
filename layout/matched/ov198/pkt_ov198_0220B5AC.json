@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220B5AC",
+   "name": "B_PLIST_ANM_ApplyTilePalette",
    "address": "0x0220B5AC",
    "kind": "game",
    "region": "ov198",

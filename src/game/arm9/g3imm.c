@@ -1,7 +1,7 @@
 /*
  * file:     g3imm.c
  * unit:     yes
- * function: func_0207D8C4, func_0207D8E0, func_0207D8FC, func_0207D918, func_0207D934, func_0207D950
+ * function: func_0207D8C4, func_0207D8E0, func_0207D8FC, func_0207D918, func_0207D934, G3_MultTransMtx33
  * address:  0x0207D8C4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02080CA8   0x02080CA8  arm
- *   func_02080C84   0x02080C84  arm
+ *   GX_SendFifo64B   0x02080CA8  arm
+ *   GX_SendFifo48B   0x02080C84  arm
  *   func_02082B60   0x02082B60  arm
  *   MI_Copy36B   0x02082B60  arm
  */
@@ -62,8 +62,8 @@ typedef union {
     fx32 a[9];
 } MtxFx33;
 
-extern void func_02080CA8(const void *src);
-extern void func_02080C84(const void *src);
+extern void GX_SendFifo64B(const void *src);
+extern void GX_SendFifo48B(const void *src);
 extern void func_02082B60(const void *src);
 extern void MI_Copy36B(const void *pSrc, void *pDest);
 void G3_LoadMtx44(const void *m);
@@ -71,34 +71,34 @@ void G3_LoadMtx43(const void *m);
 void G3_MultMtx44(const void *m);
 void G3_MultMtx43(const void *m);
 void G3_MultMtx33(const void *m);
-void func_0207D950(const MtxFx33 *mtx, const VecFx32 *trans);
+void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans);
 
 
 void G3_LoadMtx44(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x16;
-    func_02080CA8(m);
+    GX_SendFifo64B(m);
 }
 
 
 void G3_LoadMtx43(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x17;
-    func_02080C84(m);
+    GX_SendFifo48B(m);
 }
 
 
 void G3_MultMtx44(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x18;
-    func_02080CA8(m);
+    GX_SendFifo64B(m);
 }
 
 
 void G3_MultMtx43(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x19;
-    func_02080C84(m);
+    GX_SendFifo48B(m);
 }
 
 
@@ -119,7 +119,7 @@ void G3_MultMtx33(const void *m)
 /*
  * sdk:      G3_MultTransMtx33 (libgx.TWL.HYB.a g3imm.o)
  */
-void func_0207D950(const MtxFx33 *mtx, const VecFx32 *trans)
+void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans)
 {
     reg_G3X_GXFIFO = 0x19;
     MI_Copy36B(mtx, (void *)&reg_G3X_GXFIFO);

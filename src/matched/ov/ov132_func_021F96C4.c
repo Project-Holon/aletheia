@@ -1,5 +1,5 @@
 /*
- * function: func_021F96C4
+ * function: STA_ACTING_StopBgm
  * address: 0x021F96C4
  * packet: pkt_ov132_021F96C4
  * region: ov132
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj23189.h"
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-void func_021F96C4(char *p){((struct Obj23189 *)p)->f2C=0;GFL_USE_CancelChangeAndStopBgm();}
+void STA_ACTING_StopBgm(char *p){((struct Obj23189 *)p)->f2C=0;GFL_USE_CancelChangeAndStopBgm();}

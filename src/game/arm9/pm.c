@@ -1,7 +1,7 @@
 /*
  * file:     pm.c
  * unit:     yes
- * function: func_0208B7BC, func_0208B840, PMi_CallCallbackAndUnlock, PMi_WaitVBlank, func_0208B8B0, func_0208B950, func_0208BA70, func_0208BAF4, func_0208BBB8, func_0208BC44, func_0208BC8C, PMi_SetLEDAsync, PMi_SetLED, PM_SetBackLightAsync, PM_SetBackLight, PM_ForceToPowerOffAsync, PMi_ForceToPowerOff, PM_ForceToPowerOff, func_0208BEF0, func_0208BF08, func_0208BF38, func_0208BF54, func_0208BF6C, func_0208BFAC, PM_GetBackLight, func_0208C030, func_0208C080, PMi_PreSleepForDma, func_0208C154, func_0208C44C, func_0208C64C, func_0208C688, func_0208C6A4, PM_GetLEDPattern, func_0208C6FC, func_0208C788, func_0208C7E0, func_0208C808, func_0208C828, func_0208C848, func_0208C86C, func_0208C884, func_0208C89C, func_0208C944
+ * function: func_0208B7BC, PMi_DummyCallback, PMi_CallCallbackAndUnlock, PMi_WaitVBlank, PM_Init, PMi_CommonCallback, func_0208BA70, func_0208BAF4, func_0208BBB8, func_0208BC44, func_0208BC8C, PMi_SetLEDAsync, PMi_SetLED, PM_SetBackLightAsync, PM_SetBackLight, PM_ForceToPowerOffAsync, PMi_ForceToPowerOff, PM_ForceToPowerOff, PM_SetAmp, PMi_SetAmp, PM_SetAmpGain, PM_SetAmpGainLevel, func_0208BF6C, PM_GetBatteryLevel, PM_GetBackLight, func_0208C030, func_0208C080, PMi_PreSleepForDma, func_0208C154, func_0208C44C, func_0208C64C, PM_GetLCDPower, PMi_SendLEDPatternCommand, PM_GetLEDPattern, PMi_InsertList, PMi_DeleteList, PMi_ExecuteList, PM_PrependPreSleepCallback, PM_AppendPostSleepCallback, PMi_InsertPreSleepCallbackEx, PM_DeletePreSleepCallback, func_0208C884, func_0208C89C, func_0208C944
  * address:  0x0208B7BC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -142,13 +142,11 @@ extern u16 OS_GetBootType(void);
 extern BOOL CTRDG_IsExisting(void);
 extern BOOL GX_IsDispOn(void);
 extern void GX_DispOff(void);
-void PMi_InsertList(void *listp, void *info, int priority, int compare);
+void PMi_InsertList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int priority, int compare);
 void PMi_WaitBusy(void);
-void func_0208B840(unsigned int result, unsigned int *arg);
 void PMi_CallCallbackAndUnlock(u32 result);
 void PMi_WaitVBlank(void);
-void func_0208B8B0(void);
-void func_0208B950(int tag, u32 data, BOOL err);
+void PM_Init(void);
 u32 PMi_TryToSendPxiData(u32 *sendData, int num, u16 *retValue, PMCallback callback, void *arg);
 void PMi_TryToSendPxiDataTillSuccess(u32 *sendData, int num);
 u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData);
@@ -161,12 +159,11 @@ u32 PM_SetBackLight(int target, int sw);
 u32 PM_ForceToPowerOffAsync(PMCallback callback, void *arg);
 u32 PMi_ForceToPowerOff(void);
 u32 PM_ForceToPowerOff(void);
-unsigned int func_0208BEF0(unsigned int status);
-unsigned int func_0208BF08(unsigned int status);
-unsigned int func_0208BF38(unsigned int gain);
-unsigned int func_0208BF54(u8 level);
+unsigned int PM_SetAmp(unsigned int status);
+unsigned int PM_SetAmpGain(unsigned int gain);
+unsigned int PM_SetAmpGainLevel(u8 level);
 u32 PM_GetBattery(int *batteryBuf);
-unsigned int func_0208BFAC(void *isConnectedBuf);
+unsigned int PM_GetBatteryLevel(void *isConnectedBuf);
 u32 PM_GetBackLight(int *top, int *bottom);
 u32 PM_GetAmp(int *swBuf);
 void PMi_SendPxiData(u32 data);
@@ -174,16 +171,13 @@ void PMi_PreSleepForDma(void);
 void PM_GoSleepMode(u32 trigger, u32 logic, u16 keyPattern);
 BOOL PMi_SetLCDPower(int sw, int led, BOOL skip, BOOL isSync);
 BOOL PM_SetLCDPower(int sw);
-int func_0208C688(void);
-unsigned int func_0208C6A4(unsigned int pattern);
+unsigned int PMi_SendLEDPatternCommand(unsigned int pattern);
 u32 PM_GetLEDPattern(int *patternBuf);
-void func_0208C6FC(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int priority, int method);
-void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
-void func_0208C7E0(PMGenCallbackInfo *listp);
-void func_0208C808(void *info);
-void func_0208C828(void *info);
-void func_0208C848(struct PMiGenCallbackInfo *info, int priority);
-void func_0208C86C(PMGenCallbackInfo *info);
+void PMi_DeleteList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
+void PM_PrependPreSleepCallback(void *info);
+void PM_AppendPostSleepCallback(void *info);
+void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, int priority);
+void PM_DeletePreSleepCallback(PMGenCallbackInfo *info);
 void PM_DeletePostSleepCallback(PMGenCallbackInfo *info);
 void PMi_LCDOnAvoidReset(void);
 void PMi_SetDispOffCount(void);
@@ -221,10 +215,10 @@ void PMi_WaitBusy(void)
 /*
  * note:     spi/ARM9/pm.o PMi_DummyCallback.
  */
-void func_0208B840(unsigned int result, unsigned int *arg)
+void PMi_DummyCallback(u32 result, void *arg)
 {
     if (arg) {
-        *arg = result;
+        *(u32 *)arg = result;
     }
 }
 
@@ -284,10 +278,10 @@ void PMi_WaitVBlank(void)
  * witness is not a relocation at all.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0208B8B0.c \
- *       --func func_0208B8B0 --addr 0x0208B8B0 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/PM_Init.c \
+ *       --func PM_Init --addr 0x0208B8B0 --arm --cc 1.1p1
  */
-void func_0208B8B0(void)
+void PM_Init(void)
 {
     if (g_02153000.isInit) return;
     g_02153000.isInit = 1;
@@ -318,7 +312,7 @@ void func_0208B8B0(void)
  * switches keep their explicit no-op case labels (0x62; 1, 2, 3) so that
  * both lower to jump tables.
  */
-void func_0208B950(int tag, u32 data, BOOL err)
+void PMi_CommonCallback(int tag, u32 data, BOOL err)
 {
     u16 command;
     u16 pxiResult;
@@ -791,7 +785,7 @@ u32 PM_ForceToPowerOff(void)
 /*
  * note:     spi/ARM9/pm.o PM_SetAmp.
  */
-unsigned int func_0208BEF0(unsigned int status)
+unsigned int PM_SetAmp(unsigned int status)
 {
     g_02153000.ampSwitch = status;
     return PMi_SetAmp(status);
@@ -812,7 +806,7 @@ unsigned int func_0208BEF0(unsigned int status)
 /*
  * note:     spi/ARM9/pm.o PMi_SetAmp.
  */
-unsigned int func_0208BF08(unsigned int status)
+unsigned int PMi_SetAmp(unsigned int status)
 {
     if (PM_GetLCDPower()) {
         return PM_SendUtilityCommand(0x10, (u16)status, 0);
@@ -835,7 +829,7 @@ unsigned int func_0208BF08(unsigned int status)
 /*
  * note:     spi/ARM9/pm.o PM_SetAmpGain.
  */
-unsigned int func_0208BF38(unsigned int gain)
+unsigned int PM_SetAmpGain(unsigned int gain)
 {
     return PM_SendUtilityCommand(0x11, (u16)gain, 0);
 }
@@ -855,7 +849,7 @@ unsigned int func_0208BF38(unsigned int gain)
 /*
  * note:     spi/ARM9/pm.o PM_SetAmpGainLevel.
  */
-unsigned int func_0208BF54(u8 level)
+unsigned int PM_SetAmpGainLevel(u8 level)
 {
     return PM_SendUtilityCommand(0x16, (u16)level, 0);
 }
@@ -905,7 +899,7 @@ u32 PM_GetBattery(int *batteryBuf)
 /*
  * note:     spi/ARM9/pm.o PM_GetACAdapter.
  */
-unsigned int func_0208BFAC(void *isConnectedBuf)
+unsigned int PM_GetBatteryLevel(void *isConnectedBuf)
 {
     if (OS_IsRunOnTwl()) {
         return PMi_GetACAdapterCore(isConnectedBuf);
@@ -1254,7 +1248,7 @@ BOOL PM_SetLCDPower(int sw)
 /*
  * note:     spi/ARM9/pm.o PM_GetLCDPower.
  */
-int func_0208C688(void)
+int PM_GetLCDPower(void)
 {
     return (*(volatile unsigned short *)0x04000304 & 1) ? 1 : 0;
 }
@@ -1270,7 +1264,7 @@ int func_0208C688(void)
 /*
  * note:     spi/ARM9/pm.o PMi_SendLEDPatternCommand.
  */
-unsigned int func_0208C6A4(unsigned int pattern)
+unsigned int PMi_SendLEDPatternCommand(unsigned int pattern)
 {
     return PM_SendUtilityCommand(0x12, (u16)pattern, 0);
 }
@@ -1303,7 +1297,7 @@ u32 PM_GetLEDPattern(int *patternBuf)
 /*
  * sdk:      PMi_InsertList (libspi.TWL.HYB.a pm.o)
  */
-void func_0208C6FC(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int priority, int method)
+void PMi_InsertList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int priority, int method)
 {
     PMGenCallbackInfo *p;
     PMGenCallbackInfo *pre;
@@ -1346,7 +1340,7 @@ void func_0208C6FC(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int prior
 /*
  * sdk:      PMi_DeleteList (libspi.TWL.HYB.a pm.o)
  */
-void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info)
+void PMi_DeleteList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info)
 {
     PMGenCallbackInfo *pre;
     PMGenCallbackInfo *p;
@@ -1379,7 +1373,7 @@ void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info)
 /*
  * note:     spi/ARM9/pm.o PMi_ExecuteList.
  */
-void func_0208C7E0(PMGenCallbackInfo *listp)
+void PMi_ExecuteList(PMGenCallbackInfo *listp)
 {
     while (listp) {
         (listp->callback)(listp->arg);
@@ -1394,9 +1388,9 @@ void func_0208C7E0(PMGenCallbackInfo *listp)
 /*
  * note:     spi/ARM9/pm.o PM_PrependPostSleepCallback.
  */
-void func_0208C808(void *info)
+void PM_PrependPreSleepCallback(void *info)
 {
-    PMi_InsertList(g_0215301C, info, -255, 1);
+    PMi_InsertList((PMGenCallbackInfo **)g_0215301C, info, -255, 1);
 }
 
 
@@ -1407,9 +1401,9 @@ void func_0208C808(void *info)
  *           (distinct from PM_PrependPostSleepCallback's 0x0215301C); libmatch
  *           may have swapped the two list names.
  */
-void func_0208C828(void *info)
+void PM_AppendPostSleepCallback(void *info)
 {
-    PMi_InsertList(g_02153004, info, 255, 0);
+    PMi_InsertList((PMGenCallbackInfo **)g_02153004, info, 255, 0);
 }
 
 
@@ -1418,16 +1412,16 @@ void func_0208C828(void *info)
 /*
  * sdk:      PMi_InsertPostSleepCallbackEx (libspi.TWL.HYB.a pm.o)
  */
-void func_0208C848(struct PMiGenCallbackInfo *info, int priority)
+void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, int priority)
 {
     PMi_InsertList(&PMi_PostSleepCallbackList, info, priority, 0);
 }
 
 
 
-void func_0208C86C(PMGenCallbackInfo *info)
+void PM_DeletePreSleepCallback(PMGenCallbackInfo *info)
 {
-    func_0208C788((PMGenCallbackInfo **)g_0215301C, info);
+    PMi_DeleteList((PMGenCallbackInfo **)g_0215301C, info);
 }
 
 
@@ -1435,7 +1429,7 @@ void func_0208C86C(PMGenCallbackInfo *info)
 
 void PM_DeletePostSleepCallback(PMGenCallbackInfo *info)
 {
-    func_0208C788(&g_02153000.postSleepCallbackList, info);
+    PMi_DeleteList(&g_02153000.postSleepCallbackList, info);
 }
 
 

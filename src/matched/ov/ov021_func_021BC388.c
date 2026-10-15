@@ -26,7 +26,7 @@
  *   FIELD_PLACE_NAME_SetClactUnitRenderer  0x021BC7BC  thumb  ov021
  *   FIELD_PLACE_NAME_CreateBmpOamSys  0x021BC998  thumb  ov021
  *   FIELD_PLACE_NAME_CreateLetters  0x021BC7D4  thumb  ov021
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   FIELD_PLACE_NAME_LoadPaletteFile  0x021BC664  thumb  ov021
  *   FIELD_PLACE_NAME_AllocBgChars  0x021BC6E8  thumb  ov021
  *   FIELD_PLACE_NAME_CreateBmpWin  0x021BD01C  thumb  ov021
@@ -53,7 +53,7 @@ extern void FIELD_PLACE_NAME_CreateClactUnit(int a);
 extern void FIELD_PLACE_NAME_SetClactUnitRenderer(int a, int b);
 extern void FIELD_PLACE_NAME_CreateBmpOamSys(int a);
 extern void FIELD_PLACE_NAME_CreateLetters(int a);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void FIELD_PLACE_NAME_LoadPaletteFile(struct S *p);
 extern void FIELD_PLACE_NAME_AllocBgChars(int a);
 extern void FIELD_PLACE_NAME_CreateBmpWin(int a);
@@ -78,7 +78,7 @@ int FIELD_PLACE_NAME_Create(int a, int b, int c)
     FIELD_PLACE_NAME_SetClactUnitRenderer(r4, 0);
     FIELD_PLACE_NAME_CreateBmpOamSys(r4);
     FIELD_PLACE_NAME_CreateLetters(r4);
-    func_0203FCA0(3, (const struct BgTemplate *)0x021DE334, 0);
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)0x021DE334, 0);
     FIELD_PLACE_NAME_LoadPaletteFile((struct S *)r4);
     FIELD_PLACE_NAME_AllocBgChars(r4);
     FIELD_PLACE_NAME_CreateBmpWin(r4);

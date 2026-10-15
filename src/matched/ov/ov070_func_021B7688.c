@@ -12,7 +12,7 @@
  * symbols:
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -34,7 +34,7 @@ typedef struct Obj {
 
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void ITEMMENU_RedrawList(char *p);
 extern void ITEMMENU_MoveCursorToRow(char *p);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -44,7 +44,7 @@ extern void ITEMMENU_ReturnToBagMain(void *p);
 void ITEMMENU_TaskReturnToListAfterMessage(Obj *o)
 {
     if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() != 0) {
-        func_020414EC(3);
+        BG_SYS_ClearSlot(3);
         o->f818 = 0xFFFF;
         ITEMMENU_RedrawList((char *)o);
         o->f83E = 1;

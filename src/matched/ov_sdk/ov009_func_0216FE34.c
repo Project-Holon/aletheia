@@ -18,10 +18,10 @@
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02198620  0x02198620  arm  ov009
- *   func_0219EF60  0x0219EF60  arm  ov009
+ *   ServerBrowserSendNatNegotiateCookieToServerA  0x0219EF60  arm  ov009
  *   DWCi_HandleSBError  0x02173D9C  arm  ov009
  *   gt2GetSocketSOCKET  0x02195E60  arm  ov009
- *   func_02199DFC  0x02199DFC  arm  ov009
+ *   NNBeginNegotiationWithSocket  0x02199DFC  arm  ov009
  *   DWCi_NNProgressCallback  0x02174FE4  arm  ov009
  *   func_02174FE8  0x02174FE8  arm  ov009
  */
@@ -37,10 +37,10 @@ struct nninfo_s {
 extern int func_02175F3C(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 struct ServerBrowser;
-extern int func_0219EF60(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
+extern int ServerBrowserSendNatNegotiateCookieToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
 extern int DWCi_HandleSBError(int sbError);
 extern int gt2GetSocketSOCKET(const int *p);
-extern int func_02199DFC(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
+extern int NNBeginNegotiationWithSocket(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
 extern void DWCi_NNProgressCallback(void);
 extern void func_02174FE8(void);
 
@@ -51,12 +51,12 @@ int DWCi_DoNatNegotiationAsync(struct nninfo_s *nnInfo)
     int sbError;
 
     if (nnInfo->clientindex == 0) {
-        sbError = func_0219EF60((struct ServerBrowser *)(*(int *)(func_02175F3C() + 0x5e0)), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
+        sbError = ServerBrowserSendNatNegotiateCookieToServerA((struct ServerBrowser *)(*(int *)(func_02175F3C() + 0x5e0)), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
         if (DWCi_HandleSBError(sbError))
             return 2;
     }
     for (i = 0; i < 1; i++) {
-        nnError = func_02199DFC(gt2GetSocketSOCKET((const int *)(**(int **)(func_02175F3C() + 4))), nnInfo->cookie, nnInfo->clientindex, DWCi_NNProgressCallback, func_02174FE8, nnInfo);
+        nnError = NNBeginNegotiationWithSocket(gt2GetSocketSOCKET((const int *)(**(int **)(func_02175F3C() + 4))), nnInfo->cookie, nnInfo->clientindex, DWCi_NNProgressCallback, func_02174FE8, nnInfo);
         if (nnError == 0)
             return nnError;
         if (nnError != 3)

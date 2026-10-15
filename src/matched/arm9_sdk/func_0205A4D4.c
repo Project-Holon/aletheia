@@ -1,5 +1,5 @@
 /*
- * function: func_0205A4D4
+ * function: WDS_Initialize
  * address:  0x0205A4D4
  * packet:   pkt_0205A4D4
  * region:   arm9
@@ -79,7 +79,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
 extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
 
-int func_0205A4D4(void *wdsWork, void (*callback)(void *), unsigned short dmaNo)
+int WDS_Initialize(void *wdsWork, void (*callback)(void *), unsigned short dmaNo)
 {
     int errcode;
 

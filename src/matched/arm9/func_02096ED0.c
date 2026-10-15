@@ -1,5 +1,5 @@
 /*
- * function: func_02096ED0
+ * function: __minus_dec
  * address:  0x02096ED0
  * packet:   pkt_02096D10
  * region:   arm9
@@ -22,8 +22,8 @@
  * copy is `*z = *x`.  No relocations.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02096ED0.c \
- *       --func func_02096ED0 --addr 0x02096ED0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__minus_dec.c \
+ *       --func __minus_dec --addr 0x02096ED0 --cc 1.1p1 --arm
  *   EXACT, 672 bytes, 0 relocation sites.
  */
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ typedef struct decimal {
     } sig;
 } decimal;
 
-void func_02096ED0(decimal *z, const decimal *x, const decimal *y)
+void __minus_dec(decimal *z, const decimal *x, const decimal *y)
 {
     int zlen, dexp;
     u8 *ib, *i, *ie;

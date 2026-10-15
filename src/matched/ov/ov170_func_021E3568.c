@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BOX2_SEQ_StateWaitInput 0x021E2094 thumb ov170
- *   func_020260F0 0x020260F0 thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb ov170
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
@@ -23,7 +23,7 @@ struct WinMgr;
 extern int BOX2_SEQ_StateWaitInput(char *);
 typedef unsigned int   u32;
 struct Sound;
-extern u32 func_020260F0(struct Sound *obj);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void BOX2_SEQ_SetActorDrawEnable(char *, int, int);
 extern void BOX2_SEQ_ShowWindowObject(char *, int);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
@@ -36,7 +36,7 @@ int BOX2_SEQ_StateSwapConfirm(unsigned char *p)
     int n;
     if (BOX2_SEQ_StateWaitInput((char *)p) == 6)
         return 0x18;
-    if (func_020260F0(*(void **)(W(p) + 0x70)) == 1)
+    if (CURSOR_MOVE_GetState(*(void **)(W(p) + 0x70)) == 1)
         BOX2_SEQ_SetActorDrawEnable(W(p), 4, 1);
     if ((unsigned char)W(p)[0xA173] == 5)
         n = 0x1B;

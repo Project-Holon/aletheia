@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02080B24",
+   "name": "GX_DisableBankForOBJExtPltt",
    "address": "0x02080B24",
    "kind": "sdk",
    "region": "arm9",

@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   sResultBackgroundLayers 0x021B89B8 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32,u32,u32);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern const int sResultBackgroundLayers[];
 void IRC_RESULT_ExitBackgrounds(u32 *p) {
  int i;
- func_0203FB44(5,(u16)(*p),(u16)(*p>>16));
+ BG_SYS_DeleteHalf(5,(u16)(*p),(u16)(*p>>16));
  func_02040DA8(5,1,0);
  for(i=0;i<8;i++) func_020403F4((u8)sResultBackgroundLayers[i]);
- BMP_WIN_Exit(); func_0203F9B4();
+ BMP_WIN_Exit(); BG_SYS_Delete();
 }

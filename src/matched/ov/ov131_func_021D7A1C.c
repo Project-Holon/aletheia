@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   MCSS_SetShadowOffset 0x02015D94 thumb
  */
 typedef struct {int x,y,z;} Vec;
-extern void func_0207C9D0(Vec *,Vec *,Vec *);
+extern void VEC_Add(Vec *,Vec *,Vec *);
 extern void MCSS_SetShadowOffset(char *p, int *src);
 void P_STA_SUB_ApplyMcssOffset(void *p,void **q,Vec *v) {
  Vec r;
- func_0207C9D0(v,(Vec *)((char *)q+0x4c),&r);
+ VEC_Add(v,(Vec *)((char *)q+0x4c),&r);
  MCSS_SetShadowOffset(q[0],(int *)(&r));
  MCSS_SetShadowOffset(q[1],(int *)(&r));
 }

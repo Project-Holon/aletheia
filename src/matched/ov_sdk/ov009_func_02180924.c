@@ -1,5 +1,5 @@
 /*
- * function: func_02180924
+ * function: gsUdpPingRoutingCB
  * address:  0x02180924
  * packet:   pkt_ov009_02180924
  * region:   ov009
@@ -69,7 +69,7 @@ extern char g_021A39C8[];
 extern char g_021A39EC[];
 extern char g_021A3A14[];
 
-void func_02180924(void *theConnection, int theLatency)
+void gsUdpPingRoutingCB(void *theConnection, int theLatency)
 {
     GSUdpEngineObject *aUdp;
     char anAddr[22];

@@ -1,5 +1,5 @@
 /*
- * function: func_02205B6C
+ * function: SHINKA_DEMO_GRAPHIC_InitClact
  * address:  0x02205B6C
  * packet:   pkt_02205B6C
  * region:   ov195
@@ -30,7 +30,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_02205B6C(unsigned char *p, int a, u32 b)
+void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x02208CB0, a, b);

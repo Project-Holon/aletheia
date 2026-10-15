@@ -1,5 +1,5 @@
 /*
- * function: func_020260F4
+ * function: CURSOR_MOVE_SetState
  * address:  0x020260F4
  * packet:   pkt_02025C44
  * region:   arm9
@@ -29,7 +29,7 @@ struct Struct_02025CD0 {
     u32 field_1C;
 };
 
-void func_020260F4(struct Struct_02025CD0 *obj, u32 state)
+void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state)
 {
     obj->field_4 = state;
     if (state == 1) {

@@ -12,7 +12,7 @@
  * sdk:      gpiClipBufferToPosition (gpibuffer.o)
  *
  * symbols:
- *   func_02092364  0x02092364  arm  
+ *   memmove  0x02092364  arm  
  */
 
 typedef struct GPIBuffer {
@@ -22,7 +22,7 @@ typedef struct GPIBuffer {
     int pos;
 } GPIBuffer;
 
-extern void *func_02092364(void *dst, const void *src, unsigned int n);
+extern void *memmove(void *dst, const void *src, unsigned int n);
 
 int func_02189D28(void **unused, GPIBuffer *buffer)
 {
@@ -30,7 +30,7 @@ int func_02189D28(void **unused, GPIBuffer *buffer)
         return 0;
     buffer->len -= buffer->pos;
     if (buffer->len != 0)
-        func_02092364(buffer->buffer, buffer->buffer + buffer->pos, buffer->len);
+        memmove(buffer->buffer, buffer->buffer + buffer->pos, buffer->len);
     buffer->buffer[buffer->len] = 0;
     buffer->pos = 0;
     return 0;

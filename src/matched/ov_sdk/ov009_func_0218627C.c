@@ -14,7 +14,7 @@
  * symbols:
  *   func_02193734  0x02193734  arm  ov009
  *   func_0219327C  0x0219327C  arm  ov009
- *   func_020948E0  0x020948E0  arm
+ *   strcmp  0x020948E0  arm
  *   func_0218946C  0x0218946C  arm  ov009
  *   func_0218949C  0x0218949C  arm  ov009
  *   g_021A4024     0x021A4024  data
@@ -49,7 +49,7 @@ typedef void *GPConnection;
 
 extern void func_02193734(int *p, int b);
 extern void func_0219327C(char *p, int b, int n);
-extern int func_020948E0(const char *a, const char *b);
+extern int strcmp(const char *a, const char *b);
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
 extern char g_021A4024[];
@@ -98,8 +98,8 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
             locationStringFixed[i] = '/';
 
     if (status == iconnection->lastStatus
-        && func_020948E0(statusStringFixed, iconnection->lastStatusString) == 0
-        && func_020948E0(locationStringFixed, iconnection->lastLocationString) == 0)
+        && strcmp(statusStringFixed, iconnection->lastStatusString) == 0
+        && strcmp(locationStringFixed, iconnection->lastLocationString) == 0)
         return 0;
 
     iconnection->lastStatus = status;

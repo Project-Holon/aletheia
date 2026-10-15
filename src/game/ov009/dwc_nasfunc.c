@@ -11,15 +11,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020889C0  0x020889C0  arm
+ *   RTC_GetDateTime  0x020889C0  arm
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   g_021AA834     0x021AA834  data
  *   g_021AA838     0x021AA838  data
  *   g_021AA840     0x021AA840  data
- *   func_02058FB4  0x02058FB4  arm
+ *   DWC_Auth_GetId  0x02058FB4  arm
  *   func_0217C070  0x0217C070  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_0217C144  0x0217C144  arm  ov009
  *   func_0217C104  0x0217C104  arm  ov009
  *   DWC_Alloc      0x0205A16C  arm
@@ -30,13 +30,13 @@
  *   DWCi_SetError  0x02059F54  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02177EE8  0x02177EE8  arm  ov009
+ *   DWC_Auth_Create  0x02177EE8  arm  ov009
  *   g_021AA830     0x021AA830  data
  *   g_021A1F74     0x021A1F74  data
- *   func_021781DC  0x021781DC  arm  ov009
+ *   DWC_Auth_GetError  0x021781DC  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02178224  0x02178224  arm  ov009
- *   func_02178144  0x02178144  arm  ov009
+ *   DWC_Auth_GetResult  0x02178224  arm  ov009
+ *   DWC_Auth_Destroy  0x02178144  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_02059F54  0x02059F54  arm
  */
@@ -80,12 +80,12 @@ typedef struct NalCnt {
     AuthResult result;
 } NalCnt;
 
-extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
+extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
-extern void func_02058FB4(AuthId *id);
+extern void DWC_Auth_GetId(AuthId *id);
 extern int func_0217C070(void *(*alloc)(int, int), void (*free)(int, void *, unsigned long));
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_0217C144(char *svc, struct DWCSvlResult *result);
 extern void func_0217C104(void);
 extern int func_0217C384(void);
@@ -95,10 +95,10 @@ extern void OS_Terminate(void);
 extern void DWCi_SetError(int kind, int code);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
-extern int func_02177EE8(struct DWCAuthParam *param, void *http);
-extern int func_021781DC(void);
-extern void func_02178224(int *result);
-extern void func_02178144(void);
+extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
+extern int DWC_Auth_GetError(void);
+extern void DWC_Auth_GetResult(int *result);
+extern void DWC_Auth_Destroy(void);
 extern struct NasTimeDiff_ g_021AA834;
 extern long long g_021AA838;
 extern long long g_021AA840;
@@ -120,7 +120,7 @@ int func_02167ED8(void *date, void *time)
 
     if ((*(int *)&g_021AA834) == 0)
         return 0;
-    if (func_020889C0(date, time) != 0)
+    if (RTC_GetDateTime(date, time) != 0)
         return 0;
     localsec = RTC_ConvertDateTimeToSecond(date, time);
     if (localsec == -1LL)
@@ -144,12 +144,12 @@ int func_02167FA8(char *svl, void *result)
     AuthId id;
     int flag;
 
-    func_02058FB4(&id);
+    DWC_Auth_GetId(&id);
     if (id.f10 == 0)
         return 0;
     if (func_0217C070(DWC_Alloc, DWC_Free) == 0)
         return 0;
-    if (func_0209477C((const u8 *)svl) == 0)
+    if (strlen((const u8 *)svl) == 0)
         flag = func_0217C144(g_021A1F6C, result);
     else
         flag = func_0217C144(svl, result);
@@ -187,7 +187,7 @@ int func_02168064(void)
     MI_CpuCopy8(g_021A1F74, g_021AA830->id, 9);
     g_021AA830->alloc = DWC_Alloc;
     g_021AA830->free = DWC_Free;
-    func_02177EE8((struct DWCAuthParam *)g_021AA830->auth, g_021AA830);
+    DWC_Auth_Create((struct DWCAuthParam *)g_021AA830->auth, g_021AA830);
     return 1;
 }
 
@@ -201,28 +201,28 @@ int func_02168124(void)
 
     if (g_021AA830 == 0)
         return 0;
-    switch (func_021781DC()) {
+    switch (DWC_Auth_GetError()) {
     case 0:
         return 2;
     case 0x15:
         MI_CpuFill8(&result, 0, sizeof(result));
-        func_02178224((int *)(&result));
-        func_02178144();
+        DWC_Auth_GetResult((int *)(&result));
+        DWC_Auth_Destroy();
         if (result.returncode == 20002) {
-            func_02177EE8((struct DWCAuthParam *)g_021AA830->auth, g_021AA830->http);
+            DWC_Auth_Create((struct DWCAuthParam *)g_021AA830->auth, g_021AA830->http);
             return 2;
         }
         DWC_Free(4, g_021AA830, 7772);
         g_021AA830 = 0;
         return 3;
     case 0x14:
-        func_02178144();
+        DWC_Auth_Destroy();
         DWC_Free(4, g_021AA830, 7772);
         g_021AA830 = 0;
         return 5;
     default:
-        func_02178224((int *)(&result));
-        func_02178144();
+        DWC_Auth_GetResult((int *)(&result));
+        DWC_Auth_Destroy();
         DWC_Free(4, g_021AA830, 7772);
         g_021AA830 = 0;
         DWCi_SetError(2, result.returncode);

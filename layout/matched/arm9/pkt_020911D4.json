@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020911D4",
+   "name": "MSL_C_LIB_EmptyStub",
    "address": "0x020911D4",
    "kind": "sdk",
    "region": "arm9",

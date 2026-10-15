@@ -19,11 +19,11 @@
  *   TableNew                         0x02184610 arm
  *   gpiProfilesTableHash             0x0218F9F8 arm
  *   func_0219329C  0x0219329c  arm   ov009
- *   func_020949F4  0x020949f4  arm
+ *   strncmp  0x020949f4  arm
  *   func_02193710  0x02193710  arm   ov009
  *   func_02189D78  0x02189d78  arm   ov009
  *   func_02193418  0x02193418  arm   ov009
- *   func_020964E0  0x020964e0  arm
+ *   atoi  0x020964e0  arm
  *   func_0217EAB0  0x0217eab0  arm   ov009
  *   func_02193734  0x02193734  arm   ov009
  *   func_02189DFC  0x02189dfc  arm   ov009
@@ -43,7 +43,7 @@
  *   gpiProfileMapCallback            0x0218FFE0 arm
  *   gpiCheckForBlock                 0x0219003C arm
  *   func_02193378  0x02193378  arm  ov009
- *   func_02094B20  0x02094B20  arm
+ *   strstr  0x02094B20  arm
  *   func_02189300  0x02189300  arm  ov009
  *   g_021A522C     0x021A522C  data
  *   g_021A5234     0x021A5234  data
@@ -58,11 +58,11 @@ extern void gpiFreeInfoCache(GPIProfile * profile);
 extern void * TableNew(int elemSize, int nBuckets, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
 extern int gpiProfilesTableHash(void * arg, int numBuckets);
 extern int func_0219329C(int *connection, const char *input, int fatal);
-extern int func_020949F4(const u8 *s1, const u8 *s2, unsigned int n);
+extern int strncmp(const u8 *s1, const u8 *s2, unsigned int n);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(const char *s);
+extern int atoi(const char *s);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
@@ -77,7 +77,7 @@ extern void * TableMapSafe2(void * table, int (*cb)(void *, void *), void * udat
 extern int gpiProfileMapCallback(void * arg, void * udata);
 extern int gpiCheckForBlock(void * unused, GPIProfile * profile, void * udata);
 extern int func_02193378(char *command, char *key, int *index, char *value, int len);
-extern char *func_02094B20(const char *s1, const char *s2);
+extern char *strstr(const char *s1, const char *s2);
 extern int func_02189300(void **connection, int id, int isDeleted);
 int func_0218F9F8(int *p);
 int gpiProfilesTableCompare(void *a, void *b);
@@ -215,7 +215,7 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
 
     if (func_0219329C((int *)connection, input, 1))
         return 4;
-    if (func_020949F4((const u8 *)input, (const u8 *)g_021A51D0, 5) != 0) {
+    if (strncmp((const u8 *)input, (const u8 *)g_021A51D0, 5) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
         func_02189D78((int *)connection, __result__, 1);
@@ -227,7 +227,7 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
         func_02189D78((int *)connection, __result__, 1);
         return __result__;
     }
-    pid = func_020964E0(buffer);
+    pid = atoi(buffer);
     callback = operation->callback;
     if (callback.callback != 0) {
         arg = (GPNewProfileResponseArg *)func_0217EAB0(sizeof(GPNewProfileResponseArg));
@@ -313,7 +313,7 @@ int func_0218FDD8(void **connection, GPIOperation *operation, char *input)
 
     if (func_0219329C((int *)connection, input, 1))
         return 4;
-    if (func_020949F4((const u8 *)input, (const u8 *)g_021A5224, 5) != 0) {
+    if (strncmp((const u8 *)input, (const u8 *)g_021A5224, 5) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
         func_02189D78((int *)connection, 3, 1);
         return 3;
@@ -535,9 +535,9 @@ int func_02190188(void **connection, char *input)
         func_02189D78((int *)connection, 3, 1);
         return 3;
     }
-    num = func_020964E0(buffer);
+    num = atoi(buffer);
 
-    str = func_02094B20(input, g_021A5234);
+    str = strstr(input, g_021A5234);
     if (!str) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
         func_02189D78((int *)connection, 3, 1);
@@ -559,7 +559,7 @@ int func_02190188(void **connection, char *input)
             }
         }
 
-        profileid = func_020964E0(buffer);
+        profileid = atoi(buffer);
         profile = func_0218FCD8(connection, profileid);
         if (!profile) {
             func_02193734((int *)connection, (int)g_021A5214);

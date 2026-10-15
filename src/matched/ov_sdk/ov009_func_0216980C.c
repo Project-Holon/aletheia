@@ -1,5 +1,5 @@
 /*
- * function: func_0216980C
+ * function: DWCi_GetFriendBuddyStatus
  * address:  0x0216980C
  * packet:   pkt_ov009_0216980C
  * region:   ov009
@@ -16,8 +16,8 @@
  * sdk:      DWCi_GetFriendBuddyStatus (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
  * symbols:
- *   func_0216AA70  0x0216AA70  arm  ov009
- *   func_0216A39C  0x0216A39C  arm  ov009
+ *   DWCi_CheckLogin  0x0216AA70  arm  ov009
+ *   DWCi_GetUserData  0x0216A39C  arm  ov009
  *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_02186108  0x02186108  arm  ov009
  *   func_02185FD4  0x02185FD4  arm  ov009
@@ -47,22 +47,22 @@ typedef struct BuddyStatus {
 	unsigned char pad[0xc];
 } BuddyStatus;
 
-extern int func_0216AA70(void);
-extern int func_0216A39C(void);
+extern int DWCi_CheckLogin(void);
+extern int DWCi_GetUserData(void);
 struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02186108(void **connection, int profile, int *index);
 struct GPBuddyStatus;
 extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
 
-int func_0216980C(void *friendData, BuddyStatus *status)
+int DWCi_GetFriendBuddyStatus(void *friendData, BuddyStatus *status)
 {
 	unsigned char ret = 0;
 	int buddyIdx = 0;
 	int profileid;
-	if (stpFriendCnt == 0 || !func_0216AA70())
+	if (stpFriendCnt == 0 || !DWCi_CheckLogin())
 		return 0;
-	profileid = DWC_GetGsProfileId((struct DWCstAccUserData *)func_0216A39C(), friendData);
+	profileid = DWC_GetGsProfileId((struct DWCstAccUserData *)DWCi_GetUserData(), friendData);
 	if (profileid > 0) {
 		if (func_02186108(stpFriendCnt->connection, profileid, &buddyIdx) != 0)
 			goto end;

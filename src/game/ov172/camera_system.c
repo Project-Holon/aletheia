@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02034F84 0x02034F84 arm
+ *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   OS_Terminate 0x02088234 arm
  *   OS_EnableIrqMask 0x02084968 arm
@@ -41,7 +41,7 @@
  *   MI_IsNDmaBusy  0x0272FC90  arm
  *   MI_StopNDma  0x0272FCE0  arm
  *   MI_Camera_NDmaRecvAsync  0x0272FE54  arm
- *   func_02034FB8 0x02034FB8 arm
+ *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_GetMemberSize 0x020490A8 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
@@ -97,7 +97,7 @@ typedef struct Camera {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_02034F84(int);
+extern void UI_SetKeepAwakeFlagsGlobal(int);
 
 extern int OS_IsRunOnTwl(void);
 
@@ -147,7 +147,7 @@ void DSPi_OpenStaticComponentG711Core(void *);
 
 int DSPi_LoadG711Core(void *, int, int);
 
-extern void func_02034FB8(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 
 extern u32 func_020307B0(void *p);
 
@@ -271,7 +271,7 @@ Camera *CTVT_CAMERA_Create(int id)
     p->skipNextFrame = z;
     p->frameCb = 0;
     p->frameCbArg = z;
-    func_02034F84(0x40);
+    UI_SetKeepAwakeFlagsGlobal(0x40);
     if (OS_IsRunOnTwl() == 1) {
         r = CAMERA_InitCore();
         if (r == 0) r = CAMERA_I2CInitCore(3);
@@ -343,7 +343,7 @@ void CTVT_CAMERA_Delete(Camera *p)
     if (OS_IsRunOnTwl() == 1) CAMERA_EndCore();
     CTVT_CAMERA_FreeShutterSound(p);
     CTVT_CAMERA_FreeFrames(p);
-    func_02034FB8(0x40);
+    UI_ClearKeepAwakeFlagsGlobal(0x40);
     func_020307B0(p);
     g_021C88E0 = 0;
 }

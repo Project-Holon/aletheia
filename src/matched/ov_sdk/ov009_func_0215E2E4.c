@@ -15,7 +15,7 @@
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
  *   CPS_SocGetEport  0x0215A970  arm  ov009
- *   func_0215CF98  0x0215CF98  arm  ov009
+ *   SOCLi_ExecCommandPacketInSendPipe  0x0215CF98  arm  ov009
  *   func_0215E450  0x0215E450  arm  ov009
  */
 
@@ -67,7 +67,7 @@ struct SOCLiSocketSendCommandPipe {
 extern struct SOCLiCommandPacket *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 extern unsigned short CPS_SocGetEport(void);
-extern int func_0215CF98(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
+extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
 extern int func_0215E450(void *arg);
 
 static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
@@ -123,7 +123,7 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
     } else {
         command->remote_ip = 0;
     }
-    result = func_0215CF98(send_pipe->exe_socket, command);
+    result = SOCLi_ExecCommandPacketInSendPipe(send_pipe->exe_socket, command);
     if (result) {
         send_pipe->buffer.in = saved_send_buffer_in;
         buffer_len = 0;

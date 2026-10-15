@@ -17,6 +17,7 @@
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
  *   PMS_DRAW_SetFollowBgScroll  0x0202DE68  thumb  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   BG_SYS_GetBuf  0x0204162C  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ extern void func_021E7B68(char *p, unsigned idx, unsigned owner, unsigned heap);
 extern void func_021E7C3C(char *p, char *q, void *x, void *data, unsigned heap);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u32 func_0204162C(int);
+extern u32 BG_SYS_GetBuf(int);
 extern void func_020410D0(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
 extern void func_020409B4(u32);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -85,7 +86,7 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
         break;
     case 0:
     case 1:
-        func_020410D0(2, 0, 0, 0x20, 2, func_0204162C(2), 0, 0x18, 0x20, 0x20);
+        func_020410D0(2, 0, 0, 0x20, 2, BG_SYS_GetBuf(2), 0, 0x18, 0x20, 0x20);
         switch (style) {
         case 0:
             func_020413B0(2, 0, 0, 0x20, 2, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5E2C
+ * function: WF2DMAP_SCRDRAW_GetTileSource
  * address: 0x021C5E2C
  * packet: pkt_ov127_021C5E2C
  * region: ov127
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-char *func_021C5E2C(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out)
+char *WF2DMAP_SCRDRAW_GetTileSource(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out)
 {
     u16 offset;
     switch(mode) {

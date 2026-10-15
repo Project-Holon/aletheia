@@ -8,19 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  */
 
 typedef unsigned int u32;
 struct BgTemplate;
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32 which);
 extern void func_020409B4(u32 index);
 
 void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type)
 {
-    func_0203FCA0(bgId, tmpl, type);
+    BG_SYS_InitBgLayer(bgId, tmpl, type);
     func_02040588(bgId, 1);
     func_020414AC(bgId);
     func_020409B4(bgId);

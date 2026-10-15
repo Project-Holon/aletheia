@@ -1,5 +1,5 @@
 /*
- * function: func_021D45BC
+ * function: INTRUDE_COMM_VIEW_ResetRowSlot
  * address: 0x021D45BC
  * packet: pkt_ov122_021D45BC
  * region: ov122
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);extern void func_0201F7A8(void *,u32);extern void BMP_WIN_Delete(void *);extern void func_02041B6C(u32);
-void func_021D45BC(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));func_0201F7A8(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;func_02041B6C(7);}
+void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));func_0201F7A8(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;func_02041B6C(7);}

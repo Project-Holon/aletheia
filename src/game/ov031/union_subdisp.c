@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   func_02030734  0x02030734  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -57,11 +57,11 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_0203FCA0  0x0203FCA0  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02049EF4  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_02049B68  0x02049B68  arm
@@ -71,8 +71,8 @@
  *   sUnionSubdispBgTemplate6     0x021F1070  data  ov031  a4
  *   sUnionSubdispBgTemplate7     0x021F1090  data  ov031  a4
  *   func_020403F4 0x020403F4 arm
- *   func_0203FA08  0x0203FA08  arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -133,7 +133,7 @@ typedef struct VecFx32 {
 
 struct BgTemplate;
 
-extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void *func_020490F4(u32 id, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
@@ -167,19 +167,19 @@ extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *printSys);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void *func_02049EF4(void *archive, u32 a, u32 b, void **out, u16 heapId);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(unsigned int);
-extern u32 func_0203FA08(u32 a, u32 b, u32 c);
-extern void func_0203FB44(u32, u32, u32);
+extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
+extern void BG_SYS_DeleteHalf(u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct ClactRes *CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -353,7 +353,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     u32 i;
     u32 winOut;
 
-    gameComm = func_02012138(gameSystem);
+    gameComm = ICA_ANIME_GetField24(gameSystem);
     work = func_02030734(UNION_SUBDISP_HEAP_ID, 0x80, 1, sUnionSubdispFileName, 0x10F);
     work->gameSystem = gameSystem;
     archive = func_020490F4(0x59, UNION_SUBDISP_HEAP_ID);
@@ -402,7 +402,7 @@ void UNION_SUBDISP_Delete(UnionSubdispWork *work)
 {
     UnionRoomWork *unionWork;
 
-    unionWork = GAME_COMM_GetWork(func_02012138(work->gameSystem));
+    unionWork = GAME_COMM_GetWork(ICA_ANIME_GetField24(work->gameSystem));
     if (unionWork != 0)
         unionWork->talkCancel = 0;
     PMS_DRAW_Delete(work->pmsDraw);
@@ -424,7 +424,7 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
 {
     int i;
 
-    GAME_COMM_GetWork(func_02012138(work->gameSystem));
+    GAME_COMM_GetWork(ICA_ANIME_GetField24(work->gameSystem));
     GFL_NET_WM_ICON_EasyObjWindowOn();
     if (mode == 1)
         REG_DB_BLDCNT_SUB = 0;
@@ -455,7 +455,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
     UnionMySituation *mySituation;
     int touched;
 
-    gameComm = func_02012138(work->gameSystem);
+    gameComm = ICA_ANIME_GetField24(work->gameSystem);
     unionWork = GAME_COMM_GetWork(gameComm);
     if (unionWork != 0) {
         mySituation = &unionWork->mySituation;
@@ -538,15 +538,15 @@ void UNION_SUBDISP_InitBgs(UnionSubdispWork *work, void *archive)
     u8 *palData;
     void *palFile;
 
-    func_0203FCA0(5, (const struct BgTemplate *)sUnionSubdispBgTemplate5, 0);
-    func_0203FCA0(6, (const struct BgTemplate *)sUnionSubdispBgTemplate6, 0);
-    func_0203FCA0(7, (const struct BgTemplate *)sUnionSubdispBgTemplate7, 0);
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)sUnionSubdispBgTemplate5, 0);
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)sUnionSubdispBgTemplate6, 0);
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)sUnionSubdispBgTemplate7, 0);
     func_02082A7C(0, UNION_SUBDISP_VRAM_SUB_BG, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     func_02049658(archive, 0xF, 7, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
     func_020498F4(archive, 0x11, 7, 0, 0x800, 0, UNION_SUBDISP_HEAP_ID);
-    palette = (u16 *)func_0204162C(6);
+    palette = (u16 *)BG_SYS_GetBuf(6);
     palFile = func_02049EF4(archive, 0x12, 0, (void **)&palData, UNION_SUBDISP_HEAP_ID);
     MI_CpuCopy8(palData + 0xC, palette, 0x1C0);
     func_020307B0(palFile);
@@ -587,10 +587,10 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
     int i;
 
     archive = func_020490F4(0x53, UNION_SUBDISP_HEAP_ID);
-    charOffset = func_0203FA08(5, 0x80, 1);
+    charOffset = BG_SYS_CreateRun(5, 0x80, 1);
     work->bgCharOffset = charOffset;
     func_02049658(archive, 0x1C, 5, charOffset, 0x80, 0, UNION_SUBDISP_HEAP_ID);
-    screen = (u16 *)func_0204162C(5);
+    screen = (u16 *)BG_SYS_GetBuf(5);
     screenFile = func_02049EF4(archive, 0x1D, 0, (void **)&screenData, UNION_SUBDISP_HEAP_ID);
     MI_CpuCopy8((u16 *)(screenData + 0xC) + 0x2A0, screen + 0x2A0, 0xC0);
     func_020307B0(screenFile);
@@ -603,7 +603,7 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
 
 void UNION_SUBDISP_FreeFrameBgChar(UnionSubdispWork *work)
 {
-    func_0203FB44(5, work->bgCharOffset, 128);
+    BG_SYS_DeleteHalf(5, work->bgCharOffset, 128);
 }
 
 
@@ -799,7 +799,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     struct PrintSys *printSys;
     int offset;
 
-    screen = (u16 *)func_0204162C(UNION_SUBDISP_BG_CHAT);
+    screen = (u16 *)BG_SYS_GetBuf(UNION_SUBDISP_BG_CHAT);
     offset = (lineNo * UNION_SUBDISP_LINE_COPY_STRIDE) << 1;
     palette = UNION_SUBDISP_GetLinePalette(entry);
     MI_CpuCopy8(screen, (u8 *)screen + offset, UNION_SUBDISP_LINE_COPY_SIZE);
@@ -894,7 +894,7 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
     RowOffset destOffset;
     RowOffset sourceOffset;
 
-    screen = (u16 *)func_0204162C(UNION_SUBDISP_BG_CHAT);
+    screen = (u16 *)BG_SYS_GetBuf(UNION_SUBDISP_BG_CHAT);
     destOffset = dstLine * UNION_SUBDISP_LINE_COPY_STRIDE;
     destOffset <<= 1;
     sourceOffset = srcLine * UNION_SUBDISP_LINE_COPY_STRIDE;
@@ -1209,7 +1209,7 @@ int UNION_SUBDISP_SetLinePalette(UnionSubdispWork *unused, int lineNo, int highl
     u16 *screen;
     int palette;
 
-    screen = (u16 *)func_0204162C(UNION_SUBDISP_BG_CHAT);
+    screen = (u16 *)BG_SYS_GetBuf(UNION_SUBDISP_BG_CHAT);
     switch ((u16)(screen[lineNo * UNION_SUBDISP_LINE_COPY_STRIDE] >> 12)) {
     case 0:
     case 1:

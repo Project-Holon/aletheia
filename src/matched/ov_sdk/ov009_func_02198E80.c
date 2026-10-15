@@ -12,7 +12,7 @@
  * sdk:      DetermineNatType (libdwcgsnatneg.TWL.HYB.a natify.o)
  *
  * symbols:
- *   func_02091588  0x02091588  arm
+ *   abs  0x02091588  arm
  *
  * abs is declared __attribute__((const)): the object keeps ipRestricted and
  * portRestricted in registers across every abs call, which a plain extern
@@ -43,7 +43,7 @@ typedef struct _NAT {
     int qr2Compatible;               /* 0xD4 */
 } NAT;
 
-extern int func_02091588(int x) __attribute__((const));
+extern int abs(int x) __attribute__((const));
 
 int func_02198E80(NAT *nat)
 {
@@ -60,19 +60,19 @@ int func_02198E80(NAT *nat)
         nat->natType = firewall_only;
     else {
         if (!nat->ipRestricted && !nat->portRestricted
-            && func_02091588(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
+            && abs(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
             nat->natType = symmetric;
             nat->promiscuity = promiscuous;
         } else if (nat->ipRestricted && !nat->portRestricted
-                   && func_02091588(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
+                   && abs(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
             nat->natType = symmetric;
             nat->promiscuity = port_promiscuous;
         } else if (!nat->ipRestricted && nat->portRestricted
-                   && func_02091588(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
+                   && abs(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
             nat->natType = symmetric;
             nat->promiscuity = ip_promiscuous;
         } else if (nat->ipRestricted && nat->portRestricted
-                   && func_02091588(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
+                   && abs(nat->mappings[2].publicPort - nat->mappings[1].publicPort) >= 1) {
             nat->natType = symmetric;
             nat->promiscuity = not_promiscuous;
         } else if (nat->portRestricted)

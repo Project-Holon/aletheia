@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207608C",
+   "name": "CARDi_InitResourceLock",
    "address": "0x0207608C",
    "kind": "sdk",
    "region": "arm9",

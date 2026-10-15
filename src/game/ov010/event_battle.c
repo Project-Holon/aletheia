@@ -89,8 +89,8 @@
  *   d_021EFDAC     0x021EFDAC  data  ov093
  *   d_021B9D94     0x021B9D94  data  ov092
  *   g_0214624C     0x0214624C  data
- *   func_0202A230   0x0202A230  thumb
- *   func_0202A3FC   0x0202A3FC  thumb
+ *   TPOKE_DATA_GetRecordField   0x0202A230  thumb
+ *   TPOKE_DATA_GetTrainerKind   0x0202A3FC  thumb
  *   d_021725C0     0x021725C0  data
  *   GAME_BEACON_SEARCH_SetBattlePokeStart  0x0216505C  thumb  ov010
  *   GAME_BEACON_SEARCH_SetBattlePokeWin  0x02165078  thumb  ov010
@@ -260,8 +260,8 @@ extern u32 func_021882DC(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188354(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188390(void (*a)(void), void (*b)(void), u32 c);
 extern void ENCEFF_Start(struct GameSystem *c, u32 x, int idx);
-extern u32 func_0202A230(void *a, u32 idx);
-extern u8 func_0202A3FC(u32 key);
+extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+extern u8 TPOKE_DATA_GetTrainerKind(u32 key);
 extern int GAME_BEACON_SEARCH_SetBattlePokeStart(int a0);
 extern int GAME_BEACON_SEARCH_SetBattlePokeWin(int a0);
 extern void GAME_BEACON_SEARCH_SetPokeEvent(u16 species);
@@ -740,7 +740,7 @@ int EVENT_BATTLE_GetBattleKindClass(void *battleKind)
     int r = 1;
     int v;
 
-    v = func_0202A3FC(func_0202A230(battleKind, 1));
+    v = TPOKE_DATA_GetTrainerKind(TPOKE_DATA_GetRecordField(battleKind, 1));
 
     if (v == 0xC || v == 9)
         return 0;

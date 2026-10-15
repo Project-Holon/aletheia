@@ -1,5 +1,5 @@
 /*
- * function: func_02090BC4
+ * function: WM_SetWEPKey
  * address:  0x02090BC4
  * packet:   pkt_02090BC4
  * region:   arm9
@@ -63,7 +63,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_02090BC4(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
+WMErrCode WM_SetWEPKey(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
 {
     WMErrCode result;
 

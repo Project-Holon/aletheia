@@ -1,5 +1,5 @@
 /*
- * function: func_0205C8E0
+ * function: DWC_ProcessInet
  * address:  0x0205C8E0
  * packet:   pkt_0205C8E0
  * region:   arm9
@@ -14,7 +14,7 @@
  * symbols:
  *   DWC_AC_ProcessGetWDSInfo 0x0205D98C arm
  *   DWC_AC_CleanupGetWDSInfo 0x0205DC74 arm
- *   func_0205C81C 0x0205C81C arm
+ *   DWC_DebugConnectInetExAsync 0x0205C81C arm
  *   DWCi_AC_InvalidatePriorityWPA 0x0205C018 arm
  *   DWC_AC_Process 0x0205BC78 arm
  *   WCM_GetPhase 0x021656A0 arm
@@ -52,12 +52,12 @@ extern struct INETBSS g_02146AD4;
 
 extern int DWC_AC_ProcessGetWDSInfo(void);
 extern void DWC_AC_CleanupGetWDSInfo(void);
-extern void func_0205C81C(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
+extern void DWC_DebugConnectInetExAsync(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
 extern void DWCi_AC_InvalidatePriorityWPA(void);
 extern int DWC_AC_Process(void);
 extern long WCM_GetPhase(void);
 
-void func_0205C8E0(void)
+void DWC_ProcessInet(void)
 {
     if (g_02146AD4.stpInetCntl == 0) {
         return;
@@ -69,7 +69,7 @@ void func_0205C8E0(void)
         return;
     case 2:
         DWC_AC_CleanupGetWDSInfo();
-        func_0205C81C(((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.ssid, ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.wep,
+        DWC_DebugConnectInetExAsync(((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.ssid, ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.wep,
                       ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.wepMode, ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.mtu,
                       ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.apSpotInfo, 8);
         DWCi_AC_InvalidatePriorityWPA();

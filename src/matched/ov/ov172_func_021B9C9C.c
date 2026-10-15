@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
- *   func_021B80E4 0x021B80E4 thumb ov172
+ *   CTVT_COMM_GetNetMode 0x021B80E4 thumb ov172
  *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
  *   CTVT_TALK_ShowMessage 0x021B9C1C thumb ov172
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 COMM_TVT_SYS_GetComm(void *);
-extern u32 func_021B80E4(int, char *);
+extern u32 CTVT_COMM_GetNetMode(int, char *);
 extern u32 COMM_TVT_SYS_GetSelfSlot(void *p);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *);
 extern void CTVT_TALK_ShowMessage(void *p, char *q, int id);
@@ -33,7 +33,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 void CTVT_TALK_OpenConfirmMenu(void *p, char *q)
 {
-    if (func_021B80E4((int)p, (char *)COMM_TVT_SYS_GetComm(p)) == 5) {
+    if (CTVT_COMM_GetNetMode((int)p, (char *)COMM_TVT_SYS_GetComm(p)) == 5) {
         CTVT_TALK_ShowMessage(p, q, 32);
     } else if (COMM_TVT_SYS_GetSelfSlot(p) == 0 && COMM_TVT_SYS_GetMemberCount(p) > 1) {
         CTVT_TALK_ShowMessage(p, q, 33);

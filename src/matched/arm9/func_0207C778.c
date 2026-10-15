@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207C8A0  0x0207C8A0  arm
+ *   FX_InvAsync  0x0207C8A0  arm
  *   func_0207C86C  0x0207C86C  arm
  */
 
 typedef long fx32;
 
-extern void func_0207C8A0(fx32 denom);
+extern void FX_InvAsync(fx32 denom);
 typedef unsigned int   u32;
 extern u32 func_0207C86C(void);
 
 fx32 FX_Inv(fx32 v)
 {
-    func_0207C8A0(v);
+    FX_InvAsync(v);
     return func_0207C86C();
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C9468",
+   "name": "ZUKAN_SEARCH_ENGINE_Filter",
    "address": "0x021C9468",
    "kind": "game",
    "region": "ov212",

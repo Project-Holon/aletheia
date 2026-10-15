@@ -16,7 +16,7 @@
  * symbols:
  *   UI_IsPowerConnected  0x020353B0  arm
  *   PM_SetBackLight 0x0208BDD8  arm
- *   sub_02035224   0x02035224  arm
+ *   UI_GetContext   0x02035224  arm
  *   UI_IsSleepInhibited   0x020353F8  arm
  *   TOUCHPANEL_AutoSamplingStop   0x02035E08  arm
  *   func_0203524C   0x0203524C  arm
@@ -71,7 +71,7 @@ struct UiCtx {
     u8      backlightState;
     u8      inputMode;
     u8      frameRate;
-    u8      pendingInputFlag;
+    u8      frameCounter;
     u8      powerState;
     u8      mode[3];
     u8      suspended;
@@ -105,7 +105,7 @@ extern void func_020352AC(struct UiCtx *ui);
 extern void func_02035268(struct UiCtx *ui);
 extern void TOUCHPANEL_AutoSamplingRestart(void);
 extern void func_02035284(struct UiCtx *ui);
-extern struct UiCtx *sub_02035224(void);
+extern struct UiCtx *UI_GetContext(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
 extern u32 CARD_TryWaitBackupAsync(void);
 extern void OS_ResetSystem(u32 param);
@@ -350,7 +350,7 @@ void UI_SetBottomBackLight(u32 backlightState)
 
 
 /*
- * The lid/sleep service, one of the five sub_02034EF8 runs per frame.  Bit
+ * The lid/sleep service, one of the five UI_Main runs per frame.  Bit
  * 15 of the halfword at 0x02FFFFA8 is the lid-closed flag; when it is set
  * and the veto predicate UI_IsSleepInhibited says no, the machine goes to sleep
  * with the whole shutdown/wake sequence around it, and when the predicate
@@ -372,7 +372,7 @@ void UI_SetBottomBackLight(u32 backlightState)
  * split can help, because the site is inside the only function that needs
  * it.
  *
- * This is what caps src/pending/sub_02034EF8.c as well.
+ * This is what caps src/pending/UI_Main.c as well.
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/UI_ServiceLidSleep.c \
@@ -382,7 +382,7 @@ void UI_ServiceLidSleep(void)
 {
     struct UiCtx *ui;
 
-    ui = sub_02035224();
+    ui = UI_GetContext();
 
     if ((*(u16 *)0x02FFFFA8 & 0x8000) >> 15) {
         if (UI_IsSleepInhibited(ui) == 0) {
@@ -459,7 +459,7 @@ void UI_SoftReset(u32 resetParam)
 {
     struct UiCtx *ui;
 
-    ui = sub_02035224();
+    ui = UI_GetContext();
     GXx_SetMasterBrightness_(0x0400006C, 0x10);
     GXx_SetMasterBrightness_(0x0400006C + 0x1000, 0x10);
     GFL_NET_Exit(0);
@@ -591,7 +591,7 @@ void UI_SetInputMode(u8 value)
 
 void UI_ClearPendingInputFlagOf(struct UiCtx *ui)
 {
-    ui->pendingInputFlag = 0;
+    ui->frameCounter = 0;
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BADC8
+ * function: COMM_BTL_DEMO_GRAPHIC_InitG3d
  * address: 0x021BADC8
  * packet: pkt_ov213_021BADC8
  * region: ov213
@@ -27,7 +27,7 @@ extern const unsigned char d_020A1EB8[];
 extern void func_021BAABC(void);
 extern void G3D_SYSTEM_Init(u32 a,u32 b,u32 c,u32 d,u16 fifo,unsigned heap,void (*setup)(void));
 extern u32 *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Vec3 *i,Vec3 *j,Vec3 *k,unsigned heap);
-void func_021BADC8(u32 **p,unsigned heap)
+void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap)
 {
     Vec3 copy;
     G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021BAABC);

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02009448  0x02009448  thumb
  *   func_020092EC  0x020092EC  thumb
- *   func_0200C2F0  0x0200C2F0  thumb
+ *   BEACON_SetSlotState  0x0200C2F0  thumb
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
@@ -39,7 +39,7 @@ struct Sub02009210Obj;
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 struct Blk34;
 struct Menu;
-extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
+extern void BEACON_SetSlotState(struct Blk34 *p, u32 i, u8 v);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
@@ -61,7 +61,7 @@ int STARTMENU_StateSetup(int *p)
 {
     unsigned short z;
     if (func_020092EC((const struct Sub02009210Obj *)func_02009448((void *)p[0])) == 1)
-        func_0200C2F0((struct Blk34 *)p[2], 2, 2);
+        BEACON_SetSlotState((struct Blk34 *)p[2], 2, 2);
     z = 0;
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);

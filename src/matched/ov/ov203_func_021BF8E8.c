@@ -12,7 +12,7 @@
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_020490F4 0x020490F4 arm
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  */
 #include "../include/Obj01776.h"
 struct Tcbl;struct GfFont;
@@ -21,5 +21,5 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned 
 extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern signed char func_02012FFC(void);
-void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=TCBL_Create(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=GF_FONT_Create(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=func_02012FFC();}
+extern signed char MSG_SPEED_GetWait(void);
+void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=TCBL_Create(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=GF_FONT_Create(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=MSG_SPEED_GetWait();}

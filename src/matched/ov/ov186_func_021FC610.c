@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_020403F4 0x020403F4 arm
- *   func_0207D4B0 0x0207D4B0 arm
+ *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   d_0220099C 0x0220099C data a4
  */
 typedef unsigned char u8;
@@ -19,5 +19,5 @@ typedef unsigned int u32;
 typedef struct {u32 id;u8 rest[40];} Record;
 extern const Record d_0220099C[];
 extern void func_020403F4(u32);
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-void BR_GRAPHIC_Begin3d(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+void BR_GRAPHIC_Begin3d(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}GX_SetGraphicsMode(1,0,1);}

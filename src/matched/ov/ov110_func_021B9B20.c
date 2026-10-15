@@ -17,7 +17,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj05284.h"
@@ -34,7 +34,7 @@ extern void CLACT_ReleaseCharacter(unsigned int);
 extern void CLACT_ReleaseCellAnim(unsigned int);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void PMS_INPUT_VIEW_Delete(u8 *p) {
@@ -60,7 +60,7 @@ void PMS_INPUT_VIEW_Delete(u8 *p) {
         }
         CLACT_ExitSystem();
         BMP_WIN_Exit();
-        func_0203F9B4();
+        BG_SYS_Delete();
         func_020307B0(p);
     }
 }

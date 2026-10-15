@@ -14,17 +14,17 @@
  *   DWCs_UpdateConnectionKeepAliveTime  0x02177E88 arm
  *   DWCs_HandleReliableMessage          0x0217793C arm
  *   DWCs_HandleUnreliableMessage        0x02177A4C arm
- *   g_021AB180                          0x021AB180 data
+ *   gDwcTransInfo                          0x021AB180 data
  */
 
-extern char g_021AB180[];
+extern char gDwcTransInfo[];
 extern void DWCs_UpdateConnectionKeepAliveTime(void *connection);
 extern void DWCs_HandleReliableMessage(void *connection, unsigned char *message, int size);
 extern void DWCs_HandleUnreliableMessage(void *connection, void *message, int size);
 
 void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable)
 {
-    if (*(char **)g_021AB180 == 0 || message == 0 || size == 0)
+    if (*(char **)gDwcTransInfo == 0 || message == 0 || size == 0)
         return;
     DWCs_UpdateConnectionKeepAliveTime(connection);
     if (reliable)

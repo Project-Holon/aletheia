@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020409E0  0x020409E0  arm
+ *   BG_SYS_PushTileSource  0x020409E0  arm
  */
 
 typedef unsigned int u32;
@@ -23,7 +23,7 @@ typedef struct {
     char f18[0xC];
 } Sub;
 
-extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
+extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
 void FLD_FACEUP_VBlankUpload(int a0, char *p)
 {
@@ -31,14 +31,14 @@ void FLD_FACEUP_VBlankUpload(int a0, char *p)
     Sub *r;
 
     if (q->f4 != 0) {
-        func_020409E0(3, q->fC, 0xC, 0x10D);
-        func_020409E0(3, q->f18, 0xC, 0x12D);
+        BG_SYS_PushTileSource(3, q->fC, 0xC, 0x10D);
+        BG_SYS_PushTileSource(3, q->f18, 0xC, 0x12D);
         q->f4 = 0;
     }
     r = (Sub *)(p + 0x4C);
     if (r->f4 != 0) {
-        func_020409E0(3, r->fC, 8, 0x16E);
-        func_020409E0(3, r->f18, 8, 0x18E);
+        BG_SYS_PushTileSource(3, r->fC, 8, 0x16E);
+        BG_SYS_PushTileSource(3, r->f18, 8, 0x18E);
         r->f4 = 0;
     }
 }

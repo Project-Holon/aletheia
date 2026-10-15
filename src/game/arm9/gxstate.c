@@ -1,6 +1,6 @@
 /*
  * file:     gxstate.c
- * function: func_02080CC4
+ * function: GX_InitGXState
  * address:  0x02080CC4
  * packet:   pkt_02080CC4
  * region:   arm9
@@ -64,7 +64,7 @@ typedef struct {
 
 extern GX_State gGXState;
 
-void func_02080CC4(void)
+void GX_InitGXState(void)
 {
     gGXState.vramCnt.lcdc = 0;
     gGXState.vramCnt.bg = 0;

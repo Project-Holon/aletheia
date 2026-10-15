@@ -40,7 +40,7 @@
  *   beacon_status_File  0x020A74D0  data
  *   _PokeTypePltOffset  0x0209FCF8  data
  *   _WazaKindPltOffset  0x0209FCEC  data
- *   func_0204162C  0x0204162C  arm
+ *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02049EF4  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
@@ -230,7 +230,7 @@ extern void STRBUF_SetString(struct StrBuf *str, const u16 *code);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 func_020307B0(void *memory);
-extern void *func_0204162C(int bgFrame);
+extern void *BG_SYS_GetBuf(int bgFrame);
 extern void *func_02049EF4(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
@@ -556,7 +556,7 @@ void func_02027634(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffse
     void *fileBuf;
     int i;
 
-    scrn = (BarScreen *)func_0204162C(bgFrame);
+    scrn = (BarScreen *)BG_SYS_GetBuf(bgFrame);
     fileBuf = func_02049EF4(arc, 0x1d, 0, &file, heapId);
     MI_CpuCopy8(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
     func_020307B0(fileBuf);

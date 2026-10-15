@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02193734  0x02193734  arm  ov009
- *   func_0217F1E0  0x0217F1E0  arm  ov009
+ *   goastrdup  0x0217F1E0  arm  ov009
  *   func_021842D0  0x021842D0  arm  ov009
  *   g_021A4D90  0x021A4D90  data
  *   g_021A4DA4  0x021A4DA4  data
@@ -26,7 +26,7 @@ struct GPIKey {
 };
 
 extern void func_02193734(int *p, int b);
-extern char *func_0217F1E0(char *src);
+extern char *goastrdup(char *src);
 extern void func_021842D0(void *array, void *newElem, int (*comparator)(void *, void *));
 extern int func_0218D864(void *elem1, void *elem2);
 extern char g_021A4D90[];
@@ -44,8 +44,8 @@ int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyV
         func_02193734((int *)connection, (int)g_021A4DA4);
         return 2;
     }
-    aKey.name = func_0217F1E0(theKeyName);
-    aKey.value = func_0217F1E0(theKeyValue);
+    aKey.name = goastrdup(theKeyName);
+    aKey.value = goastrdup(theKeyValue);
     func_021842D0(keys, &aKey, func_0218D864);
     return 0;
 }

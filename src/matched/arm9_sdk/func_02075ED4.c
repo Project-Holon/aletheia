@@ -1,5 +1,5 @@
 /*
- * function: func_02075ED4
+ * function: CARDi_LockResource
  * address:  0x02075ED4
  * packet:   pkt_02075ED4
  * region:   arm9
@@ -80,7 +80,7 @@ extern void OS_Terminate(void);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern u32 OS_RestoreInterrupts(u32 state);
 
-void func_02075ED4(s32 owner, CARDTarget target)
+void CARDi_LockResource(s32 owner, CARDTarget target)
 {
     CARDiCommon *const p = &cardi_common;
     u32 bak_psr = OS_DisableInterrupts();

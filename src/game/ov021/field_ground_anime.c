@@ -39,7 +39,7 @@
  *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_021A80FC  0x021A80FC  thumb  ov021
  *   ENTRANCE_CAMERA_Create  0x021BDC94  thumb  ov021
  *   func_021A810C  0x021A810C  thumb  ov021
@@ -72,7 +72,7 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELD_PLAYER_GetMoveOffsetInDir  0x021A3484  thumb  ov021
- *   func_0207CEE4  0x0207CEE4  arm
+ *   VEC_MultAdd  0x0207CEE4  arm
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
  *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
@@ -339,7 +339,7 @@ extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *task);
-extern void *func_02012A30(void *gameData);
+extern void *GAME_DATA_GetBgmInfo(void *gameData);
 extern void *ENTRANCE_CAMERA_Create(void *p);
 extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
 
@@ -367,7 +367,7 @@ extern u16 FIELD_PLAYER_GetDirDisp(void *player);
 extern void FIELD_PLAYER_GetPos(void *player, VecFx32 *out);
 extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
 extern void FIELD_PLAYER_GetMoveOffsetInDir(void *player, int moveMode, VecFx32 *out);
-extern void func_0207CEE4(int scale, VecFx32 *from, VecFx32 *to, VecFx32 *out);
+extern void VEC_MultAdd(int scale, VecFx32 *from, VecFx32 *to, VecFx32 *out);
 extern void FLDMMDL_MOVE_GetMapHeight(void *map, VecFx32 *pos, int *heightOut);
 extern void *FIELDMAP_GetNogridMapper(void *fieldMap);
 extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *fieldMapSub);
@@ -949,7 +949,7 @@ void *func_021A7B20(GroundAnimeArgs *args)
     task = func_020122C0(args->gameSystem, 0, func_021A7CE8, 0x3C);
     w = func_020124E8(task);
     w->args = args;
-    w->bgmInfo = (void *)func_02012A30(args->gameData);
+    w->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
     w->buildModel = 0;
     w->frameCounter = 0;
     w->playerMoveMode = func_021A80FC(args->fieldMap);
@@ -1147,7 +1147,7 @@ void *func_021A7E3C(GroundAnimeArgs *args)
     task = func_020122C0(args->gameSystem, 0, func_021A7F38, 0x3C);
     work = func_020124E8(task);
     work->args = args;
-    work->bgmInfo = func_02012A30(args->gameData);
+    work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
     work->buildModel = 0;
     work->frameCounter = 0;
     work->playerMoveMode = func_021A80FC(args->fieldMap);
@@ -1336,7 +1336,7 @@ void func_021A8140(void *fieldMap, VecFx32 *out)
     moveMode = FIELD_PLAYER_GetDirDisp(player);
     FIELD_PLAYER_GetPos(player, &playerPos);
     FIELD_PLAYER_GetMoveOffsetInDir(player, moveMode, &frontPos);
-    func_0207CEE4(0x10000, &frontPos, &playerPos, &entryPos);
+    VEC_MultAdd(0x10000, &frontPos, &playerPos, &entryPos);
     FLDMMDL_MOVE_GetMapHeight(FIELD_PLAYER_GetMmdl(player), &entryPos, &height);
     entryPos.y = height;
     *out = entryPos;

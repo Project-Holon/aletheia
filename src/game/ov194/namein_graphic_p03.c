@@ -67,13 +67,13 @@
  *   TCBL_Create  0x0203101C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F164 0x0201F164 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   STRBUF_Clone 0x02045874 arm
  *   STRBUF_Clear 0x0204581C arm
  *   NAMEIN_SETUP_CopyName 0x0216C0D4 thumb ov010
@@ -139,13 +139,13 @@
  *   func_021F2150 0x021F2150 thumb ov194
  *   func_021F233C 0x021F233C thumb ov194
  *   func_021F235C 0x021F235C thumb ov194
- *   func_021F5370 0x021F5370 thumb ov194
- *   func_021F54CC 0x021F54CC thumb ov194
+ *   PROF_WORD_FindMatch 0x021F5370 thumb ov194
+ *   PROF_WORD_CheckDigitCount 0x021F54CC thumb ov194
  *   func_021F2394 0x021F2394 thumb ov194
  *   func_021F23B8 0x021F23B8 thumb ov194
  *   func_021F1FB4 0x021F1FB4 thumb ov194
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_0200C0FC 0x0200C0FC thumb
+ *   BEACON_SetInputFlag 0x0200C0FC thumb
  *   SAVE_CONTROL_INTR_Pause 0x021BD368 thumb ov088
  *   SAVE_CONTROL_INTR_IsPausedOrFinished 0x021BD380 thumb ov088
  *   func_02030734 0x02030734 arm
@@ -161,10 +161,10 @@
  *   d_021F55D0 0x021F55D0 data a4
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   sub_02040588 0x02040588 arm
  *   d_021F55A4 0x021F55A4 data a4
@@ -194,6 +194,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
 #include "../../matched/include/Obj00733.h"
 #include "../../matched/include/Obj24905.h"
@@ -373,7 +374,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *TCBL_Create(int, int, int, int);
 extern void PRINTSYS_PrintStreamDelete(int);
 extern void TCBL_Destroy(struct S02031140 *);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern int NAMEIN_SETUP_IsCanceled(int *);
 extern void NAMEIN_SETUP_CopyName(int *,int);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
@@ -381,10 +382,10 @@ extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b);
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
 extern int PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32  func_020275E4(void);
 extern u32  func_020276A4(void);
 extern u32  func_020276A8(void);
@@ -443,11 +444,11 @@ extern void func_021F233C(char *);
 extern void func_021F235C(char *);
 extern void func_021F2394(unsigned char *p);
 extern void func_021F23B8(char *p, const u16 *q);
-extern int func_021F5370(const u32 *cache, const void *input, u16 heap);
-extern int func_021F54CC(void *,int,int);
+extern int PROF_WORD_FindMatch(const u32 *cache, const void *input, u16 heap);
+extern int PROF_WORD_CheckDigitCount(void *,int,int);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int func_021F1FB4(u8 *p);
-extern void func_0200C0FC(struct Blk34 *p, u32 i, u8 v);
+extern void BEACON_SetInputFlag(struct Blk34 *p, u32 i, u8 v);
 extern void SAVE_CONTROL_INTR_Pause(unsigned char *);
 extern int SAVE_CONTROL_INTR_IsPausedOrFinished(unsigned char *);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
@@ -461,15 +462,15 @@ extern void func_0201DD60(void);
 extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
 extern void func_02030EAC(struct Node *);
 extern void func_0201DD68(void);
-extern void func_0203F8F4(unsigned short);
+extern void BG_SYS_Create(unsigned short);
 extern void BMP_WIN_Init(unsigned short);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(unsigned char, const Bg *, unsigned char);
+extern void BG_SYS_InitBgLayer(unsigned char, const Bg *, unsigned char);
 extern void func_020414AC(unsigned char);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
@@ -1234,7 +1235,7 @@ void func_021F3ED0(unsigned char *p){if(((struct Obj10810 *)p)->f0)PRINTSYS_Prin
 
 void func_021F3EF0(char *p,char *q,int *w,u32 heap)
 {
-    void *set=func_0201EC64(heap);
+    void *set=GF_FONT_Create_EC64(heap);
     if(NAMEIN_SETUP_IsCanceled(w)) func_0201EEF4(set,0,(void *)w[2]);
     else {
         int text=(int)STRBUF_Clone((struct U16Vec *)w[8],heap);
@@ -1247,11 +1248,11 @@ void func_021F3EF0(char *p,char *q,int *w,u32 heap)
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj03900 *)q)->f14)),((struct Obj03900 *)q)->f20);
     STRBUF_Clear(((struct Obj03900 *)q)->f1C);
     func_0201F250(set,((struct Obj03900 *)q)->f1C,(void *)w[3]);
-    ((struct Obj04591 *)p)->f0=PRINTSYS_PrintStream(((struct Obj03900 *)q)->f14,0,0,*(u32 *)&((struct Obj03900 *)q)->f1C,((struct Obj03900 *)q)->f4,func_02012FFC(),((struct Obj04591 *)p)->f4,2,heap,((struct Obj03900 *)q)->f20);
+    ((struct Obj04591 *)p)->f0=PRINTSYS_PrintStream(((struct Obj03900 *)q)->f14,0,0,*(u32 *)&((struct Obj03900 *)q)->f1C,((struct Obj03900 *)q)->f4,MSG_SPEED_GetWait(),((struct Obj04591 *)p)->f4,2,heap,((struct Obj03900 *)q)->f20);
     ((struct Obj04591 *)p)->fE=0;
     *(void (**)(void))(p+8)=(void (*)(void))func_021F46B4;
     ((struct Obj04591 *)p)->fC=60;
-    func_0201ED04(set);
+    WORDSET_DeleteStrbufED04(set);
 }
 
 
@@ -1777,8 +1778,8 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 7: if(func_021F23F8((const u8 *)((int)(p+0x68)))==0) {
         if(func_021F45A8((int)p)==0) {GFL_USE_PlaySeDefaultVolume(0x557);func_021F3D70(p+0x230,8);((struct Obj01287 *)p)->f2C8=1;}
         else {
-            if(func_021F5370(*(u32 * *)&((struct Obj01287 *)p)->f2CC,p+0x68,30)) GFL_USE_PlaySeDefaultVolume(0x557);
-            else if(func_021F54CC(p+0x68,((struct Obj01287 *)p)->f86,30)) {GFL_USE_PlaySeDefaultVolume(0x557);func_021F3D70(p+0x230,9);((struct Obj01287 *)p)->f2C8=1;}
+            if(PROF_WORD_FindMatch(*(u32 * *)&((struct Obj01287 *)p)->f2CC,p+0x68,30)) GFL_USE_PlaySeDefaultVolume(0x557);
+            else if(PROF_WORD_CheckDigitCount(p+0x68,((struct Obj01287 *)p)->f86,30)) {GFL_USE_PlaySeDefaultVolume(0x557);func_021F3D70(p+0x230,9);((struct Obj01287 *)p)->f2C8=1;}
             else {
                 int *q;
                 GFL_USE_PlaySeDefaultVolume(0x54d);func_021F4524(p);q=*(int * *)&((struct Obj01287 *)p)->f2C4;
@@ -1812,7 +1813,7 @@ void func_021F4A5C(unsigned char *a, int unused, char *p)
     unsigned n;
     if (*(void **)(OBJ(p) + 0x28) != 0) {
         n = (unsigned int)func_021F3350((const unsigned char *)(p + 0xFC));
-        func_0200C0FC(*(void **)(OBJ(p) + 0x28), (u32)(*(void **)OBJ(p)), n);
+        BEACON_SetInputFlag(*(void **)(OBJ(p) + 0x28), (u32)(*(void **)OBJ(p)), n);
     }
     if (*(void **)(OBJ(p) + 0x24) != 0) func_021F462C(a, (unsigned)func_021F4AA8);
     else func_021F4634(a);
@@ -1942,13 +1943,13 @@ void func_021F4C0C(void *p, unsigned short heap)
     unsigned id;
     const Entry *e;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)(&d_021F55A4));
     for (; i < 8; i++) {
         id = d_021F5600[i].id;
         e = &d_021F5600[i];
-        func_0203FCA0(id, &e->config, e->type);
+        BG_SYS_InitBgLayer(id, &e->config, e->type);
         func_020414AC(id);
         sub_02040588((unsigned char)id, (unsigned char)e->enabled);
     }
@@ -1967,7 +1968,7 @@ void func_021F4C6C(void *p)
     for (i = 0; i < 8; i++)
         func_020403F4((u8)d_021F5600[i].id);
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p, 0, 4);
 }
 

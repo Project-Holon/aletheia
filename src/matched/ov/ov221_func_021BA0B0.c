@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0B0
+ * function: CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw
  * address: 0x021BA0B0
  * packet: pkt_ov221_021BA0B0
  * region: ov221
@@ -12,4 +12,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021BA0B0(void *a0) { CLACT_DrawSystem(); }
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *a0) { CLACT_DrawSystem(); }

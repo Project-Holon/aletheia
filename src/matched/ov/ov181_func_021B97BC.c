@@ -1,5 +1,5 @@
 /*
- * function: func_021B97BC
+ * function: STAFF_ROLL_RunScript
  * address: 0x021B97BC
  * packet: pkt_ov181_021B97BC
  * region: ov181
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9CC8 0x021B9CC8 thumb ov181
- *   func_021BA5E8 0x021BA5E8 thumb ov181
- *   func_021BA6F0 0x021BA6F0 thumb ov181
+ *   STAFF_ROLL_BlitRow 0x021B9CC8 thumb ov181
+ *   STAFF_ROLL_StepFadeIn 0x021BA5E8 thumb ov181
+ *   STAFF_ROLL_StepFadeOut 0x021BA6F0 thumb ov181
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_021BA2AC 0x021BA2AC thumb ov181
- *   func_021BA390 0x021BA390 thumb ov181
+ *   STAFF_ROLL_StartWipe 0x021BA2AC thumb ov181
+ *   STAFF_ROLL_ScrollWindows 0x021BA390 thumb ov181
  *   d_021BABD0 0x021BABD0 data a4
  */
 #include "../include/Obj01003.h"
@@ -26,19 +26,19 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef int (*Command)(char *,char *);
 extern const Command d_021BABD0[];
-extern void func_021B9CC8(char *);
-extern int func_021BA5E8(char *),func_021BA6F0(char *);
+extern void STAFF_ROLL_BlitRow(char *);
+extern int STAFF_ROLL_StepFadeIn(char *),STAFF_ROLL_StepFadeOut(char *);
 extern int GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_FadeOutBgm(u32);
-extern int func_021BA2AC(u8 *p, int a);
-extern void func_021BA390(char *);
-int func_021B97BC(char *p) {
+extern int STAFF_ROLL_StartWipe(u8 *p, int a);
+extern void STAFF_ROLL_ScrollWindows(char *);
+int STAFF_ROLL_RunScript(char *p) {
     char *row;
     if(((struct Obj01003 *)p)->f2EC==0) {
         for(;;) {
             row=*(char * *)&((struct Obj01003 *)p)->f2D4+((struct Obj01003 *)p)->f2D8*16;
             if(((struct Obj01003 *)p)->f2D8==*(u32 *)((u32)p+((struct Obj01003 *)p)->f2BB*8+0xbc)) {
-                func_021B9CC8(p);
+                STAFF_ROLL_BlitRow(p);
                 (((struct Obj01003 *)p)->f2BB)++;
                 *(u16 *)&((struct Obj01003 *)p)->f2DA=((struct Obj24500 *)row)->f4;
                 ((struct Obj01003 *)p)->f2EC=1;
@@ -59,12 +59,12 @@ int func_021B97BC(char *p) {
         } else if(((struct Obj01003 *)p)->f2D2==1) ((struct Obj01003 *)p)->f2DA-=4;
         else (((struct Obj01003 *)p)->f2DA)--;
         break;
-    case 2: if(func_021BA5E8(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
-    case 3: if(func_021BA6F0(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
+    case 2: if(STAFF_ROLL_StepFadeIn(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
+    case 3: if(STAFF_ROLL_StepFadeOut(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 5:
         if(GFL_USE_IsBgmPlaying()==1) GFL_USE_FadeOutBgm(64);
-        return func_021BA2AC((u8 *)p,2);
+        return STAFF_ROLL_StartWipe((u8 *)p,2);
     }
-    func_021BA390(p);
+    STAFF_ROLL_ScrollWindows(p);
     return 4;
 }

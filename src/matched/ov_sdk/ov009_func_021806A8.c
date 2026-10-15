@@ -1,5 +1,5 @@
 /*
- * function: func_021806A8
+ * function: gsUdpConnectedRoutingCB
  * address:  0x021806A8
  * packet:   pkt_ov009_021806A8
  * region:   ov009
@@ -77,7 +77,7 @@ extern char g_021A393C[];
 extern char g_021A3964[];
 extern char g_021A399C[];
 
-void func_021806A8(void *theConnection, int theResult)
+void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
 {
     GSUdpEngineObject *aUdp;
     int aIndex;

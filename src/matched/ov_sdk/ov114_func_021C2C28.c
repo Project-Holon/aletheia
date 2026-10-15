@@ -20,14 +20,14 @@
  *      MWCC emit four loads then four stores in one solid block (48 concrete
  *      bytes, 20 of them this copy).
  *   2. The two pool globals were swapped: the image's hex table is
- *      `sGhttpHexDigits` and the character-set string handed to func_02094A28 is
+ *      `sGhttpHexDigits` and the character-set string handed to strchr is
  *      `sGhttpUrlSafeChars` (image pool +0x180 = 0x021CEEB4 feeding r4, the table
  *      indexed at +0x0E4/+0x0E8; +0x184 = 0x021CED88 feeding r5, the
- *      func_02094A28 argument).  The parked draft had them the other way
+ *      strchr argument).  The parked draft had them the other way
  *      round, which is the last 4 concrete bytes.
  *
  * symbols:
- *   func_02094A28  0x02094A28  arm
+ *   strchr  0x02094A28  arm
  *   ghiAppendCharToBuffer  0x021C0004  arm   ov114
  *   ghiAppendDataToBuffer  0x021BFCEC  arm   ov114
  *   ghiTrySendThenBuffer  0x021C07B8  arm   ov114
@@ -91,7 +91,7 @@ typedef struct Hex4 {
 } Hex4;
 
 typedef unsigned char  u8;
-extern u8 *func_02094A28(const u8 *s, int c);
+extern u8 *strchr(const u8 *s, int c);
 struct Ctx;
 extern int ghiAppendCharToBuffer(struct Ctx *ctx, int ch);
 extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
@@ -121,7 +121,7 @@ GRes ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection *connection)
         if (connection->encrypted != 0)
             writeBuffer = &connection->sendBuffer;
         for (c = string[0]; c != 0; c = string[++i]) {
-            if (func_02094A28((const u8 *)sGhttpUrlSafeChars, c) != 0) {
+            if (strchr((const u8 *)sGhttpUrlSafeChars, c) != 0) {
                 result = ghiAppendCharToBuffer((struct Ctx *)writeBuffer, c);
             } else if (c == ' ') {
                 result = ghiAppendCharToBuffer((struct Ctx *)writeBuffer, '+');

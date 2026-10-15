@@ -22,9 +22,9 @@
  *   loop block list, so LICM hoists the 2048 constants in text order (K1..K5).
  * extent: handed2340 ends at 0220818C before pop02208190; pools through022081A0; next genuine022081A4. Full extent2364 proved by explicit show.
  * symbols:
- *   func_0207B640 0x0207B640 thumb
+ *   MTX_RotY43_ 0x0207B640 thumb
  *   MTX_MultVec43 0x0207BC08 arm
- *   func_0207C7E8 0x0207C7E8 arm
+ *   FX_InvSqrt 0x0207C7E8 arm
  *   func_02208410 0x02208410 thumb ov195
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
@@ -36,9 +36,9 @@ typedef short s16;
 typedef long fx32;
 typedef struct {fx32 x,y,z;} Vec;
 typedef struct {fx32 a[12];} Matrix;
-extern void func_0207B640(Matrix *,fx32,fx32);
+extern void MTX_RotY43_(Matrix *,fx32,fx32);
 extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
-extern fx32 func_0207C7E8(fx32);
+extern fx32 FX_InvSqrt(fx32);
 extern int func_02208410(char *,u16);
 extern const s16 FX_SinCosTable_[];
 #define G(n) (*(u32 *)(p+(n)))
@@ -79,7 +79,7 @@ void func_02207868(char *p,u16 heap)
         for(i=0;i<18;i++)for(j=0;j<18;j++){
             char *q=p+0x74+i*0x900+j*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            func_0207B640(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            MTX_RotY43_(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source1.x=Q(0x50);source1.y=0;source1.z=0;
             MTX_MultVec43(&source1,&m1,&goal);goal.y=Q(0x54);
             if(Q(0x64)==0){
@@ -99,7 +99,7 @@ void func_02207868(char *p,u16 heap)
                         smallH=0;smallV=0;if(horiz<0x11ac)smallH=1;else if(vert<0x11ac)smallV=1;
                         if(smallH){Q(0x68)=Q(0x58);Q(0x70)=Q(0x60);}
                         else{
-                            inv=func_0207C7E8(horiz);
+                            inv=FX_InvSqrt(horiz);
                             Q(0x68)=add(add(Q(0x68),mul(sub(Q(0x68),Q(0x74)),409)),mul(mul(dx,inv),3584));
                             Q(0x70)=add(add(Q(0x70),mul(sub(Q(0x70),Q(0x7c)),409)),mul(mul(dz,inv),3584));
                         }
@@ -118,7 +118,7 @@ void func_02207868(char *p,u16 heap)
         for(i=0;i<18;i++)for(j=0;j<18;j++){
             char *q=p+0x74+i*0x900+j*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            func_0207B640(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            MTX_RotY43_(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source2.x=Q(0x50);source2.y=0;source2.z=0;
             MTX_MultVec43(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
         }
@@ -144,19 +144,19 @@ void func_02207868(char *p,u16 heap)
             if(Q(0x64)==2){
                 if(first3||second3){Q(0x30)=0;Q(0x64)=3;if(first3)first3=0;else second3=0;}
                 else{
-                    func_0207B640(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    MTX_RotY43_(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source3.x=Q(0x50);source3.y=0;source3.z=0;
                     MTX_MultVec43(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
                 }
                 done3=0;
             }else if(Q(0x64)==3){
                 if(Q(0x30)==0){
-                    func_0207B640(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    MTX_RotY43_(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source4.x=Q(0x50);source4.y=0;source4.z=0;
                     MTX_MultVec43(&source4,&m4,&V(0x68));Q(0x6c)=Q(0x54);
                     vx=sub(Q(0x68),Q(0x74));vy=sub(Q(0x6c),Q(0x78));vz=sub(Q(0x70),Q(0x7c));
                     horiz1=mul(vx,vx)+mul(vz,vz);vert1=(int)(((long long)vy*vy+2048)>>12);
-                    if(horiz1>4096){inv=func_0207C7E8(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}
+                    if(horiz1>4096){inv=FX_InvSqrt(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}
                     else{nx=vx;nz=vz;}
                     if(vert1>4096)ny=vy>=0?4096:-4096;
                     else ny=vy;
@@ -166,7 +166,7 @@ void func_02207868(char *p,u16 heap)
                     horiz2=mul(dx,dx)+mul(dz,dz);vert2=(int)(((long long)dy*dy+2048)>>12);
                     if(horiz2<0x11ac&&vert2<0x11ac){Q(0x68)=Q(0x34);Q(0x70)=Q(0x3c);Q(0x6c)=Q(0x38);Q(0x30)=0;Q(0x64)=4;}
                     else{
-                        if(horiz2>4096){inv=func_0207C7E8(horiz2);dx=mul(dx,inv);dz=mul(dz,inv);}
+                        if(horiz2>4096){inv=FX_InvSqrt(horiz2);dx=mul(dx,inv);dz=mul(dz,inv);}
                         if(vert2>4096)dy=dy>=0?4096:-4096;
                         Q(0x68)=add(Q(0x68),dx);Q(0x6c)=add(Q(0x6c),dy);Q(0x70)=add(Q(0x70),dz);
                     }

@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   func_02012944 0x02012944 thumb
@@ -49,10 +49,10 @@
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   TCBL_Create  0x0203101C  arm
  *   d_02172A50     0x02172A50  data
@@ -67,7 +67,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -229,7 +229,7 @@ enum {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_020307B0(void *p);
-extern GameData *func_020120F4(GameSystem *gameSystem);
+extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern FieldAvatar *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldMmdl *FIELD_PLAYER_GetMmdl(FieldAvatar *avatar);
 extern MyStatus *func_02012944(GameData *gameData);
@@ -263,10 +263,10 @@ extern int GAME_DATA_SaveStart(GameData *gameData);
 extern int GAME_DATA_SaveMain(GameData *gameData);
 extern void TIME_ICON_Delete(TimeIcon *timeIcon);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern WordSet *func_0201EC64(u32 heapId);
+extern WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern void func_0201F02C(WordSet *wordSet, u32 index, MyStatus *myStatus);
 extern void func_0201F250(WordSet *wordSet, Strbuf *dest, Strbuf *src);
-extern void func_0201ED04(WordSet *wordSet);
+extern void WORDSET_DeleteStrbufED04(WordSet *wordSet);
 extern int GFL_USE_IsSeqPlaying(u32 seNo);
 extern void PRINTSYS_QUE_Delete(PrintQue *printQue);
 extern void APP_KEYCURSOR_Delete(AppKeyCursor *keyCursor);
@@ -279,7 +279,7 @@ extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern void func_0201F73C(BmpWin *bmpWin, int a1, int a2, int a3);
 extern u32 FIELD_MSGBG_GetFont(FieldMsgContext *msgContext);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *str, u32 font, u32 speed, TcblSystem *tcbl, u32 priority, u16 heapId, u32 clearColor);
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
@@ -395,7 +395,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         }
         break;
     case REPORT_EVENT_STATE_PRINT_SAVING:
-        func_02008DF0(GAME_DATA_GetTrainerRecord(func_020120F4(w->gameSystem)), 1);
+        func_02008DF0(GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(w->gameSystem)), 1);
         FIELD_SUBSCREEN_PrepareReportSave(FIELDMAP_GetSubscreen(w->fieldMap));
         if (FIELD_SUBSCREEN_CheckReportSaveCounter(FIELDMAP_GetSubscreen(w->fieldMap)) == 1)
             REPORT_EVENT_QueueMessage(w, REPORT_EVENT_MSG_SAVING_FIRST);
@@ -418,12 +418,12 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             w->res->timeIcon = TIME_ICON_Create(func_020056BC(), w->res->window.bmpWin, 0xF, 0x10, w->heapId);
             FIELD_SUBSCREEN_StartReportSaveAnim(FIELDMAP_GetSubscreen(w->fieldMap));
             REPORT_EVENT_StartSaveEffect(w);
-            GAME_DATA_SaveStart(func_020120F4(w->gameSystem));
+            GAME_DATA_SaveStart(ICA_ANIME_GetField1C(w->gameSystem));
             *state = REPORT_EVENT_STATE_SAVE;
         }
         break;
     case REPORT_EVENT_STATE_SAVE:
-        switch (GAME_DATA_SaveMain(func_020120F4(w->gameSystem))) {
+        switch (GAME_DATA_SaveMain(ICA_ANIME_GetField1C(w->gameSystem))) {
         case 0:
         case 1:
             break;
@@ -445,12 +445,12 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             GFL_USE_PlaySeDefaultVolume(0x558);
             REPORT_EVENT_StopSaveEffect(w);
             REPORT_EVENT_EndAvatarAnim(w);
-            wordSet = func_0201EC64(w->heapId);
+            wordSet = GF_FONT_Create_EC64(w->heapId);
             message = func_02045EC0(w->res->msgData, REPORT_EVENT_MSG_SAVED);
-            func_0201F02C(wordSet, 0, func_02012944(func_020120F4(w->gameSystem)));
+            func_0201F02C(wordSet, 0, func_02012944(ICA_ANIME_GetField1C(w->gameSystem)));
             func_0201F250(wordSet, w->res->message, message);
             STRBUF_Delete(message);
-            func_0201ED04(wordSet);
+            WORDSET_DeleteStrbufED04(wordSet);
             REPORT_EVENT_StartPrintStream(w);
             TIME_ICON_Delete(w->res->timeIcon);
             *state = REPORT_EVENT_STATE_WAIT_SAVED_MSG;
@@ -550,7 +550,7 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
     func_0201F73C(w->res->window.bmpWin, 2, 1, 13);
     res = w->res;
     font = FIELD_MSGBG_GetFont(w->msgContext);
-    w->res->printStream = PRINTSYS_PrintStream(res->window.bmpWin, 0, 0, res->message, font, func_02012FFC(), res->tcbl, 10, w->heapId, 15);
+    w->res->printStream = PRINTSYS_PrintStream(res->window.bmpWin, 0, 0, res->message, font, MSG_SPEED_GetWait(), res->tcbl, 10, w->heapId, 15);
     w->res->printWait = 0;
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);

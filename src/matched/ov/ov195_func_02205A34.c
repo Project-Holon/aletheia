@@ -1,5 +1,5 @@
 /*
- * function: func_02205A34
+ * function: SHINKA_DEMO_GRAPHIC_SetupSubBg
  * address:  0x02205A34
  * packet:   pkt_02205A34
  * region:   ov195
@@ -13,7 +13,7 @@
  *   d_02208CA0 0x02208CA0 data a4
  *   d_02208D1C 0x02208D1C data a4
  *   func_0203FC6C 0x0203FC6C arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *
@@ -39,11 +39,11 @@ extern struct G_02208D1C d_02208D1C[];
 struct BgTemplate;
 struct BgVramReq;
 extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 
-void func_02205A34(void)
+void SHINKA_DEMO_GRAPHIC_SetupSubBg(void)
 {
     u32 i;
 
@@ -52,7 +52,7 @@ void func_02205A34(void)
         u32 v = d_02208D1C[(int)i].id;
         if (v >= 4) {
             Entry *e = &((Entry *)d_02208D1C)[i];
-            func_0203FCA0((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
+            BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             func_020414AC(v);
             func_02040588(v, e->mode);
         }

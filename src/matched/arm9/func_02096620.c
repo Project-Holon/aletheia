@@ -1,5 +1,5 @@
 /*
- * function: func_02096620
+ * function: MSL_C_LIB_IncrementDigits
  * address:  0x02096620
  * packet:   pkt_02095AA4
  * region:   arm9
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_02096620(u8 *p, int idx)
+void MSL_C_LIB_IncrementDigits(u8 *p, int idx)
 {
     u8 *base = p + 5;
     u8 *cur = base + idx - 1;

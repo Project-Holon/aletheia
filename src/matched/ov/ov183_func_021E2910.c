@@ -10,7 +10,7 @@
  * status: EXACT
  * lever: function-scope pair locals preserve stack-slot order across switch cases.
  * symbols:
- *   func_021E300C 0x021E300C thumb ov183
+ *   BR_CODEIN_GetMenuCallbacks 0x021E300C thumb ov183
  *   func_021E2E30 0x021E2E30 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -27,7 +27,7 @@
 #include "../include/Obj24678.h"
 typedef unsigned int u32;
 typedef struct { u32 a,b; } Pair;
-extern void func_021E300C(Pair *);
+extern void BR_CODEIN_GetMenuCallbacks(Pair *);
 extern void func_021E2E30(char *,int,int);
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
@@ -45,7 +45,7 @@ void func_021E2910(int *task,int *state,char *p) {
     int i;
     switch(*state) {
     case 0: {
-        func_021E300C(&cb);
+        BR_CODEIN_GetMenuCallbacks(&cb);
         *(Pair *)(p+0x4c)=cb;
         func_021E2E30(p+0x4c,(int)p,*(int *)&((struct Obj01074 *)p)->f3C);
         *state=1; break;

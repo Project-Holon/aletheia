@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BC5A0   0x021BC5A0  thumb
  *   HAND_ITEM_RollChance   0x021DCFD0  data
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm  arm9
 
  *
  * Allocate a*b bytes through entry 1 of the 0x021DCFD0 dispatch table, clear them, and return the block.
@@ -30,7 +31,7 @@
 
 extern void *(*HAND_ITEM_RollChance[])(int);
 typedef unsigned int   u32;
-extern void *func_020923B0(void *p, int c, u32 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 
 void *func_021BC5A0(int a, int b)
 {
@@ -38,7 +39,7 @@ void *func_021BC5A0(int a, int b)
     void *p = HAND_ITEM_RollChance[1](n);
 
     if (p)
-        func_020923B0(p, 0, n);
+        MSL_C_LIB_MemsetPtr(p, 0, n);
     return p;
 }
 

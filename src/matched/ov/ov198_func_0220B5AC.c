@@ -1,5 +1,5 @@
 /*
- * function: func_0220B5AC
+ * function: B_PLIST_ANM_ApplyTilePalette
  * address: 0x0220B5AC
  * packet: pkt_ov198_0220B5AC
  * region: ov198
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: expand the inner-loop value use to pair[i]; the bounded permuter baseline was DIFF 7 and this mutation reached EXACT.
  * symbols:
- *   func_0220B4B0 0x0220B4B0 thumb ov198
+ *   B_PLIST_ANM_GetTileBuffer 0x0220B4B0 thumb ov198
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02210F04 0x02210F04 thumb ov198
@@ -22,11 +22,11 @@ typedef unsigned int u32;
 typedef struct {u8 x,y,w,h;} Rect;
 typedef struct {u8 low:7;u8 high:1;} Flags;
 extern const Rect d_02211A74[];
-extern void *func_0220B4B0(void *,u32,u32,int);
+extern void *B_PLIST_ANM_GetTileBuffer(void *,u32,u32,int);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern int func_022110D4(u8 *,int);
 extern u32 func_02210F04(u32,u32);
-void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which)
+void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
 {
  void *src;
  int count,n;
@@ -34,7 +34,7 @@ void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which)
  u8 i,j;
  u16 pair[2];
  u8 *rec;
- src=func_0220B4B0(p,kind,index,which);
+ src=B_PLIST_ANM_GetTileBuffer(p,kind,index,which);
  w=((const u8 *)&d_02211A74[0].w)[kind*4];
  count=w*((const u8 *)&d_02211A74[0].h)[kind*4];
  MI_CpuCopy8(src,dst,count*2);

@@ -12,17 +12,17 @@
  * sdk:      DWCs_EncodeHeader (libdwcmatch.TWL.HYB.a dwc_transport.o)
  * symbols:
  *   strncpy      0x02094860 arm
- *   g_021A2344   0x021A2344 data
+ *   gDwcTransHeaderMagic   0x021A2344 data
  */
 
-extern char g_021A2344[];
+extern char gDwcTransHeaderMagic[];
 extern void strncpy(char *dst, const char *src, int n);
 
 void DWCs_EncodeHeader(void *header, unsigned short type, int size)
 {
     char *h = header;
 
-    strncpy(h + 6, g_021A2344, 2);
+    strncpy(h + 6, gDwcTransHeaderMagic, 2);
     *(unsigned short *)(h + 4) = type;
     *(int *)h = size;
 }

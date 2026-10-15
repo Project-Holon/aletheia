@@ -1,5 +1,5 @@
 /*
- * function: func_02058E20
+ * function: DWCi_AUTH_RemakeWiFiID
  * address:  0x02058E20
  * packet:   pkt_02058E20
  * region:   arm9
@@ -64,7 +64,7 @@ extern u64  OS_GetTick(void);
 extern void OS_GetMacAddress(u8 *macAddress);
 extern u64  DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit);
 
-int func_02058E20(DWCWiFiInfo *wifiinfo)
+int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo)
 {
     u8 vend;
     u8 macaddr[6] = { 0, 0, 0, 0, 0, 0 };

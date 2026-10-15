@@ -13,7 +13,7 @@
  * symbols:
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   ZONEDATA_GetFieldEffectSetId  0x02013ED8  thumb
- *   func_0203F4CC  0x0203F4CC  arm
+ *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
@@ -49,7 +49,7 @@ extern u8 ZONEDATA_GetFieldEffectSetId(u32 id);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern u8 MAP_ATTR_GetBattleBackground(u16 x);
-extern void func_0203F4CC(struct RtcTime *time);
+extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern u8 FIELD_ENCOUNT_GetBattleWeather(void *p);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
@@ -62,7 +62,7 @@ void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2)
     out->f00 = ZONEDATA_GetFieldEffectSetId(x);
     out->f04 = MAP_ATTR_GetBattleBackground(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(y)));
     out->f0A = x;
-    func_0203F4CC(&t);
+    GF_STANDARD_SetField00(&t);
     out->f0C = t.hour;
     out->f0D = t.minute;
     out->f08 = FIELD_ENCOUNT_GetBattleWeather(a2);

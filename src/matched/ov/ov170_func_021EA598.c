@@ -32,6 +32,8 @@
  *   BOX2_SEQ_SetActorAnim  0x021EA878  thumb
  *   BOX2_UI_MoveCursorBetweenIcons  0x021EEF74  thumb
  *   BOX2_UI_CloseListPack  0x021EF534  thumb
+ *   CURSOR_MOVE_GetCurrent  0x020260E0  thumb  arm9
+ *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb  arm9
  */
 
 typedef struct {
@@ -80,8 +82,8 @@ extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern void BOX2_SEQ_CreateB(void *p);
 extern void BOX2_SEQ_SetActorAnim(Obj *p, int v);
 extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
-extern u8 func_020260E0(struct Sound *obj);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
 extern int BOX2_MAIN_StateMachineCoin(unsigned char *p);
 extern int BOX2_SEQ_StateMachineMove(unsigned char *p);

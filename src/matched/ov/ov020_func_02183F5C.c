@@ -25,8 +25,8 @@
  *   func_02008B14  0x02008B14  thumb
  *   func_02008C00  0x02008C00  thumb
  *   FORMCHANGE_RevertShayminAndRegister  0x0216A390  thumb  ov010
- *   func_0203F524  0x0203F524  arm
- *   func_0200C384  0x0200C384  thumb
+ *   GF_STANDARD_SetupRtc  0x0203F524  arm
+ *   BEACON_SetLastTime  0x0200C384  thumb
  *   func_02008B20  0x02008B20  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FORMCHANGE_UpdateSeasonForms  0x0216AAE4  thumb  ov010
@@ -69,8 +69,8 @@ extern int func_02008B78(const struct Sub02008AECObj *obj);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern void func_02008C00(struct Sub02008AECSession *s);
 extern void FORMCHANGE_RevertShayminAndRegister(int a, int b);
-extern u64 func_0203F524();
-extern void func_0200C384(struct Blk34 *p, u32 lo, u32 hi);
+extern u64 GF_STANDARD_SetupRtc();
+extern void BEACON_SetLastTime(struct Blk34 *p, u32 lo, u32 hi);
 extern void func_02008B20(struct Sub02008AECObj *obj);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern void FORMCHANGE_UpdateSeasonForms(void *sys, void *party, int season);
@@ -106,8 +106,8 @@ int EVENT_MAPCHANGE_CreateContinueEvent(int a0, u8 *a1)
     if (!func_02008B4C((const struct Sub02008AECObj *)r5) || !func_02008B78((const struct Sub02008AECObj *)r5)) {
         func_02008C00(func_02008B14((void *)r7));
         FORMCHANGE_RevertShayminAndRegister(s[1], r6);
-        t = func_0203F524();
-        func_0200C384((struct Blk34 *)h, (u32)t, (u32)(t >> 32));
+        t = GF_STANDARD_SetupRtc();
+        BEACON_SetLastTime((struct Blk34 *)h, (u32)t, (u32)(t >> 32));
     }
     func_02008B20((struct Sub02008AECObj *)r5);
     FORMCHANGE_UpdateSeasonForms((void *)s[1], (void *)r6, GAME_DATA_GetSeason((const struct BigObj *)s[1]));

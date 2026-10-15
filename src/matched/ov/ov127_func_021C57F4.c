@@ -1,5 +1,5 @@
 /*
- * function: func_021C57F4
+ * function: WF2DMAP_OBJDRAW_RestoreFrame
  * address: 0x021C57F4
  * packet: pkt_ov127_021C57F4
  * region: ov127
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C58F8 0x021C58F8 thumb ov127
- *   func_021C5944 0x021C5944 thumb ov127
- *   func_021C574C 0x021C574C thumb ov127
+ *   WF2DMAP_OBJDRAW_GetFrameValue 0x021C58F8 thumb ov127
+ *   WF2DMAP_OBJDRAW_SetFrame 0x021C5944 thumb ov127
+ *   WF2DMAP_OBJDRAW_UpdateActor 0x021C574C thumb ov127
  */
 #include "../include/Obj00328.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021C58F8(char *,int);
-extern void func_021C5944(u8 *,int,int);
-extern void func_021C574C(u8 *);
-void func_021C57F4(u8 *p) { func_021C5944(p,func_021C58F8(*(char * *)&((struct Obj00328 *)p)->f4,((struct Obj00328 *)p)->f8),((struct Obj00328 *)p)->fA); func_021C574C(p); }
+extern int WF2DMAP_OBJDRAW_GetFrameValue(char *,int);
+extern void WF2DMAP_OBJDRAW_SetFrame(u8 *,int,int);
+extern void WF2DMAP_OBJDRAW_UpdateActor(u8 *);
+void WF2DMAP_OBJDRAW_RestoreFrame(u8 *p) { WF2DMAP_OBJDRAW_SetFrame(p,WF2DMAP_OBJDRAW_GetFrameValue(*(char * *)&((struct Obj00328 *)p)->f4,((struct Obj00328 *)p)->f8),((struct Obj00328 *)p)->fA); WF2DMAP_OBJDRAW_UpdateActor(p); }

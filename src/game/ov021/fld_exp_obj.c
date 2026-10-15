@@ -20,7 +20,7 @@
  *   G3D_UTIL_Delete  0x02047E54  arm
  *   func_020307B0  0x020307B0  arm
  *   G3D_UTIL_AddUnitLoaded  0x02047F4C  arm
- *   func_0207ADC4  0x0207ADC4  arm
+ *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   func_020489F4  0x020489F4  arm
@@ -48,7 +48,7 @@ extern struct G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapId);
 extern void G3D_UTIL_Delete(struct G3dUtil *util);
 extern u32 func_020307B0(void *block);
 extern u16 G3D_UTIL_AddUnitLoaded(struct G3dUtil *util, const G3dUtilSetup *setup);
-extern void func_0207ADC4(MtxFx33 *mtx);
+extern void MTX_Identity33_(MtxFx33 *mtx);
 extern struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, int anmIdx);
 extern void G3D_UTIL_RemoveUnit(struct G3dUtil *util, u32 unitId);
 extern u32 func_020489F4(struct G3dUtil *util, int unitId);
@@ -154,7 +154,7 @@ void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *cnt, G3dUtilSetup *setup, u16 unitIdx)
         FLD_EXP_OBJ_InitAnimeSet(&cnt->units[unitIdx].animeSets[modelIdx], setup->objTbl[modelIdx].anmCount, cnt->heapId);
         model = &models[modelIdx];
         SetVecFx32(&model->status.scale, 0x1000, 0x1000, 0x1000);
-        func_0207ADC4(&model->status.rotate);
+        MTX_Identity33_(&model->status.rotate);
         SetVecFx32(&model->status.trans, 0, 0, 0);
         model->cullDraw = 0;
         model->hidden = 0;
@@ -431,7 +431,7 @@ void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *cnt, const G3dUtilSetup *setup
         FLD_EXP_OBJ_InitAnimeSet(&cnt->units[unitIdx].animeSets[modelIdx], setup->objTbl[modelIdx].anmCount, cnt->heapId);
         model = &models[modelIdx];
         SetVecFx32(&model->status.scale, 0x1000, 0x1000, 0x1000);
-        func_0207ADC4(&model->status.rotate);
+        MTX_Identity33_(&model->status.rotate);
         SetVecFx32(&model->status.trans, 0, 0, 0);
         model->cullDraw = 0;
         model->hidden = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0208B950
+ * function: PMi_CommonCallback
  * address:  0x0208B950
  * packet:   pkt_0208B950
  * region:   arm9
@@ -50,7 +50,7 @@ extern PMiGenCallbackInfo PMi_BatteryLowCallbackInfo;
 void PMi_CallCallbackAndUnlock(u32 result);
 void PMi_ProceedToExit(int factor);
 
-void func_0208B950(int tag, u32 data, BOOL err)
+void PMi_CommonCallback(int tag, u32 data, BOOL err)
 {
     u16 command;
     u16 pxiResult;

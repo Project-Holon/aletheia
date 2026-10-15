@@ -10,12 +10,15 @@
  * status:   EXACT
  *
  * TwlDWC libdwcaccount dwc_account.o.
- * 0x0205A10C is labelled func_0205A10C.
+ * 0x0205A10C is labelled DWCi_GetGamecode.
+ *
+ * symbols:
+ *   DWCi_GetGamecode  0x0205A10C  arm
  */
-extern void *func_0205A10C(void);
+extern void *DWCi_GetGamecode(void);
 extern void DWCi_Acc_CreateUserData(void *userdata, unsigned long gamecode);
 
 void DWC_CreateUserData(void *userdata)
 {
-    DWCi_Acc_CreateUserData(userdata, (long unsigned int)func_0205A10C());
+    DWCi_Acc_CreateUserData(userdata, (long unsigned int)DWCi_GetGamecode());
 }

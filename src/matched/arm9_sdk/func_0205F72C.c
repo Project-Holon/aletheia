@@ -1,5 +1,5 @@
 /*
- * function: func_0205F72C
+ * function: NCFG_ReadBackupMemory
  * address:  0x0205F72C
  * packet:   pkt_0205F72C
  * region:   arm9
@@ -27,7 +27,7 @@ extern int  getSlotInfo(s32 index, u32 *address, u32 *size);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern int  ReadNVRAM(u32 address, u32 size, void *pData);
 
-s32 func_0205F72C(void *buf, u32 size, s32 index)
+s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index)
 {
     s32 result;
     u32 address;

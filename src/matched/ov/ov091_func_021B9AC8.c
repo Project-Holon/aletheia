@@ -22,14 +22,14 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0202130C 0x0202130C thumb
+ *   FILE_UTIL_GetId 0x0202130C thumb
  *   POKE_TOOL_CheckTmCompat 0x020188AC thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern u32 func_0202130C(u32 id);
+extern u32 FILE_UTIL_GetId(u32 id);
 extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
 int POKELIST_GetMoveLearnStatus(u8 *p, void *mon, u8 bit)
 {
@@ -69,7 +69,7 @@ int POKELIST_GetMoveLearnStatus(u8 *p, void *mon, u8 bit)
             if (v == 0) empty = 1;
         }
         if (*(u16 *)(*(u8 **)(p + 0x280) + 0x44) != 0) {
-            u32 id = func_0202130C(*(u16 *)(*(u8 **)(p + 0x280) + 0x44));
+            u32 id = FILE_UTIL_GetId(*(u16 *)(*(u8 **)(p + 0x280) + 0x44));
             if (id != 0xff && POKE_TOOL_CheckTmCompat(mon, id) == 1) {
                 int result = 0;
                 if (empty != 1) result = 1;

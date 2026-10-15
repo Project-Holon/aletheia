@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203516C",
+   "name": "UI_SetFlags39Global",
    "address": "0x0203516C",
    "kind": "sdk",
    "region": "arm9",

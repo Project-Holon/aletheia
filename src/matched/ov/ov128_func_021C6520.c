@@ -11,7 +11,7 @@
  *   the two-byte tail at 021C658A is zero padding.
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_02009A1C 0x02009A1C thumb
  *   func_02009864 0x02009864 thumb
  */
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern void MI_CpuFill8(void *,int,int);
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 struct Sub020097BCObj;
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
@@ -31,7 +31,7 @@ void func_021C6520(char *p)
     int i;
     void *v;
     MI_CpuFill8(p+16,0,72);
-    v=(void *)func_0201283C(((struct Obj03808 *)p)->f4);
+    v=(void *)GAME_DATA_GetField1A0(((struct Obj03808 *)p)->f4);
     ((struct Obj03808 *)p)->f10=0;
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==1) {

@@ -12,8 +12,8 @@
  * sdk:      date2sec (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02088864  0x02088864  arm
- *   func_0208890C  0x0208890C  arm
+ *   RTC_GetDate  0x02088864  arm
+ *   RTC_GetTime  0x0208890C  arm
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  */
 
@@ -32,8 +32,8 @@ typedef struct {
 
 struct RTCDate;
 struct RTCTime;
-extern int func_02088864(struct RTCDate *date);
-extern int func_0208890C(struct RTCTime *time);
+extern int RTC_GetDate(struct RTCDate *date);
+extern int RTC_GetTime(struct RTCTime *time);
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 
 unsigned long date2sec(void)
@@ -42,8 +42,8 @@ unsigned long date2sec(void)
 	RTCDate date;
 	RTCTime time;
 
-	func_02088864((struct RTCDate *)(&date));
-	func_0208890C((struct RTCTime *)(&time));
+	RTC_GetDate((struct RTCDate *)(&date));
+	RTC_GetTime((struct RTCTime *)(&time));
 	sec = RTC_ConvertDateTimeToSecond((struct RTCDate *)(&date), (struct RTCTime *)(&time));
 	return sec + 946684800;
 }

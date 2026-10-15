@@ -13,7 +13,7 @@
  *   GSYNC_MESSAGE_ClearStream 0x021D584C thumb ov123
  *   GSYNC_MESSAGE_DeleteButtonManager 0x021D54E0 thumb ov123
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -24,6 +24,7 @@
  *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj01154.h"
 typedef unsigned short u16;
@@ -39,9 +40,9 @@ struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern int APP_KEYCURSOR_Delete(int a0);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_0201DD68(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -63,12 +64,12 @@ void GSYNC_MESSAGE_ExitSystem(char *p)
         if (*(void **)(p+0x4c+i*4)) BMP_WIN_Delete(*(void **)(p+0x4c+i*4));
     }
     a=((struct Obj01154 *)p)->f8>>16;
-    func_0203FB44((int)5,(u16)(((struct Obj01154 *)p)->f8),(u16)a);
+    BG_SYS_DeleteHalf((int)5,(u16)(((struct Obj01154 *)p)->f8),(u16)a);
     a=((struct Obj01154 *)p)->f4>>16;
-    func_0203FB44((int)6,(u16)(((struct Obj01154 *)p)->f4),(u16)a);
+    BG_SYS_DeleteHalf((int)6,(u16)(((struct Obj01154 *)p)->f4),(u16)a);
     GSYNC_MESSAGE_DeleteButtonManager((u8 *)p);
     APP_KEYCURSOR_Delete((int)(((struct Obj01154 *)p)->f40));
-    func_0201ED04(((struct Obj01154 *)p)->f24);
+    WORDSET_DeleteStrbufED04(((struct Obj01154 *)p)->f24);
     func_0201DD68();
     MSGDATA_Delete(((struct Obj01154 *)p)->f20);
     GF_FONT_Delete(((struct Obj01154 *)p)->f28);

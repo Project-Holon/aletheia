@@ -19,8 +19,8 @@
  *   func_02210BFC 0x02210BFC thumb ov198
  *   func_0220EA68 0x0220EA68 thumb ov198
  *   func_02210FCC 0x02210FCC thumb ov198
- *   func_0220B848 0x0220B848 thumb ov198
- *   func_0220BB94 0x0220BB94 thumb ov198
+ *   B_PLIST_ANM_UpdateByMode 0x0220B848 thumb ov198
+ *   B_PLIST_ANM_CopyPaletteSlot 0x0220BB94 thumb ov198
  * FCC receives only two loaded arguments here; mode is in 0..8, so its
  * out-of-domain incoming-r2 fallback is unused. BB94 receives live mode.
  */
@@ -40,8 +40,8 @@ extern void func_0220E25C(u8 *);
 extern void func_02210BFC(u8 *,int);
 extern void func_0220EA68(char *,unsigned);
 extern void func_02210FCC(u8 *,u32);
-extern void func_0220B848(u8 *,unsigned);
-extern void func_0220BB94(u8 *,unsigned);
+extern void B_PLIST_ANM_UpdateByMode(u8 *,unsigned);
+extern void B_PLIST_ANM_CopyPaletteSlot(u8 *,unsigned);
 int func_02210C88(u8 *p,unsigned mode)
 {
     switch(((State *)p)->step) {
@@ -62,8 +62,8 @@ int func_02210C88(u8 *p,unsigned mode)
             func_02210BFC(p,mode);
             func_0220EA68((char *)p,mode);
             func_02210FCC(p,mode);
-            func_0220B848(p,mode);
-            func_0220BB94(p,mode);
+            B_PLIST_ANM_UpdateByMode(p,mode);
+            B_PLIST_ANM_CopyPaletteSlot(p,mode);
             p[0x2180]=mode;
             ((State *)p)->step=0;
             return 1;

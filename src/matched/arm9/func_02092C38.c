@@ -1,5 +1,5 @@
 /*
- * function: func_02092C38
+ * function: longlong2str
  * address:  0x02092C38
  * packet:   pkt_020929E8
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * note:     MSL printf.c `longlong2str`, the 64-bit twin of func_020929E8
+ * note:     MSL printf.c `longlong2str`, the 64-bit twin of long2str
  *           (same source template over long long).  This is the REAL entry:
  *           the listing labels 0x02092C38 as a 4-byte row and 0x02092C3C as
  *           the function, but 0x02092C38 is the home-area push
@@ -36,7 +36,7 @@ typedef struct {
     int precision;
 } print_format;
 
-unsigned char *func_02092C38(long long num, unsigned char *buff, print_format format)
+unsigned char *longlong2str(long long num, unsigned char *buff, print_format format)
 {
     unsigned long long unsigned_num, base;
     unsigned char *p;

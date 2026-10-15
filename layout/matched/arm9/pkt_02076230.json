@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02076230",
+   "name": "CARDi_WaitForTask",
    "address": "0x02076230",
    "kind": "sdk",
    "region": "arm9",

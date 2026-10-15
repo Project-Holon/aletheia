@@ -1,5 +1,5 @@
 /*
- * function: func_02078B44
+ * function: FS_SeekFile
  * address:  0x02078B44
  * packet:   pkt_02078B44
  * region:   arm9
@@ -33,7 +33,7 @@ typedef struct FSFile {
 
 extern int FSi_SendCommand(FSFile *file, unsigned long command, int blocking);
 
-int func_02078B44(FSFile *file, long offset, FSSeekFileMode origin)
+int FS_SeekFile(FSFile *file, long offset, FSSeekFileMode origin)
 {
     FSArgumentForSeekFile arg[1];
     int retval;

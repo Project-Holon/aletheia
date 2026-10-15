@@ -11,7 +11,7 @@
  * lever: p is a plain (non-const) pointer, so the case 0 Pair copy and the case 5 loop schedule as in the original; the loop counter is set before the arg local (i=1; arg=...; for(;i<=3;i++)).
  * note: 2026-10-05 recoup P25L4: the older DIFF draft (21 bytes) became 4 bytes when const was dropped from p, and EXACT with i=1 written before arg.
  * symbols:
- *   func_021E2F98 0x021E2F98 thumb ov183
+ *   BR_CODEIN_SOCL_InitDefault 0x021E2F98 thumb ov183
  *   func_021E2E30 0x021E2E30 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -44,7 +44,7 @@ typedef struct {u32 fields[7];Pair request;} Arg;
 typedef unsigned char  u8;
 struct Big;
 struct SOCLResource;
-extern void func_021E2F98(struct SOCLResource *resource);
+extern void BR_CODEIN_SOCL_InitDefault(struct SOCLResource *resource);
 extern void func_021E2E30(char *,int,int);
 extern void BR_FADE_Start(int,int,int,int);extern int BR_FADE_GetResult(int *);
 extern void MI_CpuFill8(void *,int,u32);
@@ -74,7 +74,7 @@ void func_021E26B8(int *task,State *state,char *p) {
     u64 value;char *arg;
     switch(*state) {
     case 0:
-        func_021E2F98((struct SOCLResource *)(&cb));arg=*(char **)(p+0x3c);*(Pair *)(p+0x4c)=cb;
+        BR_CODEIN_SOCL_InitDefault((struct SOCLResource *)(&cb));arg=*(char **)(p+0x3c);*(Pair *)(p+0x4c)=cb;
         func_021E2E30((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
     case 1:BR_FADE_Start(**(int **)(p+0x3c),2,3,0);*state=2;break;
     case 2:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=3;break;

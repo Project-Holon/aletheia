@@ -15,9 +15,9 @@
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
  * MI_CpuFill8 0x02082BCC arm
- * func_020120F4 0x020120F4 thumb
+ * ICA_ANIME_GetField1C 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
- * func_0200A8A0 0x0200A8A0 thumb
+ * IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  * func_02008530 0x02008530 thumb
  * func_0200A9D4 0x0200A9D4 thumb
  * COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
@@ -38,9 +38,9 @@ extern void MI_CpuFill8(void *,int,u32);
 struct Big;
 struct Ctx;
 struct T0200A9A4;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A8A0(void *);
+extern void *IRC_RANKING_GetFromSave(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
@@ -61,8 +61,8 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heap,char *p)
     ((struct Obj07971 *)out)->f8=*(u32 *)&((struct Obj01387 *)p)->f3C;
     if(((struct Obj01387 *)p)->f2C && ((struct Obj01387 *)p)->f2E) {
         name=*(char * *)&((struct Obj01387 *)p)->f3C+12;
-        func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10);
-        token=func_0200A8A0(GAME_DATA_GetSaveControl(func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10)));
+        ICA_ANIME_GetField1C(**(void ** *)&((struct Obj01387 *)p)->f10);
+        token=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(**(void ** *)&((struct Obj01387 *)p)->f10)));
         if(func_0200A9D4(token,func_02008530((const struct Sub0200852CObj *)name))==0) flag=1;
         both=0;
         if(((struct Obj01387 *)p)->f30 && flag) both=1;

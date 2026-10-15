@@ -1,5 +1,5 @@
 /*
- * function: func_021BA29C
+ * function: TH_AWARD_GRAPHIC_DrawObjects
  * address: 0x021BA29C
  * packet: pkt_ov220_021BA29C
  * region: ov220
@@ -12,4 +12,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void);
-void func_021BA29C(void *p){func_020419E4();}
+void TH_AWARD_GRAPHIC_DrawObjects(void *p){func_020419E4();}

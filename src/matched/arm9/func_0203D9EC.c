@@ -11,9 +11,10 @@
  *
  * symbols:
  *   gNetIrcWirelessLink  0x021469F0  data
+ *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *
  * Tears down the net_irc_wireless singleton at 0x021469F0: releases it
- * through func_02034FB8(0x20) and the heap release, then clears the slot.
+ * through UI_ClearKeepAwakeFlagsGlobal(0x20) and the heap release, then clears the slot.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_IRC_WIRELESS_Destroy.c \
@@ -25,7 +26,7 @@ typedef unsigned int  u32;
 
 extern u8 gNetIrcWirelessLink[];
 
-extern void func_02034FB8(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 extern u32 func_020307B0(void *p);
 
 void GFL_NET_IRC_WIRELESS_Destroy(void)
@@ -33,7 +34,7 @@ void GFL_NET_IRC_WIRELESS_Destroy(void)
     if (*(u32 *)gNetIrcWirelessLink == 0) {
         return;
     }
-    func_02034FB8(0x20);
+    UI_ClearKeepAwakeFlagsGlobal(0x20);
     func_020307B0(*(void **)gNetIrcWirelessLink);
     *(u32 *)gNetIrcWirelessLink = 0;
 }

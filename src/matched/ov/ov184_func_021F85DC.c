@@ -1,5 +1,5 @@
 /*
- * function: func_021F85DC
+ * function: BR_DOWNLOAD_StepFadeIn
  * address:  0x021F85DC
  * packet:   pkt_021F85DC
  * region:   ov184
@@ -15,7 +15,7 @@
  *   one inside this range.
  *
  * symbols:
- *   func_021F8670   0x021F8670  thumb
+ *   BR_DOWNLOAD_HandleTouch   0x021F8670  thumb
  *   BR_FADE_Start   0x021FE784  thumb
  *   BR_FADE_GetResult   0x021FE7B0  thumb
  *   BR_UTIL_SetTaskStep   0x021FD73C  thumb
@@ -26,12 +26,12 @@
 #include "../include/Obj14447.h"
 
 
-extern void func_021F8670(int a, int b, char *p);
+extern void BR_DOWNLOAD_HandleTouch(int a, int b, char *p);
 extern int BR_FADE_Start(int, int, int, int);
 extern int BR_FADE_GetResult(int);
 extern void BR_UTIL_SetTaskStep(int, void *);
 
-void func_021F85DC(int a, int *state, char *p)
+void BR_DOWNLOAD_StepFadeIn(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:
@@ -43,7 +43,7 @@ void func_021F85DC(int a, int *state, char *p)
             *state = 2;
         break;
     case 2:
-        BR_UTIL_SetTaskStep(a, func_021F8670);
+        BR_UTIL_SetTaskStep(a, BR_DOWNLOAD_HandleTouch);
         break;
     }
 }

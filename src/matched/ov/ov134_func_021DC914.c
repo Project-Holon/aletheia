@@ -1,5 +1,5 @@
 /*
- * function: func_021DC914
+ * function: NET_PARTY_COMMAND_Exit
  * address: 0x021DC914
  * packet: pkt_ov134_021DC914
  * region: ov134
@@ -26,4 +26,4 @@ struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern const char ov90_id[];
-int func_021DC914(void *p,u32 a,u32 b,char *ctx) { PLIST_COMM_End(ctx+4); func_02034A5C((int)ov90_id); func_0203133C(((struct Obj23343 *)ctx)->fCC); func_020315D4(p); return 1; }
+int NET_PARTY_COMMAND_Exit(void *p,u32 a,u32 b,char *ctx) { PLIST_COMM_End(ctx+4); func_02034A5C((int)ov90_id); func_0203133C(((struct Obj23343 *)ctx)->fCC); func_020315D4(p); return 1; }

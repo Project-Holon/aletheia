@@ -1,5 +1,5 @@
 /*
- * function: func_021D7260
+ * function: WIFI_BSUBWAY_TickUploadTimeout
  * address: 0x021D7260
  * packet: pkt_ov116_021D7260
  * region: ov116
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021D7260(u8 *p)
+void WIFI_BSUBWAY_TickUploadTimeout(u8 *p)
 {
     (((struct Obj06417 *)p)->fA)++;
     if (((struct Obj06417 *)p)->fA == 3600) ((struct Obj06417 *)p)->f8 = 1;

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F3A08, func_021F3A4C
+ * function: MUSICAL_SHOT_SYS_Update, MUSICAL_SHOT_SYS_VBlank
  * address: 0x021F3A08
  * packet: pkt_ov112_021F3A08
  * region: ov112
@@ -10,7 +10,7 @@
  * status: EXACT
  * follower: tail stub at 0x021F3A4C; function_starts seed.
  * symbols:
- *   func_021F3C50 0x021F3C50 thumb ov112
+ *   MUSICAL_SHOT_SYS_DrawScene 0x021F3C50 thumb ov112
  *   func_021F4350 0x021F4350 thumb ov112
  *   func_021F44E8 0x021F44E8 thumb ov112
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -20,16 +20,16 @@
 #include "../include/Obj08020.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021F3C50(u8 *);
+extern void MUSICAL_SHOT_SYS_DrawScene(u8 *);
 typedef unsigned int   u32;
 extern void func_021F4350(u8 *p);
 extern int func_021F44E8(u32 *p);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-int func_021F3A08(int a,int b,int c,u8 *p)
+int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p)
 {
-    func_021F3C50(*(u8 * *)&((struct Obj08020 *)p)->fC);
+    MUSICAL_SHOT_SYS_DrawScene(*(u8 * *)&((struct Obj08020 *)p)->fC);
     func_021F4350(((struct Obj08020 *)p)->f10);
     CLACT_DrawSystem();
     if(func_021F44E8(((struct Obj08020 *)p)->f10)==1) {
@@ -38,4 +38,4 @@ int func_021F3A08(int a,int b,int c,u8 *p)
     }
     return 0;
 }
-void func_021F3A4C(void) { CLACT_VBlankSystem(); }
+void MUSICAL_SHOT_SYS_VBlank(void) { CLACT_VBlankSystem(); }

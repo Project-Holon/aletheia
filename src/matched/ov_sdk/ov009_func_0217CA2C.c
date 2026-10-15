@@ -1,5 +1,5 @@
 /*
- * function: func_0217CA2C
+ * function: gsiCoreAtExitShutdown
  * address:  0x0217CA2C
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@
 extern char *gsiCoreGetManager(void);
 extern void gsiDeleteCriticalSection(void *p);
 
-void func_0217CA2C(void)
+void gsiCoreAtExitShutdown(void)
 {
     gsiDeleteCriticalSection(gsiCoreGetManager() + 0x10);
 }

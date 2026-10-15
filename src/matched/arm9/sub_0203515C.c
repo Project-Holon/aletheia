@@ -1,5 +1,5 @@
 /*
- * function: sub_0203515C
+ * function: UI_SetFlags39
  * address:  0x0203515C
  * packet:   pkt_02035080
  * region:   arm9
@@ -11,13 +11,13 @@
  *
  * The set half of a set/clear pair on the flag byte at +0x39, right after
  * the two tail-call veneers in the same block; no lr push, so disasm.py
- * never labels it. Twin of sub_02035188 (clear).
+ * never labels it. Twin of UI_ClearFlags39 (clear).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0203515C.c \
- *       --func sub_0203515C --addr 0x0203515C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_SetFlags39.c \
+ *       --func UI_SetFlags39 --addr 0x0203515C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ struct Obj0203515C {
     u8 unk39;
 };
 
-void sub_0203515C(struct Obj0203515C *p, u8 mask)
+void UI_SetFlags39(struct Obj0203515C *p, u8 mask)
 {
     p->unk39 |= mask;
 }

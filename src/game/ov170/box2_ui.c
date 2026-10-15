@@ -46,19 +46,19 @@
  *   BMP_OAM_Create 0x020255A0 thumb
  *   BMP_OAM_GetEnabled  0x020257C4  thumb
  *   func_020355C4 0x020355C4 arm
- *   func_02025CD0 0x02025CD0 thumb
- *   func_02025D1C 0x02025D1C thumb
+ *   CURSOR_MOVE_Create 0x02025CD0 thumb
+ *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  *   d_021F02F0 0x021F02F0 data a4
- *   func_020260F0 0x020260F0 thumb
- *   func_02025D14  0x02025D14  thumb
- *   func_0202616C 0x0202616C thumb
+ *   CURSOR_MOVE_GetState 0x020260F0 thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
+ *   CURSOR_MOVE_GetEntry 0x0202616C thumb
  *   BOX2_SEQ_RefreshHandSlot  0x021ECC1C  thumb  ov170
  *   BOX2_MAIN_SetSeqParam  0x021DC9B4  thumb  ov170
  *   BOX2_MAIN_SceneApplyScroll  0x021E066C  thumb  ov170
- *   func_020260E0 0x020260E0 thumb
- *   func_020260E4 0x020260E4 thumb
- *   func_02025DE8 0x02025DE8 thumb
+ *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
+ *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   d_021F0188  0x021F0188  data
@@ -101,6 +101,7 @@
  *   BMP_OAM_DeleteSys  0x02025588  thumb  arm9
  *   BMP_OAM_Delete  0x0202570C  thumb  arm9
  *   BMP_Delete  0x020437AC  arm  arm9
+ *   BG_SYS_GetBuf  0x0204162C  arm  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj24023.h"
@@ -216,18 +217,18 @@ extern void BMP_Delete(struct Obj020437AC *p);
 extern void BMP_OAM_DeleteSys(void *p);
 extern int BMP_OAM_GetEnabled(const int *p);
 extern u8 func_020355C4(void);
-extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
-extern void func_02025D1C(struct Struct_02025D1C *obj);
+extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
+extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
-extern u32 func_020260F0(struct Sound *obj);
-extern void func_02025D14(void);
-extern void *func_0202616C(void **obj, u32 idx);
+extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
+extern void CURSOR_MOVE_Delete(void);
+extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
 extern void BOX2_SEQ_RefreshHandSlot(BoxTask *p);
 extern void BOX2_MAIN_SetSeqParam(BoxWork *p, int v);
 extern int BOX2_MAIN_SceneApplyScroll(BoxTask *p);
-extern void func_020260E4(struct Sound *obj, u8 sel);
-extern u8 func_020260E0(struct Sound *obj);
-extern int func_02025DE8(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern unsigned int KEY_GetRepeat(void);
@@ -251,7 +252,7 @@ extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 fra
 extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
 extern void BOX2_SEQ_MoveActorToWindow(BoxTask *p);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
-extern u32 func_0204162C(int channel);
+extern u32 BG_SYS_GetBuf(int channel);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 void BOX2_UI_CreatePartyActors(BoxWork *p);
 void BOX2_UI_ToggleSlotPair(BoxWork *p, int a);
@@ -821,9 +822,9 @@ void BOX2_UI_SetMiniIconVisible(BoxTask *p, int a, int b)
 
 void BOX2_UI_DeleteSlotObjects(BoxTask *p, int a, int b, int c)
 {
-    p->b1F = a;
-    p->b20 = b;
-    p->b21 = c;
+    p->slot6Mode = a;
+    p->slot7Mode = b;
+    p->slot8Mode = c;
     if (a == 0) {
         BOX2_SEQ_SetActorDrawEnable(p->work, 6, 1);
         BOX2_SEQ_SetActorAutoAnim((BoxWork *)p->work, 6, 1);
@@ -987,8 +988,8 @@ void BOX2_UI_CreateCursor(char **p)
     case 5: i = 15; break;
     }
     BOX2_UI_DeleteSound((int *)p);
-    ((struct Obj24028 *)(p[11]))->f70 = func_02025CD0(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
-    func_02025D1C(((struct Obj24029 *)(p[11]))->f70);
+    ((struct Obj24028 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
+    CURSOR_MOVE_EnableInput(((struct Obj24029 *)(p[11]))->f70);
     BOX2_UI_UpdateCursor((char *)p, ((int *)p)[9]);
     BOX2_SEQ_SetCursorDraw(p, f);
     ((struct Obj24030 *)(p[11]))->fA168 = ((int *)p)[9];
@@ -1001,10 +1002,10 @@ void BOX2_UI_CreateCursor(char **p)
 
 void BOX2_UI_MoveCursor(char **p, int idx, int v)
 {
-    int r = func_020260F0(((struct Obj24031 *)(p[11]))->f70);
+    int r = CURSOR_MOVE_GetState(((struct Obj24031 *)(p[11]))->f70);
     BOX2_UI_DeleteSound((int *)p);
-    ((struct Obj24032 *)(p[11]))->f70 = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
-    func_02025D1C(((struct Obj24033 *)(p[11]))->f70);
+    ((struct Obj24032 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
+    CURSOR_MOVE_EnableInput(((struct Obj24033 *)(p[11]))->f70);
     BOX2_UI_UpdateCursor((char *)p, v);
     BOX2_SEQ_SetCursorDraw(p, r);
     ((struct Obj24034 *)(p[11]))->fA168 = v;
@@ -1016,7 +1017,7 @@ void BOX2_UI_MoveCursor(char **p, int idx, int v)
 
 
 /*
- *   func_02025D14 (0x02025D14) stays wildcarded because the target is an
+ *   CURSOR_MOVE_Delete (0x02025D14) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
@@ -1025,7 +1026,7 @@ void BOX2_UI_MoveCursor(char **p, int idx, int v)
 void BOX2_UI_DeleteSound(int *p)
 {
     if ((*(int *)&((BoxTask *)p)->work->sound)) {
-        func_02025D14();
+        CURSOR_MOVE_Delete();
         (*(int *)&((BoxTask *)p)->work->sound) = 0;
     }
 }
@@ -1036,7 +1037,7 @@ void BOX2_UI_DeleteSound(int *p)
 
 void BOX2_UI_SetCursorPos(char **p, unsigned idx)
 {
-    unsigned char *c = func_0202616C(((struct Obj24035 *)(p[11]))->f70, idx);
+    unsigned char *c = CURSOR_MOVE_GetEntry(((struct Obj24035 *)(p[11]))->f70, idx);
     BOX2_SEQ_AddActorSurfacePos(((BoxTask *)p)->work, 4, c[0], c[1], 0);
 }
 
@@ -1087,7 +1088,7 @@ void BOX2_UI_SetCursorSeq(BoxTask *p, int a, int b)
  */
 void BOX2_UI_PlayAndUpdateCursor(BoxTask *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)((*(int *)&p->work->sound)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&p->work->sound)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)p, a);
 }
 
@@ -1112,12 +1113,12 @@ void BOX2_UI_Dummy(void) {}
 
 unsigned BOX2_UI_UpdateCursorInputA(BoxTask *p)
 {
-    unsigned char sel = func_020260E0(p->work->sound);
-    unsigned r = func_02025DE8(p->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(p->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(p->work->sound);
 
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r >= 8 && r <= 12) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1130,11 +1131,11 @@ unsigned BOX2_UI_UpdateCursorInputA(BoxTask *p)
             return 6;
         }
         if (r == 7) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             return 7;
         }
     } else if (r - 6 <= 1) {
-        func_020260E4(p->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(p->work->sound, sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1169,7 +1170,7 @@ void BOX2_UI_CursorTagA(void *a, int tag)
  */
 void BOX2_UI_PlaceCursorAtIcon(BoxTask *p, unsigned idx)
 {
-    unsigned char *q = func_0202616C(*(void ** *)&p->work->sound, idx);
+    unsigned char *q = CURSOR_MOVE_GetEntry(*(void ** *)&p->work->sound, idx);
     BOX2_UI_PlaceCursorBetween((BoxWork *)p->work, 0x54, 0x10, q[0], q[1]);
 }
 
@@ -1193,11 +1194,11 @@ void BOX2_UI_PlaceCursorAtMon(BoxTask *p, unsigned int i)
 
 unsigned BOX2_UI_UpdateCursorInputB(BoxTask *p)
 {
-    unsigned char sel = func_020260E0((p->work->sound));
-    unsigned r = func_02025DE8((p->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((p->work->sound));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((p->work->sound));
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r >= 0x23 && r <= 0x27) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1210,11 +1211,11 @@ unsigned BOX2_UI_UpdateCursorInputB(BoxTask *p)
             return 0x21;
         }
         if (r == 0x22) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             return 0x22;
         }
     } else if (r - 0x21 <= 1) {
-        func_020260E4((p->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((p->work->sound), sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1251,11 +1252,11 @@ void BOX2_UI_CursorTagB(void *a, int tag)
 
 unsigned BOX2_UI_UpdateCursorInputC(BoxTask *p)
 {
-    unsigned char sel = func_020260E0((p->work->sound));
-    unsigned r = func_02025DE8((p->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((p->work->sound));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((p->work->sound));
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r >= 0x24 && r <= 0x29) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1268,11 +1269,11 @@ unsigned BOX2_UI_UpdateCursorInputC(BoxTask *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        func_020260E4((p->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((p->work->sound), sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1323,7 +1324,7 @@ void BOX2_UI_SelectSlot(BoxTask *p, unsigned r)
 {
     int a = 0;
     int f = 0;
-    if (p->b18 == 1) {
+    if (p->handMode == 1) {
         a = 2;
         if (p->params->mode == 3)
             f = 1;
@@ -1374,10 +1375,10 @@ void BOX2_UI_PickSlot(BoxTask *p, int a, int b)
 void BOX2_UI_ConfirmSlot(BoxTask *p, unsigned r)
 {
     if (r - 0x1f <= 1) {
-        func_020260E4(p->work->sound, 0x1e);
+        CURSOR_MOVE_SetCurrent(p->work->sound, 0x1e);
         r = 0x1e;
     } else if (r == 0x21 || r == 0x26 || r - 0x28 <= 2) {
-        func_020260E4(p->work->sound, (*(unsigned *)&p->work->heldSlot));
+        CURSOR_MOVE_SetCurrent(p->work->sound, (*(unsigned *)&p->work->heldSlot));
         r = (*(unsigned *)&p->work->heldSlot);
     } else {
         BOX2_UI_UpdateCursor((char *)p, r);
@@ -1393,7 +1394,7 @@ void BOX2_UI_ConfirmSlot(BoxTask *p, unsigned r)
 
 unsigned BOX2_UI_CursorInputLeft(BoxTask *p)
 {
-    unsigned r = func_02025DE8(p->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(p->work->sound);
     if (r == -1) {
         if (KEY_GetTrg() & 0x800) {
             BOX2_MAIN_PlayCursorSound((BoxTask *)p);
@@ -1434,12 +1435,12 @@ unsigned BOX2_UI_CursorInputLeft(BoxTask *p)
 
 unsigned BOX2_UI_UpdateCursorInputD(BoxTask *p)
 {
-    unsigned char sel = func_020260E0(p->work->sound);
-    unsigned r = func_02025DE8(p->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(p->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(p->work->sound);
 
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r >= 9 && r <= 14) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1452,11 +1453,11 @@ unsigned BOX2_UI_UpdateCursorInputD(BoxTask *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(p->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(p->work->sound, sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1492,7 +1493,7 @@ void BOX2_UI_CursorTagD(void *a, int tag)
 
 unsigned BOX2_UI_CursorInputRight(BoxTask *p)
 {
-    unsigned r = func_02025DE8(p->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(p->work->sound);
     if (r == -1) {
         if (KEY_GetTrg() & 0x800) {
             BOX2_MAIN_PlayCursorSound((BoxTask *)p);
@@ -1547,10 +1548,10 @@ void BOX2_UI_PickSlotB(BoxTask *p, int a, int b)
 void BOX2_UI_ConfirmSlotB(BoxTask *p, unsigned r)
 {
     if (r - 0x25 <= 1) {
-        func_020260E4(p->work->sound, 0x24);
+        CURSOR_MOVE_SetCurrent(p->work->sound, 0x24);
         r = 0x24;
     } else if (r - 0x28 <= 2) {
-        func_020260E4(p->work->sound, (*(unsigned *)&p->work->heldSlot));
+        CURSOR_MOVE_SetCurrent(p->work->sound, (*(unsigned *)&p->work->heldSlot));
         r = (*(unsigned *)&p->work->heldSlot);
     } else {
         BOX2_UI_UpdateCursor((char *)p, r);
@@ -1582,11 +1583,11 @@ void BOX2_UI_ConfirmSlotB(BoxTask *p, unsigned r)
 
 unsigned BOX2_UI_UpdateCursorInputE(BoxTask *p)
 {
-    unsigned char sel = func_020260E0((p->work->sound));
-    unsigned r = func_02025DE8((p->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((p->work->sound));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((p->work->sound));
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r - 0x24 <= 2) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1599,11 +1600,11 @@ unsigned BOX2_UI_UpdateCursorInputE(BoxTask *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        func_020260E4((p->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((p->work->sound), sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1670,12 +1671,12 @@ void BOX2_UI_CursorTagE(void *a, int tag)
  */
 unsigned BOX2_UI_UpdateCursorInputF(BoxTask *p)
 {
-    unsigned char sel = func_020260E0(p->work->sound);
-    unsigned r = func_02025DE8(p->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(p->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(p->work->sound);
 
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r - 9 <= 2) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1688,11 +1689,11 @@ unsigned BOX2_UI_UpdateCursorInputF(BoxTask *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(p->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(p->work->sound, sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1741,7 +1742,7 @@ void BOX2_UI_SetCursorSeqF(BoxTask *p, int a, int b)
  */
 void BOX2_UI_PlayAndUpdateCursorB(BoxTask *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)((*(int *)&p->work->sound)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&p->work->sound)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)p, a);
 }
 
@@ -1760,7 +1761,7 @@ void BOX2_UI_SetCursorSeqG(BoxTask *p, int a, int b)
 
 void BOX2_UI_PlayAndUpdateCursorC(BoxTask *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)((*(int *)&p->work->sound)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&p->work->sound)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)p, a);
 }
 
@@ -1790,7 +1791,7 @@ void BOX2_UI_MoveCursorToHeld(BoxTask *p, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
-        func_020260E4((struct Sound *)((*(int *)&p->work->sound)),
+        CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&p->work->sound)),
                       p->work->heldSlot & 0xff);
         v = p->work->heldSlot;
     } else {
@@ -1824,11 +1825,11 @@ void BOX2_UI_MoveCursorToHeld(BoxTask *p, int a)
 
 unsigned BOX2_UI_UpdateCursorInputG(BoxTask *p)
 {
-    unsigned char sel = func_020260E0((p->work->sound));
-    unsigned r = func_02025DE8((p->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((p->work->sound));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((p->work->sound));
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r >= 0x24 && r <= 0x27) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1841,11 +1842,11 @@ unsigned BOX2_UI_UpdateCursorInputG(BoxTask *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4((p->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound), sel);
             return 0x23;
         }
     } else if (r == 0x1E || r - 0x21 <= 2) {
-        func_020260E4((p->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((p->work->sound), sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1899,12 +1900,12 @@ void BOX2_UI_CursorTagG(void *a, int tag)
 
 unsigned BOX2_UI_UpdateCursorInputH(BoxTask *p)
 {
-    unsigned char sel = func_020260E0(p->work->sound);
-    unsigned r = func_02025DE8(p->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(p->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(p->work->sound);
 
     if (BOX2_UI_IsListOpen(p->work->winMgr) == 0) {
         if (r >= 9 && r <= 12) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             BOX2_UI_UpdateCursor((char *)p, sel);
             return -1;
         }
@@ -1917,11 +1918,11 @@ unsigned BOX2_UI_UpdateCursorInputH(BoxTask *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(p->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(p->work->sound, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(p->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(p->work->sound, sel);
         BOX2_UI_UpdateCursor((char *)p, sel);
         return -1;
     }
@@ -1975,20 +1976,20 @@ void BOX2_UI_CursorTagH(void *a, int tag)
 
 unsigned BOX2_UI_CursorInputPage(BoxTask *p)
 {
-    unsigned char sel=func_020260E0((p->work->sound));
-    unsigned r=func_02025DE8((p->work->sound));
+    unsigned char sel=CURSOR_MOVE_GetCurrent((p->work->sound));
+    unsigned r=CURSOR_MOVE_PollRepeatInput((p->work->sound));
     if(BOX2_UI_IsListOpen(p->work->winMgr)==0) {
         if(r>=0x22 && r<=0x23) {
-            func_020260E4((p->work->sound),sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound),sel);
             BOX2_UI_UpdateCursor((char *)p,sel);
             return -1;
         }
         if(r==0x21) {
-            func_020260E4((p->work->sound),sel);
+            CURSOR_MOVE_SetCurrent((p->work->sound),sel);
             return 0x21;
         }
     } else if(r==0x1e || r==0x21) {
-        func_020260E4((p->work->sound),sel);
+        CURSOR_MOVE_SetCurrent((p->work->sound),sel);
         BOX2_UI_UpdateCursor((char *)p,sel);
         return -1;
     }
@@ -2029,8 +2030,8 @@ void BOX2_UI_CursorTagI(char *a, int b)
  */
 void BOX2_UI_MoveCursorBetweenIcons(BoxWork *q, int a, int b)
 {
-    unsigned char *x = func_0202616C((void **)((*(int *)&q->sound)), a);
-    unsigned char *y = func_0202616C((void **)((*(int *)&q->sound)), b);
+    unsigned char *x = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->sound)), a);
+    unsigned char *y = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->sound)), b);
     BOX2_UI_PlaceCursorBetween((BoxWork *)q, x[0], x[1], y[0], y[1]);
 }
 
@@ -2526,7 +2527,7 @@ int BOX2_UI_IsListClosed(struct WinMgr *mgr)
  */
 void BOX2_UI_AddFadeFrame(BoxTask *p)
 {
-    int x = func_0204162C(0);
+    int x = BG_SYS_GetBuf(0);
     BGWINFRM_AddFrame(p->work->winMgr, 6, 0, 0x20, 3);
     BGWINFRM_SetFrameData(p->work->winMgr, 6, (const void *)(x + 0x540));
 }

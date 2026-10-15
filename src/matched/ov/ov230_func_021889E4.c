@@ -1,5 +1,5 @@
 /*
- * function: func_021889E4
+ * function: LOADER_DECRYPT_SyncCacheRange
  * address:  0x021889E4
  * packet:   pkt_ov230_021889E4
  * region:   ov230
@@ -14,7 +14,7 @@
  *           spelling, so this is an asm function like DC_StoreRange.
  */
 
-asm void func_021889E4(void *addr, unsigned int size)
+asm void LOADER_DECRYPT_SyncCacheRange(void *addr, unsigned int size)
 {
     add     r1, r1, r0
     mov     ip, #0

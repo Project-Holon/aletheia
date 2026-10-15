@@ -35,7 +35,7 @@
  *   func_02034714  0x02034714  arm
  *   func_02028470  0x02028470  thumb
  *   func_02028590  0x02028590  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   d_021E8DEC     0x021E8DEC  data
  */
@@ -81,7 +81,7 @@ extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02028470(u8 *p, u32 v);
 extern int  func_02028590(int, int, int, int);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern int  PRINTSYS_PrintStream(int, int, int, int, int, int, int, int, int, int);
 
 void func_021E8754(S *p, int mode)
@@ -119,7 +119,7 @@ void func_021E8754(S *p, int mode)
         }
         func_02028470((u8 *)p->f38, 2);
         p->f34 = func_02028590(p->f1c, 1, 0, p->f1e);
-        p->f8 = PRINTSYS_PrintStream(p->f14, 0, 0, p->f18, p->f4, func_02012FFC(), p->fc, 0, p->f1e, p->f1c);
+        p->f8 = PRINTSYS_PrintStream(p->f14, 0, 0, p->f18, p->f4, MSG_SPEED_GetWait(), p->fc, 0, p->f1e, p->f1c);
         p->f2c = 1;
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0205A688
+ * function: WDS_GetApInfoByIndex
  * address:  0x0205A688
  * packet:   pkt_0205A688
  * region:   arm9
@@ -81,7 +81,7 @@ typedef struct WDSBriefApInfo {
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
-int func_0205A688(int index, WDSBriefApInfo *briefapinfo)
+int WDS_GetApInfoByIndex(int index, WDSBriefApInfo *briefapinfo)
 {
     if (gWdsWork->status != 2) {
         return -1;

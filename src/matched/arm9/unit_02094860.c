@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02094860, func_020948B0
+ * function: strncpy, strcat
  * address:  0x02094860
  * packet:   pkt_02094798
  * region:   arm9
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u8 *func_02094860(u8 *dest, const u8 *src, u32 n)
+u8 *strncpy(u8 *dest, const u8 *src, u32 n)
 {
     u8 *d = dest;
 
@@ -47,7 +47,7 @@ u8 *func_02094860(u8 *dest, const u8 *src, u32 n)
     } while (1);
 }
 
-u8 *func_020948B0(u8 *dest, const u8 *src)
+u8 *strcat(u8 *dest, const u8 *src)
 {
     u8 *d = dest;
 

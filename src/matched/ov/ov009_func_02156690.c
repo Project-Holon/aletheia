@@ -13,7 +13,7 @@
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   VCT_MAIN_HangUp  0x021AF13C  thumb  ov013
- *   func_02059E38  0x02059E38  arm
+ *   DWC_GetLastErrorEx  0x02059E38  arm
  *   func_02059F18  0x02059F18  arm
  */
 
@@ -24,13 +24,13 @@ typedef unsigned int   u32;
 extern u8 *g_021A8264;
 extern void DWC_RAP_SetState(int v);
 extern void VCT_MAIN_HangUp(void);
-extern int func_02059E38(int *errorCode, int *errorType);
+extern int DWC_GetLastErrorEx(int *errorCode, int *errorType);
 extern void func_02059F18(void);
 
 int DWC_RAP_ProgressDisconnect(int a)
 {
     u32 x, y;
-    if (func_02059E38((int *)(&x), (int *)(&y)) != 0) {
+    if (DWC_GetLastErrorEx((int *)(&x), (int *)(&y)) != 0) {
         func_02059F18();
     }
     if (a == 0) {

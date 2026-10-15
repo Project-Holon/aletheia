@@ -1,5 +1,5 @@
 /*
- * function: func_021D7184
+ * function: WIFI_BSUBWAY_GetErrorState
  * address: 0x021D7184
  * packet: pkt_ov116_021D7184
  * region: ov116
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj06416.h"
 typedef unsigned short u16;
-int func_021D7184(int *p) {
+int WIFI_BSUBWAY_GetErrorState(int *p) {
     int result=0;
     if(p[0]<0) {
         switch(p[0]) {

@@ -15,8 +15,8 @@
  *   WIFICLUBACTOR_SpawnEntity  0x021BA1C4  thumb
  *   WIFICLUBACTOR_SetPlayerState  0x021BA228  thumb  ov099
  *   WIFICLUBACTOR_AttachSprite  0x021BA190  thumb
- *   func_021C5994  0x021C5994  thumb  ov127
- *   func_021C5A60  0x021C5A60  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetPosFromOwner  0x021C5994  thumb  ov127
+ *   WF2DMAP_SCRDRAW_UpdatePosition  0x021C5A60  thumb  ov127
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +26,8 @@ extern void WIFICLUBACTOR_FindCursorStartTile(void *p, u16 *xy);
 extern void WIFICLUBACTOR_SpawnEntity(u8 *p, void **out, short *xy, int a, u16 d, u8 c, int b);
 extern void WIFICLUBACTOR_SetPlayerState(void *w, u8 *s);
 extern void WIFICLUBACTOR_AttachSprite(u8 *p, u8 *s, int n);
-extern void func_021C5994(void *p, void *q);
-extern void func_021C5A60(char *p, void *q);
+extern void WF2DMAP_OBJDRAW_SetPosFromOwner(void *p, void *q);
+extern void WF2DMAP_SCRDRAW_UpdatePosition(char *p, void *q);
 
 u8 *WIFICLUBACTOR_SpawnCursorActor(u8 *p, int v)
 {
@@ -40,7 +40,7 @@ u8 *WIFICLUBACTOR_SpawnCursorActor(u8 *p, int v)
     WIFICLUBACTOR_SpawnEntity(p, (void **)s, (short int *)xy, 0, v, 0, 0);
     WIFICLUBACTOR_SetPlayerState(p, s);
     WIFICLUBACTOR_AttachSprite(p, s, 1);
-    func_021C5994(p + 0x594, **(void ***)(p + 0x570));
-    func_021C5A60(*(char **)(p + 0x598), p + 0x594);
+    WF2DMAP_OBJDRAW_SetPosFromOwner(p + 0x594, **(void ***)(p + 0x570));
+    WF2DMAP_SCRDRAW_UpdatePosition(*(char **)(p + 0x598), p + 0x594);
     return s;
 }

@@ -48,9 +48,9 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_0200BBFC  0x0200BBFC  thumb
+ *   BATTLE_BOX_IsLocked  0x0200BBFC  thumb
  *   FIELD_STATUS_CreateSubProcNoFadeCallbackEvent  0x02014840  thumb
  *   func_02030734  0x02030734  arm
  *   SCRCMD_PROC_FLD_FinishOv170Event  0x021B4D14  thumb  ov021
@@ -111,9 +111,9 @@ extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *func_0200BAC8(void *p);
+extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *func_0200BAF4(int a0, int a1);
-extern u32 func_0200BBFC(struct Obj *p, u32 mask);
+extern u32 BATTLE_BOX_IsLocked(struct Obj *p, u32 mask);
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void SCRCMD_PROC_FLD_FinishOv170Event(void);
@@ -151,9 +151,9 @@ int SCRCMD_PROC_FLD_CallOv170Event(Work021B4D60 *c, void *vm)
     c->kind = kind;
     c->f14 = 0;
     if (kind == 4) {
-        s = func_0200BAC8(x);
+        s = BATTLE_BOX_GetFromSave(x);
         c->f08 = func_0200BAF4((int)s, 4);
-        c->f14 = func_0200BBFC(s, 3);
+        c->f14 = BATTLE_BOX_IsLocked(s, 3);
     }
     h = func_02030734(4, 0xc, 0, d_021DE220, 0x90);
     h->w = w;

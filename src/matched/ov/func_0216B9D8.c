@@ -11,8 +11,8 @@
  *
  * symbols:
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
- *   func_0200C0E8  0x0200C0E8  thumb
- *   func_0200C32C  0x0200C32C  thumb
+ *   BEACON_GetFromSave  0x0200C0E8  thumb
+ *   BEACON_GetEntryCount  0x0200C32C  thumb
  *   SCRCMD_RESEARCH_GetMissionElapsedHours  0x0216BB18  thumb  ov010
  *   SCRCMD_RESEARCH_GetMissionTimeLimitHours  0x0216BBC4  thumb  ov010
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
-extern void *func_0200C0E8(void *sys);
+extern void *BEACON_GetFromSave(void *sys);
 struct Blk34;
-extern u8 func_0200C32C(struct Blk34 *p);
+extern u8 BEACON_GetEntryCount(struct Blk34 *p);
 extern int SCRCMD_RESEARCH_GetMissionElapsedHours(void *sys);
 extern int SCRCMD_RESEARCH_GetMissionTimeLimitHours(int index);
 
@@ -38,9 +38,9 @@ t4 = a0 + 0;
     SYMBOL_SAVE_GetBitBlock((void *)a0);
 loc_0216B9E0:
 a0 = t4 + 0;
-    p = func_0200C0E8((void *)a0);
+    p = BEACON_GetFromSave((void *)a0);
 loc_0216B9E6:
-    a0 = func_0200C32C(p);
+    a0 = BEACON_GetEntryCount(p);
 loc_0216B9EA:
 t5 = a0 + 0;
 a0 = t4 + 0;

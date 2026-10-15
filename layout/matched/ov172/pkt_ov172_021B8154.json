@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8154",
+   "name": "CTVT_COMM_Update",
    "address": "0x021B8154",
    "kind": "game",
    "region": "ov172",

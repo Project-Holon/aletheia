@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CEC
+ * function: CHIHOU_ZUKAN_AWARD_SetupActorPos
  * address: 0x021B9CEC
  * packet: pkt_ov221_021B9CEC
  * region: ov221
@@ -26,7 +26,7 @@ extern struct Vec2 d_021BA140;
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021B9CEC(char *p)
+void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
 {
     if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
         struct Vec2 v;

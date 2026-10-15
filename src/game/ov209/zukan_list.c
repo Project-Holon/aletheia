@@ -26,11 +26,11 @@
  *   func_02005624 0x02005624 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   gZukanListVramBankConfig 0x021BE7D4 data a4
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
- *   func_02040B94 0x02040B94 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
+ *   BG_SYS_InitRun 0x02040B94 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -44,7 +44,7 @@
  *   data_021BE8D4 0x021BE8D4 data a4
  *   data_021BE834 0x021BE834 data a4
  *   func_020403F4  0x020403F4  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -66,17 +66,17 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02041EE4 0x02041EE4 arm
+ *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   ZUKAN_SAVE_GetLastViewedSpecies 0x0200CA8C thumb
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
@@ -93,12 +93,12 @@
  *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
  *   FRAME_LIST_GetCursor 0x021B93B0 thumb ov067
  *   gZukanListStateHandlers 0x021BE96C data a4
- *   func_021C93E4 0x021C93E4 thumb ov212
+ *   ZUKAN_TickCounter 0x021C93E4 thumb ov212
  *   ov067_id 0x00000043 data a1
  *   func_02034AC4 0x02034AC4 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0204363C 0x0204363C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02034A5C 0x02034A5C arm
@@ -179,7 +179,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_021C940C 0x021C940C thumb ov212
+ *   ZUKAN_CreateActor 0x021C940C thumb ov212
  *   CLACT_SetActorVisible 0x0204BA20 arm
  *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
@@ -332,7 +332,7 @@ struct ZukanList {
     int initPhase;                       /* 0xC30 */
     int rowCount;                        /* 0xC34 */
     u16 *formTable;                      /* 0xC38 */
-    u8 padC3C[4];                        /* 0xC3C cursor tracker for func_021C93E4 */
+    u8 padC3C[4];                        /* 0xC3C cursor tracker for ZUKAN_TickCounter */
     u16 moveTimer;                       /* 0xC40 */
     short moveDelta;                     /* 0xC42 */
 };
@@ -349,10 +349,10 @@ typedef struct PtS {s16 x,y;} PtS;
 /* Config passed to CLACT_InitSystem (seven full words). */
 struct ClactInit { u32 words[7]; };
 
-/* Descriptor func_021C940C builds one CLACT actor from. */
+/* Descriptor ZUKAN_CreateActor builds one CLACT actor from. */
 struct ClactActorDesc { u32 attr0, attr4, charIndex, palIndex, animIndex; u16 posX, posY; };
 
-/* Descriptor func_021C940C builds the scrolling species actors from. */
+/* Descriptor ZUKAN_CreateActor builds the scrolling species actors from. */
 struct ClactSpeciesActor { u16 attr0; u16 posY; u32 attr4; u32 charHandle; u32 palHandle; u32 animHandle; u16 attr14; u16 flags; };
 
 /* Character part data returned by func_02049E74. */
@@ -382,15 +382,15 @@ extern void *func_02005624(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
-extern void func_0203F8F4(u16);
+extern void BG_SYS_Create(u16);
 
 extern void func_0203FC28(struct DispConfig *cfg);
 
-extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
+extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 
-extern void func_020414EC(u32);
+extern void BG_SYS_ClearSlot(u32);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void func_02041B6C(u32);
 
@@ -400,7 +400,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 
 extern void func_020403F4(u32 i);
 
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
@@ -444,7 +444,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
@@ -454,7 +454,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 
-extern void func_0201ED04(struct WordSet *);
+extern void WORDSET_DeleteStrbufED04(struct WordSet *);
 
 extern void GF_FONT_Delete(void *);
 
@@ -464,7 +464,7 @@ extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
 extern u32 func_020307B0(void *p);
 
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 
 extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *p);
 
@@ -492,13 +492,13 @@ extern int FRAME_LIST_GetScrollPos(char *);
 
 extern int FRAME_LIST_GetCursor(char *);
 
-extern void ZUKAN_LIST_UpdateActors(struct ZukanList *),ZUKAN_LIST_FlushWindows(struct ZukanList *),func_021C93E4(u32,u32,u8 *);
+extern void ZUKAN_LIST_UpdateActors(struct ZukanList *),ZUKAN_LIST_FlushWindows(struct ZukanList *),ZUKAN_TickCounter(u32,u32,u8 *);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 extern int func_02034AC4(int);
 
@@ -658,7 +658,7 @@ extern void CLACT_ReleaseCellAnim(unsigned);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
@@ -974,20 +974,20 @@ void ZUKAN_LIST_InitBgSystem(void)
 {
     struct Display display;
     struct BgTemplate b0,b1,b2,b3,b4,b5,b6,b7;
-    func_0203F8F4(107);
+    BG_SYS_Create(107);
     display=data_021BE804;func_0203FC28((struct DispConfig *)(&display));
-    b0=data_021BE894;func_0203FCA0(0,&b0,0);
-    func_020414EC(0);func_02040B94(0,32,0,107);func_02041B6C(0);
-    b1=data_021BE874;func_0203FCA0(1,&b1,0);
-    b2=data_021BE814;func_0203FCA0(2,&b2,0);
-    func_020414EC(2);func_02041B6C(2);
-    b3=data_021BE8F4;func_0203FCA0(3,&b3,0);
-    b4=data_021BE8B4;func_0203FCA0(4,&b4,0);
-    func_020414EC(4);func_02040B94(4,32,0,107);func_02041B6C(4);
-    b5=data_021BE854;func_0203FCA0(5,&b5,0);
-    b6=data_021BE8D4;func_0203FCA0(6,&b6,0);
-    func_020414EC(6);func_02041B6C(6);
-    b7=data_021BE834;func_0203FCA0(7,&b7,0);
+    b0=data_021BE894;BG_SYS_InitBgLayer(0,&b0,0);
+    BG_SYS_ClearSlot(0);BG_SYS_InitRun(0,32,0,107);func_02041B6C(0);
+    b1=data_021BE874;BG_SYS_InitBgLayer(1,&b1,0);
+    b2=data_021BE814;BG_SYS_InitBgLayer(2,&b2,0);
+    BG_SYS_ClearSlot(2);func_02041B6C(2);
+    b3=data_021BE8F4;BG_SYS_InitBgLayer(3,&b3,0);
+    b4=data_021BE8B4;BG_SYS_InitBgLayer(4,&b4,0);
+    BG_SYS_ClearSlot(4);BG_SYS_InitRun(4,32,0,107);func_02041B6C(4);
+    b5=data_021BE854;BG_SYS_InitBgLayer(5,&b5,0);
+    b6=data_021BE8D4;BG_SYS_InitBgLayer(6,&b6,0);
+    BG_SYS_ClearSlot(6);func_02041B6C(6);
+    b7=data_021BE834;BG_SYS_InitBgLayer(7,&b7,0);
     BG_SYS_SetMainPlaneVisible(15,1);BG_SYS_SetSubPlaneVisible(15,1);
 }
 
@@ -1003,7 +1003,7 @@ void ZUKAN_LIST_ExitBgSystem(void)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0203F9B4();
+    BG_SYS_Delete();
 }
 
 void ZUKAN_LIST_LoadBgGraphics(void)
@@ -1092,12 +1092,12 @@ void ZUKAN_LIST_CreateFontAndPrinter(struct ZukanList *p)
 {
     p->msgBank = func_02045B38(0, 2, 0x114, 0x6B);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x6B);
-    p->wordSet = func_0201EC64(0x6B);
+    p->wordSet = GF_FONT_Create_EC64(0x6B);
     p->printer = (void *)PRINTSYS_QUE_Create((void *)0x6B);
     p->textBuf = STRBUF_Create(0x80, 0x6B);
 }
 
-void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct U16Vec *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintSys *)p->printer);func_0201ED04((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct Rec *)p->msgBank);}
+void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct U16Vec *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintSys *)p->printer);WORDSET_DeleteStrbufED04((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct Rec *)p->msgBank);}
 
 void ZUKAN_LIST_LoadFormTable(struct ZukanList *p) { p->formTable=POKE_PERSONAL_LoadFormTable(107,0); }
 
@@ -1107,8 +1107,8 @@ void ZUKAN_LIST_MoveScrollBarActorsIn(struct ZukanList *p)
 {
     unsigned i;
     s16 pair[2];
-    func_02041EE4(5, 3, 48);
-    func_02041EE4(1, 3, -48);
+    BG_SYS_ResetSlot(5, 3, 48);
+    BG_SYS_ResetSlot(1, 3, -48);
     for (i = 3; i <= 9; i++) {
         ZUKAN_LIST_GetActorPos(p, i, &pair[1], &pair[0], 0);
         pair[0] += 48;
@@ -1128,8 +1128,8 @@ int ZUKAN_LIST_UpdateActorMove(struct ZukanList *p)
     s16 pair[2];
     int d;
     if (p->moveTimer == 0) return 0;
-    func_02041EE4(5, 4, p->moveDelta);
-    func_02041EE4(1, 5, p->moveDelta);
+    BG_SYS_ResetSlot(5, 4, p->moveDelta);
+    BG_SYS_ResetSlot(1, 5, p->moveDelta);
     for (i = 3; i <= 9; i++) {
         ZUKAN_LIST_GetActorPos(p, i, &pair[1], &pair[0], 0);
         pair[0] += p->moveDelta;
@@ -1213,7 +1213,7 @@ void ZUKAN_LIST_ScrollByDelta(struct ZukanList *p,int delta) { ZUKAN_LIST_Scroll
 
 extern int (*const gZukanListStateHandlers[])(char *);
 
-int ZUKAN_LIST_RunState(struct ZukanList *p) { p->state=(*(int (**)(char *))((u32)gZukanListStateHandlers+p->state*4))((char *)p);if(p->state==9)return 0;ZUKAN_LIST_UpdateActors(p);ZUKAN_LIST_FlushWindows(p);func_021C93E4(3,7,(u8 *)p->padC3C);return 1; }
+int ZUKAN_LIST_RunState(struct ZukanList *p) { p->state=(*(int (**)(char *))((u32)gZukanListStateHandlers+p->state*4))((char *)p);if(p->state==9)return 0;ZUKAN_LIST_UpdateActors(p);ZUKAN_LIST_FlushWindows(p);ZUKAN_TickCounter(3,7,(u8 *)p->padC3C);return 1; }
 
 /*
  * lever: pooled 0x43 is the linker-defined ov067 id, not an integer literal
@@ -1226,8 +1226,8 @@ int ZUKAN_LIST_StateInit(struct ZukanList *p)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     func_0204363C(0);
     ZUKAN_LIST_InitPaletteAnim(p);
     ZUKAN_LIST_SetVramBanks();
@@ -1266,8 +1266,8 @@ int ZUKAN_LIST_StateExit(struct ZukanList *p)
     ZUKAN_LIST_DeleteFontAndPrinter(p);
     ZUKAN_LIST_ExitBgSystem();
     ZUKAN_LIST_ExitPaletteAnim(p);
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     BG_SYS_SetMainVisiblePlanes(0);
@@ -1296,8 +1296,8 @@ int ZUKAN_LIST_StateFadeIn(struct ZukanList *p)
         break;
     case 1:
         if (PALANM_GetFadeRequestBits(p->palAnm) == 0) {
-            func_0207D534((unsigned short *)0x0400006c, 0);
-            func_0207D534((unsigned short *)0x0400106c, 0);
+            GXx_SetMasterBrightness_((unsigned short *)0x0400006c, 0);
+            GXx_SetMasterBrightness_((unsigned short *)0x0400106c, 0);
             ZUKAN_LIST_RequestFade(p, step = 16, 0);
             step -= 24;
             ZUKAN_LIST_StartActorMoveFrames(p, step);
@@ -1744,7 +1744,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
         t.charIndex = p->charHandles[t.charIndex];
         t.palIndex = p->paletteHandles[t.palIndex];
         t.animIndex = p->cellAnimHandles[t.animIndex];
-        p->actors[i] = func_021C940C((u32)(p->clactUnit), (const u8 *)(&t), 0x6b);
+        p->actors[i] = ZUKAN_CreateActor((u32)(p->clactUnit), (const u8 *)(&t), 0x6b);
         CLACT_SetActorVisible((void *)p->actors[i], 0);
     }
     if (p->args->count <= 7) {
@@ -1812,7 +1812,7 @@ void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
     t.charIndex=*(unsigned *)((char *)p+t.charIndex*4+0xb64);
     t.palIndex=*(unsigned *)((char *)p+t.palIndex*4+0xbf4);
     t.animIndex=*(unsigned *)((char *)p+t.animIndex*4+0xc0c);
-    *(void **)((char *)p+0xa74+index*4)=func_021C940C((u32)(p->clactUnit),(const u8 *)(&t),0x6b);
+    *(void **)((char *)p+0xa74+index*4)=ZUKAN_CreateActor((u32)(p->clactUnit),(const u8 *)(&t),0x6b);
     CLACT_SetActorVisible(*(void **)((char *)p+0xa74+index*4),0);
     personal=POKE_PERSONAL_Create(species,(u16)outForm,0x806b);
     if (species!=0 && POKE_PERSONAL_GetParam(personal,0x22)==0)
@@ -1837,7 +1837,7 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
     for (i = 0; i < 16; i++) {
         b.posY = i * 0x18 + 8;
         b.charHandle = *(u32 *)((char *)p + i * 4 + 0xB64);
-        *(u32 *)((char *)p + i * 4 + 0xA9C) = (u32)func_021C940C(*(u32 *)((char *)p + 0xA70), (const u8 *)(&b), 0x6b);
+        *(u32 *)((char *)p + i * 4 + 0xA9C) = (u32)ZUKAN_CreateActor(*(u32 *)((char *)p + 0xA70), (const u8 *)(&b), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + i * 4 + 0xA9C)), 0);
     }
     b = a;
@@ -1847,11 +1847,11 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
         b.posY = j * 0x18 + 0x20;
         b.charHandle = *(u32 *)((char *)p + j * 4 + 0xBA4);
         b.flags = 1;
-        *(u32 *)((char *)p + j * 4 + 0xADC) = (u32)func_021C940C(*(u32 *)((char *)p + 0xA70), (const u8 *)(&b), 0x6b);
+        *(u32 *)((char *)p + j * 4 + 0xADC) = (u32)ZUKAN_CreateActor(*(u32 *)((char *)p + 0xA70), (const u8 *)(&b), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + j * 4 + 0xADC)), 0);
         ZUKAN_LIST_SetActorObjMode(p, j + 0x1a, 1);
         pb = (u32 *)((char *)p + 0xA70);
-        *(u32 *)((char *)p + j * 4 + 0xB1C) = (u32)func_021C940C(*pb, (const u8 *)(&b), 0x6b);
+        *(u32 *)((char *)p + j * 4 + 0xB1C) = (u32)ZUKAN_CreateActor(*pb, (const u8 *)(&b), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + j * 4 + 0xB1C)), 0);
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((char *)p + j * 4 + 0xB1C)), 2);
     }

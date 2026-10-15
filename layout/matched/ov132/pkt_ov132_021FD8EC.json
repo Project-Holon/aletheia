@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FD8EC",
-    "func_021FD8F8"
+    "STA_NET_GetSlotValueByIndex",
+    "STA_NET_GetSlotWordByIndex"
+   ],
+   "addresses": [
+    "0x021FD8EC",
+    "0x021FD8F8"
    ]
   }
  ]

@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "func_021BA21C",
-    "func_021BA238"
+    "UN_SELECT_Callback"
+   ],
+   "addresses": [
+    "0x021BA21C",
+    "0x021BA238"
    ]
   }
  ]

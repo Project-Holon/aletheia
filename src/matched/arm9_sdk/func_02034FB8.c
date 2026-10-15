@@ -1,5 +1,5 @@
 /*
- * function: func_02034FB8
+ * function: UI_ClearKeepAwakeFlagsGlobal
  * address:  0x02034FB8
  * packet:   pkt_02034FB8
  * region:   arm9
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   d_021469BC   0x021469BC  data  a4
- *   func_02034FA0 0x02034FA0  arm
+ *   UI_ClearKeepAwakeFlags 0x02034FA0  arm
  */
 
 typedef unsigned int u32;
 
 extern u32 d_021469BC[];
-extern void func_02034FA0(void *p, u32 v);
+extern void UI_ClearKeepAwakeFlags(void *p, u32 v);
 
-void func_02034FB8(u32 v)
+void UI_ClearKeepAwakeFlagsGlobal(u32 v)
 {
-    func_02034FA0((void *)d_021469BC[0], v);
+    UI_ClearKeepAwakeFlags((void *)d_021469BC[0], v);
 }

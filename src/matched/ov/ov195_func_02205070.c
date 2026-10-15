@@ -1,5 +1,5 @@
 /*
- * function: func_02205070
+ * function: SHINKA_DEMO_CreateActors
  * address:  0x02205070
  * packet:   pkt_02205070
  * region:   ov195
@@ -16,7 +16,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02205A28 0x02205A28 thumb ov195
+ *   SHINKA_DEMO_GRAPHIC_GetCamera 0x02205A28 thumb ov195
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
@@ -34,13 +34,13 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern int func_02205A28(char *a);
+extern int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 
-void func_02205070(int a, char *b)
+void SHINKA_DEMO_CreateActors(int a, char *b)
 {
     void *h;
     u8 i;
@@ -54,7 +54,7 @@ void func_02205070(int a, char *b)
     ARC_TOOL_DeleteHandle(h);
     for (z = i; i < 6; i++) {
         char *e = b + i * 4;
-        ((struct Obj14528 *)e)->f48 = (u32)CLACT_CreateActor((void *)func_02205A28((char *)(((struct Obj01971 *)b)->f4)), ((struct Obj01971 *)b)->f3C, ((struct Obj01971 *)b)->f40,
+        ((struct Obj14528 *)e)->f48 = (u32)CLACT_CreateActor((void *)SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Obj01971 *)b)->f4)), ((struct Obj01971 *)b)->f3C, ((struct Obj01971 *)b)->f40,
                                            ((struct Obj01971 *)b)->f44, d_02208C4C + i * 8, z, ((struct Obj01971 *)b)->f2);
         CLACT_SetActorAutoAnim((struct Obj *)((struct Obj14528 *)e)->f48, z);
     }

@@ -16,7 +16,7 @@
  *   MI_CpuCopy                       0x02082ea4 arm
  *   OS_WakeupThreadDirect            0x02085868 arm
  *   OS_RestoreInterrupts             0x0208799c arm
- *   g_02150FEC                       0x02150fec data
+ *   gMslRefToken                       0x02150fec data
  */
 
 typedef unsigned char u8;
@@ -55,7 +55,7 @@ struct OSThreadInfo {
     struct _OSThread *list;
 };
 
-extern struct OSThreadInfo g_02150FEC;
+extern struct OSThreadInfo gMslRefToken;
 extern u32 check_tcpudpsum(u8 *tcpudp_hdr, u32 len, u8 *ip_hdr, u16 proto);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 enabled);
@@ -76,7 +76,7 @@ void dispatch_udp(u8 *iphdr, u8 *udphdr, u32 len)
     if (*(u16 *)(udphdr + 6) != 0 && check_tcpudpsum(udphdr, len, iphdr, 0x11) != 0)
         return;
     enabled = OS_DisableInterrupts();
-    for (t = g_02150FEC.list; t != 0; t = t->next) {
+    for (t = gMslRefToken.list; t != 0; t = t->next) {
         soc = t->specific;
         if (soc != 0 && soc->thread != 0 && soc->state == 10 &&
             soc->local_port == NTOHS(udphdr + 2) &&

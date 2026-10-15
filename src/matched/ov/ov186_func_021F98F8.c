@@ -25,8 +25,8 @@
  *   func_0200D6EC 0x0200D6EC thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
- *   func_0200A5F8 0x0200A5F8 thumb
- *   func_0200A630 0x0200A630 thumb
+ *   MUSICAL_SAVE_GetFromSave 0x0200A5F8 thumb
+ *   MUSICAL_SAVE_IsShowActive 0x0200A630 thumb
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,14 +42,14 @@ struct U16Vec;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern u8 *BATTLE_REC_GetHeader(void);
-extern void *func_0200A5F8(void *);
+extern void *MUSICAL_SAVE_GetFromSave(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 BATTLE_REC_Load(void *,u16,u32 *,u32);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
-extern u32 func_0200A630(struct Bits *p);
+extern u32 MUSICAL_SAVE_IsShowActive(struct Bits *p);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
 {
@@ -83,7 +83,7 @@ void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
                 *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
-        *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(GAME_DATA_GetSaveControl(sys)));
+        *(u32 *)(p+0x50)=MUSICAL_SAVE_IsShowActive(MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(sys)));
         *(int *)(p+0x54)=1;
     }
 }

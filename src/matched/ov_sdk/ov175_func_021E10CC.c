@@ -12,11 +12,11 @@
  * sdk:      DWC_GdbInitialize (libdwcgdb.TWL.HYB.a(dwc_gdb.o))
  *
  * symbols:
- *   func_0216AAE0  0x0216AAE0  arm  ov009
+ *   DWCi_GetLoginTicket  0x0216AAE0  arm  ov009
  *   DWCi_GdbPrintf  0x021E17D8  arm  ov175
  *   DWCi_GdbGetStartRequestErrorCode  0x021E1EAC  arm  ov175
  *   func_02059F54  0x02059F54  arm
- *   func_0217CA40  0x0217CA40  arm  ov009
+ *   gsCoreInitialize  0x0217CA40  arm  ov009
  *   sakeStartup  0x021DD1EC  arm  ov175
  *   DWCi_GdbShutdownGsCore  0x021E191C  arm  ov175
  *   DWCi_GdbHandleStartupResult  0x021E1EC4  arm  ov175
@@ -55,12 +55,12 @@ typedef struct {
     u8    work[2][56];
 } DWCiGdbEntity;
 
-extern int func_0216AAE0(char *loginTicket);
+extern int DWCi_GetLoginTicket(char *loginTicket);
 struct SAKEInternal;
 extern void DWCi_GdbPrintf(int line, char *fmt, ...);
 extern int DWCi_GdbGetStartRequestErrorCode(int process, int error);
 extern void func_02059F54(int error, int errorCode);
-extern void func_0217CA40(void);
+extern void gsCoreInitialize(void);
 extern int sakeStartup(struct SAKEInternal **sakePtr);
 extern void DWCi_GdbShutdownGsCore(void);
 extern int DWCi_GdbHandleStartupResult(int result);
@@ -81,12 +81,12 @@ int DWC_GdbInitialize(int game_id, DWCstAccUserData *userdata, int ssl_type)
 
     if (gDwcGdbEntity.state != 0)
         return 18;
-    if (!func_0216AAE0(loginTicket)) {
+    if (!DWCi_GetLoginTicket(loginTicket)) {
         DWCi_GdbPrintf(0x11A, sDwcGdbLoginTicketFailed);
         func_02059F54(8, DWCi_GdbGetStartRequestErrorCode(1, 4));
         return 4;
     }
-    func_0217CA40();
+    gsCoreInitialize();
     result = sakeStartup((struct SAKEInternal **)(&gDwcGdbEntity.sake));
     if (result != 0) {
         DWCi_GdbPrintf(0x127, sDwcGdbSakeStartupFailed, result);

@@ -1,5 +1,5 @@
 /*
- * function: func_0219AA08
+ * function: ProcessInitPacket
  * address:  0x0219AA08
  * packet:   pkt_ov009_0219AA08
  * region:   ov009
@@ -15,9 +15,9 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   current_time   0x0217F264  arm  ov009
  *   SendPacket     0x021992A8  arm  ov009
- *   g_021A6470     0x021A6470  data
- *   g_021A648C     0x021A648C  data
- *   g_021A6498     0x021A6498  data
+ *   gNatNegInitAckFmt     0x021A6470  data
+ *   gNatNegErtFmt     0x021A648C  data
+ *   gNatNegReportAckFmt     0x021A6498  data
  */
 
 typedef unsigned char u8;
@@ -62,18 +62,18 @@ typedef struct NATNegotiator
 extern void gsDebugFormat();
 extern u32 current_time(void);
 extern void SendPacket();
-extern char g_021A6470[];
-extern char g_021A648C[];
-extern char g_021A6498[];
+extern char gNatNegInitAckFmt[];
+extern char gNatNegErtFmt[];
+extern char gNatNegReportAckFmt[];
 
-void func_0219AA08(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
+void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
     switch (p->packettype)
     {
     case 1:
         if (p->clientindex > 3)
             return;
-        gsDebugFormat(7, 0, 8, g_021A6470, p->clientindex);
+        gsDebugFormat(7, 0, 8, gNatNegInitAckFmt, p->clientindex);
         neg->initAckRecv[p->clientindex] = 1;
         if (neg->state != 2)
             return;
@@ -89,12 +89,12 @@ void func_0219AA08(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
         neg->progressCallback(neg->state, neg->userdata);
         break;
     case 2:
-        gsDebugFormat(7, 0, 8, g_021A648C);
+        gsDebugFormat(7, 0, 8, gNatNegErtFmt);
         p->packettype = 3;
         SendPacket(neg->negotiateSock, fromaddr->addr, (u16)NN_SWAP16(fromaddr->port), p, 0x15);
         break;
     case 14:
-        gsDebugFormat(7, 0, 8, g_021A6498, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegReportAckFmt, neg->cookie);
         neg->state = 8;
         break;
     }

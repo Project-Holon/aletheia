@@ -26,6 +26,7 @@
  *   func_02008530 0x02008530 thumb
  *   func_0200A9D4 0x0200A9D4 thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
  */
 #include "../include/Obj03232.h"
 typedef unsigned char u8;
@@ -53,7 +54,7 @@ struct Ctx;
 struct T0200A9A4;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200A8A0(void *);
+extern void *IRC_RANKING_GetFromSave(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
@@ -75,7 +76,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleScoring(u8 *p,u16 *state) {
   ref.tail[0]=((struct Obj03232 *)p)->f738;
   if(*(void **)CTX) {
    void *src;
-   src=func_0200A8A0(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)CTX)));
+   src=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)CTX)));
    ref.tail[1]=func_0200A9D4(src,func_02008530((const struct Sub0200852CObj *)(*(u8 **)(CTX+8)+12)))==0;
   }
   if(IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(p+0x75c,&ref)) *state=3; break;

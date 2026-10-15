@@ -1,5 +1,5 @@
 /*
- * function: func_021995E4
+ * function: SendPreinitPacket
  * address:  0x021995E4
  * packet:   pkt_ov009_021995E4
  * region:   ov009
@@ -17,10 +17,10 @@
  *   gsDebugFormat      0x0217D254  arm  ov009
  *   SendPacket         0x021992A8  arm  ov009
  *   current_time       0x0217F264  arm  ov009
- *   g_021A5A7C         0x021A5A7C  data
- *   g_021AE6C4         0x021AE6C4  data
- *   g_021A5B70         0x021A5B70  data
- *   g_021AE698         0x021AE698  data
+ *   gNatNegMagic         0x021A5A7C  data
+ *   gNatNegServer1IP         0x021AE6C4  data
+ *   gNatNegPreinitFmt         0x021A5B70  data
+ *   gNatnegGlobals         0x021AE698  data
  */
 
 #include "../include/G_Magic6.h"
@@ -69,17 +69,17 @@ extern char *SOC_InetNtoA();
 extern void gsDebugFormat();
 extern void SendPacket();
 extern u32 current_time(void);
-extern struct Magic6 g_021A5A7C;
-extern u32 g_021AE6C4;
-extern char g_021A5B70[];
-extern NegotiateAnchor g_021AE698;
+extern struct Magic6 gNatNegMagic;
+extern u32 gNatNegServer1IP;
+extern char gNatNegPreinitFmt[];
+extern NegotiateAnchor gNatnegGlobals;
 
-void func_021995E4(NATNegotiator *neg)
+void SendPreinitPacket(NATNegotiator *neg)
 {
     NatNegPacket p;
 
     {
-        u8 *m = (u8 *)&g_021A5A7C;
+        u8 *m = (u8 *)&gNatNegMagic;
         u8 *d = (u8 *)&p;
         d[0] = m[0];
         d[1] = m[1];
@@ -93,8 +93,8 @@ void func_021995E4(NATNegotiator *neg)
     p.cookie = NN_SWAP32((u32)neg->cookie);
     p.clientindex = (u8)neg->clientindex;
     p.clientUniqueID = GetClientUniqueID();
-    gsDebugFormat(7, 0, 8, g_021A5B70, SOC_InetNtoA(g_021AE6C4), 27901);
-    SendPacket(neg->negotiateSock, g_021AE698.matchup1ip, 27901, &p, 0x12);
+    gsDebugFormat(7, 0, 8, gNatNegPreinitFmt, SOC_InetNtoA(gNatNegServer1IP), 27901);
+    SendPacket(neg->negotiateSock, gNatnegGlobals.matchup1ip, 27901, &p, 0x12);
     if (neg->state == 1)
     {
         neg->retryTime = current_time() + 10000;

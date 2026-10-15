@@ -69,7 +69,7 @@
  *   g_021A1CC0  0x021A1CC0  data
  *   MI_CpuCopy                       0x02082ea4 arm
  *   OS_SleepThread  0x020857B0  arm
- *   g_02150FEC  0x02150FEC  data
+ *   gMslRefToken  0x02150FEC  data
  *   func_020870D0  0x020870D0  arm
  *   g_021A82D4  0x021A82D4  data
  *   g_021A1CA1  0x021A1CA1  data
@@ -494,7 +494,7 @@ static struct OSiAlarm dacktimer_alarm = {0};
 
 static inline void *cur_thread(void)
 {
-	void *volatile t = g_02150FEC.current;
+	void *volatile t = gMslRefToken.current;
 	return t;
 }
 
@@ -1326,7 +1326,7 @@ void dacktimer_reschedule(void)
 
 	enabled = OS_DisableInterrupts();
 	tick = (unsigned long)func_020870D0();
-	for (t = g_02150FEC.list; t != 0; t = t->next) {
+	for (t = gMslRefToken.list; t != 0; t = t->next) {
 		soc = t->specific[0];
 		if (soc != 0 && soc->thread != 0 && soc->state == 4 && soc->ack_pending != 0) {
 			diff = tick - soc->tick_acked;
@@ -1515,7 +1515,7 @@ void scavenger(void)
             gwcache_sleep = 105;
         }
 
-        for (t = g_02150FEC.list; t; t = t->next)
+        for (t = gMslRefToken.list; t; t = t->next)
         {
             soc = (CPSSoc *)t->specific[0];
             if (soc && soc->thread)
@@ -1618,7 +1618,7 @@ int garprequest(void)
  */
 void CPS_SocFlush(void)
 {
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (soc != 0 && *(unsigned long *)(soc + 0x6c) != 0) {
         CPSi_SocWrite2(*(unsigned char **)(soc + 0x68), *(unsigned long *)(soc + 0x6c), 0, 0);
@@ -1638,7 +1638,7 @@ void CPS_SocFlush(void)
 long CPS_SocGetLength(void)
 {
     long count;
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 4)
@@ -1668,7 +1668,7 @@ long CPS_SocGetLength(void)
  */
 unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len)
 {
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
     unsigned long pend;
     unsigned long n;
     unsigned long left;
@@ -1702,7 +1702,7 @@ unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned cha
 	struct _CPSSoc *soc;
 	unsigned long total_written;
 
-	soc = g_02150FEC.current->specific[0];
+	soc = gMslRefToken.current->specific[0];
 	if (soc != 0) {
 		if (soc->state == 10) {
 			if (len)
@@ -1958,7 +1958,7 @@ void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc)
  */
 unsigned char *CPS_SocRead(unsigned long *len)
 {
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)
@@ -2054,7 +2054,7 @@ unsigned char *udp_read_raw(unsigned long *len, struct _CPSSoc *soc)
 void CPS_TcpClose(void)
 {
     unsigned long start;
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (soc == 0)
         return;
@@ -2135,7 +2135,7 @@ void CPSi_TcpShutdownRaw(struct _CPSSoc *soc)
  */
 unsigned long CPS_TcpConnect(void)
 {
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 9) != 0)
@@ -2197,7 +2197,7 @@ unsigned long CPSi_TcpConnectRaw(struct _CPSSoc *soc)
 
 void CPS_SetUdpCallback(int callback)
 {
-	char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+	char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
 	if (soc != 0)
 		*(int *)(soc + 0x44) = callback;
@@ -2215,7 +2215,7 @@ void CPS_SetUdpCallback(int callback)
 
 void CPS_SocDup(char *dst)
 {
-	*(int *)(dst + 0xa4) = *(int *)((char *)g_02150FEC.current + 0xa4);
+	*(int *)(dst + 0xa4) = *(int *)((char *)gMslRefToken.current + 0xa4);
 }
 
 
@@ -2234,7 +2234,7 @@ void CPS_SocDup(char *dst)
  */
 void CPS_SocRelease(void)
 {
-    char *p = (char *)g_02150FEC.current;
+    char *p = (char *)gMslRefToken.current;
     int *q = *(int **)(p + 0xa4);
 
     if (q) {
@@ -2258,7 +2258,7 @@ void CPS_SocRelease(void)
  */
 void CPS_SocUse(void)
 {
-    char *cur = (char *)g_02150FEC.current;
+    char *cur = (char *)gMslRefToken.current;
     char *soc = *(char **)(cur + 0xa4);
 
     if (soc == 0)
@@ -2289,7 +2289,7 @@ void CPS_SocUse(void)
  */
 void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
 {
-    char *soc = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *soc = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (soc == 0)
         return;
@@ -2323,7 +2323,7 @@ void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned
  */
 void CPS_SocDatagramMode(void)
 {
-    char *q = *(char **)((char *)g_02150FEC.current + 0xa4);
+    char *q = *(char **)((char *)gMslRefToken.current + 0xa4);
 
     if (q != 0) {
         *(unsigned char *)(q + 8) = 0xa;
@@ -2348,7 +2348,7 @@ void CPS_SocDatagramMode(void)
  */
 void CPS_SocUnRegister(void)
 {
-    int *p = (int *)g_02150FEC.current;
+    int *p = (int *)gMslRefToken.current;
 
     *(int *)((char *)p + 0xa4) = 0;
 }
@@ -2370,7 +2370,7 @@ void CPS_SocUnRegister(void)
  */
 void CPS_SocRegister(int v)
 {
-    int blk = (int)g_02150FEC.current;
+    int blk = (int)gMslRefToken.current;
 
     *(int *)(blk + 0xa4) = v;
 }
@@ -2419,7 +2419,7 @@ unsigned short CPS_SocGetEport(void)
 		g_021A826C.eport++;
 		if (g_021A826C.eport < 0x400 || g_021A826C.eport >= 5000)
 			g_021A826C.eport = 0x400;
-		for (t = g_02150FEC.list; t != 0; t = t->next) {
+		for (t = gMslRefToken.list; t != 0; t = t->next) {
 			soc = t->specific[0];
 			if (soc != 0 && soc->thread != 0 && soc->local_port == g_021A826C.eport) {
 				conflict = 1;
@@ -2662,7 +2662,7 @@ void dispatch_udp(u8 *iphdr, u8 *udphdr, u32 len)
     if (*(u16 *)(udphdr + 6) != 0 && check_tcpudpsum(udphdr, len, iphdr, 0x11) != 0)
         return;
     enabled = OS_DisableInterrupts();
-    for (t = g_02150FEC.list; t != 0; t = t->next) {
+    for (t = gMslRefToken.list; t != 0; t = t->next) {
         soc = t->specific[0];
         if (soc != 0 && soc->thread != 0 && soc->state == 10 &&
             soc->local_port == NTOHS(udphdr + 2) &&
@@ -3409,7 +3409,7 @@ send:
  */
 void _tcp_send_handshake(char *soc, unsigned char flag)
 {
-    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || g_02150FEC.current != (struct _OSThread *)&g_021A86A4) {
+    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || gMslRefToken.current != (struct _OSThread *)&g_021A86A4) {
         _send_tcp(0, 0, (struct _CPSSoc *)soc, flag);
     } else {
         send_arprequest(get_targetip(*(unsigned long *)(soc + 0x1c)));
@@ -3588,7 +3588,7 @@ struct _CPSSoc *check_listener(unsigned char *iphdr, unsigned char *tcphdr)
 	struct _CPSSoc *soc;
 	struct _OSThread *t;
 
-	for (t = g_02150FEC.list; t != 0; t = t->next) {
+	for (t = gMslRefToken.list; t != 0; t = t->next) {
 		soc = t->specific[0];
 		if (soc != 0 && soc->thread != 0 && soc->state == 1 &&
 		    soc->local_port == SWAP16(*(unsigned short *)(tcphdr + 2)) &&
@@ -3713,7 +3713,7 @@ void process_icmp_reply(unsigned char *iphdr, unsigned char *icmpdata, unsigned 
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
-	for (t = *(struct _OSThread **)((char *)&g_02150FEC + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
+	for (t = *(struct _OSThread **)((char *)&gMslRefToken + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
 		soc = *(struct _CPSSoc **)((char *)t + 0xa4);
 		if (soc != 0 && soc->thread != 0 && soc->state == 0xb &&
 		    *(unsigned short *)(icmpdata + 4) == (unsigned short)(unsigned long)soc->thread &&
@@ -3877,7 +3877,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     if ((flag & 5) == 0 && soc->state == 0)
         return len;
 
-    if (g_02150FEC.current == (struct _OSThread *)&g_021A86A4)
+    if (gMslRefToken.current == (struct _OSThread *)&g_021A86A4)
         hdr = g_021A8328 + 0x22;
     else
         hdr = soc->sndbuf.data + 0x22;
@@ -4031,12 +4031,12 @@ void send_udp(unsigned char *data, unsigned long len, struct _CPSSoc *soc)
  * w8 re-probed-2 (all parked at 46 B unless stated): making g_021A826C `const` AND storing ping_seq
  *     through a const-stripping cast does NOT let its base win the materialisation race -- still
  *     OSi first, same as OSi const alone, so the flip is not about the write. A `const unsigned
- *     long *osi = g_02150FEC` local with `(u16)osi[1]` also leaves 46 B. DWARF order plus
+ *     long *osi = gMslRefToken` local with `(u16)osi[1]` also leaves 46 B. DWARF order plus
  *     `soc->local_port = seq = ...` chained = 55 B. Loading OSi[1] into a u16 local *ahead of* the
  *     0x22 store DOES hoist both bases with netvars first (pool pair correct) but overshoots: the
  *     netvars value load goes to the very top, 60 B. Decision: pure 1.1p1 pre-RA scheduling.
  *
- * w8 re-probed (all still 46 concrete B): `const` on g_02150FEC hoists BOTH bases above the
+ * w8 re-probed (all still 46 concrete B): `const` on gMslRefToken hoists BOTH bases above the
  *     first strh -- the schedule half of the residue -- but materialises OSi_ThreadInfo first,
  *     flipping the pool pair (netvars must stay first). const-read/const-pointer-local of either
  *     base, a named local for the loaded OSi word, and moving the netvars store earlier all fail
@@ -4071,7 +4071,7 @@ void send_ping(unsigned char *pattern, unsigned long len, struct _CPSSoc *soc)
 
 	icmp = soc->sndbuf.data;
 	*(unsigned short *)(icmp + 0x22) = 8;
-	*(unsigned short *)(icmp + 0x26) = (u32)g_02150FEC.current;
+	*(unsigned short *)(icmp + 0x26) = (u32)gMslRefToken.current;
 	*(unsigned short *)(icmp + 0x24) = 0;
 	soc->local_port = pingseq;
 	*(unsigned short *)(icmp + 0x28) = pingseq++;
@@ -5064,7 +5064,7 @@ static void reset_network_vars(int reason)
     if (!had_ip)
         return;
     MI_CpuFill8(g_021A8384, 0, 0x60);
-    for (t = g_02150FEC.list; t != 0; t = t->next) {
+    for (t = gMslRefToken.list; t != 0; t = t->next) {
         soc = t->specific[0];
         if (soc != 0 && soc->thread != 0) {
             if (soc->state != 0xa && soc->state != 0xb)

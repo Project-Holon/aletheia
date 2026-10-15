@@ -16,7 +16,7 @@
  *
  * symbols:
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
- *   func_02025C74  0x02025C74  thumb
+ *   CURSOR_MOVE_GetTableValue  0x02025C74  thumb
  *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
  *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
  *   gUnionCharaMmdlHeader     0x0217FFF8  data  ov019  a4
@@ -33,7 +33,7 @@ typedef struct { s16 x, y; } Pt;
 
 struct BigObj;
 extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
-extern u32 func_02025C74(u32 x);
+extern u32 CURSOR_MOVE_GetTableValue(u32 x);
 extern void FLDMMDL_InitPosRecord(void *, u32, u32, int);
 extern int FLDMMDL_AddMmdl(int, void *, int);
 extern const Tmpl gUnionCharaMmdlHeader;
@@ -51,7 +51,7 @@ int UNION_CHARA_AddMmdl(void *a, int b, u16 c, int d)
     lo = (u16)((d & 0xff) - 0x20);
     l = gUnionCharaMmdlHeader;
     l.h[0] = d;
-    l.h[1] = func_02025C74(c);
+    l.h[1] = CURSOR_MOVE_GetTableValue(c);
     if (lo != 0)
         l.h[2] = 15;
     FLDMMDL_InitPosRecord(&l, (u16)(gUnionCharaSeatPos[hi].x + gUnionCharaMemberOffset[lo].x),

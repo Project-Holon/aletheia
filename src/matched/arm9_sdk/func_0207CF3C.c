@@ -1,5 +1,5 @@
 /*
- * function: func_0207CF3C
+ * function: VEC_Distance
  * address:  0x0207CF3C
  * packet:   pkt_0207CF3C
  * region:   arm9
@@ -51,7 +51,7 @@ static inline u32 CP_GetSqrtResult32(void)
     return reg_CP_SQRT_RESULT;
 }
 
-fx32 func_0207CF3C(const VecFx32 *v1, const VecFx32 *v2)
+fx32 VEC_Distance(const VecFx32 *v1, const VecFx32 *v2)
 {
     fx32 diff;
     fx64 tmp;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5590",
+   "name": "WF2DMAP_OBJDRAW_CreateAnimSeq",
    "address": "0x021C5590",
    "kind": "game",
    "region": "ov127",

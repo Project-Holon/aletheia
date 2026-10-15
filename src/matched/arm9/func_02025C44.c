@@ -1,5 +1,5 @@
 /*
- * function: func_02025C44
+ * function: BMP_OAM_Check5C44
  * address:  0x02025C44
  * packet:   pkt_02025C44
  * region:   arm9
@@ -25,7 +25,7 @@ extern u32 func_02025B3C(u32 a0);
 extern u8  g_0209FA38[];
 extern u8  g_0209FA3C[];
 
-int func_02025C44(u32 a0, u32 *a1, u32 *a2)
+int BMP_OAM_Check5C44(u32 a0, u32 *a1, u32 *a2)
 {
     u32 i = func_02025B3C(a0);
     u32 off;

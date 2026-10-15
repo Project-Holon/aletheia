@@ -13,7 +13,7 @@
  * function: sub_0202E888, sub_0202E8A4, sub_0202E8B8, sub_0202E8CC
  *
  * symbols:
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
  *
  * Four small date helpers. sub_0202E888 asks the ARM clock getter for a
@@ -58,14 +58,14 @@ struct Date0202E888 {
 };
 
 struct RtcDate;
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u8 GAME_DATA_SetSeason(s32 a, u8 b);
 
 u8 sub_0202E888(void)
 {
     struct Date0202E888 d;
 
-    func_0203F4E4((struct RtcDate *)(&d));
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&d));
     return (u8)((d.unk04 - 1) & 3);
 }
 

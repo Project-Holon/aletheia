@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020774A0",
+   "name": "CARD_SetPulledOutCallback",
    "address": "0x020774A0",
    "kind": "sdk",
    "region": "arm9",

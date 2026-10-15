@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02168994",
+   "name": "DWC_SetBuddyFriendCallback",
    "address": "0x02168994",
    "kind": "sdk",
    "region": "ov009",

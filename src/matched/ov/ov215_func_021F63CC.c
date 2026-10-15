@@ -1,5 +1,5 @@
 /*
- * function: func_021F63CC
+ * function: EGG_DEMO_GRAPHIC_Create
  * address: 0x021F63CC
  * packet: pkt_ov215_021F63CC
  * region: ov215
@@ -18,11 +18,11 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021F651C 0x021F651C thumb ov215
- *   func_021F65C0 0x021F65C0 thumb ov215
- *   func_021F6630 0x021F6630 thumb ov215
+ *   EGG_DEMO_GRAPHIC_InitBg 0x021F651C thumb ov215
+ *   EGG_DEMO_GRAPHIC_InitClact 0x021F65C0 thumb ov215
+ *   EGG_DEMO_GRAPHIC_InitG3d 0x021F6630 thumb ov215
  *   func_020056A0 0x020056A0 thumb
- *   func_021F6508 0x021F6508 thumb ov215
+ *   EGG_DEMO_GRAPHIC_VBlank 0x021F6508 thumb ov215
  *   d_021F73E0 0x021F73E0 data a4
  *   d_021F71C4 0x021F71C4 data a4
  */
@@ -41,12 +41,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021F651C(void *,unsigned);
-extern void func_021F65C0(unsigned char *p, int a, u32 b);
-extern void func_021F6630(void **out, u16 heap);
-extern void func_021F6508(int,char *);
+extern void EGG_DEMO_GRAPHIC_InitBg(void *,unsigned);
+extern void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
+extern void EGG_DEMO_GRAPHIC_InitG3d(void **out, u16 heap);
+extern void EGG_DEMO_GRAPHIC_VBlank(int,char *);
 extern void *func_020056A0(void (*)(int,char *),char *,unsigned);
-char *func_021F63CC(unsigned mode,u16 heap)
+char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heap)
 {
     char *p;
     p=func_02030734(heap,16,0,d_021F73E0,466);
@@ -62,9 +62,9 @@ char *func_021F63CC(unsigned mode,u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    func_021F651C(p,heap);
-    func_021F65C0((unsigned char *)(p+4),(int)d_021F71C4,heap);
-    func_021F6630((void **)(p+8),heap);
-    ((struct Obj25749 *)p)->fC=func_020056A0(func_021F6508,p,0);
+    EGG_DEMO_GRAPHIC_InitBg(p,heap);
+    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(p+4),(int)d_021F71C4,heap);
+    EGG_DEMO_GRAPHIC_InitG3d((void **)(p+8),heap);
+    ((struct Obj25749 *)p)->fC=func_020056A0(EGG_DEMO_GRAPHIC_VBlank,p,0);
     return p;
 }

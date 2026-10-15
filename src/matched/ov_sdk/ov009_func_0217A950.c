@@ -12,8 +12,8 @@
  * sdk:      DWC_Netcheck_Destroy (dwc_netcheck.o)
  *
  * symbols:
- *   func_02179CF4  0x02179CF4  arm  ov009
- *   func_02178144  0x02178144  arm  ov009
+ *   DWC_Http_Destroy  0x02179CF4  arm  ov009
+ *   DWC_Auth_Destroy  0x02178144  arm  ov009
  *   g_021ACE5C     0x021ACE5C  data
  */
 
@@ -24,8 +24,8 @@ typedef struct {
     char *nc;
 } G;
 extern struct G g_021ACE5C;
-extern void func_02179CF4(char *http);
-extern void func_02178144(void);
+extern void DWC_Http_Destroy(char *http);
+extern void DWC_Auth_Destroy(void);
 
 void func_0217A950(void)
 {
@@ -33,11 +33,11 @@ void func_0217A950(void)
         *(void (**)(unsigned long, void *, long))(g_021ACE5C.nc + 0x110c);
 
     if (g_021ACE5C.http != 0) {
-        func_02179CF4(g_021ACE5C.http);
+        DWC_Http_Destroy(g_021ACE5C.http);
         free(0, g_021ACE5C.http, 0);
         g_021ACE5C.http = 0;
     }
-    func_02178144();
+    DWC_Auth_Destroy();
     if (g_021ACE5C.nc == 0) {
         return;
     }

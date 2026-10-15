@@ -29,9 +29,9 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern int SCRIPT_WORK_ResetFieldParam(int a0);
-extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+
+
+
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 typedef unsigned char  u8;
 extern u32 FIELD_PLAYER_GetFormCode(u8 *p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6AD4
+ * function: POKETRADE_DEMO_MIDDLE_PrintMessage
  * address:  0x021D6AD4
  * packet:   pkt_ov118_021D6AD4
  * region:   ov118
@@ -42,7 +42,7 @@ extern void func_02041300(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *p, int a, int b);
 extern void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
 
-void func_021D6AD4(u8 *p)
+void POKETRADE_DEMO_MIDDLE_PrintMessage(u8 *p)
 {
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00984 *)p)->f5F4);
     if (((struct Obj00984 *)p)->f118C == 6) {

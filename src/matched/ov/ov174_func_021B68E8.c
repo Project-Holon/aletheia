@@ -1,5 +1,5 @@
 /*
- * function: func_021B68E8
+ * function: LOCAL_TVT_SYS_IsPrintIdle
  * address:  0x021B68E8
  * packet:   pkt_021B68E8
  * region:   ov174
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021B68E8(char *p)
+int LOCAL_TVT_SYS_IsPrintIdle(char *p)
 {
     return ((struct Obj24201 *)p)->f64 == 0;
 }

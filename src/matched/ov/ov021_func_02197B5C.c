@@ -30,7 +30,7 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_0203F9B4  0x0203F9B4  arm
+ *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  * Addresses are Black-image addresses.
@@ -70,7 +70,7 @@ extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
@@ -113,7 +113,7 @@ int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
     CLACT_DeleteUnit((struct Bank *)d[0x9B]);
     CLACT_ExitSystem();
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x1f);
     return 1;

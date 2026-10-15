@@ -12,7 +12,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008B14  0x02008B14  thumb
- *   func_0203F49C  0x0203F49C  arm
+ *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
  *   FIELD_CLOCK_CalcElapsed  0x02168F54  thumb
  *   func_02008BE0  0x02008BE0  thumb
  *   FIELD_CLOCK_UpdateMinutes  0x02169068  thumb
@@ -26,7 +26,7 @@ extern struct Sub02008AECSession *func_02008B14(void *sys);
 typedef unsigned int   u32;
 struct RtcDate;
 struct RtcTime;
-extern void func_0203F49C(struct RtcDate *date, struct RtcTime *time);
+extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern int FIELD_CLOCK_CalcElapsed(int *, int *, int *, int *, int *);
 extern void func_02008BE0(struct Sub02008AECSession *s, u32 n);
 extern void FIELD_CLOCK_UpdateMinutes(int, int, int *);
@@ -41,7 +41,7 @@ void FIELD_CLOCK_Update(int a)
     int *p = (int *)func_02008B14(GAME_DATA_GetSaveControl((struct Big *)a));
     if (*p == 0)
         return;
-    func_0203F49C((struct RtcDate *)A, (struct RtcTime *)B);
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)A, (struct RtcTime *)B);
     if (FIELD_CLOCK_CalcElapsed(p, A, B, &y, &x) == 0)
         return;
     if (x == 0 && y != 0)

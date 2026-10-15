@@ -11,7 +11,7 @@
  *
  * Receive handler for one packet: rejects a length of 0 or over 0xB4 (the
  * over-length case also reports through func_02034714), checks the header
- * checksum at +0 against func_0203F1FC over the rest, filters on the byte
+ * checksum at +0 against GF_STANDARD_SetupCalc over the rest, filters on the byte
  * at +0xC (through the optional hook at d_0217AB40+0x48), tracks the
  * session words at +4/+8, then hands the payload at +0xE to the callback
  * at gIrcNetWork+0 once per new low nibble of the byte at +3.
@@ -23,7 +23,7 @@
  *   gIrcNetWork     0x0217AAC0  data   ov015
  *   d_0217ABA0     0x0217ABA0  data   ov015
  *   func_02034714  0x02034714  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   IRCNET_OnPeerFound  0x02179D14  thumb  ov015
  *   func_02179C98  0x02179C98  thumb  ov015
  */
@@ -59,7 +59,7 @@ extern struct s_aac0 gIrcNetWork;
 extern struct s_aba0 d_0217ABA0;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void IRCNET_OnPeerFound(void);
 extern int func_02179C98(void);
 
@@ -82,7 +82,7 @@ void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type)
         func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     if (!(len != 0 && len <= 0xB4))
         return;
-    if (((struct Obj01643 *)pkt)->f0 != func_0203F1FC(pkt + 2, len - 2))
+    if (((struct Obj01643 *)pkt)->f0 != GF_STANDARD_SetupCalc(pkt + 2, len - 2))
         return;
 
     filter = d_0217AB40.f48;

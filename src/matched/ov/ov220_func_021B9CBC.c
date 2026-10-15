@@ -34,10 +34,10 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EC64 0x0201EC64 thumb
+ *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
@@ -83,10 +83,10 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -148,7 +148,7 @@ void func_021B9CBC(struct Obj *p)
     STRBUF_Delete(x);
     m = *(u16 *)(b + 2);
     if (m > 9999) m = 9999;
-    g = func_0201EC64(p->heap);
+    g = GF_FONT_Create_EC64(p->heap);
     t = func_02045EC0(p->bank, 0x2a);
     z = STRBUF_Create(5, (u16)p->heap);
     off = 0;
@@ -166,7 +166,7 @@ void func_021B9CBC(struct Obj *p)
     STRBUF_Delete(q);
     STRBUF_Delete(z);
     STRBUF_Delete(t);
-    func_0201ED04(g);
+    WORDSET_DeleteStrbufED04(g);
     y = func_02045EC0(p->bank, d_021BA3A8[func_021BA068(*(u16 *)(b + 2))].msg);
     w1 = (u16)func_0201D304(y, (u32)p->str, 0);
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[3]));

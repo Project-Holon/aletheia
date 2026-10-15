@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAA4
+ * function: STAFF_ROLL_CmdStopScroll
  * address: 0x021BAAA4
  * packet: pkt_ov181_021BAAA4
  * region: ov181
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24512.h"
-int func_021BAAA4(char *p) {((struct Obj24512 *)p)->f2E0=0;return 0;}
+int STAFF_ROLL_CmdStopScroll(char *p) {((struct Obj24512 *)p)->f2E0=0;return 0;}

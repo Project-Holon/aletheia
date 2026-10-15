@@ -28,11 +28,11 @@
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0203FCA0  0x0203FCA0  arm
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_InitBgLayer  0x0203FCA0  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
- *   func_02040B94  0x02040B94  arm
- *   sub_020403F4  0x020403F4  arm
+ *   BG_SYS_InitRun  0x02040B94  arm
+ *   BG_SYS_Delete_03F4  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -60,7 +60,7 @@
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   func_02017E88  0x02017E88  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0200ADB4  0x0200ADB4  thumb
+ *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -135,13 +135,13 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
+extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void sub_020403F4(u32 i);
+extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -217,7 +217,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 
-extern void *func_0200ADB4(void *);
+extern void *WORLDTRADE_NoOp(void *);
 
 extern void *func_020185F0();
 
@@ -233,7 +233,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -383,7 +383,7 @@ int WORLDTRADE_DETAIL_Init(Work *p)
 {
     void *mon;
     int index;
-    mon=func_0200ADB4(*(void **)(*(u8 **)p));
+    mon=WORLDTRADE_NoOp(*(void **)(*(u8 **)p));
     WORLDTRADE_DETAIL_CreateStrings(p);
     WORLDTRADE_DETAIL_SetupBgPlanes();
     WORLDTRADE_TITLE_ScrollBg(p,0,0);
@@ -425,23 +425,23 @@ void WORLDTRADE_DETAIL_SetupBgPlanes(void)
     BG_SYS_SetSubPlaneVisible(0x16, 1);
     {
         struct BgTemplate t = g_022034DC;
-        func_0203FCA0(2, &t, 0);
+        BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_020414EC(2);
+    BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
     {
         struct BgTemplate t = g_022034BC;
-        func_0203FCA0(1, &t, 0);
+        BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
         struct BgTemplate t = g_022034FC;
-        func_0203FCA0(3, &t, 0);
+        BG_SYS_InitBgLayer(3, &t, 0);
     }
-    func_020414EC(3);
+    BG_SYS_ClearSlot(3);
     func_02040588(3, 1);
-    func_02040B94(2, 0x20, 0, 0x48);
-    func_02040B94(3, 0x20, 0, 0x48);
+    BG_SYS_InitRun(2, 0x20, 0, 0x48);
+    BG_SYS_InitRun(3, 0x20, 0, 0x48);
 }
 
 /*
@@ -449,10 +449,10 @@ void WORLDTRADE_DETAIL_SetupBgPlanes(void)
  */
 void WORLDTRADE_DETAIL_ExitBgPlanes(void)
 {
-    sub_020403F4(0);
-    sub_020403F4(1);
-    sub_020403F4(2);
-    sub_020403F4(3);
+    BG_SYS_Delete_03F4(0);
+    BG_SYS_Delete_03F4(1);
+    BG_SYS_Delete_03F4(2);
+    BG_SYS_Delete_03F4(3);
 }
 
 void WORLDTRADE_DETAIL_LoadBgGraphics(Work *p)
@@ -550,7 +550,7 @@ int WORLDTRADE_DETAIL_StateStart(Work *p) {p->state=1;return 2;}
 int WORLDTRADE_DETAIL_StateMainInput(Work *p)
 {
     void *q;
-    q = func_0200ADB4(**(void ** *)(void **)&p->ctx);
+    q = WORLDTRADE_NoOp(**(void ** *)(void **)&p->ctx);
     if ((KEY_GetTrg() & 1) || TOUCHPANEL_GetTrg()) {
         WORLDTRADE_DETAIL_PrintMessage((u8 *)p, 5, 1, 0, 0xf0f, q);
         WORLDTRADE_SetNextState(p, 3, 7);
@@ -623,7 +623,7 @@ int WORLDTRADE_DETAIL_StateMenuInput(Work *p)
     if (r == 1) {
         WORLDTRADE_CloseTaskMenuList((unsigned char *)p);
         BMP_MENUWORK_Delete(p->de8);
-        q = func_0200ADB4(**(void ** *)(void **)&p->ctx);
+        q = WORLDTRADE_NoOp(**(void ** *)(void **)&p->ctx);
         if (WORLDTRADE_BOX_IsSpeciesFlagged((unsigned int)q) && POKEPARTY_GetCount(((struct Obj23409 *)(*(char * *)(void **)&p->ctx))->f8) == 6) {
             WORLDTRADE_DETAIL_PrintMessage((u8 *)p, 0x2a, 1, 0, 0xf0f, q);
             WORLDTRADE_SetNextState(p, 3, 1);

@@ -19,7 +19,7 @@
  * CLACT_RegisterCellAnim 0x0204AF28 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * MI_CpuFill8 0x02082BCC arm
- * func_021BA1E0 0x021BA1E0 thumb ov220
+ * TH_AWARD_GRAPHIC_GetActor 0x021BA1E0 thumb ov220
  * CLACT_CreateActor 0x0204B294 arm
  * CLACT_SetActorAnimSeq 0x0204B878 arm
  * CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -51,7 +51,7 @@ extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void MI_CpuFill8(void *, u32, u32);
 struct Obj;
-extern u32 func_021BA1E0(u8 *p);
+extern u32 TH_AWARD_GRAPHIC_GetActor(u8 *p);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -107,7 +107,7 @@ void func_021B99DC(char *p)
       param.x = *((const s16 *) (coords + i * 4));
       param.y = *((const s16 *) (coords + i * 4 + 2));
       slot = p + i * 4;
-      actor = CLACT_CreateActor((void *)func_021BA1E0(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((u32) (&param)), 0, *((u16 *) p));
+      actor = CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((u32) (&param)), 0, *((u16 *) p));
       *((void **) (slot + 0x4C)) = actor;
       CLACT_SetActorAnimSeq(actor, 1);
       CLACT_SetActorAutoAnim(*((void **) (slot + 0x4C)), 0);

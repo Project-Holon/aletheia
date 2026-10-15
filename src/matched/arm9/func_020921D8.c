@@ -1,5 +1,5 @@
 /*
- * function: func_020921D8
+ * function: __signbitd
  * address:  0x020921D8
  * packet:   pkt_02092144
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-int func_020921D8(double v)
+int __signbitd(double v)
 {
     u32 *w = (u32 *)&v;
 

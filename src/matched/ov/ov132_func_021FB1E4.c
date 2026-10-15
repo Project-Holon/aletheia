@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9D90  0x021F9D90  thumb
+ *   STA_ACTING_HideAnim  0x021F9D90  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021F9D90(char *p);
+extern void STA_ACTING_HideAnim(char *p);
 
 int func_021FB1E4(void *a, void **pp)
 {
-    func_021F9D90(((struct Obj23253 *)((u8 *)*pp))->f34);
+    STA_ACTING_HideAnim(((struct Obj23253 *)((u8 *)*pp))->f34);
     return 0;
 }

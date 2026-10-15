@@ -1,5 +1,5 @@
 /*
- * function: func_02097170
+ * function: __num2dec
  * address:  0x02097170
  * packet:   pkt_02096D10
  * region:   arm9
@@ -9,17 +9,17 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_020921D8  0x020921D8  arm
- *   func_020921F4  0x020921F4  arm
+ *   __signbitd  0x020921D8  arm
+ *   __fpclassifyd  0x020921F4  arm
  *   _deq           0x0209BA3C  arm
  *   func_0209AF34  0x0209AF34  arm
  *   frexp  0x0209A6E8  arm
- *   func_02092144  0x02092144  arm
- *   func_02096990  0x02096990  arm
+ *   MSL_C_LIB_PopCount64  0x02092144  arm
+ *   __two_exp  0x02096990  arm
  *   ldexp  0x0209A7A8  arm
  *   func_0209C554  0x0209C554  arm
- *   func_020966B0  0x020966B0  arm
- *   func_02096774  0x02096774  arm
+ *   __ull2dec  0x020966B0  arm
+ *   __timesdec  0x02096774  arm
  *
  * MSL `__num2dec` -- convert a double to the 38-byte packed decimal record
  * (DB) that this family's other functions add, subtract, multiply and print.
@@ -27,7 +27,7 @@
  *
  * Three paths:
  *   1. x == 0.0                 -> sign, exp 0, one digit, digit = 0.
- *   2. NaN or infinity          -> func_020921F4 (the MSL fpclassify: 1 = NaN,
+ *   2. NaN or infinity          -> __fpclassifyd (the MSL fpclassify: 1 = NaN,
  *      2 = Inf, 3 = zero, 4 = normal, 5 = subnormal) returns <= 2; the record
  *      gets one digit, 'N' (0x4E) for NaN and 'I' (0x49) for infinity.  The
  *      classify call is written TWICE, once for the guard and once for the
@@ -39,10 +39,10 @@
  *        v  = the mantissa bits of f with the hidden bit forced on
  *        k  = 53 - popcount64((v & -v) - 1)      -- 53 minus the trailing
  *             zero count, i.e. the number of significant mantissa bits
- *      `func_02096990(&b, e - k)` builds the decimal record of 2^(e-k) (the
+ *      `__two_exp(&b, e - k)` builds the decimal record of 2^(e-k) (the
  *      recursive power-of-two formatter, dense switch over -32..+8), and
- *      `func_020966B0(&a, (u64)ldexp(f, k))` builds the decimal record of the
- *      exact integer mantissa.  `func_02096774(r, &a, &b)` multiplies the two
+ *      `__ull2dec(&a, (u64)ldexp(f, k))` builds the decimal record of the
+ *      exact integer mantissa.  `__timesdec(r, &a, &b)` multiplies the two
  *      records, and the sign is stamped last.
  *
  * THE ONE LEVER, and it is worth four instructions (376 bytes against 384).
@@ -66,8 +66,8 @@
  * the symbols: block has to pin.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02097170.c \
- *       --func func_02097170 --addr 0x02097170 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/__num2dec.c \
+ *       --func __num2dec --addr 0x02097170 --cc 1.1p1 --arm
  *   EXACT, 384 bytes, 12 of 12 relocation sites resolved.
  */
 
@@ -84,19 +84,19 @@ typedef struct {
     u8  buf[33];
 } DB;
 
-extern int func_020921D8(double v);
-extern int func_020921F4(double v);
+extern int __signbitd(double v);
+extern int __fpclassifyd(double v);
 extern double func_0209AF34(double a, double b);
 extern double frexp(double x, int *eptr);
-extern u32 func_02092144(u64 x);
+extern u32 MSL_C_LIB_PopCount64(u64 x);
 struct decimal;
-extern void func_02096990(struct decimal *result, long exp);
+extern void __two_exp(struct decimal *result, long exp);
 extern double ldexp(double x, int n);
 extern u64 func_0209C554(double x);
-extern void func_020966B0(struct decimal *result, unsigned long long val);
-extern void func_02096774(struct decimal *result, const struct decimal *x, const struct decimal *y);
+extern void __ull2dec(struct decimal *result, unsigned long long val);
+extern void __timesdec(struct decimal *result, const struct decimal *x, const struct decimal *y);
 
-void func_02097170(DB *r, double x)
+void __num2dec(DB *r, double x)
 {
     DB a;
     DB b;
@@ -107,7 +107,7 @@ void func_02097170(DB *r, double x)
     double g;
     u8 neg;
 
-    neg = func_020921D8(x) != 0;
+    neg = __signbitd(x) != 0;
     if (x == 0.0) {
         r->f0 = neg;
         r->f2 = 0;
@@ -115,11 +115,11 @@ void func_02097170(DB *r, double x)
         r->buf[0] = 0;
         return;
     }
-    if (func_020921F4(x) <= 2) {
+    if (__fpclassifyd(x) <= 2) {
         r->f0 = neg;
         r->f2 = 0;
         r->f4 = 1;
-        r->buf[0] = (func_020921F4(x) == 1) ? 0x4E : 0x49;
+        r->buf[0] = (__fpclassifyd(x) == 1) ? 0x4E : 0x49;
         return;
     }
     if (neg)
@@ -127,9 +127,9 @@ void func_02097170(DB *r, double x)
     f = frexp(x, &e);
     g = f;
     v = *(u64 *)&g | 0x0010000000000000ULL;
-    k = 0x35 - func_02092144((v & -v) - 1);
-    func_02096990((struct decimal *)(&b), e - k);
-    func_020966B0((struct decimal *)(&a), func_0209C554(ldexp(f, k)));
-    func_02096774((struct decimal *)r, (const struct decimal *)(&a), (const struct decimal *)(&b));
+    k = 0x35 - MSL_C_LIB_PopCount64((v & -v) - 1);
+    __two_exp((struct decimal *)(&b), e - k);
+    __ull2dec((struct decimal *)(&a), func_0209C554(ldexp(f, k)));
+    __timesdec((struct decimal *)r, (const struct decimal *)(&a), (const struct decimal *)(&b));
     r->f0 = neg;
 }

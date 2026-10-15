@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202A440
+ * function: TR_TOOL_LoadTrainerInfo
  * address:  0x0202A440
  * packet:   pkt_0202A440
  * region:   arm9
@@ -18,7 +18,7 @@
  * symbols:
  *   g_020A76DC     0x020A76DC  data
  *   func_02030734  0x02030734  arm
- *   func_0202A3AC  0x0202A3AC  thumb
+ *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -56,7 +56,7 @@ typedef unsigned short u16;
 struct MsgBank;
 struct Rec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0202A3AC(void *a0, void *a1);
+extern void TPOKE_DATA_ReadRecord(void *a0, void *a1);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -64,13 +64,13 @@ extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 extern u32 func_020307B0(void *p);
 
-void func_0202A440(u32 id, struct Out *out, u32 heap)
+void TR_TOOL_LoadTrainerInfo(u32 id, struct Out *out, u32 heap)
 {
     struct Tmp *t;
     void *bank;
 
     t = func_02030734(heap, 0x14, 0, g_020A76DC, 0x159);
-    func_0202A3AC((void *)id, t);
+    TPOKE_DATA_ReadRecord((void *)id, t);
 
     out->f00 = id;
     out->f04 = t->f01;

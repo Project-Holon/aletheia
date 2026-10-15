@@ -15,9 +15,9 @@
  *   FIELD_RAIL_SETTING_GetLinePos  0x021B8848  thumb  ov021
  *   FIELD_RAIL_SETTING_GetLineFunc  0x021B88B8  thumb  ov021
  *   FIELD_RAIL_IntersectSegmentPlane  0x021B9828  thumb  ov021
- *   func_0207CA00  0x0207CA00  arm
- *   func_0207CAE8  0x0207CAE8  arm
- *   func_0207CF3C  0x0207CF3C  arm
+ *   VEC_Subtract  0x0207CA00  arm
+ *   VEC_CrossProduct  0x0207CAE8  arm
+ *   VEC_Distance  0x0207CF3C  arm
  *   gRailUpAxis     0x021D9A00  data   a4
  * Addresses are Black-image addresses.
  */
@@ -43,9 +43,9 @@ extern u8 *FIELD_RAIL_SETTING_GetPoint(u8 *p, u32 idx);
 extern u32 *FIELD_RAIL_SETTING_GetLinePos(u8 *a, u32 b);
 extern HitFn FIELD_RAIL_SETTING_GetLineFunc(u8 *a, u32 b);
 extern int FIELD_RAIL_IntersectSegmentPlane(VecFx32 *a, VecFx32 *b, VecFx32 *c, VecFx32 *d, VecFx32 *e, VecFx32 *f);
-extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-extern void func_0207CAE8(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
-extern fx32 func_0207CF3C(const VecFx32 *v1, const VecFx32 *v2);
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
+extern fx32 VEC_Distance(const VecFx32 *v1, const VecFx32 *v2);
 extern const VecFx32 gRailUpAxis;
 
 int FIELD_RAIL_FindSegmentLocation(u8 *p, const VecFx32 *pa, const VecFx32 *pb, Rect4 *r, VecFx32 *out)
@@ -80,8 +80,8 @@ int FIELD_RAIL_FindSegmentLocation(u8 *p, const VecFx32 *pa, const VecFx32 *pb, 
         n0 = (Node *)FIELD_RAIL_SETTING_GetPoint(p + 0x20, t[0]);
         n1 = (Node *)FIELD_RAIL_SETTING_GetPoint(p + 0x20, t[1]);
         m = FIELD_RAIL_SETTING_GetLinePos(p + 0x20, t[3]);
-        func_0207CA00(&n0->pos, &n1->pos, &d);
-        func_0207CAE8(&d, &up, &n);
+        VEC_Subtract(&n0->pos, &n1->pos, &d);
+        VEC_CrossProduct(&d, &up, &n);
         if (FIELD_RAIL_IntersectSegmentPlane(&d, &n, &n1->pos, &a, &b, &hit) == 0) {
             continue;
         }
@@ -95,10 +95,10 @@ int FIELD_RAIL_FindSegmentLocation(u8 *p, const VecFx32 *pa, const VecFx32 *pb, 
         if (!found) {
             bestR = *r;
             bestPos = *out;
-            best = func_0207CF3C(&a, out);
+            best = VEC_Distance(&a, out);
             found = 1;
         } else {
-            dist = func_0207CF3C(&a, out);
+            dist = VEC_Distance(&a, out);
             if (dist < best) {
                 bestR = *r;
                 bestPos = *out;

@@ -30,9 +30,9 @@
  *   comm_player_support_File     0x020A77EC  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
- *   func_02012138  0x02012138  thumb
+ *   ICA_ANIME_GetField24  0x02012138  thumb
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb
- *   func_0203F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008534  0x02008534  thumb
@@ -84,7 +84,7 @@
  *   func_02017E88   0x02017E88  thumb
  *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
- *   func_020212E4  0x020212E4  thumb
+ *   FILE_UTIL_Check12E4  0x020212E4  thumb
  *   func_02007084  0x02007084  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
@@ -92,23 +92,23 @@
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   GFL_NET_Main  0x0203CF5C  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   func_020351A0  0x020351A0  arm
+ *   UI_ClearFlags39Global  0x020351A0  arm
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
- *   func_0207D534    0x0207D534  arm
- *   func_0207D3AC    0x0207D3AC  arm
+ *   GXx_SetMasterBrightness_    0x0207D534  arm
+ *   GX_HBlankIntr    0x0207D3AC  arm
  *   GX_VBlankIntr    0x0207D3E4  arm
  *   func_020808F4    0x020808F4  arm
  *   func_020809A0    0x020809A0  arm
  *   func_0207FDCC    0x0207FDCC  arm
- *   func_0207D4B0    0x0207D4B0  arm
- *   func_0207E24C    0x0207E24C  arm
+ *   GX_SetGraphicsMode    0x0207D4B0  arm
+ *   G2_GetBG1CharPtr    0x0207E24C  arm
  *   func_02082A7C    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   func_02062A4C    0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
  *   MIi_CpuCopy16    0x02082A60  arm
  *   func_02062B30    0x02062B30  arm
- *   func_0207DFB4    0x0207DFB4  arm
+ *   G2_GetBG1ScrPtr    0x0207DFB4  arm
  *   func_02062AD4    0x02062AD4  arm
  *   func_02062A98    0x02062A98  arm
  *   MIi_CpuClear16    0x02082A48  arm
@@ -127,6 +127,8 @@
  *   sOverlayLaunchWork     0x02146948  data
  *   sOverlayLaunchWorkArg 0x02146948  data
  *   PROCSYS_PushGlobal  0x020312CC  arm
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  */
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
@@ -178,7 +180,7 @@ struct CommPlayerSupport {
     struct PlayerRecord previous;   /* 0x2c */
 };
 
-/* RTC date as func_0203F4E4 fills it: year, month, day, weekday. */
+/* RTC date as GF_STANDARD_SetField00_F4E4 fills it: year, month, day, weekday. */
 struct RtcDate {
     s32 year;
     s32 month;
@@ -284,12 +286,12 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void MYSTATUS_Init(struct PlayerRecord *record);
-extern u32 func_02012138(const struct PlayerInfo *info);
+extern u32 ICA_ANIME_GetField24(const struct PlayerInfo *info);
 extern int INTRUDE_COMM_GetAreaSlotFlag(int value);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u8 GAME_DATA_SetSeason(s32 handle, u8 value);
-extern int func_02012B70(struct PlayerInfo *info);
-extern int func_02012984(struct PlayerInfo *info);
+extern int GAME_DATA_GetIntrudeCount(struct PlayerInfo *info);
+extern int GAME_DATA_GetSeason(struct PlayerInfo *info);
 extern int func_02009D1C(struct PlayerLookup *lookup, const struct PlayerRecord *record, u32 *out);
 extern u16 *func_020084F4(const struct PlayerRecord *record);
 extern u16 func_02008534(const struct PlayerRecord *record);
@@ -338,7 +340,7 @@ extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 extern struct Strbuf *func_02008510(const struct PlayerRecord *record, u32 index);
 extern u32 func_02008550(const struct PlayerRecord *record);
 extern u32 POKE_TOOL_IsBoxShiny(struct SaveData *save);
-extern u32 func_020212E4(u16 value);
+extern u32 FILE_UTIL_Check12E4(u16 value);
 extern void func_02007084(void);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_ClearExitFlag(void);
@@ -346,23 +348,23 @@ extern int GFL_NET_Exit(int enable);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern u32 GFL_NET_Main(void);
 extern int GFL_NET_IsSessionNull(void);
-extern int func_020351A0(u32 stage);
+extern int UI_ClearFlags39Global(u32 stage);
 extern void GFL_USE_PollPowerExit(void);
-extern void func_0207D534(volatile u16 *reg, int brightness);
-extern long func_0207D3AC(int enable);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+extern long GX_HBlankIntr(int enable);
 extern long GX_VBlankIntr(int enable);
 extern int func_020808F4(void);
 extern int func_020809A0(void);
 extern void func_0207FDCC(u32 layerMask);
-extern void func_0207D4B0(int dispMode, int bgMode, int bg0Is3d);
-extern void *func_0207E24C(void);
+extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
+extern void *G2_GetBG1CharPtr(void);
 extern void func_02082A7C(u32 value, u32 dest, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int memberId, int compressed, int heapId);
 extern s32 func_02062A4C(struct ArchiveRecord *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(u32 addr, u32 size);
 extern void MIi_CpuCopy16(u32 src, u32 dest, u32 size);
 extern int func_02062B30(void *file, void **out);
-extern void *func_0207DFB4(void);
+extern void *G2_GetBG1ScrPtr(void);
 extern s32 func_02062AD4(struct ArchiveRecord *file, void **out);
 extern s32 func_02062A98(struct ArchiveRecord *file, void **out);
 extern void MIi_CpuClear16(u32 value, u32 dest, u32 size);
@@ -567,7 +569,7 @@ struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSuppor
 
 int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info)
 {
-    return INTRUDE_COMM_GetAreaSlotFlag(func_02012138(info));
+    return INTRUDE_COMM_GetAreaSlotFlag(ICA_ANIME_GetField24(info));
 }
 
 
@@ -582,14 +584,14 @@ int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
     int stored;
     int current;
 
-    isFixed = func_02012B70(info);
+    isFixed = GAME_DATA_GetIntrudeCount(info);
     if ((unsigned int)isFixed != 0) {
-        stored = func_02012984(info);
+        stored = GAME_DATA_GetSeason(info);
         *outStored = (unsigned short)stored;
         *outCurrent = *outStored;
         return 0;
     } else {
-        stored = func_02012984(info);
+        stored = GAME_DATA_GetSeason(info);
         *outStored = (unsigned short)stored;
         current = sub_0202E888();
         *outCurrent = (unsigned short)current;
@@ -628,7 +630,7 @@ u8 sub_0202E888(void)
 {
     struct RtcDate date;
 
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
     return (u8)((date.month - 1) & 3);
 }
 
@@ -1544,7 +1546,7 @@ void func_0202F27C(struct SaveData *save)
 {
     struct RtcDate date;
 
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
 
     POKE_TOOL_SetBoxValue(save, 0x92, date.year);
     POKE_TOOL_SetBoxValue(save, 0x93, date.month);
@@ -1574,7 +1576,7 @@ void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant)
 {
     struct RtcDate date;
 
-    func_0203F4E4(&date);
+    GF_STANDARD_SetField00_F4E4(&date);
 
     if (ZONEDATA_IsRawZoneGroup4CTo69((u16)eventId) == 1)
         func_0202F358(save, 0x753E, date.year, date.month, date.day, variant);
@@ -1795,23 +1797,23 @@ unsigned int func_0202F6D8(unsigned int id) {
 
 
 /*
- * Twelve-byte tail forwarder (pool word and bx) to func_020212E4 with the
+ * Twelve-byte tail forwarder (pool word and bx) to FILE_UTIL_Check12E4 with the
  * second argument; witness for ov131 P_STA_SKILL_HandleTouchForget (bl at +0x13A), whose
  * call supplies a pointer, a halfword and a second halfword.
  */
 u32 func_0202F72C(void *unused, u16 value, u16 unused2)
 {
-    return func_020212E4(value);
+    return FILE_UTIL_Check12E4(value);
 }
 
 
-/* 1 when none of the four save variables 0x36 to 0x39 passes func_020212E4. */
+/* 1 when none of the four save variables 0x36 to 0x39 passes FILE_UTIL_Check12E4. */
 int func_0202F738(struct SaveData *save, int unused)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (func_020212E4((u16)func_02017E88(save, i + 0x36, 0)) != 0) {
+        if (FILE_UTIL_Check12E4((u16)func_02017E88(save, i + 0x36, 0)) != 0) {
             return 0;
         }
     }
@@ -1870,7 +1872,7 @@ void func_0202F788(u32 mode)
             GFL_NET_Main();
         } while (!GFL_NET_IsSessionNull());
     }
-    func_020351A0(2);
+    UI_ClearFlags39Global(2);
     for (;;)
         GFL_USE_PollPowerExit();
 }
@@ -1882,7 +1884,7 @@ void func_0202F788(u32 mode)
  * their compared range was their only `label` witness until those two files
  * existed.  Everything else is `label`.
  *
- * A display reset for the shutdown screen: two func_0207D534 writes of
+ * A display reset for the shutdown screen: two GXx_SetMasterBrightness_ writes of
  * 0xFFFFFFF0 to the master brightness registers of both engines, the engine
  * setup calls, then three read-modify-write pairs on the hardware registers
  * (DISPCNT: clear bits 8-12, set bit 9, then clear 0xE000; BG1CNT: clear all
@@ -1896,14 +1898,14 @@ void func_0202F788(u32 mode)
  */
 void func_0202F7C4(u32 messageId)
 {
-    func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, 0xFFFFFFF0);
-    func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, 0xFFFFFFF0);
-    func_0207D3AC(0);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, 0xFFFFFFF0);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, 0xFFFFFFF0);
+    GX_HBlankIntr(0);
     GX_VBlankIntr(0);
     func_020808F4();
     func_020809A0();
     func_0207FDCC(4);
-    func_0207D4B0(1, 0, 0);
+    GX_SetGraphicsMode(1, 0, 0);
     REG32(REG_DISPCNT_A) = (REG32(REG_DISPCNT_A) & 0xFFFFE0FF) | 0x200;
     REG32(REG_DISPCNT_A) = REG32(REG_DISPCNT_A) & 0xFFFF1FFF;
     REG16(REG_BG1CNT_A) = (REG16(REG_BG1CNT_A) & 0x43) | 4;
@@ -1912,8 +1914,8 @@ void func_0202F7C4(u32 messageId)
     REG16(REG_BLDCNT_A) = 0;
     func_0202F870();
     func_0202F940(messageId);
-    func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, 0);
-    func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, 0x10);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, 0x10);
 }
 
 
@@ -1922,7 +1924,7 @@ void func_0202F7C4(u32 messageId)
  * probe it (func_02062A4C / 02062B30 / 02062A98 with a stack out-pointer), and
  * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
  * fill it back through MIi_CpuCopy16 with the current frame-tick from the
- * getter (func_0207E24C / func_0207DFB4).  The handle is released with
+ * getter (G2_GetBG1CharPtr / G2_GetBG1ScrPtr).  The handle is released with
  * func_020307B0 after each block.
  *
  * The idiom that makes this EXACT: the word each block reads twice (size of
@@ -1951,17 +1953,17 @@ void func_0202F870(void)
     u32 charSize;
     u32 screenSize;
 
-    func_02082A7C(0, (u32)func_0207E24C(), 0x4000);
+    func_02082A7C(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (func_02062A4C((struct ArchiveRecord *)res, (void **)(&chars)) != 0) {
         DWCi_ScreenDC_FlushRange(chars[5], chars[4]);
-        MIi_CpuCopy16(chars[5], (u32)func_0207E24C(), charSize = chars[4]);
+        MIi_CpuCopy16(chars[5], (u32)G2_GetBG1CharPtr(), charSize = chars[4]);
     }
     func_020307B0((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (func_02062B30((void *)res, (void **)(&screen)) != 0) {
         DWCi_ScreenDC_FlushRange((u32)screen + 0xc, screen[2]);
-        MIi_CpuCopy16((u32)screen + 0xc, (u32)func_0207DFB4(), screenSize = screen[2]);
+        MIi_CpuCopy16((u32)screen + 0xc, (u32)G2_GetBG1ScrPtr(), screenSize = screen[2]);
     }
     func_020307B0((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
@@ -1998,7 +2000,7 @@ void func_0202F940(u32 messageId)
     struct MsgBank *msgBank;
     struct Strbuf *message;
 
-    tilemap = (u16 *)func_0207DFB4();
+    tilemap = (u16 *)G2_GetBG1ScrPtr();
     tile = 0x20;
     for (row = 4; row < 0x14; row++) {
         for (column = 1; column < 0x1f; column++) {
@@ -2006,8 +2008,8 @@ void func_0202F940(u32 messageId)
             tile = tile + 1;
         }
     }
-    MIi_CpuClear16(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
-    bmp = BMP_CreateFromVram((void *)((u32)func_0207E24C() + 0x400), 0x1e, 0x10, 0x20, 7);
+    MIi_CpuClear16(0x7777, (u32)G2_GetBG1CharPtr() + 0x400, 0x3C00);
+    bmp = BMP_CreateFromVram((void *)((u32)G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = GF_FONT_Create(0x17, 0, 0, 0, 7);
     msgBank = func_02045B38(0, 2, 2, 7);
     message = func_02045EC0(msgBank, messageId);
@@ -2032,7 +2034,7 @@ int func_0202F9F4(void)
  * of a known overlay loader), which was the last blocker.
  *
  * A five-state proc driver, the net_save.c shape of
- * src/pending/func_02010AC4.c: state 0 starts overlay 0x58's proc on
+ * src/pending/GFL_NET_SAVE_Main.c: state 0 starts overlay 0x58's proc on
  * &sOverlayLaunchWork.mode, states 1 to 3 (re)start overlay 0xB3's proc on
  * the work block, with state 2 bailing to 4 when `aborted` is set, and
  * state 4 starts overlay 0x58's second proc and resets to 0.

@@ -1,5 +1,5 @@
 /*
- * function: func_0208BEF0
+ * function: PM_SetAmp
  * address:  0x0208BEF0
  * packet:   pkt_0208BEF0
  * region:   arm9
@@ -19,7 +19,7 @@ extern int g_02153000[];
 
 unsigned int PMi_SetAmp(unsigned int status);
 
-unsigned int func_0208BEF0(unsigned int status)
+unsigned int PM_SetAmp(unsigned int status)
 {
     g_02153000[6] = status;
     return PMi_SetAmp(status);

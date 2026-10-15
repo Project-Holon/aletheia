@@ -1,5 +1,5 @@
 /*
- * function: func_0220B0B0
+ * function: B_APP_TOOL_Update
  * address: 0x0220B0B0
  * packet: pkt_ov196_0220B0B0
  * region: ov196
@@ -22,7 +22,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_0220B0B0(Entry *p,int b,unsigned n)
+void B_APP_TOOL_Update(Entry *p,int b,unsigned n)
 {
     unsigned i;
     PRINTSYS_QUE_Main((struct PrintSys *)b);

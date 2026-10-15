@@ -15,7 +15,7 @@
  *   ghiLock                    0x021c0370 arm  ov114
  *   ghiFindFreeSlot                    0x021c08b0 arm  ov114
  *   ghiUnlock                    0x021c0374 arm  ov114
- *   func_020923B0                    0x020923b0 arm
+ *   MSL_C_LIB_MemsetPtr                    0x020923b0 arm
  *   ghiInitBuffer                    0x021bfbd0 arm  ov114
  *   ghiFreeConnection                    0x021c0d40 arm  ov114
  *   g_021D3B30                       0x021d3b30 data
@@ -87,7 +87,7 @@ typedef struct GHIConnection {
 extern void ghiLock(void);
 extern int ghiFindFreeSlot(void);
 extern void ghiUnlock(void);
-extern void *func_020923B0(void *dst, int c, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern int ghiInitBuffer(unsigned int a0, unsigned int *a1, int a2, int a3);
 extern int ghiFreeConnection(GHIConnection *connection);
 extern struct GHIGlobals g_021D3B30;
@@ -107,7 +107,7 @@ GHIConnection *ghiNewConnection(void)
     }
 
     connection = ((GHIConnection **)g_021D3B30.connections)[slot];
-    func_020923B0(connection, 0, sizeof(GHIConnection));
+    MSL_C_LIB_MemsetPtr(connection, 0, sizeof(GHIConnection));
     connection->inUse = 1;
     connection->index = slot;
     connection->uniqueID = g_021D3B30.nextUniqueID++;

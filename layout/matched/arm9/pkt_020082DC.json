@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020082DC",
+   "name": "CONFIG_InitKeyControlTable",
    "address": "0x020082DC",
    "kind": "game",
    "region": "arm9",

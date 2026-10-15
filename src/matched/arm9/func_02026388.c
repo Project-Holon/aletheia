@@ -1,5 +1,5 @@
 /*
- * function: func_02026388
+ * function: GAME_COMM_CallHandler
  * address:  0x02026388
  * packet:   pkt_0202627C
  * region:   arm9
@@ -15,7 +15,7 @@
  * Blocker: 0x0209FB70 (data).
  *
  * symbols:
- *   g_0209FB70  0x0209FB70  data
+ *   gGameCommHandlers  0x0209FB70  data
  */
 
 typedef signed char    s8;
@@ -36,12 +36,12 @@ struct Obj {
 
 typedef void (*Fn)(u32 a, u32 b, u32 c);
 
-extern u8 g_0209FB70[];
+extern u8 gGameCommHandlers[];
 
-void func_02026388(struct Obj *p, u32 a)
+void GAME_COMM_CallHandler(struct Obj *p, u32 a)
 {
     if (p->f10 != 5) {
-        Fn fn = *(Fn *)(g_0209FB70 + p->f5 * 0x1C);
+        Fn fn = *(Fn *)(gGameCommHandlers + p->f5 * 0x1C);
 
         if (fn != 0) {
             fn(p->f14, p->f18, a);

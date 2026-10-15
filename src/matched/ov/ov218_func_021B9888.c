@@ -1,5 +1,5 @@
 /*
- * function: func_021B9888
+ * function: UN_SELECT_Delete
  * address: 0x021B9888
  * packet: pkt_ov218_021B9888
  * region: ov218
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void TOUCHBAR_Delete(u8 *);
-void func_021B9888(u8 *p)
+void UN_SELECT_Delete(u8 *p)
 {
     TOUCHBAR_Delete(p);
 }

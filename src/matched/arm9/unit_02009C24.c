@@ -11,19 +11,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009C24, sub_02009CA8
+ * function: WIFILIST_MergeFriendRecord, WIFILIST_CreateExchangeToken
  *
  * symbols:
  *   MI_CpuFill8             0x02082BCC  arm
  *   DWC_CreateExchangeToken 0x020599BC  arm
  *
- * alias: wifilist.c.  sub_02009C24 folds one entry's three counters into
- * another's, clamping each at 9999 the way sub_02009BB8 does, and then clears
+ * alias: wifilist.c.  WIFILIST_MergeFriendRecord folds one entry's three counters into
+ * another's, clamping each at 9999 the way WIFILIST_AddFriendBattleRecord does, and then clears
  * the entry it drained.
  *
  * The cut between this range and src/matched/unit_02009CB0.c is what makes
  * both halves EXACT.  DWC_CreateExchangeToken is reached from exactly two
- * places in the image, the pool word of sub_02009CA8 at 0x02009CAC and the
+ * places in the image, the pool word of WIFILIST_CreateExchangeToken at 0x02009CAC and the
  * `blx` inside sub_02009CB0 at 0x02009CB8, and a range holding both leaves the
  * address with no witness at all.  Split, the `blx` attests this file's pool
  * word and the pool word attests that file's `blx`.  See
@@ -66,7 +66,7 @@ struct Sub020097BCObj {
     u8 unk7C0[4];
 };
 
-void sub_02009C24(struct Sub020097BCObj *obj, int src, int dest)
+void WIFILIST_MergeFriendRecord(struct Sub020097BCObj *obj, int src, int dest)
 {
     if (dest < 0 || dest >= 0x20) {
         return;
@@ -89,7 +89,7 @@ void sub_02009C24(struct Sub020097BCObj *obj, int src, int dest)
     MI_CpuFill8(&obj->unk1C0[src], 0, sizeof(obj->unk1C0[0]));
 }
 
-void sub_02009CA8(void *account, void *out)
+void WIFILIST_CreateExchangeToken(void *account, void *out)
 {
     DWC_CreateExchangeToken(account, out);
 }

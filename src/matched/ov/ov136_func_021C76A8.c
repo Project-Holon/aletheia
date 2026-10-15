@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02025D14  0x02025D14  thumb
+ *   CURSOR_MOVE_Delete  0x02025D14  thumb
  */
 #include "../include/Obj23661.h"
 #include "../include/Obj23662.h"
 
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern u32 func_02025D14(void *a0);
+extern u32 CURSOR_MOVE_Delete(void *a0);
 void MB_SEQ_DeleteTouchSelect(u8 *p)
 {
-    func_02025D14(((struct Obj23662 *)(*(u8 * *)&((struct Obj23661 *)p)->f8))->f294);
+    CURSOR_MOVE_Delete(((struct Obj23662 *)(*(u8 * *)&((struct Obj23661 *)p)->f8))->f294);
 }

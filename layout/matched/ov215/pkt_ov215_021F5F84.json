@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F5F84",
-    "func_021F5FA0"
+    "EGG_DEMO_MAIN_PlayBgm",
+    "EGG_DEMO_MAIN_IsBgmPlaying"
+   ],
+   "addresses": [
+    "0x021F5F84",
+    "0x021F5FA0"
    ]
   }
  ]

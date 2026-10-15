@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0201EF40  0x0201EF40  thumb
+ *   WORDSET_Callback_EF40  0x0201EF40  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18097.h"
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct WordSet;
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 
 int SCRCMD_POKEMON_FLD_PrepareGiftItemFollowUpMessage(u32 a, u32 b, u32 c, u32 d)
 {
-func_0201EF40((struct WordSet *)a, 0, ((((struct Obj18097 *)((u8 *)(b)))->f0 << 16) >> 16));
+WORDSET_Callback_EF40((struct WordSet *)a, 0, ((((struct Obj18097 *)((u8 *)(b)))->f0 << 16) >> 16));
 return 8;
 }
 

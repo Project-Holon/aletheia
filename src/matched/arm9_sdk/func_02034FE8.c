@@ -1,5 +1,5 @@
 /*
- * function: func_02034FE8
+ * function: UI_TestKeepAwakeFlagsGlobal
  * address:  0x02034FE8
  * packet:   pkt_02034FE8
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02034FD4 0x02034FD4 arm
+ *   UI_TestKeepAwakeFlags 0x02034FD4 arm
  *   gUiState  0x021469BC  data
  */
 
@@ -21,9 +21,9 @@ struct UiCtx {
     u8 always;
 };
 #define gUiState (*(struct UiCtx **)0x021469BC)
-extern u32 func_02034FD4(struct UiCtx *p, u8 flags);
+extern u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags);
 
-u32 func_02034FE8(u8 flags)
+u32 UI_TestKeepAwakeFlagsGlobal(u8 flags)
 {
-    return func_02034FD4(gUiState, flags);
+    return UI_TestKeepAwakeFlags(gUiState, flags);
 }

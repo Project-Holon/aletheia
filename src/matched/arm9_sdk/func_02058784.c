@@ -1,5 +1,5 @@
 /*
- * function: func_02058784
+ * function: DWCi_BACKUPlWritePage
  * address:  0x02058784
  * packet:   pkt_02058784
  * region:   arm9
@@ -89,7 +89,7 @@ typedef struct tagDWCMemMap {
 extern int WriteSlotInfo(NCFGSlotInfo *buf, int index, void *work);
 extern int writeDisable(void);
 
-int func_02058784(DWCMemMap *data, int *page, void *work)
+int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work)
 {
     int i;
 

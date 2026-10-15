@@ -1,5 +1,5 @@
 /*
- * function: func_02166D2C
+ * function: WCMi_WmifSetDCFData
  * address:  0x02166D2C
  * packet:   pkt_ov009_02166D2C
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
- *   func_0208FF0C  0x0208FF0C  arm
+ *   WM_SetDCFData  0x0208FF0C  arm
  *   OS_SleepThread  0x020857B0  arm
  *   func_02167DE0  0x02167DE0  arm  ov009
  *   func_02167E20  0x02167E20  arm  ov009
@@ -31,22 +31,22 @@ typedef struct WCMCpsifWork {
 } WCMCpsifWork;
 
 extern void *WCMi_GetCpsifWork(void);
-extern long func_0208FF0C(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
+extern long WM_SetDCFData(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
 extern void OS_SleepThread(void *queue);
 extern void func_02167DE0(void *arg);
 extern void func_02167E20(void *arg);
 
-long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long))
+long WCMi_WmifSetDCFData(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long))
 {
     WCMCpsifWork *wcmiw;
     long wmResult;
 
     wcmiw = WCMi_GetCpsifWork();
     if (callback == 0) {
-        wmResult = func_0208FF0C(func_02167DE0, dstAddr, buf, len);
+        wmResult = WM_SetDCFData(func_02167DE0, dstAddr, buf, len);
     } else {
         wcmiw->callback = callback;
-        wmResult = func_0208FF0C(func_02167E20, dstAddr, buf, len);
+        wmResult = WM_SetDCFData(func_02167E20, dstAddr, buf, len);
     }
     switch (wmResult) {
     case 0:

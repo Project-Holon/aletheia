@@ -34,7 +34,7 @@
  *   EVENT_BATTLE_CreateEncounterTask  0x0216E818  thumb  ov010
  *   func_0215A4A0  0x0215A4A0  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   func_0202A230  0x0202A230  thumb
+ *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  *   FIELD_SOUND_SYSTEM_GetTrainerClassBgm  0x02029E20  thumb
  *   FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask  0x02029AF4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
@@ -75,7 +75,7 @@
  *   func_02007E3C  0x02007E3C  thumb
  *   MYITEM_SAVEDATA_HasItem  0x02007F68  thumb
  *   func_02007FB8  0x02007FB8  thumb
- *   func_02021288  0x02021288  thumb
+ *   FILE_UTIL_Check1288  0x02021288  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -87,6 +87,7 @@
  *   ISS_SWITCH_SYS_SwitchOff  0x0202C0E4  thumb  arm9
  *   ISS_SWITCH_SYS_IsSwitchOn  0x0202C0F8  thumb  arm9
  *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
+ *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb  arm9
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/script_work_types.h"
@@ -153,7 +154,7 @@ extern int func_0215A4B4(int trainerId);
 extern u32 func_0215A4A0(u32 scriptId);
 extern GameEvent *EVENT_BATTLE_CreateEncounterTask(GameSystem *gameSystem, FieldMap *fieldMap, int battleKind, int allyTrainerId, int trainerId, int secondTrainerId, int thirdTrainerId);
 extern GameEvent *EVENT_BATTLE_CreateEncounterTaskWithMon(GameSystem *gameSystem, FieldMap *fieldMap, u32 battleKind, u32 reserved, u32 trainerId, u32 secondTrainerId, u32 thirdTrainerId, u32 fourthTrainerId);
-extern u32 func_0202A230(u32 trainerId, u32 index);
+extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 index);
 extern u16 FIELD_SOUND_SYSTEM_GetTrainerClassBgm(u32 trainerClass);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(GameSystem *gameSystem, u32 bgmNo);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget);
@@ -201,8 +202,8 @@ extern u16 MYITEM_SAVEDATA_RemoveItem(MyItem *myItem, u32 itemNo, u32 count, u32
 extern u16 func_02007E3C(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_HasItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 func_02007FB8(MyItem *myItem, u32 itemNo, u32 heapId);
-extern u32 func_02020FE4(u32 itemNo, u32 selector, u32 heapId);
-extern u32 func_02021288(u32 itemNo);
+extern u32 FILE_UTIL_Get_0FE4(u32 itemNo, u32 selector, u32 heapId);
+extern u32 FILE_UTIL_Check1288(u32 itemNo);
 
 int SCRCMD_CreateTrainerEye(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_CallTrainerEyePairEvent(ScriptVm *vm, ScrcmdWork *cmdWork);
@@ -467,7 +468,7 @@ int SCRCMD_PlayTrainerEncounterBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     SCRCMD_WORK_GetGameData(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(gameSystem, FIELD_SOUND_SYSTEM_GetTrainerClassBgm(func_0202A230(SCRIPT_WORK_ReadWorkValue(vm, cmdWork), 1))));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(gameSystem, FIELD_SOUND_SYSTEM_GetTrainerClassBgm(TPOKE_DATA_GetRecordField(SCRIPT_WORK_ReadWorkValue(vm, cmdWork), 1))));
     return 1;
 }
 
@@ -490,9 +491,9 @@ int SCRCMD_ClassifyTrainer(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    if (func_0202A230(trainerId, 9)) {
+    if (TPOKE_DATA_GetRecordField(trainerId, 9)) {
         kind = 1;
-    } else if (func_0202A230(trainerId, 11)) {
+    } else if (TPOKE_DATA_GetRecordField(trainerId, 11)) {
         kind = 2;
     } else {
         kind = 0;
@@ -506,7 +507,7 @@ int SCRCMD_GetTrainerBattleParam(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_0202A230(trainerId, 0xb);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = TPOKE_DATA_GetRecordField(trainerId, 0xb);
     return 0;
 }
 
@@ -1147,7 +1148,7 @@ int SCRCMD_GetItemPocket(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 heapId = SCRCMD_WORK_GetHeapId(cmdWork);
     u32 itemNo = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02020FE4(itemNo, 5, heapId);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = FILE_UTIL_Get_0FE4(itemNo, 5, heapId);
     return 0;
 }
 
@@ -1157,13 +1158,13 @@ int SCRCMD_GetItemPartyUse(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 heapId = SCRCMD_WORK_GetHeapId(cmdWork);
     u32 itemNo = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02020FE4(itemNo, 0xf, heapId);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = FILE_UTIL_Get_0FE4(itemNo, 0xf, heapId);
     return 0;
 }
 
 /* Returns the machine flag of an item as a halfword. */
 int SCRCMD_GetItemMachineFlag(u32 itemNo)
 {
-    return ((func_02021288(itemNo) << 16) >> 16);
+    return ((FILE_UTIL_Check1288(itemNo) << 16) >> 16);
 }
 

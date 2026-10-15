@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED58
+ * function: gpiCheckTimedOutPeerOperations
  * address:  0x0218ED58
  * packet:   pkt_ov009_0218ED58
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      gpiCheckTimedOutPeerOperations (libdwcgsgp.TWL.HYB.a(gpipeer.o))
  *
  * symbols:
- *   func_0217F264  0x0217F264  arm  ov009
+ *   current_time  0x0217F264  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_02189DFC  0x02189DFC  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_0218F900  0x0218F900  arm  ov009
+ *   gpiPeerRemoveOp  0x0218F900  arm  ov009
  *   g_021A4F30  0x021A4F30  data
  */
 
@@ -49,14 +49,14 @@ struct GetBuddyStatusInfoKeysArg {
     int c;
 };
 
-extern unsigned int func_0217F264(void);
+extern unsigned int current_time(void);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_02189DFC(void **connection, struct GPICallback callback, void *arg, void *operation, int type);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0218F900(struct GPIPeer *peer, struct GPIPeerOp *operation);
+extern void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation);
 extern char g_021A4F30[];
 
-void func_0218ED58(void **connection, struct GPIPeer *peer)
+void gpiCheckTimedOutPeerOperations(void **connection, struct GPIPeer *peer)
 {
     struct GetBuddyStatusInfoKeysArg *arg;
     struct GPICallback callback;
@@ -67,7 +67,7 @@ void func_0218ED58(void **connection, struct GPIPeer *peer)
     for (; anIterator != 0 && anIterator != peer->last; anIterator = anIterator->pnext) {
         if (anIterator->type == 2)
             continue;
-        if (func_0217F264() <= anIterator->timeout)
+        if (current_time() <= anIterator->timeout)
             continue;
         if (anIterator->callback == 0)
             continue;
@@ -82,6 +82,6 @@ void func_0218ED58(void **connection, struct GPIPeer *peer)
             func_02189DFC(connection, callback, arg, 0, 0);
         }
         func_0217D254(1, (char *)4, 8, g_021A4F30);
-        func_0218F900(peer, anIterator);
+        gpiPeerRemoveOp(peer, anIterator);
     }
 }

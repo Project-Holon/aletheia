@@ -12,7 +12,7 @@
  *
  * symbols:
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   FIELD_ENCOUNT_UpdateStepWork  0x021AA728  thumb  ov021
  *   FIELD_ENCOUNT_GetEncountType  0x021AA35C  thumb  ov021
  *   FIELD_ENCOUNT_GetEncountRate  0x021AA3E0  thumb  ov021
@@ -71,7 +71,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct BigObj;
 struct Obj;
 struct Unit;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 extern void FIELD_ENCOUNT_UpdateStepWork(struct Pos *p, void *q);
 struct Tab;
 extern int FIELD_ENCOUNT_GetEncountType(void **ctx, int mode, u8 *out);
@@ -110,7 +110,7 @@ int FIELD_ENCOUNT_CheckWildEncount(struct Ctx *ctx, int mode)
     skip = 0;
     src = 0;
     q = FIELDMAP_GetFieldPlayer(ctx->f00);
-    p = (void *)func_02012A38(ctx->f08);
+    p = (void *)GAME_DATA_GetFieldGimmick(ctx->f08);
     if (mode == 1 || mode == 2)
         skip = 1;
     else

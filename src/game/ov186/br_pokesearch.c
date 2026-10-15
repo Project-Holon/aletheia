@@ -37,7 +37,7 @@
  *   gBrPokeSearchSourceFile 0x02200D9C data a1
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
- *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -108,7 +108,7 @@ extern void BR_UTIL_StartEffect(struct BrTapFx *tapFx, u32 mode, const struct Br
 
 extern void BR_UTIL_MainListMenu(struct BrListMenu *menu);
 
-extern int BR_UTIL_GetListMenuField48(struct BrListMenu *menu);
+extern int BR_UTIL_GetListMenuHitId(struct BrListMenu *menu);
 
 extern int BR_UTIL_IsEffectDone(struct BrTapFx *tapFx);
 
@@ -256,7 +256,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             int x,y,held;
             struct BrPoint point;
             BR_UTIL_MainListMenu(ps->listMenu);
-            ps->listChoice=BR_UTIL_GetListMenuField48(ps->listMenu);
+            ps->listChoice=BR_UTIL_GetListMenuHitId(ps->listMenu);
             held=TOUCHPANEL_GetPointTrg(&x,&y);
             if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;

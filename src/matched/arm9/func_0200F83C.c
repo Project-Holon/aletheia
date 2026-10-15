@@ -16,7 +16,7 @@
  *   GX_VBlankIntr        0x0207D3E4  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn        0x02037174  arm
  *   GFL_NET_WM_ICON_EasyGetEngine        0x02037200  arm
- *   func_0201034C        0x0201034C  thumb
+ *   WIH_DWC_PollSystem        0x0201034C  thumb
  *   GFL_NET_ERR_UpdateNetwork         0x0200F824  thumb
  *   GFL_NET_ERR_RestoreDisplay         0x0200FEBC  thumb
  *   GFL_NET_WM_ICON_EasyObjWindowOff        0x02037190  arm
@@ -27,7 +27,7 @@
  * WINOUT outside / OBJ-window planes of both engines, blanks and redraws
  * through GFL_NET_ERR_SaveDisplayAndDraw, narrows the chosen engine's windowing to BG1+OBJ,
  * waits for A/B to be released and pressed (PAD_DetachedCover / PAD_Read
- * inlines, polling func_0201034C and GFL_NET_ERR_UpdateNetwork per frame), restores via
+ * inlines, polling WIH_DWC_PollSystem and GFL_NET_ERR_UpdateNetwork per frame), restores via
  * GFL_NET_ERR_RestoreDisplay and puts the snapshotted window state back on whichever
  * engine GFL_NET_WM_ICON_EasyGetEngine now names.  Written directly from NitroSDK's
  * gx.h / g2.h inline shapes (GXDispCnt, GXWndPlane, G2[S]_SetWnd*Plane,
@@ -72,7 +72,7 @@ extern void GFL_NET_ERR_SaveDisplayAndDraw(u32 a, u32 b);
 extern BOOL GX_VBlankIntr(BOOL on);
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
-extern int func_0201034C(void);
+extern int WIH_DWC_PollSystem(void);
 extern void GFL_NET_ERR_UpdateNetwork(void);
 extern void GFL_NET_ERR_RestoreDisplay(BOOL a);
 extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
@@ -209,11 +209,11 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
         GXS_SetVisiblePlane(0x12);
     }
     while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) != 0) {
-        func_0201034C();
+        WIH_DWC_PollSystem();
         GFL_NET_ERR_UpdateNetwork();
     }
     while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) == 0) {
-        func_0201034C();
+        WIH_DWC_PollSystem();
         GFL_NET_ERR_UpdateNetwork();
     }
     GFL_NET_ERR_RestoreDisplay(*(u32 *)(gNetErrWork + 0x44) == 1);

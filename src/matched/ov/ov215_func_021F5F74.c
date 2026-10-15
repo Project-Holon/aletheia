@@ -1,5 +1,5 @@
 /*
- * function: func_021F5F74
+ * function: EGG_DEMO_MAIN_IsBgmFadeOut
  * address: 0x021F5F74
  * packet: pkt_ov215_021F5F74
  * region: ov215
@@ -11,7 +11,7 @@
  * extent: 14-byte predicate then two zero alignment bytes at 021F5F82.
  */
 #include "../include/Obj25740.h"
-int func_021F5F74(void *unused,char *p)
+int EGG_DEMO_MAIN_IsBgmFadeOut(void *unused,char *p)
 {
     if(((struct Obj25740 *)p)->f18==1)return 1;
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0205A1EC
+ * function: DWC_Realloc
  * address:  0x0205A1EC
  * packet:   pkt_02040000
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      arm
  * status:   EXACT
  *
- * The ARM9 listing labels this address func_0205A1EC; it is dwc_memfunc.o's DWC_Realloc, forcing align 32 (the SDK table's CTRDG_DmaCopy32 attribution here does not match the linked bytes).
+ * The ARM9 listing labels this address DWC_Realloc; it is dwc_memfunc.o's DWC_Realloc, forcing align 32 (the SDK table's CTRDG_DmaCopy32 attribution here does not match the linked bytes).
  */
 extern void *DWC_ReallocEx(int name, void *ptr, unsigned long oldsize, unsigned long newsize, int align);
 
-void *func_0205A1EC(int name, void *ptr, unsigned long oldsize, unsigned long newsize)
+void *DWC_Realloc(int name, void *ptr, unsigned long oldsize, unsigned long newsize)
 {
     return DWC_ReallocEx(name, ptr, oldsize, newsize, 32);
 }

@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020913A4 0x020913A4 arm
+ *   MSL_C_LIB_FreeToHeap 0x020913A4 arm
  */
 
 typedef unsigned int u32;
 
-extern void func_020913A4(u32 heap);
+extern void MSL_C_LIB_FreeToHeap(u32 heap);
 
 void CRT_Free(u32 heap)
 {
     if (heap) {
-        func_020913A4(heap);
+        MSL_C_LIB_FreeToHeap(heap);
     }
 }

@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * note (2026-10-04): func_021C4864 is declared as returning a pointer: int, u32 and u16 returns give cmp r1,r0 (operands swapped); a pointer return compared with (void *)(lo+7) gives the original cmp r0,r1.
+ * note (2026-10-04): WF2DMAP_MAP_GetCellValue is declared as returning a pointer: int, u32 and u16 returns give cmp r1,r0 (operands swapped); a pointer return compared with (void *)(lo+7) gives the original cmp r0,r1.
  *
  * symbols:
- *   func_021C47F8  0x021C47F8  thumb  ov127
- *   func_021C47FC  0x021C47FC  thumb  ov127
- *   func_021C4864  0x021C4864  thumb  ov127
+ *   WF2DMAP_MAP_GetWidth  0x021C47F8  thumb  ov127
+ *   WF2DMAP_MAP_GetHeight  0x021C47FC  thumb  ov127
+ *   WF2DMAP_MAP_GetCellValue  0x021C4864  thumb  ov127
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021C47F8(u16 *p);
-extern u16 func_021C47FC(u16 *p);
-extern void *func_021C4864(void *o, u16 x, u16 y);
+extern u16 WF2DMAP_MAP_GetWidth(u16 *p);
+extern u16 WF2DMAP_MAP_GetHeight(u16 *p);
+extern void *WF2DMAP_MAP_GetCellValue(void *o, u16 x, u16 y);
 
 void WIFICLUBACTOR_FindSlotTile(char *p, u16 *out, u32 c)
 {
@@ -29,12 +29,12 @@ void WIFICLUBACTOR_FindSlotTile(char *p, u16 *out, u32 c)
     u32 hi = c >> 3;
     u32 lo = c & 7;
 
-    w = func_021C47F8(*(void **)(p + 0x588));
-    h = func_021C47FC(*(void **)(p + 0x588));
+    w = WF2DMAP_MAP_GetWidth(*(void **)(p + 0x588));
+    h = WF2DMAP_MAP_GetHeight(*(void **)(p + 0x588));
     for (y = 0; y < h; y++) {
         for (x = 0; x < w; x++) {
-            if (func_021C4864(*(void **)(p + 0x588), x, y) == (void *)(lo + 7)
-                && func_021C4864(*(void **)(p + 0x588), x, y + 1) == (void *)(hi + 3)) {
+            if (WF2DMAP_MAP_GetCellValue(*(void **)(p + 0x588), x, y) == (void *)(lo + 7)
+                && WF2DMAP_MAP_GetCellValue(*(void **)(p + 0x588), x, y + 1) == (void *)(hi + 3)) {
                 out[0] = x << 4;
                 out[1] = y << 4;
                 return;

@@ -1,5 +1,5 @@
 /*
- * function: func_021783BC
+ * function: DWCi_Auth_Thread
  * address:  0x021783BC
  * packet:   pkt_ov009_021783BC
  * region:   ov009
@@ -14,16 +14,16 @@
  * symbols:
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_JoinThread  0x02085710  arm
- *   func_02178C48  0x02178C48  arm  ov009
- *   func_02178678  0x02178678  arm  ov009
+ *   DWCi_Auth_SetError  0x02178C48  arm  ov009
+ *   DWCi_Auth_ParseHttp  0x02178678  arm  ov009
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   OS_Sleep  0x02085A38  arm
- *   func_02179CF4  0x02179CF4  arm  ov009
- *   func_021782B4  0x021782B4  arm  ov009
- *   g_021AB184     0x021AB184  data ov009
+ *   DWC_Http_Destroy  0x02179CF4  arm  ov009
+ *   DWCi_Auth_Start  0x021782B4  arm  ov009
+ *   gDwcAuthGlobal     0x021AB184  data ov009
  */
 
 #include "../include/G_DWCWFCUtil.h"
@@ -54,18 +54,18 @@ typedef struct DWCWFCUtil DWCWFCUtil;
 
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_JoinThread(void *thread);
-extern void func_02178C48(int error);
-extern int func_02178678(void);
+extern void DWCi_Auth_SetError(int error);
+extern int DWCi_Auth_ParseHttp(void);
 extern unsigned long long func_020870D0(void);
 extern void OS_LockMutex(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
 extern void OS_Sleep(unsigned long msec);
-extern void func_02179CF4(char *http);
-extern int func_021782B4(int getwifiinfofromflash);
+extern void DWC_Http_Destroy(char *http);
+extern int DWCi_Auth_Start(int getwifiinfofromflash);
 
-extern struct DWCWFCUtil g_021AB184;
+extern struct DWCWFCUtil gDwcAuthGlobal;
 
-void func_021783BC(void)
+void DWCi_Auth_Thread(void)
 {
     int retrycount = 0;
     unsigned long long startwait;
@@ -73,47 +73,47 @@ void func_021783BC(void)
     int getwifiinfofromflash;
 
     for (;;) {
-        if (((DWCAuth *)g_021AB184.auth)->http->thread_started != 0
-            && !OS_IsThreadTerminated(((DWCAuth *)g_021AB184.auth)->http->thread))
-            OS_JoinThread(((DWCAuth *)g_021AB184.auth)->http->thread);
+        if (((DWCAuth *)gDwcAuthGlobal.auth)->http->thread_started != 0
+            && !OS_IsThreadTerminated(((DWCAuth *)gDwcAuthGlobal.auth)->http->thread))
+            OS_JoinThread(((DWCAuth *)gDwcAuthGlobal.auth)->http->thread);
 
-        if (((DWCAuth *)g_021AB184.auth)->http->state != 8) {
-            ((DWCAuth *)g_021AB184.auth)->error = 20100;
-            if (((DWCAuth *)g_021AB184.auth)->http->state == 7) {
-                func_02178C48(20);
+        if (((DWCAuth *)gDwcAuthGlobal.auth)->http->state != 8) {
+            ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20100;
+            if (((DWCAuth *)gDwcAuthGlobal.auth)->http->state == 7) {
+                DWCi_Auth_SetError(20);
                 return;
             }
             if (retrycount > 2) {
-                if (((DWCAuth *)g_021AB184.auth)->http->state == 2)
-                    func_02178C48(9);
-                else if (((DWCAuth *)g_021AB184.auth)->http->state == 3)
-                    func_02178C48(11);
+                if (((DWCAuth *)gDwcAuthGlobal.auth)->http->state == 2)
+                    DWCi_Auth_SetError(9);
+                else if (((DWCAuth *)gDwcAuthGlobal.auth)->http->state == 3)
+                    DWCi_Auth_SetError(11);
                 else
-                    func_02178C48(13);
+                    DWCi_Auth_SetError(13);
                 return;
             }
             retrycount++;
             getwifiinfofromflash = 1;
         } else {
-            result_httpparse = func_02178678();
+            result_httpparse = DWCi_Auth_ParseHttp();
             switch (result_httpparse) {
             case 21:
-                func_02178C48(21);
+                DWCi_Auth_SetError(21);
                 return;
             case 16:
                 if (retrycount > 2) {
-                    func_02178C48(16);
+                    DWCi_Auth_SetError(16);
                     return;
                 }
                 retrycount++;
                 getwifiinfofromflash = 0;
                 break;
             case 17:
-                func_02178C48(result_httpparse);
+                DWCi_Auth_SetError(result_httpparse);
                 return;
             default:
                 if (retrycount >= 2) {
-                    func_02178C48(result_httpparse);
+                    DWCi_Auth_SetError(result_httpparse);
                     return;
                 }
                 retrycount++;
@@ -124,25 +124,25 @@ void func_021783BC(void)
 
         startwait = func_020870D0();
         while (((func_020870D0() - startwait) << 6) / 33514 < 5000) {
-            OS_LockMutex(&((DWCAuth *)g_021AB184.auth)->mutex);
-            if (((DWCAuth *)g_021AB184.auth)->abort == 1) {
-                ((DWCAuth *)g_021AB184.auth)->error = 20100;
-                func_02086078(&((DWCAuth *)g_021AB184.auth)->mutex);
-                func_02178C48(20);
+            OS_LockMutex(&((DWCAuth *)gDwcAuthGlobal.auth)->mutex);
+            if (((DWCAuth *)gDwcAuthGlobal.auth)->abort == 1) {
+                ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20100;
+                func_02086078(&((DWCAuth *)gDwcAuthGlobal.auth)->mutex);
+                DWCi_Auth_SetError(20);
                 return;
             }
-            func_02086078(&((DWCAuth *)g_021AB184.auth)->mutex);
+            func_02086078(&((DWCAuth *)gDwcAuthGlobal.auth)->mutex);
             OS_Sleep(5000);
         }
 
-        func_02179CF4((char *)((DWCAuth *)g_021AB184.auth)->http);
-        OS_LockMutex(&((DWCAuth *)g_021AB184.auth)->mutex);
-        ((DWCAuth *)g_021AB184.auth)->result = func_021782B4(getwifiinfofromflash);
-        if (((DWCAuth *)g_021AB184.auth)->result != 0) {
-            ((DWCAuth *)g_021AB184.auth)->error = 20100;
-            func_02086078(&((DWCAuth *)g_021AB184.auth)->mutex);
+        DWC_Http_Destroy((char *)((DWCAuth *)gDwcAuthGlobal.auth)->http);
+        OS_LockMutex(&((DWCAuth *)gDwcAuthGlobal.auth)->mutex);
+        ((DWCAuth *)gDwcAuthGlobal.auth)->result = DWCi_Auth_Start(getwifiinfofromflash);
+        if (((DWCAuth *)gDwcAuthGlobal.auth)->result != 0) {
+            ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20100;
+            func_02086078(&((DWCAuth *)gDwcAuthGlobal.auth)->mutex);
             return;
         }
-        func_02086078(&((DWCAuth *)g_021AB184.auth)->mutex);
+        func_02086078(&((DWCAuth *)gDwcAuthGlobal.auth)->mutex);
     }
 }

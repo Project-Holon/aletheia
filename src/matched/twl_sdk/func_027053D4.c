@@ -11,6 +11,7 @@
  *
  * symbols:
  *   FS_ReadFile  0x02078B70  arm  arm9
+ *   FS_SeekFile  0x02078B44  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -20,12 +21,12 @@ typedef struct FileRec {
     u32 pad[5];
     void *file;
 } FileRec;
-extern s32 func_02078B44(void *file, u32 a, u32 b);
+extern s32 FS_SeekFile(void *file, u32 a, u32 b);
 extern s32 FS_ReadFile(void *file, void *buf, s32 len);
 u32 DSPi_ReadProcessImage(FileRec *p, u32 a, void *buf, s32 len)
 {
     u32 ok = 0;
-    if (func_02078B44(p->file, a, 0)) {
+    if (FS_SeekFile(p->file, a, 0)) {
         s32 n = FS_ReadFile(p->file, buf, len);
         if (len == n) {
             ok = 1;

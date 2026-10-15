@@ -1,5 +1,5 @@
 /*
- * function: func_021698C0
+ * function: DWCi_HandleGPError
  * address:  0x021698C0
  * packet:   pkt_ov009_021698C0
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      DWCi_HandleGPError (dwc_friend.o)
  *
  * symbols:
- *   func_02168E50  0x02168E50  arm
+ *   DWCi_StopFriendProcess  0x02168E50  arm
  */
 
-extern void func_02168E50(int error, int errorCode);
+extern void DWCi_StopFriendProcess(int error, int errorCode);
 
-int func_021698C0(int result)
+static int DWCi_HandleGPError(int result)
 {
     int dwcError;
     int errorCode;
@@ -29,6 +29,6 @@ int func_021698C0(int result)
     case 3: dwcError = 6; errorCode = -10; break;
     case 4: dwcError = 6; errorCode = -20; break;
     }
-    func_02168E50(dwcError, errorCode + (int)0xfffeeaa8);
+    DWCi_StopFriendProcess(dwcError, errorCode + (int)0xfffeeaa8);
     return result;
 }

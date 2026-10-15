@@ -13,7 +13,7 @@
  * the next label because of two bytes of 00 00 padding at 0x0201A352, then two unlabelled 12-byte argument-shuffling tail-call thunks at 0x0201A354 (calls 0x02048F60 with (0x69, a, b)) and 0x0201A364 (calls 0x02048F4C with (b, 0x69, a)), each followed by its own pool word, before the next labelled function at 0x0201A374.
  *
  * symbols:
- *   func_0200AE54   0x0200AE54  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
@@ -32,7 +32,7 @@
 typedef unsigned int u32;
 
 struct Reg;
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern u32  POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
@@ -42,7 +42,7 @@ void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c)
 {
     int i;
 
-    if (func_0200AE54(a0, 0x11) != 0)
+    if (REGULATION_GetRuleValue(a0, 0x11) != 0)
         return;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(a1); i++) {

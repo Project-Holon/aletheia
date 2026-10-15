@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02020F08 0x02020F08 thumb
- *   func_02020E60 0x02020E60 thumb
+ *   FILE_UTIL_Get 0x02020E60 thumb
  *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
@@ -24,7 +24,7 @@
 
 
 extern unsigned func_02020F08(void);
-extern unsigned func_02020E60(unsigned item, unsigned which);
+extern unsigned FILE_UTIL_Get(unsigned item, unsigned which);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -42,10 +42,10 @@ void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item)
     void *a;
     void *b;
     void *q;
-    q = ARC_UTIL_LoadScreenDataFromArchive(func_02020F08(), func_02020E60(item, 1), 0, (u32)(&a), 0x4C);
+    q = ARC_UTIL_LoadScreenDataFromArchive(func_02020F08(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
     CLACT_TransferCharacter(CLACT_GetActorCharacterIndex(((struct Obj14276 *)w)->f9E9C), a);
     func_020307B0(q);
-    q = ARC_UTIL_LoadPaletteBlockFromArchive(func_02020F08(), func_02020E60(item, 2), (u32)(&b), 0x4C);
+    q = ARC_UTIL_LoadPaletteBlockFromArchive(func_02020F08(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
     CLACT_TransferPalette((void *)CLACT_GetActorPaletteIndex(((struct Obj14276 *)w)->f9E9C), b, 1);
     func_020307B0(q);
 }

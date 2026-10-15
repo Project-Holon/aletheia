@@ -1,5 +1,5 @@
 /*
- * function: func_02080C44
+ * function: GX_GetBankForTex
  * address:  0x02080C44
  * packet:   pkt_02080C44
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern struct GX_State gGXState;
 
-u16 func_02080C44(void)
+u16 GX_GetBankForTex(void)
 {
     return gGXState.vramCnt_tex;
 }

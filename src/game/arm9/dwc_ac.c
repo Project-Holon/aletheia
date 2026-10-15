@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac.c
  * unit:     yes
- * function: DWC_AC_Create, DWC_AC_Process, DWC_AC_GetStatus, func_0205BDD0, func_0205BE00, func_0205BE58, DWC_AC_Destroy, func_0205BEA8, func_0205BF1C, func_0205BFD4, DWCi_AC_InsertApInfo, func_0205C018, func_0205C038, func_0205C080, func_0205C0EC, func_0205C214, func_0205C25C, func_0205C2C4, func_0205C2E4, func_0205C308, func_0205C31C, func_0205C3B0, func_0205C4C8, func_0205C528, func_0205C55C, func_0205C600, func_0205C670
+ * function: DWC_AC_Create, DWC_AC_Process, DWC_AC_GetStatus, DWC_AC_GetApType, DWC_AC_GetApSpotInfo, func_0205BE58, DWC_AC_Destroy, DWC_AC_SetSpecifyApEx, DWC_AC_SetSpecifyAp, func_0205BFD4, DWCi_AC_InsertApInfo, DWCi_AC_InvalidatePriorityWPA, DWCi_AC_Alloc, DWCi_AC_Free, DWCi_AC_FreeAll, DWCi_AC_GetMemPtr, DWCi_AC_SetPhase, func_0205C2C4, DWCi_AC_SetError, func_0205C308, DWCi_AC_SetApType, DWCi_AC_CopyExSetting, DWCi_ConvConnectAPType, Free_Disused, CheckDuplicate, CheckEULA, CheckWirelessPowerON
  * address:  0x0205B98C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -225,30 +225,18 @@ extern BOOL OS_IsForceDisableWireless(void);
 BOOL DWC_AC_Create(DWCACConfig *config);
 int DWC_AC_Process(void);
 int DWC_AC_GetStatus(void);
-u8 func_0205BDD0(void);
-BOOL func_0205BE00(u8 *apSpotInfo);
+u8 DWC_AC_GetApType(void);
+BOOL DWC_AC_GetApSpotInfo(u8 *apSpotInfo);
 unsigned int DWC_AC_GetSecuritySetting(void);
 BOOL DWC_AC_Destroy(void);
-void func_0205BEA8(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType);
-void func_0205BF1C(void *ssid, void *wep, int wepMode);
+void DWC_AC_SetSpecifyApEx(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType);
 int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len);
 void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info);
-void func_0205C018(void);
-void *func_0205C038(u32 name, s32 size);
-void func_0205C080(u32 name, void *ptr, s32 size);
-void func_0205C0EC(void);
-void *func_0205C214(u32 name);
-void func_0205C25C(u8 phase);
+void DWCi_AC_InvalidatePriorityWPA(void);
 unsigned char DWCi_AC_GetPhase(void);
-void func_0205C2E4(int error);
 int DWCi_AC_GetError(void);
-void func_0205C31C(u8 type);
-void func_0205C3B0(u8 type);
-u8 func_0205C4C8(u8 type);
-void func_0205C528(void);
-BOOL func_0205C55C(void);
-BOOL func_0205C600(void);
-BOOL func_0205C670(void);
+void DWCi_AC_SetApType(u8 type);
+void DWCi_AC_CopyExSetting(u8 type);
 
 
 
@@ -423,7 +411,7 @@ int DWC_AC_GetStatus(void)
 /*
  * sdk:      DWC_AC_GetApType (dwc_ac.o)
  */
-u8 func_0205BDD0(void)
+u8 DWC_AC_GetApType(void)
 {
     u8 type = 0xff;
     u8 phase = DWCi_AC_GetPhase();
@@ -442,7 +430,7 @@ u8 func_0205BDD0(void)
 /*
  * sdk:      DWC_AC_GetApSpotInfo (dwc_ac.o)
  */
-BOOL func_0205BE00(u8 *apSpotInfo)
+BOOL DWC_AC_GetApSpotInfo(u8 *apSpotInfo)
 {
     BOOL result = 0;
     u8 phase = DWCi_AC_GetPhase();
@@ -494,7 +482,7 @@ BOOL DWC_AC_Destroy(void)
 /*
  * sdk:      DWC_AC_SetSpecifyApEx (dwc_ac.o)
  */
-void func_0205BEA8(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType)
+void DWC_AC_SetSpecifyApEx(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
@@ -516,7 +504,7 @@ void func_0205BEA8(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo
 /*
  * sdk:      DWC_AC_SetSpecifyAp (dwc_ac.o)
  */
-void func_0205BF1C(void *ssid, void *wep, int wepMode)
+void DWC_AC_SetSpecifyAp(void *ssid, void *wep, int wepMode)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
     int i;
@@ -565,7 +553,7 @@ int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len)
  */
 void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info)
 {
-    ACWORK *wk = func_0205C214(0x10);
+    ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
     MIi_CpuCopy32(info, &wk->userInfo[no], sizeof(NCFGApInfo));
 }
@@ -577,9 +565,9 @@ void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info)
 /*
  * sdk:      DWCi_AC_InvalidatePriorityWPA (dwc_ac.o)
  */
-void func_0205C018(void)
+void DWCi_AC_InvalidatePriorityWPA(void)
 {
-    ACWORK *wk = func_0205C214(0x10);
+    ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
     wk->wpaSetting = 0;
 }
@@ -591,7 +579,7 @@ void func_0205C018(void)
 /*
  * sdk:      DWCi_AC_Alloc (dwc_ac.o)
  */
-void *func_0205C038(u32 name, s32 size)
+void *DWCi_AC_Alloc(u32 name, s32 size)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 
@@ -609,7 +597,7 @@ void *func_0205C038(u32 name, s32 size)
 /*
  * sdk:      DWCi_AC_Free (dwc_ac.o)
  */
-void func_0205C080(u32 name, void *ptr, s32 size)
+void DWCi_AC_Free(u32 name, void *ptr, s32 size)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 
@@ -633,7 +621,7 @@ void func_0205C080(u32 name, void *ptr, s32 size)
 /*
  * sdk:      DWCi_AC_FreeAll (dwc_ac.o)
  */
-void func_0205C0EC(void)
+void DWCi_AC_FreeAll(void)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 
@@ -674,7 +662,7 @@ void func_0205C0EC(void)
 /*
  * sdk:      DWCi_AC_GetMemPtr (dwc_ac.o)
  */
-void *func_0205C214(u32 name)
+void *DWCi_AC_GetMemPtr(u32 name)
 {
     if (name & 1) return s_ac_work.acHold;
     if (name & 2) return s_ac_work.wcmBuffer;
@@ -691,7 +679,7 @@ void *func_0205C214(u32 name)
 /*
  * sdk:      DWCi_AC_SetPhase (dwc_ac.o)
  */
-void func_0205C25C(u8 phase)
+void DWCi_AC_SetPhase(u8 phase)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
@@ -722,9 +710,9 @@ unsigned char DWCi_AC_GetPhase(void)
 /*
  * sdk:      DWCi_AC_SetError (dwc_ac.o)
  */
-void func_0205C2E4(int error)
+void DWCi_AC_SetError(int error)
 {
-    ACHOLD *hd = func_0205C214(1);
+    ACHOLD *hd = DWCi_AC_GetMemPtr(1);
 
     hd->error = error;
     hd->phaseError = DWCi_AC_GetPhase();
@@ -745,7 +733,7 @@ int DWCi_AC_GetError(void)
 /*
  * sdk:      DWCi_AC_SetApType (dwc_ac.o)
  */
-void func_0205C31C(u8 type)
+void DWCi_AC_SetApType(u8 type)
 {
     u8 *essid;
 
@@ -773,7 +761,7 @@ void func_0205C31C(u8 type)
 /*
  * sdk:      DWCi_AC_CopyExSetting (dwc_ac.o)
  */
-void func_0205C3B0(u8 type)
+void DWCi_AC_CopyExSetting(u8 type)
 {
     ACHOLD *hd = DWCi_AC_GetMemPtr(1);
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
@@ -807,7 +795,7 @@ void func_0205C3B0(u8 type)
 /*
  * sdk:      DWCi_ConvConnectAPType (dwc_ac.o)
  */
-u8 func_0205C4C8(u8 type)
+u8 DWCi_ConvConnectAPType(u8 type)
 {
     if (type >= 0x12) return (u8)(type - 0xf);
     if (type >= 0xf) return (u8)(type - 5);
@@ -824,7 +812,7 @@ u8 func_0205C4C8(u8 type)
 /*
  * sdk:      Free_Disused (dwc_ac.o)
  */
-void func_0205C528(void)
+void Free_Disused(void)
 {
     DWCi_AC_Free(8, s_ac_work.netCheck, 0xc);
     DWCi_AC_Free(0x10, s_ac_work.acWork, sizeof(ACWORK));
@@ -836,7 +824,7 @@ void func_0205C528(void)
 /*
  * sdk:      CheckDuplicate (dwc_ac.o)
  */
-BOOL func_0205C55C(void)
+BOOL CheckDuplicate(void)
 {
     u8 i;
     u8 *ssid1;
@@ -866,7 +854,7 @@ BOOL func_0205C55C(void)
 /*
  * sdk:      CheckEULA (dwc_ac.o)
  */
-BOOL func_0205C600(void)
+BOOL CheckEULA(void)
 {
     if (OS_IsRunOnTwl()) {
         if (s_ac_work.acWork->wontExecuteEULACheck ||
@@ -885,7 +873,7 @@ BOOL func_0205C600(void)
 /*
  * sdk:      CheckWirelessPowerON (dwc_ac.o)
  */
-BOOL func_0205C670(void)
+BOOL CheckWirelessPowerON(void)
 {
     if (OS_IsRunOnTwl()) {
         if (OS_IsAvailableWireless() == 1 && OS_IsForceDisableWireless() == 0) {

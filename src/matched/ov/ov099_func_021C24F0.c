@@ -14,8 +14,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_SetUserArg 0x0203D668 arm
  *   WIFICLUB_LoadSavedRegulation 0x021BCB8C thumb ov099
- *   func_02012934 0x02012934 thumb
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
+ *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_0200873C 0x0200873C thumb
  *   WIFICLUB_InitBgmVolume 0x021C24D4 thumb ov099
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -38,8 +38,8 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, int);
 extern void GFL_NET_SetUserArg(u32);
 extern int WIFICLUB_LoadSavedRegulation(void *);
-extern void *func_02012934(const struct BigObj *p);
-extern u32 func_0201283C(const struct BigObj *);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern u32 GAME_DATA_GetField1A0(const struct BigObj *);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void WIFICLUB_InitBgmVolume(u8 *p, int v);
@@ -62,8 +62,8 @@ int WIFICLUB_ProcInit(void *obj, int unused, char *args)
     ((struct Obj01386 *)p)->fC0 = ((struct Obj02804 *)args)->f8;
     *(u32 *)&((struct Obj01386 *)p)->fC4 = ((struct Obj02804 *)args)->f4;
     ((struct Obj01386 *)p)->fCC = WIFICLUB_LoadSavedRegulation(((struct Obj01386 *)p)->fC4);
-    ((struct Obj01386 *)p)->fC8 = func_02012934(*(struct BigObj * *)&((struct Obj01386 *)p)->fC4);
-    ((struct Obj01386 *)p)->f4 = func_0201283C(*(struct BigObj * *)&((struct Obj01386 *)p)->fC4);
+    ((struct Obj01386 *)p)->fC8 = GAME_DATA_GetMyParty(*(struct BigObj * *)&((struct Obj01386 *)p)->fC4);
+    ((struct Obj01386 *)p)->f4 = GAME_DATA_GetField1A0(*(struct BigObj * *)&((struct Obj01386 *)p)->fC4);
     ((struct Obj01386 *)p)->fD8 = (u32)func_0200873C((void *)(((struct Obj02804 *)args)->f8));
     ((struct Obj01386 *)p)->f1D8 = *(u32 *)&((struct Obj02804 *)args)->fC;
     ((struct Obj01386 *)p)->f135C = ((struct Obj02804 *)args)->f49;

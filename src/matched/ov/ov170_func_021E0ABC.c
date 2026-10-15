@@ -41,7 +41,7 @@
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
  *   BOX2_UI_GetCloseButtonHit 0x021EF1B4 thumb
  *   BOX2_MAIN_StopSeq 0x021DD16C thumb
@@ -89,7 +89,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
 typedef unsigned int   u32;
 struct Sound;
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 extern int BOX2_UI_GetCloseButtonHit(void);
 extern void BOX2_MAIN_StopSeq(unsigned char *p, int dir);
@@ -182,8 +182,8 @@ int BOX2_MAIN_StateMachineCoin(unsigned char *p)
             BOX2_SEQ_SetSlotActors((char *)p, 0x82, 1);
             GFL_USE_PlaySeDefaultVolume(0x669);
             BOX2_UI_MoveCursor((char **)p, 6, p[0x16]);
-            func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
-            func_02026124(*(void **)(WORK(p) + 0x70), 0x28);
+            CURSOR_MOVE_ClearSkipBit(*(void **)(WORK(p) + 0x70), 0x27);
+            CURSOR_MOVE_ClearSkipBit(*(void **)(WORK(p) + 0x70), 0x28);
             BOX2_UI_DeleteSlotObjects((char *)p, 2, 1, 1);
             p[0x1E] = 0;
             *(unsigned char *)(WORK(p) + 0xA172) = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B80EC
+ * function: CTVT_COMM_SetConnectMac
  * address: 0x021B80EC
  * packet: pkt_ov172_021B80EC
  * region: ov172
@@ -10,7 +10,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021B80EC(int unused, char *p, const u8 *src)
+void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src)
 {
     u8 i;
     for (i = 0; i < 6; i++)

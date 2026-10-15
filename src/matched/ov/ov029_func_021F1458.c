@@ -20,7 +20,7 @@
  *   func_0207E468  0x0207E468  arm
  *   func_020307B0  0x020307B0  arm
  *   C_GEAR_LoadTargetPalette  0x021F09B4  thumb  ov029
- *   func_0203FA08  0x0203FA08  arm
+ *   BG_SYS_CreateRun  0x0203FA08  arm
  *   func_02049658  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   d_021F31E0     0x021F31E0  data  a4
@@ -44,7 +44,7 @@ extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
 extern void C_GEAR_LoadTargetPalette(unsigned char *p, unsigned char *q, int n);
-extern u32 func_0203FA08(u32 a, u32 b, u32 c);
+extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern const int d_021F31E0[];
@@ -80,7 +80,7 @@ u32 C_GEAR_LoadSkin(u8 *p, int a, int b, int c)
         func_020307B0((void *)r);
     }
     size = 0x5000;
-    v = func_0203FA08(6, size, 0);
+    v = BG_SYS_CreateRun(6, size, 0);
     ((struct Obj04308 *)p)->f14 = (u16)v | (size << 16);
     func_02049658((void *)(((struct Obj04308 *)p)->f24), d_021F32E0[b][a], 6, v, 0, 0, 0x70);
     return ARC_UTIL_UploadBgPaletteAddFromHandle((void *)(((struct Obj04308 *)p)->f24), 2, 6, 0, (u16)((struct Obj04308 *)p)->f14, 0, 0, 0x70);

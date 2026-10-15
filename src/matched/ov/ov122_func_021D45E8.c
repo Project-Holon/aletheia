@@ -1,5 +1,5 @@
 /*
- * function: func_021D45E8
+ * function: INTRUDE_COMM_VIEW_DeleteRows
  * address: 0x021D45E8
  * packet: pkt_ov122_021D45E8
  * region: ov122
@@ -24,7 +24,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *, unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021D45E8(char *p)
+void INTRUDE_COMM_VIEW_DeleteRows(char *p)
 {
     int i;
     char *q;

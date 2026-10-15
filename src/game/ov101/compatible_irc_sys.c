@@ -35,18 +35,18 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   OS_GetOwnerInfo 0x02087C88 arm
- *   func_020120F4 0x020120F4 thumb
+ *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_02012944 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_0203F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   func_02080D24 0x02080D24 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  */
 struct Req;
@@ -83,17 +83,17 @@ extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void MYSTATUS_Copy(void *,void *);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_0203F4E4(struct RtcDate *date);
+extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u32 func_02080D24(u32);
 extern void MI_CpuCopy8(void *,const void *,unsigned);
 extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern int MYSTATUS_GetSize(void);
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
 void COMPATIBLE_IRC_SYS_Delete(void *sys);
@@ -386,18 +386,18 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
     void *record;
     int flag;
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&ownerInfo));
-    sub=func_020120F4(playerData);
+    sub=ICA_ANIME_GetField1C(playerData);
     playerData=func_02012944(sub);
     out->birthMonth=ownerInfo[2];
     out->birthDay=ownerInfo[3];
     MYSTATUS_Copy(playerData,out->myStatus);
-    record=POKEPARTY_GetMember(func_02012934(sub),0);
+    record=POKEPARTY_GetMember(GAME_DATA_GetMyParty(sub),0);
     flag=0;
     out->leadSpecies=func_02017E1C(record,5,0);
     out->leadType2=func_02017E1C(record,111,0);
     out->leadType1=func_02017E1C(record,110,0);
     out->leadNature=func_02017E1C(record,76,0);
-    func_0203F4E4((struct RtcDate *)(&date));
+    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
     if(date.day == 14) flag=1;
     out->isDay14=(u8)flag;
     out->packedDate=((u32)date.year << 24) | (((u32)date.month << 24) >> 8) | (((u32)date.day << 24) >> 16) | date.week;
@@ -486,7 +486,7 @@ void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfi
 {
     void *record;
     if (*(int *)work->sys != 0) {
-        record = func_02012950((void *)*(int *)work->sys, aid);
+        record = GAME_DATA_GetPlayerStatusById((void *)*(int *)work->sys, aid);
         MI_CpuCopy8((void *)(data + 12), record, MYSTATUS_GetSize());
     }
     if (handle == (u32)GFL_NET_HANDLE_GetCurrentHandle()) {

@@ -71,7 +71,7 @@
  *   IRCi_WaitCommand  0x0217A5B4  arm    ov015
  *   IRCi_CommRead  0x0217A718  arm    ov015
  *   OS_UnLockCard  0x02084E2C  arm
- *   func_02075EAC  0x02075EAC  arm
+ *   CARD_UnlockBackup  0x02075EAC  arm
  *   gIrcReadBuffer     0x0217ACA0  data
  *   gIrcCommParamAlias2     0x0217AC90  data
  *   g_0217AC90b    0x0217AC90  data
@@ -103,7 +103,7 @@ extern u8 IRCi_CommWrite(struct irc_param *p);
 extern void IRCi_WaitCommand(void);
 extern void IRCi_CommRead(struct irc_param *p);
 extern void OS_UnLockCard();
-extern void func_02075EAC(u16 id);
+extern void CARD_UnlockBackup(u16 id);
 
 int IRCi_Read(u8 *buf)
 {
@@ -146,6 +146,6 @@ int IRCi_Read(u8 *buf)
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
     OS_UnLockCard(gIrcLockId);
-    func_02075EAC(gIrcLockId);
+    CARD_UnlockBackup(gIrcLockId);
     return size;
 }

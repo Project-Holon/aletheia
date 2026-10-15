@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C51C8",
-    "func_021C522C",
-    "func_021C5230"
+    "WF2DMAP_OBJCMD_StartCmd11",
+    "WF2DMAP_OBJCMD_StepNoop",
+    "WF2DMAP_OBJCMD_StepAdvance"
+   ],
+   "addresses": [
+    "0x021C51C8",
+    "0x021C522C",
+    "0x021C5230"
    ]
   }
  ]

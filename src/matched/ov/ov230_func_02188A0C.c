@@ -1,5 +1,5 @@
 /*
- * function: func_02188A0C
+ * function: LOADER_DECRYPT_ClassifyOpcode
  * address: 0x02188A0C
  * packet: pkt_ov230_02188A0C
  * status: EXACT
@@ -10,7 +10,7 @@
  * lang: c99
  * extent: lead60B; larger loader follower02188A48..02188B48, then encoded payload through02188CB0.
  */
-int func_02188A0C(unsigned word)
+int LOADER_DECRYPT_ClassifyOpcode(unsigned word)
 {
     unsigned char opcode=word>>24;
     if ((opcode&14)==10) {

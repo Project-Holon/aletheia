@@ -11,7 +11,7 @@
  *
  * symbols:
  *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
- *   func_021B8108  0x021B8108  thumb  ov172
+ *   CTVT_COMM_IsNetReady  0x021B8108  thumb  ov172
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   NET_WHPIPE_GetEntryBeaconKind  0x02177B80  thumb
@@ -19,7 +19,7 @@
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_021B85D0  0x021B85D0  thumb  ov172
+ *   CTVT_COMM_FindPeerName  0x021B85D0  thumb  ov172
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   func_021BD0A4  0x021BD0A4  thumb  ov172
@@ -75,7 +75,7 @@ struct Bits2 {
 };
 
 extern u32 COMM_TVT_SYS_GetComm(void *p);
-extern int func_021B8108(void *unused, void *p);
+extern int CTVT_COMM_IsNetReady(void *unused, void *p);
 extern u32 GFL_NET_GetScanResult(u32 a);
 extern void *GFL_NET_GetScanResultMac(u32 a);
 extern u8 NET_WHPIPE_GetEntryBeaconKind(int i);
@@ -84,7 +84,7 @@ extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void OS_GetMacAddress(void *p);
-extern int func_021B85D0(unsigned char *p, unsigned char *q);
+extern int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q);
 extern u32 ZONEDATA_IsZone117(u32 id);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 extern int func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c);
@@ -137,7 +137,7 @@ void func_021BC7FC(void *ctx, u8 *list)
 
     changed = 0;
     refresh = 0;
-    if (!func_021B8108(ctx, (void *)COMM_TVT_SYS_GetComm(ctx)))
+    if (!CTVT_COMM_IsNetReady(ctx, (void *)COMM_TVT_SYS_GetComm(ctx)))
         return;
     for (i = 0; i < 15; i++) {
         e = list + i * 0x24;
@@ -163,7 +163,7 @@ void func_021BC7FC(void *ctx, u8 *list)
                 b = func_02008550((const struct Sub0200852CObj *)p);
                 c = func_02008530((const struct Sub0200852CObj *)p);
                 OS_GetMacAddress(buf);
-                if (p->f21_1 == 0 || func_021B85D0((u8 *)p, buf) == 1)
+                if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
                     ok = func_021BD0A4(ctx, (u32)list, a, c, b);
             } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
                 ok = func_021BD0A4(ctx, (u32)list, (u32)((u8 *)p + 0x1a), p->f4, p->bB_7);

@@ -16,7 +16,7 @@
  * 0x02146994, read its field at +0x208, and forward r0-r2 plus that word
  * as the fourth argument of FLASH_ACCESS_StartWrite.  Unlabelled in the listing (it
  * saves no lr), so it is invisible to `sole-ref/code` until this entry
- * exists; it is the witness that unblocks the thumb caller func_021DFE00.
+ * exists; it is the witness that unblocks the thumb caller SAVE_OUTSIDE_WriteAsync.
  */
 
 typedef unsigned int   u32;

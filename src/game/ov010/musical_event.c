@@ -16,7 +16,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02019CA0  0x02019CA0  thumb
- *   func_0200BAC8  0x0200BAC8  thumb
+ *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -86,7 +86,7 @@ typedef struct { u8 v[4]; } PositionRemap4;
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern void func_02019CA0(void *pokemon, u32 level);
-extern void *func_0200BAC8(void *saveControl);
+extern void *BATTLE_BOX_GetFromSave(void *saveControl);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 paramId, u32 defaultValue);
@@ -129,7 +129,7 @@ void MUSICAL_EVENT_SetPartyLevel50(void *party)
  * Rebuilds the event party at +0x38: either from the player's own party
  * (partySource 0, skipping entries whose parameter 0x4c, the egg flag, is
  * set) or from the Battle Box, then heals it and sets it to level 50.
- * func_0200BAC8 is a tail-calling wrapper whose result is
+ * BATTLE_BOX_GetFromSave is a tail-calling wrapper whose result is
  * used here, so this unit declares it returning a value.
  */
 void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
@@ -139,7 +139,7 @@ void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
     int i;
     void *ownParty;
     void *boxParty;
-    battleBox = (int)func_0200BAC8(work->saveControl);
+    battleBox = (int)BATTLE_BOX_GetFromSave(work->saveControl);
     if (partySource == 0) {
         ownParty = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
         for (i = 0; i < (int)POKEPARTY_GetCount(ownParty); i++) {

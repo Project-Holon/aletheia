@@ -17,7 +17,7 @@
  *   g_021A8164  0x021A8164  data
  *   g_021A81AC  0x021A81AC  data
  *   NTSLengthSB  0x0219F978  arm  ov009
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   strnicmp  0x0209ABEC  arm
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
@@ -47,7 +47,7 @@ extern char g_021A81AC[];
 
 extern int NTSLengthSB(char *buf, int len);
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int strnicmp(const char *s1, const char *s2, unsigned int n);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0219D114(char *keyname);
@@ -73,7 +73,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
     k = data;
     data += dlen;
     len -= dlen;
-    if (strnicmp(g_021A816C, k, func_0209477C((const u8 *)g_021A816C)) != 0)
+    if (strnicmp(g_021A816C, k, strlen((const u8 *)g_021A816C)) != 0)
         return;
 
     if (len < 1)

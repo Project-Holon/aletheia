@@ -1,5 +1,5 @@
 /*
- * function: func_0205FB8C
+ * function: checkConfig
  * address:  0x0205FB8C
  * packet:   pkt_0205FB8C
  * region:   arm9
@@ -99,7 +99,7 @@ extern int  NCFGi_CheckApInfo(NCFGApInfo *info);
 extern void initPage(NCFGConfig *config, int page);
 extern int  writeAllSlots(NCFGConfig *config, MATHCRC16Table *tbl);
 
-s32 func_0205FB8C(NCFGConfig *config, MATHCRC16Table *tbl)
+s32 checkConfig(NCFGConfig *config, MATHCRC16Table *tbl)
 {
     int c[4];
     int i;

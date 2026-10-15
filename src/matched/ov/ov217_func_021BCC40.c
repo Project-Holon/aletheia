@@ -13,6 +13,8 @@
  *
  * symbols:
  *   RESEARCH_LIST_UpdateBackground3  0x021BCC40  thumb  ov217
+ *   BG_SYS_Init  0x02040C14  arm  arm9
+ *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +26,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
-extern u32 func_020414EC();
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
+extern u32 BG_SYS_ClearSlot();
 u32 RESEARCH_LIST_UpdateBackground3(u32 a0)
 {
-    func_02040C14(3, 0, 1, 0);
-    return func_020414EC(3);
+    BG_SYS_Init(3, 0, 1, 0);
+    return BG_SYS_ClearSlot(3);
 }
 

@@ -25,7 +25,7 @@
  *   poke_personal_File  0x020A7310  data
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   func_0203F0A8  0x0203F0A8  arm
- *   func_02020FE4   0x02020FE4  thumb
+ *   FILE_UTIL_Get_0FE4   0x02020FE4  thumb
  *   TIMEZONE_IsNight   0x02011410  thumb
  *   shinka_check_File 0x020A7330 data  a1
  *   _IceRockZones      0x020A7320  data  a2
@@ -49,7 +49,7 @@
  *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
- *   func_0201D7C4  0x0201D7C4  thumb
+ *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
  *   _PrintJobWork   0x0214655C  data
  *   STRBUF_GetChars  0x02045A90  arm
  *   func_0201D26C  0x0201D26C  thumb
@@ -57,7 +57,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   func_0201CEE0  0x0201CEE0  thumb
+ *   GF_FONT_Task  0x0201CEE0  thumb
  *   func_02019C90 0x02019C90 thumb
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   GF_FONT_ReadGlyph  0x0201DB04  thumb
@@ -72,6 +72,8 @@
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_Blit  0x020439A0  arm
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
+ *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
  */
 #define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
@@ -339,7 +341,7 @@ extern void  func_0204960C(struct ArcHandle *arc, u32 offset);
 extern void  ARC_TOOL_ReadHandle(struct ArcHandle *arc, u32 size, void *dst);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
 extern u32   func_0203F0A8(void);
-extern u32   func_02020FE4(u32 item, u32 param, u16 heap);
+extern u32   FILE_UTIL_Get_0FE4(u32 item, u32 param, u16 heap);
 extern u32   TIMEZONE_IsNight(u32 timezone);
 extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
 extern u32   ZONEDATA_GetPlaceNameId(u32 zoneId);
@@ -353,11 +355,11 @@ extern void  GF_FONT_GetTextColor(u8 *letter, u8 *shadow, u8 *background);
 extern u32   GF_FONT_IsTextColorDifferent(u32 letter, u32 shadow, u32 background);
 extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
 extern u64   func_020870D0(void);
-extern struct PrintCtx *func_0201D7C4(struct PrintQueue *queue, struct PrintCtx *job);
+extern struct PrintCtx *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, struct PrintCtx *job);
 extern int   GFL_NET_GetNegotiationNum(void);
 extern u32   func_0201D6B8(struct Strbuf *str);
 extern u32   func_0201D6C4(const struct PrintQueue *queue);
-extern void  func_0201D6D8(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+extern void  GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 extern u16  *STRBUF_GetChars(struct Strbuf *str);
 extern u8    BMP_GetTileBytes(struct Bmp *bmp);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
@@ -369,9 +371,9 @@ extern u16   BMP_GetWidth(const struct Bmp *bmp);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
 extern void *TCBL_GetWork(struct TcblNode *task);
-extern void  func_0201CEE0(void *task, struct TextPrinter *printer);
+extern void  GF_FONT_Task(void *task, struct TextPrinter *printer);
 extern void  TCBL_DeleteTask(struct TcblNode *task);
-extern signed char func_02013080(u32 speed);
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 speed);
 u32 func_02019C90(u16 species, u16 form, u32 field);
 struct Party *POKEPARTY_Create(u32 heap);
 void POKEPARTY_Init(struct Party *party);
@@ -1966,11 +1968,11 @@ u32 POKERUS_IsBoxCured(struct BoxPokemon *box)
  * note:     wave 18 (2026-09-24): EXACT* (the listing extent includes the
  *           12-byte unlabelled follower at 0x0201B70C, src/matched/
  *           unit_0201B70C.c).  Closed by the heap id's width: the seventh
- *           parameter is a u16 and func_02020FE4 takes its third argument
+ *           parameter is a u16 and FILE_UTIL_Get_0FE4 takes its third argument
  *           as a u16.  With both u32 the gate's `ldr r2, [sp, #0x68]` is
  *           hoisted above the pidHigh store (12 bytes out); u16 on the
  *           parameter alone breaks the size, u16 on both keeps the load
- *           behind the store as in the image.  func_02020FE4 masks the id to
+ *           behind the store as in the image.  FILE_UTIL_Get_0FE4 masks the id to
  *           fifteen bits and ORs in 0x8000 (a temporary-heap id), and
  *           src/matched/unit_02007CB0.c already declares that parameter u16.
  *
@@ -2016,7 +2018,7 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
     personality = func_02017E1C(pp, 0, 0);
     beauty = func_02017E1C(pp, 0x14, 0);
     personalityHigh = (personality & 0xFFFF0000) >> 16;
-    holdEffect = func_02020FE4(heldItem, 1, heap);
+    holdEffect = FILE_UTIL_Get_0FE4(heldItem, 1, heap);
     if (species != 0x40 && holdEffect == 0x40 && mode != 3) {
         return result;
     }
@@ -2183,7 +2185,7 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
                 }
                 break;
             case 7:
-                if (func_02020FE4((u16)func_02017E1C((struct PokemonParam *)arg, 6, 0), 1, heap) != 0x40) {
+                if (FILE_UTIL_Get_0FE4((u16)func_02017E1C((struct PokemonParam *)arg, 6, 0), 1, heap) != 0x40) {
                     if ((func_02017E1C(pp, 0xAB, 0) == 588
                          && func_02017E1C((struct PokemonParam *)arg, 0xAB, 0) == 616)
                      || (func_02017E1C((struct PokemonParam *)arg, 0xAB, 0) == 588
@@ -2406,7 +2408,7 @@ void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap
     int i;
 
     for (i = 0; i < 3; i++) {
-        deltas[i] = (u8)func_02020FE4(item, (u16)(i + 0x3C), heap);
+        deltas[i] = (u8)FILE_UTIL_Get_0FE4(item, (u16)(i + 0x3C), heap);
     }
     NATSUKI_Apply(pp, (const s8 *)deltas, zoneId, heap);
 }
@@ -2512,7 +2514,7 @@ void NATSUKI_CalcParty(struct Party *party, int zoneId, u16 heap)
  *
  * VERSION SENSITIVITY: 650 is a species id and 0xAB / 6 / 9 / 0x96 / 0x98 are
  * party-record ids; both are content numbering and should be re-read for a
- * White build.  0x35 is the value func_02020FE4 returns for one particular
+ * White build.  0x35 is the value FILE_UTIL_Get_0FE4 returns for one particular
  * kind and is content numbering too.
  *
  * Verified with
@@ -2536,7 +2538,7 @@ void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 he
     if (species == 0 || species == 650) {
         return;
     }
-    holdEffect = (u8)func_02020FE4((u16)func_02017E1C(pp, 6, band), 1, heap);
+    holdEffect = (u8)FILE_UTIL_Get_0FE4((u16)func_02017E1C(pp, 6, band), 1, heap);
     friendship = func_02017E1C(pp, 9, band);
 
     if (friendship >= 100) {
@@ -4082,7 +4084,7 @@ static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
  * saves the current text colour, applies the head request's colour when its
  * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
  * string ends or the tick budget at +8 (func_020870D0 is OS_GetTick) runs
- * out.  On string end it pops the request (func_0201D7C4) and moves the
+ * out.  On string end it pops the request (GF_FONT_UpdatePrintsy) and moves the
  * glyph cursor to the next record's text in the byte ring at +0x18,
  * wrapping twice at the ring size.  Restores the colour and reports idle.
  *
@@ -4155,7 +4157,7 @@ u32 PRINTSYS_QUE_Main(struct PrintQueue *queue)
             }
             if (queue->cursor[0] == 0xFFFF) {
                 jobOffset = (u16)((u8 *)queue->job - ring);
-                queue->job = func_0201D7C4(queue, queue->job);
+                queue->job = GF_FONT_UpdatePrintsy(queue, queue->job);
                 if (queue->job != 0) {
                     offset = PrintQueue_WrapOffset(queue, jobOffset + 0x1C);
                     offset = PrintQueue_WrapOffset(queue, offset + 4);
@@ -4201,7 +4203,7 @@ u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp)
             if (job->bmp == bmp) {
                 return 1;
             }
-            job = func_0201D7C4(queue, job);
+            job = GF_FONT_UpdatePrintsy(queue, job);
         }
     }
     return 0;
@@ -4232,22 +4234,22 @@ void PRINTSYS_QUE_Clear(struct PrintQueue *queue)
  * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
  * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
- * func_0201D6D8 provided the request fits in the free space func_0201D6C4
+ * GF_FONT_CopyStrbufD6D8 provided the request fits in the free space func_0201D6C4
  * reports.
  *
- * Why it is capped: the `bl` at 0x0201C79C is the only branch to func_0201D6D8
+ * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_CopyStrbufD6D8
  * anywhere in the image, and no pool word holds the address either, so the
  * `label` class has no witness once the compared range holds that call.  No
  * cut helps, because the range cannot be made smaller than PRINTSYS_SubmitJob and
  * the call is inside it.  The `matched` class would carry it, but
- * func_0201D6D8 is not matched: it is EXACT only in a range that also holds
- * func_0201D768, and func_0201D768 is four bytes short (the original spills
+ * GF_FONT_CopyStrbufD6D8 is not matched: it is EXACT only in a range that also holds
+ * GF_FONT_Copy, and GF_FONT_Copy is four bytes short (the original spills
  * the byte counter and keeps the ring cursor in a callee-saved register; every
  * source shape tried makes the opposite choice).  See the header of
  * src/matched/unit_0201D7C4.c.
  *
- * It closes the day func_0201D768's register allocation is reproduced, which
- * makes func_0201D6D8 an EXACT entry and the `matched` class applies.
+ * It closes the day GF_FONT_Copy's register allocation is reproduced, which
+ * makes GF_FONT_CopyStrbufD6D8 an EXACT entry and the `matched` class applies.
  *
  * PRINTSYS_SubmitJob's busy test is normalised to 0 or 1 before it is used, which is
  * what a `!= 0` assigned to a local gives; the flags nibble is read as a four
@@ -4293,7 +4295,7 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
     }
     size = func_0201D6B8(str);
     if (size <= func_0201D6C4(queue)) {
-        func_0201D6D8(queue, job, str);
+        GF_FONT_CopyStrbufD6D8(queue, job, str);
     }
 }
 
@@ -4851,11 +4853,11 @@ void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, 
 
 
 /*
- * The printsys text-record constructor: registers func_0201CEE0 as a
+ * The printsys text-record constructor: registers GF_FONT_Task as a
  * task with a 0x50-byte work area, builds the PrintCtx at +0x34 through
  * PRINTSYS_SetupJob, splits the signed speed argument into the sign/magnitude
  * pairs at +0x18..+0x1D, and initialises every other field of struct Rec
- * (the same layout src/matched/func_0201CEE0.c consumes).  Returns the
+ * (the same layout src/matched/GF_FONT_Task.c consumes).  Returns the
  * record.
  *
  * The two-load swap the notes carried at +0x28/+0x30 (a4 read before a1)
@@ -4879,7 +4881,7 @@ struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 
     u8 speed[2];
 
     bmp = BMP_WIN_GetBmp(win);
-    task = TCBL_AddTask(tcbl, (void *)func_0201CEE0, 0x50, priority);
+    task = TCBL_AddTask(tcbl, (void *)GF_FONT_Task, 0x50, priority);
     printer = TCBL_GetWork(task);
 
     printer->task = task;
@@ -5020,7 +5022,7 @@ void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer)
  *
  * PRINTSYS_PrintStreamShortWait lowers a level-like byte at +0x1E and, when the new value is
  * zero, replaces the pair at +0x1C/+0x1D through PRINTSYS_PrintStreamSetSpeed with whatever
- * func_02013080(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
+ * MSG_SPEED_GetWaitForSpeed(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
  * restores the pair from the backup at +0x18/+0x19.
  *
  * PRINTSYS_PrintStreamIsOverrideSpeed is an unlabelled follower, eight bytes with no prologue.  It
@@ -5045,7 +5047,7 @@ void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait)
     if (wait < printer->waitCounter) {
         printer->waitCounter = (u8)wait;
         if (wait == 0) {
-            PRINTSYS_PrintStreamSetSpeed(printer, func_02013080(2));
+            PRINTSYS_PrintStreamSetSpeed(printer, MSG_SPEED_GetWaitForSpeed(2));
             printer->flags.raw = 0x10u | printer->flags.raw;
         }
     }

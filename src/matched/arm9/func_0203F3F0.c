@@ -12,13 +12,13 @@
  *
  * symbols:
  *   g_021469FC     0x021469FC  data
- *   func_0203F46C  0x0203F46C  arm
+ *   GF_STANDARD_GetRtc  0x0203F46C  arm
  *
  * TU: gf_standard.c.
  *
  * Per-frame tick on the block at 0x021469FC: while +0x04 is clear, count
  * frames in +0x08 and every eleventh one reset the counter and run
- * func_0203F46C.  The `ble` says +0x08 is signed.
+ * GF_STANDARD_GetRtc.  The `ble` says +0x08 is signed.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0203F3F0.c \
@@ -34,7 +34,7 @@ typedef signed int    s32;
 extern struct G_021469FC g_021469FC;
 
 struct RtcRequest;
-extern void func_0203F46C(struct RtcRequest *req);
+extern void GF_STANDARD_GetRtc(struct RtcRequest *req);
 
 void func_0203F3F0(void)
 {
@@ -46,5 +46,5 @@ void func_0203F3F0(void)
         return;
     }
     g_021469FC.unk_08 = 0;
-    func_0203F46C((struct RtcRequest *)(&g_021469FC));
+    GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
 }

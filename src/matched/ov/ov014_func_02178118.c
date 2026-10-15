@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker leaf for ov122 func_021D4B74; two stores to the game-global object.
+ * blocker leaf for ov122 INTRUDE_COMM_VIEW_BeginExit; two stores to the game-global object.
  * symbols:
  *   g_pWhPipeWork 0x021797A4 data ov014 a4
  */

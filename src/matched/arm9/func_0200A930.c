@@ -1,5 +1,5 @@
 /*
- * function: func_0200A930
+ * function: IRC_RANKING_GetLastSlot
  * address:  0x0200A930
  * packet:   pkt_0200A930
  * region:   arm9
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 v : 8; u32 rest : 24; } B;
-u8 func_0200A930(char *p)
+u8 IRC_RANKING_GetLastSlot(char *p)
 {
     return ((B *)(p + 0x348))->v;
 }

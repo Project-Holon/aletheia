@@ -1,5 +1,5 @@
 /*
- * function: func_02199D1C
+ * function: ResolveServer
  * address:  0x02199D1C
  * packet:   pkt_ov009_02199D1C
  * region:   ov009
@@ -13,17 +13,17 @@
  *
  * symbols:
  *   OS_SNPrintf  0x02084F80  arm
- *   func_02199CE8  0x02199CE8  arm  ov009
- *   g_021A5CA8  0x021A5CA8  data
+ *   NameToIp  0x02199CE8  arm  ov009
+ *   gNatNegHostnameFmt  0x021A5CA8  data
  *   gGsAvailabilityGameName  0x021ACEFC  data
  */
 
-extern char g_021A5CA8[];
+extern char gNatNegHostnameFmt[];
 extern char gGsAvailabilityGameName[];
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern unsigned int func_02199CE8(char *name);
+extern unsigned int NameToIp(char *name);
 
-unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname)
+unsigned int ResolveServer(char *overrideHostname, char *defaultHostname)
 {
     char hostnameBuffer[64];
     char *hostname;
@@ -31,7 +31,7 @@ unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname)
     hostname = overrideHostname;
     if (!hostname) {
         hostname = hostnameBuffer;
-        OS_SNPrintf(hostname, 64, g_021A5CA8, gGsAvailabilityGameName, defaultHostname);
+        OS_SNPrintf(hostname, 64, gNatNegHostnameFmt, gGsAvailabilityGameName, defaultHostname);
     }
-    return func_02199CE8(hostname);
+    return NameToIp(hostname);
 }

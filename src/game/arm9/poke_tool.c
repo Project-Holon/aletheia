@@ -49,6 +49,7 @@
  *   STRBUF_ToChars  0x02045A38  arm
  *   POKE_PERSONAL_OpenHandle  0x0201AD88  thumb
  *   STRBUF_SetString  0x02045924  arm
+ *   WORDSET_CheckF448  0x0201F448  thumb
  */
 typedef unsigned char  u8;
 
@@ -314,7 +315,7 @@ extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUps);
 extern u32 func_02008530(const struct MyStatus *status);
 extern u8 func_02008550(const struct MyStatus *status);
 extern u32 func_020084F8(struct MyStatus *status, u32 dest, u32 maxLen);
-extern u32 func_0201F448(const u16 *a, const u16 *b);
+extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
 extern void  func_02019B94(u32 growthRate, u32 *dest);
 extern u32 func_02019BA4(u32 growthRate, u32 level);
 extern u32 func_02019C90(u16 species, u16 form, u32 field);
@@ -1926,7 +1927,7 @@ int POKE_TOOL_IsOwnedByPlayer(struct PokemonParam *pp, struct MyStatus *myStatus
  * second name field (0x9A) out of it, reads the same two out of the mail
  * object through func_02008530 and func_02008550, copies both names into the
  * two 0x20 byte scratch buffers at 0x021462F0 and 0x021462B0, and compares
- * the strings with func_0201F448.
+ * the strings with WORDSET_CheckF448.
  *
  * The three tests are one conjunction: all three conditional branches land on
  * the same address and there is one `movs r6, #1`
@@ -1959,7 +1960,7 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStat
     monOtGender = func_02017E88(box, POKE_TOOL_PARAM_OT_GENDER, 0);
     func_020084F8(myStatus, (u32)gNameBuf, 0x20);
     func_02017E88(box, POKE_TOOL_PARAM_OT_NAME, (u32)gNameCompareBuf);
-    if (playerOtId == monOtId && playerGender == monOtGender && func_0201F448(gNameBuf, gNameCompareBuf) != 0) {
+    if (playerOtId == monOtId && playerGender == monOtGender && WORDSET_CheckF448(gNameBuf, gNameCompareBuf) != 0) {
         isOwned = 1;
     }
     func_02017DE4(box, didDecode);

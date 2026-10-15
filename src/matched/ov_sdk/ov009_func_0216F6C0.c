@@ -14,7 +14,7 @@
  * symbols:
  *   g_021AAA20  0x021AAA20  data
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0219ED4C  0x0219ED4C  arm  ov009
+ *   ServerBrowserFree  0x0219ED4C  arm  ov009
  *   func_02176B34  0x02176B34  arm  ov009
  *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   DWC_Free  0x0205A1B0  arm
@@ -29,7 +29,7 @@
 extern struct NNThinkGlobal g_021AAA20;
 struct ServerBrowser;
 extern int func_02175F3C(void);
-extern void func_0219ED4C(struct ServerBrowser *sb);
+extern void ServerBrowserFree(struct ServerBrowser *sb);
 extern void func_02176B34(void);
 extern void DWCi_SetMatchStatus(int state);
 extern void DWC_Free(int kind, void *p, int size);
@@ -47,7 +47,7 @@ void DWCi_CloseMatch(void)
         if (*(int *)(((char *)&g_021AAA20) + 0x14) != 0) {
             *(int *)(((char *)&g_021AAA20) + 0x10) = 1;
         } else {
-            func_0219ED4C(*(void **)(func_02175F3C() + 0x5e0));
+            ServerBrowserFree(*(void **)(func_02175F3C() + 0x5e0));
             *(void **)(func_02175F3C() + 0x5e0) = 0;
         }
     }

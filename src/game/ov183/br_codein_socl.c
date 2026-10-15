@@ -1,6 +1,6 @@
 /*
  * file:     br_codein_socl.c
- * function: func_021E2F98
+ * function: BR_CODEIN_SOCL_InitDefault
  * address:  0x021E2F98
  * packet:   pkt_021E2F98
  * region:   ov183
@@ -18,7 +18,7 @@
 
 extern SOCLResource gBrCodeinDefaultPair;
 
-void func_021E2F98(SOCLResource *resource)
+void BR_CODEIN_SOCL_InitDefault(SOCLResource *resource)
 {
     *resource = gBrCodeinDefaultPair;
 }

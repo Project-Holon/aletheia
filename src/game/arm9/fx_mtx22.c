@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx22.c
  * unit:     yes
- * function: func_0207AD58, MTX_Rot22_, func_0207AD70
+ * function: MTX_Scale22_, MTX_Rot22_, MTX_ScaleApply22
  * address:  0x0207AD58
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@ typedef struct {
     fx32 _10, _11;
 } MtxFx22;
 
-asm void func_0207AD58(void);
+asm void MTX_Scale22_(void);
 asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
 
 /*
@@ -28,7 +28,7 @@ asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
  *
  * void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y)
  */
-asm void func_0207AD58(void)
+asm void MTX_Scale22_(void)
 {
     stmia r0!, {r1}
     mov r1, #0
@@ -61,7 +61,7 @@ typedef union {
     fx32 a[4];
 } MtxFx22b;
 
-void func_0207AD70(const MtxFx22b *pSrc, MtxFx22b *pDst, fx32 x, fx32 y)
+void MTX_ScaleApply22(const MtxFx22b *pSrc, MtxFx22b *pDst, fx32 x, fx32 y)
 {
     pDst->_00 = (fx32)(((fx64)x * pSrc->_00) >> 12);
     pDst->_01 = (fx32)(((fx64)x * pSrc->_01) >> 12);

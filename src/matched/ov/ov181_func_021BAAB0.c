@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAB0
+ * function: STAFF_ROLL_CmdEnd
  * address: 0x021BAAB0
  * packet: pkt_ov181_021BAAB0
  * region: ov181
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24513.h"
-int func_021BAAB0(char *p) {((struct Obj24513 *)p)->f2EC=5;return 1;}
+int STAFF_ROLL_CmdEnd(char *p) {((struct Obj24513 *)p)->f2EC=5;return 1;}

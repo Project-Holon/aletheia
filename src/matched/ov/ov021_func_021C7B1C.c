@@ -14,7 +14,7 @@
  *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
  *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
  *   BUTTON_MAN_ScaleVec  0x020520A4  arm
- *   func_0207C9D0  0x0207C9D0  arm
+ *   VEC_Add  0x0207C9D0  arm
  *   _fgr           0x0209BBB0  arm
  *   _fflt          0x0209BDBC  arm
  *   _ffix          0x0209C494  arm
@@ -48,7 +48,7 @@ extern void FIELD_CAMERA_GetTargetShift(void *o, VecFx32 *out);
 extern void FIELD_CAMERA_SetTargetShift(void *o, VecFx32 *v);
 struct Vec3;
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
-extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *c);
+extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *c);
 
 #define FX32_ONE 0x1000
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
@@ -72,7 +72,7 @@ int FIELD_TASK_UpdateCameraTargetTween(Work *w)
         t = FX_F32_TO_FX32((f32)w->cnt / (f32)w->max);
         BUTTON_MAN_ScaleVec((const struct Vec3 *)(&w->from), FX32_ONE - t, (struct Vec3 *)(&a));
         BUTTON_MAN_ScaleVec((const struct Vec3 *)(&w->to), t, (struct Vec3 *)(&b));
-        func_0207C9D0(&a, &b, &c);
+        VEC_Add(&a, &b, &c);
         FIELD_CAMERA_SetTargetShift(o, &c);
         if (w->max <= w->cnt)
             return 1;

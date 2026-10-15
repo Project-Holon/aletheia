@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   SCRIPT_SYS_IsChildScript  0x02158DB0  thumb  ov010
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   SCRCMD_WORK_CreateCommon  0x0215A514  thumb  ov010
  *   SCRIPT_WORK_InitFieldParam  0x02158E54  thumb  ov010
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int SCRIPT_SYS_IsChildScript(int);
 struct WordSet;
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *SCRCMD_WORK_CreateCommon(int a, int heap);
@@ -54,7 +54,7 @@ int *SCRIPT_WORK_Create(u16 a, int b, int c, int d, int e, int f)
     p[10] = f;
     p[9] = SCRIPT_SYS_IsChildScript(f);
     if (p[9] == 0) {
-        p[11] = (int)func_0201EC74(0x1C, 0x40, a);
+        p[11] = (int)WORDSET_Create(0x1C, 0x40, a);
         p[12] = (int)STRBUF_Create(0x500, a);
         p[13] = (int)STRBUF_Create(0x500, a);
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6E5C
+ * function: EGG_DEMO_VIEW_UpdateParticles
  * address: 0x021F6E5C
  * packet: pkt_ov215_021F6E5C
  * region: ov215
@@ -19,7 +19,7 @@ typedef struct { int x,y,z; } Vec;
 extern const Vec d_021F73B4;
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillAllEffects(void *);
-void func_021F6E5C(char *p)
+void EGG_DEMO_VIEW_UpdateParticles(char *p)
 {
     if (((struct Obj02263 *)p)->f4814) {
         Vec v=d_021F73B4;

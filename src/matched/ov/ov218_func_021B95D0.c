@@ -19,8 +19,8 @@
  *   func_021BA4B4 0x021BA4B4 thumb ov218
  *   func_021BA2EC 0x021BA2EC thumb ov218
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   func_021B9888 0x021B9888 thumb ov218
- *   func_021BA8F0 0x021BA8F0 thumb ov218
+ *   UN_SELECT_Delete 0x021B9888 thumb ov218
+ *   UN_SELECT_GRAPHIC_Delete 0x021BA8F0 thumb ov218
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -42,8 +42,8 @@ extern void func_021BA2EC(char *);
 typedef unsigned int   u32;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 typedef unsigned char  u8;
-extern void func_021B9888(u8 *p);
-extern void func_021BA8F0(char *);
+extern void UN_SELECT_Delete(u8 *p);
+extern void UN_SELECT_GRAPHIC_Delete(char *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int);
@@ -70,8 +70,8 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         func_021BA4B4(p);
         func_021BA2EC(p);
         APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj01983 *)p)->f18);
-        func_021B9888(((struct Obj01983 *)p)->f8);
-        func_021BA8F0(*(char * *)&((struct Obj01983 *)p)->f4);
+        UN_SELECT_Delete(((struct Obj01983 *)p)->f8);
+        UN_SELECT_GRAPHIC_Delete(*(char * *)&((struct Obj01983 *)p)->f4);
         heap = ((struct Obj01983 *)p)->f0;
         func_020315D4(ctx);
         func_020306F0(heap);

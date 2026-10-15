@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA960 0x021BA960 thumb ov218
+ *   UN_SELECT_GRAPHIC_GetActor 0x021BA960 thumb ov218
  *   func_021BA4D4 0x021BA4D4 thumb ov218
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
@@ -26,7 +26,7 @@ typedef struct Config Config;
 extern struct Config d_021BAB68;
 extern const Config d_021BABC8, d_021BAB98, d_021BABB0, d_021BAB80;
 struct Obj;
-extern u32 func_021BA960(char *p);
+extern u32 UN_SELECT_GRAPHIC_GetActor(char *p);
 extern struct Obj *func_021BA4D4(u32 owner, char *p);
 struct Actor;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -36,7 +36,7 @@ void func_021BA328(char *p)
     Config a,b,c,d,e;
     void *manager,*item;
     int i,j;
-    manager=(void *)func_021BA960(((struct Obj00243 *)p)->f4);
+    manager=(void *)UN_SELECT_GRAPHIC_GetActor(((struct Obj00243 *)p)->f4);
     for(j=0;j<36;j++)*(u32 *)(p+0x240+j*4)=0;
     a=d_021BABC8;
     a.c=((struct Obj00243 *)p)->f2D0;a.d=((struct Obj00243 *)p)->f2D4;a.e=((struct Obj00243 *)p)->f2D8;

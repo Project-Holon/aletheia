@@ -1,5 +1,5 @@
 /*
- * function: func_021688FC
+ * function: DWC_SetOwnStatusData
  * address:  0x021688FC
  * packet:   pkt_ov009_021688FC
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      DWC_SetOwnStatusData (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
  * symbols:
- *   func_0216AA70  0x0216AA70  arm  ov009
- *   func_02059B40  0x02059B40  arm
- *   func_021690D0  0x021690D0  arm  ov009
+ *   DWCi_CheckLogin  0x0216AA70  arm  ov009
+ *   DWC_Base64Encode  0x02059B40  arm
+ *   DWCi_SetGPStatus  0x021690D0  arm  ov009
  *   g_021AA860  0x021AA860  data
  */
 
@@ -30,24 +30,24 @@ typedef struct FriendGlobal FriendGlobal;
 
 extern struct FriendGlobal g_021AA860;
 
-extern int func_0216AA70(void);
+extern int DWCi_CheckLogin(void);
 typedef unsigned int   u32;
-extern int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen);
-extern int func_021690D0(int status, const char *statusString, const char *locString);
+extern int DWC_Base64Encode(const char *src, u32 srclen, char *dst, u32 dstlen);
+extern int DWCi_SetGPStatus(int status, const char *statusString, const char *locString);
 
-int func_021688FC(char *statusData, unsigned long size)
+int DWC_SetOwnStatusData(char *statusData, unsigned long size)
 {
 	char statusString[256];
 	int len;
 	int ret;
 
-	if (g_021AA860.ctl == 0 || !func_0216AA70())
+	if (g_021AA860.ctl == 0 || !DWCi_CheckLogin())
 		return 0;
-	len = func_02059B40(statusData, size, statusString, 255);
+	len = DWC_Base64Encode(statusData, size, statusString, 255);
 	if (len == -1)
 		return 0;
 	statusString[len] = 0;
-	ret = func_021690D0(-1, 0, statusString);
+	ret = DWCi_SetGPStatus(-1, 0, statusString);
 	if (ret == 0)
 		return 1;
 	return 0;

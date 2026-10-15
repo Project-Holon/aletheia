@@ -1,7 +1,7 @@
 /*
  * file:     sb_serverbrowsing.c
  * unit:     yes
- * function: func_0219E9F4, func_0219EBC4, func_0219EC74, func_0219ED4C, func_0219ED80, func_0219EED4, func_0219EF08, func_0219EF60, func_0219EFA8, func_0219EFD0, func_0219EFF0, func_0219F00C, func_0219F024, func_0219F058, func_0219F068, func_0219F078, ServerBrowserGetMyPublicIPAddr
+ * function: func_0219E9F4, EngineCallback, ServerBrowserNewA, ServerBrowserFree, ServerBrowserBeginUpdate2, ServerBrowserLimitUpdateA, ServerBrowserSendMessageToServerA, ServerBrowserSendNatNegotiateCookieToServerA, ServerBrowserRemoveServer, ServerBrowserThink, ServerBrowserHalt, ServerBrowserClear, ServerBrowserState, ServerBrowserGetServer, ServerBrowserCount, ServerBrowserSortA, ServerBrowserGetMyPublicIPAddr
  * address:  0x0219E9F4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   gGsAvailabilityState  0x021ACEF8  data
  *   SBServerListCleanup  0x021A0340  arm  ov009
  *   SBEngineCleanup  0x0219D8FC  arm  ov009
- *   func_0219922C  0x0219922C  arm  ov009
+ *   NNFreeNegotiateList  0x0219922C  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
  *   strlen  0x0209477C  arm
@@ -37,19 +37,19 @@
  *   g_021A81DC  0x021A81DC  data
  *   g_021A7C90  0x021A7C90  data
  *   g_021A8218  0x021A8218  data
- *   func_0217ED38  0x0217ED38  arm  ov009
+ *   inet_addr  0x0217ED38  arm  ov009
  *   SBSendMessageToServer  0x021A1620  arm  ov009
  *   SBSendNatNegotiateCookieToServer  0x021A174C  arm  ov009
  *   SBServerListFindServer  0x0219F674  arm  ov009
  *   SBServerListRemoveAt  0x0219F768  arm  ov009
- *   func_0219A4A4  0x0219A4A4  arm  ov009
+ *   NNThink  0x0219A4A4  arm  ov009
  *   SBQueryEngineThink  0x0219DE88  arm  ov009
  *   SBListThink  0x021A1928  arm  ov009
  *   SBEngineHaltUpdates  0x0219D8E0  arm  ov009
  *   SBServerListClear  0x0219F830  arm  ov009
  *   SBServerListNth  0x0219F7C4  arm
  *   SBServerListCount  0x0219F7B4  arm
- *   func_02094798  0x02094798  arm
+ *   strcpy  0x02094798  arm
  *   SBServerListSort  0x0219F50C  arm  ov009
  */
 #include "sb_server_types.h"
@@ -73,7 +73,7 @@ extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, in
                           void *callback, void *instance);
 extern void SBServerListCleanup(SBServerList *slist);
 extern void SBEngineCleanup(void *engine);
-extern void func_0219922C(void);
+extern void NNFreeNegotiateList(void);
 extern void func_0217EAE0(void *ptr);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned long strlen(const char *s);
@@ -81,36 +81,36 @@ extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void SBQueryEngineAddQueryKey(char *p, int v);
 extern int SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void msleep(unsigned int msec);
-extern int func_0217ED38(int a);
+extern int inet_addr(int a);
 extern int SBSendMessageToServer(void *slist, unsigned int ip, unsigned short port, char *data, int len);
 extern int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
 extern int SBServerListFindServer(SBServerList *slist, void *findserver);
 extern void SBServerListRemoveAt(SBServerList *slist, int index);
-extern void func_0219A4A4(void *p);
+extern void NNThink(void *p);
 extern void SBQueryEngineThink(void *p);
 extern int SBListThink(int *p);
 extern void SBEngineHaltUpdates(char *p);
 extern void SBServerListClear(SBServerList *slist);
 extern SBServer *SBServerListNth(SBServerList *slist, int index);
 extern void SBServerListCount(char *p);
-extern char *func_02094798(char *dst, const char *src);
+extern char *strcpy(char *dst, const char *src);
 extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
 void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance);
-void func_0219EBC4(int unused, unsigned int reason, SBServer *server, void *inst);
-ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, BrowserCB callback, void *instance);
-void func_0219ED4C(ServerBrowser *sb);
-int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int updateOptions, int maxServers);
-int func_0219EED4(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
-int func_0219EF08(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
-int func_0219EF60(ServerBrowser *sb, char *ip, unsigned short port, int cookie);
-void func_0219EFA8(ServerBrowser *sb, SBServer *server);
-int func_0219EFD0(char *p);
-void func_0219EFF0(char *p);
-void func_0219F00C(char *p);
-int func_0219F024(char *p);
-SBServer *func_0219F058(ServerBrowser *sb, int index);
-void func_0219F068(char *p);
-void func_0219F078(ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
+void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst);
+ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, BrowserCB callback, void *instance);
+void ServerBrowserFree(ServerBrowser *sb);
+int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int updateOptions, int maxServers);
+int ServerBrowserLimitUpdateA(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
+int ServerBrowserSendMessageToServerA(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
+int ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser *sb, char *ip, unsigned short port, int cookie);
+void ServerBrowserRemoveServer(ServerBrowser *sb, SBServer *server);
+int ServerBrowserThink(char *p);
+void ServerBrowserHalt(char *p);
+void ServerBrowserClear(char *p);
+int ServerBrowserState(char *p);
+SBServer *ServerBrowserGetServer(ServerBrowser *sb, int index);
+void ServerBrowserCount(char *p);
+void ServerBrowserSortA(ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 unsigned int ServerBrowserGetMyPublicIPAddr(const ServerBrowser *browser);
 extern int gGsAvailabilityState;
 extern char g_021A81DC[];
@@ -188,7 +188,7 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
 /*
  * sdk:      EngineCallback (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-void func_0219EBC4(int unused, unsigned int reason, SBServer *server, void *inst)
+void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst)
 {
     ServerBrowser *sb = inst;
 
@@ -217,7 +217,7 @@ void func_0219EBC4(int unused, unsigned int reason, SBServer *server, void *inst
 /*
  * sdk:      ServerBrowserNewA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey,
+ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                                     int queryFromVersion, int maxConcUpdates, int queryVersion,
                                     int lanBrowse, BrowserCB callback, void *instance)
 {
@@ -234,7 +234,7 @@ ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, ch
     sb->dontUpdateList = 0;
     SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, func_0219E9F4, sb);
-    SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, func_0219EBC4, sb);
+    SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, EngineCallback, sb);
     return sb;
 }
 
@@ -245,12 +245,12 @@ ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, ch
 /*
  * sdk:      ServerBrowserFree (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-void func_0219ED4C(ServerBrowser *sb)
+void ServerBrowserFree(ServerBrowser *sb)
 {
     SBServerListCleanup(&sb->list);
     SBEngineCleanup(&sb->engine);
     if (sb->ConnectCallback != 0)
-        func_0219922C();
+        NNFreeNegotiateList();
     func_0217EAE0(sb);
 }
 
@@ -261,7 +261,7 @@ void func_0219ED4C(ServerBrowser *sb)
 /*
  * sdk:      ServerBrowserBeginUpdate2 (libdwcgsserverbrowsing.TWL.HYB.a sb_serverbrowsing.o)
  */
-int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields,
+int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields,
                   int numBasicFields, char *serverFilter, int updateOptions, int maxServers)
 {
     char keyList[256] = {0};
@@ -290,7 +290,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
         return err;
     while (sb->list.state == 3 || (sb->engine.querylist.count > 0 && err == 0)) {
         msleep(10);
-        err = func_0219EFD0((char *)sb);
+        err = ServerBrowserThink((char *)sb);
     }
     return err;
 }
@@ -301,10 +301,10 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
 /*
  * sdk:      ServerBrowserLimitUpdateA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-int func_0219EED4(ServerBrowser *sb, int async, int disconnectOnComplete,
+int ServerBrowserLimitUpdateA(ServerBrowser *sb, int async, int disconnectOnComplete,
                   unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers)
 {
-    return func_0219ED80(sb, async, disconnectOnComplete, basicFields, numBasicFields,
+    return ServerBrowserBeginUpdate2(sb, async, disconnectOnComplete, basicFields, numBasicFields,
                          serverFilter, 0x80, maxServers);
 }
 
@@ -314,9 +314,9 @@ int func_0219EED4(ServerBrowser *sb, int async, int disconnectOnComplete,
 /*
  * sdk:      ServerBrowserSendMessageToServerA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-int func_0219EF08(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len)
+int ServerBrowserSendMessageToServerA(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len)
 {
-    return SBSendMessageToServer(&sb->list, func_0217ED38((int)ip),
+    return SBSendMessageToServer(&sb->list, inet_addr((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), data, len);
 }
 
@@ -326,9 +326,9 @@ int func_0219EF08(ServerBrowser *sb, char *ip, unsigned short port, char *data, 
 /*
  * sdk:      ServerBrowserSendNatNegotiateCookieToServerA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-int func_0219EF60(ServerBrowser *sb, char *ip, unsigned short port, int cookie)
+int ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser *sb, char *ip, unsigned short port, int cookie)
 {
-    return SBSendNatNegotiateCookieToServer(&sb->list, func_0217ED38((int)ip),
+    return SBSendNatNegotiateCookieToServer(&sb->list, inet_addr((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), cookie);
 }
 
@@ -338,7 +338,7 @@ int func_0219EF60(ServerBrowser *sb, char *ip, unsigned short port, int cookie)
 /*
  * sdk:      ServerBrowserRemoveServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-void func_0219EFA8(ServerBrowser *sb, SBServer *server)
+void ServerBrowserRemoveServer(ServerBrowser *sb, SBServer *server)
 {
     int i;
 
@@ -353,9 +353,9 @@ void func_0219EFA8(ServerBrowser *sb, SBServer *server)
 /*
  * Releases the object and the block 0x60 bytes in.
  */
-int func_0219EFD0(char *p)
+int ServerBrowserThink(char *p)
 {
-    func_0219A4A4(p);
+    NNThink(p);
     SBQueryEngineThink(p);
     return SBListThink((int *)(p + 0x60));
 }
@@ -366,7 +366,7 @@ int func_0219EFD0(char *p)
 /*
  * Prepares the block 0x60 bytes in and then the object itself.
  */
-void func_0219EFF0(char *p)
+void ServerBrowserHalt(char *p)
 {
     SBServerListDisconnect((SBServerList *)(p + 0x60));
     SBEngineHaltUpdates(p);
@@ -378,9 +378,9 @@ void func_0219EFF0(char *p)
 /*
  * Calls the two block helpers sixty bytes apart.
  */
-void func_0219F00C(char *p)
+void ServerBrowserClear(char *p)
 {
-    func_0219EFF0(p);
+    ServerBrowserHalt(p);
     SBServerListClear((SBServerList *)(p + 0x60));
 }
 
@@ -389,7 +389,7 @@ void func_0219F00C(char *p)
 /*
  * Maps the +0x10 sign and the +0x60 state word to a small mode code.
  */
-int func_0219F024(char *p)
+int ServerBrowserState(char *p)
 {
     int v;
 
@@ -403,7 +403,7 @@ int func_0219F024(char *p)
 
 
 
-SBServer *func_0219F058(ServerBrowser *sb, int index)
+SBServer *ServerBrowserGetServer(ServerBrowser *sb, int index)
 {
     return SBServerListNth(&sb->list, index);
 }
@@ -418,7 +418,7 @@ SBServer *func_0219F058(ServerBrowser *sb, int index)
  *   neither `label` nor `sole-ref/code` can attest the ABS32 site.  Witness
  *   class: label / sole-ref/code.
  */
-void func_0219F068(char *p)
+void ServerBrowserCount(char *p)
 {
     SBServerListCount(p + 0x60);
 }
@@ -429,12 +429,12 @@ void func_0219F068(char *p)
 /*
  * sdk:      ServerBrowserSortA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-void func_0219F078(ServerBrowser *sb, int ascending, char *sortkey, int comparemode)
+void ServerBrowserSortA(ServerBrowser *sb, int ascending, char *sortkey, int comparemode)
 {
     struct SortInfo info;
 
     info.comparemode = comparemode;
-    func_02094798(info.sortkey, sortkey);
+    strcpy(info.sortkey, sortkey);
     SBServerListSort(&sb->list, ascending, info);
 }
 

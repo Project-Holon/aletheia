@@ -12,11 +12,11 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_0207CEE4 0x0207CEE4 arm
+ *   VEC_MultAdd 0x0207CEE4 arm
  */
 #include "../include/Obj03288.h"
 typedef unsigned short u16;
-extern void func_0207CEE4(int, void *, void *, void *);
+extern void VEC_MultAdd(int, void *, void *, void *);
 int func_021FAE4C(char *p, int *out)
 {
     int v;
@@ -29,6 +29,6 @@ int func_021FAE4C(char *p, int *out)
     }
     if (((struct Obj03288 *)p)->f2A != 0) v = (int)(0.5f + (float)(((struct Obj03288 *)p)->f2A << 12));
     else v = (int)((float)(((struct Obj03288 *)p)->f2A << 12) - 0.5f);
-    func_0207CEE4(v, p + 0x1c, p + 4, out);
+    VEC_MultAdd(v, p + 0x1c, p + 4, out);
     return 0;
 }

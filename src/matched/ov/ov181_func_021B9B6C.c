@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B6C
+ * function: STAFF_ROLL_DeleteText
  * address: 0x021B9B6C
  * packet: pkt_ov181_021B9B6C
  * region: ov181
@@ -20,4 +20,4 @@ typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B9B6C(char *p){GF_FONT_Delete(((struct Obj08302 *)p)->fAC);GF_FONT_Delete(((struct Obj08302 *)p)->fA8);STRBUF_Delete(((struct Obj08302 *)p)->fB4);MSGDATA_Delete(((struct Obj08302 *)p)->fB0);}
+void STAFF_ROLL_DeleteText(char *p){GF_FONT_Delete(((struct Obj08302 *)p)->fAC);GF_FONT_Delete(((struct Obj08302 *)p)->fA8);STRBUF_Delete(((struct Obj08302 *)p)->fB4);MSGDATA_Delete(((struct Obj08302 *)p)->fB0);}

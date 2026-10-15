@@ -28,8 +28,8 @@
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   func_02034714  0x02034714  arm
  *   INTRUDE_COMM_GetResultCount  0x02175DE4  thumb  ov011
- *   func_0200BE24  0x0200BE24  thumb
- *   func_0200BE00  0x0200BE00  thumb
+ *   INTRUDE_AddMissionBonusScore  0x0200BE24  thumb
+ *   INTRUDE_AddMissionScore  0x0200BE00  thumb
  *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
  *   EVENT_COMM_COMMON_SetupListWindowB  0x0217F528  thumb
  *   EVENT_COMM_COMMON_PrintListWindowB  0x0217F574  thumb
@@ -44,8 +44,8 @@
  *   func_0200823C  0x0200823C  thumb
  *   func_02007E50  0x02007E50  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF78  0x0200BF78  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_IncrementMissionClearCount  0x0200BF78  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
@@ -133,8 +133,8 @@ u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
 void *GAME_DATA_GetLastBattleRecSlot(void *);
 void func_02034714(const char *expr, u32 line, const char *file);
 int INTRUDE_COMM_GetResultCount(void *p, u8 *a1);
-void func_0200BE24(struct Rec1B0 *p, s32 v);
-void func_0200BE00(struct Rec1B0 *p, s32 v);
+void INTRUDE_AddMissionBonusScore(struct Rec1B0 *p, s32 v);
+void INTRUDE_AddMissionScore(struct Rec1B0 *p, s32 v);
 void INTRUDE_COMM_SetWordSetRequest(void *, void *, void *, u32);
 void EVENT_COMM_COMMON_SetupListWindowB(Ov018Obj *p, void *sub, int b, int c, int d, int e);
 void EVENT_COMM_COMMON_PrintListWindowB(void **p, unsigned int index, int a, int b);
@@ -149,8 +149,8 @@ u32 func_02007FB8(u8 *base, u16 id, u16 d);
 u32 func_0200823C(u32 a);
 u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 void *GAME_DATA_GetSaveControl(struct Big *p);
-u16 *func_0200BE48(void *sys);
-u32 func_0200BF78(struct Rec1B0 *p);
+u16 *INTRUDE_GetFromSave(void *sys);
+u32 INTRUDE_IncrementMissionClearCount(struct Rec1B0 *p);
 void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
@@ -203,8 +203,8 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
             c->f12A = e->f18;
             c->f12C = INTRUDE_COMM_HasResultReward(v, v + 0x1AC);
             c->f130 = INTRUDE_COMM_GetResultCount(v, v + 0x1AC);
-            func_0200BE24(h, c->f135);
-            func_0200BE00(h, c->f134);
+            INTRUDE_AddMissionBonusScore(h, c->f135);
+            INTRUDE_AddMissionScore(h, c->f134);
             (*state)++;
             break;
         }
@@ -247,7 +247,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
                 n = func_0200823C(0x23F) - x;
             }
             func_02007E50(m, 0x23F, n, c->f00);
-            func_0200BF78((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(w)));
+            INTRUDE_IncrementMissionClearCount((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(w)));
             func_0201EFA4(c->obj.f00, 0, c->f130, 3, 0, 1);
             EVENT_COMM_COMMON_PrintMsg(&c->obj, 0x18);
             (*state)++;

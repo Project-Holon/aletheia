@@ -22,8 +22,8 @@
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
  *   BOX2_SEQ_DeleteB 0x021EA750 thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb
- *   func_020260E4 0x020260E4 thumb
- *   func_020260F4 0x020260F4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
+ *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_SetSlotCharacter 0x021ED094 thumb
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
@@ -58,8 +58,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
-extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item);
 extern void BOX2_SEQ_SetActorAnimSeq(char *w, int i, int v);
@@ -102,9 +102,9 @@ int BOX2_SEQ_StatePlaceItemB(unsigned char *p)
         p[0x16] = o->idx;
         BOX2_SEQ_DeleteB((char *)p);
         BOX2_UI_ShowWindowB(WORK(p));
-        func_020260E4(OBJ(p), p[0x16] - 0x1E);
+        CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16] - 0x1E);
         BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
-        func_020260F4(OBJ(p), 1);
+        CURSOR_MOVE_SetState(OBJ(p), 1);
         return 0x46;
     }
     GFL_USE_PlaySeDefaultVolume(0x666);

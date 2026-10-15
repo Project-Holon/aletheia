@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020260E4 0x020260E4 thumb
+ *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
@@ -70,7 +70,7 @@
  *   BOX2_UI_SlideBarIn 0x021EF3D8 thumb
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
- *   func_02026124 0x02026124 thumb
+ *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
  *   d_021EF7B4 0x021EF7B4 data a1
  *   d_021EF79C 0x021EF79C data a1
@@ -107,7 +107,7 @@ extern int BOX2_UI_GetPageButtonHit(void);
 extern void BOX2_UI_SlideBarIn(struct WinMgr *mgr);
 extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 extern void BOX2_UI_ToggleSlotPair(char *q, int a);
-extern void func_02026124(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
 extern int BOX2_MAIN_HitBoxGrid(short x, int y);
 extern int BOX2_UI_IsListClosed(struct WinMgr *mgr);
@@ -147,7 +147,7 @@ extern int BOX2_UI_UpdateBarMove(unsigned char *p);
 extern void BOX2_UI_HideWindowB(char *p);
 extern void BOX2_UI_ShowWindowA(char *p);
 extern void BOX2_MAIN_SetMoverEntry(unsigned char *p, void *e);
-extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern void BOX2_SEQ_MoveCursorToSlot(char *p, int i);
@@ -216,7 +216,7 @@ int BOX2_MAIN_StateMachinePick(unsigned char *p)
                 BOX2_UI_ToggleSlotPair(WORK(p), 1);
                 BOX2_UI_MoveCursor((char **)p, 6, p[0x16]);
                 if ((*(int **)p)[9] == 4)
-                    func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
+                    CURSOR_MOVE_ClearSkipBit(*(void **)(WORK(p) + 0x70), 0x27);
                 BOX2_UI_DeleteSlotObjects((char *)p, 2, 1, 2);
                 *(int *)(WORK(p) + 0xA168) = p[0x16];
                 *(int *)(WORK(p) + 0x68) = 0x17;
@@ -364,7 +364,7 @@ int BOX2_MAIN_StateMachinePick(unsigned char *p)
             BOX2_SEQ_SetSlotDim((char **)p, 1);
         } else {
             BOX2_SEQ_SetSlotDim((char **)p, 0);
-            func_020260E4(*(void **)(WORK(p) + 0x70), p[0x16]);
+            CURSOR_MOVE_SetCurrent(*(void **)(WORK(p) + 0x70), p[0x16]);
             BOX2_UI_SetCursorPos((char **)p, p[0x16]);
             BOX2_SEQ_SetCursorDraw((char **)p, 1);
         }

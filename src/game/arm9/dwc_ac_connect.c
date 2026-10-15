@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_connect.c
  * unit:     yes
- * function: func_0205B33C, func_0205B37C, func_0205B488, func_0205B5EC, func_0205B790, func_0205B7B0, func_0205B7D0
+ * function: DWCi_AC_ConnectAP, ConnectStart, ConnectAP, GetConnectType, func_0205B790, func_0205B7B0, GetWepKey
  * address:  0x0205B33C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,11 +15,11 @@
  * symbols:
  *   DWCi_AC_GetPhase 0x0205C2C4 arm
  *   DWCi_AC_GetMemPtr 0x0205C214 arm
- *   func_0205B37C 0x0205B37C arm
- *   func_0205B488 0x0205B488 arm
- *   func_0205B5EC 0x0205B5EC arm
+ *   ConnectStart 0x0205B37C arm
+ *   ConnectAP 0x0205B488 arm
+ *   GetConnectType 0x0205B5EC arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0205B7D0 0x0205B7D0 arm
+ *   GetWepKey 0x0205B7D0 arm
  *   WCM_GetPhase 0x021656A0 arm
  *   GetPowerMode 0x0205B790 arm
  *   GetAuthMode 0x0205B7B0 arm
@@ -160,19 +160,19 @@ extern int strncmp(const char *s1, const char *s2, unsigned long n);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep);
 extern void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep);
-unsigned char func_0205B33C(void);
-unsigned char func_0205B37C(ACWORK *wk);
-unsigned char func_0205B488(ACWORK *wk);
-unsigned char func_0205B5EC(ACWORK *wk);
+unsigned char DWCi_AC_ConnectAP(void);
+unsigned char ConnectStart(ACWORK *wk);
+static unsigned char ConnectAP(ACWORK *wk);
+unsigned char GetConnectType(ACWORK *wk);
 unsigned long GetPowerMode(ACWORK *wk);
 unsigned long GetAuthMode(ACWORK *wk);
-int func_0205B7D0(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey);
+int GetWepKey(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey);
 
 
 /*
  * sdk:      DWCi_AC_ConnectAP (connect.o)
  */
-unsigned char func_0205B33C(void)
+unsigned char DWCi_AC_ConnectAP(void)
 {
     ACWORK *wk;
     unsigned char phase;
@@ -181,10 +181,10 @@ unsigned char func_0205B33C(void)
     wk = DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
     case 7:
-        phase = func_0205B37C(wk);
+        phase = ConnectStart(wk);
         break;
     case 8:
-        phase = func_0205B488(wk);
+        phase = ConnectAP(wk);
         break;
     }
     return phase;
@@ -193,13 +193,13 @@ unsigned char func_0205B33C(void)
 /*
  * sdk:      ConnectStart (connect.o)
  */
-unsigned char func_0205B37C(ACWORK *wk)
+unsigned char ConnectStart(ACWORK *wk)
 {
     WMBssDesc *bssdesc = &wk->bssDesc[wk->connectNo];
 
-    wk->connectApType = func_0205B5EC(wk);
+    wk->connectApType = GetConnectType(wk);
     MI_CpuFill8(&wk->wepKey, 0, sizeof(WCMWepDesc));
-    if (func_0205B7D0(wk, wk->connectApType, &wk->wepKey)) {
+    if (GetWepKey(wk, wk->connectApType, &wk->wepKey)) {
         wk->authMode = 1;
         if (((bssdesc->capaInfo >> 4) & 1) == 0) {
             wk->findList[wk->connectNo].state = 3;
@@ -225,7 +225,7 @@ unsigned char func_0205B37C(ACWORK *wk)
 /*
  * sdk:      ConnectAP (connect.o)
  */
-unsigned char func_0205B488(ACWORK *wk)
+static unsigned char ConnectAP(ACWORK *wk)
 {
     int phase;
     WMBssDesc *bssdesc;
@@ -275,7 +275,7 @@ unsigned char func_0205B488(ACWORK *wk)
 /*
  * sdk:      GetConnectType (connect.o)
  */
-unsigned char func_0205B5EC(ACWORK *wk)
+unsigned char GetConnectType(ACWORK *wk)
 {
     WMBssDesc *bssdesc;
     int type;
@@ -348,7 +348,7 @@ unsigned long GetAuthMode(ACWORK *wk)
 /*
  * sdk:      GetWepKey (connect.o)
  */
-int func_0205B7D0(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey)
+int GetWepKey(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey)
 {
     NCFGSlotInfo *info;
     NCFGSlotInfoEx *info2;

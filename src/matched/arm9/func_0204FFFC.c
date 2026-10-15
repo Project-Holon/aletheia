@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   BILLBOARD_FreeElem  0x0204F5A8  arm
- *   func_0204ED24  0x0204ED24  arm
+ *   BILLBOARD_Delete  0x0204ED24  arm
  *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
  *
@@ -46,7 +46,7 @@ struct BbActSys {
 };
 
 extern void BILLBOARD_FreeElem(void *board, u32 idx);
-extern void func_0204ED24(void *board);
+extern void BILLBOARD_Delete(void *board);
 extern u32 AREAMAN_Delete(void *a);
 extern u32 func_020307B0(void *p);
 
@@ -63,7 +63,7 @@ void BILLBOARD_ACT_Delete(struct BbActSys *o)
     func_020307B0(o->f18);
     AREAMAN_Delete(o->f14);
     func_020307B0(o->f0C);
-    func_0204ED24(o->f04);
+    BILLBOARD_Delete(o->f04);
     func_020307B0(o);
 }
 

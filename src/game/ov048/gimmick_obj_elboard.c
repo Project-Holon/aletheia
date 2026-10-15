@@ -18,13 +18,13 @@
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   FIELD_GIMMICK_GATE_HasMessagesToShow  0x021F3A70  thumb
  *   func_021F3D24  0x021F3D24  thumb
- *   func_0201EC64  0x0201EC64  thumb
- *   func_02088864  0x02088864  arm
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   RTC_GetDate  0x02088864  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F230  0x0201F230  thumb
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
- *   func_0201EC74  0x0201EC74  thumb
+ *   WORDSET_Create  0x0201EC74  thumb
  *   func_02045B38  0x02045B38  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -39,7 +39,7 @@
  *   FIELD_GIMMICK_GATE_IsExtraSaveListOn  0x021F3AB4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadExtraSaveValues  0x021F3AD4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadSaveBlockValues  0x021F3B64  thumb  ov048
- *   func_0201EE60  0x0201EE60  thumb
+ *   WORDSET_Callback  0x0201EE60  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   FIELD_GIMMICK_GATE_FindNewsEntry 0x021F3C2C thumb ov048
@@ -242,12 +242,12 @@ extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work);
 extern int func_021F3D24(GateWork *work);
-extern struct WordSet *func_0201EC64(u32 heapId);
-extern int func_02088864(RtcDate *date);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern int RTC_GetDate(RtcDate *date);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
 extern void func_0201F230(struct WordSet *wordSet, u32 index, u32 month);
-extern u32 func_0201ED04(struct WordSet *wordSet);
-extern struct WordSet *func_0201EC74(u32 wordMax, u32 bufLen, u16 heapId);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern struct WordSet *WORDSET_Create(u32 wordMax, u32 bufLen, u16 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
@@ -261,7 +261,7 @@ extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(GateWork *work);
 extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(GateWork *work, u32 *outIds, int *outCount);
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *outIds, int *outCount);
-extern void func_0201EE60(struct WordSet *wordSet, u32 index, u16 value);
+extern void WORDSET_Callback(struct WordSet *wordSet, u32 index, u16 value);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, void *myStatus);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
@@ -456,8 +456,8 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     struct { RtcDate date; ElboardMessage msg; } locals;
     struct WordSet *wordSet;
 
-    wordSet = func_0201EC64(work->heapId);
-    func_02088864(&locals.date);
+    wordSet = GF_FONT_Create_EC64(work->heapId);
+    RTC_GetDate(&locals.date);
     func_0201EFA4(wordSet, 2, locals.date.year, 2, 2, 1);
     func_0201F230(wordSet, 0, locals.date.month);
     func_0201EFA4(wordSet, 1, locals.date.day, 2, 0, 1);
@@ -469,7 +469,7 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     locals.msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dateMsgId;
     locals.msg.wordSet = wordSet;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &locals.msg, 1, 0);
-    func_0201ED04(wordSet);
+    WORDSET_DeleteStrbufED04(wordSet);
 }
 
 
@@ -506,7 +506,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
 
     GIMMICK_OBJ_ELBOARD_CollectHighlights(work, &highlights);
     bufLen = 0x100;
-    words = func_0201EC74(4, bufLen, work->heapId);
+    words = WORDSET_Create(4, bufLen, work->heapId);
     placeNames = func_02045B38(0, 2, 0x59, work->heapId);
     boardText = func_02045B38(0, 2, 0x26, work->heapId);
     for (i = 0; i < 4; i++) {
@@ -515,14 +515,14 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
         kindIndex = highlights.kind[i];
         placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(highlights.placeId[i]));
         labelText = func_02045EC0(boardText, gElboardLabelMsgId[kindIndex]);
-        pairWords = func_0201EC74(2, bufLen, work->heapId);
+        pairWords = WORDSET_Create(2, bufLen, work->heapId);
         pairTemplate = func_02045EC0(boardText, 0xc0);
         pairText = STRBUF_Create(0x40, work->heapId);
         func_0201EE0C(pairWords, 0, placeName, 0, 1, 0);
         func_0201EE0C(pairWords, 1, labelText, 0, 1, 0);
         func_0201F250(pairWords, pairText, pairTemplate);
         STRBUF_Delete(pairTemplate);
-        func_0201ED04(pairWords);
+        WORDSET_DeleteStrbufED04(pairWords);
         func_0201EE0C(words, i, pairText, 0, 1, 0);
         STRBUF_Delete(placeName);
         STRBUF_Delete(labelText);
@@ -554,7 +554,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
     msg.msgId = msgId;
     msg.wordSet = words;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 2, 0);
-    func_0201ED04(words);
+    WORDSET_DeleteStrbufED04(words);
 }
 
 
@@ -572,7 +572,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
         return;
     if (placeId == 0x159 && GAME_DATA_GetSeason(work->gameData) == 3)
         return;
-    words = func_0201EC64(work->heapId);
+    words = GF_FONT_Create_EC64(work->heapId);
     placeNames = func_02045B38(0, 2, 0x59, work->heapId);
     placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(placeId));
     func_0201EE0C(words, 0, placeName, 0, 1, 0);
@@ -586,7 +586,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->newsMsgId;
     msg.wordSet = words;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 3, 0);
-    func_0201ED04(words);
+    WORDSET_DeleteStrbufED04(words);
 }
 
 
@@ -596,7 +596,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(GateWork *work)
     ElboardMessage msg;
     RtcDate date;
 
-    func_02088864(&date);
+    RTC_GetDate(&date);
     switch (date.week) {
     case 0: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[6]; break;
     case 1: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[3]; break;
@@ -622,7 +622,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage2(GateWork *work)
     ElboardMessage msg;
     RtcDate date;
 
-    func_02088864(&date);
+    RTC_GetDate(&date);
     switch (date.week) {
     case 0: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[7]; break;
     case 1: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[4]; break;
@@ -648,7 +648,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(GateWork *work)
     ElboardMessage msg;
     RtcDate date;
 
-    func_02088864(&date);
+    RTC_GetDate(&date);
     switch (date.week) {
     case 0: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[8]; break;
     case 1: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[5]; break;
@@ -674,7 +674,7 @@ void GIMMICK_OBJ_ELBOARD_AddWeekdayMessage(GateWork *work)
     ElboardMessage msg;
     RtcDate date;
 
-    func_02088864(&date);
+    RTC_GetDate(&date);
     switch (date.week) {
     case 0: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->weekMsgId[6]; break;
     case 1: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->weekMsgId[0]; break;
@@ -704,7 +704,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     int i;
     int msgId;
 
-    words = func_0201EC64(GIMMICK_OBJ_ELBOARD_GetHeapId(work->board));
+    words = GF_FONT_Create_EC64(GIMMICK_OBJ_ELBOARD_GetHeapId(work->board));
     if (FIELD_GIMMICK_GATE_IsExtraSaveListOn(work))
         FIELD_GIMMICK_GATE_ReadExtraSaveValues(work, savedIds, &savedCount);
     else
@@ -719,7 +719,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     case 6: msgId = 0xd2; break;
     }
     for (i = 0; i < savedCount; i++)
-        func_0201EE60(words, i, savedIds[i]);
+        WORDSET_Callback(words, i, savedIds[i]);
     func_0201F02C(words, 6, GAME_DATA_GetMyStatus(work->gameData));
     msg.animIndex = gElboardLayout.animIndex[3];
     msg.textureName = gElboardLayout.textureName[3];
@@ -729,7 +729,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     msg.msgId = msgId;
     msg.wordSet = words;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 9, 0);
-    func_0201ED04(words);
+    WORDSET_DeleteStrbufED04(words);
 }
 
 void GIMMICK_OBJ_ELBOARD_AddNoticeMessages(GateWork *work)

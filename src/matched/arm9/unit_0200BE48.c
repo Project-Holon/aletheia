@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BE48, func_0200BE54, func_0200BE6C
+ * function: INTRUDE_GetFromSave, INTRUDE_StoreOccupy, INTRUDE_LoadOccupy
  *
  * 60 bytes, 0x0200BE48..0x0200BE84, 3 functions, one of which carries no
  * label in the generated listing.
@@ -31,16 +31,16 @@ typedef unsigned int   u32;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
-u16 *func_0200BE48(void *sys);
+u16 *INTRUDE_GetFromSave(void *sys);
 
-u16 *func_0200BE48(void *sys)
+u16 *INTRUDE_GetFromSave(void *sys)
 {
     return func_020071CC(sys, 0x35);
 }
 
-void func_0200BE54(void *sys, const u16 *src)
+void INTRUDE_StoreOccupy(void *sys, const u16 *src)
 {
-    u16 *d = func_0200BE48(sys);
+    u16 *d = INTRUDE_GetFromSave(sys);
     u32 i;
 
     for (i = 8; i != 0; i--) {
@@ -48,9 +48,9 @@ void func_0200BE54(void *sys, const u16 *src)
     }
 }
 
-void func_0200BE6C(void *sys, u16 *dest)
+void INTRUDE_LoadOccupy(void *sys, u16 *dest)
 {
-    const u16 *s = func_0200BE48(sys);
+    const u16 *s = INTRUDE_GetFromSave(sys);
     u32 i;
 
     for (i = 8; i != 0; i--) {

@@ -27,12 +27,12 @@
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   func_0201EC64  0x0201EC64  thumb
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
- *   func_0201ED04  0x0201ED04  thumb
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
@@ -41,14 +41,14 @@
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
  *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
- *   func_0201F0F8  0x0201F0F8  thumb
+ *   WORDSET_Set  0x0201F0F8  thumb
  *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
  *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
- *   func_0202A3CC  0x0202A3CC  thumb
+ *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
@@ -59,7 +59,7 @@
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
- *   func_0201D5CC  0x0201D5CC  thumb
+ *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
  *   func_0201D5F4  0x0201D5F4  thumb
  *   func_0201D658  0x0201D658  thumb
@@ -68,7 +68,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201EF8C 0x0201EF8C thumb
  *   func_0201EF34 0x0201EF34 thumb
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
@@ -164,10 +164,10 @@ extern u8 BTL_NET_HasServerCmd(void);
 extern u16 BTL_NET_GetServerCmd(struct BtlAdapterPacket **outPacket);
 extern u32 BTL_NET_SendClientReply(const u8 *data, u32 size);
 extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlSystem *battle, int flag);
-extern struct WordSet *func_0201EC64(u32 heapId);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void STRBUF_Delete(struct Strbuf *buf);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct BtlPoke *BTL_SIDE_GetPokeById(struct BtlPokeList *list, u8 pokeId);
@@ -176,14 +176,14 @@ extern void func_0201EEF4(struct WordSet *wordSet, u32 slot, void *mon);
 extern void *BTL_POKEPARAM_GetMon(struct BtlPoke *poke);
 extern void func_0201EE84(struct WordSet *wordSet, u32 slot, void *mon);
 extern unsigned short BTL_MAIN_GetTrainerType(struct BtlSystem *battle, int clientId);
-extern void func_0201F0F8(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_Set(struct WordSet *wordSet, u32 slot, u32 value);
 extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlSystem *battle, int clientId);
 extern int BTL_MAIN_GetCompetitor(struct BtlSystem *battle);
 extern u16 BTL_MAIN_GetTrainerId(struct BtlSystem *battle, int clientId);
 extern const void *BTL_MAIN_GetTrainerNameAndType(struct BtlSystem *battle, int clientId, u32 *outClass);
 extern struct Strbuf *BTL_MAIN_GetTrainerHandle(struct BtlSystem *battle, int clientId);
 extern struct Strbuf *BTL_MAIN_UpdateCommPlayerSupport(struct BtlSystem *battle);
-extern u8 func_0202A3CC(u32 trainerClass);
+extern u8 TPOKE_DATA_GetGenderValue(u32 trainerClass);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 slot, const void *src, u32 classType, u32 nameMode, u32 nameFlags);
 extern void func_0201F02C(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
 extern void func_0201F134(struct WordSet *wordSet, u32 slot, u32 value);
@@ -192,7 +192,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *d
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dest, struct Strbuf *src);
 extern u16 STRBUF_GetEosChar(void);
 extern u32 func_0201D5C4(void);
-extern u32 func_0201D5CC(const u16 *tag);
+extern u32 GF_FONT_CheckD5CC(const u16 *tag);
 extern u32 func_0201D670(const u16 *tag, u32 index);
 extern u32 func_0201D5F4(const u16 *tag);
 extern u32 func_0201D658(const u16 *tag);
@@ -201,7 +201,7 @@ extern u16 *STRBUF_GetChars(struct Strbuf *buf);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padding, u32 charSet);
 extern void func_0201EF8C(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201EF34(struct WordSet *wordSet, u32 slot, u32 value);
-extern void func_0201EF40(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201F020(struct WordSet *wordSet, u32 slot, u32 value);
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 clientId);
 extern int BTL_MAIN_IsOpposingPos(struct BtlSystem *battle, int clientId, int side);
@@ -465,7 +465,7 @@ void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *po
     gBtlMsgState.clientId = clientId;
     gBtlMsgState.plainWording = BTL_MAIN_CheckSetupStatusFlag(battle, 0x200);
     gBtlMsgState.useSpeciesName = 0;
-    gBtlMsgState.wordSet = func_0201EC64(heapId);
+    gBtlMsgState.wordSet = GF_FONT_Create_EC64(heapId);
     gBtlMsgState.msgBuf = STRBUF_Create(0x200 >> 1, heapId);
     for (i = 0; i < 8; i++) {
         gBtlMsgState.banks[i] = func_02045B38(0, 2, sBtlMsgBankFileIds[i], heapId);
@@ -477,7 +477,7 @@ void BTL_MSG_Exit(void)
 {
     int i;
 
-    func_0201ED04(gBtlMsgState.wordSet);
+    WORDSET_DeleteStrbufED04(gBtlMsgState.wordSet);
     STRBUF_Delete(gBtlMsgState.msgBuf);
     for (i = 0; i < 8; i++)
         MSGDATA_Delete(gBtlMsgState.banks[i]);
@@ -504,7 +504,7 @@ void BTL_MSG_SetPokeNickname(u8 pokeId, u8 slot)
 
 void BTL_MSG_SetClientValue(struct WordSet *wordSet, u8 slot, u8 clientId)
 {
-    func_0201F0F8(wordSet, slot, (u8)BTL_MAIN_GetTrainerType(gBtlMsgState.battle, clientId));
+    WORDSET_Set(wordSet, slot, (u8)BTL_MAIN_GetTrainerType(gBtlMsgState.battle, clientId));
 }
 
 
@@ -522,7 +522,7 @@ void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
                     func_0201F134(wordSet, slot, trainerId);
             } else {
                 trainerData = BTL_MAIN_GetTrainerNameAndType(gBtlMsgState.battle, clientId, &trainerClass);
-                func_0201EE0C(wordSet, slot, trainerData, func_0202A3CC(trainerClass), 1, 2);
+                func_0201EE0C(wordSet, slot, trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
             }
         } else {
             func_0201F02C(wordSet, slot, BTL_MAIN_GetTrainerHandle(gBtlMsgState.battle, clientId));
@@ -592,7 +592,7 @@ void BTL_MSG_DispatchTagged(struct Strbuf *dest, u16 msgId, u32 *args)
 
 
 /*
- * Walks a message string for the first 0xF000 tag that func_0201D5CC calls a
+ * Walks a message string for the first 0xF000 tag that GF_FONT_CheckD5CC calls a
  * word reference; the guard on text wraps the whole walk (two `return 0` tails).
  */
 u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
@@ -605,7 +605,7 @@ u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
         tagMark = func_0201D5C4();
         while (*text != endMark) {
             if (*text == tagMark) {
-                if (func_0201D5CC(text) != 0) {
+                if (GF_FONT_CheckD5CC(text) != 0) {
                     *outSlot = func_0201D670(text, 0);
                     *outGroup = func_0201D5F4(text);
                     *outKind = func_0201D658(text);
@@ -668,7 +668,7 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
     cursor = STRBUF_GetChars(text);
     while (*cursor != endMark) {
         if (*cursor == tagMark) {
-            if (func_0201D5CC(cursor)) {
+            if (GF_FONT_CheckD5CC(cursor)) {
                 slot = func_0201D670(cursor, 0);
                 if ((u8)func_0201D5F4(cursor) == 1 && func_0201D658(cursor) == 14) {
                     for (i = slot + 1; i < 8; i++)
@@ -682,7 +682,7 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
     cursor = STRBUF_GetChars(text);
     while (*cursor != endMark) {
         if (*cursor == tagMark) {
-            if (func_0201D5CC(cursor)) {
+            if (GF_FONT_CheckD5CC(cursor)) {
                 slot = func_0201D670(cursor, 0);
                 valueIndex = slot;
                 group = func_0201D5F4(cursor);
@@ -721,7 +721,7 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
                         func_0201EF34(wordSet, slot, values[valueIndex]);
                         break;
                     case 9:
-                        func_0201EF40(wordSet, slot, values[valueIndex]);
+                        WORDSET_Callback_EF40(wordSet, slot, values[valueIndex]);
                         break;
                     case 15:
                         func_0201F020(wordSet, slot, values[valueIndex]);
@@ -818,7 +818,7 @@ void BTL_MSG_BuildMoveEffectA(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA 
     clientId = args->clientId;
     sideVariant = BTL_MSG_GetSideVariant(clientId);
     BTL_MSG_SetPokeName(args->clientId, 0);
-    func_0201EF40(gBtlMsgState.wordSet, 1, args->value);
+    WORDSET_Callback_EF40(gBtlMsgState.wordSet, 1, args->value);
     position = msgId + entryIndex * 3;
     MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
     func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);

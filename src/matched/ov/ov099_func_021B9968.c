@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4AC4  0x021C4AC4  thumb  ov127
+ *   WF2DMAP_OBJ_GetPos  0x021C4AC4  thumb  ov127
  *   WIFICLUBACTOR_FindFreeActor  0x021BA168  thumb
  *   WIFICLUBACTOR_FindSlotTile  0x021BA04C  thumb
  *   WIFICLUBACTOR_SpawnEntity  0x021BA1C4  thumb
@@ -28,7 +28,7 @@ typedef struct {
     void **f570;
 } Work;
 
-extern Pos func_021C4AC4(void *v);
+extern Pos WF2DMAP_OBJ_GetPos(void *v);
 typedef unsigned int   u32;
 extern u8 *WIFICLUBACTOR_FindFreeActor(u8 *p);
 extern void WIFICLUBACTOR_FindSlotTile(char *p, u16 *out, u32 c);
@@ -45,7 +45,7 @@ void *WIFICLUBACTOR_SpawnSlotActor(Work *o, int a, int b)
     e = WIFICLUBACTOR_FindFreeActor((u8 *)o);
     WIFICLUBACTOR_FindSlotTile((char *)o, (u16 *)(&t), b - 1);
     if (o->f570 != 0) {
-        d = func_021C4AC4(*o->f570);
+        d = WF2DMAP_OBJ_GetPos(*o->f570);
         if (d.x == t.x && d.y == t.y)
             return 0;
     }

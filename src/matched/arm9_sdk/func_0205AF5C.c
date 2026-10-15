@@ -1,5 +1,5 @@
 /*
- * function: func_0205AF5C
+ * function: SortList
  * address:  0x0205AF5C
  * packet:   pkt_0205AF5C
  * region:   arm9
@@ -134,7 +134,7 @@ extern int DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 
-void func_0205AF5C(int no, ACWORK *wk)
+void SortList(int no, ACWORK *wk)
 {
     int i;
     ACFL list_buf;

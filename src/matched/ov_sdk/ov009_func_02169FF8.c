@@ -1,5 +1,5 @@
 /*
- * function: func_02169FF8
+ * function: DWCi_BeginCloseStatsConnection
  * address:  0x02169FF8
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct FriendGlobal g_021AA860;
 
-void func_02169FF8(void)
+void DWCi_BeginCloseStatsConnection(void)
 {
     *(int *)(((char *)&g_021AA860) + 0x10) = 1;
 }

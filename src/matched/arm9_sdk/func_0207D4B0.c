@@ -1,5 +1,5 @@
 /*
- * function: func_0207D4B0
+ * function: GX_SetGraphicsMode
  * address:  0x0207D4B0
  * packet:   pkt_0207D4B0
  * region:   arm9
@@ -28,7 +28,7 @@ typedef volatile u32 vu32;
 extern struct GXDataState sIsDispOn;
 extern struct GXBssState sDispMode;
 
-void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d)
+void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d)
 {
     u32 cnt = reg_GX_DISPCNT;
 

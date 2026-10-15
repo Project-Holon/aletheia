@@ -31,15 +31,15 @@
  *   BEACON_STATUS_GetLog  0x020275A8  thumb
  *   GAME_BEACON_ACCESSOR_TableGetCount  0x02165B04  thumb  ov010
  *   BEACON_STATUS_GetViewTop  0x020275AC  thumb
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200BE48  0x0200BE48  thumb
- *   func_0200BF10  0x0200BF10  thumb
+ *   INTRUDE_GetFromSave  0x0200BE48  thumb
+ *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_0200C0E8  0x0200C0E8  thumb
- *   func_0200C1DC  0x0200C1DC  thumb
+ *   BEACON_GetFromSave  0x0200C0E8  thumb
+ *   BEACON_GetThanksCount  0x0200C1DC  thumb
  *   func_02008730  0x02008730  thumb
  *   func_02008530  0x02008530  thumb
  *   func_02008550  0x02008550  thumb
@@ -64,15 +64,15 @@ extern u32 GAME_DATA_GetItemUseWork(const struct BigObj *p);
 extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 GAME_BEACON_ACCESSOR_TableGetCount(u8 *q);
 extern u8 BEACON_STATUS_GetViewTop(u8 *p);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
-extern u8 func_0200BF10(struct Rec1B0 *p);
+extern u16 *INTRUDE_GetFromSave(void *sys);
+extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
-extern void *func_0200C0E8(void *sys);
-extern u32 func_0200C1DC(struct Blk34 *p);
+extern void *BEACON_GetFromSave(void *sys);
+extern u32 BEACON_GetThanksCount(struct Blk34 *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -96,14 +96,14 @@ void func_021F27D4(u8 *p)
     else
         p[0x7d] = 4;
     p[0x7f] = 0x30;
-    p[0x78] = func_02012FFC();
+    p[0x78] = MSG_SPEED_GetWait();
     sv = (u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x28) = func_0200BF10((struct Rec1B0 *)func_0200BE48((void *)sv));
+    *(u32 *)(p + 0x28) = INTRUDE_GetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave((void *)sv));
     *(u32 *)(p + 0x1c) = GAMESYSTEM_GetGameComm((const struct Ctx *)(*(u32 *)p));
     *(u32 *)(p + 0x20) = GAME_DATA_GetWifiList((const struct BigObj *)(*(u32 *)(p + 4)));
     *(u32 *)(p + 0x18) = (u32)GAME_DATA_GetMyItem((const struct BigObj *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x14) = (u32)func_0200C0E8((void *)sv);
-    *(u32 *)(p + 0x2d4) = func_0200C1DC((struct Blk34 *)(*(u32 *)(p + 0x14)));
+    *(u32 *)(p + 0x14) = (u32)BEACON_GetFromSave((void *)sv);
+    *(u32 *)(p + 0x2d4) = BEACON_GetThanksCount((struct Blk34 *)(*(u32 *)(p + 0x14)));
     s2 = (u32)func_02008730((void *)sv);
     *(u32 *)(p + 0x2c) = (u16)func_02008530((const struct Sub0200852CObj *)s2);
     p[0x30] = func_02008550((const struct Sub0200852CObj *)s2);

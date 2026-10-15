@@ -1,5 +1,5 @@
 /*
- * function: func_021BC240
+ * function: ZUKAN_SEARCH_PROC_Create
  * address: 0x021BC240
  * packet: pkt_ov211_021BC240
  * region: ov211
@@ -16,4 +16,4 @@
  */
 #include "../include/Obj25637.h"
 struct Obj0203159C;extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);extern void MI_CpuFill8(void *,int,int);
-int func_021BC240(struct Obj0203159C *obj,int unused,unsigned value){unsigned char *p;GFL_HEAP_CreateChildHeap(1,126,0x60000);p=PROCSYS_AllocProcWork(obj,16,126);MI_CpuFill8(p,0,16);((struct Obj25637 *)p)->f0=value;return 1;}
+int ZUKAN_SEARCH_PROC_Create(struct Obj0203159C *obj,int unused,unsigned value){unsigned char *p;GFL_HEAP_CreateChildHeap(1,126,0x60000);p=PROCSYS_AllocProcWork(obj,16,126);MI_CpuFill8(p,0,16);((struct Obj25637 *)p)->f0=value;return 1;}

@@ -11,12 +11,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750,
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
+ * function: MUSICAL_SAVE_ClearNewProps, MUSICAL_SAVE_CountOwnedProps, MUSICAL_SAVE_HasAllProps, MUSICAL_SAVE_GetProgram,
+ *           MUSICAL_SAVE_GetShowCount, MUSICAL_SAVE_IncrementShowCount, MUSICAL_SAVE_GetTopRankCount, MUSICAL_SAVE_IncrementTopRankCount,
+ *           MUSICAL_SAVE_GetEquippedProp, MUSICAL_SAVE_SetEquippedProp, MUSICAL_SAVE_GetSelectedProgram, MUSICAL_SAVE_SetSelectedProgram,
+ *           MUSICAL_SAVE_GetScriptSetting, MUSICAL_SAVE_SetScriptSetting, MUSICAL_SAVE_GetHasDistData, MUSICAL_SAVE_SetHasDistData,
+ *           MUSICAL_SAVE_AddFanPoints, MUSICAL_SAVE_GetStageData, MUSICAL_SAVE_GetFanPoints, MUSICAL_SAVE_GetFittingSetting,
+ *           MUSICAL_SAVE_SetFittingSetting
  *
  * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
  * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
@@ -32,12 +32,12 @@
  *
  * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
  * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
+ * bitmaps MUSICAL_SAVE_AddProp sets a bit in.  It is in
  * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
  * which is why it has a label here and its fourteen neighbours do not.
  *
  * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
+ * bitmap by calling MUSICAL_SAVE_IsPropOwned on every one of them, and 0x0200A73C asks
  * whether that count has reached 100, which is the same bound the three
  * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
  * the population of whatever the bitmap enumerates and this pair is its
@@ -56,6 +56,9 @@
  *    the saturating store in the `else`.  Written the other way round the
  *    compiler emits `blt` where the original has `bge` and swaps the two
  *    stores, which is four bytes and reads as a different function.
+ *
+ * symbols:
+ *   MUSICAL_SAVE_IsPropOwned  0x0200A644  thumb
  */
 
 typedef unsigned char  u8;
@@ -84,11 +87,11 @@ struct Big {
     u8  unk2A0[4];
 };
 
-extern u32 func_0200A644(struct Big *p, u8 index);
+extern u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index);
 
-u32 func_0200A714(struct Big *p);
+u32 MUSICAL_SAVE_CountOwnedProps(struct Big *p);
 
-void func_0200A6F8(struct Big *p)
+void MUSICAL_SAVE_ClearNewProps(struct Big *p)
 {
     u8 i;
 
@@ -97,103 +100,103 @@ void func_0200A6F8(struct Big *p)
     }
 }
 
-u32 func_0200A714(struct Big *p)
+u32 MUSICAL_SAVE_CountOwnedProps(struct Big *p)
 {
     u32 count;
     s32 i;
 
     count = 0;
     for (i = 0; i < 256; i++) {
-        if (func_0200A644(p, (u8)i) == 1) {
+        if (MUSICAL_SAVE_IsPropOwned(p, (u8)i) == 1) {
             count++;
         }
     }
     return count;
 }
 
-u32 func_0200A73C(struct Big *p)
+u32 MUSICAL_SAVE_HasAllProps(struct Big *p)
 {
-    if (func_0200A714(p) == 100) {
+    if (MUSICAL_SAVE_CountOwnedProps(p) == 100) {
         return 1;
     }
     return 0;
 }
 
-struct BigSub4 *func_0200A750(struct Big *p, u32 index)
+struct BigSub4 *MUSICAL_SAVE_GetProgram(struct Big *p, u32 index)
 {
     return &p->unk1E0[index];
 }
 
-u16 func_0200A75C(struct Big *p)
+u16 MUSICAL_SAVE_GetShowCount(struct Big *p)
 {
     return p->unk252;
 }
 
-void func_0200A768(struct Big *p)
+void MUSICAL_SAVE_IncrementShowCount(struct Big *p)
 {
     if (p->unk252 < 0xFFFF) {
         p->unk252++;
     }
 }
 
-u16 func_0200A780(struct Big *p)
+u16 MUSICAL_SAVE_GetTopRankCount(struct Big *p)
 {
     return p->unk254;
 }
 
-void func_0200A788(struct Big *p)
+void MUSICAL_SAVE_IncrementTopRankCount(struct Big *p)
 {
     if (p->unk254 < 0xFFFF) {
         p->unk254++;
     }
 }
 
-u8 func_0200A7A0(struct Big *p, u32 index)
+u8 MUSICAL_SAVE_GetEquippedProp(struct Big *p, u32 index)
 {
     return p->unk298[index];
 }
 
-void func_0200A7AC(struct Big *p, u32 index, u8 value)
+void MUSICAL_SAVE_SetEquippedProp(struct Big *p, u32 index, u8 value)
 {
     p->unk298[index] = value;
 }
 
-u8 func_0200A7B8(struct Big *p)
+u8 MUSICAL_SAVE_GetSelectedProgram(struct Big *p)
 {
     return p->unk29C;
 }
 
-void func_0200A7C0(struct Big *p, u8 value)
+void MUSICAL_SAVE_SetSelectedProgram(struct Big *p, u8 value)
 {
     p->unk29C = value;
 }
 
-u8 func_0200A7C8(struct Big *p)
+u8 MUSICAL_SAVE_GetScriptSetting(struct Big *p)
 {
     return p->unk29D;
 }
 
-void func_0200A7D4(struct Big *p, u8 value)
+void MUSICAL_SAVE_SetScriptSetting(struct Big *p, u8 value)
 {
     p->unk29D = value;
 }
 
-u8 func_0200A7E0(struct Big *p)
+u8 MUSICAL_SAVE_GetHasDistData(struct Big *p)
 {
     return p->unk29E;
 }
 
-void func_0200A7EC(struct Big *p, u8 value)
+void MUSICAL_SAVE_SetHasDistData(struct Big *p, u8 value)
 {
     p->unk29E = value;
 }
 
-u8 *func_0200A7F8(struct Big *p)
+u8 *MUSICAL_SAVE_GetStageData(struct Big *p)
 {
     return p->unk208;
 }
 
-void func_0200A800(struct Big *p, s32 delta)
+void MUSICAL_SAVE_AddFanPoints(struct Big *p, s32 delta)
 {
     s32 v = p->unk256 + delta;
 
@@ -204,17 +207,17 @@ void func_0200A800(struct Big *p, s32 delta)
     }
 }
 
-u16 func_0200A81C(struct Big *p)
+u16 MUSICAL_SAVE_GetFanPoints(struct Big *p)
 {
     return p->unk256;
 }
 
-u32 func_0200A828(struct Big *p)
+u32 MUSICAL_SAVE_GetFittingSetting(struct Big *p)
 {
     return p->unk29F;
 }
 
-void func_0200A834(struct Big *p, u8 value)
+void MUSICAL_SAVE_SetFittingSetting(struct Big *p, u8 value)
 {
     p->unk29F = value;
 }

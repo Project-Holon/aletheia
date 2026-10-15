@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0200BCA8  0x0200BCA8  thumb
- *   func_0200BC2C  0x0200BC2C  thumb
+ *   DAYCARE_IsSlotInUse  0x0200BCA8  thumb
+ *   DAYCARE_GetSlotMon  0x0200BC2C  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04896.h"
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0200BC2C(void *e, u32 i);
-extern u32 func_0200BCA8(void *e, u32 i);
+extern void *DAYCARE_GetSlotMon(void *e, u32 i);
+extern u32 DAYCARE_IsSlotInUse(void *e, u32 i);
 
 void *SODATEYA_GetPokemon(void *a, u32 b)
 {
-func_0200BCA8(((struct Obj04896 *)a)->f8, b);
-return func_0200BC2C(((struct Obj04896 *)a)->f8, b);
+DAYCARE_IsSlotInUse(((struct Obj04896 *)a)->f8, b);
+return DAYCARE_GetSlotMon(((struct Obj04896 *)a)->f8, b);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8624
+ * function: BR_DOWNLOAD_StepClose
  * address:  0x021F8624
  * packet:   pkt_021F8624
  * region:   ov184
@@ -30,7 +30,7 @@ extern int BR_FADE_GetResult(int);
 extern void func_021FD744(int);
 extern void BR_PROC_SYS_PopEntry(int);
 
-void func_021F8624(int a, int *state, char *p)
+void BR_DOWNLOAD_StepClose(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:

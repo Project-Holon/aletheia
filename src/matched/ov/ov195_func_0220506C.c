@@ -1,5 +1,5 @@
 /*
- * function: func_0220506C
+ * function: SHINKA_DEMO_Noop2
  * address: 0x0220506C
  * packet: pkt_ov195_0220506C
  * region: ov195
@@ -11,4 +11,4 @@
 
  */
 typedef unsigned short u16;
-void func_0220506C(int a0, int *a1) {}
+void SHINKA_DEMO_Noop2(int a0, int *a1) {}

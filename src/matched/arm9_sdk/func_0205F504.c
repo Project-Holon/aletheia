@@ -1,5 +1,5 @@
 /*
- * function: func_0205F504
+ * function: ConvAddress
  * address:  0x0205F504
  * packet:   pkt_0205F504
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-unsigned long func_0205F504(unsigned char *add)
+unsigned long ConvAddress(unsigned char *add)
 {
     unsigned long address;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7350
+ * function: LOCAL_TVT_CHARA_ShowWindow
  * address:  0x021B7350
  * packet:   pkt_021B7350
  * region:   ov174
@@ -20,7 +20,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
-void func_021B7350(int a, int *p)
+void LOCAL_TVT_CHARA_ShowWindow(int a, int *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj24210 *)p)->f18));
     func_02041B6C(0);

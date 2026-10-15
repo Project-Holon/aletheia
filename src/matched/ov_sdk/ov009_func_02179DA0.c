@@ -1,5 +1,5 @@
 /*
- * function: func_02179DA0
+ * function: DWCi_Http_WriteBasicHeader
  * address:  0x02179DA0
  * packet:   pkt_ov009_02179DA0
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_Http_WriteBasicHeader (dwc_http.o)
  *
  * symbols:
- *   func_0209477C  0x0209477C  arm
+ *   strlen  0x0209477C  arm
  *   func_0217A0D4  0x0217A0D4  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
  *   g_021A2608     0x021A2608  data
@@ -28,11 +28,11 @@ typedef struct {
 extern char g_021A2608[];
 extern char g_021A265C[];
 typedef unsigned char  u8;
-extern int func_0209477C(const u8 *s);
+extern int strlen(const u8 *s);
 extern int func_0217A0D4(char *http, Buf *buf, unsigned long size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
-int func_02179DA0(char *http)
+int DWCi_Http_WriteBasicHeader(char *http)
 {
     char *format;
     Buf *req;
@@ -44,8 +44,8 @@ int func_02179DA0(char *http)
     } else {
         format = g_021A265C;
     }
-    result_len = func_0209477C((const u8 *)(*(char **)(http + 0x1124))) +
-                 (func_0209477C((const u8 *)format) - 4 + func_0209477C((const u8 *)(*(char **)(http + 0x1128))));
+    result_len = strlen((const u8 *)(*(char **)(http + 0x1124))) +
+                 (strlen((const u8 *)format) - 4 + strlen((const u8 *)(*(char **)(http + 0x1128))));
     if (func_0217A0D4(http, (Buf *)(http + 0x1a34), result_len + 0x400) != 1) {
         return 1;
     }

@@ -25,7 +25,7 @@
  *   which == 0: walk the FIVE slots at 0x020A8158 and allocate downward
  *     from the slot's end.
  * The answer packs ((n >> 4) << 16) | ((addr << 13) >> 16) | (which << 31),
- * size-high first as in func_0206216C.
+ * size-high first as in NNS_GfdAllocTexVram.
  *
  * CORRECTIONS to docs/notes/pkt_020611D4.c.txt's reading: the TWO-slot
  * walk is 0x020A8150 and the FIVE-slot walk 0x020A8158 (the note had
@@ -53,7 +53,7 @@
  * Pin evidence (2.0): the same C under dsi/1.1p1 is 356 code+pool bytes
  * against 368, 145 out.  The image's push list {r3-r9, lr} and the
  * derived-zero default both come out under 2.0 only, the same pin its
- * sibling allocator func_020616CC carries.
+ * sibling allocator NNS_GfdAllocVram carries.
  *
  * EXACT* (not a byte difference): the listing extent (376) runs over the
  * unlabelled 8-byte stub NNSi_GfdDefaultFreeTexVram at 0x02061644, already its own

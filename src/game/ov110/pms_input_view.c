@@ -21,9 +21,9 @@
  *   PMS_INPUT_GetUiInputModePtr 0x021BF6D4 thumb ov110
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0207D534 0x0207D534 arm
+ *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   PMS_INPUT_GetTasks 0x021BF7D0 thumb ov110
  *   func_02030DA8 0x02030DA8 arm
  *   func_020490F4 0x020490F4 arm
@@ -36,7 +36,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   PMSIV_MENU_Update 0x021BCA84 thumb ov110
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -88,8 +88,8 @@
  *   gPmsInputBgTemplate7 0x021C3634 data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
- *   func_020414EC 0x020414EC arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_ClearSlot 0x020414EC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   PMSIV_EDIT_Redraw 0x021BC23C thumb ov110
@@ -250,9 +250,9 @@ extern u32 func_020307B0(void *p);
 extern u32 *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
 extern void CLACT_InitSystem(const void *initParam, const void *vramBanks, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0203F8F4(u16 heapId);
+extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 PMS_INPUT_GetTasks(struct PmsInput *input);
 extern void *func_02030DA8(u32 tcbList, ViewTaskFunc func, void *work, int priority);
 extern void *func_020490F4(u32 id, u32 heapId);
@@ -265,7 +265,7 @@ extern void CLACT_ReleaseCharacter(unsigned int);
 extern void CLACT_ReleaseCellAnim(unsigned int);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void *func_020056A0(void (*fn)(void *, void *), void *work, int priority);
 extern void CLACT_DrawSystem(void);
 extern void PMSIV_MENU_Update(struct PmsivMenu *menu);
@@ -313,8 +313,8 @@ extern void PRINTSYS_QUE_Delete(struct PrintQue *queue);
 extern void func_020403F4(u32 i);
 extern void BG_SYS_SetVramBanks(const void *vramBanks);
 extern void func_0203FC28(const void *dispConfig);
-extern void func_0203FCA0(u32 bgId, const void *bgTemplate, u32 type);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
+extern void BG_SYS_ClearSlot(u32 i);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
 extern struct PrintQue *PRINTSYS_QUE_CreateEx(u16, u32);
 extern void PMSIV_EDIT_Redraw(struct PmsivEdit *edit);
@@ -447,10 +447,10 @@ void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordDat
         view->uiInputMode=PMS_INPUT_GetUiInputModePtr(input);
         CLACT_InitSystem(gClActorInitParam,gPmsInputVramBanks,PMS_INPUT_VIEW_HEAP_ID);
         view->clactUnit=CLACT_CreateUnit(128,0,PMS_INPUT_VIEW_HEAP_ID);
-        func_0203F8F4(PMS_INPUT_VIEW_HEAP_ID);
+        BG_SYS_Create(PMS_INPUT_VIEW_HEAP_ID);
         BMP_WIN_Init(PMS_INPUT_VIEW_HEAP_ID);
-        func_0207D534(REG_MASTER_BRIGHT_MAIN,-16);
-        func_0207D534(REG_MASTER_BRIGHT_SUB,-16);
+        GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN,-16);
+        GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB,-16);
         view->mainTask=func_02030DA8(PMS_INPUT_GetTasks(input),(ViewTaskFunc)PMS_INPUT_VIEW_MainTask,view,2);
         view->vblankTask=PMS_INPUT_VIEW_AddVBlankTask(PMS_INPUT_VIEW_VBlankTask,view,1);
         for(i=0;i<PMS_INPUT_VIEW_TASK_SLOTS;++i) view->eventTasks[i]=0;
@@ -485,7 +485,7 @@ void PMS_INPUT_VIEW_Delete(struct PmsInputView *view) {
         }
         CLACT_ExitSystem();
         BMP_WIN_Exit();
-        func_0203F9B4();
+        BG_SYS_Delete();
         func_020307B0(view);
     }
 }
@@ -670,16 +670,16 @@ void PMS_INPUT_VIEW_InitDisplay(struct PmsInputViewTask *task) {
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks(gPmsInputVramBanks);
     func_0203FC28(gPmsInputDispConfig);
-    func_0203FCA0(0,gPmsInputBgTemplate0,0);
-    func_0203FCA0(1,gPmsInputBgTemplate1,0);
-    func_0203FCA0(2,gPmsInputBgTemplate2,0);
-    func_0203FCA0(3,gPmsInputBgTemplate3,0);
-    func_0203FCA0(4,gPmsInputBgTemplate4,0);
-    func_0203FCA0(5,gPmsInputBgTemplate5,0);
-    func_0203FCA0(6,gPmsInputBgTemplate6,0);
-    func_0203FCA0(7,gPmsInputBgTemplate7,0);
+    BG_SYS_InitBgLayer(0,gPmsInputBgTemplate0,0);
+    BG_SYS_InitBgLayer(1,gPmsInputBgTemplate1,0);
+    BG_SYS_InitBgLayer(2,gPmsInputBgTemplate2,0);
+    BG_SYS_InitBgLayer(3,gPmsInputBgTemplate3,0);
+    BG_SYS_InitBgLayer(4,gPmsInputBgTemplate4,0);
+    BG_SYS_InitBgLayer(5,gPmsInputBgTemplate5,0);
+    BG_SYS_InitBgLayer(6,gPmsInputBgTemplate6,0);
+    BG_SYS_InitBgLayer(7,gPmsInputBgTemplate7,0);
     for(i=0;i<=7;++i) {
-        func_020414EC((u8)i);
+        BG_SYS_ClearSlot((u8)i);
         func_02040588((u8)i,1);
     }
     view->font=GF_FONT_Create(23,0,0,0,42);

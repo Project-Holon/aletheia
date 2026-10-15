@@ -1,7 +1,7 @@
 /*
  * file:     intro_graphic.c
  * unit:     yes
- * function: func_021BDA40, func_021BDAE4, func_021BDB30, func_021BDB70, func_021BDC18, func_021BDCF0, func_021BDD4C, func_021BDD60, func_021BDD6C, func_021BDD78, func_021BDD84, func_021BDD98, func_021BDDF8, func_021BDE10, func_021BDE28, func_021BDE30, func_021BDF34, func_021BDF74, func_021BDF90, func_021BDF98, func_021BDFA4, func_021BE03C, func_021BE0D4, func_021BE0EC
+ * function: func_021BDA40, func_021BDAE4, func_021BDB30, func_021BDB70, func_021BDC18, func_021BDCF0, func_021BDD4C, func_021BDD60, func_021BDD6C, func_021BDD78, func_021BDD84, func_021BDD98, func_021BDDF8, func_021BDE10, func_021BDE28, func_021BDE30, func_021BDF34, func_021BDF74, func_021BDF90, func_021BDF98, func_021BDFA4, func_021BE03C, func_021BE0D4, func_021BE0EC, func_021BE10C, func_021BE11C, func_021BE138, func_021BE17C, func_021BE1F0, func_021BE23C
  * address:  0x021BDA40
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -59,10 +59,10 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BFD80 0x021BFD80 data a4
@@ -100,6 +100,22 @@
  *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
+ *   func_021BF094 0x021BF094 thumb ov204
+ *   func_021BF4E8 0x021BF4E8 thumb ov204
+ *   func_021BF00C 0x021BF00C thumb ov204
+ *   func_021BF384 0x021BF384 thumb ov204
+ *   func_021BF528 0x021BF528 thumb ov204
+ *   func_021BF538 0x021BF538 thumb ov204
+ *   d_021C09D0 0x021C09D0 data a4
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  */
 #include "../../matched/include/Obj00689.h"
 #include "../../matched/include/Obj25331.h"
@@ -117,6 +133,12 @@
 #include "../../matched/include/G_021BFD74.h"
 #include "../../matched/include/Obj14603.h"
 #include "../../matched/include/Obj25337.h"
+#include "../../matched/include/Obj10870.h"
+#include "../../matched/include/Obj04608.h"
+#include "../../matched/include/Obj10872.h"
+#include "../../matched/include/Obj25339.h"
+#include "../../matched/include/Obj25341.h"
+#include "../../matched/include/Obj25343.h"
 
 #define REG3D (*(volatile unsigned short *)0x04000060)
 struct Obj0203159C;
@@ -133,6 +155,8 @@ struct Bank;
 struct Light;
 struct LightSet;
 struct LightSlot;
+struct S021BF00C;
+struct Q021BF00C;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
@@ -152,6 +176,12 @@ typedef signed char    s8;
 struct BgTemplate { u32 a,b,c,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u32 n; };
 
 typedef struct { u32 x, y, z; } Vec3;
+
+typedef struct { int a, b; } Pair;
+
+typedef struct { Pair first, second; } Request;
+
+typedef struct Row { unsigned tag; char data[20]; } Row;
 
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned, unsigned);
@@ -194,16 +224,16 @@ extern void *func_020056A0(u32,u32,u32);
 extern void func_02030EAC(struct Node *);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
-extern void func_0203F8F4(unsigned);
+extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern u32 func_02043658(void);
-extern void func_02041EE4(u32, u32, u32);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -229,6 +259,19 @@ extern void *func_02048AD0(struct Light *);
 extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
+extern char *func_021BF094(int);
+extern void func_021BF4E8(char *);
+extern int func_021BF00C(struct S021BF00C *, struct Q021BF00C *);
+extern void func_021BF384(char *p, u32 *entries, u32 count, int flag);
+extern void func_021BF528(u8 *p);
+extern int func_021BF538(u8 *p, int *out);
+extern void *func_020490F4(u32 id, u32 heap);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
+extern void MIi_CpuCopy16(const void *,void *,u32);
+extern void ARC_TOOL_DeleteHandle(void *);
 int func_021BDA40(struct Obj0203159C *owner, int unused, char *args);
 int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p);
 int func_021BDB30(int a, int b, int c, void *p);
@@ -256,6 +299,14 @@ void func_021BE0D4(u8 *p);
 void func_021BE0EC(char *p);
 void func_021BE100(char *unused);
 int func_021BE108(void);
+int func_021BE10C(char *p, u32 b, int *c);
+u32 func_021BE11C(u8 *p);
+void func_021BE138(char *p, int which);
+int func_021BE17C(char *p, int *state, int *values);
+int func_021BE1F0(char *p, int unused, unsigned *q);
+int func_021BE23C(char *p,void *unused,int *state);
+int func_021BE308(char *p,void *unused,u32 *r);
+int func_021BE314(void *unused,int *q,int *r);
 extern const char ov067_id[];
 extern const unsigned short d_021BFDAC[][4];
 extern const struct DispVram d_021BFE4C,d_021BFE1C;
@@ -269,6 +320,7 @@ extern struct G_021BFD74 d_021BFD74;
 extern const short d_020A1EB8[];
 extern const struct LightSet d_021BFD4C;
 extern const struct LightSet d_021BFD54;
+
 
 
 int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
@@ -291,6 +343,7 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
 }
 
 
+
 int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
 {
     unsigned short heap;
@@ -310,6 +363,7 @@ int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
 
 
 
+
 int func_021BDB30(int a, int b, int c, void *p)
 {
     if (func_021BEF88((char *)(((struct Obj03919 *)p)->f14)) == 0) {
@@ -326,19 +380,25 @@ int func_021BDB30(int a, int b, int c, void *p)
 }
 
 
+
 static inline void Shading(GXShading mode) { REG3D = (unsigned short)((REG3D & ~0x3002) | (mode << 1)); }
+
 
 
 static inline void AntiAlias(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x10); else REG3D &= (unsigned short)~0x3010; }
 
 
+
 static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)0x04000340 = ref; } else REG3D &= (unsigned short)~0x3004; }
+
 
 
 static inline void AlphaBlend(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 8); else REG3D &= (unsigned short)~0x3008; }
 
 
+
 static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x20); else REG3D &= (unsigned short)~0x3020; }
+
 
 
 /*
@@ -360,6 +420,7 @@ void func_021BDB70(void)
     for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, d_021BFDAC[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }
+
 
 
 void *func_021BDC18(int swap, int mode, u16 heap)
@@ -393,6 +454,7 @@ void *func_021BDC18(int swap, int mode, u16 heap)
 }
 
 
+
 /*
  * volatile: 021BDD1E and 021BDD28 read hardware DISPCNT for masked updates.
  */
@@ -413,6 +475,7 @@ void func_021BDCF0(unsigned char *p)
 
 
 
+
 /*
  * Addresses are Black-image addresses.
  */
@@ -423,13 +486,17 @@ void func_021BDD4C(u8 *p)
 }
 
 
+
 void func_021BDD60(char *p){func_021BE0EC(p+8);}
+
 
 
 void func_021BDD6C(char *p){func_021BE100(p+8);}
 
 
+
 unsigned func_021BDD78(char *p){return func_021BDFA0(p+4);}
+
 
 
 
@@ -440,22 +507,24 @@ void func_021BDD84(u32 a, u8 *b)
 }
 
 
+
 void func_021BDD98(void *p, unsigned heap)
 {
     const unsigned *row;
     unsigned i, layer;
     MI_CpuFill8(p, 0, 4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&(*(struct DispConfig *)&d_021BFD80));
     for (i = 0; i < 4; i++) {
         row = d_021BFF1C[i];
         layer = row[0];
-        func_0203FCA0((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
+        BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
         func_020414AC(layer);
         func_02040588(layer, row[10]);
     }
 }
+
 
 
 
@@ -465,45 +534,49 @@ void func_021BDD98(void *p, unsigned heap)
 void func_021BDDF8(u8 *p)
 {
     BMP_WIN_Exit();
-    func_0203F9B4();
+    BG_SYS_Delete();
     MI_CpuFill8(p, 0, 4);
 }
+
 
 
 
 void func_021BDE10(u8 *a0)
 {
     if (func_02043658() & 4) {
-        func_02041EE4(2, 1, 1);
+        BG_SYS_ResetSlot(2, 1, 1);
     }
 }
 
 
+
 void func_021BDE28(void *a0) { func_020419E4(); }
+
 
 
 void func_021BDE30(void *p,u16 heap)
 {
     struct BgTemplate t1,t2,t3,t4,t5;
     MI_CpuFill8(p,0,4);
-    func_0203F8F4(heap);
+    BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&d_021BFD80);
     t1=d_021BFEFC;
-    func_0203FCA0(1,&t1,0);
+    BG_SYS_InitBgLayer(1,&t1,0);
     t2=d_021BFEDC;
-    func_0203FCA0(2,&t2,0);
+    BG_SYS_InitBgLayer(2,&t2,0);
     t3=d_021BFE7C;
-    func_0203FCA0(3,&t3,0);
+    BG_SYS_InitBgLayer(3,&t3,0);
     t4=d_021BFE9C;
-    func_0203FCA0(4,&t4,0);
+    BG_SYS_InitBgLayer(4,&t4,0);
     t5=d_021BFEBC;
-    func_0203FCA0(6,&t5,0);
+    BG_SYS_InitBgLayer(6,&t5,0);
     func_02040588(1,1);
     func_02040588(3,1);
     func_02040588(4,1);
     func_02040588(6,1);
 }
+
 
 
 
@@ -519,6 +592,7 @@ void func_021BDF34(unsigned char *p, int a, int b)
 
 
 
+
 void func_021BDF74(u8 *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj25335 *)p)->f0));
@@ -527,13 +601,17 @@ void func_021BDF74(u8 *p)
 }
 
 
+
 void func_021BDF90(void *a0){CLACT_DrawSystem();}
+
 
 
 void func_021BDF98(void *a0){CLACT_VBlankSystem();}
 
 
+
 unsigned func_021BDFA0(char *p){return ((struct Obj25336 *)p)->f0;}
+
 
 
 /*
@@ -558,6 +636,7 @@ void func_021BDFA4(u8 *p, u16 heap)
 }
 
 
+
 void func_021BE03C(u8 *p, u16 heap)
 {
     u32 far_clip, near_clip;
@@ -573,6 +652,7 @@ void func_021BE03C(u8 *p, u16 heap)
 
 
 
+
 void func_021BE0D4(u8 *p)
 {
     func_02048C4C(((struct Obj14603 *)p)->f4);
@@ -581,10 +661,139 @@ void func_021BE0D4(u8 *p)
 }
 
 
+
 void func_021BE0EC(char *p){func_02048AD0(*(struct Light * *)&((struct Obj25337 *)p)->f0);func_02047964();G3D_SYSTEM_ApplyLookAt();}
+
 
 
 void func_021BE100(char *unused){G3D_SYSTEM_DrawEnd();}
 
 
+
 int func_021BE108(void){return 1;}
+
+
+
+
+int func_021BE10C(char *p, u32 b, int *c)
+{
+    ((struct Obj10870 *)p)->f1C = *c;
+    ((struct Obj10870 *)p)->fA0 = 0;
+    return 1;
+}
+
+
+
+
+u32 func_021BE11C(u8 *p)
+{
+    u32 t = *(u32 *)(((struct Obj10870 *)p)->f4 + 8);
+
+    if (t == 0) {
+        t = t + 1;
+    }
+    func_021BE10C((char *)p, 0, (int *)(&t));
+    return 1;
+}
+
+
+
+/*
+ * extent: 021BE17A..021BE17C is two zero alignment bytes.
+ */
+void func_021BE138(char *p, int which)
+{
+    char *q = func_021BF094(((struct Obj04608 *)p)->f1C) + 24 * ((struct Obj04608 *)p)->fA0;
+    func_021BF4E8(*(char * *)&((struct Obj04608 *)p)->f18);
+    if (which == 0) {
+        if (q) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)q);
+    } else {
+        q += 24;
+        if (q) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)q);
+    }
+    ((struct Obj04608 *)p)->fA0 += 2;
+}
+
+
+
+int func_021BE17C(char *p, int *state, int *values)
+{
+    Request request;
+    int result, choice;
+    switch (*state) {
+    case 0:
+        request.first.a = values[0];
+        request.first.b = 0;
+        request.second.a = values[1];
+        request.second.b = 1;
+        func_021BF384(*(char * *)&((struct Obj04608 *)p)->f18, (u32 *)(&request), 2, values[2]);
+        ++*state;
+        break;
+    case 1:
+        func_021BF528((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18));
+        result = func_021BF538((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18), &choice);
+        if (result == 1) { func_021BE138(p, choice); return 1; }
+        if (result == 2) { func_021BE138(p, 1); return 1; }
+        break;
+    }
+    return 0;
+}
+
+
+
+extern int (*const d_021C09D0[])(void *);
+
+
+
+int func_021BE1F0(char *p, int unused, unsigned *q)
+{
+    Row *row = (Row *)func_021BF094(((struct Obj10872 *)p)->f1C) + ((struct Obj10872 *)p)->fA0;
+    if (!d_021C09D0[*q](p)) row++;
+    if (row) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)row);
+    ((struct Obj10872 *)p)->fA0 += 2;
+    return 1;
+}
+
+
+
+/*
+ * extent: lead and two store/return followers; function_starts 021BE308,021BE314.
+ */
+int func_021BE23C(char *p,void *unused,int *state)
+{
+    u16 heap;
+    void *arc,*out,*buf;
+    heap=((struct Obj25339 *)p)->f0;
+    arc=func_020490F4(0xAA,heap);
+    func_02049B68(arc,1,0,0,64,heap);
+    func_02049B68(arc,1,4,0,32,heap);
+    func_02049658(arc,0,6,0,0,0,heap);
+    func_020498F4(arc,2,6,0,0,0,heap);
+    func_02049658(arc,0,3,0,0,0,heap);
+    func_020498F4(arc,3,3,0,0,0,heap);
+    if (*state==1) {
+        func_02049658(arc,12,2,0,0,0,heap);
+        buf=ARC_UTIL_LoadPaletteDataFromHandle(arc,14,0,(void **)&out,heap);
+        MIi_CpuCopy16((char *)out+12,p+0xA8,4096);
+        func_020307B0(buf);
+    }
+    ARC_TOOL_DeleteHandle(arc);
+    return 1;
+}
+
+
+
+int func_021BE308(char *p,void *unused,u32 *r)
+{
+    ((struct Obj25343 *)(*(char * *)&((struct Obj25341 *)p)->f4))->f14=*r;
+    return 1;
+}
+
+
+
+int func_021BE314(void *unused,int *q,int *r)
+{
+    if (q[1]>*r) return 1;
+    q[1]++;
+    return 0;
+}

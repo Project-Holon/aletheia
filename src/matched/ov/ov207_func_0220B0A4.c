@@ -1,5 +1,5 @@
 /*
- * function: func_0220B0A4
+ * function: ZUKAN_TOROKU_GRAPHIC_Main
  * address: 0x0220B0A4
  * packet: pkt_ov207_0220B0A4
  * region: ov207
@@ -11,7 +11,7 @@
  * ABI: 02035C60 is void in its matched forwarder, but this caller keeps and tests live r0.
  * symbols:
  *   func_021BA374 0x021BA374 thumb ov206
- *   func_0220B72C 0x0220B72C thumb ov207
+ *   ZUKAN_NICKNAME_Main 0x0220B72C thumb ov207
  *   FADE_IsActive 0x0204E804 arm
  *   func_021BA544 0x021BA544 thumb ov206
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -22,21 +22,21 @@
  *   func_021BA534 0x021BA534 thumb ov206
  *   func_0207D67C 0x0207D67C arm
  *   func_021BA4CC 0x021BA4CC thumb ov206
- *   func_0220B260 0x0220B260 thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_CreateBg 0x0220B260 thumb ov207
  *   func_021BA51C 0x021BA51C thumb ov206
- *   func_0220B908 0x0220B908 thumb ov207
+ *   ZUKAN_NICKNAME_SetupScreen 0x0220B908 thumb ov207
  *   FADE_Start 0x0204E720 arm
- *   func_0220B940 0x0220B940 thumb ov207
+ *   ZUKAN_NICKNAME_GetResult 0x0220B940 thumb ov207
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_0220B40C 0x0220B40C thumb ov207
- *   func_0220B420 0x0220B420 thumb ov207
- *   func_0220B424 0x0220B424 thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_Draw 0x0220B40C thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_Update 0x0220B420 thumb ov207
+ *   ZUKAN_TOROKU_GRAPHIC_UpdateSub 0x0220B424 thumb ov207
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct PrintSys;
 extern void func_021BA374(char *);
-extern int func_0220B72C(char *);
+extern int ZUKAN_NICKNAME_Main(char *);
 extern int FADE_IsActive(void);
 extern void func_021BA544(char *);
 extern int TOUCHPANEL_GetTrg(void);
@@ -47,21 +47,21 @@ extern int func_021BA524(char *);
 extern int func_021BA534(char *);
 extern void func_0207D67C(u32,int,int,int,int,int);
 extern void func_021BA4CC(char *);
-extern void func_0220B260(u32 *);
+extern void ZUKAN_TOROKU_GRAPHIC_CreateBg(u32 *);
 extern void func_021BA51C(char *);
-extern void func_0220B908(char *);
+extern void ZUKAN_NICKNAME_SetupScreen(char *);
 extern void FADE_Start(u32,int,int,int);
-extern int func_0220B940(char *);
+extern int ZUKAN_NICKNAME_GetResult(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
-extern void func_0220B40C(u8 *p);
-extern void func_0220B420(void *);
-extern void func_0220B424(void *);
-int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)
+extern void ZUKAN_TOROKU_GRAPHIC_Draw(u8 *p);
+extern void ZUKAN_TOROKU_GRAPHIC_Update(void *);
+extern void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *);
+int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,u32 *p)
 {
     int done=0;
     int result,flag,input;
     func_021BA374((char *)p[8]);
-    result=func_0220B72C((char *)p[9]);
+    result=ZUKAN_NICKNAME_Main((char *)p[9]);
     switch(p[4]) {
     case 0:
         switch(p[5]) {
@@ -82,7 +82,7 @@ int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)
             p[7]++;
             if(p[7]==4) { p[7]=0; p[6]--; }
             func_0207D67C(0x04000050,15,15,p[6],0,p[6]-16);
-            if(p[6]==0) { func_021BA4CC((char *)p[8]); func_0220B260(p); p[5]=4; }
+            if(p[6]==0) { func_021BA4CC((char *)p[8]); ZUKAN_TOROKU_GRAPHIC_CreateBg(p); p[5]=4; }
             break;
         case 4:
             p[7]++;
@@ -101,14 +101,14 @@ int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)
             if(FADE_IsActive()==0) { func_021BA51C((char *)p[8]); p[5]=1; }
             break;
         case 1:
-            func_0220B908((char *)p[9]); p[5]=2;
+            ZUKAN_NICKNAME_SetupScreen((char *)p[9]); p[5]=2;
             break;
         case 2:
             if(result==1) { FADE_Start(3,0,16,2); p[5]=3; }
             break;
         case 3:
             if(FADE_IsActive()==0) {
-                switch(func_0220B940((char *)p[9])) {
+                switch(ZUKAN_NICKNAME_GetResult((char *)p[9])) {
                 case 0: args[7]=0; break;
                 case 1: args[7]=1; break;
                 }
@@ -119,8 +119,8 @@ int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)
         break;
     }
     PRINTSYS_QUE_Main((struct PrintSys *)p[3]);
-    func_0220B40C((void *)p[1]);
-    func_0220B420((void *)p[1]);
-    func_0220B424((void *)p[1]);
+    ZUKAN_TOROKU_GRAPHIC_Draw((void *)p[1]);
+    ZUKAN_TOROKU_GRAPHIC_Update((void *)p[1]);
+    ZUKAN_TOROKU_GRAPHIC_UpdateSub((void *)p[1]);
     return done;
 }

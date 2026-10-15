@@ -1,5 +1,5 @@
 /*
- * function: func_021B78CC
+ * function: POKE_SUMMARY_ACTOR_SetMoveIcon
  * address: 0x021B78CC
  * packet: pkt_ov173_021B78CC
  * region: ov173
@@ -21,4 +21,4 @@ struct Obj;
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u8 func_020275EC(int i);
 extern void CLACT_SetActorPaletteOffset(struct Obj *,u32,u32);
-void func_021B78CC(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}

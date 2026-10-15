@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   MB_COMM_SYS_GetCommStage  0x021F1060  thumb  ov107
- *   func_02012FFC  0x02012FFC  thumb
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   MB_UTIL_MSG_PrintStream  0x021F1704  thumb  ov107
  *   MB_UTIL_MSG_SetKeyWaitFlag  0x021F1B24  thumb  ov107
  *   MB_COMM_SYS_SetSyncRange  0x021F1028  thumb  ov107
@@ -76,7 +76,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
-signed char func_02012FFC(void);
+signed char MSG_SPEED_GetWait(void);
 void MB_UTIL_MSG_PrintStream(void *, int, int);
 void MB_UTIL_MSG_SetKeyWaitFlag(void *, int);
 void MB_COMM_SYS_SetSyncRange(int *p);
@@ -123,13 +123,13 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
     switch (p->state) {
     case 0:
         if (MB_COMM_SYS_GetCommStage(p->f0C) == 10 || MB_COMM_SYS_GetCommStage(p->f0C) == 12) {
-            MB_UTIL_MSG_PrintStream(p->f68, 0x29, func_02012FFC());
+            MB_UTIL_MSG_PrintStream(p->f68, 0x29, MSG_SPEED_GetWait());
             MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             MB_COMM_SYS_SetSyncRange(p->f0C);
             p->f20 = 0x1B;
         }
         if (MB_COMM_SYS_GetCommStage(p->f0C) == 11) {
-            MB_UTIL_MSG_PrintStream(p->f68, 0x2C, func_02012FFC());
+            MB_UTIL_MSG_PrintStream(p->f68, 0x2C, MSG_SPEED_GetWait());
             MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             MB_COMM_SYS_SetSyncRange(p->f0C);
             p->f20 = 0x1B;
@@ -142,7 +142,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
                 MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
                 MB_UTIL_MSG_CreateWordSet(p->f68);
                 MB_UTIL_MSG_SetNumberLeft(p->f68, 0, a + b, 3);
-                MB_UTIL_MSG_PrintStream(p->f68, 0x16, func_02012FFC());
+                MB_UTIL_MSG_PrintStream(p->f68, 0x16, MSG_SPEED_GetWait());
                 MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
                 MB_UTIL_MSG_DeleteWordSet(p->f68);
                 p->state = 1;
@@ -181,7 +181,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
             MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
             MB_UTIL_MSG_CreateWordSet(p->f68);
             MB_UTIL_MSG_SetNumberLeft(p->f68, 0, a, 3);
-            MB_UTIL_MSG_PrintStream(p->f68, 0x24, func_02012FFC());
+            MB_UTIL_MSG_PrintStream(p->f68, 0x24, MSG_SPEED_GetWait());
             MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             MB_UTIL_MSG_DeleteWordSet(p->f68);
             p->state = 4;
@@ -198,7 +198,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
         if (MB_COMM_SYS_GetOfferFlagA(p->f0C) == 1) {
             MB_UTIL_MSG_ClearWindow(p->f68);
             MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
-            MB_UTIL_MSG_PrintStream(p->f68, 0x1A, func_02012FFC());
+            MB_UTIL_MSG_PrintStream(p->f68, 0x1A, MSG_SPEED_GetWait());
             p->state = 6;
         } else {
             p->state = 0xD;
@@ -214,7 +214,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
         a = MB_UTIL_MSG_ProcessYesNoMenu(p->f68);
         if (a == 1) {
             if (MB_COMM_SYS_GetOfferFlagB(p->f0C) == 1) {
-                MB_UTIL_MSG_PrintStream(p->f68, 0x1B, func_02012FFC());
+                MB_UTIL_MSG_PrintStream(p->f68, 0x1B, MSG_SPEED_GetWait());
                 p->state = 8;
             } else {
                 p->state = 0xD;
@@ -238,7 +238,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
         }
         break;
     case 10:
-        MB_UTIL_MSG_PrintStream(p->f68, 0x1C, func_02012FFC());
+        MB_UTIL_MSG_PrintStream(p->f68, 0x1C, MSG_SPEED_GetWait());
         p->state = 0xB;
         break;
     case 11:
@@ -291,7 +291,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
             MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
             MB_UTIL_MSG_CreateWordSet(p->f68);
             MB_UTIL_MSG_SetNumberLeft(p->f68, 0, a, 3);
-            MB_UTIL_MSG_PrintStream(p->f68, 0x1E, func_02012FFC());
+            MB_UTIL_MSG_PrintStream(p->f68, 0x1E, MSG_SPEED_GetWait());
             MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             MB_UTIL_MSG_DeleteWordSet(p->f68);
             p->state = 0x10;
@@ -312,7 +312,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
     case 17:
         MB_UTIL_MSG_ClearWindow(p->f68);
         MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
-        MB_UTIL_MSG_PrintStream(p->f68, 0x18, func_02012FFC());
+        MB_UTIL_MSG_PrintStream(p->f68, 0x18, MSG_SPEED_GetWait());
         p->state = 0x12;
         break;
     case 18:
@@ -325,7 +325,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
             if (MB_COMM_SYS_GetKind21Value(p->f0C) == 1) {
                 MB_UTIL_MSG_ClearWindow(p->f68);
                 MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
-                MB_UTIL_MSG_PrintStream(p->f68, 0x1F, func_02012FFC());
+                MB_UTIL_MSG_PrintStream(p->f68, 0x1F, MSG_SPEED_GetWait());
                 p->state = 0x14;
             } else {
                 p->state = 0x19;
@@ -349,7 +349,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
                 p->state = 0x16;
                 MB_UTIL_MSG_ClearWindow(p->f68);
                 MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
-                MB_UTIL_MSG_PrintStream(p->f68, 0x25, func_02012FFC());
+                MB_UTIL_MSG_PrintStream(p->f68, 0x25, MSG_SPEED_GetWait());
                 MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             } else {
                 p->f34 = a;
@@ -374,7 +374,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
                 e = GAME_DATA_GetMiscSave(p->f08->f04);
                 MB_UTIL_MSG_ClearWindow(p->f68);
                 MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
-                MB_UTIL_MSG_PrintStream(p->f68, 0x21, func_02012FFC());
+                MB_UTIL_MSG_PrintStream(p->f68, 0x21, MSG_SPEED_GetWait());
                 MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
                 FIELD_G3D_MAP_StoreBeaconTrainerKey(e, 0, d);
                 func_02007E50(c, 0x215, 1, p->f00);
@@ -399,7 +399,7 @@ void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
             if (MB_COMM_SYS_GetOfferCount(p->f0C) == 0 && MB_COMM_SYS_GetKind21Value(p->f0C) == 0) {
                 MB_UTIL_MSG_ClearWindow(p->f68);
                 MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
-                MB_UTIL_MSG_PrintStream(p->f68, 0x28, func_02012FFC());
+                MB_UTIL_MSG_PrintStream(p->f68, 0x28, MSG_SPEED_GetWait());
                 MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             }
             p->f20 = 0x1B;

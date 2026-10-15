@@ -1,5 +1,5 @@
 /*
- * function: sub_0200F300
+ * function: GFL_NET_ERR_IsWifiGameKind
  * address:  0x0200F300
  * packet:   pkt_0200F17C
  * region:   arm9
@@ -27,13 +27,13 @@
  * ordinary inter-function padding, not a byte difference.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F300.c \
- *       --func sub_0200F300 --addr 0x0200F300 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_IsWifiGameKind.c \
+ *       --func GFL_NET_ERR_IsWifiGameKind --addr 0x0200F300 --cc 1.1p1
  */
 
 extern int GFL_NET_GetGameKind(void);
 
-int sub_0200F300(void)
+int GFL_NET_ERR_IsWifiGameKind(void)
 {
     switch (GFL_NET_GetGameKind()) {
     case 12:

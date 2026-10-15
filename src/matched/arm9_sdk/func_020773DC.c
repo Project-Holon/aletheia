@@ -1,5 +1,5 @@
 /*
- * function: func_020773DC
+ * function: CARD_InitPulledOutCallback
  * address:  0x020773DC
  * packet:   pkt_020773DC
  * region:   arm9
@@ -29,7 +29,7 @@ extern void PXI_Init(void);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void CARDi_PulledOutCallback(int tag, u32 data, BOOL err);
 
-void func_020773DC(void)
+void CARD_InitPulledOutCallback(void)
 {
     PXI_Init();
     CARDiSlotResetCount.slot_reset_count = 0;

@@ -69,13 +69,13 @@
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F048  0x0201F048  thumb
- *   func_0201F094  0x0201F094  thumb
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   d_021807F8     0x021807F8  data  a1
  *   PMS_WORD_GetSaveData  0x02024988  thumb
  *   PMS_WORD_SetFlag  0x020249A0  thumb
  *   d_0218044C     0x0218044C  data
- *   func_0201EC74 0x0201EC74 thumb
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_Create 0x0201EC74 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   d_021806AC 0x021806AC data a1
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
@@ -105,7 +105,7 @@
  *   d_021803A0     0x021803A0  data  ov019  a1
  *   FIELD_MSGBG_PlainWinPrintMsg  0x0219161C  thumb  ov021
  *   POKE_REGULATION_CreateText  0x0201A4D4  thumb
- *   func_0200AE3C  0x0200AE3C  thumb
+ *   REGULATION_CreateCupName  0x0200AE3C  thumb
  *   FIELD_MSGBG_PlainWinPrintStr  0x02191648  thumb  ov021
  *   FIELD_MSGBG_PlainWinPrintStrColor  0x02191674  thumb  ov021
  *   FIELD_MSGBG_GetPrintQue 0x021904A8 thumb ov021
@@ -179,11 +179,11 @@ extern void func_0201EE0C(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(void *vec);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void func_0201F048(void *p, u32 i, u32 n);
-extern void func_0201F094(void *p, u32 i, u32 a, u32 n);
+extern void WORDSET_DeleteMsgdataF094(void *p, u32 i, u32 a, u32 n);
 extern void *PMS_WORD_GetSaveData(int a0);
 extern void PMS_WORD_SetFlag(void *p, int bit);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
-extern u32 func_0201ED04(void *p);
+extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
+extern u32 WORDSET_DeleteStrbufED04(void *p);
 extern unsigned int FIELDMAP_GetMsgBg(void *p);
 extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 extern void *FIELD_MSGBG_CreatePlainWin(void *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g);
@@ -204,7 +204,7 @@ extern int FIELD_MSGBG_IsPrintQueFinished(void *p);
 extern int FIELD_MSGBG_MenuFuncMain(void *h);
 extern void FIELD_MSGBG_PlainWinPrintMsg(void *r, int b, int c, u32 d);
 extern u8 *POKE_REGULATION_CreateText(void *a0, u32 a1, u16 a2, u32 a3);
-extern void *func_0200AE3C(void *p, u32 heap);
+extern void *REGULATION_CreateCupName(void *p, u32 heap);
 extern void FIELD_MSGBG_PlainWinPrintStr(void *r, int b, int c, u32 d);
 extern void  FIELD_MSGBG_PlainWinPrintStrColor(void *a, int b, u16 c, u32 d, int e);
 extern u32 FIELD_MSGBG_GetPrintQue(void *p);
@@ -662,7 +662,7 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
     if (situation->connect.talkParam != 0 && situation->connect.talkParam->nation != 0) {
         func_0201F048(unisys->msgWork.wordSet, 3, situation->connect.talkParam->nation);
         if (situation->connect.talkParam->area != 0)
-            func_0201F094(unisys->msgWork.wordSet, 4, situation->connect.talkParam->nation, situation->connect.talkParam->area);
+            WORDSET_DeleteMsgdataF094(unisys->msgWork.wordSet, 4, situation->connect.talkParam->nation, situation->connect.talkParam->area);
     }
     UNION_MSG_SetGreetingWordFlag((int)unisys->parent->gameData, language);
 }
@@ -690,7 +690,7 @@ void UNION_MSG_SetGreetingWordFlag(int gameData, unsigned int language)
 void UNION_MSG_CreateWordSet(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.wordSet == 0) {
-        unisys->msgWork.wordSet = func_0201EC74(5, 0x40, UNION_HEAP_ID);
+        unisys->msgWork.wordSet = WORDSET_Create(5, 0x40, UNION_HEAP_ID);
         UNION_MSG_RegisterPartnerWords(unisys);
     }
 }
@@ -699,7 +699,7 @@ void UNION_MSG_CreateWordSet(UnionRoomWork *unisys)
 void UNION_MSG_DeleteWordSet(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.wordSet != 0) {
-        func_0201ED04(unisys->msgWork.wordSet);
+        WORDSET_DeleteStrbufED04(unisys->msgWork.wordSet);
         unisys->msgWork.wordSet = 0;
     }
 }
@@ -1077,7 +1077,7 @@ void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldmap, u32 fa
     UNION_MSG_RegisterPartnerWords(unisys);
 
     if (titleKind == 0) {
-        title = func_0200AE3C(unisys->regulation, UNION_HEAP_ID);
+        title = REGULATION_CreateCupName(unisys->regulation, UNION_HEAP_ID);
         FIELD_MSGBG_PlainWinPrintStr(unisys->msgWork.infoWin, 0, 0, (u32)title);
         STRBUF_Delete(title);
     } else {

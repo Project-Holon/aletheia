@@ -16,7 +16,7 @@
  *   OS_GetLowEntropyData  0x02088168  arm
  *   CPS_SslAddRandomSeed  0x02162248  arm   ov009
  *   func_0217EAB0  0x0217eab0  arm   ov009
- *   func_020923B0  0x020923b0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923b0  arm
  *   func_0217D254  0x0217d254  arm   ov009
  *   gGhttpSslRandomSeed     0x021d3b44  data  ov114
  *   SslAuthCallback  0x021c1668  arm   ov114
@@ -45,7 +45,7 @@ extern void *ghiEncryptorGetRootCAList(char *url);
 extern void OS_GetLowEntropyData(unsigned long *);
 extern void CPS_SslAddRandomSeed(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);
-extern void *func_020923B0(void *, int, unsigned long);
+extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned long);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int SslAuthCallback(int result, struct CPSSslConnection *con, int level);
 extern unsigned long gGhttpSslRandomSeed[8];
@@ -66,7 +66,7 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
             CPS_SslAddRandomSeed(gGhttpSslRandomSeed, 0x20);
             sslCon = func_0217EAB0(0x830);
             if (sslCon != 0) {
-                func_020923B0(sslCon, 0, 0x830);
+                MSL_C_LIB_MemsetPtr(sslCon, 0, 0x830);
                 sslCon->f800 = 0;
                 sslCon->f814 = rootCaList->certs;
                 sslCon->f818 = rootCaList->count;

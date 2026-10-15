@@ -23,10 +23,10 @@
  *   DWC_RAP_AllocRecvBuffer  0x02156C00  thumb  ov009
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   DWC_ConnectToAnybodyAsync  0x0216B284  arm
- *   func_02177138  0x02177138  arm
- *   func_02177160  0x02177160  arm
+ *   DWC_SetUserSendCallback  0x02177138  arm
+ *   DWC_SetUserRecvCallback  0x02177160  arm
  *   DWC_SetConnectionClosedCallback  0x0216B634  arm
- *   func_02177188  0x02177188  arm
+ *   DWC_SetUserRecvTimeoutCallback  0x02177188  arm
  *   DWC_RAP_OnNewClientNop  0x02155674  thumb  ov009
  *   DWC_RAP_OnMatched  0x02155D3C  thumb  ov009
  *   DWC_RAP_OnSendComplete  0x02155D80  thumb  ov009
@@ -58,10 +58,10 @@ void DWC_RAP_FreeRecvBuffers(void);
 void DWC_RAP_AllocRecvBuffer(u32 a);
 void DWC_RAP_SetState(int v);
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
-int func_02177138(int a, int b);
-int func_02177160(int a, int b);
+int DWC_SetUserSendCallback(int a, int b);
+int DWC_SetUserRecvCallback(int a, int b);
 int DWC_SetConnectionClosedCallback(int a, int b);
-int func_02177188(int a, int b);
+int DWC_SetUserRecvTimeoutCallback(int a, int b);
 void DWC_RAP_OnNewClientNop(void);
 void DWC_RAP_OnMatched(int a, int b, int c, int d, int e);
 void DWC_RAP_OnSendComplete(int a, u32 i);
@@ -86,10 +86,10 @@ int DWC_RAP_StartMatchWithFilter(int a0, int n, int a2, int a3)
                       0, 0, 0) == 0)
         return 0;
     _pRapWork->w75C = 0;
-    func_02177138((int)((Fn)DWC_RAP_OnSendComplete), 0);
-    func_02177160((int)((Fn)DWC_RAP_OnReceive), 0);
+    DWC_SetUserSendCallback((int)((Fn)DWC_RAP_OnSendComplete), 0);
+    DWC_SetUserRecvCallback((int)((Fn)DWC_RAP_OnReceive), 0);
     DWC_SetConnectionClosedCallback((int)((Fn)DWC_RAP_OnConnectionClosed), 0);
-    func_02177188((int)((Fn)DWC_RAP_OnReceiveTimeout), 0);
+    DWC_SetUserRecvTimeoutCallback((int)((Fn)DWC_RAP_OnReceiveTimeout), 0);
     _pRapWork->w760 = 0;
     _pRapWork->b7A1 = 1;
     _pRapWork->w758 = 0x3EF;

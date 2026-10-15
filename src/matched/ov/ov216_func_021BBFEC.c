@@ -21,7 +21,7 @@
  *   GAME_BEACON_ACCESSOR_TableRingGet 0x02165AC4 thumb ov010
  *   GAME_BEACON_ACCESSOR_IsInfoInvalid 0x02165B5C thumb ov010
  *   GAME_BEACON_ACCESSOR_IsDistributionAction 0x02165C10 thumb ov010
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
  */
 typedef unsigned char u8;
@@ -35,7 +35,7 @@ extern u8 GAME_BEACON_ACCESSOR_TableGetCount(u8 *);
 extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *,struct Rec *,u16 *,int);
 extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec *);
 extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *);
-extern signed char func_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
 void func_021BBFEC(u8 *p)
 {
@@ -54,6 +54,6 @@ void func_021BBFEC(u8 *p)
     }
     if(p[48]==255 || p[48]>=p[47])p[48]=0;
     if(p[47]==0)*(u32 *)(p+16)=1;
-    p[79]=func_02012FFC();
+    p[79]=MSG_SPEED_GetWait();
     *(int *)(p+28)=TOWNMAP_GRH_LoadTownInfo(*(u16 *)p);
 }

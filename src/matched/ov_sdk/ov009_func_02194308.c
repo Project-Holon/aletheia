@@ -13,7 +13,7 @@
  *
  * symbols:
  *   value_for_key_safe 0x02193FD0  arm
- *   func_020964E0 0x020964E0  arm
+ *   atoi 0x020964E0  arm
  *   FindRequest 0x0219405C  arm
  *   CallReqCallback 0x0219451C  arm
  *   gGstatsKeySetpdr   0x021A58D4  data
@@ -24,7 +24,7 @@
 
 extern char *value_for_key_safe(char *s, char *key);
 typedef unsigned int   u32;
-extern int func_020964E0(u32 a0);
+extern int atoi(u32 a0);
 extern int FindRequest(int reqtype, int localid, int profileid);
 extern void CallReqCallback(int reqindex, int success, long modified, char *data, int length);
 extern char gGstatsKeySetpdr[];
@@ -40,10 +40,10 @@ void ProcessSetData(char *buf)
     int modified;
     int reqindex;
 
-    success = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeySetpdr));
-    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPid));
-    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
-    modified = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    success = atoi((u32)value_for_key_safe(buf, gGstatsKeySetpdr));
+    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPid));
+    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    modified = atoi((u32)value_for_key_safe(buf, gGstatsKeyMod));
     reqindex = FindRequest(2, lid, pid);
     if (reqindex == -1)
         return;

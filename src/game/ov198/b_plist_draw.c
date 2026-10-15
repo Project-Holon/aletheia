@@ -41,7 +41,7 @@
  *   func_0202D01C 0x0202D01C thumb
  *   func_0202D034 0x0202D034 thumb
  *   BMP_FillRect 0x02043AF4 arm
- *   func_0201EF40 0x0201EF40 thumb
+ *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   func_0201EF34 0x0201EF34 thumb
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -62,14 +62,14 @@
  *   d_02211B2C 0x02211B2C data a1
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   d_02211AF9 0x02211AF9 data a1
- *   func_02020FE4 0x02020FE4 thumb
+ *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02012FFC 0x02012FFC thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0220B0B0 0x0220B0B0 thumb ov196
- *   func_0220B094 0x0220B094 thumb ov196
- *   func_0220B07C 0x0220B07C thumb ov196
+ *   B_APP_TOOL_Update 0x0220B0B0 thumb ov196
+ *   B_APP_TOOL_ShowWindows 0x0220B094 thumb ov196
+ *   B_APP_TOOL_ShowWindow 0x0220B07C thumb ov196
  *   func_0220F1F4 0x0220F1F4 thumb ov198
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_020490F4  0x020490F4  arm
@@ -98,7 +98,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   d_02211DFC 0x02211DFC data a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_0220AFC4 0x0220AFC4 thumb ov196
+ *   B_APP_TOOL_DeleteActors 0x0220AFC4 thumb ov196
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -112,7 +112,7 @@
  *   func_02027604 0x02027604 thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_02211DB4 0x02211DB4 data a2
  *   d_02211DCC 0x02211DCC data a2
@@ -373,7 +373,7 @@ extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 extern u8 func_0202D01C(u32,u32,u32);
 extern int func_0202D034(u32,u32);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -385,14 +385,14 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
 extern void func_0201F73C(void *,int,int,int);
 extern unsigned GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
-extern int func_02012FFC(unsigned);
+extern int MSG_SPEED_GetWait(unsigned);
 extern int PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
-extern void func_0220B0B0(struct Entry *,int,u32);
-extern void func_0220B094(char *,u8 *);
-extern void func_0220B07C(void *);
+extern void B_APP_TOOL_Update(struct Entry *,int,u32);
+extern void B_APP_TOOL_ShowWindows(char *,u8 *);
+extern void B_APP_TOOL_ShowWindow(void *);
 extern void func_0220F1F4(u8 *p);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -420,7 +420,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_0220AFC4(u8 *p);
+extern void B_APP_TOOL_DeleteActors(u8 *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -435,7 +435,7 @@ extern u32 func_020307B0(void *p);
 extern u8 func_020275EC(int i);
 extern u8 func_02027604(u8 i);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32),CLACT_SetActorAnimSeq(struct Obj *,u32);
-extern u32 func_0202136C(u32);
+extern u32 FILE_UTIL_Check136C(u32);
 extern void func_0220F060(u8 *p);
 void func_0220BC70(u8 *p,u32 state);
 void func_0220BD34(u8 *p);
@@ -1158,7 +1158,7 @@ void func_0220C42C(char *p, int i, int index)
     else {
         t = (void *)STRBUF_Create(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
         format = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 15);
-        func_0201EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
+        WORDSET_Callback_EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
         func_0201F250(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
         STRBUF_Delete(format);
     }
@@ -2423,7 +2423,7 @@ void func_0220E088(char *p)
             func_0220D6DC((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
-    if (func_02020FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
+    if (FILE_UTIL_Get_0FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
         func_0220C60C((char *)p,104);
 }
 
@@ -2458,7 +2458,7 @@ void func_0220E168(char *p)
 {
     int v;
     void *obj;
-    v = func_02012FFC(GF_FONT_SetTextColor(1,2,0));
+    v = MSG_SPEED_GetWait(GF_FONT_SetTextColor(1,2,0));
     ((struct Obj02247 *)p)->f1EB0 = PRINTSYS_PrintStream(*(unsigned *)&((struct Obj02247 *)p)->f1F68,0,0,*(unsigned *)&((struct Obj02247 *)p)->f1EA8,((struct Obj25194 *)(((Context *)p)->global))->fC,v,((struct Obj02247 *)p)->f1D4,10,((struct Obj25195 *)(((Context *)p)->global))->f10,15);
     obj = ((struct Obj02247 *)p)->f1F68;
     BMP_WIN_TransferChars(obj);
@@ -2510,7 +2510,7 @@ void func_0220E1D4(u8 *p)
 /*
  * evidence: enum offset k retained across the call; j saves k+0x10 before k-=0xb4. Parenthesised offsets and the sequenced local match the 48-byte original.
  */
-void func_0220E22C(u8 *p){enum{K=0x1f60}k=K;u32 j;func_0220B0B0((struct Entry *)(p+k),*(int *)(p+(k-0xb4)),2);j=k+0x10;k-=0xb4;func_0220B0B0((struct Entry *)(p+j),*(int *)(p+k),p[0x2174]);}
+void func_0220E22C(u8 *p){enum{K=0x1f60}k=K;u32 j;B_APP_TOOL_Update((struct Entry *)(p+k),*(int *)(p+(k-0xb4)),2);j=k+0x10;k-=0xb4;B_APP_TOOL_Update((struct Entry *)(p+j),*(int *)(p+k),p[0x2174]);}
 
 
 
@@ -2523,7 +2523,7 @@ void func_0220E22C(u8 *p){enum{K=0x1f60}k=K;u32 j;func_0220B0B0((struct Entry *)
 
 
 
-void func_0220E25C(u8 *p){func_0220B094((char *)p+0x1f70,*(u8 * *)&((struct Obj03351 *)p)->f253C);func_0220E27C(p);}
+void func_0220E25C(u8 *p){B_APP_TOOL_ShowWindows((char *)p+0x1f70,*(u8 * *)&((struct Obj03351 *)p)->f253C);func_0220E27C(p);}
 
 
 
@@ -2536,7 +2536,7 @@ void func_0220E25C(u8 *p){func_0220B094((char *)p+0x1f70,*(u8 * *)&((struct Obj0
 
 
 
-void func_0220E27C(u8 *p){if(((Bits4 *)(p+0x2177))->hi==1){func_0201F73C(((struct Obj25197 *)p)->f1F60,2,1,14);func_0220B07C(p+0x1f60);((Bits4 *)(p+0x2177))->hi=0;}}
+void func_0220E27C(u8 *p){if(((Bits4 *)(p+0x2177))->hi==1){func_0201F73C(((struct Obj25197 *)p)->f1F60,2,1,14);B_APP_TOOL_ShowWindow(p+0x1f60);((Bits4 *)(p+0x2177))->hi=0;}}
 
 
 
@@ -2792,7 +2792,7 @@ void func_0220E74C(char *p)
 {
     unsigned i;
     for(i=0;i<41;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x1ebc));
-    func_0220AFC4(((struct Obj14559 *)p)->f2188);
+    B_APP_TOOL_DeleteActors(((struct Obj14559 *)p)->f2188);
     for(i=0;i<26;i++) CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+0x24a4)));
     for(i=0;i<6;i++) CLACT_ReleasePalette((u32)(*(void **)(p+i*4+0x250c)));
     for(i=0;i<6;i++) CLACT_ReleaseCellAnim((u32)(*(void **)(p+i*4+0x2524)));
@@ -2952,7 +2952,7 @@ void func_0220E9A0(char *p,u8 *q,const Pair *pos)
 
 
 
-void func_0220EA30(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {if(func_0202136C(mode)==1)CLACT_SetActorAnimSeq((struct Obj *)p,1);else CLACT_SetActorAnimSeq((struct Obj *)p,0);func_0220E7CC(p,(u32)q);} }
+void func_0220EA30(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {if(FILE_UTIL_Check136C(mode)==1)CLACT_SetActorAnimSeq((struct Obj *)p,1);else CLACT_SetActorAnimSeq((struct Obj *)p,0);func_0220E7CC(p,(u32)q);} }
 
 
 

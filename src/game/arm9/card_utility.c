@@ -1,7 +1,7 @@
 /*
  * file:     card_utility.c
  * unit:     yes
- * function: func_020762F4, func_02076344, func_02076360
+ * function: CARDi_GetDmaInterface, func_02076344, CARDi_DCInvalidateSmart
  * address:  0x020762F4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -40,9 +40,9 @@ extern void DC_FlushAll(void);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void DC_WaitWriteBufferEmpty(void);
-CARDDmaInterface *func_020762F4(u32 channel);
+CARDDmaInterface *CARDi_GetDmaInterface(u32 channel);
 void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b);
-void func_02076360(void *buffer, u32 length, u32 threshold);
+void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold);
 extern CARDDmaInterface CARDiDmaUsingFormer;
 extern CARDDmaInterface CARDiDmaUsingNew;
 
@@ -50,7 +50,7 @@ extern CARDDmaInterface CARDiDmaUsingNew;
 /*
  * sdk:      CARDi_GetDmaInterface (libcard.TWL.HYB.a card_utility.o)
  */
-CARDDmaInterface *func_020762F4(u32 channel)
+CARDDmaInterface *CARDi_GetDmaInterface(u32 channel)
 {
     CARDDmaInterface *retval = 0;
     BOOL isNew = (channel & 0x10) != 0;
@@ -87,7 +87,7 @@ void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b)
 /*
  * sdk:      CARDi_DCInvalidateSmart (libcard.TWL.HYB.a card_utility.o)
  */
-void func_02076360(void *buffer, u32 length, u32 threshold)
+void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold)
 {
     if (length >= threshold)
     {

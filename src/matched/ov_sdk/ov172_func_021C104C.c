@@ -52,6 +52,9 @@ extern u8 dc1_tbl[28] __attribute__((aligned(32)));
 extern u8 ac0_tbl[178] __attribute__((aligned(32)));
 extern u8 ac1_tbl[178] __attribute__((aligned(32)));
 
+
+
+
 static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork,
                           huffman_structure *hf, u32 idx)
 {

@@ -48,7 +48,7 @@
    }
   },
   {
-   "name": "sub_02034F5C",
+   "name": "UI_Update",
    "address": "0x02034F5C",
    "kind": "game",
    "region": "arm9",

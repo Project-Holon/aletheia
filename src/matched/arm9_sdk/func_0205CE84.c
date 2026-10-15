@@ -1,5 +1,5 @@
 /*
- * function: func_0205CE84
+ * function: DWC_CheckWiFiStation
  * address:  0x0205CE84
  * packet:   pkt_0205CE84
  * region:   arm9
@@ -15,7 +15,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   DWC_AC_CheckWiFiStation 0x0205BFD4 arm
  *   DWCi_AC_GetPostalCode 0x0205EA70 arm
- *   func_0205CCE4 0x0205CCE4 arm
+ *   DWCi_DivideFullApinfo 0x0205CCE4 arm
  */
 
 typedef struct {
@@ -30,9 +30,9 @@ typedef struct {
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len);
 extern int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos);
-extern void func_0205CCE4(char *fullapinfo, DWCApInfo *apinfo);
+extern void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo);
 
-int func_0205CE84(void *ssid, unsigned short len, DWCApInfo *apinfo)
+int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo)
 {
     unsigned char apSpotInfo[10];
 
@@ -46,7 +46,7 @@ int func_0205CE84(void *ssid, unsigned short len, DWCApInfo *apinfo)
         }
         if (DWCi_AC_GetPostalCode(ssid, apSpotInfo)) {
             apinfo->aptype = 4;
-            func_0205CCE4((char *)apSpotInfo, apinfo);
+            DWCi_DivideFullApinfo((char *)apSpotInfo, apinfo);
             return 1;
         }
     }

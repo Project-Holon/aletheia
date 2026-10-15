@@ -26,6 +26,7 @@
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   FILE_UTIL_Check136C  0x0202136C  thumb  arm9
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj06428.h"
@@ -34,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -52,7 +53,7 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
     int x,y;
     int flag = 0;
     u32 species = POKE_TOOL_GetPartyValue(mon,6,0);
-    if (func_0202136C(species)) flag = 1;
+    if (FILE_UTIL_Check136C(species)) flag = 1;
     if (((struct Obj06428 *)q)->f10) {
         if (!species) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06428 *)q)->f10,0);
         else {

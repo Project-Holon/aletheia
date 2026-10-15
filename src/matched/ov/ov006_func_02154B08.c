@@ -20,7 +20,7 @@
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
  *   GAME_DATA_GetWifiList   0x0201283C  thumb
  *   GFL_USE_GetBgmNo   0x02005C44  thumb
- *   func_0200ADF0   0x0200ADF0  thumb
+ *   REGULATION_Create   0x0200ADF0  thumb
  *   d_02154C80      0x02154C80  data  ov006  a4
  */
 #include "../include/Obj00652.h"
@@ -47,7 +47,7 @@ void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void *GAME_DATA_GetSaveControl(struct Big *p);
 u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 u16 GFL_USE_GetBgmNo(void);
-struct Reg *func_0200ADF0(u32 heap);
+struct Reg *REGULATION_Create(u32 heap);
 
 extern char d_02154C80[];
 
@@ -93,6 +93,6 @@ void EVENT_WIFICLUB_InitWork(void *obj_in, void *p, int a, int b)
     ((struct Obj00652 *)obj)->f170 = GFL_USE_GetBgmNo();
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f14 = (int)POKEPARTY_Create(0x8001);
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f18 = (int)POKEPARTY_Create(0x8001);
-    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f1c = (int)func_0200ADF0(0x8001);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f1c = (int)REGULATION_Create(0x8001);
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f20 = 1;
 }

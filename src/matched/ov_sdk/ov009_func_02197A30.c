@@ -16,7 +16,7 @@
  * symbols:
  *   gti2UShortToBuffer      0x02195EA0 arm
  *   gti2ConnectionSendData  0x02195750 arm
- *   d_021A5948              0x021A5948 data
+ *   gGti2PacketMagic              0x021A5948 data
  */
 
 struct GTI2Connection;
@@ -25,7 +25,7 @@ struct GTI2Socket;
 extern void gti2UShortToBuffer(unsigned char *buffer, int pos, unsigned short s);
 extern int gti2ConnectionSendData(struct GTI2Connection *connection,
                                   unsigned char *message, int len);
-extern unsigned char d_021A5948[];
+extern unsigned char gGti2PacketMagic[];
 
 struct GTI2Socket {
     char pad00[0x40];
@@ -69,7 +69,7 @@ int gti2SendAck(struct GTI2Connection *connection)
         pos += 2;
     }
     {
-        unsigned char *s = d_021A5948;
+        unsigned char *s = gGti2PacketMagic;
         unsigned char *d = (unsigned char *)buffer + pos;
         d[0] = s[0];
         d[1] = s[1];

@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0200AE54   0x0200AE54  thumb
- *   func_0200B040   0x0200B040  thumb
+ *   REGULATION_GetRuleValue   0x0200AE54  thumb
+ *   REGULATION_GetShooterSettings   0x0200B040  thumb
  *   POKE_REGULATION_AdjustPartyLevels   0x0201A2A8  thumb
  *   POKE_REGULATION_ResetPartyNicknames   0x0201A30C  thumb
  *
@@ -39,7 +39,7 @@
  * function distinguishes them.
  *
  * (3) 0x10 and 0x3C are named locals, not literals.  `movs r5, #0x10` is
- * hoisted to the prologue, before the first func_0200AE54 call, and r5 is
+ * hoisted to the prologue, before the first REGULATION_GetRuleValue call, and r5 is
  * then shifted left by 6 and by 7 to build the two flag masks; `movs r7,
  * #0x3c` is materialised once and reused as the multiplier for both timer
  * fields.  Spelling the masks as the constants 0x400 and 0x800, or the
@@ -72,9 +72,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Reg;
-extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 struct RegAC;
-extern void func_0200B040(struct Reg *p, struct RegAC *out);
+extern void REGULATION_GetShooterSettings(struct Reg *p, struct RegAC *out);
 extern void POKE_REGULATION_AdjustPartyLevels(void *a0, void *a1);
 extern void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c);
 
@@ -84,10 +84,10 @@ void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2)
     u32 sec = 0x3c;
     int i;
 
-    ((struct Obj01199 *)o)->f76 = (u16)(sec * func_0200AE54(a1, 0x10));
-    ((struct Obj01199 *)o)->f74 = (u16)(sec * func_0200AE54(a1, 0xf));
-    func_0200B040(a1, (struct RegAC *)(o + 0x78));
-    switch (func_0200AE54(a1, 0x12)) {
+    ((struct Obj01199 *)o)->f76 = (u16)(sec * REGULATION_GetRuleValue(a1, 0x10));
+    ((struct Obj01199 *)o)->f74 = (u16)(sec * REGULATION_GetRuleValue(a1, 0xf));
+    REGULATION_GetShooterSettings(a1, (struct RegAC *)(o + 0x78));
+    switch (REGULATION_GetRuleValue(a1, 0x12)) {
     case 0:
         break;
     case 1:

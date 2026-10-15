@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B71A0",
+   "name": "LOCAL_TVT_CHARA_CopyTiles",
    "address": "0x021B71A0",
    "kind": "game",
    "region": "ov174",

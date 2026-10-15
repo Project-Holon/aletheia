@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAD0
+ * function: STAFF_ROLL_CmdHidePlane
  * address:  0x021BAAD0
  * packet:   pkt_021BAAD0
  * region:   ov181
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-int func_021BAAD0(void)
+int STAFF_ROLL_CmdHidePlane(void)
 {
     BG_SYS_SetMainPlaneVisible(1, 0);
     return 1;

@@ -29,7 +29,7 @@
  *   func_02007E50 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_0200C274  0x0200C274  thumb
+ *   BEACON_GetPoints  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
@@ -394,7 +394,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207C7B4  0x0207C7B4  arm
+ *   FX_Sqrt  0x0207C7B4  arm
  *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   gEffortValueStatTable      0x021EFDC0  data  ov093
  *   func_02019C90   0x02019C90  thumb arm9
@@ -486,7 +486,7 @@
  *   BTLV_EFFECT_PollLowHpBgm 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
- *   func_0202A298 0x0202A298 thumb
+ *   TPOKE_DATA_FindRecord 0x0202A298 thumb
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   gBtlClientSupportItemKeys 0x021EFF78 data ov093 a2
  *   BTLV_CORE_StartMoveMenu 0x021E97BC thumb ov093
@@ -1211,7 +1211,7 @@ extern void BTLV_EFFECT_SaveBgmNo(u32);
 extern int BTLV_EFFECT_PollLowHpBgm(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int BTLV_EFFECT_IsBusy(void);
-extern u32 func_0202A298(u32,u32,u32);
+extern u32 TPOKE_DATA_FindRecord(u32,u32,u32);
 extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 extern void BTLV_CORE_StartMoveMenu(char *p, u8 *a, int b);
 extern void BTLV_CORE_StartMoveMenuForEntry(char *p, u32 *q, int c);
@@ -2601,7 +2601,7 @@ u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
         flagRow = (u8 *)client + i;
         if (!flagRow[triedFlagOffset]) {
             itemKey = gBtlClientSupportItemKeys[i];
-            if (func_0202A298(trainerId,itemKey,client->heapId)) {
+            if (TPOKE_DATA_FindRecord(trainerId,itemKey,client->heapId)) {
                 switch (itemKey - 0x11) {
                 case 1:
                     hpNow = func_021D59B4(leadMon,13);

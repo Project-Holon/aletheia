@@ -396,7 +396,7 @@
  *   gWonderRoomHandlers     0x021F269C  data   ov093  a4
  *   BTLV_CORE_BytesOverlap  0x021E8D48  thumb  ov093
  *   gBestowHandlers     0x021F283C  data   a4
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   gFinalGambitHandlers 0x021F2AE8 data a4
  *   gAfterYouHandlers     0x021F27EC  data   ov093  a4
  *   gQuashHandlers     0x021F25B4  data   ov093  a4
@@ -525,7 +525,7 @@ int BTLV_CORE_CheckEitherSlotPair(struct BtlServerFlow *flow, int pokeId, int ot
 extern int HAND_COMMON_IsLastToAct(struct BtlServerFlow *flow, int pokeId);
 extern int BTLV_CORE_CheckPartySlotCondition(struct BtlServerFlow *flow, int pokeId);
 extern int HAND_COMMON_IsItemBoundToSpecies(int species, int itemId);
-extern u32 func_0202136C(u16 itemId);
+extern u32 FILE_UTIL_Check136C(u16 itemId);
 extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(struct BtlServerFlow *flow, int pokeId);
 extern u16 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlow *flow);
 extern int BTL_ID_IsAbilityRolePlayBlocked(u16 abilityId);
@@ -5512,9 +5512,9 @@ void HAND_WAZA_TrickOnWazaExecute(struct BtlEventFactor *factor, struct BtlServe
         return;
     userSpecies = BTL_POKEPARAM_GetSpecies(user);
     targetSpecies = BTL_POKEPARAM_GetSpecies(target);
-    if (func_0202136C(userItem) != 0)
+    if (FILE_UTIL_Check136C(userItem) != 0)
         return;
-    if (func_0202136C(targetItem) != 0)
+    if (FILE_UTIL_Check136C(targetItem) != 0)
         return;
     if (HAND_COMMON_IsItemBoundToSpecies(userSpecies, targetItem) != 0)
         return;
@@ -10260,7 +10260,7 @@ void HAND_WAZA_BestowGiveItem(struct BtlEventFactor *factor, struct BtlServerFlo
         targetId = BTL_EVENT_GetVar(HAND_WAZA_EVAR_TARGET_ID);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         itemId = (int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId));
-        if (itemId != 0 && func_0202136C(itemId) == 0 && (int)BTL_POKEPARAM_GetItem(target) == 0
+        if (itemId != 0 && FILE_UTIL_Check136C(itemId) == 0 && (int)BTL_POKEPARAM_GetItem(target) == 0
             && BTLV_CORE_CheckPartySlotPair(flow, pokeId) == 0 && BTLV_CORE_CheckPartySlotPair(flow, targetId) == 0
             && HAND_COMMON_IsItemBoundToSpecies(BTL_POKEPARAM_GetSpecies(target), itemId) == 0) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ITEM, pokeId);

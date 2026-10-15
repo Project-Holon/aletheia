@@ -15,9 +15,9 @@
  *   func_021867E8  0x021867E8  arm   ov009
  *   func_02193734  0x02193734  arm   ov009
  *   func_0219327C  0x0219327C  arm   ov009
- *   func_0217F21C  0x0217F21C  arm   ov009
+ *   _strlwr  0x0217F21C  arm   ov009
  *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_020923B0  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0218E114  0x0218E114  arm   ov009
  *   func_0218A238  0x0218A238  arm   ov009
  *   func_0218DD88  0x0218DD88  arm   ov009
@@ -69,9 +69,9 @@ typedef struct GPIConnection {
 extern int func_021867E8(void **connection);
 extern void func_02193734(int *p, int b);
 extern void func_0219327C(char *p, int b, int n);
-extern char *func_0217F21C(char *string);
+extern char *_strlwr(char *string);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_020923B0(void *dst, int val, unsigned long len);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_0218A238(void **connection, GPIOperation *operation);
 extern int func_0218DD88(void **connection, const struct GPIOperation_s *operation);
@@ -104,14 +104,14 @@ int func_0218A624(void **connection, char *nick, char *uniquenick, char *email,
     func_0219327C(iconnection->uniquenick, (int)uniquenick, 21);
     func_0219327C(iconnection->email, (int)email, 51);
     func_0219327C(iconnection->password, (int)password, 31);
-    func_0217F21C(iconnection->email);
+    _strlwr(iconnection->email);
 
     data = (GPIConnectData *)func_0217EAB0(sizeof(GPIConnectData));
     if (data == 0) {
         func_02193734((int *)connection, (int)g_021A482C);
         return 1;
     }
-    func_020923B0(data, 0, sizeof(GPIConnectData));
+    MSL_C_LIB_MemsetPtr(data, 0, sizeof(GPIConnectData));
     data->newuser = newuser;
     if (authtoken[0] && partnerchallenge[0]) {
         func_0219327C(data->authtoken, (int)authtoken, 256);

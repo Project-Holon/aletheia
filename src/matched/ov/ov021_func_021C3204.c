@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200BCB8  0x0200BCB8  thumb
+ *   DAYCARE_GetInUseCount  0x0200BCB8  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   SODATEYA_PrepareDeposit  0x021C3248  thumb  ov021
  *   SODATEYA_RevertShaymin  0x021C3250  thumb  ov021
- *   func_0200BC4C  0x0200BC4C  thumb
+ *   DAYCARE_SetSlotMon  0x0200BC4C  thumb
  *   POKEPARTY_RemoveMember  0x0201A9C8  thumb
  *   SODATEYA_SyncPartyAfterDeposit  0x021C38DC  thumb  ov021
  * Addresses are Black-image addresses.
@@ -22,7 +22,7 @@
 
 typedef unsigned int u32;
 
-extern int func_0200BCB8(u32);
+extern int DAYCARE_GetInUseCount(u32);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void SODATEYA_PrepareDeposit(void);
 typedef signed int     s32;
@@ -30,19 +30,19 @@ struct Obj;
 struct Party;
 struct Payload;
 extern void SODATEYA_RevertShaymin(void *mon);
-extern void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src);
+extern void DAYCARE_SetSlotMon(struct Obj *p, s32 i, const struct Payload *src);
 extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 extern int SODATEYA_SyncPartyAfterDeposit(u32 a, u32 b);
 
 void SODATEYA_DepositPokemon(u32 *p, u32 b, u32 c)
 {
-    int n = func_0200BCB8(p[2]);
+    int n = DAYCARE_GetInUseCount(p[2]);
     u32 m = (u32)POKEPARTY_GetMember((void *)b, c);
 
     if (n < 2) {
         SODATEYA_PrepareDeposit();
         SODATEYA_RevertShaymin((void *)m);
-        func_0200BC4C((struct Obj *)p[2], n, (const struct Payload *)m);
+        DAYCARE_SetSlotMon((struct Obj *)p[2], n, (const struct Payload *)m);
         POKEPARTY_RemoveMember((struct Party *)b, c);
         SODATEYA_SyncPartyAfterDeposit(p[1], b);
     }

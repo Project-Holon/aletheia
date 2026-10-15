@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F62FC",
-    "func_021F6324"
+    "EGG_DEMO_MENU_CreateDialog",
+    "EGG_DEMO_MENU_GetDialogResult"
+   ],
+   "addresses": [
+    "0x021F62FC",
+    "0x021F6324"
    ]
   }
  ]

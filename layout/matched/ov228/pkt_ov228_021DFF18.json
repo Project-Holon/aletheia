@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFF18",
+   "name": "SAVE_OUTSIDE_ClearFlash",
    "address": "0x021DFF18",
    "kind": "game",
    "region": "ov228",

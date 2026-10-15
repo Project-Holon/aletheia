@@ -1,5 +1,5 @@
 /*
- * function: func_021C4980
+ * function: WF2DMAP_OBJ_GetByIndex
  * address:  0x021C4980
  * packet:   pkt_021C4980
  * region:   ov127
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-char *func_021C4980(char **p, int i)
+char *WF2DMAP_OBJ_GetByIndex(char **p, int i)
 {
     char *base = *p;
     char *e = base + i * 0x18;

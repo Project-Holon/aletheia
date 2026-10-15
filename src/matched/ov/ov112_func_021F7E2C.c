@@ -10,7 +10,7 @@
  * symbols:
  *   func_021F5450 0x021F5450 thumb ov112
  *   func_021F5464 0x021F5464 thumb ov112
- *   func_0207C9D0 0x0207C9D0 arm
+ *   VEC_Add 0x0207C9D0 arm
  *   func_021F4E8C 0x021F4E8C thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
  *   func_021F4ED4 0x021F4ED4 thumb ov112
@@ -23,7 +23,7 @@ typedef struct { int x, y, z; } Vec;
 typedef struct { short count, pad; int index, a, b; } Tail;
 extern char *func_021F5450(char *, int);
 extern char *func_021F5464(char *p);
-extern void func_0207C9D0(Vec *, Vec *, Vec *);
+extern void VEC_Add(Vec *, Vec *, Vec *);
 extern void func_021F4E8C(int, int, Vec *);
 typedef unsigned char  u8;
 extern void func_021F4E6C(u8 *p, u8 *e, unsigned int value);
@@ -38,7 +38,7 @@ void func_021F7E2C(char *p, char *q) {
     Vec v;
     *(int *)(q + 0xcc + ((struct Obj06411 *)q)->fF4 * 4) = 0;
     if (((struct Obj06411 *)q)->f8 == 0 || ((struct Obj22564 *)r)->f0 == 0) {
-        func_0207C9D0((Vec *)(q + 0x18), (Vec *)func_021F5464(*(char * *)&((struct Obj06411 *)q)->f58), &v);
+        VEC_Add((Vec *)(q + 0x18), (Vec *)func_021F5464(*(char * *)&((struct Obj06411 *)q)->f58), &v);
         func_021F4E8C(((struct Obj08031 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), &v);
     }
     t->b = -0x3000;

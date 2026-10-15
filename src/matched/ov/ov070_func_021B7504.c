@@ -14,7 +14,7 @@
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   ITEMMENU_ClearMessageWindow  0x021BA9AC  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
- *   func_020414EC  0x020414EC  arm
+ *   BG_SYS_ClearSlot  0x020414EC  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   func_020355C4  0x020355C4  arm
@@ -40,7 +40,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void ITEMMENU_ClearMessageWindow(char *p);
 extern void ITEMMENU_SetTask(char *p, int k);
-extern void func_020414EC(u32 i);
+extern void BG_SYS_ClearSlot(u32 i);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
 extern u8 func_020355C4(void);
@@ -59,7 +59,7 @@ void ITEMMENU_TaskActionMenuInput(Obj *o)
         ITEMMENU_SetTask((char *)o, 0);
     } else {
         ITEMMENU_ClearMessageWindow((char *)o);
-        func_020414EC(3);
+        BG_SYS_ClearSlot(3);
         CLACT_SetActorAutoAnim(o->f6A8, 1);
         ITEMMENU_UpdateSideButtons((int)o, 1);
         if (func_020355C4() == 1) {

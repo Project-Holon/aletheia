@@ -1,5 +1,5 @@
 /*
- * function: func_02213894
+ * function: WIFIBATTLEMATCH_SYS_HandleNetState
  * address: 0x02213894
  * packet: pkt_ov199_02213894
  * region: ov199
@@ -69,7 +69,7 @@ extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
 
-int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
+int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
 {
     u32 st = PROCSYS_Main(wk->f0);
 

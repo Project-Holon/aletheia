@@ -23,10 +23,10 @@
  *   func_0221336C 0x0221336C thumb ov199
  *   func_022136E4 0x022136E4 thumb ov199
  *   func_02213808 0x02213808 thumb ov199
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200BAC8 0x0200BAC8 thumb
+ *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
  *   func_020307B0 0x020307B0 arm
  *   d_02213D00 0x02213D00 data a1 ov199
@@ -52,10 +52,10 @@ extern void BATTLE_REC_AllocWork(unsigned);
 extern void func_0221336C(char *, int);
 extern void *func_022136E4(void *, void *, void *, int);
 extern void func_02213808(char *p, int value);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200BAC8(void *);
+extern void *BATTLE_BOX_GetFromSave(void *);
 extern void *func_0200BAF4(int a0, int a1);
 extern u32 func_020307B0(void *p);
 extern const char d_02213D00[];
@@ -101,11 +101,11 @@ int func_02212560(void *a, int unused, u8 *arg)
     dst = *(u8 * *)&((struct Obj01177 *)p)->f28;
     switch (((struct Obj01177 *)p)->f10) {
     case 0:
-        v = func_02012934(((struct Obj01177 *)p)->f4);
+        v = GAME_DATA_GetMyParty(((struct Obj01177 *)p)->f4);
         MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
-        v = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj01177 *)p)->f4)), 0x8056);
+        v = func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj01177 *)p)->f4)), 0x8056);
         MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;

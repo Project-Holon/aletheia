@@ -29,7 +29,7 @@
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   PMSI_PARAM_Create  0x02024044  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   PMSI_PARAM_SetSentence  0x02024108  thumb
@@ -65,7 +65,7 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 struct Rec0200E6FC;
 extern void *func_0200E6F0(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
@@ -137,7 +137,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *c, void *vm)
     }
     w->win = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(heap), 1);
     if (w->hasMsg) {
-        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(sys))), w->msg, (struct Rec0200E6FC *)buf);
+        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(sys))), w->msg, (struct Rec0200E6FC *)buf);
         PMSI_PARAM_SetSentence(w->win, (const u16 *)buf);
     }
     SCRIPT_SYS_CallEvent(owner, task);

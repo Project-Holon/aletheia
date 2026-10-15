@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC68
+ * function: COMM_BTL_DEMO_GRAPHIC_Draw
  * address: 0x021BAC68
  * packet: pkt_ov213_021BAC68
  * region: ov213
@@ -11,13 +11,13 @@
  * EXACT* tail: two zero alignment bytes after the function.
  * Preserve the pointer explicitly loaded before the no-op/global helper call.
  * symbols:
- *   func_021BADB4 0x021BADB4 thumb ov213
- *   func_021BAD4C 0x021BAD4C thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_DrawClact 0x021BADB4 thumb ov213
+ *   COMM_BTL_DEMO_GRAPHIC_Noop 0x021BAD4C thumb ov213
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_021BADB4(void *);
-extern void func_021BAD4C(void *);
-void func_021BAC68(char *p) { func_021BADB4(p+4); func_021BAD4C(p); }
+extern void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *);
+extern void COMM_BTL_DEMO_GRAPHIC_Noop(void *);
+void COMM_BTL_DEMO_GRAPHIC_Draw(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawClact(p+4); COMM_BTL_DEMO_GRAPHIC_Noop(p); }

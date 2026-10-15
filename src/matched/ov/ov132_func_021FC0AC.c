@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F9DC4 0x021F9DC4 thumb ov132
+ *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   func_02030734 0x02030734 arm
  *   func_021FADA0 0x021FADA0 thumb ov132
  *   func_021FC178 0x021FC178 thumb ov132
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void *func_021F9DC4(void *,u8);
+extern void *STA_ACTING_GetAnimSlot(void *,u8);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_021FADA0(char *,u32,u32,u32);
 extern void func_021FC178(int,char *);
@@ -45,7 +45,7 @@ int func_021FC0AC(int unused,char *p)
     h=VM_GetU32(((struct Obj02486 *)p)->f4);
     i=VM_GetU32(((struct Obj02486 *)p)->f4);
     j=VM_GetU32(((struct Obj02486 *)p)->f4);
-    target=func_021F9DC4(((struct Obj10560 *)owner)->f34,a);
+    target=STA_ACTING_GetAnimSlot(((struct Obj10560 *)owner)->f34,a);
     q=func_02030734(((struct Obj10560 *)owner)->f0,56,0,d_021FDD00,0x691);
     *(char * *)&((struct Obj01741 *)q)->f30=owner;
     ((struct Obj01741 *)q)->f10=target;

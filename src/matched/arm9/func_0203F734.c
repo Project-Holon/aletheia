@@ -13,7 +13,7 @@
  * 360: floor(x * 65535 / 360) for x < 360, else 0.  The unsigned guard
  * gives `movhs`, and mwcc emits the signed /360 magic (0xB60B60B7) because
  * the guard proves the product positive.  It is the witness that unblocks
- * the thumb caller func_02185D64.
+ * the thumb caller BEACON_DETAIL_CalcDistance.
  */
 
 typedef unsigned short u16;

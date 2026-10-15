@@ -1,5 +1,5 @@
 /*
- * function: func_0200BD48
+ * function: DAYCARE_AddSteps
  * address:  0x0200BD48
  * packet:   pkt_0200BD48
  * region:   arm9
@@ -23,7 +23,7 @@ typedef struct {
     u32 count;
 } E;
 
-void func_0200BD48(E *e, u32 add)
+void DAYCARE_AddSteps(E *e, u32 add)
 {
     int i;
     u64 v;

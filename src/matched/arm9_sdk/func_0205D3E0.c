@@ -1,5 +1,5 @@
 /*
- * function: func_0205D3E0
+ * function: DWCi_AC_CheckFreespot
  * address:  0x0205D3E0
  * packet:   pkt_0205D3E0
  * region:   arm9
@@ -133,7 +133,7 @@ extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern int strncmp(const char *s1, const char *s2, unsigned long n);
 extern const unsigned char FREESPOT_SSID[8];
 
-unsigned char func_0205D3E0(WMBssDesc *bssdesc)
+unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc)
 {
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202616C  0x0202616C  thumb
- *   func_0220B000  0x0220B000  thumb  ov196
+ *   CURSOR_MOVE_GetEntry  0x0202616C  thumb
+ *   B_APP_TOOL_LayoutActors  0x0220B000  thumb  ov196
  *
  * Addresses are Black-image addresses.
  */
@@ -22,13 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0202616C(void **obj, u32 idx);
-extern void func_0220B000(int *p, u8 *q);
+extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
+extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
 
 void func_02211A24(u8 *p, u32 idx)
 {
-    void *t = func_0202616C(*(void ** *)&((struct Obj10855 *)p)->f2184, idx);
+    void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct Obj10855 *)p)->f2184, idx);
 
-    func_0220B000((int *)(((struct Obj10855 *)p)->f2188), (u8 *)((u32)t));
+    B_APP_TOOL_LayoutActors((int *)(((struct Obj10855 *)p)->f2188), (u8 *)((u32)t));
 }
 

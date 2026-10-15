@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216909C",
+   "name": "DWCi_InitGPProcessCount",
    "address": "0x0216909C",
    "kind": "sdk",
    "region": "ov009",

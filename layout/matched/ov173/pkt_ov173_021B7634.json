@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B7634",
-    "func_021B764C"
+    "POKE_SUMMARY_ANIM_ShowTextKind5",
+    "POKE_SUMMARY_ANIM_Finish"
+   ],
+   "addresses": [
+    "0x021B7634",
+    "0x021B764C"
    ]
   }
  ]

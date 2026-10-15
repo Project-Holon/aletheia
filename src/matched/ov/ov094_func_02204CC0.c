@@ -111,6 +111,8 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  *   MIi_CpuCopy16  0x02082A60  arm  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -143,7 +145,7 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
@@ -170,7 +172,7 @@ extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int 
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern int BTLV_INPUT_GetNeighbourIndex(int a, int b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern u32 func_0201ED04(struct WordSet *p);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 typedef struct Work {
@@ -230,7 +232,7 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
     str1 = STRBUF_Create(0x10, p->heap);
     m0 = func_02045EC0(p->msgdata, 0);
     m1 = func_02045EC0(p->msgdata, 1);
-    font = (int)func_0201EC64(p->heap);
+    font = (int)GF_FONT_Create_EC64(p->heap);
     str2 = STRBUF_Create(0x10, p->heap);
     m2 = func_02045EC0(p->msgdata, 2);
     CLACT_SetUnitDrawEnable(p->sys, 0);
@@ -280,7 +282,7 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
     if (p->mode == 2) {
         p->f25a[i + 1] = 1;
     }
-    func_0201ED04((struct WordSet *)font);
+    WORDSET_DeleteStrbufED04((struct WordSet *)font);
     STRBUF_Delete(str1);
     STRBUF_Delete(m1);
     STRBUF_Delete(m0);

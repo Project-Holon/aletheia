@@ -1,5 +1,5 @@
 /*
- * function: func_021C5A60
+ * function: WF2DMAP_SCRDRAW_UpdatePosition
  * address: 0x021C5A60
  * packet: pkt_ov127_021C5A60
  * region: ov127
@@ -18,28 +18,28 @@
  *       it[index].x=x<<12; p=&it[index]; p->y=y<<12;
  *   }
  * symbols:
- *   func_021C59E4 0x021C59E4 thumb ov127
- *   func_021C59EC 0x021C59EC thumb ov127
- *   func_021C5B0C 0x021C5B0C thumb ov127
+ *   WF2DMAP_SCRDRAW_GetPointY 0x021C59E4 thumb ov127
+ *   WF2DMAP_SCRDRAW_GetPointX 0x021C59EC thumb ov127
+ *   WF2DMAP_SCRDRAW_SetScroll 0x021C5B0C thumb ov127
  *   CLACT_SetSurfacePos 0x0204B09C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern int func_021C59E4(const s16 *p);
-extern int func_021C59EC(const s16 *p);
+extern int WF2DMAP_SCRDRAW_GetPointY(const s16 *p);
+extern int WF2DMAP_SCRDRAW_GetPointX(const s16 *p);
 extern void CLACT_SetSurfacePos(void *,int,void *);
-extern void func_021C5B0C(char *p, int x, int y);
-void func_021C5A60(char *p,void *q)
+extern void WF2DMAP_SCRDRAW_SetScroll(char *p, int x, int y);
+void WF2DMAP_SCRDRAW_UpdatePosition(char *p,void *q)
 {
     int y,x;
     struct { s16 x,y; } pos;
-    y=func_021C59E4(q);
-    x=func_021C59EC(q);
+    y=WF2DMAP_SCRDRAW_GetPointY(q);
+    x=WF2DMAP_SCRDRAW_GetPointX(q);
     pos.x=x;
     pos.y=y;
     if(*(int *)(p+16)==0) CLACT_SetSurfacePos(*(void **)p,0,&pos);
     else { pos.y+=192; CLACT_SetSurfacePos(*(void **)p,1,&pos); }
-    func_021C5B0C(p,x,y);
+    WF2DMAP_SCRDRAW_SetScroll(p,x,y);
 }

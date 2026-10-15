@@ -1,5 +1,5 @@
 /*
- * function: func_020760B4
+ * function: CARDi_InitCommand
  * address:  0x020760B4
  * packet:   pkt_020760B4
  * region:   arm9
@@ -76,7 +76,7 @@ extern void DC_FlushRange(void *startAddr, u32 nBytes);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void CARDi_OnFifoRecv(int tag, u32 data, BOOL err);
 
-void func_020760B4(void)
+void CARDi_InitCommand(void)
 {
     CARDiCommon *p = &cardi_common;
 

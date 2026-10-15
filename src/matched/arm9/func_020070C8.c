@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BACKUP_SYSTEM_Load  0x02031AE0  arm
- *   func_0200A5F8  0x0200A5F8  thumb
- *   func_0200A7EC  0x0200A7EC  thumb
+ *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
+ *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
  *   func_02008784  0x02008784  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020072A4  0x020072A4  thumb
@@ -35,9 +35,9 @@ typedef unsigned int  u32;
 
 struct State;
 extern int  BACKUP_SYSTEM_Load(struct State *v, u32 mode);
-extern void *func_0200A5F8(void *self);
+extern void *MUSICAL_SAVE_GetFromSave(void *self);
 struct Big;
-extern void func_0200A7EC(struct Big *h, u8 v);
+extern void MUSICAL_SAVE_SetHasDistData(struct Big *h, u8 v);
 extern int func_02008784(void *sys, u32 index);
 struct Ctrl;
 extern u32  SAVE_CONTROL_LoadExtraSave(struct Ctrl *self, u32 a, u8 heap);
@@ -58,15 +58,15 @@ int SAVE_CONTROL_Reload(char *self)
     }
     {
         ((struct Obj00370 *)self)->f1 = 1;
-        h = func_0200A5F8(self);
-        func_0200A7EC(h, 0);
+        h = MUSICAL_SAVE_GetFromSave(self);
+        MUSICAL_SAVE_SetHasDistData(h, 0);
         if (func_02008784(self, 6) == 1) {
             int r = SAVE_CONTROL_LoadExtraSave((struct Ctrl *)self, 6, 1);
 
             func_020072A4((struct Sub020072A4Ctrl *)self, 6);
             if (r != 1 && r != 2)
                 goto bits;
-            func_0200A7EC(h, 1);
+            MUSICAL_SAVE_SetHasDistData(h, 1);
         }
 bits:
         if (*(int *)&((struct Obj00370 *)self)->fC != 0) {

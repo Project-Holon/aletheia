@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02012138 0x02012138 thumb
+ *   ICA_ANIME_GetField24 0x02012138 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041F6C 0x02041F6C arm
  *   func_02041FB0 0x02041FB0 arm
@@ -38,28 +38,28 @@
  *   func_020056A0 0x020056A0 thumb
  *   sResultVramBankConfig 0x021B89D8 data a4
  *   func_02030EAC 0x02030EAC arm
- *   func_0203F8F4 0x0203F8F4 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0203FCA0 0x0203FCA0 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02040C14 0x02040C14 arm
+ *   BG_SYS_Init 0x02040C14 arm
  *   func_02049740 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   sResultDisplayConfig 0x021B8964 data ov105 a4
  *   sResultBackgroundLayers 0x021B89B8 data a4
  *   sResultBackgroundTemplates 0x021B8A08 data ov105 a4
  *   sResultBackgroundTypes 0x021B8998 data ov105 a4
- *   func_0203FB44 0x0203FB44 arm
+ *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_0203F9B4 0x0203F9B4 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -83,7 +83,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_0201ED04 0x0201ED04 thumb
+ *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -125,6 +125,8 @@
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
+ *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
+ *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  */
 #include "irc_result_types.h"
 
@@ -198,7 +200,7 @@ typedef struct IrcRankFadeRow {
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
-extern u32 func_02012138(const void *gameSystem);
+extern u32 ICA_ANIME_GetField24(const void *gameSystem);
 extern void func_0201F73C(void *window, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
@@ -215,24 +217,24 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void *func_020056A0(IrcTaskProc proc,void *work,int priority);
 extern void func_02030EAC(void *task);
-extern void func_0203F8F4(int);
+extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
+extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void func_020414AC(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_020498F4(void *,int,int,int,int,int,int);
-extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void *func_02049740(void *,int,int,int,int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32,u32,u32);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
-extern void func_0203F9B4(void);
+extern void BG_SYS_Delete(void);
 extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, const void *config, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -260,8 +262,8 @@ extern void func_0201DD60(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern void func_0201ED04(struct WordSet *);
+extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern void WORDSET_DeleteStrbufED04(struct WordSet *);
 extern void MSGDATA_Delete(struct MsgBank *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_Delete(void *);
@@ -301,7 +303,7 @@ extern int func_02061CA4(u32 target, u32 offset, const void *src, int size);
 
 extern void *GAMESYSTEM_GetGameData(const void *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(void *gameData);
-extern void *func_0200A8A0(struct SaveControl *);
+extern void *IRC_RANKING_GetFromSave(struct SaveControl *);
 extern u32 func_02008530(const u8 *key);
 extern int func_0200A9A4(void *record, u32 v);
 extern struct ItemBag *GAME_DATA_GetMyItem(void *gameData);
@@ -386,7 +388,7 @@ int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context)
     work->context=context;
     IRC_RESULT_InitScreen(&work->screen,60);
     IRC_RESULT_InitTextSystem(&work->text,0,60);
-    if(work->context->gameSystem) func_02012138(work->context->gameSystem);
+    if(work->context->gameSystem) ICA_ANIME_GetField24(work->context->gameSystem);
     IRC_RESULT_InitMessageWindow(&work->messageWindow,5,1,18,30,5,5,60);
     func_0201F73C(work->messageWindow.window,0,(u16)(work->screen.bgCharRegion),6);
     IRC_RESULT_InitTextWindow(&work->captionWindow,7,6,3,20,5,8,1,1,60);
@@ -492,10 +494,10 @@ void IRC_RESULT_InitBackgrounds(IrcResultScreen *screen,int heapId)
 {
     int i,id;
     void *archive;
-    func_0203F8F4(heapId); BMP_WIN_Init(heapId); func_0203FC28((struct DispConfig *)sResultDisplayConfig);
+    BG_SYS_Create(heapId); BMP_WIN_Init(heapId); func_0203FC28((struct DispConfig *)sResultDisplayConfig);
     for(i=0;i<8;++i) {
         id=sResultBackgroundLayers[i];
-        func_0203FCA0((u8)id,(const struct BgTemplate *)(sResultBackgroundTemplates+i*32),(u8)sResultBackgroundTypes[i]);
+        BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)(sResultBackgroundTemplates+i*32),(u8)sResultBackgroundTypes[i]);
         func_020414AC((u8)id); func_02040588((u8)id,1);
     }
     archive=func_020490F4(IRC_GRAPHICS_ARCHIVE_ID,heapId);
@@ -509,17 +511,17 @@ void IRC_RESULT_InitBackgrounds(IrcResultScreen *screen,int heapId)
     func_020498F4(archive,4,6,0,0,0,heapId);
     func_020498F4(archive,46,4,0,0,0,heapId);
     func_020498F4(archive,14,1,0,0,0,heapId);
-    func_02040C14(5,0,1,0);
+    BG_SYS_Init(5,0,1,0);
     screen->bgCharRegion=(u32)func_02049740(archive,49,5,0,0,heapId);
     ARC_TOOL_DeleteHandle(archive);
 }
 
 void IRC_RESULT_ExitBackgrounds(u32 *bgCharRegion) {
  int i;
- func_0203FB44(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16));
+ BG_SYS_DeleteHalf(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16));
  func_02040DA8(5,1,0);
  for(i=0;i<8;i++) func_020403F4((u8)sResultBackgroundLayers[i]);
- BMP_WIN_Exit(); func_0203F9B4();
+ BMP_WIN_Exit(); BG_SYS_Delete();
 }
 
 void IRC_RESULT_VBlankBackgrounds(void *unused) { func_020419E4(); }
@@ -587,10 +589,10 @@ void IRC_RESULT_InitTextSystem(IrcTextSystem *text, int fontStyle, int heapId) {
  }
  text->printQueue = PRINTSYS_QUE_Create(heapId);
  text->messages = func_02045B38(0, 2, 0x33, heapId);
- text->wordSet = func_0201EC64(heapId);
+ text->wordSet = GF_FONT_Create_EC64(heapId);
 }
 
-void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { func_0201ED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
+void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { WORDSET_DeleteStrbufED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
 
 u32 IRC_RESULT_RunPrintQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
 
@@ -964,7 +966,7 @@ int IRC_RESULT_GiveReward(IrcResult *work)
     void *src;
     int flag;
     int result=IRC_RESULT_REWARD_NONE;
-    record=func_0200A8A0(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
+    record=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
     partner=work->context->partner;
     key=partner->myStatus;
     if(!func_0200A9A4(record,func_02008530(key)) && work->context->gameSystem) {

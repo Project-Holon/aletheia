@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02095AA4",
+   "name": "strtod",
    "address": "0x02095AA4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02095F40",
+   "name": "strtol",
    "address": "0x02095F40",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020963F8",
+   "name": "strtoll",
    "address": "0x020963F8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096508",
+   "name": "fwide",
    "address": "0x02096508",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096578",
+   "name": "wcslen",
    "address": "0x02096578",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096594",
+   "name": "wcscpy",
    "address": "0x02096594",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02096620",
+   "name": "MSL_C_LIB_IncrementDigits",
    "address": "0x02096620",
    "kind": "game",
    "region": "arm9",

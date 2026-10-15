@@ -25,7 +25,7 @@
  *   POKELIST_ShowLearnMoveResult 0x021BA004 thumb ov091
  *   POKELIST_EndMessageToList 0x021B9E20 thumb ov091
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0202136C 0x0202136C thumb
+ *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_02009050 0x02009050 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0200902C 0x0200902C thumb
@@ -72,7 +72,7 @@ typedef unsigned int u32;
 extern void func_020409B4(u32 index);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern u32 func_0202136C(u16);
+extern u32 FILE_UTIL_Check136C(u16);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
