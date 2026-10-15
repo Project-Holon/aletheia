@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B63BC",
+   "name": "DUP_FITTING_Main",
    "address": "0x021B63BC",
    "kind": "game",
    "region": "ov133",

@@ -10,10 +10,10 @@
  * status: EXACT
  * symbols:
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217BBD4 0x0217BBD4 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_End 0x0217BBD4 thumb ov176
  */
 #include "../include/Obj14365.h"
 typedef unsigned char u8;
 extern void func_021E8AA0(int *,int);
-extern void func_0217BBD4(int);
-void func_0217D010(u8 *p,int v){((struct Obj14365 *)p)->f19C=v;func_021E8AA0(*(int * *)&((struct Obj14365 *)p)->f0,(int)func_0217BBD4);}
+extern void LIVEBATTLEMATCH_FLOW_End(int);
+void func_0217D010(u8 *p,int v){((struct Obj14365 *)p)->f19C=v;func_021E8AA0(*(int * *)&((struct Obj14365 *)p)->f0,(int)LIVEBATTLEMATCH_FLOW_End);}

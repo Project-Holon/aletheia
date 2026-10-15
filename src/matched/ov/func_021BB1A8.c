@@ -13,7 +13,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   unit_0201C440  0x0201C440  thumb
  *   TCBL_Create  0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *
  * Allocates eight objects and homes them in the block: four buffers of 0x17C,
  * 0x17C, 0x17C and 0xB4 bytes at +0xF4, +0xFC, +0xF0, +0xF8, two objects from
@@ -33,7 +33,7 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *unit_0201C440(int tag);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_02028590(int a, int b, int c, int d);
+extern void *APP_KEYCURSOR_CreateDefault(int a, int b, int c, int d);
 
 typedef struct {
     char pad[0xF0];
@@ -57,5 +57,5 @@ void WIFICLUB_CreateTextBuffers(char *s)
     ((struct Obj03526 *)s)->f1B8 = unit_0201C440(0x21);
     ((struct Obj03526 *)s)->f1B4 = unit_0201C440(0x21);
     ((struct Obj03526 *)s)->f1C0 = TCBL_Create(0x21, 0x21, 2, 0);
-    ((struct Obj03526 *)s)->f9B0 = func_02028590(0xF, 1, 0, 0x21);
+    ((struct Obj03526 *)s)->f9B0 = APP_KEYCURSOR_CreateDefault(0xF, 1, 0, 0x21);
 }

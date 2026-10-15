@@ -562,8 +562,6 @@ struct Rec3;
 
 struct Sub0204A9D0;
 
-typedef signed short s16_021DD1E0;
-
 typedef struct {u8 frame,x,y,pal;u16 chr;} WinDat;
 
 typedef unsigned long long u64;
@@ -654,7 +652,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-extern void PRINTSYS_PrintColor(void *, s16_021DD1E0, s16_021DD1E0, void *, void *, u16);
+extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
@@ -1171,8 +1169,8 @@ int GURU2_RECEIPT_StateWaitAnswers(char *p, int state) {
         GURU2_RECEIPT_Noop(p);
         return state;
     }
-    ++*(volatile s16_021DD1E0 *)&((struct Guru2MainCtx *)p)->f4820;
-    if (*(volatile s16_021DD1E0 *)&((struct Guru2MainCtx *)p)->f4820 > 30) {
+    ++*(volatile s16 *)&((struct Guru2MainCtx *)p)->f4820;
+    if (*(volatile s16 *)&((struct Guru2MainCtx *)p)->f4820 > 30) {
         int zero = 0;
         MI_CpuFill8(buf, 0, 4);
         buf[2] = 1;

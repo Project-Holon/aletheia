@@ -1,5 +1,5 @@
 /*
- * function: func_021BF228
+ * function: INTRO_MSG_Main
  * address: 0x021BF228
  * packet: pkt_ov204_021BF228
  * region: ov204
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Tcbl;struct PrintSys;
 extern void TCBL_Main(struct Tcbl*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys*);
-void func_021BF228(u8*p){TCBL_Main(*(struct Tcbl* *)&((struct Obj14621 *)p)->f18);PRINTSYS_QUE_Main(*(struct PrintSys* *)&((struct Obj14621 *)p)->f4);}
+void INTRO_MSG_Main(u8*p){TCBL_Main(*(struct Tcbl* *)&((struct Obj14621 *)p)->f18);PRINTSYS_QUE_Main(*(struct PrintSys* *)&((struct Obj14621 *)p)->f4);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6BA4
+ * function: DUP_FITTING_InitModels
  * address: 0x021B6BA4
  * packet: pkt_ov133_021B6BA4
  * region: ov133
@@ -47,7 +47,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32);
 #define H (*(u16 *)p)
 #define W(o) (*(u32 *)(p + (o)))
-void func_021B6BA4(u8 *p)
+void DUP_FITTING_InitModels(u8 *p)
 {
     Params cfg;
     void *g = func_020490F4(0x2e, H);

@@ -123,7 +123,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   POKETRADE_NEGO_SendOfferMon 0x021DF9E8 thumb ov119
  *   gPlayerNamePos     0x021E7704  data  a4
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -401,7 +401,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind);
 
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
@@ -801,7 +801,7 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
     t = gPlayerNamePos;
     u.a = ((TradeWork *)p)->trainerRecord;
     u.b = ((TradeWork *)p)->playerStatus;
-    func_02049B40(func_020275E4(), 0x1F, 0, 0x1A0, 0x20, ((TradeWork *)p)->heapId);
+    func_02049B40(APP_ICON_GetArchiveId(), 0x1F, 0, 0x1A0, 0x20, ((TradeWork *)p)->heapId);
     if ((*(void * *)&((TradeWork *)p)->nameRowWin) != 0) {
         BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->nameRowWin));
         BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->valueRowWin));

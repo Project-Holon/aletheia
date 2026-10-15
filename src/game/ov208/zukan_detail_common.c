@@ -81,47 +81,22 @@
  *   ZUKAN_DETAIL_COMMON_LoadPaletteToSlot 0x021BC738 thumb ov208
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteRange  0x021BC9BC  thumb  ov208
  */
-#include "../../matched/include/Obj03064.h"
-#include "../../matched/include/Obj18183.h"
-#include "../../matched/include/Obj25414.h"
-#include "../../matched/include/Obj01178.h"
-#include "../../matched/include/Obj02544.h"
-#include "../../matched/include/Obj04893.h"
-#include "../../matched/include/Obj18185.h"
-#include "../../matched/include/Obj18186.h"
-#include "../../matched/include/Obj18187.h"
-#include "../../matched/include/Obj18188.h"
-#include "../../matched/include/Obj18189.h"
-#include "../../matched/include/Obj02252.h"
-#include "../../matched/include/Obj12112.h"
-#include "../../matched/include/Obj07226.h"
 #include "zukan_detail_shared_types.h"
-
-struct Obj02021EE4;
 
 struct PalAnmSlot;
 
-struct S02021D50;
-
-struct Ov208Cur;
-
+/*
+ * Brightness/blend controller, 0x14 bytes, one per engine, allocated by
+ * ZUKAN_DETAIL_COMMON_AllocBlendWork. plane1/plane2 are the two BLDCNT plane
+ * masks, brightness the current blend level (0 none to 16 full), step the
+ * per-frame delta and wait the per-frame delay.
+ */
 struct Ov208Blend {
     int plane1;
     int plane2;
-    int ev;
+    int brightness;
     int step;
     int wait;
-};
-
-typedef struct {void *task,*memory,*slots;u16 mask,pad;u32 mode;} PalFade;
-
-struct Ov208Gfx { int f0; int f4; void *gfx; };
-
-struct Ov208PalFade {
-    u32 f0;
-    u32 f4;
-    void *slots;
-    u16 mask;
 };
 
 struct Ov208BgArc {
@@ -130,10 +105,16 @@ struct Ov208BgArc {
     u32 size;
 };
 
+/*
+ * Palette window object, 8 bytes, returned by
+ * ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc: chrOfs is the character base of the
+ * uploaded palette, layer the BG layer it was loaded into and flashTimer a
+ * per-frame countdown that drives the flash effect (4 down to 0).
+ */
 struct Ov208Win {
     u32 chrOfs;
     u8  layer;
-    u8  kind;
+    u8  flashTimer;
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -152,7 +133,7 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 
 extern void *PALANM_Create(u32);
 
-extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(void *o, int v);
 
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
@@ -166,7 +147,7 @@ extern void TCB_Main(struct Ctx *c);
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-extern void PALANM_TransferPalettes(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(void *p);
 
 extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 
@@ -228,43 +209,43 @@ void ZUKAN_DETAIL_COMMON_StartBlendIn(struct Ov208Blend *p);
 
 void ZUKAN_DETAIL_COMMON_StartBlendOut(struct Ov208Blend *p);
 
-void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, int *p);
+void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, struct Ov208Blend *p);
 
-void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, int *p);
+void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, struct Ov208Blend *p);
 
-void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p);
+void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(struct Ov208Blend *p);
 
-void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, int *p);
+void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, struct Ov208Blend *p);
 
-PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask);
+struct Ov208PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask);
 
 void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap);
 
-void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p);
+void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(char *p);
+void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_TransferPalettes(char *p);
+void ZUKAN_DETAIL_COMMON_TransferPalettes(struct Ov208PalFade *p);
 
-int ZUKAN_DETAIL_COMMON_IsFadeBusy(char *p);
+int ZUKAN_DETAIL_COMMON_IsFadeBusy(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_StartFadeOut(char *p);
+void ZUKAN_DETAIL_COMMON_StartFadeOut(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(char *p);
+void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_StartFadeIn(char *p);
+void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 
 void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_RequestFade(char *p,short b,unsigned char c,unsigned char d);
+void ZUKAN_DETAIL_COMMON_RequestFade(struct Ov208PalFade *p, short b, unsigned char c, unsigned char d);
 
 struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
 
-void ZUKAN_DETAIL_COMMON_FreeBgPalette(char *p);
+void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p);
 
-void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p);
+void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p);
 
 u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs, u32 arc, u32 chr, u32 scr, u32 cell, u32 chrOfs);
 
@@ -404,17 +385,17 @@ void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *main, struct Ov208B
         if (p->step != 0) {
             if (p->wait == 0) {
                 p->wait = 0;
-                p->ev += p->step;
+                p->brightness += p->step;
                 if (p->step > 0) {
-                    if (p->ev >= 16) {
-                        p->ev = 16;
+                    if (p->brightness >= 16) {
+                        p->brightness = 16;
                         p->step = 0;
                     }
-                } else if (p->ev <= 0) {
-                    p->ev = 0;
+                } else if (p->brightness <= 0) {
+                    p->brightness = 0;
                     p->step = 0;
                 }
-                ZUKAN_DETAIL_COMMON_ApplyBrightness(i, (int *)p);
+                ZUKAN_DETAIL_COMMON_ApplyBrightness(i, p);
             } else {
                 p->wait--;
             }
@@ -431,65 +412,65 @@ int ZUKAN_DETAIL_COMMON_IsBlendBusy(struct Ov208Blend *p)
 
 void ZUKAN_DETAIL_COMMON_StartBlendIn(struct Ov208Blend *p)
 {
-    p->ev = 0;
+    p->brightness = 0;
     p->step = 2;
     p->wait = 0;
 }
 
 void ZUKAN_DETAIL_COMMON_StartBlendOut(struct Ov208Blend *p)
 {
-    p->ev = 16;
+    p->brightness = 16;
     p->step = -2;
     p->wait = 0;
 }
 
-void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, int *p)
+void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, struct Ov208Blend *p)
 {
-    p[2] = 0x10;
-    p[3] = 0;
-    p[4] = 0;
+    p->brightness = 0x10;
+    p->step = 0;
+    p->wait = 0;
     ZUKAN_DETAIL_COMMON_ApplyBrightness(flag, p);
 }
 
-void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, int *p)
+void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, struct Ov208Blend *p)
 {
-    p[2] = 0;
-    p[3] = 0;
-    p[4] = 0;
+    p->brightness = 0;
+    p->step = 0;
+    p->wait = 0;
     ZUKAN_DETAIL_COMMON_ApplyBrightness(flag, p);
 }
 
 /*
- * Writes 0x2D to the first two words.
+ * Writes 0x2D to the two BLDCNT plane masks.
  */
-void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p)
+void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(struct Ov208Blend *p)
 {
-    p[0] = 0x2d;
-    p[1] = 0x2d;
+    p->plane1 = 0x2d;
+    p->plane2 = 0x2d;
 }
 
-void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, int *p)
+void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, struct Ov208Blend *p)
 {
     if (flag == 0) {
-        func_0207D67C(0x04000050, p[0], p[1], p[2], 0, p[2] - 0x10);
+        func_0207D67C(0x04000050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
     } else {
-        func_0207D67C(0x04001050, p[0], p[1], p[2], 0, p[2] - 0x10);
+        func_0207D67C(0x04001050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
     }
 }
 
-PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask)
+struct Ov208PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask)
 {
-    PalFade *p=func_02030734(heap,20,1,d_021C8D98,0x1e5);
+    struct Ov208PalFade *p=func_02030734(heap,20,1,d_021C8D98,0x1e5);
     p->memory=func_02030734(heap,func_02030CB0(2),1,d_021C8D98,0x1e8);
-    p->task=func_02030CBC(2,p->memory);
+    p->tcb=func_02030CBC(2,p->memory);
     p->slots=PALANM_Create(heap);
     PALANM_SetAutoTransfer(p->slots,1);
-    p->mask=mask;
-    if(p->mask&1)PALANM_AllocSlotBuffers(p->slots,0,0x1a0,heap);
-    if(p->mask&4)PALANM_AllocSlotBuffers(p->slots,2,0x100,heap);
-    if(p->mask&2)PALANM_AllocSlotBuffers(p->slots,1,0x1a0,heap);
-    if(p->mask&8)PALANM_AllocSlotBuffers(p->slots,3,0x1c0,heap);
-    p->mode=0;
+    p->slotMask=mask;
+    if(p->slotMask&1)PALANM_AllocSlotBuffers(p->slots,0,0x1a0,heap);
+    if(p->slotMask&4)PALANM_AllocSlotBuffers(p->slots,2,0x100,heap);
+    if(p->slotMask&2)PALANM_AllocSlotBuffers(p->slots,1,0x1a0,heap);
+    if(p->slotMask&8)PALANM_AllocSlotBuffers(p->slots,3,0x1c0,heap);
+    p->fadeState=0;
     return p;
 }
 
@@ -498,109 +479,109 @@ void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap)
     return ZUKAN_DETAIL_COMMON_CreatePaletteAnim(heap, 0xf);
 }
 
-void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p)
+void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p)
 {
-    if(((struct Obj02544 *)p)->fC&8)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,3);
-    if(((struct Obj02544 *)p)->fC&2)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,1);
-    if(((struct Obj02544 *)p)->fC&4)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,2);
-    if(((struct Obj02544 *)p)->fC&1)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,0);
-    PALANM_Delete(((struct Obj02544 *)p)->f8);
-    TCB_Noop(((struct Obj02544 *)p)->f0);
-    func_020307B0((void *)(((struct Obj02544 *)p)->f4));
+    if(p->slotMask&8)PALANM_FreeSlotBuffers(p->slots,3);
+    if(p->slotMask&2)PALANM_FreeSlotBuffers(p->slots,1);
+    if(p->slotMask&4)PALANM_FreeSlotBuffers(p->slots,2);
+    if(p->slotMask&1)PALANM_FreeSlotBuffers(p->slots,0);
+    PALANM_Delete(p->slots);
+    TCB_Noop(p->tcb);
+    func_020307B0(p->memory);
     func_020307B0((void *)((unsigned)p));
 }
 
 /*
- * Releases +0 and re-checks the handle at +8 for the two armed states at +0x10.
+ * Releases the TCB at +0 and re-checks the PALANM handle at +8 for the two
+ * armed fade states at +0x10.
  */
-void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(char *p)
+void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(struct Ov208PalFade *p)
 {
-    TCB_Main((struct Ctx *)(((struct Obj04893 *)p)->f0));
-    switch (((struct Obj04893 *)p)->f10) {
+    TCB_Main(p->tcb);
+    switch (p->fadeState) {
     case 0:
     case 1:
         break;
     case 2:
-        if (PALANM_GetFadeRequestBits((const char *)(((struct Obj04893 *)p)->f8)) == 0)
-            ((struct Obj04893 *)p)->f10 = 0;
+        if (PALANM_GetFadeRequestBits((const char *)p->slots) == 0)
+            p->fadeState = 0;
         break;
     case 3:
-        if (PALANM_GetFadeRequestBits((const char *)(((struct Obj04893 *)p)->f8)) == 0)
-            ((struct Obj04893 *)p)->f10 = 1;
+        if (PALANM_GetFadeRequestBits((const char *)p->slots) == 0)
+            p->fadeState = 1;
         break;
     }
 }
 
 /*
- * Loads the word at +8 and tail-calls the function at 0x02021D51 (the thumb
- * address of the ARM9 function at 0x02021D50).
+ * Passes the PALANM handle at +8 on to the ARM9 transfer at 0x02021D50.
  */
-void ZUKAN_DETAIL_COMMON_TransferPalettes(char *p)
+void ZUKAN_DETAIL_COMMON_TransferPalettes(struct Ov208PalFade *p)
 {
-    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj18185 *)p)->f8));
+    PALANM_TransferPalettes(p->slots);
 }
 
 /*
- * True when the word at +0x10, less two, is 0 or 1.
+ * True when the fade state at +0x10, less two, is 0 or 1.
  */
-int ZUKAN_DETAIL_COMMON_IsFadeBusy(char *p)
+int ZUKAN_DETAIL_COMMON_IsFadeBusy(struct Ov208PalFade *p)
 {
-    unsigned int v = ((struct Obj18186 *)p)->f10;
+    unsigned int v = p->fadeState;
 
     v -= 2;
     return v <= 1;
 }
 
-void ZUKAN_DETAIL_COMMON_StartFadeOut(char *p)
+void ZUKAN_DETAIL_COMMON_StartFadeOut(struct Ov208PalFade *p)
 {
     if (ZUKAN_DETAIL_COMMON_IsFadeBusy(p))
         return;
     ZUKAN_DETAIL_COMMON_RequestFade(p, -1, 0x10, 0);
-    ((struct Obj18187 *)p)->f10 = 2;
+    p->fadeState = 2;
 }
 
-void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(char *p)
+void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(struct Ov208PalFade *p)
 {
     if (ZUKAN_DETAIL_COMMON_IsFadeBusy(p))
         return;
     ZUKAN_DETAIL_COMMON_RequestFade(p, -1, 0, 0x10);
-    ((struct Obj18188 *)p)->f10 = 3;
+    p->fadeState = 3;
 }
 
 /*
  * Runs the idle transition with 0x10 twice and marks state 1.
  */
-void ZUKAN_DETAIL_COMMON_StartFadeIn(char *p)
+void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p)
 {
     if (ZUKAN_DETAIL_COMMON_IsFadeBusy(p))
         return;
     ZUKAN_DETAIL_COMMON_RequestFade(p, 0, 0x10, 0x10);
-    ((struct Obj18189 *)p)->f10 = 1;
+    p->fadeState = 1;
 }
 
-void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g)
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g)
 {
-    PALANM_LoadHandlePaletteToSlotAt(p->gfx, (void *)a, b, c, d, e, f, g);
+    PALANM_LoadHandlePaletteToSlotAt(p->slots, (void *)a, b, c, d, e, f, g);
 }
 
 void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p)
 {
-    if (p->mask & 1)
+    if (p->slotMask & 1)
         PALANM_CopyHwPaletteToSlot(p->slots, 0, 0, 0x1a0);
-    if (p->mask & 4)
+    if (p->slotMask & 4)
         PALANM_CopyHwPaletteToSlot(p->slots, 2, 0, 0x100);
-    if (p->mask & 2)
+    if (p->slotMask & 2)
         PALANM_CopyHwPaletteToSlot(p->slots, 1, 0, 0x1a0);
-    if (p->mask & 8)
+    if (p->slotMask & 8)
         PALANM_CopyHwPaletteToSlot(p->slots, 3, 0, 0x1c0);
 }
 
-void ZUKAN_DETAIL_COMMON_RequestFade(char *p,short b,unsigned char c,unsigned char d)
+void ZUKAN_DETAIL_COMMON_RequestFade(struct Ov208PalFade *p, short b, unsigned char c, unsigned char d)
 {
-    if(((struct Obj02252 *)p)->fC&1)PALANM_RequestFade(((struct Obj02252 *)p)->f8,1,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
-    if(((struct Obj02252 *)p)->fC&4)PALANM_RequestFade(((struct Obj02252 *)p)->f8,4,0xff,b,c,d,0,((struct Obj02252 *)p)->f0);
-    if(((struct Obj02252 *)p)->fC&2)PALANM_RequestFade(((struct Obj02252 *)p)->f8,2,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
-    if(((struct Obj02252 *)p)->fC&8)PALANM_RequestFade(((struct Obj02252 *)p)->f8,8,0x3fff,b,c,d,0,((struct Obj02252 *)p)->f0);
+    if(p->slotMask&1)PALANM_RequestFade(p->slots,1,0x1fff,b,c,d,0,p->tcb);
+    if(p->slotMask&4)PALANM_RequestFade(p->slots,4,0xff,b,c,d,0,p->tcb);
+    if(p->slotMask&2)PALANM_RequestFade(p->slots,2,0x1fff,b,c,d,0,p->tcb);
+    if(p->slotMask&8)PALANM_RequestFade(p->slots,8,0x3fff,b,c,d,0,p->tcb);
 }
 
 struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal)
@@ -634,32 +615,33 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
     ARC_TOOL_DeleteHandle(h);
     func_02041B6C(layer);
     w->layer = layer;
-    w->kind = 4;
+    w->flashTimer = 4;
     return w;
 }
 
 /*
- * Passes the byte at +4 and the two halfwords of the word at +0 on, then re-inits the object.
+ * Passes the layer at +4 and the two halfwords of the character base at +0 on,
+ * then frees the window.
  */
-void ZUKAN_DETAIL_COMMON_FreeBgPalette(char *p)
+void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p)
 {
     unsigned int w;
 
-    w = ((struct Obj12112 *)p)->f0;
-    BG_SYS_DeleteHalf(((struct Obj12112 *)p)->f4, (unsigned short)w, (unsigned short)(w >> 16));
+    w = p->chrOfs;
+    BG_SYS_DeleteHalf(p->layer, (unsigned short)w, (unsigned short)(w >> 16));
     func_020307B0((void *)((int)p));
 }
 
-void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p)
+void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p)
 {
     unsigned char c;
 
-    c = ((struct Obj07226 *)p)->f5;
+    c = p->flashTimer;
     if (c == 0) {
-        BG_SYS_ResetSlot(((struct Obj07226 *)p)->f4, 1, 1);
-        ((struct Obj07226 *)p)->f5 = 4;
+        BG_SYS_ResetSlot(p->layer, 1, 1);
+        p->flashTimer = 4;
     } else {
-        ((struct Obj07226 *)p)->f5 = c - 1;
+        p->flashTimer = c - 1;
     }
 }
 

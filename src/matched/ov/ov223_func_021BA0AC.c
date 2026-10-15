@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0AC
+ * function: PSEL_InterpolateCurve
  * address: 0x021BA0AC
  * packet: pkt_ov223_021BA0AC
  * region: ov223
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
-int func_021BA0AC(s16 *pos,int *size,u16 a,u16 b,u8 c,u8 d,u8 e,u8 f,u32 duration,u8 amplitude,u32 time)
+int PSEL_InterpolateCurve(s16 *pos,int *size,u16 a,u16 b,u8 c,u8 d,u8 e,u8 f,u32 duration,u8 amplitude,u32 time)
 {
     float x,y,arc,scale;
     s16 px,py,result;

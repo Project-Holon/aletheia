@@ -1,5 +1,5 @@
 /*
- * function: func_021BB944
+ * function: PSEL_GRAPHIC_InitFadePalettes
  * address:  0x021BB944
  * packet:   pkt_021BB944
  * region:   ov223
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB540  0x021BB540  thumb  ov223
- *   func_021BB7A4  0x021BB7A4  thumb  ov223
+ *   PSEL_GRAPHIC_LoadFadeSources  0x021BB540  thumb  ov223
+ *   PSEL_GRAPHIC_LoadPaletteBuffers  0x021BB7A4  thumb  ov223
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern void func_021BB540(u8 *p);
-extern void func_021BB7A4(char *p);
+extern void PSEL_GRAPHIC_LoadFadeSources(u8 *p);
+extern void PSEL_GRAPHIC_LoadPaletteBuffers(char *p);
 
-void func_021BB944(char *p)
+void PSEL_GRAPHIC_InitFadePalettes(char *p)
 {
-    func_021BB540((u8 *)p);
-    func_021BB7A4(p);
+    PSEL_GRAPHIC_LoadFadeSources((u8 *)p);
+    PSEL_GRAPHIC_LoadPaletteBuffers(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6520
+ * function: Wf2dmapFriend_BuildEntryList
  * address: 0x021C6520
  * packet: pkt_ov128_021C6520
  * region: ov128
@@ -26,7 +26,7 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 struct Sub020097BCObj;
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-void func_021C6520(char *p)
+void Wf2dmapFriend_BuildEntryList(char *p)
 {
     int i;
     void *v;

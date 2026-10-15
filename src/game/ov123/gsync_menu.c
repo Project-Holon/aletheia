@@ -175,6 +175,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "gsync_menu_types.h"
 
@@ -426,7 +427,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern u32 func_02028590(u32,u32,u32,u32);
+extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 
@@ -1203,7 +1204,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->palBufMain = func_02030734(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
     work->palBufSub = func_02030734(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 3, 0);
-    work->keyCursor = func_02028590(15, 0, 1, work->heapId);
+    work->keyCursor = APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
     func_0207D63C((void *)0x04001050, 4, 1, 15, 4);

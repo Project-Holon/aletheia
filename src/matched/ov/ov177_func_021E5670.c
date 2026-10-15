@@ -1,5 +1,5 @@
 /*
- * function: func_021E5670
+ * function: WIFIBATTLEMATCH_GRAPHIC_VBlankClact
  * address:  0x021E5670
  * packet:   pkt_ov177_021E5670
  * region:   ov177
@@ -22,7 +22,7 @@ typedef signed int s32;
 
 extern void CLACT_VBlankSystem(void);
 
-void func_021E5670(int *a0)
+void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *a0)
 {
     CLACT_VBlankSystem();
 }

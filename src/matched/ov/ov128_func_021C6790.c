@@ -1,5 +1,5 @@
 /*
- * function: func_021C6790
+ * function: Wf2dmapFriend_DeleteBg
  * address:  0x021C6790
  * packet:   pkt_021C6790
  * region:   ov128
@@ -24,7 +24,7 @@ typedef signed int     s32;
 extern void func_020403F4(u32 i);
 extern void BG_SYS_Delete(void);
 
-void func_021C6790(u8 *a0)
+void Wf2dmapFriend_DeleteBg(u8 *a0)
 {
     int i;
     for (i = 0; i < 5; i++)

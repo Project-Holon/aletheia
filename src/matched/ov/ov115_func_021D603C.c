@@ -1,5 +1,5 @@
 /*
- * function: func_021D603C
+ * function: WIFILOGIN_MSG_CreateWork
  * address: 0x021D603C
  * packet: pkt_ov115_021D603C
  * region: ov115
@@ -11,11 +11,11 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021D4D38 0x021D4D38 thumb ov115
- *   func_021D5984 0x021D5984 thumb ov115
- *   func_021D6134 0x021D6134 thumb ov115
- *   func_021D6150 0x021D6150 thumb ov115
- *   func_021D5CCC 0x021D5CCC thumb ov115
+ *   WIFILOGIN_DISP_CreateDisplay 0x021D4D38 thumb ov115
+ *   WIFILOGIN_MSG_Create 0x021D5984 thumb ov115
+ *   WIFILOGIN_MSG_RunStep 0x021D6134 thumb ov115
+ *   WIFILOGIN_MSG_StepWipe 0x021D6150 thumb ov115
+ *   WIFILOGIN_MSG_ShowMessage 0x021D5CCC thumb ov115
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
@@ -29,14 +29,14 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
-extern u8 *func_021D4D38(u16 heap, u32 mode, int a2);
-extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
-extern void func_021D6134(void *a0, int a1, int a2);
-extern void func_021D6150(u8 *p);
-extern void func_021D5CCC(u8 *p, u32 n);
+extern u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int a2);
+extern u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode);
+extern void WIFILOGIN_MSG_RunStep(void *a0, int a1, int a2);
+extern void WIFILOGIN_MSG_StepWipe(u8 *p);
+extern void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-int func_021D603C(void *ctx,int unused,u8 *q) {
+int WIFILOGIN_MSG_CreateWork(void *ctx,int unused,u8 *q) {
     u8 *p;
     BOOL flag;
     GFL_HEAP_CreateChildHeap(1,121,0x18000);
@@ -45,11 +45,11 @@ int func_021D603C(void *ctx,int unused,u8 *q) {
     *(u8 * *)&((struct Obj03766 *)p)->f10=q;
     ((struct Obj03766 *)p)->f14=121;
     if(((struct Obj03767 *)q)->f10==0) ((struct Obj03767 *)q)->f10=6;
-    ((struct Obj03766 *)p)->f4=func_021D4D38(((struct Obj03766 *)p)->f14,*(int *)&((struct Obj03767 *)q)->f4,((struct Obj03767 *)q)->f8);
-    ((struct Obj03766 *)p)->f8=func_021D5984(((struct Obj03766 *)p)->f14,232,((struct Obj03767 *)q)->f8);
-    func_021D6134(p,(int)((void (*)(void))func_021D6150),173);
+    ((struct Obj03766 *)p)->f4=WIFILOGIN_DISP_CreateDisplay(((struct Obj03766 *)p)->f14,*(int *)&((struct Obj03767 *)q)->f4,((struct Obj03767 *)q)->f8);
+    ((struct Obj03766 *)p)->f8=WIFILOGIN_MSG_Create(((struct Obj03766 *)p)->f14,232,((struct Obj03767 *)q)->f8);
+    WIFILOGIN_MSG_RunStep(p,(int)((void (*)(void))WIFILOGIN_MSG_StepWipe),173);
     if(((struct Obj03767 *)q)->f4==0) {
-        func_021D5CCC(((struct Obj03766 *)p)->f8,36);
+        WIFILOGIN_MSG_ShowMessage(((struct Obj03766 *)p)->f8,36);
         if(((struct Obj03767 *)q)->fC==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);
     }
     if(*(u32 *)&((struct Obj03767 *)q)->f8==0) flag=FALSE; else flag=TRUE;

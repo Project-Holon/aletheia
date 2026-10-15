@@ -15,11 +15,11 @@
  *   widths of flagA/w24/h20/flagB, heap copies, pragmas and callee types.
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020275E4  0x020275E4  thumb
- *   func_020276A4  0x020276A4  thumb
- *   func_020276A8  0x020276A8  thumb
- *   func_020276AC  0x020276AC  thumb
- *   func_020276B0  0x020276B0  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetItemDataFileId  0x020276A4  thumb
+ *   APP_ICON_GetItemExtraFileId  0x020276A8  thumb
+ *   APP_ICON_GetItemAnim2FileId  0x020276AC  thumb
+ *   APP_ICON_GetItemFrame2FileId  0x020276B0  thumb
  *   func_0201BC3C  0x0201BC3C  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0201BC40  0x0201BC40  thumb
@@ -50,11 +50,11 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern void MI_CpuFill8(void *p, int v, u32 n);
-extern u32  func_020275E4(void);
-extern u32  func_020276A4(void);
-extern u32  func_020276A8(void);
-extern u32  func_020276AC(u32 a);
-extern u32  func_020276B0(u32 a);
+extern u32  APP_ICON_GetArchiveId(void);
+extern u32  APP_ICON_GetItemDataFileId(void);
+extern u32  APP_ICON_GetItemExtraFileId(void);
+extern u32  APP_ICON_GetItemAnim2FileId(u32 a);
+extern u32  APP_ICON_GetItemFrame2FileId(u32 a);
 typedef signed int     s32;
 struct Bmp;
 struct CharBuf;
@@ -108,11 +108,11 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s
     switch (mode) {
     case 0:
     case 1:
-        v40 = func_020275E4();
-        v3c = func_020276A4();
-        v38 = func_020276A8();
-        v34 = func_020276AC(2);
-        v30 = func_020276B0(2);
+        v40 = APP_ICON_GetArchiveId();
+        v3c = APP_ICON_GetItemDataFileId();
+        v38 = APP_ICON_GetItemExtraFileId();
+        v34 = APP_ICON_GetItemAnim2FileId(2);
+        v30 = APP_ICON_GetItemFrame2FileId(2);
         v1c = a2;
         break;
     case 2:

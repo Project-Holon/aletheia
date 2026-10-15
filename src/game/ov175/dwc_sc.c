@@ -1,7 +1,7 @@
 /*
  * file:     dwc_sc.c
  * unit:     yes
- * function: DWC_ScInitialize, DWC_ScShutdown, DWCi_ScCleanupRootCAList, DWC_ScProcess, DWC_ScCreateSessionAsync, DWCi_ScCreateSessionCallback, DWC_ScSetReportIntentionAsync, DWCi_ScSetReportIntentionCallback, DWC_ScSubmitReportAsync, DWCi_ScSubmitReportCallback, DWC_ScSetSessionId, DWC_ScGetSessionId, DWC_ScGetConnectionId, DWC_ScCreateReport, DWC_ScReportBeginGlobalData, DWC_ScReportBeginPlayerData, DWC_ScReportBeginTeamData, DWC_ScReportBeginNewPlayer, DWC_ScReportSetPlayerData, DWC_ScReportEnd, DWC_ScReportAddIntValue, func_021DF420, DWC_ScDestroyReport, DWC_ScGetLoginCertificate, DWCi_ScPrintf, DWCi_ScLoginCallback, DWCi_DWCScResultToDWCError, DWCi_ScGetRequestErrorCode, DWCi_HandleWSLoginError, DWCi_ScSetUseSSL
+ * function: DWC_ScInitialize, DWC_ScShutdown, DWCi_ScCleanupRootCAList, DWC_ScProcess, DWC_ScCreateSessionAsync, DWCi_ScCreateSessionCallback, DWC_ScSetReportIntentionAsync, DWCi_ScSetReportIntentionCallback, DWC_ScSubmitReportAsync, DWCi_ScSubmitReportCallback, DWC_ScSetSessionId, DWC_ScGetSessionId, DWC_ScGetConnectionId, DWC_ScCreateReport, DWC_ScReportBeginGlobalData, DWC_ScReportBeginPlayerData, DWC_ScReportBeginTeamData, DWC_ScReportBeginNewPlayer, DWC_ScReportSetPlayerData, DWC_ScReportEnd, DWC_ScReportAddIntValue, DWC_ScReportAddByteValue, DWC_ScDestroyReport, DWC_ScGetLoginCertificate, DWCi_ScPrintf, DWCi_ScLoginCallback, DWCi_DWCScResultToDWCError, DWCi_ScGetRequestErrorCode, DWCi_HandleWSLoginError, DWCi_ScSetUseSSL
  * address:  0x021DEE3C
  * region:   ov175
  * compiler: dsi/1.1p1
@@ -140,7 +140,7 @@ int DWC_ScReportSetPlayerData(SCIReport *report, unsigned int playerIndex, unsig
                   unsigned char *authHash);
 int DWC_ScReportEnd(SCIReport *report, int isAuthoritative, unsigned int gameStatus);
 int DWC_ScReportAddIntValue(SCIReport *report, int key, int value);
-int func_021DF420(SCIReport *report, int key, int value);
+int DWC_ScReportAddByteValue(SCIReport *report, int key, int value);
 int DWC_ScDestroyReport(SCIReport *report);
 int DWC_ScGetLoginCertificate(GSLoginCertificate **certificateOut);
 void DWCi_ScPrintf(int line, char *fmt, ...);
@@ -411,7 +411,7 @@ int DWC_ScReportAddIntValue(SCIReport *report, int key, int value)
 }
 
 /* DWC_ScReportAddByteValue: adds a key with a byte value to the current section. */
-int func_021DF420(SCIReport *report, int key, int value)
+int DWC_ScReportAddByteValue(SCIReport *report, int key, int value)
 {
     int result = scReportAddByteValue(report, key, value);
 

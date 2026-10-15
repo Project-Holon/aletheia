@@ -1,5 +1,5 @@
 /*
- * function: func_021BAEE0
+ * function: PSEL_DeleteWin
  * address: 0x021BAEE0
  * packet: pkt_ov223_021BAEE0
  * region: ov223
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Destroy(struct S02031140 *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021BAEE0(char *p)
+void PSEL_DeleteWin(char *p)
 {
     u8 i;
     if (*(struct Rec3 * *)&((struct Obj02266 *)p)->f250)

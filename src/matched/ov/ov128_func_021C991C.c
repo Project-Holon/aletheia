@@ -20,8 +20,8 @@
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintYesNoCancelLabels 0x021B6B2C thumb ov067
  *   WF2DMAP_TOUCH_PrintItem 0x021C9FC8 thumb ov128
- *   func_021C6C94 0x021C6C94 thumb ov128
- *   func_021C6C20 0x021C6C20 thumb ov128
+ *   Wf2dmapFriend_SetWordSlot 0x021C6C94 thumb ov128
+ *   Wf2dmapFriend_PrintTrainerStats 0x021C6C20 thumb ov128
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   WF2DMAP_TOUCH_TransferScreen 0x021CA4B4 thumb ov128
  *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
@@ -53,8 +53,8 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern void TOUCHBAR_PrintYesNoCancelLabels(u32 a0, void *a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6, u32 a7, u16 heap);
 extern void WF2DMAP_TOUCH_PrintItem(u8 *,void *,u8 *,u32,int,int,int);
-extern void func_021C6C94(char **,int);
-extern int func_021C6C20(u8 *,u8 *,int);
+extern void Wf2dmapFriend_SetWordSlot(char **,int);
+extern int Wf2dmapFriend_PrintTrainerStats(u8 *,u8 *,int);
 extern void BMP_WIN_TransferChars(struct Descriptor *),WF2DMAP_TOUCH_TransferScreen(char *);
 extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int POKEGRA_OpenTrainerHandle(int);
@@ -81,15 +81,15 @@ void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
     WF2DMAP_TOUCH_PrintItem(p+(offset+8),q,ctx,19,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+16),q,ctx,20,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+0x140,q,ctx,21,0,0,0x3C40);
-    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),2));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),2));
     WF2DMAP_TOUCH_PrintItem(p+(offset+32),q,ctx,22,0,0,0x3C40);
-    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),3));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),3));
     WF2DMAP_TOUCH_PrintItem(p+0x150,q,ctx,22,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+48),q,ctx,23,0,0,0x3C40);
-    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),4));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),4));
     WF2DMAP_TOUCH_PrintItem(p+0x160,q,ctx,24,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+=64),q,ctx,27,0,0,0x3C40);
-    if(func_021C6C20(ctx,q,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24))!=0)
+    if(Wf2dmapFriend_PrintTrainerStats(ctx,q,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24))!=0)
         WF2DMAP_TOUCH_PrintItem(p+0x170,q,ctx,28,0,0,0x3C40);
     else BMP_WIN_TransferChars(((struct Obj00773 *)p)->f170);
     for(i=0;i<10;i++) WF2DMAP_TOUCH_TransferScreen(*(char **)(p+i*8+0x128));

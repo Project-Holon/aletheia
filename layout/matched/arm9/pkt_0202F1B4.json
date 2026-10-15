@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202F1B4",
+   "name": "SAVE_EVENT_WriteMode",
    "address": "0x0202F1B4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202F47C",
+   "name": "SAVE_EVENT_SetDoneFlag",
    "address": "0x0202F47C",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA0AC",
+   "name": "PSEL_InterpolateCurve",
    "address": "0x021BA0AC",
    "kind": "game",
    "region": "ov223",

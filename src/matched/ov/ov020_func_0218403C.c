@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202E848  0x0202E848  thumb
+ *   COMM_PLAYER_SUPPORT_IsSeasonChanged  0x0202E848  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ZONEDATA_CreateAreaData  0x0201407C  thumb
@@ -22,7 +22,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int func_0202E848(int a0, int a1, int a2);
+extern int COMM_PLAYER_SUPPORT_IsSeasonChanged(int a0, int a1, int a2);
 struct Sub020140BCObj;
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 typedef unsigned int   u32;
@@ -39,7 +39,7 @@ void EVENT_MAPCHANGE_CheckSeasonChange(u8 *p)
     int flag;
     u16 hi;
 
-    func_0202E848(((struct Obj00082 *)p)->f4, (int)(&s[1]), (int)(&s[0]));
+    COMM_PLAYER_SUPPORT_IsSeasonChanged(((struct Obj00082 *)p)->f4, (int)(&s[1]), (int)(&s[0]));
     r4 = FIELDMAP_GetHeapId((u8 *)(*(int *)&((struct Obj00082 *)p)->f8));
     r6 = ZONEDATA_CreateAreaData(r4, ZONEDATA_GetAreaId(((struct Obj00082 *)p)->f14), 0);
     flag = 0;

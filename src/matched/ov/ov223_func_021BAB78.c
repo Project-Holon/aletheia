@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB78
+ * function: PSEL_InitBgLayers
  * address: 0x021BAB78
  * packet: pkt_ov223_021BAB78
  * region: ov223
@@ -23,7 +23,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_DrawTile(unsigned,unsigned,unsigned,unsigned,u8,u8);
 extern void func_02041B6C(unsigned);
-void func_021BAB78(u16 *p)
+void PSEL_InitBgLayers(u16 *p)
 {
     u8 col,row;
     u16 *buffer,index;

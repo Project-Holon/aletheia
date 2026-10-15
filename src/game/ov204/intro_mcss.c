@@ -1,7 +1,7 @@
 /*
  * file:     intro_mcss.c
  * unit:     yes
- * function: func_021BF594, func_021BF5E0, func_021BF610, func_021BF624
+ * function: INTRO_MCSS_Create, INTRO_MCSS_Delete, INTRO_MCSS_Main, INTRO_MCSS_AddSlot
  * address:  0x021BF594
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -15,8 +15,8 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   site 0x021C0AE4 data a1
- *   site_021C0AF0 0x021C0AF0 data ov204
+ *   gIntroSite 0x021C0AE4 data a1
+ *   gIntroMcssSite 0x021C0AF0 data ov204
  *   MCSS_SetPaletteTransAdrs 0x02016024 thumb
  *   MCSS_SetOrthoMode 0x02015BF0 thumb
  *   MCSS_Del 0x02015BA4 thumb
@@ -24,26 +24,22 @@
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
  *   defaultPos 0x021C08F0 data ov204
- *   func_021BF7F0 0x021BF7F0 thumb ov204
+ *   INTRO_G3D_OnAnimEnd 0x021BF7F0 thumb ov204
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_Init  0x02014B08  thumb  arm9
  *   MCSS_Add  0x020159C8  thumb  arm9
  *   MCSS_SetAnimCallback  0x02015F2C  thumb  arm9
  *   MCSS_SetTextureTransAdrs  0x02016020  thumb  arm9
  */
-#include "../../matched/include/Obj14626.h"
-#include "../../matched/include/Obj14627.h"
-#include "../../matched/include/Obj25390.h"
-#include "intro_cmd_shared_types.h"
-#include "intro_msg_shared_types.h"
+#include "intro_types.h"
 
+/* Opaque MCSS system (defined in arm9 mcss.c). */
 struct McssSys;
 
+/* Opaque source row for MCSS_Add. */
 struct Sub150;
 
-struct Vec { int v[3]; };
-
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
 extern u32 func_020307B0(void *p);
 
@@ -67,61 +63,62 @@ extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struc
 
 extern void MCSS_SetScale(void *p, u32 *src);
 
-extern void func_021BF7F0(u8 *p);
+extern void INTRO_G3D_OnAnimEnd(u8 *p);
 
 extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
-void *func_021BF594(unsigned int heap, int kind);
+void *INTRO_MCSS_Create(unsigned int heap, int kind);
 
-void func_021BF5E0(u8 *p);
+void INTRO_MCSS_Delete(u8 *p);
 
-void func_021BF610(u8 *p);
+void INTRO_MCSS_Main(u8 *p);
 
-void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i);
+void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i);
 
-extern const char site_021C0AF0[];
+extern const char gIntroMcssSite[];
 
-extern const struct Vec defaultPos;
+extern const IntroVec defaultPos;
 
-void *func_021BF594(unsigned int heap, int kind)
+void *INTRO_MCSS_Create(unsigned int heap, int kind)
 {
-    char *p = func_02030734(heap, 108, 1, site_021C0AF0, 98);
-    *(void **)(p + 4) = MCSS_Init(8, (void *)heap);
-    *(unsigned short *)p = heap;
+    IntroMcssWork *work = func_02030734(heap, 108, 1, gIntroMcssSite, 98);
+    work->sys = MCSS_Init(8, (void *)heap);
+    work->heapId = heap;
     if (kind != 7)
-        MCSS_SetTextureTransAdrs(*(void **)(p + 4), 7 << 16);
-    MCSS_SetPaletteTransAdrs(*(void **)(p + 4), 1 << 14);
-    MCSS_SetOrthoMode(*(void **)(p + 4));
-    return p;
+        MCSS_SetTextureTransAdrs(work->sys, 7 << 16);
+    MCSS_SetPaletteTransAdrs(work->sys, 1 << 14);
+    MCSS_SetOrthoMode(work->sys);
+    return work;
 }
 
-void func_021BF5E0(u8 *p)
+void INTRO_MCSS_Delete(u8 *p)
 {
+    IntroMcssWork *work = (IntroMcssWork *)p;
     int i;
-    for(i=0;i<8;i++)if(*(void **)((u32)p+(u32)i*12+8)!=0)MCSS_Del(((struct Obj14626 *)p)->f4,*(void **)((u32)p+(u32)i*12+8));
-    MCSS_Exit(*(u8 * *)&((struct Obj14626 *)p)->f4);
+    for(i=0;i<8;i++)if(work->slots[i].object!=0)MCSS_Del(work->sys,work->slots[i].object);
+    MCSS_Exit(work->sys);
     func_020307B0(p);
 }
 
-void func_021BF610(u8 *p)
+void INTRO_MCSS_Main(u8 *p)
 {
-    MCSS_Main(*(char * *)&((struct Obj14627 *)p)->f4);
-    MCSS_Draw(*(struct McssSys * *)&((struct Obj14627 *)p)->f4);
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    MCSS_Main(work->sys);
+    MCSS_Draw(work->sys);
 }
 
 /*
  * Enum zero preserves the clear before the indexed base add.
  */
-void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i)
+void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i)
 {
-    struct Vec pos = defaultPos;
-    char *base = p + 8;
-    unsigned int off = i * 12;
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    IntroVec pos = defaultPos;
     enum { Zero } zero;
-    *(void **)(base + off) = MCSS_Add(((struct Obj25390 *)p)->f4, a, b, c, d);
-    MCSS_SetScale(*(void **)(base + off), (u32 *)(&pos));
+    work->slots[i].object = MCSS_Add(work->sys, a, b, c, d);
+    MCSS_SetScale(work->slots[i].object, (u32 *)(&pos));
     zero = Zero;
-    *(unsigned int *)(p + off + 12) = zero;
-    *(unsigned int *)(p + off + 16) = 1;
-    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    work->slots[i].animFinished = zero;
+    work->slots[i].loopAnim = 1;
+    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
 }

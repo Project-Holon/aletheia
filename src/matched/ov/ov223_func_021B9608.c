@@ -1,5 +1,5 @@
 /*
- * function: func_021B9608
+ * function: PSEL_Init
  * address: 0x021B9608
  * region: ov223
  * isa: thumb
@@ -31,7 +31,7 @@ extern void MI_CpuFill8(void *,u32,u32);
 extern u32 FADE_GetSpeed(void);
 extern void FADE_SetSpeed(int);
 extern u8 func_020355C4(void);
-int func_021B9608(void *a,int unused,void *c)
+int PSEL_Init(void *a,int unused,void *c)
 {
     char *p;
     FADE_Start(3,16,16,0);

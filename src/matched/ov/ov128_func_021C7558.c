@@ -1,5 +1,5 @@
 /*
- * function: func_021C7558
+ * function: Wf2dmapFriend_PrintMessage
  * address: 0x021C7558
  * packet: pkt_ov128_021C7558
  * region: ov128
@@ -51,7 +51,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WF2DMAP_TOUCH_SetBgOffset(int);
-void func_021C7558(u8 *p,u8 *ctx,unsigned v,unsigned heap)
+void Wf2dmapFriend_PrintMessage(u8 *p,u8 *ctx,unsigned v,unsigned heap)
 {
     void *buf;
     void *obj;

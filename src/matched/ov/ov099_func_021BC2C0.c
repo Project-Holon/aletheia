@@ -19,8 +19,8 @@
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
- *   func_0202EB14 0x0202EB14 thumb
- *   func_0202EB0C 0x0202EB0C thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
+ *   APP_ENV_IsRunOnTwl 0x0202EB0C thumb
  *   WIFICLUB_HasEnoughPartyMembers 0x021BDDD0 thumb ov099
  */
 #include "../include/Obj00467.h"
@@ -45,8 +45,8 @@ extern int WIFICLUB_DeleteWindow(void *p);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void WIFICLUB_ShowStreamedMessage(char *,int,int);
-extern int func_0202EB14(void);
-extern u32 func_0202EB0C(void);
+extern int APP_ENV_HasParentalControlBits(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int WIFICLUB_HasEnoughPartyMembers(char *);
 int WIFICLUB_StateMainMenu(char *p,int v)
 {
@@ -85,7 +85,7 @@ int WIFICLUB_StateMainMenu(char *p,int v)
         if (((struct Obj22025 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f45==0) {
             WIFICLUB_ShowStreamedMessage(p,0x8c,0);
             ((struct Obj00467 *)p)->f1CC=0x47;
-        } else if (func_0202EB14()==0 && func_0202EB0C()!=0) {
+        } else if (APP_ENV_HasParentalControlBits()==0 && APP_ENV_IsRunOnTwl()!=0) {
             WIFICLUB_ShowStreamedMessage(p,0x95,0);
             ((struct Obj00467 *)p)->f1CC=0xa4;
         } else {

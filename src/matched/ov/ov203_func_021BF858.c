@@ -1,5 +1,5 @@
 /*
- * function: func_021BF858
+ * function: DEMO3D_CMDSYS_Update
  * address: 0x021BF858
  * packet: pkt_ov203_021BF858
  * region: ov203
@@ -10,15 +10,15 @@
  * symbols:
  *   TCBL_Main 0x020310C4 arm
  *   func_021BE990 0x021BE990 thumb ov203
- *   func_021BF9B8 0x021BF9B8 thumb ov203
+ *   DEMO3D_CMDSYS_Dispatch 0x021BF9B8 thumb ov203
  */
 typedef struct {int kind,time;int values[8];} Record;
 typedef struct {int heaps;int config;int ended;int done;int previous;int index;char flags[4];int owner;void *task;} Context;
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_021BF9B8(Context *,int,Record *);
+extern void DEMO3D_CMDSYS_Dispatch(Context *,int,Record *);
 extern Record *func_021BE990(int);
-void func_021BF858(Context *p,int time,int flag)
+void DEMO3D_CMDSYS_Update(Context *p,int time,int flag)
 {
     Record *r;
     int owner,i;
@@ -31,7 +31,7 @@ void func_021BF858(Context *p,int time,int flag)
         if(r->time==time && p->previous!=time) {
             i=0;
             do {
-                func_021BF9B8(p,owner,r);
+                DEMO3D_CMDSYS_Dispatch(p,owner,r);
                 r++;
                 p->ended=r->kind==18?1:0;
                 p->index++;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5D5C
+ * function: WIFILOGIN_MSG_OpenTask
  * address: 0x021D5D5C
  * packet: pkt_ov115_021D5D5C
  * region: ov115
@@ -19,7 +19,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_0207D658 0x0207D658 arm
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
- *   func_021D5FE8 0x021D5FE8 thumb ov115
+ *   WIFILOGIN_MSG_CreateYesNo 0x021D5FE8 thumb ov115
  */
 #include "../include/Obj01535.h"
 #include "../include/Obj05321.h"
@@ -43,8 +43,8 @@ extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *a
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0207D658(u32, int, int);
 extern void APP_TASKMENU_SetCursorPos(u8 *, int);
-extern void *func_021D5FE8(u8 *, int, int);
-void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
+extern void *WIFILOGIN_MSG_CreateYesNo(u8 *, int, int);
+void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected)
 {
     u8 *q = p + 0x54;
     Template t;
@@ -73,7 +73,7 @@ void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
         APP_TASKMENU_SetCursorPos(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
         break;
     case 1:
-        ((struct Obj01535 *)q)->f24 = func_021D5FE8(p, mode, selected);
+        ((struct Obj01535 *)q)->f24 = WIFILOGIN_MSG_CreateYesNo(p, mode, selected);
         ((struct Obj01535 *)q)->f28 = -1;
         break;
     }

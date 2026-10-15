@@ -168,9 +168,9 @@
  *   sMusicalDressupSysFileName  0x02172730  data
  *   ov133_id  0x00000085  data
  *   func_020315D4 0x020315D4 arm
- *   func_021B6100  0x021B6100  thumb ov133
- *   func_021B63BC  0x021B63BC  thumb  ov133
- *   func_021B6294  0x021B6294  thumb ov133
+ *   DUP_FITTING_Create  0x021B6100  thumb ov133
+ *   DUP_FITTING_Main  0x021B63BC  thumb  ov133
+ *   DUP_FITTING_Delete  0x021B6294  thumb ov133
  *   STA_NET_BeginTransfer  0x021FD52C  thumb ov132
  *   ov112_id       0x00000070  data
  *   STA_ACTING_Create  0x021F8480  thumb ov132
@@ -701,9 +701,9 @@ extern u32 STA_NET_GetPairA(void *session);
 extern u32 STA_NET_GetPairB(void *session);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void func_020315D4(void *proc);
-extern void *func_021B6100(void *param, int heapId);
-extern int func_021B63BC(void *ui);
-extern void func_021B6294(void *ui);
+extern void *DUP_FITTING_Create(void *param, int heapId);
+extern int DUP_FITTING_Main(void *ui);
+extern void DUP_FITTING_Delete(void *ui);
 extern void STA_NET_BeginTransfer(void *session);
 extern void *STA_ACTING_Create(void *input, int heapId);
 extern int STA_ACTING_Update(void *ui);
@@ -2251,7 +2251,7 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
 {
     switch (*state) {
     case 0:
-        work->ui = func_021B6100(work->paramCopy, 0x2d);
+        work->ui = DUP_FITTING_Create(work->paramCopy, 0x2d);
         *state = 1;
         if (work->param->session != 0) {
             if (STA_NET_GetField48(work->param->session) == 1)
@@ -2259,7 +2259,7 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
         }
         break;
     case 1: {
-        int result = func_021B63BC(work->ui);
+        int result = DUP_FITTING_Main(work->ui);
         if (result != 0) {
             work->result = result;
             *state = 2;
@@ -2267,7 +2267,7 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
         break;
     }
     case 2:
-        func_021B6294(work->ui);
+        DUP_FITTING_Delete(work->ui);
         return 1;
     }
     return 0;

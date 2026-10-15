@@ -21,7 +21,7 @@
  * 1.1p1 -O4,p hoists `mov r1, #0` ahead of `mov r2, #0x1000` where the
  * image materialises 0x1000 first. Nine store-order and constant-binding
  * spellings all give the same 3-instruction swap; see
- * docs/notes/func_02071EFC.c.txt.
+ * docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
  *
  * symbols:
  *   func_0207C930  0x0207C930  arm

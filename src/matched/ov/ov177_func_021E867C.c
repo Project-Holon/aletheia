@@ -13,7 +13,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
  */
 #include "../include/Obj00842.h"
@@ -29,7 +29,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 typedef signed int     s32;
 struct Blk;
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 void func_021E867C(char *p)
 {
@@ -52,7 +52,7 @@ void func_021E867C(char *p)
  case 1:
  if(((struct Obj00842 *)p)->f8!=0) {
  if(((struct Obj00842 *)p)->f34!=0)APP_KEYCURSOR_Update(((struct Obj00842 *)p)->f34,((struct Obj00842 *)p)->f8,((struct Obj00842 *)p)->f14);
- if(func_02028484((struct Blk *)(p+0x38),((struct Obj00842 *)p)->f8)!=0)((struct Obj00842 *)p)->f30=1;
+ if(PRINTSYS_CTRL_Update((struct Blk *)(p+0x38),((struct Obj00842 *)p)->f8)!=0)((struct Obj00842 *)p)->f30=1;
  }
  break;
  case 3:break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C875C
+ * function: Wf2dmapFriend_ShowEntryDetail
  * address: 0x021C875C
  * packet: pkt_ov128_021C875C
  * region: ov128
@@ -23,4 +23,4 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern void WF2DMAP_TOUCH_MakeScreen(char *);
 extern void WF2DMAP_TOUCH_UpdateItemBar(char *);
 extern void WF2DMAP_TOUCH_SetBgOffset(int);
-void func_021C875C(char *p,char *q) {BMP_MENUWORK_DrawWindowBorder(((struct Obj23088 *)p)->f108,1);WF2DMAP_TOUCH_MakeScreen(q);WF2DMAP_TOUCH_UpdateItemBar(p);WF2DMAP_TOUCH_SetBgOffset(1);}
+void Wf2dmapFriend_ShowEntryDetail(char *p,char *q) {BMP_MENUWORK_DrawWindowBorder(((struct Obj23088 *)p)->f108,1);WF2DMAP_TOUCH_MakeScreen(q);WF2DMAP_TOUCH_UpdateItemBar(p);WF2DMAP_TOUCH_SetBgOffset(1);}

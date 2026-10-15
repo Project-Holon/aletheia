@@ -62,9 +62,9 @@ struct Obj;
 struct Obj_02201DA0;
 
 /* Two ints, used by btlv_input.c (lane C094c3). */
-typedef struct Pair_02201B20 {
+typedef struct BtlvClactPoint {
     int x;
     int y;
-} Pair_02201B20;
+} BtlvClactPoint;
 
 #endif

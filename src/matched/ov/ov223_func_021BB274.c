@@ -1,5 +1,5 @@
 /*
- * function: func_021BB274
+ * function: PSEL_ClearWin
  * address: 0x021BB274
  * packet: pkt_ov223_021BB274
  * region: ov223
@@ -19,4 +19,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;struct Cfg;struct CharBuf;extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(struct CharBuf *,u8);extern void BMP_WIN_TransferChars(struct Descriptor *);extern void BMP_WIN_MakeScreen(struct Cfg *);extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);extern void func_02041B6C(u32);
-void func_021BB274(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+off)),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}
+void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+off)),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}

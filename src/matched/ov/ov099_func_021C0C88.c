@@ -32,8 +32,8 @@
  *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   WIFICLUB_GetStatusPhase  0x021BDD54  thumb  ov099
- *   func_0202EB14  0x0202EB14  thumb
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_HasParentalControlBits  0x0202EB14  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *   WIFICLUB_HasEnoughPartyMembers  0x021BDDD0  thumb  ov099
  *   WIFICLUB_IsBusyPhase  0x021BDD60  thumb  ov099
@@ -61,8 +61,8 @@ extern void WIFICLUB_OnFatalError(char *p);
 extern void WIFICLUB_ClearTalkWindow(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int WIFICLUB_GetStatusPhase(char *p, char *s);
-extern int func_0202EB14(void);
-extern u32 func_0202EB0C(void);
+extern int APP_ENV_HasParentalControlBits(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 extern int WIFICLUB_HasEnoughPartyMembers(char *p);
 extern int WIFICLUB_IsBusyPhase(int x);
@@ -112,7 +112,7 @@ int WIFICLUB_StatePartnerMenuResult(char *p, int v)
     }
     GFL_USE_PlaySeDefaultVolume(0x54c);
     r4 = WIFICLUB_GetStatusPhase(p, st);
-    if (r4 == 5 && !func_0202EB14() && func_0202EB0C()) {
+    if (r4 == 5 && !APP_ENV_HasParentalControlBits() && APP_ENV_IsRunOnTwl()) {
         WIFICLUB_ShowStreamedMessage(p, 0x95, 0);
         ((struct P *)p)->f1cc = 0xa2;
         return v;

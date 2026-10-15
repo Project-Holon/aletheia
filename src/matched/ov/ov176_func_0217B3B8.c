@@ -1,5 +1,5 @@
 /*
- * function: func_0217B3B8
+ * function: BATTLE_CHAMPIONSHIP_FLOW_EndMenu
  * address: 0x0217B3B8
  * packet: pkt_ov176_0217B3B8
  * region: ov176
@@ -11,4 +11,4 @@
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
 extern void func_021E8AA8(int);
-void func_0217B3B8(int p) {func_021E8AA8(p);}
+void BATTLE_CHAMPIONSHIP_FLOW_EndMenu(int p) {func_021E8AA8(p);}

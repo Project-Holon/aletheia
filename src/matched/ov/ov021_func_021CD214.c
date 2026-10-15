@@ -11,11 +11,11 @@
  *
  * symbols:
  *   VEC_Fx16Normalize  0x0207CDB8  arm
- *   BILLBOARD_SetFlagWord  0x0204ED4C  arm
- *   BILLBOARD_SetField1C  0x0204ED80  arm
- *   BILLBOARD_SetField1E  0x0204ED8C  arm
- *   BILLBOARD_SetField20  0x0204ED98  arm
- *   BILLBOARD_SetField22  0x0204EDA4  arm
+ *   BILLBOARD_SetFixedNormal  0x0204ED4C  arm
+ *   BILLBOARD_SetDiffuse  0x0204ED80  arm
+ *   BILLBOARD_SetAmbient  0x0204ED8C  arm
+ *   BILLBOARD_SetSpecular  0x0204ED98  arm
+ *   BILLBOARD_SetEmission  0x0204EDA4  arm
  */
 #include "../include/Obj01220.h"
 
@@ -23,11 +23,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern void VEC_Fx16Normalize(u16 *a, u16 *b);
-extern void BILLBOARD_SetFlagWord(u8 *a0, short *a1);
-extern void BILLBOARD_SetField1C(u8 *dst, u16 *src);
-extern void BILLBOARD_SetField1E(u8 *dst, u16 *src);
-extern void BILLBOARD_SetField20(u8 *dst, u16 *src);
-extern void BILLBOARD_SetField22(u8 *dst, u16 *src);
+extern void BILLBOARD_SetFixedNormal(u8 *a0, short *a1);
+extern void BILLBOARD_SetDiffuse(u8 *dst, u16 *src);
+extern void BILLBOARD_SetAmbient(u8 *dst, u16 *src);
+extern void BILLBOARD_SetSpecular(u8 *dst, u16 *src);
+extern void BILLBOARD_SetEmission(u8 *dst, u16 *src);
 
 void FIELD_BBD_COLOR_Apply(u8 *s, void *o)
 {
@@ -38,13 +38,13 @@ void FIELD_BBD_COLOR_Apply(u8 *s, void *o)
     v[1] = ((struct Obj01220 *)s)->f8;
     v[2] = ((struct Obj01220 *)s)->fC;
     VEC_Fx16Normalize(v, v);
-    BILLBOARD_SetFlagWord(o, (short int *)v);
+    BILLBOARD_SetFixedNormal(o, (short int *)v);
     c[3] = ((struct Obj01220 *)s)->f10 | (((struct Obj01220 *)s)->f12 << 5) | (((struct Obj01220 *)s)->f14 << 10);
-    BILLBOARD_SetField1C(o, &c[3]);
+    BILLBOARD_SetDiffuse(o, &c[3]);
     c[2] = ((struct Obj01220 *)s)->f16 | (((struct Obj01220 *)s)->f18 << 5) | (((struct Obj01220 *)s)->f1A << 10);
-    BILLBOARD_SetField1E(o, &c[2]);
+    BILLBOARD_SetAmbient(o, &c[2]);
     c[1] = ((struct Obj01220 *)s)->f1C | (((struct Obj01220 *)s)->f1E << 5) | (((struct Obj01220 *)s)->f20 << 10);
-    BILLBOARD_SetField20(o, &c[1]);
+    BILLBOARD_SetSpecular(o, &c[1]);
     c[0] = ((struct Obj01220 *)s)->f22 | (((struct Obj01220 *)s)->f24 << 5) | (((struct Obj01220 *)s)->f26 << 10);
-    BILLBOARD_SetField22(o, &c[0]);
+    BILLBOARD_SetEmission(o, &c[0]);
 }

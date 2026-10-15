@@ -62,9 +62,9 @@
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   DOUBLE3DDISP_GetField04 0x0204EA38 arm
+ *   DOUBLE3DDISP_GetMode 0x0204EA38 arm
  *   PARTICLE_Main 0x02050BE8 arm
- *   DOUBLE3DDISP_SetField08 0x0204EA4C arm
+ *   DOUBLE3DDISP_SetDrawDone 0x0204EA4C arm
  *   DOUBLE3DDISP_Init 0x0204E8C0 arm
  *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  *   PARTICLE_InitManager 0x02050B80 arm
@@ -280,9 +280,9 @@ extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern unsigned DOUBLE3DDISP_GetField04(void);
+extern unsigned DOUBLE3DDISP_GetMode(void);
 extern void PARTICLE_Main(void);
-extern void DOUBLE3DDISP_SetField08(void);
+extern void DOUBLE3DDISP_SetDrawDone(void);
 extern void DOUBLE3DDISP_Init(u32 heap);
 extern int DOUBLE3DDISP_Exit(void);
 extern void PARTICLE_InitManager(u32);
@@ -530,7 +530,7 @@ void HALL_OF_FAME_DrawParticles(HallOfFameWork *work)
 {
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
-    if (DOUBLE3DDISP_GetField04() == 1) {
+    if (DOUBLE3DDISP_GetMode() == 1) {
         HALL_OF_FAME_SetParticleCamera(work, work->monParticle, 1);
         HALL_OF_FAME_SetParticleCamera(work, work->backdropParticle, 1);
     } else {
@@ -539,7 +539,7 @@ void HALL_OF_FAME_DrawParticles(HallOfFameWork *work)
     }
     PARTICLE_Main();
     G3D_SYSTEM_DrawEnd();
-    DOUBLE3DDISP_SetField08();
+    DOUBLE3DDISP_SetDrawDone();
 }
 
 void HALL_OF_FAME_InitParticleHeap(void)

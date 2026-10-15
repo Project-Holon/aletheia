@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BF788 0x021BF788 thumb ov204
+ *   INTRO_G3D_ClearSlotAnimFinished 0x021BF788 thumb ov204
  */
 #include "../include/Obj25357.h"
 typedef unsigned char  u8;
-extern void func_021BF788(u8 *p, u8 index);
-int func_021BE54C(char *p,int *state,unsigned *q){func_021BF788((u8 *)(*(char * *)&((struct Obj25357 *)p)->f8),q[0]);return 1;}
+extern void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index);
+int func_021BE54C(char *p,int *state,unsigned *q){INTRO_G3D_ClearSlotAnimFinished((u8 *)(*(char * *)&((struct Obj25357 *)p)->f8),q[0]);return 1;}

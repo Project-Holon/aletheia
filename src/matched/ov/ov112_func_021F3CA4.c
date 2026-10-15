@@ -26,7 +26,7 @@
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_0207DCF8  0x0207DCF8  arm
  *   BILLBOARD_Create  0x0204EBD4  arm
- *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   BILLBOARD_SetScale  0x0204ED70  arm
  *   MUSICAL_SHOT_SYS_LoadBg  0x021F3EAC  thumb  ov112
  *   func_02040618  0x02040618  arm
  *   func_020490F4  0x020490F4  arm
@@ -66,7 +66,7 @@ struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(const void *a);
 extern void *BILLBOARD_Create(u8 *src, void *heap);
-extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 extern void MUSICAL_SHOT_SYS_LoadBg(const void *a, u32 b, u32 c);
 extern void func_02040618(u32, u32, u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -127,7 +127,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     pb = &b;
     h = BILLBOARD_Create((u8 *)(&a), (void *)(*(u16 *)p));
     *(void **)(p + 0x1C) = h;
-    BILLBOARD_SetField10(h, (struct Blk3 *)pb);
+    BILLBOARD_SetScale(h, (struct Blk3 *)pb);
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);

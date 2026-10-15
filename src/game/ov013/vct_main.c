@@ -22,7 +22,7 @@
  *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm ov013
  *   gVctWork     0x021B3C80  data ov013
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   func_0208B2BC  0x0208B2BC  arm
  *   func_0208B4C8  0x0208B4C8  arm
  *   func_0208B4B8  0x0208B4B8  arm
@@ -107,7 +107,7 @@ extern void func_0208B24C(void);
 extern void PM_Init(void);
 extern unsigned int PM_SetAmp(unsigned int status);
 extern unsigned int PM_SetAmpGain(unsigned int gain);
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int func_0208B2BC(void *param, void (*callback)(void), void *arg);
 extern int func_0208B4C8(void *param, void (*callback)(void), void *arg);
 extern u32 func_0208B4B8(void);
@@ -269,7 +269,7 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
         }
         return;
     }
-    if (func_0202EB0C() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 0) {
         if (gVctWork->micRestartPending != 0) {
             func_0208B2BC(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
@@ -507,7 +507,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     gVctWork->micParam.type = 3;
     gVctWork->micParam.buffer = gVctWork;
     gVctWork->micParam.size = VCT_BUFFER_BYTES;
-    if (func_0202EB0C() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 0) {
         gVctWork->micParam.rate = 0x1040;
     } else {
         gVctWork->micParam.rate = 0x1001;
@@ -519,7 +519,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     NNS_SndStrmAllocChannel(gVctWork->audioStream, 1, channelNumbers);
     NNS_SndStrmSetVolume(gVctWork->audioStream, 0);
     if (NNS_SndStrmSetup(gVctWork->audioStream, 1, gVctWork->playbackBuffers, VCT_BUFFER_BYTES,
-                      func_0202EB0C() ? 0x40 : 0x41, 2, VCT_MAIN_StreamCallback,
+                      APP_ENV_IsRunOnTwl() ? 0x40 : 0x41, 2, VCT_MAIN_StreamCallback,
                       gVctWork) == 0) {
         func_02034714(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
@@ -588,7 +588,7 @@ void VCT_MAIN_Exit(void)
         return;
     }
     callback = gVctWork->exitCallback;
-    if (func_0202EB0C() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 0) {
         func_0208B480();
     } else {
         func_0208B528();

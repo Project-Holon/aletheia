@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF30
+ * function: PSEL_UpdateAF30
  * address:  0x021BAF30
  * packet:   pkt_021BAF30
  * region:   ov223
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   TCBL_Main  0x020310C4  arm
- *   func_021BAF48  0x021BAF48  thumb  ov223
+ *   PSEL_CheckAF48  0x021BAF48  thumb  ov223
  *
  * Addresses are Black-image addresses.
  */
 
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
-extern int func_021BAF48(char *p);
+extern int PSEL_CheckAF48(char *p);
 
-void func_021BAF30(int *p)
+void PSEL_UpdateAF30(int *p)
 {
     TCBL_Main((struct Tcbl *)p[0x95]);
-    func_021BAF48((char *)p);
+    PSEL_CheckAF48((char *)p);
 }

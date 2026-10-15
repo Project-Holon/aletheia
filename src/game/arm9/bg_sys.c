@@ -81,7 +81,6 @@
  *   GX_LoadBGPltt  0x0207E3D0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  */
-#include "../../matched/include/Obj16005.h"
 #include "gf_standard_shared_types.h"
 
 #define REG_DISPCNT (*(volatile u32 *)0x04000000)
@@ -121,22 +120,22 @@ struct DispConfig {
     u32 unk_0c;
 };
 
-struct Bg_0203EF5C {
-    void *buf;
-    u32   bufSize;
-    u32   unk_08;
-    u32   scrollX;
-    u32   scrollY;
-    u8    type;
-    u8    unk_15;
-    u8    unk_16;
-    u8    unk_17;
-    u16   unk_18;
-    u16   unk_1a;
-    u32   unk_1c;
-    u32   unk_20;
-    u32   unk_24;
-    u32   unk_28;
+struct BgLayer {
+    void *buf;            /* 0x00 */
+    u32   bufSize;        /* 0x04 */
+    u32   tileOffset;     /* 0x08  tile data offset, times 2 for LoadTileLayer */
+    u32   scrollX;        /* 0x0c */
+    u32   scrollY;        /* 0x10 */
+    u8    type;           /* 0x14  blit kind: 0 tiles, 1 pixels, 2 tiles ex */
+    u8    screenSizeCode; /* 0x15 */
+    u8    charBaseCode;   /* 0x16 */
+    u8    tileRowBytes;   /* 0x17  0x20 or 0x40 */
+    u16   rotation;       /* 0x18  affine angle */
+    u16   rotationPad;    /* 0x1a */
+    u32   scaleX;         /* 0x1c  0x1000 = 1.0 */
+    u32   scaleY;         /* 0x20 */
+    u32   centerX;        /* 0x24  rotation and scale center */
+    u32   centerY;        /* 0x28 */
 };
 
 struct BgSys {
@@ -144,7 +143,7 @@ struct BgSys {
     u16       unk_02;
     u16       unk_04;
     u16       unk_06;
-    struct Bg_0203EF5C bgs[8];
+    struct BgLayer bgs[8];
     void     *unk_168;
     void     *unk_16c;
     u32       unk_170[8];
@@ -186,7 +185,7 @@ typedef enum { AO0 = 0 } GXBGAreaOver;
 
 typedef int BOOL;
 
-typedef signed short       s16_02040820;
+typedef signed short       s16;
 
 struct Mtx22 { u32 w[4]; };
 
@@ -198,16 +197,10 @@ struct BgConfigLayer {
 
 struct BgCnt { u16 prio : 2; u16 rest : 14; };
 
-/* One background layer record (0x2C bytes).  Only the affine members past
- * the scroll and type fields are touched here. */
-struct Bg_020432E4 {
-    u32 head[6];     /* buffer, size, scroll: not used by this function */
-    u16 rotation;    /* +0x18, angle */
-    u16 rotationPad;
-    u32 scaleX;      /* +0x1C, 0x1000 = 1.0 */
-    u32 scaleY;      /* +0x20 */
-    u32 centerX;     /* +0x24, rotation and scale center */
-    u32 centerY;     /* +0x28 */
+/* The first word of a tile-source block: the byte size the tile data occupies
+ * sits in the upper 24 bits (size >> 8). */
+struct BgTileSource {
+    u32 sizeWord;   /* +0x00 */
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
@@ -247,7 +240,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 
-extern void func_02042360(struct Bg_0203EF5C *p, u32 op, u32 value);
+extern void func_02042360(struct BgLayer *p, u32 op, u32 value);
 
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
 
@@ -299,11 +292,11 @@ extern void *G2S_GetBG3CharPtr(void);
 
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 
-extern void func_02043228(struct Bg_0203EF5C *p, u32 op, u16 value);
+extern void func_02043228(struct BgLayer *p, u32 op, u16 value);
 
-extern void func_02043264(struct Bg_0203EF5C *p, u32 op, u32 value);
+extern void func_02043264(struct BgLayer *p, u32 op, u32 value);
 
-extern void func_020432E4(struct Bg_0203EF5C *p, u32 op, u32 value);
+extern void func_020432E4(struct BgLayer *p, u32 op, u32 value);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -463,7 +456,7 @@ int BG_SYS_ResolveScroll(int a0, int a1);
 
 void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 
-void BG_SYS_SetScrollField(struct Bg_0203EF5C *p, u32 op, u32 value);
+void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value);
 
 void BG_SYS_RotScale(u32 layer);
 
@@ -473,17 +466,17 @@ void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size);
 
 void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size);
 
-void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+void BG_SYS_BlitTiles(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
 
-void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+void BG_SYS_BlitPixels(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
 
-void BG_SYS_BlitTilesEx(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+void BG_SYS_BlitTilesEx(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
 
-void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+void BG_SYS_BlitTileMap(struct BgLayer *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h);
+void BG_SYS_BlitPixelsEx(struct BgLayer *s, u8 value, u8 x0, u8 y0, u8 w, u8 h);
 
-void BG_SYS_BlitTileMapEx(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u32 mode);
+void BG_SYS_BlitTileMapEx(struct BgLayer *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u32 mode);
 
 void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 
@@ -493,11 +486,11 @@ void BG_SYS_DeleteBlock(u32 idx, u32 offset, u32 size);
 
 void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page);
 
-void BG_SYS_SetAffineField(struct Bg_0203EF5C *p, u32 op, u16 value);
+void BG_SYS_SetAffineField(struct BgLayer *p, u32 op, u16 value);
 
-void BG_SYS_Apply(struct Bg_0203EF5C *p, u32 op, u32 value);
+void BG_SYS_Apply(struct BgLayer *p, u32 op, u32 value);
 
-void BG_SYS_ApplyCenterOp(struct Bg_020432E4 *bg, u32 opcode, u32 operand);
+void BG_SYS_ApplyCenterOp(struct BgLayer *bg, u32 opcode, u32 operand);
 
 extern struct BgSys *g_02146A44;
 
@@ -989,11 +982,11 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
         break;
     }
 
-    g_02146A44->bgs[bgId].unk_18 = 0;
-    g_02146A44->bgs[bgId].unk_1c = 0x1000;
-    g_02146A44->bgs[bgId].unk_20 = 0x1000;
-    g_02146A44->bgs[bgId].unk_24 = 0;
-    g_02146A44->bgs[bgId].unk_28 = 0;
+    g_02146A44->bgs[bgId].rotation = 0;
+    g_02146A44->bgs[bgId].scaleX = 0x1000;
+    g_02146A44->bgs[bgId].scaleY = 0x1000;
+    g_02146A44->bgs[bgId].centerX = 0;
+    g_02146A44->bgs[bgId].centerY = 0;
 
     if (tmpl->bufSize != 0) {
         g_02146A44->bgs[bgId].buf = GFL_HEAP_Alloc(g_02146A44->heapId,
@@ -1001,21 +994,21 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
                                                  g_020A7E5C, 0x231);
         MIi_CpuClear16(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
         g_02146A44->bgs[bgId].bufSize = tmpl->bufSize;
-        g_02146A44->bgs[bgId].unk_08 = tmpl->unk_0c;
+        g_02146A44->bgs[bgId].tileOffset = tmpl->unk_0c;
     } else {
         g_02146A44->bgs[bgId].buf = 0;
         g_02146A44->bgs[bgId].bufSize = 0;
-        g_02146A44->bgs[bgId].unk_08 = 0;
+        g_02146A44->bgs[bgId].tileOffset = 0;
     }
 
-    g_02146A44->bgs[bgId].unk_15 = tmpl->unk_10;
+    g_02146A44->bgs[bgId].screenSizeCode = tmpl->unk_10;
     g_02146A44->bgs[bgId].type = (u8)type;
-    g_02146A44->bgs[bgId].unk_16 = tmpl->unk_11;
+    g_02146A44->bgs[bgId].charBaseCode = tmpl->unk_11;
 
     if (type == 0 && tmpl->unk_11 == 0) {
-        g_02146A44->bgs[bgId].unk_17 = 0x20;
+        g_02146A44->bgs[bgId].tileRowBytes = 0x20;
     } else {
-        g_02146A44->bgs[bgId].unk_17 = 0x40;
+        g_02146A44->bgs[bgId].tileRowBytes = 0x40;
     }
 
     func_02040618(bgId, 0, tmpl->unk_00);
@@ -1356,7 +1349,7 @@ void BG_SYS_PushTile(u32 index)
 {
     
 
-    BG_SYS_PushTileSource(index, g_02146A44->bgs[index].buf, g_02146A44->bgs[index].bufSize, g_02146A44->bgs[index].unk_08);
+    BG_SYS_PushTileSource(index, g_02146A44->bgs[index].buf, g_02146A44->bgs[index].bufSize, g_02146A44->bgs[index].tileOffset);
 }
 
 /*
@@ -1374,10 +1367,10 @@ void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset)
 
         if (tiles != 0) {
             func_02040968(src, tiles, mode);
-            BG_SYS_LoadTileLayer(index, tiles, g_02146A44->bgs[index].unk_08 * 2,
+            BG_SYS_LoadTileLayer(index, tiles, g_02146A44->bgs[index].tileOffset * 2,
                           g_02146A44->bgs[index].bufSize);
         } else {
-            u32   size = *(const u32 *)&((struct Obj16005 *)src)->f0 >> 8;
+            u32   size = ((const struct BgTileSource *)src)->sizeWord >> 8;
             void *buf = GFL_HEAP_Alloc(
                 (u16)((g_02146A44->heapId & 0x7fff) | 0x8000), size, 0,
                 g_020A7E5C, 1252);
@@ -1443,7 +1436,7 @@ void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset)
  */
 void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile)
 {
-    if (g_02146A44->bgs[index].unk_16 == 0) {
+    if (g_02146A44->bgs[index].charBaseCode == 0) {
         BG_SYS_LoadTileDataEx(index, src, size, tile * 32);
     } else {
         BG_SYS_LoadTileDataEx(index, src, size, tile * 64);
@@ -1532,7 +1525,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     case 3:
         {
             struct BgSys *p     = g_02146A44;
-            u32           depth = p->bgs[layer].unk_17;
+            u32           depth = p->bgs[layer].tileRowBytes;
 
             if (depth == 0x20) {
                 func_020341F0(p->unk_168,
@@ -1550,7 +1543,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     case 7:
         {
             struct BgSys *p     = g_02146A44;
-            u32           depth = p->bgs[layer].unk_17;
+            u32           depth = p->bgs[layer].tileRowBytes;
 
             if (depth == 0x20) {
                 func_020341F0(p->unk_16c,
@@ -1564,11 +1557,11 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
         break;
     }
 
-    size = count * g_02146A44->bgs[layer].unk_17;
+    size = count * g_02146A44->bgs[layer].tileRowBytes;
     buf  = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
                         size, 0, g_020A7E5C, 1421);
 
-    if (g_02146A44->bgs[layer].unk_17 == 0x20) {
+    if (g_02146A44->bgs[layer].tileRowBytes == 0x20) {
         u32 t = value | (value << 4 | (value << 12 | value << 8));
 
         value = t | (t << 16);
@@ -1577,7 +1570,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     }
 
     MIi_CpuClearFast(value, buf, size);
-    BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->bgs[layer].unk_17,
+    BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->bgs[layer].tileRowBytes,
                   size);
     func_020307B0(buf);
 }
@@ -1606,7 +1599,7 @@ void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
 
     switch (idx) {
     case 0: case 1: case 2: case 3:
-        unit = g_02146A44->bgs[idx].unk_17;
+        unit = g_02146A44->bgs[idx].tileRowBytes;
         if (unit == 0x20) {
             AREAMAN_Free(g_02146A44->unk_168,
                           (g_02146A44->unk_170[idx] + tile * unit) >> 5, count);
@@ -1616,7 +1609,7 @@ void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
         }
         break;
     case 4: case 5: case 6: case 7:
-        unit = g_02146A44->bgs[idx].unk_17;
+        unit = g_02146A44->bgs[idx].tileRowBytes;
         if (unit == 0x20) {
             AREAMAN_Free(g_02146A44->unk_16c,
                           (g_02146A44->unk_170[idx] + tile * unit) >> 5, count);
@@ -1703,7 +1696,7 @@ u16 BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 code)
  * only, so the out-of-range dispatch falls straight through to `return base`
  * with base still zero.
  *
- * `w - 32` and `h - 32` are s16_02040820 locals, and they double as both the guard and
+ * `w - 32` and `h - 32` are s16 locals, and they double as both the guard and
  * the stride of the right-hand and bottom blocks: a negative value means the
  * map is narrower (shorter) than one block, so block 0 uses `w` (`h`) as its
  * stride and the trailing blocks never exist.  Everything accumulates through
@@ -1732,8 +1725,8 @@ u16 BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 code)
 u16 BG_SYS_DrawTileRegion(u8 x, u8 y, u8 w, u8 h)
 {
     u16 base;
-    s16_02040820 w2 = w - 32;
-    s16_02040820 h2 = h - 32;
+    s16 w2 = w - 32;
+    s16 h2 = h - 32;
     u8  sel = 0;
     u16 idx;
 
@@ -1813,7 +1806,7 @@ void BG_SYS_DrawTile(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch)
  *
  * The slot's sub-object pointer is spelled as byte arithmetic with the
  * constant added first and written out in every arm, for the reason recorded
- * in src/pending/BG_SYS_SetTileEntry.c: `&g_02146A44[index].unk_08` contracts into
+ * in src/pending/BG_SYS_SetTileEntry.c: `&g_02146A44[index].tileOffset` contracts into
  * a single `mla` and loses twelve bytes.
  *
  * Verified with:
@@ -1848,7 +1841,7 @@ void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u
  *
  * The slot's sub-object pointer is spelled as byte arithmetic with the
  * constant added first and written out in every arm, for the reason recorded
- * in src/pending/BG_SYS_SetTileEntry.c: `&g_02146A44[index].unk_08` contracts into
+ * in src/pending/BG_SYS_SetTileEntry.c: `&g_02146A44[index].tileOffset` contracts into
  * a single `mla` and loses twelve bytes.
  *
  * Verified with:
@@ -1881,11 +1874,11 @@ void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode
     struct BgConfigLayer *bg = (struct BgConfigLayer *)((u8 *)g_02146A44 + offset);
 
     if (bg->mode == 0) {
-        BG_SYS_BlitTileMap((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
+        BG_SYS_BlitTileMap((struct BgLayer *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     } else if (bg->mode == 1) {
-        BG_SYS_BlitPixelsEx((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), (u8)value, x0, y0, w, h);
+        BG_SYS_BlitPixelsEx((struct BgLayer *)((u8 *)g_02146A44 + 8 + offset), (u8)value, x0, y0, w, h);
     } else {
-        BG_SYS_BlitTileMapEx((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
+        BG_SYS_BlitTileMapEx((struct BgLayer *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     }
 }
 
@@ -1937,7 +1930,7 @@ void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
         return;
     }
 
-    func_020422D4(g_02146A44->bgs[index].unk_15, &width, &height);
+    func_020422D4(g_02146A44->bgs[index].screenSizeCode, &width, &height);
 
     yEnd = y0 + h;
 
@@ -1951,7 +1944,7 @@ void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
             if (x >= width) {
                 break;
             }
-            i = BG_SYS_GetTileMapEntry(x, y0, g_02146A44->bgs[index].unk_15);
+            i = BG_SYS_GetTileMapEntry(x, y0, g_02146A44->bgs[index].screenSizeCode);
             screen[i] = (u16)((screen[i] & 0xfff) | (pal << 12));
         }
     }
@@ -2065,12 +2058,12 @@ u8 BG_SYS_GetType(int channel)
 
 u8 BG_SYS_GetField16(int channel)
 {
-    return g_02146A44->bgs[channel].unk_16;
+    return g_02146A44->bgs[channel].charBaseCode;
 }
 
 u8 BG_SYS_GetField17(int channel)
 {
-    return g_02146A44->bgs[channel].unk_17;
+    return g_02146A44->bgs[channel].tileRowBytes;
 }
 
 /*
@@ -2226,28 +2219,28 @@ void BG_SYS_Update(void)
 void BG_SYS_CommitLayers(void)
 {
     if (g_02146A44->unk_06 & 0x01)
-        BG_SYS_LoadTileLayer(0, g_02146A44->bgs[0].buf, g_02146A44->bgs[0].unk_08 * 2,
+        BG_SYS_LoadTileLayer(0, g_02146A44->bgs[0].buf, g_02146A44->bgs[0].tileOffset * 2,
                       g_02146A44->bgs[0].bufSize);
     if (g_02146A44->unk_06 & 0x02)
-        BG_SYS_LoadTileLayer(1, g_02146A44->bgs[1].buf, g_02146A44->bgs[1].unk_08 * 2,
+        BG_SYS_LoadTileLayer(1, g_02146A44->bgs[1].buf, g_02146A44->bgs[1].tileOffset * 2,
                       g_02146A44->bgs[1].bufSize);
     if (g_02146A44->unk_06 & 0x04)
-        BG_SYS_LoadTileLayer(2, g_02146A44->bgs[2].buf, g_02146A44->bgs[2].unk_08 * 2,
+        BG_SYS_LoadTileLayer(2, g_02146A44->bgs[2].buf, g_02146A44->bgs[2].tileOffset * 2,
                       g_02146A44->bgs[2].bufSize);
     if (g_02146A44->unk_06 & 0x08)
-        BG_SYS_LoadTileLayer(3, g_02146A44->bgs[3].buf, g_02146A44->bgs[3].unk_08 * 2,
+        BG_SYS_LoadTileLayer(3, g_02146A44->bgs[3].buf, g_02146A44->bgs[3].tileOffset * 2,
                       g_02146A44->bgs[3].bufSize);
     if (g_02146A44->unk_06 & 0x10)
-        BG_SYS_LoadTileLayer(4, g_02146A44->bgs[4].buf, g_02146A44->bgs[4].unk_08 * 2,
+        BG_SYS_LoadTileLayer(4, g_02146A44->bgs[4].buf, g_02146A44->bgs[4].tileOffset * 2,
                       g_02146A44->bgs[4].bufSize);
     if (g_02146A44->unk_06 & 0x20)
-        BG_SYS_LoadTileLayer(5, g_02146A44->bgs[5].buf, g_02146A44->bgs[5].unk_08 * 2,
+        BG_SYS_LoadTileLayer(5, g_02146A44->bgs[5].buf, g_02146A44->bgs[5].tileOffset * 2,
                       g_02146A44->bgs[5].bufSize);
     if (g_02146A44->unk_06 & 0x40)
-        BG_SYS_LoadTileLayer(6, g_02146A44->bgs[6].buf, g_02146A44->bgs[6].unk_08 * 2,
+        BG_SYS_LoadTileLayer(6, g_02146A44->bgs[6].buf, g_02146A44->bgs[6].tileOffset * 2,
                       g_02146A44->bgs[6].bufSize);
     if (g_02146A44->unk_06 & 0x80)
-        BG_SYS_LoadTileLayer(7, g_02146A44->bgs[7].buf, g_02146A44->bgs[7].unk_08 * 2,
+        BG_SYS_LoadTileLayer(7, g_02146A44->bgs[7].buf, g_02146A44->bgs[7].tileOffset * 2,
                       g_02146A44->bgs[7].bufSize);
 }
 
@@ -2332,11 +2325,11 @@ void BG_SYS_CommitScroll(void)
                           | (hm & (SLOT(2).scrollY << 16));
         } else {
             struct Mtx22 t;
-            BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).unk_18,
-                          (const void *)SLOT(2).unk_1c,
-                          (const void *)SLOT(2).unk_20, 2);
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).rotation,
+                          (const void *)SLOT(2).scaleX,
+                          (const void *)SLOT(2).scaleY, 2);
             func_0207D59C((void *)0x04000020, &t,
-                          SLOT(2).unk_24, SLOT(2).unk_28,
+                          SLOT(2).centerX, SLOT(2).centerY,
                           SLOT(2).scrollX, SLOT(2).scrollY);
         }
     }
@@ -2346,11 +2339,11 @@ void BG_SYS_CommitScroll(void)
                           | (hm & (SLOT(3).scrollY << 16));
         } else {
             struct Mtx22 t;
-            BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).unk_18,
-                          (const void *)SLOT(3).unk_1c,
-                          (const void *)SLOT(3).unk_20, 2);
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).rotation,
+                          (const void *)SLOT(3).scaleX,
+                          (const void *)SLOT(3).scaleY, 2);
             func_0207D59C((void *)0x04000030, &t,
-                          SLOT(3).unk_24, SLOT(3).unk_28,
+                          SLOT(3).centerX, SLOT(3).centerY,
                           SLOT(3).scrollX, SLOT(3).scrollY);
         }
     }
@@ -2368,11 +2361,11 @@ void BG_SYS_CommitScroll(void)
                           | (hm & (SLOT(6).scrollY << 16));
         } else {
             struct Mtx22 t;
-            BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).unk_18,
-                          (const void *)SLOT(6).unk_1c,
-                          (const void *)SLOT(6).unk_20, 2);
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).rotation,
+                          (const void *)SLOT(6).scaleX,
+                          (const void *)SLOT(6).scaleY, 2);
             func_0207D59C((void *)0x04001020, &t,
-                          SLOT(6).unk_24, SLOT(6).unk_28,
+                          SLOT(6).centerX, SLOT(6).centerY,
                           SLOT(6).scrollX, SLOT(6).scrollY);
         }
     }
@@ -2382,11 +2375,11 @@ void BG_SYS_CommitScroll(void)
                           | (hm & (SLOT(7).scrollY << 16));
         } else {
             struct Mtx22 t;
-            BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).unk_18,
-                          (const void *)SLOT(7).unk_1c,
-                          (const void *)SLOT(7).unk_20, 2);
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).rotation,
+                          (const void *)SLOT(7).scaleX,
+                          (const void *)SLOT(7).scaleY, 2);
             func_0207D59C((void *)0x04001030, &t,
-                          SLOT(7).unk_24, SLOT(7).unk_28,
+                          SLOT(7).centerX, SLOT(7).centerY,
                           SLOT(7).scrollX, SLOT(7).scrollY);
         }
     }
@@ -2489,11 +2482,11 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
   u8 v;
   if (g_02146A44->bgs[layer].buf == 0)
     return 0;
-  key = BG_SYS_GetTileMapEntry((u8) (x >> 3), (u8) (y >> 3), g_02146A44->bgs[layer].unk_15);
+  key = BG_SYS_GetTileMapEntry((u8) (x >> 3), (u8) (y >> 3), g_02146A44->bgs[layer].screenSizeCode);
   chr = (u8 *)BG_SYS_GetGraphics(layer);
   px = x & 7;
   py = y & 7;
-  if (g_02146A44->bgs[layer].unk_16 == 0)
+  if (g_02146A44->bgs[layer].charBaseCode == 0)
   {
     u8 *src;
     tbl = g_02146A44->bgs[layer].buf;
@@ -2640,7 +2633,7 @@ void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b)
  *   python tools/match.py one --src src/matched/BG_SYS_SetScrollField.c \
  *       --func BG_SYS_SetScrollField --addr 0x02042360 --cc 1.1p1 --arm
  */
-void BG_SYS_SetScrollField(struct Bg_0203EF5C *p, u32 op, u32 value)
+void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value)
 {
     switch (op) {
     case 0:
@@ -2827,7 +2820,7 @@ void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size)
  * settled declarations (u8 ch/sw/sh stack parameters, u8 w/h for
  * BG_SYS_DrawTileRegion, `u8 w, h;` and `u8 y, x;`); EXACT at the first compile.
  */
-void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void BG_SYS_BlitTiles(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u16 *dst;
@@ -2838,14 +2831,14 @@ void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    func_020422D4(s->unk_15, &w, &h);
+    func_020422D4(s->screenSizeCode, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {
             if ((u8)(dy + y) < h && (u8)(sy + y) < sh) {
                 for (x = 0; x < cw; x++) {
                     if ((u8)(dx + x) < w && (u8)(sx + x) < sw)
-                        dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
+                        dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->screenSizeCode)] =
                             src[sx + x + sw * (sy + y)];
                 }
             }
@@ -2857,7 +2850,7 @@ void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
+                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->screenSizeCode)] =
                     src[BG_SYS_DrawTileRegion(sx + x, sy + y, sw, sh)];
             }
         }
@@ -2879,7 +2872,7 @@ void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
  * sp+0x29 and h at sp+0x28.  The callers (BG_SYS_DrawTileEx, BG_SYS_DrawTileSub)
  * already declare the fifth parameter (ch) as u8.
  */
-void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void BG_SYS_BlitPixels(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u8 *dst;
@@ -2890,7 +2883,7 @@ void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    func_020422D4(s->unk_15, &w, &h);
+    func_020422D4(s->screenSizeCode, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {
@@ -2899,7 +2892,7 @@ void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
+                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->screenSizeCode)] =
                     src[sw * (sy + y) + sx + x];
             }
         }
@@ -2910,7 +2903,7 @@ void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
+                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->screenSizeCode)] =
                     src[BG_SYS_DrawTileRegion(sx + x, sy + y, sw, sh)];
             }
         }
@@ -2928,7 +2921,7 @@ void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
  * u8 w/h; `u8 w, h;` puts w at sp+0x1d) and the loop counters declared
  * `u8 y, x;`.
  */
-void BG_SYS_BlitTilesEx(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void BG_SYS_BlitTilesEx(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u16 *dst;
@@ -2939,7 +2932,7 @@ void BG_SYS_BlitTilesEx(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    func_020422D4(s->unk_15, &w, &h);
+    func_020422D4(s->screenSizeCode, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {
@@ -3014,7 +3007,7 @@ void BG_SYS_BlitTilesEx(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
  *   python3 tools/match.py one --src src/matched/BG_SYS_BlitTileMap.c \
  *       --func BG_SYS_BlitTileMap --addr 0x02042D2C --arm --cc 1.1p1
  */
-void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void BG_SYS_BlitTileMap(struct BgLayer *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u8 mode)
 {
     u8   width;
@@ -3028,7 +3021,7 @@ void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8
         return;
     }
 
-    func_020422D4(s->unk_15, &width, &height);
+    func_020422D4(s->screenSizeCode, &width, &height);
 
     for (y = y0; y < y0 + h; y++) {
         if (y >= height) {
@@ -3042,7 +3035,7 @@ void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8
                 break;
             }
 
-            i = BG_SYS_GetTileMapEntry(x, y, s->unk_15);
+            i = BG_SYS_GetTileMapEntry(x, y, s->screenSizeCode);
 
             if (mode == 0x11) {
                 entries[i] = value;
@@ -3078,7 +3071,7 @@ void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8
  *   python tools/match.py one --src src/matched/BG_SYS_BlitPixelsEx.c \
  *       --func BG_SYS_BlitPixelsEx --addr 0x02042E34 --cc 1.1p1 --arm
  */
-void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
+void BG_SYS_BlitPixelsEx(struct BgLayer *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
 {
     u8  width;
     u8  height;
@@ -3091,7 +3084,7 @@ void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8
         return;
     }
 
-    func_020422D4(s->unk_15, &width, &height);
+    func_020422D4(s->screenSizeCode, &width, &height);
 
     yEnd = y0 + h;
 
@@ -3103,7 +3096,7 @@ void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8
             if (x >= width) {
                 break;
             }
-            pixels[BG_SYS_GetTileMapEntry(x, y0, s->unk_15)] = value;
+            pixels[BG_SYS_GetTileMapEntry(x, y0, s->screenSizeCode)] = value;
         }
     }
 }
@@ -3141,7 +3134,7 @@ void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8
  *   python tools/match.py one --src src/matched/BG_SYS_BlitTileMapEx.c \
  *       --func BG_SYS_BlitTileMapEx --addr 0x02042ED8 --cc 1.1p1 --arm
  */
-void BG_SYS_BlitTileMapEx(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void BG_SYS_BlitTileMapEx(struct BgLayer *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u32 mode)
 {
     u8   width;
@@ -3155,7 +3148,7 @@ void BG_SYS_BlitTileMapEx(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, 
         return;
     }
 
-    func_020422D4(s->unk_15, &width, &height);
+    func_020422D4(s->screenSizeCode, &width, &height);
 
     for (y = y0; y < y0 + h; y++) {
         if (y >= height) {
@@ -3192,7 +3185,7 @@ void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value)
 {
 
     u16 *screen = (u16 *)g_02146A44->bgs[idx].buf;
-    u32 code = g_02146A44->bgs[idx].unk_15;
+    u32 code = g_02146A44->bgs[idx].screenSizeCode;
 
     if (screen == 0) {
         return;
@@ -3350,17 +3343,17 @@ void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page)
  * `ldrheq`/`subeq`/`strheq` in the fall-through block and only the first
  * two get out-of-line bodies.
  */
-void BG_SYS_SetAffineField(struct Bg_0203EF5C *p, u32 op, u16 value)
+void BG_SYS_SetAffineField(struct BgLayer *p, u32 op, u16 value)
 {
     switch (op) {
     case 0:
-        p->unk_18 = value;
+        p->rotation = value;
         break;
     case 1:
-        p->unk_18 = p->unk_18 + value;
+        p->rotation = p->rotation + value;
         break;
     case 2:
-        p->unk_18 = p->unk_18 - value;
+        p->rotation = p->rotation - value;
         break;
     }
 }
@@ -3378,7 +3371,7 @@ void BG_SYS_SetAffineField(struct Bg_0203EF5C *p, u32 op, u16 value)
  * The companion BG_SYS_ApplyCenterOp handles opcodes 9..14 on the two registers
  * at +0x24 and +0x28; nothing in this packet covers 15 and above.
  */
-void BG_SYS_Apply(struct Bg_0203EF5C *p, u32 op, u32 value)
+void BG_SYS_Apply(struct BgLayer *p, u32 op, u32 value)
 {
     switch (op) {
     case 0:
@@ -3386,22 +3379,22 @@ void BG_SYS_Apply(struct Bg_0203EF5C *p, u32 op, u32 value)
     case 2:
         break;
     case 3:
-        p->unk_1c = value;
+        p->scaleX = value;
         break;
     case 4:
-        p->unk_1c = p->unk_1c + value;
+        p->scaleX = p->scaleX + value;
         break;
     case 5:
-        p->unk_1c = p->unk_1c - value;
+        p->scaleX = p->scaleX - value;
         break;
     case 6:
-        p->unk_20 = value;
+        p->scaleY = value;
         break;
     case 7:
-        p->unk_20 = p->unk_20 + value;
+        p->scaleY = p->scaleY + value;
         break;
     case 8:
-        p->unk_20 = p->unk_20 - value;
+        p->scaleY = p->scaleY - value;
         break;
     }
 }
@@ -3416,7 +3409,7 @@ enum {
     BG_CENTER_Y_SUB = 14
 };
 
-void BG_SYS_ApplyCenterOp(struct Bg_020432E4 *bg, u32 opcode, u32 operand)
+void BG_SYS_ApplyCenterOp(struct BgLayer *bg, u32 opcode, u32 operand)
 {
     switch (opcode) {
     case BG_CENTER_X_SET:

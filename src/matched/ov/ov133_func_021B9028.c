@@ -1,5 +1,5 @@
 /*
- * function: func_021B9028
+ * function: DUP_FITTING_SortFrames
  * address: 0x021B9028
  * packet: pkt_ov133_021B9028
  * region: ov133
@@ -10,14 +10,14 @@
  * status: EXACT
  * lever: explicit redundant pointer/bound temporaries from the bounded permuter settled the three spill homes.
  * symbols:
- *   func_021B9118 0x021B9118 thumb ov133
+ *   DUP_FITTING_FrameWeight 0x021B9118 thumb ov133
  */
 #include "../include/Obj03825.h"
 #include "../include/Obj10571.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 func_021B9118(u8 *, u8 *, int);
-void func_021B9028(u8 *p, int kind, u16 start)
+extern u16 DUP_FITTING_FrameWeight(u8 *, u8 *, int);
+void DUP_FITTING_SortFrames(u8 *p, int kind, u16 start)
 {
     u8 *positionptr;
     u16 i, j, index, position, weight, next, best;
@@ -34,12 +34,12 @@ void func_021B9028(u8 *p, int kind, u16 start)
         best = position;
         tmp1 = p + position * 4;
         positionptr = tmp1;
-        weight = func_021B9118(p, *(u8 * *)&((struct Obj10571 *)positionptr)->f1434, kind);
+        weight = DUP_FITTING_FrameWeight(p, *(u8 * *)&((struct Obj10571 *)positionptr)->f1434, kind);
         for (j = i + 1; j < *(u16 *)(p + 0xA8); j++) {
             tmp4 = *(u16 *)(p + 0xA8);
             tmp3 = tmp4;
             index = (u16)((start + j) % tmp3);
-            next = func_021B9118(p, *(u8 **)(p + index * 4 + 0x1434), kind);
+            next = DUP_FITTING_FrameWeight(p, *(u8 **)(p + index * 4 + 0x1434), kind);
             if (weight < next) { weight = next; best = index; }
         }
         if (best != position) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021C87A0
+ * function: Wf2dmapFriend_GetEntryIndex
  * address:  0x021C87A0
  * packet:   pkt_021C87A0
  * region:   ov128
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C87A0(s16 *p)
+int Wf2dmapFriend_GetEntryIndex(s16 *p)
 {
     int a = p[0] * 8;
 

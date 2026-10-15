@@ -1,5 +1,5 @@
 /*
- * function: func_0217BB3C
+ * function: LIVEBATTLEMATCH_FLOW_GetResult
  * address:  0x0217BB3C
  * packet:   pkt_0217BB3C
  * region:   ov176
@@ -23,7 +23,7 @@
 
 extern int func_021E8A90(int **p);
 
-int func_0217BB3C(int *p)
+int LIVEBATTLEMATCH_FLOW_GetResult(int *p)
 {
     if (func_021E8A90((int **)(((struct Obj14362 *)p)->f0)))
         return ((struct Obj14362 *)p)->f19C;

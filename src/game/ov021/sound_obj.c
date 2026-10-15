@@ -71,17 +71,12 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
-typedef signed short   s16_021C48A0;
 
 typedef signed char    s8;
 
-typedef int            s32_021C4E6C;
 
-typedef signed int     s32_021C4F7C;
 
-typedef signed short   s16_021C59A8;
 
-typedef short s16_021C577C;
 
 typedef struct FieldMap FieldMap;
 typedef struct { fx32 m[3][3]; } MtxFx33;

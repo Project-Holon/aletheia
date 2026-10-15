@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6CC
+ * function: PSEL_GRAPHIC_ExitG3d
  * address:  0x021BC6CC
  * packet:   pkt_021BC6CC
  * region:   ov223
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern int G3D_SYSTEM_Exit(int);
 
-void func_021BC6CC(int *p)
+void PSEL_GRAPHIC_ExitG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

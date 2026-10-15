@@ -1,5 +1,5 @@
 /*
- * function: func_0217BFF8
+ * function: LIVEBATTLEMATCH_FLOW_Confirm
  * address: 0x0217BFF8
  * packet: pkt_ov176_0217BFF8
  * region: ov176
@@ -16,9 +16,9 @@
  *   func_0217D2A4 0x0217D2A4 thumb ov176
  *   func_0217CFE8 0x0217CFE8 thumb ov176
  *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_0217CEAC 0x0217CEAC thumb ov176
- *   func_0217CFDC 0x0217CFDC thumb ov176
- *   func_0217CFD0 0x0217CFD0 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_DrawMenu 0x0217CEAC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_GetWindowResult 0x0217CFDC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_HideWindow 0x0217CFD0 thumb ov176
  *   func_0217D2B0 0x0217D2B0 thumb ov176
  *   func_0217D290 0x0217D290 thumb ov176
  *   REGULATION_NoOp 0x0200AE14 thumb
@@ -39,7 +39,7 @@
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217C2EC 0x0217C2EC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Battle 0x0217C2EC thumb ov176
  *   func_0217D010 0x0217D010 thumb ov176
  *   func_0217D000 0x0217D000 thumb ov176
  *   func_021E8AB8 0x021E8AB8 thumb ov177
@@ -60,9 +60,9 @@ struct Obj;
 struct Rec1E;
 struct RecBig;
 struct Reg2;
-extern void func_0217CEAC(u8 *p, int mode);
-extern int func_0217CFDC(int *p);
-extern void func_0217CFD0(int *p);
+extern void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode);
+extern int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p);
+extern void LIVEBATTLEMATCH_FLOW_HideWindow(int *p);
 extern int func_0217D2B0(u8 *);
 extern void func_0217D290(u8 *);
 extern void * REGULATION_NoOp(void *);
@@ -83,11 +83,11 @@ extern u32 func_020307B0(void *p);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 extern void func_021E8AA0(int *,int);
-extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
+extern void LIVEBATTLEMATCH_FLOW_Battle(int *sys, u32 *state, u8 *p);
 extern void func_0217D010(u8 *,int);
 extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
-void func_0217BFF8(int *sys,u32 *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,u32 *state,u8 *p)
 {
     switch(*state){
     case 0:func_0217D028(p);func_0217D1A0(p,2);func_0217D244((char *)p);*state=1;break;
@@ -98,16 +98,16 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
         if(flag)*state=2;break;
     }
     case 2:func_0217CFE8(p,5,1);*state=21;func_021E8AB4((u32)sys,3);break;
-    case 3:func_0217CEAC(p,0);*state=4;break;
+    case 3:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=4;break;
     case 4:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=8;break;case 1:*state=5;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=8;break;case 1:*state=5;break;}}break;
     }
     case 5:func_0217CFE8(p,8,1);*state=21;func_021E8AB4((u32)sys,6);break;
-    case 6:func_0217CEAC(p,0);*state=7;break;
+    case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=7;break;
     case 7:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=19;break;case 1:*state=2;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=19;break;case 1:*state=2;break;}}break;
     }
     case 8:if(func_0217D2B0(p)){func_0217D290(p);*state=9;}break;
     case 9:{
@@ -137,7 +137,7 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
     case 15:GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
     case 16:if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj00053 *)p)->f1B8)==2)*state=17;break;
     case 17:func_0217D1A0(p,0);func_0217CFE8(p,11,1);*state=21;func_021E8AB4((u32)sys,18);break;
-    case 18:func_021E8AA0(sys,(int)func_0217C2EC);break;
+    case 18:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 19:{
         int flag=1;
         flag&=func_0217D194((int *)p);

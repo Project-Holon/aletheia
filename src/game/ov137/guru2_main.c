@@ -214,7 +214,7 @@
  *   ARC_TOOL_GetHandleMemberSize 0x020493D4 arm
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  *   GURU2_COMM_GetPartyCopy 0x021DCE00 thumb ov137
- *   func_0202F190 0x0202F190 thumb
+ *   SAVE_EVENT_Write 0x0202F190 thumb
  *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   gGuru2PlayerAngleRangeLists 0x021E1F04 data a4
  *   func_02017E1C 0x02017E1C thumb
@@ -231,7 +231,6 @@
 #include "guru2_shared_types.h"
 #include "guru2_comm_shared_types.h"
 #include "guru2_types.h"
-#include "../../matched/include/Obj04542.h"
 #include "guru2_receipt_shared_types.h"
 
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -386,8 +385,6 @@ typedef struct { u8 pad[0x60]; u16 angles[5]; } AngleObj;
 struct RangeU32 { u32 low, high; };
 
 typedef enum { GX_SHADING_TOON = 0, GX_SHADING_HIGHLIGHT = 1 } GXShading;
-
-typedef short s16_021DEFD0;
 
 typedef struct { u32 x, y, z; } Vec3;
 
@@ -614,7 +611,7 @@ extern void func_0207DCF8(const u16 *);
 
 extern void G3X_SetClearColor(u16, int, int, int, int);
 
-extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16_021DEFD0 heap, void (*setup)(void));
+extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 
@@ -694,7 +691,7 @@ extern void *GURU2_COMM_GetPartyCopy(struct Guru2Comm *p, int i);
 
 extern void *POKEPARTY_GetMember(void *, unsigned);
 
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 
@@ -1094,7 +1091,7 @@ extern const u16 gGuru2ToonTable[];
 
 extern const Vec3 gGuru2CameraTarget;
 
-extern const s16_021DEFD0 d_020A1EB8[];
+extern const s16 d_020A1EB8[];
 
 extern Vec3 gGuru2CameraEye, gGuru2CameraUp;
 
@@ -3037,7 +3034,7 @@ void GURU2_MAIN_CopyMemberPokemon(struct Guru2Game *p, int i)
     a = POKEPARTY_GetMember(party, p->session->selectedSlot);
     b = POKEPARTY_GetMember(other, slot);
     q = GURU2_MAIN_GetUnionApp(p);
-    func_0202F190(b, (int)6, (u32)UNION_APP_GetMemberEntry(q, (u8)GFL_NET_SYSTEM_GetCurrentAid()), (int)30002, (int)114);
+    SAVE_EVENT_Write(b, (int)6, (u32)UNION_APP_GetMemberEntry(q, (u8)GFL_NET_SYSTEM_GetCurrentAid()), (int)30002, (int)114);
     POKE_TOOL_CopyPartyPokemon(b, a);
 }
 

@@ -42,7 +42,7 @@ void NNSi_G3dTexMtxScale(struct Struct02071EAC_Arg *dst, struct Struct02071EAC_A
     dst->unk10 = 0;
 }
 
-void func_02071EFC(struct Struct02071EAC_Arg *dst)
+void NNSi_G3dTexMtxIdentity2(struct Struct02071EAC_Arg *dst)
 {
     dst->unk00 = 0x1000;
     dst->unk04 = 0;

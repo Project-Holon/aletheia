@@ -1,5 +1,5 @@
 /*
- * function: func_021BC538
+ * function: PSEL_GRAPHIC_VBlank
  * address:  0x021BC538
  * packet:   pkt_021BC538
  * region:   ov223
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BC5E8  0x021BC5E8  thumb  ov223
- *   func_021BC654  0x021BC654  thumb  ov223
+ *   PSEL_GRAPHIC_UpdateBg  0x021BC5E8  thumb  ov223
+ *   PSEL_GRAPHIC_ClactVBlank  0x021BC654  thumb  ov223
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BC5E8(void *);
-extern void func_021BC654(void *);
+extern void PSEL_GRAPHIC_UpdateBg(void *);
+extern void PSEL_GRAPHIC_ClactVBlank(void *);
 
-void func_021BC538(void *unused, char *p)
+void PSEL_GRAPHIC_VBlank(void *unused, char *p)
 {
-    func_021BC5E8(p);
-    func_021BC654(p + 4);
+    PSEL_GRAPHIC_UpdateBg(p);
+    PSEL_GRAPHIC_ClactVBlank(p + 4);
 }

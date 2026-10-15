@@ -1,5 +1,5 @@
 /*
- * function: func_02071C14
+ * function: NNSi_G3dTexMtxScaleTrans2
  * address:  0x02071C14
  * packet:   pkt_02071360
  * region:   arm9
@@ -31,8 +31,8 @@
  * Under ../2.0/sp2 it is 0 out.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02071C14.c \
- *       --func func_02071C14 --addr 0x02071C14 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexMtxScaleTrans2.c \
+ *       --func NNSi_G3dTexMtxScaleTrans2 --addr 0x02071C14 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char  u8;
@@ -65,7 +65,7 @@ struct DST {
     s32 f34;
 };
 
-void func_02071C14(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleTrans2(struct DST *d, struct SRC *s)
 {
     u16 c;
     s32 e, x, y;

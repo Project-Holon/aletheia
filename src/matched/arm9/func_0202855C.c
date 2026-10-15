@@ -1,5 +1,5 @@
 /*
- * function: func_0202855C
+ * function: PRINTSYS_CTRL_IsInputIdle
  * address:  0x0202855C
  * packet:   pkt_02028484
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 
-u32 func_0202855C(u32 a)
+u32 PRINTSYS_CTRL_IsInputIdle(u32 a)
 {
     u32 r = 0;
 

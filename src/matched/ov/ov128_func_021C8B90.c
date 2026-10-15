@@ -1,5 +1,5 @@
 /*
- * function: func_021C8B90
+ * function: Wf2dmapFriend_CreateEntryActor
  * address: 0x021C8B90
  * packet: pkt_ov128_021C8B90
  * region: ov128
@@ -21,7 +21,7 @@ typedef struct {s16 x,y,z;u8 a,b;} Point;
 extern const s16 d_021CA6C8[][5];
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-void func_021C8B90(char *p,char *q,int unused,int i,u16 h) {
+void Wf2dmapFriend_CreateEntryActor(char *p,char *q,int unused,int i,u16 h) {
  Point pt;
  pt.x=(((struct Obj14043 *)p)->f0+d_021CA6C8[i][0])*8+16;
  pt.y=(((struct Obj14043 *)p)->f2+d_021CA6C8[i][1])*8+16;

@@ -53,20 +53,20 @@
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
- *   func_0200D85C  0x0200D85C  thumb
- *   func_0200D87C  0x0200D87C  thumb
- *   func_0200D884  0x0200D884  thumb
- *   func_0200D914  0x0200D914  thumb
- *   func_0200D9E8  0x0200D9E8  thumb
- *   func_0200DA14  0x0200DA14  thumb
- *   func_0200DA28  0x0200DA28  thumb
- *   func_0200DA54  0x0200DA54  thumb
- *   func_0200DAC4  0x0200DAC4  thumb
- *   func_0200DB1C  0x0200DB1C  thumb
- *   func_0200DB30  0x0200DB30  thumb
- *   func_0200DB44  0x0200DB44  thumb
- *   func_0200DB80  0x0200DB80  thumb
- *   func_0200DBA0  0x0200DBA0  thumb
+ *   GDS_PROFILE_ClearFieldRec  0x0200D85C  thumb
+ *   GDS_PROFILE_GetFieldRecFlag1  0x0200D87C  thumb
+ *   GDS_PROFILE_GetFieldRecField  0x0200D884  thumb
+ *   GDS_PROFILE_SetFieldRecField  0x0200D914  thumb
+ *   GDS_PROFILE_AddFieldRecCounters  0x0200D9E8  thumb
+ *   GDS_PROFILE_ClearFieldRecCount03  0x0200DA14  thumb
+ *   GDS_PROFILE_IncFieldRecCount03  0x0200DA28  thumb
+ *   GDS_PROFILE_GetFieldRecCount03  0x0200DA54  thumb
+ *   GDS_PROFILE_GetScoreRecCountA  0x0200DAC4  thumb
+ *   GDS_PROFILE_ClearScoreRecCountC  0x0200DB1C  thumb
+ *   GDS_PROFILE_SetScoreRecCountC  0x0200DB30  thumb
+ *   GDS_PROFILE_GetScoreRecCountC  0x0200DB44  thumb
+ *   GDS_PROFILE_GetScoreRecCountCDec  0x0200DB80  thumb
+ *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb
  *   BSUBWAY_SAVEDATA_GetTrainersPresent  0x0200DE5C  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryPresent  0x0200DE64  thumb
  *   BSUBWAY_SAVEDATA_GetTrainersTagA  0x0200DE94  thumb
@@ -261,7 +261,7 @@ extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
+extern u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
 struct Ctx;
 extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 struct Desc;
@@ -275,8 +275,8 @@ extern void SCRIPT_SYS_CallEvent(void *h, void *task);
 
 extern int BSUBWAY_SCR_GetTrainNo(void *a);
 extern void OS_ResetSystem(u32 a);
-extern void func_0200D85C(struct Blk3C *p);
-extern u32 func_0200D87C(struct Blk3C *p);
+extern void GDS_PROFILE_ClearFieldRec(struct Blk3C *p);
+extern u32 GDS_PROFILE_GetFieldRecFlag1(struct Blk3C *p);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
@@ -287,15 +287,15 @@ extern void ZONEDATA_SetDirectLocation(Rec1C *out, u32 id, s16 n, u32 a, u32 b, 
 extern void GAME_DATA_SetField168(struct BigObj *p, const struct Rec1C *src);
 extern void ZONEDATA_SetEventFlag(char *a0, int a1);
 extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
-extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
+extern u16 GDS_PROFILE_GetScoreRecCountA(struct Blk1AC *p, u32 i);
 extern u32 BSUBWAY_SCR_ResetPlayMode(const struct Ctx *a0);
 extern u32 FIELD_PLAYER_GetSex(u8 *p);
 extern u16 FIELD_PLAYER_GetFormObjCode(int i, int j);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 extern void *FLDMMDL_SysSearchObjId(void *a, u32 id);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
-extern u16 func_0200DA54(struct Blk3C *p);
-extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
+extern u16 GDS_PROFILE_GetFieldRecCount03(struct Blk3C *p);
+extern u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op);
 extern void FIELD_GIMMICK_BSUBWAY_StartTrain(void *a, int b, int c);
 extern int FIELD_GIMMICK_BSUBWAY_GetTrainEffect(int a);
 extern void FLDEFF_BTRAIN_SetAnime(void *o, u32 v);
@@ -307,7 +307,7 @@ extern void FLDMMDL_InitPosition(void *a, int *p, int b);
 extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
 extern u32 BSUBWAY_SCR_GetMmdlParam(u32 a);
 extern int BSUBWAY_SCR_UpdateStageRank(void *a, int unused, int mode);
-extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
+extern u16 GDS_PROFILE_GetScoreRecCountCDec(struct Blk1AC *p, u32 i);
 extern void *GAME_DATA_GetField114(struct SaveBlock *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
@@ -317,7 +317,7 @@ extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 extern void FLDMMDL_OnMoveBitMovePause(void *o);
 extern int FLDMMDL_GetParam(char *a0, int a1);
 extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
-extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
+extern u32 GDS_PROFILE_GetScoreRecCountC(struct Blk1AC *p, u32 i);
 extern u32 BSUBWAY_SCR_IsNpcEntryAvailable(u8 *w, u32 v);
 extern void BSUBWAY_SCR_GetNpcEntryInfo(u8 *w, u32 v, u16 *a, u16 *b, u16 *c);
 extern struct Buf3FC *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct RecSlot *p, u32 heap);
@@ -328,7 +328,7 @@ extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(vo
 extern int EVENT_BSUBWAY_COMM_Start(int x, struct Pair *p);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct RecSlot *p);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct RecSlot *p);
-extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
+extern void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src);
 extern u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct RecSlot *p);
 extern void *NAMEIN_SETUP_StartHistoryScreenEvent(void *a);
 extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct RecSlot *p);
@@ -372,16 +372,16 @@ extern void BATTLE_REC_FreeWork(void);
 extern int BTL_SETUP_Delete(int a0);
 extern u16 BSUBWAY_SCR_GetWinCount(u8 *w);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-extern void func_0200DA14(struct Blk3C *p);
-extern void func_0200DB1C(struct Blk1AC *p, u32 i);
+extern void GDS_PROFILE_ClearFieldRecCount03(struct Blk3C *p);
+extern void GDS_PROFILE_ClearScoreRecCountC(struct Blk1AC *p, u32 i);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_0200D9E8(struct Blk3C *p, s32 a, s32 b, s32 c);
-extern void func_0200DA28(struct Blk3C *p);
+extern void GDS_PROFILE_AddFieldRecCounters(struct Blk3C *p, s32 a, s32 b, s32 c);
+extern void GDS_PROFILE_IncFieldRecCount03(struct Blk3C *p);
 extern void BSUBWAY_SCR_IncWinCount(u8 *w);
-extern void func_0200DB30(struct Blk1AC *p, u32 i);
+extern void GDS_PROFILE_SetScoreRecCountC(struct Blk1AC *p, u32 i);
 extern int BSUBWAY_SCR_ClearWinCount(u32 a);
 extern void BSUBWAY_COMM_AddCommandTable(u32 a);
 extern void BSUBWAY_COMM_NetInit(void *p);
@@ -458,7 +458,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
     s44 = GAME_DATA_GetEventWork((const struct BigObj *)s4c);
     w = GAME_DATA_GetCurrentEvent((struct Big *)s4c);
     s40 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x39);
-    s3c = func_0200D884((struct Blk3C *)s40, 0, 0);
+    s3c = GDS_PROFILE_GetFieldRecField((struct Blk3C *)s40, 0, 0);
     s38 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x3a);
     s34 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x3b);
     s30 = ICA_ANIME_GetField20((void *)x);
@@ -479,10 +479,10 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         OS_ResetSystem(0);
         break;
     case 2:
-        func_0200D85C((struct Blk3C *)s40);
+        GDS_PROFILE_ClearFieldRec((struct Blk3C *)s40);
         break;
     case 3:
-        *dst = func_0200D87C((struct Blk3C *)s40);
+        *dst = GDS_PROFILE_GetFieldRecFlag1((struct Blk3C *)s40);
         break;
     case 4: {
         void *o = FIELDMAP_GetFieldPlayer((void *)s30);
@@ -515,7 +515,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         ZONEDATA_ResetEventFlag((char *)s44, 0x966);
         break;
     case 6:
-        *dst = func_0200DAC4((struct Blk1AC *)s38, p1);
+        *dst = GDS_PROFILE_GetScoreRecCountA((struct Blk1AC *)s38, p1);
         if (*dst > 9999)
             *dst = 9999;
         break;
@@ -532,27 +532,27 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     }
     case 8:
-        *dst = func_0200DA54((struct Blk3C *)s40) + 1;
+        *dst = GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)s40) + 1;
         break;
     case 11:
-        *dst = func_0200DA54((struct Blk3C *)(((struct Obj00335 *)w)->f70));
+        *dst = GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)(((struct Obj00335 *)w)->f70));
         *dst += 1;
         break;
     case 14:
         if (data_021DAD36[p1] == 11)
             *dst = 1;
         else
-            *dst = func_0200DBA0((struct Blk1AC *)s38, data_021DAD36[p1], 0);
+            *dst = GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, data_021DAD36[p1], 0);
         break;
     case 15:
         if (data_021DAD36[p1] != 11)
-            func_0200DBA0((struct Blk1AC *)s38, data_021DAD36[p1], 1);
+            GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, data_021DAD36[p1], 1);
         break;
     case 16:
-        *dst = func_0200DBA0((struct Blk1AC *)s38, 10, 0);
+        *dst = GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, 10, 0);
         break;
     case 17:
-        func_0200DBA0((struct Blk1AC *)s38, 10, 1);
+        GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, 10, 1);
         break;
     case 18:
         FIELD_GIMMICK_BSUBWAY_StartTrain(s30, data_021DAD88[p1], (int)(&data_021DAD70[p2]));
@@ -564,7 +564,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)s30), p1);
         break;
     case 21:
-        *dst = func_0200D884((struct Blk3C *)s40, 0, 0);
+        *dst = GDS_PROFILE_GetFieldRecField((struct Blk3C *)s40, 0, 0);
         break;
     case 22:
         *dst = 0;
@@ -626,7 +626,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         *dst = BSUBWAY_SCR_UpdateStageRank((void *)s38, x, 4);
         break;
     case 30:
-        *dst = func_0200DB80((struct Blk1AC *)s38, p1);
+        *dst = GDS_PROFILE_GetScoreRecCountCDec((struct Blk1AC *)s38, p1);
         break;
     case 31:
         *dst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct Sub0200852CObj *)((u8 *)GAME_DATA_GetField114((struct SaveBlock *)s4c) + 0x20)) == 0 ? 1 : 0, 0);
@@ -661,7 +661,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         ret = 1;
         break;
     case 38:
-        *dst = func_0200DB44((struct Blk1AC *)s38, p1);
+        *dst = GDS_PROFILE_GetScoreRecCountC((struct Blk1AC *)s38, p1);
         break;
     case 39: {
         u32 o = FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0);
@@ -706,12 +706,12 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
     }
     case 100:
         if (p1 == 0)
-            func_0200DBA0((struct Blk1AC *)s38, 1, 2);
+            GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, 1, 2);
         else
-            func_0200DBA0((struct Blk1AC *)s38, 1, 1);
+            GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, 1, 1);
         break;
     case 101:
-        *dst = func_0200DBA0((struct Blk1AC *)s38, 1, 0);
+        *dst = GDS_PROFILE_ScoreRecFlag((struct Blk1AC *)s38, 1, 0);
         break;
     case 103:
         st.val = 0;
@@ -739,10 +739,10 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 108:
         t108 = p1;
-        func_0200D914((struct Blk3C *)s40, 11, &t108);
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)s40, 11, &t108);
         break;
     case 109:
-        *dst = func_0200D884((struct Blk3C *)s40, 11, 0);
+        *dst = GDS_PROFILE_GetFieldRecField((struct Blk3C *)s40, 11, 0);
         break;
     case 110:
         *dst = BSUBWAY_SAVEDATA_GetHistoryPresent((struct RecSlot *)s34);
@@ -777,7 +777,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 300:
         {
-            u8 v = func_0200D884((struct Blk3C *)s40, 10, 0);
+            u8 v = GDS_PROFILE_GetFieldRecField((struct Blk3C *)s40, 10, 0);
             SCRIPT_SYS_CallEvent(h, NAMEIN_SETUP_StartPartyPickEvent((struct PartyCaller *)w, (void *)x, v));
         }
         ret = 1;
@@ -853,7 +853,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 324:
         t324 = p1;
-        func_0200D914((struct Blk3C *)s40, 10, &t324);
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)s40, 10, &t324);
         break;
     case 325:
         BSUBWAY_SCR_ChangeCommMultiMode(w);
@@ -888,7 +888,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 334: {
         Slot i = 0;
-        u16 n = func_0200DA54((struct Blk3C *)s40);
+        u16 n = GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)s40);
         if (n != 0) {
             void *p = (void *)ISS_SYS_GetSwitchSys((u32 *)GAMESYSTEM_GetIssSystem((u32 *)x));
             n = i + n + 1;
@@ -918,7 +918,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         void *party;
         u32 res;
         *dst = 0;
-        mode = func_0200D884((struct Blk3C *)s40, 10, 0);
+        mode = GDS_PROFILE_GetFieldRecField((struct Blk3C *)s40, 10, 0);
         rules = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(s3c), 4);
         if (mode == 1) {
             p4 = func_0200BAF4((u32)BATTLE_BOX_GetFromSave((void *)s48), 4);
@@ -990,14 +990,14 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         ret = 1;
         break;
     case 349:
-        func_0200DA14((struct Blk3C *)s40);
-        func_0200DB1C((struct Blk1AC *)s38, s3c);
+        GDS_PROFILE_ClearFieldRecCount03((struct Blk3C *)s40);
+        GDS_PROFILE_ClearScoreRecCountC((struct Blk1AC *)s38, s3c);
         break;
     case 350:
         FIELD_GIMMICK_BSUBWAY_HaltTrainSway((int)s30);
         break;
     case 351: {
-        u32 n = func_0200DA54((struct Blk3C *)s40);
+        u32 n = GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)s40);
         switch (s3c) {
         case 2:
         case 3:
@@ -1040,7 +1040,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
                 sa += a1;
                 sb += b1;
             }
-            func_0200D9E8((struct Blk3C *)s40, kbf, kb6, (u16)(sb - sa));
+            GDS_PROFILE_AddFieldRecCounters((struct Blk3C *)s40, kbf, kb6, (u16)(sb - sa));
         }
         break;
     }
@@ -1051,10 +1051,10 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         *dst = FLAGS(w)->b12;
         break;
     case 356:
-        *dst = func_0200D884((struct Blk3C *)s40, 10, 0);
+        *dst = GDS_PROFILE_GetFieldRecField((struct Blk3C *)s40, 10, 0);
         break;
     case 357:
-        func_0200DA28((struct Blk3C *)s40);
+        GDS_PROFILE_IncFieldRecCount03((struct Blk3C *)s40);
         BSUBWAY_SCR_IncWinCount(w);
         *dst = BSUBWAY_SCR_GetWinCount(w);
         if (*dst > 9999)
@@ -1066,9 +1066,9 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
             *dst = 9999;
         break;
     case 359:
-        if (func_0200DB44((struct Blk1AC *)s38, s3c) == 0) {
-            func_0200DB30((struct Blk1AC *)s38, s3c);
-            func_0200DA14((struct Blk3C *)s40);
+        if (GDS_PROFILE_GetScoreRecCountC((struct Blk1AC *)s38, s3c) == 0) {
+            GDS_PROFILE_SetScoreRecCountC((struct Blk1AC *)s38, s3c);
+            GDS_PROFILE_ClearFieldRecCount03((struct Blk3C *)s40);
             BSUBWAY_SCR_ClearWinCount((u32)w);
         }
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C692C
+ * function: Wf2dmapFriend_InitFont
  * address: 0x021C692C
  * packet: pkt_ov128_021C692C
  * region: ov128
@@ -27,7 +27,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *TCBL_Create(unsigned,unsigned,unsigned,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *p);
-void func_021C692C(u8 *p, int heap)
+void Wf2dmapFriend_InitFont(u8 *p, int heap)
 {
     GF_FONT_SetDefaultTextColor();
     ((struct Obj05377 *)p)->f0=GF_FONT_Create_EC64(heap);

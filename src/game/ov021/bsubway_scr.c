@@ -35,40 +35,40 @@
  *   d_021DE58C     0x021DE58C  data  ov021
  *   func_02008550  0x02008550  thumb
  *   func_020071CC  0x020071CC  thumb
- *   func_0200D868  0x0200D868  thumb
- *   func_0200D85C  0x0200D85C  thumb
- *   func_0200DA14  0x0200DA14  thumb
- *   func_0200DB44  0x0200DB44  thumb
- *   func_0200DAC4  0x0200DAC4  thumb
- *   func_0200D914  0x0200D914  thumb
- *   func_0200D884  0x0200D884  thumb
+ *   GDS_PROFILE_SetFieldRecFlag1  0x0200D868  thumb
+ *   GDS_PROFILE_ClearFieldRec  0x0200D85C  thumb
+ *   GDS_PROFILE_ClearFieldRecCount03  0x0200DA14  thumb
+ *   GDS_PROFILE_GetScoreRecCountC  0x0200DB44  thumb
+ *   GDS_PROFILE_GetScoreRecCountA  0x0200DAC4  thumb
+ *   GDS_PROFILE_SetFieldRecField  0x0200D914  thumb
+ *   GDS_PROFILE_GetFieldRecField  0x0200D884  thumb
  *   GAME_DATA_GetField114  0x020127A4  thumb
- *   func_0200DA54  0x0200DA54  thumb
- *   func_0200DB80  0x0200DB80  thumb
+ *   GDS_PROFILE_GetFieldRecCount03  0x0200DA54  thumb
+ *   GDS_PROFILE_GetScoreRecCountCDec  0x0200DB80  thumb
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0200DB1C  0x0200DB1C  thumb
- *   func_0200DB08  0x0200DB08  thumb
- *   func_0200DAEC  0x0200DAEC  thumb
- *   func_0200DC08  0x0200DC08  thumb
- *   func_0200DA80  0x0200DA80  thumb
+ *   GDS_PROFILE_ClearScoreRecCountC  0x0200DB1C  thumb
+ *   GDS_PROFILE_SetScoreRecCountA  0x0200DB08  thumb
+ *   GDS_PROFILE_MaxScoreRecCountB  0x0200DAEC  thumb
+ *   GDS_PROFILE_GetScoreRecLevel  0x0200DC08  thumb
+ *   GDS_PROFILE_AddScoreRecTotal  0x0200DA80  thumb
  *   d_021DACDC     0x021DACDC  data  a1
- *   func_0200DB60  0x0200DB60  thumb
+ *   GDS_PROFILE_IncScoreRecCountC  0x0200DB60  thumb
  *   func_0200DEA8  0x0200DEA8  thumb
  *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
- *   func_0200DBA0  0x0200DBA0  thumb
- *   func_0200DBF0  0x0200DBF0  thumb
- *   func_0200DC0C  0x0200DC0C  thumb
- *   func_0200DBFC  0x0200DBFC  thumb
+ *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb
+ *   GDS_PROFILE_IncScoreRecLevel  0x0200DBF0  thumb
+ *   GDS_PROFILE_UpdateScoreRecStreak  0x0200DC0C  thumb
+ *   GDS_PROFILE_DecScoreRecLevel  0x0200DBFC  thumb
  *   data_021DACD0  0x021DACD0  data
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_0200DC94  0x0200DC94  thumb
- *   func_0200DC50  0x0200DC50  thumb
+ *   GDS_PROFILE_CalcScoreRecScore  0x0200DC94  thumb
+ *   GDS_PROFILE_SetScoreRecBlob  0x0200DC50  thumb
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
@@ -84,10 +84,10 @@
  *   BATTLE_REC_LoadToolOverlay  0x0200BA58  thumb
  *   BATTLE_REC_UnloadToolOverlay  0x0200BA68  thumb
  *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
- *   func_0200D87C  0x0200D87C  thumb
- *   func_0200D9E8  0x0200D9E8  thumb
- *   func_0200DA28  0x0200DA28  thumb
- *   func_0200DB30  0x0200DB30  thumb
+ *   GDS_PROFILE_GetFieldRecFlag1  0x0200D87C  thumb
+ *   GDS_PROFILE_AddFieldRecCounters  0x0200D9E8  thumb
+ *   GDS_PROFILE_IncFieldRecCount03  0x0200DA28  thumb
+ *   GDS_PROFILE_SetScoreRecCountC  0x0200DB30  thumb
  *   BSUBWAY_SAVEDATA_GetTrainersPresent  0x0200DE5C  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryPresent  0x0200DE64  thumb
  *   BSUBWAY_SAVEDATA_GetTrainersTagA  0x0200DE94  thumb
@@ -335,38 +335,38 @@ extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern void *func_020071CC(struct SaveControl *ctrl, u32 id);
-extern void func_0200D868(struct BsubwayPlayData *p, u32 v);
-extern void func_0200D85C(struct BsubwayPlayData *p);
-extern void func_0200DA14(struct BsubwayPlayData *p);
-extern u32 func_0200DB44(struct BsubwayScoreData *p, u32 i);
-extern u16 func_0200DAC4(struct BsubwayScoreData *p, u32 i);
-extern void func_0200D914(struct BsubwayPlayData *p, u32 id, const void *src);
-extern u32 func_0200D884(struct BsubwayPlayData *p, u32 id, void *out);
+extern void GDS_PROFILE_SetFieldRecFlag1(struct BsubwayPlayData *p, u32 v);
+extern void GDS_PROFILE_ClearFieldRec(struct BsubwayPlayData *p);
+extern void GDS_PROFILE_ClearFieldRecCount03(struct BsubwayPlayData *p);
+extern u32 GDS_PROFILE_GetScoreRecCountC(struct BsubwayScoreData *p, u32 i);
+extern u16 GDS_PROFILE_GetScoreRecCountA(struct BsubwayScoreData *p, u32 i);
+extern void GDS_PROFILE_SetFieldRecField(struct BsubwayPlayData *p, u32 id, const void *src);
+extern u32 GDS_PROFILE_GetFieldRecField(struct BsubwayPlayData *p, u32 id, void *out);
 extern void *GAME_DATA_GetField114(void *p);
-extern u16 func_0200DA54(struct BsubwayPlayData *p);
-extern u16 func_0200DB80(struct BsubwayScoreData *p, u32 i);
+extern u16 GDS_PROFILE_GetFieldRecCount03(struct BsubwayPlayData *p);
+extern u16 GDS_PROFILE_GetScoreRecCountCDec(struct BsubwayScoreData *p, u32 i);
 extern int BTL_SETUP_Delete(int a0);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *m, u32 id, u32 v);
-extern void func_0200DB1C(struct BsubwayScoreData *p, u32 i);
-extern void func_0200DB08(struct BsubwayScoreData *p, u32 i, u16 v);
-extern void func_0200DAEC(struct BsubwayScoreData *p, u32 i, u16 v);
-extern u8 func_0200DC08(struct BsubwayScoreData *p);
-extern void func_0200DA80(struct BsubwayScoreData *p, s32 v);
-extern void func_0200DB60(struct BsubwayScoreData *p, u32 i);
+extern void GDS_PROFILE_ClearScoreRecCountC(struct BsubwayScoreData *p, u32 i);
+extern void GDS_PROFILE_SetScoreRecCountA(struct BsubwayScoreData *p, u32 i, u16 v);
+extern void GDS_PROFILE_MaxScoreRecCountB(struct BsubwayScoreData *p, u32 i, u16 v);
+extern u8 GDS_PROFILE_GetScoreRecLevel(struct BsubwayScoreData *p);
+extern void GDS_PROFILE_AddScoreRecTotal(struct BsubwayScoreData *p, s32 v);
+extern void GDS_PROFILE_IncScoreRecCountC(struct BsubwayScoreData *p, u32 i);
 extern void func_0200DEA8(u32 h, u8 *list, u8 n, u16 id);
 extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0);
-extern u32 func_0200DBA0(struct BsubwayScoreData *p, s32 i, u32 op);
-extern void func_0200DBF0(struct BsubwayScoreData *p);
-extern u8 func_0200DC0C(struct BsubwayScoreData *p, u32 kind);
-extern void func_0200DBFC(struct BsubwayScoreData *p);
+extern u32 GDS_PROFILE_ScoreRecFlag(struct BsubwayScoreData *p, s32 i, u32 op);
+extern void GDS_PROFILE_IncScoreRecLevel(struct BsubwayScoreData *p);
+extern u8 GDS_PROFILE_UpdateScoreRecStreak(struct BsubwayScoreData *p, u32 kind);
+extern void GDS_PROFILE_DecScoreRecLevel(struct BsubwayScoreData *p);
 extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern int func_0209C0A4(int a, int b);
-extern void func_0200DC94(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
-extern void func_0200DC50(struct BsubwayScoreData *p, u32 which, const void *src);
+extern void GDS_PROFILE_CalcScoreRecScore(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
+extern void GDS_PROFILE_SetScoreRecBlob(struct BsubwayScoreData *p, u32 which, const void *src);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
 extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
@@ -374,7 +374,7 @@ extern u32 GAME_DATA_GetEventWork(const struct GameData *p);
 extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 extern void SCRIPT_SYS_CallEvent(void *h, void *task);
 extern void OS_ResetSystem(u32 a);
-extern u32 func_0200D87C(struct BsubwayPlayData *p);
+extern u32 GDS_PROFILE_GetFieldRecFlag1(struct BsubwayPlayData *p);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void ZONEDATA_SetDirectLocation(ReturnLocation *out, u32 id, s16 n, u32 a, u32 b, u32 c);
@@ -424,9 +424,9 @@ extern void BATTLE_REC_FreeWork(void);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
 extern u32 POKEPARTY_GetCount(void *party);
-extern void func_0200D9E8(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
-extern void func_0200DA28(struct BsubwayPlayData *p);
-extern void func_0200DB30(struct BsubwayScoreData *p, u32 i);
+extern void GDS_PROFILE_AddFieldRecCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
+extern void GDS_PROFILE_IncFieldRecCount03(struct BsubwayPlayData *p);
+extern void GDS_PROFILE_SetScoreRecCountC(struct BsubwayScoreData *p, u32 i);
 extern void BSUBWAY_COMM_AddCommandTable(u32 a);
 extern void BSUBWAY_COMM_NetInit(void *p);
 extern int BSUBWAY_COMM_StartTimingSync(int a0);
@@ -601,7 +601,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     work->playData = func_020071CC(saveControl, 0x39);
     work->scoreData = func_020071CC(saveControl, 0x3a);
     work->wifiData = func_020071CC(saveControl, 0x3b);
-    func_0200D868(work->playData, 0);
+    GDS_PROFILE_SetFieldRecFlag1(work->playData, 0);
     GAME_DATA_SetCurrentEvent(gameData, work);
     if (resume == 0) {
         work->playMode = playMode;
@@ -610,32 +610,32 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
             work->memberIndex[i] = 0xff;
         for (i = 0; i < 14; i++)
             work->trainerNo[i] = 0xffff;
-        func_0200D85C(work->playData);
-        func_0200DA14(work->playData);
-        if (func_0200DB44(work->scoreData, work->playMode) == 1)
-            BSUBWAY_SCR_SetWinCount(work, func_0200DAC4(work->scoreData, work->playMode));
+        GDS_PROFILE_ClearFieldRec(work->playData);
+        GDS_PROFILE_ClearFieldRecCount03(work->playData);
+        if (GDS_PROFILE_GetScoreRecCountC(work->scoreData, work->playMode) == 1)
+            BSUBWAY_SCR_SetWinCount(work, GDS_PROFILE_GetScoreRecCountA(work->scoreData, work->playMode));
         saveByte = work->playMode;
-        func_0200D914(work->playData, 0, &saveByte);
+        GDS_PROFILE_SetFieldRecField(work->playData, 0, &saveByte);
     } else {
-        work->playMode = func_0200D884(work->playData, 0, 0);
+        work->playMode = GDS_PROFILE_GetFieldRecField(work->playData, 0, 0);
         work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
-        if (func_0200D884(work->playData, 10, 0) != 0)
+        if (GDS_PROFILE_GetFieldRecField(work->playData, 10, 0) != 0)
             BSUBWAY_SCR_LoadPartyCopy(work);
-        func_0200D884(work->playData, 5, work->memberIndex);
-        func_0200D884(work->playData, 8, work->trainerNo);
+        GDS_PROFILE_GetFieldRecField(work->playData, 5, work->memberIndex);
+        GDS_PROFILE_GetFieldRecField(work->playData, 8, work->trainerNo);
         if (work->playMode == 2 || work->playMode == 7) {
-            work->stateBits.partnerNo = (u8)func_0200D884(work->playData, 9, 0);
-            func_0200D884(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
+            work->stateBits.partnerNo = (u8)GDS_PROFILE_GetFieldRecField(work->playData, 9, 0);
+            GDS_PROFILE_GetFieldRecField(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
             trainerBase = 0x12f;
             if (func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114(gameData) + 0x20)) != 0)
                 trainerBase -= 3;
             i = work->stateBits.partnerNo;
-            BSUBWAY_SCR_CreatePartnerMons(work, &work->partners[i], trainerBase + i, func_0200D884(work->playData, 7, 0), &work->partnerDraws[i], work->heapId);
+            BSUBWAY_SCR_CreatePartnerMons(work, &work->partners[i], trainerBase + i, GDS_PROFILE_GetFieldRecField(work->playData, 7, 0), &work->partnerDraws[i], work->heapId);
         }
         mode = work->playMode;
-        if (func_0200DB44(work->scoreData, mode) == 1) {
-            round = func_0200DA54(work->playData);
-            BSUBWAY_SCR_SetWinCountFromRound(work, func_0200DB80(work->scoreData, mode), round);
+        if (GDS_PROFILE_GetScoreRecCountC(work->scoreData, mode) == 1) {
+            round = GDS_PROFILE_GetFieldRecCount03(work->playData);
+            BSUBWAY_SCR_SetWinCountFromRound(work, GDS_PROFILE_GetScoreRecCountCDec(work->scoreData, mode), round);
         }
     }
     return work;
@@ -682,9 +682,9 @@ void BSUBWAY_SCR_ChangeCommMultiMode(BsubwayScrWork *work)
     else if (work->playMode == 7)
         commMode = 8;
     work->playMode = commMode;
-    func_0200D914(work->playData, 0, &commMode);
-    if (func_0200DB44(work->scoreData, work->playMode) == 1)
-        BSUBWAY_SCR_SetWinCount(work, func_0200DAC4(work->scoreData, work->playMode));
+    GDS_PROFILE_SetFieldRecField(work->playData, 0, &commMode);
+    if (GDS_PROFILE_GetScoreRecCountC(work->scoreData, work->playMode) == 1)
+        BSUBWAY_SCR_SetWinCount(work, GDS_PROFILE_GetScoreRecCountA(work->scoreData, work->playMode));
     else
         BSUBWAY_SCR_ClearWinCount(work);
 }
@@ -703,15 +703,15 @@ void BSUBWAY_SCR_SaveRestPlayData(BsubwayScrWork *work)
 {
     u8 saveByte = work->playMode;
 
-    func_0200D914(work->playData, 0, &saveByte);
-    func_0200D914(work->playData, 5, work->memberIndex);
-    func_0200D914(work->playData, 8, work->trainerNo);
-    func_0200D868(work->playData, 1);
+    GDS_PROFILE_SetFieldRecField(work->playData, 0, &saveByte);
+    GDS_PROFILE_SetFieldRecField(work->playData, 5, work->memberIndex);
+    GDS_PROFILE_SetFieldRecField(work->playData, 8, work->trainerNo);
+    GDS_PROFILE_SetFieldRecFlag1(work->playData, 1);
     if (work->playMode == 2 || work->playMode == 7) {
         saveByte = work->stateBits.partnerNo;
-        func_0200D914(work->playData, 9, &saveByte);
-        func_0200D914(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
-        func_0200D914(work->playData, 7, &work->partnerResult[work->stateBits.partnerNo]);
+        GDS_PROFILE_SetFieldRecField(work->playData, 9, &saveByte);
+        GDS_PROFILE_SetFieldRecField(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
+        GDS_PROFILE_SetFieldRecField(work->playData, 7, &work->partnerResult[work->stateBits.partnerNo]);
     }
 }
 
@@ -732,7 +732,7 @@ void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused)
     u32 mon;
 
     work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
-    func_0200D884(work->playData, 5, work->memberIndex);
+    GDS_PROFILE_GetFieldRecField(work->playData, 5, work->memberIndex);
     party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
         mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
@@ -755,15 +755,15 @@ void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work)
 {
     u8 saveByte = work->playMode;
 
-    func_0200D914(work->playData, 0, &saveByte);
-    func_0200DA14(work->playData);
-    func_0200D914(work->playData, 5, work->memberIndex);
-    func_0200D868(work->playData, 1);
+    GDS_PROFILE_SetFieldRecField(work->playData, 0, &saveByte);
+    GDS_PROFILE_ClearFieldRecCount03(work->playData);
+    GDS_PROFILE_SetFieldRecField(work->playData, 5, work->memberIndex);
+    GDS_PROFILE_SetFieldRecFlag1(work->playData, 1);
     if (work->playMode == 2 || work->playMode == 7) {
         saveByte = work->stateBits.partnerNo;
-        func_0200D914(work->playData, 9, &saveByte);
-        func_0200D914(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
-        func_0200D914(work->playData, 7, &work->partnerResult[work->stateBits.partnerNo]);
+        GDS_PROFILE_SetFieldRecField(work->playData, 9, &saveByte);
+        GDS_PROFILE_SetFieldRecField(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
+        GDS_PROFILE_SetFieldRecField(work->playData, 7, &work->partnerResult[work->stateBits.partnerNo]);
     }
 }
 
@@ -782,10 +782,10 @@ u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem)
     u32 saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)ICA_ANIME_GetField1C(gameSystem));
     u32 playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
     u32 scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
-    u8 playMode = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
+    u8 playMode = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 0, 0);
 
-    func_0200DA14((struct BsubwayPlayData *)playData);
-    func_0200DB1C((struct BsubwayScoreData *)scoreData, playMode);
+    GDS_PROFILE_ClearFieldRecCount03((struct BsubwayPlayData *)playData);
+    GDS_PROFILE_ClearScoreRecCountC((struct BsubwayScoreData *)scoreData, playMode);
     return playMode;
 }
 
@@ -805,11 +805,11 @@ void BSUBWAY_SCR_SetLoseScore(u32 unused, BsubwayScrWork *work)
     u8 playMode = work->playMode;
     u32 scoreData = (u32)work->scoreData;
 
-    func_0200DB08((struct BsubwayScoreData *)scoreData, playMode, winCount);
-    func_0200DAEC((struct BsubwayScoreData *)scoreData, playMode, winCount);
+    GDS_PROFILE_SetScoreRecCountA((struct BsubwayScoreData *)scoreData, playMode, winCount);
+    GDS_PROFILE_MaxScoreRecCountB((struct BsubwayScoreData *)scoreData, playMode, winCount);
     BSUBWAY_SCR_SaveRecordParty(work, (u32)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
-    func_0200DB1C(work->scoreData, playMode);
-    func_0200DA14(work->playData);
+    GDS_PROFILE_ClearScoreRecCountC(work->scoreData, playMode);
+    GDS_PROFILE_ClearFieldRecCount03(work->playData);
 }
 
 
@@ -832,8 +832,8 @@ u32 BSUBWAY_SCR_AddBattlePoint(BsubwayScrWork *work)
 
     if (work->playMode == 4) {
         points = 0;
-        if ((u16)func_0200D884(work->playData, 0xB, 0) == 1) {
-            idx = (s8)func_0200DC08(work->scoreData);
+        if ((u16)GDS_PROFILE_GetFieldRecField(work->playData, 0xB, 0) == 1) {
+            idx = (s8)GDS_PROFILE_GetScoreRecLevel(work->scoreData);
             if (idx < 0)
                 idx = 0;
             else if (idx >= 10)
@@ -844,7 +844,7 @@ u32 BSUBWAY_SCR_AddBattlePoint(BsubwayScrWork *work)
         }
     } else {
         points = 0;
-        count = func_0200DB80(work->scoreData, work->playMode);
+        count = GDS_PROFILE_GetScoreRecCountCDec(work->scoreData, work->playMode);
         switch (work->playMode) {
         case 0:
             row = 0;
@@ -899,7 +899,7 @@ u32 BSUBWAY_SCR_AddBattlePoint(BsubwayScrWork *work)
     }
     if (points == 0)
         points = 1;
-    func_0200DA80(work->scoreData, points);
+    GDS_PROFILE_AddScoreRecTotal(work->scoreData, points);
     return points;
 }
 
@@ -982,7 +982,7 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
 int BSUBWAY_SCR_IsWinMax(BsubwayScrWork *work)
 {
     if (work->stateBits.winMaxReached == 0) {
-        if (func_0200DA54(work->playData) < 7)
+        if (GDS_PROFILE_GetFieldRecCount03(work->playData) < 7)
             return 0;
         work->stateBits.winMaxReached = 1;
     }
@@ -1004,11 +1004,11 @@ void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, u32 unused)
     u8 playMode = work->playMode;
     u16 winCount = BSUBWAY_SCR_GetWinCount(work);
 
-    func_0200DB08(work->scoreData, playMode, winCount);
-    func_0200DAEC(work->scoreData, playMode, func_0200DAC4(work->scoreData, playMode));
-    func_0200DB60(work->scoreData, playMode);
+    GDS_PROFILE_SetScoreRecCountA(work->scoreData, playMode, winCount);
+    GDS_PROFILE_MaxScoreRecCountB(work->scoreData, playMode, GDS_PROFILE_GetScoreRecCountA(work->scoreData, playMode));
+    GDS_PROFILE_IncScoreRecCountC(work->scoreData, playMode);
     BSUBWAY_SCR_SaveRecordParty(work, (u32)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
-    func_0200DA14(work->playData);
+    GDS_PROFILE_ClearFieldRecCount03(work->playData);
 }
 
 
@@ -1035,7 +1035,7 @@ int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, u32 unused)
  */
 void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work)
 {
-    u32 round = func_0200DA54(work->playData);
+    u32 round = GDS_PROFILE_GetFieldRecCount03(work->playData);
     int i;
     u32 j;
     u16 monsNo[2];
@@ -1089,26 +1089,26 @@ u32 BSUBWAY_SCR_GetTrainerObjCode(BsubwayScrWork *work, int i)
  */
 int BSUBWAY_SCR_UpdateStageRank(void *scoreData, int unused, int mode)
 {
-    u8 rank = (int)func_0200DC08(scoreData);
+    u8 rank = (int)GDS_PROFILE_GetScoreRecLevel(scoreData);
     u32 streak;
 
     switch (mode) {
     case 0:
         return rank;
     case 3:
-        func_0200DBA0(scoreData, 0, 2);
+        GDS_PROFILE_ScoreRecFlag(scoreData, 0, 2);
         if (rank == 10)
             return 0;
-        func_0200DBF0(scoreData);
+        GDS_PROFILE_IncScoreRecLevel(scoreData);
         return 1;
     case 4:
-        streak = func_0200DC0C(scoreData, 3);
+        streak = GDS_PROFILE_UpdateScoreRecStreak(scoreData, 3);
         if (rank == 1)
             return 0;
         if (streak >= data_021DACD0[rank - 1]) {
-            func_0200DBFC(scoreData);
-            func_0200DC0C(scoreData, 2);
-            func_0200DBA0(scoreData, 0, 2);
+            GDS_PROFILE_DecScoreRecLevel(scoreData);
+            GDS_PROFILE_UpdateScoreRecStreak(scoreData, 2);
+            GDS_PROFILE_ScoreRecFlag(scoreData, 0, 2);
             return 1;
         }
         return 0;
@@ -1145,7 +1145,7 @@ void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
  */
 void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work)
 {
-    if (func_0200D884(work->playData, 10, 0) == 0)
+    if (GDS_PROFILE_GetFieldRecField(work->playData, 10, 0) == 0)
         return GAME_DATA_GetMyParty(work->gameData);
     return work->partyCopy;
 }
@@ -1292,10 +1292,10 @@ void BSUBWAY_SCR_SaveRecordParty(BsubwayScrWork *work, u32 saveControl, int unus
     case 4:
         BSUBWAY_SCR_SaveMemberParty(work, saveControl, 1);
         saveByte = work->playMode;
-        func_0200D914(work->playData, 0, &saveByte);
-        saveByte = func_0200DA54(work->playData) + 1;
-        func_0200D914(work->playData, 1, &saveByte);
-        func_0200DC94(work->scoreData, (const struct BsubwayRecordSrc *)(work->playData));
+        GDS_PROFILE_SetFieldRecField(work->playData, 0, &saveByte);
+        saveByte = GDS_PROFILE_GetFieldRecCount03(work->playData) + 1;
+        GDS_PROFILE_SetFieldRecField(work->playData, 1, &saveByte);
+        GDS_PROFILE_CalcScoreRecScore(work->scoreData, (const struct BsubwayRecordSrc *)(work->playData));
         break;
     }
 }
@@ -1376,7 +1376,7 @@ void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
     party = BSUBWAY_SCR_GetParty(work);
     for (; i < 3; i++)
         BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)POKEPARTY_GetMember(party, work->memberIndex[i]));
-    func_0200DC50(work->scoreData, slot, buf);
+    GDS_PROFILE_SetScoreRecBlob(work->scoreData, slot, buf);
     MI_CpuFill8(buf, 0, 0xb4);
     func_020307B0(buf);
 }
@@ -1495,7 +1495,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     eventFlags = GAME_DATA_GetEventWork((const struct GameData *)gameData);
     work = GAME_DATA_GetCurrentEvent((struct GameData *)gameData);
     playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
-    playMode = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
+    playMode = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 0, 0);
     scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
     wifiData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3b);
     fieldMap = ICA_ANIME_GetField20((void *)gameSystem);
@@ -1516,10 +1516,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         OS_ResetSystem(0);
         break;
     case BSUBWAY_SCR_CMD_CLEAR_PLAY_DATA:
-        func_0200D85C((struct BsubwayPlayData *)playData);
+        GDS_PROFILE_ClearFieldRec((struct BsubwayPlayData *)playData);
         break;
     case BSUBWAY_SCR_CMD_GET_PLAY_DATA_STATE:
-        *resultDst = func_0200D87C((struct BsubwayPlayData *)playData);
+        *resultDst = GDS_PROFILE_GetFieldRecFlag1((struct BsubwayPlayData *)playData);
         break;
     case BSUBWAY_SCR_CMD_SET_RETURN_LOCATION_AT_PLAYER: {
         void *playerObj = FIELDMAP_GetFieldPlayer((void *)fieldMap);
@@ -1552,7 +1552,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         ZONEDATA_ResetEventFlag((char *)eventFlags, 0x966);
         break;
     case BSUBWAY_SCR_CMD_GET_RECORD_WIN_COUNT:
-        *resultDst = func_0200DAC4((struct BsubwayScoreData *)scoreData, arg1);
+        *resultDst = GDS_PROFILE_GetScoreRecCountA((struct BsubwayScoreData *)scoreData, arg1);
         if (*resultDst > 9999)
             *resultDst = 9999;
         break;
@@ -1569,27 +1569,27 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NEXT_ROUND_FROM_SAVE:
-        *resultDst = func_0200DA54((struct BsubwayPlayData *)playData) + 1;
+        *resultDst = GDS_PROFILE_GetFieldRecCount03((struct BsubwayPlayData *)playData) + 1;
         break;
     case BSUBWAY_SCR_CMD_GET_NEXT_ROUND:
-        *resultDst = func_0200DA54((struct BsubwayPlayData *)(work->playData));
+        *resultDst = GDS_PROFILE_GetFieldRecCount03((struct BsubwayPlayData *)(work->playData));
         *resultDst += 1;
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_FLAG:
         if (data_021DAD36[arg1] == 11)
             *resultDst = 1;
         else
-            *resultDst = func_0200DBA0((struct BsubwayScoreData *)scoreData, data_021DAD36[arg1], 0);
+            *resultDst = GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, data_021DAD36[arg1], 0);
         break;
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG:
         if (data_021DAD36[arg1] != 11)
-            func_0200DBA0((struct BsubwayScoreData *)scoreData, data_021DAD36[arg1], 1);
+            GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, data_021DAD36[arg1], 1);
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_FLAG_CLEAR:
-        *resultDst = func_0200DBA0((struct BsubwayScoreData *)scoreData, 10, 0);
+        *resultDst = GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, 10, 0);
         break;
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG_CLEAR:
-        func_0200DBA0((struct BsubwayScoreData *)scoreData, 10, 1);
+        GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, 10, 1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_SIGN_TABLE:
         FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[arg1], (int)(&data_021DAD70[arg2]));
@@ -1601,7 +1601,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), arg1);
         break;
     case BSUBWAY_SCR_CMD_GET_SAVED_PLAY_MODE:
-        *resultDst = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
+        *resultDst = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 0, 0);
         break;
     case BSUBWAY_SCR_CMD_IS_MULTI_PLAY_MODE:
         *resultDst = 0;
@@ -1663,7 +1663,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = BSUBWAY_SCR_UpdateStageRank((void *)scoreData, gameSystem, 4);
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_ROUND_VALUE:
-        *resultDst = func_0200DB80((struct BsubwayScoreData *)scoreData, arg1);
+        *resultDst = GDS_PROFILE_GetScoreRecCountCDec((struct BsubwayScoreData *)scoreData, arg1);
         break;
     case BSUBWAY_SCR_CMD_GET_PARTNER_LOOK:
         *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
@@ -1698,7 +1698,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_MODE_CLEARED:
-        *resultDst = func_0200DB44((struct BsubwayScoreData *)scoreData, arg1);
+        *resultDst = GDS_PROFILE_GetScoreRecCountC((struct BsubwayScoreData *)scoreData, arg1);
         break;
     case BSUBWAY_SCR_CMD_IS_NPC_AVAILABLE: {
         u32 npcIndex = FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0);
@@ -1743,12 +1743,12 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     }
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG_FIRST:
         if (arg1 == 0)
-            func_0200DBA0((struct BsubwayScoreData *)scoreData, 1, 2);
+            GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, 1, 2);
         else
-            func_0200DBA0((struct BsubwayScoreData *)scoreData, 1, 1);
+            GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, 1, 1);
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_FLAG_FIRST:
-        *resultDst = func_0200DBA0((struct BsubwayScoreData *)scoreData, 1, 0);
+        *resultDst = GDS_PROFILE_ScoreRecFlag((struct BsubwayScoreData *)scoreData, 1, 0);
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_A:
         procParam.mode = 0;
@@ -1776,10 +1776,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_11:
         byte11 = arg1;
-        func_0200D914((struct BsubwayPlayData *)playData, 11, &byte11);
+        GDS_PROFILE_SetFieldRecField((struct BsubwayPlayData *)playData, 11, &byte11);
         break;
     case BSUBWAY_SCR_CMD_GET_PLAY_DATA_BYTE_11:
-        *resultDst = func_0200D884((struct BsubwayPlayData *)playData, 11, 0);
+        *resultDst = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 11, 0);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_FF:
         *resultDst = BSUBWAY_SAVEDATA_GetHistoryPresent((struct BsubwayWifiData *)wifiData);
@@ -1814,7 +1814,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_START_PARTY_SELECT:
         {
-            u8 useOwnParty = func_0200D884((struct BsubwayPlayData *)playData, 10, 0);
+            u8 useOwnParty = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 10, 0);
             SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartPartyPickEvent((struct PartySelectParam *)work, (void *)gameSystem, useOwnParty));
         }
         startedTask = 1;
@@ -1890,7 +1890,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_10:
         byte10 = arg1;
-        func_0200D914((struct BsubwayPlayData *)playData, 10, &byte10);
+        GDS_PROFILE_SetFieldRecField((struct BsubwayPlayData *)playData, 10, &byte10);
         break;
     case BSUBWAY_SCR_CMD_CHANGE_COMM_MULTI_MODE:
         BSUBWAY_SCR_ChangeCommMultiMode(work);
@@ -1925,7 +1925,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_SET_PROGRESS_RECORDS: {
         BsubwayRecordNo recordNo = 0;
-        u16 playRound = func_0200DA54((struct BsubwayPlayData *)playData);
+        u16 playRound = GDS_PROFILE_GetFieldRecCount03((struct BsubwayPlayData *)playData);
         if (playRound != 0) {
             void *trainerCard = (void *)ISS_SYS_GetSwitchSys((u32 *)GAMESYSTEM_GetIssSystem((u32 *)gameSystem));
             playRound = recordNo + playRound + 1;
@@ -1955,7 +1955,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         void *checkedParty;
         u32 checkResult;
         *resultDst = 0;
-        partySource = func_0200D884((struct BsubwayPlayData *)playData, 10, 0);
+        partySource = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 10, 0);
         regulation = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(playMode), 4);
         if (partySource == 1) {
             recordParty = func_0200BAF4((u32)BATTLE_BOX_GetFromSave((void *)saveControl), 4);
@@ -2027,14 +2027,14 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_COMMIT_MODE_CLEAR:
-        func_0200DA14((struct BsubwayPlayData *)playData);
-        func_0200DB1C((struct BsubwayScoreData *)scoreData, playMode);
+        GDS_PROFILE_ClearFieldRecCount03((struct BsubwayPlayData *)playData);
+        GDS_PROFILE_ClearScoreRecCountC((struct BsubwayScoreData *)scoreData, playMode);
         break;
     case BSUBWAY_SCR_CMD_RELEASE_TRAIN_SIGN:
         FIELD_GIMMICK_BSUBWAY_HaltTrainSway((int)fieldMap);
         break;
     case BSUBWAY_SCR_CMD_GET_TRAINER_NO: {
-        u32 playRound = func_0200DA54((struct BsubwayPlayData *)playData);
+        u32 playRound = GDS_PROFILE_GetFieldRecCount03((struct BsubwayPlayData *)playData);
         switch (playMode) {
         case 2:
         case 3:
@@ -2077,7 +2077,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
                 sumBefore += valueBefore;
                 sumAfter += valueAfter;
             }
-            func_0200D9E8((struct BsubwayPlayData *)playData, tallyLast, tallyFirst, (u16)(sumAfter - sumBefore));
+            GDS_PROFILE_AddFieldRecCounters((struct BsubwayPlayData *)playData, tallyLast, tallyFirst, (u16)(sumAfter - sumBefore));
         }
         break;
     }
@@ -2088,10 +2088,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = work->stateBits.flag12;
         break;
     case BSUBWAY_SCR_CMD_GET_PLAY_DATA_BYTE_10:
-        *resultDst = func_0200D884((struct BsubwayPlayData *)playData, 10, 0);
+        *resultDst = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 10, 0);
         break;
     case BSUBWAY_SCR_CMD_NEXT_ROUND_GET_WIN_COUNT:
-        func_0200DA28((struct BsubwayPlayData *)playData);
+        GDS_PROFILE_IncFieldRecCount03((struct BsubwayPlayData *)playData);
         BSUBWAY_SCR_IncWinCount(work);
         *resultDst = BSUBWAY_SCR_GetWinCount(work);
         if (*resultDst > 9999)
@@ -2103,9 +2103,9 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
             *resultDst = 9999;
         break;
     case BSUBWAY_SCR_CMD_COMMIT_FIRST_CLEAR:
-        if (func_0200DB44((struct BsubwayScoreData *)scoreData, playMode) == 0) {
-            func_0200DB30((struct BsubwayScoreData *)scoreData, playMode);
-            func_0200DA14((struct BsubwayPlayData *)playData);
+        if (GDS_PROFILE_GetScoreRecCountC((struct BsubwayScoreData *)scoreData, playMode) == 0) {
+            GDS_PROFILE_SetScoreRecCountC((struct BsubwayScoreData *)scoreData, playMode);
+            GDS_PROFILE_ClearFieldRecCount03((struct BsubwayPlayData *)playData);
             BSUBWAY_SCR_ClearWinCount(work);
         }
         break;
@@ -2270,7 +2270,7 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
     GAME_DATA_GetEventWork(gameData);
     work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
-    func_0200D884(func_020071CC(saveControl, 0x39), 0, 0);
+    GDS_PROFILE_GetFieldRecField(func_020071CC(saveControl, 0x39), 0, 0);
     func_020071CC(saveControl, 0x3A);
     commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
     if (commResult != 0) {
@@ -2311,7 +2311,7 @@ int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
     GAME_DATA_GetEventWork(gameData);
     work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
-    func_0200D884(func_020071CC(saveControl, 0x39), 0, 0);
+    GDS_PROFILE_GetFieldRecField(func_020071CC(saveControl, 0x39), 0, 0);
     func_020071CC(saveControl, 0x3A);
     commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
     if (commResult != 0) {
@@ -2524,7 +2524,7 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
         return;
     }
     spawnEntry = d_021DAEBC;
-    threshold = func_0200DB80(work->scoreData, playMode);
+    threshold = GDS_PROFILE_GetScoreRecCountCDec(work->scoreData, playMode);
     switch (playMode) {
     case 0:
     case 1:

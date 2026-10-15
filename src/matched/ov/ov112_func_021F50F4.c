@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * leaf: Sole unresolved ov112 mapper for concrete-correct ov133 func_021B8444; root reserved ownership.
+ * leaf: Sole unresolved ov112 mapper for concrete-correct ov133 DUP_FITTING_MoveElem; root reserved ownership.
  */
 int MUSICAL_MCSS_GetIndex(unsigned index)
 {

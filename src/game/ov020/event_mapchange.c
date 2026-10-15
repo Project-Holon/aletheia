@@ -17,7 +17,7 @@
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
- *   func_0202E888  0x0202E888  thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   EL_SCOREBOARD_StartStandalone  0x02187808  thumb  ov020
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -70,7 +70,7 @@
  *   GF_STANDARD_SetupRtc  0x0203F524  arm
  *   BEACON_SetLastTime  0x0200C384  thumb
  *   FORMCHANGE_UpdateSeasonForms  0x0216AAE4  thumb  ov010
- *   func_0202E848  0x0202E848  thumb
+ *   COMM_PLAYER_SUPPORT_IsSeasonChanged  0x0202E848  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ZONEDATA_CreateAreaData  0x0201407C  thumb
@@ -78,7 +78,7 @@
  *   ZONEDATA_DeleteAreaData  0x020140B4  thumb
  *   EVENT_FIELDMAP_CONTROL_GetExitEffect  0x021BE89C  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_GetEntranceEffect  0x021BE8B8  thumb  ov021
- *   sub_0202E8A4   0x0202E8A4  thumb
+ *   COMM_PLAYER_SUPPORT_NextSeason   0x0202E8A4  thumb
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetConnectData  0x021625CC  thumb  ov010
  *   EVENTDATA_SYSTEM_GetConnectExitType  0x021626E8  thumb  ov010
@@ -94,7 +94,7 @@
  *   func_021882A0  0x021882A0  arm  ov230d
  *   func_02188318  0x02188318  arm  ov230d
  *   func_021883CC  0x021883CC  arm  ov230d
- *   func_0202E8CC  0x0202E8CC  thumb
+ *   COMM_PLAYER_SUPPORT_SetSeason  0x0202E8CC  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   FORMCHANGE_RevertShayminAtNight  0x0216A358  thumb  ov010
  *   FIELD_MAP_CHANGE_ResetGimmickStateCase1  0x02164454  thumb  ov010
@@ -362,8 +362,8 @@ extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void func_0208068C(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void func_02080B98(void);
-extern int func_0202E888(void);
-extern u8 func_0202E8CC(struct GameData *gameData, s32 season);
+extern int COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
+extern u8 COMM_PLAYER_SUPPORT_SetSeason(struct GameData *gameData, s32 season);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern struct GameEvent *EL_SCOREBOARD_StartStandalone(struct GameSystem *gameSystem, int fromSeason, int toSeason);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
@@ -421,7 +421,7 @@ extern void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, void 
 extern u64 GF_STANDARD_SetupRtc();
 extern void BEACON_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
 extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, void *party, int season);
-extern int func_0202E848(struct GameData *gameData, u16 *outA, u16 *outB);
+extern int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct GameData *gameData, u16 *outA, u16 *outB);
 extern u32 ZONEDATA_GetAreaId(u32 zoneId);
 u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern struct AreaData *ZONEDATA_CreateAreaData(int heapId, int areaId, int c);
@@ -429,7 +429,7 @@ extern u8 ZONEDATA_GetAreaInnerOuter(struct AreaData *areaData);
 extern u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 extern int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZone, u32 toZone);
 extern int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int fromZone, int toZone);
-extern u8 sub_0202E8A4(u8 a);
+extern u8 COMM_PLAYER_SUPPORT_NextSeason(u8 a);
 extern EventData *GAME_DATA_GetEventData(GameData *gameData);
 extern void *EVENTDATA_SYSTEM_GetConnectData(EventData *eventData, u16 exitId);
 extern u8 EVENTDATA_SYSTEM_GetConnectExitType(void *connectData);
@@ -729,7 +729,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, FirstStar
         (*seq)++;
         break;
     case 1:
-        func_0202E8CC(gameData, (u16)func_0202E888());
+        COMM_PLAYER_SUPPORT_SetSeason(gameData, (u16)COMM_PLAYER_SUPPORT_GetSeasonFromClock());
         season = GAME_DATA_GetSeason(gameData);
         child = EL_SCOREBOARD_StartStandalone(gameSystem, season, season);
         GAME_EVENT_CallEvent(event, child);
@@ -950,7 +950,7 @@ void EVENT_MAPCHANGE_CheckSeasonChange(MapChangeWork *work)
     int outdoors;
     u16 fromSeason;
 
-    func_0202E848(work->gameData, &seasons[1], &seasons[0]);
+    COMM_PLAYER_SUPPORT_IsSeasonChanged(work->gameData, &seasons[1], &seasons[0]);
     areaData = ZONEDATA_CreateAreaData(FIELDMAP_GetHeapId(work->fieldMap), ZONEDATA_GetAreaId(work->destination.zoneId), 0);
     outdoors = 0;
     if (ZONEDATA_GetAreaInnerOuter(areaData) != 0)
@@ -979,7 +979,7 @@ void EVENT_MAPCHANGE_SetupExitEntranceParam(MapChangeWork *work, struct GameEven
     entrance->exitEffectId = EVENT_FIELDMAP_CONTROL_GetExitEffect(work->currentZoneId, work->destination.zoneId);
     entrance->entranceEffectId = EVENT_FIELDMAP_CONTROL_GetEntranceEffect(work->currentZoneId, work->destination.zoneId);
     entrance->seasonChanged = (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) ? 1 : 0;
-    entrance->fromSeasonIndex = sub_0202E8A4(work->fromSeason);
+    entrance->fromSeasonIndex = COMM_PLAYER_SUPPORT_NextSeason(work->fromSeason);
     entrance->toSeason = work->toSeason;
     entrance->bgmReplaced = 0;
     entrance->bgmFadeStarted = 0;
@@ -1000,7 +1000,7 @@ void EVENT_MAPCHANGE_SetupEnterEntranceParam(MapChangeWork *work, struct GameEve
     entrance->exitEffectId = EVENT_FIELDMAP_CONTROL_GetExitEffect(work->currentZoneId, work->destination.zoneId);
     entrance->entranceEffectId = EVENT_FIELDMAP_CONTROL_GetEntranceEffect(work->currentZoneId, work->destination.zoneId);
     entrance->seasonChanged = (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) ? 1 : 0;
-    entrance->fromSeasonIndex = sub_0202E8A4(work->fromSeason);
+    entrance->fromSeasonIndex = COMM_PLAYER_SUPPORT_NextSeason(work->fromSeason);
     entrance->toSeason = work->toSeason;
     if (work->destination.type == 1) {
         entrance->destExitType = 0;
@@ -1060,7 +1060,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         func_021882A0((void (*)(void))func_02183B60, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
         if (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) {
-            func_0202E8CC(gameData, work->toSeason);
+            COMM_PLAYER_SUPPORT_SetSeason(gameData, work->toSeason);
             sessionPtr = (int)func_02008B14(GAME_DATA_GetSaveControl(gameData));
             season = GAME_DATA_GetSeason(gameData);
             party = GAME_DATA_GetMyParty(gameData);

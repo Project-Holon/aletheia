@@ -11,9 +11,9 @@
  * matching: arc declared before first/second fixes the three spill homes.
  *   0204ABF0 argument4 is u16: caller explicitly truncates i*32.
  *   0202F138 result widened to reproduce caller's explicit u16 narrowing;
- *   its own sub_0202F138 returns u16, which removed the observed shifts.
+ *   its own ITEM_GFX_GetItemId returns u16, which removed the observed shifts.
  * symbols:
- *   func_0202F138 0x0202F138 thumb
+ *   ITEM_GFX_GetItemId 0x0202F138 thumb
  *   FILE_UTIL_GetItemCount 0x02020F08 thumb
  *   func_020490F4 0x020490F4 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
@@ -32,7 +32,7 @@
 #include "../include/Obj25019.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 func_0202F138(u32 i);
+extern u16 ITEM_GFX_GetItemId(u32 i);
 extern unsigned FILE_UTIL_GetItemCount(void),FILE_UTIL_Get(unsigned,unsigned);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
@@ -47,7 +47,7 @@ void B_BAG_MAIN_RegisterItemChars(char *p)
     void *arc;
     unsigned first,second;
     int a;
-    if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)func_0202F138(0);first=3;second=4;}
+    if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)ITEM_GFX_GetItemId(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
     arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     for(i=0;i<7;i++) {

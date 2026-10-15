@@ -31,8 +31,8 @@
  * store order z first (moves the pooled 1 earlier), scheduling off,
  * opt_lifetimes off. opt_common_subs off breaks the whole body. Not
  * tried: opt_propagation off, peephole off, opt_dead_assignments off.
- * Callee prototypes for the unlabelled arm9 getters func_0200D6FC,
- * 70C, 72C, 73C, 810, 820 are guessed (u32 f(void *)); func_0200D774
+ * Callee prototypes for the unlabelled arm9 getters GDS_PROFILE_GetSpecies,
+ * 70C, 72C, 73C, 810, 820 are guessed (u32 f(void *)); GDS_PROFILE_ExportRecord
  * takes the 4-halfword record out pointer.
  *
  * 2026-10-05 (wave P2, lane Q6b): 12 B -> 4 B, and now compiles in --lang c
@@ -159,16 +159,16 @@
  *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
  *   PMS_DRAW_PrintOffset 0x0202DC60 thumb
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
- *   func_0200D6EC 0x0200D6EC thumb
- *   func_0200D6FC 0x0200D6FC thumb
- *   func_0200D70C 0x0200D70C thumb
- *   func_0200D72C 0x0200D72C thumb
- *   func_0200D73C 0x0200D73C thumb
- *   func_0200D74C 0x0200D74C thumb
- *   func_0200D760 0x0200D760 thumb
- *   func_0200D774 0x0200D774 thumb
- *   func_0200D810 0x0200D810 thumb
- *   func_0200D820 0x0200D820 thumb
+ *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
+ *   GDS_PROFILE_GetSpecies 0x0200D6FC thumb
+ *   GDS_PROFILE_GetFormSpecies 0x0200D70C thumb
+ *   GDS_PROFILE_GetMonFlagBit7 0x0200D72C thumb
+ *   GDS_PROFILE_GetMonFlagBit0 0x0200D73C thumb
+ *   GDS_PROFILE_GetRecordWord1C 0x0200D74C thumb
+ *   GDS_PROFILE_GetRecordWord30 0x0200D760 thumb
+ *   GDS_PROFILE_ExportRecord 0x0200D774 thumb
+ *   GDS_PROFILE_GetVariant 0x0200D810 thumb
+ *   GDS_PROFILE_GetCountry 0x0200D820 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -233,17 +233,17 @@ extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
-extern u32 func_0200D6EC(struct RecGet *p);
-extern u32 func_0200D6FC(struct RecGet *p);
-extern u32 func_0200D70C(struct RecGet *p);
-extern u32 func_0200D72C(struct RecGet *p);
-extern u32 func_0200D73C(struct RecGet *p);
+extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
+extern u32 GDS_PROFILE_GetSpecies(struct RecGet *p);
+extern u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p);
+extern u32 GDS_PROFILE_GetMonFlagBit7(struct RecGet *p);
+extern u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p);
 struct GdsProfile;
-extern u32 func_0200D74C(struct GdsProfile *p);
-extern u32 func_0200D760(struct GdsProfile *p);
-extern u32 func_0200D810(struct GdsProfile *p);
-extern u32 func_0200D820(struct GdsProfile *p);
-extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
+extern u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetRecordWord30(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetVariant(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetCountry(struct GdsProfile *p);
+extern void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -298,7 +298,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            WORDSET_SetSlotTag(words,0,name,func_0200D6EC(prof),1,2);
+            WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(prof),1,2);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(name);
             STRBUF_Delete(msg);
@@ -308,7 +308,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u32 v;
             void *msg;
-            v=func_0200D810(prof);
+            v=GDS_PROFILE_GetVariant(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_SetSlotMonth(words,0,v);
@@ -320,7 +320,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u32 v;
             void *msg;
-            v=func_0200D74C(prof);
+            v=GDS_PROFILE_GetRecordWord1C(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_SetSlotFromMsgE7(words,0,v);
@@ -333,8 +333,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u32 v,w;
             void *msg;
-            v=func_0200D74C(prof);
-            w=func_0200D760(prof);
+            v=GDS_PROFILE_GetRecordWord1C(prof);
+            w=GDS_PROFILE_GetRecordWord30(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_DeleteMsgdataF094(words,0,v,w);
@@ -347,7 +347,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u16 rec[4];
             void *msg;
-            msg=func_0200D774(prof,(struct GdsRecord *)rec,heap);
+            msg=GDS_PROFILE_ExportRecord(prof,(struct GdsRecord *)rec,heap);
             if(msg) {
                 text=STRBUF_Clone(msg,heap);
                 STRBUF_Delete(msg);
@@ -371,10 +371,10 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         }
     }
     }
-    A=func_0200D73C(prof);
-    B=func_0200D6FC(prof);
-    C=func_0200D70C(prof);
-    D=func_0200D72C(prof);
+    A=GDS_PROFILE_GetMonFlagBit0(prof);
+    B=GDS_PROFILE_GetSpecies(prof);
+    C=GDS_PROFILE_GetFormSpecies(prof);
+    D=GDS_PROFILE_GetMonFlagBit7(prof);
     if(B) {
         u32 hf;
         void *h;
@@ -395,7 +395,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
     case 0:
         {
         void *h;
-        if(!func_0200D6EC(prof)) {
+        if(!GDS_PROFILE_GetEggFlag(prof)) {
             k3=4;k1=0x14;k2=0x12;k4=0x13;
         } else {
             k3=6;k1=0x17;k2=0x15;k4=0x16;
@@ -411,7 +411,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         {
         u32 k;
         void *h;
-        k=func_0200D820(prof);
+        k=GDS_PROFILE_GetCountry(prof);
         h=func_020490F4(0x20,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,0,0,0x1a0,d_02200AFC[k],1,heap);
         *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,0x41,0x42,(u16)heap);

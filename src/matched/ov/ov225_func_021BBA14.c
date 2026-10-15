@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BBA14, func_021BBA64, func_021BBA70
+ * function: MANUAL_CATEGORY_DeleteDetailList, MANUAL_CATEGORY_IsDetailFinished, MANUAL_CATEGORY_DetailTaskNoop
  * address: 0x021BBA14
  * packet: pkt_ov225_021BBA14
  * region: ov225
@@ -31,7 +31,7 @@ extern void func_021BA740(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern int func_021BA760(char *p);
-void func_021BBA14(char *p)
+void MANUAL_CATEGORY_DeleteDetailList(char *p)
 {
     func_02030EAC(*(struct Node * *)&((struct Obj01790 *)p)->f20);
     ((struct Obj26296 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f6 = ((struct Obj01790 *)p)->f14;
@@ -45,10 +45,10 @@ void func_021BBA14(char *p)
     func_020307B0(((struct Obj01790 *)p)->f10);
     func_020307B0(p);
 }
-int func_021BBA64(char *p)
+int MANUAL_CATEGORY_IsDetailFinished(char *p)
 {
     return func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
 }
-void func_021BBA70(void)
+void MANUAL_CATEGORY_DetailTaskNoop(void)
 {
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028484",
+   "name": "PRINTSYS_CTRL_Update",
    "address": "0x02028484",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020284F4",
+   "name": "PRINTSYS_CTRL_IsInputTrg",
    "address": "0x020284F4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028528",
+   "name": "PRINTSYS_CTRL_IsInputCont",
    "address": "0x02028528",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202855C",
+   "name": "PRINTSYS_CTRL_IsInputIdle",
    "address": "0x0202855C",
    "kind": "game",
    "region": "arm9",

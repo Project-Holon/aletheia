@@ -1,7 +1,7 @@
 /*
  * file:     mystery_graphic.c
  * unit:     yes
- * function: func_021D9624, func_021D96C4, func_021D9718, func_021D972C, func_021D9738, func_021D9744, func_021D9750, func_021D9790, func_021D97B4, func_021D97C8, func_021D9828, func_021D9860, func_021D9864, func_021D986C, func_021D98C0, func_021D98E0, func_021D98E8, func_021D98F0, func_021D98F4, func_021D9960, func_021D9974, func_021D9994
+ * function: MYSTERY_GRAPHIC_Create, MYSTERY_GRAPHIC_Delete, MYSTERY_GRAPHIC_Draw, MYSTERY_GRAPHIC_DrawScene, MYSTERY_GRAPHIC_DrawEnd, MYSTERY_GRAPHIC_GetClactUnit, MYSTERY_GRAPHIC_StartRender, MYSTERY_GRAPHIC_StopRender, MYSTERY_GRAPHIC_VBlank, MYSTERY_GRAPHIC_InitBg, MYSTERY_GRAPHIC_ExitBg, MYSTERY_GRAPHIC_Dummy, MYSTERY_GRAPHIC_UpdateBg, MYSTERY_GRAPHIC_InitClact, MYSTERY_GRAPHIC_ExitClact, MYSTERY_GRAPHIC_DrawClact, MYSTERY_GRAPHIC_VBlankClact, MYSTERY_GRAPHIC_GetFirstWord, MYSTERY_GRAPHIC_InitCamera, MYSTERY_GRAPHIC_ExitCamera, MYSTERY_GRAPHIC_RenderScene, MYSTERY_GRAPHIC_FinishScene
  * address:  0x021D9624
  * region:   ov121
  * compiler: dsi/1.1p1
@@ -69,12 +69,6 @@
  *   PARTICLE_Main 0x02050BE8 arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  */
-#include "../../matched/include/Obj13944.h"
-#include "../../matched/include/Obj22873.h"
-#include "../../matched/include/Obj13945.h"
-#include "../../matched/include/Obj13946.h"
-#include "../../matched/include/Obj13948.h"
-#include "../../matched/include/Obj10413.h"
 #include "mystery_graphic_shared_types.h"
 
 struct DispVram;
@@ -85,9 +79,11 @@ struct BgTemplate;
 
 struct Bank;
 
-typedef struct { int a,b,c,d; } Config_021D9624;
+/* BG_SYS_SetGraphicsMode argument (four words, the last one toggled). */
+typedef struct { int a,b,c,d; } BgSysGraphicsMode;
 
-typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } Entry;
+/* One BG_SYS_InitBgLayer descriptor in d_021DF634. */
+typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } BgLayerEntry;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const void *site, u16 tag);
 
@@ -181,57 +177,57 @@ extern void PARTICLE_Main(void);
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-u8 *func_021D9624(int arg,u16 heap);
+u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap);
 
-void func_021D96C4(u8 *p);
+void MYSTERY_GRAPHIC_Delete(u8 *p);
 
-void func_021D9718(u8 *p);
+void MYSTERY_GRAPHIC_Draw(u8 *p);
 
-void func_021D972C(char *p);
+void MYSTERY_GRAPHIC_DrawScene(char *p);
 
-void func_021D9738(char *p);
+void MYSTERY_GRAPHIC_DrawEnd(char *p);
 
-unsigned func_021D9744(char *p);
+unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 
-void func_021D9750(u8 *p);
+void MYSTERY_GRAPHIC_StartRender(u8 *p);
 
-void func_021D9790(char *p);
+void MYSTERY_GRAPHIC_StopRender(char *p);
 
-void func_021D97B4(void *a, u8 *q);
+void MYSTERY_GRAPHIC_VBlank(void *a, u8 *q);
 
-void func_021D97C8(void *p, u32 a);
+void MYSTERY_GRAPHIC_InitBg(void *p, u32 a);
 
-void func_021D9828(void *p);
+void MYSTERY_GRAPHIC_ExitBg(void *p);
 
-void func_021D9860(void *a0);
+void MYSTERY_GRAPHIC_Dummy(void *a0);
 
-void func_021D9864(void *a0);
+void MYSTERY_GRAPHIC_UpdateBg(void *a0);
 
-void func_021D986C(void **p, u32 a, u32 heap);
+void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap);
 
-void func_021D98C0(u8 *p);
+void MYSTERY_GRAPHIC_ExitClact(u8 *p);
 
-void func_021D98E0(void *a0);
+void MYSTERY_GRAPHIC_DrawClact(void *a0);
 
-void func_021D98E8(void *a0);
+void MYSTERY_GRAPHIC_VBlankClact(void *a0);
 
-unsigned func_021D98F0(unsigned *p);
+unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p);
 
-void func_021D98F4(u32 *p, u32 heap);
+void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap);
 
-void func_021D9960(char *p);
+void MYSTERY_GRAPHIC_ExitCamera(char *p);
 
-void func_021D9974(void **p);
+void MYSTERY_GRAPHIC_RenderScene(void **p);
 
-void func_021D9994(void **p);
+void MYSTERY_GRAPHIC_FinishScene(void **p);
 
 extern const char d_021DFB8C[];
 
 extern const int d_021DF604[];
 
-extern const Config_021D9624 d_021DF598;
+extern const BgSysGraphicsMode d_021DF598;
 
-extern const Entry d_021DF634[];
+extern const BgLayerEntry d_021DF634[];
 
 extern const u32 d_021DF5A8[];
 
@@ -246,12 +242,12 @@ extern const u32 d_021DF580[];
 /*
  * volatile: hardware reads at 021D9654 and 021D965E
  */
-u8 *func_021D9624(int arg,u16 heap)
+u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
 {
     u8 *p;
     p=func_02030734(heap,28,0,d_021DFB8C,448);
     MI_CpuFill8(p,0,28);
-    ((struct Obj13944 *)p)->f18=heap;
+    ((MysteryGraphicWork *)p)->heapId=heap;
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
@@ -263,20 +259,20 @@ u8 *func_021D9624(int arg,u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021D97C8(p,heap);
-    func_021D986C((void **)(p+4),(u32)d_021DF604,heap);
-    ((struct Obj13944 *)p)->f14=func_020056A0(func_021D97B4,p,0);
+    MYSTERY_GRAPHIC_InitBg(p,heap);
+    MYSTERY_GRAPHIC_InitClact((void **)(p+4),(u32)d_021DF604,heap);
+    ((MysteryGraphicWork *)p)->updateTask=func_020056A0(MYSTERY_GRAPHIC_VBlank,p,0);
     return p;
 }
 
 /*
  * volatile: hardware reads at 021D96EA and 021D96F4
  */
-void func_021D96C4(u8 *p)
+void MYSTERY_GRAPHIC_Delete(u8 *p)
 {
-    func_02030EAC(((struct Obj22873 *)p)->f14);
-    func_021D98C0(p+4);
-    func_021D9828(p);
+    func_02030EAC(((MysteryGraphicWork *)p)->updateTask);
+    MYSTERY_GRAPHIC_ExitClact(p+4);
+    MYSTERY_GRAPHIC_ExitBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
@@ -289,41 +285,41 @@ void func_021D96C4(u8 *p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021D9718(u8 *p)
+void MYSTERY_GRAPHIC_Draw(u8 *p)
 {
-    func_021D98E0(p + 4);
-    func_021D9860(p);
+    MYSTERY_GRAPHIC_DrawClact(p + 4);
+    MYSTERY_GRAPHIC_Dummy(p);
 }
 
-void func_021D972C(char *p) { func_021D9974((void **)(p+12)); }
+void MYSTERY_GRAPHIC_DrawScene(char *p) { MYSTERY_GRAPHIC_RenderScene((void **)(p+12)); }
 
-void func_021D9738(char *p) { func_021D9994((void **)(p+12)); }
+void MYSTERY_GRAPHIC_DrawEnd(char *p) { MYSTERY_GRAPHIC_FinishScene((void **)(p+12)); }
 
-unsigned func_021D9744(char *p) { return func_021D98F0((unsigned *)(p+4)); }
+unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p) { return MYSTERY_GRAPHIC_GetFirstWord((unsigned *)(p+4)); }
 
-void func_021D9750(u8 *p)
+void MYSTERY_GRAPHIC_StartRender(u8 *p)
 {
-    Config_021D9624 c;
+    BgSysGraphicsMode c;
     func_02040588(0,0);
     c=d_021DF598;
     c.d=1;
     BG_SYS_SetGraphicsMode((const struct DispConfig *)(&c));
-    func_021D98F4((u32 *)(p+12),((struct Obj13945 *)p)->f18);
-    PARTICLE_InitManager(((struct Obj13945 *)p)->f18);
+    MYSTERY_GRAPHIC_InitCamera((u32 *)(p+12),((MysteryGraphicWork *)p)->heapId);
+    PARTICLE_InitManager(((MysteryGraphicWork *)p)->heapId);
 }
 
-void func_021D9790(char *p) { func_02040588(0,0);PARTICLE_ExitManager();func_021D9960(p+12);BG_SYS_SetGraphicsMode((const struct DispConfig *)&d_021DF598); }
+void MYSTERY_GRAPHIC_StopRender(char *p) { func_02040588(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera(p+12);BG_SYS_SetGraphicsMode((const struct DispConfig *)&d_021DF598); }
 
-void func_021D97B4(void *a, u8 *q)
+void MYSTERY_GRAPHIC_VBlank(void *a, u8 *q)
 {
-    func_021D9864(q);
-    func_021D98E8(q + 4);
+    MYSTERY_GRAPHIC_UpdateBg(q);
+    MYSTERY_GRAPHIC_VBlankClact(q + 4);
 }
 
-void func_021D97C8(void *p, u32 a)
+void MYSTERY_GRAPHIC_InitBg(void *p, u32 a)
 {
     u32 i;
-    const Entry *e;
+    const BgLayerEntry *e;
     u32 id;
     i = 0;
     MI_CpuFill8(p, 0, 4);
@@ -343,7 +339,7 @@ void func_021D97C8(void *p, u32 a)
 /*
  * note: u8 extern parameter reproduces original truncation before BLX.
  */
-void func_021D9828(void *p) {
+void MYSTERY_GRAPHIC_ExitBg(void *p) {
     u32 i=0;
     do { func_020403F4((u8)d_021DF634[i].id); ++i; } while(i<7);
     BMP_WIN_Exit();
@@ -354,11 +350,11 @@ void func_021D9828(void *p) {
 /*
  * note: two trailing zero alignment bytes.
  */
-void func_021D9860(void *a0) {}
+void MYSTERY_GRAPHIC_Dummy(void *a0) {}
 
-void func_021D9864(void *a0) { BG_SYS_Update(); }
+void MYSTERY_GRAPHIC_UpdateBg(void *a0) { BG_SYS_Update(); }
 
-void func_021D986C(void **p, u32 a, u32 heap)
+void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap)
 {
     void *q;
     MI_CpuFill8(p, 0, 8);
@@ -371,23 +367,23 @@ void func_021D986C(void **p, u32 a, u32 heap)
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
-void func_021D98C0(u8 *p) {
-    CLACT_DeleteRenderer(((struct Obj13946 *)p)->f4);
-    CLACT_DeleteUnit(((struct Obj13946 *)p)->f0);
+void MYSTERY_GRAPHIC_ExitClact(u8 *p) {
+    CLACT_DeleteRenderer(((MysteryGraphicClact *)p)->renderer);
+    CLACT_DeleteUnit(((MysteryGraphicClact *)p)->unit);
     CLACT_ExitSystem();
     MI_CpuFill8(p,0,8);
 }
 
-void func_021D98E0(void *a0) { CLACT_DrawSystem(); }
+void MYSTERY_GRAPHIC_DrawClact(void *a0) { CLACT_DrawSystem(); }
 
 /*
  * note: tail wrapper plus unlabelled getter follower; seed 021D98F0.
  */
-void func_021D98E8(void *a0) { CLACT_VBlankSystem(); }
+void MYSTERY_GRAPHIC_VBlankClact(void *a0) { CLACT_VBlankSystem(); }
 
-unsigned func_021D98F0(unsigned *p) { return *p; }
+unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p) { return *p; }
 
-void func_021D98F4(u32 *p, u32 heap)
+void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, func_021D9580);
     p[0] = (u32)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
@@ -395,23 +391,23 @@ void func_021D98F4(u32 *p, u32 heap)
     p[1] = 1;
 }
 
-void func_021D9960(char *p)
+void MYSTERY_GRAPHIC_ExitCamera(char *p)
 {
-    ((struct Obj13948 *)p)->f4 = 0;
-    G3D_CAMERA_Delete(((struct Obj13948 *)p)->f0);
+    ((MysteryGraphicCamera *)p)->enabled = 0;
+    G3D_CAMERA_Delete(((MysteryGraphicCamera *)p)->handle);
     G3D_SYSTEM_Exit();
 }
 
-void func_021D9974(void **p) {
-    if(((struct Obj10413 *)p)->f4) {
+void MYSTERY_GRAPHIC_RenderScene(void **p) {
+    if(((MysteryGraphicCamera *)p)->enabled) {
         func_02047964();
-        func_02048AD0(((struct Obj10413 *)p)->f0);
+        func_02048AD0(((MysteryGraphicCamera *)p)->handle);
         G3D_SYSTEM_ApplyLookAt();
         PARTICLE_Main();
     }
 }
 
-void func_021D9994(void **p)
+void MYSTERY_GRAPHIC_FinishScene(void **p)
 {
     if (p[1])
         G3D_SYSTEM_DrawEnd();

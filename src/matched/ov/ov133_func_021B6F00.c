@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F00
+ * function: DUP_FITTING_InitFrames
  * address:  0x021B6F00
  * packet:   pkt_ov133_021B6F00
  * region:   ov133
@@ -38,14 +38,14 @@
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   BILLBOARD_AddElem 0x0204F428 arm
  *   BILLBOARD_SetElemVisible 0x0204F720 arm
- *   func_021B9028 0x021B9028 thumb ov133
- *   func_021BA0CC 0x021BA0CC thumb ov133
- *   func_021BA19C 0x021BA19C thumb ov133
- *   func_021BA100 0x021BA100 thumb ov133
- *   func_021BA218 0x021BA218 thumb ov133
- *   func_021B7368 0x021B7368 thumb ov133
- *   func_021B7A18 0x021B7A18 thumb ov133
- *   func_021B765C 0x021B765C thumb ov133
+ *   DUP_FITTING_SortFrames 0x021B9028 thumb ov133
+ *   DUP_FITTING_ITEM_CreateList 0x021BA0CC thumb ov133
+ *   DUP_FITTING_ITEM_CreateElem 0x021BA19C thumb ov133
+ *   DUP_FITTING_ITEM_InsertElem 0x021BA100 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
+ *   DUP_FITTING_AddFitElemById 0x021B7368 thumb ov133
+ *   DUP_FITTING_FreeHeldElem 0x021B7A18 thumb ov133
+ *   DUP_FITTING_SetModelTransform 0x021B765C thumb ov133
  *   d_020A8148    0x020A8148 data
  *   d_021BA3E0    0x021BA3E0 data ov133 a4
  */
@@ -90,19 +90,19 @@ extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3,
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void BILLBOARD_SetElemVisible(void *, u32, u32 *);
-extern void func_021B9028(u8 *, int, u16);
-extern u8 *func_021BA0CC(u16, int);
+extern void DUP_FITTING_SortFrames(u8 *, int, u16);
+extern u8 *DUP_FITTING_ITEM_CreateList(u16, int);
 struct Object;
-extern u8 *func_021BA19C(u16 heap, struct Object *q, u8 *r, int *v);
-extern void func_021BA100(u8 *p, u8 *q);
-extern u32 func_021BA218(u8 *p);
-extern void func_021B7368(u8 *p, u16 id);
-extern void func_021B7A18(u8 *);
-extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
+extern u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object *q, u8 *r, int *v);
+extern void DUP_FITTING_ITEM_InsertElem(u8 *p, u8 *q);
+extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
+extern void DUP_FITTING_AddFitElemById(u8 *p, u16 id);
+extern void DUP_FITTING_FreeHeldElem(u8 *);
+extern void *DUP_FITTING_SetModelTransform(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
 extern u32 (*d_020A8148)(u32, u32, u32);
 extern u32 d_021BA3E0[];
 
-void func_021B6F00(u8 *p)
+void DUP_FITTING_InitFrames(u8 *p)
 {
     int i;
     int j;
@@ -173,17 +173,17 @@ void func_021B6F00(u8 *p)
         MUSICAL_MCSS_FreeResourceArc(h);
     }
 
-    func_021B9028(p, 8, 0);
-    *(u8 **)(p + 0x181c) = func_021BA0CC(*(u16 *)p, 0xe);
-    *(u8 **)(p + 0x1820) = func_021BA0CC(*(u16 *)p, 0x80);
-    *(u8 **)(p + 0x1824) = func_021BA0CC(*(u16 *)p, 9);
-    *(u8 **)(p + 0x1828) = func_021BA0CC(*(u16 *)p, 4);
+    DUP_FITTING_SortFrames(p, 8, 0);
+    *(u8 **)(p + 0x181c) = DUP_FITTING_ITEM_CreateList(*(u16 *)p, 0xe);
+    *(u8 **)(p + 0x1820) = DUP_FITTING_ITEM_CreateList(*(u16 *)p, 0x80);
+    *(u8 **)(p + 0x1824) = DUP_FITTING_ITEM_CreateList(*(u16 *)p, 9);
+    *(u8 **)(p + 0x1828) = DUP_FITTING_ITEM_CreateList(*(u16 *)p, 4);
 
     for (i = 0; i < 14; i++) {
         Vec v = {0, 0, 0};
-        e = func_021BA19C(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, (int *)(&v));
-        func_021BA100(*(void **)(p + 0x181c), e);
-        MUSICAL_MCSS_SetElemFlag(*(u8 **)(p + 0x1884), (u8 *)func_021BA218(e), 0);
+        e = DUP_FITTING_ITEM_CreateElem(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, (int *)(&v));
+        DUP_FITTING_ITEM_InsertElem(*(void **)(p + 0x181c), e);
+        MUSICAL_MCSS_SetElemFlag(*(u8 **)(p + 0x1884), (u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(e), 0);
     }
 
     {
@@ -214,9 +214,9 @@ void func_021B6F00(u8 *p)
     e = MUSICAL_SAVE_GetOutfits(*(void **)(*(u8 **)(p + 4) + 8));
     for (k = 0; k < 8; k++) {
         if (e[k * 6] != 10)
-            func_021B7368(p, *(u16 *)(e + k * 6 + 2));
+            DUP_FITTING_AddFitElemById(p, *(u16 *)(e + k * 6 + 2));
     }
-    func_021B7A18(p);
+    DUP_FITTING_FreeHeldElem(p);
     *(u32 *)(p + 0x1834) = *(u16 *)(p + 0xa8) * 0x1249 - 0x8000;
-    func_021B765C(p, 0, 0, 0x48, 0x30);
+    DUP_FITTING_SetModelTransform(p, 0, 0, 0x48, 0x30);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028590",
+   "name": "APP_KEYCURSOR_CreateDefault",
    "address": "0x02028590",
    "kind": "game",
    "region": "arm9",

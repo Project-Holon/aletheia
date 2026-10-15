@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB35C",
+   "name": "PSEL_ClearWin3",
    "address": "0x021BB35C",
    "kind": "game",
    "region": "ov223",

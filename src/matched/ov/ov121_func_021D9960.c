@@ -1,5 +1,5 @@
 /*
- * function: func_021D9960
+ * function: MYSTERY_GRAPHIC_ExitCamera
  * address:  0x021D9960
  * packet:   pkt_021D9960
  * region:   ov121
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 
-void func_021D9960(char *p)
+void MYSTERY_GRAPHIC_ExitCamera(char *p)
 {
     ((struct Obj13948 *)p)->f4 = 0;
     G3D_CAMERA_Delete(((struct Obj13948 *)p)->f0);

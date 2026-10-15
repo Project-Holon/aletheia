@@ -1,5 +1,5 @@
 /*
- * function: func_0217B950
+ * function: BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption
  * address:  0x0217B950
  * packet:   pkt_0217B950
  * region:   ov176
@@ -16,7 +16,7 @@
 
 extern void func_021E8738(int *p, int a, int b, int c);
 
-void func_0217B950(int *p, int b)
+void BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption(int *p, int b)
 {
     func_021E8738((int *)(*(int *)&((struct Obj01762 *)p)->f18), ((struct Obj01762 *)p)->fC, b, 1);
 }

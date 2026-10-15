@@ -1,5 +1,5 @@
 /*
- * function: func_0202ECB0
+ * function: COMM_HISTORY_FindByKeys
  * address:  0x0202ECB0
  * packet:   pkt_0202ECB0
  * region:   arm9
@@ -19,8 +19,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202ECB0.c \
- *       --func func_0202ECB0 --addr 0x0202ECB0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/COMM_HISTORY_FindByKeys.c \
+ *       --func COMM_HISTORY_FindByKeys --addr 0x0202ECB0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 
-s32 func_0202ECB0(struct Slot *a0, void *b)
+s32 COMM_HISTORY_FindByKeys(struct Slot *a0, void *b)
 {
     u32 v0 = func_02008530(b);
     u32 v1 = func_0200856C(b);

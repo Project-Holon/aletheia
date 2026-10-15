@@ -1,7 +1,7 @@
 /*
  * file:     intro_particle.c
  * unit:     yes
- * function: func_021BFC24, func_021BFCD0, func_021BFCE0, INTRO_PARTICLE_StartEffect
+ * function: INTRO_PARTICLE_Create, INTRO_PARTICLE_Delete, INTRO_PARTICLE_Main, INTRO_PARTICLE_StartEffect
  * address:  0x021BFC24
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -29,14 +29,34 @@
  *   PARTICLE_Main 0x02050BE8 arm
  *   PARTICLE_StartEffect  0x020515B4  arm
  */
-#include "../../matched/include/Obj03923.h"
-#include "intro_g3d_shared_types.h"
+#include "intro_types.h"
 
-struct Dst648;
+/* Opaque particle system (defined in arm9 particle.c). */
+struct ParticleSys;
 
-struct Src648;
+/*
+ * Projection gIntroG3dUnitSetup for the particle camera. Mirrors arm9's
+ * ParticleCameraParams (the record is not in a shared header).
+ */
+typedef struct IntroParticleCameraParams {
+    u32 projType;
+    u32 fovSin;
+    u32 fovCos;
+    u32 aspect;
+    u32 orthoExtent;
+    u32 nearZ;
+    u32 farZ;
+    u32 projScale;
+} IntroParticleCameraParams;
 
-typedef struct { int a,b,c,d,e,f,g,h; } Config;
+/* One intro particle effect: 0x0C header plus the system's work buffer. */
+typedef struct IntroParticleWork {
+    unsigned short heapId;      /* 0x00 */
+    unsigned char pad_2[2];
+    void *owner;                /* 0x04 */
+    void *system;               /* 0x08 */
+    unsigned char data[18432];  /* 0x0C: PARTICLE_CreateSystemDefault work */
+} IntroParticleWork;
 
 extern u32 func_020307B0(void *p);
 
@@ -48,7 +68,7 @@ extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 
 extern int PARTICLE_ReleaseCamera(int a0);
 
-extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern void PARTICLE_InitCamera(struct ParticleSys *sys, IntroParticleCameraParams *params, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 
 extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 
@@ -60,11 +80,11 @@ extern void PARTICLE_Main(void);
 
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 
-char *func_021BFC24(void *owner,unsigned heap);
+char *INTRO_PARTICLE_Create(void *owner,unsigned heap);
 
-void func_021BFCD0(char *a);
+void INTRO_PARTICLE_Delete(char *a);
 
-void func_021BFCE0(int a0);
+void INTRO_PARTICLE_Main(int a0);
 
 void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3);
 
@@ -74,36 +94,36 @@ extern int d_021C0B18[];
 
 extern int d_021C0B0C[],d_021C0B24[];
 
-char *func_021BFC24(void *owner,unsigned heap)
+char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
 {
-    Config config;
-    char *p;
+    IntroParticleCameraParams config;
+    IntroParticleWork *p;
     PARTICLE_InitManager(heap);
     p=func_02030734(heap,18444,1,d_021C0B30,86);
-    ((struct Obj03923 *)p)->f8=(void *)PARTICLE_CreateSystemDefault((int)(p+12),18432,1,heap);
-    ((struct Obj03923 *)p)->f4=owner;
-    ((struct Obj03923 *)p)->f0=heap;
-    config.a=2;
-    config.b=16384;
-    config.c=-16384;
-    config.d=-12288;
-    config.e=12288;
-    config.f=4096;
-    config.g=4194304;
-    config.h=4096;
-    PARTICLE_ReleaseCamera((int)(((struct Obj03923 *)p)->f8));
-    PARTICLE_InitCamera(((struct Obj03923 *)p)->f8,(struct Src648 *)(&config),8192,d_021C0B18,d_021C0B0C,d_021C0B24,((struct Obj03923 *)p)->f0);
-    PARTICLE_SetupSystem(((struct Obj03923 *)p)->f8,PARTICLE_LoadArchiveMember(6,6,((struct Obj03923 *)p)->f0),1,0);
-    return p;
+    p->system=(void *)PARTICLE_CreateSystemDefault((int)p->data,18432,1,heap);
+    p->owner=owner;
+    p->heapId=heap;
+    config.projType=2;
+    config.fovSin=16384;
+    config.fovCos=-16384;
+    config.aspect=-12288;
+    config.orthoExtent=12288;
+    config.nearZ=4096;
+    config.farZ=4194304;
+    config.projScale=4096;
+    PARTICLE_ReleaseCamera((int)p->system);
+    PARTICLE_InitCamera(p->system,&config,8192,d_021C0B18,d_021C0B0C,d_021C0B24,p->heapId);
+    PARTICLE_SetupSystem(p->system,PARTICLE_LoadArchiveMember(6,6,p->heapId),1,0);
+    return (char *)p;
 }
 
-void func_021BFCD0(char *a)
+void INTRO_PARTICLE_Delete(char *a)
 {
     PARTICLE_ExitManager();
     func_020307B0(a);
 }
 
-void func_021BFCE0(int a0) { PARTICLE_Main(); }
+void INTRO_PARTICLE_Main(int a0) { PARTICLE_Main(); }
 
 void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3)
 {

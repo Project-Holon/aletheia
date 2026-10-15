@@ -16,14 +16,14 @@
  *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   INFOWIN_Init 0x02024A20 thumb
- *   func_020275E4 0x020275E4 thumb
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
@@ -79,14 +79,14 @@ struct Obj;
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap);
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -121,10 +121,10 @@ void DOWSING_CreateCloseButton(Obj *p)
         u16 i;
         u16 base;
 
-        arc = func_020490F4(func_020275E4(), heap2);
-        func_02049B68(arc, func_02027624(), 4, 0x40, 0x20, heap2);
-        p->f14 = func_02049740(arc, func_02027628(), 4, 0, 0, heap2);
-        h = ARC_UTIL_LoadPaletteDataFromHandle(arc, func_0202762C(), 0, (void **)&ptr, heap2);
+        arc = func_020490F4(APP_ICON_GetArchiveId(), heap2);
+        func_02049B68(arc, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, heap2);
+        p->f14 = func_02049740(arc, APP_ICON_GetStatusFrameFileId(), 4, 0, 0, heap2);
+        h = ARC_UTIL_LoadPaletteDataFromHandle(arc, APP_ICON_GetStatusDataFileId(), 0, (void **)&ptr, heap2);
         base = p->f14;
         d = ptr->data;
         for (i = 0; i < 0x300; i++) {
@@ -134,9 +134,9 @@ void DOWSING_CreateCloseButton(Obj *p)
         BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)ptr->data, 0, 0x15, 0x20, 0x18);
         func_02041B6C(4);
         func_020307B0(h);
-        p->f18 = CLACT_RegisterPaletteEx(arc, func_02027614(), 1, 0x20, 0, 3, p->heap);
-        p->f1C = CLACT_RegisterCharacter(arc, func_02027618(), 0, 1, p->heap);
-        p->f20 = CLACT_RegisterCellAnim(arc, func_0202761C(0), func_02027620(0), p->heap);
+        p->f18 = CLACT_RegisterPaletteEx(arc, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x20, 0, 3, p->heap);
+        p->f1C = CLACT_RegisterCharacter(arc, APP_ICON_GetMoveKindAnimFileId(), 0, 1, p->heap);
+        p->f20 = CLACT_RegisterCellAnim(arc, APP_ICON_GetStatusCellFileId(0), APP_ICON_GetStatusPaletteFileId(0), p->heap);
         s.a = 0xE8;
         s.b = 0xA8;
         p->f24 = (u32)CLACT_CreateActor((void *)p->fC, p->f1C, p->f18, p->f20, &s, 1, p->heap);

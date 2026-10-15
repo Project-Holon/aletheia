@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC44
+ * function: MANUAL_CATEGORY_SetOptionBgMode
  * address: 0x021BBC44
  * packet: pkt_ov225_021BBC44
  * region: ov225
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void BG_SYS_SetFlagField06(u32);
-void func_021BBC44(char *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_CATEGORY_SetOptionBgMode(char *a0) { BG_SYS_SetFlagField06(4); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3F0
+ * function: PSEL_GRAPHIC_Create
  * address: 0x021BC3F0
  * packet: pkt_ov223_021BC3F0
  * region: ov223
@@ -19,10 +19,10 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_021BC54C 0x021BC54C thumb ov223
- *   func_021BC5F0 0x021BC5F0 thumb ov223
- *   func_021BC660 0x021BC660 thumb ov223
- *   func_021BC538 0x021BC538 thumb ov223
+ *   PSEL_GRAPHIC_InitBg 0x021BC54C thumb ov223
+ *   PSEL_GRAPHIC_InitClact 0x021BC5F0 thumb ov223
+ *   PSEL_GRAPHIC_InitG3d 0x021BC660 thumb ov223
+ *   PSEL_GRAPHIC_VBlank 0x021BC538 thumb ov223
  *   d_021BCB08 0x021BCB08 data a1
  *   d_021BC980 0x021BC980 data a4
  */
@@ -40,12 +40,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void func_021BC54C(void *,int);
-extern void func_021BC5F0(int *,int,int);
-extern void func_021BC660(int *,int);
-extern void func_021BC538(void *,char *);
+extern void PSEL_GRAPHIC_InitBg(void *,int);
+extern void PSEL_GRAPHIC_InitClact(int *,int,int);
+extern void PSEL_GRAPHIC_InitG3d(int *,int);
+extern void PSEL_GRAPHIC_VBlank(void *,char *);
 extern void *func_020056A0(void (*)(void *,char *),void *,int);
-void *func_021BC3F0(int a,int heap)
+void *PSEL_GRAPHIC_Create(int a,int heap)
 {
     unsigned *p=func_02030734(heap,16,0,d_021BCB08,463);
     MI_CpuFill8(p,0,16);
@@ -60,9 +60,9 @@ void *func_021BC3F0(int a,int heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021BC54C(p,heap);
-    func_021BC5F0((int *)(p+1),(int)d_021BC980,heap);
-    func_021BC660((int *)(p+2),heap);
-    p[3]=(unsigned)func_020056A0(func_021BC538,p,0);
+    PSEL_GRAPHIC_InitBg(p,heap);
+    PSEL_GRAPHIC_InitClact((int *)(p+1),(int)d_021BC980,heap);
+    PSEL_GRAPHIC_InitG3d((int *)(p+2),heap);
+    p[3]=(unsigned)func_020056A0(PSEL_GRAPHIC_VBlank,p,0);
     return p;
 }

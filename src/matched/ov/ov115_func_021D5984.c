@@ -1,7 +1,7 @@
 /*
  * packet: pkt_ov115_021D5984
  * region: ov115
- * function: func_021D5984
+ * function: WIFILOGIN_MSG_Create
  * address: 0x021D5984
  * isa: thumb
  * compiler: dsi/1.1p1
@@ -20,8 +20,8 @@
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_021D5FA0 0x021D5FA0 thumb ov115
- *   func_021D5FC4 0x021D5FC4 thumb ov115
+ *   WIFILOGIN_MSG_GetFrameIdA 0x021D5FA0 thumb ov115
+ *   WIFILOGIN_MSG_GetFrameIdB 0x021D5FC4 thumb ov115
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   d_021D6628 0x021D6628 data a4
@@ -47,12 +47,12 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
-extern u32 func_021D5FA0(u32);
-extern u32 func_021D5FC4(u32);
+extern u32 WIFILOGIN_MSG_GetFrameIdA(u32);
+extern u32 WIFILOGIN_MSG_GetFrameIdB(u32);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *,u32,u32,u32);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-u8 *func_021D5984(u32 heap, u32 bank, u32 mode)
+u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode)
 {
     u8 *p;
     u32 sel;
@@ -68,8 +68,8 @@ u8 *func_021D5984(u32 heap, u32 bank, u32 mode)
     *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = MSGDATA_CreateFromArchive(0, 2, (u16)bank, ((struct Obj00531 *)p)->f4C);
     *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = GF_FONT_Create_EC64(((struct Obj00531 *)p)->f4C);
     *(struct R * *)&((struct Obj00531 *)p)->f70 = APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct Obj00531 *)p)->f24, ((struct Obj00531 *)p)->f48, ((struct Obj00531 *)p)->f4C);
-    ((struct Obj00531 *)p)->f0 = BMP_MENUWORK_LoadFrameGfx((void *)func_021D5FA0(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
-    ((struct Obj00531 *)p)->f4 = BMP_MENUWORK_LoadFrameGfx((void *)func_021D5FC4(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
+    ((struct Obj00531 *)p)->f0 = BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdA(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
+    ((struct Obj00531 *)p)->f4 = BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdB(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
     sel = 0;
     if (((struct Obj00531 *)p)->f50 == 0) sel = 4;
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, sel, 352, 32, ((struct Obj00531 *)p)->f4C);

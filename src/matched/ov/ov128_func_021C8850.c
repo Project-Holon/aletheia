@@ -1,5 +1,5 @@
 /*
- * function: func_021C8850
+ * function: Wf2dmapFriend_StepEntryActor
  * address: 0x021C8850
  * packet: pkt_ov128_021C8850
  * region: ov128
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Actor;struct Obj;
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
 extern u32 CLACT_GetActorAnimFrame(struct Obj *);
-int func_021C8850(u8 *p, u8 *a1) {u32 n;if(CLACT_IsActorAnimActive(*(struct Actor * *)&((struct Obj00179 *)p)->f1A0)==0)return 1;n=CLACT_GetActorAnimFrame(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0);if(n-((struct Obj00179 *)p)->f1A8>=2) ((struct Obj00179 *)p)->f1A8=n;return 0;}
+int Wf2dmapFriend_StepEntryActor(u8 *p, u8 *a1) {u32 n;if(CLACT_IsActorAnimActive(*(struct Actor * *)&((struct Obj00179 *)p)->f1A0)==0)return 1;n=CLACT_GetActorAnimFrame(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0);if(n-((struct Obj00179 *)p)->f1A8>=2) ((struct Obj00179 *)p)->f1A8=n;return 0;}

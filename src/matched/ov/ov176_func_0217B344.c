@@ -1,5 +1,5 @@
 /*
- * function: func_0217B344
+ * function: BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu
  * address: 0x0217B344
  * packet: pkt_ov176_0217B344
  * region: ov176
@@ -20,4 +20,4 @@ extern void func_021E8A78(void *);
 struct Rec;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
-void func_0217B344(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);MSGDATA_Delete(((struct Obj14356 *)p)->fC);func_020307B0(p);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);MSGDATA_Delete(((struct Obj14356 *)p)->fC);func_020307B0(p);}

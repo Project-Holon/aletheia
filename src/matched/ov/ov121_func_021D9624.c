@@ -1,5 +1,5 @@
 /*
- * function: func_021D9624
+ * function: MYSTERY_GRAPHIC_Create
  * address: 0x021D9624
  * packet: pkt_ov121_021D9624
  * region: ov121
@@ -18,9 +18,9 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_021D97C8 0x021D97C8 thumb ov121
- *   func_021D986C 0x021D986C thumb ov121
- *   func_021D97B4 0x021D97B4 thumb ov121
+ *   MYSTERY_GRAPHIC_InitBg 0x021D97C8 thumb ov121
+ *   MYSTERY_GRAPHIC_InitClact 0x021D986C thumb ov121
+ *   MYSTERY_GRAPHIC_VBlank 0x021D97B4 thumb ov121
  *   func_020056A0 0x020056A0 thumb
  *   d_021DFB8C 0x021DFB8C data a1
  *   d_021DF604 0x021DF604 data a4
@@ -41,11 +41,11 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void func_021D97C8(void *p, u32 a);
-extern void func_021D986C(void **p, u32 a, u32 heap);
-extern void func_021D97B4(void *,u8 *);
+extern void MYSTERY_GRAPHIC_InitBg(void *p, u32 a);
+extern void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap);
+extern void MYSTERY_GRAPHIC_VBlank(void *,u8 *);
 extern void *func_020056A0(void (*)(void *,u8 *),void *,int);
-u8 *func_021D9624(int arg,u16 heap)
+u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
 {
     u8 *p;
     p=func_02030734(heap,28,0,d_021DFB8C,448);
@@ -62,8 +62,8 @@ u8 *func_021D9624(int arg,u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021D97C8(p,heap);
-    func_021D986C((void **)(p+4),(u32)d_021DF604,heap);
-    ((struct Obj13944 *)p)->f14=func_020056A0(func_021D97B4,p,0);
+    MYSTERY_GRAPHIC_InitBg(p,heap);
+    MYSTERY_GRAPHIC_InitClact((void **)(p+4),(u32)d_021DF604,heap);
+    ((struct Obj13944 *)p)->f14=func_020056A0(MYSTERY_GRAPHIC_VBlank,p,0);
     return p;
 }

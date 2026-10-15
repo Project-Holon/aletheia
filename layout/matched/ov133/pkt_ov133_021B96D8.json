@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B96D8",
+   "name": "DUP_FITTING_SaveOutfits",
    "address": "0x021B96D8",
    "kind": "game",
    "region": "ov133",

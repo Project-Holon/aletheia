@@ -55,7 +55,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   func_020490F4 0x020490F4 arm
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -243,7 +243,7 @@ extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -765,7 +765,7 @@ void func_02183FC4(char *p,u16 heap)
     i=0;
     ((struct Obj01262 *)p)->f1C=CLACT_CreateUnit(32,0,heap);
     first=func_020490F4(106,heap);
-    second=func_020490F4(func_020275E4(),heap);
+    second=func_020490F4(APP_ICON_GetArchiveId(),heap);
     ((struct Obj01262 *)p)->f24=CLACT_RegisterPalette(first,6,0,0,heap);
     ((struct Obj01262 *)p)->f20=CLACT_RegisterCharacter(first,7,0,0,heap);
     ((struct Obj01262 *)p)->f28=CLACT_RegisterCellAnim(first,8,9,heap);

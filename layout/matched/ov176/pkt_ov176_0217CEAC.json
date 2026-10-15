@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0217CEAC",
-    "func_0217CFD0",
-    "func_0217CFDC"
+    "LIVEBATTLEMATCH_FLOW_DrawMenu",
+    "LIVEBATTLEMATCH_FLOW_HideWindow",
+    "LIVEBATTLEMATCH_FLOW_GetWindowResult"
+   ],
+   "addresses": [
+    "0x0217CEAC",
+    "0x0217CFD0",
+    "0x0217CFDC"
    ]
   }
  ]

@@ -19,6 +19,7 @@
  *   WIFI_BSUBWAY_GRAPHIC_StartSave 0x021D81D0 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_UpdateSave 0x021D81EC thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon 0x021D81B4 thumb ov116
+ *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb  arm9
  */
 #include "../include/Obj01926.h"
 typedef unsigned char u8;
@@ -31,7 +32,7 @@ typedef signed int     s32;
 struct Blk1AC;
 extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
 extern int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *);
-extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
+extern u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op);
 extern void WIFI_BSUBWAY_GRAPHIC_StartSave(u8 *);
 extern int WIFI_BSUBWAY_GRAPHIC_UpdateSave(u8 *);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
@@ -54,7 +55,7 @@ int WIFI_BSUBWAY_GRAPHIC_Step(u8 *p,int b)
     case 6:
         if(WIFI_BSUBWAY_IsUploadDone(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
         break;
-    case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
+    case 7: GDS_PROFILE_ScoreRecFlag(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
     case 8:
         if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,8); ++((struct Obj01926 *)p)->fB6C; }
         break;

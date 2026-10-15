@@ -14,7 +14,7 @@
  *   func_021DA890 0x021DA890 thumb ov121
  *   func_021D6C28 0x021D6C28 thumb ov121
  *   func_021D6948 0x021D6948 thumb ov121
- *   func_021D96C4 0x021D96C4 thumb ov121
+ *   MYSTERY_GRAPHIC_Delete 0x021D96C4 thumb ov121
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
@@ -45,7 +45,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
-extern void func_021D96C4(u8 *p);
+extern void MYSTERY_GRAPHIC_Delete(u8 *p);
 extern void MYSTERY_DATA_Delete(void *);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
@@ -67,7 +67,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     GF_FONT_Delete(((struct Obj02176 *)p)->f398);
     func_021D6C28((u8 *)(p + 0x294));
     func_021D6948(p + 0x390);
-    func_021D96C4(((struct Obj02176 *)p)->f394);
+    MYSTERY_GRAPHIC_Delete(((struct Obj02176 *)p)->f394);
     MYSTERY_DATA_Delete(((struct Obj02176 *)p)->f3BC);
     GAME_DATA_Delete(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);

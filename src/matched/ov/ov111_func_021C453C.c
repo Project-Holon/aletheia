@@ -21,9 +21,9 @@
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_02049B40  0x02049B40  arm
- *   func_020275E4  0x020275E4  thumb
- *   func_02027628  0x02027628  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   d_021C86E8     0x021C86E8  data  a4
@@ -76,9 +76,9 @@ extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3,
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_020275E4(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 extern const u32 d_021C86E8[][2];
@@ -107,8 +107,8 @@ void VIEWER_MAIN_LoadBgResources(Work *p)
     func_0204989C(0x28, 0x28, 3, 0, 0, 0, p->heap);
     func_02049B40(0x28, 0xF, 0, 0, 0x20, p->heap);
     VIEWER_MAIN_CopyBg3(p->info->bitmap, p->pix);
-    ARC_UTIL_UploadBgCharFromArchive((void *)func_020275E4(), (void *)func_02027628(), (void *)4, 0, 0, 0, p->heap);
-    func_0204989C(func_020275E4(), func_0202762C(), 4, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive((void *)APP_ICON_GetArchiveId(), (void *)APP_ICON_GetStatusFrameFileId(), (void *)4, 0, 0, 0, p->heap);
+    func_0204989C(APP_ICON_GetArchiveId(), APP_ICON_GetStatusDataFileId(), 4, 0, 0, 0, p->heap);
     BG_SYS_FillTileMap(4, 0, 0x15, 0x20, 3, 0xC);
     func_020409B4(4);
 }

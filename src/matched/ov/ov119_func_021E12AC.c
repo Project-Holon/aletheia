@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  */
 #include "../include/Obj00001.h"
@@ -18,6 +18,6 @@ struct Blk;
 struct Ctx;
 struct Rec3;
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *)&((struct Obj00001 *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((struct Obj00001 *)p)->f74C),(void *)(((struct Obj00001 *)p)->f72C),(void *)(*(int *)&((struct Obj00001 *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((struct Obj00001 *)p)->f72C));if(v) {if(((struct Obj00001 *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}}}return v;}
+int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *)&((struct Obj00001 *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((struct Obj00001 *)p)->f74C),(void *)(((struct Obj00001 *)p)->f72C),(void *)(*(int *)&((struct Obj00001 *)p)->f71C));v=PRINTSYS_CTRL_Update((struct Blk *)(p+0x11d4),(void *)(((struct Obj00001 *)p)->f72C));if(v) {if(((struct Obj00001 *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}}}return v;}

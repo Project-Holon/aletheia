@@ -7,29 +7,29 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 DOUBLE3DDISP_SetField08 lacks an external attested witness; scratch one EXACT, 24 bytes.
- *   symbols: g_02146A80 0x02146A80 data a4
- *   extern char *g_02146A80;
- *   void DOUBLE3DDISP_SetField08(void) { *(int *)(g_02146A80+8)=1; }
+ * blocker: ARM9 DOUBLE3DDISP_SetDrawDone lacks an external attested witness; scratch one EXACT, 24 bytes.
+ *   symbols: gDouble3Ddisp 0x02146A80 data a4
+ *   extern char *gDouble3Ddisp;
+ *   void DOUBLE3DDISP_SetDrawDone(void) { *(int *)(gDouble3Ddisp+8)=1; }
  * split: scratch tu --suggest-split confirms no viable partition; ARM9 belongs to the integrator.
- * note 2026-10-05: the blocker leaf is now filed as src/matched/arm9/DOUBLE3DDISP_SetField08.c (EXACT, the
+ * note 2026-10-05: the blocker leaf is now filed as src/matched/arm9/DOUBLE3DDISP_SetDrawDone.c (EXACT, the
  * snippet above, verified). This file stays MATCH until the integrator regenerates the manifest
  * so the witness resolves; then it is EXACT with no change to the C.
  *
  * symbols:
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
- *   DOUBLE3DDISP_GetField04 0x0204EA38 arm
+ *   DOUBLE3DDISP_GetMode 0x0204EA38 arm
  *   HALL_OF_FAME_SetParticleCamera 0x021B6844 thumb ov180
  *   PARTICLE_Main 0x02050BE8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   DOUBLE3DDISP_SetField08 0x0204EA4C arm
+ *   DOUBLE3DDISP_SetDrawDone 0x0204EA4C arm
  */
-extern void G3D_SYSTEM_DrawStart(void); extern void G3D_SYSTEM_ApplyLookAt(void); extern unsigned DOUBLE3DDISP_GetField04(void);
-extern void HALL_OF_FAME_SetParticleCamera(char *,void *,int); extern void PARTICLE_Main(void); extern void G3D_SYSTEM_DrawEnd(void); extern void DOUBLE3DDISP_SetField08(void);
+extern void G3D_SYSTEM_DrawStart(void); extern void G3D_SYSTEM_ApplyLookAt(void); extern unsigned DOUBLE3DDISP_GetMode(void);
+extern void HALL_OF_FAME_SetParticleCamera(char *,void *,int); extern void PARTICLE_Main(void); extern void G3D_SYSTEM_DrawEnd(void); extern void DOUBLE3DDISP_SetDrawDone(void);
 void HALL_OF_FAME_DrawParticles(char *p) {
  G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
- if(DOUBLE3DDISP_GetField04()==1) { HALL_OF_FAME_SetParticleCamera(p,*(void **)(p+0x28),1); HALL_OF_FAME_SetParticleCamera(p,*(void **)(p+0x2C),1); }
+ if(DOUBLE3DDISP_GetMode()==1) { HALL_OF_FAME_SetParticleCamera(p,*(void **)(p+0x28),1); HALL_OF_FAME_SetParticleCamera(p,*(void **)(p+0x2C),1); }
  else { HALL_OF_FAME_SetParticleCamera(p,*(void **)(p+0x28),0); HALL_OF_FAME_SetParticleCamera(p,*(void **)(p+0x2C),0); }
- PARTICLE_Main(); G3D_SYSTEM_DrawEnd(); DOUBLE3DDISP_SetField08();
+ PARTICLE_Main(); G3D_SYSTEM_DrawEnd(); DOUBLE3DDISP_SetDrawDone();
 }

@@ -14,8 +14,8 @@
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
- *   func_0202E888  0x0202E888  thumb
- *   sub_0202E8CC   0x0202E8CC  thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
+ *   COMM_PLAYER_SUPPORT_SetSeason   0x0202E8CC  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   EL_SCOREBOARD_StartStandalone  0x02187808  thumb  ov020
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -36,9 +36,9 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void func_0208068C(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void func_02080B98(void);
-extern int func_0202E888(void);
+extern int COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 typedef signed int     s32;
-extern u8 sub_0202E8CC(s32 a, s32 b);
+extern u8 COMM_PLAYER_SUPPORT_SetSeason(s32 a, s32 b);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int EL_SCOREBOARD_StartStandalone(int a, int b, int c);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
@@ -61,7 +61,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(int a, int *state, int *p)
         (*state)++;
         break;
     case 1:
-        sub_0202E8CC(s, (u16)func_0202E888());
+        COMM_PLAYER_SUPPORT_SetSeason(s, (u16)COMM_PLAYER_SUPPORT_GetSeasonFromClock());
         t = GAME_DATA_GetSeason((const struct BigObj *)s);
         r = EL_SCOREBOARD_StartStandalone(w, t, t);
         GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)r);

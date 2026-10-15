@@ -27,16 +27,16 @@
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   gTouchBarSourceName     0x021B954C  data  a1
- *   func_020275E4  0x020275E4  thumb
- *   func_02027624  0x02027624  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   func_02049B68  0x02049B68  arm
- *   func_02027628  0x02027628  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   func_02049740  0x02049740  arm
- *   func_0202762C  0x0202762C  thumb
- *   func_02027614  0x02027614  thumb
- *   func_02027618  0x02027618  thumb
- *   func_0202761C  0x0202761C  thumb
- *   func_02027620  0x02027620  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
@@ -107,16 +107,16 @@ extern void CLACT_ReleaseCharacter(unsigned int charHandle);
 extern void CLACT_ReleaseCellAnim(unsigned int animHandle);
 extern struct Actor *CLACT_CreateActor(struct Unit *unit, unsigned int charIdx, unsigned int plttIdx, unsigned int cellIdx, const TouchBarActorInit *init, u16 space, u16 heapId);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern void func_02049B68(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
-extern u32 func_02027628(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 func_02049740(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
-extern u32 func_0202762C(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32 iconSet);
-extern u32 func_02027620(u32 iconSet);
+extern u32 APP_ICON_GetStatusDataFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 iconSet);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 iconSet);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 fileId, u32 loadMode, u32 heapFlags);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
@@ -411,17 +411,17 @@ void TOUCHBAR_LoadGfx(TouchBarGfx *gfx, u8 bgLayer, u32 screen, u32 bgPlttTarget
 
     MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
     gfx->bgLayer = bgLayer;
-    arc = func_020490F4(func_020275E4(), heapId);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), heapId);
     if (skipBgGfx == 0) {
-        func_02049B68(arc, func_02027624(), bgPlttTarget, bgPlttSlot << 5, 0x20, heapId);
-        gfx->tileAlloc = func_02049740(arc, func_02027628(), gfx->bgLayer, 0x800, 0, heapId);
-        TOUCHBAR_LoadCharToBg(arc, func_0202762C(), gfx->bgLayer, (u16)gfx->tileAlloc,
+        func_02049B68(arc, APP_ICON_GetStatusAnimFileId(), bgPlttTarget, bgPlttSlot << 5, 0x20, heapId);
+        gfx->tileAlloc = func_02049740(arc, APP_ICON_GetStatusFrameFileId(), gfx->bgLayer, 0x800, 0, heapId);
+        TOUCHBAR_LoadCharToBg(arc, APP_ICON_GetStatusDataFileId(), gfx->bgLayer, (u16)gfx->tileAlloc,
                       0, 0x15, 0x20, 0x18, 0, 0x15, 0x20, 3, bgPlttSlot, 0, heapId);
     }
-    gfx->plttHandle = CLACT_RegisterPaletteEx(arc, func_02027614(), screen, (u16)(actorPlttSlot << 5), 0, 3, heapId);
-    gfx->charHandle = CLACT_RegisterCharacter(arc, func_02027618(), 0, screen, heapId);
-    cellFile = func_0202761C(iconSet);
-    gfx->animHandle = CLACT_RegisterCellAnim(arc, cellFile, func_02027620(iconSet), heapId);
+    gfx->plttHandle = CLACT_RegisterPaletteEx(arc, APP_ICON_GetMoveKindPaletteFileId(), screen, (u16)(actorPlttSlot << 5), 0, 3, heapId);
+    gfx->charHandle = CLACT_RegisterCharacter(arc, APP_ICON_GetMoveKindAnimFileId(), 0, screen, heapId);
+    cellFile = APP_ICON_GetStatusCellFileId(iconSet);
+    gfx->animHandle = CLACT_RegisterCellAnim(arc, cellFile, APP_ICON_GetStatusPaletteFileId(iconSet), heapId);
     ARC_TOOL_DeleteHandle(arc);
 }
 

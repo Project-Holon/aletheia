@@ -1,7 +1,7 @@
 /*
  * file:     time_icon.c
  * unit:     yes
- * function: COMM_PLAYER_SUPPORT_Create, func_0202E794, COMM_PLAYER_SUPPORT_Init, COMM_PLAYER_SUPPORT_SetModeAndCurrent, COMM_PLAYER_SUPPORT_GetCurrent, COMM_PLAYER_SUPPORT_GetMode, COMM_PLAYER_SUPPORT_SavePreviousAndSuspend, COMM_PLAYER_SUPPORT_StashMode, COMM_PLAYER_SUPPORT_HasSavedMode, COMM_PLAYER_SUPPORT_GetActiveRecord, COMM_PLAYER_SUPPORT_GetInfoCode, func_0202E848, func_0202E888, func_0202E8A4, func_0202E8B8, func_0202E8CC, COMM_PLAYER_SUPPORT_FindPeerRecord, COMM_PLAYER_SUPPORT_GetRecordFieldPtr, COMM_PLAYER_SUPPORT_GetRecordField, BLINK_PALANM_Create, BLINK_PALANM_LoadPalettes, func_0202EA20, BLINK_PALANM_Update, BLINK_PALANM_ResetPhase, func_0202EB0C, func_0202EB14, func_0202EB44, func_0202EB4C, func_0202EB60, func_0202EB7C, func_0202EB9C, func_0202EC24, func_0202EC44, func_0202EC7C, func_0202ECB0, func_0202ED00, func_0202ED60, func_0202ED90, func_0202EDE4, func_0202EE0C, TIME_ICON_Create, TIME_ICON_CreateNode, TIME_ICON_Init, TIME_ICON_Alloc, TIME_ICON_Start, TIME_ICON_Delete, TIME_ICON_TaskMain, TIME_ICON_NodeMain, TIME_ICON_Update, sub_0202F114, sub_0202F138, sub_0202F144, sub_0202F170, func_0202F190, func_0202F1B4, func_0202F27C, func_0202F2AC, func_0202F2F4, func_0202F30C, func_0202F358, func_0202F3AC, func_0202F41C, func_0202F464, func_0202F47C, func_0202F488, func_0202F498, func_0202F630, func_0202F640, func_0202F688, func_0202F6D8, func_0202F72C, func_0202F738, func_0202F768, func_0202F774, func_0202F788, func_0202F7C4, func_0202F870, func_0202F940, func_0202F9F4, func_0202F9F8, func_0202FAB0
+ * function: COMM_PLAYER_SUPPORT_Create, func_0202E794, COMM_PLAYER_SUPPORT_Init, COMM_PLAYER_SUPPORT_SetModeAndCurrent, COMM_PLAYER_SUPPORT_GetCurrent, COMM_PLAYER_SUPPORT_GetMode, COMM_PLAYER_SUPPORT_SavePreviousAndSuspend, COMM_PLAYER_SUPPORT_StashMode, COMM_PLAYER_SUPPORT_HasSavedMode, COMM_PLAYER_SUPPORT_GetActiveRecord, COMM_PLAYER_SUPPORT_GetInfoCode, COMM_PLAYER_SUPPORT_IsSeasonChanged, COMM_PLAYER_SUPPORT_GetSeasonFromClock, COMM_PLAYER_SUPPORT_NextSeason, COMM_PLAYER_SUPPORT_PrevSeason, COMM_PLAYER_SUPPORT_SetSeason, COMM_PLAYER_SUPPORT_FindPeerRecord, COMM_PLAYER_SUPPORT_GetRecordFieldPtr, COMM_PLAYER_SUPPORT_GetRecordField, BLINK_PALANM_Create, BLINK_PALANM_LoadPalettes, func_0202EA20, BLINK_PALANM_Update, BLINK_PALANM_ResetPhase, APP_ENV_IsRunOnTwl, APP_ENV_HasParentalControlBits, APP_ENV_InitParentalControl, APP_ENV_IsEulaAgreed, APP_ENV_GetOwnerColorAndBirthMonth, COMM_HISTORY_InsertIfNamed, COMM_HISTORY_InsertOrReplace, COMM_HISTORY_CountLeadingOccupied, COMM_HISTORY_CountByKey, COMM_HISTORY_FindByKey, COMM_HISTORY_FindByKeys, COMM_HISTORY_RemoveAt, COMM_HISTORY_StoreAndNotify, COMM_HISTORY_StoreAt, COMM_HISTORY_ScaleValue, COMM_HISTORY_ScaleSpan, TIME_ICON_Create, TIME_ICON_CreateNode, TIME_ICON_Init, TIME_ICON_Alloc, TIME_ICON_Start, TIME_ICON_Delete, TIME_ICON_TaskMain, TIME_ICON_NodeMain, TIME_ICON_Update, ITEM_GFX_IsFlagClear, ITEM_GFX_GetItemId, ITEM_GFX_GetExtraValue, ITEM_GFX_GetRowIndex, SAVE_EVENT_Write, SAVE_EVENT_WriteMode, SAVE_EVENT_StoreTodayDate, SAVE_EVENT_WriteWithDate, SAVE_EVENT_ClearVariant, SAVE_EVENT_WriteEventIdWithDate, SAVE_EVENT_StoreVariant, SAVE_EVENT_CopyVariant, SAVE_EVENT_StoreRecord, SAVE_EVENT_CopyDoneFlag, SAVE_EVENT_SetDoneFlag, SAVE_EVENT_IsStageDone, SAVE_EVENT_CheckStage, SAVE_EVENT_CommitStage, SAVE_EVENT_AdvanceStage, EVENT_ID_GetBank, EVENT_ID_GetIndex, EVENT_ID_Check, EVENT_ID_AreSlotsClear, APP_POWER_ClearCallback, APP_POWER_SetCallback, APP_POWER_Main, APP_POWER_ResetDisplay, APP_POWER_LoadShutdownScreen, APP_POWER_DrawShutdownScreen, APP_POWER_IsSupported, OVERLAY_LAUNCH_Driver, APP_POWER_IsReady
  * address:  0x0202E770
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Split from time_icon.c at 0x0202E770 (__FILE__ anchor boundary, certain cut).
- * time_icon.c.  The unlabelled four-byte leaf after func_0202F9F8's literal
- * pool (`movs r0, #1; bx lr`), which the listing extent of func_0202F9F8
+ * time_icon.c.  The unlabelled four-byte leaf after OVERLAY_LAUNCH_Driver's literal
+ * pool (`movs r0, #1; bx lr`), which the listing extent of OVERLAY_LAUNCH_Driver
  * swallows.  It saves nothing, so disasm.py never labels it
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); seed
  * 0x0202FAB0 in layout/function_starts.txt.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202FAB0.c \
- *       --func func_0202FAB0 --addr 0x0202FAB0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/APP_POWER_IsReady.c \
+ *       --func APP_POWER_IsReady --addr 0x0202FAB0 --cc 1.1p1 --thumb
  *
  * symbols:
  *   func_02030734    0x02030734  arm
@@ -47,7 +47,7 @@
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_0200974C  0x0200974C  thumb
  *   func_0200856C  0x0200856C  thumb
- *   func_0202EC24  0x0202EC24  thumb
+ *   COMM_HISTORY_CountLeadingOccupied  0x0202EC24  thumb
  *   func_02008530   0x02008530  thumb
  *   func_02009750   0x02009750  thumb
  *   func_020095E8   0x020095E8  thumb
@@ -272,7 +272,7 @@ struct ItemGfxExtra {
     u16 value;
 };
 
-/* State block of the overlay launcher driven by func_0202F9F8. */
+/* State block of the overlay launcher driven by OVERLAY_LAUNCH_Driver. */
 struct OverlayLaunchWork {
     u16 stage;      /* 0x00 */
     u8 enabled;     /* 0x02 */
@@ -387,11 +387,11 @@ void COMM_PLAYER_SUPPORT_StashMode(struct CommPlayerSupport *support);
 int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support);
 struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSupport *support);
 int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
-int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent);
-u8 sub_0202E888(void);
-u8 sub_0202E8A4(u8 season);
-u8 sub_0202E8B8(s32 season);
-u8 sub_0202E8CC(s32 handle, s32 value);
+int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent);
+u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
+u8 COMM_PLAYER_SUPPORT_NextSeason(u8 season);
+u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 season);
+u8 COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
 int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac);
 u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record);
 u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record);
@@ -400,22 +400,22 @@ void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileI
 u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm);
 s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm);
 void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm);
-u32 sub_0202EB0C(void);
-int func_0202EB14(void);
-void func_0202EB44(void);
-u32 sub_0202EB4C(void);
-void sub_0202EB60(u8 *outFavoriteColor, u8 *outBirthMonth);
-u32 func_0202EB7C(struct HistoryOwner *owner, struct HistoryEntry *entry);
-u32 func_0202EB9C(struct HistoryOwner *owner, struct HistoryEntry *entry);
-u32 sub_0202EC24(const struct HistoryEntry *table);
-u32 func_0202EC44(struct HistoryEntry *table, u32 key);
-s32 func_0202EC7C(struct HistoryEntry *table, u32 key);
-s32 func_0202ECB0(struct HistoryEntry *table, struct HistoryEntry *entry);
-void func_0202ED00(struct HistoryEntry *table, u32 index);
-void func_0202ED60(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 mark);
-void func_0202ED90(struct HistoryEntry *table, struct HistoryEntry *entry, u32 mark);
-u32 func_0202EDE4(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 margin);
-u32 func_0202EE0C(u32 total, u32 rate, u32 start, u32 end, u32 margin);
+u32 APP_ENV_IsRunOnTwl(void);
+int APP_ENV_HasParentalControlBits(void);
+void APP_ENV_InitParentalControl(void);
+u32 APP_ENV_IsEulaAgreed(void);
+void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outFavoriteColor, u8 *outBirthMonth);
+u32 COMM_HISTORY_InsertIfNamed(struct HistoryOwner *owner, struct HistoryEntry *entry);
+u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry *entry);
+u32 COMM_HISTORY_CountLeadingOccupied(const struct HistoryEntry *table);
+u32 COMM_HISTORY_CountByKey(struct HistoryEntry *table, u32 key);
+s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key);
+s32 COMM_HISTORY_FindByKeys(struct HistoryEntry *table, struct HistoryEntry *entry);
+void COMM_HISTORY_RemoveAt(struct HistoryEntry *table, u32 index);
+void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 mark);
+void COMM_HISTORY_StoreAt(struct HistoryEntry *table, struct HistoryEntry *entry, u32 mark);
+u32 COMM_HISTORY_ScaleValue(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 margin);
+u32 COMM_HISTORY_ScaleSpan(u32 total, u32 rate, u32 start, u32 end, u32 margin);
 struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId);
 struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
@@ -425,38 +425,38 @@ void TIME_ICON_Delete(struct TimeIcon *icon);
 void TIME_ICON_TaskMain(struct Tcb *tcb, void *work);
 void TIME_ICON_NodeMain(struct TcblNode *node, void *work);
 void TIME_ICON_Update(struct TimeIcon *icon);
-u32 sub_0202F114(const u8 *bits, u32 index);
-u16 sub_0202F138(u32 row);
-u32 sub_0202F144(u32 itemId);
-u32 sub_0202F170(u16 itemId);
-void func_0202F190(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index);
-void func_0202F1B4(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index);
-void func_0202F27C(struct SaveData *save);
-void func_0202F2AC(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
-void func_0202F2F4(struct SaveData *save, u32 variant);
-void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant);
-void func_0202F358(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day, u32 variant);
-void func_0202F3AC(struct SaveData *save, u32 variant);
-void func_0202F41C(struct SaveData *save, const struct PlayerRecord *record, u32 index);
-void func_0202F464(struct SaveData *save);
-void func_0202F47C(struct SaveData *save);
-int func_0202F488(void *gameData, int stage);
-int func_0202F498(struct SaveData *save, int stage);
-void func_0202F630(void *gameData, u32 stage);
-void func_0202F640(struct SaveData *save, u32 stage);
-unsigned int func_0202F688(unsigned int id);
-unsigned int func_0202F6D8(unsigned int id);
-u32 func_0202F72C(void *unused, u16 value, u16 unused2);
-int func_0202F738(struct SaveData *save, int unused);
-void func_0202F768(void);
-void func_0202F774(u32 on);
-void func_0202F788(u32 mode);
-void func_0202F7C4(u32 messageId);
-void func_0202F870(void);
-void func_0202F940(u32 messageId);
-int func_0202F9F4(void);
-int func_0202F9F8(void *unused, u32 *state);
-int func_0202FAB0(void);
+u32 ITEM_GFX_IsFlagClear(const u8 *bits, u32 index);
+u16 ITEM_GFX_GetItemId(u32 row);
+u32 ITEM_GFX_GetExtraValue(u32 itemId);
+u32 ITEM_GFX_GetRowIndex(u16 itemId);
+void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index);
+void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index);
+void SAVE_EVENT_StoreTodayDate(struct SaveData *save);
+void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
+void SAVE_EVENT_ClearVariant(struct SaveData *save, u32 variant);
+void SAVE_EVENT_WriteEventIdWithDate(struct SaveData *save, u32 eventId, u32 variant);
+void SAVE_EVENT_StoreVariant(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day, u32 variant);
+void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant);
+void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *record, u32 index);
+void SAVE_EVENT_CopyDoneFlag(struct SaveData *save);
+void SAVE_EVENT_SetDoneFlag(struct SaveData *save);
+int SAVE_EVENT_IsStageDone(void *gameData, int stage);
+int SAVE_EVENT_CheckStage(struct SaveData *save, int stage);
+void SAVE_EVENT_CommitStage(void *gameData, u32 stage);
+void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage);
+unsigned int EVENT_ID_GetBank(unsigned int id);
+unsigned int EVENT_ID_GetIndex(unsigned int id);
+u32 EVENT_ID_Check(void *unused, u16 value, u16 unused2);
+int EVENT_ID_AreSlotsClear(struct SaveData *save, int unused);
+void APP_POWER_ClearCallback(void);
+void APP_POWER_SetCallback(u32 on);
+void APP_POWER_Main(u32 mode);
+void APP_POWER_ResetDisplay(u32 messageId);
+void APP_POWER_LoadShutdownScreen(void);
+void APP_POWER_DrawShutdownScreen(u32 messageId);
+int APP_POWER_IsSupported(void);
+int OVERLAY_LAUNCH_Driver(void *unused, u32 *state);
+int APP_POWER_IsReady(void);
 extern const char comm_player_support_File[];
 extern const char blink_palanm_File[];
 extern const s16 FX_SinCosTable_[];
@@ -578,7 +578,7 @@ int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info)
  * compare against into *outCurrent; returns 1 when they differ.  A fixed
  * record always reports 0.
  */
-int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
+int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
 {
     int isFixed;
     int stored;
@@ -593,7 +593,7 @@ int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
     } else {
         stored = GAME_DATA_GetSeason(info);
         *outStored = (unsigned short)stored;
-        current = sub_0202E888();
+        current = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
         *outCurrent = (unsigned short)current;
         if (*outStored != *outCurrent) {
             return 1;
@@ -607,14 +607,14 @@ int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Four small season helpers. sub_0202E888 asks the ARM clock getter for a
+ * Four small season helpers. COMM_PLAYER_SUPPORT_GetSeasonFromClock asks the ARM clock getter for a
  * 0x10-byte date and reduces its month to a two-bit season;
- * sub_0202E8A4 and sub_0202E8B8 step that value forwards and backwards
+ * COMM_PLAYER_SUPPORT_NextSeason and COMM_PLAYER_SUPPORT_PrevSeason step that value forwards and backwards
  * around the same four-element cycle.
  *
  * The `lsrs #0x1F` / `lsls #0x1E` / `subs` / `rors #0x1E` quartet in the
  * two steppers is a signed `% 4` and nothing else: `& 3` is a two
- * instruction `movs`/`ands`, which is exactly what sub_0202E888 uses at
+ * instruction `movs`/`ands`, which is exactly what COMM_PLAYER_SUPPORT_GetSeasonFromClock uses at
  * the top, and `/ 4` carries a different rounding correction. Both
  * spellings appear four instructions apart in the same 80 bytes, so the
  * pair of them pins the signedness of each operand independently.
@@ -622,11 +622,11 @@ int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
  * The `lsls #0x18` / `lsrs #0x18` at the end of all three is the `(u8)`
  * return type.
  *
- * sub_0202E8CC is a twelve byte pool-word-and-bx tail call
+ * COMM_PLAYER_SUPPORT_SetSeason is a twelve byte pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) that narrows its
  * second argument to `u8` on the way through.
  */
-u8 sub_0202E888(void)
+u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void)
 {
     struct RtcDate date;
 
@@ -635,19 +635,19 @@ u8 sub_0202E888(void)
 }
 
 
-u8 sub_0202E8A4(u8 season)
+u8 COMM_PLAYER_SUPPORT_NextSeason(u8 season)
 {
     return (u8)((season + 1) % 4);
 }
 
 
-u8 sub_0202E8B8(s32 season)
+u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 season)
 {
     return (u8)((season + 3) % 4);
 }
 
 
-u8 sub_0202E8CC(s32 handle, s32 value)
+u8 COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value)
 {
     return GAME_DATA_SetSeason(handle, (u8)value);
 }
@@ -856,19 +856,19 @@ void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm)
 /*
  * A pool-word-and-bx tail call into an ARM SDK entry point
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), eight bytes with no
- * prologue. Its result is compared against 1 by sub_0202EB4C, which is the
+ * prologue. Its result is compared against 1 by APP_ENV_IsEulaAgreed, which is the
  * only caller.
  */
-u32 sub_0202EB0C(void)
+u32 APP_ENV_IsRunOnTwl(void)
 {
     return OS_IsRunOnTwl();
 }
 
 
 /* Nonzero when running on a DSi with both capability bits (0 and 5) set. */
-int func_0202EB14(void)
+int APP_ENV_HasParentalControlBits(void)
 {
-    if (sub_0202EB0C()) {
+    if (APP_ENV_IsRunOnTwl()) {
         if (OS_GetParentalControlInfoPtr()->bit0 && OS_GetParentalControlInfoPtr()->bit5) {
             return 1;
         }
@@ -879,7 +879,7 @@ int func_0202EB14(void)
 
 
 /* Bare tail call into an ARM SDK leaf. */
-void func_0202EB44(void)
+void APP_ENV_InitParentalControl(void)
 {
     func_02087DC4();
 }
@@ -894,9 +894,9 @@ void func_0202EB44(void)
  * Declaring either callee with a parameter costs an `adds r0, ...` the
  * original does not have.
  */
-u32 sub_0202EB4C(void)
+u32 APP_ENV_IsEulaAgreed(void)
 {
-    if (sub_0202EB0C() == 1) {
+    if (APP_ENV_IsRunOnTwl() == 1) {
         return OS_IsAgreeEULA();
     }
     return 1;
@@ -912,7 +912,7 @@ u32 sub_0202EB4C(void)
  * as the base of the two loads, which is what a named local rather than
  * a re-taken address looks like here.
  */
-void sub_0202EB60(u8 *outFavoriteColor, u8 *outBirthMonth)
+void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outFavoriteColor, u8 *outBirthMonth)
 {
     struct OwnerInfo info;
 
@@ -925,23 +925,23 @@ void sub_0202EB60(u8 *outFavoriteColor, u8 *outBirthMonth)
 /*
  * Byte-correct, MATCH-capped.
  *
- * All 30 concrete bytes are right; the call to func_0202EB9C is the only open
+ * All 30 concrete bytes are right; the call to COMM_HISTORY_InsertOrReplace is the only open
  * site and it is blocked on `label`: the sole branch to 0x0202EB9C image-wide
  * is the one inside this function, so there is no witness outside the
  * compared range and no cut helps (the range cannot be smaller than the one
- * function holding the call).  It closes when func_0202EB9C itself gets a
+ * function holding the call).  It closes when COMM_HISTORY_InsertOrReplace itself gets a
  * manifest entry or a second caller appears.
  *
  * The trailing `*` is the unlabelled follower at 0x0202EB9C: the listing's
  * extent runs 32 bytes against 30 compiled because the follower carries no
  * `func_` label in the generated listing.
  */
-u32 func_0202EB7C(struct HistoryOwner *owner, struct HistoryEntry *entry)
+u32 COMM_HISTORY_InsertIfNamed(struct HistoryOwner *owner, struct HistoryEntry *entry)
 {
     if (func_0200856C(&entry->record) == 0) {
         return 0;
     }
-    return func_0202EB9C(owner, entry);
+    return COMM_HISTORY_InsertOrReplace(owner, entry);
 }
 
 
@@ -951,39 +951,39 @@ u32 func_0202EB7C(struct HistoryOwner *owner, struct HistoryEntry *entry)
  * 1.1p1, no pin: the notify call is written in BOTH arms of the count test.
  * 1.1p1 then cross-jumps the two notify tails (the then-arm's `b` at
  * 0x0202EC04, reached by the inner `blo` as a jump to a jump) and no longer
- * merges the two func_0202ED00 calls, and the a/b/v register rotation
+ * merges the two COMM_HISTORY_RemoveAt calls, and the a/b/v register rotation
  * resolves with it.  `isMarked` is the +0x26 bit-3 field.
  *
  * Returns 1 when an existing entry was replaced and 2 when a new one was
  * inserted.
  */
-u32 func_0202EB9C(struct HistoryOwner *owner, struct HistoryEntry *entry)
+u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry *entry)
 {
     struct HistoryEntry *table;
     u32 index;
     u32 value;
 
     table = func_0200974C(owner);
-    index = func_0202ECB0(table, entry);
+    index = COMM_HISTORY_FindByKeys(table, entry);
 
     if (index != 0x14) {
         if (table[index].isMarked)
             value = 1;
         else
             value = 0;
-        func_0202ED00(table, index);
-        func_0202ED60(owner, entry, value);
+        COMM_HISTORY_RemoveAt(table, index);
+        COMM_HISTORY_StoreAndNotify(owner, entry, value);
         return 1;
     }
 
     value = func_0200856C(&entry->record);
-    if (func_0202EC44(table, value) < 5) {
-        if (sub_0202EC24(table) >= 0x14)
-            func_0202ED00(table, 0);
-        func_0202ED60(owner, entry, 0);
+    if (COMM_HISTORY_CountByKey(table, value) < 5) {
+        if (COMM_HISTORY_CountLeadingOccupied(table) >= 0x14)
+            COMM_HISTORY_RemoveAt(table, 0);
+        COMM_HISTORY_StoreAndNotify(owner, entry, 0);
     } else {
-        func_0202ED00(table, func_0202EC7C(table, value));
-        func_0202ED60(owner, entry, 0);
+        COMM_HISTORY_RemoveAt(table, COMM_HISTORY_FindByKey(table, value));
+        COMM_HISTORY_StoreAndNotify(owner, entry, 0);
     }
     return 2;
 }
@@ -1011,7 +1011,7 @@ u32 func_0202EB9C(struct HistoryOwner *owner, struct HistoryEntry *entry)
  * reports EXACT* for a padding gap rather than for an unlabelled
  * follower; `tu` compares the section as laid out.
  */
-u32 sub_0202EC24(const struct HistoryEntry *table)
+u32 COMM_HISTORY_CountLeadingOccupied(const struct HistoryEntry *table)
 {
     u32 i;
 
@@ -1026,9 +1026,9 @@ u32 sub_0202EC24(const struct HistoryEntry *table)
 
 /*
  * Counts the occupied entries whose key matches, capped at five.  Same
- * 0x28-byte record as func_0202EC7C, matched next door.
+ * 0x28-byte record as COMM_HISTORY_FindByKey, matched next door.
  */
-u32 func_0202EC44(struct HistoryEntry *table, u32 key)
+u32 COMM_HISTORY_CountByKey(struct HistoryEntry *table, u32 key)
 {
     u32 i;
     u32 count = 0;
@@ -1049,7 +1049,7 @@ u32 func_0202EC44(struct HistoryEntry *table, u32 key)
 
 
 /* Index of the first occupied entry with the given key, or 0x14. */
-s32 func_0202EC7C(struct HistoryEntry *table, u32 key)
+s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
 {
     u32 i;
 
@@ -1067,7 +1067,7 @@ s32 func_0202EC7C(struct HistoryEntry *table, u32 key)
  * Finds the first occupied entry whose two keys both match the reference
  * entry's, or 0x14 when there is none.
  */
-s32 func_0202ECB0(struct HistoryEntry *table, struct HistoryEntry *entry)
+s32 COMM_HISTORY_FindByKeys(struct HistoryEntry *table, struct HistoryEntry *entry)
 {
     u32 keyA = func_02008530(&entry->record);
     u32 keyB = func_0200856C(&entry->record);
@@ -1101,7 +1101,7 @@ s32 func_0202ECB0(struct HistoryEntry *table, struct HistoryEntry *entry)
  * source first.  `(table + 1)[index]` shares only the index*0x28 product,
  * which is what the image keeps in r7.
  */
-void func_0202ED00(struct HistoryEntry *table, u32 index)
+void COMM_HISTORY_RemoveAt(struct HistoryEntry *table, u32 index)
 {
     struct HistoryEntry *dst;
     struct HistoryEntry *src;
@@ -1137,12 +1137,12 @@ void func_0202ED00(struct HistoryEntry *table, u32 index)
  * of the entry once into a named local and handed to func_02009750; that
  * call's answer decides whether func_020095E8 runs.
  */
-void func_0202ED60(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 mark)
+void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 mark)
 {
     struct HistoryEntry *table = func_0200974C(owner);
     u32 key;
 
-    func_0202ED90(table, entry, mark);
+    COMM_HISTORY_StoreAt(table, entry, mark);
 
     key = func_0200856C(&entry->record);
     if (func_02009750(owner, key) != 0)
@@ -1151,12 +1151,12 @@ void func_0202ED60(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 m
 
 
 /*
- * Stores the entry at the first free index of the table (func_0202EC24),
+ * Stores the entry at the first free index of the table (COMM_HISTORY_CountLeadingOccupied),
  * after setting the bit-3 mark from `mark` and the bit-4 occupied flag.
  */
-void func_0202ED90(struct HistoryEntry *table, struct HistoryEntry *entry, u32 mark)
+void COMM_HISTORY_StoreAt(struct HistoryEntry *table, struct HistoryEntry *entry, u32 mark)
 {
-    u32 index = sub_0202EC24(table);
+    u32 index = COMM_HISTORY_CountLeadingOccupied(table);
 
     if (index >= 0x14)
         return;
@@ -1173,7 +1173,7 @@ void func_0202ED90(struct HistoryEntry *table, struct HistoryEntry *entry, u32 m
 
 
 /* Maps value into the band [rangeStart+margin/2, rangeEnd-margin/2]: 0 below it and maxValue above it. */
-u32 func_0202EDE4(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 margin)
+u32 COMM_HISTORY_ScaleValue(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 margin)
 {
     u32 halfMargin  = margin >> 1;
     u32 low = rangeStart + halfMargin;
@@ -1210,7 +1210,7 @@ u32 func_0202EDE4(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 mar
  * Together they put the quotient's high half in r2 and re-read `margin`
  * into r0, which is exactly the original's tail.
  */
-u32 func_0202EE0C(u32 total, u32 rate, u32 start, u32 end, u32 margin)
+u32 COMM_HISTORY_ScaleSpan(u32 total, u32 rate, u32 start, u32 end, u32 margin)
 {
     u32 span = ((end - start) - margin) << 8;
     u32 scaled = _u32_div_f(span * rate, total) >> 8;
@@ -1426,7 +1426,7 @@ void TIME_ICON_Update(struct TimeIcon *icon)
  * or `i & 7` folded into the shift expression loses them (the front end
  * knows both are already in range and drops the conversions).
  */
-u32 sub_0202F114(const u8 *bits, u32 index)
+u32 ITEM_GFX_IsFlagClear(const u8 *bits, u32 index)
 {
     u8 byteIndex = (u8)(index >> 3);
     u8 bitIndex = (u8)(index & 7);
@@ -1439,11 +1439,11 @@ u32 sub_0202F114(const u8 *bits, u32 index)
 
 /*
  * First field (item id) of row `row` of the 0x2E-row item graphics extra
- * table; the sibling lookups sub_0202F144 (second field) and sub_0202F170
+ * table; the sibling lookups ITEM_GFX_GetExtraValue (second field) and ITEM_GFX_GetRowIndex
  * (row index) share it.  All three are unlabelled leaf functions in the
  * 0x0202F114..0x0202F190 gap.
  */
-u16 sub_0202F138(u32 row)
+u16 ITEM_GFX_GetItemId(u32 row)
 {
     return sItemGfxExtraTable[row].itemId;
 }
@@ -1452,7 +1452,7 @@ u16 sub_0202F138(u32 row)
 /*
  * Second field of the row whose item id matches, 0 when there is none.
  */
-u32 sub_0202F144(u32 itemId)
+u32 ITEM_GFX_GetExtraValue(u32 itemId)
 {
     s32 i;
 
@@ -1466,9 +1466,9 @@ u32 sub_0202F144(u32 itemId)
 
 /*
  * Row index of the entry whose item id matches, 0 when there is none.
- * Unsigned loop here, signed in sub_0202F144.
+ * Unsigned loop here, signed in ITEM_GFX_GetExtraValue.
  */
-u32 sub_0202F170(u16 itemId)
+u32 ITEM_GFX_GetRowIndex(u16 itemId)
 {
     u32 i;
 
@@ -1480,9 +1480,9 @@ u32 sub_0202F170(u16 itemId)
 }
 
 
-void func_0202F190(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index)
+void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index)
 {
-    func_0202F1B4(func_020185F0(gameData), mode, record, eventId, index);
+    SAVE_EVENT_WriteMode(func_020185F0(gameData), mode, record, eventId, index);
 }
 
 
@@ -1492,49 +1492,49 @@ void func_0202F190(void *gameData, u32 mode, const struct PlayerRecord *record, 
  * source's gotos.  Every case is written out in full (no shared labels) and
  * case 2's guard carries the call run in BOTH arms; 1.1p1's own
  * cross-jumping then produces the image's `b` into case 0's
- * func_0202F464/func_0202F47C tail, the kept `bne; b` pair in case 2, and
+ * SAVE_EVENT_CopyDoneFlag/SAVE_EVENT_SetDoneFlag tail, the kept `bne; b` pair in case 2, and
  * the head that spills the selector and holds the fifth parameter in r7.
- * The call at +0x58 is attested by func_0202F47C (same shard).  0x7532 is
+ * The call at +0x58 is attested by SAVE_EVENT_SetDoneFlag (same shard).  0x7532 is
  * a plain constant.
  */
-void func_0202F1B4(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index)
+void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index)
 {
     u32 savedFlag = func_02017DBC(save);
 
     switch (mode) {
     case 0:
-        func_0202F2F4(save, 0);
-        func_0202F30C(save, eventId, 1);
-        func_0202F41C(save, record, index);
-        func_0202F464(save);
-        func_0202F47C(save);
+        SAVE_EVENT_ClearVariant(save, 0);
+        SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
+        SAVE_EVENT_StoreRecord(save, record, index);
+        SAVE_EVENT_CopyDoneFlag(save);
+        SAVE_EVENT_SetDoneFlag(save);
         break;
     case 1:
-        func_0202F30C(save, 0x7532, 1);
-        func_0202F464(save);
-        func_0202F47C(save);
+        SAVE_EVENT_WriteEventIdWithDate(save, 0x7532, 1);
+        SAVE_EVENT_CopyDoneFlag(save);
+        SAVE_EVENT_SetDoneFlag(save);
         break;
     case 2:
         if (POKE_TOOL_IsBoxOwnedByPlayer(save, record) == 1) {
-            func_0202F30C(save, eventId, 1);
-            func_0202F41C(save, record, index);
+            SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
+            SAVE_EVENT_StoreRecord(save, record, index);
         } else {
-            func_0202F3AC(save, 1);
-            func_0202F30C(save, eventId, 1);
-            func_0202F41C(save, record, index);
+            SAVE_EVENT_CopyVariant(save, 1);
+            SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
+            SAVE_EVENT_StoreRecord(save, record, index);
         }
-        func_0202F47C(save);
+        SAVE_EVENT_SetDoneFlag(save);
         break;
     case 3:
     case 4:
         break;
     case 5:
-        func_0202F30C(save, eventId, 0);
-        func_0202F41C(save, record, index);
-        func_0202F47C(save);
+        SAVE_EVENT_WriteEventIdWithDate(save, eventId, 0);
+        SAVE_EVENT_StoreRecord(save, record, index);
+        SAVE_EVENT_SetDoneFlag(save);
         break;
     case 6:
-        func_0202F30C(save, eventId, 1);
+        SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
         break;
     }
     func_02017DE4(save, savedFlag);
@@ -1542,7 +1542,7 @@ void func_0202F1B4(struct SaveData *save, u32 mode, const struct PlayerRecord *r
 
 
 /* Stores today's RTC date into save variables 0x92 to 0x94. */
-void func_0202F27C(struct SaveData *save)
+void SAVE_EVENT_StoreTodayDate(struct SaveData *save)
 {
     struct RtcDate date;
 
@@ -1554,34 +1554,34 @@ void func_0202F27C(struct SaveData *save)
 }
 
 
-void func_0202F2AC(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day)
+void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day)
 {
     if (func_02017E88(save, 0xAA, 0) == 1)
-        func_0202F358(save, eventId, year, month, day, 0);
+        SAVE_EVENT_StoreVariant(save, eventId, year, month, day, 0);
     else
-        func_0202F358(save, eventId, year, month, day, 1);
-    func_0202F464(save);
+        SAVE_EVENT_StoreVariant(save, eventId, year, month, day, 1);
+    SAVE_EVENT_CopyDoneFlag(save);
     POKE_TOOL_SetBoxValue(save, 0x6D, 1);
 }
 
 
-void func_0202F2F4(struct SaveData *save, u32 variant)
+void SAVE_EVENT_ClearVariant(struct SaveData *save, u32 variant)
 {
-    func_0202F358(save, 0, 0, 0, 0, variant);
+    SAVE_EVENT_StoreVariant(save, 0, 0, 0, 0, variant);
 }
 
 
 /* Stores the event id with today's date into the given variant. */
-void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant)
+void SAVE_EVENT_WriteEventIdWithDate(struct SaveData *save, u32 eventId, u32 variant)
 {
     struct RtcDate date;
 
     GF_STANDARD_SetField00_F4E4(&date);
 
     if (ZONEDATA_IsRawZoneGroup4CTo69((u16)eventId) == 1)
-        func_0202F358(save, 0x753E, date.year, date.month, date.day, variant);
+        SAVE_EVENT_StoreVariant(save, 0x753E, date.year, date.month, date.day, variant);
     else
-        func_0202F358(save, eventId, date.year, date.month, date.day, variant);
+        SAVE_EVENT_StoreVariant(save, eventId, date.year, date.month, date.day, variant);
 }
 
 
@@ -1590,7 +1590,7 @@ void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant)
  * day).  The base index is the variant flag plus 0x95 for the event id,
  * then that same flag times three plus 0x8f/0x90/0x91 for the date.
  */
-void func_0202F358(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day, u32 variant)
+void SAVE_EVENT_StoreVariant(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day, u32 variant)
 {
     u8 base = (variant == 1);
 
@@ -1604,9 +1604,9 @@ void func_0202F358(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 
 
 /*
  * Reads the four save variables of one variant and hands them, with the
- * opposite variant, to func_0202F358 (copies a variant to the other one).
+ * opposite variant, to SAVE_EVENT_StoreVariant (copies a variant to the other one).
  */
-void func_0202F3AC(struct SaveData *save, u32 variant)
+void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant)
 {
     u8 base = (variant == 1);
     u32 eventId, year, month, otherVariant, day;
@@ -1618,7 +1618,7 @@ void func_0202F3AC(struct SaveData *save, u32 variant)
     day = func_02017E88(save, base + 0x91, 0);
 
     otherVariant = (variant == 0);
-    func_0202F358(save, eventId, year, month, day, otherVariant);
+    SAVE_EVENT_StoreVariant(save, eventId, year, month, day, otherVariant);
 }
 
 
@@ -1626,7 +1626,7 @@ void func_0202F3AC(struct SaveData *save, u32 variant)
  * Stores the record's name (variable 0x8d), key (0x9a) and kind (7) and
  * frees the name string.
  */
-void func_0202F41C(struct SaveData *save, const struct PlayerRecord *record, u32 index)
+void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *record, u32 index)
 {
     struct Strbuf *name = (struct Strbuf *)func_02008510(record, index);
     u32 kind = func_02008530(record);
@@ -1640,7 +1640,7 @@ void func_0202F41C(struct SaveData *save, const struct PlayerRecord *record, u32
 
 
 /* Copies save variable 0x9e into 0x99. */
-void func_0202F464(struct SaveData *save)
+void SAVE_EVENT_CopyDoneFlag(struct SaveData *save)
 {
     u32 value = func_02017E88(save, 0x9e, 0);
 
@@ -1650,19 +1650,19 @@ void func_0202F464(struct SaveData *save)
 
 /*
  * Unlabelled 12-byte Thumb leaf (a tail call through a pool word to
- * POKE_TOOL_SetBoxValue with id 0x77, value 0x15) after func_0202F464; filed as the
- * witness for func_0202F1B4's call at +0x58, the only branch to it
+ * POKE_TOOL_SetBoxValue with id 0x77, value 0x15) after SAVE_EVENT_CopyDoneFlag; filed as the
+ * witness for SAVE_EVENT_WriteMode's call at +0x58, the only branch to it
  * image-wide.
  */
-void func_0202F47C(struct SaveData *save)
+void SAVE_EVENT_SetDoneFlag(struct SaveData *save)
 {
     POKE_TOOL_SetBoxValue(save, 0x77, 0x15);
 }
 
 
-int func_0202F488(void *gameData, int stage)
+int SAVE_EVENT_IsStageDone(void *gameData, int stage)
 {
-    return func_0202F498(func_020185F0(gameData), stage);
+    return SAVE_EVENT_CheckStage(func_020185F0(gameData), stage);
 }
 
 
@@ -1671,7 +1671,7 @@ int func_0202F488(void *gameData, int stage)
  * stage (0 to 7): variable 5, the event id (0x96), the done flag (0x6d),
  * the count from POKE_TOOL_IsBoxShiny and whether any of the date variables is set.
  */
-int func_0202F498(struct SaveData *save, int stage)
+int SAVE_EVENT_CheckStage(struct SaveData *save, int stage)
 {
     u32 savedFlag = func_02017DBC(save);
     int variable5 = func_02017E88(save, 5, 0);
@@ -1737,12 +1737,12 @@ int func_0202F498(struct SaveData *save, int stage)
 
 
 /*
- * Promoted out of src/pending: the callee func_0202F640 became a manifest
+ * Promoted out of src/pending: the callee SAVE_EVENT_AdvanceStage became a manifest
  * entry this pass, so the second call site resolves on `matched`.
  */
-void func_0202F630(void *gameData, u32 stage)
+void SAVE_EVENT_CommitStage(void *gameData, u32 stage)
 {
-    func_0202F640(func_020185F0(gameData), stage);
+    SAVE_EVENT_AdvanceStage(func_020185F0(gameData), stage);
 }
 
 
@@ -1752,11 +1752,11 @@ void func_0202F630(void *gameData, u32 stage)
  * bytes against the worklist's 62 code bytes; the listing extent runs to the
  * end of the packet.  All four call sites resolve on `label`.
  */
-void func_0202F640(struct SaveData *save, u32 stage)
+void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage)
 {
     u32 savedFlag = func_02017DBC(save);
 
-    if (func_0202F498(save, stage) == 1) {
+    if (SAVE_EVENT_CheckStage(save, stage) == 1) {
         switch (stage) {
         case 0:
             POKE_TOOL_SetBoxValue(save, 0x96, 0x753B);
@@ -1777,7 +1777,7 @@ void func_0202F640(struct SaveData *save, u32 stage)
  * Maps an id range to a bank number (0x0202F688) and to an index inside
  * that bank (0x0202F6D8).
  */
-unsigned int func_0202F688(unsigned int id) {
+unsigned int EVENT_ID_GetBank(unsigned int id) {
   if(id<0x7531) return 89;
   if(id<0x9c41) { if(id-0x7531>=14) return 89; return 92; }
   if(id<0xea61) { if(id-0x9c41>=109) return 89; return 90; }
@@ -1786,8 +1786,8 @@ unsigned int func_0202F688(unsigned int id) {
 }
 
 
-/* The in-bank index half of the pair above (see func_0202F688); 84 bytes with its pool. */
-unsigned int func_0202F6D8(unsigned int id) {
+/* The in-bank index half of the pair above (see EVENT_ID_GetBank); 84 bytes with its pool. */
+unsigned int EVENT_ID_GetIndex(unsigned int id) {
   if(id<0x7531) { if(id>=117) return 2; }
   else if(id<0x9c41) { id-=0x7531; if(id>=14) return 2; }
   else if(id<0xea61) { id-=0x9c41; if(id>=109) return 2; }
@@ -1801,14 +1801,14 @@ unsigned int func_0202F6D8(unsigned int id) {
  * second argument; witness for ov131 P_STA_SKILL_HandleTouchForget (bl at +0x13A), whose
  * call supplies a pointer, a halfword and a second halfword.
  */
-u32 func_0202F72C(void *unused, u16 value, u16 unused2)
+u32 EVENT_ID_Check(void *unused, u16 value, u16 unused2)
 {
     return FILE_UTIL_Check12E4(value);
 }
 
 
 /* 1 when none of the four save variables 0x36 to 0x39 passes FILE_UTIL_Check12E4. */
-int func_0202F738(struct SaveData *save, int unused)
+int EVENT_ID_AreSlotsClear(struct SaveData *save, int unused)
 {
     int i;
 
@@ -1823,26 +1823,26 @@ int func_0202F738(struct SaveData *save, int unused)
 
 /*
  * An unlabelled tail-call leaf (it saves nothing, so disasm.py prints it as
- * .word data): func_0202F788(0).  With func_0202F774 it is the callback pair
+ * .word data): APP_POWER_Main(0).  With APP_POWER_SetCallback it is the callback pair
  * GFL_USE_InitSystem (gfl_use.c boot) hands to BACKUP_SYSTEM_Init(7, ...).  Filed apart
- * from func_0202F774 on purpose: the only pool words naming 0x0202F789 that
+ * from APP_POWER_SetCallback on purpose: the only pool words naming 0x0202F789 that
  * are outside a two-function range are each other's, so as one unit neither
  * site has a witness
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  */
-void func_0202F768(void)
+void APP_POWER_ClearCallback(void)
 {
-    func_0202F788(0);
+    APP_POWER_Main(0);
 }
 
 
 /*
  * The second unlabelled tail-call leaf of the callback pair GFL_USE_InitSystem
  * hands to BACKUP_SYSTEM_Init: a flag mapped to mode 2 (clear) or 1 (set) for
- * func_0202F788.  Filed apart from func_0202F768 so each pool word
+ * APP_POWER_Main.  Filed apart from APP_POWER_ClearCallback so each pool word
  * witnesses the other.
  */
-void func_0202F774(u32 on)
+void APP_POWER_SetCallback(u32 on)
 {
     u32 mode;
 
@@ -1851,19 +1851,19 @@ void func_0202F774(u32 on)
     } else {
         mode = 1;
     }
-    func_0202F788(mode);
+    APP_POWER_Main(mode);
 }
 
 
 /*
- * The power callback reached from func_0202F768 as func_0202F788(0) (and
+ * The power callback reached from APP_POWER_ClearCallback as APP_POWER_Main(0) (and
  * registered through the pool word 0x0202F789 at 0x0202F784).  It never
  * returns: after the shutdown work it spins on GFL_USE_PollPowerExit.
  */
-void func_0202F788(u32 mode)
+void APP_POWER_Main(u32 mode)
 {
     func_02007084();
-    func_0202F7C4(mode);
+    APP_POWER_ResetDisplay(mode);
     if (GFL_NET_GetRunState()) {
         GFL_NET_ClearExitFlag();
         GFL_NET_Exit(0);
@@ -1896,7 +1896,7 @@ void func_0202F788(u32 mode)
  * value 4 in r6 as `lsls r0, r6, #0x18` for the DISPCNT base; both fall out
  * of writing the plain literals, so no symbol for the registers is needed.
  */
-void func_0202F7C4(u32 messageId)
+void APP_POWER_ResetDisplay(u32 messageId)
 {
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, 0xFFFFFFF0);
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, 0xFFFFFFF0);
@@ -1912,8 +1912,8 @@ void func_0202F7C4(u32 messageId)
     REG16(REG_BG1CNT_A) = REG16(REG_BG1CNT_A) & 0xFFBF;
     REG32(REG_BG1HOFS_A) = 0;
     REG16(REG_BLDCNT_A) = 0;
-    func_0202F870();
-    func_0202F940(messageId);
+    APP_POWER_LoadShutdownScreen();
+    APP_POWER_DrawShutdownScreen(messageId);
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, 0);
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, 0x10);
 }
@@ -1943,7 +1943,7 @@ void func_0202F7C4(u32 messageId)
  * Archive 0x16 members 1, 2 and 0 are the character data, screen data and
  * palette of the shutdown screen.
  */
-void func_0202F870(void)
+void APP_POWER_LoadShutdownScreen(void)
 {
     u32 *chars;
     u32 *screen;
@@ -1989,7 +1989,7 @@ void func_0202F870(void)
  * Fills the tilemap of the shutdown screen with consecutive tile numbers,
  * then draws message `messageId` of message bank 2 into a 30x16 tile bitmap.
  */
-void func_0202F940(u32 messageId)
+void APP_POWER_DrawShutdownScreen(u32 messageId)
 {
     u16 *tilemap;
     s32 column;
@@ -2021,7 +2021,7 @@ void func_0202F940(u32 messageId)
 }
 
 
-int func_0202F9F4(void)
+int APP_POWER_IsSupported(void)
 {
     return 1;
 }
@@ -2048,7 +2048,7 @@ int func_0202F9F4(void)
  * the bail-out after it (fall-through arm is the source order), so its
  * `*state = 4` block is the one state 3 branches back into.
  */
-int func_0202F9F8(void *unused, u32 *state)
+int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:
@@ -2087,7 +2087,7 @@ int func_0202F9F8(void *unused, u32 *state)
     return 0;
 }
 
-int func_0202FAB0(void)
+int APP_POWER_IsReady(void)
 {
     return 1;
 }

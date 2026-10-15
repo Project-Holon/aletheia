@@ -1,5 +1,5 @@
 /*
- * function: func_0217BA9C
+ * function: LIVEBATTLEMATCH_FLOW_Delete
  * address: 0x0217BA9C
  * packet: pkt_ov176_0217BA9C
  * region: ov176
@@ -32,7 +32,7 @@ extern void func_021E8A78(void *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-void func_0217BA9C(int *p)
+void LIVEBATTLEMATCH_FLOW_Delete(int *p)
 {
     func_020307B0((void *)p[12]);
     if (p[0x67] == 1) UI_ClearFlags39Global(8);

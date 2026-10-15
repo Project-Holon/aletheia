@@ -1,7 +1,7 @@
 /*
  * file:     intro_g3d.c
  * unit:     yes
- * function: func_021BF67C, func_021BF720, func_021BF744, func_021BF77C, func_021BF788, func_021BF794, func_021BF7CC, func_021BF7F0, func_021BF804, func_021BF864, func_021BF898, func_021BF8DC, func_021BF9D0, func_021BF9FC, func_021BFA40, func_021BFAE4, func_021BFAE8, func_021BFB2C, func_021BFBA0, func_021BFBC8
+ * function: INTRO_G3D_AddPokemonSlot, INTRO_G3D_SetVanishFlag, INTRO_G3D_SetSlotAnim, INTRO_G3D_GetSlotAnimFinished, INTRO_G3D_ClearSlotAnimFinished, INTRO_G3D_SetSlotAlpha, INTRO_G3D_SetSlotMepachi, INTRO_G3D_OnAnimEnd, INTRO_G3D_MoveSlot, INTRO_G3D_MoveSlot1, INTRO_G3D_UpdateIdleAnim, INTRO_G3D_Create, INTRO_G3D_Delete, INTRO_G3D_Draw, INTRO_G3D_UpdateIntro, INTRO_G3D_SetVisible, INTRO_G3D_SetAnimMode, INTRO_G3D_UpdateAnimMode, INTRO_G3D_UpdateAnimFrame, INTRO_G3D_SetAnimFrame
  * address:  0x021BF67C
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Cut from intro_g3d.c by tools/splitfile.py.
  *
  * symbols:
- *   defaultPos_021C08FC 0x021C08FC data
+ *   gIntroG3dDefaultPos 0x021C08FC data
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   func_020307B0 0x020307B0 arm
@@ -37,11 +37,11 @@
  *   func_02048A18 0x02048A18 arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
- *   site_021C0B00 0x021C0B00 data a1
- *   va 0x021C0914 data a4
- *   vb 0x021C0920 data a4
- *   vc 0x021C0908 data a4
- *   setup 0x021C093C data a4
+ *   gIntroG3dSite 0x021C0B00 data a1
+ *   gIntroG3dCameraPos 0x021C0914 data a4
+ *   gIntroG3dCameraTarget 0x021C0920 data a4
+ *   gIntroG3dCameraUp 0x021C0908 data a4
+ *   gIntroG3dUnitSetup 0x021C093C data a4
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
@@ -55,19 +55,7 @@
  *   POKE_TOOL_Create  0x020173F0  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
-#include "../../matched/include/Obj10881.h"
-#include "../../matched/include/Obj10882.h"
-#include "../../matched/include/Obj14628.h"
-#include "../../matched/include/Obj06674.h"
-#include "../../matched/include/Obj02921.h"
-#include "../../matched/include/Obj08385.h"
-#include "../../matched/include/Obj06675.h"
-#include "../../matched/include/Obj06676.h"
-#include "../../matched/include/Obj25391.h"
-#include "../../matched/include/Obj03922.h"
-#include "../../matched/include/Obj01974.h"
-#include "../../matched/include/Obj14629.h"
-#include "intro_g3d_shared_types.h"
+#include "intro_types.h"
 
 struct Obj;
 
@@ -89,13 +77,28 @@ struct Arg;
 
 struct AnmCtl;
 
-struct Vec { int v[3]; };
-
-typedef unsigned char  u8;
-
 typedef struct {u32 x,y,z;} Vec3;
 
-typedef signed int     s32;
+/*
+ * The intro 3D effect object (0x30 allocated). Created by INTRO_G3D_Create,
+ * drawn by INTRO_G3D_Draw, updated by INTRO_G3D_UpdateIntro.
+ */
+typedef struct IntroG3dWork {
+    void *owner;                /* 0x00 */
+    unsigned short heapId;      /* 0x04 */
+    unsigned char pad_6[2];
+    void *util;                 /* 0x08: G3D_UTIL_Create result */
+    void *camera;               /* 0x0C: G3D_CAMERA_Create result */
+    unsigned short unitId;      /* 0x10: G3D_UTIL_AddUnit result */
+    unsigned char pad_12[2];
+    unsigned int visible;       /* 0x14: draw enable */
+    unsigned int active;        /* 0x18: set on create, checked by draw */
+    unsigned int animMode;      /* 0x1C: INTRO_G3D_SetAnimMode mode */
+    unsigned int animFinished;  /* 0x20 */
+    unsigned int introState;    /* 0x24: INTRO_G3D_UpdateIntro state */
+    unsigned int animFrame;     /* 0x28: animation frame */
+    unsigned char pad_2C[4];    /* 0x2C: allocation tail, never touched */
+} IntroG3dWork;
 
 extern void *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long, unsigned short);
 
@@ -167,133 +170,135 @@ extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
 
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 
-void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
+void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 
-void func_021BF720(u8 *p, int flag, u8 index);
+void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index);
 
-void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
+void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v);
 
-unsigned int func_021BF77C(char *p, u8 i);
+unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i);
 
-void func_021BF788(u8 *p, u8 index);
+void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index);
 
-void func_021BF794(u8 *p, u8 index, u32 alpha);
+void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
 
-void func_021BF7CC(u8 *p, u8 index, int flag);
+void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag);
 
-void func_021BF7F0(u8 *p);
+void INTRO_G3D_OnAnimEnd(IntroMcssSlot *slot);
 
-int func_021BF804(char *p, unsigned int i, int step, int limit);
+int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
 
-int func_021BF864(char *p,int delta,int limit);
+int INTRO_G3D_MoveSlot1(char *p,int delta,int limit);
 
-void func_021BF898(char *p);
+void INTRO_G3D_UpdateIdleAnim(char *p);
 
-char *func_021BF8DC(void *owner,int kind,u32 heap);
+char *INTRO_G3D_Create(void *owner,int kind,u32 heap);
 
-void func_021BF9D0(char *p);
+void INTRO_G3D_Delete(char *p);
 
-void func_021BF9FC(char *p);
+void INTRO_G3D_Draw(char *p);
 
-int func_021BFA40(char *p);
+int INTRO_G3D_UpdateIntro(char *p);
 
-void func_021BFAE4(char *p, int v);
+void INTRO_G3D_SetVisible(char *p, int v);
 
-void func_021BFAE8(char *p, unsigned int v);
+void INTRO_G3D_SetAnimMode(char *p, unsigned int v);
 
-int func_021BFB2C(char *p);
+int INTRO_G3D_UpdateAnimMode(char *p);
 
-int func_021BFBA0(int *p);
+int INTRO_G3D_UpdateAnimFrame(int *p);
 
-void func_021BFBC8(char *p,unsigned value);
+void INTRO_G3D_SetAnimFrame(char *p,unsigned value);
 
-extern const struct Vec defaultPos_021C08FC;
+extern const IntroVec gIntroG3dDefaultPos;
 
-extern const Vec3 va,vb,vc;
+extern const Vec3 gIntroG3dCameraPos,gIntroG3dCameraTarget,gIntroG3dCameraUp;
 
-extern const char site_021C0B00[];
+extern const char gIntroG3dSite[];
 
-extern const char setup[];
+extern const char gIntroG3dUnitSetup[];
 
-void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i)
+void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i)
 {
+    IntroMcssWork *work = (IntroMcssWork *)p;
     char data[36];
-    struct Vec pos = defaultPos_021C08FC;
-    void *tmp = POKE_TOOL_Create((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
-    char *base = p + 8;
-    unsigned int off = i * 12;
+    IntroVec pos = gIntroG3dDefaultPos;
+    void *tmp = POKE_TOOL_Create((unsigned short)species, 0, 0, work->heapId);
     MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);
     func_020307B0(tmp);
-    *(void **)(base + off) = MCSS_Add(((struct Obj10881 *)p)->f4, a, b, c, (const struct Sub150 *)data);
-    MCSS_SetScale(*(void **)(base + off), (u32 *)(&pos));
-    MCSS_SetAnmStopFlag(*(void **)(base + off));
-    *(unsigned int *)(p + off + 12) = 0;
-    *(unsigned int *)(p + off + 16) = 1;
-    ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
-    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    work->slots[i].object = MCSS_Add(work->sys, a, b, c, (const struct Sub150 *)data);
+    MCSS_SetScale(work->slots[i].object, (u32 *)(&pos));
+    MCSS_SetAnmStopFlag(work->slots[i].object);
+    work->slots[i].animFinished = 0;
+    work->slots[i].loopAnim = 1;
+    work->idleTimer = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
+    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
 }
 
-void func_021BF720(u8 *p, int flag, u8 index)
+void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index)
 {
-    if(flag==1)MCSS_ResetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
-    else MCSS_SetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    if(flag==1)MCSS_ResetVanishFlag(work->slots[index].object);
+    else MCSS_SetVanishFlag(work->slots[index].object);
 }
 
 /*
  * 10-byte getter follower 0x021BF77C is included; function_starts seed. Enum zero separates field and argument clears.
  */
-void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
+void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v)
 {
-    char *base = p + 8;
-    unsigned int off = i * 12;
+    IntroMcssWork *work = (IntroMcssWork *)p;
     enum { Zero } zero;
-    MCSS_SetAnimeIndex(*(void **)(base + off), flag);
-    MCSS_ResetAnmStopFlag(*(void **)(base + off));
+    MCSS_SetAnimeIndex(work->slots[i].object, flag);
+    MCSS_ResetAnmStopFlag(work->slots[i].object);
     zero = Zero;
-    *(unsigned int *)(p + off + 12) = zero;
-    *(unsigned int *)(p + off + 16) = v;
-    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    work->slots[i].animFinished = zero;
+    work->slots[i].loopAnim = v;
+    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
 }
 
-unsigned int func_021BF77C(char *p, u8 i)
+unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i)
 {
-    return *(unsigned int *)(p + i * 12 + 12);
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    return work->slots[i].animFinished;
 }
 
-void func_021BF788(u8 *p, u8 index)
+void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index)
 {
-    *(int *)((u8 *)((u32)p+(u32)index*12)+12)=0;
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    work->slots[index].animFinished=0;
 }
 
 /*
  * prototype: The shifts at 021BF7B8/021BF7BC narrow the outgoing alpha to u8.
  */
-void func_021BF794(u8 *p, u8 index, u32 alpha)
+void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha)
 {
+    IntroMcssWork *work = (IntroMcssWork *)p;
     func_0207D63C((void *)0x04000050,1,9,0,0);
     if(alpha>31)alpha=31;
-    MCSS_SetAlpha(*(char **)((u32)p+(u32)index*12+8),(u8)alpha);
+    MCSS_SetAlpha((char *)work->slots[index].object,(u8)alpha);
 }
 
-void func_021BF7CC(u8 *p, u8 index, int flag)
+void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag)
 {
-    if(flag!=0)MCSS_SetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
-    else MCSS_ResetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    if(flag!=0)MCSS_SetMepachiFlag(work->slots[index].object);
+    else MCSS_ResetMepachiFlag(work->slots[index].object);
 }
 
-void func_021BF7F0(u8 *p)
+void INTRO_G3D_OnAnimEnd(IntroMcssSlot *slot)
 {
-    ((struct Obj10882 *)p)->f4=1;
-    if(((struct Obj10882 *)p)->f8==1)MCSS_RestartAnime(((struct Obj10882 *)p)->f0);
+    slot->animFinished=1;
+    if(slot->loopAnim==1)MCSS_RestartAnime(slot->object);
 }
 
-int func_021BF804(char *p, unsigned int i, int step, int limit)
+int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit)
 {
-    struct Vec pos;
-    char *base = p + 8;
-    unsigned int off = i * 12;
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    IntroVec pos;
     int done;
-    MCSS_GetPosition(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_GetPosition(work->slots[i].object, (u32 *)(&pos));
     done = 1;
     pos.v[0] += step;
     if (pos.v[0] != limit)
@@ -303,60 +308,81 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
         else
             done = 0;
     }
-    MCSS_SetPosition(*(void **)(base + off), (u32 *)(&pos));
-    if (*(unsigned int *)(p + off + 12) == 1)
-        MCSS_SetAnmStopFlag(*(void **)(base + off));
+    MCSS_SetPosition(work->slots[i].object, (u32 *)(&pos));
+    if (work->slots[i].animFinished == 1)
+        MCSS_SetAnmStopFlag(work->slots[i].object);
     return done;
 }
 
 /*
  * extent: two zero alignment bytes at 0x021BF896 follow; no follower.
  */
-int func_021BF864(char *p,int delta,int limit) { u32 v[3]; int done; MCSS_GetPosition(((struct Obj14628 *)p)->f14,v); v[1]-=delta; if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;MCSS_SetPosition(((struct Obj14628 *)p)->f14,v);return done; }
-
-void func_021BF898(char *p)
+int INTRO_G3D_MoveSlot1(char *p,int delta,int limit)
 {
-    if (((struct Obj06674 *)p)->f18 != 0)
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    u32 v[3];
+    int done;
+    MCSS_GetPosition(work->slots[1].object,v);
+    v[1]-=delta;
+    if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;
+    MCSS_SetPosition(work->slots[1].object,v);
+    return done;
+}
+
+void INTRO_G3D_UpdateIdleAnim(char *p)
+{
+    IntroMcssWork *work = (IntroMcssWork *)p;
+    if (work->slots[1].animFinished != 0)
     {
-        if (((struct Obj06674 *)p)->f68 == 0)
+        if (work->idleTimer == 0)
         {
-            ((struct Obj06674 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
-            func_021BF744(p, 1, 0, 1);
+            work->idleTimer = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
+            INTRO_G3D_SetSlotAnim(p, 1, 0, 1);
             return;
         }
-        MCSS_SetAnmStopFlag(((struct Obj06674 *)p)->f14);
-        --((struct Obj06674 *)p)->f68;
+        MCSS_SetAnmStopFlag(work->slots[1].object);
+        --work->idleTimer;
     }
 }
 
-char *func_021BF8DC(void *owner,int kind,u32 heap)
+char *INTRO_G3D_Create(void *owner,int kind,u32 heap)
 {
+    IntroG3dWork *p;
     Vec3 a,b,c;
-    char *p;
     void *obj;
-    p=func_02030734(heap,48,1,site_021C0B00,162);
-    ((struct Obj02921 *)p)->f4=heap;
-    ((struct Obj02921 *)p)->f0=owner;
-    ((struct Obj02921 *)p)->f8=G3D_UTIL_Create(10,16,heap);
-    a=va;b=vb;c=vc;
-    ((struct Obj02921 *)p)->fC=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
+    p=func_02030734(heap,48,1,gIntroG3dSite,162);
+    p->heapId=heap;
+    p->owner=owner;
+    p->util=G3D_UTIL_Create(10,16,heap);
+    a=gIntroG3dCameraPos;b=gIntroG3dCameraTarget;c=gIntroG3dCameraUp;
+    p->camera=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
     if(kind!=7){
-        ((struct Obj02921 *)p)->f10=G3D_UTIL_AddUnit(((struct Obj02921 *)p)->f8,setup);
-        obj=(void *)func_02048A18(((struct Obj02921 *)p)->f8,((struct Obj02921 *)p)->f10);
+        p->unitId=G3D_UTIL_AddUnit(p->util,gIntroG3dUnitSetup);
+        obj=(void *)func_02048A18(p->util,p->unitId);
         G3D_SYSTEM_EnableObjectAnime(obj,3);G3D_SYSTEM_EnableObjectAnime(obj,4);
         G3D_SYSTEM_DisableObjectAnime(obj,0);G3D_SYSTEM_DisableObjectAnime(obj,1);G3D_SYSTEM_DisableObjectAnime(obj,2);
-    }else ((struct Obj02921 *)p)->f10=0xffff;
-    ((struct Obj02921 *)p)->f18=1;
-    return p;
+    }else p->unitId=0xffff;
+    p->active=1;
+    return (char *)p;
 }
 
-void func_021BF9D0(char *p) { u16 id; G3D_CAMERA_Delete(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }
+void INTRO_G3D_Delete(char *p)
+{
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    u16 id;
+    G3D_CAMERA_Delete(work->camera);
+    id=work->unitId;
+    if(id!=65535) G3D_UTIL_RemoveUnit(work->util,id);
+    G3D_UTIL_Delete(work->util);
+    func_020307B0(p);
+}
 
-void func_021BF9FC(char *p)
+void INTRO_G3D_Draw(char *p)
 {
     struct Transform { int pos[3]; int scale[3]; int matrix[9]; } t;
-    func_02048AD0(((struct Obj06675 *)p)->fC);
-    if (((struct Obj06675 *)p)->f14 != 0 && ((struct Obj06675 *)p)->f18 != 0)
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    func_02048AD0(work->camera);
+    if (work->visible != 0 && work->active != 0)
     {
         t.pos[0] = 0;
         t.pos[1] = 0;
@@ -365,21 +391,22 @@ void func_021BF9FC(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         MTX_Identity33_(t.matrix);
-        G3D_SYSTEM_DrawObject((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
+        G3D_SYSTEM_DrawObject((void *)func_02048A18(work->util, work->unitId), (struct Arg *)(&t));
     }
 }
 
-int func_021BFA40(char *p)
+int INTRO_G3D_UpdateIntro(char *p)
 {
-    switch (((struct Obj06676 *)p)->f24)
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    switch (work->introState)
     {
     case 0:
         func_0207D63C((void *)0x04000050, 1, 9, 0, 0);
         GFL_USE_PlaySeDefaultVolume(0x555);
-        ++((struct Obj06676 *)p)->f24;
+        ++work->introState;
     case 1:
     {
-        void *obj = (void *)func_02048A18(((struct Obj06676 *)p)->f8, ((struct Obj06676 *)p)->f10);
+        void *obj = (void *)func_02048A18(work->util, work->unitId);
         int a = G3D_SYSTEM_IncObjectAnimeFrame(obj, 3, 4096);
         int b = G3D_SYSTEM_IncObjectAnimeFrame(obj, 4, 4096);
         if (a == 0 && b == 0)
@@ -389,8 +416,8 @@ int func_021BFA40(char *p)
             G3D_SYSTEM_EnableObjectAnime(obj, 0);
             G3D_SYSTEM_EnableObjectAnime(obj, 1);
             G3D_SYSTEM_EnableObjectAnime(obj, 2);
-            func_021BFBC8(p, 60);
-            ++((struct Obj06676 *)p)->f24;
+            INTRO_G3D_SetAnimFrame(p, 60);
+            ++work->introState;
         }
         break;
     }
@@ -400,75 +427,80 @@ int func_021BFA40(char *p)
     return 0;
 }
 
-void func_021BFAE4(char *p, int v)
+void INTRO_G3D_SetVisible(char *p, int v)
 {
-    ((struct Obj25391 *)p)->f14 = v;
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    work->visible = v;
 }
 
-void func_021BFAE8(char *p, unsigned int v)
+void INTRO_G3D_SetAnimMode(char *p, unsigned int v)
 {
-    ((struct Obj03922 *)p)->f1C = v;
-    ((struct Obj03922 *)p)->f20 = 0;
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    work->animMode = v;
+    work->animFinished = 0;
     switch (v)
     {
     case 0:
-        ((struct Obj03922 *)p)->f28 = 60;
-        ((struct Obj03922 *)p)->f1C = 1;
+        work->animFrame = 60;
+        work->animMode = 1;
         break;
-    case 1: ((struct Obj03922 *)p)->f28 = 70; break;
-    case 2: ((struct Obj03922 *)p)->f28 = 50; break;
-    case 3: ((struct Obj03922 *)p)->f28 = 50; break;
-    case 4: ((struct Obj03922 *)p)->f28 = 70; break;
+    case 1: work->animFrame = 70; break;
+    case 2: work->animFrame = 50; break;
+    case 3: work->animFrame = 50; break;
+    case 4: work->animFrame = 70; break;
     }
 }
 
-int func_021BFB2C(char *p)
+int INTRO_G3D_UpdateAnimMode(char *p)
 {
-    switch (((struct Obj01974 *)p)->f1C)
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    switch (work->animMode)
     {
     case 0: break;
     case 1:
-        --((struct Obj01974 *)p)->f28;
-        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
-        if (((struct Obj01974 *)p)->f28 == 50) return 1;
+        --work->animFrame;
+        INTRO_G3D_SetAnimFrame(p, work->animFrame);
+        if (work->animFrame == 50) return 1;
         break;
     case 2:
-        ++((struct Obj01974 *)p)->f28;
-        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
-        if (((struct Obj01974 *)p)->f28 == 70) return 1;
+        ++work->animFrame;
+        INTRO_G3D_SetAnimFrame(p, work->animFrame);
+        if (work->animFrame == 70) return 1;
         break;
     case 3:
-        --((struct Obj01974 *)p)->f28;
-        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
-        if (((struct Obj01974 *)p)->f28 == 0) return 1;
+        --work->animFrame;
+        INTRO_G3D_SetAnimFrame(p, work->animFrame);
+        if (work->animFrame == 0) return 1;
         break;
     case 4:
-        ++((struct Obj01974 *)p)->f28;
-        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
-        if (((struct Obj01974 *)p)->f28 == 120) return 1;
+        ++work->animFrame;
+        INTRO_G3D_SetAnimFrame(p, work->animFrame);
+        if (work->animFrame == 120) return 1;
         break;
     }
     return 0;
 }
 
-int func_021BFBA0(int *p)
+int INTRO_G3D_UpdateAnimFrame(int *p)
 {
-    if (p[7] == 3) {
-        p[10] = p[10] + 1;
-        func_021BFBC8((char *)p, p[10]);
+    IntroG3dWork *work = (IntroG3dWork *)p;
+    if (work->animMode == 3) {
+        work->animFrame = work->animFrame + 1;
+        INTRO_G3D_SetAnimFrame((char *)p, work->animFrame);
     } else {
-        p[10] = p[10] - 1;
-        func_021BFBC8((char *)p, p[10]);
+        work->animFrame = work->animFrame - 1;
+        INTRO_G3D_SetAnimFrame((char *)p, work->animFrame);
     }
-    return p[10] == 60;
+    return work->animFrame == 60;
 }
 
-void func_021BFBC8(char *p,unsigned value)
+void INTRO_G3D_SetAnimFrame(char *p,unsigned value)
 {
+    IntroG3dWork *work = (IntroG3dWork *)p;
     void *ctl;
     int frame;
     float f;
-    ctl=(void *)func_02048A18(((struct Obj14629 *)p)->f8,((struct Obj14629 *)p)->f10);
+    ctl=(void *)func_02048A18(work->util,work->unitId);
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;

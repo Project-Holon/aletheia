@@ -16,13 +16,13 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_020275E4 0x020275E4 thumb
- *   func_020276B8 0x020276B8 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetSealPaletteFileId 0x020276B8 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_020276BC 0x020276BC thumb
- *   func_020276C0 0x020276C0 thumb
+ *   APP_ICON_GetSealAnimFileId 0x020276BC thumb
+ *   APP_ICON_GetSealFrameFileId 0x020276C0 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_020276B4 0x020276B4 thumb
+ *   APP_ICON_GetSealCellFileId 0x020276B4 thumb
  *   PALANM_BlendChannelMask 0x02022004 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
@@ -83,13 +83,13 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern u32 func_020275E4(void);
-extern u32 func_020276B8(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetSealPaletteFileId(void);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern u32 func_020276BC(u32 i);
-extern u32 func_020276C0(u32 i);
+extern u32 APP_ICON_GetSealAnimFileId(u32 i);
+extern u32 APP_ICON_GetSealFrameFileId(u32 i);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_020276B4(void);
+extern u32 APP_ICON_GetSealCellFileId(void);
 extern void PALANM_BlendChannelMask(unsigned, unsigned, u16, unsigned, unsigned);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -120,11 +120,11 @@ Obj *BTLV_GAUGE_Create(int a, u16 heap)
         s->f18[i] = CLACT_RegisterPalette(s->h04, 0xa2, 0, (u16)(i * 0x20), s->heap);
         PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f18[i], 0) >> 1), 0x20);
     }
-    arc = func_020490F4(func_020275E4(), (u16)((s->heap & 0x7fff) | 0x8000));
-    s->f30 = CLACT_RegisterCharacter(arc, func_020276B8(), 0, 0, s->heap);
-    s->f34 = CLACT_RegisterCellAnim(arc, func_020276BC(1), func_020276C0(1), s->heap);
-    s->f38 = CLACT_RegisterPalette(arc, func_020276B4(), 0, 0x100, s->heap);
-    s->f3c = CLACT_RegisterPalette(arc, func_020276B4(), 0, 0x120, s->heap);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), (u16)((s->heap & 0x7fff) | 0x8000));
+    s->f30 = CLACT_RegisterCharacter(arc, APP_ICON_GetSealPaletteFileId(), 0, 0, s->heap);
+    s->f34 = CLACT_RegisterCellAnim(arc, APP_ICON_GetSealAnimFileId(1), APP_ICON_GetSealFrameFileId(1), s->heap);
+    s->f38 = CLACT_RegisterPalette(arc, APP_ICON_GetSealCellFileId(), 0, 0x100, s->heap);
+    s->f3c = CLACT_RegisterPalette(arc, APP_ICON_GetSealCellFileId(), 0, 0x120, s->heap);
     PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f38, 0) >> 1), 0x20);
     PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f3c, 0) >> 1), 0x20);
     PALANM_BlendChannelMask((unsigned)BTLV_EFFECT_GetPalanm(), 2, 0x200, 8, 0);

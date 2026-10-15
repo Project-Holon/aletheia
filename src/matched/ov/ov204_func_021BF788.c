@@ -1,5 +1,5 @@
 /*
- * function: func_021BF788
+ * function: INTRO_G3D_ClearSlotAnimFinished
  * address: 0x021BF788
  * packet: pkt_ov204_021BF788
  * region: ov204
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021BF788(u8 *p, u8 index)
+void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index)
 {
     *(int *)((u8 *)((u32)p+(u32)index*12)+12)=0;
 }

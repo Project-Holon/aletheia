@@ -44,6 +44,14 @@
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetTouchBarFileId  0x020275E8  thumb  arm9
+ *   APP_ICON_GetTypePaletteOffset  0x020275EC  thumb  arm9
+ *   APP_ICON_GetTypeCellFileId  0x020275F8  thumb  arm9
+ *   APP_ICON_GetTypePaletteFileId  0x020275FC  thumb  arm9
+ *   APP_ICON_GetTypeAnimFileId  0x02027600  thumb  arm9
+ *   APP_ICON_GetMoveKindPaletteOffset  0x02027604  thumb  arm9
+ *   APP_ICON_GetMoveKindCellFileId  0x02027610  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -89,14 +97,14 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ITEMMENU_CreateSideButtonActors(char *p);
-extern u32 func_020275E4(void);
-extern u32 func_020275E8(void);
-extern u32 func_020275FC(u32 a);
-extern u32 func_02027600(u32 a);
-extern u32 func_02027610(u32 a);
-extern u32 func_020275F8(u32 a);
-extern u8 func_02027604(u8 i);
-extern u8 func_020275EC(int i);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetTouchBarFileId(void);
+extern u32 APP_ICON_GetTypePaletteFileId(u32 a);
+extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
+extern u32 APP_ICON_GetMoveKindCellFileId(u32 a);
+extern u32 APP_ICON_GetTypeCellFileId(u32 a);
+extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -109,14 +117,14 @@ static inline void LoadIcons(u8 *p)
     u32 m;
     u32 i;
 
-    a = func_020490F4(func_020275E4(), *(u16 *)(p + 0x544));
-    *(u32 *)(p + 0x5E0) = CLACT_RegisterPaletteEx(a, func_020275E8(), 1, 0x80, 0, 3, *(u16 *)(p + 0x544));
-    m = func_020275FC(2);
-    *(u32 *)(p + 0x5E4) = CLACT_RegisterCellAnim(a, m, func_02027600(2), *(u16 *)(p + 0x544));
+    a = func_020490F4(APP_ICON_GetArchiveId(), *(u16 *)(p + 0x544));
+    *(u32 *)(p + 0x5E0) = CLACT_RegisterPaletteEx(a, APP_ICON_GetTouchBarFileId(), 1, 0x80, 0, 3, *(u16 *)(p + 0x544));
+    m = APP_ICON_GetTypePaletteFileId(2);
+    *(u32 *)(p + 0x5E4) = CLACT_RegisterCellAnim(a, m, APP_ICON_GetTypeAnimFileId(2), *(u16 *)(p + 0x544));
     for (i = 0; i < 3; i++)
-        *(u32 *)(p + i * 4 + 0x5E8) = CLACT_RegisterCharacter(a, func_02027610((u8)i), 0, 1, *(u16 *)(p + 0x544));
+        *(u32 *)(p + i * 4 + 0x5E8) = CLACT_RegisterCharacter(a, APP_ICON_GetMoveKindCellFileId((u8)i), 0, 1, *(u16 *)(p + 0x544));
     for (i = 0; i < 17; i++)
-        *(u32 *)(p + i * 4 + 0x59C) = CLACT_RegisterCharacter(a, func_020275F8((u8)i), 0, 1, *(u16 *)(p + 0x544));
+        *(u32 *)(p + i * 4 + 0x59C) = CLACT_RegisterCharacter(a, APP_ICON_GetTypeCellFileId((u8)i), 0, 1, *(u16 *)(p + 0x544));
     ARC_TOOL_DeleteHandle(a);
 }
 
@@ -181,7 +189,7 @@ void ITEMMENU_SetupGraphics(u8 *p)
     r2.z = 0;
     for (i = 0; i < 3; i++) {
         *(u32 *)(p + i * 4 + 0x6C0) = (u32)CLACT_CreateActor((void *)(*(u32 *)(p + 0x69C)), *(u32 *)(p + i * 4 + 0x5E8), *(u32 *)(p + 0x5E0), *(u32 *)(p + 0x5E4), &r2, 1, *(u16 *)(p + 0x544));
-        CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(p + i * 4 + 0x6C0)), func_02027604((u8)i), 1);
+        CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(p + i * 4 + 0x6C0)), APP_ICON_GetMoveKindPaletteOffset((u8)i), 1);
         CLACT_SetActorDrawEnable((struct Obj *)(*(u32 *)(p + i * 4 + 0x6C0)), 0);
     }
     r1.x = 0x52;
@@ -191,7 +199,7 @@ void ITEMMENU_SetupGraphics(u8 *p)
     r1.z = 0;
     for (i = 0; i < 17; i++) {
         *(u32 *)(p + i * 4 + 0x6CC) = (u32)CLACT_CreateActor((void *)(*(u32 *)(p + 0x69C)), *(u32 *)(p + i * 4 + 0x59C), *(u32 *)(p + 0x5E0), *(u32 *)(p + 0x5E4), &r1, 1, *(u16 *)(p + 0x544));
-        CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(p + i * 4 + 0x6CC)), func_020275EC((u8)i), 1);
+        CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(p + i * 4 + 0x6CC)), APP_ICON_GetTypePaletteOffset((u8)i), 1);
         CLACT_SetActorDrawEnable((struct Obj *)(*(u32 *)(p + i * 4 + 0x6CC)), 0);
     }
     h = func_020490F4(0x58, *(u16 *)(p + 0x544));

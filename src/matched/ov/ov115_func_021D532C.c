@@ -1,5 +1,5 @@
 /*
- * function: func_021D532C
+ * function: WIFILOGIN_DISP_LoadPalette
  * address: 0x021D532C
  * packet: pkt_ov115_021D532C
  * region: ov115
@@ -21,7 +21,7 @@
  *   PALANM_BlendColors 0x02021F64 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021D5528 0x021D5528 thumb ov115
+ *   WIFILOGIN_DISP_UpdatePalette 0x021D5528 thumb ov115
  *   func_0207D63C 0x0207D63C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -39,10 +39,10 @@ extern u32 func_020307B0(void *p);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 extern void DWCi_ScreenDC_FlushRange(void *, int);
 extern void *func_020056A0(void *, void *, int);
-extern void func_021D5528(void *unused, u8 *p);
+extern void WIFILOGIN_DISP_UpdatePalette(void *unused, u8 *p);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021D532C(char *p)
+void WIFILOGIN_DISP_LoadPalette(char *p)
 {
     void *record;
     u16 *base0;
@@ -98,7 +98,7 @@ void func_021D532C(char *p)
     }
     DWCi_ScreenDC_FlushRange(p + 0x1f8, 0x780);
     *(u32 *)(p + 0x14) = 1;
-    *(void **)(p + 0x10) = func_020056A0((void *)func_021D5528, p + 0x10, 0x14);
+    *(void **)(p + 0x10) = func_020056A0((void *)WIFILOGIN_DISP_UpdatePalette, p + 0x10, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     *(u8 *)(p + 0x97c) = 0;
     ARC_TOOL_DeleteHandle(h);

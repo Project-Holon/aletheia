@@ -1,5 +1,5 @@
 /*
- * function: func_021D5A9C
+ * function: WIFILOGIN_MSG_Delete
  * address: 0x021D5A9C
  * packet: pkt_ov115_021D5A9C
  * region: ov115
@@ -10,9 +10,9 @@
  * symbols:
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_021D5D3C 0x021D5D3C thumb ov115
- *   func_021D5FA0 0x021D5FA0 thumb ov115
- *   func_021D5FC4 0x021D5FC4 thumb ov115
+ *   WIFILOGIN_MSG_CloseMessage 0x021D5D3C thumb ov115
+ *   WIFILOGIN_MSG_GetFrameIdA 0x021D5FA0 thumb ov115
+ *   WIFILOGIN_MSG_GetFrameIdB 0x021D5FC4 thumb ov115
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -41,9 +41,9 @@ struct U16Vec;
 struct WordSet;
 extern void TIME_ICON_Delete(u8 *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void func_021D5D3C(u8 *p);
-extern u32 func_021D5FA0(u32);
-extern u32 func_021D5FC4(u32);
+extern void WIFILOGIN_MSG_CloseMessage(u8 *p);
+extern u32 WIFILOGIN_MSG_GetFrameIdA(u32);
+extern u32 WIFILOGIN_MSG_GetFrameIdB(u32);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -57,15 +57,15 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 extern u32 func_020307B0(void *p);
-void func_021D5A9C(u8 *p) {
+void WIFILOGIN_MSG_Delete(u8 *p) {
     u32 n;
     if (((struct Obj00724 *)p)->f80) { TIME_ICON_Delete(((struct Obj00724 *)p)->f80); ((struct Obj00724 *)p)->f80=0; }
     if (((struct Obj00724 *)p)->f38) { PRINTSYS_PrintStreamDelete(((struct Obj00724 *)p)->f38); ((struct Obj00724 *)p)->f38=0; }
-    func_021D5D3C(p);
+    WIFILOGIN_MSG_CloseMessage(p);
     n=((struct Obj00724 *)p)->f0;
-    BG_SYS_DeleteHalf(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_DeleteHalf(WIFILOGIN_MSG_GetFrameIdA(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     n=((struct Obj00724 *)p)->f4;
-    BG_SYS_DeleteHalf(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_DeleteHalf(WIFILOGIN_MSG_GetFrameIdB(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     GF_FONT_SetDefaultTextColor();
     WORDSET_DeleteStrbufED04(((struct Obj00724 *)p)->f20);
     MSGDATA_Delete(((struct Obj00724 *)p)->f1C);

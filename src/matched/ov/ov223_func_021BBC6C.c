@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC6C
+ * function: PSEL_GRAPHIC_StateFadeOut
  * address: 0x021BBC6C
  * packet: pkt_ov223_021BBC6C
  * region: ov223
@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9914 0x021B9914 thumb ov223
+ *   PSEL_UpdateListAnime 0x021B9914 thumb ov223
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  * Preserve the original 9914 call's visible r1=258 and r2=frame inputs;
  * the full callee body reads only entry r0.
  */
 #include "../include/Obj01594.h"
-extern void func_021B9914(char *p);
+extern void PSEL_UpdateListAnime(char *p);
 extern void FADE_Start(unsigned, int, int, int);
 extern int FADE_IsActive(void);
-int func_021BBC6C(char *p, int *state)
+int PSEL_GRAPHIC_StateFadeOut(char *p, int *state)
 {
     if (((struct Obj01594 *)p)->f50 != 258)
-        func_021B9914(p);
+        PSEL_UpdateListAnime(p);
     switch (*state) {
     case 0:
         FADE_Start(12, 0, 16, 3);

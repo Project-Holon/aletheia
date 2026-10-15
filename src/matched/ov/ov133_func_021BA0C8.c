@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0C8
+ * function: DUP_FITTING_ITEM_NoOp
  * address: 0x021BA0C8
  * packet: pkt_ov133_021BA0C8
  * region: ov133
@@ -10,4 +10,4 @@
  * status: EXACT*
  * symbols:
  */
-void func_021BA0C8(void){}
+void DUP_FITTING_ITEM_NoOp(void){}

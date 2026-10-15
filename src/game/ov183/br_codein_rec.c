@@ -32,7 +32,7 @@
  *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
- *   func_0200D6EC 0x0200D6EC thumb
+ *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
  *   BR_UTIL_SetWindowTextBuf 0x021FD19C thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
@@ -79,7 +79,7 @@ extern void *BR_BTN_CreateObject(void *,void *,int,int,int,int,int,void *,u16);
 extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
-extern u32 func_0200D6EC(struct RecGet *p);
+extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BR_BTN_DeleteObject(char *p);
@@ -155,7 +155,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((menu->heapId&0x7fff)|0x8000));
     if(!menu->textWin) menu->textWin=BR_UTIL_CreateTextWin((int)arg->resource,menu->owner,menu->heapId);
     func_02045CAC((struct MsgBank *)c,0x5c,s);
-    WORDSET_SetSlotTag(a,0,(const void *)tmp,func_0200D6EC(owner),1,2);
+    WORDSET_SetSlotTag(a,0,(const void *)tmp,GDS_PROFILE_GetEggFlag(owner),1,2);
     WORDSET_CopyTaggedText(a,b,s);
     BR_UTIL_SetWindowTextBuf(menu->textWin,arg->resource,b);
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);

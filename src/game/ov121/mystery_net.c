@@ -69,6 +69,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   MYSTERY_NET_BuildPokemonFromRecord 0x021DEFAC thumb ov121
  *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
+ *   SAVE_EVENT_WriteWithDate  0x0202F2AC  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -77,29 +78,10 @@ typedef unsigned int   u32;
 
 typedef unsigned short u16;
 extern unsigned int func_020307B0(void *p);
-#include "../../matched/include/Obj13959.h"
-#include "../../matched/include/Obj22912.h"
-#include "../../matched/include/Obj22913.h"
-#include "../../matched/include/Obj10422.h"
-#include "../../matched/include/Obj22914.h"
-#include "../../matched/include/Obj10424.h"
-#include "../../matched/include/Obj08100.h"
-#include "../../matched/include/Obj22915.h"
-#include "../../matched/include/Obj08101.h"
-#include "../../matched/include/Obj22916.h"
-#include "../../matched/include/Obj10427.h"
-#include "../../matched/include/Obj06455.h"
-#include "../../matched/include/Obj22917.h"
-#include "../../matched/include/Obj08102.h"
-#include "../../matched/include/Obj22918.h"
-#include "../../matched/include/Obj08104.h"
-#include "../../matched/include/Obj22920.h"
-#include "../../matched/include/Obj13960.h"
-#include "../../matched/include/Obj22922.h"
-#include "../../matched/include/Obj22925.h"
 
 #define Q(k) (*(u32 *)(q+(k)))
 #define W(k) (*(u32 *)(p+(k)))
+#include "mystery_net_types.h"
 struct Req;
 struct Rec;
 
@@ -225,8 +207,8 @@ void *MYSTERY_NET_Create(void *arg,int heap)
     char *p;
     p=func_02030734(heap,0x17a8,0,d_021DFBC0,315);
     MI_CpuFill8(p,0,0x17a8);
-    ((struct Obj13959 *)p)->f58=heap;
-    ((struct Obj13959 *)p)->f794=arg;
+    ((MysteryNetWork *)p)->heapId=heap;
+    ((MysteryNetWork *)p)->param=arg;
     MYSTERY_NET_InitTask(p,(int)p,MYSTERY_NET_NoopHandler);
     return p;
 }
@@ -263,7 +245,7 @@ void MYSTERY_NET_SetAction(char *p, unsigned action)
         if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_RunNdDownload);
         break;
     case 5:
-        if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_RunNdDownload)) ((struct Obj22912 *)p)->f76C = 1;
+        if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_RunNdDownload)) ((MysteryNetWork *)p)->nd.done = 1;
         break;
     case 6: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_EndDownload); break;
     case 7: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartBeacon); break;
@@ -299,7 +281,7 @@ int MYSTERY_NET_GetAction(void *p)
 
 void *MYSTERY_NET_GetResult(char *p)
 {
-    return ((struct Obj22913 *)p)->f54;
+    return ((MysteryNetWork *)p)->result;
 }
 
 
@@ -335,7 +317,7 @@ int MYSTERY_NET_UpdateWifiError(void *p)
 
 
 
-void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((struct Obj10422 *)p)->f10) {WIH_DWC_Delete(*(u8 * *)&((struct Obj10422 *)p)->f10); *(int *)&((struct Obj10422 *)p)->f10=0;} MYSTERY_NET_SetAction(p,0); func_0200FBA0();}
+void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete(*(u8 * *)&((MysteryNetWork *)p)->wihHandle); *(int *)&((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); func_0200FBA0();}
 
 
 
@@ -346,7 +328,7 @@ int MYSTERY_NET_HandleWifiError(char *p)
     if (func_0200FB24()) {
         switch (*(unsigned *)(GFL_NET_STATE_GetError()+4)) {
         case 1: case 2: case 3: case 4: case 5: case 6:
-            if (((struct Obj22914 *)p)->f790==1) return result;
+            if (((MysteryNetWork *)p)->nd.busy==1) return result;
             GFL_NET_STATE_SetWifiError();
             func_02059F18();
             func_0200FBB0();
@@ -390,8 +372,8 @@ void MYSTERY_NET_StartSession(void *a, int *state, char *p)
         break;
     case 1:
         if (GFL_NET_GetRunState()) {
-            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj10424 *)p)->f58);
-            ((struct Obj10424 *)p)->f10 = func_02010360(4, (void *)(((struct Obj10424 *)p)->f58));
+            GFL_NET_RestartWithDefaultTimeout(1, ((MysteryNetWork *)p)->heapId);
+            ((MysteryNetWork *)p)->wihHandle = func_02010360(4, (void *)(((MysteryNetWork *)p)->heapId));
             GFL_NET_BeaconScanStart();
             *state = 2;
         }
@@ -409,8 +391,8 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        WIH_DWC_Delete(((struct Obj08100 *)p)->f10);
-        *(int *)&((struct Obj08100 *)p)->f10 = 0;
+        WIH_DWC_Delete(((MysteryNetWork *)p)->wihHandle);
+        *(int *)&((MysteryNetWork *)p)->wihHandle = 0;
         *state = 1;
         break;
     case 1:
@@ -418,8 +400,8 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
         else *state = 3;
         break;
     case 2:
-        if (((struct Obj08100 *)p)->f5C) {
-            ((struct Obj08100 *)p)->f5C = 0;
+        if (((MysteryNetWork *)p)->flag5C) {
+            ((MysteryNetWork *)p)->flag5C = 0;
             *state = 3;
         }
         break;
@@ -435,12 +417,12 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
 void MYSTERY_NET_PollWihStatus(int a, int b, char *c)
 {
     func_02010498();
-    ((struct Obj22915 *)c)->f54 = WIH_DWC_PollStatus(0);
+    ((MysteryNetWork *)c)->result = (void *)WIH_DWC_PollStatus(0);
 }
 
 
 
-void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((struct Obj08101 *)p)->f58;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((struct Obj08101 *)p)->f798=h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((struct Obj08101 *)p)->f17A4=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RestartWithDefaultTimeout(1,((struct Obj08101 *)p)->f58);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
+void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RestartWithDefaultTimeout(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
 
 
 
@@ -448,7 +430,7 @@ void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        DELIVERY_BEACON_Delete((void *)(((struct Obj22916 *)p)->f798));
+        DELIVERY_BEACON_Delete((void *)(((MysteryNetWork *)p)->beacon));
         *state = 1;
         break;
     case 1:
@@ -462,7 +444,7 @@ void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
 
 
 
-void MYSTERY_NET_RunBeacon(void *a,int b,char *p) {DELIVERY_BEACON_RunStep(*(u8 * *)&((struct Obj10427 *)p)->f798);if(DELIVERY_BEACON_TryComplete(*(u8 * *)&((struct Obj10427 *)p)->f798)) {((struct Obj10427 *)p)->f17A4=1;MYSTERY_NET_SetHandler(a,MYSTERY_NET_DeleteBeacon);}}
+void MYSTERY_NET_RunBeacon(void *a,int b,char *p) {DELIVERY_BEACON_RunStep(*(u8 * *)&((MysteryNetWork *)p)->beacon);if(DELIVERY_BEACON_TryComplete(*(u8 * *)&((MysteryNetWork *)p)->beacon)) {((MysteryNetWork *)p)->recvState=1;MYSTERY_NET_SetHandler(a,MYSTERY_NET_DeleteBeacon);}}
 
 
 
@@ -476,18 +458,18 @@ void MYSTERY_NET_StartIrc(void *a, int *state, char *p)
         d.size = 0x2d0;
         d.data = p + 0x7a4;
         d.zero = 0;
-        d.heap = ((struct Obj06455 *)p)->f58;
+        d.heap = ((MysteryNetWork *)p)->heapId;
         d.setting = GAME_LANGUAGE_Code;
         d.enabled = 1;
         d.flags = 0x200000;
-        ((struct Obj06455 *)p)->f79C = DELIVERY_IRC_Create((u8 *)(&d));
-        DELIVERY_IRC_Start(((struct Obj06455 *)p)->f79C);
-        ((struct Obj06455 *)p)->f17A4 = 0;
+        ((MysteryNetWork *)p)->irc = DELIVERY_IRC_Create((u8 *)(&d));
+        DELIVERY_IRC_Start(((MysteryNetWork *)p)->irc);
+        ((MysteryNetWork *)p)->recvState = 0;
         *state = 1;
         break;
     case 1:
         if (GFL_NET_GetRunState()) {
-            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj06455 *)p)->f58);
+            GFL_NET_RestartWithDefaultTimeout(1, ((MysteryNetWork *)p)->heapId);
             *state = 2;
         }
         break;
@@ -503,7 +485,7 @@ void MYSTERY_NET_DeleteIrc(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        DELIVERY_IRC_Delete((void *)(((struct Obj22917 *)p)->f79C));
+        DELIVERY_IRC_Delete((void *)(((MysteryNetWork *)p)->irc));
         *state = 1;
         break;
     case 1:
@@ -520,13 +502,13 @@ void MYSTERY_NET_DeleteIrc(void *a, int *state, char *p)
 void MYSTERY_NET_RunIrc(void *a, int *state, char *p)
 {
     int result;
-    DELIVERY_IRC_Main(((struct Obj08102 *)p)->f79C);
-    result = DELIVERY_IRC_GetResult(((struct Obj08102 *)p)->f79C);
+    DELIVERY_IRC_Main(((MysteryNetWork *)p)->irc);
+    result = DELIVERY_IRC_GetResult(((MysteryNetWork *)p)->irc);
     if (result != 0) {
         switch (result) {
-        case 1: ((struct Obj08102 *)p)->f17A4 = 1; break;
+        case 1: ((MysteryNetWork *)p)->recvState = 1; break;
         case 2:
-        case 3: ((struct Obj08102 *)p)->f17A4 = 2; break;
+        case 3: ((MysteryNetWork *)p)->recvState = 2; break;
         }
         MYSTERY_NET_SetHandler(a, MYSTERY_NET_DeleteIrc);
     }
@@ -644,7 +626,7 @@ void MYSTERY_NET_EndDownload(void *a, int *state, char *p)
         break;
     case 1:
         if (GFL_NET_GetRunState() == 0) {
-            ((struct Obj22918 *)p)->f5C = 0;
+            ((MysteryNetWork *)p)->flag5C = 0;
             *state = 2;
         }
         break;
@@ -660,14 +642,14 @@ void MYSTERY_NET_SetNdState(char *p, int *state, int value)
 {
     d_021DFC00[1] = 0;
     d_021DFC00[3] = 0;
-    ((struct Obj08104 *)p)->f708 = value;
-    ((struct Obj08104 *)p)->f72C = 0;
+    ((MysteryNetNdContext *)p)->state = value;
+    ((MysteryNetNdContext *)p)->timer = 0;
     *state = 100;
 }
 
 
 
-void MYSTERY_NET_AbortNd(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((struct Obj08104 *)p)->f708=b;((struct Obj08104 *)p)->f72C=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}
+void MYSTERY_NET_AbortNd(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((MysteryNetNdContext *)p)->state=b;((MysteryNetNdContext *)p)->timer=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}
 
 
 
@@ -675,7 +657,7 @@ void MYSTERY_NET_AbortNd(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_
 void MYSTERY_NET_InitTask(void *p, int a, void *b)
 {
     MI_CpuFill8(p, 0, 0x10);
-    ((struct Obj22920 *)p)->fC = (u32)a;
+    ((MysteryNetWork *)p)->handlerArg = (u32)a;
     MYSTERY_NET_SetHandler(p, b);
 }
 
@@ -688,8 +670,8 @@ void MYSTERY_NET_ClearTask(void *p) {MI_CpuFill8(p,0,16);}
 
 void MYSTERY_NET_Dispatch(char *p)
 {
-    if (((struct Obj13960 *)p)->f4 == 0)
-        (*(void (**)(char *, char *, u32))p)(p, p + 8, ((struct Obj13960 *)p)->fC);
+    if (((MysteryNetWork *)p)->paused == 0)
+        (*(void (**)(char *, char *, u32))p)(p, p + 8, ((MysteryNetWork *)p)->handlerArg);
 }
 
 
@@ -728,7 +710,7 @@ int MYSTERY_NET_IsEqual(int a, int b)
 
 void MYSTERY_NET_FlagExit(char *p)
 {
-    ((struct Obj22922 *)p)->f5C = 1;
+    ((MysteryNetWork *)p)->flag5C = 1;
 }
 
 
@@ -800,7 +782,7 @@ int MYSTERY_NET_GetErrorHookState(char *p, int unused, int type)
     case 3:
     case 5:
     case 6:
-        return ((struct Obj22925 *)p)->f730;
+        return ((MysteryNetNdContext *)p)->busy;
     }
     return 0;
 }
@@ -886,7 +868,7 @@ extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Dummy(void *p);
-extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -1116,7 +1098,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 month = (u8)(w >> 8);
                 day = w;
                 loc = r->f5C ? r->f38 : r->f3A;
-                func_0202F2AC(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
+                SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);
             res = 0;

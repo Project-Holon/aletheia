@@ -1,5 +1,5 @@
 /*
- * function: func_021D5CCC
+ * function: WIFILOGIN_MSG_ShowMessage
  * address: 0x021D5CCC
  * packet: pkt_ov115_021D5CCC
  * region: ov115
@@ -35,7 +35,7 @@ extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
-void func_021D5CCC(u8 *p, u32 n) {
+void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n) {
     void *w;
     if (((struct Obj04468 *)p)->f34==0) ((struct Obj04468 *)p)->f34=(void *)BMP_WIN_Create(1,4,7,24,2,11,1);
     w=((struct Obj04468 *)p)->f34;

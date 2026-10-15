@@ -1,5 +1,5 @@
 /*
- * function: func_021BA210
+ * function: DUP_FITTING_ITEM_ElemSetSprite
  * address: 0x021BA210
  * packet: pkt_ov133_021BA210
  * region: ov133
@@ -11,7 +11,7 @@
 #include "../include/Obj23332.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BA210(u8 *p, u32 value)
+void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u32 value)
 {
     ((struct Obj23332 *)p)->f8=value;
 }

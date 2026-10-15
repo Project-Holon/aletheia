@@ -239,10 +239,10 @@
  *   sEdgeColorTable  0x021D35E4  data  a4
  *   BILLBOARD_ACT_Create  0x0204FE94  arm
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
- *   BILLBOARD_SetField25  0x0204EDBC  arm
- *   BILLBOARD_SetImagePosition  0x0204EDC4  arm
- *   BILLBOARD_SetField10  0x0204ED70  arm
- *   BILLBOARD_SetField24  0x0204EDB0  arm
+ *   BILLBOARD_SetQuadShape  0x0204EDBC  arm
+ *   BILLBOARD_SetImageOffset  0x0204EDC4  arm
+ *   BILLBOARD_SetScale  0x0204ED70  arm
+ *   BILLBOARD_SetPolyIdBase  0x0204EDB0  arm
  *   FIELD_G3DOBJ_Create  0x021C63AC  thumb  ov021
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   func_02048BC4  0x02048BC4  arm
@@ -649,10 +649,10 @@ extern void func_0207DCF8(void *a);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern struct BbActSys *BILLBOARD_ACT_Create(u16 a0, u16 a1, void (*transCallback)(int, int, void *, int), int heapId);
 extern void *BILLBOARD_ACT_GetBoard(struct BbActSys *bbdAct);
-extern void BILLBOARD_SetField25(u8 *dst, u8 val);
-extern void BILLBOARD_SetImagePosition(u8 *dst, int a, int b);
-extern void BILLBOARD_SetField10(void *board, const VecFx32 *scale);
-extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
+extern void BILLBOARD_SetQuadShape(u8 *dst, u8 val);
+extern void BILLBOARD_SetImageOffset(u8 *dst, int a, int b);
+extern void BILLBOARD_SetScale(void *board, const VecFx32 *scale);
+extern void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
 extern struct FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u16 heapId, int a, int b);
 extern struct G3dCamera *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
 extern struct G3dLightSlots *func_02048BC4(const struct LightSet *s, u32 heapId);
@@ -1668,15 +1668,15 @@ void FIELDMAP_CreateG3dResources(FieldMap *fieldMap)
 
     fieldMap->mmdlBbdAct = BILLBOARD_ACT_Create(0x40, 0x80, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     board = BILLBOARD_ACT_GetBoard(fieldMap->mmdlBbdAct);
-    BILLBOARD_SetField25(board, 2);
-    BILLBOARD_SetImagePosition(board, 0, -0xA00);
+    BILLBOARD_SetQuadShape(board, 2);
+    BILLBOARD_SetImageOffset(board, 0, -0xA00);
     fieldMap->effectBbdAct = BILLBOARD_ACT_Create(0x3A, 0x50, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     fieldMap->groundBbdAct = BILLBOARD_ACT_Create(0x1E, 0x28, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     board = BILLBOARD_ACT_GetBoard(fieldMap->groundBbdAct);
     groundScale = sGroundBbdScale;
-    BILLBOARD_SetField10(board, &groundScale);
+    BILLBOARD_SetScale(board, &groundScale);
     groundDrawFlag = 0;
-    BILLBOARD_SetField24(board, &groundDrawFlag);
+    BILLBOARD_SetPolyIdBase(board, &groundDrawFlag);
     FIELDMAP_SetupBbdColor(fieldMap);
     fieldMap->g3dObjCtrl = FIELD_G3DOBJ_Create(fieldMap->heapId, 0x40, 0x40);
     heapId = fieldMap->heapId;

@@ -1,5 +1,5 @@
 /*
- * function: func_02027604
+ * function: APP_ICON_GetMoveKindPaletteOffset
  * address:  0x02027604
  * packet:   pkt_02027604
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern const u8 _WazaKindPltOffset[];
 
-u8 func_02027604(u8 i)
+u8 APP_ICON_GetMoveKindPaletteOffset(u8 i)
 {
     return _WazaKindPltOffset[i];
 }

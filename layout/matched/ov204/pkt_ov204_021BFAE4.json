@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFAE4",
+   "name": "INTRO_G3D_SetVisible",
    "address": "0x021BFAE4",
    "kind": "game",
    "region": "ov204",

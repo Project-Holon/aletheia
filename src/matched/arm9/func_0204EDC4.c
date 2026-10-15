@@ -1,5 +1,5 @@
 /*
- * function: BILLBOARD_SetImagePosition
+ * function: BILLBOARD_SetImageOffset
  * address:  0x0204EDC4
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -25,7 +25,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void BILLBOARD_SetImagePosition(u8 *dst, int a, int b)
+void BILLBOARD_SetImageOffset(u8 *dst, int a, int b)
 {
     ((struct Obj11444 *)dst)->f36 = a;
     ((struct Obj11444 *)dst)->f38 = b;

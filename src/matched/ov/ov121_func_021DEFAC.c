@@ -41,7 +41,7 @@
  *   func_02008550 0x02008550 thumb
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_Dummy 0x020185F0 thumb
- *   func_0202F2AC 0x0202F2AC thumb
+ *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -124,7 +124,7 @@ extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_020307B0(void *p);
 extern void *POKE_TOOL_Dummy(void *p);
-extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -354,7 +354,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 month = (u8)(w >> 8);
                 day = w;
                 loc = r->f5C ? r->f38 : r->f3A;
-                func_0202F2AC(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
+                SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);
             res = 0;

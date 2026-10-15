@@ -11,7 +11,7 @@
  * symbols:
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
- *   sub_0202EB60   0x0202EB60  thumb
+ *   APP_ENV_GetOwnerColorAndBirthMonth   0x0202EB60  thumb
  */
 
 typedef unsigned char  u8;
@@ -27,7 +27,7 @@ struct RtcDate {
 
 extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
-extern void sub_0202EB60(u8 *out1, u8 *out2);
+extern void APP_ENV_GetOwnerColorAndBirthMonth(u8 *out1, u8 *out2);
 
 u32 func_0202C970(void *a, void *b, u32 c)
 {
@@ -38,7 +38,7 @@ u32 func_0202C970(void *a, void *b, u32 c)
         goto fail;
     }
     GF_STANDARD_SetField00_F4E4(&date);
-    sub_0202EB60(&buf[1], &buf[0]);
+    APP_ENV_GetOwnerColorAndBirthMonth(&buf[1], &buf[0]);
     if (date.month != buf[1]) {
         goto fail;
     }

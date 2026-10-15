@@ -1,5 +1,5 @@
 /*
- * function: func_021D5900
+ * function: WIFILOGIN_DISP_VBlank
  * address: 0x021D5900
  * packet: pkt_ov115_021D5900
  * region: ov115
@@ -18,4 +18,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
-void func_021D5900(void *task,u8 *p) { if(((struct Obj10333 *)p)->fB4A>0) { func_02040618(7,0,((struct Obj10333 *)p)->fB4A-1); func_02040618(2,0,((struct Obj10333 *)p)->fB4A-1); } CLACT_VBlankSystem(); }
+void WIFILOGIN_DISP_VBlank(void *task,u8 *p) { if(((struct Obj10333 *)p)->fB4A>0) { func_02040618(7,0,((struct Obj10333 *)p)->fB4A-1); func_02040618(2,0,((struct Obj10333 *)p)->fB4A-1); } CLACT_VBlankSystem(); }

@@ -15,7 +15,7 @@
  * symbols:
  *   WF2DMAP_TOUCH_CreateWidgetHandles 0x021C9E10 thumb ov128
  *   WF2DMAP_TOUCH_CreateTileWidgets 0x021C9E6C thumb ov128
- *   func_021C63AC 0x021C63AC thumb ov128
+ *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
  *   WF2DMAP_TOUCH_InitTileRecord 0x021C9ED0 thumb ov128
  *   WF2DMAP_TOUCH_SetTileRecordField 0x021C9EF4 thumb ov128
  *   d_021CA564 0x021CA564 data a2
@@ -32,7 +32,7 @@ extern const u32 d_021CA538[], d_021CA7E0[];
 extern const u8 d_021CA521[];
 extern void WF2DMAP_TOUCH_CreateWidgetHandles(u8 *, u8 *, u16);
 extern void WF2DMAP_TOUCH_CreateTileWidgets(u8 *, void *);
-extern void func_021C63AC(void *p, u32 *out, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u32 unused, u8 g);
+extern void Wf2dmapFriend_CreateWindow(void *p, u32 *out, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u32 unused, u8 g);
 extern void WF2DMAP_TOUCH_InitTileRecord(u32, int, const u16 *, u32, u16);
 extern void WF2DMAP_TOUCH_SetTileRecordField(u32, int, u32, u32, u32, u16);
 static inline int absolute(s16 value) { if (value < 0) return -value; return value; }
@@ -46,7 +46,7 @@ void WF2DMAP_TOUCH_CreateEditWidgets(u8 *p, void *unused, u8 *q, u16 heap)
         row = d_021CA564[k];
         y = absolute(row[1]);
         x = absolute(row[0]);
-        func_021C63AC(q, (u32 *)(p + 0x118 + k * 8), 3, (u8)(x + 2), y + 1, 26, 18, 10, 0, 0);
+        Wf2dmapFriend_CreateWindow(q, (u32 *)(p + 0x118 + k * 8), 3, (u8)(x + 2), y + 1, 26, 18, 10, 0, 0);
     }
     for (i = 0; i < 3; i++) {
         WF2DMAP_TOUCH_InitTileRecord((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)d_021CA564[i], d_021CA538[i], heap);

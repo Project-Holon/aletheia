@@ -118,10 +118,6 @@
  *   MUSICAL_MCSS_ResetRender2 0x021F5414 thumb ov112
  */
 #include "../../matched/include/Obj22554.h"
-#include "../../matched/include/Obj08024.h"
-#include "../../matched/include/Obj00771.h"
-#include "../../matched/include/Obj05317.h"
-#include "../../matched/include/Obj13836.h"
 #include "../../matched/include/Obj05318.h"
 #include "../../matched/include/Obj08025.h"
 #include "../../matched/include/Obj08026.h"
@@ -132,12 +128,6 @@
 #include "../../matched/include/Obj13839.h"
 #include "../../matched/include/Obj10318.h"
 #include "../../matched/include/Obj00904.h"
-#include "../../matched/include/Obj00723.h"
-#include "../../matched/include/Obj02824.h"
-#include "../../matched/include/Obj03762.h"
-#include "../../matched/include/Obj10319.h"
-#include "../../matched/include/Obj10320.h"
-#include "../../matched/include/Obj10321.h"
 #include "../../matched/include/Obj02169.h"
 #include "../../matched/include/Obj03248.h"
 #include "../../matched/include/Obj13841.h"
@@ -192,7 +182,62 @@ typedef unsigned int u32;
 
 typedef signed int     s32_021F6BD8;
 
-typedef struct { u16 heap,pad; void *a; u32 entries[4][8]; u32 other[8]; void *bank; u32 x,y,z; } Object;
+typedef struct { u32 value; u8 pad_04[4]; int x; int y; u8 pad_10[0x0C]; void *actor; } LightActor;
+
+typedef struct {
+    int value;            /* 0x00 */
+    int f04;              /* 0x04 */
+    int flag;             /* 0x08 */
+    int f0C;              /* 0x0C */
+    int f10;              /* 0x10 */
+    int f14;              /* 0x14 */
+    int x;                /* 0x18 */
+    int y;                /* 0x1C */
+    int z;                /* 0x20 */
+    int scaleX;           /* 0x24 */
+    int scaleY;           /* 0x28 */
+    int scaleZ;           /* 0x2C */
+    int f30;              /* 0x30 */
+    int f34;              /* 0x34 */
+    int f38;              /* 0x38 */
+    int f3C;              /* 0x3C */
+    int f40;              /* 0x40 */
+    u8 pad_44[4];         /* 0x44 */
+    u16 angle;            /* 0x48 */
+    u16 pad_4A;           /* 0x4A */
+    int f4C;              /* 0x4C */
+    u16 f50;              /* 0x50 */
+    u16 pad_52;           /* 0x52 */
+    int f54;              /* 0x54 */
+    void *renderElem;     /* 0x58 */
+    u32 billboardIdx;     /* 0x5C */
+    int slotArc[9];       /* 0x60 */
+    void *slotImage[9];   /* 0x84 */
+    void *slotRecord[9];  /* 0xA8 */
+    int slotActive[9];    /* 0xCC */
+    u8 tail[0x10];        /* 0xF0 */
+    u32 pad_100;          /* 0x100 */
+    int active;           /* 0x104 */
+} Elem;
+
+typedef struct {
+    u16 heap;             /* 0x00 */
+    u16 pad_02;
+    u32 b;                /* 0x04 */
+    void *board;          /* 0x08 */
+    void *renderObj;      /* 0x0C */
+    void *actorPool;      /* 0x10 */
+    Elem elems[4];        /* 0x14 */
+    u16 frame;            /* 0x434 */
+    u16 pad_436;
+    u32 image;            /* 0x438 */
+    u8 count;             /* 0x43C */
+    u8 pad_43D[3];
+} BillboardImage;
+
+typedef struct { u8 pad_00[8]; u16 monsNo; u8 pad_0A; u8 form; } MonInput;
+
+typedef struct { u16 heap,pad; void *a; LightActor entries[4]; u32 flag; u8 pad_8C[0x18]; void *actor; void *bank; u32 palette,character,cellAnim; } Object;
 
 typedef struct { short x, y; } Point_021F6CE0;
 
@@ -436,14 +481,14 @@ Object *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
     i=0;
     p=func_02030734(heap,184,0,d_021F8408,87);
     p->heap=heap; p->a=a;
-    for(;i<4;i++) p->entries[i][0]=0;
-    p->other[0]=0;
+    for(;i<4;i++) p->entries[i].value=0;
+    p->flag=0;
     p->bank=CLACT_CreateUnit(5,0,p->heap);
     CLACT_SetUnitDefaultRenderer(p->bank);
     q=func_020490F4((unsigned int)47,p->heap);
-    p->x=CLACT_RegisterPalette((void *)q,4,0,0,p->heap);
-    p->y=CLACT_RegisterCharacter((void *)((u32)q),10,0,0,p->heap);
-    p->z=CLACT_RegisterCellAnim((void *)((u32)q),20,23,p->heap);
+    p->palette=CLACT_RegisterPalette((void *)q,4,0,0,p->heap);
+    p->character=CLACT_RegisterCharacter((void *)((u32)q),10,0,0,p->heap);
+    p->cellAnim=CLACT_RegisterCellAnim((void *)((u32)q),20,23,p->heap);
     ARC_TOOL_DeleteHandle(q);
     return p;
 }
@@ -454,12 +499,12 @@ Object *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
 /*
  * note: Two-byte zero alignment padding follows the compiled body.
  */
-void STA_ACT_LIGHT_DeleteUnit(char *p) {CLACT_ReleasePalette(((struct Obj08024 *)p)->fAC);CLACT_ReleaseCharacter(((struct Obj08024 *)p)->fB0);CLACT_ReleaseCellAnim(((struct Obj08024 *)p)->fB4);CLACT_DeleteUnit(((struct Obj08024 *)p)->fA8);func_020307B0(p);}
+void STA_ACT_LIGHT_DeleteUnit(char *p) {CLACT_ReleasePalette(((Object *)p)->palette);CLACT_ReleaseCharacter(((Object *)p)->character);CLACT_ReleaseCellAnim(((Object *)p)->cellAnim);CLACT_DeleteUnit(((Object *)p)->bank);func_020307B0(p);}
 
 
 
 
-void STA_ACT_LIGHT_UpdateElemActors(char *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*32+8)) STA_ACT_LIGHT_PlaceActor(p,p+8+i*32); if(*(int *)&((struct Obj00771 *)p)->f4) STA_ACT_LIGHT_UpdateActor(p); }
+void STA_ACT_LIGHT_UpdateElemActors(char *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*32+8)) STA_ACT_LIGHT_PlaceActor(p,p+8+i*32); if(*(int *)&((Object *)p)->a) STA_ACT_LIGHT_UpdateActor(p); }
 
 
 
@@ -468,18 +513,18 @@ void STA_ACT_LIGHT_PlaceActor(char *p, char *q) {
     u16 n;
     int tmp;
     Point_021F6CE0 point;
-    if (*(int *)&((struct Obj00771 *)p)->f4 == 0) tmp = 0x80;
-    else tmp = STA_ACTING_GetCameraTarget((u8 *)(*(int *)&((struct Obj00771 *)p)->f4));
+    if (*(int *)&((Object *)p)->a == 0) tmp = 0x80;
+    else tmp = STA_ACTING_GetCameraTarget((u8 *)(*(int *)&((Object *)p)->a));
     n = tmp;
-    if (((struct Obj05317 *)q)->f0 == 1) {
-        point.x = (short)((float)((struct Obj05317 *)q)->f8 / 4096.0f - (float)(unsigned)n);
-        point.y = (short)((float)((struct Obj05317 *)q)->fC / 4096.0f);
-        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
-        if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && STA_ACTING_GetSelection((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
-            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
+    if (((LightActor *)q)->value == 1) {
+        point.x = (short)((float)((LightActor *)q)->x / 4096.0f - (float)(unsigned)n);
+        point.y = (short)((float)((LightActor *)q)->y / 4096.0f);
+        CLACT_AddActorSurfacePos((struct Obj *)((LightActor *)q)->actor, (const struct Vec2 *)(&point), 0);
+        if (*(int *)&((Object *)p)->a != 0 && STA_ACTING_GetSelection((char *)(*(int *)&((Object *)p)->a)) != 4) {
+            CLACT_SetActorDrawEnable((struct Obj *)((LightActor *)q)->actor, 0);
             return;
         }
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((LightActor *)q)->actor, 1);
     }
 }
 
@@ -497,30 +542,30 @@ void STA_ACT_LIGHT_UpdateActor(char *p)
     char *ctx;
     char *model;
     u16 n;
-    if(((struct Obj00771 *)p)->f88==0 && STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4)!=4) {
-        ((struct Obj00771 *)p)->f88=1;
+    if(((Object *)p)->flag==0 && STA_ACTING_GetSelection(*(char * *)&((Object *)p)->a)!=4) {
+        ((Object *)p)->flag=1;
         d.x=128;
         d.y=96;
         d.z=0;
         d.a=0;
         d.b=2;
-        a=CLACT_CreateActor((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
-        ((struct Obj00771 *)p)->fA4=a;
+        a=CLACT_CreateActor(((Object *)p)->bank,((Object *)p)->character,((Object *)p)->palette,((Object *)p)->cellAnim,&d.x,0,((Object *)p)->heap);
+        ((Object *)p)->actor=a;
         CLACT_SetActorDrawEnable(a,1);
     }
-    if(((struct Obj00771 *)p)->f88==1) {
-        if(STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
-            CLACT_DeleteActor(((struct Obj00771 *)p)->fA4);
-            ((struct Obj00771 *)p)->f88=0;
+    if(((Object *)p)->flag==1) {
+        if(STA_ACTING_GetSelection(*(char * *)&((Object *)p)->a)==4) {
+            CLACT_DeleteActor(((Object *)p)->actor);
+            ((Object *)p)->flag=0;
             return;
         }
-        ctx=STA_ACTING_GetActorSystem(((struct Obj00771 *)p)->f4);
-        model=STA_ACTING_GetActor(((struct Obj00771 *)p)->f4,STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4));
-        n=STA_ACTING_GetCameraTarget(((struct Obj00771 *)p)->f4);
+        ctx=STA_ACTING_GetActorSystem(((Object *)p)->a);
+        model=STA_ACTING_GetActor(((Object *)p)->a,STA_ACTING_GetSelection(*(char * *)&((Object *)p)->a));
+        n=STA_ACTING_GetCameraTarget(((Object *)p)->a);
         STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
-        CLACT_AddActorSurfacePos(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);
+        CLACT_AddActorSurfacePos(((Object *)p)->actor,(const struct Vec2 *)(&d.pos),0);
     }
 }
 
@@ -559,7 +604,7 @@ u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v)
 
 
 
-void STA_ACT_LIGHT_DeleteActor(void *unused,u8 *p) { CLACT_DeleteActor(*(struct Obj * *)&((struct Obj13836 *)p)->f1C); ((struct Obj13836 *)p)->f0=0; }
+void STA_ACT_LIGHT_DeleteActor(void *unused,u8 *p) { CLACT_DeleteActor(((LightActor *)p)->actor); ((LightActor *)p)->value=0; }
 
 
 
@@ -961,29 +1006,29 @@ void STA_ACT_LIGHT_AddPokemonElem(u8 *p,u8 *input)
         if(*(int *)(p+20+264*i)==0) break;
     }
     q=p+20+264*i;
-    ((struct Obj00723 *)q)->f0=1;
-    ((struct Obj00723 *)q)->f4=1;
-    ((struct Obj00723 *)q)->f8=1;
-    ((struct Obj00723 *)q)->fC=0;
-    ((struct Obj00723 *)q)->f10=0;
-    ((struct Obj00723 *)q)->f14=0;
-    ((struct Obj00723 *)q)->f104=0;
-    *(u8 * *)&((struct Obj00723 *)q)->f58=MUSICAL_MCSS_SetupRenderObj(((struct Obj03762 *)p)->fC,input,1);
-    personal=POKE_PERSONAL_Create((u32)((struct Obj10319 *)input)->f8,(u32)input[11],(u32)((struct Obj03762 *)p)->f0);
-    if(POKE_PERSONAL_GetParam(personal,16)==1) ((struct Obj00723 *)q)->f10=1;
-    if(POKE_PERSONAL_GetParam(personal,34)==1) ((struct Obj00723 *)q)->f14=1;
+    ((Elem *)q)->value=1;
+    ((Elem *)q)->f04=1;
+    ((Elem *)q)->flag=1;
+    ((Elem *)q)->f0C=0;
+    ((Elem *)q)->f10=0;
+    ((Elem *)q)->f14=0;
+    ((Elem *)q)->active=0;
+    ((Elem *)q)->renderElem=MUSICAL_MCSS_SetupRenderObj(((BillboardImage *)p)->renderObj,input,1);
+    personal=POKE_PERSONAL_Create((u32)((MonInput *)input)->monsNo,(u32)((MonInput *)input)->form,(u32)((BillboardImage *)p)->heap);
+    if(POKE_PERSONAL_GetParam(personal,16)==1) ((Elem *)q)->f10=1;
+    if(POKE_PERSONAL_GetParam(personal,34)==1) ((Elem *)q)->f14=1;
     POKE_PERSONAL_Delete(personal);
-    ((struct Obj00723 *)q)->f18=0;
-    ((struct Obj00723 *)q)->f1C=0;
-    ((struct Obj00723 *)q)->f20=0;
-    ((struct Obj00723 *)q)->f30=0;
-    ((struct Obj00723 *)q)->f34=0;
-    ((struct Obj00723 *)q)->f38=0;
-    ((struct Obj00723 *)q)->f24=4096;
-    ((struct Obj00723 *)q)->f28=4096;
-    ((struct Obj00723 *)q)->f2C=4096;
-    STA_ACT_LIGHT_SetupElem((u32)p,q,((struct Obj10319 *)input)->f8);
-    ((struct Obj00723 *)q)->f48=0;
+    ((Elem *)q)->x=0;
+    ((Elem *)q)->y=0;
+    ((Elem *)q)->z=0;
+    ((Elem *)q)->f30=0;
+    ((Elem *)q)->f34=0;
+    ((Elem *)q)->f38=0;
+    ((Elem *)q)->scaleX=4096;
+    ((Elem *)q)->scaleY=4096;
+    ((Elem *)q)->scaleZ=4096;
+    STA_ACT_LIGHT_SetupElem((u32)p,q,((MonInput *)input)->monsNo);
+    ((Elem *)q)->angle=0;
     position=(int *)(q+24);
     scale=1024;
     records=input;
@@ -993,24 +1038,24 @@ void STA_ACT_LIGHT_AddPokemonElem(u8 *p,u8 *input)
         record=records;
         record=record+6*i;
         row=q+4*i;
-        *(u8 * *)&((struct Obj02824 *)row)->fA8=record;
+        ((Elem *)q)->slotRecord[i]=record;
         if(id!=255) {
-            ((struct Obj02824 *)row)->fCC=1;
-            ((struct Obj02824 *)row)->f60=(int)MUSICAL_MCSS_CreateResourceArc(id);
-            ((struct Obj02824 *)row)->f84=MUSICAL_MCSS_AddImage(((struct Obj03762 *)p)->f10,id,*(u32 *)&((struct Obj02824 *)row)->f60,(int *)(q+24));
-            MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj03762 *)p)->f10,*(int *)&((struct Obj02824 *)row)->f84,scale,scale);
-            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)&((struct Obj03762 *)p)->f10),(u8 *)(*(int *)&((struct Obj02824 *)row)->f84),0);
+            ((Elem *)q)->slotActive[i]=1;
+            ((Elem *)q)->slotArc[i]=(int)MUSICAL_MCSS_CreateResourceArc(id);
+            ((Elem *)q)->slotImage[i]=MUSICAL_MCSS_AddImage(((BillboardImage *)p)->actorPool,id,(u32)((Elem *)q)->slotArc[i],(int *)(q+24));
+            MUSICAL_MCSS_SetElemRotZ((u32)((BillboardImage *)p)->actorPool,(u32)((Elem *)q)->slotImage[i],scale,scale);
+            MUSICAL_MCSS_SetElemVisible((u8 *)((BillboardImage *)p)->actorPool,(u8 *)((Elem *)q)->slotImage[i],0);
         } else {
-            ((struct Obj02824 *)row)->fCC=0;
-            ((struct Obj02824 *)row)->f60=0;
-            *(int *)&((struct Obj02824 *)row)->f84=0;
+            ((Elem *)q)->slotActive[i]=0;
+            ((Elem *)q)->slotArc[i]=0;
+            ((Elem *)q)->slotImage[i]=0;
         }
     }
-    *(int *)&((struct Obj00723 *)q)->f5C=BILLBOARD_AddElem(((struct Obj03762 *)p)->f8,((struct Obj03762 *)p)->f438,1024,768,(struct Vec3 *)(q+24),30,0,0);
+    ((Elem *)q)->billboardIdx=BILLBOARD_AddElem(((BillboardImage *)p)->board,((BillboardImage *)p)->image,1024,768,(struct Vec3 *)(q+24),30,0,0);
     flag=1;
-    BILLBOARD_SetElemVisible(((struct Obj03762 *)p)->f8,((struct Obj00723 *)q)->f5C,&flag);
-    ((struct Obj00723 *)q)->f50=func_020056EC(150)>>1;
-    ((struct Obj00723 *)q)->f4C=1;
+    BILLBOARD_SetElemVisible(((BillboardImage *)p)->board,((Elem *)q)->billboardIdx,&flag);
+    ((Elem *)q)->f50=func_020056EC(150)>>1;
+    ((Elem *)q)->f4C=1;
 }
 
 
@@ -1024,17 +1069,17 @@ void STA_ACT_LIGHT_AddPokemonElem(u8 *p,u8 *input)
  */
 void STA_ACT_LIGHT_FreeElem(char *p, char *q) {
     u8 i;
-    BILLBOARD_FreeElem((void *)(((struct Obj10320 *)p)->f8), ((struct Obj10321 *)q)->f5C);
+    BILLBOARD_FreeElem(((BillboardImage *)p)->board, ((Elem *)q)->billboardIdx);
     for (i = 0; i < 9; i++) {
-        if (((Slot_021F6BC0 *)(q + i * 4))->other != 0) {
-            MUSICAL_MCSS_FreeElem((u8 *)(((struct Obj10320 *)p)->f10), (u8 *)(((Slot_021F6BC0 *)(q + i * 4))->other));
-            MUSICAL_MCSS_FreeResourceArc((struct Tagged *)(((Slot_021F6BC0 *)(q + i * 4))->value));
-            ((Slot_021F6BC0 *)(q + i * 4))->value = 0;
-            ((Slot_021F6BC0 *)(q + i * 4))->other = 0;
+        if (((Elem *)q)->slotImage[i] != 0) {
+            MUSICAL_MCSS_FreeElem((u8 *)((BillboardImage *)p)->actorPool, (u8 *)((Elem *)q)->slotImage[i]);
+            MUSICAL_MCSS_FreeResourceArc((struct Tagged *)((Elem *)q)->slotArc[i]);
+            ((Elem *)q)->slotArc[i] = 0;
+            ((Elem *)q)->slotImage[i] = 0;
         }
     }
-    MUSICAL_MCSS_FreeRenderObj(((struct Obj10320 *)p)->fC, ((struct Obj10321 *)q)->f58);
-    ((struct Obj10321 *)q)->f0 = 0;
+    MUSICAL_MCSS_FreeRenderObj((int)((BillboardImage *)p)->renderObj, (int)((Elem *)q)->renderElem);
+    ((Elem *)q)->value = 0;
 }
 
 

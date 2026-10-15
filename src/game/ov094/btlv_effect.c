@@ -359,7 +359,7 @@ void BTLV_B_GAUGE_DeletePartyBallBar(BtlvPartyBallBar *bar);
 
 int BTLV_B_GAUGE_IsPartyBallBarActive(BtlvPartyBallBar *bar);
 
-extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *ctx);
+extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
@@ -1739,7 +1739,7 @@ int BTLV_EFFECT_IsRecordAllowed(void)
  */
 void BTLV_EFFECT_SetAllPokeSpriteAnim(int a)
 {
-    Slot_021F6560 i;
+    BtlvSlotIndex i;
 
     for (i = 0; i < 8; i++) {
         if (BTLV_MCSS_IsSpriteLoaded(gBtlvEff->mcss, i) != 0)

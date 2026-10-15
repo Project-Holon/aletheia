@@ -12,7 +12,7 @@
  * Draws the current page of the +0x32 list through 0x021CBED8; kinds 2, 3, 7, 8 draw two pages with the slot tags.
  *
  * symbols:
- *   func_0200DA54  0x0200DA54  thumb
+ *   GDS_PROFILE_GetFieldRecCount03  0x0200DA54  thumb
  *   func_0200DEA8  0x0200DEA8  thumb
  *   BSUBWAY_SCR_CreateTrainer  0x021CBED8  thumb
  * Addresses are Black-image addresses.
@@ -31,13 +31,13 @@ typedef struct {
 } Slot;
 
 struct Blk3C;
-extern u16 func_0200DA54(struct Blk3C *p);
+extern u16 GDS_PROFILE_GetFieldRecCount03(struct Blk3C *p);
 extern void func_0200DEA8(u32 h, u8 *list, u8 n, u16 id);
 extern u8 BSUBWAY_SCR_CreateTrainer(u32 unused, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 void BSUBWAY_SCR_CreateRoundTrainers(u8 *p)
 {
-    u32 n = func_0200DA54((struct Blk3C *)(((struct Obj01671 *)p)->f70));
+    u32 n = GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)(((struct Obj01671 *)p)->f70));
     int i;
     u32 j;
     u16 tags[2];

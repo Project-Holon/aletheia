@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: PSEL_SetAnimFrame
  * address:  0x021B95A0
  * packet:   pkt_ov223_021B95A0
  * region:   ov223
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * This address is also matched as func_021B95A0 in ov217; the ov223 copy is a
+ * This address is also matched as PSEL_SetAnimFrame in ov217; the ov223 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
@@ -20,7 +20,7 @@
 
 extern int ICA_ANIME_SetFrame(int, int);
 
-int func_021B95A0(int a0, int a1)
+int PSEL_SetAnimFrame(int a0, int a1)
 {
     return ICA_ANIME_SetFrame(a0, a1 / 2);
 }

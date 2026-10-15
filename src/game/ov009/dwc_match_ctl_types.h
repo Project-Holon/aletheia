@@ -16,7 +16,18 @@ typedef unsigned long long u64;
 #endif
 
 #include "qr2_types.h"
-#include "../../matched/include/G_NNThinkGlobal.h"
+
+/* g_021AAA20 / s_bInNNThink: the NN-think reentrancy guard and its filter. */
+struct DWCstMatchControl;
+
+typedef struct NNThinkGlobal {
+    int bInNNThink;                 /* +0x00 */
+    struct DWCstMatchControl *pMatch; /* +0x04 */
+    int bNNFreeNegotiateList;       /* +0x08 */
+    char *addFilter;                /* +0x0C */
+    int needSbFree;                 /* +0x10 */
+    int sbCallbackLevel;            /* +0x14 */
+} NNThinkGlobal;
 
 struct SBServer;
 

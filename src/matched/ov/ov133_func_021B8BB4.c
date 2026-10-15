@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BB4
+ * function: DUP_FITTING_FindNearestFrame
  * address: 0x021B8BB4
  * packet: pkt_ov133_021B8BB4
  * region: ov133
@@ -26,7 +26,7 @@ static inline int coordinate(int value, Index offset)
 {
     return (int)((float)value / 4096.0f) - offset;
 }
-int func_021B8BB4(u8 *p, void *manager, const int *pos, u16 *limit)
+int DUP_FITTING_FindNearestFrame(u8 *p, void *manager, const int *pos, u16 *limit)
 {
     u16 distance;
     int best;

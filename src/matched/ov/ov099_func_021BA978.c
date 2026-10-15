@@ -24,7 +24,7 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -54,7 +54,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern u32 PRINTSYS_PrintStream(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j);
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
@@ -86,7 +86,7 @@ void WIFICLUB_PrintTalkMessage(char *p, int a1, int a2, int a3)
     } else {
         u32 t = MSG_SPEED_GetWait();
         *(u32 *)(p + (k + 0xBD)) = PRINTSYS_PrintStream(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
-        func_02028470((u8 *)(p + 0x26C), 2);
+        PRINTSYS_CTRL_Init((u8 *)(p + 0x26C), 2);
     }
     BMP_WIN_TransferChars((struct Descriptor *)(*(u32 *)(p + 0x190)));
     BMP_WIN_MakeScreen((struct Cfg *)(*(u32 *)(p + 0x190)));

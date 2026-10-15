@@ -1,5 +1,5 @@
 /*
- * function: func_0202EDE4
+ * function: COMM_HISTORY_ScaleValue
  * address:  0x0202EDE4
  * packet:   pkt_0202ECB0
  * region:   arm9
@@ -17,15 +17,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202EDE4.c \
- *       --func func_0202EDE4 --addr 0x0202EDE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/COMM_HISTORY_ScaleValue.c \
+ *       --func COMM_HISTORY_ScaleValue --addr 0x0202EDE4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 _u32_div_f(u32 a, u32 b);
 
-u32 func_0202EDE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+u32 COMM_HISTORY_ScaleValue(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
     u32 h  = a4 >> 1;
     u32 lo = a2 + h;

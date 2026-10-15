@@ -1,5 +1,5 @@
 /*
- * function: func_021BF924
+ * function: DEMO3D_CMDSYS_Release
  * address: 0x021BF924
  * packet: pkt_ov203_021BF924
  * region: ov203
@@ -29,7 +29,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern int GFL_USE_PopBgm(void);
-void func_021BF924(char *p)
+void DEMO3D_CMDSYS_Release(char *p)
 {
     if(((struct Obj02250 *)p)->f2C) DEMO3D_DATA_DeleteCapture(((struct Obj02250 *)p)->f2C);
     TCBL_DeleteAllTasks(((struct Obj02250 *)p)->f20);

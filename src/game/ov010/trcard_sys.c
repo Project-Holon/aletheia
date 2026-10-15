@@ -85,7 +85,7 @@
  *   GAME_DATA_GetSaveBlock3A  0x02012EF0  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   ZUKAN_SAVE_IsNationalCaughtComplete  0x0200D298  thumb
- *   func_0200DBA0  0x0200DBA0  thumb
+ *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb
  *   MUSICAL_SAVE_HasAllProps  0x0200A73C  thumb
  *   INTRUDE_GetMissionScore  0x0200BDF8  thumb
  *   INTRUDE_GetMissionBonusScore  0x0200BDFC  thumb
@@ -280,7 +280,7 @@ extern u16 STRBUF_GetEosChar(void);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *GAME_DATA_GetSaveBlock2A(void *save);
 extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *p);
-extern u32 func_0200DBA0(struct FlagSave *p, s32 i, u32 op);
+extern u32 GDS_PROFILE_ScoreRecFlag(struct FlagSave *p, s32 i, u32 op);
 extern u32 MUSICAL_SAVE_HasAllProps(struct PlayerSave *p);
 extern u16 INTRUDE_GetMissionScore(struct BattleRecSave *p);
 extern u16 INTRUDE_GetMissionBonusScore(struct BattleRecSave *p);
@@ -805,7 +805,7 @@ int TRCARD_SYS_CountStars(void *save)
         n++;
     if (ZUKAN_SAVE_IsNationalCaughtComplete(ZUKAN_SAVE_GetFromGameData(save)))
         n++;
-    if (func_0200DBA0(a, 7, 0) && func_0200DBA0(a, 8, 0))
+    if (GDS_PROFILE_ScoreRecFlag(a, 7, 0) && GDS_PROFILE_ScoreRecFlag(a, 8, 0))
         n++;
     if (MUSICAL_SAVE_HasAllProps(b))
         n++;

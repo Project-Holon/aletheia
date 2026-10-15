@@ -11,7 +11,7 @@
  *
  * symbols:
  *   EL_SCOREBOARD_SetupDisplay  0x02187860  thumb  ov020
- *   func_0202E8A4  0x0202E8A4  thumb
+ *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   EL_SCOREBOARD_LoadSeasonGraphics  0x0218794C  thumb  ov020
  *   func_02040588  0x02040588  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 void EL_SCOREBOARD_SetupDisplay(char *p);
-u8 func_0202E8A4(u8 x);
+u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x);
 void EL_SCOREBOARD_LoadSeasonGraphics(int a, int b);
 void func_02040588(unsigned char which, unsigned char enable);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -50,7 +50,7 @@ void EL_SCOREBOARD_EnterState(char *o, int *p, int st)
         EL_SCOREBOARD_SetupDisplay(o);
         break;
     case 1:
-        ((struct Obj01207 *)o)->f15 = func_0202E8A4(((struct Obj01207 *)o)->f15);
+        ((struct Obj01207 *)o)->f15 = COMM_PLAYER_SUPPORT_NextSeason(((struct Obj01207 *)o)->f15);
         EL_SCOREBOARD_LoadSeasonGraphics(((struct Obj01207 *)o)->f15, ((struct Obj01207 *)o)->f8);
         break;
     case 2:

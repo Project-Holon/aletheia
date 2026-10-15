@@ -1,5 +1,5 @@
 /*
- * function: func_0202F870
+ * function: APP_POWER_LoadShutdownScreen
  * address:  0x0202F870
  * packet:   pkt_0202F7C4
  * region:   arm9
@@ -42,8 +42,8 @@
  * an-assignment-inside-a-call-argument-pins-the-load-in-a-callee-saved-register.md
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202F870.c \
- *       --func func_0202F870 --addr 0x0202F870 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/APP_POWER_LoadShutdownScreen.c \
+ *       --func APP_POWER_LoadShutdownScreen --addr 0x0202F870 --cc 1.1p1 --thumb
  *   -> EXACT, 208 bytes, 20/20 relocation sites resolved (all `label`)
  */
 
@@ -65,7 +65,7 @@ extern void *G2_GetBG1ScrPtr(void);
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
-void func_0202F870(void)
+void APP_POWER_LoadShutdownScreen(void)
 {
     u32 *p1;
     u32 *p2;

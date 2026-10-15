@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BB3BC, func_021BB404, func_021BB414
+ * function: PSEL_ShowTaskRes, PSEL_DeleteTaskRes, PSEL_UpdateB414
  * address: 0x021BB3BC
  * packet: pkt_ov223_021BB3BC
  * region: ov223
@@ -28,7 +28,7 @@ extern unsigned APP_TASKMENU_WIN_Create(unsigned, unsigned, unsigned, unsigned, 
 extern void STRBUF_Delete(struct U16Vec *);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 extern void APP_TASKMENU_WIN_Update(u8 *);
-void func_021BB3BC(char *p)
+void PSEL_ShowTaskRes(char *p)
 {
     struct Item item;
     item.text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00084 *)p)->f234, 21);
@@ -37,11 +37,11 @@ void func_021BB3BC(char *p)
     *(unsigned *)&((struct Obj00084 *)p)->f260 = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
     STRBUF_Delete(item.text);
 }
-void func_021BB404(char *p)
+void PSEL_DeleteTaskRes(char *p)
 {
     APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct Obj00084 *)p)->f260);
 }
-void func_021BB414(char *p)
+void PSEL_UpdateB414(char *p)
 {
     APP_TASKMENU_WIN_Update(*(u8 * *)&((struct Obj00084 *)p)->f260);
 }

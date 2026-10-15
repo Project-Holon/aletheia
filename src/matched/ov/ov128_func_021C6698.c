@@ -1,5 +1,5 @@
 /*
- * function: func_021C6698
+ * function: Wf2dmapFriend_SetVramBanks
  * address:  0x021C6698
  * packet:   pkt_021C6698
  * region:   ov128
@@ -20,7 +20,7 @@ struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern char d_021CA5CC[];
 
-void func_021C6698(void *a0)
+void Wf2dmapFriend_SetVramBanks(void *a0)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)d_021CA5CC);
 }

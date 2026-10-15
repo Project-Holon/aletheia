@@ -10,20 +10,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202E888, sub_0202E8A4, sub_0202E8B8, sub_0202E8CC
+ * function: COMM_PLAYER_SUPPORT_GetSeasonFromClock, COMM_PLAYER_SUPPORT_NextSeason, COMM_PLAYER_SUPPORT_PrevSeason, COMM_PLAYER_SUPPORT_SetSeason
  *
  * symbols:
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
  *
- * Four small date helpers. sub_0202E888 asks the ARM clock getter for a
+ * Four small date helpers. COMM_PLAYER_SUPPORT_GetSeasonFromClock asks the ARM clock getter for a
  * 0x10-byte record and reduces its second word to a two-bit value;
- * sub_0202E8A4 and sub_0202E8B8 step that value forwards and backwards
+ * COMM_PLAYER_SUPPORT_NextSeason and COMM_PLAYER_SUPPORT_PrevSeason step that value forwards and backwards
  * around the same four-element cycle.
  *
  * The `lsrs #0x1F` / `lsls #0x1E` / `subs` / `rors #0x1E` quartet in the
  * two steppers is a signed `% 4` and nothing else: `& 3` is a two
- * instruction `movs`/`ands`, which is exactly what sub_0202E888 uses at
+ * instruction `movs`/`ands`, which is exactly what COMM_PLAYER_SUPPORT_GetSeasonFromClock uses at
  * the top, and `/ 4` carries a different rounding correction. Both
  * spellings appear four instructions apart in the same 80 bytes, so the
  * pair of them pins the signedness of each operand independently.
@@ -31,7 +31,7 @@
  * The `lsls #0x18` / `lsrs #0x18` at the end of all three is the `(u8)`
  * return type.
  *
- * sub_0202E8CC is a twelve byte pool-word-and-bx tail call
+ * COMM_PLAYER_SUPPORT_SetSeason is a twelve byte pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) that narrows its
  * second argument to `u8` on the way through. It nearly cost the file a
  * cut: the pool word at 0x0202E8D4 is the only occurrence of 0x0201298D
@@ -61,7 +61,7 @@ struct RtcDate;
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u8 GAME_DATA_SetSeason(s32 a, u8 b);
 
-u8 sub_0202E888(void)
+u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void)
 {
     struct Date0202E888 d;
 
@@ -69,17 +69,17 @@ u8 sub_0202E888(void)
     return (u8)((d.unk04 - 1) & 3);
 }
 
-u8 sub_0202E8A4(u8 x)
+u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x)
 {
     return (u8)((x + 1) % 4);
 }
 
-u8 sub_0202E8B8(s32 x)
+u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 x)
 {
     return (u8)((x + 3) % 4);
 }
 
-u8 sub_0202E8CC(s32 a, s32 b)
+u8 COMM_PLAYER_SUPPORT_SetSeason(s32 a, s32 b)
 {
     return GAME_DATA_SetSeason(a, (u8)b);
 }

@@ -36,7 +36,7 @@
  *   BEACON_CountFlags 0x0200C258 thumb
  *   func_02045EC0  0x02045EC0  arm
  *   BEACON_GetPoints  0x0200C274  thumb
- *   func_0200DABC  0x0200DABC  thumb
+ *   GDS_PROFILE_GetScoreRecTotal  0x0200DABC  thumb
  *   func_02007FB8  0x02007FB8  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   _u32_div_f     0x0209C2B0  arm
@@ -57,7 +57,7 @@
  *   func_02008DAC  0x02008DAC  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   BEACON_SubPoints  0x0200C29C  thumb
- *   func_0200DA98  0x0200DA98  thumb
+ *   GDS_PROFILE_SubScoreRecTotal  0x0200DA98  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_MENULIST_Redraw  0x02020234  thumb
@@ -395,7 +395,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern int BEACON_CountFlags(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 BEACON_GetPoints(struct Blk34 *p);
-extern u16 func_0200DABC(struct Blk1AC *p);
+extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
 extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_0200823C(u32 a);
@@ -413,7 +413,7 @@ extern u32 KEY_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 BEACON_SubPoints(struct Blk34 *p, u32 v);
-extern void func_0200DA98(struct Blk1AC *p, u16 v);
+extern void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
@@ -828,7 +828,7 @@ u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *shop)
     if (shop->usesBattlePoints == 0) {
         return BEACON_GetPoints((struct Blk34 *)(shop->moneyData));
     } else {
-        return func_0200DABC((struct Blk1AC *)(shop->battlePointData));
+        return GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(shop->battlePointData));
     }
 }
 
@@ -967,7 +967,7 @@ void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
         BEACON_SubPoints((struct Blk34 *)(shop->moneyData), cost);
         func_02008DAC((struct Sub02008C20Obj *)(shop->recordData), 0x16, cost);
     } else {
-        func_0200DA98((struct Blk1AC *)(shop->battlePointData), cost);
+        GDS_PROFILE_SubScoreRecTotal((struct Blk1AC *)(shop->battlePointData), cost);
         func_02008DAC((struct Sub02008C20Obj *)(shop->recordData), 0x22, cost);
     }
     func_02008DF0((struct Sub02008C20Obj *)(shop->recordData), 0x15);
@@ -1511,7 +1511,7 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     if (shop->usesBattlePoints == 1) {
         formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x16);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);
-        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, func_0200DABC((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
     } else {
         formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x15);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);

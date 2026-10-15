@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B48
+ * function: DUP_FITTING_CreateText
  * address: 0x021B9B48
  * packet: pkt_ov133_021B9B48
  * region: ov133
@@ -25,7 +25,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
-void func_021B9B48(u8 *p)
+void DUP_FITTING_CreateText(u8 *p)
 {
     ((struct Obj02197 *)p)->f18E4 = GF_FONT_Create(23, 0, 0, 0, ((struct Obj02197 *)p)->f0);
     ((struct Obj02197 *)p)->f18D8 = func_02045B38(0, 2, 33, ((struct Obj02197 *)p)->f0);

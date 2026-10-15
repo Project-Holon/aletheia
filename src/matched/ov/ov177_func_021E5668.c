@@ -1,5 +1,5 @@
 /*
- * function: func_021E5668
+ * function: WIFIBATTLEMATCH_GRAPHIC_DrawClact
  * address:  0x021E5668
  * packet:   pkt_ov177_021E5668
  * region:   ov177
@@ -22,7 +22,7 @@ typedef signed int s32;
 
 extern void CLACT_DrawSystem(void);
 
-void func_021E5668(void *p)
+void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p)
 {
     CLACT_DrawSystem();
 }

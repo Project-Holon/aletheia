@@ -10,7 +10,14 @@
 
 #include "dwc_login_types.h"
 #include "dwc_match_ctl_types.h"
-#include "../../matched/include/G_DwcGlobal.h"
+
+/* g_021AA878: the DWC global, one per process. */
+struct DWCstDwcCnt;
+
+typedef struct DwcGlobal {
+    int lastSocketError;            /* +0x00 */
+    struct DWCstDwcCnt *st;         /* +0x04 */
+} DwcGlobal;
 
 typedef struct DWCstGt2Callbacks {
     void (*connected)(void *connection, int result);        /* +0x00 */

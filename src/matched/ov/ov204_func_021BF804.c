@@ -1,5 +1,5 @@
 /*
- * function: func_021BF804
+ * function: INTRO_G3D_MoveSlot
  * address: 0x021BF804
  * packet: pkt_ov204_021BF804
  * region: ov204
@@ -21,7 +21,7 @@ extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void MCSS_SetAnmStopFlag(void *);
 
-int func_021BF804(char *p, unsigned int i, int step, int limit)
+int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit)
 {
     struct Vec pos;
     char *base = p + 8;

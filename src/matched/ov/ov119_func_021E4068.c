@@ -13,17 +13,22 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb  arm9
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb  arm9
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb  arm9
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb  arm9
  */
 #include "../include/Obj03780.h"
 typedef unsigned short u16;
 
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern u32 func_020275E4(void);
-extern u32 func_02027618(void);
-extern u32 func_02027614(void);
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 extern void *func_020490F4(u32 id, u32 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -34,11 +39,11 @@ void POKETRADE_2D_RegisterIconCharResources(char *p)
     void *v;
     int a;
     if (((struct Obj03780 *)p)->f888 == 0) {
-        v = func_020490F4(func_020275E4(), ((struct Obj03780 *)p)->f5F4);
-        ((struct Obj03780 *)p)->f8A4 = CLACT_RegisterCharacter(v, func_02027618(), 0, 1, ((struct Obj03780 *)p)->f5F4);
-        ((struct Obj03780 *)p)->f888 = CLACT_RegisterPaletteEx(v, func_02027614(), 1, 0, 0, 3, ((struct Obj03780 *)p)->f5F4);
-        a = func_0202761C(2);
-        ((struct Obj03780 *)p)->f8B8 = CLACT_RegisterCellAnim(v, a, func_02027620(2), ((struct Obj03780 *)p)->f5F4);
+        v = func_020490F4(APP_ICON_GetArchiveId(), ((struct Obj03780 *)p)->f5F4);
+        ((struct Obj03780 *)p)->f8A4 = CLACT_RegisterCharacter(v, APP_ICON_GetMoveKindAnimFileId(), 0, 1, ((struct Obj03780 *)p)->f5F4);
+        ((struct Obj03780 *)p)->f888 = CLACT_RegisterPaletteEx(v, APP_ICON_GetMoveKindPaletteFileId(), 1, 0, 0, 3, ((struct Obj03780 *)p)->f5F4);
+        a = APP_ICON_GetStatusCellFileId(2);
+        ((struct Obj03780 *)p)->f8B8 = CLACT_RegisterCellAnim(v, a, APP_ICON_GetStatusPaletteFileId(2), ((struct Obj03780 *)p)->f5F4);
         ARC_TOOL_DeleteHandle(v);
     }
 }

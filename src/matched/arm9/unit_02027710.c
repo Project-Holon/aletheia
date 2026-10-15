@@ -1,10 +1,10 @@
 /*
  * unit:     yes
- * function: func_02027710, func_02027714, func_02027718, func_0202771C,
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
+ * function: APP_ICON_GetBallCellFileId, APP_ICON_GetBallPaletteFileId, APP_ICON_GetBallAnimFileId, APP_ICON_GetBallFrameFileId,
+ *           APP_ICON_GetBallThrowCellFileId, APP_ICON_GetBallThrowAnimFileId, APP_ICON_GetBallOpenCellFileId, APP_ICON_GetBallOpenPaletteFileId,
+ *           APP_ICON_GetBallOpenAnimFileId, APP_ICON_GetEffectCellFileId, APP_ICON_GetEffectPaletteFileId, APP_ICON_GetEffectAnimFileId,
+ *           APP_ICON_GetNoneFileId, APP_ICON_GetGearCellFileId, APP_ICON_GetGearPaletteFileId, APP_ICON_GetGearAnimFileId,
+ *           APP_ICON_GetGearDataFileId, APP_ICON_GetGearExtraFileId, APP_ICON_GetGearFrameFileId, APP_ICON_GetGearAnim2FileId
  * address:  0x02027710
  * packet:   pkt_020274B4
  * region:   arm9
@@ -21,27 +21,27 @@
  *       --addr 0x02027710 --thumb --cc 1.1p1
  */
 
-int func_02027710(int a)
+int APP_ICON_GetBallCellFileId(int a)
 {
     return a + 0x51;
 }
 
-int func_02027714(int a)
+int APP_ICON_GetBallPaletteFileId(int a)
 {
     return a + 0x54;
 }
 
-int func_02027718(int a)
+int APP_ICON_GetBallAnimFileId(int a)
 {
     return a + 0xa6;
 }
 
-int func_0202771C(int a)
+int APP_ICON_GetBallFrameFileId(int a)
 {
     return a + 0xa9;
 }
 
-int func_02027720(int a)
+int APP_ICON_GetBallThrowCellFileId(int a)
 {
     if (a == 0) {
         a = 4;
@@ -49,7 +49,7 @@ int func_02027720(int a)
     return a + 0x56;
 }
 
-int func_0202772C(int a)
+int APP_ICON_GetBallThrowAnimFileId(int a)
 {
     if (a == 0) {
         a = 4;
@@ -57,72 +57,72 @@ int func_0202772C(int a)
     return a + 0x6f;
 }
 
-int func_02027738(int dummy, int b)
+int APP_ICON_GetBallOpenCellFileId(int dummy, int b)
 {
     return b + 0x89;
 }
 
-int func_02027740(int dummy, int b)
+int APP_ICON_GetBallOpenPaletteFileId(int dummy, int b)
 {
     return b + 0x8c;
 }
 
-int func_02027748(void)
+int APP_ICON_GetBallOpenAnimFileId(void)
 {
     return 0x8f;
 }
 
-int func_0202774C(int a)
+int APP_ICON_GetEffectCellFileId(int a)
 {
     return a + 0x90;
 }
 
-int func_02027750(int a)
+int APP_ICON_GetEffectPaletteFileId(int a)
 {
     return a + 0x93;
 }
 
-int func_02027754(int a)
+int APP_ICON_GetEffectAnimFileId(int a)
 {
     return a + 0x96;
 }
 
-int func_02027758(void)
+int APP_ICON_GetNoneFileId(void)
 {
     return 0;
 }
 
-int func_0202775C(int a)
+int APP_ICON_GetGearCellFileId(int a)
 {
     return a + 2;
 }
 
-int func_02027760(int a)
+int APP_ICON_GetGearPaletteFileId(int a)
 {
     return a + 5;
 }
 
-int func_02027764(int a)
+int APP_ICON_GetGearAnimFileId(int a)
 {
     return a + 8;
 }
 
-int func_02027768(void)
+int APP_ICON_GetGearDataFileId(void)
 {
     return 0x99;
 }
 
-int func_0202776C(int a)
+int APP_ICON_GetGearExtraFileId(int a)
 {
     return a + 0x9a;
 }
 
-int func_02027770(int a)
+int APP_ICON_GetGearFrameFileId(int a)
 {
     return a + 0x9d;
 }
 
-int func_02027774(int a)
+int APP_ICON_GetGearAnim2FileId(int a)
 {
     return a + 0xa0;
 }

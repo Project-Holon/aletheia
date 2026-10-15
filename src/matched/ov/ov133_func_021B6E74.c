@@ -1,5 +1,5 @@
 /*
- * function: func_021B6E74
+ * function: DUP_FITTING_InitRenderObj
  * address: 0x021B6E74
  * packet: pkt_ov133_021B6E74
  * region: ov133
@@ -29,7 +29,7 @@ extern void MUSICAL_MCSS_TickAnim(u8 *);
 extern void MUSICAL_MCSS_DrawRenderObj(void **p);
 extern u8 *MUSICAL_MCSS_GetRenderFlags(u8 *p);
 extern void MUSICAL_MCSS_GetRenderPos(int *p, int *q);
-void func_021B6E74(u8 *p)
+void DUP_FITTING_InitRenderObj(u8 *p)
 {
     int v[3];
     int *q;

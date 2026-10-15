@@ -1,5 +1,5 @@
 /*
- * function: func_0202F358
+ * function: SAVE_EVENT_StoreVariant
  * address:  0x0202F358
  * packet:   pkt_0202F30C
  * region:   arm9
@@ -19,8 +19,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202F358.c \
- *       --func func_0202F358 --addr 0x0202F358 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_EVENT_StoreVariant.c \
+ *       --func SAVE_EVENT_StoreVariant --addr 0x0202F358 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef unsigned int  u32;
 
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
-void func_0202F358(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
+void SAVE_EVENT_StoreVariant(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
 {
     u8 base = (a5 == 1);
 

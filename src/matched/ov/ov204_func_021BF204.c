@@ -1,5 +1,5 @@
 /*
- * function: func_021BF204
+ * function: INTRO_MSG_SetMsgBank
  * address:  0x021BF204
  * packet:   pkt_021BF204
  * region:   ov204
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-void func_021BF204(char *p, void *a, void *b)
+void INTRO_MSG_SetMsgBank(char *p, void *a, void *b)
 {
     if (((struct Obj08384 *)p)->fC != 0)
     {

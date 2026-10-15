@@ -24,7 +24,7 @@
  *   func_020490F4  0x020490F4  arm
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
  *   PROCSYS_Create  0x02031324  arm
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   func_020056A0  0x020056A0  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   ICA_ANIME_GetField24  0x02012138  thumb
@@ -75,7 +75,7 @@
  *   func_020498F4  0x020498F4  arm
  *   func_02049658  0x02049658  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
- *   func_02027634  0x02027634  thumb
+ *   APP_ICON_LoadTouchBar  0x02027634  thumb
  *   func_020409B4  0x020409B4  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   TCBL_Create  0x0203101C  arm
@@ -186,7 +186,7 @@
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   d_021BABF4     0x021BABF4  data  a1
- *   func_02028484  0x02028484  thumb
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355C4  0x020355C4  arm
@@ -389,7 +389,7 @@ typedef struct {
 
 typedef long long s64;
 
-typedef enum { FALSE, TRUE } Bool_021B9070;
+typedef enum { FALSE, TRUE } BoolFlag;
 
 typedef struct {
     char pad0[0x2c];
@@ -409,7 +409,7 @@ extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void *PROCSYS_Create(int a0);
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
@@ -447,7 +447,7 @@ extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, 
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
-extern void func_02027634(void *arc, int id, u32 heap, int base, u32 pal);
+extern void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal);
 extern void func_020409B4(u32 a);
 extern void BG_SYS_DeleteHalf(u32, u32, u32);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
@@ -547,7 +547,7 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u32 a8, u32 a9);
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
@@ -853,7 +853,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     work->entryTable = GPOWER_LoadPowerTable(0x61);
     work->topProcSys = (int)PROCSYS_Create(0x61);
     work->subProcSys = (int)PROCSYS_Create(0x61);
-    func_02028470(work->scratchList, 6);
+    PRINTSYS_CTRL_Init(work->scratchList, 6);
     work->vblankTask = func_020056A0((void (*)(void))MONOLITH_TOOL_VBlankTask, work, 0xA);
     GFL_NET_RestartWithDefaultTimeout(0, 0x61);
     work->procArgs.setup = setup;
@@ -1094,7 +1094,7 @@ void MONOLITH_TOOL_LoadGraphics(MonolithToolWork *work, MonolithToolWork *work2)
     h = func_020490F4(0x53, 0x61);
     work->subBgCharOffset = BG_SYS_CreateRun(7, 0x80, 1);
     func_02049658(h, 0x1c, 7, work->subBgCharOffset, 0x80, 0, 0x61);
-    func_02027634(h, 7, 0x61, work->subBgCharOffset, 0xc);
+    APP_ICON_LoadTouchBar(h, 7, 0x61, work->subBgCharOffset, 0xc);
     PALANM_LoadHandlePaletteToSlot(work2->palAnm, h, 0x1b, 0x61, 1, 0x20, 0xc0);
     ARC_TOOL_DeleteHandle(h);
     func_020409B4(7);
@@ -2233,7 +2233,7 @@ void MONOLITH_TOOL_SLOT_SELECT_ShowMessage(MonolithToolSlotSelect *screen, Monol
 
 
 
-int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(MonolithToolWork *work, MonolithToolSlotSelect *screen) { return func_02028484((struct Blk *)work->scratchList, screen->msgPrinter); }
+int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(MonolithToolWork *work, MonolithToolSlotSelect *screen) { return PRINTSYS_CTRL_Update((struct Blk *)work->scratchList, screen->msgPrinter); }
 
 
 
@@ -2882,7 +2882,7 @@ void func_021B83CC(MonolithToolMenu *screen, MonolithToolWork *work, unsigned ms
 
 int func_021B8434(MonolithToolWork *work, MonolithToolMenu *screen)
 {
-    return func_02028484((struct Blk *)work->scratchList, screen->messageBox);
+    return PRINTSYS_CTRL_Update((struct Blk *)work->scratchList, screen->messageBox);
 }
 
 
@@ -3776,7 +3776,7 @@ void MONOLITH_TOOL_LIST_LoadGraphics(MonolithListWork *work, MonolithToolWork *t
     res = func_020490F4(0x53, 0x61);
     work->bgCharOffset = BG_SYS_CreateRun(5, 0x80, 1);
     func_02049658(res, 0x1c, 5, work->bgCharOffset, 0x80, 0, 0x61);
-    func_02027634(res, 5, 0x61, work->bgCharOffset, 0xc);
+    APP_ICON_LoadTouchBar(res, 5, 0x61, work->bgCharOffset, 0xc);
     ARC_TOOL_DeleteHandle(res);
     func_020409B4(5);
     func_020409B4(6);
@@ -3876,7 +3876,7 @@ void MONOLITH_TOOL_LIST_ShowFormattedMessage(MonolithListWork *work, MonolithToo
  */
 int MONOLITH_TOOL_LIST_IsMessageDone(MonolithToolWork *toolWork, MonolithListWork *work)
 {
-    return func_02028484((struct Blk *)toolWork->scratchList, work->messagePrinter);
+    return PRINTSYS_CTRL_Update((struct Blk *)toolWork->scratchList, work->messagePrinter);
 }
 
 

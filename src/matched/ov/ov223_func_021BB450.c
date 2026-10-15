@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BB450, func_021BB4D8, func_021BB4E8, func_021BB4F8
+ * function: PSEL_GRAPHIC_OpenMenu, PSEL_GRAPHIC_CloseMenu, PSEL_GRAPHIC_UpdateMenu, PSEL_GRAPHIC_IsMenuFinished
  * address: 0x021BB450
  * packet: pkt_ov223_021BB450
  * region: ov223
@@ -44,7 +44,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
 extern void APP_TASKMENU_UpdateMenu(Obj *);
 extern unsigned APP_TASKMENU_IsFinish(struct TaskMenu *);
-void func_021BB450(char *p)
+void PSEL_GRAPHIC_OpenMenu(char *p)
 {
     struct TaskMenuTmpl tmpl;
     struct Item items[2];
@@ -70,15 +70,15 @@ void func_021BB450(char *p)
     for (i = 0; i < 2; i++)
         STRBUF_Delete(items[i].text);
 }
-void func_021BB4D8(char *p)
+void PSEL_GRAPHIC_CloseMenu(char *p)
 {
     APP_TASKMENU_CloseMenu(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
 }
-void func_021BB4E8(char *p)
+void PSEL_GRAPHIC_UpdateMenu(char *p)
 {
     APP_TASKMENU_UpdateMenu(*(Obj * *)&((struct Obj00084 *)p)->f264);
 }
-unsigned func_021BB4F8(char *p)
+unsigned PSEL_GRAPHIC_IsMenuFinished(char *p)
 {
     return APP_TASKMENU_IsFinish(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
 }

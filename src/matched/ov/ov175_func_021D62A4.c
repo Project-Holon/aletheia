@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02012944 0x02012944 thumb
- *   func_021E5548 0x021E5548 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02008554 0x02008554 thumb
@@ -22,7 +22,7 @@ typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } Desc;
 typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
-extern int func_021E5548(int *);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
@@ -36,7 +36,7 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode)
     Desc desc;
     if(p[6]==0) {
         sys=(u32)func_02012944((void *)REC[0]);
-        base=func_021E5548((int *)p[0]);
+        base=WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]);
         MI_CpuFill8(&desc,0,20);
         if(mode==0) {
             desc.kind=REC[1]; flag=1;

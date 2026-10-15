@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC70
+ * function: PSEL_SetBgSys
  * address: 0x021BAC70
  * packet: pkt_ov223_021BAC70
  * region: ov223
@@ -24,7 +24,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
-void func_021BAC70(const u16 *p)
+void PSEL_SetBgSys(const u16 *p)
 {
     u16 *buffer;
     u8 x;

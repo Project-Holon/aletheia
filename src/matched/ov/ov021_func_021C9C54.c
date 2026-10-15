@@ -13,7 +13,7 @@
  *
  * symbols:
  *   BSUBWAY_SCR_GetMemberNum  0x021CA270  thumb
- *   func_0200D884  0x0200D884  thumb
+ *   GDS_PROFILE_GetFieldRecField  0x0200D884  thumb
  *   BSUBWAY_SCR_GetParty  0x021CA210  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -33,7 +33,7 @@ typedef struct {
 
 extern int BSUBWAY_SCR_GetMemberNum(u16 kind);
 struct Blk3C;
-extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
+extern u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
 extern void *BSUBWAY_SCR_GetParty(u8 *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *m, u32 id, u32 v);
@@ -45,7 +45,7 @@ void BSUBWAY_SCR_LoadMembers(u8 *p, u32 x)
     u32 m;
 
     p[8] = BSUBWAY_SCR_GetMemberNum(p[9]);
-    func_0200D884((struct Blk3C *)(((struct Obj00116 *)p)->f70), 5, p + 0x1e);
+    GDS_PROFILE_GetFieldRecField((struct Blk3C *)(((struct Obj00116 *)p)->f70), 5, p + 0x1e);
     h = BSUBWAY_SCR_GetParty(p);
     for (i = 0; i < p[8]; i++) {
         m = (u32)POKEPARTY_GetMember(h, p[0x1e + i]);

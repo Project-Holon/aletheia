@@ -1,5 +1,5 @@
 /*
- * function: func_021E5604
+ * function: WIFIBATTLEMATCH_GRAPHIC_TickDisplay
  * address:  0x021E5604
  * packet:   pkt_ov177_021E5604
  * region:   ov177
@@ -22,7 +22,7 @@ typedef signed int s32;
 
 extern void BG_SYS_Update(void);
 
-void func_021E5604(int *a0)
+void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *a0)
 {
     BG_SYS_Update();
 }

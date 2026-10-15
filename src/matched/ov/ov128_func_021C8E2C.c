@@ -16,7 +16,7 @@
  *   WF2DMAP_TOUCH_PlayActorAnimA 0x021CA3A0 thumb ov128
  *   WF2DMAP_TOUCH_PlayActorAnimB 0x021CA3C4 thumb ov128
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_021C6438 0x021C6438 thumb ov128
+ *   Wf2dmapFriend_SetState 0x021C6438 thumb ov128
  *   WF2DMAP_TOUCH_ClearScreens 0x021C91CC thumb ov128
  *   WF2DMAP_TOUCH_DeleteScreens 0x021C9154 thumb ov128
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -34,7 +34,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void WF2DMAP_TOUCH_PlayActorAnimA(char *p);
 extern void WF2DMAP_TOUCH_PlayActorAnimB(char *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_021C6438(u8 *p, u8 a, u8 b);
+extern void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
 extern void WF2DMAP_TOUCH_ClearScreens(char *p, void *q);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -63,7 +63,7 @@ int WF2DMAP_TOUCH_FriendKeyScreen(void *p, u8 *q, u8 *r, int heap)
         break;
     case 2:
         if (CLACT_IsActorAnimActive(((struct Obj03813 *)r)->f164) != 1) {
-            func_021C6438(q, 0, 2);
+            Wf2dmapFriend_SetState(q, 0, 2);
             WF2DMAP_TOUCH_ClearScreens(p, r);
             WF2DMAP_TOUCH_DeleteScreenThunk(p, q, r);
             return 1;
@@ -78,7 +78,7 @@ int WF2DMAP_TOUCH_FriendKeyScreen(void *p, u8 *q, u8 *r, int heap)
         break;
     case 5:
         if (WIPE_SYS_EndCheck() == 1) {
-            func_021C6438(q, 6, 0);
+            Wf2dmapFriend_SetState(q, 6, 0);
             WF2DMAP_TOUCH_DeleteScreenThunk(p, q, r);
             return 1;
         }

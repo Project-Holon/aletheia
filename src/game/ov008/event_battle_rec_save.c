@@ -98,9 +98,6 @@
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_0215513C     0x0215513C  data  ov008  a4
  */
-#include "../../matched/include/Obj18644.h"
-#include "../../matched/include/Obj18645.h"
-
 struct Obj0203159C;
 struct S020315D4;
 struct S020314B8;
@@ -164,6 +161,18 @@ typedef struct {
     int recordWorkAllocated;
 } BattleRecordCtx;
 
+/* The procsys proc work made by EVENT_BATTLE_REC_SAVE_ProcInit (0x1c bytes). */
+typedef struct EventBattleRecSaveProc {
+    int procsys;        /* 0x00: handle from PROCSYS_Create(0x76) */
+    char pad4[0x18];
+} EventBattleRecSaveProc;
+
+/* The task work seen by EVENT_BATTLE_REC_SAVE_ProcExit. */
+typedef struct EventBattleRecSaveTask {
+    char pad0[0x14];
+    int commBattleActive;   /* 0x14: nonzero once the comm battle has started */
+} EventBattleRecSaveTask;
+
 typedef signed int     s32;
 
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
@@ -215,11 +224,11 @@ extern char d_0215513C[];
 
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 {
-    u8 *procWork;
+    EventBattleRecSaveProc *procWork;
 
     GFL_HEAP_CreateChildHeap(1, 0x76, 0x4000);
     procWork = PROCSYS_AllocProcWork(procsysOwner, 0x1c, 0x76);
-    ((struct Obj18644 *)procWork)->f0 = (unsigned int)PROCSYS_Create(0x76);
+    procWork->procsys = (unsigned int)PROCSYS_Create(0x76);
     return 1;
 }
 
@@ -227,7 +236,7 @@ int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 
 int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys)
 {
-    if (((struct Obj18645 *)taskWork)->f14 == 1) {
+    if (((EventBattleRecSaveTask *)taskWork)->commBattleActive == 1) {
         if (func_0200FB24() != 0)
             GFL_NET_ERR_RequestScreen();
     }

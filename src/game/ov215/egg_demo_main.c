@@ -117,26 +117,8 @@
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   abs_id_C2 0xC2 data
  */
-#include "../../matched/include/Obj03371.h"
-#include "../../matched/include/Obj14704.h"
-#include "../../matched/include/Obj00186.h"
-#include "../../matched/include/Obj14705.h"
-#include "../../matched/include/Obj03372.h"
-#include "../../matched/include/Obj25737.h"
-#include "../../matched/include/Obj05549.h"
-#include "../../matched/include/Obj08424.h"
-#include "../../matched/include/Obj10938.h"
-#include "../../matched/include/Obj25739.h"
-#include "../../matched/include/Obj04634.h"
-#include "../../matched/include/Obj25740.h"
-#include "../../matched/include/Obj25741.h"
-#include "../../matched/include/Obj25742.h"
-#include "../../matched/include/Obj14707.h"
-#include "../../matched/include/Obj25743.h"
-#include "../../matched/include/Obj14708.h"
-#include "../../matched/include/Obj25744.h"
-#include "../../matched/include/Obj25745.h"
-#include "../../matched/include/Obj25746.h"
+
+#include "egg_demo_types.h"
 
 struct Obj0203159C;
 struct S020314B8;
@@ -292,28 +274,28 @@ extern const unsigned int table[][2];
 /*
  * Legacy void allocator/31324 returns consumed; preserve visible heap input.
  */
-int EGG_DEMO_MAIN_Create(void *a,int unused,u32 c)
+int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
 {
-    char *p;
+    char *work;
     GFL_HEAP_CreateChildHeap(1,143,5<<16);
-    p=PROCSYS_AllocProcWork(a,140,143);
-    MI_CpuFill8(p,0,140);
-    ((struct Obj03371 *)p)->f0=143;
-    ((struct Obj03371 *)p)->f10=0;
-    p[20]=5;
-    ((struct Obj03371 *)p)->f18=0;
-    ((struct Obj03371 *)p)->f1C=0;
-    ((struct Obj03371 *)p)->f20=0;
-    EGG_DEMO_MAIN_Init(c,p);
-    EGG_DEMO_MAIN_StartFadeOutBgm(c,p);
+    work=PROCSYS_AllocProcWork(owner,140,143);
+    MI_CpuFill8(work,0,140);
+    ((struct EggDemoWork *)work)->heapId=143;
+    ((struct EggDemoWork *)work)->state=0;
+    ((struct EggDemoWork *)work)->fadeDelay=5;
+    ((struct EggDemoWork *)work)->bgmState=0;
+    ((struct EggDemoWork *)work)->bgmTimer=0;
+    ((struct EggDemoWork *)work)->dialogState=0;
+    EGG_DEMO_MAIN_Init(args,work);
+    EGG_DEMO_MAIN_StartFadeOutBgm(args,work);
     FADE_Start(3,16,16,0);
-    ((struct Obj03371 *)p)->f88=(unsigned int)PROCSYS_Create(((struct Obj03371 *)p)->f0);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj03371 *)p)->f0);
+    ((struct EggDemoWork *)work)->proc=(unsigned int)PROCSYS_Create(((struct EggDemoWork *)work)->heapId);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct EggDemoWork *)work)->heapId);
     return 1;
 }
 
 
-int EGG_DEMO_MAIN_Delete(struct S020315D4 *task,int unused,u32 a,char *p) { func_0203133C(*(struct S020314B8 * *)&((struct Obj14704 *)p)->f88);EGG_DEMO_MAIN_NoopB(a,p);if(((struct Obj14704 *)p)->f10!=17)EGG_DEMO_MAIN_DeleteResources(a,p);func_020315D4(task);GFL_HEAP_DeleteChecked(143);return 1; }
+int EGG_DEMO_MAIN_Delete(struct S020315D4 *task,int unused,u32 args,char *work) { func_0203133C(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);func_020315D4(task);GFL_HEAP_DeleteChecked(143);return 1; }
 
 
 /*
@@ -324,7 +306,7 @@ int EGG_DEMO_MAIN_Delete(struct S020315D4 *task,int unused,u32 a,char *p) { func
  * data: overlay ID 194 supplied to 31348 identifies ov194's process table
  * at 021F5580; own ov194 listing has three callback words there.
  */
-int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *a,u32 *p)
+int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
 {
     u32 active;
     struct Rec44 *save;
@@ -334,86 +316,86 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *a,u32 *p)
     int *child;
     struct U16Vec *vec;
     KEY_GetTrg();
-    active=PROCSYS_Main((void *)p[34]);
+    active=PROCSYS_Main((void *)((struct EggDemoWork *)work)->proc);
     if(active==1)return 0;
-    switch(p[4]) {
+    switch(((struct EggDemoWork *)work)->state) {
     case 0:
-        if(((struct Obj00186 *)p)->f14==0){p[4]=1;FADE_Start(3,16,0,-16);}
-        else (((struct Obj00186 *)p)->f14)--;
+        if(((struct EggDemoWork *)work)->fadeDelay==0){((struct EggDemoWork *)work)->state=1;FADE_Start(3,16,0,-16);}
+        else (((struct EggDemoWork *)work)->fadeDelay)--;
         break;
-    case 1:if(!FADE_IsActive()){p[4]=2;EGG_DEMO_MAIN_StartActorAnims((int)a,(struct S021F5E68 *)p);}break;
-    case 2:if(!EGG_DEMO_MAIN_IsBgmFadeOut(a,(char *)p)&&EGG_DEMO_MAIN_AreActorAnimsDone((int)a,(struct S021F5E68 *)p)){p[4]=3;EGG_DEMO_MAIN_PlayBgm(a,(char *)p);}break;
-    case 3:if(!EGG_DEMO_MAIN_IsBgmPlaying(a,(char *)p)){p[4]=4;EGG_DEMO_MAIN_LoadBgm1(a,(char *)p);}break;
-    case 4:if(EGG_DEMO_MAIN_IsBgm1Loaded(a,(char *)p)){p[4]=5;EGG_DEMO_VIEW_SetActive((char *)p[32]);}break;
-    case 5:if(EGG_DEMO_VIEW_GetActive((char *)p[32])){p[4]=6;EGG_DEMO_MAIN_PushBgm(a,p);}break;
+    case 1:if(!FADE_IsActive()){((struct EggDemoWork *)work)->state=2;EGG_DEMO_MAIN_StartActorAnims((int)args,(struct S021F5E68 *)work);}break;
+    case 2:if(!EGG_DEMO_MAIN_IsBgmFadeOut(args,(char *)work)&&EGG_DEMO_MAIN_AreActorAnimsDone((int)args,(struct S021F5E68 *)work)){((struct EggDemoWork *)work)->state=3;EGG_DEMO_MAIN_PlayBgm(args,(char *)work);}break;
+    case 3:if(!EGG_DEMO_MAIN_IsBgmPlaying(args,(char *)work)){((struct EggDemoWork *)work)->state=4;EGG_DEMO_MAIN_LoadBgm1(args,(char *)work);}break;
+    case 4:if(EGG_DEMO_MAIN_IsBgm1Loaded(args,(char *)work)){((struct EggDemoWork *)work)->state=5;EGG_DEMO_VIEW_SetActive((char *)((struct EggDemoWork *)work)->view);}break;
+    case 5:if(EGG_DEMO_VIEW_GetActive((char *)((struct EggDemoWork *)work)->view)){((struct EggDemoWork *)work)->state=6;EGG_DEMO_MAIN_PushBgm(args,work);}break;
     case 6:
-        p[4]=7;
-        save=GAME_DATA_GetField114((struct SaveBlock *)a[0]);trainer=func_02012944((void *)a[0]);
-        POKE_TOOL_HatchEgg((void *)a[1],(u32)trainer,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(save)),((struct Obj00186 *)p)->f0);
-        dex=ZUKAN_SAVE_GetFromGameData((void *)a[0]);ZUKAN_SAVE_RegisterSeen(dex,(void *)a[1]);ZUKAN_SAVE_RegisterCaught(dex,(void *)a[1]);
-        EGG_DEMO_VIEW_SetSpecies((char *)p[32],(int)((void *)a[1]));break;
-    case 7:if(EGG_DEMO_VIEW_IsFadeDone((char *)p[32])){p[4]=8;EGG_DEMO_VIEW_ResetAnimState((char *)p[32]);}break;
-    case 8:if(EGG_DEMO_VIEW_IsFinished((char *)p[32])){p[4]=9;EGG_DEMO_MENU_Draw(a,(char *)p);EGG_DEMO_MAIN_LoadBgm2(a,(char *)p);}break;
-    case 9:p[27]=1;p[4]=10;break;
-    case 10:EGG_DEMO_MENU_SetText((char *)a,(char *)p,1);p[4]=11;break;
-    case 11:if(EGG_DEMO_MENU_WaitText(a,(char *)p)&&!EGG_DEMO_MAIN_IsBgm2Loading(a,(char *)p)){p[4]=12;EGG_DEMO_MENU_SetText((char *)a,(char *)p,2);}break;
-    case 12:if(EGG_DEMO_MENU_WaitText(a,(char *)p)){p[4]=13;EGG_DEMO_MENU_CreateDialog((int)a,(char *)p);}break;
+        ((struct EggDemoWork *)work)->state=7;
+        save=GAME_DATA_GetField114((struct SaveBlock *)args[0]);trainer=func_02012944((void *)args[0]);
+        POKE_TOOL_HatchEgg((void *)args[1],(u32)trainer,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(save)),((struct EggDemoWork *)work)->heapId);
+        dex=ZUKAN_SAVE_GetFromGameData((void *)args[0]);ZUKAN_SAVE_RegisterSeen(dex,(void *)args[1]);ZUKAN_SAVE_RegisterCaught(dex,(void *)args[1]);
+        EGG_DEMO_VIEW_SetSpecies((char *)((struct EggDemoWork *)work)->view,(int)((void *)args[1]));break;
+    case 7:if(EGG_DEMO_VIEW_IsFadeDone((char *)((struct EggDemoWork *)work)->view)){((struct EggDemoWork *)work)->state=8;EGG_DEMO_VIEW_ResetAnimState((char *)((struct EggDemoWork *)work)->view);}break;
+    case 8:if(EGG_DEMO_VIEW_IsFinished((char *)((struct EggDemoWork *)work)->view)){((struct EggDemoWork *)work)->state=9;EGG_DEMO_MENU_Draw(args,(char *)work);EGG_DEMO_MAIN_LoadBgm2(args,(char *)work);}break;
+    case 9:((struct EggDemoWork *)work)->vblankFlag=1;((struct EggDemoWork *)work)->state=10;break;
+    case 10:EGG_DEMO_MENU_SetText((char *)args,(char *)work,1);((struct EggDemoWork *)work)->state=11;break;
+    case 11:if(EGG_DEMO_MENU_WaitText(args,(char *)work)&&!EGG_DEMO_MAIN_IsBgm2Loading(args,(char *)work)){((struct EggDemoWork *)work)->state=12;EGG_DEMO_MENU_SetText((char *)args,(char *)work,2);}break;
+    case 12:if(EGG_DEMO_MENU_WaitText(args,(char *)work)){((struct EggDemoWork *)work)->state=13;EGG_DEMO_MENU_CreateDialog((int)args,(char *)work);}break;
     case 13:
-        active=EGG_DEMO_MENU_GetDialogResult((int)a,(char *)p);
-        if(active==0){p[4]=18;FADE_Start(3,0,16,2);EGG_DEMO_MAIN_StopBgm(a,(char *)p);func_020355D8(0);}
-        else if(active==1){p[4]=14;FADE_Start(3,0,16,0);func_020355D8(0);}break;
+        active=EGG_DEMO_MENU_GetDialogResult((int)args,(char *)work);
+        if(active==0){((struct EggDemoWork *)work)->state=18;FADE_Start(3,0,16,2);EGG_DEMO_MAIN_StopBgm(args,(char *)work);func_020355D8(0);}
+        else if(active==1){((struct EggDemoWork *)work)->state=14;FADE_Start(3,0,16,0);func_020355D8(0);}break;
     case 14:
         if(!FADE_IsActive()){
-            block=BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)a[0]));
-            EGG_DEMO_MAIN_DeleteResources((u32)a,(char *)p);p[4]=15;
-            child=NAMEIN_SETUP_CreateMonArgs(((struct Obj00186 *)p)->f0,(int)a[1],10,0,(int)block);p[33]=(u32)child;
-            PROCSYS_Push((void *)p[34],(u32)&abs_id_C2,(u32)&gNameInProcData,(u32)child);
+            block=BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)args[0]));
+            EGG_DEMO_MAIN_DeleteResources((u32)args,(char *)work);((struct EggDemoWork *)work)->state=15;
+            child=NAMEIN_SETUP_CreateMonArgs(((struct EggDemoWork *)work)->heapId,(int)args[1],10,0,(int)block);((struct EggDemoWork *)work)->nameChild=child;
+            PROCSYS_Push((void *)((struct EggDemoWork *)work)->proc,(u32)&abs_id_C2,(u32)&gNameInProcData,(u32)child);
         }break;
     case 15:
         if(active!=1){
-        if(!NAMEIN_SETUP_IsCanceled((int *)p[33])){
-            vec=STRBUF_Create(32,((struct Obj00186 *)p)->f0);NAMEIN_SETUP_CopyName((int *)p[33],(int)vec);
-            POKE_TOOL_SetPartyValue((void *)a[1],115,(u32)vec);STRBUF_Delete(vec);
-            func_02008DF0(GAME_DATA_GetTrainerRecord((int *)a[0]),30);
+        if(!NAMEIN_SETUP_IsCanceled(((struct EggDemoWork *)work)->nameChild)){
+            vec=STRBUF_Create(32,((struct EggDemoWork *)work)->heapId);NAMEIN_SETUP_CopyName(((struct EggDemoWork *)work)->nameChild,(int)vec);
+            POKE_TOOL_SetPartyValue((void *)args[1],115,(u32)vec);STRBUF_Delete(vec);
+            func_02008DF0(GAME_DATA_GetTrainerRecord((int *)args[0]),30);
         }
-        NAMEIN_SETUP_FreeArgs((int)((int *)p[33]));p[4]=16;EGG_DEMO_MAIN_StopBgm(a,(char *)p);
+        NAMEIN_SETUP_FreeArgs((int)(((struct EggDemoWork *)work)->nameChild));((struct EggDemoWork *)work)->state=16;EGG_DEMO_MAIN_StopBgm(args,(char *)work);
         }else{return 0;}break;
-    case 16:if(!EGG_DEMO_MAIN_IsBgmStopped(a,(char *)p)){p[4]=17;EGG_DEMO_MENU_FadeInBgm(a,p);return 1;}break;
+    case 16:if(!EGG_DEMO_MAIN_IsBgmStopped(args,(char *)work)){((struct EggDemoWork *)work)->state=17;EGG_DEMO_MENU_FadeInBgm(args,work);return 1;}break;
     case 17:break;
-    case 18:if(!EGG_DEMO_MAIN_IsBgmStopped(a,(char *)p)){p[4]=19;EGG_DEMO_MENU_FadeInBgm(a,p);}break;
-    case 19:if(!FADE_IsActive()){p[4]=20;return 1;}break;
+    case 18:if(!EGG_DEMO_MAIN_IsBgmStopped(args,(char *)work)){((struct EggDemoWork *)work)->state=19;EGG_DEMO_MENU_FadeInBgm(args,work);}break;
+    case 19:if(!FADE_IsActive()){((struct EggDemoWork *)work)->state=20;return 1;}break;
     }
-    EGG_DEMO_MAIN_UpdateBgm((u8 *)a,(u8 *)p);
-    if(p[4]!=15&&p[4]!=16&&p[4]!=17&&p[4]!=20){
-        EGG_DEMO_MENU_Main(a,(char *)p);EGG_DEMO_MENU_ProcessDialog(a,(char *)p);EGG_DEMO_VIEW_Update((char *)p[32]);
-        PRINTSYS_QUE_Main((struct PrintSys *)p[3]);EGG_DEMO_GRAPHIC_Draw((char *)p[1]);EGG_DEMO_GRAPHIC_Draw3d((char *)p[1]);
-        EGG_DEMO_VIEW_Draw((char *)p[32]);EGG_DEMO_GRAPHIC_DrawEnd((char *)p[1]);
+    EGG_DEMO_MAIN_UpdateBgm((u8 *)args,(u8 *)work);
+    if(((struct EggDemoWork *)work)->state!=15&&((struct EggDemoWork *)work)->state!=16&&((struct EggDemoWork *)work)->state!=17&&((struct EggDemoWork *)work)->state!=20){
+        EGG_DEMO_MENU_Main(args,(char *)work);EGG_DEMO_MENU_ProcessDialog(args,(char *)work);EGG_DEMO_VIEW_Update((char *)((struct EggDemoWork *)work)->view);
+        PRINTSYS_QUE_Main((struct PrintSys *)((struct EggDemoWork *)work)->printQue);EGG_DEMO_GRAPHIC_Draw((char *)((struct EggDemoWork *)work)->graphic);EGG_DEMO_GRAPHIC_Draw3d((char *)((struct EggDemoWork *)work)->graphic);
+        EGG_DEMO_VIEW_Draw((char *)((struct EggDemoWork *)work)->view);EGG_DEMO_GRAPHIC_DrawEnd((char *)((struct EggDemoWork *)work)->graphic);
     }
     return 0;
 }
 
 
-void EGG_DEMO_MAIN_OnVBlank(void *unused, char *p)
+void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work)
 {
-    if (((struct Obj14705 *)p)->f6C) {
+    if (((struct EggDemoWork *)work)->vblankFlag) {
         func_02040588(1, 1);
-        ((struct Obj14705 *)p)->f6C = 0;
+        ((struct EggDemoWork *)work)->vblankFlag = 0;
     }
 }
 
 
-void EGG_DEMO_MAIN_Init(int a,char *p)
+void EGG_DEMO_MAIN_Init(int args,char *work)
 {
     u8 i;
     for (i=0;i<=7;i++) func_02040588(i,0);
-    ((struct Obj03372 *)p)->f4=EGG_DEMO_GRAPHIC_Create(1,((struct Obj03372 *)p)->f0);
-    ((struct Obj03372 *)p)->f8=GF_FONT_Create(23,0,0,0,((struct Obj03372 *)p)->f0);
-    ((struct Obj03372 *)p)->fC=PRINTSYS_QUE_Create((void *)(u32)((struct Obj03372 *)p)->f0);
-    ((struct Obj03372 *)p)->f28=func_020056A0((u32)EGG_DEMO_MAIN_OnVBlank,(u32)p,1);
-    EGG_DEMO_MAIN_LoadGraphics(a,p);
-    EGG_DEMO_MAIN_InitActors(a,(struct Context *)p);
-    EGG_DEMO_MENU_Create(a,p);
-    EGG_DEMO_MENU_InitDialog(a,(u8 *)p);
+    ((struct EggDemoWork *)work)->graphic=EGG_DEMO_GRAPHIC_Create(1,((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->font=GF_FONT_Create(23,0,0,0,((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->printQue=PRINTSYS_QUE_Create((void *)(u32)((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->vblankTask=func_020056A0((u32)EGG_DEMO_MAIN_OnVBlank,(u32)work,1);
+    EGG_DEMO_MAIN_LoadGraphics(args,work);
+    EGG_DEMO_MAIN_InitActors(args,(struct Context *)work);
+    EGG_DEMO_MENU_Create(args,work);
+    EGG_DEMO_MENU_InitDialog(args,(u8 *)work);
     BG_SYS_SetVisibleLayer(0,2);
     BG_SYS_SetVisibleLayer(2,1);
     BG_SYS_SetVisibleLayer(1,0);
@@ -424,32 +406,32 @@ void EGG_DEMO_MAIN_Init(int a,char *p)
     func_0207D63C((u32 *)0x04000050,1,47,0,0);
     BG_SYS_LoadPlttEntry(0,0x4210);
     BG_SYS_LoadPlttEntry(4,0);
-    *(char * *)&((struct Obj03372 *)p)->f80=EGG_DEMO_VIEW_Create(((struct Obj03372 *)p)->f0,((struct Obj25737 *)((u32)a))->f4);
+    *(char * *)&((struct EggDemoWork *)work)->view=EGG_DEMO_VIEW_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoArgs *)((u32)args))->mon);
 }
 
 
-void EGG_DEMO_MAIN_DeleteResources(u32 a,char *p)
+void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work)
 {
-    EGG_DEMO_VIEW_Delete((char *)(((struct Obj05549 *)p)->f80));
-    EGG_DEMO_MENU_Noop(a,p);
-    EGG_DEMO_MENU_Delete((void *)a,p);
-    EGG_DEMO_MAIN_DeleteActors((void *)a,p);
-    EGG_DEMO_MAIN_Noop(a,p);
-    func_02030EAC((struct Node *)(((struct Obj05549 *)p)->f28));
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj05549 *)p)->fC));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj05549 *)p)->fC));
-    GF_FONT_Delete((void *)(((struct Obj05549 *)p)->f8));
-    EGG_DEMO_GRAPHIC_Delete((char *)(((struct Obj05549 *)p)->f4));
+    EGG_DEMO_VIEW_Delete((char *)(((struct EggDemoWork *)work)->view));
+    EGG_DEMO_MENU_Noop(args,work);
+    EGG_DEMO_MENU_Delete((void *)args,work);
+    EGG_DEMO_MAIN_DeleteActors((void *)args,work);
+    EGG_DEMO_MAIN_Noop(args,work);
+    func_02030EAC((struct Node *)(((struct EggDemoWork *)work)->vblankTask));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct EggDemoWork *)work)->printQue));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct EggDemoWork *)work)->printQue));
+    GF_FONT_Delete((void *)(((struct EggDemoWork *)work)->font));
+    EGG_DEMO_GRAPHIC_Delete((char *)(((struct EggDemoWork *)work)->graphic));
 }
 
 
 
-void EGG_DEMO_MAIN_LoadGraphics(int unused, char *p)
+void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
 {
-    void *h = func_020490F4(189, ((struct Obj08424 *)p)->f0);
-    func_02049B68(h, 3, 0, 0, 32, ((struct Obj08424 *)p)->f0);
-    func_02049658(h, 5, 2, 0, 0, 0, ((struct Obj08424 *)p)->f0);
-    func_020498F4(h, 4, 2, 0, 0, 0, ((struct Obj08424 *)p)->f0);
+    void *h = func_020490F4(189, ((struct EggDemoWork *)work)->heapId);
+    func_02049B68(h, 3, 0, 0, 32, ((struct EggDemoWork *)work)->heapId);
+    func_02049658(h, 5, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
+    func_020498F4(h, 4, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
     ARC_TOOL_DeleteHandle(h);
     func_020409B4(2);
 }
@@ -467,64 +449,64 @@ void EGG_DEMO_MAIN_Noop(int a0, char *a1)
  * Return ABI: B294 original0204B314 calls CFDC then0204B318/31C returns without overwriting r0; CFDC0204D040 restores full object pointer. Caller021F5E20 stores this r0 and forwards it to B92C. Own B294 void declaration is superseded here by consumed return evidence.
  * Forwarding: 64FC adds4 to r0 and tails through6504 to662C;662C is ldr r0,[r0]; bx lr. All one full-word input/output.
  */
-void EGG_DEMO_MAIN_InitActors(int unused, struct Context *p)
+void EGG_DEMO_MAIN_InitActors(int unused, struct Context *work)
 {
     unsigned char i;
-    void *h = func_020490F4(189, p->heap);
+    void *h = func_020490F4(189, work->heap);
     char *tmp1;
     unsigned int tmp2;
     int tmp;
-    p->resource2 = CLACT_RegisterPaletteEx(h, 3, 0, 0, 0, 1, p->heap);
-    tmp = CLACT_RegisterCharacter(h, 2, 0, 0, p->heap);
+    work->resource2 = CLACT_RegisterPaletteEx(h, 3, 0, 0, 0, 1, work->heap);
+    tmp = CLACT_RegisterCharacter(h, 2, 0, 0, work->heap);
     if (unused) {
     }
-    p->resource1 = tmp;
-    p->resource3 = CLACT_RegisterCellAnim(h, 1, 0, p->heap);
+    work->resource1 = tmp;
+    work->resource3 = CLACT_RegisterCellAnim(h, 1, 0, work->heap);
     ARC_TOOL_DeleteHandle(h);
     for (i = 0; i < 6; i++) {
         struct Context *out;
         unsigned int o;
-        tmp1 = (char *)p;
+        tmp1 = (char *)work;
         tmp1 = tmp1 + (i * 4);
         out = (struct Context *)tmp1;
         tmp2 = (unsigned int)table[i];
-        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
+        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->owner), work->resource1, work->resource2, work->resource3, (const void *)tmp2, 0, work->heap);
         out->objects[0] = o;
         CLACT_SetActorAutoAnim((struct Obj *)o, 0);
     }
 }
 
 
-void EGG_DEMO_MAIN_DeleteActors(void *unused, char *p)
+void EGG_DEMO_MAIN_DeleteActors(void *unused, char *work)
 {
     u8 i;
-    for (i = 0; i < 6; i++) CLACT_DeleteActor(*(void **)(p + i * 4 + 0x38));
-    CLACT_ReleaseCellAnim(((struct Obj10938 *)p)->f34);
-    CLACT_ReleaseCharacter(((struct Obj10938 *)p)->f2C);
-    CLACT_ReleasePalette(((struct Obj10938 *)p)->f30);
+    for (i = 0; i < 6; i++) CLACT_DeleteActor(*(void **)(work + i * 4 + 0x38));
+    CLACT_ReleaseCellAnim(((struct EggDemoWork *)work)->cellAnimId);
+    CLACT_ReleaseCharacter(((struct EggDemoWork *)work)->charId);
+    CLACT_ReleasePalette(((struct EggDemoWork *)work)->paletteId);
 }
 
 
 
-void EGG_DEMO_MAIN_StartActorAnims(int unused, struct S021F5E68 *p)
+void EGG_DEMO_MAIN_StartActorAnims(int unused, struct S021F5E68 *work)
 {
     unsigned char i;
     for (i = 0; i < 6; i++)
     {
-        CLACT_SetActorAnimIndex((int)p->slots[i], 0);
-        CLACT_SetActorAutoAnim(p->slots[i], 1);
+        CLACT_SetActorAnimIndex((int)work->slots[i], 0);
+        CLACT_SetActorAutoAnim(work->slots[i], 1);
     }
 }
 
 
 
-int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct S021F5E68 *p)
+int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct S021F5E68 *work)
 {
     unsigned char i;
     int r = 1;
     for (i = 0; i < 6; i++)
     {
-        if (CLACT_IsActorAnimActive(p->slots[i]) != 0)
+        if (CLACT_IsActorAnimActive(work->slots[i]) != 0)
         {
             r = 0;
             break;
@@ -535,57 +517,57 @@ int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct S021F5E68 *p)
 
 
 
-int EGG_DEMO_MAIN_StartFadeOutBgm(int a, char *b)
+int EGG_DEMO_MAIN_StartFadeOutBgm(int args, char *work)
 {
     GFL_USE_FadeOutBgm(0x1e);
-    ((struct Obj25739 *)b)->f18 = 1;
+    ((struct EggDemoWork *)work)->bgmState = 1;
     return 1;
 }
 
 
-void EGG_DEMO_MAIN_NoopB(u32 a, char *p)
+void EGG_DEMO_MAIN_NoopB(u32 args, char *work)
 {
 
 }
 
 
 
-void EGG_DEMO_MAIN_UpdateBgm(u8 *p, u8 *q)
+void EGG_DEMO_MAIN_UpdateBgm(u8 *args, u8 *work)
 {
-    switch (((struct Obj04634 *)q)->f18) {
+    switch (((struct EggDemoWork *)work)->bgmState) {
     case 0:
         break;
     case 1:
         if (GFL_USE_IsBgmFading() == 0) {
             GFL_USE_SetBgmPlayerParam((void *)1);
             GFL_USE_PushBgm();
-            ((struct Obj04634 *)q)->f18 = 0;
+            ((struct EggDemoWork *)work)->bgmState = 0;
         }
         break;
     case 2:
         if (GFL_USE_IsBgmPlaying() == 0)
-            ((struct Obj04634 *)q)->f18 = 0;
+            ((struct EggDemoWork *)work)->bgmState = 0;
         break;
     case 3:
-        if (GFL_USE_StepBgmLoad((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
-            ((struct Obj04634 *)q)->f18 = 4;
+        if (GFL_USE_StepBgmLoad((u8 *)0x3F3, (u32 *)(work + 0x24), 0) != 0)
+            ((struct EggDemoWork *)work)->bgmState = 4;
         break;
     case 4:
         break;
     case 5:
-        if (GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
-            ((struct Obj04634 *)q)->f18 = 6;
+        if (GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(work + 0x24), 0) != 0)
+            ((struct EggDemoWork *)work)->bgmState = 6;
         break;
     case 6:
         if (GFL_USE_IsBgmPlaying() == 0) {
-            EGG_DEMO_MAIN_PopBgm(p, q);
-            ((struct Obj04634 *)q)->f18 = 4;
+            EGG_DEMO_MAIN_PopBgm(args, work);
+            ((struct EggDemoWork *)work)->bgmState = 4;
         }
         break;
     case 7:
         if (GFL_USE_IsBgmFading() == 0) {
             GFL_USE_CancelChangeAndStopBgm();
-            ((struct Obj04634 *)q)->f18 = 0;
+            ((struct EggDemoWork *)work)->bgmState = 0;
         }
         break;
     }
@@ -596,40 +578,40 @@ void EGG_DEMO_MAIN_UpdateBgm(u8 *p, u8 *q)
  * leaf: sole blocker set of concrete MATCH900 ov215021F5884; parent claim.
  * extent: 14-byte predicate then two zero alignment bytes at 021F5F82.
  */
-int EGG_DEMO_MAIN_IsBgmFadeOut(void *unused,char *p)
+int EGG_DEMO_MAIN_IsBgmFadeOut(void *unused,char *work)
 {
-    if(((struct Obj25740 *)p)->f18==1)return 1;
+    if(((struct EggDemoWork *)work)->bgmState==1)return 1;
     return 0;
 }
 
 
-void EGG_DEMO_MAIN_PlayBgm(void *unused, char *p)
+void EGG_DEMO_MAIN_PlayBgm(void *unused, char *work)
 {
     GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
-    ((struct Obj25741 *)p)->f18 = 2;
+    ((struct EggDemoWork *)work)->bgmState = 2;
 }
 
 
 
-int EGG_DEMO_MAIN_IsBgmPlaying(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgmPlaying(void *unused, char *work)
 {
-    if (((struct Obj25742 *)p)->f18 == 2) return 1;
+    if (((struct EggDemoWork *)work)->bgmState == 2) return 1;
     return 0;
 }
 
 
-void EGG_DEMO_MAIN_LoadBgm1(void *unused, char *p)
+void EGG_DEMO_MAIN_LoadBgm1(void *unused, char *work)
 {
-    ((struct Obj14707 *)p)->f24 = 0;
-    GFL_USE_StepBgmLoad((u8 *)0x3f3, (u32 *)(p + 0x24), 1);
-    ((struct Obj14707 *)p)->f18 = 3;
+    ((struct EggDemoWork *)work)->bgmLoadState = 0;
+    GFL_USE_StepBgmLoad((u8 *)0x3f3, (u32 *)(work + 0x24), 1);
+    ((struct EggDemoWork *)work)->bgmState = 3;
 }
 
 
 
-int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *work)
 {
-    if (((struct Obj25743 *)p)->f18 == 4) return 1;
+    if (((struct EggDemoWork *)work)->bgmState == 4) return 1;
     return 0;
 }
 
@@ -651,34 +633,34 @@ void EGG_DEMO_MAIN_PopBgm(void *a0, void *a1)
 }
 
 
-void EGG_DEMO_MAIN_LoadBgm2(void *unused, char *p)
+void EGG_DEMO_MAIN_LoadBgm2(void *unused, char *work)
 {
-    ((struct Obj14708 *)p)->f24 = 0;
-    GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(p + 0x24), 1);
-    ((struct Obj14708 *)p)->f18 = 5;
+    ((struct EggDemoWork *)work)->bgmLoadState = 0;
+    GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(work + 0x24), 1);
+    ((struct EggDemoWork *)work)->bgmState = 5;
 }
 
 
 
-int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *work)
 {
-    int state = ((struct Obj25744 *)p)->f18;
+    int state = ((struct EggDemoWork *)work)->bgmState;
     int result = 1;
     if (state != 5 && state != 6) result = 0;
     return result;
 }
 
 
-void EGG_DEMO_MAIN_StopBgm(void *unused, char *p)
+void EGG_DEMO_MAIN_StopBgm(void *unused, char *work)
 {
     GFL_USE_FadeOutBgm(0x3c);
-    ((struct Obj25745 *)p)->f18 = 7;
+    ((struct EggDemoWork *)work)->bgmState = 7;
 }
 
 
 
-int EGG_DEMO_MAIN_IsBgmStopped(void *unused, char *p)
+int EGG_DEMO_MAIN_IsBgmStopped(void *unused, char *work)
 {
-    if (((struct Obj25746 *)p)->f18 == 7) return 1;
+    if (((struct EggDemoWork *)work)->bgmState == 7) return 1;
     return 0;
 }

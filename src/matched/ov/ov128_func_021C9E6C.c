@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C63AC 0x021C63AC thumb ov128
+ *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
  *   d_021CA5A2 0x021CA5A2 data a2
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 d_021CA5A2[10][4];
-extern void func_021C63AC(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
+extern void Wf2dmapFriend_CreateWindow(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
 void WF2DMAP_TOUCH_CreateTileWidgets(u8 *p,void *q)
 {
     int i;
     p+=0x128;
     for(i=0;i<10;i++)
-        func_021C63AC(q,(u32 *)(p+i*8),1,d_021CA5A2[i][0],d_021CA5A2[i][1],d_021CA5A2[i][2],d_021CA5A2[i][3],10,0,0);
+        Wf2dmapFriend_CreateWindow(q,(u32 *)(p+i*8),1,d_021CA5A2[i][0],d_021CA5A2[i][1],d_021CA5A2[i][2],d_021CA5A2[i][3],10,0,0);
 }

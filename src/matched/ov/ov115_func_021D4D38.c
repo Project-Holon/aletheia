@@ -1,5 +1,5 @@
 /*
- * function: func_021D4D38
+ * function: WIFILOGIN_DISP_CreateDisplay
  * address: 0x021D4D38
  * packet: pkt_ov115_021D4D38
  * region: ov115
@@ -17,13 +17,13 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   func_021D4FA4 0x021D4FA4 thumb ov115
- *   func_021D5214 0x021D5214 thumb ov115
- *   func_021D57D0 0x021D57D0 thumb ov115
- *   func_021D5598 0x021D5598 thumb ov115
- *   func_021D4E58 0x021D4E58 thumb ov115
- *   func_021D50BC 0x021D50BC thumb ov115
- *   func_021D532C 0x021D532C thumb ov115
+ *   WIFILOGIN_DISP_InitBgLayersB 0x021D4FA4 thumb ov115
+ *   WIFILOGIN_DISP_InitBgLayersD 0x021D5214 thumb ov115
+ *   WIFILOGIN_DISP_CreateUnit 0x021D57D0 thumb ov115
+ *   WIFILOGIN_DISP_CreateActors 0x021D5598 thumb ov115
+ *   WIFILOGIN_DISP_InitBgLayersA 0x021D4E58 thumb ov115
+ *   WIFILOGIN_DISP_InitBgLayersC 0x021D50BC thumb ov115
+ *   WIFILOGIN_DISP_LoadPalette 0x021D532C thumb ov115
  *   d_021D6614 0x021D6614 data a1
  *   d_021D65E4 0x021D65E4 data a4
  *   d_021D65D4 0x021D65D4 data a4
@@ -45,14 +45,14 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void func_021D4FA4(void *,u32);
-extern void func_021D5214(void *,u32);
-extern void func_021D57D0(u8 *p);
-extern void func_021D5598(u8 *p);
-extern void func_021D4E58(u32 unused, unsigned long base);
-extern void func_021D50BC(void *,u32);
-extern void func_021D532C(char *p);
-u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
+extern void WIFILOGIN_DISP_InitBgLayersB(void *,u32);
+extern void WIFILOGIN_DISP_InitBgLayersD(void *,u32);
+extern void WIFILOGIN_DISP_CreateUnit(u8 *p);
+extern void WIFILOGIN_DISP_CreateActors(u8 *p);
+extern void WIFILOGIN_DISP_InitBgLayersA(u32 unused, unsigned long base);
+extern void WIFILOGIN_DISP_InitBgLayersC(void *,u32);
+extern void WIFILOGIN_DISP_LoadPalette(char *p);
+u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int a2) {
     u8 *p;
     p=func_02030734(heap,0x14bc,1,(const char *)d_021D6614,146);
     ((struct Obj00198 *)p)->fC=heap;
@@ -68,15 +68,15 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021D65D4);
     switch (((struct Obj00198 *)p)->f8) {
     case 1:
-        func_021D4FA4(p,0);
-        func_021D5214(p,4);
-        func_021D57D0(p);
-        func_021D5598(p);
+        WIFILOGIN_DISP_InitBgLayersB(p,0);
+        WIFILOGIN_DISP_InitBgLayersD(p,4);
+        WIFILOGIN_DISP_CreateUnit(p);
+        WIFILOGIN_DISP_CreateActors(p);
         break;
     case 0:
-        func_021D4E58((u32)p,0);
-        func_021D50BC(p,4);
-        func_021D532C((char *)p);
+        WIFILOGIN_DISP_InitBgLayersA((u32)p,0);
+        WIFILOGIN_DISP_InitBgLayersC(p,4);
+        WIFILOGIN_DISP_LoadPalette((char *)p);
         break;
     }
     BG_SYS_SetSubVisiblePlanes(31);

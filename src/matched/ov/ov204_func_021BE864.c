@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BFAE4 0x021BFAE4 thumb
+ *   INTRO_G3D_SetVisible 0x021BFAE4 thumb
  */
 #include "../include/Obj25370.h"
 
-extern void func_021BFAE4(char *p, int v);
+extern void INTRO_G3D_SetVisible(char *p, int v);
 
 int func_021BE864(char *a, int b, int *p)
 {
-    func_021BFAE4((char *)(((struct Obj25370 *)a)->fC), *p);
+    INTRO_G3D_SetVisible((char *)(((struct Obj25370 *)a)->fC), *p);
     return 1;
 }

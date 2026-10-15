@@ -58,7 +58,7 @@
  *   WIFI_HISTORY_GetCountryRegionState   0x0200949C  thumb
  *   WIFI_HISTORY_SetCountryRegionState   0x020094D8  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   RECORD_AddOne   0x02008DF0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
@@ -138,7 +138,7 @@ extern struct Sub02009470Obj *func_02009470(void *sys);
 extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
 extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
 extern void POKE_TOOL_HealFull(void *mon);
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
@@ -269,7 +269,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0)
         POKE_TOOL_SetPartyValue(mon, 9, (u32)((void *)0x46));
     if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0))
-        func_0202F190(mon, 6, (u32)I(p, 0x830), 0x7533, H(p, 0x5F4));
+        SAVE_EVENT_Write(mon, 6, (u32)I(p, 0x830), 0x7533, H(p, 0x5F4));
     switch (W(p, 0x118C)) {
     case 2:
     case 3:

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202F488
+ * function: SAVE_EVENT_IsStageDone
  * address:  0x0202F488
  * packet:   pkt_0202EF98
  * region:   arm9
@@ -12,6 +12,7 @@
  *
  * symbols:
  *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   SAVE_EVENT_CheckStage  0x0202F498  thumb
  */
 
-int func_0202F488(int a0, int a1){ int t0 = POKE_TOOL_Dummy(); int t1 = func_0202F498((int)t0, (int)((a1 + 0) + 0)); return t1; }
+int SAVE_EVENT_IsStageDone(int a0, int a1){ int t0 = POKE_TOOL_Dummy(); int t1 = SAVE_EVENT_CheckStage((int)t0, (int)((a1 + 0) + 0)); return t1; }

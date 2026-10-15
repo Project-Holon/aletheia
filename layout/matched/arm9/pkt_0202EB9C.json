@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202EB9C",
+   "name": "COMM_HISTORY_InsertOrReplace",
    "address": "0x0202EB9C",
    "kind": "game",
    "region": "arm9",

@@ -91,7 +91,7 @@
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -329,7 +329,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
-extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
+extern void *APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u32 heap);
 
 extern int APP_KEYCURSOR_Delete(void *cursor);
 
@@ -681,7 +681,7 @@ void WORLDTRADE_ADAPTER_InitPrinter(Ctx_02202094 *ctx, u32 arg)
     ctx->arg = arg;
     ctx->font = GF_FONT_Create(0x17, 0, 0, 0, 0x48);
     ctx->msg = (void *)PRINTSYS_QUE_Create((void *)0x48);
-    ctx->res = func_02028590(0xF, 1, 1, 0x48);
+    ctx->res = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, 0x48);
     for (i = 0; i < 0x18; i++) {
         s = &ctx->slot[i];
         MI_CpuFill8(s, 0, 8);

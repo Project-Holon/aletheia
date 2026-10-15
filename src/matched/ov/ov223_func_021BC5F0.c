@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5F0
+ * function: PSEL_GRAPHIC_InitClact
  * address:  0x021BC5F0
  * packet:   pkt_ov223_021BC5F0
  * region:   ov223
@@ -41,7 +41,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern int d_021BC944;
 
-void func_021BC5F0(int *out, int a, int b)
+void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((const struct Cfg *)(&d_021BC944), a, b);

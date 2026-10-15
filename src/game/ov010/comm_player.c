@@ -53,7 +53,6 @@
  *   FIELD_COMM_ACTOR_CTRL_GetMmdl  0x021943EC  thumb  ov021
  *   FLDEFF_GYOE_StartHeld  0x021BB578  thumb
  */
-#include "../../matched/include/Obj00020.h"
 struct Entry32;
 struct Ctx;
 struct BigObj;

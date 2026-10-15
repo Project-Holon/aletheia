@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D6EC",
-    "func_0200D6FC",
-    "func_0200D70C",
-    "func_0200D72C",
-    "func_0200D73C"
+    "GDS_PROFILE_GetEggFlag",
+    "GDS_PROFILE_GetSpecies",
+    "GDS_PROFILE_GetFormSpecies",
+    "GDS_PROFILE_GetMonFlagBit7",
+    "GDS_PROFILE_GetMonFlagBit0"
+   ],
+   "addresses": [
+    "0x0200D6EC",
+    "0x0200D6FC",
+    "0x0200D70C",
+    "0x0200D72C",
+    "0x0200D73C"
    ]
   },
   {
@@ -37,16 +44,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D858",
-    "func_0200D85C",
-    "func_0200D868",
-    "func_0200D87C",
-    "func_0200D884",
-    "func_0200D914",
-    "func_0200D9E8",
-    "func_0200DA14",
-    "func_0200DA28",
-    "func_0200DA54"
+    "GDS_PROFILE_GetFieldRecSize",
+    "GDS_PROFILE_ClearFieldRec",
+    "GDS_PROFILE_SetFieldRecFlag1",
+    "GDS_PROFILE_GetFieldRecFlag1",
+    "GDS_PROFILE_GetFieldRecField",
+    "GDS_PROFILE_SetFieldRecField",
+    "GDS_PROFILE_AddFieldRecCounters",
+    "GDS_PROFILE_ClearFieldRecCount03",
+    "GDS_PROFILE_IncFieldRecCount03",
+    "GDS_PROFILE_GetFieldRecCount03"
+   ],
+   "addresses": [
+    "0x0200D858",
+    "0x0200D85C",
+    "0x0200D868",
+    "0x0200D87C",
+    "0x0200D884",
+    "0x0200D914",
+    "0x0200D9E8",
+    "0x0200DA14",
+    "0x0200DA28",
+    "0x0200DA54"
    ]
   },
   {
@@ -61,31 +80,58 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200DA64",
-    "func_0200DA6C",
-    "func_0200DA80",
-    "func_0200DA98",
-    "func_0200DABC",
-    "func_0200DAC0",
-    "func_0200DAC4",
-    "func_0200DAD8",
-    "func_0200DAEC",
-    "func_0200DB08",
-    "func_0200DB1C",
-    "func_0200DB30",
-    "func_0200DB44",
-    "func_0200DB60",
-    "func_0200DB80",
-    "func_0200DBA0",
-    "func_0200DBF0",
-    "func_0200DBFC",
-    "func_0200DC08",
-    "func_0200DC0C",
-    "func_0200DC50",
-    "func_0200DC74",
-    "func_0200DC94",
-    "func_0200DCF8",
-    "func_0200DCFC"
+    "GDS_PROFILE_GetScoreRecSize",
+    "GDS_PROFILE_ClearScoreRec",
+    "GDS_PROFILE_AddScoreRecTotal",
+    "GDS_PROFILE_SubScoreRecTotal",
+    "GDS_PROFILE_GetScoreRecTotal",
+    "GDS_PROFILE_MapScoreSlot",
+    "GDS_PROFILE_GetScoreRecCountA",
+    "GDS_PROFILE_GetScoreRecCountB",
+    "GDS_PROFILE_MaxScoreRecCountB",
+    "GDS_PROFILE_SetScoreRecCountA",
+    "GDS_PROFILE_ClearScoreRecCountC",
+    "GDS_PROFILE_SetScoreRecCountC",
+    "GDS_PROFILE_GetScoreRecCountC",
+    "GDS_PROFILE_IncScoreRecCountC",
+    "GDS_PROFILE_GetScoreRecCountCDec",
+    "GDS_PROFILE_ScoreRecFlag",
+    "GDS_PROFILE_IncScoreRecLevel",
+    "GDS_PROFILE_DecScoreRecLevel",
+    "GDS_PROFILE_GetScoreRecLevel",
+    "GDS_PROFILE_UpdateScoreRecStreak",
+    "GDS_PROFILE_SetScoreRecBlob",
+    "GDS_PROFILE_GetScoreRecBlob",
+    "GDS_PROFILE_CalcScoreRecScore",
+    "GDS_PROFILE_GetScoreRecScore",
+    "GDS_PROFILE_GetScoreRecScoreHigh"
+   ],
+   "addresses": [
+    "0x0200DA64",
+    "0x0200DA6C",
+    "0x0200DA80",
+    "0x0200DA98",
+    "0x0200DABC",
+    "0x0200DAC0",
+    "0x0200DAC4",
+    "0x0200DAD8",
+    "0x0200DAEC",
+    "0x0200DB08",
+    "0x0200DB1C",
+    "0x0200DB30",
+    "0x0200DB44",
+    "0x0200DB60",
+    "0x0200DB80",
+    "0x0200DBA0",
+    "0x0200DBF0",
+    "0x0200DBFC",
+    "0x0200DC08",
+    "0x0200DC0C",
+    "0x0200DC50",
+    "0x0200DC74",
+    "0x0200DC94",
+    "0x0200DCF8",
+    "0x0200DCFC"
    ]
   },
   {
@@ -100,8 +146,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200DD10",
-    "func_0200DD18"
+    "GDS_PROFILE_GetSubwaySaveSize",
+    "GDS_PROFILE_ClearSubwaySave"
+   ],
+   "addresses": [
+    "0x0200DD10",
+    "0x0200DD18"
    ]
   },
   {
@@ -116,9 +166,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200DD8C",
-    "func_0200DDA8",
-    "func_0200DDD0"
+    "GDS_PROFILE_ClearSubwaySaveStampAndBitmap",
+    "GDS_PROFILE_IsStampNewer",
+    "GDS_PROFILE_QuerySubwaySaveBit"
+   ],
+   "addresses": [
+    "0x0200DD8C",
+    "0x0200DDA8",
+    "0x0200DDD0"
    ]
   }
  ]

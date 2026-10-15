@@ -1,5 +1,5 @@
 /*
- * function: func_0217C628
+ * function: LIVEBATTLEMATCH_FLOW_Result
  * address: 0x0217C628
  * packet: pkt_ov176_0217C628
  * region: ov176
@@ -12,11 +12,11 @@
  * symbols:
  *   func_0217CFE8 0x0217CFE8 thumb ov176
  *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_0217CEAC 0x0217CEAC thumb ov176
- *   func_0217CFDC 0x0217CFDC thumb ov176
- *   func_0217CFD0 0x0217CFD0 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_DrawMenu 0x0217CEAC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_GetWindowResult 0x0217CFDC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_HideWindow 0x0217CFD0 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217C2EC 0x0217C2EC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Battle 0x0217C2EC thumb ov176
  *   REGULATION_NoOp 0x0200AE14 thumb
  *   func_0217D010 0x0217D010 thumb ov176
  *   func_0217D000 0x0217D000 thumb ov176
@@ -60,11 +60,11 @@ extern void func_021E8AB4(u32,u32);
 typedef signed int     s32;
 struct Reg;
 struct Reg2;
-extern void func_0217CEAC(u8 *p, int mode);
-extern int func_0217CFDC(int *p);
-extern void func_0217CFD0(int *p);
+extern void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode);
+extern int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p);
+extern void LIVEBATTLEMATCH_FLOW_HideWindow(int *p);
 extern void func_021E8AA0(int *,int);
-extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
+extern void LIVEBATTLEMATCH_FLOW_Battle(int *sys, u32 *state, u8 *p);
 extern void * REGULATION_NoOp(void *);
 extern void func_0217D010(u8 *,int);
 extern int func_0217D000(u8 *);
@@ -98,11 +98,11 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0217D1C8(char *,int);
 extern int func_0217D238(u8 *);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
-void func_0217C628(int *sys,u32 *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Result(int *sys,u32 *state,u8 *p)
 {
     if(func_0217E078(((struct Obj00241 *)p)->fC)==1){
         ((struct Obj24411 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C4))->fC=1;
-        func_021E8AA0(sys,(int)func_0217C2EC);
+        func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
     }
     switch(*state){
     case 0:func_0217CFE8(p,20,1);*state=40;func_021E8AB4((u32)sys,1);break;
@@ -112,18 +112,18 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 4:func_0217E158(*(unsigned * *)&((struct Obj00241 *)p)->fC);*state=5;break;
     case 5:if(func_0217E178(*(int * *)&((struct Obj00241 *)p)->fC))*state=6;break;
     case 6:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=40;func_021E8AB4((u32)sys,7);break;
-    case 7:func_0217CEAC(p,0);*state=8;break;
+    case 7:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=8;break;
     case 8:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){
-        case 0:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_021E8AA0(sys,(int)func_0217C2EC);break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){
+        case 0:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
         case 1:*state=1;break;
         }}break;
     }
     case 9:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217E158(*(unsigned * *)&((struct Obj00241 *)p)->fC);*state=10;break;
     case 10:if(func_0217E178(*(int * *)&((struct Obj00241 *)p)->fC))*state=11;break;
     case 11:func_0217CFE8(p,28,1);*state=40;func_021E8AB4((u32)sys,12);break;
-    case 12:func_021E8AA0(sys,(int)func_0217C2EC);break;
+    case 12:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 13:func_0217D388(*(int * *)&((struct Obj00241 *)p)->f1BC,(int *)p);if(func_0217E1FC(*(int *)&((struct Obj00241 *)p)->fC,*(int *)&((struct Obj00241 *)p)->f1BC))*state=14;break;
     case 14:{
         void *out;
@@ -166,7 +166,7 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
             ((struct Obj00241 *)p)->f1CC=0;REGULATION_GetRuleValue(v,19);*state=38;
         }break;
     case 38:func_0217D010(p,2);break;
-    case 39:func_021E8AA0(sys,(int)func_0217C2EC);break;
+    case 39:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 40:if(func_0217D000(p))func_021E8AB8((u32)sys);break;
     }
 }

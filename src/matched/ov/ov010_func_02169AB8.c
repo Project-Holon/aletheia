@@ -25,7 +25,7 @@
  *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
  *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb  ov021
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020071F0  0x020071F0  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -137,7 +137,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
+extern void *APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern void BMP_MENUWORK_DrawWindowBorder(void *p, u32 kind);
@@ -179,7 +179,7 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             w->f18->f04 = func_02045B38(0, 3, 0x9E, w->f10);
             w->f18->f18 = STRBUF_Create(0x200, w->f10);
             w->f18->f00 = TCBL_Create(w->f10, w->f10, 1, 4);
-            w->f18->f1C = func_02028590(0xF, 1, 1, w->f10);
+            w->f18->f1C = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, w->f10);
             w->f18->f14 = PRINTSYS_QUE_Create((void *)w->f10);
             w->f18->f4C = 0;
             REPORT_EVENT_CreateMessageWindow((int)w);

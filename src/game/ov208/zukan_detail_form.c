@@ -248,17 +248,7 @@
  *   ZUKAN_DETAIL_FORM_UpdateBgScrollForState 0x021C4F30 thumb ov208
  */
 #include "zukan_detail_shared_types.h"
-#include "../../matched/include/Obj02547.h"
-#include "../../matched/include/Obj14660.h"
-#include "../../matched/include/Obj25510.h"
-#include "../../matched/include/Obj06686.h"
-#include "../../matched/include/Obj10908.h"
-#include "../../matched/include/Obj01179.h"
-#include "../../matched/include/Obj14663.h"
 #include "zukan_detail_form_types.h"
-#include "../../matched/include/Obj04897.h"
-#include "../../matched/include/Obj00147.h"
-#include "../../matched/include/Obj09213.h"
 
 extern u32 func_020307B0(void *p);
 
@@ -406,7 +396,7 @@ struct McssFade;
 
 struct McssSys;
 
-typedef int            s32_021C31CC;
+typedef int            s32;
 
 struct Ov208Sel {
     u16 next;
@@ -502,7 +492,7 @@ extern void ov208_func_021BCF58(void *s, int x);
 
 extern void MCSS_SetVanishFlag(void *p);
 
-extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32_021C31CC step, u32 e);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 
 extern u32  ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs,
                                 u32 arc, u32 chr, u32 scr, u32 cell, u32 chrOfs);
@@ -681,9 +671,9 @@ int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     void *sys;
     u8 i;
     sys = ov208_func_021BC3B4(key);
-    ov208_func_021BC97C(((struct Obj02547 *)p)->f5BC);
-    ov208_func_021BC97C(((struct Obj02547 *)p)->f5B8);
-    ov208_func_021BCA54(7, ((struct Obj02547 *)p)->f5B4);
+    ov208_func_021BC97C(p->w5bc);
+    ov208_func_021BC97C(p->w5b8);
+    ov208_func_021BCA54(7, p->w5b4);
     ov208_func_021C66C8(heap, p, key);
     for (i = 0; i < 2; i++) {
         if (((struct Ov208Form *)p)->obj[i] != 0)
@@ -693,11 +683,11 @@ int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     ov208_func_021C533C(heap, p, key);
     ov208_func_021C4A48(heap, p, key);
     ov208_func_021BDCA4(sys, 0);
-    ov208_func_021BC61C(((struct Obj02547 *)p)->f6AC);
-    ov208_func_021BC464(((struct Obj02547 *)p)->f6A8);
-    ov208_func_021BC464(((struct Obj02547 *)p)->f6A4);
+    ov208_func_021BC61C(p->w6ac);
+    ov208_func_021BC464(p->w6a8);
+    ov208_func_021BC464(p->w6a4);
     ov208_func_021C4AF4(heap, p, key);
-    func_02030EAC((struct Node *)(((struct Obj02547 *)p)->f6A0));
+    func_02030EAC((struct Node *)p->w6a0);
     ov208_func_021BC34C(proc);
     return 1;
 }
@@ -1075,13 +1065,13 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
 
 void ZUKAN_DETAIL_FORM_DrawModels(u32 a, u32 b, u32 c, struct Ov208Form *p)
 {
-    if (p != 0 && *(struct McssSys * *)&((struct Obj14660 *)p)->f8 != 0)
-        MCSS_Draw(*(struct McssSys * *)&((struct Obj14660 *)p)->f8);
+    if (p != 0 && *(struct McssSys * *)&p->cam != 0)
+        MCSS_Draw(*(struct McssSys * *)&p->cam);
 }
 
 void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(int unused, char *p)
 {
-    ZUKAN_DETAIL_COMMON_TransferPalettes(*(char * *)&((struct Obj25510 *)p)->f6AC);
+    ZUKAN_DETAIL_COMMON_TransferPalettes(*(char * *)&((struct Ov208Form *)p)->w6ac);
 }
 
 void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
@@ -1101,7 +1091,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
     switch (*(u32 *)((u8 *)p + 0x148 + idx * 16)) {
     case 0:
         ws = (u32)GF_FONT_Create_EC64(*heap);
-        src = ((struct Obj06686 *)p)->f5A4;
+        src = p->str[2];
         str = (u32)STRBUF_Create(0x40, *heap);
         WORDSET_Callback((struct WordSet *)ws, 0, k);
         WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)str, (void *)src);
@@ -1111,10 +1101,10 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
     case 1:
         switch (*(u16 *)((u8 *)p + 0x150 + idx * 16)) {
         case 0:
-            str = ((struct Obj06686 *)p)->f5A8;
+            str = p->str[3];
             break;
         case 1:
-            str = ((struct Obj06686 *)p)->f5AC;
+            str = p->str[4];
             break;
         }
         break;
@@ -1125,7 +1115,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
             if (k == 0)
                 break;
         }
-        str = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06686 *)p)->f598), k);
+        str = (u32)func_02045EC0((struct MsgBank *)p->msg2, k);
         c = 1;
         break;
     }
@@ -1134,7 +1124,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
     case 1:
         break;
     case 2:
-        b = ((struct Obj06686 *)p)->f5B0;
+        b = p->str[5];
         d = 0;
         break;
     }
@@ -1186,9 +1176,9 @@ void ZUKAN_DETAIL_FORM_DeleteTextWindows(void *unused,struct Ov208Form *p)
         BMP_WIN_Delete(*(struct Descriptor **)((u8 *)p+i*4+0x554));
     }
     for(i=0;i<6;i++)STRBUF_Delete(*(struct U16Vec **)((u8 *)p+i*4+0x59c));
-    MSGDATA_Delete(*(struct Rec * *)&((struct Obj10908 *)p)->f590);
-    MSGDATA_Delete(*(struct Rec * *)&((struct Obj10908 *)p)->f598);
-    func_020307B0(((struct Obj10908 *)p)->f594);
+    MSGDATA_Delete(*(struct Rec * *)&p->msg);
+    MSGDATA_Delete(*(struct Rec * *)&p->msg2);
+    func_020307B0((void *)p->marc);
 }
 
 void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p)
@@ -1260,17 +1250,17 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key
     STRBUF_Delete((struct U16Vec *)text);
     bmp2 = BMP_WIN_GetBmp((struct Descriptor *)p->win[1]);
     ws = GF_FONT_Create_EC64(*heap);
-    src = ((struct Obj01179 *)p)->f59C;
+    src = (void *)p->str[0];
     str = STRBUF_Create(8, *heap);
-    WORDSET_SetSlotNumber(ws, 0, ((struct Obj01179 *)p)->f54A, 2, 1, 1);
+    WORDSET_SetSlotNumber(ws, 0, p->f54a, 2, 1, 1);
     WORDSET_CopyTaggedText(ws, str, src);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(ws);
     ws2 = GF_FONT_Create_EC64(*heap);
-    src2 = ((struct Obj01179 *)p)->f5A0;
+    src2 = (void *)p->str[1];
     str = STRBUF_Create(8, *heap);
-    WORDSET_SetSlotNumber(ws2, 0, ((struct Obj01179 *)p)->f54C, 2, 1, 1);
+    WORDSET_SetSlotNumber(ws2, 0, p->f54c, 2, 1, 1);
     WORDSET_CopyTaggedText(ws2, str, src2);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)0x11, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
@@ -1340,12 +1330,12 @@ void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, int key)
 
 void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p, int key)
 {
-    switch (((struct Obj14663 *)p)->f6B8) {
+    switch (p->state) {
     case 0:
         BG_SYS_ResetSlot(2, 0, -0x40);
         break;
     case 4:
-        if (((struct Obj14663 *)p)->f548 >= 2)
+        if (p->count >= 2)
             BG_SYS_ResetSlot(2, 0, 0);
         else
             BG_SYS_ResetSlot(2, 0, -0x40);
@@ -1386,7 +1376,7 @@ struct Ov208Turn {
     int done;
 };
 
-typedef signed int     s32_021C4E54;
+typedef signed int     s32;
 
 typedef struct {
     s16 x;
@@ -1408,28 +1398,28 @@ typedef struct
 
 typedef enum { SIDE_0 = 0, SIDE_1 = 1 } Side;
 
-typedef short          s16_021C5F34;
+typedef short          s16;
 
 struct Ov208CellHdr {
-    s16_021C5F34 x;
-    s16_021C5F34 y;
-    s16_021C5F34 z;
+    s16 x;
+    s16 y;
+    s16 z;
     u8  a;
     u8  b;
 };
 
-typedef signed short   s16_021C66C8;
+typedef signed short   s16;
 
 typedef struct {
-    s16_021C66C8 x;
-    s16_021C66C8 y;
+    s16 x;
+    s16 y;
 } Ov208Pos;
 
 struct Ov208Cursor {
     u8  slot;
     u8  pad;
-    s16_021C66C8 x;
-    s16_021C66C8 y;
+    s16 x;
+    s16 y;
 };
 
 struct Ov208PoseEnt {
@@ -1491,11 +1481,11 @@ extern void MCSS_ResetAnmStopFlag(void *p);
 
 extern void MCSS_RequestAnimeStopAtStart(void *o);
 
-extern s32_021C4E54 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern s32_021C4E54 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int res, unsigned int j, unsigned int k, const void *pos, unsigned short f, unsigned short heap);
 
@@ -1746,12 +1736,12 @@ void ZUKAN_DETAIL_FORM_CreateModelItem(struct Ov208Mdl *m, u32 heap, void *sys, 
 
 void ZUKAN_DETAIL_FORM_DestroyModelItem(struct Ov208Mdl *p, int a)
 {
-    if (((struct Obj04897 *)p)->f0 != 0)
-        ZUKAN_DETAIL_FORM_DeleteModel(a, ((struct Obj04897 *)p)->f0);
-    ((struct Obj04897 *)p)->f0 = 0;
-    if (((struct Obj04897 *)p)->f4 != 0)
-        func_020307B0((void *)(((struct Obj04897 *)p)->f4));
-    ((struct Obj04897 *)p)->f4 = 0;
+    if (p->obj != 0)
+        ZUKAN_DETAIL_FORM_DeleteModel(a, p->obj);
+    p->obj = 0;
+    if (p->state != 0)
+        func_020307B0((void *)p->state);
+    p->state = 0;
 }
 
 void ZUKAN_DETAIL_FORM_InitAnimState(struct Ov208AnmState *s, int side, struct Ov208Form *form)
@@ -1808,22 +1798,22 @@ void ZUKAN_DETAIL_FORM_OnAnimStopRequest(struct Ov208Turn *t)
 
 void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,int key)
 {
-    if(*(int *)&((struct Obj00147 *)p)->f124) {
-        MCSS_SetVanishFlag(((struct Obj00147 *)p)->fC);
-        if(((struct Obj00147 *)p)->f94)MCSS_SetVanishFlag(((struct Obj00147 *)p)->f94);
-        *(int *)&((struct Obj00147 *)p)->f124=0;
+    if(p->w124) {
+        MCSS_SetVanishFlag((void *)p->item[0].obj);
+        if(p->item[2].obj)MCSS_SetVanishFlag((void *)p->item[2].obj);
+        p->w124=0;
     } else {
-        MCSS_SetVanishFlag(((struct Obj00147 *)p)->f50);
-        if(((struct Obj00147 *)p)->fD8)MCSS_SetVanishFlag(((struct Obj00147 *)p)->fD8);
-        *(int *)&((struct Obj00147 *)p)->f124=1;
+        MCSS_SetVanishFlag((void *)p->item[1].obj);
+        if(p->item[3].obj)MCSS_SetVanishFlag((void *)p->item[3].obj);
+        p->w124=1;
     }
     ZUKAN_DETAIL_FORM_RebuildModelsSwapped(heap,p,key);
-    if(*(int *)&((struct Obj00147 *)p)->f124) {
-        MCSS_ResetVanishFlag(((struct Obj00147 *)p)->fC);
-        if(((struct Obj00147 *)p)->f94)MCSS_ResetVanishFlag(((struct Obj00147 *)p)->f94);
+    if(p->w124) {
+        MCSS_ResetVanishFlag((void *)p->item[0].obj);
+        if(p->item[2].obj)MCSS_ResetVanishFlag((void *)p->item[2].obj);
     } else {
-        MCSS_ResetVanishFlag(((struct Obj00147 *)p)->f50);
-        if(((struct Obj00147 *)p)->fD8)MCSS_ResetVanishFlag(((struct Obj00147 *)p)->fD8);
+        MCSS_ResetVanishFlag((void *)p->item[1].obj);
+        if(p->item[3].obj)MCSS_ResetVanishFlag((void *)p->item[3].obj);
     }
 }
 
@@ -1839,9 +1829,9 @@ void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, int key
  */
 void ZUKAN_DETAIL_FORM_ReleaseIconResources(void *a, char *q)
 {
-    CLACT_ReleaseCellAnim(((struct Obj09213 *)q)->f138);
-    CLACT_ReleasePalette(((struct Obj09213 *)q)->f134);
-    ARC_TOOL_DeleteHandle((void *)((struct Obj09213 *)q)->f128);
+    CLACT_ReleaseCellAnim(((struct Ov208Form *)q)->k);
+    CLACT_ReleasePalette(((struct Ov208Form *)q)->j);
+    ARC_TOOL_DeleteHandle((void *)((struct Ov208Form *)q)->arc);
 }
 
 u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
@@ -2808,7 +2798,7 @@ u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, int key)
 {
     u32 x;
     u32 y;
-    s16_021C66C8 pos[2];
+    s16 pos[2];
     void *scene;
     int moved;
     u16 old;

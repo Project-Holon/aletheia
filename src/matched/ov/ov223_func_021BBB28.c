@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB28
+ * function: PSEL_GRAPHIC_StateFadeAnim
  * address: 0x021BBB28
  * packet: pkt_ov223_021BBB28
  * region: ov223
@@ -10,7 +10,7 @@
  * status: EXACT
  * ABI: 02035C60 return consumed at BB B2, as in matched BB0B0, despite own void forwarding declaration.
  * symbols:
- *   func_021B9914 0x021B9914 thumb ov223
+ *   PSEL_UpdateListAnime 0x021B9914 thumb ov223
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -19,19 +19,19 @@
 #include "../include/Obj00792.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021B9914(char *);
+extern void PSEL_UpdateListAnime(char *);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_0207D63C(u32,int,int,int,int);
-int func_021BBB28(char *p,u32 *state)
+int PSEL_GRAPHIC_StateFadeAnim(char *p,u32 *state)
 {
     int changed=0;
     switch(*state) {
-    case 0: func_021B9914(p);if(((struct Obj00792 *)p)->f50==134) ++*state;break;
+    case 0: PSEL_UpdateListAnime(p);if(((struct Obj00792 *)p)->f50==134) ++*state;break;
     case 1:
         if(((struct Obj00792 *)p)->f268<8) {++((struct Obj00792 *)p)->f268;changed=1;}
-        func_021B9914(p);if(((struct Obj00792 *)p)->f50==138) ++*state;break;
+        PSEL_UpdateListAnime(p);if(((struct Obj00792 *)p)->f50==138) ++*state;break;
     case 2:
         if(((struct Obj00792 *)p)->f268<8) {++((struct Obj00792 *)p)->f268;changed=1;}
         else {((struct Obj00792 *)p)->f24|=1;++*state;}
@@ -53,7 +53,7 @@ int func_021BBB28(char *p,u32 *state)
         if(((struct Obj00792 *)p)->f268==4) ++*state;break;
     case 7:
         if(((struct Obj00792 *)p)->f268!=0) {--((struct Obj00792 *)p)->f268;changed=1;}
-        func_021B9914(p);
+        PSEL_UpdateListAnime(p);
         if(((struct Obj00792 *)p)->f50==180) GFL_USE_PlaySeDefaultVolume(1956);
         if(((struct Obj00792 *)p)->f50==199) {((struct Obj00792 *)p)->f10=0;return 5;}
         break;

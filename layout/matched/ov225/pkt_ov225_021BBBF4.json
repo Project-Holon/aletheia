@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBBF4",
+   "name": "MANUAL_CATEGORY_LoadOptionAssets",
    "address": "0x021BBBF4",
    "kind": "game",
    "region": "ov225",

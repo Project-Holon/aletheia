@@ -10,7 +10,7 @@
  * symbols:
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -42,7 +42,7 @@ struct Tcbl;
 struct U16Vec;
 extern void TCBL_Main(struct Tcbl *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
@@ -64,7 +64,7 @@ void PLIST_MESSAGE_Update(u8 *p,u8 *s)
     TCBL_Main((struct Tcbl *)W(8));
     if (W(0xc) != 0) {
         APP_KEYCURSOR_Update((struct Ctx *)W(0x14),(void *)W(0xc),(void *)W(4));
-        if (func_02028484((struct Blk *)(s+0x18),(void *)W(0xc)) == 1) {
+        if (PRINTSYS_CTRL_Update((struct Blk *)(s+0x18),(void *)W(0xc)) == 1) {
             if (W(0x20) == 0 || (KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() == 1) {
                 if (W(0x20) == 1) GFL_USE_PlaySeDefaultVolume(0x547);
                 PRINTSYS_PrintStreamDelete((struct Rec3 *)W(0xc));

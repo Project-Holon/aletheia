@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D74C, func_0200D760, func_0200D774, func_0200D810,
- *           func_0200D820, func_0200D82C
+ * function: GDS_PROFILE_GetRecordWord1C, GDS_PROFILE_GetRecordWord30, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetVariant,
+ *           GDS_PROFILE_GetCountry, GDS_PROFILE_GetMode
  *
  * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
  * label in the generated listing.
@@ -65,19 +65,19 @@ struct GdsProfile {
     struct GdsRecord unk20;
 };
 
-u32 func_0200D82C(struct GdsProfile *p);
+u32 GDS_PROFILE_GetMode(struct GdsProfile *p);
 
-u32 func_0200D74C(struct GdsProfile *p)
+u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfile *p)
 {
-    return func_02025C1C(p->unk17, p->unk18, func_0200D82C(p));
+    return func_02025C1C(p->unk17, p->unk18, GDS_PROFILE_GetMode(p));
 }
 
-u32 func_0200D760(struct GdsProfile *p)
+u32 GDS_PROFILE_GetRecordWord30(struct GdsProfile *p)
 {
-    return func_02025C30(p->unk17, p->unk18, func_0200D82C(p));
+    return func_02025C30(p->unk17, p->unk18, GDS_PROFILE_GetMode(p));
 }
 
-void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
+void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
 {
     u32 a;
     u32 b;
@@ -117,7 +117,7 @@ void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
     }
 }
 
-u32 func_0200D810(struct GdsProfile *p)
+u32 GDS_PROFILE_GetVariant(struct GdsProfile *p)
 {
     u32 v = p->unk15;
 
@@ -127,7 +127,7 @@ u32 func_0200D810(struct GdsProfile *p)
     return v;
 }
 
-u32 func_0200D820(struct GdsProfile *p)
+u32 GDS_PROFILE_GetCountry(struct GdsProfile *p)
 {
     u32 v = p->unk16;
 
@@ -137,7 +137,7 @@ u32 func_0200D820(struct GdsProfile *p)
     return v;
 }
 
-u32 func_0200D82C(struct GdsProfile *p)
+u32 GDS_PROFILE_GetMode(struct GdsProfile *p)
 {
     u32 v = p->unk1A;
 

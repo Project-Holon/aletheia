@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBB28",
+   "name": "PSEL_GRAPHIC_StateFadeAnim",
    "address": "0x021BBB28",
    "kind": "game",
    "region": "ov223",

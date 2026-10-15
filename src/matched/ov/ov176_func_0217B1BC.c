@@ -1,5 +1,5 @@
 /*
- * function: func_0217B1BC
+ * function: BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch
  * address: 0x0217B1BC
  * packet: pkt_ov176_0217B1BC
  * region: ov176
@@ -10,26 +10,26 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0217B984 0x0217B984 thumb ov176
- *   func_0217BAF4 0x0217BAF4 thumb ov176
- *   func_0217BB3C 0x0217BB3C thumb ov176
- *   func_0217BA9C 0x0217BA9C thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Create 0x0217B984 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Release 0x0217BAF4 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_GetResult 0x0217BB3C thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Delete 0x0217BA9C thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217B064 0x0217B064 thumb ov176
- *   func_0217B0C8 0x0217B0C8 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_FadeOut 0x0217B064 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_StartMenu 0x0217B0C8 thumb ov176
  */
 typedef unsigned char u8;
 typedef unsigned u32;
 typedef struct {u32 w[10];} Init;
 extern void MI_CpuFill8(void *,int,unsigned);
-extern u8 *func_0217B984(Init *,u32);
-extern void func_0217BAF4(int *);
-extern int func_0217BB3C(int *);
-extern void func_0217BA9C(int *);
+extern u8 *LIVEBATTLEMATCH_FLOW_Create(Init *,u32);
+extern void LIVEBATTLEMATCH_FLOW_Release(int *);
+extern int LIVEBATTLEMATCH_FLOW_GetResult(int *);
+extern void LIVEBATTLEMATCH_FLOW_Delete(int *);
 extern void func_021E8AA0(int *,int);
-extern void func_0217B064(void *,int *,char *);
-extern void func_0217B0C8(int *,int *,int *);
-void func_0217B1BC(int *a,int *state,int *p)
+extern void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *,int *,char *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *,int *,int *);
+void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *a,int *state,int *p)
 {
     Init config;
     switch(*state) {
@@ -51,12 +51,12 @@ void func_0217B1BC(int *a,int *state,int *p)
         case 6: config.w[0]=1;break;
         default: config.w[0]=0;break;
         }
-        p[11]=(int)func_0217B984(&config,78);
+        p[11]=(int)LIVEBATTLEMATCH_FLOW_Create(&config,78);
         (*state)++;
         break;
     case 1:
-        func_0217BAF4((int *)p[11]);
-        switch(func_0217BB3C((int *)p[11])) {
+        LIVEBATTLEMATCH_FLOW_Release((int *)p[11]);
+        switch(LIVEBATTLEMATCH_FLOW_GetResult((int *)p[11])) {
         case 1: *state=3;break;
         case 2: ((int *)p[10])[2]=2;*state=2;break;
         case 3: ((int *)p[10])[2]=3;*state=2;break;
@@ -64,13 +64,13 @@ void func_0217B1BC(int *a,int *state,int *p)
         }
         break;
     case 2:
-        func_0217BA9C((int *)p[11]);
-        func_021E8AA0(a,(int)func_0217B064);
+        LIVEBATTLEMATCH_FLOW_Delete((int *)p[11]);
+        func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
         p[12]=1;
-        func_0217BA9C((int *)p[11]);
-        func_021E8AA0(a,(int)func_0217B0C8);
+        LIVEBATTLEMATCH_FLOW_Delete((int *)p[11]);
+        func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
         break;
     }
 }

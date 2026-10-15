@@ -19,7 +19,7 @@
  *   memset 0x02082BCC arm
  *   MYSTATUS_Copy 0x02008494 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0202EB7C 0x0202EB7C thumb
+ *   COMM_HISTORY_InsertIfNamed 0x0202EB7C thumb
  */
 #include "../include/Obj06521.h"
 #include "../include/Obj08195.h"
@@ -53,7 +53,7 @@ extern u32 func_020307B0(void *p);
 extern void *memset(void *, int, u32);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern u32 func_0202EB7C(u32 a0, u32 a1);
+extern u32 COMM_HISTORY_InsertIfNamed(u32 a0, u32 a1);
 void WORLDTRADE_SERVER_RecordTradeResult(u8 *p, void *mon, u8 *r, void *old)
 {
     void *copy;
@@ -74,6 +74,6 @@ void WORLDTRADE_SERVER_RecordTradeResult(u8 *p, void *mon, u8 *r, void *old)
     rec.x = ((struct Obj06521 *)r)->f126;
     rec.flags = (rec.flags & ~7) | (((struct Obj06521 *)r)->fF7 & 7);
     rec.y = ((struct Obj06521 *)r)->f127;
-    func_0202EB7C((u32)(((struct Obj23455 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f18), (u32)(&rec));
+    COMM_HISTORY_InsertIfNamed((u32)(((struct Obj23455 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f18), (u32)(&rec));
     func_020307B0(copy);
 }

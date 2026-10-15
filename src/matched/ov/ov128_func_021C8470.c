@@ -1,5 +1,5 @@
 /*
- * function: func_021C8470
+ * function: Wf2dmapFriend_UpdateEntryMenu
  * address: 0x021C8470
  * packet: pkt_ov128_021C8470
  * region: ov128
@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_020355C4 0x020355C4 arm
- *   func_021C875C 0x021C875C thumb ov128
- *   func_021C8784 0x021C8784 thumb ov128
+ *   Wf2dmapFriend_ShowEntryDetail 0x021C875C thumb ov128
+ *   Wf2dmapFriend_ClearEntryWindow 0x021C8784 thumb ov128
  *   d_021CA68C 0x021CA68C data a4
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
@@ -26,10 +26,10 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u8 func_020355C4(void);
-extern void func_021C875C(char *p, char *q);
-extern void func_021C8784(char *);
+extern void Wf2dmapFriend_ShowEntryDetail(char *p, char *q);
+extern void Wf2dmapFriend_ClearEntryWindow(char *);
 extern const int d_021CA68C[][8];
-int func_021C8470(u8 *p, int *a, void *b)
+int Wf2dmapFriend_UpdateEntryMenu(u8 *p, int *a, void *b)
 {
     int n;
     int result;
@@ -45,8 +45,8 @@ int func_021C8470(u8 *p, int *a, void *b)
         *a = func_020355C4();
         result = d_021CA68C[((struct Obj06478 *)p)->f198][n * 2];
     }
-    if (result == 2) func_021C875C((char *)p, b);
-    else if (result == 9 || result == 12) func_021C875C((char *)p, b);
-    else func_021C8784((char *)p);
+    if (result == 2) Wf2dmapFriend_ShowEntryDetail((char *)p, b);
+    else if (result == 9 || result == 12) Wf2dmapFriend_ShowEntryDetail((char *)p, b);
+    else Wf2dmapFriend_ClearEntryWindow((char *)p);
     return result;
 }

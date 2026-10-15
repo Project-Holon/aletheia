@@ -20,6 +20,8 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb  arm9
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "../include/Obj00236.h"
 typedef unsigned char u8;
@@ -37,8 +39,8 @@ extern void func_021DA010(u8 *);
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02028470(u8 *p, u32 v);
-extern void *func_02028590(u32,u32,u32,u32);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
+extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,u32,u32,u32,u32,int,void *,u32,u16,u16);
 void func_021D9F24(u8 *p,int mode)
@@ -69,8 +71,8 @@ void func_021D9F24(u8 *p,int mode)
         ((struct Obj00236 *)p)->f28=0;
         break;
     case 1:
-        func_02028470(p+0x34,2);
-        ((struct Obj00236 *)p)->f30=func_02028590(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
+        PRINTSYS_CTRL_Init(p+0x34,2);
+        ((struct Obj00236 *)p)->f30=APP_KEYCURSOR_CreateDefault(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
         ((struct Obj00236 *)p)->f8=PRINTSYS_PrintStream(((struct Obj00236 *)p)->f10,0,0,*(u32 *)&((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4,MSG_SPEED_GetWait(),((struct Obj00236 *)p)->fC,0,((struct Obj00236 *)p)->f1A,((struct Obj00236 *)p)->f18);
         ((struct Obj00236 *)p)->f28=1;
         break;

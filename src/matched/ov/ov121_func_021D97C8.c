@@ -1,5 +1,5 @@
 /*
- * function: func_021D97C8
+ * function: MYSTERY_GRAPHIC_InitBg
  * address: 0x021D97C8
  * packet: pkt_ov121_021D97C8
  * region: ov121
@@ -32,7 +32,7 @@ struct BgTemplate;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021D97C8(void *p, u32 a)
+void MYSTERY_GRAPHIC_InitBg(void *p, u32 a)
 {
     u32 i;
     const Entry *e;

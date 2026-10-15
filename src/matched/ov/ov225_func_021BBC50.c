@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC50
+ * function: MANUAL_CATEGORY_OptionNoop
  * address: 0x021BBC50
  * packet: pkt_ov225_021BBC50
  * region: ov225
@@ -13,4 +13,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021BBC50(char *a0) {}
+void MANUAL_CATEGORY_OptionNoop(char *a0) {}

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC0C
+ * function: PSEL_DeleteBgLayers
  * address: 0x021BAC0C
  * packet: pkt_ov223_021BAC0C
  * region: ov223
@@ -23,7 +23,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(unsigned);
-void func_021BAC0C(u16 *p)
+void PSEL_DeleteBgLayers(u16 *p)
 {
     void *object;
     object=func_020490F4(205,*p);

@@ -13,10 +13,10 @@
  * counter, adds it to the record at +0x74 and returns it.
  *
  * symbols:
- *   func_0200D884  0x0200D884  thumb
- *   func_0200DC08  0x0200DC08  thumb
- *   func_0200DB80  0x0200DB80  thumb
- *   func_0200DA80  0x0200DA80  thumb
+ *   GDS_PROFILE_GetFieldRecField  0x0200D884  thumb
+ *   GDS_PROFILE_GetScoreRecLevel  0x0200DC08  thumb
+ *   GDS_PROFILE_GetScoreRecCountCDec  0x0200DB80  thumb
+ *   GDS_PROFILE_AddScoreRecTotal  0x0200DA80  thumb
  *   d_021DACDC     0x021DACDC  data  a1
  * Addresses are Black-image addresses.
  */
@@ -33,10 +33,10 @@ typedef struct { u16 b0 : 1; u16 b1 : 2; } Bits;
 
 struct Blk1AC;
 struct Blk3C;
-extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
-extern u8 func_0200DC08(struct Blk1AC *p);
-extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
-extern void func_0200DA80(struct Blk1AC *p, s32 v);
+extern u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
+extern u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p);
+extern u16 GDS_PROFILE_GetScoreRecCountCDec(struct Blk1AC *p, u32 i);
+extern void GDS_PROFILE_AddScoreRecTotal(struct Blk1AC *p, s32 v);
 extern const u8 d_021DACDC[7][10];
 
 u32 BSUBWAY_SCR_AddBattlePoint(u8 *p)
@@ -48,8 +48,8 @@ u32 BSUBWAY_SCR_AddBattlePoint(u8 *p)
 
     if (p[9] == 4) {
         r = 0;
-        if ((u16)func_0200D884(((struct Obj04291 *)p)->f70, 0xB, 0) == 1) {
-            idx = (s8)func_0200DC08(((struct Obj04291 *)p)->f74);
+        if ((u16)GDS_PROFILE_GetFieldRecField(((struct Obj04291 *)p)->f70, 0xB, 0) == 1) {
+            idx = (s8)GDS_PROFILE_GetScoreRecLevel(((struct Obj04291 *)p)->f74);
             if (idx < 0)
                 idx = 0;
             else if (idx >= 10)
@@ -60,7 +60,7 @@ u32 BSUBWAY_SCR_AddBattlePoint(u8 *p)
         }
     } else {
         r = 0;
-        n = func_0200DB80(((struct Obj04291 *)p)->f74, p[9]);
+        n = GDS_PROFILE_GetScoreRecCountCDec(((struct Obj04291 *)p)->f74, p[9]);
         switch (p[9]) {
         case 0:
             row = 0;
@@ -115,6 +115,6 @@ u32 BSUBWAY_SCR_AddBattlePoint(u8 *p)
     }
     if (r == 0)
         r = 1;
-    func_0200DA80(((struct Obj04291 *)p)->f74, r);
+    GDS_PROFILE_AddScoreRecTotal(((struct Obj04291 *)p)->f74, r);
     return r;
 }

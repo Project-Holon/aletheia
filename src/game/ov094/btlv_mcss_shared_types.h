@@ -188,6 +188,5 @@ typedef struct BtlvMcssBounceParams {
 } BtlvMcssBounceParams;
 
 /* Old name used by btlv_input.c until that file is moved to BtlvMcssWork. */
-typedef BtlvMcssWork Work_022005C4;
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9740
+ * function: PSEL_Task
  * address: 0x021B9740
  * region: ov223
  * isa: thumb
@@ -14,7 +14,7 @@
 #include "../include/Obj03380.h"
 typedef unsigned int u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021B9740(void *unused,char *p)
+void PSEL_Task(void *unused,char *p)
 {
     if(((struct Obj03380 *)p)->f24&1) func_02040588(3,1);
     if(((struct Obj03380 *)p)->f24&2) func_02040588(3,0);

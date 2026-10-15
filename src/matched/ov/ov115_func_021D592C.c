@@ -1,5 +1,5 @@
 /*
- * function: func_021D592C
+ * function: WIFILOGIN_DISP_SetPaletteFlag
  * address:  0x021D592C
  * packet:   pkt_ov115_021D592C
  * region:   ov115
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D592C(u8 *p) { ((struct Obj22600 *)p)->f9C4 = 1; }
+void WIFILOGIN_DISP_SetPaletteFlag(u8 *p) { ((struct Obj22600 *)p)->f9C4 = 1; }

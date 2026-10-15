@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D6EC, func_0200D6FC, func_0200D70C, func_0200D72C,
- *           func_0200D73C
+ * function: GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetMonFlagBit7,
+ *           GDS_PROFILE_GetMonFlagBit0
  *
  * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
  * label in the generated listing.
@@ -22,22 +22,22 @@
  * field and substitutes a safe value when it is out of range, and the shape
  * of the guard is what says how the source was written.
  *
- * func_0200D6EC and func_0200D72C both test the value against 0 and then
+ * GDS_PROFILE_GetEggFlag and GDS_PROFILE_GetMonFlagBit7 both test the value against 0 and then
  * against 1 with two `beq` to the same address, which is one `if` with `&&`
  * and not two statements; see
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in func_0200D72C is the interesting part: the
+ * That the test survives at all in GDS_PROFILE_GetMonFlagBit7 is the interesting part: the
  * field there is one bit wide, so `v != 0 && v != 1` is provably false and
  * the compiler still emits both compares, which is the same reading as
  * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
  *
- * func_0200D73C clamps rather than zeroes, and the branch is `bls` over a
+ * GDS_PROFILE_GetMonFlagBit0 clamps rather than zeroes, and the branch is `bls` over a
  * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
  * is the assignment.
  *
  * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
  * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
- * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
+ * `lsrs #0x1A` is the six bits between them, which is what GDS_PROFILE_GetFormSpecies
  * passes as the second argument of POKE_TOOL_FilterSpecies.
  *
  * symbols:
@@ -60,7 +60,7 @@ struct RecGet {
     u16 unk1C;
 };
 
-u32 func_0200D6EC(struct RecGet *p)
+u32 GDS_PROFILE_GetEggFlag(struct RecGet *p)
 {
     u32 v = p->unk14;
 
@@ -70,7 +70,7 @@ u32 func_0200D6EC(struct RecGet *p)
     return v;
 }
 
-u32 func_0200D6FC(struct RecGet *p)
+u32 GDS_PROFILE_GetSpecies(struct RecGet *p)
 {
     u32 v = p->unk1C;
 
@@ -80,7 +80,7 @@ u32 func_0200D6FC(struct RecGet *p)
     return v;
 }
 
-u32 func_0200D70C(struct RecGet *p)
+u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p)
 {
     if (p->unk1C >= 0x28B) {
         return 0;
@@ -88,7 +88,7 @@ u32 func_0200D70C(struct RecGet *p)
     return POKE_TOOL_FilterSpecies(p->unk1C, p->b1);
 }
 
-u32 func_0200D72C(struct RecGet *p)
+u32 GDS_PROFILE_GetMonFlagBit7(struct RecGet *p)
 {
     u32 v = p->b7;
 
@@ -98,7 +98,7 @@ u32 func_0200D72C(struct RecGet *p)
     return v;
 }
 
-u32 func_0200D73C(struct RecGet *p)
+u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p)
 {
     u32 v = p->b0;
 

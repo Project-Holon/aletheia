@@ -108,7 +108,7 @@
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
- *   func_0200D6EC 0x0200D6EC thumb
+ *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
  *   BR_UTIL_SetWindowTextBuf 0x021FD19C thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -136,7 +136,7 @@ extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
-extern u32 func_0200D6EC(struct RecGet *p);
+extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void BR_CODEIN_CreateMenuButtons(char *p,char *q)
@@ -172,7 +172,7 @@ void BR_CODEIN_CreateMenuButtons(char *p,char *q)
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((*(u16 *)(p+0x38)&0x7fff)|0x8000));
     if(!*(void **)(p+8)) *(void **)(p+8)=BR_UTIL_CreateTextWin(*(int *)(q+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
     func_02045CAC((struct MsgBank *)c,0x5c,s);
-    WORDSET_SetSlotTag(a,0,(const void *)tmp,func_0200D6EC(owner),1,2);
+    WORDSET_SetSlotTag(a,0,(const void *)tmp,GDS_PROFILE_GetEggFlag(owner),1,2);
     WORDSET_CopyTaggedText(a,b,s);
     BR_UTIL_SetWindowTextBuf(*(void **)(p+8),(void *)(*(int *)(q+8)),b);
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);

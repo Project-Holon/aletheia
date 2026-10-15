@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C81FC",
+   "name": "Wf2dmapFriend_StartItemOpen",
    "address": "0x021C81FC",
    "kind": "game",
    "region": "ov128",

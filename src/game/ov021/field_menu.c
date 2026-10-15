@@ -85,11 +85,11 @@
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   func_020275E4  0x020275E4  thumb
- *   func_02027614  0x02027614  thumb
- *   func_02027618  0x02027618  thumb
- *   func_0202761C  0x0202761C  thumb
- *   func_02027620  0x02027620  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
  *   CLACT_SetUnitRenderer  0x0204B258  arm
@@ -136,9 +136,9 @@
  *   CLACT_CreateAffineActor  0x0204B324  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_02027624  0x02027624  thumb
- *   func_02027628  0x02027628  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   func_02049EF4  0x02049EF4  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -396,11 +396,11 @@ extern void func_020498F4(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u1
 extern void *CLACT_RegisterPaletteEx(void *arcHandle, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
 extern void *CLACT_RegisterCharacter(void *arcHandle, u32 b, u32 c, u32 d, u16 heapId);
 extern void *CLACT_RegisterCellAnim(void *arcHandle, u32 first, u32 second, u32 heapId);
-extern u32 func_020275E4(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *CLACT_CreateRenderer(FieldMenuSurfaceRect *rect, u32 a1, u32 heapId);
 extern void CLACT_SetUnitRenderer(void *unit, void *surface);
@@ -438,9 +438,9 @@ extern void PRINTSYS_PrintQueColor(void *printQue, void *buf, u32 b, u32 c, void
 extern void *CLACT_CreateAffineActor(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorSetup *setup, u16 space, u16 heapId);
 extern unsigned int BMP_WIN_Delete(void *bmpWin);
 extern void BMP_WIN_TransferChars(void *bmpWin);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *func_02049EF4(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
 extern void BG_SYS_DrawTileEx(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u8 layer);
@@ -770,11 +770,11 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     menu->palRes = CLACT_RegisterPaletteEx(arcHandle, 1, 1, 0, 0, 0xB, menu->heapId);
     menu->charRes = CLACT_RegisterCharacter(arcHandle, 0xD, 0, 1, menu->heapId);
     menu->cellRes = CLACT_RegisterCellAnim(arcHandle, 0x1C, 0x26, menu->heapId);
-    commonArc = func_020490F4(func_020275E4(), menu->subHeapId);
-    menu->palResB = CLACT_RegisterPaletteEx(commonArc, func_02027614(), 1, 0x160, 0, 2, menu->heapId);
-    menu->charResB = CLACT_RegisterCharacter(commonArc, func_02027618(), 0, 1, menu->heapId);
-    cellId = func_0202761C(0);
-    menu->cellResB = CLACT_RegisterCellAnim(commonArc, cellId, func_02027620(0), menu->heapId);
+    commonArc = func_020490F4(APP_ICON_GetArchiveId(), menu->subHeapId);
+    menu->palResB = CLACT_RegisterPaletteEx(commonArc, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x160, 0, 2, menu->heapId);
+    menu->charResB = CLACT_RegisterCharacter(commonArc, APP_ICON_GetMoveKindAnimFileId(), 0, 1, menu->heapId);
+    cellId = APP_ICON_GetStatusCellFileId(0);
+    menu->cellResB = CLACT_RegisterCellAnim(commonArc, cellId, APP_ICON_GetStatusPaletteFileId(0), menu->heapId);
     ARC_TOOL_DeleteHandle(commonArc);
     func_020409B4(5);
     menu->clactUnit = CLACT_CreateUnit(8, 0, menu->heapId);
@@ -1202,10 +1202,10 @@ void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
     u16 *tiles;
     void *arcHandle;
 
-    arcHandle = func_020490F4(func_020275E4(), heapId);
-    func_02049B68(arcHandle, func_02027624(), 4, 0x60, 0x20, heapId);
-    func_02049658(arcHandle, func_02027628(), layer, 0x80, 0, 0, heapId);
-    screenBuf = func_02049EF4(arcHandle, func_0202762C(), 0, (void **)&screen, heapId);
+    arcHandle = func_020490F4(APP_ICON_GetArchiveId(), heapId);
+    func_02049B68(arcHandle, APP_ICON_GetStatusAnimFileId(), 4, 0x60, 0x20, heapId);
+    func_02049658(arcHandle, APP_ICON_GetStatusFrameFileId(), layer, 0x80, 0, 0, heapId);
+    screenBuf = func_02049EF4(arcHandle, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, heapId);
     ARC_TOOL_DeleteHandle(arcHandle);
     tiles = screen->tiles;
     for (i = 0; i < 0x300; i++) {

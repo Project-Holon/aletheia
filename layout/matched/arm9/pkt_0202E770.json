@@ -30,10 +30,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202E888",
-    "sub_0202E8A4",
-    "sub_0202E8B8",
-    "sub_0202E8CC"
+    "COMM_PLAYER_SUPPORT_GetSeasonFromClock",
+    "COMM_PLAYER_SUPPORT_NextSeason",
+    "COMM_PLAYER_SUPPORT_PrevSeason",
+    "COMM_PLAYER_SUPPORT_SetSeason"
+   ],
+   "addresses": [
+    "0x0202E888",
+    "0x0202E8A4",
+    "0x0202E8B8",
+    "0x0202E8CC"
    ]
   },
   {
@@ -55,7 +61,7 @@
    ]
   },
   {
-   "name": "sub_0202EB0C",
+   "name": "APP_ENV_IsRunOnTwl",
    "address": "0x0202EB0C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202EB4C",
+   "name": "APP_ENV_IsEulaAgreed",
    "address": "0x0202EB4C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +85,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202EB60",
+   "name": "APP_ENV_GetOwnerColorAndBirthMonth",
    "address": "0x0202EB60",
    "kind": "game",
    "region": "arm9",
@@ -102,7 +108,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202EC24"
+    "COMM_HISTORY_CountLeadingOccupied"
+   ],
+   "addresses": [
+    "0x0202EC24"
    ]
   }
  ]

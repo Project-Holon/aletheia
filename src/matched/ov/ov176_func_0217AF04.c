@@ -1,5 +1,5 @@
 /*
- * function: func_0217AF04
+ * function: BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic
  * address:  0x0217AF04
  * packet:   pkt_0217AF04
  * region:   ov176
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E54E0  0x021E54E0  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_Delete  0x021E54E0  thumb  ov177
  */
 #include "../include/Obj03869.h"
 
-extern void func_021E54E0(char *p);
+extern void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p);
 
-void func_0217AF04(int *p)
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(int *p)
 {
-    func_021E54E0((char *)(((struct Obj03869 *)p)->f24));
+    WIFIBATTLEMATCH_GRAPHIC_Delete((char *)(((struct Obj03869 *)p)->f24));
     ((struct Obj03869 *)p)->f24 = 0;
 }

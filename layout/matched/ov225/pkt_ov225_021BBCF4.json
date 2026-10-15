@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBCF4",
+   "name": "MANUAL_CATEGORY_DeleteOptionSlots",
    "address": "0x021BBCF4",
    "kind": "game",
    "region": "ov225",

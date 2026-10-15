@@ -11,10 +11,10 @@
  * lever:    enum-typed zero in the eighth call preserves copied argument registers and the preceding late heap store.
  *
  * symbols:
- *   func_020275E4  0x020275E4  thumb
- *   func_02027624  0x02027624  thumb
- *   func_02027628  0x02027628  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049658  0x02049658  arm
@@ -112,10 +112,10 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -147,10 +147,10 @@ void VIEWER_TEXT_LoadBgResources(Work *p)
     func_02049B68(arc, z, z, z, z, 0x27);
     func_02049658(arc, 0x19, 1, 0, 0, 0, 0x27);
     func_020498F4(arc, 0x21, 1, 0, 0, 0, 0x27);
-    arc2 = func_020490F4(func_020275E4(), 0x27);
-    func_02049658(arc2, func_02027628(), 2, 0, 0, 0, 0x27);
-    func_020498F4(arc2, func_0202762C(), 2, 0, 0, 0, 0x27);
-    ARC_UTIL_UploadPaletteFromHandle(arc2, func_02027624(), 0, 0, 0x1C0, 0x20, 0x27);
+    arc2 = func_020490F4(APP_ICON_GetArchiveId(), 0x27);
+    func_02049658(arc2, APP_ICON_GetStatusFrameFileId(), 2, 0, 0, 0, 0x27);
+    func_020498F4(arc2, APP_ICON_GetStatusDataFileId(), 2, 0, 0, 0, 0x27);
+    ARC_UTIL_UploadPaletteFromHandle(arc2, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x27);
     BG_SYS_FillTileMap(2, 0, 0x15, 0x20, 3, 0xE);
     func_020409B4(2);
     ARC_TOOL_DeleteHandle(arc2);

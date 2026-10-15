@@ -1,5 +1,5 @@
 /*
- * function: func_02028470
+ * function: PRINTSYS_CTRL_Init
  * address:  0x02028470
  * packet:   pkt_02027FEC
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02028470.c \\
- *       --func func_02028470 --addr 0x02028470 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PRINTSYS_CTRL_Init.c \\
+ *       --func PRINTSYS_CTRL_Init --addr 0x02028470 --thumb --cc 1.1p1
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 size);
 
-void func_02028470(u8 *p, u32 v)
+void PRINTSYS_CTRL_Init(u8 *p, u32 v)
 {
     MI_CpuFill8(p, 0, 8);
     ((struct Obj15794 *)p)->f4 = v;

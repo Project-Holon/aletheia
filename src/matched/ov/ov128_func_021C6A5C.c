@@ -1,5 +1,5 @@
 /*
- * function: func_021C6A5C
+ * function: Wf2dmapFriend_DeleteWindows
  * address: 0x021C6A5C
  * packet: pkt_ov128_021C6A5C
  * region: ov128
@@ -21,4 +21,4 @@ struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021C6A5C(u8 *p) { STRBUF_Delete(((struct Obj00725 *)p)->f1C);STRBUF_Delete(((struct Obj00725 *)p)->f20);STRBUF_Delete(((struct Obj00725 *)p)->f14);STRBUF_Delete(((struct Obj00725 *)p)->f18);BMP_WIN_Delete(((struct Obj00725 *)p)->fC);BMP_WIN_Exit(); }
+void Wf2dmapFriend_DeleteWindows(u8 *p) { STRBUF_Delete(((struct Obj00725 *)p)->f1C);STRBUF_Delete(((struct Obj00725 *)p)->f20);STRBUF_Delete(((struct Obj00725 *)p)->f14);STRBUF_Delete(((struct Obj00725 *)p)->f18);BMP_WIN_Delete(((struct Obj00725 *)p)->fC);BMP_WIN_Exit(); }

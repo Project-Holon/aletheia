@@ -17,8 +17,8 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021E5440 0x021E5440 thumb ov177
- *   func_021E5548 0x021E5548 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_Create 0x021E5440 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   func_021E567C 0x021E567C thumb ov177
  *   WIFIBATTLEMATCH_NET_CopyBoxSave 0x021D6698 thumb ov175
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -43,8 +43,8 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
-extern int *func_021E5440(unsigned, int);
-extern int func_021E5548(int *);
+extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned, int);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern u32 *func_021E567C(int unused, int mode, int heap);
 extern void WIFIBATTLEMATCH_NET_CopyBoxSave(u32 *, u32 *);
 struct GfFont;
@@ -73,8 +73,8 @@ int WIFIBATTLEMATCH_NET_TaskCreate(void *sys, int *state, u32 *ctx)
     p = PROCSYS_AllocProcWork(sys, 0x100, 87);
     MI_CpuFill8(p, 0, 0x100);
     p[16] = (u32)ctx;
-    p[0] = (u32)func_021E5440(1, 87);
-    p[1] = (u32)func_021E567C(func_021E5548((int *)p[0]), 2, 87);
+    p[0] = (u32)WIFIBATTLEMATCH_GRAPHIC_Create(1, 87);
+    p[1] = (u32)func_021E567C(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), 2, 87);
     WIFIBATTLEMATCH_NET_CopyBoxSave((u32 *)ctx[5], p);
     p[2] = (u32)GF_FONT_Create(23, 0, 0, 0, 87);
     p[3] = PRINTSYS_QUE_Create((void *)87);
@@ -84,7 +84,7 @@ int WIFIBATTLEMATCH_NET_TaskCreate(void *sys, int *state, u32 *ctx)
     p[9] = (u32)func_021E8568(0, 15, 14, 10, (void *)p[3], (void *)p[2], 87);
     p[13] = (u32)func_021E8A3C((int)p, (int)WIFIBATTLEMATCH_NET_TaskStepA, 87);
     p[14] = (u32)func_021E8A3C((int)p, 0, 87);
-    p[8] = (u32)func_021E7D20((void *)func_021E5548((int *)p[0]), (void *)p[1], 87);
+    p[8] = (u32)func_021E7D20((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), (void *)p[1], 87);
     func_021E7E0C((void **)p[8], 0);
     if (ctx[3] != 0) {
         if (ctx[0] == 0) {

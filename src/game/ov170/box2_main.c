@@ -53,14 +53,14 @@
  *   func_02049740  0x02049740  arm
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02027628  0x02027628  thumb
- *   func_02027624  0x02027624  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
@@ -333,85 +333,8 @@
  *   BOX2_SEQ_ShowHandSlots 0x021ED2F4 thumb ov170
  */
 #include "box2_types.h"
-#include "../../matched/include/Obj09220.h"
-#include "../../matched/include/Obj18436.h"
-#include "../../matched/include/Obj18437.h"
-#include "../../matched/include/Obj12145.h"
-#include "../../matched/include/Obj18439.h"
-#include "../../matched/include/Obj18440.h"
-#include "../../matched/include/Obj23825.h"
-#include "../../matched/include/Obj23826.h"
-#include "../../matched/include/Obj23827.h"
-#include "../../matched/include/Obj18441.h"
-#include "../../matched/include/Obj18442.h"
-#include "../../matched/include/Obj18443.h"
-#include "../../matched/include/Obj18444.h"
-#include "../../matched/include/Obj09221.h"
-#include "../../matched/include/Obj12149.h"
-#include "../../matched/include/Obj18446.h"
-#include "../../matched/include/Obj18447.h"
-#include "../../matched/include/Obj23829.h"
-#include "../../matched/include/Obj18451.h"
-#include "../../matched/include/Obj23832.h"
-#include "../../matched/include/Obj23834.h"
-#include "../../matched/include/Obj18452.h"
-#include "../../matched/include/Obj23835.h"
-#include "../../matched/include/Obj23836.h"
-#include "../../matched/include/Obj23837.h"
-#include "../../matched/include/Obj23838.h"
-#include "../../matched/include/Obj23839.h"
-#include "../../matched/include/Obj23841.h"
-#include "../../matched/include/Obj23843.h"
-#include "../../matched/include/Obj01418.h"
-#include "../../matched/include/Obj23845.h"
-#include "../../matched/include/Obj23846.h"
-#include "../../matched/include/Obj23847.h"
-#include "../../matched/include/Obj23848.h"
-#include "../../matched/include/Obj23849.h"
-#include "../../matched/include/Obj23850.h"
-#include "../../matched/include/Obj18453.h"
-#include "../../matched/include/Obj23851.h"
-#include "../../matched/include/Obj09222.h"
-#include "../../matched/include/Obj18454.h"
-#include "../../matched/include/Obj10649.h"
-#include "../../matched/include/Obj23852.h"
-#include "../../matched/include/Obj12153.h"
-#include "../../matched/include/Obj23854.h"
-#include "../../matched/include/Obj23855.h"
-#include "../../matched/include/Obj23856.h"
-#include "../../matched/include/Obj23857.h"
-#include "../../matched/include/Obj23858.h"
-#include "../../matched/include/Obj23859.h"
-#include "../../matched/include/Obj23860.h"
-#include "../../matched/include/Obj18456.h"
-#include "../../matched/include/Obj18457.h"
-#include "../../matched/include/Obj04901.h"
-#include "../../matched/include/Obj12155.h"
-#include "../../matched/include/Obj12156.h"
-#include "../../matched/include/Obj18460.h"
-#include "../../matched/include/Obj23861.h"
-#include "../../matched/include/Obj23862.h"
-#include "../../matched/include/Obj23863.h"
-#include "../../matched/include/Obj23864.h"
-#include "../../matched/include/Obj23865.h"
-#include "../../matched/include/Obj23866.h"
-#include "../../matched/include/Obj23867.h"
-#include "../../matched/include/Obj23868.h"
-#include "../../matched/include/Obj23869.h"
-#include "../../matched/include/Obj23870.h"
-#include "../../matched/include/Obj23871.h"
-#include "../../matched/include/Obj23872.h"
-#include "../../matched/include/Obj23873.h"
-#include "../../matched/include/Obj23874.h"
-#include "../../matched/include/Obj23875.h"
-#include "../../matched/include/Obj23876.h"
-#include "../../matched/include/Obj23877.h"
-#include "../../matched/include/Obj18461.h"
-#include "../../matched/include/Obj18462.h"
-#include "../../matched/include/Obj23878.h"
-#include "../../matched/include/Obj14264.h"
 
-struct Obj0203159C;
+struct ProcSys;
 
 struct S020314B8;
 
@@ -425,7 +348,7 @@ typedef enum { B0=0, B8=8, B16=16 } Bound;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, unsigned int size, unsigned int heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
@@ -532,7 +455,7 @@ int BOX2_MAIN_Main(int a, int b, int c, int *d)
 
 int BOX2_MAIN_Exit(int a, int b, int c, int *d)
 {
-    func_0200780C((void *)(*(int *)(*d + 4)), ((struct Obj09220 *)d)->f14);
+    func_0200780C((void *)(*(int *)(*d + 4)), ((BoxTask *)d)->curBox);
     func_0203133C((struct S020314B8 *)d[1]);
     func_020315D4((struct S020315D4 *)a);
     GFL_HEAP_DeleteChecked(0x4b);
@@ -757,6 +680,8 @@ typedef struct {
     char pad[7];
     void *f18;
     char pad1C[12];
+    char pad28[16];
+    int subResult;
 } Request_021DF040;
 
 typedef struct { void *task; void *text; } Request_021DF378;
@@ -789,7 +714,7 @@ extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
@@ -799,11 +724,11 @@ extern u32 func_020307B0(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32 func_02027628(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
 
-extern u32 func_02027624(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
 
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -1456,7 +1381,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     func_02049B68((void *)arc, 4, 0, 0, 0x80, 0x4c);
     func_02049658((void *)arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
     func_02049B68((void *)arc, 0x3f, 0, 0x180, 0x40, 0x4c);
-    pal = ARC_UTIL_LoadPaletteBlockFromArchive(func_020275E4(), 0x1f, (u32)(&pd), 0x804c);
+    pal = ARC_UTIL_LoadPaletteBlockFromArchive(APP_ICON_GetArchiveId(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
     ofs = 0x194;
     BG_SYS_LoadPltt(0, src + 0x34, 4, ofs);
@@ -1469,13 +1394,13 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     func_02049658((void *)arc, 6, 6, 0, 0, 1, 0x4c);
     func_02049B68((void *)arc, 7, 4, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc);
-    arc2 = func_020490F4(func_020275E4(), 0x4c);
-    func_02049740((void *)arc2, func_02027628(), 0, 0, 0, 0x4c);
-    func_02049B68((void *)arc2, func_02027624(), 0, 0xe0, 0x20, 0x4c);
-    func_020498F4((void *)arc2, func_0202762C(), 0, 0, 0, 0, 0x4c);
+    arc2 = func_020490F4(APP_ICON_GetArchiveId(), 0x4c);
+    func_02049740((void *)arc2, APP_ICON_GetStatusFrameFileId(), 0, 0, 0, 0x4c);
+    func_02049B68((void *)arc2, APP_ICON_GetStatusAnimFileId(), 0, 0xe0, 0x20, 0x4c);
+    func_020498F4((void *)arc2, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x4c);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 7);
     func_02041B6C(0);
-    r6 = func_02049740((void *)arc2, func_02027628(), 2, 0, 0, 0x4c);
+    r6 = func_02049740((void *)arc2, APP_ICON_GetStatusFrameFileId(), 2, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc2);
     a = (u16 *)BG_SYS_GetBuf(0);
     b = (u16 *)BG_SYS_GetBuf(2);
@@ -1779,9 +1704,9 @@ int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b)
 void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b)
 {
     if (b < 0x1eU)
-        func_02007664((void *)(((struct Obj18443 *)(*p))->f4), a, b);
+        func_02007664((void *)(((BoxParam *)((*p)))->boxSave), a, b);
     else
-        POKEPARTY_RemoveMember((struct Party *)(((struct Obj18444 *)(*p))->f8), b - 0x1eU);
+        POKEPARTY_RemoveMember((struct Party *)(((BoxParam *)((*p)))->party), b - 0x1eU);
 }
 
 void BOX2_MAIN_MoveMonToParty(unsigned char *p,unsigned short *q,unsigned short *t)
@@ -1815,10 +1740,10 @@ void BOX2_MAIN_AddMonToParty(unsigned char *p, unsigned short *q)
 void BOX2_MAIN_GetBoxMon(BoxTask *p, unsigned char *a)
 {
     int x = (int)POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(*(void **)(*(int *)&p->params + 8),
-                                        ((struct Obj09221 *)a)->f4 - 0x1e));
+                                        ((BoxMonRef *)(a))->slot - 0x1e));
     func_020075B0((void *)(*(int *)(*(int *)&p->params + 4)), p->curBox,
-                  ((struct Obj09221 *)a)->f2, (const struct Sub020075B0Entry *)x);
-    BOX2_MAIN_ClearSlot((char **)p, p->curBox, ((struct Obj09221 *)a)->f4);
+                  ((BoxMonRef *)(a))->pos, (const struct Sub020075B0Entry *)x);
+    BOX2_MAIN_ClearSlot((char **)p, p->curBox, ((BoxMonRef *)(a))->slot);
     BOX2_UI_DrawSlot((BoxTask *)p, p->curBox);
 }
 
@@ -1827,8 +1752,8 @@ void BOX2_MAIN_GetBoxMon(BoxTask *p, unsigned char *a)
  */
 void BOX2_MAIN_SwapPartyMembers(char **p, char *q)
 {
-    POKEPARTY_SwapMembers((struct Party *)(((struct Obj18446 *)(*p))->f8), ((struct Obj12149 *)q)->f4 - 0x1e,
-                  ((struct Obj12149 *)q)->f2 - 0x1e, 0x4c);
+    POKEPARTY_SwapMembers((struct Party *)(((BoxParam *)((*p)))->party), ((BoxMonRef *)(q))->slot - 0x1e,
+                  ((BoxMonRef *)(q))->pos - 0x1e, 0x4c);
 }
 
 /*
@@ -1837,7 +1762,7 @@ void BOX2_MAIN_SwapPartyMembers(char **p, char *q)
  */
 void BOX2_MAIN_ShiftMemberToEnd(int *p, unsigned char *a)
 {
-    unsigned i = ((struct Obj18447 *)a)->f4 - 0x1e;
+    unsigned i = ((BoxMonRef *)(a))->slot - 0x1e;
     while (i < POKEPARTY_GetCount(*(void **)(*p + 8)) - 1) {
         POKEPARTY_SwapMembers((struct Party *)(*(int *)(*p + 8)), i, i + 1, 0x4c);
         i++;
@@ -2034,7 +1959,7 @@ void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx)
 
     if (idx < 0x1e)
         return;
-    h = POKEPARTY_GetMember(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
+    h = POKEPARTY_GetMember(((BoxParam *)(((char *)*pp)))->party, idx - 0x1e);
     v = POKE_TOOL_DecodePartyParam((struct Sav *)h);
     POKE_TOOL_RecalcParam((void *)h);
     POKE_TOOL_EncodePartyParam((struct Sav *)h, v);
@@ -2050,7 +1975,7 @@ void BOX2_MAIN_DeleteFormTable(BoxTask *p)
     func_020307B0((void *)p->work->formTable);
 }
 
-int BOX2_MAIN_GetBoxValue(char *p, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)p,a,((BoxTask *)p)->curBox,5,0);return func_020092AC(*(u8 * *)&((struct Obj23835 *)(*(char * *)&((BoxTask *)p)->params))->f20,n); }
+int BOX2_MAIN_GetBoxValue(char *p, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)p,a,((BoxTask *)p)->curBox,5,0);return func_020092AC(*(u8 * *)&((BoxTask *)p)->params->extra,n); }
 
 int BOX2_MAIN_WaitCursorMove(BoxTask *p)
 {
@@ -2563,8 +2488,8 @@ void BOX2_MAIN_SetMoverTarget(BoxTask *p, int a, int b)
         o[i].used = 0;
     }
     if (b == 0xFF || BOX2_MAIN_GetPartyValueAt((void ***)p, b, p->curBox, 0xA9, 0)) {
-        ((struct Obj01418 *)o)->fAC = 0xFF;
-        ((struct Obj01418 *)o)->fB0 = 0xFF;
+        ((BoxMove *)(o))->a = 0xFF;
+        ((BoxMove *)(o))->b = 0xFF;
         o[0].id = 0x24;
         o[0].slot = a;
         o[0].src = a;
@@ -2575,9 +2500,9 @@ void BOX2_MAIN_SetMoverTarget(BoxTask *p, int a, int b)
         o[1].used = 1;
         BOX2_MAIN_AdvanceMover((BoxTask *)p, (BoxMover *)((BoxMover *)o));
     } else {
-        ((struct Obj01418 *)o)->fAC = a;
-        ((struct Obj01418 *)o)->fB0 = b;
-        BOX2_MAIN_StepMover((BoxTask *)p, a, POKEPARTY_GetCount(((struct Obj23845 *)(*(char * *)&p->params))->f8) + 0x1E);
+        ((BoxMove *)(o))->a = a;
+        ((BoxMove *)(o))->b = b;
+        BOX2_MAIN_StepMover((BoxTask *)p, a, POKEPARTY_GetCount(p->params->party) + 0x1E);
     }
 }
 
@@ -2726,10 +2651,10 @@ int BOX2_MAIN_StepScroll(BoxTask *p)
  */
 void BOX2_MAIN_PlayMonCry(int *q)
 {
-    int *r = *(int * *)&((struct Obj18454 *)q)->f0;
+    int *r = *(int * *)&((BoxTask *)(q))->params;
 
-    if ((((struct Obj09222 *)r)->f24 - 4) > 1)
-        func_02007C34((struct PerapVoice *)GAME_DATA_GetBoxSave((void *)(((struct Obj09222 *)r)->f0)), (void *)(((struct Obj09222 *)r)->f8));
+    if ((((unsigned int)((BoxParam *)(r))->mode) - 4) > 1)
+        func_02007C34((struct PerapVoice *)GAME_DATA_GetBoxSave((void *)(((BoxParam *)(r))->gameData)), (void *)(((BoxParam *)(r))->party));
 }
 
 void BOX2_MAIN_PlaceMonScene(BoxTask *p, int slot, unsigned idx, int mode, int flag)
@@ -2743,7 +2668,7 @@ void BOX2_MAIN_PlaceMonScene(BoxTask *p, int slot, unsigned idx, int mode, int f
     if(flag==1){to[1]+=8;to[0]+=8;}else{to[0]+=4;}
     o->idx=idx;
     o->slot=slot;
-    ((struct Obj10649 *)o)->f18&=3;
+    ((BoxMotorFlags *)(o))->flags&=3;
     o->mode=mode;
     {
         int tx=to[1];
@@ -2754,8 +2679,8 @@ void BOX2_MAIN_PlaceMonScene(BoxTask *p, int slot, unsigned idx, int mode, int f
         o->vx=(d<<8)/8;
         ty=to[0];
         py=pos[0];
-        if(py>ty){((struct Obj10649 *)o)->f18|=2;d=py-ty;}
-        else{((struct Obj10649 *)o)->f18&=~2;d=ty-py;}
+        if(py>ty){((BoxMotorFlags *)(o))->flags|=2;d=py-ty;}
+        else{((BoxMotorFlags *)(o))->flags&=~2;d=ty-py;}
         o->vy=(d<<8)/8;
         o->x=px<<8;
         o->y=py<<8;
@@ -2892,7 +2817,7 @@ void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
     void *r;
 
     r = ARC_UTIL_LoadBgCharDataFromArchive(0x74, b + 0xe, 1, (u32)(&out), 0x4c);
-    BG_SYS_LoadTileData(3, (const void *)(((struct Obj12153 *)out)->f14), ((struct Obj12153 *)out)->f10, (u32)c);
+    BG_SYS_LoadTileData(3, (const void *)(((BoxArcTile *)(out))->data), ((BoxArcTile *)(out))->size, (u32)c);
     func_020307B0((void *)r);
 }
 
@@ -3019,7 +2944,7 @@ void BOX2_MAIN_LoadBoxPalette(BoxTask *p, int a)
  */
 int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box)
 {
-    return func_0200781C(((struct Obj18456 *)(*(char * *)&p->params))->f4, box);
+    return func_0200781C((int)p->params->boxSave, box);
 }
 
 /*
@@ -3084,7 +3009,7 @@ void BOX2_MAIN_SetupSummary(BoxTask *p, int a)
     BOX2_SEQ_LoadMonIconActor((char *)p, (void **)a, 0xb);
     BOX2_SEQ_ShowHandSlotB((BoxWork *)p->work, (unsigned char *)a);
     BOX2_SEQ_DeleteTextEntries((BoxTask *)p, a);
-    BOX2_MAIN_SetBodySlots((char *)p, ((struct Obj18457 *)a)->f10);
+    BOX2_MAIN_SetBodySlots((char *)p, ((Summary *)(a))->item);
     BOX2_MAIN_SetupSummaryActors(p->work, (Summary *)a);
     BG_SYS_ResetSlot(5, 3, 0);
 }
@@ -3307,14 +3232,14 @@ int BOX2_MAIN_PushPartyScene(BoxTask *p)
  */
 int BOX2_MAIN_PushPartySceneB(BoxTask *p)
 {
-    int q = ((struct Obj04901 *)p)->fC;
+    int q = (int)((BoxTask *)(p))->subArgs;
     if (p->handMode == 0) {
         if (p->cursorSlot < 0x1e)
-            p->cursorSlot = ((struct Obj12155 *)q)->fF;
+            p->cursorSlot = ((Request_021DF040 *)(q))->slot;
         else
-            p->cursorSlot = ((struct Obj12155 *)q)->fF + 0x1e;
+            p->cursorSlot = ((Request_021DF040 *)(q))->slot + 0x1e;
     }
-    func_020307B0((void *)(((struct Obj04901 *)p)->fC));
+    func_020307B0((void *)(((BoxTask *)(p))->subArgs));
     return 0;
 }
 
@@ -3334,7 +3259,7 @@ int BOX2_MAIN_PopSubArgs(BoxTask *p)
 {
     char *q = *(char * *)&p->subArgs;
 
-    ((struct Obj12156 *)p)->f10 = ((struct Obj18460 *)q)->f38;
+    ((BoxTask *)(p))->subResult = ((Request_021DF040 *)(q))->subResult;
     func_020307B0((void *)q);
     return 0;
 }
@@ -3358,7 +3283,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *p)
 
 
 
-int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->subArgs;if(((struct Obj23861 *)(*q))->f1C==0)func_02007898(((struct Obj23862 *)(*(char * *)&((BoxTask *)p)->params))->f4,p[0x14],((struct Obj23863 *)(*q))->f20);((BoxTask *)p)->subResult=((struct Obj23864 *)(*q))->f1C;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);func_020307B0(((BoxTask *)p)->subArgs);return 0;}
+int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)func_02007898(((BoxTask *)p)->params->boxSave,p[0x14],((BoxNameArgs *)((*q)))->text);((BoxTask *)p)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);func_020307B0(((BoxTask *)p)->subArgs);return 0;}
 
 void BOX2_MAIN_MoveCursorActor(BoxTask *p, int x, int y)
 {

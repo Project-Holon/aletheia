@@ -1,5 +1,5 @@
 /*
- * function: func_0202F940
+ * function: APP_POWER_DrawShutdownScreen
  * address:  0x0202F940
  * packet:   pkt_0202F7C4
  * region:   arm9
@@ -60,7 +60,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_0202F940(u32 a0)
+void APP_POWER_DrawShutdownScreen(u32 a0)
 {
     u16 *p;
     s32 i;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BF744",
-    "func_021BF77C"
+    "INTRO_G3D_SetSlotAnim",
+    "INTRO_G3D_GetSlotAnimFinished"
+   ],
+   "addresses": [
+    "0x021BF744",
+    "0x021BF77C"
    ]
   }
  ]

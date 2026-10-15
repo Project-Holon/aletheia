@@ -151,7 +151,7 @@
  *   func_02061CA4 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
  *   func_020124EC  0x020124EC  thumb
- *   func_0202E8B8  0x0202E8B8  thumb
+ *   COMM_PLAYER_SUPPORT_PrevSeason  0x0202E8B8  thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -185,7 +185,7 @@
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   func_0202E8A4  0x0202E8A4  thumb
+ *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   func_02040588  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FIELDMAP_SetSubscreenBusy 0x02189A50 thumb ov021
@@ -222,7 +222,7 @@ extern int WAZA_OSHIE_GetTexFormatCount(void);
 extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern u32 *func_020124EC(struct GameEvent *p);
-extern u8 func_0202E8B8(int);
+extern u8 COMM_PLAYER_SUPPORT_PrevSeason(int);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
@@ -249,7 +249,7 @@ u32 func_0209C77C(u32 a, u32 b);
 u32 func_0209C95C(u32 a, u32 b);
 u32 func_0209CB8C(u32 a, u32 b);
 u32 func_0209C494(u32 x);
-u8 func_0202E8A4(u8 x);
+u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x);
 void func_02040588(unsigned char which, unsigned char enable);
 void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
 extern void FIELDMAP_SetSubscreenBusy(char *p, int v);
@@ -361,7 +361,7 @@ void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeaso
     ElScoreboardWork *work = func_020124E8(eventTask);
     u32 *statePtr = func_020124EC(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
-    work->targetSeason = targetSeason; work->shownSeason = func_0202E8B8(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
+    work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
     EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
     return eventTask;
 }
@@ -372,7 +372,7 @@ void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u
     ElScoreboardWork *work = func_020124E8(eventTask);
     u32 *statePtr = func_020124EC(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
-    work->targetSeason = targetSeason; work->shownSeason = func_0202E8B8(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
+    work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
     EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
     return eventTask;
 }
@@ -395,7 +395,7 @@ void *EL_SCOREBOARD_StartStandalone(void *gameSystem, u8 shownSeason, u8 targetS
     work->mode = 1;
     work->finished = 0;
     work->targetSeason = targetSeason;
-    work->shownSeason = func_0202E8B8(shownSeason);
+    work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason);
     work->finishCallback = 0;
     work->finishCallbackArg = 0;
     EL_SCOREBOARD_EnterState(work, stateNum, 0);
@@ -591,7 +591,7 @@ void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state)
         EL_SCOREBOARD_SetupDisplay(work);
         break;
     case 1:
-        work->shownSeason = func_0202E8A4(work->shownSeason);
+        work->shownSeason = COMM_PLAYER_SUPPORT_NextSeason(work->shownSeason);
         EL_SCOREBOARD_LoadSeasonGraphics(work->shownSeason, work->heapId);
         break;
     case 2:

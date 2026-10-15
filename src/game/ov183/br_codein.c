@@ -105,8 +105,8 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
- *   func_0200D6EC 0x0200D6EC thumb
- *   func_0200D774 0x0200D774 thumb
+ *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
+ *   GDS_PROFILE_ExportRecord 0x0200D774 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -141,19 +141,19 @@
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   d_021E32A8 0x021E32A8 data a4
- *   func_0200DABC 0x0200DABC thumb
+ *   GDS_PROFILE_GetScoreRecTotal 0x0200DABC thumb
  *   d_021E3350 0x021E3350 data a4
- *   func_0200DB44 0x0200DB44 thumb
- *   func_0200DAC4 0x0200DAC4 thumb
- *   func_0200DAD8 0x0200DAD8 thumb
+ *   GDS_PROFILE_GetScoreRecCountC 0x0200DB44 thumb
+ *   GDS_PROFILE_GetScoreRecCountA 0x0200DAC4 thumb
+ *   GDS_PROFILE_GetScoreRecCountB 0x0200DAD8 thumb
  *   d_021E33C0 0x021E33C0 data a4
  *   d_021E3400 0x021E3400 data a4
  *   d_021E3490 0x021E3490 data a4
- *   func_0200DC08 0x0200DC08 thumb
+ *   GDS_PROFILE_GetScoreRecLevel 0x0200DC08 thumb
  *   d_021E338C 0x021E338C data a4
  *   d_021E336C 0x021E336C data a4
  *   d_021E3440 0x021E3440 data a4
- *   func_0200DBA0 0x0200DBA0 thumb
+ *   GDS_PROFILE_ScoreRecFlag 0x0200DBA0 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -548,8 +548,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
-extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
-extern u32 func_0200D6EC(struct RecGet *p);
+extern void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
+extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -577,12 +577,12 @@ extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
-extern u16 func_0200DABC(struct Blk1AC *p);
-extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
-extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
-extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
-extern u8 func_0200DC08(struct Blk1AC *p);
-extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
+extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
+extern u32 GDS_PROFILE_GetScoreRecCountC(struct Blk1AC *p, u32 i);
+extern u16 GDS_PROFILE_GetScoreRecCountA(struct Blk1AC *p, u32 i);
+extern u16 GDS_PROFILE_GetScoreRecCountB(struct Blk1AC *p, u32 i);
+extern u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p);
+extern u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *,int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -1958,7 +1958,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
                 message=func_02045EC0(bank,d->message);
-                WORDSET_SetSlotTag(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
+                WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(*(RecGet **)(p+0xc0)),1,2);
                 WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);
@@ -1983,7 +1983,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 quotient=value/100000ULL;
                 middle=quotient%100000ULL;
                 high=quotient/100000ULL;
-                temporary=func_0200D774(*(GdsProfile **)(p+0xc0),(GdsRecord *)record,*(u16 *)(p+0xb4));
+                temporary=GDS_PROFILE_ExportRecord(*(GdsProfile **)(p+0xc0),(GdsRecord *)record,*(u16 *)(p+0xb4));
                 if(temporary) {
                     message=func_02045EC0(bank,13);STRBUF_Delete((U16Vec *)temporary);
                 } else message=func_02045EC0(bank,d->message);
@@ -2650,7 +2650,7 @@ void BR_CODEIN_ListSetupText(struct CodeinWorkA *p, char *q)
     BR_UTIL_SetTextFromMessage(p->f34, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
     (*(void * *)&p->f1C) = BR_UTIL_CreateTextWin(((struct CodeinArgA *)q)->f8, (void *)(*(int *)&p->f4), p->f7C);
     BR_UTIL_SetWindowText((*(void * *)&p->f1C), (char *)(((struct CodeinArgA *)q)->f8), (void *)0x86);
-    v = func_0200DABC((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
+    v = GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
     BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
     BR_CODEIN_ListCreateActor((void *)((char *)p + 8), (void *)(((struct CodeinArgA *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, p->f7C);
 }
@@ -2686,10 +2686,10 @@ void BR_CODEIN_ListSetupRowA(char *p,char *q)
    case 1:
     obj=func_02045EC0((struct MsgBank *)second,BR_CODEIN_ListIsEventA((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))?0x83:0x7e);break;
    case 2:
-    obj=func_02045EC0((struct MsgBank *)second,func_0200DB44(*(void **)(q+0x10),select)?0x91:0x87);break;
+    obj=func_02045EC0((struct MsgBank *)second,GDS_PROFILE_GetScoreRecCountC(*(void **)(q+0x10),select)?0x91:0x87);break;
    case 3:{
     void *base;
-    number1=func_0200DAC4(*(void **)(q+0x10),select);
+    number1=GDS_PROFILE_GetScoreRecCountA(*(void **)(q+0x10),select);
     number1=(number1>9999)?9999:number1;
     base=func_02045EC0((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
@@ -2699,7 +2699,7 @@ void BR_CODEIN_ListSetupRowA(char *p,char *q)
    }
    case 6:{
     void *base;
-    number2=func_0200DAD8(*(void **)(q+0x10),select);
+    number2=GDS_PROFILE_GetScoreRecCountB(*(void **)(q+0x10),select);
     number2=(number2>9999)?9999:number2;
     base=func_02045EC0((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
@@ -2712,7 +2712,7 @@ void BR_CODEIN_ListSetupRowA(char *p,char *q)
   BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   STRBUF_Delete(obj);
  }
- v=func_0200DABC(*(void **)(q+0x10));
+ v=GDS_PROFILE_GetScoreRecTotal(*(void **)(q+0x10));
  BR_RES_GetSprite((void *)(*(int *)(q+8)), 13, (Triple *)((Triple *)&triple));
  BR_CODEIN_ListCreateActor(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
 }
@@ -2751,10 +2751,10 @@ void BR_CODEIN_ListSetupRowB(char *p,char *q)
    case 1:
     obj=func_02045EC0((struct MsgBank *)second,BR_CODEIN_ListIsEventB((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?0x84:0x7f);break;
    case 2:
-    obj=func_02045EC0((struct MsgBank *)second,func_0200DB44(*(void **)(q+0x10),select)?0x91:0x87);break;
+    obj=func_02045EC0((struct MsgBank *)second,GDS_PROFILE_GetScoreRecCountC(*(void **)(q+0x10),select)?0x91:0x87);break;
    case 3:{
     void *base;
-    number1=func_0200DAC4(*(void **)(q+0x10),select);
+    number1=GDS_PROFILE_GetScoreRecCountA(*(void **)(q+0x10),select);
     number1=(number1>9999)?9999:number1;
     base=func_02045EC0((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
@@ -2764,7 +2764,7 @@ void BR_CODEIN_ListSetupRowB(char *p,char *q)
    }
    case 6:{
     void *base;
-    number2=func_0200DAD8(*(void **)(q+0x10),select);
+    number2=GDS_PROFILE_GetScoreRecCountB(*(void **)(q+0x10),select);
     number2=(number2>9999)?9999:number2;
     base=func_02045EC0((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
@@ -2777,7 +2777,7 @@ void BR_CODEIN_ListSetupRowB(char *p,char *q)
   BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   STRBUF_Delete(obj);
  }
- v=func_0200DABC(*(void **)(q+0x10));
+ v=GDS_PROFILE_GetScoreRecTotal(*(void **)(q+0x10));
  BR_RES_GetSprite((void *)(*(int *)(q+8)), 13, (Triple *)((Triple *)&triple));
  BR_CODEIN_ListCreateActor(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
 }
@@ -2844,13 +2844,13 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
         break;
 
       case 3:
-        obj = func_02045EC0((struct MsgBank *)second, (func_0200DB44(*((void **) (q + 0x10)), select)) ? (0x91) : (0x87));
+        obj = func_02045EC0((struct MsgBank *)second, (GDS_PROFILE_GetScoreRecCountC(*((void **) (q + 0x10)), select)) ? (0x91) : (0x87));
         break;
 
       case 4:
       {
         void *base;
-        number1 = func_0200DAC4(*((void **) (q + 0x10)), select);
+        number1 = GDS_PROFILE_GetScoreRecCountA(*((void **) (q + 0x10)), select);
         if (number1 > 9999)
           number1 = 9999;
         base = func_02045EC0((struct MsgBank *)second, rec->value);
@@ -2864,7 +2864,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
       case 7:
       {
         void *base;
-        number2 = func_0200DAD8(*((void **) (q + 0x10)), select);
+        number2 = GDS_PROFILE_GetScoreRecCountB(*((void **) (q + 0x10)), select);
         if (number2 > 9999)
           number2 = 9999;
         base = func_02045EC0((struct MsgBank *)second, rec->value);
@@ -2876,13 +2876,13 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
       }
 
       case 10:
-        obj = func_02045EC0((struct MsgBank *)second, (func_0200DB44(*((void **) (q + 0x10)), select2)) ? (0x91) : (0x87));
+        obj = func_02045EC0((struct MsgBank *)second, (GDS_PROFILE_GetScoreRecCountC(*((void **) (q + 0x10)), select2)) ? (0x91) : (0x87));
         break;
 
       case 11:
       {
         void *base;
-        number3 = func_0200DAC4(*((void **) (q + 0x10)), select2);
+        number3 = GDS_PROFILE_GetScoreRecCountA(*((void **) (q + 0x10)), select2);
         if (number3 > 9999)
           number3 = 9999;
         base = func_02045EC0((struct MsgBank *)second, rec->value);
@@ -2896,7 +2896,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
       case 14:
       {
         void *base;
-        number4 = func_0200DAD8(*((void **) (q + 0x10)), select2);
+        number4 = GDS_PROFILE_GetScoreRecCountB(*((void **) (q + 0x10)), select2);
         if (number4 > 9999)
           number4 = 9999;
         base = func_02045EC0((struct MsgBank *)second, rec->value);
@@ -2918,7 +2918,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
     STRBUF_Delete(obj);
   }
 
-  v = func_0200DABC((struct Blk1AC *)(*((int *) (q + 0x10))));
+  v = GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(*((int *) (q + 0x10))));
   BR_RES_GetSprite((void *)(*((int *) (q + 8))), 13, (Triple *)((Triple *)&triple));
   BR_CODEIN_ListCreateActor(p + 8, *((void **) (q + 4)), (const char *) (&triple), v, 0xa0, 0x20, *((u16 *) (p + 0x7c)));
 }
@@ -2949,7 +2949,7 @@ void BR_CODEIN_ListSetupRowD(char *p,char *q)
   rec=&d_021E338C[i]; slot=p+i*4;
   ((struct CodeinWorkC *)slot)->f34=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->f7C);
   if(i==4){
-   v=func_0200DC08((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
+   v=GDS_PROFILE_GetScoreRecLevel((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
    text=(int)func_02045EC0((struct MsgBank *)second,rec->value);
    obj=STRBUF_Create(0x80,((struct CodeinWorkA *)p)->f7C);
    WORDSET_SetSlotNumber((void *)third,0,v,2,1,1);
@@ -2959,7 +2959,7 @@ void BR_CODEIN_ListSetupRowD(char *p,char *q)
   BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinWorkC *)slot)->f34,obj,(void *)first,0x3da0);
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
- v=func_0200DABC((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
+ v=GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
  BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
  BR_CODEIN_ListCreateActor(p+8,(*(void * *)&((struct CodeinArgA *)q)->f4),(const char *)&triple,v,0xa0,0x20,((struct CodeinWorkA *)p)->f7C);
 }
@@ -3079,7 +3079,7 @@ int BR_CODEIN_ListHitButton(char *p, int x, int y)
 
 
 
-int BR_CODEIN_ListIsEventA(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b=ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }
+int BR_CODEIN_ListIsEventA(void *p,char *q) { u32 a,b; a=GDS_PROFILE_ScoreRecFlag(p,4,0); b=ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }
 
 
 
@@ -3089,7 +3089,7 @@ int BR_CODEIN_ListIsEventA(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b
 
 int BR_CODEIN_ListIsEventB(void *p, void *q)
 {
-    int a = func_0200DBA0(p, 5, 0);
+    int a = GDS_PROFILE_ScoreRecFlag(p, 5, 0);
     unsigned b = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(q), 0x960);
     if (a && b) return 1;
     return 0;
@@ -3103,7 +3103,7 @@ int BR_CODEIN_ListIsEventB(void *p, void *q)
 
 int BR_CODEIN_ListIsEventC(void *p, void *q)
 {
-    int a = func_0200DBA0(p, 6, 0);
+    int a = GDS_PROFILE_ScoreRecFlag(p, 6, 0);
     unsigned b = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(q), 0x960);
     if (a && b) return 1;
     return 0;

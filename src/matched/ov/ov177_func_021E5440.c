@@ -1,5 +1,5 @@
 /*
- * function: func_021E5440
+ * function: WIFIBATTLEMATCH_GRAPHIC_Create
  * address: 0x021E5440
  * packet: pkt_ov177_021E5440
  * region: ov177
@@ -18,9 +18,9 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_021E5568 0x021E5568 thumb ov177
- *   func_021E560C 0x021E560C thumb ov177
- *   func_021E5554 0x021E5554 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_InitBg 0x021E5568 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_InitClact 0x021E560C thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_VBlank 0x021E5554 thumb ov177
  *   func_020056A0 0x020056A0 thumb
  *   d_021E8DA0 0x021E8DA0 data a1
  *   d_021E8B2C 0x021E8B2C data a4
@@ -39,11 +39,11 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void func_021E5568(void *, int);
-extern void func_021E560C(int *, int, int);
-extern void func_021E5554(int, int *);
+extern void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *, int);
+extern void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *, int, int);
+extern void WIFIBATTLEMATCH_GRAPHIC_VBlank(int, int *);
 extern int func_020056A0(void (*)(int, int *), int *, int);
-int *func_021E5440(unsigned swap, int heap)
+int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, int heap)
 {
     int *p = func_02030734(heap, 16, 0, d_021E8DA0, 0x1BB);
     MI_CpuFill8(p, 0, 16);
@@ -58,8 +58,8 @@ int *func_021E5440(unsigned swap, int heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021E5568(p, heap);
-    func_021E560C(p + 1, (int)d_021E8B2C, heap);
-    p[3] = func_020056A0(func_021E5554, p, 0);
+    WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
+    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (int)d_021E8B2C, heap);
+    p[3] = func_020056A0(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, 0);
     return p;
 }

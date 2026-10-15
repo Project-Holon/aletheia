@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D74C",
-    "func_0200D760",
-    "func_0200D774",
-    "func_0200D810",
-    "func_0200D820",
-    "func_0200D82C"
+    "GDS_PROFILE_GetRecordWord1C",
+    "GDS_PROFILE_GetRecordWord30",
+    "GDS_PROFILE_ExportRecord",
+    "GDS_PROFILE_GetVariant",
+    "GDS_PROFILE_GetCountry",
+    "GDS_PROFILE_GetMode"
+   ],
+   "addresses": [
+    "0x0200D74C",
+    "0x0200D760",
+    "0x0200D774",
+    "0x0200D810",
+    "0x0200D820",
+    "0x0200D82C"
    ]
   }
  ]

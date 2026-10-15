@@ -1,5 +1,5 @@
 /*
- * function: func_021C6390
+ * function: Wf2dmapFriend_Teardown
  * address:  0x021C6390
  * packet:   pkt_021C6390
  * region:   ov128
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
- *   func_021C6664  0x021C6664  thumb
+ *   Wf2dmapFriend_DeleteGfx  0x021C6664  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed int     s32;
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021C6664(u8 *p);
+extern void Wf2dmapFriend_DeleteGfx(u8 *p);
 
-void func_021C6390(u8 *p)
+void Wf2dmapFriend_Teardown(u8 *p)
 {
     func_02030EAC(((struct Obj08125 *)p)->f5A8);
     *(u32 *)&((struct Obj08125 *)p)->f5A8 = 0;
-    func_021C6664(p + 4);
+    Wf2dmapFriend_DeleteGfx(p + 4);
 }

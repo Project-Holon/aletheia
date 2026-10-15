@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_DOUBLE3DDISP_H
 #define ALETHEIA_G_DOUBLE3DDISP_H
-/* g_02146A80 (arm9) */
+/* gDouble3Ddisp (arm9) */
 struct Double3Ddisp {
     unsigned short heap;
     unsigned short pad02;

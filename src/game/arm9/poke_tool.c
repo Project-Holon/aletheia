@@ -30,7 +30,7 @@
  *   gNameBuf       0x021462F0  data
  *   gGameVersion      0x0209DF08  data  a1
  *   sRotomFormMoves       0x0209E298  data  a2
- *   func_0202F1B4  0x0202F1B4  thumb
+ *   SAVE_EVENT_WriteMode  0x0202F1B4  thumb
  *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
  *   POKE_CRYPTO_Checksum  0x02019A9C  thumb
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
@@ -310,7 +310,7 @@ extern u32   GF_STANDARD_Rand(void);
 extern void MSGDATA_ReadUnits(struct MsgData *msgData, u32 msgIndex, u16 *dest, u32 maxLen);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
 extern u32   POKE_TOOL_GetPersonalGender(const struct PersonalData *personal);
-extern void func_0202F1B4(u32 box, u32 mode, u32 trainer, u32 location, u32 arg);
+extern void SAVE_EVENT_WriteMode(u32 box, u32 mode, u32 trainer, u32 location, u32 arg);
 extern u32  POKE_PERSONAL_IsPlaceholderAbility(u32 genderRatio);
 extern u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);
 extern void POKE_PERSONAL_LoadDataDirect(u32 species, int form, struct LevelUpMove *dest);
@@ -993,7 +993,7 @@ void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 
  * statement), clears the egg flag (id 0x4C), stores 0x78 into id 9, renders
  * the species name into the shared 0x20 halfword buffer at 0x021462F0 and
  * writes it back as the nickname (id 0x74), then hands the record and the
- * three caller arguments to func_0202F1B4 before releasing the lock.
+ * three caller arguments to SAVE_EVENT_WriteMode before releasing the lock.
  *
  * WHAT WAS WRONG IN THE EARLIER NOTE, AND WHAT CLOSED IT
  * -----------------------------------------------------
@@ -1049,7 +1049,7 @@ u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, 0x78);
     MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
-    func_0202F1B4((u32)box, 2, trainer, location, arg);
+    SAVE_EVENT_WriteMode((u32)box, 2, trainer, location, arg);
     return func_02017DE4(box, didDecode);
 }
 

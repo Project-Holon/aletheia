@@ -151,7 +151,7 @@
  *   func_02061CA4 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
  *   func_020124EC  0x020124EC  thumb
- *   func_0202E8B8  0x0202E8B8  thumb
+ *   COMM_PLAYER_SUPPORT_PrevSeason  0x0202E8B8  thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -185,7 +185,7 @@
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   func_0202E8A4  0x0202E8A4  thumb
+ *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   func_02040588  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FIELDMAP_SetSubscreenBusy 0x02189A50 thumb ov021

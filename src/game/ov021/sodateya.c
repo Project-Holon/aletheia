@@ -51,7 +51,7 @@
  *   func_02008510  0x02008510  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKE_TOOL_RecoverAllPP  0x02018198  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
@@ -247,7 +247,7 @@ extern void func_02018A00(struct Pokemon *mon, u32 species, u32 form);
 extern struct StrBuf *func_02008510(struct MyStatus *status, int heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern struct StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0202F190(struct Pokemon *mon, u32 a1, struct MyStatus *status, u32 place, u16 heapId);
+extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 a1, struct MyStatus *status, u32 place, u16 heapId);
 extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern void POKE_TOOL_HealFull(struct Pokemon *mon);
@@ -1456,7 +1456,7 @@ void SODATEYA_AddMove(DayCareEgg *egg, u32 move)
  *
  * Load-bearing: const DayCareEgg *egg (the species/level loads rise above
  * the zero stack-argument stores), and heapId u16 at both callees
- * (func_02008510, func_0202F190) so it is re-read from its stack slot per call.
+ * (func_02008510, SAVE_EVENT_Write) so it is re-read from its stack slot per call.
  */
 void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyStatus *myStatus, u32 metPlace, u16 heapId)
 {
@@ -1486,7 +1486,7 @@ void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyS
     str = func_02045EC0(gSpeciesNameBank, 0x28a);
     POKE_TOOL_SetPartyValue(mon, MON_DATA_NICKNAME, (u32)str);
     STRBUF_Delete(str);
-    func_0202F190(mon, 5, myStatus, metPlace, heapId);
+    SAVE_EVENT_Write(mon, 5, myStatus, metPlace, heapId);
     POKE_TOOL_SetPartyValue(mon, MON_DATA_IS_EGG, 1);
     POKE_TOOL_RecoverAllPP(mon);
     POKE_TOOL_RecalcParam(mon);

@@ -20,7 +20,7 @@
  *   REGULATION_Card_GetValue  0x0200B078  thumb
  *   func_02008554  0x02008554  thumb
  *   BSUBWAY_SAVEDATA_GetStat  0x0200DFD8  thumb
- *   func_021E5548  0x021E5548  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera  0x021E5548  thumb  ov177
  *   func_021E5D68  0x021E5D68  thumb  ov177
  *
  * Opens the +0x1c profile exchange when none is open: builds a 0xac-byte
@@ -86,7 +86,7 @@ extern u8 *REGULATION_Card_GetCupName(struct Reg2 *p);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32 a, u32 b, u32 c);
-extern int func_021E5548(int *p);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 
 void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *obj)
@@ -103,7 +103,7 @@ void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *obj)
     if (obj->f1c == 0) {
         data = obj->f108;
         sys = (u32)func_02012944((void *)(*obj->f104->f08));
-        id = func_021E5548((int *)obj->f00);
+        id = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)obj->f00);
         kind = (u32)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));
         MI_CpuCopy8(REGULATION_Card_GetCupName((struct Reg2 *)data), &prof, 0x92);

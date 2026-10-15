@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AC0
+ * function: DUP_FITTING_StepPoseSlide
  * address: 0x021B9AC0
  * packet: pkt_ov133_021B9AC0
  * region: ov133
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021B9AC0(u8 *p, int *a, int *b, u16 duration)
+void DUP_FITTING_StepPoseSlide(u8 *p, int *a, int *b, u16 duration)
 {
     int x, y;
     int count;

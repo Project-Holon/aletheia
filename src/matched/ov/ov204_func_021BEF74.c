@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BF1A4 0x021BF1A4 thumb ov204
+ *   INTRO_MSG_Delete 0x021BF1A4 thumb ov204
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj25382.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BF1A4(char*);
+extern void INTRO_MSG_Delete(char*);
 extern u32 func_020307B0(void *p);
-void func_021BEF74(u8*p){func_021BF1A4(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}
+void func_021BEF74(u8*p){INTRO_MSG_Delete(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}

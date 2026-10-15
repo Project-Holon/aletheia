@@ -1,5 +1,5 @@
 /*
- * function: func_021E5548
+ * function: WIFIBATTLEMATCH_GRAPHIC_GetCamera
  * address:  0x021E5548
  * packet:   pkt_021E5548
  * region:   ov177
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E5548   0x021E5548  thumb ov177
- *   func_021E5678   0x021E5678  thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera   0x021E5548  thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetClactBank   0x021E5678  thumb ov177
  *
- * Unlabelled ov177 thunk hidden in a word run: tail-calls func_021E5678 with
+ * Unlabelled ov177 thunk hidden in a word run: tail-calls WIFIBATTLEMATCH_GRAPHIC_GetClactBank with
  * its pointer argument advanced by one word.  Matched to supply the `matched`
- * witness for the pending ov176 caller func_0217AF2C.
+ * witness for the pending ov176 caller BATTLE_CHAMPIONSHIP_FLOW_CreateView.
  */
 
-extern int func_021E5678(int *);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *);
 
-int func_021E5548(int *p)
+int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p)
 {
-    return func_021E5678(p + 1);
+    return WIFIBATTLEMATCH_GRAPHIC_GetClactBank(p + 1);
 }

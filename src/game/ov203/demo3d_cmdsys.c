@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_cmdsys.c
  * unit:     yes
- * function: func_021BF7C0, func_021BF810, func_021BF858, func_021BF8E8, func_021BF924, func_021BF964, func_021BF9B8
+ * function: DEMO3D_CMDSYS_Create, DEMO3D_CMDSYS_Delete, DEMO3D_CMDSYS_Update, DEMO3D_CMDSYS_Init, DEMO3D_CMDSYS_Release, DEMO3D_CMDSYS_Seek, DEMO3D_CMDSYS_Dispatch
  * address:  0x021BF7C0
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -15,9 +15,9 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021BF7C0 0x021BF7C0 thumb ov203
- *   func_021BF810 0x021BF810 thumb ov203
- *   func_021BF858 0x021BF858 thumb
+ *   DEMO3D_CMDSYS_Create 0x021BF7C0 thumb ov203
+ *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
+ *   DEMO3D_CMDSYS_Update 0x021BF858 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
@@ -36,9 +36,6 @@
  *   TCBL_Destroy 0x02031140 arm
  *   d_021C3D00 0x021C3D00 data a4
  */
-#include "../../matched/include/Obj10867.h"
-#include "../../matched/include/Obj02250.h"
-#include "../../matched/include/Obj01776.h"
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_data_shared_types.h"
 
@@ -48,7 +45,27 @@ struct GfFont;
 
 struct S02031140;
 
-typedef struct {unsigned short heap,alternate;int config;int ended;int done;int previous;int index;char flags[4];char *owner;struct Tcbl *task;int text;int assets;int extra;} Context;
+typedef struct Demo3dCmdContext {
+    unsigned short heap, alternate;
+    int config;
+    int ended;
+    int done;
+    int previous;
+    int index;
+    unsigned char flags[4];
+    char *owner;
+    struct Tcbl *task;
+    struct GfFont *text;
+    void *assets;
+    int extra;
+} Demo3dCmdContext;
+
+/* the owner passed to Create; struct Ctx in demo3d_engine.c owns this record */
+struct Demo3dOwner {
+    u8 pad78[0x78];
+    int config;
+    u32 time;
+};
 
 typedef struct {int kind;unsigned time;int values[8];} Record;
 
@@ -82,47 +99,48 @@ extern u32 GF_FONT_Delete(void *ptr);
 
 extern void TCBL_Destroy(struct S02031140 *p);
 
-Context *func_021BF7C0(char *owner,unsigned heap);
+Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap);
 
-void func_021BF810(char *p);
+void DEMO3D_CMDSYS_Delete(char *p);
 
-void func_021BF858(Context *p,int time,int flag);
+void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag);
 
-void func_021BF8E8(char *p);
+void DEMO3D_CMDSYS_Init(char *p);
 
-void func_021BF924(char *p);
+void DEMO3D_CMDSYS_Release(char *p);
 
-int func_021BF964(char *p,char *owner,int *index);
+int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index);
 
-void func_021BF9B8(Context *ctx,char *owner,Record *r);
+void DEMO3D_CMDSYS_Dispatch(Demo3dCmdContext *ctx,char *owner,Record *r);
 
 extern const char d_021C3D4C[];
 
-Context *func_021BF7C0(char *owner,unsigned heap)
+Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap)
 {
-    Context *p;
+    Demo3dCmdContext *p;
     p=func_02030734(heap,0x30,1,d_021C3D4C,78);
     p->owner=owner;p->heap=heap;p->alternate=(heap&0x7FFF)|0x8000;
-    p->config=((struct Obj10867 *)owner)->f78;p->previous=-1;
-    func_021BF8E8((char *)p);
-    p->ended=func_021BF964((char *)p,owner,&p->index);
+    p->config=((struct Demo3dOwner *)owner)->config;p->previous=-1;
+    DEMO3D_CMDSYS_Init((char *)p);
+    p->ended=DEMO3D_CMDSYS_Seek((char *)p,owner,&p->index);
     return p;
 }
 
-void func_021BF810(char *p)
+void DEMO3D_CMDSYS_Delete(char *p)
 {
     Record *r;
-    int owner,i;
-    owner=((struct Obj02250 *)p)->f1C;r=(Record *)DEMO3D_DATA_GetRecordField(((struct Obj02250 *)p)->f4);
+    char *owner;
+    int i;
+    owner=((Demo3dCmdContext *)p)->owner;r=(Record *)DEMO3D_DATA_GetRecordField(((Demo3dCmdContext *)p)->config);
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
-        func_021BF9B8((Context *)p,(char *)owner,r);
+        DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,(char *)owner,r);
     }
-    ((struct Obj02250 *)p)->fC=1;
-    TCBL_Main(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);
+    ((Demo3dCmdContext *)p)->done=1;
+    TCBL_Main(((Demo3dCmdContext *)p)->task);DEMO3D_CMDSYS_Release(p);func_020307B0(p);
 }
 
-void func_021BF858(Context *p,int time,int flag)
+void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
 {
     Record *r;
     char *owner;
@@ -136,7 +154,7 @@ void func_021BF858(Context *p,int time,int flag)
         if(r->time==time && p->previous!=time) {
             i=0;
             do {
-                func_021BF9B8(p,owner,r);
+                DEMO3D_CMDSYS_Dispatch(p,owner,r);
                 r++;
                 p->ended=r->kind==18?1:0;
                 p->index++;
@@ -149,31 +167,31 @@ void func_021BF858(Context *p,int time,int flag)
     }
 }
 
-extern void (*d_021C3D00[])(Context *, char *, int *);
+extern void (*d_021C3D00[])(Demo3dCmdContext *, char *, int *);
 
-void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=TCBL_Create(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=GF_FONT_Create(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=MSG_SPEED_GetWait();}
+void DEMO3D_CMDSYS_Init(char *p){((Demo3dCmdContext *)p)->task=TCBL_Create(((Demo3dCmdContext *)p)->heap,((Demo3dCmdContext *)p)->heap,16,128);((Demo3dCmdContext *)p)->text=GF_FONT_Create(23,0,0,0,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->assets=func_020490F4(161,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->flags[0]=MSG_SPEED_GetWait();}
 
-void func_021BF924(char *p)
+void DEMO3D_CMDSYS_Release(char *p)
 {
-    if(((struct Obj02250 *)p)->f2C) DEMO3D_DATA_DeleteCapture(((struct Obj02250 *)p)->f2C);
-    TCBL_DeleteAllTasks(((struct Obj02250 *)p)->f20);
-    if(((struct Obj02250 *)p)->f19) {
+    if(((Demo3dCmdContext *)p)->extra) DEMO3D_DATA_DeleteCapture(((Demo3dCmdContext *)p)->extra);
+    TCBL_DeleteAllTasks(((Demo3dCmdContext *)p)->task);
+    if(((Demo3dCmdContext *)p)->flags[1]) {
         GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(60);
     }
-    ARC_TOOL_DeleteHandle(((struct Obj02250 *)p)->f28);GF_FONT_Delete(((struct Obj02250 *)p)->f24);TCBL_Destroy(((struct Obj02250 *)p)->f20);
+    ARC_TOOL_DeleteHandle(((Demo3dCmdContext *)p)->assets);GF_FONT_Delete(((Demo3dCmdContext *)p)->text);TCBL_Destroy((struct S02031140 *)((Demo3dCmdContext *)p)->task);
 }
 
-int func_021BF964(char *p,char *owner,int *index)
+int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
     Record *r;
     int i;
-    r=func_021BE990(((struct Obj10867 *)owner)->f78);
+    r=func_021BE990(((struct Demo3dOwner *)owner)->config);
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
-        if(r[i].time==-1) func_021BF9B8((Context *)p,owner,&r[i]);
-        else if(r[i].time>=((struct Obj10867 *)owner)->f7C) {*index=i;return 0;}
+        if(r[i].time==-1) DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,owner,&r[i]);
+        else if(r[i].time>=((struct Demo3dOwner *)owner)->time) {*index=i;return 0;}
     }
     return 0;
 }
 
-void func_021BF9B8(Context *ctx,char *owner,Record *r){d_021C3D00[r->kind](ctx,owner,r->values);}
+void DEMO3D_CMDSYS_Dispatch(Demo3dCmdContext *ctx,char *owner,Record *r){d_021C3D00[r->kind](ctx,owner,r->values);}

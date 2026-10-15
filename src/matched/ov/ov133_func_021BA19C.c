@@ -1,5 +1,5 @@
 /*
- * function: func_021BA19C
+ * function: DUP_FITTING_ITEM_CreateElem
  * address: 0x021BA19C
  * packet: pkt_ov133_021BA19C
  * region: ov133
@@ -22,4 +22,4 @@ struct Object;struct Entry;
 extern struct Entry *MUSICAL_MCSS_AddImageNoVram(struct Object*,int,u32,int*);
 extern void *func_02030734(u32,u32,int,const char*,u16);
 extern const char d_021BA610[];
-u8 *func_021BA19C(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=func_02030734(heap,52,0,d_021BA610,204);*(u32 *)&((struct Obj05410 *)p)->f30=0;*(u8* *)&((struct Obj05410 *)p)->f4=r;*(struct Entry* *)&((struct Obj05410 *)p)->fC=MUSICAL_MCSS_AddImageNoVram(q,((struct Obj14157 *)r)->f0,((struct Obj14157 *)r)->f4,v);((struct Obj05410 *)p)->f1C=0;((struct Obj05410 *)p)->f20=10;return p;}
+u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=func_02030734(heap,52,0,d_021BA610,204);*(u32 *)&((struct Obj05410 *)p)->f30=0;*(u8* *)&((struct Obj05410 *)p)->f4=r;*(struct Entry* *)&((struct Obj05410 *)p)->fC=MUSICAL_MCSS_AddImageNoVram(q,((struct Obj14157 *)r)->f0,((struct Obj14157 *)r)->f4,v);((struct Obj05410 *)p)->f1C=0;((struct Obj05410 *)p)->f20=10;return p;}

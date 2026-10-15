@@ -19,14 +19,14 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_021BF594 0x021BF594 thumb ov204
- *   func_021BF8DC 0x021BF8DC thumb ov204
- *   func_021BFC24 0x021BFC24 thumb ov204
+ *   INTRO_MCSS_Create 0x021BF594 thumb ov204
+ *   INTRO_G3D_Create 0x021BF8DC thumb ov204
+ *   INTRO_PARTICLE_Create 0x021BFC24 thumb ov204
  *   func_021BEF20 0x021BEF20 thumb ov204
  *   ov067_id 0x00000043 data
- *   func_021BFCD0 0x021BFCD0 thumb ov204
- *   func_021BF5E0 0x021BF5E0 thumb ov204
- *   func_021BF9D0 0x021BF9D0 thumb ov204
+ *   INTRO_PARTICLE_Delete 0x021BFCD0 thumb ov204
+ *   INTRO_MCSS_Delete 0x021BF5E0 thumb ov204
+ *   INTRO_G3D_Delete 0x021BF9D0 thumb ov204
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021BEF74 0x021BEF74 thumb ov204
@@ -34,10 +34,10 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021BEF88  0x021BEF88  thumb  ov204
- *   func_021BF898  0x021BF898  thumb  ov204
- *   func_021BF610  0x021BF610  thumb  ov204
- *   func_021BFCE0  0x021BFCE0  thumb  ov204
- *   func_021BF9FC  0x021BF9FC  thumb  ov204
+ *   INTRO_G3D_UpdateIdleAnim  0x021BF898  thumb  ov204
+ *   INTRO_MCSS_Main  0x021BF610  thumb  ov204
+ *   INTRO_PARTICLE_Main  0x021BFCE0  thumb  ov204
+ *   INTRO_G3D_Draw  0x021BF9FC  thumb  ov204
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
@@ -101,11 +101,11 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
  *   func_021BF094 0x021BF094 thumb ov204
- *   func_021BF4E8 0x021BF4E8 thumb ov204
+ *   INTRO_MSG_DrawMenuList 0x021BF4E8 thumb ov204
  *   func_021BF00C 0x021BF00C thumb ov204
- *   func_021BF384 0x021BF384 thumb ov204
- *   func_021BF528 0x021BF528 thumb ov204
- *   func_021BF538 0x021BF538 thumb ov204
+ *   INTRO_MSG_CreateMenuList 0x021BF384 thumb ov204
+ *   INTRO_MSG_MainMenuList 0x021BF528 thumb ov204
+ *   INTRO_MSG_GetMenuChoice 0x021BF538 thumb ov204
  *   d_021C09D0 0x021C09D0 data a4
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -190,13 +190,13 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, u
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
 extern struct MsgBank *func_02045B38(unsigned, unsigned, unsigned, unsigned);
-extern void *func_021BF594(unsigned int heap, int kind);
-extern char *func_021BF8DC(void *owner, int kind, u32 heap);
-extern char *func_021BFC24(void *owner, unsigned heap);
+extern void *INTRO_MCSS_Create(unsigned int heap, int kind);
+extern char *INTRO_G3D_Create(void *owner, int kind, u32 heap);
+extern char *INTRO_PARTICLE_Create(void *owner, unsigned heap);
 extern char *func_021BEF20(void *, unsigned, unsigned, char *, unsigned, unsigned short);
-extern void func_021BFCD0(char *);
-extern void func_021BF5E0(u8 *p);
-extern void func_021BF9D0(char *);
+extern void INTRO_PARTICLE_Delete(char *);
+extern void INTRO_MCSS_Delete(u8 *p);
+extern void INTRO_G3D_Delete(char *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021BEF74(u8 *p);
@@ -204,10 +204,10 @@ extern void func_020315D4(struct S020315D4 *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(s32 handle);
 extern int func_021BEF88(char *p);
-extern void func_021BF898(char *p);
-extern void func_021BF610(u8 *p);
-extern void func_021BFCE0(int);
-extern void func_021BF9FC(char *p);
+extern void INTRO_G3D_UpdateIdleAnim(char *p);
+extern void INTRO_MCSS_Main(u8 *p);
+extern void INTRO_PARTICLE_Main(int);
+extern void INTRO_G3D_Draw(char *p);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
@@ -245,7 +245,7 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
-                          u16 fifoSize, u16 heap, void (*setup)(void));
+                          u16 fifoSize, u16 heap, void (*setupFn)(void));
 extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
 extern void func_02048B6C(struct Light *l, const u32 *in);
@@ -261,11 +261,11 @@ extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern char *func_021BF094(int);
-extern void func_021BF4E8(char *);
+extern void INTRO_MSG_DrawMenuList(char *);
 extern int func_021BF00C(struct S021BF00C *, struct Q021BF00C *);
-extern void func_021BF384(char *p, u32 *entries, u32 count, int flag);
-extern void func_021BF528(u8 *p);
-extern int func_021BF538(u8 *p, int *out);
+extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag);
+extern void INTRO_MSG_MainMenuList(u8 *p);
+extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -336,9 +336,9 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
     *(unsigned char * *)&((struct Obj00689 *)p)->f8 = func_021BDC18(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);
     *(struct GfFont * *)&((struct Obj00689 *)p)->fC = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00689 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00689 *)p)->f10 = func_02045B38(0, 2, 65, ((struct Obj00689 *)p)->f0);
-    *(char * *)&((struct Obj00689 *)p)->f18 = func_021BF594(((struct Obj00689 *)p)->f0, ((struct Obj25332 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8);
-    ((struct Obj00689 *)p)->f1C = func_021BF8DC(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj25333 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8, ((struct Obj00689 *)p)->f0);
-    ((struct Obj00689 *)p)->f20 = func_021BFC24(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
+    *(char * *)&((struct Obj00689 *)p)->f18 = INTRO_MCSS_Create(((struct Obj00689 *)p)->f0, ((struct Obj25332 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8);
+    ((struct Obj00689 *)p)->f1C = INTRO_G3D_Create(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj25333 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8, ((struct Obj00689 *)p)->f0);
+    ((struct Obj00689 *)p)->f20 = INTRO_PARTICLE_Create(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
     *(char * *)&((struct Obj00689 *)p)->f14 = func_021BEF20(((struct Obj00689 *)p)->f1C, *(unsigned *)&((struct Obj00689 *)p)->f20, *(unsigned *)&((struct Obj00689 *)p)->f18, *(char * *)&((struct Obj00689 *)p)->f4, *(unsigned *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
     return 1;
 }
@@ -348,9 +348,9 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
 int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
 {
     unsigned short heap;
-    func_021BFCD0(*(char * *)&((struct Obj03918 *)p)->f20);
-    func_021BF5E0((u8 *)(*(char * *)&((struct Obj03918 *)p)->f18));
-    func_021BF9D0(*(char * *)&((struct Obj03918 *)p)->f1C);
+    INTRO_PARTICLE_Delete(*(char * *)&((struct Obj03918 *)p)->f20);
+    INTRO_MCSS_Delete((u8 *)(*(char * *)&((struct Obj03918 *)p)->f18));
+    INTRO_G3D_Delete(*(char * *)&((struct Obj03918 *)p)->f1C);
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj03918 *)p)->f10);
     GF_FONT_Delete(((struct Obj03918 *)p)->fC);
     func_021BEF74((u8 *)(*(char * *)&((struct Obj03918 *)p)->f14));
@@ -372,10 +372,10 @@ int func_021BDB30(int a, int b, int c, void *p)
     }
     func_021BDD4C((u8 *)(((struct Obj03919 *)p)->f8));
     func_021BDD60((char *)(((struct Obj03919 *)p)->f8));
-    func_021BF898((char *)(((struct Obj03919 *)p)->f18));
-    func_021BF610((u8 *)(((struct Obj03919 *)p)->f18));
-    func_021BFCE0(((struct Obj03919 *)p)->f20);
-    func_021BF9FC((char *)(((struct Obj03919 *)p)->f1C));
+    INTRO_G3D_UpdateIdleAnim((char *)(((struct Obj03919 *)p)->f18));
+    INTRO_MCSS_Main((u8 *)(((struct Obj03919 *)p)->f18));
+    INTRO_PARTICLE_Main(((struct Obj03919 *)p)->f20);
+    INTRO_G3D_Draw((char *)(((struct Obj03919 *)p)->f1C));
     func_021BDD6C((char *)(((struct Obj03919 *)p)->f8));
     return 0;
 }
@@ -705,7 +705,7 @@ u32 func_021BE11C(u8 *p)
 void func_021BE138(char *p, int which)
 {
     char *q = func_021BF094(((struct Obj04608 *)p)->f1C) + 24 * ((struct Obj04608 *)p)->fA0;
-    func_021BF4E8(*(char * *)&((struct Obj04608 *)p)->f18);
+    INTRO_MSG_DrawMenuList(*(char * *)&((struct Obj04608 *)p)->f18);
     if (which == 0) {
         if (q) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)q);
     } else {
@@ -727,12 +727,12 @@ int func_021BE17C(char *p, int *state, int *values)
         request.first.b = 0;
         request.second.a = values[1];
         request.second.b = 1;
-        func_021BF384(*(char * *)&((struct Obj04608 *)p)->f18, (u32 *)(&request), 2, values[2]);
+        INTRO_MSG_CreateMenuList(*(char * *)&((struct Obj04608 *)p)->f18, (u32 *)(&request), 2, values[2]);
         ++*state;
         break;
     case 1:
-        func_021BF528((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18));
-        result = func_021BF538((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18), &choice);
+        INTRO_MSG_MainMenuList((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18));
+        result = INTRO_MSG_GetMenuChoice((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18), &choice);
         if (result == 1) { func_021BE138(p, choice); return 1; }
         if (result == 2) { func_021BE138(p, 1); return 1; }
         break;

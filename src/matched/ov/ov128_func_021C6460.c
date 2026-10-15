@@ -1,5 +1,5 @@
 /*
- * function: func_021C6460, func_021C6514, func_021C651C
+ * function: Wf2dmapFriend_SubmitFriendKey, Wf2dmapFriend_SetNameEntry, Wf2dmapFriend_SetIndex
  * unit: yes
  * address: 0x021C6460
  * packet: pkt_ov128_021C6460
@@ -42,7 +42,7 @@ extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i
 extern void DWC_CreateFriendKeyToken(void *,u32,u32);
 extern void func_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
-int func_021C6460(char *p,void *q,u32 arg)
+int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg)
 {
     int i;
     void *v;
@@ -66,5 +66,5 @@ int func_021C6460(char *p,void *q,u32 arg)
     }
     return 0;
 }
-void func_021C6514(char *p,int x) { ((struct Obj00298 *)p)->f60=x; ((struct Obj00298 *)p)->f64=1; }
-void func_021C651C(char *p,int x) { p[11]=x; }
+void Wf2dmapFriend_SetNameEntry(char *p,int x) { ((struct Obj00298 *)p)->f60=x; ((struct Obj00298 *)p)->f64=1; }
+void Wf2dmapFriend_SetIndex(char *p,int x) { p[11]=x; }

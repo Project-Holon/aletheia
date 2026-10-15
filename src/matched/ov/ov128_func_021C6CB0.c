@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CB0
+ * function: Wf2dmapFriend_CreateListActors
  * address: 0x021C6CB0
  * packet: pkt_ov128_021C6CB0
  * region: ov128
@@ -36,7 +36,7 @@ extern void *CLACT_CreateActor(u32,u32,u32,u32,const Point *,u16,u32);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021C6CB0(char *p,int heap)
+void Wf2dmapFriend_CreateListActors(char *p,int heap)
 {
     int a,b,c,d,e,f,i;
     char *q;

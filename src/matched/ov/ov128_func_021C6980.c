@@ -1,5 +1,5 @@
 /*
- * function: func_021C6980
+ * function: Wf2dmapFriend_DeleteFont
  * address: 0x021C6980
  * packet: pkt_ov128_021C6980
  * region: ov128
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-void func_021C6980(u8 *p)
+void Wf2dmapFriend_DeleteFont(u8 *p)
 {
     PRINTSYS_QUE_Clear(((struct Obj00725 *)p)->f34);
     PRINTSYS_QUE_Delete(((struct Obj00725 *)p)->f34);

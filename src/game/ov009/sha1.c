@@ -23,6 +23,8 @@
  *   func_0216359C  0x0216359C  arm  ov009
  *   g_021A1F28  0x021A1F28  data
  */
+#include "cps_ssl_types.h"
+
 #define ROL(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
 #define F1(b, c, d) (((b) & ((c) ^ (d))) ^ (d))
 #define F2(b, c, d) ((b) ^ (c) ^ (d))
@@ -30,40 +32,19 @@
 #define RND(a, b, c, d, e, f, x, k) \
     e += ROL(a, 5) + f(b, c, d) + (x) + (k); \
     b = ROL(b, 30);
-typedef unsigned long u32_0216359C;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32_021635E0;
-
-typedef unsigned long u32_02163628;
-
-typedef struct {
-    u32_02163628 state[5];
-} CPSSha1Ctx_02163558;
-
-typedef unsigned long u32;
-
-typedef struct CPSSha1Ctx_02163C9C {
-    u32 state[5];
-    u32 count[2];
-    unsigned char buffer[64];
-} CPSSha1Ctx_02163C9C;
-
-extern void long_from_char(u32_02163628 *d, u8 *s, u32_02163628 len);
-extern u32_02163628 R(int t, u32_02163628 *w);
+extern void long_from_char(unsigned long *d, u8 *s, unsigned long len);
+extern unsigned long R(int t, unsigned long *w);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_0216359C(unsigned char *d, unsigned long *s, unsigned int len);
 unsigned long func_02163558(int t, unsigned long *w);
-void func_021635E0(u32_021635E0 *dst, const u8 *src, u32_021635E0 count);
-void CPSi_sha1_block(CPSSha1Ctx_02163C9C *ctx, u8 *m);
-void CPSi_sha1_init(CPSSha1Ctx_02163C9C *ctx);
-void CPSi_sha1_calc(CPSSha1Ctx_02163C9C *ctx, void *data0, int datalen);
-void CPSi_sha1_result(CPSSha1Ctx_02163C9C *ctx, unsigned char *digest);
+void func_021635E0(unsigned int *dst, const u8 *src, unsigned int count);
+void CPSi_sha1_block(CPSSha1Ctx *ctx, u8 *m);
+void CPSi_sha1_init(CPSSha1Ctx *ctx);
+void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen);
+void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest);
 void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
 extern unsigned char padding[64];
 extern unsigned char g_021A1F28[64];
@@ -90,7 +71,7 @@ static void char_from_long(unsigned char *d, unsigned long *s, unsigned int len)
 
     len >>= 2;
     for (i = 0; i < len; i++) {
-        u32_0216359C v = *s++;
+        unsigned long v = *s++;
         d[0] = v >> 24;
         d[1] = v >> 16;
         d[2] = v >> 8;
@@ -101,14 +82,14 @@ static void char_from_long(unsigned char *d, unsigned long *s, unsigned int len)
 
 
 
-void func_021635E0(u32_021635E0 *dst, const u8 *src, u32_021635E0 count)
+void func_021635E0(unsigned int *dst, const u8 *src, unsigned int count)
 {
-    u32_021635E0 i = 0;
+    unsigned int i = 0;
     while (i < count) {
-        u32_021635E0 b0 = src[i];
-        u32_021635E0 b1 = src[i + 1];
-        u32_021635E0 b2 = src[i + 2];
-        u32_021635E0 b3 = src[i + 3];
+        unsigned int b0 = src[i];
+        unsigned int b1 = src[i + 1];
+        unsigned int b2 = src[i + 2];
+        unsigned int b3 = src[i + 3];
         *dst++ = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
         i += 4;
     }
@@ -124,10 +105,10 @@ void func_021635E0(u32_021635E0 *dst, const u8 *src, u32_021635E0 count)
  * rotated the {c, d, w, temp} colouring (142 -> 18 B). F3 is the majority
  * function spelled (b & (c | d)) | (c & d), as the image evaluates it (18 -> 0).
  */
-void CPSi_sha1_block(CPSSha1Ctx_02163C9C *ctx, u8 *m)
+void CPSi_sha1_block(CPSSha1Ctx *ctx, u8 *m)
 {
-    u32_02163628 w[16];
-    u32_02163628 a, b, c, d, e;
+    unsigned long w[16];
+    unsigned long a, b, c, d, e;
     int i;
     int j;
 
@@ -191,7 +172,7 @@ void CPSi_sha1_block(CPSSha1Ctx_02163C9C *ctx, u8 *m)
 
 
 
-void CPSi_sha1_init(CPSSha1Ctx_02163C9C *ctx)
+void CPSi_sha1_init(CPSSha1Ctx *ctx)
 {
     MI_CpuFill8(ctx, 0, 0x5c);
     ctx->state[0] = 0x67452301;
@@ -203,7 +184,7 @@ void CPSi_sha1_init(CPSSha1Ctx_02163C9C *ctx)
 
 
 
-void CPSi_sha1_calc(CPSSha1Ctx_02163C9C *ctx, void *data0, int datalen)
+void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen)
 {
     unsigned char *data = data0;
     unsigned int index, room, i;
@@ -228,7 +209,7 @@ void CPSi_sha1_calc(CPSSha1Ctx_02163C9C *ctx, void *data0, int datalen)
 
 
 
-void CPSi_sha1_result(CPSSha1Ctx_02163C9C *ctx, unsigned char *digest)
+void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest)
 {
     int index;
 

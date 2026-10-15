@@ -1,5 +1,5 @@
 /*
- * function: func_021BF374
+ * function: INTRO_MSG_InitMenuDesc
  * address:  0x021BF374
  * packet:   pkt_021BF374
  * region:   ov204
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int *func_021BF374(char *p, int v)
+int *INTRO_MSG_InitMenuDesc(char *p, int v)
 {
     ((struct Obj14622 *)p)->f30 = v;
     ((struct Obj14622 *)p)->f34 = 0;

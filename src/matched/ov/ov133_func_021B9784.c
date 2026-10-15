@@ -1,5 +1,5 @@
 /*
- * function: func_021B9784
+ * function: DUP_FITTING_DrawBackActors
  * address: 0x021B9784
  * packet: pkt_ov133_021B9784
  * region: ov133
@@ -24,7 +24,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned);
-void func_021B9784(u8 *p)
+void DUP_FITTING_DrawBackActors(u8 *p)
 {
     Pos pos;
     u8 pal;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6DAC
+ * function: Wf2dmapFriend_DeleteListActors
  * address: 0x021C6DAC
  * packet: pkt_ov128_021C6DAC
  * region: ov128
@@ -18,4 +18,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021C6DAC(u8 *p) {int i;CLACT_DeleteActor(((struct Obj00725 *)p)->f168);CLACT_DeleteActor(((struct Obj00725 *)p)->f164);for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)((u32)p+i*4+0x15c));}
+void Wf2dmapFriend_DeleteListActors(u8 *p) {int i;CLACT_DeleteActor(((struct Obj00725 *)p)->f168);CLACT_DeleteActor(((struct Obj00725 *)p)->f164);for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)((u32)p+i*4+0x15c));}

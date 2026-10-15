@@ -29,7 +29,6 @@ struct Bmp;
 struct Descriptor;
 struct CharBuf;
 struct MsgBank;
-struct Obj020437AC;
 struct Rec;
 struct U16Vec;
 struct Obj;
@@ -37,10 +36,26 @@ struct Vec2;
 struct Actor;
 struct Ov208Buf;
 struct Ov208Blend;
-struct Ov208Cur;
+struct Ov208Ctx;
 
 /* Integer point used by the common helper tables. */
 struct Pair { int x; int y; };
+
+/*
+ * Palette animation object, 0x14 bytes, created by
+ * ZUKAN_DETAIL_COMMON_CreatePaletteAnim. memory is the TCB buffer, tcb the
+ * task created over it, slots the PALANM handle, slotMask the buffer mask and
+ * fadeState the fade transition (0 idle, 1 fading in, 2 fading out, 3 fading
+ * out to the alternate palette).
+ */
+struct Ov208PalFade {
+    struct Ctx *tcb;
+    void *memory;
+    void *slots;
+    unsigned short slotMask;
+    unsigned short padE;
+    unsigned int fadeState;
+};
 
 /*
  * Context shared by every zukan detail screen, 0x24 bytes, built by
@@ -149,17 +164,17 @@ struct Ov208Pltt {
 };
 
 /* Screen point used by the area screen's touch hit test. */
-typedef signed short s16_021BFE08;
+typedef signed short s16;
 
-struct PtS { s16_021BFE08 x, y; };
+struct PtS { s16 x, y; };
 
 /* Word-size alias kept so the touch bar palette/handle casts stay one line. */
-typedef signed int s32_021BD574;
+typedef signed int s32;
 
 /* Signed short alias kept so the touch bar palette casts stay one line. */
-typedef short s16_021BE20C;
+typedef short s16;
 
-typedef signed short s16_021C23BC;
+typedef signed short s16;
 
 /* Unsigned point/actor stand-ins of the touch bar actors. */
 struct Pt { u16 x,y; };

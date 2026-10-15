@@ -27,7 +27,7 @@
  *   func_02008288  0x02008288  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_020056A0  0x020056A0  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
@@ -87,7 +87,7 @@ typedef struct Work {
 extern void GFL_HEAP_CreateChildHeap(); extern void *PROCSYS_AllocProcWork(); extern void MI_CpuFill8(); extern void KEY_GetRepeatSpeed();
 extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b); extern int func_02007FA0(); extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
 extern int func_02045B38(); extern int STRBUF_Create(); extern int GF_FONT_Create_EC64(); extern int PRINTSYS_QUE_CreateEx();
-extern int func_02028590(); extern int GF_FONT_Create(); extern int BUTTON_MAN_Create(); extern int func_020056A0(); extern int TCBL_Create();
+extern int APP_KEYCURSOR_CreateDefault(); extern int GF_FONT_Create(); extern int BUTTON_MAN_Create(); extern int func_020056A0(); extern int TCBL_Create();
 extern int APP_TASKMENU_RES_Create(); extern void GFL_NET_RestartWithDefaultTimeout(); extern int func_020355C4();
 extern void ITEMMENU_SetupGraphics(), ITEMMENU_InitWindows(), ITEMMENU_LoadPocketGraphics(), ITEMMENU_CreateTabActors(), func_021B6120(), ITEMMENU_CreateCursorActors(), ITEMMENU_CreateBlinkPalAnm(), ITEMMENU_AllocPalAnmSlots(), ITEMMENU_PrintPocketName(), ITEMMENU_SetCursorActive(), ITEMMENU_ResetDisplayLayers(), func_021B6100();
 extern void ITEMMENU_HandleTouchTarget(), ITEMMENU_VBlankCallback(), ITEMMENU_TaskStartFadeIn(); extern char d_021BBA04[];
@@ -125,7 +125,7 @@ int ITEMMENU_Init(void *proc, int st, Args *a)
     o->f52C = STRBUF_Create(0x40, o->f544);
     o->f520 = GF_FONT_Create_EC64(o->f544);
     o->f50C = PRINTSYS_QUE_CreateEx(0x40 << 6, o->f544);
-    o->f518 = func_02028590(0xf, 1, 1, o->f544);
+    o->f518 = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, o->f544);
     o->f530 = GF_FONT_Create(0x17, 0, 0, 0, o->f544);
     ITEMMENU_SetupGraphics(o); ITEMMENU_InitWindows(o); ITEMMENU_LoadPocketGraphics(o); ITEMMENU_CreateTabActors(o); func_021B6120(o); ITEMMENU_CreateCursorActors(o);
     o->f694 = BUTTON_MAN_Create(d_021BBA04, ITEMMENU_HandleTouchTarget, o, o->f544);

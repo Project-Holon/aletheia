@@ -1,5 +1,5 @@
 /*
- * function: func_021C68C4
+ * function: Wf2dmapFriend_DeleteActors
  * address: 0x021C68C4
  * packet: pkt_ov128_021C68C4
  * region: ov128
@@ -27,7 +27,7 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_DeleteRenderer(u32);
 extern void CLACT_ExitSystem(void);
-void func_021C68C4(char *p)
+void Wf2dmapFriend_DeleteActors(char *p)
 {
     unsigned i;
     for(i=0;i<2;i++) CLACT_ReleaseCharacter(*(u32 *)(p+i*4+0x144));

@@ -80,14 +80,14 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   INFOWIN_Init 0x02024A20 thumb
- *   func_020275E4 0x020275E4 thumb
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   func_02049B68 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
@@ -205,14 +205,14 @@ extern void CLACT_ReleaseCellAnim(s32 cellRes);
 extern void CLACT_ReleaseCharacter(s32 charRes);
 extern void CLACT_ReleasePalette(s32 palRes);
 extern void INFOWIN_Init(u8 a0, u8 a1, struct GameData *gameData, u16 heapId);
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void func_02049B68(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 fileId, u32 compressed, void **outData, u16 heapId);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
@@ -809,10 +809,10 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         u16 i;
         u16 base;
 
-        archive = func_020490F4(func_020275E4(), ownerHeapId);
-        func_02049B68(archive, func_02027624(), 4, 0x40, 0x20, ownerHeapId);
-        work->bgCharRegion4 = func_02049740(archive, func_02027628(), 4, 0, 0, ownerHeapId);
-        screenFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, func_0202762C(), 0, (void **)&screen, ownerHeapId);
+        archive = func_020490F4(APP_ICON_GetArchiveId(), ownerHeapId);
+        func_02049B68(archive, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, ownerHeapId);
+        work->bgCharRegion4 = func_02049740(archive, APP_ICON_GetStatusFrameFileId(), 4, 0, 0, ownerHeapId);
+        screenFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, ownerHeapId);
         base = work->bgCharRegion4;
         tiles = screen->tiles;
         for (i = 0; i < 0x300; i++) {
@@ -822,9 +822,9 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
         func_02041B6C(4);
         func_020307B0(screenFile);
-        work->buttonPalRes = CLACT_RegisterPaletteEx(archive, func_02027614(), 1, 0x20, 0, 3, work->heapId);
-        work->buttonCharRes = CLACT_RegisterCharacter(archive, func_02027618(), 0, 1, work->heapId);
-        work->buttonCellRes = CLACT_RegisterCellAnim(archive, func_0202761C(0), func_02027620(0), work->heapId);
+        work->buttonPalRes = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x20, 0, 3, work->heapId);
+        work->buttonCharRes = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 1, work->heapId);
+        work->buttonCellRes = CLACT_RegisterCellAnim(archive, APP_ICON_GetStatusCellFileId(0), APP_ICON_GetStatusPaletteFileId(0), work->heapId);
         setup.x = 0xE8;
         setup.y = 0xA8;
         work->buttonActor = CLACT_CreateActor(work->clactUnit, work->buttonCharRes, work->buttonPalRes, work->buttonCellRes, &setup, 1, work->heapId);

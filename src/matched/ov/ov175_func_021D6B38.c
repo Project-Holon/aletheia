@@ -14,7 +14,7 @@
  *   func_021E8A80 0x021E8A80 thumb ov177
  *   func_021E8A90 0x021E8A90 thumb ov177
  *   WIFIBATTLEMATCH_NET_Noop 0x021D9ED0 thumb ov175
- *   func_021E5534 0x021E5534 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_Draw 0x021E5534 thumb ov177
  *   func_021E867C 0x021E867C thumb ov177
  *   func_021E7E08 0x021E7E08 thumb ov177
  *   func_021E5980 0x021E5980 thumb ov177
@@ -32,7 +32,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021E8A80(unsigned);
 extern int func_021E8A90(int **p);
 extern void WIFIBATTLEMATCH_NET_Noop(int);
-extern void func_021E5534(u8 *p);
+extern void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p);
 extern void func_021E867C(char *p);
 extern void func_021E7E08(int);
 extern void func_021E5980(int);
@@ -48,7 +48,7 @@ int WIFIBATTLEMATCH_NET_CompMain(unsigned sys,int *state,int unused,int *p)
     case 3: FADE_Start(3,0,16,0); *state=4; break;
     case 4: if(FADE_IsActive()==0) return 1; break;
     }
-    func_021E5534((u8 *)p[0]); PRINTSYS_QUE_Main((struct PrintSys *)p[4]); func_021E867C((char *)p[11]);
+    WIFIBATTLEMATCH_GRAPHIC_Draw((u8 *)p[0]); PRINTSYS_QUE_Main((struct PrintSys *)p[4]); func_021E867C((char *)p[11]);
     func_021E7E08(p[10]); func_021E5980(p[1]); WIFIBATTLEMATCH_NET_Noop(p[13]);
     if(p[7]) func_021E64C0((unsigned char *)p[7],(void *)p[4]);
     if(p[8]) func_021E7774((void *)p[8],(void *)p[4]);

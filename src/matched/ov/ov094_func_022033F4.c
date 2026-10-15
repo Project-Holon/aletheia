@@ -23,12 +23,12 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
- *   func_020275FC 0x020275FC thumb
- *   func_02027600 0x02027600 thumb
- *   func_020275E8 0x020275E8 thumb
- *   func_020275F8 0x020275F8 thumb
+ *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
+ *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
+ *   APP_ICON_GetTouchBarFileId 0x020275E8 thumb
+ *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned short u16;
@@ -67,12 +67,12 @@ extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_020275FC(u32);
-extern u32 func_02027600(u32);
-extern u32 func_020275E8(void);
-extern u32 func_020275F8(u32);
+extern u32 APP_ICON_GetTypePaletteFileId(u32);
+extern u32 APP_ICON_GetTypeAnimFileId(u32);
+extern u32 APP_ICON_GetTouchBarFileId(void);
+extern u32 APP_ICON_GetTypeCellFileId(u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 void BTLV_INPUT_LoadCommonGraphics(Main *m)
 {
@@ -92,12 +92,12 @@ void BTLV_INPUT_LoadCommonGraphics(Main *m)
     PALANM_CopyHwPaletteToSlot(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h108, 1) >> 1), 0x100);
     m->h110 = CLACT_RegisterCharacter(m->f48, 0x77, 0, 1, m->heap);
     m->h114 = CLACT_RegisterCellAnim(m->f48, 0x78, 0x79, m->heap);
-    arc = func_020490F4(func_020275E4(), (u16)((m->heap & 0x7fff) | 0x8000));
-    file = func_020275FC(0);
-    m->h1f4 = CLACT_RegisterCellAnim(arc, file, func_02027600(0), m->heap);
-    m->h1f0 = CLACT_RegisterPalette(arc, func_020275E8(), 1, 0x100, m->heap);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), (u16)((m->heap & 0x7fff) | 0x8000));
+    file = APP_ICON_GetTypePaletteFileId(0);
+    m->h1f4 = CLACT_RegisterCellAnim(arc, file, APP_ICON_GetTypeAnimFileId(0), m->heap);
+    m->h1f0 = CLACT_RegisterPalette(arc, APP_ICON_GetTouchBarFileId(), 1, 0x100, m->heap);
     PALANM_CopyHwPaletteToSlot(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1f0, 1) >> 1), 0x60);
     for (i = 0; i < 4; i++)
-        m->h1e0[i] = CLACT_RegisterCharacter(arc, func_020275F8(0), 0, 1, m->heap);
+        m->h1e0[i] = CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(0), 0, 1, m->heap);
     ARC_TOOL_DeleteHandle(arc);
 }

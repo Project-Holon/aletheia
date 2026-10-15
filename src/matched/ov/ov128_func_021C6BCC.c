@@ -1,5 +1,5 @@
 /*
- * function: func_021C6BCC
+ * function: Wf2dmapFriend_PrintMyStatus
  * address: 0x021C6BCC
  * packet: pkt_ov128_021C6BCC
  * region: ov128
@@ -38,7 +38,7 @@ extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_020307B0(void *p);
-void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
+void Wf2dmapFriend_PrintMyStatus(u8 *p,u8 *q,int idx,unsigned heap)
 {
     void *base;
     void *obj;

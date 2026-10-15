@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBA0
+ * function: INTRO_G3D_UpdateAnimFrame
  * address: 0x021BFBA0
  * packet: pkt_ov204_021BFBA0
  * region: ov204
@@ -11,19 +11,19 @@
  * note 2026-10-05 (wD6 lane10): the call f(p, p[10]) is written in each if/else arm; tail merging
  *   rebuilds one store+call block and r0 keeps p, so the temporaries take r1.
  * symbols:
- *   func_021BFBC8 0x021BFBC8 thumb ov204
+ *   INTRO_G3D_SetAnimFrame 0x021BFBC8 thumb ov204
  */
 
-extern void func_021BFBC8(char *p, unsigned value);
+extern void INTRO_G3D_SetAnimFrame(char *p, unsigned value);
 
-int func_021BFBA0(int *p)
+int INTRO_G3D_UpdateAnimFrame(int *p)
 {
     if (p[7] == 3) {
         p[10] = p[10] + 1;
-        func_021BFBC8((char *)p, p[10]);
+        INTRO_G3D_SetAnimFrame((char *)p, p[10]);
     } else {
         p[10] = p[10] - 1;
-        func_021BFBC8((char *)p, p[10]);
+        INTRO_G3D_SetAnimFrame((char *)p, p[10]);
     }
     return p[10] == 60;
 }

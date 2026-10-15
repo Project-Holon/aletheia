@@ -1,5 +1,5 @@
 /*
- * function: func_021C63AC
+ * function: Wf2dmapFriend_CreateWindow
  * address: 0x021C63AC
  * packet: pkt_ov128_021C63AC
  * region: ov128
@@ -25,7 +25,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void WF2DMAP_TOUCH_AddSlot(char *p, void *q);
-void func_021C63AC(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g)
+void Wf2dmapFriend_CreateWindow(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g)
 {
     *out=BMP_WIN_Create(a,b,c,d,e,f,1);
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)*out),g);

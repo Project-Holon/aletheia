@@ -1,5 +1,5 @@
 /*
- * function: func_021BA124
+ * function: DUP_FITTING_ITEM_InsertElemTail
  * address: 0x021BA124
  * packet: pkt_ov133_021BA124
  * region: ov133
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021BA124(u8*p,u8*q){if(((struct Obj03827 *)p)->f4<((struct Obj03827 *)p)->f6){if(!*(u8* *)&((struct Obj03827 *)p)->f8){*(u8* *)&((struct Obj03827 *)p)->f8=q;*(u8* *)&((struct Obj03827 *)p)->fC=q;*(u8* *)&((struct Obj14155 *)q)->f30=0;}else{*(u8* *)&((struct Obj14155 *)q)->f30=*(u8* *)&((struct Obj03827 *)p)->f8;*(u8* *)&((struct Obj03827 *)p)->f8=q;}(((struct Obj03827 *)p)->f4)++;}}
+void DUP_FITTING_ITEM_InsertElemTail(u8*p,u8*q){if(((struct Obj03827 *)p)->f4<((struct Obj03827 *)p)->f6){if(!*(u8* *)&((struct Obj03827 *)p)->f8){*(u8* *)&((struct Obj03827 *)p)->f8=q;*(u8* *)&((struct Obj03827 *)p)->fC=q;*(u8* *)&((struct Obj14155 *)q)->f30=0;}else{*(u8* *)&((struct Obj14155 *)q)->f30=*(u8* *)&((struct Obj03827 *)p)->f8;*(u8* *)&((struct Obj03827 *)p)->f8=q;}(((struct Obj03827 *)p)->f4)++;}}

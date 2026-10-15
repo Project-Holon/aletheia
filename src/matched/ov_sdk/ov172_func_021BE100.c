@@ -12,7 +12,7 @@
  * 1 when 0x0202EB0C returns 1 and 0x0202EB14 returns 0.
  *
  * symbols:
- *   sub_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   unit_0202EB14  0x0202EB14  thumb
  *
  * Addresses are Black-image addresses.
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 sub_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int unit_0202EB14(void);
 
 int COMM_TVT_SYS_IsNetIdle(void)
 {
-    if (sub_0202EB0C() == 1 && unit_0202EB14() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 1 && unit_0202EB14() == 0) {
         return 1;
     }
     return 0;

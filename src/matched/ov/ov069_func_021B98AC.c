@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020275E4  0x020275E4  thumb
- *   func_02027624  0x02027624  thumb
- *   func_02027628  0x02027628  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049658  0x02049658  arm
@@ -44,10 +44,10 @@ typedef struct {
 struct WinMgr;
 extern const Pos sRecordListFramePositions[];
 
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -76,10 +76,10 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(u8 *p)
     func_02049B68(arc, 2, 0, 0, 0, 0x80);
     func_02049658(arc, 1, 1, 0, 0, 1, 0x80);
     func_020498F4(arc, 0, 1, 0, 0, 1, 0x80);
-    arc2 = func_020490F4(func_020275E4(), 0x80);
-    func_02049658(arc2, func_02027628(), 1, 0, 0, 0, 0x80);
-    func_020498F4(arc2, func_0202762C(), 1, 0, 0, 0, 0x80);
-    ARC_UTIL_UploadPaletteFromHandle(arc2, func_02027624(), 0, 0, 0x1C0, 0x20, 0x80);
+    arc2 = func_020490F4(APP_ICON_GetArchiveId(), 0x80);
+    func_02049658(arc2, APP_ICON_GetStatusFrameFileId(), 1, 0, 0, 0, 0x80);
+    func_020498F4(arc2, APP_ICON_GetStatusDataFileId(), 1, 0, 0, 0, 0x80);
+    ARC_UTIL_UploadPaletteFromHandle(arc2, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x80);
     BG_SYS_FillTileMap(1, 0, 0x15, 0x20, 3, 0xE);
     func_020409B4(1);
     ARC_TOOL_DeleteHandle(arc2);

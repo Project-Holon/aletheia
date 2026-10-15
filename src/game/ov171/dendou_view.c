@@ -137,11 +137,11 @@
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   d_021DEB88 0x021DEB88 data a4
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027618 0x02027618 thumb
- *   func_02027614 0x02027614 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -308,11 +308,11 @@ extern u32 CLACT_IsActorAnimActive(struct ClactActor *);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *, const DendouViewPos *, u32);
 extern void CLACT_GetActorSurfacePos(struct ClactActor *, DendouViewPos *out, u16 space);
 extern void CLACT_InitSystem(const ClactSystemConfig *, const void *vramBanks, u32 heapId);
-extern u32 func_020275E4(void);
-extern u32 func_02027618(void);
-extern u32 func_02027614(void);
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 extern s32 CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *archive, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
@@ -1377,11 +1377,11 @@ void DENDOU_VIEW_LoadButtonResources(DendouViewWork *work)
         work->palIds[i] = -1;
     for (i = 0; i < DENDOU_VIEW_RESOURCE_MAX; ++i)
         work->cellIds[i] = -1;
-    archive = func_020490F4(func_020275E4(), DENDOU_VIEW_HEAP_TAIL);
-    work->cgrIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterCharacter(archive, func_02027618(), 0, 0, DENDOU_VIEW_HEAP);
-    work->palIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterPalette(archive, func_02027614(), 0, 0x180, DENDOU_VIEW_HEAP);
-    cellArcId = func_0202761C(2);
-    work->cellIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterCellAnim(archive, cellArcId, func_02027620(2), DENDOU_VIEW_HEAP);
+    archive = func_020490F4(APP_ICON_GetArchiveId(), DENDOU_VIEW_HEAP_TAIL);
+    work->cgrIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 0, DENDOU_VIEW_HEAP);
+    work->palIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterPalette(archive, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x180, DENDOU_VIEW_HEAP);
+    cellArcId = APP_ICON_GetStatusCellFileId(2);
+    work->cellIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterCellAnim(archive, cellArcId, APP_ICON_GetStatusPaletteFileId(2), DENDOU_VIEW_HEAP);
     ARC_TOOL_DeleteHandle(archive);
 }
 

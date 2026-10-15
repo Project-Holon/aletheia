@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB508",
+   "name": "PSEL_GRAPHIC_GetMenuChoice",
    "address": "0x021BB508",
    "kind": "game",
    "region": "ov223",

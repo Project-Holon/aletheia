@@ -1,5 +1,5 @@
 /*
- * function: func_021D9974
+ * function: MYSTERY_GRAPHIC_RenderScene
  * address: 0x021D9974
  * packet: pkt_ov121_021D9974
  * region: ov121
@@ -22,7 +22,7 @@ extern void G3D_SYSTEM_DrawStart(void *);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void PARTICLE_Main(void);
-void func_021D9974(void **p) {
+void MYSTERY_GRAPHIC_RenderScene(void **p) {
     if(((struct Obj10413 *)p)->f4) {
         G3D_SYSTEM_DrawStart(((struct Obj10413 *)p)->f4);
         G3D_CAMERA_Reset(((struct Obj10413 *)p)->f0);

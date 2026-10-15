@@ -13,7 +13,7 @@
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   FRAME_LIST_FindScrollBarEntry  0x021B8A88  thumb
- *   func_0202EE0C  0x0202EE0C  thumb
+ *   COMM_HISTORY_ScaleSpan  0x0202EE0C  thumb
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct S {
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void FRAME_LIST_FindScrollBarEntry(u8 *p, u8 *a, u8 *b);
-extern u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 COMM_HISTORY_ScaleSpan(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 int FRAME_LIST_ClampToScrollBar(struct S *s, unsigned int v)
 {
@@ -52,11 +52,11 @@ int FRAME_LIST_ClampToScrollBar(struct S *s, unsigned int v)
         return v;
     }
     FRAME_LIST_FindScrollBarEntry((u8 *)s, &b, &a);
-    lo = func_0202EE0C(s->f64, s->f62, b, a, s->f12);
+    lo = COMM_HISTORY_ScaleSpan(s->f64, s->f62, b, a, s->f12);
     if (s->f64 == s->f62)
         hi = a;
     else
-        hi = func_0202EE0C(s->f64, s->f62 + 1, b, a, s->f12);
+        hi = COMM_HISTORY_ScaleSpan(s->f64, s->f62 + 1, b, a, s->f12);
     if (v >= lo && v < hi)
         return v;
     return lo;

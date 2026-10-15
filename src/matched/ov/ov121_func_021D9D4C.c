@@ -25,7 +25,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   TCBL_Create 0x0203101C arm
- *   func_02028470 0x02028470 thumb
+ *   PRINTSYS_CTRL_Init 0x02028470 thumb
  *   d_021DFBA0 0x021DFBA0 data a1
  */
 
@@ -45,7 +45,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
@@ -56,7 +56,7 @@ void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
     *(void **)(p + 4) = d;
     *(void **)(p + 0x24) = c;
     *(u32 *)(p + 0x28) = 3;
-    func_02028470(p + 0x34, 2);
+    PRINTSYS_CTRL_Init(p + 0x34, 2);
     *(struct U16Vec **)(p + 0x14) = STRBUF_Create(0x200, heap);
     q = (struct Descriptor *)BMP_WIN_Create((u8)a, 1, 21, 30, 2, b, 1);
     *(struct Descriptor **)(p + 0x10) = q;

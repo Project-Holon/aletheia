@@ -20,7 +20,7 @@
  *   WF2DMAP_TOUCH_FindPrevEntry 0x021C9D0C thumb ov128
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WF2DMAP_TOUCH_ReleaseEditWidgets 0x021C98EC thumb ov128
- *   func_021C6438 0x021C6438 thumb ov128
+ *   Wf2dmapFriend_SetState 0x021C6438 thumb ov128
  *   WF2DMAP_TOUCH_DeleteEditWidgets 0x021C9730 thumb ov128
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   WF2DMAP_TOUCH_CloseEditScreen 0x021C987C thumb ov128
@@ -44,7 +44,7 @@ extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern int WF2DMAP_TOUCH_FindPrevEntry(u8 *,int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void WF2DMAP_TOUCH_ReleaseEditWidgets(char *p, u8 *q);
-extern void func_021C6438(u8 *,u8,u8);
+extern void Wf2dmapFriend_SetState(u8 *,u8,u8);
 extern void WF2DMAP_TOUCH_DeleteEditWidgets(u8 *,void *,u8 *);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void WF2DMAP_TOUCH_CloseEditScreen(u8 *,u8 *);
@@ -78,7 +78,7 @@ int WF2DMAP_TOUCH_FriendEditScreen(u8 *p,u8 *q,u8 *r,u16 heap)
         if(WF2DMAP_TOUCH_FindPrevEntry(q,((struct Obj00773 *)p)->f8)) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             WF2DMAP_TOUCH_ReleaseEditWidgets((char *)p,r);
-            func_021C6438(q,4,1);
+            Wf2dmapFriend_SetState(q,4,1);
             ((struct Obj00773 *)p)->fE=1;
             WF2DMAP_TOUCH_DeleteEditWidgets(p,q,r);
             return 1;
@@ -87,14 +87,14 @@ int WF2DMAP_TOUCH_FriendEditScreen(u8 *p,u8 *q,u8 *r,u16 heap)
     case 7:
         if(CLACT_IsActorAnimActive(((struct Obj10491 *)r)->f164)!=1) {
             WF2DMAP_TOUCH_CloseEditScreen(p,r);
-            func_021C6438(q,1,11);
+            Wf2dmapFriend_SetState(q,1,11);
             WF2DMAP_TOUCH_DeleteEditWidgets(p,q,r);
             return 1;
         } break;
     case 8: if(CLACT_IsActorAnimActive(((struct Obj10491 *)r)->f168)!=1)q[8]=9; break;
     case 9: WIPE_SYS_Start(0,0,0,0,6,1,heap);q[8]=10;break;
     case 10: if(WIPE_SYS_EndCheck()) {
-        func_021C6438(q,6,0);WF2DMAP_TOUCH_DeleteEditWidgets(p,q,r);return 1;
+        Wf2dmapFriend_SetState(q,6,0);WF2DMAP_TOUCH_DeleteEditWidgets(p,q,r);return 1;
         }break;
     }
     return 0;

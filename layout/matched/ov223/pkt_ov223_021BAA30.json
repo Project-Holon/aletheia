@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAA30",
+   "name": "PSEL_DeleteActors",
    "address": "0x021BAA30",
    "kind": "game",
    "region": "ov223",

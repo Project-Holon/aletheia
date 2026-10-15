@@ -38,13 +38,6 @@
  *   NNS_G2dResetCellAnimation  0x02062F90  arm
  *   abs  0x02091588  arm
  */
-#include "../../matched/include/Obj07015.h"
-#include "../../matched/include/Obj11525.h"
-#include "../../matched/include/Obj16406.h"
-
-struct NitroFileHeader;
-struct NNSG2dAnimController;
-struct Slider;
 typedef unsigned int u32;
 
 typedef int BOOL;
@@ -59,6 +52,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 typedef signed int     s32;
+
+typedef s32            fx32;
 
 struct NNSG2dBinaryBlockHeader {
     u32 signature;
@@ -80,88 +75,47 @@ struct Tbl {
     u8  **offsets;              /* 0x04  itself an offset until fixed up     */
 };
 
-struct Sub {
-    u16 h0;       /* 0x00 */
-    u16 h2;       /* 0x02 */
-    u32 pad04;    /* 0x04 */
-    u32 field_08; /* 0x08 */
-    u32 ptr_0C;   /* 0x0C */
-};
-
-typedef void (*Callback)(u32, u32);
-
-struct Slider {
-    u32 pos;         /* 0x00 */
-    u32 pad04;       /* 0x04 */
-    u32 field_08;    /* 0x08 */
-    u32 field_0C;    /* 0x0C */
-    u32 field_10;    /* 0x10 */
-    u32 pad14;       /* 0x14 */
-    u32 field_18;    /* 0x18 */
-    struct Sub *sub; /* 0x1C */
-    u32 field_20;    /* 0x20 */
-    u32 field_24;    /* 0x24 */
-    Callback cb_28;  /* 0x28 */
-};
-
-struct CellAnim {
-    u32 unk00;
-    void **sequence;
-};
-
 typedef long long s64;
 
-typedef struct {
+/*
+ * The NNS G2D cell-animation types, shared with
+ * nns_g2d_multi_cell_animation.c (S/shared_types.tsv row R5a3): one animation
+ * frame's content, a sequence of frames, the per-frame callback functor, and
+ * the controller that walks the sequence.
+ */
+typedef struct AnimFrameData {
     void *pContent;
     u16 frames;
     u16 pad;
-} Frame;
+} AnimFrameData;
 
-typedef struct {
+typedef struct AnimSequenceData {
     u16 numFrames;
     u16 loopStartFrameIdx;
     u32 animType;
     u32 playMode;
-    Frame *pFrameArray;
-} Seq;
+    AnimFrameData *pAnmFrameArray;
+} AnimSequenceData;
 
-typedef struct {
+typedef struct AnimCallBack {
     u32 type;
     u32 param;
-    void (*pFunc)(u32 param, u32 idx);
+    void *pFunc;
     u16 frameIdx;
-} Functor;
+    u16 pad;
+} AnimCallBack;
 
-typedef struct {
-    Frame *pCurrent;
-    Frame *pActiveCurrent;
-    BOOL bReverse;
-    BOOL bActive;
-    s32 currentTime;
-    s32 speed;
-    u32 overriddenPlayMode;
-    Seq *pAnimSequence;
-    Functor callback;
-} Ctrl;
-
-struct AnimState {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u16 unk0C;
-};
-
-struct AnimObj {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-    int f18;
-    int f1C;
-    struct AnimState anim;
-};
+typedef struct AnimCtrl {
+    AnimFrameData *pCurrent;         /* +0x00  current frame cursor                 */
+    AnimFrameData *pActiveCurrent;   /* +0x04  last frame with a non-zero length    */
+    BOOL bReverse;                   /* +0x08  reverse playback                     */
+    BOOL bActive;                    /* +0x0C  controller active                    */
+    fx32 currentTime;                /* +0x10  elapsed time in FX (12.12) units     */
+    fx32 speed;                      /* +0x14  playback speed in FX units           */
+    u32 overriddenPlayMode;          /* +0x18  play-mode override, 0 = use sequence */
+    AnimSequenceData *pAnimSequence; /* +0x1C  selected animation sequence          */
+    AnimCallBack callBack;           /* +0x20  per-frame callback functor           */
+} AnimCtrl;
 
 struct Owner {
     u8  pad_00[0xc];
@@ -171,22 +125,23 @@ struct Owner {
 struct Node {
     u32           cursor;
     u8            pad_04[0x18];
-    struct Owner *owner;
+    struct Owner *pOwner;
 };
 
-extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
+struct NodeRec;
+extern void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
 extern s32 abs(s32 x);
 BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
 void NNSi_G2dFixupOffsets(struct Tbl *t);
-void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s);
+void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s);
 int NNSi_G2dSetCellAnimationFrame(void *p, u32 i);
-void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim);
-BOOL NNS_G2dTickAnimCtrl(Ctrl *p, s32 frames);
+struct NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *anim);
+BOOL NNS_G2dTickAnimCtrl(AnimCtrl *p, fx32 frames);
 int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
 u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
 int NNS_G2dInitAnimCtrl(int a0);
-void NNSi_G2dResetCellAnimationState(struct AnimState *state);
+void NNSi_G2dResetCellAnimationState(AnimCallBack *callBack);
 
 
 BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out)
@@ -307,10 +262,10 @@ void NNSi_G2dFixupOffsets(struct Tbl *t)
 
 
 
-static inline u32 getMode(struct Slider *s) {
-    u32 m = s->field_18;
+static inline u32 getMode(AnimCtrl *s) {
+    u32 m = s->overriddenPlayMode;
     if (m == 0) {
-        m = s->sub->field_08;
+        m = s->pAnimSequence->playMode;
     }
     return m;
 }
@@ -394,48 +349,48 @@ static inline u32 getMode(struct Slider *s) {
  *       --func NNSi_G2dCellAnimationEdgeHandler --addr 0x02062BF4 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 276 = original 276, 2 of 2 sites resolved
  */
-void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s)
+void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
 {
     u32 mode = getMode(s);
     if (mode == 3 || mode == 4 ? 1 : 0) {
-        struct Sub *sub;
+        AnimSequenceData *seq;
         u32 pos;
-        s->field_08 ^= 1;
-        sub = s->sub;
-        pos = s->pos;
-        if (pos <= (sub->ptr_0C + (sub->h2 << 3) - 8)) {
-            if (s->field_20 == 1) {
-                s->cb_28(s->field_24, s->field_10);
+        s->bReverse ^= 1;
+        seq = s->pAnimSequence;
+        pos = (u32)s->pCurrent;
+        if (pos <= ((u32)seq->pAnmFrameArray + (seq->loopStartFrameIdx << 3) - 8)) {
+            if (s->callBack.type == 1) {
+                ((void (*)(u32, u32))s->callBack.pFunc)(s->callBack.param, s->currentTime);
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
-                NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
+                NNS_G2dResetCellAnimation(s);
             } else {
-                s->field_0C = 0;
+                s->bActive = 0;
             }
         }
     } else {
-        if (s->field_20 == 1) {
-            s->cb_28(s->field_24, s->field_10);
+        if (s->callBack.type == 1) {
+            ((void (*)(u32, u32))s->callBack.pFunc)(s->callBack.param, s->currentTime);
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
-            NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
+            NNS_G2dResetCellAnimation(s);
         } else {
-            s->field_0C = 0;
+            s->bActive = 0;
         }
     }
 
     {
-        struct Sub *sub = s->sub;
-        u32 pos = s->pos;
-        u32 bound = sub->ptr_0C + (sub->h0 << 3) - 8;
+        AnimSequenceData *seq = s->pAnimSequence;
+        u32 pos = (u32)s->pCurrent;
+        u32 bound = (u32)seq->pAnmFrameArray + (seq->numFrames << 3) - 8;
         if (pos > bound) {
-            s->pos = bound;
+            s->pCurrent = (AnimFrameData *)bound;
             return;
         }
-        if (pos < sub->ptr_0C) {
-            s->pos = sub->ptr_0C;
+        if (pos < (u32)seq->pAnmFrameArray) {
+            s->pCurrent = seq->pAnmFrameArray;
         }
     }
 }
@@ -447,15 +402,15 @@ void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s)
 
 int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
 {
-    u8 *s = (u8 *)p;
-    u8 *t = *(u8 * *)&((struct Obj07015 *)s)->f1C;
-    u8 *e;
+    AnimCtrl *s = (AnimCtrl *)p;
+    AnimSequenceData *seq = s->pAnimSequence;
+    AnimFrameData *e;
 
-    if (i < ((struct Obj11525 *)t)->f0) {
-        e = *(u8 * *)&((struct Obj11525 *)t)->fC + i * 8;
-        *(u8 * *)&((struct Obj07015 *)s)->f0 = e;
-        if (((struct Obj16406 *)e)->f4 != 0) {
-            *(u8 * *)&((struct Obj07015 *)s)->f4 = e;
+    if (i < seq->numFrames) {
+        e = seq->pAnmFrameArray + i;
+        s->pCurrent = e;
+        if (e->frames != 0) {
+            s->pActiveCurrent = e;
         }
         return 1;
     }
@@ -477,9 +432,9 @@ int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNSi_G2dGetCellAnimationCurrentSequence.c  *       --func NNSi_G2dGetCellAnimationCurrentSequence --addr 0x02062D40 --cc 1.1p1
  */
-void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim)
+struct NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *anim)
 {
-    return *anim->sequence;
+    return (struct NodeRec *)anim->pActiveCurrent->pContent;
 }
 
 
@@ -493,7 +448,7 @@ static inline s32 FX_Mul(s32 a, s32 b)
 
 
 
-static inline BOOL IsForward_(const Ctrl *p)
+static inline BOOL IsForward_(const AnimCtrl *p)
 {
     return (BOOL)((p->speed > 0) ^ p->bReverse);
 }
@@ -501,7 +456,7 @@ static inline BOOL IsForward_(const Ctrl *p)
 
 
 
-static inline BOOL IsReachEndEdge_(const Frame *cur, const Frame *arr, u16 n)
+static inline BOOL IsReachEndEdge_(const AnimFrameData *cur, const AnimFrameData *arr, u16 n)
 {
     return (BOOL)(cur >= arr + n);
 }
@@ -509,7 +464,7 @@ static inline BOOL IsReachEndEdge_(const Frame *cur, const Frame *arr, u16 n)
 
 
 
-static inline BOOL IsReachStartEdge_(const Frame *cur, const Frame *arr, u16 idx)
+static inline BOOL IsReachStartEdge_(const AnimFrameData *cur, const AnimFrameData *arr, u16 idx)
 {
     return (BOOL)(cur <= arr + idx - 1);
 }
@@ -517,27 +472,27 @@ static inline BOOL IsReachStartEdge_(const Frame *cur, const Frame *arr, u16 idx
 
 
 
-static inline BOOL IsReachedEdge_(const Ctrl *p)
+static inline BOOL IsReachedEdge_(const AnimCtrl *p)
 {
-    const Frame *cur = p->pCurrent;
+    const AnimFrameData *cur = p->pCurrent;
     if (IsForward_(p))
-        return IsReachEndEdge_(cur, p->pAnimSequence->pFrameArray, p->pAnimSequence->numFrames);
+        return IsReachEndEdge_(cur, p->pAnimSequence->pAnmFrameArray, p->pAnimSequence->numFrames);
     else
-        return IsReachStartEdge_(cur, p->pAnimSequence->pFrameArray, p->pAnimSequence->loopStartFrameIdx);
+        return IsReachStartEdge_(cur, p->pAnimSequence->pAnmFrameArray, p->pAnimSequence->loopStartFrameIdx);
 }
 
 
 
 
-static inline u16 GetCurrentFrameIdx_(const Ctrl *p)
+static inline u16 GetCurrentFrameIdx_(const AnimCtrl *p)
 {
-    return (u16)(((u32)p->pCurrent - (u32)p->pAnimSequence->pFrameArray) >> 3);
+    return (u16)(((u32)p->pCurrent - (u32)p->pAnimSequence->pAnmFrameArray) >> 3);
 }
 
 
 
 
-static inline BOOL ShouldAdvance_(const Ctrl *p)
+static inline BOOL ShouldAdvance_(const AnimCtrl *p)
 {
     if (p->bActive && p->currentTime >= (s32)(p->pCurrent->frames << 12))
         return 1;
@@ -547,15 +502,15 @@ static inline BOOL ShouldAdvance_(const Ctrl *p)
 
 
 
-static inline void CallbackFuncHandling_(const Functor *f, u16 idx)
+static inline void CallbackFuncHandling_(const AnimCallBack *f, u16 idx)
 {
     switch (f->type) {
     case 2:
         if (idx == f->frameIdx)
-            f->pFunc(f->param, idx);
+            ((void (*)(u32, u32))f->pFunc)(f->param, idx);
         break;
     case 3:
-        f->pFunc(f->param, idx);
+        ((void (*)(u32, u32))f->pFunc)(f->param, idx);
         break;
     }
 }
@@ -591,7 +546,7 @@ static inline void CallbackFuncHandling_(const Functor *f, u16 idx)
  *       --func NNS_G2dTickAnimCtrl --addr 0x02062D4C --arm --cc ../2.0/sp2
  *   EXACT, 436 bytes, 2 of 2 relocation sites resolved (sp2p2 also EXACT).
  */
-BOOL NNS_G2dTickAnimCtrl(Ctrl *p, s32 frames)
+BOOL NNS_G2dTickAnimCtrl(AnimCtrl *p, fx32 frames)
 {
     BOOL bChanged = 0;
 
@@ -606,11 +561,11 @@ BOOL NNS_G2dTickAnimCtrl(Ctrl *p, s32 frames)
         else
             p->pCurrent--;
         if (IsReachedEdge_(p))
-            NNSi_G2dCellAnimationEdgeHandler((struct Slider *)p);
+            NNSi_G2dCellAnimationEdgeHandler(p);
         if (p->pCurrent->frames != 0)
             p->pActiveCurrent = p->pCurrent;
-        if (p->callback.type != 0)
-            CallbackFuncHandling_(&p->callback, GetCurrentFrameIdx_(p));
+        if (p->callBack.type != 0)
+            CallbackFuncHandling_(&p->callBack, GetCurrentFrameIdx_(p));
     }
     return bChanged;
 }
@@ -624,7 +579,7 @@ int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
     u32 r = NNSi_G2dSetCellAnimationFrame(s, i);
 
     if (r != 0) {
-        ((struct Obj07015 *)s)->f10 = 0;
+        ((AnimCtrl *)s)->currentTime = 0;
     }
     return r;
 }
@@ -653,22 +608,23 @@ int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
  */
 u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
 {
-    return (u16)((n->cursor - n->owner->base) >> 3);
+    return (u16)((n->cursor - n->pOwner->base) >> 3);
 }
 
 
 
 int NNS_G2dInitAnimCtrl(int a0)
 {
-    NNSi_G2dResetCellAnimationState((struct AnimState *)(a0 + 0x20));
-    ((struct AnimObj *)a0)->f0 = 0;
-    ((struct AnimObj *)a0)->f4 = 0;
-    ((struct AnimObj *)a0)->f8 = 0;
-    ((struct AnimObj *)a0)->fC = 1;
-    ((struct AnimObj *)a0)->f10 = 0;
-    ((struct AnimObj *)a0)->f14 = 0x1000;
-    ((struct AnimObj *)a0)->f18 = 0;
-    ((struct AnimObj *)a0)->f1C = 0;
+    AnimCtrl *c = (AnimCtrl *)a0;
+    NNSi_G2dResetCellAnimationState(&c->callBack);
+    c->pCurrent = 0;
+    c->pActiveCurrent = 0;
+    c->bReverse = 0;
+    c->bActive = 1;
+    c->currentTime = 0;
+    c->speed = 0x1000;
+    c->overriddenPlayMode = 0;
+    c->pAnimSequence = 0;
     return 0x1000;
 }
 
@@ -678,10 +634,10 @@ int NNS_G2dInitAnimCtrl(int a0)
  * Zeroes a 14-byte animation-playback sub-state: three u32 words and a
  * trailing halfword. Written as four stores rather than a memset.
  */
-void NNSi_G2dResetCellAnimationState(struct AnimState *state)
+void NNSi_G2dResetCellAnimationState(AnimCallBack *callBack)
 {
-    state->unk00 = 0;
-    state->unk04 = 0;
-    state->unk08 = 0;
-    state->unk0C = 0;
+    callBack->type = 0;
+    callBack->param = 0;
+    callBack->pFunc = 0;
+    callBack->frameIdx = 0;
 }

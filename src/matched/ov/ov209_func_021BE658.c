@@ -12,7 +12,7 @@
  * symbols:
  *   FRAME_LIST_HideCursor   0x021B941C  thumb
  *   ZUKAN_SAVE_GetDexObtained   0x0200CA54  thumb
- *   func_021B940C   0x021B940C  thumb ov133
+ *   DUP_FITTING_HandleTouch   0x021B940C  thumb ov133
  *   d_021BEAE0      0x021BEAE0  data
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
@@ -25,7 +25,7 @@
  *       src/matched/unit_0200C9EC.c (pkt_0200C9F4), so `matched` now carries
  *       both sites.  The earlier "unlabelled leaf" reading was wrong: it is
  *       unlabelled in the listing, but the unit source already reproduces it.
- *   +0070  FRAME_LIST_HideCursor (thumb): 0x021B941C is interior to func_021B940C in
+ *   +0070  FRAME_LIST_HideCursor (thumb): 0x021B941C is interior to DUP_FITTING_HandleTouch in
  *       ov133 (no `func_` label at it anywhere), so `label`/`sole-ref/code`
  *       refuse it.  Needs that address seeded as a start, or a matched entry.
  */
@@ -42,7 +42,7 @@ extern u8 func_020355C4(void);
 extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void FRAME_LIST_HideCursor(u32);
-extern int func_021B940C(u8 *p);
+extern int DUP_FITTING_HandleTouch(u8 *p);
 
 int ZUKAN_LIST_HandleTouchInput(void *ctx_)
 {
@@ -98,7 +98,7 @@ int ZUKAN_LIST_HandleTouchInput(void *ctx_)
                 return -1;
             if (func_020355C4() == 1) {
                 func_020355D8(0);
-                func_021B940C((u8 *)(*(u32 *)(ctx + 0xC2C)));
+                DUP_FITTING_HandleTouch((u8 *)(*(u32 *)(ctx + 0xC2C)));
             } else {
                 func_020355D8(0);
             }

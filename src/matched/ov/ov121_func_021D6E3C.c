@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202EB44 0x0202EB44 thumb
+ *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   func_021DA84C 0x021DA84C thumb ov121
  *   MYSTERY_NET_GetResult 0x021DE4D8 thumb ov121
  *   func_021D80F0 0x021D80F0 thumb ov121
@@ -90,7 +90,7 @@ struct Obj;
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
-extern int func_0202EB44(void);
+extern int APP_ENV_InitParentalControl(void);
 extern void *MYSTERY_NET_GetResult(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);
 extern void func_021D80F0(void *a, int *state, u8 *p);
@@ -130,7 +130,7 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
                     func_021DA8C0(task,0);*state=19;
                 } else *state=16;
             } else {
-                if(func_0202EB44()==0) func_021DA8B0(task,(u32)func_021D80F0);
+                if(APP_ENV_InitParentalControl()==0) func_021DA8B0(task,(u32)func_021D80F0);
                 else *state=2;
             }
         } else if(v==1) {

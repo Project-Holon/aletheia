@@ -14,8 +14,8 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0202F488  0x0202F488  thumb
- *   func_0202F630  0x0202F630  thumb
+ *   SAVE_EVENT_IsStageDone  0x0202F488  thumb
+ *   SAVE_EVENT_CommitStage  0x0202F630  thumb
  */
 
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern int func_0202F488(int a0, int a1);
-extern void func_0202F630(u32 a, u32 b);
+extern int SAVE_EVENT_IsStageDone(int a0, int a1);
+extern void SAVE_EVENT_CommitStage(u32 a, u32 b);
 
 int SCRCMD_EVENT_MON_CmdClearEventMonFlag(int c, int vm)
 {
@@ -59,9 +59,9 @@ int SCRCMD_EVENT_MON_CmdClearEventMonFlag(int c, int vm)
         return 0;
     }
     obj = POKEPARTY_GetMember((void *)r7, m);
-    if (func_0202F488((int)obj, t) == 0) {
+    if (SAVE_EVENT_IsStageDone((int)obj, t) == 0) {
         return 0;
     }
-    func_0202F630((u32)obj, t);
+    SAVE_EVENT_CommitStage((u32)obj, t);
     return 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     billboard.c
  * unit:     yes
- * function: BILLBOARD_Create, BILLBOARD_Delete, BILLBOARD_SetFlagWord, BILLBOARD_SetField10, BILLBOARD_SetField1C, BILLBOARD_SetField1E, BILLBOARD_SetField20, BILLBOARD_SetField22, BILLBOARD_SetField24, BILLBOARD_SetField25, BILLBOARD_SetImagePosition, BILLBOARD_GetImageSizeFromFlags, BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, BILLBOARD_AddImageFromVramKeys, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, BILLBOARD_ReleaseImageVram, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, BILLBOARD_GetImagePlttVramOffset, BILLBOARD_GetImageTexKey, BILLBOARD_SetImageTexAddr, BILLBOARD_GetImagePlttKey, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, BILLBOARD_GetElemId, BILLBOARD_SetElemId, BILLBOARD_SetElemPos, BILLBOARD_GetElemCell, BILLBOARD_SetElemCell, BILLBOARD_SetElemScale, BILLBOARD_SetElemAlpha, BILLBOARD_SetElemPolyId, BILLBOARD_GetElemVisible, BILLBOARD_SetElemVisible, BILLBOARD_GetElemFlipS, BILLBOARD_SetElemFlipS, BILLBOARD_SetElemFlipT, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
+ * function: BILLBOARD_Create, BILLBOARD_Delete, BILLBOARD_SetFixedNormal, BILLBOARD_SetScale, BILLBOARD_SetDiffuse, BILLBOARD_SetAmbient, BILLBOARD_SetSpecular, BILLBOARD_SetEmission, BILLBOARD_SetPolyIdBase, BILLBOARD_SetQuadShape, BILLBOARD_SetImageOffset, BILLBOARD_GetImageSizeFromFlags, BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, BILLBOARD_AddImageFromVramKeys, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, BILLBOARD_ReleaseImageVram, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, BILLBOARD_GetImagePlttVramOffset, BILLBOARD_GetImageTexKey, BILLBOARD_SetImageTexAddr, BILLBOARD_GetImagePlttKey, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, BILLBOARD_GetElemId, BILLBOARD_SetElemId, BILLBOARD_SetElemPos, BILLBOARD_GetElemCell, BILLBOARD_SetElemCell, BILLBOARD_SetElemScale, BILLBOARD_SetElemAlpha, BILLBOARD_SetElemPolyId, BILLBOARD_GetElemVisible, BILLBOARD_SetElemVisible, BILLBOARD_GetElemFlipS, BILLBOARD_SetElemFlipS, BILLBOARD_SetElemFlipT, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
  * address:  0x0204EBD4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -52,15 +52,6 @@
  *   FX_SinCosTable_    0x020A1B38  data
  *   gBillboardQuad     0x020A1514  data
  */
-#include "../../matched/include/Obj11443.h"
-#include "../../matched/include/Obj06987.h"
-#include "../../matched/include/Obj16108.h"
-#include "../../matched/include/Obj16110.h"
-#include "../../matched/include/Obj16112.h"
-#include "../../matched/include/Obj16114.h"
-#include "../../matched/include/Obj16116.h"
-#include "../../matched/include/Obj16118.h"
-#include "../../matched/include/Obj11444.h"
 #include "double3Ddisp_shared_types.h"
 #include "billboard_types.h"
 
@@ -74,25 +65,6 @@ struct Blk3 {
 
 struct Blob28 { u32 w[7]; };   /* 28 bytes, align 4 -> ldm/stm 16 + 12 */
 
-struct Board {
-    u16 id;             /* 0x00 */
-    u16 pad0;
-    u32 ptr0;           /* 0x04 */
-    u32 ptr1;           /* 0x08 */
-    u16 count0;         /* 0x0c */
-    u16 count1;         /* 0x0e */
-    u8  blob[0x18];     /* 0x10 .. 0x27 */
-    u32 a28;            /* 0x28 */
-    u32 a2c;            /* 0x2c */
-    u16 b30;            /* 0x30 */
-    u16 b32;
-    u16 b34;
-    u16 b36;
-    u16 b38;
-};
-
-struct BigElem { u32 f00; u32 f04; u32 f08; u32 f0c; u32 f10; u32 f14; u32 f18; u32 f1c; u32 f20; u32 f24; };  /* 0x28 */
-
 void BILLBOARD_DeleteAllImages(struct BbBoard *board);
 
 extern u32 func_020307B0(void *p);
@@ -103,23 +75,23 @@ void *BILLBOARD_Create(u8 *src, void *heap);
 
 void BILLBOARD_Delete(void *p);
 
-void BILLBOARD_SetFlagWord(u8 *a0, short *a1);
+void BILLBOARD_SetFixedNormal(u8 *a0, short *a1);
 
-void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
-void BILLBOARD_SetField1C(u8 *dst, u16 *src);
+void BILLBOARD_SetDiffuse(u8 *dst, u16 *src);
 
-void BILLBOARD_SetField1E(u8 *dst, u16 *src);
+void BILLBOARD_SetAmbient(u8 *dst, u16 *src);
 
-void BILLBOARD_SetField20(u8 *dst, u16 *src);
+void BILLBOARD_SetSpecular(u8 *dst, u16 *src);
 
-void BILLBOARD_SetField22(u8 *dst, u16 *src);
+void BILLBOARD_SetEmission(u8 *dst, u16 *src);
 
-void BILLBOARD_SetField24(u8 *dst, u8 *src);
+void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
 
-void BILLBOARD_SetField25(u8 *dst, u8 val);
+void BILLBOARD_SetQuadShape(u8 *dst, u8 val);
 
-void BILLBOARD_SetImagePosition(u8 *dst, int a, int b);
+void BILLBOARD_SetImageOffset(u8 *dst, int a, int b);
 
 void BILLBOARD_GetImageSizeFromFlags(s32 flags, u16 *a, u16 *b);
 
@@ -143,31 +115,31 @@ extern const char sBillboard[];
  */
 void *BILLBOARD_Create(u8 *src, void *heap)
 {
-    struct Board *h;
+    struct BbBoard *h;
     const char *file;
     int i;
 
     file = sBillboard;
-    h = (struct Board *)func_02030734((int)heap, sizeof(struct Board), 1, file, 153);
-    h->id = (u16)(int)heap;
+    h = (struct BbBoard *)func_02030734((int)heap, sizeof(struct BbBoard), 1, file, 153);
+    h->heapId = (u16)(int)heap;
     *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
-    h->ptr0 = (u32)func_02030734((int)heap, h->count0 * 0x28, 1, file, 159);
-    h->ptr1 = (u32)func_02030734((int)heap, h->count1 * 0x1c, 1, file, 161);
-    for (i = 0; i < h->count0; i++) {
-        ((struct BigElem *)h->ptr0)[i].f00 = 0;
-        ((struct BigElem *)h->ptr0)[i].f14 = 5;
+    h->images = (struct BbImage *)func_02030734((int)heap, h->imageCount * 0x28, 1, file, 159);
+    h->elems = (struct BbElem *)func_02030734((int)heap, h->elemCount * 0x1c, 1, file, 161);
+    for (i = 0; i < h->imageCount; i++) {
+        h->images[i].handle = 0;
+        h->images[i].texFmt = 5;
     }
-    for (i = 0; i < h->count1; i++) {
-        u16 *q = (u16 *)(h->ptr1 + i * 0x1c);
+    for (i = 0; i < h->elemCount; i++) {
+        u16 *q = (u16 *)((u8 *)h->elems + i * 0x1c);
         *q = (u16)((*q & ~0x3FFFu) | 0x3FFFu);
     }
-    h->a2c = 0;
-    h->b30 = 0;
-    h->b32 = 0;
-    h->b34 = 0;
-    h->a28 = 0;
-    h->b36 = 0;
-    h->b38 = 0;
+    h->useFixedNormal = 0;
+    h->normalX = 0;
+    h->normalY = 0;
+    h->normalZ = 0;
+    h->lookAtMode = 0;
+    h->offsetS = 0;
+    h->offsetT = 0;
     return h;
 }
 
@@ -177,8 +149,8 @@ void *BILLBOARD_Create(u8 *src, void *heap)
 void BILLBOARD_Delete(void *p)
 {
     BILLBOARD_DeleteAllImages(p);
-    func_020307B0(((struct Obj11443 *)p)->f8);
-    func_020307B0(((struct Obj11443 *)p)->f4);
+    func_020307B0(((struct BbBoard *)p)->elems);
+    func_020307B0(((struct BbBoard *)p)->images);
     func_020307B0(p);
 }
 
@@ -205,19 +177,19 @@ void BILLBOARD_Delete(void *p)
  * Writing the three stores straight from the array (no locals) interleaves
  * each load with its store and is eight bytes wrong.
  */
-void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
+void BILLBOARD_SetFixedNormal(u8 *a0, short *a1)
 {
     short v2;
     short v1;
     short v0;
 
-    ((struct Obj06987 *)a0)->f2C = 1;
+    ((struct BbBoard *)a0)->useFixedNormal = 1;
     v2 = a1[2];
     v1 = a1[1];
     v0 = a1[0];
-    ((struct Obj06987 *)a0)->f30 = v0;
-    ((struct Obj06987 *)a0)->f32 = v1;
-    ((struct Obj06987 *)a0)->f34 = v2;
+    ((struct BbBoard *)a0)->normalX = v0;
+    ((struct BbBoard *)a0)->normalY = v1;
+    ((struct BbBoard *)a0)->normalZ = v2;
 }
 
 /*
@@ -228,7 +200,7 @@ void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED70 and its body ends at 0x0204ED80.
  */
-void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src)
+void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src)
 {
     *(struct Blk3 *)(dst + 0x10) = *src;
 }
@@ -241,9 +213,9 @@ void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED80 and its body ends at 0x0204ED8C.
  */
-void BILLBOARD_SetField1C(u8 *dst, u16 *src)
+void BILLBOARD_SetDiffuse(u8 *dst, u16 *src)
 {
-    ((struct Obj16108 *)dst)->f1C = *src;
+    ((struct BbBoard *)dst)->diffuse = *src;
 }
 
 /*
@@ -254,9 +226,9 @@ void BILLBOARD_SetField1C(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED8C and its body ends at 0x0204ED98.
  */
-void BILLBOARD_SetField1E(u8 *dst, u16 *src)
+void BILLBOARD_SetAmbient(u8 *dst, u16 *src)
 {
-    ((struct Obj16110 *)dst)->f1E = *src;
+    ((struct BbBoard *)dst)->ambient = *src;
 }
 
 /*
@@ -267,9 +239,9 @@ void BILLBOARD_SetField1E(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204ED98 and its body ends at 0x0204EDA4.
  */
-void BILLBOARD_SetField20(u8 *dst, u16 *src)
+void BILLBOARD_SetSpecular(u8 *dst, u16 *src)
 {
-    ((struct Obj16112 *)dst)->f20 = *src;
+    ((struct BbBoard *)dst)->specular = *src;
 }
 
 /*
@@ -280,9 +252,9 @@ void BILLBOARD_SetField20(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDA4 and its body ends at 0x0204EDB0.
  */
-void BILLBOARD_SetField22(u8 *dst, u16 *src)
+void BILLBOARD_SetEmission(u8 *dst, u16 *src)
 {
-    ((struct Obj16114 *)dst)->f22 = *src;
+    ((struct BbBoard *)dst)->emission = *src;
 }
 
 /*
@@ -293,9 +265,9 @@ void BILLBOARD_SetField22(u8 *dst, u16 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDB0 and its body ends at 0x0204EDBC.
  */
-void BILLBOARD_SetField24(u8 *dst, u8 *src)
+void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src)
 {
-    ((struct Obj16116 *)dst)->f24 = *src;
+    ((struct BbBoard *)dst)->polyIdBase = *src;
 }
 
 /*
@@ -307,9 +279,9 @@ void BILLBOARD_SetField24(u8 *dst, u8 *src)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDBC and its body ends at 0x0204EDC4.
  */
-void BILLBOARD_SetField25(u8 *dst, u8 val)
+void BILLBOARD_SetQuadShape(u8 *dst, u8 val)
 {
-    ((struct Obj16118 *)dst)->f25 = val;
+    ((struct BbBoard *)dst)->quadShape = val;
 }
 
 /*
@@ -321,10 +293,10 @@ void BILLBOARD_SetField25(u8 *dst, u8 val)
  * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * It starts at 0x0204EDC4 and its body ends at 0x0204EDD0.
  */
-void BILLBOARD_SetImagePosition(u8 *dst, int a, int b)
+void BILLBOARD_SetImageOffset(u8 *dst, int a, int b)
 {
-    ((struct Obj11444 *)dst)->f36 = a;
-    ((struct Obj11444 *)dst)->f38 = b;
+    ((struct BbBoard *)dst)->offsetS = a;
+    ((struct BbBoard *)dst)->offsetT = b;
 }
 
 /*
@@ -420,7 +392,9 @@ struct TexParamEntry {
 };
 
 /* Byte-pointer view of the board's image array: BILLBOARD_ReleaseImageVramIfUsed's guard needs
- * the base typed u8 * to get its original instruction order. */
+ * the base typed u8 * to get its original instruction order.  Kept: with
+ * board->images (a struct BbImage *) the front end hoists `base + off` above
+ * the guard branch (18 bytes of DIFF); see open_items.tsv. */
 struct BbBoardBytes {
     u16 heapId;
     u16 reserved02;

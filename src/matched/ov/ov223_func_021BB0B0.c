@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0B0
+ * function: PSEL_IsModeDone
  * address:  0x021BB0B0
  * packet:   pkt_021BB0B0
  * region:   ov223
@@ -32,7 +32,7 @@ extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 
-int func_021BB0B0(char *a)
+int PSEL_IsModeDone(char *a)
 {
     int r = 0;
 

@@ -335,7 +335,7 @@ void func_02072374(struct DST *d, struct SRC *s)
  * 1.1p1 -O4,p hoists `mov r1, #0` ahead of `mov r2, #0x1000` where the
  * image materialises 0x1000 first. Nine store-order and constant-binding
  * spellings all give the same 3-instruction swap; see
- * docs/notes/func_02071EFC.c.txt.
+ * docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
  */
 /*
  * Two functions of the 0x02071CDC constructor family, 228 bytes: the
@@ -349,7 +349,7 @@ void func_02072374(struct DST *d, struct SRC *s)
  * 1.1p1 -O4,p hoists `mov r1, #0` ahead of `mov r2, #0x1000` where the
  * image materialises 0x1000 first. Nine store-order and constant-binding
  * spellings all give the same 3-instruction swap; see
- * docs/notes/func_02071EFC.c.txt.
+ * docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
  */
 void func_02072440(struct DST *d, struct SRC *s)
 {

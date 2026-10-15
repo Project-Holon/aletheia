@@ -1,5 +1,5 @@
 /*
- * function: func_0217B970
+ * function: BATTLE_CHAMPIONSHIP_FLOW_FinishMenu
  * address: 0x0217B970
  * packet: pkt_ov176_0217B970
  * region: ov176
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0217B3B8 0x0217B3B8 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_EndMenu 0x0217B3B8 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  */
-extern void func_0217B3B8(int p);
+extern void BATTLE_CHAMPIONSHIP_FLOW_EndMenu(int p);
 extern void func_021E8AA0(int *p, int v);
-void func_0217B970(int *p,int a) {p[4]=a;func_021E8AA0((int *)p[0],(int)func_0217B3B8);}
+void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *p,int a) {p[4]=a;func_021E8AA0((int *)p[0],(int)BATTLE_CHAMPIONSHIP_FLOW_EndMenu);}

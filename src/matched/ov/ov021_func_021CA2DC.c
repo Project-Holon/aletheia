@@ -13,9 +13,9 @@
  *
  * symbols:
  *   BSUBWAY_SCR_SaveMemberParty  0x021CA4C0  thumb
- *   func_0200D914  0x0200D914  thumb
- *   func_0200DA54  0x0200DA54  thumb
- *   func_0200DC94  0x0200DC94  thumb
+ *   GDS_PROFILE_SetFieldRecField  0x0200D914  thumb
+ *   GDS_PROFILE_GetFieldRecCount03  0x0200DA54  thumb
+ *   GDS_PROFILE_CalcScoreRecScore  0x0200DC94  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00116.h"
@@ -28,9 +28,9 @@ extern void BSUBWAY_SCR_SaveMemberParty(u8 *p, u32 unused, int flag);
 struct Blk1AC;
 struct Blk3C;
 struct Src;
-extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
-extern u16 func_0200DA54(struct Blk3C *p);
-extern void func_0200DC94(struct Blk1AC *p, const struct Src *q);
+extern void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src);
+extern u16 GDS_PROFILE_GetFieldRecCount03(struct Blk3C *p);
+extern void GDS_PROFILE_CalcScoreRecScore(struct Blk1AC *p, const struct Src *q);
 
 void BSUBWAY_SCR_SaveRecordParty(u8 *p, u32 h, int flag, u16 v)
 {
@@ -45,10 +45,10 @@ void BSUBWAY_SCR_SaveRecordParty(u8 *p, u32 h, int flag, u16 v)
     case 4:
         BSUBWAY_SCR_SaveMemberParty(p, h, 1);
         b = p[9];
-        func_0200D914((struct Blk3C *)(((struct Obj00116 *)p)->f70), 0, &b);
-        b = func_0200DA54((struct Blk3C *)(((struct Obj00116 *)p)->f70)) + 1;
-        func_0200D914((struct Blk3C *)(((struct Obj00116 *)p)->f70), 1, &b);
-        func_0200DC94((struct Blk1AC *)(((struct Obj00116 *)p)->f74), (const struct Src *)(((struct Obj00116 *)p)->f70));
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj00116 *)p)->f70), 0, &b);
+        b = GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)(((struct Obj00116 *)p)->f70)) + 1;
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj00116 *)p)->f70), 1, &b);
+        GDS_PROFILE_CalcScoreRecScore((struct Blk1AC *)(((struct Obj00116 *)p)->f74), (const struct Src *)(((struct Obj00116 *)p)->f70));
         break;
     }
 }

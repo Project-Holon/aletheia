@@ -1,5 +1,5 @@
 /*
- * function: func_021BA238
+ * function: DUP_FITTING_ITEM_ElemGetBasePos
  * address: 0x021BA238
  * packet: pkt_ov133_021BA238
  * region: ov133
@@ -10,7 +10,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 * func_021BA238(u8 *p)
+u8 * DUP_FITTING_ITEM_ElemGetBasePos(u8 *p)
 {
     return p+36;
 }

@@ -15,7 +15,7 @@
  * global (gWihDwc): the 0x328-byte context object and a 0xA00-byte buffer.
  *
  * symbols:
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   gNetErrWork     0x0214617C  data
  *   sNetErrMessageIdsDS   0x0209DEB0  data  a2
  *   sNetErrMessageIdsTwl   0x0209DED0  data  a2
@@ -231,7 +231,7 @@ struct NetSaveProcWork {
     u32 state;                              /* +0x1D4 */
 };
 
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern u16 *G2_GetBG1ScrPtr(void);
 extern u8  *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
@@ -346,13 +346,13 @@ extern u8 gNetSaveRetryProc[];
  * net_err.c's error-code mapper: the reason code of the module's error block
  * (0x3EE..0x3F7) maps to a fixed message id; anything else indexes one of two
  * sixteen-entry u16 tables by the module's +0x60 error number, picked by
- * func_0202EB0C().  The case 0x3F7 arm shares case 0x3EE's block.
+ * APP_ENV_IsRunOnTwl().  The case 0x3F7 arm shares case 0x3EE's block.
  */
 /*
  * The error-code mapper of net_err.c: a reason code at obj+0xc (obj is the
  * 16-byte block the module keeps at 0x0214617C+0x48) in 0x3EE..0x3F7 maps to
  * a fixed message id; anything else indexes one of two sixteen-entry u16
- * tables by the module's +0x60 error number, picked by func_0202EB0C().
+ * tables by the module's +0x60 error number, picked by APP_ENV_IsRunOnTwl().
  * Wave 13: the earlier DIFF note read the pools as 0x0202617C / 0x020109B0 /
  * 0x020109D0; the words are 0x0214617C / 0x0209DEB0 / 0x0209DED0, and the
  * case 0x3F7 arm shares case 0x3EE's block (both table slots 0x12).
@@ -376,7 +376,7 @@ u32 GFL_NET_ERR_GetMessageId(struct NetErrInfo *info, u32 a)
     case 0x3f0:
         return 0x28;
     }
-    if (func_0202EB0C() != 0) {
+    if (APP_ENV_IsRunOnTwl() != 0) {
         errorNumber = gNetErrWork.messageId;
         if (errorNumber >= 0x10) {
             return 0xb;

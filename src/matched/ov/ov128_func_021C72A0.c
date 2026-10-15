@@ -1,5 +1,5 @@
 /*
- * function: func_021C72A0
+ * function: Wf2dmapFriend_DeleteListScreen
  * address: 0x021C72A0
  * packet: pkt_ov128_021C72A0
  * region: ov128
@@ -27,7 +27,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021C72A0(u8 *p, u8 *unused, u8 *q)
+void Wf2dmapFriend_DeleteListScreen(u8 *p, u8 *unused, u8 *q)
 {
     WF2DMAP_TOUCH_ClearSlotArray((char *)q);
     WF2DMAP_TOUCH_AddSlot((char *)q,q+12);

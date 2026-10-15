@@ -1,5 +1,5 @@
 /*
- * function: func_021E564C
+ * function: WIFIBATTLEMATCH_GRAPHIC_DeleteClact
  * address:  0x021E564C
  * packet:   pkt_021E564C
  * region:   ov177
@@ -22,7 +22,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(int *, int, int);
 
-void func_021E564C(int *p)
+void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj24444 *)p)->f0));
     CLACT_ExitSystem();

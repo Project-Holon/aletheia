@@ -19,14 +19,14 @@
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021D6C28 0x021D6C28 thumb ov121
  *   func_021D6948 0x021D6948 thumb ov121
- *   func_021D96C4 0x021D96C4 thumb ov121
+ *   MYSTERY_GRAPHIC_Delete 0x021D96C4 thumb ov121
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MYSTERY_DATA_IsMainSave 0x0200A350 thumb
  *   PROCSYS_PushGlobal 0x020312CC arm
- *   func_021D9624 0x021D9624 thumb ov121
+ *   MYSTERY_GRAPHIC_Create 0x021D9624 thumb ov121
  *   func_021D6924 0x021D6924 thumb ov121
- *   func_021D9744 0x021D9744 thumb ov121
+ *   MYSTERY_GRAPHIC_GetClactUnit 0x021D9744 thumb ov121
  *   func_021D6AEC 0x021D6AEC thumb ov121
  *   func_021D9CA4 0x021D9CA4 thumb ov121
  *   func_021D9FFC 0x021D9FFC thumb ov121
@@ -63,15 +63,15 @@ extern void func_021D9288(unsigned *p, unsigned v);
 extern void func_021D9E04(u8 *p);
 extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
-extern void func_021D96C4(u8 *p);
+extern void MYSTERY_GRAPHIC_Delete(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,int,int);
 struct Obj;
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern void PROCSYS_PushGlobal(u32,u32,u32);
-extern u8 *func_021D9624(int arg, u16 heap);
+extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
 extern void func_021D6924(u16 *p, u16 heap);
-extern unsigned func_021D9744(char *p);
+extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern void func_021D6AEC(char *p, void *owner, u16 heap);
 extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
@@ -110,7 +110,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         }
         func_021D6C28(p+660);
         func_021D6948(p+912);
-        func_021D96C4(((struct Obj00533 *)p)->f394);
+        MYSTERY_GRAPHIC_Delete(((struct Obj00533 *)p)->f394);
         ((struct Obj00533 *)p)->f394=0;
         *state=3; return;
     case 3:
@@ -127,9 +127,9 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         PROCSYS_PushGlobal((u32)ov115_id,(u32)gNetSaveMainProc,(u32)((struct Obj00533 *)p)->f3C0);
         *state=5; return;
     case 5:
-        ((struct Obj00533 *)p)->f394=func_021D9624(1,29);
+        ((struct Obj00533 *)p)->f394=MYSTERY_GRAPHIC_Create(1,29);
         func_021D6924((u16 *)(p+912),29);
-        func_021D6AEC((char *)(p+660),(void *)func_021D9744(((struct Obj00533 *)p)->f394),29);
+        func_021D6AEC((char *)(p+660),(void *)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00533 *)p)->f394),29);
         ((struct Obj00533 *)p)->f284=func_021D9CA4(1,15,((struct Obj00533 *)p)->f39C,((struct Obj00533 *)p)->f398,29);
         func_021D9FFC(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);

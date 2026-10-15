@@ -1,5 +1,5 @@
 /*
- * function: func_021BFAE8
+ * function: INTRO_G3D_SetAnimMode
  * address: 0x021BFAE8
  * packet: pkt_ov204_021BFAE8
  * region: ov204
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj03922.h"
 
-void func_021BFAE8(char *p, unsigned int v)
+void INTRO_G3D_SetAnimMode(char *p, unsigned int v)
 {
     ((struct Obj03922 *)p)->f1C = v;
     ((struct Obj03922 *)p)->f20 = 0;

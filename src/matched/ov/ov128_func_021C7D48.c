@@ -1,5 +1,5 @@
 /*
- * function: func_021C7D48
+ * function: Wf2dmapFriend_DeleteItemWidgets
  * address: 0x021C7D48
  * packet: pkt_ov128_021C7D48
  * region: ov128
@@ -15,7 +15,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   WIFI_2DCHAR_ReleaseBmpCells 0x021C4080 thumb ov127
  *   WIFI_2DCHAR_Delete 0x021C3F80 thumb ov127
- *   func_021C88BC 0x021C88BC thumb ov128
+ *   Wf2dmapFriend_NoopC 0x021C88BC thumb ov128
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
  */
 #include "../include/Obj03281.h"
@@ -33,8 +33,8 @@ typedef unsigned int   u32;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void WIFI_2DCHAR_ReleaseBmpCells(u8 *p);
 extern void WIFI_2DCHAR_Delete(u8 *);
-extern void func_021C88BC(void *a0, void *a1);
-void func_021C7D48(u8 *p, void *unused, u8 *a)
+extern void Wf2dmapFriend_NoopC(void *a0, void *a1);
+void Wf2dmapFriend_DeleteItemWidgets(u8 *p, void *unused, u8 *a)
 {
     int i;
     int offset;
@@ -56,6 +56,6 @@ void func_021C7D48(u8 *p, void *unused, u8 *a)
     }
     WIFI_2DCHAR_ReleaseBmpCells(((struct Obj03281 *)p)->f104);
     WIFI_2DCHAR_Delete(*(u8 * *)&((struct Obj03281 *)p)->f104);
-    for(i=0;i<3;i++) func_021C88BC(p + 12 + i * 0x4c,a);
+    for(i=0;i<3;i++) Wf2dmapFriend_NoopC(p + 12 + i * 0x4c,a);
     for(i=0;i<2;i++) BMP_WIN_Delete(*(void **)(p + i * 8 + 0xf0));
 }

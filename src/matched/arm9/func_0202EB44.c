@@ -1,5 +1,5 @@
 /*
- * function: func_0202EB44
+ * function: APP_ENV_InitParentalControl
  * address:  0x0202EB44
  * packet:   pkt_0202EB44
  * region:   arm9
@@ -19,7 +19,7 @@
 
 extern void func_02087DC4(void);
 
-void func_0202EB44(void)
+void APP_ENV_InitParentalControl(void)
 {
     func_02087DC4();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA100
+ * function: DUP_FITTING_ITEM_InsertElem
  * address: 0x021BA100
  * packet: pkt_ov133_021BA100
  * region: ov133
@@ -16,4 +16,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021BA100(u8*p,u8*q){if(((struct Obj04523 *)p)->f4<((struct Obj04523 *)p)->f6){if(!*(u8* *)&((struct Obj04523 *)p)->f8)*(u8* *)&((struct Obj04523 *)p)->f8=q;else *(u8* *)&((struct Obj23326 *)(*(u8* *)&((struct Obj04523 *)p)->fC))->f30=q;*(u8* *)&((struct Obj04523 *)p)->fC=q;*(u8* *)&((struct Obj05410 *)q)->f30=0;(((struct Obj04523 *)p)->f4)++;}}
+void DUP_FITTING_ITEM_InsertElem(u8*p,u8*q){if(((struct Obj04523 *)p)->f4<((struct Obj04523 *)p)->f6){if(!*(u8* *)&((struct Obj04523 *)p)->f8)*(u8* *)&((struct Obj04523 *)p)->f8=q;else *(u8* *)&((struct Obj23326 *)(*(u8* *)&((struct Obj04523 *)p)->fC))->f30=q;*(u8* *)&((struct Obj04523 *)p)->fC=q;*(u8* *)&((struct Obj05410 *)q)->f30=0;(((struct Obj04523 *)p)->f4)++;}}

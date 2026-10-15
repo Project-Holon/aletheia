@@ -14,7 +14,7 @@
  * d-pad directions cancelled.
  *
  * symbols:
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   ERROR_SCREEN_Setup  0x021B61F8  thumb  ov017
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_02034F5C  0x02034F5C  arm
@@ -24,7 +24,7 @@
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void ERROR_SCREEN_Setup(int x);
 extern void GFL_USE_PollPowerExit(void);
 extern void func_02034F5C(void);
@@ -39,7 +39,7 @@ static inline u16 ReadKeys(void)
 
 void ERROR_SCREEN_ShowAndWait(void)
 {
-    ERROR_SCREEN_Setup(func_0202EB0C() ? 0x2A : 0x10);
+    ERROR_SCREEN_Setup(APP_ENV_IsRunOnTwl() ? 0x2A : 0x10);
     while (ReadKeys() & 3) {
         GFL_USE_PollPowerExit();
         func_02034F5C();

@@ -20,7 +20,7 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  */
 
 typedef struct {
@@ -65,7 +65,7 @@ void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 int TALKMSGWIN_DrawWindowFrame(void *, void *, int);
 void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *, int, int, int);
-void func_02028470(u8 *p, u32 v);
+void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
 void MB_UTIL_MSG_PrintStream(Ov107Ctx *p, int a, int b)
 {
@@ -100,8 +100,8 @@ void MB_UTIL_MSG_PrintStream(Ov107Ctx *p, int a, int b)
         BMP_MENUWORK_DrawWindow(p->f10, 1, 1, 0xD);
     }
     if (p->f08 == 1) {
-        func_02028470(p->f28, 6);
+        PRINTSYS_CTRL_Init(p->f28, 6);
     } else {
-        func_02028470(p->f28, 4);
+        PRINTSYS_CTRL_Init(p->f28, 4);
     }
 }

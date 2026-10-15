@@ -1,5 +1,5 @@
 /*
- * function: func_0217B064
+ * function: BATTLE_CHAMPIONSHIP_FLOW_FadeOut
  * address: 0x0217B064
  * packet: pkt_ov176_0217B064
  * region: ov176
@@ -12,7 +12,7 @@
  *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217B00C 0x0217B00C thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_End 0x0217B00C thumb ov176
  *   func_02034714 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
  */
@@ -24,10 +24,10 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021E8AA0(int *p, int v);
-extern void func_0217B00C(void *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_End(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E5E0[];
-void func_0217B064(void *a,int *state,char *p)
+void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *a,int *state,char *p)
 {
     int mode;
     switch(*state){
@@ -37,7 +37,7 @@ void func_0217B064(void *a,int *state,char *p)
         *state=1;
         break;
     case 1: if(!FADE_IsActive()) *state=2; break;
-    case 2: func_021E8AA0(a,(int)func_0217B00C); break;
+    case 2: func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_End); break;
     default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
     }
 }

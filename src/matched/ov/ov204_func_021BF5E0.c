@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5E0
+ * function: INTRO_MCSS_Delete
  * address: 0x021BF5E0
  * packet: pkt_ov204_021BF5E0
  * region: ov204
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern void MCSS_Del(void *,void *);
 extern void MCSS_Exit(u8 *);
 extern u32 func_020307B0(void *p);
-void func_021BF5E0(u8 *p)
+void INTRO_MCSS_Delete(u8 *p)
 {
     int i;
     for(i=0;i<8;i++)if(*(void **)((u32)p+(u32)i*12+8)!=0)MCSS_Del(((struct Obj14626 *)p)->f4,*(void **)((u32)p+(u32)i*12+8));

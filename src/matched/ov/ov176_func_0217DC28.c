@@ -26,7 +26,7 @@
  *   REGULATION_NoOp 0x0200AE14 thumb
  *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
  *   func_02012944 0x02012944 thumb
- *   func_021E5548 0x021E5548 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   REGULATION_Card_GetCupName 0x0200B074 thumb
  *   MI_CpuCopy8 0x02082D44 arm
@@ -60,7 +60,7 @@ extern struct Rec1E *REGULATION_GetParty(struct RecBig *, u32);
 extern struct Reg *REGULATION_NoOp(struct Reg2 *);
 extern void *MISC_SAVEDATA_GetBlock3C(void *);
 extern u8 *func_02012944(void *);
-extern int func_021E5548(int *);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *, int, u32);
 extern u8 *REGULATION_Card_GetCupName(struct Reg2 *);
 extern void MI_CpuCopy8(const void *, void *, u32);
@@ -92,7 +92,7 @@ void func_0217DC28(int *p)
         reg = REGULATION_NoOp(obj);
         stats = MISC_SAVEDATA_GetBlock3C(save);
         win = func_02012944((void *)p[12]);
-        flag = func_021E5548((int *)p[11]);
+        flag = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[11]);
         if (p[5] == 0) {
             Rec rec;
             Row *table;

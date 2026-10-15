@@ -1,5 +1,5 @@
 /*
- * function: func_021BB540
+ * function: PSEL_GRAPHIC_LoadFadeSources
  * address: 0x021BB540
  * packet: pkt_ov223_021BB540
  * region: ov223
@@ -30,7 +30,7 @@ extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
-void func_021BB540(u8 *p)
+void PSEL_GRAPHIC_LoadFadeSources(u8 *p)
 {
     void *object = func_020490F4(205, *(u16 *)p);
     u8 i;

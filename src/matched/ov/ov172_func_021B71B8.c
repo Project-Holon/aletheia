@@ -22,7 +22,7 @@
  *   func_02082A7C 0x02082A7C arm
  *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
- *   func_0202EB14 0x0202EB14 thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
  *
  * note 2026-10-05 (wD9 lane06): EXACT. The last 4-byte residue (m[3] store and
  *   `movs r5,#0` swapped) closed with the two FX_Inv calls and m[0]/m[3]
@@ -82,7 +82,7 @@ extern void *G2_GetBG3ScrPtr(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
-extern int func_0202EB14(void);
+extern int APP_ENV_HasParentalControlBits(void);
 
 void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
 {
@@ -194,7 +194,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                     w = 0x40;
                     h = (u16)(sub == 1 ? 0x60 : 0x30);
                 }
-                if (CTVT_COMM_GetSlotReady(p, (char *)base, i) == 1 && func_0202EB14() == 0) {
+                if (CTVT_COMM_GetSlotReady(p, (char *)base, i) == 1 && APP_ENV_HasParentalControlBits() == 0) {
                     dst = (u32)(q->f4 + idx * (w * h * 2));
                     DWCi_ScreenDC_FlushRange((void *)dst, w * h * 2);
                 } else if (wide == 0) {

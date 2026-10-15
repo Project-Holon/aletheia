@@ -1,5 +1,5 @@
 /*
- * function: func_021C6B38
+ * function: Wf2dmapFriend_ClearWindow
  * address:  0x021C6B38
  * packet:   pkt_021C6B38
  * region:   ov128
@@ -28,7 +28,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 
-void func_021C6B38(u8 *p)
+void Wf2dmapFriend_ClearWindow(u8 *p)
 {
     void *q = ((struct Obj14046 *)p)->fC;
     BMP_WIN_ClearScreen(q);

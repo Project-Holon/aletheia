@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAA84",
+   "name": "PSEL_UpdateActorPosition",
    "address": "0x021BAA84",
    "kind": "game",
    "region": "ov223",

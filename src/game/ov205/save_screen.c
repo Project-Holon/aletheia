@@ -37,7 +37,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
  *   TIME_ICON_Update 0x0202F0B0 thumb
  *   func_020315D4 0x020315D4 arm
@@ -214,7 +214,7 @@ extern int GAME_DATA_SaveMain(u8 *p);
 extern void TIME_ICON_Delete(u8 *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 extern void TIME_ICON_Update(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
@@ -397,7 +397,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
     case 11:SAVE_SCREEN_Delete(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(func_02028484((struct Blk *)((char *)p+40),p->printStream))*state=p->resumeState;
+        if(PRINTSYS_CTRL_Update((struct Blk *)((char *)p+40),p->printStream))*state=p->resumeState;
         break;
     }
     if(p->tcbl)TCBL_Main(p->tcbl);

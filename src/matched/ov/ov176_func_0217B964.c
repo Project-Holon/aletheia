@@ -1,5 +1,5 @@
 /*
- * function: func_0217B964
+ * function: BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone
  * address: 0x0217B964
  * packet: pkt_ov176_0217B964
  * region: ov176
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021E8844(const int *);
-int func_0217B964(int *p) {return func_021E8844(*(int * *)&((struct Obj01762 *)p)->f18);}
+int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *p) {return func_021E8844(*(int * *)&((struct Obj01762 *)p)->f18);}

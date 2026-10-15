@@ -36,7 +36,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
- *   func_0202EDE4  0x0202EDE4  thumb
+ *   COMM_HISTORY_ScaleValue  0x0202EDE4  thumb
  *   ITEMMENU_UpdateCursorFromTouch  0x021BA654  thumb  ov070
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetRepeat  0x0203633C  arm
@@ -197,7 +197,7 @@
  *   BMP_GetByteSize  0x020437EC  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
- *   func_0202EE0C  0x0202EE0C  thumb
+ *   COMM_HISTORY_ScaleSpan  0x0202EE0C  thumb
  *   sSideButtonAnimSeqs     0x021BBAA8  data  ov070  a1
  *   sSideButtonXPositions     0x021BBA6C  data  a1
  *   sArrowAnimSeqs     0x021BBA68  data  a1
@@ -261,6 +261,15 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb  arm9
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetTouchBarFileId  0x020275E8  thumb  arm9
+ *   APP_ICON_GetTypePaletteOffset  0x020275EC  thumb  arm9
+ *   APP_ICON_GetTypeCellFileId  0x020275F8  thumb  arm9
+ *   APP_ICON_GetTypePaletteFileId  0x020275FC  thumb  arm9
+ *   APP_ICON_GetTypeAnimFileId  0x02027600  thumb  arm9
+ *   APP_ICON_GetMoveKindPaletteOffset  0x02027604  thumb  arm9
+ *   APP_ICON_GetMoveKindCellFileId  0x02027610  thumb  arm9
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 
 #include "itemmenu_types.h"
@@ -555,14 +564,14 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern u32 func_020275E4(void);
-extern u32 func_020275E8(void);
-extern u32 func_020275FC(u32 a);
-extern u32 func_02027600(u32 a);
-extern u32 func_02027610(u32 a);
-extern u32 func_020275F8(u32 a);
-extern u8 func_02027604(u8 i);
-extern u8 func_020275EC(int i);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetTouchBarFileId(void);
+extern u32 APP_ICON_GetTypePaletteFileId(u32 a);
+extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
+extern u32 APP_ICON_GetMoveKindCellFileId(u32 a);
+extern u32 APP_ICON_GetTypeCellFileId(u32 a);
+extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern struct Actor *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorPaletteOffset(struct Actor *o, u32 v, u32 flag);
 extern int WAZA_TOOL_GetDamageType(int);
@@ -598,7 +607,7 @@ extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void func_0207E780(void *, void *, u32);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 COMM_HISTORY_ScaleSpan(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, struct TaskMenuRes *res);
@@ -637,7 +646,7 @@ extern void func_02008270(struct BagCursor *p, int i, s16 *a, s16 *b);
 extern void *func_02045B38();
 extern void *GF_FONT_Create_EC64();
 extern void *PRINTSYS_QUE_CreateEx();
-extern struct KeyCursor *func_02028590();
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault();
 extern int GF_FONT_Create();
 extern struct ButtonTask *BUTTON_MAN_Create();
 extern struct TcblTask *func_020056A0();
@@ -806,7 +815,7 @@ extern u32 func_02007FA0(void *bag, u32 pocket);
 extern void WORDSET_Callback_EF40(void *wordSet, u32 slot, u32 itemId);
 extern void WORDSET_SetSlotFromBank(void *wordSet, u32 slot, u32 itemId, u32 isPlural, u32 flags);
 extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
-extern u32 func_0202EDE4(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
+extern u32 COMM_HISTORY_ScaleValue(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern void *GAME_DATA_GetSaveControl(void *saveData);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *fieldSave);
@@ -1024,7 +1033,7 @@ u32 ITEMMENU_HandleScrollbarTouch(ItemMenuWork *work)
         }
         ITEMMENU_SetCursorActive(work, 0);
         prevScroll = work->scrollOffset;
-        work->scrollOffset = func_0202EDE4(itemCount - 6, touchY, 0x1A, 0x8E, 0) - 1;
+        work->scrollOffset = COMM_HISTORY_ScaleValue(itemCount - 6, touchY, 0x1A, 0x8E, 0) - 1;
         ITEMMENU_UpdateCursorFromTouch(work);
         if (work->scrollOffset != prevScroll) {
             GFL_USE_PlaySeDefaultVolume(ITEMMENU_SE_CURSOR);
@@ -2701,7 +2710,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->listStrings = STRBUF_Create(0x40, work->heapId);
     work->wordSet = GF_FONT_Create_EC64(work->heapId);
     work->printSys = PRINTSYS_QUE_CreateEx(0x40 << 6, work->heapId);
-    work->itemDescWindow = func_02028590(0xf, 1, 1, work->heapId);
+    work->itemDescWindow = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
     work->menuTaskArg = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
     ITEMMENU_SetupGraphics(work);
     ITEMMENU_InitWindows(work);
@@ -3308,14 +3317,14 @@ static inline void LoadIcons(ItemMenuWork *work)
     u32 cellFileId;
     u32 i;
 
-    archive = func_020490F4(func_020275E4(), work->heapId);
-    work->cursorCharRes2 = CLACT_RegisterPaletteEx(archive, func_020275E8(), 1, 0x80, 0, 3, work->heapId);
-    cellFileId = func_020275FC(2);
-    work->cursorPaletteRes2 = CLACT_RegisterCellAnim(archive, cellFileId, func_02027600(2), work->heapId);
+    archive = func_020490F4(APP_ICON_GetArchiveId(), work->heapId);
+    work->cursorCharRes2 = CLACT_RegisterPaletteEx(archive, APP_ICON_GetTouchBarFileId(), 1, 0x80, 0, 3, work->heapId);
+    cellFileId = APP_ICON_GetTypePaletteFileId(2);
+    work->cursorPaletteRes2 = CLACT_RegisterCellAnim(archive, cellFileId, APP_ICON_GetTypeAnimFileId(2), work->heapId);
     for (i = 0; i < 3; i++)
-        work->slotCharRes[i] = CLACT_RegisterCharacter(archive, func_02027610((u8)i), 0, 1, work->heapId);
+        work->slotCharRes[i] = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindCellFileId((u8)i), 0, 1, work->heapId);
     for (i = 0; i < 17; i++)
-        work->typeIconRes[i] = CLACT_RegisterCharacter(archive, func_020275F8((u8)i), 0, 1, work->heapId);
+        work->typeIconRes[i] = CLACT_RegisterCharacter(archive, APP_ICON_GetTypeCellFileId((u8)i), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
 }
 
@@ -3388,7 +3397,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     damageClassTemplate.animSeq = 0;
     for (i = 0; i < 3; i++) {
         work->damageClassActors[i] = CLACT_CreateActor(work->clactSys, work->slotCharRes[i], work->cursorCharRes2, work->cursorPaletteRes2, &damageClassTemplate, 1, work->heapId);
-        CLACT_SetActorPaletteOffset(work->damageClassActors[i], func_02027604((u8)i), 1);
+        CLACT_SetActorPaletteOffset(work->damageClassActors[i], APP_ICON_GetMoveKindPaletteOffset((u8)i), 1);
         CLACT_SetActorDrawEnable(work->damageClassActors[i], 0);
     }
     typeIconTemplate.x = 0x52;
@@ -3398,7 +3407,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     typeIconTemplate.animSeq = 0;
     for (i = 0; i < 17; i++) {
         work->typeActors[i] = CLACT_CreateActor(work->clactSys, work->typeIconRes[i], work->cursorCharRes2, work->cursorPaletteRes2, &typeIconTemplate, 1, work->heapId);
-        CLACT_SetActorPaletteOffset(work->typeActors[i], func_020275EC((u8)i), 1);
+        CLACT_SetActorPaletteOffset(work->typeActors[i], APP_ICON_GetTypePaletteOffset((u8)i), 1);
         CLACT_SetActorDrawEnable(work->typeActors[i], 0);
     }
     archive = func_020490F4(0x58, work->heapId);
@@ -4011,7 +4020,7 @@ void ITEMMENU_MoveCursorToRow(ItemMenuWork *work)
     int itemCount = ITEMMENU_GetItemCount(work);
     if (itemCount >= 7) {
         CLACT_GetActorSurfacePos(work->cursorActor, &surfacePos, 0xFFFF);
-        surfacePos.y = func_0202EE0C(itemCount - 6, work->scrollOffset + 1, 0x1A, 0x8E, 0);
+        surfacePos.y = COMM_HISTORY_ScaleSpan(itemCount - 6, work->scrollOffset + 1, 0x1A, 0x8E, 0);
         CLACT_AddActorSurfacePos(work->cursorActor, &surfacePos, 0xFFFF);
     }
 }

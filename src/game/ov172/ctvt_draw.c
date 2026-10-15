@@ -110,8 +110,8 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_02040588  0x02040588  arm
  *   func_020490F4 0x020490F4 arm
- *   func_020275E4 0x020275E4 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   COMM_TVT_SYS_GetInputLocked 0x021BE0C8 thumb ov172
@@ -127,8 +127,8 @@ extern s32 func_02061CA4(u32 dmaNo, u32 dest, u16 *src, s32 size);
 extern void func_020498F4(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_020409B4(u32 layer);
 extern void func_02040588(u32 which, u8 enable);
-extern u32 func_020275E4(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern struct ArcHandle *func_020490F4(u32 id, u32 heapId);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
@@ -274,9 +274,9 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
         u32 t = REG_POWCNT1;
         REG_POWCNT1 = t & 0xFFFF7FFF;
     }
-    arc = func_020490F4(func_020275E4(), heapId);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), heapId);
     BG_SYS_ClearSlot(0);
-    func_02049990(arc, func_0202762C(), 0, 0x60, 0, 0x600, 0, heapId);
+    func_02049990(arc, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, heapId);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
     func_020409B4(0);
     func_02040618(0, 3, 0);

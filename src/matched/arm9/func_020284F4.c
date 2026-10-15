@@ -1,5 +1,5 @@
 /*
- * function: func_020284F4
+ * function: PRINTSYS_CTRL_IsInputTrg
  * address:  0x020284F4
  * packet:   pkt_02028484
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 
-u32 func_020284F4(u32 a)
+u32 PRINTSYS_CTRL_IsInputTrg(u32 a)
 {
     u32 r = 0;
 

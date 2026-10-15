@@ -50,7 +50,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   func_02049B40  0x02049B40  arm
  *   func_02049DB4  0x02049DB4  arm
  *   gPlistMenuAllocSite     0x021BED38  data  ov091  a1
@@ -84,15 +84,15 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02027694 0x02027694 thumb
+ *   APP_ICON_GetItemCellFileId 0x02027694 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_02027698 0x02027698 thumb
- *   func_0202769C 0x0202769C thumb
- *   func_020276A0 0x020276A0 thumb
+ *   APP_ICON_GetItemPaletteFileId 0x02027698 thumb
+ *   APP_ICON_GetItemAnimFileId 0x0202769C thumb
+ *   APP_ICON_GetItemFrameFileId 0x020276A0 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -187,7 +187,7 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BMP_Clear(void *charBuf, u8 value);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, void **out, u16 a4);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(const PlistTaskMenuTemplate *tmpl, void *arg1);
@@ -217,15 +217,15 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_02027694(void);
+extern u32 APP_ICON_GetItemCellFileId(void);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern u32 func_02027698(void);
-extern u32 func_0202769C(u32);
-extern u32 func_020276A0(u32);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32);
+extern u32 APP_ICON_GetItemFrameFileId(u32);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void MIi_CpuCopy16(void *, void *, unsigned long);
@@ -310,8 +310,8 @@ PlistMenu *PLIST_MENU_Create(PokelistWork *work)
     PlistMenu *menu;
 
     menu = func_02030734(work->heapId, sizeof(PlistMenu), 0, gPlistMenuAllocSite, 0x63);
-    func_02049B40(func_020275E4(), 0x1f, 0, 0x20, 0x40, work->heapId);
-    menu->windowRes = func_02049DB4(func_020275E4(), 0x20, 0, (void **)&menu->windowOut, work->heapId);
+    func_02049B40(APP_ICON_GetArchiveId(), 0x1f, 0, 0x20, 0x40, work->heapId);
+    menu->windowRes = func_02049DB4(APP_ICON_GetArchiveId(), 0x20, 0, (void **)&menu->windowOut, work->heapId);
     return menu;
 }
 
@@ -994,14 +994,14 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
         }
     }
     ARC_TOOL_DeleteHandle(h);
-    h2 = func_020490F4(func_020275E4(), work->heapId);
-    work->charRes[3] = CLACT_RegisterPalette(h, func_02027694(), 1, 0x60, work->heapId);
-    work->palRes[4] = CLACT_RegisterCharacter(h, func_02027698(), 0, 1, work->heapId);
-    work->cellRes[4] = CLACT_RegisterCellAnim(h, func_0202769C(2), func_020276A0(2), work->heapId);
+    h2 = func_020490F4(APP_ICON_GetArchiveId(), work->heapId);
+    work->charRes[3] = CLACT_RegisterPalette(h, APP_ICON_GetItemCellFileId(), 1, 0x60, work->heapId);
+    work->palRes[4] = CLACT_RegisterCharacter(h, APP_ICON_GetItemPaletteFileId(), 0, 1, work->heapId);
+    work->cellRes[4] = CLACT_RegisterCellAnim(h, APP_ICON_GetItemAnimFileId(2), APP_ICON_GetItemFrameFileId(2), work->heapId);
     if (work->arg->timerRunning == 1) {
-        func_02049B68(h, func_02027624(), 4, 0x40, 0x20, work->heapId);
-        func_02049658(h, func_02027628(), 5, 0, 0, 0, work->heapId);
-        func_020498F4(h, func_0202762C(), 5, 0, 0, 0, work->heapId);
+        func_02049B68(h, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, work->heapId);
+        func_02049658(h, APP_ICON_GetStatusFrameFileId(), 5, 0, 0, 0, work->heapId);
+        func_020498F4(h, APP_ICON_GetStatusDataFileId(), 5, 0, 0, 0, work->heapId);
         BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x20, 2);
         func_02041B6C(5);
     }

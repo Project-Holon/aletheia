@@ -1,5 +1,5 @@
 /*
- * function: func_021BF8E8
+ * function: DEMO3D_CMDSYS_Init
  * address: 0x021BF8E8
  * packet: pkt_ov203_021BF8E8
  * region: ov203
@@ -22,4 +22,4 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern signed char MSG_SPEED_GetWait(void);
-void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=TCBL_Create(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=GF_FONT_Create(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=MSG_SPEED_GetWait();}
+void DEMO3D_CMDSYS_Init(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=TCBL_Create(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=GF_FONT_Create(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=MSG_SPEED_GetWait();}

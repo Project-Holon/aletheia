@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BF810 0x021BF810 thumb ov203
+ *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
  *   func_021BE158 0x021BE158 thumb ov203
  *   func_0200566C 0x0200566C thumb
  *   DOUBLE3DDISP_Exit 0x0204EA0C arm
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Ctx;
 struct IcaAnime;
 struct Rec;
-extern void func_021BF810(char *p);
+extern void DEMO3D_CMDSYS_Delete(char *p);
 extern void func_021BE158(void *);
 extern void func_0200566C(void);
 extern int DOUBLE3DDISP_Exit(void);
@@ -33,7 +33,7 @@ extern u32 func_020307B0(void *p);
 void func_021BE4B4(char *ctx, int b, int c, u32 d)
 {
     unsigned i;
-    func_021BF810(((struct Obj03354 *)ctx)->f6C);
+    DEMO3D_CMDSYS_Delete(((struct Obj03354 *)ctx)->f6C);
     func_021BE158(((struct Obj03354 *)ctx)->f20);
     if (((struct Obj03354 *)ctx)->f10) {
         func_0200566C();

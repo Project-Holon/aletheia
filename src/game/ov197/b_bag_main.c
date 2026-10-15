@@ -52,9 +52,9 @@
  *   func_020307B0 0x020307B0 arm
  *   d_0220DB3C 0x0220DB3C data a4
  *   d_0220DB3F 0x0220DB3F data a4
- *   func_0202F114 0x0202F114 thumb
- *   func_0202F138 0x0202F138 thumb
- *   sub_0202F144 0x0202F144 thumb
+ *   ITEM_GFX_IsFlagClear 0x0202F114 thumb
+ *   ITEM_GFX_GetItemId 0x0202F138 thumb
+ *   ITEM_GFX_GetExtraValue 0x0202F144 thumb
  *   BGWINFRM_Create 0x0202C9B4 thumb
  *   func_020490F4 0x020490F4 arm
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
@@ -176,171 +176,9 @@
  *   B_APP_TOOL_LayoutActors  0x0220B000  thumb  ov196
  *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb
  */
-#include "../../matched/include/Obj14542.h"
-#include "../../matched/include/Obj24989.h"
-#include "../../matched/include/Obj08353.h"
-#include "../../matched/include/Obj24990.h"
-#include "../../matched/include/Obj24991.h"
-#include "../../matched/include/Obj03905.h"
-#include "../../matched/include/Obj24992.h"
-#include "../../matched/include/Obj00845.h"
-#include "../../matched/include/Obj24993.h"
-#include "../../matched/include/Obj24994.h"
-#include "../../matched/include/Obj00314.h"
-#include "../../matched/include/Obj24999.h"
-#include "../../matched/include/Obj25000.h"
-#include "../../matched/include/Obj25001.h"
-#include "../../matched/include/Obj25002.h"
-#include "../../matched/include/Obj25003.h"
-#include "../../matched/include/Obj25004.h"
-#include "../../matched/include/Obj04597.h"
-#include "../../matched/include/Obj25005.h"
-#include "../../matched/include/Obj25007.h"
-#include "../../matched/include/Obj25008.h"
-#include "../../matched/include/Obj14543.h"
-#include "../../matched/include/Obj25009.h"
-#include "../../matched/include/Obj25010.h"
-#include "../../matched/include/Obj06648.h"
-#include "../../matched/include/Obj14544.h"
-#include "../../matched/include/Obj05520.h"
-#include "../../matched/include/Obj25011.h"
-#include "../../matched/include/Obj08354.h"
-#include "../../matched/include/Obj01176.h"
-#include "../../matched/include/Obj25012.h"
-#include "../../matched/include/Obj25013.h"
-#include "../../matched/include/Obj25014.h"
-#include "../../matched/include/Obj08355.h"
-#include "../../matched/include/Obj01005.h"
-#include "../../matched/include/Obj00315.h"
-#include "../../matched/include/Obj25015.h"
-#include "../../matched/include/Obj25016.h"
-#include "../../matched/include/Obj25017.h"
-#include "../../matched/include/Obj25018.h"
-#include "../../matched/include/Obj25019.h"
-#include "../../matched/include/Obj01075.h"
-#include "../../matched/include/Obj14545.h"
-#include "../../matched/include/Obj25020.h"
-#include "../../matched/include/Obj25021.h"
-#include "../../matched/include/Obj10833.h"
-#include "../../matched/include/Obj25022.h"
-#include "../../matched/include/Obj25023.h"
-#include "../../matched/include/Obj25024.h"
-#include "../../matched/include/Obj25025.h"
-#include "../../matched/include/Obj25026.h"
-#include "../../matched/include/Obj25027.h"
-#include "../../matched/include/Obj25028.h"
-#include "../../matched/include/Obj25029.h"
-#include "../../matched/include/Obj25030.h"
-#include "../../matched/include/Obj25031.h"
-#include "../../matched/include/Obj25032.h"
-#include "../../matched/include/Obj25033.h"
-#include "../../matched/include/Obj25034.h"
-#include "../../matched/include/Obj25035.h"
-#include "../../matched/include/Obj25036.h"
-#include "../../matched/include/Obj25037.h"
-#include "../../matched/include/Obj25038.h"
-#include "../../matched/include/Obj25039.h"
-#include "../../matched/include/Obj25040.h"
-#include "../../matched/include/Obj25041.h"
-#include "../../matched/include/Obj25042.h"
-#include "../../matched/include/Obj25043.h"
-#include "../../matched/include/Obj25044.h"
-#include "../../matched/include/Obj25045.h"
-#include "../../matched/include/Obj25046.h"
-#include "../../matched/include/Obj25047.h"
-#include "../../matched/include/Obj00846.h"
-#include "../../matched/include/Obj25048.h"
-#include "../../matched/include/Obj25049.h"
-#include "../../matched/include/Obj25050.h"
-#include "../../matched/include/Obj00736.h"
-#include "../../matched/include/Obj25051.h"
-#include "../../matched/include/Obj25052.h"
-#include "../../matched/include/Obj25053.h"
-#include "../../matched/include/Obj25054.h"
-#include "../../matched/include/Obj25055.h"
-#include "../../matched/include/Obj25057.h"
-#include "../../matched/include/Obj25058.h"
-#include "../../matched/include/Obj01076.h"
-#include "../../matched/include/Obj25059.h"
-#include "../../matched/include/Obj25060.h"
-#include "../../matched/include/Obj25061.h"
-#include "../../matched/include/Obj25062.h"
-#include "../../matched/include/Obj25064.h"
-#include "../../matched/include/Obj14547.h"
-#include "../../matched/include/Obj25065.h"
-#include "../../matched/include/Obj10835.h"
-#include "../../matched/include/Obj25066.h"
-#include "../../matched/include/Obj25067.h"
-#include "../../matched/include/Obj25068.h"
-#include "../../matched/include/Obj02244.h"
-#include "../../matched/include/Obj25069.h"
-#include "../../matched/include/Obj25070.h"
-#include "../../matched/include/Obj25071.h"
-#include "../../matched/include/Obj25072.h"
-#include "../../matched/include/Obj00389.h"
-#include "../../matched/include/Obj25073.h"
-#include "../../matched/include/Obj25074.h"
-#include "../../matched/include/Obj25075.h"
-#include "../../matched/include/Obj25076.h"
-#include "../../matched/include/Obj25077.h"
-#include "../../matched/include/Obj25078.h"
-#include "../../matched/include/Obj25079.h"
-#include "../../matched/include/Obj25080.h"
-#include "../../matched/include/Obj10837.h"
-#include "../../matched/include/Obj02245.h"
-#include "../../matched/include/Obj25081.h"
-#include "../../matched/include/Obj25082.h"
-#include "../../matched/include/Obj25083.h"
-#include "../../matched/include/Obj25084.h"
-#include "../../matched/include/Obj25085.h"
-#include "../../matched/include/Obj25086.h"
-#include "../../matched/include/Obj14548.h"
-#include "../../matched/include/Obj14549.h"
-#include "../../matched/include/Obj14550.h"
-#include "../../matched/include/Obj10838.h"
-#include "../../matched/include/Obj25087.h"
-#include "../../matched/include/Obj03346.h"
-#include "../../matched/include/Obj25088.h"
-#include "../../matched/include/Obj14551.h"
-#include "../../matched/include/Obj25089.h"
-#include "../../matched/include/Obj25090.h"
-#include "../../matched/include/Obj25091.h"
-#include "../../matched/include/Obj25092.h"
-#include "../../matched/include/Obj25093.h"
-#include "../../matched/include/Obj25095.h"
-#include "../../matched/include/Obj25097.h"
-#include "../../matched/include/Obj00688.h"
-#include "../../matched/include/Obj25098.h"
-#include "../../matched/include/Obj25099.h"
-#include "../../matched/include/Obj25100.h"
-#include "../../matched/include/Obj14552.h"
-#include "../../matched/include/Obj25101.h"
-#include "../../matched/include/Obj25102.h"
-#include "../../matched/include/Obj02914.h"
-#include "../../matched/include/Obj25103.h"
-#include "../../matched/include/Obj25104.h"
-#include "../../matched/include/Obj25105.h"
-#include "../../matched/include/Obj25106.h"
-#include "../../matched/include/Obj25107.h"
-#include "../../matched/include/Obj25108.h"
-#include "../../matched/include/Obj25109.h"
-#include "../../matched/include/Obj03906.h"
-#include "../../matched/include/Obj25110.h"
-#include "../../matched/include/Obj25111.h"
-#include "../../matched/include/Obj25112.h"
-#include "../../matched/include/Obj25113.h"
-#include "../../matched/include/Obj08356.h"
-#include "../../matched/include/Obj25114.h"
-#include "../../matched/include/Obj25115.h"
-#include "../../matched/include/Obj25116.h"
-#include "../../matched/include/Obj25118.h"
-#include "../../matched/include/Obj25120.h"
-#include "../../matched/include/Obj03347.h"
-#include "../../matched/include/Obj25121.h"
-#include "../../matched/include/Obj25122.h"
-#include "../../matched/include/Obj06649.h"
+/* ---- local object definitions (replaces the ObjNNNNN views) ---- */
+#define MGR(p) (((struct BagWork *)(p))->frameMgr)
 
-#define MGR(p) (*(struct WinMgr **)((p) + 0x520))
 struct Descriptor;
 struct MsgBank;
 struct StrObj;
@@ -352,6 +190,8 @@ struct Item;
 struct WinMgr;
 struct Obj;
 struct PalAnmSlot;
+struct PalAnmObj;
+typedef struct PalAnmObj PalAnmObj;
 struct Sub0204A9D0;
 struct Bank;
 struct Vec2;
@@ -366,149 +206,152 @@ struct S02031140;
 struct Struct_02025CD0;
 struct Struct_02025D1C;
 struct Struct_02025D24;
+
 typedef unsigned char u8;
-
 typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef short s16;
+typedef signed char s8;
 
-typedef short s16_0220B120;
+/* one entry of the bag window table: a BMP window handle and a redraw flag */
+struct WinSlot {
+    void *handle;
+    unsigned char dirty;
+    unsigned char pad[3];
+};
 
-typedef unsigned int u32_0220B120;
+/* a screen-space point, used by the item actor placement tables */
+struct Pair {
+    short x, y;
+};
 
-typedef short s16_0220B150;
+/* the bag menu data handed to B_BAG_MAIN_Create; the work struct keeps a pointer to it */
+struct BagMenu {
+    void *savedata;            /* 0x00 savedata block */
+    unsigned int printWidth;   /* 0x04 width/limit passed to the printer and func_0201D304 */
+    int mode;                  /* 0x08 menu mode 1/2/3 */
+    unsigned short heapId;     /* 0x0C heap id used for every allocation */
+    void *pocketMask;          /* 0x10 pocket membership bit table */
+    unsigned char count;       /* 0x14 item count */
+    unsigned char maxCount;    /* 0x15 maximum item count */
+    unsigned short itemId;     /* 0x16 selected item id */
+    unsigned char itemFlag;    /* 0x18 selected item flag */
+    unsigned char done;        /* 0x19 set when the menu is finished */
+    void *myItemSave;          /* 0x1C MyItemSave record */
+    int cancel;                /* 0x20 cancel requested */
+    int instant;               /* 0x24 instant close requested */
+    unsigned char kind;        /* 0x28 item kind */
+    unsigned char flag29;      /* 0x29 item flag 2 */
+    unsigned char slot;        /* 0x2A selected slot */
+    void *dirtyPtr;            /* 0x2C pointer to a flag byte to set or clear on exit */
+    short cursorX[4];          /* 0x30 cursor column per pocket */
+    short cursorY[4];          /* 0x38 cursor row per pocket */
+    int soundOn;               /* 0x40 sound effects enabled */
+};
 
-typedef unsigned int u32_0220B150;
+/* the per-instance bag work struct (size 0x5A4) */
+struct BagWork {
+    void *itemData;                    /* 0x000 BagMenu */
+    void *tcbl;                        /* 0x004 Tcbl task */
+    void *palAnm;                      /* 0x008 PalAnmSlot */
+    void *msgBank;                     /* 0x00C MsgBank */
+    void *wordSet;                     /* 0x010 WordSet */
+    void *strBuf;                      /* 0x014 U16Vec string buffer */
+    void *printSys;                    /* 0x018 PrintSys */
+    void *printStream;                 /* 0x01C Rec print stream */
+    int msgInputFlag;                  /* 0x020 message input state flag */
+    void *itemMsgWin;                  /* 0x024 item message window */
+    struct WinSlot win[35];            /* 0x028 bag window table */
+    unsigned char pad140;              /* 0x140 alignment */
+    unsigned char pocketSide;          /* 0x141 pocket side flag */
+    unsigned char pad142[2];           /* 0x142 alignment */
+    void *cursor;                      /* 0x144 CURSOR_MOVE object */
+    void *toolActors;                  /* 0x148 B_APP_TOOL actor block */
+    void *fingerCursor;                  /* 0x14C finger cursor handle */
+    unsigned short rows[4][36][2];     /* 0x150 item rows, 4 pockets of 36 entries */
+    unsigned char pad390[0x90];        /* 0x390 alignment */
+    void *itemUnit;                    /* 0x420 CLACT unit */
+    void *itemActors[63];              /* 0x424 item actors */
+    void *frameMgr;                    /* 0x520 BGWINFRM manager */
+    unsigned char animState;           /* 0x524 frame animation state */
+    unsigned char animTimer;           /* 0x525 frame animation timer */
+    unsigned char animIndex;           /* 0x526 frame animation index */
+    unsigned char animActive;          /* 0x527 frame animation active */
+    unsigned char state;               /* 0x530 current state */
+    unsigned char nextState;           /* 0x531 next state */
+    unsigned char page;                /* 0x532 current page */
+    unsigned char pocket;              /* 0x533 selected pocket */
+    signed char countDelta;            /* 0x534 count change step */
+    unsigned char countPerPocket[4];   /* 0x535 item count per pocket */
+    unsigned char pagePerPocket[4];    /* 0x539 page per pocket */
+    unsigned char otherStep;           /* 0x53D other page step */
+    unsigned char pad53E[2];           /* 0x53E alignment */
+    unsigned short keyItem;            /* 0x540 selected key item */
+    unsigned char keyItemSlot;         /* 0x542 selected key item slot */
+    int charHandles[9];                /* 0x544 CLACT character handles */
+    int paletteHandles[9];             /* 0x568 CLACT palette handles */
+    int cellAnims[3];                  /* 0x58C CLACT cell animation handles */
+    void *actorsVisible;                 /* 0x598 tool actors visible */
+    const void *textPtr;               /* 0x59C label string pointer */
+    int initialized;                   /* 0x5A0 initialised flag */
+};
 
-typedef unsigned int   u32_0220B188;
-
-typedef unsigned int   u32_0220B1A0;
-
-typedef short s16_0220B1D4;
-
-typedef unsigned int   u32_0220B1D4;
-
-typedef signed short s16_0220B248;
-
-typedef unsigned long u32_0220B248;
-
-typedef signed short s16_0220B31C;
-
-typedef unsigned long u32_0220B31C;
-
-typedef signed short s16_0220B3EC;
-
-typedef unsigned long u32_0220B3EC;
-
-typedef unsigned int   u32_0220B4B8;
-
-typedef signed short s16_0220B584;
-
-typedef unsigned long u32_0220B584;
-
-typedef unsigned int u32_0220B78C;
-
-typedef unsigned int   u32_0220B814;
+/* palette/screen block loaded by ARC_UTIL_LoadPaletteBlockFromHandle */
+struct ScreenData {
+    unsigned char pad[0xC];
+    char *data;
+};
 
 typedef struct {unsigned short entry[36][2];} Row;
 
-typedef unsigned int u32_0220B880;
-
-typedef unsigned int u32_0220B928;
-
-typedef unsigned int   u32_0220B990;
-
-typedef signed short   s16_0220B990;
-
-typedef signed char    s8;
-
-typedef short s16_0220B9A4;
-
-typedef unsigned int u32_0220B9A4;
-
-typedef short s16_0220BA2C;
-
-typedef unsigned int u32_0220BA2C;
-
-typedef short s16_0220BBD8;
-
-typedef unsigned int u32_0220BBD8;
-
-typedef unsigned long u32_0220BBE4;
-
 typedef struct {u16 member;u8 w,h;} WinCfg;
 
-typedef signed int     s32;
-
-typedef unsigned int   u32;
-
-struct S { char pad0[0x520]; struct WinMgr *mgr; char pad1[0x533-0x524]; u8 idx; char pad2[5]; u8 fl[1]; };
-
-typedef short s16;
-
 typedef struct {u16 a,b,c;unsigned char d,e;} Config;
-
-struct Pair_0220C574 { short x, y; };
-
-typedef signed short   s16_0220C6F8;
-
-struct Pair_0220C6E8 { short x,y; };
-
-typedef signed short   s16_0220C834;
-
-typedef short s16_0220D370;
-
-typedef struct PalAnmObj PalAnmObj;
 
 struct BgVramReq {u32 a,b,c,d;};
 
 struct BgTemplate {u32 a,b,size,c;u8 d,e,f,g;u32 h;u8 i,j,k,l;u32 m;};
 
-typedef signed short s16_0220D884;
-
-typedef signed short   s16_0220D914;
-
-typedef signed short s16_0220D924;
-
-typedef signed short   s16_0220D98C;
-
-extern u32_0220B120 BMP_WIN_Create(u32_0220B120,u32_0220B120,u32_0220B120,u32_0220B120,u8,u8,u8);
-extern u32_0220B188 BMP_WIN_Delete(struct Descriptor *d);
-extern void *func_02045EC0(struct MsgBank *bank, u32_0220B1D4 index);
-extern u32_0220B1D4 func_0201D304(struct StrObj *s, u32_0220B1D4 a, u32_0220B1D4 b);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32_0220B248 i, u32_0220B248 a, u32_0220B248 b, u32_0220B248 c, u32_0220B248 d);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32_0220B248 i, u32_0220B248 v);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
-extern struct U16Vec *STRBUF_Create(u32_0220B814 capacity, u32_0220B814 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void FILE_UTIL_ReadStringAlt(void *,unsigned,unsigned);
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
-extern void GF_FONT_SetTextColor(u32_0220B928 r, u32_0220B928 g, u32_0220B928 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern signed char MSG_SPEED_GetWait(void);
-extern void *PRINTSYS_PrintStream(void *a0, u32_0220B928 a1, u32_0220B928 a2, void *a3, u32_0220B928 a4, u32_0220B928 a5, void *a6, u32_0220B928 a7, u16 a8, u32_0220B928 a9);
+extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32_0220B928 bit);
+extern void func_02041B6C(u32 bit);
 extern int B_APP_TOOL_Update(void *, int, int);
-extern u32_0220B990 B_APP_TOOL_ShowWindows(u8 *, u32_0220B990);
-extern u32_0220B9A4 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
-extern void *ARC_TOOL_LoadMember(u32_0220BA2C archive_id, u32_0220BA2C member, u32_0220BA2C heap);
-extern struct Item *func_020081DC(u8 *base, u32_0220BA2C id, u32_0220BA2C index);
-extern u32_0220BA2C func_020307B0(void *p);
-extern unsigned func_0202F114(const unsigned char *,unsigned);
-extern unsigned short func_0202F138(unsigned);
-extern u32_0220BBD8 sub_0202F144(u32_0220BBD8);
-extern struct WinMgr *BGWINFRM_Create(u32_0220BBE4,u32_0220BBE4,u32_0220BBE4);
-extern void *func_020490F4(u32_0220BBE4 id, u32_0220BBE4 heap);
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32_0220BBE4 idx, u32_0220BBE4 bg, u32_0220BBE4 w, u32_0220BBE4 h);
-extern void BGWINFRM_SetClipArea(struct Obj *o, u32_0220BBE4 i, u8 a, u8 b, s8 c, s8 d);
-extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr,u32_0220BBE4,void *,u32_0220BBE4,u32_0220BBE4);
+extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
+extern u32 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+extern struct Item *func_020081DC(u8 *base, u32 id, u32 index);
+extern u32 func_020307B0(void *p);
+extern unsigned ITEM_GFX_IsFlagClear(const unsigned char *,unsigned);
+extern unsigned short ITEM_GFX_GetItemId(unsigned);
+extern u32 ITEM_GFX_GetExtraValue(u32);
+extern struct WinMgr *BGWINFRM_Create(u32,u32,u32);
+extern void *func_020490F4(u32 id, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_SetClipArea(struct Obj *o, u32 i, u8 a, u8 b, s8 c, s8 d);
+extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr,u32,void *,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr,u32_0220BBE4,s8,s8);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr,u32,s8,s8);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
@@ -549,7 +392,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern void *func_02030DA8(void *, u32, void *, u32);
-extern void func_0200829C(const struct MyItemSave *p, int i, s16_0220C834 *a, s16_0220C834 *b);
+extern void func_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b);
 extern u16 func_020082B0(const struct MyItemSave *p);
 extern u16 func_020082B4(const struct MyItemSave *p);
 extern void TCBL_Main(struct Tcbl *);
@@ -614,27 +457,27 @@ void B_BAG_MAIN_ExitWindows(char *a);
 void B_BAG_MAIN_DrawPage(char *a, int which);
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour);
 void B_BAG_MAIN_DrawLabels(char *p);
-void B_BAG_MAIN_DrawItemName(char *p,u32_0220B31C i,int id,int w,int unused,int unused2);
-void B_BAG_MAIN_DrawItemInfo(char *p, u32_0220B3EC i, int id, int w, int unused, int y, int unused2);
+void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2);
+void B_BAG_MAIN_DrawItemInfo(char *p, u32 i, int id, int w, int unused, int y, int unused2);
 void B_BAG_MAIN_DrawSlot(char *p,u16 i);
 void B_BAG_MAIN_DrawPocket(char *p);
 void B_BAG_MAIN_DrawHeader(char *p);
 void B_BAG_MAIN_DrawInfoBox(char *p);
 void B_BAG_MAIN_DrawItemsPage(char *a);
-void B_BAG_MAIN_DrawDescription(u8 *p, u32_0220B78C idx);
+void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx);
 void B_BAG_MAIN_DrawItemUsage(char *p,int n);
 void B_BAG_MAIN_DrawOtherPage(char *p);
 void B_BAG_MAIN_PrintItemMsg(char *p);
 void B_BAG_MAIN_StartItemMsg(char *p);
 int B_BAG_MAIN_UpdateTool(char *a);
-u32_0220B990 B_BAG_MAIN_ShowWindows(u8 *p);
+u32 B_BAG_MAIN_ShowWindows(u8 *p);
 int B_BAG_MAIN_CheckKeyItem(char *p);
 void B_BAG_MAIN_SyncCursorToItem(u8 *p);
 void B_BAG_MAIN_BuildPocketLists(u8 *p);
 void B_BAG_MAIN_BuildOtherList(char *p);
 void B_BAG_MAIN_InitOtherPage(char *p);
 u16 B_BAG_MAIN_GetSlotItem(const char *p, unsigned n);
-int B_BAG_MAIN_GetItemFlag(u32_0220BBD8 key);
+int B_BAG_MAIN_GetItemFlag(u32 key);
 void B_BAG_MAIN_InitFrames(char *p);
 void B_BAG_MAIN_DeleteFrames(char *a);
 void B_BAG_MAIN_LayoutFrames(char *p, int mode);
@@ -661,7 +504,7 @@ void B_BAG_MAIN_CreateFingerCursor(char *a);
 void B_BAG_MAIN_DeleteFingerCursor(char *a);
 void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b);
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a);
-void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src);
+void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair *src);
 void B_BAG_MAIN_Create(u8 *arg);
 void B_BAG_MAIN_Main(void *task, char *p);
 int B_BAG_MAIN_StateInit(char *p);
@@ -718,8 +561,8 @@ extern const u8 d_0220DB3F[];
 extern const WinCfg d_0220DB44[14];
 extern const int d_0220DBBC[];
 extern const int d_0220DB7C[];
-extern const struct Pair_0220C574 d_0220DB88[];
-extern const struct Pair_0220C574 d_0220DB80[];
+extern const struct Pair d_0220DB88[];
+extern const struct Pair d_0220DB80[];
 extern const char d_0220E0E0[];
 extern u16 d_04001050[];
 extern const struct BgVramReq d_0220DEB0;
@@ -728,13 +571,13 @@ extern const u32 d_0220DF90[];
 extern const u32 d_0220DF9C[];
 
 
-void B_BAG_MAIN_InitWindows(char *p) { ((struct Obj14542 *)p)->f24=BMP_WIN_Create(4,1,19,30,4,12,1); B_BAG_MAIN_CreateWindows(p,((struct Obj14542 *)p)->f532); }
+void B_BAG_MAIN_InitWindows(char *p) { ((struct BagWork *)p)->itemMsgWin=(void *)BMP_WIN_Create(4,1,19,30,4,12,1); B_BAG_MAIN_CreateWindows(p,*(unsigned char *)(p + 0x532)); }
 
 
 /*
  * Declaring the table pointer before the counter restores r4/r5 allocation.
  */
-void B_BAG_MAIN_CreateWindows(char *p,u8 unused) { const u8 *q; u32_0220B150 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32_0220B150 *)(p+i*8+0x28)=BMP_WIN_Create(q[0],q[1],q[2],q[3],q[4],q[5],1); }
+void B_BAG_MAIN_CreateWindows(char *p,u8 unused) { const u8 *q; u32 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32 *)(p+i*8+0x28)=BMP_WIN_Create(q[0],q[1],q[2],q[3],q[4],q[5],1); }
 
 
 
@@ -751,7 +594,7 @@ void B_BAG_MAIN_DeleteWindows(char *a)
 void B_BAG_MAIN_ExitWindows(char *a)
 {
     B_BAG_MAIN_DeleteWindows(a);
-    BMP_WIN_Delete((struct Descriptor *)(((struct Obj24989 *)a)->f24));
+    BMP_WIN_Delete((struct Descriptor *)(((struct BagWork *)a)->itemMsgWin));
 }
 
 
@@ -776,12 +619,12 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
-    int text=(int)func_02045EC0((struct MsgBank *)(((struct Obj08353 *)p)->fC),id);
-    int width=func_0201D304((struct StrObj *)text,((struct Obj24990 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4,0);
+    int text=(int)func_02045EC0((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
+    int width=func_0201D304((struct StrObj *)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     int x=(BMP_WIN_GetWidth((struct Descriptor *)handle)*8-width)>>1;
-    int font=((struct Obj08353 *)p)->f18;
+    int font=(int)((struct BagWork *)p)->printSys;
     int surface=(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x28+i*8));
-    PRINTSYS_PrintQueColor((void *)font,(int)surface,(s16_0220B1D4)x,(s16_0220B1D4)y,(int)text,(int)(((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4),colour);
+    PRINTSYS_PrintQueColor((void *)font,(int)surface,(s16)x,(s16)y,(int)text,(int)(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth),colour);
     (p+i*8)[0x2c]=1;
     STRBUF_Delete((struct U16Vec *)text);
 }
@@ -803,17 +646,17 @@ void B_BAG_MAIN_DrawLabels(char *p)
     B_BAG_MAIN_PrintLabel(p,1,3,16,0x3C40);
     B_BAG_MAIN_PrintLabel(p,2,7,0,0x3C40);
     B_BAG_MAIN_PrintLabel(p,3,6,0,0x3C40);
-    if(((struct Obj03905 *)p)->f540!=0){
-        text=func_02045EC0(((struct Obj03905 *)p)->fC,8);
-        font=((struct Obj03905 *)p)->f18;
-        surface=BMP_WIN_GetBmp(((struct Obj03905 *)p)->f48);
-        PRINTSYS_PrintQueColor(font,(u32_0220B248)surface,0,0,(u32_0220B248)text,((struct Obj24992 *)(*(char * *)&((struct Obj03905 *)p)->f0))->f4,0x3C40);
+    if(*(unsigned short *)(p + 0x540)!=0){
+        text=func_02045EC0(((struct BagWork *)p)->msgBank,8);
+        font=((struct BagWork *)p)->printSys;
+        surface=BMP_WIN_GetBmp(((struct BagWork *)p)->win[4].handle);
+        PRINTSYS_PrintQueColor(font,(u32)surface,0,0,(u32)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
         p[0x4C]=1;
         STRBUF_Delete(text);
     }else{
-        BMP_WIN_TransferChars(((struct Obj03905 *)p)->f48);
+        BMP_WIN_TransferChars(((struct BagWork *)p)->win[4].handle);
     }
-    *(const char * *)&((struct Obj03905 *)p)->f59C=d_0220DA0D;
+    *(const char * *)&*(const void * *)(p + 0x59C)=d_0220DA0D;
 }
 
 
@@ -822,27 +665,27 @@ void B_BAG_MAIN_DrawLabels(char *p)
 /*
  * Width: printer x truncates to signed halfword in original; extern keeps s16 despite owner u32.
  */
-void B_BAG_MAIN_DrawItemName(char *p,u32_0220B31C i,int id,int w,int unused,int unused2)
+void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2)
 {
     char *windows=p+0x28;
     void *handle=*(void **)(windows+w*8);
     void *text;
     void *font;
     void *surface;
-    u32_0220B31C width;
+    u32 width;
     int page;
     BMP_Clear(BMP_WIN_GetBmp(handle),0);
-    page=(u32_0220B31C)p+((u8 *)p)[0x533]*0x90;
+    page=(u32)p+((u8 *)p)[0x533]*0x90;
     if(*(u16 *)(page+i*4+0x150)!=0){
-        text=func_02045EC0(((struct Obj00845 *)p)->fC,*(u32_0220B31C *)(d_0220DA38+id*8));
-        page=(u32_0220B31C)p+((u8 *)p)[0x533]*0x90;
-        WORDSET_Callback_EF40(((struct Obj00845 *)p)->f10,0,*(u16 *)(page+i*4+0x150));
-        WORDSET_CopyTaggedText(((struct Obj00845 *)p)->f10,((struct Obj00845 *)p)->f14,text);
-        width=func_0201D304(((struct Obj00845 *)p)->f14,((struct Obj24993 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0);
+        text=func_02045EC0(((struct BagWork *)p)->msgBank,*(u32 *)(d_0220DA38+id*8));
+        page=(u32)p+((u8 *)p)[0x533]*0x90;
+        WORDSET_Callback_EF40(((struct BagWork *)p)->wordSet,0,*(u16 *)(page+i*4+0x150));
+        WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
+        width=func_0201D304(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
         width=BMP_WIN_GetWidth(handle)*8-width;
-        font=((struct Obj00845 *)p)->f18;
+        font=((struct BagWork *)p)->printSys;
         surface=BMP_WIN_GetBmp(*(void **)(windows+w*8));
-        PRINTSYS_PrintQueColor(font,(u32_0220B31C)surface,(s16_0220B31C)(width/2),(s16_0220B31C)7,(u32_0220B31C)(((struct Obj00845 *)p)->f14),((struct Obj24994 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0x3C40);
+        PRINTSYS_PrintQueColor(font,(u32)surface,(s16)(width/2),(s16)7,(u32)(((struct BagWork *)p)->strBuf),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
         (p+w*8)[0x2C]=1;
         STRBUF_Delete(text);
     }else{
@@ -856,7 +699,7 @@ void B_BAG_MAIN_DrawItemName(char *p,u32_0220B31C i,int id,int w,int unused,int 
 /*
  * Width: original narrows y to signed halfword before printer; corresponding extern keeps s16 despite owner u32.
  */
-void B_BAG_MAIN_DrawItemInfo(char *p, u32_0220B3EC i, int id, int w, int unused, int y, int unused2)
+void B_BAG_MAIN_DrawItemInfo(char *p, u32 i, int id, int w, int unused, int y, int unused2)
 {
   char *windows = p + 0x28;
   void *handle = *((void **) (windows + (w * 8)));
@@ -866,22 +709,22 @@ void B_BAG_MAIN_DrawItemInfo(char *p, u32_0220B3EC i, int id, int w, int unused,
   int page;
   char *tmp;
   u16 pad;
-  u32_0220B3EC *tmp1;
+  u32 *tmp1;
   char *tmp2;
   BMP_Clear(BMP_WIN_GetBmp(handle), 0);
-  page = ((u32_0220B3EC) p) + (((u8 *) p)[0x533] * 0x90);
+  page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
   if (((*((u16 *) ((page + (i * 4)) + 0x152))) != 0) && ((*((int *) ((*((char **) p)) + 8))) != 1))
   {
-    text = func_02045EC0(*((void **) (p + 0xC)), *((u32_0220B3EC *) (d_0220DA3C + (id * 8))));
-    page = ((u32_0220B3EC) p) + (((u8 *) p)[0x533] * 0x90);
-    WORDSET_SetSlotNumber(*((void **) (p + 0x10)), 0, *((u16 *) (((u32_0220B3EC) (page + (i * 4))) + 0x152)), 3, 0, 1);
+    text = func_02045EC0(*((void **) (p + 0xC)), *((u32 *) (d_0220DA3C + (id * 8))));
+    page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
+    WORDSET_SetSlotNumber(*((void **) (p + 0x10)), 0, *((u16 *) (((u32) (page + (i * 4))) + 0x152)), 3, 0, 1);
     tmp2 = p + 0x14;
     WORDSET_CopyTaggedText(*((void **) (p + 0x10)), *((void **) tmp2), text);
     font = *((void **) (p + 0x18));
     surface = BMP_WIN_GetBmp(*((void **) (windows + (w * 8))));
     tmp = p + 0x14;
-    tmp1 = (u32_0220B3EC *) ((*((char **) p)) + 4);
-    PRINTSYS_PrintQueColor(font, (u32_0220B3EC)surface, (s16_0220B3EC)0, (s16_0220B3EC)y, (u32_0220B3EC)(*((void **) tmp)), *tmp1, 0x3C40);
+    tmp1 = (u32 *) ((*((char **) p)) + 4);
+    PRINTSYS_PrintQueColor(font, (u32)surface, (s16)0, (s16)y, (u32)(*((void **) tmp)), *tmp1, 0x3C40);
     (p + (w * 8))[0x2C] = 1;
     STRBUF_Delete(text);
   }
@@ -899,7 +742,7 @@ void B_BAG_MAIN_DrawItemInfo(char *p, u32_0220B3EC i, int id, int w, int unused,
  */
 void B_BAG_MAIN_DrawSlot(char *p,u16 i)
 {
-    int base=*(short *)(*(char * *)&((struct Obj00845 *)p)->f0+((u8 *)p)[0x533]*2+0x38)*6;
+    int base=*(short *)(*(char * *)&((struct BagWork *)p)->itemData+((u8 *)p)[0x533]*2+0x38)*6;
     int row=5;
     int twice;
     if(((u8 *)p)[0x141]!=0)row=0x11;
@@ -917,9 +760,9 @@ void B_BAG_MAIN_DrawPocket(char *p)
     BG_SYS_SetTileEntry(5,0,0,0,0x20,0x13,0x11);
     for(i=0;i<6;i++)B_BAG_MAIN_DrawSlot(p,i);
     if(((u8 *)p)[0x141]==0)
-        *(const char * *)&((struct Obj00314 *)p)->f59C=d_0220DA28;
+        *(const char * *)&*(const void * *)(p + 0x59C)=d_0220DA28;
     else
-        *(const char * *)&((struct Obj00314 *)p)->f59C=d_0220DA19;
+        *(const char * *)&*(const void * *)(p + 0x59C)=d_0220DA19;
     ((u8 *)p)[0x141]^=1;
 }
 
@@ -932,31 +775,31 @@ void B_BAG_MAIN_DrawPocket(char *p)
  */
 void B_BAG_MAIN_DrawHeader(char *p)
 {
-    void *handle=((struct Obj00314 *)p)->f118;
+    void *handle=((struct BagWork *)p)->win[30].handle;
     void *surface=BMP_WIN_GetBmp(handle);
     void *text;
-    u32_0220B584 width;
-    u32_0220B584 x;
+    u32 width;
+    u32 x;
     void *font;
     void *lastSurface;
     BMP_Clear(surface,0);
-    text=func_02045EC0(((struct Obj00314 *)p)->fC,28);
-    width=func_0201D304(text,((struct Obj24999 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
+    text=func_02045EC0(((struct BagWork *)p)->msgBank,28);
+    width=func_0201D304(text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     x=(BMP_WIN_GetWidth(handle)*8-width)/2;
-    PRINTSYS_PrintQueColor(((struct Obj00314 *)p)->f18,(u32_0220B584)surface,(s16_0220B584)x,(s16_0220B584)4,(u32_0220B584)text,((struct Obj25000 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
+    PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,(u32)surface,(s16)x,(s16)4,(u32)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct Obj00314 *)p)->fC,29);
-    WORDSET_SetSlotNumber(((struct Obj00314 *)p)->f10,0,((u8 *)p+((u8 *)p)[0x533])[0x539]+1,2,0,1);
-    WORDSET_CopyTaggedText(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
-    PRINTSYS_PrintQueColor(((struct Obj00314 *)p)->f18,(u32_0220B584)surface,(s16_0220B584)(x+width),(s16_0220B584)4,(u32_0220B584)(((struct Obj00314 *)p)->f14),((struct Obj25001 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
+    text=func_02045EC0(((struct BagWork *)p)->msgBank,29);
+    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,((u8 *)p+((u8 *)p)[0x533])[0x539]+1,2,0,1);
+    WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
+    PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,(u32)surface,(s16)(x+width),(s16)4,(u32)(((struct BagWork *)p)->strBuf),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct Obj00314 *)p)->fC,30);
-    WORDSET_SetSlotNumber(((struct Obj00314 *)p)->f10,0,*(s16_0220B584 *)(*(char * *)&((struct Obj00314 *)p)->f0+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
-    WORDSET_CopyTaggedText(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
-    width=func_0201D304(((struct Obj00314 *)p)->f14,((struct Obj25002 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
-    font=((struct Obj00314 *)p)->f18;
-    lastSurface=BMP_WIN_GetBmp(((struct Obj00314 *)p)->f118);
-    PRINTSYS_PrintQueColor(font,(u32_0220B584)lastSurface,(s16_0220B584)(x-width),(s16_0220B584)4,(u32_0220B584)(((struct Obj00314 *)p)->f14),((struct Obj25003 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
+    text=func_02045EC0(((struct BagWork *)p)->msgBank,30);
+    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,*(s16 *)(*(char * *)&((struct BagWork *)p)->itemData+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
+    WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
+    width=func_0201D304(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    font=((struct BagWork *)p)->printSys;
+    lastSurface=BMP_WIN_GetBmp(((struct BagWork *)p)->win[30].handle);
+    PRINTSYS_PrintQueColor(font,(u32)lastSurface,(s16)(x-width),(s16)4,(u32)(((struct BagWork *)p)->strBuf),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
     ((u8 *)p)[0x11C]=1;
     STRBUF_Delete(text);
 }
@@ -966,15 +809,15 @@ void B_BAG_MAIN_DrawHeader(char *p)
 
 void B_BAG_MAIN_DrawInfoBox(char *p)
 {
-    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
-    if(((struct Obj25004 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f8!=1) {
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct BagWork *)p)->win[29].handle)),0);
+    if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode!=1) {
         switch(((unsigned char *)p)[0x533]) {
         case 0:B_BAG_MAIN_PrintLabel(p,29,22,4,0x3c40);B_BAG_MAIN_PrintLabel(p,29,23,20,0x3c40);break;
         case 1:B_BAG_MAIN_PrintLabel(p,29,24,4,0x3c40);B_BAG_MAIN_PrintLabel(p,29,25,20,0x3c40);break;
         case 2:B_BAG_MAIN_PrintLabel(p,29,26,12,0x3c40);break;
         case 3:B_BAG_MAIN_PrintLabel(p,29,27,12,0x3c40);break;
         }
-    } else BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00314 *)p)->f110);
+    } else BMP_WIN_TransferChars((struct Descriptor *)((struct BagWork *)p)->win[29].handle);
 }
 
 
@@ -992,7 +835,7 @@ void B_BAG_MAIN_DrawItemsPage(char *a)
 
 
 
-void B_BAG_MAIN_DrawDescription(u8 *p, u32_0220B78C idx)
+void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx)
 {
     void *win = *(void **)(p + 0x120);
     void *msg = func_02045EC0(*(void **)(p + 0xc), 9);
@@ -1003,8 +846,8 @@ void B_BAG_MAIN_DrawDescription(u8 *p, u32_0220B78C idx)
     WORDSET_CopyTaggedText(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
     BMP_Clear(BMP_WIN_GetBmp(win), 0);
     w = *(void **)(p + 0x18);
-    PRINTSYS_PrintQueColor(w, (u32_0220B78C)BMP_WIN_GetBmp(*(void **)(p + 0x120)), 0, 0,
-                  *(u32_0220B78C *)(p + 0x14), *(u32_0220B78C *)(*(u8 **)p + 4), 0x3C40);
+    PRINTSYS_PrintQueColor(w, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x120)), 0, 0,
+                  *(u32 *)(p + 0x14), *(u32 *)(*(u8 **)p + 4), 0x3C40);
     *(u8 *)(p + 0x124) = 1;
     STRBUF_Delete(msg);
 }
@@ -1020,13 +863,13 @@ void B_BAG_MAIN_DrawItemUsage(char *p,int n)
     void *owner;
     int index;
     Row *row;
-    void *buf=STRBUF_Create(130,((struct Obj25005 *)(*(char * *)&((struct Obj04597 *)p)->f0))->fC);
-    index=((struct Obj04597 *)p)->f533;
+    void *buf=STRBUF_Create(130,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    index=*(unsigned char *)(p + 0x533);
     row=(Row *)(p+0x150);
-    FILE_UTIL_ReadStringAlt(buf,row[index].entry[n][0],((struct Obj25007 *)(*(char * *)&((struct Obj04597 *)p)->f0))->fC);
-    owner=((struct Obj04597 *)p)->f18;
-    PRINTSYS_PrintQueColor(owner,(unsigned)BMP_WIN_GetBmp(((struct Obj04597 *)p)->f130),4,0,(unsigned)buf,((struct Obj25008 *)(*(char * *)&((struct Obj04597 *)p)->f0))->f4,0x3c40);
-    ((struct Obj04597 *)p)->f134=1;
+    FILE_UTIL_ReadStringAlt(buf,row[index].entry[n][0],((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    owner=((struct BagWork *)p)->printSys;
+    PRINTSYS_PrintQueColor(owner,(unsigned)BMP_WIN_GetBmp(((struct BagWork *)p)->win[33].handle),4,0,(unsigned)buf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3c40);
+    ((struct BagWork *)p)->win[33].dirty=1;
     STRBUF_Delete(buf);
 }
 
@@ -1065,8 +908,8 @@ void B_BAG_MAIN_DrawOtherPage(char *p)
 
 void B_BAG_MAIN_PrintItemMsg(char *p)
 {
-    BMP_MENUWORK_DrawWindow(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj14543 *)p)->f24), 0xf);
+    BMP_MENUWORK_DrawWindow(((struct BagWork *)p)->itemMsgWin, 2, 1, 0xb);
+    BMP_Clear(BMP_WIN_GetBmp(((struct BagWork *)p)->itemMsgWin), 0xf);
     B_BAG_MAIN_StartItemMsg(p);
 }
 
@@ -1086,7 +929,7 @@ void B_BAG_MAIN_StartItemMsg(char *p)
     void *d;
     GF_FONT_SetTextColor(1, 2, 0);
     *(void **)(p + 0x1c) = PRINTSYS_PrintStream(*(void **)(p + 0x24), 0, 0, *(void **)(p + 0x14),
-        *(u32_0220B928 *)(*(char **)p + 4), MSG_SPEED_GetWait(), *(void **)(p + 4), 10,
+        *(u32 *)(*(char **)p + 4), MSG_SPEED_GetWait(), *(void **)(p + 4), 10,
         *(u16 *)(*(char **)p + 0xc), 15);
     d = *(void **)(p + 0x24);
     BMP_WIN_TransferChars(d);
@@ -1100,7 +943,7 @@ void B_BAG_MAIN_StartItemMsg(char *p)
 
 int B_BAG_MAIN_UpdateTool(char *a)
 {
-    return B_APP_TOOL_Update(a + 0x28, ((struct Obj25009 *)a)->f18, 0x23);
+    return B_APP_TOOL_Update(a + 0x28, (int)((struct BagWork *)a)->printSys, 0x23);
 }
 
 
@@ -1110,9 +953,9 @@ int B_BAG_MAIN_UpdateTool(char *a)
 /*
  * Addresses are Black-image addresses.
  */
-u32_0220B990 B_BAG_MAIN_ShowWindows(u8 *p)
+u32 B_BAG_MAIN_ShowWindows(u8 *p)
 {
-    return B_APP_TOOL_ShowWindows(p + 0x28, ((struct Obj25010 *)p)->f59C);
+    return B_APP_TOOL_ShowWindows(p + 0x28, (u32)*(const void * *)(p + 0x59C));
 }
 
 
@@ -1121,7 +964,7 @@ u32_0220B990 B_BAG_MAIN_ShowWindows(u8 *p)
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int B_BAG_MAIN_CheckKeyItem(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }
+int B_BAG_MAIN_CheckKeyItem(char *p) { char *q; if(*(unsigned short *)(p + 0x540)==0) return 0; q=*(char * *)&((struct BagWork *)p)->itemData; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct BagMenu *)q)->savedata,*(unsigned short *)(p + 0x540),1,((struct BagMenu *)q)->heapId)==0) { *(unsigned short *)(p + 0x540)=0; *(unsigned char *)(p + 0x542)=0; return 0; } return 1; }
 
 
 
@@ -1155,7 +998,7 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
 {
     u8 *tbl;
     u16 *r;
-    u32_0220BA2C i, j, k;
+    u32 i, j, k;
 
     tbl = ARC_TOOL_LoadMember(0xE8, 0, *(u16 *)(*(u8 **)p + 0xC));
     i = 0;
@@ -1166,13 +1009,13 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
             if (r == 0)
                 break;
             if (r[0] != 0 && r[1] != 0) {
-                u32_0220BA2C m = tbl[r[0]];
+                u32 m = tbl[r[0]];
                 for (k = 0; k < 4; k++) {
                     if (m & (1 << k)) {
                         int c = d_0220DB3F[k];
                         u8 *q = p + c;
-                        u32_0220BA2C e = c * 0x90;
-                        e = q[0x535] * 4 + (u32_0220BA2C)(p + e);
+                        u32 e = c * 0x90;
+                        e = q[0x535] * 4 + (u32)(p + e);
                         *(u16 *)(e + 0x150) = r[0];
                         *(u16 *)(e + 0x152) = r[1];
                         q[0x535]++;
@@ -1192,8 +1035,8 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
         else
             p[i + 0x539] = (v - 1) / 6;
         s = *(u8 **)p + i * 2;
-        if (p[i + 0x539] < *(s16_0220BA2C *)(s + 0x38))
-            *(s16_0220BA2C *)(s + 0x38) = p[i + 0x539];
+        if (p[i + 0x539] < *(s16 *)(s + 0x38))
+            *(s16 *)(s + 0x38) = p[i + 0x539];
     }
 }
 
@@ -1204,13 +1047,13 @@ void B_BAG_MAIN_BuildOtherList(char *p)
 {
     unsigned i;
     for(i=0;i<46;i++) {
-        if(func_0202F114(*(const unsigned char * *)&((struct Obj25011 *)(*(char * *)&((struct Obj05520 *)p)->f0))->f10,i)==1) {
-            *(unsigned short *)(p+0x150+((struct Obj05520 *)p)->f535*4)=func_0202F138(i);
-            *(unsigned short *)(p+0x152+((struct Obj05520 *)p)->f535*4)=1;
-            (((struct Obj05520 *)p)->f535)++;
+        if(ITEM_GFX_IsFlagClear(*(const unsigned char * *)&((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->pocketMask,i)==1) {
+            *(unsigned short *)(p+0x150+*(unsigned char *)(p + 0x535)*4)=ITEM_GFX_GetItemId(i);
+            *(unsigned short *)(p+0x152+*(unsigned char *)(p + 0x535)*4)=1;
+            (*(unsigned char *)(p + 0x535))++;
         }
     }
-    ((struct Obj05520 *)p)->f539=(((struct Obj05520 *)p)->f535-1)/6;
+    *(unsigned char *)(p + 0x539)=(*(unsigned char *)(p + 0x535)-1)/6;
 }
 
 
@@ -1219,10 +1062,10 @@ void B_BAG_MAIN_BuildOtherList(char *p)
 
 void B_BAG_MAIN_InitOtherPage(char *p)
 {
-    ((struct Obj08354 *)p)->f270 = 4;
-    ((struct Obj08354 *)p)->f272 = 0x1e;
-    ((struct Obj08354 *)p)->f537 = 1;
-    ((struct Obj08354 *)p)->f53B = 0;
+    ((struct BagWork *)p)->rows[2][0][0] = 4;
+    ((struct BagWork *)p)->rows[2][0][1] = 0x1e;
+    *(unsigned char *)(p + 0x537) = 1;
+    *(unsigned char *)(p + 0x53B) = 0;
 }
 
 
@@ -1251,7 +1094,7 @@ u16 B_BAG_MAIN_GetSlotItem(const char *p, unsigned n)
 /*
  * Forward entry r0 as the key. The explicit result truncation requires a wide extern return.
  */
-int B_BAG_MAIN_GetItemFlag(u32_0220BBD8 key) { return (u16)sub_0202F144(key); }
+int B_BAG_MAIN_GetItemFlag(u32 key) { return (u16)ITEM_GFX_GetExtraValue(key); }
 
 
 
@@ -1260,26 +1103,26 @@ void B_BAG_MAIN_InitFrames(char *p)
 {
     void *arc;
     unsigned i;
-    ((struct Obj01176 *)p)->f520=BGWINFRM_Create(2,14,((struct Obj25012 *)(*(char * *)&((struct Obj01176 *)p)->f0))->fC);
-    arc=func_020490F4(99,(u16)((((struct Obj25013 *)(*(char * *)&((struct Obj01176 *)p)->f0))->fC&0x7FFF)|0x8000));
+    ((struct BagWork *)p)->frameMgr=BGWINFRM_Create(2,14,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    arc=func_020490F4(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7FFF)|0x8000));
     for(i=0;i<14;i++){
-        BGWINFRM_AddFrame(((struct Obj01176 *)p)->f520,i,6,d_0220DB44[i].w,d_0220DB44[i].h);
-        BGWINFRM_SetClipArea(((struct Obj01176 *)p)->f520,i,0,64,0,64);
-        BGWINFRM_SetFrameDataArcHandle(((struct Obj01176 *)p)->f520,i,arc,d_0220DB44[i].member,1);
+        BGWINFRM_AddFrame(((struct BagWork *)p)->frameMgr,i,6,d_0220DB44[i].w,d_0220DB44[i].h);
+        BGWINFRM_SetClipArea(((struct BagWork *)p)->frameMgr,i,0,64,0,64);
+        BGWINFRM_SetFrameDataArcHandle(((struct BagWork *)p)->frameMgr,i,arc,d_0220DB44[i].member,1);
     }
     ARC_TOOL_DeleteHandle(arc);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,0,0,1);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,1,0,10);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,2,16,1);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,3,16,10);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,4,32,1);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,5,48,1);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,6,32,7);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,7,48,7);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,8,32,13);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,9,48,13);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,11,32,19);
-    BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,12,37,19);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,0,0,1);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,1,0,10);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,2,16,1);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,3,16,10);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,4,32,1);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,5,48,1);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,6,32,7);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,7,48,7);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,8,32,13);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,9,48,13);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,11,32,19);
+    BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,12,37,19);
 }
 
 
@@ -1290,7 +1133,7 @@ void B_BAG_MAIN_InitFrames(char *p)
 
 void B_BAG_MAIN_DeleteFrames(char *a)
 {
-    BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj25014 *)a)->f520);
+    BGWINFRM_Delete(*(struct WinMgr * *)&((struct BagWork *)a)->frameMgr);
 }
 
 
@@ -1333,13 +1176,13 @@ void B_BAG_MAIN_LayoutFrames(char *p, int mode)
                 BGWINFRM_ChangePalette(*pm, i + 4, 0, 0, d_0220DB44[i + 4].w, d_0220DB44[i + 4].h, 4);
         }
         {
-            struct S *q = (struct S *)p;
-            if (q->fl[q->idx] == 0) {
-                BGWINFRM_ChangePalette(q->mgr, 11, 0, 0, 5, 5, 3);
-                BGWINFRM_ChangePalette(q->mgr, 12, 0, 0, 5, 5, 3);
+            struct BagWork *q = (struct BagWork *)p;
+            if (*(unsigned char *)(p + 0x539 + *(unsigned char *)(p + 0x533)) == 0) {
+                BGWINFRM_ChangePalette(*(struct WinMgr **)(p + 0x520), 11, 0, 0, 5, 5, 3);
+                BGWINFRM_ChangePalette(*(struct WinMgr **)(p + 0x520), 12, 0, 0, 5, 5, 3);
             } else {
-                BGWINFRM_ChangePalette(q->mgr, 11, 0, 0, 5, 5, 1);
-                BGWINFRM_ChangePalette(q->mgr, 12, 0, 0, 5, 5, 1);
+                BGWINFRM_ChangePalette(*(struct WinMgr **)(p + 0x520), 11, 0, 0, 5, 5, 1);
+                BGWINFRM_ChangePalette(*(struct WinMgr **)(p + 0x520), 12, 0, 0, 5, 5, 1);
             }
         }
         BGWINFRM_ShowFrame(MGR(p), 4);
@@ -1371,10 +1214,10 @@ void B_BAG_MAIN_LayoutFrames(char *p, int mode)
 
 void B_BAG_MAIN_StartFrameAnim(char *p, int v)
 {
-    ((struct Obj08355 *)p)->f524 = 0;
-    ((struct Obj08355 *)p)->f525 = 0;
-    ((struct Obj08355 *)p)->f526 = v;
-    ((struct Obj08355 *)p)->f527 = 1;
+    ((struct BagWork *)p)->animState = 0;
+    ((struct BagWork *)p)->animTimer = 0;
+    ((struct BagWork *)p)->animIndex = v;
+    ((struct BagWork *)p)->animActive = 1;
 }
 
 
@@ -1388,38 +1231,38 @@ void B_BAG_MAIN_StartFrameAnim(char *p, int v)
  */
 void B_BAG_MAIN_StepFrameAnim(char *p)
 {
-    if(((struct Obj01005 *)p)->f527) {
-        switch(((struct Obj01005 *)p)->f524) {
+    if(((struct BagWork *)p)->animActive) {
+        switch(((struct BagWork *)p)->animState) {
         case 0: {
-            unsigned index=((struct Obj01005 *)p)->f526;
+            unsigned index=((struct BagWork *)p)->animIndex;
             u8 color;
             color=2;
             if(index<10) color=5;
-            BGWINFRM_ChangePalette(((struct Obj01005 *)p)->f520,index,0,0,d_0220DB44[index].w,d_0220DB44[index].h,color);
-            BGWINFRM_ShowFrame(((struct Obj01005 *)p)->f520,((struct Obj01005 *)p)->f526);
-            (((struct Obj01005 *)p)->f524)++;
+            BGWINFRM_ChangePalette(((struct BagWork *)p)->frameMgr,index,0,0,d_0220DB44[index].w,d_0220DB44[index].h,color);
+            BGWINFRM_ShowFrame(((struct BagWork *)p)->frameMgr,((struct BagWork *)p)->animIndex);
+            (((struct BagWork *)p)->animState)++;
             break;
         }
         case 1: {
             unsigned index;
             u8 color;
-            if(((struct Obj01005 *)p)->f525==4) {
-                index=((struct Obj01005 *)p)->f526;
+            if(((struct BagWork *)p)->animTimer==4) {
+                index=((struct BagWork *)p)->animIndex;
                 color=1;
                 if(index<10) color=4;
-                BGWINFRM_ChangePalette(((struct Obj01005 *)p)->f520,index,0,0,d_0220DB44[index].w,d_0220DB44[index].h,color);
-                BGWINFRM_ShowFrame(((struct Obj01005 *)p)->f520,((struct Obj01005 *)p)->f526);
-                ((struct Obj01005 *)p)->f525=0;
-                (((struct Obj01005 *)p)->f524)++;
-            } else (((struct Obj01005 *)p)->f525)++;
+                BGWINFRM_ChangePalette(((struct BagWork *)p)->frameMgr,index,0,0,d_0220DB44[index].w,d_0220DB44[index].h,color);
+                BGWINFRM_ShowFrame(((struct BagWork *)p)->frameMgr,((struct BagWork *)p)->animIndex);
+                ((struct BagWork *)p)->animTimer=0;
+                (((struct BagWork *)p)->animState)++;
+            } else (((struct BagWork *)p)->animTimer)++;
             break;
         }
         case 2:
-            if(((struct Obj01005 *)p)->f525==1) {
-                ((struct Obj01005 *)p)->f525=0;
-                ((struct Obj01005 *)p)->f524=0;
-                ((struct Obj01005 *)p)->f527=0;
-            } else (((struct Obj01005 *)p)->f525)++;
+            if(((struct BagWork *)p)->animTimer==1) {
+                ((struct BagWork *)p)->animTimer=0;
+                ((struct BagWork *)p)->animState=0;
+                ((struct BagWork *)p)->animActive=0;
+            } else (((struct BagWork *)p)->animTimer)++;
             break;
         }
     }
@@ -1454,7 +1297,7 @@ void B_BAG_MAIN_ClearHandles(char *p)
  * matching: arc declared before first/second fixes the three spill homes.
  *   0204ABF0 argument4 is u16: caller explicitly truncates i*32.
  *   0202F138 result widened to reproduce caller's explicit u16 narrowing;
- *   its own sub_0202F138 returns u16, which removed the observed shifts.
+ *   its own ITEM_GFX_GetItemId returns u16, which removed the observed shifts.
  */
 void B_BAG_MAIN_RegisterItemChars(char *p)
 {
@@ -1462,15 +1305,15 @@ void B_BAG_MAIN_RegisterItemChars(char *p)
     void *arc;
     unsigned first,second;
     int a;
-    if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)func_0202F138(0);first=3;second=4;}
+    if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==1) {item=(unsigned)ITEM_GFX_GetItemId(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
-    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
+    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
     for(i=0;i<7;i++) {
-        *(int *)(p+i*4+0x544)=CLACT_RegisterCharacter(arc,FILE_UTIL_Get(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-        *(int *)(p+i*4+0x568)=CLACT_RegisterPalette(arc,FILE_UTIL_Get(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+        *(int *)(p+i*4+0x544)=CLACT_RegisterCharacter(arc,FILE_UTIL_Get(item,first),0,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+        *(int *)(p+i*4+0x568)=CLACT_RegisterPalette(arc,FILE_UTIL_Get(item,second),1,(u16)(i*32),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     }
     a=FILE_UTIL_GetBankCount();
-    ((struct Obj00315 *)p)->f58C=CLACT_RegisterCellAnim(arc,a,FILE_UTIL_GetBaseIndex(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    *(int *)(p + 0x58C)=CLACT_RegisterCellAnim(arc,a,FILE_UTIL_GetBaseIndex(),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1484,16 +1327,16 @@ void B_BAG_MAIN_RegisterItemChars(char *p)
  */
 void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
 {
-    char *q=*(char * *)&((struct Obj01075 *)p)->f0;
+    char *q=*(char * *)&((struct BagWork *)p)->itemData;
     unsigned first, second;
     void *arc;
     void *data,*buffer;
-    if(((struct Obj14545 *)q)->f8==1) {first=3;second=4;} else {first=1;second=2;}
-    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj14545 *)q)->fC&0x7fff)|0x8000));
-    buffer=ARC_UTIL_LoadScreenDataFromHandle(arc,FILE_UTIL_Get(item,first),0,(u32)(&data),((struct Obj25020 *)(*(char * *)&((struct Obj01075 *)p)->f0))->fC);
+    if(((struct BagMenu *)q)->mode==1) {first=3;second=4;} else {first=1;second=2;}
+    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct BagMenu *)q)->heapId&0x7fff)|0x8000));
+    buffer=ARC_UTIL_LoadScreenDataFromHandle(arc,FILE_UTIL_Get(item,first),0,(u32)(&data),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     CLACT_TransferCharacter(*(int *)(p+slot*4+0x544),data);
     func_020307B0(buffer);
-    PALANM_LoadHandlePaletteToSlot(((struct Obj01075 *)p)->f8,(void *)((unsigned)arc),FILE_UTIL_Get(item,second),((struct Obj25021 *)(*(char * *)&((struct Obj01075 *)p)->f0))->fC,3,32,offset*16);
+    PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((unsigned)arc),FILE_UTIL_Get(item,second),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,offset*16);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1504,14 +1347,14 @@ void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
 
 void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
 {
-    char *q=*(char * *)&((struct Obj01075 *)p)->f0;
+    char *q=*(char * *)&((struct BagWork *)p)->itemData;
     unsigned archive;
-    if(((struct Obj10833 *)q)->f8==1) {
+    if(((struct BagMenu *)q)->mode==1) {
         archive=FILE_UTIL_GetItemCount();
-        func_02049B40(archive,FILE_UTIL_Get(item,4),5,slot*32,32,((struct Obj10833 *)q)->fC);
+        func_02049B40(archive,FILE_UTIL_Get(item,4),5,slot*32,32,((struct BagMenu *)q)->heapId);
     } else {
         archive=FILE_UTIL_GetItemCount();
-        func_02049B40(archive,FILE_UTIL_Get(item,2),5,slot*32,32,((struct Obj10833 *)q)->fC);
+        func_02049B40(archive,FILE_UTIL_Get(item,2),5,slot*32,32,((struct BagMenu *)q)->heapId);
     }
 }
 
@@ -1522,11 +1365,11 @@ void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
 
 void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 {
-    void *arc = func_020490F4(99,(u16)((((struct Obj25022 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
-    ((struct Obj00315 *)p)->f560=CLACT_RegisterCharacter(arc,13,1,1,((struct Obj25023 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    ((struct Obj00315 *)p)->f584=CLACT_RegisterPalette(arc,14,1,224,((struct Obj25024 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    ((struct Obj00315 *)p)->f590=CLACT_RegisterCellAnim(arc,15,16,((struct Obj25025 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    PALANM_LoadHandlePaletteToSlot(((struct Obj00315 *)p)->f8,(void *)((unsigned)arc),14,((struct Obj25026 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC,3,32,112);
+    void *arc = func_020490F4(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
+    *(int *)(p + 0x560)=CLACT_RegisterCharacter(arc,13,1,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    *(int *)(p + 0x584)=CLACT_RegisterPalette(arc,14,1,224,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    *(int *)(p + 0x590)=CLACT_RegisterCellAnim(arc,15,16,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((unsigned)arc),14,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,112);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1537,14 +1380,14 @@ void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 
 void B_BAG_MAIN_RegisterIconGraphics(char *p)
 {
-    void *arc = func_020490F4(11,(u16)((((struct Obj25027 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
+    void *arc = func_020490F4(11,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
     char *data;
     void *buf;
-    ((struct Obj00315 *)p)->f564=CLACT_RegisterCharacter(arc,119,0,1,((struct Obj25028 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    ((struct Obj00315 *)p)->f588=CLACT_RegisterPaletteEx(arc,116,1,256,4,1,((struct Obj25029 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    ((struct Obj00315 *)p)->f594=CLACT_RegisterCellAnim(arc,120,121,((struct Obj25030 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    buf=ARC_UTIL_LoadPaletteBlockFromHandle(arc,116,(u32)(&data),(u16)((((struct Obj25031 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
-    PALANM_CopyToSlot(((struct Obj00315 *)p)->f8,*(char * *)&((struct Obj25032 *)data)->fC+128,3,128,32);
+    *(int *)(p + 0x564)=CLACT_RegisterCharacter(arc,119,0,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    *(int *)(p + 0x588)=CLACT_RegisterPaletteEx(arc,116,1,256,4,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    *(int *)(p + 0x594)=CLACT_RegisterCellAnim(arc,120,121,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    buf=ARC_UTIL_LoadPaletteBlockFromHandle(arc,116,(u32)(&data),(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
+    PALANM_CopyToSlot(((struct BagWork *)p)->palAnm,((struct ScreenData *)data)->data+128,3,128,32);
     func_020307B0(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -1561,7 +1404,7 @@ struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
 {
     Config c;
     c.a=0;c.b=0;c.c=0;c.d=1;c.e=1;
-    return CLACT_CreateActor((void *)*(unsigned *)&((struct Obj00315 *)p)->f420,*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),&c,1,((struct Obj25033 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    return CLACT_CreateActor((void *)*(unsigned *)&((struct BagWork *)p)->itemUnit,*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),&c,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
 }
 
 
@@ -1573,7 +1416,7 @@ struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
  * Raw byte stride i*12 emits muls rather than the flat word-index shift/add.
  * The caller stores live r0 from C3B4; its owner declaration is void.
  */
-void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Bank * *)&((struct Obj00315 *)p)->f420=CLACT_CreateUnit(67,0,((struct Obj25034 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
+void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Bank * *)&((struct BagWork *)p)->itemUnit=CLACT_CreateUnit(67,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
 
 
 
@@ -1589,7 +1432,7 @@ void B_BAG_MAIN_DeleteItemGraphics(char *p)
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x544) != -1) CLACT_ReleaseCharacter(*(int *)(p + i * 4 + 0x544));
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x568) != -1) CLACT_ReleasePalette(*(int *)(p + i * 4 + 0x568));
     for (i = 0; i < 3; i++) if (*(int *)(p + i * 4 + 0x58c) != -1) CLACT_ReleaseCellAnim(*(int *)(p + i * 4 + 0x58c));
-    CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25035 *)p)->f420);
+    CLACT_DeleteUnit(*(struct Bank * *)&((struct BagWork *)p)->itemUnit);
 }
 
 
@@ -1624,7 +1467,7 @@ void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
 
 
 
-void B_BAG_MAIN_DisplaySingle(char *p) { if(((struct Obj01075 *)p)->f540!=0) { B_BAG_MAIN_LoadItemGraphic(p,((struct Obj01075 *)p)->f540,6,6); B_BAG_MAIN_PlaceActor(((struct Obj01075 *)p)->f43C,(int)d_0220DB7C); } if(((struct Obj25036 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
+void B_BAG_MAIN_DisplaySingle(char *p) { if(*(unsigned short *)(p + 0x540)!=0) { B_BAG_MAIN_LoadItemGraphic(p,*(unsigned short *)(p + 0x540),6,6); B_BAG_MAIN_PlaceActor((int)((struct BagWork *)p)->itemActors[6],(int)d_0220DB7C); } if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
 
 
 
@@ -1639,13 +1482,13 @@ void B_BAG_MAIN_DisplayList(char *p)
             B_BAG_MAIN_LoadItemGraphic(p, item, i, i);
             B_BAG_MAIN_LoadItemPalette(p, item, i);
             B_BAG_MAIN_PlaceActor(*(int *)(p + i * 4 + 0x424), (int)&d_0220DB88[i]);
-            if (((struct Obj25037 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
-                B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair_0220C6E8 *)(&d_0220DB88[i + 6]));
+            if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
+                B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair *)(&d_0220DB88[i + 6]));
         }
     }
-    if (((struct Obj25038 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
-        B_BAG_MAIN_DrawItemRow(p, 55, ((struct Obj25039 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f14, ((struct Obj25040 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f15, (const struct Pair_0220C6E8 *)(&d_0220DB88[i + 6]));
-    if (((struct Obj25041 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 64, 16);
+    if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
+        B_BAG_MAIN_DrawItemRow(p, 55, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->count, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->maxCount, (const struct Pair *)(&d_0220DB88[i + 6]));
+    if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 64, 16);
 }
 
 
@@ -1657,19 +1500,19 @@ void B_BAG_MAIN_DisplayList(char *p)
  */
 void B_BAG_MAIN_DisplaySelected(char *p)
 {
-    u16 item = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct Obj01075 *)p)->f0 + ((struct Obj01075 *)p)->f533 * 2 + 0x30));
+    u16 item = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30));
     B_BAG_MAIN_LoadItemGraphic(p, item, 6, 6);
-    B_BAG_MAIN_PlaceActor(((struct Obj01075 *)p)->f43C, (int)&d_0220DB80[0]);
-    if (((struct Obj25042 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
-        B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair_0220C6E8 *)(&d_0220DB80[1]));
-    if (((struct Obj25043 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
+    B_BAG_MAIN_PlaceActor((int)((struct BagWork *)p)->itemActors[6], (int)&d_0220DB80[0]);
+    if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
+        B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair *)(&d_0220DB80[1]));
+    if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
 }
 
 
 
 
 
-void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct Obj00315 *)p)->f148,*(int *)&((struct Obj00315 *)p)->f420,((struct Obj00315 *)p)->f564,((struct Obj00315 *)p)->f588,((struct Obj00315 *)p)->f594);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00315 *)p)->f148,0);}
+void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct BagWork *)p)->toolActors,*(int *)&((struct BagWork *)p)->itemUnit,*(int *)(p + 0x564),*(int *)(p + 0x588),*(int *)(p + 0x594));B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors,0);}
 
 
 
@@ -1678,7 +1521,7 @@ void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((
 
 void B_BAG_MAIN_DeleteToolActors(char *a)
 {
-    B_APP_TOOL_DeleteActors((u8 *)(((struct Obj25044 *)a)->f148));
+    B_APP_TOOL_DeleteActors((u8 *)(((struct BagWork *)a)->toolActors));
 }
 
 
@@ -1688,8 +1531,8 @@ void B_BAG_MAIN_DeleteToolActors(char *a)
 
 void B_BAG_MAIN_CreateFingerCursor(char *a)
 {
-    ((struct Obj00315 *)a)->f14C = BTLV_FINGER_CURSOR_Create(*(int *)&((struct Obj00315 *)a)->f8, 9,
-                                         *(unsigned short *)(*(int *)&((struct Obj00315 *)a)->f0 + 0xc));
+    ((struct BagWork *)a)->fingerCursor = (void *)BTLV_FINGER_CURSOR_Create(*(int *)&((struct BagWork *)a)->palAnm, 9,
+                                         *(unsigned short *)(*(int *)&((struct BagWork *)a)->itemData + 0xc));
 }
 
 
@@ -1698,7 +1541,7 @@ void B_BAG_MAIN_CreateFingerCursor(char *a)
 
 void B_BAG_MAIN_DeleteFingerCursor(char *a)
 {
-    BTLV_FINGER_CURSOR_Delete(((struct Obj25045 *)a)->f14C);
+    BTLV_FINGER_CURSOR_Delete((int)((struct BagWork *)a)->fingerCursor);
 }
 
 
@@ -1707,7 +1550,7 @@ void B_BAG_MAIN_DeleteFingerCursor(char *a)
 
 void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 {
-    BTLV_FINGER_CURSOR_Start(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
+    BTLV_FINGER_CURSOR_Start((u32)((struct BagWork *)p)->fingerCursor, a, b, 2, 6, 0x14);
 }
 
 
@@ -1716,7 +1559,7 @@ void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
 {
-    BTLV_FINGER_CURSOR_DeleteActor(((struct Obj25047 *)a)->f14C);
+    BTLV_FINGER_CURSOR_DeleteActor((int)((struct BagWork *)a)->fingerCursor);
 }
 
 
@@ -1726,9 +1569,9 @@ void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
  * matching: pair aggregate copy emits two unsigned halfword transfers;
  *   explicit objects base keeps the first indexed address split correctly.
  */
-void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src)
+void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair *src)
 {
-    struct Pair_0220C6E8 v;
+    struct Pair v;
     u16 i;
     s8 left,right;
     void **objects=(void **)(p+0x424);
@@ -1792,7 +1635,7 @@ void B_BAG_MAIN_Create(u8 *arg)
     }
     if (*(int *)(*(u8 **)p + 8) != 1) {
         for (i = 0; i < 4; i++) {
-            func_0200829C((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)), (u16)i, (s16_0220C834 *)(*(u8 **)p + 0x30 + i * 2), (s16_0220C834 *)(*(u8 **)p + 0x38 + i * 2));
+            func_0200829C((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)), (u16)i, (s16 *)(*(u8 **)p + 0x30 + i * 2), (s16 *)(*(u8 **)p + 0x38 + i * 2));
         }
         *(u16 *)(p + 0x540) = func_020082B0((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
         p[0x542] = func_020082B4((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
@@ -1815,16 +1658,16 @@ extern int (*const d_0220DF40[])(char *);
 
 void B_BAG_MAIN_Main(void *task, char *p)
 {
-    if (((struct Obj25048 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) {
-        ((struct Obj25049 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f16 = 0;
-        ((struct Obj25050 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f18 = 0;
-        ((struct Obj00846 *)p)->f530 = 20;
+    if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->instant == 1) {
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = 0;
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemFlag = 0;
+        *(unsigned char *)(p + 0x530) = 20;
     }
-    if (((struct Obj00846 *)p)->f530 != 20) ((struct Obj00846 *)p)->f530 = d_0220DF40[*(u8 *)(p + 0x530)](p);
-    if (((struct Obj00846 *)p)->f530 == 20 && B_BAG_MAIN_StateExit(task, p) == 1) return;
-    TCBL_Main(*(struct Tcbl * *)&((struct Obj00846 *)p)->f4);
+    if (*(unsigned char *)(p + 0x530) != 20) *(unsigned char *)(p + 0x530) = d_0220DF40[*(u8 *)(p + 0x530)](p);
+    if (*(unsigned char *)(p + 0x530) == 20 && B_BAG_MAIN_StateExit(task, p) == 1) return;
+    TCBL_Main(*(struct Tcbl * *)&((struct BagWork *)p)->tcbl);
     B_BAG_MAIN_StepFrameAnim(p);
-    BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj00846 *)p)->f520);
+    BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct BagWork *)p)->frameMgr);
     B_BAG_MAIN_UpdateTool(p);
 }
 
@@ -1838,30 +1681,30 @@ int B_BAG_MAIN_StateInit(char *p)
 {
     d_04001050[0]=0;
     GXx_SetMasterBrightness_((u16 *)((unsigned)d_04001050+0x1c),-16);
-    ((struct Obj00736 *)p)->f4=TCBL_Create(((struct Obj25051 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,((struct Obj25052 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,1,4);
-    ((struct Obj00736 *)p)->f148=B_APP_TOOL_Create(((struct Obj25053 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
+    ((struct BagWork *)p)->tcbl=TCBL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,1,4);
+    ((struct BagWork *)p)->toolActors=B_APP_TOOL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     B_BAG_MAIN_InitBg(p);
     B_BAG_MAIN_LoadBgGraphics(p);
     B_BAG_MAIN_CreateText(p);
-    if(((struct Obj25054 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==2) B_BAG_MAIN_InitOtherPage(p);
+    if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_InitOtherPage(p);
     else B_BAG_MAIN_BuildPocketLists((u8 *)p);
     B_BAG_MAIN_InitWindows(p);
-    B_BAG_MAIN_DrawPage(p,((struct Obj00736 *)p)->f532);
+    B_BAG_MAIN_DrawPage(p,*(unsigned char *)(p + 0x532));
     B_BAG_MAIN_ShowWindows((u8 *)p);
     B_BAG_MAIN_InitFrames(p);
-    B_BAG_MAIN_LayoutFrames(p,((struct Obj00736 *)p)->f532);
+    B_BAG_MAIN_LayoutFrames(p,*(unsigned char *)(p + 0x532));
     B_BAG_MAIN_CreateItemGraphics(p);
-    B_BAG_MAIN_SetDisplayMode(p,((struct Obj00736 *)p)->f532);
-    if(**(u8 * *)&((struct Obj25055 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f2C==1) ((struct Obj00736 *)p)->f598=(void *)1;
-    else ((struct Obj00736 *)p)->f598=0;
-    B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00736 *)p)->f148,((struct Obj00736 *)p)->f598);
-    if(((struct Obj00736 *)p)->f532==0) B_BAG_MAIN_CreateCursor((u8 *)p,((struct Obj00736 *)p)->f532,((struct Obj00736 *)p)->f542);
-    else B_BAG_MAIN_CreateCursor((u8 *)p,((struct Obj00736 *)p)->f532,0);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj25057 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
-    PALANM_CopyHwPaletteToSlot(((struct Obj00736 *)p)->f8,3,224,32);
-    PALANM_RequestFade(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,BTLV_EFFECT_GetOwner());
-    if(((struct Obj25058 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==3) B_BAG_MAIN_ResetBgSlot(p,((struct Obj00736 *)p)->f532);
-    ((struct Obj00736 *)p)->f5A0=1;
+    B_BAG_MAIN_SetDisplayMode(p,*(unsigned char *)(p + 0x532));
+    if(**(u8 * *)&((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->dirtyPtr==1) *(void * *)(p + 0x598)=(void *)1;
+    else *(void * *)(p + 0x598)=0;
+    B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors,*(void * *)(p + 0x598));
+    if(*(unsigned char *)(p + 0x532)==0) B_BAG_MAIN_CreateCursor((u8 *)p,*(unsigned char *)(p + 0x532),*(unsigned char *)(p + 0x542));
+    else B_BAG_MAIN_CreateCursor((u8 *)p,*(unsigned char *)(p + 0x532),0);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    PALANM_CopyHwPaletteToSlot(((struct BagWork *)p)->palAnm,3,224,32);
+    PALANM_RequestFade(((struct BagWork *)p)->palAnm,10,65535,0,16,0,0,BTLV_EFFECT_GetOwner());
+    if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==3) B_BAG_MAIN_ResetBgSlot(p,*(unsigned char *)(p + 0x532));
+    *(int *)(p + 0x5A0)=1;
     return 2;
 }
 
@@ -1875,40 +1718,40 @@ int B_BAG_MAIN_StateInitOther(char *p)
 {
     d_04001050[0] = 0;
     GXx_SetMasterBrightness_((u16 *)((unsigned)d_04001050 + 0x1c), -16);
-    ((struct Obj01076 *)p)->f4 = TCBL_Create(((struct Obj25059 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC, ((struct Obj25060 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC, 1, 4);
-    ((struct Obj01076 *)p)->f148 = B_APP_TOOL_Create(((struct Obj25061 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
+    ((struct BagWork *)p)->tcbl = TCBL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 4);
+    ((struct BagWork *)p)->toolActors = B_APP_TOOL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     B_BAG_MAIN_InitBg(p);
     B_BAG_MAIN_LoadBgGraphics(p);
     B_BAG_MAIN_CreateText(p);
     B_BAG_MAIN_BuildOtherList(p);
-    B_BAG_MAIN_ResetBgSlot(p, ((struct Obj01076 *)p)->f532);
+    B_BAG_MAIN_ResetBgSlot(p, *(unsigned char *)(p + 0x532));
     B_BAG_MAIN_InitWindows(p);
-    B_BAG_MAIN_DrawPage(p, ((struct Obj01076 *)p)->f532);
+    B_BAG_MAIN_DrawPage(p, *(unsigned char *)(p + 0x532));
     B_BAG_MAIN_ShowWindows((u8 *)p);
     B_BAG_MAIN_InitFrames(p);
-    B_BAG_MAIN_LayoutFrames(p, ((struct Obj01076 *)p)->f532);
+    B_BAG_MAIN_LayoutFrames(p, *(unsigned char *)(p + 0x532));
     B_BAG_MAIN_CreateItemGraphics(p);
-    B_BAG_MAIN_SetDisplayMode(p, ((struct Obj01076 *)p)->f532);
-    if (**(u8 * *)&((struct Obj25062 *)(*(char * *)&((struct Obj01076 *)p)->f0))->f2C == 1) ((struct Obj01076 *)p)->f598 = (void *)1;
-    else ((struct Obj01076 *)p)->f598 = 0;
-    B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj01076 *)p)->f148, ((struct Obj01076 *)p)->f598);
-    B_BAG_MAIN_CreateCursor((u8 *)p, ((struct Obj01076 *)p)->f532, 0);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj25064 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
-    PALANM_CopyHwPaletteToSlot(((struct Obj01076 *)p)->f8, 3, 0xe0, 0x20);
-    PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
-    ((struct Obj01076 *)p)->f5A0 = 1;
+    B_BAG_MAIN_SetDisplayMode(p, *(unsigned char *)(p + 0x532));
+    if (**(u8 * *)&((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->dirtyPtr == 1) *(void * *)(p + 0x598) = (void *)1;
+    else *(void * *)(p + 0x598) = 0;
+    B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors, *(void * *)(p + 0x598));
+    B_BAG_MAIN_CreateCursor((u8 *)p, *(unsigned char *)(p + 0x532), 0);
+    GFL_NET_RestartWithDefaultTimeout(0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    PALANM_CopyHwPaletteToSlot(((struct BagWork *)p)->palAnm, 3, 0xe0, 0x20);
+    PALANM_RequestFade(((struct BagWork *)p)->palAnm, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
+    *(int *)(p + 0x5A0) = 1;
     return 2;
 }
 
 
 
 
-int B_BAG_MAIN_StateWaitPrintWipe(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj14547 *)p)->f18)==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj25065 *)(*(char * *)&((struct Obj14547 *)p)->f0))->fC);return 3;}return 2;}
+int B_BAG_MAIN_StateWaitPrintWipe(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct BagWork *)p)->printSys)==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);return 3;}return 2;}
 
 
 
 
-int B_BAG_MAIN_StateWipeEnd(char *p){if(WIPE_SYS_EndCheck()==1){if(((struct Obj25066 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==2)return 17;if(((struct Obj25067 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==1)return 5;if(((struct Obj25068 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==3)return 5;return 4;}return 3;}
+int B_BAG_MAIN_StateWipeEnd(char *p){if(WIPE_SYS_EndCheck()==1){if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2)return 17;if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==1)return 5;if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==3)return 5;return 4;}return 3;}
 
 
 
@@ -1916,21 +1759,21 @@ int B_BAG_MAIN_StateWipeEnd(char *p){if(WIPE_SYS_EndCheck()==1){if(((struct Obj2
 int B_BAG_MAIN_StateSelectPocket(char *p)
 {
     unsigned sel;
-    if (PALANM_GetFadeRequestBits(((struct Obj02244 *)p)->f8) != 0) goto done;
+    if (PALANM_GetFadeRequestBits(((struct BagWork *)p)->palAnm) != 0) goto done;
     if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
-    sel = CURSOR_MOVE_PollRepeatInput(((struct Obj02244 *)p)->f144);
+    sel = CURSOR_MOVE_PollRepeatInput(((struct BagWork *)p)->cursor);
     switch (sel) {
     case 0: case 1: case 2: case 3:
         B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-        ((struct Obj02244 *)p)->f533 = (u8)sel;
-        ((struct Obj02244 *)p)->f531 = 8;
+        *(unsigned char *)(p + 0x533) = (u8)sel;
+        *(unsigned char *)(p + 0x531) = 8;
         B_BAG_MAIN_StartFrameAnim(p, (u8)sel);
         return 0x10;
     case 4:
-        if (((struct Obj02244 *)p)->f540 != 0) {
+        if (*(unsigned short *)(p + 0x540) != 0) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            ((struct Obj02244 *)p)->f533 = ((struct Obj02244 *)p)->f542;
-            ((struct Obj02244 *)p)->f531 = 9;
+            *(unsigned char *)(p + 0x533) = *(unsigned char *)(p + 0x542);
+            *(unsigned char *)(p + 0x531) = 9;
             B_BAG_MAIN_SyncCursorToItem((u8 *)p);
             B_BAG_MAIN_StartFrameAnim(p, 0xd);
             return 0x10;
@@ -1938,14 +1781,14 @@ int B_BAG_MAIN_StateSelectPocket(char *p)
         break;
     case 5:
         B_BAG_MAIN_PlaySe((char **)p, 0x552);
-        ((struct Obj25069 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f16 = 0;
-        ((struct Obj25070 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f2A = 4;
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = 0;
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->slot = 4;
         B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x12;
     case (unsigned)-2:
         B_BAG_MAIN_PlaySe((char **)p, 0x552);
-        ((struct Obj25071 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f16 = 0;
-        ((struct Obj25072 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f2A = 4;
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = 0;
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->slot = 4;
         B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x12;
     case (unsigned)-4: case (unsigned)-3:
@@ -1965,15 +1808,15 @@ done:
 int B_BAG_MAIN_StateSelectItem(char *p)
 {
     unsigned sel;
-    if (PALANM_GetFadeRequestBits(((struct Obj00389 *)p)->f8) != 0) goto done;
+    if (PALANM_GetFadeRequestBits(((struct BagWork *)p)->palAnm) != 0) goto done;
     if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
-    sel = CURSOR_MOVE_PollRepeatInput(((struct Obj00389 *)p)->f144);
+    sel = CURSOR_MOVE_PollRepeatInput(((struct BagWork *)p)->cursor);
     switch (sel) {
     case 0: case 1: case 2: case 3: case 4: case 5:
         if (B_BAG_MAIN_GetSlotItem(p, sel) != 0) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = (u8)sel;
-            ((struct Obj00389 *)p)->f531 = 9;
+            *(u16 *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30) = (u8)sel;
+            *(unsigned char *)(p + 0x531) = 9;
             B_BAG_MAIN_StartFrameAnim(p, (u8)(sel + 4));
             return 0x10;
         }
@@ -1981,39 +1824,39 @@ int B_BAG_MAIN_StateSelectItem(char *p)
     case 6:
         B_BAG_MAIN_PlaySe((char **)p, 0x552);
         B_BAG_MAIN_StartFrameAnim(p, 0xa);
-        if (((struct Obj25073 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 1 || ((struct Obj25074 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 3) {
-            ((struct Obj25075 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f16 = 0;
-            ((struct Obj25076 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f2A = 4;
+        if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1 || ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 3) {
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = 0;
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->slot = 4;
             return 0x12;
         }
-        ((struct Obj00389 *)p)->f531 = 7;
+        *(unsigned char *)(p + 0x531) = 7;
         return 0x10;
     case (unsigned)-2:
         B_BAG_MAIN_PlaySe((char **)p, 0x552);
         B_BAG_MAIN_StartFrameAnim(p, 0xa);
-        if (((struct Obj25077 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 1 || ((struct Obj25078 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 3) {
-            ((struct Obj25079 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f16 = 0;
-            ((struct Obj25080 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f2A = 4;
+        if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1 || ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 3) {
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = 0;
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->slot = 4;
             return 0x12;
         }
-        ((struct Obj00389 *)p)->f531 = 7;
+        *(unsigned char *)(p + 0x531) = 7;
         return 0x10;
     case 7:
-        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
+        if (*(u8 *)(p + *(unsigned char *)(p + 0x533) + 0x539) != 0) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = 0;
-            ((struct Obj00389 *)p)->f531 = 0xb;
-            *(signed char *)&((struct Obj00389 *)p)->f534 = -1;
+            *(u16 *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30) = 0;
+            *(unsigned char *)(p + 0x531) = 0xb;
+            *(signed char *)&*(signed char *)(p + 0x534) = -1;
             B_BAG_MAIN_StartFrameAnim(p, 0xb);
             return 0x10;
         }
         break;
     case 8:
-        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
+        if (*(u8 *)(p + *(unsigned char *)(p + 0x533) + 0x539) != 0) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = 0;
-            ((struct Obj00389 *)p)->f531 = 0xb;
-            ((struct Obj00389 *)p)->f534 = 1;
+            *(u16 *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30) = 0;
+            *(unsigned char *)(p + 0x531) = 0xb;
+            *(signed char *)(p + 0x534) = 1;
             B_BAG_MAIN_StartFrameAnim(p, 0xc);
             return 0x10;
         }
@@ -2022,21 +1865,21 @@ int B_BAG_MAIN_StateSelectItem(char *p)
         B_BAG_MAIN_PlaySe((char **)p, 0x548);
         break;
     case (unsigned)-6:
-        CURSOR_MOVE_GetCurrent(((struct Obj00389 *)p)->f144);
-        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
+        CURSOR_MOVE_GetCurrent(((struct BagWork *)p)->cursor);
+        if (*(u8 *)(p + *(unsigned char *)(p + 0x533) + 0x539) != 0) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            ((struct Obj00389 *)p)->f531 = 0xb;
-            *(signed char *)&((struct Obj00389 *)p)->f534 = -1;
+            *(unsigned char *)(p + 0x531) = 0xb;
+            *(signed char *)&*(signed char *)(p + 0x534) = -1;
             B_BAG_MAIN_StartFrameAnim(p, 0xb);
             return 0x10;
         }
         break;
     case (unsigned)-5:
-        CURSOR_MOVE_GetCurrent(((struct Obj00389 *)p)->f144);
-        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
+        CURSOR_MOVE_GetCurrent(((struct BagWork *)p)->cursor);
+        if (*(u8 *)(p + *(unsigned char *)(p + 0x533) + 0x539) != 0) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            ((struct Obj00389 *)p)->f531 = 0xb;
-            ((struct Obj00389 *)p)->f534 = 1;
+            *(unsigned char *)(p + 0x531) = 0xb;
+            *(signed char *)(p + 0x534) = 1;
             B_BAG_MAIN_StartFrameAnim(p, 0xc);
             return 0x10;
         }
@@ -2056,11 +1899,11 @@ done:
  */
 int B_BAG_MAIN_StateChangeCount(char *p)
 {
-    unsigned index = ((struct Obj00314 *)p)->f533;
-    short *values = (short *)(*(char * *)&((struct Obj00314 *)p)->f0 + 0x38);
+    unsigned index = *(unsigned char *)(p + 0x533);
+    short *values = (short *)(*(char * *)&((struct BagWork *)p)->itemData + 0x38);
     s8 value = (s8)values[index];
     u8 maximum;
-    value += ((struct Obj00314 *)p)->f534;
+    value += *(signed char *)(p + 0x534);
     maximum = *(u8 *)(p + index + 0x539);
     if (value > maximum) value = 0;
     else if (value < 0) {
@@ -2077,7 +1920,7 @@ done:
 
 
 
-int B_BAG_MAIN_StateWaitPrintRedraw(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj10837 *)p)->f18)==1){B_BAG_MAIN_ShowWindows((unsigned char *)p);B_BAG_MAIN_SetDisplayMode(p,((struct Obj10837 *)p)->f532);B_BAG_MAIN_LayoutFrames(p,((struct Obj10837 *)p)->f532);return 5;}return 12;}
+int B_BAG_MAIN_StateWaitPrintRedraw(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct BagWork *)p)->printSys)==1){B_BAG_MAIN_ShowWindows((unsigned char *)p);B_BAG_MAIN_SetDisplayMode(p,*(unsigned char *)(p + 0x532));B_BAG_MAIN_LayoutFrames(p,*(unsigned char *)(p + 0x532));return 5;}return 12;}
 
 
 
@@ -2085,25 +1928,25 @@ int B_BAG_MAIN_StateWaitPrintRedraw(char *p){if(PRINTSYS_QUE_IsFinished(*(struct
 int B_BAG_MAIN_StateChooseItem(char *p)
 {
     if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
-    switch ((unsigned)CURSOR_MOVE_PollRepeatInput(((struct Obj02245 *)p)->f144)) {
+    switch ((unsigned)CURSOR_MOVE_PollRepeatInput(((struct BagWork *)p)->cursor)) {
     case 0:
         B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-        ((struct Obj25081 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16 = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct Obj02245 *)p)->f0 + ((struct Obj02245 *)p)->f533 * 2 + 0x30));
-        ((struct Obj25082 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f2A = ((struct Obj02245 *)p)->f533;
-        if (((struct Obj25083 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f8 == 1)
-            ((struct Obj25085 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = B_BAG_MAIN_GetItemFlag(((struct Obj25084 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16);
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30));
+        ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->slot = *(unsigned char *)(p + 0x533);
+        if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemFlag = B_BAG_MAIN_GetItemFlag(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId);
         else
-            ((struct Obj25086 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = 0;
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemFlag = 0;
         B_BAG_MAIN_StartFrameAnim(p, 0xd);
         return B_BAG_MAIN_StateShowMessage(p);
     case 1:
         B_BAG_MAIN_PlaySe((char **)p, 0x552);
-        ((struct Obj02245 *)p)->f531 = 8;
+        *(unsigned char *)(p + 0x531) = 8;
         B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x10;
     case (unsigned)-2:
         B_BAG_MAIN_PlaySe((char **)p, 0x552);
-        ((struct Obj02245 *)p)->f531 = 8;
+        *(unsigned char *)(p + 0x531) = 8;
         B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x10;
     case (unsigned)-4:
@@ -2236,22 +2079,22 @@ int B_BAG_MAIN_StateShowMessage(char *p)
 
 
 
-int B_BAG_MAIN_StateShowPocket0(char *p){B_BAG_MAIN_DrawPage(p,0);((struct Obj14548 *)p)->f532=0;((struct Obj14548 *)p)->f531=4;return 10;}
+int B_BAG_MAIN_StateShowPocket0(char *p){B_BAG_MAIN_DrawPage(p,0);*(unsigned char *)(p + 0x532)=0;*(unsigned char *)(p + 0x531)=4;return 10;}
 
 
 
 
-int B_BAG_MAIN_StateShowPocket1(char *p){B_BAG_MAIN_DrawPage(p,1);((struct Obj14549 *)p)->f532=1;((struct Obj14549 *)p)->f531=5;return 10;}
+int B_BAG_MAIN_StateShowPocket1(char *p){B_BAG_MAIN_DrawPage(p,1);*(unsigned char *)(p + 0x532)=1;*(unsigned char *)(p + 0x531)=5;return 10;}
 
 
 
 
-int B_BAG_MAIN_StateShowPocket2(char *p){B_BAG_MAIN_DrawPage(p,2);((struct Obj14550 *)p)->f532=2;((struct Obj14550 *)p)->f531=6;return 10;}
+int B_BAG_MAIN_StateShowPocket2(char *p){B_BAG_MAIN_DrawPage(p,2);*(unsigned char *)(p + 0x532)=2;*(unsigned char *)(p + 0x531)=6;return 10;}
 
 
 
 
-int B_BAG_MAIN_StateWaitPrintSetMode(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj10838 *)p)->f18)==1){B_BAG_MAIN_SwitchPage(p,((struct Obj10838 *)p)->f532);return ((struct Obj10838 *)p)->f531;}return 10;}
+int B_BAG_MAIN_StateWaitPrintSetMode(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct BagWork *)p)->printSys)==1){B_BAG_MAIN_SwitchPage(p,*(unsigned char *)(p + 0x532));return *(unsigned char *)(p + 0x531);}return 10;}
 
 
 
@@ -2259,7 +2102,7 @@ int B_BAG_MAIN_StateWaitPrintSetMode(char *p){if(PRINTSYS_QUE_IsFinished(*(struc
 
 int B_BAG_MAIN_StateStartMessage(char *a)
 {
-    BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj25087 *)a)->f24), 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)(((struct BagWork *)a)->itemMsgWin), 0);
     return 6;
 }
 
@@ -2268,22 +2111,22 @@ int B_BAG_MAIN_StateStartMessage(char *a)
 
 int B_BAG_MAIN_StateMessageInput(char *p)
 {
-    switch (PRINTSYS_PrintStreamGetState(*(struct Rec * *)&((struct Obj03346 *)p)->f1C)) {
+    switch (PRINTSYS_PrintStreamGetState(*(struct Rec * *)&((struct BagWork *)p)->printStream)) {
     case 0:
-        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetCont() & 3)) PRINTSYS_PrintStreamShortWait(*(struct Rec * *)&((struct Obj03346 *)p)->f1C, 0);
-        ((struct Obj03346 *)p)->f20 = 0;
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetCont() & 3)) PRINTSYS_PrintStreamShortWait(*(struct Rec * *)&((struct BagWork *)p)->printStream, 0);
+        ((struct BagWork *)p)->msgInputFlag = 0;
         break;
     case 1:
-        if (!((struct Obj03346 *)p)->f20 && (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3))) {
+        if (!((struct BagWork *)p)->msgInputFlag && (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3))) {
             B_BAG_MAIN_PlaySe2((char **)p, 0x547);
-            PRINTSYS_PrintStreamReleasePause(*(struct Rec * *)&((struct Obj03346 *)p)->f1C);
-            ((struct Obj03346 *)p)->f20 = 1;
+            PRINTSYS_PrintStreamReleasePause(*(struct Rec * *)&((struct BagWork *)p)->printStream);
+            ((struct BagWork *)p)->msgInputFlag = 1;
         }
         break;
     case 2:
-        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj03346 *)p)->f1C);
-        *(int *)&((struct Obj03346 *)p)->f1C = 0;
-        ((struct Obj03346 *)p)->f20 = 0;
+        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct BagWork *)p)->printStream);
+        *(int *)&((struct BagWork *)p)->printStream = 0;
+        ((struct BagWork *)p)->msgInputFlag = 0;
         return 15;
     }
     return 14;
@@ -2299,7 +2142,7 @@ int B_BAG_MAIN_StateMessageDone(char *p)
 {
     if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 18;
     if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() == 1)
-        return ((struct Obj25088 *)p)->f531;
+        return *(unsigned char *)(p + 0x531);
     return 15;
 }
 
@@ -2312,8 +2155,8 @@ int B_BAG_MAIN_StateMessageDone(char *p)
  */
 int B_BAG_MAIN_StateWaitKey(char *p)
 {
-    if (((struct Obj14551 *)p)->f527 == 0) {
-        return ((struct Obj14551 *)p)->f531;
+    if (((struct BagWork *)p)->animActive == 0) {
+        return *(unsigned char *)(p + 0x531);
     } else {
         return 16;
     }
@@ -2322,7 +2165,7 @@ int B_BAG_MAIN_StateWaitKey(char *p)
 
 
 
-int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
+int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct BagWork *)p)->palAnm,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
 
 
 
@@ -2330,7 +2173,7 @@ int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struc
 
 int B_BAG_MAIN_StateWaitFade(char *a)
 {
-    if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25090 *)a)->f8)) == 0)
+    if (PALANM_GetFadeRequestBits((const char *)(((struct BagWork *)a)->palAnm)) == 0)
         return 0x14;
     return 0x13;
 }
@@ -2343,31 +2186,31 @@ int B_BAG_MAIN_StateWaitFade(char *a)
  */
 int B_BAG_MAIN_StateExit(struct Node *task, char *p)
 {
-    if (((struct Obj00846 *)p)->f5A0 == 1) {
-        if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18) == 0) {
-            if (((struct Obj25091 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18);
+    if (*(int *)(p + 0x5A0) == 1) {
+        if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct BagWork *)p)->printSys) == 0) {
+            if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->instant == 1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct BagWork *)p)->printSys);
             else return 0;
         }
         if (WIPE_SYS_EndCheck() == 0) {
-            if (((struct Obj25092 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) WIPE_SYS_ExeEnd();
+            if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->instant == 1) WIPE_SYS_ExeEnd();
             else return 0;
         }
-        if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);
+        if (*(struct Rec3 * *)&((struct BagWork *)p)->printStream) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct BagWork *)p)->printStream);
         B_BAG_MAIN_DeleteFrames(p);
         B_BAG_MAIN_DeleteItemGraphics(p);
         B_BAG_MAIN_ExitWindows(p);
         B_BAG_MAIN_DeleteText(p);
         B_BAG_MAIN_ExitBg();
-        TCBL_Destroy(*(struct S02031140 * *)&((struct Obj00846 *)p)->f4);
+        TCBL_Destroy(*(struct S02031140 * *)&((struct BagWork *)p)->tcbl);
         B_BAG_MAIN_DeleteCursor((u8 *)p);
-        B_APP_TOOL_Delete(((struct Obj00846 *)p)->f148);
-        if (((struct Obj00846 *)p)->f598 == 1) {
-            **(u8 * *)&((struct Obj25093 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f2C = 1;
+        B_APP_TOOL_Delete(((struct BagWork *)p)->toolActors);
+        if (*(void * *)(p + 0x598) == (void *)1) {
+            **(u8 * *)&((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->dirtyPtr = 1;
         } else {
-            **(u8 * *)&((struct Obj25095 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f2C = 0;
+            **(u8 * *)&((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->dirtyPtr = 0;
         }
     }
-    ((struct Obj25097 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f19 = 1;
+    ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->done = 1;
     func_02030EAC(task);
     func_020307B0(p);
     return 1;
@@ -2378,55 +2221,55 @@ int B_BAG_MAIN_StateExit(struct Node *task, char *p)
 
 int B_BAG_MAIN_StateOtherFlow(char *p)
 {
-    switch (((struct Obj00688 *)p)->f53D) {
+    switch (*(unsigned char *)(p + 0x53D)) {
     case 0:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct BagWork *)p)->fingerCursor) == 1) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            ((struct Obj00688 *)p)->f533 = 2;
-            ((struct Obj00688 *)p)->f531 = 0x11;
+            *(unsigned char *)(p + 0x533) = 2;
+            *(unsigned char *)(p + 0x531) = 0x11;
             B_BAG_MAIN_StartFrameAnim(p, 2);
-            ++((struct Obj00688 *)p)->f53D;
+            ++*(unsigned char *)(p + 0x53D);
             return 0x10;
         }
         break;
     case 1:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct BagWork *)p)->fingerCursor) == 0) {
             B_BAG_MAIN_StateShowPocket1(p);
-            ++((struct Obj00688 *)p)->f53D;
-            ((struct Obj00688 *)p)->f531 = 0x11;
+            ++*(unsigned char *)(p + 0x53D);
+            *(unsigned char *)(p + 0x531) = 0x11;
             return 0xa;
         }
         break;
     case 2:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct BagWork *)p)->fingerCursor) == 1) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            *(u16 *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30) = 0;
-            ((struct Obj00688 *)p)->f531 = 0x11;
+            *(u16 *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30) = 0;
+            *(unsigned char *)(p + 0x531) = 0x11;
             B_BAG_MAIN_StartFrameAnim(p, 4);
-            ++((struct Obj00688 *)p)->f53D;
+            ++*(unsigned char *)(p + 0x53D);
             return 0x10;
         }
         break;
     case 3:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct BagWork *)p)->fingerCursor) == 0) {
             B_BAG_MAIN_StateShowPocket2(p);
-            ++((struct Obj00688 *)p)->f53D;
-            ((struct Obj00688 *)p)->f531 = 0x11;
+            ++*(unsigned char *)(p + 0x53D);
+            *(unsigned char *)(p + 0x531) = 0x11;
             return 0xa;
         }
         break;
     case 4:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct BagWork *)p)->fingerCursor) == 1) {
             B_BAG_MAIN_PlaySe((char **)p, 0x54d);
-            ((struct Obj25098 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f16 = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30));
-            ((struct Obj25099 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f2A = ((struct Obj00688 *)p)->f533;
-            ((struct Obj25100 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f18 = 0;
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemId = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30));
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->slot = *(unsigned char *)(p + 0x533);
+            ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->itemFlag = 0;
             B_BAG_MAIN_StartFrameAnim(p, 0xd);
-            ++((struct Obj00688 *)p)->f53D;
+            ++*(unsigned char *)(p + 0x53D);
         }
         break;
     case 5:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) return B_BAG_MAIN_StateShowMessage(p);
+        if (BTLV_FINGER_CURSOR_IsActive(((struct BagWork *)p)->fingerCursor) == 0) return B_BAG_MAIN_StateShowMessage(p);
         break;
     }
     return 0x11;
@@ -2444,8 +2287,8 @@ void B_BAG_MAIN_InitBg(char *p)
  b6=d_0220DF20;BG_SYS_InitBgLayer(6,&b6,0);
  b5=d_0220DF00;BG_SYS_InitBgLayer(5,&b5,0);BG_SYS_ClearSlot(5);
  b4=d_0220DEC0;BG_SYS_InitBgLayer(4,&b4,0);BG_SYS_ClearSlot(4);
- BG_SYS_InitRun(5,32,0,((struct Obj25101 *)(*(char * *)&((struct Obj14552 *)p)->f0))->fC);
- BG_SYS_InitRun(4,32,0,((struct Obj25102 *)(*(char * *)&((struct Obj14552 *)p)->f0))->fC);
+ BG_SYS_InitRun(5,32,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+ BG_SYS_InitRun(4,32,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
  func_02041B6C(5);func_02041B6C(4);BG_SYS_SetSubPlaneVisible(15,1);
 }
 
@@ -2467,21 +2310,21 @@ void B_BAG_MAIN_ExitBg(void)
 
 void B_BAG_MAIN_LoadBgGraphics(char *p)
 {
-    void *handle = func_020490F4(99,(u16)((((struct Obj25103 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC & 0x7fff) | 0x8000));
-    func_02049658(handle, 0, 6, 0, 0, 1, ((struct Obj25104 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
-    func_020498F4(handle, 3, 6, 0, 0, 1, ((struct Obj25105 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
-    func_020498F4(handle, 2, 7, 0, 0, 1, ((struct Obj25106 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
-    PALANM_LoadHandlePaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, (void *)((u32)handle), 1, ((struct Obj25107 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC, 1, 224, 0);
+    void *handle = func_020490F4(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId & 0x7fff) | 0x8000));
+    func_02049658(handle, 0, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    func_020498F4(handle, 3, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    func_020498F4(handle, 2, 7, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    PALANM_LoadHandlePaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, (void *)((u32)handle), 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 224, 0);
     ARC_TOOL_DeleteHandle(handle);
-    BMP_MENUWORK_LoadCharAndPltt(4, 1, 11, 0, ((struct Obj25108 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
-    PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, 1, 176, 32);
-    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, 23, 5, ((struct Obj25109 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC, 1, 32, 192);
+    BMP_MENUWORK_LoadCharAndPltt(4, 1, 11, 0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, 1, 176, 32);
+    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, 23, 5, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 32, 192);
 }
 
 
 
 
-void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct Obj03906 *)p)->fC=func_02045B38(0,2,17,((struct Obj25110 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);*(struct WordSet * *)&((struct Obj03906 *)p)->f10=GF_FONT_Create_EC64(((struct Obj25111 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);((struct Obj03906 *)p)->f18=PRINTSYS_QUE_Create((void *)((struct Obj25112 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);*(struct U16Vec * *)&((struct Obj03906 *)p)->f14=STRBUF_Create(512,((struct Obj25113 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);}
+void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=func_02045B38(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=GF_FONT_Create_EC64(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((void *)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=STRBUF_Create(512,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);}
 
 
 
@@ -2489,7 +2332,7 @@ void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct Obj03906 *)p)
 /*
  * Tail: two zero alignment bytes at 0x0220D7EE.
  */
-void B_BAG_MAIN_DeleteText(char *p){MSGDATA_Delete(((struct Obj08356 *)p)->fC);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj08356 *)p)->f10);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj08356 *)p)->f18);STRBUF_Delete(((struct Obj08356 *)p)->f14);}
+void B_BAG_MAIN_DeleteText(char *p){MSGDATA_Delete(((struct BagWork *)p)->msgBank);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct BagWork *)p)->wordSet);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct BagWork *)p)->printSys);STRBUF_Delete(((struct BagWork *)p)->strBuf);}
 
 
 
@@ -2526,9 +2369,9 @@ void B_BAG_MAIN_SwitchPage(char *p,int mode){B_BAG_MAIN_ResetBgSlot(p,mode);BG_S
 
 int B_BAG_MAIN_CheckCancel(char **p)
 {
-    if (((struct Obj25114 *)(*p))->f20 == 1) {
-        ((struct Obj25115 *)(*p))->f16 = 0;
-        ((struct Obj25116 *)(*p))->f18 = 0;
+    if (((struct BagMenu *)(*p))->cancel == 1) {
+        ((struct BagMenu *)(*p))->itemId = 0;
+        ((struct BagMenu *)(*p))->itemFlag = 0;
         return 1;
     }
     return 0;
@@ -2540,7 +2383,7 @@ int B_BAG_MAIN_CheckCancel(char **p)
 
 void B_BAG_MAIN_PlaySe(char **a, int b)
 {
-    if (((struct Obj25118 *)(*a))->f40 == 1)
+    if (((struct BagMenu *)(*a))->soundOn == 1)
         GFL_USE_PlaySeDefaultVolume(b);
 }
 
@@ -2550,7 +2393,7 @@ void B_BAG_MAIN_PlaySe(char **a, int b)
 
 void B_BAG_MAIN_PlaySe2(char **a, int b)
 {
-    if (((struct Obj25120 *)(*a))->f40 == 1)
+    if (((struct BagMenu *)(*a))->soundOn == 1)
         GFL_USE_PlaySeDefaultVolume(b);
 }
 
@@ -2559,9 +2402,9 @@ void B_BAG_MAIN_PlaySe2(char **a, int b)
 
 void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
 {
-    *(struct Struct_02025CD0 * *)&((struct Obj03347 *)p)->f144 = CURSOR_MOVE_Create(d_0220DF9C[index], d_0220DF90[index], (u32)p, ((struct Obj03347 *)p)->f598, (u8)value, ((struct Obj25121 *)(*(u8 * *)&((struct Obj03347 *)p)->f0))->fC);
-    CURSOR_MOVE_EnableInput(*(struct Struct_02025D1C * *)&((struct Obj03347 *)p)->f144);
-    CURSOR_MOVE_SetMode(*(struct Struct_02025D24 * *)&((struct Obj03347 *)p)->f144);
+    *(struct Struct_02025CD0 * *)&((struct BagWork *)p)->cursor = CURSOR_MOVE_Create(d_0220DF9C[index], d_0220DF90[index], (u32)p, (u32)*(void * *)(p + 0x598), (u8)value, ((struct BagMenu *)(*(u8 * *)&((struct BagWork *)p)->itemData))->heapId);
+    CURSOR_MOVE_EnableInput(*(struct Struct_02025D1C * *)&((struct BagWork *)p)->cursor);
+    CURSOR_MOVE_SetMode(*(struct Struct_02025D24 * *)&((struct BagWork *)p)->cursor);
     B_BAG_MAIN_LayoutCursor(p, value);
 }
 
@@ -2577,7 +2420,7 @@ void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
  */
 u32 B_BAG_MAIN_DeleteCursor(u8 *p)
 {
-    return CURSOR_MOVE_Delete((void *)(((struct Obj25122 *)p)->f144));
+    return CURSOR_MOVE_Delete((void *)(((struct BagWork *)p)->cursor));
 }
 
 
@@ -2588,12 +2431,12 @@ u32 B_BAG_MAIN_DeleteCursor(u8 *p)
  */
 void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value)
 {
-    switch (*(int *)&((struct Obj03347 *)p)->f598) {
+    switch (*(int *)&*(void * *)(p + 0x598)) {
     case 0: value = 0; break;
     default:
         switch (state) {
         case 0: value = p[0x533]; break;
-        case 1: value = *(s16_0220D924 *)(*(char * *)&((struct Obj03347 *)p)->f0 + p[0x533] * 2 + 0x30); break;
+        case 1: value = *(s16 *)(*(char * *)&((struct BagWork *)p)->itemData + p[0x533] * 2 + 0x30); break;
         case 2: value = 0; break;
         }
         break;
@@ -2608,8 +2451,8 @@ void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value)
 
 void B_BAG_MAIN_SetCursorVisible(char *a, int b)
 {
-    ((struct Obj06649 *)a)->f598 = b;
-    B_APP_TOOL_SetActorsVisible((char *)(*(int *)&((struct Obj06649 *)a)->f148), (void *)b);
+    *(void * *)(a + 0x598) = (void *)b;
+    B_APP_TOOL_SetActorsVisible((char *)(*(int *)&((struct BagWork *)a)->toolActors), (void *)b);
 }
 
 
@@ -2618,9 +2461,9 @@ void B_BAG_MAIN_SetCursorVisible(char *a, int b)
 
 void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
 {
-    void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct Obj06649 *)p)->f144, idx);
+    void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct BagWork *)p)->cursor, idx);
 
-    B_APP_TOOL_LayoutActors((int *)(((struct Obj06649 *)p)->f148), (u8 *)((u32)t));
+    B_APP_TOOL_LayoutActors((int *)(((struct BagWork *)p)->toolActors), (u8 *)((u32)t));
 }
 
 
@@ -2647,7 +2490,7 @@ void B_BAG_MAIN_LayoutCursorOnly(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);}
 void B_BAG_MAIN_HandleSelection(char *p, int b)
 {
     if ((unsigned int)(b - 7) <= 1) {
-        CURSOR_MOVE_SetCurrent((struct Sound *)(*(int *)&((struct Obj06649 *)p)->f144), 0);
+        CURSOR_MOVE_SetCurrent((struct Sound *)(*(int *)&((struct BagWork *)p)->cursor), 0);
         b = 0;
     }
     B_BAG_MAIN_LayoutCursor((u8 *)p, b);

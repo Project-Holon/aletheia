@@ -16,12 +16,12 @@
  *   FADE_Start 0x0204E720 arm
  *   func_021BB31C 0x021BB31C thumb ov225
  *   func_021BB308 0x021BB308 thumb ov225
- *   func_021BB6E0 0x021BB6E0 thumb ov225
- *   func_021BB844 0x021BB844 thumb ov225
- *   func_021BB7F4 0x021BB7F4 thumb ov225
+ *   MANUAL_CATEGORY_CreateList 0x021BB6E0 thumb ov225
+ *   MANUAL_CATEGORY_IsListFinished 0x021BB844 thumb ov225
+ *   MANUAL_CATEGORY_DeleteList 0x021BB7F4 thumb ov225
  *   func_021BB2B4 0x021BB2B4 thumb ov225
- *   func_021BBA64 0x021BBA64 thumb ov225
- *   func_021BBA14 0x021BBA14 thumb ov225
+ *   MANUAL_CATEGORY_IsDetailFinished 0x021BBA64 thumb ov225
+ *   MANUAL_CATEGORY_DeleteDetailList 0x021BBA14 thumb ov225
  *   func_021B9BEC 0x021B9BEC thumb ov225
  *   func_021B9BE0 0x021B9BE0 thumb ov225
  *   func_021B9C98 0x021B9C98 thumb ov225
@@ -30,10 +30,10 @@
  *   func_021B9C0C 0x021B9C0C thumb ov225
  *   func_021B9CC8 0x021B9CC8 thumb ov225
  *   func_021B9BF8 0x021B9BF8 thumb ov225
- *   func_021BBA74 0x021BBA74 thumb ov225
- *   func_021BBB0C 0x021BBB0C thumb ov225
- *   func_021BBAE8 0x021BBAE8 thumb ov225
- *   func_021BB854 0x021BB854 thumb ov225
+ *   MANUAL_CATEGORY_CreateOption 0x021BBA74 thumb ov225
+ *   MANUAL_CATEGORY_UpdateOption 0x021BBB0C thumb ov225
+ *   MANUAL_CATEGORY_DeleteOption 0x021BBAE8 thumb ov225
+ *   MANUAL_CATEGORY_CreateDetailList 0x021BB854 thumb ov225
  *   func_021B9E60 0x021B9E60 thumb ov225
  */
 #include "../include/Obj00100.h"
@@ -55,12 +55,12 @@ extern int FADE_IsActive(void);
 extern void FADE_Start(u32,int,int,int);
 extern int func_021BB31C(char *);
 extern void func_021BB308(char *);
-extern char *func_021BB6E0(char *,char *);
-extern int func_021BB844(char *);
-extern void func_021BB7F4(char *);
+extern char *MANUAL_CATEGORY_CreateList(char *,char *);
+extern int MANUAL_CATEGORY_IsListFinished(char *);
+extern void MANUAL_CATEGORY_DeleteList(char *);
 extern char *func_021BB2B4(char *,char *);
-extern int func_021BBA64(char *);
-extern void func_021BBA14(char *);
+extern int MANUAL_CATEGORY_IsDetailFinished(char *);
+extern void MANUAL_CATEGORY_DeleteDetailList(char *);
 extern u16 func_021B9BEC(char *,int);
 extern u16 func_021B9BE0(char *,int);
 extern int func_021B9C98(void *,int,int);
@@ -70,13 +70,13 @@ extern u16 func_021B9BC8(char *,int);
 extern u16 func_021B9C0C(char *,int,int);
 extern int func_021B9CC8(unsigned unused, unsigned key);
 extern u16 func_021B9BF8(char *,int,int);
-extern char *func_021BBA74(char *,char *);
-extern int func_021BBB0C(char *);
-extern void func_021BBAE8(char *p);
+extern char *MANUAL_CATEGORY_CreateOption(char *,char *);
+extern int MANUAL_CATEGORY_UpdateOption(char *);
+extern void MANUAL_CATEGORY_DeleteOption(char *p);
 struct Data;
 struct Owner;
 struct Q;
-extern struct Q *func_021BB854(struct Owner *p, struct Data *data);
+extern struct Q *MANUAL_CATEGORY_CreateDetailList(struct Owner *p, struct Data *data);
 extern void func_021B9E60(char *);
 int MANUAL_GRAPHIC_Main(void *a,u32 *state,void *unused,char *p)
 {
@@ -101,23 +101,23 @@ int MANUAL_GRAPHIC_Main(void *a,u32 *state,void *unused,char *p)
      if(((struct Obj00100 *)p)->f18==2) {
       ((struct Obj00100 *)p)->f10=1;
       ((struct Obj00100 *)p)->f20=0; ((struct Obj00100 *)p)->f22=0;
-      *(char * *)&((struct Obj00100 *)p)->f2C=func_021BB6E0(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8);
+      *(char * *)&((struct Obj00100 *)p)->f2C=MANUAL_CATEGORY_CreateList(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8);
      } else if(((struct Obj00100 *)p)->f18==3) {
       ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=1;
       ((struct Obj00100 *)p)->f34=done;
       ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
-      *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
+      *(char * *)&((struct Obj00100 *)p)->f44=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
      }
     }
    }
    break;
   case 1:
-   if(!func_021BB844(*(char * *)&((struct Obj00100 *)p)->f2C)) {
+   if(!MANUAL_CATEGORY_IsListFinished(*(char * *)&((struct Obj00100 *)p)->f2C)) {
    default:
 innerDone:
     break;
    } else {
-    func_021BB7F4(*(char * *)&((struct Obj00100 *)p)->f2C);
+    MANUAL_CATEGORY_DeleteList(*(char * *)&((struct Obj00100 *)p)->f2C);
     if(((struct Obj00100 *)p)->f24==0) {
      ((struct Obj00100 *)p)->f10=done;
      *(char * *)&((struct Obj00100 *)p)->f1C=func_021BB2B4(p+0x14,*(char * *)&((struct Obj00100 *)p)->f8);
@@ -125,15 +125,15 @@ innerDone:
      ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=0;
      ((struct Obj00100 *)p)->f34=((struct Obj00100 *)p)->f28;
      ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
-     *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
+     *(char * *)&((struct Obj00100 *)p)->f44=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
     }
    }
    break;
   case 2:
-   if(func_021BBA64(*(char * *)&((struct Obj00100 *)p)->f44)) {
-    func_021BBA14(*(char * *)&((struct Obj00100 *)p)->f44);
+   if(MANUAL_CATEGORY_IsDetailFinished(*(char * *)&((struct Obj00100 *)p)->f44)) {
+    MANUAL_CATEGORY_DeleteDetailList(*(char * *)&((struct Obj00100 *)p)->f44);
     if(((struct Obj00100 *)p)->f3C==0) {
-     if(((struct Obj00100 *)p)->f30==0) { ((struct Obj00100 *)p)->f10=1; *(char * *)&((struct Obj00100 *)p)->f2C=func_021BB6E0(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8); }
+     if(((struct Obj00100 *)p)->f30==0) { ((struct Obj00100 *)p)->f10=1; *(char * *)&((struct Obj00100 *)p)->f2C=MANUAL_CATEGORY_CreateList(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8); }
      else if(((struct Obj00100 *)p)->f30==1) { ((struct Obj00100 *)p)->f10=done; *(char * *)&((struct Obj00100 *)p)->f1C=func_021BB2B4(p+0x14,*(char * *)&((struct Obj00100 *)p)->f8); }
     } else {
      ((struct Obj00100 *)p)->f10=3;
@@ -150,16 +150,16 @@ innerDone:
       *(u16 *)(p+i*4+0x4c)=item;
       *(u16 *)(p+i*4+0x4e)=func_021B9BF8(*(char * *)&((struct Obj26128 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id,i);
      }
-     *(char * *)&((struct Obj00100 *)p)->f74=func_021BBA74(p+0x48,*(char * *)&((struct Obj00100 *)p)->f8);
+     *(char * *)&((struct Obj00100 *)p)->f74=MANUAL_CATEGORY_CreateOption(p+0x48,*(char * *)&((struct Obj00100 *)p)->f8);
     }
    }
    break;
   case 3:
-   if(func_021BBB0C(*(char * *)&((struct Obj00100 *)p)->f74)) {
-    func_021BBAE8(((struct Obj00100 *)p)->f74);
+   if(MANUAL_CATEGORY_UpdateOption(*(char * *)&((struct Obj00100 *)p)->f74)) {
+    MANUAL_CATEGORY_DeleteOption(((struct Obj00100 *)p)->f74);
     if(((struct Obj00100 *)p)->f70==0) {
      ((struct Obj00100 *)p)->f10=2;
-     *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
+     *(char * *)&((struct Obj00100 *)p)->f44=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
     }
    }
    break;

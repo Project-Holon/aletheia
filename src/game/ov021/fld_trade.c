@@ -34,7 +34,7 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -156,7 +156,7 @@ extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int h
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0202F190(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecalcParam(void *mon);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -291,7 +291,7 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
     STRBUF_Delete((struct U16Vec *)str);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_OT_GENDER, data->otGender);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_LANGUAGE, data->language);
-    func_0202F190(mon, 1, (u32)GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
+    SAVE_EVENT_Write(mon, 1, (u32)GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
     FLD_TRADE_DumpPokemonParams((int)mon);
     POKE_TOOL_RecalcParam(mon);
 }

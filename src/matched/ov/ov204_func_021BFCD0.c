@@ -1,5 +1,5 @@
 /*
- * function: func_021BFCD0
+ * function: INTRO_PARTICLE_Delete
  * address:  0x021BFCD0
  * packet:   pkt_021BFCD0
  * region:   ov204
@@ -18,7 +18,7 @@ extern void PARTICLE_ExitManager(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BFCD0(char *a)
+void INTRO_PARTICLE_Delete(char *a)
 {
     PARTICLE_ExitManager();
     func_020307B0(a);

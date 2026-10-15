@@ -64,25 +64,6 @@
  *   d_021F5544 0x021F5544 data a4
  *   d_021F5550 0x021F5550 data a4
  */
-#include "../../matched/include/Obj10806.h"
-#include "../../matched/include/Obj00418.h"
-#include "../../matched/include/Obj03896.h"
-#include "../../matched/include/Obj02909.h"
-#include "../../matched/include/Obj01574.h"
-#include "../../matched/include/Obj08342.h"
-#include "../../matched/include/Obj10807.h"
-#include "../../matched/include/Obj05509.h"
-#include "../../matched/include/Obj24901.h"
-#include "../../matched/include/Obj03897.h"
-#include "../../matched/include/Obj14496.h"
-#include "../../matched/include/Obj24902.h"
-#include "../../matched/include/Obj24903.h"
-#include "../../matched/include/Obj14497.h"
-#include "../../matched/include/Obj02530.h"
-#include "../../matched/include/Obj10808.h"
-#include "../../matched/include/Obj14499.h"
-#include "../../matched/include/Obj14500.h"
-#include "../../matched/include/Obj14501.h"
 
 struct Actor;
 struct Cfg;
@@ -96,73 +77,99 @@ struct Strbuf;
 struct PrintSys;
 typedef unsigned char u8;
 
-typedef short s16_021F1D58;
-
-typedef s16_021F1D58 fx16;
-
 typedef unsigned short u16;
-
-typedef unsigned int u32_021F1D58;
-
-typedef signed int     s32;
-
-typedef unsigned int u32_021F1E28;
-
-typedef unsigned int u32_021F1F7C;
-
-typedef unsigned u32_021F1FB4;
 
 typedef unsigned int u32;
 
-typedef struct {u8 removedCount,addedCount;u16 removed[4],added[4];} Changes;
-
-typedef unsigned int u32_021F23B8;
+typedef signed int s32;
 
 typedef signed char s8;
 
-typedef signed short s16_021F23B8;
+typedef signed short s16;
+
+typedef short fx16;
+
+typedef struct {u8 removedCount,addedCount;u16 removed[4],added[4];} Changes;
 
 typedef struct {u8 count,pad;u16 values[4];} Group;
 
 typedef struct {int x,y;} Pair;
 
-typedef unsigned u32_021F26E0;
-
 typedef struct {int x,y,z,w;} Box;
 
 typedef int (*Conv)(Pair *, Pair *);
 
-extern s32 func_02061CA4(void *p, u32_021F1D58 a, u32_021F1D58 b, s32 size);
+/* The name-entry input field (the 0x94 block at work+0x68). */
+typedef struct NameinGraphicInputField {
+    unsigned short primary[11];    /* 0x00 primary text, up to maxLength code units */
+    unsigned short secondary[3];   /* 0x16 candidate text */
+    unsigned char pad_1C[2];
+    unsigned short primaryLength;  /* 0x1E */
+    unsigned short secondaryLength;/* 0x20 */
+    unsigned short maxLength;      /* 0x22 */
+    unsigned char pad_24[4];
+    int needsRefresh;              /* 0x28 */
+    void *win;                     /* 0x2C window handle */
+    unsigned char drawDone;        /* 0x30 */
+    unsigned char pad_31[3];
+    unsigned int textColor;        /* 0x34 */
+    void *printSys;                /* 0x38 */
+    void *strbuf;                  /* 0x3C scratch string buffer */
+    void *bmpWin;                  /* 0x40 bmp window */
+    void *actors[16];              /* 0x44 character actor handles */
+    void *charMember[3];           /* 0x84 character tables used as conversion tables */
+    void *pairMember;              /* 0x90 pair table */
+} NameinGraphicInputField;
+
+/* The kana/symbol picker embedded at the start of the grid. */
+typedef struct NameinGraphicPicker {
+    void *table;                   /* 0x00 grid table */
+    unsigned char map[13];         /* 0x04 mode map copied from d_021F555C */
+    unsigned char pad_11[3];
+    void *getBox;                  /* 0x14 int (*)(Pair *, Box *) */
+    void *move;                    /* 0x18 void (*)(int, int, char *) */
+    void *getValue;                /* 0x1C unsigned (*)(int *, int *) */
+    unsigned short width;          /* 0x20 */
+    unsigned short height;         /* 0x22 */
+} NameinGraphicPicker;
+
+/* The grid cell-tip window and its dirty flag (grid+0xEC). */
+typedef struct NameinGraphicTipTarget {
+    void *bmp;                     /* 0x00 */
+    signed char dirty;             /* 0x04 */
+} NameinGraphicTipTarget;
+
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
-extern u32_021F1E28 BMP_WIN_Create(u32_021F1E28 layer, u32_021F1E28 a, u32_021F1E28 b, u32_021F1E28 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32_021F1E28 index);
-extern struct U16Vec *STRBUF_Create(u32_021F1E28 capacity, u32_021F1E28 heapId);
+extern void func_020409B4(u32 index);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int NAMEIN_GRAPHIC_LoadCharMember(int a, int b);
 extern int NAMEIN_GRAPHIC_LoadPairMember(int a);
-extern void *NAMEIN_GRAPHIC_GetActor(u8 *p, u32_021F1E28 i);
+extern void *NAMEIN_GRAPHIC_GetActor(u8 *p, u32 i);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
-extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32_021F1E28 n);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32_021F1E28 v);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32_021F1E28 which);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32_021F1E28 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_StartActorAnim(struct Actor *a);
 extern void NAMEIN_GRAPHIC_FreePairMember(void *);
 extern void NAMEIN_GRAPHIC_FreeHandle(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32_021F1F7C BMP_WIN_Delete(struct Descriptor *d);
-extern void WORDSET_CopyString(const u16 *,u16 *,u32_021F1FB4);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void WORDSET_CopyString(const u16 *,u16 *,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32_021F1FB4 len);
-extern u32_021F1FB4 func_0201D304(struct StrObj *s, u32_021F1FB4 a, u32_021F1FB4 b);
-extern void PRINTSYS_PrintQueColor(void *owner, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, u32_021F1FB4 d, u32_021F1FB4 e, u16 f);
-extern void PRINTSYS_PrintQue(struct PrintSys *p, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, void *s, u32_021F1FB4 e);
-extern void CLACT_SetActorAnimFrame(struct Obj *p, u32_021F1FB4 value);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern unsigned int GX_GetBankForLCDC(void);
 extern u16 NAMEIN_GRAPHIC_FindTableIndex(const char *p, const u16 *b);
 extern int NAMEIN_GRAPHIC_PickTable8(int,int,u16 *,int,u8 *);
@@ -170,14 +177,14 @@ extern void NAMEIN_GRAPHIC_CopyTableEntries(const char *p, int i, u16 *dst, u32 
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern int NAMEIN_GRAPHIC_PickTableE(int,int,u16 *,int,u8 *);
 extern int NAMEIN_GRAPHIC_PickTable14(char *,int,u16 *,unsigned,u8 *);
-extern u32_021F23B8 NAMEIN_GRAPHIC_GetWord(const unsigned char *p, u32_021F23B8 i);
+extern u32 NAMEIN_GRAPHIC_GetWord(const unsigned char *p, u32 i);
 extern int NAMEIN_GRAPHIC_SymbolGetValue(Pair *,Pair *);
 extern unsigned NAMEIN_GRAPHIC_GetGridCell(unsigned char *,unsigned short,unsigned short);
 extern int NAMEIN_GRAPHIC_IsPointInRect(int *,int *);
-extern u32_021F26E0 func_0201D42C(struct StrObj *s, void *font);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern u16 NAMEIN_GRAPHIC_GetGridHeight(const u16 *p);
 extern u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p);
-int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32_021F1D58 step, u32_021F1D58 row, u8 idx, u16 a, u16 b);
+int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
 void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f);
 void NAMEIN_GRAPHIC_DeleteInputField(u8 *p);
 int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
@@ -193,11 +200,11 @@ void NAMEIN_GRAPHIC_CommitSecondary(char *p);
 void NAMEIN_GRAPHIC_ClearPrimary(u8 *p);
 void NAMEIN_GRAPHIC_AppendString(char *p,const u16 *q);
 int NAMEIN_GRAPHIC_IsFieldFull(char *p);
-u32_021F23B8 NAMEIN_GRAPHIC_GetLength(const u8 *p);
-u32_021F23B8 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
+u32 NAMEIN_GRAPHIC_GetLength(const u8 *p);
+u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
 int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction);
 int NAMEIN_GRAPHIC_HasNonSpace(u8 *p);
-void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32_021F23B8 a4);
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 a4);
 void NAMEIN_GRAPHIC_LoadGrid(int *a, int b, int c);
 void NAMEIN_GRAPHIC_ClearPicker(void *p);
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out);
@@ -229,11 +236,11 @@ static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1)
 /*
  * note 2026-10-05 (wD9r lane18): closed by the NitroSDK FX_CosIdx inline for the table read
  *   (earlier drafts wrote the raw tbl[(*phase >> 4) * 2 + 1] expression) and the ov105 021B8734
- *   lerp body (u8 r, g, blue; int dr, dg, db) with g before the cosine and an s16_021F1D58 t.
+ *   lerp body (u8 r, g, blue; int dr, dg, db) with g before the cosine and an s16 t.
  */
-int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32_021F1D58 step, u32_021F1D58 row, u8 idx, u16 a, u16 b)
+int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
 {
-    u8 r, g, blue; int dr, dg, db; s16_021F1D58 t;
+    u8 r, g, blue; int dr, dg, db; s16 t;
     int ph = *phase + step;
     if (ph >= 0x10000) *phase = ph - 0x10000;
     else *phase = ph;
@@ -245,7 +252,7 @@ int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32_021F1D58 step, u32_02
     dr = ((u8)(b & 31) - r) * t >> 12;
     dg = ((u8)((b & 0x3E0) >> 5) - g) * t >> 12;
     *out = (u8)(r + dr) | ((u8)(g + dg) << 5) | ((u8)(blue + db) << 10);
-    func_02061CA4((void *)0xF, row * 32 + idx * 2, (u32_021F1D58)out, 2);
+    func_02061CA4((void *)0xF, row * 32 + idx * 2, (u32)out, 2);
     return *out == b;
 }
 
@@ -312,7 +319,7 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
 
 
 
-void NAMEIN_GRAPHIC_DeleteInputField(u8 *p) { int i;NAMEIN_GRAPHIC_FreePairMember(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)NAMEIN_GRAPHIC_FreeHandle(*(void **)((u32_021F1F7C)p+(u32_021F1F7C)i*4+132));STRBUF_Delete(((struct Obj10806 *)p)->f3C);BMP_WIN_Delete((struct Descriptor *)(((struct Obj10806 *)p)->f40));MI_CpuFill8(p,0,148); }
+void NAMEIN_GRAPHIC_DeleteInputField(u8 *p) { int i;NAMEIN_GRAPHIC_FreePairMember(((NameinGraphicInputField *)p)->pairMember);for(i=0;i<3;i++)NAMEIN_GRAPHIC_FreeHandle(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((NameinGraphicInputField *)p)->strbuf);BMP_WIN_Delete((struct Descriptor *)(((NameinGraphicInputField *)p)->bmpWin));MI_CpuFill8(p,0,148); }
 
 
 
@@ -326,26 +333,26 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
  u16 pair[2];
  int i,x;
  void *window;
- if(((struct Obj00418 *)p)->f28){
-  if(((struct Obj00418 *)p)->f1E)WORDSET_CopyString((u16 *)p,table,((struct Obj00418 *)p)->f1E+1);
-  if(((struct Obj00418 *)p)->f20)WORDSET_CopyString((u16 *)(p+0x16),table+((struct Obj00418 *)p)->f1E,((struct Obj00418 *)p)->f20+1);
-  if(((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20>0){
-   BMP_Clear(BMP_WIN_GetBmp(((struct Obj00418 *)p)->f40),0);
-   for(i=0;i<((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20;i++){
+ if(((NameinGraphicInputField *)p)->needsRefresh){
+  if(((NameinGraphicInputField *)p)->primaryLength)WORDSET_CopyString((u16 *)p,table,((NameinGraphicInputField *)p)->primaryLength+1);
+  if(((NameinGraphicInputField *)p)->secondaryLength)WORDSET_CopyString((u16 *)(p+0x16),table+((NameinGraphicInputField *)p)->primaryLength,((NameinGraphicInputField *)p)->secondaryLength+1);
+  if(((NameinGraphicInputField *)p)->primaryLength+((NameinGraphicInputField *)p)->secondaryLength>0){
+   BMP_Clear(BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->bmpWin),0);
+   for(i=0;i<((NameinGraphicInputField *)p)->primaryLength+((NameinGraphicInputField *)p)->secondaryLength;i++){
     pair[0]=table[i];pair[1]=STRBUF_GetEosChar();
-    STRBUF_SetStringN(((struct Obj00418 *)p)->f3C,pair,2);
-    x=64-(((struct Obj00418 *)p)->f22*14)/2;if(x<0)x=0;
+    STRBUF_SetStringN(((NameinGraphicInputField *)p)->strbuf,pair,2);
+    x=64-(((NameinGraphicInputField *)p)->maxLength*14)/2;if(x<0)x=0;
     x+=i*14+7;
-    x-=func_0201D304(((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34,0)/2;
-    if(i>=((struct Obj00418 *)p)->f1E){window=((struct Obj00418 *)p)->f38;PRINTSYS_PrintQueColor(window,(u32_021F1FB4)BMP_WIN_GetBmp(((struct Obj00418 *)p)->f2C),(short)x,0,(u32_021F1FB4)(((struct Obj00418 *)p)->f3C),((struct Obj00418 *)p)->f34,0xc80);}
-    else {window=((struct Obj00418 *)p)->f38;PRINTSYS_PrintQue(window,(u32_021F1FB4)BMP_WIN_GetBmp(((struct Obj00418 *)p)->f2C),(short)x,0,((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34);}
+    x-=func_0201D304(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor,0)/2;
+    if(i>=((NameinGraphicInputField *)p)->primaryLength){window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQueColor(window,(u32)BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,(u32)(((NameinGraphicInputField *)p)->strbuf),((NameinGraphicInputField *)p)->textColor,0xc80);}
+    else {window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor);}
     p[0x30]=1;
    }
   }else{
-   BMP_Clear(BMP_WIN_GetBmp(((struct Obj00418 *)p)->f40),0);
-   BMP_WIN_TransferChars(((struct Obj00418 *)p)->f40);
+   BMP_Clear(BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->bmpWin),0);
+   BMP_WIN_TransferChars(((NameinGraphicInputField *)p)->bmpWin);
   }
-  for(i=0;i<((struct Obj00418 *)p)->f22;i++){
+  for(i=0;i<((NameinGraphicInputField *)p)->maxLength;i++){
    CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
    CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x44),1);
    CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x44),1);
@@ -355,9 +362,9 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
    CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x44),1);
    CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x44),0);
   }
-  for(i=0;i<=((struct Obj00418 *)p)->f1E && i<((struct Obj00418 *)p)->f22;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x44),1);
-  CLACT_SetActorAnimSeq(*(void **)(p+0x44+((struct Obj00418 *)p)->f1E*4),0);
-  ((struct Obj00418 *)p)->f28=0;
+  for(i=0;i<=((NameinGraphicInputField *)p)->primaryLength && i<((NameinGraphicInputField *)p)->maxLength;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x44),1);
+  CLACT_SetActorAnimSeq(*(void **)(p+0x44+((NameinGraphicInputField *)p)->primaryLength*4),0);
+  ((NameinGraphicInputField *)p)->needsRefresh=0;
  }
  return NAMEIN_GRAPHIC_IsFieldDrawDone(p);
 }
@@ -368,18 +375,18 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
 
 int NAMEIN_GRAPHIC_Backspace(unsigned char *p)
 {
-    if (((struct Obj03896 *)p)->f20 != 0) {
-        ((struct Obj03896 *)p)->f20 -= 1;
-        *(unsigned short *)(p + 0x16 + ((struct Obj03896 *)p)->f20 * 2) =
+    if (((NameinGraphicInputField *)p)->secondaryLength != 0) {
+        ((NameinGraphicInputField *)p)->secondaryLength -= 1;
+        *(unsigned short *)(p + 0x16 + ((NameinGraphicInputField *)p)->secondaryLength * 2) =
             STRBUF_GetEosChar();
-        ((struct Obj03896 *)p)->f28 = 1;
+        ((NameinGraphicInputField *)p)->needsRefresh = 1;
         return 1;
     }
-    if (((struct Obj03896 *)p)->f1E != 0) {
-        ((struct Obj03896 *)p)->f1E -= 1;
-        *(unsigned short *)(p + ((struct Obj03896 *)p)->f1E * 2) =
+    if (((NameinGraphicInputField *)p)->primaryLength != 0) {
+        ((NameinGraphicInputField *)p)->primaryLength -= 1;
+        *(unsigned short *)(p + ((NameinGraphicInputField *)p)->primaryLength * 2) =
             STRBUF_GetEosChar();
-        ((struct Obj03896 *)p)->f28 = 1;
+        ((NameinGraphicInputField *)p)->needsRefresh = 1;
         return 1;
     }
     return 0;
@@ -391,12 +398,12 @@ int NAMEIN_GRAPHIC_Backspace(unsigned char *p)
 
 int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
 {
-    if (((struct Obj02909 *)p)->f1E < ((struct Obj02909 *)p)->f22)
+    if (((NameinGraphicInputField *)p)->primaryLength < ((NameinGraphicInputField *)p)->maxLength)
     {
-        *(unsigned short *)(p + (((struct Obj02909 *)p)->f1E << 1)) = v;
-        ((struct Obj02909 *)p)->f1E += 1;
-        *(unsigned short *)(p + (((struct Obj02909 *)p)->f1E << 1)) = GX_GetBankForLCDC();
-        ((struct Obj02909 *)p)->f28 = 1;
+        *(unsigned short *)(p + (((NameinGraphicInputField *)p)->primaryLength << 1)) = v;
+        ((NameinGraphicInputField *)p)->primaryLength += 1;
+        *(unsigned short *)(p + (((NameinGraphicInputField *)p)->primaryLength << 1)) = GX_GetBankForLCDC();
+        ((NameinGraphicInputField *)p)->needsRefresh = 1;
         return 1;
     }
     return 0;
@@ -408,14 +415,14 @@ int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
 
 int NAMEIN_GRAPHIC_AppendCandidate(unsigned char *p, unsigned short a, u32 b)
 {
-    if (((struct Obj01574 *)p)->f1E < ((struct Obj01574 *)p)->f22 &&
-        ((struct Obj01574 *)p)->f20 < 3) {
-        *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) = a;
-        ((struct Obj01574 *)p)->f20 += 1;
-        *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) =
+    if (((NameinGraphicInputField *)p)->primaryLength < ((NameinGraphicInputField *)p)->maxLength &&
+        ((NameinGraphicInputField *)p)->secondaryLength < 3) {
+        *(unsigned short *)(p + 0x16 + ((NameinGraphicInputField *)p)->secondaryLength * 2) = a;
+        ((NameinGraphicInputField *)p)->secondaryLength += 1;
+        *(unsigned short *)(p + 0x16 + ((NameinGraphicInputField *)p)->secondaryLength * 2) =
             STRBUF_GetEosChar();
         NAMEIN_GRAPHIC_PickCandidate(p, b);
-        ((struct Obj01574 *)p)->f28 = 1;
+        ((NameinGraphicInputField *)p)->needsRefresh = 1;
         return 1;
     }
     return 0;
@@ -436,12 +443,12 @@ int NAMEIN_GRAPHIC_ApplyConversion(u8 *a,int b)
     int i;
     u16 *tab;
     switch(b) {
-    case 0: p=((struct Obj08342 *)a)->f84; break;
-    case 1: p=((struct Obj08342 *)a)->f88; break;
+    case 0: p=((NameinGraphicInputField *)a)->charMember[0]; break;
+    case 1: p=((NameinGraphicInputField *)a)->charMember[1]; break;
     default:return 0;
     }
-    if (((struct Obj08342 *)a)->f1E==0) goto fail;
-    v=NAMEIN_GRAPHIC_FindTableIndex(p,(u16 *)(a+(((struct Obj08342 *)a)->f1E-1)*2));
+    if (((NameinGraphicInputField *)a)->primaryLength==0) goto fail;
+    v=NAMEIN_GRAPHIC_FindTableIndex(p,(u16 *)(a+(((NameinGraphicInputField *)a)->primaryLength-1)*2));
     if(v==65535) goto fail;
     if(!NAMEIN_GRAPHIC_PickTable8((int)p,v,change.added,4,&change.addedCount)) goto fail;
     NAMEIN_GRAPHIC_CopyTableEntries(p,v,change.removed,4,&change.removedCount);
@@ -458,7 +465,7 @@ fail:
 
 
 
-int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((struct Obj10807 *)p)->f1E!=0 && NAMEIN_GRAPHIC_NextPairChar(*(char * *)&((struct Obj10807 *)p)->f90,(u16 *)((u32)p+(((struct Obj10807 *)p)->f1E-1)*2),&v)) { NAMEIN_GRAPHIC_Backspace((u8 *)p);NAMEIN_GRAPHIC_AppendChar(p,v);return 1; }return 0; }
+int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((NameinGraphicInputField *)p)->primaryLength!=0 && NAMEIN_GRAPHIC_NextPairChar(*(char * *)&((NameinGraphicInputField *)p)->pairMember,(u16 *)((u32)p+(((NameinGraphicInputField *)p)->primaryLength-1)*2),&v)) { NAMEIN_GRAPHIC_Backspace((u8 *)p);NAMEIN_GRAPHIC_AppendChar(p,v);return 1; }return 0; }
 
 
 
@@ -467,11 +474,11 @@ int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((struct Obj10807 *)p)->f1E!=0
 int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
 {
     int c = p[0x30];
-    int r4 = ((struct Obj05509 *)p)->f38;
+    int r4 = (int)((NameinGraphicInputField *)p)->printSys;
 
     if (c != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)r4, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj05509 *)p)->f2C))) == 0) {
-            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj05509 *)p)->f2C);
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)r4, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicInputField *)p)->win))) == 0) {
+            BMP_WIN_TransferChars((struct Descriptor *)((NameinGraphicInputField *)p)->win);
             p[0x30] = 0;
         }
     }
@@ -485,7 +492,7 @@ int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
 void NAMEIN_GRAPHIC_CopyToStrbuf(char *self, struct Strbuf *dst)
 {
     STRBUF_SetStringN(dst, (const u16 *)self,
-                 ((struct Obj24901 *)self)->f1E + 1);
+                 ((NameinGraphicInputField *)self)->primaryLength + 1);
 }
 
 
@@ -494,25 +501,25 @@ void NAMEIN_GRAPHIC_CopyToStrbuf(char *self, struct Strbuf *dst)
 
 void NAMEIN_GRAPHIC_ClearSecondary(char *p)
 {
-    if (((struct Obj03897 *)p)->f20 != 0)
+    if (((NameinGraphicInputField *)p)->secondaryLength != 0)
     {
         unsigned int v;
-        ((struct Obj03897 *)p)->f20 = 0;
+        ((NameinGraphicInputField *)p)->secondaryLength = 0;
         v = GX_GetBankForLCDC();
-        *(unsigned short *)(p + 0x16 + (((struct Obj03897 *)p)->f20 << 1)) = v;
-        ((struct Obj03897 *)p)->f28 = 1;
+        *(unsigned short *)(p + 0x16 + (((NameinGraphicInputField *)p)->secondaryLength << 1)) = v;
+        ((NameinGraphicInputField *)p)->needsRefresh = 1;
     }
 }
 
 
 
 
-void NAMEIN_GRAPHIC_CommitSecondary(char *p) { int i; for(i=0;i<((struct Obj02909 *)p)->f20;i++)NAMEIN_GRAPHIC_AppendChar(p,*(u16 *)((u32)p+(u32)i*2+22));((struct Obj02909 *)p)->f20=0;*(u16 *)((u32)p+((struct Obj02909 *)p)->f20*2+22)=STRBUF_GetEosChar();((struct Obj02909 *)p)->f28=1; }
+void NAMEIN_GRAPHIC_CommitSecondary(char *p) { int i; for(i=0;i<((NameinGraphicInputField *)p)->secondaryLength;i++)NAMEIN_GRAPHIC_AppendChar(p,*(u16 *)((u32)p+(u32)i*2+22));((NameinGraphicInputField *)p)->secondaryLength=0;*(u16 *)((u32)p+((NameinGraphicInputField *)p)->secondaryLength*2+22)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1; }
 
 
 
 
-void NAMEIN_GRAPHIC_ClearPrimary(u8 *p) {if(((struct Obj03897 *)p)->f1E) {((struct Obj03897 *)p)->f1E=0;*(u16 *)(p+((struct Obj03897 *)p)->f1E*2)=STRBUF_GetEosChar();((struct Obj03897 *)p)->f28=1;}NAMEIN_GRAPHIC_ClearSecondary((char *)p);}
+void NAMEIN_GRAPHIC_ClearPrimary(u8 *p) {if(((NameinGraphicInputField *)p)->primaryLength) {((NameinGraphicInputField *)p)->primaryLength=0;*(u16 *)(p+((NameinGraphicInputField *)p)->primaryLength*2)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1;}NAMEIN_GRAPHIC_ClearSecondary((char *)p);}
 
 
 
@@ -527,20 +534,20 @@ void NAMEIN_GRAPHIC_AppendString(char *p,const u16 *q) {while(*q!=STRBUF_GetEosC
 
 int NAMEIN_GRAPHIC_IsFieldFull(char *p)
 {
-    return ((struct Obj14496 *)p)->f1E == ((struct Obj14496 *)p)->f22;
+    return ((NameinGraphicInputField *)p)->primaryLength == ((NameinGraphicInputField *)p)->maxLength;
 }
 
 
 
 
 
-u32_021F23B8 NAMEIN_GRAPHIC_GetLength(const u8 *p) {return ((struct Obj24902 *)p)->f1E;}
+u32 NAMEIN_GRAPHIC_GetLength(const u8 *p) {return ((NameinGraphicInputField *)p)->primaryLength;}
 
 
 
 
 
-u32_021F23B8 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p) {return ((struct Obj24903 *)p)->f20;}
+u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p) {return ((NameinGraphicInputField *)p)->secondaryLength;}
 
 
 
@@ -556,20 +563,20 @@ int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction)
  int i,j;
  u16 index;
  pick=direction?NAMEIN_GRAPHIC_PickTableE:NAMEIN_GRAPHIC_PickTable8;
- for(i=0;i<((struct Obj01574 *)p)->f20;i++){
-  index=NAMEIN_GRAPHIC_FindTableIndex(((struct Obj01574 *)p)->f8C,(u16 *)(p+0x16+i*2));
+ for(i=0;i<((NameinGraphicInputField *)p)->secondaryLength;i++){
+  index=NAMEIN_GRAPHIC_FindTableIndex(((NameinGraphicInputField *)p)->charMember[2],(u16 *)(p+0x16+i*2));
   if(index==0xffff)continue;
   for(j=0;j<i;j++)NAMEIN_GRAPHIC_AppendChar((char *)p,*(u16 *)(p+0x16+j*2));
   for(j=0;j<i;j++)NAMEIN_GRAPHIC_Backspace(p);
-  if(pick(*(int *)&((struct Obj01574 *)p)->f8C,index,group.values,4,&group.count)){
+  if(pick(*(int *)&((NameinGraphicInputField *)p)->charMember[2],index,group.values,4,&group.count)){
    for(i=0;i<group.count;i++)NAMEIN_GRAPHIC_AppendChar((char *)p,*((u16 *)((char *)&group+2)+i));
-   NAMEIN_GRAPHIC_CopyTableEntries(((struct Obj01574 *)p)->f8C,index,group.values,4,&group.count);
+   NAMEIN_GRAPHIC_CopyTableEntries(((NameinGraphicInputField *)p)->charMember[2],index,group.values,4,&group.count);
    for(i=0;i<group.count;i++)NAMEIN_GRAPHIC_Backspace(p);
-   NAMEIN_GRAPHIC_PickTable14(*(char * *)&((struct Obj01574 *)p)->f8C,index,group.values,4,&group.count);
+   NAMEIN_GRAPHIC_PickTable14(*(char * *)&((NameinGraphicInputField *)p)->charMember[2],index,group.values,4,&group.count);
    for(i=0;i<group.count;i++){
-    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=*((u16 *)((char *)&group+2)+i);
-    ((struct Obj01574 *)p)->f20+=1;
-    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=STRBUF_GetEosChar();
+    *(u16 *)(p+0x16+((NameinGraphicInputField *)p)->secondaryLength*2)=*((u16 *)((char *)&group+2)+i);
+    ((NameinGraphicInputField *)p)->secondaryLength+=1;
+    *(u16 *)(p+0x16+((NameinGraphicInputField *)p)->secondaryLength*2)=STRBUF_GetEosChar();
    }
    return 1;
   }
@@ -581,22 +588,22 @@ int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction)
 
 
 
-int NAMEIN_GRAPHIC_HasNonSpace(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((struct Obj14497 *)p)->f1E;if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==32) spaces++;n=*(volatile u16 *)&((struct Obj14497 *)p)->f1E;i++;}return i!=spaces;}
+int NAMEIN_GRAPHIC_HasNonSpace(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==32) spaces++;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;i++;}return i!=spaces;}
 
 
 
 
 
-void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32_021F23B8 a4) {
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 a4) {
  int i;
- MI_CpuFill8(p,0,36);((struct Obj02530 *)p)->f0=(void *)NAMEIN_GRAPHIC_GetWord(table,index);
+ MI_CpuFill8(p,0,36);((NameinGraphicPicker *)p)->table=(void *)NAMEIN_GRAPHIC_GetWord(table,index);
  switch(mode) {
  case 3:
- ((struct Obj02530 *)p)->f20=11;((struct Obj02530 *)p)->f22=4;
- ((struct Obj02530 *)p)->f14=NAMEIN_GRAPHIC_SymbolGetBox;((struct Obj02530 *)p)->f18=NAMEIN_GRAPHIC_SymbolMove;((struct Obj02530 *)p)->f1C=NAMEIN_GRAPHIC_SymbolGetValue;break;
+ ((NameinGraphicPicker *)p)->width=11;((NameinGraphicPicker *)p)->height=4;
+ ((NameinGraphicPicker *)p)->getBox=NAMEIN_GRAPHIC_SymbolGetBox;((NameinGraphicPicker *)p)->move=NAMEIN_GRAPHIC_SymbolMove;((NameinGraphicPicker *)p)->getValue=NAMEIN_GRAPHIC_SymbolGetValue;break;
  case 0:case 1:case 2:
- ((struct Obj02530 *)p)->f20=13;((struct Obj02530 *)p)->f22=6;
- ((struct Obj02530 *)p)->f14=NAMEIN_GRAPHIC_KanaGetBox;((struct Obj02530 *)p)->f18=NAMEIN_GRAPHIC_KanaMove;((struct Obj02530 *)p)->f1C=NAMEIN_GRAPHIC_ComputeGridValue;break;
+ ((NameinGraphicPicker *)p)->width=13;((NameinGraphicPicker *)p)->height=6;
+ ((NameinGraphicPicker *)p)->getBox=NAMEIN_GRAPHIC_KanaGetBox;((NameinGraphicPicker *)p)->move=NAMEIN_GRAPHIC_KanaMove;((NameinGraphicPicker *)p)->getValue=NAMEIN_GRAPHIC_ComputeGridValue;break;
  }
  for(i=0;i<13;i++)*(unsigned char *)(p+4+i)=d_021F555C[i];
 }
@@ -625,7 +632,7 @@ unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out) {
  int xy[2]; unsigned result;
  result=((unsigned (*)(int *,int *))*(void **)(p+0x1C))(input,xy);
  if(result==1 || result==10 || result==11) {
-  if(out) *out=NAMEIN_GRAPHIC_GetGridCell(*(unsigned char * *)&((struct Obj10808 *)p)->f0,xy[0],xy[1]);
+  if(out) *out=NAMEIN_GRAPHIC_GetGridCell(*(unsigned char * *)&((NameinGraphicPicker *)p)->table,xy[0],xy[1]);
  } else if(result==9) {if(out) *out=32;}
  return result;
 }
@@ -636,8 +643,8 @@ unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out) {
 
 int NAMEIN_GRAPHIC_FindCellAtPoint(const char *p,int *point,Pair *out) {
  Pair xy; int rect[4];
- for(xy.y=0;xy.y<*(const unsigned short *)&((struct Obj14499 *)p)->f22;xy.y++) {
- for(xy.x=0;xy.x<*(const unsigned short *)&((struct Obj14499 *)p)->f20;xy.x++) {
+ for(xy.y=0;xy.y<*(const unsigned short *)&((NameinGraphicPicker *)p)->height;xy.y++) {
+ for(xy.x=0;xy.x<*(const unsigned short *)&((NameinGraphicPicker *)p)->width;xy.x++) {
  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(Pair *)&xy.x,(Box *)rect)) {
  rect[0]*=8;rect[1]*=8;rect[2]*=8;rect[3]*=8;
  if(NAMEIN_GRAPHIC_IsPointInRect(rect,point)) {*out=xy;return 1;}
@@ -665,8 +672,8 @@ void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u1
  u16 x,y;
  unsigned kind;
  text=STRBUF_Create(2,heap);
- for(xy.y=0;xy.y<NAMEIN_GRAPHIC_GetGridHeight(((struct Obj10808 *)p)->f0);xy.y++){
-  for(xy.x=0;xy.x<NAMEIN_GRAPHIC_GetGridWidth(((struct Obj10808 *)p)->f0);xy.x++){
+ for(xy.y=0;xy.y<NAMEIN_GRAPHIC_GetGridHeight(((NameinGraphicPicker *)p)->table);xy.y++){
+  for(xy.x=0;xy.x<NAMEIN_GRAPHIC_GetGridWidth(((NameinGraphicPicker *)p)->table);xy.x++){
    if(NAMEIN_GRAPHIC_PickerGetBox((char *)p, (Pair *)&xy, (Box *)&box)){
     kind=NAMEIN_GRAPHIC_PickerToChar(p,(int *)&xy,codes);
     if(kind==1 || kind==10 || kind==11){
@@ -675,9 +682,9 @@ void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u1
      box.x*=8;box.y*=8;box.z*=8;box.w*=8;
      x=box.x+(box.z-box.x)/2-24;
      y=box.y+(box.w-box.y)/2-40;
-     x-=(u16)(func_0201D304(text,(u32_021F26E0)font,0)/2);
+     x-=(u16)(func_0201D304(text,(u32)font,0)/2);
      y-=(u16)(func_0201D42C(text,font)/2);
-     PRINTSYS_PrintQue(window,(u32_021F26E0)BMP_WIN_GetBmp(((struct Obj14500 *)target)->f0),(short)(x-1),(short)y,text,(u32_021F26E0)font);
+     PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((NameinGraphicTipTarget *)target)->bmp),(short)(x-1),(short)y,text,(u32)font);
      target[4]=1;
     }
    }
@@ -697,8 +704,8 @@ int NAMEIN_GRAPHIC_PickerGetBox(char *a, Pair *b, Box *c)
 
 int NAMEIN_GRAPHIC_FindCellByValue(const char *p,int target,Pair *out) {
  Pair xy;
- for(xy.y=0;xy.y<=*(const unsigned short *)&((struct Obj14501 *)p)->f22;xy.y++)
- for(xy.x=0;xy.x<=*(const unsigned short *)&((struct Obj14501 *)p)->f20;xy.x++)
+ for(xy.y=0;xy.y<=*(const unsigned short *)&((NameinGraphicPicker *)p)->height;xy.y++)
+ for(xy.x=0;xy.x<=*(const unsigned short *)&((NameinGraphicPicker *)p)->width;xy.x++)
  if(((int (*)(int *,int *))*(void *const *)(p+0x1C))(&xy.x,0)==target) {*out=xy;return 1;}
  return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF4E8
+ * function: INTRO_MSG_DrawMenuList
  * address: 0x021BF4E8
  * packet: pkt_ov204_021BF4E8
  * region: ov204
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void MI_CpuFill8(void *, int, unsigned int);
 
-void func_021BF4E8(char *p)
+void INTRO_MSG_DrawMenuList(char *p)
 {
     char *block = p + 0x24;
     BMP_MENUWORK_DrawWindowBorder(((struct Obj10880 *)p)->f38, 0);

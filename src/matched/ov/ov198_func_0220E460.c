@@ -13,8 +13,8 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020275F8 0x020275F8 thumb
- *   func_02027610 0x02027610 thumb
+ *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
+ *   APP_ICON_GetMoveKindCellFileId 0x02027610 thumb
  */
 #include "../include/Obj00172.h"
 #include "../include/Obj25202.h"
@@ -31,8 +31,8 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern unsigned func_020275F8(unsigned);
-extern unsigned func_02027610(unsigned);
+extern unsigned APP_ICON_GetTypeCellFileId(unsigned);
+extern unsigned APP_ICON_GetMoveKindCellFileId(unsigned);
 void B_PLIST_DRAW_RegisterIconSet2(char *p)
 {
     void *owner;
@@ -41,8 +41,8 @@ void B_PLIST_DRAW_RegisterIconSet2(char *p)
     ((struct Obj00172 *)p)->f2518 = CLACT_RegisterPalette(owner, 33, 1, 160, ((struct Obj25203 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     ((struct Obj00172 *)p)->f2530 = CLACT_RegisterCellAnim(owner, 59, 62, ((struct Obj25204 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     for (i = 8; i <= 21; i++)
-        ((int *)(p + 0x24a4))[i] = CLACT_RegisterCharacter(owner, func_020275F8(0), 0, 1, ((struct Obj25205 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
-    ((struct Obj00172 *)p)->f24FC = CLACT_RegisterCharacter(owner, func_02027610(0), 0, 1, ((struct Obj25206 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
-    ((struct Obj00172 *)p)->f2500 = CLACT_RegisterCharacter(owner, func_02027610(0), 0, 1, ((struct Obj25207 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+        ((int *)(p + 0x24a4))[i] = CLACT_RegisterCharacter(owner, APP_ICON_GetTypeCellFileId(0), 0, 1, ((struct Obj25205 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    ((struct Obj00172 *)p)->f24FC = CLACT_RegisterCharacter(owner, APP_ICON_GetMoveKindCellFileId(0), 0, 1, ((struct Obj25206 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    ((struct Obj00172 *)p)->f2500 = CLACT_RegisterCharacter(owner, APP_ICON_GetMoveKindCellFileId(0), 0, 1, ((struct Obj25207 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     ARC_TOOL_DeleteHandle(owner);
 }

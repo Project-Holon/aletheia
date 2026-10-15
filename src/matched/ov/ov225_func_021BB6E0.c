@@ -1,5 +1,5 @@
 /*
- * function: func_021BB6E0
+ * function: MANUAL_CATEGORY_CreateList
  * address: 0x021BB6E0
  * packet: pkt_ov225_021BB6E0
  * status: EXACT
@@ -19,8 +19,8 @@
  *   func_021B9C58 0x021B9C58 thumb ov225
  *   func_021B9C28 0x021B9C28 thumb ov225
  *   func_021BA65C 0x021BA65C thumb ov225
- *   func_021BB850 0x021BB850 thumb ov225
- *   d_021BC048 0x021BC048 data a4
+ *   MANUAL_CATEGORY_TaskNoop 0x021BB850 thumb ov225
+ *   gManualCategoryListAllocFile 0x021BC048 data a4
  */
 #include "../include/Obj00637.h"
 #include "../include/Obj14810.h"
@@ -45,14 +45,14 @@ extern int func_021B9C58(void *,int,void *);
 extern u16 func_021B9C28(char *,int);
 struct Data;
 extern void *func_021BA65C(char *owner, struct Data *data);
-extern void func_021BB850(void);
-extern const char d_021BC048[];
-char *func_021BB6E0(char *p,char *data)
+extern void MANUAL_CATEGORY_TaskNoop(void);
+extern const char gManualCategoryListAllocFile[];
+char *MANUAL_CATEGORY_CreateList(char *p,char *data)
 {
     char *q;
     u16 groups,items;
     u16 i,j,valid;
-    q=func_02030734(((struct Obj14810 *)data)->f4,0x24,1,d_021BC048,0x5c);
+    q=func_02030734(((struct Obj14810 *)data)->f4,0x24,1,gManualCategoryListAllocFile,0x5c);
     *(char * *)&((struct Obj00637 *)q)->f0=p;
     ((struct Obj26278 *)p)->f4=0;
     ((struct Obj26279 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f8=0;
@@ -60,7 +60,7 @@ char *func_021BB6E0(char *p,char *data)
     ((struct Obj00637 *)q)->f8=0;
     groups=func_021B9C50(*(char * *)&((struct Obj14810 *)data)->f2C);
     ((struct Obj00637 *)q)->fC=0;
-    *(char * *)&((struct Obj00637 *)q)->f10=func_02030734(((struct Obj26280 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f4,groups*8,1,d_021BC048,0x71);
+    *(char * *)&((struct Obj00637 *)q)->f10=func_02030734(((struct Obj26280 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f4,groups*8,1,gManualCategoryListAllocFile,0x71);
     for(i=0;i<groups;i++) {
         valid=0;
         items=func_021B9C34(*(char * *)&((struct Obj26281 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i);
@@ -80,6 +80,6 @@ char *func_021BB6E0(char *p,char *data)
     ((struct Obj00637 *)q)->f14=*(u16 *)*(char * *)&((struct Obj00637 *)q)->f0;
     ((struct Obj00637 *)q)->f16=((struct Obj26288 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f2;
     *(char * *)&((struct Obj00637 *)q)->f1C=func_021BA65C(q+8,(struct Data *)data);
-    ((struct Obj00637 *)q)->f20=func_020056A0((unsigned)func_021BB850,(unsigned)q,1);
+    ((struct Obj00637 *)q)->f20=func_020056A0((unsigned)MANUAL_CATEGORY_TaskNoop,(unsigned)q,1);
     return q;
 }

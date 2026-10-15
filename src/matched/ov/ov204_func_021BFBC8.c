@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBC8
+ * function: INTRO_G3D_SetAnimFrame
  * address: 0x021BFBC8
  * packet: pkt_ov204_021BFBC8
  * region: ov204
@@ -23,7 +23,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct AnmCtl;
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
-void func_021BFBC8(char *p,unsigned value)
+void INTRO_G3D_SetAnimFrame(char *p,unsigned value)
 {
     void *ctl;
     int frame;

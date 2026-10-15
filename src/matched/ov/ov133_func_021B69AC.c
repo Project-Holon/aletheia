@@ -1,5 +1,5 @@
 /*
- * function: func_021B69AC
+ * function: DUP_FITTING_InitDisplay
  * address: 0x021B69AC
  * packet: pkt_ov133_021B69AC
  * region: ov133
@@ -33,7 +33,7 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
- *   func_021B6E4C 0x021B6E4C thumb ov133
+ *   DUP_FITTING_InitBgLayer 0x021B6E4C thumb ov133
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -84,7 +84,7 @@ extern void func_0207DCF8(void *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetLowBit(u32);
-extern void func_021B6E4C(const void *t, unsigned int id);
+extern void DUP_FITTING_InitBgLayer(const void *t, unsigned int id);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -105,7 +105,7 @@ static inline void select_display(DispSelect sel)
 {
     *(volatile u16 *)0x04000304 = (u16)((*(volatile u16 *)0x04000304 & ~0x8000u) | (sel << 15));
 }
-void func_021B69AC(u8 *p)
+void DUP_FITTING_InitDisplay(u8 *p)
 {
     Config cfg, board;
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
@@ -126,9 +126,9 @@ void func_021B69AC(u8 *p)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BA428); BG_SYS_SetLowBit(1);
-    func_021B6E4C(d_021BA438,1); func_021B6E4C(d_021BA458,2);
-    func_021B6E4C(d_021BA478,3); func_021B6E4C(d_021BA4F8,7);
-    func_021B6E4C(d_021BA498,4); func_021B6E4C(d_021BA4B8,5); func_021B6E4C(d_021BA4D8,6);
+    DUP_FITTING_InitBgLayer(d_021BA438,1); DUP_FITTING_InitBgLayer(d_021BA458,2);
+    DUP_FITTING_InitBgLayer(d_021BA478,3); DUP_FITTING_InitBgLayer(d_021BA4F8,7);
+    DUP_FITTING_InitBgLayer(d_021BA498,4); DUP_FITTING_InitBgLayer(d_021BA4B8,5); DUP_FITTING_InitBgLayer(d_021BA4D8,6);
     func_02040588(0,1);
     func_0207D63C((void *)0x04001050,0,15,4,16);
     cfg = gClActorInitParam;

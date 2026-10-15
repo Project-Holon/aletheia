@@ -1038,19 +1038,19 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3)
 
 void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2)
 {
-    u8 *p;
+    IntrudeCommSys *sys;
     IntrudeZoneInfo *q;
     VecFx32 v;
     u16 s;
 
-    p = (u8 *)INTRUDE_COMM_GetWorkIfRunning((void *)ICA_ANIME_GetField24(a0));
-    if (p == 0 || !(p[0x8FB] & (1 << a2)))
+    sys = INTRUDE_COMM_GetWorkIfRunning((void *)ICA_ANIME_GetField24(a0));
+    if (sys == 0 || !(sys->peerMask & (1 << a2)))
         return 0;
-    q = INTRUDE_FIELD_FindZonePos(*(u16 *)(p + a2 * 0x1C + 0xA0));
+    q = INTRUDE_FIELD_FindZonePos(sys->peers[a2].zoneId);
     if (q == 0)
         return 0;
     s = q->townId;
-    v = *(VecFx32 *)(p + a2 * 0x1C + 0x90);
+    v = *(VecFx32 *)&sys->peers[a2].package.pos;
     v.z += 0x20000;
     return EVENT_MAPCHANGE_CreateWarpEvent(a0, (int)a1, s, (const int *)(&v), 0, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5FE8
+ * function: WIFILOGIN_MSG_CreateYesNo
  * address: 0x021D5FE8
  * packet: pkt_ov115_021D5FE8
  * region: ov115
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef struct { u8 a, b, c, d; u16 e; } Record;
 extern const Record d_021D6544;
 extern void *BMP_MENU_CreateYesNo(const Record *, u16, u8, u8, u16);
-void *func_021D5FE8(u8 *p, int mode, int n) {
+void *WIFILOGIN_MSG_CreateYesNo(u8 *p, int mode, int n) {
     Record r = d_021D6544;
     r.e = ((struct Obj13854 *)p)->f0;
     switch (mode) {

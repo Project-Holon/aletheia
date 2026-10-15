@@ -1,5 +1,5 @@
 /*
- * function: func_0217B368
+ * function: BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult
  * address:  0x0217B368
  * packet:   pkt_0217B368
  * region:   ov176
@@ -23,7 +23,7 @@
 
 extern int func_021E8A90(int **p);
 
-int func_0217B368(int *p)
+int BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult(int *p)
 {
     if (func_021E8A90((int **)(((struct Obj14357 *)p)->f0)))
         return ((struct Obj14357 *)p)->f10;

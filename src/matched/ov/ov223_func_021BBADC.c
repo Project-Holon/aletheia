@@ -1,5 +1,5 @@
 /*
- * function: func_021BBADC
+ * function: PSEL_GRAPHIC_StateFadeIn
  * address: 0x021BBADC
  * packet: pkt_ov223_021BBADC
  * region: ov223
@@ -9,20 +9,20 @@
  * status: EXACT*
  * Trailing BB26 halfword is zero alignment padding.
  * symbols:
- *   func_021B9914 0x021B9914 thumb ov223
+ *   PSEL_UpdateListAnime 0x021B9914 thumb ov223
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  * The original visibly supplies the frame in r1 to 9914 even though its
  * full body reads only its entry r0; preserve that caller input.
  */
 #include "../include/Obj01594.h"
-extern void func_021B9914(char *p);
+extern void PSEL_UpdateListAnime(char *p);
 extern void FADE_Start(unsigned, int, int, int);
 extern int FADE_IsActive(void);
-int func_021BBADC(char *p, int *state)
+int PSEL_GRAPHIC_StateFadeIn(char *p, int *state)
 {
     if (*(unsigned *)&((struct Obj01594 *)p)->f10 >= 1)
-        func_021B9914(p);
+        PSEL_UpdateListAnime(p);
     switch (*state) {
     case 0:
         FADE_Start(3, 16, 0, 0);

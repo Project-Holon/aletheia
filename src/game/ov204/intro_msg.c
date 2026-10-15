@@ -1,7 +1,7 @@
 /*
  * file:     intro_msg.c
  * unit:     yes
- * function: func_021BF0A0, func_021BF1A4, func_021BF204, func_021BF228, func_021BF23C, func_021BF2D4, func_021BF2E0, func_021BF2F4, func_021BF374, func_021BF384, func_021BF4E8, func_021BF528, func_021BF538, func_021BF55C, func_021BF560, func_021BF580
+ * function: INTRO_MSG_Create, INTRO_MSG_Delete, INTRO_MSG_SetMsgBank, INTRO_MSG_Main, INTRO_MSG_PrintText, INTRO_MSG_DrawWindowBorder, INTRO_MSG_GetPrintState, INTRO_MSG_UpdatePrint, INTRO_MSG_InitMenuDesc, INTRO_MSG_CreateMenuList, INTRO_MSG_DrawMenuList, INTRO_MSG_MainMenuList, INTRO_MSG_GetMenuChoice, INTRO_MSG_GetWordSet, INTRO_MSG_StartTimeIcon, INTRO_MSG_DeleteTimeIcon
  * address:  0x021BF0A0
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   site 0x021C0AE4 data a1
+ *   gIntroSite 0x021C0AE4 data a1
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
@@ -34,7 +34,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   TIME_ICON_Alloc 0x0202EF60 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -76,23 +76,7 @@
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
-#include "../../matched/include/Obj01008.h"
-#include "../../matched/include/Obj01292.h"
-#include "../../matched/include/Obj08384.h"
-#include "../../matched/include/Obj14621.h"
-#include "../../matched/include/Obj02540.h"
-#include "../../matched/include/Obj25385.h"
-#include "../../matched/include/Obj25386.h"
-#include "../../matched/include/Obj03358.h"
-#include "../../matched/include/Obj14622.h"
-#include "../../matched/include/Obj10880.h"
-#include "../../matched/include/Obj14623.h"
-#include "../../matched/include/Obj14624.h"
-#include "../../matched/include/Obj25387.h"
-#include "../../matched/include/Obj25389.h"
-#include "../../matched/include/Obj14625.h"
-#include "intro_cmd_shared_types.h"
-#include "intro_msg_shared_types.h"
+#include "intro_types.h"
 
 struct Cfg;
 
@@ -118,19 +102,60 @@ struct Ctx;
 
 struct Src;
 
-typedef struct {
-    void *arr,*b,*c,*obj;
-    u16 count,rows;
-    u8 f14,f15,f16;
-    u8 f17lo:4,f17hi:4;
-    u8 f18lo:4,f18hi:4;
-    u8 f19;
-    u16 f1Alo:3,f1Amid:4,f1Apad:2,f1Amid2:6,f1Atop:1;
-    u32 f1c;
-    u16 f20,f22;
-    u32 f24;
-    void *f28,*f2c,*f30;
-} Config;
+/*
+ * The menu template handed to BMP_MENULIST_Create. Field names follow the
+ * arm9 BmpMenuList record (arm9/bmp_menulist.c), which sees this 0x34-byte
+ * block as 13 words.
+ */
+typedef struct IntroMsgMenuTemplate {
+    void *items;
+    void *onCursor;
+    void *drawHook;
+    void *win;
+    u16 count;
+    u16 rows;
+    u8 sepX;
+    u8 itemX;
+    u8 cursorX;
+    u8 originY:4, letterColor:4;
+    u8 bgColor:4, shadowColor:4;
+    u8 unused19;
+    u16 mode3:3, lineGap:4, pageKeys:2, mode6:6, cursorOff:1;
+    u32 userData;
+    u16 cursorW;
+    u16 rowH;
+    u32 pad24;
+    void *target;
+    void *printer;
+    void *textParam;
+} IntroMsgMenuTemplate;
+
+/*
+ * The intro message work (0x48 allocated). Created by INTRO_MSG_Create,
+ * freed by INTRO_MSG_Delete.
+ */
+typedef struct IntroMsgWork {
+    unsigned short heapId;   /* 0x00 */
+    unsigned char pad_2[2];
+    void *printSys;          /* 0x04: PRINTSYS_QUE_Create result */
+    void *wordSet;           /* 0x08: GF_FONT_Create_EC64 result */
+    void *msgBank;           /* 0x0C: func_02045B38 result */
+    void *font;              /* 0x10: GF_FONT_Create result */
+    void *printStream;       /* 0x14: PRINTSYS_PrintStream result */
+    void *tcbl;              /* 0x18: TCBL_Create result */
+    void *textWin;           /* 0x1C: BMP_WIN_Create result (text window) */
+    void *keyCursor;         /* 0x20: APP_KEYCURSOR_CreateDefault result */
+    void *menuList;          /* 0x24: BMP_MENULIST_Create result */
+    void *menuWork;          /* 0x28: BMP_MENUWORK_Create result */
+    int menuState;           /* 0x2C: BMP_MENULIST_Main result */
+    void *menuDesc;          /* 0x30: BMP_WIN descriptor */
+    unsigned char menuFlag;  /* 0x34 */
+    unsigned char pad_35[3];
+    void *menuWin;           /* 0x38: BMP_WIN_Create result (menu window) */
+    void *strbuf1;           /* 0x3C: STRBUF_Create result */
+    void *strbuf2;           /* 0x40: STRBUF_Create result */
+    void *timeIcon;          /* 0x44: TIME_ICON_Alloc result */
+} IntroMsgWork;
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned),GFL_USE_SetSeSlotVolume(int,unsigned),GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 
@@ -138,11 +163,9 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern u32 KEY_GetTrg(void);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-
 extern void func_02041B6C(u32);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
 extern u32 func_020307B0(void *p);
 
@@ -172,7 +195,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void *func_02028590(u32,u32,u32,u32);
+extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern struct Obj *TIME_ICON_Alloc(u32 heap);
 
@@ -252,108 +275,111 @@ extern void TIME_ICON_Start(u8 *,u32,u32,u8,u8);
 
 extern void TIME_ICON_Delete(u8 *);
 
-char *func_021BF0A0(u16 heap);
+char *INTRO_MSG_Create(u16 heap);
 
-void func_021BF1A4(char *p);
+void INTRO_MSG_Delete(char *p);
 
-void func_021BF204(char *p, unsigned a, unsigned short b);
+void INTRO_MSG_SetMsgBank(char *p, unsigned a, unsigned short b);
 
-void func_021BF228(u8*p);
+void INTRO_MSG_Main(u8*p);
 
-void func_021BF23C(char *p, void *a, int flag);
+void INTRO_MSG_PrintText(char *p, void *a, int flag);
 
-void func_021BF2D4(u8*p);
+void INTRO_MSG_DrawWindowBorder(u8*p);
 
-u32 func_021BF2E0(u8*p);
+u32 INTRO_MSG_GetPrintState(u8*p);
 
-int func_021BF2F4(char *a);
+int INTRO_MSG_UpdatePrint(char *a);
 
-int *func_021BF374(char *p, int v);
+int *INTRO_MSG_InitMenuDesc(char *p, int v);
 
-void func_021BF384(char *p,u32 *entries,u32 count,int flag);
+void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag);
 
-void func_021BF4E8(char *p);
+void INTRO_MSG_DrawMenuList(char *p);
 
-void func_021BF528(u8 *p);
+void INTRO_MSG_MainMenuList(u8 *p);
 
-int func_021BF538(u8 *p,int *out);
+int INTRO_MSG_GetMenuChoice(u8 *p,int *out);
 
-int func_021BF55C(u8 *p);
+int INTRO_MSG_GetWordSet(u8 *p);
 
-void func_021BF560(u8 *p);
+void INTRO_MSG_StartTimeIcon(u8 *p);
 
-void func_021BF580(u8 *p);
+void INTRO_MSG_DeleteTimeIcon(u8 *p);
 
-extern const char site[];
+extern const char gIntroSite[];
 
-char *func_021BF0A0(u16 heap)
+char *INTRO_MSG_Create(u16 heap)
 {
-    char *p;
+    IntroMsgWork *p;
     void *obj;
-    p=func_02030734(heap,72,1,site,129);
-    ((struct Obj01008 *)p)->f0=heap;
-    ((struct Obj01008 *)p)->f8=GF_FONT_Create_EC64(heap);
-    ((struct Obj01008 *)p)->f4=(void *)PRINTSYS_QUE_Create((void *)heap);
-    ((struct Obj01008 *)p)->f18=TCBL_Create(((struct Obj01008 *)p)->f0,((struct Obj01008 *)p)->f0,2,0);
+    p=func_02030734(heap,72,1,gIntroSite,129);
+    p->heapId=heap;
+    p->wordSet=GF_FONT_Create_EC64(heap);
+    p->printSys=(void *)PRINTSYS_QUE_Create((void *)heap);
+    p->tcbl=TCBL_Create(p->heapId,p->heapId,2,0);
     func_02049B40(23,5,0,320,32,heap);
     BMP_MENUWORK_LoadCharAndPltt(1,7,9,0,heap);
     BMP_MENUWORK_LoadCharAndPltt(1,16,8,1,heap);
-    ((struct Obj01008 *)p)->f10=GF_FONT_Create(23,0,1,0,((struct Obj01008 *)p)->f0);
-    ((struct Obj01008 *)p)->f3C=STRBUF_Create(1600,((struct Obj01008 *)p)->f0);
-    ((struct Obj01008 *)p)->f40=STRBUF_Create(1600,((struct Obj01008 *)p)->f0);
-    ((struct Obj01008 *)p)->f38=(void *)BMP_WIN_Create(1,22,13,9,4,10,1);
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01008 *)p)->f38),0);
-    obj=((struct Obj01008 *)p)->f38;
+    p->font=GF_FONT_Create(23,0,1,0,p->heapId);
+    p->strbuf1=STRBUF_Create(1600,p->heapId);
+    p->strbuf2=STRBUF_Create(1600,p->heapId);
+    p->menuWin=(void *)BMP_WIN_Create(1,22,13,9,4,10,1);
+    BMP_Clear(BMP_WIN_GetBmp(p->menuWin),0);
+    obj=p->menuWin;
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_02041B6C(BMP_WIN_GetBgLayer(obj));
-    ((struct Obj01008 *)p)->f1C=(void *)BMP_WIN_Create(1,1,19,30,4,10,1);
-    ((struct Obj01008 *)p)->f20=func_02028590(15,1,1,((struct Obj01008 *)p)->f0);
-    ((struct Obj01008 *)p)->f44=TIME_ICON_Alloc(((struct Obj01008 *)p)->f0);
-    return p;
+    p->textWin=(void *)BMP_WIN_Create(1,1,19,30,4,10,1);
+    p->keyCursor=APP_KEYCURSOR_CreateDefault(15,1,1,p->heapId);
+    p->timeIcon=TIME_ICON_Alloc(p->heapId);
+    return (char *)p;
 }
 
-void func_021BF1A4(char *p)
+void INTRO_MSG_Delete(char *p)
 {
-    func_021BF580((u8 *)p);
-    APP_KEYCURSOR_Delete(((struct Obj01292 *)p)->f20);
-    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01292 *)p)->f3C);
-    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01292 *)p)->f40);
-    GF_FONT_Delete(((struct Obj01292 *)p)->f10);
-    if (((struct Obj01292 *)p)->f14 != 0)
-        PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj01292 *)p)->f14));
-    BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj01292 *)p)->f1C);
-    if (((struct Obj01292 *)p)->f38)
-        BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj01292 *)p)->f38);
-    TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01292 *)p)->f18);
-    PRINTSYS_QUE_Delete(((struct Obj01292 *)p)->f4);
-    if (((struct Obj01292 *)p)->fC)
-        MSGDATA_Delete(((struct Obj01292 *)p)->fC);
-    WORDSET_DeleteStrbufED04(((struct Obj01292 *)p)->f8);
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    INTRO_MSG_DeleteTimeIcon((u8 *)p);
+    APP_KEYCURSOR_Delete((int)work->keyCursor);
+    STRBUF_Delete((struct U16Vec *)work->strbuf1);
+    STRBUF_Delete((struct U16Vec *)work->strbuf2);
+    GF_FONT_Delete(work->font);
+    if (work->printStream != 0)
+        PRINTSYS_PrintStreamDelete((struct Rec3 *)work->printStream);
+    BMP_WIN_Delete((struct Descriptor *)work->textWin);
+    if (work->menuWin)
+        BMP_WIN_Delete((struct Descriptor *)work->menuWin);
+    TCBL_Destroy((struct S02031140 *)work->tcbl);
+    PRINTSYS_QUE_Delete(work->printSys);
+    if (work->msgBank)
+        MSGDATA_Delete(work->msgBank);
+    WORDSET_DeleteStrbufED04(work->wordSet);
     func_020307B0(p);
 }
 
-void func_021BF204(char *p, unsigned a, unsigned short b)
+void INTRO_MSG_SetMsgBank(char *p, unsigned a, unsigned short b)
 {
-    if (((struct Obj08384 *)p)->fC != 0)
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    if (work->msgBank != 0)
     {
-        MSGDATA_Delete(((struct Obj08384 *)p)->fC);
+        MSGDATA_Delete(work->msgBank);
     }
-    ((struct Obj08384 *)p)->fC = func_02045B38(a, 2, b, ((struct Obj08384 *)p)->f0);
+    work->msgBank = func_02045B38(a, 2, b, work->heapId);
 }
 
-void func_021BF228(u8*p){TCBL_Main(*(struct Tcbl* *)&((struct Obj14621 *)p)->f18);PRINTSYS_QUE_Main(*(struct PrintSys* *)&((struct Obj14621 *)p)->f4);}
+void INTRO_MSG_Main(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;TCBL_Main(work->tcbl);PRINTSYS_QUE_Main(work->printSys);}
 
 /*
  * Caller consumes 0201CCE4's live r0 result; return declared pointer despite callee's void source.
  */
-void func_021BF23C(char *p, void *a, int flag)
+void INTRO_MSG_PrintText(char *p, void *a, int flag)
 {
+    IntroMsgWork *work = (IntroMsgWork *)p;
     unsigned int value = MSG_SPEED_GetWait();
-    void *desc = ((struct Obj02540 *)p)->f1C;
+    void *desc = work->textWin;
     BMP_Clear(BMP_WIN_GetBmp(desc), 15);
     GF_FONT_SetTextColor(1, 2, 15);
-    func_02045CAC(((struct Obj02540 *)p)->fC, (unsigned int)a, ((struct Obj02540 *)p)->f3C);
-    WORDSET_CopyTaggedText(((struct Obj02540 *)p)->f8, ((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f3C);
-    ((struct Obj02540 *)p)->f14 = PRINTSYS_PrintStream((unsigned int)desc, 4, 0, *(unsigned int *)&((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f10, value, ((struct Obj02540 *)p)->f18, 0xFFFF, ((struct Obj02540 *)p)->f0, 15);
+    func_02045CAC(work->msgBank, (unsigned int)a, work->strbuf1);
+    WORDSET_CopyTaggedText(work->wordSet, work->strbuf2, work->strbuf1);
+    work->printStream = PRINTSYS_PrintStream((unsigned int)desc, 4, 0, (unsigned int)work->strbuf2, (unsigned int)work->font, value, (unsigned int)work->tcbl, 0xFFFF, work->heapId, 15);
     if (flag == 0)
         BMP_MENUWORK_DrawWindow(desc, 1, 7, 9);
     else
@@ -363,31 +389,32 @@ void func_021BF23C(char *p, void *a, int flag)
     func_02041B6C(BMP_WIN_GetBgLayer(desc));
 }
 
-void func_021BF2D4(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((struct Obj25385 *)p)->f1C,0);}
+void INTRO_MSG_DrawWindowBorder(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;BMP_MENUWORK_DrawWindowBorder(work->textWin,0);}
 
-u32 func_021BF2E0(u8*p){u32 a=((struct Obj25386 *)p)->f14;if(a==0){return 2;}else{return PRINTSYS_PrintStreamGetState((void *)a);}}
+u32 INTRO_MSG_GetPrintState(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;u32 a=(u32)work->printStream;if(a==0){return 2;}else{return PRINTSYS_PrintStreamGetState((void *)a);}}
 
-int func_021BF2F4(char *a)
+int INTRO_MSG_UpdatePrint(char *a)
 {
-    if (((struct Obj03358 *)a)->f14 != 0) {
-        APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj03358 *)a)->f20), (void *)(((struct Obj03358 *)a)->f14),
-                      (void *)(((struct Obj03358 *)a)->f1C));
+    IntroMsgWork *work = (IntroMsgWork *)a;
+    if (work->printStream != 0) {
+        APP_KEYCURSOR_Update((struct Ctx *)work->keyCursor, work->printStream,
+                      work->textWin);
 
-        switch (PRINTSYS_PrintStreamGetState((void *)(((struct Obj03358 *)a)->f14))) {
+        switch (PRINTSYS_PrintStreamGetState(work->printStream)) {
         case 2:
-            PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj03358 *)a)->f14));
-            ((struct Obj03358 *)a)->f14 = 0;
+            PRINTSYS_PrintStreamDelete((struct Rec3 *)work->printStream);
+            work->printStream = 0;
             return 1;
         case 1:
             if (KEY_GetTrg() == 1 || KEY_GetTrg() == 2
                 || TOUCHPANEL_GetTrg() != 0) {
-                PRINTSYS_PrintStreamReleasePause((void *)(((struct Obj03358 *)a)->f14));
+                PRINTSYS_PrintStreamReleasePause(work->printStream);
                 GFL_USE_PlaySeDefaultVolume(0x547);
             }
             break;
         case 0:
             if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0)
-                PRINTSYS_PrintStreamShortWait((struct Rec *)(((struct Obj03358 *)a)->f14), 0);
+                PRINTSYS_PrintStreamShortWait((struct Rec *)work->printStream, 0);
             break;
         }
         return 0;
@@ -395,11 +422,12 @@ int func_021BF2F4(char *a)
     return 0;
 }
 
-int *func_021BF374(char *p, int v)
+int *INTRO_MSG_InitMenuDesc(char *p, int v)
 {
-    ((struct Obj14622 *)p)->f30 = v;
-    ((struct Obj14622 *)p)->f34 = 0;
-    return (int *)(p + 0x30);
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    work->menuDesc = (void *)v;
+    work->menuFlag = 0;
+    return (int *)(&work->menuDesc);
 }
 
 /*
@@ -431,29 +459,35 @@ int *func_021BF374(char *p, int v)
  * lever: u16 heap local places its word home at sp+8; u32 swaps it with
  * the entry pointer at sp+12, leaving seven differing concrete bytes.
  */
-void func_021BF384(char *p,u32 *entries,u32 count,int flag)
+/*
+ * Lever: the menu block is kept as a live char * (state) so the block
+ * accesses stay on state and the other fields on p; a single work pointer
+ * DIFFs (16 bytes short).
+ */
+void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
 {
-    Config config;
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    IntroMsgMenuTemplate config;
     char *state;
     void *obj;
     u16 heap;
     u32 i;
     state=p+36;
-    heap=*(u16 *)p;
-    obj=*(void **)(p+56);
+    heap=work->heapId;
+    obj=work->menuWin;
     MI_CpuFill8(state,0,12);
     *(void **)(state+4)=BMP_MENUWORK_Create(count,heap);
     for(i=0;i<count;i++){
-        func_02045CAC(*(void **)(p+12),*(u32 *)((char *)entries+i*8),*(void **)(p+60));
-        BMP_MENUWORK_AddStrItem((struct Slot *)((char *)*(void **)(state+4)+i*8),*(u32 *)(p+60),*(u32 *)((char *)entries+i*8+4),heap);
+        func_02045CAC(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
+        BMP_MENUWORK_AddStrItem((struct Slot *)((char *)*(void **)(state+4)+i*8),(u32)work->strbuf1,*(u32 *)((char *)entries+i*8+4),heap);
     }
     MI_CpuFill8(&config,0,52);
-    config.arr=*(void **)(state+4);config.obj=obj;
-    config.count=count;config.rows=5;config.f14=0;config.f15=16;config.f16=0;
-    config.f17lo=2;config.f17hi=1;config.f18lo=15;config.f18hi=2;
-    config.f1Alo=0;config.f1Amid=0;config.f1Apad=1;config.f1Amid2=0;config.f1Atop=0;
-    config.f1c=0;config.f20=16;config.f22=16;config.f24=0;
-    config.f28=func_021BF374(p,(int)obj);config.f2c=*(void **)(p+4);config.f30=*(void **)(p+16);
+    config.items=*(void **)(state+4);config.win=obj;
+    config.count=count;config.rows=5;config.sepX=0;config.itemX=16;config.cursorX=0;
+    config.originY=2;config.letterColor=1;config.bgColor=15;config.shadowColor=2;
+    config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
+    config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
+    config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.textParam=work->font;
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     func_02020CF8(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)BMP_WIN_GetBgLayer(obj));
@@ -464,46 +498,58 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
 
 /*
  * Trailing two bytes are zero alignment padding.
+ * Lever: the menu block is kept as a live char * (block) so the window
+ * accesses stay on p and the menu accesses on block; a single work pointer
+ * DIFFs.
  */
-void func_021BF4E8(char *p)
+void INTRO_MSG_DrawMenuList(char *p)
 {
+    IntroMsgWork *work = (IntroMsgWork *)p;
     char *block = p + 0x24;
-    BMP_MENUWORK_DrawWindowBorder(((struct Obj10880 *)p)->f38, 0);
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj10880 *)p)->f38), 0);
-    BMP_WIN_TransferChars(((struct Obj10880 *)p)->f38);
-    BMP_MENULIST_Delete(((struct Obj14623 *)block)->f0, 0, 0);
-    BMP_MENUWORK_Delete(((struct Obj14623 *)block)->f4);
+    BMP_MENUWORK_DrawWindowBorder(work->menuWin, 0);
+    BMP_Clear(BMP_WIN_GetBmp(work->menuWin), 0);
+    BMP_WIN_TransferChars(work->menuWin);
+    BMP_MENULIST_Delete(*(void **)block, 0, 0);
+    BMP_MENUWORK_Delete(*(void **)(block + 4));
     MI_CpuFill8(block, 0, 12);
 }
 
-void func_021BF528(u8 *p)
+/*
+ * Lever: the menu block is kept as a live char * (q) so the state store
+ * stays at q+8; a work pointer DIFFs (2 bytes short).
+ */
+void INTRO_MSG_MainMenuList(u8 *p)
 {
-    u8 *q=p+36;
-    ((struct Obj14624 *)q)->f8=BMP_MENULIST_Main(*(struct Obj * *)&((struct Obj14624 *)q)->f0);
+    char *q=(char *)p+36;
+    *(int *)(q + 8)=BMP_MENULIST_Main(*(struct Obj * *)q);
 }
 
 /*
  * lever: A switch with -1 before -2 preserves the outlined return order.
  */
-int func_021BF538(u8 *p,int *out)
+int INTRO_MSG_GetMenuChoice(u8 *p,int *out)
 {
-    int v=((struct Obj25387 *)p)->f2C;
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    int v=work->menuState;
     switch(v){case -1:return 0;case -2:return 2;}
     if(out!=0)*out=v;
     return 1;
 }
 
-int func_021BF55C(u8 *p)
+int INTRO_MSG_GetWordSet(u8 *p)
 {
-    return ((struct Obj25389 *)p)->f8;
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    return (int)work->wordSet;
 }
 
-void func_021BF560(u8 *p)
+void INTRO_MSG_StartTimeIcon(u8 *p)
 {
-    TIME_ICON_Start(*(u8 * *)&((struct Obj14625 *)p)->f44,func_020056BC(),((struct Obj14625 *)p)->f1C,15,16);
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    TIME_ICON_Start((u8 *)work->timeIcon,func_020056BC(),(u32)work->textWin,15,16);
 }
 
-void func_021BF580(u8 *p)
+void INTRO_MSG_DeleteTimeIcon(u8 *p)
 {
-    if(*(u8 * *)&((struct Obj01292 *)p)->f44!=0){TIME_ICON_Delete(*(u8 * *)&((struct Obj01292 *)p)->f44);*(u8 * *)&((struct Obj01292 *)p)->f44=0;}
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    if(work->timeIcon!=0){TIME_ICON_Delete((u8 *)work->timeIcon);work->timeIcon=0;}
 }

@@ -17,7 +17,7 @@
  *   func_02049658  0x02049658  arm
  *   func_020490F4  0x020490F4  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
- *   func_02027634  0x02027634  thumb
+ *   APP_ICON_LoadTouchBar  0x02027634  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020409B4  0x020409B4  arm
  */
@@ -36,7 +36,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
-extern void func_02027634(void *arc, int id, u32 heap, int base, u32 pal);
+extern void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern void func_020409B4(u32 a);
 
@@ -57,7 +57,7 @@ void MONOLITH_TOOL_LoadGraphics(void *a, void *b)
     h = func_020490F4(0x53, 0x61);
     ((struct Obj09885 *)d)->f138 = (void *)BG_SYS_CreateRun(7, 0x80, 1);
     func_02049658(h, 0x1c, 7, (u32)(((struct Obj09885 *)d)->f138), 0x80, 0, 0x61);
-    func_02027634(h, 7, 0x61, (int)(((struct Obj09885 *)d)->f138), 0xc);
+    APP_ICON_LoadTouchBar(h, 7, 0x61, (int)(((struct Obj09885 *)d)->f138), 0xc);
     PALANM_LoadHandlePaletteToSlot(((struct Obj02419 *)r5)->f0, h, 0x1b, 0x61, 1, 0x20, 0xc0);
     ARC_TOOL_DeleteHandle(h);
     func_020409B4(7);

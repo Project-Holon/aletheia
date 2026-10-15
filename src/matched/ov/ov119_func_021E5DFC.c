@@ -19,14 +19,15 @@
  * symbols:
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_02027694 0x02027694 thumb
- *   func_02027698 0x02027698 thumb
- *   func_0202769C 0x0202769C thumb
- *   func_020276A0 0x020276A0 thumb
+ *   APP_ICON_GetItemCellFileId 0x02027694 thumb
+ *   APP_ICON_GetItemPaletteFileId 0x02027698 thumb
+ *   APP_ICON_GetItemAnimFileId 0x0202769C thumb
+ *   APP_ICON_GetItemFrameFileId 0x020276A0 thumb
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   FILE_UTIL_Check136C  0x0202136C  thumb  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj06428.h"
@@ -39,11 +40,11 @@ extern u32 FILE_UTIL_Check136C(u16);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u32 func_020275E4(void);
-extern u32 func_02027694(void);
-extern u32 func_02027698(void);
-extern u32 func_0202769C(u32);
-extern u32 func_020276A0(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetItemCellFileId(void);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32);
+extern u32 APP_ICON_GetItemFrameFileId(u32);
 extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
 void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
@@ -74,11 +75,11 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
         break;
     }
     in.f4 = 0;
-    in.f8 = func_020275E4();
-    in.fC = func_02027694();
-    in.f10 = func_02027698();
-    in.f14 = func_0202769C(2);
-    in.f18 = func_020276A0(2);
+    in.f8 = APP_ICON_GetArchiveId();
+    in.fC = APP_ICON_GetItemCellFileId();
+    in.f10 = APP_ICON_GetItemPaletteFileId();
+    in.f14 = APP_ICON_GetItemAnimFileId(2);
+    in.f18 = APP_ICON_GetItemFrameFileId(2);
     in.b1d = 0; in.b1e = 1;
     UI_SCENE_LoadActorGfx(q,&in,((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f5F4);
     ((struct Obj06428 *)q)->f10 = UI_SCENE_CreateActor(q,((struct Obj00001 *)p)->f9C4,x,y,flag,((struct Obj00001 *)p)->f5F4);

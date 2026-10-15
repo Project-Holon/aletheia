@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF580",
+   "name": "INTRO_MSG_DeleteTimeIcon",
    "address": "0x021BF580",
    "kind": "game",
    "region": "ov204",

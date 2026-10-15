@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6DC
+ * function: PSEL_GRAPHIC_ApplyLookAt
  * address:  0x021BC6DC
  * packet:   pkt_ov223_021BC6DC
  * region:   ov223
@@ -19,7 +19,7 @@ struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-void func_021BC6DC(int *p)
+void PSEL_GRAPHIC_ApplyLookAt(int *p)
 {
     G3D_SYSTEM_DrawStart(p);
     G3D_CAMERA_Reset((struct Light *)(*p));

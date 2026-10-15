@@ -1,5 +1,5 @@
 /*
- * function: func_021C6ADC
+ * function: Wf2dmapFriend_DrawText
  * address: 0x021C6ADC
  * packet: pkt_ov128_021C6ADC
  * region: ov128
@@ -32,7 +32,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void WF2DMAP_TOUCH_TransferScreen(char *p);
-void func_021C6ADC(u8 *p,u8 *q,unsigned v)
+void Wf2dmapFriend_DrawText(u8 *p,u8 *q,unsigned v)
 {
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj05378 *)q)->f0),0);
     BMP_WIN_TransferChars(((struct Obj05378 *)q)->f0);

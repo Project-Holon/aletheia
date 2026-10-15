@@ -1,5 +1,5 @@
 /*
- * function: func_0202F6D8
+ * function: EVENT_ID_GetIndex
  * address:  0x0202F6D8
  * packet:   pkt_0202F6D8
  * region:   arm9
@@ -16,7 +16,7 @@
  * that bank (0x0202F6D8).
  */
 
-unsigned int func_0202F6D8(unsigned int n) {
+unsigned int EVENT_ID_GetIndex(unsigned int n) {
   if(n<0x7531) { if(n>=117) return 2; }
   else if(n<0x9c41) { n-=0x7531; if(n>=14) return 2; }
   else if(n<0xea61) { n-=0x9c41; if(n>=109) return 2; }

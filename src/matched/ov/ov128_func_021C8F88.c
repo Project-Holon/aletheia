@@ -32,7 +32,7 @@
  *   final push 2026-10-05 G5L9 (40 compiles, all 22 B, same pure swap): the (u16) cast on the
  *   third blit argument is dropped (callee takes u16; same bytes, now plain). Tried, no change:
  *   block-scoped t/x/i, declarations at the point of use, u8* text, key decl first/last, i/x
- *   first, STRBUF_AppendChar u16 value, func_021C63AC with u8 fourth parameter, BMP_WIN_GetWidth as u8
+ *   first, STRBUF_AppendChar u16 value, Wf2dmapFriend_CreateWindow with u8 fourth parameter, BMP_WIN_GetWidth as u8
  *   (same bytes) with n u32/int/u8, named constants ten/two (int, u8; with opt_propagation off 449 B),
  *   constants as locals in both orders, text/buf2/key as declaration initialisers (30 B, only slot
  *   order moves), inline put()/blit() helpers, struct view of p (two windows), i++ as body statement
@@ -54,7 +54,7 @@
  *   u16 digit array with an initialiser, explicit copy loops, inline helpers, statement order,
  *   prototype widths, loop/strength/unroll pragmas, a non-const table.
  * symbols:
- *   func_021C63AC 0x021C63AC thumb ov128
+ *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   WF2DMAP_TOUCH_TransferScreen 0x021CA4B4 thumb ov128
  *   STRBUF_Create 0x020457B0 arm
@@ -77,7 +77,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u16 v[10]; } Tbl;
 extern const Tbl d_021CA674;
-extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
+extern void Wf2dmapFriend_CreateWindow(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void WF2DMAP_TOUCH_TransferScreen(char *p);
 struct BigObj;
@@ -112,8 +112,8 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
     Tbl t;
     int x;
     int i;
-    func_021C63AC(ctx, (u32 *)p, 3, 2, 10, 0x1e, 8, 10, 1, 0);
-    func_021C63AC(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
+    Wf2dmapFriend_CreateWindow(ctx, (u32 *)p, 3, 2, 10, 0x1e, 8, 10, 1, 0);
+    Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
     text = (u32)STRBUF_Create(0xc0, heap);
     buf2 = STRBUF_Create(0x80, heap);
     key = DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860((void *)GAME_DATA_GetWifiList(*(void **)(q + 4))));

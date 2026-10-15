@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BF804 0x021BF804 thumb ov204
+ *   INTRO_G3D_MoveSlot 0x021BF804 thumb ov204
  */
 #include "../include/Obj25359.h"
-extern int func_021BF804(char *p, unsigned int i, int step, int limit);
-int func_021BE560(char *p,int *state,int *q){return func_021BF804(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}
+extern int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
+int func_021BE560(char *p,int *state,int *q){return INTRO_G3D_MoveSlot(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}

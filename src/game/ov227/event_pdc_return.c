@@ -61,7 +61,7 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCapacity  0x0201AA14  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
  *   ov207_id  0x000000CF  data
@@ -153,7 +153,7 @@ extern u32 MSGDATA_Delete(struct MsgEntry *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32 a);
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanWork *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanWork *p, u16 id);
@@ -237,7 +237,7 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcRet
                 MSGDATA_Delete((struct MsgEntry *)msgBank);
             }
             placeNameId = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->gameData)));
-            func_0202F190((void *)c->partyMon, 0, playerStatus, placeNameId, (u32)g->heapId);
+            SAVE_EVENT_Write((void *)c->partyMon, 0, playerStatus, placeNameId, (u32)g->heapId);
             isNew = 0;
             nationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanWork *)tmp);
             if (ZUKAN_SAVE_IsCaught((struct ZukanWork *)tmp, (u16)POKE_TOOL_GetPartyValue((void *)c->partyMon, 5, 0)) == 0) {

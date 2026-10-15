@@ -1,5 +1,5 @@
 /*
- * function: func_02071C94
+ * function: NNSi_G3dTexMtxTrans2
  * address:  0x02071C94
  * packet:   pkt_020713C8
  * region:   arm9
@@ -26,8 +26,8 @@
  * mismatches, no relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02071C94.c \
- *       --func func_02071C94 --addr 0x02071C94 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexMtxTrans2.c \
+ *       --func NNSi_G3dTexMtxTrans2 --addr 0x02071C94 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char  u8;
@@ -53,7 +53,7 @@ struct DST {
     s32 f34;
 };
 
-void func_02071C94(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxTrans2(struct DST *d, struct SRC *s)
 {
     s32 n;
 

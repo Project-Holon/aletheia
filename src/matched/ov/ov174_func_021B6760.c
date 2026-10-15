@@ -19,7 +19,7 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   TCBL_Create  0x0203101C  arm
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  */
 #include "../include/Obj00918.h"
@@ -39,7 +39,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern u32 func_02028590(int a, int b, int c, u32 d);
+extern u32 APP_KEYCURSOR_CreateDefault(int a, int b, int c, u32 d);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
 void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
@@ -57,6 +57,6 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct Obj00918 *)p)->f70 = 0;
     ((struct Obj00918 *)p)->f74 = 0;
     ((struct Obj00918 *)p)->f78 = PRINTSYS_QUE_Create((void *)(((struct Obj00918 *)p)->f0));
-    ((struct Obj00918 *)p)->f7C = func_02028590(0xf, 1, 1, ((struct Obj00918 *)p)->f0);
+    ((struct Obj00918 *)p)->f7C = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, ((struct Obj00918 *)p)->f0);
     GF_FONT_SetTextColor(1, 2, 0xf);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB508
+ * function: PSEL_GRAPHIC_GetMenuChoice
  * address:  0x021BB508
  * packet:   pkt_021BB508
  * region:   ov223
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
-int func_021BB508(int *p)
+int PSEL_GRAPHIC_GetMenuChoice(int *p)
 {
     return APP_TASKMENU_GetCursorPos((const u8 *)p[0x99]) == 0;
 }

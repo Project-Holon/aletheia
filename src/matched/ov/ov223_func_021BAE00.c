@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE00
+ * function: PSEL_CreateWin
  * address: 0x021BAE00
  * packet: pkt_ov223_021BAE00
  * region: ov223
@@ -34,7 +34,7 @@ extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021BAE00(char *p)
+void PSEL_CreateWin(char *p)
 {
     u8 i=0;
     func_02049B40(23,5,0,448,32,((struct Obj00739 *)p)->f0);

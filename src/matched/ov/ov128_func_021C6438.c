@@ -1,5 +1,5 @@
 /*
- * function: func_021C6438
+ * function: Wf2dmapFriend_SetState
  * address: 0x021C6438
  * packet: pkt_ov128_021C6438
  * region: ov128
@@ -10,7 +10,7 @@
  * extent: Six code bytes followed by two zero alignment bytes.
  */
 typedef unsigned char u8;
-void func_021C6438(u8 *p, u8 a, u8 b)
+void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b)
 {
     p[9] = a;
     p[10] = b;

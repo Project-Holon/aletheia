@@ -1,5 +1,5 @@
 /*
- * function: func_021BB520
+ * function: PSEL_GRAPHIC_SplitColor
  * address:  0x021BB520
  * packet:   pkt_021BB520
  * region:   ov223
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-void func_021BB520(int v, unsigned short *a, unsigned short *b, unsigned short *c)
+void PSEL_GRAPHIC_SplitColor(int v, unsigned short *a, unsigned short *b, unsigned short *c)
 {
     *a = v & 0x1f;
     *b = (v & 0x3e0) >> 5;

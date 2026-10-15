@@ -1,5 +1,5 @@
 /*
- * function: func_021BF744, func_021BF77C
+ * function: INTRO_G3D_SetSlotAnim, INTRO_G3D_GetSlotAnimFinished
  * unit: yes
  * address: 0x021BF744
  * packet: pkt_ov204_021BF744
@@ -14,16 +14,16 @@
  *   MCSS_SetAnimeIndex 0x02016028 thumb
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   MCSS_SetAnimCallback 0x02015F2C thumb
- *   func_021BF7F0 0x021BF7F0 thumb ov204
+ *   INTRO_G3D_OnAnimEnd 0x021BF7F0 thumb ov204
  */
 
 extern void MCSS_SetAnimeIndex(void *, unsigned int);
 extern void MCSS_ResetAnmStopFlag(void *);
 typedef unsigned char  u8;
-extern void func_021BF7F0(u8 *p);
+extern void INTRO_G3D_OnAnimEnd(u8 *p);
 extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
-void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
+void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v)
 {
     char *base = p + 8;
     unsigned int off = i * 12;
@@ -33,10 +33,10 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = v;
-    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
 }
 
-unsigned int func_021BF77C(char *p, u8 i)
+unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i)
 {
     return *(unsigned int *)(p + i * 12 + 12);
 }

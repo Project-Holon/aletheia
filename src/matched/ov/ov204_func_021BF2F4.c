@@ -1,5 +1,5 @@
 /*
- * function: func_021BF2F4
+ * function: INTRO_MSG_UpdatePrint
  * address:  0x021BF2F4
  * packet:   pkt_021BF2F4
  * region:   ov204
@@ -40,7 +40,7 @@ extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 
-int func_021BF2F4(char *a)
+int INTRO_MSG_UpdatePrint(char *a)
 {
     if (((struct Obj03358 *)a)->f14 != 0) {
         APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj03358 *)a)->f20), (void *)(((struct Obj03358 *)a)->f14),

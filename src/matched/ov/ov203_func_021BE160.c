@@ -48,7 +48,7 @@
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
- *   func_021BF7C0 0x021BF7C0 thumb ov203
+ *   DEMO3D_CMDSYS_Create 0x021BF7C0 thumb ov203
  *   _s32_div_f 0x0209C0A4 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  *   d_021C3CE0 0x021C3CE0 data a1
@@ -131,7 +131,7 @@ extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 typedef signed int     s32;
 struct AnmCtl;
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
-extern u32 func_021BF7C0(struct Ctx *, u32);
+extern u32 DEMO3D_CMDSYS_Create(struct Ctx *, u32);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -224,6 +224,6 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
             G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)h, k, &ang);
         }
     }
-    ctx->f6c = func_021BF7C0(ctx, heap);
+    ctx->f6c = DEMO3D_CMDSYS_Create(ctx, heap);
     return ctx;
 }

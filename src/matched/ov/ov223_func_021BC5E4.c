@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5E4
+ * function: PSEL_GRAPHIC_NopDraw
  * address: 0x021BC5E4
  * packet: pkt_ov223_021BC5E4
  * region: ov223
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BC5E4(void *a0){}
+void PSEL_GRAPHIC_NopDraw(void *a0){}

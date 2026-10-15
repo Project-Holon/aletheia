@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB74
+ * function: PSEL_NopAB74
  * address: 0x021BAB74
  * packet: pkt_ov223_021BAB74
  * region: ov223
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BAB74(int *a0) {}
+void PSEL_NopAB74(int *a0) {}

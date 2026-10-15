@@ -1,5 +1,5 @@
 /*
- * function: func_021D9744
+ * function: MYSTERY_GRAPHIC_GetClactUnit
  * address: 0x021D9744
  * packet: pkt_ov121_021D9744
  * region: ov121
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D98F0 0x021D98F0 thumb ov121
+ *   MYSTERY_GRAPHIC_GetFirstWord 0x021D98F0 thumb ov121
  */
-extern unsigned func_021D98F0(unsigned *);
-unsigned func_021D9744(char *p) { return func_021D98F0((unsigned *)(p+4)); }
+extern unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *);
+unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p) { return MYSTERY_GRAPHIC_GetFirstWord((unsigned *)(p+4)); }

@@ -12,7 +12,7 @@
  * Returns the object at +0x6c's handle unless the query on +0x70 is set, then the cached +0x7c8.
  *
  * symbols:
- *   func_0200D884  0x0200D884  thumb
+ *   GDS_PROFILE_GetFieldRecField  0x0200D884  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  * Addresses are Black-image addresses.
  */
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Blk3C;
-extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
+extern u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
 void *BSUBWAY_SCR_GetParty(u8 *p)
 {
-    if (func_0200D884((struct Blk3C *)(((struct Obj00116 *)p)->f70), 10, 0) == 0)
+    if (GDS_PROFILE_GetFieldRecField((struct Blk3C *)(((struct Obj00116 *)p)->f70), 10, 0) == 0)
         return GAME_DATA_GetMyParty(((struct Obj00116 *)p)->f6C);
     return ((struct Obj00116 *)p)->f7C8;
 }

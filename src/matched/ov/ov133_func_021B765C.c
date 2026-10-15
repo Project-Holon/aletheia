@@ -1,5 +1,5 @@
 /*
- * function: func_021B765C
+ * function: DUP_FITTING_SetModelTransform
  * address: 0x021B765C
  * packet: pkt_ov133_021B765C
  * region: ov133
@@ -131,13 +131,13 @@
  *   also gives it, a def after the k compare does not. Open: a codeless memory kill or a codeless
  *   second def between +0138 and +0184; none of the image's stores fits.
  * symbols:
- *   func_021BA184 0x021BA184 thumb ov133
- *   func_021BA208 0x021BA208 thumb ov133
- *   func_021BA20C 0x021BA20C thumb ov133
- *   func_021BA210 0x021BA210 thumb ov133
- *   func_021BA218 0x021BA218 thumb ov133
- *   func_021BA21C 0x021BA21C thumb ov133
- *   func_021BA244 0x021BA244 thumb ov133
+ *   DUP_FITTING_ITEM_ListGetHead 0x021BA184 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetNext 0x021BA208 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetData 0x021BA20C thumb ov133
+ *   DUP_FITTING_ITEM_ElemSetSprite 0x021BA210 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
+ *   DUP_FITTING_ITEM_ElemSetPos 0x021BA21C thumb ov133
+ *   DUP_FITTING_ITEM_ElemSetF18 0x021BA244 thumb ov133
  *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
@@ -164,13 +164,13 @@ extern const s16 FX_SinCosTable_[];
 extern u8 d_021BA3E4[], d_021BA3E8[];
 struct Manager0204F684;
 struct Trip;
-extern void *func_021BA184(char *p);
-extern u32 func_021BA208(u8 *p);
-extern u32 func_021BA20C(u8 *p);
-extern void func_021BA210(u8 *p, u32 v);
-extern u32 func_021BA218(u8 *p);
-extern void func_021BA21C(u8 *p, const u8 *src);
-extern void func_021BA244(u8 *p, u32 v);
+extern void *DUP_FITTING_ITEM_ListGetHead(char *p);
+extern u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
+extern u32 DUP_FITTING_ITEM_ElemGetData(u8 *p);
+extern void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u32 v);
+extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
+extern void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src);
+extern void DUP_FITTING_ITEM_ElemSetF18(u8 *p, u32 v);
 extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
 extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
@@ -180,7 +180,7 @@ extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern void BILLBOARD_SetElemScale(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
 extern void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag);
 static inline int GetTimer(u8 *p) { return *(u16 *)(p + 0x94); }
-void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
+void *DUP_FITTING_SetModelTransform(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
 {
     Vec v;
     Vec w;
@@ -206,7 +206,7 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
     int sh = 0xC0000;
 
     idx = 0;
-    e = func_021BA184((char *)(*(u8 **)(p + 0x181C)));
+    e = DUP_FITTING_ITEM_ListGetHead((char *)(*(u8 **)(p + 0x181C)));
     *(int *)(p + 0x1834) += speed;
     if (*(int *)(p + 0x1834) < 0)
         *(int *)(p + 0x1834) += *(u16 *)(p + 0xA8) * 0x1249;
@@ -227,11 +227,11 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
     do {
         a = (u16)((base + (idx << 16) / 14) % 0x10000);
         sc = 0;
-        spr = (u8 *)func_021BA218(e);
+        spr = (u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(e);
         tp = &FX_SinCosTable_[(a >> 4) * 2];
         sx = tp[0] * rx + 0x80000;
         sy = tp[1] * ry + 0x50000;
-        cur = old = (u8 *)func_021BA20C(e);
+        cur = old = (u8 *)DUP_FITTING_ITEM_ElemGetData(e);
         t = *(int *)(p + 0x1834) + (a + 0x8000) % 0x10000;
         while (t < 0)
             t += *(u16 *)(p + 0xA8) * 0x1249;
@@ -242,7 +242,7 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
             if (k >= n)
                 k = (u16)(k - n);
             cur = *(u8 **)(p + k * 4 + 0x1434);
-            func_021BA210(e, (u32)cur);
+            DUP_FITTING_ITEM_ElemSetSprite(e, (u32)cur);
             if (*(u16 *)old != *(u16 *)cur && e == *(u8 **)(p + 0x38))
                 *(u8 **)(p + 0x38) = 0;
         }
@@ -255,25 +255,25 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
         v.z = (h - a) + 0x14000;
         MUSICAL_MCSS_SetElemPos(*(int *)(p + 0x1884), (int)spr, &v);
         MUSICAL_MCSS_SetElemField(*(int *)(p + 0x1884), (int)spr, rot);
-        func_021BA21C(e, (const u8 *)(&pos));
+        DUP_FITTING_ITEM_ElemSetPos(e, (const u8 *)(&pos));
         if (a < (h >> 1)) {
             sc = h >> 3;
             MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
-            func_021BA244(e, h >> 3);
+            DUP_FITTING_ITEM_ElemSetF18(e, h >> 3);
         } else if (a < 0x6E00) {
             sc = ((u16)(0x6E00 - a) << 11) / 0x2E00 + (h >> 4);
             MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
-            func_021BA244(e, sc);
+            DUP_FITTING_ITEM_ElemSetF18(e, sc);
         } else if (a < 0x78E0) {
             sc = ((u16)(0x78E0 - a) << 11) / 0xAE0;
             MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
-            func_021BA244(e, sc);
+            DUP_FITTING_ITEM_ElemSetF18(e, sc);
         } else {
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
-            func_021BA244(e, 0);
+            DUP_FITTING_ITEM_ElemSetF18(e, 0);
             sc = 0;
         }
         if (*(int *)(cur + 0x10) == 1 && GetTimer(p) < 45) {
@@ -286,9 +286,9 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
         } else {
             BILLBOARD_SetElemVisible((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E4);
         }
-        e = (u8 *)func_021BA208(e);
+        e = (u8 *)DUP_FITTING_ITEM_ElemGetNext(e);
         idx++;
     } while (e != 0);
 end:
-    return func_021BA184((char *)(*(u8 **)(p + 0x181C)));
+    return DUP_FITTING_ITEM_ListGetHead((char *)(*(u8 **)(p + 0x181C)));
 }

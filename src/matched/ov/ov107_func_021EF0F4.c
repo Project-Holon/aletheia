@@ -23,14 +23,14 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  */
 #include "../include/Obj00057.h"
 typedef unsigned char u8;
@@ -53,7 +53,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern u32 func_020275E4(void),func_02027614(void),func_02027618(void),func_02027624(void),func_02027628(void),func_0202762C(void),func_0202761C(u32),func_02027620(u32);
+extern u32 APP_ICON_GetArchiveId(void),APP_ICON_GetMoveKindPaletteFileId(void),APP_ICON_GetMoveKindAnimFileId(void),APP_ICON_GetStatusAnimFileId(void),APP_ICON_GetStatusFrameFileId(void),APP_ICON_GetStatusDataFileId(void),APP_ICON_GetStatusCellFileId(u32),APP_ICON_GetStatusPaletteFileId(u32);
 void MB_COMM_SYS_LoadGraphics(u8 *p) {
  void *archive;
  u32 first;
@@ -83,14 +83,14 @@ void MB_COMM_SYS_LoadGraphics(u8 *p) {
  func_02049658((void *)((u32)archive),7,4,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),11,4,0,0,0,((struct Obj00057 *)p)->f0);
  func_020409B4(5);func_02040588(5,0);func_02040588(4,0);ARC_TOOL_DeleteHandle(archive);
  }
- archive=func_020490F4(func_020275E4(),((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),func_02027624(),4,256,32,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),func_02027628(),6,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),func_0202762C(),6,0,0,0,((struct Obj00057 *)p)->f0);
+ archive=func_020490F4(APP_ICON_GetArchiveId(),((struct Obj00057 *)p)->f0);
+ func_02049B68((void *)((u32)archive),APP_ICON_GetStatusAnimFileId(),4,256,32,((struct Obj00057 *)p)->f0);
+ func_02049658((void *)((u32)archive),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),APP_ICON_GetStatusDataFileId(),6,0,0,0,((struct Obj00057 *)p)->f0);
  BG_SYS_FillTileMap(6,0,21,32,3,8);func_020409B4(6);
- *(int *)&((struct Obj00057 *)p)->f70=CLACT_RegisterPaletteEx((void *)((u32)archive),func_02027614(),1,0,0,3,((struct Obj00057 *)p)->f0);
- *(int *)&((struct Obj00057 *)p)->f74=CLACT_RegisterCharacter((void *)((u32)archive),func_02027618(),0,1,((struct Obj00057 *)p)->f0);
- first=func_0202761C(2);
- *(int *)&((struct Obj00057 *)p)->f78=CLACT_RegisterCellAnim((void *)((u32)archive),first,func_02027620(2),((struct Obj00057 *)p)->f0);
+ *(int *)&((struct Obj00057 *)p)->f70=CLACT_RegisterPaletteEx((void *)((u32)archive),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((struct Obj00057 *)p)->f0);
+ *(int *)&((struct Obj00057 *)p)->f74=CLACT_RegisterCharacter((void *)((u32)archive),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj00057 *)p)->f0);
+ first=APP_ICON_GetStatusCellFileId(2);
+ *(int *)&((struct Obj00057 *)p)->f78=CLACT_RegisterCellAnim((void *)((u32)archive),first,APP_ICON_GetStatusPaletteFileId(2),((struct Obj00057 *)p)->f0);
  ARC_TOOL_DeleteHandle(archive);
  placement.x=232;placement.y=168;placement.z=1;placement.f7=0;placement.f6=0;
  *(struct Obj * *)&((struct Obj00057 *)p)->f7C=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00057 *)p)->f6C,((struct Obj00057 *)p)->f74,((struct Obj00057 *)p)->f70,((struct Obj00057 *)p)->f78,&placement,1,((struct Obj00057 *)p)->f0);

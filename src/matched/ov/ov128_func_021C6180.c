@@ -1,5 +1,5 @@
 /*
- * function: func_021C6180
+ * function: Wf2dmapFriend_Create
  * address: 0x021C6180
  * packet: pkt_ov128_021C6180
  * region: ov128
@@ -14,10 +14,10 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021C63EC 0x021C63EC thumb ov128
- *   func_021C658C 0x021C658C thumb ov128
+ *   Wf2dmapFriend_InitText 0x021C63EC thumb ov128
+ *   Wf2dmapFriend_InitGfx 0x021C658C thumb ov128
  *   func_020056A0 0x020056A0 thumb
- *   func_021C6354 0x021C6354 thumb ov128
+ *   Wf2dmapFriend_Proc 0x021C6354 thumb ov128
  */
 #include "../include/Obj06476.h"
 typedef unsigned char u8;
@@ -31,11 +31,11 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
-extern void func_021C63EC(u8 *p, const u32 *q, int heap);
-extern void func_021C658C(char *p, void *q, int heap);
+extern void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap);
+extern void Wf2dmapFriend_InitGfx(char *p, void *q, int heap);
 extern void *func_020056A0(void *,void *,int);
-extern void func_021C6354(void *p, char *q);
-int func_021C6180(void *p,int unused,void *q)
+extern void Wf2dmapFriend_Proc(void *p, char *q);
+int Wf2dmapFriend_Create(void *p,int unused,void *q)
 {
     char *v;
     func_02034AC4((u32)id127); func_02034AC4((u32)id67);
@@ -43,8 +43,8 @@ int func_021C6180(void *p,int unused,void *q)
     v=PROCSYS_AllocProcWork(p,0x5b0,52);
     MI_CpuFill8(v,0,0x5b0);
     ((struct Obj06476 *)v)->f1F8=q; ((struct Obj06476 *)v)->f5A8=0;
-    func_021C63EC((u8 *)(v+0x190),((struct Obj06476 *)v)->f1F8,52);
-    func_021C658C(v+4,v+0x190,52);
-    if(((struct Obj06476 *)v)->f5A8==0) ((struct Obj06476 *)v)->f5A8=func_020056A0(func_021C6354,v,16);
+    Wf2dmapFriend_InitText((u8 *)(v+0x190),((struct Obj06476 *)v)->f1F8,52);
+    Wf2dmapFriend_InitGfx(v+4,v+0x190,52);
+    if(((struct Obj06476 *)v)->f5A8==0) ((struct Obj06476 *)v)->f5A8=func_020056A0(Wf2dmapFriend_Proc,v,16);
     return 1;
 }

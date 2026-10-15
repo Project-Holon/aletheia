@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C860C",
-    "func_021C8660",
-    "func_021C8664",
-    "func_021C8668"
+    "Wf2dmapFriend_DrawEntryOpen",
+    "Wf2dmapFriend_NoopA",
+    "Wf2dmapFriend_NoopB",
+    "Wf2dmapFriend_SetEntryAnim"
+   ],
+   "addresses": [
+    "0x021C860C",
+    "0x021C8660",
+    "0x021C8664",
+    "0x021C8668"
    ]
   }
  ]

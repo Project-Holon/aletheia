@@ -20,7 +20,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   TCBL_Create 0x0203101C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  */
 
 extern void func_02049B40(int, int, int, int, int, int);
@@ -38,7 +38,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern int TCBL_Create(int, int, int, int);
-extern int func_02028590(int, int, int, int);
+extern int APP_KEYCURSOR_CreateDefault(int, int, int, int);
 
 void C_GEAR_POWER_ONOFF_InitWindows(int *p, int a1)
 {
@@ -54,5 +54,5 @@ void C_GEAR_POWER_ONOFF_InitWindows(int *p, int a1)
     BMP_WIN_TransferChars((struct Descriptor *)p[7]);
     BMP_WIN_MakeScreen((struct Cfg *)p[7]);
     p[8] = TCBL_Create(a1, a1, 1, 4);
-    p[0xC] = func_02028590(0xF, 0, 1, a1);
+    p[0xC] = APP_KEYCURSOR_CreateDefault(0xF, 0, 1, a1);
 }

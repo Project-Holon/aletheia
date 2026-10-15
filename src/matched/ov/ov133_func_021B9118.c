@@ -1,5 +1,5 @@
 /*
- * function: func_021B9118
+ * function: DUP_FITTING_FrameWeight
  * address: 0x021B9118
  * packet: pkt_ov133_021B9118
  * region: ov133
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int MUSICAL_MCSS_SetIndexC(u8 *p, int index, int mode);
 extern int MUSICAL_MCSS_SetIndexB(u8 *p, int index, int mode);
-u16 func_021B9118(u8 *p, u8 *q, int v)
+u16 DUP_FITTING_FrameWeight(u8 *p, u8 *q, int v)
 {
     int a = MUSICAL_MCSS_SetIndexC(((struct Obj03825 *)p)->f1884, ((struct Obj05409 *)q)->f0, v);
     int b = MUSICAL_MCSS_SetIndexB(((struct Obj03825 *)p)->f1884, ((struct Obj05409 *)q)->f0, v);

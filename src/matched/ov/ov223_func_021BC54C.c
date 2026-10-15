@@ -1,5 +1,5 @@
 /*
- * function: func_021BC54C
+ * function: PSEL_GRAPHIC_InitBg
  * address: 0x021BC54C
  * packet: pkt_ov223_021BC54C
  * region: ov223
@@ -32,7 +32,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-void func_021BC54C(void *p,int heap)
+void PSEL_GRAPHIC_InitBg(void *p,int heap)
 {
     unsigned i;
     MI_CpuFill8(p,0,4);

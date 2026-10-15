@@ -13,10 +13,10 @@
  *   func_021BEF88  0x021BEF88  thumb  ov204
  *   func_021BDD4C  0x021BDD4C  thumb  ov204
  *   func_021BDD60  0x021BDD60  thumb  ov204
- *   func_021BF898  0x021BF898  thumb  ov204
- *   func_021BF610  0x021BF610  thumb  ov204
- *   func_021BFCE0  0x021BFCE0  thumb  ov204
- *   func_021BF9FC  0x021BF9FC  thumb  ov204
+ *   INTRO_G3D_UpdateIdleAnim  0x021BF898  thumb  ov204
+ *   INTRO_MCSS_Main  0x021BF610  thumb  ov204
+ *   INTRO_PARTICLE_Main  0x021BFCE0  thumb  ov204
+ *   INTRO_G3D_Draw  0x021BF9FC  thumb  ov204
  *   func_021BDD6C  0x021BDD6C  thumb  ov204
  */
 #include "../include/Obj03919.h"
@@ -25,10 +25,10 @@ typedef unsigned char  u8;
 extern int func_021BEF88(char *p);
 extern void func_021BDD4C(u8 *p);
 extern void func_021BDD60(char *p);
-extern void func_021BF898(char *p);
-extern void func_021BF610(u8 *p);
-extern void func_021BFCE0(int);
-extern void func_021BF9FC(char *p);
+extern void INTRO_G3D_UpdateIdleAnim(char *p);
+extern void INTRO_MCSS_Main(u8 *p);
+extern void INTRO_PARTICLE_Main(int);
+extern void INTRO_G3D_Draw(char *p);
 extern void func_021BDD6C(char *p);
 
 int func_021BDB30(int a, int b, int c, void *p)
@@ -38,10 +38,10 @@ int func_021BDB30(int a, int b, int c, void *p)
     }
     func_021BDD4C((u8 *)(((struct Obj03919 *)p)->f8));
     func_021BDD60((char *)(((struct Obj03919 *)p)->f8));
-    func_021BF898((char *)(((struct Obj03919 *)p)->f18));
-    func_021BF610((u8 *)(((struct Obj03919 *)p)->f18));
-    func_021BFCE0(((struct Obj03919 *)p)->f20);
-    func_021BF9FC((char *)(((struct Obj03919 *)p)->f1C));
+    INTRO_G3D_UpdateIdleAnim((char *)(((struct Obj03919 *)p)->f18));
+    INTRO_MCSS_Main((u8 *)(((struct Obj03919 *)p)->f18));
+    INTRO_PARTICLE_Main(((struct Obj03919 *)p)->f20);
+    INTRO_G3D_Draw((char *)(((struct Obj03919 *)p)->f1C));
     func_021BDD6C((char *)(((struct Obj03919 *)p)->f8));
     return 0;
 }

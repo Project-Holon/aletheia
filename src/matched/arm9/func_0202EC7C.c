@@ -1,5 +1,5 @@
 /*
- * function: func_0202EC7C
+ * function: COMM_HISTORY_FindByKey
  * address:  0x0202EC7C
  * packet:   pkt_0202EC44
  * region:   arm9
@@ -26,7 +26,7 @@ struct Slot {
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 
-s32 func_0202EC7C(struct Slot *a0, u32 a1)
+s32 COMM_HISTORY_FindByKey(struct Slot *a0, u32 a1)
 {
     u32 i;
 

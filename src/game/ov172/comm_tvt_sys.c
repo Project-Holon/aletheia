@@ -78,7 +78,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   CTVT_TALK_GetMic  0x021B9F98  thumb
  *   CTVT_COMM_SendSlotHit 0x021B8720 thumb ov172
- *   sub_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   unit_0202EB14  0x0202EB14  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   d_021C7048 0x021C7048 data ov172
@@ -152,7 +152,7 @@ extern struct StrBuf *func_02008510(struct StrBuf *src, int heapId);
 extern u32 func_0201D304(struct StrBuf *str, u32 font, u32 flags);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
 extern struct TimeIcon *TIME_ICON_CreateNode(void *src, void *arg, u8 x, u8 y, u16 heapId);
-extern u32 sub_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int unit_0202EB14(void);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(CtvtMenuTemplate *tmpl, struct TaskMenu *res);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *data);
@@ -392,7 +392,7 @@ void COMM_TVT_SYS_SetCameraBusy(CtvtWork *work, s32 value)
 
 int COMM_TVT_SYS_IsNetIdle(void)
 {
-    if (sub_0202EB0C() == 1 && unit_0202EB14() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 1 && unit_0202EB14() == 0) {
         return 1;
     }
     return 0;

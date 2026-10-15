@@ -169,7 +169,7 @@
  *   sIrcBattleMenuFileName     0x021DDBC4  data   ov021  a4
  *   func_02030734  0x02030734  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -369,7 +369,7 @@ extern struct ClactUnit *CLACT_CreateUnit(int actorMax, u8 pri, u32 heapId);
 extern u32 func_020056A0(void (*task)(void), void *work, u32 pri);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern struct Tcbl *TCBL_Create(u16 heapId, u16 tcbHeapId, u32 count, u32 workSize);
-extern struct AppKeyCursor *func_02028590(u32 palNo, u32 isWin, u32 isFrame, u32 heapId);
+extern struct AppKeyCursor *APP_KEYCURSOR_CreateDefault(u32 palNo, u32 isWin, u32 isFrame, u32 heapId);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
 extern void WIPE_SYS_Start(u32 pattern0, u32 pattern1, u32 pattern2, u32 color, u32 div, u32 sync, u32 heapId);
@@ -1699,7 +1699,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     work->subObjPlttCopy = func_02030734(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x829);
     work->subBgPlttCopy = func_02030734(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x82A);
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 2, 0);
-    work->keyCursor = func_02028590(0xf, 0, 1, work->heapId);
+    work->keyCursor = APP_KEYCURSOR_CreateDefault(0xf, 0, 1, work->heapId);
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
     IRCBATTLEMENU_LoadActorResources(work);

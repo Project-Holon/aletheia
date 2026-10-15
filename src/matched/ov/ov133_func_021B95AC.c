@@ -1,5 +1,5 @@
 /*
- * function: func_021B95AC
+ * function: DUP_FITTING_DragRotate
  * address: 0x021B95AC
  * packet: pkt_ov133_021B95AC
  * region: ov133
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA258 0x021BA258 thumb ov133
- *   func_021BA218 0x021BA218 thumb ov133
- *   func_021BA228 0x021BA228 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetF20 0x021BA258 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetPos 0x021BA228 thumb ov133
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
  *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   func_0207CFB8 0x0207CFB8 arm
@@ -29,9 +29,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern u32 func_021BA258(char *p);
-extern u32 func_021BA218(u8 *p);
-extern u8 *func_021BA228(u8 *p);
+extern u32 DUP_FITTING_ITEM_ElemGetF20(char *p);
+extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
+extern u8 *DUP_FITTING_ITEM_ElemGetPos(u8 *p);
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
 extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 extern u16 func_0207CFB8(long,long);
@@ -41,17 +41,17 @@ static inline int fx(int x)
     if(x>0) return (int)(0.5f+(float)(int)((unsigned)x<<12));
     return (int)((float)(int)((unsigned)x<<12)-0.5f);
 }
-void func_021B95AC(u8 *p)
+void DUP_FITTING_DragRotate(u8 *p)
 {
     u16 index,angle;
     u8 *rec;
     u32 *xy;
     int dx,dy,stride,absval,y;
     s16 old,adjust;
-    index=func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
+    index=DUP_FITTING_ITEM_ElemGetF20((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
     rec=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
-    func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
-    xy=(u32 *)func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    DUP_FITTING_ITEM_ElemGetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    xy=(u32 *)DUP_FITTING_ITEM_ElemGetPos(*(u8 * *)&((struct Obj00004 *)p)->f38);
     y=xy[1];
     dx=fx((int)(*(u32 *)&((struct Obj00004 *)p)->f1C-xy[0]));
     dy=fx((int)(((struct Obj00004 *)p)->f20-(unsigned)y));
@@ -69,7 +69,7 @@ void func_021B95AC(u8 *p)
             ((struct Obj00004 *)p)->f18C4=0;
             GFL_USE_PlaySeDefaultVolume(1577);
         }
-        MUSICAL_MCSS_SetElemField((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
+        MUSICAL_MCSS_SetElemField((u32)(((struct Obj00004 *)p)->f1884),DUP_FITTING_ITEM_ElemGetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
         *(s16 *)(*(u8 * *)&((struct Obj23323 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4+stride+0x16)=adjust;
     }
     ((struct Obj00004 *)p)->f2C=angle;

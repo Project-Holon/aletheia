@@ -1,5 +1,5 @@
 /*
- * function: func_021D58B4
+ * function: WIFILOGIN_DISP_ScanlineEffect
  * address: 0x021D58B4
  * packet: pkt_ov115_021D58B4
  * region: ov115
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021D58B4(void *unused, u8 *p) {
+void WIFILOGIN_DISP_ScanlineEffect(void *unused, u8 *p) {
     int i;
     i = *(volatile u16 *)0x04000006;
     i = (i + (((struct Obj22599 *)p)->f9C8 + 1)) % 192;

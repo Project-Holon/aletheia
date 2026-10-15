@@ -37,6 +37,8 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -73,8 +75,8 @@ struct CharBuf;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern u32  func_020275E4(void);
-extern u32  func_0202762C(void);
+extern u32  APP_ICON_GetArchiveId(void);
+extern u32  APP_ICON_GetStatusDataFileId(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -112,9 +114,9 @@ void CTVT_DRAW_Init(void *a0, u8 *p)
         u32 t = *(volatile u16 *)0x04000304;
         *(volatile u16 *)0x04000304 = t & 0xFFFF7FFF;
     }
-    bank = func_020490F4(func_020275E4(), v);
+    bank = func_020490F4(APP_ICON_GetArchiveId(), v);
     BG_SYS_ClearSlot(0);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(bank, func_0202762C(), 0, 0x60, 0, 0x600, 0, v);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(bank, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, v);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
     func_020409B4(0);
     func_02040618(0, 3, 0);

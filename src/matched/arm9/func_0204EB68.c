@@ -1,5 +1,5 @@
 /*
- * function: DOUBLE3DDISP_SetupGraphics_EB68
+ * function: DOUBLE3DDISP_SetupGraphicsSubObj
  * address:  0x0204EB68
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -43,7 +43,7 @@ extern void func_0208068C(u32 v);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 v);
 
-void DOUBLE3DDISP_SetupGraphics_EB68(void)
+void DOUBLE3DDISP_SetupGraphicsSubObj(void)
 {
     u16 v = *(volatile u16 *)0x04000304;
 

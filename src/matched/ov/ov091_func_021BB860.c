@@ -15,7 +15,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   PLIST_MESSAGE_RedrawWindow  0x021BBA28  thumb  ov091
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   PLIST_MESSAGE_StreamCallback  0x021BB910  thumb  ov091
@@ -39,7 +39,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PLIST_MESSAGE_RedrawWindow(int a, int b);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern int PLIST_MESSAGE_StreamCallback(int k);
@@ -63,7 +63,7 @@ void PLIST_MESSAGE_StartStream(u8 *a, u32 *s, u32 x, u32 y)
     }
     s[8] = y;
     s[4] = t;
-    func_02028470((u8 *)(s + 6), 6);
+    PRINTSYS_CTRL_Init((u8 *)(s + 6), 6);
     s[3] = (u32)PRINTSYS_PrintStreamCallBack(s[1], 0, 0, s[4], ((struct Obj06213 *)a)->f138, MSG_SPEED_GetWait(), s[2], 0,
                          ((struct Obj06213 *)a)->f0, 0xf, (u32)PLIST_MESSAGE_StreamCallback);
 }

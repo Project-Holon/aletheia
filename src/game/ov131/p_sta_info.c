@@ -42,7 +42,7 @@
  *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
- *   func_020275EC 0x020275EC thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
@@ -59,8 +59,8 @@
  *   gSpeciesNameBank 0x020A7370 data
  *   d_021DC24C 0x021DC24C data
  *   d_021DC264 0x021DC264 data
- *   func_0202F688 0x0202F688 thumb
- *   func_0202F6D8 0x0202F6D8 thumb
+ *   EVENT_ID_GetBank 0x0202F688 thumb
+ *   EVENT_ID_GetIndex 0x0202F6D8 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
@@ -68,6 +68,7 @@
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb  arm9
  *   WORDSET_Create  0x0201EC74  thumb  arm9
  *   GF_FONT_CountLine  0x0201D2C8  thumb  arm9
+ *   SAVE_EVENT_CheckStage  0x0202F498  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -157,7 +158,7 @@ extern void BG_SYS_DrawTileEx(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void CLACT_GetCharacterProxy(u32 res, StaSpriteRes *out);
 extern void CLACT_SetActorImageProxy(struct Actor *actor, const StaSpriteRes *src);
-extern u8 func_020275EC(int i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 v, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 which);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 enable);
@@ -165,13 +166,13 @@ extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsi
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u32 func_02018584(u16,u16,u16);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern int func_0202F498(void *mon, int index);
+extern int SAVE_EVENT_CheckStage(void *mon, int index);
 extern u8 *func_02012944(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *mon, void *trainer);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern u32 GF_FONT_CountLine(struct Strbuf *s);
-extern unsigned int func_0202F688(unsigned int);
-extern unsigned int func_0202F6D8(unsigned int);
+extern unsigned int EVENT_ID_GetBank(unsigned int);
+extern unsigned int EVENT_ID_GetIndex(unsigned int);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
 void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *win, int msgId, int x, unsigned short y, unsigned short color);
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *win, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
@@ -285,7 +286,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
         type2=func_02017E88(mon,175,0);
         CLACT_GetCharacterProxy(wk->typeChrRes[type1],&header1);
         CLACT_SetActorImageProxy(wk->typeIconActor[0],&header1);
-        CLACT_SetActorPaletteOffset(wk->typeIconActor[0],func_020275EC((u8)type1),1);
+        CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
         offset.x=96;
         offset.y=48;
         CLACT_AddActorSurfacePos(wk->typeIconActor[0],&offset,0);
@@ -294,7 +295,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
         if(type1!=type2) {
             CLACT_GetCharacterProxy(wk->typeChrRes[type2],&header2);
             CLACT_SetActorImageProxy(wk->typeIconActor[1],&header2);
-            CLACT_SetActorPaletteOffset(wk->typeIconActor[1],func_020275EC((u8)type2),1);
+            CLACT_SetActorPaletteOffset(wk->typeIconActor[1],APP_ICON_GetTypePaletteOffset((u8)type2),1);
             offset.x=130;
             offset.y=48;
             CLACT_AddActorSurfacePos(wk->typeIconActor[1],&offset,0);
@@ -478,10 +479,10 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     personalRandom = func_02017E88(mon, 0, 0);
     eggPlace = func_02017E88(mon, 0x95, 0);
     metPlace = func_02017E88(mon, 0x96, 0);
-    flag0 = func_0202F498(mon, 0);
-    flag1 = func_0202F498(mon, 1);
-    flag2 = func_0202F498(mon, 2);
-    flag3 = func_0202F498(mon, 3);
+    flag0 = SAVE_EVENT_CheckStage(mon, 0);
+    flag1 = SAVE_EVENT_CheckStage(mon, 1);
+    flag2 = SAVE_EVENT_CheckStage(mon, 2);
+    flag3 = SAVE_EVENT_CheckStage(mon, 3);
     eventFlags = flag0 | flag1 | flag2 | flag3;
     isOriginalTrainer = POKE_TOOL_IsBoxOwnedByPlayer(mon, func_02012944(wk->param->config));
 
@@ -628,8 +629,8 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
 
 void *P_STA_INFO_GetPlaceName(PStatusWork *wk, PStaInfoWork *work, unsigned int placeId)
 {
-    unsigned int bank = func_0202F688(placeId);
-    unsigned int index = func_0202F6D8(placeId);
+    unsigned int bank = EVENT_ID_GetBank(placeId);
+    unsigned int index = EVENT_ID_GetIndex(placeId);
     switch (bank) {
     case 89: return func_02045EC0(work->msgPlaceBank89, index);
     case 92: return func_02045EC0(work->msgPlaceBank92, index);

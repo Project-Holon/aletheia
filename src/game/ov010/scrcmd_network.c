@@ -32,7 +32,7 @@
  *   func_02030734  0x02030734  arm
  *   SCRCMD_NETWORK_sFileName     0x0217294C  data  ov010  a4
  *   VM_SetWait  0x020113D0  thumb
- *   func_0202EB44  0x0202EB44  thumb
+ *   APP_ENV_InitParentalControl  0x0202EB44  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -378,7 +378,7 @@ extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern u32 GAME_COMM_IsTransition(struct GameComm *gameComm);
 extern int FIELDMAP_CheckCommExit(struct GameComm *gameComm);
-extern int func_0202EB44(void);
+extern int APP_ENV_InitParentalControl(void);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
 extern int CONFIG_GetAppliedFlag(struct Config *config);
 extern int BEACON_SetGatePoints(struct MiscSave *miscSave, int value);
@@ -552,7 +552,7 @@ int SCRCMD_NETWORK_CmdGetCommValue(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
 
-    *resultVar = func_0202EB44();
+    *resultVar = APP_ENV_InitParentalControl();
     return 0;
 }
 

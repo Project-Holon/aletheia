@@ -17,7 +17,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02028470 0x02028470 thumb
+ *   PRINTSYS_CTRL_Init 0x02028470 thumb
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -36,7 +36,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -55,5 +55,5 @@ void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
  BMP_MENUWORK_DrawWindow(((struct Obj02507 *)p)->f5C,1,1,13);
  BMP_Clear(BMP_WIN_GetBmp(((struct Obj02507 *)p)->f5C),15);
  BMP_WIN_TransferChars(((struct Obj02507 *)p)->f5C);BMP_WIN_MakeScreen(((struct Obj02507 *)p)->f5C);
- func_02041B6C(0);func_02028470(p+128,6);
+ func_02041B6C(0);PRINTSYS_CTRL_Init(p+128,6);
 }

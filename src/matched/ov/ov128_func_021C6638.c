@@ -1,5 +1,5 @@
 /*
- * function: func_021C6638
+ * function: Wf2dmapFriend_Draw
  * address: 0x021C6638
  * packet: pkt_ov128_021C6638
  * region: ov128
@@ -23,4 +23,4 @@ struct Tcbl;
 extern void WF2DMAP_TOUCH_UpdateSlots(char *p);
 extern void TCBL_Main(struct Tcbl *p);
 extern void CLACT_DrawSystem(void);
-void func_021C6638(u8 *p) { if(((struct Obj06477 *)p)->f34) { PRINTSYS_QUE_Main(((struct Obj06477 *)p)->f34);WF2DMAP_TOUCH_UpdateSlots((char *)p); } if(((struct Obj06477 *)p)->f28) TCBL_Main(((struct Obj06477 *)p)->f28);CLACT_DrawSystem(); }
+void Wf2dmapFriend_Draw(u8 *p) { if(((struct Obj06477 *)p)->f34) { PRINTSYS_QUE_Main(((struct Obj06477 *)p)->f34);WF2DMAP_TOUCH_UpdateSlots((char *)p); } if(((struct Obj06477 *)p)->f28) TCBL_Main(((struct Obj06477 *)p)->f28);CLACT_DrawSystem(); }

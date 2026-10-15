@@ -45,7 +45,7 @@
  *   func_0207ECF0 0x0207ECF0 arm
  *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_0202EB14 0x0202EB14 thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
  *   CTVT_CAMERA_StopCapture  0x021B6868  thumb  ov172
  *   CTVT_CAMERA_IsShutterSoundIdle  0x021B688C  thumb  ov172
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
@@ -113,7 +113,7 @@ extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *G2_GetBG3ScrPtr(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern int func_0202EB14(void);
+extern int APP_ENV_HasParentalControlBits(void);
 extern void CTVT_CAMERA_StopCapture(struct Camera *p);
 extern int CTVT_CAMERA_IsShutterSoundIdle(struct Camera *p);
 extern u32 COMM_TVT_SYS_GetCamView(void *p);
@@ -384,7 +384,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                     w = 0x40;
                     h = (u16)(screenSplit == 1 ? 0x60 : 0x30);
                 }
-                if (CTVT_COMM_GetSlotReady(work, (char *)members, i) == 1 && func_0202EB14() == 0) {
+                if (CTVT_COMM_GetSlotReady(work, (char *)members, i) == 1 && APP_ENV_HasParentalControlBits() == 0) {
                     dst = (u32)((char *)view->screenBuf + srcSlot * (w * h * 2));
                     DWCi_ScreenDC_FlushRange((void *)dst, w * h * 2);
                 } else if (halfRes == 0) {

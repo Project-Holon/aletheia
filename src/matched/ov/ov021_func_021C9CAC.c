@@ -12,9 +12,9 @@
  * Like 0x021C9BCC with a reset of the +0x70 object and without the +0x32 block.
  *
  * symbols:
- *   func_0200D914  0x0200D914  thumb
- *   func_0200DA14  0x0200DA14  thumb
- *   func_0200D868  0x0200D868  thumb
+ *   GDS_PROFILE_SetFieldRecField  0x0200D914  thumb
+ *   GDS_PROFILE_ClearFieldRecCount03  0x0200DA14  thumb
+ *   GDS_PROFILE_SetFieldRecFlag1  0x0200D868  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02733.h"
@@ -31,22 +31,22 @@ typedef struct {
 } Sel;
 
 struct Blk3C;
-extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
-extern void func_0200DA14(struct Blk3C *p);
-extern void func_0200D868(struct Blk3C *p, u32 v);
+extern void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src);
+extern void GDS_PROFILE_ClearFieldRecCount03(struct Blk3C *p);
+extern void GDS_PROFILE_SetFieldRecFlag1(struct Blk3C *p, u32 v);
 
 void BSUBWAY_SCR_SavePlayDataMembers(u8 *p)
 {
     u8 v = p[9];
 
-    func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 0, &v);
-    func_0200DA14((struct Blk3C *)(((struct Obj02733 *)p)->f70));
-    func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 5, p + 0x1e);
-    func_0200D868((struct Blk3C *)(((struct Obj02733 *)p)->f70), 1);
+    GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02733 *)p)->f70), 0, &v);
+    GDS_PROFILE_ClearFieldRecCount03((struct Blk3C *)(((struct Obj02733 *)p)->f70));
+    GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02733 *)p)->f70), 5, p + 0x1e);
+    GDS_PROFILE_SetFieldRecFlag1((struct Blk3C *)(((struct Obj02733 *)p)->f70), 1);
     if (p[9] == 2 || p[9] == 7) {
         v = ((Sel *)p)->sel;
-        func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 9, &v);
-        func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
-        func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 7, p + 0x664 + ((Sel *)p)->sel);
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02733 *)p)->f70), 9, &v);
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02733 *)p)->f70), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
+        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02733 *)p)->f70), 7, p + 0x664 + ((Sel *)p)->sel);
     }
 }

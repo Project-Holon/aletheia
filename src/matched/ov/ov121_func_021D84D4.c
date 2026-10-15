@@ -108,7 +108,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020185F0 0x020185F0 thumb
- *   func_0202F2AC 0x0202F2AC thumb
+ *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
@@ -169,7 +169,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_020185F0(void *);
-extern void func_0202F2AC(void *,u32,u32,u32,u32);
+extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
 extern void POKE_TOOL_RecalcParam(void *);
 extern u32 func_02017E1C(void *,u32,u32);
 extern int POKEGRA_OpenHandle(int);
@@ -301,7 +301,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         }
         year=(u16)((int)D(172)>>16);month=(u8)((int)D(172)>>8);day=(u8)D(172);
         if(desc[92]) place=H(56);else place=H(58);
-        func_0202F2AC(func_020185F0(allocated),place,year-2000,month,day);
+        SAVE_EVENT_WriteWithDate(func_020185F0(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
         if(func_02017E1C(allocated,3,0)!=0) {func_020307B0(allocated);mon=0;}
         else mon=allocated;

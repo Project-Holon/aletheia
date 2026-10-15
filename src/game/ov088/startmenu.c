@@ -174,8 +174,8 @@
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   func_020090E0  0x020090E0  thumb
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
- *   func_0202EB44  0x0202EB44  thumb
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_InitParentalControl  0x0202EB44  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   gStartMenuUnlockNotices     0x021BD784  data  ov088  a4
  *   BG_SYS_Update  0x020419E4  arm
@@ -199,7 +199,7 @@
  *   BLINK_PALANM_LoadPalettes  0x0202E9AC  thumb
  *   func_0202EA20  0x0202EA20  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -627,8 +627,8 @@ extern unsigned int KEY_GetRepeat(void);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
 extern u32 BMP_MENU_ProcessYesNo(u8 *);
-extern int func_0202EB44(void);
-extern u32 func_0202EB0C(void);
+extern int APP_ENV_InitParentalControl(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void BG_SYS_Update(void);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
@@ -641,7 +641,7 @@ extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern u32 func_0202EA20(struct PalAnm *p);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern u32 func_02028590(u32, u32, u32, u32);
+extern u32 APP_KEYCURSOR_CreateDefault(u32, u32, u32, u32);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -2054,7 +2054,7 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
         menuResult = BMP_MENU_ProcessYesNo(work->yesNoMenu);
         switch (menuResult) {
         case 0:
-            if (func_0202EB44() == 0) {
+            if (APP_ENV_InitParentalControl() == 0) {
                 STARTMENU_StartMessage(work, 0x11);
                 work->subState = 5;
             } else {
@@ -2175,7 +2175,7 @@ int STARTMENU_StateConfirmPrompt(StartMenuWork *work)
 int STARTMENU_StateInfoMessage(StartMenuWork *work)
 {
     void *printSys;
-    if (func_0202EB0C() == 1) {
+    if (APP_ENV_IsRunOnTwl() == 1) {
         switch (work->subState) {
         case 0:
             STARTMENU_OpenNoticeWindow(work);
@@ -2472,7 +2472,7 @@ void STARTMENU_CreateTextSystem(StartMenuWork *work)
     work->printSys = (void *)PRINTSYS_QUE_Create((void *)0xb);
     work->stringBuf = (void *)STRBUF_Create(0x400, 0xb);
     work->taskList = (u32)TCBL_Create(0xb, 0xb, 1, 4);
-    work->msgBoxFrame = (void *)func_02028590(0xf, 1, 0, 0xb);
+    work->msgBoxFrame = (void *)APP_KEYCURSOR_CreateDefault(0xf, 1, 0, 0xb);
 }
 
 
@@ -4192,7 +4192,7 @@ void STARTMENU_SaveEraseAllocResources(SaveEraseWork *work)
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x81);
     work->stringBuf = STRBUF_Create(0x400, 0x81);
     work->taskList = TCBL_Create(0x81, 0x81, 1, 4);
-    work->msgBoxFrame = (void *)func_02028590(0xf, 1, 0, 0x81);
+    work->msgBoxFrame = (void *)APP_KEYCURSOR_CreateDefault(0xf, 1, 0, 0x81);
 }
 
 void STARTMENU_SaveEraseFreeResources(SaveEraseWork *work)

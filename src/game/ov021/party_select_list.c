@@ -48,11 +48,11 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   d_021DB404     0x021DB404  data  a2
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_02027694  0x02027694  thumb
+ *   APP_ICON_GetItemCellFileId  0x02027694  thumb
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
- *   func_0202769C  0x0202769C  thumb
- *   func_020276A0  0x020276A0  thumb
- *   func_02027698  0x02027698  thumb
+ *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb
+ *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb
+ *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb
  *   d_021DB40C  0x021DB40C  data
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
@@ -176,11 +176,11 @@ extern struct IconActor *CLACT_CreateActor(void *, u32, u32, u32, const void *, 
 extern void CLACT_SetActorPaletteOffset(struct IconActor *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct IconActor *p, unsigned int v);
 extern void CLACT_DeleteActor(struct IconActor *p);
-extern u32 func_02027694(void);
+extern u32 APP_ICON_GetItemCellFileId(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern u32 func_0202769C(u32 a);
-extern u32 func_020276A0(u32 a);
-extern u32 func_02027698(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32 a);
+extern u32 APP_ICON_GetItemFrameFileId(u32 a);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
 extern u32 FILE_UTIL_Check136C(u16 v);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(void *owner);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
@@ -487,11 +487,11 @@ void PARTY_SELECT_LIST_LoadStatusIconResources(PartySelectList *list)
     u32 animRes;
 
     arc = func_020490F4(0x53, list->heapId);
-    list->statusIconCell = CLACT_RegisterPaletteEx(arc, func_02027694(), 0, 0xc0, 0, 1, list->heapId);
-    cellRes = func_0202769C(1);
-    animRes = func_020276A0(1);
+    list->statusIconCell = CLACT_RegisterPaletteEx(arc, APP_ICON_GetItemCellFileId(), 0, 0xc0, 0, 1, list->heapId);
+    cellRes = APP_ICON_GetItemAnimFileId(1);
+    animRes = APP_ICON_GetItemFrameFileId(1);
     list->statusIconAnim = CLACT_RegisterCellAnim(arc, cellRes, animRes, list->heapId);
-    list->statusIconRes = CLACT_RegisterCharacter(arc, func_02027698(), 0, 0, list->heapId);
+    list->statusIconRes = CLACT_RegisterCharacter(arc, APP_ICON_GetItemPaletteFileId(), 0, 0, list->heapId);
     ARC_TOOL_DeleteHandle(arc);
 }
 

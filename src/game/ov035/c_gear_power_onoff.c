@@ -16,7 +16,7 @@
  *   func_02030734 0x02030734 arm
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   ICA_ANIME_GetField24 0x02012138 thumb
- *   func_0202EB44 0x0202EB44 thumb
+ *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   ICA_ANIME_IsConfigFlagSet 0x0201214C thumb
  *   func_020307B0 0x020307B0 arm
  *   sPowerOnOffTable 0x021F0640 data ov035 a4
@@ -63,7 +63,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   TCBL_Create 0x0203101C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
@@ -138,7 +138,7 @@ typedef struct CGearPowerOnOffTable {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ICA_ANIME_GetField24(const void *gameSystem);
-extern int func_0202EB44(void);
+extern int APP_ENV_InitParentalControl(void);
 extern u32 ICA_ANIME_IsConfigFlagSet(const void *gameSystem);
 extern u32 func_020307B0(void *p);
 extern void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *subscreen, int mode);
@@ -180,7 +180,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern void *TCBL_Create(int, int, int, int);
-extern void *func_02028590(int, int, int, int);
+extern void *APP_KEYCURSOR_CreateDefault(int, int, int, int);
 extern void PRINTSYS_PrintStreamDelete(void *printStream);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern int APP_KEYCURSOR_Delete(void *keyCursor);
@@ -246,7 +246,7 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
     work->subscreen = subscreen;
     work->heapId = heapId;
     C_GEAR_POWER_ONOFF_InitScreen(work, heapId);
-    if (func_0202EB44() == 0)
+    if (APP_ENV_InitParentalControl() == 0)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_UNAVAILABLE;
     else if (ICA_ANIME_IsConfigFlagSet(gameSystem) == 1)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_TURN_OFF;
@@ -368,7 +368,7 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
     BMP_WIN_TransferChars(work->menuWindow);
     BMP_WIN_MakeScreen(work->menuWindow);
     work->tcbl = TCBL_Create(heapId, heapId, 1, 4);
-    work->keyCursor = func_02028590(0xF, 0, 1, heapId);
+    work->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 0, 1, heapId);
 }
 
 

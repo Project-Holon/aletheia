@@ -19,6 +19,11 @@
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetItemCellFileId  0x02027694  thumb  arm9
+ *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb  arm9
+ *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb  arm9
+ *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,11 +58,11 @@ extern s32 REGULATION_Party_GetValue(struct Rec1E *p, u32 id, u8 n);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 func_020275E4(void);
-extern u32 func_02027694(void);
-extern u32 func_02027698(void);
-extern u32 func_0202769C(u32);
-extern u32 func_020276A0(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetItemCellFileId(void);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32);
+extern u32 APP_ICON_GetItemFrameFileId(u32);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void MI_CpuFill8(void *, u32, u32);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
@@ -82,10 +87,10 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
         w->chr[i] = (void *)CLACT_RegisterCharacter(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
     ARC_TOOL_DeleteHandle(h);
-    h = func_020490F4(func_020275E4(), heap);
-    w->pal2 = (void *)CLACT_RegisterPaletteEx(h, func_02027694(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
-    w->chr2 = (void *)CLACT_RegisterCharacter(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
-    w->cell2 = (void *)CLACT_RegisterCellAnim(h, func_0202769C(2), func_020276A0(2), heap);
+    h = func_020490F4(APP_ICON_GetArchiveId(), heap);
+    w->pal2 = (void *)CLACT_RegisterPaletteEx(h, APP_ICON_GetItemCellFileId(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
+    w->chr2 = (void *)CLACT_RegisterCharacter(h, APP_ICON_GetItemPaletteFileId(), 0, w->layer, (heap & 0x7fff) | 0x8000);
+    w->cell2 = (void *)CLACT_RegisterCellAnim(h, APP_ICON_GetItemAnimFileId(2), APP_ICON_GetItemFrameFileId(2), heap);
     ARC_TOOL_DeleteHandle(h);
     MI_CpuFill8(&req, 0, 8);
     req.y = 0xa8;

@@ -12,7 +12,7 @@
  * Unlabelled tail-call stub called by MONOLITH_TOOL_MENU_Update.
  *
  * symbols:
- *   func_02028484  0x02028484  thumb
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb
  */
 #include "../include/Obj20725.h"
 
@@ -21,9 +21,9 @@ typedef unsigned int u32;
 
 typedef signed int     s32;
 struct Blk;
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
 int func_021B8434(u8 *p, u8 *q)
 {
-    return func_02028484((struct Blk *)(p + 0x38), (void *)(((struct Obj20725 *)q)->f40));
+    return PRINTSYS_CTRL_Update((struct Blk *)(p + 0x38), (void *)(((struct Obj20725 *)q)->f40));
 }

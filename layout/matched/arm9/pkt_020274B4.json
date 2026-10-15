@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020275E4",
+   "name": "APP_ICON_GetArchiveId",
    "address": "0x020275E4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020275E8",
+   "name": "APP_ICON_GetTouchBarFileId",
    "address": "0x020275E8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020275F8",
+   "name": "APP_ICON_GetTypeCellFileId",
    "address": "0x020275F8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020275FC",
+   "name": "APP_ICON_GetTypePaletteFileId",
    "address": "0x020275FC",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027600",
+   "name": "APP_ICON_GetTypeAnimFileId",
    "address": "0x02027600",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027610",
+   "name": "APP_ICON_GetMoveKindCellFileId",
    "address": "0x02027610",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027614",
+   "name": "APP_ICON_GetMoveKindPaletteFileId",
    "address": "0x02027614",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027618",
+   "name": "APP_ICON_GetMoveKindAnimFileId",
    "address": "0x02027618",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202761C",
+   "name": "APP_ICON_GetStatusCellFileId",
    "address": "0x0202761C",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027620",
+   "name": "APP_ICON_GetStatusPaletteFileId",
    "address": "0x02027620",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027624",
+   "name": "APP_ICON_GetStatusAnimFileId",
    "address": "0x02027624",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027628",
+   "name": "APP_ICON_GetStatusFrameFileId",
    "address": "0x02027628",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202762C",
+   "name": "APP_ICON_GetStatusDataFileId",
    "address": "0x0202762C",
    "kind": "game",
    "region": "arm9",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02027630",
+   "name": "APP_ICON_GetStatusExtraFileId",
    "address": "0x02027630",
    "kind": "game",
    "region": "arm9",
@@ -222,26 +222,48 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02027710",
-    "func_02027714",
-    "func_02027718",
-    "func_0202771C",
-    "func_02027720",
-    "func_0202772C",
-    "func_02027738",
-    "func_02027740",
-    "func_02027748",
-    "func_0202774C",
-    "func_02027750",
-    "func_02027754",
-    "func_02027758",
-    "func_0202775C",
-    "func_02027760",
-    "func_02027764",
-    "func_02027768",
-    "func_0202776C",
-    "func_02027770",
-    "func_02027774"
+    "APP_ICON_GetBallCellFileId",
+    "APP_ICON_GetBallPaletteFileId",
+    "APP_ICON_GetBallAnimFileId",
+    "APP_ICON_GetBallFrameFileId",
+    "APP_ICON_GetBallThrowCellFileId",
+    "APP_ICON_GetBallThrowAnimFileId",
+    "APP_ICON_GetBallOpenCellFileId",
+    "APP_ICON_GetBallOpenPaletteFileId",
+    "APP_ICON_GetBallOpenAnimFileId",
+    "APP_ICON_GetEffectCellFileId",
+    "APP_ICON_GetEffectPaletteFileId",
+    "APP_ICON_GetEffectAnimFileId",
+    "APP_ICON_GetNoneFileId",
+    "APP_ICON_GetGearCellFileId",
+    "APP_ICON_GetGearPaletteFileId",
+    "APP_ICON_GetGearAnimFileId",
+    "APP_ICON_GetGearDataFileId",
+    "APP_ICON_GetGearExtraFileId",
+    "APP_ICON_GetGearFrameFileId",
+    "APP_ICON_GetGearAnim2FileId"
+   ],
+   "addresses": [
+    "0x02027710",
+    "0x02027714",
+    "0x02027718",
+    "0x0202771C",
+    "0x02027720",
+    "0x0202772C",
+    "0x02027738",
+    "0x02027740",
+    "0x02027748",
+    "0x0202774C",
+    "0x02027750",
+    "0x02027754",
+    "0x02027758",
+    "0x0202775C",
+    "0x02027760",
+    "0x02027764",
+    "0x02027768",
+    "0x0202776C",
+    "0x02027770",
+    "0x02027774"
    ]
   }
  ]

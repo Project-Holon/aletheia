@@ -1,5 +1,5 @@
 /*
- * function: BILLBOARD_SetField1C
+ * function: BILLBOARD_SetDiffuse
  * address:  0x0204ED80
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -24,7 +24,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void BILLBOARD_SetField1C(u8 *dst, u16 *src)
+void BILLBOARD_SetDiffuse(u8 *dst, u16 *src)
 {
     ((struct Obj16108 *)dst)->f1C = *src;
 }

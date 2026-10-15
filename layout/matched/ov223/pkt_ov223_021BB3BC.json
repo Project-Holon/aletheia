@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BB3BC",
-    "func_021BB404",
-    "func_021BB414"
+    "PSEL_ShowTaskRes",
+    "PSEL_DeleteTaskRes",
+    "PSEL_UpdateB414"
+   ],
+   "addresses": [
+    "0x021BB3BC",
+    "0x021BB404",
+    "0x021BB414"
    ]
   }
  ]

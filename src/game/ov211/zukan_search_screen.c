@@ -78,9 +78,6 @@
  *   idle 0x020221A4 thumb
  *   BG_SYS_SetScrollY  0x02041F6C  arm
  */
-#include "../../matched/include/Obj10925.h"
-#include "../../matched/include/Obj25638.h"
-#include "../../matched/include/Obj06700.h"
 
 struct DispVram;
 struct Node;
@@ -90,35 +87,23 @@ struct Big;
 struct Ctrl;
 struct Sub020073D8Ctrl;
 struct Sub020072A4Ctrl;
-struct Object_021BC5B0;
+
 typedef struct
 {
     int v[12];
-} S021BC2B0;
+} ZukanSearchVramConfig;
 
 typedef unsigned int   u32;
 
 typedef unsigned short u16;
 
-typedef struct Config16 { u32 words[4]; } Config16;
+typedef struct DispConfigData { u32 words[4]; } DispConfigData;
 
-typedef struct Config32 { u32 words[8]; } Config32;
+typedef struct BgTemplateData { u32 words[8]; } BgTemplateData;
 
 typedef unsigned char  u8;
 
-struct Object_021BC2B0 { struct Owner_021BC2B0 *owner; };
-
-struct Owner_021BC2B0 { u32 pad; void *context; };
-
-typedef unsigned u32_021BC5B0;
-
-typedef unsigned int   u32_021BC720;
-
-typedef unsigned int u32_021BC7A0;
-
-struct Owner_021BC5B0 { u32_021BC7A0 pad[2]; u32_021BC7A0 state; };
-
-struct Object_021BC5B0 { struct Owner_021BC5B0 *owner; u8 pad[6]; u8 timer,state; };
+#include "zukan_search_types.h"
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -141,57 +126,57 @@ extern void screen(void *,u32,u32,u32,u32,u32,u16);
 extern void tiles(void *,u32,u32,u32,u32,u32,u16);
 extern void close(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern u32_021BC5B0 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32_021BC5B0,u32_021BC5B0);
-extern void *func_020073D8(struct Sub020073D8Ctrl *,u32_021BC5B0,u32_021BC5B0);
-extern u32_021BC5B0 func_0200E8D8(const void *obj);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
+extern void *func_020073D8(struct Sub020073D8Ctrl *,u32,u32);
+extern u32 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
-extern void BG_SYS_LoadTileData(int index, const void *src, u32_021BC5B0 size, u32_021BC5B0 tile);
-extern void BG_SYS_LoadPltt(u32_021BC5B0,void *,u32_021BC5B0,u32_021BC5B0);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
-extern void func_0207F308(void),func_0207F394(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F428(void);
-extern void func_0207F5B0(void),func_0207F5C8(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F65C(void);
-extern void func_020072A4(struct Sub020072A4Ctrl *,u32_021BC5B0);
+extern void func_0207F308(void),func_0207F394(const void *,u32,u32),func_0207F428(void);
+extern void func_0207F5B0(void),func_0207F5C8(const void *,u32,u32),func_0207F65C(void);
+extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 extern void ZUKAN_StartWipeIn(unsigned);
-extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(unsigned char *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
+extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern int  TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
-extern u32_021BC720 KEY_GetTrg(void);
-extern void ZUKAN_StartWipeOut(u32_021BC720 heap);
+extern u32 KEY_GetTrg(void);
+extern void ZUKAN_StartWipeOut(u32 heap);
 extern void sound(int);
-extern void setup(u32_021BC7A0,u32_021BC7A0,u32_021BC7A0);
-extern void adjust(u32_021BC7A0,u32_021BC7A0,u32_021BC7A0);
+extern void setup(u32,u32,u32);
+extern void adjust(u32,u32,u32);
 extern void tick(void);
-extern void transition(void *,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0);
-extern u32_021BC7A0 idle(void);
+extern void transition(void *,u32,u32,u32,u32,u32,u32);
+extern u32 idle(void);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
 void ZUKAN_SEARCH_SCREEN_VBlank(void);
-void ZUKAN_SEARCH_SCREEN_RegisterVBlank(unsigned char *p);
-void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(unsigned char *p);
+void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p);
+void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p);
 void ZUKAN_SEARCH_SCREEN_InitBg(void);
 void ZUKAN_SEARCH_SCREEN_DeleteBg(void);
-void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct Object_021BC2B0 *p);
-void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *p);
-int ZUKAN_SEARCH_SCREEN_Init(char *p);
-int ZUKAN_SEARCH_SCREEN_Delete(unsigned char *p);
+void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct ZukanSearchWork *p);
+void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p);
+int ZUKAN_SEARCH_SCREEN_Init(struct ZukanSearchWork *p);
+int ZUKAN_SEARCH_SCREEN_Delete(struct ZukanSearchWork *p);
 int ZUKAN_SEARCH_SCREEN_WaitWipe(void);
 int ZUKAN_SEARCH_SCREEN_WaitWipeExit(void);
-int ZUKAN_SEARCH_SCREEN_HandleInput(char *p);
-int ZUKAN_SEARCH_SCREEN_Update(struct Object_021BC5B0 *p);
+int ZUKAN_SEARCH_SCREEN_HandleInput(struct ZukanSearchWork *p);
+int ZUKAN_SEARCH_SCREEN_Update(struct ZukanSearchWork *p);
 void ZUKAN_SEARCH_SCREEN_Tick(void);
-extern S021BC2B0 d_021BC990;
+extern ZukanSearchVramConfig d_021BC990;
 extern unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
-extern const Config16 d_021BC8C8;
-extern const Config32 d_021BC910, d_021BC930, d_021BC950, d_021BC970, d_021BC8F0;
+extern const DispConfigData d_021BC8C8;
+extern const BgTemplateData d_021BC910, d_021BC930, d_021BC950, d_021BC970, d_021BC8F0;
 
 
 
 
 void ZUKAN_SEARCH_SCREEN_SetupVram(void)
 {
-    S021BC2B0 buf = d_021BC990;
+    ZukanSearchVramConfig buf = d_021BC990;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)(&buf));
 }
@@ -202,18 +187,18 @@ void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((unsigned)SD
 
 
 
-void ZUKAN_SEARCH_SCREEN_RegisterVBlank(unsigned char *p){((struct Obj10925 *)p)->f4=func_020056A0((unsigned)ZUKAN_SEARCH_SCREEN_VBlank,(unsigned)p,0);}
+void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=func_020056A0((unsigned)ZUKAN_SEARCH_SCREEN_VBlank,(unsigned)p,0);}
 
 
 
-void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(unsigned char *p){func_02030EAC(*(struct Node * *)&((struct Obj25638 *)p)->f4);}
+void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){func_02030EAC((struct Node *)p->vblankNode);}
 
 
 
 void ZUKAN_SEARCH_SCREEN_InitBg(void)
 {
-    Config16 a;
-    Config32 b, c, d, e, f;
+    DispConfigData a;
+    BgTemplateData b, c, d, e, f;
     BG_SYS_Create(0x7e);
     a = d_021BC8C8;
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
@@ -243,7 +228,7 @@ void ZUKAN_SEARCH_SCREEN_DeleteBg(void){BG_SYS_SetMainPlaneVisible(14,0);BG_SYS_
 
 
 
-void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct Object_021BC2B0 *p)
+void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct ZukanSearchWork *p)
 {
     void *arc;
     arc=open(159,0x807E);
@@ -275,10 +260,10 @@ void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct Object_021BC2B0 *p)
  * supplies full pooled 0x807E, without truncation. 073D8 legacy void
  * leaves a pointer in r0 consumed immediately by E8D8; preserve it.
  */
-void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *p)
+void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
 {
     void *save,*block,*tiles,*palette;
-    save=GAME_DATA_GetSaveControl(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);
+    save=GAME_DATA_GetSaveControl(p->owner->gameData);
     if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
         block=func_020073D8(save,7,0);
         if(block!=0&&func_0200E8D8(block)==1){
@@ -307,21 +292,21 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *p)
  * volatile: hardware halfword stores to 04000050 at 021BC684 and
  * 04001050 at 021BC688; original clears display blend controls.
  */
-int ZUKAN_SEARCH_SCREEN_Init(char *p)
+int ZUKAN_SEARCH_SCREEN_Init(struct ZukanSearchWork *p)
 {
     BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     BG_SYS_SetLcdSwap(0);ZUKAN_SEARCH_SCREEN_SetupVram();ZUKAN_SEARCH_SCREEN_InitBg();
-    ZUKAN_SEARCH_SCREEN_LoadGraphics((struct Object_021BC2B0 *)((struct Object_021BC5B0 *)p));ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(p);
+    ZUKAN_SEARCH_SCREEN_LoadGraphics(p);ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(p);
     GFL_NET_RestartWithDefaultTimeout(1,126);BG_SYS_SetSubPlaneVisible(16,1);
-    ZUKAN_SEARCH_SCREEN_RegisterVBlank((unsigned char *)p);ZUKAN_StartWipeIn(126);
+    ZUKAN_SEARCH_SCREEN_RegisterVBlank(p);ZUKAN_StartWipeIn(126);
     return 2;
 }
 
 
 
-int ZUKAN_SEARCH_SCREEN_Delete(unsigned char *p){ZUKAN_SEARCH_SCREEN_UnregisterVBlank(p);ZUKAN_SEARCH_SCREEN_DeleteBg();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
+int ZUKAN_SEARCH_SCREEN_Delete(struct ZukanSearchWork *p){ZUKAN_SEARCH_SCREEN_UnregisterVBlank(p);ZUKAN_SEARCH_SCREEN_DeleteBg();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
 
 
 
@@ -334,13 +319,13 @@ int ZUKAN_SEARCH_SCREEN_WaitWipeExit(void){if(WIPE_SYS_EndCheck()==1)return 1;re
 
 
 
-int ZUKAN_SEARCH_SCREEN_HandleInput(char *p)
+int ZUKAN_SEARCH_SCREEN_HandleInput(struct ZukanSearchWork *p)
 {
-    u32_021BC720 v = 1;
+    u32 v = 1;
 
-    if (((struct Obj06700 *)p)->f8 == 0x12C)
+    if (p->counter == 0x12C)
         return 5;
-    ((struct Obj06700 *)p)->f8 = ((struct Obj06700 *)p)->f8 + 1;
+    p->counter = p->counter + 1;
     if (TOUCHPANEL_GetCont() == 1) {
         func_020355D8(1);
         return 5;
@@ -352,13 +337,13 @@ int ZUKAN_SEARCH_SCREEN_HandleInput(char *p)
     if (KEY_GetTrg() & 2) {
         func_020355D8(0);
         v = 0;
-        *(u32_021BC720 *)(((struct Obj06700 *)p)->f0 + 8) = v;
+        p->owner->state = v;
         ZUKAN_StartWipeOut(0x7E);
         return 3;
     }
     if (KEY_GetTrg() & 0x400) {
         func_020355D8(0);
-        *(u32_021BC720 *)(((struct Obj06700 *)p)->f0 + 8) = v;
+        p->owner->state = v;
         ZUKAN_StartWipeOut(0x7E);
         return 3;
     }
@@ -367,7 +352,7 @@ int ZUKAN_SEARCH_SCREEN_HandleInput(char *p)
 
 
 
-int ZUKAN_SEARCH_SCREEN_Update(struct Object_021BC5B0 *p)
+int ZUKAN_SEARCH_SCREEN_Update(struct ZukanSearchWork *p)
 {
     switch(p->state) {
     case 0:

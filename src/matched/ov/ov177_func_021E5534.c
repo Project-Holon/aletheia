@@ -1,5 +1,5 @@
 /*
- * function: func_021E5534
+ * function: WIFIBATTLEMATCH_GRAPHIC_Draw
  * address:  0x021E5534
  * packet:   pkt_ov177_021E5534
  * region:   ov177
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E5668  0x021E5668  thumb  ov177
- *   func_021E5600  0x021E5600  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_DrawClact  0x021E5668  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_Noop  0x021E5600  thumb  ov177
  */
 
 typedef unsigned char u8;
@@ -21,11 +21,11 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_021E5668(void *p);
-extern void func_021E5600(void *p);
+extern void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p);
+extern void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p);
 
-void func_021E5534(u8 *p)
+void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p)
 {
-    func_021E5668(p + 4);
-    func_021E5600(p);
+    WIFIBATTLEMATCH_GRAPHIC_DrawClact(p + 4);
+    WIFIBATTLEMATCH_GRAPHIC_Noop(p);
 }

@@ -98,14 +98,6 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021F5780 0x021F5780 data a4 ov194
  */
-#include "../../matched/include/Obj02908.h"
-#include "../../matched/include/Obj14494.h"
-#include "../../matched/include/Obj01772.h"
-#include "../../matched/include/Obj10805.h"
-#include "../../matched/include/Obj24898.h"
-#include "../../matched/include/Obj24899.h"
-#include "../../matched/include/Obj01427.h"
-
 struct U16Vec;
 struct Blk34;
 struct GfFont;
@@ -123,13 +115,84 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Rect_021F1440 {int left,top,right,bottom;} Rect_021F1440;
-
 typedef signed short s16;
 
-typedef struct Rect_021F1BFC {int left,top,right,bottom;} Rect_021F1BFC;
+typedef struct Rect { int left, top, right, bottom; } Rect;
 
-struct Vec2 { s16 x, y; };
+typedef struct Vec2 { s16 x, y; } Vec2;
+
+/* The caller's parameter block read by NAMEIN_GRAPHIC_Create. */
+typedef struct NameinGraphicConfig {
+    u32 mode;                   /* 0x00 */
+    u16 valueA;                 /* 0x04 species id or kind */
+    u16 valueB;                 /* 0x06 form or variant */
+    void *mon;                  /* 0x08 mon record, 0 for a plain name */
+    u32 hasName;                /* 0x0C non-zero when the mon carries a name */
+    unsigned char pad_10[8];
+    u32 maxLength;              /* 0x18 name length limit */
+    void *pad_1C;
+    struct U16Vec *name;        /* 0x20 current name string */
+    unsigned char *saveControl; /* 0x24 save-control block */
+    struct Blk34 *inputFlag;    /* 0x28 input-flag block */
+} NameinGraphicConfig;
+
+/* The CLACT actor handles for the kana/symbol cursor row. */
+typedef struct NameinGraphicActors {
+    unsigned int palette;       /* 0x00 palette registration */
+    unsigned int character;     /* 0x04 character registration */
+    unsigned int cellAnim;      /* 0x08 cell-animation registration */
+    void *list[21];             /* 0x0C actor handles, index 17 is the selected cursor actor */
+} NameinGraphicActors;
+
+/* The kana/symbol cursor work. */
+typedef struct NameinGraphicCursor {
+    unsigned short colorFrom[16]; /* 0x00 start colours copied from the glyph table */
+    unsigned short colorTo[16];   /* 0x20 end colours copied from the glyph table */
+    unsigned short fadeCell[16];  /* 0x40 fade output cells */
+    unsigned short phase[16];     /* 0x60 fade phase accumulators */
+    unsigned short blinkTimer;    /* 0x80 */
+    unsigned char pad_82[2];
+    Rect rect;                    /* 0x84 selection rectangle */
+    int mode;                     /* 0x94 */
+    int active;                   /* 0x98 */
+    int flag;                     /* 0x9C */
+    int selected;                 /* 0xA0 */
+    void *actorA;                 /* 0xA4 top cursor actor */
+    void *actorB;                 /* 0xA8 bottom cursor actor */
+    unsigned short x0;            /* 0xAC */
+    short y0;                     /* 0xAE */
+    unsigned short x1;            /* 0xB0 */
+    short y1;                     /* 0xB2 */
+} NameinGraphicCursor;
+
+/* A glyph source loaded by func_02049F34: a pointer to the glyph table at 0x0C. */
+typedef struct NameinGraphicGlyphSrc {
+    unsigned char pad_0[12];
+    unsigned char *glyphs;      /* 0x0C */
+} NameinGraphicGlyphSrc;
+
+/* The name-entry screen work. */
+typedef struct NameinGraphicWork {
+    unsigned char *display;       /* 0x00 */
+    NameinGraphicActors actors;   /* 0x04 */
+    unsigned int paletteTag;      /* 0x64 */
+    unsigned char inputField[0x94]; /* 0x68 */
+    unsigned char grid[0x130];    /* 0xFC */
+    void *members;                /* 0x22C */
+    unsigned char msgBox[0x24];   /* 0x230 */
+    unsigned char tcbl[0x10];     /* 0x254 */
+    unsigned char icon[0x3C];     /* 0x264 */
+    unsigned char callback[0x10]; /* 0x2A0 */
+    void *font;                   /* 0x2B0 */
+    void *printSys;               /* 0x2B4 */
+    void *msgBank;                /* 0x2B8 */
+    void *wordSet;                /* 0x2BC */
+    void *oamSys;                 /* 0x2C0 */
+    NameinGraphicConfig *args;    /* 0x2C4 */
+    int pendingMsg;               /* 0x2C8 */
+    void *profWord;               /* 0x2CC */
+    void *nameStrbuf;             /* 0x2D0 */
+} NameinGraphicWork;
 
 extern u8 BEACON_GetInputFlag(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
@@ -223,7 +286,7 @@ void NAMEIN_GRAPHIC_DeleteActors(u8 *p);
 void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i);
 void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d);
 void NAMEIN_GRAPHIC_ClearCursor(void *p);
-void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect_021F1440 *rect,int flag,int selected);
+void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int selected);
 void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect);
 extern u32 d_021F5780[];
 
@@ -299,24 +362,24 @@ u32 NAMEIN_GRAPHIC_Create(struct Obj0203159C *a, u32 b, u8 *args)
 
 int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
 {
-    PROF_WORD_Delete(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
+    PROF_WORD_Delete(*(u8 * *)&((NameinGraphicWork *)d)->profWord);
     NAMEIN_GRAPHIC_DeleteTcbl(d+596);
     NAMEIN_GRAPHIC_DeleteMsgBox(d+560);
     NAMEIN_GRAPHIC_DeleteGrid(d+252);
-    STRBUF_Delete(((struct Obj02908 *)d)->f2D0);
-    NAMEIN_GRAPHIC_DeleteMembers(*(u8 * *)&((struct Obj02908 *)d)->f22C);
+    STRBUF_Delete(((NameinGraphicWork *)d)->nameStrbuf);
+    NAMEIN_GRAPHIC_DeleteMembers(*(u8 * *)&((NameinGraphicWork *)d)->members);
     NAMEIN_GRAPHIC_DeleteInputField(d+104);
     NAMEIN_GRAPHIC_ClearCallback(d+672);
     NAMEIN_GRAPHIC_DeleteIconActor(d+612);
     NAMEIN_GRAPHIC_DeleteActors(d+4);
     NAMEIN_GRAPHIC_UpdateBg(d+100);
-    BMP_OAM_DeleteSys(((struct Obj02908 *)d)->f2C0);
-    NAMEIN_GRAPHIC_DeleteDisplay(((struct Obj02908 *)d)->f0);
-    WORDSET_DeleteStrbufED04(((struct Obj02908 *)d)->f2BC);
-    MSGDATA_Delete(((struct Obj02908 *)d)->f2B8);
-    PRINTSYS_QUE_Clear(((struct Obj02908 *)d)->f2B4);
-    PRINTSYS_QUE_Delete(((struct Obj02908 *)d)->f2B4);
-    GF_FONT_Delete(((struct Obj02908 *)d)->f2B0);
+    BMP_OAM_DeleteSys(((NameinGraphicWork *)d)->oamSys);
+    NAMEIN_GRAPHIC_DeleteDisplay(((NameinGraphicWork *)d)->display);
+    WORDSET_DeleteStrbufED04(((NameinGraphicWork *)d)->wordSet);
+    MSGDATA_Delete(((NameinGraphicWork *)d)->msgBank);
+    PRINTSYS_QUE_Clear(((NameinGraphicWork *)d)->printSys);
+    PRINTSYS_QUE_Delete(((NameinGraphicWork *)d)->printSys);
+    GF_FONT_Delete(((NameinGraphicWork *)d)->font);
     func_020315D4(a);
     GFL_HEAP_DeleteChecked(30);
     return 1;
@@ -325,7 +388,7 @@ int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
 
 
 
-int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p) { NAMEIN_GRAPHIC_RunCallback(p+0x2a0);NAMEIN_GRAPHIC_DrawDisplay(*(u8 * *)&((struct Obj14494 *)p)->f0);PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj14494 *)p)->f2B4));NAMEIN_GRAPHIC_FlushIconOam(p+0x264);if(NAMEIN_GRAPHIC_GetCallbackState(p+0x2a0))return 1;return 0; }
+int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p) { NAMEIN_GRAPHIC_RunCallback(p+0x2a0);NAMEIN_GRAPHIC_DrawDisplay(*(u8 * *)&((NameinGraphicWork *)p)->display);PRINTSYS_QUE_Main((struct PrintSys *)(((NameinGraphicWork *)p)->printSys));NAMEIN_GRAPHIC_FlushIconOam(p+0x264);if(NAMEIN_GRAPHIC_GetCallbackState(p+0x2a0))return 1;return 0; }
 
 
 
@@ -373,23 +436,23 @@ void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
     int i;
     int zero;
     handle=func_020490F4(118,heap);
-    *(int *)&((struct Obj01772 *)p)->f0=CLACT_RegisterPalette(handle,9,0,0,heap);
-    *(int *)&((struct Obj01772 *)p)->f8=CLACT_RegisterCellAnim(handle,7,6,heap);
-    *(int *)&((struct Obj01772 *)p)->f4=CLACT_RegisterCharacter(handle,8,0,0,heap);
+    *(int *)&((NameinGraphicActors *)p)->palette=CLACT_RegisterPalette(handle,9,0,0,heap);
+    *(int *)&((NameinGraphicActors *)p)->cellAnim=CLACT_RegisterCellAnim(handle,7,6,heap);
+    *(int *)&((NameinGraphicActors *)p)->character=CLACT_RegisterCharacter(handle,8,0,0,heap);
     ARC_TOOL_DeleteHandle(handle);
     MI_CpuFill8(pos,0,8);
     pos[2]=0;
     zero=0;
     for(i=0;i<16;i++)
-        *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,zero,heap);
+        *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,pos,zero,heap);
     pos[2]=1;
-    ((struct Obj01772 *)p)->f50=CLACT_CreateActor((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,zero,heap);
-    CLACT_SetActorDrawEnable(((struct Obj01772 *)p)->f50,zero);
+    ((NameinGraphicActors *)p)->list[17]=CLACT_CreateActor((void *)owner,((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,pos,zero,heap);
+    CLACT_SetActorDrawEnable(((NameinGraphicActors *)p)->list[17],zero);
     for(i=18;i<20;i++) {
         pos[0]=-32;
         pos[1]=-32;
         pos[2]=i-15;
-        *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,0,heap);
+        *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,pos,0,heap);
         CLACT_SetActorAutoAnim(*(void **)(p+i*4+12),1);
         CLACT_SetActorDrawEnable(*(void **)(p+i*4+12),0);
     }
@@ -398,7 +461,7 @@ void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
 
 
 
-void NAMEIN_GRAPHIC_DeleteActors(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((struct Obj10805 *)p)->f0);CLACT_ReleaseCharacter((u32)(((struct Obj10805 *)p)->f4));CLACT_ReleaseCellAnim(((struct Obj10805 *)p)->f8); }
+void NAMEIN_GRAPHIC_DeleteActors(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((NameinGraphicActors *)p)->palette);CLACT_ReleaseCharacter((u32)(((NameinGraphicActors *)p)->character));CLACT_ReleaseCellAnim(((NameinGraphicActors *)p)->cellAnim); }
 
 
 
@@ -416,10 +479,10 @@ void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d)
     u8 *q;
     int j;
     MI_CpuFill8(a,0,180);
-    ((struct Obj24898 *)a)->fA0=b;
+    ((NameinGraphicCursor *)a)->selected=(int)b;
     for(i=0;i<2;i++) *(u32 *)(a+164+i*4)=(u32)NAMEIN_GRAPHIC_GetActor(c,i+18);
     p=func_02049F34(118,2,(u32)(&x),d);
-    q=*(u8 * *)&((struct Obj24899 *)x)->fC;
+    q=*(u8 * *)&((NameinGraphicGlyphSrc *)x)->glyphs;
     for(i=0;i<16;i++) *(u16 *)(a+i*2)=*(u16 *)(q+32+i*2);
     for(j=0;j<16;j++) *(u16 *)(a+32+j*2)=*(u16 *)(q+64+j*2);
     func_020307B0(p);
@@ -435,14 +498,14 @@ void NAMEIN_GRAPHIC_ClearCursor(void *p) { MI_CpuFill8(p,0,180); }
  * extent: 478 instruction bytes; 021F1BFA is two-byte zero alignment before021F1BFC.
  * lever: const Rect source schedules the loads ahead of argument stores; signed y destinations avoid an extra unsigned truncation pair (484/224 to482/157 toEXACT*478).
  */
-void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect_021F1440 *rect,int flag,int selected)
+void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int selected)
 {
     int x;
     short y;
-    ((struct Obj01427 *)p)->f98=0;
-    ((struct Obj01427 *)p)->f94=mode;
-    ((struct Obj01427 *)p)->f9C=flag;
-    ((struct Obj01427 *)p)->fA0=selected;
+    ((NameinGraphicCursor *)p)->active=0;
+    ((NameinGraphicCursor *)p)->mode=mode;
+    ((NameinGraphicCursor *)p)->flag=flag;
+    ((NameinGraphicCursor *)p)->selected=selected;
     BG_SYS_FillTileMap(2,0,0,32,24,1);
     BG_SYS_FillTileMap(1,0,0,32,24,1);
     if(flag!=0 && selected==3) {
@@ -453,33 +516,33 @@ void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect_021F1440 *rect,int f
     BG_SYS_FillTileMap(1,x,20,3,3,4);
     BG_SYS_FillTileMap(2,x,20,3,3,4);
     if(rect && mode!=0) {
-        *(Rect_021F1440 *)(p+0x84)=*rect;
+        ((NameinGraphicCursor *)p)->rect=*rect;
         if(mode==2) {
             BG_SYS_FillTileMap(2,rect->left,rect->top,rect->right-rect->left,rect->bottom-rect->top,mode+1);
             BG_SYS_FillTileMap(1,rect->left,rect->top,rect->right-rect->left,rect->bottom-rect->top,mode+1);
         }
         if(func_020355C4()==0) {
-            ((struct Obj01427 *)p)->fAC=rect->left*8+7;
+            ((NameinGraphicCursor *)p)->x0=rect->left*8+7;
             y=rect->top*8+(rect->bottom-rect->top)*4-3;
-            ((struct Obj01427 *)p)->fAE=y;
-            ((struct Obj01427 *)p)->fB0=rect->right*8-7;
-            ((struct Obj01427 *)p)->fB2=y;
-            CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA4);
-            CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA8);
-            CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA4,1);
-            CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA8,1);
+            ((NameinGraphicCursor *)p)->y0=y;
+            ((NameinGraphicCursor *)p)->x1=rect->right*8-7;
+            ((NameinGraphicCursor *)p)->y1=y;
+            CLACT_RestartActorAnim(((NameinGraphicCursor *)p)->actorA);
+            CLACT_RestartActorAnim(((NameinGraphicCursor *)p)->actorB);
+            CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorA,1);
+            CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorB,1);
         }
     }
     if(mode==0 || func_020355C4()==1) {
-        CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA4,0);
-        CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA8,0);
+        CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorA,0);
+        CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorB,0);
     }
     func_020409B4(2);
     func_020409B4(1);
     if(mode!=0) {
         MI_CpuFill8(p+0x60,0,32);
-        ((struct Obj01427 *)p)->f80=0;
-        ((struct Obj01427 *)p)->f98=1;
+        ((NameinGraphicCursor *)p)->blinkTimer=0;
+        ((NameinGraphicCursor *)p)->active=1;
     }
 }
 
@@ -508,9 +571,9 @@ void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect)
             c = 0x1999;
             if ((*(u16 *)(p + 0x80))++ > 10) {
                 if (func_020355C4() == 0)
-                    NAMEIN_GRAPHIC_SetupCursor(p, 1, (const Rect_021F1440 *)rect, *(int *)(p + 0x9C), sel);
+                    NAMEIN_GRAPHIC_SetupCursor(p, 1, (const Rect *)rect, *(int *)(p + 0x9C), sel);
                 else
-                    NAMEIN_GRAPHIC_SetupCursor(p, 0, (const Rect_021F1440 *)rect, *(int *)(p + 0x9C), sel);
+                    NAMEIN_GRAPHIC_SetupCursor(p, 0, (const Rect *)rect, *(int *)(p + 0x9C), sel);
             }
             break;
         }
@@ -532,8 +595,8 @@ void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect)
     CLACT_AddActorSurfacePos(*(struct Obj **)(p + 0xA8), rect, 0);
     if (*(int *)(p + 0xA0) != sel) {
         if (func_020355C4() == 0)
-            NAMEIN_GRAPHIC_SetupCursor(p, 1, (const Rect_021F1440 *)((const Rect_021F1BFC *)(p + 0x84)), *(int *)(p + 0x9C), sel);
+            NAMEIN_GRAPHIC_SetupCursor(p, 1, &((NameinGraphicCursor *)p)->rect, *(int *)(p + 0x9C), sel);
         else
-            NAMEIN_GRAPHIC_SetupCursor(p, 0, (const Rect_021F1440 *)((const Rect_021F1BFC *)(p + 0x84)), *(int *)(p + 0x9C), sel);
+            NAMEIN_GRAPHIC_SetupCursor(p, 0, &((NameinGraphicCursor *)p)->rect, *(int *)(p + 0x9C), sel);
     }
 }

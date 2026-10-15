@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E74
+ * function: Wf2dmapFriend_UpdateMenu
  * address: 0x021C6E74
  * packet: pkt_ov128_021C6E74
  * region: ov128
@@ -23,4 +23,4 @@ struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-int func_021C6E74(u8 *p) {int n;APP_TASKMENU_UpdateMenu(p);if(APP_TASKMENU_IsFinish((struct TaskMenu *)p)==1) {n=APP_TASKMENU_GetCursorPos(p);APP_TASKMENU_CloseMenu((struct TaskMenu *)p);return n;}return -1;}
+int Wf2dmapFriend_UpdateMenu(u8 *p) {int n;APP_TASKMENU_UpdateMenu(p);if(APP_TASKMENU_IsFinish((struct TaskMenu *)p)==1) {n=APP_TASKMENU_GetCursorPos(p);APP_TASKMENU_CloseMenu((struct TaskMenu *)p);return n;}return -1;}

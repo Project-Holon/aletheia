@@ -1,5 +1,5 @@
 /*
- * function: func_021C6C20
+ * function: Wf2dmapFriend_PrintTrainerStats
  * address: 0x021C6C20
  * packet: pkt_ov128_021C6C20
  * region: ov128
@@ -22,7 +22,7 @@ struct Sub020097BCObj;
 struct WordSet;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-int func_021C6C20(u8 *p,u8 *q,int idx)
+int Wf2dmapFriend_PrintTrainerStats(u8 *p,u8 *q,int idx)
 {
     void *base;
     unsigned v;

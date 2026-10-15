@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB0C
+ * function: MANUAL_CATEGORY_UpdateOption
  * address: 0x021BBB0C
  * packet: pkt_ov225_021BBB0C
  * status: EXACT*
@@ -10,12 +10,12 @@
  * lang: c99
  * trailing: 021BBBF0 callback already owns separate verified shard; BF2 alignment.
  * symbols:
- *   func_021BBCF4 0x021BBCF4 thumb ov225
- *   func_021BBC50 0x021BBC50 thumb ov225
- *   func_021BBD28 0x021BBD28 thumb ov225
+ *   MANUAL_CATEGORY_DeleteOptionSlots 0x021BBCF4 thumb ov225
+ *   MANUAL_CATEGORY_OptionNoop 0x021BBC50 thumb ov225
+ *   MANUAL_CATEGORY_UpdateOptionSlots 0x021BBD28 thumb ov225
  *   func_021B9FBC 0x021B9FBC thumb ov225
  *   func_021BA158 0x021BA158 thumb ov225
- *   func_021BBD74 0x021BBD74 thumb ov225
+ *   MANUAL_CATEGORY_DrawOption 0x021BBD74 thumb ov225
  *   func_021BA154 0x021BA154 thumb ov225
  *   func_021BA0F0 0x021BA0F0 thumb ov225
  */
@@ -27,15 +27,15 @@
 #include "../include/Obj26314.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BBCF4(char *);
-extern void func_021BBC50(char *);
-extern void func_021BBD28(u8 *);
+extern void MANUAL_CATEGORY_DeleteOptionSlots(char *);
+extern void MANUAL_CATEGORY_OptionNoop(char *);
+extern void MANUAL_CATEGORY_UpdateOptionSlots(u8 *);
 extern void func_021B9FBC(char *);
 extern unsigned func_021BA158(char *p);
 extern unsigned func_021BA154(char *p);
-extern void func_021BBD74(char *);
+extern void MANUAL_CATEGORY_DrawOption(char *);
 extern void func_021BA0F0(char *,unsigned,unsigned);
-int func_021BBB0C(char *p)
+int MANUAL_CATEGORY_UpdateOption(char *p)
 {
     int result = 0;
     int timer = ((struct Obj00602 *)p)->f3C;
@@ -43,12 +43,12 @@ int func_021BBB0C(char *p)
     if (timer == 0) result = 1;
     else if (timer > 0) {
         if (timer == 1) {
-            func_021BBCF4(p);
-            func_021BBC50(p);
+            MANUAL_CATEGORY_DeleteOptionSlots(p);
+            MANUAL_CATEGORY_OptionNoop(p);
         }
         ((struct Obj00602 *)p)->f3C -= 1;
     }
-    if (((struct Obj00602 *)p)->f38 != 1) func_021BBD28((u8 *)p);
+    if (((struct Obj00602 *)p)->f38 != 1) MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
     if (((struct Obj00602 *)p)->f38 == 0 || ((struct Obj00602 *)p)->f38 == 2) {
         func_021B9FBC(*(char * *)&((struct Obj26309 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
         if (((struct Obj00602 *)p)->f38 == 0) {
@@ -66,7 +66,7 @@ int func_021BBB0C(char *p)
                     ((struct Obj00602 *)p)->fC = 1;
                 }
             }
-            if (((struct Obj00602 *)p)->fC) func_021BBD74(p);
+            if (((struct Obj00602 *)p)->fC) MANUAL_CATEGORY_DrawOption(p);
         } else {
             choice = func_021BA154(*(char * *)&((struct Obj26312 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
             if (choice == -1) goto done;

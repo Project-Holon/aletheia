@@ -1,5 +1,5 @@
 /*
- * function: func_021B95B0
+ * function: PSEL_CreateRecords
  * address: 0x021B95B0
  * region: ov223
  * isa: thumb
@@ -19,7 +19,7 @@ struct Record { u16 id,pad; u32 translation[3],scale[3],matrix[9],flag; };
 extern const char site[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MTX_Identity33_(void *);
-struct Record *func_021B95B0(u32 heap,u32 count)
+struct Record *PSEL_CreateRecords(u32 heap,u32 count)
 {
     struct Record *p;
     u16 i;

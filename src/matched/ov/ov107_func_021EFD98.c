@@ -15,7 +15,7 @@
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DAC  0x02008DAC  thumb
  *   MB_COMM_SYS_GetMon  0x021F11CC  thumb
- *   func_0202F27C  0x0202F27C  thumb
+ *   SAVE_EVENT_StoreTodayDate  0x0202F27C  thumb
  *   func_020074D8  0x020074D8  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
@@ -53,7 +53,7 @@ u8 MB_COMM_SYS_GetMonCount(u8 *p);
 void *GAME_DATA_GetTrainerRecord(int *p);
 u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 void *MB_COMM_SYS_GetMon(void *, int);
-void func_0202F27C(void *);
+void SAVE_EVENT_StoreTodayDate(void *);
 int func_020074D8(void **save, const struct Sub02007454Entry *src);
 void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
@@ -80,7 +80,7 @@ void MB_COMM_SYS_RegisterReceivedMons(Ov107Ctx *p)
     }
     for (i = 0; i < n; i++) {
         mon = MB_COMM_SYS_GetMon(p->f0C, i);
-        func_0202F27C(mon);
+        SAVE_EVENT_StoreTodayDate(mon);
         ok = func_020074D8(party, mon);
         mon = POKE_TOOL_CreateFromBoxParam(mon, p->f00);
         ZUKAN_SAVE_RegisterCaught(box, mon);

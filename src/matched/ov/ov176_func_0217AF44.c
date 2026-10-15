@@ -1,5 +1,5 @@
 /*
- * function: func_0217AF44
+ * function: BATTLE_CHAMPIONSHIP_FLOW_DeleteView
  * address: 0x0217AF44
  * packet: pkt_ov176_0217AF44
  * region: ov176
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E5868(void *);
-void func_0217AF44(int *p) {func_021E5868(((struct Obj03869 *)p)->f20);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *p) {func_021E5868(((struct Obj03869 *)p)->f20);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B80
+ * function: PSEL_StepAnim
  * address: 0x021B9B80
  * packet: pkt_ov223_021B9B80
  * region: ov223
@@ -12,8 +12,8 @@
  *   table 0x021BC78C data
  *   ICA_ANIME_IncFrameLoop 0x02011590 thumb
  *   ICA_ANIME_SetCameraStatus 0x02011B8C thumb
- *   func_021BC52C 0x021BC52C thumb
- *   func_021B95A0 0x021B95A0 thumb
+ *   PSEL_GRAPHIC_GetCamera 0x021BC52C thumb
+ *   PSEL_SetAnimFrame 0x021B95A0 thumb
  */
 #include "../include/Obj01786.h"
 typedef unsigned short u16;
@@ -23,9 +23,9 @@ typedef unsigned int   u32;
 struct IcaAnime;
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_SetCameraStatus(void *,void *);
-extern unsigned func_021BC52C(unsigned char *p);
-extern int func_021B95A0(int a0, int a1);
-void func_021B9B80(char *p)
+extern unsigned PSEL_GRAPHIC_GetCamera(unsigned char *p);
+extern int PSEL_SetAnimFrame(int a0, int a1);
+void PSEL_StepAnim(char *p)
 {
     unsigned i=0;
     if(((struct Obj01786 *)p)->f48==0) i=1;
@@ -34,11 +34,11 @@ void func_021B9B80(char *p)
         int step;
         if(((struct Obj01786 *)p)->f48!=0) step=-2048; else step=2048;
         ICA_ANIME_IncFrameLoop(((struct Obj01786 *)p)->f40,step);
-        ICA_ANIME_SetCameraStatus((void *)func_021BC52C(((struct Obj01786 *)p)->f14),((struct Obj01786 *)p)->f40);
+        ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj01786 *)p)->f14),((struct Obj01786 *)p)->f40);
         if(((struct Obj01786 *)p)->f48!=0) --((struct Obj01786 *)p)->f4C; else ++((struct Obj01786 *)p)->f4C;
     if(((struct Obj01786 *)p)->f4C==i && ((struct Obj01786 *)p)->f48!=0) {
-        func_021B95A0((int)(((struct Obj01786 *)p)->f40),0x4E000);
-        ICA_ANIME_SetCameraStatus((void *)func_021BC52C(((struct Obj01786 *)p)->f14),((struct Obj01786 *)p)->f40);
+        PSEL_SetAnimFrame((int)(((struct Obj01786 *)p)->f40),0x4E000);
+        ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj01786 *)p)->f14),((struct Obj01786 *)p)->f40);
     }
     }
 }

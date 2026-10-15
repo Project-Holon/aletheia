@@ -15,7 +15,7 @@
  * statement), clears the egg flag (id 0x4C), stores 0x78 into id 9, renders
  * the species name into the shared 0x20 halfword buffer at 0x021462F0 and
  * writes it back as the nickname (id 0x74), then hands the record and the
- * three caller arguments to func_0202F1B4 before releasing the lock.
+ * three caller arguments to SAVE_EVENT_WriteMode before releasing the lock.
  *
  * WHAT WAS WRONG IN THE EARLIER NOTE, AND WHAT CLOSED IT
  * -----------------------------------------------------
@@ -66,7 +66,7 @@
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_0202F1B4  0x0202F1B4  thumb
+ *   SAVE_EVENT_WriteMode  0x0202F1B4  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   gNameBuf     0x021462F0  data
@@ -82,7 +82,7 @@ extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void SAVE_EVENT_WriteMode(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 extern void *gSpeciesNameBank;
@@ -98,6 +98,6 @@ u32 POKE_TOOL_HatchBoxEgg(void *a0, u32 a1, u32 a2, u32 a3)
     POKE_TOOL_SetBoxValue(a0, 9, 0x78);
     MSGDATA_ReadUnits(gSpeciesNameBank, w, (u16 *)gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(a0, 0x74, (u32)gNameBuf);
-    func_0202F1B4((u32)a0, 2, a1, a2, a3);
+    SAVE_EVENT_WriteMode((u32)a0, 2, a1, a2, a3);
     return POKE_TOOL_EncodeBoxParam(a0, v);
 }

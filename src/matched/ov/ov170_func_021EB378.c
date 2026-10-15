@@ -27,7 +27,7 @@
  *   BMP_Blit 0x020439A0 arm
  *   BMP_Delete 0x020437AC arm
  *   func_020307B0 0x020307B0 arm
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   STRBUF_Delete 0x02045808 arm
@@ -59,7 +59,7 @@ extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 func_020307B0(void *p);
-extern unsigned func_020275E4(void);
+extern unsigned APP_ICON_GetArchiveId(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -129,7 +129,7 @@ void BOX2_SEQ_DrawWindowFrame(char *p, int idx, unsigned msg, unsigned short fra
     func_020307B0(res);
 
     if (icon == 1) {
-        res = ARC_UTIL_LoadBgCharDataFromArchive(func_020275E4(), 0x20, 0, (u32)(&chr), HEAP);
+        res = ARC_UTIL_LoadBgCharDataFromArchive(APP_ICON_GetArchiveId(), 0x20, 0, (u32)(&chr), HEAP);
         t = BMP_CreateFromBuffer(chr->raw + 0x120, 0x10, 8, 0x20, HEAP);
         BMP_Blit(t, bmp, 0, 0, (w - 3) * 8, 8, 0x10, 8, 5);
         BMP_Delete(t);

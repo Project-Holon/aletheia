@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAE8
+ * function: MANUAL_CATEGORY_DeleteOption
  * address: 0x021BBAE8
  * packet: pkt_ov225_021BBAE8
  * region: ov225
@@ -25,4 +25,4 @@ extern void func_021B9E80(char *,u32);
 struct Node;
 extern void TCB_DeleteTask(struct Node *);
 extern u32 func_020307B0(void *p);
-void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
+void MANUAL_CATEGORY_DeleteOption(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }

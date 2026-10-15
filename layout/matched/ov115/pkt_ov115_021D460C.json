@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D460C",
+   "name": "WIFILOGIN_DISP_StepConfirmConsole",
    "address": "0x021D460C",
    "kind": "game",
    "region": "ov115",

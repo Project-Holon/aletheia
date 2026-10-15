@@ -76,35 +76,50 @@ struct Ov208Slot {
     unsigned int obj;
 };
 
+struct Bank;
+struct Node;
+
+/*
+ * Work object of the touch bar, 0x11c bytes, built by
+ * ZUKAN_DETAIL_TOUCHBAR_Create. state is the slide state (0 hidden, 1 sliding
+ * in, 2 shown, 3 sliding out), mode selects the button set (0 bar, 1 left
+ * arrow, 2 right arrow), prevMode/prevKind/kind/arrowKind track the last two
+ * palette selections, scrollIdx indexes the slide tables and slotsEnabled arms
+ * the buttons. clactUnit/task are the CLACT unit and the vblank task, mgr the
+ * button manager. palResN/charResN/cellResN are the CLACT resources of the
+ * three button sets. slots/count hold the button actors, palA/palB/palOut the
+ * cross-faded palette and phase its angle.
+ */
 struct Ov208Scene {
     unsigned short heap;
     unsigned short pad2;
-    unsigned int f4;
+    unsigned int dexFlags;
     int state;
-    int fc;
+    int prevMode;
     int mode;
-    unsigned int f14;
-    unsigned int f18;
-    unsigned int f1c;
-    int idx;
+    unsigned int prevKind;
+    unsigned int kind;
+    unsigned int arrowKind;
+    int scrollIdx;
     unsigned char step;
     unsigned char pad25[3];
-    unsigned int f28;
-    unsigned int f2c;
+    struct Bank *clactUnit;
+    struct Node *task;
     struct Ov208Mgr *mgr;
-    unsigned int f34;
-    unsigned int f38;
-    unsigned int f3c;
-    unsigned int f40;
-    unsigned int f44;
-    unsigned int f48;
-    unsigned int f4c;
-    unsigned int f50;
-    unsigned int f54;
-    unsigned int f58;
-    unsigned int f5c;
-    unsigned int f60;
-    unsigned int f64;
+    unsigned int slotsEnabled;
+    unsigned char bgPriority;
+    unsigned char pad39[3];
+    unsigned int bgDirty;
+    unsigned int buttonFlag;
+    unsigned int palRes0;
+    unsigned int charRes0;
+    unsigned int cellRes0;
+    unsigned int palRes1;
+    unsigned int charRes1;
+    unsigned int cellRes1;
+    unsigned int palRes2;
+    unsigned int charRes2;
+    unsigned int cellRes2;
     unsigned char count;
     unsigned char pad69[3];
     struct Ov208Slot slots[9];

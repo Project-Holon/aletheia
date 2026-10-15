@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_02034F5C  0x02034F5C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
@@ -88,7 +88,7 @@ typedef struct PaletteData {
     void *colors;
 } PaletteData;
 
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void GFL_USE_PollPowerExit(void);
 extern void func_02034F5C(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -145,7 +145,7 @@ static inline u16 ReadKeys(void)
  */
 void ERROR_SCREEN_ShowAndWait(void)
 {
-    ERROR_SCREEN_Setup(func_0202EB0C() ? 0x2A : 0x10);
+    ERROR_SCREEN_Setup(APP_ENV_IsRunOnTwl() ? 0x2A : 0x10);
     while (ReadKeys() & 3) {
         GFL_USE_PollPowerExit();
         func_02034F5C();

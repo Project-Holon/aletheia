@@ -9,15 +9,16 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021BF0A0 0x021BF0A0 thumb ov204
+ *   INTRO_MSG_Create 0x021BF0A0 thumb ov204
  *   d_021C0AAC 0x021C0AAC data a1
+ *   gIntroSite  0x021C0AE4  data
  */
 #include "../include/Obj03921.h"
 #include "../include/Obj25381.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char *func_021BF0A0(u16 heap);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *gIntroSite, u16 tag);
+extern char *INTRO_MSG_Create(u16 heap);
 extern const char d_021C0AAC[];
 char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
 {
@@ -29,6 +30,6 @@ char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsign
     ((struct Obj03921 *)p)->f10 = b;
     ((struct Obj03921 *)p)->f14 = e;
     ((struct Obj03921 *)p)->fA4 = ((struct Obj25381 *)d)->fC;
-    ((struct Obj03921 *)p)->f18 = func_021BF0A0(heap);
+    ((struct Obj03921 *)p)->f18 = INTRO_MSG_Create(heap);
     return p;
 }

@@ -85,7 +85,7 @@
  *   func_02048AD0  0x02048AD0  arm
  *   func_0207DCF8  0x0207DCF8  arm
  *   BILLBOARD_Create  0x0204EBD4  arm
- *   BILLBOARD_SetField10  0x0204ED70  arm
+ *   BILLBOARD_SetScale  0x0204ED70  arm
  *   func_02040618  0x02040618  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
@@ -133,14 +133,6 @@
 #include "../../matched/include/Obj00587.h"
 #include "../../matched/include/Obj08019.h"
 #include "../../matched/include/Obj10295.h"
-#include "../../matched/include/Obj05308.h"
-#include "../../matched/include/Obj22509.h"
-#include "../../matched/include/Obj22510.h"
-#include "../../matched/include/Obj08020.h"
-#include "../../matched/include/Obj10296.h"
-#include "../../matched/include/Obj03246.h"
-#include "../../matched/include/Obj02823.h"
-#include "../../matched/include/Obj13824.h"
 
 struct Obj0203159C;
 struct RtcDate;
@@ -201,18 +193,22 @@ typedef struct
 {
   u16 heap;
   u16 pad;
-  Flags *cfg;
+  Flags *record;
   u8 *objects[4];
-  void *unused;
-  void *owner;
-  void *scene;
-  void *actors;
-  void *unused28;
-  void *render;
+  void *camera;
+  void *board;
+  void *renderObj;
+  void *actorPool;
+  void *model;
+  void *sprite;
   void *models[4];
-  void *effect;
+  void *unit;
   void *effects[4];
-} Context;
+  void *winA;
+  void *winB;
+  void *fontA;
+  void *fontB;
+} ShotScene;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -283,7 +279,7 @@ extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const voi
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DCF8(const void *a);
 extern void *BILLBOARD_Create(u8 *src, void *heap);
-extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 extern void func_02040618(u32, u32, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
@@ -323,7 +319,7 @@ void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
 void MUSICAL_SHOT_SYS_Init3D(char *p);
 void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c);
 void MUSICAL_SHOT_SYS_Exit3D(u8 *p);
-void MUSICAL_SHOT_SYS_InitActors(Context *p);
+void MUSICAL_SHOT_SYS_InitActors(ShotScene *p);
 extern char ov132_id[];
 extern const char d_021F836C[];
 extern u8 ov_abs_84[];
@@ -403,14 +399,14 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     GXx_SetMasterBrightness_((void *)0x0400006c,-16);
     GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
-    MUSICAL_MCSS_Delete(*(u8 * *)&((struct Obj05308 *)p)->f10);
-    MUSICAL_SHOT_SYS_DeleteScene(*(u8 * *)&((struct Obj05308 *)p)->fC);
+    MUSICAL_MCSS_Delete(((State *)p)->actors);
+    MUSICAL_SHOT_SYS_DeleteScene(((State *)p)->scene);
     MUSICAL_SHOT_SYS_ExitGraphics(p);
-    func_02030EAC(((struct Obj05308 *)p)->f4);
-    if (((struct Obj22509 *)(*(u8 * *)&((struct Obj05308 *)p)->f8))->f4==1) func_02034A5C((int)ov_abs_84);
+    func_02030EAC(((State *)p)->task);
+    if (((State *)p)->save->b==1) func_02034A5C((int)ov_abs_84);
     if (flag==0) {
-        func_020307B0(((struct Obj22510 *)(*(u8 * *)&((struct Obj05308 *)p)->f8))->f8);
-        func_020307B0(((struct Obj05308 *)p)->f8);
+        func_020307B0(((State *)p)->save->config);
+        func_020307B0(((State *)p)->save);
         func_02034A5C((int)ov_abs_84);
     }
     func_020315D4(owner);
@@ -421,11 +417,11 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
 
 int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p)
 {
-    MUSICAL_SHOT_SYS_DrawScene(*(u8 * *)&((struct Obj08020 *)p)->fC);
-    MUSICAL_MCSS_Main(((struct Obj08020 *)p)->f10);
+    MUSICAL_SHOT_SYS_DrawScene(((State *)p)->scene);
+    MUSICAL_MCSS_Main(((State *)p)->actors);
     CLACT_DrawSystem();
-    if(MUSICAL_MCSS_NoOp2(((struct Obj08020 *)p)->f10)==1) {
-        WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj08020 *)p)->f0);
+    if(MUSICAL_MCSS_NoOp2(((State *)p)->actors)==1) {
+        WIPE_SYS_Start(0,0,0,0,6,1,((State *)p)->heap);
         return 1;
     }
     return 0;
@@ -454,10 +450,10 @@ void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021F816C);
-    BG_SYS_Create(((struct Obj10296 *)p)->f0);
-    BMP_WIN_Init(((struct Obj10296 *)p)->f0);
+    BG_SYS_Create(((State *)p)->heap);
+    BMP_WIN_Init(((State *)p)->heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021F815C);
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((State *)p)->heap);
     BG_SYS_SetMainPlaneVisible(16,1);
 }
 
@@ -488,12 +484,12 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
         }
     }
     MUSICAL_SHOT_SYS_Init3D((char *)o);
-    MUSICAL_SHOT_SYS_InitActors((Context *)o);
+    MUSICAL_SHOT_SYS_InitActors((ShotScene *)o);
     MUSICAL_MCSS_DrawLabel(o);
-    *(void **)(o + 0x28) = STA_ACT_LIGHT_AllocElem(*(u16 *)o, 0);
-    STA_ACT_LIGHT_CreateModel(*(void **)(o + 0x28), (u8)((struct F5 *)*(u8 **)(o + 4))->v);
-    STA_ACT_LIGHT_SetElemFrame(*(void **)(o + 0x2c), 0x80);
-    STA_ACT_LIGHT_SetModelFrame(*(void **)(o + 0x28), 0x80);
+    ((ShotScene *)o)->model = STA_ACT_LIGHT_AllocElem(*(u16 *)o, 0);
+    STA_ACT_LIGHT_CreateModel(((ShotScene *)o)->model, (u8)((struct F5 *)((ShotScene *)o)->record)->v);
+    STA_ACT_LIGHT_SetElemFrame(((ShotScene *)o)->sprite, 0x80);
+    STA_ACT_LIGHT_SetModelFrame(((ShotScene *)o)->model, 0x80);
     return o;
 }
 
@@ -501,15 +497,15 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
 void MUSICAL_SHOT_SYS_DeleteScene(u8 *p)
 {
     u8 i;
-    STA_ACT_LIGHT_DeleteUnit((char *)(((struct Obj03246 *)p)->f40));
-    STA_ACT_LIGHT_DeleteModel((u8 *)(((struct Obj03246 *)p)->f28));
-    STA_ACT_LIGHT_DeleteBillboardImage(((struct Obj03246 *)p)->f2C);
-    MUSICAL_MCSS_DeleteRenderObj(((struct Obj03246 *)p)->f20);
-    MUSICAL_MCSS_DeleteActorPool(*(u8 * *)&((struct Obj03246 *)p)->f24);
-    BMP_WIN_Delete(((struct Obj03246 *)p)->f58);
-    BMP_WIN_Delete(((struct Obj03246 *)p)->f54);
-    GF_FONT_Delete(((struct Obj03246 *)p)->f60);
-    GF_FONT_Delete(((struct Obj03246 *)p)->f5C);
+    STA_ACT_LIGHT_DeleteUnit((char *)((ShotScene *)p)->unit);
+    STA_ACT_LIGHT_DeleteModel((u8 *)((ShotScene *)p)->model);
+    STA_ACT_LIGHT_DeleteBillboardImage(((ShotScene *)p)->sprite);
+    MUSICAL_MCSS_DeleteRenderObj((int)((ShotScene *)p)->renderObj);
+    MUSICAL_MCSS_DeleteActorPool(((ShotScene *)p)->actorPool);
+    BMP_WIN_Delete(((ShotScene *)p)->winB);
+    BMP_WIN_Delete(((ShotScene *)p)->winA);
+    GF_FONT_Delete(((ShotScene *)p)->fontB);
+    GF_FONT_Delete(((ShotScene *)p)->fontA);
     MUSICAL_SHOT_SYS_Exit3D(p);
     for(i=0;i<4;i++) func_020307B0(*(void **)(p+i*4+8));
     func_020307B0(p);
@@ -521,17 +517,17 @@ void MUSICAL_SHOT_SYS_DeleteScene(u8 *p)
  */
 void MUSICAL_SHOT_SYS_DrawScene(u8 *p)
 {
-    STA_ACT_LIGHT_UpdateBillboard((u8 *)(((struct Obj02823 *)p)->f2C));
-    MUSICAL_MCSS_TickAnim(*(u8 * *)&((struct Obj02823 *)p)->f20);
-    STA_ACT_LIGHT_UpdateElemActors((char *)(((struct Obj02823 *)p)->f40));
+    STA_ACT_LIGHT_UpdateBillboard((u8 *)((ShotScene *)p)->sprite);
+    MUSICAL_MCSS_TickAnim(((ShotScene *)p)->renderObj);
+    STA_ACT_LIGHT_UpdateElemActors((char *)((ShotScene *)p)->unit);
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
-    STA_ACT_LIGHT_NoOp(((struct Obj02823 *)p)->f40);
-    STA_ACT_LIGHT_UpdateElem((u8 *)(((struct Obj02823 *)p)->f2C));
-    MUSICAL_MCSS_DrawRenderObj((void **)(*(u32 *)&((struct Obj02823 *)p)->f20));
-    STA_ACT_LIGHT_UpdateSprite((char *)(((struct Obj02823 *)p)->f2C));
-    STA_ACT_LIGHT_DrawModel((u8 *)(((struct Obj02823 *)p)->f28));
-    BILLBOARD_Draw((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
+    STA_ACT_LIGHT_NoOp((u32)((ShotScene *)p)->unit);
+    STA_ACT_LIGHT_UpdateElem((u8 *)((ShotScene *)p)->sprite);
+    MUSICAL_MCSS_DrawRenderObj((void **)((ShotScene *)p)->renderObj);
+    STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)p)->sprite);
+    STA_ACT_LIGHT_DrawModel((u8 *)((ShotScene *)p)->model);
+    BILLBOARD_Draw((struct Board *)((ShotScene *)p)->board,(struct Camera *)((ShotScene *)p)->camera,0);
     MUSICAL_MCSS_NoOp(p);
     G3D_SYSTEM_DrawEnd();
 }
@@ -597,7 +593,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     pb = &b;
     h = BILLBOARD_Create((u8 *)(&a), (void *)(*(u16 *)p));
     *(void **)(p + 0x1C) = h;
-    BILLBOARD_SetField10(h, (struct Blk3 *)pb);
+    BILLBOARD_SetScale(h, (struct Blk3 *)pb);
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);
@@ -622,7 +618,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
 void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); func_020409B4(b); }
 
 
-void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { func_020403F4(3); func_020403F4(1); func_020403F4(2); BILLBOARD_Delete(((struct Obj13824 *)p)->f1C); G3D_CAMERA_Delete(((struct Obj13824 *)p)->f18); G3D_SYSTEM_Exit(); func_020403F4(0); }
+void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { func_020403F4(3); func_020403F4(1); func_020403F4(2); BILLBOARD_Delete(((ShotScene *)p)->board); G3D_CAMERA_Delete(((ShotScene *)p)->camera); G3D_SYSTEM_Exit(); func_020403F4(0); }
 
 
 /*
@@ -630,7 +626,7 @@ void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { func_020403F4(3); func_020403F4(1); func_0
  * match: u32 offset and integer row address retain the spilled row and live index; vectors follow frame order; second loop reuses the earlier j as mask and mask as index; final mask advances before i.
  * ABI: 760C leaves a live result used by this caller despite its own void declaration.
  */
-void MUSICAL_SHOT_SYS_InitActors(Context *p)
+void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
 {
   u32 offset;
   Vec pos = d_021F8240;
@@ -648,26 +644,26 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
   int tmp1;
   void *tmp;
   current = 5 << 16;
-  p->scene = MUSICAL_MCSS_CreateRenderObj(p->heap);
-  MUSICAL_MCSS_SetRenderFieldA(p->scene, 2 << 16);
-  p->actors = MUSICAL_MCSS_CreateActorPool((u32) p->owner, 36, p->heap);
-  p->render = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (u32)p->scene, (u32)p->actors, (u32)p->owner);
+  p->renderObj = MUSICAL_MCSS_CreateRenderObj(p->heap);
+  MUSICAL_MCSS_SetRenderFieldA(p->renderObj, 2 << 16);
+  p->actorPool = MUSICAL_MCSS_CreateActorPool((u32) p->board, 36, p->heap);
+  p->sprite = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (u32)p->renderObj, (u32)p->actorPool, (u32)p->board);
   for (i = 0; i < 4; i++)
     p->models[i] = 0;
 
   for (j = 0; j < 4; j++)
   {
     row = ((u8 *) p) + (4 * j);
-    q = STA_ACT_LIGHT_AddPokemonElem(p->render, *((u8 **) (row + 8)));
+    q = STA_ACT_LIGHT_AddPokemonElem(p->sprite, *((u8 **) (row + 8)));
     if (1)
     {
       *((void **) (row + 0x30)) = q;
-      STA_ACT_LIGHT_CallElemB((int)p->render, (int)q);
-      STA_ACT_LIGHT_SetElemValue((int) p->render, *((int **) (row + 0x30)), 1);
+      STA_ACT_LIGHT_CallElemB((int)p->sprite, (int)q);
+      STA_ACT_LIGHT_SetElemValue((int) p->sprite, *((int **) (row + 0x30)), 1);
     }
   }
 
-  flags = p->cfg->flags;
+  flags = p->record->flags;
   for (i = 0, mask = 1; i < 4; i++, mask <<= 1)
   {
     if (!(flags & mask))
@@ -689,14 +685,14 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
   i = 0;
   mask = 1;
   tmp = STA_ACT_LIGHT_CreateUnit(p->heap, 0);
-  p->effect = tmp;
+  p->unit = tmp;
   base = d_021F824C;
   for (; i < 4; mask <<= 1, i++)
   {
     offset = 4 * i;
     row = (u8 *)(((u32)p) + offset);
     scale.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
-    if (p->cfg->flags & mask)
+    if (p->record->flags & mask)
     {
       u8 *actor;
       temp = base;
@@ -704,8 +700,8 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
       pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      STA_ACT_LIGHT_ElemOpB(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
-      STA_ACT_LIGHT_ElemOpD(p->render, *((void **) (actor + 0x30)), (const u32 *)(&temp));
+      STA_ACT_LIGHT_ElemOpB(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_ElemOpD(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&temp));
       scale.y = 22 << 14;
     }
     else
@@ -715,12 +711,12 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
       pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      STA_ACT_LIGHT_ElemOpB(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_ElemOpB(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       tmp1 = 2 << 18;
       scale.y = tmp1;
     }
-    *((void **) (row + 0x44)) = STA_ACT_LIGHT_CreateActor(p->effect, 1);
-    STA_ACT_LIGHT_CopyElemA(p->effect, *((void **) (row + 0x44)), (const u32 *)(&scale));
+    *((void **) (row + 0x44)) = STA_ACT_LIGHT_CreateActor(p->unit, 1);
+    STA_ACT_LIGHT_CopyElemA(p->unit, *((void **) (row + 0x44)), (const u32 *)(&scale));
   }
 
 }

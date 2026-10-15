@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BF23C 0x021BF23C thumb ov204
- *   func_021BF2F4 0x021BF2F4 thumb ov204
+ *   INTRO_MSG_PrintText 0x021BF23C thumb ov204
+ *   INTRO_MSG_UpdatePrint 0x021BF2F4 thumb ov204
  */
 #include "../include/Obj14608.h"
-extern void func_021BF23C(char *,void *,int);
-extern int func_021BF2F4(char *);
-int func_021BE478(char *p,int *state,unsigned *q){switch(*state){case 0:func_021BF23C(*(char * *)&((struct Obj14608 *)p)->f18,(void *)q[0],q[1]);(*state)++;break;case 1:if(func_021BF2F4(*(char * *)&((struct Obj14608 *)p)->f18))return 1;break;}return 0;}
+extern void INTRO_MSG_PrintText(char *,void *,int);
+extern int INTRO_MSG_UpdatePrint(char *);
+int func_021BE478(char *p,int *state,unsigned *q){switch(*state){case 0:INTRO_MSG_PrintText(*(char * *)&((struct Obj14608 *)p)->f18,(void *)q[0],q[1]);(*state)++;break;case 1:if(INTRO_MSG_UpdatePrint(*(char * *)&((struct Obj14608 *)p)->f18))return 1;break;}return 0;}

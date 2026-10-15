@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028470",
+   "name": "PRINTSYS_CTRL_Init",
    "address": "0x02028470",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC514
+ * function: PSEL_GRAPHIC_DrawEnd
  * address: 0x021BC514
  * packet: pkt_ov223_021BC514
  * region: ov223
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC6F0 0x021BC6F0 thumb ov223
+ *   PSEL_GRAPHIC_G3dDrawEnd 0x021BC6F0 thumb ov223
  */
-extern void func_021BC6F0(unsigned char *);
-void func_021BC514(unsigned char *p){func_021BC6F0(p+8);}
+extern void PSEL_GRAPHIC_G3dDrawEnd(unsigned char *);
+void PSEL_GRAPHIC_DrawEnd(unsigned char *p){PSEL_GRAPHIC_G3dDrawEnd(p+8);}

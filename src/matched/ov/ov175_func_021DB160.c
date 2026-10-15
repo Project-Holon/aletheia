@@ -9,10 +9,10 @@
  * status: EXACT*
  * tail: 021DB216..021DB218 is two zero alignment bytes.
  * symbols:
- *   func_021DF420 0x021DF420 arm ov175
+ *   DWC_ScReportAddByteValue 0x021DF420 arm ov175
  *   DWC_ScReportAddIntValue 0x021DF3E8 arm ov175
  */
-extern int func_021DF420(int, int, int);
+extern int DWC_ScReportAddByteValue(int, int, int);
 extern int DWC_ScReportAddIntValue(int, int, int);
 void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert)
 {
@@ -27,7 +27,7 @@ void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert)
     case 5: case 6: default: first = 0; second = 0; break;
     }
     if (!invert && flip) { first ^= 1; second ^= 1; }
-    if (!skip && func_021DF420(ctx[1], 0x15, 1)) return;
+    if (!skip && DWC_ScReportAddByteValue(ctx[1], 0x15, 1)) return;
     if (DWC_ScReportAddIntValue(ctx[1], 0x16, first)) return;
     if (DWC_ScReportAddIntValue(ctx[1], 0x17, second)) return;
     if (DWC_ScReportAddIntValue(ctx[1], 0x18, present != 0)) return;

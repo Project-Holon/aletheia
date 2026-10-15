@@ -21,6 +21,8 @@
  *   char_from_long  0x02162FC0  arm
  *   padding         0x021A1DE8  data
  */
+#include "cps_ssl_types.h"
+
 #define ROTL(v, s)  (((v) << (s)) | ((v) >> (32 - (s))))
 #define F(x, y, z)  ((z) ^ ((x) & ((y) ^ (z))))
 #define G(x, y, z)  ((y) ^ ((z) & ((x) ^ (y))))
@@ -29,29 +31,16 @@
 #define STEP(f, a, b, c, d, k, s) \
     a += f(b, c, d) + x[g_021A1DA8[k]] + g_021A1E28[k]; \
     a = ROTL(a, s) + b
-typedef struct CPSMd5Ctx_02162FC0 {
-    unsigned long state[4];
-    unsigned long count[2];
-    unsigned char buffer[64];
-} CPSMd5Ctx_02162FC0;
-
-typedef unsigned long u32;
-
-typedef struct CPSMd5Ctx_021633F0 {
-    u32 state[4];
-    u32 count[2];
-    unsigned char buffer[64];
-} CPSMd5Ctx_021633F0;
 
 extern void MI_CpuCopy8(void *a, void *b, int n);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
 extern void char_from_long(unsigned char *d, unsigned long *s, unsigned int len);
 void func_02162FC0(void *a, void *b, int n);
 void func_02162FD8(void *a, void *b, int n);
-void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m);
-void CPSi_md5_init(CPSMd5Ctx_021633F0 *ctx);
-void CPSi_md5_calc(CPSMd5Ctx_021633F0 *ctx, void *data0, int datalen);
-void CPSi_md5_result(CPSMd5Ctx_021633F0 *ctx, unsigned char *digest);
+void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m);
+void CPSi_md5_init(CPSMd5Ctx *ctx);
+void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen);
+void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest);
 extern unsigned long g_021A1E28[64];
 extern unsigned char g_021A1DA8[64];
 extern unsigned char padding[64];
@@ -81,7 +70,7 @@ void func_02162FD8(void *a, void *b, int n)
  * Table-driven MD5 block: four rounds of four iterations, each iteration
  * doing four steps indexed through itab (message word) and ktab (constant).
  */
-void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m)
+void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m)
 {
     unsigned long x[16];
     unsigned long a, b, c, d;
@@ -131,7 +120,7 @@ void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m)
 
 
 
-void CPSi_md5_init(CPSMd5Ctx_021633F0 *ctx)
+void CPSi_md5_init(CPSMd5Ctx *ctx)
 {
     MI_CpuFill8(ctx, 0, 0x58);
     ctx->state[0] = 0x67452301;
@@ -142,7 +131,7 @@ void CPSi_md5_init(CPSMd5Ctx_021633F0 *ctx)
 
 
 
-void CPSi_md5_calc(CPSMd5Ctx_021633F0 *ctx, void *data0, int datalen)
+void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen)
 {
     unsigned char *data = data0;
     unsigned int i, index, room;
@@ -166,7 +155,7 @@ void CPSi_md5_calc(CPSMd5Ctx_021633F0 *ctx, void *data0, int datalen)
 
 
 
-void CPSi_md5_result(CPSMd5Ctx_021633F0 *ctx, unsigned char *digest)
+void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest)
 {
     int index;
 

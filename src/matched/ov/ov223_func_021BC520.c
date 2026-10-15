@@ -1,5 +1,5 @@
 /*
- * function: func_021BC520
+ * function: PSEL_GRAPHIC_GetClactBank
  * address: 0x021BC520
  * packet: pkt_ov223_021BC520
  * region: ov223
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC65C 0x021BC65C thumb ov223
+ *   PSEL_GRAPHIC_LoadWord 0x021BC65C thumb ov223
  */
-extern unsigned func_021BC65C(const unsigned *);
-unsigned func_021BC520(unsigned char *p){return func_021BC65C((const unsigned *)(p+4));}
+extern unsigned PSEL_GRAPHIC_LoadWord(const unsigned *);
+unsigned PSEL_GRAPHIC_GetClactBank(unsigned char *p){return PSEL_GRAPHIC_LoadWord((const unsigned *)(p+4));}

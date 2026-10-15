@@ -53,7 +53,7 @@
  *   CURSOR_MOVE_FindTableGroupIndex 0x02025CB0 thumb
  *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   DWC_GetDateTime 0x02167ED8 arm ov009
- *   func_0200DD28 0x0200DD28 thumb
+ *   GDS_PROFILE_SetSubwaySaveBitAndStamp 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  *   MYSTATUS_Create 0x0200846C thumb
  *   func_020307B0 0x020307B0 arm
@@ -85,8 +85,8 @@
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
  *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
- *   func_0200DCF8 0x0200DCF8 thumb
- *   func_0200DC74 0x0200DC74 thumb
+ *   GDS_PROFILE_GetScoreRecScore 0x0200DCF8 thumb
+ *   GDS_PROFILE_GetScoreRecBlob 0x0200DC74 thumb
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
@@ -127,6 +127,7 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
+ *   GDS_PROFILE_GetScoreRecScoreHigh  0x0200DCFC  thumb  arm9
  */
 
 #include "ov116_types.h"
@@ -218,7 +219,7 @@ extern u32 CURSOR_MOVE_FindTableGroupIndex(u32);
 extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int DWC_GetDateTime(void *, void *);
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
-extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
+extern void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q);
 extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void *MYSTATUS_Create(int);
 extern u32 func_020307B0(void *p);
@@ -246,8 +247,8 @@ extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern u16 func_0200DCF8(struct Blk1AC *p);
-extern void func_0200DC74(struct Blk1AC *p, u32 which, void *dest);
+extern u16 GDS_PROFILE_GetScoreRecScore(struct Blk1AC *p);
+extern void GDS_PROFILE_GetScoreRecBlob(struct Blk1AC *p, u32 which, void *dest);
 extern void NHTTP_RAP_DeleteConnection(unsigned char *);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *NHTTP_RAP_Create(int,int,int);
@@ -267,7 +268,7 @@ extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
 extern void MSGDATA_ReadUnits(struct MsgData *,unsigned int,unsigned short *,unsigned int);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct RecSlot *p);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct RecSlot *p);
-extern u8 func_0200DCFC(struct Blk1AC *p);
+extern u8 GDS_PROFILE_GetScoreRecScoreHigh(struct Blk1AC *p);
 extern void DPW_BT_UploadPlayerAsync(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
 extern int DPW_BT_IsAsyncEnd(void);
 extern int DPW_BT_GetAsyncResult(void);
@@ -454,7 +455,7 @@ void WIFI_BSUBWAY_SaveTrainers(u8 *trainers, void *save) {
     u32 date[4];
     DWC_GetDateTime(date, time);
     BSUBWAY_SAVEDATA_SetTrainers(save, trainers + 14, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10));
-    func_0200DD28(save, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10), date);
+    GDS_PROFILE_SetSubwaySaveBitAndStamp(save, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10), date);
 }
 
 void WIFI_BSUBWAY_SaveHistory(unsigned char *trainers,void *save) { BSUBWAY_SAVEDATA_SetHistory(save,trainers+0x69e,((struct WifiBsubwayTrainers *)trainers)->roomNumber,((struct WifiBsubwayTrainers *)trainers)->playerIndex); }
@@ -564,8 +565,8 @@ void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *train
     profileRecord[0xd5] = CURSOR_MOVE_GetTableGroup(profileRecord[0xd5]);
     for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(saveData, i + 1, (struct Rec0200E6FC *)(profileRecord + 0xd6 + i * 8));
     MISC_SAVEDATA_CopyQuadRecord(saveData, 4, (struct Rec0200E6FC *)(profileRecord + 0xcc));
-    *(u16 *)(profileRecord + 0xee) = func_0200DCF8(saveBlockA);
-    func_0200DC74(saveBlockA, 1, profileRecord);
+    *(u16 *)(profileRecord + 0xee) = GDS_PROFILE_GetScoreRecScore(saveBlockA);
+    GDS_PROFILE_GetScoreRecBlob(saveBlockA, 1, profileRecord);
 }
 
 void WIFI_BSUBWAY_OnHttpError(unsigned char *status) { if(((struct WifiBsubwayStatus *)status)->http) NHTTP_RAP_DeleteConnection(((struct WifiBsubwayStatus *)status)->http); }
@@ -650,7 +651,7 @@ void WIFI_BSUBWAY_StartUploadPlayer(u8 *status, u8 *async) {
     int tagA, tagB, tagC;
     tagA = BSUBWAY_SAVEDATA_GetTrainersTagA(((struct WifiBsubwayStatus *)status)->saveBlockB);
     tagB = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct WifiBsubwayStatus *)status)->saveBlockB);
-    tagC = func_0200DCFC(((struct WifiBsubwayStatus *)status)->saveBlockA);
+    tagC = GDS_PROFILE_GetScoreRecScoreHigh(((struct WifiBsubwayStatus *)status)->saveBlockA);
     DPW_BT_UploadPlayerAsync((u8)tagA,(u8)tagB,(u8)tagC,status+0x70,status+0x16e,(int)0x80);
     WIFI_BSUBWAY_AsyncReset(async);
 }

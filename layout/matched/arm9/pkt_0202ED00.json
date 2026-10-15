@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202ED00",
+   "name": "COMM_HISTORY_RemoveAt",
    "address": "0x0202ED00",
    "kind": "game",
    "region": "arm9",

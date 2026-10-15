@@ -1,5 +1,5 @@
 /*
- * function: func_0217CAE0
+ * function: LIVEBATTLEMATCH_FLOW_Card
  * address: 0x0217CAE0
  * packet: pkt_ov176_0217CAE0
  * region: ov176
@@ -11,7 +11,7 @@
  * symbols:
  *   func_0217E078 0x0217E078 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217C2EC 0x0217C2EC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Battle 0x0217C2EC thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
@@ -42,7 +42,7 @@ struct L0200ED54;
 struct Sub0200852CObj;
 extern int func_0217E078(u8 *p);
 extern void func_021E8AA0(int *,int);
-extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
+extern void LIVEBATTLEMATCH_FLOW_Battle(int *sys, u32 *state, u8 *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -63,11 +63,11 @@ extern void func_0217D010(u8 *,int);
 extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
 extern const char d_0217E618[];
-void func_0217CAE0(int *sys,u32 *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Card(int *sys,u32 *state,u8 *p)
 {
     if(func_0217E078(((struct Obj01271 *)p)->fC)==1){
         ((struct Obj24414 *)(*(u8 * *)&((struct Obj01271 *)p)->f1C4))->fC=1;
-        func_021E8AA0(sys,(int)func_0217C2EC);
+        func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
     }
     switch(*state){
     case 0:{

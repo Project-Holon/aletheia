@@ -29,9 +29,9 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0202F488  0x0202F488  thumb
+ *   SAVE_EVENT_IsStageDone  0x0202F488  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0202F630  0x0202F630  thumb
+ *   SAVE_EVENT_CommitStage  0x0202F630  thumb
  */
 #include "field_intrude_event_shared_types.h"
 #include "scrcmd_research_shared_types.h"
@@ -68,11 +68,11 @@ extern u32 POKEPARTY_GetCount(void *party);
 
 extern void *POKEPARTY_GetMember(void *party, u32 index);
 
-extern int func_0202F488(void *mon, int kind);
+extern int SAVE_EVENT_IsStageDone(void *mon, int kind);
 
 extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
 
-extern void func_0202F630(void *mon, u32 kind);
+extern void SAVE_EVENT_CommitStage(void *mon, u32 kind);
 
 int SCRCMD_EVENT_MON_FindEventMonInParty(void *party, int species, int move, int kind, u16 *outIndex);
 
@@ -236,7 +236,7 @@ int SCRCMD_EVENT_MON_FindEventMonInParty(void *party, int species, int move, int
     *outIndex = 0;
     for (i = 0; i < count; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_0202F488(mon, kind) == 0) {
+        if (SAVE_EVENT_IsStageDone(mon, kind) == 0) {
             continue;
         }
         if (species != func_02017E1C(mon, 5, 0)) {
@@ -287,9 +287,9 @@ int SCRCMD_EVENT_MON_CmdClearEventMonFlag(struct ScriptContext *ctx, struct ScrC
         return 0;
     }
     mon = POKEPARTY_GetMember(party, partyIndex);
-    if (func_0202F488(mon, kind) == 0) {
+    if (SAVE_EVENT_IsStageDone(mon, kind) == 0) {
         return 0;
     }
-    func_0202F630(mon, kind);
+    SAVE_EVENT_CommitStage(mon, kind);
     return 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     nns_g3d_tex_mtx.c
  * unit:     yes
- * function: NNSi_G3dTexMtxScaleRotTrans, NNSi_G3dTexMtxRotTrans, func_02071C14, func_02071C94, NNSi_G3dTexMtxScaleRot, NNSi_G3dTexMtxRot, NNSi_G3dTexMtxScale, func_02071EFC, NNSi_G3dSendTexMtx, NNSi_G3dTexMtxScaleRotTrans_Max, NNSi_G3dTexMtxRotTrans_Max, NNSi_G3dTexMtxScaleTrans_Max, NNSi_G3dTexMtxTrans_Max
+ * function: NNSi_G3dTexMtxScaleRotTrans, NNSi_G3dTexMtxRotTrans, NNSi_G3dTexMtxScaleTrans2, NNSi_G3dTexMtxTrans2, NNSi_G3dTexMtxScaleRot, NNSi_G3dTexMtxRot, NNSi_G3dTexMtxScale, NNSi_G3dTexMtxIdentity2, NNSi_G3dSendTexMtx, NNSi_G3dTexMtxScaleRotTrans_Max, NNSi_G3dTexMtxRotTrans_Max, NNSi_G3dTexMtxScaleTrans_Max, NNSi_G3dTexMtxTrans_Max
  * address:  0x02071A24
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -16,16 +16,16 @@
  * is zero, translation is zero) select which of eight constructors fills the
  * 4x4 texture matrix. This file holds two sets of them: the centred set
  * (NNSi_G3dTexMtx*, which rotates around the texture centre using the
- * original width and height) and the second set (func_02071C14 ...), which
+ * original width and height) and the second set (NNSi_G3dTexMtxScaleTrans2 ...), which
  * folds the translation into the matrix differently. NNSi_G3dSendTexMtx picks a
  * constructor by flag, applies the magnification factors and sends the
  * matrix to the geometry engine buffer.
  *
  * Compiler notes:
- *  - func_02071EFC, func_02071C94 and NNSi_G3dTexMtxTrans_Max need ../2.0/sp2: the
+ *  - NNSi_G3dTexMtxIdentity2, NNSi_G3dTexMtxTrans2 and NNSi_G3dTexMtxTrans_Max need ../2.0/sp2: the
  *    image materialises the 0x1000 unit scale first (or the zero late), so
  *    the two stores to m00 and m01 stay separate; 1.1p1 merges them into one
- *    `stm` and comes out 4 bytes shorter. func_02071C14 differs from 1.1p1
+ *    `stm` and comes out 4 bytes shorter. NNSi_G3dTexMtxScaleTrans2 differs from 1.1p1
  *    by one swapped pair of loads. For NNSi_G3dTexMtxTrans_Max the double negation of
  *    the m31 term only survives as two separate named locals assigned before
  *    the m30 store.
@@ -104,12 +104,12 @@ extern u32 func_0207C86C(void);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 void NNSi_G3dTexMtxScaleRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
-void func_02071C14(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
-void func_02071C94(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
+void NNSi_G3dTexMtxScaleTrans2(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
+void NNSi_G3dTexMtxTrans2(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxScaleRot(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxRot(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxScale(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
-void func_02071EFC(TexMtx *pTexMtx);
+void NNSi_G3dTexMtxIdentity2(TexMtx *pTexMtx);
 void NNSi_G3dSendTexMtx(NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxScaleRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
@@ -223,7 +223,7 @@ void NNSi_G3dTexMtxRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
  * Needs ../2.0/sp2: under 1.1p1 the final `ldrh` of origHeight is scheduled
  * one slot earlier, ahead of `lsr r2, lr, #8`.
  */
-void func_02071C14(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxScaleTrans2(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 {
     u16 origWidth;
     s32 origHeight, transS, transT;
@@ -260,7 +260,7 @@ void func_02071C14(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
  * both unit-scale stores), which keeps the m00 and m01 stores separate;
  * 1.1p1 merges them into one `stm r0, {r2, ip}` and comes out 4 bytes short.
  */
-void func_02071C94(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxTrans2(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 {
     s32 trans;
 
@@ -372,7 +372,7 @@ void NNSi_G3dTexMtxScale(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
  * (`mov r2, #0x1000`, `str r2, [r0]`) and the zero after it; 1.1p1 schedules
  * the zero first. The same 36-byte body appears again at 0x02072524.
  */
-void func_02071EFC(TexMtx *pTexMtx)
+void NNSi_G3dTexMtxIdentity2(TexMtx *pTexMtx)
 {
     pTexMtx->m00 = 0x1000;
     pTexMtx->m01 = 0;

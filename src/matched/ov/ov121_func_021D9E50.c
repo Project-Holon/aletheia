@@ -14,6 +14,7 @@
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update  0x020286C4  thumb  arm9
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb  arm9
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb  arm9
  */
 #include "../include/Obj00909.h"
 typedef unsigned char u8;
@@ -28,7 +29,7 @@ struct Tcbl;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 void func_021D9E50(u8 *p)
 {
@@ -57,7 +58,7 @@ void func_021D9E50(u8 *p)
         if (((struct Obj00909 *)p)->f8) {
             if (((struct Obj00909 *)p)->f30)
                 APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj00909 *)p)->f30), (void *)(((struct Obj00909 *)p)->f8), (void *)(((struct Obj00909 *)p)->f10));
-            if (func_02028484((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
+            if (PRINTSYS_CTRL_Update((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
                 ((struct Obj00909 *)p)->f2C = 1;
         }
         break;

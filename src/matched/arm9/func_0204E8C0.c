@@ -34,7 +34,7 @@
  *   func_02030734       0x02030734  arm
  *   DOUBLE3DDISP_InitOam       0x0204E914  arm
  *   double3Ddisp_File   0x020A7F94  data
- *   g_02146A80          0x02146A80  data
+ *   gDouble3Ddisp          0x02146A80  data
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/DOUBLE3DDISP_Init.c \
@@ -47,7 +47,7 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 
-extern struct Double3Ddisp *g_02146A80;
+extern struct Double3Ddisp *gDouble3Ddisp;
 extern const char double3Ddisp_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -55,11 +55,11 @@ extern void  DOUBLE3DDISP_InitOam(void);
 
 void DOUBLE3DDISP_Init(u32 heap)
 {
-    g_02146A80 = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
+    gDouble3Ddisp = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
 
-    g_02146A80->heap = heap;
-    g_02146A80->unk04 = 1;
-    g_02146A80->unk08 = 0;
+    gDouble3Ddisp->heap = heap;
+    gDouble3Ddisp->unk04 = 1;
+    gDouble3Ddisp->unk08 = 0;
 
     DOUBLE3DDISP_InitOam();
 }

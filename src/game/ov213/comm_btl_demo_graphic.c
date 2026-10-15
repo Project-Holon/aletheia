@@ -66,9 +66,6 @@
  *   G3D_SYSTEM_ApplyLookAt    0x020479D8  arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
-#include "../../matched/include/Obj25714.h"
-#include "../../matched/include/Obj25715.h"
-#include "../../matched/include/Obj25716.h"
 
 struct DispVram;
 struct Node;
@@ -86,6 +83,18 @@ typedef unsigned char u8;
 typedef short s16;
 
 typedef struct {u32 x,y,z;} Vec3;
+
+struct CommBtlDemoGraphic {
+    u8 bgData[4];
+    struct Bank *clactUnit;
+    u32 *g3dCamera;
+    void *vblankHandle;
+};
+
+/* offset-0 view of the clact slot: the clact helpers receive work + 4 */
+struct CommBtlDemoClact {
+    struct Bank *bank;
+};
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p,unsigned value,unsigned size);
@@ -177,14 +186,14 @@ void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
     COMM_BTL_DEMO_GRAPHIC_InitBg(p,heap);
     COMM_BTL_DEMO_GRAPHIC_InitClact((void **)(p+4),(int)&d_021BB1C8,heap);
     COMM_BTL_DEMO_GRAPHIC_InitG3d((unsigned **)(p+8),heap);
-    ((struct Obj25714 *)p)->fC=func_020056A0((void *)COMM_BTL_DEMO_GRAPHIC_VBlank,p,0);
+    ((struct CommBtlDemoGraphic *)p)->vblankHandle=func_020056A0((void *)COMM_BTL_DEMO_GRAPHIC_VBlank,p,0);
     return p;
 }
 
 
 void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p)
 {
-    func_02030EAC(*(struct Node * *)&((struct Obj25715 *)p)->fC);
+    func_02030EAC((struct Node *)((struct CommBtlDemoGraphic *)p)->vblankHandle);
     COMM_BTL_DEMO_GRAPHIC_DeleteG3d((int *)(p + 8));
     COMM_BTL_DEMO_GRAPHIC_DeleteClact(p + 4);
     COMM_BTL_DEMO_GRAPHIC_DeleteBg(p);
@@ -262,7 +271,7 @@ void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 /*
  * Tail: two zero alignment bytes at 021BADB2.
  */
-void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(((struct CommBtlDemoClact *)p)->bank);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 
 void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B4C
+ * function: PSEL_IsAnimTargetReached
  * address: 0x021B9B4C
  * region: ov223
  * isa: thumb
@@ -15,7 +15,7 @@
 #include "../include/Obj10978.h"
 typedef unsigned short u16;
 extern u16 table[][5];
-int func_021B9B4C(char *p)
+int PSEL_IsAnimTargetReached(char *p)
 {
     int select=0;
     if(((struct Obj10978 *)p)->f48==0) select=1;

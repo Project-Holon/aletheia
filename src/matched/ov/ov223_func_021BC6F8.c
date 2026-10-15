@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6F8
+ * function: PSEL_GRAPHIC_LoadWordC6F8
  * address: 0x021BC6F8
  * packet: pkt_ov223_021BC6F8
  * region: ov223
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj26108.h"
-unsigned func_021BC6F8(unsigned char *p){return ((struct Obj26108 *)p)->f0;}
+unsigned PSEL_GRAPHIC_LoadWordC6F8(unsigned char *p){return ((struct Obj26108 *)p)->f0;}

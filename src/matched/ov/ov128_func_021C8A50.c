@@ -1,5 +1,5 @@
 /*
- * function: func_021C8A50
+ * function: Wf2dmapFriend_DeleteEntryActors
  * address: 0x021C8A50
  * packet: pkt_ov128_021C8A50
  * region: ov128
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void WIFI_2DCHAR_DeleteActor(u8 *p);
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021C8A50(char *p,int unused) {int i;char *q;for(i=0;i<8;i++) {q=p+i*4;if(((struct Obj05380 *)q)->fC){WIFI_2DCHAR_DeleteActor(((struct Obj05380 *)q)->fC);*(u32 *)&((struct Obj05380 *)q)->fC=0;} if(((struct Obj05380 *)q)->f2C){CLACT_DeleteActor(((struct Obj05380 *)q)->f2C);*(u32 *)&((struct Obj05380 *)q)->f2C=0;}}}
+void Wf2dmapFriend_DeleteEntryActors(char *p,int unused) {int i;char *q;for(i=0;i<8;i++) {q=p+i*4;if(((struct Obj05380 *)q)->fC){WIFI_2DCHAR_DeleteActor(((struct Obj05380 *)q)->fC);*(u32 *)&((struct Obj05380 *)q)->fC=0;} if(((struct Obj05380 *)q)->f2C){CLACT_DeleteActor(((struct Obj05380 *)q)->f2C);*(u32 *)&((struct Obj05380 *)q)->f2C=0;}}}

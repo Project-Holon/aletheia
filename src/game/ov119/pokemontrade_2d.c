@@ -63,7 +63,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -154,21 +154,21 @@
  *   gSubScreenWindowPos 0x021E81D4 data a4
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_02027694 0x02027694 thumb
- *   func_02027698 0x02027698 thumb
- *   func_0202769C 0x0202769C thumb
- *   func_020276A0 0x020276A0 thumb
+ *   APP_ICON_GetItemCellFileId 0x02027694 thumb
+ *   APP_ICON_GetItemPaletteFileId 0x02027698 thumb
+ *   APP_ICON_GetItemAnimFileId 0x0202769C thumb
+ *   APP_ICON_GetItemFrameFileId 0x020276A0 thumb
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
- *   func_020276B4 0x020276B4 thumb
- *   func_020276B8 0x020276B8 thumb
- *   func_020276BC 0x020276BC thumb
- *   func_020276C0 0x020276C0 thumb
- *   func_02027748 0x02027748 thumb
- *   func_0202774C 0x0202774C thumb
- *   func_02027750 0x02027750 thumb
- *   func_02027754 0x02027754 thumb
+ *   APP_ICON_GetSealCellFileId 0x020276B4 thumb
+ *   APP_ICON_GetSealPaletteFileId 0x020276B8 thumb
+ *   APP_ICON_GetSealAnimFileId 0x020276BC thumb
+ *   APP_ICON_GetSealFrameFileId 0x020276C0 thumb
+ *   APP_ICON_GetBallOpenAnimFileId 0x02027748 thumb
+ *   APP_ICON_GetEffectCellFileId 0x0202774C thumb
+ *   APP_ICON_GetEffectPaletteFileId 0x02027750 thumb
+ *   APP_ICON_GetEffectAnimFileId 0x02027754 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
  *   POKERUS_IsCured 0x0201B280 thumb
@@ -216,6 +216,10 @@
  *   _ffix          0x0209C494  arm
  *   FILE_UTIL_Check136C  0x0202136C  thumb  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb  arm9
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb  arm9
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb  arm9
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb  arm9
  */
 #include "pokemontrade_types.h"
 
@@ -349,7 +353,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void CLACT_DeleteActor(struct Obj *p);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 BMP_WIN_Create(u32 layer, u8 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -368,10 +372,10 @@ extern void *func_020185F0(void *);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern u32 func_02027618(void);
-extern u32 func_02027614(void);
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -427,23 +431,23 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u32 func_02027694(void);
-extern u32 func_02027698(void);
-extern u32 func_0202769C(u32);
-extern u32 func_020276A0(u32);
+extern u32 APP_ICON_GetItemCellFileId(void);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32);
+extern u32 APP_ICON_GetItemFrameFileId(u32);
 extern void UI_SCENE_LoadActorGfx(void *,ActorGfxDesc *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 extern u32 POKERUS_IsInfected(void *);
-extern u32 func_020276B4(void);
-extern u32 func_020276B8(void);
-extern u32 func_020276BC(u32);
-extern u32 func_020276C0(u32);
+extern u32 APP_ICON_GetSealCellFileId(void);
+extern u32 APP_ICON_GetSealPaletteFileId(void);
+extern u32 APP_ICON_GetSealAnimFileId(u32);
+extern u32 APP_ICON_GetSealFrameFileId(u32);
 extern unsigned int POKERUS_IsCured(void *a);
-extern int func_02027748(void);
-extern int func_0202774C(int);
-extern int func_02027750(int);
-extern int func_02027754(int);
+extern int APP_ICON_GetBallOpenAnimFileId(void);
+extern int APP_ICON_GetEffectCellFileId(int);
+extern int APP_ICON_GetEffectPaletteFileId(int);
+extern int APP_ICON_GetEffectAnimFileId(int);
 extern u32 func_02017EAC(void *);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 extern int FX_Sqrt(int);
@@ -783,11 +787,11 @@ void POKETRADE_2D_RegisterIconCharResources(char *p)
     void *v;
     int a;
     if (((TradeWork *)p)->iconPaletteEx == 0) {
-        v = func_020490F4(func_020275E4(), ((TradeWork *)p)->heapId);
-        ((TradeWork *)p)->charD = CLACT_RegisterCharacter(v, func_02027618(), 0, 1, ((TradeWork *)p)->heapId);
-        ((TradeWork *)p)->iconPaletteEx = CLACT_RegisterPaletteEx(v, func_02027614(), 1, 0, 0, 3, ((TradeWork *)p)->heapId);
-        a = func_0202761C(2);
-        ((TradeWork *)p)->cellAnimE = CLACT_RegisterCellAnim(v, a, func_02027620(2), ((TradeWork *)p)->heapId);
+        v = func_020490F4(APP_ICON_GetArchiveId(), ((TradeWork *)p)->heapId);
+        ((TradeWork *)p)->charD = CLACT_RegisterCharacter(v, APP_ICON_GetMoveKindAnimFileId(), 0, 1, ((TradeWork *)p)->heapId);
+        ((TradeWork *)p)->iconPaletteEx = CLACT_RegisterPaletteEx(v, APP_ICON_GetMoveKindPaletteFileId(), 1, 0, 0, 3, ((TradeWork *)p)->heapId);
+        a = APP_ICON_GetStatusCellFileId(2);
+        ((TradeWork *)p)->cellAnimE = CLACT_RegisterCellAnim(v, a, APP_ICON_GetStatusPaletteFileId(2), ((TradeWork *)p)->heapId);
         ARC_TOOL_DeleteHandle(v);
     }
 }
@@ -1959,11 +1963,11 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
         break;
     }
     in.f4 = 0;
-    in.f8 = func_020275E4();
-    in.fC = func_02027694();
-    in.f10 = func_02027698();
-    in.f14 = func_0202769C(2);
-    in.f18 = func_020276A0(2);
+    in.f8 = APP_ICON_GetArchiveId();
+    in.fC = APP_ICON_GetItemCellFileId();
+    in.f10 = APP_ICON_GetItemPaletteFileId();
+    in.f14 = APP_ICON_GetItemAnimFileId(2);
+    in.f18 = APP_ICON_GetItemFrameFileId(2);
     in.b1d = 0; in.b1e = 1;
     UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
     ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,x,y,flag,((TradeWork *)p)->heapId);
@@ -2015,11 +2019,11 @@ void POKETRADE_2D_CreatePokerusIcon(char *p, int side, int flag, void *mon)
     if (flag) { in.f0 = 0; in.b1c = 0; }
     else { in.f0 = 1; in.b1c = 11; }
     in.f4 = 0;
-    in.f8 = func_020275E4();
-    in.fC = func_020276B4();
-    in.f10 = func_020276B8();
-    in.f14 = func_020276BC(2);
-    in.f18 = func_020276C0(2);
+    in.f8 = APP_ICON_GetArchiveId();
+    in.fC = APP_ICON_GetSealCellFileId();
+    in.f10 = APP_ICON_GetSealPaletteFileId();
+    in.f14 = APP_ICON_GetSealAnimFileId(2);
+    in.f18 = APP_ICON_GetSealFrameFileId(2);
     in.b1d = 0; in.b1e = 1;
     UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
     if (flag) ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,244,104,0,((TradeWork *)p)->heapId);
@@ -2046,11 +2050,11 @@ void POKETRADE_2D_CreateCuredPokerusIcon(char *p, int b, void *c)
         return;
     }
     in.f0 = 1; in.b1c = 14; in.f4 = 0;
-    in.f8 = func_020275E4();
-    in.fC = func_02027748();
-    in.f10 = func_0202774C(2);
-    in.f14 = func_02027750(2);
-    in.f18 = func_02027754(2);
+    in.f8 = APP_ICON_GetArchiveId();
+    in.fC = APP_ICON_GetBallOpenAnimFileId();
+    in.f10 = APP_ICON_GetEffectCellFileId(2);
+    in.f14 = APP_ICON_GetEffectPaletteFileId(2);
+    in.f18 = APP_ICON_GetEffectAnimFileId(2);
     in.b1d = 0; in.b1e = 1;
     UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
     ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q, ((TradeWork *)p)->clactSystem, 108 + b * 128, 20, 13, ((TradeWork *)p)->heapId);
@@ -2086,11 +2090,11 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
     coords=gSummaryIconCoords;
     states=gSummaryIconStates;
     in.f0=0; in.f4=0;
-    in.f8=func_020275E4();
-    in.fC=func_02027748();
-    in.f10=func_0202774C(2);
-    in.f14=func_02027750(2);
-    in.f18=func_02027754(2);
+    in.f8=APP_ICON_GetArchiveId();
+    in.fC=APP_ICON_GetBallOpenAnimFileId();
+    in.f10=APP_ICON_GetEffectCellFileId(2);
+    in.f14=APP_ICON_GetEffectPaletteFileId(2);
+    in.f18=APP_ICON_GetEffectAnimFileId(2);
     in.b1c=13; in.b1d=0; in.b1e=1;
     if (!flag && func_02017EAC(mon)) bits|=64;
     if (POKERUS_IsCured(mon)) bits|=128;
@@ -2147,7 +2151,7 @@ void POKETRADE_2D_DeleteSummaryIcons(void *p)
 void POKETRADE_2D_UploadWindowPalette(char *p, int n, u32 x) {
     int offset = n * 32;
     func_02049B40(23,5,x,offset,32,((TradeWork *)p)->heapId);
-    ARC_UTIL_UploadPaletteFromArchive(func_020275E4(),31,x,28,offset+28,4,((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromArchive(APP_ICON_GetArchiveId(),31,x,28,offset+28,4,((TradeWork *)p)->heapId);
 }
 
 

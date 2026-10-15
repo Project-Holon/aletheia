@@ -1,5 +1,5 @@
 /*
- * function: func_0217BAF4
+ * function: LIVEBATTLEMATCH_FLOW_Release
  * address: 0x0217BAF4
  * packet: pkt_ov176_0217BAF4
  * region: ov176
@@ -21,7 +21,7 @@ extern void func_021E7E08(int);
 extern int func_021E64C0(unsigned char *, void *);
 extern int func_021E7774(void *p, void *mgr);
 extern int func_021E84F8(char *p, void *q);
-void func_0217BAF4(int *p)
+void LIVEBATTLEMATCH_FLOW_Release(int *p)
 {
     func_021E8A80(p[0]);
     func_0217E074(p[3]);

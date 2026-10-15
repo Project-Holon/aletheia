@@ -1,5 +1,5 @@
 /*
- * function: func_0202ED90
+ * function: COMM_HISTORY_StoreAt
  * address:  0x0202ED90
  * packet:   pkt_0202ECB0
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202EC24   0x0202EC24  thumb
+ *   COMM_HISTORY_CountLeadingOccupied   0x0202EC24  thumb
  *
- * Stores the record at `b` into slot index func_0202EC24(a), after setting
+ * Stores the record at `b` into slot index COMM_HISTORY_CountLeadingOccupied(a), after setting
  * the bit-3 mark from `c` and the bit-4 occupied flag.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202ED90.c \
- *       --func func_0202ED90 --addr 0x0202ED90 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/COMM_HISTORY_StoreAt.c \
+ *       --func COMM_HISTORY_StoreAt --addr 0x0202ED90 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -39,11 +39,11 @@ struct Slot {
 };
 
 struct Ent0202EC24;
-extern u32 func_0202EC24(const struct Ent0202EC24 *p);
+extern u32 COMM_HISTORY_CountLeadingOccupied(const struct Ent0202EC24 *p);
 
-void func_0202ED90(u8 *a, struct Slot *b, u32 c)
+void COMM_HISTORY_StoreAt(u8 *a, struct Slot *b, u32 c)
 {
-    u32 i = func_0202EC24((const struct Ent0202EC24 *)a);
+    u32 i = COMM_HISTORY_CountLeadingOccupied((const struct Ent0202EC24 *)a);
 
     if (i >= 0x14)
         return;

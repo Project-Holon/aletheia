@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6F0
+ * function: PSEL_GRAPHIC_G3dDrawEnd
  * address: 0x021BC6F0
  * packet: pkt_ov223_021BC6F0
  * region: ov223
@@ -12,4 +12,4 @@
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 extern void G3D_SYSTEM_DrawEnd(void);
-void func_021BC6F0(unsigned char *unused){G3D_SYSTEM_DrawEnd();}
+void PSEL_GRAPHIC_G3dDrawEnd(unsigned char *unused){G3D_SYSTEM_DrawEnd();}

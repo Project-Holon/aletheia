@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8D0
+ * function: PSEL_UpdateUnitAnime2
  * address: 0x021BA8D0
  * packet: pkt_ov223_021BA8D0
  * region: ov223
@@ -20,7 +20,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_0207D63C(unsigned,int,int,int,int);
-void func_021BA8D0(char *p)
+void PSEL_UpdateUnitAnime2(char *p)
 {
     u8 i;
     switch(((struct Obj02939 *)p)->f214) {

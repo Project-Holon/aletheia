@@ -46,6 +46,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "../include/Obj00590.h"
 #include "../include/Obj06459.h"
@@ -84,7 +85,7 @@ extern void GSYNC_MENU_InitBgLayers(char *);
 extern void GSYNC_MENU_LoadResources(char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_02028590(u32,u32,u32,u32);
+extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_0207D63C(void *,int,int,int,int);
@@ -119,7 +120,7 @@ int GSYNC_MENU_ProcInit(void *a,int b,u8 *q)
     ((struct Obj00590 *)p)->f280=func_02030734(((struct Obj00590 *)p)->fC,0x200,0,d_021DAA20,0x5a6);
     ((struct Obj00590 *)p)->f284=func_02030734(((struct Obj00590 *)p)->fC,0x200,0,d_021DAA20,0x5a7);
     ((struct Obj00590 *)p)->f230=TCBL_Create(((struct Obj00590 *)p)->fC,((struct Obj00590 *)p)->fC,3,0);
-    ((struct Obj00590 *)p)->f22C=func_02028590(15,0,1,((struct Obj00590 *)p)->fC);
+    ((struct Obj00590 *)p)->f22C=APP_KEYCURSOR_CreateDefault(15,0,1,((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f234=PRINTSYS_QUE_Create((void *)(u32)((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f254=APP_TASKMENU_RES_Create(5,9,((struct Obj00590 *)p)->f30,((struct Obj00590 *)p)->f234,((struct Obj00590 *)p)->fC);
     func_0207D63C((void *)0x04001050,4,1,15,4);

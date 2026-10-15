@@ -1,5 +1,5 @@
 /*
- * function: func_021B9914
+ * function: PSEL_UpdateListAnime
  * address: 0x021B9914
  * region: ov223
  * isa: thumb
@@ -13,7 +13,7 @@
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   ICA_ANIME_IncFrameLoop 0x02011590 thumb
- *   func_021BC52C 0x021BC52C thumb ov223
+ *   PSEL_GRAPHIC_GetCamera 0x021BC52C thumb ov223
  *   ICA_ANIME_SetCameraStatus 0x02011B8C thumb
  */
 #include "../include/Obj01594.h"
@@ -26,9 +26,9 @@ extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
 typedef signed int     s32;
 struct IcaAnime;
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
-extern unsigned func_021BC52C(unsigned char *p);
+extern unsigned PSEL_GRAPHIC_GetCamera(unsigned char *p);
 extern void ICA_ANIME_SetCameraStatus(void *,void *);
-void func_021B9914(char *p)
+void PSEL_UpdateListAnime(char *p)
 {
     int *obj;
     u32 n;
@@ -39,6 +39,6 @@ void func_021B9914(char *p)
         for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,j,2048);
     }
     ICA_ANIME_IncFrameLoop(((struct Obj01594 *)p)->f40,2048);
-    ICA_ANIME_SetCameraStatus((void *)func_021BC52C(((struct Obj01594 *)p)->f14),((struct Obj01594 *)p)->f40);
+    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj01594 *)p)->f14),((struct Obj01594 *)p)->f40);
     (*(u32 *)&((struct Obj01594 *)p)->f50)++;
 }

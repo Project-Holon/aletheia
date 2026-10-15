@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202EB0C
+ * function: APP_ENV_IsRunOnTwl
  * address:  0x0202EB0C
  * packet:   pkt_0202E770
  * region:   arm9
@@ -15,19 +15,19 @@
  *
  * A pool-word-and-bx tail call into an ARM SDK entry point
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), eight bytes with no
- * prologue. Its result is compared against 1 by src/matched/sub_0202EB4C.c,
+ * prologue. Its result is compared against 1 by src/matched/APP_ENV_IsEulaAgreed.c,
  * which is the only caller.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202EB0C.c \
- *       --func sub_0202EB0C --addr 0x0202EB0C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/APP_ENV_IsRunOnTwl.c \
+ *       --func APP_ENV_IsRunOnTwl --addr 0x0202EB0C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 OS_IsRunOnTwl(void);
 
-u32 sub_0202EB0C(void)
+u32 APP_ENV_IsRunOnTwl(void)
 {
     return OS_IsRunOnTwl();
 }

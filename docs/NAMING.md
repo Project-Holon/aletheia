@@ -234,6 +234,18 @@ originals; each piece keeps the module prefix of the original it belongs to
 (`ARC_TOOL_`, `ARC_UTIL_`, `MCSS_`, `WIFILOGIN_`, `STA_ACT_`), and a shared
 `_types.h` header carries the types the pieces of one original share.
 
+Wave 9 applied it to the 24 `Obj`-view lanes (ov112, ov121, ov128, ov129, ov133,
+ov170, ov173, ov175, ov176, ov194, ov197, ov198, ov204, ov208, ov210, ov215,
+ov223 and ov225, the two mixed rest blocks, and the arm9 and ov009
+continuations), removing 5,052 view references and taking 12 regions to zero
+views. The applied names fit the table above, so no new convention was needed.
+The same wave added one owner header per region (ov211, ov215, ov204, ov198,
+ov173, ov210, ov133, ov128, ov121) and split the last two aggregated originals:
+ov133 into `dup_fitting.c` and `dup_fitting_item.c`, and arm9
+`misc_savedata.c` into `misc_savedata.c`, `battle_examination.c` and
+`misc_savedata_2.c`; each piece keeps the module prefix of the original it
+belongs to.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

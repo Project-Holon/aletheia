@@ -35,7 +35,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   TCBL_Create 0x0203101C arm
- *   func_02028470 0x02028470 thumb
+ *   PRINTSYS_CTRL_Init 0x02028470 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   TCBL_Main 0x020310C4 arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
@@ -152,7 +152,7 @@
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   func_020185F0 0x020185F0 thumb
- *   func_0202F2AC 0x0202F2AC thumb
+ *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   func_02017EAC 0x02017EAC thumb
@@ -179,6 +179,8 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb  arm9
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "../../matched/include/Obj01929.h"
 #include "../../matched/include/Obj13950.h"
@@ -592,7 +594,7 @@ extern u32 func_0201D42C(void *s, void *font);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void func_02028470(void *p, u32 v);
+extern void PRINTSYS_CTRL_Init(void *p, u32 v);
 
 extern void PRINTSYS_PrintStreamDelete(void *p);
 
@@ -606,7 +608,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *, u32);
 
 extern void APP_KEYCURSOR_Update(void *ctx, void *p, void *cell);
 
-extern s32 func_02028484(void *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(void *blk, void *h);
 
 extern void TCBL_Main(void *p);
 
@@ -616,7 +618,7 @@ extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 he
 
 extern void PRINTSYS_PrintQue(void *p, u32 a, u32 b, u32 c, void *s, u32 e);
 
-extern void *func_02028590(u32,u32,u32,u32);
+extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern signed char MSG_SPEED_GetWait(void);
 
@@ -836,7 +838,7 @@ extern u8 func_02008550(const void *obj);
 
 extern void *func_020185F0(void *p);
 
-extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
 extern void POKE_TOOL_RecalcParam(void *p);
 
@@ -1292,7 +1294,7 @@ void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
     *(void **)(p + 4) = d;
     *(void **)(p + 0x24) = c;
     *(u32 *)(p + 0x28) = 3;
-    func_02028470(p + 0x34, 2);
+    PRINTSYS_CTRL_Init(p + 0x34, 2);
     *(struct U16Vec **)(p + 0x14) = STRBUF_Create(0x200, heap);
     q = (struct Descriptor *)BMP_WIN_Create((u8)a, 1, 21, 30, 2, b, 1);
     *(struct Descriptor **)(p + 0x10) = q;
@@ -1355,7 +1357,7 @@ void func_021D9E50(u8 *p)
         if (((struct Obj00909 *)p)->f8) {
             if (((struct Obj00909 *)p)->f30)
                 APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj00909 *)p)->f30), (void *)(((struct Obj00909 *)p)->f8), (void *)(((struct Obj00909 *)p)->f10));
-            if (func_02028484((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
+            if (PRINTSYS_CTRL_Update((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
                 ((struct Obj00909 *)p)->f2C = 1;
         }
         break;
@@ -1399,8 +1401,8 @@ void func_021D9F24(u8 *p,int mode)
         ((struct Obj00236 *)p)->f28=0;
         break;
     case 1:
-        func_02028470(p+0x34,2);
-        ((struct Obj00236 *)p)->f30=func_02028590(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
+        PRINTSYS_CTRL_Init(p+0x34,2);
+        ((struct Obj00236 *)p)->f30=APP_KEYCURSOR_CreateDefault(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
         ((struct Obj00236 *)p)->f8=PRINTSYS_PrintStream(((struct Obj00236 *)p)->f10,0,0,*(u32 *)&((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4,MSG_SPEED_GetWait(),((struct Obj00236 *)p)->fC,0,((struct Obj00236 *)p)->f1A,((struct Obj00236 *)p)->f18);
         ((struct Obj00236 *)p)->f28=1;
         break;
@@ -3380,7 +3382,7 @@ struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, 
                 month = (u8)(w >> 8);
                 day = w;
                 loc = r->f5C ? r->f38 : r->f3A;
-                func_0202F2AC(func_020185F0(mon), loc, year - 2000, month, day);
+                SAVE_EVENT_WriteWithDate(func_020185F0(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);
             res = 0;

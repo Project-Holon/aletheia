@@ -1,5 +1,5 @@
 /*
- * function: func_021C665C
+ * function: Wf2dmapFriend_VBlank
  * address: 0x021C665C
  * packet: pkt_ov128_021C665C
  * region: ov128
@@ -13,4 +13,4 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021C665C(void *p) { CLACT_VBlankSystem(); }
+void Wf2dmapFriend_VBlank(void *p) { CLACT_VBlankSystem(); }

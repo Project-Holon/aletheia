@@ -1,5 +1,5 @@
 /*
- * function: func_021BF384
+ * function: INTRO_MSG_CreateMenuList
  * address: 0x021BF384
  * packet: pkt_ov204_021BF384
  * region: ov204
@@ -42,7 +42,7 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   func_02045CAC 0x02045CAC arm
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
- *   func_021BF374 0x021BF374 thumb ov204
+ *   INTRO_MSG_InitMenuDesc 0x021BF374 thumb ov204
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   func_02020CF8 0x02020CF8 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -78,7 +78,7 @@ struct Slot;
 struct Src;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
-extern int *func_021BF374(char *,int);
+extern int *INTRO_MSG_InitMenuDesc(char *,int);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern void func_02020CF8(struct Obj *p, int heap);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -87,7 +87,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void func_02020D10(u8 *p, u32 v);
-void func_021BF384(char *p,u32 *entries,u32 count,int flag)
+void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
 {
     Config config;
     char *state;
@@ -109,7 +109,7 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
     config.f17lo=2;config.f17hi=1;config.f18lo=15;config.f18hi=2;
     config.f1Alo=0;config.f1Amid=0;config.f1Apad=1;config.f1Amid2=0;config.f1Atop=0;
     config.f1c=0;config.f20=16;config.f22=16;config.f24=0;
-    config.f28=func_021BF374(p,(int)obj);config.f2c=*(void **)(p+4);config.f30=*(void **)(p+16);
+    config.f28=INTRO_MSG_InitMenuDesc(p,(int)obj);config.f2c=*(void **)(p+4);config.f30=*(void **)(p+16);
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     func_02020CF8(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)BMP_WIN_GetBgLayer(obj));

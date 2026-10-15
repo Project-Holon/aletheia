@@ -64,7 +64,7 @@
  */
 #include "zukan_detail_shared_types.h"
 
-struct Obj0203159C;
+struct Proc;
 
 struct Ov208Mgr;
 
@@ -115,7 +115,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 heap, u32 size);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *p, int v, int n);
 

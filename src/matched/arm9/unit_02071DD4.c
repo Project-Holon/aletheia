@@ -27,7 +27,7 @@
  * version), is NOT in this unit: 1.1p1 -O4,p hoists `mov r1, #0` ahead of
  * `mov r2, #0x1000` where the image materialises 0x1000 first, a stable
  * 3-instruction scheduling swap that survived eight store-order and
- * constant-binding spellings. See docs/notes/func_02071EFC.c.txt.
+ * constant-binding spellings. See docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
  *
  * symbols:
  *   func_0207C930  0x0207C930  arm

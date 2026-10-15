@@ -1,5 +1,5 @@
 /*
- * function: func_021C8A80
+ * function: Wf2dmapFriend_DrawEntrySlot
  * address: 0x021C8A80
  * packet: pkt_ov128_021C8A80
  * region: ov128
@@ -14,7 +14,7 @@
  * heap: 021C8644 and 021C89B0 load the incoming heap as a halfword;
  * 021C8904 forwards that value to this eighth argument at 021C896A.
  * symbols:
- *   func_021C8B90 0x021C8B90 thumb ov128
+ *   Wf2dmapFriend_CreateEntryActor 0x021C8B90 thumb ov128
  *   WIFI_2DCHAR_SpawnActor 0x021C40BC thumb ov127
  *   WIFI_2DCHAR_SetActorAnim 0x021C42A8 thumb ov127
  *   STRBUF_Create 0x020457B0 arm
@@ -34,7 +34,7 @@ extern const Entry d_021CA6C8[];
 extern int func_02009864(void *, int, int);
 struct Sub020097BCEnt;
 struct Sub020097BCObj;
-extern void func_021C8B90(char *p, char *q, int unused, int i, u16 h);
+extern void Wf2dmapFriend_CreateEntryActor(char *p, char *q, int unused, int i, u16 h);
 extern void *WIFI_2DCHAR_SpawnActor(void *, s16 *, int, u32);
 struct obj;
 extern void WIFI_2DCHAR_SetActorAnim(struct obj *p, int idx, int a);
@@ -45,7 +45,7 @@ extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx, u16 heap)
+void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx, u16 heap)
 {
     struct { u16 colors[3]; s16 pos[4]; } local;
     int result8, result9;
@@ -56,7 +56,7 @@ void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx
     result8 = func_02009864(base, idx, 8);
     result9 = func_02009864(base, idx, 9);
     if (result9 == 2) {
-        func_021C8B90((char *)p, (char *)b, unused, i, heap);
+        Wf2dmapFriend_CreateEntryActor((char *)p, (char *)b, unused, i, heap);
     } else {
         local.pos[0] = (((struct Obj05381 *)p)->f0 + d_021CA6C8[i].x) * 8 + 8;
         local.pos[1] = (((struct Obj05381 *)p)->f2 + d_021CA6C8[i].y) * 8 + 10;

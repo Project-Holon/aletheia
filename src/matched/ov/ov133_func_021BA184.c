@@ -1,5 +1,5 @@
 /*
- * function: func_021BA184
+ * function: DUP_FITTING_ITEM_ListGetHead
  * address: 0x021BA184
  * packet: pkt_ov133_021BA184
  * region: ov133
@@ -11,4 +11,4 @@
  * symbols:
  */
 #include "../include/Obj23327.h"
-void *func_021BA184(char *p){return *(void* *)&((struct Obj23327 *)p)->f8;}
+void *DUP_FITTING_ITEM_ListGetHead(char *p){return *(void* *)&((struct Obj23327 *)p)->f8;}

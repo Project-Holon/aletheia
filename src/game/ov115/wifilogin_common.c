@@ -42,7 +42,7 @@ void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler);
 void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle);
 
 /* True when the pad or the touch panel asks the login to move on. */
-int WIFILOGIN_COMMON_IsCancelInput(u8 *p) { if(KEY_GetTrg()&3) return 1; if(*(int *)(((struct WifiloginWork *)p)->state+4) && TOUCHPANEL_GetTrg()) return 1; return 0; }
+int WIFILOGIN_COMMON_IsCancelInput(u8 *p) { if(KEY_GetTrg()&3) return 1; if(((struct WifiloginWork *)p)->state->mode && TOUCHPANEL_GetTrg()) return 1; return 0; }
 
 
 /* Install the callback the login state machine runs each frame. */

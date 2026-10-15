@@ -1,5 +1,5 @@
 /*
- * function: func_021BC274
+ * function: PSEL_GRAPHIC_StateEnd
  * address: 0x021BC274
  * packet: pkt_ov223_021BC274
  * region: ov223
@@ -9,30 +9,31 @@
  * status: EXACT*
  * trailing: 021BC2CA is zero alignment; no follower.
  * symbols:
- *   func_021B9D4C 0x021B9D4C thumb ov223
- *   func_021BA2B4 0x021BA2B4 thumb ov223
- *   func_021BB964 0x021BB964 thumb ov223
- *   func_021B9C58 0x021B9C58 thumb ov223
+ *   PSEL_UpdateUnitAnime 0x021B9D4C thumb ov223
+ *   PSEL_UpdateUnitPositions 0x021BA2B4 thumb ov223
+ *   PSEL_GRAPHIC_UpdateFade 0x021BB964 thumb ov223
+ *   PSEL_StepAnimIndex 0x021B9C58 thumb ov223
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   PSEL_UpdateSelectAnime  0x021B9A8C  thumb
  */
 #include "../include/Obj00738.h"
-extern void func_021B9C58(char *);
+extern void PSEL_StepAnimIndex(char *);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_021B9A8C(char *p);
+extern void PSEL_UpdateSelectAnime(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021B9D4C(char *);
+extern void PSEL_UpdateUnitAnime(char *);
 struct Main;
-extern void func_021BA2B4(struct Main *p);
-extern void func_021BB964(char *);
+extern void PSEL_UpdateUnitPositions(struct Main *p);
+extern void PSEL_GRAPHIC_UpdateFade(char *);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-int func_021BC274(char *p,unsigned *state)
+int PSEL_GRAPHIC_StateEnd(char *p,unsigned *state)
 {
-    func_021B9C58(p);
-    func_021B9D4C(p); func_021BA2B4((struct Main *)p); func_021BB964(p);
+    PSEL_StepAnimIndex(p);
+    PSEL_UpdateUnitAnime(p); PSEL_UpdateUnitPositions((struct Main *)p); PSEL_GRAPHIC_UpdateFade(p);
     switch(*state) {
     case 0: FADE_Start(12,0,16,2); (*state)++; break;
     case 1: if(!FADE_IsActive()) { ((struct Obj00738 *)p)->f10=0; return 11; } break;

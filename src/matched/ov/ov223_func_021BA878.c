@@ -1,5 +1,5 @@
 /*
- * function: func_021BA878,func_021BA8BC
+ * function: PSEL_UpdateFadeUnit,PSEL_IsUnitAnimDone
  * unit: yes
  * address: 0x021BA878
  * packet: pkt_ov223_021BA878
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_0207D63C(unsigned,int,int,int,int);
-void func_021BA878(char *p)
+void PSEL_UpdateFadeUnit(char *p)
 {
     u8 i;
     int alpha;
@@ -29,7 +29,7 @@ void func_021BA878(char *p)
     alpha=((struct Obj10981 *)p)->f210;
     func_0207D63C(0x04001050,0,63,alpha,16-alpha);
 }
-int func_021BA8BC(char *p)
+int PSEL_IsUnitAnimDone(char *p)
 {
     if(((struct Obj26089 *)p)->f214==0) return 1;
     return 0;

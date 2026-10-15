@@ -34,7 +34,7 @@
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   gSpeciesNameBank     0x020A7370  data
@@ -70,7 +70,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void POKE_TOOL_RecalcParam(void *mon);
-extern void func_0202F190(void *mon, u32 a1, void *a2, u32 a3, u32 heap);
+extern void SAVE_EVENT_Write(void *mon, u32 a1, void *a2, u32 a3, u32 heap);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void *gSpeciesNameBank;
@@ -115,7 +115,7 @@ int SCRCMD_PROC_AddEggToParty(void *c, void *vm)
     POKE_TOOL_SetPartyValue(mon, 0x73, t);
     STRBUF_Delete((struct U16Vec *)t);
     POKE_TOOL_RecalcParam(mon);
-    func_0202F190(mon, 5, my, 0xEA63, heap);
+    SAVE_EVENT_Write(mon, 5, my, 0xEA63, heap);
     POKEPARTY_Add(party, mon);
     func_020307B0(mon);
     *res = 1;

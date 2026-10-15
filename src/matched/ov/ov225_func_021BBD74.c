@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD74
+ * function: MANUAL_CATEGORY_DrawOption
  * address:  0x021BBD74
  * packet:   pkt_021BBD74
  * region:   ov225
@@ -20,7 +20,7 @@
  *   func_02045EC0    0x02045EC0  arm
  *   PRINTSYS_PrintQueColor    0x0201C724  thumb
  *   STRBUF_Delete    0x02045808  arm
- *   func_021BBD28    0x021BBD28  thumb  ov225
+ *   MANUAL_CATEGORY_UpdateOptionSlots    0x021BBD28  thumb  ov225
  *   func_021B9E80    0x021B9E80  thumb  ov225
  */
 #include "../include/Obj02267.h"
@@ -42,10 +42,10 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021BBD28(u8 *p);
+extern void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p);
 extern void func_021B9E80(char *p, unsigned id);
 
-void func_021BBD74(char *p)
+void MANUAL_CATEGORY_DrawOption(char *p)
 {
     void *r;
 
@@ -57,7 +57,7 @@ void func_021BBD74(char *p)
                   4, 6, (u32)r, ((struct Obj26325 *)(*(char * *)&((struct Obj02267 *)p)->f4))->fC, 0x440);
     STRBUF_Delete(r);
     ((struct Obj02267 *)p)->f30 = 1;
-    func_021BBD28((u8 *)p);
+    MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
     func_021B9E80(((struct Obj02267 *)p)->f4,
                   *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 4));
 }

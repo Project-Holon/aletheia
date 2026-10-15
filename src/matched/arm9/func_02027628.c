@@ -1,5 +1,5 @@
 /*
- * function: func_02027628
+ * function: APP_ICON_GetStatusFrameFileId
  * address:  0x02027628
  * packet:   pkt_020274B4
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02027628.c \\
- *       --func func_02027628 --addr 0x02027628 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/APP_ICON_GetStatusFrameFileId.c \\
+ *       --func APP_ICON_GetStatusFrameFileId --addr 0x02027628 --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
-u32 func_02027628(void)
+u32 APP_ICON_GetStatusFrameFileId(void)
 {
     return 0x1c;
 }

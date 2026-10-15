@@ -13,7 +13,7 @@
  * return right after the dispatch, as in the original.
  *
  * symbols:
- *   func_02028484  0x02028484  thumb
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -26,7 +26,7 @@ typedef unsigned int  u32;
 typedef signed int     s32;
 struct Blk;
 struct PrintSys;
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -53,6 +53,6 @@ int OPTION_MENU_IsTextDone(u8 *p)
         }
         return 0;
     case 1:
-        return func_02028484((struct Blk *)(p + 0x2c), (void *)(((struct Obj03658 *)p)->f8));
+        return PRINTSYS_CTRL_Update((struct Blk *)(p + 0x2c), (void *)(((struct Obj03658 *)p)->f8));
     }
 }

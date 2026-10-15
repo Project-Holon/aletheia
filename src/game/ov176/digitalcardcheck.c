@@ -16,14 +16,14 @@
  *   func_021E8738  0x021E8738  thumb  ov177
  *   func_021E8844 0x021E8844 thumb ov177
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217BBD4 0x0217BBD4 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_End 0x0217BBD4 thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
  *   REGULATION_NoOp 0x0200AE14 thumb
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetParty 0x0200B204 thumb
  *   func_02012944 0x02012944 thumb
- *   func_021E5548 0x021E5548 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0200E918 0x0200E918 thumb
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
@@ -149,14 +149,14 @@ typedef struct {
 extern void func_021E8738(int *p, int a, int b, int c);
 extern int func_021E8844(const int *);
 extern void func_021E8AA0(int *,int);
-extern void func_0217BBD4(int);
+extern void LIVEBATTLEMATCH_FLOW_End(int);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_BOX_GetFromSave(void *);
 extern int REGULATION_NoOp(void *);
 extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
 extern u8 *func_02012944(void *p);
-extern int func_021E5548(int *);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *, int, u32);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
@@ -267,7 +267,7 @@ void func_0217CFE8(void *obj, int a, int b)
 int func_0217D000(u8 *p){return func_021E8844(*(int * *)&((struct Obj24422 *)p)->f1A4);}
 
 
-void func_0217D010(u8 *p,int v){((struct Obj14365 *)p)->f19C=v;func_021E8AA0(*(int * *)&((struct Obj14365 *)p)->f0,(int)func_0217BBD4);}
+void func_0217D010(u8 *p,int v){((struct Obj14365 *)p)->f19C=v;func_021E8AA0(*(int * *)&((struct Obj14365 *)p)->f0,(int)LIVEBATTLEMATCH_FLOW_End);}
 
 
 /*
@@ -285,7 +285,7 @@ void func_0217D028(u8 *p)
     box = REGULATION_NoOp(((struct Obj00053 *)p)->f38);
     aux = (int)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base), 1);
     x = (int)func_02012944(((struct Obj00053 *)p)->f1B8);
-    table = func_021E5548(*(int * *)&((struct Obj00053 *)p)->f1B4);
+    table = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct Obj00053 *)p)->f1B4);
     MI_CpuFill8(&rec, 0, 0xAC);
     rec.fa0 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 1);
     rec.fa2 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 2);
@@ -352,7 +352,7 @@ void func_0217D1C8(char *p, int value)
     int a;
     int b;
     if (((struct Obj02889 *)p)->f14 == 0) {
-        a = func_021E5548((int *)(((struct Obj02889 *)p)->f1B4));
+        a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((struct Obj02889 *)p)->f1B4));
         b = REGULATION_Card_GetValue((struct Reg2 *)(((struct Obj02889 *)p)->f38), 11);
         ((struct Obj02889 *)p)->f14 = func_021E7520(value, a, ((struct Obj02889 *)p)->f1B0, ((struct Obj02889 *)p)->f1A8,
             ((struct Obj02889 *)p)->f1AC, ((struct Obj02889 *)p)->f24, ((struct Obj02889 *)p)->f2C, 1, 0, b, ((struct Obj02889 *)p)->f1C8);
@@ -370,7 +370,7 @@ void func_0217D244(char *p)
 {
     int a;
     if (((struct Obj00053 *)p)->f18 == 0) {
-        a = func_021E5548((int *)(*(int *)&((struct Obj00053 *)p)->f1B4));
+        a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(*(int *)&((struct Obj00053 *)p)->f1B4));
         ((struct Obj00053 *)p)->f18 = func_021E7E3C((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*(int *)&((struct Obj00053 *)p)->f1B8))), a,
             ((struct Obj00053 *)p)->f1B0, ((struct Obj00053 *)p)->f28, *(int *)&((struct Obj00053 *)p)->f1AC, *(int *)&((struct Obj00053 *)p)->f24, ((struct Obj00053 *)p)->f1C8);
     }
@@ -738,7 +738,7 @@ void func_0217DC28(int *p)
         reg = (struct Reg *)REGULATION_NoOp(obj);
         stats = MISC_SAVEDATA_GetBlock3C(save);
         win = func_02012944((void *)p[12]);
-        flag = func_021E5548((int *)p[11]);
+        flag = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[11]);
         if (p[5] == 0) {
             Rec rec;
             Row *table;

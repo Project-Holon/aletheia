@@ -20,8 +20,8 @@
  *   GAME_DATA_Create 0x020124F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MYSTERY_DATA_Create 0x0200A300 thumb
- *   func_021D9624 0x021D9624 thumb ov121
- *   func_021D9744 0x021D9744 thumb ov121
+ *   MYSTERY_GRAPHIC_Create 0x021D9624 thumb ov121
+ *   MYSTERY_GRAPHIC_GetClactUnit 0x021D9744 thumb ov121
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
@@ -35,7 +35,7 @@
  *   MYSTERY_NET_Delete 0x021DE2F0 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021DA890 0x021DA890 thumb ov121
- *   func_021D96C4 0x021D96C4 thumb ov121
+ *   MYSTERY_GRAPHIC_Delete 0x021D96C4 thumb ov121
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
@@ -44,9 +44,9 @@
  *   ov_id 0x00000072 data
  *   MYSTERY_NET_Step 0x021DE300 thumb ov121
  *   func_021DA898 0x021DA898 thumb ov121
- *   func_021D9718 0x021D9718 thumb ov121
- *   func_021D972C 0x021D972C thumb ov121
- *   func_021D9738 0x021D9738 thumb ov121
+ *   MYSTERY_GRAPHIC_Draw 0x021D9718 thumb ov121
+ *   MYSTERY_GRAPHIC_DrawScene 0x021D972C thumb ov121
+ *   MYSTERY_GRAPHIC_DrawEnd 0x021D9738 thumb ov121
  *   func_021D9E50 0x021D9E50 thumb ov121
  *   func_021DA2C8 0x021DA2C8 thumb ov121
  *   func_021DA840 0x021DA840 thumb ov121
@@ -85,7 +85,7 @@
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_0202EB44 0x0202EB44 thumb
+ *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   func_021DA84C 0x021DA84C thumb ov121
  *   MYSTERY_NET_GetResult 0x021DE4D8 thumb ov121
  *   MYSTERY_NET_SetAction 0x021DE308 thumb ov121
@@ -100,10 +100,10 @@
  *   func_021D9FF8 0x021D9FF8 thumb ov121
  *   KEY_GetTrg 0x020362DC arm
  *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
- *   func_021D9750 0x021D9750 thumb ov121
+ *   MYSTERY_GRAPHIC_StartRender 0x021D9750 thumb ov121
  *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
  *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
- *   func_021D9790 0x021D9790 thumb ov121
+ *   MYSTERY_GRAPHIC_StopRender 0x021D9790 thumb ov121
  *   func_021DCFC8 0x021DCFC8 thumb ov121
  *   func_021DD24C 0x021DD24C thumb ov121
  *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
@@ -158,7 +158,7 @@
  *   func_02008550 0x02008550 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_020185F0 0x020185F0 thumb
- *   func_0202F2AC 0x0202F2AC thumb
+ *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
@@ -335,8 +335,8 @@ extern void MI_CpuFill8(void *, int, int);
 extern void *GAME_DATA_Create(u16 id);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MYSTERY_DATA_Create(void *, void *, void *);
-extern u8 *func_021D9624(int arg, u16 heap);
-extern unsigned func_021D9744(char *p);
+extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
+extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -353,7 +353,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_021D96C4(u8 *p);
+extern void MYSTERY_GRAPHIC_Delete(u8 *p);
 extern void MYSTERY_DATA_Delete(void *);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
@@ -363,9 +363,9 @@ extern void func_02034A5C(int);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void MYSTERY_NET_Step(char *p);
 extern void func_021DA898(char *p);
-extern void func_021D9718(u8 *p);
-extern void func_021D972C(char *p);
-extern void func_021D9738(char *p);
+extern void MYSTERY_GRAPHIC_Draw(u8 *p);
+extern void MYSTERY_GRAPHIC_DrawScene(char *p);
+extern void MYSTERY_GRAPHIC_DrawEnd(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021D9E50(u8 *p);
 extern int func_021DA2C8(u8 *p);
@@ -424,13 +424,13 @@ extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
-extern int func_0202EB44(void);
+extern int APP_ENV_InitParentalControl(void);
 extern void *MYSTERY_NET_GetResult(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);
-extern void func_021D9750(u8 *p);
+extern void MYSTERY_GRAPHIC_StartRender(u8 *p);
 extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
 extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
-extern void func_021D9790(char *p);
+extern void MYSTERY_GRAPHIC_StopRender(char *p);
 extern void *func_021DCFC8(Desc_021D7814 *,u16);
 extern void *func_021DD24C(void *,void *,void *,u16);
 extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
@@ -480,7 +480,7 @@ extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_020185F0(void *);
-extern void func_0202F2AC(void *,u32,u32,u32,u32);
+extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
 extern void POKE_TOOL_RecalcParam(void *);
 extern u32 func_02017E1C(void *,u32,u32);
 extern int POKEGRA_OpenHandle(int);
@@ -601,9 +601,9 @@ int func_021D6660(void *a, u32 b, u32 c)
     *(u32 *)(p + 0x3B4) = c;
     *(void **)(p + 0x3B8) = GAME_DATA_Create(29);
     *(void **)(p + 0x3BC) = MYSTERY_DATA_Create(GAME_DATA_GetSaveControl(*(void **)(p + 0x3B8)), (void *)1, (void *)29);
-    *(u8 **)(p + 0x394) = func_021D9624(1, 29);
+    *(u8 **)(p + 0x394) = MYSTERY_GRAPHIC_Create(1, 29);
     func_021D6924((u16 *)(p + 0x390), 29);
-    func_021D6AEC((char *)(p + 0x294), (void *)func_021D9744((char *)*(u8 **)(p + 0x394)), 29);
+    func_021D6AEC((char *)(p + 0x294), (void *)MYSTERY_GRAPHIC_GetClactUnit((char *)*(u8 **)(p + 0x394)), 29);
     *(void **)(p + 0x398) = GF_FONT_Create(23, 0, 0, 0, 29);
     *(u32 *)(p + 0x39C) = PRINTSYS_QUE_Create((void *)29);
     *(void **)(p + 0x3A4) = func_02045B38(0, 2, 0x50, 29);
@@ -637,7 +637,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     GF_FONT_Delete(((struct Obj02176 *)p)->f398);
     func_021D6C28((u8 *)(p + 0x294));
     func_021D6948(p + 0x390);
-    func_021D96C4(((struct Obj02176 *)p)->f394);
+    MYSTERY_GRAPHIC_Delete(((struct Obj02176 *)p)->f394);
     MYSTERY_DATA_Delete(((struct Obj02176 *)p)->f3BC);
     GAME_DATA_Delete(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);
@@ -660,9 +660,9 @@ int func_021D6888(int a, int b, int c, char *p)
     MYSTERY_NET_Step(((struct Obj01402 *)p)->f3B0);
     func_021DA898(((struct Obj01402 *)p)->f290);
     if (((struct Obj01402 *)p)->f394) {
-        func_021D9718(((struct Obj01402 *)p)->f394);
-        func_021D972C(((struct Obj01402 *)p)->f394);
-        func_021D9738(((struct Obj01402 *)p)->f394);
+        MYSTERY_GRAPHIC_Draw(((struct Obj01402 *)p)->f394);
+        MYSTERY_GRAPHIC_DrawScene(((struct Obj01402 *)p)->f394);
+        MYSTERY_GRAPHIC_DrawEnd(((struct Obj01402 *)p)->f394);
     }
     func_021D9238(p + 0x138);
     PRINTSYS_QUE_Main(((struct Obj01402 *)p)->f39C);
@@ -991,7 +991,7 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
                     func_021DA8C0(task,0);*state=19;
                 } else *state=16;
             } else {
-                if(func_0202EB44()==0) func_021DA8B0(task,(u32)func_021D80F0);
+                if(APP_ENV_InitParentalControl()==0) func_021DA8B0(task,(u32)func_021D80F0);
                 else *state=2;
             }
         } else if(v==1) {
@@ -1236,10 +1236,10 @@ void func_021D7814(void *task,u32 *state,u8 *p)
     Desc_021D7814 d;
     switch (*state) {
     case 0:
-        func_021D9750(((struct Obj00297 *)p)->f394);
+        MYSTERY_GRAPHIC_StartRender(((struct Obj00297 *)p)->f394);
         func_02040588(1,1);
         func_02040588(3,1);
-        func_021D84D4(p+12,(void *)func_021D9744(((struct Obj00297 *)p)->f394),p+972,(void *)(*(int *)&((struct Obj00297 *)p)->f3B8),p+660,p+912,p+312,29);
+        func_021D84D4(p+12,(void *)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00297 *)p)->f394),p+972,(void *)(*(int *)&((struct Obj00297 *)p)->f3B8),p+660,p+912,p+312,29);
         func_021D8C1C(p+12,0);
         func_021D9F08(((struct Obj00297 *)p)->f284,((struct Obj00297 *)p)->f3A4,113,2);
         *state=1;
@@ -1283,7 +1283,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         ((struct Obj00297 *)p)->f284=0;
         func_021D8380((char *)p);
         *(volatile u16 *)0x04000050=0;
-        func_021D9790(((struct Obj00297 *)p)->f394);
+        MYSTERY_GRAPHIC_StopRender(((struct Obj00297 *)p)->f394);
         func_02040588(1,1);
         func_02040588(3,1);
         *state=11;
@@ -1301,7 +1301,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         d.w[3]=15;
         d.w[5]=13;
         d.w[4]=10;
-        d.w[6]=(u32)func_021D9744(((struct Obj00297 *)p)->f394);
+        d.w[6]=(u32)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00297 *)p)->f394);
         d.w[7]=*(u32 *)&((struct Obj00297 *)p)->f3BC;
         d.w[8]=*(u32 *)&((struct Obj00297 *)p)->f3A4;
         d.w[9]=((struct Obj00297 *)p)->f398;
@@ -1332,7 +1332,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         }
         break;
     case 16:
-        func_021D93F4(p+612,p+660,(int)func_021D9744(((struct Obj00297 *)p)->f394),*(int *)&((struct Obj00297 *)p)->f39C,((struct Obj00297 *)p)->f3A4,155,*(int *)&((struct Obj00297 *)p)->f398,29);
+        func_021D93F4(p+612,p+660,(int)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00297 *)p)->f394),*(int *)&((struct Obj00297 *)p)->f39C,((struct Obj00297 *)p)->f3A4,155,*(int *)&((struct Obj00297 *)p)->f398,29);
         func_021D94B8((char *)(p+612));
         *state=17;
         break;
@@ -1368,7 +1368,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         ((struct Obj00989 *)p)->f284=0;
         MI_CpuFill8(&d,0,36);
         d.w[0]=0;
-        d.w[2]=(u32)func_021D9744(((struct Obj00989 *)p)->f394);
+        d.w[2]=(u32)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00989 *)p)->f394);
         d.w[3]=((struct Obj00989 *)p)->f3BC;
         d.w[4]=*(u32 *)&((struct Obj00989 *)p)->f398;
         d.w[5]=*(u32 *)&((struct Obj00989 *)p)->f39C;
@@ -1437,7 +1437,7 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         ((struct Obj00827 *)p)->f284=0;
         MI_CpuFill8(&d,0,36);
         d.w[0]=1;
-        d.w[2]=(u32)func_021D9744(((struct Obj00827 *)p)->f394);
+        d.w[2]=(u32)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00827 *)p)->f394);
         d.w[3]=*(u32 *)&((struct Obj00827 *)p)->f3BC;
         d.w[4]=*(u32 *)&((struct Obj00827 *)p)->f398;
         d.w[5]=*(u32 *)&((struct Obj00827 *)p)->f39C;
@@ -1518,7 +1518,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         }
         func_021D6C28(p+660);
         func_021D6948(p+912);
-        func_021D96C4(((struct Obj00533 *)p)->f394);
+        MYSTERY_GRAPHIC_Delete(((struct Obj00533 *)p)->f394);
         ((struct Obj00533 *)p)->f394=0;
         *state=3; return;
     case 3:
@@ -1535,9 +1535,9 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         PROCSYS_PushGlobal((u32)ov115_id,(u32)gNetSaveMainProc,(u32)((struct Obj00533 *)p)->f3C0);
         *state=5; return;
     case 5:
-        ((struct Obj00533 *)p)->f394=func_021D9624(1,29);
+        ((struct Obj00533 *)p)->f394=MYSTERY_GRAPHIC_Create(1,29);
         func_021D6924((u16 *)(p+912),29);
-        func_021D6AEC((char *)(p+660),(void *)func_021D9744(((struct Obj00533 *)p)->f394),29);
+        func_021D6AEC((char *)(p+660),(void *)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00533 *)p)->f394),29);
         ((struct Obj00533 *)p)->f284=func_021D9CA4(1,15,((struct Obj00533 *)p)->f39C,((struct Obj00533 *)p)->f398,29);
         func_021D9FFC(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
@@ -1912,7 +1912,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         }
         year=(u16)((int)D(172)>>16);month=(u8)((int)D(172)>>8);day=(u8)D(172);
         if(desc[92]) place=H(56);else place=H(58);
-        func_0202F2AC(func_020185F0(allocated),place,year-2000,month,day);
+        SAVE_EVENT_WriteWithDate(func_020185F0(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
         if(func_02017E1C(allocated,3,0)!=0) {func_020307B0(allocated);mon=0;}
         else mon=allocated;

@@ -1,5 +1,5 @@
 /*
- * function: func_02027614
+ * function: APP_ICON_GetMoveKindPaletteFileId
  * address:  0x02027614
  * packet:   pkt_020274B4
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02027614.c \\
- *       --func func_02027614 --addr 0x02027614 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/APP_ICON_GetMoveKindPaletteFileId.c \\
+ *       --func APP_ICON_GetMoveKindPaletteFileId --addr 0x02027614 --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
-u32 func_02027614(void)
+u32 APP_ICON_GetMoveKindPaletteFileId(void)
 {
     return 0x13;
 }

@@ -122,7 +122,7 @@
  *   func_02009DE8 0x02009DE8 thumb
  *   memset 0x02082BCC arm
  *   MYSTATUS_Copy 0x02008494 thumb
- *   func_0202EB7C 0x0202EB7C thumb
+ *   COMM_HISTORY_InsertIfNamed 0x0202EB7C thumb
  *   DPW_TR_CancelAsync  0x021C89F0  arm  ov114
  *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
@@ -380,7 +380,7 @@ extern void *memset(void *, int, u32);
 
 extern void MYSTATUS_Copy(void *src, void *dst);
 
-extern u32 func_0202EB7C(u32 a0, u32 a1);
+extern u32 COMM_HISTORY_InsertIfNamed(u32 a0, u32 a1);
 
 extern void DPW_TR_CancelAsync(void);
 
@@ -1501,7 +1501,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *r, void *old
     rec.x = r->profileFlagB;
     rec.flags = (rec.flags & ~7) | (r->profileFlagA & 7);
     rec.y = r->profileFlagC;
-    func_0202EB7C((u32)(p->ctx->status), (u32)(&rec));
+    COMM_HISTORY_InsertIfNamed((u32)(p->ctx->status), (u32)(&rec));
     func_020307B0(copy);
 }
 

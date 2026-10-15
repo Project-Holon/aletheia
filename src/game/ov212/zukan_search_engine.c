@@ -36,7 +36,6 @@
  *   g_021C9968     0x021C9968  data
  *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
  */
-#include "../../matched/include/Obj03938.h"
 #include "zukan_shared_types.h"
 
 struct Query { u8 mode; u8 rule; u8 kind; u8 type1; u8 type2; u8 attr; u8 last; };
@@ -87,7 +86,7 @@ extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decom
 
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
-void ZUKAN_SEARCH_ENGINE_Create(int p, int b, int c);
+void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
 
 void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0);
 
@@ -107,18 +106,18 @@ extern const char g_021C99A8[];
 
 extern int g_021C9968[];
 
-void ZUKAN_SEARCH_ENGINE_Create(int p, int b, int c)
+void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
 {
-    unsigned char *q = func_02030734(c, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
+    struct Search *q = func_02030734(heap, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 
-    ((struct Obj03938 *)q)->f0 = p;
-    ((struct Obj03938 *)q)->f4 = b;
-    ((struct Obj03938 *)q)->f8 = 0;
-    ((struct Obj03938 *)q)->fC = 0;
-    ((struct Obj03938 *)q)->f10 = 0;
-    ((struct Obj03938 *)q)->f3C = 0;
-    ((struct Obj03938 *)q)->f40 = 0;
-    ((struct Obj03938 *)q)->f44 = 0;
+    q->save = p;
+    q->query = b;
+    q->state = 0;
+    q->arc = 0;
+    q->index = 0;
+    q->personal = 0;
+    q->resultCount = 0;
+    q->result = 0;
 }
 
 /*

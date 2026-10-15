@@ -68,7 +68,7 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
@@ -379,7 +379,7 @@ extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int h
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
 extern void POKE_PERSONAL_Delete(void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0202F190(void *mon, u32, void *, u32, u32 heap);
+extern void SAVE_EVENT_Write(void *mon, u32, void *, u32, u32 heap);
 extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32, int, int, int, int, int);
 extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
@@ -1795,7 +1795,7 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     POKE_TOOL_SetPartyValue(mon, 0x73, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
     POKE_TOOL_RecalcParam(mon);
-    func_0202F190(mon, 5, myStatus, 0xEA63, heapId);
+    SAVE_EVENT_Write(mon, 5, myStatus, 0xEA63, heapId);
     POKEPARTY_Add(party, mon);
     func_020307B0(mon);
     *resultVar = 1;
@@ -1823,7 +1823,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 6, spec->heldItem);
     if (FILE_UTIL_Get_0FE4(spec->ballItem, 0xF, spec->heapId) == 4)
         POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
-    func_0202F190(trainerIdOrMon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
+    SAVE_EVENT_Write(trainerIdOrMon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
     POKE_TOOL_RecalcParam(trainerIdOrMon);
     return trainerIdOrMon;
 }

@@ -49,8 +49,8 @@
  *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   gFrameListFlickSteps 0x021B94F8 data a1
- *   func_0202EDE4  0x0202EDE4  thumb
- *   func_0202EE0C 0x0202EE0C thumb
+ *   COMM_HISTORY_ScaleValue  0x0202EDE4  thumb
+ *   COMM_HISTORY_ScaleSpan 0x0202EE0C thumb
  *   gFrameListFlickThresholds     0x021B94FE  data   ov067  a1
  *   BGWINFRM_GetBgFrame  0x0202CF8C  thumb
  *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
@@ -104,8 +104,8 @@ extern int TOUCHPANEL_HitTrg(const void *hitRects);
 extern unsigned int KEY_GetCont(void);
 extern int _s32_div_f(int numerator, int denominator);
 extern int TOUCHPANEL_HitCont(const void *hitRects);
-extern u32 func_0202EDE4(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
-extern u32 func_0202EE0C(u32 scrollMax, u32 index, u32 barX, u32 barY, u32 barPad);
+extern u32 COMM_HISTORY_ScaleValue(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
+extern u32 COMM_HISTORY_ScaleSpan(u32 scrollMax, u32 index, u32 barX, u32 barY, u32 barPad);
 extern u8 BGWINFRM_GetBgFrame(struct BgWinFrm *mgr, u32 index);
 extern u8 *BUTTON_MAN_CallHandlerById(int id);
 extern void BGWINFRM_SetFrameData(struct BgWinFrm *mgr, u32 index, const void *src);
@@ -952,7 +952,7 @@ u32 FRAME_LIST_GetScrollBarRow(FrameList *list)
     if (TOUCHPANEL_GetPointCont(&touchX, &touchY) == 0)
         touchY = list->scrollBarTouchY;
     list->scrollBarTouchY = -1;
-    return func_0202EDE4(list->scrollMax, touchY, list->scrollBarX, list->scrollBarY, list->params.scrollBarPad);
+    return COMM_HISTORY_ScaleValue(list->scrollMax, touchY, list->scrollBarX, list->scrollBarY, list->params.scrollBarPad);
 }
 
 
@@ -978,7 +978,7 @@ int FRAME_LIST_GetScrollBarTop(FrameList *list)
 {
     u8 barX, barY;
     FRAME_LIST_FindScrollBarEntry(list, &barX, &barY);
-    return func_0202EE0C(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
+    return COMM_HISTORY_ScaleSpan(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
 }
 
 
@@ -996,11 +996,11 @@ int FRAME_LIST_ClampToScrollBar(FrameList *list, unsigned int touchY)
         return touchY;
     }
     FRAME_LIST_FindScrollBarEntry(list, &barX, &barY);
-    slotStart = func_0202EE0C(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
+    slotStart = COMM_HISTORY_ScaleSpan(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
     if (list->scrollMax == list->scrollPos)
         slotEnd = barY;
     else
-        slotEnd = func_0202EE0C(list->scrollMax, list->scrollPos + 1, barX, barY, list->params.scrollBarPad);
+        slotEnd = COMM_HISTORY_ScaleSpan(list->scrollMax, list->scrollPos + 1, barX, barY, list->params.scrollBarPad);
     if (touchY >= slotStart && touchY < slotEnd)
         return touchY;
     return slotStart;

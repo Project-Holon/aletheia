@@ -23,7 +23,7 @@
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
  *   CTVT_CALL_VBlank 0x021BD5AC thumb ov172
  *   func_020056A0 0x020056A0 thumb
- *   func_0202EB14 0x0202EB14 thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   CTVT_COMM_SetRequestedMode 0x021B80DC thumb ov172
  *   CTVT_COMM_SetConnectMac 0x021B80EC thumb ov172
@@ -55,7 +55,7 @@ extern void *CTVT_CALL_Create(int unused, void *p);
 extern u32 DRAW_SYSTEM_CreateCanvas(Params *);
 extern void CTVT_CALL_VBlank(int, char *);
 extern u32 func_020056A0(void (*)(int, char *), char *, int);
-extern int func_0202EB14(void);
+extern int APP_ENV_HasParentalControlBits(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void CTVT_COMM_SetRequestedMode(int unused, char *p, u32 v);
 extern void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src);
@@ -106,7 +106,7 @@ void CTVT_CALL_WorkInit(char *self)
     W(0x2c) = z;
     W(0x30) = z;
     W(0x34) = z;
-    if (func_0202EB14() == 1) W(0x30) = one;
+    if (APP_ENV_HasParentalControlBits() == 1) W(0x30) = one;
     GFL_NET_RestartWithDefaultTimeout(0, H(0));
     switch (*(u32 *)(W(0x1f8) + 4)) {
     case 0:

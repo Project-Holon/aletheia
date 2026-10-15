@@ -1,5 +1,5 @@
 /*
- * function: func_0217AF9C
+ * function: BATTLE_CHAMPIONSHIP_FLOW_DeleteText
  * address:  0x0217AF9C
  * packet:   pkt_0217AF9C
  * region:   ov176
@@ -25,7 +25,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 
-void func_0217AF9C(int *p)
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *p)
 {
     func_021E8628(((struct Obj03869 *)p)->f8);
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj03869 *)p)->f14));

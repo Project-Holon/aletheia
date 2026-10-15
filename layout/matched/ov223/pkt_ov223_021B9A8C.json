@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9A8C",
+   "name": "PSEL_UpdateSelectAnime",
    "address": "0x021B9A8C",
    "kind": "game",
    "region": "ov223",

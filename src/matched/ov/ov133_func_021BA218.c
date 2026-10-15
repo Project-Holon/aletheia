@@ -1,5 +1,5 @@
 /*
- * function: func_021BA218
+ * function: DUP_FITTING_ITEM_ElemGetRenderElem
  * address: 0x021BA218
  * packet: pkt_ov133_021BA218
  * region: ov133
@@ -11,7 +11,7 @@
 #include "../include/Obj23334.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021BA218(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p)
 {
     return ((struct Obj23334 *)p)->fC;
 }

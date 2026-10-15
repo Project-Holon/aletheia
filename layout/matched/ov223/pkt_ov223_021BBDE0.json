@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBDE0",
+   "name": "PSEL_GRAPHIC_Main",
    "address": "0x021BBDE0",
    "kind": "game",
    "region": "ov223",

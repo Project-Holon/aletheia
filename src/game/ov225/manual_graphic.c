@@ -23,18 +23,18 @@
  *   func_021B9D18 0x021B9D18 thumb ov225
  *   func_021BB2B4 0x021BB2B4 thumb ov225
  *   func_021BB308 0x021BB308 thumb ov225
- *   func_021BB7F4 0x021BB7F4 thumb ov225
- *   func_021BBA14 0x021BBA14 thumb ov225
- *   func_021BBAE8 0x021BBAE8 thumb ov225
+ *   MANUAL_CATEGORY_DeleteList 0x021BB7F4 thumb ov225
+ *   MANUAL_CATEGORY_DeleteDetailList 0x021BBA14 thumb ov225
+ *   MANUAL_CATEGORY_DeleteOption 0x021BBAE8 thumb ov225
  *   func_021B9DEC 0x021B9DEC thumb ov225
  *   func_02030EAC 0x02030EAC arm
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_021BB31C 0x021BB31C thumb ov225
- *   func_021BB6E0 0x021BB6E0 thumb ov225
- *   func_021BB844 0x021BB844 thumb ov225
- *   func_021BBA64 0x021BBA64 thumb ov225
+ *   MANUAL_CATEGORY_CreateList 0x021BB6E0 thumb ov225
+ *   MANUAL_CATEGORY_IsListFinished 0x021BB844 thumb ov225
+ *   MANUAL_CATEGORY_IsDetailFinished 0x021BBA64 thumb ov225
  *   func_021B9BEC 0x021B9BEC thumb ov225
  *   func_021B9BE0 0x021B9BE0 thumb ov225
  *   func_021B9C98 0x021B9C98 thumb ov225
@@ -43,9 +43,9 @@
  *   func_021B9C0C 0x021B9C0C thumb ov225
  *   func_021B9CC8 0x021B9CC8 thumb ov225
  *   func_021B9BF8 0x021B9BF8 thumb ov225
- *   func_021BBA74 0x021BBA74 thumb ov225
- *   func_021BBB0C 0x021BBB0C thumb ov225
- *   func_021BB854 0x021BB854 thumb ov225
+ *   MANUAL_CATEGORY_CreateOption 0x021BBA74 thumb ov225
+ *   MANUAL_CATEGORY_UpdateOption 0x021BBB0C thumb ov225
+ *   MANUAL_CATEGORY_CreateDetailList 0x021BB854 thumb ov225
  *   func_021B9E60 0x021B9E60 thumb ov225
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
@@ -145,18 +145,18 @@ extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern char *func_021BB2B4(char *,char *);
 extern void func_021BB308(char *p);
-extern void func_021BB7F4(char *p);
-extern void func_021BBA14(char *p);
-extern void func_021BBAE8(char *p);
+extern void MANUAL_CATEGORY_DeleteList(char *p);
+extern void MANUAL_CATEGORY_DeleteDetailList(char *p);
+extern void MANUAL_CATEGORY_DeleteOption(char *p);
 extern void func_021B9DEC(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_020315D4(struct S020315D4 *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern int func_021BB31C(char *);
-extern char *func_021BB6E0(char *,char *);
-extern int func_021BB844(char *);
-extern int func_021BBA64(char *);
+extern char *MANUAL_CATEGORY_CreateList(char *,char *);
+extern int MANUAL_CATEGORY_IsListFinished(char *);
+extern int MANUAL_CATEGORY_IsDetailFinished(char *);
 extern u16 func_021B9BEC(char *,int);
 extern u16 func_021B9BE0(char *,int);
 extern int func_021B9C98(void *,int,int);
@@ -165,9 +165,9 @@ extern u16 func_021B9BC8(char *,int);
 extern u16 func_021B9C0C(char *,int,int);
 extern int func_021B9CC8(unsigned unused, unsigned key);
 extern u16 func_021B9BF8(char *,int,int);
-extern char *func_021BBA74(char *,char *);
-extern int func_021BBB0C(char *);
-extern struct Q *func_021BB854(struct Owner *p, struct Data *data);
+extern char *MANUAL_CATEGORY_CreateOption(char *,char *);
+extern int MANUAL_CATEGORY_UpdateOption(char *);
+extern struct Q *MANUAL_CATEGORY_CreateDetailList(struct Owner *p, struct Data *data);
 extern void func_021B9E60(char *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
@@ -257,9 +257,9 @@ int MANUAL_GRAPHIC_Exit(void *proc, void *unusedA, void *unusedB, char *work)
 {
     switch (((struct ManualWork *)work)->state) {
     case 0: func_021BB308(((struct ManualWork *)work)->menu); break;
-    case 1: func_021BB7F4(((struct ManualWork *)work)->list); break;
-    case 2: func_021BBA14(((struct ManualWork *)work)->detailList); break;
-    case 3: func_021BBAE8(((struct ManualWork *)work)->optionList); break;
+    case 1: MANUAL_CATEGORY_DeleteList(((struct ManualWork *)work)->list); break;
+    case 2: MANUAL_CATEGORY_DeleteDetailList(((struct ManualWork *)work)->detailList); break;
+    case 3: MANUAL_CATEGORY_DeleteOption(((struct ManualWork *)work)->optionList); break;
     }
     func_02030EAC(((struct ManualWork *)work)->task);
     func_021B9DEC(((struct ManualWork *)work)->data);
@@ -291,23 +291,23 @@ int MANUAL_GRAPHIC_Main(void *unusedA,u32 *state,void *unused,char *work)
      if(((struct ManualWork *)work)->choice==2) {
       ((struct ManualWork *)work)->state=1;
       ((struct ManualWork *)work)->listOriginX=0; ((struct ManualWork *)work)->listOriginY=0;
-      *(char * *)&((struct ManualWork *)work)->list=func_021BB6E0(work+0x20,*(char * *)&((struct ManualWork *)work)->data);
+      *(char * *)&((struct ManualWork *)work)->list=MANUAL_CATEGORY_CreateList(work+0x20,*(char * *)&((struct ManualWork *)work)->data);
      } else if(((struct ManualWork *)work)->choice==3) {
       ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=1;
       ((struct ManualWork *)work)->detailId=done;
       ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
-      *(char * *)&((struct ManualWork *)work)->detailList=(char *)func_021BB854((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
+      *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
      }
     }
    }
    break;
   case 1:
-   if(!func_021BB844(*(char * *)&((struct ManualWork *)work)->list)) {
+   if(!MANUAL_CATEGORY_IsListFinished(*(char * *)&((struct ManualWork *)work)->list)) {
    default:
 innerDone:
     break;
    } else {
-    func_021BB7F4(*(char * *)&((struct ManualWork *)work)->list);
+    MANUAL_CATEGORY_DeleteList(*(char * *)&((struct ManualWork *)work)->list);
     if(((struct ManualWork *)work)->hasDetail==0) {
      ((struct ManualWork *)work)->state=done;
      *(char * *)&((struct ManualWork *)work)->menu=func_021BB2B4(work+0x14,*(char * *)&((struct ManualWork *)work)->data);
@@ -315,15 +315,15 @@ innerDone:
      ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=0;
      ((struct ManualWork *)work)->detailId=((struct ManualWork *)work)->detailEntry;
      ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
-     *(char * *)&((struct ManualWork *)work)->detailList=(char *)func_021BB854((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
   case 2:
-   if(func_021BBA64(*(char * *)&((struct ManualWork *)work)->detailList)) {
-    func_021BBA14(*(char * *)&((struct ManualWork *)work)->detailList);
+   if(MANUAL_CATEGORY_IsDetailFinished(*(char * *)&((struct ManualWork *)work)->detailList)) {
+    MANUAL_CATEGORY_DeleteDetailList(*(char * *)&((struct ManualWork *)work)->detailList);
     if(((struct ManualWork *)work)->subFlag==0) {
-     if(((struct ManualWork *)work)->ownerState==0) { ((struct ManualWork *)work)->state=1; *(char * *)&((struct ManualWork *)work)->list=func_021BB6E0(work+0x20,*(char * *)&((struct ManualWork *)work)->data); }
+     if(((struct ManualWork *)work)->ownerState==0) { ((struct ManualWork *)work)->state=1; *(char * *)&((struct ManualWork *)work)->list=MANUAL_CATEGORY_CreateList(work+0x20,*(char * *)&((struct ManualWork *)work)->data); }
      else if(((struct ManualWork *)work)->ownerState==1) { ((struct ManualWork *)work)->state=done; *(char * *)&((struct ManualWork *)work)->menu=func_021BB2B4(work+0x14,*(char * *)&((struct ManualWork *)work)->data); }
     } else {
      ((struct ManualWork *)work)->state=3;
@@ -340,16 +340,16 @@ innerDone:
       ((struct ManualWork *)work)->entries[entryIndex].item=item;
       ((struct ManualWork *)work)->entries[entryIndex].count=func_021B9BF8(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id,entryIndex);
      }
-     *(char * *)&((struct ManualWork *)work)->optionList=func_021BBA74(work+0x48,*(char * *)&((struct ManualWork *)work)->data);
+     *(char * *)&((struct ManualWork *)work)->optionList=MANUAL_CATEGORY_CreateOption(work+0x48,*(char * *)&((struct ManualWork *)work)->data);
     }
    }
    break;
   case 3:
-   if(func_021BBB0C(*(char * *)&((struct ManualWork *)work)->optionList)) {
-    func_021BBAE8(((struct ManualWork *)work)->optionList);
+   if(MANUAL_CATEGORY_UpdateOption(*(char * *)&((struct ManualWork *)work)->optionList)) {
+    MANUAL_CATEGORY_DeleteOption(((struct ManualWork *)work)->optionList);
     if(((struct ManualWork *)work)->closeFlag==0) {
      ((struct ManualWork *)work)->state=2;
-     *(char * *)&((struct ManualWork *)work)->detailList=(char *)func_021BB854((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;

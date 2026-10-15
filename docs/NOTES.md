@@ -1,7 +1,8 @@
 # Technical notes
 
 Function-level matching (compiling C and comparing it with the original
-bytes) is written up separately in `docs/MATCHING.md`. `src/` *is* part of
+bytes) is written up separately in `docs/MATCHING.md`. Compiler traps that
+keep recurring are collected in `docs/COMPILER_NOTES.md`. `src/` *is* part of
 the build described below: `tools/build.py` compiles every entry of
 every `layout/matched/` shard and splices the result into the region image before
 verifying it, so the byte-identical ROM is built from the C wherever C

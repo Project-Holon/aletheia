@@ -4,7 +4,6 @@
 #include "btlv_effvm_types.h"
 
 typedef int fx32;
-typedef signed short s16_021F6560;
 
 struct G3dCamera;
 

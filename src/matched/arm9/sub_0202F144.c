@@ -1,5 +1,5 @@
 /*
- * function: sub_0202F144
+ * function: ITEM_GFX_GetExtraValue
  * address:  0x0202F144
  * packet:   pkt_0202EF98
  * region:   arm9
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202F144.c \
- *       --func sub_0202F144 --addr 0x0202F144 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ITEM_GFX_GetExtraValue.c \
+ *       --func ITEM_GFX_GetExtraValue --addr 0x0202F144 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_020A03C8.h"
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 extern struct G_020A03C8 g_020A03C8[];
 
-u32 sub_0202F144(u32 key)
+u32 ITEM_GFX_GetExtraValue(u32 key)
 {
     s32 i;
 

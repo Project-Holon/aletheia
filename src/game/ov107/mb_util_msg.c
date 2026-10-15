@@ -22,7 +22,7 @@
  *   TCBL_Create 0x0203101C arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   TALKMSGWIN_Create 0x02194670 thumb ov021
  *   d_021F6E38 0x021F6E38 data a4
@@ -43,7 +43,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
  *   TCBL_Main 0x020310C4 arm
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -61,7 +61,7 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -179,7 +179,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct PrintSys *PRINTSYS_QUE_Create(void *heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintSys *que, u16 heap);
-extern unsigned func_02028590(int, int, int, unsigned);
+extern unsigned APP_KEYCURSOR_CreateDefault(int, int, int, unsigned);
 extern int func_02034AC4(int);
 extern struct TalkMsgWin *TALKMSGWIN_Create(u16 *param);
 extern void TALKMSGWIN_Delete(struct TalkMsgWin *win);
@@ -201,7 +201,7 @@ extern void TCBL_Main(struct Tcbl *tcbl);
 extern void APP_KEYCURSOR_Update(u32 cursor, struct PrintStream *stream, struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenu *);
-extern int func_02028484(u8 *cursorState, struct PrintStream *stream);
+extern int PRINTSYS_CTRL_Update(u8 *cursorState, struct PrintStream *stream);
 extern unsigned int PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern unsigned int PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern struct TimeIcon *TIME_ICON_CreateNode(struct Tcbl *tcbl, struct BmpWin *win, u8 c, u8 d, u16 e);
@@ -216,7 +216,7 @@ void WORDSET_CopyTaggedText(struct WordSet *ws, struct StrBuf *dst, struct StrBu
 int TALKMSGWIN_DrawWindowFrame(struct TalkMsgWin *, struct BmpWin *, int);
 void BMP_MENUWORK_DrawWindow(struct BmpWin *, int, int, int);
 struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *, int, int, struct StrBuf *, struct GfFont *, int, struct Tcbl *, int, int, int);
-void func_02028470(u8 *cursorState, u32 v);
+void PRINTSYS_CTRL_Init(u8 *cursorState, u32 v);
 void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, struct StrBuf *s, u32 e);
 int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWin *, struct BmpWin *);
 void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
@@ -258,7 +258,7 @@ void MB_UTIL_MSG_SetKeyWaitFlag(MbMsgWork *work, int flag);
 void MB_UTIL_MSG_SetTimeIconPending(MbMsgWork *work, int pending);
 
 /*
- * 2026-10-05 (wave P8 W4): 0x15 in the pool is an overlay id (ov021_id, passed to func_02034AC4). The sixth parameter is copied to an int local cursor first (stored to cursorMode, later passed to func_02028590); without the local the copy is propagated and the frame is 4 bytes short. EXACT in c99 and c.
+ * 2026-10-05 (wave P8 W4): 0x15 in the pool is an overlay id (ov021_id, passed to func_02034AC4). The sixth parameter is copied to an int local cursor first (stored to cursorMode, later passed to APP_KEYCURSOR_CreateDefault); without the local the copy is propagated and the frame is 4 bytes short. EXACT in c99 and c.
  */
 MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgFile, u32 useTalkWin, u32 cursorMode)
 {
@@ -289,7 +289,7 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->taskMenuRes = APP_TASKMENU_RES_Create(w->menuBgFrame, 10, w->font, w->printQue, w->heapId);
     w->taskMenu = 0;
     w->yesNoMenu = 0;
-    w->keyCursor = func_02028590(0xF, cursor, 1, w->heapId);
+    w->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
     func_02034AC4((int)ov021_id);
     if (useTalkWin == 1) {
         talk.heapId = heapId;
@@ -345,7 +345,7 @@ void MB_UTIL_MSG_Main(MbMsgWork *work)
     int done;
     TCBL_Main(work->tcbl);
     if (work->stream) {
-        done = func_02028484(work->keyCursorState, work->stream);
+        done = PRINTSYS_CTRL_Update(work->keyCursorState, work->stream);
         APP_KEYCURSOR_Update(work->keyCursor, work->stream, work->window);
         if (done == 1) {
             PRINTSYS_PrintStreamDelete(work->stream);
@@ -439,9 +439,9 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
         BMP_MENUWORK_DrawWindow(work->window, 1, 1, 0xD);
     }
     if (work->cursorMode == 1) {
-        func_02028470(work->keyCursorState, 6);
+        PRINTSYS_CTRL_Init(work->keyCursorState, 6);
     } else {
-        func_02028470(work->keyCursorState, 4);
+        PRINTSYS_CTRL_Init(work->keyCursorState, 4);
     }
 }
 
@@ -595,9 +595,9 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(MbMsgWork *work, int speed)
     BMP_MENUWORK_DrawWindow(work->window, 1, 1, 13);
     MSGDATA_Delete(sysMsg);
     if (work->cursorMode == 1)
-        func_02028470(work->keyCursorState, 6);
+        PRINTSYS_CTRL_Init(work->keyCursorState, 6);
     else
-        func_02028470(work->keyCursorState, 4);
+        PRINTSYS_CTRL_Init(work->keyCursorState, 4);
 }
 
 struct MsgBank *MB_UTIL_MSG_GetMsgData(MbMsgWork *work) { return work->msgData; }

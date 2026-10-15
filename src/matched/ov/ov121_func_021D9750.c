@@ -1,5 +1,5 @@
 /*
- * function: func_021D9750
+ * function: MYSTERY_GRAPHIC_StartRender
  * address: 0x021D9750
  * packet: pkt_ov121_021D9750
  * region: ov121
@@ -11,7 +11,7 @@
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   PARTICLE_InitManager 0x02050B80 arm
- *   func_021D98F4 0x021D98F4 thumb ov121
+ *   MYSTERY_GRAPHIC_InitCamera 0x021D98F4 thumb ov121
  *   d_021DF598 0x021DF598 data a4
  */
 #include "../include/Obj13945.h"
@@ -24,14 +24,14 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 struct DispConfig;
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void PARTICLE_InitManager(u32 heap);
-extern void func_021D98F4(u32 *p, u32 heap);
-void func_021D9750(u8 *p)
+extern void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap);
+void MYSTERY_GRAPHIC_StartRender(u8 *p)
 {
     Config c;
     func_02040588(0,0);
     c=d_021DF598;
     c.d=1;
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&c));
-    func_021D98F4((u32 *)(p+12),((struct Obj13945 *)p)->f18);
+    MYSTERY_GRAPHIC_InitCamera((u32 *)(p+12),((struct Obj13945 *)p)->f18);
     PARTICLE_InitManager(((struct Obj13945 *)p)->f18);
 }

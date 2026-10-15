@@ -1,5 +1,5 @@
 /*
- * function: func_021D5C24
+ * function: WIFILOGIN_MSG_SetMessage
  * address:  0x021D5C24
  * packet:   pkt_ov115_021D5C24
  * region:   ov115
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5C30  0x021D5C30  thumb  ov115
+ *   WIFILOGIN_MSG_SetMessageWithIcon  0x021D5C30  thumb  ov115
  */
 #include "../include/Obj04466.h"
 
@@ -21,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021D5C30(u8 *p, unsigned int a, int b);
-void func_021D5C24(void *p, int b) { func_021D5C30(p, ((struct Obj04466 *)p)->f1C, b); }
+extern void WIFILOGIN_MSG_SetMessageWithIcon(u8 *p, unsigned int a, int b);
+void WIFILOGIN_MSG_SetMessage(void *p, int b) { WIFILOGIN_MSG_SetMessageWithIcon(p, ((struct Obj04466 *)p)->f1C, b); }

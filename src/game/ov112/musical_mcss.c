@@ -75,14 +75,14 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   d_021F8298 0x021F8298 data a4
  *   d_021F82B8 0x021F82B8 data a4
  *   d_021F82D8 0x021F82D8 data a4
@@ -610,17 +610,17 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern s32_021F44F8 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern u32 func_02027614(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern s32_021F44F8 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern s32_021F44F8 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -1090,16 +1090,16 @@ void MUSICAL_MCSS_CreateUnits(u8 *p)
     func_020498F4((void *)((u32)t),12,7,0,0,0,((struct Obj00721 *)p)->f0);
     ARC_TOOL_DeleteHandle(t);
     if (((struct Obj00721 *)p)->fC==0) {
-        t=func_020490F4((unsigned int)func_020275E4(),((struct Obj00721 *)p)->f0);
-        func_02049B68((void *)((u32)t),func_02027624(),4,288,32,((struct Obj00721 *)p)->f0);
-        func_02049658((void *)((u32)t),func_02027628(),6,0,0,0,((struct Obj00721 *)p)->f0);
-        func_020498F4((void *)((u32)t),func_0202762C(),6,0,0,0,((struct Obj00721 *)p)->f0);
+        t=func_020490F4((unsigned int)APP_ICON_GetArchiveId(),((struct Obj00721 *)p)->f0);
+        func_02049B68((void *)((u32)t),APP_ICON_GetStatusAnimFileId(),4,288,32,((struct Obj00721 *)p)->f0);
+        func_02049658((void *)((u32)t),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((struct Obj00721 *)p)->f0);
+        func_020498F4((void *)((u32)t),APP_ICON_GetStatusDataFileId(),6,0,0,0,((struct Obj00721 *)p)->f0);
         BG_SYS_FillTileMap(6,0,21,32,3,9);
         func_020409B4(6);
-        ((struct Obj00721 *)p)->f4C=CLACT_RegisterPaletteEx((void *)((u32)t),func_02027614(),1,0,0,3,((struct Obj00721 *)p)->f0);
-        ((struct Obj00721 *)p)->f50=CLACT_RegisterCharacter((void *)((u32)t),func_02027618(),0,1,((struct Obj00721 *)p)->f0);
-        v=func_0202761C(0);
-        w=func_02027620(0);
+        ((struct Obj00721 *)p)->f4C=CLACT_RegisterPaletteEx((void *)((u32)t),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((struct Obj00721 *)p)->f0);
+        ((struct Obj00721 *)p)->f50=CLACT_RegisterCharacter((void *)((u32)t),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj00721 *)p)->f0);
+        v=APP_ICON_GetStatusCellFileId(0);
+        w=APP_ICON_GetStatusPaletteFileId(0);
         ((struct Obj00721 *)p)->f54=CLACT_RegisterCellAnim((void *)((u32)t),v,w,((struct Obj00721 *)p)->f0);
         ARC_TOOL_DeleteHandle(t);
         d.x=232;
@@ -1779,7 +1779,7 @@ int MUSICAL_MCSS_GetStateB(const unsigned char *p)
 
 
 /*
- * leaf: Sole unresolved ov112 mapper for concrete-correct ov133 func_021B8444; root reserved ownership.
+ * leaf: Sole unresolved ov112 mapper for concrete-correct ov133 DUP_FITTING_MoveElem; root reserved ownership.
  */
 int MUSICAL_MCSS_GetIndex(unsigned index)
 {

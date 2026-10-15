@@ -124,9 +124,8 @@
  *   gNatNegNoNegotiatorFmt               0x021A657C  data
  *   gNatNegPacketTooSmallFmt               0x021A65BC  data
  */
-#include "../../matched/include/G_Magic6.h"
+#include "ov009_globals.h"
 #include "../../matched/arm9_sdk/libc/string.h"
-#include "../../matched/include/G_NatSocks.h"
 
 #define SWAP16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 #define NN_SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
@@ -197,8 +196,6 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Magic6 Magic6;
-
 /* One packet, four views of the union at 0x0C. 0x4A bytes, 0x4C as a local. */
 typedef struct NatNegPacket
 {
@@ -263,7 +260,11 @@ typedef struct NatnegGlobals {
    gNatNegServer2IP, gNatNegServer3IP); they alias natneg1IP/2IP/3IP but the debug calls load
    them as direct symbols, so both names stay. */
 
-typedef struct NatSocks NatSocks;
+typedef struct NatSocks {
+    int natType;                                     /* 0x00 */
+    int ertSock;                                     /* 0x04 */
+    int mappingSock;                                 /* 0x08 */
+} NatSocks;
 
 typedef enum NegotiateState {
     ns_preinitsent, ns_preinitack, ns_initsent, ns_initack, ns_connectping,
@@ -329,7 +330,7 @@ void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *froma
 void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
 extern struct DArrayImplementation * negotiateList;
 extern char gNatNegFreeFmt[];
-extern struct Magic6 gNatNegMagic;
+extern NatNegMagic gNatNegMagic;
 extern char gGsAvailabilityGameName[];
 extern struct NatSocks gNatSocks;
 extern NatnegGlobals gNatnegGlobals;

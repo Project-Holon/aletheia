@@ -1,5 +1,5 @@
 /*
- * function: func_021D584C
+ * function: WIFILOGIN_DISP_DeleteActors
  * address: 0x021D584C
  * packet: pkt_ov115_021D584C
  * region: ov115
@@ -29,7 +29,7 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-void func_021D584C(u8 *p) {
+void WIFILOGIN_DISP_DeleteActors(u8 *p) {
     int i;
     for (i = 0; i < 5; ++i) {
         if (*(u32 *)(p + i * 4 + 0x99c)) {

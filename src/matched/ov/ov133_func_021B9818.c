@@ -1,5 +1,5 @@
 /*
- * function: func_021B9818
+ * function: DUP_FITTING_EnterPoseMode
  * address: 0x021B9818
  * packet: pkt_ov133_021B9818
  * region: ov133
@@ -13,7 +13,7 @@
 #include "../include/Obj03826.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_021B9818(u8 *p)
+void DUP_FITTING_EnterPoseMode(u8 *p)
 {
     unsigned i;
     ((struct Obj03826 *)p)->f183C=1;

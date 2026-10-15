@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F5C
+ * function: DUP_FITTING_UpdateActorTimers
  * address: 0x021B9F5C
  * packet: pkt_ov133_021B9F5C
  * region: ov133
@@ -48,7 +48,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021B9F5C(u8 *p)
+void DUP_FITTING_UpdateActorTimers(u8 *p)
 {
     int a, b, delay, c, d;
     Pos pos;

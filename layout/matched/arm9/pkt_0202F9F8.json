@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202F9F8",
+   "name": "OVERLAY_LAUNCH_Driver",
    "address": "0x0202F9F8",
    "kind": "game",
    "region": "arm9",
@@ -27,7 +27,7 @@
    }
   },
   {
-   "name": "func_0202FAB0",
+   "name": "APP_POWER_IsReady",
    "address": "0x0202FAB0",
    "kind": "game",
    "region": "arm9",

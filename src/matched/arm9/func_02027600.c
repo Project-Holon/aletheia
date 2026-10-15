@@ -1,5 +1,5 @@
 /*
- * function: func_02027600
+ * function: APP_ICON_GetTypeAnimFileId
  * address:  0x02027600
  * packet:   pkt_020274B4
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02027600.c \\
- *       --func func_02027600 --addr 0x02027600 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/APP_ICON_GetTypeAnimFileId.c \\
+ *       --func APP_ICON_GetTypeAnimFileId --addr 0x02027600 --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
-u32 func_02027600(u32 a)
+u32 APP_ICON_GetTypeAnimFileId(u32 a)
 {
     return a + 0x3e;
 }

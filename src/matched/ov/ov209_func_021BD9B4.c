@@ -22,11 +22,11 @@
  *   func_0201BC78 0x0201BC78 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   func_0201BCEC 0x0201BCEC thumb
- *   func_020275E4 0x020275E4 thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,11 +44,11 @@ extern int func_0201BC40(void);
 extern int func_0201BC78(void);
 extern int func_0201BCB4(void);
 extern int func_0201BCEC(void);
-extern u32 func_020275E4(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
 struct R { u8 pad[0xB64]; int a[0x24]; int b[6]; int c[6]; };
 void ZUKAN_LIST_LoadActorResources(struct R *p)
@@ -91,10 +91,10 @@ void ZUKAN_LIST_LoadActorResources(struct R *p)
     *pc = CLACT_RegisterCellAnim((void *)h2, a, func_0201BCEC(), 0x6b);
     ARC_TOOL_DeleteHandle(h2);
 
-    h3 = (int)func_020490F4(func_020275E4(), 0x806B);
-    p->a[0x22] = CLACT_RegisterCharacter((void *)h3, func_02027618(), 0, 0, 0x6b);
-    p->b[4] = CLACT_RegisterPalette((void *)h3, func_02027614(), 0, 0xe0, 0x6b);
-    a = func_0202761C(2);
-    p->c[4] = CLACT_RegisterCellAnim((void *)h3, a, func_02027620(2), 0x6b);
+    h3 = (int)func_020490F4(APP_ICON_GetArchiveId(), 0x806B);
+    p->a[0x22] = CLACT_RegisterCharacter((void *)h3, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 0x6b);
+    p->b[4] = CLACT_RegisterPalette((void *)h3, APP_ICON_GetMoveKindPaletteFileId(), 0, 0xe0, 0x6b);
+    a = APP_ICON_GetStatusCellFileId(2);
+    p->c[4] = CLACT_RegisterCellAnim((void *)h3, a, APP_ICON_GetStatusPaletteFileId(2), 0x6b);
     ARC_TOOL_DeleteHandle(h3);
 }

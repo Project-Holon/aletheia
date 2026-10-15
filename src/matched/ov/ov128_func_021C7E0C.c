@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E0C
+ * function: Wf2dmapFriend_SetupItemScreen
  * address: 0x021C7E0C
  * packet: pkt_ov128_021C7E0C
  * region: ov128
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C6ADC 0x021C6ADC thumb ov128
+ *   Wf2dmapFriend_DrawText 0x021C6ADC thumb ov128
  *   func_02041B6C 0x02041B6C arm
- *   func_021C85A4 0x021C85A4 thumb ov128
+ *   Wf2dmapFriend_DrawEntry 0x021C85A4 thumb ov128
  */
 #include "../include/Obj00179.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021C6ADC(u8 *,u8 *,unsigned);
+extern void Wf2dmapFriend_DrawText(u8 *,u8 *,unsigned);
 extern void func_02041B6C(u32);
-extern void func_021C85A4(u8 *,u8 *,u8 *,int,int,int,u16);
-void func_021C7E0C(u8 *p,u8 *q,u8 *r,u16 heap) {func_021C6ADC(r,r+12,5);func_02041B6C(0);func_021C85A4(p,q,r,((struct Obj00179 *)p)->f0,((struct Obj00179 *)p)->f4,0,heap);}
+extern void Wf2dmapFriend_DrawEntry(u8 *,u8 *,u8 *,int,int,int,u16);
+void Wf2dmapFriend_SetupItemScreen(u8 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_DrawText(r,r+12,5);func_02041B6C(0);Wf2dmapFriend_DrawEntry(p,q,r,((struct Obj00179 *)p)->f0,((struct Obj00179 *)p)->f4,0,heap);}

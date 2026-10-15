@@ -1,5 +1,5 @@
 /*
- * function: func_021BF538
+ * function: INTRO_MSG_GetMenuChoice
  * address: 0x021BF538
  * packet: pkt_ov204_021BF538
  * region: ov204
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021BF538(u8 *p,int *out)
+int INTRO_MSG_GetMenuChoice(u8 *p,int *out)
 {
     int v=((struct Obj25387 *)p)->f2C;
     switch(v){case -1:return 0;case -2:return 2;}

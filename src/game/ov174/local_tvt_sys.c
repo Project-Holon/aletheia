@@ -89,7 +89,7 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   TCBL_Create  0x0203101C  arm
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -103,7 +103,7 @@
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -112,7 +112,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02028470 0x02028470 thumb
+ *   PRINTSYS_CTRL_Init 0x02028470 thumb
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -352,7 +352,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32_021B6760 count, u32_021B6
 
 extern u32_021B6760 PRINTSYS_QUE_Create(void *p);
 
-extern u32_021B6760 func_02028590(int a, int b, int c, u32_021B6760 d);
+extern u32_021B6760 APP_KEYCURSOR_CreateDefault(int a, int b, int c, u32_021B6760 d);
 
 extern void GF_FONT_SetTextColor(u32_021B6760 r, u32_021B6760 g, u32_021B6760 b);
 
@@ -380,7 +380,7 @@ extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
 extern unsigned PRINTSYS_PrintStreamGetState(void *);
 
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
 extern u32_021B687C PRINTSYS_QUE_Main(struct PrintSys *ps);
 
@@ -396,7 +396,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void func_02028470(u8 *p, u32_021B68F8 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32_021B68F8 v);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
@@ -735,7 +735,7 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct Obj00918 *)p)->f70 = 0;
     ((struct Obj00918 *)p)->f74 = 0;
     ((struct Obj00918 *)p)->f78 = PRINTSYS_QUE_Create((void *)(((struct Obj00918 *)p)->f0));
-    ((struct Obj00918 *)p)->f7C = func_02028590(0xf, 1, 1, ((struct Obj00918 *)p)->f0);
+    ((struct Obj00918 *)p)->f7C = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, ((struct Obj00918 *)p)->f0);
     GF_FONT_SetTextColor(1, 2, 0xf);
 }
 
@@ -764,7 +764,7 @@ void LOCAL_TVT_SYS_UpdateText(u8 *p)
         APP_KEYCURSOR_Update(((struct Obj00152 *)p)->f7C,((struct Obj00152 *)p)->f64,((struct Obj00152 *)p)->f5C);
         if(PRINTSYS_PrintStreamGetState(((struct Obj00152 *)p)->f64)!=0) LOCAL_TVT_CHARA_SetState(*(void **)(p+28+((struct Obj00152 *)p)->f88*4),0);
         else LOCAL_TVT_CHARA_SetState(*(void **)(p+28+((struct Obj00152 *)p)->f88*4),1);
-        if(func_02028484((struct Blk *)(p+128),((struct Obj00152 *)p)->f64)==1) {
+        if(PRINTSYS_CTRL_Update((struct Blk *)(p+128),((struct Obj00152 *)p)->f64)==1) {
             PRINTSYS_PrintStreamDelete(((struct Obj00152 *)p)->f64);
             ((struct Obj00152 *)p)->f64=0;
             STRBUF_Delete(((struct Obj00152 *)p)->f70);
@@ -795,7 +795,7 @@ void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
  BMP_MENUWORK_DrawWindow(((struct Obj02507 *)p)->f5C,1,1,13);
  BMP_Clear(BMP_WIN_GetBmp(((struct Obj02507 *)p)->f5C),15);
  BMP_WIN_TransferChars(((struct Obj02507 *)p)->f5C);BMP_WIN_MakeScreen(((struct Obj02507 *)p)->f5C);
- func_02041B6C(0);func_02028470(p+128,6);
+ func_02041B6C(0);PRINTSYS_CTRL_Init(p+128,6);
 }
 
 void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)

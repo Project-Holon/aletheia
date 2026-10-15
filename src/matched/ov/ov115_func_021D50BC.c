@@ -1,7 +1,7 @@
 /*
  * packet: pkt_ov115_021D50BC
  * region: ov115
- * function: func_021D50BC
+ * function: WIFILOGIN_DISP_InitBgLayersC
  * address: 0x021D50BC
  * isa: thumb
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@ extern void BG_SYS_PushTile(u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_SetTileEntry(u8, int, int, int, u8, u8, u8);
 
-void func_021D50BC(void *unused, unsigned long base)
+void WIFILOGIN_DISP_InitBgLayersC(void *unused, unsigned long base)
 {
     BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;

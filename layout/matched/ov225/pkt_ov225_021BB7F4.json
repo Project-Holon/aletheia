@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BB7F4",
-    "func_021BB844",
-    "func_021BB850"
+    "MANUAL_CATEGORY_DeleteList",
+    "MANUAL_CATEGORY_IsListFinished",
+    "MANUAL_CATEGORY_TaskNoop"
+   ],
+   "addresses": [
+    "0x021BB7F4",
+    "0x021BB844",
+    "0x021BB850"
    ]
   }
  ]

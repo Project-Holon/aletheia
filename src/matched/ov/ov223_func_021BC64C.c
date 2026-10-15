@@ -1,5 +1,5 @@
 /*
- * function: func_021BC64C
+ * function: PSEL_GRAPHIC_ClactDraw
  * address: 0x021BC64C
  * packet: pkt_ov223_021BC64C
  * region: ov223
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void CLACT_DrawSystem(void);
-void func_021BC64C(void *a0) { CLACT_DrawSystem(); }
+void PSEL_GRAPHIC_ClactDraw(void *a0) { CLACT_DrawSystem(); }

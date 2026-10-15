@@ -20,26 +20,25 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   d_021BC8D8 0x021BC8D8 data a4
  */
-#include "../../matched/include/Obj25637.h"
-#include "../../matched/include/Obj14684.h"
+#include "zukan_search_types.h"
 
-struct Obj0203159C;
+struct ProcSystem;
 struct S020315D4;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct ProcSystem *,unsigned,unsigned);
 extern void MI_CpuFill8(void *,int,int);
 extern void func_020315D4(struct S020315D4 *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
-int ZUKAN_SEARCH_PROC_Create(struct Obj0203159C *obj,int unused,unsigned value);
-int ZUKAN_SEARCH_PROC_IsDone(int a,int b,int c,unsigned char *p);
-int ZUKAN_SEARCH_PROC_Delete(struct S020315D4 *p);
-int ZUKAN_SEARCH_PROC_Update(unsigned char *p);
+int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner);
+int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work);
+int ZUKAN_SEARCH_PROC_Delete(struct S020315D4 *obj);
+int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work);
 extern unsigned char d_021BC8D8[];
 
-int ZUKAN_SEARCH_PROC_Create(struct Obj0203159C *obj,int unused,unsigned value){unsigned char *p;GFL_HEAP_CreateChildHeap(1,126,0x60000);p=PROCSYS_AllocProcWork(obj,16,126);MI_CpuFill8(p,0,16);((struct Obj25637 *)p)->f0=value;return 1;}
+int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner){struct ZukanSearchWork *work;GFL_HEAP_CreateChildHeap(1,126,0x60000);work=PROCSYS_AllocProcWork(obj,16,126);MI_CpuFill8(work,0,16);work->owner=owner;return 1;}
 
-int ZUKAN_SEARCH_PROC_IsDone(int a,int b,int c,unsigned char *p){return ZUKAN_SEARCH_PROC_Update(p)==0;}
+int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work){return ZUKAN_SEARCH_PROC_Update(work)==0;}
 
-int ZUKAN_SEARCH_PROC_Delete(struct S020315D4 *p){func_020315D4(p);GFL_HEAP_DeleteChecked(126);return 1;}
+int ZUKAN_SEARCH_PROC_Delete(struct S020315D4 *obj){func_020315D4(obj);GFL_HEAP_DeleteChecked(126);return 1;}
 
-int ZUKAN_SEARCH_PROC_Update(unsigned char *p){((struct Obj14684 *)p)->fC=(*(unsigned (**)(unsigned char *))(d_021BC8D8+*(unsigned *)(p+12)*4))(p);return ((struct Obj14684 *)p)->fC!=6;}
+int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work){work->procState=(*(unsigned (**)(struct ZukanSearchWork *))(d_021BC8D8+work->procState*4))(work);return work->procState!=6;}

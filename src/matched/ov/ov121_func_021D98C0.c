@@ -1,5 +1,5 @@
 /*
- * function: func_021D98C0
+ * function: MYSTERY_GRAPHIC_ExitClact
  * address: 0x021D98C0
  * packet: pkt_ov121_021D98C0
  * region: ov121
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,unsigned);
-void func_021D98C0(u8 *p) {
+void MYSTERY_GRAPHIC_ExitClact(u8 *p) {
     CLACT_DeleteRenderer(((struct Obj13946 *)p)->f4);
     CLACT_DeleteUnit(((struct Obj13946 *)p)->f0);
     CLACT_ExitSystem();

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF794
+ * function: INTRO_G3D_SetSlotAlpha
  * address: 0x021BF794
  * packet: pkt_ov204_021BF794
  * region: ov204
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0207D63C(void *,int,int,int,int);
 extern void MCSS_SetAlpha(char *p, int v);
-void func_021BF794(u8 *p, u8 index, u32 alpha)
+void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha)
 {
     func_0207D63C((void *)0x04000050,1,9,0,0);
     if(alpha>31)alpha=31;

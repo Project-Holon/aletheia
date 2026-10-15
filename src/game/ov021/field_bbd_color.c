@@ -21,11 +21,11 @@
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   VEC_Fx16Normalize  0x0207CDB8  arm
- *   BILLBOARD_SetFlagWord  0x0204ED4C  arm
- *   BILLBOARD_SetField1C  0x0204ED80  arm
- *   BILLBOARD_SetField1E  0x0204ED8C  arm
- *   BILLBOARD_SetField20  0x0204ED98  arm
- *   BILLBOARD_SetField22  0x0204EDA4  arm
+ *   BILLBOARD_SetFixedNormal  0x0204ED4C  arm
+ *   BILLBOARD_SetDiffuse  0x0204ED80  arm
+ *   BILLBOARD_SetAmbient  0x0204ED8C  arm
+ *   BILLBOARD_SetSpecular  0x0204ED98  arm
+ *   BILLBOARD_SetEmission  0x0204EDA4  arm
  */
 struct ArcFile;
 
@@ -60,11 +60,11 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern void VEC_Fx16Normalize(u16 *a, u16 *b);
-extern void BILLBOARD_SetFlagWord(u8 *a0, short *a1);
-extern void BILLBOARD_SetField1C(u8 *dst, u16 *src);
-extern void BILLBOARD_SetField1E(u8 *dst, u16 *src);
-extern void BILLBOARD_SetField20(u8 *dst, u16 *src);
-extern void BILLBOARD_SetField22(u8 *dst, u16 *src);
+extern void BILLBOARD_SetFixedNormal(u8 *a0, short *a1);
+extern void BILLBOARD_SetDiffuse(u8 *dst, u16 *src);
+extern void BILLBOARD_SetAmbient(u8 *dst, u16 *src);
+extern void BILLBOARD_SetSpecular(u8 *dst, u16 *src);
+extern void BILLBOARD_SetEmission(u8 *dst, u16 *src);
 
 FieldBbdColor *FIELD_BBD_COLOR_Create(u32 heapId);
 int FIELD_BBD_COLOR_Delete(FieldBbdColor *bbdColor);
@@ -102,13 +102,13 @@ void FIELD_BBD_COLOR_Apply(FieldBbdColor *bbdColor, void *bbdSys)
     lightVector[1] = bbdColor->data.lightVector[1];
     lightVector[2] = bbdColor->data.lightVector[2];
     VEC_Fx16Normalize(lightVector, lightVector);
-    BILLBOARD_SetFlagWord(bbdSys, (short int *)lightVector);
+    BILLBOARD_SetFixedNormal(bbdSys, (short int *)lightVector);
     color[3] = bbdColor->data.diffuse.r | (bbdColor->data.diffuse.g << 5) | (bbdColor->data.diffuse.b << 10);
-    BILLBOARD_SetField1C(bbdSys, &color[3]);
+    BILLBOARD_SetDiffuse(bbdSys, &color[3]);
     color[2] = bbdColor->data.ambient.r | (bbdColor->data.ambient.g << 5) | (bbdColor->data.ambient.b << 10);
-    BILLBOARD_SetField1E(bbdSys, &color[2]);
+    BILLBOARD_SetAmbient(bbdSys, &color[2]);
     color[1] = bbdColor->data.specular.r | (bbdColor->data.specular.g << 5) | (bbdColor->data.specular.b << 10);
-    BILLBOARD_SetField20(bbdSys, &color[1]);
+    BILLBOARD_SetSpecular(bbdSys, &color[1]);
     color[0] = bbdColor->data.emission.r | (bbdColor->data.emission.g << 5) | (bbdColor->data.emission.b << 10);
-    BILLBOARD_SetField22(bbdSys, &color[0]);
+    BILLBOARD_SetEmission(bbdSys, &color[0]);
 }

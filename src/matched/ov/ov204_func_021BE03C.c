@@ -23,6 +23,7 @@
  *   d_021BFD74 0x021BFD74 data a4
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021BFD54 0x021BFD54 data a4
+ *   gIntroG3dUnitSetup  0x021C093C  data
  */
 
 #include "../include/G_021BFD68.h"
@@ -36,7 +37,7 @@ typedef signed short s16;
 typedef struct { u32 x, y, z; } Vec3;
 struct Light; struct LightSet; struct LightSlot;
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
-                          u16 fifoSize, s16 heap, void (*setup)(void));
+                          u16 fifoSize, s16 heap, void (*gIntroG3dUnitSetup)(void));
 extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
 extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);

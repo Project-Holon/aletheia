@@ -1,5 +1,5 @@
 /*
- * function: func_021D5D3C
+ * function: WIFILOGIN_MSG_CloseMessage
  * address: 0x021D5D3C
  * packet: pkt_ov115_021D5D3C
  * region: ov115
@@ -21,4 +21,4 @@ struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041B6C(u32);
-void func_021D5D3C(u8 *p) { if(((struct Obj08043 *)p)->f34) { BMP_WIN_ClearScreen(((struct Obj08043 *)p)->f34); BMP_WIN_Delete(((struct Obj08043 *)p)->f34); ((struct Obj08043 *)p)->f34=0; func_02041B6C(1); } }
+void WIFILOGIN_MSG_CloseMessage(u8 *p) { if(((struct Obj08043 *)p)->f34) { BMP_WIN_ClearScreen(((struct Obj08043 *)p)->f34); BMP_WIN_Delete(((struct Obj08043 *)p)->f34); ((struct Obj08043 *)p)->f34=0; func_02041B6C(1); } }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9828
+ * function: MYSTERY_GRAPHIC_ExitBg
  * address: 0x021D9828
  * packet: pkt_ov121_021D9828
  * region: ov121
@@ -24,7 +24,7 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *,int,u32);
-void func_021D9828(void *p) {
+void MYSTERY_GRAPHIC_ExitBg(void *p) {
     u32 i=0;
     do { func_020403F4((u8)d_021DF634[i].id); ++i; } while(i<7);
     BMP_WIN_Exit();

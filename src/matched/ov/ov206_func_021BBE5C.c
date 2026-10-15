@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   func_021BC0AC 0x021BC0AC thumb ov206
  *   func_021BC0E0 0x021BC0E0 thumb ov206
@@ -38,7 +38,7 @@ typedef struct S {
 extern u32 tbl_021BC134[];
 extern u16 tbl_021BC1C4[];
 extern u32 tbl_021BC184[];
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern int POKEGRA_OpenHandle(int a0);
 extern u32 func_021BC0AC(void);
 extern u32 func_021BC0E0(void);
@@ -54,7 +54,7 @@ void func_021BBE5C(S *p)
     for (i = 0; i < 7; i++) {
         switch (i) {
         case 3:
-            p->w[i] = func_020490F4(func_020275E4(), p->id);
+            p->w[i] = func_020490F4(APP_ICON_GetArchiveId(), p->id);
             break;
         case 4:
             p->w[i] = (void *)POKEGRA_OpenHandle(p->id);

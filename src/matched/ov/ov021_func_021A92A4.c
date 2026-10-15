@@ -11,10 +11,10 @@
  *
  *
  * symbols:
- *   func_020275E4  0x020275E4  thumb
- *   func_02027624  0x02027624  thumb
- *   func_02027628  0x02027628  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
@@ -35,10 +35,10 @@ struct Scr {
     u16 data[0x300];
 };
 
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *o, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02049658(void *o, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -56,10 +56,10 @@ void FIELD_MENU_LoadScreen(u32 a, u32 b)
     u16 *d;
     void *o;
 
-    o = func_020490F4(func_020275E4(), a);
-    func_02049B68(o, func_02027624(), 4, 0x60, 0x20, a);
-    func_02049658(o, func_02027628(), b, 0x80, 0, 0, a);
-    h = ARC_UTIL_LoadPaletteDataFromHandle(o, func_0202762C(), 0, (void **)&ptr, a);
+    o = func_020490F4(APP_ICON_GetArchiveId(), a);
+    func_02049B68(o, APP_ICON_GetStatusAnimFileId(), 4, 0x60, 0x20, a);
+    func_02049658(o, APP_ICON_GetStatusFrameFileId(), b, 0x80, 0, 0, a);
+    h = ARC_UTIL_LoadPaletteDataFromHandle(o, APP_ICON_GetStatusDataFileId(), 0, (void **)&ptr, a);
     ARC_TOOL_DeleteHandle(o);
     d = ptr->data;
     for (i = 0; i < 0x300; i++) {

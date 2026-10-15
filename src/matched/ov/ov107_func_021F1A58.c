@@ -17,7 +17,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02028470 0x02028470 thumb
+ *   PRINTSYS_CTRL_Init 0x02028470 thumb
  */
 #include "../include/Obj13767.h"
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 struct Descriptor;
 extern void * BMP_WIN_GetBmp(struct Descriptor *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -53,5 +53,5 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(char *p,int a)
     P(0x18)=PRINTSYS_PrintStream(P(0x10),0,0,P(0x20),P(0x14),a,P(12),2,((struct Obj13767 *)p)->f0,15);
     BMP_MENUWORK_DrawWindow(P(0x10),1,1,13);
     MSGDATA_Delete(s);
-    if(I(8)==1)func_02028470((u8 *)(p+0x28),6);else func_02028470((u8 *)(p+0x28),4);
+    if(I(8)==1)PRINTSYS_CTRL_Init((u8 *)(p+0x28),6);else PRINTSYS_CTRL_Init((u8 *)(p+0x28),4);
 }

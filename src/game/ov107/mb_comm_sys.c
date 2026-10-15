@@ -57,7 +57,7 @@
  *   GAME_DATA_SaveCancel 0x02012E08 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0202EB44 0x0202EB44 thumb
+ *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   BEACON_GetBestScore 0x0200C184 thumb
@@ -115,14 +115,14 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -186,7 +186,7 @@
  *   BEACON_SetBestScore 0x0200C18C thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_02008DAC  0x02008DAC  thumb
- *   func_0202F27C  0x0202F27C  thumb
+ *   SAVE_EVENT_StoreTodayDate  0x0202F27C  thumb
  *   func_020074D8  0x020074D8  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
@@ -393,7 +393,7 @@ extern u8 GAME_DATA_IsSaving(const u8 *);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
-extern int func_0202EB44(void);
+extern int APP_ENV_InitParentalControl(void);
 extern signed char MSG_SPEED_GetWait(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
@@ -460,14 +460,14 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
 extern void CLACT_SetActorDrawEnable(void *,u32);
-extern u32 func_020275E4(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void *BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(void *,u32);
@@ -525,7 +525,7 @@ extern void OS_WaitIrq(int clear, u32 irqFlags);
 extern void BEACON_SetBestScore(void *p, u32 v);
 void *ZUKAN_SAVE_GetFromGameData(void *);
 u32 func_02008DAC(void *obj, int i, u32 delta);
-void func_0202F27C(void *);
+void SAVE_EVENT_StoreTodayDate(void *);
 int func_020074D8(void **save, const void *src);
 void *POKE_TOOL_CreateFromBoxParam(void *p, u32 heap);
 void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
@@ -806,7 +806,7 @@ int MB_COMM_SYS_Main(MbCommSysWork *p)
         break;
     case 1:
         if (WIPE_SYS_EndCheck() == 1) {
-            if (func_0202EB44() == 1) {
+            if (APP_ENV_InitParentalControl() == 1) {
                 if (p->standalone == 0)
                     p->phase = 7;
                 else
@@ -1214,16 +1214,16 @@ void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
         func_02040588(4, 0);
         ARC_TOOL_DeleteHandle(archive);
     }
-    archive = func_020490F4(func_020275E4(), p->heapId);
-    func_02049B68(archive, func_02027624(), 4, 256, 32, p->heapId);
-    func_02049658(archive, func_02027628(), 6, 0, 0, 0, p->heapId);
-    func_020498F4(archive, func_0202762C(), 6, 0, 0, 0, p->heapId);
+    archive = func_020490F4(APP_ICON_GetArchiveId(), p->heapId);
+    func_02049B68(archive, APP_ICON_GetStatusAnimFileId(), 4, 256, 32, p->heapId);
+    func_02049658(archive, APP_ICON_GetStatusFrameFileId(), 6, 0, 0, 0, p->heapId);
+    func_020498F4(archive, APP_ICON_GetStatusDataFileId(), 6, 0, 0, 0, p->heapId);
     BG_SYS_FillTileMap(6, 0, 21, 32, 3, 8);
     func_020409B4(6);
-    p->paletteId = CLACT_RegisterPaletteEx(archive, func_02027614(), 1, 0, 0, 3, p->heapId);
-    p->charId = CLACT_RegisterCharacter(archive, func_02027618(), 0, 1, p->heapId);
-    firstCell = func_0202761C(2);
-    p->cellAnimId = CLACT_RegisterCellAnim(archive, firstCell, func_02027620(2), p->heapId);
+    p->paletteId = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0, 0, 3, p->heapId);
+    p->charId = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 1, p->heapId);
+    firstCell = APP_ICON_GetStatusCellFileId(2);
+    p->cellAnimId = CLACT_RegisterCellAnim(archive, firstCell, APP_ICON_GetStatusPaletteFileId(2), p->heapId);
     ARC_TOOL_DeleteHandle(archive);
     placement.x = 232;
     placement.y = 168;
@@ -1703,7 +1703,7 @@ void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
     }
     for (i = 0; i < received; i++) {
         mon = MB_COMM_SYS_GetMon(p->net, i);
-        func_0202F27C(mon);
+        SAVE_EVENT_StoreTodayDate(mon);
         added = func_020074D8(party, mon);
         mon = POKE_TOOL_CreateFromBoxParam(mon, p->heapId);
         ZUKAN_SAVE_RegisterCaught(dex, mon);

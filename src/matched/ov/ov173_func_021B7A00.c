@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_SUMMARY_ACTOR_InitSystem 0x021B7658 thumb ov173
  *   POKE_SUMMARY_ACTOR_RegisterResources 0x021B76C8 thumb ov173
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -27,7 +27,7 @@ typedef struct {short x,y;u16 z;u8 a,b;} Position;
 extern const Row d_021B85E0[];
 extern void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *a1);
 extern void POKE_SUMMARY_ACTOR_RegisterResources(char *,void *);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -39,7 +39,7 @@ void POKE_SUMMARY_ACTOR_CreateActors(char *p,void *arg)
     Position pos;
     POKE_SUMMARY_ACTOR_InitSystem((u8 *)p,arg);
     POKE_SUMMARY_ACTOR_RegisterResources(p,arg);
-    ((struct Obj00180 *)p)->f13C=func_020490F4(func_020275E4(),79);
+    ((struct Obj00180 *)p)->f13C=func_020490F4(APP_ICON_GetArchiveId(),79);
     for(i=0;i<14;i++) {
         pos.x=d_021B85E0[i].x;
         pos.y=d_021B85E0[i].y;

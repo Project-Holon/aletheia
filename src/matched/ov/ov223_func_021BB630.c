@@ -1,5 +1,5 @@
 /*
- * function: func_021BB630
+ * function: PSEL_GRAPHIC_StepFade
  * address: 0x021BB630
  * packet: pkt_ov223_021BB630
  * region: ov223
@@ -15,7 +15,7 @@
  *   as A << 10 | (B | C << 5).
  *
  * symbols:
- *   func_021BB520 0x021BB520 thumb ov223
+ *   PSEL_GRAPHIC_SplitColor 0x021BB520 thumb ov223
  *   func_02061CA4 0x02061CA4 arm
  *   d_021BC6FC 0x021BC6FC data a1
  */
@@ -35,9 +35,9 @@ typedef struct {
     Fade f[3];
 } Ctx;
 extern const u8 d_021BC6FC[];
-extern void func_021BB520(int v, unsigned short *a, unsigned short *b, unsigned short *c);
+extern void PSEL_GRAPHIC_SplitColor(int v, unsigned short *a, unsigned short *b, unsigned short *c);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
-void func_021BB630(Ctx *p)
+void PSEL_GRAPHIC_StepFade(Ctx *p)
 {
     u8 i;
     for (i = 0; i < 3; i++) {
@@ -68,8 +68,8 @@ void func_021BB630(Ctx *p)
                 for (j = 0; j < 0x10; j++) {
                     int t = p->f[i].step;
                     u16 c = p->f[i].dst[j];
-                    func_021BB520(p->f[i].src[j], &w[5], &w[4], &w[3]);
-                    func_021BB520(c, &w[2], &w[1], &w[0]);
+                    PSEL_GRAPHIC_SplitColor(p->f[i].src[j], &w[5], &w[4], &w[3]);
+                    PSEL_GRAPHIC_SplitColor(c, &w[2], &w[1], &w[0]);
                     p->f[i].out[j] =
                         (u16)((w[3] * (16 - t) + w[0] * t) / 16) << 10 | ((u16)((w[5] * (16 - t) + w[2] * t) / 16) | (u16)((w[4] * (16 - t) + w[1] * t) / 16) << 5);
                 }

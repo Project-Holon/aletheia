@@ -1,7 +1,7 @@
 /*
  * file:     double3Ddisp.c
  * unit:     yes
- * function: DOUBLE3DDISP_Init, DOUBLE3DDISP_InitOam, DOUBLE3DDISP_Exit, DOUBLE3DDISP_GetField04, DOUBLE3DDISP_SetField08, DOUBLE3DDISP_Delete, DOUBLE3DDISP_SetupGraphics, DOUBLE3DDISP_SetupGraphics_EB68
+ * function: DOUBLE3DDISP_Init, DOUBLE3DDISP_InitOam, DOUBLE3DDISP_Exit, DOUBLE3DDISP_GetMode, DOUBLE3DDISP_SetDrawDone, DOUBLE3DDISP_Delete, DOUBLE3DDISP_SetupGraphics, DOUBLE3DDISP_SetupGraphicsSubObj
  * address:  0x0204E8C0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   double3Ddisp_File 0x020A7F94  data
- *   g_02146A80     0x02146A80  data
+ *   gDouble3Ddisp     0x02146A80  data
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *   func_02080B98  0x02080B98  arm
@@ -40,8 +40,8 @@ union OamEntry {
 struct Double3Ddisp {
     u16 heap;           /* 0x00 */
     u16 pad02;          /* 0x02 */
-    s32 unk04;          /* 0x04 */
-    s32 unk08;          /* 0x08 */
+    s32 displayMode;    /* 0x04  which sub-engine setup is active, 0 or 1 */
+    s32 drawDone;       /* 0x08  set once the frame's particles are drawn  */
     union OamEntry oam[12];
 };
 
@@ -81,17 +81,17 @@ void DOUBLE3DDISP_InitOam(void);
 
 int DOUBLE3DDISP_Exit(void);
 
-u32 DOUBLE3DDISP_GetField04(void);
+u32 DOUBLE3DDISP_GetMode(void);
 
-void DOUBLE3DDISP_SetField08(void);
+void DOUBLE3DDISP_SetDrawDone(void);
 
 void DOUBLE3DDISP_Delete(void);
 
 void DOUBLE3DDISP_SetupGraphics(void);
 
-void DOUBLE3DDISP_SetupGraphics_EB68(void);
+void DOUBLE3DDISP_SetupGraphicsSubObj(void);
 
-extern struct Double3Ddisp *g_02146A80;
+extern struct Double3Ddisp *gDouble3Ddisp;
 
 #define REG32(a) (*(volatile u32 *)(a))
 
@@ -123,11 +123,11 @@ extern struct Double3Ddisp *g_02146A80;
  */
 void DOUBLE3DDISP_Init(u32 heap)
 {
-    g_02146A80 = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
+    gDouble3Ddisp = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
 
-    g_02146A80->heap = heap;
-    g_02146A80->unk04 = 1;
-    g_02146A80->unk08 = 0;
+    gDouble3Ddisp->heap = heap;
+    gDouble3Ddisp->displayMode = 1;
+    gDouble3Ddisp->drawDone = 0;
 
     DOUBLE3DDISP_InitOam();
 }
@@ -140,7 +140,7 @@ void DOUBLE3DDISP_Init(u32 heap)
  * (GXS_LoadOAM, GXS_LoadOAM).
  *
  * The lever that closed it (wave 17, from 15 bytes out): the inner loop
- * takes a pointer to the ENTRY, `oam = &g_02146A80->oam[k]`, and stores both
+ * takes a pointer to the ENTRY, `oam = &gDouble3Ddisp->oam[k]`, and stores both
  * attributes through it.  Indexing the array base (`oam = g->oam;
  * oam[k].f.attr01 = ...`) builds the same instructions but gives the base,
  * attr01 and attr2 three fresh registers (push r3 and sb as well).  The
@@ -160,21 +160,21 @@ void DOUBLE3DDISP_InitOam(void)
     k = 0;
 
     for (i = 0; i < 12; i++) {
-        g_02146A80->oam[i].w[0] = 0;
-        g_02146A80->oam[i].w[1] = 0;
+        gDouble3Ddisp->oam[i].w[0] = 0;
+        gDouble3Ddisp->oam[i].w[1] = 0;
     }
 
     for (y = 0; y < 0xc0; y += 0x40) {
         for (x = 0; x < 0x100; x += 0x40) {
-            oam = &g_02146A80->oam[k];
+            oam = &gDouble3Ddisp->oam[k];
             oam->f.attr01 = 0xc0000c00 | (y & 0xff) | ((x & 0x1ff) << 16);
             oam->f.attr2 = (x / 8 + (y / 8) * 32) | 0xf000;
             k++;
         }
     }
 
-    DWCi_ScreenDC_FlushRange(g_02146A80->oam, 0x60);
-    GXS_LoadOAM(g_02146A80->oam, 0x3a0, 0x60);
+    DWCi_ScreenDC_FlushRange(gDouble3Ddisp->oam, 0x60);
+    GXS_LoadOAM(gDouble3Ddisp->oam, 0x3a0, 0x60);
 }
 
 int DOUBLE3DDISP_Exit(void)
@@ -182,8 +182,8 @@ int DOUBLE3DDISP_Exit(void)
     func_02080B98();
     func_02080BAC();
     func_02080BC0();
-    func_020307B0(g_02146A80);
-    g_02146A80 = 0;
+    func_020307B0(gDouble3Ddisp);
+    gDouble3Ddisp = 0;
     return 0;
 }
 
@@ -191,18 +191,18 @@ int DOUBLE3DDISP_Exit(void)
  * The +4 word of the singleton, through its pool word.  The same global
  * DOUBLE3DDISP_Delete and DOUBLE3DDISP_SetupGraphics write.
  */
-u32 DOUBLE3DDISP_GetField04(void)
+u32 DOUBLE3DDISP_GetMode(void)
 {
-    return g_02146A80->unk04;
+    return gDouble3Ddisp->displayMode;
 }
 
 /*
  * Sets the +8 word of the cell-actor singleton to 1.
  * Witness leaf for ov180 func_021B6704.
  */
-void DOUBLE3DDISP_SetField08(void)
+void DOUBLE3DDISP_SetDrawDone(void)
 {
-    g_02146A80->unk08 = 1;
+    gDouble3Ddisp->drawDone = 1;
 }
 
 /*
@@ -217,7 +217,7 @@ void DOUBLE3DDISP_SetField08(void)
  *
  * The +4 word is both tested and then re-read, and both re-reads of the
  * singleton (`ldr r0, [pc, #0x24]; ldr r1, [r0]`) are the global's own address
- * being reloaded after the call, so the source spells `g_02146A80` out again
+ * being reloaded after the call, so the source spells `gDouble3Ddisp` out again
  * instead of holding it in a local.
  *
  * `x = (x == 0) ? 1 : 0` comes out as `mov r2, #0` before the earlier store
@@ -229,20 +229,20 @@ void DOUBLE3DDISP_Delete(void)
     if (*(volatile u16 *)0x04000606 != 0) {
         return;
     }
-    if (g_02146A80->unk08 == 0) {
+    if (gDouble3Ddisp->drawDone == 0) {
         return;
     }
-    if (g_02146A80->unk04 != 0) {
-        DOUBLE3DDISP_SetupGraphics_EB68();
+    if (gDouble3Ddisp->displayMode != 0) {
+        DOUBLE3DDISP_SetupGraphicsSubObj();
     } else {
         DOUBLE3DDISP_SetupGraphics();
     }
-    g_02146A80->unk08 = 0;
-    g_02146A80->unk04 = (g_02146A80->unk04 == 0) ? 1 : 0;
+    gDouble3Ddisp->drawDone = 0;
+    gDouble3Ddisp->displayMode = (gDouble3Ddisp->displayMode == 0) ? 1 : 0;
 }
 
 /*
- * The mirror of DOUBLE3DDISP_SetupGraphics_EB68, and DOUBLE3DDISP_Delete's other shutdown arm: it
+ * The mirror of DOUBLE3DDISP_SetupGraphicsSubObj, and DOUBLE3DDISP_Delete's other shutdown arm: it
  * *sets* bit 15 of the power-control halfword at 0x04000304 instead of
  * clearing it, runs the complementary SDK calls, and leaves 0x04001000 and
  * 0x0400100c in the "on" state.
@@ -288,7 +288,7 @@ void DOUBLE3DDISP_SetupGraphics(void)
  * Both read-modify-writes are one expression each, which is why there is
  * exactly one load and one store per register despite both being volatile.
  */
-void DOUBLE3DDISP_SetupGraphics_EB68(void)
+void DOUBLE3DDISP_SetupGraphicsSubObj(void)
 {
     u16 v = *(volatile u16 *)0x04000304;
 

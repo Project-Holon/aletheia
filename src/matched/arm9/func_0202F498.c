@@ -1,5 +1,5 @@
 /*
- * function: func_0202F498
+ * function: SAVE_EVENT_CheckStage
  * address:  0x0202F498
  * packet:   pkt_0202F498
  * region:   arm9
@@ -16,8 +16,8 @@
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202F498.c \
- *       --func func_0202F498 --addr 0x0202F498 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_EVENT_CheckStage.c \
+ *       --func SAVE_EVENT_CheckStage --addr 0x0202F498 --cc 1.1p1 --thumb
  */
 
 struct Sav;
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_IsBoxShiny(void *p);
 
-int func_0202F498(void *a0, int a1)
+int SAVE_EVENT_CheckStage(void *a0, int a1)
 {
     void *p = (void *)POKE_TOOL_DecodeBoxParam(a0);
     int x = func_02017E88(a0, 5, 0);

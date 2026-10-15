@@ -1,5 +1,5 @@
 /*
- * function: func_021D98F4
+ * function: MYSTERY_GRAPHIC_InitCamera
  * address: 0x021D98F4
  * packet: pkt_ov121_021D98F4
  * region: ov121
@@ -22,7 +22,7 @@ extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const voi
 extern const u32 d_021DF574[];
 extern const u32 d_021DF58C[];
 extern const u32 d_021DF580[];
-void func_021D98F4(u32 *p, u32 heap)
+void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, (void (*)(void *))func_021D9580);
     p[0] = (u32)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,

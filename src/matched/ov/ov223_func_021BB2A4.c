@@ -1,5 +1,5 @@
 /*
- * function: func_021BB2A4
+ * function: PSEL_ClearWin2
  * address: 0x021BB2A4
  * packet: pkt_ov223_021BB2A4
  * region: ov223
@@ -18,7 +18,7 @@
  *   BMP_GetHeight 0x020437E4 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021BAF48 0x021BAF48 thumb ov223
+ *   PSEL_CheckAF48 0x021BAF48 thumb ov223
  * The bitmap accessors' own sources return u16. This caller uses each
  * result at full width without truncation, so its declarations widen them.
  */
@@ -39,8 +39,8 @@ typedef unsigned int   u32;
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern void STRBUF_Delete(struct U16Vec *);
-extern int func_021BAF48(char *);
-void func_021BB2A4(char *p)
+extern int PSEL_CheckAF48(char *);
+void PSEL_ClearWin2(char *p)
 {
     struct StrObj *text = func_02045EC0(*(struct MsgBank * *)&((struct Obj03381 *)p)->f234, 12);
     u16 width = func_0201D304(text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0);
@@ -57,5 +57,5 @@ void func_021BB2A4(char *p)
                  (s16)x, (s16)y, (unsigned)text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0x3C40);
     STRBUF_Delete((struct U16Vec *)text);
     ((struct Obj03381 *)p)->f244 = 0;
-    func_021BAF48(p);
+    PSEL_CheckAF48(p);
 }

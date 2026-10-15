@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BF944  0x021BF944  thumb  ov093
  *   func_021BF954  0x021BF954  thumb  ov093
- *   func_021BF964  0x021BF964  thumb  ov093
+ *   DEMO3D_CMDSYS_Seek  0x021BF964  thumb  ov093
  *   func_021BF974  0x021BF974  thumb  ov093
  *   func_021BF984  0x021BF984  thumb  ov093
  *   func_021BF994  0x021BF994  thumb  ov093
@@ -24,7 +24,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021BF944(int d);
 extern u8 *func_021BF954(int d, int k);
-extern void func_021BF964(int d);
+extern void DEMO3D_CMDSYS_Seek(int d);
 extern u8 *func_021BF974(int d);
 extern void func_021BF984(int d, u8 *x);
 extern u8 *func_021BF994(int d);
@@ -38,7 +38,7 @@ void BTL_SERVER_FLOW_RemoveMissedTargets(u8 *p, u16 *b, u8 *c, int d)
     u8 *x;
     if (func_021BF944(d) == 1 && func_021BF954(d, 0) == c)
         return;
-    func_021BF964(d);
+    DEMO3D_CMDSYS_Seek(d);
     x = func_021BF974(d);
     while (x != 0) {
         if (BTL_SERVER_FLOW_CheckMoveAvoidEvent(p, c, x, b) == 0 && BTL_SERVER_FLOW_RollMoveAccuracy(p, c, x, (struct Q *)b) == 0) {

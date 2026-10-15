@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217C628",
+   "name": "LIVEBATTLEMATCH_FLOW_Result",
    "address": "0x0217C628",
    "kind": "game",
    "region": "ov176",

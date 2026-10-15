@@ -11,11 +11,11 @@
  * Verified scratch-only with one --thumb, no --region: EXACT, 12 bytes.
  * symbols for blocker: _PokeTypePltOffset 0x0209FCF8 data a1
  * extern const unsigned char _PokeTypePltOffset[];
- * unsigned func_020275EC(unsigned char i) { return _PokeTypePltOffset[i]; }
+ * unsigned APP_ICON_GetTypePaletteOffset(unsigned char i) { return _PokeTypePltOffset[i]; }
  * symbols:
  *   d_021EFD34 0x021EFD34 data a4
  *   BOX2_SEQ_CreateActorFromDesc 0x021EBEE0 thumb ov170
- *   func_020275EC 0x020275EC thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb ov170
  */
@@ -23,7 +23,7 @@ typedef struct { short x, y; unsigned char pad4[2], b6, b7; int a, b, c; unsigne
 extern const Desc d_021EFD34;
 extern void *BOX2_SEQ_CreateActorFromDesc(char *, const Desc *);
 typedef unsigned char  u8;
-extern u8 func_020275EC(int i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
@@ -35,7 +35,7 @@ void BOX2_SEQ_CreateHandSlotActors(char *p)
     for (i = 0; i < 0x11; i++) {
         d.a = i + 0x28;
         *(void **)(p + i * 4 + 0x9EE4) = BOX2_SEQ_CreateActorFromDesc(p, &d);
-        CLACT_SetActorPaletteOffset(*(void **)(p + i * 4 + 0x9EE4), (unsigned)func_020275EC((unsigned char)i), 1);
+        CLACT_SetActorPaletteOffset(*(void **)(p + i * 4 + 0x9EE4), (unsigned)APP_ICON_GetTypePaletteOffset((unsigned char)i), 1);
         BOX2_SEQ_SetActorDrawEnable(p, i + 0x1C, 0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217B0C8
+ * function: BATTLE_CHAMPIONSHIP_FLOW_StartMenu
  * address: 0x0217B0C8
  * packet: pkt_ov176_0217B0C8
  * region: ov176
@@ -10,24 +10,24 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0217B2E4 0x0217B2E4 thumb ov176
- *   func_0217B35C 0x0217B35C thumb ov176
- *   func_0217B368 0x0217B368 thumb ov176
- *   func_0217B344 0x0217B344 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_CreateMenu 0x0217B2E4 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback 0x0217B35C thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult 0x0217B368 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu 0x0217B344 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217B064 0x0217B064 thumb ov176
- *   func_0217B1BC 0x0217B1BC thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_FadeOut 0x0217B064 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch 0x0217B1BC thumb ov176
  */
 typedef struct Data { unsigned words[8]; } Data;
 extern void MI_CpuFill8(void *,int,unsigned);
-extern void *func_0217B2E4(const Data *,unsigned);
-extern void func_0217B35C(int *);
-extern int func_0217B368(int *);
-extern void func_0217B344(int *);
+extern void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const Data *,unsigned);
+extern void BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback(int *);
+extern int BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult(int *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *);
 extern void func_021E8AA0(int *,int);
-extern void func_0217B064(void *,int *,char *);
-extern void func_0217B1BC(int *,int *,int *);
-void func_0217B0C8(int *a,int *state,int *p)
+extern void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *,int *,char *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *,int *,int *);
+void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *a,int *state,int *p)
 {
     Data config;
     switch(*state) {
@@ -47,24 +47,24 @@ void func_0217B0C8(int *a,int *state,int *p)
             case 1: config.words[0]=1;break;
             }
         }
-        p[11]=(int)func_0217B2E4(&config,78);
+        p[11]=(int)BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(&config,78);
         (*state)++;
         break;
     case 1:
-        func_0217B35C((int *)p[11]);
-        switch(func_0217B368((int *)p[11])) {
+        BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback((int *)p[11]);
+        switch(BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult((int *)p[11])) {
         case 1: ((int *)p[10])[2]=0;*state=2;break;
         case 2: ((int *)p[10])[2]=1;*state=2;break;
         case 3: ((int *)p[10])[1]=3;*state=3;break;
         }
         break;
     case 2:
-        func_0217B344((int *)p[11]);
-        func_021E8AA0(a,(int)func_0217B064);
+        BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu((int *)p[11]);
+        func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
-        func_0217B344((int *)p[11]);
-        func_021E8AA0(a,(int)func_0217B1BC);
+        BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu((int *)p[11]);
+        func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch);
         break;
     }
 }

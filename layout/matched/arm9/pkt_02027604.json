@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02027604",
+   "name": "APP_ICON_GetMoveKindPaletteOffset",
    "address": "0x02027604",
    "kind": "game",
    "region": "arm9",

@@ -25,8 +25,8 @@
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
  *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
- *   func_0202EB14 0x0202EB14 thumb
- *   func_0202EB0C 0x0202EB0C thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
+ *   APP_ENV_IsRunOnTwl 0x0202EB0C thumb
  *   WIFICLUB_EnableTouchBar 0x021C23D8 thumb ov099
  */
 #include "../include/Obj00008.h"
@@ -48,8 +48,8 @@ extern void BMP_MENULIST_Delete(struct Obj *, u16 *, u16 *);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void WIFICLUB_ClearTalkWindow(char *);
 extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
-extern int func_0202EB14(void);
-extern u32 func_0202EB0C(void);
+extern int APP_ENV_HasParentalControlBits(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void WIFICLUB_EnableTouchBar(char *, int);
 int WIFICLUB_StatePartnerMenu(char *p, int ret)
 {
@@ -99,7 +99,7 @@ int WIFICLUB_StatePartnerMenu(char *p, int ret)
         break;
     case 5:
         if ((*(u8 **)(p + 0x248))[0x46] == 0) return ret;
-        if (func_0202EB14() == 0 && func_0202EB0C() != 0) {
+        if (APP_ENV_HasParentalControlBits() == 0 && APP_ENV_IsRunOnTwl() != 0) {
             WIFICLUB_ClosePartnerMenu(p);
             WIFICLUB_ShowStreamedMessage(p, 0x95, 0);
             ((struct Obj00008 *)p)->f1CC = 0xa0;

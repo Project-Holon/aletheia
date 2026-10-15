@@ -18,7 +18,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  */
 #include "../include/Obj04350.h"
 
@@ -36,7 +36,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
+extern void *APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u32 heap);
 
 void STARTMENU_SaveEraseAllocResources(u8 *p)
 {
@@ -46,5 +46,5 @@ void STARTMENU_SaveEraseAllocResources(u8 *p)
     ((struct Obj04350 *)p)->f4 = GF_FONT_Create(0x17, 0, 0, 0, 0x81);
     ((struct Obj04350 *)p)->f10 = STRBUF_Create(0x400, 0x81);
     ((struct Obj04350 *)p)->f18 = TCBL_Create(0x81, 0x81, 1, 4);
-    ((struct Obj04350 *)p)->f24 = func_02028590(0xf, 1, 0, 0x81);
+    ((struct Obj04350 *)p)->f24 = APP_KEYCURSOR_CreateDefault(0xf, 1, 0, 0x81);
 }

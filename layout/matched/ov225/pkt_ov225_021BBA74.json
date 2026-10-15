@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBA74",
+   "name": "MANUAL_CATEGORY_CreateOption",
    "address": "0x021BBA74",
    "kind": "game",
    "region": "ov225",

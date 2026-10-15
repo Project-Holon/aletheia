@@ -1,5 +1,5 @@
 /*
- * function: func_021BA050
+ * function: PSEL_DeleteUnits
  * address: 0x021BA050
  * packet: pkt_ov223_021BA050
  * region: ov223
@@ -21,7 +21,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
-void func_021BA050(char *p)
+void PSEL_DeleteUnits(char *p)
 {
     u8 i,j;
     char *row,*entry;

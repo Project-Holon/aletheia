@@ -37,6 +37,11 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetItemCellFileId  0x02027694  thumb  arm9
+ *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb  arm9
+ *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb  arm9
+ *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb  arm9
  *
  * The temporary heap id is formed twice: once through an inline that
  * rewrites its own parameter (the image copies heap before the and), held
@@ -96,11 +101,11 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern unsigned POKE_TOOL_GetGraphicIndex(void *);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern unsigned func_020275E4(void);
-extern unsigned func_02027694(void);
-extern u32 func_0202769C(u32 i);
-extern u32 func_020276A0(u32 i);
-extern unsigned func_02027698(void);
+extern unsigned APP_ICON_GetArchiveId(void);
+extern unsigned APP_ICON_GetItemCellFileId(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32 i);
+extern u32 APP_ICON_GetItemFrameFileId(u32 i);
+extern unsigned APP_ICON_GetItemPaletteFileId(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void *CLACT_CreateActor(void *, void *, void *, void *, const Request *, unsigned short, unsigned);
 extern int POKE_TOOL_GetIconPalette(void *a0);
@@ -162,10 +167,10 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
         }
     }
     ARC_TOOL_DeleteHandle(handle);
-    handle = func_020490F4(func_020275E4(), (unsigned)heap);
-    work->chrB = (void *)CLACT_RegisterPaletteEx(handle, func_02027694(), 0, 0x100, 0, 1, (heap & 0x7FFF) | 0x8000);
-    work->cellB = (void *)CLACT_RegisterCellAnim(handle, func_0202769C((int)2), func_020276A0((int)2), (u16)((heap & 0x7FFF) | 0x8000));
-    work->palB = (void *)CLACT_RegisterCharacter(handle, func_02027698(), 0, 0, (heap & 0x7FFF) | 0x8000);
+    handle = func_020490F4(APP_ICON_GetArchiveId(), (unsigned)heap);
+    work->chrB = (void *)CLACT_RegisterPaletteEx(handle, APP_ICON_GetItemCellFileId(), 0, 0x100, 0, 1, (heap & 0x7FFF) | 0x8000);
+    work->cellB = (void *)CLACT_RegisterCellAnim(handle, APP_ICON_GetItemAnimFileId((int)2), APP_ICON_GetItemFrameFileId((int)2), (u16)((heap & 0x7FFF) | 0x8000));
+    work->palB = (void *)CLACT_RegisterCharacter(handle, APP_ICON_GetItemPaletteFileId(), 0, 0, (heap & 0x7FFF) | 0x8000);
     ARC_TOOL_DeleteHandle(handle);
     MI_CpuFill8(&req, 0, 8);
     req.x = 0x18;

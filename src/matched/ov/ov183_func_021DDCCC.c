@@ -15,13 +15,13 @@
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
- *   func_0200DC08 0x0200DC08 thumb
+ *   GDS_PROFILE_GetScoreRecLevel 0x0200DC08 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0200DABC 0x0200DABC thumb
+ *   GDS_PROFILE_GetScoreRecTotal 0x0200DABC thumb
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_CODEIN_ListCreateActor 0x021DE084 thumb ov183
  *   d_021E338C 0x021E338C data a4
@@ -47,9 +47,9 @@ extern void *BR_UTIL_Create(unsigned short plane, unsigned a, unsigned short b, 
 extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 struct Blk1AC;
 struct MsgBank;
-extern u8 func_0200DC08(struct Blk1AC *p);
+extern u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u16 func_0200DABC(struct Blk1AC *p);
+extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -72,7 +72,7 @@ void BR_CODEIN_ListSetupRowD(char *p,char *q)
   rec=&d_021E338C[i]; slot=p+i*4;
   ((struct Obj14425 *)slot)->f34=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,((struct Obj00731 *)p)->f4,((struct Obj00731 *)p)->f7C);
   if(i==4){
-   v=func_0200DC08((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
+   v=GDS_PROFILE_GetScoreRecLevel((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
    text=(int)func_02045EC0((struct MsgBank *)second,rec->value);
    obj=STRBUF_Create(0x80,((struct Obj00731 *)p)->f7C);
    WORDSET_SetSlotNumber((void *)third,0,v,2,1,1);
@@ -82,7 +82,7 @@ void BR_CODEIN_ListSetupRowD(char *p,char *q)
   BR_UTIL_SetTextFromBuffer(*(char * *)&((struct Obj14425 *)slot)->f34,obj,(void *)first,0x3da0);
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
- v=func_0200DABC((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
+ v=GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
  BR_RES_GetSprite(*(int *)&((struct Obj00363 *)q)->f8,13,&triple);
  BR_CODEIN_ListCreateActor(p+8,((struct Obj00363 *)q)->f4,(const char *)&triple,v,0xa0,0x20,((struct Obj00731 *)p)->f7C);
 }

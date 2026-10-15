@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202F170       0x0202F170  thumb
+ *   ITEM_GFX_GetRowIndex       0x0202F170  thumb
  *   func_020490F4       0x020490F4  arm
  *   ARC_TOOL_LoadHandleMember       0x02049250  arm
  *   ARC_TOOL_LoadMember       0x02048F60  arm
@@ -37,7 +37,7 @@
  *
  * Blocked at MATCH, not EXACT: three relocation sites have no witness
  * outside this range.
- *   - item_gfx_member_x (0x0209E9E8) and func_0202F170 (0x0202F170) are
+ *   - item_gfx_member_x (0x0209E9E8) and ITEM_GFX_GetRowIndex (0x0202F170) are
  *     named only from here anywhere in the image.
  *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
  *     0x02020F7C, which is FILE_UTIL_CreateArcTool0F34's own pool and therefore inside
@@ -73,7 +73,7 @@ struct ItemGfxMember {
 extern struct ItemGfxMember item_gfx_member[];
 extern struct ItemGfxMember item_gfx_member_x[];
 
-extern u32   func_0202F170(u32 item);
+extern u32   ITEM_GFX_GetRowIndex(u32 item);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
@@ -108,9 +108,9 @@ u32 FILE_UTIL_Get(u32 item, u32 which)
         }
         return item_gfx_member[item].hi;
     case 3:
-        return item_gfx_member_x[func_0202F170(item)].lo;
+        return item_gfx_member_x[ITEM_GFX_GetRowIndex(item)].lo;
     case 4:
-        return item_gfx_member_x[func_0202F170(item)].hi;
+        return item_gfx_member_x[ITEM_GFX_GetRowIndex(item)].hi;
     }
 
     return 0;

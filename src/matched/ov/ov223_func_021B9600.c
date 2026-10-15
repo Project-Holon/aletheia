@@ -1,5 +1,5 @@
 /*
- * function: func_021B9600
+ * function: PSEL_DeleteRecords
  * address: 0x021B9600
  * packet: pkt_ov223_021B9600
  * region: ov223
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B9600(void *p) { func_020307B0(p); }
+void PSEL_DeleteRecords(void *p) { func_020307B0(p); }

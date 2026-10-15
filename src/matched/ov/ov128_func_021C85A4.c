@@ -1,5 +1,5 @@
 /*
- * function: func_021C85A4
+ * function: Wf2dmapFriend_DrawEntry
  * address: 0x021C85A4
  * packet: pkt_ov128_021C85A4
  * region: ov128
@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   WF2DMAP_TOUCH_SetActorAnimSeq 0x021CA40C thumb ov128
- *   func_021C88C0 0x021C88C0 thumb ov128
- *   func_021C899C 0x021C899C thumb ov128
+ *   Wf2dmapFriend_DrawEntryBg 0x021C88C0 thumb ov128
+ *   Wf2dmapFriend_DrawEntryPageTransfer 0x021C899C thumb ov128
  *   WF2DMAP_TOUCH_UpdateItemBar 0x021CA2DC thumb ov128
  */
 #include "../include/Obj00179.h"
@@ -18,10 +18,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 extern void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n);
-extern void func_021C88C0(s16 *, void *, u8 *);
-extern void func_021C899C(char *p, char *q, void *r, void *s, int t, char *table, int page, u16 heap);
+extern void Wf2dmapFriend_DrawEntryBg(s16 *, void *, u8 *);
+extern void Wf2dmapFriend_DrawEntryPageTransfer(char *p, char *q, void *r, void *s, int t, char *table, int page, u16 heap);
 extern void WF2DMAP_TOUCH_UpdateItemBar(char *p);
-void func_021C85A4(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
+void Wf2dmapFriend_DrawEntry(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
 {
     int offset;
     u8 *base;
@@ -32,7 +32,7 @@ void func_021C85A4(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
     }
     offset = n * 0x4c;
     base = p + 12;
-    func_021C88C0((s16 *)(base + offset), b, b + 0x16c);
-    func_021C899C((char *)(base + offset), (char *)a, b, ((struct Obj00179 *)p)->f104, (int)(b + 0x16c), (char *)(a + 16), x, c);
+    Wf2dmapFriend_DrawEntryBg((s16 *)(base + offset), b, b + 0x16c);
+    Wf2dmapFriend_DrawEntryPageTransfer((char *)(base + offset), (char *)a, b, ((struct Obj00179 *)p)->f104, (int)(b + 0x16c), (char *)(a + 16), x, c);
     WF2DMAP_TOUCH_UpdateItemBar((char *)p);
 }

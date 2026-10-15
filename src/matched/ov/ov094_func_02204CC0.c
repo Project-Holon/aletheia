@@ -12,7 +12,7 @@
  *   offset constants and the address-taken frame block (t1 0xf8, t2 0xd8, buf 0xb4,
  *   w/h, cd/pd, c) all line up; the loop needs the (i < 4) ? 1 : 0 test to keep the
  *   branch-to-bottom entry, and the shared heap local keeps (heap & 0x7fff) | 0x8000
- *   ahead of func_020275E4. Left: register allocation. The image keeps q in r6 and
+ *   ahead of APP_ICON_GetArchiveId. Left: register allocation. The image keeps q in r6 and
  *   recomputes p + i*4, q + i*2 and q + i after every call (only i*8 lives in r7, k
  *   and font are spilled, font at sp+0x9c just under c); 1.1p1 CSEs those sums
  *   across the calls, so q spills, k takes r7 and every slot shifts. Breaking the
@@ -37,7 +37,7 @@
  *   the image is reverse declaration with font last (sp+0x9c); ours spills font
  *   right after file. volatile font declared last puts font just under c but
  *   flips p/i (image p r4, i r5); a 4-byte struct Font gets frame 0x118.
- *   Witness gaps once bytes match: func_020275F8, func_020275EC (arm, no caller
+ *   Witness gaps once bytes match: APP_ICON_GetTypeCellFileId, APP_ICON_GetTypePaletteOffset (arm, no caller
  *   outside this body) and the six d_0220Axxx tables are unresolved relocations.
  * note (2026-10-02, lane A2 follow-up): cause found, not closable under the
  *   lane rules. The image is this body compiled with global CSE off: with
@@ -87,8 +87,8 @@
  *   opt_strength_reduction off, scheduling off, declaration order of every
  *   register local, colour/EFA4/02049F34 prototypes (incl. unprototyped),
  *   the EFA4 third-argument spelling, inline heap/arc, loop-condition forms.
- *   The last relocation, func_020275EC, resolved once arm9 0x020275EC was
- *   seeded as a Thumb leaf (src/matched/arm9/func_020275EC.c, EXACT).
+ *   The last relocation, APP_ICON_GetTypePaletteOffset, resolved once arm9 0x020275EC was
+ *   seeded as a Thumb leaf (src/matched/arm9/APP_ICON_GetTypePaletteOffset.c, EXACT).
  * symbols:
  *   d_0220A5B0  0x0220A5B0  data
  *   d_0220A5D0  0x0220A5D0  data
@@ -116,6 +116,9 @@
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetTypePaletteOffset  0x020275EC  thumb  arm9
+ *   APP_ICON_GetTypeCellFileId  0x020275F8  thumb  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -156,9 +159,9 @@ struct PalAnmSlot;
 struct Struct36;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32 func_020275E4(void);
-extern u32 func_020275F8(u32 a);
-extern u8 func_020275EC(int i);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetTypeCellFileId(u32 a);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
@@ -246,9 +249,9 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
             p->obj[i] = CLACT_CreateActor(p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
             CLACT_AddActorSurfacePos(p->obj[i], (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
             heap = (p->heap & 0x7fff) | 0x8000;
-            arc = func_020275E4();
-            chr = func_02049E34(arc, func_020275F8((u8)k), 0, (u32)(&cd), heap);
-            CLACT_SetActorPaletteOffset(p->obj[i], func_020275EC((u8)k), 1);
+            arc = APP_ICON_GetArchiveId();
+            chr = func_02049E34(arc, APP_ICON_GetTypeCellFileId((u8)k), 0, (u32)(&cd), heap);
+            CLACT_SetActorPaletteOffset(p->obj[i], APP_ICON_GetTypePaletteOffset((u8)k), 1);
             CLACT_GetActorImageProxy(p->obj[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
             MIi_CpuCopy16(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);

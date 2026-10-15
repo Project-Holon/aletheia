@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   TCBL_Main 0x020310C4 arm
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -32,7 +32,7 @@ extern void APP_TASKMENU_UpdateMenu(void *);
 typedef signed int     s32;
 struct Blk;
 struct PrintSys;
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern unsigned int PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern unsigned int PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 typedef unsigned int   u32;
@@ -45,7 +45,7 @@ void MB_UTIL_MSG_Main(char *p)
     int done;
     TCBL_Main(P(12));
     if(P(0x18)){
-        done=func_02028484((struct Blk *)(p+0x28),P(0x18));
+        done=PRINTSYS_CTRL_Update((struct Blk *)(p+0x28),P(0x18));
         APP_KEYCURSOR_Update(P(0x44),P(0x18),P(0x10));
         if(done==1){PRINTSYS_PrintStreamDelete(P(0x18));P(0x18)=0;}
     }

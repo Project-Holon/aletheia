@@ -1,5 +1,5 @@
 /*
- * function: func_021BB844
+ * function: PSEL_GRAPHIC_BlendPalettes
  * address: 0x021BB844
  * packet: pkt_ov223_021BB844
  * region: ov223
@@ -11,7 +11,7 @@
  * lever: a full-word copy tmp=(u32)p+i*2; q=tmp reverses the q/next spill homes; once-only bounded search found it, fixed-one validated it.
  * volatile: original 021BB858 and 021BB862 independently reload p+0x870 in the transition helper's two arms.
  * symbols:
- *   func_021BB520 0x021BB520 thumb ov223
+ *   PSEL_GRAPHIC_SplitColor 0x021BB520 thumb ov223
  *   func_02061CA4 0x02061CA4 arm
  */
 #include "../include/Obj06728.h"
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Colors {u16 b2,g2,r2,b1,g1,r1;};
 enum Offset {OffsetZero=0};
-extern void func_021BB520(int,u16 *,u16 *,u16 *);
+extern void PSEL_GRAPHIC_SplitColor(int,u16 *,u16 *,u16 *);
 extern int func_02061CA4(void *,u32,u32,int);
-void func_021BB844(char *p)
+void PSEL_GRAPHIC_BlendPalettes(char *p)
 {
     int active=0;
     enum Offset which;
@@ -48,8 +48,8 @@ void func_021BB844(char *p)
             next=*(u16 *)(p+(*(u8 *)(p+which))*256+i*2+0x26a);
             tmp=(u32)p+i*2;
             q=tmp;
-            func_021BB520(((struct Obj14793 *)q)->f66A,&colors.r1,&colors.g1,&colors.b1);
-            func_021BB520(next,&colors.r2,&colors.g2,&colors.b2);
+            PSEL_GRAPHIC_SplitColor(((struct Obj14793 *)q)->f66A,&colors.r1,&colors.g1,&colors.b1);
+            PSEL_GRAPHIC_SplitColor(next,&colors.r2,&colors.g2,&colors.b2);
             blue=(colors.b1*(16-weight)+colors.b2*weight)/16;
             red=(colors.r1*(16-weight)+colors.r2*weight)/16;
             green=(colors.g1*(16-weight)+colors.g2*weight)/16;

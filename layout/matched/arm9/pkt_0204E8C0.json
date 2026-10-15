@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "DOUBLE3DDISP_GetField04",
+   "name": "DOUBLE3DDISP_GetMode",
    "address": "0x0204EA38",
    "kind": "sdk",
    "region": "arm9",

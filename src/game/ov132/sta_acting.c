@@ -101,7 +101,7 @@
  *   func_02048AD0 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   BILLBOARD_Create 0x0204EBD4 arm
- *   BILLBOARD_SetField10 0x0204ED70 arm
+ *   BILLBOARD_SetScale 0x0204ED70 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -501,7 +501,7 @@ extern void func_0207DCF8(const void *);
 
 extern void *BILLBOARD_Create(u8 *src, void *heap);
 
-extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32_021F899C arg, u32_021F899C heapId);
 
@@ -1078,7 +1078,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     small=d_021FDBD4;
     board=BILLBOARD_Create((u8 *)(&big),(void *)(u32_021F899C)*(u16 *)p);
     *(void **)(p+0xAC)=board;
-    BILLBOARD_SetField10(board,(struct Blk3 *)(&small));
+    BILLBOARD_SetScale(board,(struct Blk3 *)(&small));
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32_021F899C)d_021FDBA0,*(u16 *)p);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D63C((void *)0x04000050,8,1,0,10);

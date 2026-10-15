@@ -11,15 +11,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D858, func_0200D85C, func_0200D868, func_0200D87C,
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
+ * function: GDS_PROFILE_GetFieldRecSize, GDS_PROFILE_ClearFieldRec, GDS_PROFILE_SetFieldRecFlag1, GDS_PROFILE_GetFieldRecFlag1,
+ *           GDS_PROFILE_GetFieldRecField, GDS_PROFILE_SetFieldRecField, GDS_PROFILE_AddFieldRecCounters, GDS_PROFILE_ClearFieldRecCount03,
+ *           GDS_PROFILE_IncFieldRecCount03, GDS_PROFILE_GetFieldRecCount03
  *
  * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
  * label in the generated listing.
  *
  * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
+ * GDS_PROFILE_GetFieldRecSize returns 0x3C and GDS_PROFILE_ClearFieldRec clears exactly that many bytes
  * as a bare tail call, which is the block-file opening this region keeps
  * producing.
  *
@@ -38,17 +38,17 @@
  * default is reached by the `bhi` in the preamble, so there is one `return 0`
  * after the switch and not a `default:` label.
  *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
+ * GDS_PROFILE_SetFieldRecFlag1 truncates its value to `u16` before extracting the bit, which
  * a `u16` parameter does not produce: the parameter is wider and the source
  * casts at the use, the same shape as BATTLE_BOX_SetLockFlags in
  * src/matched/unit_0200BBC8.c.
  *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
+ * GDS_PROFILE_AddFieldRecCounters adds three deltas into three counters, each guarded against
  * its own type's maximum, and each sum is computed once and reused by both
  * the compare and the store; the two halfword guards share one literal pool
  * word holding 0xFFFF.
  *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
+ * GDS_PROFILE_IncFieldRecCount03 reads the counter at id 1 through the getter, increments it
  * in a stack byte and writes it back through the setter, reloading the byte
  * after storing it because its address escapes into the setter call.
  *
@@ -83,30 +83,30 @@ struct Blk3C {
     u8  unk28[0x14];
 };
 
-u32  func_0200D884(struct Blk3C *p, u32 id, void *out);
-void func_0200D914(struct Blk3C *p, u32 id, const void *src);
+u32  GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
+void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src);
 
-u32 func_0200D858(void)
+u32 GDS_PROFILE_GetFieldRecSize(void)
 {
     return sizeof(struct Blk3C);
 }
 
-void func_0200D85C(struct Blk3C *p)
+void GDS_PROFILE_ClearFieldRec(struct Blk3C *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk3C));
 }
 
-void func_0200D868(struct Blk3C *p, u32 v)
+void GDS_PROFILE_SetFieldRecFlag1(struct Blk3C *p, u32 v)
 {
     p->f1 = (u16)v;
 }
 
-u32 func_0200D87C(struct Blk3C *p)
+u32 GDS_PROFILE_GetFieldRecFlag1(struct Blk3C *p)
 {
     return p->f1;
 }
 
-u32 func_0200D884(struct Blk3C *p, u32 id, void *out)
+u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out)
 {
     switch (id) {
     case 0:
@@ -140,7 +140,7 @@ u32 func_0200D884(struct Blk3C *p, u32 id, void *out)
     return 0;
 }
 
-void func_0200D914(struct Blk3C *p, u32 id, const void *src)
+void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src)
 {
     switch (id) {
     case 0:
@@ -182,7 +182,7 @@ void func_0200D914(struct Blk3C *p, u32 id, const void *src)
     }
 }
 
-void func_0200D9E8(struct Blk3C *p, s32 a, s32 b, s32 c)
+void GDS_PROFILE_AddFieldRecCounters(struct Blk3C *p, s32 a, s32 b, s32 c)
 {
     if (p->unk03 + a < 255) {
         p->unk03 = p->unk03 + a;
@@ -195,24 +195,24 @@ void func_0200D9E8(struct Blk3C *p, s32 a, s32 b, s32 c)
     }
 }
 
-void func_0200DA14(struct Blk3C *p)
+void GDS_PROFILE_ClearFieldRecCount03(struct Blk3C *p)
 {
     u8 v = 0;
 
-    func_0200D914(p, 1, &v);
+    GDS_PROFILE_SetFieldRecField(p, 1, &v);
 }
 
-void func_0200DA28(struct Blk3C *p)
+void GDS_PROFILE_IncFieldRecCount03(struct Blk3C *p)
 {
-    u8 v = func_0200D884(p, 1, 0);
+    u8 v = GDS_PROFILE_GetFieldRecField(p, 1, 0);
 
     if (v < 255) {
         v++;
     }
-    func_0200D914(p, 1, &v);
+    GDS_PROFILE_SetFieldRecField(p, 1, &v);
 }
 
-u16 func_0200DA54(struct Blk3C *p)
+u16 GDS_PROFILE_GetFieldRecCount03(struct Blk3C *p)
 {
-    return func_0200D884(p, 1, 0);
+    return GDS_PROFILE_GetFieldRecField(p, 1, 0);
 }

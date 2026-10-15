@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020275E8 0x020275E8 thumb
- *   func_020275EC 0x020275EC thumb
- *   func_020275F8 0x020275F8 thumb
- *   func_020275FC 0x020275FC thumb
- *   func_02027600 0x02027600 thumb
+ *   APP_ICON_GetTouchBarFileId 0x020275E8 thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
+ *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
+ *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
+ *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -35,11 +35,11 @@ typedef unsigned char  u8;
 struct Actor;
 struct Node;
 struct Obj;
-extern u32 func_020275E8(void);
-extern u8 func_020275EC(int i);
-extern u32 func_020275F8(u32 a);
-extern u32 func_020275FC(u32 a);
-extern u32 func_02027600(u32 a);
+extern u32 APP_ICON_GetTouchBarFileId(void);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
+extern u32 APP_ICON_GetTypeCellFileId(u32 a);
+extern u32 APP_ICON_GetTypePaletteFileId(u32 a);
+extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
 typedef signed int     s32;
 typedef unsigned short u16;
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -94,17 +94,17 @@ void func_021BB304(Ent *p)
         }
     }
     p->fe0 = 0;
-    p->fc8 = (void *)CLACT_RegisterPaletteEx(arc, func_020275E8(), flag, 0x40, 0, 3, p->f0);
-    p->fcc = (void *)CLACT_RegisterCellAnim(arc, func_020275FC(2), func_02027600(2), p->f0);
+    p->fc8 = (void *)CLACT_RegisterPaletteEx(arc, APP_ICON_GetTouchBarFileId(), flag, 0x40, 0, 3, p->f0);
+    p->fcc = (void *)CLACT_RegisterCellAnim(arc, APP_ICON_GetTypePaletteFileId(2), APP_ICON_GetTypeAnimFileId(2), p->f0);
     if (p->f18 == 2 && p->f1c == 0) {
         r.a = 0; r.b = 0; r.c = 0; r.d = 0; r.e = 0;
         p->fe4 = 1;
         p->f170 = 0x11;
         p->f171 = 0x11;
         for (i = 0; i < 0x11; i++) {
-            p->a[i] = (void *)CLACT_RegisterCharacter(arc, func_020275F8(i), 0, flag, p->f0);
+            p->a[i] = (void *)CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(i), 0, flag, p->f0);
             p->b[i] = CLACT_CreateActor(p->f24, (unsigned int)p->a[i], (unsigned int)p->fc8, (unsigned int)p->fcc, &r, sh, p->f0);
-            CLACT_SetActorPaletteOffset(p->b[i], func_020275EC(i), 1);
+            CLACT_SetActorPaletteOffset(p->b[i], APP_ICON_GetTypePaletteOffset(i), 1);
             CLACT_SetActorDrawPriority(p->b[i], 2);
             CLACT_SetActorObjMode(p->b[i], 1);
             CLACT_SetActorDrawEnable(p->b[i], 0);

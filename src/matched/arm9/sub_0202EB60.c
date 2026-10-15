@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202EB60
+ * function: APP_ENV_GetOwnerColorAndBirthMonth
  * address:  0x0202EB60
  * packet:   pkt_0202E770
  * region:   arm9
@@ -22,8 +22,8 @@
  * a re-taken address looks like here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202EB60.c \
- *       --func sub_0202EB60 --addr 0x0202EB60 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/APP_ENV_GetOwnerColorAndBirthMonth.c \
+ *       --func APP_ENV_GetOwnerColorAndBirthMonth --addr 0x0202EB60 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ struct Info0202EB60 {
 struct OSOwnerInfo;
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 
-void sub_0202EB60(u8 *a, u8 *b)
+void APP_ENV_GetOwnerColorAndBirthMonth(u8 *a, u8 *b)
 {
     struct Info0202EB60 info;
 

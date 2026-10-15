@@ -1,5 +1,5 @@
 /*
- * function: func_0217CEAC,func_0217CFD0,func_0217CFDC
+ * function: LIVEBATTLEMATCH_FLOW_DrawMenu,LIVEBATTLEMATCH_FLOW_HideWindow,LIVEBATTLEMATCH_FLOW_GetWindowResult
  * unit: yes
  * address: 0x0217CEAC
  * packet: pkt_ov176_0217CEAC
@@ -28,7 +28,7 @@ extern void MI_CpuFill8(void *, int, u32);
 extern void *func_021E88B0(Menu *, int, u8, int, int, int);
 extern void func_021E89D0(void *);
 extern int func_021E8A00(void *);
-void func_0217CEAC(u8 *p, int mode)
+void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode)
 {
     Menu rec;
     int layout;
@@ -62,5 +62,5 @@ void func_0217CEAC(u8 *p, int mode)
     ((struct Obj00053 *)p)->f4 = func_021E88B0(&rec, x, y, width, height, ((struct Obj00053 *)p)->f1C8);
     ((struct Obj00053 *)p)->f8 = mode;
 }
-void func_0217CFD0(int *p) { func_021E89D0((void *)p[1]); }
-int func_0217CFDC(int *p) { return func_021E8A00((void *)p[1]); }
+void LIVEBATTLEMATCH_FLOW_HideWindow(int *p) { func_021E89D0((void *)p[1]); }
+int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p) { return func_021E8A00((void *)p[1]); }

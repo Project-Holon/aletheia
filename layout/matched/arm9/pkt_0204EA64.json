@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "DOUBLE3DDISP_SetupGraphics_EB68",
+   "name": "DOUBLE3DDISP_SetupGraphicsSubObj",
    "address": "0x0204EB68",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetFlagWord",
+   "name": "BILLBOARD_SetFixedNormal",
    "address": "0x0204ED4C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField10",
+   "name": "BILLBOARD_SetScale",
    "address": "0x0204ED70",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField1C",
+   "name": "BILLBOARD_SetDiffuse",
    "address": "0x0204ED80",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField1E",
+   "name": "BILLBOARD_SetAmbient",
    "address": "0x0204ED8C",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField20",
+   "name": "BILLBOARD_SetSpecular",
    "address": "0x0204ED98",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField22",
+   "name": "BILLBOARD_SetEmission",
    "address": "0x0204EDA4",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField24",
+   "name": "BILLBOARD_SetPolyIdBase",
    "address": "0x0204EDB0",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetField25",
+   "name": "BILLBOARD_SetQuadShape",
    "address": "0x0204EDBC",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BILLBOARD_SetImagePosition",
+   "name": "BILLBOARD_SetImageOffset",
    "address": "0x0204EDC4",
    "kind": "game",
    "region": "arm9",

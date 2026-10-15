@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA878",
-    "func_021BA8BC"
+    "PSEL_UpdateFadeUnit",
+    "PSEL_IsUnitAnimDone"
+   ],
+   "addresses": [
+    "0x021BA878",
+    "0x021BA8BC"
    ]
   }
  ]

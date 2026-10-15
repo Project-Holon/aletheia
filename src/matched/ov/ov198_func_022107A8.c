@@ -21,7 +21,7 @@
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
- *   func_020276C4 0x020276C4 thumb
+ *   APP_ICON_GetStatusIconAnim 0x020276C4 thumb
  *   POKE_TOOL_GetLevelMinExp 0x02018544 thumb
  *   func_02018584 0x02018584 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
@@ -46,7 +46,7 @@ struct Summary {
 };
 extern u32 func_02017E1C(void *,u32,u32);
 extern u8 POKE_TOOL_GetGender(void *);
-extern int func_020276C4(int a0);
+extern int APP_ICON_GetStatusIconAnim(int a0);
 extern u32 POKE_TOOL_GetLevelMinExp(void *);
 extern u32 func_02018584(u16,u16,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
@@ -78,7 +78,7 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
     if(func_02017E1C(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;
     p->gender=POKE_TOOL_GetGender(p->mon);
-    p->nature=(u8)func_020276C4((int)p->mon);
+    p->nature=(u8)APP_ICON_GetStatusIconAnim((int)p->mon);
     p->flag=(u8)func_02017E1C(p->mon,0x4c,0);
     p->item=func_02017E1C(p->mon,10,0);
     p->unknown=func_02017E1C(p->mon,6,0);

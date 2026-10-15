@@ -107,7 +107,7 @@
  *   POKETRADE_SAVE_OpenTaskMenuWindow 0x021E2984 thumb ov119
  *   POKETRADE_SAVE_IsTouchOutsideArea 0x021E2A80 thumb ov119
  *   POKETRADE_SAVE_CloseTaskMenuWindow 0x021E2A1C thumb ov119
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -163,7 +163,7 @@
  *   WIFI_HISTORY_GetCountryRegionState   0x0200949C  thumb
  *   WIFI_HISTORY_SetCountryRegionState   0x020094D8  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   RECORD_AddOne   0x02008DF0  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   TRADE_HISTORY_IncrementTradeCount   0x02009EB0  thumb
@@ -186,22 +186,22 @@
  *   POKETRADE_PROC_StepResetForNewRound 0x021DACE4 thumb ov119
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
- *   func_020275E8 0x020275E8 thumb
- *   func_020275F8 0x020275F8 thumb
- *   func_020275FC 0x020275FC thumb
- *   func_02027600 0x02027600 thumb
- *   func_020275EC 0x020275EC thumb
+ *   APP_ICON_GetTouchBarFileId 0x020275E8 thumb
+ *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
+ *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
+ *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_02027720 0x02027720 thumb
- *   func_0202772C 0x0202772C thumb
- *   func_02027738 0x02027738 thumb
- *   func_02027740 0x02027740 thumb
+ *   APP_ICON_GetBallThrowCellFileId 0x02027720 thumb
+ *   APP_ICON_GetBallThrowAnimFileId 0x0202772C thumb
+ *   APP_ICON_GetBallOpenCellFileId 0x02027738 thumb
+ *   APP_ICON_GetBallOpenPaletteFileId 0x02027740 thumb
  *   BMP_Clear 0x02043B5C arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_02028470 0x02028470 thumb
+ *   PRINTSYS_CTRL_Init 0x02028470 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
@@ -211,7 +211,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_0200566C 0x0200566C thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
@@ -224,7 +224,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
@@ -635,7 +635,7 @@ extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int r
 
 extern void POKE_TOOL_HealFull(void *mon);
 
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
@@ -689,17 +689,17 @@ extern void CLACT_DeleteActor(struct Obj *p);
 
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 
-extern u32 func_020275E8(void);
+extern u32 APP_ICON_GetTouchBarFileId(void);
 
-extern u32 func_020275F8(u32);
+extern u32 APP_ICON_GetTypeCellFileId(u32);
 
-extern u32 func_020275FC(u32);
+extern u32 APP_ICON_GetTypePaletteFileId(u32);
 
-extern u32 func_02027600(u32);
+extern u32 APP_ICON_GetTypeAnimFileId(u32);
 
-extern u8 func_020275EC(int i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 
 extern void UI_SCENE_LoadActorGfx(void *,Descriptor *,int,u16);
 
@@ -707,13 +707,13 @@ extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
 
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-extern int func_02027720(int);
+extern int APP_ICON_GetBallThrowCellFileId(int);
 
-extern int func_0202772C(int);
+extern int APP_ICON_GetBallThrowAnimFileId(int);
 
-extern int func_02027738(int,int);
+extern int APP_ICON_GetBallOpenCellFileId(int,int);
 
-extern int func_02027740(int,int);
+extern int APP_ICON_GetBallOpenPaletteFileId(int,int);
 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -727,7 +727,7 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 
-extern void func_02028470(u8 *,u32);
+extern void PRINTSYS_CTRL_Init(u8 *,u32);
 
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 
@@ -753,7 +753,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void *func_02028590(u32,u32,u32,u32);
+extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 
@@ -779,7 +779,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
-extern int func_02028484(struct Blk *blk, void *h);
+extern int PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
@@ -1542,7 +1542,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     if (func_02017E1C(mon, 0x4C, 0) == 0)
         POKE_TOOL_SetPartyValue(mon, 9, (u32)((void *)0x46));
     if (func_02017E1C(mon, 0x4C, 0))
-        func_0202F190(mon, 6, (u32)I(p, 0x830), 0x7533, H(p, 0x5F4));
+        SAVE_EVENT_Write(mon, 6, (u32)I(p, 0x830), 0x7533, H(p, 0x5F4));
     switch (W(p, 0x118C)) {
     case 2:
     case 3:
@@ -1738,7 +1738,7 @@ void POKETRADE_SAVE_DeleteTypeIconActor(char *p)
     }
 }
 
-void POKETRADE_SAVE_CreateTypeIconActor(char *p,void *mon,int index,int slot,int x,int y,int a,u16 b) {Descriptor d;u8 v;int z=0;v=func_02017E1C(mon,index+174,0);d.a=a;d.b=z;d.c=func_020275E4();d.d=func_020275E8();d.e=func_020275F8(v);d.f=func_020275FC(2);d.g=func_02027600(2);d.h=8;d.i=z;d.j=3;UI_SCENE_LoadActorGfx(p,&d,slot,b);((struct UiScene *)p)->actor=(void *)UI_SCENE_CreateActor(p,slot,x,y,z,b);CLACT_SetActorPaletteOffset((struct Obj *)(((struct UiScene *)p)->actor),func_020275EC(v),1);}
+void POKETRADE_SAVE_CreateTypeIconActor(char *p,void *mon,int index,int slot,int x,int y,int a,u16 b) {Descriptor d;u8 v;int z=0;v=func_02017E1C(mon,index+174,0);d.a=a;d.b=z;d.c=APP_ICON_GetArchiveId();d.d=APP_ICON_GetTouchBarFileId();d.e=APP_ICON_GetTypeCellFileId(v);d.f=APP_ICON_GetTypePaletteFileId(2);d.g=APP_ICON_GetTypeAnimFileId(2);d.h=8;d.i=z;d.j=3;UI_SCENE_LoadActorGfx(p,&d,slot,b);((struct UiScene *)p)->actor=(void *)UI_SCENE_CreateActor(p,slot,x,y,z,b);CLACT_SetActorPaletteOffset((struct Obj *)(((struct UiScene *)p)->actor),APP_ICON_GetTypePaletteOffset(v),1);}
 
 void POKETRADE_SAVE_DeleteStatusIconActor(char *p)
 {
@@ -1752,7 +1752,7 @@ void POKETRADE_SAVE_DeleteStatusIconActor(char *p)
 /*
  * extent: two zero alignment bytes at 0x021E0EF2, labelled next function 0x021E0EF4.
  */
-void POKETRADE_SAVE_CreateStatusIconActor(char *p,void *mon,int slot,int x,int y,int a,u16 b,int c) {Descriptor d;int v;v=func_02017E1C(mon,152,0);POKETRADE_SAVE_DeleteStatusIconActor(p);d.a=a;d.b=0;d.c=func_020275E4();d.d=func_02027720(v);d.e=func_0202772C(v);d.f=func_02027738(v,2);d.g=func_02027740(v,2);d.h=c;d.i=0;d.j=1;UI_SCENE_LoadActorGfx(p,&d,slot,b);*(int *)&((struct UiScene *)p)->actor=UI_SCENE_CreateActor(p,slot,x,y,0,b);}
+void POKETRADE_SAVE_CreateStatusIconActor(char *p,void *mon,int slot,int x,int y,int a,u16 b,int c) {Descriptor d;int v;v=func_02017E1C(mon,152,0);POKETRADE_SAVE_DeleteStatusIconActor(p);d.a=a;d.b=0;d.c=APP_ICON_GetArchiveId();d.d=APP_ICON_GetBallThrowCellFileId(v);d.e=APP_ICON_GetBallThrowAnimFileId(v);d.f=APP_ICON_GetBallOpenCellFileId(v,2);d.g=APP_ICON_GetBallOpenPaletteFileId(v,2);d.h=c;d.i=0;d.j=1;UI_SCENE_LoadActorGfx(p,&d,slot,b);*(int *)&((struct UiScene *)p)->actor=UI_SCENE_CreateActor(p,slot,x,y,0,b);}
 
 /*
  * prototype: 0201F73C arg2 is u16 because 021E0FC4..021E0FC6 truncates the loaded full word before the call.
@@ -1769,7 +1769,7 @@ void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h)
     GF_FONT_SetTextColor(1,2,15);
     if(flag==0) {
         (*(unsigned int *)&((TradeWork *)p)->printStream)=PRINTSYS_PrintStream((u32)v,0,0,*(u32 *)&((TradeWork *)p)->messageText,*(u32 *)&((TradeWork *)p)->font,MSG_SPEED_GetWait(),(*(unsigned int *)&((TradeWork *)p)->tcbl),2,((TradeWork *)p)->heapId,15);
-        func_02028470((u8 *)p+0x11d4,2);
+        PRINTSYS_CTRL_Init((u8 *)p+0x11d4,2);
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,(*(void * *)&((TradeWork *)p)->messageText),((TradeWork *)p)->font);
     }
@@ -1823,7 +1823,7 @@ void POKETRADE_SAVE_CreateMessageResources(char *p)
     ((TradeWork *)p)->printQueue=(void *)PRINTSYS_QUE_Create((void *)(((TradeWork *)p)->heapId));
     GF_FONT_SetTextColor(1,2,15);
     ((TradeWork *)p)->tcbl=TCBL_Create(((TradeWork *)p)->heapId,((TradeWork *)p)->heapId,2,0);
-    ((TradeWork *)p)->keyCursor=func_02028590(15,1,0,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->keyCursor=APP_KEYCURSOR_CreateDefault(15,1,0,((TradeWork *)p)->heapId);
     ((TradeWork *)p)->taskMenuRes=APP_TASKMENU_RES_Create(6,9,*(u32 *)&((TradeWork *)p)->font,*(u32 *)&((TradeWork *)p)->printQueue,((TradeWork *)p)->heapId);
 }
 
@@ -1854,7 +1854,7 @@ void POKETRADE_SAVE_DeleteMessageResources(char *p)
     }
 }
 
-int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((TradeWork *)p)->printStream) {if(((TradeWork *)p)->messageWin)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((TradeWork *)p)->keyCursor),(void *)(((TradeWork *)p)->printStream),(void *)(((TradeWork *)p)->messageWin));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->printStream));if(v) {if(((TradeWork *)p)->printStream) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->printStream));((TradeWork *)p)->printStream=0;}}}return v;}
+int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((TradeWork *)p)->printStream) {if(((TradeWork *)p)->messageWin)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((TradeWork *)p)->keyCursor),(void *)(((TradeWork *)p)->printStream),(void *)(((TradeWork *)p)->messageWin));v=PRINTSYS_CTRL_Update((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->printStream));if(v) {if(((TradeWork *)p)->printStream) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->printStream));((TradeWork *)p)->printStream=0;}}}return v;}
 
 void POKETRADE_SAVE_CloseTaskMenu(char *p)
 {

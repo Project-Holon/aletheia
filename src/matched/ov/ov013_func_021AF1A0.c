@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gVctWork     0x021B3C80  data  ov013
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   func_0208B480  0x0208B480  arm
  *   func_0208B528  0x0208B528  arm
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
@@ -29,7 +29,7 @@ typedef struct Work Work;
 
 extern struct Work *gVctWork;
 typedef unsigned int   u32;
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int func_0208B480(void);
 extern int func_0208B528(void);
 extern void NNSi_SndStrmStopIfSetup(void *p);
@@ -47,7 +47,7 @@ void VCT_MAIN_Exit(void)
         return;
     }
     cb = gVctWork->f1984;
-    if (func_0202EB0C() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 0) {
         func_0208B480();
     } else {
         func_0208B528();

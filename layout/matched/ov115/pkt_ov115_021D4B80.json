@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D4B80",
-    "func_021D4BB4"
+    "WIFILOGIN_DISP_StepGetToken",
+    "WIFILOGIN_DISP_StepBeginToken"
+   ],
+   "addresses": [
+    "0x021D4B80",
+    "0x021D4BB4"
    ],
    "evidence": {
     "sole-ref": [

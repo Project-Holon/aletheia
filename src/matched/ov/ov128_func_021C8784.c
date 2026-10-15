@@ -1,5 +1,5 @@
 /*
- * function: func_021C8784
+ * function: Wf2dmapFriend_ClearEntryWindow
  * address:  0x021C8784
  * packet:   pkt_021C8784
  * region:   ov128
@@ -25,7 +25,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-void func_021C8784(char *p)
+void Wf2dmapFriend_ClearEntryWindow(char *p)
 {
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj14040 *)p)->f108), 0xf);
     BMP_WIN_TransferChars(((struct Obj14040 *)p)->f108);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7A70",
+   "name": "DUP_FITTING_UpdateCursor",
    "address": "0x021B7A70",
    "kind": "game",
    "region": "ov133",

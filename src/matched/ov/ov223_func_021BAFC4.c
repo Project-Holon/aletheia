@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFC4
+ * function: PSEL_SetMode
  * address: 0x021BAFC4
  * packet: pkt_ov223_021BAFC4
  * region: ov223
@@ -53,7 +53,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021BAFC4(char *p, int idx)
+void PSEL_SetMode(char *p, int idx)
 {
     struct Descriptor *desc = *(struct Descriptor **)(p + 0x23C);
     s16 x = 0;

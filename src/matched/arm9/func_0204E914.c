@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_02146A80     0x02146A80  data
+ *   gDouble3Ddisp     0x02146A80  data
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *
@@ -20,7 +20,7 @@
  * (GXS_LoadOAM, GXS_LoadOAM).
  *
  * The lever that closed it (wave 17, from 15 bytes out): the inner loop
- * takes a pointer to the ENTRY, `oam = &g_02146A80->oam[k]`, and stores both
+ * takes a pointer to the ENTRY, `oam = &gDouble3Ddisp->oam[k]`, and stores both
  * attributes through it.  Indexing the array base (`oam = g->oam;
  * oam[k].f.attr01 = ...`) builds the same instructions but gives the base,
  * attr01 and attr2 three fresh registers (push r3 and sb as well).  The
@@ -44,7 +44,7 @@ struct Double3Ddisp {
     union OamEntry oam[12];
 };
 
-extern struct Double3Ddisp *g_02146A80;
+extern struct Double3Ddisp *gDouble3Ddisp;
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 
@@ -63,19 +63,19 @@ void DOUBLE3DDISP_InitOam(void)
     k = 0;
 
     for (i = 0; i < 12; i++) {
-        g_02146A80->oam[i].w[0] = 0;
-        g_02146A80->oam[i].w[1] = 0;
+        gDouble3Ddisp->oam[i].w[0] = 0;
+        gDouble3Ddisp->oam[i].w[1] = 0;
     }
 
     for (y = 0; y < 0xc0; y += 0x40) {
         for (x = 0; x < 0x100; x += 0x40) {
-            oam = &g_02146A80->oam[k];
+            oam = &gDouble3Ddisp->oam[k];
             oam->f.attr01 = 0xc0000c00 | (y & 0xff) | ((x & 0x1ff) << 16);
             oam->f.attr2 = (x / 8 + (y / 8) * 32) | 0xf000;
             k++;
         }
     }
 
-    DWCi_ScreenDC_FlushRange(g_02146A80->oam, 0x60);
-    GXS_LoadOAM(g_02146A80->oam, 0x3a0, 0x60);
+    DWCi_ScreenDC_FlushRange(gDouble3Ddisp->oam, 0x60);
+    GXS_LoadOAM(gDouble3Ddisp->oam, 0x3a0, 0x60);
 }

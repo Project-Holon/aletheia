@@ -8,8 +8,10 @@ Input: one or more merged .c files of one region (several files are treated as
 one virtual file in the order given, which is how a merge is done: the pieces
 cut from the concatenation).  Cut table CUTS: one piece per line,
     <start address hex> <piece file name>        # comments allowed
-sorted by address.  A function belongs to the piece with the greatest start
-address at or below the function's address.  The function address comes from
+sorted by address.  A piece name may repeat: a later row continues that piece
+at another address range, which is how a non-contiguous piece (a merge of a
+second range into an existing file) is written.  A function belongs to the piece
+with the greatest start address at or below the function's address.  The function address comes from
 the name (func_XXXXXXXX, sub_XXXXXXXX or any name ending in 8 hex digits) or
 from a --addrmap TSV (name <tab> address).
 
@@ -492,8 +494,15 @@ def func_addr(name, addrmap):
 class Analysis:
     def __init__(self, u, cuts, addrmap, dup_inline):
         self.u = u
-        self.cuts = cuts            # [(addr, name)]
-        self.pieces = [n for _a, n in cuts]
+        self.cuts = cuts            # [(addr, name)]; a name may repeat (a piece
+                                    # that continues at a second address range)
+        self.pieces = []            # unique piece names, first-appearance order
+        self.piece_start = []       # first cut address of each piece
+        for a, n in cuts:
+            if n not in self.pieces:
+                self.pieces.append(n)
+                self.piece_start.append(a)
+        self.piece_of_cut = [self.pieces.index(n) for _a, n in cuts]
         self.dup_inline = dup_inline
         self.chunks = u.chunks
         self.owner = {}             # fdef idx -> piece index
@@ -505,7 +514,7 @@ class Analysis:
         for i, (s, _n) in enumerate(self.cuts):
             if a >= s:
                 k = i
-        return k
+        return None if k is None else self.piece_of_cut[k]
 
     def build_defs(self, addrmap):
         ch = self.chunks
@@ -855,7 +864,7 @@ def emit(an, outdir, suffix, check_only, prefer_last=False):
                 syms.append('%s 0x%08X %s %s' % (nm, an.addr[i], isa, region))
         head = ['/*', ' * file:     %s' % an.pieces[k], ' * unit:     yes',
                 ' * function: %s' % ', '.join(c.name for c in fns),
-                ' * address:  0x%08X' % an.addr[fns[0].idx] if fns else ' * address:  0x%08X' % an.cuts[k][0]]
+                ' * address:  0x%08X' % an.addr[fns[0].idx] if fns else ' * address:  0x%08X' % an.piece_start[k]]
         for key in ('region', 'compiler', 'flags', 'lang', 'isa', 'status'):
             if key in u.head:
                 head.append(' * %-9s %s' % (key + ':', u.head[key]))
@@ -917,9 +926,8 @@ def read_cuts(path):
         a, name = ln.split()[:2]
         cuts.append((int(a, 16), piece_name(name)))
     cuts.sort()
-    names = [n for _a, n in cuts]
-    if len(set(names)) != len(names):
-        sys.exit('cut table names a piece twice')
+    # A repeated piece name is allowed: the piece continues at a second address
+    # range (a merge of a non-contiguous piece into one output file).
     return cuts
 
 

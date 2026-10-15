@@ -23,7 +23,7 @@
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
  *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   G2_GetBG3ScrPtr 0x0207E100 arm
- *   func_0202EB14 0x0202EB14 thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   MIi_CpuCopy32 0x02082A90 arm
  *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
@@ -176,16 +176,16 @@
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027624 0x02027624 thumb
- *   func_02027628 0x02027628 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049F78 0x02049F78 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -236,7 +236,7 @@ extern void *G2_GetBG2ScrPtr(void);
 
 extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 
-extern int func_0202EB14(void);
+extern int APP_ENV_HasParentalControlBits(void);
 
 extern u8 *func_02012944(void *p);
 
@@ -390,9 +390,9 @@ extern void func_020409B4(unsigned int a);
 
 extern void func_02040588(u32 which, unsigned char enable);
 
-extern unsigned int  func_020275E4(void);
+extern unsigned int  APP_ICON_GetArchiveId(void);
 
-extern unsigned int  func_0202762C(void);
+extern unsigned int  APP_ICON_GetStatusDataFileId(void);
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
@@ -640,19 +640,19 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern u32 func_02027624(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
 
-extern u32 func_02027628(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
 
-extern u32 func_02027614(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
-extern u32 func_02027618(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern u32 func_0202761C(u32 a);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
 
-extern u32 func_02027620(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 
@@ -1926,7 +1926,7 @@ void CTVT_CALL_WorkInit(char *self)
     W(0x2c) = z;
     W(0x30) = z;
     W(0x34) = z;
-    if (func_0202EB14() == 1) W(0x30) = one;
+    if (APP_ENV_HasParentalControlBits() == 1) W(0x30) = one;
     GFL_NET_RestartWithDefaultTimeout(0, H(0));
     switch (((CtvtLaunchParams *)W(0x1f8))->mode) {
     case 0:
@@ -2198,19 +2198,19 @@ void CTVT_CALL_InitGraphics(u8 *p)
     W(0x184) = CLACT_RegisterPaletteCompressed(BG, 3, 1, 0, HEAP);
     W(0x194) = CLACT_RegisterCharacter(BG, 0x17, 0, 1, HEAP);
     W(0x1a4) = CLACT_RegisterCellAnim(BG, 0x13, 0x15, HEAP);
-    dev = func_020490F4(func_020275E4(), HEAP);
-    func_02049B68(dev, func_02027624(), 0, 0, 0x20, HEAP);
-    func_02049658(dev, func_02027628(), 0, 0, z, z, HEAP);
-    func_02049B68(dev, func_02027624(), 4, 0xc0, 0x20, HEAP);
-    func_02049658(dev, func_02027628(), 5, z, z, z, HEAP);
-    func_020498F4(dev, func_0202762C(), 5, z, z, z, HEAP);
+    dev = func_020490F4(APP_ICON_GetArchiveId(), HEAP);
+    func_02049B68(dev, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x20, HEAP);
+    func_02049658(dev, APP_ICON_GetStatusFrameFileId(), 0, 0, z, z, HEAP);
+    func_02049B68(dev, APP_ICON_GetStatusAnimFileId(), 4, 0xc0, 0x20, HEAP);
+    func_02049658(dev, APP_ICON_GetStatusFrameFileId(), 5, z, z, z, HEAP);
+    func_020498F4(dev, APP_ICON_GetStatusDataFileId(), 5, z, z, z, HEAP);
     BG_SYS_FillTileMap(5, z, 0x15, 0x20, 3, 6);
     func_020409B4(5);
-    W(0x18c) = CLACT_RegisterPaletteEx(dev, func_02027614(), z, 0xe0, z, 3, HEAP);
-    W(0x19c) = CLACT_RegisterCharacter(dev, func_02027618(), z, z, HEAP);
-    W(0x188) = CLACT_RegisterPaletteEx(dev, func_02027614(), 1, 0xe0, z, 3, HEAP);
-    W(0x198) = CLACT_RegisterCharacter(dev, func_02027618(), z, 1, HEAP);
-    W(0x1a8) = CLACT_RegisterCellAnim(dev, func_0202761C(2), func_02027620(2), HEAP);
+    W(0x18c) = CLACT_RegisterPaletteEx(dev, APP_ICON_GetMoveKindPaletteFileId(), z, 0xe0, z, 3, HEAP);
+    W(0x19c) = CLACT_RegisterCharacter(dev, APP_ICON_GetMoveKindAnimFileId(), z, z, HEAP);
+    W(0x188) = CLACT_RegisterPaletteEx(dev, APP_ICON_GetMoveKindPaletteFileId(), 1, 0xe0, z, 3, HEAP);
+    W(0x198) = CLACT_RegisterCharacter(dev, APP_ICON_GetMoveKindAnimFileId(), z, 1, HEAP);
+    W(0x1a8) = CLACT_RegisterCellAnim(dev, APP_ICON_GetStatusCellFileId(2), APP_ICON_GetStatusPaletteFileId(2), HEAP);
     ARC_TOOL_DeleteHandle(dev);
     cfg.a = z;
     cfg.b = z;

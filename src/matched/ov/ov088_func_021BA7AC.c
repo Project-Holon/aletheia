@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   STARTMENU_OpenNoticeWindow  0x021BBE48  thumb  ov088
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   KEY_GetTrg  0x020362DC  arm
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 
 struct Descriptor;
 struct PrintSys;
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void STARTMENU_OpenNoticeWindow(char *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 KEY_GetTrg(void);
@@ -46,7 +46,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 int STARTMENU_StateInfoMessage(char *p)
 {
     void *t;
-    if (func_0202EB0C() == 1) {
+    if (APP_ENV_IsRunOnTwl() == 1) {
         switch (((struct Obj00263 *)p)->f12A) {
         case 0:
             STARTMENU_OpenNoticeWindow(p);

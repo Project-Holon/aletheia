@@ -14,8 +14,8 @@
  *   WIFICLUB_PollYesNoMenu  0x021BA858  thumb  ov099
  *   WIFICLUB_HasEnoughPartyMembers  0x021BDDD0  thumb  ov099
  *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
- *   func_0202EB14  0x0202EB14  thumb
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_HasParentalControlBits  0x0202EB14  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
  *
  * Lever: the +0x1CC store is written out in each arm (no early return), so the
@@ -31,8 +31,8 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 WIFICLUB_PollYesNoMenu(char *p);
 extern int WIFICLUB_HasEnoughPartyMembers(char *p);
 extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
-extern int func_0202EB14(void);
-extern u32 func_0202EB0C(void);
+extern int APP_ENV_HasParentalControlBits(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void WIFICLUB_ClearTalkWindow(char *p);
 
 int WIFICLUB_StateSceneYesNo(char *p, int v)
@@ -48,7 +48,7 @@ int WIFICLUB_StateSceneYesNo(char *p, int v)
         if (WIFICLUB_HasEnoughPartyMembers(p) == 0 && ((struct Obj04413 *)p)->f132C == 0x4d) {
             WIFICLUB_ShowStreamedMessage(p, 0x79, 0);
             ((struct Obj04413 *)p)->f1CC = 0x96;
-        } else if (func_0202EB14() == 0 && func_0202EB0C() != 0
+        } else if (APP_ENV_HasParentalControlBits() == 0 && APP_ENV_IsRunOnTwl() != 0
                    && ((struct Obj04413 *)p)->f132C == 0x4c) {
             WIFICLUB_ShowStreamedMessage(p, 0x95, 0);
             ((struct Obj04413 *)p)->f1CC = 0xa6;

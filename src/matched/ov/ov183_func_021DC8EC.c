@@ -46,8 +46,8 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
- *   func_0200D6EC 0x0200D6EC thumb
- *   func_0200D774 0x0200D774 thumb
+ *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
+ *   GDS_PROFILE_ExportRecord 0x0200D774 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -81,8 +81,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
-extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
-extern u32 func_0200D6EC(struct RecGet *p);
+extern void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
+extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -117,7 +117,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
                 message=func_02045EC0(bank,d->message);
-                WORDSET_SetSlotTag(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
+                WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(*(RecGet **)(p+0xc0)),1,2);
                 WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);
@@ -142,7 +142,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 quotient=value/100000ULL;
                 middle=quotient%100000ULL;
                 high=quotient/100000ULL;
-                temporary=func_0200D774(*(GdsProfile **)(p+0xc0),(GdsRecord *)record,*(u16 *)(p+0xb4));
+                temporary=GDS_PROFILE_ExportRecord(*(GdsProfile **)(p+0xc0),(GdsRecord *)record,*(u16 *)(p+0xb4));
                 if(temporary) {
                     message=func_02045EC0(bank,13);STRBUF_Delete((U16Vec *)temporary);
                 } else message=func_02045EC0(bank,d->message);

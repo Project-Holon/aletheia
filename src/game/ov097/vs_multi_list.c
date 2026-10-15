@@ -98,12 +98,12 @@
  *   func_0201BC78 0x0201BC78 thumb
  *   func_0201BCEC 0x0201BCEC thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_0202775C 0x0202775C thumb
- *   func_02027758 0x02027758 thumb
- *   func_02027760 0x02027760 thumb
- *   func_02027764 0x02027764 thumb
+ *   APP_ICON_GetGearCellFileId 0x0202775C thumb
+ *   APP_ICON_GetNoneFileId 0x02027758 thumb
+ *   APP_ICON_GetGearPaletteFileId 0x02027760 thumb
+ *   APP_ICON_GetGearAnimFileId 0x02027764 thumb
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -332,12 +332,12 @@ extern int CLACT_RegisterPaletteCompressed(struct ArcHandle *, u32, u32, u32, u1
 extern int func_0201BC78(void);
 extern int func_0201BCEC(void);
 extern int CLACT_RegisterCellAnim(struct ArcHandle *, u32, u32, u32);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern int CLACT_RegisterPalette(struct ArcHandle *, u32, u32, u32, u16);
-extern int func_0202775C(int);
-extern int func_02027758(void);
-extern int func_02027760(int);
-extern int func_02027764(int);
+extern int APP_ICON_GetGearCellFileId(int);
+extern int APP_ICON_GetNoneFileId(void);
+extern int APP_ICON_GetGearPaletteFileId(int);
+extern int APP_ICON_GetGearAnimFileId(int);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -945,17 +945,17 @@ void VS_MULTI_LIST_LoadIconResources(struct VsMultiList *work)
     cellAnim = func_0201BCEC();
     work->cellAnimIds[0] = CLACT_RegisterCellAnim(iconArc, cellArc, cellAnim, 0x71);
     ARC_TOOL_DeleteHandle(iconArc);
-    uiArc = func_020490F4(func_020275E4(), 0x8071);
+    uiArc = func_020490F4(APP_ICON_GetArchiveId(), 0x8071);
     work->charIds[7] = CLACT_RegisterCharacter(uiArc, 0xc, 0, 0, 0x71);
     work->paletteIds[2] = CLACT_RegisterPalette(uiArc, 0xb, 0, 0x60, 0x71);
     work->cellAnimIds[2] = CLACT_RegisterCellAnim(uiArc, 0xf, 0x12, 0x71);
     work->charIds[6] = CLACT_RegisterCharacter(uiArc, 0x41, 0, 0, 0x71);
     work->paletteIds[1] = CLACT_RegisterPalette(uiArc, 0x42, 0, 0x80, 0x71);
     work->cellAnimIds[1] = CLACT_RegisterCellAnim(uiArc, 0x45, 0x48, 0x71);
-    work->charIds[8] = CLACT_RegisterCharacter(uiArc, func_0202775C(2), 0, 0, 0x71);
-    work->paletteIds[3] = CLACT_RegisterPalette(uiArc, func_02027758(), 0, 0xa0, 0x71);
-    cellArc = func_02027760(2);
-    cellAnim = func_02027764(2);
+    work->charIds[8] = CLACT_RegisterCharacter(uiArc, APP_ICON_GetGearCellFileId(2), 0, 0, 0x71);
+    work->paletteIds[3] = CLACT_RegisterPalette(uiArc, APP_ICON_GetNoneFileId(), 0, 0xa0, 0x71);
+    cellArc = APP_ICON_GetGearPaletteFileId(2);
+    cellAnim = APP_ICON_GetGearAnimFileId(2);
     work->cellAnimIds[3] = CLACT_RegisterCellAnim(uiArc, cellArc, cellAnim, 0x71);
     ARC_TOOL_DeleteHandle(uiArc);
 }

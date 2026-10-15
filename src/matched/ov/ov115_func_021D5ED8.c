@@ -1,5 +1,5 @@
 /*
- * function: func_021D5ED8
+ * function: WIFILOGIN_MSG_PrintMessage
  * address: 0x021D5ED8
  * packet: pkt_ov115_021D5ED8
  * region: ov115
@@ -11,7 +11,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_Clone 0x02045874 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_021D5FC4 0x021D5FC4 thumb ov115
+ *   WIFILOGIN_MSG_GetFrameIdB 0x021D5FC4 thumb ov115
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -37,7 +37,7 @@ struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 func_021D5FC4(u32);
+extern u32 WIFILOGIN_MSG_GetFrameIdB(u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -48,13 +48,13 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021D5ED8(u8 *p,u32 n) {
+void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
     void *w;
     void *s;
     MSGDATA_ReadString(((struct Obj01720 *)p)->f1C,n,((struct Obj01720 *)p)->f28);
     s=STRBUF_Clone(((struct Obj01720 *)p)->f28,((struct Obj01720 *)p)->f4C);
     WORDSET_CopyTaggedText(((struct Obj01720 *)p)->f20,((struct Obj01720 *)p)->f28,s);
-    if (((struct Obj01720 *)p)->f30==0) ((struct Obj01720 *)p)->f30=(void *)BMP_WIN_Create(func_021D5FC4(((struct Obj01720 *)p)->f50),1,1,30,16,11,1);
+    if (((struct Obj01720 *)p)->f30==0) ((struct Obj01720 *)p)->f30=(void *)BMP_WIN_Create(WIFILOGIN_MSG_GetFrameIdB(((struct Obj01720 *)p)->f50),1,1,30,16,11,1);
     w=((struct Obj01720 *)p)->f30;
     BMP_Clear(BMP_WIN_GetBmp(w),15);
     GF_FONT_SetTextColor(1,2,15);
@@ -62,6 +62,6 @@ void func_021D5ED8(u8 *p,u32 n) {
     BMP_MENUWORK_DrawWindow(w,(u32)1,(u16)(((struct Obj01720 *)p)->f4),(u32)12);
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_02041B6C(func_021D5FC4(((struct Obj01720 *)p)->f50));
+    func_02041B6C(WIFILOGIN_MSG_GetFrameIdB(((struct Obj01720 *)p)->f50));
     STRBUF_Delete(s);
 }

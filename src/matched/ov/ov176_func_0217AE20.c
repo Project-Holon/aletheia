@@ -1,5 +1,5 @@
 /*
- * function: func_0217AE20
+ * function: BATTLE_CHAMPIONSHIP_FLOW_Create
  * address: 0x0217AE20
  * packet: pkt_ov176_0217AE20
  * region: ov176
@@ -14,10 +14,10 @@
  *   func_02034AC4 0x02034AC4 arm
  *   ov67_id 0x43 data
  *   ov177_id 0xB1 data
- *   func_0217AEF4 0x0217AEF4 thumb ov176
- *   func_0217AF2C 0x0217AF2C thumb ov176
- *   func_0217AF50 0x0217AF50 thumb ov176
- *   func_0217B014 0x0217B014 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic 0x0217AEF4 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_CreateView 0x0217AF2C thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_CreateText 0x0217AF50 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_FadeIn 0x0217B014 thumb ov176
  *   func_021E8A3C 0x021E8A3C thumb ov177
  */
 #include "../include/Obj10694.h"
@@ -28,12 +28,12 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern int func_02034AC4(signed int);
 extern char ov67_id[],ov177_id[];
-extern void func_0217AEF4(int *);
-extern void func_0217AF2C(int *);
-extern void func_0217AF50(char *);
-extern void func_0217B014(void *,int *,char *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic(int *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_CreateView(int *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_CreateText(char *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *,int *,char *);
 extern int *func_021E8A3C(int a, int b, int c);
-int func_0217AE20(void *a,void *b,void *context)
+int BATTLE_CHAMPIONSHIP_FLOW_Create(void *a,void *b,void *context)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,0x4e,0x30200);
@@ -43,9 +43,9 @@ int func_0217AE20(void *a,void *b,void *context)
     ((struct Obj10694 *)p)->f0=0x4e;
     func_02034AC4((int)ov67_id);
     func_02034AC4((int)ov177_id);
-    func_0217AEF4((int *)p);
-    func_0217AF2C((int *)p);
-    func_0217AF50(p);
-    ((struct Obj10694 *)p)->f4=func_021E8A3C((int)p,(int)func_0217B014,0x4e);
+    BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic((int *)p);
+    BATTLE_CHAMPIONSHIP_FLOW_CreateView((int *)p);
+    BATTLE_CHAMPIONSHIP_FLOW_CreateText(p);
+    ((struct Obj10694 *)p)->f4=func_021E8A3C((int)p,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
     return 1;
 }

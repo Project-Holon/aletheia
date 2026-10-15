@@ -1,5 +1,5 @@
 /*
- * function: func_021C7694
+ * function: Wf2dmapFriend_ResetListWindow
  * address: 0x021C7694
  * packet: pkt_ov128_021C7694
  * region: ov128
@@ -26,4 +26,4 @@ struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-void func_021C7694(u8 *p, void *ctx) {void *q;WF2DMAP_TOUCH_SetBgOffset(1);BMP_MENUWORK_DrawWindowBorder(((struct Obj14037 *)p)->f1C,0);q=((struct Obj14037 *)p)->f1C;BMP_WIN_ClearScreen(q);func_02041B6C(BMP_WIN_GetBgLayer(q));}
+void Wf2dmapFriend_ResetListWindow(u8 *p, void *ctx) {void *q;WF2DMAP_TOUCH_SetBgOffset(1);BMP_MENUWORK_DrawWindowBorder(((struct Obj14037 *)p)->f1C,0);q=((struct Obj14037 *)p)->f1C;BMP_WIN_ClearScreen(q);func_02041B6C(BMP_WIN_GetBgLayer(q));}

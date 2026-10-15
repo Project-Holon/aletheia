@@ -11,7 +11,7 @@
  *
  * 2026-10-05 (wave D4 lane 01): EXACT. Closed by: case 1/2 bodies under `if (r != 1) { ... }`
  * with `return 0;` after the block (late per-case epilogues); the f24 test through an `ok` flag
- * (`ok = 0; if (g->f24 == 1) ok = 1; if (ok)`); `fl = 0;` written after the func_0202F190 call;
+ * (`ok = 0; if (g->f24 == 1) ok = 1; if (ok)`); `fl = 0;` written after the SAVE_EVENT_Write call;
  * g->f08 as an if/else on fl. Pool words 0xCF/0xC2 are overlay ids (ov207_id, ov194_id).
  *
  * symbols:
@@ -42,7 +42,7 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCapacity  0x0201AA14  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
  *   ov207_id  0x000000CF  data
@@ -118,7 +118,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32 a);
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
@@ -167,7 +167,7 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, Ctx *c, G *g)
                 MSGDATA_Delete((struct Rec *)h);
             }
             x30 = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->f0)));
-            func_0202F190((void *)c->f2, 0, x20, x30, (u32)g->f30);
+            SAVE_EVENT_Write((void *)c->f2, 0, x20, x30, (u32)g->f30);
             fl = 0;
             x18 = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)r7);
             if (ZUKAN_SAVE_IsCaught((struct Blk37 *)r7, (u16)POKE_TOOL_GetPartyValue((void *)c->f2, 5, 0)) == 0) {

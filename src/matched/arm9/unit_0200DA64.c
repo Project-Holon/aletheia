@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200DA64, func_0200DA6C, func_0200DA80, func_0200DA98,
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
+ * function: GDS_PROFILE_GetScoreRecSize, GDS_PROFILE_ClearScoreRec, GDS_PROFILE_AddScoreRecTotal, GDS_PROFILE_SubScoreRecTotal,
+ *           GDS_PROFILE_GetScoreRecTotal, GDS_PROFILE_MapScoreSlot, GDS_PROFILE_GetScoreRecCountA, GDS_PROFILE_GetScoreRecCountB,
+ *           GDS_PROFILE_MaxScoreRecCountB, GDS_PROFILE_SetScoreRecCountA, GDS_PROFILE_ClearScoreRecCountC, GDS_PROFILE_SetScoreRecCountC,
+ *           GDS_PROFILE_GetScoreRecCountC, GDS_PROFILE_IncScoreRecCountC, GDS_PROFILE_GetScoreRecCountCDec, GDS_PROFILE_ScoreRecFlag,
+ *           GDS_PROFILE_IncScoreRecLevel, GDS_PROFILE_DecScoreRecLevel, GDS_PROFILE_GetScoreRecLevel, GDS_PROFILE_UpdateScoreRecStreak,
+ *           GDS_PROFILE_SetScoreRecBlob, GDS_PROFILE_GetScoreRecBlob, GDS_PROFILE_CalcScoreRecScore, GDS_PROFILE_GetScoreRecScore,
+ *           GDS_PROFILE_GetScoreRecScoreHigh
  *
  * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
  * label in the generated listing.
@@ -31,12 +31,12 @@
  *
  * Five things here are worth naming.
  *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
+ *  - GDS_PROFILE_MapScoreSlot is `bx lr` and nothing else, and it is a function, not
  *    padding: eight of the accessors `bl` it with the index in r0 and use
  *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
  *    that was never filled in, and the calls to it are what make the three
  *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
+ *  - GDS_PROFILE_ScoreRecFlag takes a **signed** index, which the `blt` on the range
  *    check says and the `blo` inside the shift loop does not contradict: the
  *    loop counter is unsigned, so the comparison against it is unsigned too.
  *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
@@ -46,11 +46,11 @@
  *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
  *    `eors`, which is two instructions where `mvns r1, r4` would have been
  *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
+ *  - GDS_PROFILE_UpdateScoreRecStreak's two arms both end in a call to GDS_PROFILE_ScoreRecFlag followed
  *    by a store to +0x02, and the compiler cross-jumps them into one copy
  *    that each arm sets up its arguments for and branches to.  See
  *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
+ *  - in GDS_PROFILE_CalcScoreRecScore the two products are each truncated to `u16` and their
  *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
  *    original does not have, which is the whole of the difference between
  *    that function and EXACT.
@@ -91,21 +91,21 @@ struct Src {
     u16 unk06;
 };
 
-u32 func_0200DAC0(u32 i);
-u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
+u32 GDS_PROFILE_MapScoreSlot(u32 i);
+u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op);
 
-u32 func_0200DA64(void)
+u32 GDS_PROFILE_GetScoreRecSize(void)
 {
     return sizeof(struct Blk1AC);
 }
 
-void func_0200DA6C(struct Blk1AC *p)
+void GDS_PROFILE_ClearScoreRec(struct Blk1AC *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk1AC));
     p->unk03 = 1;
 }
 
-void func_0200DA80(struct Blk1AC *p, s32 v)
+void GDS_PROFILE_AddScoreRecTotal(struct Blk1AC *p, s32 v)
 {
     s32 n = p->unk00 + v;
 
@@ -116,7 +116,7 @@ void func_0200DA80(struct Blk1AC *p, s32 v)
     }
 }
 
-void func_0200DA98(struct Blk1AC *p, u16 v)
+void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v)
 {
     s16 n = (s16)p->unk00 - (s16)v;
 
@@ -127,70 +127,70 @@ void func_0200DA98(struct Blk1AC *p, u16 v)
     }
 }
 
-u16 func_0200DABC(struct Blk1AC *p)
+u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p)
 {
     return p->unk00;
 }
 
-u32 func_0200DAC0(u32 i)
+u32 GDS_PROFILE_MapScoreSlot(u32 i)
 {
     return i;
 }
 
-u16 func_0200DAC4(struct Blk1AC *p, u32 i)
+u16 GDS_PROFILE_GetScoreRecCountA(struct Blk1AC *p, u32 i)
 {
-    return p->unk08[func_0200DAC0(i)];
+    return p->unk08[GDS_PROFILE_MapScoreSlot(i)];
 }
 
-u16 func_0200DAD8(struct Blk1AC *p, u32 i)
+u16 GDS_PROFILE_GetScoreRecCountB(struct Blk1AC *p, u32 i)
 {
-    return p->unk1A[func_0200DAC0(i)];
+    return p->unk1A[GDS_PROFILE_MapScoreSlot(i)];
 }
 
-void func_0200DAEC(struct Blk1AC *p, u32 i, u16 v)
+void GDS_PROFILE_MaxScoreRecCountB(struct Blk1AC *p, u32 i, u16 v)
 {
-    u32 k = func_0200DAC0(i);
+    u32 k = GDS_PROFILE_MapScoreSlot(i);
 
     if (p->unk1A[k] < v) {
         p->unk1A[k] = v;
     }
 }
 
-void func_0200DB08(struct Blk1AC *p, u32 i, u16 v)
+void GDS_PROFILE_SetScoreRecCountA(struct Blk1AC *p, u32 i, u16 v)
 {
-    p->unk08[func_0200DAC0(i)] = v;
+    p->unk08[GDS_PROFILE_MapScoreSlot(i)] = v;
 }
 
-void func_0200DB1C(struct Blk1AC *p, u32 i)
+void GDS_PROFILE_ClearScoreRecCountC(struct Blk1AC *p, u32 i)
 {
-    p->unk2C[func_0200DAC0(i)] = 0;
+    p->unk2C[GDS_PROFILE_MapScoreSlot(i)] = 0;
 }
 
-void func_0200DB30(struct Blk1AC *p, u32 i)
+void GDS_PROFILE_SetScoreRecCountC(struct Blk1AC *p, u32 i)
 {
-    p->unk2C[func_0200DAC0(i)] = 1;
+    p->unk2C[GDS_PROFILE_MapScoreSlot(i)] = 1;
 }
 
-u32 func_0200DB44(struct Blk1AC *p, u32 i)
+u32 GDS_PROFILE_GetScoreRecCountC(struct Blk1AC *p, u32 i)
 {
-    if (p->unk2C[func_0200DAC0(i)] != 0) {
+    if (p->unk2C[GDS_PROFILE_MapScoreSlot(i)] != 0) {
         return 1;
     }
     return 0;
 }
 
-void func_0200DB60(struct Blk1AC *p, u32 i)
+void GDS_PROFILE_IncScoreRecCountC(struct Blk1AC *p, u32 i)
 {
-    u32 k = func_0200DAC0(i);
+    u32 k = GDS_PROFILE_MapScoreSlot(i);
 
     if (p->unk2C[k] < 0xFFFE) {
         p->unk2C[k] = p->unk2C[k] + 1;
     }
 }
 
-u16 func_0200DB80(struct Blk1AC *p, u32 i)
+u16 GDS_PROFILE_GetScoreRecCountCDec(struct Blk1AC *p, u32 i)
 {
-    u16 n = p->unk2C[func_0200DAC0(i)] - 1;
+    u16 n = p->unk2C[GDS_PROFILE_MapScoreSlot(i)] - 1;
 
     if ((s16)n < 0) {
         n = 0;
@@ -198,7 +198,7 @@ u16 func_0200DB80(struct Blk1AC *p, u32 i)
     return n;
 }
 
-u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op)
+u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op)
 {
     u32 j;
     u32 mask = 1;
@@ -222,39 +222,39 @@ u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op)
     return 0;
 }
 
-void func_0200DBF0(struct Blk1AC *p)
+void GDS_PROFILE_IncScoreRecLevel(struct Blk1AC *p)
 {
     if (p->unk03 < 10) {
         p->unk03 = p->unk03 + 1;
     }
 }
 
-void func_0200DBFC(struct Blk1AC *p)
+void GDS_PROFILE_DecScoreRecLevel(struct Blk1AC *p)
 {
     if (p->unk03 > 1) {
         p->unk03 = p->unk03 - 1;
     }
 }
 
-u8 func_0200DC08(struct Blk1AC *p)
+u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p)
 {
     return p->unk03;
 }
 
-u8 func_0200DC0C(struct Blk1AC *p, u32 kind)
+u8 GDS_PROFILE_UpdateScoreRecStreak(struct Blk1AC *p, u32 kind)
 {
     switch (kind) {
     case 2:
-        func_0200DBA0(p, 0, 2);
+        GDS_PROFILE_ScoreRecFlag(p, 0, 2);
         p->unk02 = 0;
         break;
     case 3:
-        if (func_0200DBA0(p, 0, 0)) {
+        if (GDS_PROFILE_ScoreRecFlag(p, 0, 0)) {
             if (p->unk02 < 0xFF) {
                 p->unk02 = p->unk02 + 1;
             }
         } else {
-            func_0200DBA0(p, 0, 1);
+            GDS_PROFILE_ScoreRecFlag(p, 0, 1);
             p->unk02 = 1;
         }
         break;
@@ -262,7 +262,7 @@ u8 func_0200DC0C(struct Blk1AC *p, u32 kind)
     return p->unk02;
 }
 
-void func_0200DC50(struct Blk1AC *p, u32 which, const void *src)
+void GDS_PROFILE_SetScoreRecBlob(struct Blk1AC *p, u32 which, const void *src)
 {
     if (which == 0) {
         MI_CpuCopy8(src, p->unkF8, sizeof(p->unkF8));
@@ -271,7 +271,7 @@ void func_0200DC50(struct Blk1AC *p, u32 which, const void *src)
     }
 }
 
-void func_0200DC74(struct Blk1AC *p, u32 which, void *dest)
+void GDS_PROFILE_GetScoreRecBlob(struct Blk1AC *p, u32 which, void *dest)
 {
     if (which == 0) {
         MI_CpuCopy8(p->unkF8, dest, sizeof(p->unkF8));
@@ -280,7 +280,7 @@ void func_0200DC74(struct Blk1AC *p, u32 which, void *dest)
     }
 }
 
-void func_0200DC94(struct Blk1AC *p, const struct Src *q)
+void GDS_PROFILE_CalcScoreRecScore(struct Blk1AC *p, const struct Src *q)
 {
     u16 a;
     u16 c;
@@ -302,12 +302,12 @@ void func_0200DC94(struct Blk1AC *p, const struct Src *q)
     p->unk3E = a + c + d;
 }
 
-u16 func_0200DCF8(struct Blk1AC *p)
+u16 GDS_PROFILE_GetScoreRecScore(struct Blk1AC *p)
 {
     return p->unk3E;
 }
 
-u8 func_0200DCFC(struct Blk1AC *p)
+u8 GDS_PROFILE_GetScoreRecScoreHigh(struct Blk1AC *p)
 {
     return p->unk3E / 1000;
 }

@@ -78,13 +78,13 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
- *   func_020275E4 0x020275E4 thumb
- *   func_02027614 0x02027614 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
- *   func_02027618 0x02027618 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -468,13 +468,13 @@ extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern u32 func_020275E4(void);
-extern u32 func_02027614(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern u32 func_02027618(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
@@ -1022,11 +1022,11 @@ void func_021BA41C(char *p)
     u8 i;
     void *loader;
     u32 first;
-    loader=func_020490F4(func_020275E4(),((struct Obj26168 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
-    *(int *)&((struct Obj02562 *)p)->f30=CLACT_RegisterPaletteEx((void *)((u32)loader),func_02027614(),1,128,0,3,((struct Obj26169 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
-    *(int *)&((struct Obj02562 *)p)->f2C=CLACT_RegisterCharacter((void *)((u32)loader),func_02027618(),0,1,((struct Obj26170 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
-    first=func_0202761C(0);
-    *(int *)&((struct Obj02562 *)p)->f34=CLACT_RegisterCellAnim((void *)((u32)loader),first,func_02027620(0),((struct Obj26171 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    loader=func_020490F4(APP_ICON_GetArchiveId(),((struct Obj26168 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    *(int *)&((struct Obj02562 *)p)->f30=CLACT_RegisterPaletteEx((void *)((u32)loader),APP_ICON_GetMoveKindPaletteFileId(),1,128,0,3,((struct Obj26169 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    *(int *)&((struct Obj02562 *)p)->f2C=CLACT_RegisterCharacter((void *)((u32)loader),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj26170 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    first=APP_ICON_GetStatusCellFileId(0);
+    *(int *)&((struct Obj02562 *)p)->f34=CLACT_RegisterCellAnim((void *)((u32)loader),first,APP_ICON_GetStatusPaletteFileId(0),((struct Obj26171 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
     ARC_TOOL_DeleteHandle(loader);
     for(i=0;i<2;i++) {
         char *parent=*(char * *)&((struct Obj02562 *)p)->f0;

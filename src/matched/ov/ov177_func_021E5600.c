@@ -1,5 +1,5 @@
 /*
- * function: func_021E5600
+ * function: WIFIBATTLEMATCH_GRAPHIC_Noop
  * address:  0x021E5600
  * packet:   pkt_ov177_021E5600
  * region:   ov177
@@ -17,6 +17,6 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E5600(void *p)
+void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p)
 {
 }

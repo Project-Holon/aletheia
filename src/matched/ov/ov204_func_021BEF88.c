@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BF228 0x021BF228 thumb ov204
+ *   INTRO_MSG_Main 0x021BF228 thumb ov204
  *   func_021BF030 0x021BF030 thumb ov204
  *   func_021BF094 0x021BF094 thumb ov204
  *   func_021BF00C 0x021BF00C thumb ov204
@@ -17,7 +17,7 @@
 #include "../include/Obj06673.h"
 typedef struct Row { unsigned tag; unsigned data[5]; } Row;
 typedef unsigned char  u8;
-extern void func_021BF228(u8 *p);
+extern void INTRO_MSG_Main(u8 *p);
 struct Q021BF00C;
 struct S021BF00C;
 struct State;
@@ -27,7 +27,7 @@ extern int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q);
 extern int (*const d_021C09D8[])(void *, void *, void *);
 int func_021BEF88(char *p)
 {
-    func_021BF228(((struct Obj06673 *)p)->f18);
+    INTRO_MSG_Main(((struct Obj06673 *)p)->f18);
     if (func_021BF030((struct State *)p) == 0) {
         char *base = p;
         int i;

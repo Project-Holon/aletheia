@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BD0
+ * function: DUP_FITTING_DeleteText
  * address: 0x021B9BD0
  * packet: pkt_ov133_021B9BD0
  * region: ov133
@@ -15,4 +15,4 @@
 #include "../include/Obj06501.h"
 struct PrintSys;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p); extern void MSGDATA_Delete(void *); extern void GF_FONT_Delete(void *);
-void func_021B9BD0(unsigned char *p) {PRINTSYS_QUE_Delete(((struct Obj06501 *)p)->f18E8);MSGDATA_Delete(((struct Obj06501 *)p)->f18DC);MSGDATA_Delete(((struct Obj06501 *)p)->f18E0);MSGDATA_Delete(((struct Obj06501 *)p)->f18D8);GF_FONT_Delete(((struct Obj06501 *)p)->f18E4);}
+void DUP_FITTING_DeleteText(unsigned char *p) {PRINTSYS_QUE_Delete(((struct Obj06501 *)p)->f18E8);MSGDATA_Delete(((struct Obj06501 *)p)->f18DC);MSGDATA_Delete(((struct Obj06501 *)p)->f18E0);MSGDATA_Delete(((struct Obj06501 *)p)->f18D8);GF_FONT_Delete(((struct Obj06501 *)p)->f18E4);}

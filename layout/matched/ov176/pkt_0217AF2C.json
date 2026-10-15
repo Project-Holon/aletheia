@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217AF2C",
+   "name": "BATTLE_CHAMPIONSHIP_FLOW_CreateView",
    "address": "0x0217AF2C",
    "kind": "game",
    "region": "ov176",

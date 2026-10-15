@@ -33,8 +33,8 @@
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   func_02034714  0x02034714  arm
- *   func_02028470  0x02028470  thumb
- *   func_02028590  0x02028590  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   d_021E8DEC     0x021E8DEC  data
@@ -79,8 +79,8 @@ extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02028470(u8 *p, u32 v);
-extern int  func_02028590(int, int, int, int);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
+extern int  APP_KEYCURSOR_CreateDefault(int, int, int, int);
 extern signed char MSG_SPEED_GetWait(void);
 extern int  PRINTSYS_PrintStream(int, int, int, int, int, int, int, int, int, int);
 
@@ -117,8 +117,8 @@ void func_021E8754(S *p, int mode)
         if (p->f34 != 0) {
             func_02034714((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
-        func_02028470((u8 *)p->f38, 2);
-        p->f34 = func_02028590(p->f1c, 1, 0, p->f1e);
+        PRINTSYS_CTRL_Init((u8 *)p->f38, 2);
+        p->f34 = APP_KEYCURSOR_CreateDefault(p->f1c, 1, 0, p->f1e);
         p->f8 = PRINTSYS_PrintStream(p->f14, 0, 0, p->f18, p->f4, MSG_SPEED_GetWait(), p->fc, 0, p->f1e, p->f1c);
         p->f2c = 1;
         break;

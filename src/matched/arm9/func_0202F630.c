@@ -1,5 +1,5 @@
 /*
- * function: func_0202F630
+ * function: SAVE_EVENT_CommitStage
  * address:  0x0202F630
  * packet:   pkt_0202F498
  * region:   arm9
@@ -9,19 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Promoted out of src/pending: the callee func_0202F640 became a manifest
+ * Promoted out of src/pending: the callee SAVE_EVENT_AdvanceStage became a manifest
  * entry this pass, so the second call site resolves on `matched`.
  *
  * symbols:
  *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   SAVE_EVENT_AdvanceStage  0x0202F640  thumb
  */
 
 typedef unsigned int u32;
 
 extern u32  POKE_TOOL_Dummy(u32 a);
-extern void func_0202F640(u32 a, u32 b);
+extern void SAVE_EVENT_AdvanceStage(u32 a, u32 b);
 
-void func_0202F630(u32 a, u32 b)
+void SAVE_EVENT_CommitStage(u32 a, u32 b)
 {
-    func_0202F640(POKE_TOOL_Dummy(a), b);
+    SAVE_EVENT_AdvanceStage(POKE_TOOL_Dummy(a), b);
 }

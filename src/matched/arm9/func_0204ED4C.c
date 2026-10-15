@@ -1,5 +1,5 @@
 /*
- * function: BILLBOARD_SetFlagWord
+ * function: BILLBOARD_SetFixedNormal
  * address:  0x0204ED4C
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
+void BILLBOARD_SetFixedNormal(u8 *a0, short *a1)
 {
     short v2;
     short v1;

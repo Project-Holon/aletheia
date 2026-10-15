@@ -1,5 +1,5 @@
 /*
- * function: func_02028590
+ * function: APP_KEYCURSOR_CreateDefault
  * address:  0x02028590
  * packet:   pkt_02028590
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern char _KeyCursorDefaultPixels[];
 
-void func_02028590(u32 a0, u32 a1, u32 a2, u16 a3)
+void APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u16 a3)
 {
     APP_KEYCURSOR_Create(a0, a1, a2, a3, _KeyCursorDefaultPixels);
 }

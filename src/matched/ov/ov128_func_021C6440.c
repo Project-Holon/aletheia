@@ -1,5 +1,5 @@
 /*
- * function: func_021C6440
+ * function: Wf2dmapFriend_CopyText
  * address: 0x021C6440
  * packet: pkt_ov128_021C6440
  * region: ov128
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
-void func_021C6440(u8 *p,void *a,void *b) { if(a) STRBUF_Copy(((struct Obj00227 *)p)->f58,a); if(b) STRBUF_Copy(((struct Obj00227 *)p)->f5C,b); }
+void Wf2dmapFriend_CopyText(u8 *p,void *a,void *b) { if(a) STRBUF_Copy(((struct Obj00227 *)p)->f58,a); if(b) STRBUF_Copy(((struct Obj00227 *)p)->f5C,b); }

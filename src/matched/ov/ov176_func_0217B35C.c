@@ -1,5 +1,5 @@
 /*
- * function: func_0217B35C
+ * function: BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback
  * address: 0x0217B35C
  * packet: pkt_ov176_0217B35C
  * region: ov176
@@ -14,7 +14,7 @@
  */
 typedef struct {void (*fn)(void *,int *,int);int a;int b;} CB;
 extern void func_021E8A80(CB *);
-void func_0217B35C(CB **p)
+void BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback(CB **p)
 {
     func_021E8A80(*p);
 }

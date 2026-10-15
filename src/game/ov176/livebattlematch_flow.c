@@ -1,7 +1,7 @@
 /*
  * file:     livebattlematch_flow.c
  * unit:     yes
- * function: func_0217B984, func_0217BA9C, func_0217BAF4, func_0217BB3C, func_0217BB58, func_0217BBD4, func_0217BBDC, func_0217BFF8, func_0217C2EC, func_0217C628, func_0217CAE0, func_0217CC78, func_0217CEAC, func_0217CFD0, func_0217CFDC
+ * function: LIVEBATTLEMATCH_FLOW_Create, LIVEBATTLEMATCH_FLOW_Delete, LIVEBATTLEMATCH_FLOW_Release, LIVEBATTLEMATCH_FLOW_GetResult, LIVEBATTLEMATCH_FLOW_SelectPhase, LIVEBATTLEMATCH_FLOW_End, LIVEBATTLEMATCH_FLOW_Main, LIVEBATTLEMATCH_FLOW_Confirm, LIVEBATTLEMATCH_FLOW_Battle, LIVEBATTLEMATCH_FLOW_Result, LIVEBATTLEMATCH_FLOW_Card, LIVEBATTLEMATCH_FLOW_Sub, LIVEBATTLEMATCH_FLOW_DrawMenu, LIVEBATTLEMATCH_FLOW_HideWindow, LIVEBATTLEMATCH_FLOW_GetWindowResult
  * address:  0x0217B984
  * region:   ov176
  * compiler: dsi/1.1p1
@@ -18,7 +18,7 @@
  *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
  *   func_021E8A80 0x021E8A80 thumb ov177
  *   func_021E8A90 0x021E8A90 thumb ov177
- *   func_021E5548  0x021E5548  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera  0x021E5548  thumb  ov177
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -196,7 +196,7 @@ extern void BTLV_CORE_IsSlotKind1Index15(int);
 
 extern int func_021E8A90(int **);
 
-extern int func_021E5548(int *p);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
@@ -210,11 +210,11 @@ extern void func_021E8AA0(int *p, int v);
 
 extern void func_021E8AA8(int a);
 
-extern void func_02034714(const char *expr, u32_0217B014 line, const char *file);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
-extern void *func_02030734(u32_0217B2E4 heapId, u32_0217B2E4 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32_0217B344 func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 extern void BATTLE_REC_ClearWork(void);
 
@@ -222,23 +222,23 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 extern void *BATTLE_COMPETITION_GetFromSave(void *);
 
-extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *arr, u32 index);
 
-extern void *func_021E88B0(Menu_0217AE20 *,u8,u8,u8,u32,int);
+extern void *func_021E88B0(Desc *,u8,u8,u8,u32,int);
 
 extern void func_021E89D0(void *);
 
 extern int func_021E8A00(void *);
 
-extern u32_0217B984 BATTLE_REC_IsDataExist(void);
+extern u32 BATTLE_REC_IsDataExist(void);
 
-extern void func_021E58A4(int,int,u32_0217B984);
+extern void func_021E58A4(int,int,u32);
 
-extern void *WORDSET_Create(u32_0217B984,u32_0217B984,u32_0217B984);
+extern void *WORDSET_Create(u32,u32,u32);
 
 extern void *func_0217E00C(int,int);
 
-extern void **func_021E7D20(void *,void *,u32_0217B984);
+extern void **func_021E7D20(void *,void *,u32);
 
 extern void func_021E7E0C(void **,int);
 
@@ -246,7 +246,7 @@ extern void *MISC_SAVEDATA_GetBlock3C(void *);
 
 extern int MISC_SAVEDATA_GetRecordBase(int p);
 
-extern struct Party *POKEPARTY_Create(u32_0217B984 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 
 extern void UI_SetFlags39Global(int);
 
@@ -322,7 +322,7 @@ extern void func_0200E904(void *);
 
 extern void REGULATION_InitParty(struct Rec1E *p);
 
-extern void REGULATION_SetCard(struct Rec160 *arr, u32_0217BBDC index, const struct Rec160 *src);
+extern void REGULATION_SetCard(struct RegulationCard *arr, u32_0217BBDC index, const struct RegulationCard *src);
 
 extern void func_0217D244(char *);
 
@@ -414,35 +414,35 @@ extern void func_0200E920(u8 *,u32_0217CAE0,int);
 
 extern void func_0217D160(int *);
 
-u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap);
+u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap);
 
-void func_0217BA9C(int *p);
+void LIVEBATTLEMATCH_FLOW_Delete(int *p);
 
-void func_0217BAF4(int *p);
+void LIVEBATTLEMATCH_FLOW_Release(int *p);
 
-int func_0217BB3C(int *p);
+int LIVEBATTLEMATCH_FLOW_GetResult(int *p);
 
-void func_0217BB58(int p,int *state,char *q);
+void LIVEBATTLEMATCH_FLOW_SelectPhase(int p,int *state,char *q);
 
-void func_0217BBD4(int p);
+void LIVEBATTLEMATCH_FLOW_End(int p);
 
-void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p);
+void LIVEBATTLEMATCH_FLOW_Main(int *sys,u32_0217BBDC *state,u8 *p);
 
-void func_0217BFF8(int *sys,u32_0217BFF8 *state,u8 *p);
+void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,u32_0217BFF8 *state,u8 *p);
 
-void func_0217C2EC(int *sys,u32_0217C2EC *state,u8 *p);
+void LIVEBATTLEMATCH_FLOW_Battle(int *sys,u32_0217C2EC *state,u8 *p);
 
-void func_0217C628(int *sys,u32_0217C628 *state,u8 *p);
+void LIVEBATTLEMATCH_FLOW_Result(int *sys,u32_0217C628 *state,u8 *p);
 
-void func_0217CAE0(int *sys,u32_0217CAE0 *state,u8 *p);
+void LIVEBATTLEMATCH_FLOW_Card(int *sys,u32_0217CAE0 *state,u8 *p);
 
-void func_0217CC78(int *a, int *state, u8 *p);
+void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p);
 
-void func_0217CEAC(u8 *p, int mode);
+void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode);
 
-void func_0217CFD0(int *p);
+void LIVEBATTLEMATCH_FLOW_HideWindow(int *p);
 
-int func_0217CFDC(int *p);
+int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p);
 
 extern const char d_0217E600[];
 
@@ -452,24 +452,24 @@ extern const char d_0217E618[];
  * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: MISC_SAVEDATA_GetRecordBase (witness). Filed src/matched/arm9/MISC_SAVEDATA_GetRecordBase.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
  *   unsigned char *MISC_SAVEDATA_GetRecordBase(unsigned char *p) { return p; }
  */
-u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
+u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap)
 {
     int size=0x109;
     u8 *p;
     size=0x1dc;
     p=func_02030734(heap,size,0,d_0217E600,0x109);
     MI_CpuFill8(p,0,size);
-    *(Init_0217B970 *)(p+0x1a0)=*src;
+    *(LiveBattleMatchInit *)(p+0x1a0)=*src;
     *(u16 *)(p+0x1c8)=heap;
-    *(u32_0217B984 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
+    *(u32 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
     func_021E58A4(*(int *)(p+0x1b0),1,heap);
     *(void **)(p+0x2c)=WORDSET_Create(8,0x40,heap);
     *(void **)(p+0x20)=func_02045B38(0,2,0x3a,heap);
     *(void **)(p+0x24)=func_02045B38(0,2,0xd2,heap);
     *(void **)(p+0x28)=GF_FONT_Create(0x17,3,0,0,heap);
-    *(int **)p=func_021E8A3C((int)p,(int)func_0217BB58,heap);
+    *(int **)p=func_021E8A3C((int)p,(int)LIVEBATTLEMATCH_FLOW_SelectPhase,heap);
     *(void **)(p+0xc)=func_0217E00C(*(int *)(p+0x1b8),heap);
-    *(void ***)(p+0x1c)=func_021E7D20((void *)func_021E5548(*(int **)(p+0x1b4)),*(void **)(p+0x1b0),heap);
+    *(void ***)(p+0x1c)=func_021E7D20((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int **)(p+0x1b4)),*(void **)(p+0x1b0),heap);
     func_021E7E0C(*(void ***)(p+0x1c),0);
     *(void **)(p+0x38)=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
     *(void **)(p+0x34)=(void *)MISC_SAVEDATA_GetRecordBase((int)MISC_SAVEDATA_GetBlock3C(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
@@ -478,7 +478,7 @@ u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
     return p;
 }
 
-void func_0217BA9C(int *p)
+void LIVEBATTLEMATCH_FLOW_Delete(int *p)
 {
     func_020307B0((void *)p[12]);
     if (p[0x67] == 1) UI_ClearFlags39Global(8);
@@ -494,9 +494,9 @@ void func_0217BA9C(int *p)
     func_020307B0(p);
 }
 
-void func_0217BAF4(int *p)
+void LIVEBATTLEMATCH_FLOW_Release(int *p)
 {
-    func_021E8A80((CB *)p[0]);
+    func_021E8A80((FlowCallback *)p[0]);
     func_0217E074(p[3]);
     func_021E7E08(p[7]);
     if (p[4]) func_021E64C0((unsigned char *)p[4], (void *)p[0x6B]);
@@ -504,48 +504,48 @@ void func_0217BAF4(int *p)
     if (p[6]) func_021E84F8((char *)p[6], (void *)p[0x6B]);
 }
 
-int func_0217BB3C(int *p)
+int LIVEBATTLEMATCH_FLOW_GetResult(int *p)
 {
     if (func_021E8A90((int **)(((struct Obj14362 *)p)->f0)))
         return ((struct Obj14362 *)p)->f19C;
     return 0;
 }
 
-void func_0217BB58(int p,int *state,char *q)
+void LIVEBATTLEMATCH_FLOW_SelectPhase(int p,int *state,char *q)
 {
     switch(((struct Obj14363 *)q)->f1A0) {
-    case 0: func_021E8AA0((int *)p,(int)func_0217BBDC); break;
+    case 0: func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Main); break;
     case 1:
-        if(REGULATION_Card_GetValue((struct Reg2 *)(((struct Obj14363 *)q)->f38),10)==3) func_021E8AA0((int *)p,(int)func_0217CC78);
-        else func_021E8AA0((int *)p,(int)func_0217C2EC);
+        if(REGULATION_Card_GetValue((struct Reg2 *)(((struct Obj14363 *)q)->f38),10)==3) func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub);
+        else func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Battle);
         break;
-    case 2: func_021E8AA0((int *)p,(int)func_0217CAE0); break;
-    case 3: func_021E8AA0((int *)p,(int)func_0217CC78); break;
+    case 2: func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Card); break;
+    case 3: func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub); break;
     default: func_02034714(d_0217E618,0,d_0217E618); break;
     }
 }
 
-void func_0217BBD4(int p) {func_021E8AA8(p);}
+void LIVEBATTLEMATCH_FLOW_End(int p) {func_021E8AA8(p);}
 
-void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Main(int *sys,u32_0217BBDC *state,u8 *p)
 {
     switch(*state){
     case 0:
         switch(REGULATION_Card_GetValue(((struct Obj00053 *)p)->f38,10)){
         case 0:case 3:case 4:case 5:
             if(REGULATION_Card_GetValue(((struct Obj00053 *)p)->f38,2)==0)*state=12;else *state=1;break;
-        case 1:func_021E8AA0(sys,(int)func_0217BFF8);break;
-        case 2:func_021E8AA0(sys,(int)func_0217C2EC);break;
+        case 1:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Confirm);break;
+        case 2:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
         }break;
     case 1:func_0217D028(p);func_0217D1A0(p,1);*state=2;break;
     case 2:if(func_0217D188(p))*state=3;break;
     case 3:if(BATTLE_BOX_IsLocked(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),2))*state=5;else *state=4;break;
     case 4:func_0217CFE8(p,0,1);*state=31;func_021E8AB4((u32_0217BBDC)sys,6);break;
     case 5:func_0217CFE8(p,1,1);*state=31;func_021E8AB4((u32_0217BBDC)sys,6);break;
-    case 6:func_0217CEAC(p,0);*state=7;break;
+    case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=7;break;
     case 7:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=8;break;case 1:*state=10;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=8;break;case 1:*state=10;break;}}break;
     }
     case 8:if(func_0217D194((int *)p))*state=9;break;
     case 9:func_0217D174((int *)p);*state=12;break;
@@ -564,10 +564,10 @@ void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p)
     case 16:func_0217E40C(*(int * *)&((struct Obj00053 *)p)->fC);*state=17;break;
     case 17:if(func_0217E414(*(char * *)&((struct Obj00053 *)p)->fC))*state=18;break;
     case 18:func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=31;func_021E8AB4((u32_0217BBDC)sys,19);break;
-    case 19:func_0217CEAC(p,0);*state=20;break;
+    case 19:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=20;break;
     case 20:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=30;break;case 1:*state=12;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=30;break;case 1:*state=12;break;}}break;
     }
     case 21:
         if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x3c))){
@@ -592,7 +592,7 @@ void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p)
         REGULATION_Card_SetValue((struct Reg2 *)(p+0x3c),10,1);
         func_0200E904(((struct Obj00053 *)p)->f34);
         REGULATION_InitParty(entry);
-        REGULATION_SetCard(base,1,(const struct Rec160 *)(p+0x3c));
+        REGULATION_SetCard(base,1,(const struct RegulationCard *)(p+0x3c));
         GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=24;break;
     }
     case 24:if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj00053 *)p)->f1B8)==2)*state=29;break;
@@ -600,13 +600,13 @@ void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p)
     case 26:func_0217CFE8(p,27,1);*state=31;func_021E8AB4((u32_0217BBDC)sys,30);break;
     case 27:func_0217CFE8(p,3,1);*state=31;func_021E8AB4((u32_0217BBDC)sys,30);break;
     case 28:func_0217CFE8(p,4,1);*state=31;func_021E8AB4((u32_0217BBDC)sys,30);break;
-    case 29:func_021E8AA0(sys,(int)func_0217BFF8);break;
+    case 29:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Confirm);break;
     case 30:func_0217D010(p,1);break;
     case 31:if(func_0217D000(p))func_021E8AB8((u32_0217BBDC)sys);break;
     }
 }
 
-void func_0217BFF8(int *sys,u32_0217BFF8 *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,u32_0217BFF8 *state,u8 *p)
 {
     switch(*state){
     case 0:func_0217D028(p);func_0217D1A0(p,2);func_0217D244((char *)p);*state=1;break;
@@ -617,16 +617,16 @@ void func_0217BFF8(int *sys,u32_0217BFF8 *state,u8 *p)
         if(flag)*state=2;break;
     }
     case 2:func_0217CFE8(p,5,1);*state=21;func_021E8AB4((u32_0217BFF8)sys,3);break;
-    case 3:func_0217CEAC(p,0);*state=4;break;
+    case 3:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=4;break;
     case 4:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=8;break;case 1:*state=5;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=8;break;case 1:*state=5;break;}}break;
     }
     case 5:func_0217CFE8(p,8,1);*state=21;func_021E8AB4((u32_0217BFF8)sys,6);break;
-    case 6:func_0217CEAC(p,0);*state=7;break;
+    case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=7;break;
     case 7:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=19;break;case 1:*state=2;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=19;break;case 1:*state=2;break;}}break;
     }
     case 8:if(func_0217D2B0(p)){func_0217D290(p);*state=9;}break;
     case 9:{
@@ -656,7 +656,7 @@ void func_0217BFF8(int *sys,u32_0217BFF8 *state,u8 *p)
     case 15:GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
     case 16:if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj00053 *)p)->f1B8)==2)*state=17;break;
     case 17:func_0217D1A0(p,0);func_0217CFE8(p,11,1);*state=21;func_021E8AB4((u32_0217BFF8)sys,18);break;
-    case 18:func_021E8AA0(sys,(int)func_0217C2EC);break;
+    case 18:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 19:{
         int flag=1;
         flag&=func_0217D194((int *)p);
@@ -668,7 +668,7 @@ void func_0217BFF8(int *sys,u32_0217BFF8 *state,u8 *p)
     }
 }
 
-void func_0217C2EC(int *sys,u32_0217C2EC *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Battle(int *sys,u32_0217C2EC *state,u8 *p)
 {
     switch(*state){
     case 0:func_0217D2F0(*(u8 * *)&((struct Obj00053 *)p)->f1BC,p);if(*(int *)&((struct Obj00053 *)p)->f10)*state=4;else{func_0217D028(p);func_0217D1A0(p,0);*state=1;}break;
@@ -678,29 +678,29 @@ void func_0217C2EC(int *sys,u32_0217C2EC *state,u8 *p)
     case 4:{
         void *v=REGULATION_NoOp(((struct Obj00053 *)p)->f38);
         unsigned sel=func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34,0);
-        if(sel>=REGULATION_GetRuleValue(v,22))func_021E8AA0(sys,(int)func_0217CC78);else *state=5;break;
+        if(sel>=REGULATION_GetRuleValue(v,22))func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Sub);else *state=5;break;
     }
     case 5:func_0217CFE8(p,12,1);*state=25;func_021E8AB4((u32_0217C2EC)sys,6);break;
-    case 6:func_0217CEAC(p,1);*state=7;break;
+    case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,1);*state=7;break;
     case 7:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);
             if(((struct Obj00053 *)p)->f1D0&&((struct Obj24409 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C4))->fC==0){
                 switch(v){case 0:*state=23;break;case 1:*state=19;break;case 2:*state=8;break;}
             }else switch(v){case 0:*state=23;break;case 1:*state=8;break;}
         }break;
     }
     case 8:func_0217CFE8(p,17,1);*state=25;func_021E8AB4((u32_0217C2EC)sys,9);break;
-    case 9:func_0217CEAC(p,3);*state=10;break;
+    case 9:LIVEBATTLEMATCH_FLOW_DrawMenu(p,3);*state=10;break;
     case 10:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=11;break;case 1:*state=5;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=11;break;case 1:*state=5;break;}}break;
     }
     case 11:func_0217CFE8(p,18,1);*state=25;func_021E8AB4((u32_0217C2EC)sys,12);break;
-    case 12:func_0217CEAC(p,3);*state=13;break;
+    case 12:LIVEBATTLEMATCH_FLOW_DrawMenu(p,3);*state=13;break;
     case 13:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=14;break;case 1:*state=5;break;}}break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=14;break;case 1:*state=5;break;}}break;
     }
     case 14:func_0217CFE8(p,10,2);*state=25;func_021E8AB4((u32_0217C2EC)sys,15);break;
     case 15:REGULATION_Card_SetValue(((struct Obj00053 *)p)->f38,10,4);BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),2);GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
@@ -711,7 +711,7 @@ void func_0217C2EC(int *sys,u32_0217C2EC *state,u8 *p)
     case 20:func_0217CFE8(p,16,1);*state=25;func_021E8AB4((u32_0217C2EC)sys,22);break;
     case 21:func_0217CFE8(p,34,1);*state=25;func_021E8AB4((u32_0217C2EC)sys,5);break;
     case 22:func_0217D010(p,4);break;
-    case 23:func_021E8AA0(sys,(int)func_0217C628);break;
+    case 23:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Result);break;
     case 24:func_0217D010(p,1);break;
     case 25:if(func_0217D000(p))func_021E8AB8((u32_0217C2EC)sys);break;
     }
@@ -720,11 +720,11 @@ void func_0217C2EC(int *sys,u32_0217C2EC *state,u8 *p)
 /*
  * prototypes: E1FC and E2C0 return r0 consumed by the original although their own C returns void.
  */
-void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Result(int *sys,u32_0217C628 *state,u8 *p)
 {
     if(func_0217E078(((struct Obj00241 *)p)->fC)==1){
         ((struct Obj24411 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C4))->fC=1;
-        func_021E8AA0(sys,(int)func_0217C2EC);
+        func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
     }
     switch(*state){
     case 0:func_0217CFE8(p,20,1);*state=40;func_021E8AB4((u32_0217C628)sys,1);break;
@@ -734,18 +734,18 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
     case 4:func_0217E158(*(unsigned * *)&((struct Obj00241 *)p)->fC);*state=5;break;
     case 5:if(func_0217E178(*(int * *)&((struct Obj00241 *)p)->fC))*state=6;break;
     case 6:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=40;func_021E8AB4((u32_0217C628)sys,7);break;
-    case 7:func_0217CEAC(p,0);*state=8;break;
+    case 7:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=8;break;
     case 8:{
-        int v=func_0217CFDC((int *)p);
-        if(v!=-1){func_0217CFD0((int *)p);switch(v){
-        case 0:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_021E8AA0(sys,(int)func_0217C2EC);break;
+        int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
+        if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){
+        case 0:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
         case 1:*state=1;break;
         }}break;
     }
     case 9:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217E158(*(unsigned * *)&((struct Obj00241 *)p)->fC);*state=10;break;
     case 10:if(func_0217E178(*(int * *)&((struct Obj00241 *)p)->fC))*state=11;break;
     case 11:func_0217CFE8(p,28,1);*state=40;func_021E8AB4((u32_0217C628)sys,12);break;
-    case 12:func_021E8AA0(sys,(int)func_0217C2EC);break;
+    case 12:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 13:func_0217D388(*(int * *)&((struct Obj00241 *)p)->f1BC,(int *)p);if(func_0217E1FC(*(int *)&((struct Obj00241 *)p)->fC,*(int *)&((struct Obj00241 *)p)->f1BC))*state=14;break;
     case 14:{
         void *out;
@@ -788,16 +788,16 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
             ((struct Obj00241 *)p)->f1CC=0;REGULATION_GetRuleValue(v,19);*state=38;
         }break;
     case 38:func_0217D010(p,2);break;
-    case 39:func_021E8AA0(sys,(int)func_0217C2EC);break;
+    case 39:func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 40:if(func_0217D000(p))func_021E8AB8((u32_0217C628)sys);break;
     }
 }
 
-void func_0217CAE0(int *sys,u32_0217CAE0 *state,u8 *p)
+void LIVEBATTLEMATCH_FLOW_Card(int *sys,u32_0217CAE0 *state,u8 *p)
 {
     if(func_0217E078(((struct Obj01271 *)p)->fC)==1){
         ((struct Obj24414 *)(*(u8 * *)&((struct Obj01271 *)p)->f1C4))->fC=1;
-        func_021E8AA0(sys,(int)func_0217C2EC);
+        func_021E8AA0(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
     }
     switch(*state){
     case 0:{
@@ -838,7 +838,7 @@ void func_0217CAE0(int *sys,u32_0217CAE0 *state,u8 *p)
 /*
  * ABI: 0200AE14 leaves supplied pointer in r0 despite its void own declaration.
  */
-void func_0217CC78(int *a, int *state, u8 *p)
+void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p)
 {
     void *record;
     u32_0217CC78 value;
@@ -868,11 +868,11 @@ void func_0217CC78(int *a, int *state, u8 *p)
         break;
     case 5: func_0217D1A0(p, 1); func_0217CFE8(p, 25, 1); *state = 17; func_021E8AB4((u32_0217CC78)a, 6); break;
     case 6: func_0217CFE8(p, 29, 1); *state = 17; func_021E8AB4((u32_0217CC78)a, 7); break;
-    case 7: func_0217CEAC(p, 2); *state = 8; break;
+    case 7: LIVEBATTLEMATCH_FLOW_DrawMenu(p, 2); *state = 8; break;
     case 8:
-        result = func_0217CFDC((int *)p);
+        result = LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if (result != -1) {
-            func_0217CFD0((int *)p);
+            LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);
             if (((struct Obj00053 *)p)->f1D0 && ((struct Obj24416 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C4))->fC == 0) {
                 switch (result) { case 0: *state = 11; break; case 1: *state = 9; break; }
             } else if (result == 0) *state = 9;
@@ -888,7 +888,7 @@ void func_0217CC78(int *a, int *state, u8 *p)
     case 13: func_0217CFE8(p, 34, 1); *state = 17; func_021E8AB4((u32_0217CC78)a, 6); break;
     case 14: func_0217D010(p, 4); break;
     case 15: func_0217D010(p, 1); break;
-    case 16: func_021E8AA0(a, (int)func_0217C2EC); break;
+    case 16: func_021E8AA0(a, (int)LIVEBATTLEMATCH_FLOW_Battle); break;
     case 17: if (func_0217D000(p)) func_021E8AB8((u32_0217CC78)a); break;
     }
 }
@@ -897,7 +897,7 @@ void func_0217CC78(int *a, int *state, u8 *p)
  * function_starts: 0217CFD0,0217CFDC
  * ABI: coordinates are byte locals; X/width/height externs are widened because original has no call-site narrowing.
  */
-void func_0217CEAC(u8 *p, int mode)
+void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode)
 {
     Menu_0217B970 rec;
     int layout;
@@ -928,10 +928,10 @@ void func_0217CEAC(u8 *p, int mode)
     case 0: width = 28; height = rec.count * 2; x = 2; y = 9 - height / 2; break;
     case 1: width = 12; height = rec.count * 2; x = 19; y = 17 - height; break;
     }
-    ((struct Obj00053 *)p)->f4 = func_021E88B0((Menu_0217AE20 *)&rec, x, y, width, height, ((struct Obj00053 *)p)->f1C8);
+    ((struct Obj00053 *)p)->f4 = func_021E88B0((Desc *)&rec, x, y, width, height, ((struct Obj00053 *)p)->f1C8);
     ((struct Obj00053 *)p)->f8 = mode;
 }
 
-void func_0217CFD0(int *p) { func_021E89D0((void *)p[1]); }
+void LIVEBATTLEMATCH_FLOW_HideWindow(int *p) { func_021E89D0((void *)p[1]); }
 
-int func_0217CFDC(int *p) { return func_021E8A00((void *)p[1]); }
+int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p) { return func_021E8A00((void *)p[1]); }

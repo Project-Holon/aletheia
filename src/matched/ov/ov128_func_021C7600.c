@@ -1,5 +1,5 @@
 /*
- * function: func_021C7600
+ * function: Wf2dmapFriend_UpdatePrintStream
  * address: 0x021C7600
  * packet: pkt_ov128_021C7600
  * region: ov128
@@ -30,7 +30,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021C7600(void *p, int *q)
+int Wf2dmapFriend_UpdatePrintStream(void *p, int *q)
 {
     switch (PRINTSYS_PrintStreamGetState(p)) {
     case 0:

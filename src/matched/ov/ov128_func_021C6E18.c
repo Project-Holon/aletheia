@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E18
+ * function: Wf2dmapFriend_RestartActorAnim
  * address: 0x021C6E18
  * packet: pkt_ov128_021C6E18
  * region: ov128
@@ -22,4 +22,4 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-void func_021C6E18(u8 *p,int i,u16 a) {CLACT_SetActorAutoAnim(*(void **)((u32)p+0x15c+i*4),1);CLACT_SetActorAnimSeq(*(void **)((u32)p+0x15c+i*4),a);CLACT_RestartActorAnim(*(void **)((u32)p+0x15c+i*4));}
+void Wf2dmapFriend_RestartActorAnim(u8 *p,int i,u16 a) {CLACT_SetActorAutoAnim(*(void **)((u32)p+0x15c+i*4),1);CLACT_SetActorAnimSeq(*(void **)((u32)p+0x15c+i*4),a);CLACT_RestartActorAnim(*(void **)((u32)p+0x15c+i*4));}

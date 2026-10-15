@@ -1,5 +1,5 @@
 /*
- * function: func_0202F788
+ * function: APP_POWER_Main
  * address:  0x0202F788
  * packet:   pkt_0202F788
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * time_icon.c: the power callback reached from func_0202F768 as
- * func_0202F788(0) (and registered through the pool word 0x0202F789 at
+ * time_icon.c: the power callback reached from APP_POWER_ClearCallback as
+ * APP_POWER_Main(0) (and registered through the pool word 0x0202F789 at
  * 0x0202F784).  disasm.py carried it as .word data until it was seeded in
  * layout/function_starts.txt.  It never returns: after the shutdown work it
  * spins on GFL_USE_PollPowerExit.
  *
  * symbols:
  *   func_02007084  0x02007084  thumb
- *   func_0202F7C4  0x0202F7C4  thumb
+ *   APP_POWER_ResetDisplay  0x0202F7C4  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
@@ -31,7 +31,7 @@
 typedef unsigned int u32;
 
 extern void func_02007084(void);
-extern void func_0202F7C4(u32 mode);
+extern void APP_POWER_ResetDisplay(u32 mode);
 extern int  GFL_NET_GetRunState(void);
 extern void GFL_NET_ClearExitFlag(void);
 extern int GFL_NET_Exit(int a0);
@@ -41,10 +41,10 @@ extern int  GFL_NET_IsSessionNull(void);
 extern int UI_ClearFlags39Global(u32 v);
 extern void GFL_USE_PollPowerExit(void);
 
-void func_0202F788(u32 mode)
+void APP_POWER_Main(u32 mode)
 {
     func_02007084();
-    func_0202F7C4(mode);
+    APP_POWER_ResetDisplay(mode);
     if (GFL_NET_GetRunState()) {
         GFL_NET_ClearExitFlag();
         GFL_NET_Exit(0);

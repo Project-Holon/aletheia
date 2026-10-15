@@ -15,7 +15,7 @@
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   C_GEAR_POWER_ONOFF_InitScreen 0x021EFF78 thumb ov035
- *   func_0202EB44 0x0202EB44 thumb
+ *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   GAMESYSTEM_GetAlwaysNetFlag 0x0201214C thumb
  *   C_GEAR_POWER_ONOFF_Update 0x021EFF3C thumb ov035
  */
@@ -28,7 +28,7 @@ extern char sCGearPowerOnOffFileName[];
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 extern void C_GEAR_POWER_ONOFF_InitScreen(char *p, void *a1);
-extern int func_0202EB44(void);
+extern int APP_ENV_InitParentalControl(void);
 extern u32 GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *);
 extern void C_GEAR_POWER_ONOFF_Update(char *p, int a1);
 
@@ -40,7 +40,7 @@ void *C_GEAR_POWER_ONOFF_Create(int a0, int a1, void *a2)
     *(int *)&((struct Obj02409 *)p)->fC = a0;
     ((struct Obj02409 *)p)->f0 = (short unsigned int)a2;
     C_GEAR_POWER_ONOFF_InitScreen(p, a2);
-    if (func_0202EB44() == 0)
+    if (APP_ENV_InitParentalControl() == 0)
         ((struct Obj02409 *)p)->f48 = 2;
     else if (GAMESYSTEM_GetAlwaysNetFlag((const struct Ctx *)a1) == 1)
         ((struct Obj02409 *)p)->f48 = 1;

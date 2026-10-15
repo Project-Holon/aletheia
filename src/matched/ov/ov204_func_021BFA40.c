@@ -1,5 +1,5 @@
 /*
- * function: func_021BFA40
+ * function: INTRO_G3D_UpdateIntro
  * address: 0x021BFA40
  * packet: pkt_ov204_021BFA40
  * region: ov204
@@ -14,7 +14,7 @@
  *   G3D_SYSTEM_IncObjectAnimeFrame 0x020478B8 arm
  *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
- *   func_021BFBC8 0x021BFBC8 thumb ov204
+ *   INTRO_G3D_SetAnimFrame 0x021BFBC8 thumb ov204
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj06676.h"
@@ -29,9 +29,9 @@ extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
 extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern void func_021BFBC8(char *, unsigned int);
+extern void INTRO_G3D_SetAnimFrame(char *, unsigned int);
 
-int func_021BFA40(char *p)
+int INTRO_G3D_UpdateIntro(char *p)
 {
     switch (((struct Obj06676 *)p)->f24)
     {
@@ -51,7 +51,7 @@ int func_021BFA40(char *p)
             G3D_SYSTEM_EnableObjectAnime(obj, 0);
             G3D_SYSTEM_EnableObjectAnime(obj, 1);
             G3D_SYSTEM_EnableObjectAnime(obj, 2);
-            func_021BFBC8(p, 60);
+            INTRO_G3D_SetAnimFrame(p, 60);
             ++((struct Obj06676 *)p)->f24;
         }
         break;

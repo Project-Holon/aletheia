@@ -580,9 +580,9 @@ typedef struct {
     int state;
 } Work_021C7970;
 
-typedef struct Work_021C79A0 Work_021C79A0;
+typedef struct ViewerActorWork ViewerActorWork;
 
-struct Work_021C79A0 {
+struct ViewerActorWork {
     unsigned char pad0[0x10C];
     int state;
 };
@@ -1480,11 +1480,7 @@ typedef struct {
     u16 ofsDict;
 } Tex;
 
-typedef signed int     s32_021C7EF8;
-
 typedef signed char s8;
-
-typedef int s32_021C83DC;
 
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -1568,7 +1564,7 @@ extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 extern u32 func_02048A0C(u8 *a0, int i);
 extern Tex *func_02047250(void *p);
-extern s32_021C7EF8 func_02061CA4(void *p, u32 a, u32 b, s32_021C7EF8 size);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void VIEWER_ACTOR_CreateObjects(Work_021C75E4 *p);
 void VIEWER_ACTOR_DeleteObjects(Work_021C7658 *p);
 void VIEWER_ACTOR_Init3D(Work_021C76A4 *p);
@@ -1582,7 +1578,7 @@ void VIEWER_ACTOR_FlushBgWindow(Work_021C7908 *p);
 void VIEWER_ACTOR_CreateFont(Work_021C7934 *p);
 void VIEWER_ACTOR_DeleteFont(Work_021C795C *p);
 void VIEWER_ACTOR_PrintQueMain(Work_021C7970 *p);
-int VIEWER_ACTOR_DispatchState(Work_021C79A0 *p);
+int VIEWER_ACTOR_DispatchState(ViewerActorWork *p);
 int VIEWER_ACTOR_IsWipeEnded(Work_021C79B8 *p);
 int VIEWER_ACTOR_UpdateMain(Work_021C79D0 *p);
 int VIEWER_ACTOR_IsActorAnimActive(Work_021C79F4 *p);
@@ -1837,12 +1833,12 @@ void VIEWER_ACTOR_PrintQueMain(Work_021C7970 *p)
 
 
 
-extern int (*const d_021C8E58[])(Work_021C79A0 *p);
+extern int (*const d_021C8E58[])(ViewerActorWork *p);
 
 
 
 
-int VIEWER_ACTOR_DispatchState(Work_021C79A0 *p)
+int VIEWER_ACTOR_DispatchState(ViewerActorWork *p)
 {
     return d_021C8E58[p->state](p);
 }
@@ -2534,7 +2530,7 @@ void VIEWER_ACTOR_ResetDragFlags(u8 *p) { p[2] = 0; p[3] = 0; }
 
 void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx)
 {
-    s32_021C83DC *count = (s32_021C83DC *)(p + 0x188);
+    s32 *count = (s32 *)(p + 0x188);
 
     if (count[idx] < 0x23F) {
         count[idx]++;

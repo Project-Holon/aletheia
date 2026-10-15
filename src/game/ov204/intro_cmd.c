@@ -25,15 +25,15 @@
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   d_021C09D4 0x021C09D4 data a4
- *   func_021BF67C 0x021BF67C thumb ov204
- *   func_021BF7CC 0x021BF7CC thumb ov204
+ *   INTRO_G3D_AddPokemonSlot 0x021BF67C thumb ov204
+ *   INTRO_G3D_SetSlotMepachi 0x021BF7CC thumb ov204
  *   d_021BFFE4 0x021BFFE4 data a1
- *   func_021BF720 0x021BF720 thumb ov204
- *   func_021BF744 0x021BF744 thumb ov204
- *   func_021BF77C 0x021BF77C thumb ov204
- *   func_021BF788 0x021BF788 thumb ov204
- *   func_021BF804 0x021BF804 thumb ov204
- *   func_021BF794 0x021BF794 thumb ov204
+ *   INTRO_G3D_SetVanishFlag 0x021BF720 thumb ov204
+ *   INTRO_G3D_SetSlotAnim 0x021BF744 thumb ov204
+ *   INTRO_G3D_GetSlotAnimFinished 0x021BF77C thumb ov204
+ *   INTRO_G3D_ClearSlotAnimFinished 0x021BF788 thumb ov204
+ *   INTRO_G3D_MoveSlot 0x021BF804 thumb ov204
+ *   INTRO_G3D_SetSlotAlpha 0x021BF794 thumb ov204
  *   SAVE_CONTROL_INTR_Start 0x021BD2B0 thumb
  *   SAVE_CONTROL_INTR_Pause 0x021BD368 thumb ov088
  *   SAVE_CONTROL_INTR_IsPausedOrFinished 0x021BD380 thumb ov088
@@ -45,16 +45,16 @@
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
  *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
- *   func_021BF864  0x021BF864  thumb ov204
+ *   INTRO_G3D_MoveSlot1  0x021BF864  thumb ov204
  *   func_0207D63C 0x0207D63C arm
  *   INTRO_PARTICLE_StartEffect 0x021BFCE8 thumb ov204
- *   func_021BFAE4 0x021BFAE4 thumb
- *   func_021BFBC8 0x021BFBC8 thumb
- *   func_021BFA40 0x021BFA40 thumb ov204
- *   func_021BFAE8 0x021BFAE8 thumb ov204
- *   func_021BFB2C 0x021BFB2C thumb ov204
+ *   INTRO_G3D_SetVisible 0x021BFAE4 thumb
+ *   INTRO_G3D_SetAnimFrame 0x021BFBC8 thumb
+ *   INTRO_G3D_UpdateIntro 0x021BFA40 thumb ov204
+ *   INTRO_G3D_SetAnimMode 0x021BFAE8 thumb ov204
+ *   INTRO_G3D_UpdateAnimMode 0x021BFB2C thumb ov204
  *   KEY_GetTrg 0x020362DC arm
- *   func_021BFBA0 0x021BFBA0 thumb ov204
+ *   INTRO_G3D_UpdateAnimFrame 0x021BFBA0 thumb ov204
  *   BG_SYS_DrawTileSub 0x020411E8 arm
  *   func_02040588 0x02040588 arm
  *   func_02041B6C 0x02041B6C arm
@@ -81,23 +81,23 @@
  *   func_020307B0 0x020307B0 arm
  *   d_021C09D8 0x021C09D8 data a4
  *   d_021C0AB8 0x021C0AB8 data a4
- *   site 0x021C0AE4 data a1
+ *   gIntroSite 0x021C0AE4 data a1
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   BRIGHTNESS_Set  0x02023F60  thumb  arm9
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
- *   func_021BF0A0 0x021BF0A0 thumb ov204
- *   func_021BF1A4 0x021BF1A4 thumb ov204
- *   func_021BF204 0x021BF204 thumb ov204
- *   func_021BF228 0x021BF228 thumb ov204
- *   func_021BF23C 0x021BF23C thumb ov204
- *   func_021BF2D4 0x021BF2D4 thumb ov204
- *   func_021BF2E0 0x021BF2E0 thumb ov204
- *   func_021BF2F4 0x021BF2F4 thumb ov204
- *   func_021BF55C 0x021BF55C thumb ov204
- *   func_021BF560 0x021BF560 thumb ov204
- *   func_021BF580 0x021BF580 thumb ov204
- *   func_021BF624 0x021BF624 thumb ov204
+ *   INTRO_MSG_Create 0x021BF0A0 thumb ov204
+ *   INTRO_MSG_Delete 0x021BF1A4 thumb ov204
+ *   INTRO_MSG_SetMsgBank 0x021BF204 thumb ov204
+ *   INTRO_MSG_Main 0x021BF228 thumb ov204
+ *   INTRO_MSG_PrintText 0x021BF23C thumb ov204
+ *   INTRO_MSG_DrawWindowBorder 0x021BF2D4 thumb ov204
+ *   INTRO_MSG_GetPrintState 0x021BF2E0 thumb ov204
+ *   INTRO_MSG_UpdatePrint 0x021BF2F4 thumb ov204
+ *   INTRO_MSG_GetWordSet 0x021BF55C thumb ov204
+ *   INTRO_MSG_StartTimeIcon 0x021BF560 thumb ov204
+ *   INTRO_MSG_DeleteTimeIcon 0x021BF580 thumb ov204
+ *   INTRO_MCSS_AddSlot 0x021BF624 thumb ov204
  */
 #include "../../matched/include/Obj25350.h"
 #include "../../matched/include/Obj14608.h"
@@ -137,7 +137,7 @@
 #include "../../matched/include/Obj25382.h"
 #include "../../matched/include/Obj06673.h"
 #include "../../matched/include/Obj14620.h"
-#include "intro_cmd_shared_types.h"
+#include "intro_types.h"
 
 struct Sub0200852CObj;
 
@@ -203,21 +203,21 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern u32 KEY_GetTrg(void);
 
-extern void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
+extern void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 
-extern void func_021BF7CC(u8 *p, u8 index, int flag);
+extern void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag);
 
-extern void func_021BF720(u8 *p, int flag, u8 index);
+extern void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index);
 
-extern void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
+extern void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v);
 
-extern unsigned func_021BF77C(char *,unsigned char);
+extern unsigned INTRO_G3D_GetSlotAnimFinished(char *,unsigned char);
 
-extern void func_021BF788(u8 *p, u8 index);
+extern void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index);
 
-extern int func_021BF804(char *p, unsigned int i, int step, int limit);
+extern int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
 
-extern void func_021BF794(u8 *p, u8 index, u32 alpha);
+extern void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
 
 extern void SAVE_CONTROL_INTR_Start(int);
 
@@ -243,23 +243,23 @@ extern int PM_VOICE_Start(u32 idx);
 
 extern u32 PM_VOICE_IsSlotActive(u32 i);
 
-extern int func_021BF864(char *p, int delta, int limit);
+extern int INTRO_G3D_MoveSlot1(char *p, int delta, int limit);
 
 extern void func_0207D63C(volatile void *, int, int, int, int);
 
 extern void INTRO_PARTICLE_StartEffect(u32*,u32,u32,u32);
 
-extern void func_021BFAE4(char *p, int v);
+extern void INTRO_G3D_SetVisible(char *p, int v);
 
-extern void func_021BFBC8(char *p, unsigned value);
+extern void INTRO_G3D_SetAnimFrame(char *p, unsigned value);
 
-extern int func_021BFA40(char*);
+extern int INTRO_G3D_UpdateIntro(char*);
 
-extern void func_021BFAE8(char *,u32);
+extern void INTRO_G3D_SetAnimMode(char *,u32);
 
-extern int func_021BFB2C(char *);
+extern int INTRO_G3D_UpdateAnimMode(char *);
 
-extern int func_021BFBA0(int *p);
+extern int INTRO_G3D_UpdateAnimFrame(int *p);
 
 extern void BG_SYS_DrawTileSub(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 
@@ -301,7 +301,7 @@ extern u32 CLACT_GetActorObjMode(const struct Actor *actor);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet*,u32,void*);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
 extern u32 func_020307B0(void *p);
 
@@ -409,29 +409,29 @@ void func_021BF080(char *p, u8 i);
 
 Row *func_021BF094(u32 n);
 
-char *func_021BF0A0(u16 heap);
+char *INTRO_MSG_Create(u16 heap);
 
-void func_021BF1A4(char *p);
+void INTRO_MSG_Delete(char *p);
 
-void func_021BF204(char *p, unsigned a, unsigned short b);
+void INTRO_MSG_SetMsgBank(char *p, unsigned a, unsigned short b);
 
-void func_021BF228(u8*p);
+void INTRO_MSG_Main(u8*p);
 
-void func_021BF23C(char *p, void *a, int flag);
+void INTRO_MSG_PrintText(char *p, void *a, int flag);
 
-void func_021BF2D4(u8*p);
+void INTRO_MSG_DrawWindowBorder(u8*p);
 
-u32 func_021BF2E0(u8*p);
+u32 INTRO_MSG_GetPrintState(u8*p);
 
-int func_021BF2F4(char *a);
+int INTRO_MSG_UpdatePrint(char *a);
 
-int func_021BF55C(u8 *p);
+int INTRO_MSG_GetWordSet(u8 *p);
 
-void func_021BF560(u8 *p);
+void INTRO_MSG_StartTimeIcon(u8 *p);
 
-void func_021BF580(u8 *p);
+void INTRO_MSG_DeleteTimeIcon(u8 *p);
 
-void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i);
+void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i);
 
 extern const char d_021BFFE4[];
 
@@ -502,63 +502,63 @@ u32 func_021BE430(void)
     return 0;
 }
 
-int func_021BE44C(char *p,int *state,unsigned *q){func_021BF204(*(char * *)&((struct Obj25350 *)p)->f18,q[0],q[1]);return 1;}
+int func_021BE44C(char *p,int *state,unsigned *q){INTRO_MSG_SetMsgBank(*(char * *)&((struct Obj25350 *)p)->f18,q[0],q[1]);return 1;}
 
 extern int (*const d_021C09D4[])(char *,int);
 
 int func_021BE460(char *p,int *state,int *q){d_021C09D4[q[0]](p,q[1]);return 1;}
 
-int func_021BE478(char *p,int *state,unsigned *q){switch(*state){case 0:func_021BF23C(*(char * *)&((struct Obj14608 *)p)->f18,(void *)q[0],q[1]);(*state)++;break;case 1:if(func_021BF2F4(*(char * *)&((struct Obj14608 *)p)->f18))return 1;break;}return 0;}
+int func_021BE478(char *p,int *state,unsigned *q){switch(*state){case 0:INTRO_MSG_PrintText(*(char * *)&((struct Obj14608 *)p)->f18,(void *)q[0],q[1]);(*state)++;break;case 1:if(INTRO_MSG_UpdatePrint(*(char * *)&((struct Obj14608 *)p)->f18))return 1;break;}return 0;}
 
-int func_021BE4AC(char *p,int *state,int *q){func_021BF2D4((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}
+int func_021BE4AC(char *p,int *state,int *q){INTRO_MSG_DrawWindowBorder((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}
 
 int func_021BE4B8(char *p, int unused, unsigned *q)
 {
     if (q[1] == 0) {
-        func_021BF624(((struct Obj10874 *)p)->f8, q[2], q[3], 0, (void *)d_021BFFE4, q[0]);
-        func_021BF7CC(((struct Obj10874 *)p)->f8, q[0], 1);
+        INTRO_MCSS_AddSlot(((struct Obj10874 *)p)->f8, q[2], q[3], 0, (void *)d_021BFFE4, q[0]);
+        INTRO_G3D_SetSlotMepachi(((struct Obj10874 *)p)->f8, q[0], 1);
     } else {
-        func_021BF67C(((struct Obj10874 *)p)->f8, q[2], q[3], 0x1000, q[1], q[0]);
+        INTRO_G3D_AddPokemonSlot(((struct Obj10874 *)p)->f8, q[2], q[3], 0x1000, q[1], q[0]);
     }
     return 1;
 }
 
-int func_021BE510(char *p,int *state,int *q){func_021BF720(((struct Obj25353 *)p)->f8,q[1],q[0]);return 1;}
+int func_021BE510(char *p,int *state,int *q){INTRO_G3D_SetVanishFlag(((struct Obj25353 *)p)->f8,q[1],q[0]);return 1;}
 
 /*
  * follower: tail-call stub 0x021BE53C included; function_starts seed.
  */
-int func_021BE524(char *p,int *state,unsigned *q){func_021BF744(*(char * *)&((struct Obj25354 *)p)->f8,(unsigned char)q[0],q[1],q[2]);return 1;}
+int func_021BE524(char *p,int *state,unsigned *q){INTRO_G3D_SetSlotAnim(*(char * *)&((struct Obj25354 *)p)->f8,(unsigned char)q[0],q[1],q[2]);return 1;}
 
-unsigned func_021BE53C(char *p,int *state,unsigned *q){return func_021BF77C(*(char * *)&((struct Obj25355 *)p)->f8,q[0]);}
+unsigned func_021BE53C(char *p,int *state,unsigned *q){return INTRO_G3D_GetSlotAnimFinished(*(char * *)&((struct Obj25355 *)p)->f8,q[0]);}
 
-int func_021BE54C(char *p,int *state,unsigned *q){func_021BF788((u8 *)(*(char * *)&((struct Obj25357 *)p)->f8),q[0]);return 1;}
+int func_021BE54C(char *p,int *state,unsigned *q){INTRO_G3D_ClearSlotAnimFinished((u8 *)(*(char * *)&((struct Obj25357 *)p)->f8),q[0]);return 1;}
 
-int func_021BE560(char *p,int *state,int *q){return func_021BF804(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}
+int func_021BE560(char *p,int *state,int *q){return INTRO_G3D_MoveSlot(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}
 
 int func_021BE578(char *p, int *state, unsigned *q)
 {
     switch (*state) {
     case 0:
         if (q[1] != 0)
-            func_021BF794(((struct Obj04609 *)p)->f8, q[0], (unsigned char)1);
+            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)1);
         else
-            func_021BF794(((struct Obj04609 *)p)->f8, q[0], (unsigned char)31);
-        func_021BF720(((struct Obj04609 *)p)->f8, 1, q[0]);
+            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)31);
+        INTRO_G3D_SetVanishFlag(((struct Obj04609 *)p)->f8, 1, q[0]);
         state[1] = 31;
         ++*state;
         break;
     case 1:
         state[1] -= 2;
         if (state[1] <= 0) {
-            func_021BF794(((struct Obj04609 *)p)->f8, q[0], (unsigned char)31);
-            func_021BF720(((struct Obj04609 *)p)->f8, q[1], q[0]);
+            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)31);
+            INTRO_G3D_SetVanishFlag(((struct Obj04609 *)p)->f8, q[1], q[0]);
             return 1;
         }
         if (q[1] == 1)
-            func_021BF794(((struct Obj04609 *)p)->f8, q[0], (unsigned char)(31 - state[1]));
+            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)(31 - state[1]));
         else if (q[1] == 0)
-            func_021BF794(((struct Obj04609 *)p)->f8, q[0], (unsigned char)state[1]);
+            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)state[1]);
         break;
     }
     return 0;
@@ -570,21 +570,21 @@ int func_021BE61C(char *p, int *state, unsigned *q)
     unsigned other = q[1];
     switch (*state) {
     case 0:
-        func_021BF23C(((struct Obj05529 *)p)->f18, (void *)index, q[2]);
+        INTRO_MSG_PrintText(((struct Obj05529 *)p)->f18, (void *)index, q[2]);
         ++*state;
         break;
     case 1:
-        if (func_021BF2F4(((struct Obj05529 *)p)->f18) != 0) {
-            func_021BF7CC(((struct Obj05529 *)p)->f8, other, 1);
+        if (INTRO_MSG_UpdatePrint(((struct Obj05529 *)p)->f18) != 0) {
+            INTRO_G3D_SetSlotMepachi(((struct Obj05529 *)p)->f8, other, 1);
             return 1;
         }
-        switch (func_021BF2E0(((struct Obj05529 *)p)->f18)) {
+        switch (INTRO_MSG_GetPrintState(((struct Obj05529 *)p)->f18)) {
         case 1:
-            func_021BF7CC(((struct Obj05529 *)p)->f8, other, 1);
+            INTRO_G3D_SetSlotMepachi(((struct Obj05529 *)p)->f8, other, 1);
             state[1] = 0;
             break;
         case 0:
-            func_021BF7CC(((struct Obj05529 *)p)->f8, other, state[1] % 12 < 6 ? 1 : 0);
+            INTRO_G3D_SetSlotMepachi(((struct Obj05529 *)p)->f8, other, state[1] % 12 < 6 ? 1 : 0);
             state[1]++;
             break;
         case 2:
@@ -612,7 +612,7 @@ int func_021BE6E8(char *a)
 /*
  * UNBLOCKED: 0x021BD39C is now an EXACT entry in layout/matched/ov088 (the
  * only overlay in the window that does not overlap the caller's ov204), so
- * the bl site resolves as matched and the verdict promoted to EXACT.
+ * the bl gIntroSite resolves as matched and the verdict promoted to EXACT.
  */
 int func_021BE6F8(char *a)
 {
@@ -626,18 +626,18 @@ int func_021BE708(char *p, int *state)
     case 0:
         if (SAVE_CONTROL_INTR_IsFinished(((struct Obj05530 *)p)->fA4) == 1)
             return 1;
-        func_021BF23C(((struct Obj05530 *)p)->f18, (void *)5, 0);
+        INTRO_MSG_PrintText(((struct Obj05530 *)p)->f18, (void *)5, 0);
         ++*state;
         break;
     case 1:
-        if (func_021BF2F4(((struct Obj05530 *)p)->f18) == 1) {
-            func_021BF560(((struct Obj05530 *)p)->f18);
+        if (INTRO_MSG_UpdatePrint(((struct Obj05530 *)p)->f18) == 1) {
+            INTRO_MSG_StartTimeIcon(((struct Obj05530 *)p)->f18);
             ++*state;
         }
         break;
     case 2:
         if (SAVE_CONTROL_INTR_IsFinished(((struct Obj05530 *)p)->fA4) == 1) {
-            func_021BF580(((struct Obj05530 *)p)->f18);
+            INTRO_MSG_DeleteTimeIcon(((struct Obj05530 *)p)->f18);
             return 1;
         }
         break;
@@ -664,14 +664,14 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 1:
-        if (func_021BF864((char *)(((struct Obj08382 *)p)->f8), 0x1000, 0xFFFF4800) == 1) {
+        if (INTRO_G3D_MoveSlot1((char *)(((struct Obj08382 *)p)->f8), 0x1000, 0xFFFF4800) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x7F5);
             (*q)++;
         }
         break;
     case 2:
         if (GFL_USE_IsAnySeBusy() == 0) {
-            func_021BF744((char *)(((struct Obj08382 *)p)->f8), 1, 0, 1);
+            INTRO_G3D_SetSlotAnim((char *)(((struct Obj08382 *)p)->f8), 1, 0, 1);
             PM_VOICE_Start(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10));
             (*q)++;
         }
@@ -690,17 +690,17 @@ int func_021BE838(u8*p,u32 unused,u32*q){func_0207D63C((void*)0x04000050,1,9,0,0
 
 int func_021BE864(char *a, int b, int *p)
 {
-    func_021BFAE4((char *)(((struct Obj25370 *)a)->fC), *p);
+    INTRO_G3D_SetVisible((char *)(((struct Obj25370 *)a)->fC), *p);
     return 1;
 }
 
 int func_021BE874(char *a, int b, int *p)
 {
-    func_021BFBC8((char *)(((struct Obj25372 *)a)->fC), *p);
+    INTRO_G3D_SetAnimFrame((char *)(((struct Obj25372 *)a)->fC), *p);
     return 1;
 }
 
-int func_021BE884(u8*p){if(func_021BFA40(*(char* *)&((struct Obj25374 *)p)->fC))return 1;return 0;}
+int func_021BE884(u8*p){if(INTRO_G3D_UpdateIntro(*(char* *)&((struct Obj25374 *)p)->fC))return 1;return 0;}
 
 /*
  * lever: load the case-2 object once before q[1]'s comparison and reuse
@@ -711,21 +711,21 @@ int func_021BE898(char *p,u32 *q)
     void *obj;
     switch (*q) {
     case 0:
-        func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,0);
+        INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,0);
         *q=4;
         break;
     case 1:
         if (KEY_GetTrg()&16) {
             if (q[1]!=1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,2);
+                INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,2);
                 q[1]=1;
                 *q=4;
             }
         } else if (KEY_GetTrg()&32) {
             if (q[1]!=0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,1);
+                INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,1);
                 q[1]=0;
                 *q=4;
             }
@@ -738,24 +738,24 @@ int func_021BE898(char *p,u32 *q)
         obj=**(void ** *)&((struct Obj03920 *)p)->f4;
         if (q[1]==0) {
             func_0200854C(obj,0);
-            func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,3);
+            INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,3);
         } else {
             func_0200854C(obj,1);
-            func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,4);
+            INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,4);
         }
         (*q)++;
         break;
     case 3:
-        if (func_021BFB2C(*(char * *)&((struct Obj03920 *)p)->fC)!=0) return 1;
+        if (INTRO_G3D_UpdateAnimMode(*(char * *)&((struct Obj03920 *)p)->fC)!=0) return 1;
         break;
     case 4:
-        if (func_021BFB2C(*(char * *)&((struct Obj03920 *)p)->fC)!=0) *q=1;
+        if (INTRO_G3D_UpdateAnimMode(*(char * *)&((struct Obj03920 *)p)->fC)!=0) *q=1;
         break;
     }
     return 0;
 }
 
-int func_021BE970(u8*p){if(func_021BFBA0((int *)(*(char* *)&((struct Obj25376 *)p)->fC)))return 1;return 0;}
+int func_021BE970(u8*p){if(INTRO_G3D_UpdateAnimFrame((int *)(*(char* *)&((struct Obj25376 *)p)->fC)))return 1;return 0;}
 
 /*
  * lever: unsigned integer p+0xA8 at the first paired call, member address
@@ -944,7 +944,7 @@ int func_021BEE5C(char *p, unsigned *state, unsigned *q)
 
 int func_021BEEF0(u8*p){if(!func_02008550(**(struct Sub0200852CObj** *)&((struct Obj25378 *)p)->f4))return 1;return 0;}
 
-void func_021BEF08(u8*p,u32 a){struct WordSet*q=(struct WordSet *)func_021BF55C(*(u8* *)&((struct Obj14618 *)p)->f18);WORDSET_SetSlotMyStatus(q,a,**(void** *)&((struct Obj14618 *)p)->f4);}
+void func_021BEF08(u8*p,u32 a){struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(*(u8* *)&((struct Obj14618 *)p)->f18);WORDSET_SetSlotMyStatus(q,a,**(void** *)&((struct Obj14618 *)p)->f4);}
 
 char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
 {
@@ -956,17 +956,17 @@ char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsign
     ((struct Obj03921 *)p)->f10 = b;
     ((struct Obj03921 *)p)->f14 = e;
     ((struct Obj03921 *)p)->fA4 = ((struct Obj25381 *)d)->fC;
-    ((struct Obj03921 *)p)->f18 = func_021BF0A0(heap);
+    ((struct Obj03921 *)p)->f18 = INTRO_MSG_Create(heap);
     return p;
 }
 
-void func_021BEF74(u8*p){func_021BF1A4(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}
+void func_021BEF74(u8*p){INTRO_MSG_Delete(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}
 
 extern int (*const d_021C09D8[])(void *, void *, void *);
 
 int func_021BEF88(char *p)
 {
-    func_021BF228(((struct Obj06673 *)p)->f18);
+    INTRO_MSG_Main(((struct Obj06673 *)p)->f18);
     if (func_021BF030((struct State *)p) == 0) {
         char *base = p;
         int i;

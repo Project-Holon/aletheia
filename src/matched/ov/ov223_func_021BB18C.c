@@ -1,5 +1,5 @@
 /*
- * function: func_021BB18C
+ * function: PSEL_UpdateB18C
  * address: 0x021BB18C
  * packet: pkt_ov223_021BB18C
  * region: ov223
@@ -29,7 +29,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_021BAF48 0x021BAF48 thumb ov223
+ *   PSEL_CheckAF48 0x021BAF48 thumb ov223
  *   d_021BC730 0x021BC730 data a4
  *   d_021BC710 0x021BC710 data a2
  */
@@ -60,8 +60,8 @@ extern unsigned func_0201D42C(struct StrObj *, void *);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern int func_021BAF48(char *);
-void func_021BB18C(char *p, int idx)
+extern int PSEL_CheckAF48(char *);
+void PSEL_UpdateB18C(char *p, int idx)
 {
     struct Descriptor *desc;
     u16 x;
@@ -91,5 +91,5 @@ void func_021BB18C(char *p, int idx)
     PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (unsigned)BMP_WIN_GetBmp(desc), 0, (s16)x, (unsigned)buf, *(unsigned *)(p + 0x18), 0x3C40);
     STRBUF_Delete((struct U16Vec *)buf);
     *flag = 0;
-    func_021BAF48(p);
+    PSEL_CheckAF48(p);
 }

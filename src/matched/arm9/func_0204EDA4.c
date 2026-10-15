@@ -1,5 +1,5 @@
 /*
- * function: BILLBOARD_SetField22
+ * function: BILLBOARD_SetEmission
  * address:  0x0204EDA4
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -24,7 +24,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void BILLBOARD_SetField22(u8 *dst, u16 *src)
+void BILLBOARD_SetEmission(u8 *dst, u16 *src)
 {
     ((struct Obj16114 *)dst)->f22 = *src;
 }

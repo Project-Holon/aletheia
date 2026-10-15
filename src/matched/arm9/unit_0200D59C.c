@@ -31,7 +31,7 @@
  * parameter: this front end assumes an incoming `u16` parameter is already
  * zero extended and emits nothing, so the `lsls #0x10` / `lsrs #0x10` pair at
  * 0x0200D5A2 is a narrowing the source wrote.  The same reading applies to
- * the tag parameters of GDS_PROFILE_CreateNameStr and func_0200D774.
+ * the tag parameters of GDS_PROFILE_CreateNameStr and GDS_PROFILE_ExportRecord.
  *
  * GDS_PROFILE_Delete is the destructor and is eight bytes: a pool word and a `bx`,
  * with no argument set-up at all; see

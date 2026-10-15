@@ -16,7 +16,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   TCBL_Create 0x0203101C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  */
 #include "../include/Obj00001.h"
@@ -35,7 +35,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_02028590(u32,u32,u32,u32);
+extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 void POKETRADE_SAVE_CreateMessageResources(char *p)
 {
@@ -49,6 +49,6 @@ void POKETRADE_SAVE_CreateMessageResources(char *p)
     ((struct Obj00001 *)p)->f740=(void *)PRINTSYS_QUE_Create((void *)(((struct Obj00001 *)p)->f5F4));
     GF_FONT_SetTextColor(1,2,15);
     ((struct Obj00001 *)p)->f744=TCBL_Create(((struct Obj00001 *)p)->f5F4,((struct Obj00001 *)p)->f5F4,2,0);
-    ((struct Obj00001 *)p)->f74C=func_02028590(15,1,0,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f74C=APP_KEYCURSOR_CreateDefault(15,1,0,((struct Obj00001 *)p)->f5F4);
     ((struct Obj00001 *)p)->f6B0=APP_TASKMENU_RES_Create(6,9,*(u32 *)&((struct Obj00001 *)p)->f728,*(u32 *)&((struct Obj00001 *)p)->f740,((struct Obj00001 *)p)->f5F4);
 }

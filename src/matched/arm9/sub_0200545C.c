@@ -16,8 +16,8 @@
  *   _ArenaTableDs      0x0209D8B0  data
  *   _ArcPathTable      0x020A6C58  data
  *   GFL_USE_WaitInputReady    0x02005768  thumb
- *   func_0202F768   0x0202F768  thumb
- *   func_0202F774   0x0202F774  thumb
+ *   APP_POWER_ClearCallback   0x0202F768  thumb
+ *   APP_POWER_SetCallback   0x0202F774  thumb
  *   OS_IsRunOnTwl       0x02085D3C  arm
  *   OS_GetArenaHi       0x0208656C  arm
  *   OS_GetArenaLo       0x02086580  arm
@@ -55,7 +55,7 @@
  * and 0x02005769 (GFL_USE_WaitInputReady, src/matched/unit_0200575C.c) is
  * func_020346EC's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
- * EXACT this wave as src/matched/func_0202F768.c and func_0202F774.c, which
+ * EXACT this wave as src/matched/APP_POWER_ClearCallback.c and APP_POWER_SetCallback.c, which
  * is what attests them (`matched`).  _ArenaTableTwl / _ArenaTableDs now resolve on
  * sole-ref.
  *
@@ -120,8 +120,8 @@ extern void  GFL_USE_ClearVBlankHook(void);
 extern void  GFL_USE_SetSleepVolumeHooks(void);
 extern void FADE_SetSpeed(s32 a);
 extern void  GFL_USE_WaitInputReady(void);
-extern void  func_0202F768(void);
-extern void func_0202F774(u32 on);
+extern void  APP_POWER_ClearCallback(void);
+extern void APP_POWER_SetCallback(u32 on);
 
 void GFL_USE_InitSystem(void)
 {
@@ -168,7 +168,7 @@ void GFL_USE_InitSystem(void)
 
     GFL_USE_InitRandom();
     FADE_Create(0);
-    BACKUP_SYSTEM_Init(7, (u32)func_0202F768, (u32)func_0202F774);
+    BACKUP_SYSTEM_Init(7, (u32)APP_POWER_ClearCallback, (u32)APP_POWER_SetCallback);
     TEXTPRINT_Init(0);
     GF_STANDARD_Reset();
     _GflUse.unk0C = 0;

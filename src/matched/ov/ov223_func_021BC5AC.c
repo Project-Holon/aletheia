@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5AC
+ * function: PSEL_GRAPHIC_ExitBg
  * address: 0x021BC5AC
  * packet: pkt_ov223_021BC5AC
  * region: ov223
@@ -21,4 +21,4 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *,int,int);
-void func_021BC5AC(void *p){unsigned i;for(i=0;i<7;i++)func_020403F4((unsigned char)(*(unsigned *)(d_021BC9B0+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void PSEL_GRAPHIC_ExitBg(void *p){unsigned i;for(i=0;i<7;i++)func_020403F4((unsigned char)(*(unsigned *)(d_021BC9B0+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}

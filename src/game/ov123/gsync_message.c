@@ -67,6 +67,9 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb  arm9
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb  arm9
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_common_types.h"
@@ -145,7 +148,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern u32 func_02028590(u32,u32,u32,u32);
+extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
@@ -171,7 +174,7 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *,u32,void *);
 
@@ -179,7 +182,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
@@ -241,7 +244,7 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     work->tmpBuf = STRBUF_Create(400, work->heap);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heap);
     work->msgData = func_02045B38(0, 2, (u16)msgBank, work->heap);
-    work->keyCursor = (void *)func_02028590(15, 1, 1, work->heap);
+    work->keyCursor = (void *)APP_KEYCURSOR_CreateDefault(15, 1, 1, work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (u32)work->font, (u32)work->printQue, work->heap);
     work->bg5Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heap);
     work->bg6Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)6, 12, 0, work->heap);
@@ -305,7 +308,7 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     } else {
         work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
-        func_02028470(work->streamWait, (int)6);
+        PRINTSYS_CTRL_Init(work->streamWait, (int)6);
     }
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
@@ -333,7 +336,7 @@ int GSYNC_MESSAGE_UpdateStream(GsyncMessageWork *work)
 {
     if (work->printStream) {
         APP_KEYCURSOR_Update(work->keyCursor, work->printStream, work->mainWindow);
-        if (!func_02028484((struct Blk *)work->streamWait, work->printStream))
+        if (!PRINTSYS_CTRL_Update((struct Blk *)work->streamWait, work->printStream))
             return 0;
         PRINTSYS_PrintStreamDelete(work->printStream);
         work->printStream = 0;

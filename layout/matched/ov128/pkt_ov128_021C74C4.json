@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C74C4",
-    "func_021C74E8"
+    "Wf2dmapFriend_ListInput",
+    "Wf2dmapFriend_SetListState"
+   ],
+   "addresses": [
+    "0x021C74C4",
+    "0x021C74E8"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8240
+ * function: Wf2dmapFriend_StepItemOpen
  * address: 0x021C8240
  * packet: pkt_ov128_021C8240
  * region: ov128
@@ -12,8 +12,8 @@
  * symbols:
  *   CLACT_SetSurfacePos 0x0204B09C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_021C8A50 0x021C8A50 thumb ov128
- *   func_021C860C 0x021C860C thumb ov128
+ *   Wf2dmapFriend_DeleteEntryActors 0x021C8A50 thumb ov128
+ *   Wf2dmapFriend_DrawEntryOpen 0x021C860C thumb ov128
  *   d_021CA7C0 0x021CA7C0 data a4
  *   cb_021CA7C0 0x021CA7C0 data a4
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
@@ -33,9 +33,9 @@ struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void CLACT_SetSurfacePos(void *, int, Pair *);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-extern void func_021C8A50(char *p, int unused);
-extern void func_021C860C(u8 *, u8 *, u8 *, int, int, u16);
-int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)
+extern void Wf2dmapFriend_DeleteEntryActors(char *p, int unused);
+extern void Wf2dmapFriend_DrawEntryOpen(u8 *, u8 *, u8 *, int, int, u16);
+int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
 {
     Pair pos;
     int delta;
@@ -47,8 +47,8 @@ int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)
         pos.y = d_021CA7C0.pos.y;
         CLACT_SetSurfacePos(((struct Obj10484 *)b)->f140, 0, &pos);
         mode = ((struct Obj00179 *)p)->f102 == 2 ? 2 : 1;
-        func_021C8A50((char *)(p + 12 + mode * 76), (int)b);
-        func_021C860C(p, a, b, ((struct Obj00179 *)p)->f0, ((struct Obj00179 *)p)->f4, h);
+        Wf2dmapFriend_DeleteEntryActors((char *)(p + 12 + mode * 76), (int)b);
+        Wf2dmapFriend_DrawEntryOpen(p, a, b, ((struct Obj00179 *)p)->f0, ((struct Obj00179 *)p)->f4, h);
         return 1;
     }
     delta = (((struct Obj00179 *)p)->f100 * 256) / 24;

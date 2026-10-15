@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0217AFD0",
-    "func_0217B00C"
+    "BATTLE_CHAMPIONSHIP_FLOW_SelectFlow",
+    "BATTLE_CHAMPIONSHIP_FLOW_End"
+   ],
+   "addresses": [
+    "0x0217AFD0",
+    "0x0217B00C"
    ]
   }
  ]

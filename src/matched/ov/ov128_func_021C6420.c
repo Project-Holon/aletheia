@@ -1,5 +1,5 @@
 /*
- * function: func_021C6420
+ * function: Wf2dmapFriend_DeleteText
  * address: 0x021C6420
  * packet: pkt_ov128_021C6420
  * region: ov128
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 extern void func_020355D8(int);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021C6420(u8 *p, void *a1) { func_020355D8(((struct Obj10482 *)p)->f0); STRBUF_Delete(((struct Obj10482 *)p)->f58); STRBUF_Delete(((struct Obj10482 *)p)->f5C); }
+void Wf2dmapFriend_DeleteText(u8 *p, void *a1) { func_020355D8(((struct Obj10482 *)p)->f0); STRBUF_Delete(((struct Obj10482 *)p)->f58); STRBUF_Delete(((struct Obj10482 *)p)->f5C); }

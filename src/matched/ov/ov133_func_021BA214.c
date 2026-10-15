@@ -1,5 +1,5 @@
 /*
- * function: func_021BA214
+ * function: DUP_FITTING_ITEM_ElemGetSprite
  * address: 0x021BA214
  * packet: pkt_ov133_021BA214
  * region: ov133
@@ -11,7 +11,7 @@
 #include "../include/Obj23333.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021BA214(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *p)
 {
     return ((struct Obj23333 *)p)->f8;
 }

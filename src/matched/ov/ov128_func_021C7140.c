@@ -1,5 +1,5 @@
 /*
- * function: func_021C7140
+ * function: Wf2dmapFriend_InitListScreen
  * address: 0x021C7140
  * packet: pkt_ov128_021C7140
  * region: ov128
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C63AC 0x021C63AC thumb ov128
+ *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
  *   STRBUF_Create 0x020457B0 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -29,7 +29,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C63AC(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
+extern void Wf2dmapFriend_CreateWindow(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
 struct MsgBank;
 struct R;
 struct U16Vec;
@@ -60,14 +60,14 @@ struct P {
     u32 flag2;
     void *menu;
 };
-void func_021C7140(struct P *p, u8 *a, u8 *ctx, u16 heap)
+void Wf2dmapFriend_InitListScreen(struct P *p, u8 *a, u8 *ctx, u16 heap)
 {
     int i;
     void *buf;
     void *text;
     u32 width;
-    func_021C63AC(ctx,(u32 *)((u8 *)p+12),3,4,5,24,20,10,1,0);
-    func_021C63AC(ctx,(u32 *)((u8 *)p+28),1,2,19,27,4,10,172,0);
+    Wf2dmapFriend_CreateWindow(ctx,(u32 *)((u8 *)p+12),3,4,5,24,20,10,1,0);
+    Wf2dmapFriend_CreateWindow(ctx,(u32 *)((u8 *)p+28),1,2,19,27,4,10,172,0);
     p->buf=STRBUF_Create(128,heap);
     buf=STRBUF_Create(128,heap);
     text=STRBUF_Create(128,heap);

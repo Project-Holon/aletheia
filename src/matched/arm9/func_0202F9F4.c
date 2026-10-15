@@ -1,5 +1,5 @@
 /*
- * function: func_0202F9F4
+ * function: APP_POWER_IsSupported
  * address:  0x0202F9F4
  * packet:   pkt_0202F9F4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0202F9F4(void)
+int APP_POWER_IsSupported(void)
 {
     return 1;
 }

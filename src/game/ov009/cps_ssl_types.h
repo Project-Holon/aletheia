@@ -74,8 +74,19 @@ typedef struct CPSPrivateKey {
     unsigned char *p5;
 } CPSPrivateKey;
 
-typedef struct CPSSha1Ctx { unsigned char b[0x5C]; } CPSSha1Ctx;
-typedef struct CPSMd5Ctx { unsigned char b[0x58]; } CPSMd5Ctx;
+/* SHA1/MD5 running contexts (md5.o, sha1.o). 92 and 88 bytes. */
+typedef struct CPSSha1Ctx {
+    u32 state[5];                         /* 0x00 */
+    u32 count[2];                         /* 0x14 */
+    unsigned char buffer[64];             /* 0x1C */
+} CPSSha1Ctx;
+
+typedef struct CPSMd5Ctx {
+    u32 state[4];                         /* 0x00 */
+    u32 count[2];                         /* 0x10 */
+    unsigned char buffer[64];             /* 0x18 */
+} CPSMd5Ctx;
+
 typedef struct CPSCipherCtx { unsigned char b[0x104]; } CPSCipherCtx;
 
 typedef struct {

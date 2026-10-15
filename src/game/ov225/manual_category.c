@@ -1,7 +1,7 @@
 /*
  * file:     manual_category.c
  * unit:     yes
- * function: func_021BB6E0, func_021BB7F4, func_021BB850, func_021BB854, func_021BBA14, func_021BBA70, func_021BBA74, func_021BBAE8, func_021BBB0C, func_021BBBF0, func_021BBBF4, func_021BBC44, func_021BBC50, func_021BBC54, func_021BBCF4, func_021BBD28, func_021BBD74
+ * function: MANUAL_CATEGORY_CreateList, MANUAL_CATEGORY_DeleteList, MANUAL_CATEGORY_TaskNoop, MANUAL_CATEGORY_CreateDetailList, MANUAL_CATEGORY_DeleteDetailList, MANUAL_CATEGORY_DetailTaskNoop, MANUAL_CATEGORY_CreateOption, MANUAL_CATEGORY_DeleteOption, MANUAL_CATEGORY_UpdateOption, MANUAL_CATEGORY_OptionTaskNoop, MANUAL_CATEGORY_LoadOptionAssets, MANUAL_CATEGORY_SetOptionBgMode, MANUAL_CATEGORY_OptionNoop, MANUAL_CATEGORY_CreateOptionSlots, MANUAL_CATEGORY_DeleteOptionSlots, MANUAL_CATEGORY_UpdateOptionSlots, MANUAL_CATEGORY_DrawOption
  * address:  0x021BB6E0
  * region:   ov225
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   func_021B9C58 0x021B9C58 thumb ov225
  *   func_021B9C28 0x021B9C28 thumb ov225
  *   func_021BA65C 0x021BA65C thumb ov225
- *   d_021BC048 0x021BC048 data a4
+ *   gManualCategoryListAllocFile 0x021BC048 data a4
  *   func_02030EAC 0x02030EAC arm
  *   func_021BA740 0x021BA740 thumb ov225
  *   func_020307B0 0x020307B0 arm
@@ -35,8 +35,8 @@
  *   func_021B9BE0 0x021B9BE0 thumb ov225
  *   func_021B9C98 0x021B9C98 thumb ov225
  *   func_021B9BC8 0x021B9BC8 thumb ov225
- *   d_021BC05C 0x021BC05C data a1
- *   file_021BC06C 0x021BC06C data a1
+ *   gManualCategoryDetailAllocFile 0x021BC05C data a1
+ *   gManualCategoryOptionAllocFile 0x021BC06C data a1
  *   func_021BA068 0x021BA068 thumb ov225
  *   func_021BA0F0 0x021BA0F0 thumb ov225
  *   func_021B9CDC 0x021B9CDC thumb ov225
@@ -56,7 +56,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   d_021BBFA8 0x021BBFA8 data a1
+ *   gManualCategorySlotRecords 0x021BBFA8 data a1
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -65,63 +65,6 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
-#include "../../matched/include/Obj00637.h"
-#include "../../matched/include/Obj14810.h"
-#include "../../matched/include/Obj26278.h"
-#include "../../matched/include/Obj26279.h"
-#include "../../matched/include/Obj26280.h"
-#include "../../matched/include/Obj26281.h"
-#include "../../matched/include/Obj26282.h"
-#include "../../matched/include/Obj26283.h"
-#include "../../matched/include/Obj26284.h"
-#include "../../matched/include/Obj26286.h"
-#include "../../matched/include/Obj26288.h"
-#include "../../matched/include/Obj01789.h"
-#include "../../matched/include/Obj26290.h"
-#include "../../matched/include/Obj26291.h"
-#include "../../matched/include/Obj26292.h"
-#include "../../matched/include/Obj26293.h"
-#include "../../matched/include/Obj26294.h"
-#include "../../matched/include/Obj26295.h"
-#include "../../matched/include/Obj01790.h"
-#include "../../matched/include/Obj26296.h"
-#include "../../matched/include/Obj26297.h"
-#include "../../matched/include/Obj26298.h"
-#include "../../matched/include/Obj26299.h"
-#include "../../matched/include/Obj26300.h"
-#include "../../matched/include/Obj26301.h"
-#include "../../matched/include/Obj26302.h"
-#include "../../matched/include/Obj02563.h"
-#include "../../matched/include/Obj26303.h"
-#include "../../matched/include/Obj26304.h"
-#include "../../matched/include/Obj26305.h"
-#include "../../matched/include/Obj26306.h"
-#include "../../matched/include/Obj10985.h"
-#include "../../matched/include/Obj26308.h"
-#include "../../matched/include/Obj00602.h"
-#include "../../matched/include/Obj26309.h"
-#include "../../matched/include/Obj26310.h"
-#include "../../matched/include/Obj26312.h"
-#include "../../matched/include/Obj26313.h"
-#include "../../matched/include/Obj26314.h"
-#include "../../matched/include/Obj05575.h"
-#include "../../matched/include/Obj26316.h"
-#include "../../matched/include/Obj26317.h"
-#include "../../matched/include/Obj26318.h"
-#include "../../matched/include/Obj26319.h"
-#include "../../matched/include/Obj26320.h"
-#include "../../matched/include/Obj26321.h"
-#include "../../matched/include/Obj03382.h"
-#include "../../matched/include/Obj08471.h"
-#include "../../matched/include/Obj08472.h"
-#include "../../matched/include/Obj26322.h"
-#include "../../matched/include/Obj26323.h"
-#include "../../matched/include/Obj06736.h"
-#include "../../matched/include/Obj02267.h"
-#include "../../matched/include/Obj26324.h"
-#include "../../matched/include/Obj26325.h"
-
-struct Data;
 struct Node;
 struct Descriptor;
 struct CharBuf;
@@ -133,19 +76,93 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Owner { u32 f0; u16 f4; u16 f6; u16 f8; } Owner;
-
-typedef struct Data { void *f0; u16 f4; char pad6[0x26]; char *f2C; } Data;
-
-typedef struct Q { Owner *f0; Data *f4; u32 f8; u16 fC; char padE[2]; char *f10; u16 f14; u16 f16; char pad18[4]; char *f1C; void *f20; } Q;
-
-typedef enum { FLAG_FALSE, FLAG_TRUE } Flag;
-
 typedef unsigned char u8;
 
 typedef short s16;
 
-typedef struct { u8 v[9]; } Record;
+/* The manual data object built by func_021B9D18 (was State_021B9B3C / Obj views). */
+struct ManualData {
+    void *owner;        /* 0x00 save/state object */
+    u16 heap;           /* 0x04 */
+    u16 pad06;
+    void *screen;       /* 0x08 */
+    void *font;         /* 0x0C */
+    void *printQue[3];  /* 0x10 */
+    void *bank[2];      /* 0x1C */
+    void *arc[2];       /* 0x24 */
+    void *assets;       /* 0x2C */
+    u16 id;             /* 0x30 */
+    u16 pad32;
+    void *group;        /* 0x34 */
+};
+
+/* ManualWork + 0x20: the list owner region. */
+struct ManualListOwner {
+    u16 originX;        /* 0x00 */
+    u16 originY;        /* 0x02 */
+    u32 hasDetail;      /* 0x04 */
+    u16 detailEntry;    /* 0x08 */
+    u16 pad0A;
+};
+
+/* ManualWork + 0x30: the detail owner region. */
+struct ManualDetailOwner {
+    u32 state;          /* 0x00 */
+    u16 id;             /* 0x04 */
+    u16 count;          /* 0x06 */
+    u16 selected;       /* 0x08 */
+    u16 pad0A;
+    u32 subFlag;        /* 0x0C */
+    u16 entryId;        /* 0x10 */
+    u16 pad12;
+};
+
+/* One 8-byte selection table row. */
+struct ManualListEntry { u16 item; u16 count; u32 flag; };
+
+/* The selection list built by MANUAL_CATEGORY_CreateList and MANUAL_CATEGORY_CreateDetailList (was Q / Obj00637). */
+struct ManualMenuList {
+    void *owner;            /* 0x00 list or detail owner region */
+    void *data;             /* 0x04 */
+    u32 ready;              /* 0x08 */
+    u16 entryCount;         /* 0x0C */
+    u16 pad0E;
+    struct ManualListEntry *entries;  /* 0x10 */
+    u16 savedA;             /* 0x14 restored to the owner on delete */
+    u16 savedB;             /* 0x16 */
+    u32 mode;               /* 0x18 */
+    void *widget;           /* 0x1C */
+    void *task;             /* 0x20 */
+};
+
+/* The option/detail work built by MANUAL_CATEGORY_CreateOption (was Obj02563 / Obj00602). */
+struct ManualOptionWork {
+    void *owner;            /* 0x00 ManualWork + 0x48 */
+    void *data;             /* 0x04 */
+    u8 cursor;              /* 0x08 */
+    u8 pad09[3];
+    u32 dirty;              /* 0x0C */
+    void *bg[3];            /* 0x10 */
+    struct PrintSys *que[3];/* 0x1C */
+    u32 flag[3];            /* 0x28 */
+    void *task;             /* 0x34 */
+    u32 state;              /* 0x38 */
+    signed char timer;      /* 0x3C */
+    u8 pad3D[3];
+};
+
+/* ManualWork + 0x48: the option owner region. */
+struct ManualOptionOwner {
+    u8 entryCount;          /* 0x00 */
+    u8 pad01;
+    u16 selectedId;         /* 0x02 */
+    struct { u16 item; u16 count; } entries[9];  /* 0x04 */
+    u32 closeFlag;          /* 0x28 */
+};
+
+typedef enum { FLAG_FALSE, FLAG_TRUE } Flag;
+
+typedef struct { u8 v[9]; } ManualSlotRecord;
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
@@ -155,7 +172,7 @@ extern u16 func_021B9C40(char *,int,int);
 extern u16 func_021B9BD4(char *,int);
 extern int func_021B9C58(void *,int,void *);
 extern u16 func_021B9C28(char *,int);
-extern void *func_021BA65C(char *owner, struct Data *data);
+extern void *func_021BA65C(char *owner, struct ManualData *data);
 extern void func_02030EAC(struct Node *);
 extern void func_021BA740(char *);
 extern u32 func_020307B0(void *p);
@@ -190,65 +207,65 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p,void *value);
 extern void BMP_WIN_MakeScreen(struct Cfg *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 channel);
-char *func_021BB6E0(char *p,char *data);
-void func_021BB7F4(char *p);
-int func_021BB844(char *p);
-void func_021BB850(void);
-Q *func_021BB854(Owner *p, Data *data);
-void func_021BBA14(char *p);
-int func_021BBA64(char *p);
-void func_021BBA70(void);
-char *func_021BBA74(char *p, char *data);
-void func_021BBAE8(char *p);
-int func_021BBB0C(char *p);
-void func_021BBBF0(void *p);
-void func_021BBBF4(char *p);
-void func_021BBC44(char *a0);
-void func_021BBC50(char *a0);
-void func_021BBC54(u8 *p);
-void func_021BBCF4(char *p);
-void func_021BBD28(u8 *p);
-void func_021BBD74(char *p);
-extern const char d_021BC048[];
-extern const char d_021BC05C[];
-extern const char file_021BC06C[];
-extern const Record d_021BBFA8[];
+char *MANUAL_CATEGORY_CreateList(char *p,char *data);
+void MANUAL_CATEGORY_DeleteList(char *p);
+int MANUAL_CATEGORY_IsListFinished(char *p);
+void MANUAL_CATEGORY_TaskNoop(void);
+struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner *p, struct ManualData *data);
+void MANUAL_CATEGORY_DeleteDetailList(char *p);
+int MANUAL_CATEGORY_IsDetailFinished(char *p);
+void MANUAL_CATEGORY_DetailTaskNoop(void);
+char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
+void MANUAL_CATEGORY_DeleteOption(char *p);
+int MANUAL_CATEGORY_UpdateOption(char *p);
+void MANUAL_CATEGORY_OptionTaskNoop(void *p);
+void MANUAL_CATEGORY_LoadOptionAssets(char *p);
+void MANUAL_CATEGORY_SetOptionBgMode(char *a0);
+void MANUAL_CATEGORY_OptionNoop(char *a0);
+void MANUAL_CATEGORY_CreateOptionSlots(u8 *p);
+void MANUAL_CATEGORY_DeleteOptionSlots(char *p);
+void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p);
+void MANUAL_CATEGORY_DrawOption(char *p);
+extern const char gManualCategoryListAllocFile[];
+extern const char gManualCategoryDetailAllocFile[];
+extern const char gManualCategoryOptionAllocFile[];
+extern const ManualSlotRecord gManualCategorySlotRecords[];
 
 
-char *func_021BB6E0(char *p,char *data)
+char *MANUAL_CATEGORY_CreateList(char *p,char *data)
 {
     char *q;
     u16 groups,items;
     u16 i,j,valid;
-    q=func_02030734(((struct Obj14810 *)data)->f4,0x24,1,d_021BC048,0x5c);
-    *(char * *)&((struct Obj00637 *)q)->f0=p;
-    ((struct Obj26278 *)p)->f4=0;
-    ((struct Obj26279 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f8=0;
-    *(char * *)&((struct Obj00637 *)q)->f4=data;
-    ((struct Obj00637 *)q)->f8=0;
-    groups=func_021B9C50(*(char * *)&((struct Obj14810 *)data)->f2C);
-    ((struct Obj00637 *)q)->fC=0;
-    *(char * *)&((struct Obj00637 *)q)->f10=func_02030734(((struct Obj26280 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f4,groups*8,1,d_021BC048,0x71);
+    q=func_02030734(((struct ManualData *)data)->heap,0x24,1,gManualCategoryListAllocFile,0x5c);
+    *(char * *)&((struct ManualMenuList *)q)->owner=p;
+    ((struct ManualListOwner *)p)->hasDetail=0;
+    ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->detailEntry=0;
+    *(char * *)&((struct ManualMenuList *)q)->data=data;
+    ((struct ManualMenuList *)q)->ready=0;
+    groups=func_021B9C50(*(char * *)&((struct ManualData *)data)->assets);
+    ((struct ManualMenuList *)q)->entryCount=0;
+    *(char * *)&((struct ManualMenuList *)q)->entries=func_02030734(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->heap,groups*8,1,gManualCategoryListAllocFile,0x71);
     for(i=0;i<groups;i++) {
         valid=0;
-        items=func_021B9C34(*(char * *)&((struct Obj26281 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i);
+        items=func_021B9C34(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
         for(j=0;j<items;j++) {
             int id;
-            id=func_021B9C40(*(char * *)&((struct Obj26282 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i,j);
-            id=func_021B9BD4(*(char * *)&((struct Obj26283 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,id);
-            if(func_021B9C58(((struct Obj26284 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,id,*(void **)*(char * *)&((struct Obj00637 *)q)->f4)) valid++;
+            id=func_021B9C40(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i,j);
+            id=func_021B9BD4(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id);
+            if(func_021B9C58(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id,*(void **)*(char * *)&((struct ManualMenuList *)q)->data)) valid++;
         }
         if(valid) {
-            *(u16 *)(*(char * *)&((struct Obj00637 *)q)->f10+((struct Obj00637 *)q)->fC*8)=i;
-            *(u16 *)(*(char * *)&((struct Obj00637 *)q)->f10+((struct Obj00637 *)q)->fC*8+2)=func_021B9C28(*(char * *)&((struct Obj26286 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i);
-            *(u32 *)(*(char * *)&((struct Obj00637 *)q)->f10+((struct Obj00637 *)q)->fC*8+4)=0;
-            ((struct Obj00637 *)q)->fC+=1;
+            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8)=i;
+            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+2)=func_021B9C28(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
+            *(u32 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+4)=0;
+            ((struct ManualMenuList *)q)->entryCount+=1;
         }
     }
-    ((struct Obj00637 *)q)->f14=*(u16 *)*(char * *)&((struct Obj00637 *)q)->f0;
-    ((struct Obj00637 *)q)->f16=((struct Obj26288 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f2;
-    *(char * *)&((struct Obj00637 *)q)->f1C=func_021BA65C(q+8,(struct Data *)data);
-    ((struct Obj00637 *)q)->f20=func_020056A0((unsigned)func_021BB850,(unsigned)q,1);
+    ((struct ManualMenuList *)q)->savedA=*(u16 *)*(char * *)&((struct ManualMenuList *)q)->owner;
+    ((struct ManualMenuList *)q)->savedB=((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->originY;
+    *(char * *)&((struct ManualMenuList *)q)->widget=func_021BA65C(q+8,(struct ManualData *)data);
+    ((struct ManualMenuList *)q)->task=func_020056A0((unsigned)MANUAL_CATEGORY_TaskNoop,(unsigned)q,1);
     return q;
 }
 
@@ -257,101 +274,101 @@ char *func_021BB6E0(char *p,char *data)
  * extent: 94-byte unit; two zero alignment bytes at 021BB852 are outside the unit.
  * followers: parent cleared 021BB844 tail stub and 021BB850 empty Thumb leaf.
  */
-void func_021BB7F4(char *p)
+void MANUAL_CATEGORY_DeleteList(char *p)
 {
-    func_02030EAC(*(struct Node * *)&((struct Obj01789 *)p)->f20);
-    *(u16 *)*(char * *)&((struct Obj01789 *)p)->f0 = ((struct Obj01789 *)p)->f14;
-    ((struct Obj26290 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f2 = ((struct Obj01789 *)p)->f16;
-    if (((struct Obj01789 *)p)->f18 == 0) ((struct Obj26291 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f4 = 0;
-    else if (((struct Obj01789 *)p)->f18 == 1) {
-        ((struct Obj26292 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f4 = 1;
-        ((struct Obj26294 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f8 = *(u16 *)(*(char * *)&((struct Obj01789 *)p)->f10 + ((struct Obj26293 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f2 * 8);
+    func_02030EAC(*(struct Node * *)&((struct ManualMenuList *)p)->task);
+    *(u16 *)*(char * *)&((struct ManualMenuList *)p)->owner = ((struct ManualMenuList *)p)->savedA;
+    ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY = ((struct ManualMenuList *)p)->savedB;
+    if (((struct ManualMenuList *)p)->mode == 0) ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 0;
+    else if (((struct ManualMenuList *)p)->mode == 1) {
+        ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 1;
+        ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->detailEntry = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->entries + ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY * 8);
     }
-    func_021BA740(*(char * *)&((struct Obj01789 *)p)->f1C);
-    func_020307B0(((struct Obj01789 *)p)->f10);
+    func_021BA740(*(char * *)&((struct ManualMenuList *)p)->widget);
+    func_020307B0(((struct ManualMenuList *)p)->entries);
     func_020307B0(p);
 }
 
 
-int func_021BB844(char *p)
+int MANUAL_CATEGORY_IsListFinished(char *p)
 {
-    return func_021BA760(*(char * *)&((struct Obj26295 *)p)->f1C);
+    return func_021BA760(*(char * *)&((struct ManualMenuList *)p)->widget);
 }
 
 
-void func_021BB850(void)
+void MANUAL_CATEGORY_TaskNoop(void)
 {
 }
 
 
-Q *func_021BB854(Owner *p, Data *data)
+struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner *p, struct ManualData *data)
 {
-    Q *q;
+    struct ManualMenuList *q;
     u32 t, t0;
     int g;
     u16 ca, cb;
     int ra, rb;
-    q = func_02030734(data->f4, 0x24, 1, d_021BC05C, 0x61);
-    q->f0 = p;
+    q = func_02030734(data->heap, 0x24, 1, gManualCategoryDetailAllocFile, 0x61);
+    q->owner = p;
     *(u32 *)((char *)p + 0xC) = 0;
-    *(u16 *)((char *)q->f0 + 0x10) = 0;
-    q->f4 = data;
-    t0 = q->f0->f0;
+    *(u16 *)((char *)q->owner + 0x10) = 0;
+    q->data = data;
+    t0 = ((struct ManualDetailOwner *)q->owner)->state;
     if (t0 == 0) {
-        q->f8 = 1;
-        g = q->f0->f4;
-        ca = func_021B9C34(q->f4->f2C, g);
-        q->fC = 0;
-        q->f10 = func_02030734(q->f4->f4, ca * 8, 1, d_021BC05C, 0x79);
+        q->ready = 1;
+        g = ((struct ManualDetailOwner *)q->owner)->id;
+        ca = func_021B9C34(((struct ManualData *)q->data)->assets, g);
+        q->entryCount = 0;
+        q->entries = func_02030734(((struct ManualData *)q->data)->heap, ca * 8, 1, gManualCategoryDetailAllocFile, 0x79);
         {
             u16 i;
         for (i = 0; i < ca; i++) {
             u16 id;
             int id2;
-            id = func_021B9C40(q->f4->f2C, g, i);
-            id2 = func_021B9BD4(q->f4->f2C, id);
-            if (func_021B9C58(q->f4->f2C, id2, q->f4->f0)) {
-                t = func_021B9BE0(q->f4->f2C, id);
-                ra = func_021B9C98(q->f4->f2C, t, (int)q->f4->f0);
-                *(u16 *)(q->f10 + q->fC * 8) = id;
-                *(u16 *)(q->f10 + q->fC * 8 + 2) = func_021B9BC8(q->f4->f2C, id);
-                *(u32 *)(q->f10 + q->fC * 8 + 4) = (ra != 0) ? FLAG_FALSE : FLAG_TRUE;
-                q->fC += 1;
+            id = func_021B9C40(((struct ManualData *)q->data)->assets, g, i);
+            id2 = func_021B9BD4(((struct ManualData *)q->data)->assets, id);
+            if (func_021B9C58(((struct ManualData *)q->data)->assets, id2, ((struct ManualData *)q->data)->owner)) {
+                t = func_021B9BE0(((struct ManualData *)q->data)->assets, id);
+                ra = func_021B9C98(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
+                *(u16 *)((char *)q->entries + q->entryCount * 8) = id;
+                *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = func_021B9BC8(((struct ManualData *)q->data)->assets, id);
+                *(u32 *)((char *)q->entries + q->entryCount * 8 + 4) = (ra != 0) ? FLAG_FALSE : FLAG_TRUE;
+                q->entryCount += 1;
             }
         }
         }
-        q->f14 = *(u16 *)((char *)q->f0 + 6);
-        q->f16 = *(u16 *)((char *)q->f0 + 8);
+        q->savedA = *(u16 *)((char *)q->owner + 6);
+        q->savedB = *(u16 *)((char *)q->owner + 8);
     } else {
-        q->f8 = 1;
-        cb = func_021B9C20(q->f4->f2C);
-        q->fC = 0;
-        q->f10 = func_02030734(q->f4->f4, cb * 8, 1, d_021BC05C, 0xB2);
+        q->ready = 1;
+        cb = func_021B9C20(((struct ManualData *)q->data)->assets);
+        q->entryCount = 0;
+        q->entries = func_02030734(((struct ManualData *)q->data)->heap, cb * 8, 1, gManualCategoryDetailAllocFile, 0xB2);
         {
             u16 i;
         for (i = 0; i < cb; i++) {
             int id;
-            id = func_021B9BD4(q->f4->f2C, i);
-            if (func_021B9C58(q->f4->f2C, id, q->f4->f0)) {
-                t = func_021B9BE0(q->f4->f2C, i);
-                rb = func_021B9C98(q->f4->f2C, t, (int)q->f4->f0);
-                *(u16 *)(q->f10 + q->fC * 8) = i;
-                *(u16 *)(q->f10 + q->fC * 8 + 2) = func_021B9BC8(q->f4->f2C, i);
+            id = func_021B9BD4(((struct ManualData *)q->data)->assets, i);
+            if (func_021B9C58(((struct ManualData *)q->data)->assets, id, ((struct ManualData *)q->data)->owner)) {
+                t = func_021B9BE0(((struct ManualData *)q->data)->assets, i);
+                rb = func_021B9C98(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
+                *(u16 *)((char *)q->entries + q->entryCount * 8) = i;
+                *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = func_021B9BC8(((struct ManualData *)q->data)->assets, i);
                 {
                     u32 fl = 0;
                     if (rb == 0)
                         fl = 1;
-                    *(u32 *)(q->f10 + q->fC * 8 + 4) = fl;
+                    *(u32 *)((char *)q->entries + q->entryCount * 8 + 4) = fl;
                 }
-                q->fC += 1;
+                q->entryCount += 1;
             }
         }
         }
-        q->f14 = *(u16 *)((char *)q->f0 + 6);
-        q->f16 = *(u16 *)((char *)q->f0 + 8);
+        q->savedA = *(u16 *)((char *)q->owner + 6);
+        q->savedB = *(u16 *)((char *)q->owner + 8);
     }
-    q->f1C = func_021BA65C((char *)q + 8, (struct Data *)data);
-    q->f20 = func_020056A0((unsigned)func_021BBA70, (unsigned)q, 1);
+    q->widget = func_021BA65C((char *)q + 8, data);
+    q->task = func_020056A0((unsigned)MANUAL_CATEGORY_DetailTaskNoop, (unsigned)q, 1);
     return q;
 }
 
@@ -360,29 +377,29 @@ Q *func_021BB854(Owner *p, Data *data)
  * extent: 94-byte unit; two zero alignment bytes at 021BBA72 are outside the unit.
  * followers: parent cleared 021BBA64 tail stub and 021BBA70 empty Thumb leaf.
  */
-void func_021BBA14(char *p)
+void MANUAL_CATEGORY_DeleteDetailList(char *p)
 {
-    func_02030EAC(*(struct Node * *)&((struct Obj01790 *)p)->f20);
-    ((struct Obj26296 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f6 = ((struct Obj01790 *)p)->f14;
-    ((struct Obj26297 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f8 = ((struct Obj01790 *)p)->f16;
-    if (((struct Obj01790 *)p)->f18 == 0) ((struct Obj26298 *)(*(char * *)&((struct Obj01790 *)p)->f0))->fC = 0;
-    else if (((struct Obj01790 *)p)->f18 == 1) {
-        ((struct Obj26299 *)(*(char * *)&((struct Obj01790 *)p)->f0))->fC = 1;
-        ((struct Obj26301 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f10 = *(u16 *)(*(char * *)&((struct Obj01790 *)p)->f10 + ((struct Obj26300 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f8 * 8);
+    func_02030EAC(*(struct Node * *)&((struct ManualMenuList *)p)->task);
+    ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->count = ((struct ManualMenuList *)p)->savedA;
+    ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->selected = ((struct ManualMenuList *)p)->savedB;
+    if (((struct ManualMenuList *)p)->mode == 0) ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->subFlag = 0;
+    else if (((struct ManualMenuList *)p)->mode == 1) {
+        ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->subFlag = 1;
+        ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->entryId = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->entries + ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->selected * 8);
     }
-    func_021BA740(*(char * *)&((struct Obj01790 *)p)->f1C);
-    func_020307B0(((struct Obj01790 *)p)->f10);
+    func_021BA740(*(char * *)&((struct ManualMenuList *)p)->widget);
+    func_020307B0(((struct ManualMenuList *)p)->entries);
     func_020307B0(p);
 }
 
 
-int func_021BBA64(char *p)
+int MANUAL_CATEGORY_IsDetailFinished(char *p)
 {
-    return func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
+    return func_021BA760(*(char * *)&((struct ManualMenuList *)p)->widget);
 }
 
 
-void func_021BBA70(void)
+void MANUAL_CATEGORY_DetailTaskNoop(void)
 {
 }
 
@@ -390,77 +407,77 @@ void func_021BBA70(void)
 /*
  * arity: BBC44 retains original visible r0 context although its fixed tail ignores it.
  */
-char *func_021BBA74(char *p, char *data)
+char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
 {
     char *q;
-    q = func_02030734(((struct Obj26303 *)data)->f4, 64, 1, file_021BC06C, 156);
-    *(char * *)&((struct Obj02563 *)q)->f0 = p;
-    ((struct Obj26304 *)p)->f28 = 0;
-    *(char * *)&((struct Obj02563 *)q)->f4 = data;
+    q = func_02030734(((struct ManualData *)data)->heap, 64, 1, gManualCategoryOptionAllocFile, 156);
+    *(char * *)&((struct ManualOptionWork *)q)->owner = p;
+    ((struct ManualOptionOwner *)p)->closeFlag = 0;
+    *(char * *)&((struct ManualOptionWork *)q)->data = data;
     q[8] = 0;
-    ((struct Obj02563 *)q)->fC = 0;
-    func_021BBBF4(q);
-    func_021BBC44(q);
-    func_021BBC54((u8 *)q);
-    ((struct Obj02563 *)q)->f34 = func_020056A0((unsigned)func_021BBBF0, (unsigned)q, 1);
-    ((struct Obj02563 *)q)->f38 = 0;
+    ((struct ManualOptionWork *)q)->dirty = 0;
+    MANUAL_CATEGORY_LoadOptionAssets(q);
+    MANUAL_CATEGORY_SetOptionBgMode(q);
+    MANUAL_CATEGORY_CreateOptionSlots((u8 *)q);
+    ((struct ManualOptionWork *)q)->task = func_020056A0((unsigned)MANUAL_CATEGORY_OptionTaskNoop, (unsigned)q, 1);
+    ((struct ManualOptionWork *)q)->state = 0;
     q[0x3c] = -1;
-    func_021BA068(*(char * *)&((struct Obj26305 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, 3);
-    func_021BA0F0(*(char * *)&((struct Obj26306 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, *(u8 *)*(char * *)&((struct Obj02563 *)q)->f0, ((struct Obj02563 *)q)->f8);
-    func_021BBD74(q);
+    func_021BA068(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, 3);
+    func_021BA0F0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)q)->owner, ((struct ManualOptionWork *)q)->cursor);
+    MANUAL_CATEGORY_DrawOption(q);
     return q;
 }
 
 
-void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
+void MANUAL_CATEGORY_DeleteOption(char *p) { func_021B9E80(*(char * *)&((struct ManualOptionWork *)p)->data,func_021B9CDC(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask(*(struct Node * *)&((struct ManualOptionWork *)p)->task); func_020307B0(p); }
 
 
-int func_021BBB0C(char *p)
+int MANUAL_CATEGORY_UpdateOption(char *p)
 {
     int result = 0;
-    int timer = ((struct Obj00602 *)p)->f3C;
+    int timer = ((struct ManualOptionWork *)p)->timer;
     int choice;
     if (timer == 0) result = 1;
     else if (timer > 0) {
         if (timer == 1) {
-            func_021BBCF4(p);
-            func_021BBC50(p);
+            MANUAL_CATEGORY_DeleteOptionSlots(p);
+            MANUAL_CATEGORY_OptionNoop(p);
         }
-        ((struct Obj00602 *)p)->f3C -= 1;
+        ((struct ManualOptionWork *)p)->timer -= 1;
     }
-    if (((struct Obj00602 *)p)->f38 != 1) func_021BBD28((u8 *)p);
-    if (((struct Obj00602 *)p)->f38 == 0 || ((struct Obj00602 *)p)->f38 == 2) {
-        func_021B9FBC(*(char * *)&((struct Obj26309 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
-        if (((struct Obj00602 *)p)->f38 == 0) {
-            choice = func_021BA158(*(char * *)&((struct Obj26310 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
+    if (((struct ManualOptionWork *)p)->state != 1) MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
+    if (((struct ManualOptionWork *)p)->state == 0 || ((struct ManualOptionWork *)p)->state == 2) {
+        func_021B9FBC(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
+        if (((struct ManualOptionWork *)p)->state == 0) {
+            choice = func_021BA158(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
             if (choice == -1) goto done;
-            ((struct Obj00602 *)p)->f38 = 2;
+            ((struct ManualOptionWork *)p)->state = 2;
             if (choice == 4) {
-                if (((struct Obj00602 *)p)->f8 != 0) {
-                    ((struct Obj00602 *)p)->f8 -= 1;
-                    ((struct Obj00602 *)p)->fC = 1;
+                if (((struct ManualOptionWork *)p)->cursor != 0) {
+                    ((struct ManualOptionWork *)p)->cursor -= 1;
+                    ((struct ManualOptionWork *)p)->dirty = 1;
                 }
             } else if (choice == 5) {
-                if (((struct Obj00602 *)p)->f8 < *(u8 *)*(char * *)&((struct Obj00602 *)p)->f0 - 1) {
-                    ((struct Obj00602 *)p)->f8 += 1;
-                    ((struct Obj00602 *)p)->fC = 1;
+                if (((struct ManualOptionWork *)p)->cursor < *(u8 *)*(char * *)&((struct ManualOptionWork *)p)->owner - 1) {
+                    ((struct ManualOptionWork *)p)->cursor += 1;
+                    ((struct ManualOptionWork *)p)->dirty = 1;
                 }
             }
-            if (((struct Obj00602 *)p)->fC) func_021BBD74(p);
+            if (((struct ManualOptionWork *)p)->dirty) MANUAL_CATEGORY_DrawOption(p);
         } else {
-            choice = func_021BA154(*(char * *)&((struct Obj26312 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
+            choice = func_021BA154(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
             if (choice == -1) goto done;
             switch (choice) {
             case 1:
-                ((struct Obj26313 *)(*(char * *)&((struct Obj00602 *)p)->f0))->f28 = 0;
-                ((struct Obj00602 *)p)->f38 = 1;
-                ((struct Obj00602 *)p)->f3C = 1;
+                ((struct ManualOptionOwner *)(*(char * *)&((struct ManualOptionWork *)p)->owner))->closeFlag = 0;
+                ((struct ManualOptionWork *)p)->state = 1;
+                ((struct ManualOptionWork *)p)->timer = 1;
                 break;
             case 4: case 5:
-                ((struct Obj00602 *)p)->f38 = 0;
-                if (((struct Obj00602 *)p)->fC) {
-                    func_021BA0F0(*(char * *)&((struct Obj26314 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34, *(u8 *)*(char * *)&((struct Obj00602 *)p)->f0, ((struct Obj00602 *)p)->f8);
-                    ((struct Obj00602 *)p)->fC = 0;
+                ((struct ManualOptionWork *)p)->state = 0;
+                if (((struct ManualOptionWork *)p)->dirty) {
+                    func_021BA0F0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)p)->owner, ((struct ManualOptionWork *)p)->cursor);
+                    ((struct ManualOptionWork *)p)->dirty = 0;
                 }
                 break;
             }
@@ -474,88 +491,88 @@ done:
 /*
  * leaf: sole unresolved BA74 callback; parent clearance. Thumb bx lr, then two zero alignment bytes.
  */
-void func_021BBBF0(void *p)
+void MANUAL_CATEGORY_OptionTaskNoop(void *p)
 {
 }
 
 
-void func_021BBBF4(char *p)
+void MANUAL_CATEGORY_LoadOptionAssets(char *p)
 {
-    func_02049B68((void *)(((struct Obj26316 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 0, 4, 0, 64, ((struct Obj26317 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
-    func_02049658((void *)(((struct Obj26318 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 2, 4, 0, 0, 0, ((struct Obj26319 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
-    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct Obj26320 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 6, 4, 0, 0, 0, 0, ((struct Obj26321 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
+    func_02049B68((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
+    func_02049658((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 6, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
 }
 
 
-void func_021BBC44(char *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_CATEGORY_SetOptionBgMode(char *a0) { BG_SYS_SetFlagField06(4); }
 
 
-void func_021BBC50(char *a0) {}
+void MANUAL_CATEGORY_OptionNoop(char *a0) {}
 
 
-void func_021BBC54(u8 *p)
+void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
 {
     u8 index;
     u8 *slot;
-    const Record *record;
+    const ManualSlotRecord *record;
     u8 *owner;
     struct U16Vec *string;
     for(index=0;index<3;index++) {
-        record=&d_021BBFA8[index];
+        record=&gManualCategorySlotRecords[index];
         slot=p+index*4;
-        *(u32 *)&((struct Obj08471 *)slot)->f10=BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
-        BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10),0);
-        BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10);
-        ((struct Obj08471 *)slot)->f28=0;
+        *(u32 *)&((struct ManualOptionWork *)slot)->bg=BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
+        BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg),0);
+        BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg);
+        ((struct ManualOptionWork *)slot)->flag[0]=0;
     }
-    owner=*(u8 * *)&((struct Obj03382 *)p)->f4;
-    ((struct Obj03382 *)p)->f1C=((struct Obj08472 *)owner)->f10;
-    *(u32 *)&((struct Obj03382 *)p)->f20=((struct Obj08472 *)owner)->f10;
-    ((struct Obj03382 *)p)->f24=((struct Obj08472 *)owner)->f14;
-    string=(struct U16Vec *)func_02045EC0(*(struct MsgBank * *)&((struct Obj08472 *)owner)->f20,((struct Obj26322 *)(*(u8 * *)&((struct Obj03382 *)p)->f0))->f2);
-    PRINTSYS_PrintQueColor(((struct Obj03382 *)p)->f20,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj03382 *)p)->f14),0,1,(u32)string,((struct Obj26323 *)(*(u8 * *)&((struct Obj03382 *)p)->f4))->fC,0x3C40);
+    owner=*(u8 * *)&((struct ManualOptionWork *)p)->data;
+    ((struct ManualOptionWork *)p)->que[0]=((struct ManualData *)owner)->printQue[0];
+    *(u32 *)&((struct ManualOptionWork *)p)->que[1]=(u32)((struct ManualData *)owner)->printQue[0];
+    ((struct ManualOptionWork *)p)->que[2]=((struct ManualData *)owner)->printQue[1];
+    string=(struct U16Vec *)func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)owner)->bank[1],((struct ManualOptionOwner *)(*(u8 * *)&((struct ManualOptionWork *)p)->owner))->selectedId);
+    PRINTSYS_PrintQueColor(((struct ManualOptionWork *)p)->que[1],(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1]),0,1,(u32)string,(u32)((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
     STRBUF_Delete(string);
-    ((struct Obj03382 *)p)->f2C=1;
-    func_021BBD28(p);
+    ((struct ManualOptionWork *)p)->flag[1]=1;
+    MANUAL_CATEGORY_UpdateOptionSlots(p);
 }
 
 
-void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; PRINTSYS_QUE_Clear(*(struct PrintSys **)(p+i*4+0x1c)); BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4+0x10)); BMP_WIN_Delete(*(struct Descriptor **)(p+i*4+0x10)); } BG_SYS_SetFlagField06(5); }
+void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { ((struct ManualOptionWork *)p)->flag[i]=0; PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[i]); BMP_WIN_ClearScreen((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); BMP_WIN_Delete((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); } BG_SYS_SetFlagField06(5); }
 
 
-void func_021BBD28(u8 *p)
+void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
 {
     u8 index;
     u8 *slot;
     struct Descriptor *descriptor;
     for(index=0;index<3;index++) {
         slot=p+index*4;
-        if(((struct Obj06736 *)slot)->f28!=0) {
-            if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj06736 *)slot)->f1C,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10))==0) {
-                descriptor=*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10;
+        if(((struct ManualOptionWork *)slot)->flag[0]!=0) {
+            if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct ManualOptionWork *)slot)->que[0],BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg))==0) {
+                descriptor=*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg;
                 BMP_WIN_TransferChars(descriptor);
                 BMP_WIN_MakeScreen((struct Cfg *)descriptor);
                 func_02041B6C(BMP_WIN_GetBgLayer(descriptor));
-                ((struct Obj06736 *)slot)->f28=0;
+                ((struct ManualOptionWork *)slot)->flag[0]=0;
             }
         }
     }
 }
 
 
-void func_021BBD74(char *p)
+void MANUAL_CATEGORY_DrawOption(char *p)
 {
     void *r;
 
-    PRINTSYS_QUE_Clear(((struct Obj02267 *)p)->f24);
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj02267 *)p)->f18), 0);
-    r = func_02045EC0(((struct Obj26324 *)(*(char * *)&((struct Obj02267 *)p)->f4))->f20,
-                      *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 6));
-    PRINTSYS_PrintQueColor(((struct Obj02267 *)p)->f24, (u32)BMP_WIN_GetBmp(((struct Obj02267 *)p)->f18),
-                  4, 6, (u32)r, ((struct Obj26325 *)(*(char * *)&((struct Obj02267 *)p)->f4))->fC, 0x440);
+    PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[2]);
+    BMP_Clear(BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]), 0);
+    r = func_02045EC0(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->bank[1],
+                      *(u16 *)(*(char * *)&((struct ManualOptionWork *)p)->owner + (((struct ManualOptionWork *)p)->cursor << 2) + 6));
+    PRINTSYS_PrintQueColor(((struct ManualOptionWork *)p)->que[2], (u32)BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]),
+                  4, 6, (u32)r, (u32)((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->font, 0x440);
     STRBUF_Delete(r);
-    ((struct Obj02267 *)p)->f30 = 1;
-    func_021BBD28((u8 *)p);
-    func_021B9E80(((struct Obj02267 *)p)->f4,
-                  *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 4));
+    ((struct ManualOptionWork *)p)->flag[2] = 1;
+    MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
+    func_021B9E80(((struct ManualOptionWork *)p)->data,
+                  *(u16 *)(*(char * *)&((struct ManualOptionWork *)p)->owner + (((struct ManualOptionWork *)p)->cursor << 2) + 4));
 }

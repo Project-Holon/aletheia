@@ -1,5 +1,5 @@
 /*
- * function: func_021B9674
+ * function: PSEL_Exit
  * address: 0x021B9674
  * packet: pkt_ov223_021B9674
  * region: ov223
@@ -25,7 +25,7 @@ struct S020315D4;
 extern void FADE_SetSpeed(s32 a);
 extern void func_020315D4(struct S020315D4 *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
+int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
 {
     u16 v;
     FADE_Start(0xC, 0x10, 0x10, 0);

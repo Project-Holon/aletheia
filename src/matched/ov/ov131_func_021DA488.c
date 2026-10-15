@@ -14,7 +14,7 @@
  * reads them. Other scalar arithmetic uses u8 indices or constants.
  * symbols:
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
- *   func_02027604 0x02027604 thumb
+ *   APP_ICON_GetMoveKindPaletteOffset 0x02027604 thumb
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
@@ -61,7 +61,7 @@ struct Struct36;
 extern int WAZA_TOOL_GetDamageType(int a);
 extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
-extern u8 func_02027604(u8);
+extern u8 APP_ICON_GetMoveKindPaletteOffset(u8);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 WAZA_TOOL_GetPower(u16);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
@@ -94,7 +94,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     kind=WAZA_TOOL_GetDamageType((u16)id);
     CLACT_GetCharacterProxy(*(u32 *)(a+(kind+16)*4+152),(struct Rec *)(&record));
     CLACT_SetActorImageProxy(((struct Obj01408 *)p)->f94,(const struct Struct36 *)(&record));
-    CLACT_SetActorPaletteOffset(((struct Obj01408 *)p)->f94,func_02027604(kind),1);
+    CLACT_SetActorPaletteOffset(((struct Obj01408 *)p)->f94,APP_ICON_GetMoveKindPaletteOffset(kind),1);
     P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),147,1,one,15424);
     count=WAZA_TOOL_GetPower(id);
     if(count<=1) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),154,87,one,1088);

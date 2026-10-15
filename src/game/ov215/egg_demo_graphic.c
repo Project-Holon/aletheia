@@ -63,12 +63,6 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
-#include "../../matched/include/Obj25749.h"
-#include "../../matched/include/Obj25750.h"
-#include "../../matched/include/Obj14709.h"
-#include "../../matched/include/Obj25751.h"
-#include "../../matched/include/Obj25752.h"
-#include "../../matched/include/Obj25755.h"
 #include "egg_demo_graphic_shared_types.h"
 
 struct DispVram;
@@ -86,6 +80,22 @@ struct BgTemplate { unsigned words[8]; };
 struct BgConfig { unsigned layer; struct BgTemplate template; unsigned type,enable; };
 
 struct Vec3 { unsigned x,y,z; };
+
+/* EGG_DEMO_GRAPHIC work, 16 bytes, allocated by EGG_DEMO_GRAPHIC_Create. */
+struct EggDemoClact {
+    struct Bank *unit;
+};
+
+struct EggDemoG3d {
+    void *camera;
+};
+
+struct EggDemoGraphic {
+    u32 bgWork;
+    struct EggDemoClact clact;
+    struct EggDemoG3d g3d;
+    struct Node *vblankTask;
+};
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 
@@ -224,11 +234,11 @@ extern const struct Vec3 d_021F7160,d_021F7154,d_021F716C;
 /*
  * volatile: hardware 021F63F2,63F4,63F8,6400,6402,6406.
  */
-char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heap)
+char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heapId)
 {
-    char *p;
-    p=func_02030734(heap,16,0,d_021F73E0,466);
-    MI_CpuFill8(p,0,16);
+    char *work;
+    work=func_02030734(heapId,16,0,d_021F73E0,466);
+    MI_CpuFill8(work,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
@@ -240,52 +250,52 @@ char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    EGG_DEMO_GRAPHIC_InitBg(p,heap);
-    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(p+4),(int)d_021F71C4,heap);
-    EGG_DEMO_GRAPHIC_InitG3d((void **)(p+8),heap);
-    ((struct Obj25749 *)p)->fC=func_020056A0(EGG_DEMO_GRAPHIC_VBlank,p,0);
-    return p;
+    EGG_DEMO_GRAPHIC_InitBg(work,heapId);
+    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(int)d_021F71C4,heapId);
+    EGG_DEMO_GRAPHIC_InitG3d((void **)(work+8),heapId);
+    ((struct EggDemoGraphic *)work)->vblankTask=func_020056A0(EGG_DEMO_GRAPHIC_VBlank,work,0);
+    return work;
 }
 
-void EGG_DEMO_GRAPHIC_Delete(char *p)
+void EGG_DEMO_GRAPHIC_Delete(char *work)
 {
-    func_02030EAC(((struct Obj25750 *)p)->fC);
-    EGG_DEMO_GRAPHIC_DeleteG3d((int *)(p+8));
-    EGG_DEMO_GRAPHIC_DeleteClact(p+4);
-    EGG_DEMO_GRAPHIC_DeleteBg(p);
+    func_02030EAC(((struct EggDemoGraphic *)work)->vblankTask);
+    EGG_DEMO_GRAPHIC_DeleteG3d((int *)(work+8));
+    EGG_DEMO_GRAPHIC_DeleteClact(work+4);
+    EGG_DEMO_GRAPHIC_DeleteBg(work);
     GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    MI_CpuFill8(p,0,16);
-    func_020307B0(p);
+    MI_CpuFill8(work,0,16);
+    func_020307B0(work);
 }
 
-void EGG_DEMO_GRAPHIC_Draw(char *a)
+void EGG_DEMO_GRAPHIC_Draw(char *work)
 {
-    EGG_DEMO_GRAPHIC_DrawClact(a + 4);
-    EGG_DEMO_GRAPHIC_Noop(a);
+    EGG_DEMO_GRAPHIC_DrawClact(work + 4);
+    EGG_DEMO_GRAPHIC_Noop(work);
 }
 
-void EGG_DEMO_GRAPHIC_Draw3d(char *p){EGG_DEMO_GRAPHIC_DrawG3d(p+8);}
+void EGG_DEMO_GRAPHIC_Draw3d(char *work){EGG_DEMO_GRAPHIC_DrawG3d(work+8);}
 
-void EGG_DEMO_GRAPHIC_DrawEnd(char *p){EGG_DEMO_GRAPHIC_DrawG3dEnd(p+8);}
+void EGG_DEMO_GRAPHIC_DrawEnd(char *work){EGG_DEMO_GRAPHIC_DrawG3dEnd(work+8);}
 
-int EGG_DEMO_GRAPHIC_GetClactBank2(char *p){return EGG_DEMO_GRAPHIC_GetClactBank(p+4);}
+int EGG_DEMO_GRAPHIC_GetClactBank2(char *work){return EGG_DEMO_GRAPHIC_GetClactBank(work+4);}
 
-void EGG_DEMO_GRAPHIC_VBlank(int a, char *b)
+void EGG_DEMO_GRAPHIC_VBlank(int unused, char *work)
 {
-    EGG_DEMO_GRAPHIC_TickDisplay(b);
-    EGG_DEMO_GRAPHIC_VBlankClact(b + 4);
+    EGG_DEMO_GRAPHIC_TickDisplay(work);
+    EGG_DEMO_GRAPHIC_VBlankClact(work + 4);
 }
 
-void EGG_DEMO_GRAPHIC_InitBg(void *out,unsigned heap)
+void EGG_DEMO_GRAPHIC_InitBg(void *bgWork,unsigned heapId)
 {
     unsigned i;
-    MI_CpuFill8(out,0,4);
-    BG_SYS_Create(heap);
-    BMP_WIN_Init(heap);
+    MI_CpuFill8(bgWork,0,4);
+    BG_SYS_Create(heapId);
+    BMP_WIN_Init(heapId);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021F7178);
     for(i=0;i<6;i++) {
         BG_SYS_InitBgLayer((u8)d_021F71F4[i].layer,&d_021F71F4[i].template,(u8)d_021F71F4[i].type);
@@ -300,53 +310,53 @@ void EGG_DEMO_GRAPHIC_InitBg(void *out,unsigned heap)
  * lever: a named unsigned byte-address base keeps the table in r4 and
  * index in r5; the inline address swaps them, and word indexing adds lsl #2.
  */
-void EGG_DEMO_GRAPHIC_DeleteBg(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteBg(void *bgWork){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgWork,0,4);}
 
 /*
  * extent: two-byte alignment padding follows the body.
  */
-void EGG_DEMO_GRAPHIC_Noop(void *a0){}
+void EGG_DEMO_GRAPHIC_Noop(void *unused){}
 
-void EGG_DEMO_GRAPHIC_TickDisplay(void *a0){BG_SYS_Update();}
+void EGG_DEMO_GRAPHIC_TickDisplay(void *unused){BG_SYS_Update();}
 
-void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b)
+void EGG_DEMO_GRAPHIC_InitClact(unsigned char *clact, int resource, u32 heapId)
 {
-    MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021F7188, a, b);
-    ((struct Obj14709 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14709 *)p)->f0);
+    MI_CpuFill8(clact, 0, 4);
+    CLACT_InitSystem((const struct Cfg *)0x021F7188, resource, heapId);
+    ((struct EggDemoClact *)clact)->unit = CLACT_CreateUnit(0x80, 0, heapId);
+    CLACT_SetUnitDefaultRenderer(((struct EggDemoClact *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void EGG_DEMO_GRAPHIC_DeleteClact(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteClact(char *clact){CLACT_DeleteUnit(((struct EggDemoClact *)clact)->unit);CLACT_ExitSystem();MI_CpuFill8(clact,0,4);}
 
-void EGG_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
+void EGG_DEMO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
 /*
  * extent: includes cleared tiny follower EGG_DEMO_GRAPHIC_GetClactBank; no further code included.
  */
-void EGG_DEMO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
+void EGG_DEMO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
-int EGG_DEMO_GRAPHIC_GetClactBank(void *p){return ((struct Obj25752 *)p)->f0;}
+int EGG_DEMO_GRAPHIC_GetClactBank(void *clact){return (int)((struct EggDemoClact *)clact)->unit;}
 
 /*
  * evidence: 46440 heap extern widened; original stores full r1 at sp+4.
  */
-void EGG_DEMO_GRAPHIC_InitG3d(void **out,u16 heap)
+void EGG_DEMO_GRAPHIC_InitG3d(void **g3d,u16 heapId)
 {
-    G3D_SYSTEM_Init(0,2,0,1,0,heap,EGG_DEMO_MENU_InitGraphics);
-    *out=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,&d_021F7160,&d_021F7154,&d_021F716C,heap);
+    G3D_SYSTEM_Init(0,2,0,1,0,heapId,EGG_DEMO_MENU_InitGraphics);
+    ((struct EggDemoG3d *)g3d)->camera=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,&d_021F7160,&d_021F7154,&d_021F716C,heapId);
 }
 
-void EGG_DEMO_GRAPHIC_DeleteG3d(int *p)
+void EGG_DEMO_GRAPHIC_DeleteG3d(int *g3d)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
+    G3D_SYSTEM_Exit(G3D_CAMERA_Delete(((struct EggDemoG3d *)g3d)->camera));
 }
 
 /*
  * extent: includes cleared tiny follower EGG_DEMO_GRAPHIC_DrawG3dEnd; no further code included.
  */
-void EGG_DEMO_GRAPHIC_DrawG3d(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);G3D_SYSTEM_ApplyLookAt();}
+void EGG_DEMO_GRAPHIC_DrawG3d(void *g3d){func_02047964();func_02048AD0(((struct EggDemoG3d *)g3d)->camera);G3D_SYSTEM_ApplyLookAt();}
 
-void EGG_DEMO_GRAPHIC_DrawG3dEnd(void *p){G3D_SYSTEM_DrawEnd();}
+void EGG_DEMO_GRAPHIC_DrawG3dEnd(void *unused){G3D_SYSTEM_DrawEnd();}

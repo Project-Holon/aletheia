@@ -1,5 +1,5 @@
 /*
- * function: func_021C7ACC
+ * function: Wf2dmapFriend_InitItemWidgets
  * address: 0x021C7ACC
  * packet: pkt_ov128_021C7ACC
  * region: ov128
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C63AC 0x021C63AC thumb ov128
- *   func_021C88AC 0x021C88AC thumb ov128
+ *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
+ *   Wf2dmapFriend_CopyPos 0x021C88AC thumb ov128
  *   WIFI_2DCHAR_Create 0x021C3EE0 thumb ov127
  *   WIFI_2DCHAR_SetupCells 0x021C4044 thumb ov127
  *   func_02045EC0 0x02045EC0 arm
@@ -33,8 +33,8 @@ struct MsgBank;
 struct Obj;
 struct R;
 struct U16Vec;
-extern void func_021C63AC(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
-extern void func_021C88AC(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap);
+extern void Wf2dmapFriend_CreateWindow(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
+extern void Wf2dmapFriend_CopyPos(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap);
 extern void *WIFI_2DCHAR_Create(void *, void *, u32, u32);
 extern void WIFI_2DCHAR_SetupCells(u8 *, int, int, int, int);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -52,18 +52,18 @@ static inline int iabs(int v)
 {
     return v < 0 ? -v : v;
 }
-void func_021C7ACC(u8 *p, void *unused, u8 *ctx, u16 heap)
+void Wf2dmapFriend_InitItemWidgets(u8 *p, void *unused, u8 *ctx, u16 heap)
 {
     int i;
     int j;
     Rect r1;
     Rect r2;
     for (i = 0; i < 2; i++) {
-        func_021C63AC(ctx, (u32 *)(p + 0xf0 + i * 8), 3,
+        Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 0xf0 + i * 8), 3,
             (u8)(iabs(d_021CA564[i].x) + 4), (u8)(iabs(d_021CA564[i].y) + 4), 0x1a, 0x11, 0xa, 0, 0);
     }
     for (j = 0; j < 3; j++)
-        func_021C88AC((u16 *)(p + 12 + j * 0x4c), (u16 *)ctx, (u16 *)((const void *)&d_021CA564[j]), 0, heap);
+        Wf2dmapFriend_CopyPos((u16 *)(p + 12 + j * 0x4c), (u16 *)ctx, (u16 *)((const void *)&d_021CA564[j]), 0, heap);
     *(u8 **)(p + 0x14) = p + 0xf0;
     *(u8 **)(p + 0xac) = p + 0xf8;
     *(u8 **)(p + 0x60) = p + 0xf8;
@@ -87,7 +87,7 @@ void func_021C7ACC(u8 *p, void *unused, u8 *ctx, u16 heap)
     *(u16 *)(p + 0x188) = 0x39e3;
     *(u32 *)(p + 0x18c) = 0;
     *(struct R **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, *(u32 *)(ctx + 0x17c), *(u32 *)(ctx + 0x34), heap);
-    func_021C63AC(ctx, (u32 *)(p + 0x108), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
+    Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 0x108), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
     *(struct U16Vec **)(p + 0x110) = STRBUF_Create(0x80, heap);
     r1 = d_021CA650;
     *(struct Obj **)(p + 0x1a0) = CLACT_CreateActor(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r1, 0, heap);

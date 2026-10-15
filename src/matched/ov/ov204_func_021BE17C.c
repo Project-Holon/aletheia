@@ -9,9 +9,9 @@
  * status: EXACT*
  * extent: 021BE1EE..021BE1F0 is two zero alignment bytes.
  * symbols:
- *   func_021BF384 0x021BF384 thumb ov204
- *   func_021BF528 0x021BF528 thumb ov204
- *   func_021BF538 0x021BF538 thumb ov204
+ *   INTRO_MSG_CreateMenuList 0x021BF384 thumb ov204
+ *   INTRO_MSG_MainMenuList 0x021BF528 thumb ov204
+ *   INTRO_MSG_GetMenuChoice 0x021BF538 thumb ov204
  *   func_021BE138 0x021BE138 thumb ov204
  */
 #include "../include/Obj04608.h"
@@ -19,9 +19,9 @@ typedef struct { int a, b; } Pair;
 typedef struct { Pair first, second; } Request;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021BF384(char *p, u32 *entries, u32 count, int flag);
-extern void func_021BF528(u8 *p);
-extern int func_021BF538(u8 *p, int *out);
+extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag);
+extern void INTRO_MSG_MainMenuList(u8 *p);
+extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
 extern void func_021BE138(char *, int);
 int func_021BE17C(char *p, int *state, int *values)
 {
@@ -33,12 +33,12 @@ int func_021BE17C(char *p, int *state, int *values)
         request.first.b = 0;
         request.second.a = values[1];
         request.second.b = 1;
-        func_021BF384(*(char * *)&((struct Obj04608 *)p)->f18, (u32 *)(&request), 2, values[2]);
+        INTRO_MSG_CreateMenuList(*(char * *)&((struct Obj04608 *)p)->f18, (u32 *)(&request), 2, values[2]);
         ++*state;
         break;
     case 1:
-        func_021BF528((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18));
-        result = func_021BF538((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18), &choice);
+        INTRO_MSG_MainMenuList((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18));
+        result = INTRO_MSG_GetMenuChoice((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18), &choice);
         if (result == 1) { func_021BE138(p, choice); return 1; }
         if (result == 2) { func_021BE138(p, 1); return 1; }
         break;

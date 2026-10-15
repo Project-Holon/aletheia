@@ -20,7 +20,7 @@
  * name is attested and why the range in front of this one is cut here.
  *
  * A fifteen-byte copy into a freshly allocated block: the same
- * STRBUF_Create / STRBUF_SetStringN pair func_0200D774 uses for the 0x28-byte
+ * STRBUF_Create / STRBUF_SetStringN pair GDS_PROFILE_ExportRecord uses for the 0x28-byte
  * record.  The size is materialised twice, once as the allocation size and
  * once as the copy length, because both are caller-saved argument registers.
  *

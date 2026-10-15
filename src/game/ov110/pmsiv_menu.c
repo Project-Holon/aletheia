@@ -78,11 +78,11 @@
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   gPmsivMenuExtraItems 0x021C38D9 data a1
- *   func_020275E4 0x020275E4 thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PMS_INPUT_VIEW_GetClactUnit 0x021BAC40 thumb ov110
@@ -150,11 +150,11 @@ extern void APP_TASKMENU_WIN_SetDecide(struct AppTaskMenuWin *win, int decide);
 extern u32 APP_TASKMENU_WIN_IsFinish(struct AppTaskMenuWin *win);
 extern int CLACT_RegisterCharacter(void *handle, unsigned int fileId, unsigned int compressed, unsigned int screen, u16 heapId);
 extern int CLACT_RegisterCellAnim(void *handle, unsigned int cellFileId, unsigned int animFileId, unsigned int heapId);
-extern unsigned int func_020275E4(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
+extern unsigned int APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 extern int CLACT_RegisterPaletteEx(void *handle, u32 fileId, u32 screen, u32 offset, u16, u16, u16 heapId);
 extern void MI_CpuFill8(void *dst, int value, unsigned size);
 extern struct ClactUnit *PMS_INPUT_VIEW_GetClactUnit(struct PmsInputView *view);
@@ -580,11 +580,11 @@ void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
     void *handle;
     int cellFileId;
     struct PmsivMenuActorSetup setup;
-    handle=func_020490F4(func_020275E4(),PMSIV_MENU_HEAP_ID);
-    menu->backPalette=CLACT_RegisterPaletteEx(handle,func_02027614(),0,384,0,3,PMSIV_MENU_HEAP_ID);
-    menu->backCharacter=CLACT_RegisterCharacter(handle,func_02027618(),0,0,PMSIV_MENU_HEAP_ID);
-    cellFileId=func_0202761C(1);
-    menu->backCellAnim=CLACT_RegisterCellAnim(handle,cellFileId,func_02027620(1),PMSIV_MENU_HEAP_ID);
+    handle=func_020490F4(APP_ICON_GetArchiveId(),PMSIV_MENU_HEAP_ID);
+    menu->backPalette=CLACT_RegisterPaletteEx(handle,APP_ICON_GetMoveKindPaletteFileId(),0,384,0,3,PMSIV_MENU_HEAP_ID);
+    menu->backCharacter=CLACT_RegisterCharacter(handle,APP_ICON_GetMoveKindAnimFileId(),0,0,PMSIV_MENU_HEAP_ID);
+    cellFileId=APP_ICON_GetStatusCellFileId(1);
+    menu->backCellAnim=CLACT_RegisterCellAnim(handle,cellFileId,APP_ICON_GetStatusPaletteFileId(1),PMSIV_MENU_HEAP_ID);
     ARC_TOOL_DeleteHandle(handle);
     MI_CpuFill8(&setup,0,8);
     setup.x=232; setup.y=168; setup.z=1; setup.priority=0; setup.mode=3;

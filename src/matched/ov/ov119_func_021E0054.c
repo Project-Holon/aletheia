@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: a 40-byte struct with unnamed bit and alignment padding reproduces the packet RMW; func_0200960C needs an explicit Thumb symbols line to use its existing matched witness.
  * initialization: MYSTATUS_Copy fills all 32 prefix bytes; every named tail field is assigned before sending. The five unnamed bits at +0x26 and implicit +0x27 padding are unspecified, as in the original. No named member is read before assignment.
- * padding: c12 handler POKETRADE_PROC_RecvTradeSummary copies the 40-byte object to func_0202EB7C/EB9C; func_0202ED90 replaces bits 3 and 4 before record getters can use them. unit_020095C8 getters use only bits 0..4, never bits 5..7 or +0x27.
+ * padding: c12 handler POKETRADE_PROC_RecvTradeSummary copies the 40-byte object to COMM_HISTORY_InsertIfNamed/EB9C; COMM_HISTORY_StoreAt replaces bits 3 and 4 before record getters can use them. unit_020095C8 getters use only bits 0..4, never bits 5..7 or +0x27.
  * symbols:
  *   func_0200960C 0x0200960C thumb
  *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119

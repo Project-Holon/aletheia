@@ -1,5 +1,5 @@
 /*
- * function: func_0217B7D8
+ * function: BATTLE_CHAMPIONSHIP_FLOW_DrawMenu
  * address: 0x0217B7D8
  * packet: pkt_ov176_0217B7D8
  * region: ov176
@@ -50,7 +50,7 @@ static inline void selected(Menu *rec,void *base,int index)
     rec->f28=1;
     rec->f2c=3;
 }
-void func_0217B7D8(int *p, int index)
+void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *p, int index)
 {
     Menu rec;
     void *base;

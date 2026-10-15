@@ -131,7 +131,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
@@ -284,7 +284,7 @@ void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p)
 {
     MSGDATA_Delete((struct Rec *)p->msg);
     BG_SYS_DeleteHalf(5, p->tile, p->size);
-    BMP_Delete((struct Obj020437AC *)p->bmp);
+    BMP_Delete((struct Bmp *)p->bmp);
     BMP_WIN_Delete((struct Descriptor *)p->window);
 }
 

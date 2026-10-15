@@ -1,5 +1,5 @@
 /*
- * function: func_0217B594
+ * function: BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1
  * address: 0x0217B594
  * packet: pkt_ov176_0217B594
  * region: ov176
@@ -14,7 +14,7 @@
  *   func_0217D44C 0x0217D44C thumb ov176
  *   func_0217D410 0x0217D410 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217B4A0 0x0217B4A0 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse 0x0217B4A0 thumb ov176
  */
 #include "../include/Obj02221.h"
 typedef struct { int mode; int a,b,c,d,e,f,g; } Config;
@@ -24,8 +24,8 @@ extern void func_0217D434(int *p);
 extern int func_0217D44C(int *p);
 extern void func_0217D410(int *p);
 extern void func_021E8AA0(int *p, int v);
-extern void func_0217B4A0(int p, unsigned *state, int *q);
-void func_0217B594(int p, int *state, char *q)
+extern void BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse(int p, unsigned *state, int *q);
+void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1(int p, int *state, char *q)
 {
     Config config;
     switch (*state) {
@@ -48,7 +48,7 @@ void func_0217B594(int p, int *state, char *q)
         break;
     case 2:
         func_0217D410((int *)(((struct Obj02221 *)q)->f38));
-        func_021E8AA0((int *)p, (int)func_0217B4A0);
+        func_021E8AA0((int *)p, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
         break;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6B50
+ * function: Wf2dmapFriend_SetFriendCode
  * address: 0x021C6B50
  * packet: pkt_ov128_021C6B50
  * region: ov128
@@ -16,7 +16,7 @@ typedef unsigned long long u64;
 typedef unsigned int   u32;
 struct WordSet;
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-void func_021C6B50(void **p,u64 value)
+void Wf2dmapFriend_SetFriendCode(void **p,u64 value)
 {
     WORDSET_SetSlotNumber(*p,1,(unsigned)(value/100000000ULL),4,2,1);
     WORDSET_SetSlotNumber(*p,2,(unsigned)(value/10000ULL%10000ULL),4,2,1);

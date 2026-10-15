@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * 2026-10-05 (wave P8 W4): 0x15 in the pool is an overlay id (ov021_id, passed to func_02034AC4). The sixth parameter is copied to an int local g first (stored to f8, later passed to func_02028590); without the local the copy is propagated and the frame is 4 bytes short. EXACT in c99 and c.
+ * 2026-10-05 (wave P8 W4): 0x15 in the pool is an overlay id (ov021_id, passed to func_02034AC4). The sixth parameter is copied to an int local g first (stored to f8, later passed to APP_KEYCURSOR_CreateDefault); without the local the copy is propagated and the frame is 4 bytes short. EXACT in c99 and c.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -19,7 +19,7 @@
  *   TCBL_Create 0x0203101C arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   TALKMSGWIN_Create 0x02194670 thumb ov021
  *   d_021F6E38 0x021F6E38 data a4
@@ -78,7 +78,7 @@ struct Tcbl;
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern unsigned func_02028590(int, int, int, unsigned);
+extern unsigned APP_KEYCURSOR_CreateDefault(int, int, int, unsigned);
 extern int func_02034AC4(int);
 extern void *TALKMSGWIN_Create(u16 *a);
 
@@ -111,7 +111,7 @@ struct Work *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e)
     w->f40 = (u32)APP_TASKMENU_RES_Create(w->f3, 10, w->f14, w->f30, w->f0);
     w->f3C = 0;
     w->f50 = 0;
-    w->f44 = func_02028590(0xF, g, 1, w->f0);
+    w->f44 = APP_KEYCURSOR_CreateDefault(0xF, g, 1, w->f0);
     func_02034AC4((int)ov021_id);
     if (d == 1) {
         t.h = heap;

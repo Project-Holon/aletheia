@@ -16,9 +16,9 @@
  *   GAME_DATA_Create 0x020124F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MYSTERY_DATA_Create 0x0200A300 thumb
- *   func_021D9624 0x021D9624 thumb ov121
+ *   MYSTERY_GRAPHIC_Create 0x021D9624 thumb ov121
  *   func_021D6924 0x021D6924 thumb ov121
- *   func_021D9744 0x021D9744 thumb ov121
+ *   MYSTERY_GRAPHIC_GetClactUnit 0x021D9744 thumb ov121
  *   func_021D6AEC 0x021D6AEC thumb ov121
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -50,9 +50,9 @@ struct MsgBank;
 struct WordSet;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MYSTERY_DATA_Create(void *, void *, void *);
-extern u8 *func_021D9624(int arg, u16 heap);
+extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
 extern void func_021D6924(u16 *p, u16 heap);
-extern unsigned func_021D9744(char *p);
+extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern void func_021D6AEC(char *p, void *owner, u16 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -78,9 +78,9 @@ int func_021D6660(void *a, u32 b, u32 c)
     *(u32 *)(p + 0x3B4) = c;
     *(void **)(p + 0x3B8) = GAME_DATA_Create(29);
     *(void **)(p + 0x3BC) = MYSTERY_DATA_Create(GAME_DATA_GetSaveControl(*(void **)(p + 0x3B8)), (void *)1, (void *)29);
-    *(u8 **)(p + 0x394) = func_021D9624(1, 29);
+    *(u8 **)(p + 0x394) = MYSTERY_GRAPHIC_Create(1, 29);
     func_021D6924((u16 *)(p + 0x390), 29);
-    func_021D6AEC((char *)(p + 0x294), (void *)func_021D9744((char *)*(u8 **)(p + 0x394)), 29);
+    func_021D6AEC((char *)(p + 0x294), (void *)MYSTERY_GRAPHIC_GetClactUnit((char *)*(u8 **)(p + 0x394)), 29);
     *(void **)(p + 0x398) = GF_FONT_Create(23, 0, 0, 0, 29);
     *(u32 *)(p + 0x39C) = PRINTSYS_QUE_Create((void *)29);
     *(void **)(p + 0x3A4) = func_02045B38(0, 2, 0x50, 29);

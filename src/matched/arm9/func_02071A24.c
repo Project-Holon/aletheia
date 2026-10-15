@@ -11,7 +11,7 @@
  *
  * The full-rotate constructor with the smull quartet: the body of
  * src/matched/NNSi_G3dTexMtxScaleRot.c with its two plain negated multipliers
- * replaced by the translation-weighted pair func_02071C14 uses,
+ * replaced by the translation-weighted pair NNSi_G3dTexMtxScaleTrans2 uses,
  *   a = (-f2c << 11) - f24 * f2c
  *   b = f28 * f2e + (-f2e << 11)
  * and f30 = (p*a - q*b) >> 8 + f2c << 15, f34 = (bd*a + r*b) >> 8 +

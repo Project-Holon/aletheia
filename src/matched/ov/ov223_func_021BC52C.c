@@ -1,5 +1,5 @@
 /*
- * function: func_021BC52C
+ * function: PSEL_GRAPHIC_GetCamera
  * address: 0x021BC52C
  * packet: pkt_ov223_021BC52C
  * region: ov223
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC6F8 0x021BC6F8 thumb ov223
+ *   PSEL_GRAPHIC_LoadWordC6F8 0x021BC6F8 thumb ov223
  */
-extern unsigned func_021BC6F8(unsigned char *);
-unsigned func_021BC52C(unsigned char *p){return func_021BC6F8(p+8);}
+extern unsigned PSEL_GRAPHIC_LoadWordC6F8(unsigned char *);
+unsigned PSEL_GRAPHIC_GetCamera(unsigned char *p){return PSEL_GRAPHIC_LoadWordC6F8(p+8);}

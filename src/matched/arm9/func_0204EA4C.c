@@ -1,5 +1,5 @@
 /*
- * function: DOUBLE3DDISP_SetField08
+ * function: DOUBLE3DDISP_SetDrawDone
  * address:  0x0204EA4C
  * packet:   pkt_0204EA4C
  * region:   arm9
@@ -13,14 +13,14 @@
  * Witness leaf for ov180 func_021B6704.
  *
  * symbols:
- *   g_02146A80 0x02146A80 data a4
+ *   gDouble3Ddisp 0x02146A80 data a4
  */
 
 #include "../include/G_Double3Ddisp.h"
 
-extern struct Double3Ddisp *g_02146A80;
+extern struct Double3Ddisp *gDouble3Ddisp;
 
-void DOUBLE3DDISP_SetField08(void)
+void DOUBLE3DDISP_SetDrawDone(void)
 {
-    *(int *)(((char *)g_02146A80) + 8) = 1;
+    *(int *)(((char *)gDouble3Ddisp) + 8) = 1;
 }

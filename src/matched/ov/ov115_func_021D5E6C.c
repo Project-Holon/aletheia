@@ -1,5 +1,5 @@
 /*
- * function: func_021D5E6C
+ * function: WIFILOGIN_MSG_IsTaskFinish
  * address: 0x021D5E6C
  * packet: pkt_ov115_021D5E6C
  * region: ov115
@@ -21,4 +21,4 @@ extern const char d_021D663C[];
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-int func_021D5E6C(u8 *p) { switch(((struct Obj10334 *)p)->f0) { case 0: return APP_TASKMENU_IsFinish(((struct Obj10334 *)p)->f20); case 1: if(((struct Obj10334 *)p)->f28!=-1) return 1; else return 0; default: func_02034714(d_021D663C,0,d_021D663C); return 0; } }
+int WIFILOGIN_MSG_IsTaskFinish(u8 *p) { switch(((struct Obj10334 *)p)->f0) { case 0: return APP_TASKMENU_IsFinish(((struct Obj10334 *)p)->f20); case 1: if(((struct Obj10334 *)p)->f28!=-1) return 1; else return 0; default: func_02034714(d_021D663C,0,d_021D663C); return 0; } }

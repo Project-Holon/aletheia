@@ -1,5 +1,5 @@
 /*
- * function: func_021E55C8
+ * function: WIFIBATTLEMATCH_GRAPHIC_DeleteBg
  * address:  0x021E55C8
  * packet:   pkt_ov177_021E55C8
  * region:   ov177
@@ -31,7 +31,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-void func_021E55C8(void *p)
+void WIFIBATTLEMATCH_GRAPHIC_DeleteBg(void *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)

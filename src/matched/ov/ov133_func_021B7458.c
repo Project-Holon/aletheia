@@ -1,5 +1,5 @@
 /*
- * function: func_021B7458
+ * function: DUP_FITTING_RandomPos
  * address: 0x021B7458
  * packet: pkt_ov133_021B7458
  * region: ov133
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8FF4 0x021B8FF4 thumb ov133
+ *   DUP_FITTING_HitCircle 0x021B8FF4 thumb ov133
  */
 typedef signed short s16;
 typedef unsigned int   u32;
 extern u32 func_02005728(u32 range);
-extern int func_021B8FF4(int x, int y, int radius, float scale);
-void func_021B7458(void *unused, int *p)
+extern int DUP_FITTING_HitCircle(int x, int y, int radius, float scale);
+void DUP_FITTING_RandomPos(void *unused, int *p)
 {
     do {
         p[0] = func_02005728(240) + 8;
         p[1] = func_02005728(128) + 32;
-    } while (func_021B8FF4((s16)(p[0] - 128), (s16)(p[1] - 80), 84, 0.739130437374115f) == 1);
+    } while (DUP_FITTING_HitCircle((s16)(p[0] - 128), (s16)(p[1] - 80), 84, 0.739130437374115f) == 1);
 }

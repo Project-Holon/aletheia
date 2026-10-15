@@ -1,5 +1,5 @@
 /*
- * function: func_021C7460
+ * function: Wf2dmapFriend_ListTouchInput
  * address: 0x021C7460
  * packet: pkt_ov128_021C7460
  * region: ov128
@@ -23,7 +23,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void WF2DMAP_TOUCH_SetTopHighlight1(u8 *,int);
 extern void WF2DMAP_TOUCH_SetTopHighlight(u8 *,int,int);
 extern void func_020355D8(u8 v);
-int func_021C7460(int *p,int *q,u8 *ctx)
+int Wf2dmapFriend_ListTouchInput(int *p,int *q,u8 *ctx)
 {
     int v;
     v=TOUCHPANEL_HitTrg(d_021CA58A);

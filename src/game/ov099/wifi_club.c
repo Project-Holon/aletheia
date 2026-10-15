@@ -28,7 +28,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
- *   func_02028484  0x02028484  thumb
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045CAC  0x02045CAC  arm
@@ -38,7 +38,7 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -69,7 +69,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   unit_0201C440  0x0201C440  thumb
  *   TCBL_Create  0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -138,8 +138,8 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_0202EB14 0x0202EB14 thumb
- *   func_0202EB0C 0x0202EB0C thumb
+ *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
+ *   APP_ENV_IsRunOnTwl 0x0202EB0C thumb
  *   WIFICLUBACTOR_TickBlink  0x021B9B64  thumb  ov099
  *   KEY_GetTrg 0x020362DC arm
  *   gWifiClubSceneMessageIds     0x021C37DC  data  a4
@@ -410,7 +410,7 @@ extern u32 PRINTSYS_QUE_IsFinished(const PrintQue *);
 extern void PRINTSYS_QUE_Clear(PrintQue *);
 extern void PRINTSYS_PrintStreamDelete(PrintStream *stream);
 extern void APP_KEYCURSOR_Update(void *keyCursor, PrintStream *stream, BmpWin *win);
-extern s32 func_02028484(void *streamWait, PrintStream *stream);
+extern s32 PRINTSYS_CTRL_Update(void *streamWait, PrintStream *stream);
 extern signed char MSG_SPEED_GetWait(void);
 extern BmpWin *BMP_WIN_Create(u32 layer, u8 x, u8 y, u32 width, u8 height, u8 palette, u8 slot);
 extern void func_02045CAC(MsgData *bank, u32 index, StrBuf *dest);
@@ -420,7 +420,7 @@ extern void BMP_Clear(struct BmpData *buf, u8 value);
 extern void BMP_MENUWORK_DrawWindow(BmpWin *win, int a1, int a2, int a3);
 extern void PRINTSYS_Print(void *bmp, s16 x, s16 y, StrBuf *str, void *font);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *win, u32 x, u32 y, StrBuf *str, void *font, u32 speed, void *tcbl, u32 prio, u32 heapId, u32 palette);
-extern void func_02028470(void *streamWait, u32 v);
+extern void PRINTSYS_CTRL_Init(void *streamWait, u32 v);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(BmpWin *win);
 extern void func_02041B6C(u32 bit);
@@ -446,7 +446,7 @@ extern void BMP_MENU_DeleteYesNo(void *menu);
 extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern PrintQue *unit_0201C440(int heapId);
 extern void *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
-extern void *func_02028590(int a, int b, int c, int d);
+extern void *APP_KEYCURSOR_CreateDefault(int a, int b, int c, int d);
 extern int APP_KEYCURSOR_Delete(void *keyCursor);
 extern void TCBL_Destroy(void *tcbl);
 extern void PRINTSYS_QUE_Delete(PrintQue *);
@@ -503,8 +503,8 @@ extern int GFL_NET_IsParentAid();
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, unsigned int syncId, unsigned int range);
 extern u32 PRINTSYS_QUE_IsExistTarget(PrintQue *queue, void *bmp);
 extern s32 BMP_MENULIST_Main(void *menuList);
-extern int func_0202EB14(void);
-extern unsigned int func_0202EB0C(void);
+extern int APP_ENV_HasParentalControlBits(void);
+extern unsigned int APP_ENV_IsRunOnTwl(void);
 extern u32 KEY_GetTrg(void);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern int POKE_REGULATION_CheckParty(void *regulationData, void *party, u32 *mask);
@@ -1118,7 +1118,7 @@ int WIFICLUB_UpdateTalkStream(WifiClubWork *work)
         if (work->talkWin != 0) {
             APP_KEYCURSOR_Update(work->keyCursor, work->printStream, work->talkWin);
         }
-        finished = func_02028484(work->streamWait, work->printStream);
+        finished = PRINTSYS_CTRL_Update(work->streamWait, work->printStream);
         if (finished != 0 && work->printStream != 0) {
             PRINTSYS_PrintStreamDelete(work->printStream);
             work->printStream = 0;
@@ -1152,7 +1152,7 @@ void WIFICLUB_PrintTalkMessage(WifiClubWork *work, int messageId, int useAltBank
     } else {
         u32 speed = MSG_SPEED_GetWait();
         work->printStream = PRINTSYS_PrintStream(work->talkWin, 0, 0, work->printText, work->textFont, speed, work->tcbl, 2, 0x21, 0xF);
-        func_02028470(work->streamWait, 2);
+        PRINTSYS_CTRL_Init(work->streamWait, 2);
     }
     BMP_WIN_TransferChars(work->talkWin);
     BMP_WIN_MakeScreen(work->talkWin);
@@ -1406,7 +1406,7 @@ void WIFICLUB_CreateTextBuffers(WifiClubWork *work)
     work->msgPrintQueue = unit_0201C440(0x21);
     work->menuPrintQueue = unit_0201C440(0x21);
     work->tcbl = TCBL_Create(0x21, 0x21, 2, 0);
-    work->keyCursor = func_02028590(0xF, 1, 0, 0x21);
+    work->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 0, 0x21);
 }
 
 
@@ -2053,7 +2053,7 @@ int WIFICLUB_StateMainMenu(WifiClubWork *work, int result)
         if (work->session->voiceChat[1] == 0) {
             WIFICLUB_ShowStreamedMessage(work, 0x8c, 0);
             work->state = WIFICLUB_STATE_WAIT_KEY_RETRY;
-        } else if (func_0202EB14() == 0 && func_0202EB0C() != 0) {
+        } else if (APP_ENV_HasParentalControlBits() == 0 && APP_ENV_IsRunOnTwl() != 0) {
             WIFICLUB_ShowStreamedMessage(work, 0x95, 0);
             work->state = WIFICLUB_STATE_OPEN_NOTICE_YES_NO;
         } else {
@@ -2228,7 +2228,7 @@ int WIFICLUB_StateSceneYesNo(WifiClubWork *work, int result)
         if (WIFICLUB_HasEnoughPartyMembers(work) == 0 && work->menuAction == 0x4d) {
             WIFICLUB_ShowStreamedMessage(work, 0x79, 0);
             work->state = WIFICLUB_STATE_KEY_THEN_EXIT;
-        } else if (func_0202EB14() == 0 && func_0202EB0C() != 0
+        } else if (APP_ENV_HasParentalControlBits() == 0 && APP_ENV_IsRunOnTwl() != 0
                    && work->menuAction == 0x4c) {
             WIFICLUB_ShowStreamedMessage(work, 0x95, 0);
             work->state = WIFICLUB_STATE_OPEN_VOICE_YES_NO;
@@ -4405,7 +4405,7 @@ done:
 int WIFICLUB_StateShowSaveNotice(WifiClubWork *work, int state)
 {
     WIFICLUB_ClearTalkWindow(work);
-    if (func_0202EB0C()) {
+    if (APP_ENV_IsRunOnTwl()) {
         WIFICLUB_ShowNoticeWindow(work, 44);
     } else {
         WIFICLUB_ShowNoticeWindow(work, 19);
@@ -5549,7 +5549,7 @@ int WIFICLUB_StatePartnerMenu(WifiClubWork *work, int procState)
         break;
     case 5:
         if (work->session->ownSeat == 0) return procState;
-        if (func_0202EB14() == 0 && func_0202EB0C() != 0) {
+        if (APP_ENV_HasParentalControlBits() == 0 && APP_ENV_IsRunOnTwl() != 0) {
             WIFICLUB_ClosePartnerMenu(work);
             WIFICLUB_ShowStreamedMessage(work, 0x95, 0);
             work->state = WIFICLUB_STATE_OPEN_MENU_CHOICE_PROMPT;
@@ -6064,7 +6064,7 @@ int WIFICLUB_StatePartnerMenuResult(WifiClubWork *work, int procState)
     }
     GFL_USE_PlaySeDefaultVolume(0x54c);
     phase = WIFICLUB_GetStatusPhase(work, ownStatus);
-    if (phase == 5 && !func_0202EB14() && func_0202EB0C()) {
+    if (phase == 5 && !APP_ENV_HasParentalControlBits() && APP_ENV_IsRunOnTwl()) {
         WIFICLUB_ShowStreamedMessage(work, 0x95, 0);
         work->state = WIFICLUB_STATE_OPEN_REQUEST_PROMPT;
         return procState;

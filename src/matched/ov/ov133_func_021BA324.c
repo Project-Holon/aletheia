@@ -1,5 +1,5 @@
 /*
- * function: func_021BA324
+ * function: DUP_FITTING_ITEM_ElemHitDistance
  * address: 0x021BA324
  * packet: pkt_ov133_021BA324
  * region: ov133
@@ -27,7 +27,7 @@ extern void MUSICAL_MCSS_GetElemOffset(u8 *, Offset *);
 extern int MUSICAL_MCSS_GetElemFlag(int, Flags *);
 extern void MUSICAL_MCSS_GetElemField(int, u16 *, u16 *);
 extern const s16 FX_SinCosTable_[];
-unsigned int func_021BA324(u8 *p, int x, int y)
+unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *p, int x, int y)
 {
     s16 s;
     int pos[2];

@@ -75,13 +75,10 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
-typedef signed short   s16_021C48A0;
 
 typedef signed char    s8;
 
-typedef signed short   s16_021C59A8;
 
-typedef short s16_021C577C;
 
 typedef struct FieldMap FieldMap;
 

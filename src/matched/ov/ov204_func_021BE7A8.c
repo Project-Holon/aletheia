@@ -14,8 +14,8 @@
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
  *   PM_VOICE_IsActive  0x02006BD0  thumb
- *   func_021BF744  0x021BF744  thumb ov204
- *   func_021BF864  0x021BF864  thumb ov204
+ *   INTRO_G3D_SetSlotAnim  0x021BF744  thumb ov204
+ *   INTRO_G3D_MoveSlot1  0x021BF864  thumb ov204
  */
 #include "../include/Obj08382.h"
 
@@ -26,8 +26,8 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int  GFL_USE_IsAnySeBusy(void);
 extern int PM_VOICE_Start(u32 idx);
 extern u32 PM_VOICE_IsActive(u32 i);
-extern void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
-extern int func_021BF864(char *p, int delta, int limit);
+extern void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v);
+extern int INTRO_G3D_MoveSlot1(char *p, int delta, int limit);
 
 int func_021BE7A8(u8 *p, u32 *q)
 {
@@ -41,14 +41,14 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 1:
-        if (func_021BF864((char *)(((struct Obj08382 *)p)->f8), 0x1000, 0xFFFF4800) == 1) {
+        if (INTRO_G3D_MoveSlot1((char *)(((struct Obj08382 *)p)->f8), 0x1000, 0xFFFF4800) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x7F5);
             (*q)++;
         }
         break;
     case 2:
         if (GFL_USE_IsAnySeBusy() == 0) {
-            func_021BF744((char *)(((struct Obj08382 *)p)->f8), 1, 0, 1);
+            INTRO_G3D_SetSlotAnim((char *)(((struct Obj08382 *)p)->f8), 1, 0, 1);
             PM_VOICE_Start(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10));
             (*q)++;
         }

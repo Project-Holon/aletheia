@@ -17,7 +17,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020124EC  0x020124EC  thumb
- *   func_0202E8B8  0x0202E8B8  thumb
+ *   COMM_PLAYER_SUPPORT_PrevSeason  0x0202E8B8  thumb
  *   EL_SCOREBOARD_EventMain  0x021876E0  thumb  ov020
  *   EL_SCOREBOARD_EnterState  0x02187C20  thumb  ov020
  */
@@ -44,7 +44,7 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 u32 *func_020124EC(struct Obj *p);
-u8 func_0202E8B8(int x);
+u8 COMM_PLAYER_SUPPORT_PrevSeason(int x);
 int EL_SCOREBOARD_EventMain(void *unused, int *s, char *o);
 void EL_SCOREBOARD_EnterState(char *o, int *p, int st);
 
@@ -60,7 +60,7 @@ void *EL_SCOREBOARD_StartStandalone(void *p, u8 a1, u8 a2)
     w->f0c = 1;
     w->f10 = 0;
     w->f14 = a2;
-    w->f15 = func_0202E8B8(a1);
+    w->f15 = COMM_PLAYER_SUPPORT_PrevSeason(a1);
     w->f20 = 0;
     w->f24 = 0;
     EL_SCOREBOARD_EnterState((char *)w, h, 0);

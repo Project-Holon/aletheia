@@ -46,7 +46,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
- *   func_0202F190 0x0202F190 thumb
+ *   SAVE_EVENT_Write 0x0202F190 thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
@@ -134,7 +134,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
-extern void func_0202F190(void *, u32, u32, u32, u16);
+extern void SAVE_EVENT_Write(void *, u32, u32, u32, u16);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
@@ -212,7 +212,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
                 (*(void **)((u8 *)(r)+( 44))) = func_02045EC0(bank, index);
                 MSGDATA_Delete(bank);
             }
-            func_0202F190((*(void **)((u8 *)(r)+( 8))), 0, (u32)buf, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((*(void **)((u8 *)(s)+( 0)))))), (*(u16 *)((u8 *)(r)+( 60))));
+            SAVE_EVENT_Write((*(void **)((u8 *)(r)+( 8))), 0, (u32)buf, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((*(void **)((u8 *)(s)+( 0)))))), (*(u16 *)((u8 *)(r)+( 60))));
             flag = 0;
             dexno = ZUKAN_SAVE_IsNationalDexEnabled(dex);
             if (ZUKAN_SAVE_IsCaught(dex, POKE_TOOL_GetPartyValue((*(void **)((u8 *)(r)+( 8))), 5, 0)) == 0) flag = 1;

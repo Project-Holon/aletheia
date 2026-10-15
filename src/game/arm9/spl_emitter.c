@@ -89,11 +89,7 @@
  *   func_0207AF38  0x0207AF38  thumb
  *   MTX_MultVec33  0x0207B51C  arm
  */
-#include "../../matched/include/Obj00077.h"
-#include "../../matched/include/Obj11462.h"
-#include "../../matched/include/Obj16201.h"
-#include "../../matched/include/Obj16202.h"
-#include "../../matched/include/Obj11461.h"
+#include "gf_standard_shared_types.h"
 
 #define NULL ((void *)0)
 #define FX32_SHIFT 12
@@ -5438,11 +5434,11 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c)
 {
     void *r = 0;
 
-    if (((struct Obj11462 *)p)->f10 != 0) {
+    if (((SPLManager *)p)->inactiveEmitters.first != 0) {
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)(((struct Obj11462 *)p)->f28 + (b << 5)), (const struct Vec3 *)c);
+        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const struct Vec3 *)c);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
-        if ((*(u32 *)(*(u32 *)(*(u32 *)&((struct Obj00077 *)r)->f20)) << 0x11 >> 0x1f) != 0)
+        if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }
     return (int)r;
@@ -5479,15 +5475,15 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
 {
     void *r = 0;
 
-    if (((struct Obj11461 *)p)->f10 != 0) {
+    if (((SPLManager *)p)->inactiveEmitters.first != 0) {
         struct Scratch scratch = { 0, 0, 0 };
 
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)(((struct Obj11461 *)p)->f28 + (b << 5)), (const struct Vec3 *)(&scratch));
+        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const struct Vec3 *)(&scratch));
         if (fn != 0)
             fn(r);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
-        if ((*(u32 *)(*(u32 *)(*(u32 *)&((struct Obj00077 *)r)->f20)) << 0x11 >> 0x1f) != 0)
+        if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }
     return (int)r;
@@ -5576,10 +5572,10 @@ void SPL_EMITTER_FreeResource(char *p, char *q)
  */
 void SPL_EMITTER_FreeResourceList(void *p)
 {
-    void *n = ((struct Obj16201 *)p)->f4;
+    void *n = ((SPLManager *)p)->activeEmitters.first;
 
     while (n != 0) {
-        void *next = ((struct Obj16202 *)n)->f0;
+        void *next = ((SPLEmitter *)n)->next;
         SPL_EMITTER_FreeResource(p, n);
         n = next;
     }

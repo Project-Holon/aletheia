@@ -1,5 +1,5 @@
 /*
- * function: func_021C8C04
+ * function: Wf2dmapFriend_NameEntryMain
  * address: 0x021C8C04
  * packet: pkt_ov128_021C8C04
  * region: ov128
@@ -16,10 +16,10 @@
  *   PROCSYS_Push 0x02031348 arm
  *   func_020355C4 0x020355C4 arm
  *   WF2DMAP_TOUCH_CreateNameEntry 0x021C8DA0 thumb ov128
- *   func_021C6390 0x021C6390 thumb ov128
- *   func_021C6360 0x021C6360 thumb ov128
- *   func_021C6438 0x021C6438 thumb ov128
- *   func_021C6440 0x021C6440 thumb ov128
+ *   Wf2dmapFriend_Teardown 0x021C6390 thumb ov128
+ *   Wf2dmapFriend_Setup 0x021C6360 thumb ov128
+ *   Wf2dmapFriend_SetState 0x021C6438 thumb ov128
+ *   Wf2dmapFriend_CopyText 0x021C6440 thumb ov128
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   id67 0x00000043 data
  *   id194 0x000000C2 data
@@ -52,14 +52,14 @@ extern u8 func_020355C4(void);
 extern char *WF2DMAP_TOUCH_CreateNameEntry(void *unused, char *q, int mode, int heap);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void func_0202E54C(struct Obj0202E54C *p);
-extern void func_021C6390(u8 *);
-extern void func_021C6360(char *p, int heap);
-extern void func_021C6438(u8 *p, u8 a, u8 b);
-extern void func_021C6440(u8 *p, void *a, void *b);
+extern void Wf2dmapFriend_Teardown(u8 *);
+extern void Wf2dmapFriend_Setup(char *p, int heap);
+extern void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
+extern void Wf2dmapFriend_CopyText(u8 *p, void *a, void *b);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern char id67[], id194[], id129[];
 extern char gNameInProcData[], d_021DA62C[];
-int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
+int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, int heap)
 {
     u32 sizes[3];
     switch (b[8]) {
@@ -68,7 +68,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 1, heap);
         sizes[0] = 4; sizes[1] = 4; sizes[2] = 4;
         p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
-        func_021C6390(a);
+        Wf2dmapFriend_Teardown(a);
         p[0] = PROCSYS_Create(heap);
         PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
         b[8] = 1;
@@ -80,7 +80,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
                 b[8] = 2;
             } else {
                 func_0203133C(p[0]);
-                func_021C6438(b, 0, 0);
+                Wf2dmapFriend_SetState(b, 0, 0);
                 b[8] = 3;
             }
         }
@@ -88,8 +88,8 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
     case 2:
         if (PROCSYS_Main(p[0]) == 0) {
             func_0203133C(p[0]);
-            func_021C6440(b, ((struct Obj23098 *)((u8 *)p[1]))->f20, ((struct Obj23099 *)((u8 *)p[2]))->f20);
-            func_021C6438(b, 0, 7);
+            Wf2dmapFriend_CopyText(b, ((struct Obj23098 *)((u8 *)p[1]))->f20, ((struct Obj23099 *)((u8 *)p[2]))->f20);
+            Wf2dmapFriend_SetState(b, 0, 7);
             b[8] = 3;
         }
         break;
@@ -97,12 +97,12 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         NAMEIN_SETUP_FreeArgs((int)p[1]);
         func_0202E54C(p[2]);
         func_02034AC4((u32)id67);
-        func_021C6360((char *)a, heap);
+        Wf2dmapFriend_Setup((char *)a, heap);
         return 1;
     case 4:
         func_02034A5C((u32)id67);
         p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 0, heap);
-        func_021C6390(a);
+        Wf2dmapFriend_Teardown(a);
         p[0] = PROCSYS_Create(heap);
         PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
         b[8] = 5;
@@ -112,11 +112,11 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
             func_0203133C(p[0]);
             *(int *)b = func_020355C4();
             if (((struct Obj23100 *)((u8 *)p[1]))->f1C == 0) {
-                func_021C6438(b, 1, 14);
-                func_021C6440(b, ((struct Obj23101 *)((u8 *)p[1]))->f20, 0);
+                Wf2dmapFriend_SetState(b, 1, 14);
+                Wf2dmapFriend_CopyText(b, ((struct Obj23101 *)((u8 *)p[1]))->f20, 0);
                 b[8] = 6;
             } else {
-                func_021C6438(b, 1, 15);
+                Wf2dmapFriend_SetState(b, 1, 15);
                 b[8] = 6;
             }
         }
@@ -124,7 +124,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
     case 6:
         NAMEIN_SETUP_FreeArgs((int)p[1]);
         func_02034AC4((u32)id67);
-        func_021C6360((char *)a, heap);
+        Wf2dmapFriend_Setup((char *)a, heap);
         return 1;
     }
     return 0;

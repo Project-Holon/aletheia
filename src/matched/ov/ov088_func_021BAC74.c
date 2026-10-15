@@ -16,7 +16,7 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  */
 #include "../include/Obj00014.h"
 
@@ -34,7 +34,7 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_02028590(u32, u32, u32, u32);
+extern u32 APP_KEYCURSOR_CreateDefault(u32, u32, u32, u32);
 
 void STARTMENU_CreateTextSystem(char *p)
 {
@@ -44,5 +44,5 @@ void STARTMENU_CreateTextSystem(char *p)
     *(u32 *)&((struct Obj00014 *)p)->f68 = PRINTSYS_QUE_Create((void *)0xb);
     *(u32 *)&((struct Obj00014 *)p)->f64 = (u32)STRBUF_Create(0x400, 0xb);
     ((struct Obj00014 *)p)->f70 = (u32)TCBL_Create(0xb, 0xb, 1, 4);
-    ((struct Obj00014 *)p)->f74 = func_02028590(0xf, 1, 0, 0xb);
+    ((struct Obj00014 *)p)->f74 = APP_KEYCURSOR_CreateDefault(0xf, 1, 0, 0xb);
 }

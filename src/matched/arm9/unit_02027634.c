@@ -1,9 +1,9 @@
 /*
  * unit:     yes
- * function: func_02027634, func_02027694, func_02027698, func_0202769C,
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
+ * function: APP_ICON_LoadTouchBar, APP_ICON_GetItemCellFileId, APP_ICON_GetItemPaletteFileId, APP_ICON_GetItemAnimFileId,
+ *           APP_ICON_GetItemFrameFileId, APP_ICON_GetItemDataFileId, APP_ICON_GetItemExtraFileId, APP_ICON_GetItemAnim2FileId,
+ *           APP_ICON_GetItemFrame2FileId, APP_ICON_GetSealCellFileId, APP_ICON_GetSealPaletteFileId, APP_ICON_GetSealAnimFileId,
+ *           APP_ICON_GetSealFrameFileId
  * address:  0x02027634
  * packet:   pkt_02027634
  * region:   arm9
@@ -48,7 +48,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 id, u32 comp, voi
 extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
 extern u32 func_020307B0(void *p);
 
-void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
+void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal)
 {
     struct BeaconGfx *g;
     void *data;
@@ -63,62 +63,62 @@ void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
         g->pal[i] = (pal << 12) + (base + (g->pal[i] & 0xfff));
 }
 
-u32 func_02027694(void)
+u32 APP_ICON_GetItemCellFileId(void)
 {
     return 0x42;
 }
 
-u32 func_02027698(void)
+u32 APP_ICON_GetItemPaletteFileId(void)
 {
     return 0x41;
 }
 
-u32 func_0202769C(u32 i)
+u32 APP_ICON_GetItemAnimFileId(u32 i)
 {
     return i + 0x43;
 }
 
-u32 func_020276A0(u32 i)
+u32 APP_ICON_GetItemFrameFileId(u32 i)
 {
     return i + 0x46;
 }
 
-u32 func_020276A4(void)
+u32 APP_ICON_GetItemDataFileId(void)
 {
     return 0x49;
 }
 
-u32 func_020276A8(void)
+u32 APP_ICON_GetItemExtraFileId(void)
 {
     return 0x4a;
 }
 
-u32 func_020276AC(u32 i)
+u32 APP_ICON_GetItemAnim2FileId(u32 i)
 {
     return i + 0x4b;
 }
 
-u32 func_020276B0(u32 i)
+u32 APP_ICON_GetItemFrame2FileId(u32 i)
 {
     return i + 0x4e;
 }
 
-u32 func_020276B4(void)
+u32 APP_ICON_GetSealCellFileId(void)
 {
     return 0xb;
 }
 
-u32 func_020276B8(void)
+u32 APP_ICON_GetSealPaletteFileId(void)
 {
     return 0xc;
 }
 
-u32 func_020276BC(u32 i)
+u32 APP_ICON_GetSealAnimFileId(u32 i)
 {
     return i + 0xd;
 }
 
-u32 func_020276C0(u32 i)
+u32 APP_ICON_GetSealFrameFileId(u32 i)
 {
     return i + 0x10;
 }

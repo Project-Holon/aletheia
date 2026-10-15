@@ -1,5 +1,5 @@
 /*
- * function: func_0217B55C
+ * function: BATTLE_CHAMPIONSHIP_FLOW_MenuClose
  * address: 0x0217B55C
  * packet: pkt_ov176_0217B55C
  * region: ov176
@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0217B93C 0x0217B93C thumb ov176
- *   func_0217B964 0x0217B964 thumb ov176
- *   func_0217B4A0 0x0217B4A0 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_SetOption 0x0217B93C thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone 0x0217B964 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse 0x0217B4A0 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  */
-extern void func_0217B93C(int *,int);
+extern void BATTLE_CHAMPIONSHIP_FLOW_SetOption(int *,int);
 typedef unsigned char  u8;
-extern int func_0217B964(int *p);
-extern void func_0217B4A0(int p, unsigned *state, int *q);
+extern int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *p);
+extern void BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse(int p, unsigned *state, int *q);
 extern void func_021E8AA0(int *p, int v);
-void func_0217B55C(int p,int *state,int *q)
+void BATTLE_CHAMPIONSHIP_FLOW_MenuClose(int p,int *state,int *q)
 {
     switch(*state) {
-    case 0: func_0217B93C(q,8); *state=1; break;
-    case 1: if(func_0217B964((int *)q)==1) func_021E8AA0((int *)p,(int)func_0217B4A0); break;
+    case 0: BATTLE_CHAMPIONSHIP_FLOW_SetOption(q,8); *state=1; break;
+    case 1: if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)q)==1) func_021E8AA0((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
     }
 }

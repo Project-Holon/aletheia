@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BF2D4 0x021BF2D4 thumb ov204
+ *   INTRO_MSG_DrawWindowBorder 0x021BF2D4 thumb ov204
  */
 #include "../include/Obj25352.h"
 typedef unsigned char  u8;
-extern void func_021BF2D4(u8 *p);
-int func_021BE4AC(char *p,int *state,int *q){func_021BF2D4((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}
+extern void INTRO_MSG_DrawWindowBorder(u8 *p);
+int func_021BE4AC(char *p,int *state,int *q){INTRO_MSG_DrawWindowBorder((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}

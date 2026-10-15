@@ -16,7 +16,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  */
 #include "../include/Obj00180.h"
 typedef unsigned int u32;
@@ -31,7 +31,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-extern u32 func_02028590(int,int,int,int);
+extern u32 APP_KEYCURSOR_CreateDefault(int,int,int,int);
 void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *p)
 {
     u32 i;
@@ -43,5 +43,5 @@ void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *p)
     h=((struct Obj00180 *)p)->f28;
     BMP_WIN_ClearScreen((struct Descriptor *)h);
     func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)h));
-    ((struct Obj00180 *)p)->f21C=func_02028590(15,1,1,79);
+    ((struct Obj00180 *)p)->f21C=APP_KEYCURSOR_CreateDefault(15,1,1,79);
 }

@@ -49,7 +49,7 @@
  *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
- *   func_020275EC 0x020275EC thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
@@ -69,11 +69,11 @@
  *   func_0202D034 0x0202D034 thumb
  *   func_0202D01C 0x0202D01C thumb
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
- *   func_02027604 0x02027604 thumb
+ *   APP_ICON_GetMoveKindPaletteOffset 0x02027604 thumb
  *   BMP_Clear 0x02043B5C arm
  *   BMP_Create 0x02043678 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0202F72C 0x0202F72C thumb
+ *   EVENT_ID_Check 0x0202F72C thumb
  *   POKE_TOOL_SetBoxMoveSlot 0x020181FC thumb
  *   POKE_TOOL_GetNatureModifier 0x02019B44 thumb
  *   P_STA_SKILL_SlotTilePos 0x021DC2B8 data a1
@@ -230,7 +230,7 @@ extern void BG_SYS_DrawTileEx(u32 bgLayer, u32 a, u32 b, u32 width, u8 height, u
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 size);
 extern void CLACT_GetCharacterProxy(u32 res, StaSpriteRes *out);
 extern void CLACT_SetActorImageProxy(struct Obj *obj, const StaSpriteRes *res);
-extern u8 func_020275EC(int typeId);
+extern u8 APP_ICON_GetTypePaletteOffset(int typeId);
 extern void CLACT_SetActorPaletteOffset(struct Obj *obj, u32 palette, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Obj *obj, const StaOamPoint *pos, u32 mode);
 extern void CLACT_SetActorBgPriority(struct Obj *obj, u32 value);
@@ -245,13 +245,13 @@ extern int func_0202D034(u32 curHp, u32 maxHp);
 extern u8 func_0202D01C(u32 curHp, u32 maxHp, u32 pixels);
 extern void BMP_Clear(struct Bmp *bmp, u8 fill);
 extern int WAZA_TOOL_GetDamageType(int moveId);
-extern u8 func_02027604(u8 typeId);
+extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 typeId);
 extern u32 WAZA_TOOL_GetPower(u16 moveId);
 extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 moveId);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void CLACT_RestartActorAnim(struct Obj *obj);
-extern u32 func_0202F72C(void *config, u16 moveId, u16 heapId);
+extern u32 EVENT_ID_Check(void *config, u16 moveId, u16 heapId);
 extern void POKE_TOOL_SetBoxMoveSlot(void *pp, u16 id, u32 value);
 extern s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex);
 extern int WAZA_TOOL_GetType(u16 moveId);
@@ -629,7 +629,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     type2=func_02017E88(pp,175,0);
     CLACT_GetCharacterProxy(wk->typeChrRes[type1],&type1Res);
     CLACT_SetActorImageProxy(wk->typeIconActor[0],&type1Res);
-    CLACT_SetActorPaletteOffset(wk->typeIconActor[0],func_020275EC((u8)type1),1);
+    CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
     pos.x=208;
     pos.y=120;
     CLACT_AddActorSurfacePos(wk->typeIconActor[0],&pos,0);
@@ -638,7 +638,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     if(type1!=type2) {
         CLACT_GetCharacterProxy(wk->typeChrRes[type2],&type2Res);
         CLACT_SetActorImageProxy(wk->typeIconActor[1],&type2Res);
-        CLACT_SetActorPaletteOffset(wk->typeIconActor[1],func_020275EC((u8)type2),1);
+        CLACT_SetActorPaletteOffset(wk->typeIconActor[1],APP_ICON_GetTypePaletteOffset((u8)type2),1);
         pos.x=240;
         pos.y=120;
         CLACT_AddActorSurfacePos(wk->typeIconActor[1],&pos,0);
@@ -758,7 +758,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     moveType=WAZA_TOOL_GetDamageType((u16)moveId);
     CLACT_GetCharacterProxy(wk->objRes[moveType+16],&typeRes);
     CLACT_SetActorImageProxy(work->moveTypeObj,&typeRes);
-    CLACT_SetActorPaletteOffset(work->moveTypeObj,func_02027604(moveType),1);
+    CLACT_SetActorPaletteOffset(work->moveTypeObj,APP_ICON_GetMoveKindPaletteOffset(moveType),1);
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 147, 1, one, 15424);
     power=WAZA_TOOL_GetPower(moveId);
     if(power<=1) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 154, 87, one, 1088);
@@ -1131,7 +1131,7 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
     } else if(KEY_GetTrg()==1) {
         wk->inputType=0;
         if(work->cursorSlot<4) {
-            forgetBlock=func_0202F72C(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),*(volatile u8 *)&work->cursorSlot+54,0),wk->heapId);
+            forgetBlock=EVENT_ID_Check(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),*(volatile u8 *)&work->cursorSlot+54,0),wk->heapId);
             if(forgetBlock==0 || wk->restoreModeAll==1) {
                 if(wk->param->newMove==0) {
                     wk->retCode=1;
@@ -1175,7 +1175,7 @@ done:
 }
 
 /*
- * note: callee func_0202F72C filed as arm9 witness (pkt_0202F72C).
+ * note: callee EVENT_ID_Check filed as arm9 witness (pkt_0202F72C).
  * interface: C08 returns -1 or 0..4 for this five-record list (full
  *   C08/BBC/ADC bodies and nonwriting A70/AA4 predicates, retained evidence).
  *   BA14 writes every four-byte record; the sixth first byte is the sentinel.
@@ -1226,7 +1226,7 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
     if (work->isPickingForget==0) {
         if (touchedSlot<4) {
             if (func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) return;
-            forgetBlock=func_0202F72C(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0),wk->heapId);
+            forgetBlock=EVENT_ID_Check(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0),wk->heapId);
             if (forgetBlock==0 || wk->restoreModeAll==1) {
                 if (wk->param->newMove==0) {
                     wk->retCode=1;
@@ -1503,7 +1503,7 @@ void P_STA_SKILL_ShowSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *s
             moveType=WAZA_TOOL_GetType(moveId);
             CLACT_GetCharacterProxy(wk->typeChrRes[moveType],&typeRes);
             CLACT_SetActorImageProxy(slot->typeObj,&typeRes);
-            CLACT_SetActorPaletteOffset(slot->typeObj,func_020275EC(moveType),1);
+            CLACT_SetActorPaletteOffset(slot->typeObj,APP_ICON_GetTypePaletteOffset(moveType),1);
             CLACT_SetActorDrawEnable(slot->typeObj,1);
         } else CLACT_SetActorDrawEnable(slot->typeObj,0);
         P_STA_OAM_TransferBitmap(slot->nameActors);

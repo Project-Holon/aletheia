@@ -1,5 +1,5 @@
 /*
- * function: func_021BC508
+ * function: PSEL_GRAPHIC_ApplyLight
  * address: 0x021BC508
  * packet: pkt_ov223_021BC508
  * region: ov223
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC6DC 0x021BC6DC thumb ov223
+ *   PSEL_GRAPHIC_ApplyLookAt 0x021BC6DC thumb ov223
  */
-extern void func_021BC6DC(int *);
-void func_021BC508(unsigned char *p){func_021BC6DC((int *)(p+8));}
+extern void PSEL_GRAPHIC_ApplyLookAt(int *);
+void PSEL_GRAPHIC_ApplyLight(unsigned char *p){PSEL_GRAPHIC_ApplyLookAt((int *)(p+8));}

@@ -41,15 +41,15 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
  *   func_02045CAC  0x02045CAC  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   func_020056BC  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   func_02034714  0x02034714  arm
- *   func_02028470  0x02028470  thumb
- *   func_02028590  0x02028590  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   d_021E8DEC     0x021E8DEC  data
@@ -227,7 +227,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
 extern void TCBL_Main(struct Tcbl *p);
 
@@ -239,9 +239,9 @@ extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 he
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-extern void func_02028470(u8 *p, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
-extern int  func_02028590(int, int, int, int);
+extern int  APP_KEYCURSOR_CreateDefault(int, int, int, int);
 
 extern signed char MSG_SPEED_GetWait(void);
 
@@ -426,7 +426,7 @@ void func_021E867C(char *p)
  case 1:
  if(((struct Obj00842 *)p)->f8!=0) {
  if(((struct Obj00842 *)p)->f34!=0)APP_KEYCURSOR_Update(((struct Obj00842 *)p)->f34,((struct Obj00842 *)p)->f8,((struct Obj00842 *)p)->f14);
- if(func_02028484((struct Blk *)(p+0x38),((struct Obj00842 *)p)->f8)!=0)((struct Obj00842 *)p)->f30=1;
+ if(PRINTSYS_CTRL_Update((struct Blk *)(p+0x38),((struct Obj00842 *)p)->f8)!=0)((struct Obj00842 *)p)->f30=1;
  }
  break;
  case 3:break;
@@ -487,8 +487,8 @@ void func_021E8754(S_021E8754 *p, int mode)
         if (p->f34 != 0) {
             func_02034714((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
-        func_02028470((u8 *)p->f38, 2);
-        p->f34 = func_02028590(p->f1c, 1, 0, p->f1e);
+        PRINTSYS_CTRL_Init((u8 *)p->f38, 2);
+        p->f34 = APP_KEYCURSOR_CreateDefault(p->f1c, 1, 0, p->f1e);
         p->f8 = PRINTSYS_PrintStream(p->f14, 0, 0, p->f18, p->f4, MSG_SPEED_GetWait(), p->fc, 0, p->f1e, p->f1c);
         p->f2c = 1;
         break;

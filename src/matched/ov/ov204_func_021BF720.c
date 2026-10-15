@@ -1,5 +1,5 @@
 /*
- * function: func_021BF720
+ * function: INTRO_G3D_SetVanishFlag
  * address: 0x021BF720
  * packet: pkt_ov204_021BF720
  * region: ov204
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MCSS_ResetVanishFlag(void *);
 extern void MCSS_SetVanishFlag(void *);
-void func_021BF720(u8 *p, int flag, u8 index)
+void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index)
 {
     if(flag==1)MCSS_ResetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
     else MCSS_SetVanishFlag(*(void **)((u32)p+(u32)index*12+8));

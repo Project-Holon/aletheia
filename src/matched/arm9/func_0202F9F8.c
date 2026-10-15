@@ -1,5 +1,5 @@
 /*
- * function: func_0202F9F8
+ * function: OVERLAY_LAUNCH_Driver
  * address:  0x0202F9F8
  * packet:   pkt_0202F9F8
  * region:   arm9
@@ -40,8 +40,8 @@
  * `*state = 4` block is the one state 3 branches back into.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202F9F8.c
- *       --func func_0202F9F8 --addr 0x0202F9F8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/OVERLAY_LAUNCH_Driver.c
+ *       --func OVERLAY_LAUNCH_Driver --addr 0x0202F9F8 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_02146948.h"
@@ -60,7 +60,7 @@ extern struct G_02146948 g_02146948_arg;
 
 extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
 
-int func_0202F9F8(void *unused, u32 *state)
+int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:

@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202EC24
+ * function: COMM_HISTORY_CountLeadingOccupied
  *
  * Counts the leading run of occupied slots in a 20-entry array of
  * 0x28-byte records and returns the index of the first free one, or 20.
@@ -47,7 +47,7 @@ struct Ent0202EC24 {
     u8 unk27;
 };
 
-u32 sub_0202EC24(const struct Ent0202EC24 *p)
+u32 COMM_HISTORY_CountLeadingOccupied(const struct Ent0202EC24 *p)
 {
     u32 i;
 

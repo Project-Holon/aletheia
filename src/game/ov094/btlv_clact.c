@@ -66,7 +66,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
 
-extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *owner);
+extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *owner);
 
 extern u32 TCBL_GetTaskUserData(void *task);
 

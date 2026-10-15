@@ -1,5 +1,5 @@
 /*
- * function: func_021C734C
+ * function: Wf2dmapFriend_ListKeyInput
  * address: 0x021C734C
  * packet: pkt_ov128_021C734C
  * region: ov128
@@ -28,7 +28,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern void WF2DMAP_TOUCH_SetTopHighlight1(u8 *, int);
 extern void WF2DMAP_TOUCH_SetTopHighlight(u8 *, int, int);
-int func_021C734C(u32 *p, int *q, u8 *ctx)
+int Wf2dmapFriend_ListKeyInput(u32 *p, int *q, u8 *ctx)
 {
     if (KEY_GetTrg() & 2) {
         GFL_USE_PlaySeDefaultVolume(0x551);

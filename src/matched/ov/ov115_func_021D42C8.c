@@ -1,5 +1,5 @@
 /*
- * function: func_021D42C8
+ * function: WIFILOGIN_DISP_CopyProfileSlot
  * address: 0x021D42C8
  * packet: pkt_ov115_021D42C8
  * region: ov115
@@ -20,4 +20,4 @@ struct BigObj;
 struct Sub020097BCObj;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
-void func_021D42C8(int a,int b,u8 *p) { func_02009C24((void *)GAME_DATA_GetWifiList(((struct Obj22584 *)p)->f44),a,b); }
+void WIFILOGIN_DISP_CopyProfileSlot(int a,int b,u8 *p) { func_02009C24((void *)GAME_DATA_GetWifiList(((struct Obj22584 *)p)->f44),a,b); }

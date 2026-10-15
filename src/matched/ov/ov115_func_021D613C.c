@@ -1,5 +1,5 @@
 /*
- * function: func_021D613C
+ * function: WIFILOGIN_MSG_CallStep
  * address: 0x021D613C
  * packet: pkt_ov115_021D613C
  * region: ov115
@@ -11,4 +11,4 @@
  */
 typedef unsigned char u8;typedef unsigned int u32;
 
-int func_021D613C(u8 *p) { void (*cb)(u8 *);cb=*(void (**)(u8 *))(p+12);if(cb){cb(p);return 0;}return 1; }
+int WIFILOGIN_MSG_CallStep(u8 *p) { void (*cb)(u8 *);cb=*(void (**)(u8 *))(p+12);if(cb){cb(p);return 0;}return 1; }

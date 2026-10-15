@@ -1,5 +1,5 @@
 /*
- * function: func_021BF864
+ * function: INTRO_G3D_MoveSlot1
  * address: 0x021BF864
  * packet: pkt_ov204_021BF864
  * region: ov204
@@ -18,4 +18,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MCSS_GetPosition(void *,u32 *); extern void MCSS_SetPosition(void *,u32 *);
-int func_021BF864(char *p,int delta,int limit) { u32 v[3]; int done; MCSS_GetPosition(((struct Obj14628 *)p)->f14,v); v[1]-=delta; if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;MCSS_SetPosition(((struct Obj14628 *)p)->f14,v);return done; }
+int INTRO_G3D_MoveSlot1(char *p,int delta,int limit) { u32 v[3]; int done; MCSS_GetPosition(((struct Obj14628 *)p)->f14,v); v[1]-=delta; if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;MCSS_SetPosition(((struct Obj14628 *)p)->f14,v);return done; }

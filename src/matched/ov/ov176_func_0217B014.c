@@ -1,5 +1,5 @@
 /*
- * function: func_0217B014
+ * function: BATTLE_CHAMPIONSHIP_FLOW_FadeIn
  * address: 0x0217B014
  * packet: pkt_ov176_0217B014
  * region: ov176
@@ -11,7 +11,7 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217AFD0 0x0217AFD0 thumb ov176
+ *   BATTLE_CHAMPIONSHIP_FLOW_SelectFlow 0x0217AFD0 thumb ov176
  *   func_02034714 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
  */
@@ -20,15 +20,15 @@ typedef unsigned int   u32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern void func_021E8AA0(int *p, int v);
-extern void func_0217AFD0(void *,int,char *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_SelectFlow(void *,int,char *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E5E0[];
-void func_0217B014(void *a,int *state,char *p)
+void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *a,int *state,char *p)
 {
     switch(*state){
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if(!FADE_IsActive()) *state=2; break;
-    case 2: func_021E8AA0(a,(int)func_0217AFD0); break;
+    case 2: func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
     default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
     }
 }

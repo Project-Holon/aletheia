@@ -1,5 +1,5 @@
 /*
- * function: func_021B6884
+ * function: DUP_FITTING_VBlank
  * address: 0x021B6884
  * packet: pkt_ov133_021B6884
  * region: ov133
@@ -20,13 +20,13 @@
  *       *(u32 *)(*(u8 **)(p+4)+off+12) = (*(u32 *)(*(u8 **)(p+4)+off+32)<<16)>>13;
  *   }
  * symbols:
- *   func_021BA184 0x021BA184 thumb ov133
- *   func_021BA218 0x021BA218 thumb ov133
- *   func_021BA20C 0x021BA20C thumb ov133
- *   func_021BA214 0x021BA214 thumb ov133
- *   func_021BA1EC 0x021BA1EC thumb ov133
- *   func_021BA208 0x021BA208 thumb ov133
- *   func_021B7A18 0x021B7A18 thumb ov133
+ *   DUP_FITTING_ITEM_ListGetHead 0x021BA184 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetData 0x021BA20C thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetSprite 0x021BA214 thumb ov133
+ *   DUP_FITTING_ITEM_FreeElemImage 0x021BA1EC thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetNext 0x021BA208 thumb ov133
+ *   DUP_FITTING_FreeHeldElem 0x021B7A18 thumb ov133
  *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
  *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
@@ -45,13 +45,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Board;
 struct Obj0204F1A0;
-extern void *func_021BA184(char *p);
-extern u32 func_021BA218(u8 *p);
-extern u32 func_021BA20C(u8 *p);
-extern u32 func_021BA214(u8 *p);
-extern void func_021BA1EC(u8 *p, u8 *q, u8 *r);
-extern u32 func_021BA208(u8 *p);
-extern void func_021B7A18(u8 *);
+extern void *DUP_FITTING_ITEM_ListGetHead(char *p);
+extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
+extern u32 DUP_FITTING_ITEM_ElemGetData(u8 *p);
+extern u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *p);
+extern void DUP_FITTING_ITEM_FreeElemImage(u8 *p, u8 *q, u8 *r);
+extern u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
+extern void DUP_FITTING_FreeHeldElem(u8 *);
 extern u32 MUSICAL_MCSS_NoOp5(u8 *);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
 extern int MUSICAL_MCSS_NoOp6(int *);
@@ -64,7 +64,7 @@ extern void BILLBOARD_GetImageSizeFromFlags(int, u16 *, u16 *);
 extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
 extern void CLACT_VBlankSystem(void);
-void func_021B6884(void *unused, u8 *p)
+void DUP_FITTING_VBlank(void *unused, u8 *p)
 {
     u32 height, width;
     u16 sizes[2];
@@ -73,21 +73,21 @@ void func_021B6884(void *unused, u8 *p)
     u8 *table;
     int flags;
     u16 index;
-    e = func_021BA184(*(void **)(p + 0x181c));
+    e = DUP_FITTING_ITEM_ListGetHead(*(void **)(p + 0x181c));
     changed = 0;
     while (e) {
-        func_021BA218(e);
-        q = (u8 *)func_021BA20C(e);
-        r = (u8 *)func_021BA214(e);
+        DUP_FITTING_ITEM_ElemGetRenderElem(e);
+        q = (u8 *)DUP_FITTING_ITEM_ElemGetData(e);
+        r = (u8 *)DUP_FITTING_ITEM_ElemGetSprite(e);
         if (*(u16 *)q != *(u16 *)r) {
-            func_021BA1EC(e, *(void **)(p + 0x1884), r);
+            DUP_FITTING_ITEM_FreeElemImage(e, *(void **)(p + 0x1884), r);
             changed = 1;
         }
-        e = (u8 *)func_021BA208(e);
+        e = (u8 *)DUP_FITTING_ITEM_ElemGetNext(e);
     }
-    if (changed == 1) func_021B7A18(p);
+    if (changed == 1) DUP_FITTING_FreeHeldElem(p);
     if (*(u8 **)(p + 0x38)) {
-        q = (u8 *)func_021BA20C(*(u8 **)(p + 0x38));
+        q = (u8 *)DUP_FITTING_ITEM_ElemGetData(*(u8 **)(p + 0x38));
         if (*(u16 *)(p + 0x50) != *(u16 *)q) {
             table = (u8 *)MUSICAL_MCSS_NoOp5(*(u8 **)(p + 0x1884));
             *(u16 *)(p + 0x50) = *(u16 *)q;

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0202EB14
+ * function: APP_ENV_HasParentalControlBits
  * address:  0x0202EB14
  * packet:   pkt_0202EB14
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   OS_GetParentalControlInfoPtr  0x02087E60  arm
  */
 
@@ -23,12 +23,12 @@ struct DeviceInfo {
     u32 bit5:1;
 };
 
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern struct DeviceInfo *OS_GetParentalControlInfoPtr(void);
 
-int func_0202EB14(void)
+int APP_ENV_HasParentalControlBits(void)
 {
-    if (func_0202EB0C()) {
+    if (APP_ENV_IsRunOnTwl()) {
         if (OS_GetParentalControlInfoPtr()->bit0 && OS_GetParentalControlInfoPtr()->bit5) {
             return 1;
         }

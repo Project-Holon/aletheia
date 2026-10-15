@@ -28,7 +28,7 @@
  *   _GameDataFileName     0x020A728C  data
  *   func_02030734  0x02030734  arm
  *   func_020070A4  0x020070A4  thumb
- *   func_0202E888  0x0202E888  thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  *   func_02008854  0x02008854  thumb
  *   func_02008844  0x02008844  thumb
  *   func_02008848  0x02008848  thumb
@@ -113,7 +113,7 @@ struct Sub02008700Obj;
 struct Sub02008828Obj;
 struct Sys;
 extern struct Sub02007084Ctrl *func_020070A4(void);
-extern u8    func_0202E888(void);
+extern u8    COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u32   func_02008844(u32 a);
 extern void *func_02008848(struct Sub02008828Obj *obj);
@@ -161,7 +161,7 @@ void *GAME_DATA_Create(u16 heap)
 
     p = func_02030734(heap, 0x6B0, 1, _GameDataFileName, 0xAD);
     *(u32 *)&((struct Obj00054 *)p)->f0 = (u32)func_020070A4();
-    ((struct Obj00054 *)p)->f1C4 = func_0202E888();
+    ((struct Obj00054 *)p)->f1C4 = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     ((struct Obj00054 *)p)->f1C6 = 0;
 
     ((struct Obj00054 *)p)->f15C = (u32)func_02008854((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C08
+ * function: DUP_FITTING_SetText
  * address: 0x021B9C08
  * packet: pkt_ov133_021B9C08
  * region: ov133
@@ -35,7 +35,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021B9C08(u8 *p, unsigned int index, void *object)
+void DUP_FITTING_SetText(u8 *p, unsigned int index, void *object)
 {
     void *text = func_02045EC0(((struct Obj00004 *)p)->f18D8, index);
     void *copy;

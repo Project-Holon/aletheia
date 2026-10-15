@@ -1,5 +1,5 @@
 /*
- * function: func_021BC630
+ * function: PSEL_GRAPHIC_ExitClact
  * address:  0x021BC630
  * packet:   pkt_021BC630
  * region:   ov223
@@ -24,7 +24,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BC630(char *p)
+void PSEL_GRAPHIC_ExitClact(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26103 *)p)->f0));
     CLACT_ExitSystem();

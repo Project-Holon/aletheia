@@ -1,5 +1,5 @@
 /*
- * function: func_0217CC78
+ * function: LIVEBATTLEMATCH_FLOW_Sub
  * address: 0x0217CC78
  * packet: pkt_ov176_0217CC78
  * region: ov176
@@ -24,15 +24,15 @@
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_0217D1A0 0x0217D1A0 thumb ov176
- *   func_0217CEAC 0x0217CEAC thumb ov176
- *   func_0217CFDC 0x0217CFDC thumb ov176
- *   func_0217CFD0 0x0217CFD0 thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_DrawMenu 0x0217CEAC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_GetWindowResult 0x0217CFDC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_HideWindow 0x0217CFD0 thumb ov176
  *   func_0217D194 0x0217D194 thumb ov176
  *   func_0217D174 0x0217D174 thumb ov176
  *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
  *   func_0217D010 0x0217D010 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217C2EC 0x0217C2EC thumb ov176
+ *   LIVEBATTLEMATCH_FLOW_Battle 0x0217C2EC thumb ov176
  *   func_0217D000 0x0217D000 thumb ov176
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  */
@@ -61,18 +61,18 @@ extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern int GAME_DATA_SaveStart(int a0);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void func_0217D1A0(u8 *, int);
-extern void func_0217CEAC(u8 *, int);
-extern int func_0217CFDC(int *);
-extern void func_0217CFD0(int *);
+extern void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *, int);
+extern int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *);
+extern void LIVEBATTLEMATCH_FLOW_HideWindow(int *);
 extern int func_0217D194(int *);
 extern void func_0217D174(int *);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern void func_0217D010(u8 *, int);
 extern void func_021E8AA0(int *, int);
-extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
+extern void LIVEBATTLEMATCH_FLOW_Battle(int *sys, u32 *state, u8 *p);
 extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
-void func_0217CC78(int *a, int *state, u8 *p)
+void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p)
 {
     void *record;
     u32 value;
@@ -102,11 +102,11 @@ void func_0217CC78(int *a, int *state, u8 *p)
         break;
     case 5: func_0217D1A0(p, 1); func_0217CFE8(p, 25, 1); *state = 17; func_021E8AB4((u32)a, 6); break;
     case 6: func_0217CFE8(p, 29, 1); *state = 17; func_021E8AB4((u32)a, 7); break;
-    case 7: func_0217CEAC(p, 2); *state = 8; break;
+    case 7: LIVEBATTLEMATCH_FLOW_DrawMenu(p, 2); *state = 8; break;
     case 8:
-        result = func_0217CFDC((int *)p);
+        result = LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if (result != -1) {
-            func_0217CFD0((int *)p);
+            LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);
             if (((struct Obj00053 *)p)->f1D0 && ((struct Obj24416 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C4))->fC == 0) {
                 switch (result) { case 0: *state = 11; break; case 1: *state = 9; break; }
             } else if (result == 0) *state = 9;
@@ -122,7 +122,7 @@ void func_0217CC78(int *a, int *state, u8 *p)
     case 13: func_0217CFE8(p, 34, 1); *state = 17; func_021E8AB4((u32)a, 6); break;
     case 14: func_0217D010(p, 4); break;
     case 15: func_0217D010(p, 1); break;
-    case 16: func_021E8AA0(a, (int)func_0217C2EC); break;
+    case 16: func_021E8AA0(a, (int)LIVEBATTLEMATCH_FLOW_Battle); break;
     case 17: if (func_0217D000(p)) func_021E8AB8((u32)a); break;
     }
 }

@@ -17,7 +17,7 @@
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetParty 0x0200B204 thumb
  *   func_02012944 0x02012944 thumb
- *   func_021E5548 0x021E5548 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0200E918 0x0200E918 thumb
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
@@ -45,7 +45,7 @@ struct Reg;
 struct Sub0200852CObj;
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
 extern u8 *func_02012944(void *p);
-extern int func_021E5548(int *);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *, int, u32);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
@@ -65,7 +65,7 @@ void func_0217D028(u8 *p)
     box = REGULATION_NoOp(((struct Obj00053 *)p)->f38);
     aux = (int)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base), 1);
     x = (int)func_02012944(((struct Obj00053 *)p)->f1B8);
-    table = func_021E5548(*(int * *)&((struct Obj00053 *)p)->f1B4);
+    table = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct Obj00053 *)p)->f1B4);
     MI_CpuFill8(&rec, 0, 0xAC);
     rec.fa0 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 1);
     rec.fa2 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 2);

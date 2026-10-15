@@ -201,6 +201,33 @@
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb  arm9
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb  arm9
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetTouchBarFileId  0x020275E8  thumb  arm9
+ *   APP_ICON_GetTypeCellFileId  0x020275F8  thumb  arm9
+ *   APP_ICON_GetTypePaletteFileId  0x020275FC  thumb  arm9
+ *   APP_ICON_GetTypeAnimFileId  0x02027600  thumb  arm9
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb  arm9
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb  arm9
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb  arm9
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb  arm9
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb  arm9
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb  arm9
+ *   APP_ICON_GetSealCellFileId  0x020276B4  thumb  arm9
+ *   APP_ICON_GetSealPaletteFileId  0x020276B8  thumb  arm9
+ *   APP_ICON_GetSealAnimFileId  0x020276BC  thumb  arm9
+ *   APP_ICON_GetSealFrameFileId  0x020276C0  thumb  arm9
+ *   APP_ICON_GetBallThrowCellFileId  0x02027720  thumb  arm9
+ *   APP_ICON_GetBallThrowAnimFileId  0x0202772C  thumb  arm9
+ *   APP_ICON_GetBallOpenCellFileId  0x02027738  thumb  arm9
+ *   APP_ICON_GetBallOpenPaletteFileId  0x02027740  thumb  arm9
+ *   APP_ICON_GetBallOpenAnimFileId  0x02027748  thumb  arm9
+ *   APP_ICON_GetEffectCellFileId  0x0202774C  thumb  arm9
+ *   APP_ICON_GetEffectPaletteFileId  0x02027750  thumb  arm9
+ *   APP_ICON_GetEffectAnimFileId  0x02027754  thumb  arm9
+ *   APP_ICON_GetGearDataFileId  0x02027768  thumb  arm9
+ *   APP_ICON_GetGearExtraFileId  0x0202776C  thumb  arm9
+ *   APP_ICON_GetGearFrameFileId  0x02027770  thumb  arm9
+ *   APP_ICON_GetGearAnim2FileId  0x02027774  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -343,33 +370,33 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 func_020275E4(void);
-extern u32 func_020275E8(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
-extern u32 func_020275FC(u32);
-extern u32 func_02027600(u32);
-extern u32 func_020275F8(u32);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
-extern int func_02027768(void);
-extern int func_0202776C(int);
-extern int func_02027770(int);
-extern int func_02027774(int);
-extern u32 func_020276B4(void);
-extern u32 func_020276B8(void);
-extern u32 func_020276BC(u32);
-extern u32 func_020276C0(u32);
-extern int func_02027720(int);
-extern int func_0202772C(int);
-extern int func_02027738(int,int);
-extern int func_02027740(int,int);
-extern int func_02027748(void);
-extern int func_0202774C(int);
-extern int func_02027750(int);
-extern int func_02027754(int);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetTouchBarFileId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
+extern u32 APP_ICON_GetTypePaletteFileId(u32);
+extern u32 APP_ICON_GetTypeAnimFileId(u32);
+extern u32 APP_ICON_GetTypeCellFileId(u32);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
+extern int APP_ICON_GetGearDataFileId(void);
+extern int APP_ICON_GetGearExtraFileId(int);
+extern int APP_ICON_GetGearFrameFileId(int);
+extern int APP_ICON_GetGearAnim2FileId(int);
+extern u32 APP_ICON_GetSealCellFileId(void);
+extern u32 APP_ICON_GetSealPaletteFileId(void);
+extern u32 APP_ICON_GetSealAnimFileId(u32);
+extern u32 APP_ICON_GetSealFrameFileId(u32);
+extern int APP_ICON_GetBallThrowCellFileId(int);
+extern int APP_ICON_GetBallThrowAnimFileId(int);
+extern int APP_ICON_GetBallOpenCellFileId(int,int);
+extern int APP_ICON_GetBallOpenPaletteFileId(int,int);
+extern int APP_ICON_GetBallOpenAnimFileId(void);
+extern int APP_ICON_GetEffectCellFileId(int);
+extern int APP_ICON_GetEffectPaletteFileId(int);
+extern int APP_ICON_GetEffectAnimFileId(int);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -933,7 +960,7 @@ void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
 
 /*
  * following: 0x021D4F22 is two bytes of alignment padding before P_STATUS_DeleteObjResource.
- * lever: the loop store associates (p+i*4)+0x130; the second constructor result after func_02027770/74 is stored at +0x120.
+ * lever: the loop store associates (p+i*4)+0x130; the second constructor result after APP_ICON_GetGearFrameFileId/74 is stored at +0x120.
  * initialization: resource handles come from the original constructors; no uninitialized local or added success assumption. The u8 counter visits 0..16.
  */
 void P_STATUS_LoadObjResource(PStatusWork *wk)
@@ -965,43 +992,43 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     wk->objRes[PSTATUS_RES_CELL_START + 8]=CLACT_RegisterCellAnim(statusArc,80,131,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 11]=CLACT_RegisterCellAnim(statusArc,82,133,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 12]=CLACT_RegisterCellAnim(statusArc,79,130,wk->heapId);
-    commonArc=func_020490F4(func_020275E4(),wk->heapId);
-    func_02049B68(commonArc,func_02027624(),0,0x120,32,wk->heapId);
-    func_02049658(commonArc,func_02027628(),1,0,0,0,wk->heapId);
-    func_020498F4(commonArc,func_0202762C(),1,0,0,0,wk->heapId);
+    commonArc=func_020490F4(APP_ICON_GetArchiveId(),wk->heapId);
+    func_02049B68(commonArc,APP_ICON_GetStatusAnimFileId(),0,0x120,32,wk->heapId);
+    func_02049658(commonArc,APP_ICON_GetStatusFrameFileId(),1,0,0,0,wk->heapId);
+    func_020498F4(commonArc,APP_ICON_GetStatusDataFileId(),1,0,0,0,wk->heapId);
     BG_SYS_FillTileMap(1,0,21,32,3,9);
     func_02049B68(commonArc,0,4,0x1a0,32,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 5]=CLACT_RegisterPaletteEx(commonArc,1,1,0x100,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CHR_START + 7]=CLACT_RegisterCharacter(commonArc,2,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 6]=CLACT_RegisterCellAnim(commonArc,5,8,wk->heapId);
-    wk->objRes[PSTATUS_RES_PLTT_START + 3]=CLACT_RegisterPaletteEx(commonArc,func_020275E8(),0,0x100,0,3,wk->heapId);
-    wk->objRes[PSTATUS_RES_PLTT_START + 4]=CLACT_RegisterPaletteEx(commonArc,func_020275E8(),1,0xa0,0,3,wk->heapId);
-    cellArcId=func_020275FC(2); anmArcId=func_02027600(2);
+    wk->objRes[PSTATUS_RES_PLTT_START + 3]=CLACT_RegisterPaletteEx(commonArc,APP_ICON_GetTouchBarFileId(),0,0x100,0,3,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 4]=CLACT_RegisterPaletteEx(commonArc,APP_ICON_GetTouchBarFileId(),1,0xa0,0,3,wk->heapId);
+    cellArcId=APP_ICON_GetTypePaletteFileId(2); anmArcId=APP_ICON_GetTypeAnimFileId(2);
     wk->objRes[PSTATUS_RES_CELL_START + 4]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
-    cellArcId=func_020275FC(0); anmArcId=func_02027600(0);
+    cellArcId=APP_ICON_GetTypePaletteFileId(0); anmArcId=APP_ICON_GetTypeAnimFileId(0);
     wk->objRes[PSTATUS_RES_CELL_START + 5]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
-    for(i=0;i<PSTATUS_TYPE_MAX;i++) wk->typeChrRes[i]=CLACT_RegisterCharacter(commonArc,func_020275F8(i),0,0,wk->heapId);
+    for(i=0;i<PSTATUS_TYPE_MAX;i++) wk->typeChrRes[i]=CLACT_RegisterCharacter(commonArc,APP_ICON_GetTypeCellFileId(i),0,0,wk->heapId);
     wk->objRes[PSTATUS_RES_CHR_START + 4]=CLACT_RegisterCharacter(commonArc,56,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CHR_START + 5]=CLACT_RegisterCharacter(commonArc,57,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CHR_START + 6]=CLACT_RegisterCharacter(commonArc,58,0,1,wk->heapId);
-    wk->objRes[PSTATUS_RES_CHR_START + 1]=CLACT_RegisterCharacter(commonArc,func_02027618(),0,0,wk->heapId);
-    cellArcId=func_0202761C(2); anmArcId=func_02027620(2);
+    wk->objRes[PSTATUS_RES_CHR_START + 1]=CLACT_RegisterCharacter(commonArc,APP_ICON_GetMoveKindAnimFileId(),0,0,wk->heapId);
+    cellArcId=APP_ICON_GetStatusCellFileId(2); anmArcId=APP_ICON_GetStatusPaletteFileId(2);
     wk->objRes[PSTATUS_RES_CELL_START + 1]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
-    wk->objRes[PSTATUS_RES_PLTT_START + 9]=CLACT_RegisterPaletteEx(commonArc,func_02027768(),0,0xa0,0,1,wk->heapId);
-    wk->objRes[PSTATUS_RES_CHR_START + 10]=CLACT_RegisterCharacter(commonArc,func_0202776C(2),0,0,wk->heapId);
-    cellArcId=func_02027770(2); anmArcId=func_02027774(2);
+    wk->objRes[PSTATUS_RES_PLTT_START + 9]=CLACT_RegisterPaletteEx(commonArc,APP_ICON_GetGearDataFileId(),0,0xa0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 10]=CLACT_RegisterCharacter(commonArc,APP_ICON_GetGearExtraFileId(2),0,0,wk->heapId);
+    cellArcId=APP_ICON_GetGearFrameFileId(2); anmArcId=APP_ICON_GetGearAnim2FileId(2);
     wk->objRes[PSTATUS_RES_CELL_START + 9]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
-    wk->objRes[PSTATUS_RES_PLTT_START + 2]=CLACT_RegisterPaletteEx(commonArc,func_02027748(),0,0xc0,0,1,wk->heapId);
-    wk->objRes[PSTATUS_RES_CHR_START + 3]=CLACT_RegisterCharacter(commonArc,func_0202774C(2),0,0,wk->heapId);
-    cellArcId=func_02027750(2); anmArcId=func_02027754(2);
+    wk->objRes[PSTATUS_RES_PLTT_START + 2]=CLACT_RegisterPaletteEx(commonArc,APP_ICON_GetBallOpenAnimFileId(),0,0xc0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 3]=CLACT_RegisterCharacter(commonArc,APP_ICON_GetEffectCellFileId(2),0,0,wk->heapId);
+    cellArcId=APP_ICON_GetEffectPaletteFileId(2); anmArcId=APP_ICON_GetEffectAnimFileId(2);
     wk->objRes[PSTATUS_RES_CELL_START + 3]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
-    wk->objRes[PSTATUS_RES_PLTT_START + 10]=CLACT_RegisterPaletteEx(commonArc,func_020276B4(),0,0x80,0,1,wk->heapId);
-    wk->objRes[PSTATUS_RES_CHR_START + 11]=CLACT_RegisterCharacter(commonArc,func_020276B8(),0,0,wk->heapId);
-    cellArcId=func_020276BC(2); anmArcId=func_020276C0(2);
+    wk->objRes[PSTATUS_RES_PLTT_START + 10]=CLACT_RegisterPaletteEx(commonArc,APP_ICON_GetSealCellFileId(),0,0x80,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 11]=CLACT_RegisterCharacter(commonArc,APP_ICON_GetSealPaletteFileId(),0,0,wk->heapId);
+    cellArcId=APP_ICON_GetSealAnimFileId(2); anmArcId=APP_ICON_GetSealFrameFileId(2);
     wk->objRes[PSTATUS_RES_CELL_START + 10]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
-    wk->objRes[PSTATUS_RES_PLTT_START + 1]=CLACT_RegisterPaletteEx(commonArc,func_02027720(1),0,0xe0,0,1,wk->heapId);
-    wk->objRes[PSTATUS_RES_CHR_START + 2]=CLACT_RegisterCharacter(commonArc,func_0202772C(1),0,0,wk->heapId);
-    cellArcId=func_02027738(1,2); anmArcId=func_02027740(1,2);
+    wk->objRes[PSTATUS_RES_PLTT_START + 1]=CLACT_RegisterPaletteEx(commonArc,APP_ICON_GetBallThrowCellFileId(1),0,0xe0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 2]=CLACT_RegisterCharacter(commonArc,APP_ICON_GetBallThrowAnimFileId(1),0,0,wk->heapId);
+    cellArcId=APP_ICON_GetBallOpenCellFileId(1,2); anmArcId=APP_ICON_GetBallOpenPaletteFileId(1,2);
     wk->objRes[PSTATUS_RES_CELL_START + 2]=CLACT_RegisterCellAnim(commonArc,cellArcId,anmArcId,wk->heapId);
     ARC_TOOL_DeleteHandle(commonArc);
     P_STA_SUB_LoadArcGraphics(wk,wk->subWork,statusArc);

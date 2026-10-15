@@ -39,7 +39,7 @@
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
- *   func_0202EB60   0x0202EB60  thumb
+ *   APP_ENV_GetOwnerColorAndBirthMonth   0x0202EB60  thumb
  *   BgWinFrmFileName  0x020A7790  data
  *   MIi_CpuCopy16  0x02082A60  arm
  *   ARC_UTIL_LoadPaletteDataFromArchive       0x02049EB4  arm
@@ -66,9 +66,9 @@
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter   0x0204A6C8  arm
  *   CLACT_TransferCharacter   0x0204A9D0  arm
- *   func_02027710   0x02027710  thumb
- *   func_02027714   0x02027714  thumb
- *   func_020275E4   0x020275E4  thumb
+ *   APP_ICON_GetBallCellFileId   0x02027710  thumb
+ *   APP_ICON_GetBallPaletteFileId   0x02027714  thumb
+ *   APP_ICON_GetArchiveId   0x020275E4  thumb
  *   func_020490F4   0x020490F4  arm
  *   CLACT_RegisterCellAnim   0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle   0x02049238  arm
@@ -129,6 +129,9 @@
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
+ *   APP_ICON_GetBallAnimFileId  0x02027718  thumb
+ *   APP_ICON_GetBallFrameFileId  0x0202771C  thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  */
 
 struct IssSwitchSys;
@@ -366,7 +369,7 @@ extern s32 INTRUDE_COMM_GetAreaOwnerVersion(u32 a);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
-extern void func_0202EB60(u8 *out1, u8 *out2);
+extern void APP_ENV_GetOwnerColorAndBirthMonth(u8 *out1, u8 *out2);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049EF4(void *arc, u32 member, u32 alloc, void **out,
@@ -391,13 +394,13 @@ extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, 
 extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_02027710(int a);
-extern int func_02027714(int a);
-extern u32   func_020275E4(void);
+extern int APP_ICON_GetBallCellFileId(int a);
+extern int APP_ICON_GetBallPaletteFileId(int a);
+extern u32   APP_ICON_GetArchiveId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void  ARC_TOOL_DeleteHandle(void *h);
-extern int func_02027718(int a);
-extern int func_0202771C(int a);
+extern int APP_ICON_GetBallAnimFileId(int a);
+extern int APP_ICON_GetBallFrameFileId(int a);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
@@ -1601,7 +1604,7 @@ u32 func_0202C794(void *a0, u32 a1)
     return (u8)ZONEDATA_GetWeatherId((u16)a1);
 }
 
-int func_0202C824(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = func_0202E888((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
+int func_0202C824(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
 
 void func_0202C83C(struct Ctx *p, u32 a1)
 {
@@ -1709,7 +1712,7 @@ u32 func_0202C970(void *a, void *b, u32 c)
         goto fail;
     }
     GF_STANDARD_SetField00_F4E4(&date);
-    func_0202EB60(&buf[1], &buf[0]);
+    APP_ENV_GetOwnerColorAndBirthMonth(&buf[1], &buf[0]);
     if (date.month != buf[1]) {
         goto fail;
     }
@@ -2738,16 +2741,16 @@ u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u3
 
 /*
  * Builds a record out of an argument struct passed by value in the caller's
- * frame: both cursors come from func_02027710/func_02027714 on the same +8
+ * frame: both cursors come from APP_ICON_GetBallCellFileId/APP_ICON_GetBallPaletteFileId on the same +8
  * word, the handle from func_020490F4 keyed on the +0x10 halfword with the
- * mode word from func_020275E4, and CLACT_RegisterCellAnim assembles the pair into
+ * mode word from APP_ICON_GetArchiveId, and CLACT_RegisterCellAnim assembles the pair into
  * it; the handle is released before the assembled record is returned.
  *
  * The `volatile` on the by-value struct parameter is load-bearing, not
  * decoration: without it this front end proves the two callees cannot touch
  * the caller's frame, keeps args.w2 live in r5 across the first call and
  * drops the second `ldr r0,[sp,#0x20]`, and it also hoists the `ldrh` of
- * args.key above the inline func_020275E4() call. Qualifying the whole
+ * args.key above the inline APP_ICON_GetArchiveId() call. Qualifying the whole
  * parameter (rather than aliasing it through a volatile pointer, which
  * turns the two w2 loads into `[r5,#8]` and loses the `add r7,sp,#0x18`)
  * reproduces the reload, the argument scheduling and both `ldrh`s exactly.
@@ -2765,9 +2768,9 @@ u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile
     void *handle;
     u32 cellIndex;
 
-    cellDatId = func_02027710(mapping);
-    anmDatId = func_02027714(mapping);
-    handle = func_020490F4(func_020275E4(), heapId);
+    cellDatId = APP_ICON_GetBallCellFileId(mapping);
+    anmDatId = APP_ICON_GetBallPaletteFileId(mapping);
+    handle = func_020490F4(APP_ICON_GetArchiveId(), heapId);
     cellIndex = CLACT_RegisterCellAnim(handle, cellDatId, anmDatId, heapId);
     ARC_TOOL_DeleteHandle(handle);
     return cellIndex;
@@ -2856,9 +2859,9 @@ s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u1
     void *handle;
     s32 cellIndex;
 
-    cellDatId = func_02027718(mapping);
-    anmDatId = func_0202771C(mapping);
-    handle = func_020490F4(func_020275E4(), heapId);
+    cellDatId = APP_ICON_GetBallAnimFileId(mapping);
+    anmDatId = APP_ICON_GetBallFrameFileId(mapping);
+    handle = func_020490F4(APP_ICON_GetArchiveId(), heapId);
     cellIndex = CLACT_RegisterCellAnim(handle, cellDatId, anmDatId, heapId);
     ARC_TOOL_DeleteHandle(handle);
     return cellIndex;

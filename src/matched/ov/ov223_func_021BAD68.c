@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD68
+ * function: PSEL_UpdateBgAD68
  * address:  0x021BAD68
  * packet:   pkt_021BAD68
  * region:   ov223
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
-void func_021BAD68(char *a0)
+void PSEL_UpdateBgAD68(char *a0)
 {
     BG_SYS_ClearLayerEx(2, 0xd000);
     BG_SYS_ClearLayerEx(6, 0);

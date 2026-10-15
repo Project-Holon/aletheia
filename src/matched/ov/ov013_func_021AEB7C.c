@@ -17,7 +17,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   func_0208B2BC  0x0208B2BC  arm
  *   func_0208B4C8  0x0208B4C8  arm
  *   func_0208B4B8  0x0208B4B8  arm
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 extern struct Work *gVctWork;
 
 extern void MI_CpuFill8(void *p, int v, u32 n);
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int func_0208B2BC(void *param, void (*cb)(void), void *arg);
 extern int func_0208B4C8(void *param, void (*cb)(void), void *arg);
 extern u32 func_0208B4B8(void);
@@ -57,7 +57,7 @@ void VCT_MAIN_StreamCallback(int mode, u32 n, void **bufs, u32 size, int unused,
         }
         return;
     }
-    if (func_0202EB0C() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 0) {
         if (((u8 *)gVctWork)[0x1A4B] != 0) {
             func_0208B2BC(((u8 *)gVctWork) + 0x1A20, VCT_MAIN_MicRestartDone, 0);
             ((u8 *)gVctWork)[0x1A4B] = 0;

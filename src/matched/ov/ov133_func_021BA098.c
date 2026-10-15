@@ -1,5 +1,5 @@
 /*
- * function: func_021BA098
+ * function: DUP_FITTING_ResetActorPose
  * address: 0x021BA098
  * packet: pkt_ov133_021BA098
  * region: ov133
@@ -24,4 +24,4 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021BA098(u8*p){Pos pos;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;CLACT_RestartActorAnim(*(struct Actor* *)&((struct Obj00004 *)p)->f18B4);CLACT_SetActorDrawEnable(*(void* *)&((struct Obj00004 *)p)->f18B4,1);CLACT_AddActorSurfacePos(*(void* *)&((struct Obj00004 *)p)->f18B4,(const struct Vec2 *)(&pos),0);}
+void DUP_FITTING_ResetActorPose(u8*p){Pos pos;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;CLACT_RestartActorAnim(*(struct Actor* *)&((struct Obj00004 *)p)->f18B4);CLACT_SetActorDrawEnable(*(void* *)&((struct Obj00004 *)p)->f18B4,1);CLACT_AddActorSurfacePos(*(void* *)&((struct Obj00004 *)p)->f18B4,(const struct Vec2 *)(&pos),0);}

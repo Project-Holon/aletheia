@@ -149,7 +149,7 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct {u32 id;u8 cfg[32];u32 type,enable;} Row_021B95A0;
+typedef struct {u32 id;u8 cfg[32];u32 type,enable;} AwardBgLayerRow;
 
 typedef struct {u32 a,b,c;} Assets;
 
@@ -157,7 +157,7 @@ typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 
 typedef enum { COUNT=1 } LayerCount;
 
-typedef struct {u32 layer;u8 data[40];} Row_021B9748;
+typedef struct {u32 layer;u8 data[40];} AwardBgTemplate;
 
 typedef signed short s16;
 
@@ -306,9 +306,9 @@ void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p);
 void ZENKOKU_ZUKAN_AWARD_UpdateActor(struct ZenkokuZukanAwardWork *p);
 int ZENKOKU_ZUKAN_AWARD_IsActorIdle(struct ZenkokuZukanAwardWork *p);
 void ZENKOKU_ZUKAN_AWARD_Callback(void);
-extern const Row_021B95A0 tbl_021BA1F4[];
+extern const AwardBgLayerRow tbl_021BA1F4[];
 extern Assets tbl_021BA360[];
-extern const Row_021B9748 d_021BA1F4[];
+extern const AwardBgTemplate d_021BA1F4[];
 extern const u8 d_021BA220[];
 extern struct Pos d_021BA1E0[];
 extern char d_021BA378[];
@@ -320,7 +320,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  char *p,*settings;
  BGMode i;
  int selected,zero;
- const Row_021B95A0 *row;
+ const AwardBgLayerRow *row;
  u32 id;
  u16 heap;
  void *h;

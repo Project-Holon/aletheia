@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA098",
+   "name": "DUP_FITTING_ResetActorPose",
    "address": "0x021BA098",
    "kind": "game",
    "region": "ov133",

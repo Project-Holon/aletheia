@@ -1,5 +1,5 @@
 /*
- * function: func_021D9860
+ * function: MYSTERY_GRAPHIC_Dummy
  * address: 0x021D9860
  * packet: pkt_ov121_021D9860
  * region: ov121
@@ -10,4 +10,4 @@
  * status: EXACT*
  * note: two trailing zero alignment bytes.
  */
-void func_021D9860(void *a0) {}
+void MYSTERY_GRAPHIC_Dummy(void *a0) {}

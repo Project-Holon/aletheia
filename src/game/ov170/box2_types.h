@@ -104,6 +104,59 @@ typedef struct BoxFade {
     unsigned char h;
 } BoxFade;
 
+/* A party or box slot reference passed to the box helpers. */
+typedef struct BoxMonRef {
+    unsigned short pad_0;
+    unsigned short pos;
+    unsigned short slot;
+} BoxMonRef;
+
+/* An archive-loaded screen resource; its data pointer sits at +0x14. */
+typedef struct BoxArcRes {
+    unsigned char pad_0[0x14];
+    void * data;
+} BoxArcRes;
+
+/* An archive-loaded tile block; size at +0x10, data pointer at +0x14. */
+typedef struct BoxArcTile {
+    unsigned char pad_0[0x10];
+    unsigned int size;
+    void * data;
+} BoxArcTile;
+
+/* The NAMEIN_SETUP args object: done flag at +0x1C, text handle at +0x20. */
+typedef struct BoxNameArgs {
+    unsigned char pad_0[0x1C];
+    unsigned int done;
+    void * text;
+} BoxNameArgs;
+
+/* The BMP_OAM system handle. */
+typedef struct BoxOamSys {
+    int sys;
+} BoxOamSys;
+
+/* A text list entry: index at +0x4, value at +0x6. */
+typedef struct BoxTextEntry {
+    unsigned char pad_0[0x4];
+    unsigned short idx;
+    unsigned short value;
+} BoxTextEntry;
+
+/* An actor scale animation state: step at +0x7, scale at +0x8. */
+typedef struct BoxActorScale {
+    void * actor;
+    unsigned char pad_4[0x3];
+    unsigned char step;
+    float scale;
+} BoxActorScale;
+
+/* The whole flag word at BoxMotor + 0x18 (BoxMotor models it as two bits). */
+typedef struct BoxMotorFlags {
+    unsigned char pad_0[0x18];
+    unsigned int flags;
+} BoxMotorFlags;
+
 typedef struct BoxWork {
     void * oamSys;
     BoxObjSlot oamSlots[9];
@@ -115,11 +168,11 @@ typedef struct BoxWork {
     void * palAnm;
     void * sound;
     struct WinMgr * winMgr;
-    unsigned int heapId;
-    unsigned char pad_7C[0x4];
-    void * fontRes;
-    void * font;
-    void * msgData;
+    unsigned int font;
+    void * fontAlt;
+    void * msgBank;
+    struct WordSet * wordSet;
+    void * strbuf;
     void * printQue;
     unsigned char pad_90[0x4];
     BoxObjSlot windows[10];
@@ -145,7 +198,7 @@ typedef struct BoxWork {
     unsigned char cursorActorId;
     unsigned char pad_3DF7[0x79];
     unsigned char charPool[24][0x400];
-    int clactUnit;
+    void * clactUnit;
     void * actors[10];
     void * cursorActor;
     int cursorActorDrawn;
@@ -191,7 +244,8 @@ typedef struct BoxWork {
     unsigned char currentBox;
     int cursorX;
     int cursorY;
-    unsigned char pad_A188[0x8];
+    int wipeNextState;
+    int count;
     void * scroll;
     int seqStep;
     int nextState;

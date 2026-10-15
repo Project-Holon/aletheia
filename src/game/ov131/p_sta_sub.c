@@ -104,6 +104,10 @@
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
  *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
+ *   APP_ICON_GetStatusIconAnim  0x020276C4  thumb  arm9
+ *   APP_ICON_GetBallThrowCellFileId  0x02027720  thumb  arm9
+ *   APP_ICON_GetBallThrowAnimFileId  0x0202772C  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -231,9 +235,9 @@ extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
 extern void func_02048AD0(void *camera);
 extern void func_020498F4(void *arc, u32 fileId, u32 a, u32 b, u32 c, u32 d, u16 heapId);
-extern u32 func_020275E4(void);
-extern int func_02027720(int ballId);
-extern int func_0202772C(int ballId);
+extern u32 APP_ICON_GetArchiveId(void);
+extern int APP_ICON_GetBallThrowCellFileId(int ballId);
+extern int APP_ICON_GetBallThrowAnimFileId(int ballId);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
@@ -266,7 +270,7 @@ extern void CLACT_TransferCharacter(int chrRes, void *chr);
 extern u32 POKERUS_IsBoxCured(struct BoxPokemon *mon);
 extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *mon);
 extern u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
-extern int func_020276C4(struct PokemonParam *pp);
+extern int APP_ICON_GetStatusIconAnim(struct PokemonParam *pp);
 extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
 extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
@@ -535,12 +539,12 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     BMP_WIN_MakeScreen(win);
     func_02041B6C(BMP_WIN_GetBgLayer(win));
     ballId = func_02017E88(mon, 0x98, 0);
-    ballArc = func_020275E4();
-    ballBuf = func_02049F34(ballArc, func_02027720(ballId), (u32)&ballPltt, wk->heapId);
+    ballArc = APP_ICON_GetArchiveId();
+    ballBuf = func_02049F34(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
     CLACT_TransferPalette(wk->objRes[1], ballPltt, 1);
     func_020307B0(ballBuf);
-    ballArc = func_020275E4();
-    ballBuf = func_02049DB4(ballArc, func_0202772C(ballId), 0, (u32)&ballChr, wk->heapId);
+    ballArc = APP_ICON_GetArchiveId();
+    ballBuf = func_02049DB4(ballArc, APP_ICON_GetBallThrowAnimFileId(ballId), 0, (u32)&ballChr, wk->heapId);
     CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
     func_020307B0(ballBuf);
     CLACT_SetActorDrawEnable(work->ballObj, 1);
@@ -578,7 +582,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         work->flipState = STA_SUB_FLIP_BACK;
     }
     if ((u8)POKE_TOOL_GetStatusCondition(pp) != 0) {
-        CLACT_SetActorAnimSeq(work->conditionObj, func_020276C4(pp));
+        CLACT_SetActorAnimSeq(work->conditionObj, APP_ICON_GetStatusIconAnim(pp));
         CLACT_SetActorDrawEnable(work->conditionObj, 1);
         CLACT_SetActorDrawEnable(work->pokerusObj, 0);
     } else {

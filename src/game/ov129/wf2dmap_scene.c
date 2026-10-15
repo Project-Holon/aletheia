@@ -200,19 +200,16 @@ struct StrObj;
 struct Sys;
 struct CharBuf;
 struct WordSet;
-typedef unsigned u32_021D85C0;
 
 typedef unsigned short u16;
 
 typedef unsigned char u8;
 
-typedef struct { u32_021D85C0 words[9]; } Param;
+typedef struct { unsigned words[9]; } Param;
 
-typedef unsigned int   u32_021D872C;
 
-typedef unsigned u32_021D8804;
 
-typedef struct { u32_021D8804 words[8]; } BgTemplate;
+typedef struct { unsigned words[8]; } BgTemplate;
 
 typedef struct { BgTemplate rows[3]; } MainTemplates;
 
@@ -222,19 +219,14 @@ typedef struct { int rows[2][3]; } Table;
 
 typedef signed char s8;
 
-typedef signed short s16_021D85C0;
 
-typedef unsigned int u32_021D8AF4;
 
 typedef signed int s32;
 
-typedef unsigned int u32_021D8BE4;
 
-typedef unsigned int u32_021D8C5C;
 
-typedef short s16_021D8C90;
 
-typedef struct { s16_021D8C90 x,y; } Pair;
+typedef struct { short x,y; } Pair;
 
 typedef struct { int x,y; } Scale;
 
@@ -242,13 +234,13 @@ typedef unsigned int   u32;
 
 typedef struct { int v[3][5]; } Tbl;
 
-typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Record_021D85C0;
+typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } SceneSlot;
 
 typedef struct  {
     int state, value, flag, handle;
     char tail[12];
 }
-Record_021D93D4;
+SlotRecord;
 
 typedef short s16;
 
@@ -258,32 +250,25 @@ typedef struct { Rect rows[12]; } Rects;
 
 typedef struct { u8 a,b; } Entry;
 
-typedef short s16_021D958C;
 
 typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Record;
 
-typedef signed short s16_021D97B8;
 
-typedef short s16_021D97CC;
 
-typedef short s16_021D97FC;
 
 typedef struct  {
     unsigned words[7];
 }
 Config;
 
-typedef signed int     s32_021D9890;
 
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
 
-typedef short s16_021D9D44;
 
-typedef int s32_021D9D44;
 
 typedef struct {
-    s16_021D9D44 x;
-    s16_021D9D44 y;
+    short x;
+    short y;
     u16 a;
     u16 b;
     u16 c;
@@ -291,79 +276,69 @@ typedef struct {
     u8 e;
 } L;
 
-typedef short s16_021D9E60;
 
-typedef struct { s16_021D9E60 x,y; } Pair_021D9E60;
+typedef struct { short x,y; } PairS16;
 
-typedef struct { u16 x,y; } Pair_021D9E98;
+typedef struct { u16 x,y; } PairU16;
 
-typedef struct { u16 x,y; } Pair_021D9EE8;
+typedef struct { u16 x,y; } PairU16B;
 
-typedef signed short   s16_021D9FF0;
 
-typedef short s16_021DA004;
 
-typedef short s16_021DA1A8;
 
-typedef struct { s16_021DA1A8 x,y,z,w; } Position;
+typedef struct { short x,y,z,w; } Position;
 
-typedef short s16_021DA320;
 
-typedef struct { s16_021DA320 x,y; } Pair_021DA320;
+typedef struct { short x,y; } PairS16B;
 
-typedef short s16_021DA3D0;
 
-typedef short s16_021DA3FC;
 
-typedef short s16_021DA42C;
 
-typedef short s16_021DA454;
 
-struct Param { void *bmp; s16_021DA454 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
+struct Param { void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 
-typedef short s16_021DA578;
 
-extern void GFL_HEAP_CreateChildHeap(u32_021D85C0 a, u32_021D85C0 b, u32_021D85C0 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32_021D85C0 size, u32_021D85C0 heap);
-extern void MI_CpuFill8(void *,int,u32_021D85C0);
-extern struct Param *CODEIN_PARAM_Create(u32_021D85C0 heap, u32_021D85C0 a1, u32_021D85C0 a2, u32_021D85C0 a3, u32_021D85C0 *src);
-extern u32_021D85C0 func_020307B0(void *p);
+extern void GFL_HEAP_CreateChildHeap(unsigned a, unsigned b, unsigned c);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned size, unsigned heap);
+extern void MI_CpuFill8(void *,int,unsigned);
+extern struct Param *CODEIN_PARAM_Create(unsigned heap, unsigned a1, unsigned a2, unsigned a3, unsigned *src);
+extern unsigned func_020307B0(void *p);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void *func_020490F4(u32_021D85C0 id, u32_021D85C0 heap);
+extern void *func_020490F4(unsigned id, unsigned heap);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void * PALANM_Create(u32_021D85C0);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32_021D85C0 heapId);
+extern void * PALANM_Create(unsigned);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned heapId);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32_021D85C0 idx, u32_021D85C0 size, u32_021D85C0 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, unsigned idx, unsigned size, unsigned heap);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void *func_020056A0(u32_021D85C0,u32_021D85C0,u32_021D85C0);
-extern void GFL_NET_RestartWithDefaultTimeout(u32_021D85C0,u32_021D85C0);
+extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
 extern void CLACT_DrawSystem(void *);
 extern void func_02030EAC(struct Node *n);
-extern u32_021D872C GF_FONT_Delete(void *ptr);
+extern unsigned GF_FONT_Delete(void *ptr);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void func_020403F4(unsigned);
 extern void BG_SYS_Delete(void);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32_021D872C idx);
-extern u32_021D872C PALANM_Delete(void *a0);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, unsigned idx);
+extern unsigned PALANM_Delete(void *a0);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BUTTON_MAN_Delete(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_020315D4(struct S020315D4 *p);
-extern void GFL_HEAP_DeleteChecked(u32_021D872C heap);
+extern void GFL_HEAP_DeleteChecked(unsigned heap);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_02082A7C(u32_021D8804,void *,u32_021D8804);
-extern void BG_SYS_InitBgLayer(u32_021D8804 bgId, const struct BgTemplate *tmpl, u32_021D8804 type);
-extern void BG_SYS_ClearSlot(u32_021D8804);
-extern void BMP_SetDisplaySwap(u32_021D8804);
+extern void func_02082A7C(unsigned,void *,unsigned);
+extern void BG_SYS_InitBgLayer(unsigned bgId, const struct BgTemplate *tmpl, unsigned type);
+extern void BG_SYS_ClearSlot(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
 extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 extern unsigned WIPE_SYS_EndCheck(void);
-extern u32_021D8BE4 KEY_GetTrg(void);
+extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -385,7 +360,7 @@ extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern s32_021D9890 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void CLACT_DeleteActor(struct Obj *p);
@@ -402,7 +377,7 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void BMP_OAM_SetPos(struct Grid *g, s16_021D9FF0 x, s16_021D9FF0 y);
+extern void BMP_OAM_SetPos(struct Grid *g, short x, short y);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_OAM_DeleteSys(void *);
@@ -411,7 +386,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void PRINTSYS_PrintColor(void *,s16_021DA454,s16_021DA454,void *,void *,u16);
+extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_Delete(struct Obj020437AC *p);
@@ -424,7 +399,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void PRINTSYS_Print(void *,s16_021DA578,s16_021DA578,void *,void *);
+extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_020409B4(u32);
@@ -446,7 +421,7 @@ void WF2DMAP_SCENE_HandleInput(char *p);
 int func_021D92E4(u8 *p);
 int func_021D9320(u8 *p);
 void func_021D9348(char *p);
-void func_021D93D4(const Record_021D93D4 *p);
+void func_021D93D4(const SlotRecord *p);
 void func_021D9490(char *p);
 void func_021D9564(u8 *p,int n);
 void func_021D958C(u32 n, int touch, char *p);
@@ -479,7 +454,7 @@ void func_021DA454(u8 *p, int i, int a2, int a3, int a4);
 void func_021DA524(void **p,int a,int b,int c,int d,int e,int f,int g,int h);
 void func_021DA578(void *p,int a,void *b,u32 c);
 void func_021DA610(void *p, int sel, void *b, unsigned int c);
-extern const u32_021D85C0 d_021DA800[];
+extern const unsigned d_021DA800[];
 extern const MainTemplates d_021DA638;
 extern const SubTemplates d_021DA698;
 extern const Table d_021DA744;
@@ -494,14 +469,14 @@ extern const Config gClActorInitParam;
 
 
 
-static inline void GX_SetVisiblePlane(int plane) { *(volatile u32_021D85C0 *)0x04000000=(*(volatile u32_021D85C0 *)0x04000000 & ~0x1F00u)|((u32_021D85C0)plane<<8); }
+static inline void GX_SetVisiblePlane(int plane) { *(volatile unsigned *)0x04000000=(*(volatile unsigned *)0x04000000 & ~0x1F00u)|((unsigned)plane<<8); }
 
 
 
 
 
 
-static inline void GXS_SetVisiblePlane(int plane) { *(volatile u32_021D85C0 *)0x04001000=(*(volatile u32_021D85C0 *)0x04001000 & ~0x1F00u)|((u32_021D85C0)plane<<8); }
+static inline void GXS_SetVisiblePlane(int plane) { *(volatile unsigned *)0x04001000=(*(volatile unsigned *)0x04001000 & ~0x1F00u)|((unsigned)plane<<8); }
 
 
 
@@ -511,9 +486,9 @@ static inline void GXS_SetVisiblePlane(int plane) { *(volatile u32_021D85C0 *)0x
 int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
 {
     u8 *p;
-    u32_021D85C0 sizes[3];
+    unsigned sizes[3];
     Param *q;
-    GFL_HEAP_CreateChildHeap((u32_021D85C0)((void *)1),50,0x40000);
+    GFL_HEAP_CreateChildHeap((unsigned)((void *)1),50,0x40000);
     p=PROCSYS_AllocProcWork(obj,0x34C,50);
     MI_CpuFill8(p,0,0x34C);
     if(cfg==0) {
@@ -534,7 +509,7 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     func_021D9838((char *)p,(unsigned int)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)p); func_021D9490((char *)p);
     func_0207D63C((void *)0x04000050,0,6,15,7);
     func_0207D63C((void *)0x04001050,0,14,7,8);
-    *(void **)(p+0x318)=func_020056A0((u32_021D85C0)WF2DMAP_SCENE_VBlank,(u32_021D85C0)p,16);
+    *(void **)(p+0x318)=func_020056A0((unsigned)WF2DMAP_SCENE_VBlank,(unsigned)p,16);
     GFL_NET_RestartWithDefaultTimeout(1,50);
     return 1;
 }
@@ -901,7 +876,7 @@ int WF2DMAP_SCENE_Dispatch(char *p) { int v; v=d_021DA718[*(u32 *)(p+0x22c)](p);
 /*
  * 2026-10-05 (wave P2 lane Q4, pengy share, user-approved for this function only): first draft, no twin found.
  * Earlier (824 B): the flag at [sp+4] is a member of a local struct with the table (struct { int flag; Tbl t; } L);
- * rec[idx] reads go through a const Record_021D85C0 pointer; up and left write the store in each arm.
+ * rec[idx] reads go through a const SceneSlot pointer; up and left write the store in each arm.
  * 2026-10-05 (wave P2 lane Q4b, 25-compile cap): 836 bytes now, same size as the original, 21 bytes differ, all in
  * the head (first 0x34 bytes). Closed this lane: (b) the L-button block is EXACT: the store of idx - 1 is written in each
  * arm (if (idx == 0) { idx = n; p->188 = idx - 1; } else { p->188 = idx - 1; }); cross-jumping keeps the shared subs/str
@@ -927,11 +902,11 @@ void WF2DMAP_SCENE_HandleInput(char *p)
     int row;
     int cur;
     int idx, n, k;
-    const Record_021D85C0 *r = (const Record_021D85C0 *)p;
+    const SceneSlot *r = (const SceneSlot *)p;
 
-    row = *(s16_021D8C90 *)(p + 0x1BA);
+    row = *(short *)(p + 0x1BA);
     flag = 0;
-    cur = T.v[row][*(s16_021D8C90 *)(p + 0x1B8)];
+    cur = T.v[row][*(short *)(p + 0x1B8)];
 
     if (*(int *)(p + 0x2FC) == 1 && KEY_GetTrg() != 0) {
         *(int *)(p + 0x2FC) = flag;
@@ -946,32 +921,32 @@ void WF2DMAP_SCENE_HandleInput(char *p)
         return;
     }
     if (KEY_GetRepeat() & 0x40) {
-        int v = *(s16_021D8C90 *)(p + 0x1BA);
-        if (v > 0) *(s16_021D8C90 *)(p + 0x1BA) = v - 1; else *(s16_021D8C90 *)(p + 0x1BA) = 2;
+        int v = *(short *)(p + 0x1BA);
+        if (v > 0) *(short *)(p + 0x1BA) = v - 1; else *(short *)(p + 0x1BA) = 2;
         flag = 1;
     } else if (KEY_GetRepeat() & 0x80) {
-        *(s16_021D8C90 *)(p + 0x1BA) += 1;
-        *(s16_021D8C90 *)(p + 0x1BA) %= 3;
+        *(short *)(p + 0x1BA) += 1;
+        *(short *)(p + 0x1BA) %= 3;
         flag = 1;
     } else if (KEY_GetRepeat() & 0x10) {
-        if (cur == 10) *(s16_021D8C90 *)(p + 0x1B8) = 3;
-        else if (cur == 11) *(s16_021D8C90 *)(p + 0x1B8) = 0;
+        if (cur == 10) *(short *)(p + 0x1B8) = 3;
+        else if (cur == 11) *(short *)(p + 0x1B8) = 0;
         else {
-            *(s16_021D8C90 *)(p + 0x1B8) += 1;
-            *(s16_021D8C90 *)(p + 0x1B8) %= 5;
+            *(short *)(p + 0x1B8) += 1;
+            *(short *)(p + 0x1B8) %= 5;
         }
         flag = 1;
     } else if (KEY_GetRepeat() & 0x20) {
-        if (cur == 10) *(s16_021D8C90 *)(p + 0x1B8) = 3;
-        else if (cur == 11) *(s16_021D8C90 *)(p + 0x1B8) = 0;
+        if (cur == 10) *(short *)(p + 0x1B8) = 3;
+        else if (cur == 11) *(short *)(p + 0x1B8) = 0;
         else {
-            int v = *(s16_021D8C90 *)(p + 0x1B8);
-            if (v > 0) *(s16_021D8C90 *)(p + 0x1B8) = v - 1; else *(s16_021D8C90 *)(p + 0x1B8) = 4;
+            int v = *(short *)(p + 0x1B8);
+            if (v > 0) *(short *)(p + 0x1B8) = v - 1; else *(short *)(p + 0x1B8) = 4;
         }
         flag = 1;
     } else if (KEY_GetTrg() & 1) {
         if (cur == 10) {
-            func_021D93D4((const Record_021D93D4 *)p);
+            func_021D93D4((const SlotRecord *)p);
             GFL_USE_PlaySeDefaultVolume(1363);
         } else if (cur == 11) {
             if (func_021D9320((u8 *)p)) {
@@ -983,7 +958,7 @@ void WF2DMAP_SCENE_HandleInput(char *p)
         } else {
             if (*(int *)(p + 0x240) == 0) return;
             idx = *(int *)(p + 0x188);
-            ((Record_021D85C0 *)p)[idx].state = cur + 1;
+            ((SceneSlot *)p)[idx].state = cur + 1;
             func_021D9E48(p, 1, 0);
             func_021D9E48(p, 2, 1);
             func_021D9EE8(p, cur, 2);
@@ -993,8 +968,8 @@ void WF2DMAP_SCENE_HandleInput(char *p)
             if (idx + 1 == *(int *)(p + 0x23C)) {
                 *(int *)(p + 0x31C) = 1;
                 *(int *)(p + 0x320) = 0;
-                *(s16_021D8C90 *)(p + 0x1B8) = 3;
-                *(s16_021D8C90 *)(p + 0x1BA) = 2;
+                *(short *)(p + 0x1B8) = 3;
+                *(short *)(p + 0x1BA) = 2;
                 flag = 1;
             } else {
                 k = r[idx + 1].value;
@@ -1009,7 +984,7 @@ void WF2DMAP_SCENE_HandleInput(char *p)
             }
         }
     } else if (KEY_GetTrg() & 2) {
-        func_021D93D4((const Record_021D93D4 *)p);
+        func_021D93D4((const SlotRecord *)p);
         GFL_USE_PlaySeDefaultVolume(1363);
     } else if (KEY_GetRepeat() & 0x200) {
         idx = *(int *)(p + 0x188);
@@ -1048,7 +1023,7 @@ void WF2DMAP_SCENE_HandleInput(char *p)
     }
     if (flag == 1) {
         GFL_USE_PlaySeDefaultVolume(1352);
-        cur = T.v[*(s16_021D8C90 *)(p + 0x1BA)][*(s16_021D8C90 *)(p + 0x1B8)];
+        cur = T.v[*(short *)(p + 0x1BA)][*(short *)(p + 0x1B8)];
         func_021D9E98(p, cur);
         if (cur == 10 || cur == 11) {
             if (*(int *)(p + 0x1A4) == 2) return;
@@ -1128,7 +1103,7 @@ void func_021D9348(char *p)  {
 
 
 
-static inline unsigned clear_record(Record_021D93D4 *q)  {
+static inline unsigned clear_record(SlotRecord *q)  {
     q->state=0;
     return func_021DA158(0,q->flag);
 }
@@ -1137,7 +1112,7 @@ static inline unsigned clear_record(Record_021D93D4 *q)  {
 
 
 
-void func_021D93D4(const Record_021D93D4 *p)  {
+void func_021D93D4(const SlotRecord *p)  {
     int i, v, next;
     ((struct Obj00912 *)p)->f1DC=1;
     ((struct Obj00912 *)p)->f1F4=0;
@@ -1151,7 +1126,7 @@ void func_021D93D4(const Record_021D93D4 *p)  {
         return;
     }
     i=((struct Obj00912 *)p)->f188;
-    CLACT_SetActorAnimSeq((struct Obj *)p[i].handle,clear_record(&((Record_021D93D4 *)p)[i]));
+    CLACT_SetActorAnimSeq((struct Obj *)p[i].handle,clear_record(&((SlotRecord *)p)[i]));
     v=p[i].value;
     if(i>0)  {
         CLACT_SetActorAnimSeq((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
@@ -1219,13 +1194,13 @@ void func_021D958C(u32 n, int touch, char *p)
                 }
                 GFL_USE_PlaySeDefaultVolume(1352);
             } else if (n == 22) {
-                *(s16_021D958C *)(p + 0x1B8) = 0;
-                *(s16_021D958C *)(p + 0x1BA) = 2;
+                *(short *)(p + 0x1B8) = 0;
+                *(short *)(p + 0x1BA) = 2;
                 GFL_USE_PlaySeDefaultVolume(1363);
-                func_021D93D4((const Record_021D93D4 *)p);
+                func_021D93D4((const SlotRecord *)p);
             } else if (n == 23) {
-                *(s16_021D958C *)(p + 0x1B8) = 3;
-                *(s16_021D958C *)(p + 0x1BA) = 2;
+                *(short *)(p + 0x1B8) = 3;
+                *(short *)(p + 0x1BA) = 2;
                 if (func_021D9320((u8 *)p)) {
                     func_021D9348(p);
                     GFL_USE_PlaySeDefaultVolume(1357);
@@ -1263,8 +1238,8 @@ void func_021D958C(u32 n, int touch, char *p)
                 }
                 func_021D9564((u8 *)p, n);
             } else {
-                *(s16_021D958C *)(p + 0x1B8) = (n - 12) % 5;
-                *(s16_021D958C *)(p + 0x1BA) = (n - 12) / 5;
+                *(short *)(p + 0x1B8) = (n - 12) % 5;
+                *(short *)(p + 0x1BA) = (n - 12) / 5;
             }
         }
     }
@@ -1470,13 +1445,13 @@ void func_021D9E48(char *p, int i, int a)
 /*
  * lever: Load actor into a local before the current-index store.
  */
-void func_021D9E60(u8 *p,int n) { Pair_021D9E60 s; void *actor; actor=*(void **)(p+n*28+12); ((struct Obj14058 *)p)->f188=n; CLACT_GetActorSurfacePos(actor,(struct PtS *)&s,0); s.y+=16; CLACT_AddActorSurfacePos(((struct Obj14058 *)p)->f194,(const struct Vec2 *)(&s),0); }
+void func_021D9E60(u8 *p,int n) { PairS16 s; void *actor; actor=*(void **)(p+n*28+12); ((struct Obj14058 *)p)->f188=n; CLACT_GetActorSurfacePos(actor,(struct PtS *)&s,0); s.y+=16; CLACT_AddActorSurfacePos(((struct Obj14058 *)p)->f194,(const struct Vec2 *)(&s),0); }
 
 
 
 void func_021D9E98(char *p,int i)
 {
-    Pair_021D9E98 s;
+    PairU16 s;
     unsigned char *q = (unsigned char *)p + (i+12)*4;
     s.x = (q[0x29a] + q[0x29b])/2;
     s.y = (q[0x298] + q[0x299])/2;
@@ -1488,7 +1463,7 @@ void func_021D9E98(char *p,int i)
 
 void func_021D9EE8(char *p,int i,int j)
 {
-    Pair_021D9EE8 s;
+    PairU16B s;
     unsigned char *q = (unsigned char *)p + (i+12)*4;
     s.x = (q[0x29a] + q[0x29b])/2;
     s.y = (q[0x298] + q[0x299])/2;
@@ -1539,7 +1514,7 @@ void func_021DA004(char *p)
 {
     int i;
     char *r,*q;
-    s16_021DA004 x,y;
+    short x,y;
     for(i=0;i<2;i++) {
         r=p+i*4;
         x=((struct Obj04507 *)r)->f2F2+20;
@@ -1603,7 +1578,7 @@ void func_021DA1A8(char *p,int animate)
 {
     Position s;
     int i,j;
-    s16_021DA1A8 y=*(s16_021DA1A8 *)((unsigned)p+(unsigned)((struct Obj03283 *)p)->f240*2+0x214);
+    short y=*(short *)((unsigned)p+(unsigned)((struct Obj03283 *)p)->f240*2+0x214);
     unsigned q;
     j=0;
     for(i=0;i<((struct Obj03283 *)p)->f23C;i++) {
@@ -1652,7 +1627,7 @@ void func_021DA320(char *p)
 {
     int i;
     int x,y;
-    Pair_021DA320 s;
+    PairS16B s;
     for(i=0;i<((struct Obj10502 *)p)->f23C;i++){
         if(i>=((struct Obj10502 *)p)->f248 && i<((struct Obj10502 *)p)->f24C){
             x=16;
@@ -1704,7 +1679,7 @@ void func_021DA454(u8 *p, int i, int a2, int a3, int a4)
 {
     void *bank,*msg,*bmp;
     struct Param q;
-    s16_021DA454 y;
+    short y;
     u16 x;
     int zero=0;
     bank=func_02045B38(0,2,25,50);

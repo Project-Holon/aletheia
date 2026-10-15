@@ -19,8 +19,8 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetCard 0x0200B1D4 thumb
- *   func_021E5440 0x021E5440 thumb ov177
- *   func_021E5548 0x021E5548 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_Create 0x021E5440 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   func_021E567C 0x021E567C thumb ov177
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -53,8 +53,8 @@ struct Rec160;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_COMPETITION_GetFromSave(void *sys);
 extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
-extern int *func_021E5440(unsigned,int);
-extern int func_021E5548(int *);
+extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned,int);
+extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern u32 *func_021E567C(int unused, int mode, int heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -77,8 +77,8 @@ int WIFIBATTLEMATCH_NET_CompCreate(void *sys,int unused,u32 *ctx)
     p=PROCSYS_AllocProcWork(sys,0x270,87); MI_CpuFill8(p,0,0x270);
     p[0x104/4]=(u32)ctx;
     p[0x108/4]=(u32)REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),0);
-    p[0]=(u32)func_021E5440(1,87);
-    p[1]=(u32)func_021E567C(func_021E5548((int *)p[0]),0,87);
+    p[0]=(u32)WIFIBATTLEMATCH_GRAPHIC_Create(1,87);
+    p[1]=(u32)func_021E567C(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]),0,87);
     p[2]=(u32)GF_FONT_Create(0x17,0,0,0,87);
     p[3]=(u32)GF_FONT_Create(0x17,3,0,0,87);
     p[4]=PRINTSYS_QUE_Create((void *)87); p[5]=(u32)func_02045B38(0,2,0xd2,87);
@@ -87,7 +87,7 @@ int WIFIBATTLEMATCH_NET_CompCreate(void *sys,int unused,u32 *ctx)
     p[0x2c/4]=func_021E8568(0,15,14,10,p[4],p[2],87);
     p[0x38/4]=(u32)func_021E8A3C((int)p,(int)WIFIBATTLEMATCH_NET_CompStepA,87);
     p[0x3c/4]=(u32)func_021E8A3C((int)p,0,87);
-    p[0x28/4]=(u32)func_021E7D20((void *)func_021E5548((int *)p[0]),(void *)p[1],87);
+    p[0x28/4]=(u32)func_021E7D20((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]),(void *)p[1],87);
     func_021E7E0C((void **)p[0x28/4],0);
     p[0xfc/4]=(u32)POKEPARTY_Create(87); WIFIBATTLEMATCH_NET_RestartNet((char *)p[0x34/4],1);
     return 1;

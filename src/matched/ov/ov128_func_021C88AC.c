@@ -1,5 +1,5 @@
 /*
- * function: func_021C88AC
+ * function: Wf2dmapFriend_CopyPos
  * address:  0x021C88AC
  * packet:   pkt_ov128_021C88AC
  * region:   ov128
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021C88AC(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap)
+void Wf2dmapFriend_CopyPos(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap)
 {
     d[0] = s[0];
     d[1] = s[1];

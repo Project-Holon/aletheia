@@ -57,7 +57,7 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef struct {unsigned short value;char pad[10];} Entry_021B63D4;
+typedef struct {unsigned short value;char pad[10];} CdemoEntry;
 
 typedef unsigned char u8;
 
@@ -129,7 +129,7 @@ int CDEMO_SCENE_CmdNoop2(void);
 int CDEMO_SCENE_CmdNoop3(void);
 int CDEMO_SCENE_CmdReset(char *p);
 int CDEMO_SCENE_CmdNoop4(void);
-extern const Entry_021B63D4 d_021B6A1C[];
+extern const CdemoEntry d_021B6A1C[];
 extern const Entry_021B64E0 data_021B6A1C[];
 extern const unsigned d_021B6A90[];
 

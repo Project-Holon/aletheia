@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BB450",
-    "func_021BB4D8",
-    "func_021BB4E8",
-    "func_021BB4F8"
+    "PSEL_GRAPHIC_OpenMenu",
+    "PSEL_GRAPHIC_CloseMenu",
+    "PSEL_GRAPHIC_UpdateMenu",
+    "PSEL_GRAPHIC_IsMenuFinished"
+   ],
+   "addresses": [
+    "0x021BB450",
+    "0x021BB4D8",
+    "0x021BB4E8",
+    "0x021BB4F8"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_021C87B0
+ * function: Wf2dmapFriend_ShowEntryActor
  * address: 0x021C87B0
  * packet: pkt_ov128_021C87B0
  * region: ov128
@@ -40,7 +40,7 @@ static inline void Outside(int wnd,int effect)
     if(effect) tmp |= 0x20;
     *(volatile u16 *)0x0400004A=(u16)tmp;
 }
-void func_021C87B0(u8 *p, u8 *a1)
+void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *a1)
 {
     Point pos;
     CLACT_SetActorDrawEnable(((struct Obj00179 *)p)->f1A0,1);

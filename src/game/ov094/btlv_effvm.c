@@ -224,11 +224,6 @@
  *   BTLV_CLACT_SetActorAnimSeq 0x02201DA0 thumb ov094
  *   BTLV_CLACT_RequestPaletteFade 0x02201DB4 thumb ov094
  */
-#include "../../matched/include/Obj21678.h"
-#include "../../matched/include/Obj00005.h"
-#include "../../matched/include/Obj21683.h"
-#include "../../matched/include/Obj13598.h"
-#include "../../matched/include/Obj18571.h"
 #include "../arm9/nns_g3d_glb_types.h"
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
@@ -926,7 +921,7 @@ u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq);
 
 void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 b, u8 c, s8 step, u16 d);
 
-extern const s16_021F6560 FX_SinCosTable_[];
+extern const s16 FX_SinCosTable_[];
 
 extern const char d_0220AE68[];
 
@@ -3312,7 +3307,7 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_IsAllIdle(int vm, BtlvEffVmWork *work)
 {
     int i;
-    Slot_021F6560 pos;
+    BtlvSlotIndex pos;
 
     if (work->waitMode <= 1) {
         if (BTLV_CAMERA_IsMoving(BTLV_EFFECT_GetCamera()) == 1) return 0;
@@ -4105,7 +4100,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         if (req->alphaScale != 0)
             BUTTON_MAN_SetAlpha(emitter, (u16)(MUL(oldAlpha, req->alphaScale) >> 12));
         if (req->angleScale != 0)
-            BUTTON_MAN_SetAngle(emitter, (s16_021F6560)MUL(oldAngle, req->angleScale));
+            BUTTON_MAN_SetAngle(emitter, (s16)MUL(oldAngle, req->angleScale));
         if (req->posScale != 0) {
             BUTTON_MAN_GetPos(emitter, &scaled);
             scaled.x = MUL(scaled.x, req->posScale);
@@ -4113,9 +4108,9 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
             scaled.z = MUL(scaled.z, req->posScale);
             BUTTON_MAN_SetPos(emitter, (const BtlvEffVmVec *)&scaled);
             oldScaleX = BUTTON_MAN_GetOffsetX(emitter);
-            BUTTON_MAN_SetOffsetX(emitter, (s16_021F6560)MUL(oldScaleX, req->posScale));
+            BUTTON_MAN_SetOffsetX(emitter, (s16)MUL(oldScaleX, req->posScale));
             oldScaleX = BUTTON_MAN_GetOffsetY(emitter);
-            BUTTON_MAN_SetOffsetY(emitter, (s16_021F6560)MUL(oldScaleX, req->posScale));
+            BUTTON_MAN_SetOffsetY(emitter, (s16)MUL(oldScaleX, req->posScale));
         }
     }
     if (req->mode == 3)

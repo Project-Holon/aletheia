@@ -15,10 +15,10 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027628 0x02027628 thumb
- *   func_02027624 0x02027624 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   func_02049740 0x02049740 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
@@ -32,10 +32,10 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 func_020275E4(void);
-extern u32 func_02027628(void);
-extern u32 func_02027624(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
@@ -54,10 +54,10 @@ void ZUKAN_LIST_LoadBgGraphics(void)
     func_020498F4(arc,69,5,0,0,0,107);
     func_020498F4(arc,63,7,0,0,0,107);
     ARC_TOOL_DeleteHandle(arc);
-    arc=func_020490F4(func_020275E4(),107);
-    func_02049740(arc,func_02027628(),1,0,0,107);
-    func_02049B68(arc,func_02027624(),0,448,32,107);
-    func_020498F4(arc,func_0202762C(),1,0,0,0,107);
+    arc=func_020490F4(APP_ICON_GetArchiveId(),107);
+    func_02049740(arc,APP_ICON_GetStatusFrameFileId(),1,0,0,107);
+    func_02049B68(arc,APP_ICON_GetStatusAnimFileId(),0,448,32,107);
+    func_020498F4(arc,APP_ICON_GetStatusDataFileId(),1,0,0,0,107);
     BG_SYS_FillTileMap(1,0,21,32,3,14);
     func_02041B6C(1);
     ARC_TOOL_DeleteHandle(arc);

@@ -30,7 +30,7 @@
  *   WORDSET_Create 0x0201EC74 thumb
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -60,7 +60,7 @@ struct WordSet;
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BMP_SetDisplaySwap(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_02028590(u32,u32,u32,u16);
+extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
@@ -89,7 +89,7 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     *(u32 *)(p+0xc310)=0;
     BMP_SetDisplaySwap(0);
     *(void **)(p+0xc0a4)=TCBL_Create((u16)(*(u32 *)p),*(u32 *)p,0x20,0x20);
-    *(u32 *)(p+0xc088)=func_02028590(0xf,1,0,*(u32 *)p);
+    *(u32 *)(p+0xc088)=APP_KEYCURSOR_CreateDefault(0xf,1,0,*(u32 *)p);
     *(u32 *)(p+0xc080)=PRINTSYS_QUE_Create((void *)(u16)*(u32 *)p);
     GFL_NET_RestartWithDefaultTimeout(1,(u16)(*(u32 *)p));
     BG_SYS_SetSubPlaneVisible(0x10,1);

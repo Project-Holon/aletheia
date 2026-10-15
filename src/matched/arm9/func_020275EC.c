@@ -1,5 +1,5 @@
 /*
- * function: func_020275EC
+ * function: APP_ICON_GetTypePaletteOffset
  * address:  0x020275EC
  * packet:   pkt_020275EC
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 
 extern const u8 _PokeTypePltOffset[];
 
-u8 func_020275EC(int i)
+u8 APP_ICON_GetTypePaletteOffset(int i)
 {
     return _PokeTypePltOffset[i];
 }

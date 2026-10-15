@@ -16,7 +16,7 @@
  *   B_PLIST_MAIN_GetOrderIndex  0x022110D4  thumb  ov198
  *   B_PLIST_DRAW_PrintRowName  0x0220BEB8  thumb  ov198
  *   B_PLIST_DRAW_DrawRowValueBars  0x0220D920  thumb  ov198
- *   func_020276C4  0x020276C4  thumb
+ *   APP_ICON_GetStatusIconAnim  0x020276C4  thumb
  *   B_PLIST_DRAW_PrintValueIfUnset  0x0220D988  thumb  ov198
  *   d_02211AFF  0x02211AFF  data  a1
  */
@@ -32,7 +32,7 @@ extern void BMP_Clear(struct CharBuf *, u8);
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra);
 extern void B_PLIST_DRAW_DrawRowValueBars(u8 *, int);
-extern int func_020276C4(int a0);
+extern int APP_ICON_GetStatusIconAnim(int a0);
 extern void B_PLIST_DRAW_PrintValueIfUnset(u8 *, int);
 extern u8 d_02211AFF[];
 typedef struct { u8 pad0[4]; void *obj; u16 cnt; u8 pad1[0x1B-0xA]; Bits fl; u8 pad2[0x4C-0x1C]; } Rec;
@@ -52,7 +52,7 @@ void B_PLIST_DRAW_DrawRows(u8 *p)
             if (!((Rec *)p)[idx].fl.hi) {
                 B_PLIST_DRAW_DrawRowValueBars(p, (u8)i);
             }
-            if (func_020276C4((int)(((Rec *)p)[idx].obj)) == 8) {
+            if (APP_ICON_GetStatusIconAnim((int)(((Rec *)p)[idx].obj)) == 8) {
                 B_PLIST_DRAW_PrintValueIfUnset(p, (u8)i);
             }
         }

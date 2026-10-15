@@ -57,7 +57,7 @@
  *   func_02008574  0x02008574  thumb
  *   func_02025C1C  0x02025C1C  thumb
  *   func_02025C30  0x02025C30  thumb
- *   func_0202EB7C  0x0202EB7C  thumb
+ *   COMM_HISTORY_InsertIfNamed  0x0202EB7C  thumb
  *   POKETRADE_2D_DeleteOfferIconActor 0x021E62D4 thumb ov119
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   POKETRADE_NEGO_FlashMarker 0x021DF8A0 thumb ov119
@@ -69,7 +69,7 @@
  *   POKETRADE_SAVE_DeleteOfferCardWindow  0x021E2438  thumb  ov119
  *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   func_02017E88 0x02017E88 thumb
- *   func_0202F738 0x0202F738 thumb
+ *   EVENT_ID_AreSlotsClear 0x0202F738 thumb
  *   FILE_UTIL_Check136C 0x0202136C thumb
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
@@ -437,7 +437,7 @@ extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 
-extern u32 func_0202EB7C(u32 a0, u32 a1);
+extern u32 COMM_HISTORY_InsertIfNamed(u32 a0, u32 a1);
 
 extern void POKETRADE_2D_DeleteOfferIconActor(void *, int, int);
 
@@ -461,7 +461,7 @@ extern u32 POKEPARTY_GetAliveNonEggCount(void *p);
 
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 
-extern int func_0202F738(void *p, int a1);
+extern int EVENT_ID_AreSlotsClear(void *p, int a1);
 
 extern u32 FILE_UTIL_Check136C(u16 v);
 
@@ -1726,7 +1726,7 @@ void POKETRADE_PROC_RecvTradeSummary(void *p, int a1, void *a2, char *a3, int a4
         func_02008574((struct Sub0200852CObj *)buf, x, y);
     else
         func_02008574((struct Sub0200852CObj *)buf, 0, 0);
-    func_0202EB7C((u32)saved, (u32)buf);
+    COMM_HISTORY_InsertIfNamed((u32)saved, (u32)buf);
 }
 
 void POKETRADE_PROC_RecvStateByte(u32 a, u32 b, u8 *src, u8 *base, void *e)
@@ -1858,7 +1858,7 @@ void POKETRADE_PROC_ClearSideMon(void *p, int a)
 
 int POKETRADE_PROC_IsSelfMonReady(char *p) { int w; void *v; int z; if(POKETRADE_PROC_IsHostSide(p)==0) {v=POKETRADE_PROC_GetSideMon(p,0);w=POKETRADE_PROC_GetSideValue(p,0);} else {v=POKETRADE_PROC_GetSideMon(p,1);w=POKETRADE_PROC_GetSideValue(p,1);} z=0;if(func_02017E1C(v,160,0)==0)return z;if(func_02017E1C(v,76,0))return z;if(POKEPARTY_GetAliveNonEggCount((void *)((*(int *)&((TradeWork *)p)->partyData)))==1 && w!=0)return 1;return 0; }
 
-int POKETRADE_PROC_IsSelectedOfferSlot(char *p,int a,int b) { int v=(int)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager),a,b,p); int r; if(((TradeWork *)p)->tradeState) return 0; if(a!=((TradeWork *)p)->partyBoxId) return 0; r=0; if(func_02017E88((void *)v,76,0)) return r; if(func_0202F738((void *)v,r)==0) r=1; return r; }
+int POKETRADE_PROC_IsSelectedOfferSlot(char *p,int a,int b) { int v=(int)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager),a,b,p); int r; if(((TradeWork *)p)->tradeState) return 0; if(a!=((TradeWork *)p)->partyBoxId) return 0; r=0; if(func_02017E88((void *)v,76,0)) return r; if(EVENT_ID_AreSlotsClear((void *)v,r)==0) r=1; return r; }
 
 u32 POKETRADE_PROC_GetMonSpeciesFlag(void *mon)
 {

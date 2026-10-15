@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BC30C",
-    "func_021BC348"
+    "PSEL_GRAPHIC_Delete",
+    "PSEL_GRAPHIC_GetMaxState"
+   ],
+   "addresses": [
+    "0x021BC30C",
+    "0x021BC348"
    ]
   }
  ]

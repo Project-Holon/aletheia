@@ -1,5 +1,5 @@
 /*
- * function: func_0217B924
+ * function: BATTLE_CHAMPIONSHIP_FLOW_HideWindow
  * address: 0x0217B924
  * packet: pkt_ov176_0217B924
  * region: ov176
@@ -11,4 +11,4 @@
  *   func_021E89D0 0x021E89D0 thumb ov177
  */
 extern void func_021E89D0(int);
-void func_0217B924(int *p) {func_021E89D0(p[1]);}
+void BATTLE_CHAMPIONSHIP_FLOW_HideWindow(int *p) {func_021E89D0(p[1]);}

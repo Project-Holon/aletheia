@@ -1,5 +1,5 @@
 /*
- * function: func_021E5678
+ * function: WIFIBATTLEMATCH_GRAPHIC_GetClactBank
  * address:  0x021E5678
  * packet:   pkt_021E5678
  * region:   ov177
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E5678   0x021E5678  thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_GetClactBank   0x021E5678  thumb ov177
  *
  * Unlabelled ov177 leaf: loads the word its argument points at.  Matched as
- * the bottom-up dependency of the ov177 thunk func_021E5548.
+ * the bottom-up dependency of the ov177 thunk WIFIBATTLEMATCH_GRAPHIC_GetCamera.
  */
 
-int func_021E5678(int *p)
+int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p)
 {
     return *p;
 }

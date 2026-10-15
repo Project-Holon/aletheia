@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0F8
+ * function: DUP_FITTING_ITEM_DeleteList
  * address: 0x021BA0F8
  * packet: pkt_ov133_021BA0F8
  * region: ov133
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-void func_021BA0F8(void *p){func_020307B0(p);}
+void DUP_FITTING_ITEM_DeleteList(void *p){func_020307B0(p);}

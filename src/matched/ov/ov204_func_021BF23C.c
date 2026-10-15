@@ -1,5 +1,5 @@
 /*
- * function: func_021BF23C
+ * function: INTRO_MSG_PrintText
  * address: 0x021BF23C
  * packet: pkt_ov204_021BF23C
  * region: ov204
@@ -45,7 +45,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021BF23C(char *p, void *a, int flag)
+void INTRO_MSG_PrintText(char *p, void *a, int flag)
 {
     unsigned int value = MSG_SPEED_GetWait();
     void *desc = ((struct Obj02540 *)p)->f1C;

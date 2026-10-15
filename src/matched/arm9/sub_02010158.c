@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   gNetErrWork     0x0214617C  data
  *   sNetErrMessageIdsDS   0x0209DEB0  data  a2
  *   sNetErrMessageIdsTwl   0x0209DED0  data  a2
@@ -18,7 +18,7 @@
  * The error-code mapper of net_err.c: a reason code at obj+0xc (obj is the
  * 16-byte block the module keeps at 0x0214617C+0x48) in 0x3EE..0x3F7 maps to
  * a fixed message id; anything else indexes one of two sixteen-entry u16
- * tables by the module's +0x60 error number, picked by func_0202EB0C().
+ * tables by the module's +0x60 error number, picked by APP_ENV_IsRunOnTwl().
  * Wave 13: the earlier DIFF note read the pools as 0x0202617C / 0x020109B0 /
  * 0x020109D0; the words are 0x0214617C / 0x0209DEB0 / 0x0209DED0, and the
  * case 0x3F7 arm shares case 0x3EE's block (both table slots 0x12).
@@ -29,7 +29,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern u8  gNetErrWork[];
 extern const u16 sNetErrMessageIdsDS[];
 extern const u16 sNetErrMessageIdsTwl[];
@@ -53,7 +53,7 @@ u32 GFL_NET_ERR_GetMessageId(u8 *obj, u32 a)
     case 0x3f0:
         return 0x28;
     }
-    if (func_0202EB0C() != 0) {
+    if (APP_ENV_IsRunOnTwl() != 0) {
         v = *(u32 *)(gNetErrWork + 0x60);
         if (v >= 0x10) {
             return 0xb;

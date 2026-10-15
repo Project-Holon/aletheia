@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E78
+ * function: Wf2dmapFriend_ItemSelect
  * address: 0x021C7E78
  * packet: pkt_ov128_021C7E78
  * region: ov128
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void WF2DMAP_TOUCH_PlayActorAnimA(char *p);
 extern void WF2DMAP_TOUCH_PlayActorAnimB(char *p);
-int func_021C7E78(s16 *p, u8 *a, void *b, int n)
+int Wf2dmapFriend_ItemSelect(s16 *p, u8 *a, void *b, int n)
 {
     if (n == 0) {
         GFL_USE_PlaySeDefaultVolume(0x551); WF2DMAP_TOUCH_PlayActorAnimA(b); return 3;

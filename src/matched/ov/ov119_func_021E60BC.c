@@ -22,11 +22,11 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   POKERUS_IsCured 0x0201B280 thumb
- *   func_020275E4 0x020275E4 thumb
- *   func_02027748 0x02027748 thumb
- *   func_0202774C 0x0202774C thumb
- *   func_02027750 0x02027750 thumb
- *   func_02027754 0x02027754 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetBallOpenAnimFileId 0x02027748 thumb
+ *   APP_ICON_GetEffectCellFileId 0x0202774C thumb
+ *   APP_ICON_GetEffectPaletteFileId 0x02027750 thumb
+ *   APP_ICON_GetEffectAnimFileId 0x02027754 thumb
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -47,11 +47,11 @@ extern const States gSummaryIconStates;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_IsShiny(void *);
 extern u32 POKERUS_IsCured(void *);
-extern u32 func_020275E4(void);
-extern int func_02027748(void);
-extern int func_0202774C(int);
-extern int func_02027750(int);
-extern int func_02027754(int);
+extern u32 APP_ICON_GetArchiveId(void);
+extern int APP_ICON_GetBallOpenAnimFileId(void);
+extern int APP_ICON_GetEffectCellFileId(int);
+extern int APP_ICON_GetEffectPaletteFileId(int);
+extern int APP_ICON_GetEffectAnimFileId(int);
 extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u16,u8,u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
@@ -70,11 +70,11 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
     coords=gSummaryIconCoords;
     states=gSummaryIconStates;
     in.f0=0; in.f4=0;
-    in.f8=func_020275E4();
-    in.fC=func_02027748();
-    in.f10=func_0202774C(2);
-    in.f14=func_02027750(2);
-    in.f18=func_02027754(2);
+    in.f8=APP_ICON_GetArchiveId();
+    in.fC=APP_ICON_GetBallOpenAnimFileId();
+    in.f10=APP_ICON_GetEffectCellFileId(2);
+    in.f14=APP_ICON_GetEffectPaletteFileId(2);
+    in.f18=APP_ICON_GetEffectAnimFileId(2);
     in.b1c=13; in.b1d=0; in.b1e=1;
     if (!flag && POKE_TOOL_IsShiny(mon)) bits|=64;
     if (POKERUS_IsCured(mon)) bits|=128;

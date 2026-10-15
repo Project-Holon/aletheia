@@ -1,5 +1,5 @@
 /*
- * function: func_021E5554
+ * function: WIFIBATTLEMATCH_GRAPHIC_VBlank
  * address:  0x021E5554
  * packet:   pkt_021E5554
  * region:   ov177
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E5604  0x021E5604  thumb  ov177
- *   func_021E5670  0x021E5670  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_TickDisplay  0x021E5604  thumb  ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_VBlankClact  0x021E5670  thumb  ov177
  */
 
-extern void func_021E5604(int *);
-extern void func_021E5670(int *);
+extern void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *);
+extern void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *);
 
-void func_021E5554(int a, int *p)
+void WIFIBATTLEMATCH_GRAPHIC_VBlank(int a, int *p)
 {
-    func_021E5604(p);
-    func_021E5670((int *)((char *)p + 4));
+    WIFIBATTLEMATCH_GRAPHIC_TickDisplay(p);
+    WIFIBATTLEMATCH_GRAPHIC_VBlankClact((int *)((char *)p + 4));
 }

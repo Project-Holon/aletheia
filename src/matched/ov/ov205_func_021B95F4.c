@@ -37,7 +37,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   SAVE_SCREEN_Delete 0x021B9928 thumb ov205
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
  *   TIME_ICON_Update 0x0202F0B0 thumb
  */
@@ -79,7 +79,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void SAVE_SCREEN_Delete(char *);
 typedef signed int     s32;
 struct Blk;
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 extern void TIME_ICON_Update(u8 *p);
 typedef enum { ST0=0,ST13=13 } State;
@@ -158,7 +158,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,const char *context,char *p)
     case 11:SAVE_SCREEN_Delete(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(func_02028484((struct Blk *)(p+40),((struct Obj00419 *)p)->f20))*state=((struct Obj00419 *)p)->f44;
+        if(PRINTSYS_CTRL_Update((struct Blk *)(p+40),((struct Obj00419 *)p)->f20))*state=((struct Obj00419 *)p)->f44;
         break;
     }
     if(((struct Obj00419 *)p)->f24)TCBL_Main(((struct Obj00419 *)p)->f24);

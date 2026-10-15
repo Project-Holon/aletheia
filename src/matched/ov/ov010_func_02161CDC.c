@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GF_STANDARD_SetField00 0x0203F4CC arm
- *   func_0202E888 0x0202E888 thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock 0x0202E888 thumb
  *   EVENT_FIELD_PROCLINK_SetCommProcParam 0x02161C84 thumb ov010
  */
 typedef unsigned char u8;
@@ -18,13 +18,13 @@ typedef struct { u32 hour, minute, second; } RtcTime;
 typedef struct { u32 a,b,c; u8 d,e,f; u8 g:7; u8 h:1; } S;
 struct RtcTime;
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
-extern u8 func_0202E888(void);
+extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern void EVENT_FIELD_PROCLINK_SetCommProcParam(S *, int, int, u8, u32, u8, u8, u8);
 void EVENT_FIELD_PROCLINK_StartCommProc(S *s, int a, int b, u8 d)
 {
     RtcTime time;
     u8 day;
     GF_STANDARD_SetField00((struct RtcTime *)(&time));
-    day = func_0202E888();
+    day = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     EVENT_FIELD_PROCLINK_SetCommProcParam(s, a, b, d, 0, time.hour, time.minute, day);
 }

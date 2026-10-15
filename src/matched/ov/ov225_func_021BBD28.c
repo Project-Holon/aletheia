@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD28
+ * function: MANUAL_CATEGORY_UpdateOptionSlots
  * address: 0x021BBD28
  * packet: pkt_ov225_021BBD28
  * region: ov225
@@ -27,7 +27,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 channel);
-void func_021BBD28(u8 *p)
+void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
 {
     u8 index;
     u8 *slot;

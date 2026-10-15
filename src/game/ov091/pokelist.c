@@ -163,27 +163,27 @@
  *   func_0201BC3C  0x0201BC3C  thumb
  *   func_0201BC40  0x0201BC40  thumb
  *   func_0201BCB4  0x0201BCB4  thumb
- *   func_020275E4  0x020275E4  thumb
- *   func_02027624  0x02027624  thumb
- *   func_02027628  0x02027628  thumb
- *   func_02027630  0x02027630  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusExtraFileId  0x02027630  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_02027758  0x02027758  thumb
- *   func_0202775C  0x0202775C  thumb
- *   func_02027760  0x02027760  thumb
- *   func_02027764  0x02027764  thumb
- *   func_02027614  0x02027614  thumb
- *   func_02027618  0x02027618  thumb
- *   func_0202761C  0x0202761C  thumb
- *   func_02027620  0x02027620  thumb
- *   func_02027694  0x02027694  thumb
- *   func_02027698  0x02027698  thumb
- *   func_0202769C  0x0202769C  thumb
- *   func_020276A0  0x020276A0  thumb
- *   func_020276B4  0x020276B4  thumb
- *   func_020276B8  0x020276B8  thumb
- *   func_020276BC  0x020276BC  thumb
- *   func_020276C0  0x020276C0  thumb
+ *   APP_ICON_GetNoneFileId  0x02027758  thumb
+ *   APP_ICON_GetGearCellFileId  0x0202775C  thumb
+ *   APP_ICON_GetGearPaletteFileId  0x02027760  thumb
+ *   APP_ICON_GetGearAnimFileId  0x02027764  thumb
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
+ *   APP_ICON_GetItemCellFileId  0x02027694  thumb
+ *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb
+ *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb
+ *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb
+ *   APP_ICON_GetSealCellFileId  0x020276B4  thumb
+ *   APP_ICON_GetSealPaletteFileId  0x020276B8  thumb
+ *   APP_ICON_GetSealAnimFileId  0x020276BC  thumb
+ *   APP_ICON_GetSealFrameFileId  0x020276C0  thumb
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -332,7 +332,7 @@
  *   CLACT_GetSurfacePos 0x0204B0C8 arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   sPlistMessageAllocSite     0x021BED28  data  ov091  a1
  *   TIME_ICON_Delete  0x0202F038  thumb
@@ -341,12 +341,12 @@
  *   TCBL_Destroy  0x02031140  arm
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   APP_KEYCURSOR_Animate 0x0202865C thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
@@ -387,7 +387,7 @@
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   STRBUF_SetString 0x02045924 arm
  *   d_021BED48 0x021BED48 data ov091 a1
  *   POKELIST_ShutdownBgPlane0 0x021B7034 thumb ov091
@@ -645,27 +645,27 @@ extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_02027630(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusExtraFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern int func_02027758(void);
-extern int func_0202775C(int a);
-extern int func_02027760(int a);
-extern int func_02027764(int a);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
-extern u32 func_02027694(void);
-extern u32 func_02027698(void);
-extern u32 func_0202769C(u32 a);
-extern u32 func_020276A0(u32 a);
-extern u32 func_020276B4(void);
-extern u32 func_020276B8(void);
-extern u32 func_020276BC(u32 a);
-extern u32 func_020276C0(u32 a);
+extern int APP_ICON_GetNoneFileId(void);
+extern int APP_ICON_GetGearCellFileId(int a);
+extern int APP_ICON_GetGearPaletteFileId(int a);
+extern int APP_ICON_GetGearAnimFileId(int a);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
+extern u32 APP_ICON_GetItemCellFileId(void);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
+extern u32 APP_ICON_GetItemAnimFileId(u32 a);
+extern u32 APP_ICON_GetItemFrameFileId(u32 a);
+extern u32 APP_ICON_GetSealCellFileId(void);
+extern u32 APP_ICON_GetSealPaletteFileId(void);
+extern u32 APP_ICON_GetSealAnimFileId(u32 a);
+extern u32 APP_ICON_GetSealFrameFileId(u32 a);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -1652,7 +1652,7 @@ void POKELIST_DeleteFonts(PokelistWork *work) { PRINTSYS_QUE_Clear((struct Print
 
 /*
  * Graphics setup: loads BG/char/screen/palette data from archive 0x4c, the
- * 0x07 archive and the func_020275E4 archive into work's handle table
+ * 0x07 archive and the APP_ICON_GetArchiveId archive into work's handle table
  * (work+0x178..0x1d0), then copies palette RAM 0x050000C0 back to work+0x40.
  * The second-archive loads still pass the first (closed) handle to
  * func_02049B68/02049658/020498F4, as the original does.  The 0x158 store
@@ -1688,23 +1688,23 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     work->cellRes[7] = CLACT_RegisterCellAnim(h2, func_0201BC40(), func_0201BCB4(), work->heapId);
     ARC_TOOL_DeleteHandle(h2);
 
-    h2 = func_020490F4(func_020275E4(), work->heapId);
-    func_02049B68(h, func_02027624(), 0, 0x160, 0x20, work->heapId);
-    func_02049658(h, func_02027628(), 1, 0, 0, 0, work->heapId);
-    func_020498F4(h, func_02027630(), 1, 0, 0, 0, work->heapId);
+    h2 = func_020490F4(APP_ICON_GetArchiveId(), work->heapId);
+    func_02049B68(h, APP_ICON_GetStatusAnimFileId(), 0, 0x160, 0x20, work->heapId);
+    func_02049658(h, APP_ICON_GetStatusFrameFileId(), 1, 0, 0, 0, work->heapId);
+    func_020498F4(h, APP_ICON_GetStatusExtraFileId(), 1, 0, 0, 0, work->heapId);
     BG_SYS_FillTileMap(1, 0, 0, 0x40, 0x20, 0xb);
-    work->charRes[5] = CLACT_RegisterPaletteEx(h2, func_02027758(), 0, 0xa0, 0, 1, work->heapId);
-    work->palRes[6] = CLACT_RegisterCharacter(h2, func_0202775C(2), 0, 0, work->heapId);
-    work->cellRes[6] = CLACT_RegisterCellAnim(h2, func_02027760(2), func_02027764(2), work->heapId);
-    work->charRes[1] = CLACT_RegisterPaletteEx(h2, func_02027614(), 0, 0x120, 0, 3, work->heapId);
-    work->palRes[2] = CLACT_RegisterCharacter(h2, func_02027618(), 0, 0, work->heapId);
-    work->cellRes[2] = CLACT_RegisterCellAnim(h2, func_0202761C(2), func_02027620(2), work->heapId);
-    work->charRes[2] = CLACT_RegisterPaletteEx(h2, func_02027694(), 0, 0x60, 0, 1, work->heapId);
-    work->palRes[3] = CLACT_RegisterCharacter(h2, func_02027698(), 0, 0, work->heapId);
-    work->cellRes[3] = CLACT_RegisterCellAnim(h2, func_0202769C(2), func_020276A0(2), work->heapId);
-    work->charRes[4] = CLACT_RegisterPaletteEx(h2, func_020276B4(), 0, 0x80, 0, 1, work->heapId);
-    work->palRes[5] = CLACT_RegisterCharacter(h2, func_020276B8(), 0, 0, work->heapId);
-    work->cellRes[5] = CLACT_RegisterCellAnim(h2, func_020276BC(2), func_020276C0(2), work->heapId);
+    work->charRes[5] = CLACT_RegisterPaletteEx(h2, APP_ICON_GetNoneFileId(), 0, 0xa0, 0, 1, work->heapId);
+    work->palRes[6] = CLACT_RegisterCharacter(h2, APP_ICON_GetGearCellFileId(2), 0, 0, work->heapId);
+    work->cellRes[6] = CLACT_RegisterCellAnim(h2, APP_ICON_GetGearPaletteFileId(2), APP_ICON_GetGearAnimFileId(2), work->heapId);
+    work->charRes[1] = CLACT_RegisterPaletteEx(h2, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x120, 0, 3, work->heapId);
+    work->palRes[2] = CLACT_RegisterCharacter(h2, APP_ICON_GetMoveKindAnimFileId(), 0, 0, work->heapId);
+    work->cellRes[2] = CLACT_RegisterCellAnim(h2, APP_ICON_GetStatusCellFileId(2), APP_ICON_GetStatusPaletteFileId(2), work->heapId);
+    work->charRes[2] = CLACT_RegisterPaletteEx(h2, APP_ICON_GetItemCellFileId(), 0, 0x60, 0, 1, work->heapId);
+    work->palRes[3] = CLACT_RegisterCharacter(h2, APP_ICON_GetItemPaletteFileId(), 0, 0, work->heapId);
+    work->cellRes[3] = CLACT_RegisterCellAnim(h2, APP_ICON_GetItemAnimFileId(2), APP_ICON_GetItemFrameFileId(2), work->heapId);
+    work->charRes[4] = CLACT_RegisterPaletteEx(h2, APP_ICON_GetSealCellFileId(), 0, 0x80, 0, 1, work->heapId);
+    work->palRes[5] = CLACT_RegisterCharacter(h2, APP_ICON_GetSealPaletteFileId(), 0, 0, work->heapId);
+    work->cellRes[5] = CLACT_RegisterCellAnim(h2, APP_ICON_GetSealAnimFileId(2), APP_ICON_GetSealFrameFileId(2), work->heapId);
     ARC_TOOL_DeleteHandle(h2);
     MIi_CpuCopy16((void *)0x050000C0, (u8 *)work->palSrc, 0x60);
 }

@@ -23,7 +23,7 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   _GameDataFileName  0x020A728C  data
  *   func_020070A4  0x020070A4  thumb
- *   func_0202E888  0x0202E888  thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  *   func_02008854  0x02008854  thumb
  *   func_02008844  0x02008844  thumb
  *   func_02008848  0x02008848  thumb
@@ -149,7 +149,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern struct SaveControl *func_020070A4(void);
 
-extern u8    func_0202E888(void);
+extern u8    COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 
 extern struct Situation *func_02008854(struct SaveControl *saveControl);
 
@@ -364,7 +364,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
 
     gameData = func_02030734(heapId, sizeof(struct GameData), 1, _GameDataFileName, 0xAD);
     gameData->saveControl = func_020070A4();
-    gameData->season = func_0202E888();
+    gameData->season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     gameData->subscreenType = 0;
 
     gameData->situation = (u32)func_02008854(gameData->saveControl);

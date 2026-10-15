@@ -196,7 +196,7 @@
  *   d_021F3648     0x021F3648  data  ov032  a4
  *   d_021F3668     0x021F3668  data  ov032  a4
  *   func_020403F4 0x020403F4 arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -244,7 +244,7 @@
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 struct Obj02021EE4;
 struct Queue;
-struct Rec_021EFEC0;
+struct BeaconRecord;
 struct Ctx;
 struct WordSet;
 struct Blk34;
@@ -259,7 +259,7 @@ struct Vec2;
 struct TcblNode;
 struct U16Vec;
 struct PalAnmSlot;
-struct S_021EFEC0;
+struct BeaconTrainerInfo;
 struct Sub0204A9D0;
 struct Strbuf;
 struct Grid;
@@ -291,19 +291,18 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef signed short   s16_021EFEC0;
 
-typedef struct { u32 x, y; } Pair_021EFEC0;
+typedef struct { u32 x, y; } BeaconPair;
 
 typedef struct { int x, y; } Vec2;
 
-typedef struct { short x,y; } Pair_021F0BA8;
+typedef struct { short x,y; } BeaconDelta;
 
-typedef struct S_021EFEC0 S_021EFEC0;
+typedef struct BeaconTrainerInfo BeaconTrainerInfo;
 
 typedef signed char s8;
 
-typedef struct Rec_021EFEC0 Rec_021EFEC0;
+typedef struct BeaconRecord BeaconRecord;
 
 typedef signed int     s32;
 
@@ -316,7 +315,7 @@ typedef struct {
 
 typedef struct { void *f00; void *f04; unsigned f08; void *f0c; void *f10; } Desc;
 
-typedef struct { int state; void *f04; unsigned f08; void *owner; unsigned f10; unsigned f14; unsigned f18; } Work_021F254C;
+typedef struct { int state; void *f04; unsigned f08; void *owner; unsigned f10; unsigned f14; unsigned f18; } BeaconTaskWork;
 
 typedef struct {
     u16 count;
@@ -342,12 +341,11 @@ typedef struct {
     short y;
 } Pt;
 
-typedef short          s16_021F254C;
 
 typedef struct {
     void *bmp;
-    s16_021F254C x;
-    s16_021F254C y;
+    short x;
+    short y;
     u32 f08;
     u32 f0c;
     u8 f10;
@@ -357,7 +355,7 @@ typedef struct {
 } Tmpl;
 
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag, int delta);
+extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *q, struct BeaconRecord *out, u16 *tag, int delta);
 extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
@@ -370,16 +368,16 @@ extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern int BEACON_STATUS_GetMessage(void *p);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern u8 GPOWER_GetActiveIdOfSameType(int,u8 *);
-extern int GAME_BEACON_ACCESSOR_TablePop(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag);
-extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec_021EFEC0 *r);
-extern int GAME_BEACON_ACCESSOR_TableRingAdd(struct Queue *q, struct Rec_021EFEC0 *rec, u16 tag, int *flag);
+extern int GAME_BEACON_ACCESSOR_TablePop(struct Queue *q, struct BeaconRecord *out, u16 *tag);
+extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct BeaconRecord *r);
+extern int GAME_BEACON_ACCESSOR_TableRingAdd(struct Queue *q, struct BeaconRecord *rec, u16 tag, int *flag);
 extern u32 BEACON_IncrementThanksCount(struct Blk34 *p);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void FLD_VREQ_SetSubBlendAlpha(u32 p, u32 a, u32 b, u32 c, u32 d);
 extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
 extern void GAME_BEACON_SEARCH_SetThanks(void *a, u16 b);
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
-extern u8 GAME_BEACON_ACCESSOR_GetSex(struct Rec_021EFEC0 *r);
+extern u8 GAME_BEACON_ACCESSOR_GetSex(struct BeaconRecord *r);
 extern u32 GAME_BEACON_ACCESSOR_GetPmVersion(u32 rec);
 extern u32 GAME_BEACON_ACCESSOR_GetLanguage(u32 x);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -409,7 +407,7 @@ extern void BMP_OAM_SetEnabled(unsigned char *,unsigned);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void TCBL_DeleteTask(struct TcblNode *n);
-extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct S_021EFEC0 *p);
+extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct BeaconTrainerInfo *p);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
@@ -417,11 +415,11 @@ extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 extern u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 v);
 extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(int a);
 extern u16 GAME_BEACON_ACCESSOR_GetTrainerId(u8 *r);
-extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec_021EFEC0 *r, void *buf);
-extern void GAME_BEACON_ACCESSOR_GetGreeting(struct Rec_021EFEC0 *r, struct Strbuf *buf);
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct BeaconRecord *r, void *buf);
+extern void GAME_BEACON_ACCESSOR_GetGreeting(struct BeaconRecord *r, struct Strbuf *buf);
 extern int GAME_BEACON_ACCESSOR_GetThanksName(int a0, int a1);
 extern int GAME_BEACON_ACCESSOR_GetFreeText(int a0, int a1);
-extern void BMP_OAM_SetPos(struct Grid *g, s16_021EFEC0 x, s16_021EFEC0 y);
+extern void BMP_OAM_SetPos(struct Grid *g, short x, short y);
 extern void BEACON_STATUS_SetViewTop(char *p, int v);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
@@ -432,8 +430,8 @@ extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(int a, int b, u16 c);
 extern void GAME_BEACON_SEARCH_SetPresetEvent(unsigned a0);
 extern u32 BEACON_IncrementGreetCount(struct Blk34 *p);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
-extern u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(struct Rec_021EFEC0 *r);
-extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct Rec_021EFEC0 *r);
+extern u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(struct BeaconRecord *r);
+extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct BeaconRecord *r);
 extern void TCBL_SetTaskFunc(int *p, int v);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx);
@@ -523,7 +521,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(unsigned);
-extern unsigned func_02028590(int, int, int, unsigned);
+extern unsigned APP_KEYCURSOR_CreateDefault(int, int, int, unsigned);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -612,7 +610,7 @@ void func_021F0F30(BeaconViewEntry *icon, int a, int b);
 BeaconViewEntry *func_021F0F44(BeaconViewWork *work, int a);
 void func_021F0F74(BeaconViewWork *work, BeaconViewEntry *icon, void *r);
 void func_021F0FC8(BeaconViewWork *work, BeaconViewEntry *icon, int r);
-int func_021F0FE8(S_021EFEC0 *p);
+int func_021F0FE8(BeaconTrainerInfo *p);
 void func_021F1004(BeaconViewWork *work, BeaconViewEntry *icon, int r);
 void func_021F1070(BeaconViewWork *work, BeaconViewEntry *icon, void *text, int a4);
 void func_021F1080(BeaconViewWork *work, BeaconViewEntry *icon, int r, int t);
@@ -631,7 +629,7 @@ void func_021F1704(void *h, BeaconViewIconSlideTask *task);
 void func_021F178C(BeaconViewWork *work, u8 a, int *p);
 void func_021F17D8(void *task, BeaconViewScrollStepTask *taskData);
 int func_021F180C(BeaconViewWork *work, int x, int flag);
-void func_021F1888(BeaconViewWork *work, Rec_021EFEC0 *r);
+void func_021F1888(BeaconViewWork *work, BeaconRecord *r);
 void func_021F18C4(BeaconViewWork *work, int b);
 void func_021F18E0(BeaconViewWork *work, u32 a, int *c);
 void func_021F1930(void *task, BeaconViewFadeTask *taskData);
@@ -737,7 +735,7 @@ void BEACON_VIEW_InitList(BeaconViewWork *work)
     for (i = 0; i < work->visibleRows; i++) {
         q = (u8 *)&work->tagBuffer;
         t = work->scrollTop;
-        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->recordBuffer), (u16 *)q, t + i);
+        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(work->recordLog), (struct BeaconRecord *)(work->recordBuffer), (u16 *)q, t + i);
         s = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)(work->recordLog), t + i);
         icon = func_021F0F44(work, 0xFF);
         func_021F0F30(icon, (u8)s, (u8)(i + 1));
@@ -766,7 +764,7 @@ void BEACON_VIEW_InitList(BeaconViewWork *work)
 
 int BEACON_VIEW_UpdateListTouch(BeaconViewWork *work)
 {
-    Pair_021EFEC0 v;
+    BeaconPair v;
     int r;
     int s;
 
@@ -790,7 +788,7 @@ int BEACON_VIEW_UpdateListTouch(BeaconViewWork *work)
     }
     r = func_021F08E4(work, &v);
     if (r != -1) {
-        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->recordBuffer), (u16 *)((u8 *)&work->tagBuffer), work->scrollTop + r);
+        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(work->recordLog), (struct BeaconRecord *)(work->recordBuffer), (u16 *)((u8 *)&work->tagBuffer), work->scrollTop + r);
         if (GAME_BEACON_ACCESSOR_IsDistributionAction((u8 *)(work->recordBuffer)) != 0)
             return 0;
         work->touchedRow = r;
@@ -911,13 +909,13 @@ int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
 {
     u8 t;
 
-    if (GAME_BEACON_ACCESSOR_TablePop((struct Queue *)(work->receiveQueue), (struct Rec_021EFEC0 *)(work->currentRecord), (u16 *)((u8 *)&work->currentTag)) == 0) {
+    if (GAME_BEACON_ACCESSOR_TablePop((struct Queue *)(work->receiveQueue), (struct BeaconRecord *)(work->currentRecord), (u16 *)((u8 *)&work->currentTag)) == 0) {
         func_021F1268(work);
         return 0;
     }
-    if (GAME_BEACON_ACCESSOR_IsInfoInvalid((struct Rec_021EFEC0 *)(work->currentRecord)) != 0)
+    if (GAME_BEACON_ACCESSOR_IsInfoInvalid((struct BeaconRecord *)(work->currentRecord)) != 0)
         return 0;
-    work->currentIndex = GAME_BEACON_ACCESSOR_TableRingAdd((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->currentRecord), work->currentTag, (int *)((u8 *)&work->addedCount));
+    work->currentIndex = GAME_BEACON_ACCESSOR_TableRingAdd((struct Queue *)(work->recordLog), (struct BeaconRecord *)(work->currentRecord), work->currentTag, (int *)((u8 *)&work->addedCount));
     work->currentId = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)(work->recordLog), work->currentIndex);
     if (work->addedCount == 0) {
         work->currentEntry = func_021F0F44(work, work->currentId);
@@ -1041,7 +1039,7 @@ int func_021F02C4(BeaconViewWork *work)
     case 3:
         if (work->scrollTop != 0) {
             work->currentIndex = work->scrollTop;
-            GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->currentRecord), (u16 *)((u8 *)&work->currentTag), work->currentIndex);
+            GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(work->recordLog), (struct BeaconRecord *)(work->currentRecord), (u16 *)((u8 *)&work->currentTag), work->currentIndex);
             work->currentId = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)(work->recordLog), work->currentIndex);
         }
         func_021F13A0(work, work->currentRecord, work->currentId, 1, (work->scrollTop != 0 ? 1 : 0) + 1);
@@ -1170,7 +1168,7 @@ int func_021F0438(BeaconViewWork *work)
 
 int func_021F055C(BeaconViewWork *work)
 {
-    Pair_021EFEC0 v;
+    BeaconPair v;
     int r;
     int s;
 
@@ -1280,8 +1278,8 @@ void BEACON_VIEW_CountDifferingRecords(BeaconViewWork *work, u8 *a, u8 *b)
     *a = 0;
     *b = 0;
     for (; i < work->recordCount; i++) {
-        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)((unsigned int)work->recordLog), (struct Rec_021EFEC0 *)(work->ownRecord), &tag, i);
-        if (work->gender != GAME_BEACON_ACCESSOR_GetSex((struct Rec_021EFEC0 *)(work->ownRecord)))
+        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)((unsigned int)work->recordLog), (struct BeaconRecord *)(work->ownRecord), &tag, i);
+        if (work->gender != GAME_BEACON_ACCESSOR_GetSex((struct BeaconRecord *)(work->ownRecord)))
             (*a)++;
         if (work->styleId != GAME_BEACON_ACCESSOR_GetPmVersion(work->ownRecord))
             (*b)++;
@@ -1830,7 +1828,7 @@ void func_021F0DD8(unsigned int a)
 
 
 
-void func_021F0DE0(void *p, short x, short y) { Pair_021F0BA8 d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(p,(const struct Vec2 *)(&d),0); }
+void func_021F0DE0(void *p, short x, short y) { BeaconDelta d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(p,(const struct Vec2 *)(&d),0); }
 
 
 
@@ -1968,7 +1966,7 @@ void func_021F0F74(BeaconViewWork *work, BeaconViewEntry *icon, void *r)
 {
     int x;
 
-    x = GAME_BEACON_ACCESSOR_GetTrainerAppearance((struct S_021EFEC0 *)r);
+    x = GAME_BEACON_ACCESSOR_GetTrainerAppearance((struct BeaconTrainerInfo *)r);
     CLACT_TransferCharacter(*(int *)((int)work->iconLists.images.items + icon->index * 4), (struct Sub0204A9D0 *)(*(int *)&work->iconRes[x].data));
     PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim),
                   (const void *)(*(int *)&work->iconPalette.data + ((d_021F3541[x] & 0xf) << 5)), 3,
@@ -1990,7 +1988,7 @@ void func_021F0FC8(BeaconViewWork *work, BeaconViewEntry *icon, int r)
 
 
 
-int func_021F0FE8(S_021EFEC0 *p)
+int func_021F0FE8(BeaconTrainerInfo *p)
 {
     switch (GAME_BEACON_ACCESSOR_GetPmVersion((u32)p)) {
     case 21: return 0;
@@ -2011,7 +2009,7 @@ void func_021F1004(BeaconViewWork *work, BeaconViewEntry *icon, int r)
     int b;
     u16 *t;
 
-    x = func_021F0FE8((S_021EFEC0 *)r);
+    x = func_021F0FE8((BeaconTrainerInfo *)r);
     b = x * 16;
     t = work->panelPalette.data;
     a[0] = t[b];
@@ -2575,7 +2573,7 @@ int func_021F180C(BeaconViewWork *work, int x, int flag)
         GAME_BEACON_SEARCH_SetPresetEvent(BEACON_IncrementGreetCount((struct Blk34 *)(work->playerBlock)));
         break;
     }
-    func_021F1888(work, (Rec_021EFEC0 *)x);
+    func_021F1888(work, (BeaconRecord *)x);
     return 1;
 }
 
@@ -2587,7 +2585,7 @@ int func_021F180C(BeaconViewWork *work, int x, int flag)
 
 
 
-void func_021F1888(BeaconViewWork *work, Rec_021EFEC0 *r)
+void func_021F1888(BeaconViewWork *work, BeaconRecord *r)
 {
     GAME_BEACON_ACCESSOR_RegisterRecordWords((int)r, (int)((void *)work->wordSet), work->uiHeapId);
     func_021F0A98(work, (u8)func_021F0DC0(r));
@@ -3426,7 +3424,7 @@ void func_021F2544(BeaconViewWork *work)
 Desc *func_021F254C(BeaconViewWork *work, unsigned a, unsigned b, unsigned c)
 {
     Desc *d;
-    Work_021F254C *w;
+    BeaconTaskWork *w;
     d = (Desc *)func_020122C0(work->fieldSystem, 0, func_021F2588, 0x1c);
     w = func_020124E8((struct Obj *)d);
     w->owner = work;
@@ -3879,7 +3877,7 @@ void func_021F2C1C(BeaconViewWork *work)
     int z;
 
     z = 0;
-    work->taskMenuCursor = func_02028590(9, 0, 1, work->mainHeapId);
+    work->taskMenuCursor = APP_KEYCURSOR_CreateDefault(9, 0, 1, work->mainHeapId);
     work->taskMenuState = (unsigned int)APP_TASKMENU_RES_Create(4, 0xe, work->font, work->printQueue, work->mainHeapId);
     i = 0;
     do {

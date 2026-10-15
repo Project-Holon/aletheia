@@ -10,12 +10,12 @@
  * status: EXACT
  * follower: tail-call stub 0x021BE53C included; function_starts seed.
  * symbols:
- *   func_021BF744 0x021BF744 thumb ov204
- *   func_021BF77C 0x021BF77C thumb ov204
+ *   INTRO_G3D_SetSlotAnim 0x021BF744 thumb ov204
+ *   INTRO_G3D_GetSlotAnimFinished 0x021BF77C thumb ov204
  */
 #include "../include/Obj25354.h"
 #include "../include/Obj25355.h"
-extern void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
-extern unsigned func_021BF77C(char *,unsigned char);
-int func_021BE524(char *p,int *state,unsigned *q){func_021BF744(*(char * *)&((struct Obj25354 *)p)->f8,(unsigned char)q[0],q[1],q[2]);return 1;}
-unsigned func_021BE53C(char *p,int *state,unsigned *q){return func_021BF77C(*(char * *)&((struct Obj25355 *)p)->f8,q[0]);}
+extern void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v);
+extern unsigned INTRO_G3D_GetSlotAnimFinished(char *,unsigned char);
+int func_021BE524(char *p,int *state,unsigned *q){INTRO_G3D_SetSlotAnim(*(char * *)&((struct Obj25354 *)p)->f8,(unsigned char)q[0],q[1],q[2]);return 1;}
+unsigned func_021BE53C(char *p,int *state,unsigned *q){return INTRO_G3D_GetSlotAnimFinished(*(char * *)&((struct Obj25355 *)p)->f8,q[0]);}

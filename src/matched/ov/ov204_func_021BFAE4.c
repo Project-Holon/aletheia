@@ -1,5 +1,5 @@
 /*
- * function: func_021BFAE4
+ * function: INTRO_G3D_SetVisible
  * address: 0x021BFAE4
  * packet: pkt_ov204_021BFAE4
  * region: ov204
@@ -16,7 +16,7 @@
 
 
 
-void func_021BFAE4(char *p, int v)
+void INTRO_G3D_SetVisible(char *p, int v)
 {
     ((struct Obj25391 *)p)->f14 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF9FC
+ * function: INTRO_G3D_Draw
  * address: 0x021BF9FC
  * packet: pkt_ov204_021BF9FC
  * region: ov204
@@ -26,7 +26,7 @@ extern u32 func_02048A18(u8 *a0, int i);
 struct Arg;
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021BF9FC(char *p)
+void INTRO_G3D_Draw(char *p)
 {
     struct Transform { int pos[3]; int scale[3]; int matrix[9]; } t;
     G3D_CAMERA_Reset(((struct Obj06675 *)p)->fC);

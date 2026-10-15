@@ -1,5 +1,5 @@
 /*
- * function: func_021BBCF4
+ * function: MANUAL_CATEGORY_DeleteOptionSlots
  * address: 0x021BBCF4
  * packet: pkt_ov225_021BBCF4
  * region: ov225
@@ -24,4 +24,4 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_SetFlagField06(u32);
-void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; PRINTSYS_QUE_Clear(*(struct PrintSys **)(p+i*4+0x1c)); BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4+0x10)); BMP_WIN_Delete(*(struct Descriptor **)(p+i*4+0x10)); } BG_SYS_SetFlagField06(5); }
+void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; PRINTSYS_QUE_Clear(*(struct PrintSys **)(p+i*4+0x1c)); BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4+0x10)); BMP_WIN_Delete(*(struct Descriptor **)(p+i*4+0x10)); } BG_SYS_SetFlagField06(5); }

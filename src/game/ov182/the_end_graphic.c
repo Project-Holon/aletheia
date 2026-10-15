@@ -89,14 +89,8 @@
  *   G3D_CAMERA_Delete   0x02048AC4  arm
  *   G3D_SYSTEM_Exit   0x02046788  arm
  */
-#include "../../matched/include/Obj03328.h"
-#include "../../matched/include/Obj06593.h"
-#include "../../matched/include/Obj06594.h"
-#include "../../matched/include/Obj24514.h"
-#include "../../matched/include/Obj24515.h"
-#include "../../matched/include/Obj24516.h"
 
-struct Obj0203159C;
+struct ProcSystem;
 struct GfFont;
 struct Node;
 struct PrintSys;
@@ -112,18 +106,40 @@ typedef unsigned int   u32;
 
 typedef unsigned char u8;
 
-typedef struct {u32 id; u32 v[10];} Record;
+typedef struct {u32 id; u32 v[10];} TheEndBgLayerRecord;
 
 typedef signed int     s32;
 
-typedef struct { unsigned id; unsigned v[8]; unsigned a, b; } Record_021B9A10;
+typedef struct { unsigned id; unsigned v[8]; unsigned a, b; } TheEndWindowRecord;
 
-typedef struct {u32 id;u32 v[8];u32 a,b;} Record_021B9A70;
+/* proc work (0x1C) and graphic work (0x10) */
+struct TheEndProcWork {
+    u16 heapId;
+    u8 pad2[2];
+    void *graphic;
+    void *font;
+    struct PrintSys *printQueue;
+    int initParam;
+    void *vblankNode;
+    int counter;
+};
+
+struct TheEndGraphic {
+    u8 bgData[4];
+    void *clactBank;
+    u32 camera;
+    void *vblankHandle;
+};
+
+/* offset-0 view of the clact slot: the actor helpers receive graphic + 4 */
+struct TheEndActors {
+    void *bank;
+};
 
 typedef unsigned long long u64;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, int, int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -206,12 +222,12 @@ void THE_END_GRAPHIC_VBlankActors(void *a0);
 void THE_END_GRAPHIC_InitCamera(int *p,u16 heap);
 void THE_END_GRAPHIC_DeleteCamera(unsigned int *p);
 extern const u16 d_021B9B9C;
-extern const Record d_021B9BAC[1];
+extern const TheEndBgLayerRecord d_021B9BAC[1];
 extern const u32 d_021B9C28[][2];
 extern const char d_021B9CE0[];
 extern const u32 d_021B9C48[];
 extern const unsigned d_021B9BFC[];
-extern const Record_021B9A10 d_021B9C78[];
+extern const TheEndWindowRecord d_021B9C78[];
 extern unsigned char d_021B9C0C[];
 extern const short d_020A1EB8[];
 extern const int d_021B9BE4[],d_021B9BD8[],d_021B9BF0[];
@@ -233,14 +249,14 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     GFL_HEAP_CreateChildHeap(1, 0x88, 0x30000);
     p = PROCSYS_AllocProcWork(task, 0x1c, 0x88);
     MI_CpuFill8(p, 0, 0x1c);
-    ((struct Obj03328 *)p)->f0 = 0x88;
-    ((struct Obj03328 *)p)->f10 = c;
-    ((struct Obj03328 *)p)->f4 = THE_END_GRAPHIC_Create(1, ((struct Obj03328 *)p)->f0);
-    ((struct Obj03328 *)p)->f8 = GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
-    ((struct Obj03328 *)p)->fC = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj03328 *)p)->f0));
+    ((struct TheEndProcWork *)p)->heapId = 0x88;
+    ((struct TheEndProcWork *)p)->initParam = c;
+    ((struct TheEndProcWork *)p)->graphic = THE_END_GRAPHIC_Create(1, ((struct TheEndProcWork *)p)->heapId);
+    ((struct TheEndProcWork *)p)->font = GF_FONT_Create(0x17, 0, 0, 0, ((struct TheEndProcWork *)p)->heapId);
+    ((struct TheEndProcWork *)p)->printQueue = (void *)PRINTSYS_QUE_Create((void *)(((struct TheEndProcWork *)p)->heapId));
     BG_SYS_SetVisibleLayer(1, 1);
     BG_SYS_SetVisibleLayer(2, 0);
-    ((struct Obj03328 *)p)->f14 = func_020056A0(THE_END_GRAPHIC_DummyTask, p, 1);
+    ((struct TheEndProcWork *)p)->vblankNode = func_020056A0(THE_END_GRAPHIC_DummyTask, p, 1);
     THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
         func_0207E468(vp, 0, 2);
@@ -266,11 +282,11 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04001000 &= ~0xe000;
     THE_END_GRAPHIC_Dummy(p);
-    func_02030EAC(((struct Obj06593 *)p)->f14);
-    PRINTSYS_QUE_Clear(((struct Obj06593 *)p)->fC);
-    PRINTSYS_QUE_Delete(((struct Obj06593 *)p)->fC);
-    GF_FONT_Delete(((struct Obj06593 *)p)->f8);
-    THE_END_GRAPHIC_Delete(((struct Obj06593 *)p)->f4);
+    func_02030EAC(((struct TheEndProcWork *)p)->vblankNode);
+    PRINTSYS_QUE_Clear(((struct TheEndProcWork *)p)->printQueue);
+    PRINTSYS_QUE_Delete(((struct TheEndProcWork *)p)->printQueue);
+    GF_FONT_Delete(((struct TheEndProcWork *)p)->font);
+    THE_END_GRAPHIC_Delete(((struct TheEndProcWork *)p)->graphic);
     func_020315D4(task);
     GFL_HEAP_DeleteChecked(0x88);
     return 1;
@@ -293,7 +309,7 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
         break;
     case 2:
         ready = 0;
-        if (++((struct Obj06594 *)p)->f18 > 0x384) ready = 1;
+        if (++((struct TheEndProcWork *)p)->counter > 0x384) ready = 1;
         if (ready) {
             *state = 3;
             THE_END_GRAPHIC_StartFade(0, (void *)0x10, 0);
@@ -308,12 +324,12 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
         break;
     case 4:
         if (!FADE_IsActive()) {
-            ((struct Obj06594 *)p)->f18 = 0;
+            ((struct TheEndProcWork *)p)->counter = 0;
             *state = 5;
         }
         break;
     case 5:
-        if ((KEY_GetTrg() & 0xb) || ++((struct Obj06594 *)p)->f18 > 0x384) {
+        if ((KEY_GetTrg() & 0xb) || ++((struct TheEndProcWork *)p)->counter > 0x384) {
             *state = 6;
             THE_END_GRAPHIC_StartFade(0, (void *)0x10, 0);
         }
@@ -323,8 +339,8 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
         break;
     case 7: return 1;
     }
-    PRINTSYS_QUE_Main(((struct Obj06594 *)p)->fC);
-    THE_END_GRAPHIC_Update(*(char * *)&((struct Obj06594 *)p)->f4);
+    PRINTSYS_QUE_Main(((struct TheEndProcWork *)p)->printQueue);
+    THE_END_GRAPHIC_Update((char *)((struct TheEndProcWork *)p)->graphic);
     return 0;
 }
 
@@ -439,7 +455,7 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     THE_END_GRAPHIC_InitWindows(p, heap);
     THE_END_GRAPHIC_InitActors((int *)(p + 4), (int)d_021B9C48, heap);
     THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
-    ((struct Obj24514 *)p)->fC = func_020056A0((void ( *)(void))THE_END_GRAPHIC_VBlankTask, p, 0);
+    ((struct TheEndGraphic *)p)->vblankHandle = func_020056A0((void ( *)(void))THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
 }
 
@@ -455,7 +471,7 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
  */
 void THE_END_GRAPHIC_Delete(char *p)
 {
-    func_02030EAC(((struct Obj24515 *)p)->fC);
+    func_02030EAC(((struct TheEndGraphic *)p)->vblankHandle);
     THE_END_GRAPHIC_DeleteCamera((unsigned *)(p + 8));
     THE_END_GRAPHIC_DeleteActors(p + 4);
     THE_END_GRAPHIC_ExitWindows(p);
@@ -503,7 +519,7 @@ void THE_END_GRAPHIC_VBlankTask(int a0, char *p)
 void THE_END_GRAPHIC_InitWindows(void *p, int heap)
 {
     unsigned i = 0;
-    const Record_021B9A10 *r;
+    const TheEndWindowRecord *r;
     unsigned id;
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
@@ -559,7 +575,7 @@ void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 
 void THE_END_GRAPHIC_DeleteActors(void *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj24516 *)p)->f0));
+    CLACT_DeleteUnit((struct Bank *)((struct TheEndActors *)p)->bank);
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

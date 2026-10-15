@@ -1,5 +1,5 @@
 /*
- * function: func_021D9718
+ * function: MYSTERY_GRAPHIC_Draw
  * address:  0x021D9718
  * packet:   pkt_021D9718
  * region:   ov121
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D98E0  0x021D98E0  thumb
- *   func_021D9860  0x021D9860  thumb
+ *   MYSTERY_GRAPHIC_DrawClact  0x021D98E0  thumb
+ *   MYSTERY_GRAPHIC_Dummy  0x021D9860  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021D98E0(void *);
-extern void func_021D9860(void *);
+extern void MYSTERY_GRAPHIC_DrawClact(void *);
+extern void MYSTERY_GRAPHIC_Dummy(void *);
 
-void func_021D9718(u8 *p)
+void MYSTERY_GRAPHIC_Draw(u8 *p)
 {
-    func_021D98E0(p + 4);
-    func_021D9860(p);
+    MYSTERY_GRAPHIC_DrawClact(p + 4);
+    MYSTERY_GRAPHIC_Dummy(p);
 }

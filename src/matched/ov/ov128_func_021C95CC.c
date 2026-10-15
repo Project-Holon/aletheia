@@ -10,7 +10,7 @@
  * extent: two-byte zero padding at 021C9626 before next label 021C9628.
  * symbols:
  *   WF2DMAP_TOUCH_SetValue 0x021C9BEC thumb ov128
- *   func_021C6DF8 0x021C6DF8 thumb ov128
+ *   Wf2dmapFriend_SetActorAutoAnim 0x021C6DF8 thumb ov128
  *   WF2DMAP_TOUCH_DrawSlider 0x021C9BF8 thumb ov128
  *   func_02040618 0x02040618 arm
  */
@@ -20,7 +20,7 @@ typedef signed short s16;
 typedef unsigned short u16;
 extern void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int a5);
 typedef unsigned int   u32;
-extern void func_021C6DF8(u8 *p, u32 a);
+extern void Wf2dmapFriend_SetActorAutoAnim(u8 *p, u32 a);
 extern void WF2DMAP_TOUCH_DrawSlider(u8 *p, u8 *q, int idx);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 int WF2DMAP_TOUCH_StepSlideIn(u8 *p,void *a,void *b,int c)
@@ -29,7 +29,7 @@ int WF2DMAP_TOUCH_StepSlideIn(u8 *p,void *a,void *b,int c)
     int offset;
     if(value>8) {
         WF2DMAP_TOUCH_SetValue((u16 *)p,a,b,0,((struct Obj02842 *)p)->f0,c);
-        func_021C6DF8(b,1);
+        Wf2dmapFriend_SetActorAutoAnim(b,1);
         WF2DMAP_TOUCH_DrawSlider(p,b,255);
         return 1;
     }

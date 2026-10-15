@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D5B5C 0x021D5B5C thumb ov115
+ *   WIFILOGIN_MSG_DrawWindow 0x021D5B5C thumb ov115
  */
 #include "../include/Obj10580.h"
 typedef unsigned char u8;
 typedef signed short s16;
 struct MsgBank;
-extern void func_021D5B5C(char *p, struct MsgBank *a, int b);
+extern void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b);
 int WORLDTRADE_ENTER_ShowErrorMessage(u8 *p, void *dialog)
 {
     int text;
@@ -38,7 +38,7 @@ int WORLDTRADE_ENTER_ShowErrorMessage(u8 *p, void *dialog)
     case -15: text = 161; break;
     default: text = 159; break;
     }
-    func_021D5B5C(dialog, ((struct Obj10580 *)p)->fB6C, text);
+    WIFILOGIN_MSG_DrawWindow(dialog, ((struct Obj10580 *)p)->fB6C, text);
     ((struct Obj10580 *)p)->fF88 = 0;
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4E58
+ * function: WIFILOGIN_DISP_InitBgLayersA
  * address: 0x021D4E58
  * packet: pkt_ov115_021D4E58
  * region: ov115
@@ -35,7 +35,7 @@ extern void BG_SYS_PushTile(u8);
 extern void BG_SYS_Init(u32,u32,u32,u32);
 extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
 extern const struct BgTemplate data_021D6364,data_021D64C4,data_021D64A4,data_021D6484;
-void func_021D4E58(u32 unused,unsigned long base)
+void WIFILOGIN_DISP_InitBgLayersA(u32 unused,unsigned long base)
 {
     struct BgTemplate a,b,c,d;
     unsigned long layer1,layer2,layer3;

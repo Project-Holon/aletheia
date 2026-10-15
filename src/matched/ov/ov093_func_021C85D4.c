@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021C87A0 0x021C87A0 thumb ov093
- *   func_021C87B0 0x021C87B0 thumb ov093
+ *   Wf2dmapFriend_ShowEntryActor 0x021C87B0 thumb ov093
  *   func_021C87C0 0x021C87C0 thumb ov093
  *   func_021C87D0 0x021C87D0 thumb ov093
  *   PLEASURE_BOAT_GetTimeEvent 0x021C87E0 thumb ov093
@@ -28,7 +28,7 @@ struct Unk021BD1E0 {
     u8 b0 : 1; u8 b1 : 1; u8 rest : 6;
 };
 extern void func_021C87A0(void *);
-extern void func_021C87B0(void *);
+extern void Wf2dmapFriend_ShowEntryActor(void *);
 extern void func_021C87C0(void *);
 extern void func_021C87D0(void *);
 extern void PLEASURE_BOAT_GetTimeEvent(void *);
@@ -60,7 +60,7 @@ void BTL_SERVER_FLOW_LoadFrame(u8 *p, int index, int clear)
     ((struct Flags *)(p + 0x78a))->b = q[0x28e];
     if (clear) {
         func_021C87A0(q);
-        func_021C87B0(((struct Obj00294 *)p)->f854);
+        Wf2dmapFriend_ShowEntryActor(((struct Obj00294 *)p)->f854);
         func_021C87C0(((struct Obj00294 *)p)->f858);
         func_021C87D0(((struct Obj00294 *)p)->f85C);
         PLEASURE_BOAT_GetTimeEvent(((struct Obj00294 *)p)->f860);

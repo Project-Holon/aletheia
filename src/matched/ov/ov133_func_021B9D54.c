@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D54
+ * function: DUP_FITTING_SetTextHelp
  * address: 0x021B9D54
  * packet: pkt_ov133_021B9D54
  * region: ov133
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9C08 0x021B9C08 thumb ov133
+ *   DUP_FITTING_SetText 0x021B9C08 thumb ov133
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
@@ -22,19 +22,19 @@ typedef unsigned int u32;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void func_021B9C08(u8 *p, unsigned int index, void *object);
+extern void DUP_FITTING_SetText(u8 *p, unsigned int index, void *object);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-void func_021B9D54(u8 *p, int state)
+void DUP_FITTING_SetTextHelp(u8 *p, int state)
 {
     int index;
     void *w;
     void *str;
     if (state == 8) {
-        func_021B9C08(p, 5, 0);
+        DUP_FITTING_SetText(p, 5, 0);
         return;
     }
     index = 0;
@@ -51,7 +51,7 @@ void func_021B9D54(u8 *p, int state)
     w = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
     str = func_02045EC0(((struct Obj00004 *)p)->f18E0, index);
     WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
-    func_021B9C08(p, 4, w);
+    DUP_FITTING_SetText(p, 4, w);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(w);
 }

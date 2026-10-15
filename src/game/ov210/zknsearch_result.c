@@ -32,21 +32,15 @@
  *   ZKNSEARCH_MAIN_PlacePageActor 0x021BFB8C thumb ov210
  *   ZKNSEARCH_MAIN_MoveScrollActors  0x021BFCE4  thumb  ov210
  */
-#include "../../matched/include/Obj06699.h"
-#include "../../matched/include/Obj14683.h"
-#include "../../matched/include/Obj04620.h"
-#include "../../matched/include/Obj25636.h"
+#include "zknsearch_types.h"
 
 struct S;
 struct Tmpl;
 struct U16Vec;
-typedef unsigned short u16;
 
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 
-typedef unsigned int   u32;
 
-typedef unsigned char  u8;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
@@ -98,12 +92,12 @@ void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    ((struct Obj06699 *)ctx)->f1E0 = FRAME_LIST_Create((struct Tmpl *)(&config), 123);
-    ((struct Obj06699 *)ctx)->f2AC = config.count;
-    FRAME_LIST_CopyMapToBuffer(((struct Obj06699 *)ctx)->f1E0, (unsigned int)archive, 98, 0, 0);
-    FRAME_LIST_LoadPalettes(((struct Obj06699 *)ctx)->f1E0, archive, 73, 2, 3);
+    ((ZknSearchWork *)ctx)->frameList = FRAME_LIST_Create((struct Tmpl *)(&config), 123);
+    ((ZknSearchWork *)ctx)->entryCount = config.count;
+    FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, (unsigned int)archive, 98, 0, 0);
+    FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i < 14; i++) FRAME_LIST_AddItem(((struct Obj06699 *)ctx)->f1E0, 0, i);
+    for (i = 0; i < 14; i++) FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i);
 }
 
 
@@ -119,8 +113,8 @@ void ZKNSEARCH_RESULT_DeleteFrameList(int p)
 {
     unsigned i;
 
-    FRAME_LIST_Delete((struct S *)(((struct Obj14683 *)p)->f1E0));
-    ((struct Obj14683 *)p)->f1E0 = 0;
+    FRAME_LIST_Delete((struct S *)(((ZknSearchWork *)p)->frameList));
+    ((ZknSearchWork *)p)->frameList = 0;
     for (i = 0; i < 0x32; i++) {
         int *q = (int *)(p + i * 4);
 
@@ -139,7 +133,7 @@ void ZKNSEARCH_RESULT_DeleteFrameList(int p)
 void ZKNSEARCH_RESULT_SetRow1(int p, unsigned a, int b, int c, int d)
 {
     ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((struct Obj04620 *)p)->f0 + 2))[1] == a)
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[1] == a)
         ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
 }
 
@@ -170,7 +164,7 @@ void ZKNSEARCH_RESULT_Noop2(void)
 void ZKNSEARCH_RESULT_SetRow2(int p, unsigned a, int b, int c, int d)
 {
     ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((struct Obj04620 *)p)->f0 + 2))[2] == a)
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[2] == a)
         ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
 }
 
@@ -207,8 +201,8 @@ void ZKNSEARCH_RESULT_MoveRow1(int p, int v)
 void ZKNSEARCH_RESULT_SetRowMulti(char *p,int index,void *data,int value,int flag)
 {
     ZKNSEARCH_MAIN_PrintListRow((int)p,data,(*(unsigned *)(p+484+index*4)));
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(p,0,value,flag);
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(p,1,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)p)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(p,0,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)p)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(p,1,value,flag);
 }
 
 
@@ -237,7 +231,7 @@ void ZKNSEARCH_RESULT_MoveRow2(int p, int v)
 void ZKNSEARCH_RESULT_SetRow3(int p, unsigned a, int b, int c, int d)
 {
     ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((struct Obj04620 *)p)->f0 + 2))[5] == a)
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[5] == a)
         ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
 }
 
@@ -270,7 +264,7 @@ void ZKNSEARCH_RESULT_MoveRow3(int p, int v)
 void ZKNSEARCH_RESULT_SetRow4(int p, unsigned a, unsigned *b, int c, int d)
 {
     ZKNSEARCH_MAIN_TransferRowChars(p, b);
-    if ((*(u8 **)(*(int * *)&((struct Obj25636 *)p)->f0 + 2))[6] == a)
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[6] == a)
         ZKNSEARCH_MAIN_PlaceColumnActor3((char *)p, c, d);
     ZKNSEARCH_MAIN_PlacePageActor((char *)p, (unsigned short)a, c, d);
 }

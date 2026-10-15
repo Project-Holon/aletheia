@@ -16,7 +16,7 @@
  *
  * Load-bearing: const S *q (the species/level loads rise above the zero
  * stack-argument stores), and heap u16 at both callees (func_02008510,
- * func_0202F190) so it is re-read from its stack slot per call.
+ * SAVE_EVENT_Write) so it is re-read from its stack slot per call.
  * symbols:
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -24,7 +24,7 @@
  *   func_02008510  0x02008510  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKE_TOOL_RecoverAllPP  0x02018198  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
@@ -66,7 +66,7 @@ struct U16Vec;
 extern void *func_02008510(void *a, int tag);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecoverAllPP(void *mon);
 extern void POKE_TOOL_RecalcParam(void *mon);
 extern void POKE_TOOL_HealFull(void *mon);
@@ -101,7 +101,7 @@ void SODATEYA_SetupEggMon(void *mon, const S *q, void *my, u32 y, u16 heap)
     s = (u32)func_02045EC0(gSpeciesNameBank, 0x28a);
     POKE_TOOL_SetPartyValue(mon, 0x73, s);
     STRBUF_Delete((struct U16Vec *)s);
-    func_0202F190(mon, 5, (u32)my, y, heap);
+    SAVE_EVENT_Write(mon, 5, (u32)my, y, heap);
     POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
     POKE_TOOL_RecoverAllPP(mon);
     POKE_TOOL_RecalcParam(mon);

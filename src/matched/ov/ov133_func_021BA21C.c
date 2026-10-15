@@ -1,5 +1,5 @@
 /*
- * function: func_021BA21C
+ * function: DUP_FITTING_ITEM_ElemSetPos
  * address: 0x021BA21C
  * packet: pkt_ov133_021BA21C
  * region: ov133
@@ -11,7 +11,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {u32 a,b;} Pair;
-void func_021BA21C(u8 *p, const u8 *src)
+void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src)
 {
     *(Pair *)(p+16)=*(const Pair *)src;
 }

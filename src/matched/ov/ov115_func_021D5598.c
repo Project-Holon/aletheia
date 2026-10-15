@@ -1,7 +1,7 @@
 /*
  * packet: pkt_ov115_021D5598
  * region: ov115
- * function: func_021D5598
+ * function: WIFILOGIN_DISP_CreateActors
  * address: 0x021D5598
  * isa: thumb
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0207D63C 0x0207D63C arm
  *   GFL_USE_AddHBlankTask 0x02005624 thumb
- *   func_021D58B4 0x021D58B4 thumb ov115
+ *   WIFILOGIN_DISP_ScanlineEffect 0x021D58B4 thumb ov115
  *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
  */
 #include "../include/Obj00198.h"
@@ -50,10 +50,10 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *GFL_USE_AddHBlankTask(u32,u32,u32);
-extern void func_021D58B4(void *,u8 *);
+extern void WIFILOGIN_DISP_ScanlineEffect(void *,u8 *);
 extern void PMSI_PARAM_MakeSineTable(s16 *,u32,u16,int);
 
-void func_021D5598(u8 *p)
+void WIFILOGIN_DISP_CreateActors(u8 *p)
 {
     enum { Zero=0 } zero;
     u32 res;
@@ -84,7 +84,7 @@ void func_021D5598(u8 *p)
     CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
     func_0207D63C((void *)0x04000050,4,3,6,16);
     func_0207D63C((void *)0x04001050,8,21,6,16);
-    ((struct Obj00198 *)p)->f988 = GFL_USE_AddHBlankTask((u32)func_021D58B4,(u32)p,0);
+    ((struct Obj00198 *)p)->f988 = GFL_USE_AddHBlankTask((u32)WIFILOGIN_DISP_ScanlineEffect,(u32)p,0);
     PMSI_PARAM_MakeSineTable((s16 *)(p+0x9ca),192,1456,6144);
     ((struct Obj00198 *)p)->fB4A = 10;
 }

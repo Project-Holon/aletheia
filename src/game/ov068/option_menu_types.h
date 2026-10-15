@@ -24,7 +24,7 @@ struct TaskList;
 struct Task;
 struct TaskMenu;
 struct TaskMenuRes;
-struct ClUnit;
+struct Unit;
 struct ClRes;
 struct ClActor;
 struct Config;
@@ -188,7 +188,7 @@ typedef struct OptionMenuGfx {
 
 /* Sprite resources and actors. */
 typedef struct OptionMenuSprites {
-    struct ClUnit *unit;            /* 0x00 */
+    struct Unit *unit;              /* 0x00 */
     struct ClRes *plttRes;          /* 0x04 */
     struct ClRes *mainCharRes;      /* 0x08 */
     struct ClRes *mainCellRes;      /* 0x0C */

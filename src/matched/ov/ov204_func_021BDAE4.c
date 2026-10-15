@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BFCD0 0x021BFCD0 thumb ov204
- *   func_021BF5E0 0x021BF5E0 thumb ov204
- *   func_021BF9D0 0x021BF9D0 thumb ov204
+ *   INTRO_PARTICLE_Delete 0x021BFCD0 thumb ov204
+ *   INTRO_MCSS_Delete 0x021BF5E0 thumb ov204
+ *   INTRO_G3D_Delete 0x021BF9D0 thumb ov204
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021BEF74 0x021BEF74 thumb ov204
@@ -22,10 +22,10 @@
  */
 #include "../include/Obj03918.h"
 struct Rec; struct S020315D4;
-extern void func_021BFCD0(char *);
+extern void INTRO_PARTICLE_Delete(char *);
 typedef unsigned char  u8;
-extern void func_021BF5E0(u8 *p);
-extern void func_021BF9D0(char *);
+extern void INTRO_MCSS_Delete(u8 *p);
+extern void INTRO_G3D_Delete(char *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
@@ -39,9 +39,9 @@ extern const char ov067_id[];
 int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
 {
     unsigned short heap;
-    func_021BFCD0(*(char * *)&((struct Obj03918 *)p)->f20);
-    func_021BF5E0((u8 *)(*(char * *)&((struct Obj03918 *)p)->f18));
-    func_021BF9D0(*(char * *)&((struct Obj03918 *)p)->f1C);
+    INTRO_PARTICLE_Delete(*(char * *)&((struct Obj03918 *)p)->f20);
+    INTRO_MCSS_Delete((u8 *)(*(char * *)&((struct Obj03918 *)p)->f18));
+    INTRO_G3D_Delete(*(char * *)&((struct Obj03918 *)p)->f1C);
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj03918 *)p)->f10);
     GF_FONT_Delete(((struct Obj03918 *)p)->fC);
     func_021BEF74((u8 *)(*(char * *)&((struct Obj03918 *)p)->f14));

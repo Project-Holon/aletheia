@@ -39,7 +39,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   sPlistMessageAllocSite     0x021BED28  data  ov091  a1
  *   TIME_ICON_Delete  0x0202F038  thumb
@@ -50,13 +50,13 @@
  *   TCBL_Destroy  0x02031140  arm
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   APP_KEYCURSOR_Animate 0x0202865C thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
@@ -109,7 +109,7 @@ extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const void *s
 extern void BMP_Clear(void *bitmap, u8 value);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern struct KeyCursor *func_02028590(int a, int b, int c, u16 heapId);
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(int a, int b, int c, u16 heapId);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern void TIME_ICON_Delete(u8 *prompt);
 extern void PRINTSYS_PrintStreamDelete(struct TextStream *stream);
@@ -119,13 +119,13 @@ extern int APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
 extern void TCBL_Destroy(struct Tcbl *taskList);
 extern void TCBL_Main(struct Tcbl *taskList);
 extern void APP_KEYCURSOR_Update(struct KeyCursor *keyCursor, struct TextStream *stream, struct BmpWin *win);
-extern s32 func_02028484(u8 *wait, struct TextStream *stream);
+extern s32 PRINTSYS_CTRL_Update(u8 *wait, struct TextStream *stream);
 extern void APP_KEYCURSOR_Animate(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
 extern u8 *TIME_ICON_CreateNode(struct Tcbl *taskList, struct BmpWin *win, u8 c, u8 d, u16 heapId);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int a1, int a2, int a3);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-extern void func_02028470(u8 *wait, u32 v);
+extern void PRINTSYS_CTRL_Init(u8 *wait, u32 v);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct TextStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *text, void *font, s32 a5, struct Tcbl *taskList, u32 a7, u32 heapId, u16 a9, int (*callback)(int));
 extern void GFL_USE_SetBgmPlayerParam(int param);
@@ -179,7 +179,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
     msg->wordSet = 0;
     msg->prompt = 0;
     msg->promptRequested = 0;
-    msg->keyCursor = func_02028590(0xf, 1, 1, work->heapId);
+    msg->keyCursor = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
     msg->printSys = PRINTSYS_QUE_Create(work->heapId);
     return msg;
 }
@@ -208,7 +208,7 @@ void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
     TCBL_Main(msg->taskList);
     if (msg->stream != 0) {
         APP_KEYCURSOR_Update(msg->keyCursor, msg->stream, msg->window);
-        if (func_02028484(msg->streamWait, msg->stream) == 1) {
+        if (PRINTSYS_CTRL_Update(msg->streamWait, msg->stream) == 1) {
             if (msg->waitForKey == 0 || (KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() == 1) {
                 if (msg->waitForKey == 1) GFL_USE_PlaySeDefaultVolume(0x547);
                 PRINTSYS_PrintStreamDelete(msg->stream);
@@ -313,7 +313,7 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
     }
     msg->waitForKey = waitForKey;
     msg->streamText = text;
-    func_02028470(msg->streamWait, 6);
+    PRINTSYS_CTRL_Init(msg->streamWait, 6);
     msg->stream = PRINTSYS_PrintStreamCallBack(msg->window, 0, 0, msg->streamText, work->fontMain, MSG_SPEED_GetWait(), msg->taskList, 0,
                                 work->heapId, 0xf, PLIST_MESSAGE_StreamCallback);
 }

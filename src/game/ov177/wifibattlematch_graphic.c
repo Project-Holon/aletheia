@@ -1,7 +1,7 @@
 /*
  * file:     wifibattlematch_graphic.c
  * unit:     yes
- * function: func_021E5440, func_021E54E0, func_021E5534, func_021E5548, func_021E5554, func_021E5568, func_021E55C8, func_021E5600, func_021E5604, func_021E560C, func_021E564C, func_021E5668, func_021E5670, func_021E5678
+ * function: WIFIBATTLEMATCH_GRAPHIC_Create, WIFIBATTLEMATCH_GRAPHIC_Delete, WIFIBATTLEMATCH_GRAPHIC_Draw, WIFIBATTLEMATCH_GRAPHIC_GetCamera, WIFIBATTLEMATCH_GRAPHIC_VBlank, WIFIBATTLEMATCH_GRAPHIC_InitBg, WIFIBATTLEMATCH_GRAPHIC_DeleteBg, WIFIBATTLEMATCH_GRAPHIC_Noop, WIFIBATTLEMATCH_GRAPHIC_TickDisplay, WIFIBATTLEMATCH_GRAPHIC_InitClact, WIFIBATTLEMATCH_GRAPHIC_DeleteClact, WIFIBATTLEMATCH_GRAPHIC_DrawClact, WIFIBATTLEMATCH_GRAPHIC_VBlankClact, WIFIBATTLEMATCH_GRAPHIC_GetClactBank
  * address:  0x021E5440
  * region:   ov177
  * compiler: dsi/1.1p1
@@ -51,8 +51,6 @@
  *   CLACT_DrawSystem  0x0204A600  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  */
-#include "../../matched/include/Obj24443.h"
-#include "../../matched/include/Obj24444.h"
 #include "wifibattlematch_graphic_shared_types.h"
 
 struct DispVram;
@@ -65,7 +63,19 @@ struct DispConfig;
 
 struct Bank;
 
-typedef struct { unsigned id; unsigned template[8]; unsigned type; unsigned enable; } Entry_021E5568;
+typedef struct { unsigned id; unsigned template[8]; unsigned type; unsigned enable; } WifibattlematchBgEntry;
+
+struct WifibattlematchGraphic {
+    u8 bgData[4];
+    struct Bank *clactUnit;
+    u8 pad8[4];
+    u32 vblankHandle;
+};
+
+/* offset-0 view of the clact slot: the clact helpers receive work + 4 */
+struct WifibattlematchClact {
+    struct Bank *bank;
+};
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -131,33 +141,33 @@ extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
-int *func_021E5440(unsigned swap, u16 heap);
+int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap);
 
-void func_021E54E0(char *p);
+void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p);
 
-void func_021E5534(u8 *p);
+void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p);
 
-int func_021E5548(int *p);
+int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 
-void func_021E5554(int a, int *p);
+void WIFIBATTLEMATCH_GRAPHIC_VBlank(int a, int *p);
 
-void func_021E5568(void *p, unsigned short heap);
+void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap);
 
-void func_021E55C8(void *p);
+void WIFIBATTLEMATCH_GRAPHIC_DeleteBg(void *p);
 
-void func_021E5600(void *p);
+void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p);
 
-void func_021E5604(int *a0);
+void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *a0);
 
-void func_021E560C(int *p, int b, int c);
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c);
 
-void func_021E564C(int *p);
+void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p);
 
-void func_021E5668(void *p);
+void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p);
 
-void func_021E5670(int *a0);
+void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *a0);
 
-int func_021E5678(int *p);
+int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p);
 
 extern const char d_021E8DA0[];
 
@@ -165,11 +175,11 @@ extern const unsigned d_021E8B2C[];
 
 extern const unsigned d_021E8B00[];
 
-extern const Entry_021E5568 d_021E8B5C[];
+extern const WifibattlematchBgEntry d_021E8B5C[];
 
 extern unsigned char d_021E8B10[];
 
-int *func_021E5440(unsigned swap, u16 heap)
+int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
 {
     int *p = func_02030734(heap, 16, 0, d_021E8DA0, 0x1BB);
     MI_CpuFill8(p, 0, 16);
@@ -184,20 +194,20 @@ int *func_021E5440(unsigned swap, u16 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021E5568(p, heap);
-    func_021E560C(p + 1, (int)d_021E8B2C, heap);
-    p[3] = func_020056A0(func_021E5554, p, 0);
+    WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
+    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (int)d_021E8B2C, heap);
+    ((struct WifibattlematchGraphic *)p)->vblankHandle = func_020056A0(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, 0);
     return p;
 }
 
 /*
  * volatile: display registers 04000050/04001050 cleared; DISPCNT 04000000/04001000 read-modify-write at 021E5506-021E5514.
  */
-void func_021E54E0(char *p)
+void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p)
 {
-    func_02030EAC(((struct Obj24443 *)p)->fC);
-    func_021E564C((int *)(p + 4));
-    func_021E55C8(p);
+    func_02030EAC((struct Node *)((struct WifibattlematchGraphic *)p)->vblankHandle);
+    WIFIBATTLEMATCH_GRAPHIC_DeleteClact((int *)(p + 4));
+    WIFIBATTLEMATCH_GRAPHIC_DeleteBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -207,29 +217,29 @@ void func_021E54E0(char *p)
     func_020307B0(p);
 }
 
-void func_021E5534(u8 *p)
+void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p)
 {
-    func_021E5668(p + 4);
-    func_021E5600(p);
+    WIFIBATTLEMATCH_GRAPHIC_DrawClact(p + 4);
+    WIFIBATTLEMATCH_GRAPHIC_Noop(p);
 }
 
 /*
- * Unlabelled ov177 thunk hidden in a word run: tail-calls func_021E5678 with
+ * Unlabelled ov177 thunk hidden in a word run: tail-calls WIFIBATTLEMATCH_GRAPHIC_GetClactBank with
  * its pointer argument advanced by one word.  Matched to supply the `matched`
- * witness for the pending ov176 caller func_0217AF2C.
+ * witness for the pending ov176 caller BATTLE_CHAMPIONSHIP_FLOW_CreateView.
  */
-int func_021E5548(int *p)
+int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p)
 {
-    return func_021E5678(p + 1);
+    return WIFIBATTLEMATCH_GRAPHIC_GetClactBank(p + 1);
 }
 
-void func_021E5554(int a, int *p)
+void WIFIBATTLEMATCH_GRAPHIC_VBlank(int a, int *p)
 {
-    func_021E5604(p);
-    func_021E5670((int *)((char *)p + 4));
+    WIFIBATTLEMATCH_GRAPHIC_TickDisplay(p);
+    WIFIBATTLEMATCH_GRAPHIC_VBlankClact((int *)((char *)p + 4));
 }
 
-void func_021E5568(void *p, unsigned short heap)
+void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap)
 {
     unsigned i;
     MI_CpuFill8(p, 0, 4);
@@ -237,7 +247,7 @@ void func_021E5568(void *p, unsigned short heap)
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021E8B00);
     for (i = 0; i < 8; i++) {
-        const Entry_021E5568 *e = &d_021E8B5C[i];
+        const WifibattlematchBgEntry *e = &d_021E8B5C[i];
         unsigned id = e->id;
         BG_SYS_InitBgLayer((unsigned char)id, (const struct BgTemplate *)(&e->template), (unsigned char)e->type);
         BG_SYS_FreeSlot(id);
@@ -245,7 +255,7 @@ void func_021E5568(void *p, unsigned short heap)
     }
 }
 
-void func_021E55C8(void *p)
+void WIFIBATTLEMATCH_GRAPHIC_DeleteBg(void *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)
@@ -255,11 +265,11 @@ void func_021E55C8(void *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-void func_021E5600(void *p)
+void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p)
 {
 }
 
-void func_021E5604(int *a0)
+void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *a0)
 {
     BG_SYS_Update();
 }
@@ -268,7 +278,7 @@ void func_021E5604(int *a0)
  * Bring up the graphics object: clear four words, submit the table and
  *   latch the 0x80-byte handle.
  */
-void func_021E560C(int *p, int b, int c)
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c)
 {
     MI_CpuFill8((void *)((int)p), 0, 4);
     CLACT_InitSystem((const struct Cfg *)d_021E8B10, b, c);
@@ -278,28 +288,28 @@ void func_021E560C(int *p, int b, int c)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void func_021E564C(int *p)
+void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj24444 *)p)->f0));
+    CLACT_DeleteUnit(((struct WifibattlematchClact *)p)->bank);
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
 
-void func_021E5668(void *p)
+void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p)
 {
     CLACT_DrawSystem();
 }
 
-void func_021E5670(int *a0)
+void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *a0)
 {
     CLACT_VBlankSystem();
 }
 
 /*
  * Unlabelled ov177 leaf: loads the word its argument points at.  Matched as
- * the bottom-up dependency of the ov177 thunk func_021E5548.
+ * the bottom-up dependency of the ov177 thunk WIFIBATTLEMATCH_GRAPHIC_GetCamera.
  */
-int func_021E5678(int *p)
+int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p)
 {
     return *p;
 }

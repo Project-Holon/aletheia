@@ -89,11 +89,11 @@
  *   CLACT_SetActorFlip 0x0204B604 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_020275E8 0x020275E8 thumb
- *   func_020275EC 0x020275EC thumb
- *   func_020275F8 0x020275F8 thumb
- *   func_020275FC 0x020275FC thumb
- *   func_02027600 0x02027600 thumb
+ *   APP_ICON_GetTouchBarFileId 0x020275E8 thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
+ *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
+ *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
+ *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -105,7 +105,7 @@
  *   d_021BC150 0x021BC150 data a1
  *   FX_SinCosTable_ 0x020A1B38 data
  *   func_02061CA4 0x02061CA4 arm
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02045B38 0x02045B38 arm
@@ -487,11 +487,11 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern u32 func_020275E8(void);
-extern u8 func_020275EC(int i);
-extern u32 func_020275F8(u32 a);
-extern u32 func_020275FC(u32 a);
-extern u32 func_02027600(u32 a);
+extern u32 APP_ICON_GetTouchBarFileId(void);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
+extern u32 APP_ICON_GetTypeCellFileId(u32 a);
+extern u32 APP_ICON_GetTypePaletteFileId(u32 a);
+extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -500,7 +500,7 @@ extern void CLACT_AddActorSurfacePos(void *, Pos_021BB534 *, unsigned short);
 extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
 extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern int POKEGRA_OpenHandle(int a0);
 extern void *func_020490F4(u32 id, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -1601,17 +1601,17 @@ void func_021BB304(Ent_021BB304 *p)
         }
     }
     p->fe0 = 0;
-    p->fc8 = (void *)CLACT_RegisterPaletteEx(arc, func_020275E8(), flag, 0x40, 0, 3, p->f0);
-    p->fcc = (void *)CLACT_RegisterCellAnim(arc, func_020275FC(2), func_02027600(2), p->f0);
+    p->fc8 = (void *)CLACT_RegisterPaletteEx(arc, APP_ICON_GetTouchBarFileId(), flag, 0x40, 0, 3, p->f0);
+    p->fcc = (void *)CLACT_RegisterCellAnim(arc, APP_ICON_GetTypePaletteFileId(2), APP_ICON_GetTypeAnimFileId(2), p->f0);
     if (p->f18 == 2 && p->f1c == 0) {
         r.a = 0; r.b = 0; r.c = 0; r.d = 0; r.e = 0;
         p->fe4 = 1;
         p->f170 = 0x11;
         p->f171 = 0x11;
         for (i = 0; i < 0x11; i++) {
-            p->a[i] = (void *)CLACT_RegisterCharacter(arc, func_020275F8(i), 0, flag, p->f0);
+            p->a[i] = (void *)CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(i), 0, flag, p->f0);
             p->b[i] = CLACT_CreateActor(p->f24, (unsigned int)p->a[i], (unsigned int)p->fc8, (unsigned int)p->fcc, &r, sh, p->f0);
-            CLACT_SetActorPaletteOffset(p->b[i], func_020275EC(i), 1);
+            CLACT_SetActorPaletteOffset(p->b[i], APP_ICON_GetTypePaletteOffset(i), 1);
             CLACT_SetActorDrawPriority(p->b[i], 2);
             CLACT_SetActorObjMode(p->b[i], 1);
             CLACT_SetActorDrawEnable(p->b[i], 0);
@@ -1738,13 +1738,13 @@ void func_021BB534(Ent_021B9DE0 *p, unsigned x, unsigned y, int row)
         for (j = 0; j < 2; j++) {
             p->m[row][j] = -1;
             if (sel[j] != 0x11) {
-                p->m[row][j] = (int)CLACT_RegisterCharacter(arc, func_020275F8(sel[j]), 0, ifv, p->f0);
+                p->m[row][j] = (int)CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(sel[j]), 0, ifv, p->f0);
             }
         }
         for (j = 0; j < 2; j++) {
             if (p->m[row][j] != -1) {
                 p->n[row][j] = CLACT_CreateActor(p->f24, p->m[row][j], (unsigned int)p->fc8, (unsigned int)p->fcc, &rr[j], (unsigned short)tern, p->f0);
-                CLACT_SetActorPaletteOffset(p->n[row][j], func_020275EC(sel[j]), 1);
+                CLACT_SetActorPaletteOffset(p->n[row][j], APP_ICON_GetTypePaletteOffset(sel[j]), 1);
                 CLACT_SetActorDrawPriority(p->n[row][j], 2);
                 CLACT_SetActorObjMode(p->n[row][j], 1);
             }
@@ -1805,7 +1805,7 @@ void func_021BB79C(Ent_021BB79C *p, unsigned x, unsigned y, int z, int row)
         p->m[row][j] = -1;
         id = sel[j];
         if (id != 0x11) {
-            p->m[row][j] = (int)CLACT_RegisterCharacter(arc, func_020275F8(id), 0, ifv, p->f0);
+            p->m[row][j] = (int)CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(id), 0, ifv, p->f0);
             ta = d_021BC150[id].b << 7;
             tb = d_021BC150[id].a << 11;
             CLACT_TransferCharacterPart((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
@@ -1816,7 +1816,7 @@ void func_021BB79C(Ent_021BB79C *p, unsigned x, unsigned y, int z, int row)
     for (j = 0; j < 2; j++) {
         if (p->m[row][j] != -1) {
             p->n[row][j] = CLACT_CreateActor(p->f24, (u32)p->m[row][j], (u32)p->fc8, (u32)p->fcc, &rr[j], (unsigned short)tern, p->f0);
-            CLACT_SetActorPaletteOffset(p->n[row][j], func_020275EC(sel[j]), 1);
+            CLACT_SetActorPaletteOffset(p->n[row][j], APP_ICON_GetTypePaletteOffset(sel[j]), 1);
             CLACT_SetActorDrawPriority(p->n[row][j], 2);
             CLACT_SetActorObjMode(p->n[row][j], 1);
         }
@@ -2087,7 +2087,7 @@ void func_021BBE5C(S_021BBE5C *p)
     for (i = 0; i < 7; i++) {
         switch (i) {
         case 3:
-            p->w[i] = func_020490F4(func_020275E4(), p->id);
+            p->w[i] = func_020490F4(APP_ICON_GetArchiveId(), p->id);
             break;
         case 4:
             p->w[i] = (void *)POKEGRA_OpenHandle(p->id);

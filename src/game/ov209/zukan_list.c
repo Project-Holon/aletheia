@@ -50,10 +50,10 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020275E4 0x020275E4 thumb
- *   func_02027628 0x02027628 thumb
- *   func_02027624 0x02027624 thumb
- *   func_0202762C 0x0202762C thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   func_02049740 0x02049740 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02049B40 0x02049B40 arm
@@ -171,10 +171,10 @@
  *   func_0201BC78 0x0201BC78 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   func_0201BCEC 0x0201BCEC thumb
- *   func_02027614 0x02027614 thumb
- *   func_02027618 0x02027618 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -207,7 +207,7 @@
  *   FRAME_LIST_ClampToScrollBar 0x021B8AE4 thumb ov067
  *   FRAME_LIST_CanScrollDown 0x021B93C0 thumb ov067
  *   FRAME_LIST_HideCursor   0x021B941C  thumb
- *   func_021B940C   0x021B940C  thumb ov133
+ *   DUP_FITTING_HandleTouch   0x021B940C  thumb ov133
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   the name); it is a member function of the EXACT game_unit
@@ -412,13 +412,13 @@ extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 
-extern u32 func_02027628(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
 
-extern u32 func_02027624(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
 
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
 
@@ -642,13 +642,13 @@ extern int func_0201BCB4(void);
 
 extern int func_0201BCEC(void);
 
-extern u32 func_02027614(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
-extern u32 func_02027618(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
-extern u32 func_0202761C(u32);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
 
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
 extern void CLACT_ReleaseCharacter(unsigned);
 
@@ -1020,10 +1020,10 @@ void ZUKAN_LIST_LoadBgGraphics(void)
     func_020498F4(arc,69,5,0,0,0,107);
     func_020498F4(arc,63,7,0,0,0,107);
     ARC_TOOL_DeleteHandle(arc);
-    arc=func_020490F4(func_020275E4(),107);
-    func_02049740(arc,func_02027628(),1,0,0,107);
-    func_02049B68(arc,func_02027624(),0,448,32,107);
-    func_020498F4(arc,func_0202762C(),1,0,0,0,107);
+    arc=func_020490F4(APP_ICON_GetArchiveId(),107);
+    func_02049740(arc,APP_ICON_GetStatusFrameFileId(),1,0,0,107);
+    func_02049B68(arc,APP_ICON_GetStatusAnimFileId(),0,448,32,107);
+    func_020498F4(arc,APP_ICON_GetStatusDataFileId(),1,0,0,0,107);
     BG_SYS_FillTileMap(1,0,21,32,3,14);
     func_02041B6C(1);
     ARC_TOOL_DeleteHandle(arc);
@@ -1716,11 +1716,11 @@ void ZUKAN_LIST_LoadActorResources(struct ZukanList *p)
     *animSlot = CLACT_RegisterCellAnim((void *)arcSpecies, cellAnimIndex, func_0201BCEC(), 0x6b);
     ARC_TOOL_DeleteHandle((void *)arcSpecies);
 
-    arcUi = (int)func_020490F4(func_020275E4(), 0x806B);
-    p->charHandles[0x22] = CLACT_RegisterCharacter((void *)arcUi, func_02027618(), 0, 0, 0x6b);
-    p->paletteHandles[4] = CLACT_RegisterPalette((void *)arcUi, func_02027614(), 0, 0xe0, 0x6b);
-    cellAnimIndex = func_0202761C(2);
-    p->cellAnimHandles[4] = CLACT_RegisterCellAnim((void *)arcUi, cellAnimIndex, func_02027620(2), 0x6b);
+    arcUi = (int)func_020490F4(APP_ICON_GetArchiveId(), 0x806B);
+    p->charHandles[0x22] = CLACT_RegisterCharacter((void *)arcUi, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 0x6b);
+    p->paletteHandles[4] = CLACT_RegisterPalette((void *)arcUi, APP_ICON_GetMoveKindPaletteFileId(), 0, 0xe0, 0x6b);
+    cellAnimIndex = APP_ICON_GetStatusCellFileId(2);
+    p->cellAnimHandles[4] = CLACT_RegisterCellAnim((void *)arcUi, cellAnimIndex, APP_ICON_GetStatusPaletteFileId(2), 0x6b);
     ARC_TOOL_DeleteHandle((void *)arcUi);
 }
 
@@ -2022,7 +2022,7 @@ extern u32 KEY_GetTrg(void);
 
 extern void FRAME_LIST_HideCursor(u32);
 
-extern int func_021B940C(u8 *p);
+extern int DUP_FITTING_HandleTouch(u8 *p);
 
 int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
 {
@@ -2077,7 +2077,7 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
                 return -1;
             if (func_020355C4() == 1) {
                 func_020355D8(0);
-                func_021B940C((u8 *)((u32)p->frameList));
+                DUP_FITTING_HandleTouch((u8 *)((u32)p->frameList));
             } else {
                 func_020355D8(0);
             }

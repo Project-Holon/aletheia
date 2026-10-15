@@ -11,18 +11,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200DD10, func_0200DD18
+ * function: GDS_PROFILE_GetSubwaySaveSize, GDS_PROFILE_ClearSubwaySave
  *
  * 24 bytes, 0x0200DD10..0x0200DD28, the size getter and the constructor of
  * the save block this file belongs to: 0xB90 bytes, of which the first four
  * are a packed stamp and the next 250 are a bitmap of 2000 bits.  Neither
  * function carries a label in the generated listing.
  *
- * Near miss, and the reason this unit stops at 0x0200DD28: func_0200DD28,
+ * Near miss, and the reason this unit stops at 0x0200DD28: GDS_PROFILE_SetSubwaySaveBitAndStamp,
  * 104 bytes, which sets one bit of that bitmap and then packs four bytes
  * into the stamp word.  It is
  *
- *     void func_0200DD28(struct BlkB90 *p, u32 a, u32 b,
+ *     void GDS_PROFILE_SetSubwaySaveBitAndStamp(struct BlkB90 *p, u32 a, u32 b,
  *                        const struct Stamp *q)
  *     {
  *         u16 idx;
@@ -66,12 +66,12 @@ struct BlkB90 {
     u8  unkFE[0xA92];
 };
 
-u32 func_0200DD10(void)
+u32 GDS_PROFILE_GetSubwaySaveSize(void)
 {
     return sizeof(struct BlkB90);
 }
 
-void func_0200DD18(struct BlkB90 *p)
+void GDS_PROFILE_ClearSubwaySave(struct BlkB90 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct BlkB90));
 }

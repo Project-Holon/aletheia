@@ -1,5 +1,5 @@
 /*
- * function: func_021D57D0
+ * function: WIFILOGIN_DISP_CreateUnit
  * address: 0x021D57D0
  * packet: pkt_ov115_021D57D0
  * region: ov115
@@ -12,7 +12,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021D5900 0x021D5900 thumb ov115
+ *   WIFILOGIN_DISP_VBlank 0x021D5900 thumb ov115
  *   gClActorInitParam 0x020A1448 data a4
  *   d_021D65E4 0x021D65E4 data a4
  */
@@ -27,5 +27,5 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020056A0(void *,void *,u32);
-extern void func_021D5900(void *,u8 *);
-void func_021D57D0(u8 *p) { CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021D65E4,*(u16 *)(p+12)); *(void **)(p+0x980)=CLACT_CreateUnit(40,0,*(u16 *)(p+12)); *(void **)(p+0x984)=func_020056A0((void *)func_021D5900,p,0); }
+extern void WIFILOGIN_DISP_VBlank(void *,u8 *);
+void WIFILOGIN_DISP_CreateUnit(u8 *p) { CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021D65E4,*(u16 *)(p+12)); *(void **)(p+0x980)=CLACT_CreateUnit(40,0,*(u16 *)(p+12)); *(void **)(p+0x984)=func_020056A0((void *)WIFILOGIN_DISP_VBlank,p,0); }

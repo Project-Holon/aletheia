@@ -12,7 +12,7 @@
  * symbols:
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0202F488  0x0202F488  thumb
+ *   SAVE_EVENT_IsStageDone  0x0202F488  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern int func_0202F488(int a0, int a1);
+extern int SAVE_EVENT_IsStageDone(int a0, int a1);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 int SCRCMD_EVENT_MON_FindEventMonInParty(int a, int b, int e, int d, u16 *out)
@@ -37,7 +37,7 @@ int SCRCMD_EVENT_MON_FindEventMonInParty(int a, int b, int e, int d, u16 *out)
     *out = 0;
     for (i = 0; i < n; i++) {
         obj = POKEPARTY_GetMember((void *)a, i);
-        if (func_0202F488((int)obj, d) == 0) {
+        if (SAVE_EVENT_IsStageDone((int)obj, d) == 0) {
             continue;
         }
         if (b != POKE_TOOL_GetPartyValue(obj, 5, 0)) {

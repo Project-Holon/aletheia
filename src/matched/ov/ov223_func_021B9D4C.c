@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D4C
+ * function: PSEL_UpdateUnitAnime
  * address: 0x021B9D4C
  * packet: pkt_ov223_021B9D4C
  * region: ov223
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
-void func_021B9D4C(char *p)
+void PSEL_UpdateUnitAnime(char *p)
 {
     void *object;
     unsigned count;

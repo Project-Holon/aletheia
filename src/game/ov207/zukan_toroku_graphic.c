@@ -94,10 +94,6 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
-#include "../../matched/include/Obj00162.h"
-#include "../../matched/include/Obj14641.h"
-#include "../../matched/include/Obj14642.h"
-
 struct GfFont;
 struct Obj0203159C;
 struct Node;
@@ -114,11 +110,46 @@ typedef unsigned short u16;
 
 typedef unsigned char u8;
 
-struct Main { u16 heap,pad; void *display,*font; u32 gfx; int enabled,zero; u32 unused[2]; void *mon,*other,*task; int flag,last; };
+/* The zukan-toroku graphic proc work (0x34 bytes). */
+typedef struct ZukanTorokuWork {
+    u16 heapId;         /* 0x00 */
+    u16 pad2;           /* 0x02 */
+    void *display;      /* 0x04, display object */
+    void *font;         /* 0x08, GF font */
+    u32 printQueue;     /* 0x0C, PRINTSYS queue */
+    int state;          /* 0x10, top-level state (0 or 1 from args[0]) */
+    int step;           /* 0x14, substep within the state */
+    int fadeLevel;      /* 0x18 */
+    int counter;        /* 0x1C, 4-step counter for fadeLevel */
+    void *menu;         /* 0x20, menu object */
+    void *nickname;     /* 0x24, nickname entry object */
+    void *task;         /* 0x28, clear-task callback */
+    int bgActive;       /* 0x2C, nonzero while the bg is up */
+    u32 bgHandle;       /* 0x30, packed bg half handle */
+} ZukanTorokuWork;
 
+/* The 16-byte display object made by ZUKAN_TOROKU_GRAPHIC_CreateDisplay. */
+typedef struct ZukanTorokuDisplay {
+    u32 reserved0;          /* 0x00, cleared only */
+    struct Bank *actors;    /* 0x04, CLACT unit; also returned by GetDisplay */
+    u32 reserved8;          /* 0x08, cleared only */
+    void *vblankTask;       /* 0x0C, vblank callback task */
+} ZukanTorokuDisplay;
+
+/* Pooled overlay-id lever (see ZUKAN_TOROKU_GRAPHIC_Exit). */
 typedef enum OverlayId { OVERLAY_ZERO=0 } OverlayId;
 
-struct Entry { unsigned id; char fields[32]; unsigned a,b; };
+/* One bg layer row of d_0220BB18. */
+typedef struct ZukanTorokuBgEntry {
+    unsigned bgId;          /* 0x00 */
+    char bgTemplate[32];    /* 0x04, BgTemplate image */
+    unsigned type;          /* 0x24 */
+    unsigned enable;        /* 0x28 */
+} ZukanTorokuBgEntry;
+
+typedef char ZukanTorokuWork_size_check[(sizeof(ZukanTorokuWork) == 0x34) ? 1 : -1];
+typedef char ZukanTorokuDisplay_size_check[(sizeof(ZukanTorokuDisplay) == 0x10) ? 1 : -1];
+typedef char ZukanTorokuBgEntry_size_check[(sizeof(ZukanTorokuBgEntry) == 44) ? 1 : -1];
 
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
@@ -195,34 +226,32 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args);
-int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,unsigned *p);
-int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,u32 *p);
-void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p);
-void ZUKAN_TOROKU_GRAPHIC_DeleteBg(u32*p);
-void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, char *p);
+int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work);
+int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork *work);
+void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work);
+void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work);
+void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work);
 void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap);
-void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(unsigned *p);
-void ZUKAN_TOROKU_GRAPHIC_Draw(u8*p);
+void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Update(void *a0);
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *a0);
-u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(u8*p);
-void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,u8*p);
-void ZUKAN_TOROKU_GRAPHIC_InitBg(void *p,int heap);
-void ZUKAN_TOROKU_GRAPHIC_ExitBg(void*p);
-void ZUKAN_TOROKU_GRAPHIC_UpdateBg(void*p);
-void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(void*p);
-void ZUKAN_TOROKU_GRAPHIC_InitActors(unsigned char *p, int a, int b);
+u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
+void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b);
 void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Bank**p);
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p);
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p);
 u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);
 extern char overlay67[],overlay206[];
-extern char overlay206[],overlay67[];
 extern char d_0220BC20[];
 extern unsigned d_0220BAE8[];
 extern const unsigned d_0220BABC[];
-extern const struct Entry d_0220BB18[];
-
+extern const ZukanTorokuBgEntry d_0220BB18[];
 
 
 
@@ -230,25 +259,25 @@ extern const struct Entry d_0220BB18[];
 
 int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
 {
-    struct Main *p;
-    int flag;
+    ZukanTorokuWork *work;
+    int mode;
     func_02034AC4((int)overlay67);
     func_02034AC4((int)overlay206);
     GFL_HEAP_CreateChildHeap((u32)((void *)1),0x6a,0x80000);
-    p=PROCSYS_AllocProcWork(owner,0x34,0x6a);
-    MI_CpuFill8(p,0,0x34);
-    p->heap=0x6a;
-    p->display=ZUKAN_TOROKU_GRAPHIC_CreateDisplay(1,p->heap);
-    p->font=GF_FONT_Create(0x17,0,0,0,p->heap);
-    p->gfx=PRINTSYS_QUE_Create((void *)(u32)p->heap);
-    if(args[0]==0) { p->enabled=0; p->zero=0; } else { p->enabled=1; p->zero=0; }
-    flag=0;
-    if(args[0]!=0) flag=1;
-    p->mon=func_021B9DE0(p->heap,(void *)args[1],args[2],1,flag,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(p->display),(u32)p->font,p->gfx,0,0,0);
-    p->other=ZUKAN_NICKNAME_Create(p->heap,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(p->display),(u32)p->font,p->gfx,args[6]);
-    GFL_NET_RestartWithDefaultTimeout(0,p->heap);
-    if(p->enabled==1) ZUKAN_TOROKU_GRAPHIC_CreateBg((u32 *)p);
-    p->task=func_020056A0((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)p,1);
+    work=PROCSYS_AllocProcWork(owner,0x34,0x6a);
+    MI_CpuFill8(work,0,0x34);
+    work->heapId=0x6a;
+    work->display=ZUKAN_TOROKU_GRAPHIC_CreateDisplay(1,work->heapId);
+    work->font=GF_FONT_Create(0x17,0,0,0,work->heapId);
+    work->printQueue=PRINTSYS_QUE_Create((void *)(u32)work->heapId);
+    if(args[0]==0) { work->state=0; work->step=0; } else { work->state=1; work->step=0; }
+    mode=0;
+    if(args[0]!=0) mode=1;
+    work->menu=func_021B9DE0(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,0,0,0);
+    work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,args[6]);
+    GFL_NET_RestartWithDefaultTimeout(0,work->heapId);
+    if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
+    work->task=func_020056A0((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)work,1);
     FADE_Start(3,16,0,2);
     return 1;
 }
@@ -257,20 +286,19 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
 
 
 
-
 /*
  * lever: extern overlay-id addresses preserve the pooled FS_OVERLAY_ID values.
  */
-int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,unsigned *p)
+int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work)
 {
-    func_02030EAC((void *)p[10]);
-    ZUKAN_TOROKU_GRAPHIC_DeleteBg(p);
-    ZUKAN_NICKNAME_Delete((void *)p[9]);
-    func_021BA2CC((void *)p[8]);
-    PRINTSYS_QUE_Clear((void *)p[3]);
-    PRINTSYS_QUE_Delete((void *)p[3]);
-    GF_FONT_Delete((void *)p[2]);
-    ZUKAN_TOROKU_GRAPHIC_DeleteDisplay((void *)p[1]);
+    func_02030EAC((void *)work->task);
+    ZUKAN_TOROKU_GRAPHIC_DeleteBg(work);
+    ZUKAN_NICKNAME_Delete((void *)work->nickname);
+    func_021BA2CC((void *)work->menu);
+    PRINTSYS_QUE_Clear((void *)work->printQueue);
+    PRINTSYS_QUE_Delete((void *)work->printQueue);
+    GF_FONT_Delete((void *)work->font);
+    ZUKAN_TOROKU_GRAPHIC_DeleteDisplay((void *)work->display);
     func_020315D4(a);
     GFL_HEAP_DeleteChecked(106);
     func_02034A5C((OverlayId)overlay206);
@@ -282,76 +310,75 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,unsigned *p)
 
 
 
-
 /*
  * ABI: 02035C60 is void in its matched forwarder, but this caller keeps and tests live r0.
  */
-int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,u32 *p)
+int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork *work)
 {
     int done=0;
     int result,flag,input;
-    func_021BA374((char *)p[8]);
-    result=ZUKAN_NICKNAME_Main((char *)p[9]);
-    switch(p[4]) {
+    func_021BA374((char *)work->menu);
+    result=ZUKAN_NICKNAME_Main((char *)work->nickname);
+    switch(work->state) {
     case 0:
-        switch(p[5]) {
+        switch(work->step) {
         case 0:
-            if(FADE_IsActive()==0) { func_021BA544((char *)p[8]); p[5]=1; }
+            if(FADE_IsActive()==0) { func_021BA544((char *)work->menu); work->step=1; }
             break;
         case 1:
             flag=0;
             input=TOUCHPANEL_GetTrg();
             if(KEY_GetTrg()&3) { func_020355D8(0); flag=1; }
             if(input!=0) { func_020355D8(1); flag=1; }
-            if(flag!=0) { func_021BA514((char *)p[8]); p[5]=2; }
+            if(flag!=0) { func_021BA514((char *)work->menu); work->step=2; }
             break;
         case 2:
-            if(func_021BA524((char *)p[8])!=0 || func_021BA534((char *)p[8])!=0) { p[7]=0; p[6]=16; p[5]=3; }
+            if(func_021BA524((char *)work->menu)!=0 || func_021BA534((char *)work->menu)!=0) { work->counter=0; work->fadeLevel=16; work->step=3; }
             break;
         case 3:
-            p[7]++;
-            if(p[7]==4) { p[7]=0; p[6]--; }
-            func_0207D67C(0x04000050,15,15,p[6],0,p[6]-16);
-            if(p[6]==0) { func_021BA4CC((char *)p[8]); ZUKAN_TOROKU_GRAPHIC_CreateBg(p); p[5]=4; }
+            work->counter++;
+            if(work->counter==4) { work->counter=0; work->fadeLevel--; }
+            func_0207D67C(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
+            if(work->fadeLevel==0) { func_021BA4CC((char *)work->menu); ZUKAN_TOROKU_GRAPHIC_CreateBg(work); work->step=4; }
             break;
         case 4:
-            p[7]++;
-            if(p[7]==4) { p[7]=0; p[6]++; }
-            func_0207D67C(0x04000050,15,15,p[6],0,p[6]-16);
-            if(p[6]==16) p[5]=5;
+            work->counter++;
+            if(work->counter==4) { work->counter=0; work->fadeLevel++; }
+            func_0207D67C(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
+            if(work->fadeLevel==16) work->step=5;
             break;
         case 5:
-            if(func_021BA534((char *)p[8])!=0) { p[4]=1; p[5]=1; }
+            if(func_021BA534((char *)work->menu)!=0) { work->state=1; work->step=1; }
             break;
         }
         break;
     case 1:
-        switch(p[5]) {
+        switch(work->step) {
         case 0:
-            if(FADE_IsActive()==0) { func_021BA51C((char *)p[8]); p[5]=1; }
+            if(FADE_IsActive()==0) { func_021BA51C((char *)work->menu); work->step=1; }
             break;
         case 1:
-            ZUKAN_NICKNAME_SetupScreen((char *)p[9]); p[5]=2;
+            ZUKAN_NICKNAME_SetupScreen((char *)work->nickname); work->step=2;
             break;
         case 2:
-            if(result==1) { FADE_Start(3,0,16,2); p[5]=3; }
+            if(result==1) { FADE_Start(3,0,16,2); work->step=3; }
             break;
         case 3:
             if(FADE_IsActive()==0) {
-                switch(ZUKAN_NICKNAME_GetResult((char *)p[9])) {
+                switch(ZUKAN_NICKNAME_GetResult((char *)work->nickname)) {
                 case 0: args[7]=0; break;
                 case 1: args[7]=1; break;
                 }
-                p[5]=4; done=1;
+                work->step=4; done=1;
             }
             break;
         }
         break;
     }
-    PRINTSYS_QUE_Main((struct PrintSys *)p[3]);
-    ZUKAN_TOROKU_GRAPHIC_Draw((void *)p[1]);
-    ZUKAN_TOROKU_GRAPHIC_Update((void *)p[1]);
-    ZUKAN_TOROKU_GRAPHIC_UpdateSub((void *)p[1]);
+    PRINTSYS_QUE_Main((struct PrintSys *)work->printQueue);
+    ZUKAN_TOROKU_GRAPHIC_Draw((void *)work->display);
+    ZUKAN_TOROKU_GRAPHIC_Update((void *)work->display);
+    ZUKAN_TOROKU_GRAPHIC_UpdateSub((void *)work->display);
     return done;
 }
 
@@ -359,18 +386,17 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,u32 *p)
 
 
 
-
-void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p)
+void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
 {
     void *r;
-    p[11]=1;
+    work->bgActive=1;
     BG_SYS_ClearSlot(3);
     BG_SYS_SetVisibleLayer(1,3);
     BG_SYS_SetVisibleLayer(3,0);
-    r=func_020490F4(159,((struct Obj00162 *)p)->f0);
-    func_02049B68(r,7,0,0,32,((struct Obj00162 *)p)->f0);
-    p[12]=func_02049740(r,17,1,2048,0,((struct Obj00162 *)p)->f0);
-    func_020498F4(r,(int)39,(int)1,(u16)p[12],(int)1536,(int)0,(unsigned)(((struct Obj00162 *)p)->f0));
+    r=func_020490F4(159,work->heapId);
+    func_02049B68(r,7,0,0,32,work->heapId);
+    work->bgHandle=func_02049740(r,17,1,2048,0,work->heapId);
+    func_020498F4(r,(int)39,(int)1,(u16)work->bgHandle,(int)1536,(int)0,(unsigned)work->heapId);
     ARC_TOOL_DeleteHandle(r);
     func_020409B4(1);
 }
@@ -379,25 +405,23 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p)
 
 
 
-
-void ZUKAN_TOROKU_GRAPHIC_DeleteBg(u32*p){u32 v,hi;v=p[12];hi=v>>16;BG_SYS_DeleteHalf(1,(u16)v,(u16)hi);}
-
+void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work){u32 v,hi;v=work->bgHandle;hi=v>>16;BG_SYS_DeleteHalf(1,(u16)v,(u16)hi);}
 
 
 
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, char *p)
+
+void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work)
 {
-    if (((struct Obj14641 *)p)->f2C != 0)
+    if (work->bgActive != 0)
     {
         func_02040588(0, 0);
         func_02040588(2, 0);
-        ((struct Obj14641 *)p)->f2C = 0;
+        work->bgActive = 0;
     }
 }
-
 
 
 
@@ -408,8 +432,8 @@ void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, char *p)
  */
 void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
 {
-    unsigned *p=func_02030734(heap,16,0,d_0220BC20,455);
-    MI_CpuFill8(p,0,16);
+    ZukanTorokuDisplay *display=func_02030734(heap,16,0,d_0220BC20,455);
+    MI_CpuFill8(display,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
@@ -421,12 +445,11 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    ZUKAN_TOROKU_GRAPHIC_InitBg(p,heap);
-    ZUKAN_TOROKU_GRAPHIC_InitActors((unsigned char *)(p+1),(int)d_0220BAE8,heap);
-    p[3]=(unsigned)func_020056A0((u32)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (u32)p, 0);
-    return p;
+    ZUKAN_TOROKU_GRAPHIC_InitBg(display,heap);
+    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Bank **)&display->actors,(int)d_0220BAE8,heap);
+    display->vblankTask=(void *)func_020056A0((u32)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (u32)display, 0);
+    return display;
 }
-
 
 
 
@@ -435,27 +458,25 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
 /*
  * volatile: hardware accesses at 0x0220B3D6-0x0220B3EC.
  */
-void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(unsigned *p)
+void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display)
 {
-    func_02030EAC((void *)p[3]);
-    ZUKAN_TOROKU_GRAPHIC_DeleteActors((struct Bank **)(p+1));
-    ZUKAN_TOROKU_GRAPHIC_ExitBg(p);
+    func_02030EAC((void *)display->vblankTask);
+    ZUKAN_TOROKU_GRAPHIC_DeleteActors(&display->actors);
+    ZUKAN_TOROKU_GRAPHIC_ExitBg(display);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    MI_CpuFill8(p,0,16);
-    func_020307B0(p);
+    MI_CpuFill8(display,0,16);
+    func_020307B0(display);
 }
 
 
 
 
 
-
-void ZUKAN_TOROKU_GRAPHIC_Draw(u8*p){ZUKAN_TOROKU_GRAPHIC_DrawActors(p+4);ZUKAN_TOROKU_GRAPHIC_UpdateBg(p);}
-
+void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display){ZUKAN_TOROKU_GRAPHIC_DrawActors(&display->actors);ZUKAN_TOROKU_GRAPHIC_UpdateBg(display);}
 
 
 
@@ -466,56 +487,54 @@ void ZUKAN_TOROKU_GRAPHIC_Update(void *a0){}
 
 
 
-
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *a0){}
 
 
 
 
-
-u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(u8*p){return ZUKAN_TOROKU_GRAPHIC_GetWord((u32*)(p+4));}
-
+u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display){return ZUKAN_TOROKU_GRAPHIC_GetWord((u32*)&display->actors);}
 
 
-void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,u8*p){ZUKAN_TOROKU_GRAPHIC_ResetDisplay(p);ZUKAN_TOROKU_GRAPHIC_VBlankActors(p+4);}
+
+void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display){ZUKAN_TOROKU_GRAPHIC_ResetDisplay(display);ZUKAN_TOROKU_GRAPHIC_VBlankActors(&display->actors);}
 
 
-void ZUKAN_TOROKU_GRAPHIC_InitBg(void *p,int heap)
+void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap)
 {
     unsigned i;
-    MI_CpuFill8(p,0,4);
+    MI_CpuFill8(display,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_0220BABC);
     for(i=0;i<4;i++) {
-        const struct Entry *e=&d_0220BB18[i];
-        unsigned id=e->id;
-        BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
+        const ZukanTorokuBgEntry *e=&d_0220BB18[i];
+        unsigned id=e->bgId;
+        BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->bgTemplate,(u8)e->type);
         BG_SYS_FreeSlot(id);
-        func_02040588(id,e->b);
+        func_02040588(id,e->enable);
     }
 }
 
 
-void ZUKAN_TOROKU_GRAPHIC_ExitBg(void*p){u32 i;for(i=0;i<4;i++)func_020403F4((u8)d_0220BB18[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display){u32 i;for(i=0;i<4;i++)func_020403F4((u8)d_0220BB18[i].bgId);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(display,0,4);}
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_UpdateBg(void*p){}
+void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display){}
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(void*p){BG_SYS_Update();}
+void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display){BG_SYS_Update();}
 
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_InitActors(unsigned char *p, int a, int b)
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b)
 {
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(actors, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x0220BACC, a, b);
-    ((struct Obj14642 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14642 *)p)->f0);
+    *actors = CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer(*actors);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

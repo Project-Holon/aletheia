@@ -1,5 +1,5 @@
 /*
- * function: func_021BB854
+ * function: MANUAL_CATEGORY_CreateDetailList
  * address: 0x021BB854
  * packet: pkt_ov225_021BB854
  * region: ov225
@@ -23,8 +23,8 @@
  *   func_021B9C98 0x021B9C98 thumb ov225
  *   func_021B9BC8 0x021B9BC8 thumb ov225
  *   func_021BA65C 0x021BA65C thumb ov225
- *   func_021BBA70 0x021BBA70 thumb ov225
- *   d_021BC05C 0x021BC05C data a1
+ *   MANUAL_CATEGORY_DetailTaskNoop 0x021BBA70 thumb ov225
+ *   gManualCategoryDetailAllocFile 0x021BC05C data a1
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,20 +40,20 @@ extern u16 func_021B9BE0(char *, int);
 extern int func_021B9C98(void *, int, int);
 extern u16 func_021B9BC8(char *, int);
 extern void *func_021BA65C(char *owner, struct Data *data);
-extern void func_021BBA70(void);
-extern const char d_021BC05C[];
+extern void MANUAL_CATEGORY_DetailTaskNoop(void);
+extern const char gManualCategoryDetailAllocFile[];
 typedef struct Owner { u32 f0; u16 f4; u16 f6; u16 f8; } Owner;
 typedef struct Data { void *f0; u16 f4; char pad6[0x26]; char *f2C; } Data;
 typedef struct Q { Owner *f0; Data *f4; u32 f8; u16 fC; char padE[2]; char *f10; u16 f14; u16 f16; char pad18[4]; char *f1C; void *f20; } Q;
 typedef enum { FLAG_FALSE, FLAG_TRUE } Flag;
-Q *func_021BB854(Owner *p, Data *data)
+Q *MANUAL_CATEGORY_CreateDetailList(Owner *p, Data *data)
 {
     Q *q;
     u32 t, t0;
     int g;
     u16 ca, cb;
     int ra, rb;
-    q = func_02030734(data->f4, 0x24, 1, d_021BC05C, 0x61);
+    q = func_02030734(data->f4, 0x24, 1, gManualCategoryDetailAllocFile, 0x61);
     q->f0 = p;
     *(u32 *)((char *)p + 0xC) = 0;
     *(u16 *)((char *)q->f0 + 0x10) = 0;
@@ -64,7 +64,7 @@ Q *func_021BB854(Owner *p, Data *data)
         g = q->f0->f4;
         ca = func_021B9C34(q->f4->f2C, g);
         q->fC = 0;
-        q->f10 = func_02030734(q->f4->f4, ca * 8, 1, d_021BC05C, 0x79);
+        q->f10 = func_02030734(q->f4->f4, ca * 8, 1, gManualCategoryDetailAllocFile, 0x79);
         {
             u16 i;
         for (i = 0; i < ca; i++) {
@@ -88,7 +88,7 @@ Q *func_021BB854(Owner *p, Data *data)
         q->f8 = 1;
         cb = func_021B9C20(q->f4->f2C);
         q->fC = 0;
-        q->f10 = func_02030734(q->f4->f4, cb * 8, 1, d_021BC05C, 0xB2);
+        q->f10 = func_02030734(q->f4->f4, cb * 8, 1, gManualCategoryDetailAllocFile, 0xB2);
         {
             u16 i;
         for (i = 0; i < cb; i++) {
@@ -113,6 +113,6 @@ Q *func_021BB854(Owner *p, Data *data)
         q->f16 = *(u16 *)((char *)q->f0 + 8);
     }
     q->f1C = func_021BA65C((char *)q + 8, (struct Data *)data);
-    q->f20 = func_020056A0((unsigned)func_021BBA70, (unsigned)q, 1);
+    q->f20 = func_020056A0((unsigned)MANUAL_CATEGORY_DetailTaskNoop, (unsigned)q, 1);
     return q;
 }

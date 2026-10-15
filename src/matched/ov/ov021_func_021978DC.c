@@ -32,7 +32,7 @@
  *   sIrcBattleMenuFileName     0x021DDBC4  data   ov021  a4
  *   func_02030734  0x02030734  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   IRCBATTLEMENU_LoadActorResources  0x02196FFC  thumb  ov021
@@ -83,7 +83,7 @@ extern void IRCBATTLEMENU_LoadMenuGraphics(u8 *);
 extern u8 sIrcBattleMenuFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_02028590(u32, u32, u32, u32);
+extern u32 APP_KEYCURSOR_CreateDefault(u32, u32, u32, u32);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void IRCBATTLEMENU_LoadActorResources(u8 *);
@@ -123,7 +123,7 @@ int IRCBATTLEMENU_Init(struct Obj0203159C *a, u32 b, u32 c)
     ((struct Obj00150 *)w)->f2EC = (unsigned int)func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x829);
     ((struct Obj00150 *)w)->f2F0 = (unsigned int)func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x82A);
     ((struct Obj00150 *)w)->f2B8 = (u32)TCBL_Create(((struct Obj00150 *)w)->f10, ((struct Obj00150 *)w)->f10, 2, 0);
-    ((struct Obj00150 *)w)->f2A8 = func_02028590(0xf, 0, 1, ((struct Obj00150 *)w)->f10);
+    ((struct Obj00150 *)w)->f2A8 = APP_KEYCURSOR_CreateDefault(0xf, 0, 1, ((struct Obj00150 *)w)->f10);
     ((struct Obj00150 *)w)->f2BC = PRINTSYS_QUE_Create((void *)(((struct Obj00150 *)w)->f10));
     ((struct Obj00150 *)w)->f2DC = (u32)APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct Obj00150 *)w)->f2C, ((struct Obj00150 *)w)->f2BC, ((struct Obj00150 *)w)->f10);
     IRCBATTLEMENU_LoadActorResources(w);

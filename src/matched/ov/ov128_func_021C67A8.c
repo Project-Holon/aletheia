@@ -1,5 +1,5 @@
 /*
- * function: func_021C67A8
+ * function: Wf2dmapFriend_InitActors
  * address: 0x021C67A8
  * packet: pkt_ov128_021C67A8
  * region: ov128
@@ -17,12 +17,12 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
- *   func_02027618 0x02027618 thumb
- *   func_02027614 0x02027614 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   gClActorInitParam 0x020A1448 data a4
  *   d_021CA5CC 0x021CA5CC data a4
@@ -46,14 +46,14 @@ extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u32);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u32);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void *func_020490F4(u32,u32);
-extern u32 func_02027618(void);
-extern u32 func_02027614(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C67A8(char *p,int heap)
+void Wf2dmapFriend_InitActors(char *p,int heap)
 {
     Config config=gClActorInitParam;
     void *bank,*archive;
@@ -71,11 +71,11 @@ void func_021C67A8(char *p,int heap)
     ((struct Obj01936 *)p)->f144=CLACT_RegisterCharacter(((struct Obj01936 *)p)->f8,4,0,0,heap);
     ((struct Obj01936 *)p)->f14C=CLACT_RegisterPalette(((struct Obj01936 *)p)->f8,1,0,0,heap);
     ((struct Obj01936 *)p)->f154=CLACT_RegisterCellAnim(((struct Obj01936 *)p)->f8,15,16,heap);
-    archive=func_020490F4(func_020275E4(),heap);
-    ((struct Obj01936 *)p)->f148=CLACT_RegisterCharacter(archive,func_02027618(),0,0,heap);
-    ((struct Obj01936 *)p)->f150=CLACT_RegisterPalette(archive,func_02027614(),0,96,heap);
-    first=func_0202761C(2);
-    second=func_02027620(2);
+    archive=func_020490F4(APP_ICON_GetArchiveId(),heap);
+    ((struct Obj01936 *)p)->f148=CLACT_RegisterCharacter(archive,APP_ICON_GetMoveKindAnimFileId(),0,0,heap);
+    ((struct Obj01936 *)p)->f150=CLACT_RegisterPalette(archive,APP_ICON_GetMoveKindPaletteFileId(),0,96,heap);
+    first=APP_ICON_GetStatusCellFileId(2);
+    second=APP_ICON_GetStatusPaletteFileId(2);
     ((struct Obj01936 *)p)->f158=CLACT_RegisterCellAnim(archive,first,second,heap);
     ARC_TOOL_DeleteHandle(archive);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6DD8
+ * function: Wf2dmapFriend_SetActorDrawEnable
  * address: 0x021C6DD8
  * packet: pkt_ov128_021C6DD8
  * region: ov128
@@ -17,4 +17,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021C6DD8(u8 *p,u32 a) {int i; for(i=0;i<2;i++) CLACT_SetActorDrawEnable(*(void **)((u32)p+i*4+0x15c),a);}
+void Wf2dmapFriend_SetActorDrawEnable(u8 *p,u32 a) {int i; for(i=0;i<2;i++) CLACT_SetActorDrawEnable(*(void **)((u32)p+i*4+0x15c),a);}

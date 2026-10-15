@@ -104,48 +104,16 @@
  *   BG_SYS_GetBuf  0x0204162C  arm  arm9
  */
 #include "box2_types.h"
-#include "../../matched/include/Obj24023.h"
-#include "../../matched/include/Obj24024.h"
-#include "../../matched/include/Obj18524.h"
-#include "../../matched/include/Obj24025.h"
-#include "../../matched/include/Obj24026.h"
-#include "../../matched/include/Obj09226.h"
-#include "../../matched/include/Obj01419.h"
-#include "../../matched/include/Obj18525.h"
-#include "../../matched/include/Obj14282.h"
-#include "../../matched/include/Obj24027.h"
-#include "../../matched/include/Obj24028.h"
-#include "../../matched/include/Obj24029.h"
-#include "../../matched/include/Obj24030.h"
-#include "../../matched/include/Obj24031.h"
-#include "../../matched/include/Obj24032.h"
-#include "../../matched/include/Obj24033.h"
-#include "../../matched/include/Obj24034.h"
-#include "../../matched/include/Obj24035.h"
-#include "../../matched/include/Obj18526.h"
-#include "../../matched/include/Obj18527.h"
-#include "../../matched/include/Obj18528.h"
-#include "../../matched/include/Obj24038.h"
-#include "../../matched/include/Obj24039.h"
-#include "../../matched/include/Obj24040.h"
-#include "../../matched/include/Obj18531.h"
-#include "../../matched/include/Obj18532.h"
-#include "../../matched/include/Obj07241.h"
-#include "../../matched/include/Obj12189.h"
-#include "../../matched/include/Obj24042.h"
-#include "../../matched/include/Obj24043.h"
-#include "../../matched/include/Obj24044.h"
-#include "../../matched/include/Obj24045.h"
 
 struct WinMgr;
 struct Grid;
-struct Obj02025774;
+struct BmpOam;
 struct Personal;
 struct Sav;
 struct Sub020079BCEntry;
 struct Bmp;
 struct Sys;
-struct Obj020437AC;
+struct Bmp;
 struct Struct_02025D1C;
 struct Struct_02025CD0;
 struct Sound;
@@ -187,7 +155,7 @@ extern void BOX2_SEQ_SetActorDrawEnable(BoxWork *, int, int);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BOX2_SEQ_AddActorSurfacePos(BoxWork *p, int i, int a, int b, unsigned short c);
 extern void BOX2_SEQ_GetActorSurfacePos(BoxWork *, int, short *, short *, unsigned short);
-extern void BMP_OAM_GetPos(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
+extern void BMP_OAM_GetPos(struct BmpOam *p, s16 *out_x, s16 *out_y);
 extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 extern unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
 extern void BOX2_SEQ_DrawMonName(char **, unsigned, int);
@@ -213,7 +181,7 @@ extern void *BMP_OAM_CreateSys(u32,void *);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_Delete(struct Grid *g);
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 extern void BMP_OAM_DeleteSys(void *p);
 extern int BMP_OAM_GetEnabled(const int *p);
 extern u8 func_020355C4(void);
@@ -556,7 +524,7 @@ void BOX2_UI_DrawSlot(BoxTask *p, int i)
 {
     void *t;
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
-    MI_CpuCopy8(((struct Obj24024 *)t)->f14, p->work->charPool[i], 0x400);
+    MI_CpuCopy8(((BoxArcRes *)(t))->data, p->work->charPool[i], 0x400);
     func_020307B0((void *)q);
     BOX2_UI_ReplaceColorIndex((int)p, (unsigned char *)(p->work->charPool[i]), BOX2_MAIN_GetBoxFormId((BoxTask *)p, i), 8, 0x400);
     BOX2_UI_LoadMonIcon((int **)p, i, (unsigned char *)(p->work->charPool[i]));
@@ -906,9 +874,9 @@ void BOX2_UI_DeleteBmpOam(char *p)
     unsigned i;
     for (i = 0; i < 9; i++) {
         BMP_OAM_Delete((struct Grid *)(*(int *)(p + i * 8 + 4)));
-        BMP_Delete((struct Obj020437AC *)(*(int *)(p + i * 8 + 8)));
+        BMP_Delete((struct Bmp *)(*(int *)(p + i * 8 + 8)));
     }
-    BMP_OAM_DeleteSys((void *)(((struct Obj18525 *)p)->f0));
+    BMP_OAM_DeleteSys((void *)(((BoxOamSys *)(p))->sys));
 }
 
 
@@ -963,7 +931,7 @@ void BOX2_UI_ShiftSlotOams(BoxWork *p, int d)
     short y;
     for (i = 7; i <= 8; i++) {
         BoxObjSlot *e = (BoxObjSlot *)((char *)p + i * 8 + 4);
-        BMP_OAM_GetPos((struct Obj02025774 *)e->obj, &x, &y);
+        BMP_OAM_GetPos((struct BmpOam *)e->obj, &x, &y);
         BMP_OAM_SetPos(e->obj, x + d, y);
         if (x + d == -0x94 || x + d == 0xDC)
             BOX2_UI_SetSlotOamEnabled((BoxWork *)p, i, 0);
@@ -979,7 +947,7 @@ void BOX2_UI_CreateCursor(char **p)
     int f;
     int i;
     f = func_020355C4() == 1 ? 0 : 1;
-    switch (((struct Obj24027 *)(p[0]))->f24) {
+    switch (((BoxParam *)p[0])->mode) {
     case 0: i = 0; break;
     case 1: i = 2; break;
     case 2: i = 3; break;
@@ -988,11 +956,11 @@ void BOX2_UI_CreateCursor(char **p)
     case 5: i = 15; break;
     }
     BOX2_UI_DeleteSound((int *)p);
-    ((struct Obj24028 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
-    CURSOR_MOVE_EnableInput(((struct Obj24029 *)(p[11]))->f70);
+    ((BoxWork *)p[11])->sound = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
+    CURSOR_MOVE_EnableInput(((BoxWork *)p[11])->sound);
     BOX2_UI_UpdateCursor((char *)p, ((int *)p)[9]);
     BOX2_SEQ_SetCursorDraw(p, f);
-    ((struct Obj24030 *)(p[11]))->fA168 = ((int *)p)[9];
+    ((BoxWork *)p[11])->heldSlot = ((int *)p)[9];
 }
 
 
@@ -1002,13 +970,13 @@ void BOX2_UI_CreateCursor(char **p)
 
 void BOX2_UI_MoveCursor(char **p, int idx, int v)
 {
-    int r = CURSOR_MOVE_GetState(((struct Obj24031 *)(p[11]))->f70);
+    int r = CURSOR_MOVE_GetState(((BoxWork *)p[11])->sound);
     BOX2_UI_DeleteSound((int *)p);
-    ((struct Obj24032 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
-    CURSOR_MOVE_EnableInput(((struct Obj24033 *)(p[11]))->f70);
+    ((BoxWork *)p[11])->sound = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
+    CURSOR_MOVE_EnableInput(((BoxWork *)p[11])->sound);
     BOX2_UI_UpdateCursor((char *)p, v);
     BOX2_SEQ_SetCursorDraw(p, r);
-    ((struct Obj24034 *)(p[11]))->fA168 = v;
+    ((BoxWork *)p[11])->heldSlot = v;
 }
 
 
@@ -1037,7 +1005,7 @@ void BOX2_UI_DeleteSound(int *p)
 
 void BOX2_UI_SetCursorPos(char **p, unsigned idx)
 {
-    unsigned char *c = CURSOR_MOVE_GetEntry(((struct Obj24035 *)(p[11]))->f70, idx);
+    unsigned char *c = CURSOR_MOVE_GetEntry(((BoxWork *)p[11])->sound, idx);
     BOX2_SEQ_AddActorSurfacePos(((BoxTask *)p)->work, 4, c[0], c[1], 0);
 }
 

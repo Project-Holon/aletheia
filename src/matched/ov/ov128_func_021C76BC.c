@@ -1,5 +1,5 @@
 /*
- * function: func_021C76BC
+ * function: Wf2dmapFriend_HasEntry
  * address: 0x021C76BC
  * packet: pkt_ov128_021C76BC
  * region: ov128
@@ -21,4 +21,4 @@ struct BigObj;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
-int func_021C76BC(int *p,u8 *q) {int i;void *v;if(*p==1) {v=(void *)GAME_DATA_GetWifiList(((struct Obj23079 *)q)->f4);for(i=0;i<32;i++) {if(func_02009A1C(v,i)==0) return 1;}}else return 1;return 0;}
+int Wf2dmapFriend_HasEntry(int *p,u8 *q) {int i;void *v;if(*p==1) {v=(void *)GAME_DATA_GetWifiList(((struct Obj23079 *)q)->f4);for(i=0;i<32;i++) {if(func_02009A1C(v,i)==0) return 1;}}else return 1;return 0;}

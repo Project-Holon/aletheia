@@ -1,5 +1,5 @@
 /*
- * function: func_02028528
+ * function: PRINTSYS_CTRL_IsInputCont
  * address:  0x02028528
  * packet:   pkt_02028484
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 
-u32 func_02028528(u32 a)
+u32 PRINTSYS_CTRL_IsInputCont(u32 a)
 {
     u32 r = 0;
 

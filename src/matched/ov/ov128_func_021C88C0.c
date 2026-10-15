@@ -1,5 +1,5 @@
 /*
- * function: func_021C88C0
+ * function: Wf2dmapFriend_DrawEntryBg
  * address: 0x021C88C0
  * packet: pkt_ov128_021C88C0
  * region: ov128
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02041B6C(u32 bit);
-void func_021C88C0(s16 *p, void *unused, u8 *q)
+void Wf2dmapFriend_DrawEntryBg(s16 *p, void *unused, u8 *q)
 {
     int y = p[1];
     int x;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB954
+ * function: PSEL_GRAPHIC_UpdateFadeNop
  * address:  0x021BB954
  * packet:   pkt_ov223_021BB954
  * region:   ov223
@@ -9,21 +9,21 @@
  * isa:      thumb
  * status:   EXACT
  *
- * This address is also matched as func_021BB954 in ov021; the ov223 copy is a
+ * This address is also matched as PSEL_GRAPHIC_UpdateFadeNop in ov021; the ov223 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
- *   func_021BB62C  0x021BB62C  thumb  ov223
- *   func_021BB840  0x021BB840  thumb  ov223
+ *   PSEL_GRAPHIC_NopFade  0x021BB62C  thumb  ov223
+ *   PSEL_GRAPHIC_NopBlend  0x021BB840  thumb  ov223
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BB62C(void *);
-extern void func_021BB840(void *);
+extern void PSEL_GRAPHIC_NopFade(void *);
+extern void PSEL_GRAPHIC_NopBlend(void *);
 
-void func_021BB954(char *p)
+void PSEL_GRAPHIC_UpdateFadeNop(char *p)
 {
-    func_021BB62C(p);
-    func_021BB840(p);
+    PSEL_GRAPHIC_NopFade(p);
+    PSEL_GRAPHIC_NopBlend(p);
 }

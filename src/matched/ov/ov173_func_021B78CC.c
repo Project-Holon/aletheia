@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
- *   func_020275EC 0x020275EC thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 typedef unsigned char u8;
@@ -19,6 +19,6 @@ typedef unsigned int u32;
 struct Obj;
 /* The original forwards the full entry r1 without halfword truncation. */
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
-extern u8 func_020275EC(int i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern void CLACT_SetActorPaletteOffset(struct Obj *,u32,u32);
-void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),APP_ICON_GetTypePaletteOffset((u8)n),1);}

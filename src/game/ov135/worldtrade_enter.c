@@ -63,8 +63,8 @@
  *   ov115_id 0x00000073 data
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   tbl_021D654C 0x021D654C data ov115 a4
- *   func_021D5B5C 0x021D5B5C thumb ov115
- *   func_021D5C70 0x021D5C70 thumb ov115
+ *   WIFILOGIN_MSG_DrawWindow 0x021D5B5C thumb ov115
+ *   WIFILOGIN_MSG_IsPrintDone 0x021D5C70 thumb ov115
  *   func_021C8658 0x021C8658 arm ov114
  *   DWC_ShutdownFriendsMatch 0x0216AD50 arm ov009
  *   DWC_CleanupInet 0x0205CC20 arm
@@ -185,9 +185,9 @@ extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 
 extern void func_021C8658();
 
-extern void func_021D5B5C(char *p, struct MsgBank *a, int b);
+extern void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b);
 
-extern int func_021D5C70(u8 *p);
+extern int WIFILOGIN_MSG_IsPrintDone(u8 *p);
 
 extern void DWC_ShutdownFriendsMatch(void);
 
@@ -771,7 +771,7 @@ int WORLDTRADE_ENTER_ShowErrorMessage(Work *p, void *dialog)
     case -15: text = 161; break;
     default: text = 159; break;
     }
-    func_021D5B5C(dialog, p->bank, text);
+    WIFILOGIN_MSG_DrawWindow(dialog, p->bank, text);
     p->fF88 = 0;
     return 1;
 }
@@ -783,7 +783,7 @@ int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
         (p->fF88)++;
         break;
     case 1:
-        if (func_021D5C70(dialog)) (p->fF88)++;
+        if (WIFILOGIN_MSG_IsPrintDone(dialog)) (p->fF88)++;
         break;
     case 2:
         (p->fF88)++;

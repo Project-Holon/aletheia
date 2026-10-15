@@ -12,7 +12,7 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0200DABC 0x0200DABC thumb
+ *   GDS_PROFILE_GetScoreRecTotal 0x0200DABC thumb
  *   BEACON_GetPoints 0x0200C274 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -42,7 +42,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u16 func_0200DABC(struct Blk1AC *p);
+extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
 extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -63,7 +63,7 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(char *w)
     if (((struct Obj00037 *)w)->f163 == 1) {
         t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x16);
         t6 = (u32)STRBUF_Create(10, ((struct Obj00037 *)w)->f4);
-        WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200DABC((struct Blk1AC *)(((struct Obj00037 *)w)->f18)), 4, 1, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(((struct Obj00037 *)w)->f18)), 4, 1, 1);
     } else {
         t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x15);
         t6 = (u32)STRBUF_Create(10, ((struct Obj00037 *)w)->f4);

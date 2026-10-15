@@ -21,7 +21,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021E5868 0x021E5868 thumb ov177
- *   func_021E54E0 0x021E54E0 thumb ov177
+ *   WIFIBATTLEMATCH_GRAPHIC_Delete 0x021E54E0 thumb ov177
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -47,7 +47,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021E5868(int);
-extern void func_021E54E0(char *p);
+extern void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
@@ -68,7 +68,7 @@ int WIFIBATTLEMATCH_NET_TaskDestroy(int sys,int unused,int unused2,int *p)
     PRINTSYS_QUE_Delete((struct PrintSys *)p[3]);
     GF_FONT_Delete((void *)p[2]);
     func_021E5868(p[1]);
-    func_021E54E0((char *)p[0]);
+    WIFIBATTLEMATCH_GRAPHIC_Delete((char *)p[0]);
     func_020315D4((struct S020315D4 *)sys);
     GFL_HEAP_DeleteChecked(0x57);
     func_02034A5C((int)ov114_id);

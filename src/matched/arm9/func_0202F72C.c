@@ -1,5 +1,5 @@
 /*
- * function: func_0202F72C
+ * function: EVENT_ID_Check
  * address:  0x0202F72C
  * packet:   pkt_0202F72C
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 extern u32 FILE_UTIL_Check12E4(u16 v);
 
-u32 func_0202F72C(void *a, u16 b, u16 c)
+u32 EVENT_ID_Check(void *a, u16 b, u16 c)
 {
     return FILE_UTIL_Check12E4(b);
 }

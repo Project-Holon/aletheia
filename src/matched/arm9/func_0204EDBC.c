@@ -1,5 +1,5 @@
 /*
- * function: BILLBOARD_SetField25
+ * function: BILLBOARD_SetQuadShape
  * address:  0x0204EDBC
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -24,7 +24,7 @@
 
 typedef unsigned char u8;
 
-void BILLBOARD_SetField25(u8 *dst, u8 val)
+void BILLBOARD_SetQuadShape(u8 *dst, u8 val)
 {
     ((struct Obj16118 *)dst)->f25 = val;
 }

@@ -27,7 +27,7 @@
  *   FLDMMDL_SetParam  0x0216D620  thumb  ov010
  *   FLDMMDL_SetEventId  0x0216D5B4  thumb  ov010
  *   func_020307B0  0x020307B0  arm
- *   func_0200DB80  0x0200DB80  thumb
+ *   GDS_PROFILE_GetScoreRecCountCDec  0x0200DB80  thumb
  *   d_021DADD0     0x021DADD0  data  a2
  *   d_021DAD48     0x021DAD48  data  a2
  *   d_021DAD5C     0x021DAD5C  data  a2
@@ -82,7 +82,7 @@ extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u3
 extern int FLDMMDL_SetParam(int a0, int a1, int a2);
 extern void FLDMMDL_SetEventId(void *h, u16 v);
 extern u32 func_020307B0(void *p);
-extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
+extern u16 GDS_PROFILE_GetScoreRecCountCDec(struct Blk1AC *p, u32 i);
 
 extern const Pt d_021DADD0[];
 extern const u16 d_021DAD48[];
@@ -135,7 +135,7 @@ void BSUBWAY_SCR_CreateMarkerObjects(u8 *p, void *a1, void *a2, void *a3)
         return;
     }
     ent = d_021DAEBC;
-    cnt = func_0200DB80(((struct Obj12974 *)p)->f74, kind);
+    cnt = GDS_PROFILE_GetScoreRecCountCDec(((struct Obj12974 *)p)->f74, kind);
     switch (kind) {
     case 0:
     case 1:

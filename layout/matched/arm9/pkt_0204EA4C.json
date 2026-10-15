@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DOUBLE3DDISP_SetField08",
+   "name": "DOUBLE3DDISP_SetDrawDone",
    "address": "0x0204EA4C",
    "kind": "game",
    "region": "arm9",

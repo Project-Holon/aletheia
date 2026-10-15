@@ -1,5 +1,5 @@
 /*
- * function: func_021BF9D0
+ * function: INTRO_G3D_Delete
  * address: 0x021BF9D0
  * packet: pkt_ov204_021BF9D0
  * region: ov204
@@ -19,4 +19,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ctx; struct Rec; extern void G3D_CAMERA_Delete(void *); extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32); extern void G3D_UTIL_Delete(struct Rec *); extern void func_020307B0(void *);
-void func_021BF9D0(char *p) { u16 id; G3D_CAMERA_Delete(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }
+void INTRO_G3D_Delete(char *p) { u16 id; G3D_CAMERA_Delete(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }

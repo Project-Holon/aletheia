@@ -1,5 +1,5 @@
 /*
- * function: func_021C7F14
+ * function: Wf2dmapFriend_ItemKeyInput
  * address: 0x021C7F14
  * packet: pkt_ov128_021C7F14
  * region: ov128
@@ -13,7 +13,7 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021C7E78 0x021C7E78 thumb ov128
+ *   Wf2dmapFriend_ItemSelect 0x021C7E78 thumb ov128
  *   WF2DMAP_TOUCH_SetItemHighlight 0x021CA2C4 thumb ov128
  */
 #include "../include/Obj03810.h"
@@ -25,9 +25,9 @@ extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int func_021C7E78(s16 *,u8 *,void *,int);
+extern int Wf2dmapFriend_ItemSelect(s16 *,u8 *,void *,int);
 extern void WF2DMAP_TOUCH_SetItemHighlight(u8 *,int,int);
-int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
+int Wf2dmapFriend_ItemKeyInput(s16 *p, u8 *a, u8 *ctx)
 {
     u16 old;
     int moved;
@@ -36,12 +36,12 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
     if(KEY_GetTrg() & 2) {
         func_020355D8(0);
         ((struct Obj03810 *)a)->f0=0;
-        return func_021C7E78(p,a,ctx,0);
+        return Wf2dmapFriend_ItemSelect(p,a,ctx,0);
     }
     if(KEY_GetTrg() & 1024) {
         func_020355D8(0);
         ((struct Obj03810 *)a)->f0=0;
-        return func_021C7E78(p,a,ctx,6);
+        return Wf2dmapFriend_ItemSelect(p,a,ctx,6);
     }
     if(((struct Obj03810 *)a)->f0==1) {
         if(KEY_GetTrg() & 0xcf3) {
@@ -52,7 +52,7 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
         }
         return 0;
     }
-    if(KEY_GetTrg() & 1) return func_021C7E78(p,a,ctx,5);
+    if(KEY_GetTrg() & 1) return Wf2dmapFriend_ItemSelect(p,a,ctx,5);
     old=p[2];
     moved=0;
     page=0;
@@ -94,12 +94,12 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
         if(dir) {
             p[1]=p[0];
             p[0]=(p[0]+1)%4;
-            return func_021C7E78(p,a,ctx,2);
+            return Wf2dmapFriend_ItemSelect(p,a,ctx,2);
         } else {
             p[1]=p[0];
             --p[0];
             if(p[0]<0) p[0]+=4;
-            return func_021C7E78(p,a,ctx,1);
+            return Wf2dmapFriend_ItemSelect(p,a,ctx,1);
         }
     }
     if(moved==1) {

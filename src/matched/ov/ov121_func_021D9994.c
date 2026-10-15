@@ -1,5 +1,5 @@
 /*
- * function: func_021D9994
+ * function: MYSTERY_GRAPHIC_FinishScene
  * address:  0x021D9994
  * packet:   pkt_021D9994
  * region:   ov121
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-void func_021D9994(void **p)
+void MYSTERY_GRAPHIC_FinishScene(void **p)
 {
     if (p[1])
         G3D_SYSTEM_DrawEnd();

@@ -1,5 +1,5 @@
 /*
- * function: func_021E560C
+ * function: WIFIBATTLEMATCH_GRAPHIC_InitClact
  * address:  0x021E560C
  * packet:   pkt_021E560C
  * region:   ov177
@@ -36,7 +36,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021E560C(int *p, int b, int c)
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c)
 {
     MI_CpuFill8((int)p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)d_021E8B10, b, c);

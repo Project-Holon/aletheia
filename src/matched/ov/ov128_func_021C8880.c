@@ -1,5 +1,5 @@
 /*
- * function: func_021C8880
+ * function: Wf2dmapFriend_HideEntryActor
  * address: 0x021C8880
  * packet: pkt_ov128_021C8880
  * region: ov128
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
-void func_021C8880(u8 *p) {*(volatile u32 *)0x04000000 &= ~0xe000u;CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0,0);CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0,0);}
+void Wf2dmapFriend_HideEntryActor(u8 *p) {*(volatile u32 *)0x04000000 &= ~0xe000u;CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0,0);CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0,0);}

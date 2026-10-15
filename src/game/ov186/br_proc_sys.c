@@ -69,7 +69,7 @@
  *   MISC_SAVEDATA_GetStatsBase2   0x0200EA04  thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
- *   func_0200D6EC 0x0200D6EC thumb
+ *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   MUSICAL_SAVE_GetFromSave 0x0200A5F8 thumb
@@ -357,7 +357,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 
-extern u32 func_0200D6EC(struct RecGet *p);
+extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 
 extern u32 MUSICAL_SAVE_IsShowActive(struct Bits *p);
 
@@ -885,7 +885,7 @@ void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
                 if(i==0) GDS_PROFILE_Init(profile,sys);
                 *(int *)((u32)p+(u32)i*4)=1;
                 *(void **)((u32)p+(u32)i*4+0x10)=GDS_PROFILE_CreateNameStr(profile,0x59);
-                *(u32 *)((u32)p+(u32)i*4+0x20)=func_0200D6EC(profile);
+                *(u32 *)((u32)p+(u32)i*4+0x20)=GDS_PROFILE_GetEggFlag(profile);
                 *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }

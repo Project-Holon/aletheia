@@ -87,33 +87,7 @@
  *   G3D_SYSTEM_LoopObjectAnimeFrame    0x02047910  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame    0x020478B8  arm
  */
-#include "../../matched/include/Obj00317.h"
-#include "../../matched/include/Obj04636.h"
-#include "../../matched/include/Obj01083.h"
-#include "../../matched/include/Obj06708.h"
-#include "../../matched/include/Obj25756.h"
-#include "../../matched/include/Obj25757.h"
-#include "../../matched/include/Obj25758.h"
-#include "../../matched/include/Obj14710.h"
-#include "../../matched/include/Obj25759.h"
-#include "../../matched/include/Obj25760.h"
-#include "../../matched/include/Obj02262.h"
-#include "../../matched/include/Obj10941.h"
-#include "../../matched/include/Obj25761.h"
-#include "../../matched/include/Obj06707.h"
-#include "../../matched/include/Obj14711.h"
-#include "../../matched/include/Obj05551.h"
-#include "../../matched/include/Obj14712.h"
-#include "../../matched/include/Obj25762.h"
-#include "../../matched/include/Obj14713.h"
-#include "../../matched/include/Obj03373.h"
-#include "../../matched/include/Obj02263.h"
-#include "../../matched/include/Obj25763.h"
-#include "../../matched/include/Obj14714.h"
-#include "../../matched/include/Obj06709.h"
 #include "egg_demo_graphic_shared_types.h"
-
-#define W(o) (*(u32 *)(p+(o)))
 
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
 
@@ -141,7 +115,7 @@ struct AnmCtl;
 
 struct Ctx;
 
-typedef struct { int tag,x,y,z,sx,sy,sz,matrix[9],tail; } Record;
+typedef struct { unsigned short tag; unsigned short pad2; int x,y,z,sx,sy,sz,matrix[9],tail; } Record;
 
 typedef signed int     s32;
 
@@ -150,6 +124,54 @@ typedef struct {int x,y,z;} Vec_021F63CC;
 typedef struct {u32 species;float x,y;} Entry;
 
 typedef struct { int x,y,z; } Vec_021F6D7C;
+
+/* The egg demo view work, 96 bytes, allocated by EGG_DEMO_VIEW_Create. */
+struct EggDemoView {
+    unsigned short heapId;       /* 0x00 */
+    unsigned char pad2[2];       /* 0x02 */
+    void *mon;                   /* 0x04 hatched mon */
+    unsigned short species;      /* 0x08 */
+    unsigned char padA[2];       /* 0x0A */
+    int animState;               /* 0x0C process step */
+    int startFlag;               /* 0x10 set by SetActive */
+    int visible;                 /* 0x14 shown on screen */
+    unsigned int frameCounter;   /* 0x18 */
+    int soundPlaying;            /* 0x1C */
+    int soundSlot;               /* 0x20 */
+    int soundDelay;              /* 0x24 */
+    int soundStep;               /* 0x28 */
+    void *vblankTask;            /* 0x2C */
+    void *mcss;                  /* 0x30 MCSS handle */
+    void *pokeMcss;              /* 0x34 poke MCSS handle */
+    int animStopFlag;            /* 0x38 */
+    unsigned int alphaActive;    /* 0x3C */
+    unsigned char alphaTarget;   /* 0x40 */
+    unsigned char pad41[3];      /* 0x41 */
+    void *particles;             /* 0x44 */
+    void *util;                  /* 0x48 G3D util */
+    unsigned short unitId;       /* 0x4C */
+    unsigned short animIndex;    /* 0x4E */
+    unsigned short recordCount;  /* 0x50 */
+    unsigned char pad52[2];      /* 0x52 */
+    Record *records;             /* 0x54 */
+    int animFrame;               /* 0x58 */
+    int modelAnimState;          /* 0x5C */
+};
+
+/* The particle system work, 0x481C bytes, allocated by EGG_DEMO_VIEW_CreateParticles. */
+struct EggDemoParticles {
+    unsigned short frame;        /* 0x00 */
+    unsigned short index;        /* 0x02 */
+    unsigned short count;        /* 0x04 */
+    unsigned char pad6[2];       /* 0x06 */
+    const void *table;           /* 0x08 */
+    unsigned char padC[0x4800];  /* 0x0C particle storage */
+    void *system;                /* 0x480C */
+    unsigned char resourceType;  /* 0x4810 */
+    unsigned char pad4811[3];    /* 0x4811 */
+    int active;                  /* 0x4814 */
+    int life;                    /* 0x4818 */
+};
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 
@@ -284,73 +306,73 @@ extern int G3D_SYSTEM_IncObjectAnimeFrame(void *p, int a, int b);
 
 Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count);
 
-void EGG_DEMO_VIEW_FreeRecords(void *p);
+void EGG_DEMO_VIEW_FreeRecords(void *work);
 
 char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon);
 
-void EGG_DEMO_VIEW_Delete(char *p);
+void EGG_DEMO_VIEW_Delete(char *work);
 
-void EGG_DEMO_VIEW_Update(char *p);
+void EGG_DEMO_VIEW_Update(char *work);
 
-void EGG_DEMO_VIEW_Draw(char *p);
+void EGG_DEMO_VIEW_Draw(char *work);
 
-void EGG_DEMO_VIEW_SetActive(char *p);
+void EGG_DEMO_VIEW_SetActive(char *work);
 
-int EGG_DEMO_VIEW_GetActive(char *p);
+int EGG_DEMO_VIEW_GetActive(char *work);
 
-void EGG_DEMO_VIEW_SetSpecies(char *p,int a);
+void EGG_DEMO_VIEW_SetSpecies(char *work,int species);
 
-int EGG_DEMO_VIEW_IsFadeDone(char *p);
+int EGG_DEMO_VIEW_IsFadeDone(char *work);
 
-void EGG_DEMO_VIEW_ResetAnimState(char *p);
+void EGG_DEMO_VIEW_ResetAnimState(char *work);
 
-int EGG_DEMO_VIEW_IsFinished(char *p);
+int EGG_DEMO_VIEW_IsFinished(char *work);
 
 void EGG_DEMO_VIEW_Noop(void);
 
-void EGG_DEMO_VIEW_InitMcss(char *p);
+void EGG_DEMO_VIEW_InitMcss(char *work);
 
-void EGG_DEMO_VIEW_DeleteMcss(char *p);
+void EGG_DEMO_VIEW_DeleteMcss(char *work);
 
-void EGG_DEMO_VIEW_AddPokeMcss(char *p);
+void EGG_DEMO_VIEW_AddPokeMcss(char *work);
 
-void EGG_DEMO_VIEW_DeletePokeMcss(char *p);
+void EGG_DEMO_VIEW_DeletePokeMcss(char *work);
 
-void EGG_DEMO_VIEW_HidePokeMcss(char *p);
+void EGG_DEMO_VIEW_HidePokeMcss(char *work);
 
-void EGG_DEMO_VIEW_PlayAnim(char *p,unsigned flag,int enable);
+void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable);
 
-int EGG_DEMO_VIEW_OnAnimStop(char *a);
+int EGG_DEMO_VIEW_OnAnimStop(char *work);
 
-void EGG_DEMO_VIEW_UpdateAlpha(char *p);
+void EGG_DEMO_VIEW_UpdateAlpha(char *work);
 
-void EGG_DEMO_VIEW_StartFadeOut(char *p);
+void EGG_DEMO_VIEW_StartFadeOut(char *work);
 
-int EGG_DEMO_VIEW_IsFadeOutDone(char *p);
+int EGG_DEMO_VIEW_IsFadeOutDone(char *work);
 
-void EGG_DEMO_VIEW_StartFadeIn(char *p);
+void EGG_DEMO_VIEW_StartFadeIn(char *work);
 
 char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *table);
 
-void EGG_DEMO_VIEW_DeleteParticles(char *a);
+void EGG_DEMO_VIEW_DeleteParticles(char *work);
 
-void EGG_DEMO_VIEW_UpdateParticles(char *p);
+void EGG_DEMO_VIEW_UpdateParticles(char *work);
 
-void EGG_DEMO_VIEW_MainParticles(char *p);
+void EGG_DEMO_VIEW_MainParticles(char *work);
 
-void EGG_DEMO_VIEW_StartParticles(char *p);
+void EGG_DEMO_VIEW_StartParticles(char *work);
 
-void EGG_DEMO_VIEW_InitModel(char *p);
+void EGG_DEMO_VIEW_InitModel(char *work);
 
-void EGG_DEMO_VIEW_DeleteModel(char *p);
+void EGG_DEMO_VIEW_DeleteModel(char *work);
 
-void EGG_DEMO_VIEW_DrawModels(char *p);
+void EGG_DEMO_VIEW_DrawModels(char *work);
 
-void EGG_DEMO_VIEW_AddModel(char *p);
+void EGG_DEMO_VIEW_AddModel(char *work);
 
-void EGG_DEMO_VIEW_RemoveModel(char *p);
+void EGG_DEMO_VIEW_RemoveModel(char *work);
 
-void EGG_DEMO_VIEW_UpdateModel(char *p);
+void EGG_DEMO_VIEW_UpdateModel(char *work);
 
 extern const char d_021F73F4[];
 
@@ -366,155 +388,155 @@ extern const struct Setup d_021F7330;
 
 Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
 {
-    Record *p;
+    Record *records;
     u16 i;
-    p=func_02030734(heap,68*count,1,d_021F73F4,283);
+    records=func_02030734(heap,68*count,1,d_021F73F4,283);
     for(i=0;i<count;i++) {
-        p[i].x=0;p[i].y=0;p[i].z=0;
-        p[i].sx=4096;p[i].sy=4096;p[i].sz=4096;
-        MTX_Identity33_(p[i].matrix);
+        records[i].x=0;records[i].y=0;records[i].z=0;
+        records[i].sx=4096;records[i].sy=4096;records[i].sz=4096;
+        MTX_Identity33_(records[i].matrix);
     }
-    return p;
+    return records;
 }
 
-void EGG_DEMO_VIEW_FreeRecords(void *p){func_020307B0(p);}
+void EGG_DEMO_VIEW_FreeRecords(void *work){func_020307B0(work);}
 
 /*
  * evidence: sole callback 021F6AB4 resolved after owned leaf shard verification.
  */
 char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
 {
-    char *p;
-    p=func_02030734(heap,96,1,d_021F73F4,433);
-    ((struct Obj00317 *)p)->f0=heap;
-    ((struct Obj00317 *)p)->f4=mon;
-    ((struct Obj00317 *)p)->f8=func_02017E1C(mon,5,0);
-    ((struct Obj00317 *)p)->fC=0;
-    ((struct Obj00317 *)p)->f10=0;
-    ((struct Obj00317 *)p)->f14=0;
-    ((struct Obj00317 *)p)->f18=0;
-    ((struct Obj00317 *)p)->f1C=0;
-    ((struct Obj00317 *)p)->f24=0;
-    ((struct Obj00317 *)p)->f28=0;
-    ((struct Obj00317 *)p)->f2C=func_020056A0((void ( *)(int,char *))EGG_DEMO_VIEW_Noop, (char *)p, 1);
-    EGG_DEMO_VIEW_InitMcss(p);
-    EGG_DEMO_VIEW_AddPokeMcss(p);
-    if(((struct Obj00317 *)p)->f8==490)
-        ((struct Obj00317 *)p)->f44=EGG_DEMO_VIEW_CreateParticles(((struct Obj00317 *)p)->f0,5,d_021F7340);
+    char *work;
+    work=func_02030734(heap,96,1,d_021F73F4,433);
+    ((struct EggDemoView *)work)->heapId=heap;
+    ((struct EggDemoView *)work)->mon=mon;
+    ((struct EggDemoView *)work)->species=func_02017E1C(mon,5,0);
+    ((struct EggDemoView *)work)->animState=0;
+    ((struct EggDemoView *)work)->startFlag=0;
+    ((struct EggDemoView *)work)->visible=0;
+    ((struct EggDemoView *)work)->frameCounter=0;
+    ((struct EggDemoView *)work)->soundPlaying=0;
+    ((struct EggDemoView *)work)->soundDelay=0;
+    ((struct EggDemoView *)work)->soundStep=0;
+    ((struct EggDemoView *)work)->vblankTask=func_020056A0((void ( *)(int,char *))EGG_DEMO_VIEW_Noop, (char *)work, 1);
+    EGG_DEMO_VIEW_InitMcss(work);
+    EGG_DEMO_VIEW_AddPokeMcss(work);
+    if(((struct EggDemoView *)work)->species==490)
+        ((struct EggDemoView *)work)->particles=EGG_DEMO_VIEW_CreateParticles(((struct EggDemoView *)work)->heapId,5,d_021F7340);
     else
-        ((struct Obj00317 *)p)->f44=EGG_DEMO_VIEW_CreateParticles(((struct Obj00317 *)p)->f0,3,d_021F7314);
-    EGG_DEMO_VIEW_InitModel(p);
-    EGG_DEMO_VIEW_AddModel(p);
-    return p;
+        ((struct EggDemoView *)work)->particles=EGG_DEMO_VIEW_CreateParticles(((struct EggDemoView *)work)->heapId,3,d_021F7314);
+    EGG_DEMO_VIEW_InitModel(work);
+    EGG_DEMO_VIEW_AddModel(work);
+    return work;
 }
 
 /*
  * trailing: zero halfword at 021F67DE is alignment padding.
  */
-void EGG_DEMO_VIEW_Delete(char *p){EGG_DEMO_VIEW_RemoveModel(p);EGG_DEMO_VIEW_DeleteModel(p);EGG_DEMO_VIEW_DeleteParticles(*(char * *)&((struct Obj04636 *)p)->f44);EGG_DEMO_VIEW_DeletePokeMcss(p);EGG_DEMO_VIEW_DeleteMcss(p);TCB_DeleteTask(*(struct Node * *)&((struct Obj04636 *)p)->f2C);func_020307B0(p);}
+void EGG_DEMO_VIEW_Delete(char *work){EGG_DEMO_VIEW_RemoveModel(work);EGG_DEMO_VIEW_DeleteModel(work);EGG_DEMO_VIEW_DeleteParticles(*(char * *)&((struct EggDemoView *)work)->particles);EGG_DEMO_VIEW_DeletePokeMcss(work);EGG_DEMO_VIEW_DeleteMcss(work);TCB_DeleteTask(*(struct Node * *)&((struct EggDemoView *)work)->vblankTask);func_020307B0(work);}
 
-void EGG_DEMO_VIEW_Update(char *p)
+void EGG_DEMO_VIEW_Update(char *work)
 {
     u32 limit,a,b;
-    switch(W(12)) {
+    switch(((struct EggDemoView *)work)->animState) {
     case 0:
-        if(W(16)) {
-            W(12)=1;W(24)=0;
-            EGG_DEMO_VIEW_PlayAnim(p,1,1);
-            EGG_DEMO_VIEW_StartParticles(*(char * *)&((struct Obj01083 *)p)->f44);
+        if(((struct EggDemoView *)work)->startFlag) {
+            ((struct EggDemoView *)work)->animState=1;((struct EggDemoView *)work)->frameCounter=0;
+            EGG_DEMO_VIEW_PlayAnim(work,1,1);
+            EGG_DEMO_VIEW_StartParticles(*(char * *)&((struct EggDemoView *)work)->particles);
         }
         break;
     case 1:
-        if(((struct Obj01083 *)p)->f8==490)limit=300;else limit=380;
-        W(24)++;
-        if(((struct Obj01083 *)p)->f8==490) {
-            switch(W(40)) {
-            case 0: if(W(24)==10){GFL_USE_PlaySeDefaultVolume(1955);W(40)=1;}break;
-            case 1: if(!GFL_USE_IsAnySeBusy()){GFL_USE_PlaySeDefaultVolume(1960);W(40)=2;}break;
-            case 2: if(!GFL_USE_IsAnySeBusy())W(40)=3;break;
+        if(((struct EggDemoView *)work)->species==490)limit=300;else limit=380;
+        ((struct EggDemoView *)work)->frameCounter++;
+        if(((struct EggDemoView *)work)->species==490) {
+            switch(((struct EggDemoView *)work)->soundStep) {
+            case 0: if(((struct EggDemoView *)work)->frameCounter==10){GFL_USE_PlaySeDefaultVolume(1955);((struct EggDemoView *)work)->soundStep=1;}break;
+            case 1: if(!GFL_USE_IsAnySeBusy()){GFL_USE_PlaySeDefaultVolume(1960);((struct EggDemoView *)work)->soundStep=2;}break;
+            case 2: if(!GFL_USE_IsAnySeBusy())((struct EggDemoView *)work)->soundStep=3;break;
             case 3:break;
             }
         }else{
-            if(W(24)==20)GFL_USE_PlaySeDefaultVolume(1954);
-            else if(W(24)==109)GFL_USE_PlaySeDefaultVolume(1954);
-            else if(W(24)==218)GFL_USE_PlaySeDefaultVolume(1488);
-            if(W(24)==10)GFL_USE_PlaySeDefaultVolume(1968);
-            else if(W(24)==15)GFL_USE_PlaySeDefaultVolume(1968);
-            else if(W(24)==85)GFL_USE_PlaySeDefaultVolume(1968);
-            else if(W(24)==90)GFL_USE_PlaySeDefaultVolume(1968);
-            if(W(28)&&!GFL_USE_IsSeSlotBusy(W(32))) {
-                W(28)=0;
-                if(W(24)>=150&&W(24)<309)W(36)=20;
-                else if(W(24)>309)W(36)=0;
+            if(((struct EggDemoView *)work)->frameCounter==20)GFL_USE_PlaySeDefaultVolume(1954);
+            else if(((struct EggDemoView *)work)->frameCounter==109)GFL_USE_PlaySeDefaultVolume(1954);
+            else if(((struct EggDemoView *)work)->frameCounter==218)GFL_USE_PlaySeDefaultVolume(1488);
+            if(((struct EggDemoView *)work)->frameCounter==10)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(((struct EggDemoView *)work)->frameCounter==15)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(((struct EggDemoView *)work)->frameCounter==85)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(((struct EggDemoView *)work)->frameCounter==90)GFL_USE_PlaySeDefaultVolume(1968);
+            if(((struct EggDemoView *)work)->soundPlaying&&!GFL_USE_IsSeSlotBusy(((struct EggDemoView *)work)->soundSlot)) {
+                ((struct EggDemoView *)work)->soundPlaying=0;
+                if(((struct EggDemoView *)work)->frameCounter>=150&&((struct EggDemoView *)work)->frameCounter<309)((struct EggDemoView *)work)->soundDelay=20;
+                else if(((struct EggDemoView *)work)->frameCounter>309)((struct EggDemoView *)work)->soundDelay=0;
             }
-            if(W(24)>=150&&W(24)<limit) {
-                if(!W(28)) {
-                    if(!W(36)) {
-                        W(32)=GFL_USE_GetSeSlot(1967);
-                        GFL_USE_PlaySeInSlot((void *)1967,W(32));
-                        W(28)=1;
-                    }else W(36)--;
+            if(((struct EggDemoView *)work)->frameCounter>=150&&((struct EggDemoView *)work)->frameCounter<limit) {
+                if(!((struct EggDemoView *)work)->soundPlaying) {
+                    if(!((struct EggDemoView *)work)->soundDelay) {
+                        ((struct EggDemoView *)work)->soundSlot=GFL_USE_GetSeSlot(1967);
+                        GFL_USE_PlaySeInSlot((void *)1967,((struct EggDemoView *)work)->soundSlot);
+                        ((struct EggDemoView *)work)->soundPlaying=1;
+                    }else ((struct EggDemoView *)work)->soundDelay--;
                 }
-            }else if(W(24)==limit&&W(28)&&GFL_USE_IsSeSlotBusy(W(32))) {
-                GFL_USE_StopSeSlot(W(32));W(28)=0;
+            }else if(((struct EggDemoView *)work)->frameCounter==limit&&((struct EggDemoView *)work)->soundPlaying&&GFL_USE_IsSeSlotBusy(((struct EggDemoView *)work)->soundSlot)) {
+                GFL_USE_StopSeSlot(((struct EggDemoView *)work)->soundSlot);((struct EggDemoView *)work)->soundPlaying=0;
             }
         }
-        if(W(24)==limit) {
-            EGG_DEMO_VIEW_StartFadeOut(p);EGG_DEMO_VIEW_StartModelAnim(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
+        if(((struct EggDemoView *)work)->frameCounter==limit) {
+            EGG_DEMO_VIEW_StartFadeOut(work);EGG_DEMO_VIEW_StartModelAnim(work);GFL_USE_PlaySeDefaultVolume(1935);((struct EggDemoView *)work)->animState=2;
         }
         break;
-    case 2:if(EGG_DEMO_VIEW_IsFadeOutDone(p))W(12)=3;break;
-    case 3:if(EGG_DEMO_VIEW_IsModelAnimDone(p)){EGG_DEMO_VIEW_HidePokeMcss(p);W(20)=1;W(12)=4;}break;
-    case 4:W(20)=0;break;
+    case 2:if(EGG_DEMO_VIEW_IsFadeOutDone(work))((struct EggDemoView *)work)->animState=3;break;
+    case 3:if(EGG_DEMO_VIEW_IsModelAnimDone(work)){EGG_DEMO_VIEW_HidePokeMcss(work);((struct EggDemoView *)work)->visible=1;((struct EggDemoView *)work)->animState=4;}break;
+    case 4:((struct EggDemoView *)work)->visible=0;break;
     case 6:
-        if(++W(24)>=120){EGG_DEMO_VIEW_StartFadeIn(p);EGG_DEMO_VIEW_EndModelAnim(p);W(12)=7;W(24)=0;}
+        if(++((struct EggDemoView *)work)->frameCounter>=120){EGG_DEMO_VIEW_StartFadeIn(work);EGG_DEMO_VIEW_EndModelAnim(work);((struct EggDemoView *)work)->animState=7;((struct EggDemoView *)work)->frameCounter=0;}
         break;
     case 7:
-        if(++W(24)>=65) {
-            W(12)=8;
-            a=func_02017E1C(((struct Obj01083 *)p)->f4,5,0);
-            b=func_02017E1C(((struct Obj01083 *)p)->f4,111,0);
+        if(++((struct EggDemoView *)work)->frameCounter>=65) {
+            ((struct EggDemoView *)work)->animState=8;
+            a=func_02017E1C(((struct EggDemoView *)work)->mon,5,0);
+            b=func_02017E1C(((struct EggDemoView *)work)->mon,111,0);
             PM_VOICE_Play(a,b,64,0,0,0,0,0);
         }
         break;
-    case 8:if(!PM_VOICE_IsAnyActive())W(12)=9;break;
+    case 8:if(!PM_VOICE_IsAnyActive())((struct EggDemoView *)work)->animState=9;break;
     case 9:break;
     }
-    EGG_DEMO_VIEW_UpdateAlpha(p);
-    MCSS_Main(*(char * *)&((struct Obj01083 *)p)->f30);
-    EGG_DEMO_VIEW_UpdateParticles(*(char * *)&((struct Obj01083 *)p)->f44);
-    EGG_DEMO_VIEW_UpdateModel(p);
+    EGG_DEMO_VIEW_UpdateAlpha(work);
+    MCSS_Main(*(char * *)&((struct EggDemoView *)work)->mcss);
+    EGG_DEMO_VIEW_UpdateParticles(*(char * *)&((struct EggDemoView *)work)->particles);
+    EGG_DEMO_VIEW_UpdateModel(work);
 }
 
-void EGG_DEMO_VIEW_Draw(char *p){MCSS_Draw(*(struct McssSys * *)&((struct Obj06708 *)p)->f30);EGG_DEMO_VIEW_DrawModels(p);EGG_DEMO_VIEW_MainParticles(*(char * *)&((struct Obj06708 *)p)->f44);}
+void EGG_DEMO_VIEW_Draw(char *work){MCSS_Draw(*(struct McssSys * *)&((struct EggDemoView *)work)->mcss);EGG_DEMO_VIEW_DrawModels(work);EGG_DEMO_VIEW_MainParticles(*(char * *)&((struct EggDemoView *)work)->particles);}
 
 /*
  * leaf: two unlabelled leaves blocking concrete MATCH900 ov215021F5884.
  * extent: setter, two alignment bytes, four-byte getter; twelve bytes total.
  */
-void EGG_DEMO_VIEW_SetActive(char *p){((struct Obj25756 *)p)->f10=1;}
+void EGG_DEMO_VIEW_SetActive(char *work){((struct EggDemoView *)work)->startFlag=1;}
 
-int EGG_DEMO_VIEW_GetActive(char *p){return ((struct Obj25757 *)p)->f14;}
+int EGG_DEMO_VIEW_GetActive(char *work){return ((struct EggDemoView *)work)->visible;}
 
-void EGG_DEMO_VIEW_SetSpecies(char *p,int a)
+void EGG_DEMO_VIEW_SetSpecies(char *work,int species)
 {
-    EGG_DEMO_VIEW_DeletePokeMcss(p);
-    *(int *)(p + 4) = a;
-    EGG_DEMO_VIEW_AddPokeMcss(p);
-    EGG_DEMO_VIEW_PlayAnim(p,0,0);
-    MCSS_SetVanishFlag(*(void **)(p + 0x34));
-    MCSS_SetPaletteFade(*(struct McssFade **)(p + 0x34),16,16,0,32767);
-    *(int *)(p + 0xC) = 5;
+    EGG_DEMO_VIEW_DeletePokeMcss(work);
+    ((struct EggDemoView *)work)->mon = (void *)species;
+    EGG_DEMO_VIEW_AddPokeMcss(work);
+    EGG_DEMO_VIEW_PlayAnim(work,0,0);
+    MCSS_SetVanishFlag(((struct EggDemoView *)work)->pokeMcss);
+    MCSS_SetPaletteFade((struct McssFade *)((struct EggDemoView *)work)->pokeMcss,16,16,0,32767);
+    ((struct EggDemoView *)work)->animState = 5;
 }
 
 /*
  * trailing: existing followers 021F6A98/6AA4 unit and 021F6AB4 shard.
  */
-int EGG_DEMO_VIEW_IsFadeDone(char *p){if(MCSS_CheckPaletteFade(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFadeDone(char *work){if(MCSS_CheckPaletteFade(((struct EggDemoView *)work)->pokeMcss)==0)return 1;return 0;}
 
-void EGG_DEMO_VIEW_ResetAnimState(char *p){((struct Obj14710 *)p)->fC=6;((struct Obj14710 *)p)->f18=0;}
+void EGG_DEMO_VIEW_ResetAnimState(char *work){((struct EggDemoView *)work)->animState=6;((struct EggDemoView *)work)->frameCounter=0;}
 
-int EGG_DEMO_VIEW_IsFinished(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFinished(char *work){if(((struct EggDemoView *)work)->animState>=9)return 1;return 0;}
 
 /*
  * evidence: sole callback blocker of 021F6720; parent SDK/ownership audit.
@@ -524,226 +546,226 @@ void EGG_DEMO_VIEW_Noop(void)
 {
 }
 
-void EGG_DEMO_VIEW_InitMcss(char *p)
+void EGG_DEMO_VIEW_InitMcss(char *work)
 {
-    *(void **)(p + 0x30) = MCSS_Init(1, (void *)(*(unsigned short *)p));
-    MCSS_SetTextureTransAdrs(*(void **)(p + 0x30), 3 << 16);
-    MCSS_SetOrthoMode(*(void **)(p + 0x30));
-    *(unsigned int *)(p + 0x3c) = 0;
-    *(unsigned char *)(p + 0x40) = 0;
+    ((struct EggDemoView *)work)->mcss = MCSS_Init(1, (void *)(*(unsigned short *)work));
+    MCSS_SetTextureTransAdrs(((struct EggDemoView *)work)->mcss, 3 << 16);
+    MCSS_SetOrthoMode(((struct EggDemoView *)work)->mcss);
+    ((struct EggDemoView *)work)->alphaActive = 0;
+    ((struct EggDemoView *)work)->alphaTarget = 0;
 }
 
-void EGG_DEMO_VIEW_DeleteMcss(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}
+void EGG_DEMO_VIEW_DeleteMcss(char *work){MCSS_Exit(*(u8 * *)&((struct EggDemoView *)work)->mcss);}
 
 /*
  * lever: FX float rounding macro; translation z shares the constructor's -50<<16 literal.
  */
-void EGG_DEMO_VIEW_AddPokeMcss(char *p)
+void EGG_DEMO_VIEW_AddPokeMcss(char *work)
 {
     Vec_021F63CC trans,scale,delta;
     u32 species;
     u8 i=0;
     float angle,y,x;
-    ((struct Obj02262 *)p)->f34=MCSS_TOOL_AddPokeMcss(((struct Obj02262 *)p)->f30,((struct Obj02262 *)p)->f4,0,0,0xfff42000,0xffce0000);
-    MCSS_SetShadowVanishFlag(*(char * *)&((struct Obj02262 *)p)->f34,1);
-    species=func_02017E1C(((struct Obj02262 *)p)->f4,171,0);
+    ((struct EggDemoView *)work)->pokeMcss=MCSS_TOOL_AddPokeMcss(((struct EggDemoView *)work)->mcss,((struct EggDemoView *)work)->mon,0,0,0xfff42000,0xffce0000);
+    MCSS_SetShadowVanishFlag(*(char * *)&((struct EggDemoView *)work)->pokeMcss,1);
+    species=func_02017E1C(((struct EggDemoView *)work)->mon,171,0);
     if(species!=650){
         for(;i<4;i++){
             if(species==table_021F7384[i].species){
                 trans.x=FIX(table_021F7384[i].x);
                 trans.y=FIX(table_021F7384[i].y);
                 trans.z=0xffce0000;
-                MCSS_SetPosition(((struct Obj02262 *)p)->f34,(u32 *)&trans);
+                MCSS_SetPosition(((struct EggDemoView *)work)->pokeMcss,(u32 *)&trans);
                 break;
             }
         }
     }
     scale.x=65536;scale.y=65536;scale.z=4096;
-    MCSS_SetScale(((struct Obj02262 *)p)->f34,(u32 *)&scale);
-    angle=(float)MCSS_GetSizeY(((struct Obj02262 *)p)->f34);
-    y=(float)MCSS_GetOfsY(((struct Obj02262 *)p)->f34);
-    x=(float)MCSS_GetOfsX(((struct Obj02262 *)p)->f34);
+    MCSS_SetScale(((struct EggDemoView *)work)->pokeMcss,(u32 *)&scale);
+    angle=(float)MCSS_GetSizeY(((struct EggDemoView *)work)->pokeMcss);
+    y=(float)MCSS_GetOfsY(((struct EggDemoView *)work)->pokeMcss);
+    x=(float)MCSS_GetOfsX(((struct EggDemoView *)work)->pokeMcss);
     if(angle>96.0f)angle=96.0f;
     y=(96.0f-angle)/2.0f+y;
     x=0.0f-x;
     delta.x=FIX(x);delta.y=FIX(y);delta.z=0;
-    MCSS_SetOfsPosition(((struct Obj02262 *)p)->f34,(u32 *)&delta);
-    MCSS_SetAnmStopFlag(((struct Obj02262 *)p)->f34);
+    MCSS_SetOfsPosition(((struct EggDemoView *)work)->pokeMcss,(u32 *)&delta);
+    MCSS_SetAnmStopFlag(((struct EggDemoView *)work)->pokeMcss);
 }
 
 /*
  * trailing: existing follower 021F6CC0 in its own matched shard.
  */
-void EGG_DEMO_VIEW_DeletePokeMcss(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
+void EGG_DEMO_VIEW_DeletePokeMcss(char *work){MCSS_SetVanishFlag(((struct EggDemoView *)work)->pokeMcss);MCSS_Del(((struct EggDemoView *)work)->mcss,((struct EggDemoView *)work)->pokeMcss);}
 
 /*
  * leaf: sole overlay blocker of 021F67E0; tail-call pool ends at 021F6CCC.
  */
-void EGG_DEMO_VIEW_HidePokeMcss(char *p){MCSS_SetVanishFlag(((struct Obj25761 *)p)->f34);}
+void EGG_DEMO_VIEW_HidePokeMcss(char *work){MCSS_SetVanishFlag(((struct EggDemoView *)work)->pokeMcss);}
 
-void EGG_DEMO_VIEW_PlayAnim(char *p,unsigned flag,int enable)
+void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable)
 {
     void *obj;
-    MCSS_SetAnimeIndex(((struct Obj06707 *)p)->f34,flag);
-    obj=MCSS_GetAnimCtrl(((struct Obj06707 *)p)->f34);
+    MCSS_SetAnimeIndex(((struct EggDemoView *)work)->pokeMcss,flag);
+    obj=MCSS_GetAnimCtrl(((struct EggDemoView *)work)->pokeMcss);
     NNS_G2dRestartMCAnimation(obj);
-    MCSS_ResetAnmStopFlag(((struct Obj06707 *)p)->f34);
+    MCSS_ResetAnmStopFlag(((struct EggDemoView *)work)->pokeMcss);
     if(enable) {
-        NNS_G2dSetCellAnimationParam((int)obj,1,(int)p,(int)EGG_DEMO_VIEW_OnAnimStop);
-        ((struct Obj06707 *)p)->f38=0;
-    } else MCSS_TOOL_SetAnimeStopCallback((int)(((struct Obj06707 *)p)->f34));
+        NNS_G2dSetCellAnimationParam((int)obj,1,(int)work,(int)EGG_DEMO_VIEW_OnAnimStop);
+        ((struct EggDemoView *)work)->animStopFlag=0;
+    } else MCSS_TOOL_SetAnimeStopCallback((int)(((struct EggDemoView *)work)->pokeMcss));
 }
 
 /*
  *   entry), so neither label nor sole-ref/code can attest the bl site;
  *   byte-correct.
  */
-int EGG_DEMO_VIEW_OnAnimStop(char *a)
+int EGG_DEMO_VIEW_OnAnimStop(char *work)
 {
-    MCSS_SetAnmStopFlag((void *)(((struct Obj14711 *)a)->f34));
-    ((struct Obj14711 *)a)->f38 = 1;
+    MCSS_SetAnmStopFlag((void *)(((struct EggDemoView *)work)->pokeMcss));
+    ((struct EggDemoView *)work)->animStopFlag = 1;
     return 1;
 }
 
-void EGG_DEMO_VIEW_UpdateAlpha(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=MCSS_GetAlpha(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}
+void EGG_DEMO_VIEW_UpdateAlpha(char *work){u8 n;if(((struct EggDemoView *)work)->alphaActive){n=MCSS_GetAlpha(*(struct Data * *)&((struct EggDemoView *)work)->pokeMcss);if(n>((struct EggDemoView *)work)->alphaTarget)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct EggDemoView *)work)->pokeMcss,n);if(n==((struct EggDemoView *)work)->alphaTarget)((struct EggDemoView *)work)->alphaActive=0;}}
 
-void EGG_DEMO_VIEW_StartFadeOut(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
+void EGG_DEMO_VIEW_StartFadeOut(char *work){MCSS_SetAnmStopFlag(((struct EggDemoView *)work)->pokeMcss);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct EggDemoView *)work)->pokeMcss,0,16,0,32767);}
 
-int EGG_DEMO_VIEW_IsFadeOutDone(char *p){if(MCSS_CheckPaletteFade(((struct Obj25762 *)p)->f34)==0)return 1;return 0;}
+int EGG_DEMO_VIEW_IsFadeOutDone(char *work){if(MCSS_CheckPaletteFade(((struct EggDemoView *)work)->pokeMcss)==0)return 1;return 0;}
 
-void EGG_DEMO_VIEW_StartFadeIn(char *p){MCSS_ResetVanishFlag(((struct Obj14713 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14713 *)p)->f34,16,0,2,32767);}
+void EGG_DEMO_VIEW_StartFadeIn(char *work){MCSS_ResetVanishFlag(((struct EggDemoView *)work)->pokeMcss);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct EggDemoView *)work)->pokeMcss,16,0,2,32767);}
 
 char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *table)
 {
-    char *p;
+    char *work;
     unsigned zero[3]={0};
     unsigned long long config;
     int resource;
-    p=func_02030734(heap,0x481C,1,d_021F73F4,0x502);
-    ((struct Obj03373 *)p)->f0=0;
-    ((struct Obj03373 *)p)->f2=0;
-    ((struct Obj03373 *)p)->f4=count;
-    *(const void * *)&((struct Obj03373 *)p)->f8=table;
-    ((struct Obj03373 *)p)->f4814=0;
-    ((struct Obj03373 *)p)->f4818=-1;
+    work=func_02030734(heap,0x481C,1,d_021F73F4,0x502);
+    ((struct EggDemoParticles *)work)->frame=0;
+    ((struct EggDemoParticles *)work)->index=0;
+    ((struct EggDemoParticles *)work)->count=count;
+    *(const void * *)&((struct EggDemoParticles *)work)->table=table;
+    ((struct EggDemoParticles *)work)->active=0;
+    ((struct EggDemoParticles *)work)->life=-1;
     PARTICLE_InitManager(heap);
-    *(int *)&((struct Obj03373 *)p)->f480C=PARTICLE_CreateSystemDefault((int)(p+12),0x4800,1,heap);
+    *(int *)&((struct EggDemoParticles *)work)->system=PARTICLE_CreateSystemDefault((int)(work+12),0x4800,1,heap);
     config=d_021F7300;
     resource=PARTICLE_LoadArchiveMember((unsigned)config,(unsigned)(config>>32),heap);
-    ((struct Obj03373 *)p)->f4810=BUTTON_MAN_GetResourceType((void *)resource);
-    PARTICLE_SetupSystem(((struct Obj03373 *)p)->f480C,resource,1,0);
-    return p;
+    ((struct EggDemoParticles *)work)->resourceType=BUTTON_MAN_GetResourceType((void *)resource);
+    PARTICLE_SetupSystem(((struct EggDemoParticles *)work)->system,resource,1,0);
+    return work;
 }
 
-void EGG_DEMO_VIEW_DeleteParticles(char *a)
+void EGG_DEMO_VIEW_DeleteParticles(char *work)
 {
     PARTICLE_ExitManager();
-    func_020307B0(a);
+    func_020307B0(work);
 }
 
 /*
  * prototype: 515B4 receives visibly loaded r1/r2 despite legacy one-argument callee.
  */
-void EGG_DEMO_VIEW_UpdateParticles(char *p)
+void EGG_DEMO_VIEW_UpdateParticles(char *work)
 {
-    if (((struct Obj02263 *)p)->f4814) {
+    if (((struct EggDemoParticles *)work)->active) {
         Vec_021F6D7C v=d_021F73B4;
-        while (((struct Obj02263 *)p)->f2<((struct Obj02263 *)p)->f4) {
-            const char *table=*(const char * *)&((struct Obj02263 *)p)->f8;
-            unsigned index=((struct Obj02263 *)p)->f2;
-            u16 frame=((struct Obj02263 *)p)->f0;
+        while (((struct EggDemoParticles *)work)->index<((struct EggDemoParticles *)work)->count) {
+            const char *table=*(const char * *)&((struct EggDemoParticles *)work)->table;
+            unsigned index=((struct EggDemoParticles *)work)->index;
+            u16 frame=((struct EggDemoParticles *)work)->frame;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
-            PARTICLE_StartEffect(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
-            (((struct Obj02263 *)p)->f2)++;
+            PARTICLE_StartEffect(*(void **)(work+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
+            (((struct EggDemoParticles *)work)->index)++;
         }
-        (((struct Obj02263 *)p)->f0)++;
+        (((struct EggDemoParticles *)work)->frame)++;
     }
-    if (((struct Obj02263 *)p)->f4818>=0) {
-        if (((struct Obj02263 *)p)->f4818==0) PARTICLE_KillAllEffects(((struct Obj02263 *)p)->f480C);
-        (((struct Obj02263 *)p)->f4818)--;
+    if (((struct EggDemoParticles *)work)->life>=0) {
+        if (((struct EggDemoParticles *)work)->life==0) PARTICLE_KillAllEffects(((struct EggDemoParticles *)work)->system);
+        (((struct EggDemoParticles *)work)->life)--;
     }
 }
 
-void EGG_DEMO_VIEW_MainParticles(char *p){PARTICLE_Main();}
+void EGG_DEMO_VIEW_MainParticles(char *work){PARTICLE_Main();}
 
 /*
  * leaf: sole overlay blocker of 021F67E0; store and return, pool ends 021F6EF8.
  */
-void EGG_DEMO_VIEW_StartParticles(char *p){((struct Obj25763 *)p)->f4814=1;}
+void EGG_DEMO_VIEW_StartParticles(char *work){((struct EggDemoParticles *)work)->active=1;}
 
-void EGG_DEMO_VIEW_InitModel(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
+void EGG_DEMO_VIEW_InitModel(char *work){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct EggDemoView *)work)->util=G3D_UTIL_Create(4,1,((struct EggDemoView *)work)->heapId);((struct EggDemoView *)work)->recordCount=z;}
 
-void EGG_DEMO_VIEW_DeleteModel(char *p){G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}
+void EGG_DEMO_VIEW_DeleteModel(char *work){G3D_UTIL_Delete(*(struct Rec * *)&((struct EggDemoView *)work)->util);}
 
-void EGG_DEMO_VIEW_DrawModels(char *p)
+void EGG_DEMO_VIEW_DrawModels(char *work)
 {
     unsigned short i;
-    for(i=0;i<((struct Obj06708 *)p)->f50;i++) {
-        char *entry=*(char * *)&((struct Obj06708 *)p)->f54+i*0x44;
-        if(((struct Obj14714 *)entry)->f40)
-            G3D_SYSTEM_DrawObject((void *)func_02048A18(*(unsigned char * *)&((struct Obj06708 *)p)->f48,((struct Obj14714 *)entry)->f0),(struct Arg *)(entry+4));
+    for(i=0;i<((struct EggDemoView *)work)->recordCount;i++) {
+        char *entry=*(char * *)&((struct EggDemoView *)work)->records+i*0x44;
+        if(((Record *)entry)->tail)
+            G3D_SYSTEM_DrawObject((void *)func_02048A18(*(unsigned char * *)&((struct EggDemoView *)work)->util,((Record *)entry)->tag),(struct Arg *)(entry+4));
     }
 }
 
-void EGG_DEMO_VIEW_AddModel(char *p)
+void EGG_DEMO_VIEW_AddModel(char *work)
 {
     unsigned id;
     char *entry;
     u16 i;
     void *q;
     int frame;
-    ((struct Obj00317 *)p)->f4C=G3D_UTIL_AddUnit(*(struct Util * *)&((struct Obj00317 *)p)->f48,&d_021F7330);
-    ((struct Obj00317 *)p)->f50=1;
-    *(struct Record * *)&((struct Obj00317 *)p)->f54=(struct Record *)EGG_DEMO_VIEW_CreateRecords(((struct Obj00317 *)p)->f0,((struct Obj00317 *)p)->f50);
-    id=func_020489F4(*(unsigned char * *)&((struct Obj00317 *)p)->f48,((struct Obj00317 *)p)->f4C);
-    ((struct Obj00317 *)p)->f4E=0;
-    entry=*(char * *)&((struct Obj00317 *)p)->f54;
-    ((struct Obj06709 *)entry)->f0=id;
-    ((struct Obj06709 *)entry)->f4=0;
-    ((struct Obj06709 *)entry)->f8=0;
-    ((struct Obj06709 *)entry)->fC=0;
-    ((struct Obj06709 *)entry)->f40=1;
-    for(i=0;i<((struct Obj00317 *)p)->f50;i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+i*68)),0);
-    ((struct Obj00317 *)p)->f58=0;
-    q=(void *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+((struct Obj00317 *)p)->f4E*68));
+    ((struct EggDemoView *)work)->unitId=G3D_UTIL_AddUnit(*(struct Util * *)&((struct EggDemoView *)work)->util,&d_021F7330);
+    ((struct EggDemoView *)work)->recordCount=1;
+    *(struct Record * *)&((struct EggDemoView *)work)->records=(struct Record *)EGG_DEMO_VIEW_CreateRecords(((struct EggDemoView *)work)->heapId,((struct EggDemoView *)work)->recordCount);
+    id=func_020489F4(*(unsigned char * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);
+    ((struct EggDemoView *)work)->animIndex=0;
+    entry=*(char * *)&((struct EggDemoView *)work)->records;
+    ((Record *)entry)->tag=id;
+    ((Record *)entry)->x=0;
+    ((Record *)entry)->y=0;
+    ((Record *)entry)->z=0;
+    ((Record *)entry)->tail=1;
+    for(i=0;i<((struct EggDemoView *)work)->recordCount;i++)
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(*(unsigned char * *)&((struct EggDemoView *)work)->util,*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+i*68)),0);
+    ((struct EggDemoView *)work)->animFrame=0;
+    q=(void *)func_02048A18(*(unsigned char * *)&((struct EggDemoView *)work)->util,*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+((struct EggDemoView *)work)->animIndex*68));
     frame=0;
-    ((struct Obj00317 *)p)->f5C=0;
+    ((struct EggDemoView *)work)->modelAnimState=0;
     G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)q,1);
     G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)q,2);
     G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)q,1,&frame);
     G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)q,2,&frame);
 }
 
-void EGG_DEMO_VIEW_RemoveModel(char *p){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj04636 *)p)->f48,((struct Obj04636 *)p)->f4C);EGG_DEMO_VIEW_FreeRecords(((struct Obj04636 *)p)->f54);((struct Obj04636 *)p)->f50=0;}
+void EGG_DEMO_VIEW_RemoveModel(char *work){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);EGG_DEMO_VIEW_FreeRecords(((struct EggDemoView *)work)->records);((struct EggDemoView *)work)->recordCount=0;}
 
-void EGG_DEMO_VIEW_UpdateModel(char *p)
+void EGG_DEMO_VIEW_UpdateModel(char *work)
 {
     u16 i;
     void *q;
     int a, b;
 
-    for (i = 0; i < ((struct Obj01083 *)p)->f50; i++) {
-        G3D_SYSTEM_LoopObjectAnimeFrame((void *)func_02048A18((unsigned char *)(((struct Obj01083 *)p)->f48), *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + i * 0x44)), 0, 0x1000);
+    for (i = 0; i < ((struct EggDemoView *)work)->recordCount; i++) {
+        G3D_SYSTEM_LoopObjectAnimeFrame((void *)func_02048A18((unsigned char *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + i * 0x44)), 0, 0x1000);
     }
-    ((struct Obj01083 *)p)->f58 = ((struct Obj01083 *)p)->f58 + 1;
-    q = (void *)func_02048A18((unsigned char *)(((struct Obj01083 *)p)->f48), *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + ((struct Obj01083 *)p)->f4E * 0x44));
-    if (((struct Obj01083 *)p)->f5C == 1) {
+    ((struct EggDemoView *)work)->animFrame = ((struct EggDemoView *)work)->animFrame + 1;
+    q = (void *)func_02048A18((unsigned char *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + ((struct EggDemoView *)work)->animIndex * 0x44));
+    if (((struct EggDemoView *)work)->modelAnimState == 1) {
         a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, 0x5000);
         b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, 0x5000);
         if (a == 0 && b == 0)
-            ((struct Obj01083 *)p)->f5C = 2;
-    } else if (((struct Obj01083 *)p)->f5C == 3) {
+            ((struct EggDemoView *)work)->modelAnimState = 2;
+    } else if (((struct EggDemoView *)work)->modelAnimState == 3) {
         a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, -0x2000);
         b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, -0x2000);
         if (a == 0 && b == 0)
-            ((struct Obj01083 *)p)->f5C = 0;
+            ((struct EggDemoView *)work)->modelAnimState = 0;
     }
 }
 
-void EGG_DEMO_VIEW_StartModelAnim(char *p){((struct Obj01083 *)p)->f5C=1;}
+void EGG_DEMO_VIEW_StartModelAnim(char *work){((struct EggDemoView *)work)->modelAnimState=1;}
 
-int EGG_DEMO_VIEW_IsModelAnimDone(char *p){return ((struct Obj01083 *)p)->f5C==2;}
+int EGG_DEMO_VIEW_IsModelAnimDone(char *work){return ((struct EggDemoView *)work)->modelAnimState==2;}
 
-void EGG_DEMO_VIEW_EndModelAnim(char *p){((struct Obj01083 *)p)->f5C=3;}
+void EGG_DEMO_VIEW_EndModelAnim(char *work){((struct EggDemoView *)work)->modelAnimState=3;}

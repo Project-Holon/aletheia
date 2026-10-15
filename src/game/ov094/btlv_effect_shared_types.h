@@ -20,7 +20,7 @@ struct S02030EE8;
 
 struct PalAnmSlot;
 
-typedef enum { SLOT_ZERO, SLOT_LAST = 14 } Slot_021F6560;
+typedef enum { SLOT_ZERO, SLOT_LAST = 14 } BtlvSlotIndex;
 
 #ifndef BTLV_U64_DEFINED
 #define BTLV_U64_DEFINED

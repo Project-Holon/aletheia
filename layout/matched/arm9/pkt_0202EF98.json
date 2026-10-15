@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202F114",
+   "name": "ITEM_GFX_IsFlagClear",
    "address": "0x0202F114",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0202F138",
+   "name": "ITEM_GFX_GetItemId",
    "address": "0x0202F138",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202F144",
+   "name": "ITEM_GFX_GetExtraValue",
    "address": "0x0202F144",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202F170",
+   "name": "ITEM_GFX_GetRowIndex",
    "address": "0x0202F170",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202F190",
+   "name": "SAVE_EVENT_Write",
    "address": "0x0202F190",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202F27C",
+   "name": "SAVE_EVENT_StoreTodayDate",
    "address": "0x0202F27C",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202F2AC",
+   "name": "SAVE_EVENT_WriteWithDate",
    "address": "0x0202F2AC",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202F2F4",
+   "name": "SAVE_EVENT_ClearVariant",
    "address": "0x0202F2F4",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202F41C",
+   "name": "SAVE_EVENT_StoreRecord",
    "address": "0x0202F41C",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202F464",
+   "name": "SAVE_EVENT_CopyDoneFlag",
    "address": "0x0202F464",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202F488",
+   "name": "SAVE_EVENT_IsStageDone",
    "address": "0x0202F488",
    "kind": "game",
    "region": "arm9",

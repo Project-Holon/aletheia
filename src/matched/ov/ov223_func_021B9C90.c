@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C90
+ * function: PSEL_SelectUnit
  * address: 0x021B9C90
  * packet: pkt_ov223_021B9C90
  * region: ov223
@@ -30,7 +30,7 @@ extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-void func_021B9C90(char *p,unsigned next)
+void PSEL_SelectUnit(char *p,unsigned next)
 {
     void *object;
     unsigned count;

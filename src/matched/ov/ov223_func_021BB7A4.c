@@ -1,5 +1,5 @@
 /*
- * function: func_021BB7A4
+ * function: PSEL_GRAPHIC_LoadPaletteBuffers
  * address: 0x021BB7A4
  * packet: pkt_ov223_021BB7A4
  * region: ov223
@@ -28,7 +28,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
 extern const u8 d_021BC708[];
-void func_021BB7A4(char *p)
+void PSEL_GRAPHIC_LoadPaletteBuffers(char *p)
 {
     void *object = func_020490F4(205, ((struct Obj06727 *)p)->f0);
     u8 i;

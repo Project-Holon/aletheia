@@ -58,7 +58,7 @@
  *   FS_TryLoadTable  0x0207ACB4  arm
  *   OS_AllocFromArenaLo 0x02086788  arm
  *   NNS_GfdInitVramTransferTaskQueue        0x02061C0C  arm
- *   sub_0202EB0C        0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl        0x0202EB0C  thumb
  *   PM_GetAmp           0x0208C030  arm
  *   PM_SetAmp           0x0208BEF0  arm
  *   _TwlServiceBuf          0x020A9E94  data
@@ -72,8 +72,8 @@
  *   _ArenaTableTwl      0x0209D8A0  data
  *   _ArenaTableDs      0x0209D8B0  data
  *   _ArcPathTable      0x020A6C58  data
- *   func_0202F768   0x0202F768  thumb
- *   func_0202F774   0x0202F774  thumb
+ *   APP_POWER_ClearCallback   0x0202F768  thumb
+ *   APP_POWER_SetCallback   0x0202F774  thumb
  *   OS_IsRunOnTwl       0x02085D3C  arm
  *   OS_GetArenaHi       0x0208656C  arm
  *   OS_GetArenaLo       0x02086580  arm
@@ -292,7 +292,7 @@ extern void FS_Init(int dma);
 extern void *FS_TryLoadTable(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
 extern void NNS_GfdInitVramTransferTaskQueue(void *buf, u32 capacity);
-extern u32 sub_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern void PM_AppendPreExitCallback(void *info);
 extern void PM_GetAmp(u32 *out);
 extern void PM_SetAmp(int on);
@@ -329,8 +329,8 @@ extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
 extern void  TEXTPRINT_Init(u32 heapId);
 extern void  GF_STANDARD_Reset(void);
 extern void FADE_SetSpeed(s32 speed);
-extern void  func_0202F768(void);
-extern void func_0202F774(u32 on);
+extern void  APP_POWER_ClearCallback(void);
+extern void APP_POWER_SetCallback(u32 on);
 extern void func_02034F5C(void);
 extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
@@ -701,7 +701,7 @@ void GFL_USE_InitSdk(void)
     tableSize = FS_TryLoadTable(0, 0);
     FS_TryLoadTable((int)OS_AllocFromArenaLo(0, tableSize, 4), tableSize);
     NNS_GfdInitVramTransferTaskQueue(_TwlServiceBuf, 0x30);
-    if (sub_0202EB0C()) {
+    if (APP_ENV_IsRunOnTwl()) {
         _PreExitState[0] = 0;
         _PreExitState[1] = (u32)GFL_USE_OnPreExit;
         _PreExitState[2] = 0;
@@ -796,7 +796,7 @@ void GFL_USE_OnPreExit(void)
  * and 0x02005769 (GFL_USE_WaitInputReady, src/matched/unit_0200575C.c) is
  * func_020346EC's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
- * EXACT this wave as src/matched/func_0202F768.c and func_0202F774.c, which
+ * EXACT this wave as src/matched/APP_POWER_ClearCallback.c and APP_POWER_SetCallback.c, which
  * is what attests them (`matched`).  _ArenaTableTwl / _ArenaTableDs now resolve on
  * sole-ref.
  *
@@ -849,7 +849,7 @@ void GFL_USE_InitSystem(void)
 
     GFL_USE_InitRandom();
     FADE_Create(0);
-    BACKUP_SYSTEM_Init(7, (u32)func_0202F768, (u32)func_0202F774);
+    BACKUP_SYSTEM_Init(7, (u32)APP_POWER_ClearCallback, (u32)APP_POWER_SetCallback);
     TEXTPRINT_Init(0);
     GF_STANDARD_Reset();
     _GflUse.frameCount = 0;

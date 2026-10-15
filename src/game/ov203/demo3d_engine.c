@@ -34,30 +34,30 @@
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
- *   func_021BF7C0 0x021BF7C0 thumb ov203
+ *   DEMO3D_CMDSYS_Create 0x021BF7C0 thumb ov203
  *   FX_SinCosTable_ 0x020A1B38 data
  *   d_021C3CE0 0x021C3CE0 data a1
  *   d_021BFCE0 0x021BFCE0 data a4
  *   d_021BFCD4 0x021BFCD4 data a4
  *   d_021BFCEC 0x021BFCEC data a4
- *   func_021BF810 0x021BF810 thumb ov203
+ *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
  *   func_0200566C 0x0200566C thumb
  *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
- *   DOUBLE3DDISP_GetField04 0x0204EA38 arm
+ *   DOUBLE3DDISP_GetMode 0x0204EA38 arm
  *   G3D_CAMERA_SetNearClipAlt 0x02048BA8 arm
  *   G3D_CAMERA_SetFarClipAlt 0x02048BBC arm
  *   ICA_ANIME_GetFrame 0x0201160C thumb
- *   func_021BF858 0x021BF858 thumb
+ *   DEMO3D_CMDSYS_Update 0x021BF858 thumb
  *   ICA_ANIME_IncFrameNoLoop 0x020115C0 thumb
  *   ICA_ANIME_SetCameraStatus 0x02011B8C thumb
  *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   func_02048AD0 0x02048AD0 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
- *   DOUBLE3DDISP_SetField08 0x0204EA4C arm
+ *   DOUBLE3DDISP_SetDrawDone 0x0204EA4C arm
  *   ICA_ANIME_GetFrameNum 0x02011608 thumb
  *   ZONEDATA_GetTimeLightColors 0x0201493C thumb
  *   func_0207DCF8 0x0207DCF8 arm
@@ -206,9 +206,9 @@ extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 
-extern u32 func_021BF7C0(struct Ctx *, u32);
+extern u32 DEMO3D_CMDSYS_Create(struct Ctx *, u32);
 
-extern void func_021BF810(char *p);
+extern void DEMO3D_CMDSYS_Delete(char *p);
 
 extern void func_0200566C(void);
 
@@ -220,7 +220,7 @@ extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
 extern void G3D_UTIL_Delete(struct Rec *p);
 
-extern u32 DOUBLE3DDISP_GetField04(void);
+extern u32 DOUBLE3DDISP_GetMode(void);
 
 extern void G3D_CAMERA_SetNearClipAlt(struct Light *,u32);
 
@@ -228,7 +228,7 @@ extern void G3D_CAMERA_SetFarClipAlt(struct Light *,u32);
 
 extern u32 ICA_ANIME_GetFrame(struct Obj11245 *p);
 
-extern void func_021BF858(void *,int,int);
+extern void DEMO3D_CMDSYS_Update(void *,int,int);
 
 extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *,int);
 
@@ -242,7 +242,7 @@ extern void func_02048AD0(struct Light *);
 
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 
-extern void DOUBLE3DDISP_SetField08(void);
+extern void DOUBLE3DDISP_SetDrawDone(void);
 
 extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
 
@@ -421,14 +421,14 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
             G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)h, k, &ang);
         }
     }
-    ctx->f6c = func_021BF7C0(ctx, heap);
+    ctx->f6c = DEMO3D_CMDSYS_Create(ctx, heap);
     return ctx;
 }
 
 void func_021BE4B4(char *ctx, int b, int c, u32 d)
 {
     unsigned i;
-    func_021BF810(((struct Obj03354 *)ctx)->f6C);
+    DEMO3D_CMDSYS_Delete(((struct Obj03354 *)ctx)->f6C);
     func_021BE158(((struct Obj03354 *)ctx)->f20);
     if (((struct Obj03354 *)ctx)->f10) {
         func_0200566C();
@@ -455,7 +455,7 @@ void func_021BE4B4(char *ctx, int b, int c, u32 d)
 void func_021BE508(char *p,struct Light *q)
 {
     int x;
-    if(DOUBLE3DDISP_GetField04()==0)x=*(short *)(*(char **)(p+0x74)+0x20);
+    if(DOUBLE3DDISP_GetMode()==0)x=*(short *)(*(char **)(p+0x74)+0x20);
     else x=*(short *)(*(char **)(p+0x74)+0x22);
     G3D_CAMERA_SetNearClipAlt(q,x+*(u32 *)(p+0x24));
     G3D_CAMERA_SetFarClipAlt(q,x+*(u32 *)(p+0x28));
@@ -468,8 +468,8 @@ int func_021BE538(const struct Context *ctx, u32 frames)
     unsigned long time = ICA_ANIME_GetFrame((struct Obj11245 *)ctx->anime);
     u32 i;
     for(i=0;i<frames+1;i++) {
-        if(ctx->a8 == 0) func_021BF858(ctx->events,time+advance,i);
-        else func_021BF858(ctx->events,-4096,i);
+        if(ctx->a8 == 0) DEMO3D_CMDSYS_Update(ctx->events,time+advance,i);
+        else DEMO3D_CMDSYS_Update(ctx->events,-4096,i);
         advance += ctx->step;
     }
     done = ICA_ANIME_IncFrameNoLoop(ctx->anime,advance);
@@ -486,7 +486,7 @@ int func_021BE538(const struct Context *ctx, u32 frames)
         G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]),(struct Arg *)ctx->args);
     }
     func_021BDF24(ctx->owner);
-    if(ctx->a10 != 0) DOUBLE3DDISP_SetField08();
+    if(ctx->a10 != 0) DOUBLE3DDISP_SetDrawDone();
     return done;
 }
 

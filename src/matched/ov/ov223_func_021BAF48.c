@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF48
+ * function: PSEL_CheckAF48
  * address: 0x021BAF48
  * packet: pkt_ov223_021BAF48
  * region: ov223
@@ -30,7 +30,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-int func_021BAF48(char *p)
+int PSEL_CheckAF48(char *p)
 {
     int finished = 1;
     u8 i;

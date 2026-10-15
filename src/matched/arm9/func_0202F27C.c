@@ -1,5 +1,5 @@
 /*
- * function: func_0202F27C
+ * function: SAVE_EVENT_StoreTodayDate
  * address:  0x0202F27C
  * packet:   pkt_0202EF98
  * region:   arm9
@@ -16,8 +16,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202F27C.c \
- *       --func func_0202F27C --addr 0x0202F27C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_EVENT_StoreTodayDate.c \
+ *       --func SAVE_EVENT_StoreTodayDate --addr 0x0202F27C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -26,7 +26,7 @@ struct RtcDate;
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
-void func_0202F27C(void *a0)
+void SAVE_EVENT_StoreTodayDate(void *a0)
 {
     u32 buf[4];
 

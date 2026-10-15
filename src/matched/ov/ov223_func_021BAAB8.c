@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAB8
+ * function: PSEL_CreateBmpWindows
  * address: 0x021BAAB8
  * packet: pkt_ov223_021BAAB8
  * region: ov223
@@ -33,7 +33,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BMP_Delete(struct Obj020437AC *p);
-void func_021BAAB8(u16 *p)
+void PSEL_CreateBmpWindows(u16 *p)
 {
     u16 *buffer;
     void *bmp,*data;

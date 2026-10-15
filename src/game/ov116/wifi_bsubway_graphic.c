@@ -152,6 +152,9 @@
  *   ov129_id 0x81 data
  *   ov115_id 0x73 data
  *   BG_SYS_Update  0x020419E4  arm  arm9
+ *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb  arm9
+ *   GDS_PROFILE_GetScoreRecLevel  0x0200DC08  thumb  arm9
+ *   GDS_PROFILE_QuerySubwaySaveBit  0x0200DDD0  thumb  arm9
  */
 #include "../../matched/include/Obj13867.h"
 #include "../../matched/include/Obj22624.h"
@@ -281,8 +284,8 @@ extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
 extern void WIFI_BSUBWAY_StartHttpRequest(u8 *,u8 *,int,int);
 extern void WIFI_BSUBWAY_StartUploadPlayer(u8 *,u8 *);
 extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
-extern u32 func_0200DBA0(struct Blk1AC *p, s32_021D7450 i, u32 op);
-extern u8 func_0200DC08(struct Blk1AC *p);
+extern u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32_021D7450 i, u32 op);
+extern u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p);
 extern void WIFI_BSUBWAY_StartRoomRequest(u8 *,u8 *,u16);
 extern void WIFI_BSUBWAY_StartPlayerDownload(u8 *,u8 *,u16);
 extern int WIFI_BSUBWAY_FinishRoomRequest(u8 *,u8 *);
@@ -298,7 +301,7 @@ extern void WIFI_BSUBWAY_OpenCodeIn(u8 *,int);
 extern int FADE_IsActive(void);
 extern void FADE_Start(u32 a, s32_021D7550 b, s32_021D7550 c, s32_021D7550 d);
 extern int DWC_GetDateTime(void *date, void *time);
-extern int func_0200DDD0(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
+extern int GDS_PROFILE_QuerySubwaySaveBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int WIFILIST_GetGsProfileId(void *a0);
@@ -550,7 +553,7 @@ int WIFI_BSUBWAY_GRAPHIC_Step(u8 *p,int b)
     case 6:
         if(WIFI_BSUBWAY_IsUploadDone(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
         break;
-    case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
+    case 7: GDS_PROFILE_ScoreRecFlag(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
     case 8:
         if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,8); ++((struct Obj01926 *)p)->fB6C; }
         break;
@@ -568,7 +571,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,short heap)
     u8 extra[12];
     u8 record[16];
     switch(((struct Obj00494 *)p)->fB6C) {
-    case 0: WIFI_BSUBWAY_StartRoomRequest(p+0xb74,p+0x182c,(u32)func_0200DC08(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
+    case 0: WIFI_BSUBWAY_StartRoomRequest(p+0xb74,p+0x182c,(u32)GDS_PROFILE_GetScoreRecLevel(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
     case 1: if(WIFI_BSUBWAY_FinishRoomRequest(p+0xb74,p+0x182c)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 2:
         WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
@@ -583,7 +586,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,short heap)
             box=WIFI_BSUBWAY_GetRoomNumber(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
             DWC_GetDateTime(record,extra);
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
-            if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
+            if(GDS_PROFILE_QuerySubwaySaveBit(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
             v=WIFI_BSUBWAY_GetPlayerIndex(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)WIFI_BSUBWAY_GetTransferState(p+0xb74));
             WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,WIFI_BSUBWAY_GetRoomNumber(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00494 *)p)->fB6C;

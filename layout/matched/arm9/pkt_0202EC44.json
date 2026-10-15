@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202EC44",
+   "name": "COMM_HISTORY_CountByKey",
    "address": "0x0202EC44",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202EC7C",
+   "name": "COMM_HISTORY_FindByKey",
    "address": "0x0202EC7C",
    "kind": "game",
    "region": "arm9",

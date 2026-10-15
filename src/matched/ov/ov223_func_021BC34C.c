@@ -1,5 +1,5 @@
 /*
- * function: func_021BC34C
+ * function: PSEL_GRAPHIC_G3dCallback
  * address: 0x021BC34C
  * packet: pkt_ov223_021BC34C
  * region: ov223
@@ -33,7 +33,7 @@ static inline void priority(int p)
 {
     *(volatile unsigned short *)0x04000008=(unsigned short)((*(volatile unsigned short *)0x04000008 & ~3)|p);
 }
-void func_021BC34C(void)
+void PSEL_GRAPHIC_G3dCallback(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);

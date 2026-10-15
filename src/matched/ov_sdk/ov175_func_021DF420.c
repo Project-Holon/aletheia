@@ -1,5 +1,5 @@
 /*
- * function: func_021DF420
+ * function: DWC_ScReportAddByteValue
  * address:  0x021DF420
  * packet:   pkt_021DF420
  * region:   ov175
@@ -25,7 +25,7 @@ extern s32 DWCi_DWCScResultToDWCError(s32);
 extern s32 DWCi_ScGetRequestErrorCode(s32, s32);
 extern void func_02059F54(s32, s32);
 
-s32 func_021DF420(s32 a, int a1, int a2)
+s32 DWC_ScReportAddByteValue(s32 a, int a1, int a2)
 {
     s32 v = scReportAddByteValue(a);
 

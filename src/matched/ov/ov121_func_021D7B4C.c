@@ -19,7 +19,7 @@
  *   func_021D9288 0x021D9288 thumb ov121
  *   func_021D8380 0x021D8380 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
- *   func_021D9744 0x021D9744 thumb ov121
+ *   MYSTERY_GRAPHIC_GetClactUnit 0x021D9744 thumb ov121
  *   func_021DAC18 0x021DAC18 thumb ov121
  *   func_021DAEF0 0x021DAEF0 thumb ov121
  *   func_021DB008 0x021DB008 thumb ov121
@@ -49,7 +49,7 @@ typedef unsigned short u16;
 extern void func_021D9288(unsigned *p, unsigned v);
 extern void func_021D8380(char *p);
 extern void func_021D9E04(u8 *p);
-extern unsigned func_021D9744(char *p);
+extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern void *func_021DAC18(Desc *,int);
 extern void func_021DAEF0(struct Obj *obj);
 extern int func_021DB008(char *p);
@@ -77,7 +77,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         ((struct Obj00989 *)p)->f284=0;
         MI_CpuFill8(&d,0,36);
         d.w[0]=0;
-        d.w[2]=(u32)func_021D9744(((struct Obj00989 *)p)->f394);
+        d.w[2]=(u32)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00989 *)p)->f394);
         d.w[3]=((struct Obj00989 *)p)->f3BC;
         d.w[4]=*(u32 *)&((struct Obj00989 *)p)->f398;
         d.w[5]=*(u32 *)&((struct Obj00989 *)p)->f39C;

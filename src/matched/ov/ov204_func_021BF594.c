@@ -1,5 +1,5 @@
 /*
- * function: func_021BF594
+ * function: INTRO_MCSS_Create
  * address: 0x021BF594
  * packet: pkt_ov204_021BF594
  * region: ov204
@@ -32,7 +32,7 @@ extern void MCSS_SetTextureTransAdrs(void *, unsigned int);
 extern void MCSS_SetPaletteTransAdrs(char *p, unsigned int v);
 extern void MCSS_SetOrthoMode(void *);
 
-void *func_021BF594(unsigned int heap, int kind)
+void *INTRO_MCSS_Create(unsigned int heap, int kind)
 {
     char *p = func_02030734(heap, 108, 1, site, 98);
     *(void **)(p + 4) = MCSS_Init(8, (void *)heap);

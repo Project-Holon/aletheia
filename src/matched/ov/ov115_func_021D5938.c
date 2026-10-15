@@ -1,5 +1,5 @@
 /*
- * function: func_021D5938
+ * function: WIFILOGIN_DISP_SetupScreen
  * address: 0x021D5938
  * packet: pkt_ov115_021D5938
  * region: ov115
@@ -13,7 +13,7 @@
 #include "../include/Obj22601.h"
 typedef unsigned char u8;
 extern void func_0207D63C(void *, int, int, int, int);
-void func_021D5938(u8 *p) {
+void WIFILOGIN_DISP_SetupScreen(u8 *p) {
     switch (((struct Obj22601 *)p)->f8) {
     case 1:
         func_0207D63C((void *)0x04000050, 4, 3, 6, 16);

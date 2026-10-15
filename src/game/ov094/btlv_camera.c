@@ -102,7 +102,7 @@ extern BtlvVec3 gBtlvCameraInitUp; /* (0, 0x1000, 0): up */
 
 extern BtlvVec3 gBtlvCameraInitTarget; /* (0, 0x299a, 0): look-at point */
 
-extern const s16_021F6560 FX_SinCosTable_[];
+extern const s16 FX_SinCosTable_[];
 
 #define FX_INT_TO_FX32(x) ((fx32)(((x) > 0) ? ((float)((x) << 12) + .5f) \
                                             : ((float)((x) << 12) - .5f)))

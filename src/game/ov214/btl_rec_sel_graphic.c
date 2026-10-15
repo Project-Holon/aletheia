@@ -63,10 +63,6 @@
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm  arm9
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
-#include "../../matched/include/Obj25730.h"
-#include "../../matched/include/Obj25731.h"
-#include "../../matched/include/Obj14703.h"
-#include "../../matched/include/Obj25732.h"
 
 struct DispVram;
 struct Node;
@@ -86,6 +82,18 @@ struct Record { u32 id; u8 template_data[32]; u32 type; u32 enabled; };
 typedef signed short s16;
 
 struct Vec3 { u32 x,y,z; };
+
+struct BtlRecSelGraphic {
+    u8 bgData[4];
+    struct Bank *clactUnit;
+    u32 *g3dCamera;
+    u32 vblankHandle;
+};
+
+/* offset-0 view of the clact slot: the clact helpers receive work + 4 */
+struct BtlRecSelClact {
+    struct Bank *bank;
+};
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,u32,u32);
@@ -181,7 +189,7 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
     BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
     BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(int)config,heap);
     BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
-    ((struct Obj25730 *)p)->fC=func_020056A0((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,0);
+    ((struct BtlRecSelGraphic *)p)->vblankHandle=func_020056A0((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,0);
     return p;
 }
 
@@ -192,7 +200,7 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
 
 void BTL_REC_SEL_GRAPHIC_Delete(char *p)
 {
-    func_02030EAC((struct Node *)(((struct Obj25731 *)p)->fC));
+    func_02030EAC((struct Node *)((struct BtlRecSelGraphic *)p)->vblankHandle);
     BTL_REC_SEL_GRAPHIC_DeleteG3d((int *)(p+8));
     BTL_REC_SEL_GRAPHIC_DeleteClact(p+4);
     BTL_REC_SEL_GRAPHIC_DeleteBg(p);
@@ -283,8 +291,8 @@ void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BB54C, a, b);
-    ((struct Obj14703 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14703 *)p)->f0);
+    ((struct BtlRecSelClact *)p)->bank = CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer(((struct BtlRecSelClact *)p)->bank);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -292,7 +300,7 @@ void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 
 
 
-void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p) { CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25732 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4); }
+void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p) { CLACT_DeleteUnit(((struct BtlRecSelClact *)p)->bank);CLACT_ExitSystem();MI_CpuFill8(p,0,4); }
 
 
 

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gPlayerNamePos     0x021E7704  data  a4
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
@@ -37,7 +37,7 @@ typedef struct {
 } Pair;
 
 extern const Pair gPlayerNamePos;
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 struct Cfg;
 struct Descriptor;
@@ -70,7 +70,7 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
     t = gPlayerNamePos;
     u.a = ((struct Obj00384 *)p)->f830;
     u.b = ((struct Obj00384 *)p)->f834;
-    func_02049B40(func_020275E4(), 0x1F, 0, 0x1A0, 0x20, ((struct Obj00384 *)p)->f5F4);
+    func_02049B40(APP_ICON_GetArchiveId(), 0x1F, 0, 0x1A0, 0x20, ((struct Obj00384 *)p)->f5F4);
     if (((struct Obj00384 *)p)->f5D4 != 0) {
         BMP_WIN_Delete(((struct Obj00384 *)p)->f5D4);
         BMP_WIN_Delete(((struct Obj00384 *)p)->f5D8);

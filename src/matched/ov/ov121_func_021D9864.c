@@ -1,5 +1,5 @@
 /*
- * function: func_021D9864
+ * function: MYSTERY_GRAPHIC_UpdateBg
  * address: 0x021D9864
  * packet: pkt_ov121_021D9864
  * region: ov121
@@ -12,4 +12,4 @@
  *   BG_SYS_Update 0x020419E4 arm
  */
 extern void BG_SYS_Update(void);
-void func_021D9864(void *a0) { BG_SYS_Update(); }
+void MYSTERY_GRAPHIC_UpdateBg(void *a0) { BG_SYS_Update(); }

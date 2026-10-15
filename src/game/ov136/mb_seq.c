@@ -179,14 +179,14 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02027698 0x02027698 thumb
- *   func_0202769C 0x0202769C thumb
- *   func_020276A0 0x020276A0 thumb
+ *   APP_ICON_GetItemPaletteFileId 0x02027698 thumb
+ *   APP_ICON_GetItemAnimFileId 0x0202769C thumb
+ *   APP_ICON_GetItemFrameFileId 0x020276A0 thumb
  *   func_0201BC3C 0x0201BC3C thumb
- *   func_02027618 0x02027618 thumb
- *   func_02027614 0x02027614 thumb
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   PRINTSYS_QUE_IsExistTarget            0x0201C6C4  thumb
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   d_021C7DA8 0x021C7DA8 data a4
@@ -272,6 +272,7 @@
  *   MAILSYS_OnKeyModeNoOp 0x021C4534 thumb ov136
  *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb ov136
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  */
 #include "mail_types.h"
 #include "../ov091/pokelist_types.h"
@@ -1191,9 +1192,9 @@ extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 value);
 
 extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
 
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 
-extern u32 func_02027698(void);
+extern u32 APP_ICON_GetItemPaletteFileId(void);
 
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 
@@ -1201,19 +1202,19 @@ extern int func_0201BC3C(void);
 
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 
-extern u32 func_0202769C(u32);
+extern u32 APP_ICON_GetItemAnimFileId(u32);
 
-extern u32 func_020276A0(u32);
+extern u32 APP_ICON_GetItemFrameFileId(u32);
 
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 
-extern u32 func_02027618(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
-extern u32 func_02027614(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
-extern u32 func_0202761C(u32);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
 
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
 extern void BGWINFRM_UpdateMoves(struct BgWinFrm *mgr);
 
@@ -1797,12 +1798,12 @@ void MB_SEQ_RegisterSystemActorResources(struct MailBoxView *view)
     void *arc;
     u32 i;
     u32 first;
-    arc = func_020490F4(func_020275E4(), 102);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), 102);
     for (i = 0; i <= 2; i++)
-        view->charRes[i] = CLACT_RegisterCharacter(arc, func_02027698(), 0, 1, 102);
+        view->charRes[i] = CLACT_RegisterCharacter(arc, APP_ICON_GetItemPaletteFileId(), 0, 1, 102);
     view->paletteRes[0] = CLACT_RegisterPalette(arc, func_0201BC3C(), 1, 0, 102);
-    first = func_0202769C(0);
-    view->cellRes[0] = CLACT_RegisterCellAnim(arc, first, func_020276A0(0), 102);
+    first = APP_ICON_GetItemAnimFileId(0);
+    view->cellRes[0] = CLACT_RegisterCellAnim(arc, first, APP_ICON_GetItemFrameFileId(0), 102);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1818,11 +1819,11 @@ void MB_SEQ_RegisterMailActorResources(struct MailBoxView *view)
     view->paletteRes[1] = CLACT_RegisterPalette(arc, 47, 0, 0, 102);
     view->cellRes[1] = CLACT_RegisterCellAnim(arc, 45, 46, 102);
     ARC_TOOL_DeleteHandle(arc);
-    arc = func_020490F4(func_020275E4(), 102);
-    view->charRes[4] = CLACT_RegisterCharacter(arc, func_02027618(), 0, 0, 102);
-    view->paletteRes[2] = CLACT_RegisterPalette(arc, func_02027614(), 0, 128, 102);
-    first = func_0202761C(0);
-    view->cellRes[2] = CLACT_RegisterCellAnim(arc, first, func_02027620(0), 102);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), 102);
+    view->charRes[4] = CLACT_RegisterCharacter(arc, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 102);
+    view->paletteRes[2] = CLACT_RegisterPalette(arc, APP_ICON_GetMoveKindPaletteFileId(), 0, 128, 102);
+    first = APP_ICON_GetStatusCellFileId(0);
+    view->cellRes[2] = CLACT_RegisterCellAnim(arc, first, APP_ICON_GetStatusPaletteFileId(0), 102);
     ARC_TOOL_DeleteHandle(arc);
 }
 

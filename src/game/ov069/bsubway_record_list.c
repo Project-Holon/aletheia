@@ -68,10 +68,10 @@
  *   sRecordListBgIds  0x021BA60C  data  a4
  *   func_020403F4 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020275E4  0x020275E4  thumb
- *   func_02027624  0x02027624  thumb
- *   func_02027628  0x02027628  thumb
- *   func_0202762C  0x0202762C  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
+ *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
+ *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
@@ -93,11 +93,11 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   func_02027618  0x02027618  thumb
- *   func_02027614  0x02027614  thumb
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
- *   func_0202761C  0x0202761C  thumb
- *   func_02027620  0x02027620  thumb
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   sActorTemplates  0x021BA6BC  data  a4
@@ -230,10 +230,10 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 layer);
 extern void BG_SYS_Delete(void);
-extern u32 func_020275E4(void);
-extern u32 func_02027624(void);
-extern u32 func_02027628(void);
-extern u32 func_0202762C(void);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -253,10 +253,10 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
@@ -552,10 +552,10 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
     func_02049B68(uiArc, 2, 0, 0, 0, 0x80);
     func_02049658(uiArc, 1, 1, 0, 0, 1, 0x80);
     func_020498F4(uiArc, 0, 1, 0, 0, 1, 0x80);
-    spriteArc = func_020490F4(func_020275E4(), 0x80);
-    func_02049658(spriteArc, func_02027628(), 1, 0, 0, 0, 0x80);
-    func_020498F4(spriteArc, func_0202762C(), 1, 0, 0, 0, 0x80);
-    ARC_UTIL_UploadPaletteFromHandle(spriteArc, func_02027624(), 0, 0, 0x1C0, 0x20, 0x80);
+    spriteArc = func_020490F4(APP_ICON_GetArchiveId(), 0x80);
+    func_02049658(spriteArc, APP_ICON_GetStatusFrameFileId(), 1, 0, 0, 0, 0x80);
+    func_020498F4(spriteArc, APP_ICON_GetStatusDataFileId(), 1, 0, 0, 0, 0x80);
+    ARC_UTIL_UploadPaletteFromHandle(spriteArc, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x80);
     BG_SYS_FillTileMap(1, 0, 0x15, 0x20, 3, 0xE);
     func_020409B4(1);
     ARC_TOOL_DeleteHandle(spriteArc);
@@ -582,7 +582,7 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     void *spriteArc;
     u32 cellAnimId;
 
-    spriteArc = func_020490F4(func_020275E4(), 0x80);
+    spriteArc = func_020490F4(APP_ICON_GetArchiveId(), 0x80);
     CLACT_InitSystem(&gClActorInitParam, &sRecordListVramBanks, 0x80);
     work->actorBank = CLACT_CreateUnit(4, 1, 0x80);
     work->subActorBank = CLACT_CreateUnit(2, 1, 0x80);
@@ -591,10 +591,10 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     work->spriteRes[1] = CLACT_RegisterCharacter(work->arcHandle, 7, 1, 2, 0x80);
     work->spriteRes[0] = CLACT_RegisterPalette(work->arcHandle, 10, 2, 0, 0x80);
     work->spriteRes[2] = CLACT_RegisterCellAnim(work->arcHandle, 8, 9, 0x80);
-    work->spriteRes[4] = CLACT_RegisterCharacter(spriteArc, func_02027618(), 0, 0, 0x80);
-    work->spriteRes[3] = CLACT_RegisterPaletteEx(spriteArc, func_02027614(), 0, 0x160, 0, 3, 0x80);
-    cellAnimId = func_0202761C(0);
-    work->spriteRes[5] = CLACT_RegisterCellAnim(spriteArc, cellAnimId, func_02027620(0), 0x80);
+    work->spriteRes[4] = CLACT_RegisterCharacter(spriteArc, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 0x80);
+    work->spriteRes[3] = CLACT_RegisterPaletteEx(spriteArc, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x160, 0, 3, 0x80);
+    cellAnimId = APP_ICON_GetStatusCellFileId(0);
+    work->spriteRes[5] = CLACT_RegisterCellAnim(spriteArc, cellAnimId, APP_ICON_GetStatusPaletteFileId(0), 0x80);
     ARC_TOOL_DeleteHandle(spriteArc);
 }
 

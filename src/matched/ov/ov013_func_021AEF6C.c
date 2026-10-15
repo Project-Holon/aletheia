@@ -21,7 +21,7 @@
  *   DWC_RAPCOMMON_Alloc  0x02156F5C  thumb  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   VCT_MAIN_InitAudio  0x021AEB20  thumb  ov013
- *   func_0202EB0C  0x0202EB0C  thumb
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   NNS_SndStrmAllocChannel  0x02073838  arm
  *   NNS_SndStrmSetVolume  0x02073AD0  arm
  *   NNS_SndStrmSetup  0x020738C0  arm
@@ -83,7 +83,7 @@ extern Work *gVctWork;
 extern u32 DWC_RAPCOMMON_Alloc(u32 a, u32 b, u32 c);
 extern void MI_CpuFill8(void *p, int v, u32 n);
 extern void VCT_MAIN_InitAudio(void);
-extern u32 func_0202EB0C(void);
+extern u32 APP_ENV_IsRunOnTwl(void);
 extern int NNS_SndStrmAllocChannel(u8 *o, int n, u8 *src);
 typedef signed int     s32;
 struct Slot;
@@ -115,7 +115,7 @@ void VCT_MAIN_Start(void *heap, int arg1, int mode)
     gVctWork->mic.type = 3;
     gVctWork->mic.buffer = gVctWork;
     gVctWork->mic.size = 0x880;
-    if (func_0202EB0C() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 0) {
         gVctWork->mic.rate = 0x1040;
     } else {
         gVctWork->mic.rate = 0x1001;
@@ -127,7 +127,7 @@ void VCT_MAIN_Start(void *heap, int arg1, int mode)
     NNS_SndStrmAllocChannel(gVctWork->f19B8, 1, vals);
     NNS_SndStrmSetVolume((struct Slot *)gVctWork->f19B8, 0);
     if (NNS_SndStrmSetup(gVctWork->f19B8, 1, gVctWork->f884, 0x880,
-                      func_0202EB0C() ? 0x40 : 0x41, 2, (void (*)(void))VCT_MAIN_StreamCallback,
+                      APP_ENV_IsRunOnTwl() ? 0x40 : 0x41, 2, (void (*)(void))VCT_MAIN_StreamCallback,
                       gVctWork) == 0) {
         func_02034714((void *)0x021B3C20, 0, (void *)0x021B3C20);
     }

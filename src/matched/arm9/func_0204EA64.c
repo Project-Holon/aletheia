@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A80      0x02146A80  data
- *   DOUBLE3DDISP_SetupGraphics_EB68   0x0204EB68  arm
+ *   gDouble3Ddisp      0x02146A80  data
+ *   DOUBLE3DDISP_SetupGraphicsSubObj   0x0204EB68  arm
  *   DOUBLE3DDISP_SetupGraphics   0x0204EAD4  arm
  *
  * The cell-actor system's shutdown step: it bails out while the power-control
@@ -25,7 +25,7 @@
  *
  * The +4 word is both tested and then re-read, and both re-reads of the
  * singleton (`ldr r0, [pc, #0x24]; ldr r1, [r0]`) are the global's own address
- * being reloaded after the call, so the source spells `g_02146A80` out again
+ * being reloaded after the call, so the source spells `gDouble3Ddisp` out again
  * instead of holding it in a local.
  *
  * `x = (x == 0) ? 1 : 0` comes out as `mov r2, #0` before the earlier store
@@ -39,9 +39,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct Double3Ddisp *g_02146A80;
+extern struct Double3Ddisp *gDouble3Ddisp;
 
-extern void DOUBLE3DDISP_SetupGraphics_EB68(void);
+extern void DOUBLE3DDISP_SetupGraphicsSubObj(void);
 extern void DOUBLE3DDISP_SetupGraphics(void);
 
 void DOUBLE3DDISP_Delete(void)
@@ -49,14 +49,14 @@ void DOUBLE3DDISP_Delete(void)
     if (*(volatile u16 *)0x04000606 != 0) {
         return;
     }
-    if (*(u32 *)(((u8 *)g_02146A80) + 8) == 0) {
+    if (*(u32 *)(((u8 *)gDouble3Ddisp) + 8) == 0) {
         return;
     }
-    if (*(u32 *)(((u8 *)g_02146A80) + 4) != 0) {
-        DOUBLE3DDISP_SetupGraphics_EB68();
+    if (*(u32 *)(((u8 *)gDouble3Ddisp) + 4) != 0) {
+        DOUBLE3DDISP_SetupGraphicsSubObj();
     } else {
         DOUBLE3DDISP_SetupGraphics();
     }
-    *(u32 *)(((u8 *)g_02146A80) + 8) = 0;
-    *(u32 *)(((u8 *)g_02146A80) + 4) = (*(u32 *)(((u8 *)g_02146A80) + 4) == 0) ? 1 : 0;
+    *(u32 *)(((u8 *)gDouble3Ddisp) + 8) = 0;
+    *(u32 *)(((u8 *)gDouble3Ddisp) + 4) = (*(u32 *)(((u8 *)gDouble3Ddisp) + 4) == 0) ? 1 : 0;
 }

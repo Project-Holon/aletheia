@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BFBC8 0x021BFBC8 thumb
+ *   INTRO_G3D_SetAnimFrame 0x021BFBC8 thumb
  */
 #include "../include/Obj25372.h"
 
-extern void func_021BFBC8(char *p, unsigned value);
+extern void INTRO_G3D_SetAnimFrame(char *p, unsigned value);
 
 int func_021BE874(char *a, int b, int *p)
 {
-    func_021BFBC8((char *)(((struct Obj25372 *)a)->fC), *p);
+    INTRO_G3D_SetAnimFrame((char *)(((struct Obj25372 *)a)->fC), *p);
     return 1;
 }

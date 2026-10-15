@@ -24,7 +24,7 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0202F190  0x0202F190  thumb
+ *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  * Addresses are Black-image addresses.
  */
@@ -68,7 +68,7 @@ extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int h
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0202F190(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecalcParam(void *mon);
 
 void FLD_TRADE_BuildPokemon(void *sys, u16 b, void *mon, Spec *d)
@@ -119,7 +119,7 @@ void FLD_TRADE_BuildPokemon(void *sys, u16 b, void *mon, Spec *d)
     STRBUF_Delete((struct U16Vec *)s);
     POKE_TOOL_SetPartyValue(mon, 0x9A, d->f50);
     POKE_TOOL_SetPartyValue(mon, 0xC, d->f58);
-    func_0202F190(mon, 1, (u32)GAME_DATA_GetMyStatus(sys), 0x7532, b);
+    SAVE_EVENT_Write(mon, 1, (u32)GAME_DATA_GetMyStatus(sys), 0x7532, b);
     FLD_TRADE_DumpPokemonParams((int)mon);
     POKE_TOOL_RecalcParam(mon);
 }

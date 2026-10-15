@@ -17,11 +17,11 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020275E4  0x020275E4  thumb
- *   func_02027614  0x02027614  thumb
- *   func_02027618  0x02027618  thumb
- *   func_0202761C  0x0202761C  thumb
- *   func_02027620  0x02027620  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -58,11 +58,11 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 func_020275E4(void);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -78,10 +78,10 @@ void VIEWER_TEXT_InitActors(Anim *a, u32 x)
     a->fBC = CLACT_RegisterCharacter(h, 0x1D, 0, 1, a->heap);
     a->fC0 = CLACT_RegisterCellAnim(h, 0x2E, 0x30, a->heap);
     ARC_TOOL_DeleteHandle(h);
-    h = func_020490F4(func_020275E4(), a->heap);
-    a->fC4 = CLACT_RegisterPalette(h, func_02027614(), 1, 0xA0, a->heap);
-    a->fC8 = CLACT_RegisterCharacter(h, func_02027618(), 0, 1, a->heap);
-    a->fCC = CLACT_RegisterCellAnim(h, func_0202761C(0), func_02027620(0), a->heap);
+    h = func_020490F4(APP_ICON_GetArchiveId(), a->heap);
+    a->fC4 = CLACT_RegisterPalette(h, APP_ICON_GetMoveKindPaletteFileId(), 1, 0xA0, a->heap);
+    a->fC8 = CLACT_RegisterCharacter(h, APP_ICON_GetMoveKindAnimFileId(), 0, 1, a->heap);
+    a->fCC = CLACT_RegisterCellAnim(h, APP_ICON_GetStatusCellFileId(0), APP_ICON_GetStatusPaletteFileId(0), a->heap);
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

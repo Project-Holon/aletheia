@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DE8
+ * function: DUP_FITTING_CreateActors
  * address: 0x021B9DE8
  * packet: pkt_ov133_021B9DE8
  * region: ov133
@@ -34,7 +34,7 @@ extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-void func_021B9DE8(u8 *p)
+void DUP_FITTING_CreateActors(u8 *p)
 {
     Params configs[2];
     int a,b,c,d,e,f,g,h;

@@ -1,5 +1,5 @@
 /*
- * function: func_0202F7C4
+ * function: APP_POWER_ResetDisplay
  * address:  0x0202F7C4
  * packet:   pkt_0202F7C4
  * region:   arm9
@@ -37,8 +37,8 @@
  *   func_020809A0    0x020809A0  arm
  *   func_0207FDCC    0x0207FDCC  arm
  *   GX_SetGraphicsMode    0x0207D4B0  arm
- *   func_0202F870    0x0202F870  thumb
- *   func_0202F940    0x0202F940  thumb
+ *   APP_POWER_LoadShutdownScreen    0x0202F870  thumb
+ *   APP_POWER_DrawShutdownScreen    0x0202F940  thumb
  */
 
 typedef unsigned char u8;
@@ -55,10 +55,10 @@ extern int func_020808F4(void);
 extern int func_020809A0(void);
 extern void func_0207FDCC(u32 a);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
-extern void func_0202F870(void);
-extern void func_0202F940(u32 a);
+extern void APP_POWER_LoadShutdownScreen(void);
+extern void APP_POWER_DrawShutdownScreen(u32 a);
 
-void func_0202F7C4(u32 a0)
+void APP_POWER_ResetDisplay(u32 a0)
 {
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0xFFFFFFF0);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 0xFFFFFFF0);
@@ -74,8 +74,8 @@ void func_0202F7C4(u32 a0)
     REG16(0x0400000A) = REG16(0x0400000A) & 0xFFBF;
     REG32(0x04000014) = 0;
     REG16(0x04000050) = 0;
-    func_0202F870();
-    func_0202F940(a0);
+    APP_POWER_LoadShutdownScreen();
+    APP_POWER_DrawShutdownScreen(a0);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 0x10);
 }

@@ -127,13 +127,8 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
-typedef signed short   s16_021C48A0;
 
 typedef signed char    s8;
-
-typedef int            s32_021C4E6C;
-
-typedef signed int     s32_021C4F7C;
 
 typedef struct ShortcutActorPos {
     u16 x;
@@ -216,9 +211,7 @@ typedef struct ShortcutMenu {
     struct Node *scrollTask;              /* 0x84 */
 } ShortcutMenu;
 
-typedef signed short   s16_021C59A8;
 
-typedef short s16_021C577C;
 
 typedef struct { fx32 m[3][3]; } MtxFx33;
 
@@ -255,9 +248,9 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern s32_021C4F7C CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32_021C4F7C CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32_021C4F7C CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);

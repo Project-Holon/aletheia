@@ -22,7 +22,7 @@
  *   func_02017E88 0x02017E88 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
- *   func_020275EC 0x020275EC thumb
+ *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -53,7 +53,7 @@ extern u32 func_02017E88(void *,u32,u32);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 struct Struct36;
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
-extern u8 func_020275EC(int i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -91,7 +91,7 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
         second=func_02017E88(object,175,0);
         CLACT_GetCharacterProxy(*(u32 *)((u32)a+first*4u+0x130u),&r1);
         CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f198,(const struct Struct36 *)(&r1));
-        CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f198,func_020275EC((u8)first),1);
+        CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f198,APP_ICON_GetTypePaletteOffset((u8)first),1);
         point.x=96;
         point.y=48;
         CLACT_AddActorSurfacePos(((struct Obj01407 *)a)->f198,(const struct Vec2 *)(&point),0);
@@ -100,7 +100,7 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
         if(first!=second) {
             CLACT_GetCharacterProxy(*(u32 *)((u32)a+second*4u+0x130u),&r2);
             CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f19C,(const struct Struct36 *)(&r2));
-            CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f19C,func_020275EC((u8)second),1);
+            CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f19C,APP_ICON_GetTypePaletteOffset((u8)second),1);
             point.x=130;
             point.y=48;
             CLACT_AddActorSurfacePos(((struct Obj01407 *)a)->f19C,(const struct Vec2 *)(&point),0);

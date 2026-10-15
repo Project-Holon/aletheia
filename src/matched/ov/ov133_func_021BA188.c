@@ -1,5 +1,5 @@
 /*
- * function: func_021BA188
+ * function: DUP_FITTING_ITEM_ListGetCount
  * address: 0x021BA188
  * packet: pkt_ov133_021BA188
  * region: ov133
@@ -11,4 +11,4 @@
  * symbols:
  */
 #include "../include/Obj23328.h"
-unsigned short func_021BA188(char *p){return ((struct Obj23328 *)p)->f4;}
+unsigned short DUP_FITTING_ITEM_ListGetCount(char *p){return ((struct Obj23328 *)p)->f4;}

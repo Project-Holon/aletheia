@@ -1,5 +1,5 @@
 /*
- * function: func_0202ED00
+ * function: COMM_HISTORY_RemoveAt
  * address:  0x0202ED00
  * packet:   pkt_0202ED00
  * region:   arm9
@@ -32,7 +32,7 @@ struct Slot {
     u8  pad27;
 };
 
-void func_0202ED00(struct Slot *t, u32 n)
+void COMM_HISTORY_RemoveAt(struct Slot *t, u32 n)
 {
     struct Slot *dst;
     struct Slot *src;

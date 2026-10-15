@@ -1,5 +1,5 @@
 /*
- * function: func_021D42A8
+ * function: WIFILOGIN_DISP_OpenProfileCard
  * address: 0x021D42A8
  * packet: pkt_ov115_021D42A8
  * region: ov115
@@ -20,4 +20,4 @@ struct BigObj;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-void func_021D42A8(u8 *p) { func_02009860((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj22582 *)p)->f44)); }
+void WIFILOGIN_DISP_OpenProfileCard(u8 *p) { func_02009860((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj22582 *)p)->f44)); }

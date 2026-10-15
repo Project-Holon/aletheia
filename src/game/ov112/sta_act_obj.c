@@ -27,8 +27,6 @@
  *   BILLBOARD_FreeElem 0x0204F5A8 arm
  *   BILLBOARD_DeleteImage 0x0204F150 arm
  */
-#include "../../matched/include/Obj08023.h"
-
 struct Trip;
 struct Board;
 struct Vec3;
@@ -54,7 +52,7 @@ typedef struct {
 /* Element manager: heap id, element count, billboard board and 5 element slots. */
 typedef struct {
     u16 heap;
-    u16 n;
+    u16 count;
     void *board;
     StaActObjEntry entries[5];
 } StaActObjObject;
@@ -86,17 +84,17 @@ StaActObjObject *STA_ACT_OBJ_Create(u16 heap, void *board)
     o=func_02030734(heap,148,0,d_021F83F8,79);
     o->heap=heap;
     o->board=board;
-    o->n=0;
+    o->count=0;
     for (;i<5;i++) { o->entries[i].active=0; o->entries[i].dirty=0; }
     return o;
 }
 
-void STA_ACT_OBJ_Delete(char *p) {u8 i;for(i=0;i<5;i++)if(*(u32 *)(p+i*28+8)==1)STA_ACT_OBJ_FreeEntry((u32 *)p,(StaActObjEntry *)(p+8+i*28));func_020307B0(p);}
+void STA_ACT_OBJ_Delete(char *p) {u8 i;for(i=0;i<5;i++)if(((StaActObjObject *)p)->entries[i].active==1)STA_ACT_OBJ_FreeEntry((u32 *)p,&((StaActObjObject *)p)->entries[i]);func_020307B0(p);}
 
 /*
  * lever: Load adds the index before offset eight; the call adds offset eight before the index.
  */
-void STA_ACT_OBJ_Update(char *p) {int i;for(i=0;i<5;i++)if(*(u32 *)(p+i*28+8)==1)STA_ACT_OBJ_UpdateEntry(p,(StaActObjEntry *)(p+8+i*28));}
+void STA_ACT_OBJ_Update(char *p) {int i;for(i=0;i<5;i++)if(((StaActObjObject *)p)->entries[i].active==1)STA_ACT_OBJ_UpdateEntry(p,&((StaActObjObject *)p)->entries[i]);}
 
 /*
  * extent: Padding then separately verified follower STA_ACT_OBJ_SetCount.
@@ -106,20 +104,20 @@ void STA_ACT_OBJ_UpdateEntry(char *o, StaActObjEntry *entry)
     Vec v;
     float f;
     if(entry->dirty==1) {
-        if(((struct Obj08023 *)o)->f2!=0) f=0.5f+(float)(((struct Obj08023 *)o)->f2<<12);
-        else f=(float)(((struct Obj08023 *)o)->f2<<12)-0.5f;
+        if(((StaActObjObject *)o)->count!=0) f=0.5f+(float)(((StaActObjObject *)o)->count<<12);
+        else f=(float)(((StaActObjObject *)o)->count<<12)-0.5f;
         v.x=((int)entry->x-(int)f)/16;
         v.y=(786432-(int)entry->y)/16;
         v.z=entry->z;
-        BILLBOARD_SetElemPos(((struct Obj08023 *)o)->f4,entry->index,(struct Trip *)(&v));
+        BILLBOARD_SetElemPos(((StaActObjObject *)o)->board,entry->index,(struct Trip *)(&v));
         entry->dirty=0;
     }
 }
 
-void STA_ACT_OBJ_SetCount(StaActObjObject *o, u16 n)
+void STA_ACT_OBJ_SetCount(StaActObjObject *o, u16 count)
 {
     u8 i;
-    o->n=n;
+    o->count=count;
     for(i=0;i<5;i++) if(o->entries[i].active==1) o->entries[i].dirty=1;
 }
 
@@ -137,8 +135,8 @@ StaActObjEntry *STA_ACT_OBJ_AddEntry(StaActObjObject *o)
 
 void STA_ACT_OBJ_FreeEntry(u32 *o, StaActObjEntry *entry)
 {
-    BILLBOARD_FreeElem((void *)o[1], entry->index);
-    BILLBOARD_DeleteImage((void *)o[1], entry->id);
+    BILLBOARD_FreeElem(((StaActObjObject *)o)->board, entry->index);
+    BILLBOARD_DeleteImage(((StaActObjObject *)o)->board, entry->id);
     entry->active=0;
 }
 

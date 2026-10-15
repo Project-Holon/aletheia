@@ -1,5 +1,5 @@
 /*
- * function: func_021C76F0
+ * function: Wf2dmapFriend_InitItemScreen
  * address: 0x021C76F0
  * packet: pkt_ov128_021C76F0
  * region: ov128
@@ -9,12 +9,12 @@
  * status: EXACT
  * leaf: sole unresolved overlay blocker of handed 021C76F8.
  * symbols:
- *   func_021C7ACC 0x021C7ACC thumb ov128
+ *   Wf2dmapFriend_InitItemWidgets 0x021C7ACC thumb ov128
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C7ACC(u8 *,u8 *,u8 *,u32);
-void func_021C76F0(u8 *p,u8 *q,u8 *ctx,u32 value)
+extern void Wf2dmapFriend_InitItemWidgets(u8 *,u8 *,u8 *,u32);
+void Wf2dmapFriend_InitItemScreen(u8 *p,u8 *q,u8 *ctx,u32 value)
 {
-    func_021C7ACC(p,q,ctx,value);
+    Wf2dmapFriend_InitItemWidgets(p,q,ctx,value);
 }

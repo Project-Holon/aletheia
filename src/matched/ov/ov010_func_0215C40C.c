@@ -21,7 +21,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
- *   func_0202F190 0x0202F190 thumb
+ *   SAVE_EVENT_Write 0x0202F190 thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  */
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ struct Rec44;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
-extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecalcParam(void *);
 void *SCRCMD_PROC_CreateMonFromSpec(void *a, Spec *s)
 {
@@ -60,7 +60,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *a, Spec *s)
     POKE_TOOL_SetPartyValue(r4, 6, s->f10);
     if (FILE_UTIL_Get_0FE4(s->f20, 0xF, s->f00) == 4)
         POKE_TOOL_SetPartyValue(r4, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)s->f20));
-    func_0202F190(r4, 0, (u32)r7, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a))), s->f00);
+    SAVE_EVENT_Write(r4, 0, (u32)r7, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a))), s->f00);
     POKE_TOOL_RecalcParam(r4);
     return r4;
 }

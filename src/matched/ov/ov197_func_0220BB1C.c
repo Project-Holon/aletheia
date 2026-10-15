@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202F114 0x0202F114 thumb
- *   func_0202F138 0x0202F138 thumb
+ *   ITEM_GFX_IsFlagClear 0x0202F114 thumb
+ *   ITEM_GFX_GetItemId 0x0202F138 thumb
  */
 #include "../include/Obj05520.h"
 #include "../include/Obj25011.h"
-extern unsigned func_0202F114(const unsigned char *,unsigned);
-extern unsigned short func_0202F138(unsigned);
+extern unsigned ITEM_GFX_IsFlagClear(const unsigned char *,unsigned);
+extern unsigned short ITEM_GFX_GetItemId(unsigned);
 void B_BAG_MAIN_BuildOtherList(char *p)
 {
     unsigned i;
     for(i=0;i<46;i++) {
-        if(func_0202F114(*(const unsigned char * *)&((struct Obj25011 *)(*(char * *)&((struct Obj05520 *)p)->f0))->f10,i)==1) {
-            *(unsigned short *)(p+0x150+((struct Obj05520 *)p)->f535*4)=func_0202F138(i);
+        if(ITEM_GFX_IsFlagClear(*(const unsigned char * *)&((struct Obj25011 *)(*(char * *)&((struct Obj05520 *)p)->f0))->f10,i)==1) {
+            *(unsigned short *)(p+0x150+((struct Obj05520 *)p)->f535*4)=ITEM_GFX_GetItemId(i);
             *(unsigned short *)(p+0x152+((struct Obj05520 *)p)->f535*4)=1;
             (((struct Obj05520 *)p)->f535)++;
         }

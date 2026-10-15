@@ -38,7 +38,7 @@
  *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
  *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb  ov021
- *   func_02028590  0x02028590  thumb
+ *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020071F0  0x020071F0  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -252,7 +252,7 @@ extern void FIELD_SUBSCREEN_StopReportSaveAnim(FieldCommLink *link);
 extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(FieldCommLink *link);
 extern void FIELD_SUBSCREEN_ResumeField(FieldCommLink *link, u32 heapId);
 extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize);
-extern AppKeyCursor *func_02028590(u32 a0, u32 a1, u32 a2, u32 heapId);
+extern AppKeyCursor *APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u32 heapId);
 extern PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern int func_020071F0(SaveControl *saveControl);
 extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *bmpWin, u32 kind);
@@ -360,7 +360,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             w->res->msgData = func_02045B38(0, 3, 0x9E, w->heapId);
             w->res->message = STRBUF_Create(0x200, w->heapId);
             w->res->tcbl = TCBL_Create(w->heapId, w->heapId, 1, 4);
-            w->res->keyCursor = func_02028590(0xF, 1, 1, w->heapId);
+            w->res->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, w->heapId);
             w->res->printQue = PRINTSYS_QUE_Create(w->heapId);
             w->res->waitFrames = 0;
             REPORT_EVENT_CreateMessageWindow(w);

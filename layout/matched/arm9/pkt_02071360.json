@@ -77,7 +77,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02071C14",
+   "name": "NNSi_G3dTexMtxScaleTrans2",
    "address": "0x02071C14",
    "kind": "game",
    "region": "arm9",

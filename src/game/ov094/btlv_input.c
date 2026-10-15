@@ -94,11 +94,11 @@
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_020275E4 0x020275E4 thumb
- *   func_020275FC 0x020275FC thumb
- *   func_02027600 0x02027600 thumb
- *   func_020275E8 0x020275E8 thumb
- *   func_020275F8 0x020275F8 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
+ *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
+ *   APP_ICON_GetTouchBarFileId 0x020275E8 thumb
+ *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
  *   d_0220A4EC 0x0220A4EC data ov094 a4
  *   MTX_Scale22_  0x0207AD58  thumb
  *   func_02040820  0x02040820  arm
@@ -179,11 +179,8 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  *   GXx_GetMasterBrightness_  0x0207D55C  arm  arm9
  *   BG_SYS_ClearLayer  0x0204152C  arm  arm9
+ *   APP_ICON_GetTypePaletteOffset  0x020275EC  thumb  arm9
  */
-#include "../../matched/include/Obj21770.h"
-#include "../../matched/include/Obj21781.h"
-#include "../../matched/include/Obj21782.h"
-#include "../../matched/include/Obj21799.h"
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
 #include "btlv_effect_shared_types.h"
@@ -301,7 +298,8 @@ typedef struct Arg1 {
     int f94;
     u8 pad98[0xbc - 0x98];
     int fbc;
-    u8 padc0[5];
+    u8 padc0[4];
+    u8 runTextId;   /* 0xC4: value set into the run-button text slot */
     u8 bc5;
 } Arg1;
 
@@ -334,7 +332,7 @@ typedef struct {
 
 
 typedef struct BtlvInputFingerTable {
-    Pair_02201B20 pos[3];
+    BtlvClactPoint pos[3];
 } BtlvInputFingerTable;
 
 
@@ -446,6 +444,18 @@ typedef struct BtlvInputTextPosRow { BtlvInputTextPos pos[4]; } BtlvInputTextPos
 
 typedef struct { int w[9]; } Struct36;
 
+/* Screen graphics file filled by ARC_UTIL_LoadScreenDataFromArchive. */
+typedef struct BtlvInputScreenFile {
+    u8 header[0x14];
+    void *tileGfx;      /* 0x14: tile pixel data */
+} BtlvInputScreenFile;
+
+/* Palette file filled by ARC_UTIL_LoadPaletteBlockFromArchive. */
+typedef struct BtlvInputPaletteFile {
+    u8 header[0xC];
+    void *palette;      /* 0x0C: palette data */
+} BtlvInputPaletteFile;
+
 typedef struct Slots {
     u16 id[4];
     u8 a[4];
@@ -545,7 +555,7 @@ extern void * TCB_Main(struct Ctx *c);
 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 
-extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *ctx);
+extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
@@ -682,15 +692,15 @@ extern void MIi_CpuCopy16(const void *, void *, u32);
 
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 
-extern u32 func_020275FC(u32);
+extern u32 APP_ICON_GetTypePaletteFileId(u32);
 
-extern u32 func_02027600(u32);
+extern u32 APP_ICON_GetTypeAnimFileId(u32);
 
-extern u32 func_020275E8(void);
+extern u32 APP_ICON_GetTouchBarFileId(void);
 
-extern u32 func_020275F8(u32);
+extern u32 APP_ICON_GetTypeCellFileId(u32);
 
 extern void MTX_Scale22_(void *dst, int a, int b);
 
@@ -712,7 +722,7 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 
-extern u8 func_020275EC(int i);
+extern u8 APP_ICON_GetTypePaletteOffset(int i);
 
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
@@ -1785,13 +1795,13 @@ void BTLV_INPUT_LoadCommonGraphics(BtlvInput *input)
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, (u16)(CLACT_GetPaletteVramAddress(input->resCommonPal, 1) >> 1), 0x100);
     input->resButtonChr = CLACT_RegisterCharacter(input->arc, 0x77, 0, 1, input->heap);
     input->resButtonCell = CLACT_RegisterCellAnim(input->arc, 0x78, 0x79, input->heap);
-    arc = func_020490F4(func_020275E4(), (u16)((input->heap & 0x7fff) | 0x8000));
-    file = func_020275FC(0);
-    input->typeCell = CLACT_RegisterCellAnim(arc, file, func_02027600(0), input->heap);
-    input->typePal = CLACT_RegisterPalette(arc, func_020275E8(), 1, 0x100, input->heap);
+    arc = func_020490F4(APP_ICON_GetArchiveId(), (u16)((input->heap & 0x7fff) | 0x8000));
+    file = APP_ICON_GetTypePaletteFileId(0);
+    input->typeCell = CLACT_RegisterCellAnim(arc, file, APP_ICON_GetTypeAnimFileId(0), input->heap);
+    input->typePal = CLACT_RegisterPalette(arc, APP_ICON_GetTouchBarFileId(), 1, 0x100, input->heap);
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, (u16)(CLACT_GetPaletteVramAddress(input->typePal, 1) >> 1), 0x60);
     for (i = 0; i < 4; i++)
-        input->typeChr[i] = CLACT_RegisterCharacter(arc, func_020275F8(0), 0, 1, input->heap);
+        input->typeChr[i] = CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(0), 0, 1, input->heap);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -2563,7 +2573,7 @@ void BTLV_INPUT_WaitFadeTaskMain(void *task, void *arg)
 {
     BtlvInput **q = arg;
 
-    if (PALANM_GetFadeRequestBits(((struct Obj21770 *)(*q))->f64) != 0)
+    if (PALANM_GetFadeRequestBits((*q)->palAnm) != 0)
         return;
     if (FADE_IsActive() != 0)
         return;
@@ -2720,7 +2730,7 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   offset constants and the address-taken frame block (t1 0xf8, t2 0xd8, buf 0xb4,
  *   w/h, cd/pd, c) all line up; the loop needs the (i < 4) ? 1 : 0 test to keep the
  *   branch-to-bottom entry, and the shared heap local keeps (heap & 0x7fff) | 0x8000
- *   ahead of func_020275E4. Left: register allocation. The image keeps q in r6 and
+ *   ahead of APP_ICON_GetArchiveId. Left: register allocation. The image keeps q in r6 and
  *   recomputes p + i*4, q + i*2 and q + i after every call (only i*8 lives in r7, k
  *   and font are spilled, font at sp+0x9c just under c); 1.1p1 CSEs those sums
  *   across the calls, so q spills, k takes r7 and every slot shifts. Breaking the
@@ -2745,7 +2755,7 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   the image is reverse declaration with font last (sp+0x9c); ours spills font
  *   right after file. volatile font declared last puts font just under c but
  *   flips p/i (image p r4, i r5); a 4-byte struct Font gets frame 0x118.
- *   Witness gaps once bytes match: func_020275F8, func_020275EC (arm, no caller
+ *   Witness gaps once bytes match: APP_ICON_GetTypeCellFileId, APP_ICON_GetTypePaletteOffset (arm, no caller
  *   outside this body) and the six d_0220Axxx tables are unresolved relocations.
  * note (2026-10-02, lane A2 follow-up): cause found, not closable under the
  *   lane rules. The image is this body compiled with global CSE off: with
@@ -2795,15 +2805,15 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   opt_strength_reduction off, scheduling off, declaration order of every
  *   register local, colour/EFA4/02049F34 prototypes (incl. unprototyped),
  *   the EFA4 third-argument spelling, inline heap/arc, loop-condition forms.
- *   The last relocation, func_020275EC, resolved once arm9 0x020275EC was
- *   seeded as a Thumb leaf (src/matched/arm9/func_020275EC.c, EXACT).
+ *   The last relocation, APP_ICON_GetTypePaletteOffset, resolved once arm9 0x020275EC was
+ *   seeded as a Thumb leaf (src/matched/arm9/APP_ICON_GetTypePaletteOffset.c, EXACT).
  */
 /*
  * note (2026-10-01): DIFF. Control flow, call order, argument values, hoisted
  *   offset constants and the address-taken frame block (t1 0xf8, t2 0xd8, buf 0xb4,
  *   w/h, cd/pd, c) all line up; the loop needs the (i < 4) ? 1 : 0 test to keep the
  *   branch-to-bottom entry, and the shared heap local keeps (heap & 0x7fff) | 0x8000
- *   ahead of func_020275E4. Left: register allocation. The image keeps q in r6 and
+ *   ahead of APP_ICON_GetArchiveId. Left: register allocation. The image keeps q in r6 and
  *   recomputes p + i*4, q + i*2 and q + i after every call (only i*8 lives in r7, k
  *   and font are spilled, font at sp+0x9c just under c); 1.1p1 CSEs those sums
  *   across the calls, so q spills, k takes r7 and every slot shifts. Breaking the
@@ -2828,7 +2838,7 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   the image is reverse declaration with font last (sp+0x9c); ours spills font
  *   right after file. volatile font declared last puts font just under c but
  *   flips p/i (image p r4, i r5); a 4-byte struct Font gets frame 0x118.
- *   Witness gaps once bytes match: func_020275F8, func_020275EC (arm, no caller
+ *   Witness gaps once bytes match: APP_ICON_GetTypeCellFileId, APP_ICON_GetTypePaletteOffset (arm, no caller
  *   outside this body) and the six d_0220Axxx tables are unresolved relocations.
  * note (2026-10-02, lane A2 follow-up): cause found, not closable under the
  *   lane rules. The image is this body compiled with global CSE off: with
@@ -2878,8 +2888,8 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   opt_strength_reduction off, scheduling off, declaration order of every
  *   register local, colour/EFA4/02049F34 prototypes (incl. unprototyped),
  *   the EFA4 third-argument spelling, inline heap/arc, loop-condition forms.
- *   The last relocation, func_020275EC, resolved once arm9 0x020275EC was
- *   seeded as a Thumb leaf (src/matched/arm9/func_020275EC.c, EXACT).
+ *   The last relocation, APP_ICON_GetTypePaletteOffset, resolved once arm9 0x020275EC was
+ *   seeded as a Thumb leaf (src/matched/arm9/APP_ICON_GetTypePaletteOffset.c, EXACT).
  */
 void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
 {
@@ -2922,12 +2932,12 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
             input->wazaActors[i] = (struct Obj *)CLACT_CreateActor(input->unitWaza, input->typeChr[i], input->typePal, input->typeCell, d_0220A392, 1, input->heap);
             CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->wazaActors[i]), (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
             heap = (input->heap & 0x7fff) | 0x8000;
-            arc = func_020275E4();
-            chr = ARC_UTIL_LoadScreenDataFromArchive(arc, func_020275F8((u8)k), 0, (u32)(&cd), heap);
-            CLACT_SetActorPaletteOffset(input->wazaActors[i], func_020275EC((u8)k), 1);
+            arc = APP_ICON_GetArchiveId();
+            chr = ARC_UTIL_LoadScreenDataFromArchive(arc, APP_ICON_GetTypeCellFileId((u8)k), 0, (u32)(&cd), heap);
+            CLACT_SetActorPaletteOffset(input->wazaActors[i], APP_ICON_GetTypePaletteOffset((u8)k), 1);
             CLACT_GetActorImageProxy(input->wazaActors[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
-            MIi_CpuCopy16(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
+            MIi_CpuCopy16(((BtlvInputScreenFile *)cd)->tileGfx, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             GF_FONT_SetTextColor(1, 2, 0);
@@ -2954,7 +2964,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
         }
         heap = (input->heap & 0x7fff) | 0x8000;
         pltt = ARC_UTIL_LoadPaletteBlockFromArchive(0xb, file, (u32)(&pd), heap);
-        PALANM_CopyToSlot(input->palAnm, ((struct Obj21782 *)pd)->fC, (int)1, (u16)(i * 16 + 0x90), 0x20);
+        PALANM_CopyToSlot(input->palAnm, ((BtlvInputPaletteFile *)pd)->palette, (int)1, (u16)(i * 16 + 0x90), 0x20);
         func_020307B0(pltt);
     }
     input->enabled[i] = 1;
@@ -3773,7 +3783,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
     w = func_02045EC0(input->msgData, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(1, 2, 0);
-    WORDSET_SetSlotNumber((u32)((struct WordSet *)h), 0, ((struct Obj21799 *)runInfo)->fC4, 2, 0, 1);
+    WORDSET_SetSlotNumber((u32)((struct WordSet *)h), 0, ((Arg1 *)runInfo)->runTextId, 2, 0, 1);
     WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &v18, &v14);
     PRINTSYS_Print((void *)(input->bmpB), 12 - v18 / 2, 0, v, (void *)(input->font));

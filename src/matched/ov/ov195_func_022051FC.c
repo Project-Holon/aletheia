@@ -22,7 +22,7 @@
  *   func_02045B38 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   func_02040588 0x02040588 arm
  */
 #include "../include/Obj00844.h"
@@ -48,7 +48,7 @@ extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern u32 func_02028590(int, int, int, u16);
+extern u32 APP_KEYCURSOR_CreateDefault(int, int, int, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 void SHINKA_DEMO_SetupWindows(int a, char *b)
@@ -72,7 +72,7 @@ void SHINKA_DEMO_SetupWindows(int a, char *b)
     GF_FONT_SetTextColor(1, 2, 0xf);
     ((struct Obj00844 *)b)->f80 = 0;
     ((struct Obj00844 *)b)->f64 = 0;
-    ((struct Obj00844 *)b)->f84 = func_02028590(0xf, 1, 1, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f84 = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, ((struct Obj00844 *)b)->f2);
     ((struct Obj00844 *)b)->f88 = 0;
     func_02040588(1, 0);
     ((struct Obj00844 *)b)->f8C = 0;

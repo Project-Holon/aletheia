@@ -1,5 +1,5 @@
 /*
- * function: func_021C66A8
+ * function: Wf2dmapFriend_InitBg
  * address: 0x021C66A8
  * packet: pkt_ov128_021C66A8
  * region: ov128
@@ -39,7 +39,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B68(void *,u32,u32,u32,u32,u32);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u32);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u32);
-void func_021C66A8(char *p,int heap)
+void Wf2dmapFriend_InitBg(char *p,int heap)
 {
     DispConfig config;
     int i;

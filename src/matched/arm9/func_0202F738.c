@@ -1,5 +1,5 @@
 /*
- * function: func_0202F738
+ * function: EVENT_ID_AreSlotsClear
  * address:  0x0202F738
  * packet:   pkt_0202F498
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 FILE_UTIL_Check12E4(u16 v);
 
-int func_0202F738(void *p, int a1)
+int EVENT_ID_AreSlotsClear(void *p, int a1)
 {
     int i;
 

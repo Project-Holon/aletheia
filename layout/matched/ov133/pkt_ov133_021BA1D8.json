@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA1D8",
+   "name": "DUP_FITTING_ITEM_DeleteElem",
    "address": "0x021BA1D8",
    "kind": "game",
    "region": "ov133",

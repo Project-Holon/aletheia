@@ -1,5 +1,5 @@
 /*
- * function: func_021BF0A0
+ * function: INTRO_MSG_Create
  * address: 0x021BF0A0
  * packet: pkt_ov204_021BF0A0
  * region: ov204
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   site 0x021C0AE4 data a1
+ *   gIntroSite 0x021C0AE4 data a1
  *   func_02030734 0x02030734 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -25,14 +25,14 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02028590 0x02028590 thumb
+ *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   TIME_ICON_Alloc 0x0202EF60 thumb
  */
 #include "../include/Obj01008.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern const char site[];
+extern const char gIntroSite[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 struct Cfg;
 struct CharBuf;
@@ -56,13 +56,13 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern void *func_02028590(u32,u32,u32,u32);
+extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 extern struct Obj *TIME_ICON_Alloc(u32 heap);
-char *func_021BF0A0(u16 heap)
+char *INTRO_MSG_Create(u16 heap)
 {
     char *p;
     void *obj;
-    p=func_02030734(heap,72,1,site,129);
+    p=func_02030734(heap,72,1,gIntroSite,129);
     ((struct Obj01008 *)p)->f0=heap;
     ((struct Obj01008 *)p)->f8=GF_FONT_Create_EC64(heap);
     ((struct Obj01008 *)p)->f4=(void *)PRINTSYS_QUE_Create((void *)heap);
@@ -78,7 +78,7 @@ char *func_021BF0A0(u16 heap)
     obj=((struct Obj01008 *)p)->f38;
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_02041B6C(BMP_WIN_GetBgLayer(obj));
     ((struct Obj01008 *)p)->f1C=(void *)BMP_WIN_Create(1,1,19,30,4,10,1);
-    ((struct Obj01008 *)p)->f20=func_02028590(15,1,1,((struct Obj01008 *)p)->f0);
+    ((struct Obj01008 *)p)->f20=APP_KEYCURSOR_CreateDefault(15,1,1,((struct Obj01008 *)p)->f0);
     ((struct Obj01008 *)p)->f44=TIME_ICON_Alloc(((struct Obj01008 *)p)->f0);
     return p;
 }

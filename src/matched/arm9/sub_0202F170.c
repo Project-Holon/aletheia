@@ -1,5 +1,5 @@
 /*
- * function: sub_0202F170
+ * function: ITEM_GFX_GetRowIndex
  * address:  0x0202F170
  * packet:   pkt_0202EF98
  * region:   arm9
@@ -13,13 +13,13 @@
  *   g_020A03C8      0x020A03C8  data
  *
  * Index of the entry whose first field matches, 0 when there is none.
- * Unsigned loop here, signed in sub_0202F144.
+ * Unsigned loop here, signed in ITEM_GFX_GetExtraValue.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202F170.c \
- *       --func sub_0202F170 --addr 0x0202F170 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ITEM_GFX_GetRowIndex.c \
+ *       --func ITEM_GFX_GetRowIndex --addr 0x0202F170 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_020A03C8.h"
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 extern struct G_020A03C8 g_020A03C8[];
 
-u32 sub_0202F170(u16 key)
+u32 ITEM_GFX_GetRowIndex(u16 key)
 {
     u32 i;
 

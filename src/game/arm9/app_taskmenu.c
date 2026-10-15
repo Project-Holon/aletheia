@@ -1,7 +1,7 @@
 /*
  * file:     app_taskmenu.c
  * unit:     yes
- * function: BEACON_STATUS_Create, BEACON_STATUS_Delete, BEACON_STATUS_GetLog, BEACON_STATUS_GetViewTop, BEACON_STATUS_SetViewTop, BEACON_STATUS_GetMessage, BEACON_STATUS_GetViewFlags, BEACON_STATUS_IsLocked, BEACON_STATUS_DoNothing, func_020275E4, func_020275E8, func_020275EC, func_020275F8, func_020275FC, func_02027600, func_02027604, func_02027610, func_02027614, func_02027618, func_0202761C, func_02027620, func_02027624, func_02027628, func_0202762C, func_02027630, func_02027634, func_02027694, func_02027698, func_0202769C, func_020276A0, func_020276A4, func_020276A8, func_020276AC, func_020276B0, func_020276B4, func_020276B8, func_020276BC, func_020276C0, func_020276C4, func_02027710, func_02027714, func_02027718, func_0202771C, func_02027720, func_0202772C, func_02027738, func_02027740, func_02027748, func_0202774C, func_02027750, func_02027754, func_02027758, func_0202775C, func_02027760, func_02027764, func_02027768, func_0202776C, func_02027770, func_02027774, APP_TASKMENU_OpenMenu, APP_TASKMENU_OpenMenuFastDecide, APP_TASKMENU_CloseMenu, APP_TASKMENU_TransWinAfterPrint, APP_TASKMENU_UpdateMenu, APP_TASKMENU_IsFinish, APP_TASKMENU_GetCursorPos, APP_TASKMENU_SetCursorActive, APP_TASKMENU_IsDecide, APP_TASKMENU_CreateWindows, APP_TASKMENU_SetWinActive, APP_TASKMENU_UpdateCursorColor, APP_TASKMENU_UpdateCursorColorBlend, APP_TASKMENU_SetDisableKey, APP_TASKMENU_SetCursorPos, APP_TASKMENU_UpdateKey, APP_TASKMENU_UpdateTouch, APP_TASKMENU_RES_Create, APP_TASKMENU_RES_Delete, APP_TASKMENU_WIN_Create, APP_TASKMENU_WIN_CreateEx, APP_TASKMENU_WIN_CreateExNoScreen, APP_TASKMENU_WIN_CreateCore, APP_TASKMENU_WIN_Delete, APP_TASKMENU_WIN_DeleteNoClear, APP_TASKMENU_WIN_Free, APP_TASKMENU_WIN_Update, APP_TASKMENU_WIN_SetActive, APP_TASKMENU_WIN_SetDecide, APP_TASKMENU_WIN_IsFinish, APP_TASKMENU_WIN_IsTouch, APP_TASKMENU_WIN_ResetDecide, APP_TASKMENU_WIN_ChangePalette, APP_TASKMENU_DrawWinFrame, APP_TASKMENU_WIN_ClearScreen, APP_TASKMENU_WIN_TransChar, APP_TASKMENU_WIN_IsUpdateTrans, func_02028470, func_02028484, func_020284F4, func_02028528, func_0202855C, func_02028590, APP_TASKMENU_WIN_SetDecideReturn
+ * function: BEACON_STATUS_Create, BEACON_STATUS_Delete, BEACON_STATUS_GetLog, BEACON_STATUS_GetViewTop, BEACON_STATUS_SetViewTop, BEACON_STATUS_GetMessage, BEACON_STATUS_GetViewFlags, BEACON_STATUS_IsLocked, BEACON_STATUS_DoNothing, APP_ICON_GetArchiveId, APP_ICON_GetTouchBarFileId, APP_ICON_GetTypePaletteOffset, APP_ICON_GetTypeCellFileId, APP_ICON_GetTypePaletteFileId, APP_ICON_GetTypeAnimFileId, APP_ICON_GetMoveKindPaletteOffset, APP_ICON_GetMoveKindCellFileId, APP_ICON_GetMoveKindPaletteFileId, APP_ICON_GetMoveKindAnimFileId, APP_ICON_GetStatusCellFileId, APP_ICON_GetStatusPaletteFileId, APP_ICON_GetStatusAnimFileId, APP_ICON_GetStatusFrameFileId, APP_ICON_GetStatusDataFileId, APP_ICON_GetStatusExtraFileId, APP_ICON_LoadTouchBar, APP_ICON_GetItemCellFileId, APP_ICON_GetItemPaletteFileId, APP_ICON_GetItemAnimFileId, APP_ICON_GetItemFrameFileId, APP_ICON_GetItemDataFileId, APP_ICON_GetItemExtraFileId, APP_ICON_GetItemAnim2FileId, APP_ICON_GetItemFrame2FileId, APP_ICON_GetSealCellFileId, APP_ICON_GetSealPaletteFileId, APP_ICON_GetSealAnimFileId, APP_ICON_GetSealFrameFileId, APP_ICON_GetStatusIconAnim, APP_ICON_GetBallCellFileId, APP_ICON_GetBallPaletteFileId, APP_ICON_GetBallAnimFileId, APP_ICON_GetBallFrameFileId, APP_ICON_GetBallThrowCellFileId, APP_ICON_GetBallThrowAnimFileId, APP_ICON_GetBallOpenCellFileId, APP_ICON_GetBallOpenPaletteFileId, APP_ICON_GetBallOpenAnimFileId, APP_ICON_GetEffectCellFileId, APP_ICON_GetEffectPaletteFileId, APP_ICON_GetEffectAnimFileId, APP_ICON_GetNoneFileId, APP_ICON_GetGearCellFileId, APP_ICON_GetGearPaletteFileId, APP_ICON_GetGearAnimFileId, APP_ICON_GetGearDataFileId, APP_ICON_GetGearExtraFileId, APP_ICON_GetGearFrameFileId, APP_ICON_GetGearAnim2FileId, APP_TASKMENU_OpenMenu, APP_TASKMENU_OpenMenuFastDecide, APP_TASKMENU_CloseMenu, APP_TASKMENU_TransWinAfterPrint, APP_TASKMENU_UpdateMenu, APP_TASKMENU_IsFinish, APP_TASKMENU_GetCursorPos, APP_TASKMENU_SetCursorActive, APP_TASKMENU_IsDecide, APP_TASKMENU_CreateWindows, APP_TASKMENU_SetWinActive, APP_TASKMENU_UpdateCursorColor, APP_TASKMENU_UpdateCursorColorBlend, APP_TASKMENU_SetDisableKey, APP_TASKMENU_SetCursorPos, APP_TASKMENU_UpdateKey, APP_TASKMENU_UpdateTouch, APP_TASKMENU_RES_Create, APP_TASKMENU_RES_Delete, APP_TASKMENU_WIN_Create, APP_TASKMENU_WIN_CreateEx, APP_TASKMENU_WIN_CreateExNoScreen, APP_TASKMENU_WIN_CreateCore, APP_TASKMENU_WIN_Delete, APP_TASKMENU_WIN_DeleteNoClear, APP_TASKMENU_WIN_Free, APP_TASKMENU_WIN_Update, APP_TASKMENU_WIN_SetActive, APP_TASKMENU_WIN_SetDecide, APP_TASKMENU_WIN_IsFinish, APP_TASKMENU_WIN_IsTouch, APP_TASKMENU_WIN_ResetDecide, APP_TASKMENU_WIN_ChangePalette, APP_TASKMENU_DrawWinFrame, APP_TASKMENU_WIN_ClearScreen, APP_TASKMENU_WIN_TransChar, APP_TASKMENU_WIN_IsUpdateTrans, PRINTSYS_CTRL_Init, PRINTSYS_CTRL_Update, PRINTSYS_CTRL_IsInputTrg, PRINTSYS_CTRL_IsInputCont, PRINTSYS_CTRL_IsInputIdle, APP_KEYCURSOR_CreateDefault, APP_TASKMENU_WIN_SetDecideReturn
  * address:  0x0202751C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -152,7 +152,7 @@ typedef struct TaskMenuRes {
     u16 palNo;                  /* +0x02 active palette; palNo + 1 is the inactive one */
     TaskMenuChrData *chrData;   /* +0x04 */
     void *chrBuf;               /* +0x08 loaded frame character file */
-    u32 pad_0C;
+    u32 reserved0C;             /* +0x0C never read; role unknown */
     struct GFont *font;         /* +0x10 */
     struct PrintQueue *printQue;/* +0x14 */
 } TaskMenuRes;
@@ -197,7 +197,7 @@ typedef struct TaskMenuWork {
 /* A single task menu window (a button) (0x20 bytes). */
 typedef struct TaskMenuWin {
     struct BmpWin *bmpWin;      /* +0x00 */
-    u32 pad_04;
+    u32 reserved04;             /* +0x04 never read; role unknown */
     u32 isDecide;               /* +0x08 */
     u32 isUpdateTrans;          /* +0x0C */
     u16 anmCnt;                 /* +0x10 */
@@ -213,7 +213,7 @@ typedef struct TaskMenuWin {
 /* print stream key/touch control                                      */
 /* ------------------------------------------------------------------ */
 
-/* 8 bytes, cleared by func_02028470. */
+/* 8 bytes, cleared by PRINTSYS_CTRL_Init. */
 typedef struct PrintStreamCtrl {
     u8 isKeyReleased;           /* +0x00 keys were released once since the stream started */
     u8 pad_01[3];
@@ -284,56 +284,56 @@ struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs);
 u16 *BEACON_STATUS_GetViewFlags(BeaconStatus *bs);
 int BEACON_STATUS_IsLocked(void);
 void BEACON_STATUS_DoNothing(void);
-u32 func_020275E4(void);
-u32 func_020275E8(void);
-u8 func_020275EC(int type);
-u32 func_020275F8(u32 type);
-u32 func_020275FC(u32 mapping);
-u32 func_02027600(u32 mapping);
-u8 func_02027604(u8 kind);
-u32 func_02027610(u32 kind);
-u32 func_02027614(void);
-u32 func_02027618(void);
-u32 func_0202761C(u32 mapping);
-u32 func_02027620(u32 mapping);
-u32 func_02027624(void);
-u32 func_02027628(void);
-u32 func_0202762C(void);
-u32 func_02027630(void);
-void func_02027634(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo);
-u32 func_02027694(void);
-u32 func_02027698(void);
-u32 func_0202769C(u32 mapping);
-u32 func_020276A0(u32 mapping);
-u32 func_020276A4(void);
-u32 func_020276A8(void);
-u32 func_020276AC(u32 mapping);
-u32 func_020276B0(u32 mapping);
-u32 func_020276B4(void);
-u32 func_020276B8(void);
-u32 func_020276BC(u32 mapping);
-u32 func_020276C0(u32 mapping);
-int func_020276C4(const struct PokemonParam *pp);
-int func_02027710(int mapping);
-int func_02027714(int mapping);
-int func_02027718(int mapping);
-int func_0202771C(int mapping);
-int func_02027720(int ballId);
-int func_0202772C(int ballId);
-int func_02027738(int ballId, int mapping);
-int func_02027740(int ballId, int mapping);
-int func_02027748(void);
-int func_0202774C(int mapping);
-int func_02027750(int mapping);
-int func_02027754(int mapping);
-int func_02027758(void);
-int func_0202775C(int mapping);
-int func_02027760(int mapping);
-int func_02027764(int mapping);
-int func_02027768(void);
-int func_0202776C(int mapping);
-int func_02027770(int mapping);
-int func_02027774(int mapping);
+u32 APP_ICON_GetArchiveId(void);
+u32 APP_ICON_GetTouchBarFileId(void);
+u8 APP_ICON_GetTypePaletteOffset(int type);
+u32 APP_ICON_GetTypeCellFileId(u32 type);
+u32 APP_ICON_GetTypePaletteFileId(u32 mapping);
+u32 APP_ICON_GetTypeAnimFileId(u32 mapping);
+u8 APP_ICON_GetMoveKindPaletteOffset(u8 kind);
+u32 APP_ICON_GetMoveKindCellFileId(u32 kind);
+u32 APP_ICON_GetMoveKindPaletteFileId(void);
+u32 APP_ICON_GetMoveKindAnimFileId(void);
+u32 APP_ICON_GetStatusCellFileId(u32 mapping);
+u32 APP_ICON_GetStatusPaletteFileId(u32 mapping);
+u32 APP_ICON_GetStatusAnimFileId(void);
+u32 APP_ICON_GetStatusFrameFileId(void);
+u32 APP_ICON_GetStatusDataFileId(void);
+u32 APP_ICON_GetStatusExtraFileId(void);
+void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo);
+u32 APP_ICON_GetItemCellFileId(void);
+u32 APP_ICON_GetItemPaletteFileId(void);
+u32 APP_ICON_GetItemAnimFileId(u32 mapping);
+u32 APP_ICON_GetItemFrameFileId(u32 mapping);
+u32 APP_ICON_GetItemDataFileId(void);
+u32 APP_ICON_GetItemExtraFileId(void);
+u32 APP_ICON_GetItemAnim2FileId(u32 mapping);
+u32 APP_ICON_GetItemFrame2FileId(u32 mapping);
+u32 APP_ICON_GetSealCellFileId(void);
+u32 APP_ICON_GetSealPaletteFileId(void);
+u32 APP_ICON_GetSealAnimFileId(u32 mapping);
+u32 APP_ICON_GetSealFrameFileId(u32 mapping);
+int APP_ICON_GetStatusIconAnim(const struct PokemonParam *pp);
+int APP_ICON_GetBallCellFileId(int mapping);
+int APP_ICON_GetBallPaletteFileId(int mapping);
+int APP_ICON_GetBallAnimFileId(int mapping);
+int APP_ICON_GetBallFrameFileId(int mapping);
+int APP_ICON_GetBallThrowCellFileId(int ballId);
+int APP_ICON_GetBallThrowAnimFileId(int ballId);
+int APP_ICON_GetBallOpenCellFileId(int ballId, int mapping);
+int APP_ICON_GetBallOpenPaletteFileId(int ballId, int mapping);
+int APP_ICON_GetBallOpenAnimFileId(void);
+int APP_ICON_GetEffectCellFileId(int mapping);
+int APP_ICON_GetEffectPaletteFileId(int mapping);
+int APP_ICON_GetEffectAnimFileId(int mapping);
+int APP_ICON_GetNoneFileId(void);
+int APP_ICON_GetGearCellFileId(int mapping);
+int APP_ICON_GetGearPaletteFileId(int mapping);
+int APP_ICON_GetGearAnimFileId(int mapping);
+int APP_ICON_GetGearDataFileId(void);
+int APP_ICON_GetGearExtraFileId(int mapping);
+int APP_ICON_GetGearFrameFileId(int mapping);
+int APP_ICON_GetGearAnim2FileId(int mapping);
 TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res);
 TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRes *res);
 void APP_TASKMENU_CloseMenu(TaskMenuWork *menu);
@@ -371,12 +371,12 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
 void APP_TASKMENU_WIN_ClearScreen(TaskMenuWin *win);
 void APP_TASKMENU_WIN_TransChar(TaskMenuWin *win);
 u32 APP_TASKMENU_WIN_IsUpdateTrans(TaskMenuWin *win);
-void func_02028470(PrintStreamCtrl *ctrl, u32 inputType);
-int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream);
-u32 func_020284F4(u32 inputType);
-u32 func_02028528(u32 inputType);
-u32 func_0202855C(u32 inputType);
-struct KeyCursor *func_02028590(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+void PRINTSYS_CTRL_Init(PrintStreamCtrl *ctrl, u32 inputType);
+int PRINTSYS_CTRL_Update(PrintStreamCtrl *ctrl, struct PrintStream *stream);
+u32 PRINTSYS_CTRL_IsInputTrg(u32 inputType);
+u32 PRINTSYS_CTRL_IsInputCont(u32 inputType);
+u32 PRINTSYS_CTRL_IsInputIdle(u32 inputType);
+struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
 
 extern const char beacon_status_File[];
 extern const u8 _PokeTypePltOffset[];
@@ -456,84 +456,84 @@ void BEACON_STATUS_DoNothing(void)
 /* app common resources: file indices in archive 0x53                  */
 /* ================================================================== */
 
-u32 func_020275E4(void)
+u32 APP_ICON_GetArchiveId(void)
 {
     return 0x53;
 }
 
-u32 func_020275E8(void)
+u32 APP_ICON_GetTouchBarFileId(void)
 {
     return 0x21;
 }
 
 /* Palette offset of a type icon; called with a u8 type. */
-u8 func_020275EC(int type)
+u8 APP_ICON_GetTypePaletteOffset(int type)
 {
     return _PokeTypePltOffset[type];
 }
 
-u32 func_020275F8(u32 type)
+u32 APP_ICON_GetTypeCellFileId(u32 type)
 {
     return type + 0x22;
 }
 
-u32 func_020275FC(u32 mapping)
+u32 APP_ICON_GetTypePaletteFileId(u32 mapping)
 {
     return mapping + 0x3b;
 }
 
-u32 func_02027600(u32 mapping)
+u32 APP_ICON_GetTypeAnimFileId(u32 mapping)
 {
     return mapping + 0x3e;
 }
 
 /* Palette offset of a move kind icon. */
-u8 func_02027604(u8 kind)
+u8 APP_ICON_GetMoveKindPaletteOffset(u8 kind)
 {
     return _WazaKindPltOffset[kind];
 }
 
-u32 func_02027610(u32 kind)
+u32 APP_ICON_GetMoveKindCellFileId(u32 kind)
 {
     return kind + 0x38;
 }
 
-u32 func_02027614(void)
+u32 APP_ICON_GetMoveKindPaletteFileId(void)
 {
     return 0x13;
 }
 
-u32 func_02027618(void)
+u32 APP_ICON_GetMoveKindAnimFileId(void)
 {
     return 0x14;
 }
 
-u32 func_0202761C(u32 mapping)
+u32 APP_ICON_GetStatusCellFileId(u32 mapping)
 {
     return mapping + 0x15;
 }
 
-u32 func_02027620(u32 mapping)
+u32 APP_ICON_GetStatusPaletteFileId(u32 mapping)
 {
     return mapping + 0x18;
 }
 
-u32 func_02027624(void)
+u32 APP_ICON_GetStatusAnimFileId(void)
 {
     return 0x1b;
 }
 
-u32 func_02027628(void)
+u32 APP_ICON_GetStatusFrameFileId(void)
 {
     return 0x1c;
 }
 
-u32 func_0202762C(void)
+u32 APP_ICON_GetStatusDataFileId(void)
 {
     return 0x1d;
 }
 
-u32 func_02027630(void)
+u32 APP_ICON_GetStatusExtraFileId(void)
 {
     return 0x1e;
 }
@@ -549,7 +549,7 @@ u32 func_02027630(void)
  * and the +0xC is added on its own, which is the image. The re-base is
  * `(palNo << 12) + (charOffset + (cell & 0xfff))`.
  */
-void func_02027634(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo)
+void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo)
 {
     BarScreen *scrn;
     void *file;
@@ -564,62 +564,62 @@ void func_02027634(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffse
         scrn->barCells[i] = (palNo << 12) + (charOffset + (scrn->barCells[i] & 0xfff));
 }
 
-u32 func_02027694(void)
+u32 APP_ICON_GetItemCellFileId(void)
 {
     return 0x42;
 }
 
-u32 func_02027698(void)
+u32 APP_ICON_GetItemPaletteFileId(void)
 {
     return 0x41;
 }
 
-u32 func_0202769C(u32 mapping)
+u32 APP_ICON_GetItemAnimFileId(u32 mapping)
 {
     return mapping + 0x43;
 }
 
-u32 func_020276A0(u32 mapping)
+u32 APP_ICON_GetItemFrameFileId(u32 mapping)
 {
     return mapping + 0x46;
 }
 
-u32 func_020276A4(void)
+u32 APP_ICON_GetItemDataFileId(void)
 {
     return 0x49;
 }
 
-u32 func_020276A8(void)
+u32 APP_ICON_GetItemExtraFileId(void)
 {
     return 0x4a;
 }
 
-u32 func_020276AC(u32 mapping)
+u32 APP_ICON_GetItemAnim2FileId(u32 mapping)
 {
     return mapping + 0x4b;
 }
 
-u32 func_020276B0(u32 mapping)
+u32 APP_ICON_GetItemFrame2FileId(u32 mapping)
 {
     return mapping + 0x4e;
 }
 
-u32 func_020276B4(void)
+u32 APP_ICON_GetSealCellFileId(void)
 {
     return 0xb;
 }
 
-u32 func_020276B8(void)
+u32 APP_ICON_GetSealPaletteFileId(void)
 {
     return 0xc;
 }
 
-u32 func_020276BC(u32 mapping)
+u32 APP_ICON_GetSealAnimFileId(u32 mapping)
 {
     return mapping + 0xd;
 }
 
-u32 func_020276C0(u32 mapping)
+u32 APP_ICON_GetSealFrameFileId(u32 mapping)
 {
     return mapping + 0x10;
 }
@@ -628,7 +628,7 @@ u32 func_020276C0(u32 mapping)
  * Status icon animation of a Pokemon: 6 when its HP (parameter 0xA0) is 0,
  * else the icon of its status condition (parameter 0x9D, 1..5), 8 for none.
  */
-int func_020276C4(const struct PokemonParam *pp)
+int APP_ICON_GetStatusIconAnim(const struct PokemonParam *pp)
 {
     u32 sick;
 
@@ -651,28 +651,28 @@ int func_020276C4(const struct PokemonParam *pp)
     }
 }
 
-int func_02027710(int mapping)
+int APP_ICON_GetBallCellFileId(int mapping)
 {
     return mapping + 0x51;
 }
 
-int func_02027714(int mapping)
+int APP_ICON_GetBallPaletteFileId(int mapping)
 {
     return mapping + 0x54;
 }
 
-int func_02027718(int mapping)
+int APP_ICON_GetBallAnimFileId(int mapping)
 {
     return mapping + 0xa6;
 }
 
-int func_0202771C(int mapping)
+int APP_ICON_GetBallFrameFileId(int mapping)
 {
     return mapping + 0xa9;
 }
 
 /* Ball id 0 is shown as ball 4. */
-int func_02027720(int ballId)
+int APP_ICON_GetBallThrowCellFileId(int ballId)
 {
     if (ballId == 0) {
         ballId = 4;
@@ -680,7 +680,7 @@ int func_02027720(int ballId)
     return ballId + 0x56;
 }
 
-int func_0202772C(int ballId)
+int APP_ICON_GetBallThrowAnimFileId(int ballId)
 {
     if (ballId == 0) {
         ballId = 4;
@@ -689,72 +689,72 @@ int func_0202772C(int ballId)
 }
 
 /* All balls share the cell and animation files; ballId is not read. */
-int func_02027738(int ballId, int mapping)
+int APP_ICON_GetBallOpenCellFileId(int ballId, int mapping)
 {
     return mapping + 0x89;
 }
 
-int func_02027740(int ballId, int mapping)
+int APP_ICON_GetBallOpenPaletteFileId(int ballId, int mapping)
 {
     return mapping + 0x8c;
 }
 
-int func_02027748(void)
+int APP_ICON_GetBallOpenAnimFileId(void)
 {
     return 0x8f;
 }
 
-int func_0202774C(int mapping)
+int APP_ICON_GetEffectCellFileId(int mapping)
 {
     return mapping + 0x90;
 }
 
-int func_02027750(int mapping)
+int APP_ICON_GetEffectPaletteFileId(int mapping)
 {
     return mapping + 0x93;
 }
 
-int func_02027754(int mapping)
+int APP_ICON_GetEffectAnimFileId(int mapping)
 {
     return mapping + 0x96;
 }
 
-int func_02027758(void)
+int APP_ICON_GetNoneFileId(void)
 {
     return 0;
 }
 
-int func_0202775C(int mapping)
+int APP_ICON_GetGearCellFileId(int mapping)
 {
     return mapping + 2;
 }
 
-int func_02027760(int mapping)
+int APP_ICON_GetGearPaletteFileId(int mapping)
 {
     return mapping + 5;
 }
 
-int func_02027764(int mapping)
+int APP_ICON_GetGearAnimFileId(int mapping)
 {
     return mapping + 8;
 }
 
-int func_02027768(void)
+int APP_ICON_GetGearDataFileId(void)
 {
     return 0x99;
 }
 
-int func_0202776C(int mapping)
+int APP_ICON_GetGearExtraFileId(int mapping)
 {
     return mapping + 0x9a;
 }
 
-int func_02027770(int mapping)
+int APP_ICON_GetGearFrameFileId(int mapping)
 {
     return mapping + 0x9d;
 }
 
-int func_02027774(int mapping)
+int APP_ICON_GetGearAnim2FileId(int mapping)
 {
     return mapping + 0xa0;
 }
@@ -1227,8 +1227,8 @@ TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font,
     if (bgFrame > 3) {
         pltType = 4;
     }
-    res->chrBuf = func_02049DB4(func_020275E4(), 0x20, 0, &res->chrData, heapId);
-    func_02049B40(func_020275E4(), 0x1f, pltType, palNo << 5, 0x40, heapId);
+    res->chrBuf = func_02049DB4(APP_ICON_GetArchiveId(), 0x20, 0, &res->chrData, heapId);
+    func_02049B40(APP_ICON_GetArchiveId(), 0x1f, pltType, palNo << 5, 0x40, heapId);
     return res;
 }
 
@@ -1523,7 +1523,7 @@ u32 APP_TASKMENU_WIN_IsUpdateTrans(TaskMenuWin *win)
 /* print stream key/touch control                                      */
 /* ================================================================== */
 
-void func_02028470(PrintStreamCtrl *ctrl, u32 inputType)
+void PRINTSYS_CTRL_Init(PrintStreamCtrl *ctrl, u32 inputType)
 {
     MI_CpuFill8(ctrl, 0, sizeof(PrintStreamCtrl));
     ctrl->inputType = inputType;
@@ -1535,7 +1535,7 @@ void func_02028470(PrintStreamCtrl *ctrl, u32 inputType)
  * keys were released, holding a key prints the rest at once. Returns 1
  * when the stream is finished (2) or absent.
  */
-int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream)
+int PRINTSYS_CTRL_Update(PrintStreamCtrl *ctrl, struct PrintStream *stream)
 {
     u32 mask;
 
@@ -1544,7 +1544,7 @@ int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream)
         case 2:
             return 1;
         case 1:
-            if (func_020284F4(ctrl->inputType) != 0) {
+            if (PRINTSYS_CTRL_IsInputTrg(ctrl->inputType) != 0) {
                 GFL_USE_PlaySeDefaultVolume(0x547);
                 PRINTSYS_PrintStreamReleasePause(stream);
             }
@@ -1553,11 +1553,11 @@ int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream)
             mask = 1 << 10;
             if ((mask & ctrl->inputType) == 0) {
                 if (ctrl->isKeyReleased == 0) {
-                    if (func_0202855C(ctrl->inputType) != 0) {
+                    if (PRINTSYS_CTRL_IsInputIdle(ctrl->inputType) != 0) {
                         ctrl->isKeyReleased = 1;
                     }
                 } else {
-                    if (func_02028528(ctrl->inputType) != 0) {
+                    if (PRINTSYS_CTRL_IsInputCont(ctrl->inputType) != 0) {
                         PRINTSYS_PrintStreamShortWait(stream, 0);
                     }
                 }
@@ -1570,7 +1570,7 @@ int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream)
 }
 
 /* A or B pressed, or the panel touched, as inputType allows. */
-u32 func_020284F4(u32 inputType)
+u32 PRINTSYS_CTRL_IsInputTrg(u32 inputType)
 {
     u32 result = 0;
     if (inputType == 0) {
@@ -1590,7 +1590,7 @@ u32 func_020284F4(u32 inputType)
 }
 
 /* A or B held, or the panel held, as inputType allows. */
-u32 func_02028528(u32 inputType)
+u32 PRINTSYS_CTRL_IsInputCont(u32 inputType)
 {
     u32 result = 0;
     if (inputType == 0) {
@@ -1610,7 +1610,7 @@ u32 func_02028528(u32 inputType)
 }
 
 /* No key held, or the panel not held, as inputType allows. */
-u32 func_0202855C(u32 inputType)
+u32 PRINTSYS_CTRL_IsInputIdle(u32 inputType)
 {
     u32 result = 0;
     if (inputType == 0) {
@@ -1630,7 +1630,7 @@ u32 func_0202855C(u32 inputType)
 }
 
 /* Key cursor with the default mark pixels. */
-struct KeyCursor *func_02028590(u32 id, u32 isLive, u32 isFlip, u16 heapId)
+struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId)
 {
     return APP_KEYCURSOR_Create(id, isLive, isFlip, heapId, _KeyCursorDefaultPixels);
 }

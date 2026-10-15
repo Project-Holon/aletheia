@@ -1,5 +1,5 @@
 /*
- * function: func_021E5568
+ * function: WIFIBATTLEMATCH_GRAPHIC_InitBg
  * address: 0x021E5568
  * packet: pkt_ov177_021E5568
  * region: ov177
@@ -31,7 +31,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
-void func_021E5568(void *p, unsigned short heap)
+void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap)
 {
     unsigned i;
     MI_CpuFill8(p, 0, 4);

@@ -12,7 +12,7 @@
  * symbols:
  *   EVENT_FIELDMAP_CONTROL_GetExitEffect  0x021BE89C  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_GetEntranceEffect  0x021BE8B8  thumb  ov021
- *   sub_0202E8A4   0x0202E8A4  thumb
+ *   COMM_PLAYER_SUPPORT_NextSeason   0x0202E8A4  thumb
  */
 #include "../include/Obj00082.h"
 #include "../include/Obj02068.h"
@@ -25,7 +25,7 @@ typedef struct { int w[7]; } Blk28;
 typedef unsigned int   u32;
 extern int EVENT_FIELDMAP_CONTROL_GetExitEffect(int a, u32 b);
 extern int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int a, int b);
-extern u8 sub_0202E8A4(u8 a);
+extern u8 COMM_PLAYER_SUPPORT_NextSeason(u8 a);
 
 void EVENT_MAPCHANGE_SetupExitEntranceParam(u8 *p, int arg)
 {
@@ -41,7 +41,7 @@ void EVENT_MAPCHANGE_SetupExitEntranceParam(u8 *p, int arg)
     ((struct Obj02068 *)q)->f38 = EVENT_FIELDMAP_CONTROL_GetExitEffect(((struct Obj00082 *)p)->fC, ((struct Obj00082 *)p)->f14);
     ((struct Obj02068 *)q)->f3C = EVENT_FIELDMAP_CONTROL_GetEntranceEffect(((struct Obj00082 *)p)->fC, ((struct Obj00082 *)p)->f14);
     ((struct Obj02068 *)q)->f40 = (((struct Obj00082 *)p)->f40 != 0 && ((struct Obj00082 *)p)->f44 != 0) ? 1 : 0;
-    ((struct Obj02068 *)q)->f44 = sub_0202E8A4(((struct Obj00082 *)p)->f48);
+    ((struct Obj02068 *)q)->f44 = COMM_PLAYER_SUPPORT_NextSeason(((struct Obj00082 *)p)->f48);
     ((struct Obj02068 *)q)->f45 = ((struct Obj00082 *)p)->f4A;
     ((struct Obj02068 *)q)->f48 = 0;
     ((struct Obj02068 *)q)->f4C = 0;

@@ -40,7 +40,7 @@
  *   func_02188318  0x02188318  arm  ov230d
  *   func_021883CC  0x021883CC  arm  ov230d
  *   EVENT_MAPCHANGE_DeleteAllMmdlOfSystem  0x02185B70  thumb  ov020
- *   func_0202E8CC  0x0202E8CC  thumb
+ *   COMM_PLAYER_SUPPORT_SetSeason  0x0202E8CC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008B14  0x02008B14  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
@@ -90,7 +90,7 @@ extern u32 func_021882A0(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188318(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_021883CC(void (*a)(void), void (*b)(void), u32 c);
 extern void EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(void *p);
-extern u8 func_0202E8CC(s32 a, s32 b);
+extern u8 COMM_PLAYER_SUPPORT_SetSeason(s32 a, s32 b);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
@@ -148,7 +148,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp)
         func_021882A0((void (*)(void))func_02183B60, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem((void *)x);
         if (((struct Obj01649 *)p)->f40 != 0 && ((struct Obj01649 *)p)->f44 != 0) {
-            func_0202E8CC(y, ((struct Obj01649 *)p)->f4A);
+            COMM_PLAYER_SUPPORT_SetSeason(y, ((struct Obj01649 *)p)->f4A);
             a = (int)func_02008B14(GAME_DATA_GetSaveControl((struct Big *)y));
             b = GAME_DATA_GetSeason((const struct BigObj *)y);
             c = GAME_DATA_GetMyParty((void *)y);

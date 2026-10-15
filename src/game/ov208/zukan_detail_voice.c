@@ -197,7 +197,7 @@ extern void BG_SYS_SetVisibleLayer(int,u16);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
@@ -292,7 +292,7 @@ extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *key);
 
 extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p);
 
-extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Cur *p);
+extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
 
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
@@ -709,7 +709,7 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
     }
     case 13: {
         u16 oldSpecies = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies((struct Ov208Cur *)ctx);
+        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies((struct Ov208Ctx *)ctx);
         if (oldSpecies != ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx)) {
             ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(heapIdPtr, voice, (int)ctx);
         }
@@ -1168,7 +1168,7 @@ void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailV
  */
 void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoice *voice, void *ctx)
 {
-    BMP_Delete((struct Obj020437AC *)voice->waveBmp);
+    BMP_Delete((struct Bmp *)voice->waveBmp);
     BMP_WIN_Delete(voice->waveWin);
     func_020307B0(voice->waveTileMap);
 }

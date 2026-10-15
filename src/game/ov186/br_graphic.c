@@ -68,9 +68,9 @@ struct DispVram;
 
 struct Bank;
 
-typedef struct BgTemplate_021FC3BC { unsigned words[8]; } BgTemplate_021FC3BC;
+typedef struct BrBgTemplate { unsigned words[8]; } BrBgTemplate;
 
-typedef struct Record_021FC4FC {unsigned id;BgTemplate_021FC3BC template;unsigned type,enable;} Record_021FC4FC;
+typedef struct BrBgLayerRow {unsigned id;BrBgTemplate template;unsigned type,enable;} BrBgLayerRow;
 
 typedef struct DispConfig {unsigned words[4];} DispConfig;
 
@@ -98,7 +98,7 @@ extern void BMP_WIN_Init(unsigned);
 
 extern void BG_SYS_SetGraphicsMode(DispConfig *);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate_021FC3BC *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BrBgTemplate *tmpl, u32 type);
 
 extern void BG_SYS_FreeSlot(unsigned char);
 
@@ -164,7 +164,7 @@ extern const char d_02200D4C[];
 
 extern const struct DispVram d_0220093C,d_0220096C;
 
-extern const Record_021FC4FC d_0220099C[];
+extern const BrBgLayerRow d_0220099C[];
 
 extern DispConfig d_02200900;
 
@@ -231,7 +231,7 @@ void BR_GRAPHIC_VBlankTask(int taskId, struct BrGraphic *gfx)
 void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId)
 {
     unsigned i;
-    const Record_021FC4FC *r;
+    const BrBgLayerRow *r;
     unsigned id;
     MI_CpuFill8(bgState,0,4);
     BG_SYS_Create(heapId);
@@ -282,7 +282,7 @@ void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d
 void BR_GRAPHIC_End3d(void)
 {
     unsigned i,id;
-    const Record_021FC4FC *r;
+    const BrBgLayerRow *r;
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned *)0x04000000&=~0xe000;
     GX_SetGraphicsMode(1,0,0);

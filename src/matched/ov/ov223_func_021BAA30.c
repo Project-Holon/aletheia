@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA30
+ * function: PSEL_DeleteActors
  * address: 0x021BAA30
  * packet: pkt_ov223_021BAA30
  * region: ov223
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;extern void CLACT_DeleteActor(struct Obj *);extern void CLACT_ReleaseCellAnim(u32),CLACT_ReleaseCharacter(u32),CLACT_ReleasePalette(u32);
-void func_021BAA30(char *p) {u32 off;off=0x224;CLACT_DeleteActor(*(struct Obj **)(p+off));CLACT_ReleaseCellAnim(*(u32 *)(p+off-4));CLACT_ReleaseCharacter(*(u32 *)(p+off-12));off-=8;CLACT_ReleasePalette(*(u32 *)(p+off));}
+void PSEL_DeleteActors(char *p) {u32 off;off=0x224;CLACT_DeleteActor(*(struct Obj **)(p+off));CLACT_ReleaseCellAnim(*(u32 *)(p+off-4));CLACT_ReleaseCharacter(*(u32 *)(p+off-12));off-=8;CLACT_ReleasePalette(*(u32 *)(p+off));}

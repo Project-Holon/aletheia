@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC6C
+ * function: PSEL_NopAC6C
  * address: 0x021BAC6C
  * packet: pkt_ov223_021BAC6C
  * region: ov223
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BAC6C(void) {}
+void PSEL_NopAC6C(void) {}

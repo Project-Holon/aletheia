@@ -8,37 +8,37 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020275E4 0x020275E4 thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
- *   func_02027618 0x02027618 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_02027614 0x02027614 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_0202761C 0x0202761C thumb
- *   func_02027620 0x02027620 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj02214.h"
 typedef unsigned short u16;
 
-extern unsigned func_020275E4(void);
+extern unsigned APP_ICON_GetArchiveId(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern unsigned func_02027618(void);
+extern unsigned APP_ICON_GetMoveKindAnimFileId(void);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
-extern unsigned func_02027614(void);
+extern unsigned APP_ICON_GetMoveKindPaletteFileId(void);
 extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
 typedef unsigned int   u32;
-extern u32 func_0202761C(u32 a);
-extern u32 func_02027620(u32 a);
+extern u32 APP_ICON_GetStatusCellFileId(u32 a);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 void BOX2_SEQ_RegisterBoxCharsB(char *p)
 {
-    void *h = func_020490F4(func_020275E4(), 0x4C);
-    ((struct Obj02214 *)p)->fA0F8 = (void *)CLACT_RegisterCharacter(h, func_02027618(), 0, 0, 0x4C);
-    ((struct Obj02214 *)p)->fA124 = (void *)CLACT_RegisterPalette(h, func_02027614(), 0, 0x100, 0x4C);
-    ((struct Obj02214 *)p)->fA154 = (void *)CLACT_RegisterCellAnim(h, func_0202761C(2), func_02027620(2), 0x4C);
+    void *h = func_020490F4(APP_ICON_GetArchiveId(), 0x4C);
+    ((struct Obj02214 *)p)->fA0F8 = (void *)CLACT_RegisterCharacter(h, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 0x4C);
+    ((struct Obj02214 *)p)->fA124 = (void *)CLACT_RegisterPalette(h, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x100, 0x4C);
+    ((struct Obj02214 *)p)->fA154 = (void *)CLACT_RegisterCellAnim(h, APP_ICON_GetStatusCellFileId(2), APP_ICON_GetStatusPaletteFileId(2), 0x4C);
     ARC_TOOL_DeleteHandle(h);
 }

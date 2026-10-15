@@ -1,5 +1,5 @@
 /*
- * function: func_021D986C
+ * function: MYSTERY_GRAPHIC_InitClact
  * address: 0x021D986C
  * packet: pkt_ov121_021D986C
  * region: ov121
@@ -32,7 +32,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern const u32 d_021DF5A8[];
 extern const u32 d_021DF5C4[];
-void func_021D986C(void **p, u32 a, u32 heap)
+void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap)
 {
     void *q;
     MI_CpuFill8(p, 0, 8);

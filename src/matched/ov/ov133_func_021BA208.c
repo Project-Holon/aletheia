@@ -1,5 +1,5 @@
 /*
- * function: func_021BA208
+ * function: DUP_FITTING_ITEM_ElemGetNext
  * address: 0x021BA208
  * packet: pkt_ov133_021BA208
  * region: ov133
@@ -11,7 +11,7 @@
 #include "../include/Obj23330.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021BA208(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p)
 {
     return ((struct Obj23330 *)p)->f30;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6100
+ * function: DUP_FITTING_Create
  * address: 0x021B6100
  * packet: pkt_ov133_021B6100
  * region: ov133
@@ -10,18 +10,18 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021B69AC 0x021B69AC thumb ov133
- *   func_021B6BA4 0x021B6BA4 thumb ov133
- *   func_021B6E74 0x021B6E74 thumb ov133
- *   func_021B6F00 0x021B6F00 thumb ov133
- *   func_021B9DE8 0x021B9DE8 thumb ov133
- *   func_021B9B48 0x021B9B48 thumb ov133
- *   func_021B6884 0x021B6884 thumb ov133
+ *   DUP_FITTING_InitDisplay 0x021B69AC thumb ov133
+ *   DUP_FITTING_InitModels 0x021B6BA4 thumb ov133
+ *   DUP_FITTING_InitRenderObj 0x021B6E74 thumb ov133
+ *   DUP_FITTING_InitFrames 0x021B6F00 thumb ov133
+ *   DUP_FITTING_CreateActors 0x021B9DE8 thumb ov133
+ *   DUP_FITTING_CreateText 0x021B9B48 thumb ov133
+ *   DUP_FITTING_VBlank 0x021B6884 thumb ov133
  *   func_020056A0 0x020056A0 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   _s32_div_f 0x0209C0A4 arm
- *   func_021B9028 0x021B9028 thumb ov133
+ *   DUP_FITTING_SortFrames 0x021B9028 thumb ov133
  *   MUSICAL_SAVE_GetFittingSetting 0x0200A828 thumb
  *   MUSICAL_SAVE_SetFittingSetting 0x0200A834 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -34,22 +34,22 @@ typedef unsigned int u32;
 extern const char d_021BA600[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Big;
-extern void func_021B69AC(u8 *);
-extern void func_021B6BA4(u8 *);
-extern void func_021B6E74(u8 *);
-extern void func_021B6F00(u8 *);
-extern void func_021B9DE8(u8 *);
-extern void func_021B9B48(u8 *);
-extern void func_021B6884(void *unused, u8 *p);
+extern void DUP_FITTING_InitDisplay(u8 *);
+extern void DUP_FITTING_InitModels(u8 *);
+extern void DUP_FITTING_InitRenderObj(u8 *);
+extern void DUP_FITTING_InitFrames(u8 *);
+extern void DUP_FITTING_CreateActors(u8 *);
+extern void DUP_FITTING_CreateText(u8 *);
+extern void DUP_FITTING_VBlank(void *unused, u8 *p);
 extern void *func_020056A0(void *,void *,int);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern void func_021B9028(u8 *,int,u16);
+extern void DUP_FITTING_SortFrames(u8 *,int,u16);
 struct Big;
 extern u32 MUSICAL_SAVE_GetFittingSetting(struct Big *p);
 extern void MUSICAL_SAVE_SetFittingSetting(struct Big *p, u8 value);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-u8 *func_021B6100(u8 *parent, int heap)
+u8 *DUP_FITTING_Create(u8 *parent, int heap)
 {
     u8 *p = func_02030734(heap, 0x18f0, 1, d_021BA600, 0x1de);
     u32 t, m;
@@ -79,13 +79,13 @@ u8 *func_021B6100(u8 *parent, int heap)
     *(u32 *)(p + 0x18ec) = 0;
     *(u16 *)(p + 0x182e) = 0;
     *(u32 *)(p + 0x34) = 10;
-    func_021B69AC(p);
-    func_021B6BA4(p);
-    func_021B6E74(p);
-    func_021B6F00(p);
-    func_021B9DE8(p);
-    func_021B9B48(p);
-    *(void **)(p + 8) = func_020056A0((void *)func_021B6884, p, 8);
+    DUP_FITTING_InitDisplay(p);
+    DUP_FITTING_InitModels(p);
+    DUP_FITTING_InitRenderObj(p);
+    DUP_FITTING_InitFrames(p);
+    DUP_FITTING_CreateActors(p);
+    DUP_FITTING_CreateText(p);
+    *(void **)(p + 8) = func_020056A0((void *)DUP_FITTING_VBlank, p, 8);
     WIPE_SYS_Start((void *)2, 1, 1, 0x7fff, 18, 1, *(u16 *)p);
     t = *(u32 *)(p + 0x1834) + 0x18000;
     *(u16 *)(p + 0x18c2) = 10;
@@ -96,7 +96,7 @@ u8 *func_021B6100(u8 *parent, int heap)
             x = (t - m) / 0x1249;
         else
             x = t / 0x1249;
-        func_021B9028(p, 8, x);
+        DUP_FITTING_SortFrames(p, 8, x);
     }
     *(u32 *)(p + 0xa4) = 8;
     *(u32 *)(p + 0x98) = 1;

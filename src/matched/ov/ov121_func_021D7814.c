@@ -9,9 +9,9 @@
  * status: EXACT
  * volatile: 0x021D79BC writes the display blend register 0x04000050.
  * symbols:
- *   func_021D9750 0x021D9750 thumb ov121
+ *   MYSTERY_GRAPHIC_StartRender 0x021D9750 thumb ov121
  *   func_02040588 0x02040588 arm
- *   func_021D9744 0x021D9744 thumb ov121
+ *   MYSTERY_GRAPHIC_GetClactUnit 0x021D9744 thumb ov121
  *   func_021D84D4 0x021D84D4 thumb ov121
  *   func_021D8C1C 0x021D8C1C thumb ov121
  *   func_021D9F08 0x021D9F08 thumb ov121
@@ -23,7 +23,7 @@
  *   func_021D8CA8 0x021D8CA8 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021D8380 0x021D8380 thumb ov121
- *   func_021D9790 0x021D9790 thumb ov121
+ *   MYSTERY_GRAPHIC_StopRender 0x021D9790 thumb ov121
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021DCFC8 0x021DCFC8 thumb ov121
  *   func_021DD24C 0x021DD24C thumb ov121
@@ -43,9 +43,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 w[12]; } Desc;
-extern void func_021D9750(u8 *p);
+extern void MYSTERY_GRAPHIC_StartRender(u8 *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern unsigned func_021D9744(char *p);
+extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern void func_021D84D4(u8 *out, void *owner, const u8 *desc, void *save, void *list, void *a5, void *a6, u16 heap);
 extern void func_021D8C1C(u8 *p, int mode);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
@@ -57,7 +57,7 @@ extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 extern void func_021D8CA8(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021D8380(char *p);
-extern void func_021D9790(char *p);
+extern void MYSTERY_GRAPHIC_StopRender(char *p);
 extern void MI_CpuFill8(void *,int,int);
 extern void *func_021DCFC8(Desc *,u16);
 extern void *func_021DD24C(void *,void *,void *,u16);
@@ -76,10 +76,10 @@ void func_021D7814(void *task,u32 *state,u8 *p)
     Desc d;
     switch (*state) {
     case 0:
-        func_021D9750(((struct Obj00297 *)p)->f394);
+        MYSTERY_GRAPHIC_StartRender(((struct Obj00297 *)p)->f394);
         func_02040588(1,1);
         func_02040588(3,1);
-        func_021D84D4(p+12,(void *)func_021D9744(((struct Obj00297 *)p)->f394),p+972,(void *)(*(int *)&((struct Obj00297 *)p)->f3B8),p+660,p+912,p+312,29);
+        func_021D84D4(p+12,(void *)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00297 *)p)->f394),p+972,(void *)(*(int *)&((struct Obj00297 *)p)->f3B8),p+660,p+912,p+312,29);
         func_021D8C1C(p+12,0);
         func_021D9F08(((struct Obj00297 *)p)->f284,((struct Obj00297 *)p)->f3A4,113,2);
         *state=1;
@@ -123,7 +123,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         ((struct Obj00297 *)p)->f284=0;
         func_021D8380((char *)p);
         *(volatile u16 *)0x04000050=0;
-        func_021D9790(((struct Obj00297 *)p)->f394);
+        MYSTERY_GRAPHIC_StopRender(((struct Obj00297 *)p)->f394);
         func_02040588(1,1);
         func_02040588(3,1);
         *state=11;
@@ -141,7 +141,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         d.w[3]=15;
         d.w[5]=13;
         d.w[4]=10;
-        d.w[6]=(u32)func_021D9744(((struct Obj00297 *)p)->f394);
+        d.w[6]=(u32)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00297 *)p)->f394);
         d.w[7]=*(u32 *)&((struct Obj00297 *)p)->f3BC;
         d.w[8]=*(u32 *)&((struct Obj00297 *)p)->f3A4;
         d.w[9]=((struct Obj00297 *)p)->f398;
@@ -172,7 +172,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         }
         break;
     case 16:
-        func_021D93F4(p+612,p+660,(int)func_021D9744(((struct Obj00297 *)p)->f394),*(int *)&((struct Obj00297 *)p)->f39C,((struct Obj00297 *)p)->f3A4,155,*(int *)&((struct Obj00297 *)p)->f398,29);
+        func_021D93F4(p+612,p+660,(int)MYSTERY_GRAPHIC_GetClactUnit(((struct Obj00297 *)p)->f394),*(int *)&((struct Obj00297 *)p)->f39C,((struct Obj00297 *)p)->f3A4,155,*(int *)&((struct Obj00297 *)p)->f398,29);
         func_021D94B8((char *)(p+612));
         *state=17;
         break;

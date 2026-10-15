@@ -14,7 +14,7 @@
  *
  * UNBLOCKED: 0x021BD374 is now an EXACT entry in layout/matched/ov088 (the
  * only overlay in the window that does not overlap the caller's ov204), so
- * the bl site resolves as matched and the verdict promoted to EXACT.
+ * the bl gIntroSite resolves as matched and the verdict promoted to EXACT.
  */
 #include "../include/Obj25361.h"
 

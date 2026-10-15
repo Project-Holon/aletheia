@@ -49,7 +49,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
- *   func_0202F190 0x0202F190 thumb
+ *   SAVE_EVENT_Write 0x0202F190 thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
@@ -259,7 +259,7 @@ extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern void func_0202F190(struct PokemonParam *mon, u32 mode, const struct MyStatus *trainer, u32 placeNameId, u16 heapId);
+extern void SAVE_EVENT_Write(struct PokemonParam *mon, u32 mode, const struct MyStatus *trainer, u32 placeNameId, u16 heapId);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *zukan);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 unused);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, u16 species);
@@ -431,7 +431,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
                 work->boxFullMsg = func_02045EC0(msgBank, msgIndex);
                 MSGDATA_Delete(msgBank);
             }
-            func_0202F190(work->caughtMon, 0, myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(args->gameData))), work->heapId);
+            SAVE_EVENT_Write(work->caughtMon, 0, myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(args->gameData))), work->heapId);
             isNewSpecies = 0;
             dexMode = ZUKAN_SAVE_IsNationalDexEnabled(zukan);
             if (ZUKAN_SAVE_IsCaught(zukan, POKE_TOOL_GetPartyValue(work->caughtMon, MON_PARAM_SPECIES, 0)) == 0) isNewSpecies = 1;

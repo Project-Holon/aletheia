@@ -123,7 +123,7 @@
  *   func_020355D8  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02028470  0x02028470  thumb
+ *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   BMP_WIN_GetPalette  0x02045778  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   func_020409B4  0x020409B4  arm
@@ -131,7 +131,7 @@
  *   func_02045CAC  0x02045CAC  arm
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
- *   func_02028484  0x02028484  thumb
+ *   PRINTSYS_CTRL_Update  0x02028484  thumb
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
@@ -300,14 +300,14 @@ extern void MIi_CpuCopy32(u32 a, u32 b, u32 size);
 extern u8 BMP_WIN_GetWidth(struct BmpWindow *window);
 extern s32 func_02061CA4(u32 kind, u32 offset, const void *src, s32 size);
 extern void CLACT_InitSystem(const struct ClInitParam *param, const void *res, u32 heapId);
-extern struct ClUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct ClUnit *unit);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 extern void BG_SYS_SetMainPlaneVisible(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern struct ClRes *CLACT_RegisterPalette(void *arc, int id, int b, int c, int heapId);
 extern struct ClRes *CLACT_RegisterCharacter(void *arc, int id, int b, int c, int heapId);
 extern struct ClRes *CLACT_RegisterCellAnim(void *arc, u32 first, u32 second, u32 heapId);
-extern struct ClActor *CLACT_CreateActor(struct ClUnit *unit, struct ClRes *charRes, struct ClRes *plttRes, struct ClRes *cellRes, ClActorParam *param, int flag, int heapId);
+extern struct ClActor *CLACT_CreateActor(struct Unit *unit, struct ClRes *charRes, struct ClRes *plttRes, struct ClRes *cellRes, ClActorParam *param, int flag, int heapId);
 extern void CLACT_SetActorAutoAnim(struct ClActor *actor, u32 v);
 extern void CLACT_SetActorPaletteOffset(struct ClActor *actor, u32 v, u32 flag);
 extern int GFL_NET_GetRunState(void);
@@ -316,7 +316,7 @@ extern void CLACT_DeleteActor(struct ClActor *actor);
 extern void CLACT_ReleasePalette(struct ClRes *res);
 extern void CLACT_ReleaseCharacter(struct ClRes *res);
 extern void CLACT_ReleaseCellAnim(struct ClRes *res);
-extern u32 CLACT_DeleteUnit(struct ClUnit *unit);
+extern u32 CLACT_DeleteUnit(struct Unit *unit);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_SetActorAnimIndex(struct ClActor *actor, int index);
 extern void CLACT_DrawSystem(void);
@@ -329,7 +329,7 @@ extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern struct StringBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02028470(PrintWaitState *waitState, u32 v);
+extern void PRINTSYS_CTRL_Init(PrintWaitState *waitState, u32 v);
 extern u8 BMP_WIN_GetPalette(struct BmpWindow *window);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWindow *window, int a1, int a2, int palette);
 extern void func_020409B4(u32 index);
@@ -339,7 +339,7 @@ extern void PRINTSYS_PrintQue(struct PrintSys *printSys, struct Bitmap *bitmap, 
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWindow *window, u32 x, u32 y, struct StringBuf *buffer,
                                          struct GfFont *font, u32 wait, struct TaskList *taskList,
                                          u32 zero, u16 heapId, u16 fillColor);
-extern s32 func_02028484(PrintWaitState *waitState, struct PrintStream *stream);
+extern s32 PRINTSYS_CTRL_Update(PrintWaitState *waitState, struct PrintStream *stream);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, struct Bitmap *bitmap);
 extern TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 extern int GAME_DATA_CheckSaveFlag(struct GameData *gameData, int flag);
@@ -397,7 +397,7 @@ void OPTION_MENU_InitScreen(OptionMenuScreen *screen, u16 heapId);
 void OPTION_MENU_ExitScreen(OptionMenuScreen *screen);
 void OPTION_MENU_UpdateScreen(OptionMenuScreen *screen);
 struct ClActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index);
-struct ClUnit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen);
+struct Unit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen);
 struct BmpWindow *OPTION_MENU_GetScreenWindow(OptionMenuScreen *screen, int index);
 void OPTION_MENU_RestartScreenBlink(OptionMenuScreen *screen);
 void OPTION_MENU_ScreenTaskMain(struct Task *task, OptionMenuScreen *screen);
@@ -414,7 +414,7 @@ void OPTION_MENU_ExitSprites(OptionMenuSprites *sprites);
 void OPTION_MENU_UpdateSprites(OptionMenuSprites *sprites);
 void OPTION_MENU_DrawSprites(OptionMenuSprites *sprites);
 struct ClActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index);
-struct ClUnit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites);
+struct Unit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites);
 void OPTION_MENU_InitInput(OptionMenuInput *input, int heapId);
 void OPTION_MENU_ExitInput(OptionMenuInput *input);
 void OPTION_MENU_ReadInput(OptionMenuInput *input);
@@ -425,7 +425,7 @@ void OPTION_MENU_ExitTextBox(OptionMenuTextBox *box);
 void OPTION_MENU_PrintText(OptionMenuTextBox *box, u32 messageId, u32 wait, u32 useStream);
 void OPTION_MENU_PrintTextFromBank(OptionMenuTextBox *box, struct MsgBank *msgBank, u32 messageId, u32 wait, u32 useStream);
 int OPTION_MENU_IsTextDone(OptionMenuTextBox *box);
-void OPTION_MENU_InitButtons(OptionMenuButtons *buttons, struct ClUnit *unit, struct GfFont *font, struct PrintSys *printSys, struct MsgBank *msgBank, struct TaskMenuRes *menuRes, struct GameData *gameData, u16 heapId);
+void OPTION_MENU_InitButtons(OptionMenuButtons *buttons, struct Unit *unit, struct GfFont *font, struct PrintSys *printSys, struct MsgBank *msgBank, struct TaskMenuRes *menuRes, struct GameData *gameData, u16 heapId);
 void OPTION_MENU_ExitButtons(OptionMenuButtons *buttons);
 void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput *input, const OptionMenuList *list);
 void OPTION_MENU_UpdateButtonWindows(OptionMenuButtons *buttons);
@@ -611,7 +611,7 @@ struct ClActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int i
     return OPTION_MENU_GetSpriteActor(&screen->sprites, index);
 }
 
-struct ClUnit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen)
+struct Unit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen)
 {
     return OPTION_MENU_GetSpriteUnit(&screen->sprites);
 }
@@ -906,7 +906,7 @@ struct ClActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index
     return sprites->actors[index];
 }
 
-struct ClUnit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites)
+struct Unit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites)
 {
     return sprites->unit;
 }
@@ -1047,7 +1047,7 @@ void OPTION_MENU_InitTextBox(OptionMenuTextBox *box, struct BmpWindow *window, s
     box->stream = 0;
     box->printSys = printSys;
     box->mode = 0;
-    func_02028470(&box->waitState, 0x406);
+    PRINTSYS_CTRL_Init(&box->waitState, 0x406);
     BMP_MENUWORK_DrawWindow(box->window, 2, 1, BMP_WIN_GetPalette(window));
     BMP_Clear(BMP_WIN_GetBmp(box->window), (u8)box->fillColor);
     printWindow = box->window;
@@ -1120,11 +1120,11 @@ int OPTION_MENU_IsTextDone(OptionMenuTextBox *box)
         }
         return 0;
     case 1:
-        return func_02028484(&box->waitState, box->stream);
+        return PRINTSYS_CTRL_Update(&box->waitState, box->stream);
     }
 }
 
-void OPTION_MENU_InitButtons(OptionMenuButtons *buttons, struct ClUnit *unit, struct GfFont *font, struct PrintSys *printSys, struct MsgBank *msgBank, struct TaskMenuRes *menuRes, struct GameData *gameData, u16 heapId)
+void OPTION_MENU_InitButtons(OptionMenuButtons *buttons, struct Unit *unit, struct GfFont *font, struct PrintSys *printSys, struct MsgBank *msgBank, struct TaskMenuRes *menuRes, struct GameData *gameData, u16 heapId)
 {
     ReturnButtonCells cells;
     TouchBarParams request;

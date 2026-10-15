@@ -104,7 +104,7 @@
  *   ov203_id       0x000000CB  data
  *   func_02008550  0x02008550  thumb
  *   GF_STANDARD_SetField00 0x0203F4CC arm
- *   func_0202E888 0x0202E888 thumb
+ *   COMM_PLAYER_SUPPORT_GetSeasonFromClock 0x0202E888 thumb
  *   FIELD_CLOCK_GetHour 0x02169100 thumb ov010
  *   FIELD_CLOCK_GetMinute 0x02169110 thumb ov010
  *   func_02013A80  0x02013A80  thumb
@@ -416,7 +416,7 @@ extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
 extern u8 GAMESYSTEM_IsCommBlocked(const GameSystem *gameSystem);
 extern u8 func_02008550(const u8 *myStatus);
 extern void GF_STANDARD_SetField00(RtcTime *time);
-extern u8 func_0202E888(void);
+extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern int FIELD_CLOCK_GetHour(GameData *gameData);
 extern int FIELD_CLOCK_GetMinute(GameData *gameData);
 extern int func_02013A80();
@@ -1713,7 +1713,7 @@ void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSy
     u8 season;
 
     GF_STANDARD_SetField00(&time);
-    season = func_0202E888();
+    season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     EVENT_FIELD_PROCLINK_SetCommProcParam(param, gameSystem, kind, sub, 0, time.hour, time.minute, season);
 }
 

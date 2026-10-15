@@ -110,18 +110,18 @@
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
- *   func_020275E4  0x020275E4  thumb
+ *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   CLACT_InitSystem  0x0204A48C  arm
  *   gClActorInitParam     0x020A1448  data  a4
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   func_02027618  0x02027618  thumb
- *   func_02027614  0x02027614  thumb
+ *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
+ *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
- *   func_0202761C  0x0202761C  thumb
- *   func_02027620  0x02027620  thumb
+ *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
+ *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -305,16 +305,16 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
-extern u32 func_020275E4(void);
+extern u32 APP_ICON_GetArchiveId(void);
 extern void CLACT_InitSystem(const void *config, const struct DispVram *vram, u32 heapId);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern s32 CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 d, u16 heapId);
 extern s32 CLACT_RegisterPalette(void *archive, u32 b, u32 c, u32 d, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 heapId);
-extern u32 func_02027614(void);
-extern u32 func_02027618(void);
-extern u32 func_0202761C(u32);
-extern u32 func_02027620(u32);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern s32 CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
 void OEKAKI_RegisterNetCommands(OekakiWork *work);
 void OEKAKI_RecvCanvasChunk(int netId, int size, CanvasChunk *chunk, OekakiWork *work, int netHandle);
@@ -1179,16 +1179,16 @@ void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive)
     void *uiArchive;
     u32 plttIndex;
 
-    uiArchive = func_020490F4(func_020275E4(), OEKAKI_HEAP_ID);
+    uiArchive = func_020490F4(APP_ICON_GetArchiveId(), OEKAKI_HEAP_ID);
     CLACT_InitSystem(gClActorInitParam, &gOekakiVramBanks, OEKAKI_HEAP_ID);
     work->clactSys = CLACT_CreateUnit(0x35, 1, OEKAKI_HEAP_ID);
     work->cursorRes.charRes = CLACT_RegisterCharacter(archive, 3, 0, 0, OEKAKI_HEAP_ID);
     work->cursorRes.plttRes = CLACT_RegisterPalette(archive, 0, 0, 0, OEKAKI_HEAP_ID);
     work->cursorRes.cellRes = CLACT_RegisterCellAnim(archive, 5, 8, OEKAKI_HEAP_ID);
-    work->buttonRes.charRes = CLACT_RegisterCharacter(uiArchive, func_02027618(), 0, 0, OEKAKI_HEAP_ID);
-    work->buttonRes.plttRes = CLACT_RegisterPaletteEx(uiArchive, func_02027614(), 0, 0x160, 0, 3, OEKAKI_HEAP_ID);
-    plttIndex = func_0202761C(0);
-    work->buttonRes.cellRes = CLACT_RegisterCellAnim(uiArchive, plttIndex, func_02027620(0), OEKAKI_HEAP_ID);
+    work->buttonRes.charRes = CLACT_RegisterCharacter(uiArchive, APP_ICON_GetMoveKindAnimFileId(), 0, 0, OEKAKI_HEAP_ID);
+    work->buttonRes.plttRes = CLACT_RegisterPaletteEx(uiArchive, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x160, 0, 3, OEKAKI_HEAP_ID);
+    plttIndex = APP_ICON_GetStatusCellFileId(0);
+    work->buttonRes.cellRes = CLACT_RegisterCellAnim(uiArchive, plttIndex, APP_ICON_GetStatusPaletteFileId(0), OEKAKI_HEAP_ID);
     work->nameTagRes.charRes = CLACT_RegisterCharacter(archive, 3, 0, 1, OEKAKI_HEAP_ID);
     work->nameTagRes.plttRes = CLACT_RegisterPalette(archive, 0, 1, 0, OEKAKI_HEAP_ID);
     work->nameTagRes.cellRes = CLACT_RegisterCellAnim(archive, 5, 8, OEKAKI_HEAP_ID);

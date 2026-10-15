@@ -31,6 +31,7 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   SAVE_EVENT_CheckStage  0x0202F498  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"
@@ -46,7 +47,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern int func_0202F498(void *a0, int a1);
+extern int SAVE_EVENT_CheckStage(void *a0, int a1);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *, void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -116,10 +117,10 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     v24 = func_02017E88(mon, 0, 0);
     v20 = func_02017E88(mon, 0x95, 0);
     f96 = func_02017E88(mon, 0x96, 0);
-    fl0 = func_0202F498(mon, 0);
-    fl1 = func_0202F498(mon, 1);
-    fl2 = func_0202F498(mon, 2);
-    fl3 = func_0202F498(mon, 3);
+    fl0 = SAVE_EVENT_CheckStage(mon, 0);
+    fl1 = SAVE_EVENT_CheckStage(mon, 1);
+    fl2 = SAVE_EVENT_CheckStage(mon, 2);
+    fl3 = SAVE_EVENT_CheckStage(mon, 3);
     flags = fl0 | fl1 | fl2 | fl3;
     known = POKE_TOOL_IsBoxOwnedByPlayer(mon, GAME_DATA_GetMyStatus(((struct Obj23146 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f8));
 

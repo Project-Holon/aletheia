@@ -1,5 +1,5 @@
 /*
- * function: func_021D98E0
+ * function: MYSTERY_GRAPHIC_DrawClact
  * address: 0x021D98E0
  * packet: pkt_ov121_021D98E0
  * region: ov121
@@ -12,4 +12,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021D98E0(void *a0) { CLACT_DrawSystem(); }
+void MYSTERY_GRAPHIC_DrawClact(void *a0) { CLACT_DrawSystem(); }

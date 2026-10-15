@@ -10,15 +10,15 @@
  * status: EXACT
  * leaf: unlabelled tail stub called by MONOLITH_TOOL_LIST_Main; parent confirmed unowned.
  * symbols:
- *   func_02028484 0x02028484 thumb
+ *   PRINTSYS_CTRL_Update 0x02028484 thumb
  */
 #include "../include/Obj20751.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int     s32;
 struct Blk;
-extern s32 func_02028484(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 int MONOLITH_TOOL_LIST_IsMessageDone(u8 *a,u8 *b)
 {
-    return func_02028484((struct Blk *)(a+0x38),(void *)(((struct Obj20751 *)b)->f294));
+    return PRINTSYS_CTRL_Update((struct Blk *)(a+0x38),(void *)(((struct Obj20751 *)b)->f294));
 }
